@@ -16,149 +16,104 @@
 
 package org.apache.commons.math.distribution;
 
-import org.apache.commons.math.MathException;
-import org.apache.commons.math.TestUtils;
-
-import junit.framework.TestCase;
-
 /**
- *  Tests for NormalDistribution implementation
+ * Test cases for NormalDistribution.
+ * Extends ContinuousDistributionAbstractTest.  See class javadoc for
+ * ContinuousDistributionAbstractTest for details.
  * 
- * "True" results are taken from R - the same as in Mathematica
- *
+ * @version $Revision: 1.7 $ $Date: 2004/05/30 05:54:43 $
  */
-public class NormalDistributionTest extends TestCase {
-	
-	private NormalDistribution z;
-	private static final double PRECISION = 10e-6;	
-	private static final double M = 2.1;
-	private static final double SD = 1.4;
-	
-	/**
-	 * Constructor for NormalDistributionTest.
-	 * @param arg0
-	 */
-	public NormalDistributionTest(String arg0) {
-		super(arg0);
-	}
-
-	public static void main(String[] args) {
-		junit.swingui.TestRunner.run(NormalDistributionTest.class);
-	}
-
-	protected void setUp() throws Exception {
-		super.setUp();
-		z = DistributionFactory.newInstance().createNormalDistribution(M, SD);
-	}
-
-	protected void tearDown() throws Exception {
-		super.tearDown();
-		z = null;
-	}
-
-	public void testCumulativeProbabilitydoubleM_MINUS_2SD() throws MathException {
-		testProbability(M - 2*SD, 0.02275013);
-	}
-
-	public void testCumulativeProbabilitydoubleM_MINUS_SD() throws MathException {
-		testProbability(M - SD, 0.1586553);
-	}
-
-	public void testCumulativeProbabilitydoubleM() throws MathException {
-		testProbability(M, 0.5);
-	}
-
-	public void testCumulativeProbabilitydoubleM_PLUS_SD() throws MathException {
-		testProbability(M + SD, 0.8413447);
-	}
-	
-	public void testCumulativeProbabilitydoubleM_PLUS_2SD() throws MathException {
-		testProbability(M + 2*SD, 0.9772499);
-	}
-	
-	public void testCumulativeProbabilitydoubleM_PLUS_3SD() throws MathException {
-		testProbability(M + 3*SD, 0.9986501);
-	}
-	
-	public void testCumulativeProbabilitydoubleM_PLUS_4SD() throws MathException {
-		testProbability(M + 4*SD, 0.9999683);
-	}
-	
-	public void testCumulativeProbabilitydoubleM_PLUS_5SD() throws MathException {
-		testProbability(M + 5*SD, 0.9999997);
-	}
-
-	public void testInverseCumulativeProbability001() throws MathException {
-		testValue(-2.226325, .001);
-	}
-
-	public void testInverseCumulativeProbability010() throws MathException{
-		testValue(-1.156887, .010);
-	}
-
-	public void testInverseCumulativeProbability025() throws MathException{
-		testValue(-0.6439496, .025);
-	}
-
-	public void testInverseCumulativeProbability050() throws MathException{
-		testValue(-0.2027951, .050);
-	}
-
-	public void testInverseCumulativeProbability100() throws MathException{
-		testValue(0.3058278, .100);
-	}
-
-	public void testInverseCumulativeProbability900() throws MathException{
-		testValue(3.894172, .900);
-	}
-
-	public void testInverseCumulativeProbability950() throws MathException{
-		testValue(4.402795, .950);
-	}
-
-	public void testInverseCumulativeProbability975() throws MathException{
-		testValue(4.84395, .975);
-	}
-
-	public void testInverseCumulativeProbability990() throws MathException{
-		testValue(5.356887, .990);
-	}
-
-	public void testInverseCumulativeProbability999() throws MathException{
-		testValue(6.426325, .999);
-	}
-
-	public void testGetMean() {
-		assertEquals(M, z.getMean(), 0);
-	}
-
-	public void testSetMean() throws MathException {
-		double mu = Math.random();
-		z.setMean(mu);
-		assertEquals(mu, z.getMean(), 0);
-		assertEquals(0.5d, z.cumulativeProbability(mu), PRECISION);
-	}
-
-	public void testGetStandardDeviation() {
-		assertEquals(SD, z.getStandardDeviation(), 0);	
-	}
-
-	public void testSetStandardDeviation() throws MathException{
-		double sigma = 0.1d + Math.random();
-		z.setStandardDeviation(sigma);
-		assertEquals(sigma, z.getStandardDeviation(), 0);
-		assertEquals(0.84134475, z.cumulativeProbability(z.getMean() + z.getStandardDeviation()), PRECISION );
-	}
-	
-	private void testProbability(double x, double expected) throws MathException {
-		double actual = Double.NaN;
-		actual =  z.cumulativeProbability(x);
-		assertEquals(expected, actual, PRECISION);
-	}
-
-	private void testValue(double expected, double p) throws MathException {
-		double actual = z.inverseCumulativeProbability(p);
-		TestUtils.assertEquals(expected, actual, PRECISION);
-	}
-
+public class NormalDistributionTest extends ContinuousDistributionAbstractTest  {
+    
+    /**
+     * Constructor for NormalDistributionTest.
+     * @param arg0
+     */
+    public NormalDistributionTest(String arg0) {
+        super(arg0);
+    }
+    
+    public static void main(String[] args) {
+        junit.swingui.TestRunner.run(NormalDistributionTest.class);
+    }
+    
+    //-------------- Implementations for abstract methods -----------------------
+    
+    /** Creates the default continuous distribution instance to use in tests. */
+    public ContinuousDistribution makeDistribution() {
+        return DistributionFactory.newInstance().createNormalDistribution(2.1, 1.4);
+    }   
+    
+    /** Creates the default cumulative probability distribution test input values */
+    public double[] makeCumulativeTestPoints() {
+        // quantiles computed using R 
+        return new double[] {-2.226325d, -1.156887d, -0.6439496d, -0.2027951d, 0.3058278d, 
+                6.426325d, 5.356887d, 4.84395d, 4.402795d, 3.894172d};
+    }
+    
+    /** Creates the default cumulative probability density test expected values */
+    public double[] makeCumulativeTestValues() {
+        return new double[] {0.001d, 0.01d, 0.025d, 0.05d, 0.1d, 0.999d,
+                0.990d, 0.975d, 0.950d, 0.900d}; 
+    }
+    
+    // --------------------- Override tolerance  --------------
+    protected void setup() throws Exception {
+        super.setUp();
+        setTolerance(1E-6);
+    }
+    
+    //---------------------------- Additional test cases -------------------------
+    
+    private void verifyQuantiles() throws Exception {
+        NormalDistribution distribution = (NormalDistribution) getDistribution();
+        double mu = distribution.getMean();
+        double sigma = distribution.getStandardDeviation();
+        setCumulativeTestPoints( new double[] {mu - 2 *sigma, mu - sigma, 
+                mu, mu + sigma, mu +2 * sigma,  mu +3 * sigma, mu + 4 * sigma,
+                mu + 5 * sigma});
+        // Quantiles computed using R (same as Mathematica)
+        setCumulativeTestValues(new double[] {0.02275013, 0.1586553, 0.5, 0.8413447, 
+                0.9772499, 0.9986501, 0.9999683,  0.9999997});
+        verifyCumulativeProbabilities();       
+    }
+    
+    public void testQuantiles() throws Exception {
+        verifyQuantiles();
+        setDistribution(DistributionFactory.newInstance().createNormalDistribution(0, 1));
+        verifyQuantiles();
+        setDistribution(DistributionFactory.newInstance().createNormalDistribution(0, 0.1));
+        verifyQuantiles();
+    }
+    
+    public void testGetMean() {
+        NormalDistribution distribution = (NormalDistribution) getDistribution();
+        assertEquals(2.1, distribution.getMean(), 0);
+    }
+    
+    public void testSetMean() throws Exception {
+        double mu = Math.random();
+        NormalDistribution distribution = (NormalDistribution) getDistribution();
+        distribution.setMean(mu);
+        verifyQuantiles();
+    }
+    
+    public void testGetStandardDeviation() {
+        NormalDistribution distribution = (NormalDistribution) getDistribution();
+        assertEquals(1.4, distribution.getStandardDeviation(), 0);  
+    }
+    
+    public void testSetStandardDeviation() throws Exception {
+        double sigma = 0.1d + Math.random();
+        NormalDistribution distribution = (NormalDistribution) getDistribution();
+        distribution.setStandardDeviation(sigma);
+        assertEquals(sigma, distribution.getStandardDeviation(), 0);
+        verifyQuantiles();
+        try {
+            distribution.setStandardDeviation(0);
+            fail("Expecting IllegalArgumentException for sd = 0");
+        } catch (IllegalArgumentException ex) {
+            // Expected
+        }
+    }
 }
