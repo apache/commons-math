@@ -27,8 +27,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-//import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.stat.univariate.DescriptiveStatistics;
 import org.apache.commons.math.stat.univariate.SummaryStatistics;
@@ -36,7 +34,7 @@ import org.apache.commons.math.stat.univariate.SummaryStatistics;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.4 $ $Date: 2004/06/01 23:40:29 $
+ * @version $Revision: 1.5 $ $Date: 2004/06/04 13:53:12 $
  */
 public abstract class CertifiedDataAbstractTest extends TestCase {
 	
@@ -63,12 +61,14 @@ public abstract class CertifiedDataAbstractTest extends TestCase {
 			
 			String line = in.readLine();
 			while (line != null) {
-				line = StringUtils.trimToNull(line);
-				if (line == null) {
-					// empty line
-				} else if (line.startsWith("#")) {
-					// comment
-				} else {
+			    
+			    /* this call to StringUtils did little for the 
+			     * following conditional structure 
+			     */
+			    line = line.trim();
+
+				// not empty line or comment
+				if (!("".equals(line) || line.startsWith("#"))) {
 					int n = line.indexOf('=');
 					if (n == -1) {
 						// data value
