@@ -37,7 +37,7 @@ import junit.framework.TestCase;
  *  use the setXxx methods for the instance data in test cases and call the verifyXxx methods
  *  to verify results. 
  * 
- * @version $Revision: 1.1 $ $Date: 2004/05/11 02:09:14 $
+ * @version $Revision: 1.2 $ $Date: 2004/07/23 05:19:06 $
  */
 public abstract class DiscreteDistributionAbstractTest extends TestCase {
     
@@ -206,12 +206,6 @@ public abstract class DiscreteDistributionAbstractTest extends TestCase {
         try {
             distribution.inverseCumulativeProbability(-1);
             fail("Expecting IllegalArgumentException for p = -1");
-        } catch (IllegalArgumentException ex) {
-            // expected
-        }
-        try {
-            distribution.inverseCumulativeProbability(1);
-            fail("Expecting IllegalArgumentException for p = 1");
         } catch (IllegalArgumentException ex) {
             // expected
         }
