@@ -69,7 +69,7 @@ import org.apache.commons.collections.TreeBag;
  * The values are ordered using the default (natural order), unless a  <code>Comparator</code>
  *  is supplied in the constructor.
  * 
- * @version $Revision: 1.12 $ $Date: 2004/02/08 19:51:25 $
+ * @version $Revision: 1.13 $ $Date: 2004/02/16 06:32:47 $
  */
 public class Frequency implements Serializable {
     
@@ -158,7 +158,7 @@ public class Frequency implements Serializable {
     }
     
     /**
-     * Returns an Iterator over the set of values that have been added
+     * Returns an Iterator over the set of values that have been added.
      * @return values Iterator
      */
     public Iterator valuesIterator() {
@@ -349,7 +349,7 @@ public class Frequency implements Serializable {
     
      /**
      * Returns the cummulative percentatge of values less than or equal to v
-     * (as a proportion -- i.e. between 0 and 1).
+     * (as a proportion between 0 and 1).
      * <p>
      * Returns 0 if v is not comparable to the values set.
      * 
@@ -362,7 +362,7 @@ public class Frequency implements Serializable {
     
     /**
      * Returns the cummulative percentatge of values less than or equal to v
-     * (as a proportion -- i.e. between 0 and 1).
+     * (as a proportion between 0 and 1).
      * <p>
      * Returns 0 if v is not comparable to the values set.
      * 
@@ -375,7 +375,7 @@ public class Frequency implements Serializable {
     
     /**
      * Returns the cummulative percentatge of values less than or equal to v
-     * (as a proportion -- i.e. between 0 and 1).
+     * (as a proportion between 0 and 1).
      * <p>
      * Returns 0 if v is not comparable to the values set.
      * 
@@ -388,7 +388,7 @@ public class Frequency implements Serializable {
     
     /**
      * Returns the cummulative percentatge of values less than or equal to v
-     * (as a proportion -- i.e. between 0 and 1).
+     * (as a proportion between 0 and 1).
      * <p>
      * Returns 0 if v is not comparable to the values set.
      * 
