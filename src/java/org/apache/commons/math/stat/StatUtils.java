@@ -92,7 +92,7 @@ public class StatUtils {
      * Returns the product for this collection of values
      * @param values Is a double[] containing the values
      * @return the product values or Double.NaN if the array is empty
-	 */
+     */
     public static double product(double[] values) {
         double product = Double.NaN;
         if( values.length > 0 ) {
@@ -105,13 +105,29 @@ public class StatUtils {
     }
     
     /**
+     * Returns the sum of the natural logs for this collection of values
+     * @param values Is a double[] containing the values
+     * @return the sumLog value or Double.NaN if the array is empty
+	 */
+    public static double sumLog(double[] values) {
+        double sumLog = Double.NaN;
+        if( values.length > 0 ) {
+            sumLog = 0.0;
+            for( int i = 0; i < values.length; i++) {
+                sumLog += Math.log(values[i]);
+            }
+        }
+        return sumLog;
+    }
+    
+    /**
      * Returns the geometric mean for this collection of values
      * @param values Is a double[] containing the values
      * @return the geometric mean or Double.NaN if the array is empty or
      * any of the values are &lt;= 0.
 	 */
     public static double geometricMean(double[] values) {
-        return Math.pow(product(values),(1.0/values.length));
+        return Math.exp(sumLog(values) / (double)values.length);
     }
 
 	/**
@@ -121,7 +137,7 @@ public class StatUtils {
      * @return the mean of the values or Double.NaN if the array is empty
 	 */
 	public static double mean(double[] values) {
-		return sum(values) / values.length;
+		return sum(values) / (double)values.length;
 	}
 
     /**
@@ -155,7 +171,7 @@ public class StatUtils {
 			for (int i = 0; i < values.length; i++) {
 				accum += Math.pow((values[i] - mean), 2.0);
 			}
-			variance = accum / (values.length - 1);
+			variance = accum / (double)(values.length - 1);
 		}
 		return variance;
 	}
