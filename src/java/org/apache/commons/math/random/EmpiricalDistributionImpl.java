@@ -16,7 +16,6 @@
 
 package org.apache.commons.math.random;
 
-import java.util.ArrayList;
 import java.io.Serializable;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -24,8 +23,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.math.stat.univariate.SummaryStatistics;
+import org.apache.commons.math.stat.univariate.StatisticalSummary;
 
 /**
  * Implements <code>EmpiricalDistribution</code> interface.  This implementation
@@ -52,7 +54,7 @@ import org.apache.commons.math.stat.univariate.SummaryStatistics;
  *    entry per line.</li>
  * </ul></p>
  *
- * @version $Revision: 1.27 $ $Date: 2004/06/23 16:26:17 $
+ * @version $Revision: 1.28 $ $Date: 2004/07/18 23:57:11 $
  */
 public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistribution {
 
@@ -407,14 +409,14 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
     }
 
     /**
-     * Returns a DescriptiveStatistics describing this distribution.
+     * Returns a {@link StatisticalSummary} describing this distribution.
      * <strong>Preconditions:</strong><ul>
      * <li>the distribution must be loaded before invoking this method</li></ul>
      * 
      * @return the sample statistics
      * @throws IllegalStateException if the distribution has not been loaded
      */
-    public SummaryStatistics getSampleStats() {
+    public StatisticalSummary getSampleStats() {
         return sampleStats;
     }
 
@@ -428,12 +430,13 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
     }
 
     /**
-     * Returns a list of Univariates containing statistics describing the
-     * values in each of the bins.  The ArrayList is indexed on the bin number.
+     * Returns an ArrayList of {@link SummaryStatistics} instances containing
+     * statistics describing the values in each of the bins.  The ArrayList is
+     * indexed on the bin number.
      * 
-     * @return ArrayList of bin statistics.
+     * @return List of bin statistics.
      */
-    public ArrayList getBinStats() {
+    public List getBinStats() {
         return binStats;
     }
 

@@ -19,9 +19,9 @@ package org.apache.commons.math.random;
 import java.io.IOException;
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.List;
 
-import org.apache.commons.math.stat.univariate.SummaryStatistics;
+import org.apache.commons.math.stat.univariate.StatisticalSummary;
 
 /**
  * Represents an <a href="http://random.mat.sbg.ac.at/~ste/dipl/node11.html">
@@ -32,7 +32,6 @@ import org.apache.commons.math.stat.univariate.SummaryStatistics;
  * <i>distribution digests</i>, that describe empirical distributions and
  * support the following operations: <ul>
  * <li>loading the distribution from a file of observed data values</li>
- * <li>saving and re-loading distribution digests to/from "digest files" </li>
  * <li>dividing the input data into "bin ranges" and reporting bin frequency
  *     counts (data for histogram)</li>
  * <li>reporting univariate statistics describing the full set of data values
@@ -43,19 +42,22 @@ import org.apache.commons.math.stat.univariate.SummaryStatistics;
  * build grouped frequnecy histograms representing the input data or to
  * generate random values "like" those in the input file -- i.e., the values
  * generated will follow the distribution of the values in the file.
- * @version $Revision: 1.20 $ $Date: 2004/06/14 23:45:33 $
+ * 
+ * @version $Revision: 1.21 $ $Date: 2004/07/18 23:57:11 $
  */
 public interface EmpiricalDistribution {
 
     /**
      * Computes the empirical distribution from the provided
      * array of numbers.
+     * 
      * @param dataArray the data array
      */
     void load(double[] dataArray);
 
     /**
      * Computes the empirical distribution from the input file.
+     * 
      * @param file the input file
      * @throws IOException if an IO error occurs
      */
@@ -63,6 +65,7 @@ public interface EmpiricalDistribution {
 
     /**
      * Computes the empirical distribution using data read from a URL.
+     * 
      * @param url url of the input file
      * @throws IOException if an IO error occurs
      */
@@ -73,43 +76,51 @@ public interface EmpiricalDistribution {
      * <strong>Preconditions:</strong><ul>
      * <li>the distribution must be loaded before invoking this method</li></ul>
      * @return the random value.
+     * 
      * @throws IllegalStateException if the distribution has not been loaded
      */
     double getNextValue() throws IllegalStateException;
 
 
     /**
-     * Returns a DescriptiveStatistics describing this distribution.
+     * Returns a {@link StatisticalSummary} describing this distribution.
      * <strong>Preconditions:</strong><ul>
-     * <li>the distribution must be loaded before invoking this method</li></ul>
+     * <li>the distribution must be loaded before invoking this method</li>
+     * </ul>
+     * 
      * @return the sample statistics
      * @throws IllegalStateException if the distribution has not been loaded
      */
-    SummaryStatistics getSampleStats() throws IllegalStateException;
+    StatisticalSummary getSampleStats() throws IllegalStateException;
 
     /**
-     * property indicating whether or not the distribution has been loaded
+     * Property indicating whether or not the distribution has been loaded.
+     * 
      * @return true if the distribution has been loaded
      */
     boolean isLoaded();
 
      /**
-     * Returns the number of bins
-     * @return the number of bins.
+     * Returns the number of bins.
+     * 
+     * @return the number of bins
      */
     int getBinCount();
 
     /**
-     * Returns a list of Univariates containing statistics describing the
-     * values in each of the bins.  The ArrayList is indexed on the bin number.
-     * @return ArrayList of bin statistics.
+     * Returns a list of {@link SummaryStatistics} containing statistics
+     * describing the values in each of the bins.  The List is indexed on
+     * the bin number.
+     * 
+     * @return List of bin statistics
      */
-    ArrayList getBinStats();
+    List getBinStats();
 
     /**
      * Returns the array of upper bounds for the bins.  Bins are: <br/>
      * [min,upperBounds[0]],(upperBounds[0],upperBounds[1]],...,
-     *  (upperBounds[binCount-1],max]
+     *  (upperBounds[binCount-1],max].
+     * 
      * @return array of bin upper bounds
      */
     double[] getUpperBounds();
