@@ -25,7 +25,7 @@ import org.apache.commons.math.MathException;
  * Implements the <a href="http://mathworld.wolfram.com/Bisection.html">bisection algorithm</a>
  *  for finding zeros of univariate real functions.  This algorithm will find only one zero in the given interval.
  * The function should be continuous but not necessarily smooth.
- * @version $Revision: 1.12 $ $Date: 2004/02/20 06:22:39 $
+ * @version $Revision: 1.13 $ $Date: 2004/04/08 21:19:17 $
  */
 public class BisectionSolver extends UnivariateRealSolverImpl implements Serializable {
     /**
@@ -68,7 +68,7 @@ public class BisectionSolver extends UnivariateRealSolverImpl implements Seriali
         
         int i = 0;
         while (i < maximalIterationCount) {
-            m = midpoint(min, max);
+            m = UnivariateRealSolverUtils.midpoint(min, max);
             fmin = f.value(min);
             fm = f.value(m);
 
@@ -82,7 +82,7 @@ public class BisectionSolver extends UnivariateRealSolverImpl implements Seriali
             }
 
             if (Math.abs(max - min) <= absoluteAccuracy) {
-                m = midpoint(min, max);
+                m = UnivariateRealSolverUtils.midpoint(min, max);
                 setResult(m, i);
                 return m;
             }
@@ -90,15 +90,5 @@ public class BisectionSolver extends UnivariateRealSolverImpl implements Seriali
         }
         
         throw new MathException("Maximum number of iterations exceeded");
-    }
-
-    /**
-     * Compute the midpoint of two values.
-     * @param a first value.
-     * @param b second value.
-     * @return the midpoint. 
-     */
-    public static double midpoint(double a, double b) {
-        return (a + b) * .5;
     }
 }

@@ -41,7 +41,7 @@ import org.apache.commons.discovery.tools.DiscoverClass;
  * <code>UnivariateRealSolverFactory.newInstance().</code>  The default is
  * {@link UnivariateRealSolverFactoryImpl}.
  * 
- * @version $Revision: 1.13 $ $Date: 2004/02/22 22:01:29 $
+ * @version $Revision: 1.14 $ $Date: 2004/04/08 21:19:17 $
  */
 public abstract class UnivariateRealSolverFactory {
     /**
@@ -93,6 +93,15 @@ public abstract class UnivariateRealSolverFactory {
      */
     public abstract UnivariateRealSolver newBrentSolver(
         UnivariateRealFunction f);
+    
+    /**
+     * Create a new {@link UnivariateRealSolver} for the given function.  The
+     * solver is an implementation of Newton's Method.
+     * @param f the function.
+     * @return the new solver.
+     */
+    public abstract UnivariateRealSolver newNewtonSolver(
+        DifferentiableUnivariateRealFunction f);
     
     /**
      * Create a new {@link UnivariateRealSolver} for the given function.  The

@@ -20,9 +20,9 @@ import org.apache.commons.math.MathException;
 /**
  * Auxillary class for testing solvers.
  *
- * @version $Revision: 1.11 $ $Date: 2004/02/21 21:35:16 $ 
+ * @version $Revision: 1.12 $ $Date: 2004/04/08 21:19:17 $ 
  */
-public class QuinticFunction implements UnivariateRealFunction {
+public class QuinticFunction implements DifferentiableUnivariateRealFunction {
 
     /* Evaluate quintic.
      * @see org.apache.commons.math.UnivariateRealFunction#value(double)
@@ -31,10 +31,11 @@ public class QuinticFunction implements UnivariateRealFunction {
         return (x-1)*(x-0.5)*x*(x+0.5)*(x+1);
     }
 
-    /* First derivative of quintic.
-     */
-    public double firstDerivative(double x) throws MathException {
-        return (5*x*x-3.75)*x*x+0.25;
+    public UnivariateRealFunction derivative() {
+        return new UnivariateRealFunction() {
+            public double value(double x) throws MathException {
+                return (5*x*x-3.75)*x*x+0.25;
+            }
+        };
     }
-
 }

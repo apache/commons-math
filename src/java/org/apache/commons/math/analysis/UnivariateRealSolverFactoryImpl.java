@@ -17,14 +17,13 @@ package org.apache.commons.math.analysis;
 
 import java.io.Serializable;
 
-
 /**
  * A concrete {@link  UnivariateRealSolverFactory}.  This is the default solver factory
  * used by commons-math.
  * <p>
  * The default solver returned by this factory is a {@link BrentSolver}.
  * 
- * @version $Revision: 1.10 $ $Date: 2004/02/22 22:01:29 $
+ * @version $Revision: 1.11 $ $Date: 2004/04/08 21:19:17 $
  */
 public class UnivariateRealSolverFactoryImpl
     extends UnivariateRealSolverFactory implements Serializable {
@@ -67,7 +66,19 @@ public class UnivariateRealSolverFactoryImpl
     public UnivariateRealSolver newBrentSolver(UnivariateRealFunction f) {
         return new BrentSolver(f);
     }
-
+    
+    /**
+     * Create a new {@link UnivariateRealSolver} for the given function.  The
+     * solver is an implementation of Newton's Method.
+     * @param f the function.
+     * @return the new solver.
+     */
+    public UnivariateRealSolver newNewtonSolver(
+        DifferentiableUnivariateRealFunction f) {
+        
+        return new NewtonSolver(f);
+    }
+    
     /**
      * Create a new {@link UnivariateRealSolver} for the given function.  The
      * solver is an implementation of the secant method.

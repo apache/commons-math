@@ -19,7 +19,7 @@ import org.apache.commons.math.MathException;
 
 /**
  * Utility routines for {@link UnivariateRealSolver} objects.
- * @version $Revision: 1.7 $ $Date: 2004/02/21 21:35:14 $
+ * @version $Revision: 1.8 $ $Date: 2004/04/08 21:19:17 $
  */
 public class UnivariateRealSolverUtils {
     /**
@@ -134,5 +134,15 @@ public class UnivariateRealSolverUtils {
         } while ( (fa * fb > 0.0) && ( numIterations < maximumIterations ) );
     
         return new double[]{a, b};
+    }
+
+    /**
+     * Compute the midpoint of two values.
+     * @param a first value.
+     * @param b second value.
+     * @return the midpoint. 
+     */
+    public static double midpoint(double a, double b) {
+        return (a + b) * .5;
     }
 }
