@@ -30,7 +30,7 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * one of the threads invokes the <code>increment()</code> or 
  * <code>clear()</code> method, it must be synchronized externally.
  * 
- * @version $Revision: 1.21 $ $Date: 2004/07/10 17:09:08 $
+ * @version $Revision: 1.22 $ $Date: 2004/07/18 04:42:02 $
  */
 public class StandardDeviation extends AbstractStorelessUnivariateStatistic
     implements Serializable {
@@ -39,7 +39,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
     static final long serialVersionUID = 5728716329662425188L;  
     
     /** Wrapped Variance instance */
-    protected Variance variance = null;
+    private Variance variance = null;
 
     /**
      * Constructs a StandardDeviation
