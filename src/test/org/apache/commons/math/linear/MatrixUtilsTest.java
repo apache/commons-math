@@ -23,7 +23,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link MatrixUtils} class.
  *
- * @version $Revision: 1.2 $ $Date: 2004/10/25 05:36:15 $
+ * @version $Revision: 1.3 $ $Date: 2004/10/28 03:02:34 $
  */
 
 public final class MatrixUtilsTest extends TestCase {
@@ -50,9 +50,6 @@ public final class MatrixUtilsTest extends TestCase {
     
     public MatrixUtilsTest(String name) {
         super(name);
-        for (int i = 0; i < row.length; i++) {
-            
-        }
     }
     
     public void setUp() {     
