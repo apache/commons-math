@@ -24,7 +24,7 @@ import org.apache.commons.math.stat.univariate.moment.Variance;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.9 $ $Date: 2004/02/21 21:35:17 $
+ * @version $Revision: 1.10 $ $Date: 2004/06/18 01:30:52 $
  */
 public class InteractionTest extends TestCase {
 
@@ -75,10 +75,6 @@ public class InteractionTest extends TestCase {
 
         for (int i = 0; i < testArray.length; i++){
             m4.increment(testArray[i]);
-            m.increment(testArray[i]);
-            v.increment(testArray[i]);
-            s.increment(testArray[i]);
-            k.increment(testArray[i]);
         }
         
         assertEquals(mean,m.getResult(),tolerance);
