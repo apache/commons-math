@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="xdoc.xsl"?>
-<!-- $Revision: 1.8 $ $Date: 2004/04/22 04:10:57 $ -->
+<!-- $Revision: 1.9 $ $Date: 2004/08/15 18:07:00 $ -->
 <document>
 
  <properties>
@@ -86,8 +86,14 @@
   <section name="Download Math">
    <subsection name="Releases">
     <p>
-     There haven't been any yet! The more people who contribute, the
-     quicker this will happen.
+     Realease distributions of version 1.0 of Commons Math are available for
+     download in the following locations:
+     <ul>
+     <li><a href="http://jakarta.apache.org/site/binindex.cgi">
+     binary distribution</a></li>
+     <li><a href="http://jakarta.apache.org/site/sourceindex.cgi">
+     source distribution</a></li>
+     </ul>
     </p>
    </subsection>
    <subsection name="Nightly Builds">
