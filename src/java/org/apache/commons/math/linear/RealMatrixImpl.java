@@ -38,7 +38,7 @@ import java.io.Serializable;
  * explicitly invoke <code>LUDecompose()</code> to recompute the decomposition
  * before using any of the methods above.
  *
- * @version $Revision: 1.25 $ $Date: 2004/06/23 16:26:17 $
+ * @version $Revision: 1.26 $ $Date: 2004/08/22 01:42:58 $
  */
 public class RealMatrixImpl implements RealMatrix, Serializable {
 
@@ -202,7 +202,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     }
 
     /**
-     * Returns the result postmultiplying this by <code>m</code>.
+     * Returns the result of postmultiplying this by <code>m</code>.
      * @param m    matrix to postmultiply by
      * @return     this*m
      * @throws     IllegalArgumentException

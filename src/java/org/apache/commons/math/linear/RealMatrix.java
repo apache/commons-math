@@ -18,7 +18,7 @@ package org.apache.commons.math.linear;
 
 /**
  * Interface defining a real-valued matrix with basic algebraic operations
- * @version $Revision: 1.19 $ $Date: 2004/06/07 03:26:31 $
+ * @version $Revision: 1.20 $ $Date: 2004/08/22 01:42:58 $
  */
 public interface RealMatrix {
 
@@ -64,7 +64,7 @@ public interface RealMatrix {
     RealMatrix scalarMultiply(double d);
 
     /**
-     * Returns the result postmultiplying this by m.
+     * Returns the result of postmultiplying this by m.
      *
      * @param m    matrix to postmultiply by
      * @return     this * m

@@ -22,7 +22,7 @@ import java.math.BigDecimal;
  * Interface defining a real-valued matrix with basic algebraic operations, using
  * BigDecimal representations for the entries.
  *
- * @version $Revision: 1.4 $ $Date: 2004/07/11 04:49:24 $
+ * @version $Revision: 1.5 $ $Date: 2004/08/22 01:42:58 $
  */
 public interface BigMatrix {
 
@@ -68,7 +68,7 @@ public interface BigMatrix {
     BigMatrix scalarMultiply(BigDecimal d);
     
     /**
-     * Returns the result postmultiplying this by m.
+     * Returns the result of postmultiplying this by m.
      *
      * @param m    matrix to postmultiply by
      * @return     this * m

@@ -44,7 +44,7 @@ import org.apache.commons.math.stat.univariate.AbstractUnivariateStatistic;
  * <p>
  * To compute percentiles, the data must be (totally) ordered.  Input arrays
  * are copied and then sorted using  {@link java.util.Arrays#sort(double[])}.
- * The ordering used by <code>Arrays.sort(double[]</code> is the one determined
+ * The ordering used by <code>Arrays.sort(double[])</code> is the one determined
  * by {@link java.lang.Double#compareTo(Double)}.  This ordering makes 
  * <code>Double.NaN</code> larger than any other value (including 
  * <code>Double.POSITIVE_INFINITY</code>).  Therefore, for example, the median
@@ -60,7 +60,7 @@ import org.apache.commons.math.stat.univariate.AbstractUnivariateStatistic;
  * one of the threads invokes the <code>increment()</code> or 
  * <code>clear()</code> method, it must be synchronized externally.
  * 
- * @version $Revision: 1.23 $ $Date: 2004/07/11 18:39:08 $
+ * @version $Revision: 1.24 $ $Date: 2004/08/22 01:42:58 $
  */
 public class Percentile extends AbstractUnivariateStatistic implements Serializable {
 

@@ -33,9 +33,9 @@ import java.util.TreeMap;
  * the same effect (similarly for arguments to <code>getCount,</code> etc.).
  * <p>
  * The values are ordered using the default (natural order), unless a  
- * <code>Comparator</code>is supplied in the constructor.
+ * <code>Comparator</code> is supplied in the constructor.
  *
- * @version $Revision: 1.26 $ $Date: 2004/08/12 15:33:39 $
+ * @version $Revision: 1.27 $ $Date: 2004/08/22 01:42:58 $
  */
 public class Frequency implements Serializable {
     
@@ -407,7 +407,7 @@ public class Frequency implements Serializable {
     }
     
     /**
-     * Returns the cumulative percentatge of values less than or equal to v
+     * Returns the cumulative percentage of values less than or equal to v
      * (as a proportion between 0 and 1).
      * <p>
      * Returns 0 if v is not comparable to the values set.

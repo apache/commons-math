@@ -39,7 +39,7 @@ import java.math.BigDecimal;
  * explicitly invoke <code>LUDecompose()</code> to recompute the decomposition
  * before using any of the methods above.
  *
- * @version $Revision: 1.3 $ $Date: 2004/07/11 04:49:24 $
+ * @version $Revision: 1.4 $ $Date: 2004/08/22 01:42:58 $
  */
 public class BigMatrixImpl implements BigMatrix, Serializable {
     
@@ -239,7 +239,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     }
     
     /**
-     * Returns the result postmultiplying this by <code>m</code>.
+     * Returns the result of postmultiplying this by <code>m</code>.
      * @param m    matrix to postmultiply by
      * @return     this*m
      * @throws     IllegalArgumentException
