@@ -15,13 +15,13 @@
    See the License for the specific language governing permissions and
    limitations under the License.
   -->
-<!-- $Revision: 1.51 $ $Date: 2004/10/08 05:57:21 $ -->
+<!-- $Revision: 1.52 $ $Date: 2004/10/09 21:21:42 $ -->
 
 <project>
   <pomVersion>3</pomVersion>
   <name>Math</name>
   <id>commons-math</id>
-  <currentVersion>1.0</currentVersion>
+  <currentVersion>1.0-RC2</currentVersion>
   <inceptionYear>2003</inceptionYear>
   <shortDescription>Jakarta Commons Math</shortDescription>
   <description>The Math project is a library of lightweight, self-contained mathematics and statistics components addressing the most common practical problems not immediately available in the Java programming language or commons-lang.</description>
@@ -65,8 +65,8 @@
   </mailingLists>
   <versions>
     <version>
-      <id>1.0</id>
-      <name>1.0-RC1</name>
+      <id>1.0-RC2</id>
+      <name>1.0-RC2</name>
     </version>
   </versions>
   <developers>
@@ -114,6 +114,9 @@
     </contributor>
     <contributor>
       <name>Christopher Schuck</name>
+    </contributor>
+    <contributor>
+      <name>Kim van der Linde</name>
     </contributor>
   </contributors>
   <dependencies>
