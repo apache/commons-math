@@ -64,7 +64,7 @@ import org.apache.commons.math.stat.StorelessDescriptiveStatisticsImpl;
 /**
  * Test cases for the ValueServer class.
  *
- * @version $Revision: 1.8 $ $Date: 2003/11/15 16:01:40 $
+ * @version $Revision: 1.9 $ $Date: 2004/01/11 07:26:51 $
  */
 
 public final class ValueServerTest extends TestCase {
@@ -79,7 +79,7 @@ public final class ValueServerTest extends TestCase {
         vs.setMode(ValueServer.DIGEST_MODE);
         try {
             URL url = getClass().getResource("testData.txt");
-            vs.setValuesFileURL(url.toExternalForm()); 
+            vs.setValuesFileURL(url); 
         } catch (Exception ex) {
             fail("malformed test URL");
         }
@@ -132,18 +132,6 @@ public final class ValueServerTest extends TestCase {
       */
     public void testNextDigestFail() throws Exception {
         try {
-            vs.getNext();
-            fail("Expecting IllegalStateException");
-        } catch (IllegalStateException ex) {;}
-    }
-    
-    /**
-      * Make sure exception thrown if nextReplay() is attempted
-      * before opening replay file.
-      */
-    public void testNextReplayFail() throws Exception {
-        try {
-            vs.setMode(ValueServer.REPLAY_MODE);
             vs.getNext();
             fail("Expecting IllegalStateException");
         } catch (IllegalStateException ex) {;}
@@ -229,13 +217,8 @@ public final class ValueServerTest extends TestCase {
         vs.setMode(ValueServer.CONSTANT_MODE);
         assertEquals("mode test",ValueServer.CONSTANT_MODE,vs.getMode());
         vs.setValuesFileURL("http://www.apache.org");
-        String s = vs.getValuesFileURL();
-        assertEquals("valuesFileURL test","http://www.apache.org",s);
+        URL url = vs.getValuesFileURL();
+        assertEquals("valuesFileURL test","http://www.apache.org",url.toString());
     }
-        
-        
-        
-        
-        
-        
+                          
 }

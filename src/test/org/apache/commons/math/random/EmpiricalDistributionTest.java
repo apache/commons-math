@@ -65,13 +65,14 @@ import org.apache.commons.math.stat.StorelessDescriptiveStatisticsImpl;
 /**
  * Test cases for the EmpiricalDistribution class
  *
- * @version $Revision: 1.7 $ $Date: 2003/11/15 16:01:40 $
+ * @version $Revision: 1.8 $ $Date: 2004/01/11 07:26:51 $
  */
 
 public final class EmpiricalDistributionTest extends TestCase {
 
-    private EmpiricalDistribution empiricalDistribution = null;
-    private File file = null;
+    protected EmpiricalDistribution empiricalDistribution = null;
+    protected File file = null;
+    protected URL url = null; 
     
     public EmpiricalDistributionTest(String name) {
         super(name);
@@ -79,7 +80,7 @@ public final class EmpiricalDistributionTest extends TestCase {
 
     public void setUp() {
         empiricalDistribution = new EmpiricalDistributionImpl(100);
-        URL url = getClass().getResource("testData.txt");
+        url = getClass().getResource("testData.txt");
         file = new File(url.getFile());
     }
 
@@ -95,7 +96,7 @@ public final class EmpiricalDistributionTest extends TestCase {
      * the sample data file.
      */
     public void testLoad() throws Exception {
-        empiricalDistribution.load(file);   
+        empiricalDistribution.load(url);   
         // testData File has 10000 values, with mean ~ 5.0, std dev ~ 1
         // Make sure that loaded distribution matches this
         assertEquals(empiricalDistribution.getSampleStats().getN(),1000,10E-7);
@@ -156,8 +157,5 @@ public final class EmpiricalDistributionTest extends TestCase {
         assertEquals
          ("std dev", stats.getStandardDeviation(),1.0173699343977738,tolerance);
     }
-        
-        
-       
-        
+                    
 }
