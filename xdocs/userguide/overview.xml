@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.5 $ $Date: 2003/11/15 18:38:16 $ -->
+<!-- $Revision: 1.6 $ $Date: 2003/11/19 23:22:00 $ -->
 <document>
   <properties>
     <title>User Guide - Overview</title>
@@ -58,7 +58,7 @@
         <li><a href="random.html">org.apache.commons.math.random</a> - random numbers, strings and data generation</li>
         <li><a href="special.html">org.apache.commons.math.special</a> - special functions (Gamma, Beta) </li>
         <li><a href="linear.html">org.apache.commons.math.linear</a> - matrices, solving linear systems </li>
-        <li><a href="utilities.html">org.apache.commons.matn.utitlities</a> - common math/stat functions extending java.lang.Math </li>
+        <li><a href="utilities.html">org.apache.commons.math.util</a> - common math/stat functions extending java.lang.Math </li>
      </ol>
      Package javadocs are <a href="../apidocs/index.html">here</a>
     </p>
