@@ -63,7 +63,7 @@ import java.security.NoSuchAlgorithmException;
  * Test cases for the RandomData class.
  *
  * @author Phil Steitz
- * @version $Revision: 1.1 $ $Date: 2003/05/18 00:58:52 $
+ * @version $Revision: 1.2 $ $Date: 2003/05/22 15:31:38 $
  */
 
 public final class RandomDataTest extends TestCase {
@@ -406,7 +406,7 @@ public final class RandomDataTest extends TestCase {
         }
         double xbar = u.getMean();
         double s = u.getStandardDeviation();
-        double n = u.getN(); 
+        double n = (double) u.getN(); 
         /* t-test at .001-level TODO: replace with externalized t-test, with
          * test statistic defined in TestStatistic
          */
