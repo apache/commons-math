@@ -62,7 +62,7 @@ import org.apache.commons.math.TestUtils;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.7 $ $Date: 2004/01/29 00:48:59 $
+ * @version $Revision: 1.8 $ $Date: 2004/02/16 07:04:04 $
  */
 public class DefaultTransformerTest extends TestCase {
     /**
@@ -84,13 +84,12 @@ public class DefaultTransformerTest extends TestCase {
      * 
      */
     public void testTransformNull(){
-        double expected = Double.NaN;
         DefaultTransformer t = new DefaultTransformer();
         try {
-			TestUtils.assertEquals(expected, t.transform(null), 1.0e-4);
+			t.transform(null);
+			fail("Expection MathException");
 		} catch (MathException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// expected
 		}
     }
     
@@ -143,14 +142,13 @@ public class DefaultTransformerTest extends TestCase {
      * 
      */
     public void testTransformObject(){
-        double expected = Double.NaN;
         Boolean input = Boolean.TRUE;
         DefaultTransformer t = new DefaultTransformer();
         try {
-			TestUtils.assertEquals(expected, t.transform(input), 1.0e-4);
+			t.transform(input);
+			fail("Expecting MathException");
 		} catch (MathException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		    // expected
 		}
     }
 }

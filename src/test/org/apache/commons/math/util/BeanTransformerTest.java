@@ -60,7 +60,7 @@ import org.apache.commons.math.TestUtils;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.7 $ $Date: 2004/01/29 00:48:59 $
+ * @version $Revision: 1.8 $ $Date: 2004/02/16 07:04:04 $
  */
 public class BeanTransformerTest extends TestCase {
     
@@ -97,20 +97,18 @@ public class BeanTransformerTest extends TestCase {
     public void testTransformNoSuchMethod(){
         BeanTransformer b = new BeanTransformer("z");
         TestBean target = new TestBean();
-        double value = Double.NaN;
 		try {
-			value = b.transform(target);
+		    b.transform(target);
+			fail("Expecting MathException");
 		} catch (MathException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// expected
 		}
-		TestUtils.assertEquals(Double.NaN, value, 1.0e-2);
     }
     
     /**
      * 
      */
-    public void testTransform(){
+    public void testTransform() {
         BeanTransformer b = new BeanTransformer("x");
         TestBean target = new TestBean();
 		double value = Double.NaN;
@@ -126,22 +124,6 @@ public class BeanTransformerTest extends TestCase {
     /**
      * 
      */
-    public void testTransformInvocationError(){
-        BeanTransformer b = new BeanTransformer("z");
-        TestBean target = new TestBean();
-		double value = Double.NaN;
-		try {
-			value = b.transform(target);
-		} catch (MathException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		TestUtils.assertEquals(Double.NaN, value, 1.0e-2);
-    }
-    
-    /**
-     * 
-     */
     public void testTransformInvalidType(){
         BeanTransformer b = new BeanTransformer("y");
         TestBean target = new TestBean();
@@ -152,7 +134,7 @@ public class BeanTransformerTest extends TestCase {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-            fail();
+            fail("Expecting ClassCastException");
         } catch(ClassCastException ex){
             // success
         }
