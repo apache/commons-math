@@ -58,12 +58,15 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import junit.framework.AssertionFailedError;
 import java.net.URL;
+
+import org.apache.commons.math.stat.Univariate;
+import org.apache.commons.math.stat.UnivariateImpl;
  
 /**
  * Test cases for the ValueServer class.
  *
  * @author  Phil Steitz
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 
 public final class ValueServerTest extends TestCase {

@@ -51,67 +51,127 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.commons.math;
+package org.apache.commons.math.stat;
 
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.beanutils.PropertyUtils;
-
 /**
- * This implementation of StoreUnivariate uses commons-beanutils to gather
- * univariate statistics for a List of Java Beans by property.  This 
- * implementation uses beanutils' PropertyUtils to get a simple, nested,
- * indexed, mapped, or combined property from an element of a List.
- *
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
  */
-public class BeanListUnivariateImpl extends ListUnivariateImpl {
+public class ListUnivariateImpl extends AbstractStoreUnivariate {
 
-    private String propertyName;
+    // Holds the value of the windowSize, initial windowSize is the constant
+    // Univariate.INFINITE_WINDOW
+    private int windowSize = Univariate.INFINITE_WINDOW;
 
-    public BeanListUnivariateImpl(List list) {
-        super( list );
+    // Holds a reference to a list - GENERICs are going to make
+    // out lives easier here as we could only accept List<Number>
+    List list;
+
+    public ListUnivariateImpl(List list) {
+        this.list = list;
     }
 
-    public BeanListUnivariateImpl(List list, String propertyName) {
-        super( list );
-        setPropertyName( propertyName );
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.StoreUnivariate#getValues()
+     */
+    public double[] getValues() {
+
+        int startIndex = 0;
+        int endIndex = list.size() - 1;
+        
+
+        // If the window size is not INFINITE_WINDOW AND
+        // the current list is larger that the window size, we need to
+        // take into account only the last n elements of the list
+        // as definied by windowSize
+        if (windowSize != Univariate.INFINITE_WINDOW &&
+            windowSize < list.size()) {
+            startIndex = (list.size() - 1) - windowSize;
+        }
+
+        // Create an array to hold all values
+        double[] copiedArray = new double[list.size() - startIndex];
+
+        for( int i = startIndex; i <= endIndex; i++ ) {
+            Number n = (Number) getInternalIndex( i );
+            copiedArray[i] = n.doubleValue();
+            i++;
+        }
+
+        return copiedArray;
     }
 
-    public String getPropertyName() {
-        return propertyName;
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.StoreUnivariate#getElement(int)
+     */
+    public double getElement(int index) {
+
+        double value = Double.NaN;
+        if (windowSize != Univariate.INFINITE_WINDOW &&
+            windowSize < list.size()) {
+
+            int calcIndex = (list.size() - windowSize) + index;
+
+            Number n = (Number) getInternalIndex(calcIndex);
+            value = n.doubleValue();
+        } else {
+            Number n = (Number) getInternalIndex(index);
+            value = n.doubleValue();
+        }
+        return value;
     }
 
-    public void setPropertyName(String propertyName) {
-        System.out.println( "Set prop name; " + propertyName );
-        this.propertyName = propertyName;
-    }
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.Univariate#getN()
+     */
+    public int getN() {
+        int N = 0;
 
+        if (windowSize != Univariate.INFINITE_WINDOW) {
+            if (list.size() > windowSize) {
+                N = windowSize;
+            } else {
+                N = list.size();
+            }
+        } else {
+            N = list.size();
+        }
+        return N;
+    }
 
     /* (non-Javadoc)
      * @see org.apache.commons.math.Univariate#addValue(double)
      */
     public void addValue(double v) {
-        String msg = "The BeanListUnivariateImpl does not accept values " +
-            "through the addValue method.  Because elements of this list " +
-            "are JavaBeans, one must be sure to set the 'propertyName' " +
-            "property and add new Beans to the underlying list via the " +
-            "addBean(Object bean) method";
-        throw new UnsupportedOperationException( msg );
+        list.add(new Double(v));
     }
 
-    /**
-     * Adds a bean to this list. 
-     *
-     * @param bean Bean to add to the list
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.Univariate#clear()
      */
-    public void addObject(Object bean) {
-        list.add(bean);
+    public void clear() {
+        list.clear();
+    }
+
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.Univariate#getWindowSize()
+     */
+    public int getWindowSize() {
+        return windowSize;
+    }
+
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.Univariate#setWindowSize(int)
+     */
+    public void setWindowSize(int windowSize) {
+        this.windowSize = windowSize;
     }
 
     /**
-     * Reads the property of an element in the list.
+     * This function exists to support the function of classes which 
+     * extend the ListUnivariateImpl.
      *
      * @param index The location of the value in the internal List
      * @return A Number object representing the value at a given 
@@ -119,21 +179,8 @@ public class BeanListUnivariateImpl extends ListUnivariateImpl {
      */
     protected Number getInternalIndex(int index) {
 
-        try {
-            Number n = (Number) PropertyUtils.getProperty( list.get( index ), 
-                                                           propertyName );
-
-            return n;
-        } catch( Exception e ) {
-            // TODO: We could use a better strategy for error handling
-            // here.
-
-            // This is a somewhat foolish design decision, but until
-            // we figure out what needs to be done, let's return NaN
-            return new Double(Double.NaN);
-        }
-
+        Number n = (Number) list.get( index );
+        return n;
 
     }
-
 }

@@ -61,11 +61,15 @@ import java.security.NoSuchProviderException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
 import java.util.HashSet;
+
+import org.apache.commons.math.stat.Univariate;
+import org.apache.commons.math.stat.UnivariateImpl;
+
 /**
  * Test cases for the RandomData class.
  *
  * @author Phil Steitz
- * @version $Revision: 1.3 $ $Date: 2003/05/29 19:45:35 $
+ * @version $Revision: 1.4 $ $Date: 2003/05/29 20:35:45 $
  */
 
 public final class RandomDataTest extends TestCase {

@@ -53,7 +53,7 @@
  *
  */
 
-package org.apache.commons.math;
+package org.apache.commons.math.stat;
 
 /**
  * Estimates an ordinary least squares regression model
@@ -82,7 +82,7 @@ package org.apache.commons.math;
  * </ul>
  *
  * @author  Phil Steitz
- * @version $Revision: 1.1 $ $Date: 2003/05/26 02:11:50 $
+ * @version $Revision: 1.1 $ $Date: 2003/05/29 20:35:45 $
  */
 public class BivariateRegression {
     

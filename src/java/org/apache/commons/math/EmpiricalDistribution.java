@@ -58,6 +58,8 @@ import java.io.IOException;
 import java.io.File;
 import java.util.ArrayList;
 
+import org.apache.commons.math.stat.Univariate;
+
 /**
  * Represents an <a href=http://random.mat.sbg.ac.at/~ste/dipl/node11.html>
  * empirical probability distribution</a> -- a probability distribution derived
@@ -79,7 +81,7 @@ import java.util.ArrayList;
  * generate random values "like" those in the input file -- i.e., the values
  * generated will follow the distribution of the values in the file.
  * @author  Phil Steitz
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public interface EmpiricalDistribution {
     

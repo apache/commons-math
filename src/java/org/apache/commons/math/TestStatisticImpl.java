@@ -54,6 +54,9 @@
 
 package org.apache.commons.math;
 
+import org.apache.commons.math.stat.Univariate;
+import org.apache.commons.math.stat.UnivariateImpl;
+
 /**
  * Implements the following test statistics <ul>
  * <li>
@@ -66,7 +69,7 @@ package org.apache.commons.math;
  * </li>
  * </ul>
  * @author Phil Steitz
- * @version $Revision: 1.2 $ $Date: 2003/05/26 17:29:36 $
+ * @version $Revision: 1.3 $ $Date: 2003/05/29 20:35:44 $
  * 
  */
 public class TestStatisticImpl implements TestStatistic {

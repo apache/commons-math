@@ -51,9 +51,12 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.commons.math;
+package org.apache.commons.math.stat;
 
 import java.io.Serializable;
+
+import org.apache.commons.math.DoubleArray;
+import org.apache.commons.math.FixedDoubleArray;
 
 /**
  *
@@ -67,7 +70,7 @@ import java.io.Serializable;
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
  * @author Mark Diggory
  * @author Brent Worden
- * @version $Revision: 1.9 $ $Date: 2003/05/29 19:49:18 $
+ * @version $Revision: 1.1 $ $Date: 2003/05/29 20:35:45 $
  * 
 */
 public class UnivariateImpl implements Univariate, Serializable {

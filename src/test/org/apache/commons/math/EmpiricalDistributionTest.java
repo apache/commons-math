@@ -60,11 +60,14 @@ import junit.framework.AssertionFailedError;
 import java.io.File;
 import java.net.URL;
 
+import org.apache.commons.math.stat.Univariate;
+import org.apache.commons.math.stat.UnivariateImpl;
+
 /**
  * Test cases for the EmpiricalDistribution class
  *
  * @author Phil Steitz
- * @version $Revision: 1.1 $ $Date: 2003/05/21 14:21:15 $
+ * @version $Revision: 1.2 $ $Date: 2003/05/29 20:35:45 $
  */
 
 public final class EmpiricalDistributionTest extends TestCase {

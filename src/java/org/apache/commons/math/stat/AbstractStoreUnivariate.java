@@ -51,7 +51,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.commons.math;
+package org.apache.commons.math.stat;
 
 /**
  * Provides univariate measures for an array of doubles.  

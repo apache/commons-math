@@ -61,6 +61,9 @@ import java.io.FileReader;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.commons.math.stat.Univariate;
+import org.apache.commons.math.stat.UnivariateImpl;
+
 /**
  * Implements <code>EmpiricalDistribution</code> interface using 
  * what amounts to the 
@@ -87,7 +90,7 @@ import java.io.IOException;
  * </ol></p>
  *
  * @author  Phil Steitz
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class EmpiricalDistributionImpl implements Serializable,EmpiricalDistribution {
 

@@ -51,7 +51,10 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.commons.math;
+package org.apache.commons.math.stat;
+
+import org.apache.commons.math.DoubleArray;
+import org.apache.commons.math.ContractableDoubleArray;
 
 /**
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
