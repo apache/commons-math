@@ -21,13 +21,13 @@ import java.io.PrintWriter;
 
 
 /**
-* Base exception class for commons-math.
+* Base class for commons-math checked exceptions.
 * <p>
 * Supports nesting, emulating JDK 1.4 behavior if necessary.  
 * <p>
 * Adapted from {@link org.apache.commons.collections.FunctorException}.
 * 
-* @version $Revision: 1.18 $ $Date: 2004/07/10 22:21:36 $
+* @version $Revision: 1.19 $ $Date: 2004/07/17 19:55:32 $
 */
 public class MathException extends Exception {
     
