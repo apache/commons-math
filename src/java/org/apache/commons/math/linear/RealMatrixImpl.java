@@ -78,7 +78,7 @@ import java.io.Serializable;
  * explicitly invoke <code>LUDecompose()</code> to recompute the decomposition
  * before using any of the methods above.
  *
- * @version $Revision: 1.11 $ $Date: 2004/01/29 00:49:03 $
+ * @version $Revision: 1.12 $ $Date: 2004/01/29 04:58:36 $
  */
 public class RealMatrixImpl implements RealMatrix, Serializable {
 
@@ -556,7 +556,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
 	 * to solve
 	 * @return solution array
 	 * @throws IllegalArgumentException if this.rowDimension != row dimension
-	 * @throws InvalidMatrixException if this matrix is square or singular
+	 * @throws InvalidMatrixException if this matrix is not square or is singular
 	 */
 	public double[] solve(double[] b) throws IllegalArgumentException, InvalidMatrixException {
 		int nRows = this.getRowDimension();
@@ -581,7 +581,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
 	 * to solve
 	 * @return matrix of solution vectors
 	 * @throws IllegalArgumentException if this.rowDimension != row dimension
-	 * @throws InvalidMatrixException if this matrix is square or singular
+	 * @throws InvalidMatrixException if this matrix is not square or is singular
 	 */
 	public RealMatrix solve(RealMatrix b) throws IllegalArgumentException, InvalidMatrixException  {
 		if (b.getRowDimension() != this.getRowDimension()) {
