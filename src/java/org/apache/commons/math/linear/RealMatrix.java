@@ -18,7 +18,7 @@ package org.apache.commons.math.linear;
 
 /**
  * Interface defining a real-valued matrix with basic algebraic operations
- * @version $Revision: 1.17 $ $Date: 2004/05/19 14:16:32 $
+ * @version $Revision: 1.18 $ $Date: 2004/06/05 22:28:10 $
  */
 public interface RealMatrix {
 
@@ -46,13 +46,6 @@ public interface RealMatrix {
      * @throws  IllegalArgumentException if m is not the same size as this
      */
     RealMatrix subtract(RealMatrix m) throws IllegalArgumentException;   
-    
-    /**
-     * Returns the rank of the matrix.
-     *
-     * @return the rank of this matrix
-     */
-    int getRank();
     
      /**
      * Returns the result of adding d to each entry of this.

@@ -38,7 +38,7 @@ import java.io.Serializable;
  * explicitly invoke <code>LUDecompose()</code> to recompute the decomposition
  * before using any of the methods above.
  *
- * @version $Revision: 1.21 $ $Date: 2004/06/02 00:06:18 $
+ * @version $Revision: 1.22 $ $Date: 2004/06/05 22:28:10 $
  */
 public class RealMatrixImpl implements RealMatrix, Serializable {
 
@@ -164,16 +164,6 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
 			}
 		}
 		return new RealMatrixImpl(outData);
-	}
-
-	/**
-	 * Returns the rank of the matrix.
-	 *
-	 * @return the rank of this matrix
-	 */
-	public int getRank() {
-		// @TODO need to add singular value decomposition or drop this
-		throw new UnsupportedOperationException("not implemented yet");
 	}
 
 	/**
