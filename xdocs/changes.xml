@@ -44,13 +44,13 @@ The <action> type attribute can be add,update,fix,remove.
         to the commons-dev list by Jon Langlois on 9/14. Integer arguments to 
         getCumXxx were always returning 0 due to type conversion problems.
       </action>
-      <action dev="brentworden" type="fix" id="31325">
+      <action dev="brentworden" type="fix" issue="31325">
         Fixed locale-dependency in ComplexFormat.
       </action>
       <action dev="psteitz" type="update">
         Renamed univariate package to descriptive and multivariate to regression.
       </action>
-      <action dev="psteitz" type="update" due-to="Ken Geis" id="31522">
+      <action dev="psteitz" type="update" due-to="Ken Geis" issue="31522">
         Improved efficiency of logGamma method in o.a.c.m.special.Gamma
       </action>
     </release>
