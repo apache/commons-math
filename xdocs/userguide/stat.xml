@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.10 $ $Date: 2004/03/03 02:32:25 $ -->
+<!-- $Revision: 1.11 $ $Date: 2004/03/06 20:43:00 $ -->
 <document url="stat.html">
   <properties>
     <title>The Commons Math User Guide - Statistics</title>
@@ -170,8 +170,66 @@ in.close();
       </subsection>
       
       <subsection name="1.3 Frequency distributions" href="frequency">
-        <p>This is yet to be written. Any contributions will be gratefully
-          accepted!</p>
+        <p>
+          <a href="../apidocs/org/apache/commons/math/stat/Frequency.html">
+          org.apache.commons.math.stat.univariate.Frequency</a>
+          provides a simple interface for maintaining counts and percentages of discrete
+          values.  
+        </p>
+        <p> 
+          Strings, integers, longs, chars are all supported as value types, as well as instances
+          of any class that implements <code>Comparable.</code>   The ordering of values
+          used in computing cumulative frequencies is by default the <i>natural ordering,</i>
+          but this can be overriden by supplying a <code>Comparator</code> to the constructor.
+          Adding values that are not comparable to those that have already been added results in an
+          <code>IllegalArgumentException.</code>
+        </p>
+        <p>
+          Here are some examples.
+          <dl>
+          <dt>Compute a frequency distribution based on integer values</dt>
+          <br></br>
+          <dd>Mixing integers, longs, Integers and Longs:
+          <source>
+ Frequency f = new Frequency();
+ f.addValue(1);
+ f.addValue(new Integer(1));
+ f.addValue(new Long(1));
+ f.addValue(2)
+ f.addValue(new Integer(-1));
+ System.out.prinltn(f.getCount(1));   // displays 3
+ System.out.println(f.getCumPct(0));  // displays 0.2
+ System.out.println(f.getPct(new Integer(1)));  // displays 0.6 
+ System.out.println(f.getCumPct(-2));   // displays 0 -- all values are greater than this
+ System.out.println(f.getCumPct(10));  // displays 1 -- all values are less than this
+          </source> 
+          </dd>
+          <dt>Count string frequencies</dt>
+          <br></br>
+          <dd>Using case-sensitive comparison, alpha sort order (natural comparator):
+          <source>
+Frequency f = new Frequency();
+f.addValue("one");
+f.addValue("One");
+f.addValue("oNe");
+f.addValue("Z");
+System.out.println(f.getCount("one"));   // displays 1
+System.out.println(f.getCumPct("Z"));   // displays 0.5 -- second in sort order
+          </source>
+          </dd>
+          <dd>Using case-insensitive comparator:
+          <source>
+Frequency f = new Frequency(String.CASE_INSENSITIVE_ORDER);
+f.addValue("one");
+f.addValue("One");
+f.addValue("oNe");
+f.addValue("Z");
+System.out.println(f.getCount("one"));  // displays 3
+System.out.println(f.getCumPct("z"));  // displays 1 -- last value
+          </source>
+         </dd>
+       </dl>
+      </p>                  
       </subsection>
       <subsection name="1.4 Bivariate regression" href="regression">
         <p>This is yet to be written. Any contributions will be gratefully
