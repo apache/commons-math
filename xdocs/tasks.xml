@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<!-- $Revision: 1.14 $ $Date: 2003/11/14 21:49:41 $ -->
+<?xml-stylesheet type="text/xsl" href="xdoc.xsl"?>
+<!-- $Revision: 1.15 $ $Date: 2003/11/15 18:38:16 $ -->
 <document>
   <properties>
     <title>Tasks: Done And To Do</title>
@@ -58,7 +59,7 @@
                   <li><a href="http://nagoya.apache.org/eyebrowse/ReadMsg?listId=15&amp;msgNo=28132">
                       Thread Subject: [math] Complex dilemmas
                   </a></li>
-                  <li><a href="http://nagoya.apache.org/eyebrowse/ReadMsg?listName=commons-dev@jakarta.apache.org&msgNo=36293">
+                  <li><a href="http://nagoya.apache.org/eyebrowse/ReadMsg?listName=commons-dev@jakarta.apache.org&amp;msgNo=36293">
                       Thread Subject: [math] Complex implementation
                   </a></li>
               </ul>

@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-
+<?xml-stylesheet type="text/xsl" href="xdoc.xsl"?>
+<!-- $Revision: 1.9 $ $Date: 2003/11/15 18:38:16 $ -->
 <document>
  <properties>
   <title>Developers Guide</title>
@@ -23,6 +24,66 @@
    will not be committed.  Our aim will be to fix all of the exceptions to the
    "<i>should</i>" guidelines prior to a release.
    </p>
+   <subsection name="Contributing">
+   <p>
+   	Becoming involved with a community project such as Commons Math can at 
+   	first appear to be very daunting. The Math projects motivations are to 
+   	design and build a well thoughtout API. With this in mind, there is a great 
+   	deal of review and discussion revolving around how and why a particular 
+   	package is included or written into the project. It is understandable that 
+   	individuals may have an interest in donating either their time or code to the 
+   	project, and we want to promote this. For this reason, we are working to
+   	maintain guidelines for proposing additional packages or coding efforts 
+   	within the project.
+   	</p>
+   	<p>
+   	<ol>
+   		<li>Formost it is important to review the overall objectives 
+   			and <a href="proposal.html">proposal</a> upon which the project is 
+   			founded.
+   		</li>
+   		<li>Review the completed, current and future 
+   			<a href="tasks.html">tasks</a> of the project.
+   		</li>
+   		<li>Be sure to join the Commons Developer and Interest <a href="mail-lists.html">
+   			email lists</a> and use them appropriately (make sure the string "[math]" is
+   			somewhere in the Subject line of all your postings). Make any proposals here 
+   			where the group can comment on them
+   		</li>
+   		<li>
+   			<a href="http://nagoya.apache.org/bugzilla/createaccount.cgi">Setup an account on Bugzilla</a>
+   			and use it to formally submit Patches and identify bugs. Read the 
+   			<a href="http://nagoya.apache.org/bugzilla/bugwritinghelp.html">directions</a> for 
+   			submitting bugs and search the database to determine if an issue exists or has 
+   			already been dealt with.
+   			
+   			<p>
+   				Submitting Issues:	
+   			</p>
+   			<ul>
+   				<li><a href="http://nagoya.apache.org/bugzilla/enter_bug.cgi?reporter=&amp;product=Commons&amp;version=unspecified&amp;component=Math&amp;rep_platform=All&amp;op_sys=All&amp;priority=Other&amp;bug_severity=normal&amp;bug_status=NEW&amp;assigned_to=&amp;cc=&amp;bug_file_loc=&amp;short_desc=%5Bpatch%5D+%22Your+subject+heading+here%22&amp;comment=Please+provide+details+here.+Its+best+to+submit+patches+that+alter+existing+file%0D%0Acontent+in+%22unified+cvs+diff%22+format.+%0D%0A%0D%0ASubmissions+that+provide+new+files+can+be+supplied+as+direct+file+attachments+or%0D%0Aarchives+in+zip+or+tar.gz+format.+please+be+kind+enough+to+identify+the+format%0D%0Aof+the+attached+archive+as+bugzill+tends+to+strip+these+characterstics+by%0D%0Aremoving+the+files+extension.&amp;maketemplate=Remember+values+as+bookmarkable+template&amp;form_name=enter_bug">
+   				Bookmarkable Template for submitting patches.
+   				</a></li>
+   				<li><a href="http://nagoya.apache.org/bugzilla/enter_bug.cgi?reporter=&amp;product=Commons&amp;version=unspecified&amp;component=Math&amp;rep_platform=All&amp;op_sys=All&amp;priority=Other&amp;bug_severity=normal&amp;bug_status=NEW&amp;assigned_to=&amp;cc=&amp;bug_file_loc=http%3A%2F%2F&amp;short_desc=%5Bbug+report%5D+%22Your+subject+heading+here%22&amp;comment=Please+review+the+bug+writing+guidelines+and+supply+as+much+detail+as+possible%0D%0Ato+allow+us+to+diagnose+and+correct+the+existing+issue.+Please+search+the+bug%0D%0Adatabase+to+determine+if+the+bug+has+possibly+been+addressed+in+the+past.&amp;maketemplate=Remember+values+as+bookmarkable+template&amp;form_name=enter_bug">
+   				Bookmarkable Template for submitting bugs.
+   				</a></li>
+   			</ul>
+   			
+   			<p>
+   				Querying the Database:	
+   			</p>
+   			<ul>
+   				<li><a href="http://nagoya.apache.org/bugzilla/buglist.cgi?bug_status=NEW&amp;bug_status=ASSIGNED&amp;bug_status=REOPENED&amp;email1=&amp;emailtype1=substring&amp;emailassigned_to1=1&amp;email2=&amp;emailtype2=substring&amp;emailreporter2=1&amp;bugidtype=include&amp;bug_id=&amp;changedin=&amp;votes=&amp;chfieldfrom=&amp;chfieldto=Now&amp;chfieldvalue=&amp;product=Commons&amp;component=Math&amp;short_desc=&amp;short_desc_type=allwordssubstr&amp;long_desc=&amp;long_desc_type=allwordssubstr&amp;bug_file_loc=&amp;bug_file_loc_type=allwordssubstr&amp;keywords=&amp;keywords_type=anywords&amp;field0-0-0=noop&amp;type0-0-0=noop&amp;value0-0-0=&amp;cmdtype=doit&amp;newqueryname=&amp;order=Reuse+same+sort+as+last+time">
+   					New and Existing Issues.
+   				</a></li>
+   				<li><a href="http://nagoya.apache.org/bugzilla/buglist.cgi?bug_status=UNCONFIRMED&amp;bug_status=RESOLVED&amp;bug_status=VERIFIED&amp;bug_status=CLOSED&amp;email1=&amp;emailtype1=substring&amp;emailassigned_to1=1&amp;email2=&amp;emailtype2=substring&amp;emailreporter2=1&amp;bugidtype=include&amp;bug_id=&amp;changedin=&amp;votes=&amp;chfieldfrom=&amp;chfieldto=Now&amp;chfieldvalue=&amp;product=Commons&amp;component=Math&amp;short_desc=&amp;short_desc_type=allwordssubstr&amp;long_desc=&amp;long_desc_type=allwordssubstr&amp;bug_file_loc=&amp;bug_file_loc_type=allwordssubstr&amp;keywords=&amp;keywords_type=anywords&amp;field0-0-0=noop&amp;type0-0-0=noop&amp;value0-0-0=&amp;cmdtype=doit&amp;newqueryname=&amp;order=Reuse+same+sort+as+last+time">
+   					Resolved and Closed Issues.
+   				</a></li>
+   			</ul>
+   		</li>
+   	</ol>
+    </p>
+   </subsection>
    <subsection name='Coding Style'>
     <p>
      Commons-math follows <a href="http://java.sun.com/docs/codeconv/">Code

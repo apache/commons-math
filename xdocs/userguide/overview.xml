@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-
+<?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
+<!-- $Revision: 1.5 $ $Date: 2003/11/15 18:38:16 $ -->
 <document>
   <properties>
     <title>User Guide - Overview</title>
