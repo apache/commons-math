@@ -71,7 +71,7 @@ import org.apache.commons.math.FixedDoubleArray;
  * @author <a href="mailto:mdiggory@apache.org">Mark Diggory</a>
  * @author Brent Worden
  * @author <a href="mailto:HotFusionMan@Yahoo.com">Albert Davidson Chou</a>
- * @version $Revision: 1.12 $ $Date: 2003/06/21 02:08:23 $
+ * @version $Revision: 1.13 $ $Date: 2003/06/21 02:54:55 $
  *
 */
 public class UnivariateImpl implements Univariate, Serializable {
@@ -306,7 +306,7 @@ public class UnivariateImpl implements Univariate, Serializable {
                 /* if n <= 1, initialize the sumLog, min, max, mean, variance and pre-variance */
                 sumLog = 0.0;
                 sum = min = max = mean = value;
-                sumsq = Math.pow(value, 2);
+                sumsq = value * value;
                 variance = m2 = 0.0;
                 skewness = kurtosis = 0.0;
                 m2 = m3 = m4 = 0.0;
@@ -314,13 +314,13 @@ public class UnivariateImpl implements Univariate, Serializable {
                 /* otherwise calc these values */
                 sumLog += Math.log(value);
                 sum += value;
-                sumsq += Math.pow(value, 2);
+                sumsq += value * value;
                 min = Math.min(min, value);
                 max = Math.max(max, value);
 
                 double dev = value - mean;
                 double v = dev / ((double) n);
-                double v2 = Math.pow(v, 2);
+                double v2 = v * v;
 
                 double n0 = (double) n;
                 double n1 = (double) (n - 1);
