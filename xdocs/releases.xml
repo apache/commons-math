@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="xdoc.xsl"?>
-<!-- $Revision: 1.2 $ $Date: 2004/02/28 17:47:37 $ -->
+<!-- $Revision: 1.3 $ $Date: 2004/07/25 15:12:50 $ -->
 <document>
  <properties>
   <title>Release Managers Guide</title>
@@ -27,17 +27,18 @@
  <body>
   <section name="Aims">
    <p>
-    As different individuals may be filling the roll of Release Managers 
+    As different individuals may be filling the role of Release Manager
     for the Math project at different times. This documentation is provided 
-    as a means of organizing release procedures such that releases can maintain
-     consistency.
+    as a means of organizing release procedures such that releases
+    can maintain consistency.
     </p>
    </section>
    <section name='Guidelines'>
    <p>
    Math Project Releases are primarily facilitated using Maven's 'dist' and 'jar' 
-   goals to build releases in tar.gz, zip and jar archive formats. Additional goals
-   and processes have been added using the included <code>maven.xml</code> file in the root directory.
+   goals to build releases in tar.gz, zip and jar archive formats. Additional
+   goals and processes have been added using the included <code>maven.xml</code>
+   file in the root directory.
    </p>
    </section>
    <section name='Distribution Contents'>
