@@ -61,7 +61,7 @@ import org.apache.commons.math.stat.univariate.UnivariateStatisticAbstractTest;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
- * @version $Revision: 1.4 $ $Date: 2003/10/13 08:08:39 $
+ * @version $Revision: 1.5 $ $Date: 2003/10/16 15:15:04 $
  */
 public class PercentileTest extends UnivariateStatisticAbstractTest{
 
@@ -99,4 +99,9 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
         return 20.82;
     }
 
+    public void testHighPercentile(){
+        double[] d = new double[]{1, 2, 3};
+        Percentile p = new Percentile(75);
+        assertEquals(3.0, p.evaluate(d), 1.0e-5);
+    }
 }

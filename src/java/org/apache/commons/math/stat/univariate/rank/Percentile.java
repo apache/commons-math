@@ -57,7 +57,7 @@ import java.util.Arrays;
 import org.apache.commons.math.stat.univariate.AbstractUnivariateStatistic;
 
 /**
- * @version $Revision: 1.6 $ $Date: 2003/10/13 08:10:58 $
+ * @version $Revision: 1.7 $ $Date: 2003/10/16 15:15:04 $
  */
 public class Percentile extends AbstractUnivariateStatistic {
 
@@ -145,7 +145,7 @@ public class Percentile extends AbstractUnivariateStatistic {
         if (pos < 1) {
             return sorted[0];
         }
-        if (pos > n) {
+        if (pos >= n) {
             return sorted[length - 1];
         }
         double lower = sorted[intPos - 1];
