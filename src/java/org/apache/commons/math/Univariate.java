@@ -56,13 +56,24 @@
 /**
  *
  * Accumulates univariate statistics for values fed in 
- * through the addValue() method.   This interface defines the LCD interface
- * which all Univariate implementations must implement.
+ * through the addValue() method. This interface defines the LCD interface
+ * which all Univariate implementations must implement. <p>
+ * A "rolling" capability is supported by all implementations with the following
+ * contract: <p>
+ * <i> Setting the windowSize property limits the domain of all statistics to
+ * the last <code>windowSize</code> values added.</i><p>
+ * We use the term <i>available values</i> throughout the API documentation
+ * to refer to these values when the windowSize is set. For example, if the
+ * windowSize is set to 3 and the values {1,2,3,4,5} have been added <strong>
+ * in that order</strong> then the <i>available values</i> are {3,4,5} and all
+ * reported statistics will be based on these values<p>
+ * The default windowSize is "infinite" -- i.e., all values added are included
+ * in all computations.
  *
  * @author Phil Steitz
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
  * @author Mark Diggory
- * @version $Revision: 1.5 $ $Date: 2003/05/21 17:59:19 $
+ * @version $Revision: 1.6 $ $Date: 2003/05/23 17:33:18 $
  * 
 */
 public interface Univariate {
@@ -71,65 +82,96 @@ public interface Univariate {
      * Adds the value to the set of numbers
      * @param v the value to be added 
      */
-    public abstract void addValue(double v);
+    abstract void addValue(double v);
 
     /** 
-     * Returns the mean of the values that have been added
+     * Returns the <a href=http://www.xycoon.com/arithmetic_mean.htm>
+     * arithmetic mean </a> of the available values <p>
+     *
+     * Will return Double.NaN if no values have been added when
+     * this method is invoked.
+     *
      * @return mean value
      */
-    public abstract double getMean();
+    abstract double getMean();
 
     /** 
-     * Returns the geometric mean of the values that have been added
+     * Returns the <a href=http://www.xycoon.com/geometric_mean.htm>
+     * geometric mean </a> of the available values <p>
+     *
+     * Will return Double.NaN if no values have been added or the product
+     * of the available values is less than or equal to 0.
+     *
      * @return mean value
      */
-    public abstract double getGeometricMean();
+    abstract double getGeometricMean();
 
     /** 
-     * Returns the product of all values that have been added
+     * Returns the product of the available values <p>
+     * Will return Double.NaN if no values have been added.
+     *
      * @return product of all values
      */
-    public abstract double getProduct();
+    abstract double getProduct();
 
     /** 
-     * Returns the variance of the values that have been added
-     * @return variance value
+     * Returns the variance of the available values. <p>
+     * Double.NaN is returned for an empty set of values and 0.0 is 
+     * returned for a single value set. 
+     *
+     * @return The variance of a set of values.  
      */
-    public abstract double getVariance();
+    abstract double getVariance();
 
     /** 
-     * Returns the standard deviation of the values that have been added
+     * Returns the variance of the available values. <p>
+     * Double.NaN is returned for an empty set of values and 0.0 is 
+     * returned for a single value set. 
+     *
      * @return standard deviation value
      */
-    public abstract double getStandardDeviation();
+    abstract double getStandardDeviation();
 
-    /** Getter for property max.
+    /** 
+     * Returns the maximum of the available values <p>
+     * Double.NaN is returned in no values have been added
+     *
      * @return Value of property max.
      */
-    public abstract double getMax();
+    abstract double getMax();
 
-    /** Getter for property min.
+     /** 
+     * Returns the minimum of the available values <p>
+     * Double.NaN is returned in no values have been added
+     *
      * @return Value of property min.
      */
-    public abstract double getMin();
+    abstract double getMin();
 
-    /** Getter for property n.
-     * @return Value of property n.
+    /** 
+     * Returns the number of available values
+     * @return the number of available values
      */
-    public abstract int getN();
+    abstract int getN();
 
-    /** Getter for property sum.
-     * @return Value of property sum.
+    /**
+     * Returns the sum of the available values <p>
+     * Returns 0 if no values have been added.
+     *
+     * @return the sum of the available values
      */
-    public abstract double getSum();
+    abstract double getSum();
 
-    /** Getter for property sumsq.
-     * @return Value of property sumsq.
+    /**
+     * Returns the sum of the squares of the available values.
+     * Returns 0 if no values have been added.
+     *
+     * @return the sum of the squares of the available values.
      */
-    public abstract double getSumsq();
+    abstract double getSumsq();
 
-    /** Resets all sums to 0, resets min and max */
-    public abstract void clear();
+    /** Resets all statistics */
+    abstract void clear();
 
     /**
      * This constant signals that a Univariate implementation
@@ -137,13 +179,13 @@ public interface Univariate {
      * elements.  In other words, if getWindow returns this
      * constant, there is, in effect, no "window".
      */
-    public static final int INIFINTE_WINDOW = -1;
+    static final int INIFINTE_WINDOW = -1;
 
     /**
      * Univariate has the ability to return only measures for the
      * last N elements added to the set of values.  This function returns
      */
-    public abstract int getWindowSize();
+    abstract int getWindowSize();
 
     /**
      * Sets the window.  windowSize controls the number of value
@@ -151,5 +193,5 @@ public interface Univariate {
      * For example, a window value of 10 means that getMean()
      * will return the mean of the last 10 values added.
      */
-    public abstract void setWindowSize(int windowSize);
+    abstract void setWindowSize(int windowSize);
 }

@@ -59,14 +59,15 @@ import java.io.Serializable;
  *
  * Accumulates univariate statistics for values fed in 
  * through the addValue() method.  Does not store raw data values.
- * All data (including n) are represented internally as doubles.
+ * All data are represented internally as doubles.
  * Integers, floats and longs can be added, but will be converted
  * to doubles by addValue().  
  *
  * @author Phil Steitz
- * @author Mark Diggory
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
- * @version $Revision: 1.6 $ $Date: 2003/05/21 17:59:19 $
+ * @author Mark Diggory
+ * @author Brent Worden
+ * @version $Revision: 1.7 $ $Date: 2003/05/23 17:33:18 $
  * 
 */
 public class UnivariateImpl implements Univariate, Serializable {
@@ -94,7 +95,7 @@ public class UnivariateImpl implements Univariate, Serializable {
     /** max of values that have been added */
     private double max = Double.MIN_VALUE;
 
-    /** produce of values that have been added */
+    /** product of values that have been added */
     private double product = Double.NaN;
 
     /** Creates new univariate */
@@ -108,45 +109,36 @@ public class UnivariateImpl implements Univariate, Serializable {
         doubleArray = new FixedDoubleArray( window );
     }
 
-    /**
-     * Adds the value, updating running sums.
-     * @param v the value to be added 
-     */
+     
     public void addValue(double v) {
 
         insertValue(v);
     }
 
-    /** 
-     * Returns the mean of the values that have been added
-     * @return mean value
-     */
+    
     public double getMean() {
-        // FIXME: throw something meaningful if n = 0
-        return (sum / (double) n );
+        if (n == 0) {
+            return Double.NaN;
+        } else {
+            return (sum / (double) n );
+        }
      }
 
-    /** 
-     * Returns the geometric mean of the values that have been added
-     * @return geometric mean value
-     */
+     
     public double getGeometricMean() {
-        return Math.pow(product,( 1.0/n ) );
+        if ((product <= 0.0) || (n == 0)) {
+            return Double.NaN; 
+        } else {
+            return Math.pow(product,( 1.0/(double)n ) );
+        }
     }
 
-    /** 
-     * Returns the product of all values add to this Univariate
-     * @return product value
-     */
+    
     public double getProduct() {
         return product;
     }
 
-    /** 
-     * Returns the variance of the values that have been added. 
-     * @return The variance of a set of values.  Double.NaN is returned for
-     *         an empty set of values and 0.0 is returned for a single value set.
-     */
+     
     public double getVariance() {
         double variance = Double.NaN;
 
@@ -160,21 +152,16 @@ public class UnivariateImpl implements Univariate, Serializable {
         return variance;
     }
 
-    /** 
-     * Returns the standard deviation of the values that have been added
-     * @return The standard deviation of a set of values.  Double.NaN is 
-     *         returned for an empty set of values and 0.0 is returned for 
-     *         a single value set.
-     */
+    
     public double getStandardDeviation() {
-        return (new Double(Math.sqrt
-            ((new Double(getVariance())).doubleValue()))).doubleValue();
+        double variance = getVariance();
+        if ((variance == 0.0) || (variance == Double.NaN)) {
+            return variance;
+        } else {
+            return Math.sqrt(variance);
+        }
     }
-
-    /**
-     * Adds the value, updating running sums.
-     * @param v the value to be added 
-     */
+   
     private void insertValue(double v) {
 
         // The default value of product is NaN, if you
@@ -197,25 +184,28 @@ public class UnivariateImpl implements Univariate, Serializable {
                 sum -= discarded;
                 sumsq -= discarded * discarded;
 
-                // Include the influence of the new
-                // TODO: The next two lines seems rather expensive, but
-                // I don't see many alternatives.			 
-                min = doubleArray.getMin();
-                max = doubleArray.getMax();
+                if(discarded == min) {
+                    min = doubleArray.getMin();
+                } else {
+                    if(discarded == max){
+                    max = doubleArray.getMax();
+                    }
+                } 
+                
                 sum += v;
                 sumsq += v*v;
 
-                // Note that the product CANNOT be discarded
-                // properly because one cannot discount the effect
-                // of a zero value.  For this reason, the product
-                // of the altered array must be calculated from the
-                // current array elements.  Product must be recalculated
-                // everytime the array is "rolled"
-                product = 1.0;
-                double[] elements = doubleArray.getElements();
-                for( int i = 0; i < elements.length; i++ ) {
+                if(product != 0.0){
+                    // can safely remove discarded value
+                    product *= v/discarded;
+                } else if(discarded == 0.0){
+                    // need to recompute product
+                    product = 1.0;
+                    double[] elements = doubleArray.getElements();
+                    for( int i = 0; i < elements.length; i++ ) {
                     product *= elements[i];
-                }
+                    }
+                } // else product = 0 and will still be 0 after discard
 
             } else {
                 doubleArray.addElement( v );        	
@@ -243,21 +233,22 @@ public class UnivariateImpl implements Univariate, Serializable {
      * @return Value of property max.
      */
     public double getMax() {
-        return max;
-    }
-
-    /** Setter for property max.
-     * @param max New value of property max.
-     */
-    public void setMax(double max) {
-        this.max = max;
+        if (n == 0) { 
+            return Double.NaN;
+        } else {
+            return max;
+        }
     }
 
     /** Getter for property min.
      * @return Value of property min.
      */
     public double getMin() {
-        return min;
+        if (n == 0) { 
+            return Double.NaN;
+        } else {
+            return min;
+        }
     }
 
     /** Getter for property n.
@@ -305,6 +296,7 @@ public class UnivariateImpl implements Univariate, Serializable {
         this.n = 0;
         this.min = Double.MAX_VALUE;
         this.max = Double.MIN_VALUE;
+        this.product = Double.NaN;
     }
 
     /* (non-Javadoc)
