@@ -23,7 +23,7 @@ import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
- * @version $Revision: 1.10 $ $Date: 2004/02/21 21:35:18 $
+ * @version $Revision: 1.11 $ $Date: 2004/03/21 04:29:20 $
  */
 public class ProductTest extends StorelessUnivariateStatisticAbstractTest{
 
@@ -53,6 +53,10 @@ public class ProductTest extends StorelessUnivariateStatisticAbstractTest{
         return stat;
     }
 
+    public double getTolerance() {
+        return 10E8;    //sic -- big absolute error due to only 15 digits of accuracy in double
+    }
+    
     /* (non-Javadoc)
      * @see org.apache.commons.math.stat.univariate.UnivariateStatisticAbstractTest#expectedValue()
      */
