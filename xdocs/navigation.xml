@@ -36,7 +36,7 @@
       <item name="Overview"                href="/index.html"/>
       <item name="Proposal"                href="/proposal.html"/>
       <item name="Developers Guide"        href="/developers.html"/>
-      <item name="Tasks: Done And To Do"   href="/tasks.html"/>
+      <item name="Tasks: To Do"            href="/tasks.html"/>
     </menu>
     <menu name="User Guide">
       <item name="Contents"                href="/userguide/index.html"/>
