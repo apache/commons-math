@@ -24,7 +24,7 @@ import org.apache.commons.math.util.MathUtils;
 /**
  * The default implementation of {@link HypergeometricDistribution}.
  * 
- * @version $Revision: 1.11 $ $Date: 2004/04/08 20:45:59 $
+ * @version $Revision: 1.12 $ $Date: 2004/05/11 02:07:58 $
  */
 public class HypergeometricDistributionImpl extends AbstractDiscreteDistribution
     implements HypergeometricDistribution, Serializable 
@@ -47,9 +47,16 @@ public class HypergeometricDistributionImpl extends AbstractDiscreteDistribution
      * @param sampleSize the sample size.
      */
     public HypergeometricDistributionImpl(int populationSize,
-        int numberOfSuccesses, int sampleSize)
-    {
+        int numberOfSuccesses, int sampleSize) {
         super();
+        if (numberOfSuccesses > populationSize) {
+            throw new IllegalArgumentException(
+            "number of successes must be less than or equal to population size");
+        }
+        if (sampleSize > populationSize) {
+            throw new IllegalArgumentException(
+            "sample size must be less than or equal to population size");
+        }
         setPopulationSize(populationSize);
         setSampleSize(sampleSize);
         setNumberOfSuccesses(numberOfSuccesses);
@@ -237,10 +244,10 @@ public class HypergeometricDistributionImpl extends AbstractDiscreteDistribution
      * @param size the new sample size.
      */
     public void setSampleSize(int size) {
-        if(size < 0){
+        if (size < 0) {
             throw new IllegalArgumentException(
                 "sample size must be non-negative.");
-        }
+        }    
         sampleSize = size;
     }
 }
