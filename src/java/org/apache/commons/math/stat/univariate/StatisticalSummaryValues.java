@@ -16,11 +16,12 @@
 package org.apache.commons.math.stat.univariate;
 
 import java.io.Serializable;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  *  Value object representing the results of a univariate statistical summary.
  *
- * @version $Revision: 1.3 $ $Date: 2004/06/23 16:26:16 $
+ * @version $Revision: 1.4 $ $Date: 2004/06/29 02:18:22 $
  */
 public class StatisticalSummaryValues implements Serializable, 
     StatisticalSummary {
@@ -72,7 +73,6 @@ public class StatisticalSummaryValues implements Serializable,
         super();
     }
 
-    
     /**
      * @return Returns the max.
      */
@@ -120,6 +120,45 @@ public class StatisticalSummaryValues implements Serializable,
      */
     public double getVariance() {
         return variance;
+    }
+    
+    /**
+     * Returns true iff <code>object</code> is a 
+     * <code>StatisticalSummaryValues</code> instance and all statistics have
+     *  the same values as this.
+     * 
+     * @param object the object to test equality against.
+     * @return true if object equals this
+     */
+    public boolean equals(Object object) {
+        if (object == this ) {
+            return true;
+        }
+        if (object instanceof StatisticalSummaryValues == false) {
+            return false;
+        }
+        StatisticalSummaryValues stat = (StatisticalSummaryValues) object;
+        return (MathUtils.equals(stat.getMax(), this.getMax()) && 
+                MathUtils.equals(stat.getMean(),this.getMean()) &&
+                MathUtils.equals(stat.getMin(),this.getMin()) &&
+                MathUtils.equals(stat.getN(), this.getN()) &&
+                MathUtils.equals(stat.getSum(), this.getSum()) &&
+                MathUtils.equals(stat.getVariance(),this.getVariance()));
+    }
+    
+    /**
+     * Returns hash code based on values of statistics
+     * 
+     * @return hash code
+     */
+    public int hashCode() {
+        int result = 31 + MathUtils.hash(getMax());
+        result = result * 31 + MathUtils.hash(getMean());
+        result = result * 31 + MathUtils.hash(getMin());
+        result = result * 31 + MathUtils.hash(getN());
+        result = result * 31 + MathUtils.hash(getSum());
+        result = result * 31 + MathUtils.hash(getVariance());
+        return result;
     }
 
 }
