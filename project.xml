@@ -92,10 +92,10 @@ The Math project is a library of lightweight, self-contained mathematics and sta
 <!--   <report>maven-jdepend-plugin</report> -->
    <report>maven-junit-report-plugin</report>
    <report>maven-jxr-plugin</report>
-<!--   <report>maven-license-plugin</report>
+<!--   <report>maven-license-plugin</report> -->
    <report>maven-linkcheck-plugin</report>
-   <report>maven-statcvs-plugin</report>
-   <report>maven-tasklist-plugin</report> -->
+<!--   <report>maven-statcvs-plugin</report> -->
+   <report>maven-tasklist-plugin</report> 
   </reports>
 
 </project>
