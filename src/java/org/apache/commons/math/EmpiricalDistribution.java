@@ -61,7 +61,7 @@ import java.util.ArrayList;
 import org.apache.commons.math.stat.Univariate;
 
 /**
- * Represents an <a href=http://random.mat.sbg.ac.at/~ste/dipl/node11.html>
+ * Represents an <a href="http://random.mat.sbg.ac.at/~ste/dipl/node11.html">
  * empirical probability distribution</a> -- a probability distribution derived
  * from observed data without making any assumptions about the functional form
  * of the population distribution that the data come from.<p>
@@ -81,7 +81,7 @@ import org.apache.commons.math.stat.Univariate;
  * generate random values "like" those in the input file -- i.e., the values
  * generated will follow the distribution of the values in the file.
  * @author  Phil Steitz
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public interface EmpiricalDistribution {
     

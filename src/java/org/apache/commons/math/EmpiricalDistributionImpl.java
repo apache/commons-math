@@ -67,7 +67,7 @@ import org.apache.commons.math.stat.UnivariateImpl;
 /**
  * Implements <code>EmpiricalDistribution</code> interface using 
  * what amounts to the 
- * <a href=http://nedwww.ipac.caltech.edu/level5/March02/Silverman/Silver2_6.html>
+ * <a href="http://nedwww.ipac.caltech.edu/level5/March02/Silverman/Silver2_6.html">
  * Variable Kernel Method</a> with Gaussian smoothing:<p>
  * <strong>Digesting the input file</strong>
  * <ol><li>Pass the file once to compute min and max.</li>  
@@ -90,7 +90,7 @@ import org.apache.commons.math.stat.UnivariateImpl;
  * </ol></p>
  *
  * @author  Phil Steitz
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class EmpiricalDistributionImpl implements Serializable,EmpiricalDistribution {
 

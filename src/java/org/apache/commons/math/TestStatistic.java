@@ -55,14 +55,14 @@ package org.apache.commons.math;
 
 /**
  * Interfaces for the following test statistics <ul>
- * <li><a href = http://www.itl.nist.gov/div898/handbook/eda/section3/eda35f.htm>
+ * <li><a href ="http://www.itl.nist.gov/div898/handbook/eda/section3/eda35f.htm">
  *     Chi-Square</a></li>
  * <li><a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda352.htm">
  *     One Sample t-test</a></li>
  * </ul>
  * 
  * @author Phil Steitz
- * @version $Revision: 1.2 $ $Date: 2003/05/26 17:29:36 $
+ * @version $Revision: 1.3 $ $Date: 2003/06/06 03:38:03 $
  * 
  */
 public interface TestStatistic {

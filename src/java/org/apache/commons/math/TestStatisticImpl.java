@@ -60,7 +60,7 @@ import org.apache.commons.math.stat.UnivariateImpl;
 /**
  * Implements the following test statistics <ul>
  * <li>
- *   <a href = http://www.itl.nist.gov/div898/handbook/eda/section3/eda35f.htm>
+ *   <a href ="http://www.itl.nist.gov/div898/handbook/eda/section3/eda35f.htm">
  *   Chi-Square</a>
  * </li>
  * <li>
@@ -69,7 +69,7 @@ import org.apache.commons.math.stat.UnivariateImpl;
  * </li>
  * </ul>
  * @author Phil Steitz
- * @version $Revision: 1.3 $ $Date: 2003/05/29 20:35:44 $
+ * @version $Revision: 1.4 $ $Date: 2003/06/06 03:38:03 $
  * 
  */
 public class TestStatisticImpl implements TestStatistic {
