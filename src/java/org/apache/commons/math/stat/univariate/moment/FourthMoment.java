@@ -47,7 +47,7 @@ import java.io.Serializable;
  * one of the threads invokes the <code>increment()</code> or 
  * <code>clear()</code> method, it must be synchronized externally.
  * 
- * @version $Revision: 1.20 $ $Date: 2004/07/04 09:02:36 $
+ * @version $Revision: 1.21 $ $Date: 2004/07/18 05:39:30 $
  */
 public class FourthMoment extends ThirdMoment implements Serializable{
 
@@ -55,8 +55,16 @@ public class FourthMoment extends ThirdMoment implements Serializable{
     static final long serialVersionUID = 4763990447117157611L;
         
     /** fourth moment of values that have been added */
-    protected double m4 = Double.NaN;
+    protected double m4;
 
+    /**
+     * Create a FourthMoment instance
+     */
+    public FourthMoment() {
+        super();
+        m4 = Double.NaN;
+    }
+    
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */

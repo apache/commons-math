@@ -34,7 +34,7 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * one of the threads invokes the <code>increment()</code> or 
  * <code>clear()</code> method, it must be synchronized externally.
  * 
- * @version $Revision: 1.22 $ $Date: 2004/07/11 18:39:08 $
+ * @version $Revision: 1.23 $ $Date: 2004/07/18 05:39:30 $
  */
 public class Min extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -42,11 +42,19 @@ public class Min extends AbstractStorelessUnivariateStatistic implements Seriali
     static final long serialVersionUID = -2941995784909003131L;  
       
     /**Number of values that have been added */
-    private long n = 0;
+    private long n;
     
     /**Current value of the statistic */
-    private double value = Double.NaN;
+    private double value;
 
+    /**
+     * Create a Min instance
+     */
+    public Min() {
+        n = 0;
+        value = Double.NaN;
+    }
+    
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */

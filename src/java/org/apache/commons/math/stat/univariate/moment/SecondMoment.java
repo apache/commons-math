@@ -39,7 +39,7 @@ import java.io.Serializable;
  * one of the threads invokes the <code>increment()</code> or 
  * <code>clear()</code> method, it must be synchronized externally.
  * 
- * @version $Revision: 1.19 $ $Date: 2004/07/04 09:02:36 $
+ * @version $Revision: 1.20 $ $Date: 2004/07/18 05:39:30 $
  */
 public class SecondMoment extends FirstMoment implements Serializable {
 
@@ -47,8 +47,16 @@ public class SecondMoment extends FirstMoment implements Serializable {
     static final long serialVersionUID = 3942403127395076445L;  
       
     /** second moment of values that have been added */
-    protected double m2 = Double.NaN;
+    protected double m2;
 
+    /**
+     * Create a SecondMoment instance
+     */
+    public SecondMoment() {
+        super();
+        m2 = Double.NaN;
+    }
+    
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */

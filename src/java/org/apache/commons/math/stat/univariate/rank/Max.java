@@ -34,19 +34,27 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * one of the threads invokes the <code>increment()</code> or 
  * <code>clear()</code> method, it must be synchronized externally.
  * 
- * @version $Revision: 1.21 $ $Date: 2004/07/11 18:39:08 $
+ * @version $Revision: 1.22 $ $Date: 2004/07/18 05:39:30 $
  */
-public class Max extends AbstractStorelessUnivariateStatistic implements Serializable {
+public class Max extends AbstractStorelessUnivariateStatistic {
 
     /** Serializable version identifier */
     static final long serialVersionUID = -5593383832225844641L;    
     
     /** Number of values that have been added */
-    private long n = 0;
+    private long n;
         
     /** Current value of the statistic */
-    private double value = Double.NaN;
+    private double value;
 
+    /**
+     * Create a Max instance
+     */
+    public Max() {
+        n = 0;
+        value = Double.NaN;
+    }
+    
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */

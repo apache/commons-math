@@ -42,7 +42,7 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * one of the threads invokes the <code>increment()</code> or 
  * <code>clear()</code> method, it must be synchronized externally.
  *
- * @version $Revision: 1.19 $ $Date: 2004/07/10 17:09:08 $
+ * @version $Revision: 1.20 $ $Date: 2004/07/18 05:39:30 $
  */
 public class FirstMoment extends AbstractStorelessUnivariateStatistic 
     implements Serializable {
@@ -51,24 +51,34 @@ public class FirstMoment extends AbstractStorelessUnivariateStatistic
     static final long serialVersionUID = -803343206421984070L; 
     
     /** Count of values that have been added */
-    protected long n = 0;
+    protected long n;
 
     /** First moment of values that have been added */
-    protected double m1 = Double.NaN;
+    protected double m1;
     
     /** 
      * Deviation of most recently added value from previous first moment.
      * Retained to prevent repeated computation in higher order moments.
      */
-    protected double dev = Double.NaN;
+    protected double dev;
     
     /**
      * Deviation of most recently added value from previous first moment,
      * normalized by previous sample size.  Retained to prevent repeated
      * computation in higher order moments
      */
-    protected double nDev = Double.NaN;
+    protected double nDev;
 
+    /**
+     * Create a FirstMoment instance
+     */
+    public FirstMoment() {
+        n = 0;
+        m1 = Double.NaN;
+        dev = Double.NaN;
+        nDev = Double.NaN;
+    }
+    
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
@@ -106,5 +116,4 @@ public class FirstMoment extends AbstractStorelessUnivariateStatistic
     public long getN() {
         return n;
     }
-
 }

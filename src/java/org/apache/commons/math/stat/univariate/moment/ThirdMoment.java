@@ -40,7 +40,7 @@ import java.io.Serializable;
  * one of the threads invokes the <code>increment()</code> or 
  * <code>clear()</code> method, it must be synchronized externally.
  * 
- * @version $Revision: 1.19 $ $Date: 2004/07/04 09:02:36 $
+ * @version $Revision: 1.20 $ $Date: 2004/07/18 05:39:30 $
  */
 public class ThirdMoment extends SecondMoment implements Serializable {
 
@@ -48,15 +48,23 @@ public class ThirdMoment extends SecondMoment implements Serializable {
     static final long serialVersionUID = -7818711964045118679L;  
       
     /** third moment of values that have been added */
-    protected double m3 = Double.NaN;
+    protected double m3;
 
      /**
      * Square of deviation of most recently added value from previous first 
      * moment, normalized by previous sample size.  Retained to prevent 
      * repeated computation in higher order moments.  nDevSq = nDev * nDev.
      */
-    protected double nDevSq = Double.NaN;
+    protected double nDevSq;
 
+    /**
+     * Create a FourthMoment instance
+     */
+    public ThirdMoment() {
+        super();
+        m3 = Double.NaN;
+        nDevSq = Double.NaN;
+    }
 
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)

@@ -25,8 +25,9 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * Uses {@link java.lang.Math#log(double)} to compute the logs.  Therefore,
  * <ul>
  * <li>If any of values are < 0, the result is <code>NaN.</code></li>
- * <li>If all values are non-negative and less than <code>Double.POSITIVE_INFINITY</code>, 
- * but at least one value is 0, the result is <code>Double.NEGATIVE_INFINITY.</code></li>
+ * <li>If all values are non-negative and less than 
+ * <code>Double.POSITIVE_INFINITY</code>,  but at least one value is 0, the
+ * result is <code>Double.NEGATIVE_INFINITY.</code></li>
  * <li>If both <code>Double.POSITIVE_INFINITY</code> and 
  * <code>Double.NEGATIVE_INFINITY</code> are among the values, the result is
  * <code>NaN.</code></li>
@@ -37,7 +38,7 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * one of the threads invokes the <code>increment()</code> or 
  * <code>clear()</code> method, it must be synchronized externally.
  * 
- * @version $Revision: 1.21 $ $Date: 2004/07/10 17:09:08 $
+ * @version $Revision: 1.22 $ $Date: 2004/07/18 05:39:30 $
  */
 public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -45,12 +46,20 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements S
     static final long serialVersionUID = -370076995648386763L;    
 
     /**Number of values that have been added */
-    private int n = 0;
+    private int n;
     
     /**
      * The currently running value
      */
-    private double value = 0d;
+    private double value;
+    
+    /**
+     * Create a SumOfLogs instance
+     */
+    public SumOfLogs() {
+       value = 0d;
+       n = 0;
+    }
 
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)

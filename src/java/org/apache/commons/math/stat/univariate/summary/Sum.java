@@ -30,7 +30,7 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * one of the threads invokes the <code>increment()</code> or 
  * <code>clear()</code> method, it must be synchronized externally.
  * 
- * @version $Revision: 1.24 $ $Date: 2004/07/10 17:09:08 $
+ * @version $Revision: 1.25 $ $Date: 2004/07/18 05:39:30 $
  */
 public class Sum extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -38,13 +38,21 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
     static final long serialVersionUID = -8231831954703408316L;  
       
     /** */
-    private long n = 0;
+    private long n;
     
     /**
      * The currently running sum.
      */
-    private double value = Double.NaN;
+    private double value;
 
+    /**
+     * Create a Sum instance
+     */
+    public Sum() {
+        n = 0;
+        value = Double.NaN;
+    }
+    
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
