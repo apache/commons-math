@@ -61,7 +61,7 @@ import java.util.NoSuchElementException;
  * 
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
  */
-public class ExpandableDoubleArray implements Serializable {
+public class ExpandableDoubleArray implements Serializable, DoubleArray {
 
 	// This is the internal storage array.
 	protected double[] internalArray;
@@ -290,9 +290,15 @@ public class ExpandableDoubleArray implements Serializable {
 	
 	/**
 	 * Adds an element and moves the window of elements up one.  This
-	 * has the effect of a FIFO
+	 * has the effect of a FIFO.  when you "roll" the array an element is removed 
+	 * from the array.  The return value of this function is the discarded double.
+	 * 
+	 * @return the value which has been discarded or "pushed" out of the array
+	 * 	  by this rolling insert.
 	 */
-	public synchronized void addElementRolling(double value) {
+	public synchronized double addElementRolling(double value) {
+		double discarded = internalArray[startIndex];
+		
 		if ( (startIndex + (numElements+1) ) > internalArray.length) {
 			expand();
 		}
@@ -301,6 +307,8 @@ public class ExpandableDoubleArray implements Serializable {
 		
 		// Add the new value
 		internalArray[startIndex + (numElements -1)] = value;
+		
+		return discarded;
 	}
 
 
@@ -340,6 +348,15 @@ public class ExpandableDoubleArray implements Serializable {
 			numElements -= i;
 			startIndex += i;
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see org.apache.commons.math.DoubleArray#getElements()
+	 */
+	public double[] getElements() {
+		double[] elementArray = new double[numElements];
+		System.arraycopy(internalArray, startIndex, elementArray, 0, numElements);
+		return elementArray;
 	}
 
 }

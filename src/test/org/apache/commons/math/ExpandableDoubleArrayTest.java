@@ -69,14 +69,14 @@ public class ExpandableDoubleArrayTest extends DoubleArrayAbstractTest {
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	protected void setUp() throws Exception {
-		eDA = new ExpandableDoubleArray();
+		da = new ExpandableDoubleArray();
 	}
 
 	/* (non-Javadoc)
 	 * @see junit.framework.TestCase#tearDown()
 	 */
 	protected void tearDown() throws Exception {
-		eDA = null;
+		da = null;
 	}
 	
 	
@@ -87,17 +87,17 @@ public class ExpandableDoubleArrayTest extends DoubleArrayAbstractTest {
 		super.testAdd1000();
 		assertEquals("Internal Storage length should be 1024 if we started out with initial capacity of " +
 			"16 and an expansion factor of 2.0",
-							1024, eDA.getInternalLength());
+							1024, ((ExpandableDoubleArray) da).getInternalLength());
 	}
 	
 	public void testSetElementArbitraryExpansion() {
 		super.testSetElementArbitraryExpansion();
-		assertEquals( "The length of the internal array should now be 1001, it isn't", eDA.getInternalLength(), 1001);
+		assertEquals( "The length of the internal array should now be 1001, it isn't", ((ExpandableDoubleArray) da).getInternalLength(), 1001);
 	}
 
 	public void testAddElementRolling() {
 		super.testAddElementRolling();
-		assertEquals( "Even though there are only 6 element, internal storage should be 2048", eDA.getInternalLength(), 2048);
+		assertEquals( "Even though there are only 6 element, internal storage should be 2048", ((ExpandableDoubleArray) da).getInternalLength(), 2048);
 	}
 
 	/** TESTS WHICH FOCUS ON ExpandableSpecific internal storage */

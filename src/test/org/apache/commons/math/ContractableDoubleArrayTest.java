@@ -69,7 +69,7 @@ public class ContractableDoubleArrayTest extends DoubleArrayAbstractTest {
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	protected void setUp() throws Exception {
-		eDA = new ContractableDoubleArray();
+		da = new ContractableDoubleArray();
 	}
 
 	/** Test normal operations and then test internal storage */
@@ -77,18 +77,18 @@ public class ContractableDoubleArrayTest extends DoubleArrayAbstractTest {
 		super.testAdd1000();
 		assertEquals("Internal Storage length should be 1024 if we started out with initial capacity of " +
 			"16 and an expansion factor of 2.0",
-							1024, eDA.getInternalLength());
+							1024, ((ExpandableDoubleArray) da).getInternalLength());
 	}
 	
 	public void testSetElementArbitraryExpansion() {
 		super.testSetElementArbitraryExpansion();
-		assertEquals( "The length of the internal array should now be 1001, it isn't", eDA.getInternalLength(), 1001);
+		assertEquals( "The length of the internal array should now be 1001, it isn't", ((ExpandableDoubleArray) da).getInternalLength(), 1001);
 	}
 
 	public void testAddElementRolling() {
 		super.testAddElementRolling();
 		assertTrue( "Even though there are only 6 element, internal storage should be less than 2.5 times the number of elements", 
-			eDA.getInternalLength() < ((int) 6 * 2.5) );
+			((ExpandableDoubleArray) da).getInternalLength() < ((int) 6 * 2.5) );
 	}
 
 

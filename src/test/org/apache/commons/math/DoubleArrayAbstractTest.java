@@ -62,7 +62,7 @@ import junit.framework.TestCase;
  */
 public abstract class DoubleArrayAbstractTest extends TestCase {
 
-	protected ExpandableDoubleArray eDA = null;
+	protected DoubleArray da = null;
 
 	public DoubleArrayAbstractTest(String name) {
 		super( name );
@@ -75,15 +75,15 @@ public abstract class DoubleArrayAbstractTest extends TestCase {
 	public void testAdd1000() {
 
 		for( int i = 0; i < 1000; i++) {
-			eDA.addElement( i );
+			da.addElement( i );
 		}
 		
 		assertEquals("Number of elements should be equal to 1000 after adding 1000 values",
-							1000, eDA.getNumElements() );
+							1000, da.getNumElements() );
 							
 						    
 		assertEquals("The element at the 56th index should be 56", 
-							56.0, eDA.getElement(56), Double.MIN_VALUE );
+							56.0, da.getElement(56), Double.MIN_VALUE );
 						    
 	}
 	
@@ -91,12 +91,12 @@ public abstract class DoubleArrayAbstractTest extends TestCase {
 	public void testGetValues() {
 		double[] controlArray = {2.0, 4.0, 6.0};
 		
-		eDA.addElement(2.0);
-		eDA.addElement(4.0);
-		eDA.addElement(6.0);
-		double[] testArray = eDA.getValues();
+		da.addElement(2.0);
+		da.addElement(4.0);
+		da.addElement(6.0);
+		double[] testArray = da.getElements();
 		
-		for( int i = 0; i < eDA.getNumElements(); i++) {
+		for( int i = 0; i < da.getNumElements(); i++) {
 			assertEquals( "The testArray values should equal the controlArray values, index i: " + i +
 				" does not match", testArray[i], controlArray[i], Double.MIN_VALUE);
 		}
@@ -106,65 +106,65 @@ public abstract class DoubleArrayAbstractTest extends TestCase {
 	public void testSetElementArbitraryExpansion() {
 		double[] controlArray = {2.0, 4.0, 6.0};
 		
-		eDA.addElement(2.0);
-		eDA.addElement(4.0);
-		eDA.addElement(6.0);
-		eDA.setElement(1, 3.0);
+		da.addElement(2.0);
+		da.addElement(4.0);
+		da.addElement(6.0);
+		da.setElement(1, 3.0);
 		
 		// Expand the array arbitrarily to 1000 items
-		eDA.setElement(1000, 3.4);
+		da.setElement(1000, 3.4);
 
-		assertEquals( "The number of elements should now be 1001, it isn't", eDA.getNumElements(), 1001);
+		assertEquals( "The number of elements should now be 1001, it isn't", da.getNumElements(), 1001);
 		
 		assertEquals( "Uninitialized Elements are default value of 0.0, index 766 wasn't", 0.0,
-							eDA.getElement( 760 ), Double.MIN_VALUE );
+							da.getElement( 760 ), Double.MIN_VALUE );
 		
-		assertEquals( "The 1000th index should be 3.4, it isn't", 3.4, eDA.getElement(1000), Double.MIN_VALUE );
-		assertEquals( "The 0th index should be 2.0, it isn't", 2.0, eDA.getElement(0), Double.MIN_VALUE);		
+		assertEquals( "The 1000th index should be 3.4, it isn't", 3.4, da.getElement(1000), Double.MIN_VALUE );
+		assertEquals( "The 0th index should be 2.0, it isn't", 2.0, da.getElement(0), Double.MIN_VALUE);		
 		
 	}
 	
 	public void testSetNumberOfElements() {
-		eDA.addElement( 1.0 );
-		eDA.addElement( 1.0 );
-		eDA.addElement( 1.0 );
-		eDA.addElement( 1.0 );
-		eDA.addElement( 1.0 );
-		eDA.addElement( 1.0 );
-		assertEquals( "Number of elements should equal 6", eDA.getNumElements(), 6);
+		da.addElement( 1.0 );
+		da.addElement( 1.0 );
+		da.addElement( 1.0 );
+		da.addElement( 1.0 );
+		da.addElement( 1.0 );
+		da.addElement( 1.0 );
+		assertEquals( "Number of elements should equal 6", da.getNumElements(), 6);
 		
-		eDA.setNumElements( 3 );
-		assertEquals( "Number of elements should equal 3", eDA.getNumElements(), 3);
+		((ExpandableDoubleArray) da).setNumElements( 3 );
+		assertEquals( "Number of elements should equal 3", da.getNumElements(), 3);
 		
 		try {
-			eDA.setNumElements( -3 );
+			((ExpandableDoubleArray) da).setNumElements( -3 );
 			fail( "Setting number of elements to negative should've thrown an exception");
 		} catch( IllegalArgumentException iae ) {
 		}
 
-		eDA.setNumElements(1024);
-		assertEquals( "Number of elements should now be 1024", eDA.getNumElements(), 1024);
-		assertEquals( "Element 453 should be a default double", eDA.getElement( 453 ), 0.0, Double.MIN_VALUE);
+		((ExpandableDoubleArray) da).setNumElements(1024);
+		assertEquals( "Number of elements should now be 1024", da.getNumElements(), 1024);
+		assertEquals( "Element 453 should be a default double", da.getElement( 453 ), 0.0, Double.MIN_VALUE);
 				
 	}
 	
 	public void testAddElementRolling() {
-		eDA.addElement( 1.0 );
-		eDA.addElement( 1.0 );
-		eDA.addElement( 1.0 );
-		eDA.addElement( 1.0 );
-		eDA.addElement( 1.0 );
-		eDA.addElement( 1.0 );
-		eDA.addElementRolling( 2.0 );
+		da.addElement( 1.0 );
+		da.addElement( 1.0 );
+		da.addElement( 1.0 );
+		da.addElement( 1.0 );
+		da.addElement( 1.0 );
+		da.addElement( 1.0 );
+		da.addElementRolling( 2.0 );
 		
-		assertEquals( "There should be 6 elements in the eda", eDA.getNumElements(), 6);
-		assertEquals( "The last element should be 2.0", eDA.getElement( eDA.getNumElements() -1 ), 2.0, Double.MIN_VALUE);
+		assertEquals( "There should be 6 elements in the eda", da.getNumElements(), 6);
+		assertEquals( "The last element should be 2.0", da.getElement( da.getNumElements() -1 ), 2.0, Double.MIN_VALUE);
 		
 		for( int i = 0; i  < 1024; i++ ) {
-			eDA.addElementRolling( i );
+			da.addElementRolling( i );
 		}
 		
-		assertEquals( "We just inserted 1024 rolling elements, num elements should still be 6", eDA.getNumElements(), 6);
+		assertEquals( "We just inserted 1024 rolling elements, num elements should still be 6", da.getNumElements(), 6);
 				
 	}
 

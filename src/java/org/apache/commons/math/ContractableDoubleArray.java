@@ -145,12 +145,13 @@ public class ContractableDoubleArray extends ExpandableDoubleArray implements Se
 	 * 
 	 * @return value to be added to end of array
 	 */
-	public synchronized void addElementRolling(double value) {
-		super.addElementRolling(value);
+	public synchronized double addElementRolling(double value) {
+		double discarded = super.addElementRolling(value);
 		// Check the contraction criteria
 		if( shouldContract() ) {
 			contract();
 		}
+		return discarded;
 	}
 	
 	/**
