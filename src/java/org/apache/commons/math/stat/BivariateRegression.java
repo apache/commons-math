@@ -50,30 +50,33 @@
  * individuals on behalf of the Apache Software Foundation.  For more
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
- *
  */
 
 package org.apache.commons.math.stat;
+import org.apache.commons.math.stat.distribution.DistributionFactory;
+import org.apache.commons.math.stat.distribution.TDistribution;
 
 /**
  * Estimates an ordinary least squares regression model
- * with one independent variable: <p>
- *
- * y = intercept + slope * x  </code><p>
- *
+ * with one independent variable.
+ * <p>
+ * <code> y = intercept + slope * x  </code>
+ * <p>
  * Standard errors for <code>intercept</code> and <code>slope</code> are 
- * available as well as ANOVA, r-square and Pearson's r statistics.<p>
- *
+ * available as well as ANOVA, r-square and Pearson's r statistics.
+ * <p>
  * Observations (x,y pairs) can be added to the model one at a time or they 
  * can be provided in a 2-dimensional array.  The observations are not stored
  * in memory, so there is no limit to the number of observations that can be
- * added to the model. <p>
- *
+ * added to the model. 
+ * <p>
  * <strong>Usage Notes</strong>: <ul>
  * <li> When there are fewer than two observations in the model, or when
  * there is no variation in the x values (i.e. all x values are the same) 
  * all statistics return <code>NaN</code>. At least two observations with
- * different x coordinates are requred to estimate a bivariate regression model.</li>
+ * different x coordinates are requred to estimate a bivariate regression 
+ * model.
+ * </li>
  * <li> getters for the statistics always compute values based on the current
  * set of observations -- i.e., you can get statistics, then add more data
  * and get updated statistics without using a new instance.  There is no 
@@ -82,7 +85,7 @@ package org.apache.commons.math.stat;
  * </ul>
  *
  * @author  Phil Steitz
- * @version $Revision: 1.1 $ $Date: 2003/05/29 20:35:45 $
+ * @version $Revision: 1.2 $ $Date: 2003/06/11 03:33:05 $
  */
 public class BivariateRegression {
     
@@ -114,31 +117,34 @@ public class BivariateRegression {
      */
     public void addData(double x, double y) {
         sumX += x;
-        sumSqX += x*x;
+        sumSqX += x * x;
         sumY += y;
-        sumSqY += y*y;
-        sumXY += x*y;
+        sumSqY += y * y;
+        sumXY += x * y;
         n++;
     } 
     
     /**
-     * Adds the observations represented by the elements in <code>data.</code><p>
+     * Adds the observations represented by the elements in 
+     * <code>data</code>.
+     * <p>
      * <code>(data[0][0],data[0][1])</code> will be the first observation, then
      * <code>(data[1][0],data[1][1])</code>, etc. <p> 
      * 
      * This method does not replace data that has already been added.  
-     * To replace all data, use <code>clear()</code> before adding the new data.
+     * To replace all data, use <code>clear()</code> before adding the new 
+     * data.
      * 
      * @param data array of observations to be added
      */
     public void addData(double[][] data) {
        for (int i = 0; i < data.length; i++) {
-            addData(data[i][0],data[i][1]);
+            addData(data[i][0], data[i][1]);
        }
     }
     
-    /*
-     * Clears all data from the model
+    /**
+     * Clears all data from the model.
      */
     public void clear() {
         sumX = 0d;
@@ -150,9 +156,9 @@ public class BivariateRegression {
     }
           
     /**
-     * Returns the number of observations that have been added to the model
+     * Returns the number of observations that have been added to the model.
      *
-     * @return n
+     * @return n number of observations that have been added.
      */
     public long getN() {
         return n;
@@ -160,37 +166,38 @@ public class BivariateRegression {
     
     /**
      * Returns the "predicted" <code>y</code> value associated with the 
-     * supplied <code>x</code> value. Specifically, <p>
-     *
-     * <code> predict(x) = intercept + slope * x </code> <p>
-     *
-     * At least two observations (with at least two different x values)
+     * supplied <code>x</code> value.
+     * <p>
+     * <code> predict(x) = intercept + slope * x </code>
+     * <p>
+     * <strong>Preconditions</strong>: <ul>
+     * <li>At least two observations (with at least two different x values)
      * must have been added before invoking this method. If this method is 
      * invoked before a model can be estimated, <code>Double,NaN</code> is
      * returned.
+     * </li></ul>
      *
      * @param x input <code>x</code> value
      * @return predicted <code>y</code> value
      */
     public double predict(double x) {
         double b1 = getSlope();
-        if (b1 == Double.NaN) {
-            return b1;
-        }
-        return getIntercept(b1) + b1*x;
+        return getIntercept(b1) + b1 * x;
     }
     
     /**
      * Returns the intercept of the estimated regression line.
-     * The least squares estimate of the intercept is computed using the normal
-     * equations, as described 
-     * <a href=http://www.xycoon.com/estimation4.htm>here</a>.
-     * The intercept is sometimes denoted b0. <p>
-     *
-     * At least two distinct data pairs (with at least two different x values)
+     * <p>
+     * The least squares estimate of the intercept is computed using the 
+     * <a href="http://www.xycoon.com/estimation4.htm">normal equations</a>.
+     * The intercept is sometimes denoted b0. 
+     * <p>
+     * <strong>Preconditions</strong>: <ul>
+     * <li>At least two observations (with at least two different x values)
      * must have been added before invoking this method. If this method is 
      * invoked before a model can be estimated, <code>Double,NaN</code> is
      * returned.
+     * </li></ul>
      *
      * @return the intercept of the regression line
      */
@@ -200,15 +207,17 @@ public class BivariateRegression {
      
      /**
      * Returns the slope of the estimated regression line.  
-     * The least squares estimate of the slope is computed using the normal
-     * equations, as described 
-     * <a href=http://www.xycoon.com/estimation4.htm>here</a>.
-     * The slope is sometimes denoted b1. <p>
-     *
-     * At least two observations (with at least two different x values)
+     * <p>
+     * The least squares estimate of the slope is computed using the 
+     * <a href="http://www.xycoon.com/estimation4.htm">normal equations</a>.
+     * The slope is sometimes denoted b1. 
+     * <p>
+     * <strong>Preconditions</strong>: <ul>
+     * <li>At least two observations (with at least two different x values)
      * must have been added before invoking this method. If this method is 
      * invoked before a model can be estimated, <code>Double,NaN</code> is
      * returned.
+     * </li></ul>
      *
      * @return the slope of the regression line
      */
@@ -217,22 +226,24 @@ public class BivariateRegression {
              return Double.NaN;  //not enough data 
          }
          double dn = (double) n;
-         double denom = sumSqX - (sumX*sumX/dn);
-         if (Math.abs(denom)< 10*Double.MIN_VALUE) { 
+         double denom = sumSqX - (sumX * sumX / dn);
+         if (Math.abs(denom) < 10 * Double.MIN_VALUE) { 
              return Double.NaN; //not enough variation in x
          }
-         return (sumXY - (sumX*sumY/dn))/denom;
+         return (sumXY - (sumX * sumY / dn)) / denom;
      }
      
      /**
-      * Returns the sum of squared errors</a> associated with the regression 
-      * model. This is defined as SSE 
-      * <a href=http://www.xycoon.com/SumOfSquares.htm>here</a>. <p>
-      *
-      * At least two distinct data pairs (with at least two different x values)
+      * Returns the <a href="http://www.xycoon.com/SumOfSquares.htm">
+      * sum of squared errors</a> (SSE) associated with the regression 
+      * model.
+      * <p>
+      * <strong>Preconditions</strong>: <ul>
+      * <li>At least two observations (with at least two different x values)
       * must have been added before invoking this method. If this method is 
       * invoked before a model can be estimated, <code>Double,NaN</code> is
       * returned.
+      * </li></ul>
       *
       * @return sum of squared errors associated with the regression model
       */
@@ -242,10 +253,11 @@ public class BivariateRegression {
      
      /**
       * Returns the sum of squared deviations of the y values about their mean.
-      * This is defined as SSTO 
-      * <a href=http://www.xycoon.com/SumOfSquares.htm>here</a>.
       * <p>
-      * If n < 2, this returns NaN.
+      * This is defined as SSTO 
+      * <a href="http://www.xycoon.com/SumOfSquares.htm">here</a>.
+      * <p>
+      * If <code>n < 2</code>, this returns <code>Double.NaN</code>.
       *
       * @return sum of squared deviations of y values
       */
@@ -253,36 +265,37 @@ public class BivariateRegression {
          if (n < 2) {
              return Double.NaN;
          }
-         return sumSqY - sumY*sumY/(double) n;
+         return sumSqY - sumY * sumY / (double) n;
      }
          
      /**
       * Returns the sum of squared deviations of the predicted y values about 
       * their mean (which equals the mean of y).
+      * <p>
       * This is usually abbreviated SSR or SSM.  It is defined as SSM 
-      * <a href=http://www.xycoon.com/SumOfSquares.htm>here</a><p>
-      *
-      * At least two distinct data pairs (with at least two different x values)
+      * <a href="http://www.xycoon.com/SumOfSquares.htm">here</a>
+      * <p>
+      * <strong>Preconditions</strong>: <ul>
+      * <li>At least two observations (with at least two different x values)
       * must have been added before invoking this method. If this method is 
       * invoked before a model can be estimated, <code>Double,NaN</code> is
       * returned.
+      * </li></ul>
       *
       * @return sum of squared deviations of y values
       */
      public double getRegressionSumSquares() {
          double b1 = getSlope();
-         if (b1 == Double.NaN) {
-             return b1;
-         }
-         return b1*(sumXY - sumX*sumY/(double) n);
+         return b1 * (sumXY - sumX * sumY / (double) n);
      }
      
      /**
-      * Returns the sum of squared errors divided by the degrees of freedom.
-      * This is usually abbreviated MSE. <p>
-      *
+      * Returns the sum of squared errors divided by the degrees of freedom,
+      * usually abbreviated MSE. 
+      * <p>
       * If there are fewer than <strong>three</strong> data pairs in the model,
-      * or if there is no variation in x, this returns <code>NaN</code>.
+      * or if there is no variation in <code>x</code>, this returns 
+      * <code>Double.NaN</code>.
       *
       * @return sum of squared deviations of y values
       */
@@ -291,29 +304,25 @@ public class BivariateRegression {
              return Double.NaN;
          }
          double sse = getSumSquaredErrors();
-         if (sse == Double.NaN) {
-             return sse;
-         }
-         return sse/(double) (n - 2);
+         return sse / (double) (n - 2);
      }
      
      /**
-      * Returns <a href=http://www.stt.msu.edu/~xiaoyimi/STT200/Lecture5.pdf>
-      * Pearson's product moment correlation coefficient</a>.
-      * This is usually denoted r. <p>
-      *
-      * At least two observations (with at least two different x values)
+      * Returns <a href="http://www.stt.msu.edu/~xiaoyimi/STT200/Lecture5.pdf">
+      * Pearson's product moment correlation coefficient</a>,
+      * usually denoted r. 
+      * <p>
+      * <strong>Preconditions</strong>: <ul>
+      * <li>At least two observations (with at least two different x values)
       * must have been added before invoking this method. If this method is 
       * invoked before a model can be estimated, <code>Double,NaN</code> is
       * returned.
+      * </li></ul>
       *
       * @return Pearson's r
       */
      public double getR() {
          double b1 = getSlope();
-         if (b1 == Double.NaN) {
-             return b1;
-         }
          double result = Math.sqrt(getRSquare(b1));
          if (b1 < 0) {
              result = -result;
@@ -322,14 +331,16 @@ public class BivariateRegression {
      }
              
      /** 
-      * Returns the <a href=http://www.xycoon.com/coefficient1.htm> coefficient
-      * of determination</a>.
-      * This is usually denoted r-square. <p>
-      *
-      * At least two observaions (with at least two different x values)
+      * Returns the <a href="http://www.xycoon.com/coefficient1.htm"> 
+      * coefficient of determination</a>,
+      * usually denoted r-square. 
+      * <p>
+      * <strong>Preconditions</strong>: <ul>
+      * <li>At least two observations (with at least two different x values)
       * must have been added before invoking this method. If this method is 
       * invoked before a model can be estimated, <code>Double,NaN</code> is
       * returned.
+      * </li></ul>
       *
       * @return r-square
       */
@@ -339,70 +350,150 @@ public class BivariateRegression {
      
          
      /**
-      * Returns the <a href=http://www.xycoon.com/standarderrorb0.htm>standard
-      * error of the intercept estimate</a>.
-      * This is usually denoted s(b0). <p>
-      *
-      * If there are fewer that <strong>three</strong> observations in the model,
-      * or if there is no variation in x, this returns <code>NaN</code>.
+      * Returns the <a href="http://www.xycoon.com/standarderrorb0.htm">
+      * standard error of the intercept estimate</a>, 
+      * usually denoted s(b0). 
+      * <p>
+      * If there are fewer that <strong>three</strong> observations in the 
+      * model, or if there is no variation in x, this returns 
+      * <code>Double.NaN</code>.
       *
       * @return standard error associated with intercept estimate
       */
      public double getInterceptStdErr() {
          double ssx = getSumSquaresX();
-         if (ssx == Double.NaN) {
-             return ssx;
-         }
-         return Math.sqrt(getMeanSquareError()*sumSqX/(((double) n)*ssx));
+         return Math.sqrt(getMeanSquareError() * sumSqX / (((double) n) * ssx));
      }
              
      /**
-      * Returns the <a http://www.xycoon.com/standerrorb(1).htm>standard
-      * error of the slope estimate</a>.
-      * This is usually denoted s(b1). <p>
-      *
+      * Returns the <a href="http://www.xycoon.com/standerrorb(1).htm">standard
+      * error of the slope estimate</a>,
+      * usually denoted s(b1). 
+      * <p>
       * If there are fewer that <strong>three</strong> data pairs in the model,
-      * or if there is no variation in x, this returns <code>NaN</code>.
+      * or if there is no variation in x, this returns <code>Double.NaN</code>.
       *
       * @return standard error associated with slope estimate
       */
      public double getSlopeStdErr() {
          double ssx = getSumSquaresX();
-         if (ssx == Double.NaN) {
-             return ssx;
+         return Math.sqrt(getMeanSquareError() / ssx);
+     }
+     
+     /**
+      * Returns the half-width of a 95% confidence interval for the slope
+      * estimate.
+      * <p>
+      * The 95% confidence interval is 
+      * <p>
+      * <code>(getSlope() - getSlopeConfidenceInterval(), 
+      * getSlope() + getSlopeConfidenceInterval())</code>
+      * <p>
+      * If there are fewer that <strong>three</strong> observations in the 
+      * model, or if there is no variation in x, this returns 
+      * <code>Double.NaN</code>.
+      * <p>
+      * <strong>Usage Note</strong>:<br>
+      * The validity of this statistic depends on the assumption that the 
+      * observations included in the model are drawn from a
+      * <a href="http://mathworld.wolfram.com/
+      * BivariateNormalDistribution.html">Bivariate Normal Distribution</a>.
+      *
+      * @return half-width of 95% confidence interval for the slope estimate
+      */
+     public double getSlopeConfidenceInterval() {   
+        return getSlopeConfidenceInterval(0.05d); 
+     }
+     
+     /**
+      * Returns the half-width of a (100-100*alpha)% confidence interval for 
+      * the slope estimate.
+      * <p>
+      * The (100-100*alpha)% confidence interval is 
+      * <p>
+      * <code>(getSlope() - getSlopeConfidenceInterval(), 
+      * getSlope() + getSlopeConfidenceInterval())</code>
+      * <p>
+      * To request, for example, a 99% confidence interval, use 
+      * <code>alpha = .01</code>
+      * <p>
+      * <strong>Usage Note</strong>:<br>
+      * The validity of this statistic depends on the assumption that the 
+      * observations included in the model are drawn from a
+      * <a href="http://mathworld.wolfram.com/
+      * BivariateNormalDistribution.html">Bivariate Normal Distribution</a>.
+      * <p>
+      * <strong> Preconditions:</strong><ul>
+      * <li>If there are fewer that <strong>three</strong> observations in the 
+      * model, or if there is no variation in x, this returns 
+      * <code>Double.NaN</code>. 
+      * </li>
+      * <li><code>(0 < alpha < 1)</code>; otherwise an 
+      * <code>IllegalArgumentException</code> is thrown.
+      * </li></ul>    
+      *
+      * @param alpha the desired significance level 
+      * @return half-width of 95% confidence interval for the slope estimate
+      */
+     public double getSlopeConfidenceInterval(double alpha) { 
+         if (alpha >= 1 || alpha <= 0) {
+             throw new IllegalArgumentException();
          }
-         return Math.sqrt(getMeanSquareError()/ssx);
+         return getSlopeStdErr() * 
+            getTDistribution().inverseCummulativeProbability(1d - alpha / 2d); 
+     }
+     
+     /**
+      * Returns the significance level of the slope (equiv) correlation. 
+      * <p>
+      * Specifically, the returned value is the smallest <code>alpha</code>
+      * such that the slope confidence interval with significance level
+      * equal to <code>alpha</code> does not include <code>0</code>.
+      * On regression output, this is often denoted <code>Prob(|t| > 0)</code>
+      * <p>
+      * <strong>Usage Note</strong>:<br>
+      * The validity of this statistic depends on the assumption that the 
+      * observations included in the model are drawn from a
+      * <a href="http://mathworld.wolfram.com/
+      * BivariateNormalDistribution.html">Bivariate Normal Distribution</a>.
+      * <p>
+      * If there are fewer that <strong>three</strong> observations in the 
+      * model, or if there is no variation in x, this returns 
+      * <code>Double.NaN</code>.
+      *
+      * @return significance level for slope/correlation
+      */
+     public double getSignificance() {
+         return (1d - getTDistribution().cummulativeProbability(
+                Math.abs(getSlope()) / getSlopeStdErr()));
      }
      
      // ---------------------Private methods-----------------------------------
      
      /**
      * Returns the intercept of the estimated regression line, given the slope.
+     * <p>
      * Will return <code>NaN</code> if slope is <code>NaN</code>.
      *
      * @param slope current slope
      * @return the intercept of the regression line
      */
      private double getIntercept(double slope) {
-         if (slope == Double.NaN) {
-             return slope;
-         }
-         return (sumY - slope*sumX)/((double) n);
+         return (sumY - slope * sumX) / ((double) n);
      }
        
      /**
-      * Returns the sum of squared errors</a> associated with the regression 
-      * model, using the slope of the regression line.  Returns NaN if the slope
-      * is NaN.
-      *
+      * Returns the sum of squared errors associated with the regression 
+      * model, using the slope of the regression line. 
+      * <p> 
+      * Returns NaN if the slope is NaN.
+      * 
+      * @param b1 current slope
       * @return sum of squared errors associated with the regression model
       */
      private double getSumSquaredErrors(double b1) {
-         if (b1 == Double.NaN) {
-             return b1;
-         }
          double b0 = getIntercept(b1);
-         return sumSqY - b0*sumY - b1*sumXY;
+         return sumSqY - b0 * sumY - b1 * sumXY;
      } 
      
      /**
@@ -416,24 +507,30 @@ public class BivariateRegression {
          if (n < 2) {
              return Double.NaN;
          }
-         return sumSqX - sumX*sumX/(double) n;
+         return sumSqX - sumX * sumX / (double) n;
      }
      
      /** 
       * Computes r-square from the slope.
-      * will return NaN if slope is Nan
+      * <p>
+      * will return NaN if slope is Nan.
       *
+      * @param b1 current slope
       * @return r-square
       */
      private double getRSquare(double b1) {
-         if (b1 == Double.NaN) {
-             return b1;
-         }
          double ssto = getTotalSumSquares();
-         if (ssto == Double.NaN) {
-             return ssto;
-         }
-         return (ssto - getSumSquaredErrors(b1))/ssto;
+         return (ssto - getSumSquaredErrors(b1)) / ssto;
+     }
+     
+     /**
+      * Uses distribution framework to get a t distribution instance 
+      * with df = n - 2
+      *
+      * @return t distribution with df = n - 2
+      */
+     private TDistribution getTDistribution() {
+         return DistributionFactory.newInstance().createTDistribution(n - 2);
      }
 }
 

@@ -60,7 +60,7 @@ import junit.framework.TestSuite;
  * Test cases for the TestStatistic class.
  *
  * @author Phil Steitz
- * @version $Revision: 1.1 $ $Date: 2003/05/29 20:35:46 $
+ * @version $Revision: 1.2 $ $Date: 2003/06/11 03:33:05 $
  */
 
 public final class BivariateRegressionTest extends TestCase {
@@ -87,6 +87,18 @@ public final class BivariateRegressionTest extends TestCase {
         {90.6,111.6},{86.5,122.2},{89.7,117.6},{90.6,121.1},{82.8,136.0},
         {70.1,154.2},{65.4,153.6},{61.3,158.5},{62.5,140.6},{63.6,136.2},
         {52.6,168.0},{59.7,154.3},{59.5,149.0},{61.3,165.5}};
+        
+    /*
+     * From Moore and Mcabe, "Introduction to the Practice of Statistics"
+     * Example 10.3 
+     */
+    private double[][] infData = {{15.6,5.2},{26.8,6.1},{37.8,8.7},{36.4,8.5},
+    {35.5,8.8},{18.6,4.9},{15.3,4.5},{7.9,2.5},{0.0,1.1}};
+    
+    /*
+     * From http://www.xycoon.com/simple_linear_regression.htm
+     */
+    private double[][] infData2 = {{1,3},{2,5},{3,7},{4,14},{5,11}};
     
     public BivariateRegressionTest(String name) {
         super(name);
@@ -221,6 +233,32 @@ public final class BivariateRegressionTest extends TestCase {
        regression.addData(data);
        assertEquals("number of observations",53,regression.getN());
     }
-                    
+    
+    public void testInference() {
+       BivariateRegression regression = new BivariateRegression();
+       regression.addData(infData);
+       assertEquals("slope confidence interval", 0.0271,
+            regression.getSlopeConfidenceInterval(),0.0001);
+       assertEquals("slope std err",0.01146,
+            regression.getSlopeStdErr(),0.0001);
+       
+       regression = new BivariateRegression();
+       regression.addData(infData2);
+       assertEquals("significance", 0.023331,
+            regression.getSignificance(),0.0001);
+       
+       //FIXME: get a real example to test against with alpha = .01
+       assertTrue("tighter means wider",
+            regression.getSlopeConfidenceInterval() < 
+            regression.getSlopeConfidenceInterval(0.01));
+       
+       try {
+           double x = regression.getSlopeConfidenceInterval(1);
+           fail("expecting IllegalArgumentException for alpha = 1");
+       } catch (IllegalArgumentException ex) {
+           ;
+       }
+       
+    }                                        
 }
 
