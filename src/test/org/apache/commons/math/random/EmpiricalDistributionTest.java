@@ -27,12 +27,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.apache.commons.math.RetryTestCase;
+import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.stat.univariate.SummaryStatistics;
 
 /**
  * Test cases for the EmpiricalDistribution class
  *
- * @version $Revision: 1.17 $ $Date: 2004/05/23 00:30:01 $
+ * @version $Revision: 1.18 $ $Date: 2004/06/17 23:51:33 $
  */
 
 public final class EmpiricalDistributionTest extends RetryTestCase {
@@ -157,6 +158,30 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
                    // really just checking to make sure we do not bomb
         empiricalDistribution2 = new EmpiricalDistributionImpl(1);           
         tstDoubleGen(5);           
+    }
+    
+    public void testSerialization() {
+        // Empty
+        EmpiricalDistribution dist = new EmpiricalDistributionImpl();
+        EmpiricalDistribution dist2 = (EmpiricalDistribution) TestUtils.serializeAndRecover(dist);
+        verifySame(dist, dist2);
+        
+        // Loaded
+        empiricalDistribution2.load(dataArray);   
+        dist2 = (EmpiricalDistribution) TestUtils.serializeAndRecover(empiricalDistribution2);
+        verifySame(empiricalDistribution2, dist2);
+    }
+    
+    private void verifySame(EmpiricalDistribution d1, EmpiricalDistribution d2) {
+        assertEquals(d1.isLoaded(), d2.isLoaded());
+        assertEquals(d1.getBinCount(), d2.getBinCount());
+        assertEquals(d1.getSampleStats(), d2.getSampleStats());
+        if (d1.isLoaded()) {
+            for (int i = 0;  i < d1.getUpperBounds().length; i++) {
+                assertEquals(d1.getUpperBounds()[i], d2.getUpperBounds()[i], 0);
+            }
+            assertEquals(d1.getBinStats(), d2.getBinStats());
+        }
     }
     
     private void tstGen(double tolerance)throws Exception {
