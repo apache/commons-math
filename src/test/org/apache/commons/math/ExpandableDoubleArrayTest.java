@@ -179,6 +179,73 @@ public class ExpandableDoubleArrayTest extends TestCase {
 		assertTrue( "The 0th index should be 2.0, it isn't", eDA.getElement(0) == 2.0);		
 		
 	}
+	
+	public void testSetNumberOfElements() {
+		
+		ExpandableDoubleArray eDA = new ExpandableDoubleArray();
+		eDA.addElement( 1.0 );
+		eDA.addElement( 1.0 );
+		eDA.addElement( 1.0 );
+		eDA.addElement( 1.0 );
+		eDA.addElement( 1.0 );
+		eDA.addElement( 1.0 );
+		assertTrue( "Number of elements should equal 6", eDA.getNumElements() == 6);
+		
+		eDA.setNumElements( 3 );
+		assertTrue( "Number of elements should equal 3", eDA.getNumElements() == 3);
+		
+		try {
+			eDA.setNumElements( -3 );
+			fail( "Setting number of elements to negative should've thrown an exception");
+		} catch( IllegalArgumentException iae ) {
+		}
+
+		eDA.setNumElements(1024);
+		assertTrue( "Number of elements should now be 1024", eDA.getNumElements() == 1024);
+		assertTrue( "Element 453 should be a default double", eDA.getElement( 453 ) == 0.0);
+				
+	}
+	
+	public void testAddElementRolling() {
+		
+		ExpandableDoubleArray eDA = new ExpandableDoubleArray();
+		
+		eDA.addElement( 1.0 );
+		eDA.addElement( 1.0 );
+		eDA.addElement( 1.0 );
+		eDA.addElement( 1.0 );
+		eDA.addElement( 1.0 );
+		eDA.addElement( 1.0 );
+		eDA.addElementRolling( 2.0 );
+		
+		assertTrue( "There should be 6 elements in the eda", eDA.getNumElements() == 6);
+		assertTrue( "The last element should be 2.0", eDA.getElement( eDA.getNumElements() -1 ) == 2.0);
+		
+		for( int i = 0; i  < 1024; i++ ) {
+			eDA.addElementRolling( i );
+		}
+		
+		assertTrue( "We just inserted 1024 rolling elements, num elements should still be 6", eDA.getNumElements() == 6);
+		assertTrue( "Even though there are only 6 element, internal storage should be 2048", eDA.getInternalLength() == 2048);
+		assertEquals( "The start index should be 1025", 1025, eDA.getStartIndex());
+		
+		eDA.setStartIndex( 0 );
+		
+		assertEquals( "There shoud now be 1031 elements in this array", 1031, eDA.getNumElements(), 0.001);
+		assertEquals( "The first element should be 1.0",1.0,  eDA.getElement(0), 0.001);
+		
+		try {
+			eDA.setStartIndex( 100000 );
+			fail( "TRying to set the start index outside of the current array should have caused an error");
+		} catch( IllegalArgumentException iae ) {
+		}
+
+		try {
+			eDA.setStartIndex( -1 );
+			fail( "TRying to set the start index to a negative number should have caused an error");
+		} catch( IllegalArgumentException iae ) {
+		}
+	}
 
 	/** TEST ERROR CONDITIONS **/
 

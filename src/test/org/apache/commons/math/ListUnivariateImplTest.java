@@ -54,7 +54,6 @@
 package org.apache.commons.math;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import junit.framework.Test;
@@ -65,7 +64,7 @@ import junit.framework.TestSuite;
  * Test cases for the {@link Univariate} class.
  *
  * @author <a href="mailto:phil@steitz.com">Phil Steitz</a>
- * @version $Revision: 1.1 $ $Date: 2003/05/15 06:33:19 $
+ * @version $Revision: 1.2 $ $Date: 2003/05/15 15:38:48 $
  */
 
 public final class ListUnivariateImplTest extends TestCase {

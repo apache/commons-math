@@ -64,19 +64,22 @@ import java.util.NoSuchElementException;
 public class ExpandableDoubleArray implements Serializable {
 
 	// This is the internal storage array.
-	private double[] internalArray;
+	protected double[] internalArray;
 
 	// Number of elements in the array
-	private int numElements = 0;
+	protected int numElements = 0;
+	
+	// Keeps track of a starting index
+	protected int startIndex = 0;
 
 	// The initial capacity of the array. 
 	// Initial capacity is not exposed as a property as it is only meaningful
 	// when passed to a constructor.
-	private int initialCapacity = 16;
+	protected int initialCapacity = 16;
 
 	// The expand factor of the array.  When the array need to be expanded, the new array size
 	// will be internalArray.length * expandFactor 
-	private float expansionFactor = 2.0f;
+	protected float expansionFactor = 2.0f;
 
 	/**
 	 * Create an expandable double array with the
@@ -175,6 +178,32 @@ public class ExpandableDoubleArray implements Serializable {
 	}
 
 	/**
+	 * This function allows you to control the number of elements contained in this
+	 * array, and can be used to "throw" out the last n values in an array.  This
+	 * feature is mainly targetted at the subclasses of this array class.  Note
+	 * that this function will also expand the internal array as needed.
+	 * 
+	 * @param a new number of elements
+	 */
+	public synchronized void setNumElements(int i) {
+		
+		// If index is negative thrown an error
+		if( i <  0 ) {
+			throw new IllegalArgumentException( "Number of elements must be zero or a positive integer");
+		} 
+		
+		// Test the new num elements, check to see if the array needs to be expanded to
+		// accomodate this new number of elements
+		if( (startIndex + i) > internalArray.length ) {
+			expandTo( startIndex + i );
+		}
+		
+		// Set the new number of elements to new value
+		numElements = i;
+	}
+
+
+	/**
 	 * Returns the element at the specified index
 	 * 
 	 * @param index index to fetch a value from
@@ -189,10 +218,10 @@ public class ExpandableDoubleArray implements Serializable {
 					+ " is larger than the "
 					+ "current number of elements");
 		} else if (index >= 0) {
-			value = internalArray[index];
+			value = internalArray[startIndex + index];
 		} else {
 			throw new IllegalArgumentException(
-				"Elements cannot be retrieved from negative array " + "index");
+				"Elements cannot be retrieved from a negative array index");
 		}
 		return value;
 	}
@@ -209,11 +238,11 @@ public class ExpandableDoubleArray implements Serializable {
 			throw new IllegalArgumentException( "Cannot set an element at a negative index");
 		}
 		
-		if (index >= internalArray.length) {
-			expandTo(index + 1);
+		if ( (startIndex + index) >= internalArray.length) {
+			expandTo( startIndex + (index + 1));
 			numElements = index + 1;
 		}
-		internalArray[index] = value;
+		internalArray[startIndex + index] = value;
 	}
 
 	/**
@@ -231,7 +260,7 @@ public class ExpandableDoubleArray implements Serializable {
 	/**
 	 * Expands the internal storage array using the expansion factor
 	 */
-	private synchronized void expand() {
+	protected synchronized void expand() {
 
 		// notice the use of Math.ceil(), this gaurantees that we will always have an array of at least
 		// currentSize + 1.   Assume that the current initial capacity is 1 and the expansion factor
@@ -253,11 +282,27 @@ public class ExpandableDoubleArray implements Serializable {
 	 */
 	public synchronized void addElement(double value) {
 		numElements++;
-		if (numElements > internalArray.length) {
+		if ( (startIndex + numElements) > internalArray.length) {
 			expand();
 		}
-		internalArray[numElements - 1] = value;
+		internalArray[startIndex + (numElements - 1)] = value;
 	}
+	
+	/**
+	 * Adds an element and moves the window of elements up one.  This
+	 * has the effect of a FIFO
+	 */
+	public synchronized void addElementRolling(double value) {
+		if ( (startIndex + (numElements+1) ) > internalArray.length) {
+			expand();
+		}
+		// Increment the start index
+		startIndex += 1;
+		
+		// Add the new value
+		internalArray[startIndex + (numElements -1)] = value;
+	}
+
 
 	/**
 	 * Notice the package scope on this method.   This method is simply here for the JUnit
@@ -276,6 +321,43 @@ public class ExpandableDoubleArray implements Serializable {
 	public synchronized void clear() {
 		numElements = 0;
 		internalArray = new double[initialCapacity];
+	}
+
+	/**
+	 * Returns the starting index from the internal array.  This value should remain at
+	 * zero in this implementation of ExpandableDoubleArray.
+	 * 
+	 * @return the starting Index in the internal storage array, in this class it is always zero.
+	 */
+	public int getStartIndex() {
+		return startIndex;
+	}
+
+	/**
+	 * Sets the starting index of the element array in the internal array, and subtracts the difference
+	 * between the original startIndex and the new startIndex from the number of elements.   This
+	 * method should be used with care.
+	 * 
+	 * @param Index relative to the internal array from which to start the element array
+	 */
+	public synchronized void setStartIndex(int i) {
+		
+		if( i > (startIndex + numElements) ) {
+			throw new IllegalArgumentException( "Cannot start the element array outside of the " +				"current element array.");
+		} else if( i < 0 ) {
+			throw new IllegalArgumentException( "The starting index cannot be set to a negative index");
+		} else {
+			
+		 	// Calculat the difference between the original start index and the current start index
+			int difference = i - startIndex;
+			
+			// "Subtract" this difference from numElements - this works both ways.  If the
+			// new start index is lower than the current start index then numElements is
+			// incremenet by that differen
+			numElements -= difference;
+			
+			startIndex = i;
+		}
 	}
 
 }

@@ -64,7 +64,6 @@ public class StoreUnivariateImpl extends AbstractStoreUnivariate {
 		eDA = new ExpandableDoubleArray();
 	}
 
-
 	/* (non-Javadoc)
 	 * @see org.apache.commons.math.StoreUnivariate#getValues()
 	 */
