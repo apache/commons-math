@@ -62,7 +62,7 @@ import junit.framework.TestSuite;
  *
  * @author <a href="mailto:phil@steitz.com">Phil Steitz</a>
  * @author <a href="mailto:mdiggory@apache.org">Mark Diggory</a>
- * @version $Revision: 1.1 $ $Date: 2003/06/18 15:59:55 $
+ * @version $Revision: 1.2 $ $Date: 2003/06/24 14:03:31 $
  */
 
 public final class StatUtilsTest extends TestCase {
@@ -187,4 +187,12 @@ public final class StatUtilsTest extends TestCase {
             0.00001);
     }
 
+    public void testArrayIndexConditions() throws Exception {
+        double[] values = { 1.0, 2.0, 3.0, 4.0 };
+
+        assertEquals("Sum not expected", 5.0, StatUtils.sum(values,1,2),Double.MIN_VALUE);
+        assertEquals("Sum not expected", 3.0, StatUtils.sum(values,0,2),Double.MIN_VALUE);
+        assertEquals("Sum not expected", 7.0, StatUtils.sum(values,2,2),Double.MIN_VALUE);
+        
+    }
 }
