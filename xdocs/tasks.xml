@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Revision: 1.9 $ $Date: 2003/09/26 19:30:33 $ -->
+<!-- $Revision: 1.10 $ $Date: 2003/10/22 15:00:44 $ -->
 <document>
   <properties>
     <title>Tasks: Done And To Do</title>
@@ -54,7 +54,16 @@
         <p>While we are interested in implementing these aspects of the library, we have decided to hold off on their development at this time.</p>
         <dl>
           <dt>Complex Number Library.</dt>
-          <dd>Add comments here.</dd>
+          <dd>A great deal of thought has gone into the issues surrounding a Complex Implementation. As discussions on the subject continue to grow, we will make them available so new user, contributors, etc will have an idea of the issues surrounding this subject.
+              <ul>
+                  <li><a href="http://nagoya.apache.org/eyebrowse/ReadMsg?listId=15&amp;msgNo=28132">
+                      Thread Subject: [math] Complex dilemmas
+                  </a></li>
+                  <li><a href="http://nagoya.apache.org/eyebrowse/ReadMsg?listName=commons-dev@jakarta.apache.org&msgNo=36293">
+                      Thread Subject: [math] Complex implementation
+                  </a></li>
+              </ul>
+          </dd>
         </dl>
       </subsection>
     </section>
