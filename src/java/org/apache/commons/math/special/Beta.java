@@ -1,6 +1,6 @@
 /*
  * 
- * Copyright (c) 2004 The Apache Software Foundation. All rights reserved.
+ * Copyright (c) 2003-2004 The Apache Software Foundation. All rights reserved.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -26,7 +26,7 @@ import org.apache.commons.math.util.ContinuedFraction;
  * This is a utility class that provides computation methods related to the
  * Beta family of functions.
  * 
- * @version $Revision: 1.16 $ $Date: 2004/01/29 16:48:46 $
+ * @version $Revision: 1.17 $ $Date: 2004/02/18 03:24:20 $
  */
 public class Beta implements Serializable {
     /** Maximum allowed numerical error. */

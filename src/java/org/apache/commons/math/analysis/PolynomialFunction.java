@@ -1,6 +1,6 @@
 /*
  * 
- * Copyright (c) 2004 The Apache Software Foundation. All rights reserved.
+ * Copyright (c) 2003-2004 The Apache Software Foundation. All rights reserved.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -30,7 +30,7 @@ import org.apache.commons.math.MathException;
  * polynominal coefficents are used.
  * Arguments outside of the domain cause an IllegalArgumentException.
  * 
- * @version $Revision: 1.4 $ $Date: 2004/01/29 16:48:49 $
+ * @version $Revision: 1.5 $ $Date: 2004/02/18 03:24:19 $
  */
 public class PolynomialFunction implements UnivariateRealFunction, Serializable {
 
