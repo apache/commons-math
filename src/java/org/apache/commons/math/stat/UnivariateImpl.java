@@ -71,7 +71,7 @@ import org.apache.commons.math.FixedDoubleArray;
  * @author <a href="mailto:mdiggory@apache.org">Mark Diggory</a>
  * @author Brent Worden
  * @author <a href="mailto:HotFusionMan@Yahoo.com">Albert Davidson Chou</a>
- * @version $Revision: 1.7 $ $Date: 2003/06/16 21:24:30 $
+ * @version $Revision: 1.8 $ $Date: 2003/06/16 21:38:15 $
  *
 */
 public class UnivariateImpl
@@ -185,7 +185,7 @@ public class UnivariateImpl
 			return super.getVariance();
 		}
 
-		return variance;
+		return variance < 0 ? 0.0 : variance;
 	}
 
 	/**
