@@ -70,7 +70,7 @@ import org.apache.commons.math.FixedDoubleArray;
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
  * @author <a href="mailto:mdiggory@apache.org">Mark Diggory</a>
  * @author Brent Worden
- * @version $Revision: 1.2 $ $Date: 2003/06/04 04:05:39 $
+ * @version $Revision: 1.3 $ $Date: 2003/06/04 12:23:44 $
  * 
 */
 public class UnivariateImpl implements Univariate, Serializable {
@@ -171,7 +171,7 @@ public class UnivariateImpl implements Univariate, Serializable {
 	
 	/**
 	 * Returns the variance of the values that have been added as described by
-	 * <a href=http://mathworld.wolfram.com/k-Statistic.html>Equation (5) for k-Statistics</a>.
+	 * <a href="http://mathworld.wolfram.com/k-Statistic.html">Equation (5) for k-Statistics</a>.
 	 * 
 	 * @return The variance of a set of values.  Double.NaN is returned for
 	 *         an empty set of values and 0.0 is returned for a &lt;= 1 value set.
@@ -190,7 +190,7 @@ public class UnivariateImpl implements Univariate, Serializable {
      
 	/**
 	 * Returns the skewness of the values that have been added as described by
-     * <a href=http://mathworld.wolfram.com/k-Statistic.html>Equation (6) for k-Statistics</a>.
+     * <a href="http://mathworld.wolfram.com/k-Statistic.html">Equation (6) for k-Statistics</a>.
      * 
 	 * @return The skew of a set of values.  Double.NaN is returned for
 	 *         an empty set of values and 0.0 is returned for a &lt;= 2 value set.
@@ -206,7 +206,7 @@ public class UnivariateImpl implements Univariate, Serializable {
 	
 	/**
 	 * Returns the kurtosis of the values that have been added as described by
-     * <a href=http://mathworld.wolfram.com/k-Statistic.html>Equation (7) for k-Statistics</a>.
+     * <a href="http://mathworld.wolfram.com/k-Statistic.html">Equation (7) for k-Statistics</a>.
      * 
 	 * @return The kurtosis of a set of values.  Double.NaN is returned for
 	 *         an empty set of values and 0.0 is returned for a &lt;= 3 value set.
