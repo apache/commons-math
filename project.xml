@@ -15,7 +15,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
   -->
-<!-- $Revision: 1.57 $ $Date: 2005/01/11 05:41:22 $ -->
+<!-- $Revision: 1.57 $ $Date$ -->
 
 <project>
   <pomVersion>3</pomVersion>
@@ -46,8 +46,8 @@
   <siteDirectory>/www/jakarta.apache.org/commons/${pom.artifactId.substring(8)}/</siteDirectory>
   <distributionDirectory>/www/jakarta.apache.org/builds/jakarta-commons/${pom.artifactId.substring(8)}/</distributionDirectory>
   <repository>
-    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:jakarta-commons/${pom.artifactId.substring(8)}</connection>
-    <url>http://cvs.apache.org/viewcvs/jakarta-commons/${pom.artifactId.substring(8)}/</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/jakarta/commons/proper/${pom.artifactId.substring(8)}/trunk</connection>
+    <url>http://svn.apache.org/repos/asf/jakarta/commons/proper/${pom.artifactId.substring(8)}/trunk</url>
   </repository>
   <mailingLists>
     <mailingList>
