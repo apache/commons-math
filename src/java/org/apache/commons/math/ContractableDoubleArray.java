@@ -93,7 +93,7 @@ public class ContractableDoubleArray extends ExpandableDoubleArray implements Se
 	 */
 	public ContractableDoubleArray(int initialCapacity, float expansionFactor) {
 		this.expansionFactor = expansionFactor;
-		this.initialCapacity = initialCapacity;
+		setInitialCapacity( initialCapacity );
 		internalArray = new double[initialCapacity];
 		checkContractExpand(getContractionCriteria(), expansionFactor);
 	}
@@ -108,7 +108,7 @@ public class ContractableDoubleArray extends ExpandableDoubleArray implements Se
 	public ContractableDoubleArray(int initialCapacity, float expansionFactor, float contractionCriteria) {
 		this.contractionCriteria = contractionCriteria;
 		this.expansionFactor = expansionFactor;
-		this.initialCapacity = initialCapacity;
+		setInitialCapacity( initialCapacity );
 		internalArray = new double[initialCapacity];
 		checkContractExpand(contractionCriteria, expansionFactor);
 	}
@@ -187,16 +187,6 @@ public class ContractableDoubleArray extends ExpandableDoubleArray implements Se
 		super.setExpansionFactor(expansionFactor);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.ExpandableDoubleArray#setStartIndex(int)
-	 */
-	public synchronized void setStartIndex(int i) {
-		super.setStartIndex(i);
-		if( shouldContract() ) {
-			contract();
-		}
-	}
-
 	/**
 	 * The contraction criteria defines when the internal array will contract to store only the
 	 * number of elements in the element array.  This contractionCriteria gaurantees that
@@ -217,9 +207,6 @@ public class ContractableDoubleArray extends ExpandableDoubleArray implements Se
 	public void setContractionCriteria(float contractionCriteria) {
 		checkContractExpand( contractionCriteria, getExpansionFactor() );
 		
-		if( contractionCriteria <= 1.0 ) {
-			throw new IllegalArgumentException( "The contraction criteria must be a number larger than" +				" one.  If the contractionCriteria is less than or equal to one an endless loop of contraction " +				"and expansion would ensue as an internalArray.length == numElements would satisfy " +				"the contraction criteria");
-		}
 		this.contractionCriteria = contractionCriteria;
 	}
 	
@@ -230,12 +217,36 @@ public class ContractableDoubleArray extends ExpandableDoubleArray implements Se
 	 * @param expansionFactor 
 	 * @param contractionCriteria
 	 */
-	public void checkContractExpand( float contractionCritera, float expansionFactor ) {
+	protected void checkContractExpand( float contractionCritera, float expansionFactor ) {
 		
 		if( contractionCritera < expansionFactor ) {
 			throw new IllegalArgumentException( "Contraction criteria can never be smaller than " +				"the expansion factor.  This would lead to a never ending loop of expansion and " +				"contraction as a newly expanded internal storage array would immediately " +				"satisfy the criteria for contraction");
+		} 
+
+		if( contractionCriteria <= 1.0 ) {
+			throw new IllegalArgumentException( "The contraction criteria must be a number larger than" +
+				" one.  If the contractionCriteria is less than or equal to one an endless loop of contraction " +
+				"and expansion would ensue as an internalArray.length == numElements would satisfy " +
+				"the contraction criteria");
 		}
+		
+		if (expansionFactor < 1.0) {
+			throw new IllegalArgumentException(
+				"The expansion factor must be a number greater than" + "1.0");
+		}
+
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.apache.commons.math.ExpandableDoubleArray#discardFrontElements(int)
+	 */
+	public synchronized void discardFrontElements(int i) {
+		super.discardFrontElements(i);
+		if( shouldContract() ) {
+			contract();
+		}
+
+	}
+
 }

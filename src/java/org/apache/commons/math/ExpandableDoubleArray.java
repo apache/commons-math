@@ -164,7 +164,7 @@ public class ExpandableDoubleArray implements Serializable {
 	 * 
 	 * @return the internal storage array used by this object
 	 */
-	public double[] getValues() {
+	protected double[] getValues() {
 		return (internalArray);
 	}
 
@@ -324,39 +324,21 @@ public class ExpandableDoubleArray implements Serializable {
 	}
 
 	/**
-	 * Returns the starting index from the internal array.  This value should remain at
-	 * zero in this implementation of ExpandableDoubleArray.
+	 * Discards values from the front of the list.  This function removes n elements from
+	 * the front of the array.
 	 * 
-	 * @return the starting Index in the internal storage array, in this class it is always zero.
+	 * @param i number of elements to discard from the front of the array.
 	 */
-	public int getStartIndex() {
-		return startIndex;
-	}
-
-	/**
-	 * Sets the starting index of the element array in the internal array, and subtracts the difference
-	 * between the original startIndex and the new startIndex from the number of elements.   This
-	 * method should be used with care.
-	 * 
-	 * @param Index relative to the internal array from which to start the element array
-	 */
-	public synchronized void setStartIndex(int i) {
+	public synchronized void discardFrontElements(int i) {
 		
-		if( i > (startIndex + numElements) ) {
-			throw new IllegalArgumentException( "Cannot start the element array outside of the " +				"current element array.");
+		if( i > numElements ) {
+			throw new IllegalArgumentException( "Cannot discard more elements than are" +				"contained in this array.");
 		} else if( i < 0 ) {
-			throw new IllegalArgumentException( "The starting index cannot be set to a negative index");
+			throw new IllegalArgumentException( "Cannot discard a negative number" +				" of elements.");
 		} else {
-			
-		 	// Calculat the difference between the original start index and the current start index
-			int difference = i - startIndex;
-			
-			// "Subtract" this difference from numElements - this works both ways.  If the
-			// new start index is lower than the current start index then numElements is
-			// incremenet by that differen
-			numElements -= difference;
-			
-			startIndex = i;
+			// "Subtract" this number of discarded from numElements 
+			numElements -= i;
+			startIndex += i;
 		}
 	}
 

@@ -56,12 +56,11 @@ package org.apache.commons.math;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import junit.framework.AssertionFailedError;
 /**
  * Test cases for the TestStatistic class.
  *
  * @author Phil Steitz
- * @version $Revision: 1.1 $ $Date: 2003/05/15 21:58:23 $
+ * @version $Revision: 1.2 $ $Date: 2003/05/16 03:55:34 $
  */
 
 public final class TestStatisticTest extends TestCase {

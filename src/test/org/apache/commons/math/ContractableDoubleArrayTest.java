@@ -59,9 +59,9 @@ package org.apache.commons.math;
  * 
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
  */
-public class ExpandableDoubleArrayTest extends DoubleArrayAbstractTest {
+public class ContractableDoubleArrayTest extends DoubleArrayAbstractTest {
 
-	public ExpandableDoubleArrayTest(String name) {
+	public ContractableDoubleArrayTest(String name) {
 		super( name );
 	}
 	
@@ -69,20 +69,10 @@ public class ExpandableDoubleArrayTest extends DoubleArrayAbstractTest {
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	protected void setUp() throws Exception {
-		eDA = new ExpandableDoubleArray();
+		eDA = new ContractableDoubleArray();
 	}
 
-	/* (non-Javadoc)
-	 * @see junit.framework.TestCase#tearDown()
-	 */
-	protected void tearDown() throws Exception {
-		eDA = null;
-	}
-	
-	
-	/** TEST NORMAL OPERATIONS - calling super class test and then checking internal
-	 *   storage **/
-	
+	/** Test normal operations and then test internal storage */
 	public void testAdd1000() {
 		super.testAdd1000();
 		assertEquals("Internal Storage length should be 1024 if we started out with initial capacity of " +
@@ -97,68 +87,24 @@ public class ExpandableDoubleArrayTest extends DoubleArrayAbstractTest {
 
 	public void testAddElementRolling() {
 		super.testAddElementRolling();
-		assertEquals( "Even though there are only 6 element, internal storage should be 2048", eDA.getInternalLength(), 2048);
+		assertTrue( "Even though there are only 6 element, internal storage should be less than 2.5 times the number of elements", 
+			eDA.getInternalLength() < ((int) 6 * 2.5) );
 	}
 
-	/** TESTS WHICH FOCUS ON ExpandableSpecific internal storage */
 
-	public void testWithInitialCapacity() {
-
-		ExpandableDoubleArray eDA2 = new ExpandableDoubleArray(2);
-		assertEquals("Initial internal length should be 2", 2, eDA2.getInternalLength());
-		assertEquals("Initial number of elements should be 0", 0, eDA2.getNumElements());
-
-		int iterations = (int) Math.pow(2.0, 15.0);
-
-		for( int i = 0; i < iterations; i++) {
-			eDA2.addElement( i );
-		}
-		
-		assertEquals("Number of elements should be equal to 2^15", (int) Math.pow(2.0, 15.0), eDA2.getNumElements());
-		assertEquals("Internal length should be 2^15", (int) Math.pow(2.0, 15.0), eDA2.getInternalLength());
-		
-		eDA2.addElement( 2.0 );
-		
-		assertEquals("Number of elements should be equals to 2^15 + 1",
-		        ( (int) Math.pow(2.0, 15.0) + 1 ), eDA2.getNumElements() );
-		assertEquals("Internal length should be 2^16", (int) Math.pow(2.0, 16.0), eDA2.getInternalLength());
-	}
-
-	public void testWithInitialCapacityAndExpansionFactor() {
-
-		ExpandableDoubleArray eDA3 = new ExpandableDoubleArray(3, 3.0f);
-		assertEquals("Initial internal length should be 3", 3, eDA3.getInternalLength() );
-		assertEquals("Initial number of elements should be 0", 0, eDA3.getNumElements() );
-
-		int iterations = (int) Math.pow(3.0, 7.0);
-
-		for( int i = 0; i < iterations; i++) {
-			eDA3.addElement( i );
-		}
-		
-		assertEquals("Number of elements should be equal to 3^7", (int) Math.pow(3.0, 7.0), eDA3.getNumElements());
-		assertEquals("Internal length should be 3^7", (int) Math.pow(3.0, 7.0), eDA3.getInternalLength());
-		
-		eDA3.addElement( 2.0 );
-		
-		assertEquals("Number of elements should be equals to 3^7 + 1",
-			( (int) Math.pow(3.0, 7.0) + 1 ), eDA3.getNumElements() );
-		assertEquals("Internal length should be 3^8", (int) Math.pow(3.0, 8.0), eDA3.getInternalLength());
-						   
-		assertEquals("Expansion factor should equal 3.0", 3.0f, eDA3.getExpansionFactor(), Double.MIN_VALUE);
-	}
-	
-	
+	/** Test ERROR conditions */
 	/** TEST ERROR CONDITIONS **/
 
 	public void testIllegalInitialCapacity() {
 		try {
-			ExpandableDoubleArray eDA = new ExpandableDoubleArray(-3, 2.0f);
-			fail( "That constructor should have thrown an IllegalArgumentException because " +				"the initialCapacity was negative, if it didn't then" +				" the range checking of initialCapacity is not working properly" );
+			ContractableDoubleArray eDA = new ContractableDoubleArray(-3, 2.0f);
+			fail( "That constructor should have thrown an IllegalArgumentException because " +
+				"the initialCapacity was negative, if it didn't then" +
+				" the range checking of initialCapacity is not working properly" );
 		} catch( IllegalArgumentException iae ) {
 		}
 		try {
-			ExpandableDoubleArray eDA = new ExpandableDoubleArray(0, 2.0f);
+			ContractableDoubleArray eDA = new ContractableDoubleArray(0, 2.0f);
 			fail( "That constructor should have thrown an IllegalArgumentException because " +
 				"the initialCapacity was ZERO if it didn't then" +
 				" the range checking of initialCapacity is not working properly" );
@@ -168,23 +114,25 @@ public class ExpandableDoubleArrayTest extends DoubleArrayAbstractTest {
 	
 	public void testIllegalExpansionFactor() {
 		try {
-			ExpandableDoubleArray eDA = new ExpandableDoubleArray(3, 0.66f);
-			fail( "That constructor should have thrown an IllegalArgumentException because " +				"the expansionFactor for 0.66 which would shrink the array instead of expand the array");
+			ContractableDoubleArray eDA = new ContractableDoubleArray(3, 0.66f);
+			fail( "That constructor should have thrown an IllegalArgumentException because " +
+				"the expansionFactor for 0.66 which would shrink the array instead of expand the array");
 		} catch( IllegalArgumentException iae ) {
 		}
 		try {
-			ExpandableDoubleArray eDA = new ExpandableDoubleArray(3, 0.0f);
+			ContractableDoubleArray eDA = new ContractableDoubleArray(3, 0.0f);
 			fail( "That constructor should have thrown an IllegalArgumentException because " +
 				"the expansionFactor for 0.0");
 		} catch( IllegalArgumentException iae) {
 		}
 		
 		try {
-			ExpandableDoubleArray eDA = new ExpandableDoubleArray(3, -4.35f);
+			ContractableDoubleArray eDA = new ContractableDoubleArray(3, -4.35f);
 			fail( "That constructor should have thrown an IllegalArgumentException because " +
 				"the expansionFactor for -4.35");
 		} catch( IllegalArgumentException iae) {
 		}
 	}
 	
+
 }
