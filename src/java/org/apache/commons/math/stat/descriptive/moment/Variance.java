@@ -20,7 +20,8 @@ import java.io.Serializable;
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
 
 /**
- * Computes the (unbiased) sample variance.  Uses the definitional formula: 
+ * Computes the variance of the available values.   By default, the unbiased
+ * "sample variance" definitional formula is used: 
  * <p>
  * variance = sum((x_i - mean)^2) / (n - 1)
  * <p>
@@ -32,13 +33,19 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
  * as described in <a href="http://doi.acm.org/10.1145/359146.359152">
  * Chan, T. F. andJ. G. Lewis 1979, <i>Communications of the ACM</i>,
  * vol. 22 no. 9, pp. 526-531.</a>.
-* <p>
+ * <p>
+ * The "population variance"  ( sum((x_i - mean)^2) / n ) can also
+ * be computed using this statistic.  The <code>isBiasCorrected</code>
+ * property determines whether the "population" or "sample" value is
+ * returned by the <code>evaluate</code> and <code>getResult</code> methods.
+ * To compute population variances, set this property to <code>false.</code>
+ *
  * <strong>Note that this implementation is not synchronized.</strong> If 
  * multiple threads access an instance of this class concurrently, and at least
  * one of the threads invokes the <code>increment()</code> or 
  * <code>clear()</code> method, it must be synchronized externally.
  * 
- * @version $Revision: 1.1 $ $Date: 2004/10/08 05:08:17 $
+ * @version $Revision: 1.2 $ $Date: 2004/10/10 20:40:52 $
  */
 public class Variance extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -54,6 +61,13 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * constructed with an external SecondMoment as a parameter.
      */
     protected boolean incMoment = true;
+    
+    /**
+     * Determines whether or not bias correction is applied when computing the
+     * value of the statisic.  True means that bias is corrected.  See 
+     * {@link Variance} for details on the formula.
+     */
+    private boolean isBiasCorrected = true;
 
     /**
      * Constructs a Variance.
@@ -64,6 +78,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
 
     /**
      * Constructs a Variance based on an external second moment.
+     * 
      * @param m2 the SecondMoment (Thrid or Fourth moments work
      * here as well.)
      */
@@ -71,6 +86,36 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
         incMoment = false;
         this.moment = m2;
     }
+    
+    /**
+     * Constructs a Variance with the specified <code>isBiasCorrected</code>
+     * property
+     * 
+     * @param isBiasCorrected  setting for bias correction - true means
+     * bias will be corrected and is equivalent to using the argumentless
+     * constructor
+     */
+    public Variance(boolean isBiasCorrected) {
+        moment = new SecondMoment();
+        this.isBiasCorrected = isBiasCorrected;
+    }
+    
+    /**
+     * Constructs a Variance with the specified <code>isBiasCorrected</code>
+     * property and the supplied external second moment.
+     * 
+     * @param isBiasCorrected  setting for bias correction - true means
+     * bias will be corrected and is equivalent to using the argumentless
+     * constructor
+     * @param m2 the SecondMoment (Thrid or Fourth moments work
+     * here as well.)
+     */
+    public Variance(boolean isBiasCorrected, SecondMoment m2) {
+        incMoment = false;
+        this.moment = m2;
+        this.isBiasCorrected = isBiasCorrected;      
+    }
+   
     /**
      * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#increment(double)
      */
@@ -89,7 +134,11 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
             } else if (moment.n == 1) {
                 return 0d;
             } else {
-                return moment.m2 / ((double) moment.n - 1d);
+                if (isBiasCorrected) {
+                    return moment.m2 / ((double) moment.n - 1d);
+                } else {
+                    return moment.m2 / ((double) moment.n);
+                }
             }
     }
 
@@ -210,8 +259,13 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
                     accum += Math.pow((values[i] - mean), 2.0);
                     accum2 += (values[i] - mean);
                 }
-                var = (accum - (Math.pow(accum2, 2) / ((double) length))) /
-                (double) (length - 1);
+                if (isBiasCorrected) {
+                    var = (accum - (Math.pow(accum2, 2) / ((double) length))) /
+                    (double) (length - 1);
+                } else {
+                    var = (accum - (Math.pow(accum2, 2) / ((double) length))) /
+                    (double) length;
+                }
             }
         }
         return var;
@@ -224,10 +278,12 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * <p>
      * See {@link Variance} for details on the computing algorithm.
      * <p>
-     * The formula used assumes that the supplied mean value is the arithmetic
-     * mean of the sample data, not a known population parameter.  This method
-     * is supplied only to save computation when the mean has already been
-     * computed.
+     * If <code>isBiasCorrected</code> is <code>true</code> the formula used
+     * assumes that the supplied mean value is the arithmetic mean of the
+     * sample data, not a known population parameter.  If the mean is a known
+     * population parameter, or if the "population" version of the variance is
+     * desired, set <code>isBiasCorrected</code> to <code>false</code> before
+     * invoking this method.
      * <p>
      * Returns 0 for a single-value (i.e. length = 1) sample.
      * <p>
@@ -242,6 +298,20 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      */
     public double evaluate(final double[] values, final double mean) {
         return evaluate(values, mean, 0, values.length);
+    }
+
+    /**
+     * @return Returns the isBiasCorrected.
+     */
+    public boolean isBiasCorrected() {
+        return isBiasCorrected;
+    }
+
+    /**
+     * @param isBiasCorrected The isBiasCorrected to set.
+     */
+    public void setBiasCorrected(boolean isBiasCorrected) {
+        this.isBiasCorrected = isBiasCorrected;
     }
 
 }
