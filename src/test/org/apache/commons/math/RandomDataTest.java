@@ -62,6 +62,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
 import java.util.HashSet;
 
+import org.apache.commons.math.stat.TestStatisticImpl;
 import org.apache.commons.math.stat.Univariate;
 import org.apache.commons.math.stat.UnivariateImpl;
 
@@ -69,7 +70,7 @@ import org.apache.commons.math.stat.UnivariateImpl;
  * Test cases for the RandomData class.
  *
  * @author Phil Steitz
- * @version $Revision: 1.5 $ $Date: 2003/06/04 02:45:49 $
+ * @version $Revision: 1.6 $ $Date: 2003/06/21 23:00:39 $
  */
 
 public final class RandomDataTest extends TestCase {
