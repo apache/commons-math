@@ -31,7 +31,7 @@ import org.apache.commons.math.stat.univariate.summary.SumOfSquares;
 /**
  * Abstract superclass for DescriptiveStatistics implementations. 
  * 
- * @version $Revision: 1.1 $ $Date: 2004/04/12 02:27:49 $
+ * @version $Revision: 1.2 $ $Date: 2004/05/03 14:32:25 $
  */
 public abstract class AbstractDescriptiveStatistics
     extends DescriptiveStatistics {
@@ -39,15 +39,8 @@ public abstract class AbstractDescriptiveStatistics
     /**
      * Create an AbstractDescriptiveStatistics
      */
-    public AbstractDescriptiveStatistics() {
-    }
-
-    /**
-     * Create an AbstractDescriptiveStatistics with a specific Window
-     * @param window WindowSIze for stat calculation
-     */
-    public AbstractDescriptiveStatistics(int window)  {
-    	setWindowSize(window);
+    protected AbstractDescriptiveStatistics() {
+        super();
     }
 
     /**

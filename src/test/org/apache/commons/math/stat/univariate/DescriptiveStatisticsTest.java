@@ -19,14 +19,18 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.apache.commons.math.MathException;
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateRealSolverFactory;
+import org.apache.commons.math.analysis.UnivariateRealSolverUtils;
 import org.apache.commons.math.random.RandomData;
 import org.apache.commons.math.random.RandomDataImpl;
 
 /**
  * Test cases for the {@link Univariate} class.
  *
- * @version $Revision: 1.2 $ $Date: 2004/04/27 16:42:32 $
+ * @version $Revision: 1.3 $ $Date: 2004/05/03 14:32:25 $
  */
 
 public final class DescriptiveStatisticsTest extends TestCase {
@@ -340,6 +344,7 @@ public final class DescriptiveStatisticsTest extends TestCase {
         }
         
     }
+    
     public void testNewInstanceStringValid() {
         try {
             DescriptiveStatistics u = DescriptiveStatistics.newInstance(
@@ -362,6 +367,7 @@ public final class DescriptiveStatisticsTest extends TestCase {
         }
         
     }
+    
     public void testNewInstanceClassValid() {
         try {
             DescriptiveStatistics u = DescriptiveStatistics.newInstance(
@@ -371,6 +377,84 @@ public final class DescriptiveStatisticsTest extends TestCase {
         } catch (Exception ex) {
             fail();
         }
+    }
+    
+    public void testWindowSize() {
+        DescriptiveStatistics u = DescriptiveStatistics.newInstance();
+        u.setWindowSize(1234);
+        assertEquals(1234, u.getWindowSize());
+        
+        u.addValue(1.0);
+        u.addValue(2.0);
+        u.addValue(3.0);
+        u.addValue(4.0);
+        u.addValue(5.0);
+        assertEquals(5, u.getN());
+        
+        u.setWindowSize(DescriptiveStatistics.INFINITE_WINDOW);
+        assertEquals(5, u.getN());
+    }
+    
+    public void testWindowing() {
+        DescriptiveStatistics u = DescriptiveStatistics.newInstance();
+        u.setWindowSize(2);
+        
+        u.addValue(1.0);
+        assertEquals(1.0, u.getMean(), tolerance);
+        
+        u.addValue(2.0);
+        assertEquals(1.5, u.getMean(), tolerance);
+        
+        u.addValue(3.0);
+        assertEquals(2.5, u.getMean(), tolerance);
+        
+        u.setWindowSize(1);
+        assertEquals(3.0, u.getMean(), tolerance);
+    }
+    
+    public void testGetKurtosis() throws MathException {
+        UnivariateRealFunction f = new UnivariateRealFunction() {
+            public double value(double x) throws MathException {
+                DescriptiveStatistics u = DescriptiveStatistics.newInstance();
+                u.setWindowSize(5);
+                
+                u.addValue(1.0);
+                u.addValue(1.5);
+                u.addValue(x);
+                u.addValue(1.5);
+                u.addValue(1.0);
+                
+                return u.getKurtosis();
+            }
+        };
+        
+        assertEquals(0.0, UnivariateRealSolverUtils.solve(f, 2.0, 2.5), 1.0e-5);
+    }
+    
+    public void testKurtosisClass() {
+        DescriptiveStatistics u = DescriptiveStatistics.newInstance();
+        u.setWindowSize(5);
+        
+        u.addValue(1.0);
+        u.addValue(1.0);
+        u.addValue(2.0);
+        u.addValue(1.0);
+        u.addValue(1.0);
+        assertEquals(DescriptiveStatistics.LEPTOKURTIC, u.getKurtosisClass());
+        
+        u.addValue(1.0);
+        u.addValue(2.0);
+        u.addValue(2.0);
+        u.addValue(2.0);
+        u.addValue(1.0);
+        assertEquals(DescriptiveStatistics.PLATYKURTIC, u.getKurtosisClass());
+//        
+//        u.addValue(1.0);
+//        u.addValue(1.5);
+//        u.addValue(2.0912994180548905);
+//        u.addValue(1.5);
+//        u.addValue(1.0);
+//        assertEquals(DescriptiveStatistics.MESOKURTIC, u.getKurtosisClass());
     }
 }
 

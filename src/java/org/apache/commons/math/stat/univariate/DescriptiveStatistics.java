@@ -23,7 +23,7 @@ import org.apache.commons.discovery.tools.DiscoverClass;
 /**
  * Abstract factory class for univariate statistical summaries.
  * 
- * @version $Revision: 1.2 $ $Date: 2004/04/23 19:50:27 $
+ * @version $Revision: 1.3 $ $Date: 2004/05/03 14:32:25 $
  */
 public abstract class DescriptiveStatistics implements Serializable, StatisticalSummary {
 
@@ -69,6 +69,7 @@ public abstract class DescriptiveStatistics implements Serializable, Statistical
 				DescriptiveStatistics.class,
 				"org.apache.commons.math.stat.univariate.DescriptiveStatisticsImpl");
 		} catch(Exception ex) {
+            ex.printStackTrace();
 			// ignore as default implementation will be used.
 		}
 		return factory;

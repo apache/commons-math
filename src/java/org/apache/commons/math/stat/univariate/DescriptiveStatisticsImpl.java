@@ -25,12 +25,12 @@ import org.apache.commons.math.util.ContractableDoubleArray;
  * Default implementation of
  * {@link org.apache.commons.math.stat.univariate.DescriptiveStatistics}.
  * 
- * @version $Revision: 1.3 $ $Date: 2004/04/26 19:15:48 $
+ * @version $Revision: 1.4 $ $Date: 2004/05/03 14:32:25 $
  */
 public class DescriptiveStatisticsImpl extends AbstractDescriptiveStatistics implements Serializable {
 
 	/** hold the window size **/
-	protected int windowSize = INFINITE_WINDOW;
+	protected int windowSize;
     
     /** 
      *  Stored data values
@@ -41,8 +41,7 @@ public class DescriptiveStatisticsImpl extends AbstractDescriptiveStatistics imp
      * Construct a DescriptiveStatisticsImpl with infinite window
      */
     public DescriptiveStatisticsImpl() {
-    	super();
-        eDA = new ContractableDoubleArray();
+    	this(INFINITE_WINDOW);
     }
     
     /**
@@ -50,8 +49,9 @@ public class DescriptiveStatisticsImpl extends AbstractDescriptiveStatistics imp
      * @param window the finite window size.
      */
     public DescriptiveStatisticsImpl(int window) {
-    	super(window);
+    	super();
     	eDA = new ContractableDoubleArray();
+        setWindowSize(window);
     }
 
     /**
@@ -78,15 +78,6 @@ public class DescriptiveStatisticsImpl extends AbstractDescriptiveStatistics imp
     }
     
     /**
-     * @see org.apache.commons.math.stat.univariate.DescriptiveStatistics#getSortedValues()
-     */
-    public double[] getSortedValues() {
-    	double[] sort = getValues();
-    	Arrays.sort(sort);
-    	return sort;
-    }
-
-    /**
      * @see org.apache.commons.math.stat.univariate.DescriptiveStatistics#getElement(int)
      */
     public double getElement(int index) {
@@ -103,17 +94,12 @@ public class DescriptiveStatisticsImpl extends AbstractDescriptiveStatistics imp
     /**
      * @see org.apache.commons.math.stat.univariate.DescriptiveStatistics#addValue(double)
      */
-    public synchronized void addValue(double v) {
+    public void addValue(double v) {
         if (windowSize != INFINITE_WINDOW) {
             if (getN() == windowSize) {
                 eDA.addElementRolling(v);
             } else if (getN() < windowSize) {
                 eDA.addElement(v);
-            } else {
-                String msg =
-                    "A window Univariate had more element than " +
-                    "the windowSize.  This is an inconsistent state.";
-                throw new RuntimeException(msg);
             }
         } else {
             eDA.addElement(v);
@@ -123,20 +109,26 @@ public class DescriptiveStatisticsImpl extends AbstractDescriptiveStatistics imp
     /**
      * @see org.apache.commons.math.stat.univariate.DescriptiveStatistics#clear()
      */
-    public synchronized void clear() {
+    public void clear() {
         eDA.clear();
     }
 
     /**
      * @see org.apache.commons.math.stat.univariate.DescriptiveStatistics#setWindowSize(int)
      */
-    public synchronized void setWindowSize(int windowSize) {
+    public void setWindowSize(int windowSize) {
+        if (windowSize < 1) {
+            if (windowSize != INFINITE_WINDOW) {
+                throw new IllegalArgumentException("window size must be positive.");
+            }
+        }
+        
         this.windowSize = windowSize;
 
         // We need to check to see if we need to discard elements
         // from the front of the array.  If the windowSize is less than 
         // the current number of elements.
-        if (windowSize < eDA.getNumElements()) {
+        if (windowSize != INFINITE_WINDOW && windowSize < eDA.getNumElements()) {
             eDA.discardFrontElements(eDA.getNumElements() - windowSize);
         }
     }
@@ -147,9 +139,6 @@ public class DescriptiveStatisticsImpl extends AbstractDescriptiveStatistics imp
      * @return the computed value of the statistic.
      */
     public double apply(UnivariateStatistic stat) {
-        if (eDA != null) {
-            return stat.evaluate(eDA.getValues(), eDA.start(), eDA.getNumElements());
-        }
-        return Double.NaN;
+        return stat.evaluate(eDA.getValues(), eDA.start(), eDA.getNumElements());
     }
 }
