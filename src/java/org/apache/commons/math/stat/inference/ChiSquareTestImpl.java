@@ -24,13 +24,10 @@ import org.apache.commons.math.distribution.ChiSquaredDistribution;
 /**
  * Implements Chi-Square test statistics defined in the {@link ChiSquareTest} interface.
  *
- * @version $Revision: 1.3 $ $Date: 2004/05/19 15:06:44 $
+ * @version $Revision: 1.4 $ $Date: 2004/06/05 20:11:06 $
  */
-public class ChiSquareTestImpl implements ChiSquareTest, Serializable {
-
-    /** Serializable version identifier */
-   static final long serialVersionUID = 8125110460369960493L;
-    
+public class ChiSquareTestImpl implements ChiSquareTest {
+  
     public ChiSquareTestImpl() {
         super();
     }
