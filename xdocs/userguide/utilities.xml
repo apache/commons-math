@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.8 $ $Date: 2004/05/17 05:58:35 $ -->
+<!-- $Revision: 1.9 $ $Date: 2004/07/20 22:29:50 $ -->
 <document url="utilities.html">
 
 <properties>
@@ -39,7 +39,35 @@
 
 <subsection name="6.2 Double array utilities" href="arrays">
     <p>
-    This is yet to be written. Any contributions will be gratefully accepted!
+    To maintain statistics based on a "rolling" window of values, a resizable 
+    array implementation was developed and is provided for reuse in the 
+    <code>util</code> package.  The core functionality provided is described in
+    the documentation for the interface, 
+    <a href="../apidocs/org/apache/commons/math/util/DoubleArray.html">
+    org.apache.commons.math.util.DoubleArray.</a>  This interface adds one
+    method, <code>addElementRolling(double)</code> to basic list accessors. 
+    The <code>addElementRolling</code> method adds an element 
+    (the actual parameter) to the end of the list and removes the first element
+     in the list.
+    </p>
+    <p>
+    The <a href="../apidocs/org/apache/commons/math/util/ResizableDoubleArray.html">
+    org.apache.commons.math.util.ResizableDoubleArray</a> class provides a
+    configurable, array-backed implementation of the <code>DoubleArray</code> 
+    interface.  When <code>addElementRolling</code> is invoked, the underlying
+    array is expanded if necessary, the new element is added to the end of the
+    array and the "usable window" of the array is moved forward, so that
+    the first element is effectively discarded, what was the second becomes the
+    first, and so on.  To efficiently manage storage, two maintenance
+    operations need to be periodically performed -- orphaned elements at the
+    beginning of the array need to be reclaimed and space for new elements at
+    the end needs to be created.  Both of these operations are handled
+    automatically, with frequency / effect driven by the configuration
+    properties <code>expansionMode</code>, <code>expansionFactor</code> and
+    <code>contractionCriteria.</code>  See 
+    <a href="../apidocs/org/apache/commons/math/util/ResizableDoubleArray.html">
+    ResizableDoubleArray</a>
+    for details. 
     </p>
 </subsection>
 
@@ -113,7 +141,30 @@
 
 <subsection name="6.4 binomial coefficients, factorials and other common math functions" href="math_utils">
     <p>
-    This is yet to be written. Any contributions will be gratefully accepted!
+    A collection of reusable math functions is provided in the
+    <a href="../apidocs/org/apache/commons/math/util/MathUtils.html">MathUtils</a>
+    utility class.  MathUtils currently includes methods to compute the following: <ul>
+    <li>
+    Binomial coeffiecients -- "n choose k" available as an (exact) long value,  
+    <code>binomialCoefficient(int, int)</code> for small n, k; as a double,
+    <code>binomialCoefficientDouble(int, int)</code> for larger values; and in
+    a "super-sized" version, <code>binomialCoefficientLog(int, int)</code> 
+    that returns the natural logarithm of the value.</li>
+    <li>
+    Factorials -- like binomial coefficients, these are available as exact long
+    values, <code>factorial(int)</code>;  doubles, 
+    <code>factorialDouble(int)</code>; or logs, <code>factorialLog(int)</code>. </li>
+    <li>
+    Hyperbolic sine and cosine functions -- 
+    <code>cosh(double), sinh(double)</code></li>
+    <li>
+    sign (+1 if argument &gt; 0, 0 if x = 0, and -1 if x &lt; 0) and 
+    indicator (+1.0 if argument  &gt;= 0 and -1.0 if argument &lt; 0) functions
+    for variables of all primitive numeric types.</li>
+    <li>
+    a hash function, <code>hash(double),</code> returning a long-valued
+    hash code for a double value.
+    </li></ul>
     </p>
 </subsection>
 
