@@ -23,18 +23,27 @@ import org.apache.commons.math.stat.univariate.SummaryStatistics;
 /**
  * Test cases for the TTestImpl class.
  *
- * @version $Revision: 1.4 $ $Date: 2004/06/01 00:44:24 $
+ * @version $Revision: 1.5 $ $Date: 2004/06/02 13:08:55 $
  */
 
 public final class TTestTest extends TestCase {
 
     private TTestImpl testStatistic = new TTestImpl();
+    
+    private double[] tooShortObs = { 1.0 };
+    private double[] nullObserved = null;
+    private double[] emptyObs = {};
+    private SummaryStatistics emptyStats = SummaryStatistics.newInstance();  
+    private SummaryStatistics nullStats = null;   
+    SummaryStatistics tooShortStats = null;  
 
     public TTestTest(String name) {
         super(name);
     }
 
     public void setUp() {
+        tooShortStats = SummaryStatistics.newInstance();
+        tooShortStats.addValue(0d);
     }
 
     public static Test suite() {
@@ -43,7 +52,7 @@ public final class TTestTest extends TestCase {
         return suite;
     }
 
-    public void testT() throws Exception {
+    public void testOneSampleT() throws Exception {
         double[] observed =
             {93.0, 103.0, 95.0, 101.0, 91.0, 105.0, 96.0, 94.0, 101.0,  88.0, 98.0, 94.0, 101.0, 92.0, 95.0 };
         double mu = 100.0;
@@ -56,7 +65,6 @@ public final class TTestTest extends TestCase {
         assertEquals("t statistic", -2.82, testStatistic.t(mu, observed), 10E-3);
         assertEquals("t statistic", -2.82, testStatistic.t(mu, sampleStats), 10E-3);
 
-        double[] nullObserved = null;
         try {
             testStatistic.t(mu, nullObserved);
             fail("arguments too short, IllegalArgumentException expected");
@@ -64,7 +72,6 @@ public final class TTestTest extends TestCase {
             // expected
         }
 
-        SummaryStatistics nullStats = null;   
         try {
             testStatistic.t(mu, nullStats);
             fail("arguments too short, IllegalArgumentException expected");
@@ -72,15 +79,13 @@ public final class TTestTest extends TestCase {
             // expected
         }
 
-        double[] emptyObs = {};
         try {
             testStatistic.t(mu, emptyObs);
             fail("arguments too short, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
         }
-
-        SummaryStatistics emptyStats =SummaryStatistics.newInstance();   
+ 
         try {
             testStatistic.t(mu, emptyStats);
             fail("arguments too short, IllegalArgumentException expected");
@@ -88,7 +93,6 @@ public final class TTestTest extends TestCase {
             // expected
         }
 
-        double[] tooShortObs = { 1.0 };
         try {
             testStatistic.t(mu, tooShortObs);
             fail("insufficient data to compute t statistic, IllegalArgumentException expected");
@@ -102,8 +106,6 @@ public final class TTestTest extends TestCase {
            // expected
         }  
 
-        SummaryStatistics tooShortStats = SummaryStatistics.newInstance();     
-        tooShortStats.addValue(0d);
         try {
             testStatistic.t(mu, tooShortStats);
             fail("insufficient data to compute t statistic, IllegalArgumentException expected");
@@ -116,7 +118,9 @@ public final class TTestTest extends TestCase {
         } catch (IllegalArgumentException ex) {
             // exptected
         }  
-
+    }
+    
+    public void testOneSampleTTest() throws Exception {
         double[] oneSidedP =
             {2d, 0d, 6d, 6d, 3d, 3d, 2d, 3d, -6d, 6d, 6d, 6d, 3d, 0d, 1d, 1d, 0d, 2d, 3d, 3d };
         SummaryStatistics oneSidedPStats = SummaryStatistics.newInstance();    
@@ -145,7 +149,10 @@ public final class TTestTest extends TestCase {
         } catch (IllegalArgumentException ex) {
             // expected
         }  
-
+        
+    }
+    
+    public void testTwoSampleTHeterscedastic() throws Exception {
         double[] sample1 = { 7d, -4d, 18d, 17d, -3d, -5d, 1d, 10d, 11d, -2d };
         double[] sample2 = { -1d, 12d, -1d, -3d, 3d, -5d, 5d, 2d, -11d, -1d, -3d };
         SummaryStatistics sampleStats1 = SummaryStatistics.newInstance();  
@@ -158,71 +165,100 @@ public final class TTestTest extends TestCase {
         }
          
         // Target comparison values computed using R version 1.8.1 (Linux version)
-        assertEquals("two sample t stat", 1.6037, testStatistic.t(sample1, sample2), 10E-4);
-        assertEquals("two sample t stat", 1.6037, testStatistic.t(sampleStats1, sampleStats2), 10E-4);
-        assertEquals("two sample p value", 0.0644, testStatistic.tTest(sample1, sample2) / 2d, 10E-4);
-        assertEquals("two sample p value", 0.0644, testStatistic.tTest(sampleStats1, sampleStats2) / 2d, 10E-4);
-        
-        assertTrue("two sample t-test reject", testStatistic.tTest(sample1, sample2, 0.2));
-        assertTrue("two sample t-test reject", testStatistic.tTest(sampleStats1, sampleStats2, 0.2));
-        assertTrue("two sample t-test accept", !testStatistic.tTest(sample1, sample2, 0.1));
-        assertTrue("two sample t-test accept", !testStatistic.tTest(sampleStats1, sampleStats2, 0.1));
+        assertEquals("two sample heteroscedastic t stat", 1.603717, 
+                testStatistic.t(sample1, sample2, false), 1E-6);
+        assertEquals("two sample heteroscedastic t stat", 1.603717, 
+                testStatistic.t(sampleStats1, sampleStats2, false), 1E-6);
+        assertEquals("two sample heteroscedastic p value", 0.1288394, 
+                testStatistic.tTest(sample1, sample2, false), 1E-7);
+        assertEquals("two sample heteroscedastic p value", 0.1288394, 
+                testStatistic.tTest(sampleStats1, sampleStats2, false), 1E-7);     
+        assertTrue("two sample heteroscedastic t-test reject", 
+                testStatistic.tTest(sample1, sample2, 0.2, false));
+        assertTrue("two sample heteroscedastic t-test reject", 
+                testStatistic.tTest(sampleStats1, sampleStats2, 0.2, false));
+        assertTrue("two sample heteroscedastic t-test accept", 
+                !testStatistic.tTest(sample1, sample2, 0.1, false));
+        assertTrue("two sample heteroscedastic t-test accept", 
+                !testStatistic.tTest(sampleStats1, sampleStats2, 0.1, false));
      
         try {
-            testStatistic.tTest(sample1, sample2, 95);
+            testStatistic.tTest(sample1, sample2, .95, false);
             fail("alpha out of range, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // exptected
         } 
         
         try {
-            testStatistic.tTest(sampleStats1, sampleStats2, 95);
+            testStatistic.tTest(sampleStats1, sampleStats2, .95, false);
             fail("alpha out of range, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected 
         }  
         
         try {
-            testStatistic.tTest(sample1, tooShortObs, .01);
+            testStatistic.tTest(sample1, tooShortObs, .01, false);
             fail("insufficient data, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
         }  
         
         try {
-            testStatistic.tTest(sampleStats1, tooShortStats, .01);
+            testStatistic.tTest(sampleStats1, tooShortStats, .01, false);
             fail("insufficient data, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
         }  
         
         try {
-            testStatistic.tTest(sample1, tooShortObs);
+            testStatistic.tTest(sample1, tooShortObs, false);
             fail("insufficient data, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
            // expected
         }  
         
         try {
-            testStatistic.tTest(sampleStats1, tooShortStats);
+            testStatistic.tTest(sampleStats1, tooShortStats, false);
             fail("insufficient data, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
         }  
         
         try {
-            testStatistic.t(sample1, tooShortObs);
+            testStatistic.t(sample1, tooShortObs, false);
             fail("insufficient data, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         
         try {
-            testStatistic.t(sampleStats1, tooShortStats);
+            testStatistic.t(sampleStats1, tooShortStats, false);
             fail("insufficient data, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
            // expected
         }
+    }
+    public void testTwoSampleTHomoscedastic() throws Exception {
+        double[] sample1 ={2, 4, 6, 8, 10};
+        double[] sample2 = {4, 6, 8, 10, 16};
+        SummaryStatistics sampleStats1 = SummaryStatistics.newInstance();  
+        for (int i = 0; i < sample1.length; i++) {
+            sampleStats1.addValue(sample1[i]);
+        }
+        SummaryStatistics sampleStats2 = SummaryStatistics.newInstance();    
+        for (int i = 0; i < sample2.length; i++) {
+            sampleStats2.addValue(sample2[i]);
+        }
+        
+        // Target comparison values computed using R version 1.8.1 (Linux version)
+       assertEquals("two sample homoscedastic t stat", -1.120897, 
+              testStatistic.t(sample1, sample2, true), 10E-6);
+        assertEquals("two sample homoscedastic p value", 0.2948490, 
+                testStatistic.tTest(sampleStats1, sampleStats2, true), 1E-6);     
+        assertTrue("two sample homoscedastic t-test reject", 
+                testStatistic.tTest(sample1, sample2, 0.3, true));
+        assertTrue("two sample homoscedastic t-test accept", 
+                !testStatistic.tTest(sample1, sample2, 0.2, true));
     }
     
     public void testSmallSamples() throws Exception {
@@ -230,8 +266,8 @@ public final class TTestTest extends TestCase {
         double[] sample2 = {4d, 5d};        
         
         // Target values computed using R, version 1.8.1 (linux version)
-        assertEquals(-2.2361, testStatistic.t(sample1, sample2), 1E-4);
-        assertEquals(0.1987, testStatistic.tTest(sample1, sample2), 1E-4);
+        assertEquals(-2.2361, testStatistic.t(sample1, sample2, false), 1E-4);
+        assertEquals(0.1987, testStatistic.tTest(sample1, sample2, false), 1E-4);
     }
     
     public void testPaired() throws Exception {
