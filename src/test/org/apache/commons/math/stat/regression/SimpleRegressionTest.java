@@ -23,7 +23,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the TestStatistic class.
  *
- * @version $Revision: 1.1 $ $Date: 2004/10/08 05:08:20 $
+ * @version $Revision: 1.2 $ $Date: 2004/10/24 06:30:01 $
  */
 
 public final class SimpleRegressionTest extends TestCase {
@@ -60,11 +60,13 @@ public final class SimpleRegressionTest extends TestCase {
     private double[][] infData = { { 15.6, 5.2 }, {26.8, 6.1 }, {37.8, 8.7 }, {36.4, 8.5 },
             {35.5, 8.8 }, {18.6, 4.9 }, {15.3, 4.5 }, {7.9, 2.5 }, {0.0, 1.1 }
     };
-
+    
     /*
-     * From http://www.xycoon.com/simple_linear_regression.htm
+     * Data with bad linear fit
      */
-    private double[][] infData2 = { { 1, 3 }, {2, 5 }, {3, 7 }, {4, 14 }, {5, 11 }};
+    private double[][] infData2 = { { 1, 1 }, {2, 0 }, {3, 5 }, {4, 2 },
+            {5, -1 }, {6, 12 }
+    };
 
     public SimpleRegressionTest(String name) {
         super(name);
@@ -84,6 +86,8 @@ public final class SimpleRegressionTest extends TestCase {
         for (int i = 0; i < data.length; i++) {
             regression.addData(data[i][1], data[i][0]);
         }
+        // Tests against certified values from  
+        // http://www.itl.nist.gov/div898/strd/lls/data/LINKS/DATA/Norris.dat
         assertEquals("slope", 1.00211681802045, regression.getSlope(), 10E-12);
         assertEquals("slope std err", 0.429796848199937E-03,
                 regression.getSlopeStdErr(),10E-12);
@@ -100,6 +104,8 @@ public final class SimpleRegressionTest extends TestCase {
             regression.getMeanSquareError(), 10E-10);
         assertEquals("SSE", 26.6173985294224,
             regression.getSumSquaredErrors(),10E-9);
+        // ------------  End certified data tests
+          
         assertEquals( "predict(0)",  -0.262323073774029,
             regression.predict(0), 10E-12);
         assertEquals("predict(1)", 1.00211681802045 - 0.262323073774029,
@@ -185,19 +191,30 @@ public final class SimpleRegressionTest extends TestCase {
     }
 
     public void testInference() throws Exception {
-
-        SimpleRegression regression = new SimpleRegression();
+        //----------  verified against R, version 1.8.1 -----
+        // infData
+        regression = new SimpleRegression();
         regression.addData(infData);
-        
-        assertEquals("slope confidence interval",  0.0271,
-                regression.getSlopeConfidenceInterval(), 0.0001);
-        assertEquals("slope std err",0.01146,
-                regression.getSlopeStdErr(), 0.0001);
-   
+        assertEquals("slope std err", 0.011448491,
+                regression.getSlopeStdErr(), 1E-10);
+        assertEquals("std err intercept", 0.286036932,
+                regression.getInterceptStdErr(),1E-8);
+        assertEquals("significance", 4.596e-07,
+                regression.getSignificance(),1E-8);    
+        assertEquals("slope conf interval half-width", 0.0270713794287, 
+                regression.getSlopeConfidenceInterval(),1E-8);
+        // infData2
         regression = new SimpleRegression();
         regression.addData(infData2);
-        assertEquals("significance",0.023331,
-                regression.getSignificance(),0.0001);
+        assertEquals("slope std err", 1.07260253,
+                regression.getSlopeStdErr(), 1E-8);
+        assertEquals("std err intercept",4.17718672,
+                regression.getInterceptStdErr(),1E-8);
+        assertEquals("significance", 0.26183,
+                regression.getSignificance(),1E-5);    
+        assertEquals("slope conf interval half-width", 2.97802204827, 
+                regression.getSlopeConfidenceInterval(),1E-8);
+        //------------- End R-verified tests -------------------------------
         
         //FIXME: get a real example to test against with alpha = .01
         assertTrue("tighter means wider",
