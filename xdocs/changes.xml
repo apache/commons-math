@@ -115,10 +115,6 @@ The <action> type attribute can be add,update,fix,remove.
         The release candidate is being made available so that users can test
         the release and provide feedback.
       </action>  
-      <action dev="psteitz" type="fix" due-to="Hans van der Heijden" issue="32531">
-        Fixed error in ChiSquareTestImpl.  Tables containing zeros were (incorrectly)
-        causing IllegalArgumentExceptions to be thrown.
-      </action>  
     </release>
     
   </body>
