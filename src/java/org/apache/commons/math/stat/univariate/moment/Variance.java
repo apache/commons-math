@@ -20,12 +20,20 @@ import java.io.Serializable;
 import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
 
 /**
- * Updating forumulas use West's algorithm as described in
- * <a href="http://doi.acm.org/10.1145/359146.359152">Chan, T. F. and
- * J. G. Lewis 1979, <i>Communications of the ACM</i>,
+ * Computes the (unbiased) sample variance.  Uses the definitional formula: 
+ * <p>
+ * variance = sum((x_i - mean)^2) / (n - 1)
+ * <p>
+ * where mean is the {@link Mean} and <code>n</code> is the number
+ * of sample observations.  
+ * <p>
+ * The definitional formula does not have good numerical properties, so
+ * this implementation uses updating formulas based on West's algorithm
+ *  as described in <a href="http://doi.acm.org/10.1145/359146.359152">
+ * Chan, T. F. andJ. G. Lewis 1979, <i>Communications of the ACM</i>,
  * vol. 22 no. 9, pp. 526-531.</a>.
  *
- * @version $Revision: 1.20 $ $Date: 2004/06/23 16:26:15 $
+ * @version $Revision: 1.21 $ $Date: 2004/06/26 23:33:27 $
  */
 public class Variance extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -43,20 +51,6 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
     protected boolean incMoment = true;
 
     /**
-     * This property maintains the latest calculated
-     * variance for efficiency when getResult() is called
-     * many times between increments.
-     */
-    protected double variance = Double.NaN;
-
-    /**
-     * Maintains the current count of inrementations that have occured.
-     * If the external SecondMoment is used, the this is updated from
-     * that moments counter
-     */
-    protected long n = 0;
-
-    /**
      * Constructs a Variance.
      */
     public Variance() {
@@ -64,7 +58,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
     }
 
     /**
-     * Constructs a Variance based on an externalized second moment.
+     * Constructs a Variance based on an external second moment.
      * @param m2 the SecondMoment (Thrid or Fourth moments work
      * here as well.)
      */
@@ -85,18 +79,13 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getResult()
      */
     public double getResult() {
-        if (n < moment.n) {
-            if (moment.n <= 0) {
-                variance = Double.NaN;
-            } else if (moment.n <= 1) {
-                variance = 0.0;
+            if (moment.n == 0) {
+                return Double.NaN;
+            } else if (moment.n == 1) {
+                return 0d;
             } else {
-                variance = moment.m2 / (moment.n0 - 1);
+                return moment.m2 / (moment.n0 - 1);
             }
-            n = moment.n;
-        }
-
-        return variance;
     }
 
     /**
@@ -113,12 +102,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
         if (incMoment) {
             moment.clear();
         }
-        variance = Double.NaN;
-        n = 0;
     }
-
-    /** Mean to be used in UnvariateStatistic evaluation approach. */
-    protected Mean mean = new Mean();
 
     /**
      * Returns the variance of the available values. This uses a corrected
@@ -137,11 +121,9 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * or 0.0 for a single value set.
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
-    public double evaluate(
-        final double[] values,
-        final int begin,
-        final int length) {
+    public double evaluate(final double[] values, final int begin, final int length) {
 
+        Mean mean = new Mean();
         double var = Double.NaN;
 
         if (test(values, begin, length)) {
