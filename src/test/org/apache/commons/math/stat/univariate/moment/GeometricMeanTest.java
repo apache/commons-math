@@ -23,7 +23,7 @@ import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
- * @version $Revision: 1.10 $ $Date: 2004/06/17 21:37:05 $
+ * @version $Revision: 1.11 $ $Date: 2004/06/18 07:04:20 $
  */
 public class GeometricMeanTest extends StorelessUnivariateStatisticAbstractTest{
 
@@ -54,6 +54,36 @@ public class GeometricMeanTest extends StorelessUnivariateStatisticAbstractTest{
      */
     public double expectedValue() {
         return this.geoMean;
+    }
+    
+    public void testSpecialValues() {
+        GeometricMean mean = new GeometricMean();
+        // empty
+        assertTrue(Double.isNaN(mean.getResult()));
+        
+        // finite data
+        mean.increment(1d);
+        assertFalse(Double.isNaN(mean.getResult()));
+        
+        // add 0 -- makes log sum blow to minus infinity, should make 0
+        mean.increment(0d);
+        assertEquals(0d, mean.getResult(), 0);
+        
+        // add positive infinity - note the minus infinity above
+        mean.increment(Double.POSITIVE_INFINITY);
+        assertTrue(Double.isNaN(mean.getResult()));
+        
+        // clear
+        mean.clear();
+        assertTrue(Double.isNaN(mean.getResult()));
+        
+        // positive infinity by itself
+        mean.increment(Double.POSITIVE_INFINITY);
+        assertEquals(Double.POSITIVE_INFINITY, mean.getResult(), 0);
+        
+        // negative value -- should make NaN
+        mean.increment(-2d);
+        assertTrue(Double.isNaN(mean.getResult()));
     }
 
 }
