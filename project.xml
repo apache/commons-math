@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Revision: 1.32 $ $Date: 2003/11/19 07:06:47 $ -->
+<!-- $Revision: 1.33 $ $Date: 2003/12/23 03:55:34 $ -->
 <project>
   <extend>../../jakarta-commons/project.xml</extend>
   <name>Math</name>
@@ -43,10 +43,12 @@ The Math project is a library of lightweight, self-contained mathematics and sta
     </developer> 
     <developer>
      <name>J. Pietschmann</name>
+     <id>pietsch</id>
      <email>j3322ptm@yahoo.de</email>
     </developer>    
     <developer>
      <name>Brent Worden</name>
+     <id>brentworden</id>
      <email>brentworden@apache.org</email>
     </developer>  
   </developers>
