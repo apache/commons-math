@@ -99,4 +99,18 @@ public class DistributionFactoryImpl extends DistributionFactory {
     public TDistribution createTDistribution(double degreesOfFreedom) {
         return new TDistributionImpl(degreesOfFreedom);
     }
+    
+    /**
+     * Create a new F-distribution with the given degrees of freedom.
+     * @param numeratorDegreesOfFreedom numerator degrees of freedom.
+     * @param denominatorDegreesOfFreedom denominator degrees of freedom.
+     * @return a new F-distribution.  
+     */
+	public FDistribution createFDistribution(
+		double numeratorDegreesOfFreedom,
+		double denominatorDegreesOfFreedom) {
+		return new FDistributionImpl(numeratorDegreesOfFreedom,
+            denominatorDegreesOfFreedom);
+	}
+
 }

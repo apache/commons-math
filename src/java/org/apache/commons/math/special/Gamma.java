@@ -62,14 +62,9 @@ import org.apache.commons.math.ConvergenceException;
  * @author Brent Worden
  */
 public class Gamma {
-    /** Maximum number of iteration allowed for iterative methods. */
-    // TODO: try to reduce this.  regularizedGammaP doesn't converge very
-    // fast for large values of x.
-    private static final int MAXIMUM_ITERATIONS = 100;
-
     /** Maximum allowed numerical error. */
-    private static final double EPSILON = 10e-9;
-
+    private static final double DEFAULT_EPSILON = 10e-9;
+    
     /**
      * Default constructor.  Prohibit instantiation.
      */
@@ -77,6 +72,19 @@ public class Gamma {
         super();
     }
 
+    /**
+     * <p>
+     * Returns the regularized gamma function P(a, x).
+     * </p>
+     * 
+     * @param a ???
+     * @param x ???
+     * @return the regularized gamma function P(a, x)
+     */
+    public static double regularizedGammaP(double a, double x) {
+        return regularizedGammaP(a, x, DEFAULT_EPSILON, Integer.MAX_VALUE);
+    }
+    
     /**
      * <p>
      * Returns the regularized gamma function P(a, x).
@@ -102,7 +110,7 @@ public class Gamma {
      * @param x ???
      * @return the regularized gamma function P(a, x)
      */
-    public static double regularizedGammaP(double a, double x) {
+    public static double regularizedGammaP(double a, double x, double epsilon, int maxIterations) {
         double ret;
 
         if (a <= 0.0) {
@@ -114,7 +122,7 @@ public class Gamma {
             double n = 0.0; // current element index
             double an = 1.0 / a; // n-th element in the series
             double sum = an; // partial sum
-            while (Math.abs(an) > EPSILON && n < MAXIMUM_ITERATIONS) {
+            while (Math.abs(an) > epsilon && n < maxIterations) {
                 // compute next element in the series
                 n = n + 1.0;
                 an = an * (x / (a + n));
@@ -122,11 +130,11 @@ public class Gamma {
                 // update partial sum
                 sum = sum + an;
             }
-            if (n >= MAXIMUM_ITERATIONS) {
+            if (n >= maxIterations) {
                 throw new ConvergenceException(
                     "maximum number of iterations reached");
             } else {
-                ret = Math.exp(-x + (a * Math.log(x)) - logGamma(a)) * sum;
+                ret = Math.exp(-x + (a * Math.log(x)) - logGamma(a, epsilon, maxIterations)) * sum;
             }
         }
 
@@ -154,7 +162,7 @@ public class Gamma {
      * @param x ???
      * @return log(&#915;(x))
      */
-    public static double logGamma(double x) {
+    public static double logGamma(double x, double epsilon, int maxIterations) {
         double ret;
 
         if (x <= 0.0) {

@@ -53,9 +53,11 @@
  */
 package org.apache.commons.math.special;
 
+import org.apache.commons.math.ContinuedFraction;
+
 /**
  * This is a utility class that provides computation methods related to the
- * Gamma family of functions.
+ * Beta family of functions.
  * 
  * @author Brent Worden
  */
@@ -124,8 +126,8 @@ public class Beta {
      * <a href="http://mathworld.wolfram.com/RegularizedBetaFunction.html">
      * Regularized Beta Function</a>.</li>
      * <li>
-     * <a href="http://mathworld.wolfram.com/IncompleteBetaFunction.html">
-     * Incomplete Beta Function</a>.</li>
+     * <a href="http://functions.wolfram.com/06.21.10.0001.01">
+     * Regularized Beta Function</a>.</li>
      * </ul>
      * </p>
      * 
@@ -149,20 +151,63 @@ public class Beta {
         } else if(x == 1.0){
             ret = 1.0;
         } else {
-            double n = 0.0;
-            double an = 1.0 / a;
-            double s = an;
-            while(Math.abs(an) > epsilon && n < maxIterations){
-                n = n + 1.0;
-                an = an * (n - b) / n * x / (a + n) * (a + n - 1);
-                s = s + an;
-            }
-            ret = Math.exp(a * Math.log(x) - logBeta(a, b)) * s;
+            ContinuedFraction fraction = new ContinuedFraction() {
+                protected double getB(int n, double x) {
+                    double ret;
+                    double m;
+                    switch (n) {
+                        case 1 :
+                            ret = 1.0;
+                            break;
+                        default :
+                            if (n % 2 == 0) { // even
+                                m = (n - 2.0) / 2.0;
+                                ret =
+                                    - ((a + m) * (a + b + m) * x)
+                                        / ((a + (2 * m)) * (a + (2 * m) + 1.0));
+                            } else {
+                                m = (n - 1.0) / 2.0;
+                                ret =
+                                    (m * (b - m) * x)
+                                        / ((a + (2 * m) - 1) * (a + (2 * m)));
+                            }
+                            break;
+                    }
+                    return ret;
+                }
+
+                protected double getA(int n, double x) {
+                    double ret;
+                    switch (n) {
+                        case 0 :
+                            ret = 0.0;
+                            break;
+                        default :
+                            ret = 1.0;
+                            break;
+                    }
+                    return ret;
+                }
+			};
+            ret = Math.exp((a * Math.log(x)) + (b * Math.log(1.0 - x)) - Math.log(a) - logBeta(a, b, epsilon, maxIterations)) * fraction.evaluate(x, epsilon, maxIterations);
         }
 
         return ret;
     }
 
+    /**
+     * <p>
+     * Returns the natural logarithm of the beta function B(a, b).
+     * </p>
+     * 
+     * @param a ???
+     * @param b ???
+     * @return log(B(a, b))
+     */
+    public static double logBeta(double a, double b) {
+        return logBeta(a, b, DEFAULT_EPSILON, Integer.MAX_VALUE);
+    }
+    
     /**
      * <p>
      * Returns the natural logarithm of the beta function B(a, b).
@@ -176,10 +221,11 @@ public class Beta {
      * </ul>
      * </p>
      * 
-     * @param x ???
+     * @param a ???
+     * @param b ???
      * @return log(B(a, b))
      */
-    public static double logBeta(double a, double b) {
+    public static double logBeta(double a, double b, double epsilon, int maxIterations) {
         double ret;
 
         if (a <= 0.0) {
@@ -187,8 +233,8 @@ public class Beta {
         } else if (b <= 0.0) {
             throw new IllegalArgumentException("b must be positive");
         } else {
-            ret = Gamma.logGamma(a) + Gamma.logGamma(b)
-                - Gamma.logGamma(a + b);
+            ret = Gamma.logGamma(a, epsilon, maxIterations) + Gamma.logGamma(b, epsilon, maxIterations)
+                - Gamma.logGamma(a + b, epsilon, maxIterations);
         }
 
         return ret;

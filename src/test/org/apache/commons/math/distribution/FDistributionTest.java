@@ -53,78 +53,73 @@
  */
 package org.apache.commons.math.stat.distribution;
 
+import junit.framework.TestCase;
+
 /**
- * <p>
- * This factory provids the means to create common statistical distributions.
- * The following distributions are supported:
- * <ul>
- * <li>Chi-Squared</li>
- * <li>F</li>
- * <li>Gamma</li>
- * <li>Student's t</li>
- * </ul>
- * </p>
- * 
- * <p>
- * Common usage:<pre>
- * DistributionFactory factory = DistributionFactory.newInstance();
- * 
- * // create a Chi-Square distribution with 5 degrees of freedom.
- * ChiSquaredDistribution chi = factory.createChiSquareDistribution(5.0);
- * </pre>
- * </p>
- * 
  * @author Brent Worden
  */
-public abstract class DistributionFactory {
+public class FDistributionTest extends TestCase {
+    private FDistribution f;
+    
     /**
-     * Default constructor.
+     * Constructor for ChiSquareDistributionTest.
+     * @param name
      */
-    protected DistributionFactory() {
-        super();
+    public FDistributionTest(String name) {
+        super(name);
     }
-    
-    /**
-     * Create an instance of a <code>DistributionFactory</code>
-     * @return a new factory. 
-     */
-    public static DistributionFactory newInstance() {
-        // for now, return the only concrete factory.
-        // later, allow for a plugable implementation, possible using SPI and
-        // commons-discovery.
-        return new DistributionFactoryImpl();
-    }
-    
-    /**
-     * Create a new chi-square distribution with the given degrees of freedom.
-     * @param degreesOfFreedom degrees of freedom.
-     * @return a new chi-square distribution.  
-     */
-    public abstract ChiSquaredDistribution createChiSquareDistribution(
-        double degreesOfFreedom);
-    
-    /**
-     * Create a new F-distribution with the given degrees of freedom.
-     * @param numeratorDegreesOfFreedom numerator degrees of freedom.
-     * @param denominatorDegreesOfFreedom denominator degrees of freedom.
-     * @return a new F-distribution.  
-     */
-    public abstract FDistribution createFDistribution(
-        double numeratorDegreesOfFreedom, double denominatorDegreesOfFreedom);
-    
-    /**
-     * Create a new gamma distribution with the given alpha and beta values.
-     * @param alpha the shape parameter.
-     * @param beta the scale parameter.
-     * @return a new gamma distribution.  
-     */
-    public abstract GammaDistribution createGammaDistribution(
-        double alpha, double beta);
 
-    /**
-     * Create a new t distribution with the given degrees of freedom.
-     * @param degreesOfFreedom degrees of freedom.
-     * @return a new t distribution.  
+    /*
+     * @see TestCase#setUp()
      */
-    public abstract TDistribution createTDistribution(double degreesOfFreedom);
+    protected void setUp() throws Exception {
+        super.setUp();
+        f = DistributionFactory.newInstance().createFDistribution(5.0, 6.0);
+    }
+
+    /*
+     * @see TestCase#tearDown()
+     */
+    protected void tearDown() throws Exception {
+        f = null;
+        super.tearDown();
+    }
+
+    public void testLowerTailProbability(){
+        testProbability(1.0 / 10.67, .010);
+        testProbability(1.0 /  6.98, .025);
+        testProbability(1.0 /  4.95, .050);
+        testProbability(1.0 /  3.40, .100);
+    }
+
+    public void testUpperTailProbability(){
+        testProbability(8.75, .990);
+        testProbability(5.99, .975);
+        testProbability(4.39, .950);
+        testProbability(3.11, .900);
+    }
+    
+    public void testLowerTailValues(){
+        testValue(1.0 / 10.67, .010);
+        testValue(1.0 /  6.98, .025);
+        testValue(1.0 /  4.95, .050);
+        testValue(1.0 /  3.40, .100);
+    }
+    
+    public void testUpperTailValues(){
+        testValue(8.75, .990);
+        testValue(5.99, .975);
+        testValue(4.39, .950);
+        testValue(3.11, .900);
+    }
+    
+    private void testProbability(double x, double expected){
+        double actual = f.cummulativeProbability(x);
+        assertEquals("probability for " + x, expected, actual, 1e-3);
+    }
+    
+    private void testValue(double expected, double p){
+        double actual = f.inverseCummulativeProbability(p);
+        assertEquals("value for " + p, expected, actual, 1e-2);
+    }
 }

@@ -51,80 +51,33 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.commons.math.stat.distribution;
+package org.apache.commons.math;
+
+import junit.framework.TestCase;
 
 /**
- * <p>
- * This factory provids the means to create common statistical distributions.
- * The following distributions are supported:
- * <ul>
- * <li>Chi-Squared</li>
- * <li>F</li>
- * <li>Gamma</li>
- * <li>Student's t</li>
- * </ul>
- * </p>
- * 
- * <p>
- * Common usage:<pre>
- * DistributionFactory factory = DistributionFactory.newInstance();
- * 
- * // create a Chi-Square distribution with 5 degrees of freedom.
- * ChiSquaredDistribution chi = factory.createChiSquareDistribution(5.0);
- * </pre>
- * </p>
- * 
  * @author Brent Worden
  */
-public abstract class DistributionFactory {
-    /**
-     * Default constructor.
-     */
-    protected DistributionFactory() {
-        super();
-    }
-    
-    /**
-     * Create an instance of a <code>DistributionFactory</code>
-     * @return a new factory. 
-     */
-    public static DistributionFactory newInstance() {
-        // for now, return the only concrete factory.
-        // later, allow for a plugable implementation, possible using SPI and
-        // commons-discovery.
-        return new DistributionFactoryImpl();
-    }
-    
-    /**
-     * Create a new chi-square distribution with the given degrees of freedom.
-     * @param degreesOfFreedom degrees of freedom.
-     * @return a new chi-square distribution.  
-     */
-    public abstract ChiSquaredDistribution createChiSquareDistribution(
-        double degreesOfFreedom);
-    
-    /**
-     * Create a new F-distribution with the given degrees of freedom.
-     * @param numeratorDegreesOfFreedom numerator degrees of freedom.
-     * @param denominatorDegreesOfFreedom denominator degrees of freedom.
-     * @return a new F-distribution.  
-     */
-    public abstract FDistribution createFDistribution(
-        double numeratorDegreesOfFreedom, double denominatorDegreesOfFreedom);
-    
-    /**
-     * Create a new gamma distribution with the given alpha and beta values.
-     * @param alpha the shape parameter.
-     * @param beta the scale parameter.
-     * @return a new gamma distribution.  
-     */
-    public abstract GammaDistribution createGammaDistribution(
-        double alpha, double beta);
+public class ContinuedFractionTest extends TestCase {
+	/**
+	 * Constructor for ContinuedFractionTest.
+	 * @param name
+	 */
+	public ContinuedFractionTest(String name) {
+		super(name);
+	}
 
-    /**
-     * Create a new t distribution with the given degrees of freedom.
-     * @param degreesOfFreedom degrees of freedom.
-     * @return a new t distribution.  
-     */
-    public abstract TDistribution createTDistribution(double degreesOfFreedom);
+	public void testGoldenRation(){
+        ContinuedFraction cf = new ContinuedFraction() {
+			public double getA(int n, double x) {
+				return 1.0;
+			}
+
+			public double getB(int n, double x) {
+				return 1.0;
+			}
+		};
+        double gr = cf.evaluate(0.0, 10e-9);
+        assertEquals(1.61803399, gr, 10e-9);
+	}
 }
