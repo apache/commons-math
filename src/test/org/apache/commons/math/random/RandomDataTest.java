@@ -16,7 +16,6 @@
 package org.apache.commons.math.random;
 
 import junit.framework.Test;
-import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import java.security.NoSuchProviderException;
 import java.security.NoSuchAlgorithmException;
@@ -24,13 +23,13 @@ import java.util.HashSet;
 
 import org.apache.commons.math.RetryTestCase;
 import org.apache.commons.math.stat.Frequency;
-import org.apache.commons.math.stat.inference.TestStatisticImpl;
+import org.apache.commons.math.stat.inference.ChiSquareTestImpl;
 import org.apache.commons.math.stat.univariate.SummaryStatistics;
 
 /**
  * Test cases for the RandomData class.
  *
- * @version $Revision: 1.15 $ $Date: 2004/04/12 02:27:49 $
+ * @version $Revision: 1.16 $ $Date: 2004/05/03 03:08:08 $
  */
 
 public final class RandomDataTest extends RetryTestCase {
@@ -46,8 +45,7 @@ public final class RandomDataTest extends RetryTestCase {
     private String[] hex = 
         {"0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"}; 
     private RandomDataImpl randomData = new RandomDataImpl(); 
-    private TestStatisticImpl testStatistic = new TestStatisticImpl();
-    
+    private ChiSquareTestImpl testStatistic = new ChiSquareTestImpl();
     
     public void setUp() { 
     }
@@ -73,7 +71,7 @@ public final class RandomDataTest extends RetryTestCase {
             assertTrue("nextInt range",(value >= 0) && (value <= 3));
             freq.addValue(value);  
         }
-        double[] observed = new double[4];
+        long[] observed = new long[4];
         for (int i=0; i<4; i++) {
             observed[i] = freq.getCount(i);
         } 
@@ -100,7 +98,7 @@ public final class RandomDataTest extends RetryTestCase {
             assertTrue("nextInt range",(value >= 0) && (value <= 3));
             freq.addValue(value);  
         }
-        double[] observed = new double[4];
+        long[] observed = new long[4];
         for (int i=0; i<4; i++) {
             observed[i] = freq.getCount(i);
         } 
@@ -127,7 +125,7 @@ public final class RandomDataTest extends RetryTestCase {
             assertTrue("nextInt range",(value >= 0) && (value <= 3));
             freq.addValue(value);  
         }
-        double[] observed = new double[4];
+        long[] observed = new long[4];
         for (int i=0; i<4; i++) {
             observed[i] = freq.getCount(i);
         } 
@@ -154,7 +152,7 @@ public final class RandomDataTest extends RetryTestCase {
             assertTrue("nextInt range",(value >= 0) && (value <= 3));
             freq.addValue(value);  
         }
-        double[] observed = new double[4];
+        long[] observed = new long[4];
         for (int i=0; i<4; i++) {
             observed[i] = freq.getCount(i);
         } 
@@ -251,7 +249,7 @@ public final class RandomDataTest extends RetryTestCase {
             }
         }
         double[] expected = new double[16];
-        double[] observed = new double[16];
+        long[] observed = new long[16];
         for (int i = 0; i < 16; i++) {
             expected[i] = (double)smallSampleSize*100/(double)16;
             observed[i] = f.getCount(hex[i]);
@@ -305,7 +303,7 @@ public final class RandomDataTest extends RetryTestCase {
             }
         }
         double[] expected = new double[16];
-        double[] observed = new double[16];
+        long[] observed = new long[16];
         for (int i = 0; i < 16; i++) {
             expected[i] = (double)smallSampleSize*100/(double)16;
             observed[i] = f.getCount(hex[i]);
@@ -331,8 +329,8 @@ public final class RandomDataTest extends RetryTestCase {
         } catch (IllegalArgumentException ex) {
             ;
         }
-        double[] expected = new double[] {500,500};
-        double[] observed = new double[] {0,0};
+        double[] expected = {500,500};
+        long[] observed = {0,0};
         double lower = -1d;
         double upper = 20d;
         double midpoint = (lower + upper)/2d;
@@ -458,7 +456,7 @@ public final class RandomDataTest extends RetryTestCase {
     public void testNextSample() {
        Object[][] c = {{"0","1"},{"0","2"},{"0","3"},{"0","4"},{"1","2"},
                         {"1","3"},{"1","4"},{"2","3"},{"2","4"},{"3","4"}};
-       double[] observed = {0,0,0,0,0,0,0,0,0,0};
+       long[] observed = {0,0,0,0,0,0,0,0,0,0};
        double[] expected = {100,100,100,100,100,100,100,100,100,100};
        
        HashSet cPop = new HashSet();  //{0,1,2,3,4}
@@ -530,45 +528,42 @@ public final class RandomDataTest extends RetryTestCase {
     
     /** tests for nextPermutation */
     public void testNextPermutation() {
-         int[][] p = {{0,1,2},{0,2,1},{1,0,2},{1,2,0},{2,0,1},{2,1,0}};
-         double[] observed = {0,0,0,0,0,0,};
-         double[] expected = {100,100,100,100,100,100};
-         
-         for (int i = 0; i < 600; i++) {
-             int[] perm = randomData.nextPermutation(3,3);
-             observed[findPerm(p,perm)]++;
-         }  
-         
+        int[][] p = {{0,1,2},{0,2,1},{1,0,2},{1,2,0},{2,0,1},{2,1,0}};
+        long[] observed = {0,0,0,0,0,0};
+        double[] expected = {100,100,100,100,100,100};
+        
+        for (int i = 0; i < 600; i++) {
+            int[] perm = randomData.nextPermutation(3,3);
+            observed[findPerm(p,perm)]++;
+        }  
+        
         /* Use ChiSquare dist with df = 6-1 = 5, alpha = .001
          * Change to 15.09 for alpha = .01
          */
         assertTrue("chi-square test -- will fail about 1 in 1000 times",
-            testStatistic.chiSquare(expected,observed) < 20.52); 
-         
-         // Check size = 1 boundary case
-         int[] perm = randomData.nextPermutation(1,1);
-         if ((perm.length != 1) || (perm[0] != 0)){
-           fail("bad permutation for n = 1, sample k = 1");
-           
-        // Make sure we fail for k size > n 
-        try {
-           perm = randomData.nextPermutation(2,3);
-           fail("permutation k > n, expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
-           ;
-        }
-           
-        // Make sure we fail for n = 0
-        try {
-           perm = randomData.nextPermutation(0,0);
-           fail("permutation k = n = 0, expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
-           ;
-        }
-           
+                testStatistic.chiSquare(expected,observed) < 20.52); 
         
-       }
-         
+        // Check size = 1 boundary case
+        int[] perm = randomData.nextPermutation(1,1);
+        if ((perm.length != 1) || (perm[0] != 0)){
+            fail("bad permutation for n = 1, sample k = 1");
+            
+            // Make sure we fail for k size > n 
+            try {
+                perm = randomData.nextPermutation(2,3);
+                fail("permutation k > n, expecting IllegalArgumentException");
+            } catch (IllegalArgumentException ex) {
+                ;
+            }
+            
+            // Make sure we fail for n = 0
+            try {
+                perm = randomData.nextPermutation(0,0);
+                fail("permutation k = n = 0, expecting IllegalArgumentException");
+            } catch (IllegalArgumentException ex) {
+                ;
+            }               
+        }       
     }
     
     private int findPerm(int[][] p, int[] samp) {
@@ -586,11 +581,6 @@ public final class RandomDataTest extends RetryTestCase {
         }        
         fail("permutation not found");
         return -1;
-    }
-                
-                       
-            
-        
-    
+    }   
 }
 
