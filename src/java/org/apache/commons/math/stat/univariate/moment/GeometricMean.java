@@ -22,7 +22,7 @@ import org.apache.commons.math.stat.univariate.summary.SumOfLogs;
 /**
  * Returns the <a href="http://www.xycoon.com/geometric_mean.htm">
  * geometric mean </a> of the available values
- * @version $Revision: 1.16 $ $Date: 2004/02/21 21:35:15 $
+ * @version $Revision: 1.17 $ $Date: 2004/03/04 04:25:09 $
  */
 public class GeometricMean extends SumOfLogs implements Serializable{
 
@@ -70,7 +70,7 @@ public class GeometricMean extends SumOfLogs implements Serializable{
      * Returns the geometric mean for this collection of values
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
-     * @param length processing at this point in the array
+     * @param length the number of elements to include
      * @return the geometric mean or Double.NaN if the array is empty or
      * any of the values are &lt;= 0.
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)

@@ -20,7 +20,7 @@ import java.io.Serializable;
 import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
 
 /**
- * @version $Revision: 1.16 $ $Date: 2004/02/21 21:35:16 $
+ * @version $Revision: 1.17 $ $Date: 2004/03/04 04:25:09 $
  */
 public class Sum extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -72,7 +72,7 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
      * The sum of the values that have been added to Univariate.
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
-     * @param length processing at this point in the array
+     * @param length the number of elements to include
      * @return the sum of the values or Double.NaN if the array is empty
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */

@@ -19,7 +19,7 @@ package org.apache.commons.math.stat.univariate;
  * Abstract Implementation for UnivariateStatistics.
  * Provides the ability to extend polymophically so that
  * indiviual statistics do not need to implement these methods.
- * @version $Revision: 1.12 $ $Date: 2004/02/21 21:35:15 $
+ * @version $Revision: 1.13 $ $Date: 2004/03/04 04:25:09 $
  */
 public abstract class AbstractUnivariateStatistic
     implements UnivariateStatistic {
@@ -47,7 +47,7 @@ public abstract class AbstractUnivariateStatistic
      *  should continue, or return <code>Double.NaN</code> </p>
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
-     * @param length processing at this point in the array
+     * @param length the number of elements to include
      * @return true if the array has postive length
      * @throws IllegalArgumentException if the indices are invalid or the array is null
      */

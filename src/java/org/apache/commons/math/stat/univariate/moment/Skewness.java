@@ -20,7 +20,7 @@ import java.io.Serializable;
 import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
 
 /**
- * @version $Revision: 1.16 $ $Date: 2004/02/21 21:35:15 $
+ * @version $Revision: 1.17 $ $Date: 2004/03/04 04:25:09 $
  */
 public class Skewness extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -122,7 +122,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
      * </p>
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
-     * @param length processing at this point in the array
+     * @param length the number of elements to include
      * @return the skewness of the values or Double.NaN if the array is empty
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */

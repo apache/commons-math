@@ -19,7 +19,7 @@ import java.io.Serializable;
 
 /**
  *
- * @version $Revision: 1.14 $ $Date: 2004/02/21 21:35:15 $
+ * @version $Revision: 1.15 $ $Date: 2004/03/04 04:25:09 $
  */
 public class StandardDeviation extends Variance implements Serializable {
 
@@ -82,7 +82,7 @@ public class StandardDeviation extends Variance implements Serializable {
      * Returns the Standard Deviation on an array of values.
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
-     * @param length processing at this point in the array
+     * @param length the number of elements to include
      * @return the result, Double.NaN if no values for an empty array
      * or 0.0 for a single value set.
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)

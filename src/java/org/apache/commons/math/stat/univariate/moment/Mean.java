@@ -29,7 +29,7 @@ import org.apache.commons.math.stat.univariate.summary.Sum;
 /**
  * Returns the <a href="http://www.xycoon.com/arithmetic_mean.htm">
  * arithmetic mean </a> of the available values.
- * @version $Revision: 1.15 $ $Date: 2004/02/21 21:35:15 $
+ * @version $Revision: 1.16 $ $Date: 2004/03/04 04:25:09 $
  */
 public class Mean extends AbstractStorelessUnivariateStatistic implements Serializable{
 
@@ -97,7 +97,7 @@ public class Mean extends AbstractStorelessUnivariateStatistic implements Serial
      * arithmetic mean </a> of a double[] of the available values.
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
-     * @param length processing at this point in the array
+     * @param length the number of elements to include
      * @return the mean of the values or Double.NaN if the array is empty
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */

@@ -26,7 +26,7 @@ import org
     .AbstractStorelessUnivariateStatistic;
 
 /**
- * @version $Revision: 1.14 $ $Date: 2004/02/21 21:35:16 $
+ * @version $Revision: 1.15 $ $Date: 2004/03/04 04:25:09 $
  */
 public class SumOfSquares extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -78,7 +78,7 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
      * Returns the sum of the squares of the available values.
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
-     * @param length processing at this point in the array
+     * @param length the number of elements to include
      * @return the sum of the squared values or Double.NaN if the array is empty
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */

@@ -30,7 +30,7 @@ import org.apache.commons.math.stat.univariate.summary.SumOfSquares;
  * StatUtils provides easy static implementations of common double[] based
  * statistical methods. These return a single result value or in some cases, as
  * identified in the javadoc for each method, Double.NaN.
- * @version $Revision: 1.24 $ $Date: 2004/02/21 21:35:15 $
+ * @version $Revision: 1.25 $ $Date: 2004/03/04 04:25:09 $
  */
 public final class StatUtils {
 
@@ -80,7 +80,7 @@ public final class StatUtils {
      * The sum of the values that have been added to Univariate.
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
-     * @param length processing at this point in the array
+     * @param length the number of elements to include
      * @return the sum of the values or Double.NaN if the array is empty
      */
     public static double sum(
@@ -103,7 +103,7 @@ public final class StatUtils {
      * Returns the sum of the squares of the available values.
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
-     * @param length processing at this point in the array
+     * @param length the number of elements to include
      * @return the sum of the squared values or Double.NaN if the array is empty
      */
     public static double sumSq(
@@ -126,7 +126,7 @@ public final class StatUtils {
      * Returns the product for this collection of values
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
-     * @param length processing at this point in the array
+     * @param length the number of elements to include
      * @return the product values or Double.NaN if the array is empty
      */
     public static double product(
@@ -149,7 +149,7 @@ public final class StatUtils {
      * Returns the sum of the natural logs for this collection of values
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
-     * @param length processing at this point in the array
+     * @param length the number of elements to include
      * @return the sumLog value or Double.NaN if the array is empty
      */
     public static double sumLog(
@@ -174,7 +174,7 @@ public final class StatUtils {
       * arithmetic mean </a> of the available values
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
-     * @param length processing at this point in the array
+     * @param length the number of elements to include
       * @return the mean of the values or Double.NaN if the array is empty
       */
     public static double mean(
@@ -212,7 +212,7 @@ public final class StatUtils {
      *
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
-     * @param length processing at this point in the array
+     * @param length the number of elements to include
      * @return the result, Double.NaN if no values for an empty array
      * or 0.0 for a single value set.
      */
@@ -236,7 +236,7 @@ public final class StatUtils {
      * Returns the maximum of the available values
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
-     * @param length processing at this point in the array
+     * @param length the number of elements to include
      * @return the maximum of the values or Double.NaN if the array is empty
      */
     public static double max(
@@ -259,7 +259,7 @@ public final class StatUtils {
      * Returns the minimum of the available values
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
-     * @param length processing at this point in the array
+     * @param length the number of elements to include
      * @return the minimum of the values or Double.NaN if the array is empty
      */
     public static double min(
@@ -303,7 +303,7 @@ public final class StatUtils {
      * 
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
-     * @param length processing at this point in the array
+     * @param length the number of elements to include
      * @param p the requested percentile (scaled from 0 - 100)
      * @return An estimate for the pth percentile of the data values
      */

@@ -20,7 +20,7 @@ package org.apache.commons.math.stat.univariate;
  * double[] based content using an implemented statistical approach.
  * The interface provides two "stateless" simple methods to calculate
  * a statistic from a double[] based parameter.
- * @version $Revision: 1.12 $ $Date: 2004/02/21 21:35:15 $
+ * @version $Revision: 1.13 $ $Date: 2004/03/04 04:25:09 $
  */
 public interface UnivariateStatistic {
 
@@ -37,7 +37,7 @@ public interface UnivariateStatistic {
      * of the evaluation.
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
-     * @param length processing at this point in the array
+     * @param length the number of elements to include
      * @return the result of the evaluation or Double.NaN
      * if the array is empty
      */

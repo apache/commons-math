@@ -20,7 +20,7 @@ import java.util.Arrays;
 import org.apache.commons.math.stat.univariate.AbstractUnivariateStatistic;
 
 /**
- * @version $Revision: 1.13 $ $Date: 2004/02/21 21:35:16 $
+ * @version $Revision: 1.14 $ $Date: 2004/03/04 04:25:09 $
  */
 public class Percentile extends AbstractUnivariateStatistic implements Serializable {
 
@@ -76,7 +76,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * statistic.
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
-     * @param length processing at this point in the array
+     * @param length the number of elements to include
      * @param p Is the percentile to evaluate to.*
      * @return the result of the evaluation or Double.NaN
      * if the array is empty

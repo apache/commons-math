@@ -25,7 +25,7 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * J. G. Lewis 1979, <i>Communications of the ACM</i>,
  * vol. 22 no. 9, pp. 526-531.</a>.
  * 
- * @version $Revision: 1.17 $ $Date: 2004/02/21 21:35:15 $
+ * @version $Revision: 1.18 $ $Date: 2004/03/04 04:25:09 $
  */
 public class Variance extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -131,7 +131,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * </p>
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
-     * @param length processing at this point in the array
+     * @param length the number of elements to include
      * @return the result, Double.NaN if no values for an empty array
      * or 0.0 for a single value set.
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
