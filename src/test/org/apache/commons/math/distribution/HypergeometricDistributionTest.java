@@ -16,15 +16,14 @@
 
 package org.apache.commons.math.distribution;
 
-import org.apache.commons.math.MathException;
-
-import junit.framework.TestCase;
-
 /**
- * @version $Revision: 1.10 $ $Date: 2004/02/21 21:35:17 $
+ * Test cases for HyperGeometriclDistribution.
+ * Extends DiscreteDistributionAbstractTest.  See class javadoc for
+ * DiscreteDistributionAbstractTest for details.
+ * 
+ * @version $Revision: 1.11 $ $Date: 2004/05/11 02:12:11 $
  */
-public class HypergeometricDistributionTest extends TestCase {
-    private HypergeometricDistribution h;
+public class HypergeometricDistributionTest extends DiscreteDistributionAbstractTest {
 
     /**
      * Constructor for ChiSquareDistributionTest.
@@ -34,109 +33,88 @@ public class HypergeometricDistributionTest extends TestCase {
         super(name);
     }
 
-    /*
-     * @see TestCase#setUp()
-     */
-    protected void setUp() throws Exception {
-        super.setUp();
-        h =
-            DistributionFactory.newInstance().createHypergeometricDistribution(
-                10,
-                5,
-                5);
+//-------------- Implementations for abstract methods -----------------------
+    
+    /** Creates the default discrete distribution instance to use in tests. */
+    public DiscreteDistribution makeDistribution() {
+        return DistributionFactory.newInstance().createHypergeometricDistribution(10,5, 5);
+    }
+    
+    /** Creates the default probability density test input values */
+    public int[] makeDensityTestPoints() {
+        return new int[] {-1, 0, 1, 2, 3, 4, 5, 10};
+    }
+    
+    /** Creates the default probability density test expected values */
+    public double[] makeDensityTestValues() {
+        return new double[] {0d, 0.003968d, 0.099206d, 0.396825d, 0.396825d, 
+                0.099206d, 0.003968d, 0d};
+    }
+    
+    /** Creates the default cumulative probability density test input values */
+    public int[] makeCumulativeTestPoints() {
+        return makeDensityTestPoints();
+    }
+    
+    /** Creates the default cumulative probability density test expected values */
+    public double[] makeCumulativeTestValues() {
+        return new double[] {0d, .003968d, .103175d, .50000d, .896825d, .996032d,
+                1.00000d, 1d};
+    }
+    
+    /** Creates the default inverse cumulative probability test input values */
+    public double[] makeInverseCumulativeTestPoints() {
+        return new double[] {0.001d, 0.010d, 0.025d, 0.050d, 0.100d, 0.999d,
+                0.990d, 0.975d, 0.950d, 0.900d}; 
+    }
+    
+    /** Creates the default inverse cumulative probability density test expected values */
+    public int[] makeInverseCumulativeTestValues() {
+        return new int[] {-1, 0, 0, 0, 0, 4, 3, 3, 3, 3};
+    }
+    
+    //-------------------- Additional test cases ------------------------------
+    
+    /** Verify that if there are no failures, mass is concentrated on sampleSize */
+    public void testDegenerateNoFailures() throws Exception {
+        setDistribution(DistributionFactory.newInstance().createHypergeometricDistribution(5,5,3));
+        setCumulativeTestPoints(new int[] {-1, 0, 1, 3, 10 });
+        setCumulativeTestValues(new double[] {0d, 0d, 0d, 1d, 1d});
+        setDensityTestPoints(new int[] {-1, 0, 1, 3, 10});
+        setDensityTestValues(new double[] {0d, 0d, 0d, 1d, 0d});
+        setInverseCumulativeTestPoints(new double[] {0.1d, 0.5d});
+        setInverseCumulativeTestValues(new int[] {2, 2});
+        verifyDensities();
+        verifyCumulativeProbabilities();
+        verifyInverseCumulativeProbabilities();     
+    }
+    
+    /** Verify that if there are no successes, mass is concentrated on 0 */
+    public void testDegenerateNoSuccesses() throws Exception {
+        setDistribution(DistributionFactory.newInstance().createHypergeometricDistribution(5,0,3));
+        setCumulativeTestPoints(new int[] {-1, 0, 1, 3, 10 });
+        setCumulativeTestValues(new double[] {0d, 1d, 1d, 1d, 1d});
+        setDensityTestPoints(new int[] {-1, 0, 1, 3, 10});
+        setDensityTestValues(new double[] {0d, 1d, 0d, 0d, 0d});
+        setInverseCumulativeTestPoints(new double[] {0.1d, 0.5d});
+        setInverseCumulativeTestValues(new int[] {-1, -1});
+        verifyDensities();
+        verifyCumulativeProbabilities();
+        verifyInverseCumulativeProbabilities();     
+    }
+    
+    /** Verify that if sampleSize = populationSize, mass is concentrated on numberOfSuccesses */
+    public void testDegenerateFullSample() throws Exception {
+        setDistribution(DistributionFactory.newInstance().createHypergeometricDistribution(5,3,5));
+        setCumulativeTestPoints(new int[] {-1, 0, 1, 3, 10 });
+        setCumulativeTestValues(new double[] {0d, 0d, 0d, 1d, 1d});
+        setDensityTestPoints(new int[] {-1, 0, 1, 3, 10});
+        setDensityTestValues(new double[] {0d, 0d, 0d, 1d, 0d});
+        setInverseCumulativeTestPoints(new double[] {0.1d, 0.5d});
+        setInverseCumulativeTestValues(new int[] {2, 2});
+        verifyDensities();
+        verifyCumulativeProbabilities();
+        verifyInverseCumulativeProbabilities();     
     }
 
-    /*
-     * @see TestCase#tearDown()
-     */
-    protected void tearDown() throws Exception {
-        h = null;
-        super.tearDown();
-    }
-
-    public void testInverseCumulativeProbability001() {
-        testValue(-1, .001);
-    }
-
-    public void testInverseCumulativeProbability010() {
-        testValue(0, .010);
-    }
-
-    public void testInverseCumulativeProbability025() {
-        testValue(0, .025);
-    }
-
-    public void testInverseCumulativeProbability050() {
-        testValue(0, .050);
-    }
-
-    public void testInverseCumulativeProbability100() {
-        testValue(0, .100);
-    }
-
-    public void testInverseCumulativeProbability999() {
-        testValue(4, .999);
-    }
-
-    public void testInverseCumulativeProbability990() {
-        testValue(3, .990);
-    }
-
-    public void testInverseCumulativeProbability975() {
-        testValue(3, .975);
-    }
-
-    public void testInverseCumulativeProbability950() {
-        testValue(3, .950);
-    }
-
-    public void testInverseCumulativeProbability900() {
-        testValue(3, .900);
-    }
-
-    public void testCumulativeProbability0() {
-        testProbability(0, .00400);
-    }
-
-    public void testCumulativeProbability1() {
-        testProbability(1, .10318);
-    }
-
-    public void testCumulativeProbability2() {
-        testProbability(2, .50000);
-    }
-
-    public void testCumulativeProbability3() {
-        testProbability(3, .89683);
-    }
-
-    public void testCumulativeProbability4() {
-        testProbability(4, .99603);
-    }
-
-    public void testCumulativeProbability5() {
-        testProbability(5, 1.00000);
-    }
-
-    private void testProbability(int x, double expected) {
-        try {
-            double actual = h.cumulativeProbability(x);
-            assertEquals(expected, actual, 10e-4);
-        } catch (MathException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    private void testValue(int expected, double p) {
-        try {
-            int actual = h.inverseCumulativeProbability(p);
-            assertEquals(expected, actual);
-            assertTrue(h.cumulativeProbability(actual) <= p);
-            assertTrue(h.cumulativeProbability(actual + 1) >= p);
-        } catch (MathException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
 }

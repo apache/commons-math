@@ -15,127 +15,91 @@
  */
 package org.apache.commons.math.distribution;
 
-import org.apache.commons.math.MathException;
-
-import junit.framework.TestCase;
-
 /**
- * @version $Revision: 1.12 $ $Date: 2004/02/21 21:35:17 $
+ * Test cases for BinomialDistribution.
+ * Extends DiscreteDistributionAbstractTest.  See class javadoc for
+ * DiscreteDistributionAbstractTest for details.
+ * 
+ * @version $Revision: 1.13 $ $Date: 2004/05/11 02:11:15 $
  */
-public class BinomialDistributionTest extends TestCase {
-    private BinomialDistribution b;
-
+public class BinomialDistributionTest extends DiscreteDistributionAbstractTest {
+    
     /**
-     * Constructor for ChiSquareDistributionTest.
+     * Constructor for BinomialDistributionTest.
      * @param name
      */
     public BinomialDistributionTest(String name) {
         super(name);
     }
-
-    /*
-     * @see TestCase#setUp()
-     */
-    protected void setUp() throws Exception {
-        super.setUp();
-        b =
-            DistributionFactory.newInstance().createBinomialDistribution(
-                10,
-                0.70);
+    
+    //-------------- Implementations for abstract methods -----------------------
+    
+    /** Creates the default discrete distribution instance to use in tests. */
+    public DiscreteDistribution makeDistribution() {
+        return DistributionFactory.newInstance().createBinomialDistribution(10,0.70);
     }
-
-    /*
-     * @see TestCase#tearDown()
-     */
-    protected void tearDown() throws Exception {
-        b = null;
-        super.tearDown();
+    
+    /** Creates the default probability density test input values */
+    public int[] makeDensityTestPoints() {
+        return new int[] {-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
     }
-
-    public void testInverseCumulativeProbability001() {
-        testValue(1, .001);
+    
+    /** Creates the default probability density test expected values */
+    public double[] makeDensityTestValues() {
+        return new double[] {0d, 0.0000d, 0.0001d, 0.0014d, 0.0090d, 0.0368d, 0.1029d, 
+                0.2001d, 0.2668d, 0.2335d, 0.1211d, 0.0282d, 0d};
     }
-
-    public void testInverseCumulativeProbability010() {
-        testValue(2, .010);
+    
+    /** Creates the default cumulative probability density test input values */
+    public int[] makeCumulativeTestPoints() {
+        return makeDensityTestPoints();
     }
-
-    public void testInverseCumulativeProbability025() {
-        testValue(3, .025);
-    }
-
-    public void testInverseCumulativeProbability050() {
-        testValue(4, .050);
-    }
-
-    public void testInverseCumulativeProbability100() {
-        testValue(4, .100);
-    }
-
-    public void testInverseCumulativeProbability999() {
-        testValue(9, .999);
-    }
-
-    public void testInverseCumulativeProbability990() {
-        testValue(9, .990);
-    }
-
-    public void testInverseCumulativeProbability975() {
-        testValue(9, .975);
-    }
-
-    public void testInverseCumulativeProbability950() {
-        testValue(8, .950);
-    }
-
-    public void testInverseCumulativeProbability900() {
-        testValue(8, .900);
-    }
-
-    public void testCumulativeProbability1() {
-        testProbability(1, .00014);
-    }
-
-    public void testCumulativeProbability2() {
-        testProbability(2, .00159);
-    }
-
-    public void testCumulativeProbability3() {
-        testProbability(3, .01059);
-    }
-
-    public void testCumulativeProbability4() {
-        testProbability(4, .04735);
-    }
-
-    public void testCumulativeProbability9() {
-        testProbability(9, .97175);
-    }
-
-    public void testcumulativeProbability8() {
-        testProbability(8, .85069);
-    }
-
-    private void testProbability(int x, double expected) {
-        try {
-            double actual = b.cumulativeProbability(x);
-            assertEquals(expected, actual, 10e-4);
-        } catch (MathException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+    
+    /** Creates the default cumulative probability density test expected values */
+    public double[] makeCumulativeTestValues() {
+        return new double[] {0d, 0.0000d, 0.0001d, 0.0016d, 0.0106d, 0.0473d,
+                0.1503d, 0.3504d, 0.6172d, 0.8507d, 0.9718d, 1d, 1d};
         }
-
-    }
-
-    private void testValue(int expected, double p) {
-        try {
-            int actual = b.inverseCumulativeProbability(p);
-            assertEquals(expected, actual);
-            assertTrue(b.cumulativeProbability(actual) <= p);
-            assertTrue(b.cumulativeProbability(actual + 1) >= p);
-        } catch (MathException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+    
+    /** Creates the default inverse cumulative probability test input values */
+    public double[] makeInverseCumulativeTestPoints() {
+        return new double[] {0.001d, 0.010d, 0.025d, 0.050d, 0.100d, 0.999d,
+                0.990d, 0.975d, 0.950d, 0.900d}; 
         }
+    
+    /** Creates the default inverse cumulative probability density test expected values */
+    public int[] makeInverseCumulativeTestValues() {
+        return new int[] {1, 2, 3, 4, 4, 9, 9, 9, 8, 8};
     }
+
+    //----------------- Additional test cases ---------------------------------
+   
+    /** Test degenerate case p = 0   */
+    public void testDegenerate0() throws Exception {
+        setDistribution(DistributionFactory.newInstance().createBinomialDistribution(5,0.0d));
+        setCumulativeTestPoints(new int[] {-1, 0, 1, 5, 10 });
+        setCumulativeTestValues(new double[] {0d, 1d, 1d, 1d, 1d});
+        setDensityTestPoints(new int[] {-1, 0, 1, 10, 11});
+        setDensityTestValues(new double[] {0d, 1d, 0d, 0d, 0d});
+        setInverseCumulativeTestPoints(new double[] {0.1d, 0.5d});
+        setInverseCumulativeTestValues(new int[] {-1, -1});
+        verifyDensities();
+        verifyCumulativeProbabilities();
+        verifyInverseCumulativeProbabilities();     
+    }
+    
+    /** Test degenerate case p = 1   */
+    public void tstDegenerate1() throws Exception {
+        setDistribution(DistributionFactory.newInstance().createBinomialDistribution(5,1.0d));
+        setCumulativeTestPoints(new int[] {-1, 0, 1, 2, 5, 10 });
+        setCumulativeTestValues(new double[] {0d, 0d, 0d, 0d, 1d, 1d});
+        setDensityTestPoints(new int[] {-1, 0, 1, 2, 5, 10});
+        setDensityTestValues(new double[] {0d, 0d, 0d, 0d, 1d, 0d});
+        setInverseCumulativeTestPoints(new double[] {0.1d, 0.5d});
+        setInverseCumulativeTestValues(new int[] {4, 4});
+        verifyDensities();
+        verifyCumulativeProbabilities();
+        verifyInverseCumulativeProbabilities();     
+    }
+
 }
