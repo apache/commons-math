@@ -53,17 +53,10 @@
  */
 package org.apache.commons.math.stat.univariate.summary;
 
-import org.apache.commons.collections.primitives.DoubleIterator;
-import org
-    .apache
-    .commons
-    .math
-    .stat
-    .univariate
-    .AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
 
 /**
- * @version $Revision: 1.7 $ $Date: 2003/07/15 03:37:11 $
+ * @version $Revision: 1.8 $ $Date: 2003/07/15 03:38:50 $
  */
 public class Sum extends AbstractStorelessUnivariateStatistic {
 
@@ -73,7 +66,8 @@ public class Sum extends AbstractStorelessUnivariateStatistic {
     private double value = Double.NaN;
 
     /**
-     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
+     * @see org.apache.commons.math.stat.univariate.
+     * StorelessUnivariateStatistic#increment(double)
      */
     public void increment(double d) {
         if (Double.isNaN(value)) {
@@ -84,14 +78,16 @@ public class Sum extends AbstractStorelessUnivariateStatistic {
     }
 
     /**
-     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
+     * @see org.apache.commons.math.stat.univariate.
+     * StorelessUnivariateStatistic#getValue()
      */
     public double getResult() {
         return value;
     }
 
     /**
-     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
+     * @see org.apache.commons.math.stat.univariate.
+     * StorelessUnivariateStatistic#clear()
      */
     public void clear() {
         value = Double.NaN;
@@ -103,7 +99,8 @@ public class Sum extends AbstractStorelessUnivariateStatistic {
      * @param begin processing at this point in the array
      * @param length processing at this point in the array
      * @return the sum of the values or Double.NaN if the array is empty
-     * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
+     * @see org.apache.commons.math.stat.univariate.
+     * UnivariateStatistic#evaluate(double[], int, int)
      */
     public double evaluate(double[] values, int begin, int length) {
         double sum = Double.NaN;
