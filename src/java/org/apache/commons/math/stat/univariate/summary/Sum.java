@@ -70,33 +70,48 @@ public class Sum extends AbstractStorelessUnivariateStatistic {
     /**
      * The currently running sum.
      */
-    protected double sum = Double.NaN;
+    private double value = Double.NaN;
 
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
     public double increment(double d) {
-        if (init) {
-            init = false;
-            sum = d;
+        if (Double.isNaN(value )) {
+            value  = d;
         } else {
-            sum += d;
+            value  += d;
         }
-        return sum;
+        return value ;
     }
 
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
      */
     public double getValue() {
-        return sum;
+        return value;
+    }
+    
+    /**
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
+     */
+    public void clear() {
+        value = Double.NaN;
     }
 
     /**
-     * @see org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic#internalClear()
+     * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
-    protected void internalClear() {
-        sum = Double.NaN;
+    public double evaluate(double[] values, int begin, int length) {
+        double sum = Double.NaN;
+        if (test(values, begin, length)) {
+            sum = 0.0;
+            for (int i = begin; i < begin + length; i++) {
+                sum += values[i];
+            }
+        }
+        return sum;
     }
+
+
 
 }

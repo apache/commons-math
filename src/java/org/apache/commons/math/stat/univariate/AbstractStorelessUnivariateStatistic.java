@@ -65,57 +65,18 @@ public abstract class AbstractStorelessUnivariateStatistic
     extends AbstractUnivariateStatistic
     implements StorelessUnivariateStatistic {
 
-    protected boolean clearOnEval = true;
-
-    protected boolean init = true;
-    
     /**
      * This implements the AbstractUnivariateStatistic impl to funnel 
      * calculation off to the instantanious increment method.
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
-    public double evaluate(double[] d, int start, int length) {
-
-        if (clearOnEval)
+    public double evaluate(double[] values, int begin, int length) {
+        if (this.test(values, begin, length)) {
             this.clear();
-
-        for (int i = start; i < start + length; i++) {
-            increment(d[i]);
+            for (int i = begin; i < begin + length; i++) {
+                increment(values[i]);
+            }
         }
-
         return getValue();
     }
-
-    /**
-     * Implement this delegated internalClear()
-     * to cleanup the state of your implementation on clear().
-     */
-    protected abstract void internalClear();
-    
-    /**
-     * This implementation is finalized so the implementor does not have to manage
-     * clearing its state. They just need to implement their delegated internalClear()
-     * to cleanup the state of their implementation on clear().
-     * 
-     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
-     */
-    public final void clear(){
-        init = true;
-        internalClear();
-    }
-    
-    /**
-     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#isClearOnEval()
-     */
-    public boolean isClearOnEval() {
-        return clearOnEval;
-    }
-
-    /**
-     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#setClearOnEval(boolean)
-     */
-    public void setClearOnEval(boolean b) {
-        clearOnEval = b;
-    }
-
 }

@@ -53,40 +53,54 @@
  */
 package org.apache.commons.math.stat.univariate.moment;
 
+import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math.stat.univariate.summary.SumOfLogs;
 
 /**
  * @author Mark Diggory
  *
  */
-public class GeometricMean extends SumOfLogs {
+public class GeometricMean extends AbstractStorelessUnivariateStatistic {
  
-    protected double geomean = Double.NaN;
+    private SumOfLogs sumLog = new SumOfLogs();
     
-    protected int n = 0;
+    private double value = Double.NaN;
+    
+    private int n = 0;
     
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
     public double increment(double d) {
         n++;
-        super.increment(d);
-        geomean = Math.exp( sumLog / (double)n );
-        return geomean;
+        sumLog.increment(d);
+        value = Math.exp( sumLog.increment(d) / (double)n );
+        return value;
     }
 
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
      */
     public double getValue() {
-        return geomean;
+        return value;
     }
 
     /**
-    * @see org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic#internalClear()
-    */
-    protected void internalClear() {
-        geomean = Double.NaN;
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
+     */
+    public void clear() {
+        value = Double.NaN;
+        sumLog.clear();
         n = 0;
     }
+    
+    /**
+     * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
+     */
+    public double evaluate(double[] values, int begin, int length) {
+        return Math.exp(sumLog.evaluate(values, begin, length) / (double) length );
+    }
+
+
+
 }

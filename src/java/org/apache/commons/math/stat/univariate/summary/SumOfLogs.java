@@ -68,35 +68,48 @@ import org
 public class SumOfLogs extends AbstractStorelessUnivariateStatistic {
 
     /**
-     * The currently running sumLog
+     * The currently running value
      */
-    protected double sumLog = Double.NaN;
+    private double value = Double.NaN;
 
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
     public double increment(double d) {
-        if (init) {
-            sumLog = Math.log(d);
-            init = false;
+        if (Double.isNaN(value )) {
+            value = Math.log(d);
         } else {
-            sumLog += Math.log(d);
+            value += Math.log(d);
         }
 
-        return sumLog;
+        return value;
     }
 
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
      */
     public double getValue() {
-        return sumLog;
+        return value;
     }
 
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
      */
-    protected void internalClear() {
-        sumLog = Double.NaN;
+    public void clear() {
+        value = Double.NaN;
+    }
+    
+    /**
+     * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
+     */
+    public double evaluate(double[] values, int begin, int length) {
+        double sumLog = Double.NaN;
+        if (test(values, begin, length)) {
+            sumLog = 0.0;
+            for (int i = begin; i < begin + length; i++) {
+                sumLog += Math.log(values[i]);
+            }
+        }
+        return sumLog;
     }
 }

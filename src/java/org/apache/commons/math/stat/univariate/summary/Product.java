@@ -69,33 +69,47 @@ public class Product extends AbstractStorelessUnivariateStatistic {
     /**
      * The current Running Product.
      */
-    double product = Double.NaN;
+    private double value = Double.NaN;
 
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
     public double increment(double d) {
-        if (init) {
-            init = false;
-            product = d;
+        if (Double.isNaN(value)) {
+            value = d;
         } else {
-            product *= d;
+            value *= d;
         }
 
-        return product;
+        return value;
     }
 
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
      */
     public double getValue() {
-        return product;
+        return value;
     }
 
     /**
-     * @see org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic#internalClear()
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
      */
-    protected void internalClear() {
-        product = Double.NaN;
+    public void clear() {
+        value = Double.NaN;
     }
+
+    /**
+     * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
+     */
+    public double evaluate(double[] values, int begin, int length) {
+        double product = Double.NaN;
+        if (test(values, begin, length)) {
+            product = 1.0;
+            for (int i = begin; i < begin + length; i++) {
+                product *= values[i];
+            }
+        }
+        return product;
+    }
+
 }

@@ -59,7 +59,7 @@ package org.apache.commons.math.stat.univariate.moment;
  */
 public class Skewness extends ThirdMoment {
 
-    protected double skewness = Double.NaN;
+    private double skewness = Double.NaN;
 
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
@@ -87,11 +87,58 @@ public class Skewness extends ThirdMoment {
     }
 
     /**
-    * @see org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic#internalClear()
-    */
-    protected void internalClear() {
-        super.internalClear();
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
+     */
+    public void clear() {
+        super.clear();
         skewness = Double.NaN;
     }
 
+    /**
+      * Returns the skewness of a collection of values.  Skewness is a 
+      * measure of the assymetry of a given distribution. 
+      * @param values Is a double[] containing the values
+      * @param begin processing at this point in the array
+      * @param length processing at this point in the array
+      * @return the skewness of the values or Double.NaN if the array is empty
+      */
+     public double evaluate(double[] values, int begin, int length) {
+
+         test(values, begin, length);
+
+         // Initialize the skewness
+         double skew = Double.NaN;
+
+         // Get the mean and the standard deviation
+         double mean = super.evaluate(values, begin, length);
+
+         // Calc the std, this is implemented here instead of using the 
+         // standardDeviation method eliminate a duplicate pass to get the mean
+         double accum = 0.0;
+         double accum2 = 0.0;
+         for (int i = begin; i < begin + length; i++) {
+             accum += Math.pow((values[i] - mean), 2.0);
+             accum2 += (values[i] - mean);
+         }
+         double stdDev =
+             Math.sqrt(
+                 (accum - (Math.pow(accum2, 2) / ((double) length)))
+                     / (double) (length - 1));
+
+         // Calculate the skew as the sum the cubes of the distance 
+         // from the mean divided by the standard deviation.
+         double accum3 = 0.0;
+         for (int i = begin; i < begin + length; i++) {
+             accum3 += Math.pow((values[i] - mean) / stdDev, 3.0);
+         }
+
+         // Get N
+         double n = length;
+
+         // Calculate skewness
+         skew = (n / ((n - 1) * (n - 2))) * accum3;
+
+         return skew;
+     }
+     
 }

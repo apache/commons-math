@@ -53,23 +53,33 @@
  */
 package org.apache.commons.math.stat.univariate.moment;
 
+import org
+    .apache
+    .commons
+    .math
+    .stat
+    .univariate
+    .AbstractStorelessUnivariateStatistic;
+
 /**
  * @author Mark Diggory
  *
  */
 public class Variance extends SecondMoment {
 
-    protected double variance = Double.NaN;
+    private double variance = Double.NaN;
 
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
     public double increment(double d) {
         super.increment(d);
-        variance = (n <= 1) ? 0.0 : m2 / (double) (n - 1);
+
+        variance = (n < 1) ? 0.0 : m2 / (double)(n - 1);
+        
         return variance;
     }
-
+    
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
      */
@@ -78,10 +88,35 @@ public class Variance extends SecondMoment {
     }
 
     /**
-     * @see org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic#internalClear()
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
      */
-    protected void internalClear() {
-        super.internalClear();
+    public void clear() {
+        super.clear();
         variance = Double.NaN;
     }
+    
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
+     */
+    public double evaluate(double[] values, int begin, int length) {
+        double var = Double.NaN;
+        if (values.length == 1) {
+            var = 0;
+        } else if (values.length > 1) {
+            double m = super.evaluate(values, begin, length);
+            double accum = 0.0;
+            double accum2 = 0.0;
+            for (int i = begin; i < begin + length; i++) {
+                accum += Math.pow((values[i] - m), 2.0);
+                accum2 += (values[i] - m);
+            }
+            var =
+                (accum - (Math.pow(accum2, 2) / ((double) length)))
+                    / (double) (length - 1);
+        }
+        return var;
+    }
+
+
+
 }

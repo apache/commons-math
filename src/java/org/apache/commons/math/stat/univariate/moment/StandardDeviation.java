@@ -53,35 +53,48 @@
  */
 package org.apache.commons.math.stat.univariate.moment;
 
+import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
+
 /**
  * @author Mark Diggory
  *
  */
-public class StandardDeviation extends Variance {
+public class StandardDeviation extends AbstractStorelessUnivariateStatistic {
 
-    protected double std = Double.NaN;
+    private double value = Double.NaN;
+    
+    private Variance var = new Variance();
     
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
     public double increment(double d) {
-        std = Math.sqrt(super.increment(d));
-        return std;
+        var.increment(d);
+        value = Math.sqrt(var.getValue());
+        return value;
     }
     
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
      */
     public double getValue() {
-        return std;
-    }
-
-    /**
-    * @see org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic#internalClear()
-    */
-    protected void internalClear() {
-        super.internalClear();
-        std = Double.NaN;
+        return value;
     }
     
+    /**
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
+     */
+    public void clear() {
+        var.clear();
+        value = Double.NaN;
+    }
+
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
+     */
+    public double evaluate(double[] values, int begin, int length) {
+        double tmp = var.evaluate(values, begin, length);
+        return tmp != 0.0 ? Math.sqrt(tmp) : 0.0;
+    }
+
 }

@@ -86,36 +86,36 @@ public class Percentile extends AbstractUnivariateStatistic {
      * Evaluates the double[] top the specified percentile. 
      * This does not alter the interal percentile state of the 
      * statistic.
-     * @param d Is a double[] containing the values
+     * @param values Is a double[] containing the values
      * @param p Is the percentile to evaluate to.
      * @return the result of the evaluation or Double.NaN 
      * if the array is empty
      */
-    public double evaluate(double[] d, double p) {
-        return evaluate(d, 0,d.length, p);
+    public double evaluate(double[] values, double p) {
+        return evaluate(values, 0,values.length, p);
     }
     
     /**
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
-    public double evaluate(double[] d, int start, int length) {
-        return evaluate(d, start, length, percentile);
+    public double evaluate(double[] values, int start, int length) {
+        return evaluate(values, start, length, percentile);
     }
 
     /**
      * Evaluates the double[] top the specified percentile. 
      * This does not alter the interal percentile state of the 
      * statistic.
-     * @param d Is a double[] containing the values
+     * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
      * @param length processing at this point in the array
      * @param p Is the percentile to evaluate to.* 
      * @return the result of the evaluation or Double.NaN 
      * if the array is empty
      */
-    public double evaluate(double[] d, int start, int length, double p) {
+    public double evaluate(double[] values, int begin, int length, double p) {
 
-        test(d,start,length);
+        test(values,begin,length);
         
         if ((p > 100) || (p <= 0)) {
             throw new IllegalArgumentException("invalid percentile value");
@@ -125,14 +125,14 @@ public class Percentile extends AbstractUnivariateStatistic {
             return Double.NaN;
         }
         if (n == 1) {
-            return d[start]; // always return single value for n = 1
+            return values[begin]; // always return single value for n = 1
         }
         double pos = p * (n + 1) / 100;
         double fpos = Math.floor(pos);
         int intPos = (int) fpos;
         double dif = pos - fpos;
         double[] sorted = new double[length];
-        System.arraycopy(d, start,sorted, 0, length);
+        System.arraycopy(values, begin,sorted, 0, length);
         Arrays.sort(sorted);
         
         if (pos < 1) {
@@ -158,7 +158,7 @@ public class Percentile extends AbstractUnivariateStatistic {
     /**
      * The default internal state of this percentile can be set.
      * This will setthat value.
-     * @param d a value between 0 <= p <= 100
+     * @param p a value between 0 <= p <= 100
      */
     public void setPercentile(double p) {
         percentile = p;

@@ -78,6 +78,6 @@ public interface UnivariateStatistic {
      * @return the result of the evaluation or Double.NaN 
      * if the array is empty
      */
-    public double evaluate(double[] d, int begin, int length); 
+    public double evaluate(double[] values, int begin, int length); 
 
 }

@@ -70,33 +70,47 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic {
     /**
      * The currently running sumSq
      */
-    protected double sumSq = Double.NaN;
+    private double value = Double.NaN;
 
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
     public double increment(double d) {
-        if (init) {
-            init = false;
-            sumSq = d * d;
+        if (Double.isNaN(value )) {
+            value = d * d;
         } else {
-            sumSq += d * d;
+            value += d * d;
         }
-        return sumSq;
+        return value;
     }
 
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
      */
     public double getValue() {
-        return sumSq;
+        return value;
     }
 
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
      */
-    protected void internalClear() {
-        sumSq = Double.NaN;
+    public void clear() {
+        value = Double.NaN;
     }
+
+    /**
+     * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
+     */
+    public double evaluate(double[] values, int begin, int length) {
+        double sumSq = Double.NaN;
+        if (test(values, begin, length)) {
+            sumSq = 0.0;
+            for (int i = begin; i < begin + length; i++) {
+                sumSq += Math.pow(values[i], 2.0);
+            }
+        }
+        return sumSq;
+    }
+   
 
 }

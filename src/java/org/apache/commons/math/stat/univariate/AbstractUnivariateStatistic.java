@@ -69,15 +69,15 @@ public abstract class AbstractUnivariateStatistic
      * 
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[])
      */
-    public double evaluate(double[] d) {
-        return evaluate(d, 0, d.length);
+    public double evaluate(double[] values) {
+        return evaluate(values, 0, values.length);
     }
 
     /**
-     * Subclasses of AbstractUnivariateStatistc need to implementation this method.
+     * Subclasses of AbstractUnivariateStatistc need to implement this method.
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
-    public abstract double evaluate(double[] d, int start, int length);
+    public abstract double evaluate(double[] values, int begin, int length);
 
     /**
      * this protected test method used by all methods to verify the content 
@@ -86,7 +86,7 @@ public abstract class AbstractUnivariateStatistic
      * @param begin processing at this point in the array
      * @param length processing at this point in the array
      */
-    protected void test(double[] values, int begin, int length) {
+    protected boolean test(double[] values, int begin, int length) {
 
         if (length > values.length)
             throw new IllegalArgumentException("length > values.length");
@@ -96,6 +96,11 @@ public abstract class AbstractUnivariateStatistic
 
         if (values == null)
             throw new IllegalArgumentException("input value array is null");
+
+        if (values.length == 0 || length == 0)
+            return false;
+
+        return true;
 
     }
 }

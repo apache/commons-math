@@ -58,7 +58,7 @@ package org.apache.commons.math.stat.univariate.moment;
  */
 public class Kurtosis extends FourthMoment {
 
-    protected double kurtosis = Double.NaN;
+    private double kurtosis = Double.NaN;
 
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
@@ -83,13 +83,63 @@ public class Kurtosis extends FourthMoment {
     public double getValue() {
         return kurtosis;
     }
-
+    
     /**
-    * @see org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic#internalClear()
-    */
-    protected void internalClear() {
-        super.internalClear();
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
+     */
+    public void clear() {
+        super.clear();
         kurtosis = Double.NaN;
     }
-    
+
+    /**
+        * Returns the kurtosis for this collection of values. Kurtosis is a 
+        * measure of the "peakedness" of a distribution.
+        * @param values Is a double[] containing the values
+        * @param begin processing at this point in the array
+        * @param length processing at this point in the array
+        * @return the kurtosis of the values or Double.NaN if the array is empty
+        */
+       public double evaluate(double[] values, int begin, int length) {
+           test(values, begin, length);
+
+           // Initialize the kurtosis
+           double kurt = Double.NaN;
+
+           // Get the mean and the standard deviation
+           double mean = super.evaluate(values, begin, length);
+
+           // Calc the std, this is implemented here instead of using the 
+           // standardDeviation method eliminate a duplicate pass to get the mean
+           double accum = 0.0;
+           double accum2 = 0.0;
+           for (int i = begin; i < begin + length; i++) {
+               accum += Math.pow((values[i] - mean), 2.0);
+               accum2 += (values[i] - mean);
+           }
+        
+           double stdDev =
+               Math.sqrt(
+                   (accum - (Math.pow(accum2, 2) / ((double) length)))
+                       / (double) (length - 1));
+
+           // Sum the ^4 of the distance from the mean divided by the 
+           // standard deviation
+           double accum3 = 0.0;
+           for (int i = begin; i < begin + length; i++) {
+               accum3 += Math.pow((values[i] - mean) / stdDev, 4.0);
+           }
+
+           // Get N
+           double n = length;
+
+           double coefficientOne = (n * (n + 1)) / ((n - 1) * (n - 2) * (n - 3));
+           double termTwo = ((3 * Math.pow(n - 1, 2.0)) / ((n - 2) * (n - 3)));
+        
+           // Calculate kurtosis
+           kurt = (coefficientOne * accum3) - termTwo;
+
+           return kurt;
+       }
+       
 }

@@ -53,22 +53,11 @@
  */
 package org.apache.commons.math.stat.univariate.moment;
 
-import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
-
 /**
  * @author Mark Diggory
  *
  */
-public class ThirdMoment extends AbstractStorelessUnivariateStatistic{
-
-    /** count of values that have been added */
-    protected int n = 0;
-
-    /** first moment of values that have been added */
-    protected double m1 = Double.NaN;
-
-    /** second moment of values that have been added */
-    protected double m2 = Double.NaN;
+public class ThirdMoment extends SecondMoment{
 
     /** third moment of values that have been added */
     protected double m3 = Double.NaN;
@@ -82,6 +71,7 @@ public class ThirdMoment extends AbstractStorelessUnivariateStatistic{
         }
         
         n++;
+        
         double dev = d - m1;
         double v = dev / ((double) n);
         double v2 = v * v;
@@ -108,10 +98,11 @@ public class ThirdMoment extends AbstractStorelessUnivariateStatistic{
     }
 
     /**
-     * @see org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic#internalClear()
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
      */
-    protected void internalClear() {
-        n = 0;
-        m1 = m2 = m3 = Double.NaN;
+    public void clear() {
+        super.clear();
+        m3 = Double.NaN;
     }
+
 }

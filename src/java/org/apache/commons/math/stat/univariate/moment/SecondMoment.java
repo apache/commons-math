@@ -53,19 +53,19 @@
  */
 package org.apache.commons.math.stat.univariate.moment;
 
-import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
+import org
+    .apache
+    .commons
+    .math
+    .stat
+    .univariate
+    .AbstractStorelessUnivariateStatistic;
 
 /**
  * @author Mark Diggory
  *
  */
-public class SecondMoment extends AbstractStorelessUnivariateStatistic {
-
-    /** count of values that have been added */
-    protected int n = 0;
-
-    /** first moment of values that have been added */
-    protected double m1 = Double.NaN;
+public class SecondMoment extends Mean {
 
     /** second moment of values that have been added */
     protected double m2 = Double.NaN;
@@ -75,17 +75,26 @@ public class SecondMoment extends AbstractStorelessUnivariateStatistic {
      */
     public double increment(double d) {
         if (n < 1) {
-            m2 = m1 = 0.0;
+            m1 = m2 = 0.0;
         }
 
         n++;
-        
+
         double dev = d - m1;
         double v = dev / ((double) n);
-        m1 += v;
-        m2 += (n - 1) * dev * v;
 
+        m2 += ((double)(n - 1)) * dev * v;
+        m1 += v;
+        
         return m2;
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
+     */
+    public void clear() {
+        super.clear();
+        m2 = Double.NaN;
     }
 
     /**
@@ -95,11 +104,4 @@ public class SecondMoment extends AbstractStorelessUnivariateStatistic {
         return m2;
     }
 
-    /**
-     * @see org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic#internalClear()
-     */
-    protected void internalClear() {
-        m2 = Double.NaN;
-        n = 0;
-    }
 }

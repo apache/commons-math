@@ -53,14 +53,20 @@
  */
 package org.apache.commons.math.stat.univariate.rank;
 
-import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
+import org
+    .apache
+    .commons
+    .math
+    .stat
+    .univariate
+    .AbstractStorelessUnivariateStatistic;
 
 /**
  * @author Mark Diggory
  */
 public class Max extends AbstractStorelessUnivariateStatistic {
 
-    double value = Double.NaN;
+    private double value = Double.NaN;
 
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
@@ -70,16 +76,30 @@ public class Max extends AbstractStorelessUnivariateStatistic {
     }
 
     /**
+         * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
+         */
+    public void clear() {
+        value = Double.NaN;
+    }
+
+    /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
      */
     public double getValue() {
         return value;
     }
 
-    /**
-     * @see org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic#internalClear()
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
-    protected void internalClear() {
-        value = Double.NaN;
+    public double evaluate(double[] values, int begin, int length) {
+        double max = Double.NaN;
+        if (test(values, begin, length)) {
+            max = values[begin];
+            for (int i = begin; i < begin + length; i++) {
+                max = (max > values[i]) ? max : values[i];
+            }
+        }
+        return max;
     }
 }

@@ -79,6 +79,7 @@ public interface StorelessUnivariateStatistic extends UnivariateStatistic {
      */
     public double getValue();
 
+
     /**
      * Clears all the internal state of the Statistic
      */
@@ -90,7 +91,7 @@ public interface StorelessUnivariateStatistic extends UnivariateStatistic {
      * <code>evaluate(double[])</code> methods.
      * @return the state
      */
-    public boolean isClearOnEval();
+    //public boolean isClearOnEval();
 
     /**
      * Sets the behavior of this statistic when evaluating
@@ -100,6 +101,6 @@ public interface StorelessUnivariateStatistic extends UnivariateStatistic {
      * incrimented.
      * @param b true | false
      */
-    public void setClearOnEval(boolean b);
+    //public void setClearOnEval(boolean b);
 
 }

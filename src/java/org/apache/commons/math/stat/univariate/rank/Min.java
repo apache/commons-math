@@ -53,22 +53,36 @@
  */
 package org.apache.commons.math.stat.univariate.rank;
 
-import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
+import org
+    .apache
+    .commons
+    .math
+    .stat
+    .univariate
+    .AbstractStorelessUnivariateStatistic;
 
 /**
  * @author Mark Diggory
  */
 public class Min extends AbstractStorelessUnivariateStatistic {
 
-    double value = Double.NaN;
+    private double value = Double.NaN;
 
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
     public double increment(double d) {
-        return value = Double.isNaN(value) ? d : Math.min(value, d);
+        value = Double.isNaN(value) ? d : Math.min(value, d);
+        return value;
     }
 
+    /**
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
+     */
+    public void clear() {
+        value = Double.NaN;
+    }
+    
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
      */
@@ -77,9 +91,16 @@ public class Min extends AbstractStorelessUnivariateStatistic {
     }
 
     /**
-     * @see org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic#internalClear()
+     * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
-    protected void internalClear() {
-        value = Double.NaN;
+    public double evaluate(double[] values, int begin, int length) {
+        double min = Double.NaN;
+        if (test(values, begin, length)) {
+            min = values[begin];
+            for (int i = begin; i < begin + length; i++) {
+                min = (min < values[i]) ? min : values[i];
+            }
+        }
+        return min;
     }
 }

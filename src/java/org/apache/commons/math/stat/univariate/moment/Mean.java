@@ -54,32 +54,43 @@
 package org.apache.commons.math.stat.univariate.moment;
 
 import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math.stat.univariate.summary.Sum;
 
 /**
  * @author Mark Diggory
  */
 public class Mean extends AbstractStorelessUnivariateStatistic {
 
+
     /** count of values that have been added */
-    private int n = 0;
+    protected int n = 0;
 
     /** first moment of values that have been added */
-    private double m1 = Double.NaN;
+    protected double m1 = Double.NaN;
+    
+    private Sum sum = new Sum();
     
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
     public double increment(double d) {
         if (n < 1) {
-            m1 = 0.0;
+             m1 = 0.0;
         }
+         
         n++;
-
         m1 += (d - m1) / ((double) n);
-
         return m1;
     }
-
+    
+    /**
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
+     */
+    public void clear() {
+        m1 = Double.NaN;
+        n = 0;
+    }
+    
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
      */
@@ -88,11 +99,12 @@ public class Mean extends AbstractStorelessUnivariateStatistic {
     }
 
     /**
-    * @see org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic#internalClear()
-    */
-    protected void internalClear() {
-        m1 = Double.NaN;
-        n = 0;
+     * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
+     */
+    public double evaluate(double[] values, int begin, int length) {
+        if(test(values,begin,length))
+            return sum.evaluate(values, begin, length) / ((double) length);
+        return Double.NaN;
     }
 
 }
