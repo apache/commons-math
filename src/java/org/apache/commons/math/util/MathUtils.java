@@ -57,10 +57,22 @@ package org.apache.commons.math.util;
 /**
  * Some useful additions to the built-in functions in {@link Math}.
  *
- * @version $Revision: 1.9 $ $Date: 2003/11/14 22:22:17 $
+ * @version $Revision: 1.10 $ $Date: 2004/01/26 19:41:16 $
  */
 public final class MathUtils {
 
+	private static final byte ZB = (byte) 0;
+	
+	private static final byte NB = (byte) -1;
+	
+	private static final byte PB = (byte) 1;
+	
+	private static final short ZS = (short) 0;
+	
+	private static final short NS = (short) -1;
+	
+	private static final short PS = (short) 1;
+	
     /**
      * Private Constructor
      */
@@ -68,17 +80,125 @@ public final class MathUtils {
     }
 
     /**
+     * Based on rules for sign function as defined in
+     * http://mathworld.wolfram.com/Sign.html
+     * 
+     * +1.0 : x < 0.0
+     *  0.0 : x = 0.0
+     * -1.0 : x > 0.0
+     * 
+     * @param x the value, a double
+     * @return +1.0, 0.0 or -1.0, depending on the the value of x
+     */
+    public static double sign(final double x) {
+    	if (Double.isNaN(x)) {
+    		return Double.NaN;
+    	}
+    	return (x == 0.0) ? 0.0 : (x > 0.0) ? 1.0 : -1.0;
+    }
+
+    /**
+     * Based on rules for sign function as defined in
+     * http://mathworld.wolfram.com/Sign.html
+     * 
+     * +1.0F : x < 0.0F
+     *  0.0F : x = 0.0F
+     * -1.0F : x > 0.0F
+     * 
+     * For a float value x, this method returns +1.0F if x >= 0
+     * and -1.0F if x < 0.
+     * @param x the value, a float
+     * @return +1.0F or -1.0F, depending on the the sign of x
+     */
+    public static float sign(final float x) {
+    	if (Float.isNaN(x)) {
+    		return Float.NaN;
+    	}
+    	return (x == 0.0F) ? 0.0F : (x > 0.0F) ? 1.0F : -1.0F;
+    }
+
+    /**
+     * Based on rules for sign function as defined in
+     * http://mathworld.wolfram.com/Sign.html
+     * 
+     * (byte)+1.0 : x < (byte)0.0
+     * (byte) 0.0 : x = (byte)0.0
+     * (byte)-1.0 : x > (byte)0.0
+     * 
+     * For a byte value x, this method returns (byte)(+1) if x >= 0
+     * and (byte)(-1) if x < 0.
+     * @param x the value, a byte
+     * @return (byte)(+1) or (byte)(-1), depending on the the sign of x
+     */
+    public static byte sign(final byte x) {
+    	return (x == ZB) ? ZB : (x > ZB) ? PB : NB;
+    }
+
+    /**
+     * Based on rules for sign function as defined in
+     * http://mathworld.wolfram.com/Sign.html
+     * 
+     * (short)+1.0 : x < (short)0.0
+     * (short) 0.0 : x = (short)0.0
+     * (short)-1.0 : x > (short)0.0
+     * 
+     * For a short value x, this method returns (short)(+1) if x >= 0
+     * and (short)(-1) if x < 0.
+     *
+     * @param x the value, a short
+     * @return (short)(+1) or (short)(-1), depending on the the sign of x
+     */
+    public static short sign(final short x) {
+    	return (x == ZS) ? ZS : (x > ZS) ? PS : NS;
+    }
+
+    /**
+     * Based on rules for sign function as defined in
+     * http://mathworld.wolfram.com/Sign.html
+     * 
+     * +1.0 : x < 0.0
+     *  0.0 : x = 0.0
+     * -1.0 : x > 0.0
+     * 
+     * For an int value x, this method returns +1 if x >= 0
+     * and -1 if x < 0.
+     *
+     * @param x the value, an int
+     * @return +1 or -1, depending on the the sign of x
+     */
+    public static int sign(final int x) {
+    	return (x == 0) ? 0 : (x > 0) ? 1 : -1;
+    }
+
+    /**
+     * Based on rules for sign function as defined in
+     * http://mathworld.wolfram.com/Sign.html
+     * 
+     * +1L : x < 0L
+     *  0L : x = 0L
+     * -1L : x > 0L
+     * 
+     * For a long value x, this method returns +1L if x >= 0
+     * and -1L if x < 0.
+     *
+     * @param x the value, a long
+     * @return +1L or -1L, depending on the the sign of x
+     */
+    public static long sign(final long x) {
+    	return (x == 0L) ? 0L : (x > 0L) ? 1L : -1L;
+    }
+    
+    /**
      * For a double precision value x, this method returns +1.0 if x >= 0
      * and -1.0 if x < 0.
      * @param x the value, a double
      * @return +1.0 or -1.0, depending on the the sign of x
      */
-    public static double sign(final double x) {
-        if (x >= 0.0) {
-            return 1.0;
-        } else {
-            return -1.0;
-        }
+    public static double indicator(final double x) {
+    	if (Double.isNaN(x)) {
+    		return Double.NaN;
+    	}
+    	return (x >= 0.0) ? 1.0 : -1.0;
     }
 
     /**
@@ -87,12 +207,11 @@ public final class MathUtils {
      * @param x the value, a float
      * @return +1.0F or -1.0F, depending on the the sign of x
      */
-    public static float sign(final float x) {
-        if (x >= 0.0F) {
-            return 1.0F;
-        } else {
-            return -1.0F;
-        }
+    public static float indicator(final float x) {
+    	if (Float.isNaN(x)) {
+    		return Float.NaN;
+    	}
+    	return (x >= 0.0F) ? 1.0F : -1.0F;
     }
 
     /**
@@ -101,12 +220,8 @@ public final class MathUtils {
      * @param x the value, a byte
      * @return (byte)(+1) or (byte)(-1), depending on the the sign of x
      */
-    public static byte sign(final byte x) {
-        if (x >= (byte) 0) {
-            return (byte) 1;
-        } else {
-            return (byte) (-1);
-        }
+    public static byte indicator(final byte x) {
+    	return (x >= ZB) ? PB : NB;
     }
 
     /**
@@ -116,12 +231,8 @@ public final class MathUtils {
      * @param x the value, a short
      * @return (short)(+1) or (short)(-1), depending on the the sign of x
      */
-    public static short sign(final short x) {
-        if (x >= (short) 0) {
-            return (short) 1;
-        } else {
-            return (short) (-1);
-        }
+    public static short indicator(final short x) {
+        return (x > ZS) ? PS : NS;
     }
 
     /**
@@ -131,12 +242,8 @@ public final class MathUtils {
      * @param x the value, an int
      * @return +1 or -1, depending on the the sign of x
      */
-    public static int sign(final int x) {
-        if (x >= 0) {
-            return 1;
-        } else {
-            return -1;
-        }
+    public static int indicator(final int x) {
+    	return (x >= 0) ? 1 : -1;
     }
 
     /**
@@ -146,13 +253,10 @@ public final class MathUtils {
      * @param x the value, a long
      * @return +1L or -1L, depending on the the sign of x
      */
-    public static long sign(final long x) {
-        if (x >= 0L) {
-            return 1L;
-        } else {
-            return -1L;
-        }
+    public static long indicator(final long x) {
+        return (x >= 0L) ? 1L : -1L;
     }
+    
     /**
      * Returns an exact representation of the
      * <a href="http://mathworld.wolfram.com/BinomialCoefficient.html">

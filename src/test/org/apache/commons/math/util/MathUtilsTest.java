@@ -62,7 +62,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the MathUtils class.
  *
- * @version $Revision: 1.7 $ $Date: 2003/11/15 18:52:31 $
+ * @version $Revision: 1.8 $ $Date: 2004/01/26 19:41:16 $
  */
 
 public final class MathUtilsTest extends TestCase {
@@ -317,39 +317,39 @@ public final class MathUtilsTest extends TestCase {
 
     public void testSignDouble() {
         double delta = 0.0 ;
-        assertEquals( 1.0, MathUtils.sign( 2.0 ), delta ) ;
-        assertEquals( -1.0, MathUtils.sign( -2.0 ), delta ) ;
+        assertEquals( 1.0, MathUtils.indicator( 2.0 ), delta ) ;
+        assertEquals( -1.0, MathUtils.indicator( -2.0 ), delta ) ;
     }
 
 
     public void testSignFloat() {
         float delta = 0.0F ;
-        assertEquals( 1.0F, MathUtils.sign( 2.0F ), delta ) ;
-        assertEquals( -1.0F, MathUtils.sign( -2.0F ), delta ) ;
+        assertEquals( 1.0F, MathUtils.indicator( 2.0F ), delta ) ;
+        assertEquals( -1.0F, MathUtils.indicator( -2.0F ), delta ) ;
     }
 
 
     public void testSignByte() {
-        assertEquals( (byte)1, MathUtils.sign( (byte)2 ) ) ;
-        assertEquals( (byte)(-1), MathUtils.sign( (byte)(-2) ) ) ;
+        assertEquals( (byte)1, MathUtils.indicator( (byte)2 ) ) ;
+        assertEquals( (byte)(-1), MathUtils.indicator( (byte)(-2) ) ) ;
     }
 
 
     public void testSignShort() {
-        assertEquals( (short)1, MathUtils.sign( (short)2 ) ) ;
-        assertEquals( (short)(-1), MathUtils.sign( (short)(-2) ) ) ;
+        assertEquals( (short)1, MathUtils.indicator( (short)2 ) ) ;
+        assertEquals( (short)(-1), MathUtils.indicator( (short)(-2) ) ) ;
     }
 
 
     public void testSignInt() {
-        assertEquals( (int)1, MathUtils.sign( (int)(2) ) ) ;
-        assertEquals( (int)(-1), MathUtils.sign( (int)(-2) ) ) ;
+        assertEquals( (int)1, MathUtils.indicator( (int)(2) ) ) ;
+        assertEquals( (int)(-1), MathUtils.indicator( (int)(-2) ) ) ;
     }
 
 
     public void testSignLong() {
-        assertEquals( 1L, MathUtils.sign( 2L ) ) ;
-        assertEquals( -1L, MathUtils.sign( -2L ) ) ;
+        assertEquals( 1L, MathUtils.indicator( 2L ) ) ;
+        assertEquals( -1L, MathUtils.indicator( -2L ) ) ;
     }
     
     public void testCosh() {

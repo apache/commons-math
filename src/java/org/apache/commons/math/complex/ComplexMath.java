@@ -62,7 +62,7 @@ import org.apache.commons.math.util.MathUtils;
  * Reference:
  *   http://myweb.lmu.edu/dmsmith/ZMLIB.pdf
  * 
- * @version $Revision: 1.4 $ $Date: 2003/11/15 18:52:31 $
+ * @version $Revision: 1.5 $ $Date: 2004/01/26 19:41:16 $
  */
 public class ComplexMath {
     
@@ -221,7 +221,7 @@ public class ComplexMath {
             return new Complex(t, b / (2.0 * t));
         } else {
             return new Complex(Math.abs(z.getImaginary()) / (2.0 * t),
-                MathUtils.sign(b) * t);
+                MathUtils.indicator(b) * t);
         }
     }
     
