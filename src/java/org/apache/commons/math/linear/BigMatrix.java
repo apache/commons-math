@@ -1,5 +1,5 @@
 /*
- * Copyright 2003-2004 The Apache Software Foundation.
+ * Copyright 2004 The Apache Software Foundation.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import java.math.BigDecimal;
  * Interface defining a real-valued matrix with basic algebraic operations, using
  * BigDecimal representations for the entries.
  * 
- * @version $Revision: 1.1 $ $Date: 2004/06/06 04:20:45 $
+ * @version $Revision: 1.2 $ $Date: 2004/06/06 16:08:52 $
  */
 public interface BigMatrix {
 
