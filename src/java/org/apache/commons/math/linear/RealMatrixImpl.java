@@ -42,26 +42,26 @@ import java.io.Serializable;
  * explicitly invoke <code>LUDecompose()</code> to recompute the decomposition
  * before using any of the methods above.
  *
- * @version $Revision: 1.15 $ $Date: 2004/04/03 22:18:04 $
+ * @version $Revision: 1.16 $ $Date: 2004/04/08 07:01:17 $
  */
 public class RealMatrixImpl implements RealMatrix, Serializable {
 
 	/** Entries of the matrix */
 	private double data[][] = null;
 
-	/** Entries of LU decomposition.
-	 * All updates to data (other than luDecompostion) *must* set this to null
+	/** Entries of cached LU decomposition.
+	 *  All updates to data (other than luDecompose()) *must* set this to null
 	 */
 	private double lu[][] = null;
 
-	/** Pivot array associated with LU decompostion */
-	private int[] pivot = null;
+	/** Permutation associated with LU decompostion */
+	private int[] permutation = null;
 
 	/** Parity of the permutation associated with the LU decomposition */
 	private int parity = 1;
 
 	/** Bound to determine effective singularity in LU decomposition */
-	private static double TOO_SMALL = 10E-12;
+	protected static double TOO_SMALL = 10E-12;
 
 	/** 
 	 * Creates a matrix with no data
@@ -240,6 +240,17 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
 		}
 		return new RealMatrixImpl(outData);
 	}
+    
+    /**
+     * Returns the result premultiplying this by <code>m</code>.
+     * @param m    matrix to premultiply by
+     * @return     m * this
+     * @throws     IllegalArgumentException
+     *             if rowDimension(this) != columnDimension(m)
+     */
+    public RealMatrix preMultiply(RealMatrix m) throws IllegalArgumentException {
+        return m.multiply(this);
+    }
 
 	/**
 	 * Returns matrix entries as a two-dimensional array.
@@ -422,7 +433,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
 			return det;
 		}
 	}
-
+    
 	/**
 	 * @return true if the matrix is square (rowDimension = columnDimension)
 	 */
@@ -436,7 +447,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
 	public boolean isSingular() {
 		if (lu == null) {
 			try {
-				LUDecompose();
+				luDecompose();
 				return false;
 			} catch (InvalidMatrixException ex) {
 				return true;
@@ -502,15 +513,21 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
 	 * @throws IllegalArgumentException if rowDimension != v.length
 	 * @return resulting matrix
 	 */
-	public RealMatrix preMultiply(double[] v) throws IllegalArgumentException {
-		int nCols = this.getColumnDimension();
-		if (v.length != nCols) {
+	public double[] preMultiply(double[] v) throws IllegalArgumentException {
+		int nRows = this.getRowDimension();
+		if (v.length != nRows) {
 			throw new IllegalArgumentException("vector has wrong length");
 		}
-		// being a bit lazy here -- probably should implement directly, like
-		// operate
-		RealMatrix pm = new RealMatrixImpl(v).transpose();
-		return pm.multiply(this);
+        int nCols = this.getColumnDimension();
+        double[] out = new double[nCols];
+        for (int col = 0; col < nCols; col++) {
+            double sum = 0;
+            for (int i = 0; i < nRows; i++) {
+                sum += data[i][col] * v[i];
+            }
+            out[col] = sum;
+        }
+        return out;
 	}
 
 	/**
@@ -569,7 +586,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
 		double[][] bp = new double[nRowB][nColB];
 		for (int row = 0; row < nRowB; row++) {
 			for (int col = 0; col < nColB; col++) {
-				bp[row][col] = bv[pivot[row]][col];
+				bp[row][col] = bv[permutation[row]][col];
 			}
 		}
 		bv = null;
@@ -602,7 +619,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
 	/**
 	 * Computes a new <a href="http://www.math.gatech.edu/~bourbaki/
 	 * math2601/Web-notes/2num.pdf">LU decompostion</a> for this matrix,
-	 * storing the result for use by other methods.
+	 * storing the result for use by other methods. 
 	 * <p>
 	 * <strong>Implementation Note</strong>:<br>
 	 * Uses <a href="http://www.damtp.cam.ac.uk/user/fdl/
@@ -616,22 +633,21 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
 	 * made using setXxx methods will trigger recomputation when needed
 	 * automatically.
 	 *
-	 * @throws InvalidMatrixException if the matrix is singular or if the matrix has more rows than columns
+	 * @throws InvalidMatrixException if the matrix is non-square or singular.
 	 */
-	public void LUDecompose() throws InvalidMatrixException {
-		// @TODO Bad method name - get rid of leading capitals
-		
+	public void luDecompose() throws InvalidMatrixException {
+		 
 		int nRows = this.getRowDimension();
 		int nCols = this.getColumnDimension();
-		if (nRows < nCols) {
-			throw new InvalidMatrixException("LU decomposition requires row dimension >= column dimension");
+		if (nRows != nCols) {
+			throw new InvalidMatrixException("LU decomposition requires that the matrix be square.");
 		}
 		lu = this.getData();
 
-		// Initialize pivot array and parity
-		pivot = new int[nRows];
+		// Initialize permutation array and parity
+		permutation = new int[nRows];
 		for (int row = 0; row < nRows; row++) {
-			pivot[row] = row;
+			permutation[row] = row;
 		}
 		parity = 1;
 
@@ -650,7 +666,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
 			}
 
 			// lower
-			int max = col; // pivot row
+			int max = col; // permutation row
 			double largest = 0d;
 			for (int row = col; row < nRows; row++) {
 				sum = lu[row][col];
@@ -659,7 +675,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
 				}
 				lu[row][col] = sum;
 
-				// maintain best pivot choice
+				// maintain best permutation choice
 				if (Math.abs(sum) > largest) {
 					largest = Math.abs(sum);
 					max = row;
@@ -680,9 +696,9 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
 					lu[max][i] = lu[col][i];
 					lu[col][i] = tmp;
 				}
-				int temp = pivot[max];
-				pivot[max] = pivot[col];
-				pivot[col] = temp;
+				int temp = permutation[max];
+				permutation[max] = permutation[col];
+				permutation[col] = temp;
 				parity = -parity;
 			}
 
@@ -733,6 +749,58 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
 		}
 		return out;
 	}
+	
+	/**
+	 *  Returns the LU decomposition as a RealMatrix.
+	 *  Returns a fresh copy of the cached LU matrix if this has been computed; 
+	 *  otherwise the composition is computed and cached for use by other methods.   
+	 *  Since a copy is returned in either case, changes to the returned matrix do not 
+	 *  affect the LU decomposition property. 
+	 * <p>
+	 * The matrix returned is a compact representation of the LU decomposition. 
+	 * Elements below the main diagonal correspond to entries of the "L" matrix;   
+	 * elements on and above the main diagonal correspond to entries of the "U"
+	 * matrix.
+	 * <p>
+	 * Example: <pre>
+	 * 
+	 *     Returned matrix                L                  U
+	 *         2  3  1                   1  0  0            2  3  1          
+	 *         5  4  6                   5  1  0            0  4  6
+	 *         1  7  8                   1  7  1            0  0  8          
+	 * </pre>
+	 * 
+	 * The L and U matrices satisfy the matrix equation LU = permuteRows(this), <br>
+	 *  where permuteRows reorders the rows of the matrix to follow the order determined
+	 *  by the <a href=#getPermutation()>permutation</a> property.
+	 * 
+	 * @return LU decomposition matrix
+	 * @throws InvalidMatrixException if the matrix is non-square or singular.
+	 */
+	protected RealMatrix getLUMatrix() throws InvalidMatrixException {
+	    if (lu == null) {
+	        luDecompose();
+	    }
+	    return new RealMatrixImpl(lu);   
+	}
+	
+	/**
+	 * Returns the permutation associated with the lu decomposition.
+	 * The entries of the array represent a permutation of the numbers 0, ... , nRows - 1.
+	 * <p>
+	 * Example:
+	 * permutation = [1, 2, 0] means current 2nd row is first, current third row is second
+	 * and current first row is last.
+	 * <p>
+	 * Returns a fresh copy of the array.
+	 * 
+	 * @return the permutation
+	 */
+	protected int[] getPermutation() {
+	    int[] out = new int[permutation.length];
+	    System.arraycopy(permutation, 0, out, 0, permutation.length);
+	    return out;
+	}
 
 	//------------------------ Private methods
 
@@ -778,5 +846,5 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
 
 		return !(row < 1 || row > nRows || col < 1 || col > nCols);
 	}
-
+	
 }
