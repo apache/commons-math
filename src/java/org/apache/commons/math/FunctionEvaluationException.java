@@ -21,7 +21,7 @@ package org.apache.commons.math;
  * Maintains an <code>argument</code> property holding the input value that
  * caused the function evaluation to fail.
  * 
- * @version $Revision: 1.1 $ $Date: 2004/07/17 19:41:05 $
+ * @version $Revision: 1.2 $ $Date: 2004/07/17 21:12:52 $
  */
 public class FunctionEvaluationException extends MathException  {
     
@@ -60,7 +60,8 @@ public class FunctionEvaluationException extends MathException  {
      * The message text of the exception will start with  <code>message</code>
      * and be followed by " Evaluation failed for argument = " + argument.
      * 
-     * @param message descriptive error message.
+     * @param argument  the failing function argument 
+     * @param message descriptive error message
      * @param cause root cause.
      */
     public FunctionEvaluationException(double argument, String message, 
