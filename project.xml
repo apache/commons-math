@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Revision: 1.30 $ $Date: 2003/11/15 20:57:46 $ -->
+<!-- $Revision: 1.31 $ $Date: 2003/11/17 05:38:09 $ -->
 <project>
   <extend>../../jakarta-commons/project.xml</extend>
   <name>Math</name>
   <id>commons-math</id>
   <currentVersion>0.1-dev</currentVersion>
   <inceptionYear>2003</inceptionYear>
-  <logo/>
+  <logo>/images/math.gif</logo>
   <shortDescription>
 A library of lightweight, self-contained mathematics and statistics components.
   </shortDescription>
