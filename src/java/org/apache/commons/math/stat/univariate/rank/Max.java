@@ -17,35 +17,38 @@ package org.apache.commons.math.stat.univariate.rank;
 
 import java.io.Serializable;
 
-import org
-    .apache
-    .commons
-    .math
-    .stat
-    .univariate
-    .AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
 
 /**
  * Returns the maximum of the available values.
+ * <p>
+ * <ul>
+ * <li>The result is <code>NaN</code> iff all values are <code>NaN</code> 
+ * (i.e. <code>NaN</code> values have no impact on the value of the statistic).</li>
+ * <li>If any of the values equals <code>Double.POSITIVE_INFINITY</code>, 
+ * the result is <code>Double.POSITIVE_INFINITY.</code></li>
+ * </ul>
  * 
- * @version $Revision: 1.16 $ $Date: 2004/04/27 16:42:33 $
+ * @version $Revision: 1.17 $ $Date: 2004/06/18 13:24:06 $
  */
 public class Max extends AbstractStorelessUnivariateStatistic implements Serializable {
 
     /** Serializable version identifier */
     static final long serialVersionUID = -5593383832225844641L;    
     
-    /** */
+    /** Number of values that have been added */
     private long n = 0;
         
-    /** */
+    /** Current value of the statistic */
     private double value = Double.NaN;
 
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
     public void increment(final double d) {
-        value = Double.isNaN(value) ? d : Math.max(value, d);
+        if (d > value || Double.isNaN(value)) {
+            value = d;
+        }
         n++;
     }
 
@@ -76,10 +79,7 @@ public class Max extends AbstractStorelessUnivariateStatistic implements Seriali
      * 
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
-    public double evaluate(
-        final double[] values,
-        final int begin,
-        final int length) {
+    public double evaluate(final double[] values, final int begin, final int length) {
         double max = Double.NaN;
         if (test(values, begin, length)) {
             max = values[begin];
