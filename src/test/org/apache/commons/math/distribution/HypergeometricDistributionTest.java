@@ -51,21 +51,22 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
+
 package org.apache.commons.math.stat.distribution;
 
 import junit.framework.TestCase;
 
 /**
- * @author Brent Worden
+ * @version $Revision: 1.1 $ $Date: 2003/09/17 19:19:09 $
  */
-public class BinomialDistributionTest extends TestCase {
-    private BinomialDistribution b;
+public class HypergeometricDistributionTest extends TestCase {
+    private HypergeometricDistribution h;
     
     /**
      * Constructor for ChiSquareDistributionTest.
      * @param name
      */
-    public BinomialDistributionTest(String name) {
+    public HypergeometricDistributionTest(String name) {
         super(name);
     }
 
@@ -74,90 +75,90 @@ public class BinomialDistributionTest extends TestCase {
      */
     protected void setUp() throws Exception {
         super.setUp();
-        b = DistributionFactory.newInstance().createBinomialDistribution(10, 0.70);
+        h = DistributionFactory.newInstance().createHypergeometricDistribution(10, 5, 5);
     }
 
     /*
      * @see TestCase#tearDown()
      */
     protected void tearDown() throws Exception {
-        b = null;
+        h = null;
         super.tearDown();
     }
 
     public void testInverseCummulativeProbability001() {
-        testValue(1, .001);
+        testValue(-1, .001);
     }
     
     public void testInverseCumulativeProbability010() {
-        testValue(2, .010);
+        testValue(0, .010);
     }
     
     public void testInverseCumulativeProbability025() {
-        testValue(3, .025);
+        testValue(0, .025);
     }
 
     public void testInverseCumulativeProbability050() {
-        testValue(4, .050);
+        testValue(0, .050);
     }
     
     public void testInverseCumulativeProbability100() {
-        testValue(4, .100);
+        testValue(0, .100);
     }
 
     public void testInverseCummulativeProbability999() {
-        testValue(9, .999);
+        testValue(4, .999);
     }
     
     public void testInverseCumulativeProbability990() {
-        testValue(9, .990);
+        testValue(3, .990);
     }
     
     public void testInverseCumulativeProbability975() {
-        testValue(9, .975);
+        testValue(3, .975);
     }
 
     public void testInverseCumulativeProbability950() {
-        testValue(8, .950);
+        testValue(3, .950);
     }
     
     public void testInverseCumulativeProbability900() {
-        testValue(8, .900);
+        testValue(3, .900);
+    }
+
+    public void testCummulativeProbability0() {
+        testProbability(0, .00400);
     }
 
     public void testCummulativeProbability1() {
-        testProbability(1, .00014);
+        testProbability(1, .10318);
     }
     
     public void testCumulativeProbability2() {
-        testProbability(2, .00159);
+        testProbability(2, .50000);
     }
     
     public void testCumulativeProbability3() {
-        testProbability(3, .01059);
+        testProbability(3, .89683);
     }
 
     public void testCumulativeProbability4() {
-        testProbability(4, .04735);
+        testProbability(4, .99603);
     }
     
-    public void testCumulativeProbability9() {
-        testProbability(9, .97175);
+    public void testCumulativeProbability5() {
+        testProbability(5, 1.00000);
     }
 
-    public void testCummulativeProbability8() {
-        testProbability(8, .85069);
-    }
-    
     private void testProbability(int x, double expected){
-        double actual = b.cummulativeProbability(x);
+        double actual = h.cummulativeProbability(x);
         assertEquals(expected, actual, 10e-4);
     }
     
     private void testValue(int expected, double p){
-        int actual = b.inverseCummulativeProbability(p);
+        int actual = h.inverseCummulativeProbability(p);
         assertEquals(expected, actual);
-        assertTrue(b.cummulativeProbability(actual) <= p);
-        assertTrue(b.cummulativeProbability(actual + 1) >= p);
+        assertTrue(h.cummulativeProbability(actual) <= p);
+        assertTrue(h.cummulativeProbability(actual + 1) >= p);
     }
 }

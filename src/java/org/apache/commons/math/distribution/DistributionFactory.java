@@ -51,6 +51,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
+
 package org.apache.commons.math.stat.distribution;
 
 /**
@@ -72,7 +73,7 @@ package org.apache.commons.math.stat.distribution;
  * ChiSquaredDistribution chi = factory.createChiSquareDistribution(5.0);
  * </pre>
  * 
- * @version $Revision: 1.10 $ $Date: 2003/08/16 17:06:15 $
+ * @version $Revision: 1.11 $ $Date: 2003/09/17 19:19:08 $
  */
 public abstract class DistributionFactory {
     /**
@@ -99,7 +100,7 @@ public abstract class DistributionFactory {
      * @param probabilityOfSuccess the probability of success.
      * @return a new binomial distribution.
      */
-    public abstract BinomialDistribution createBinomailDistribution(
+    public abstract BinomialDistribution createBinomialDistribution(
         int numberOfTrials, double probabilityOfSuccess);
         
     /**
@@ -142,4 +143,16 @@ public abstract class DistributionFactory {
      * @return a new t distribution.  
      */
     public abstract TDistribution createTDistribution(double degreesOfFreedom);
+    
+    /**
+     * Create a new hypergeometric distribution with the given the population
+     * size, the number of successes in the population, and the sample size.
+     * @param populationSize the population size.
+     * @param numberOfSuccesses number of successes in the population.
+     * @param sampleSize the sample size.
+     * @return a new hypergeometric desitribution.
+     */
+    public abstract HypergeometricDistribution
+        createHypergeometricDistribution(int populationSize,
+            int numberOfSuccesses, int sampleSize);
 }

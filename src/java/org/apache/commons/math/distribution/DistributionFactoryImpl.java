@@ -58,7 +58,7 @@ package org.apache.commons.math.stat.distribution;
  * A concrete distribution factory.  This is the default factory used by
  * Commons-Math.
  *  
- * @version $Revision: 1.8 $ $Date: 2003/08/16 17:06:15 $
+ * @version $Revision: 1.9 $ $Date: 2003/09/17 19:19:08 $
  */
 public class DistributionFactoryImpl extends DistributionFactory {
     /**
@@ -129,10 +129,27 @@ public class DistributionFactoryImpl extends DistributionFactory {
      * @param probabilityOfSuccess the probability of success.
      * @return a new binomial distribution.
      */
-    public BinomialDistribution createBinomailDistribution(
+    public BinomialDistribution createBinomialDistribution(
         int numberOfTrials, double probabilityOfSuccess) {
         return new BinomialDistributionImpl(numberOfTrials,
             probabilityOfSuccess);
+    }
+
+    /**
+     * Create a new hypergeometric distribution with the given the population
+     * size, the number of successes in the population, and the sample size.
+     * @param populationSize the population size.
+     * @param numberOfSuccesses number of successes in the population.
+     * @param sampleSize the sample size.
+     * @return a new hypergeometric desitribution.
+     */
+    public HypergeometricDistribution createHypergeometricDistribution(
+        int populationSize,
+        int numberOfSuccesses,
+        int sampleSize)
+    {
+        return new HypergeometricDistributionImpl(populationSize,
+            numberOfSuccesses, sampleSize);
     }
 
 }

@@ -51,22 +51,57 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.commons.math.util;
 
-import org.apache.commons.math.MathException;
+package org.apache.commons.math.stat.distribution;
 
 /**
- * Subclasses implementing this interface can transform Objects to doubles.
- * @version $Revision: 1.4 $ $Date: 2003/09/17 19:19:09 $
+ * The Hypergeometric Distribution.
+ * 
+ * Instances of HypergeometricDistribution objects should be created using
+ * {@link DistributionFactory#createHypergeometricDistribution(int, int, int)}.
+ * 
+ * References:
+ * <ul>
+ * <li><a href="http://mathworld.wolfram.com/HypergeometricDistribution.html">
+ * Hypergeometric Distribution</a></li>
+ * </ul>
+ * 
+ * @version $Revision: 1.1 $ $Date: 2003/09/17 19:19:08 $
  */
-public interface NumberTransformer {
+public interface HypergeometricDistribution extends DiscreteDistribution {
+    /**
+     * Access the number of successes.
+     * @return the number of successes.
+     */
+    public abstract int getNumberOfSuccesses();
     
     /**
-     * Implementing this interface provides a facility to transform
-     * from Object to Double.
-     * 
-     * @param o the Object to be transformed.
-     * @return the double value of the Object.
+     * Access the population size.
+     * @return the population size.
      */
-    double transform(Object o) throws MathException;
+    public abstract int getPopulationSize();
+    
+    /**
+     * Access the sample size.
+     * @return the sample size.
+     */
+    public abstract int getSampleSize();
+    
+    /**
+     * Modify the number of successes.
+     * @param num the new number of successes.
+     */
+    public abstract void setNumberOfSuccesses(int num);
+    
+    /**
+     * Modify the population size.
+     * @param size the new population size.
+     */
+    public abstract void setPopulationSize(int size);
+    
+    /**
+     * Modify the sample size.
+     * @param size the new sample size.
+     */
+    public abstract void setSampleSize(int size);
 }

@@ -200,7 +200,7 @@ public class DistributionFactoryImplTest extends TestCase {
     
     public void testBinomialDistributionNegativePositive(){
         try {
-            factory.createBinomailDistribution(-1, 0.5);
+            factory.createBinomialDistribution(-1, 0.5);
             fail("negative number of trials.  IllegalArgumentException expected");
         } catch (IllegalArgumentException ex ) {
         }
@@ -208,7 +208,7 @@ public class DistributionFactoryImplTest extends TestCase {
     
     public void testBinomialDistributionZeroPositive(){
         try {
-            factory.createBinomailDistribution(0, 0.5);
+            factory.createBinomialDistribution(0, 0.5);
         } catch (IllegalArgumentException ex ) {
             fail("zero number of trials.  IllegalArgumentException is not expected");
         }
@@ -216,7 +216,7 @@ public class DistributionFactoryImplTest extends TestCase {
     
     public void testBinomialDistributionPositivePositive(){
         try {
-            factory.createBinomailDistribution(10, 0.5);
+            factory.createBinomialDistribution(10, 0.5);
         } catch (IllegalArgumentException ex ) {
             fail("positive number of trials.  IllegalArgumentException is not expected");
         }
@@ -224,7 +224,7 @@ public class DistributionFactoryImplTest extends TestCase {
     
     public void testBinomialDistributionPositiveNegative(){
         try {
-            factory.createBinomailDistribution(10, -0.5);
+            factory.createBinomialDistribution(10, -0.5);
             fail("negative probability of success.  IllegalArgumentException expected");
         } catch (IllegalArgumentException ex ) {
         }
@@ -232,7 +232,7 @@ public class DistributionFactoryImplTest extends TestCase {
     
     public void testBinomialDistributionPositiveZero(){
         try {
-            factory.createBinomailDistribution(10, 0.0);
+            factory.createBinomialDistribution(10, 0.0);
         } catch (IllegalArgumentException ex ) {
             fail("zero probability of success.  IllegalArgumentException is not expected");
         }
@@ -240,7 +240,7 @@ public class DistributionFactoryImplTest extends TestCase {
     
     public void testBinomialDistributionPositiveOne(){
         try {
-            factory.createBinomailDistribution(10, 1.0);
+            factory.createBinomialDistribution(10, 1.0);
         } catch (IllegalArgumentException ex ) {
             fail("valid probability of success.  IllegalArgumentException is not expected");
         }
@@ -248,9 +248,57 @@ public class DistributionFactoryImplTest extends TestCase {
     
     public void testBinomialDistributionPositiveTwo(){
         try {
-            factory.createBinomailDistribution(10, 2.0);
+            factory.createBinomialDistribution(10, 2.0);
             fail("high probability of success.  IllegalArgumentException expected");
         } catch (IllegalArgumentException ex ) {
+        }
+    }
+    
+    public void testHypergeometricDistributionNegativePositivePositive(){
+        try {
+            factory.createHypergeometricDistribution(-1, 10, 10);
+            fail("negative population size.  IllegalArgumentException expected");
+        } catch(IllegalArgumentException ex) {
+        }
+    }
+    
+    public void testHypergeometricDistributionZeroPositivePositive(){
+        try {
+            factory.createHypergeometricDistribution(0, 10, 10);
+            fail("zero population size.  IllegalArgumentException expected");
+        } catch(IllegalArgumentException ex) {
+        }
+    }
+    
+    public void testHypergeometricDistributionPositiveNegativePositive(){
+        try {
+            factory.createHypergeometricDistribution(20, -1, 10);
+            fail("negative number of successes.  IllegalArgumentException expected");
+        } catch(IllegalArgumentException ex) {
+        }
+    }
+    
+    public void testHypergeometricDistributionPositiveZeroPositive(){
+        try {
+            factory.createHypergeometricDistribution(20, 0, 10);
+        } catch(IllegalArgumentException ex) {
+            fail("valid number of successes.  IllegalArgumentException is not expected");
+        }
+    }
+    
+    public void testHypergeometricDistributionPositivePositiveNegative(){
+        try {
+            factory.createHypergeometricDistribution(20, 10, -1);
+            fail("negative sample size.  IllegalArgumentException expected");
+        } catch(IllegalArgumentException ex) {
+        }
+    }
+    
+    public void testHypergeometricDistributionPositivePositiveZero(){
+        try {
+            factory.createHypergeometricDistribution(20, 10, 0);
+        } catch(IllegalArgumentException ex) {
+            fail("valid sample size.  IllegalArgumentException is not expected");
         }
     }
 }

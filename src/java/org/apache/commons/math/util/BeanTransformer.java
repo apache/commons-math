@@ -55,10 +55,11 @@ package org.apache.commons.math.util;
 
 import java.lang.reflect.InvocationTargetException;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.math.MathException;
 
 /**
  * Uses PropertyUtils to map a Bean getter to a double value.
- * @version $Revision: 1.4 $ $Date: 2003/08/09 04:03:41 $
+ * @version $Revision: 1.5 $ $Date: 2003/09/17 19:19:09 $
  */
 public class BeanTransformer implements NumberTransformer {
 
@@ -85,18 +86,18 @@ public class BeanTransformer implements NumberTransformer {
     /**
      * @see org.apache.commons.math.util.NumberTransformer#transform(java.lang.Object)
      */
-    public double transform(final Object o) {
+    public double transform(final Object o) throws MathException {
         double d = Double.NaN;
         try {
             d =
                 ((Number) PropertyUtils.getProperty(o, propertyName))
                     .doubleValue();
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            throw new MathException(e.getMessage(),e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            throw new MathException(e.getMessage(),e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            throw new MathException(e.getMessage(),e);
         }
         return d;
     }

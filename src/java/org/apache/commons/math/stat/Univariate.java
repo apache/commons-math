@@ -69,9 +69,9 @@ package org.apache.commons.math.stat;
  * reported statistics will be based on these values<p>
  * The default windowSize is "infinite" -- i.e., all values added are included
  * in all computations.
- * @version $Revision: 1.8 $ $Date: 2003/07/09 21:45:23 $
+ * @version $Revision: 1.9 $ $Date: 2003/09/17 19:19:09 $
 */
-public interface Univariate {
+public interface Univariate extends Applyable{
     /**
      * A LEPTOKURTIC set has a positive kurtosis (a high peak) 
      */

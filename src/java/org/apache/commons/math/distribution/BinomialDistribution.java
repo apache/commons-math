@@ -57,7 +57,7 @@ package org.apache.commons.math.stat.distribution;
  * The Binomial Distribution.
  * 
  * Instances of BinomialDistribution objects should be created using
- * {@link DistributionFactory#createBinomailDistribution(int, double)}.
+ * {@link DistributionFactory#createBinomialDistribution(int, double)}.
  * 
  * References:
  * <ul>
@@ -65,7 +65,7 @@ package org.apache.commons.math.stat.distribution;
  * Binomial Distribution</a></li>
  * </ul>
  * 
- * @version $Revision: 1.1 $ $Date: 2003/08/16 17:06:15 $
+ * @version $Revision: 1.2 $ $Date: 2003/09/17 19:19:08 $
  */
 public interface BinomialDistribution extends DiscreteDistribution {
     /**
