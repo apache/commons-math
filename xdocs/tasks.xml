@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Revision: 1.10 $ $Date: 2003/10/22 15:00:44 $ -->
+<!-- $Revision: 1.11 $ $Date: 2003/10/30 19:51:16 $ -->
 <document>
   <properties>
     <title>Tasks: Done And To Do</title>
@@ -46,11 +46,28 @@
           </dd>
           <dt>Distributions.</dt>
           <dd>Finalize the contents of MathUtils and StatUtils. Suggest any additions -- ideally with patches --  to these utility classes.</dd>
+        <dt>Complex Number Library.</dt>
+          <dd>
+              An initial <a href="http://nagoya.apache.org/bugzilla/show_bug.cgi?id=24241">submission</a>
+              of a complex number library has been donated by Brent Worden. It has been added 
+              and is open to be reviewed/tested by others for feedback. 
+              The implementation is based on the following source:
+              <a href="http://myweb.lmu.edu/dmsmith/ZMLIB.pdf">http://myweb.lmu.edu/dmsmith/ZMLIB.pdf</a>.
+              
+              <ul>
+                  <li><a href="http://nagoya.apache.org/eyebrowse/ReadMsg?listId=15&amp;msgNo=28132">
+                      Thread Subject: [math] Complex dilemmas
+                  </a></li>
+                  <li><a href="http://nagoya.apache.org/eyebrowse/ReadMsg?listName=commons-dev@jakarta.apache.org&msgNo=36293">
+                      Thread Subject: [math] Complex implementation
+                  </a></li>
+              </ul>
+          </dd>
         </dl>
       </subsection>
     </section>
     <section name="Future Goals">
-      <subsection name="Delayed Tasks">
+      <subsection name="Delayed Tasks slated for the next release of the Math library">
         <p>While we are interested in implementing these aspects of the library, we have decided to hold off on their development at this time.</p>
         <dl>
           <dt>Complex Number Library.</dt>
