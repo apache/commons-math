@@ -14,26 +14,61 @@
    See the License for the specific language governing permissions and
    limitations under the License.
   -->
-<!-- $Revision: 1.41 $ $Date: 2004/02/28 17:47:37 $ -->
+<!-- $Revision: 1.42 $ $Date: 2004/04/09 19:58:06 $ -->
 <project>
-  <extend>../commons-build/project.xml</extend>
+  <pomVersion>3</pomVersion>
+  
   <name>Math</name>
   <id>commons-math</id>
   <currentVersion>1.0-dev</currentVersion>
-  <organization>
-    <name>Apache Software Foundation</name>
-    <url>http://www.apache.org</url>
-    <logo>http://jakarta.apache.org/images/jakarta-logo.gif</logo>
-  </organization>
   <inceptionYear>2003</inceptionYear>
+  <shortDescription>Jakarta Commons Math</shortDescription>
+  <description>The Math project is a library of lightweight, self-contained mathematics and statistics components addressing the most common practical problems not immediately available in the Java programming language or commons-lang.</description>
   <logo>/images/math.gif</logo>
-  <shortDescription>
-  	Jakarta Commons Math
-  </shortDescription>
-  <description>
-The Math project is a library of lightweight, self-contained mathematics and statistics components addressing the most common practical problems not immediately available in the Java programming language or commons-lang.
-  </description>
-  <siteDirectory>/www/jakarta.apache.org/commons/math/</siteDirectory>
+  
+  <url>http://jakarta.apache.org/commons/${pom.artifactId.substring(8)}/</url>
+  <package>org.apache.commons.${pom.artifactId.substring(8)}</package>
+
+  <organization>
+    <name>The Apache Software Foundation</name>
+    <url>http://jakarta.apache.org</url>
+    <logo>http://jakarta.apache.org/images/original-jakarta-logo.gif</logo>
+  </organization>
+
+  <licenses>
+	<license>
+    	<name>The Apache Software License, Version 2.0</name>
+    	<url>/LICENSE.txt</url>
+    	<distribution>repo</distribution>
+	</license>
+  </licenses>
+  
+  <gumpRepositoryId>jakarta</gumpRepositoryId>
+  <issueTrackingUrl>http://nagoya.apache.org/bugzilla/enter_bug.cgi?reporter=&amp;product=Commons&amp;version=unspecified&amp;component=Math&amp;rep_platform=All&amp;op_sys=All&amp;priority=Other&amp;bug_severity=normal&amp;bug_status=NEW&amp;assigned_to=&amp;cc=&amp;bug_file_loc=&amp;short_desc=%5Bpatch%5D+%22Your+subject+heading+here%22&amp;comment=Please+provide+details+here.+Its+best+to+submit+patches+that+alter+existing+file%0D%0Acontent+in+%22unified+cvs+diff%22+format.+%0D%0A%0D%0ASubmissions+that+provide+new+files+can+be+supplied+as+direct+file+attachments+or%0D%0Aarchives+in+zip+or+tar.gz+format.+please+be+kind+enough+to+identify+the+format%0D%0Aof+the+attached+archive+as+bugzill+tends+to+strip+these+characterstics+by%0D%0Aremoving+the+files+extension.&amp;maketemplate=Remember+values+as+bookmarkable+template&amp;form_name=enter_bug</issueTrackingUrl>
+  <siteAddress>jakarta.apache.org</siteAddress>
+  <siteDirectory>/www/jakarta.apache.org/commons/${pom.artifactId.substring(8)}/</siteDirectory>
+  <distributionDirectory>/www/jakarta.apache.org/builds/jakarta-commons/${pom.artifactId.substring(8)}/</distributionDirectory>
+  
+  <repository>
+    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:jakarta-commons/${pom.artifactId.substring(8)}</connection>
+    <url>http://cvs.apache.org/viewcvs/jakarta-commons/${pom.artifactId.substring(8)}/</url>
+  </repository>
+  
+  <mailingLists>
+    <mailingList>
+      <name>Commons Dev List</name>
+      <subscribe>commons-dev-subscribe@jakarta.apache.org</subscribe>
+      <unsubscribe>commons-dev-unsubscribe@jakarta.apache.org</unsubscribe>
+      <archive>http://nagoya.apache.org/eyebrowse/SummarizeList?listName=commons-dev@jakarta.apache.org</archive>
+    </mailingList>
+    <mailingList>
+      <name>Commons User List</name>
+      <subscribe>commons-user-subscribe@jakarta.apache.org</subscribe>
+      <unsubscribe>commons-user-unsubscribe@jakarta.apache.org</unsubscribe>
+      <archive>http://nagoya.apache.org/eyebrowse/SummarizeList?listName=commons-user@jakarta.apache.org</archive>
+    </mailingList>
+  </mailingLists>   
+      
   <versions>
     <version>
       <id>1.0</id>
@@ -76,13 +111,11 @@ The Math project is a library of lightweight, self-contained mathematics and sta
       <email>brentworden at apache dot org</email>
     </developer>
   </developers>
-
   <contributors>
     <contributor>
       <name>Piotr Kochanski</name>
     </contributor>
-  </contributors>  
-
+  </contributors>
   <dependencies>
     <dependency>
       <id>commons-beanutils</id>
@@ -102,20 +135,14 @@ The Math project is a library of lightweight, self-contained mathematics and sta
     </dependency>
     <dependency>
       <id>commons-discovery</id>
-      <version>SNAPSHOT</version>
+      <version>20030211.213356</version>
     </dependency>
   </dependencies>
 
-  <issueTrackingUrl>
-  	http://nagoya.apache.org/bugzilla/enter_bug.cgi?reporter=&amp;product=Commons&amp;version=unspecified&amp;component=Math&amp;rep_platform=All&amp;op_sys=All&amp;priority=Other&amp;bug_severity=normal&amp;bug_status=NEW&amp;assigned_to=&amp;cc=&amp;bug_file_loc=&amp;short_desc=%5Bpatch%5D+%22Your+subject+heading+here%22&amp;comment=Please+provide+details+here.+Its+best+to+submit+patches+that+alter+existing+file%0D%0Acontent+in+%22unified+cvs+diff%22+format.+%0D%0A%0D%0ASubmissions+that+provide+new+files+can+be+supplied+as+direct+file+attachments+or%0D%0Aarchives+in+zip+or+tar.gz+format.+please+be+kind+enough+to+identify+the+format%0D%0Aof+the+attached+archive+as+bugzill+tends+to+strip+these+characterstics+by%0D%0Aremoving+the+files+extension.&amp;maketemplate=Remember+values+as+bookmarkable+template&amp;form_name=enter_bug
-  </issueTrackingUrl>
-
-  <repository>
-    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:jakarta-commons/${pom.artifactId.substring(8)}</connection>
-    <url>http://cvs.apache.org/viewcvs/jakarta-commons/${pom.artifactId.substring(8)}/</url>
-  </repository>
-  
   <build>
+    <nagEmailAddress>commons-dev@jakarta.apache.org</nagEmailAddress>
+    <sourceDirectory>src/java</sourceDirectory>
+    <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
     <unitTest>
       <includes>
         <include>**/*Test.java</include>
@@ -124,33 +151,30 @@ The Math project is a library of lightweight, self-contained mathematics and sta
         <exclude>**/*AbstractTest.java</exclude>
       </excludes>
       <resources>
-         <resource>
-            <directory>${pom.build.unitTestSourceDirectory}</directory>
-            <includes>
-              <include>**/*.xml</include>
-              <include>**/*.txt</include>
-            </includes>
-         </resource>
+        <resource>
+          <directory>${pom.build.unitTestSourceDirectory}</directory>
+          <includes>
+            <include>**/*.xml</include>
+            <include>**/*.txt</include>
+          </includes>
+        </resource>
       </resources>
     </unitTest>
   </build>
-
   <reports>
-   <report>maven-changelog-plugin</report> 
-   <report>maven-changes-plugin</report>
-   <report>maven-checkstyle-plugin</report>
-   <report>maven-clover-plugin</report>
-   <report>maven-developer-activity-plugin</report>
-   <report>maven-file-activity-plugin</report> 
-   <report>maven-javadoc-plugin</report>
-   <report>maven-jdepend-plugin</report>
-   <report>maven-junit-report-plugin</report>
-   <report>maven-jxr-plugin</report>
-   <report>maven-license-plugin</report>
-   <report>maven-statcvs-plugin</report>
-   <report>maven-tasklist-plugin</report>
-<!--
-	 <report>maven-linkcheck-plugin</report>
--->
+    <report>maven-changelog-plugin</report>
+    <report>maven-changes-plugin</report>
+    <report>maven-checkstyle-plugin</report>
+    <report>maven-clover-plugin</report>
+    <report>maven-developer-activity-plugin</report>
+    <report>maven-file-activity-plugin</report>
+    <report>maven-javadoc-plugin</report>
+    <report>maven-jdepend-plugin</report>
+    <report>maven-junit-report-plugin</report>
+    <report>maven-jxr-plugin</report>
+    <report>maven-license-plugin</report>
+    <report>maven-statcvs-plugin</report>
+    <report>maven-tasklist-plugin</report>
+    <report>maven-linkcheck-plugin</report>
   </reports>
 </project>
