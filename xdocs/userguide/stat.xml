@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.19 $ $Date: 2004/06/23 16:26:16 $ -->
+<!-- $Revision: 1.20 $ $Date: 2004/08/02 04:20:09 $ -->
 <document url="stat.html">
   <properties>
     <title>The Commons Math User Guide - Statistics</title>
@@ -411,7 +411,10 @@ System.out.println(regression.getSlopeStdErr());
           Welch-Satterwaite approximation</a> is used to compute the degrees 
           of freedom.  Methods to return t-statistics and p-values are provided in each 
           case, as well as boolean-valued methods to perform fixed significance
-          level tests. See the examples below and the API documentation for 
+          level tests.  The names of methods or methods that assume equal 
+          subpopulation variances always start with "homoscedastic."  Test or 
+          test-statistic methods that just start with "t" do not assume equal
+          variances. See the examples below and the API documentation for 
           more details.</li>
           <li>The validity of the p-values returned by the t-test depends on the 
           assumptions of the parametric t-test procedure, as discussed 
@@ -536,26 +539,25 @@ testStatistic.pairedTTest(sample1, sample2, .05);
           To compute the t-statistic:
           <source>
 TTestImpl testStatistic = new TTestImpl();
-testStatistic.t(summary1, summary2, false);  
+testStatistic.t(summary1, summary2);  
           </source>
            </p>
            <p>
            To compute the (one-sided) p-value:
            <source>
-testStatistic.tTest(sample1, sample2, false);
+testStatistic.tTest(sample1, sample2);
            </source> 
            </p>
            <p>
            To perform a fixed significance level test with alpha = .05:
            <source>
-testStatistic.tTest(sample1, sample2, .05, false);    
+testStatistic.tTest(sample1, sample2, .05);    
            </source>
            </p> 
            <p>
-           In each case above, the last (boolean) parameter determines
-           whether or not the test should assume that subpopulation variances
-           are equal.  Replacing this with <code>true</code> will result in 
-           homoscedastic (equal variances) tests / test statistics.
+           In each case above, the test does not assume that the subpopulation
+           variances are equal.  To perform the tests under this assumption,
+           replace "t" at the beginning of the method name with "homoscedasticT"
            </p>   
            </dd>     
           <dt>Computing <code>chi-square</code> test statistics</dt>
