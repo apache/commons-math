@@ -17,18 +17,15 @@ package org.apache.commons.math.stat.univariate.summary;
 
 import java.io.Serializable;
 
-import org
-    .apache
-    .commons
-    .math
-    .stat
-    .univariate
-    .AbstractStorelessUnivariateStatistic;
+import org .apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
 
 /**
  * Returns the sum of the squares of the available values.
- *
- * @version $Revision: 1.18 $ $Date: 2004/06/23 16:26:16 $
+ * <p>
+ * If there are no values in the dataset, or any of the values are 
+ * <code>NaN</code>, then <code>NaN</code> is returned.  
+ * 
+ * @version $Revision: 1.19 $ $Date: 2004/06/29 15:39:15 $
  */
 public class SumOfSquares extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -36,7 +33,7 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
     static final long serialVersionUID = 1460986908574398008L;  
       
     /** */
-    private int n = 0;
+    private long n = 0;
     
     /**
      * The currently running sumSq
@@ -47,7 +44,7 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
     public void increment(final double d) {
-        if (Double.isNaN(value)) {
+        if (n == 0) {
             value = d * d;
         } else {
             value += d * d;
@@ -79,21 +76,19 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
 
     /**
      * Returns the sum of the squares of the available values.
+     * 
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
      * @param length the number of elements to include
      * @return the sum of the squared values or Double.NaN if the array is empty
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
-    public double evaluate(
-        final double[] values,
-        final int begin,
-        final int length) {
+    public double evaluate(final double[] values,final int begin, final int length) {
         double sumSq = Double.NaN;
         if (test(values, begin, length)) {
             sumSq = 0.0;
             for (int i = begin; i < begin + length; i++) {
-                sumSq += Math.pow(values[i], 2.0);
+                sumSq += values[i] * values[i];
             }
         }
         return sumSq;

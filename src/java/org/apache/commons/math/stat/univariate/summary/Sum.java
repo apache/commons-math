@@ -25,7 +25,7 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * If there are no values in the dataset, or any of the values are 
  * <code>NaN</code>, then <code>NaN</code> is returned.  
  * 
- * @version $Revision: 1.21 $ $Date: 2004/06/29 14:50:21 $
+ * @version $Revision: 1.22 $ $Date: 2004/06/29 15:39:15 $
  */
 public class Sum extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -33,7 +33,7 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
     static final long serialVersionUID = -8231831954703408316L;  
       
     /** */
-    private int n = 0;
+    private long n = 0;
     
     /**
      * The currently running sum.
