@@ -35,7 +35,7 @@ import java.util.TreeMap;
  * The values are ordered using the default (natural order), unless a  
  * <code>Comparator</code> is supplied in the constructor.
  *
- * @version $Revision: 1.28 $ $Date: 2004/09/19 22:47:27 $
+ * @version $Revision: 1.29 $ $Date: 2004/09/21 03:02:34 $
  */
 public class Frequency implements Serializable {
     
@@ -93,12 +93,16 @@ public class Frequency implements Serializable {
      * @throws IllegalArgumentException if <code>v</code> is not comparable.
      */
     public void addValue(Object v) {
+        Object obj = v;
+        if (v instanceof Integer) {
+           obj = new Long(((Integer) v).longValue());
+        }
         try {
-            Long count = (Long) freqTable.get(v);
+            Long count = (Long) freqTable.get(obj);
             if (count == null) {
-                freqTable.put(v, new Long(1));
+                freqTable.put(obj, new Long(1));
             } else {
-                freqTable.put(v, new Long(count.longValue() + 1));
+                freqTable.put(obj, new Long(count.longValue() + 1));
             }
         } catch (ClassCastException ex) {   
             //TreeMap will throw ClassCastException if v is not comparable
