@@ -16,7 +16,6 @@
 package org.apache.commons.math.stat;
 
 import org.apache.commons.math.stat.univariate.moment.SecondMoment;
-import org.apache.commons.math.stat.univariate.moment.FirstMoment;
 import org.apache.commons.math.stat.univariate.moment.GeometricMean;
 import org.apache.commons.math.stat.univariate.moment.Mean;
 import org.apache.commons.math.stat.univariate.moment.Variance;
@@ -29,7 +28,7 @@ import org.apache.commons.math.stat.univariate.summary.SumOfSquares;
 /**
  * Provides a default {@link SummaryStatistics} implementation.
  * 
- * @version $Revision: 1.3 $ $Date: 2004/02/21 21:35:15 $  
+ * @version $Revision: 1.4 $ $Date: 2004/03/21 21:56:26 $  
  */
 public class SummaryStatisticsImpl extends SummaryStatistics {
 
@@ -92,15 +91,17 @@ public class SummaryStatisticsImpl extends SummaryStatistics {
     	n++;
     }
 
-    /**
-     * @see org.apache.commons.math.stat.Univariate#getN()
+    /** 
+     * Returns the number of available values
+     * @return The number of available values
      */
     public long getN() {
         return n;
     }
 
     /**
-     * @see org.apache.commons.math.stat.Univariate#getSum()
+     * Returns the sum of the values that have been added to Univariate.
+     * @return The sum or Double.NaN if no values have been added
      */
     public double getSum() {
         return sum.getResult();
