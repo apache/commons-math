@@ -282,26 +282,4 @@ public class StatUtils {
         }
         return min;
     }
-
-    /** 
-     * Returns the mode of the values that have been added.  The mode is
-     * the element which occurs with the most frequency
-     * @return the mode
-     */
-    public static double mode() {
-        // Mode depends on a refactor Freq class
-        String msg = "mode() is not yet implemented";
-        throw new UnsupportedOperationException(msg);
-    }
-
-    /** 
-     * Returns the mode of the values that have been added.  The mode is
-     * the element which occurs with the most frequency
-     * @return the mode
-     */
-    public static double median(double[] values) {
-        // Mode depends on a refactor Freq class
-        String msg = "median() is not yet implemented";
-        throw new UnsupportedOperationException(msg);
-    }
 }

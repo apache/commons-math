@@ -62,16 +62,6 @@ package org.apache.commons.math.stat;
  */
 public abstract class AbstractStoreUnivariate implements StoreUnivariate {
 
-    /** 
-     * Returns the most frequently occuring value
-     * @see org.apache.commons.math.stat.StoreUnivariate#getMode()
-     */
-    public double getMode() {
-        // Mode depends on a refactor Freq class
-        String msg = "getMode() is not yet implemented";
-        throw new UnsupportedOperationException(msg);
-    }
-
     /**
      * Returns the skewness of this collection of values
      * @see org.apache.commons.math.stat.StoreUnivariate#getSkewness()
