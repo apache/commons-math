@@ -18,8 +18,12 @@ package org.apache.commons.math;
 
 import junit.framework.TestCase;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+
 /**
- * @version $Revision: 1.7 $ $Date: 2004/02/21 21:35:16 $
+ * @version $Revision: 1.8 $ $Date: 2004/07/10 22:23:14 $
  */
 public class MathExceptionTest extends TestCase {
     /**
@@ -61,5 +65,54 @@ public class MathExceptionTest extends TestCase {
         Exception cause = new Exception(inMsg);
         MathException ex = new MathException(cause);
         assertEquals(cause, ex.getCause());
+    }
+    
+    /**
+     * Tests the printStackTrace() operation.
+     */
+    public void testPrintStackTrace() {
+        String outMsg = "outer message";
+        String inMsg = "inner message";
+        MathException cause = new MathConfigurationException(inMsg);
+        MathException ex = new MathException(outMsg, cause);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(baos);
+        ex.printStackTrace(ps);
+        String stack = baos.toString();
+        String outerMsg = "org.apache.commons.math.MathException: outer message";
+        String innerMsg = "Caused by: " + 
+        "org.apache.commons.math.MathConfigurationException: inner message";
+        assertTrue(stack.startsWith(outerMsg));
+        assertTrue(stack.indexOf(innerMsg) > 0);
+        
+        PrintWriter pw = new PrintWriter(ps, true);
+        ex.printStackTrace(pw);
+        stack = baos.toString();
+        assertTrue(stack.startsWith(outerMsg));
+        assertTrue(stack.indexOf(innerMsg) > 0);
+    }
+    
+    /**
+     * Test serialization
+     */
+    public void testSerialization() {
+        String outMsg = "outer message";
+        String inMsg = "inner message";
+        MathException cause = new MathConfigurationException(inMsg);
+        MathException ex = new MathException(outMsg, cause);
+        MathException image = (MathException) TestUtils.serializeAndRecover(ex);
+        
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(baos);
+        PrintWriter pw = new PrintWriter(ps, true);
+        ex.printStackTrace(ps);
+        String stack = baos.toString();
+        
+        ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
+        PrintStream ps2 = new PrintStream(baos2);
+        PrintWriter pw2 = new PrintWriter(ps2, true);
+        image.printStackTrace(ps2);
+        String stack2 = baos2.toString();
+        assertEquals(stack, stack2);
     }
 }
