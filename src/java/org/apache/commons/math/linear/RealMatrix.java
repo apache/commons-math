@@ -20,7 +20,7 @@ package org.apache.commons.math.linear;
 
 /**
  * Interface defining a real-valued matrix with basic algebraic operations
- * @version $Revision: 1.14 $ $Date: 2004/04/08 07:02:55 $
+ * @version $Revision: 1.15 $ $Date: 2004/04/11 19:00:45 $
  */
 public interface RealMatrix {
 
@@ -107,9 +107,8 @@ public interface RealMatrix {
     void setData(double[][] data);
     
     /**
-     * Returns the <a href="http://mathworld.wolfram.com/
-     * MaximumAbsoluteRowSumNorm.html">maximum absolute row sum norm</a> 
-     * of the matrix.
+     * Returns the <a href="http://mathworld.wolfram.com/MaximumAbsoluteRowSumNorm.html">
+     * maximum absolute row sum norm</a> of the matrix.
      *
      * @return norm
      */

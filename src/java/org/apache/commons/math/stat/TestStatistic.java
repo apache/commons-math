@@ -20,14 +20,14 @@ import org.apache.commons.math.MathException;
 /**
  * A collection of commonly used test statistics and statistical tests.
  * 
- * @version $Revision: 1.14 $ $Date: 2004/04/08 20:46:00 $ 
+ * @version $Revision: 1.15 $ $Date: 2004/04/11 19:00:45 $ 
  */
 public interface TestStatistic {
     
     /**
-     * Computes the <a href="http://www.itl.nist.gov/div898/handbook/eda
-     * /section3/eda35f.htm">Chi-Square statistic</a> comparing 
-     * <code>observed</code> and <code>expected</code> freqeuncy counts. 
+     * Computes the <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda35f.htm">
+     * Chi-Square statistic</a> comparing <code>observed</code> and <code>expected</code> 
+     * freqeuncy counts. 
      * <p>
      * This statistic can be used to perform Chi-Square tests.
      * <p>
@@ -53,14 +53,14 @@ public interface TestStatistic {
     /**
      * Returns the <i>observed significance level</i>, or <a href=
      * "http://www.cas.lancs.ac.uk/glossary_v1.1/hyptest.html#pvalue">
-     * p-value</a>, associated with a <a href="http://www.itl.nist.gov/div898/
-     * handbook/eda/section3/eda35f.htm">Chi-square goodness of fit test</a>
-     * comparing the <code>observed</code> frequency counts to those in the 
-     * <code>expected</code> array.
+     * p-value</a>, associated with a 
+     * <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda35f.htm">
+     * Chi-square goodness of fit test</a> comparing the <code>observed</code> 
+     * frequency counts to those in the <code>expected</code> array.
      * <p>
-     * The number returned is the smallest significance level
-     * at which one can reject the null hypothesis that the observed counts
-     * conform to the frequency distribution described by the expected counts. 
+     * The number returned is the smallest significance level at which one can reject 
+     * the null hypothesis that the observed counts conform to the frequency distribution 
+     * described by the expected counts. 
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>Expected counts must all be positive.  
@@ -83,11 +83,10 @@ public interface TestStatistic {
         throws IllegalArgumentException, MathException;
     
     /**
-     * Performs a <a href="http://www.itl.nist.gov/div898/handbook/eda/
-     * section3/eda35f.htm">Chi-square goodness of fit test</a> evaluating the 
-     * null hypothesis that the observed counts conform to the frequency 
-     * distribution described by the expected counts, with significance level 
-     * <code>alpha</code>.
+     * Performs a <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda35f.htm">
+     * Chi-square goodness of fit test</a> evaluating the null hypothesis that the observed counts 
+     * conform to the frequency distribution described by the expected counts, with 
+     * significance level <code>alpha</code>.
      * <p>
      * <strong>Example:</strong><br>
      * To test the hypothesis that <code>observed</code> follows 
@@ -118,9 +117,8 @@ public interface TestStatistic {
         throws IllegalArgumentException, MathException;
     
     /**
-     * Computes a <a href="http://www.itl.nist.gov/div898/handbook/prc/
-     * section2/prc22.htm#formula"> t statistic </a> given observed values and 
-     * a comparison constant.
+     * Computes a <a href="http://www.itl.nist.gov/div898/handbook/prc/section2/prc22.htm#formula"> 
+     * t statistic </a> given observed values and a comparison constant.
      * <p>
      * This statistic can be used to perform a one sample t-test for the mean.
      * <p>
@@ -137,9 +135,8 @@ public interface TestStatistic {
         throws IllegalArgumentException;
     
     /**
-     * Computes a <a href="http://www.itl.nist.gov/div898/handbook/prc/section3
-     * /prc31.htm">2-sample t statistic </a>, without the assumption of equal
-     * sample variances.
+     * Computes a <a href="http://www.itl.nist.gov/div898/handbook/prc/section3/prc31.htm">
+     * 2-sample t statistic </a>, without the assumption of equal sample variances.
      * <p>
      * This statistic can be used to perform a two-sample t-test to compare
      * sample means.
@@ -159,8 +156,8 @@ public interface TestStatistic {
         throws IllegalArgumentException, MathException;
     
     /**
-     * Returns the <i>observed significance level</i>, or <a href=
-     * "http://www.cas.lancs.ac.uk/glossary_v1.1/hyptest.html#pvalue">
+     * Returns the <i>observed significance level</i>, or 
+     * <a href="http://www.cas.lancs.ac.uk/glossary_v1.1/hyptest.html#pvalue">
      * p-value</a>, associated with a two-sample, two-tailed t-test 
      * comparing the means of the input arrays.
      * <p>
@@ -171,13 +168,13 @@ public interface TestStatistic {
      * <p>
      * The test does not assume that the underlying popuation variances are
      * equal and it uses approximated degrees of freedom computed from the 
-     * sample data as described <a href="http://www.itl.nist.gov/div898/
-     * handbook/prc/section3/prc31.htm">here</a>
+     * sample data as described 
+     * <a href="http://www.itl.nist.gov/div898/handbook/prc/section3/prc31.htm">here</a>
      * <p>
      * <strong>Usage Note:</strong><br>
      * The validity of the p-value depends on the assumptions of the parametric
-     * t-test procedure, as discussed <a href="http://www.basic.nwu.edu/
-     * statguidefiles/ttest_unpaired_ass_viol.html">here</a>
+     * t-test procedure, as discussed 
+     * <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">here</a>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The observed array lengths must both be at least 5.
@@ -193,11 +190,10 @@ public interface TestStatistic {
         throws IllegalArgumentException, MathException;
     
     /**
-     * Performs a <a href="http://www.itl.nist.gov/div898/handbook/eda/
-     * section3/eda353.htm">two-sided t-test</a> evaluating the null 
-     * hypothesis that <code>sample1</code> and <code>sample2</code> are drawn 
-     * from populations with the same mean, with significance level 
-     * <code>alpha</code>.
+     * Performs a <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda353.htm">
+     * two-sided t-test</a> evaluating the null hypothesis that <code>sample1</code> 
+     * and <code>sample2</code> are drawn from populations with the same mean, 
+     * with significance level <code>alpha</code>.
      * <p>
      * Returns <code>true</code> iff the null hypothesis that the means are
      * equal can be rejected with confidence <code>1 - alpha</code>.  To 
@@ -215,13 +211,13 @@ public interface TestStatistic {
      * <p>
      * The test does not assume that the underlying popuation variances are
      * equal and it uses approximated degrees of freedom computed from the 
-     * sample data as described <a href="http://www.itl.nist.gov/div898/
-     * handbook/prc/section3/prc31.htm">here</a>
+     * sample data as described 
+     * <a href="http://www.itl.nist.gov/div898/handbook/prc/section3/prc31.htm">here</a>
      * <p>
      * <strong>Usage Note:</strong><br>
      * The validity of the test depends on the assumptions of the parametric
-     * t-test procedure, as discussed <a href="http://www.basic.nwu.edu/
-     * statguidefiles/ttest_unpaired_ass_viol.html">here</a>
+     * t-test procedure, as discussed 
+     * <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">here</a>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The observed array lengths must both be at least 5.
@@ -241,10 +237,9 @@ public interface TestStatistic {
         throws IllegalArgumentException, MathException;
     
     /**
-     * Performs a <a href="http://www.itl.nist.gov/div898/handbook/eda/
-     * section3/eda353.htm">two-sided t-test</a> evaluating the null 
-     * hypothesis that the mean of the population from which 
-     * <code>sample</code> is drawn equals <code>mu</code>.
+     * Performs a <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda353.htm">
+     * two-sided t-test</a> evaluating the null hypothesis that the mean of the population from
+     *  which <code>sample</code> is drawn equals <code>mu</code>.
      * <p>
      * Returns <code>true</code> iff the null hypothesis can be 
      * rejected with confidence <code>1 - alpha</code>.  To 
@@ -263,8 +258,7 @@ public interface TestStatistic {
      * <strong>Usage Note:</strong><br>
      * The validity of the test depends on the assumptions of the one-sample 
      * parametric t-test procedure, as discussed 
-     * <a href="http://www.basic.nwu.edu/statguidefiles/
-     * sg_glos.html#one-sample">here</a>
+     * <a href="http://www.basic.nwu.edu/statguidefiles/sg_glos.html#one-sample">here</a>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The observed array length must be at least 5.
@@ -281,8 +275,8 @@ public interface TestStatistic {
         throws IllegalArgumentException, MathException;
     
     /**
-     * Returns the <i>observed significance level</i>, or <a href=
-     * "http://www.cas.lancs.ac.uk/glossary_v1.1/hyptest.html#pvalue">
+     * Returns the <i>observed significance level</i>, or 
+     * <a href="http://www.cas.lancs.ac.uk/glossary_v1.1/hyptest.html#pvalue">
      * p-value</a>, associated with a one-sample, two-tailed t-test 
      * comparing the mean of the input array with the constant <code>mu</code>.
      * <p>
@@ -294,8 +288,8 @@ public interface TestStatistic {
      * <p>
      * <strong>Usage Note:</strong><br>
      * The validity of the test depends on the assumptions of the parametric
-     * t-test procedure, as discussed <a href="http://www.basic.nwu.edu/
-     * statguidefiles/ttest_unpaired_ass_viol.html">here</a>
+     * t-test procedure, as discussed 
+     * <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">here</a>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The observed array length must be at least 5.
@@ -311,9 +305,9 @@ public interface TestStatistic {
         throws IllegalArgumentException, MathException;
     
     /**
-     * Computes a <a href="http://www.itl.nist.gov/div898/handbook/prc/
-     * section2/prc22.htm#formula"> t statistic </a> to use in comparing 
-     * the dataset described by <code>sampleStats</code> to <code>mu</code>.
+     * Computes a <a href="http://www.itl.nist.gov/div898/handbook/prc/section2/prc22.htm#formula">
+     * t statistic </a> to use in comparing the dataset described by <code>sampleStats</code>
+     *  to <code>mu</code>.
      * <p>
      * This statistic can be used to perform a one sample t-test for the mean.
      * <p>
@@ -330,9 +324,9 @@ public interface TestStatistic {
         throws IllegalArgumentException;
     
     /**
-     * Computes a <a href="http://www.itl.nist.gov/div898/handbook/prc/section3
-     * /prc31.htm">2-sample t statistic </a>, comparing the datasets described
-     * by two Univariates without the assumption of equal sample variances.
+     * Computes a <a href="http://www.itl.nist.gov/div898/handbook/prc/section3/prc31.htm">
+     * 2-sample t statistic </a>, comparing the means of the datasets described
+     * by two {@link StatisticalSummary} instances without the assumption of equal sample variances.
      * <p>
      * This statistic can be used to perform a two-sample t-test to compare
      * sample means.
@@ -342,8 +336,8 @@ public interface TestStatistic {
      * at least 5 observations.
      * </li></ul>
      *
-     * @param sampleStats1 DescriptiveStatistics describing data from the first sample
-     * @param sampleStats2 DescriptiveStatistics describing data from the second sample
+     * @param sampleStats1 StatisticalSummary describing data from the first sample
+     * @param sampleStats2 StatisticalSummary describing data from the second sample
      * @return t statistic
      * @throws IllegalArgumentException if the precondition is not met
      */
@@ -351,8 +345,8 @@ public interface TestStatistic {
         throws IllegalArgumentException;
     
     /**
-     * Returns the <i>observed significance level</i>, or <a href=
-     * "http://www.cas.lancs.ac.uk/glossary_v1.1/hyptest.html#pvalue">
+     * Returns the <i>observed significance level</i>, or 
+     * <a href="http://www.cas.lancs.ac.uk/glossary_v1.1/hyptest.html#pvalue">
      * p-value</a>, associated with a two-sample, two-tailed t-test 
      * comparing the means of the datasets described by two Univariates.
      * <p>
@@ -363,13 +357,13 @@ public interface TestStatistic {
      * <p>
      * The test does not assume that the underlying popuation variances are
      * equal and it uses approximated degrees of freedom computed from the 
-     * sample data as described <a href="http://www.itl.nist.gov/div898/
-     * handbook/prc/section3/prc31.htm">here</a>
+     * sample data as described 
+     * <a href="http://www.itl.nist.gov/div898/handbook/prc/section3/prc31.htm">here</a>
      * <p>
      * <strong>Usage Note:</strong><br>
      * The validity of the p-value depends on the assumptions of the parametric
-     * t-test procedure, as discussed <a href="http://www.basic.nwu.edu/
-     * statguidefiles/ttest_unpaired_ass_viol.html">here</a>
+     * t-test procedure, as discussed 
+     * <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">here</a>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The datasets described by the two Univariates must each contain
@@ -386,11 +380,10 @@ public interface TestStatistic {
         throws IllegalArgumentException, MathException;
     
     /**
-     * Performs a <a href="http://www.itl.nist.gov/div898/handbook/eda/
-     * section3/eda353.htm">two-sided t-test</a> evaluating the null 
-     * hypothesis that <code>sampleStats1</code> and <code>sampleStats2</code> 
-     * describe datasets drawn from populations with the same mean, with 
-     * significance level <code>alpha</code>.
+     * Performs a <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda353.htm">
+     * two-sided t-test</a> evaluating the null hypothesis that <code>sampleStats1</code>
+     * and <code>sampleStats2</code> describe datasets drawn from populations with the 
+     * same mean, with significance level <code>alpha</code>.
      * <p>
      * Returns <code>true</code> iff the null hypothesis that the means are
      * equal can be rejected with confidence <code>1 - alpha</code>.  To 
@@ -409,13 +402,13 @@ public interface TestStatistic {
      * <p>
      * The test does not assume that the underlying popuation variances are
      * equal and it uses approximated degrees of freedom computed from the 
-     * sample data as described <a href="http://www.itl.nist.gov/div898/
-     * handbook/prc/section3/prc31.htm">here</a>
+     * sample data as described 
+     * <a href="http://www.itl.nist.gov/div898/handbook/prc/section3/prc31.htm">here</a>
      * <p>
      * <strong>Usage Note:</strong><br>
      * The validity of the test depends on the assumptions of the parametric
-     * t-test procedure, as discussed <a href="http://www.basic.nwu.edu/
-     * statguidefiles/ttest_unpaired_ass_viol.html">here</a>
+     * t-test procedure, as discussed 
+     * <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">here</a>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The datasets described by the two Univariates must each contain
@@ -437,10 +430,9 @@ public interface TestStatistic {
         throws IllegalArgumentException, MathException;
     
     /**
-     * Performs a <a href="http://www.itl.nist.gov/div898/handbook/eda/
-     * section3/eda353.htm">two-sided t-test</a> evaluating the null 
-     * hypothesis that the mean of the population from which the dataset  
-     * described by <code>stats</code> is drawn equals <code>mu</code>.
+     * Performs a <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda353.htm">
+     * two-sided t-test</a> evaluating the null hypothesis that the mean of the population from
+     * which the dataset described by <code>stats</code> is drawn equals <code>mu</code>.
      * <p>
      * Returns <code>true</code> iff the null hypothesis can be 
      * rejected with confidence <code>1 - alpha</code>.  To 
@@ -459,8 +451,7 @@ public interface TestStatistic {
      * <strong>Usage Note:</strong><br>
      * The validity of the test depends on the assumptions of the one-sample 
      * parametric t-test procedure, as discussed 
-     * <a href="http://www.basic.nwu.edu/statguidefiles/
-     * sg_glos.html#one-sample">here</a>
+     * <a href="http://www.basic.nwu.edu/statguidefiles/sg_glos.html#one-sample">here</a>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The sample must include at least 5 observations.
@@ -477,8 +468,8 @@ public interface TestStatistic {
         throws IllegalArgumentException, MathException;
     
     /**
-     * Returns the <i>observed significance level</i>, or <a href=
-     * "http://www.cas.lancs.ac.uk/glossary_v1.1/hyptest.html#pvalue">
+     * Returns the <i>observed significance level</i>, or 
+     * <a href="http://www.cas.lancs.ac.uk/glossary_v1.1/hyptest.html#pvalue">
      * p-value</a>, associated with a one-sample, two-tailed t-test 
      * comparing the mean of the dataset described by <code>sampleStats</code>
      * with the constant <code>mu</code>.
@@ -491,8 +482,8 @@ public interface TestStatistic {
      * <p>
      * <strong>Usage Note:</strong><br>
      * The validity of the test depends on the assumptions of the parametric
-     * t-test procedure, as discussed <a href="http://www.basic.nwu.edu/
-     * statguidefiles/ttest_unpaired_ass_viol.html">here</a>
+     * t-test procedure, as discussed 
+     * <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">here</a>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The sample must contain at least 5 observations.

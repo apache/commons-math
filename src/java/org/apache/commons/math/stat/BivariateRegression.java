@@ -49,7 +49,7 @@ import org.apache.commons.math.distribution.TDistribution;
  * the necessary computations to return the requested statistic.</li>
  * </ul>
  *
- * @version $Revision: 1.15 $ $Date: 2004/03/21 22:39:56 $
+ * @version $Revision: 1.16 $ $Date: 2004/04/11 19:00:45 $
  */
 public class BivariateRegression implements Serializable {
 
@@ -382,8 +382,8 @@ public class BivariateRegression implements Serializable {
      * <strong>Usage Note</strong>:<br>
      * The validity of this statistic depends on the assumption that the 
      * observations included in the model are drawn from a
-     * <a href="http://mathworld.wolfram.com/
-     * BivariateNormalDistribution.html">Bivariate Normal Distribution</a>.
+     * <a href="http://mathworld.wolfram.com/BivariateNormalDistribution.html">
+     * Bivariate Normal Distribution</a>.
      *
      * @return half-width of 95% confidence interval for the slope estimate
      */
@@ -406,8 +406,8 @@ public class BivariateRegression implements Serializable {
      * <strong>Usage Note</strong>:<br>
      * The validity of this statistic depends on the assumption that the 
      * observations included in the model are drawn from a
-     * <a href="http://mathworld.wolfram.com/
-     * BivariateNormalDistribution.html">Bivariate Normal Distribution</a>.
+     * <a href="http://mathworld.wolfram.com/BivariateNormalDistribution.html">
+     * Bivariate Normal Distribution</a>.
      * <p>
      * <strong> Preconditions:</strong><ul>
      * <li>If there are fewer that <strong>three</strong> observations in the 
@@ -441,8 +441,8 @@ public class BivariateRegression implements Serializable {
      * <strong>Usage Note</strong>:<br>
      * The validity of this statistic depends on the assumption that the 
      * observations included in the model are drawn from a
-     * <a href="http://mathworld.wolfram.com/
-     * BivariateNormalDistribution.html">Bivariate Normal Distribution</a>.
+     * <a href="http://mathworld.wolfram.com/BivariateNormalDistribution.html">
+     * Bivariate Normal Distribution</a>.
      * <p>
      * If there are fewer that <strong>three</strong> observations in the 
      * model, or if there is no variation in x, this returns 

@@ -27,10 +27,10 @@ import org.apache.commons.math.stat.univariate.summary.SumOfLogs;
 import org.apache.commons.math.stat.univariate.summary.SumOfSquares;
 
 /**
- * StatUtils provides easy static implementations of common double[] based
+ * StatUtils provides static implementations of common double[] based
  * statistical methods. These return a single result value or in some cases, as
- * identified in the javadoc for each method, Double.NaN.
- * @version $Revision: 1.25 $ $Date: 2004/03/04 04:25:09 $
+ * identified in the javadoc for each method, <code>Double.NaN.</code>
+ * @version $Revision: 1.26 $ $Date: 2004/04/11 19:00:45 $
  */
 public final class StatUtils {
 
@@ -70,7 +70,7 @@ public final class StatUtils {
     /**
      * The sum of the values that have been added to Univariate.
      * @param values Is a double[] containing the values
-     * @return the sum of the values or Double.NaN if the array is empty
+     * @return the sum of the values or <code>Double.NaN</code> if the array is empty
      */
     public static double sum(final double[] values) {
         return sum.evaluate(values);
@@ -81,7 +81,7 @@ public final class StatUtils {
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
      * @param length the number of elements to include
-     * @return the sum of the values or Double.NaN if the array is empty
+     * @return the sum of the values or <code>Double.NaN</code> if the array is empty
      */
     public static double sum(
         final double[] values,
@@ -93,7 +93,7 @@ public final class StatUtils {
     /**
      * Returns the sum of the squares of the available values.
      * @param values Is a double[] containing the values
-     * @return the sum of the squared values or Double.NaN if the array is empty
+     * @return the sum of the squared values or <code>Double.NaN</code> if the array is empty
      */
     public static double sumSq(final double[] values) {
         return sumSq.evaluate(values);
@@ -104,7 +104,7 @@ public final class StatUtils {
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
      * @param length the number of elements to include
-     * @return the sum of the squared values or Double.NaN if the array is empty
+     * @return the sum of the squared values or <code>Double.NaN</code> if the array is empty
      */
     public static double sumSq(
         final double[] values,
@@ -116,7 +116,7 @@ public final class StatUtils {
     /**
      * Returns the product for this collection of values
      * @param values Is a double[] containing the values
-     * @return the product values or Double.NaN if the array is empty
+     * @return the product values or <code>Double.NaN</code> if the array is empty
      */
     public static double product(final double[] values) {
         return prod.evaluate(values);
@@ -127,7 +127,7 @@ public final class StatUtils {
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
      * @param length the number of elements to include
-     * @return the product values or Double.NaN if the array is empty
+     * @return the product values or <code>Double.NaN</code> if the array is empty
      */
     public static double product(
         final double[] values,
@@ -139,7 +139,7 @@ public final class StatUtils {
     /**
      * Returns the sum of the natural logs for this collection of values
      * @param values Is a double[] containing the values
-     * @return the sumLog value or Double.NaN if the array is empty
+     * @return the sumLog value or <code>Double.NaN</code> if the array is empty
      */
     public static double sumLog(final double[] values) {
         return sumLog.evaluate(values);
@@ -150,7 +150,7 @@ public final class StatUtils {
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
      * @param length the number of elements to include
-     * @return the sumLog value or Double.NaN if the array is empty
+     * @return the sumLog value or <code>Double.NaN</code> if the array is empty
      */
     public static double sumLog(
         final double[] values,
@@ -160,22 +160,22 @@ public final class StatUtils {
     }
 
     /**
-     * Returns the <a href=http://www.xycoon.com/arithmetic_mean.htm>
+     * Returns the <a href="http://www.xycoon.com/arithmetic_mean.htm">
      * arithmetic mean </a> of the available values
      * @param values Is a double[] containing the values
-     * @return the mean of the values or Double.NaN if the array is empty
+     * @return the mean of the values or <code>Double.NaN</code> if the array is empty
      */
     public static double mean(final double[] values) {
         return mean.evaluate(values);
     }
 
     /**
-      * Returns the <a href=http://www.xycoon.com/arithmetic_mean.htm>
+      * Returns the <a href="http://www.xycoon.com/arithmetic_mean.htm">
       * arithmetic mean </a> of the available values
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
      * @param length the number of elements to include
-      * @return the mean of the values or Double.NaN if the array is empty
+      * @return the mean of the values or <code>Double.NaN</code> if the array is empty
       */
     public static double mean(
         final double[] values,
@@ -186,15 +186,14 @@ public final class StatUtils {
 
     /**
      * Returns the variance of the available values. This uses a corrected
-     * two pass algorithm of the following
-     * <a href="http://lib-www.lanl.gov/numerical/bookcpdf/c14-1.pdf">
-     * corrected two pass formula (14.1.8)</a>, and also referenced in:<p/>
+     * two pass algorithm as described in:
+     * <p>
      * "Algorithms for Computing the Sample Variance: Analysis and
      * Recommendations", Chan, T.F., Golub, G.H., and LeVeque, R.J.
-     * 1983, American Statistician, vol. 37, pp. 242?247.
+     * 1983, American Statistician, vol. 37, pp. 242-247.
      *
      * @param values Is a double[] containing the values
-     * @return the result, Double.NaN if no values for an empty array
+     * @return the result, <code>Double.NaN</code> for an empty array
      * or 0.0 for a single value set.
      */
     public static double variance(final double[] values) {
@@ -203,17 +202,16 @@ public final class StatUtils {
 
     /**
      * Returns the variance of the available values. This uses a corrected
-     * two pass algorithm of the following
-     * <a href="http://lib-www.lanl.gov/numerical/bookcpdf/c14-1.pdf">
-     * corrected two pass formula (14.1.8)</a>, and also referenced in:<p/>
+     * two pass algorithm as described in:
+     * <p>
      * "Algorithms for Computing the Sample Variance: Analysis and
      * Recommendations", Chan, T.F., Golub, G.H., and LeVeque, R.J.
-     * 1983, American Statistician, vol. 37, pp. 242?247.
+     * 1983, American Statistician, vol. 37, pp. 242-247.
      *
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
      * @param length the number of elements to include
-     * @return the result, Double.NaN if no values for an empty array
+     * @return the result, <code>Double.NaN</code> for an empty array
      * or 0.0 for a single value set.
      */
     public static double variance(
@@ -226,7 +224,7 @@ public final class StatUtils {
     /**
      * Returns the maximum of the available values
      * @param values Is a double[] containing the values
-     * @return the maximum of the values or Double.NaN if the array is empty
+     * @return the maximum of the values or <code>Double.NaN</code> if the array is empty
      */
     public static double max(final double[] values) {
         return max.evaluate(values);
@@ -237,7 +235,7 @@ public final class StatUtils {
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
      * @param length the number of elements to include
-     * @return the maximum of the values or Double.NaN if the array is empty
+     * @return the maximum of the values or <code>Double.NaN</code> if the array is empty
      */
     public static double max(
         final double[] values,
@@ -249,7 +247,7 @@ public final class StatUtils {
     /**
      * Returns the minimum of the available values
      * @param values Is a double[] containing the values
-     * @return the minimum of the values or Double.NaN if the array is empty
+     * @return the minimum of the values or <code>Double.NaN</code> if the array is empty
      */
     public static double min(final double[] values) {
         return min.evaluate(values);
@@ -260,7 +258,7 @@ public final class StatUtils {
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
      * @param length the number of elements to include
-     * @return the minimum of the values or Double.NaN if the array is empty
+     * @return the minimum of the values or <code>Double.NaN</code> if the array is empty
      */
     public static double min(
         final double[] values,
@@ -271,9 +269,10 @@ public final class StatUtils {
     
     /**
      * Returns an estimate for the pth percentile of the stored values. 
-     * This estimate follows the interpolation-adjusted defintion presented 
-     * <a href="http://www.utdallas.edu/~ammann/stat5311/node8.html">here</a>
-     * <p/>
+     * <p>
+     * The implementation provided here follows the first estimation procedure presented
+     * <a href="http://www.itl.nist.gov/div898/handbook/prc/section2/prc252.htm">here.</a>
+     * <p>
      * <strong>Preconditions</strong>:<ul>
      * <li><code>0 &lt; p &lt; 100</code> (otherwise an 
      * <code>IllegalArgumentException</code> is thrown)</li>
@@ -291,9 +290,10 @@ public final class StatUtils {
 
     /**
      * Returns an estimate for the pth percentile of the stored values. 
-     * This estimate follows the interpolation-adjusted defintion presented 
-     * <a href="http://www.utdallas.edu/~ammann/stat5311/node8.html">here</a>
-     * <p/>
+     *<p>
+    * The implementation provided here follows the first estimation procedure presented
+     * <a href="http://www.itl.nist.gov/div898/handbook/prc/section2/prc252.htm">here.</a>
+     * <p>
      * <strong>Preconditions</strong>:<ul>
      * <li><code>0 &lt; p &lt; 100</code> (otherwise an 
      * <code>IllegalArgumentException</code> is thrown)</li>
@@ -313,7 +313,5 @@ public final class StatUtils {
             final int length, 
             final double p) {
             return percentile.evaluate(values, begin, length, p);
-    }
-    
-
+    }    
 }

@@ -21,13 +21,11 @@ import java.io.Serializable;
 
 /**
  * Implementation for RealMatrix using a double[][] array to store entries
- * and <a href="http://www.math.gatech.edu/~bourbaki/
- * math2601/Web-notes/2num.pdf">LU decompostion</a> to support linear system 
+ * and <a href="http://www.math.gatech.edu/~bourbaki/math2601/Web-notes/2num.pdf">
+ * LU decompostion</a> to support linear system 
  * solution and inverse.
  * <p>
- * The <a href="http://www.math.gatech.edu/~bourbaki/math2601/Web-notes
- * /2num.pdf">LU decompostion</a> is performed as needed, to support the 
- * following operations: <ul>
+ * The LU decompostion is performed as needed, to support the following operations: <ul>
  * <li>solve</li>
  * <li>isSingular</li>
  * <li>getDeterminant</li>
@@ -42,7 +40,7 @@ import java.io.Serializable;
  * explicitly invoke <code>LUDecompose()</code> to recompute the decomposition
  * before using any of the methods above.
  *
- * @version $Revision: 1.17 $ $Date: 2004/04/08 20:46:01 $
+ * @version $Revision: 1.18 $ $Date: 2004/04/11 19:00:45 $
  */
 public class RealMatrixImpl implements RealMatrix, Serializable {
 
@@ -617,14 +615,13 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
 	}
 
 	/**
-	 * Computes a new <a href="http://www.math.gatech.edu/~bourbaki/
-	 * math2601/Web-notes/2num.pdf">LU decompostion</a> for this matrix,
-	 * storing the result for use by other methods. 
+	 * Computes a new 
+	 * <a href="http://www.math.gatech.edu/~bourbaki/math2601/Web-notes/2num.pdf">
+	 * LU decompostion</a> for this matrix, storing the result for use by other methods. 
 	 * <p>
 	 * <strong>Implementation Note</strong>:<br>
-	 * Uses <a href="http://www.damtp.cam.ac.uk/user/fdl/
-	 * people/sd/lectures/nummeth98/linear.htm">Crout's algortithm</a>,
-	 * with partial pivoting.
+	 * Uses <a href="http://www.damtp.cam.ac.uk/user/fdl/people/sd/lectures/nummeth98/linear.htm">
+	 * Crout's algortithm</a>, with partial pivoting.
 	 * <p>
 	 * <strong>Usage Note</strong>:<br>
 	 * This method should rarely be invoked directly. Its only use is

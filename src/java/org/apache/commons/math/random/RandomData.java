@@ -19,7 +19,7 @@ import java.util.Collection;
 
 /**
  * Random data generation utilities
- * @version $Revision: 1.8 $ $Date: 2004/02/21 21:35:15 $
+ * @version $Revision: 1.9 $ $Date: 2004/04/11 19:00:45 $
  */
 public interface RandomData {      
     /**
@@ -107,8 +107,7 @@ public interface RandomData {
      * <code>nextInt</code> should be used instead of this method. 
      * <p>
      * <strong>Definition</strong>:
-     * <a href="http://www.wikipedia.org/wiki/
-     * Cryptographically_secure_pseudo-random_number_generator">
+     * <a href="http://en.wikipedia.org/wiki/Cryptographically_secure_pseudo-random_number_generator">
      * Secure Random Sequence</a>
      * <p>
      * <strong>Preconditions</strong>:<ul>
@@ -131,8 +130,7 @@ public interface RandomData {
      * <code>nextLong</code> should be used instead of this method.
      * <p>
      * <strong>Definition</strong>:
-     * <a href="http://www.wikipedia.org/wiki/
-     * Cryptographically_secure_pseudo-random_number_generator">
+     * <a href="http://en.wikipedia.org/wiki/Cryptographically_secure_pseudo-random_number_generator">
      * Secure Random Sequence</a>
      * <p>
      * <strong>Preconditions</strong>:<ul>
@@ -152,8 +150,7 @@ public interface RandomData {
      * the given mean.
      * <p>
      * <strong>Definition</strong>: 
-     * <a href="http://www.itl.nist.gov/div898/handbook/
-     * eda/section3/eda366j.htm">
+     * <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda366j.htm">
      * Poisson Distribution</a>
      * <p>
      * <strong>Preconditions</strong>: <ul>
@@ -171,8 +168,7 @@ public interface RandomData {
      * and standard deviation.
      * <p>
      * <strong>Definition</strong>: 
-     * <a href="http://www.itl.nist.gov/div898/handbook/
-     * eda/section3/eda3661.htm">
+     * <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda3661.htm">
      * Normal Distribution</a>
      * <p>
      * <strong>Preconditions</strong>: <ul>
@@ -191,8 +187,7 @@ public interface RandomData {
      * with expected value = <code>mean</code>.
      * <p>
      * <strong>Definition</strong>: 
-     * <a href="http://www.itl.nist.gov/div898/handbook/
-     * eda/section3/eda3667.htm">
+     * <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda3667.htm">
      * Exponential Distribution</a>
      * <p>
      * <strong>Preconditions</strong>: <ul>
@@ -209,12 +204,10 @@ public interface RandomData {
      * (<code>lower</code>,<code>upper</code>) (i.e., endpoints excluded).
      * <p>
      * <strong>Definition</strong>: 
-     * <a href="http://www.itl.nist.gov/div898/handbook/
-     * eda/section3/eda3662.htm">
+     * <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda3662.htm">
      * Uniform Distribution</a> <code>lower</code> and 
      * <code>upper - lower</code> are the 
-     * <a href = "http://www.itl.nist.gov/div898/handbook/eda/
-     * section3/eda364.htm">
+     * <a href = "http://www.itl.nist.gov/div898/handbook/eda/section3/eda364.htm">
      * location and scale parameters</a>, respectively.
      * <p>
      * <strong>Preconditions</strong>:<ul>
@@ -258,8 +251,7 @@ public interface RandomData {
      * is without replacement; but if <code>c</code> contains identical
      * objects, the sample may include repeats.  If all elements of <code>
      * c</code> are distinct, the resulting object array represents a 
-     * <a href="http://rkb.home.cern.ch/rkb/AN16pp/
-     * node250.html#SECTION0002500000000000000000">
+     * <a href="http://rkb.home.cern.ch/rkb/AN16pp/node250.html#SECTION0002500000000000000000">
      * Simple Random Sample</a> of size
      * <code>k</code> from the elements of <code>c</code>.
      * <p>   

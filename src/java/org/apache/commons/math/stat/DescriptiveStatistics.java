@@ -24,7 +24,7 @@ import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 /**
  * Abstract factory class for univariate statistical summaries.
  * 
- * @version $Revision: 1.5 $ $Date: 2004/02/21 21:35:15 $
+ * @version $Revision: 1.6 $ $Date: 2004/04/11 19:00:45 $
  */
 public abstract class DescriptiveStatistics implements Serializable, StatisticalSummary {
 
@@ -228,9 +228,10 @@ public abstract class DescriptiveStatistics implements Serializable, Statistical
 
     /**
      * Returns an estimate for the pth percentile of the stored values. 
-     * This estimate follows the interpolation-adjusted defintion presented 
-     * <a href="http://www.utdallas.edu/~ammann/stat5311/node8.html">here</a>
-     * <p/>
+     * <p>
+     * The implementation provided here follows the first estimation procedure presented
+     * <a href="http://www.itl.nist.gov/div898/handbook/prc/section2/prc252.htm">here.</a>
+     * <p>
      * <strong>Preconditions</strong>:<ul>
      * <li><code>0 &lt; p &lt; 100</code> (otherwise an 
      * <code>IllegalArgumentException</code> is thrown)</li>

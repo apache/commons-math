@@ -30,7 +30,7 @@ import java.util.Collection;
  * <code>java.util.Random.SecureRandom</code> instances to generate data. 
  * <p>
  * Supports reseeding the underlying 
- * <a href="http://www.wikipedia.org/wiki/Pseudo-random_number_generator">
+ * <a href="http://en.wikipedia.org/wiki/Pseudorandom_number_generator">
  * PRNG</a>. The <code>SecurityProvider</code> and <code>Algorithm</code>
  * used by the <code>SecureRandom</code> instance can also be reset.
  * <p>
@@ -46,9 +46,8 @@ import java.util.Collection;
  * <strong>one</strong> <code>RandomDataImpl</code> instance repeatedly.</li>
  * <li>
  * The "secure" methods are *much* slower.  These should be used only when
- * a <a href="http://www.wikipedia.org/wiki/
- * Cryptographically_secure_pseudo-random_number_generator"> Secure Random 
- * Sequence</a> is required.</li>
+ * a <a href="http://en.wikipedia.org/wiki/Cryptographically_secure_pseudo-random_number_generator">
+ * Secure Random Sequence</a> is required.</li>
  * <li>
  * When a new <code>RandomDataImpl</code> is created, the underlying random
  * number generators are <strong>not</strong> intialized.  The first call to a
@@ -67,7 +66,7 @@ import java.util.Collection;
  * (so secure sequences started with calls to reseedSecure(long) won't be 
  * identical).</li></ul>
  * 
- * @version $Revision: 1.12 $ $Date: 2004/02/21 21:35:15 $
+ * @version $Revision: 1.13 $ $Date: 2004/04/11 19:00:45 $
  */
 public class RandomDataImpl implements RandomData, Serializable {
     
@@ -462,7 +461,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     /**
      * Uses a 2-cycle permutation shuffle to generate a random permutation.
      * The shuffling process is described
-     * <a href=http://www.maths.abdn.ac.uk/~igc/tch/mx4002/notes/node83.html>
+     * <a href="http://www.maths.abdn.ac.uk/~igc/tch/mx4002/notes/node83.html">
      * here</a>.
      * @param n the population size.
      * @param k the number to choose.
