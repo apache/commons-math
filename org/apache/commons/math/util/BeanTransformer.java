@@ -21,7 +21,7 @@ import org.apache.commons.math.MathException;
 
 /**
  * Uses PropertyUtils to map a Bean getter to a double value.
- * @version $Revision: 1.3 $ $Date: 2004/12/06 05:40:48 $
+ * @version $Revision$ $Date$
  */
 public class BeanTransformer implements NumberTransformer {
 

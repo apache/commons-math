@@ -32,7 +32,7 @@ import org.apache.commons.math.util.NumberTransformer;
  * univariate statistics for a List of Java Beans by property.  This 
  * implementation uses beanutils' PropertyUtils to get a simple, nested,
  * indexed, mapped, or combined property from an element of a List.
- * @version $Revision: 1.1 $ $Date: 2004/06/01 21:28:06 $
+ * @version $Revision$ $Date$
  */
 public class BeanListUnivariateImpl extends ListUnivariateImpl implements Serializable {
 
