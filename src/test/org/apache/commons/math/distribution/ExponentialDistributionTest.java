@@ -20,12 +20,12 @@ package org.apache.commons.math.distribution;
  * Extends ContinuousDistributionAbstractTest.  See class javadoc for
  * ContinuousDistributionAbstractTest for details.
  * 
- * @version $Revision: 1.15 $ $Date: 2004/06/06 16:39:06 $
+ * @version $Revision: 1.16 $ $Date: 2004/12/10 05:16:52 $
  */
 public class ExponentialDistributionTest extends ContinuousDistributionAbstractTest {
 
     /**
-     * Constructor for ChiSquareDistributionTest.
+     * Constructor for ExponentialDistributionTest.
      * @param name
      */
     public ExponentialDistributionTest(String name) {
