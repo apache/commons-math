@@ -15,19 +15,24 @@
  */
 package org.apache.commons.math.stat.univariate;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.stat.univariate.UnivariateStatistic;
-import org.apache.commons.math.stat.univariate.AbstractDescriptiveStatistics;
+import org.apache.commons.math.stat.univariate.DescriptiveStatistics;
 import org.apache.commons.math.util.DefaultTransformer;
 import org.apache.commons.math.util.NumberTransformer;
 
 /**
- * @version $Revision: 1.3 $ $Date: 2004/05/23 00:33:41 $
+ * @version $Revision: 1.4 $ $Date: 2004/06/01 21:28:06 $
  */
-public class ListUnivariateImpl extends AbstractDescriptiveStatistics {
+public class ListUnivariateImpl extends DescriptiveStatistics implements Serializable {
 
+    /** Serializable version identifier */
+    static final long serialVersionUID = -8837442489133392138L;
+    
     /**
      * Holds a reference to a list - GENERICs are going to make
      * out lives easier here as we could only accept List<Number>
@@ -40,6 +45,13 @@ public class ListUnivariateImpl extends AbstractDescriptiveStatistics {
     /** hold the window size **/
     protected int windowSize = DescriptiveStatistics.INFINITE_WINDOW;
 
+	/**
+	 * No argument Constructor
+	 */
+	public ListUnivariateImpl(){
+	    this(new ArrayList());
+	}
+	
     /**
      * Construct a ListUnivariate with a specific List.
      * @param list The list that will back this DescriptiveStatistics
@@ -196,8 +208,8 @@ public class ListUnivariateImpl extends AbstractDescriptiveStatistics {
     	}
     }
     	
-    	public int getWindowSize() {
-    		return windowSize;
-    	}
+    public int getWindowSize() {
+    	return windowSize;
+    }
 
 }

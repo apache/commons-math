@@ -15,7 +15,9 @@
  */
 package org.apache.commons.math.stat.univariate;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -30,15 +32,25 @@ import org.apache.commons.math.util.NumberTransformer;
  * univariate statistics for a List of Java Beans by property.  This 
  * implementation uses beanutils' PropertyUtils to get a simple, nested,
  * indexed, mapped, or combined property from an element of a List.
- * @version $Revision: 1.2 $ $Date: 2004/04/24 21:43:26 $
+ * @version $Revision: 1.1 $ $Date: 2004/06/01 21:28:06 $
  */
-public class BeanListUnivariateImpl extends ListUnivariateImpl {
+public class BeanListUnivariateImpl extends ListUnivariateImpl implements Serializable {
 
+    /** Serializable version identifier */
+    static final long serialVersionUID = -6428201899045406285L;
+    
 	/**
 	 * propertyName of the property to get from the bean
 	 */
 	private String propertyName;
 
+	/**
+	 * No argument Constructor
+	 */
+	public BeanListUnivariateImpl(){
+	    this(new ArrayList());
+	}
+	
 	/**
 	 * Construct a BeanListUnivariate with specified
 	 * backing list

@@ -18,6 +18,8 @@ package org.apache.commons.math.stat.univariate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.math.TestUtils;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -25,10 +27,11 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link Univariate} class.
  *
- * @version $Revision: 1.2 $ $Date: 2004/05/23 00:56:15 $
+ * @version $Revision: 1.3 $ $Date: 2004/06/01 21:28:06 $
  */
 
 public final class ListUnivariateImplTest extends TestCase {
+    
     private double one = 1;
     private float two = 2;
     private int three = 3;
@@ -134,6 +137,40 @@ public final class ListUnivariateImplTest extends TestCase {
 
 
     }
+    
+    /** test stats */
+    public void testSerialization() {
+        
+        DescriptiveStatistics u = null;
+        
+        try {
+            u = DescriptiveStatistics.newInstance(ListUnivariateImpl.class);
+        } catch (InstantiationException e) {
+            fail(e.getMessage());
+        } catch (IllegalAccessException e) {
+            fail(e.getMessage());
+        }
+        
+        assertEquals("total count",0,u.getN(),tolerance);
+        u.addValue(one);
+        u.addValue(two);
+        
+        DescriptiveStatistics u2 = (DescriptiveStatistics)TestUtils.serializeAndRecover(u); 
+ 
+        u2.addValue(two);
+        u2.addValue(three);
+        
+        assertEquals("N",n,u2.getN(),tolerance);
+        assertEquals("sum",sum,u2.getSum(),tolerance);
+        assertEquals("sumsq",sumSq,u2.getSumsq(),tolerance);
+        assertEquals("var",var,u2.getVariance(),tolerance);
+        assertEquals("std",std,u2.getStandardDeviation(),tolerance);
+        assertEquals("mean",mean,u2.getMean(),tolerance);
+        assertEquals("min",min,u2.getMin(),tolerance);
+        assertEquals("max",max,u2.getMax(),tolerance);
 
+        u2.clear();
+        assertEquals("total count",0,u2.getN(),tolerance);    
+    }       
 }
 

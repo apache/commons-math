@@ -22,20 +22,34 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.stat.StatUtils;
-import org.apache.commons.math.beans.VitalStats;
-import org.apache.commons.math.beans.Patient;
 
 /**
  * Test cases for the {@link BeanListUnivariateImpl} class.
  *
- * @version $Revision: 1.2 $ $Date: 2004/04/24 21:43:26 $
+ * @version $Revision: 1.1 $ $Date: 2004/06/01 21:28:06 $
  */
 
 public final class BeanListUnivariateImplTest extends TestCase {
     
+    private double one = 1;
+    private float two = 2;
+    private int three = 3;
+    private double mean = 2;
+    private double sumSq = 18;
+    private double sum = 8;
+    private double var = 0.666666666666666666667;
+    private double std = Math.sqrt(var);
+    private double n = 4;
+    private double min = 1;
+    private double max = 3;
+    private double skewness = 0;
+    private double kurtosis = 0.5;
+    private double tolerance = 10E-15;
+    
+    
     private List patientList = null;
-    private double tolerance = Double.MIN_VALUE;
     
     public BeanListUnivariateImplTest(String name) {
         super(name);
@@ -120,6 +134,94 @@ public final class BeanListUnivariateImplTest extends TestCase {
         assertEquals("var", StatUtils.variance(values), u.getVariance(), tolerance);       
         u.clear();
         assertEquals("total count",0,u.getN(),tolerance);      
+    }
+    
+    /** test stats */
+    public void testSerialization() {
+        
+        double[] values = {35d, 23d, 42d};
+        
+        DescriptiveStatistics u = new BeanListUnivariateImpl( patientList, "age" ); 
+        assertEquals("total count",3,u.getN(),tolerance);
+        assertEquals("mean", StatUtils.mean(values), u.getMean(), tolerance);
+        assertEquals("min", StatUtils.min(values), u.getMin(), tolerance);
+        assertEquals("max", StatUtils.max(values), u.getMax(), tolerance);
+        assertEquals("var", StatUtils.variance(values), u.getVariance(), tolerance);   
+        
+        
+        DescriptiveStatistics u2 = (DescriptiveStatistics)TestUtils.serializeAndRecover(u); 
+        assertEquals("total count",3,u2.getN(),tolerance);
+        assertEquals("mean", StatUtils.mean(values), u2.getMean(), tolerance);
+        assertEquals("min", StatUtils.min(values), u2.getMin(), tolerance);
+        assertEquals("max", StatUtils.max(values), u2.getMax(), tolerance);
+        assertEquals("var", StatUtils.variance(values), u2.getVariance(), tolerance);   
+
+        u.clear();
+        assertEquals("total count",0,u.getN(),tolerance);    
+        
+        u2.clear();
+        assertEquals("total count",0,u2.getN(),tolerance);
+            
+    }    
+    
+    public class VitalStats {
+
+        private Double heartrate;
+        private Double temperature;
+
+        public VitalStats() {
+        }
+
+        public VitalStats(Double heartrate, Double temperature) {
+            setHeartRate( heartrate );
+            setTemperature( temperature );
+        }
+
+        public Double getHeartRate() {
+            return heartrate;
+        }
+
+        public void setHeartRate(Double heartrate) {
+            this.heartrate = heartrate;
+        }
+
+        public Double getTemperature() {
+            return temperature;
+        }
+
+        public void setTemperature(Double temperature) {
+            this.temperature = temperature;
+        }
+    }
+    
+    public class Patient {
+
+        private VitalStats vitalStats;
+        private Integer age;
+
+        public Patient() {
+        }
+
+        public Patient(VitalStats vitalStats, Integer age) {
+            setVitalStats( vitalStats );
+            setAge( age );
+        }
+
+        public VitalStats getVitalStats() {
+            return( vitalStats );
+        }
+
+        public void setVitalStats(VitalStats vitalStats) {
+            this.vitalStats = vitalStats;
+        }
+
+        public Integer getAge() {
+            return age;
+        }
+
+        public void setAge(Integer age) {
+            this.age = age;
+        }
     }
 }
 
