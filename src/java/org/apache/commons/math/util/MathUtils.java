@@ -57,7 +57,7 @@ package org.apache.commons.math.util;
 /**
  * Some useful additions to the built-in functions in {@link Math}.
  *
- * @version $Revision: 1.6 $ $Date: 2003/10/16 15:24:30 $
+ * @version $Revision: 1.7 $ $Date: 2003/10/30 19:42:43 $
  */
 public final class MathUtils {
 
@@ -349,5 +349,19 @@ public final class MathUtils {
             logSum += Math.log((double) i);
         }
         return logSum;
+    }
+    
+    /**
+     * 
+     */
+    public static double cosh(double x) {
+        return (Math.exp(x) + Math.exp(-x)) / 2.0;
+    }
+    
+    /**
+     * 
+     */
+    public static double sinh(double x) {
+        return (Math.exp(x) - Math.exp(-x)) / 2.0;
     }
 }
