@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -92,7 +92,7 @@ import org.apache.commons.math.stat.StorelessDescriptiveStatisticsImpl;
  *    entry per line.</li>
  * </ol></p>
  *
- * @version $Revision: 1.12 $ $Date: 2004/01/11 07:22:14 $
+ * @version $Revision: 1.13 $ $Date: 2004/01/15 05:22:08 $
  */
 public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistribution {
 

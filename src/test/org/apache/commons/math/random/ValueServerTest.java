@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,7 +64,7 @@ import org.apache.commons.math.stat.StorelessDescriptiveStatisticsImpl;
 /**
  * Test cases for the ValueServer class.
  *
- * @version $Revision: 1.9 $ $Date: 2004/01/11 07:26:51 $
+ * @version $Revision: 1.10 $ $Date: 2004/01/15 05:22:08 $
  */
 
 public final class ValueServerTest extends TestCase {

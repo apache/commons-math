@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -78,7 +78,7 @@ import java.net.MalformedURLException;
  *                       standard deviation = <code>sigma</code></li>
  * <li> CONSTANT_MODE -- returns <code>mu</code> every time.</li></ul> 
  *
- * @version $Revision: 1.9 $ $Date: 2004/01/11 07:24:30 $
+ * @version $Revision: 1.10 $ $Date: 2004/01/15 05:22:08 $
  *
  */
 public class ValueServer implements Serializable {
