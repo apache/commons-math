@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<document url="special.html">
+
+<properties>
+    <title>The Commons Math User Guide - Special Functions</title>
+    <author email="phil@steitz.com">Phil Steitz</author>
+</properties>
+
+<body>
+
+<section name="5 Special Functions">
+
+<subsection name="5.1 Overview" href="overview">
+    <p>
+    This is yet to be written. Any contributions will be gratefully accepted!
+    </p>
+</subsection>
+
+<subsection name="5.2 Gamma functions" href="gamma">
+    <p>
+    This is yet to be written. Any contributions will be gratefully accepted!
+    </p>
+</subsection>
+
+<subsection name="5.3 Beta funtions" href="beta">
+    <p>
+    This is yet to be written. Any contributions will be gratefully accepted!
+    </p>
+</subsection>
+
+</section>
+
+</body>
+</document>

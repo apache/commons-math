@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<document url="stat.html">
+
+<properties>
+    <title>The Commons Math User Guide - Statistics</title>
+    <author email="phil@steitz.com">Phil Steitz</author>
+</properties>
+
+<body>
+
+<section name="1 Statistics">
+
+<subsection name="1.1 Overview" href="overview">
+    <p>
+    This is yet to be written. Any contributions will be greatfully accepted!
+    </p>
+</subsection>
+
+<subsection name="1.2 Univariate statistics" href="univariate">
+    <p>
+    This is yet to be written. Any contributions will be gratefully accepted!
+    </p>
+</subsection>
+
+<subsection name="1.3 Frequency distributions" href="frequency">
+    <p>
+    This is yet to be written. Any contributions will be gratefully accepted!
+    </p>
+</subsection>
+
+<subsection name="1.4 Bivariate regression" href="regression">
+    <p>
+    This is yet to be written. Any contributions will be gratefully accepted!
+    </p>
+</subsection>
+
+<subsection name="1.5 Statistical tests" href="tests">
+    <p>
+    This is yet to be written. Any contributions will be gratefully accepted!
+    </p>
+</subsection>
+
+<subsection name="1.6 Distribution framework" href="distributions">
+    <p>
+    This is yet to be written. Any contributions will be gratefully accepted!
+    </p>
+</subsection>
+
+</section>
+
+</body>
+</document>

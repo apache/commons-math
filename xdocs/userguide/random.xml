@@ -1,0 +1,172 @@
+<?xml version="1.0"?>
+<document url="random.html">
+
+<properties>
+    <title>The Commons Math User Guide - Data Generation</title>
+    <author email="phil@steitz.com">Phil Steitz</author>
+</properties>
+
+<body>
+
+<section name="2 Data Generation">
+
+<subsection name="2.1 Overview" href="overview">
+    <p>
+    The Commons Math random package includes utilities for
+    <ul>
+        <li>generating random numbers</li>
+        <li>generating random strings</li>
+        <li>generating cryptographically secure sequences of random numbers or strings</li>
+        <li>generating random samples and permuations</li>
+        <li>analyzing distributions of values in an input file and generating values "like"
+            the values in the file</li>
+        <li>generating data for grouped frequency distributions or histograms</li>
+    </ul></p>  
+</subsection>
+
+<subsection name="2.2 Random numbers" href="deviates">
+    <p>
+    The <a href="../apidocs/org/apache/commons/math/random/RandomData.html">
+    org.apache.commons.math.RandomData</a> interface defines methods for generating
+    random sequences of numbers. The API contracts of these methods use the following concepts:
+    <dl>
+    <dt>Random sequence of numbers from a probability distribution</dt>
+    <dd>There is no such thing as a single "random number."  What can be generated
+    are <i>sequences</i> of numbers that appear to be random.  When using the
+    built-in JDK function <code>Math.random(),</code> sequences of values generated
+    follow the <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda3662.htm">
+    Uniform Distribution</a>, which means that the values are evenly spread over the interval 
+    between 0 and 1, with no sub-interval having a greater probability of containing generated 
+    values than any other interval of the same length.  The mathematical concept of a <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda36.htm">
+    probability distribution</a> basically amounts to asserting that different ranges in the set 
+    of possible values for of a random variable have different probabilities of containing the value.  
+    Commons Math supports generating random sequences from the following probability distributions. The 
+    javadoc for the <code>nextXxx</code> methods in <code>RandomDataImpl</code> describes the algorithms used
+    to generate random deviates from each of these distributions. 
+    <ul>
+    <li><a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda3662.htm">uniform distribution</a></li>
+    <li><a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda3667.htm">exponential distribution</a></li>
+    <li><a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda366j.htm">poisson distribution</a></li>
+    <li><a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda3661.htm">Gaussian distribution</a></li>
+    </ul>        
+    </dd>
+    <dt>Cryptographically secure random sequences</dt>
+    <dd>It is possible for a sequence of numbers to appear random, but nonetheless to be
+    predictable based on the algorithm used to generate the sequence. If in addition to 
+    randomness, strong unpredictability is required, it is best to use a 
+    <a href="http://www.wikipedia.org/wiki/Cryptographically_secure_pseudo-random_number_generator">
+    secure random number generator</a> to generate values (or strings). The nextSecureXxx methods
+    in the <code>RandomDataImpl</code> implementation of the <code>RandomData</code> interface use the 
+    JDK <code>SecureRandom</code> pseudo-random number generator (PRNG)
+    to generate cryptographically secure sequences.  The <code>setSecureAlgorithm</code> method
+    allows you to change the underlying PRNG. These methods are <strong>much slower</strong> than
+    the corresponding "non-secure" versions, so they should only be used when cryptographic security
+    is required.</dd>
+    <dt>Seeding pseudo-random number generators</dt>
+    <dd>By default, the implementation provided in <code>RandomDataImpl</code> uses the JDK-provided
+    PRNG.  Like other PRNGs, the JDK generator generates sequences of random numbers based on an initial
+    "seed value".  For the non-secure methods, starting with the same seed always produces the same
+    sequence of values.  Secure sequences started with the same seeds will diverge. When a new 
+    <code>RandomDataImpl</code> is created, the underlying random number generators are 
+    <strong>not</strong> intialized.  The first call to a data generation method, or to a 
+    <code>reSeed()</code> method initializes the appropriate generator.  If you do not explicitly 
+    seed the generator, it is by default seeded with the current time in milliseconds.  Therefore,
+    to generate sequences of random data values, you should always instantiate <strong>one</strong>
+    <code>RandomDataImpl</code> and use it repeatedly instead of creating new instances for
+    subsequent values in the sequence.  For example, the following will generate a random sequence
+    of 50 long integers between 1 and 1,000,000, using the current time in milliseconds as the seed
+    for the JDK PRNG:
+    <pre><code>
+        RandomDataImpl randomData = new RandomDataImpl(); 
+        for (int i = 0; i &lt; 1000; i++) {
+            value = randomData.nextLong(1, 1000000);
+        }
+    </code></pre>
+    The following will not in general produce a good random sequence, since the PRNG is reseeded
+    each time through the loop with the current time in milliseconds:
+    <pre><code>
+        for (int i = 0; i &lt; 1000; i++) {
+            RandomDataImpl randomData = new RandomDataImpl(); 
+            value = randomData.nextLong(1, 1000000);
+        }
+    </code></pre>
+    The following will produce the same random sequence each time it is executed:
+    <pre><code>
+        RandomDataImpl randomData = new RandomDataImpl(); 
+        randomData.reSeed(1000);
+        for (int i = 0; i = 1000; i++) {
+            value = randomData.nextLong(1, 1000000);
+        }
+    </code></pre>
+    The following will produce a different random sequence each time it is executed. 
+    <pre><code>
+        RandomDataImpl randomData = new RandomDataImpl(); 
+        randomData.reSeedSecure(1000);
+        for (int i = 0; i &lt; 1000; i++) {
+            value = randomData.nextSecureLong(1, 1000000);
+        }
+    </code></pre>
+    </dd></dl>
+    </p>
+</subsection>
+
+<subsection name="2.3 Random Strings" href="strings">
+    <p>
+    The methods <code>nextHexString</code> and <code>nextSecureHexString</code>
+    can be used to generate random strings of hexadecimal characters.  Both of these
+    methods produce sequences of strings with good dispersion properties.  
+    The difference between the two methods is that the second is cryptographically secure.  
+    Specifically, the implementation of <code>nextHexString(n)</code> in <code>RandomDataImpl</code> 
+    uses the following simple algorithm to generate a string of <code>n</code> hex digits:
+    <ol>
+    <li>n/2+1 binary bytes are generated using the underlying Random</li>
+    <li>Each binary byte is translated into 2 hex digits</li></ol>
+    The <code>RandomDataImpl</code> implementation of the "secure" version, 
+    <code>nextSecureHexString</code> generates hex characters in 40-byte "chunks" 
+    using a 3-step process:
+    <ol>
+    <li>20 random bytes are generated using the underlying <code>SecureRandom</code>.</li>
+    <li>SHA-1 hash is applied to yield a 20-byte binary digest.</li>
+    <li>Each byte of the binary digest is converted to 2 hex digits</li></ol>
+    Similarly to the secure random number generation methods, <code>nextSecureHexString</code>
+    is <strong>much slower</strong> than the non-secure version.  It should be used only for 
+    applications such as generating unique session or transaction ids where predictability of
+    subsequent ids based on observation of previous values is a security concern.  If all
+    that is needed is an even distribution of hex characters in the generated strings, the
+    non-secure method should be used.        
+    </p>
+</subsection>
+
+<subsection name="2.4 Random permutations, combinations, sampling" href="combinatorics">
+    <p>
+    To select a random sample of objects in a collection, you can use the
+    <code>nextSample</code> method in the <code>RandomData</code> interface.  Specifically,
+    if <code>c</code> is a collection containing at least <code>k</code> objects, and
+    <code>ranomData</code> is a <code>RandomDataImpl</code> instance
+    <code>randomData.nextSample(c, k)</code>
+    will return an <code>object[]</code> array of length <code>k</code> consisting of
+    elements randomly selected from the collection.  If <code>c</code> contains
+    duplicate references, there may be duplicate references in the returned array;
+    otherwise returned elements will be unique -- i.e., the sampling is without
+    replacement among the object references in the collection. </p>
+    <p>
+    If <code>randomData</code> is a <code>RandomDataImpl</code> instance, and 
+    <code>n</code> and <code>k</code> are integers with <code> k &lt;= n</code>,
+    then <code>randomData.nextPermutation(n, k)</code> returns an <code>int[]</code>
+    array of length <code>k</code> whose whose entries are selected randomly, 
+    without repetition, from the integers <code>0</code> through <code>n-1</code> (inclusive), i.e.,
+    <code>randomData.nextPermutation(n, k)</code> returns a random permutation of 
+    <code>n</code> taken <code>k</code> at a time.   
+    </p>
+</subsection>
+
+<subsection name='2.5 Generating data "like" an input file' href="empirical">
+    <p>
+    This is yet to be written. Any contributions will be gratefully accepted!
+    </p>
+</subsection>
+
+</section>
+
+</body>
+</document>

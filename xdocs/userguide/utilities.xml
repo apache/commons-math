@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<document url="utilities.html">
+
+<properties>
+    <title>The Commons Math User Guide - Utilites</title>
+    <author email="phil@steitz.com">Phil Steitz</author>
+</properties>
+
+<body>
+
+<section name="6 Utilities">
+
+<subsection name="6.1 Overview" href="overview">
+    <p>
+    This is yet to be written. Any contributions will be greatfully accepted!
+    </p>
+</subsection>
+
+<subsection name="6.2 Double array utilities" href="arrays">
+    <p>
+    This is yet to be written. Any contributions will be gratefully accepted!
+    </p>
+</subsection>
+
+<subsection name="6.3 Continued Fractions" href="continued_fractions">
+    <p>
+    This is yet to be written. Any contributions will be gratefully accepted!
+    </p>
+</subsection>
+
+<subsection name="6.4 binomial coefficients, factorials and other common math functions" href="math_utils">
+    <p>
+    This is yet to be written. Any contributions will be gratefully accepted!
+    </p>
+</subsection>
+
+<subsection name="6.5 statistical computation utiliities" href="stat_utils">
+    <p>
+    This is yet to be written. Any contributions will be gratefully accepted!
+    </p>
+</subsection>
+
+</section>
+
+</body>
+</document>
