@@ -24,10 +24,8 @@ import org.apache.commons.math.function.Evaluation;
 import org.apache.commons.math.function.EvaluationException;
 
 /**
- * @author Administrator
- *
- * To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Generation - Code and Comments
+
+
  */
 public class Divide implements Evaluation, Serializable {
 
