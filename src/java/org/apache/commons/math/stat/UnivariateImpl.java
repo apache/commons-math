@@ -68,9 +68,9 @@ import org.apache.commons.math.FixedDoubleArray;
  *
  * @author Phil Steitz
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
- * @author Mark Diggory
+ * @author <a href="mailto:mdiggory@apache.org">Mark Diggory</a>
  * @author Brent Worden
- * @version $Revision: 1.1 $ $Date: 2003/05/29 20:35:45 $
+ * @version $Revision: 1.2 $ $Date: 2003/06/04 04:05:39 $
  * 
 */
 public class UnivariateImpl implements Univariate, Serializable {
@@ -79,7 +79,7 @@ public class UnivariateImpl implements Univariate, Serializable {
     private int windowSize = Univariate.INFINITE_WINDOW;
 
     /** Just in case, the windowSize is not inifinite, we need to
-     *   keep an array to remember values 0 to N
+     *  keep an array to remember values 0 to N
      */
     private DoubleArray doubleArray;
 
@@ -107,25 +107,30 @@ public class UnivariateImpl implements Univariate, Serializable {
     /** product of values that have been added */
     private double product = Double.NaN;
 
-    /** Creates new univariate */
+    /** Creates new univariate with an inifinite window */
     public UnivariateImpl() {
         clear();
     }
     
-    /** Create a new univariate with a fixed window **/
+    /** Creates a new univariate with a fixed window **/
     public UnivariateImpl(int window) {
         windowSize = window;
         doubleArray = new FixedDoubleArray( window );
     }
 
      
-    public void addValue(double v) {
-
+    /**
+	 * @see org.apache.commons.math.stat.Univariate#addValue(double)
+	 */
+	public void addValue(double v) {
         insertValue(v);
     }
 
     
-    public double getMean() {
+    /**
+	 * @see org.apache.commons.math.stat.Univariate#getMean()
+	 */
+	public double getMean() {
         if (n == 0) {
             return Double.NaN;
         } else {
@@ -134,7 +139,10 @@ public class UnivariateImpl implements Univariate, Serializable {
      }
 
      
-    public double getGeometricMean() {
+    /**
+	 * @see org.apache.commons.math.stat.Univariate#getGeometricMean()
+	 */
+	public double getGeometricMean() {
         if ((product <= 0.0) || (n == 0)) {
             return Double.NaN; 
         } else {
@@ -142,36 +150,44 @@ public class UnivariateImpl implements Univariate, Serializable {
         }
     }
 
-    
-    public double getProduct() {
+    /**
+	 * @see org.apache.commons.math.stat.Univariate#getProduct()
+	 */
+	public double getProduct() {
         return product;
     }
 
+	/**
+	 * @see org.apache.commons.math.stat.Univariate#getStandardDeviation()
+	 */
+	public double getStandardDeviation() {
+		double variance = getVariance();
+		if ((variance == 0.0) || (variance == Double.NaN)) {
+			return variance;
+		} else {
+			return Math.sqrt(variance);
+		}
+	}
+	
+	/**
+	 * Returns the variance of the values that have been added as described by
+	 * <a href=http://mathworld.wolfram.com/k-Statistic.html>Equation (5) for k-Statistics</a>.
+	 * 
+	 * @return The variance of a set of values.  Double.NaN is returned for
+	 *         an empty set of values and 0.0 is returned for a &lt;= 1 value set.
+	 */
+	public double getVariance() {
+		double variance = Double.NaN;
+
+		if( n == 1 ) {
+			variance = 0.0;
+		} else if( n > 1 ) {
+			variance = (((double)n)*sumsq - (sum * sum)) / (double) (n * (n - 1));	
+		}
+
+		return variance < 0 ? 0.0 : variance;
+	}
      
-    public double getVariance() {
-        double variance = Double.NaN;
-
-        if( n == 1 ) {
-            variance = 0.0;
-        } else if( n > 1 ) {
-            double xbar = getMean();
-            variance =  (sumsq - xbar*xbar*((double) n))/(((double) n)-1);
-        }
-
-        return variance;
-    }
-
-    
-    public double getStandardDeviation() {
-        double variance = getVariance();
-        if ((variance == 0.0) || (variance == Double.NaN)) {
-            return variance;
-        } else {
-            return Math.sqrt(variance);
-        }
-    }
-   
-   
 	/**
 	 * Returns the skewness of the values that have been added as described by
      * <a href=http://mathworld.wolfram.com/k-Statistic.html>Equation (6) for k-Statistics</a>.
@@ -184,8 +200,8 @@ public class UnivariateImpl implements Univariate, Serializable {
 		if( n < 1) return Double.NaN;
 		if( n <= 2 ) return 0.0;                  
 			
-		return ( 2*Math.pow(sum,3) - 3*sum*sumsq + ((double)n)*((double)n)*sumCube ) / 
-			   ( ((double)n)*(((double)n)-1)*(((double)n)-2));  
+		return ( 2*Math.pow(sum,3) - 3*sum*sumsq + ((double)(n*n))*sumCube ) / 
+			   ( (double)(n*(n-1)*(n-2)) ) ;  
 	}
 	
 	/**
@@ -202,14 +218,19 @@ public class UnivariateImpl implements Univariate, Serializable {
 		
 		double x1 = -6*Math.pow(sum,4);
 		double x2 = 12*((double)n)*Math.pow(sum,2)*sumsq;
-		double x3 = -3*((double)n)*(((double)n)-1)*Math.pow(sumsq,2);
-		double x4 = -4*((double)n)*(((double)n)+1)*sum*sumCube;
-		double x5 = Math.pow(((double)n),2)*(((double)n)+1)*sumQuad;
+		double x3 = -3*((double)(n*(n-1)))*Math.pow(sumsq,2);
+		double x4 = -4*((double)(n*(n+1)))*sum*sumCube;
+		double x5 = Math.pow(((double)n),2)*((double)(n+1))*sumQuad;
+		
 		return (x1 + x2 + x3 + x4 + x5) / 
-		       (((double)n)*(((double)n)-1)*(((double)n)-2)*(((double)n)-3));
+			   ( (double)(n*(n-1)*(n-2)*(n-3)) );
 	} 
 	
-    private void insertValue(double v) {
+    /**
+     * Called in "addValue" to insert a new value into the statistic.
+	 * @param v The value to be added.
+	 */
+	private void insertValue(double v) {
 
         // The default value of product is NaN, if you
         // try to retrieve the product for a univariate with
@@ -351,7 +372,9 @@ public class UnivariateImpl implements Univariate, Serializable {
         return outBuffer.toString();
     }
     
-    /** Resets all sums to 0, resets min and max */
+    /** 
+     * Resets all sums to 0, resets min and max 
+     */
     public void clear() {
         this.sum = this.sumsq = this.sumCube = this.sumQuad = 0.0;
         this.n = 0;
