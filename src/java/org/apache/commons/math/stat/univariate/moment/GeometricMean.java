@@ -21,22 +21,29 @@ import org.apache.commons.math.stat.univariate.summary.SumOfLogs;
 
 /**
  * Returns the <a href="http://www.xycoon.com/geometric_mean.htm">
- * geometric mean </a> of the available values
- * @version $Revision: 1.18 $ $Date: 2004/04/27 16:42:30 $
+ * geometric mean </a> of the available values.
+ * <p>
+ * Uses {@link SumOfLogs} superclass to compute sum of logs and returns
+ * <code> exp( 1/n  (sum of logs) ).</code>  Therefore,
+ * <ul>
+ * <li>If any of values are < 0, the result is <code>NaN.</code></li>
+ * <li>If all values are non-negative and less than <code>Double.POSITIVE_INFINITY</code>, 
+ * but at least one value is 0, the result is <code>0.</code></li>
+ * <li>If both <code>Double.POSITIVE_INFINITY</code> and 
+ * <code>Double.NEGATIVE_INFINITY</code> are among the values, the result is
+ * <code>NaN.</code></li>
+ * </ul>
+ * 
+ * 
+ * @version $Revision: 1.19 $ $Date: 2004/06/18 07:03:40 $
  */
 public class GeometricMean extends SumOfLogs implements Serializable{
 
     /** Serializable version identifier */
     static final long serialVersionUID = -8178734905303459453L;  
       
-    /** */
+    /**Number of values that have been added */
     protected long n = 0;
-
-    /** */
-    private double geoMean = Double.NaN;
-
-    /** */
-    private double lastSum = 0.0;
 
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
@@ -50,11 +57,11 @@ public class GeometricMean extends SumOfLogs implements Serializable{
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getResult()
      */
     public double getResult() {
-        if (lastSum != super.getResult() || n == 1) {
-            lastSum = super.getResult();
-            geoMean = Math.exp(lastSum / (double) n);
+        if (n > 0) {
+            return Math.exp(super.getResult() / (double) n);
+        } else {
+            return Double.NaN;
         }
-        return geoMean;
     }
 
     /**
@@ -62,8 +69,6 @@ public class GeometricMean extends SumOfLogs implements Serializable{
      */
     public void clear() {
         super.clear();
-        lastSum = 0.0;
-        geoMean = Double.NaN;
         n = 0;
     }
 
