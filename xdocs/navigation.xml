@@ -47,6 +47,8 @@
       <item name="Numerical Analysis"      href="/userguide/analysis.html"/>
       <item name="Special Functions"       href="/userguide/special.html"/>
       <item name="Utilities"               href="/userguide/utilities.html"/>
+      <item name="Complex Numbers"         href="/userguide/complex.html"/>
+      <item name="Distributions"           href="/userguide/distribution.html"/>
     </menu>
     
     &common-menus;

@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.7 $ $Date: 2004/02/29 21:25:08 $ -->
+<!-- $Revision: 1.8 $ $Date: 2004/04/26 20:06:50 $ -->
 <document url="index.html">
   <properties>
     <title>The Commons Math User Guide - Table of Contents</title>
@@ -36,7 +36,7 @@
               <li><a href="overview.html#dependencies">0.5 Dependencies</a></li>
             </ul></li>
 
-           <li><a href="stat.html">1. Statistics and Distributions</a>
+           <li><a href="stat.html">1. Statistics</a>
                 <ul>
                 <li><a href="stat.html#overview">1.1 Overview</a></li>
                 <li><a href="stat.html#univariate">1.2 Univariate statistics</a></li>
@@ -78,6 +78,18 @@
                 <li><a href="utilities.html#continued_fractions">6.3 Continued Fractions</a></li>
                 <li><a href="utilities.html#math_utils">6.4 binomial coefficients, factorials and other common math functions</a></li>
                 <li><a href="utilities.html#stat_utils">6.5 statistical computation utiliities</a></li>
+                </ul></li>                                 
+        <li><a href="complex.html">7. Complex Numbers</a>
+                <ul>
+                <li><a href="complex.html#overview">7.1 Overview</a></li>
+                <li><a href="complex.html#complex">7.2 Complex Numbers</a></li>
+                <li><a href="complex.html#functions">7.3 Complex Transcendental Functions</a></li>
+                <li><a href="complex.html#formatting">7.4 Complex Formatting</a></li>
+                </ul></li>                                 
+        <li><a href="distribution.html">8. Probability Distributions</a>
+                <ul>
+                <li><a href="distribution.html#overview">8.1 Overview</a></li>
+                <li><a href="distribution.html#distributions">8.2 Distribution Framework</a></li>
                 </ul></li>                                 
         </ul>
       </section>

@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.9 $ $Date: 2004/04/25 17:12:05 $ -->
+<!-- $Revision: 1.10 $ $Date: 2004/04/26 20:06:50 $ -->
 <document>
   <properties>
     <title>User Guide - Overview</title>
@@ -67,15 +67,18 @@
 
 <subsection name="0.3 How commons-math is organized" href="organization">
     <p>
-    Commons Math is divided into 6 subpackages, based on functionality provided.
-    <ol><li><a href="stat.html">org.apache.commons.math.stat</a> - statistics, statistical tests, probability distributions</li>
-        <li><a href="analysis.html">org.apache.commons.math.analysis</a> - rootfinding and interpolation</li>
-        <li><a href="random.html">org.apache.commons.math.random</a> - random numbers, strings and data generation</li>
-        <li><a href="special.html">org.apache.commons.math.special</a> - special functions (Gamma, Beta) </li>
-        <li><a href="linear.html">org.apache.commons.math.linear</a> - matrices, solving linear systems </li>
-        <li><a href="utilities.html">org.apache.commons.math.util</a> - common math/stat functions extending java.lang.Math </li>
-     </ol>
-     Package javadocs are <a href="../apidocs/index.html">here</a>
+    Commons Math is divided into eight subpackages, based on functionality provided.
+    <ol>
+      <li><a href="stat.html">org.apache.commons.math.stat</a> - statistics, statistical tests</li>
+      <li><a href="analysis.html">org.apache.commons.math.analysis</a> - rootfinding and interpolation</li>
+      <li><a href="random.html">org.apache.commons.math.random</a> - random numbers, strings and data generation</li>
+      <li><a href="special.html">org.apache.commons.math.special</a> - special functions (Gamma, Beta) </li>
+      <li><a href="linear.html">org.apache.commons.math.linear</a> - matrices, solving linear systems </li>
+      <li><a href="utilities.html">org.apache.commons.math.util</a> - common math/stat functions extending java.lang.Math </li>
+      <li><a href="complex.html">org.apache.commons.math.complex</a> - complex numbers</li>
+      <li><a href="distribution.html">org.apache.commons.math.distribution</a> - probability distributions</li>
+    </ol>
+    Package javadocs are <a href="../apidocs/index.html">here</a>
     </p>
 </subsection>
 
