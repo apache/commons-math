@@ -17,10 +17,9 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.5 $ $Date: 2004/02/28 17:47:37 $ -->
+<!-- $Revision: 1.6 $ $Date: 2004/02/29 18:50:10 $ -->
 <document url="index.html">
   <properties>
-    <author email="phil@steitz.com">Phil Steitz</author>
     <title>The Commons Math User Guide - Table of Contents</title>
   </properties>
 

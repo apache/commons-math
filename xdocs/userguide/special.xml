@@ -17,11 +17,10 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.6 $ $Date: 2004/02/28 17:47:37 $ -->
+<!-- $Revision: 1.7 $ $Date: 2004/02/29 18:50:10 $ -->
 <document url="special.html">
   <properties>
     <title>The Commons Math User Guide - Special Functions</title>
-    <author email="phil@steitz.com">Phil Steitz</author>
   </properties>
   <body>
     <section name="5 Special Functions">

@@ -17,12 +17,11 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.7 $ $Date: 2004/02/28 17:47:37 $ -->
+<!-- $Revision: 1.8 $ $Date: 2004/02/29 18:50:10 $ -->
 <document url="random.html">
 
 <properties>
     <title>The Commons Math User Guide - Data Generation</title>
-    <author email="phil@steitz.com">Phil Steitz</author>
 </properties>
 
 <body>
