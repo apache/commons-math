@@ -14,7 +14,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
   -->
-<!-- $Revision: 1.47 $ $Date: 2004/06/23 16:26:17 $ -->
+<!-- $Revision: 1.48 $ $Date: 2004/07/11 19:00:19 $ -->
 <project>
   <pomVersion>3</pomVersion>
   
@@ -120,10 +120,6 @@
     </contributor>
   </contributors>
   <dependencies>
-    <dependency>
-      <id>commons-lang</id>
-      <version>2.0</version>
-    </dependency>
     <dependency>
       <id>commons-logging</id>
       <version>1.0.3</version>
