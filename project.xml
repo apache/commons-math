@@ -14,7 +14,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
   -->
-<!-- $Revision: 1.42 $ $Date: 2004/04/09 19:58:06 $ -->
+<!-- $Revision: 1.43 $ $Date: 2004/04/11 16:30:07 $ -->
 <project>
   <pomVersion>3</pomVersion>
   
@@ -114,6 +114,9 @@
   <contributors>
     <contributor>
       <name>Piotr Kochanski</name>
+    </contributor>
+    <contributor>
+      <name>Christopher Schuck</name>
     </contributor>
   </contributors>
   <dependencies>
