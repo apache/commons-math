@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Revision: 1.28 $ $Date: 2003/11/14 21:46:30 $ -->
+<!-- $Revision: 1.29 $ $Date: 2003/11/15 19:05:38 $ -->
 <project>
   <extend>../../jakarta-commons/project.xml</extend>
   <name>Math</name>
@@ -13,7 +13,7 @@ A library of lightweight, self-contained mathematics and statistics components.
   <description>
 The Math project is a library of lightweight, self-contained mathematics and statistics components addressing the most common practical problems not immediately available in the Java programming language or commons-lang.
   </description>
-  <siteDirectory>/www/jakarta.apache.org/commons/sandbox/math/</siteDirectory>
+  <siteDirectory>/www/jakarta.apache.org/commons/math/</siteDirectory>
   <versions>
     <version>
       <id>0.1-dev</id>
@@ -85,11 +85,13 @@ The Math project is a library of lightweight, self-contained mathematics and sta
 	</dependency>
   </dependencies>
 
-  <issueTrackingUrl>http://nagoya.apache.org/bugzilla/buglist.cgi?bug_status=NEW&amp;bug_status=ASSIGNED&amp;bug_status=REOPENED&amp;email1=&amp;emailtype1=substring&amp;emailassigned_to1=1&amp;email2=&amp;emailtype2=substring&amp;emailreporter2=1&amp;bugidtype=include&amp;bug_id=&amp;changedin=&amp;votes=&amp;chfieldfrom=&amp;chfieldto=Now&amp;chfieldvalue=&amp;product=Commons&amp;component=Sandbox&amp;short_desc=&amp;short_desc_type=allwordssubstr&amp;long_desc=&amp;long_desc_type=allwordssubstr&amp;bug_file_loc=&amp;bug_file_loc_type=allwordssubstr&amp;keywords=&amp;keywords_type=anywords&amp;field0-0-0=noop&amp;type0-0-0=noop&amp;value0-0-0=&amp;cmdtype=doit&amp;order=%27Importance%27</issueTrackingUrl>
+  <issueTrackingUrl>
+  	http://nagoya.apache.org/bugzilla/enter_bug.cgi?reporter=&amp;product=Commons&amp;version=unspecified&amp;component=Math&amp;rep_platform=All&amp;op_sys=All&amp;priority=Other&amp;bug_severity=normal&amp;bug_status=NEW&amp;assigned_to=&amp;cc=&amp;bug_file_loc=&amp;short_desc=%5Bpatch%5D+%22Your+subject+heading+here%22&amp;comment=Please+provide+details+here.+Its+best+to+submit+patches+that+alter+existing+file%0D%0Acontent+in+%22unified+cvs+diff%22+format.+%0D%0A%0D%0ASubmissions+that+provide+new+files+can+be+supplied+as+direct+file+attachments+or%0D%0Aarchives+in+zip+or+tar.gz+format.+please+be+kind+enough+to+identify+the+format%0D%0Aof+the+attached+archive+as+bugzill+tends+to+strip+these+characterstics+by%0D%0Aremoving+the+files+extension.&amp;maketemplate=Remember+values+as+bookmarkable+template&amp;form_name=enter_bug
+  </issueTrackingUrl>
 
   <repository>
-    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:jakarta-commons-sandbox/${pom.artifactId.substring(8)}</connection>
-    <url>http://cvs.apache.org/viewcvs/jakarta-commons-sandbox/${pom.artifactId.substring(8)}/</url>
+    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:jakarta-commons/${pom.artifactId.substring(8)}</connection>
+    <url>http://cvs.apache.org/viewcvs/jakarta-commons/${pom.artifactId.substring(8)}/</url>
   </repository>
   
   <build>
@@ -116,6 +118,7 @@ The Math project is a library of lightweight, self-contained mathematics and sta
    <report>maven-changelog-plugin</report> 
    <report>maven-changes-plugin</report>
    <report>maven-checkstyle-plugin</report>
+   <report>maven-clover-plugin</report>
    <report>maven-developer-activity-plugin</report>
    <report>maven-file-activity-plugin</report> 
    <report>maven-javadoc-plugin</report>
@@ -126,7 +129,6 @@ The Math project is a library of lightweight, self-contained mathematics and sta
    <report>maven-statcvs-plugin</report>
    <report>maven-tasklist-plugin</report>
 <!--
-   <report>maven-clover-plugin</report>
 	 <report>maven-linkcheck-plugin</report>
 -->
   </reports>
