@@ -38,7 +38,7 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
 
-    <release version="1.0-RC2" date="TBD">
+    <release version="1.0-RC2" date="2004-11-07">
       <action dev="psteitz" type="fix">
         Fixed cumulative frequency and cumulative percentage problem reported
         to the commons-dev list by Jon Langlois on 9/14. Integer arguments to 
