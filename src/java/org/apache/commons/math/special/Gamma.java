@@ -24,7 +24,7 @@ import org.apache.commons.math.MathException;
  * This is a utility class that provides computation methods related to the
  * Gamma family of functions.
  * 
- * @version $Revision: 1.17 $ $Date: 2004/02/21 21:35:15 $
+ * @version $Revision: 1.18 $ $Date: 2004/04/23 19:30:47 $
  */
 public class Gamma implements Serializable{
     /** Maximum allowed numerical error. */
@@ -61,8 +61,8 @@ public class Gamma implements Serializable{
     /**
      * Returns the regularized gamma function P(a, x).
      * 
-     * @param a ???
-     * @param x ???
+     * @param a the a parameter.
+     * @param x the value.
      * @return the regularized gamma function P(a, x)
      * @throws MathException if the algorithm fails to converge.
      */
@@ -89,8 +89,8 @@ public class Gamma implements Serializable{
      * </li>
      * </ul>
      * 
-     * @param a ???
-     * @param x ???
+     * @param a the a parameter.
+     * @param x the value.
      * @param epsilon When the absolute value of the nth item in the
      *                series is less than epsilon the approximation ceases
      *                to calculate further elements in the series.
@@ -148,7 +148,7 @@ public class Gamma implements Serializable{
      * </a></li>
      * </ul>
      * 
-     * @param x ???
+     * @param x the value.
      * @return log(&#915;(x))
      */
     public static double logGamma(double x) {
@@ -173,4 +173,3 @@ public class Gamma implements Serializable{
         return ret;
     }
 }
-

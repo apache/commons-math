@@ -26,7 +26,7 @@ import org.apache.commons.math.util.ContinuedFraction;
  * This is a utility class that provides computation methods related to the
  * Beta family of functions.
  * 
- * @version $Revision: 1.17 $ $Date: 2004/02/18 03:24:20 $
+ * @version $Revision: 1.18 $ $Date: 2004/04/23 19:30:47 $
  */
 public class Beta implements Serializable {
     /** Maximum allowed numerical error. */
@@ -40,11 +40,13 @@ public class Beta implements Serializable {
     }
 
     /**
-     * Returns the regularized beta function I(x, a, b).
+     * Returns the
+     * <a href="http://mathworld.wolfram.com/RegularizedBetaFunction.html">
+     * regularized beta function</a> I(x, a, b).
      * 
-     * @param x ???
-     * @param a ???
-     * @param b ???
+     * @param x the value.
+     * @param a the a parameter.
+     * @param b the b parameter.
      * @return the regularized beta function I(x, a, b)
      * @throws MathException if the algorithm fails to converge.
      */
@@ -55,11 +57,13 @@ public class Beta implements Serializable {
     }
 
     /**
-     * Returns the regularized beta function I(x, a, b).
+     * Returns the
+     * <a href="http://mathworld.wolfram.com/RegularizedBetaFunction.html">
+     * regularized beta function</a> I(x, a, b).
      * 
-     * @param x ???
-     * @param a ???
-     * @param b ???
+     * @param x the value.
+     * @param a the a parameter.
+     * @param b the b parameter.
      * @param epsilon When the absolute value of the nth item in the
      *                series is less than epsilon the approximation ceases
      *                to calculate further elements in the series.
@@ -75,9 +79,9 @@ public class Beta implements Serializable {
     /**
      * Returns the regularized beta function I(x, a, b).
      * 
-     * @param x ???
-     * @param a ???
-     * @param b ???
+     * @param x the value.
+     * @param a the a parameter.
+     * @param b the b parameter.
      * @param maxIterations Maximum number of "iterations" to complete. 
      * @return the regularized beta function I(x, a, b)
      * @throws MathException if the algorithm fails to converge.
@@ -101,9 +105,9 @@ public class Beta implements Serializable {
      * Regularized Beta Function</a>.</li>
      * </ul>
      * 
-     * @param x ???
-     * @param a ???
-     * @param b ???
+     * @param x the value.
+     * @param a the a parameter.
+     * @param b the b parameter.
      * @param epsilon When the absolute value of the nth item in the
      *                series is less than epsilon the approximation ceases
      *                to calculate further elements in the series.
@@ -170,8 +174,8 @@ public class Beta implements Serializable {
     /**
      * Returns the natural logarithm of the beta function B(a, b).
      * 
-     * @param a ???
-     * @param b ???
+     * @param a the a parameter.
+     * @param b the b parameter.
      * @return log(B(a, b))
      */
     public static double logBeta(double a, double b) {
@@ -187,8 +191,8 @@ public class Beta implements Serializable {
      * Beta Function</a>, equation (1).</li>
      * </ul>
      * 
-     * @param a ???
-     * @param b ???
+     * @param a the a parameter.
+     * @param b the b parameter.
      * @param epsilon When the absolute value of the nth item in the
      *                series is less than epsilon the approximation ceases
      *                to calculate further elements in the series.
