@@ -39,7 +39,7 @@ import java.io.Serializable;
  * The cubic spline interpolation algorithm implemented is as described in R.L. Burden, J.D. Faires, 
  * <u>Numerical Analysis</u>, 4th Ed., 1989, PWS-Kent, ISBN 0-53491-585-X, pp 126-131.
  *
- * @version $Revision: 1.16 $ $Date: 2004/04/27 04:37:58 $
+ * @version $Revision: 1.17 $ $Date: 2004/05/22 19:59:22 $
  *
  */
 public class SplineInterpolator implements UnivariateRealInterpolator, Serializable {
@@ -69,27 +69,22 @@ public class SplineInterpolator implements UnivariateRealInterpolator, Serializa
             }
         }
         
+        // Differences between knot points
         double h[] = new double[n];
         for (int i = 0; i < n; i++) {
             h[i] = x[i + 1] - x[i];
         }
         
-        double alpha[] = new double[n];
-        for (int i = 1; i < n; i++) {
-            alpha[i] = 3d * (y[i + 1] * h[i - 1] - y[i] * (x[i + 1] - x[i - 1])+ y[i - 1] * h[i]) /
-                            (h[i - 1] * h[i]);
-        }
-        
-        double l[] = new double[n + 1];
         double mu[] = new double[n];
         double z[] = new double[n + 1];
-        l[0] = 1d;
         mu[0] = 0d;
         z[0] = 0d;
+        double g = 0;
         for (int i = 1; i < n; i++) {
-            l[i] = 2d * (x[i+1]  - x[i - 1]) - h[i - 1] * mu[i -1];
-            mu[i] = h[i] / l[i];
-            z[i] = (alpha[i] - h[i - 1] * z[i - 1]) / l[i];
+            g = 2d * (x[i+1]  - x[i - 1]) - h[i - 1] * mu[i -1];
+            mu[i] = h[i] / g;
+            z[i] = (3d * (y[i + 1] * h[i - 1] - y[i] * (x[i + 1] - x[i - 1])+ y[i - 1] * h[i]) /
+                    (h[i - 1] * h[i]) - h[i - 1] * z[i - 1]) / g;
         }
        
         // cubic spline coefficients --  b is linear, c quadratic, d is cubic (original y's are constants)
@@ -97,7 +92,6 @@ public class SplineInterpolator implements UnivariateRealInterpolator, Serializa
         double c[] = new double[n + 1];
         double d[] = new double[n];
         
-        l[n] = 1d;
         z[n] = 0d;
         c[n] = 0d;
         
