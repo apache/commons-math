@@ -67,17 +67,14 @@ import org.apache.commons.math.stat.univariate.summary.SumOfSquares;
 /**
  * Provides a default {@link SummaryStatistics} implementation.
  * 
- * @version $Revision: 1.1 $ $Date: 2004/01/25 21:30:41 $  
+ * @version $Revision: 1.2 $ $Date: 2004/01/27 02:43:44 $  
  */
 public class SummaryStatisticsImpl extends SummaryStatistics {
 
     /** count of values that have been added */
     protected long n = 0;
-
-    /** FirstMoment is used to compute the mean */
-    protected FirstMoment firstMoment = null;
     
-    /** SecondMoment is used to compute the variance */
+    /** SecondMoment is used to compute the mean and variance */
     protected SecondMoment secondMoment = null;
     
     /** sum of values that have been added */
@@ -115,7 +112,6 @@ public class SummaryStatisticsImpl extends SummaryStatistics {
         sumLog = new SumOfLogs();
         geoMean = new GeometricMean();
         secondMoment = new SecondMoment();
-        firstMoment = new FirstMoment();
     }
 
     /**
@@ -130,7 +126,6 @@ public class SummaryStatisticsImpl extends SummaryStatistics {
     	max.increment(value);
     	sumLog.increment(value);
     	geoMean.increment(value);
-    	firstMoment.increment(value);
     	secondMoment.increment(value);
     	n++;
     }
@@ -168,7 +163,7 @@ public class SummaryStatisticsImpl extends SummaryStatistics {
      * @return the mean
      */
     public double getMean() {
-      return new Mean(firstMoment).getResult();
+      return new Mean(secondMoment).getResult();
     }
 
     /**
@@ -262,7 +257,6 @@ public class SummaryStatisticsImpl extends SummaryStatistics {
         sumLog.clear();
         sumsq.clear();
         geoMean.clear();
-        firstMoment.clear();
         secondMoment.clear();
     }
 
