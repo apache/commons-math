@@ -30,16 +30,16 @@ import junit.framework.TestSuite;
  * default absolute accuracy of 10E-8 for sinus and the quintic function around
  * zero, and 5..10 iterations for the other zeros.
  * 
- * @version $Revision: 1.11 $ $Date: 2004/02/21 21:35:16 $ 
+ * @version $Revision: 1.1 $ $Date: 2004/07/17 19:49:02 $ 
  */
-public final class RealSolverTest extends TestCase {
+public final class BrentSolverTest extends TestCase {
 
-    public RealSolverTest(String name) {
+    public BrentSolverTest(String name) {
         super(name);
     }
 
     public static Test suite() {
-        TestSuite suite = new TestSuite(RealSolverTest.class);
+        TestSuite suite = new TestSuite(BrentSolverTest.class);
         suite.setName("UnivariateRealSolver Tests");
         return suite;
     }
@@ -78,6 +78,7 @@ public final class RealSolverTest extends TestCase {
         assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
         // 5 iterations on i586 JDK 1.4.1.
         assertTrue(solver.getIterationCount() <= 6);
+        assertEquals(result, solver.getResult(), 0);
     }
 
     public void testQuinticZero() throws MathException {
