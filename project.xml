@@ -74,6 +74,7 @@ The Math project is a library of lightweight, self-contained mathematics and sta
             <directory>${pom.build.unitTestSourceDirectory}</directory>
             <includes>
               <include>**/*.xml</include>
+	      <include>**/*.txt</include>
             </includes>
          </resource>
       </resources>
