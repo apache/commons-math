@@ -20,7 +20,7 @@
   </property>
   <property name="javadocdir" value="dist/docs/api">
   </property>
-  <property name="final.name" value="commons-math-1.0-RC1">
+  <property name="final.name" value="commons-math-1.0">
   </property>
   <path id="build.classpath">
     <fileset dir="${libdir}">
