@@ -15,8 +15,6 @@
  */
 package org.apache.commons.math.analysis;
 
-import java.io.Serializable;
-
 /**
  * Computes a natural (a.k.a. "free", "unclamped") cubic spline interpolation for the data set.
  * <p>
@@ -39,10 +37,10 @@ import java.io.Serializable;
  * The cubic spline interpolation algorithm implemented is as described in R.L. Burden, J.D. Faires, 
  * <u>Numerical Analysis</u>, 4th Ed., 1989, PWS-Kent, ISBN 0-53491-585-X, pp 126-131.
  *
- * @version $Revision: 1.17 $ $Date: 2004/05/22 19:59:22 $
+ * @version $Revision: 1.18 $ $Date: 2004/06/02 00:10:45 $
  *
  */
-public class SplineInterpolator implements UnivariateRealInterpolator, Serializable {
+public class SplineInterpolator implements UnivariateRealInterpolator {
     
     /**
      * Computes an interpolating function for the data set.

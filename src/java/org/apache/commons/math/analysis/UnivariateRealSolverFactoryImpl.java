@@ -15,18 +15,15 @@
  */
 package org.apache.commons.math.analysis;
 
-import java.io.Serializable;
-
 /**
  * A concrete {@link  UnivariateRealSolverFactory}.  This is the default solver factory
  * used by commons-math.
  * <p>
  * The default solver returned by this factory is a {@link BrentSolver}.
  * 
- * @version $Revision: 1.11 $ $Date: 2004/04/08 21:19:17 $
+ * @version $Revision: 1.12 $ $Date: 2004/06/02 00:10:45 $
  */
-public class UnivariateRealSolverFactoryImpl
-    extends UnivariateRealSolverFactory implements Serializable {
+public class UnivariateRealSolverFactoryImpl extends UnivariateRealSolverFactory {
         
     /**
      * Default constructor.
