@@ -32,6 +32,11 @@ The Math project is a library of lightweight, self-contained mathematics and sta
       <id>tobrien</id>
       <email>tobrien@apache.org</email>
     </developer>
+    <developer>
+      <name>Mark R. Diggory</name>
+      <id>mdiggory</id>
+      <email>mark_diggory@harvard.edu</email>
+    </developer>    
   </developers>
 
   <dependencies>
@@ -59,11 +64,6 @@ The Math project is a library of lightweight, self-contained mathematics and sta
         <role>proposal author</role> 
         <role>initial contributor</role>
      </roles>   
-   </contributor>
-   <contributor>
-     <name>Mark R. Diggory</name>
-     <email>mdiggory@latte.harvard.edu</email>
-     <roles></roles>
    </contributor>
    <contributor>
      <name>Brent Worden</name>
