@@ -22,17 +22,17 @@ import org.apache.commons.math.MathException;
  * <p>
  * Implementations will search for only one zero in the given interval.
  *  
- * @version $Revision: 1.11 $ $Date: 2004/02/21 21:35:14 $
+ * @version $Revision: 1.12 $ $Date: 2004/05/21 14:21:42 $
  */
 public interface UnivariateRealSolver {
 
     /**
      * Set the upper limit for the number of iterations.
-     * 
+     * <p>
      * Usually a high iteration count indicates convergence problems. However,
      * the "reasonable value" varies widely for different solvers.  Users are
      * advised to use the default value supplied by the solver.
-     *  
+     * <p>
      * An exception will be thrown if the number is exceeded.
      *  
      * @param count maximum number of iterations
@@ -48,7 +48,7 @@ public interface UnivariateRealSolver {
 
     /**
      * Reset the upper limit for the number of iterations to the default.
-     * 
+     * <p>
      * The default value is supplied by the solver implementation.
      * 
      * @see #setMaximalIterationCount(int)
@@ -57,12 +57,12 @@ public interface UnivariateRealSolver {
 
     /**
      * Set the absolute accuracy.
-     * 
+     * <p>
      * The default is usually choosen so that roots in the interval
      * -10..-0.1 and +0.1..+10 can be found with a reasonable accuracy. If the
      * expected absolute value of your roots is of much smaller magnitude, set
      * this to a smaller value.
-     * 
+     * <p>
      * Solvers are advised to do a plausibility check with the relative
      * accuracy, but clients should not rely on this.
      *  
@@ -81,18 +81,18 @@ public interface UnivariateRealSolver {
 
     /**
      * Reset the absolute accuracy to the default.
-     * 
+     * <p>
      * The default value is provided by the solver implementation.
      */
     public void resetAbsoluteAccuracy();
 
     /**
      * Set the relative accuracy.
-     * 
+     * <p>
      * This is used to stop iterations if the absolute accuracy can't be
      * achieved due to large values or short mantissa length.
-     * 
-     * If this should be the primary criterium for convergence rather then a
+     * <p>
+     * If this should be the primary criterion for convergence rather then a
      * safety measure, set the absolute accuracy to a ridiculously small value,
      * like 1E-1000.
      * 
@@ -116,10 +116,10 @@ public interface UnivariateRealSolver {
 
     /**
      * Set the function value accuracy.
-     * 
+     * <p>
      * This is used to determine whan an evaluated function value or some other
      * value which is used as divisor is zero.
-     * 
+     * <p>
      * This is a safety guard and it shouldn't be necesary to change this in
      * general.
      * 
@@ -144,6 +144,7 @@ public interface UnivariateRealSolver {
     /**
      * Solve for a zero root in the given interval.
      * A solver may require that the interval brackets a single zero root.
+     * 
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
      * @return a value where the function is zero
@@ -155,6 +156,7 @@ public interface UnivariateRealSolver {
     /**
      * Solve for a zero in the given interval, start at startValue.
      * A solver may require that the interval brackets a single zero root.
+     * 
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
      * @param startValue the start value to use
@@ -175,11 +177,13 @@ public interface UnivariateRealSolver {
 
     /**
      * Get the number of iterations in the last run of the solver.
+     * <p>
      * This is mainly meant for testing purposes. It may occasionally
      * help track down performance problems: if the iteration count
      * is notoriously high, check whether the function is evaluated
      * properly, and whether another solver is more amenable to the
      * problem.
+     * 
      * @return the last iteration count.
      * @throws MathException if there is no result available, either
      * because no result was yet computed or the last attempt failed.
