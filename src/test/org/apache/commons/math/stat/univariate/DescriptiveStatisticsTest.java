@@ -19,18 +19,14 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.TestUtils;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.analysis.UnivariateRealSolverFactory;
-import org.apache.commons.math.analysis.UnivariateRealSolverUtils;
 import org.apache.commons.math.random.RandomData;
 import org.apache.commons.math.random.RandomDataImpl;
 
 /**
  * Test cases for the {@link Univariate} class.
  *
- * @version $Revision: 1.4 $ $Date: 2004/05/03 23:16:39 $
+ * @version $Revision: 1.5 $ $Date: 2004/05/23 00:30:01 $
  */
 
 public final class DescriptiveStatisticsTest extends TestCase {

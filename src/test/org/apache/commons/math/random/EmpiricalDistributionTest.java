@@ -16,7 +16,6 @@
 package org.apache.commons.math.random;
 
 import junit.framework.Test;
-import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import java.io.BufferedReader;
@@ -33,7 +32,7 @@ import org.apache.commons.math.stat.univariate.SummaryStatistics;
 /**
  * Test cases for the EmpiricalDistribution class
  *
- * @version $Revision: 1.16 $ $Date: 2004/04/12 02:27:49 $
+ * @version $Revision: 1.17 $ $Date: 2004/05/23 00:30:01 $
  */
 
 public final class EmpiricalDistributionTest extends RetryTestCase {

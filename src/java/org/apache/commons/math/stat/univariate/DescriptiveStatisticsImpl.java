@@ -17,15 +17,13 @@ package org.apache.commons.math.stat.univariate;
 
 import java.io.Serializable;
 
-import java.util.Arrays;
-
 import org.apache.commons.math.util.ContractableDoubleArray;
 
 /**
  * Default implementation of
  * {@link org.apache.commons.math.stat.univariate.DescriptiveStatistics}.
  * 
- * @version $Revision: 1.4 $ $Date: 2004/05/03 14:32:25 $
+ * @version $Revision: 1.5 $ $Date: 2004/05/23 00:30:01 $
  */
 public class DescriptiveStatisticsImpl extends AbstractDescriptiveStatistics implements Serializable {
 

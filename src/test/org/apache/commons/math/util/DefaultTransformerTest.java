@@ -19,12 +19,10 @@ package org.apache.commons.math.util;
 import java.math.BigDecimal;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.TestUtils;
-
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.9 $ $Date: 2004/02/21 21:35:18 $
+ * @version $Revision: 1.10 $ $Date: 2004/05/23 00:30:01 $
  */
 public class DefaultTransformerTest extends TestCase {
     /**
