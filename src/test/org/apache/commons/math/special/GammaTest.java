@@ -21,7 +21,7 @@ import org.apache.commons.math.TestUtils;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.9 $ $Date: 2004/02/21 21:35:17 $
+ * @version $Revision: 1.10 $ $Date: 2004/06/07 20:30:16 $
  */
 public class GammaTest extends TestCase {
     /**
@@ -34,8 +34,10 @@ public class GammaTest extends TestCase {
 
     private void testRegularizedGamma(double expected, double a, double x) {
         try {
-            double actual = Gamma.regularizedGammaP(a, x);
-            TestUtils.assertEquals(expected, actual, 10e-5);
+            double actualP = Gamma.regularizedGammaP(a, x);
+            double actualQ = Gamma.regularizedGammaQ(a, x);
+            TestUtils.assertEquals(expected, actualP, 10e-5);
+            TestUtils.assertEquals(actualP, 1.0 - actualQ, 10e-5);
         } catch(MathException ex){
             fail(ex.getMessage());
         }

@@ -22,7 +22,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the ChiSquareTestImpl class.
  *
- * @version $Revision: 1.1 $ $Date: 2004/05/03 03:04:54 $
+ * @version $Revision: 1.2 $ $Date: 2004/06/07 20:30:16 $
  */
 
 public final class ChiSquareTestTest extends TestCase {
@@ -126,5 +126,20 @@ public final class ChiSquareTestTest extends TestCase {
         } catch (IllegalArgumentException ex) {
             // expected
         }      
-    }    
+    }
+    
+    public void testChiSquareLargeTestStatistic() throws Exception {
+        double[] exp = new double[] {
+            3389119.5, 649136.6, 285745.4, 25357364.76, 11291189.78, 543628.0, 
+            232921.0, 437665.75
+        };
+
+        long[] obs = new long[] {
+            2372383, 584222, 257170, 17750155, 7903832, 489265, 209628, 393899
+        };
+        org.apache.commons.math.stat.inference.ChiSquareTestImpl csti =
+            new org.apache.commons.math.stat.inference.ChiSquareTestImpl(); 
+        double cst = csti.chiSquareTest(exp, obs); 
+        assertEquals("chi-square p-value", 0.0, cst, 1E-3);
+    }
 }

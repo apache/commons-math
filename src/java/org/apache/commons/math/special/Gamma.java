@@ -19,14 +19,16 @@ import java.io.Serializable;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.util.ContinuedFraction;
 
 /**
  * This is a utility class that provides computation methods related to the
  * Gamma family of functions.
  * 
- * @version $Revision: 1.18 $ $Date: 2004/04/23 19:30:47 $
+ * @version $Revision: 1.19 $ $Date: 2004/06/07 20:30:16 $
  */
-public class Gamma implements Serializable{
+public class Gamma implements Serializable {
+    
     /** Maximum allowed numerical error. */
     private static final double DEFAULT_EPSILON = 10e-9;
 
@@ -59,6 +61,45 @@ public class Gamma implements Serializable{
     }
 
     /**
+     * Returns the natural logarithm of the gamma function &#915;(x).
+     *
+     * The implementation of this method is based on:
+     * <ul>
+     * <li><a href="http://mathworld.wolfram.com/GammaFunction.html">
+     * Gamma Function</a>, equation (28).</li>
+     * <li><a href="http://mathworld.wolfram.com/LanczosApproximation.html">
+     * Lanczos Approximation</a>, equations (1) through (5).</li>
+     * <li><a href="http://my.fit.edu/~gabdo/gamma.txt">Paul Godfrey, A note on
+     * the computation of the convergent Lanczos complex Gamma approximation
+     * </a></li>
+     * </ul>
+     * 
+     * @param x the value.
+     * @return log(&#915;(x))
+     */
+    public static double logGamma(double x) {
+        double ret;
+
+        if (Double.isNaN(x) || (x <= 0.0)) {
+            ret = Double.NaN;
+        } else {
+            double g = 607.0 / 128.0;
+
+            double sum = 0.0;
+            for (int i = 1; i < lanczos.length; ++i) {
+                sum = sum + (lanczos[i] / (x + i));
+            }
+            sum = sum + lanczos[0];
+
+            double tmp = x + g + .5;
+            ret = ((x + .5) * Math.log(tmp)) - tmp +
+                (.5 * Math.log(2.0 * Math.PI)) + Math.log(sum) - Math.log(x);
+        }
+
+        return ret;
+    }
+
+    /**
      * Returns the regularized gamma function P(a, x).
      * 
      * @param a the a parameter.
@@ -71,7 +112,8 @@ public class Gamma implements Serializable{
     {
         return regularizedGammaP(a, x, DEFAULT_EPSILON, Integer.MAX_VALUE);
     }
-    
+        
+        
     /**
      * Returns the regularized gamma function P(a, x).
      * 
@@ -110,6 +152,10 @@ public class Gamma implements Serializable{
             ret = Double.NaN;
         } else if (x == 0.0) {
             ret = 0.0;
+        } else if (a > 1.0 && x > a) {
+            // use regularizedGammaQ because it should converge faster in this
+            // case.
+            ret = 1.0 - regularizedGammaQ(a, x, epsilon, maxIterations);
         } else {
             // calculate series
             double n = 0.0; // current element index
@@ -133,41 +179,88 @@ public class Gamma implements Serializable{
 
         return ret;
     }
-
+    
     /**
-     * Returns the natural logarithm of the gamma function &#915;(x).
-     *
+     * Returns the regularized gamma function Q(a, x) = 1 - P(a, x).
+     * 
+     * @param a the a parameter.
+     * @param x the value.
+     * @return the regularized gamma function Q(a, x)
+     * @throws MathException if the algorithm fails to converge.
+     */
+    public static double regularizedGammaQ(double a, double x)
+        throws MathException
+    {
+        return regularizedGammaQ(a, x, DEFAULT_EPSILON, Integer.MAX_VALUE);
+    }
+    
+    /**
+     * Returns the regularized gamma function Q(a, x) = 1 - P(a, x).
+     * 
      * The implementation of this method is based on:
      * <ul>
-     * <li><a href="http://mathworld.wolfram.com/GammaFunction.html">
-     * Gamma Function</a>, equation (28).</li>
-     * <li><a href="http://mathworld.wolfram.com/LanczosApproximation.html">
-     * Lanczos Approximation</a>, equations (1) through (5).</li>
-     * <li><a href="http://my.fit.edu/~gabdo/gamma.txt">Paul Godfrey, A note on
-     * the computation of the convergent Lanczos complex Gamma approximation
-     * </a></li>
+     * <li>
+     * <a href="http://mathworld.wolfram.com/RegularizedGammaFunction.html">
+     * Regularized Gamma Function</a>, equation (1).</li>
+     * <li>
+     * <a href="    http://functions.wolfram.com/GammaBetaErf/GammaRegularized/10/0003/">
+     * Regularized incomplete gamma function: Continued fraction representations  (formula 06.08.10.0003)</a></li>
      * </ul>
      * 
+     * @param a the a parameter.
      * @param x the value.
-     * @return log(&#915;(x))
+     * @param epsilon When the absolute value of the nth item in the
+     *                series is less than epsilon the approximation ceases
+     *                to calculate further elements in the series.
+     * @param maxIterations Maximum number of "iterations" to complete. 
+     * @return the regularized gamma function P(a, x)
+     * @throws MathException if the algorithm fails to converge.
      */
-    public static double logGamma(double x) {
+    public static double regularizedGammaQ(final double a, 
+                                           double x, 
+                                           double epsilon, 
+                                           int maxIterations) 
+        throws MathException
+    {
         double ret;
 
-        if (Double.isNaN(x) || (x <= 0.0)) {
+        if (Double.isNaN(a) || Double.isNaN(x) || (a <= 0.0) || (x < 0.0)) {
             ret = Double.NaN;
+        } else if (x == 0.0) {
+            ret = 1.0;
+        } else if (x < a || a <= 1.0) {
+            // use regularizedGammaP because it should converge faster in this
+            // case.
+            ret = 1.0 - regularizedGammaP(a, x, epsilon, maxIterations);
         } else {
-            double g = 607.0 / 128.0;
+            // create continued fraction
+            ContinuedFraction cf = new ContinuedFraction() {
+                protected double getA(int n, double x) {
+                    double ret;
+                    switch(n) {
+                        case 0: ret = 0.0; break;
+                        default:
+                            ret = ((2.0 * n) - 1.0) - a + x; break;
+                    }
+                    return ret;
+                }
 
-            double sum = 0.0;
-            for (int i = 1; i < lanczos.length; ++i) {
-                sum = sum + (lanczos[i] / (x + i));
-            }
-            sum = sum + lanczos[0];
-
-            double tmp = x + g + .5;
-            ret = ((x + .5) * Math.log(tmp)) - tmp +
-                (.5 * Math.log(2.0 * Math.PI)) + Math.log(sum) - Math.log(x);
+                protected double getB(int n, double x) {
+                    double ret;
+                    double t;
+                    switch(n) {
+                        case 1: ret = 1.0; break;
+                        default:
+                            t = n - 1.0;
+                            ret = t * (a - t);
+                            break;
+                    }
+                    return ret;
+                }
+            };
+            
+            ret = cf.evaluate(x, epsilon, maxIterations);
+            ret = Math.exp(-x + (a * Math.log(x)) - logGamma(a)) * ret;
         }
 
         return ret;
