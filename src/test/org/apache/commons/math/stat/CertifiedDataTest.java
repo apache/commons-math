@@ -64,11 +64,8 @@ import java.io.InputStreamReader;
 import org.apache.commons.logging.*;
 /**
  * Test cases for the {@link Univariate} class.
- *
- * @author Mark R. Diggory
- * @version $Revision: 1.6 $ $Date: 2003/06/16 14:29:30 $
+ * @version $Revision: 1.7 $ $Date: 2003/07/07 23:25:14 $
  */
-
 public class CertifiedDataTest extends TestCase {
 
 	protected Univariate u = null;

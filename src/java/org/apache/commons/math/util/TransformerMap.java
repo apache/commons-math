@@ -63,8 +63,6 @@ import java.util.Set;
  * It provides a means to set NumberTransformers that will be selected 
  * based on the Class of the object handed to the Maps
  * <code>double transform(Object o)</code> method.
- * 
- * @author Mark Diggory
  */
 public class TransformerMap implements NumberTransformer {
 

@@ -57,8 +57,6 @@ package org.apache.commons.math.stat;
  * StatUtils provides easy static implementations of common double[] based
  * statistical methods. These return a single result value or in some cases, as
  * identified in the javadoc for each method, Double.NaN.
- *
- * @author <a href="mailto:mdiggory@apache.org">Mark Diggory</a>
  */
 public class StatUtils {
 

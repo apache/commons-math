@@ -62,7 +62,6 @@ package org.apache.commons.math.stat;
  * a price of increased storage costs.
  * 
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
- * @author <a href="mailto:mdiggory@apache.org">Mark R. Diggory</a>
  */
 public interface StoreUnivariate extends Univariate {
 

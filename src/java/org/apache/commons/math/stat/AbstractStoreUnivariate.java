@@ -58,7 +58,6 @@ import java.util.Arrays;
  * Provides univariate measures for an array of doubles.  
  * 
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
- * @author Mark Diggory
  */
 public abstract class AbstractStoreUnivariate implements StoreUnivariate {
 

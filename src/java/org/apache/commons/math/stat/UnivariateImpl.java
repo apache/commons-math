@@ -67,10 +67,8 @@ import org.apache.commons.math.util.FixedDoubleArray;
  * to doubles by addValue().
  *
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
- * @author <a href="mailto:mdiggory@apache.org">Mark Diggory</a>
  * @author Brent Worden
- * @author <a href="mailto:HotFusionMan@Yahoo.com">Albert Davidson Chou</a>
- * @version $Revision: 1.16 $ $Date: 2003/07/07 23:19:20 $
+ * @version $Revision: 1.17 $ $Date: 2003/07/07 23:25:13 $
  *
 */
 public class UnivariateImpl implements Univariate, Serializable {

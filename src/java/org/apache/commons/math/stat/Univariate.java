@@ -71,8 +71,7 @@ package org.apache.commons.math.stat;
  * in all computations.
  *
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
- * @author <a href="mailto:mdiggory@apache.org">Mark Diggory</a>
- * @version $Revision: 1.6 $ $Date: 2003/07/07 23:19:20 $
+ * @version $Revision: 1.7 $ $Date: 2003/07/07 23:25:13 $
  * 
 */
 public interface Univariate {

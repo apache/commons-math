@@ -55,8 +55,6 @@ package org.apache.commons.math.util;
 
 /**
  * Subclasses implementing this interface can transform Objects to doubles.
- * 
- * @author Mark Diggory
  */
 public interface NumberTransformer {
     
