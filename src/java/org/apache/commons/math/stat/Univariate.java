@@ -72,8 +72,8 @@
  *
  * @author Phil Steitz
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
- * @author Mark Diggory
- * @version $Revision: 1.2 $ $Date: 2003/06/16 20:58:53 $
+ * @author <a href="mailto:mdiggory@apache.org">Mark Diggory</a>
+ * @version $Revision: 1.3 $ $Date: 2003/06/16 21:24:30 $
  * 
 */
 public interface Univariate {
@@ -87,86 +87,88 @@ public interface Univariate {
     /** 
      * Returns the <a href=http://www.xycoon.com/arithmetic_mean.htm>
      * arithmetic mean </a> of the available values 
-     * @return mean value, Double.NaN if no values have been added.
+     * @return The mean or Double.NaN if no values have been added.
      */
     abstract double getMean();
 
     /** 
      * Returns the <a href=http://www.xycoon.com/geometric_mean.htm>
      * geometric mean </a> of the available values
-     * @return The mean value, Double.NaN if no values have been added, or the product
-     * of the available values is less than or equal to 0.
+     * @return The geometricMean, Double.NaN if no values have been added, 
+     * or if the productof the available values is less than or equal to 0.
      */
     abstract double getGeometricMean();
 
     /** 
      * Returns the product of the available values
-     * @return product of all values or Double.NaN if no values have been added.
+     * @return The product or Double.NaN if no values have been added.
      */
     abstract double getProduct();
 
     /** 
      * Returns the variance of the available values.
-     * @return The variance of a set of values, an empty set of values and 0.0 is 
-     * returned for a single value set, or Double.NaN if no values have been added.  
+     * @return The variance, Double.NaN if no values have been added 
+     * or 0.0 for a single value set.  
      */
     abstract double getVariance();
 
     /** 
-     * Returns the variance of the available values.
-     * @return standard deviation value, Double.NaN is returned for an empty set 
-     * of values and 0.0 is returned for a single value set. 
+     * Returns the standard deviation of the available values.
+     * @return The standard deviation, Double.NaN if no values have been added 
+     * or 0.0 for a single value set. 
      */
     abstract double getStandardDeviation();
 
 	/**
-     * Returns the skewness of a given distribution.  Skewness is a 
+     * Returns the skewness of the available values. Skewness is a 
      * measure of the assymetry of a given distribution.
-	 * @return skewness, Double.NaN is returned for an empty set of values 
-     * and 0.0 is returned for a value set &lt;=2. 
+	 * @return The skewness, Double.NaN if no values have been added 
+     * or 0.0 for a value set &lt;=2. 
 	 */
 	abstract double getSkewness();
 	
 	/**
      * Returns the Kurtosis of the available values. Kurtosis is a 
      * measure of the "peakedness" of a distribution
-     * @return kurtosis, Double.NaN is returned in no values have been added, and 0.0 is 
-     * returned for a value set &lt;=3. 
+     * @return The kurtosis, Double.NaN if no values have been added, or 0.0 
+     * for a value set &lt;=3. 
 	 */
 	abstract double getKurtosis();
 		
     /** 
      * Returns the maximum of the available values
-     * @return Value of property max, Double.NaN is returned in no values have been added.
+     * @return The max or Double.NaN if no values have been added.
      */
     abstract double getMax();
 
      /** 
      * Returns the minimum of the available values
-     * @return Value of property min, Double.NaN is returned in no values have been added.
+     * @return The min or Double.NaN if no values have been added.
      */
     abstract double getMin();
 
     /** 
      * Returns the number of available values
-     * @return the number of available values
+     * @return The number of available values
      */
     abstract int getN();
 
     /**
      * Returns the sum of the values that have been added to Univariate.
-     * @return the sum of the available values or Double.NaN if no values have been added
+     * @return The sum or Double.NaN if no values have been added
      */
     abstract double getSum();
 
     /**
      * Returns the sum of the squares of the available values.
-     * Returns 0 if no values have been added.
-     * @return the sum of the squares of the available values.
+     * @return The sum of the squares or Double.NaN if no 
+     * values have been added.
      */
     abstract double getSumsq();
 
-    /** Resets all statistics */
+    /** 
+     * Resets all statistics and storage
+     */
     abstract void clear();
 
     /**
@@ -179,15 +181,20 @@ public interface Univariate {
 
     /**
      * Univariate has the ability to return only measures for the
-     * last N elements added to the set of values.  This function returns
-     */
+     * last N elements added to the set of values.
+	 * @return The current window size or -1 if its Infinite.
+	 */
+
     abstract int getWindowSize();
 
     /**
-     * Sets the window.  windowSize controls the number of value
-     * which contribute to the values returned by Univariate.  
-     * For example, a window value of 10 means that getMean()
-     * will return the mean of the last 10 values added.
-     */
+     * WindowSize controls the number of values which contribute 
+     * to the values returned by Univariate.  For example, if 
+     * windowSize is set to 3 and the values {1,2,3,4,5} 
+     * have been added <strong> in that order</strong> 
+     * then the <i>available values</i> are {3,4,5} and all
+     * reported statistics will be based on these values
+	 * @param windowSize sets the size of the window.
+	 */
     abstract void setWindowSize(int windowSize);
 }

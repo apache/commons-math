@@ -71,7 +71,7 @@ import org.apache.commons.math.FixedDoubleArray;
  * @author <a href="mailto:mdiggory@apache.org">Mark Diggory</a>
  * @author Brent Worden
  * @author <a href="mailto:HotFusionMan@Yahoo.com">Albert Davidson Chou</a>
- * @version $Revision: 1.6 $ $Date: 2003/06/16 20:42:24 $
+ * @version $Revision: 1.7 $ $Date: 2003/06/16 21:24:30 $
  *
 */
 public class UnivariateImpl
@@ -130,17 +130,16 @@ public class UnivariateImpl
 		setWindowSize(window);
 	}
 
-	/** Getter for property n.
-	 * @return Value of property n.
-	 */
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.stat.Univariate#getN()
+     */
 	public int getN() {
 		return n;
 	}
 
-	/**
-	 * Returns the sum of all values contained herein
-	 * @see org.apache.commons.math.stat.Univariate#getSum()
-	 */
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.stat.Univariate#getSum()
+     */
 	public double getSum() {
 		if (windowSize != Univariate.INFINITE_WINDOW) {
 			return super.getSum();
@@ -149,10 +148,9 @@ public class UnivariateImpl
 		return sum;
 	}
 
-	/**
-	 * Returns the sun of the squares of all values contained herein
-	 * @see org.apache.commons.math.stat.Univariate#getSumsq()
-	 */
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.stat.Univariate#getSumsq()
+     */
 	public double getSumsq() {
 		if (windowSize != Univariate.INFINITE_WINDOW) {
 			return super.getSumsq();
@@ -161,9 +159,9 @@ public class UnivariateImpl
 		return sumsq;
 	}
 
-	/**
-	 * @see org.apache.commons.math.stat.Univariate#getMean()
-	 */
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.stat.Univariate#getMean()
+     */
 	public double getMean() {
 		if (windowSize != Univariate.INFINITE_WINDOW) {
 			return super.getMean();
@@ -252,9 +250,9 @@ public class UnivariateImpl
 		}
 	}
 
-	/** Getter for property max.
-	 * @return Value of property max.
-	 */
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.stat.Univariate#getMax()
+     */
 	public double getMax() {
 		if (windowSize != Univariate.INFINITE_WINDOW) {
 			return super.getMax();
@@ -263,9 +261,9 @@ public class UnivariateImpl
 		return max;
 	}
 
-	/** Getter for property min.
-	 * @return Value of property min.
-	 */
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.stat.Univariate#getMin()
+     */
 	public double getMin() {
 		if (windowSize != Univariate.INFINITE_WINDOW) {
 			return super.getMin();
@@ -274,7 +272,7 @@ public class UnivariateImpl
 		return min;
 	}
 
-	/**
+    /* (non-Javadoc)
 	 * @see org.apache.commons.math.stat.Univariate#getProduct()
 	 */
 	public double getProduct() {
@@ -285,7 +283,7 @@ public class UnivariateImpl
 		return product;
 	}
 
-	/**
+    /* (non-Javadoc)
 	* @see org.apache.commons.math.stat.Univariate#getGeometricMean()
 	*/
 	public double getGeometricMean() {
@@ -324,7 +322,7 @@ public class UnivariateImpl
 
 	}
 
-	/**
+    /* (non-Javadoc)
 	 * @see org.apache.commons.math.stat.Univariate#addValue(double)
 	 */
 	public void addValue(double v) {
@@ -394,9 +392,9 @@ public class UnivariateImpl
 		return outBuffer.toString();
 	}
 
-	/**
-	 * Resets all stats to NaN. Reinitializes the Double Array
-	 */
+	/* (non-Javadoc)
+     * @see org.apache.commons.math.Univariate#clear()
+     */
 	public void clear() {
 		this.n = 0;
 		this.min = this.max = Double.NaN;
