@@ -22,7 +22,7 @@ import java.util.Locale;
 
 import junit.framework.TestCase;
 
-public abstract class AbstractComplexFormatTest extends TestCase {
+public abstract class ComplexFormatAbstractTest extends TestCase {
  
 	ComplexFormat complexFormat = null;
 	ComplexFormat complexFormatJ = null;

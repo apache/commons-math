@@ -19,7 +19,7 @@ package org.apache.commons.math.complex;
 import java.util.Locale;
 
 
-public class FrenchComplexFormatTest extends AbstractComplexFormatTest {
+public class FrenchComplexFormatTest extends ComplexFormatAbstractTest {
     
     protected char getDecimalCharacter() {
         return ',';
