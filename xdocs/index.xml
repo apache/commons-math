@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="xdoc.xsl"?>
-<!-- $Revision: 1.11 $ $Date: 2004/11/08 01:42:49 $ -->
+<!-- $Revision: 1.12 $ $Date: 2004/12/07 03:57:19 $ -->
 <document>
 
  <properties>
@@ -86,9 +86,15 @@
   <section name="Download Math">
    <subsection name="Releases">
     <p>
-     Commons Math 1.0 will be released shortly to the Apache download mirrors.
-     A Release Candidate is available for download and testing 
-     <a href="http://jakarta.apache.org/~psteitz/commons-math-1.0-RC2">here.</a>
+      The latest release of Commons Math is available for download here:
+      <ul>
+         <li>
+         <a href="http://jakarta.apache.org/site/binindex.cgi#commons-math">
+         1.0 Binary </a></li>
+         <li>
+         <a href="http://jakarta.apache.org/site/sourceindex.cgi#commons-math">
+         1.0 Source </a></li>
+      </ul>
     </p>
    </subsection>
    <subsection name="Nightly Builds">
