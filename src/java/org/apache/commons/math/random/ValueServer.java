@@ -54,11 +54,10 @@
 
 package org.apache.commons.math.random;
 import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.File;
+import java.io.InputStreamReader;
+import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
-import java.io.IOException;
 import java.net.MalformedURLException;
 
 /**
@@ -69,7 +68,7 @@ import java.net.MalformedURLException;
  * <p> 
  * Supported <code>mode</code> values are: <ul>
  * <li> DIGEST_MODE -- uses an empirical distribution </li>
- * <li> REPLAY_MODE -- replays data from <code>valuesFile</code></li> 
+ * <li> REPLAY_MODE -- replays data from <code>valuesFileURL</code></li> 
  * <li> UNIFORM_MODE -- generates uniformly distributed random values with
  *                      mean = <code>mu</code> </li>
  * <li> EXPONENTIAL_MODE -- generates exponentially distributed random values
@@ -79,7 +78,7 @@ import java.net.MalformedURLException;
  *                       standard deviation = <code>sigma</code></li>
  * <li> CONSTANT_MODE -- returns <code>mu</code> every time.</li></ul> 
  *
- * @version $Revision: 1.8 $ $Date: 2003/11/19 03:28:24 $
+ * @version $Revision: 1.9 $ $Date: 2004/01/11 07:24:30 $
  *
  */
 public class ValueServer implements Serializable {
@@ -178,7 +177,7 @@ public class ValueServer implements Serializable {
     
     /** 
      * Computes the empirical distribution using values from the file
-     * in <code>valuesFilePath</code>, using the default number of bins.
+     * in <code>valuesFileURL</code>, using the default number of bins.
      * <p>
      * <code>valuesFileURL</code> must exist and be
      * readable by *this at runtime.
@@ -190,12 +189,12 @@ public class ValueServer implements Serializable {
      */
     public void computeDistribution() throws IOException {
         empiricalDistribution = new EmpiricalDistributionImpl();
-        empiricalDistribution.load(valuesFileURL.getFile());
+        empiricalDistribution.load(valuesFileURL);
     }
     
     /** 
      * Computes the empirical distribution using values from the file
-     * in <code>valuesFilePath</code> and <code>binCount</code> bins.
+     * in <code>valuesFileURL</code> and <code>binCount</code> bins.
      * <p>
      * <code>valuesFileURL</code> must exist and be
      * readable by *this at runtime.
@@ -210,7 +209,7 @@ public class ValueServer implements Serializable {
     public void computeDistribution(int binCount) 
             throws IOException {
         empiricalDistribution = new EmpiricalDistributionImpl(binCount);
-        empiricalDistribution.load(valuesFileURL.getFile());
+        empiricalDistribution.load(valuesFileURL);
         mu = empiricalDistribution.getSampleStats().getMean();
         sigma = empiricalDistribution.getSampleStats().getStandardDeviation();
     }
@@ -229,19 +228,30 @@ public class ValueServer implements Serializable {
         this.mode = mode;
     }
     
-    /** Getter for property valuesFilePath.
-     * @return Value of property valuesFilePath.
+    /**
+     * Getter for <code>valuesFileURL<code>
+     * @return Value of property valuesFileURL.
      */
-    public String getValuesFileURL() {
-        return valuesFileURL.toString();
+    public URL getValuesFileURL() {
+        return valuesFileURL;
     }
     
-    /** Setter for property valuesFilePath.
-     * @param url New value of property valuesFilePath.
+    /**
+     * Sets the <code>valuesFileURL</code> using a string URL representation
+     * @param url String representation for new valuesFileURL.
      * @throws MalformedURLException if url is not well formed
+     * @deprecated use {@link #setValuesFileURL(URL)} to be removed before 0.1 release
      */
     public void setValuesFileURL(String url) throws MalformedURLException {
         this.valuesFileURL = new URL(url);
+    }
+    
+    /**
+     * Sets the <code>valuesFileURL</code>
+     * @param url New value of property valuesFileURL.
+     */
+    public void setValuesFileURL(URL url) {
+        this.valuesFileURL = url;
     }
     
     /** Getter for property empiricalDistribution.
@@ -252,17 +262,32 @@ public class ValueServer implements Serializable {
     }    
     
     /**  
-     * Opens <code>valuesFilePath</code> to use in REPLAY_MODE.
+     * Opens <code>valuesFileURL</code> to use in REPLAY_MODE.
+     *
+     * @throws IOException if an error occurs opening the file
+     * @deprecated use {@link #resetReplayFile} to be removed before 0.1 release
+     */
+    public void openReplayFile() throws IOException {
+        resetReplayFile();
+    }
+    
+    /**  
+     * Resets REPLAY_MODE file pointer to the beginning of the <code>valuesFileURL</code>.
      *
      * @throws IOException if an error occurs opening the file
      */
-    public void openReplayFile() throws IOException {
-        filePointer = new BufferedReader(new FileReader
-                            (new File(valuesFileURL.getFile())));
+    public void resetReplayFile() throws IOException {
+        if (filePointer != null) {
+            try {
+                filePointer.close();
+                filePointer = null;
+            } catch (IOException ex) {}
+        }
+        filePointer = new BufferedReader(new InputStreamReader(valuesFileURL.openStream()));
     }
     
     /** 
-     * Closes <code>valuesFilePath</code> after use in REPLAY_MODE.
+     * Closes <code>valuesFileURL</code> after use in REPLAY_MODE.
      *
      * @throws IOException if an error occurs closing the file
      */
@@ -322,16 +347,15 @@ public class ValueServer implements Serializable {
     }
     
     /**
-     * Gets next sequential value from the <code>valuesFilePath</code> 
-     * opened by <code>openReplayFile()</code>.
+     * Gets next sequential value from the <code>valuesFileURL</code>.
      * <p>
-     * Throws an IOException if <code>filePointer</code> is null or read fails.
-     * Will wrap around to BOF is EOF is encountered.
+     * Throws an IOException if the read fails.
      * <p>
-     * <strong>Preconditions</strong>: <ul>
-     * <li> openReplayfile() must have completed successfully before 
-     * invoking this method; otherwise an <code>IlleglaStateException</code>
-     * will be thrown</li></ul>
+     * This method will open the <code>valuesFileURL</code> if there is no 
+     * replay file open.
+     * <p>
+     * The <code>valuesFileURL</code> will be closed and reopened to wrap around 
+     * from EOF to BOF if EOF is encountered.
      *
      * @return next value from the replay file
      * @throws IOException if there is a problem reading from the file
@@ -339,11 +363,11 @@ public class ValueServer implements Serializable {
     private double getNextReplay() throws IOException {
         String str = null;
         if (filePointer == null) {
-            throw new IllegalStateException("replay file not open");
+            resetReplayFile();
         }
         if ((str = filePointer.readLine()) == null) {
             closeReplayFile();
-            openReplayFile();
+            resetReplayFile();
             str = filePointer.readLine();
         }         
         return new Double(str).doubleValue();
