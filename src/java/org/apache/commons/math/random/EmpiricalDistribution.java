@@ -81,10 +81,17 @@ import org.apache.commons.math.stat.SummaryStatistics;
  * build grouped frequnecy histograms representing the input data or to
  * generate random values "like" those in the input file -- i.e., the values
  * generated will follow the distribution of the values in the file.
- * @version $Revision: 1.13 $ $Date: 2004/01/25 21:30:41 $
+ * @version $Revision: 1.14 $ $Date: 2004/02/12 04:35:08 $
  */
 public interface EmpiricalDistribution {
-    
+ 
+    /**
+     * Computes the empirical distribution from the provided
+     * array of numbers.
+     * @param dataArray the data array
+     */
+    void load(double[] dataArray); 
+        
     /**
      * Computes the empirical distribution from the input file.
      * @param filePath fully qualified name of a file in the local file system

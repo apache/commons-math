@@ -64,7 +64,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-import org.apache.commons.math.stat.DescriptiveStatistics;
 import org.apache.commons.math.stat.SummaryStatistics;
 
 /**
@@ -92,7 +91,7 @@ import org.apache.commons.math.stat.SummaryStatistics;
  *    entry per line.</li>
  * </ol></p>
  *
- * @version $Revision: 1.15 $ $Date: 2004/01/29 06:26:14 $
+ * @version $Revision: 1.16 $ $Date: 2004/02/12 04:35:08 $
  */
 public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistribution {
 
@@ -130,12 +129,32 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         this.binCount = binCount;
         binStats = new ArrayList();
     }
+
+    /**
+     * @see org.apache.commons.math.random.EmpiricalDistribution#load(double[])
+     */
+    public void load(double[] in) {
+        DataAdapter da = new ArrayDataAdapter(in);
+        try {
+            da.computeStats();
+            fillBinStats(in);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        loaded = true;
+        
+    }
     
     public void load(String filePath) throws IOException {
         BufferedReader in = 
             new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));  
         try {
-            computeStats(in);
+            DataAdapter da = new StreamDataAdapter(in);
+            try {
+                da.computeStats();
+            } catch (Exception e) {
+                throw new IOException(e.getMessage());
+            }
             in = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));  
             fillBinStats(in);
             loaded = true;
@@ -148,7 +167,12 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         BufferedReader in = 
             new BufferedReader(new InputStreamReader(url.openStream()));
         try {
-            computeStats(in);
+            DataAdapter da = new StreamDataAdapter(in);
+            try {
+                da.computeStats();
+            } catch (Exception e) {
+                throw new IOException(e.getMessage());
+            }
             in = new BufferedReader(new InputStreamReader(url.openStream()));
             fillBinStats(in);
             loaded = true;
@@ -160,35 +184,132 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
     public void load(File file) throws IOException {
         BufferedReader in = new BufferedReader(new FileReader(file));
         try {
-            computeStats(in);
+            DataAdapter da = new StreamDataAdapter(in);
+            try {
+                da.computeStats();
+            } catch (Exception e) {
+                throw new IOException(e.getMessage());
+            }
             in = new BufferedReader(new FileReader(file));
             fillBinStats(in);
             loaded = true;
         } finally {
-           if (in != null) try {in.close();} catch (Exception ex) {};
+            if (in != null)
+                try {
+                    in.close();
+                } catch (Exception ex) {
+                };
         }
     }
     
     /**
-     * Computes sampleStats (first pass through data file).
+     * Provides methods for computing <code>sampleStats</code> and 
+     * <code>beanStats</code> abstracting the source of data. 
      */
-    private void computeStats(BufferedReader in) throws IOException {
-        String str = null;
-        double val = 0.0;
-        sampleStats = SummaryStatistics.newInstance();
-        while ((str = in.readLine()) != null) {
-            val = new Double(str).doubleValue();
-            sampleStats.addValue(val);
-        }
-        in.close();
-        in = null;
+    private abstract class DataAdapter{
+        public abstract void computeBinStats(double min, double delta) 
+                throws Exception;
+        public abstract void computeStats() throws Exception;
     }
-    
+    /**
+     * Factory of <code>DataAdapter</code> objects. For every supported source
+     * of data (array of doubles, file, etc.) an instance of the proper object
+     * is returned. 
+     */
+    private class DataAdapterFactory{
+        public DataAdapter getAdapter(Object in) {
+            if (in instanceof BufferedReader) {
+                BufferedReader inputStream = (BufferedReader) in;
+                return new StreamDataAdapter(inputStream);
+            } else if (in instanceof double[]) {
+                double[] inputArray = (double[]) in;
+                return new ArrayDataAdapter(inputArray);
+            } else {
+                throw new IllegalArgumentException(
+                    "Input data comes from the" + " unsupported source");
+            }
+        }
+    }
+    /**
+     * <code>DataAdapter</code> for data provided through some input stream
+     */
+    private class StreamDataAdapter extends DataAdapter{
+        BufferedReader inputStream;
+        public StreamDataAdapter(BufferedReader in){
+            super();
+            inputStream = in;
+        }
+        /**
+         * Computes binStats
+         */
+        public void computeBinStats(double min, double delta) 
+                throws IOException {
+            String str = null;
+            double val = 0.0d;
+            while ((str = inputStream.readLine()) != null) {
+                val = Double.parseDouble(str);
+                SummaryStatistics stats =
+                    (SummaryStatistics) binStats.get(
+                        Math.max((int) Math.ceil((val - min) / delta) - 1, 0));
+                stats.addValue(val);
+            }
+
+            inputStream.close();
+            inputStream = null;
+        }
+        /**
+         * Computes sampleStats
+         */
+        public void computeStats() throws IOException {
+            String str = null;
+            double val = 0.0;
+            sampleStats = SummaryStatistics.newInstance();
+            while ((str = inputStream.readLine()) != null) {
+                val = new Double(str).doubleValue();
+                sampleStats.addValue(val);
+            }
+            inputStream.close();
+            inputStream = null;
+        }
+    }
+
+    /**
+     * <code>DataAdapter</code> for data provided as array of doubles.
+     */
+    private class ArrayDataAdapter extends DataAdapter{
+        private double[] inputArray;
+        public ArrayDataAdapter(double[] in){
+            super();
+            inputArray = in;
+        }
+        /**
+         * Computes sampleStats
+         */
+        public void computeStats() throws IOException {
+            sampleStats = SummaryStatistics.newInstance();
+            for (int i = 0; i < inputArray.length; i++) {
+                sampleStats.addValue(inputArray[i]);
+            }
+        }
+        /**
+         * Computes binStats
+         */
+        public void computeBinStats(double min, double delta)
+            throws IOException {
+            for (int i = 0; i < inputArray.length; i++) {
+                SummaryStatistics stats =
+                    (SummaryStatistics) binStats.get(
+                        Math.max((int) Math.ceil((inputArray[i] - min) / delta) 
+                            - 1, 0));
+                stats.addValue(inputArray[i]);
+            }
+        }    
+    }
+
     /**
      * Fills binStats array (second pass through data file).
      */
-    private void fillBinStats(BufferedReader in) throws IOException {
-        
+    private void fillBinStats(Object in) throws IOException {    
         // Load array of bin upper bounds -- evenly spaced from min - max
         double min = sampleStats.getMin();
         double max = sampleStats.getMax();
@@ -209,18 +330,18 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
             binStats.add(i,stats);
         }
         
-        // Pass the data again, filling data in binStats Array
-        String str = null;
-        double val = 0.0d;
-        while ((str = in.readLine()) != null) {
-           val = Double.parseDouble(str);
-           SummaryStatistics stats = 
-            (SummaryStatistics) binStats.get(Math.max((int)Math.ceil((val - min) / delta) - 1, 0));
-           stats.addValue(val);        
+        // Filling data in binStats Array
+        DataAdapterFactory aFactory = new DataAdapterFactory();
+        DataAdapter da = aFactory.getAdapter(in);
+        try {
+            da.computeBinStats(min, delta);
+        } catch (Exception e) {
+            if(e instanceof RuntimeException){
+                throw new RuntimeException(e.getMessage());
+            }else{
+                throw new IOException(e.getMessage());
+            }
         }
-        
-        in.close();
-        in = null;
         
         // Assign upperBounds based on bin counts
         upperBounds = new double[binCount];
@@ -303,5 +424,4 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
     public boolean isLoaded() {
         return loaded;
     }
-    
 }
