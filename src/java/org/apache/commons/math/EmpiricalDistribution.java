@@ -81,7 +81,7 @@ import org.apache.commons.math.stat.Univariate;
  * generate random values "like" those in the input file -- i.e., the values
  * generated will follow the distribution of the values in the file.
  * @author  Phil Steitz
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public interface EmpiricalDistribution {
     
@@ -94,7 +94,7 @@ public interface EmpiricalDistribution {
     
     /**
      * Computes the empirical distribution from the input file
-     * @param URL url of the input file
+     * @param file url of the input file
      * @throws IOException if an IO error occurs
      */
     void load(File file) throws IOException;
@@ -135,7 +135,7 @@ public interface EmpiricalDistribution {
      * Saves distribution to a file. Overwrites the file if it exists.
      * <strong>Preconditions:</strong><ul>
      * <li>the distribution must be loaded before invoking this method</li></ul>
-     * @param fully qualified file path for the file to be written
+     * @param filePath fully qualified file path for the file to be written
      * @throws IOException if an error occurs reading the file
      * @throws IllegalStateException if the distribution has not been loaded
      */

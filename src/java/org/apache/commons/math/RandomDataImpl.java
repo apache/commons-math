@@ -105,7 +105,7 @@ import java.util.Collection;
  * identical).</li></ul>
  * 
  * @author Phil Steitz
- * @version $Revision: 1.4 $ $Date: 2003/06/05 18:35:24 $
+ * @version $Revision: 1.5 $ $Date: 2003/06/11 14:50:29 $
  */
 public class RandomDataImpl implements RandomData {
     
@@ -501,7 +501,7 @@ public class RandomDataImpl implements RandomData {
      * shuffle to randomly re-order the last <code>end</code> elements of list.
      * 
      * @param list list to be shuffled
-     * @end element past which shuffling begins
+     * @param end element past which shuffling begins
      */
     private void shuffle(int[] list, int end) {
         int target = 0;

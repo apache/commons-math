@@ -58,7 +58,7 @@ import java.io.Serializable;
 /**
  * Implementation for RealMatrix using double[][] array
  * @author  Phil Stetiz
- * @version $Revision: 1.2 $ $Date: 2003/05/13 19:08:14 $
+ * @version $Revision: 1.3 $ $Date: 2003/06/11 14:50:29 $
  */
 public class RealMatrixImpl implements RealMatrix, Serializable {
 
@@ -72,7 +72,6 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      * Create a new RealMatrix with the supplied row and column dimensions
      * @param rowDimension      the number of rows in the new matrix
      * @param columnDimension   the number of columns in the new matrix
-     * @return                  newly created matrix
      */ 
     public RealMatrixImpl(int rowDimension,
         int columnDimension) {
@@ -218,7 +217,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     
     /**
      * Sets/overwrites the underlying data for the matrix
-     * @param    2-dimensional array of entries
+     * @param  data  2-dimensional array of entries
      */
     public void setData(double[][] data) {
         this.data = data;
@@ -263,7 +262,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     /**
      * Returns the entry in the specified row and column
      * @param row  row location of entry to be fetched  
-     * @param col  column location of entry to be fetched 
+     * @param column  column location of entry to be fetched
      * @return     matrix entry in row,column
      * @throws     IllegalArgumentException if entry does not exist
      */
@@ -279,7 +278,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     /**
      * Sets the entry in the specified row and column to the specified value
      * @param row    row location of entry to be set 
-     * @param col    column location of entry to be set
+     * @param column    column location of entry to be set
      * @param value  value to set 
      * @throws IllegalArgumentException if entry does not exist
      */

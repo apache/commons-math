@@ -64,7 +64,7 @@ public abstract class AbstractStoreUnivariate implements StoreUnivariate {
 
     /** 
      * Returns the most frequently occuring value
-     * @see org.apache.commons.math.StoreUnivariate#getMode()
+     * @see org.apache.commons.math.stat.StoreUnivariate#getMode()
      */
     public double getMode() {
         // Mode depends on a refactor Freq class
@@ -74,7 +74,7 @@ public abstract class AbstractStoreUnivariate implements StoreUnivariate {
 
     /**
      * Returns the skewness of this collection of values
-     * @see org.apache.commons.math.StoreUnivariate#getSkewness()
+     * @see org.apache.commons.math.stat.StoreUnivariate#getSkewness()
      */
     public double getSkewness() {
         // Initialize the skewness
@@ -102,7 +102,7 @@ public abstract class AbstractStoreUnivariate implements StoreUnivariate {
 
     /**
      * Returns the kurtosis for this collection of values
-     * @see org.apache.commons.math.StoreUnivariate#getKurtosis()
+     * @see org.apache.commons.math.stat.StoreUnivariate#getKurtosis()
      */
     public double getKurtosis() {
         // Initialize the kurtosis
@@ -134,7 +134,7 @@ public abstract class AbstractStoreUnivariate implements StoreUnivariate {
     /**
      * Returns the type or class of kurtosis that this collection of 
      * values exhibits
-     * @see org.apache.commons.math.StoreUnivariate#getKurtosisClass()
+     * @see org.apache.commons.math.stat.StoreUnivariate#getKurtosisClass()
      */
     public int getKurtosisClass() {
 
@@ -153,7 +153,7 @@ public abstract class AbstractStoreUnivariate implements StoreUnivariate {
 
     /**
      * Returns the mean for this collection of values
-     * @see org.apache.commons.math.Univariate#getMean()
+     * @see org.apache.commons.math.stat.Univariate#getMean()
      */
     public double getMean() {
         double arithMean = getSum() / getN();
@@ -162,7 +162,7 @@ public abstract class AbstractStoreUnivariate implements StoreUnivariate {
 
     /**
      * Returns the geometric mean for this collection of values
-     * @see org.apache.commons.math.Univariate#getGeometricMean()
+     * @see org.apache.commons.math.stat.Univariate#getGeometricMean()
      */
     public double getGeometricMean() {
         double gMean = Math.pow(getProduct(),(1.0/getN()));
@@ -171,7 +171,7 @@ public abstract class AbstractStoreUnivariate implements StoreUnivariate {
 
     /**
      * Returns the product for this collection of values
-     * @see org.apache.commons.math.Univariate#getProduct()
+     * @see org.apache.commons.math.stat.Univariate#getProduct()
      */
     public double getProduct() {
         double product = Double.NaN;
@@ -187,7 +187,7 @@ public abstract class AbstractStoreUnivariate implements StoreUnivariate {
 
     /**
      * Returns the variance for this collection of values
-     * @see org.apache.commons.math.Univariate#getVariance()
+     * @see org.apache.commons.math.stat.Univariate#getVariance()
      */
     public double getVariance() {
         // Initialize variance
@@ -216,7 +216,7 @@ public abstract class AbstractStoreUnivariate implements StoreUnivariate {
 
     /**
      * Returns the standard deviation for this collection of values
-     * @see org.apache.commons.math.Univariate#getStandardDeviation()
+     * @see org.apache.commons.math.stat.Univariate#getStandardDeviation()
      */
     public double getStandardDeviation() {
         double stdDev = Double.NaN;
@@ -228,7 +228,7 @@ public abstract class AbstractStoreUnivariate implements StoreUnivariate {
 
     /**
      * Returns the maximum value contained herein.
-     * @see org.apache.commons.math.Univariate#getMax()
+     * @see org.apache.commons.math.stat.Univariate#getMax()
      */
     public double getMax() {
 
@@ -250,7 +250,7 @@ public abstract class AbstractStoreUnivariate implements StoreUnivariate {
 
     /**
      * Returns the minimum value contained herein
-     * @see org.apache.commons.math.Univariate#getMin()
+     * @see org.apache.commons.math.stat.Univariate#getMin()
      */
     public double getMin() {
         // Initialize minimum to NaN
@@ -271,7 +271,7 @@ public abstract class AbstractStoreUnivariate implements StoreUnivariate {
 
     /**
      * Returns the sum of all values contained herein
-     * @see org.apache.commons.math.Univariate#getSum()
+     * @see org.apache.commons.math.stat.Univariate#getSum()
      */
     public double getSum() {
         double accum = 0.0;
@@ -283,7 +283,7 @@ public abstract class AbstractStoreUnivariate implements StoreUnivariate {
 
     /**
      * Returns the sun of the squares of all values contained herein
-     * @see org.apache.commons.math.Univariate#getSumsq()
+     * @see org.apache.commons.math.stat.Univariate#getSumsq()
      */
     public double getSumsq() {
         double accum = 0.0;
@@ -296,7 +296,7 @@ public abstract class AbstractStoreUnivariate implements StoreUnivariate {
     /**
      * Uses <a href="http://www.nist.gov/dads/HTML/shellsort.html">Shell sort
      * </a>
-     * @see org.apache.commons.math.StoreUnivariate#getSortedValues()
+     * @see org.apache.commons.math.stat.StoreUnivariate#getSortedValues()
      *
      */ 
     public double[] getSortedValues() {
@@ -324,7 +324,7 @@ public abstract class AbstractStoreUnivariate implements StoreUnivariate {
     
     /**
      * Returns an estimate for the pth percentile of the stored values
-     * @see org.apache.commons.math.StoreUnivariate#getPercentile()
+     * @see org.apache.commons.math.stat.StoreUnivariate#getPercentile(double)
      */
     public double getPercentile(double p) {    
         if ((p > 100) || (p <= 0)) {

@@ -73,7 +73,8 @@ public class FDistributionImpl
     
     /**
      * Create a F distribution using the given degrees of freedom.
-     * @param degreesOfFreedom the degrees of freedom.
+     * @param numeratorDegreesOfFreedom the degrees of freedom.
+     * @param denominatorDegreesOfFreedom
      */
     public FDistributionImpl(double numeratorDegreesOfFreedom,
             double denominatorDegreesOfFreedom){

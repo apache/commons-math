@@ -312,7 +312,7 @@ public class FixedDoubleArray implements DoubleArray {
      * make little sense to allow people to "drop" objects from the
      * "front". 
      *
-     * @param number of elements to discard.
+     * @param i number of elements to discard.
      *
      * @see org.apache.commons.math.DoubleArray#discardFrontElements(int)
      */

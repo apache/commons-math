@@ -170,7 +170,7 @@ public class ContractableDoubleArray
     /**
      * Adds an element to the end of this expandable array
      * 
-     * @return value to be added to end of array
+     * @param value to be added to end of array
      */
     public synchronized void addElement(double value) {
         super.addElement(value);
@@ -266,7 +266,7 @@ public class ContractableDoubleArray
     /**
      * Sets the contraction criteria for this ExpandContractDoubleArray. 
      * 
-     * @param new contraction criteria
+     * @param contractionCriteria contraction criteria
      */
     public void setContractionCriteria(float contractionCriteria) {
         checkContractExpand(contractionCriteria, getExpansionFactor());
@@ -280,7 +280,7 @@ public class ContractableDoubleArray
      * expansionCriteria
      * 
      * @param expansionFactor 
-     * @param contractionCriteria
+     * @param contractionCritera
      */
     protected void checkContractExpand(float contractionCritera, 
                                         float expansionFactor) {

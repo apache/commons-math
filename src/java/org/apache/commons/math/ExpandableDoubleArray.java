@@ -223,7 +223,7 @@ public class ExpandableDoubleArray implements Serializable, DoubleArray {
      * array class.  Note that this function will also expand the internal 
      * array as needed.
      * 
-     * @param a new number of elements
+     * @param i a new number of elements
      */
     public synchronized void setNumElements(int i) {
 
@@ -321,7 +321,7 @@ public class ExpandableDoubleArray implements Serializable, DoubleArray {
     /**
      * Adds an element to the end of this expandable array
      * 
-     * @return value to be added to end of array
+     * @param value value to be added to end of array
      */
     public synchronized void addElement(double value) {
         numElements++;

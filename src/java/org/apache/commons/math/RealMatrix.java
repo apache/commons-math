@@ -57,7 +57,7 @@ package org.apache.commons.math;
 /**
  * Interface defining a real-valued matrix with basic algebraic operations
  * @author  Phil Steitz
- * @version $Revision: 1.2 $ $Date: 2003/05/13 19:08:14 $
+ * @version $Revision: 1.3 $ $Date: 2003/06/11 14:50:29 $
  */
 public interface RealMatrix {
 
@@ -116,7 +116,7 @@ public interface RealMatrix {
     
     /**
      * Sets/overwrites the underlying data for the matrix
-     * @param    2-dimensional array of entries
+     * @param  data  2-dimensional array of entries
      */
     public void setData(double[][] data);
     
@@ -145,7 +145,7 @@ public interface RealMatrix {
     /**
      * Returns the entry in the specified row and column
      * @param row  row location of entry to be fetched  
-     * @param col  column location of entry to be fetched 
+     * @param column  column location of entry to be fetched
      * @return     matrix entry in row,column
      * @throws     IllegalArgumentException if entry does not exist
      */
@@ -154,7 +154,7 @@ public interface RealMatrix {
     /**
      * Sets the entry in the specified row and column to the specified value
      * @param row    row location of entry to be set 
-     * @param col    column location of entry to be set
+     * @param column    column location of entry to be set
      * @param value  value to set 
      * @throws IllegalArgumentException if entry does not exist
      */
@@ -175,7 +175,7 @@ public interface RealMatrix {
     
     /**
      * Returns the determinant of this matrix
-     * @returns determinant
+     * @return determinant
      */
     public double getDeterminant();
     
