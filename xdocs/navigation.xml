@@ -36,8 +36,10 @@
       <item name="Overview"                href="/index.html"/>
       <item name="Proposal"                href="/proposal.html"/>
       <item name="Developers Guide"        href="/developers.html"/>
-      <item name="Javadoc"                 href="apidocs/index.html"/>
-      <item name="Tasks: To Do"            href="/tasks.html"/>
+      <item name="Javadoc (1.0 release)"                 href="api/index.html"/>
+      <item name="Javadoc (1.1-dev)"                 href="apidocs/index.html"/>
+      <item name="Wiki (Wish List)"  
+            href="http://wiki.apache.org/jakarta-commons/MathWishList"/>
     </menu>
     <menu name="User Guide">
       <item name="Contents"                href="/userguide/index.html"/>
