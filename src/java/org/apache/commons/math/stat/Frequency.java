@@ -32,10 +32,13 @@ import org.apache.commons.collections.bag.TreeBag;
  * The values are ordered using the default (natural order), unless a  <code>Comparator</code>
  * is supplied in the constructor.
  * 
- * @version $Revision: 1.21 $ $Date: 2004/05/31 20:57:12 $
+ * @version $Revision: 1.22 $ $Date: 2004/06/02 00:24:52 $
  */
 public class Frequency implements Serializable {
     
+    /** Serializable version identifier */
+    static final long serialVersionUID = -3845586908418844111L;
+
     /** underlying collection */
     private SortedBag freqTable = null;
 

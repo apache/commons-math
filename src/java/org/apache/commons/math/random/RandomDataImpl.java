@@ -66,10 +66,13 @@ import java.util.Collection;
  * (so secure sequences started with calls to reseedSecure(long) won't be 
  * identical).</li></ul>
  * 
- * @version $Revision: 1.13 $ $Date: 2004/04/11 19:00:45 $
+ * @version $Revision: 1.14 $ $Date: 2004/06/02 00:20:21 $
  */
 public class RandomDataImpl implements RandomData, Serializable {
     
+    /** Serializable version identifier */
+    static final long serialVersionUID = -626730818244969716L;
+
     /** underlying random number generator */
     private Random rand = null;
     
