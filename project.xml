@@ -54,8 +54,11 @@ The Math project is a library of lightweight, self-contained mathematics and sta
   <contributors>
    <contributor>
      <name>Phil Steitz</name>
-     <email/>
-     <roles>proposal author, initial contributor</roles>
+     <email>phil@steitz.com</email>
+     <roles>
+        <role>proposal author</role> 
+        <role>initial contributor</role>
+     </roles>   
    </contributor>
    <contributor>
      <name>Mark R. Diggory</name>
@@ -103,7 +106,7 @@ The Math project is a library of lightweight, self-contained mathematics and sta
   </build>
 
   <reports>
-   <report>maven-changelog-plugin</report>
+   <report>maven-changelog-plugin</report> 
    <report>maven-changes-plugin</report>
    <report>maven-checkstyle-plugin</report>
 <!--   <report>maven-clover-plugin</report> -->

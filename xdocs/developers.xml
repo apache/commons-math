@@ -37,9 +37,45 @@
        http://www.cs.berkeley.edu/~wkahan/ieee754status/ieee754.ps
       </a><br/>
      </dd>
+     <dt>Numerical analysis</dt>
+     <dd>
+      <a href="http://www.nr.com/ ">
+       Numerical Recipes (NR)
+      </a><br/>
+      <a href="http://www.mathcom.com/corpdir/techinfo.mdir/scifaq/index.html">
+       mathcom scientific computing FAQ
+      </a><br/>
+      <a href="http://www.ma.man.ac.uk/~higham/asna/asna2.pdf">
+       Bibliography of accuracy and stability of numerical algorithms
+      </a><br/>
+       <a href="http://tonic.physics.sunysb.edu/docs/num_meth.html">
+       SUNY StonyBrook numerical methods page
+      </a><br/>
+       <a href="http://epubs.siam.org/sam-bin/dbq/toclist/SINUM">
+       SIAM Journal of Numerical Analysis Online
+      </a><br/>    
+     </dd>
+     <dt>Probability and statistics</dt>
+     <dd>
+      <a href="http://lib.stat.cmu.edu/">
+       Statlib at CMU
+      </a><br/>
+      <a href="http://www.itl.nist.gov/div898/handbook/">
+       NIST Engineering Statistics Handbook
+      </a><br/>
+      <a href="http://www.psychstat.smsu.edu/sbk00.htm">
+       Online Introductory Statistics (David W. Stockburger)
+      </a><br/>
+       <a href="http://www.ubmail.ubalt.edu/~harsham/statistics/REFSTAT.HTM">
+       Probablilty and Statistics Resources
+      </a><br/>
+       <a href="http://www.jstatsoft.org/">
+       Online journal of statistical software
+      </a><br/>
+     </dd>
     </dl>
    </subsection>
-   <subsection name='Javadoc Comment Resources'>
+   <subsection name='Javadoc comment resources'>
     <dl>
      <dt>References for mathematical definitions.</dt>
      <dd>
@@ -48,6 +84,12 @@
       </a><br/>
       <a href="http://mathworld.wolfram.com">
        http://mathworld.wolfram.com
+      </a><br/>
+      <a href="http://www.itl.nist.gov/div898/handbook">
+       http://www.itl.nist.gov/div898/handbook
+      </a><br/>
+      <a href="http://www.itl.nist.gov/div898/handbook">
+       http://www.wikipedia.org/wiki/
       </a><br/>
      </dd>
     </dl>
