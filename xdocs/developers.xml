@@ -16,7 +16,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="xdoc.xsl"?>
-<!-- $Revision: 1.13 $ $Date: 2004/08/22 01:39:35 $ -->
+<!-- $Revision: 1.14 $ $Date: 2004/08/27 15:09:27 $ -->
 <document>
  <properties>
   <title>Developers Guide</title>
@@ -91,6 +91,14 @@
    					Resolved and Closed Issues.
    				</a></li>
    			</ul>
+   			
+		  <li>
+		  		Generating patches: The requested format for generating patches is the Unified Diff format, which can be easily generated using the cvs client or Eclipse IDE.
+		  		<source>
+					cvs diff -u > patch
+				</source>
+		  </li>
+
    		</li>
    	</ol>
     </p>
