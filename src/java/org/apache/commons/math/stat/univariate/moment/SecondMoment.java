@@ -80,6 +80,7 @@ public class SecondMoment extends FirstMoment {
         
         /* increment and return m2 */
         m2 += n1 * dev * v;
+
     }
 
     /**
@@ -94,7 +95,7 @@ public class SecondMoment extends FirstMoment {
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
      */
-    public double getValue() {
+    public double getResult() {
         return m2;
     }
 

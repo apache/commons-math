@@ -87,7 +87,7 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic {
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
      */
-    public double getValue() {
+    public double getResult() {
         return value;
     }
 

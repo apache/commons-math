@@ -60,9 +60,12 @@ import org.apache.commons.math.stat.univariate.summary.SumOfLogs;
  *
  */
 public class GeometricMean extends SumOfLogs {
- 
-    private int n = 0;
+
+    protected int n = 0;
+
+    private double geoMean = Double.NaN;
     
+    private double lastSum = 0.0;
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
@@ -74,8 +77,12 @@ public class GeometricMean extends SumOfLogs {
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
      */
-    public double getValue() {
-        return Math.exp( super.getValue() / (double)n );
+    public double getResult() {
+        if (lastSum != super.getResult() || n == 1) {
+            lastSum = super.getResult();
+            geoMean = Math.exp(lastSum / (double) n);
+        }
+        return geoMean;
     }
 
     /**
@@ -83,9 +90,11 @@ public class GeometricMean extends SumOfLogs {
      */
     public void clear() {
         super.clear();
+        lastSum = 0.0;
+        geoMean = Double.NaN;
         n = 0;
     }
-    
+
     /**
      * Returns the geometric mean for this collection of values
      * @param values Is a double[] containing the values
@@ -96,9 +105,8 @@ public class GeometricMean extends SumOfLogs {
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
     public double evaluate(double[] values, int begin, int length) {
-        return Math.exp(super.evaluate(values, begin, length) / (double) length );
+        return Math.exp(
+            super.evaluate(values, begin, length) / (double) length);
     }
-
-
 
 }

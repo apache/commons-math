@@ -71,6 +71,10 @@ public class Skewness extends AbstractStorelessUnivariateStatistic {
 
     protected boolean incMoment = true;
 
+    protected double skewness = Double.NaN;
+
+    private int n = 0;
+    
     public Skewness() {
         moment = new ThirdMoment();
     }
@@ -92,20 +96,28 @@ public class Skewness extends AbstractStorelessUnivariateStatistic {
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
      */
-    public double getValue() {
-        if (moment.n <= 0) {
-            return Double.NaN;
+    public double getResult() {
+        if (n < moment.n) {
+            if (moment.n <= 0) {
+                skewness = Double.NaN;
+            }
+
+            double variance =
+                (moment.n < 1) ? 0.0 : moment.m2 / (double) (moment.n - 1);
+
+            if (moment.n <= 2 || variance < 10E-20) {
+                skewness = 0.0;
+            } else {
+                skewness =
+                    (moment.n0 * moment.m3)
+                        / (moment.n1
+                            * moment.n2
+                            * Math.sqrt(variance)
+                            * variance);
+            }
+            n = moment.n;
         }
-
-        double variance =
-            (moment.n < 1) ? 0.0 : moment.m2 / (double) (moment.n - 1);
-
-        if (moment.n <= 2 || variance < 10E-20) {
-            return 0.0;
-        }
-
-        return (moment.n0 * moment.m3)
-                / (moment.n1 * moment.n2 * Math.sqrt(variance) * variance);
+        return skewness;
     }
 
     /**
@@ -115,8 +127,10 @@ public class Skewness extends AbstractStorelessUnivariateStatistic {
         if (incMoment) {
             moment.clear();
         }
+        skewness = Double.NaN;
+        n = 0;
     }
-
+    
     /*UnvariateStatistic Approach */
 
     Mean mean = new Mean();
@@ -124,11 +138,12 @@ public class Skewness extends AbstractStorelessUnivariateStatistic {
     /**
      * This algorithm uses a corrected two pass algorithm of the following 
      * <a href="http://lib-www.lanl.gov/numerical/bookcpdf/c14-1.pdf">
-     * corrected two pass formula (14.1.8)</a>, and also referenced in:<p/>
+     * corrected two pass formula (14.1.8)</a>, and also referenced in:
+     * <p>
      * "Algorithms for Computing the Sample Variance: Analysis and
      * Recommendations", Chan, T.F., Golub, G.H., and LeVeque, R.J. 
      * 1983, American Statistician, vol. 37, pp. 242?247.
-     * <p/>
+     * </p>
      * Returns the skewness of a collection of values.  Skewness is a 
      * measure of the assymetry of a given distribution. 
      * @param values Is a double[] containing the values

@@ -70,6 +70,10 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic {
 
     protected boolean incMoment = true;
 
+    private double kurtosis = Double.NaN;
+
+    private int n = 0;
+    
     public Kurtosis() {
         moment = new FourthMoment();
     }
@@ -91,23 +95,31 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic {
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
      */
-    public double getValue() {
+    public double getResult() {
+        if (n < moment.n) {
+            if (moment.n <= 0) {
+                kurtosis = Double.NaN;
+            }
 
-        if (moment.n <= 0) {
-            return Double.NaN;
+            double variance =
+                (moment.n < 1) ? 0.0 : moment.m2 / (double) (moment.n - 1);
+
+            if (moment.n <= 3 || variance < 10E-20) {
+                kurtosis = 0.0;
+            } else {
+                kurtosis =
+                    (moment.n0 * (moment.n0 + 1) * moment.m4
+                        - 3 * moment.m2 * moment.m2 * moment.n1)
+                        / (moment.n1
+                            * moment.n2
+                            * moment.n3
+                            * variance
+                            * variance);
+            }
+            n = moment.n;
         }
-
-        double variance =
-            (moment.n < 1) ? 0.0 : moment.m2 / (double) (moment.n - 1);
-
-        if (moment.n <= 3 || variance < 10E-20) {
-            return 0.0;
-        }
-
-        return (moment.n0 * (moment.n0 + 1) * moment.m4
-                - 3 * moment.m2 * moment.m2 * moment.n1)
-                / (moment.n1 * moment.n2 * moment.n3 * variance * variance);
-
+        
+        return kurtosis;
     }
 
     /**
@@ -117,6 +129,8 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic {
         if (incMoment) {
             moment.clear();
         }
+        kurtosis = Double.NaN;
+        n = 0;
     }
 
     /*UnvariateStatistic Approach */
@@ -125,12 +139,13 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic {
 
     /**
     * This algorithm uses a corrected two pass algorithm of the following 
-    * <a href="http://lib-www.lanl.gov/numerical/bookcpdf/c14-1.pdf">
-    * corrected two pass formula (14.1.8)</a>, and also referenced in:<p/>
-    * "Algorithms for Computing the Sample Variance: Analysis and
-    * Recommendations", Chan, T.F., Golub, G.H., and LeVeque, R.J. 
-    * 1983, American Statistician, vol. 37, pp. 242?247.
-    * <p/>
+     * <a href="http://lib-www.lanl.gov/numerical/bookcpdf/c14-1.pdf">
+     * corrected two pass formula (14.1.8)</a>, and also referenced in:
+     * <p>
+     * "Algorithms for Computing the Sample Variance: Analysis and
+     * Recommendations", Chan, T.F., Golub, G.H., and LeVeque, R.J. 
+     * 1983, American Statistician, vol. 37, pp. 242?247.
+     * </p>
     * Returns the kurtosis for this collection of values. Kurtosis is a 
     * measure of the "peakedness" of a distribution.
     * @param values Is a double[] containing the values

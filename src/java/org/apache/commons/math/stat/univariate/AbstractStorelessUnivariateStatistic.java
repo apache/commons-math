@@ -57,9 +57,8 @@ package org.apache.commons.math.stat.univariate;
  *
  * Abstract Implementation for StorelessUnivariateStatistics.
  * Provides the ability to extend polymophically so that
- * indiviual statistics do not need to implement these methods
- * 
- * @author Mark Diggory
+ * indiviual statistics do not need to implement these methods unless
+ * there are better algorithms for handling the calculation.
  */
 public abstract class AbstractStorelessUnivariateStatistic
     extends AbstractUnivariateStatistic
@@ -67,7 +66,9 @@ public abstract class AbstractStorelessUnivariateStatistic
 
     /**
      * This implements the AbstractUnivariateStatistic impl to funnel 
-     * calculation off to the instantanious increment method.
+     * calculation off to the instantanious increment method. In most cases of
+     * StorelessUnivariateStatistic this is never really used because more 
+     * efficient algorithms are available for that statistic.
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
     public double evaluate(double[] values, int begin, int length) {
@@ -77,6 +78,6 @@ public abstract class AbstractStorelessUnivariateStatistic
                 increment(values[i]);
             }
         }
-        return getValue();
+        return getResult();
     }
 }

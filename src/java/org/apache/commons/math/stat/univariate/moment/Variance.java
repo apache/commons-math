@@ -71,6 +71,10 @@ public class Variance extends AbstractStorelessUnivariateStatistic {
 
     protected boolean incMoment = true;
 
+    protected double variance = Double.NaN;
+
+    protected int n = 0;
+    
     public Variance() {
         moment = new SecondMoment();
     }
@@ -91,13 +95,19 @@ public class Variance extends AbstractStorelessUnivariateStatistic {
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
      */
-    public double getValue() {
-        if (moment.n <= 0) {
-            return Double.NaN;
-        } else if (moment.n <= 1) {
-            return 0.0;
+    public double getResult() {
+        if (n < moment.n) {
+            if (moment.n <= 0) {
+                variance = Double.NaN;
+            } else if (moment.n <= 1) {
+                variance = 0.0;
+            } else {
+                variance = moment.m2 / (moment.n0 - 1); 
+            }
+            n = moment.n;
         }
-        return moment.m2 / (moment.n0 - 1);
+
+        return variance;
     }
 
     /**
@@ -107,6 +117,8 @@ public class Variance extends AbstractStorelessUnivariateStatistic {
         if (incMoment) {
             moment.clear();
         }
+        variance = Double.NaN;
+        n = 0;
     }
 
     /*UnvariateStatistic Approach */
@@ -117,11 +129,12 @@ public class Variance extends AbstractStorelessUnivariateStatistic {
      * Returns the variance of the available values. This uses a corrected
      * two pass algorithm of the following 
      * <a href="http://lib-www.lanl.gov/numerical/bookcpdf/c14-1.pdf">
-     * corrected two pass formula (14.1.8)</a>, and also referenced in:<p/>
+     * corrected two pass formula (14.1.8)</a>, and also referenced in:
+     * <p>
      * "Algorithms for Computing the Sample Variance: Analysis and
      * Recommendations", Chan, T.F., Golub, G.H., and LeVeque, R.J. 
      * 1983, American Statistician, vol. 37, pp. 242?247.
-     * 
+     * </p>
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
      * @param length processing at this point in the array

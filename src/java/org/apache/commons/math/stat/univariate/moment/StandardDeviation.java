@@ -59,42 +59,48 @@ package org.apache.commons.math.stat.univariate.moment;
  */
 public class StandardDeviation extends Variance {
 
-    public StandardDeviation(){
+    protected double std = Double.NaN;
+
+    private double lastVar = 0.0;
+    
+    public StandardDeviation() {
         super();
     }
-    
-    public StandardDeviation(SecondMoment m2){
+
+    public StandardDeviation(SecondMoment m2) {
         super(m2);
     }
-    
+
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
     public void increment(double d) {
-        super.increment(d);        
+        super.increment(d);
     }
-    
+
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
      */
-    public double getValue() {
-        
-        double var = super.getValue();
-        
-        if(Double.isNaN(var)){
-            return Double.NaN;
-        }else if (var == 0.0){
-            return 0.0;
+    public double getResult() {
+        if (lastVar != super.getResult()) {
+            lastVar = super.getResult();
+            if (Double.isNaN(lastVar)) {
+                std = Double.NaN;
+            } else if (lastVar == 0.0) {
+                std = 0.0;
+            } else {
+                std = Math.sqrt(lastVar);
+            }
         }
-        
-        return Math.sqrt(var);
+        return std;
     }
-    
+
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
      */
     public void clear() {
         super.clear();
+        lastVar = 0.0;
     }
 
     /**
@@ -108,8 +114,8 @@ public class StandardDeviation extends Variance {
      */
     public double evaluate(double[] values, int begin, int length) {
         double var = super.evaluate(values, begin, length);
-        
-        if(Double.isNaN(var)){
+
+        if (Double.isNaN(var)) {
             return Double.NaN;
         }
 

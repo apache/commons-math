@@ -54,8 +54,6 @@
 package org.apache.commons.math.stat.univariate;
 
 /**
- * @author Mark Diggory
- *
  * UnivariateStatistic interface provides methods to evaluate 
  * double[] based content using a particular algorithm.
  * 

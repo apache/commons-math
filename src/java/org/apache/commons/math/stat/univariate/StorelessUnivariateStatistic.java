@@ -55,9 +55,11 @@ package org.apache.commons.math.stat.univariate;
 
 /**
  * StorelessUnivariate interface provides methods to increment and access
- * the internal state of the Statistic.
- *
- * @author Mark Diggory
+ * the internal state of the Statistic. A StorelessUnivariateStatistic does
+ * not require that a double[] storage structure be maintained with the values
+ * in it. As such only a subset of known statistics can actually be implmented
+ * using it. If a Statistic cannot be implemented in a Storeless approach it
+ * should implement the UnivariateStatistic interface directly instead.
  */
 public interface StorelessUnivariateStatistic extends UnivariateStatistic {
 
@@ -65,42 +67,21 @@ public interface StorelessUnivariateStatistic extends UnivariateStatistic {
      * Increments the internal state of the Storagless
      * Implementation.
      * @param d is the value to increment the state by.
-     * @return the new state of this Statistic. Returns 
-     * the same value as <code>getValue()</code>, Double.NaN if it
-     * has been cleared or just instantiated.
      */
     public void increment(double d);
 
     /**
      * Returns the current state of the statistic after the
      * last increment.
-     * @return values of the statistic, Double.NaN if it
+     * @return value of the statistic, Double.NaN if it
      * has been cleared or just instantiated.
      */
-    public double getValue();
+    public double getResult();
 
 
     /**
      * Clears all the internal state of the Statistic
      */
     public void clear();
-
-    /**
-     * Returns the behavior of this statistic when evaluating
-     * double[]'s using <code>evaluate(double[], int, int)</code> and
-     * <code>evaluate(double[])</code> methods.
-     * @return the state
-     */
-    //public boolean isClearOnEval();
-
-    /**
-     * Sets the behavior of this statistic when evaluating
-     * double[]'s using <code>evaluate(double[], int, int)</code> and
-     * <code>evaluate(double[])</code> methods. if true, the internal state
-     * will be cleared between evaluations, otherwise it will be
-     * incrimented.
-     * @param b true | false
-     */
-    //public void setClearOnEval(boolean b);
 
 }

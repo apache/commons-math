@@ -88,7 +88,7 @@ public class FirstMoment extends AbstractStorelessUnivariateStatistic {
         n0 = (double)n;
         v = dev / n0;
 
-        m1 += v;                    
+        m1 += v;                   
     }
     
     /**
@@ -99,13 +99,13 @@ public class FirstMoment extends AbstractStorelessUnivariateStatistic {
         n = 0;
         dev = 0.0;
         v = 0.0;
-        n0 = 0.0;
+        n0 = 0.0;  
     }
     
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
      */
-    public double getValue() {
+    public double getResult() {
         return m1;
     }
 

@@ -102,16 +102,16 @@ public class Mean extends AbstractStorelessUnivariateStatistic {
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
      */
-    public double getValue() {
+    public double getResult() {
         return moment.m1;
     }
-
+    
     /*UnvariateStatistic Approach */
     Sum sum = new Sum();
 
     /**
      * Returns the <a href=http://www.xycoon.com/arithmetic_mean.htm>
-     * arithmetic mean </a> of the available values 
+     * arithmetic mean </a> of the available values.
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
      * @param length processing at this point in the array

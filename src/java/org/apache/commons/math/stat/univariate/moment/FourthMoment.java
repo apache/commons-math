@@ -95,7 +95,7 @@ public class FourthMoment extends ThirdMoment {
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
      */
-    public double getValue() {
+    public double getResult() {
         return m4;
     }
 
