@@ -54,6 +54,9 @@
 package org.apache.commons.math.stat;
 
 import java.io.Serializable;
+
+import org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic;
+import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 import org.apache.commons.math.util.FixedDoubleArray;
 
 /**
@@ -64,7 +67,7 @@ import org.apache.commons.math.util.FixedDoubleArray;
  * Integers, floats and longs can be added, but they will be converted
  * to doubles by addValue().
  *
- * @version $Revision: 1.18 $ $Date: 2003/07/09 21:45:23 $
+ * @version $Revision: 1.19 $ $Date: 2003/07/15 03:45:10 $
 */
 public class UnivariateImpl
     extends AbstractUnivariate
@@ -120,7 +123,7 @@ public class UnivariateImpl
             sumsq.increment(value);
             sumLog.increment(value);
             geoMean.increment(value);
-            
+
             moment.increment(value);
             //mean.increment(value);
             //variance.increment(value);
@@ -158,25 +161,18 @@ public class UnivariateImpl
         }
     }
 
-    /**
-     * @see org.apache.commons.math.stat.AbstractUnivariate#internalValues()
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.stat.AbstractUnivariate#apply(org.apache.commons.math.stat.univariate.UnivariateStatistic)
      */
-    protected double[] internalValues() {
-        return storage == null ? null : storage.getValues();
-    }
+    public double apply(UnivariateStatistic stat) {
+        
+        if (storage != null) {
+            return stat.evaluate(storage.getValues(), storage.start(), storage.getNumElements());
+        } else if (stat instanceof StorelessUnivariateStatistic) {
+            return ((StorelessUnivariateStatistic) stat).getResult();
+        }
 
-    /**
-     * @see org.apache.commons.math.stat.AbstractUnivariate#start()
-     */
-    protected int start() {
-        return storage.start();
-    }
-
-    /**
-     * @see org.apache.commons.math.stat.AbstractUnivariate#size()
-     */
-    protected int size() {
-        return storage.getNumElements();
+        return Double.NaN;
     }
 
 }

@@ -53,6 +53,7 @@
  */
 package org.apache.commons.math.stat;
 
+import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 import org.apache.commons.math.stat.univariate.moment.FourthMoment;
 import org.apache.commons.math.stat.univariate.moment.GeometricMean;
 import org.apache.commons.math.stat.univariate.moment.Kurtosis;
@@ -67,7 +68,7 @@ import org.apache.commons.math.stat.univariate.summary.SumOfSquares;
 
 /**
  * Provides univariate measures for an array of doubles.
- * @version $Revision: 1.1 $ $Date: 2003/07/09 21:45:23 $  
+ * @version $Revision: 1.2 $ $Date: 2003/07/15 03:45:10 $  
  */
 public abstract class AbstractUnivariate implements Univariate {
 
@@ -139,23 +140,8 @@ public abstract class AbstractUnivariate implements Univariate {
         setWindowSize(window);
     }
 
-    /**
-     * Returns the internalValues array.
-     * @return the array
-     */
-    protected abstract double[] internalValues();
-
-    /**
-     * Returns the start index of the array
-     * @return start index
-     */
-    protected abstract int start();
-
-    /**
-     * Returns the size of the array appropriate for doing calculations.
-     * @return Usually this is just numElements.
-     */
-    protected abstract int size();
+    public abstract double apply(UnivariateStatistic stat);
+    
 
     /**
      * If windowSize is set to Infinite, 
@@ -178,36 +164,21 @@ public abstract class AbstractUnivariate implements Univariate {
      * @see org.apache.commons.math.stat.Univariate#getSum()
      */
     public double getSum() {
-        double[] v = internalValues();
-        if (v != null) {
-            return sum.evaluate(v, this.start(), this.size());
-        }
-
-        return sum.getResult();
+        return apply(sum);
     }
 
     /**
      * @see org.apache.commons.math.stat.Univariate#getSumsq()
      */
     public double getSumsq() {
-        double[] v = internalValues();
-        if (v != null) {
-            return sumsq.evaluate(v, this.start(), this.size());
-        }
-
-        return sumsq.getResult();
+        return apply(sumsq);
     }
 
     /**
      * @see org.apache.commons.math.stat.Univariate#getMean()
      */
     public double getMean() {
-        double[] v = internalValues();
-        if (v != null) {
-            return mean.evaluate(v, this.start(), this.size());
-        }
-
-        return mean.getResult();
+        return apply(mean);
     }
 
     /**
@@ -239,12 +210,7 @@ public abstract class AbstractUnivariate implements Univariate {
      *         a &lt;= 1 value set.
      */
     public double getVariance() {
-        double[] v = internalValues();
-        if (v != null) {
-            return variance.evaluate(v, this.start(), this.size());
-        }
-
-        return variance.getResult();
+        return apply(variance);
     }
 
     /**
@@ -256,12 +222,7 @@ public abstract class AbstractUnivariate implements Univariate {
      *         &lt;= 2 value set.
      */
     public double getSkewness() {
-        double[] v = internalValues();
-        if (v != null) {
-            return skewness.evaluate(v, this.start(), this.size());
-        }
-
-        return skewness.getResult();
+        return apply(skewness);
     }
 
     /**
@@ -274,12 +235,7 @@ public abstract class AbstractUnivariate implements Univariate {
      *         value set.
      */
     public double getKurtosis() {
-        double[] v = internalValues();
-        if (v != null) {
-            return kurtosis.evaluate(v, this.start(), this.size());
-        }
-
-        return kurtosis.getResult();
+        return apply(kurtosis);
     }
 
     /**
@@ -301,38 +257,23 @@ public abstract class AbstractUnivariate implements Univariate {
      * @see org.apache.commons.math.stat.Univariate#getMax()
      */
     public double getMax() {
-        double[] v = internalValues();
-        if (v != null) {
-            return max.evaluate(v, this.start(), this.size());
-        }
-
-        return max.getResult();
+        return apply(max);
     }
 
     /**
      * @see org.apache.commons.math.stat.Univariate#getMin()
      */
     public double getMin() {
-        double[] v = internalValues();
-        if (v != null) {
-            return min.evaluate(v, this.start(), this.size());
-        }
-
-        return min.getResult();
+        return apply(min);
     }
 
     /**
     * @see org.apache.commons.math.stat.Univariate#getGeometricMean()
     */
     public double getGeometricMean() {
-        double[] v = internalValues();
-        if (v != null) {
-            return geoMean.evaluate(v, this.start(), this.size());
-        }
-
-        return geoMean.getResult();
+        return apply(geoMean);
     }
-
+    
     /**
      * Generates a text report displaying
      * univariate statistics from values that

@@ -53,10 +53,11 @@
  */
 package org.apache.commons.math.stat;
 
+import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 import org.apache.commons.math.util.ContractableDoubleArray;
 
 /**
- * @version $Revision: 1.4 $ $Date: 2003/07/09 21:45:23 $
+ * @version $Revision: 1.5 $ $Date: 2003/07/15 03:45:10 $
  */
 public class StoreUnivariateImpl extends AbstractStoreUnivariate {
 
@@ -143,24 +144,13 @@ public class StoreUnivariateImpl extends AbstractStoreUnivariate {
         }
     }
 
-    /**
-     * @see org.apache.commons.math.stat.AbstractUnivariate#internalValues()
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.stat.AbstractUnivariate#apply(org.apache.commons.math.stat.univariate.UnivariateStatistic)
      */
-    protected double[] internalValues() {
-        return eDA.getValues();
-    }
-
-    /**
-     * @see org.apache.commons.math.stat.AbstractUnivariate#start()
-     */
-    protected int start() {
-        return eDA.start();
-    }
-
-    /**
-     * @see org.apache.commons.math.stat.AbstractUnivariate#size()
-     */
-    protected int size() {
-        return eDA.getNumElements();
+    public double apply(UnivariateStatistic stat) {
+        if (eDA != null) {
+            return stat.evaluate(eDA.getValues(), eDA.start(), eDA.getNumElements());
+        }
+        return Double.NaN;
     }
 }

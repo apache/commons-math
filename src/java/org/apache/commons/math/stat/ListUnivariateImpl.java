@@ -54,11 +54,13 @@
 package org.apache.commons.math.stat;
 
 import java.util.List;
+
+import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 import org.apache.commons.math.util.DefaultTransformer;
 import org.apache.commons.math.util.NumberTransformer;
 
 /**
- * @version $Revision: 1.3 $ $Date: 2003/07/09 21:45:23 $
+ * @version $Revision: 1.4 $ $Date: 2003/07/15 03:45:10 $
  */
 public class ListUnivariateImpl
     extends AbstractStoreUnivariate
@@ -182,27 +184,19 @@ public class ListUnivariateImpl
         super.clear();
         list.clear();
     }
-
-    /**
-     * @see org.apache.commons.math.stat.AbstractUnivariate#internalValues()
+    
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.stat.AbstractUnivariate#apply(org.apache.commons.math.stat.univariate.UnivariateStatistic)
      */
-    protected double[] internalValues() {
-        return getValues();
-    }
+    public double apply(UnivariateStatistic stat) {
+        double[] v = this.getValues();
 
-    /**
-     * @see org.apache.commons.math.stat.AbstractUnivariate#start()
-     */
-    protected int start() {
-        return 0;
+        if (v != null) {
+            return stat.evaluate(v, 0, v.length);
+        }
+        return Double.NaN;
     }
-
-    /**
-     * @see org.apache.commons.math.stat.AbstractUnivariate#size()
-     */
-    protected int size() {
-        return getN();
-    }
+    
     /**
      * @return
      */

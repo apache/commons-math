@@ -59,7 +59,7 @@ import org.apache.commons.math.stat.univariate.rank.Percentile;
 
 /**
  * Provides univariate measures for an array of doubles. 
- * @version $Revision: 1.9 $ $Date: 2003/07/09 21:45:23 $
+ * @version $Revision: 1.10 $ $Date: 2003/07/15 03:45:10 $
  */
 public abstract class AbstractStoreUnivariate
     extends AbstractUnivariate
@@ -88,7 +88,7 @@ public abstract class AbstractStoreUnivariate
      */
     public double getPercentile(double p) {
         percentile.setPercentile(p);
-        return percentile.evaluate(this.getValues(), this.start(), this.size());
+        return apply(percentile);
     }
     
     /**
