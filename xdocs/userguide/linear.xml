@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.7 $ $Date: 2004/02/29 18:50:10 $ -->
+<!-- $Revision: 1.8 $ $Date: 2004/05/17 05:57:38 $ -->
 <document url="linear.html">
 
   <properties>
@@ -28,17 +28,87 @@
     <section name="3 Linear Algebra">
       <subsection name="3.1 Overview" href="overview">
         <p>
-          This is yet to be written. Any contributions will be gratefully accepted!
+           Currently, numerical linear algebra support in commons-math is 
+           limited to basic operations on real matrices and solving linear systems.
         </p>
       </subsection>
       <subsection name="3.2 Real matrices" href="real_matrices">
         <p>
-          This is yet to be written. Any contributions will be gratefully accepted!
+          The <a href="../apidocs/org/apache/commons/math/linear/RealMatrix.html">
+          RealMatrix</a> interface represents a matrix with real numbers as 
+          entries.  The following basic matrix operations are supported:
+          <ul>
+          <li>Matrix addition, subtraction, mutiplication</li>
+          <li>Scalar addition and multiplication</li>
+          <li>Inverse and transpose</li>
+          <li>Determinants and singularity testing</li>
+          <li>LU decomposition</li>
+          <li>Norm and Trace</li>
+          <li>Operation on a vector</li>
+          </ul>   
         </p>
+        <p>
+         Example:
+         <source>
+// Create a real matrix with two rows and three columns
+double[][] matrixData = { {1d,2d,3d}, {2d,5d,3d}};
+RealMatrix m = new RealMatrixImpl(matrixData);
+
+// One more with three rows, two columns
+double[][] matrixData2 = { {1d,2d}, {2d,5d}, {1d, 7d}};
+RealMatrix n = new RealMatixImpl();
+n.setData(matrixData2); 
+
+// Note: both constructor and setData make
+// Fresh copies of input double[][] arrays
+
+// Now multiply m by n
+RealMatrix p = m.multiply(n);
+System.out.println(p.getRowDimension()); // 2
+System.out.println(p.getRowDimension()); // 2
+
+// Invert p
+RealMatrix pInverse = p.inverse();
+		 </source>
+        </p>         
       </subsection>
       <subsection name="3.3 Solving linear systems" href="solve">
         <p>
-          This is yet to be written. Any contributions will be gratefully accepted!
+          The <code>solve()</code> methods of the <code>RealMatrix</code> interface
+          support solving linear systems of equations.  In each case, the 
+          <code>RealMatrix</code> represents the coefficient matrix of the system.
+          For example, to solve the linear system
+          <pre>
+           2x + 3y - 2z = 1
+           -x + 7y + 6x = -2
+           4x - 3y - 5z = 1
+          </pre>
+          Start by creating a RealMatrix to store the coefficients
+          <source>
+double[][] coefficientsData = {{2, 3, -2}, {-1, 7, 6}, {4, -3, -5}};
+RealMatrix coefficients = new RealMatrixImpl(coefficientsData);
+          </source>
+          Next create a <code>double[]</code> array to represent the constant
+          vector and use <code>solve(double[])</code> to solve the system
+          <source>
+double[] constants = {1, -2, 1};
+double[] solution = coefficients.solve(constants);
+          </source>
+          The <code>solution</code> array will contain values for x 
+          (<code>solution[0]</code>), y (<code>solution[1]</code>), 
+          and z (<code>solution[2]</code>) that solve the system.
+        </p>
+        <p>
+          If the coefficient matrix is not square or singular, an 
+          <a href="../apidocs/org/apache/commons/math/linear/InvalidMatrixException.html">
+          InvalidMatrixException</a> is thrown.
+        </p>
+        <p>
+          It is possible to solve multiple systems with the same coefficient matrix 
+          in one method call.  To do this, create a matrix whose column vectors correspond 
+          to the constant vectors for the systems to be solved and use 
+          <code>solve(RealMatrix),</code> which returns a matrix with column
+          vectors representing the solutions.
         </p>
       </subsection>
     </section>
