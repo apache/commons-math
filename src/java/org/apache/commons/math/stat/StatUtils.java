@@ -53,6 +53,21 @@
  */
 package org.apache.commons.math.stat;
 
+import org.apache.commons.math.stat.univariate.UnivariateStatistic;
+import org.apache.commons.math.stat.univariate.moment.GeometricMean;
+import org.apache.commons.math.stat.univariate.moment.Kurtosis;
+import org.apache.commons.math.stat.univariate.moment.Mean;
+import org.apache.commons.math.stat.univariate.moment.Skewness;
+import org.apache.commons.math.stat.univariate.moment.Variance;
+import org.apache.commons.math.stat.univariate.rank.Max;
+import org.apache.commons.math.stat.univariate.rank.Median;
+import org.apache.commons.math.stat.univariate.rank.Min;
+import org.apache.commons.math.stat.univariate.rank.Percentile;
+import org.apache.commons.math.stat.univariate.summary.Product;
+import org.apache.commons.math.stat.univariate.summary.Sum;
+import org.apache.commons.math.stat.univariate.summary.SumOfLogs;
+import org.apache.commons.math.stat.univariate.summary.SumOfSquares;
+
 /**
  * StatUtils provides easy static implementations of common double[] based
  * statistical methods. These return a single result value or in some cases, as
@@ -62,13 +77,52 @@ package org.apache.commons.math.stat;
  */
 public class StatUtils {
 
+    /** Sum Of Logs */
+    private static UnivariateStatistic sumLog = new SumOfLogs();
+    
+    /** Product */
+    private static UnivariateStatistic product = new Product();
+    
+    /** Geometric Mean */
+    private static UnivariateStatistic geoMean = new GeometricMean();
+    
+    /** Mean */
+    private static UnivariateStatistic mean = new Mean();
+    
+    /** Variance */
+    private static UnivariateStatistic var = new Variance();
+    
+    /** Skewness */
+    private static UnivariateStatistic skew = new Skewness();
+    
+    /** Kurtosis */
+    private static UnivariateStatistic kurt = new Kurtosis();
+    
+    /** Min Of Logs */
+    private static UnivariateStatistic min = new Min();
+    
+    /** Max */
+    private static UnivariateStatistic max = new Max();
+    
+    /** Median */
+    private static UnivariateStatistic median = new Median();
+    
+    /** Sum */
+    private static UnivariateStatistic sum = new Sum();
+    
+    /** Sum Of Squares */
+    private static UnivariateStatistic sumSq = new SumOfSquares();
+    
+    /** Percentile */
+    private static Percentile percentile = new Percentile();
+
     /**
      * The sum of the values that have been added to Univariate.
      * @param values Is a double[] containing the values
      * @return the sum of the values or Double.NaN if the array is empty
      */
     public static double sum(double[] values) {
-        return sum(values, 0, values.length);
+        return sum.evaluate(values, 0, values.length);
     }
 
     /**
@@ -79,12 +133,7 @@ public class StatUtils {
      * @return the sum of the values or Double.NaN if the array is empty
      */
     public static double sum(double[] values, int begin, int length) {
-        testInput(values, begin, length);
-        double accum = 0.0;
-        for (int i = begin; i < begin + length; i++) {
-            accum += values[i];
-        }
-        return accum;
+        return sum.evaluate(values, begin, length);
     }
 
     /**
@@ -93,7 +142,7 @@ public class StatUtils {
      * @return the sum of the squared values or Double.NaN if the array is empty
      */
     public static double sumSq(double[] values) {
-        return sumSq(values, 0, values.length);
+        return sumSq.evaluate(values);
     }
 
     /**
@@ -104,12 +153,7 @@ public class StatUtils {
      * @return the sum of the squared values or Double.NaN if the array is empty
      */
     public static double sumSq(double[] values, int begin, int length) {
-        testInput(values, begin, length);
-        double accum = 0.0;
-        for (int i = begin; i < begin + length; i++) {
-            accum += Math.pow(values[i], 2.0);
-        }
-        return accum;
+        return sumSq.evaluate(values, begin, length);
     }
 
     /**
@@ -118,7 +162,7 @@ public class StatUtils {
      * @return the product values or Double.NaN if the array is empty
      */
     public static double product(double[] values) {
-        return product(values, 0, values.length);
+        return product.evaluate(values);
     }
 
     /**
@@ -129,12 +173,7 @@ public class StatUtils {
      * @return the product values or Double.NaN if the array is empty
      */
     public static double product(double[] values, int begin, int length) {
-        testInput(values, begin, length);
-        double product = 1.0;
-        for (int i = begin; i < begin + length; i++) {
-            product *= values[i];
-        }
-        return product;
+        return product.evaluate(values, begin, length);
     }
 
     /**
@@ -143,7 +182,7 @@ public class StatUtils {
      * @return the sumLog value or Double.NaN if the array is empty
      */
     public static double sumLog(double[] values) {
-        return sumLog(values, 0, values.length);
+        return sumLog.evaluate(values);
     }
 
     /**
@@ -154,12 +193,7 @@ public class StatUtils {
      * @return the sumLog value or Double.NaN if the array is empty
      */
     public static double sumLog(double[] values, int begin, int length) {
-        testInput(values, begin, length);
-        double sumLog = 0.0;
-        for (int i = begin; i < begin + length; i++) {
-            sumLog += Math.log(values[i]);
-        }
-        return sumLog;
+        return sumLog.evaluate(values, begin, length);
     }
 
     /**
@@ -169,7 +203,7 @@ public class StatUtils {
      * any of the values are &lt;= 0.
      */
     public static double geometricMean(double[] values) {
-        return geometricMean(values, 0, values.length);
+        return geoMean.evaluate(values);
     }
 
     /**
@@ -180,9 +214,11 @@ public class StatUtils {
      * @return the geometric mean or Double.NaN if the array is empty or
      * any of the values are &lt;= 0.
      */
-    public static double geometricMean(double[] values, int begin, int length) {
-        testInput(values, begin, length);
-        return Math.exp(sumLog(values, begin, length) / (double) length );
+    public static double geometricMean(
+        double[] values,
+        int begin,
+        int length) {
+        return geoMean.evaluate(values, begin, length);
     }
 
     /**
@@ -192,7 +228,7 @@ public class StatUtils {
      * @return the mean of the values or Double.NaN if the array is empty
      */
     public static double mean(double[] values) {
-        return sum(values) / (double) values.length;
+        return mean.evaluate(values);
     }
 
     /**
@@ -204,8 +240,7 @@ public class StatUtils {
       * @return the mean of the values or Double.NaN if the array is empty
       */
     public static double mean(double[] values, int begin, int length) {
-        testInput(values, begin, length);
-        return sum(values, begin, length) / ((double) length);
+        return mean.evaluate(values, begin, length);
     }
 
     /**
@@ -230,7 +265,7 @@ public class StatUtils {
         double[] values,
         int begin,
         int length) {
-        testInput(values, begin, length);
+
         double stdDev = Double.NaN;
         if (values.length != 0) {
             stdDev = Math.sqrt(variance(values, begin, length));
@@ -271,24 +306,7 @@ public class StatUtils {
      * or 0.0 for a single value set.  
      */
     public static double variance(double[] values, int begin, int length) {
-        testInput(values, begin, length);
-
-        double variance = Double.NaN;
-        if (values.length == 1) {
-            variance = 0;
-        } else if (values.length > 1) {
-            double mean = mean(values, begin, length);
-            double accum = 0.0;
-            double accum2 = 0.0;
-            for (int i = begin; i < begin + length; i++) {
-                accum += Math.pow((values[i] - mean), 2.0);
-                accum2 += (values[i] - mean);
-            }
-            variance =
-                (accum - (Math.pow(accum2, 2) / ((double)length)))
-                    / (double) (length - 1);
-        }
-        return variance;
+        return var.evaluate(values, begin, length);
     }
 
     /**
@@ -300,51 +318,16 @@ public class StatUtils {
     public static double skewness(double[] values) {
         return skewness(values, 0, values.length);
     }
-        /**
-     * Returns the skewness of a collection of values.  Skewness is a 
-     * measure of the assymetry of a given distribution. 
-     * @param values Is a double[] containing the values
-     * @param begin processing at this point in the array
-     * @param length processing at this point in the array
-     * @return the skewness of the values or Double.NaN if the array is empty
-     */
+    /**
+    * Returns the skewness of a collection of values.  Skewness is a 
+    * measure of the assymetry of a given distribution. 
+    * @param values Is a double[] containing the values
+    * @param begin processing at this point in the array
+    * @param length processing at this point in the array
+    * @return the skewness of the values or Double.NaN if the array is empty
+    */
     public static double skewness(double[] values, int begin, int length) {
-
-        testInput(values, begin, length);
-
-        // Initialize the skewness
-        double skewness = Double.NaN;
-
-        // Get the mean and the standard deviation
-        double mean = mean(values, begin, length);
-
-        // Calc the std, this is implemented here instead of using the 
-        // standardDeviation method eliminate a duplicate pass to get the mean
-        double accum = 0.0;
-        double accum2 = 0.0;
-        for (int i = begin; i < begin + length; i++) {
-            accum += Math.pow((values[i] - mean), 2.0);
-            accum2 += (values[i] - mean);
-        }
-        double stdDev =
-            Math.sqrt(
-                (accum - (Math.pow(accum2, 2) / ((double) length)))
-                    / (double) (length - 1));
-
-        // Calculate the skew as the sum the cubes of the distance 
-        // from the mean divided by the standard deviation.
-        double accum3 = 0.0;
-        for (int i = begin; i < begin + length; i++) {
-            accum3 += Math.pow((values[i] - mean) / stdDev, 3.0);
-        }
-
-        // Get N
-        double n = length;
-
-        // Calculate skewness
-        skewness = (n / ((n - 1) * (n - 2))) * accum3;
-
-        return skewness;
+        return skew.evaluate(values, begin, length);
     }
 
     /**
@@ -356,7 +339,7 @@ public class StatUtils {
     public static double kurtosis(double[] values) {
         return kurtosis(values, 0, values.length);
     }
-    
+
     /**
      * Returns the kurtosis for this collection of values. Kurtosis is a 
      * measure of the "peakedness" of a distribution.
@@ -366,47 +349,9 @@ public class StatUtils {
      * @return the kurtosis of the values or Double.NaN if the array is empty
      */
     public static double kurtosis(double[] values, int begin, int length) {
-        testInput(values, begin, length);
-
-        // Initialize the kurtosis
-        double kurtosis = Double.NaN;
-
-        // Get the mean and the standard deviation
-        double mean = mean(values, begin, length);
-
-        // Calc the std, this is implemented here instead of using the 
-        // standardDeviation method eliminate a duplicate pass to get the mean
-        double accum = 0.0;
-        double accum2 = 0.0;
-        for (int i = begin; i < begin + length; i++) {
-            accum += Math.pow((values[i] - mean), 2.0);
-            accum2 += (values[i] - mean);
-        }
-        
-        double stdDev =
-            Math.sqrt(
-                (accum - (Math.pow(accum2, 2) / ((double) length)))
-                    / (double) (length - 1));
-
-        // Sum the ^4 of the distance from the mean divided by the 
-        // standard deviation
-        double accum3 = 0.0;
-        for (int i = begin; i < begin + length; i++) {
-            accum3 += Math.pow((values[i] - mean) / stdDev, 4.0);
-        }
-
-        // Get N
-        double n = length;
-
-        double coefficientOne = (n * (n + 1)) / ((n - 1) * (n - 2) * (n - 3));
-        double termTwo = ((3 * Math.pow(n - 1, 2.0)) / ((n - 2) * (n - 3)));
-        
-        // Calculate kurtosis
-        kurtosis = (coefficientOne * accum3) - termTwo;
-
-        return kurtosis;
+        return kurt.evaluate(values, begin, length);
     }
-    
+
     /**
      * Returns the maximum of the available values
      * @param values Is a double[] containing the values
@@ -424,16 +369,7 @@ public class StatUtils {
      * @return the maximum of the values or Double.NaN if the array is empty
      */
     public static double max(double[] values, int begin, int length) {
-        testInput(values, begin, length);
-        double max = Double.NaN;
-        for (int i = begin; i < begin + length; i++) {
-            if (i == 0) {
-                max = values[i];
-            } else {
-                max = (max > values[i]) ? max : values[i];
-            }
-        }
-        return max;
+        return max.evaluate(values, begin, length);
     }
 
     /**
@@ -453,36 +389,32 @@ public class StatUtils {
      * @return the minimum of the values or Double.NaN if the array is empty
      */
     public static double min(double[] values, int begin, int length) {
-        testInput(values, begin, length);
-
-        double min = Double.NaN;
-        for (int i = begin; i < begin + length; i++) {
-            if (i == 0) {
-                min = values[i];
-            } else {
-                min = (min < values[i]) ? min : values[i];
-            }
-        }
-        return min;
+        return min.evaluate(values, begin, length);
     }
 
     /**
-     * Private testInput method used by all methods to verify the content 
-     * of the array and indicies are correct.
+     * Returns the p'th percentile for a double[]
+     * @param values Is a double[] containing the values
+     * @param p is 0 <= p <= 100
+     * @return the value at the p'th percentile
+     */
+    public static double percentile(double[] values, double p) {
+        return percentile.evaluate(values, p);
+    }
+
+    /**
+     * Returns the p'th percentile for a double[]
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
      * @param length processing at this point in the array
+     * @param p is 0 <= p <= 100
+     * @return the value at the p'th percentile
      */
-    private static void testInput(double[] values, int begin, int length) {
-
-        if (length > values.length)
-            throw new IllegalArgumentException("length > values.length");
-
-        if (begin + length > values.length)
-            throw new IllegalArgumentException("begin + length > values.length");
-
-        if (values == null)
-            throw new IllegalArgumentException("input value array is null");
-
+    public static double percentile(
+        double[] values,
+        int begin,
+        int length,
+        double p) {
+        return percentile.evaluate(values, begin, length, p);
     }
 }
