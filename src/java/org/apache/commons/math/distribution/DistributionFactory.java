@@ -1,5 +1,5 @@
 /*
- * Copyright 2003-2004 The Apache Software Foundation.
+ * Copyright 2003-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import org.apache.commons.discovery.tools.DiscoverClass;
  * The following distributions are supported:
  * <ul>
  * <li>Binomial</li>
+ * <li>Cauchy</li>
  * <li>Chi-Squared</li>
  * <li>Exponential</li>
  * <li>F</li>
@@ -40,7 +41,7 @@ import org.apache.commons.discovery.tools.DiscoverClass;
  * ChiSquaredDistribution chi = factory.createChiSquareDistribution(5.0);
  * </pre>
  *
- * @version $Revision: 1.22 $ $Date: 2004/11/07 03:32:48 $
+ * @version $Revision: 1.22 $ $Date$
  */
 public abstract class DistributionFactory {
     /**
@@ -77,6 +78,18 @@ public abstract class DistributionFactory {
      */
     public abstract BinomialDistribution createBinomialDistribution(
         int numberOfTrials, double probabilityOfSuccess);
+    
+    /**
+     * Create a new cauchy distribution with the given median and scale.
+     * @param median the median of the distribution
+     * @param scale the scale
+     * @return a new cauchy distribution  
+     */           
+    public CauchyDistribution createCauchyDistribution(
+        double median, double scale)
+    {
+        return new CauchyDistributionImpl(median, scale);
+    }
         
     /**
      * Create a new chi-square distribution with the given degrees of freedom.

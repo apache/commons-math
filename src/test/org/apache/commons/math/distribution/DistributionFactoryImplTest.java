@@ -1,5 +1,5 @@
 /*
- * Copyright 2003-2004 The Apache Software Foundation.
+ * Copyright 2003-2005 The Apache Software Foundation.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ package org.apache.commons.math.distribution;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.16 $ $Date: 2004/02/21 21:35:17 $
+ * @version $Revision: 1.16 $ $Date$
  */
 public class DistributionFactoryImplTest extends TestCase {
     /** */
@@ -315,6 +315,14 @@ public class DistributionFactoryImplTest extends TestCase {
             factory.createHypergeometricDistribution(20, 10, 0);
         } catch(IllegalArgumentException ex) {
             fail("valid sample size.  IllegalArgumentException is not expected");
+        }
+    }
+    
+    public void testHypergeometricDistributionSmallPopulationSize() {
+        try {
+            factory.createHypergeometricDistribution(5, 3, 10);
+            fail("sample size larger than population size.  IllegalArgumentException expected");
+        } catch(IllegalArgumentException ex) {
         }
     }
 }

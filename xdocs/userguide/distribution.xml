@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <!--
-   Copyright 2003-2004 The Apache Software Foundation
+   Copyright 2003-2005 The Apache Software Foundation
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.3 $ $Date: 2004/11/09 12:41:37 $ -->
+<!-- $Revision: 1.3 $ $Date$ -->
 <document url="stat.html">
   <properties>
     <title>The Commons Math User Guide - Statistics</title>
@@ -54,6 +54,7 @@ BinomialDistribution binomial = factory.createBinomialDistribution(10, .75);</so
           <table>
             <tr><th>Distribution</th><th>Factory Method</th><th>Parameters</th></tr>
             <tr><td>Binomial</td><td>createBinomialDistribution</td><td><div>Number of trials</div><div>Probability of success</div></td></tr>
+            <tr><td>Cauchy</td><td>createCauchyDistribution</td><td><div>Median</div><div>Scale</div></td></tr>
             <tr><td>Chi-Squared</td><td>createChiSquaredDistribution</td><td><div>Degrees of freedom</div></td></tr>
             <tr><td>Exponential</td><td>createExponentialDistribution</td><td><div>Mean</div></td></tr>
             <tr><td>F</td><td>createFDistribution</td><td><div>Numerator degrees of freedom</div><div>Denominator degrees of freedom</div></td></tr>

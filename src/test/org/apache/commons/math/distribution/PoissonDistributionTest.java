@@ -1,5 +1,5 @@
 /*
- * Copyright 2004 The Apache Software Foundation.
+ * Copyright 2004-2005 The Apache Software Foundation.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package org.apache.commons.math.distribution;
 /**
  * <code>PoissonDistributionTest</code>
  * 
- * @version $Revision: 1.2 $ $Date: 2004/11/07 20:39:15 $
+ * @version $Revision: 1.2 $ $Date$
  */
 public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
 
@@ -102,7 +102,7 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
      * P(9900 &le; X &le; 10200) for X  = Po(10000)
      */
     public void testNormalApproximateProbability() throws Exception {
-        PoissonDistribution dist = new PoissonDistributionImpl(100);
+        PoissonDistribution dist = DistributionFactory.newInstance().createPoissonDistribution(100);
         double result = dist.normalApproximateProbability(110)
                 - dist.normalApproximateProbability(89);
         assertEquals(0.706281887248, result, 1E-10);
@@ -117,9 +117,20 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
      * @throws Exception
      */
     public void testDegenerateInverseCumulativeProbability() throws Exception {
-          PoissonDistribution dist = new PoissonDistributionImpl(
-                    DEFAULT_TEST_POISSON_PARAMETER);
-            assertEquals(Integer.MAX_VALUE, dist.inverseCumulativeProbability(1.0d));
-            assertEquals(-1, dist.inverseCumulativeProbability(0d));
+        PoissonDistribution dist = DistributionFactory.newInstance().createPoissonDistribution(DEFAULT_TEST_POISSON_PARAMETER);
+        assertEquals(Integer.MAX_VALUE, dist.inverseCumulativeProbability(1.0d));
+        assertEquals(-1, dist.inverseCumulativeProbability(0d));
+    }
+    
+    public void testMean() {
+        PoissonDistribution dist = DistributionFactory.newInstance().createPoissonDistribution(DEFAULT_TEST_POISSON_PARAMETER);
+        try {
+            dist.setMean(-1);
+            fail("negative mean.  IllegalArgumentException expected");
+        } catch(IllegalArgumentException ex) {
+        }
+        
+        dist.setMean(10.0);
+        assertEquals(10.0, dist.getMean(), 0.0);
     }
 }

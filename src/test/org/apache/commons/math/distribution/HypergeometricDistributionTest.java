@@ -1,5 +1,5 @@
 /*
- * Copyright 2003-2004 The Apache Software Foundation.
+ * Copyright 2003-2005 The Apache Software Foundation.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ package org.apache.commons.math.distribution;
  * Extends IntegerDistributionAbstractTest.  See class javadoc for
  * IntegerDistributionAbstractTest for details.
  * 
- * @version $Revision: 1.13 $ $Date: 2004/11/07 03:32:49 $
+ * @version $Revision: 1.13 $ $Date$
  */
 public class HypergeometricDistributionTest extends IntegerDistributionAbstractTest {
 
@@ -117,4 +117,15 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
         verifyInverseCumulativeProbabilities();     
     }
 
+    public void testPopulationSize() {
+        HypergeometricDistribution dist = DistributionFactory.newInstance().createHypergeometricDistribution(5,3,5);
+        try {
+            dist.setPopulationSize(-1);
+            fail("negative population size.  IllegalArgumentException expected");
+        } catch(IllegalArgumentException ex) {
+        }
+        
+        dist.setPopulationSize(10);
+        assertEquals(10, dist.getPopulationSize());
+    }
 }

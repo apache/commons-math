@@ -1,5 +1,5 @@
 /*
- * Copyright 2003-2004 The Apache Software Foundation.
+ * Copyright 2003-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,13 +43,13 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
     public double[] makeCumulativeTestPoints() {
         // quantiles computed using R version 1.8.1 (linux version)
         return new double[] {-5.89343,-3.36493, -2.570582, -2.015048,
-            -1.475884, 5.89343, 3.36493, 2.570582,
+            -1.475884, 0.0, 5.89343, 3.36493, 2.570582,
             2.015048, 1.475884};
     }
 
     /** Creates the default cumulative probability density test expected values */
     public double[] makeCumulativeTestValues() {
-        return new double[] {0.001d, 0.01d, 0.025d, 0.05d, 0.1d, 0.999d,
+        return new double[] {0.001d, 0.01d, 0.025d, 0.05d, 0.1d, 0.0d, 0.999d,
                 0.990d, 0.975d, 0.950d, 0.900d};
     }
 

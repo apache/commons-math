@@ -40,6 +40,9 @@ The <action> type attribute can be add,update,fix,remove.
     <release version="1.1" date="In Development"  
        description="Jakarta Commons Math 1.1 - Development">
       <action dev="brentworden" type="add">
+        Added Cauchy distribution implementation.
+      </action>
+      <action dev="brentworden" type="add">
         Added convience methods for rounding.
       </action>
       <action dev="brentworden" type="add" due-to="C. Scott Ananian">
