@@ -52,14 +52,14 @@ import org.apache.commons.math.stat.univariate.SummaryStatistics;
  *    entry per line.</li>
  * </ul></p>
  *
- * @version $Revision: 1.25 $ $Date: 2004/06/15 18:33:16 $
+ * @version $Revision: 1.26 $ $Date: 2004/06/16 03:16:26 $
  */
 public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistribution {
 
     /** Serializable version identifier */
     static final long serialVersionUID = -6773236347582113490L;
 
-    /** List of DescriptiveStatistics objects characterizing the bins */
+    /** List of SummaryStatistics objects characterizing the bins */
     private ArrayList binStats = null;
 
     /** Sample statistics */
