@@ -64,7 +64,7 @@ import org.apache.commons.math.analysis.ConvergenceException;
  * <li><a href="http://mathworld.wolfram.com/ContinuedFraction.html">
  * Continued Fraction</a></li>
  * </ul>
- * @version $Revision: 1.3 $ $Date: 2003/07/09 20:04:12 $
+ * @version $Revision: 1.4 $ $Date: 2003/09/07 03:12:56 $
  */
 public abstract class ContinuedFraction {
     /** Maximum allowed numerical error. */
@@ -189,8 +189,9 @@ public abstract class ContinuedFraction {
         f[1][1] = (a[1][0] * an[0][1]) + (a[1][1] * an[1][1]);
 
         // determine if we're close enough
-        if (Math.abs((f[0][0] * f[1][1]) - (f[1][0] * f[0][1]))
-            < Math.abs(epsilon * f[1][0] * f[1][1])) {
+        if (Math.abs((f[0][0] * f[1][1]) - (f[1][0] * f[0][1])) <
+            Math.abs(epsilon * f[1][0] * f[1][1]))
+        {
             ret = f[0][0] / f[1][0];
         } else {
             if (n >= maxIterations) {

@@ -61,7 +61,7 @@ package org.apache.commons.math.analysis;
  * (this may be controversial, because the configuration data
  * may also be used for the default solver used by the static
  * solve() method). 
- * @version $Revision: 1.4 $ $Date: 2003/07/30 21:58:10 $
+ * @version $Revision: 1.5 $ $Date: 2003/09/07 03:12:56 $
  */
 public abstract class UnivariateRealSolverFactory {
     /**
@@ -71,8 +71,8 @@ public abstract class UnivariateRealSolverFactory {
     }
 
     /**
+     * Create a new factory.
      * @return a new factory.
-     * @todo add comment
      * @todo for now, return the only concrete factory.  Later, allow for a
      *       plugable implementation, possibly using SPI and commons-discovery.
      */

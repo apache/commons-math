@@ -58,7 +58,7 @@ package org.apache.commons.math.stat.univariate.moment;
  * <a href="http://www.spss.com/tech/stat/Algorithms/11.5/descriptives.pdf">
  * recursive strategy
  * </a>. Both incremental and evaluation strategies currently use this approach.
- * @version $Revision: 1.7 $ $Date: 2003/08/09 04:03:40 $
+ * @version $Revision: 1.8 $ $Date: 2003/09/07 03:12:56 $
  */
 public class FourthMoment extends ThirdMoment {
 
@@ -91,11 +91,8 @@ public class FourthMoment extends ThirdMoment {
 
         n3 = (double) (n - 3);
 
-        m4 =
-            m4
-                - (4.0 * v * prevM3)
-                + (6.0 * v2 * prevM2)
-                + ((n0 * n0) - 3 * n1) * (v2 * v2 * n1 * n0);
+        m4 = m4 - (4.0 * v * prevM3) + (6.0 * v2 * prevM2) +
+            ((n0 * n0) - 3 * n1) * (v2 * v2 * n1 * n0);
     }
 
     /**

@@ -60,7 +60,7 @@ import org.apache.commons.math.util.DefaultTransformer;
 import org.apache.commons.math.util.NumberTransformer;
 
 /**
- * @version $Revision: 1.4 $ $Date: 2003/07/15 03:45:10 $
+ * @version $Revision: 1.5 $ $Date: 2003/09/07 03:12:56 $
  */
 public class ListUnivariateImpl
     extends AbstractStoreUnivariate
@@ -88,6 +88,7 @@ public class ListUnivariateImpl
     /**
      * Construct a ListUnivariate with a specific List.
      * @param list The list that will back this Univariate
+     * @param transformer the number transformer used to convert the list items.
      */
     public ListUnivariateImpl(List list, NumberTransformer transformer) {
         super();
@@ -107,8 +108,9 @@ public class ListUnivariateImpl
         // take into account only the last n elements of the list
         // as definied by windowSize
 
-        if (windowSize != Univariate.INFINITE_WINDOW
-            && windowSize < list.size()) {
+        if (windowSize != Univariate.INFINITE_WINDOW &&
+            windowSize < list.size())
+        {
             length = list.size() - Math.max(0, list.size() - windowSize);
         }
 
@@ -130,8 +132,9 @@ public class ListUnivariateImpl
 
         int calcIndex = index;
 
-        if (windowSize != Univariate.INFINITE_WINDOW
-            && windowSize < list.size()) {
+        if (windowSize != Univariate.INFINITE_WINDOW &&
+            windowSize < list.size())
+        {
             calcIndex = (list.size() - windowSize) + index;
         }
 
@@ -198,14 +201,16 @@ public class ListUnivariateImpl
     }
     
     /**
-     * @return
+     * Access the number transformer.
+     * @return the number transformer.
      */
     public NumberTransformer getTransformer() {
         return transformer;
     }
 
     /**
-     * @param transformer
+     * Modify the number transformer.
+     * @param transformer the new number transformer.
      */
     public void setTransformer(NumberTransformer transformer) {
         this.transformer = transformer;

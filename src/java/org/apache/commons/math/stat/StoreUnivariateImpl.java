@@ -57,7 +57,7 @@ import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 import org.apache.commons.math.util.ContractableDoubleArray;
 
 /**
- * @version $Revision: 1.5 $ $Date: 2003/07/15 03:45:10 $
+ * @version $Revision: 1.6 $ $Date: 2003/09/07 03:12:56 $
  */
 public class StoreUnivariateImpl extends AbstractStoreUnivariate {
 
@@ -113,8 +113,8 @@ public class StoreUnivariateImpl extends AbstractStoreUnivariate {
                 eDA.addElement(v);
             } else {
                 String msg =
-                    "A window Univariate had more element than "
-                        + "the windowSize.  This is an inconsistent state.";
+                    "A window Univariate had more element than " +
+                    "the windowSize.  This is an inconsistent state.";
                 throw new RuntimeException(msg);
             }
         } else {

@@ -344,7 +344,7 @@ public class InterpolatorTest extends TestCase {
         try {
             double xval[] = { 0.0, 1.0 };
             double yval[] = { 0.0, 1.0, 2.0 };
-            UnivariateRealFunction f = i.interpolate(xval, yval);
+            i.interpolate(xval, yval);
             fail("Failed to detect data set array with different sizes.");
         } catch (IllegalArgumentException iae) {
         }
@@ -352,7 +352,7 @@ public class InterpolatorTest extends TestCase {
         try {
             double xval[] = { 0.0, 1.0, 0.5 };
             double yval[] = { 0.0, 1.0, 2.0 };
-            UnivariateRealFunction f = i.interpolate(xval, yval);
+            i.interpolate(xval, yval);
             fail("Failed to detect unsorted arguments.");
         } catch (IllegalArgumentException iae) {
         }

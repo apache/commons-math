@@ -63,7 +63,7 @@ import org
 
 /**
  *
- * @version $Revision: 1.7 $ $Date: 2003/08/09 04:03:40 $
+ * @version $Revision: 1.8 $ $Date: 2003/09/07 03:12:56 $
  */
 public class Skewness extends AbstractStorelessUnivariateStatistic {
 
@@ -119,12 +119,8 @@ public class Skewness extends AbstractStorelessUnivariateStatistic {
             if (moment.n <= 2 || variance < 10E-20) {
                 skewness = 0.0;
             } else {
-                skewness =
-                    (moment.n0 * moment.m3)
-                        / (moment.n1
-                            * moment.n2
-                            * Math.sqrt(variance)
-                            * variance);
+                skewness = (moment.n0 * moment.m3) /
+                    (moment.n1 * moment.n2 * Math.sqrt(variance) * variance);
             }
             n = moment.n;
         }
@@ -191,8 +187,8 @@ public class Skewness extends AbstractStorelessUnivariateStatistic {
                 }
                 double stdDev =
                     Math.sqrt(
-                        (accum - (Math.pow(accum2, 2) / ((double) length)))
-                            / (double) (length - 1));
+                        (accum - (Math.pow(accum2, 2) / ((double) length))) /
+                            (double) (length - 1));
 
                 // Calculate the skew as the sum the cubes of the distance
                 // from the mean divided by the standard deviation.

@@ -82,7 +82,7 @@ package org.apache.commons.math.util;
  * "fixed" in memory, this implementation will never allocate, or copy
  * the internal storage array to a new array instance.
  * </p>
- * @version $Revision: 1.5 $ $Date: 2003/07/09 20:04:12 $
+ * @version $Revision: 1.6 $ $Date: 2003/09/07 03:12:56 $
  */
 public class FixedDoubleArray implements DoubleArray {
 
@@ -164,8 +164,8 @@ public class FixedDoubleArray implements DoubleArray {
     public double getElement(int index) {
         if (index > (size - 1)) {
             String msg =
-                "Attempted to retrieve an element outside of "
-                    + "the element array";
+                "Attempted to retrieve an element outside of " +
+                "the element array";
             throw new ArrayIndexOutOfBoundsException(msg);
         } else {
             // Return the element requested, if the index supplied
@@ -235,9 +235,9 @@ public class FixedDoubleArray implements DoubleArray {
             // is trying to add an element beyond the boundaries of the
             // fixed array.
             String msg =
-                "Attempted to add a value to an array of fixed "
-                    + "size, please use addElementRolling "
-                    + "to avoid this exception";
+                "Attempted to add a value to an array of fixed " +
+                "size, please use addElementRolling " +
+                "to avoid this exception";
             throw new ArrayIndexOutOfBoundsException(msg);
         }
     }

@@ -57,7 +57,7 @@ package org.apache.commons.math.stat;
  * StatUtils provides easy static implementations of common double[] based
  * statistical methods. These return a single result value or in some cases, as
  * identified in the javadoc for each method, Double.NaN.
- * @version $Revision: 1.15 $ $Date: 2003/08/09 04:03:41 $
+ * @version $Revision: 1.16 $ $Date: 2003/09/07 03:12:56 $
  */
 public final class StatUtils {
 
@@ -255,8 +255,8 @@ public final class StatUtils {
                 accum2 += (values[i] - mean);
             }
             variance =
-                (accum - (Math.pow(accum2, 2) / ((double) length)))
-                    / (double) (length - 1);
+                (accum - (Math.pow(accum2, 2) / ((double) length))) /
+                (double) (length - 1);
         }
         return variance;
     }

@@ -56,8 +56,8 @@ package org.apache.commons.math.analysis;
 import org.apache.commons.math.MathException;
 
 /**
- * @version $Revision: 1.1 $ $Date: 2003/07/30 22:06:37 $
- * @todo add comment
+ * Utility routines for {@link UnivariateRealSolver} objects.
+ * @version $Revision: 1.2 $ $Date: 2003/09/07 03:12:56 $
  */
 public class UnivariateRealSolverUtil {
     /**

@@ -88,7 +88,7 @@ import java.io.Serializable;
  * expand the array 10 times - first from 2 -> 4. then 4 -> 8, 8 -> 16,
  * and so on until we reach 4096 which is sufficient to hold 3546 elements.
  * </p>
- * @version $Revision: 1.4 $ $Date: 2003/07/09 20:04:12 $
+ * @version $Revision: 1.5 $ $Date: 2003/09/07 03:12:56 $
  */
 public class ExpandableDoubleArray implements Serializable, DoubleArray {
 
@@ -199,9 +199,8 @@ public class ExpandableDoubleArray implements Serializable, DoubleArray {
             this.initialCapacity = initialCapacity;
         } else {
             String msg =
-                "The initial capacity supplied: "
-                    + initialCapacity
-                    + "must be a positive integer";
+                "The initial capacity supplied: " + initialCapacity +
+                "must be a positive integer";
             throw new IllegalArgumentException(msg);
         }
     }
@@ -270,15 +269,14 @@ public class ExpandableDoubleArray implements Serializable, DoubleArray {
         double value = Double.NaN;
         if (index >= numElements) {
             String msg =
-                "The index specified: "
-                    + index
-                    + " is larger than the current number of elements";
+                "The index specified: " + index +
+                " is larger than the current number of elements";
             throw new ArrayIndexOutOfBoundsException(msg);
         } else if (index >= 0) {
             value = internalArray[startIndex + index];
         } else {
             String msg =
-                "Elements cannot be retrieved from a negative " + "array index";
+                "Elements cannot be retrieved from a negative array index";
             throw new ArrayIndexOutOfBoundsException(msg);
         }
         return value;
@@ -403,9 +401,8 @@ public class ExpandableDoubleArray implements Serializable, DoubleArray {
     public synchronized void discardFrontElements(int i) {
 
         if (i > numElements) {
-            String msg =
-                "Cannot discard more elements than are"
-                    + "contained in this array.";
+            String msg = "Cannot discard more elements than are" +
+                "contained in this array.";
             throw new IllegalArgumentException(msg);
         } else if (i < 0) {
             String msg = "Cannot discard a negative number of elements.";

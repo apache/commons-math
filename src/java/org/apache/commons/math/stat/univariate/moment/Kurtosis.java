@@ -62,7 +62,7 @@ import org
     .AbstractStorelessUnivariateStatistic;
 
 /**
- * @version $Revision: 1.7 $ $Date: 2003/08/09 04:03:40 $
+ * @version $Revision: 1.8 $ $Date: 2003/09/07 03:12:56 $
  */
 public class Kurtosis extends AbstractStorelessUnivariateStatistic {
 
@@ -119,13 +119,9 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic {
                 kurtosis = 0.0;
             } else {
                 kurtosis =
-                    (moment.n0 * (moment.n0 + 1) * moment.m4
-                        - 3 * moment.m2 * moment.m2 * moment.n1)
-                        / (moment.n1
-                            * moment.n2
-                            * moment.n3
-                            * variance
-                            * variance);
+                    (moment.n0 * (moment.n0 + 1) * moment.m4 -
+                    3 * moment.m2 * moment.m2 * moment.n1) /
+                    (moment.n1 * moment.n2 * moment.n3 * variance * variance);
             }
             n = moment.n;
         }
@@ -193,8 +189,8 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic {
 
                 double stdDev =
                     Math.sqrt(
-                        (accum - (Math.pow(accum2, 2) / ((double) length)))
-                            / (double) (length - 1));
+                        (accum - (Math.pow(accum2, 2) / ((double) length))) /
+                        (double) (length - 1));
 
                 // Sum the ^4 of the distance from the mean divided by the
                 // standard deviation

@@ -80,7 +80,7 @@ import org.apache.commons.math.stat.Univariate;
  * build grouped frequnecy histograms representing the input data or to
  * generate random values "like" those in the input file -- i.e., the values
  * generated will follow the distribution of the values in the file.
- * @version $Revision: 1.3 $ $Date: 2003/07/09 20:02:59 $
+ * @version $Revision: 1.4 $ $Date: 2003/09/07 03:12:56 $
  */
 public interface EmpiricalDistribution {
     
@@ -102,6 +102,7 @@ public interface EmpiricalDistribution {
      * Generates a random value from this distribution<p>
      * <strong>Preconditions:</strong><ul>
      * <li>the distribution must be loaded before invoking this method</li></ul>
+     * @return the random value.
      * @throws IllegalStateException if the distribution has not been loaded
      */
     double getNextValue() throws IllegalStateException;  
@@ -111,9 +112,10 @@ public interface EmpiricalDistribution {
      * <p>Returns a Univariate describing this distribution</p>
      * <strong>Preconditions:</strong><ul>
      * <li>the distribution must be loaded before invoking this method</li></ul>
+     * @return the sample statistics
      * @throws IllegalStateException if the distribution has not been loaded
      */
-    Univariate getSampleStats();
+    Univariate getSampleStats() throws IllegalStateException;
     
     /** 
      * Loads a saved distribution from a file.

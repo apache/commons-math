@@ -57,7 +57,7 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
 
 /**
  *
- * @version $Revision: 1.8 $ $Date: 2003/08/09 04:03:40 $
+ * @version $Revision: 1.9 $ $Date: 2003/09/07 03:12:56 $
  */
 public class Variance extends AbstractStorelessUnivariateStatistic {
 
@@ -177,9 +177,8 @@ public class Variance extends AbstractStorelessUnivariateStatistic {
                     accum += Math.pow((values[i] - m), 2.0);
                     accum2 += (values[i] - m);
                 }
-                var =
-                    (accum - (Math.pow(accum2, 2) / ((double) length)))
-                        / (double) (length - 1);
+                var = (accum - (Math.pow(accum2, 2) / ((double) length))) /
+                    (double) (length - 1);
             }
         }
         return var;

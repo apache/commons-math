@@ -104,7 +104,7 @@ import java.util.Collection;
  * (so secure sequences started with calls to reseedSecure(long) won't be 
  * identical).</li></ul>
  * 
- * @version $Revision: 1.2 $ $Date: 2003/07/07 23:19:21 $
+ * @version $Revision: 1.3 $ $Date: 2003/09/07 03:12:56 $
  */
 public class RandomDataImpl implements RandomData {
     
@@ -127,6 +127,8 @@ public class RandomDataImpl implements RandomData {
      * len/2+1 binary bytes are generated using the underlying Random</li>
      * <li>
      * Each binary byte is translated into 2 hex digits</li></ol>
+     * @param len the desired string length.
+     * @return the random string.
      */
     public String nextHexString(int len) {
         if (len <= 0) {
@@ -162,7 +164,14 @@ public class RandomDataImpl implements RandomData {
         }
         return outBuffer.toString().substring(0, len);
     }
-       
+
+    /**
+     * Generate a random int value uniformly distributed between
+     * <code>lower</code> and <code>upper</code>, inclusive.
+     * @param lower the lower bound.
+     * @param upper the upper bound.
+     * @return the random integer.
+     */       
     public int nextInt(int lower, int upper) {
         if (lower >= upper) {
             throw new IllegalArgumentException
@@ -172,6 +181,13 @@ public class RandomDataImpl implements RandomData {
         return lower + (int) (rand.nextDouble() * (upper - lower + 1));
     }
     
+    /**
+     * Generate a random long value uniformly distributed between
+     * <code>lower</code> and <code>upper</code>, inclusive.
+     * @param lower the lower bound.
+     * @param upper the upper bound.
+     * @return the random integer.
+     */       
     public long nextLong(long lower, long upper) {
         if (lower >= upper) {
             throw new IllegalArgumentException
@@ -194,6 +210,8 @@ public class RandomDataImpl implements RandomData {
      * <p>
      * TODO: find external reference or provide justification for the claim 
      * that this yields a cryptographically secure sequence of hex strings.
+     * @param len the desired string length.
+     * @return the random string.
      */
     public String nextSecureHexString(int len) {
         if (len <= 0) {
@@ -243,6 +261,14 @@ public class RandomDataImpl implements RandomData {
         return outBuffer.toString().substring(0, len);
     }
      
+    /**
+     * Generate a random int value uniformly distributed between
+     * <code>lower</code> and <code>upper</code>, inclusive.  This algorithm
+     * using a secure random number generator for its engine.
+     * @param lower the lower bound.
+     * @param upper the upper bound.
+     * @return the random integer.
+     */       
     public int nextSecureInt(int lower, int upper) {
           if (lower >= upper) {
               throw new IllegalArgumentException
@@ -252,6 +278,14 @@ public class RandomDataImpl implements RandomData {
           return lower + (int) (sec.nextDouble() * (upper - lower + 1));
     }
      
+    /**
+     * Generate a random long value uniformly distributed between
+     * <code>lower</code> and <code>upper</code>, inclusive.  This algorithm
+     * using a secure random number generator for its engine.
+     * @param lower the lower bound.
+     * @param upper the upper bound.
+     * @return the random integer.
+     */       
     public long nextSecureLong(long lower, long upper) {
         if (lower >= upper) {
             throw new IllegalArgumentException
@@ -267,16 +301,17 @@ public class RandomDataImpl implements RandomData {
      * described 
      * <a href ="http://dmawww.epfl.ch/benarous/Pmmi/interactive/rng7.htm">
      * here</a>
-     *
+     * @param mean mean of the Poisson distribution.
+     * @return the random Poisson value.
      */
     public long nextPoisson(double mean) {
+        if (mean <= 0) {
+            throw new IllegalArgumentException("Poisson mean must be > 0");
+        }
         double p = Math.exp(-mean);
         long n = 0;
         double r = 1.0d;
         Random rand = getRan();
-        if (mean <= 0) {
-            throw new IllegalArgumentException("Poisson mean must be > 0");
-        }
         while (true) {
             double rnd = rand.nextDouble();
             r = r * rnd;
@@ -288,6 +323,15 @@ public class RandomDataImpl implements RandomData {
         }
     }
     
+    /**
+     * Generate a random value from a Normal distribution.  This algorithm 
+     * generates random values for the general Normal distribution with the
+     * given mean, <code>mu</code> and the given standard deviation,
+     * <code>sigma</code>.
+     * @param mu the mean of the distribution.
+     * @param sigma the standard deviation of the distribution.
+     * @return the random Normal value.
+     */
     public double nextGaussian(double mu, double sigma) {
         if (sigma <= 0) {
             throw new IllegalArgumentException("Gaussian std dev must be > 0");
@@ -300,6 +344,8 @@ public class RandomDataImpl implements RandomData {
      * <strong>Algorithm Description</strong>:  Uses the 
      * <a href="http://www.jesus.ox.ac.uk/~clifford/a5/chap1/node5.html"> 
      * Inversion Method</a> to generate exponential from uniform deviates.
+     * @param mean the mean of the distribution.
+     * @return the random Exponential value.
      */
     public double nextExponential(double mean)  {
         if (mean < 0.0)  {
@@ -320,6 +366,9 @@ public class RandomDataImpl implements RandomData {
      * random double if Random.nextDouble() returns 0). 
      * This is necessary to provide a symmetric output interval 
      * (both endpoints excluded).
+     * @param lower the lower bound.
+     * @param upper the upper bound.
+     * @return the random value.
      */
     public double nextUniform(double lower, double upper) {
         if (lower >= upper) {
@@ -327,11 +376,14 @@ public class RandomDataImpl implements RandomData {
             ("lower bound must be <= upper bound");
         }
         Random rand = getRan();
-        double result = lower + rand.nextDouble() * (upper - lower);
-        while (result == lower) {
-              result = lower + rand.nextDouble() * (upper - lower);
+        
+        // insure nextDouble() isn't 0.0
+        double u = rand.nextDouble();
+        while(u <= 0.0){
+            u = rand.nextDouble();
         }
-        return result;   
+        
+        return lower + u * (upper - lower);
     }
     
     /** 
@@ -442,7 +494,9 @@ public class RandomDataImpl implements RandomData {
      * Uses a 2-cycle permutation shuffle, as described
      * <a href=http://www.maths.abdn.ac.uk/~igc/tch/mx4002/notes/node83.html>
      * here</a>
-     *  
+     * @param n the population size.
+     * @param k the number to choose.
+     * @return the random permutation.
      */
     public int[] nextPermutation(int n, int k) {
         if (k > n) {
@@ -472,6 +526,9 @@ public class RandomDataImpl implements RandomData {
      * This technique is described, and proven to generate random samples, 
      * <a href="http://www.maths.abdn.ac.uk/~igc/tch/mx4002/notes/node83.html">
      * here</a>
+     * @param c Collection to sample from.
+     * @param k sample size.
+     * @return the random sample.
      */ 
     public Object[] nextSample(Collection c, int k) {
         int len = c.size();

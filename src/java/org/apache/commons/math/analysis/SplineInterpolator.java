@@ -56,10 +56,11 @@ package org.apache.commons.math.analysis;
 /**
  * Computes a natural spline interpolation for the data set.
  *
- * @version $Revision: 1.3 $ $Date: 2003/07/30 21:58:10 $
+ * @version $Revision: 1.4 $ $Date: 2003/09/07 03:12:56 $
  *
  */
 public class SplineInterpolator implements UnivariateRealInterpolator {
+    /** the natural spline coefficients. */
     private double[][] c = null;
 
     /**
@@ -67,8 +68,6 @@ public class SplineInterpolator implements UnivariateRealInterpolator {
      * @param xval the arguments for the interpolation points
      * @param yval the values for the interpolation points
      * @return a function which interpolates the data set
-     * @throws MathException if arguments violate assumptions made by the
-     *         interpolationg algorithm
      */
     public UnivariateRealFunction interpolate(double[] xval, double[] yval) {
         if (xval.length != yval.length) {

@@ -89,7 +89,7 @@ import org.apache.commons.math.stat.UnivariateImpl;
  *    entry per line.</li>
  * </ol></p>
  *
- * @version $Revision: 1.3 $ $Date: 2003/07/09 20:02:59 $
+ * @version $Revision: 1.4 $ $Date: 2003/09/07 03:12:56 $
  */
 public class EmpiricalDistributionImpl implements Serializable,EmpiricalDistribution {
 
@@ -217,7 +217,11 @@ public class EmpiricalDistributionImpl implements Serializable,EmpiricalDistribu
          loaded = true;
     }
     
-    /** Generates a random value from this distribution */
+    /**
+     * Generates a random value from this distribution
+     * @return the random value.
+     * @throws IllegalStateException if the distribution has not been loaded
+     */
     public double getNextValue() throws IllegalStateException {    
         
         if (!loaded) {

@@ -88,7 +88,7 @@ import java.io.Serializable;
  * internal storage array is swapped.
  * </p>
  * 
- * @version $Revision: 1.3 $ $Date: 2003/07/09 20:04:12 $
+ * @version $Revision: 1.4 $ $Date: 2003/09/07 03:12:56 $
  */
 public class ContractableDoubleArray
     extends ExpandableDoubleArray
@@ -292,27 +292,27 @@ public class ContractableDoubleArray
 
         if (contractionCritera < expansionFactor) {
             String msg =
-                "Contraction criteria can never be smaller than "
-                    + "the expansion factor.  This would lead to a never "
-                    + "ending loop of expansion and contraction as a newly "
-                    + "expanded internal storage array would immediately "
-                    + "satisfy the criteria for contraction";
+                "Contraction criteria can never be smaller than " +
+                "the expansion factor.  This would lead to a never " +
+                "ending loop of expansion and contraction as a newly " +
+                "expanded internal storage array would immediately " +
+                "satisfy the criteria for contraction";
             throw new IllegalArgumentException(msg);
         }
 
         if (contractionCriteria <= 1.0) {
             String msg =
-                "The contraction criteria must be a number larger "
-                    + "than one.  If the contractionCriteria is less than or "
-                    + "equal to one an endless loop of contraction and "
-                    + "expansion would ensue as an internalArray.length "
-                    + "== numElements would satisfy the contraction criteria";
+                "The contraction criteria must be a number larger " +
+                "than one.  If the contractionCriteria is less than or " +
+                "equal to one an endless loop of contraction and " +
+                "expansion would ensue as an internalArray.length " +
+                "== numElements would satisfy the contraction criteria";
             throw new IllegalArgumentException(msg);
         }
 
         if (expansionFactor < 1.0) {
             String msg =
-                "The expansion factor must be a number greater " + "than 1.0";
+                "The expansion factor must be a number greater than 1.0";
             throw new IllegalArgumentException(msg);
         }
     }

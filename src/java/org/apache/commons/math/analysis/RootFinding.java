@@ -58,12 +58,9 @@ import org.apache.commons.math.MathException;
 /**
  * Utility class comprised of root finding techniques.
  *
- * @version $Revision: 1.3 $ $Date: 2003/07/09 20:02:43 $
+ * @version $Revision: 1.4 $ $Date: 2003/09/07 03:12:56 $
  */
 public class RootFinding {
-    /** Maximum allowed numerical error. */
-    private static final double EPSILON = 10e-9;
-
     /**
      * Default constructor. Prohibit construction.
      */
