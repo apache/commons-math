@@ -16,77 +16,74 @@
 
 package org.apache.commons.math.distribution;
 
-import junit.framework.TestCase;
-
 /**
- * @version $Revision: 1.14 $ $Date: 2004/05/23 21:34:19 $
+ * Test cases for ChiSquareDistribution.
+ * Extends ContinuousDistributionAbstractTest.  See class javadoc for
+ * ContinuousDistributionAbstractTest for details.
+ * 
+ * @version $Revision: 1.15 $ $Date: 2004/05/29 22:52:44 $
  */
-public class ChiSquareDistributionTest extends TestCase {
-    private ChiSquaredDistribution chiSquare;
+public class ChiSquareDistributionTest extends ContinuousDistributionAbstractTest {
     
-	/**
-	 * Constructor for ChiSquareDistributionTest.
-	 * @param name
-	 */
-	public ChiSquareDistributionTest(String name) {
-		super(name);
-	}
+    /**
+     * Constructor for ChiSquareDistributionTest.
+     * @param name
+     */
+    public ChiSquareDistributionTest(String name) {
+        super(name);
+    }
+    
+    //-------------- Implementations for abstract methods -----------------------
+    
+    /** Creates the default continuous distribution instance to use in tests. */
+    public ContinuousDistribution makeDistribution() {
+        return DistributionFactory.newInstance().createChiSquareDistribution(5.0);
+    }   
+    
+    /** Creates the default cumulative probability distribution test input values */
+    public double[] makeCumulativeTestPoints() {
+        // quantiles computed using R version 1.8.1 (linux version)
+        return new double[] {0.210216d, 0.5542981d, 0.8312116d, 1.145476d, 1.610308d, 
+                20.51501d, 15.08627d, 12.83250d, 11.07050d, 9.236357d};
+    }
+    
+    /** Creates the default cumulative probability density test expected values */
+    public double[] makeCumulativeTestValues() {
+        return new double[] {0.001d, 0.01d, 0.025d, 0.05d, 0.1d, 0.999d,
+                0.990d, 0.975d, 0.950d, 0.900d}; 
+        }
+    
+ // --------------------- Override tolerance  --------------
+    protected void setup() throws Exception {
+        super.setUp();
+        setTolerance(1E-6);
+    }
 
-	/*
-	 * @see TestCase#setUp()
-	 */
-	protected void setUp() throws Exception {
-		super.setUp();
-        chiSquare = DistributionFactory.newInstance().createChiSquareDistribution(5.0);
-	}
-
-	/*
-	 * @see TestCase#tearDown()
-	 */
-	protected void tearDown() throws Exception {
-        chiSquare = null;
-		super.tearDown();
-	}
-
-    public void testLowerTailProbability() throws Exception {
-        testProbability( .210, .001);
-        testProbability( .554, .010);
-        testProbability( .831, .025);
-        testProbability(1.145, .050);
-        testProbability(1.610, .100);
-    }
-
-    public void testUpperTailProbability() throws Exception {
-        testProbability(20.515, .999);
-        testProbability(15.086, .990);
-        testProbability(12.833, .975);
-        testProbability(11.070, .950);
-        testProbability( 9.236, .900);
+ //---------------------------- Additional test cases -------------------------
+    
+    public void testSmallDf() throws Exception {
+        setDistribution(DistributionFactory.newInstance().createChiSquareDistribution(0.1d));
+        setTolerance(1E-4);
+        // quantiles computed using R version 1.8.1 (linux version)
+        setCumulativeTestPoints(new double[] {1.168926E-60, 1.168926E-40, 1.063132E-32, 
+                1.144775E-26, 1.168926E-20, 5.472917, 2.175255, 1.13438, 
+                0.5318646, 0.1526342});
+        setInverseCumulativeTestValues(getCumulativeTestPoints());
+        verifyCumulativeProbabilities();
+        verifyInverseCumulativeProbabilities();
     }
     
-    public void testLowerTailValues() throws Exception {
-        testValue(.001,  .210);
-        testValue(.010,  .554);
-        testValue(.025,  .831);
-        testValue(.050, 1.145);
-        testValue(.100, 1.610);
-    }
+    public void testDfAccessors() {
+        ChiSquaredDistribution distribution = (ChiSquaredDistribution) getDistribution();
+        assertEquals(5d, distribution.getDegreesOfFreedom(), Double.MIN_VALUE);
+        distribution.setDegreesOfFreedom(4d);
+        assertEquals(4d, distribution.getDegreesOfFreedom(), Double.MIN_VALUE);
+        try {
+            distribution.setDegreesOfFreedom(0d);
+            fail("Expecting IllegalArgumentException for df = 0");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+    } 
     
-    public void testUpperTailValues() throws Exception {
-        testValue(.999, 20.515);
-        testValue(.990, 15.086);
-        testValue(.975, 12.833);
-        testValue(.950, 11.070);
-        testValue(.900,  9.236);
-    }
-    
-    private void testProbability(double x, double expected) throws Exception {
-        double actual = chiSquare.cumulativeProbability(x);
-        assertEquals("probability for " + x, expected, actual, 10e-4);
-    }
-    
-    private void testValue(double p, double expected) throws Exception {
-        double actual = chiSquare.inverseCumulativeProbability(p);
-        assertEquals("value for " + p, expected, actual, 10e-4);
-    }
 }
