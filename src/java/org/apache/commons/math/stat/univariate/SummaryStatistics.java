@@ -1,12 +1,12 @@
 /*
  * Copyright 2004 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,8 +22,8 @@ import org.apache.commons.math.util.MathUtils;
 
 /**
  * Abstract factory class for univariate statistical summaries.
- * 
- * @version $Revision: 1.8 $ $Date: 2004/06/17 23:14:55 $
+ *
+ * @version $Revision: 1.9 $ $Date: 2004/06/23 16:26:16 $
  */
 public abstract class SummaryStatistics implements StatisticalSummary, Serializable {
 
@@ -162,7 +162,7 @@ public abstract class SummaryStatistics implements StatisticalSummary, Serializa
     /**
      * Returns true iff <code>object</code> is a <code>SummaryStatistics</code>
      * instance and all statistics have the same values as this.
-     *
+     * @param object the object to test equality against.
      * @return true if object equals this
      */
     public boolean equals(Object object) {

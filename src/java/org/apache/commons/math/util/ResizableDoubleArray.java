@@ -1,12 +1,12 @@
 /*
  * Copyright 2003-2004 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -66,7 +66,7 @@ import java.io.Serializable;
  * is violated.
  * </p>
  * <p>
- * @version $Revision: 1.1 $ $Date: 2004/06/14 21:41:33 $
+ * @version $Revision: 1.2 $ $Date: 2004/06/23 16:26:16 $
  */
 public class ResizableDoubleArray implements DoubleArray, Serializable {
     
@@ -469,10 +469,11 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     }
     
      /**
-     * Returns a double[] array containing the elements of this 
+     * Returns a double array containing the elements of this 
      * <code>ResizableArray</code>.  This method returns a copy, not a
      * reference to the underlying array, so that changes made to the returned
      *  array have no effect on this <code>ResizableArray.</code>
+     * @return the double array.
      */
     public double[] getElements() {
         double[] elementArray = new double[numElements];
@@ -589,7 +590,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * <li><code>expansionFactor > 1</code></li>
      * <li><code>contractionFactor >= expansionFactor</code></li>
      * </ul>
-     *
+     * @param expansionFactor the new expansion factor value.
      * @throws IllegalArgumentException if expansionFactor is <= 1 or greater
      * than contractionFactor
      */

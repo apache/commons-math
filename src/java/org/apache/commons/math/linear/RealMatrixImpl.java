@@ -38,7 +38,7 @@ import java.io.Serializable;
  * explicitly invoke <code>LUDecompose()</code> to recompute the decomposition
  * before using any of the methods above.
  *
- * @version $Revision: 1.24 $ $Date: 2004/06/07 03:26:31 $
+ * @version $Revision: 1.25 $ $Date: 2004/06/23 16:26:17 $
  */
 public class RealMatrixImpl implements RealMatrix, Serializable {
 
@@ -415,7 +415,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
         if (isSingular()) {   // note: this has side effect of attempting LU decomp if lu == null
             return 0d;
         } else {
-            double det = (double) parity;
+            double det = parity;
             for (int i = 0; i < this.getRowDimension(); i++) {
                 det *= lu[i][i];
             }

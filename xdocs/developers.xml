@@ -16,7 +16,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="xdoc.xsl"?>
-<!-- $Revision: 1.10 $ $Date: 2004/02/28 17:47:37 $ -->
+<!-- $Revision: 1.11 $ $Date: 2004/06/23 16:26:17 $ -->
 <document>
  <properties>
   <title>Developers Guide</title>
@@ -104,9 +104,9 @@
     <p>
      Commons-math follows <a href="http://java.sun.com/docs/codeconv/">Code
      Conventions for the Java Programming Language</a>. As part of the maven
-     build process, style checking is performed using the checkStyle plugin,
-     using the properties specified in <code>checkStyle.properties</code>.
-     Committed code <i>should</i> generate no checkStyle errors.
+     build process, style checking is performed using the Checkstyle plugin,
+     using the properties specified in <code>checkstyle.xml</code>.
+     Committed code <i>should</i> generate no Checkstyle errors.
     </p>
    </subsection>
    <subsection name='Documentation'>
@@ -146,9 +146,9 @@
       All new source file submissions <i>must</i> include the Apache Software
       License in a comment that begins the file </li>
      <li>
-      All contributions must comply with the terms of the
-      <a href="http://www.apache.org/foundation/ASF_Contributor_License_1_form.pdf">
-      Apache Contributor License Agreement (CLA)</a></li>
+      All contributions must comply with the terms of the Apache 
+      <a href="http://www.apache.org/licenses/cla.pdf">Contributor License
+      Agreement (CLA)</a></li>
      <li>
        Patches <i>must</i> be accompanied by a clear reference to a "source"
        - if code has been "ported" from another language, clearly state the

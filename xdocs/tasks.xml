@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="xdoc.xsl"?>
-<!-- $Revision: 1.22 $ $Date: 2004/05/17 05:59:14 $ -->
+<!-- $Revision: 1.23 $ $Date: 2004/06/23 16:26:17 $ -->
 <document>
   <properties>
     <title>Tasks: Done And To Do</title>
@@ -35,7 +35,7 @@
         test cases as possible for your code.</p>
         <dl>
           <dt>Develop user's guide following the package structure.</dt>
-          <dd>Incomplete Sections:   6.2 Double Array Utilities, 6.4 Binomial Coefficients, 7.4 Complex Formatting</dd>
+          <dd>Incomplete Sections:   6.2 Double Array Utilities, 6.4 Binomial Coefficients</dd>
           <dt>Performance and accuracy testing.</dt>
           <dd>If anyone is interested in helping out here, what we could really use is a wider selection of test cases for the core
            numerical functions and validation against either other packages (e.g. R for the statistical stuff), verified datasets,
@@ -49,7 +49,7 @@
             <ul>
               <li>Javadoc generation is still throwing warnings.  Bring the Javadoc into compliance (i.e. reach zero warnings).</li>
               <li>Verify that the code matches the documentation and identify obvious inefficiencies or numerical problems.  All feedback/suggestions for improvement/patches are welcome.</li>
-              <li>CheckStyle with modified properties still shows many errors.  Try to clean these up.</li>
+              <li>Checkstyle with modified properties still shows many errors.  Try to clean these up.</li>
             </ul>
           </dd>
           <dt>Javadoc</dt>
@@ -64,7 +64,7 @@
           <dd>
             <ul>
               <li>Rework unit tests for root finding</li>
-              <li>CheckStyle with modified properties still shows many errors.  Try to clean these up.</li>
+              <li>Checkstyle with modified properties still shows many errors.  Try to clean these up.</li>
               <li>Finalize API (maybe move to stateless implementation)</li>
             </ul>
           </dd>

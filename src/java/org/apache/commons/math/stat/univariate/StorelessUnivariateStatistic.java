@@ -1,12 +1,12 @@
 /*
  * Copyright 2003-2004 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,8 +21,8 @@ package org.apache.commons.math.stat.univariate;
  * <p>
  * This interface is designed to be used for calculating statistics that can be computed in 
  * one pass through the data without storing the full array of sample values.
- * 
- * @version $Revision: 1.15 $ $Date: 2004/03/21 21:57:19 $
+ *
+ * @version $Revision: 1.16 $ $Date: 2004/06/23 16:26:16 $
  */
 public interface StorelessUnivariateStatistic extends UnivariateStatistic {
 

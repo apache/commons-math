@@ -1,12 +1,12 @@
 /*
  * Copyright 2003-2004 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -42,7 +42,7 @@ import org.apache.commons.math.stat.univariate.AbstractUnivariateStatistic;
  * </li>
  * </ol>
  * <p>
- * 
+ *
  * To compute percentiles, the data must be (totally) ordered.  Input arrays
  * are copied and then sorted using  {@link java.util.Arrays#sort(double[])}.
  * The ordering used by <code>Arrays.sort(double[]</code> is the one determined
@@ -55,8 +55,8 @@ import org.apache.commons.math.stat.univariate.AbstractUnivariateStatistic;
  * Since percentile estimation usually involves interpolation between array 
  * elements, arrays containing  <code>NaN</code> or infinite values will often
  * result in <code>NaN<code> or infinite values returned.
- * 
- * @version $Revision: 1.20 $ $Date: 2004/06/19 21:14:54 $
+ *
+ * @version $Revision: 1.21 $ $Date: 2004/06/23 16:26:17 $
  */
 public class Percentile extends AbstractUnivariateStatistic implements Serializable {
 

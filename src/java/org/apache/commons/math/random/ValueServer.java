@@ -40,7 +40,7 @@ import java.net.MalformedURLException;
  *                       standard deviation = <code>sigma</code></li>
  * <li> CONSTANT_MODE -- returns <code>mu</code> every time.</li></ul>
  *
- * @version $Revision: 1.13 $ $Date: 2004/06/14 23:15:15 $
+ * @version $Revision: 1.14 $ $Date: 2004/06/23 16:26:17 $
  *
  */
 public class ValueServer implements Serializable {
@@ -242,7 +242,9 @@ public class ValueServer implements Serializable {
             try {
                 filePointer.close();
                 filePointer = null;
-            } catch (IOException ex) {}
+            } catch (IOException ex) {
+                // ignore
+            }
         }
         filePointer = new BufferedReader(new InputStreamReader(valuesFileURL.openStream()));
     }

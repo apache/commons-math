@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.7 $ $Date: 2004/02/29 18:50:10 $ -->
+<!-- $Revision: 1.8 $ $Date: 2004/06/23 16:26:16 $ -->
 <document url="special.html">
   <properties>
     <title>The Commons Math User Guide - Special Functions</title>
@@ -32,7 +32,16 @@
           methods, these special functions were included as part of the Commons-Math public API.
         </p>
       </subsection>
-      <subsection name="5.2 Gamma functions" href="gamma">
+      <subsection name="5.2 Erf functions" href="erf">
+        <p>
+          <code>org.apache.commons.math.special.Erf</code> contains several useful functions involving the Error Function, Erf.
+          <table>
+            <tr><th>Function</th><th>Method</th><th>Reference</th></tr>
+            <tr><td>Error Function</td><td>erf</td><td>See <a href="http://mathworld.wolfram.com/Erf.html">Erf</a> from MathWorld</td></tr>
+          </table>
+        </p>
+      </subsection>
+      <subsection name="5.3 Gamma functions" href="gamma">
         <p>
           <code>org.apache.commons.math.special.Gamma</code> contains several useful functions involving the Gamma Function.
           <table>
@@ -42,7 +51,7 @@
           </table>
         </p>
       </subsection>
-      <subsection name="5.3 Beta funtions" href="beta">
+      <subsection name="5.4 Beta funtions" href="beta">
         <p>
           <code>org.apache.commons.math.special.Beta</code> contains several useful functions involving the Beta Function.
           <table>

@@ -52,7 +52,7 @@ import org.apache.commons.math.stat.univariate.SummaryStatistics;
  *    entry per line.</li>
  * </ul></p>
  *
- * @version $Revision: 1.26 $ $Date: 2004/06/16 03:16:26 $
+ * @version $Revision: 1.27 $ $Date: 2004/06/23 16:26:17 $
  */
 public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistribution {
 
@@ -132,7 +132,13 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
             fillBinStats(in);
             loaded = true;
         } finally {
-           if (in != null) try {in.close();} catch (Exception ex) {};
+           if (in != null) {
+               try {
+                   in.close();
+               } catch (Exception ex) {
+                   // ignore
+               }
+           }
         }
     }
 
@@ -155,11 +161,13 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
             fillBinStats(in);
             loaded = true;
         } finally {
-            if (in != null)
+            if (in != null) {
                 try {
                     in.close();
                 } catch (Exception ex) {
-                };
+                    // ignore
+                }
+            }
         }
     }
 

@@ -26,7 +26,7 @@ import org.apache.commons.math.util.DefaultTransformer;
 import org.apache.commons.math.util.NumberTransformer;
 
 /**
- * @version $Revision: 1.4 $ $Date: 2004/06/01 21:28:06 $
+ * @version $Revision: 1.5 $ $Date: 2004/06/23 16:26:18 $
  */
 public class ListUnivariateImpl extends DescriptiveStatistics implements Serializable {
 
@@ -196,7 +196,7 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
     }
     
     /**
-     * @see org.apache.commons.math.stat.Univariate#setWindowSize(int)
+     * @see org.apache.commons.math.stat.univariate.DescriptiveStatistics#setWindowSize(int)
      */
     public synchronized void setWindowSize(int windowSize) {
     	this.windowSize = windowSize;
@@ -207,7 +207,10 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
     		list.remove(0);
     	}
     }
-    	
+
+    /**
+     * @see org.apache.commons.math.stat.univariate.DescriptiveStatistics#getWindowSize
+     */
     public int getWindowSize() {
     	return windowSize;
     }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2004 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,13 +24,16 @@ import org.apache.commons.math.stat.univariate.StatisticalSummary;
 /**
  * Implements t-test statistics defined in the {@link TTest} interface.
  *
- * @version $Revision: 1.7 $ $Date: 2004/06/14 23:26:53 $
+ * @version $Revision: 1.8 $ $Date: 2004/06/23 16:26:14 $
  */
 public class TTestImpl implements TTest  {
 
     /** Cached DistributionFactory used to create TDistribution instances */
     private DistributionFactory distributionFactory = null;
     
+    /**
+     * Default constructor.
+     */
     public TTestImpl() {
         super();
     }
@@ -232,8 +235,6 @@ public class TTestImpl implements TTest  {
      * @param equalVariances are the sample variances assumed equal?
      * @return t statistic
      * @throws IllegalArgumentException if the precondition is not met
-     * @throws MathException if the statistic can not be computed do to a
-     *         convergence or other numerical error.
      */
     public double t(double[] sample1, double[] sample2, boolean equalVariances)
     throws IllegalArgumentException {
@@ -698,6 +699,7 @@ public class TTestImpl implements TTest  {
 
     /**
      * Gets a DistributionFactory to use in creating TDistribution instances.
+     * @return a distribution factory.
      */
     protected DistributionFactory getDistributionFactory() {
         if (distributionFactory == null) {
@@ -745,6 +747,7 @@ public class TTestImpl implements TTest  {
      * @param v2 second sample variance
      * @param n1 first sample n
      * @param n2 second sample n
+     * @param equalVariances  are variances assumed equal?
      * @return t test statistic
      */
     protected double t(double m1, double m2,  double v1, double v2, double n1,

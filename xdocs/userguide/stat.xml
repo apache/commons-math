@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.18 $ $Date: 2004/06/05 19:28:43 $ -->
+<!-- $Revision: 1.19 $ $Date: 2004/06/23 16:26:16 $ -->
 <document url="stat.html">
   <properties>
     <title>The Commons Math User Guide - Statistics</title>
@@ -85,9 +85,9 @@
           compute the statistic). There are several ways to instantiate and use statistics.  
           Statistics can be instantiated and used directly,  but it is generally more convenient
           (and efficient) to access them using the provided aggregates, 
-          <a href="../apidocs/org/apache/commons/math/stat/DescriptiveStatistics.html">
+          <a href="../apidocs/org/apache/commons/math/stat/univariate/DescriptiveStatistics.html">
            DescriptiveStatistics</a> and 
-           <a href="../apidocs/org/apache/commons/math/stat/SummaryStatistics.html">
+           <a href="../apidocs/org/apache/commons/math/stat/univariate/SummaryStatistics.html">
            SummaryStatistics.</a>  
         </p>
         <p>
@@ -105,11 +105,11 @@
           <table>
             <tr><th>Aggregate</th><th>Statistics Included</th><th>Values stored?</th>
             <th>"Rolling" capability?</th></tr><tr><td>
-            <a href="../apidocs/org/apache/commons/math/stat/DescriptiveStatistics.html">
+            <a href="../apidocs/org/apache/commons/math/stat/univariate/DescriptiveStatistics.html">
             DescriptiveStatistics</a></td><td>min, max, mean, geometric mean, n, 
             sum, sum of squares, standard deviation, variance, percentiles, skewness, 
             kurtosis, median</td><td>Yes</td><td>Yes</td></tr><tr><td>
-            <a href="../apidocs/org/apache/commons/math/stat/SummaryStatistics.html">
+            <a href="../apidocs/org/apache/commons/math/stat/univariate/SummaryStatistics.html">
             SummaryStatistics</a></td><td>min, max, mean, geometric mean, n, 
             sum, sum of squares, standard deviation, variance</td><td>No</td><td>No</td></tr>
           </table>

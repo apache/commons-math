@@ -1,12 +1,12 @@
 /*
  * Copyright 2003-2004 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,7 +23,7 @@ import org.apache.commons.math.MathException;
 /**
  * Provides a generic means to evaluate continued fractions.  Subclasses simply
  * provided the a and b coefficients to evaluate the continued fraction.
- * 
+ *
  * <p>
  * References:
  * <ul>
@@ -31,8 +31,8 @@ import org.apache.commons.math.MathException;
  * Continued Fraction</a></li>
  * </ul>
  * </p>
- * 
- * @version $Revision: 1.13 $ $Date: 2004/06/02 00:04:11 $
+ *
+ * @version $Revision: 1.14 $ $Date: 2004/06/23 16:26:16 $
  */
 public abstract class ContinuedFraction implements Serializable {
     
@@ -105,8 +105,8 @@ public abstract class ContinuedFraction implements Serializable {
      * The implementation of this method is based on:
      * <ul>
      * <li>O. E-gecio-glu, C . K. Koc, J. Rifa i Coma,
-     * <a href="http://citeseer.nj.nec.com/egecioglu91fast.html">
-     * Fast Computation of Continued Fractions</a>, Computers Math. Applic.,
+     * <a href="http://citeseer.ist.psu.edu/egecioglu91fast.html">
+     * On Fast Computation of Continued Fractions</a>, Computers Math. Applic.,
      * 21(2--3), 1991, 167--169.</li>
      * </ul>
      * 

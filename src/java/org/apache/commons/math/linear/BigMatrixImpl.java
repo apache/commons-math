@@ -1,12 +1,12 @@
 /*
  * Copyright 2004 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,14 +39,17 @@ import java.math.BigDecimal;
  * explicitly invoke <code>LUDecompose()</code> to recompute the decomposition
  * before using any of the methods above.
  *
- * @version $Revision: 1.1 $ $Date: 2004/06/06 04:20:45 $
+ * @version $Revision: 1.2 $ $Date: 2004/06/23 16:26:17 $
  */
 public class BigMatrixImpl implements BigMatrix, Serializable {
     
     /** Serialization id */
     static final long serialVersionUID = -1011428905656140431L;
     
+    /** The number zero. */
     private static final BigDecimal ZERO = new BigDecimal(0);
+    
+    /** The number one. */
     private static final BigDecimal ONE = new BigDecimal(1);
     
     /** Entries of the matrix */
@@ -275,6 +278,14 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         return copyOut();
     }
     
+    /**
+     * Returns matrix entries as a two-dimensional array.
+     * <p>
+     * Makes a fresh copy of the underlying data converted to
+     * <code>double</code> values.
+     *
+     * @return    2-dimensional array of entries
+     */
     public double[][] getDataAsDoubleArray() {
         int nRows = getRowDimension();
         int nCols = getColumnDimension();
@@ -298,6 +309,12 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         lu = null;
     }
     
+    /**
+     * Overwrites the underlying data for the matrix
+     * with a fresh copy of <code>inData</code>.
+     *
+     * @param  inData 2-dimensional array of entries
+     */
     public void setData(double[][] inData) {
         copyIn(inData);
         lu = null;
@@ -329,9 +346,9 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     
     /***
      * Gets the rounding mode for division operations
-     * The default is {@link BigDecimal.ROUND_HALF_UP}
+     * The default is {@link BigDecimal#ROUND_HALF_UP}
      * @see BigDecimal
-     * @return
+     * @return the rounding mode.
      */ 
     public int getRoundingMode() {
         return roundingMode;
@@ -350,7 +367,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      * Sets the scale for division operations.
      * The default is 64
      * @see BigDecimal
-     * @return
+     * @return the scale
      */
     public int getScale() {
         return scale;
@@ -621,6 +638,8 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      * trace</a> of the matrix (the sum of the elements on the main diagonal).
      *
      * @return trace
+     * 
+     * @throws IllegalArgumentException if this matrix is not square.
      */
     public BigDecimal getTrace() throws IllegalArgumentException {
         if (!isSquare()) {

@@ -1,12 +1,12 @@
 /*
  * Copyright 2003-2004 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,17 +31,17 @@ import org.apache.commons.discovery.tools.DiscoverClass;
  * <p>
  * Common usage:<pre>
  * SolverFactory factory = UnivariateRealSolverFactory.newInstance();
- * 
+ *
  * // create a Brent solver to use with a UnivariateRealFunction f
  * BrentSolver solver = factory.newBrentSolver(f);
  * </pre>
- * 
+ *
  * <a href="http://jakarta.apache.org/commons/discovery/">Jakarta Commons Discovery</a>
  * is used to determine the concrete factory returned by 
  * <code>UnivariateRealSolverFactory.newInstance().</code>  The default is
  * {@link UnivariateRealSolverFactoryImpl}.
- * 
- * @version $Revision: 1.14 $ $Date: 2004/04/08 21:19:17 $
+ *
+ * @version $Revision: 1.15 $ $Date: 2004/06/23 16:26:14 $
  */
 public abstract class UnivariateRealSolverFactory {
     /**

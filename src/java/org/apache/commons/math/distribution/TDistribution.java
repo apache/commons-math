@@ -1,12 +1,12 @@
 /*
  * Copyright 2003-2004 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,10 +17,10 @@ package org.apache.commons.math.distribution;
 
 /**
  * Student's t-Distribution.
- * 
+ *
  * Instances of TDistribution objects should be created using
  * {@link DistributionFactory#createTDistribution(double)}
- * 
+ *
  * <p>
  * References:
  * <ul>
@@ -28,8 +28,8 @@ package org.apache.commons.math.distribution;
  * Student's t-Distribution</a></li>
  * </ul>
  * </p>
- * 
- * @version $Revision: 1.11 $ $Date: 2004/04/26 19:15:48 $
+ *
+ * @version $Revision: 1.12 $ $Date: 2004/06/23 16:26:15 $
  */
 public interface TDistribution extends ContinuousDistribution {
     /**

@@ -14,7 +14,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
   -->
-<!-- $Revision: 1.46 $ $Date: 2004/06/20 16:54:01 $ -->
+<!-- $Revision: 1.47 $ $Date: 2004/06/23 16:26:17 $ -->
 <project>
   <pomVersion>3</pomVersion>
   
@@ -168,7 +168,6 @@
     <report>maven-junit-report-plugin</report>
     <report>maven-jxr-plugin</report>
     <report>maven-license-plugin</report>
-    <report>maven-statcvs-plugin</report>
     <report>maven-tasklist-plugin</report>
     <report>maven-linkcheck-plugin</report>
   </reports>
