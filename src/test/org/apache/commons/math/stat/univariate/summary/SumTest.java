@@ -22,8 +22,8 @@ import org.apache.commons.math.stat.univariate.StorelessUnivariateStatisticAbstr
 import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 
 /**
- * Test cases for the {@link UnivariateStatistic} class.
- * @version $Revision: 1.11 $ $Date: 2004/06/17 21:37:05 $
+ * Test cases for the {@link Sum} class.
+ * @version $Revision: 1.12 $ $Date: 2004/06/29 14:51:20 $
  */
 public class SumTest extends StorelessUnivariateStatisticAbstractTest{
 
@@ -54,6 +54,19 @@ public class SumTest extends StorelessUnivariateStatisticAbstractTest{
      */
     public double expectedValue() {
         return this.sum;
+    }
+    
+    public void testSpecialValues() {
+        Sum sum = new Sum();
+        assertTrue(Double.isNaN(sum.getResult()));
+        sum.increment(1);
+        assertEquals(1, sum.getResult(), 0);
+        sum.increment(Double.POSITIVE_INFINITY);
+        assertEquals(Double.POSITIVE_INFINITY, sum.getResult(), 0);
+        sum.increment(Double.NEGATIVE_INFINITY);
+        assertTrue(Double.isNaN(sum.getResult()));
+        sum.increment(1);
+        assertTrue(Double.isNaN(sum.getResult())); 
     }
 
 }
