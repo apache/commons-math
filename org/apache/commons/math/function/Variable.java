@@ -20,10 +20,8 @@ package org.apache.commons.math.function;
 import java.io.Serializable;
 
 /**
- * @author Administrator
- *
- * To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Generation - Code and Comments
+
+
  */
 public class Variable implements Evaluation, Serializable {
 
