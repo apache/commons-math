@@ -15,7 +15,10 @@
  */
 
 package org.apache.commons.math.linear;
+
 import java.io.Serializable;
+import org.apache.commons.math.util.MathUtils;
+
 
 /**
  * Implementation for RealMatrix using a double[][] array to store entries
@@ -43,10 +46,10 @@ import java.io.Serializable;
  * is 0-based -- e.g., <code>getEntry(0, 0)</code>
  * returns the element in the first row, first column of the matrix.</li></ul>
  *
- * @version $Revision: 1.30 $ $Date: 2004/10/09 22:39:22 $
+ * @version $Revision: 1.31 $ $Date: 2004/10/10 05:23:16 $
  */
 public class RealMatrixImpl implements RealMatrix, Serializable {
-
+    
     /** Serializable version identifier */
     static final long serialVersionUID = 4237564493130426188L;
 
@@ -91,8 +94,27 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      * The input array is copied, not referenced.
      *
      * @param d data for new matrix
+     * @throws IllegalArgumentException if data is not rectangular (not all
+     *  rows have the same length) or data is empty
+     * @throws NullPointerException if data is null
      */
     public RealMatrixImpl(double[][] d) {
+        int nRows = d.length;
+        if (nRows == 0) {
+            throw new IllegalArgumentException(
+                    "Matrix must have at least one row."); 
+        }
+        int nCols = d[0].length;
+        if (nCols == 0) {
+            throw new IllegalArgumentException(
+            "Matrix must have at least one column."); 
+        }
+        for (int row = 1; row < nRows; row++) {
+            if (d[row].length != nCols) {
+                throw new IllegalArgumentException(
+                    "All input rows must have the same length.");
+            }
+        }
         this.copyIn(d);
         lu = null;
     }
@@ -841,6 +863,57 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
         res.append("}");
         return res.toString();
     } //toString
+    
+    /**
+     * Returns true iff <code>object</code> is a 
+     * <code>RealMatrixImpl</code> instance with the same dimensions as this
+     *  and all corresponding matrix entries are equal.
+     * 
+     * @param object the object to test equality against.
+     * @return true if object equals this
+     */
+    public boolean equals(Object object) {
+        if (object == this ) {
+            return true;
+        }
+        if (object instanceof RealMatrixImpl == false) {
+            return false;
+        }
+        RealMatrix m = (RealMatrix) object;
+        int nRows = getRowDimension();
+        int nCols = getColumnDimension();
+        if (m.getColumnDimension() != nCols || m.getRowDimension() != nRows) {
+            return false;
+        }
+        for (int row = 0; row < nRows; row++) {
+            for (int col = 0; col < nCols; col++) {
+                if (data[row][col] != m.getEntry(row, col)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * Computes a hashcode for the matrix.
+     * 
+     * @return hashcode for matrix
+     */
+    public int hashCode() {
+        int ret = 7;
+        int nRows = getRowDimension();
+        int nCols = getColumnDimension();
+        ret = ret * 31 + nRows;
+        ret = ret * 31 + nCols;
+        for (int row = 0; row < nRows; row++) {
+           for (int col = 0; col < nCols; col++) {
+               ret = ret * 31 + (11 * row + 17 * col) * 
+                   MathUtils.hash(data[row][col]);
+           }
+        }   
+        return ret;
+    }
 
     //------------------------ Protected methods
 
