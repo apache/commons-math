@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>Tasks: Done And To Do</title>
+    <author email="jstrachan@apache.org">James Strachan</author>
+  </properties>
+
+  <body>
+        <section name='Aim'>
+            <p>
+This page aims to be a handy reference not only of the work done but also of work pending.
+Users who want new features should submit patches to this page. Developers who want to lend
+a hand can grab tasks from this page. Everyone can see the progress which is being made.
+        </p>
+    </section>
+    
+    <section name="TODO list">
+      <p>
+        The following is a list of items still <code>TODO</code> for 
+        Math.  Contributions are welcome! 
+      </p>
+    
+    <subsection name="High priority"> 
+      <ul>
+        <li>
+            <strong>Fill Me In!</strong>
+            With A High Priority Task
+        </li>
+       </ul>
+    </subsection>
+    
+    <subsection name="Medium priority"> 
+      <ul>
+            <li>
+                <strong>Fill Me In</strong>
+                With A Medium Priority Task
+            </li>
+      </ul>
+    </subsection>
+    
+    <subsection name="Low priority"> 
+      <ul>
+        <li>
+                <strong>Fill Me In</strong>
+                With A Low Priority Task
+        </li>
+      </ul>
+    </subsection>
+</section>
+<section name='Completed'>
+    <subsection name='Since Conception'>
+        <ul>
+        </ul>
+    </subsection>
+</section>
+</body>
+</document>
+

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Math">
+
+  <title>Math</title>
+  <organizationLogo href="/images/jakarta-logo-blue.gif">Jakarta</organizationLogo>
+
+  <body>
+    <menu name="Math">
+      <item name="Overview"                href="/index.html"/>
+      <item name="Proposal"                href="/proposal.html"/>
+      <item name="Developers Guide"        href="/developers.html"/>
+      <item name="Tasks: Done And To Do"   href="/tasks.html"/>
+    </menu>
+    <menu name="User Guide">
+      <item name="Overview"                href="/userguide/overview.html"/>
+    </menu>
+  </body>
+</project>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>Developers Guide</title>
+    <author email="rdonkin@apache.org">Robert Burrell Donkin</author>
+  </properties>
+
+  <body>
+        <section name="Aims">
+            <p>
+Creating and maintaining a mathematical and statistical library that is accurate requires a greater
+degree of communication than might be the case for other components. It is important that developers
+follow guidelines laid down by the community to ensure that the code they create can be successfully
+maintained by others.
+      </p>
+    </section>
+        <section name='Guidelines'>
+Still under development...!
+    </section>
+</body>
+</document>
+
