@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.14 $ $Date: 2004/04/25 19:16:13 $ -->
+<!-- $Revision: 1.15 $ $Date: 2004/04/26 05:16:35 $ -->
 <document url="stat.html">
   <properties>
     <title>The Commons Math User Guide - Statistics</title>
@@ -243,7 +243,7 @@ System.out.println(f.getCumPct("z"));   // displays 1 -- last value
         <p>
          <a href="../apidocs/org/apache/commons/math/stat/multivariate/BivariateRegression.html">
           org.apache.commons.math.stat.multivariate.BivariateRegression</a>
-          provides ordinary least squares regression with one independent variable., estimating
+          provides ordinary least squares regression with one independent variable, estimating
           the linear model:
          </p>
          <p>
@@ -317,7 +317,7 @@ System.out.println(regression.getSlopeStdErr()); // displays slope standard erro
          <source>
 System.out.println(regression.predict(1.5d)      // displays predicted y value for x = 1.5
          </source>
-         More data points can be added and subsequent getXXX calls will incorporate
+         More data points can be added and subsequent getXxx calls will incorporate
          additional data in statistics.
          </dd>
          <dt>Estimate a model from a double[][] array of data points</dt>
@@ -336,7 +336,7 @@ System.out.println(regression.getSlope());       // displays slope of regression
 System.out.println(regression.getSlopeStdErr()); // displays slope standard error
          </source>
          More data points -- even another double[][] array -- can be added and subsequent 
-         getXXX calls will incorporate additional data in statistics.
+         getXxx calls will incorporate additional data in statistics.
          </dd>
          </dl>
         </p>
