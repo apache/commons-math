@@ -15,15 +15,14 @@
  */
 package org.apache.commons.math.distribution;
 
-import org.apache.commons.math.TestUtils;
-
-import junit.framework.TestCase;
-
 /**
- * @version $Revision: 1.14 $ $Date: 2004/05/23 21:34:19 $
+ * Test cases for ExponentialDistribution.
+ * Extends ContinuousDistributionAbstractTest.  See class javadoc for
+ * ContinuousDistributionAbstractTest for details.
+ * 
+ * @version $Revision: 1.15 $ $Date: 2004/06/06 16:39:06 $
  */
-public class ExponentialDistributionTest extends TestCase {
-    private ExponentialDistribution exp;
+public class ExponentialDistributionTest extends ContinuousDistributionAbstractTest {
 
     /**
      * Constructor for ChiSquareDistributionTest.
@@ -33,140 +32,56 @@ public class ExponentialDistributionTest extends TestCase {
         super(name);
     }
 
-    /*
-     * @see TestCase#setUp()
-     */
-    protected void setUp() throws Exception {
-        super.setUp();
-        exp =
-            DistributionFactory.newInstance().createExponentialDistribution(
-                5.0);
+    //-------------- Implementations for abstract methods -----------------------
+    
+    /** Creates the default continuous distribution instance to use in tests. */
+    public ContinuousDistribution makeDistribution() {
+        return DistributionFactory.newInstance().createExponentialDistribution(5.0);
+    }   
+    
+    /** Creates the default cumulative probability distribution test input values */
+    public double[] makeCumulativeTestPoints() {
+        // quantiles computed using R version 1.8.1 (linux version)
+        return new double[] {0.005002502d, 0.05025168d, 0.1265890d, 0.2564665d, 0.5268026d, 
+                34.53878d, 23.02585d, 18.44440d, 14.97866d, 11.51293d};
+    }
+    
+    /** Creates the default cumulative probability density test expected values */
+    public double[] makeCumulativeTestValues() {
+        return new double[] {0.001d, 0.01d, 0.025d, 0.05d, 0.1d, 0.999d,
+                0.990d, 0.975d, 0.950d, 0.900d}; 
+    }
+    
+    //------------ Additional tests -------------------------------------------
+ 
+    public void testCumulativeProbabilityExtremes() throws Exception {
+        setCumulativeTestPoints(new double[] {-2, 0});
+        setCumulativeTestValues(new double[] {0, 0});
+        verifyCumulativeProbabilities();
     }
 
-    /*
-     * @see TestCase#tearDown()
-     */
-    protected void tearDown() throws Exception {
-        exp = null;
-        super.tearDown();
-    }
-
-    public void testInverseCumulativeProbability001() throws Exception {
-        testValue(.005003, .001);
-    }
-
-    public void testInverseCumulativeProbability010() throws Exception {
-        testValue(0.050252, .010);
-    }
-
-    public void testInverseCumulativeProbability025() throws Exception {
-        testValue(0.126589, .025);
-    }
-
-    public void testInverseCumulativeProbability050() throws Exception {
-        testValue(0.256566, .050);
-    }
-
-    public void testInverseCumulativeProbability100() throws Exception {
-        testValue(0.526803, .100);
-    }
-
-    public void testInverseCumulativeProbability999() throws Exception {
-        testValue(34.5388, .999);
-    }
-
-    public void testInverseCumulativeProbability990() throws Exception {
-        testValue(23.0259, .990);
-    }
-
-    public void testInverseCumulativeProbability975() throws Exception {
-        testValue(18.4444, .975);
-    }
-
-    public void testInverseCumulativeProbability950() throws Exception {
-        testValue(14.9787, .950);
-    }
-
-    public void testInverseCumulativeProbability900() throws Exception {
-        testValue(11.5129, .900);
-    }
-
-    public void testCumulativeProbability001() throws Exception {
-        testProbability(0.005003, .001);
-    }
-
-    public void testCumulativeProbability010() throws Exception {
-        testProbability(0.050252, .010);
-    }
-
-    public void testCumulativeProbability025() throws Exception {
-        testProbability(0.126589, .025);
-    }
-
-    public void testCumulativeProbability050() throws Exception {
-        testProbability(0.256566, .050);
-    }
-
-    public void testCumulativeProbability100() throws Exception {
-        testProbability(0.526803, .100);
-    }
-
-    public void testCumulativeProbability999() throws Exception {
-        testProbability(34.5388, .999);
-    }
-
-    public void testCumulativeProbability990() throws Exception {
-        testProbability(23.0259, .990);
-    }
-
-    public void testCumulativeProbability975() throws Exception {
-        testProbability(18.4444, .975);
-    }
-
-    public void testCumulativeProbability950() throws Exception {
-        testProbability(14.9787, .950);
-    }
-
-    public void testCumulativeProbability900() throws Exception {
-        testProbability(11.5129, .900);
-    }
-
-    public void testCumulativeProbabilityNegative() throws Exception {
-        testProbability(-1.0, 0.0);
-    }
-
-    public void testCumulativeProbabilityZero() throws Exception {
-        testProbability(0.0, 0.0);
-    }
-
-    public void testInverseCumulativeProbabilityNegative() throws Exception {
-        testValue(Double.NaN, -1.0);
-    }
-
-    public void testInverseCumulativeProbabilityZero() throws Exception {
-        testValue(0.0, 0.0);
-    }
-
-    public void testInverseCumulativeProbabilityOne() throws Exception {
-        testValue(Double.POSITIVE_INFINITY, 1.0);
-    }
-
-    public void testInverseCumulativeProbabilityPositive() throws Exception {
-        testValue(Double.NaN, 2.0);
+    public void testInverseCumulativeProbabilityExtremes() throws Exception {
+         setInverseCumulativeTestPoints(new double[] {0, 1});
+         setInverseCumulativeTestValues(new double[] {0, Double.POSITIVE_INFINITY});
+         verifyInverseCumulativeProbabilities();
     }
 
     public void testCumulativeProbability2() throws Exception {
-        double actual = exp.cumulativeProbability(0.25, 0.75);
+        double actual = getDistribution().cumulativeProbability(0.25, 0.75);
         assertEquals(0.0905214, actual, 10e-4);
     }
-
-    private void testProbability(double x, double expected) throws Exception {
-        double actual = exp.cumulativeProbability(x);
-        TestUtils.assertEquals(expected, actual, 10e-4);
+    
+    public void testMeanAccessors() {
+        ExponentialDistribution distribution = (ExponentialDistribution) getDistribution();
+        assertEquals(5d, distribution.getMean(), Double.MIN_VALUE);
+        distribution.setMean(2d);
+        assertEquals(2d, distribution.getMean(), Double.MIN_VALUE);
+        try {
+            distribution.setMean(0);
+            fail("Expecting IllegalArgumentException for 0 mean");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
     }
-
-    private void testValue(double expected, double p) throws Exception {
-        double actual = exp.inverseCumulativeProbability(p);
-        TestUtils.assertEquals(expected, actual, 10e-4);
-    }
+   
 }
