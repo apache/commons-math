@@ -53,14 +53,48 @@
  */
 package org.apache.commons.math.stat;
 
+import org.apache.commons.math.stat.univariate.UnivariateStatistic;
+import org.apache.commons.math.stat.univariate.moment.Mean;
+import org.apache.commons.math.stat.univariate.moment.Variance;
+import org.apache.commons.math.stat.univariate.rank.Max;
+import org.apache.commons.math.stat.univariate.rank.Min;
+import org.apache.commons.math.stat.univariate.summary.Product;
+import org.apache.commons.math.stat.univariate.summary.Sum;
+import org.apache.commons.math.stat.univariate.summary.SumOfLogs;
+import org.apache.commons.math.stat.univariate.summary.SumOfSquares;
+
 /**
  * StatUtils provides easy static implementations of common double[] based
  * statistical methods. These return a single result value or in some cases, as
  * identified in the javadoc for each method, Double.NaN.
- * @version $Revision: 1.18 $ $Date: 2003/10/16 15:24:30 $
+ * @version $Revision: 1.19 $ $Date: 2003/10/16 15:59:40 $
  */
 public final class StatUtils {
 
+	/** sum */
+	private static UnivariateStatistic sum = new Sum();
+	
+	/** sumSq */
+	private static UnivariateStatistic sumSq = new SumOfSquares();
+	
+	/** prod */
+	private static UnivariateStatistic prod = new Product();
+	
+	/** sumLog */
+	private static UnivariateStatistic sumLog = new SumOfLogs();
+	
+	/** min */
+	private static UnivariateStatistic min = new Min();	
+	
+	/** max */
+	private static UnivariateStatistic max = new Max();	
+	
+	/** mean */
+	private static UnivariateStatistic mean = new Mean();	
+	
+	/** variance */
+	private static UnivariateStatistic variance = new Variance();	
+		
     /**
      * Private Constructor
      */
@@ -73,7 +107,7 @@ public final class StatUtils {
      * @return the sum of the values or Double.NaN if the array is empty
      */
     public static double sum(final double[] values) {
-        return sum(values, 0, values.length);
+		return sum.evaluate(values);
     }
 
     /**
@@ -87,12 +121,7 @@ public final class StatUtils {
         final double[] values,
         final int begin,
         final int length) {
-        testInput(values, begin, length);
-        double accum = 0.0;
-        for (int i = begin; i < begin + length; i++) {
-            accum += values[i];
-        }
-        return accum;
+        return sum.evaluate(values, begin, length);
     }
 
     /**
@@ -101,7 +130,7 @@ public final class StatUtils {
      * @return the sum of the squared values or Double.NaN if the array is empty
      */
     public static double sumSq(final double[] values) {
-        return sumSq(values, 0, values.length);
+		return sumSq.evaluate(values);
     }
 
     /**
@@ -115,12 +144,7 @@ public final class StatUtils {
         final double[] values,
         final int begin,
         final int length) {
-        testInput(values, begin, length);
-        double accum = 0.0;
-        for (int i = begin; i < begin + length; i++) {
-            accum += Math.pow(values[i], 2.0);
-        }
-        return accum;
+        return sumSq.evaluate(values, begin, length);
     }
 
     /**
@@ -129,7 +153,7 @@ public final class StatUtils {
      * @return the product values or Double.NaN if the array is empty
      */
     public static double product(final double[] values) {
-        return product(values, 0, values.length);
+        return prod.evaluate(values);
     }
 
     /**
@@ -143,12 +167,7 @@ public final class StatUtils {
         final double[] values,
         final int begin,
         final int length) {
-        testInput(values, begin, length);
-        double product = 1.0;
-        for (int i = begin; i < begin + length; i++) {
-            product *= values[i];
-        }
-        return product;
+        return prod.evaluate(values, begin, length);
     }
 
     /**
@@ -157,7 +176,7 @@ public final class StatUtils {
      * @return the sumLog value or Double.NaN if the array is empty
      */
     public static double sumLog(final double[] values) {
-        return sumLog(values, 0, values.length);
+		return sumLog.evaluate(values);
     }
 
     /**
@@ -171,12 +190,7 @@ public final class StatUtils {
         final double[] values,
         final int begin,
         final int length) {
-        testInput(values, begin, length);
-        double sumLog = 0.0;
-        for (int i = begin; i < begin + length; i++) {
-            sumLog += Math.log(values[i]);
-        }
-        return sumLog;
+		return sumLog.evaluate(values, begin, length);
     }
 
     /**
@@ -186,7 +200,7 @@ public final class StatUtils {
      * @return the mean of the values or Double.NaN if the array is empty
      */
     public static double mean(final double[] values) {
-        return sum(values) / (double) values.length;
+		return mean.evaluate(values);
     }
 
     /**
@@ -201,8 +215,7 @@ public final class StatUtils {
         final double[] values,
         final int begin,
         final int length) {
-        testInput(values, begin, length);
-        return sum(values, begin, length) / ((double) length);
+        return mean.evaluate(values, begin, length);
     }
 
     /**
@@ -219,7 +232,7 @@ public final class StatUtils {
      * or 0.0 for a single value set.
      */
     public static double variance(final double[] values) {
-        return variance(values, 0, values.length);
+		return variance.evaluate(values);
     }
 
     /**
@@ -241,24 +254,7 @@ public final class StatUtils {
         final double[] values,
         final int begin,
         final int length) {
-        testInput(values, begin, length);
-
-        double variance = Double.NaN;
-        if (values.length == 1) {
-            variance = 0;
-        } else if (values.length > 1) {
-            double mean = mean(values, begin, length);
-            double accum = 0.0;
-            double accum2 = 0.0;
-            for (int i = begin; i < begin + length; i++) {
-                accum += Math.pow((values[i] - mean), 2.0);
-                accum2 += (values[i] - mean);
-            }
-            variance =
-                (accum - (Math.pow(accum2, 2) / ((double) length))) /
-                (double) (length - 1);
-        }
-        return variance;
+        return variance.evaluate(values, begin, length);
     }
 
     /**
@@ -267,7 +263,7 @@ public final class StatUtils {
      * @return the maximum of the values or Double.NaN if the array is empty
      */
     public static double max(final double[] values) {
-        return max(values, 0, values.length);
+		return max.evaluate(values);
     }
 
     /**
@@ -281,18 +277,7 @@ public final class StatUtils {
         final double[] values,
         final int begin,
         final int length) {
-        testInput(values, begin, length);
-        double max = Double.NaN;
-        for (int i = begin; i < begin + length; i++) {
-            if (i == 0) {
-                max = values[i];
-            } else {
-                if (max < values[i]) {
-                    max = values[i];
-                }
-            }
-        }
-        return max;
+        return max.evaluate(values, begin, length);
     }
 
     /**
@@ -301,7 +286,7 @@ public final class StatUtils {
      * @return the minimum of the values or Double.NaN if the array is empty
      */
     public static double min(final double[] values) {
-        return min(values, 0, values.length);
+		return min.evaluate(values);
     }
 
     /**
@@ -315,45 +300,7 @@ public final class StatUtils {
         final double[] values,
         final int begin,
         final int length) {
-
-        testInput(values, begin, length);
-
-        double min = Double.NaN;
-        for (int i = begin; i < begin + length; i++) {
-            if (i == 0) {
-                min = values[i];
-            } else {
-                if (min > values[i]) {
-                    min = values[i];
-                }
-            }
-        }
-        return min;
+        return min.evaluate(values, begin, length);
     }
 
-    /**
-     * Private testInput method used by all methods to verify the content
-     * of the array and indicies are correct.
-     * @param values Is a double[] containing the values
-     * @param begin processing at this point in the array
-     * @param length processing at this point in the array
-     */
-    private static void testInput(
-        final double[] values,
-        final int begin,
-        final int length) {
-
-        if (length > values.length) {
-            throw new IllegalArgumentException("length > values.length");
-        }
-
-        if (begin + length > values.length) {
-            throw new IllegalArgumentException(
-               "begin + length > values.length");
-        }
-
-        if (values == null) {
-            throw new IllegalArgumentException("input value array is null");
-        }
-    }
 }
