@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,7 +57,7 @@ package org.apache.commons.math.distribution;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.14 $ $Date: 2003/11/15 16:01:39 $
+ * @version $Revision: 1.15 $ $Date: 2004/01/29 00:48:59 $
  */
 public class DistributionFactoryImplTest extends TestCase {
     /** */

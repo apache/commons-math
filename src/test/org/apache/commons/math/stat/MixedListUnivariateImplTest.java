@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,7 +64,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link Univariate} class.
  *
- * @version $Revision: 1.6 $ $Date: 2003/11/15 16:01:41 $
+ * @version $Revision: 1.7 $ $Date: 2004/01/29 00:49:00 $
  */
 
 public final class MixedListUnivariateImplTest extends TestCase {

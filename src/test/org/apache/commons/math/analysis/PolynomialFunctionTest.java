@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,7 +62,7 @@ import junit.framework.TestCase;
 /**
  * Tests the PolynomialFunction implementation of a UnivariateRealFunction.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @author Matt Cliff <matt@mattcliff.com>
  */
 public final class PolynomialFunctionTest extends TestCase {

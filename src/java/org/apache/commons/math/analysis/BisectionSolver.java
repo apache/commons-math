@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,7 +61,7 @@ import org.apache.commons.math.MathException;
  * Provide the bisection algorithm for solving for zeros of real univariate
  * functions.  It will only search for one zero in the given interval.  The
  * function is supposed to be continuous but not necessarily smooth.
- * @version $Revision: 1.8 $ $Date: 2003/11/19 03:28:23 $
+ * @version $Revision: 1.9 $ $Date: 2004/01/29 00:49:00 $
  */
 public class BisectionSolver extends UnivariateRealSolverImpl implements Serializable {
     /**

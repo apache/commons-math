@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,7 +59,7 @@ import junit.framework.TestSuite;
 
 /**
  * Test cases for the {@link StatUtils} class.
- * @version $Revision: 1.11 $ $Date: 2003/11/15 16:01:41 $
+ * @version $Revision: 1.12 $ $Date: 2004/01/29 00:49:00 $
  */
 
 public final class StatUtilsTest extends TestCase {

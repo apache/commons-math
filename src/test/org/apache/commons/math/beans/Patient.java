@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -54,7 +54,7 @@
 package org.apache.commons.math.beans;
 
 /**
- * @version $Revision: 1.6 $ $Date: 2003/11/14 22:22:22 $
+ * @version $Revision: 1.7 $ $Date: 2004/01/29 00:49:03 $
  */
 public class Patient {
 

@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,7 +62,7 @@ import junit.framework.TestSuite;
 /**
  * Test the interpolation framework.
  *
- * @version $Revision: 1.8 $ $Date: 2003/11/15 19:04:28 $ 
+ * @version $Revision: 1.9 $ $Date: 2004/01/29 00:48:57 $ 
  */
 public class InterpolatorTest extends TestCase {
 

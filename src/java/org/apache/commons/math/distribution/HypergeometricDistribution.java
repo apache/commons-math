@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,7 +66,7 @@ package org.apache.commons.math.distribution;
  * Hypergeometric Distribution</a></li>
  * </ul>
  * 
- * @version $Revision: 1.6 $ $Date: 2003/11/15 16:01:36 $
+ * @version $Revision: 1.7 $ $Date: 2004/01/29 00:48:58 $
  */
 public interface HypergeometricDistribution extends DiscreteDistribution {
     /**

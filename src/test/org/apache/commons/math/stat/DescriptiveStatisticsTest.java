@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,7 +64,7 @@ import org.apache.commons.math.random.RandomDataImpl;
 /**
  * Test cases for the {@link Univariate} class.
  *
- * @version $Revision: 1.2 $ $Date: 2003/11/19 13:26:42 $
+ * @version $Revision: 1.3 $ $Date: 2004/01/29 00:49:00 $
  */
 
 public final class DescriptiveStatisticsTest extends TestCase {

@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,7 +62,7 @@ import org.apache.commons.math.util.MathUtils;
  * Reference:
  *   http://myweb.lmu.edu/dmsmith/ZMLIB.pdf
  * 
- * @version $Revision: 1.5 $ $Date: 2004/01/26 19:41:16 $
+ * @version $Revision: 1.6 $ $Date: 2004/01/29 00:48:58 $
  */
 public class ComplexMath {
     

@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -65,7 +65,7 @@ import org.apache.commons.math.beans.*;
 /**
  * Test cases for the {@link BeanListUnivariateImpl} class.
  *
- * @version $Revision: 1.10 $ $Date: 2003/11/15 16:01:40 $
+ * @version $Revision: 1.11 $ $Date: 2004/01/29 00:49:00 $
  */
 
 public final class BeanListUnivariateImplTest extends TestCase {

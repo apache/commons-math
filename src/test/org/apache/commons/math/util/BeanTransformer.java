@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,7 +58,7 @@ import org.apache.commons.math.MathException;
 
 /**
  * Uses PropertyUtils to map a Bean getter to a double value.
- * @version $Revision: 1.1 $ $Date: 2003/11/15 16:01:42 $
+ * @version $Revision: 1.2 $ $Date: 2004/01/29 00:48:59 $
  */
 public class BeanTransformer implements NumberTransformer {
 

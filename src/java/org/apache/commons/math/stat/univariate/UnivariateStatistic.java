@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,7 +58,7 @@ package org.apache.commons.math.stat.univariate;
  * double[] based content using an implemented statistical approach.
  * The interface provides two "stateless" simple methods to calculate
  * a statistic from a double[] based parameter.
- * @version $Revision: 1.10 $ $Date: 2003/11/14 22:22:21 $
+ * @version $Revision: 1.11 $ $Date: 2004/01/29 00:49:03 $
  */
 public interface UnivariateStatistic {
 

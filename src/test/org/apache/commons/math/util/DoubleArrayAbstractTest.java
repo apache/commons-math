@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,7 +60,7 @@ import junit.framework.TestCase;
 /**
  * This class contains test cases for the ExpandableDoubleArray.
  * 
- * @version $Revision: 1.7 $ $Date: 2003/11/14 22:22:23 $
+ * @version $Revision: 1.8 $ $Date: 2004/01/29 00:48:59 $
  */
 public abstract class DoubleArrayAbstractTest extends TestCase {
 

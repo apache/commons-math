@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,7 +62,7 @@ import org.apache.commons.math.MathException;
  * that derivatives are evaluated after the value, the evaluation algorithm
  * should throw an InvalidStateException if it can't cope with this.
  *  
- * @version $Revision: 1.9 $ $Date: 2003/11/15 18:44:52 $
+ * @version $Revision: 1.10 $ $Date: 2004/01/29 00:49:00 $
  */
 public interface UnivariateRealFunction {
     /**

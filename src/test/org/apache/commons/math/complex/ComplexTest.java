@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,7 +59,7 @@ package org.apache.commons.math.complex;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.4 $ $Date: 2003/11/15 18:52:31 $
+ * @version $Revision: 1.5 $ $Date: 2004/01/29 00:49:01 $
  */
 public class ComplexTest extends TestCase {
     

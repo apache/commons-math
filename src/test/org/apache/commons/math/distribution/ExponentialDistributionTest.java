@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,7 +59,7 @@ import org.apache.commons.math.TestUtils;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.9 $ $Date: 2003/11/19 03:22:54 $
+ * @version $Revision: 1.10 $ $Date: 2004/01/29 00:48:59 $
  */
 public class ExponentialDistributionTest extends TestCase {
     private ExponentialDistribution exp;

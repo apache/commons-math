@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -65,7 +65,7 @@ import org.apache.commons.math.MathException;
  * polynominal coefficents are used.
  * Arguments outside of the domain cause an IllegalArgumentException.
  * 
- * @version $Revision: 1.9 $ $Date: 2003/11/19 03:28:23 $
+ * @version $Revision: 1.10 $ $Date: 2004/01/29 00:49:00 $
  */
 public class CubicSplineFunction implements UnivariateRealFunction, Serializable {
     /** Spline segment interval delimiters. Size is N+1 for N segments. */

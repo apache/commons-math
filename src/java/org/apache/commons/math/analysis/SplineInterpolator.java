@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,7 +58,7 @@ import java.io.Serializable;
 /**
  * Computes a natural spline interpolation for the data set.
  *
- * @version $Revision: 1.11 $ $Date: 2003/12/27 15:22:34 $
+ * @version $Revision: 1.12 $ $Date: 2004/01/29 00:49:00 $
  *
  */
 public class SplineInterpolator implements UnivariateRealInterpolator, Serializable {

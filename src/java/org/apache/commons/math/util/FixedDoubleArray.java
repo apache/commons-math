@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -84,7 +84,7 @@ import java.io.Serializable;
  * "fixed" in memory, this implementation will never allocate, or copy
  * the internal storage array to a new array instance.
  * </p>
- * @version $Revision: 1.12 $ $Date: 2003/11/19 03:28:24 $
+ * @version $Revision: 1.13 $ $Date: 2004/01/29 00:48:58 $
  */
 public class FixedDoubleArray implements DoubleArray, Serializable {
 

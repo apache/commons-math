@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,7 +63,7 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * J. G. Lewis 1979, <i>Communications of the ACM</i>,
  * vol. 22 no. 9, pp. 526-531.</a>.
  * 
- * @version $Revision: 1.15 $ $Date: 2004/01/25 21:30:41 $
+ * @version $Revision: 1.16 $ $Date: 2004/01/29 00:49:01 $
  */
 public class Variance extends AbstractStorelessUnivariateStatistic implements Serializable {
 

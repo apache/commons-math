@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,7 +57,7 @@ import java.io.Serializable;
 
 /**
  * Signals a configuration problem with any of the factory methods.
- * @version $Revision: 1.12 $ $Date: 2003/11/19 03:28:25 $
+ * @version $Revision: 1.13 $ $Date: 2004/01/29 00:49:02 $
  */
 public class MathConfigurationException extends MathException implements Serializable {
 

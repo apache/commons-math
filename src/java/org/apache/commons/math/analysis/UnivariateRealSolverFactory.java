@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,7 +63,7 @@ import org.apache.commons.discovery.tools.DiscoverClass;
  * (this may be controversial, because the configuration data
  * may also be used for the default solver used by the static
  * solve() method). 
- * @version $Revision: 1.10 $ $Date: 2003/11/14 22:22:17 $
+ * @version $Revision: 1.11 $ $Date: 2004/01/29 00:49:00 $
  */
 public abstract class UnivariateRealSolverFactory {
     /**

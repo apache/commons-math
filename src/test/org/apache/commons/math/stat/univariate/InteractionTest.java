@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,7 +62,7 @@ import org.apache.commons.math.stat.univariate.moment.Variance;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.7 $ $Date: 2003/11/14 22:22:23 $
+ * @version $Revision: 1.8 $ $Date: 2004/01/29 00:49:03 $
  */
 public class InteractionTest extends TestCase {
 
