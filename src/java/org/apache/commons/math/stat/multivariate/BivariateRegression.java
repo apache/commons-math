@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.stat;
+package org.apache.commons.math.stat.multivariate;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathException;
@@ -49,7 +49,7 @@ import org.apache.commons.math.distribution.TDistribution;
  * the necessary computations to return the requested statistic.</li>
  * </ul>
  *
- * @version $Revision: 1.16 $ $Date: 2004/04/11 19:00:45 $
+ * @version $Revision: 1.1 $ $Date: 2004/04/11 21:52:28 $
  */
 public class BivariateRegression implements Serializable {
 
