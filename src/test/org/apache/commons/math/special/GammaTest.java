@@ -75,7 +75,7 @@ public class GammaTest extends TestCase {
     }
 
     private void testLogGamma(double expected, double x) {
-        double actual = Gamma.logGamma(x, 10e-5, Integer.MAX_VALUE);
+        double actual = Gamma.logGamma(x);
         TestUtils.assertEquals(expected, actual, 10e-5);
     }
 

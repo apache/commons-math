@@ -223,8 +223,8 @@ public class Beta {
         if (Double.isNaN(a) || Double.isNaN(b) || (a <= 0.0) || (b <= 0.0)) {
             ret = Double.NaN;
         } else {
-            ret = Gamma.logGamma(a, epsilon, maxIterations) + Gamma.logGamma(b, epsilon, maxIterations)
-                - Gamma.logGamma(a + b, epsilon, maxIterations);
+            ret = Gamma.logGamma(a) + Gamma.logGamma(b)
+                - Gamma.logGamma(a + b);
         }
 
         return ret;

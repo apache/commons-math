@@ -64,6 +64,27 @@ import org.apache.commons.math.ConvergenceException;
 public class Gamma {
     /** Maximum allowed numerical error. */
     private static final double DEFAULT_EPSILON = 10e-9;
+
+    /** Lanczos coefficients */
+    private static double[] lanczos =
+    {
+        0.99999999999999709182,
+        57.156235665862923517,
+        -59.597960355475491248,
+        14.136097974741747174,
+        -0.49191381609762019978,
+        .33994649984811888699e-4,
+        .46523628927048575665e-4,
+        -.98374475304879564677e-4,
+        .15808870322491248884e-3,
+        -.21026444172410488319e-3,
+        .21743961811521264320e-3,
+        -.16431810653676389022e-3,
+        .84418223983852743293e-4,
+        -.26190838401581408670e-4,
+        .36899182659531622704e-5,
+    };
+
     
     /**
      * Default constructor.  Prohibit instantiation.
@@ -108,9 +129,16 @@ public class Gamma {
      * 
      * @param a ???
      * @param x ???
+     * @param epsilon When the absolute value of the nth item in the
+     *                series is less than epsilon the approximation ceases
+     *                to calculate further elements in the series.
+     * @param maxIterations Maximum number of "iterations" to complete. 
      * @return the regularized gamma function P(a, x)
      */
-    public static double regularizedGammaP(double a, double x, double epsilon, int maxIterations) {
+    public static double regularizedGammaP(double a, 
+                                           double x, 
+                                           double epsilon, 
+                                           int maxIterations) {
         double ret;
 
         if (Double.isNaN(a) || Double.isNaN(x) || (a <= 0.0) || (x < 0.0)) {
@@ -134,7 +162,10 @@ public class Gamma {
                 throw new ConvergenceException(
                     "maximum number of iterations reached");
             } else {
-                ret = Math.exp(-x + (a * Math.log(x)) - logGamma(a, epsilon, maxIterations)) * sum;
+                ret = Math.exp(-x + 
+                               (a * Math.log(x)) - 
+                               logGamma(a)) 
+                    * sum;
             }
         }
 
@@ -162,7 +193,7 @@ public class Gamma {
      * @param x ???
      * @return log(&#915;(x))
      */
-    public static double logGamma(double x, double epsilon, int maxIterations) {
+    public static double logGamma(double x) {
         double ret;
 
         if (Double.isNaN(x) || (x <= 0.0)) {
@@ -170,31 +201,11 @@ public class Gamma {
         } else {
             double g = 607.0 / 128.0;
 
-            // Lanczos coefficients
-            double[] c =
-                {
-                    0.99999999999999709182,
-                    57.156235665862923517,
-                    -59.597960355475491248,
-                    14.136097974741747174,
-                    -0.49191381609762019978,
-                    .33994649984811888699e-4,
-                    .46523628927048575665e-4,
-                    -.98374475304879564677e-4,
-                    .15808870322491248884e-3,
-                    -.21026444172410488319e-3,
-                    .21743961811521264320e-3,
-                    -.16431810653676389022e-3,
-                    .84418223983852743293e-4,
-                    -.26190838401581408670e-4,
-                    .36899182659531622704e-5,
-                    };
-
             double sum = 0.0;
-            for (int i = 1; i < c.length; ++i) {
-                sum = sum + (c[i] / (x + i));
+            for (int i = 1; i < lanczos.length; ++i) {
+                sum = sum + (lanczos[i] / (x + i));
             }
-            sum = sum + c[0];
+            sum = sum + lanczos[0];
 
             double tmp = x + g + .5;
             ret = ((x + .5) * Math.log(tmp)) - tmp
