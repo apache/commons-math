@@ -19,10 +19,10 @@ import java.io.Serializable;
 
 
 /**
- * Returns the <a href="http://www.xycoon.com/median_2.htm">median</a> of the
- * available values.
+ * Returns the median of the available values.  This is the same as the 50th percentile.
+ * See {@link Percentile} for a description of the algorithm used.
  *
- * @version $Revision: 1.14 $ $Date: 2004/06/23 16:26:17 $
+ * @version $Revision: 1.15 $ $Date: 2004/06/29 05:42:51 $
  */
 public class Median extends Percentile implements Serializable {
 
