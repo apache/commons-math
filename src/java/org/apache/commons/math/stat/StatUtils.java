@@ -140,7 +140,7 @@ public class StatUtils {
      * @param values Is a double[] containing the values
      * @return the skewness of the values or Double.NaN if the array is empty
      */
-    public double skewness(double[] values) {
+    public static double skewness(double[] values) {
         // Initialize the skewness
         double skewness = Double.NaN;
 
@@ -170,7 +170,7 @@ public class StatUtils {
      * @param values Is a double[] containing the values
      * @return the kurtosis of the values or Double.NaN if the array is empty
      */
-    public double kurtosis(double[] values) {
+    public static double kurtosis(double[] values) {
         // Initialize the kurtosis
         double kurtosis = Double.NaN;
 
