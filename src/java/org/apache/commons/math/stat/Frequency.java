@@ -35,7 +35,7 @@ import java.util.TreeMap;
  * The values are ordered using the default (natural order), unless a  
  * <code>Comparator</code>is supplied in the constructor.
  *
- * @version $Revision: 1.24 $ $Date: 2004/06/23 16:26:17 $
+ * @version $Revision: 1.25 $ $Date: 2004/07/02 05:27:41 $
  */
 public class Frequency implements Serializable {
     
@@ -398,7 +398,7 @@ public class Frequency implements Serializable {
      * A Comparator that compares comparable objects using the
      * natural order.  Copied from Commons Collections ComparableComparator.
      */
-    private class NaturalComparator implements Comparator {
+    private static class NaturalComparator implements Comparator {
         /**
          * Compare the two {@link Comparable Comparable} arguments.
          * This method is equivalent to:
