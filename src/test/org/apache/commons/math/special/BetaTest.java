@@ -56,7 +56,7 @@ package org.apache.commons.math.special;
 import junit.framework.TestCase;
 
 /**
- * @author Brent Worden
+ * @version $Revision: 1.2 $ $Date: 2003/09/17 19:29:31 $
  */
 public class BetaTest extends TestCase {
     /**

@@ -54,6 +54,8 @@
 
 package org.apache.commons.math.stat.distribution;
 
+import org.apache.commons.discovery.tools.DiscoverClass;
+
 /**
  * This factory provids the means to create common statistical distributions.
  * The following distributions are supported:
@@ -73,7 +75,7 @@ package org.apache.commons.math.stat.distribution;
  * ChiSquaredDistribution chi = factory.createChiSquareDistribution(5.0);
  * </pre>
  * 
- * @version $Revision: 1.11 $ $Date: 2003/09/17 19:19:08 $
+ * @version $Revision: 1.12 $ $Date: 2003/09/17 19:29:28 $
  */
 public abstract class DistributionFactory {
     /**
@@ -86,11 +88,18 @@ public abstract class DistributionFactory {
     /**
      * Create an instance of a <code>DistributionFactory</code>
      * @return a new factory. 
-     * @todo for now, return the only concrete factory.  Later, allow for a
-     *       plugable implementation, possibly using SPI and commons-discovery.
      */
     public static DistributionFactory newInstance() {
-        return new DistributionFactoryImpl();
+        DistributionFactory factory = null;
+        try {
+            DiscoverClass dc = new DiscoverClass();
+            factory = (DistributionFactory) dc.newInstance(
+                DistributionFactory.class,
+                "org.apache.commons.math.stat.distribution.DistributionFactoryImpl");
+        } catch(Exception ex) {
+            // ignore as default implementation will be used.
+        }
+        return factory;
     }
 
     /**

@@ -58,13 +58,13 @@ package org.apache.commons.math.stat.distribution;
  * A concrete distribution factory.  This is the default factory used by
  * Commons-Math.
  *  
- * @version $Revision: 1.9 $ $Date: 2003/09/17 19:19:08 $
+ * @version $Revision: 1.10 $ $Date: 2003/09/17 19:29:28 $
  */
 public class DistributionFactoryImpl extends DistributionFactory {
     /**
      * Default constructor.  Package scope to prevent unwanted instantiation. 
      */
-    DistributionFactoryImpl() {
+    public DistributionFactoryImpl() {
         super();
     }
     

@@ -53,6 +53,9 @@
  */
 package org.apache.commons.math.beans;
 
+/**
+ * @version $Revision: 1.2 $ $Date: 2003/09/17 19:29:32 $
+ */
 public class Patient {
 
     private VitalStats vitalStats;

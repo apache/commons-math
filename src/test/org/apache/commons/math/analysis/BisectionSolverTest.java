@@ -58,7 +58,7 @@ import org.apache.commons.math.MathException;
 import junit.framework.TestCase;
 
 /**
- *
+ * @version $Revision: 1.2 $ $Date: 2003/09/17 19:29:27 $
  */
 public final class BisectionSolverTest extends TestCase {
     /**

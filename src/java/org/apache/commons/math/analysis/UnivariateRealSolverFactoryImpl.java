@@ -62,7 +62,7 @@ package org.apache.commons.math.analysis;
  * (this may be controversial, because the configuration data
  * may also be used for the default solver used by the static
  * solve() method). 
- * @version $Revision: 1.1 $ $Date: 2003/07/30 22:06:37 $
+ * @version $Revision: 1.2 $ $Date: 2003/09/17 19:29:32 $
  */
 public class UnivariateRealSolverFactoryImpl
     extends UnivariateRealSolverFactory {
@@ -70,7 +70,7 @@ public class UnivariateRealSolverFactoryImpl
     /**
      * Default constructor.
      */
-    UnivariateRealSolverFactoryImpl() {
+    public UnivariateRealSolverFactoryImpl() {
     }
 
     /**

@@ -57,9 +57,8 @@ import org.apache.commons.math.MathException;
 
 /**
  * Auxillary class for testing solvers.
- * 
- * @author pietsch at apache.org
  *
+ * @version $Revision: 1.4 $ $Date: 2003/09/17 19:29:27 $ 
  */
 public class QuinticFunction implements UnivariateRealFunction {
 

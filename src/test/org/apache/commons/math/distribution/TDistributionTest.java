@@ -56,7 +56,7 @@ package org.apache.commons.math.stat.distribution;
 import junit.framework.TestCase;
 
 /**
- * @author Brent Worden
+ * @version $Revision: 1.3 $ $Date: 2003/09/17 19:29:30 $
  */
 public class TDistributionTest extends TestCase {
     private TDistribution t;

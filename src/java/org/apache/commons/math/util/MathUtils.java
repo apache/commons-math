@@ -55,9 +55,9 @@
 package org.apache.commons.math.util;
 
 /**
- * Some useful additions to the built-in functions in lang.Math<p>
+ * Some useful additions to the built-in functions in {@link Math}.
  *
- * @version $Revision: 1.3 $ $Date: 2003/08/09 04:03:41 $
+ * @version $Revision: 1.4 $ $Date: 2003/09/17 19:29:31 $
  */
 public final class MathUtils {
 
@@ -274,10 +274,10 @@ public final class MathUtils {
     }
 
     /**
-     * Returns <code>n</code>
+     * Returns n!.  Shorthand for <code>n</code>
      * <a href="http://mathworld.wolfram.com/Factorial.html">
-     * Factorial</a>, or <code>n!</code>,
-     * the product of the numbers <code>1,...,n</code>.
+     * Factorial</a>, the product of the numbers <code>1,...,n</code>.
+     * 
      * <p>
      * <Strong>Preconditions</strong>:<ul>
      * <li> <code>n > 0</code> (otherwise
@@ -288,7 +288,8 @@ public final class MathUtils {
      *      exceeds <code>Long.MAX_VALUE</code> an <code>ArithMeticException
      *      </code> is thrown.</li>
      * </ul>
-     *
+     * </p>
+     * 
      * @param n argument
      * @return <code>n!</code>
      */
@@ -302,11 +303,11 @@ public final class MathUtils {
     }
 
     /**
-     * Returns <code>n</code>
+     * Returns n!.  Shorthand for <code>n</code>
      * <a href="http://mathworld.wolfram.com/Factorial.html">
-     * Factorial</a>, or <code>n!</code>,
-     * the product of the numbers <code>1,...,n</code>, as as
+     * Factorial</a>, the product of the numbers <code>1,...,n</code> as a
      * <code>double</code>.
+     * 
      * <p>
      * <Strong>Preconditions</strong>:<ul>
      * <li> <code>n > 0</code> (otherwise
@@ -316,7 +317,8 @@ public final class MathUtils {
      *      < Double.MAX_VALUE</code> is 170.  If the computed value exceeds
      *      Double.MAX_VALUE, Double.POSITIVE_INFINITY is returned</li>
      * </ul>
-     *
+     * </p>
+     * 
      * @param n argument
      * @return <code>n!</code>
      */
@@ -328,11 +330,7 @@ public final class MathUtils {
     }
 
     /**
-      * Returns the natural <code>log</code> of <code>n</code>
-      * <a href="http://mathworld.wolfram.com/Factorial.html">
-      * Factorial</a>, or <code>n!</code>,
-      * the product of the numbers <code>1,...,n</code>, as as
-      * <code>double</code>.
+      * Returns the natural logarithm of n!.
       * <p>
       * <Strong>Preconditions</strong>:<ul>
       * <li> <code>n > 0</code> (otherwise

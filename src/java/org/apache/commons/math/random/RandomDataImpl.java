@@ -104,7 +104,7 @@ import java.util.Collection;
  * (so secure sequences started with calls to reseedSecure(long) won't be 
  * identical).</li></ul>
  * 
- * @version $Revision: 1.3 $ $Date: 2003/09/07 03:12:56 $
+ * @version $Revision: 1.4 $ $Date: 2003/09/17 19:29:31 $
  */
 public class RandomDataImpl implements RandomData {
     
@@ -470,13 +470,13 @@ public class RandomDataImpl implements RandomData {
     
     /**
      * Sets the PRNG algorithm for the underlying SecureRandom instance
-     * using the Security Provider API, as defined in 
-     * <a href="http://java.sun.com/j2se/1.3/docs/guide/security/
-     * CryptoSpec.html#AppA">
+     * using the Security Provider API.  The Security Provider API is defined in 
+     * <a href="http://java.sun.com/j2se/1.3/docs/guide/security/CryptoSpec.html#AppA">
      * Java Cryptography Architecture API Specification & Reference.</a>
      * <p>
      * <strong>USAGE NOTE:</strong> This method carries <i>significant</i> 
      * overhead and may take several seconds to execute.
+     * </p>
      *
      * @param algorithm the name of the PRNG algorithm
      * @param provider the name of the provider 
@@ -491,9 +491,10 @@ public class RandomDataImpl implements RandomData {
     }
     
     /**
-     * Uses a 2-cycle permutation shuffle, as described
+     * Uses a 2-cycle permutation shuffle to generate a random permutation.
+     * The shuffling process is described
      * <a href=http://www.maths.abdn.ac.uk/~igc/tch/mx4002/notes/node83.html>
-     * here</a>
+     * here</a>.
      * @param n the population size.
      * @param k the number to choose.
      * @return the random permutation.
@@ -519,6 +520,7 @@ public class RandomDataImpl implements RandomData {
     }
     
     /**
+     * Uses a 2-cycle permutation shuffle to generate a random permutation.
      * <strong>Algorithm Description</strong>: Uses a 2-cycle permutation 
      * shuffle to generate a random permutation of <code>c.size()</code> and 
      * then returns the elements whose indexes correspond to the elements of 
@@ -553,8 +555,8 @@ public class RandomDataImpl implements RandomData {
     //------------------------Private methods----------------------------------
     
     /** 
-     * <strong>Algorithm Description</strong>: Uses a 2-cycle permutation 
-     * shuffle to randomly re-order the last <code>end</code> elements of list.
+     * Uses a 2-cycle permutation shuffle to randomly re-order the last elements
+     * of list.
      * 
      * @param list list to be shuffled
      * @param end element past which shuffling begins

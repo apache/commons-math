@@ -58,7 +58,7 @@ import org.apache.commons.math.TestUtils;
 import junit.framework.TestCase;
 
 /**
- * @author Brent Worden
+ * @version $Revision: 1.3 $ $Date: 2003/09/17 19:29:30 $
  */
 public class ExponentialDistributionTest extends TestCase {
     private ExponentialDistribution exp;

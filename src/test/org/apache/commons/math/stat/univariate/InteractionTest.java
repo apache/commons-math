@@ -62,7 +62,7 @@ import org.apache.commons.math.stat.univariate.moment.Variance;
 import junit.framework.TestCase;
 
 /**
- *
+ * @version $Revision: 1.3 $ $Date: 2003/09/17 19:29:28 $
  */
 public class InteractionTest extends TestCase {
 

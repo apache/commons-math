@@ -58,7 +58,7 @@ import org.apache.commons.math.special.Gamma;
 /**
  * The default implementation of {@link GammaDistribution}
  * 
- * @version $Revision: 1.5 $ $Date: 2003/07/09 20:03:23 $
+ * @version $Revision: 1.6 $ $Date: 2003/09/17 19:29:28 $
  */
 public class GammaDistributionImpl extends AbstractContinuousDistribution
     implements GammaDistribution {
@@ -152,10 +152,10 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
      * 
      * @param p the desired probability for the critical value
      * @return domain value lower bound, i.e.
-     *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code> 
+     *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code>
+     * @todo try to improve on this estimate
      */
     protected double getDomainLowerBound(double p) {
-        // TODO: try to improve on this estimate
         return Double.MIN_VALUE;
     }
 
@@ -167,11 +167,11 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
      * @param p the desired probability for the critical value
      * @return domain value upper bound, i.e.
      *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code> 
+     * @todo try to improve on this estimate
      */
     protected double getDomainUpperBound(double p) {
         // NOTE: gamma is skewed to the left
         // NOTE: therefore, P(X < &mu;) > .5
-        // TODO: try to improve on this estimate
 
         double ret;
 
@@ -193,11 +193,11 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
      * 
      * @param p the desired probability for the critical value
      * @return initial domain value
+     * @todo try to improve on this estimate
      */
     protected double getInitialDomain(double p) {
         // NOTE: gamma is skewed to the left
         // NOTE: therefore, P(X < &mu;) > .5
-        // TODO: try to improve on this estimate
 
         double ret;
 

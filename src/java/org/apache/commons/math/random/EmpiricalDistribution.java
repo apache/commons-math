@@ -80,7 +80,7 @@ import org.apache.commons.math.stat.Univariate;
  * build grouped frequnecy histograms representing the input data or to
  * generate random values "like" those in the input file -- i.e., the values
  * generated will follow the distribution of the values in the file.
- * @version $Revision: 1.4 $ $Date: 2003/09/07 03:12:56 $
+ * @version $Revision: 1.5 $ $Date: 2003/09/17 19:29:31 $
  */
 public interface EmpiricalDistribution {
     
@@ -99,7 +99,7 @@ public interface EmpiricalDistribution {
     void load(File file) throws IOException;
     
     /** 
-     * Generates a random value from this distribution<p>
+     * Generates a random value from this distribution.
      * <strong>Preconditions:</strong><ul>
      * <li>the distribution must be loaded before invoking this method</li></ul>
      * @return the random value.
@@ -109,7 +109,7 @@ public interface EmpiricalDistribution {
     
      
     /** 
-     * <p>Returns a Univariate describing this distribution</p>
+     * Returns a Univariate describing this distribution.
      * <strong>Preconditions:</strong><ul>
      * <li>the distribution must be loaded before invoking this method</li></ul>
      * @return the sample statistics
@@ -173,7 +173,7 @@ public interface EmpiricalDistribution {
     ArrayList getBinStats();
     
     /** 
-     * Returns the array of upper bounds for the bins.  Bins are: <br>
+     * Returns the array of upper bounds for the bins.  Bins are: <br/>
      * [min,upperBounds[0]],(upperBounds[0],upperBounds[1]],...,
      *  (upperBounds[binCount-1],max]
      * @return array of bin upper bounds

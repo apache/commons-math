@@ -53,17 +53,10 @@
  */
 package org.apache.commons.math.stat.univariate.moment;
 
-import org
-    .apache
-    .commons
-    .math
-    .stat
-    .univariate
-    .AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
 
 /**
- *
- * @version $Revision: 1.8 $ $Date: 2003/09/07 03:12:56 $
+ * @version $Revision: 1.9 $ $Date: 2003/09/17 19:29:29 $
  */
 public class Skewness extends AbstractStorelessUnivariateStatistic {
 
@@ -144,6 +137,8 @@ public class Skewness extends AbstractStorelessUnivariateStatistic {
     Mean mean = new Mean();
 
     /**
+     * Returns the skewness of a collection of values.  Skewness is a
+     * measure of the assymetry of a given distribution.
      * This algorithm uses a corrected two pass algorithm of the following
      * <a href="http://lib-www.lanl.gov/numerical/bookcpdf/c14-1.pdf">
      * corrected two pass formula (14.1.8)</a>, and also referenced in
@@ -152,8 +147,6 @@ public class Skewness extends AbstractStorelessUnivariateStatistic {
      * Recommendations", Chan, T.F., Golub, G.H., and LeVeque, R.J.
      * 1983, American Statistician, vol. 37, pp. 242?247.
      * </p>
-     * Returns the skewness of a collection of values.  Skewness is a
-     * measure of the assymetry of a given distribution.
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
      * @param length processing at this point in the array

@@ -56,7 +56,7 @@ package org.apache.commons.math.util;
 import junit.framework.TestCase;
 
 /**
- * @author Brent Worden
+ * @version $Revision: 1.2 $ $Date: 2003/09/17 19:29:29 $
  */
 public class ContinuedFractionTest extends TestCase {
 	/**

@@ -58,10 +58,11 @@ import junit.framework.TestSuite;
 
 import org.apache.commons.math.stat.univariate.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math.stat.univariate.UnivariateStatistic;
-import org.apache.commons.math.stat.univariate.UnivariateStatisticAbstractTest;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
+ * 
+ * @version $Revision: 1.4 $ $Date: 2003/09/17 19:29:27 $
  */
 public class VarianceTest extends StorelessUnivariateStatisticAbstractTest{
 

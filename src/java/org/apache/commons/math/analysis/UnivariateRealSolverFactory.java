@@ -53,6 +53,8 @@
  */
 package org.apache.commons.math.analysis;
 
+import org.apache.commons.discovery.tools.DiscoverClass;
+
 /**
  * A factory to easily get a default solver and some convenience
  * functions.
@@ -61,7 +63,7 @@ package org.apache.commons.math.analysis;
  * (this may be controversial, because the configuration data
  * may also be used for the default solver used by the static
  * solve() method). 
- * @version $Revision: 1.5 $ $Date: 2003/09/07 03:12:56 $
+ * @version $Revision: 1.6 $ $Date: 2003/09/17 19:29:32 $
  */
 public abstract class UnivariateRealSolverFactory {
     /**
@@ -73,11 +75,18 @@ public abstract class UnivariateRealSolverFactory {
     /**
      * Create a new factory.
      * @return a new factory.
-     * @todo for now, return the only concrete factory.  Later, allow for a
-     *       plugable implementation, possibly using SPI and commons-discovery.
      */
     public static UnivariateRealSolverFactory newInstance() {
-        return new UnivariateRealSolverFactoryImpl();
+        UnivariateRealSolverFactory factory = null;
+        try {
+            DiscoverClass dc = new DiscoverClass();
+            factory = (UnivariateRealSolverFactory) dc.newInstance(
+                UnivariateRealSolverFactory.class,
+                "org.apache.commons.math.analysis.UnivariateRealSolverFactoryImpl");
+        } catch(Exception ex) {
+            // ignore as default implementation will be used.
+        }
+        return factory;
     }
     
     /**

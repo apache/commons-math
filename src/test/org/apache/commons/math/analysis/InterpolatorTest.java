@@ -61,9 +61,8 @@ import junit.framework.TestSuite;
 
 /**
  * Test the interpolation framework.
- * 
- * @author pietsch at apache.org
  *
+ * @version $Revision: 1.3 $ $Date: 2003/09/17 19:29:27 $ 
  */
 public class InterpolatorTest extends TestCase {
 

@@ -60,8 +60,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link Univariate} class.
  *
- * @author Tim Obrien
- * @version $Revision: 1.6 $ $Date: 2003/07/09 21:45:24 $
+ * @version $Revision: 1.7 $ $Date: 2003/09/17 19:29:32 $
  */
 
 public final class UnivariateImplTest extends TestCase {

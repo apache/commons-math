@@ -65,8 +65,8 @@ import org.apache.commons.math.stat.Univariate;
 import org.apache.commons.math.stat.UnivariateImpl;
 
 /**
- * Implements <code>EmpiricalDistribution</code> interface using 
- * what amounts to the 
+ * Implements <code>EmpiricalDistribution</code> interface.  This implementation
+ * uses what amounts to the 
  * <a href="http://nedwww.ipac.caltech.edu/level5/March02/Silverman/Silver2_6.html">
  * Variable Kernel Method</a> with Gaussian smoothing:<p>
  * <strong>Digesting the input file</strong>
@@ -89,7 +89,7 @@ import org.apache.commons.math.stat.UnivariateImpl;
  *    entry per line.</li>
  * </ol></p>
  *
- * @version $Revision: 1.4 $ $Date: 2003/09/07 03:12:56 $
+ * @version $Revision: 1.5 $ $Date: 2003/09/17 19:29:31 $
  */
 public class EmpiricalDistributionImpl implements Serializable,EmpiricalDistribution {
 

@@ -57,7 +57,7 @@ package org.apache.commons.math.util;
 /**
  * This class contains test cases for the ExpandableDoubleArray.
  * 
- * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
+ * @version $Revision: 1.3 $ $Date: 2003/09/17 19:29:29 $
  */
 public class ExpandableDoubleArrayTest extends DoubleArrayAbstractTest {
 

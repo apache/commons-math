@@ -64,7 +64,7 @@ import org.apache.commons.math.stat.UnivariateImpl;
 /**
  * Test cases for the ValueServer class.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $ $Date: 2003/09/17 19:29:29 $
  */
 
 public final class ValueServerTest extends TestCase {

@@ -65,8 +65,7 @@ import org.apache.commons.math.beans.*;
 /**
  * Test cases for the {@link BeanListUnivariateImpl} class.
  *
- * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
- * @version $Revision: 1.3 $ $Date: 2003/07/30 21:58:11 $
+ * @version $Revision: 1.4 $ $Date: 2003/09/17 19:29:32 $
  */
 
 public final class BeanListUnivariateImplTest extends TestCase {

@@ -63,8 +63,7 @@ import org.apache.commons.math.MathException;
  * which means linear approximation (Regula Falsi) will converge
  * quadratically.
  * 
- * @author pietsch at apache.org
- *
+ * @version $Revision: 1.4 $ $Date: 2003/09/17 19:29:27 $
  */
 public class SinFunction implements UnivariateRealFunction {
 

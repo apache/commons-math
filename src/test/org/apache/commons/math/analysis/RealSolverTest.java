@@ -69,8 +69,7 @@ import junit.framework.TestSuite;
  * default absolute accuracy of 10E-8 for sinus and the quintic function around
  * zero, and 5..10 iterations for the other zeros.
  * 
- * @author pietsch at apache.org
- *
+ * @version $Revision: 1.3 $ $Date: 2003/09/17 19:29:27 $
  */
 public final class RealSolverTest extends TestCase {
 
