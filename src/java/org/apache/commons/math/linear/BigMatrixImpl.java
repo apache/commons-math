@@ -43,7 +43,7 @@ import java.math.BigDecimal;
  * As specified in the {@link BigMatrix} interface, matrix element indexing
  * is 0-based -- e.g., <code>getEntry(0, 0)</code>
  * returns the element in the first row, first column of the matrix.</li></ul>
- * @version $Revision: 1.8 $ $Date: 2004/10/25 03:12:28 $
+ * @version $Revision: 1.9 $ $Date: 2004/10/25 05:33:24 $
  */
 public class BigMatrixImpl implements BigMatrix, Serializable {
     
@@ -103,8 +103,27 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      * The input array is copied, not referenced.
      *
      * @param d data for new matrix
+     * @throws IllegalArgumentException if <code>d</code> is not rectangular
+     *  (not all rows have the same length) or empty
+     * @throws NullPointerException if <code>d</code> is null
      */
     public BigMatrixImpl(BigDecimal[][] d) {
+        int nRows = d.length;
+        if (nRows == 0) {
+            throw new IllegalArgumentException(
+            "Matrix must have at least one row."); 
+        }
+        int nCols = d[0].length;
+        if (nCols == 0) {
+            throw new IllegalArgumentException(
+            "Matrix must have at least one column."); 
+        }
+        for (int row = 1; row < nRows; row++) {
+            if (d[row].length != nCols) {
+                throw new IllegalArgumentException(
+                "All input rows must have the same length.");
+            }
+        }
         this.copyIn(d);
         lu = null;
     }
@@ -116,8 +135,27 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      * The input array is copied, not referenced.
      *
      * @param d data for new matrix
+     * @throws IllegalArgumentException if <code>d</code> is not rectangular
+     *  (not all rows have the same length) or empty
+     * @throws NullPointerException if <code>d</code> is null
      */
     public BigMatrixImpl(double[][] d) {
+        int nRows = d.length;
+        if (nRows == 0) {
+            throw new IllegalArgumentException(
+            "Matrix must have at least one row."); 
+        }
+        int nCols = d[0].length;
+        if (nCols == 0) {
+            throw new IllegalArgumentException(
+            "Matrix must have at least one column."); 
+        }
+        for (int row = 1; row < nRows; row++) {
+            if (d[row].length != nCols) {
+                throw new IllegalArgumentException(
+                "All input rows must have the same length.");
+            }
+        }
         this.copyIn(d);
         lu = null;
     }
@@ -127,8 +165,27 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      * <code>data</code> as the underlying data array.
      *
      * @param d data for new matrix
+     * @throws IllegalArgumentException if <code>d</code> is not rectangular
+     *  (not all rows have the same length) or empty
+     * @throws NullPointerException if <code>d</code> is null
      */
     public BigMatrixImpl(String[][] d) {
+        int nRows = d.length;
+        if (nRows == 0) {
+            throw new IllegalArgumentException(
+            "Matrix must have at least one row."); 
+        }
+        int nCols = d[0].length;
+        if (nCols == 0) {
+            throw new IllegalArgumentException(
+            "Matrix must have at least one column."); 
+        }
+        for (int row = 1; row < nRows; row++) {
+            if (d[row].length != nCols) {
+                throw new IllegalArgumentException(
+                "All input rows must have the same length.");
+            }
+        }
         this.copyIn(d);
         lu = null;
     }
