@@ -78,7 +78,7 @@ import java.io.Serializable;
  * explicitly invoke <code>LUDecompose()</code> to recompute the decomposition
  * before using any of the methods above.
  *
- * @version $Revision: 1.8 $ $Date: 2003/11/14 22:22:19 $
+ * @version $Revision: 1.9 $ $Date: 2003/11/23 20:16:17 $
  */
 public class RealMatrixImpl implements RealMatrix, Serializable {
 
@@ -249,7 +249,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
         }
         return new RealMatrixImpl(outData);
     }
-    
+
     /**
      * Returns the result postmultiplying this by <code>m</code>.
      * @param m    matrix to postmultiply by
@@ -263,15 +263,15 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
             ("Matrices are not multiplication compatible.");
         }
         int nRows = this.getRowDimension();
-        int nCols = this.getColumnDimension();
+        int nCols = m.getColumnDimension();
+        int nSum = this.getColumnDimension();
         double[][] mData = m.getData();
-        double[][] outData =
-        new double[nRows][nCols];
+        double[][] outData = new double[nRows][nCols];
         double sum = 0;
         for (int row = 0; row < nRows; row++) {
             for (int col = 0; col < nCols; col++) {
                 sum = 0;
-                for (int i = 0; i < nCols; i++) {
+                for (int i = 0; i < nSum; i++) {
                     sum += data[row][i] * mData[i][col];
                 }
                 outData[row][col] = sum;
@@ -719,6 +719,26 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
             }
         }
     }
+    
+    /**
+     * 
+     * @see java.lang.Object#toString()
+     */
+    public String toString() {
+        StringBuffer res = new StringBuffer();
+        res.append("RealMatrixImpl{");
+        for (int i=0; i<data.length; i++)  {
+            if (i>0) res.append(",");
+            res.append("{");
+            for (int j=0; j<data[0].length; j++) {
+                if (j>0) res.append(",");
+                res.append(data[i][j]);
+            }//for
+            res.append("}");
+        }//for
+        res.append("}");
+        return res.toString();
+    }//toString
     
     //------------------------ Protected methods
     
