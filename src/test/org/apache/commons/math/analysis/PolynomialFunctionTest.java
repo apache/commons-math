@@ -26,7 +26,7 @@ import junit.framework.TestCase;
 /**
  * Tests the PolynomialFunction implementation of a UnivariateRealFunction.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  * @author Matt Cliff <matt@mattcliff.com>
  */
 public final class PolynomialFunctionTest extends TestCase {
@@ -41,7 +41,7 @@ public final class PolynomialFunctionTest extends TestCase {
      */
     public void testConstants() throws MathException {
         double[] c = { 2.5 };
-        UnivariateRealFunction f = new PolynomialFunction( c );
+        PolynomialFunction f = new PolynomialFunction( c );
 
         // verify that we are equal to c[0] at several (nonsymmetric) places
         assertEquals( f.value( 0.0), c[0], error );
@@ -49,9 +49,12 @@ public final class PolynomialFunctionTest extends TestCase {
         assertEquals( f.value( -123.5), c[0], error );
         assertEquals( f.value( 3.0), c[0], error );
         assertEquals( f.value( 456.89), c[0], error );
+        
+        assertEquals(f.degree(), 0);
+        assertEquals(f.firstDerivative(0), 0, error);
+        
+        assertEquals(f.secondDerivative(0), 0, error);
     }
-
-
 
     /**
      * tests the value of a linear polynomial.
@@ -64,7 +67,7 @@ public final class PolynomialFunctionTest extends TestCase {
      */
     public void testLinear() throws MathException {
         double[] c = { -1.5, 3.0 };
-        UnivariateRealFunction f = new PolynomialFunction( c );
+        PolynomialFunction f = new PolynomialFunction( c );
 
         // verify that we are equal to c[0] when x=0
         assertEquals( f.value( 0.0), c[0], error );
@@ -75,6 +78,10 @@ public final class PolynomialFunctionTest extends TestCase {
         assertEquals( 0.0, f.value( 0.5), error );
         assertEquals( 3.0, f.value( 1.5), error );
         assertEquals( 7.5, f.value( 3.0), error );
+        
+        assertEquals(f.degree(), 1);
+        
+        assertEquals(f.secondDerivative(0), 0, error);
     
     }
 
@@ -86,7 +93,7 @@ public final class PolynomialFunctionTest extends TestCase {
      */
     public void testQuadratic() throws MathException {
         double[] c = { -2.0, -3.0, 2.0 };
-        UnivariateRealFunction f = new PolynomialFunction( c );
+        PolynomialFunction f = new PolynomialFunction( c );
 
         // verify that we are equal to c[0] when x=0
         assertEquals( f.value( 0.0), c[0], error );
@@ -108,7 +115,7 @@ public final class PolynomialFunctionTest extends TestCase {
      */
     public void testQuintic() throws MathException {
         double[] c = { 0.0, 0.0, 15.0, -13.0, -3.0, 1.0 };
-        UnivariateRealFunction f = new PolynomialFunction( c );
+        PolynomialFunction f = new PolynomialFunction( c );
 
         // verify that we are equal to c[0] when x=0
         assertEquals( f.value( 0.0), c[0], error );
@@ -119,18 +126,20 @@ public final class PolynomialFunctionTest extends TestCase {
         assertEquals( 0.0, f.value( -3.0), error );
         assertEquals( 54.84375, f.value( -1.5), error );
         assertEquals( -8.06637, f.value( 1.3), error );
+        
+        assertEquals(f.degree(), 5);
     
     }    
 
 
     /**
-     * tests the derivative function by comparision
+     * tests the firstDerivative function by comparision
      *
      * <p>This will test the functions 
      * <tt>f(x) = x^3 - 2x^2 + 6x + 3, g(x) = 3x^2 - 4x + 6</tt>
      * and <tt>h(x) = 6x - 4</tt>
      */
-    public void testDerivativeComparision() throws MathException {
+    public void testfirstDerivativeComparision() throws MathException {
         double[] f_coeff = { 3.0, 6.0, -2.0, 1.0 };
         double[] g_coeff = { 6.0, -4.0, 3.0 };
         double[] h_coeff = { -4.0, 6.0 };
@@ -151,9 +160,5 @@ public final class PolynomialFunctionTest extends TestCase {
 
         // compare f'' = h
     }
-
-
-
-
 
 }

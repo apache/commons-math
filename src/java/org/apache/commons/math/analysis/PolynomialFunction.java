@@ -17,56 +17,50 @@
  */
 package org.apache.commons.math.analysis;
 
-
-
 import java.io.Serializable;
+
+import java.util.Arrays;
 
 import org.apache.commons.math.MathException;
 
 /**
- * Represents a Polynomial function.
- * Spline functions map a certain interval of real numbers to real numbers.
- * A cubic spline consists of segments of cubic functions. For this class,
- * polynominal coefficents are used.
- * Arguments outside of the domain cause an IllegalArgumentException.
+ * Represents a polynomial function with real coefficients.
  * 
- * @version $Revision: 1.5 $ $Date: 2004/02/18 03:24:19 $
+ * @version $Revision: 1.6 $ $Date: 2004/02/20 06:17:54 $
  */
 public class PolynomialFunction implements UnivariateRealFunction, Serializable {
 
     /**
-     * The polynominal coefficients.
-     * The index represents the coefficients of the polynomail, with
-     * index 0 being the absolute coefficient and index N the coefficient
-     * for the Nth power.
+     * The coefficients of the polynomial, ordered by degree -- i.e.,  c[0] is the constant term
+     * and c[n] is the coefficient of x^n where n is the degree of the polynomial.
      */
     private double c[];
 
     /**
-     * Construct a function with the given segment delimiters and polynomial
-     * coefficients.
+     * Construct a polynomial with the given coefficients
+     * 
      * @param c polynominal coefficients
      */
     public PolynomialFunction(double c[]) {
         super();
-        // TODO: should copy the arguments here, for safety. This could be a major overhead.
-        this.c = c;
+        this.c = new double[c.length];
+        System.arraycopy(c, 0, this.c, 0, c.length);
     }
 
     /**
-     * Compute the value for the function.
+     * Compute the value of the function for the given argument.
      *
      * <p>This can be explicitly determined by 
      *   <tt>c_n * x^n + ... + c_1 * x  + c_0</tt>
      * </p>
      *
-     * @param x the point for which the function value should be computed
+     * @param x the argument for which the function value should be computed
      * @return the value
      * @throws MathException if the function couldn't be computed due to
      *  missing additional data or other environmental problems.
      * @see UnivariateRealFunction#value(double)
      */
-    public double value(double x) throws MathException {
+    public double value(double x)  {
 
         double value = c[0];
 
@@ -78,7 +72,6 @@ public class PolynomialFunction implements UnivariateRealFunction, Serializable 
     }
 
 
-
     /**
      * Compute the value for the first derivative of the function.
      *
@@ -88,10 +81,12 @@ public class PolynomialFunction implements UnivariateRealFunction, Serializable 
      *
      * @param x the point for which the first derivative should be computed
      * @return the value
-     * @throws MathException if the derivative couldn't be computed.
      */
-    public double firstDerivative(double x) throws MathException {
+    public double firstDerivative(double x)  {
 
+        if (this.degree() == 0) {
+            return 0;
+        }
         double value = c[1];
 
         if ( c.length > 1 ) {
@@ -112,10 +107,12 @@ public class PolynomialFunction implements UnivariateRealFunction, Serializable 
      * 
      * @param x the point for which the first derivative should be computed
      * @return the value
-     * @throws MathException if the second derivative couldn't be computed.
      */
-    public double secondDerivative(double x) throws MathException {
+    public double secondDerivative(double x)  {
 
+        if (this.degree() < 2) {
+            return 0;
+        }
         double value = 2.0 * c[2];
 
         if ( c.length > 2 ) {
@@ -127,33 +124,12 @@ public class PolynomialFunction implements UnivariateRealFunction, Serializable 
         return value;
     }
 
-
-    /** 
-     * local power function using integer powers.
-     * <p>The Math.pow() function always returns absolute value,
-     *   and is a bit 'heavier' since it can handle double values
-     *   for the exponential value.</p>
-     * @param x any double value
-     * @param n must be 0 or greater 
-     * @return x^n (or 0 if n < 0 ).
-     * @throws MathException if n < 0.
+    /**
+     *  Returns the degree of the polynomial
+     * 
+     * @return the degree of the polynomial
      */
-//     private double pow( double x, int n ) throws MathException {
-//         double value = x;
-//         if ( n < 0 ) {
-//             throw new MathException( "power n must be 0 or greater" );
-//         } else if ( n == 0 ) {
-//             // x^0 = 1 always.
-//             value = 1.0;
-//         } else {
-//             // only multiply for powers > 1.
-//             for (int i=1; i < n; i++) {
-//                 value *= x;
-//             }
-//         }
-
-//         System.out.println("pow:"+x+"^"+n+"="+value);
-//         return value;
-//     }
-
+    public int degree() {
+        return c.length - 1;
+    }
 }
