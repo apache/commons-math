@@ -52,6 +52,7 @@
  * <http://www.apache.org/>.
  */
 package org.apache.commons.math.stat;
+import java.util.Arrays;
 
 /**
  * Provides univariate measures for an array of doubles.  
@@ -284,31 +285,12 @@ public abstract class AbstractStoreUnivariate implements StoreUnivariate {
     }
    
     /**
-     * Uses <a href="http://www.nist.gov/dads/HTML/shellsort.html">Shell sort
-     * </a>
      * @see org.apache.commons.math.stat.StoreUnivariate#getSortedValues()
      *
      */ 
     public double[] getSortedValues() {
         double[] values = getValues();
-        int n = values.length;
-        int j = n;
-        while (j > 1) {
-            j = j / 2;
-            boolean done = false;
-            while (!done) {
-                done = true;
-                for (int i = 0; i < n - j; i++) {
-                    int k = i + j;
-                    if (values[i] > values[k]) {
-                        double temp = values[i];
-                        values[i] = values[k];
-                        values[k] = temp;
-                        done = false;
-                    }
-                }
-            }
-        }
+        Arrays.sort(values);
         return values;
     }
     
