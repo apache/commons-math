@@ -17,20 +17,76 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.8 $ $Date: 2004/02/29 18:50:10 $ -->
+<!-- $Revision: 1.9 $ $Date: 2004/02/29 21:25:08 $ -->
 <document url="stat.html">
   <properties>
     <title>The Commons Math User Guide - Statistics</title>
   </properties>
   <body>
-    <section name="1 Statistics">
+    <section name="1 Statistics and Distributions">
       <subsection name="1.1 Overview" href="overview">
-        <p>This is yet to be written. Any contributions will be greatfully
-          accepted!</p>
+        <p>
+          The statistics and distributions packages provide frameworks and implementations for
+          basic univariate statistics, frequency distributions, bivariate regression,  t- and chi-square test 
+          statistics and some commonly used probability distributions.
+        </p>
       </subsection>
       <subsection name="1.2 Univariate statistics" href="univariate">
-        <p>This is yet to be written. Any contributions will be gratefully
-          accepted!</p>
+        <p>
+          The stat package includes a framework and default implementations for the following univariate
+          statistics:
+          <ul>
+            <li>arithmetic and geometric means</li>
+            <li>variance and standard deviation</li>
+            <li>sum, product, log sum, sum of squared values</li>
+            <li>minimum, maximum, median, and percentiles</li>
+            <li>skewness and kurtosis</li>
+            <li>first, second, third and fourth moments</li>
+          </ul>
+        </p>
+        <p>
+          With the exception of percentiles and the median, all of these statistics can be computed without
+          maintaining the full list of input data values in memory.  The stat package provides interfaces and
+          implementations that do not require value storage as well as implementations that operate on arrays
+          of stored values.  
+        </p>
+        <p>
+          The top level interface is 
+          <a href="../apidocs/org/apache/commons/math/stat/univariate/UnivariateStatistic.html">
+          org.apache.commons.math.stat.univariate.UnivariateStatistic.</a> This interface, implemented by
+          all statistics, consists of <code>evaluate()</code> methods that take double[] arrays as arguments and return 
+          the value of the statistic.   This interface is extended by 
+          <a href="../apidocs/org/apache/commons/math/stat/univariate/StorelessUnivariateStatistic.html">
+          org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic,</a> which adds <code>increment(),</code>
+          <code>getResult()</code> and associated methods to support "storageless" implementations that
+          maintain counters, sums or other state information as values are added using the <code>increment()</code>
+          method.  
+        </p>
+        <p>
+          Abstract implementations of the top level interfaces are provided in 
+          <a href="../apidocs/org/apache/commons/math/stat/univariate/AbstractUnivariateStatistic.html">
+          org.apache.commons.math.stat.univariate.AbstractUnivariateStatistic</a> and
+          <a href="../apidocs/org/apache/commons/math/stat/univariate/AbstractStorelessUnivariateStatistic.html">
+          org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic</a> respectively.
+        </p>
+        <p>
+          Each statistic is implemented as a separate class, in one of the subpackages (moment, rank, summary) and
+          each extends one of the abstract classes above (depending on whether or not value storage is required to 
+          compute the statistic).
+          There are several ways to instantiate and use statistics.  Statistics can be instantiated and used directly,  but it is
+          generally more convenient to access them using the provided aggregates: 
+          <table>
+            <tr><th>Aggregate</th><th>Statistics Included</th><th>Values stored?</th></tr>
+            <tr><td><a href="../apidocs/org/apache/commons/math/stat/DescriptiveStatistics.html">
+            org.apache.commons.math.stat.DescriptiveStatistics</a></td><td>All</td><td>Yes</td></tr>
+            <tr><td><a href="../apidocs/org/apache/commons/math/stat/SummaryStatistics.html">
+            org.apache.commons.math.stat.SummaryStatistics</a></td><td>min, max, mean, geometric mean, n, sum, sum of squares, standard deviation, variance</td><td>No</td></tr>
+          </table>
+          TODO: add code sample
+          There is also a utility class, <a href="../apidocs/org/apache/commons/math/stat/StatUtils.html">
+           org.apache.commons.math.stat.StatUtils,</a> that provides static methods for computing statistics
+           from double[] arrays. 
+        </p>
       </subsection>
       <subsection name="1.3 Frequency distributions" href="frequency">
         <p>This is yet to be written. Any contributions will be gratefully
@@ -73,6 +129,7 @@
             <tr><td>F</td><td>createFDistribution</td><td><div>Numerator degrees of freedom</div><div>Denominator degrees of freedom</div></td></tr>
             <tr><td>Gamma</td><td>createGammaDistribution</td><td><div>Alpha</div><div>Beta</div></td></tr>
             <tr><td>Hypergeometric</td><td>createHypogeometricDistribution</td><td><div>Population size</div><div>Number of successes in population</div><div>Sample size</div></td></tr>
+            <tr><td>Normal (Gaussian)</td><td>createNormalDistribution</td><td><div>Mean</div><div>Standard Deviation</div></td></tr>
             <tr><td>t</td><td>createTDistribution</td><td><div>Degrees of freedom</div></td></tr>
           </table>
         </p>
