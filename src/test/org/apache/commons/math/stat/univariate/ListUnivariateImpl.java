@@ -24,7 +24,7 @@ import org.apache.commons.math.util.DefaultTransformer;
 import org.apache.commons.math.util.NumberTransformer;
 
 /**
- * @version $Revision: 1.1 $ $Date: 2004/04/12 02:27:50 $
+ * @version $Revision: 1.2 $ $Date: 2004/04/24 21:41:02 $
  */
 public class ListUnivariateImpl extends AbstractDescriptiveStatistics {
 
@@ -146,7 +146,9 @@ public class ListUnivariateImpl extends AbstractDescriptiveStatistics {
     }
 
     /**
-     * @see org.apache.commons.math.stat.univariate.DescriptiveStatistics#clear()
+     * Clears all statistics.
+     * <p>
+     * <strong>N.B.: </strong> This method has the side effect of clearing the underlying list.
      */
     public void clear() {
         list.clear();
