@@ -38,8 +38,11 @@ import java.io.Serializable;
  * <p>
  * new value = old value - 4 * (dev/n) * m3 + 6 * (dev/n)^2 * m2 + <br>
  * [n^2 - 3 * (n-1)] * dev^4 * (n-1) / n^3
+ * <p>
+ * Returns <code>Double.NaN</code> if no data values have been added and
+ * returns <code>0</code> if there is just one value in the data set.
  * 
- * @version $Revision: 1.18 $ $Date: 2004/06/27 19:37:51 $
+ * @version $Revision: 1.19 $ $Date: 2004/06/29 02:14:17 $
  */
 public class FourthMoment extends ThirdMoment implements Serializable{
 

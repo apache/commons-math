@@ -34,8 +34,10 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * <li>For each additional value, update using <br>
  *   <code>m = m + (new value - m) / (number of observations)</code></li>
  * </ol>
+ * <p>
+ *  Returns <code>Double.NaN</code> if the dataset is empty.
  *
- * @version $Revision: 1.16 $ $Date: 2004/06/27 19:37:51 $
+ * @version $Revision: 1.17 $ $Date: 2004/06/29 02:14:17 $
  */
 public class FirstMoment extends AbstractStorelessUnivariateStatistic implements Serializable{
 
