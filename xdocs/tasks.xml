@@ -52,65 +52,48 @@
    <subsection name="Unclassified priority"> 
     <ul>
      <li>
-      Add bootstrap confidence intervals to StoredUnivariate
-      implementations.
-     </li>
-     <li>
-     Improve numerical accuracy of Univariate and BivariateRegression statistical
-     computations
-     </li>
-     <li>
-      t-test statistic needs to be added and we should probably add the
-      capability of actually performing t- and chi-square tests at fixed
-      significance levels (.1, .05, .01, .001).
-     </li>
-     <li>
-      numerical approximation of the t- and chi-square distributions to
-      enable user-supplied significance levels.      
-     </li>
-     <li>
-      The RealMatrixImpl class is missing some key method implementations.
-      The critical thing is solution of linear systems.  We need to implement a 
-      numerically sound solution algorithm.  This will enable inverse() and also
-      support general linear regression.
-     </li>
-     <li>
-      ComplexNumber implementation, supporting C9x Annex G spec.
-     </li>
-     <li> Extend distribution framework to 
-      support discrete distributions and implement binomial and hypergeometric
-      distributions.
+      Add confidence intervals to Univariate implementations.
+     </li>     
+     <li> Extend distribution framework to support discrete distributions and 
+      implement binomial and hypergeometric distributions.
      </li>
      <li>
       Framework and implementation strategie(s) for finding roots or real-valued
-      functions of one (real) variable
+      functions of one (real) variable.
      </li>
      <li>
-      Exponential growth and decay (set up for financial applications)
+      Cubic spline interpolation.
      </li>
      <li>
-      Polynomial Interpolation
-     </li>
-     <li>
-      Addition of a Arithmetic Geometric Mean
-     </li>
-     <li>
-      Javadoc generation currently throws 35 warnings.  Bring the 
+      Javadoc generation is still throwing warnings.  Bring the 
       Javadoc into compliance (i.e. reach zero warnings).
      </li>
      <li>
-      Clover tests show lots of gaps in test path coverage. Get all tests to
-      100% coverage
+      Clover tests show gaps in test path coverage. Get all tests to
+      100% coverage.  Also improve test data and boundary conditions coverage.
      </li>
      <li>
       CheckStyle with modified properties still shows many errors.  Clean these
       up.
      </li>
      <li>
-      Define full package structure and develop user's guide following package
-      structure
+      Develop user's guide following the package structure.
      </li>
-      
+     <li>Additional performance and accuracy testing. If anyone is interested 
+      in helping out here, what we could really use is a wider selection of 
+      test cases for the core numerical functions and validation against either 
+      other packages (e.g. R for the statistical stuff), verified datasets, 
+      or experiments comparing implementions using floats to doubles.
+     </li>
+     <li>
+       Additional code review. Verify that the code matches the 
+       documentation and identify obvious inefficiencies or numerical problems.  
+       All feedback/suggestions for improvement/patches are welcome.
+     </li>
+     <li>
+      Finalize the contents of MathUtils and StatUtils. Suggest any additions 
+      -- ideally with patches --  to these utility classes.
+     </li> 
     </ul>
    </subsection>
 
@@ -135,6 +118,29 @@
     <li>
       Add percentiles to stored Univariate implementations
     </li>
+    <li>
+     Improve numerical accuracy of Univariate and BivariateRegression statistical
+     computations
+     </li>
+     <li>
+      t-test statistic needs to be added and we should probably add the
+      capability of actually performing t- and chi-square tests at fixed
+      significance levels (.1, .05, .01, .001).
+     </li>
+     <li>
+      numerical approximation of the t- and chi-square distributions to
+      enable user-supplied significance levels.      
+     </li>
+     <li>
+      The RealMatrixImpl class is missing some key method implementations.
+      The critical thing is solution of linear systems.  We need to implement a 
+      numerically sound solution algorithm.  This will enable inverse() and also
+      support general linear regression.
+     </li>
+     <li>
+      Added double[] |-> double methods in StatUtils to take start indexes and length
+      as parameters and delegate the current "full array" versions to these.
+     </li>    
     </ul>
    </subsection>
   </section>
