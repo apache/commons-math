@@ -25,7 +25,7 @@ import org.apache.commons.math.util.ContinuedFraction;
  * This is a utility class that provides computation methods related to the
  * Gamma family of functions.
  * 
- * @version $Revision: 1.19 $ $Date: 2004/06/07 20:30:16 $
+ * @version $Revision: 1.20 $ $Date: 2004/06/10 18:34:53 $
  */
 public class Gamma implements Serializable {
     
@@ -236,30 +236,15 @@ public class Gamma implements Serializable {
             // create continued fraction
             ContinuedFraction cf = new ContinuedFraction() {
                 protected double getA(int n, double x) {
-                    double ret;
-                    switch(n) {
-                        case 0: ret = 0.0; break;
-                        default:
-                            ret = ((2.0 * n) - 1.0) - a + x; break;
-                    }
-                    return ret;
+                    return ((2.0 * n) + 1.0) - a + x;
                 }
 
                 protected double getB(int n, double x) {
-                    double ret;
-                    double t;
-                    switch(n) {
-                        case 1: ret = 1.0; break;
-                        default:
-                            t = n - 1.0;
-                            ret = t * (a - t);
-                            break;
-                    }
-                    return ret;
+                    return n * (a - n);
                 }
             };
             
-            ret = cf.evaluate(x, epsilon, maxIterations);
+            ret = 1.0 / cf.evaluate(x, epsilon, maxIterations);
             ret = Math.exp(-x + (a * Math.log(x)) - logGamma(a)) * ret;
         }
 
