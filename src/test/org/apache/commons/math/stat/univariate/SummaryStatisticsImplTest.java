@@ -24,7 +24,7 @@ import org.apache.commons.math.TestUtils;
 /**
  * Test cases for the {@link DescriptiveStatistics} class.
  *
- * @version $Revision: 1.1 $ $Date: 2004/06/16 03:36:12 $
+ * @version $Revision: 1.2 $ $Date: 2004/06/17 23:16:41 $
  */
 
 public final class SummaryStatisticsImplTest extends TestCase {
@@ -155,6 +155,68 @@ public final class SummaryStatisticsImplTest extends TestCase {
         u.addValue(2d);
         summary = u.getSummary();
         verifySummary(summary);     
+    }
+    
+    public void testSerialization() {
+        // Empty test
+        TestUtils.checkSerializedEquality(u);
+        SummaryStatistics s = (SummaryStatistics) TestUtils.serializeAndRecover(u);
+        StatisticalSummary summary = s.getSummary();
+        verifySummary(summary);
+        
+        // Add some data
+        u.addValue(2d);
+        u.addValue(1d);
+        u.addValue(3d);
+        u.addValue(4d);
+        u.addValue(5d);
+        
+        // Test again
+        TestUtils.checkSerializedEquality(u);
+        s = (SummaryStatistics) TestUtils.serializeAndRecover(u);
+        summary = s.getSummary();
+        verifySummary(summary);
+        
+    }
+    
+    public void testEqualsAndHashCode() {
+        SummaryStatistics t = null;
+        int emptyHash = u.hashCode();
+        assertTrue("reflexive", u.equals(u));
+        assertFalse("non-null compared to null", u.equals(t));
+        assertFalse("wrong type", u.equals(new Double(0)));
+        t = SummaryStatistics.newInstance();
+        assertTrue("empty instances should be equal", t.equals(u));
+        assertTrue("empty instances should be equal", u.equals(t));
+        assertEquals("empty hash code", emptyHash, t.hashCode());
+        
+        // Add some data to u
+        u.addValue(2d);
+        u.addValue(1d);
+        u.addValue(3d);
+        u.addValue(4d);
+        assertFalse("different n's should make instances not equal", t.equals(u));
+        assertFalse("different n's should make instances not equal", u.equals(t));
+        assertTrue("different n's should make hashcodes different", 
+                u.hashCode() != t.hashCode());
+        
+        //Add data in different order to t, should not affect identity or hashcode
+        t.addValue(4d);
+        t.addValue(2d);
+        t.addValue(3d);
+        t.addValue(1d);
+        assertTrue("summaries based on same data should be equal", t.equals(u));
+        assertTrue("summaries based on same data should be equal", u.equals(t));
+        assertEquals("summaries based on same data should have same hashcodes", 
+                u.hashCode(), t.hashCode());   
+        
+        // Clear and make sure summaries are indistinguishable from empty summary
+        u.clear();
+        t.clear();
+        assertTrue("empty instances should be equal", t.equals(u));
+        assertTrue("empty instances should be equal", u.equals(t));
+        assertEquals("empty hash code", emptyHash, t.hashCode());
+        assertEquals("empty hash code", emptyHash, u.hashCode());
     }
     
     private void verifySummary(StatisticalSummary s) {
