@@ -64,19 +64,19 @@ import java.io.Serializable;
  * to doubles by addValue().  
  *
  * @author Phil Steitz
- * @version $Revision: 1.4 $ $Date: 2003/05/17 23:24:21 $
+ * @version $Revision: 1.5 $ $Date: 2003/05/20 18:15:29 $
  * 
 */
 public class UnivariateImpl implements Univariate, Serializable {
 
-	/** hold the window size **/
-	private int windowSize = Univariate.INIFINTE_WINDOW;
-	
-	/** Just in case, the windowSize is not inifinite, we need to
-	 *   keep an array to remember values 0 to N
-	 */
-	private DoubleArray doubleArray;
-	
+    /** hold the window size **/
+    private int windowSize = Univariate.INIFINTE_WINDOW;
+
+    /** Just in case, the windowSize is not inifinite, we need to
+     *   keep an array to remember values 0 to N
+     */
+    private DoubleArray doubleArray;
+
     /** running sum of values that have been added */
     private double sum = 0.0;
 
@@ -99,9 +99,9 @@ public class UnivariateImpl implements Univariate, Serializable {
     
     /** Create a new univariate with a fixed window **/
     public UnivariateImpl(int window) {
-    	windowSize = window;
-   		doubleArray = new FixedDoubleArray( window );
-     }
+        windowSize = window;
+        doubleArray = new FixedDoubleArray( window );
+    }
 
     /**
      * Adds the value, updating running sums.
@@ -124,25 +124,26 @@ public class UnivariateImpl implements Univariate, Serializable {
     /** 
      * Returns the variance of the values that have been added. 
      * @return The variance of a set of values.  Double.NaN is returned for
-     * 	           an empty set of values and 0.0 is returned for a single value set.
+     *         an empty set of values and 0.0 is returned for a single value set.
      */
     public double getVariance() {
-    	double variance = Double.NaN;
-    	
-    	if( n == 1 ) {
-			variance = 0.0;
-    	} else if( n > 1 ) {
-			double xbar = getMean();
-			variance =  (sumsq - xbar*xbar*n)/(n-1);
-    	}
-    	
-    	return variance;
+        double variance = Double.NaN;
+
+        if( n == 1 ) {
+            variance = 0.0;
+        } else if( n > 1 ) {
+            double xbar = getMean();
+            variance =  (sumsq - xbar*xbar*n)/(n-1);
+        }
+
+        return variance;
     }
 
     /** 
      * Returns the standard deviation of the values that have been added
-     * @return The standard deviation of a set of values.  Double.NaN is returned for
-     * 		       an empty set of values and 0.0 is returned for a single value set.
+     * @return The standard deviation of a set of values.  Double.NaN is 
+     *         returned for an empty set of values and 0.0 is returned for 
+     *         a single value set.
      */
     public double getStandardDeviation() {
         return (new Double(Math.sqrt
@@ -154,45 +155,45 @@ public class UnivariateImpl implements Univariate, Serializable {
      * @param v the value to be added 
      */
     private void insertValue(double v) {
-    	
-    	if( windowSize != Univariate.INIFINTE_WINDOW ) {
-    		if( windowSize == n ) {
-				double discarded = doubleArray.addElementRolling( v );        	
-			
-				// Remove the influence of discarded value ONLY
-				// if the discard value has any meaning.  In other words
-				// don't discount until we "roll".
-				if( windowSize > doubleArray.getNumElements() ) {
-					// Remove the influence of the discarded
-					sum -= discarded;
-					sumsq -= discarded * discarded;
-				}
-			
-				// Include the influence of the new
-				// TODO: The next two lines seems rather expensive, but
-				// I don't see many alternatives.			 
-				min = doubleArray.getMin();
-				max = doubleArray.getMax();
-				sum += v;
-				sumsq += v*v;
-    		} else {
-				doubleArray.addElement( v );        	
-	        	n += 1.0;
-    	    	if (v < min) min = v;
-       			if (v > max) max = v;
-        		sum += v;
-        		sumsq += v*v;
-    		}
-    	} else {
-			// If the windowSize is inifinite please don't take the time to
-			// worry about storing any values.  We don't need to discard the
-			// influence of any single item.
-			n += 1.0;
-			if (v < min) min = v;
-			if (v > max) max = v;
-			sum += v;
-			sumsq += v*v;
-    	}
+
+        if( windowSize != Univariate.INIFINTE_WINDOW ) {
+            if( windowSize == n ) {
+                double discarded = doubleArray.addElementRolling( v );
+
+                // Remove the influence of discarded value ONLY
+                // if the discard value has any meaning.  In other words
+                // don't discount until we "roll".
+                if( windowSize > doubleArray.getNumElements() ) {
+                    // Remove the influence of the discarded
+                    sum -= discarded;
+                    sumsq -= discarded * discarded;
+                }
+
+                // Include the influence of the new
+                // TODO: The next two lines seems rather expensive, but
+                // I don't see many alternatives.			 
+                min = doubleArray.getMin();
+                max = doubleArray.getMax();
+                sum += v;
+                sumsq += v*v;
+            } else {
+                doubleArray.addElement( v );        	
+                n += 1.0;
+                if (v < min) min = v;
+                if (v > max) max = v;
+                sum += v;
+                sumsq += v*v;
+            }
+        } else {
+            // If the windowSize is inifinite please don't take the time to
+            // worry about storing any values.  We don't need to discard the
+            // influence of any single item.
+            n += 1.0;
+            if (v < min) min = v;
+            if (v > max) max = v;
+            sum += v;
+            sumsq += v*v;
+        }
     }
 
     /** Getter for property max.
@@ -263,18 +264,19 @@ public class UnivariateImpl implements Univariate, Serializable {
         this.max = Double.MIN_VALUE;
     }
 
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.Univariate#getWindowSize()
-	 */
-	public int getWindowSize() {
-		return windowSize;
-	}
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.Univariate#getWindowSize()
+     */
+    public int getWindowSize() {
+        return windowSize;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.Univariate#setWindowSize(int)
-	 */
-	public void setWindowSize(int windowSize) {
-		throw new RuntimeException( "A fixed window size must be set via the UnivariateImpl constructor");
-	}
-
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.Univariate#setWindowSize(int)
+     */
+    public void setWindowSize(int windowSize) {
+        String msg = "A fixed window size must be set via the " +
+            "UnivariateImpl constructor";
+        throw new RuntimeException( msg );
+    }
 }

@@ -60,194 +60,212 @@ import java.io.Serializable;
  * 
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
  */
-public class ContractableDoubleArray extends ExpandableDoubleArray implements Serializable {
+public class ContractableDoubleArray 
+    extends ExpandableDoubleArray 
+    implements Serializable {
 
-	// The contraction criteria is related to the expansion factor.  Since this array is allowed to contract
-	// 
-	protected float contractionCriteria = 2.5f;
+    // The contraction criteria defines the conditions under which this
+    // object will "resize" the internal array to the number of elements
+    // contained in the element array + 1
+    protected float contractionCriteria = 2.5f;
 
-	/**
-	 * Create an expandable double array with the
-	 * default initial capactiy of 16, an expansion factor of 2.00, and a contractionCriteria of 2.5
-	 */
-	public ContractableDoubleArray() {
-		super();
-	}	
+    /**
+     * Create an expandable double array with the default initial capacity of 
+     * 16, an expansion factor of 2.00, and a contractionCriteria of 2.5
+     */
+    public ContractableDoubleArray() {
+        super();
+    }
 
-	/**
-	 * Create an expandable double array with the
-	 * specified initial capacity, the defult expansion factor of 2.00, and a contractionCriteria of 2.5
-	 * 
-	 * @param initialCapacity The initial size of the internal storage array
-	 */
-	public ContractableDoubleArray(int initialCapacity) {
-		super( initialCapacity );
-	}
+    /**
+     * Create an expandable double array with the specified initial capacity, 
+     * the defult expansion factor of 2.00, and a contractionCriteria of 2.5
+     * 
+     * @param initialCapacity The initial size of the internal storage array
+     */
+    public ContractableDoubleArray(int initialCapacity) {
+        super(initialCapacity);
+    }
 
-	/**
-	 * Create an expandable double array with the
-	 * specificed initial capacity and expand factor, with a contractionCriteria of 2.5
-	 * 
-	 * @param initialCapacity The initial size of the internal storage array
-	 * @param expansionFactor the array will be expanded based on this parameter
-	 */
-	public ContractableDoubleArray(int initialCapacity, float expansionFactor) {
-		this.expansionFactor = expansionFactor;
-		setInitialCapacity( initialCapacity );
-		internalArray = new double[initialCapacity];
-		checkContractExpand(getContractionCriteria(), expansionFactor);
-	}
+    /**
+     * Create an expandable double array with the specificed initial capacity 
+     * and expand factor, with a contractionCriteria of 2.5
+     * 
+     * @param initialCapacity The initial size of the internal storage array
+     * @param expansionFactor the array will be expanded based on this 
+     *                        parameter
+     */
+    public ContractableDoubleArray(int initialCapacity, 
+                                   float expansionFactor) {
+        this.expansionFactor = expansionFactor;
+        setInitialCapacity(initialCapacity);
+        internalArray = new double[initialCapacity];
+        checkContractExpand(getContractionCriteria(), expansionFactor);
+    }
 
-	/**
-	 * Create an expandable double array with the
-	 * specificed initial capacity, expand factor, and contractionCriteria
-	 * 
-	 * @param initialCapacity The initial size of the internal storage array
-	 * @param expansionFactor the array will be expanded based on this parameter
-	 */
-	public ContractableDoubleArray(int initialCapacity, float expansionFactor, float contractionCriteria) {
-		this.contractionCriteria = contractionCriteria;
-		this.expansionFactor = expansionFactor;
-		setInitialCapacity( initialCapacity );
-		internalArray = new double[initialCapacity];
-		checkContractExpand(contractionCriteria, expansionFactor);
-	}
+    /**
+     * Create an expandable double array with the
+     * specificed initial capacity, expand factor, and contractionCriteria
+     * 
+     * @param initialCapacity The initial size of the internal storage array
+     * @param expansionFactor the array will be expanded based on this 
+     *                        parameter
+     */
+    public ContractableDoubleArray(int initialCapacity, 
+                                   float expansionFactor, 
+                                   float contractionCriteria) {
+        this.contractionCriteria = contractionCriteria;
+        this.expansionFactor = expansionFactor;
+        setInitialCapacity(initialCapacity);
+        internalArray = new double[initialCapacity];
+        checkContractExpand(contractionCriteria, expansionFactor);
+    }
 
-	/**
-	 * Contracts the storage array to the (size of the element set) + 1 - to avoid a zero length array.
-	 * This function also resets the startIndex to zero 
-	 */
-	public synchronized void contract() {
-		double[] tempArray = new double[numElements + 1];
+    /**
+     * Contracts the storage array to the (size of the element set) + 1 - to 
+     * avoid a zero length array. This function also resets the startIndex to 
+     * zero. 
+     */
+    public synchronized void contract() {
+        double[] tempArray = new double[numElements + 1];
 
-		// Copy and swap - copy only the element array from the src array.
-		System.arraycopy(internalArray,startIndex,tempArray,0,numElements);
-		internalArray = tempArray;
-		
-		// Reset the start index to zero
-		startIndex = 0;
-	}
+        // Copy and swap - copy only the element array from the src array.
+        System.arraycopy(internalArray,startIndex,tempArray,0,numElements);
+        internalArray = tempArray;
 
-	/**
-	 * Adds an element to the end of this expandable array
-	 * 
-	 * @return value to be added to end of array
-	 */
-	public synchronized void addElement(double value) {
-		super.addElement( value );
-		if( shouldContract() ) {
-			contract();
-		}
-	}
+        // Reset the start index to zero
+        startIndex = 0;
+    }
 
-	/**
-	 * Adds an element to the end of this expandable array
-	 * 
-	 * @return value to be added to end of array
-	 */
-	public synchronized double addElementRolling(double value) {
-		double discarded = super.addElementRolling(value);
-		// Check the contraction criteria
-		if( shouldContract() ) {
-			contract();
-		}
-		return discarded;
-	}
-	
-	/**
-	 * Should contract returns true if the ratio of (internal storage length) to (number of elements)
-	 * is larger than the contractionCriteria value.  In other words, using the default value
-	 * of 2.5, if the internal storage array provides more than 2.5x the space needed to store
-	 * numElements, then this function returns true
-	 * 
-	 * @return true if array satisfies the contraction criteria
-	 */
-	private synchronized boolean shouldContract() {
-		boolean shouldContract = false;
-		if( ( internalArray.length / numElements ) > contractionCriteria ) {
-			shouldContract = true;
-		}
-		return shouldContract;
-	}
+    /**
+     * Adds an element to the end of this expandable array
+     * 
+     * @return value to be added to end of array
+     */
+    public synchronized void addElement(double value) {
+        super.addElement(value);
+        if (shouldContract()) {
+            contract();
+        }
+    }
 
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.ExpandableDoubleArray#setElement(int, double)
-	 */
-	public synchronized void setElement(int index, double value) {
-		super.setElement(index, value);
-		if( shouldContract() ) {
-			contract();
-		}
-	}
+    /**
+     * Adds an element to the end of this expandable array
+     * 
+     * @return value to be added to end of array
+     */
+    public synchronized double addElementRolling(double value) {
+        double discarded = super.addElementRolling(value);
+        // Check the contraction criteria
+        if (shouldContract()) {
+            contract();
+        }
+        return discarded;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.ExpandableDoubleArray#setExpansionFactor(float)
-	 */
-	public void setExpansionFactor(float expansionFactor) {
-		checkContractExpand(getContractionCriteria(), expansionFactor);
-		super.setExpansionFactor(expansionFactor);
-	}
+    /**
+     * Should contract returns true if the ratio of (internal storage length) 
+     * to (number of elements) is larger than the contractionCriteria value.  
+     * In other words, using the default value of 2.5, if the internal storage
+     * array provides more than 2.5x the space needed to store numElements, 
+     * then this function returns true
+     * 
+     * @return true if array satisfies the contraction criteria
+     */
+    private synchronized boolean shouldContract() {
+        boolean shouldContract = false;
+        if ((internalArray.length / numElements) > contractionCriteria) {
+            shouldContract = true;
+        }
+        return shouldContract;
+    }
 
-	/**
-	 * The contraction criteria defines when the internal array will contract to store only the
-	 * number of elements in the element array.  This contractionCriteria gaurantees that
-	 * the internal storage array will never exceed this factor more than the space needed
-	 * to store numElements.
-	 * 
-	 * @return the contraction criteria used to reclaim memory when array is empty
-	 */
-	public float getContractionCriteria() {
-		return contractionCriteria;
-	}
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.ExpandableDoubleArray#setElement(int, double)
+     */
+    public synchronized void setElement(int index, double value) {
+        super.setElement(index, value);
+        if (shouldContract()) {
+            contract();
+        }
+    }
 
-	/**
-	 * Sets the contraction criteria for this ExpandContractDoubleArray. 
-	 * 
-	 * @param new contraction criteria
-	 */
-	public void setContractionCriteria(float contractionCriteria) {
-		checkContractExpand( contractionCriteria, getExpansionFactor() );
-		
-		this.contractionCriteria = contractionCriteria;
-	}
-	
-	/**
-	 * Checks the expansion factor and the contraction criteria and throws an IllegalArgumentException
-	 * if the contractionCriteria is less than the expansionCriteria
-	 * 
-	 * @param expansionFactor 
-	 * @param contractionCriteria
-	 */
-	protected void checkContractExpand( float contractionCritera, float expansionFactor ) {
-		
-		if( contractionCritera < expansionFactor ) {
-			throw new IllegalArgumentException( "Contraction criteria can never be smaller than " +				"the expansion factor.  This would lead to a never ending loop of expansion and " +				"contraction as a newly expanded internal storage array would immediately " +				"satisfy the criteria for contraction");
-		} 
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.ExpandableDoubleArray#setExpansionFactor(float)
+     */
+    public void setExpansionFactor(float expansionFactor) {
+        checkContractExpand(getContractionCriteria(), expansionFactor);
+        super.setExpansionFactor(expansionFactor);
+    }
 
-		if( contractionCriteria <= 1.0 ) {
-			throw new IllegalArgumentException( "The contraction criteria must be a number larger than" +
-				" one.  If the contractionCriteria is less than or equal to one an endless loop of contraction " +
-				"and expansion would ensue as an internalArray.length == numElements would satisfy " +
-				"the contraction criteria");
-		}
-		
-		if (expansionFactor < 1.0) {
-			throw new IllegalArgumentException(
-				"The expansion factor must be a number greater than" + "1.0");
-		}
+    /**
+     * The contraction criteria defines when the internal array will contract 
+     * to store only the number of elements in the element array.  This 
+     * contractionCriteria gaurantees that the internal storage array will 
+     * never exceed this factor more than the space needed to store 
+     * numElements.
+     * 
+     * @return the contraction criteria used to reclaim memory when array is 
+     *         empty
+     */
+    public float getContractionCriteria() {
+        return contractionCriteria;
+    }
 
-		
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.ExpandableDoubleArray#discardFrontElements(int)
-	 */
-	public synchronized void discardFrontElements(int i) {
-		super.discardFrontElements(i);
-		if( shouldContract() ) {
-			contract();
-		}
+    /**
+     * Sets the contraction criteria for this ExpandContractDoubleArray. 
+     * 
+     * @param new contraction criteria
+     */
+    public void setContractionCriteria(float contractionCriteria) {
+        checkContractExpand(contractionCriteria, getExpansionFactor());
 
-	}
+        this.contractionCriteria = contractionCriteria;
+    }
 
+    /**
+     * Checks the expansion factor and the contraction criteria and throws an 
+     * IllegalArgumentException if the contractionCriteria is less than the 
+     * expansionCriteria
+     * 
+     * @param expansionFactor 
+     * @param contractionCriteria
+     */
+    protected void checkContractExpand(float contractionCritera, 
+                                        float expansionFactor) {
+
+        if (contractionCritera < expansionFactor) {
+            String msg = "Contraction criteria can never be smaller than " +
+                "the expansion factor.  This would lead to a never ending " +
+                "loop of expansion and contraction as a newly expanded " +
+                "internal storage array would immediately satisfy the " +
+                "criteria for contraction";
+            throw new IllegalArgumentException(msg);
+        }
+
+        if (contractionCriteria <= 1.0) {
+            String msg = "The contraction criteria must be a number larger " +
+                "than one.  If the contractionCriteria is less than or " +
+                "equal to one an endless loop of contraction and expansion " +
+                "would ensue as an internalArray.length == numElements " +
+                "would satisfy the contraction criteria";
+            throw new IllegalArgumentException(msg); 
+        }
+
+        if (expansionFactor < 1.0) {
+            String msg = "The expansion factor must be a number greater " +
+                "than 1.0";
+            throw new IllegalArgumentException(msg);
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.ExpandableDoubleArray#discardFrontElements(int)
+     */
+    public synchronized void discardFrontElements(int i) {
+        super.discardFrontElements(i);
+        if (shouldContract()) {
+            contract();
+        }
+    }
 }

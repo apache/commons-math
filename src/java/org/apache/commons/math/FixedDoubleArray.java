@@ -65,135 +65,140 @@ import java.util.NoSuchElementException;
  */
 public class FixedDoubleArray implements DoubleArray {
 
-	double[] internalArray;
-	
-	int size = 0;
-	int nextAdd = 0;
-	int maxElements = 0;
+    double[] internalArray;
 
-	public FixedDoubleArray(int maxElements) {
-		this.maxElements = maxElements;
-		internalArray = new double[maxElements];
-	}
+    int size = 0;
+    int nextAdd = 0;
+    int maxElements = 0;
 
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.DoubleArray#getNumElements()
-	 */
-	public int getNumElements() {
-		return size;
-	}
+    public FixedDoubleArray(int maxElements) {
+        this.maxElements = maxElements;
+        internalArray = new double[maxElements];
+    }
 
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.DoubleArray#getElement(int)
-	 */
-	public double getElement(int index) throws NoSuchElementException {
-		if( index > (size-1) ) {
-			throw new ArrayIndexOutOfBoundsException("Attempted to retrieve an element outside of" +				"the element array");
-		} else {
-			return internalArray[index];
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.DoubleArray#getNumElements()
+     */
+    public int getNumElements() {
+        return size;
+    }
+
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.DoubleArray#getElement(int)
+     */
+    public double getElement(int index) throws NoSuchElementException {
+        if (index > (size-1)) {
+            String msg = "Attempted to retrieve an element outside of " +
+                "the element array";
+            throw new ArrayIndexOutOfBoundsException(msg);
+        } else {
+            return internalArray[index];
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.DoubleArray#setElement(int, double)
+     */
+    public void setElement(int index, double value) {
+        if (index > (size-1)) {
+            String msg = "Attempted to set an element outside of" +
+				"the element array";
+            throw new ArrayIndexOutOfBoundsException(msg);
+        } else {
+            internalArray[index] = value;
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.DoubleArray#addElement(double)
+     */
+    public void addElement(double value) {
+        if (size < internalArray.length) {
+            size++;
+
+            internalArray[nextAdd] = value;
+
+            nextAdd++;
+            nextAdd = nextAdd % (maxElements);
+
+        } else {
+            String msg = "Attempted to add a value to an array of fixed " +
+                "size, please use addElementRolling to avoid this exception";
+            throw new ArrayIndexOutOfBoundsException(msg);
 		}
-	}
+    }
 
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.DoubleArray#setElement(int, double)
-	 */
-	public void setElement(int index, double value) {
-		if( index > (size-1) ) {
-			throw new ArrayIndexOutOfBoundsException("Attempted to set an element outside of" +
-				"the element array");
-		} else {
-			internalArray[index] = value;
-		}
-	}
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.DoubleArray#addElementRolling(double)
+     */
+    public double addElementRolling(double value) {
+        if (size < internalArray.length) {
+            size++;
+        } 
 
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.DoubleArray#addElement(double)
-	 */
-	public void addElement(double value) {
-		if( size < internalArray.length ) {
-			size++;
-			
-			internalArray[nextAdd] = value;
-			
-			nextAdd++;
-			nextAdd = nextAdd % (maxElements);
+        double discarded = internalArray[nextAdd];
 
-		} else {
-			throw new ArrayIndexOutOfBoundsException("Attempted to add a value to an array of fixed size, please " +				"use addElementRolling to avoid this exception");
-		}
-		
-	}
+        internalArray[nextAdd] = value;
 
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.DoubleArray#addElementRolling(double)
-	 */
-	public double addElementRolling(double value) {
-		if( size < internalArray.length ) {
-			size++;
-		} 
-		
-		double discarded = internalArray[nextAdd];
+        nextAdd++;
+        nextAdd = nextAdd % maxElements;	
 
-		internalArray[nextAdd] = value;
+        // but we return the value which was "replaced"
+        return (discarded);		
+    }
 
-		nextAdd++;
-		nextAdd = nextAdd % maxElements;	
-		
-		// but we return the value which was "replaced"
-		return( discarded );		
-	}
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.DoubleArray#getElements()
+     */
+    public double[] getElements() {
+        double[] copy = new double[internalArray.length];
+        System.arraycopy(internalArray, 0, copy, 0, internalArray.length);
+        return copy;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.DoubleArray#getElements()
-	 */
-	public double[] getElements() {
-		double[] copy = new double[internalArray.length];
-		System.arraycopy(internalArray, 0, copy, 0, internalArray.length);
-		return copy;
-	}
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.DoubleArray#clear()
+     */
+    public void clear() {
+        size = 0;
+        nextAdd = 0;
+        internalArray = new double[maxElements];
+    }
 
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.DoubleArray#clear()
-	 */
-	public void clear() {
-		size = 0;
-		nextAdd = 0;
-		internalArray = new double[maxElements];
-	}
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.DoubleArray#discardFrontElements(int)
+     */
+    public void discardFrontElements(int i) {
+        // TODO: AH! implemented there is not concept of "front"
+        // in an array that discards values when rolling.....  anyone?
+        String msg = "Discarding front element not supported in " +
+            "FixedDoubleArray";
+        throw new RuntimeException(msg);
+    }
 
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.DoubleArray#discardFrontElements(int)
-	 */
-	public void discardFrontElements(int i) {
-		// TODO: AH! implemented there is not concept of "front"
-		// in an array that discards values when rolling.....  anyone?
-		throw new RuntimeException("Discarding front element not supported in FixedDoubleArray");
-	}
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.DoubleArray#getMin()
+     */
+    public double getMin() {
+        double min = internalArray[0];
+        for (int i = 1; i < size; i++) {
+            if (internalArray[i] < min) {
+                min = internalArray[i];
+            }
+        }
+        return min;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.DoubleArray#getMin()
-	 */
-	public double getMin() {
-		double min = internalArray[0];
-		for( int i = 1; i < size; i++) {
-			if( internalArray[i] < min ) {
-				min = internalArray[i];
-			}
-		}
-		return min;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.DoubleArray#getMax()
-	 */
-	public double getMax() {
-		double max = internalArray[0];
-		for( int i = 1; i < size; i++) {
-			if( internalArray[i] > max ) {
-				max = internalArray[i];
-			}
-		}
-		return max;
-	}
-
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.DoubleArray#getMax()
+     */
+    public double getMax() {
+        double max = internalArray[0];
+        for (int i = 1; i < size; i++) {
+            if (internalArray[i] > max) {
+                max = internalArray[i];
+            }
+        }
+        return max;
+    }
 }

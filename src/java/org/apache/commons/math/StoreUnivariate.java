@@ -63,64 +63,68 @@ package org.apache.commons.math;
  */
 public interface StoreUnivariate extends Univariate {
 
-	/**
-	 * A LEPTOKURTIC set has a positive kurtosis (a high peak) 
-	 */
-	public static int LEPTOKURTIC = 1;
-	
-	/**
-	 * A MESOKURTIC set has a kurtosis of 0 - it is a normal distribution
-	 */
-	public static int MESOKURTIC = 0;
-	
-	/**
-	 * A PLATYKURTIC set has a negative kurtosis (a flat "peak")
-	 */
-	public static int PLATYKURTIC = -1;
+    /**
+     * A LEPTOKURTIC set has a positive kurtosis (a high peak) 
+     */
+    public static int LEPTOKURTIC = 1;
 
-	/** 
-	 * Returns the mode of the values that have been added.  The mode is
-	 * the element which occurs with the most frequency
-	 * @return the mode
-	 */
-	public abstract double getMode();
+    /**
+     * A MESOKURTIC set has a kurtosis of 0 - it is a normal distribution
+     */
+    public static int MESOKURTIC = 0;
 
-	/** 
-	 * Returns the skewness of a given distribution.  Skewness is a measure of the
-	 * assymetry of a given distribution. 
-	 * 
-	 * @return The skewness of this distribution
-	 */
-	public abstract double getSkewness();
+    /**
+     * A PLATYKURTIC set has a negative kurtosis (a flat "peak")
+     */
+    public static int PLATYKURTIC = -1;
 
-	/** 
-	 * Kurtosis is a measure of the "peakedness" of a distribution
-	 * 
-	 * @return the mode
-	 */
-	public abstract double getKurtosis();
-	
-	/**
-	 * Returns the Kurtosis "classification" a distribution can be leptokurtic (high peak), platykurtic (flat peak), 
-	 * or mesokurtic (zero kurtosis).  
-	 * 
-	 * @return A static constant defined in this interface, StoredDeviation.LEPTOKURITC, 
-	 * 			    StoredDeviation.PLATYKURTIC, or StoredDeviation.MESOKURTIC
-	 */
-	public abstract int getKurtosisClass();
-	
-	/**
-	 * Returns the current set of values in an array of double primitives.  The order of addition is preserved
-	 * 
-	 * @return returns the current set of numbers in the order in which they were added to this set
-	 */
-	public abstract double[] getValues();
-	
-	/**
-	 * Returns the element at the specified index
-	 * 
-	 * @return return the element at the specified index
-	 */
-	public abstract double getElement(int index);
+    /** 
+     * Returns the mode of the values that have been added.  The mode is
+     * the element which occurs with the most frequency
+     * @return the mode
+     */
+    public abstract double getMode();
+
+    /** 
+     * Returns the skewness of a given distribution.  Skewness is a 
+     * measure of the assymetry of a given distribution. 
+     * 
+     * @return The skewness of this distribution
+     */
+    public abstract double getSkewness();
+
+    /** 
+     * Kurtosis is a measure of the "peakedness" of a distribution
+     * 
+     * @return the mode
+     */
+    public abstract double getKurtosis();
+
+    /**
+     * Returns the Kurtosis "classification" a distribution can be 
+     * leptokurtic (high peak), platykurtic (flat peak), 
+     * or mesokurtic (zero kurtosis).  
+     * 
+     * @return A static constant defined in this interface, 
+     *         StoredDeviation.LEPTOKURITC, StoredDeviation.PLATYKURTIC, or 
+     *         StoredDeviation.MESOKURTIC
+     */
+    public abstract int getKurtosisClass();
+
+    /**
+     * Returns the current set of values in an array of double primitives.  
+     * The order of addition is preserved
+     * 
+     * @return returns the current set of numbers in the order in which they 
+     *         were added to this set
+     */
+    public abstract double[] getValues();
+
+    /**
+     * Returns the element at the specified index
+     * 
+     * @return return the element at the specified index
+     */
+    public abstract double getElement(int index);
 
 }

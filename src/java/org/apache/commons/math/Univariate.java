@@ -61,82 +61,82 @@
  *
  * @author Phil Steitz
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
- * @version $Revision: 1.3 $ $Date: 2003/05/16 05:23:29 $
+ * @version $Revision: 1.4 $ $Date: 2003/05/20 18:15:29 $
  * 
 */
 public interface Univariate {
-	
-	/**
-	 * Adds the value to the set of numbers
-	 * @param v the value to be added 
-	 */
-	public abstract void addValue(double v);
-	
-	/** 
-	 * Returns the mean of the values that have been added
-	 * @return mean value
-	 */
-	public abstract double getMean();
 
-	/** 
-	 * Returns the variance of the values that have been added
-	 * @return variance value
-	 */
-	public abstract double getVariance();
+    /**
+     * Adds the value to the set of numbers
+     * @param v the value to be added 
+     */
+    public abstract void addValue(double v);
 
-	/** 
-	 * Returns the standard deviation of the values that have been added
-	 * @return standard deviation value
-	 */
-	public abstract double getStandardDeviation();
+    /** 
+     * Returns the mean of the values that have been added
+     * @return mean value
+     */
+    public abstract double getMean();
 
-	/** Getter for property max.
-	 * @return Value of property max.
-	 */
-	public abstract double getMax();
+    /** 
+     * Returns the variance of the values that have been added
+     * @return variance value
+     */
+    public abstract double getVariance();
 
-	/** Getter for property min.
-	 * @return Value of property min.
-	 */
-	public abstract double getMin();
+    /** 
+     * Returns the standard deviation of the values that have been added
+     * @return standard deviation value
+     */
+    public abstract double getStandardDeviation();
 
-	/** Getter for property n.
-	 * @return Value of property n.
-	 */
-	public abstract double getN();
+    /** Getter for property max.
+     * @return Value of property max.
+     */
+    public abstract double getMax();
 
-	/** Getter for property sum.
-	 * @return Value of property sum.
-	 */
-	public abstract double getSum();
+    /** Getter for property min.
+     * @return Value of property min.
+     */
+    public abstract double getMin();
 
-	/** Getter for property sumsq.
-	 * @return Value of property sumsq.
-	 */
-	public abstract double getSumsq();
+    /** Getter for property n.
+     * @return Value of property n.
+     */
+    public abstract double getN();
 
-	/** Resets all sums to 0, resets min and max */
-	public abstract void clear();
-	
-	/**
-	 * This constant signals that a Univariate implementation
-	 * takes into account the contributions of an infinite number of
-	 * elements.  In other words, if getWindow returns this
-	 * constant, there is, in effect, no "window".
-	 */
-	public static final int INIFINTE_WINDOW = -1;
+    /** Getter for property sum.
+     * @return Value of property sum.
+     */
+    public abstract double getSum();
 
-	/**
-	 * Univariate has the ability to return only measures for the
-	 * last N elements added to the set of values.  This function returns
-	 */
-	public abstract int getWindowSize();
-	
-	/**
-	 * Sets the window.  windowSize controls the number of value
-	 * which contribute to the values returned by Univariate.  
-	 * For example, a window value of 10 means that getMean()
-	 * will return the mean of the last 10 values added.
-	 */
-	public abstract void setWindowSize(int windowSize);
+    /** Getter for property sumsq.
+     * @return Value of property sumsq.
+     */
+    public abstract double getSumsq();
+
+    /** Resets all sums to 0, resets min and max */
+    public abstract void clear();
+
+    /**
+     * This constant signals that a Univariate implementation
+     * takes into account the contributions of an infinite number of
+     * elements.  In other words, if getWindow returns this
+     * constant, there is, in effect, no "window".
+     */
+    public static final int INIFINTE_WINDOW = -1;
+
+    /**
+     * Univariate has the ability to return only measures for the
+     * last N elements added to the set of values.  This function returns
+     */
+    public abstract int getWindowSize();
+
+    /**
+     * Sets the window.  windowSize controls the number of value
+     * which contribute to the values returned by Univariate.  
+     * For example, a window value of 10 means that getMean()
+     * will return the mean of the last 10 values added.
+     */
+    public abstract void setWindowSize(int windowSize);
 }

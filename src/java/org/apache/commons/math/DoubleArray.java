@@ -63,71 +63,86 @@ import java.util.NoSuchElementException;
  */
 public interface DoubleArray {
 
-	/**
-	 * Returns the number of elements currently in the array.  Please note
-	 * that this is different from the length of the internal storage array.  
-	 * @return number of elements
-	 */
-	public abstract int getNumElements();
+    /**
+     * Returns the number of elements currently in the array.  Please note
+     * that this is different from the length of the internal storage array.  
+     * @return number of elements
+     */
+    int getNumElements();
 
-	/**
-	 * Returns the element at the specified index
-	 * 
-	 * @param index index to fetch a value from
-	 * @return value stored at the specified index
-	 */
-	public abstract double getElement(int index) throws NoSuchElementException;
+    //TODO: Throwing a NoSuchElementException might not be the right
+    //thing to do, it may be more helpful to just throw ArrayOutOfBounds...
 
-	/**
-	 * Sets the element at the specified index.  This method will expand the internal storage array to
-	 * accomodate the insertion of a value at an index beyond the current capacity.
-	 * @param index index to store a value in
-	 * @param value value to store at the specified index
-	 */
-	public abstract void setElement(int index, double value);
+    /**
+     * Returns the element at the specified index
+     * 
+     * @param index index to fetch a value from
+     * @return value stored at the specified index
+     * @throws NoSuchElementException exception thrown if the array index
+     *         exceeds the known boundaries of this array.  
+     *
+     */
+    double getElement(int index) throws NoSuchElementException;
 
-	/**
-	 * Adds an element to the end of this expandable array
-	 * 
-	 * @return value to be added to end of array
-	 */
-	public abstract void addElement(double value);
+    /**
+     * Sets the element at the specified index.  This method will expand the 
+     * internal storage array to accomodate the insertion of a value at an 
+     * index beyond the current capacity.
+     * @param index index to store a value in
+     * @param value value to store at the specified index
+     */
+    void setElement(int index, double value);
 
-	/**
-	 * Adds an element and moves the window of elements up one.  This
-	 * has the effect of a FIFO.  when you "roll" the array an element is removed 
-	 * from the array.  The return value of this function is the discarded double.
-	 * 
-	 * @return the value which has been discarded or "pushed" out of the array
-	 * 	  by this rolling insert.
-	 */
-	public abstract double addElementRolling(double value);
-	
-	/**
-	 * Returns a double[] of elements
-	 */
-	public abstract double[] getElements();
-	
-	/**
-	 * Clear the double array
-	 */
-	public abstract void clear();
+    /**
+     * Adds an element to the end of this expandable array
+     * 
+     * @param value to be added to end of array
+     */
+    void addElement(double value);
 
-	/**
-	 * Discards values from the front of the list.  This function removes n elements from
-	 * the front of the array.
-	 * 
-	 * @param i number of elements to discard from the front of the array.
-	 */
-	public abstract void discardFrontElements(int i);
-	
-	/**
-	 * Returns the minimum value stored in this array
-	 */
-	public abstract double getMin();
+    /**
+     * Adds an element and moves the window of elements up one.  This
+     * has the effect of a FIFO.  when you "roll" the array an element is 
+     * removed from the array.  The return value of this function is the 
+     * discarded double.
+     * 
+     * @param value the value to be added to the array
+     * @return the value which has been discarded or "pushed" out of the array
+     *         by this rolling insert.
+     */
+    double addElementRolling(double value);
 
-	/**
-	 * Returns the maximum value stored in this array
-	 */
-	public abstract double getMax();
+    /**
+     * Returns a double[] of elements
+     *
+     * @return all elements added to the array
+     */
+    double[] getElements();
+
+    /**
+     * Clear the double array
+     */
+    void clear();
+
+    /**
+     * Discards values from the front of the list.  This function removes n 
+     * elements from the front of the array.
+     * 
+     *@param i number of elements to discard from the front of the array.
+     */
+    void discardFrontElements(int i);
+
+    /**
+     * Returns the minimum value stored in this array
+     *
+     * @return minimum value contained in this array
+     */
+    double getMin();
+
+    /**
+     * Returns the maximum value stored in this array
+     *
+     * @return maximum value contained in this array
+     */
+    double getMax();
 }

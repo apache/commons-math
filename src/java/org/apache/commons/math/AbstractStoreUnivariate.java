@@ -60,193 +60,210 @@ package org.apache.commons.math;
  */
 public abstract class AbstractStoreUnivariate implements StoreUnivariate {
 
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.StoreUnivariate#getMode()
-	 */
-	public double getMode() {
-		// Mode depends on a refactor Freq class
-		throw new UnsupportedOperationException("getMode() is not yet implemented");
-	}
+    /** 
+     * Returns the most frequently occuring value
+     * @see org.apache.commons.math.StoreUnivariate#getMode()
+     */
+    public double getMode() {
+        // Mode depends on a refactor Freq class
+        String msg = "getMode() is not yet implemented";
+        throw new UnsupportedOperationException(msg);
+    }
 
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.StoreUnivariate#getSkewness()
-	 */
-	public double getSkewness() {
-		// Initialize the skewness
-		double skewness = Double.NaN;
-		
-		// Get the mean and the standard deviation
-		double mean = getMean();
-		double stdDev = getStandardDeviation();
+    /**
+     * Returns the skewness of this collection of values
+     * @see org.apache.commons.math.StoreUnivariate#getSkewness()
+     */
+    public double getSkewness() {
+        // Initialize the skewness
+        double skewness = Double.NaN;
 
-		// Sum the cubes of the distance from the mean divided by the standard deviation
-		double accum = 0.0;
-		for( int i = 0; i < getN(); i++ ) {
-			accum += Math.pow( (getElement(i) - mean) / stdDev, 3.0);
-		}
-		
-		// Get N
-		double n = getN();
-		
-		// Calculate skewness
-		skewness = ( n / ( (n-1) * (n-2) ) ) * accum;
+        // Get the mean and the standard deviation
+        double mean = getMean();
+        double stdDev = getStandardDeviation();
 
-		return skewness;
-	}
+        // Sum the cubes of the distance from the mean divided by the 
+        // standard deviation
+        double accum = 0.0;
+        for (int i = 0; i < getN(); i++) {
+            accum += Math.pow((getElement(i) - mean) / stdDev, 3.0);
+        }
 
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.StoreUnivariate#getKurtosis()
-	 */
-	public double getKurtosis() {
-		// Initialize the kurtosis
-		double kurtosis = Double.NaN;
-		
-		// Get the mean and the standard deviation
-		double mean = getMean();
-		double stdDev = getStandardDeviation();
+        // Get N
+        double n = getN();
 
-		// Sum the ^4 of the distance from the mean divided by the standard deviation
-		double accum = 0.0;
-		for( int i = 0; i < getN(); i++ ) {
-			accum += Math.pow( (getElement(i) - mean) / stdDev, 4.0);
-		}
-		
-		// Get N
-		double n = getN();
-		
-		double coefficientOne = ( n * (n+1)) / ( (n-1) * (n-2) * (n-3) );
-		double termTwo = (  ( 3 * Math.pow( n - 1, 2.0)) /  ( (n-2) * (n-3) ) ); 
-		// Calculate kurtosis
-		kurtosis = ( coefficientOne * accum ) - termTwo;
+        // Calculate skewness
+        skewness = (n / ((n - 1) * (n - 2))) * accum;
 
-		return kurtosis;
-	}
+        return skewness;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.StoreUnivariate#getKurtosisClass()
-	 */
-	public int getKurtosisClass() {
+    /**
+     * Returns the kurtosis for this collection of values
+     * @see org.apache.commons.math.StoreUnivariate#getKurtosis()
+     */
+    public double getKurtosis() {
+        // Initialize the kurtosis
+        double kurtosis = Double.NaN;
 
-		int kClass = StoreUnivariate.MESOKURTIC;
-		
-		double kurtosis = getKurtosis();
-		if( kurtosis > 0 ) {
-			kClass = StoreUnivariate.LEPTOKURTIC;
-		} else if( kurtosis < 0 ) {
-			kClass = StoreUnivariate.PLATYKURTIC;
-		}
-		
-		return( kClass );
+        // Get the mean and the standard deviation
+        double mean = getMean();
+        double stdDev = getStandardDeviation();
 
-	}
+        // Sum the ^4 of the distance from the mean divided by the 
+        // standard deviation
+        double accum = 0.0;
+        for (int i = 0; i < getN(); i++) {
+            accum += Math.pow((getElement(i) - mean) / stdDev, 4.0);
+        }
 
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.Univariate#getMean()
-	 */
-	public double getMean() {
-		double arithMean = getSum() / getN();
-		return arithMean;
-	}
+        // Get N
+        double n = getN();
 
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.Univariate#getVariance()
-	 */
-	public double getVariance() {
-		// Initialize variance
-		double variance = Double.NaN;
+        double coefficientOne = (n * (n + 1)) / ((n - 1) * (n - 2) * (n - 3));
+        double termTwo = ((3 * Math.pow(n - 1, 2.0)) 
+                           / ((n - 2) * (n - 3))); 
+        // Calculate kurtosis
+        kurtosis = (coefficientOne * accum) - termTwo;
 
-		if( getN() == 1 ) {
-			// If this is a single value
-			variance = 0;
-		} else if( getN() > 1 ) {
-			// Get the mean
-			double mean = getMean();
+        return kurtosis;
+    }
 
-			// Calculate the sum of the squares of the distance between each value and the mean
-			double accum = 0.0;		
-			for( int i = 0; i < getN(); i++ ){
-					accum += Math.pow( (getElement(i) - mean), 2.0 );
-			}
-		
-			// Divide the accumulator by N - Hmmm... unbiased or biased?
-			variance = accum / (getN() - 1);
-		 }
-		
-		return variance;
-	}
+    /**
+     * Returns the type or class of kurtosis that this collection of 
+     * values exhibits
+     * @see org.apache.commons.math.StoreUnivariate#getKurtosisClass()
+     */
+    public int getKurtosisClass() {
 
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.Univariate#getStandardDeviation()
-	 */
-	public double getStandardDeviation() {
-		double stdDev = Double.NaN;
-		if( getN() != 0 ) {
-			stdDev = Math.sqrt( getVariance() );
-		}
-		return( stdDev );
-	}
+        int kClass = StoreUnivariate.MESOKURTIC;
 
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.Univariate#getMax()
-	 */
-	public double getMax() {
-		
-		// Initialize maximum to NaN
-		double max = Double.NaN;
-		
-		for( int i = 0; i < getN(); i++) {
-			if( i == 0 ) {
-				max = getElement(i);
-			} else {
-				if( getElement(i) > max ) {
-					max = getElement(i);
-				}
-			}
-		}
+        double kurtosis = getKurtosis();
+        if (kurtosis > 0) {
+            kClass = StoreUnivariate.LEPTOKURTIC;
+        } else if (kurtosis < 0) {
+            kClass = StoreUnivariate.PLATYKURTIC;
+        }
 
-		return max;
-	}
+        return (kClass);
 
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.Univariate#getMin()
-	 */
-	public double getMin() {
-		// Initialize minimum to NaN
-		double min = Double.NaN;
-		
-		for( int i = 0; i < getN(); i++) {
-			if( i == 0 ) {
-				min = getElement(i);
-			} else {
-				if( getElement(i) < min ) {
-					min = getElement(i);
-				}
-			}
-		}
+    }
 
-		return min;
-	}
+    /**
+     * Returns the mean for this collection of values
+     * @see org.apache.commons.math.Univariate#getMean()
+     */
+    public double getMean() {
+        double arithMean = getSum() / getN();
+        return arithMean;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.Univariate#getSum()
-	 */
-	public double getSum() {
-		double accum = 0.0;
-		for( int i = 0; i < getN(); i++) {
-			accum += getElement(i);
-		}
-		return accum;
-	}
+    /**
+     * Returns the variance for this collection of values
+     * @see org.apache.commons.math.Univariate#getVariance()
+     */
+    public double getVariance() {
+        // Initialize variance
+        double variance = Double.NaN;
 
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.Univariate#getSumsq()
-	 */
-	public double getSumsq() {
-		double accum = 0.0;
-		for( int i = 0; i < getN(); i++) {
-			accum += Math.pow(getElement(i), 2.0);
-		}
-		return accum;
-	}
+        if (getN() == 1) {
+            // If this is a single value
+            variance = 0;
+        } else if (getN() > 1) {
+            // Get the mean
+            double mean = getMean();
+
+            // Calculate the sum of the squares of the distance between each 
+            // value and the mean
+            double accum = 0.0;		
+            for (int i = 0; i < getN(); i++){
+                accum += Math.pow((getElement(i) - mean), 2.0);
+            }
+
+            // Divide the accumulator by N - Hmmm... unbiased or biased?
+            variance = accum / (getN() - 1);
+        }
+
+        return variance;
+    }
+
+    /**
+     * Returns the standard deviation for this collection of values
+     * @see org.apache.commons.math.Univariate#getStandardDeviation()
+     */
+    public double getStandardDeviation() {
+        double stdDev = Double.NaN;
+        if (getN() != 0) {
+            stdDev = Math.sqrt(getVariance());
+        }
+        return (stdDev);
+    }
+
+    /**
+     * Returns the maximum value contained herein.
+     * @see org.apache.commons.math.Univariate#getMax()
+     */
+    public double getMax() {
+
+        // Initialize maximum to NaN
+        double max = Double.NaN;
+
+        for (int i = 0; i < getN(); i++) {
+            if (i == 0) {
+                max = getElement(i);
+            } else {
+                if (getElement(i) > max) {
+                    max = getElement(i);
+                }
+            }
+        }
+
+        return max;
+    }
+
+    /**
+     * Returns the minimum value contained herein
+     * @see org.apache.commons.math.Univariate#getMin()
+     */
+    public double getMin() {
+        // Initialize minimum to NaN
+        double min = Double.NaN;
+
+        for (int i = 0; i < getN(); i++) {
+            if (i == 0) {
+                min = getElement(i);
+            } else {
+                if (getElement(i) < min) {
+                    min = getElement(i);
+                }
+            }
+        }
+
+        return min;
+    }
+
+    /**
+     * Returns the sum of all values contained herein
+     * @see org.apache.commons.math.Univariate#getSum()
+     */
+    public double getSum() {
+        double accum = 0.0;
+        for (int i = 0; i < getN(); i++) {
+            accum += getElement(i);
+        }
+        return accum;
+    }
+
+    /**
+     * Returns the sun of the squares of all values contained herein
+     * @see org.apache.commons.math.Univariate#getSumsq()
+     */
+    public double getSumsq() {
+        double accum = 0.0;
+        for (int i = 0; i < getN(); i++) {
+            accum += Math.pow(getElement(i), 2.0);
+        }
+        return accum;
+    }
 
 }
