@@ -21,16 +21,20 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
 
 /**
  * Computes the sample standard deviation.  The standard deviation
- * is the positive square root of the variance.  See {@link Variance} for
- * more information.  This implementation wraps a {@link Variance}
- * instance.
+ * is the positive square root of the variance.  This implementation wraps a
+ * {@link Variance} instance.  The <code>isBiasCorrected</code> property of the
+ * wrapped Variance instance is exposed, so that this class can be used to
+ * compute both the "sample standard deviation" (the square root of the 
+ * bias-corrected "sample variance") or the "population standard deviation"
+ * (the square root of the non-bias-corrected "population variance"). See 
+ * {@link Variance} for more information.  
  * <p>
  * <strong>Note that this implementation is not synchronized.</strong> If 
  * multiple threads access an instance of this class concurrently, and at least
  * one of the threads invokes the <code>increment()</code> or 
  * <code>clear()</code> method, it must be synchronized externally.
  * 
- * @version $Revision: 1.1 $ $Date: 2004/10/08 05:08:17 $
+ * @version $Revision: 1.2 $ $Date: 2004/10/11 06:54:05 $
  */
 public class StandardDeviation extends AbstractStorelessUnivariateStatistic
     implements Serializable {
@@ -42,7 +46,8 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
     private Variance variance = null;
 
     /**
-     * Constructs a StandardDeviation
+     * Constructs a StandardDeviation.  Sets the underlying {@link Variance}
+     * instance's <code>isBiasCorrected</code> property to true.
      */
     public StandardDeviation() {
         variance = new Variance();
@@ -55,6 +60,35 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      */
     public StandardDeviation(final SecondMoment m2) {
         variance = new Variance(m2);
+    }
+    
+    /**
+     * Contructs a StandardDeviation with the specified value for the
+     * <code>isBiasCorrected</code> property.  If this property is set to 
+     * <code>true</code>, the {@link Variance} used in computing results will
+     * use the bias-corrected, or "sample" formula.  See {@link Variance} for
+     * details.
+     * 
+     * @param isBiasCorrected  whether or not the variance computation will use
+     * the bias-corrected formula
+     */
+    public StandardDeviation(boolean isBiasCorrected) {
+        variance = new Variance(isBiasCorrected);
+    }
+    
+    /**
+     * Contructs a StandardDeviation with the specified value for the
+     * <code>isBiasCorrected</code> property and the supplied external moment.
+     * If <code>isBiasCorrected</code> is set to <code>true</code>, the
+     * {@link Variance} used in computing results will use the bias-corrected,
+     * or "sample" formula.  See {@link Variance} for details.
+     * 
+     * @param isBiasCorrected  whether or not the variance computation will use
+     * the bias-corrected formula
+      * @param m2 the external moment
+     */
+    public StandardDeviation(boolean isBiasCorrected, SecondMoment m2) {
+        variance = new Variance(isBiasCorrected, m2);
     }
 
     /**
@@ -102,7 +136,6 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
     public double evaluate(final double[] values)  {
         return Math.sqrt(variance.evaluate(values));
     }
-    
     
     /**
      * Returns the Standard Deviation of the entries in the specified portion of
@@ -178,5 +211,19 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      */
     public double evaluate(final double[] values, final double mean)  {
         return Math.sqrt(variance.evaluate(values, mean));
+    }
+    
+    /**
+     * @return Returns the isBiasCorrected.
+     */
+    public boolean isBiasCorrected() {
+        return variance.isBiasCorrected();
+    }
+
+    /**
+     * @param isBiasCorrected The isBiasCorrected to set.
+     */
+    public void setBiasCorrected(boolean isBiasCorrected) {
+        variance.setBiasCorrected(isBiasCorrected);
     }
 }

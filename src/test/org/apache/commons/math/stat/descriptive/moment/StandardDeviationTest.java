@@ -24,7 +24,7 @@ import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 /**
  * Test cases for the {@link UnivariateStatistic} class.
  * 
- * @version $Revision: 1.1 $ $Date: 2004/10/08 05:08:20 $
+ * @version $Revision: 1.2 $ $Date: 2004/10/11 06:54:05 $
  */
 public class StandardDeviationTest extends StorelessUnivariateStatisticAbstractTest{
 
@@ -66,6 +66,39 @@ public class StandardDeviationTest extends StorelessUnivariateStatisticAbstractT
         assertTrue(Double.isNaN(std.getResult()));
         std.increment(1d);
         assertEquals(0d, std.getResult(), 0);
+    }
+    
+    /**
+     * Test population version of variance
+     */ 
+    public void testPopulation() {
+        double[] values = {-1.0d, 3.1d, 4.0d, -2.1d, 22d, 11.7d, 3d, 14d};
+        double sigma = populationStandardDeviation(values);
+        SecondMoment m = new SecondMoment();
+        m.evaluate(values);  // side effect is to add values
+        StandardDeviation s1 = new StandardDeviation();
+        s1.setBiasCorrected(false);
+        assertEquals(sigma, s1.evaluate(values), 1E-14);
+        s1.incrementAll(values);
+        assertEquals(sigma, s1.getResult(), 1E-14);
+        s1 = new StandardDeviation(false, m);
+        assertEquals(sigma, s1.getResult(), 1E-14);     
+        s1 = new StandardDeviation(false);
+        assertEquals(sigma, s1.evaluate(values), 1E-14);
+        s1.incrementAll(values);
+        assertEquals(sigma, s1.getResult(), 1E-14);     
+    }
+    
+    /**
+     * Definitional formula for population standard deviation
+     */
+    protected double populationStandardDeviation(double[] v) {
+        double mean = new Mean().evaluate(v);
+        double sum = 0;
+        for (int i = 0; i < v.length; i++) {
+            sum += (v[i] - mean) * (v[i] - mean); 
+        }
+        return Math.sqrt(sum / (double) v.length);
     }
 
 }
