@@ -25,7 +25,7 @@ import org.apache.commons.math.util.ContinuedFraction;
  * This is a utility class that provides computation methods related to the
  * Gamma family of functions.
  *
- * @version $Revision: 1.21 $ $Date: 2004/06/23 16:26:17 $
+ * @version $Revision: 1.22 $ $Date: 2004/10/08 05:53:18 $
  */
 public class Gamma implements Serializable {
     
@@ -51,6 +51,9 @@ public class Gamma implements Serializable {
         -.26190838401581408670e-4,
         .36899182659531622704e-5,
     };
+
+    /** Avoid repeated computation of log of 2 PI in logGamma */
+    private static final double HALF_LOG_2_PI = 0.5 * Math.log(2.0 * Math.PI);
 
     
     /**
@@ -84,16 +87,16 @@ public class Gamma implements Serializable {
             ret = Double.NaN;
         } else {
             double g = 607.0 / 128.0;
-
+            
             double sum = 0.0;
-            for (int i = 1; i < lanczos.length; ++i) {
+            for (int i = lanczos.length - 1; i > 0; --i) {
                 sum = sum + (lanczos[i] / (x + i));
             }
             sum = sum + lanczos[0];
 
             double tmp = x + g + .5;
             ret = ((x + .5) * Math.log(tmp)) - tmp +
-                (.5 * Math.log(2.0 * Math.PI)) + Math.log(sum) - Math.log(x);
+                HALF_LOG_2_PI + Math.log(sum / x);
         }
 
         return ret;
