@@ -1,3 +1,4 @@
 build.properties
 target
 dist
+*.log

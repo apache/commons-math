@@ -4,19 +4,19 @@
   <extend>../../jakarta-commons/project.xml</extend>
   <name>Math</name>
   <id>commons-math</id>
-  <currentVersion>1.0-dev</currentVersion>
+  <currentVersion>0.1-dev</currentVersion>
   <inceptionYear>2003</inceptionYear>
+  <logo/>
   <shortDescription>
-   A collection of math utilities
+A library of lightweight, self-contained mathematics and statistics components.
   </shortDescription>
   <description>
-   The math package contains a few simple math utilities
-  </description>
-
+The Math project is a library of lightweight, self-contained mathematics and statistics components addressing the most common practical problems not immediately available in the Java programming language or commons-lang.
+</description>
   <versions>
     <version>
-      <id>1.0-dev</id>
-      <name>1.0-dev</name>
+      <id>0.1-dev</id>
+      <name>0.1-dev</name>
     </version>
   </versions>
 
@@ -36,7 +36,7 @@
   <contributors>
    <contributor>
      <name>Phil Steitz</name>
-     <email>phil@steitz.com</email>
+     <email/>
      <roles>proposal author, initial contributor</roles>
    </contributor>
   </contributors>  
@@ -78,7 +78,7 @@
    <report>maven-changelog-plugin</report>
    <report>maven-changes-plugin</report>
    <report>maven-checkstyle-plugin</report>
-   <report>maven-clover-plugin</report>
+<!--   <report>maven-clover-plugin</report> -->
 <!--   <report>maven-developer-activity-plugin</report>
    <report>maven-file-activity-plugin</report> -->
    <report>maven-javadoc-plugin</report>
