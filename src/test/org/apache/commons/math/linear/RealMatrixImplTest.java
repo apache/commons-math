@@ -22,37 +22,64 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link RealMatrixImpl} class.
  *
- * @version $Revision: 1.15 $ $Date: 2004/09/05 01:19:23 $
+ * @version $Revision: 1.16 $ $Date: 2004/10/09 21:15:56 $
  */
 
 public final class RealMatrixImplTest extends TestCase {
     
-    private double[][] testData = { {1d,2d,3d}, {2d,5d,3d}, {1d,0d,8d} };
-    private double[][] testDataLU = {{2d, 5d, 3d}, {.5d, -2.5d, 6.5d}, {0.5d, 0.2d, .2d}};
-    private double[][] testDataPlus2 = { {3d,4d,5d}, {4d,7d,5d}, {3d,2d,10d} };
-    private double[][] testDataMinus = { {-1d,-2d,-3d}, {-2d,-5d,-3d}, 
+    // 3 x 3 identity matrix
+    protected double[][] id = { {1d,0d,0d}, {0d,1d,0d}, {0d,0d,1d} };
+    
+    // Test data for group operations
+    protected double[][] testData = { {1d,2d,3d}, {2d,5d,3d}, {1d,0d,8d} };
+    protected double[][] testDataLU = {{2d, 5d, 3d}, {.5d, -2.5d, 6.5d}, {0.5d, 0.2d, .2d}};
+    protected double[][] testDataPlus2 = { {3d,4d,5d}, {4d,7d,5d}, {3d,2d,10d} };
+    protected double[][] testDataMinus = { {-1d,-2d,-3d}, {-2d,-5d,-3d}, 
        {-1d,0d,-8d} };
-    private double[] testDataRow1 = {1d,2d,3d};
-    private double[] testDataCol3 = {3d,3d,8d};
-    private double[][] testDataInv = 
+    protected double[] testDataRow1 = {1d,2d,3d};
+    protected double[] testDataCol3 = {3d,3d,8d};
+    protected double[][] testDataInv = 
         { {-40d,16d,9d}, {13d,-5d,-3d}, {5d,-2d,-1d} };
-    private double[] preMultTest = {8,12,33};
-    private double[][] testData2 ={ {1d,2d,3d}, {2d,5d,3d}};
-    private double[][] testData2T = { {1d,2d}, {2d,5d}, {3d,3d}};
-    private double[][] testDataPlusInv = 
+    protected double[] preMultTest = {8,12,33};
+    protected double[][] testData2 ={ {1d,2d,3d}, {2d,5d,3d}};
+    protected double[][] testData2T = { {1d,2d}, {2d,5d}, {3d,3d}};
+    protected double[][] testDataPlusInv = 
         { {-39d,18d,12d}, {15d,0d,0d}, {6d,-2d,7d} };
-    private double[][] id = { {1d,0d,0d}, {0d,1d,0d}, {0d,0d,1d} };
-    private double[][] luData = { {2d,3d,3d}, {0d,5d,7d}, {6d,9d,8d} };
-    private double[][] luDataLUDecomposition = { {6d,9d,8d}, {0d,5d,7d}, {0.33333333333333,0d,0.33333333333333} };
-    private double[][] singular = { {2d,3d}, {2d,3d} };
-    private double[][] bigSingular = {{1d,2d,3d,4d}, {2d,5d,3d,4d},
+    
+    // lu decomposition tests
+    protected double[][] luData = { {2d,3d,3d}, {0d,5d,7d}, {6d,9d,8d} };
+    protected double[][] luDataLUDecomposition = { {6d,9d,8d}, {0d,5d,7d},
+            {0.33333333333333,0d,0.33333333333333} };
+    
+    // singular matrices
+    protected double[][] singular = { {2d,3d}, {2d,3d} };
+    protected double[][] bigSingular = {{1d,2d,3d,4d}, {2d,5d,3d,4d},
         {7d,3d,256d,1930d}, {3d,7d,6d,8d}}; // 4th row = 1st + 2nd
-    private double[][] detData = { {1d,2d,3d}, {4d,5d,6d}, {7d,8d,10d} };
-    private double[][] detData2 = { {1d, 3d}, {2d, 4d}};
-    private double[] testVector = {1,2,3};
-    private double[] testVector2 = {1,2,3,4};
-    private double entryTolerance = 10E-16;
-    private double normTolerance = 10E-14;
+    protected double[][] detData = { {1d,2d,3d}, {4d,5d,6d}, {7d,8d,10d} };
+    protected double[][] detData2 = { {1d, 3d}, {2d, 4d}};
+    
+    // vectors
+    protected double[] testVector = {1,2,3};
+    protected double[] testVector2 = {1,2,3,4};
+    
+    // submatrix accessor tests
+    protected double[][] subTestData = {{1, 2, 3, 4}, {1.5, 2.5, 3.5, 4.5},
+            {2, 4, 6, 8}, {4, 5, 6, 7}}; 
+    // array selections
+    protected double[][] subRows02Cols13 = { {2, 4}, {4, 8}};
+    protected double[][] subRows03Cols12 = { {2, 3}, {5, 6}};
+    protected double[][] subRows03Cols123 = { {2, 3, 4} , {5, 6, 7}};
+    // effective permutations
+    protected double[][] subRows20Cols123 = { {4, 6, 8} , {2, 3, 4}};
+    protected double[][] subRows31Cols31 = {{7, 5}, {4.5, 2.5}};
+    // contiguous ranges
+    protected double[][] subRows01Cols23 = {{3,4} , {3.5, 4.5}};
+    protected double[][] subRows23Cols00 = {{2} , {4}};
+    protected double[][] subRows00Cols33 = {{4}};
+    
+    // tolerances
+    protected double entryTolerance = 10E-16;
+    protected double normTolerance = 10E-14;
     
     public RealMatrixImplTest(String name) {
         super(name);
@@ -462,6 +489,71 @@ public final class RealMatrixImplTest extends TestCase {
         assertEquals(-1 * solution[0] + 7 * solution[1] + 6 * solution[2], constants[1], 1E-12);
         assertEquals(4 * solution[0] - 3 * solution[1] -5 * solution[2], constants[2], 1E-12);   
         
+    }
+    
+    // test submatrix accessors
+    public void testSubMatrix() {
+        RealMatrix m = new RealMatrixImpl(subTestData);
+        RealMatrix mRows23Cols00 = new RealMatrixImpl(subRows23Cols00);
+        RealMatrix mRows00Cols33 = new RealMatrixImpl(subRows00Cols33);
+        RealMatrix mRows01Cols23 = new RealMatrixImpl(subRows01Cols23);
+        RealMatrix mRows02Cols13 = new RealMatrixImpl(subRows02Cols13);
+        RealMatrix mRows03Cols12 = new RealMatrixImpl(subRows03Cols12);
+        RealMatrix mRows03Cols123 = new RealMatrixImpl(subRows03Cols123);
+        RealMatrix mRows20Cols123 = new RealMatrixImpl(subRows20Cols123);
+        RealMatrix mRows31Cols31 = new RealMatrixImpl(subRows31Cols31);
+        assertClose("Rows23Cols00", mRows23Cols00, 
+                m.getSubMatrix(2 , 3 , 0, 0), normTolerance );
+        assertClose("Rows00Cols33", mRows00Cols33, 
+                m.getSubMatrix(0 , 0 , 3, 3), normTolerance );
+        assertClose("Rows01Cols23", mRows01Cols23,
+                m.getSubMatrix(0 , 1 , 2, 3), normTolerance );   
+        assertClose("Rows02Cols13", mRows02Cols13,
+                m.getSubMatrix(new int[] {0,2}, new int[] {1,3}), normTolerance);  
+        assertClose("Rows03Cols12", mRows03Cols12,
+                m.getSubMatrix(new int[] {0,3}, new int[] {1,2}), normTolerance);  
+        assertClose("Rows03Cols123", mRows03Cols123,
+                m.getSubMatrix(new int[] {0,3}, new int[] {1,2,3}), normTolerance); 
+        assertClose("Rows20Cols123", mRows20Cols123,
+                m.getSubMatrix(new int[] {2,0}, new int[] {1,2,3}), normTolerance); 
+        assertClose("Rows31Cols31", mRows31Cols31,
+                m.getSubMatrix(new int[] {3,1}, new int[] {3,1}), normTolerance); 
+        try {
+            m.getSubMatrix(1,0,2,4);
+            fail("Expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
+            // expected
+        }
+        try {
+            m.getSubMatrix(-1,1,2,2);
+            fail("Expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
+            // expected
+        }
+        try {
+            m.getSubMatrix(1,0,2,2);
+            fail("Expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
+            // expected
+        }
+        try {
+            m.getSubMatrix(1,0,2,4);
+            fail("Expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
+            // expected
+        }
+        try {
+            m.getSubMatrix(new int[] {}, new int[] {0});
+            fail("Expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
+            // expected
+        }
+        try {
+            m.getSubMatrix(new int[] {0}, new int[] {4});
+            fail("Expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
+            // expected
+        }
     }
     
     //--------------- -----------------Protected methods

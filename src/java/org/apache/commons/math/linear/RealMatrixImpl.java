@@ -43,7 +43,7 @@ import java.io.Serializable;
  * is 0-based -- e.g., <code>getEntry(0, 0)</code>
  * returns the element in the first row, first column of the matrix.</li></ul>
  *
- * @version $Revision: 1.28 $ $Date: 2004/09/05 01:19:23 $
+ * @version $Revision: 1.29 $ $Date: 2004/10/09 21:15:56 $
  */
 public class RealMatrixImpl implements RealMatrix, Serializable {
 
@@ -307,6 +307,70 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
         }
         return maxColSum;
     }
+    
+    /**
+     * Gets a submatrix. Rows and columns are indicated
+     * counting from 0 to n-1.
+     *
+     * @param startRow Initial row index
+     * @param endRow Final row index
+     * @param startColumn Initial column index
+     * @param endColumn Final column index
+     * @return The subMatrix containing the data of the
+     *         specified rows and columns
+     * @exception MatrixIndexException if row or column selections are not valid
+     */
+    public RealMatrix getSubMatrix(int startRow, int endRow, int startColumn,
+            int endColumn) throws MatrixIndexException {
+        if (startRow < 0 || startRow > endRow || endRow > data.length
+             || startColumn < 0 || startColumn > endColumn
+             || endColumn > data[0].length ) {
+            throw new MatrixIndexException(
+                    "invalid row or column index selection");
+        }
+        RealMatrixImpl subMatrix = new RealMatrixImpl(endRow - startRow+1,
+                endColumn - startColumn+1);
+        double[][] subMatrixData = subMatrix.getDataRef();
+        for (int i = startRow; i <= endRow; i++) {
+            for (int j = startColumn; j <= endColumn; j++) {
+                    subMatrixData[i - startRow][j - startColumn] = data[i][j];
+                }
+            }
+        return subMatrix;
+    }
+    
+    /**
+     * Gets a submatrix. Rows and columns are indicated
+     * counting from 0 to n-1.
+     *
+     * @param rows Array of row indices must be non-empty
+     * @param columns Array of column indices must be non-empty
+     * @return The subMatrix containing the data in the
+     *     specified rows and columns
+     * @exception MatrixIndexException  if supplied row or column index arrays
+     *     are not valid
+     */
+    public RealMatrix getSubMatrix(int[] selectedRows, int[] selectedColumns)
+    throws MatrixIndexException {
+        if (selectedRows.length * selectedColumns.length == 0) {
+            throw new MatrixIndexException(
+                    "selected row and column index arrays must be non-empty");
+        }
+        RealMatrixImpl subMatrix = new RealMatrixImpl(selectedRows.length,
+                selectedColumns.length);
+        double[][] subMatrixData = subMatrix.getDataRef();
+        try  {
+            for (int i = 0; i < selectedRows.length; i++) {
+                for (int j = 0; j < selectedColumns.length; j++) {
+                    subMatrixData[i][j] = data[selectedRows[i]][selectedColumns[j]];
+                }
+            }
+        }
+        catch (ArrayIndexOutOfBoundsException e) {
+            throw new MatrixIndexException("matrix dimension mismatch");
+        }
+        return subMatrix;
+    } 
 
      /**
      * Returns the entries in row number <code>row</code> as an array.

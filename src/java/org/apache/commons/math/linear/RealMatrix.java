@@ -22,7 +22,7 @@ package org.apache.commons.math.linear;
  * Matrix element indexing is 0-based -- e.g., <code>getEntry(0, 0)</code>
  * returns the element in the first row, first column of the matrix.
  * 
- * @version $Revision: 1.22 $ $Date: 2004/09/05 01:19:23 $
+ * @version $Revision: 1.23 $ $Date: 2004/10/09 21:15:56 $
  */
 public interface RealMatrix {
 
@@ -108,7 +108,35 @@ public interface RealMatrix {
      * @return norm
      */
     double getNorm();
-
+    
+    /**
+     * Gets a submatrix. Rows and columns are indicated
+     * counting from 0 to n-1.
+     *
+     * @param startRow Initial row index
+     * @param endRow Final row index
+     * @param startColumn Initial column index
+     * @param endColumn Final column index
+     * @return The subMatrix containing the data of the
+     *         specified rows and columns
+     * @exception MatrixIndexException  if the indices are not valid
+     */
+   RealMatrix getSubMatrix(int startRow, int endRow, int startColumn,
+            int endColumn) throws MatrixIndexException;
+   
+   /**
+    * Gets a submatrix. Rows and columns are indicated
+    * counting from 0 to n-1.
+    *
+    * @param rows Array of row indices.
+    * @param columns Array of column indices.
+    * @return The subMatrix containing the data in the
+    *         specified rows and columns
+    * @exception MatrixIndexException if row or column selections are not valid
+    */
+   RealMatrix getSubMatrix(int[] selectedRows, int[] selectedColumns)
+   throws MatrixIndexException;
+             
     /**
      * Returns the entries in row number <code>row</code> as an array.
      * <p>
