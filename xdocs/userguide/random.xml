@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.5 $ $Date: 2004/01/11 19:35:22 $ -->
+<!-- $Revision: 1.6 $ $Date: 2004/01/15 07:29:38 $ -->
 <document url="random.html">
 
 <properties>
@@ -127,7 +127,7 @@
     <code>nextSecureHexString</code> generates hex characters in 40-byte "chunks" 
     using a 3-step process:
     <ol>
-    <li>20 random bytes are generated using the underlying <code>SecureRandom</code>.</li>
+    <li>20 random bytes are generated using the underlying <code>SecureRandom.</code></li>
     <li>SHA-1 hash is applied to yield a 20-byte binary digest.</li>
     <li>Each byte of the binary digest is converted to 2 hex digits</li></ol>
     Similarly to the secure random number generation methods, <code>nextSecureHexString</code>
@@ -164,8 +164,52 @@
 
 <subsection name='2.5 Generating data "like" an input file' href="empirical">
     <p>
-    This is yet to be written. Any contributions will be gratefully accepted!
-    </p>
+    Using the <code>ValueServer</code> class, you can generate data based on the 
+    values in an input file in one of two ways:
+    <dl>
+      <dt>Replay Mode</dt>
+      <dd> The following code will read data from <code>url</code> 
+      (a <code>java.net.URL</code> instance), cycling through the values in the 
+      file in sequence, reopening and starting at the beginning again when all 
+      values have been read.
+      <source>
+      ValueServer vs = new ValueServer();
+      vs.setValuesFileURL(url); 
+      vs.setMode(ValueServer.REPLAY_MODE);
+      vs.resetReplayFile();
+      double value = vs.getNext();
+      // ...Generate and use more values...
+      vs.closeReplayFile();
+      </source>
+      The values in the file are not stored in memory, so it does not matter
+      how large the file is, but you do need to explicitly close the file as above. 
+      The expected file format is \n -delimited (i.e. one per line) strings 
+      representing valid floating point numbers.
+      </dd>
+      <dt>Digest Mode</dt>
+      <dd>When used in Digest Mode, the ValueServer reads the entire input file
+      and estimates a probability density function based on data from the file.
+      The estimation method is essentially the <a href="http://nedwww.ipac.caltech.edu/level5/March02/Silverman/Silver2_6.html">
+      Variable Kernel Method</a> with Gaussian smoothing.  Once the density has been
+      estimated, <code>getNext()</code> returns random values whose probability
+      distribution matches the empirical distribution -- i.e., if you generate a large
+      number of such values, their distribution should "look like" the distribution of
+      the values in the input file.  The values are not stored in memory in this case either,
+      so there is no limit to the size of the input file.  Here is an example:
+      <source>
+      ValueServer vs = new ValueServer();
+      vs.setValuesFileURL(url); 
+      vs.setMode(ValueServer.DIGEST_MODE);
+      vs.computeDistribution(500); //Read file and estimate distribution using 500 bins
+      double value = vs.getNext();
+      // ...Generate and use more values...
+      </source>
+      See the javadoc for <code>ValueServer</code> and <code>EmpiricalDistribution</code>
+      for more details.  Note that <code>computeDistribution()</code> opens and closes
+      the input file by itself. 
+      </dd>
+    </dl>
+  </p>
 </subsection>
 
 </section>
