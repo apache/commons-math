@@ -19,7 +19,7 @@ package org.apache.commons.math.util;
 /**
  * Some useful additions to the built-in functions in {@link Math}.
  *
- * @version $Revision: 1.17 $ $Date: 2004/05/19 14:16:32 $
+ * @version $Revision: 1.18 $ $Date: 2004/06/17 21:31:00 $
  */
 public final class MathUtils {
     
@@ -442,5 +442,28 @@ public final class MathUtils {
      */
     public static double sinh(double x) {
         return (Math.exp(x) - Math.exp(-x)) / 2.0;
+    }
+    
+    /**
+     * Returns an integer hash code representing the given double value.
+     *
+     * @param value  the value to be hashed
+     * @return the hash code
+     */
+    public static int hash(double value) {
+        long bits = Double.doubleToLongBits(value);
+        return (int)(bits ^ (bits >>> 32));
+    }
+    
+    /**
+     * Returns true iff both arguments are NaN or
+     * neither is NaN and they are equal
+     *
+     * @param x first value
+     * @param y second value
+     * @return true if the values are equal or both are NaN
+     */
+    public static boolean equals(double x, double y) {
+        return ((Double.isNaN(x) && Double.isNaN(y)) || x == y);
     }
 }

@@ -22,7 +22,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the MathUtils class.
  *
- * @version $Revision: 1.13 $ $Date: 2004/05/09 04:36:09 $
+ * @version $Revision: 1.14 $ $Date: 2004/06/17 21:31:00 $
  */
 
 public final class MathUtilsTest extends TestCase {
@@ -353,5 +353,38 @@ public final class MathUtilsTest extends TestCase {
     
     public void testSinhNaN() {
         assertTrue(Double.isNaN(MathUtils.sinh(Double.NaN)));
-    }   
+    } 
+    
+    public void testEquals() {
+        double[] testArray = {Double.NaN, Double.POSITIVE_INFINITY, 
+                Double.NEGATIVE_INFINITY, 1d, 0d};
+        for (int i = 0; i < testArray.length; i++) {
+            for (int j = 0; j < testArray.length; j ++) {
+                if (i == j) {
+                    assertTrue(MathUtils.equals(testArray[i], testArray[j]));
+                    assertTrue(MathUtils.equals(testArray[j], testArray[i]));
+                } else {
+                    assertTrue(!MathUtils.equals(testArray[i], testArray[j]));
+                    assertTrue(!MathUtils.equals(testArray[j], testArray[i]));
+                }
+            }
+        } 
+    }
+    
+    public void testHash() {
+        double[] testArray = {Double.NaN, Double.POSITIVE_INFINITY, 
+                Double.NEGATIVE_INFINITY, 1d, 0d, 1E-14, (1 + 1E-14), 
+                Double.MIN_VALUE, Double.MAX_VALUE};
+        for (int i = 0; i < testArray.length; i++) {
+            for (int j = 0; j < testArray.length; j ++) {
+                if (i == j) {
+                    assertEquals(MathUtils.hash(testArray[i]), MathUtils.hash(testArray[j]));
+                    assertEquals(MathUtils.hash(testArray[j]), MathUtils.hash(testArray[i]));
+                } else {
+                    assertTrue(MathUtils.hash(testArray[i]) != MathUtils.hash(testArray[j]));
+                    assertTrue(MathUtils.hash(testArray[j]) != MathUtils.hash(testArray[i]));
+                }
+            }
+        } 
+    }
 }
