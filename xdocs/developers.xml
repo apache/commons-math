@@ -101,6 +101,9 @@
       <a href="http://www.cs.berkeley.edu/~wkahan/ieee754status/ieee754.ps">
        http://www.cs.berkeley.edu/~wkahan/ieee754status/ieee754.ps
       </a><br/>
+      <a href="http://www.cs.berkeley.edu/~wkahan/JAVAhurt.pdf">
+       http://www.cs.berkeley.edu/~wkahan/JAVAhurt.pdf
+      </a><br/>
      </dd>
      <dt>Numerical analysis</dt>
      <dd>
@@ -159,6 +162,16 @@
       </a><br/>
       <a href="http://www.itl.nist.gov/div898/handbook">
        http://www.wikipedia.org/wiki/
+      </a><br/>
+     </dd>
+    </dl>
+   </subsection>
+   <subsection name='XML'>
+    <dl>
+     <dt>XML related resources.</dt>
+     <dd>
+      <a href="http://www.openmath.org">
+       http://www.openmath.org
       </a><br/>
      </dd>
     </dl>
