@@ -53,48 +53,47 @@
  */
 package org.apache.commons.math.analysis;
 
-import java.util.Arrays;
+
 
 import org.apache.commons.math.MathException;
 
 /**
- * Represents a cubic spline function.
+ * Represents a Polynomial function.
  * Spline functions map a certain interval of real numbers to real numbers.
  * A cubic spline consists of segments of cubic functions. For this class,
  * polynominal coefficents are used.
  * Arguments outside of the domain cause an IllegalArgumentException.
  * 
- * @version $Revision: 1.8 $ $Date: 2003/11/15 18:44:52 $
+ * @version $Revision: 1.1 $ $Date: 2003/11/15 18:44:52 $
  */
-public class CubicSplineFunction implements UnivariateRealFunction {
-    /** Spline segment interval delimiters. Size is N+1 for N segments. */
-    private double xval[];
+public class PolynomialFunction implements UnivariateRealFunction {
 
     /**
-     * The spline segment's polynominal coefficients.
-     * The first index runs over the intervals, size is N.
-     * The second index adresses the coefficients in the segment, with
-     * index 0 being the absolute coefficient and index 3 the coefficient
-     * for the third power.
-     * The coefficients are setup so that x runs from 0 to xval[i+1]-xval[i].
+     * The polynominal coefficients.
+     * The index represents the coefficients of the polynomail, with
+     * index 0 being the absolute coefficient and index N the coefficient
+     * for the Nth power.
      */
-    private double c[][];
+    private double c[];
 
     /**
      * Construct a function with the given segment delimiters and polynomial
      * coefficients.
-     * @param xval Spline segment interval delimiters
-     * @param c spline segment's polynominal coefficients
+     * @param c polynominal coefficients
      */
-    public CubicSplineFunction(double xval[], double c[][]) {
+    public PolynomialFunction(double c[]) {
         super();
         // TODO: should copy the arguments here, for safety. This could be a major overhead.
-        this.xval = xval;
         this.c = c;
     }
 
     /**
      * Compute the value for the function.
+     *
+     * <p>This can be explicitly determined by 
+     *   <tt>c_n * x^n + ... + c_1 * x  + c_0</tt>
+     * </p>
+     *
      * @param x the point for which the function value should be computed
      * @return the value
      * @throws MathException if the function couldn't be computed due to
@@ -102,59 +101,93 @@ public class CubicSplineFunction implements UnivariateRealFunction {
      * @see UnivariateRealFunction#value(double)
      */
     public double value(double x) throws MathException {
-        if (x < xval[0] || x > xval[xval.length - 1]) {
-            throw new IllegalArgumentException("Argument outside domain");
+
+        double value = c[0];
+
+        for (int i=1; i < c.length; i++ ) {
+            value += c[i] * Math.pow( x, (int)i);
         }
-        int i = Arrays.binarySearch(xval, x);
-        if (i < 0) {
-            i = -i - 2;
-        }
-        x = x - xval[i];
-        return ((c[i][3] * x + c[i][2]) * x + c[i][1]) * x + c[i][0];
+
+        return value;
     }
+
+
 
     /**
      * Compute the value for the first derivative of the function.
-     * It is recommended to provide this method only if the first derivative is
-     * analytical. Numerical derivatives may be acceptable in some cases.
-     * An implementation should throw an UnsupportedOperationException if
-     * this method is not implemented.
+     *
+     * <p>This can be explicitly determined by 
+     *   <tt>n * c_n * x^(n-1) + ... + 2 * c_2 * x  + c_1</tt>
+     * </p>
+     *
      * @param x the point for which the first derivative should be computed
      * @return the value
      * @throws MathException if the derivative couldn't be computed.
      */
     public double firstDerivative(double x) throws MathException {
-        if (x < xval[0] || x > xval[xval.length - 1]) {
-            throw new IllegalArgumentException("Argument outside domain");
+
+        double value = c[1];
+
+        if ( c.length > 1 ) {
+            for (int i=2; i < c.length; i++ ) {
+                value += i * c[i] * Math.pow( x, (int)i-1);
+            }
         }
-        int i = Arrays.binarySearch(xval, x);
-        if (i < 0) {
-            i = -i - 2;
-        }
-        x = x - xval[i];
-        return (3 * c[i][3] * x + 2 * c[i][2]) * x + c[i][1];
+
+        return value;
     }
 
     /**
      * Compute the value for the second derivative of the function.
-     * It is recommended to provide this method only if the second derivative is
-     * analytical. Numerical derivatives may be acceptable in some cases.
-     * An implementation should throw an UnsupportedOperationException if
-     * this method is not implemented.
+     * 
+     * <p>This can be explicitly determined by 
+     *   <tt>n * (n-1) * c_n * x^(n-2) + ... + 3 * 2 * c_3 * x  + 2 * c_2</tt>
+     * </p>
+     * 
      * @param x the point for which the first derivative should be computed
      * @return the value
      * @throws MathException if the second derivative couldn't be computed.
      */
     public double secondDerivative(double x) throws MathException {
-        if (x < xval[0] || x > xval[xval.length - 1]) {
-            throw new IllegalArgumentException("Argument outside domain");
+
+        double value = 2.0 * c[2];
+
+        if ( c.length > 2 ) {
+            for (int i=3; i < c.length; i++ ) {
+                value += i * (i-1) * c[i] * Math.pow( x, (int)i-2);
+            }
         }
-        int i = Arrays.binarySearch(xval, x);
-        if (i < 0) {
-            i = -i - 2;
-        }
-        x = x - xval[i];
-        return 6 * c[i][3] * x + 2 * c[i][2];
+
+        return value;
     }
+
+
+    /** 
+     * local power function using integer powers.
+     * <p>The Math.pow() function always returns absolute value,
+     *   and is a bit 'heavier' since it can handle double values
+     *   for the exponential value.</p>
+     * @param x any double value
+     * @param n must be 0 or greater 
+     * @return x^n (or 0 if n < 0 ).
+     * @throws MathException if n < 0.
+     */
+//     private double pow( double x, int n ) throws MathException {
+//         double value = x;
+//         if ( n < 0 ) {
+//             throw new MathException( "power n must be 0 or greater" );
+//         } else if ( n == 0 ) {
+//             // x^0 = 1 always.
+//             value = 1.0;
+//         } else {
+//             // only multiply for powers > 1.
+//             for (int i=1; i < n; i++) {
+//                 value *= x;
+//             }
+//         }
+
+//         System.out.println("pow:"+x+"^"+n+"="+value);
+//         return value;
+//     }
 
 }

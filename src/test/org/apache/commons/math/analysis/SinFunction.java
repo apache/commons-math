@@ -63,7 +63,7 @@ import org.apache.commons.math.MathException;
  * which means linear approximation (Regula Falsi) will converge
  * quadratically.
  * 
- * @version $Revision: 1.8 $ $Date: 2003/11/14 22:22:17 $
+ * @version $Revision: 1.9 $ $Date: 2003/11/15 18:44:52 $
  */
 public class SinFunction implements UnivariateRealFunction {
 
@@ -75,18 +75,9 @@ public class SinFunction implements UnivariateRealFunction {
     }
 
     /* First derivative of sinus function
-     * @see org.apache.commons.math.UnivariateRealFunction#firstDerivative(double)
      */
     public double firstDerivative(double x) throws MathException {
         return Math.cos(x);
-    }
-
-    /* Second derivative of sinus function.
-     * Unsupported.
-     * @see org.apache.commons.math.UnivariateRealFunction#secondDerivative(double)
-     */
-    public double secondDerivative(double x) throws MathException {
-        throw new UnsupportedOperationException();
     }
 
 }

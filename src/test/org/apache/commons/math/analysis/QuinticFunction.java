@@ -58,7 +58,7 @@ import org.apache.commons.math.MathException;
 /**
  * Auxillary class for testing solvers.
  *
- * @version $Revision: 1.8 $ $Date: 2003/11/14 22:22:17 $ 
+ * @version $Revision: 1.9 $ $Date: 2003/11/15 18:44:52 $ 
  */
 public class QuinticFunction implements UnivariateRealFunction {
 
@@ -70,18 +70,9 @@ public class QuinticFunction implements UnivariateRealFunction {
     }
 
     /* First derivative of quintic.
-     * @see org.apache.commons.math.UnivariateRealFunction#firstDerivative(double)
      */
     public double firstDerivative(double x) throws MathException {
         return (5*x*x-3.75)*x*x+0.25;
-    }
-
-    /* Second order derivative of quintic.
-     * Unsupported.
-     * @see org.apache.commons.math.UnivariateRealFunction#secondDerivative(double)
-     */
-    public double secondDerivative(double x) throws MathException {
-        throw new UnsupportedOperationException();
     }
 
 }
