@@ -124,5 +124,5 @@ public abstract class UnivariateStatisticAbstractTest extends TestCase {
             getUnivariateStatistic().evaluate(testArray),
             getTolerance());
     }
-
+    
 }

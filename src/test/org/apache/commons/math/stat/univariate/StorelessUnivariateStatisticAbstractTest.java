@@ -51,53 +51,43 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.commons.math.stat.univariate.rank;
+package org.apache.commons.math.stat.univariate;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
-import org.apache.commons.math.stat.univariate.StorelessUnivariateStatisticAbstractTest;
-import org.apache.commons.math.stat.univariate.UnivariateStatistic;
-import org.apache.commons.math.stat.univariate.UnivariateStatisticAbstractTest;
+import junit.framework.TestCase;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
  *
  * @author Mark Diggory
  */
-public class MinTest extends StorelessUnivariateStatisticAbstractTest{
+public abstract class StorelessUnivariateStatisticAbstractTest
+    extends UnivariateStatisticAbstractTest {
 
-    protected Min stat;
-    
-    /**
-     * @param name
-     */
-    public MinTest(String name) {
+    public StorelessUnivariateStatisticAbstractTest(String name) {
         super(name);
     }
 
-    public static Test suite() {
-        TestSuite suite = new TestSuite(MinTest.class);
-        suite.setName("Min  Tests");
-        return suite;
-    }
-    
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.stat.univariate.UnivariateStatisticAbstractTest#getUnivariateStatistic()
-     */
-    public UnivariateStatistic getUnivariateStatistic() {
-       
-        if(stat == null)
-            stat = new Min();
-            
-        return stat;
-    }
+    public abstract UnivariateStatistic getUnivariateStatistic();
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.stat.univariate.UnivariateStatisticAbstractTest#expectedValue()
-     */
-    public double expectedValue() {
-        return this.min;
+    public abstract double expectedValue();
+
+    public void testIncrementation() throws Exception {
+
+        StorelessUnivariateStatistic statistic =
+            (StorelessUnivariateStatistic) getUnivariateStatistic();
+
+        statistic.clear();
+
+        for (int i = 0; i < testArray.length; i++) {
+            statistic.increment(testArray[i]);
+        }
+
+        assertEquals(expectedValue(), statistic.getValue(), getTolerance());
+        
+        statistic.clear();
+        
+        assertTrue(Double.isNaN(statistic.getValue()));
+        
     }
 
 }

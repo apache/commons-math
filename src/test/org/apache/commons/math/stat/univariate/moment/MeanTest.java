@@ -56,6 +56,7 @@ package org.apache.commons.math.stat.univariate.moment;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.apache.commons.math.stat.univariate.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 import org.apache.commons.math.stat.univariate.UnivariateStatisticAbstractTest;
 
@@ -64,7 +65,7 @@ import org.apache.commons.math.stat.univariate.UnivariateStatisticAbstractTest;
  *
  * @author Mark Diggory
  */
-public class MeanTest extends UnivariateStatisticAbstractTest{
+public class MeanTest extends StorelessUnivariateStatisticAbstractTest{
 
     protected Mean stat;
     
