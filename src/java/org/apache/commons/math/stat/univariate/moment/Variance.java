@@ -38,7 +38,7 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * one of the threads invokes the <code>increment()</code> or 
  * <code>clear()</code> method, it must be synchronized externally.
  * 
- * @version $Revision: 1.27 $ $Date: 2004/07/11 23:39:08 $
+ * @version $Revision: 1.28 $ $Date: 2004/09/01 15:53:52 $
  */
 public class Variance extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -176,6 +176,11 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * <p>
      * See {@link Variance} for details on the computing algorithm.
      * <p>
+     * The formula used assumes that the supplied mean value is the arithmetic
+     * mean of the sample data, not a known population parameter.  This method
+     * is supplied only to save computation when the mean has already been
+     * computed.
+     * <p>
      * Returns 0 for a single-value (i.e. length = 1) sample.
      * <p>
      * Throws <code>IllegalArgumentException</code> if the array is null.
@@ -218,6 +223,11 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * is empty.
      * <p>
      * See {@link Variance} for details on the computing algorithm.
+     * <p>
+     * The formula used assumes that the supplied mean value is the arithmetic
+     * mean of the sample data, not a known population parameter.  This method
+     * is supplied only to save computation when the mean has already been
+     * computed.
      * <p>
      * Returns 0 for a single-value (i.e. length = 1) sample.
      * <p>
