@@ -22,6 +22,7 @@ import java.security.NoSuchProviderException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
 
+import org.apache.commons.math.RetryTestCase;
 import org.apache.commons.math.stat.Frequency;
 import org.apache.commons.math.stat.SummaryStatistics;
 import org.apache.commons.math.stat.TestStatisticImpl;
@@ -29,10 +30,10 @@ import org.apache.commons.math.stat.TestStatisticImpl;
 /**
  * Test cases for the RandomData class.
  *
- * @version $Revision: 1.12 $ $Date: 2004/02/21 21:35:17 $
+ * @version $Revision: 1.13 $ $Date: 2004/03/07 16:32:44 $
  */
 
-public final class RandomDataTest extends TestCase {
+public final class RandomDataTest extends RetryTestCase {
 
     public RandomDataTest(String name) {
         super(name);

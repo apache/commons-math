@@ -27,15 +27,16 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.apache.commons.math.RetryTestCase;
 import org.apache.commons.math.stat.SummaryStatistics;
 
 /**
  * Test cases for the EmpiricalDistribution class
  *
- * @version $Revision: 1.14 $ $Date: 2004/02/21 21:35:17 $
+ * @version $Revision: 1.15 $ $Date: 2004/03/07 16:32:44 $
  */
 
-public final class EmpiricalDistributionTest extends TestCase {
+public final class EmpiricalDistributionTest extends RetryTestCase {
 
     protected EmpiricalDistribution empiricalDistribution = null;
     protected EmpiricalDistribution empiricalDistribution2 = null;
