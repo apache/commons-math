@@ -61,7 +61,7 @@ import org.apache.commons.math.MathException;
  * It will only search for one zero in the given interval.
  * The function is supposed to be continuous but not necessarily smooth.
  *  
- * @version $Revision: 1.3 $ $Date: 2003/07/09 20:02:43 $
+ * @version $Revision: 1.4 $ $Date: 2003/07/11 15:59:14 $
  */
 public class BrentSolver extends UnivariateRealSolverImpl {
     /**
@@ -136,8 +136,8 @@ public class BrentSolver extends UnivariateRealSolverImpl {
                 setResult(x1, i);
                 return result;
             }
-            if (Math.abs(oldDelta) < tolerance
-                || Math.abs(y0) <= Math.abs(y1)) {
+            if ((Math.abs(oldDelta) < tolerance) ||
+                    (Math.abs(y0) <= Math.abs(y1))) {
                 // Force bisection.
                 delta = 0.5 * dx;
                 oldDelta = delta;
@@ -161,8 +161,8 @@ public class BrentSolver extends UnivariateRealSolverImpl {
                 } else {
                     p = -p;
                 }
-                if (2.0 * p >= 1.5 * dx * p1 - Math.abs(tolerance * p1)
-                    || p >= Math.abs(0.5 * oldDelta * p1)) {
+                if (2.0 * p >= 1.5 * dx * p1 - Math.abs(tolerance * p1) ||
+                        p >= Math.abs(0.5 * oldDelta * p1)) {
                     // Inverse quadratic interpolation gives a value
                     // in the wrong direction, or progress is slow.
                     // Fall back to bisection.

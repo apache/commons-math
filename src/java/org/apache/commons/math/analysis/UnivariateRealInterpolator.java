@@ -56,9 +56,9 @@ package org.apache.commons.math.analysis;
 import org.apache.commons.math.MathException;
 
 /**
- *  Interface for interpolating a data set.
+ * Interface for interpolating a data set.
  *  
- * @version $Revision: 1.2 $ $Date: 2003/07/09 20:02:43 $
+ * @version $Revision: 1.3 $ $Date: 2003/07/11 15:59:14 $
  */
 public interface UnivariateRealInterpolator {
 
@@ -67,7 +67,8 @@ public interface UnivariateRealInterpolator {
      * @param xval the arguments for the interpolation points
      * @param yval the values for the interpolation points
      * @return a function which interpolates the data set
-     * @throws MathException if arguments violate assumptions made by the interpolationg algorithm
+     * @throws MathException if arguments violate assumptions made by the
+     *         interpolationg algorithm
      */
     public UnivariateRealFunction interpolate(double xval[], double yval[])
         throws MathException;

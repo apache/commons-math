@@ -60,7 +60,7 @@ import org.apache.commons.math.MathException;
  * functions.
  * An implementation will only search for one zero in the given interval.
  *  
- * @version $Revision: 1.3 $ $Date: 2003/07/09 20:02:43 $
+ * @version $Revision: 1.4 $ $Date: 2003/07/11 15:59:14 $
  */
 public interface UnivariateRealSolver {
 
@@ -184,7 +184,7 @@ public interface UnivariateRealSolver {
      * A solver may require that the interval brackets a single zero root.
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
-     * @return the value where the function is zero
+     * @return a value where the function is zero
      * @throws MathException if the iteration count was exceeded or the
      *  solver detects convergence problems otherwise.
      */
@@ -196,7 +196,7 @@ public interface UnivariateRealSolver {
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
      * @param startValue the start value to use
-     * @return the value where the function is zero
+     * @return a value where the function is zero
      * @throws MathException if the iteration count was exceeded or the
      *  solver detects convergence problems otherwise.
      */

@@ -62,10 +62,9 @@ import org.apache.commons.math.MathException;
  * that derivatives are evaluated after the value, the evaluation algorithm
  * should throw an InvalidStateException if it can't cope with this.
  *  
- * @version $Revision: 1.2 $ $Date: 2003/07/09 20:02:43 $
+ * @version $Revision: 1.3 $ $Date: 2003/07/11 15:59:14 $
  */
 public interface UnivariateRealFunction {
-
     /**
      * Compute the value for the function.
      * @param x the point for which the function value should be computed
@@ -74,7 +73,6 @@ public interface UnivariateRealFunction {
      *  missing additional data or other environmental problems.
      * @throws RuntimeException if the operation isn't supported, the argument
      *  was outside the supported domain or any other problem.
-     * 
      */
     public double value(double x) throws MathException;
 
@@ -89,7 +87,6 @@ public interface UnivariateRealFunction {
      * @throws MathException if the derivative couldn't be computed.
      * @throws RuntimeException if the operation isn't supported, the argument
      *  was outside the supported domain or any other problem.
-     * 
      */
     public double firstDerivative(double x) throws MathException;
 
@@ -104,7 +101,6 @@ public interface UnivariateRealFunction {
      * @throws MathException if the second derivative couldn't be computed.
      * @throws RuntimeException if the operation isn't supported, the argument
      *  was outside the supported domain or any other problem.
-     * 
      */
     public double secondDerivative(double x) throws MathException;
 }

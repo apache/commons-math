@@ -66,12 +66,29 @@ import org.apache.commons.math.MathException;
  * (this may be controversial, because the configuration data
  * may also be used for the default solver used by the static
  * solve() method). 
- * @version $Revision: 1.2 $ $Date: 2003/07/09 20:02:43 $
+ * @version $Revision: 1.3 $ $Date: 2003/07/11 15:59:14 $
  */
 public class UnivariateRealSolverFactory {
-    protected UnivariateRealSolverFactory() {
+    /**
+     * Default constructor.
+     */
+    private UnivariateRealSolverFactory() {
     }
 
+    /**
+     * Create a new {@link UnivariateRealSolver} for the given function.  The
+     * actual solver returned can be controlled by defining the
+     * <code>org.apache.commons.math.analysis.UnivariateRealSolver</code>
+     * property on the JVM command-line (<code>
+     * -Dorg.apache.commons.math.analysis.UnivariateRealSolver=
+     * <i>class name</i></code>).  The value of the property should be any,
+     * fully qualified class name for a type that implements the
+     * {@link UnivariateRealSolver} interface.  By default, an instance of
+     * {@link BrentSolver} is returned.
+     * @param f the function.
+     * @return the new solver.
+     * @throws MathConfigurationException if a
+     */
     public static UnivariateRealSolver newSolver(UnivariateRealFunction f)
         throws MathConfigurationException {
         String solverClassName =
@@ -81,8 +98,7 @@ public class UnivariateRealSolverFactory {
         try {
             Class clazz = Class.forName(solverClassName);
             Class paramClass[] = new Class[1];
-            paramClass[0] =
-                Class.forName("org.apache.commons.math.analysis.UnivariateRealFunction");
+            paramClass[0] = UnivariateRealFunction.class;
             Object param[] = new Object[1];
             param[0] = f;
             return (UnivariateRealSolver)clazz.getConstructor(
@@ -110,17 +126,38 @@ public class UnivariateRealSolverFactory {
             throw new MathConfigurationException(e);
         } catch (NoSuchMethodException e) {
             throw new MathConfigurationException(
-                "No constructor with UnivariateRealFunction in "
-                    + solverClassName,
+                "No constructor with UnivariateRealFunction in " +
+                solverClassName,
                 e);
         }
     }
 
+    /**
+     * Convience method to solve for zeros of real univariate functions.  A
+     * default solver is created and used for solving. 
+     * @param f the function.
+     * @param x0 the lower bound for the interval.
+     * @param x1 the upper bound for the interval.
+     * @return a value where the function is zero.
+     * @throws MathException if the iteration count was exceeded or the
+     *         solver detects convergence problems otherwise.
+     */
     public static double solve(UnivariateRealFunction f, double x0, double x1)
         throws MathException {
         return newSolver(f).solve(x0, x1);
     }
 
+    /**
+     * Convience method to solve for zeros of real univariate functions.  A
+     * default solver is created and used for solving. 
+     * @param f the function.
+     * @param x0 the lower bound for the interval.
+     * @param x1 the upper bound for the interval.
+     * @param absoluteAccuracy the accuracy to be used by the solver.
+     * @return a value where the function is zero.
+     * @throws MathException if the iteration count was exceeded or the
+     *         solver detects convergence problems otherwise.
+     */
     public static double solve(
         UnivariateRealFunction f,
         double x0,

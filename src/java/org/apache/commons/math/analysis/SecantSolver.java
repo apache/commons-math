@@ -63,7 +63,7 @@ import org.apache.commons.math.MathException;
  * It will only search for one zero in the given interval.
  * The function is supposed to be continuous but not necessarily smooth.
  *  
- * @version $Revision: 1.3 $ $Date: 2003/07/09 20:02:43 $
+ * @version $Revision: 1.4 $ $Date: 2003/07/11 15:59:14 $
  */
 public class SecantSolver extends UnivariateRealSolverImpl {
     /**
@@ -128,8 +128,8 @@ public class SecantSolver extends UnivariateRealSolverImpl {
                 setResult(x1, i);
                 return result;
             }
-            if (Math.abs(oldDelta)
-                < Math.max(relativeAccuracy * Math.abs(x1), absoluteAccuracy)) {
+            if (Math.abs(oldDelta) <
+                Math.max(relativeAccuracy * Math.abs(x1), absoluteAccuracy)) {
                 setResult(x1, i);
                 return result;
             }
