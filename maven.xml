@@ -13,12 +13,25 @@
    See the License for the specific language governing permissions and
    limitations under the License.
   -->
-<project xmlns:deploy="deploy" default="jar:jar">
+<project xmlns:deploy="deploy" default="jar:jar" >
 
   <goal name="cut-math-release">
 		<attainGoal name="convert-snapshots" />
 		<attainGoal name="dist" />
   </goal>
+  
+  <preGoal name="dist:build-bin">  
+    <copy todir="${maven.dist.bin.assembly.dir}">
+      <fileset file='${basedir}/NOTICE.txt'/>
+    </copy>
+  </preGoal>
+  
+  <preGoal name="dist:build-src">
+    <copy todir="${maven.dist.src.assembly.dir}">
+      <fileset file='${basedir}/NOTICE.txt'/>
+    </copy>
+    <delete dir="${maven.dist.src.assembly.dir}/src/experimental" />
+  </preGoal>
 
 <!-- Uncomment when ant plugin relative path bug is fixed (still present in 1.8)
   <preGoal name="dist">
