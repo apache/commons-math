@@ -59,7 +59,7 @@ package org.apache.commons.math.stat.univariate;
  * Provides the ability to extend polymophically so that
  * indiviual statistics do not need to implement these methods unless
  * there are better algorithms for handling the calculation.
- * @version $Revision: 1.4 $ $Date: 2003/07/09 20:04:13 $
+ * @version $Revision: 1.5 $ $Date: 2003/07/15 03:37:10 $
  */
 public abstract class AbstractStorelessUnivariateStatistic
     extends AbstractUnivariateStatistic
@@ -70,15 +70,18 @@ public abstract class AbstractStorelessUnivariateStatistic
      * calculation off to the instantanious increment method. In most cases of
      * StorelessUnivariateStatistic this is never really used because more 
      * efficient algorithms are available for that statistic.
-     * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
+     * @see org.apache.commons.math.stat.univariate.
+     * UnivariateStatistic#evaluate(double[], int, int)
      */
     public double evaluate(double[] values, int begin, int length) {
         if (this.test(values, begin, length)) {
             this.clear();
+            int l = begin + length;
             for (int i = begin; i < begin + length; i++) {
                 increment(values[i]);
             }
         }
         return getResult();
     }
+
 }

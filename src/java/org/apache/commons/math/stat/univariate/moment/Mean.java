@@ -53,14 +53,15 @@
  */
 package org.apache.commons.math.stat.univariate.moment;
 
+import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math.stat.univariate.summary.Sum;
 
 /**
  * Returns the <a href="http://www.xycoon.com/arithmetic_mean.htm">
  * arithmetic mean </a> of the available values.
- * @version $Revision: 1.6 $ $Date: 2003/07/09 20:04:10 $
+ * @version $Revision: 1.7 $ $Date: 2003/07/15 03:36:36 $
  */
-public class Mean extends Sum {
+public class Mean extends AbstractStorelessUnivariateStatistic {
 
     /** first moment of values that have been added */
     protected FirstMoment moment = null;
@@ -100,6 +101,9 @@ public class Mean extends Sum {
     public double getResult() {
         return moment.m1;
     }
+
+    /*UnvariateStatistic Approach */
+    Sum sum = new Sum();
     
     /**
      * Returns the <a href="http://www.xycoon.com/arithmetic_mean.htm">
@@ -112,9 +116,8 @@ public class Mean extends Sum {
      */
     public double evaluate(double[] values, int begin, int length) {
         if (test(values, begin, length)) {
-            return super.evaluate(values, begin, length) / ((double) length);
+            return sum.evaluate(values) / ((double) length);
         }
         return Double.NaN;
     }
-
 }

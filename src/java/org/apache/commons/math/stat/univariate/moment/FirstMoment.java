@@ -62,7 +62,7 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * <a href="http://www.spss.com/tech/stat/Algorithms/11.5/descriptives.pdf">
  * recursive strategy
  * </a>. Both incremental and evaluation strategies currently use this approach.
- * @version $Revision: 1.4 $ $Date: 2003/07/09 20:04:10 $
+ * @version $Revision: 1.5 $ $Date: 2003/07/15 03:36:36 $
  */
 public class FirstMoment extends AbstractStorelessUnivariateStatistic {
 
@@ -71,45 +71,57 @@ public class FirstMoment extends AbstractStorelessUnivariateStatistic {
 
     /** first moment of values that have been added */
     protected double m1 = Double.NaN;
-    
-    /** temporary internal state made available for higher order moments */
+
+    /** 
+     * temporary internal state made available for
+     * higher order moments 
+     */
     protected double dev = 0.0;
-    
-    /** temporary internal state made available for higher order moments */
+
+    /** 
+     * temporary internal state made available for
+     * higher order moments 
+     */
     protected double v = 0.0;
-    
-    /** temporary internal state made available for higher order moments */
+
+    /** 
+     * temporary internal state made available for
+     * higher order moments 
+     */
     protected double n0 = 0.0;
-    
+
     /**
-     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
+     * @see org.apache.commons.math.stat.univariate.
+     * StorelessUnivariateStatistic#increment(double)
      */
     public void increment(double d) {
         if (n < 1) {
-             m1 = 0.0;
+            m1 = 0.0;
         }
-        
+
         n++;
         dev = d - m1;
-        n0 = (double)n;
+        n0 = (double) n;
         v = dev / n0;
 
-        m1 += v;                   
+        m1 += v;
     }
-    
+
     /**
-     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
+     * @see org.apache.commons.math.stat.univariate.
+     * StorelessUnivariateStatistic#clear()
      */
     public void clear() {
         m1 = Double.NaN;
         n = 0;
         dev = 0.0;
         v = 0.0;
-        n0 = 0.0;  
+        n0 = 0.0;
     }
-    
+
     /**
-     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
+     * @see org.apache.commons.math.stat.univariate.
+     * StorelessUnivariateStatistic#getValue()
      */
     public double getResult() {
         return m1;

@@ -54,13 +54,15 @@
 package org.apache.commons.math.stat.univariate;
 
 /**
- * StorelessUnivariate interface provides methods to increment and access
- * the internal state of the Statistic. A StorelessUnivariateStatistic does
- * not require that a double[] storage structure be maintained with the values
- * in it. As such only a subset of known statistics can actually be implmented
- * using it. If a Statistic cannot be implemented in a Storeless approach it
- * should implement the UnivariateStatistic interface directly instead.
- * @version $Revision: 1.5 $ $Date: 2003/07/09 20:04:13 $
+ * Extends the capabilities of UnivariateStatistic with a statefull incremental
+ * strategy through three methods for calculating a statistic without having to
+ * maintain a double[] of the values. Because a StorelessUnivariateStatistic 
+ * does not require that a double[] storage structure be maintained with the 
+ * values in it, there are only a subset of known statistics can actually be 
+ * implemented using it. If a Statistic cannot be implemented in a Storeless 
+ * approach it should implement the UnivariateStatistic interface directly 
+ * instead.
+ * @version $Revision: 1.6 $ $Date: 2003/07/15 03:37:10 $
  */
 public interface StorelessUnivariateStatistic extends UnivariateStatistic {
 
@@ -69,7 +71,7 @@ public interface StorelessUnivariateStatistic extends UnivariateStatistic {
      * Implementation.
      * @param d is the value to increment the state by.
      */
-    public void increment(double d);
+    void increment(double d);
 
     /**
      * Returns the current state of the statistic after the
@@ -77,12 +79,12 @@ public interface StorelessUnivariateStatistic extends UnivariateStatistic {
      * @return value of the statistic, Double.NaN if it
      * has been cleared or just instantiated.
      */
-    public double getResult();
+    double getResult();
 
 
     /**
      * Clears all the internal state of the Statistic
      */
-    public void clear();
+    void clear();
 
 }

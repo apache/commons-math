@@ -57,7 +57,7 @@ package org.apache.commons.math.stat.univariate;
  * Abstract Implementation for UnivariateStatistics.
  * Provides the ability to extend polymophically so that
  * indiviual statistics do not need to implement these methods. 
- * @version $Revision: 1.4 $ $Date: 2003/07/09 20:04:13 $
+ * @version $Revision: 1.5 $ $Date: 2003/07/15 03:37:10 $
  */
 public abstract class AbstractUnivariateStatistic
     implements UnivariateStatistic {
@@ -66,7 +66,8 @@ public abstract class AbstractUnivariateStatistic
      * This implementation provides a simple wrapper around the double[]
      * and passes the request onto the evaluate(DoubleArray da) method.
      * 
-     * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[])
+     * @see org.apache.commons.math.stat.univariate.
+     * UnivariateStatistic#evaluate(double[])
      */
     public double evaluate(double[] values) {
         return evaluate(values, 0, values.length);
@@ -74,7 +75,8 @@ public abstract class AbstractUnivariateStatistic
 
     /**
      * Subclasses of AbstractUnivariateStatistc need to implement this method.
-     * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
+     * @see org.apache.commons.math.stat.univariate.
+     * UnivariateStatistic#evaluate(double[], int, int)
      */
     public abstract double evaluate(double[] values, int begin, int length);
 
@@ -87,17 +89,21 @@ public abstract class AbstractUnivariateStatistic
      */
     protected boolean test(double[] values, int begin, int length) {
 
-        if (length > values.length)
+        if (length > values.length) {
             throw new IllegalArgumentException("length > values.length");
+        }
 
-        if (begin + length > values.length)
+        if (begin + length > values.length) {
             throw new IllegalArgumentException("begin + length > values.length");
+        }
 
-        if (values == null)
+        if (values == null) {
             throw new IllegalArgumentException("input value array is null");
+        }
 
-        if (values.length == 0 || length == 0)
+        if (values.length == 0 || length == 0) {
             return false;
+        }
 
         return true;
 

@@ -53,6 +53,7 @@
  */
 package org.apache.commons.math.stat.univariate.summary;
 
+import org.apache.commons.collections.primitives.DoubleIterator;
 import org
     .apache
     .commons
@@ -62,7 +63,7 @@ import org
     .AbstractStorelessUnivariateStatistic;
 
 /**
- * @version $Revision: 1.6 $ $Date: 2003/07/09 20:04:13 $
+ * @version $Revision: 1.7 $ $Date: 2003/07/15 03:37:11 $
  */
 public class Sum extends AbstractStorelessUnivariateStatistic {
 
@@ -75,10 +76,10 @@ public class Sum extends AbstractStorelessUnivariateStatistic {
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
     public void increment(double d) {
-        if (Double.isNaN(value )) {
-            value  = d;
+        if (Double.isNaN(value)) {
+            value = d;
         } else {
-            value  += d;
+            value += d;
         }
     }
 
@@ -88,7 +89,7 @@ public class Sum extends AbstractStorelessUnivariateStatistic {
     public double getResult() {
         return value;
     }
-    
+
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
      */
@@ -114,7 +115,5 @@ public class Sum extends AbstractStorelessUnivariateStatistic {
         }
         return sum;
     }
-
-
 
 }

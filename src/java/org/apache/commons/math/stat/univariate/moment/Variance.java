@@ -53,17 +53,11 @@
  */
 package org.apache.commons.math.stat.univariate.moment;
 
-import org
-    .apache
-    .commons
-    .math
-    .stat
-    .univariate
-    .AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
 
 /**
  *
- * @version $Revision: 1.6 $ $Date: 2003/07/09 20:04:10 $
+ * @version $Revision: 1.7 $ $Date: 2003/07/15 03:36:36 $
  */
 public class Variance extends AbstractStorelessUnivariateStatistic {
 
@@ -84,7 +78,8 @@ public class Variance extends AbstractStorelessUnivariateStatistic {
         this.moment = m2;
     }
     /**
-     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
+     * @see org.apache.commons.math.stat.univariate.
+     * StorelessUnivariateStatistic#increment(double)
      */
     public void increment(double d) {
         if (incMoment) {
@@ -93,7 +88,8 @@ public class Variance extends AbstractStorelessUnivariateStatistic {
     }
 
     /**
-     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
+     * @see org.apache.commons.math.stat.univariate.
+     * StorelessUnivariateStatistic#getValue()
      */
     public double getResult() {
         if (n < moment.n) {
@@ -111,7 +107,8 @@ public class Variance extends AbstractStorelessUnivariateStatistic {
     }
 
     /**
-     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
+     * @see org.apache.commons.math.stat.univariate.
+     * StorelessUnivariateStatistic#clear()
      */
     public void clear() {
         if (incMoment) {
@@ -122,7 +119,6 @@ public class Variance extends AbstractStorelessUnivariateStatistic {
     }
 
     /*UnvariateStatistic Approach */
-
     Mean mean = new Mean();
 
     /**
@@ -140,7 +136,8 @@ public class Variance extends AbstractStorelessUnivariateStatistic {
      * @param length processing at this point in the array
      * @return the result, Double.NaN if no values for an empty array 
      * or 0.0 for a single value set.  
-     * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
+     * @see org.apache.commons.math.stat.univariate.
+     * UnivariateStatistic#evaluate(double[], int, int)
      */
     public double evaluate(double[] values, int begin, int length) {
 
