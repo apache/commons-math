@@ -23,7 +23,7 @@ package org.apache.commons.math.stat.univariate;
  * This interface is designed to be used for calculating statistics that can be computed in 
  * one pass through the data without storing the full array of sample values.
  *
- * @version $Revision: 1.17 $ $Date: 2004/07/04 22:03:03 $
+ * @version $Revision: 1.18 $ $Date: 2004/07/10 17:09:08 $
  */
 public interface StorelessUnivariateStatistic extends UnivariateStatistic {
 
@@ -67,7 +67,7 @@ public interface StorelessUnivariateStatistic extends UnivariateStatistic {
      * Returns the number of values that have been added.
      * @return the number of values.
      */
-    double getN();
+    long getN();
 
     /**
      * Clears all the internal state of the Statistic

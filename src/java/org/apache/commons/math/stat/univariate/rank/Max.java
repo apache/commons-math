@@ -34,7 +34,7 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * one of the threads invokes the <code>increment()</code> or 
  * <code>clear()</code> method, it must be synchronized externally.
  * 
- * @version $Revision: 1.19 $ $Date: 2004/07/04 09:02:36 $
+ * @version $Revision: 1.20 $ $Date: 2004/07/10 17:09:08 $
  */
 public class Max extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -75,7 +75,7 @@ public class Max extends AbstractStorelessUnivariateStatistic implements Seriali
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getN()
      */
-    public double getN() {
+    public long getN() {
         return n;
     }
     
