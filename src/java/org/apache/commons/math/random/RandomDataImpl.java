@@ -105,7 +105,7 @@ import java.util.Collection;
  * (so secure sequences started with calls to reseedSecure(long) won't be 
  * identical).</li></ul>
  * 
- * @version $Revision: 1.10 $ $Date: 2004/01/29 00:49:01 $
+ * @version $Revision: 1.11 $ $Date: 2004/01/31 06:58:46 $
  */
 public class RandomDataImpl implements RandomData, Serializable {
     
@@ -297,11 +297,15 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
     
     /** 
+     * Generates a random long value from the Poisson distribution with the given mean.
+     * <p>
      * <strong>Algorithm Description</strong>:
      * Uses simulation of a Poisson process using Uniform deviates, as 
      * described 
      * <a href ="http://dmawww.epfl.ch/benarous/Pmmi/interactive/rng7.htm">
-     * here</a>
+     * here.</a>
+     * <p>  
+     * The Poisson process (and hence value returned) is bounded by 1000 * mean.
      * @param mean mean of the Poisson distribution.
      * @return the random Poisson value.
      */
@@ -312,9 +316,10 @@ public class RandomDataImpl implements RandomData, Serializable {
         double p = Math.exp(-mean);
         long n = 0;
         double r = 1.0d;
+        double rnd = 1.0d;
         Random rand = getRan();
-        while (true) {
-            double rnd = rand.nextDouble();
+        while (n < 1000 * mean) {     
+            rnd = rand.nextDouble();
             r = r * rnd;
             if (r >= p) {
                 n++;
@@ -322,6 +327,7 @@ public class RandomDataImpl implements RandomData, Serializable {
                 return n;
             }
         }
+        return n;
     }
     
     /**
