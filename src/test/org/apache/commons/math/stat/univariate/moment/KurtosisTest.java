@@ -23,7 +23,7 @@ import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
- * @version $Revision: 1.11 $ $Date: 2004/06/17 21:37:05 $
+ * @version $Revision: 1.12 $ $Date: 2004/06/18 01:43:32 $
  */
 public class KurtosisTest extends StorelessUnivariateStatisticAbstractTest{
 
@@ -54,6 +54,23 @@ public class KurtosisTest extends StorelessUnivariateStatisticAbstractTest{
      */
     public double expectedValue() {
         return this.kurt;
+    }
+    
+    /**
+     * Make sure Double.NaN is returned iff n < 4
+     *
+     */
+    public void testNaN() {
+        Kurtosis kurt = new Kurtosis();
+        assertTrue(Double.isNaN(kurt.getResult()));
+        kurt.increment(1d);
+        assertTrue(Double.isNaN(kurt.getResult()));
+        kurt.increment(1d);
+        assertTrue(Double.isNaN(kurt.getResult()));
+        kurt.increment(1d);
+        assertTrue(Double.isNaN(kurt.getResult()));
+        kurt.increment(1d);
+        assertFalse(Double.isNaN(kurt.getResult()));      
     }
 
 }
