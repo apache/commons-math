@@ -73,7 +73,7 @@
  * @author Phil Steitz
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
  * @author Mark Diggory
- * @version $Revision: 1.7 $ $Date: 2003/05/26 17:40:20 $
+ * @version $Revision: 1.8 $ $Date: 2003/05/29 19:49:18 $
  * 
 */
 public interface Univariate {
@@ -132,6 +132,26 @@ public interface Univariate {
      */
     abstract double getStandardDeviation();
 
+	/**
+     * Returns the skewness of a given distribution.  Skewness is a 
+     * measure of the assymetry of a given distribution. <p>
+	 * Double.NaN is returned for an empty set of values and 0.0 is 
+	 * returned for a value set &lt;=2. 
+	 * 
+	 * @return Value of property skewness.
+	 */
+	abstract double getSkewness();
+	
+	/**
+     * Returns the Kurtosis of the available values. Kurtosis is a 
+     * measure of the "peakedness" of a distribution <p>
+     * Double.NaN is returned for an empty set of values and 0.0 is 
+     * returned for a value set &lt;=3. 
+     * 
+     * @return Value of property kurtosis.
+	 */
+	abstract double getKurtosis();
+		
     /** 
      * Returns the maximum of the available values <p>
      * Double.NaN is returned in no values have been added

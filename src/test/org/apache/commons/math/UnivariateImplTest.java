@@ -62,7 +62,7 @@ import junit.framework.TestSuite;
  *
  * @author Phil Steitz
  * @author Tim Obrien
- * @version $Revision: 1.3 $ $Date: 2003/05/23 17:33:18 $
+ * @version $Revision: 1.4 $ $Date: 2003/05/29 19:49:18 $
  */
 
 public final class UnivariateImplTest extends TestCase {
@@ -117,19 +117,54 @@ public final class UnivariateImplTest extends TestCase {
     	UnivariateImpl u = new UnivariateImpl();
         assertTrue("Mean of n = 0 set should be NaN", 
             Double.isNaN( u.getMean() ) );
-	assertTrue("Standard Deviation of n = 0 set should be NaN", 
+		assertTrue("Standard Deviation of n = 0 set should be NaN", 
             Double.isNaN( u.getStandardDeviation() ) );
-	assertTrue("Variance of n = 0 set should be NaN", 
+		assertTrue("Variance of n = 0 set should be NaN", 
             Double.isNaN(u.getVariance() ) );
+		assertTrue("skew of n = 0 set should be NaN",
+			Double.isNaN(u.getSkewness() ) );	
+		assertTrue("kurtosis of n = 0 set should be NaN", 
+			Double.isNaN(u.getKurtosis() ) );		
+		
 	
-        u.addValue(one);
+		/* n=1 */
+		u.addValue(one);
+		assertTrue("mean should be one (n = 1)", 
+			u.getMean() == one);
+		assertTrue("geometric should be one (n = 1)", 
+			u.getGeometricMean() == one);
+		assertTrue("Std should be zero (n = 1)", 
+			u.getStandardDeviation() == 0.0);
+		assertTrue("variance should be zero (n = 1)", 
+			u.getVariance() == 0.0);
+		assertTrue("skew should be zero (n = 1)", 
+			u.getSkewness() == 0.0);
+		assertTrue("kurtosis should be zero (n = 1)", 
+			u.getKurtosis() == 0.0);		
+					
+		/* n=2 */				
+		u.addValue(twoF);
+		assertTrue("Std should not be zero (n = 2)", 
+			u.getStandardDeviation() != 0.0);
+		assertTrue("variance should not be zero (n = 2)", 
+			u.getVariance() != 0.0);
+		assertTrue("skew should not be zero (n = 2)", 
+			u.getSkewness() == 0.0);
+		assertTrue("kurtosis should be zero (n = 2)", 
+			u.getKurtosis() == 0.0);
 
-	assertTrue( "Mean of n = 1 set should be value of single item n1", 
-            u.getMean() == one);
-	assertTrue( "Mean of n = 1 set should be zero", 
-            u.getStandardDeviation() == 0);
-	assertTrue( "Variance of n = 1 set should be zero",
-            u.getVariance() == 0);	
+		/* n=3 */
+		u.addValue(twoL);
+		assertTrue("skew should not be zero (n = 3)", 
+			u.getSkewness() != 0.0);
+		assertTrue("kurtosis should be zero (n = 3)", 
+			u.getKurtosis() == 0.0);
+        
+		/* n=4 */
+		u.addValue(three);
+		assertTrue("kurtosis should not be zero (n = 4)", 
+			u.getKurtosis() != 0.0);        
+            
     }
 
     public void testProductAndGeometricMean() throws Exception {
@@ -199,9 +234,5 @@ public final class UnivariateImplTest extends TestCase {
         
         //FiXME: test all other NaN contract specs
     }
-        
-        
-        
 
 }
-

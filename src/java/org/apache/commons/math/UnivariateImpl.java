@@ -67,7 +67,7 @@ import java.io.Serializable;
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
  * @author Mark Diggory
  * @author Brent Worden
- * @version $Revision: 1.8 $ $Date: 2003/05/26 17:40:20 $
+ * @version $Revision: 1.9 $ $Date: 2003/05/29 19:49:18 $
  * 
 */
 public class UnivariateImpl implements Univariate, Serializable {
@@ -86,6 +86,12 @@ public class UnivariateImpl implements Univariate, Serializable {
     /** running sum of squares that have been added */
     private double sumsq = 0.0;
 
+	/** running sum of 3rd powers that have been added */
+	private double sumCube = 0.0;
+	
+	/** running sum of 4th powers that have been added */
+	private double sumQuad = 0.0;
+	
     /** count of values that have been added */
     private int n = 0;
 
@@ -162,6 +168,44 @@ public class UnivariateImpl implements Univariate, Serializable {
         }
     }
    
+   
+	/**
+	 * Returns the skewness of the values that have been added as described by
+     * <a href=http://mathworld.wolfram.com/k-Statistic.html>Equation (6) for k-Statistics</a>.
+     * 
+	 * @return The skew of a set of values.  Double.NaN is returned for
+	 *         an empty set of values and 0.0 is returned for a &lt;= 2 value set.
+	 */
+	public double getSkewness() {
+		
+		if( n < 1) return Double.NaN;
+		if( n <= 2 ) return 0.0;                  
+			
+		return ( 2*Math.pow(sum,3) - 3*sum*sumsq + ((double)n)*((double)n)*sumCube ) / 
+			   ( ((double)n)*(((double)n)-1)*(((double)n)-2));  
+	}
+	
+	/**
+	 * Returns the kurtosis of the values that have been added as described by
+     * <a href=http://mathworld.wolfram.com/k-Statistic.html>Equation (7) for k-Statistics</a>.
+     * 
+	 * @return The kurtosis of a set of values.  Double.NaN is returned for
+	 *         an empty set of values and 0.0 is returned for a &lt;= 3 value set.
+	 */
+	public double getKurtosis() {
+		
+		if( n < 1) return Double.NaN;
+		if( n <= 3 ) return 0.0;
+		
+		double x1 = -6*Math.pow(sum,4);
+		double x2 = 12*((double)n)*Math.pow(sum,2)*sumsq;
+		double x3 = -3*((double)n)*(((double)n)-1)*Math.pow(sumsq,2);
+		double x4 = -4*((double)n)*(((double)n)+1)*sum*sumCube;
+		double x5 = Math.pow(((double)n),2)*(((double)n)+1)*sumQuad;
+		return (x1 + x2 + x3 + x4 + x5) / 
+		       (((double)n)*(((double)n)-1)*(((double)n)-2)*(((double)n)-3));
+	} 
+	
     private void insertValue(double v) {
 
         // The default value of product is NaN, if you
@@ -176,14 +220,15 @@ public class UnivariateImpl implements Univariate, Serializable {
         }
 
         if( windowSize != Univariate.INFINITE_WINDOW ) {
-
             if( windowSize == n ) {
                 double discarded = doubleArray.addElementRolling( v );
 
                 // Remove the influence of the discarded
                 sum -= discarded;
                 sumsq -= discarded * discarded;
-
+				sumCube -= Math.pow(discarded,3);
+				sumQuad -= Math.pow(discarded,4); 
+				
                 if(discarded == min) {
                     min = doubleArray.getMin();
                 } else {
@@ -192,9 +237,6 @@ public class UnivariateImpl implements Univariate, Serializable {
                     }
                 } 
                 
-                sum += v;
-                sumsq += v*v;
-
                 if(product != 0.0){
                     // can safely remove discarded value
                     product *= v/discarded;
@@ -203,7 +245,7 @@ public class UnivariateImpl implements Univariate, Serializable {
                     product = 1.0;
                     double[] elements = doubleArray.getElements();
                     for( int i = 0; i < elements.length; i++ ) {
-                    product *= elements[i];
+                    	product *= elements[i];
                     }
                 } // else product = 0 and will still be 0 after discard
 
@@ -212,8 +254,6 @@ public class UnivariateImpl implements Univariate, Serializable {
                 n += 1.0;
                 if (v < min) min = v;
                 if (v > max) max = v;
-                sum += v;
-                sumsq += v*v;
                 product *= v;
             }
         } else {
@@ -223,10 +263,13 @@ public class UnivariateImpl implements Univariate, Serializable {
             n += 1.0;
             if (v < min) min = v;
             if (v > max) max = v;
-            sum += v;
-            sumsq += v*v;
             product *= v;
         }
+        
+		sum += v;
+		sumsq += v*v;
+		sumCube += Math.pow(v,3);
+		sumQuad += Math.pow(v,4);
     }
 
     /** Getter for property max.
@@ -272,6 +315,20 @@ public class UnivariateImpl implements Univariate, Serializable {
         return sumsq;
     }
 
+	/** Getter for property sumCube.
+	 * @return Value of property sumCube.
+	 */
+	public double getSumCube() {
+		return sumCube;
+	}
+	
+	/** Getter for property sumQuad.
+	 * @return Value of property sumQuad.
+	 */
+	public double getSumQuad() {
+		return sumQuad;
+	}
+	
     /**
      * Generates a text report displaying 
      * univariate statistics from values that
@@ -286,13 +343,14 @@ public class UnivariateImpl implements Univariate, Serializable {
         outBuffer.append("max: " + max + "\n");
         outBuffer.append("mean: " + getMean() + "\n");
         outBuffer.append("std dev: " + getStandardDeviation() + "\n");
+		outBuffer.append("skewness: " + getSkewness() + "\n");
+		outBuffer.append("kurtosis: " + getKurtosis() + "\n");
         return outBuffer.toString();
     }
     
     /** Resets all sums to 0, resets min and max */
     public void clear() {
-        this.sum = 0.0;
-        this.sumsq = 0.0;
+        this.sum = this.sumsq = this.sumCube = this.sumQuad = 0.0;
         this.n = 0;
         this.min = Double.MAX_VALUE;
         this.max = Double.MIN_VALUE;
