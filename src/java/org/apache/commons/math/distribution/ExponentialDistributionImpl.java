@@ -22,10 +22,10 @@ import org.apache.commons.math.MathException;
 /**
  * The default implementation of {@link ExponentialDistribution}
  * 
- * @version $Revision: 1.16 $ $Date: 2004/06/02 00:15:16 $
+ * @version $Revision: 1.17 $ $Date: 2004/06/06 16:38:05 $
  */
-public class ExponentialDistributionImpl
-    implements ExponentialDistribution, Serializable  {
+public class ExponentialDistributionImpl extends AbstractContinuousDistribution
+    implements ExponentialDistribution, Serializable {
 
     /** Serializable version identifier */
     static final long serialVersionUID = 2401296428283614780L;
@@ -95,12 +95,14 @@ public class ExponentialDistributionImpl
      * @return x, such that P(X &lt; x) = <code>p</code>
      * @throws MathException if the inverse cumulative probability can not be
      *            computed due to convergence or other numerical errors.
+     * @throws IllegalArgumentException if p < 0 or p > 1.
      */
-    public double inverseCumulativeProbability(double p) throws MathException{
+    public double inverseCumulativeProbability(double p) throws MathException {
         double ret;
         
         if (p < 0.0 || p > 1.0) {
-            ret = Double.NaN;
+            throw new IllegalArgumentException
+                ("probability argument must be between 0 and 1 (inclusive)");
         } else if (p == 1.0) {
             ret = Double.POSITIVE_INFINITY;
         } else {
@@ -111,14 +113,54 @@ public class ExponentialDistributionImpl
     }
     
     /**
-     * For this disbution, X, this method returns P(x0 &lt; X &lt; x1).
-     * @param x0 the lower bound
-     * @param x1 the upper bound
-     * @return the cumulative probability. 
-     * @throws MathException if the cumulative probability can not be
-     *            computed due to convergence or other numerical errors.
+     * Access the domain value lower bound, based on <code>p</code>, used to
+     * bracket a CDF root.   
+     * 
+     * @param p the desired probability for the critical value
+     * @return domain value lower bound, i.e.
+     *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code>
      */
-    public double cumulativeProbability(double x0, double x1) throws MathException{
-        return cumulativeProbability(x1) - cumulativeProbability(x0);
+    protected double getDomainLowerBound(double p) {
+        return 0;
+    }
+    
+    /**
+     * Access the domain value upper bound, based on <code>p</code>, used to
+     * bracket a CDF root.   
+     * 
+     * @param p the desired probability for the critical value
+     * @return domain value upper bound, i.e.
+     *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code> 
+     */
+    protected double getDomainUpperBound(double p) {
+        // NOTE: exponential is skewed to the left
+        // NOTE: therefore, P(X < &mu;) > .5
+
+        if (p < .5) {
+            // use mean
+            return getMean();
+        } else {
+            // use max
+            return Double.MAX_VALUE;
+        }
+    }
+    
+    /**
+     * Access the initial domain value, based on <code>p</code>, used to
+     * bracket a CDF root.   
+     * 
+     * @param p the desired probability for the critical value
+     * @return initial domain value
+     */
+    protected double getInitialDomain(double p) {
+        // TODO: try to improve on this estimate
+        // Exponential is skewed to the left, therefore, P(X < &mu;) > .5
+        if (p < .5) {
+            // use 1/2 mean
+            return getMean() * .5;
+        } else {
+            // use mean
+            return getMean();
+        }
     }
 }
