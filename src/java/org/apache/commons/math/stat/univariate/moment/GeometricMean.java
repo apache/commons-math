@@ -73,9 +73,7 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic {
      */
     public double increment(double d) {
         n++;
-        sumLog.increment(d);
-        value = Math.exp( sumLog.increment(d) / (double)n );
-        return value;
+        return Math.exp( sumLog.increment(d) / (double)n );
     }
 
     /**
