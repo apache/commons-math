@@ -53,7 +53,7 @@ import org.apache.commons.math.stat.univariate.SummaryStatistics;
  *    entry per line.</li>
  * </ul></p>
  *
- * @version $Revision: 1.23 $ $Date: 2004/06/14 23:45:33 $
+ * @version $Revision: 1.24 $ $Date: 2004/06/14 23:54:17 $
  */
 public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistribution {
 
@@ -107,24 +107,6 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         }
         loaded = true;
 
-    }
-
-    public void load(String filePath) throws IOException {
-        BufferedReader in =
-            new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));
-        try {
-            DataAdapter da = new StreamDataAdapter(in);
-            try {
-                da.computeStats();
-            } catch (Exception e) {
-                throw new IOException(e.getMessage());
-            }
-            in = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));
-            fillBinStats(in);
-            loaded = true;
-        } finally {
-           if (in != null) try {in.close();} catch (Exception ex) {};
-        }
     }
 
     public void load(URL url) throws IOException {
