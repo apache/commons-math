@@ -23,15 +23,15 @@ import org.apache.commons.math.util.ResizableDoubleArray;
  * Default implementation of
  * {@link org.apache.commons.math.stat.univariate.DescriptiveStatistics}.
  * 
- * @version $Revision: 1.7 $ $Date: 2004/06/14 21:41:33 $
+ * @version $Revision: 1.8 $ $Date: 2004/06/14 23:26:53 $
  */
 public class DescriptiveStatisticsImpl extends DescriptiveStatistics implements Serializable {
 
     /** Serializable version identifier */
     static final long serialVersionUID = -1868088725461221010L;
     
-	/** hold the window size **/
-	protected int windowSize;
+    /** hold the window size **/
+    protected int windowSize;
     
     /** 
      *  Stored data values
@@ -42,7 +42,7 @@ public class DescriptiveStatisticsImpl extends DescriptiveStatistics implements 
      * Construct a DescriptiveStatisticsImpl with infinite window
      */
     public DescriptiveStatisticsImpl() {
-    	this(INFINITE_WINDOW);
+        this(INFINITE_WINDOW);
     }
     
     /**
@@ -50,8 +50,8 @@ public class DescriptiveStatisticsImpl extends DescriptiveStatistics implements 
      * @param window the finite window size.
      */
     public DescriptiveStatisticsImpl(int window) {
-    	super();
-    	eDA = new ResizableDoubleArray();
+        super();
+        eDA = new ResizableDoubleArray();
         setWindowSize(window);
     }
 
@@ -60,7 +60,7 @@ public class DescriptiveStatisticsImpl extends DescriptiveStatistics implements 
      * @return the current window size.
      */
     public int getWindowSize() {
-    	return windowSize;
+        return windowSize;
     }
     
     /**

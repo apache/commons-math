@@ -29,7 +29,7 @@ import org.apache.commons.math.stat.univariate.summary.SumOfSquares;
 /**
  * Provides a default {@link SummaryStatistics} implementation.
  * 
- * @version $Revision: 1.3 $ $Date: 2004/06/01 21:34:35 $  
+ * @version $Revision: 1.4 $ $Date: 2004/06/14 23:26:53 $  
  */
 public class SummaryStatisticsImpl extends SummaryStatistics implements Serializable {
 
@@ -85,14 +85,14 @@ public class SummaryStatisticsImpl extends SummaryStatistics implements Serializ
      * @param value  the value to add
      */
     public void addValue(double value) {
-    	sum.increment(value);
-    	sumsq.increment(value);
-    	min.increment(value);
-    	max.increment(value);
-    	sumLog.increment(value);
-    	geoMean.increment(value);
-    	secondMoment.increment(value);
-    	n++;
+        sum.increment(value);
+        sumsq.increment(value);
+        min.increment(value);
+        max.increment(value);
+        sumLog.increment(value);
+        geoMean.increment(value);
+        secondMoment.increment(value);
+        n++;
     }
 
     /** 
@@ -214,8 +214,8 @@ public class SummaryStatisticsImpl extends SummaryStatistics implements Serializ
     }
 
     /** 
-	 * Resets all statistics and storage
-	 */
+     * Resets all statistics and storage
+     */
     public void clear() {
         this.n = 0;
         min.clear();

@@ -30,7 +30,7 @@ import org.apache.commons.math.stat.univariate.summary.SumOfSquares;
  * StatUtils provides static implementations of common double[] based
  * statistical methods. These return a single result value or in some cases, as
  * identified in the javadoc for each method, <code>Double.NaN.</code>
- * @version $Revision: 1.27 $ $Date: 2004/05/24 05:30:33 $
+ * @version $Revision: 1.28 $ $Date: 2004/06/14 23:26:53 $
  */
 public final class StatUtils {
 
@@ -326,11 +326,11 @@ public final class StatUtils {
      * (positive) length
      */
     public static double sumDifference(final double[] sample1, final double[] sample2)
-    	throws IllegalArgumentException {
+        throws IllegalArgumentException {
         int n = sample1.length;
         if (n  != sample2.length || n < 1) {
             throw new IllegalArgumentException 
-            	("Input arrays must have the same (positive) length.");
+                ("Input arrays must have the same (positive) length.");
         }
         double result = 0;
         for (int i = 0; i < n; i++) {

@@ -24,7 +24,7 @@ import org.apache.commons.math.stat.univariate.StatisticalSummary;
 /**
  * Implements t-test statistics defined in the {@link TTest} interface.
  *
- * @version $Revision: 1.6 $ $Date: 2004/06/06 22:28:25 $
+ * @version $Revision: 1.7 $ $Date: 2004/06/14 23:26:53 $
  */
 public class TTestImpl implements TTest  {
 
@@ -753,7 +753,7 @@ public class TTestImpl implements TTest  {
            double pooledVariance = ((n1  - 1) * v1 + (n2 -1) * v2 ) / (n1 + n2 - 2); 
            return (m1 - m2) / Math.sqrt(pooledVariance * (1d / n1 + 1d / n2));
         } else {
-        	return (m1 - m2) / Math.sqrt((v1 / n1) + (v2 / n2));
+            return (m1 - m2) / Math.sqrt((v1 / n1) + (v2 / n2));
         }
     }
     
@@ -798,7 +798,7 @@ public class TTestImpl implements TTest  {
         if (equalVariances) {
             degreesOfFreedom = (double) (n1 + n2 - 2);
         } else {
-        	degreesOfFreedom= df(v1, v2, n1, n2);
+            degreesOfFreedom= df(v1, v2, n1, n2);
         }
         TDistribution tDistribution =
             getDistributionFactory().createTDistribution(degreesOfFreedom);

@@ -34,203 +34,203 @@ import org.apache.commons.math.stat.univariate.summary.SumOfSquares;
 /**
  * Abstract factory class for univariate statistical summaries.
  * 
- * @version $Revision: 1.6 $ $Date: 2004/06/01 21:34:35 $
+ * @version $Revision: 1.7 $ $Date: 2004/06/14 23:26:53 $
  */
 public abstract class DescriptiveStatistics implements StatisticalSummary, Serializable {
     
     /** Serialization UID */
     static final long serialVersionUID = 5188298269533339922L;
     
-	/**
-	 * Create an instance of a <code>DescriptiveStatistics</code>
+    /**
+     * Create an instance of a <code>DescriptiveStatistics</code>
      * @param cls the type of <code>DescriptiveStatistics</code> object to
      *        create. 
-	 * @return a new factory. 
+     * @return a new factory. 
      * @throws InstantiationException is thrown if the object can not be
      *            created.
      * @throws IllegalAccessException is thrown if the type's default
      *            constructor is not accessible.
      * @throws ClassNotFoundException if the named
      *            <code>DescriptiveStatistics</code> type can not be found.
-	 */
-	public static DescriptiveStatistics newInstance(String cls) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-		return newInstance(Class.forName(cls));
-	}
+     */
+    public static DescriptiveStatistics newInstance(String cls) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+        return newInstance(Class.forName(cls));
+    }
     
-	/**
-	 * Create an instance of a <code>DescriptiveStatistics</code>
+    /**
+     * Create an instance of a <code>DescriptiveStatistics</code>
      * @param cls the type of <code>DescriptiveStatistics</code> object to
      *        create. 
-	 * @return a new factory. 
+     * @return a new factory. 
      * @throws InstantiationException is thrown if the object can not be
      *            created.
      * @throws IllegalAccessException is thrown if the type's default
      *            constructor is not accessible.
-	 */
-	public static DescriptiveStatistics newInstance(Class cls) throws InstantiationException, IllegalAccessException {
-		return (DescriptiveStatistics)cls.newInstance();
-	}
-	
-	/**
-	 * Create an instance of a <code>DescriptiveStatistics</code>
-	 * @return a new factory. 
-	 */
-	public static DescriptiveStatistics newInstance() {
-		DescriptiveStatistics factory = null;
-		try {
-			DiscoverClass dc = new DiscoverClass();
-			factory = (DescriptiveStatistics) dc.newInstance(
-				DescriptiveStatistics.class,
-				"org.apache.commons.math.stat.univariate.DescriptiveStatisticsImpl");
-		} catch(Exception ex) {
+     */
+    public static DescriptiveStatistics newInstance(Class cls) throws InstantiationException, IllegalAccessException {
+        return (DescriptiveStatistics)cls.newInstance();
+    }
+    
+    /**
+     * Create an instance of a <code>DescriptiveStatistics</code>
+     * @return a new factory. 
+     */
+    public static DescriptiveStatistics newInstance() {
+        DescriptiveStatistics factory = null;
+        try {
+            DiscoverClass dc = new DiscoverClass();
+            factory = (DescriptiveStatistics) dc.newInstance(
+                DescriptiveStatistics.class,
+                "org.apache.commons.math.stat.univariate.DescriptiveStatisticsImpl");
+        } catch(Exception ex) {
             ex.printStackTrace();
-			// ignore as default implementation will be used.
-		}
-		return factory;
-	}
-	
-	/**
-	 * This constant signals that a Univariate implementation
-	 * takes into account the contributions of an infinite number of
-	 * elements.  In other words, if getWindow returns this
-	 * constant, there is, in effect, no "window".
-	 */
-	public static final int INFINITE_WINDOW = -1;
+            // ignore as default implementation will be used.
+        }
+        return factory;
+    }
+    
+    /**
+     * This constant signals that a Univariate implementation
+     * takes into account the contributions of an infinite number of
+     * elements.  In other words, if getWindow returns this
+     * constant, there is, in effect, no "window".
+     */
+    public static final int INFINITE_WINDOW = -1;
 
-	/**
-	 * Adds the value to the set of numbers
-	 * @param v the value to be added 
-	 */
-	public abstract void addValue(double v);
+    /**
+     * Adds the value to the set of numbers
+     * @param v the value to be added 
+     */
+    public abstract void addValue(double v);
 
-	/** 
-	 * Returns the <a href="http://www.xycoon.com/arithmetic_mean.htm">
-	 * arithmetic mean </a> of the available values 
-	 * @return The mean or Double.NaN if no values have been added.
-	 */
+    /** 
+     * Returns the <a href="http://www.xycoon.com/arithmetic_mean.htm">
+     * arithmetic mean </a> of the available values 
+     * @return The mean or Double.NaN if no values have been added.
+     */
     public double getMean() {
-    	return apply(new Mean());
+        return apply(new Mean());
     }
 
-	/** 
-	 * Returns the <a href="http://www.xycoon.com/geometric_mean.htm">
-	 * geometric mean </a> of the available values
-	 * @return The geometricMean, Double.NaN if no values have been added, 
-	 * or if the productof the available values is less than or equal to 0.
-	 */
+    /** 
+     * Returns the <a href="http://www.xycoon.com/geometric_mean.htm">
+     * geometric mean </a> of the available values
+     * @return The geometricMean, Double.NaN if no values have been added, 
+     * or if the productof the available values is less than or equal to 0.
+     */
     public double getGeometricMean() {
-    	return apply(new GeometricMean());
+        return apply(new GeometricMean());
     }
 
-	/** 
-	 * Returns the variance of the available values.
-	 * @return The variance, Double.NaN if no values have been added 
-	 * or 0.0 for a single value set.  
-	 */
+    /** 
+     * Returns the variance of the available values.
+     * @return The variance, Double.NaN if no values have been added 
+     * or 0.0 for a single value set.  
+     */
     public double getVariance() {
-    	return apply(new Variance());
+        return apply(new Variance());
     }
 
-	/** 
-	 * Returns the standard deviation of the available values.
-	 * @return The standard deviation, Double.NaN if no values have been added 
-	 * or 0.0 for a single value set. 
-	 */
+    /** 
+     * Returns the standard deviation of the available values.
+     * @return The standard deviation, Double.NaN if no values have been added 
+     * or 0.0 for a single value set. 
+     */
     public double getStandardDeviation() {
-    	double stdDev = Double.NaN;
-    	if (getN() > 0) {
-    		if (getN() > 1) {
-    			stdDev = Math.sqrt(getVariance());
-    		} else {
-    			stdDev = 0.0;
-    		}
-    	}
-    	return (stdDev);
+        double stdDev = Double.NaN;
+        if (getN() > 0) {
+            if (getN() > 1) {
+                stdDev = Math.sqrt(getVariance());
+            } else {
+                stdDev = 0.0;
+            }
+        }
+        return (stdDev);
     }
 
-	/**
-	 * Returns the skewness of the available values. Skewness is a 
-	 * measure of the assymetry of a given distribution.
-	 * @return The skewness, Double.NaN if no values have been added 
-	 * or 0.0 for a value set &lt;=2. 
-	 */
+    /**
+     * Returns the skewness of the available values. Skewness is a 
+     * measure of the assymetry of a given distribution.
+     * @return The skewness, Double.NaN if no values have been added 
+     * or 0.0 for a value set &lt;=2. 
+     */
     public double getSkewness() {
-    	return apply(new Skewness());
+        return apply(new Skewness());
     }
 
-	/**
-	 * Returns the Kurtosis of the available values. Kurtosis is a 
-	 * measure of the "peakedness" of a distribution
-	 * @return The kurtosis, Double.NaN if no values have been added, or 0.0 
-	 * for a value set &lt;=3. 
-	 */
+    /**
+     * Returns the Kurtosis of the available values. Kurtosis is a 
+     * measure of the "peakedness" of a distribution
+     * @return The kurtosis, Double.NaN if no values have been added, or 0.0 
+     * for a value set &lt;=3. 
+     */
     public double getKurtosis() {
-    	return apply(new Kurtosis());
+        return apply(new Kurtosis());
     }
 
-	/** 
-	 * Returns the maximum of the available values
-	 * @return The max or Double.NaN if no values have been added.
-	 */
+    /** 
+     * Returns the maximum of the available values
+     * @return The max or Double.NaN if no values have been added.
+     */
     public double getMax() {
-    	return apply(new Max());
+        return apply(new Max());
     }
 
-	/** 
-	* Returns the minimum of the available values
-	* @return The min or Double.NaN if no values have been added.
-	*/
+    /** 
+    * Returns the minimum of the available values
+    * @return The min or Double.NaN if no values have been added.
+    */
     public double getMin() {
-    	return apply(new Min());
+        return apply(new Min());
     }
 
-	/** 
-	 * Returns the number of available values
-	 * @return The number of available values
-	 */
-	public abstract long getN();
+    /** 
+     * Returns the number of available values
+     * @return The number of available values
+     */
+    public abstract long getN();
 
-	/**
-	 * Returns the sum of the values that have been added to Univariate.
-	 * @return The sum or Double.NaN if no values have been added
-	 */
+    /**
+     * Returns the sum of the values that have been added to Univariate.
+     * @return The sum or Double.NaN if no values have been added
+     */
     public double getSum() {
-    	return apply(new Sum());
+        return apply(new Sum());
     }
 
-	/**
-	 * Returns the sum of the squares of the available values.
-	 * @return The sum of the squares or Double.NaN if no 
-	 * values have been added.
-	 */
+    /**
+     * Returns the sum of the squares of the available values.
+     * @return The sum of the squares or Double.NaN if no 
+     * values have been added.
+     */
     public double getSumsq() {
-    	return apply(new SumOfSquares());
+        return apply(new SumOfSquares());
     }
 
-	/** 
-	 * Resets all statistics and storage
-	 */
-	public abstract void clear();
+    /** 
+     * Resets all statistics and storage
+     */
+    public abstract void clear();
 
-	/**
-	 * Univariate has the ability to return only measures for the
-	 * last N elements added to the set of values.
-	 * @return The current window size or -1 if its Infinite.
-	 */
+    /**
+     * Univariate has the ability to return only measures for the
+     * last N elements added to the set of values.
+     * @return The current window size or -1 if its Infinite.
+     */
 
-	public abstract int getWindowSize();
+    public abstract int getWindowSize();
 
-	/**
-	 * WindowSize controls the number of values which contribute 
-	 * to the values returned by Univariate.  For example, if 
-	 * windowSize is set to 3 and the values {1,2,3,4,5} 
-	 * have been added <strong> in that order</strong> 
-	 * then the <i>available values</i> are {3,4,5} and all
-	 * reported statistics will be based on these values
-	 * @param windowSize sets the size of the window.
-	 */
-	public abstract void setWindowSize(int windowSize);
-	
+    /**
+     * WindowSize controls the number of values which contribute 
+     * to the values returned by Univariate.  For example, if 
+     * windowSize is set to 3 and the values {1,2,3,4,5} 
+     * have been added <strong> in that order</strong> 
+     * then the <i>available values</i> are {3,4,5} and all
+     * reported statistics will be based on these values
+     * @param windowSize sets the size of the window.
+     */
+    public abstract void setWindowSize(int windowSize);
+    
     /**
      * Returns the current set of values in an array of double primitives.  
      * The order of addition is preserved.  The returned array is a fresh
@@ -240,7 +240,7 @@ public abstract class DescriptiveStatistics implements StatisticalSummary, Seria
      * @return returns the current set of numbers in the order in which they 
      *         were added to this set
      */
-	public abstract double[] getValues();
+    public abstract double[] getValues();
 
     /**
      * Returns the current set of values in an array of double primitives,  
@@ -261,7 +261,7 @@ public abstract class DescriptiveStatistics implements StatisticalSummary, Seria
      * @param index The Index of the element
      * @return return the element at the specified index
      */
-	public abstract double getElement(int index);
+    public abstract double getElement(int index);
 
     /**
      * Returns an estimate for the pth percentile of the stored values. 
@@ -281,9 +281,9 @@ public abstract class DescriptiveStatistics implements StatisticalSummary, Seria
      * values
      */
     public double getPercentile(double p) {
-    	return apply(new Percentile(p));
+        return apply(new Percentile(p));
     }
-	
+    
     /**
      * Generates a text report displaying
      * univariate statistics from values that
@@ -291,23 +291,23 @@ public abstract class DescriptiveStatistics implements StatisticalSummary, Seria
      * @return String with line feeds displaying statistics
      */
     public String toString() {
-    	StringBuffer outBuffer = new StringBuffer();
-    	outBuffer.append("UnivariateImpl:\n");
-    	outBuffer.append("n: " + getN() + "\n");
-    	outBuffer.append("min: " + getMin() + "\n");
-    	outBuffer.append("max: " + getMax() + "\n");
-    	outBuffer.append("mean: " + getMean() + "\n");
-    	outBuffer.append("std dev: " + getStandardDeviation() + "\n");
-    	outBuffer.append("skewness: " + getSkewness() + "\n");
-    	outBuffer.append("kurtosis: " + getKurtosis() + "\n");
-    	return outBuffer.toString();
+        StringBuffer outBuffer = new StringBuffer();
+        outBuffer.append("UnivariateImpl:\n");
+        outBuffer.append("n: " + getN() + "\n");
+        outBuffer.append("min: " + getMin() + "\n");
+        outBuffer.append("max: " + getMax() + "\n");
+        outBuffer.append("mean: " + getMean() + "\n");
+        outBuffer.append("std dev: " + getStandardDeviation() + "\n");
+        outBuffer.append("skewness: " + getSkewness() + "\n");
+        outBuffer.append("kurtosis: " + getKurtosis() + "\n");
+        return outBuffer.toString();
     }
     
-	/**
-	 * Apply the given statistic to the data associated with this set of statistics.
-	 * @param stat the statistic to apply
-	 * @return the computed value of the statistic.
-	 */
-	public abstract double apply(UnivariateStatistic stat);
+    /**
+     * Apply the given statistic to the data associated with this set of statistics.
+     * @param stat the statistic to apply
+     * @return the computed value of the statistic.
+     */
+    public abstract double apply(UnivariateStatistic stat);
 
 }

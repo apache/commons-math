@@ -22,7 +22,7 @@ import org.apache.commons.math.distribution.ChiSquaredDistribution;
 /**
  * Implements Chi-Square test statistics defined in the {@link ChiSquareTest} interface.
  *
- * @version $Revision: 1.5 $ $Date: 2004/06/06 23:14:09 $
+ * @version $Revision: 1.6 $ $Date: 2004/06/14 23:26:53 $
  */
 public class ChiSquareTestImpl implements ChiSquareTest {
     
@@ -119,7 +119,7 @@ public class ChiSquareTestImpl implements ChiSquareTest {
             for (int col = 0; col < nCols; col++) {
                 expected = (rowSum[row] * colSum[col]) / total;
                 sumSq += (((double) counts[row][col] - expected) * ((double) counts[row][col] - expected))
-                	/ expected; 
+                    / expected; 
             }
         } 
         return sumSq;
