@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.stat;
+package org.apache.commons.math.stat.inference;
 
 import org.apache.commons.math.MathException;
 
@@ -23,7 +23,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the TestStatistic class.
  *
- * @version $Revision: 1.13 $ $Date: 2004/03/07 21:55:18 $
+ * @version $Revision: 1.1 $ $Date: 2004/04/11 20:30:46 $
  */
 
 public final class TestStatisticTest extends TestCase {
