@@ -14,6 +14,6 @@ package org.apache.commons.math.linear;
  */
 public interface Decomposer {
 
-    Decomposition decompose(RealMatrix);
+    Decomposition decompose(RealMatrix matrix);
     
 }
