@@ -1,8 +1,8 @@
 build.properties
-target
-dist
+**/target/**
+**/dist/**
 *.log
 *.project
 *.classpath
 *.checkstyle
-bin
+**/bin/**
