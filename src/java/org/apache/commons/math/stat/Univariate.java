@@ -73,7 +73,7 @@
  * @author Phil Steitz
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
  * @author <a href="mailto:mdiggory@apache.org">Mark Diggory</a>
- * @version $Revision: 1.3 $ $Date: 2003/06/16 21:24:30 $
+ * @version $Revision: 1.4 $ $Date: 2003/06/21 23:38:27 $
  * 
 */
 public interface Univariate {
@@ -98,12 +98,6 @@ public interface Univariate {
      * or if the productof the available values is less than or equal to 0.
      */
     abstract double getGeometricMean();
-
-    /** 
-     * Returns the product of the available values
-     * @return The product or Double.NaN if no values have been added.
-     */
-    abstract double getProduct();
 
     /** 
      * Returns the variance of the available values.

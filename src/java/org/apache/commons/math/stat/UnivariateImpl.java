@@ -71,7 +71,7 @@ import org.apache.commons.math.FixedDoubleArray;
  * @author <a href="mailto:mdiggory@apache.org">Mark Diggory</a>
  * @author Brent Worden
  * @author <a href="mailto:HotFusionMan@Yahoo.com">Albert Davidson Chou</a>
- * @version $Revision: 1.13 $ $Date: 2003/06/21 02:54:55 $
+ * @version $Revision: 1.14 $ $Date: 2003/06/21 23:38:27 $
  *
 */
 public class UnivariateImpl implements Univariate, Serializable {
@@ -247,17 +247,6 @@ public class UnivariateImpl implements Univariate, Serializable {
             return StatUtils.min(doubleArray.getElements());
         }
         return min;
-    }
-
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.stat.Univariate#getProduct()
-     */
-    public double getProduct() {
-        if (windowSize != Univariate.INFINITE_WINDOW) {
-            return StatUtils.product(doubleArray.getElements());
-        }
-
-        return sumLog;
     }
 
     /* (non-Javadoc)

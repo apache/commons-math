@@ -114,8 +114,7 @@ public abstract class AbstractStoreUnivariate implements StoreUnivariate {
         double n = getN();
 
         double coefficientOne = (n * (n + 1)) / ((n - 1) * (n - 2) * (n - 3));
-        double termTwo = ((3 * Math.pow(n - 1, 2.0)) 
-                           / ((n - 2) * (n - 3))); 
+        double termTwo = ((3 * Math.pow(n - 1, 2.0)) / ((n - 2) * (n - 3)));
         // Calculate kurtosis
         kurtosis = (coefficientOne * accum) - termTwo;
 
@@ -156,25 +155,18 @@ public abstract class AbstractStoreUnivariate implements StoreUnivariate {
      * @see org.apache.commons.math.stat.Univariate#getGeometricMean()
      */
     public double getGeometricMean() {
-        double gMean = Math.pow(getProduct(),(1.0/getN()));
+        double gMean = Double.NaN;
+
+        if (getN() > 0) {
+            double sumLog = 0.0;
+            for (int i = 0; i < getN(); i++) {
+                sumLog += Math.log(getElement(i));
+            }
+            gMean = Math.exp(sumLog / (double)getN() );
+        }
+
         return gMean;
     }
-
-    /**
-     * Returns the product for this collection of values
-     * @see org.apache.commons.math.stat.Univariate#getProduct()
-     */
-    public double getProduct() {
-        double product = Double.NaN;
-        if( getN() > 0 ) {
-            product = 1.0;
-            for( int i = 0; i < getN(); i++) {
-                product *= getElement(i);
-            }
-        }
-        return product;
-    }
-       
 
     /**
      * Returns the variance for this collection of values
@@ -193,8 +185,8 @@ public abstract class AbstractStoreUnivariate implements StoreUnivariate {
 
             // Calculate the sum of the squares of the distance between each 
             // value and the mean
-            double accum = 0.0;		
-            for (int i = 0; i < getN(); i++){
+            double accum = 0.0;
+            for (int i = 0; i < getN(); i++) {
                 accum += Math.pow((getElement(i) - mean), 2.0);
             }
 
@@ -283,22 +275,22 @@ public abstract class AbstractStoreUnivariate implements StoreUnivariate {
         }
         return accum;
     }
-   
+
     /**
      * @see org.apache.commons.math.stat.StoreUnivariate#getSortedValues()
      *
-     */ 
+     */
     public double[] getSortedValues() {
         double[] values = getValues();
         Arrays.sort(values);
         return values;
     }
-    
+
     /**
      * Returns an estimate for the pth percentile of the stored values
      * @see org.apache.commons.math.stat.StoreUnivariate#getPercentile(double)
      */
-    public double getPercentile(double p) {    
+    public double getPercentile(double p) {
         if ((p > 100) || (p <= 0)) {
             throw new IllegalArgumentException("invalid percentile value");
         }
@@ -307,7 +299,7 @@ public abstract class AbstractStoreUnivariate implements StoreUnivariate {
             return Double.NaN;
         }
         if (n == 1) {
-            return getElement(0);  // always return single value for n = 1
+            return getElement(0); // always return single value for n = 1
         }
         double pos = p * (n + 1) / 100;
         double fpos = Math.floor(pos);
@@ -322,7 +314,7 @@ public abstract class AbstractStoreUnivariate implements StoreUnivariate {
         }
         double lower = sorted[intPos - 1];
         double upper = sorted[intPos];
-        return lower + d * (upper - lower);       
+        return lower + d * (upper - lower);
     }
 
 }

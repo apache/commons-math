@@ -62,7 +62,7 @@ import junit.framework.TestSuite;
  *
  * @author Phil Steitz
  * @author Tim Obrien
- * @version $Revision: 1.2 $ $Date: 2003/06/21 02:08:23 $
+ * @version $Revision: 1.3 $ $Date: 2003/06/21 23:38:27 $
  */
 
 public final class UnivariateImplTest extends TestCase {
@@ -175,8 +175,6 @@ public final class UnivariateImplTest extends TestCase {
         u.addValue( 3.0 );
         u.addValue( 4.0 );
 
-        assertEquals( "Product not expected", 24.0, u.getProduct(),
-            Double.MIN_VALUE );
         assertEquals( "Geometric mean not expected", 2.213364, 
             u.getGeometricMean(), 0.00001 );
 
@@ -187,8 +185,6 @@ public final class UnivariateImplTest extends TestCase {
         }
         // Values should be (2,3,4,5,6,7,8,9,10,11)
         
-        assertEquals( "Product not expected", 39916800.0, 
-            u.getProduct(), 0.00001 );
         assertEquals( "Geometric mean not expected", 5.755931, 
             u.getGeometricMean(), 0.00001 );
     }

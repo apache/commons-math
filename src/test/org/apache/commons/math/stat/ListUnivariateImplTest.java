@@ -64,7 +64,7 @@ import junit.framework.TestSuite;
  * Test cases for the {@link Univariate} class.
  *
  * @author <a href="mailto:phil@steitz.com">Phil Steitz</a>
- * @version $Revision: 1.2 $ $Date: 2003/06/21 23:02:51 $
+ * @version $Revision: 1.3 $ $Date: 2003/06/21 23:38:27 $
  */
 
 public final class ListUnivariateImplTest extends TestCase {
@@ -161,7 +161,6 @@ public final class ListUnivariateImplTest extends TestCase {
         u.addValue( 3.0 );
         u.addValue( 4.0 );
 
-        //assertEquals( "Product not expected", 24.0, u.getProduct(), Double.MIN_VALUE );
         assertEquals( "Geometric mean not expected", 2.213364, u.getGeometricMean(), 0.00001 );
 
         // Now test rolling - UnivariateImpl should discount the contribution
@@ -171,7 +170,6 @@ public final class ListUnivariateImplTest extends TestCase {
         }
         // Values should be (2,3,4,5,6,7,8,9,10,11)
         
-        //assertEquals( "Product not expected", 39916800.0, u.getProduct(), 0.00001 );
         assertEquals( "Geometric mean not expected", 5.755931, u.getGeometricMean(), 0.00001 );
 
 
