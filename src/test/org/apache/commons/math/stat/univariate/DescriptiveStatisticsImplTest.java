@@ -25,10 +25,10 @@ import org.apache.commons.math.random.RandomDataImpl;
 /**
  * Test cases for the {@link Univariate} class.
  *
- * @version $Revision: 1.2 $ $Date: 2004/05/23 00:56:15 $
+ * @version $Revision: 1.1 $ $Date: 2004/06/16 03:36:12 $
  */
 
-public final class StoreUnivariateImplTest extends TestCase {
+public final class DescriptiveStatisticsImplTest extends TestCase {
     private double one = 1;
     private float two = 2;
     private int three = 3;
@@ -44,7 +44,7 @@ public final class StoreUnivariateImplTest extends TestCase {
     private double kurtosis = 0.5;
     private double tolerance = 10E-15;
     
-    public StoreUnivariateImplTest(String name) {
+    public DescriptiveStatisticsImplTest(String name) {
         super(name);
     }
     
@@ -52,8 +52,8 @@ public final class StoreUnivariateImplTest extends TestCase {
     }
     
     public static Test suite() {
-        TestSuite suite = new TestSuite(StoreUnivariateImplTest.class);
-        suite.setName("Frequency Tests");
+        TestSuite suite = new TestSuite(DescriptiveStatisticsImplTest.class);
+        suite.setName("DescriptiveStatistics Tests");
         return suite;
     }
     

@@ -24,10 +24,10 @@ import org.apache.commons.math.TestUtils;
 /**
  * Test cases for the {@link DescriptiveStatistics} class.
  *
- * @version $Revision: 1.5 $ $Date: 2004/05/18 04:21:28 $
+ * @version $Revision: 1.1 $ $Date: 2004/06/16 03:36:12 $
  */
 
-public final class UnivariateImplTest extends TestCase {
+public final class SummaryStatisticsImplTest extends TestCase {
     private double one = 1;
     private float twoF = 2;
     private long twoL = 2;
@@ -44,7 +44,7 @@ public final class UnivariateImplTest extends TestCase {
     
     protected SummaryStatistics u = null;
     
-    public UnivariateImplTest(String name) {
+    public SummaryStatisticsImplTest(String name) {
         super(name);
     }
     
@@ -53,7 +53,7 @@ public final class UnivariateImplTest extends TestCase {
     }
     
     public static Test suite() {
-        TestSuite suite = new TestSuite(UnivariateImplTest.class);
+        TestSuite suite = new TestSuite(SummaryStatisticsImplTest.class);
         suite.setName("Frequency Tests");
         return suite;
     }
