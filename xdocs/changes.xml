@@ -94,7 +94,12 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="psteitz" type="update" due-to="Fredrik Norin" issue="31688">
         Added Poisson distribution implementation.
       </action>
+      <action dev="psteitz" type="fix" issue="31713">
+        Eliminated unecessary array copy operations in RealMatrixImpl, 
+        BigMatrixImpl add, multiply, solve and subtract operations.
+      </action>
     </release>
+    31713
     
     <release version="1.0-RC1" date="2004-09-07">
       <action type="add">
