@@ -23,7 +23,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the TestStatistic class.
  *
- * @version $Revision: 1.2 $ $Date: 2004/10/24 06:30:01 $
+ * @version $Revision: 1.3 $ $Date: 2004/10/24 21:47:16 $
  */
 
 public final class SimpleRegressionTest extends TestCase {
@@ -193,7 +193,7 @@ public final class SimpleRegressionTest extends TestCase {
     public void testInference() throws Exception {
         //----------  verified against R, version 1.8.1 -----
         // infData
-        regression = new SimpleRegression();
+        SimpleRegression regression = new SimpleRegression();
         regression.addData(infData);
         assertEquals("slope std err", 0.011448491,
                 regression.getSlopeStdErr(), 1E-10);
