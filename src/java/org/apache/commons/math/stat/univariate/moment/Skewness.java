@@ -34,7 +34,7 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * one of the threads invokes the <code>increment()</code> or 
  * <code>clear()</code> method, it must be synchronized externally.
  * 
- * @version $Revision: 1.24 $ $Date: 2004/07/04 09:02:36 $
+ * @version $Revision: 1.25 $ $Date: 2004/07/10 17:02:43 $
  */
 public class Skewness extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -104,7 +104,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getN()
      */
-    public double getN() {
+    public long getN() {
         return moment.getN();
     }
     
@@ -139,41 +139,35 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
         // Initialize the skewness
         double skew = Double.NaN;
 
-        if (test(values, begin, length)) {
+        if (test(values, begin, length) && length > 2 ){
             Mean mean = new Mean();
-            if (length <= 2) {
-                skew = 0.0;
-            } else {
-                // Get the mean and the standard deviation
-                double m = mean.evaluate(values, begin, length);
-
-                // Calc the std, this is implemented here instead
-                // of using the standardDeviation method eliminate
-                // a duplicate pass to get the mean
-                double accum = 0.0;
-                double accum2 = 0.0;
-                for (int i = begin; i < begin + length; i++) {
-                    accum += Math.pow((values[i] - m), 2.0);
-                    accum2 += (values[i] - m);
-                }
-                double stdDev = Math.sqrt((accum - (Math.pow(accum2, 2) / ((double) length))) /
-                        (double) (length - 1));
-
-                double accum3 = 0.0;
-                for (int i = begin; i < begin + length; i++) {
-                    accum3 += Math.pow(values[i] - m, 3.0d);
-                }
-                accum3 /= Math.pow(stdDev, 3.0d);
-
-                // Get N
-                double n0 = length;
-
-                // Calculate skewness
-                skew = (n0 / ((n0 - 1) * (n0 - 2))) * accum3;
+            // Get the mean and the standard deviation
+            double m = mean.evaluate(values, begin, length);
+            
+            // Calc the std, this is implemented here instead
+            // of using the standardDeviation method eliminate
+            // a duplicate pass to get the mean
+            double accum = 0.0;
+            double accum2 = 0.0;
+            for (int i = begin; i < begin + length; i++) {
+                accum += Math.pow((values[i] - m), 2.0);
+                accum2 += (values[i] - m);
             }
+            double stdDev = Math.sqrt((accum - (Math.pow(accum2, 2) / ((double) length))) /
+                    (double) (length - 1));
+            
+            double accum3 = 0.0;
+            for (int i = begin; i < begin + length; i++) {
+                accum3 += Math.pow(values[i] - m, 3.0d);
+            }
+            accum3 /= Math.pow(stdDev, 3.0d);
+            
+            // Get N
+            double n0 = length;
+            
+            // Calculate skewness
+            skew = (n0 / ((n0 - 1) * (n0 - 2))) * accum3;
         }
-
         return skew;
     }
-
 }
