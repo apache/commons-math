@@ -120,4 +120,14 @@ public interface DoubleArray {
 	 * @param i number of elements to discard from the front of the array.
 	 */
 	public abstract void discardFrontElements(int i);
+	
+	/**
+	 * Returns the minimum value stored in this array
+	 */
+	public abstract double getMin();
+
+	/**
+	 * Returns the maximum value stored in this array
+	 */
+	public abstract double getMax();
 }

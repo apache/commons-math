@@ -61,7 +61,7 @@
  *
  * @author Phil Steitz
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
- * @version $Revision: 1.2 $ $Date: 2003/05/15 05:39:00 $
+ * @version $Revision: 1.3 $ $Date: 2003/05/16 05:23:29 $
  * 
 */
 public interface Univariate {
@@ -117,4 +117,26 @@ public interface Univariate {
 
 	/** Resets all sums to 0, resets min and max */
 	public abstract void clear();
+	
+	/**
+	 * This constant signals that a Univariate implementation
+	 * takes into account the contributions of an infinite number of
+	 * elements.  In other words, if getWindow returns this
+	 * constant, there is, in effect, no "window".
+	 */
+	public static final int INIFINTE_WINDOW = -1;
+
+	/**
+	 * Univariate has the ability to return only measures for the
+	 * last N elements added to the set of values.  This function returns
+	 */
+	public abstract int getWindowSize();
+	
+	/**
+	 * Sets the window.  windowSize controls the number of value
+	 * which contribute to the values returned by Univariate.  
+	 * For example, a window value of 10 means that getMean()
+	 * will return the mean of the last 10 values added.
+	 */
+	public abstract void setWindowSize(int windowSize);
 }

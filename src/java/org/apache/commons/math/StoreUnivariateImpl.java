@@ -58,10 +58,16 @@ package org.apache.commons.math;
  */
 public class StoreUnivariateImpl extends AbstractStoreUnivariate {
 
-	ExpandableDoubleArray eDA;
+	// Use an internal double array
+	DoubleArray eDA;
+	
+	// Store the windowSize
+	private int windowSize = Univariate.INIFINTE_WINDOW;
 
 	public StoreUnivariateImpl() {
-		eDA = new ExpandableDoubleArray();
+		// A contractable double array is used.  memory is reclaimed when
+		// the storage of the array becomes too empty.
+		eDA = new ContractableDoubleArray();
 	}
 
 	/* (non-Javadoc)
@@ -70,7 +76,7 @@ public class StoreUnivariateImpl extends AbstractStoreUnivariate {
 	public double[] getValues() {
 
 		double[] copiedArray = new double[ eDA.getNumElements() ];
-		System.arraycopy( eDA.getValues(), 0, copiedArray, 0, eDA.getNumElements());
+		System.arraycopy( eDA.getElements(), 0, copiedArray, 0, eDA.getNumElements());
 		return copiedArray;
 	}
 
@@ -91,15 +97,48 @@ public class StoreUnivariateImpl extends AbstractStoreUnivariate {
 	/* (non-Javadoc)
 	 * @see org.apache.commons.math.Univariate#addValue(double)
 	 */
-	public void addValue(double v) {
-		eDA.addElement( v );
+	public synchronized void addValue(double v) {
+		if( windowSize != Univariate.INIFINTE_WINDOW ) {
+			if( getN() == windowSize ) {
+				eDA.addElementRolling( v );
+			} else if( getN() < windowSize ) {
+				eDA.addElement(v);
+			} else {
+				throw new RuntimeException( "A window Univariate had more element than " +
+					"the windowSize.  This is an inconsistent state.");
+			}
+		} else {
+			eDA.addElement(v);
+		}
 	}
 
 	/* (non-Javadoc)
 	 * @see org.apache.commons.math.Univariate#clear()
 	 */
-	public void clear() {
+	public synchronized void clear() {
 		eDA.clear();
+	}
+
+	/* (non-Javadoc)
+	 * @see org.apache.commons.math.Univariate#getWindowSize()
+	 */
+	public int getWindowSize() {
+		return windowSize;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.apache.commons.math.Univariate#setWindowSize(int)
+	 */
+	public synchronized void setWindowSize(int windowSize) {
+		this.windowSize = windowSize;
+		
+		// We need to check to see if we need to discard elements
+		// from the front of the array.  If the windowSize is less than 
+		// the current number of elements.
+		if( windowSize < eDA.getNumElements() ) {
+			eDA.discardFrontElements( eDA.getNumElements() - windowSize);
+		}
+		
 	}
 
 }

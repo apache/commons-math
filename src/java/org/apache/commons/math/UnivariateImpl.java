@@ -64,10 +64,19 @@ import java.io.Serializable;
  * to doubles by addValue().  
  *
  * @author Phil Steitz
- * @version $Revision: 1.2 $ $Date: 2003/05/15 06:33:19 $
+ * @version $Revision: 1.3 $ $Date: 2003/05/16 05:23:29 $
  * 
 */
 public class UnivariateImpl implements Univariate, Serializable {
+
+	/** hold the window size **/
+	private int windowSize = Univariate.INIFINTE_WINDOW;
+	
+	/** Just in case, the windowSize is not inifinite, we need to
+	 *   keep an array to remember values 0 to N
+	 */
+	private DoubleArray doubleArray =
+		new ContractableDoubleArray(); 
 
     /** running sum of values that have been added */
     private double sum = 0.0;
@@ -140,11 +149,40 @@ public class UnivariateImpl implements Univariate, Serializable {
      * @param v the value to be added 
      */
     private void insertValue(double v) {
-        n += 1.0;
-        if (v < min) min = v;
-        if (v > max) max = v;
-        sum += v;
-        sumsq += v*v;
+    	
+    	if( windowSize != Univariate.INIFINTE_WINDOW ) {
+    		if( windowSize == n ) {
+				double discarded = doubleArray.addElementRolling( v );        	
+			
+				// Remove the influence of the discarded
+				sum -= discarded;
+				sumsq -= discarded * discarded;
+			
+				// Include the influence of the new
+				// TODO: The next two lines seems rather expensive, but
+				// I don't see many alternatives.			 
+				min = doubleArray.getMin();
+				max = doubleArray.getMax();
+				sum += v;
+				sumsq += v*v;
+    		} else {
+				doubleArray.addElement( v );        	
+	        	n += 1.0;
+    	    	if (v < min) min = v;
+       			if (v > max) max = v;
+        		sum += v;
+        		sumsq += v*v;
+    		}
+    	} else {
+			// If the windowSize is inifinite please don't take the time to
+			// worry about storing any values.  We don't need to discard the
+			// influence of any single item.
+			n += 1.0;
+			if (v < min) min = v;
+			if (v > max) max = v;
+			sum += v;
+			sumsq += v*v;
+    	}
     }
 
     /** Getter for property max.
@@ -214,5 +252,19 @@ public class UnivariateImpl implements Univariate, Serializable {
         this.min = Double.MAX_VALUE;
         this.max = Double.MIN_VALUE;
     }
+
+	/* (non-Javadoc)
+	 * @see org.apache.commons.math.Univariate#getWindowSize()
+	 */
+	public int getWindowSize() {
+		return windowSize;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.apache.commons.math.Univariate#setWindowSize(int)
+	 */
+	public void setWindowSize(int windowSize) {
+		this.windowSize = windowSize;
+	}
 
 }

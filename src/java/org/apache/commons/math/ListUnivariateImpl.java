@@ -61,6 +61,10 @@ import java.util.List;
  */
 public class ListUnivariateImpl extends AbstractStoreUnivariate {
 
+	// Holds the value of the windowSize, initial windowSize is the constant
+	// Univariate.INFINITE_WINDOW
+	private int windowSize = Univariate.INIFINTE_WINDOW;
+
 	// Holds a reference to a list - GENERICs are going to make
 	// out lives easier here as we could only accept List<Number>
 	List list;
@@ -75,10 +79,23 @@ public class ListUnivariateImpl extends AbstractStoreUnivariate {
 	 */
 	public double[] getValues() {
 
-		double[] copiedArray = new double[list.size()];
+		// If we've got a windowSize, we might not care about the entire list.
+		List effectiveList = list;
+		
+		// If the window size is not INIFINITE_WINDOW AND
+		// the current list is larger that the window size, we need to
+		// take into account only the last n elements of the list
+		// as definied by windowSize
+		if( windowSize != Univariate.INIFINTE_WINDOW &&
+			windowSize < list.size() ) {
+			effectiveList = list.subList( (list.size() - 1) - windowSize, (list.size()-1));
+		}
+
+		// Create an array to hold all values
+		double[] copiedArray = new double[effectiveList.size()];
 
 		int i = 0;
-		Iterator it = list.iterator();
+		Iterator it = effectiveList.iterator();
 		while( it.hasNext() ) {
 			Number n = (Number) it.next();
 			copiedArray[i] = n.doubleValue();
@@ -92,15 +109,38 @@ public class ListUnivariateImpl extends AbstractStoreUnivariate {
 	 * @see org.apache.commons.math.StoreUnivariate#getElement(int)
 	 */
 	public double getElement(int index) {
-		Number n = (Number) list.get(index);
-		return n.doubleValue();
+		
+		double value = Double.NaN;
+
+		if( windowSize != Univariate.INIFINTE_WINDOW &&
+			 windowSize < list.size() ) {
+			Number n = (Number) list.get( ( (list.size() - 1) - windowSize ) + index ) ;
+			value = n.doubleValue();
+		} else {
+			Number n = (Number) list.get(index);
+			value = n.doubleValue();
+		}
+		
+		return value;
 	}
 	
 	/* (non-Javadoc)
 	 * @see org.apache.commons.math.Univariate#getN()
 	 */
 	public double getN() {
-		return list.size();
+		double N = 0.0;
+		
+		if( windowSize != Univariate.INIFINTE_WINDOW ) {
+			if( list.size() > windowSize ) {
+				N = windowSize;
+			} else {
+				N = list.size();
+			}
+		} else {
+			N = list.size();
+		}
+		
+		return N;
 	}
 	
 	/* (non-Javadoc)
@@ -115,6 +155,20 @@ public class ListUnivariateImpl extends AbstractStoreUnivariate {
 	 */
 	public void clear() {
 		list.clear();
+	}
+
+	/* (non-Javadoc)
+	 * @see org.apache.commons.math.Univariate#getWindowSize()
+	 */
+	public int getWindowSize() {
+		return windowSize;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.apache.commons.math.Univariate#setWindowSize(int)
+	 */
+	public void setWindowSize(int windowSize) {
+		this.windowSize = windowSize;
 	}
 
 }

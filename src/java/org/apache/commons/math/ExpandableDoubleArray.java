@@ -359,4 +359,34 @@ public class ExpandableDoubleArray implements Serializable, DoubleArray {
 		return elementArray;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.apache.commons.math.DoubleArray#getMax()
+	 */
+	public double getMax() {
+		double max = internalArray[startIndex];
+		
+		for( int i = startIndex + 1; i < numElements; i++) {
+			if( internalArray[i] > max ) {
+				max = internalArray[i];
+			}
+		}
+
+		return max;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.apache.commons.math.DoubleArray#getMin()
+	 */
+	public double getMin() {
+		double min = internalArray[startIndex];
+		
+		for( int i = startIndex + 1; i < numElements; i++) {
+			if( internalArray[i] < min ) {
+				min = internalArray[i];
+			}
+		}
+
+		return min;
+	}
+
 }
