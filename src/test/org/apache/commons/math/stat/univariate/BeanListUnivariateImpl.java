@@ -19,6 +19,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.beanutils.DynaBean;
+import org.apache.commons.beanutils.BasicDynaClass;
+import org.apache.commons.beanutils.DynaProperty;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.util.NumberTransformer;
 
@@ -27,7 +30,7 @@ import org.apache.commons.math.util.NumberTransformer;
  * univariate statistics for a List of Java Beans by property.  This 
  * implementation uses beanutils' PropertyUtils to get a simple, nested,
  * indexed, mapped, or combined property from an element of a List.
- * @version $Revision: 1.1 $ $Date: 2004/04/20 21:02:35 $
+ * @version $Revision: 1.2 $ $Date: 2004/04/24 21:43:26 $
  */
 public class BeanListUnivariateImpl extends ListUnivariateImpl {
 
@@ -101,16 +104,25 @@ public class BeanListUnivariateImpl extends ListUnivariateImpl {
 	}
 
 	/**
-	  * @see org.apache.commons.math.stat.Univariate#addValue(double)
+	  *  Creates a {@link org.apache.commons.beanutils.DynaBean} with a 
+	  *  {@link org.apache.commons.beanutils.DynaProperty} named 
+	  *  <code>propertyName,</code> sets the value of the property to <code>v</code>
+	  *  and adds the DynaBean to the underlying list.
+	  *
 	  */
-	public void addValue(double v) {
-		String msg =
-			"The BeanListUnivariateImpl does not accept values "
-				+ "through the addValue method.  Because elements of this list "
-				+ "are JavaBeans, one must be sure to set the 'propertyName' "
-				+ "property and add new Beans to the underlying list via the "
-				+ "addBean(Object bean) method";
-		throw new UnsupportedOperationException(msg);
+	public void addValue(double v)  {
+	    DynaProperty[] props = new DynaProperty[] {
+	            new DynaProperty(propertyName, Double.class)
+	    };
+	    BasicDynaClass dynaClass = new BasicDynaClass(null, null, props);
+	    DynaBean dynaBean = null;
+	    try {
+	        dynaBean = dynaClass.newInstance();
+	    } catch (Exception ex) {              // InstantiationException, IllegalAccessException
+	        throw new RuntimeException(ex);   // should never happen
+	    }
+		dynaBean.set(propertyName, new Double(v));
+		addObject(dynaBean);
 	}
 
 	/**
