@@ -69,7 +69,7 @@ import org.apache.commons.logging.*;
  * Test cases for the {@link Univariate} class.
  *
  * @author Mark R. Diggory
- * @version $Revision: 1.1 $ $Date: 2003/06/02 04:25:52 $
+ * @version $Revision: 1.2 $ $Date: 2003/06/02 04:27:26 $
  */
 
 public class CertifiedDataTest extends TestCase {
@@ -203,19 +203,13 @@ public class CertifiedDataTest extends TestCase {
 			line = in.readLine();
 
 			while (line != null) {
-				if(file.getName().equals("NumAcc4.dat")){
-					System.out.println("Line: " + line);
-					System.out.println("Mean: " + u.getMean()); 
-					System.out.println("Std: " + u.getStandardDeviation()); 
-				}				
-				
-				
+
 				u.addValue(Double.parseDouble(line.trim()));
 				line = in.readLine();
 			}
 
 			in.close();
-			System.out.println(" "); 
+
 		} catch (FileNotFoundException fnfe) {
 			log.error(fnfe.getMessage(), fnfe);
 		} catch (IOException ioe) {
