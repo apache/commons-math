@@ -20,105 +20,54 @@ package org.apache.commons.math.analysis;
 import java.io.Serializable;
 
 /**
- * Represents a polynomial function with real coefficients.
+ * Immutable representation of a real polynomial function with real coefficients.
+ * <p>
+ * <a href="http://mathworld.wolfram.com/HornersMethod.html">Horner's Method</a>
+ *  is used to evaluate the function.   
  * 
- * @version $Revision: 1.7 $ $Date: 2004/02/22 22:01:29 $
+ * @version $Revision: 1.8 $ $Date: 2004/04/02 21:08:48 $
  */
-public class PolynomialFunction implements UnivariateRealFunction, Serializable {
+public class PolynomialFunction implements DifferentiableUnivariateRealFunction, Serializable {
 
     /**
-     * The coefficients of the polynomial, ordered by degree -- i.e.,  c[0] is the constant term
-     * and c[n] is the coefficient of x^n where n is the degree of the polynomial.
+     * The coefficients of the polynomial, ordered by degree -- i.e.,  coefficients[0] is the constant term
+     * and coefficients[n] is the coefficient of x^n where n is the degree of the polynomial.
      */
-    private double c[];
+    private double coefficients[];
 
     /**
-     * Construct a polynomial with the given coefficients
+     * Construct a polynomial with the given coefficients.
+     * <p>
+     * The constructor makes a copy of the input array and assigns the copy to
+     *  the coefficients property.
      * 
      * @param c polynominal coefficients
+     * @throws NullPointerException if c is null
+     * @throws IllegalArgumentException if c is empty
      */
     public PolynomialFunction(double c[]) {
         super();
-        this.c = new double[c.length];
-        System.arraycopy(c, 0, this.c, 0, c.length);
+        if (c.length < 1) {
+            throw new IllegalArgumentException("Polynomial coefficient array must have postive length.");
+        }
+        this.coefficients = new double[c.length];
+        System.arraycopy(c, 0, this.coefficients, 0, c.length);
     }
 
     /**
      * Compute the value of the function for the given argument.
-     *
-     * <p>This can be explicitly determined by 
-     *   <tt>c_n * x^n + ... + c_1 * x  + c_0</tt>
-     * </p>
+     * <p>
+     *  The value returned is <br>
+     *   <code>coefficients[n] * x^n + ... + coefficients[1] * x  + coefficients[0]</code>
      *
      * @param x the argument for which the function value should be computed
-     * @return the value
-     * @throws MathException if the function couldn't be computed due to
-     *  missing additional data or other environmental problems.
+     * @return the value of the polynomial at the given point
      * @see UnivariateRealFunction#value(double)
      */
-    public double value(double x)  {
-
-        double value = c[0];
-
-        for (int i=1; i < c.length; i++ ) {
-            value += c[i] * Math.pow( x, (int)i);
-        }
-
-        return value;
+    public double value(double x) {
+       return evaluate(coefficients, x);
     }
 
-
-    /**
-     * Compute the value for the first derivative of the function.
-     *
-     * <p>This can be explicitly determined by 
-     *   <tt>n * c_n * x^(n-1) + ... + 2 * c_2 * x  + c_1</tt>
-     * </p>
-     *
-     * @param x the point for which the first derivative should be computed
-     * @return the value
-     */
-    public double firstDerivative(double x)  {
-
-        if (this.degree() == 0) {
-            return 0;
-        }
-        double value = c[1];
-
-        if ( c.length > 1 ) {
-            for (int i=2; i < c.length; i++ ) {
-                value += i * c[i] * Math.pow( x, (int)i-1);
-            }
-        }
-
-        return value;
-    }
-
-    /**
-     * Compute the value for the second derivative of the function.
-     * 
-     * <p>This can be explicitly determined by 
-     *   <tt>n * (n-1) * c_n * x^(n-2) + ... + 3 * 2 * c_3 * x  + 2 * c_2</tt>
-     * </p>
-     * 
-     * @param x the point for which the first derivative should be computed
-     * @return the value
-     */
-    public double secondDerivative(double x)  {
-
-        if (this.degree() < 2) {
-            return 0;
-        }
-        double value = 2.0 * c[2];
-
-        if ( c.length > 2 ) {
-            for (int i=3; i < c.length; i++ ) {
-                value += i * (i-1) * c[i] * Math.pow( x, (int)i-2);
-            }
-        }
-
-        return value;
-    }
 
     /**
      *  Returns the degree of the polynomial
@@ -126,6 +75,84 @@ public class PolynomialFunction implements UnivariateRealFunction, Serializable 
      * @return the degree of the polynomial
      */
     public int degree() {
-        return c.length - 1;
+        return coefficients.length - 1;
     }
+    
+    /**
+     * Returns a copy of the coefficients array.
+     * <p>
+     * Changes made to the returned copy will not affect the coefficients of
+     * the polynomial.
+     * 
+     * @return  a fresh copy of the coefficients array
+     */
+    public double[] getCoefficients() {
+        double[] out = new double[coefficients.length];
+        System.arraycopy(coefficients,0, out, 0, coefficients.length);
+        return out;
+    }
+    
+    /**
+     * Uses Horner's Method to evaluate the polynomial with the given coefficients at
+     * the argument.
+     * 
+     * @param coefficients  the coefficients of the polynomial to evaluate
+     * @param argument  the input value
+     * @return  the value of the polynomial 
+     * @throws IllegalArgumentException if coefficients is empty
+     * @throws NullPointerException if coefficients is null
+     */
+    protected static double evaluate(double[] coefficients, double argument) {
+        int n = coefficients.length;
+        if (n < 1) {
+            throw new IllegalArgumentException("Coefficient array must have positive length for evaluation");
+        }
+        double result = coefficients[n - 1];
+        for (int j = n -2; j >=0; j--) {
+            result = argument * result + coefficients[j];
+        }
+        return result;
+    }
+    
+    /**
+     * Returns the coefficients of the derivative of the polynomial with the given coefficients.
+     * 
+     * @param coefficients  the coefficients of the polynomial to differentiate
+     * @return the coefficients of the derivative or null if coefficients has length 1.
+     * @throws IllegalArgumentException if coefficients is empty
+     * @throws NullPointerException if coefficients is null
+     */
+    protected static double[] differentiate(double[] coefficients) {
+        int n = coefficients.length;
+        if (n < 1) {
+            throw new IllegalArgumentException("Coefficient array must have positive length for differentiation");
+        }
+        if (n == 1) {
+            return new double[]{0};
+        }
+        double[] result = new double[n - 1];
+        for (int i = n - 1; i  > 0; i--) {
+            result[i - 1] = (double) i * coefficients[i];
+        }
+        return result;
+    }
+    
+    /**
+     * Returns the derivative as a PolynomialRealFunction
+     * 
+     * @return  the derivative polynomial
+     */
+    public PolynomialFunction polynomialDerivative() {
+        return new PolynomialFunction(differentiate(coefficients));
+    }
+    
+    /**
+     * Returns the derivative as a UnivariateRealFunction
+     * 
+     * @return  the derivative function
+     */
+    public UnivariateRealFunction derivative() {
+        return polynomialDerivative();
+    }
+   
 }
