@@ -21,9 +21,13 @@ import org.apache.commons.lang.exception.NestableRuntimeException;
 /**
  * Thrown when an operation addresses a matrix coordinate (row,col)
  * which is outside of the dimensions of a matrix.
- * @version $Revision: 1.4 $ $Date: 2004/04/27 04:37:58 $
+ * @version $Revision: 1.5 $ $Date: 2004/06/02 00:06:18 $
  */
 public class MatrixIndexException extends NestableRuntimeException {
+    
+    /** Serializable version identifier */
+    static final long serialVersionUID = -1341109412864309526L;
+    
     /**
      * Default constructor.
      */

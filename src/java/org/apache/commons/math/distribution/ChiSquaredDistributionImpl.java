@@ -22,12 +22,15 @@ import org.apache.commons.math.MathException;
 /**
  * The default implementation of {@link ChiSquaredDistribution}
  * 
- * @version $Revision: 1.16 $ $Date: 2004/05/19 14:16:31 $
+ * @version $Revision: 1.17 $ $Date: 2004/06/02 00:15:16 $
  */
 public class ChiSquaredDistributionImpl
     extends AbstractContinuousDistribution
     implements ChiSquaredDistribution, Serializable  {
     
+    /** Serializable version identifier */
+    static final long serialVersionUID = -8352658048349159782L;
+
     /** Internal Gamma distribution. */    
     private GammaDistribution gamma;
     

@@ -15,6 +15,8 @@
  */
 package org.apache.commons.math.distribution;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.MathException;
 
 
@@ -23,11 +25,13 @@ import org.apache.commons.math.MathException;
  * implementations for some of the methods that do not vary from distribution
  * to distribution.
  *  
- * @version $Revision: 1.15 $ $Date: 2004/05/19 14:16:31 $
+ * @version $Revision: 1.16 $ $Date: 2004/06/02 00:15:16 $
  */
 public abstract class AbstractDiscreteDistribution
-    implements DiscreteDistribution {
+    implements DiscreteDistribution, Serializable {
         
+    static final long serialVersionUID = -1146319659338487221L;
+    
     /**
      * Default constructor.
      */

@@ -41,10 +41,13 @@ import org.apache.commons.math.MathException;
  * <li> Let <code>j</code> be the index of the largest knot point that is less than or equal to <code>x</code>. 
  *  The value returned is <br> <code>polynomials[j](x - knot[j])</code></li></ol>
  * 
- * @version $Revision: 1.4 $ $Date: 2004/04/27 04:37:58 $
+ * @version $Revision: 1.5 $ $Date: 2004/06/02 00:11:08 $
  */
 public class PolynomialSplineFunction implements UnivariateRealFunction, Serializable {
    
+    /** Serializable version identifier */
+    static final long serialVersionUID = 7011031166416885789L;
+    
     /** Spline segment interval delimiters (knots).   Size is n+1 for n segments. */
     private double knots[];
 

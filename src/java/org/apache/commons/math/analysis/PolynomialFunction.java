@@ -23,10 +23,13 @@ import java.io.Serializable;
  * <a href="http://mathworld.wolfram.com/HornersMethod.html">Horner's Method</a>
  *  is used to evaluate the function.   
  * 
- * @version $Revision: 1.9 $ $Date: 2004/04/27 04:37:58 $
+ * @version $Revision: 1.10 $ $Date: 2004/06/02 00:11:08 $
  */
 public class PolynomialFunction implements DifferentiableUnivariateRealFunction, Serializable {
 
+    /** Serializable version identifier */
+    static final long serialVersionUID = 3322454535052136809L;
+    
     /**
      * The coefficients of the polynomial, ordered by degree -- i.e.,  coefficients[0] is the constant term
      * and coefficients[n] is the coefficient of x^n where n is the degree of the polynomial.

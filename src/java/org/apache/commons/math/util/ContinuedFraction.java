@@ -32,9 +32,13 @@ import org.apache.commons.math.MathException;
  * </ul>
  * </p>
  * 
- * @version $Revision: 1.12 $ $Date: 2004/04/26 20:47:07 $
+ * @version $Revision: 1.13 $ $Date: 2004/06/02 00:04:11 $
  */
 public abstract class ContinuedFraction implements Serializable {
+    
+    /** Serialization UID */
+    static final long serialVersionUID = 1768555336266158242L;
+    
     /** Maximum allowed numerical error. */
     private static final double DEFAULT_EPSILON = 10e-9;
 

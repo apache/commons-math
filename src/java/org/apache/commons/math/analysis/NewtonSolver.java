@@ -26,9 +26,12 @@ import org.apache.commons.math.MathException;
  * algorithm will find only one zero in the given interval.  The function should
  * be continuous but not necessarily smooth.
  *
- * @version $Revision: 1.3 $ $Date: 2004/04/27 04:37:58 $
+ * @version $Revision: 1.4 $ $Date: 2004/06/02 00:11:08 $
  */
 public class NewtonSolver extends UnivariateRealSolverImpl implements Serializable {
+    
+    /** Serializable version identifier */
+    static final long serialVersionUID = 2606474895443431607L;
     
     /** The first derivative of the target function. */
     private UnivariateRealFunction derivative;

@@ -25,9 +25,13 @@ import org.apache.commons.math.MathException;
  * functions. This algorithm will find only one zero in the given interval. 
  * The function should be continuous but not necessarily smooth.
  *  
- * @version $Revision: 1.14 $ $Date: 2004/04/27 04:37:58 $
+ * @version $Revision: 1.15 $ $Date: 2004/06/02 00:11:08 $
  */
 public class BrentSolver extends UnivariateRealSolverImpl implements Serializable {
+    
+    /** Serializable version identifier */
+    static final long serialVersionUID = 3350616277306882875L;
+
     /**
      * Construct a solver for the given function.
      * @param f function to solve.

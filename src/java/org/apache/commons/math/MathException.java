@@ -21,10 +21,13 @@ import org.apache.commons.lang.exception.NestableException;
 
 /**
  * A generic exception indicating problems in the math package.
- * @version $Revision: 1.15 $ $Date: 2004/04/27 04:37:58 $
+ * @version $Revision: 1.16 $ $Date: 2004/06/02 00:05:28 $
  */
 public class MathException extends NestableException implements Serializable {
 
+    /** Serializable version identifier */
+    static final long serialVersionUID = -8594613561393443827L;
+    
     /**
      * Constructs a MathException
      */

@@ -38,10 +38,13 @@ import java.io.Serializable;
  * explicitly invoke <code>LUDecompose()</code> to recompute the decomposition
  * before using any of the methods above.
  *
- * @version $Revision: 1.20 $ $Date: 2004/05/19 14:16:32 $
+ * @version $Revision: 1.21 $ $Date: 2004/06/02 00:06:18 $
  */
 public class RealMatrixImpl implements RealMatrix, Serializable {
 
+    /** Serializable version identifier */
+    static final long serialVersionUID = 4237564493130426188L;
+    
 	/** Entries of the matrix */
 	private double data[][] = null;
 

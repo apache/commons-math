@@ -16,6 +16,7 @@
 
 package org.apache.commons.math.complex;
 
+import java.io.Serializable;
 import java.text.FieldPosition;
 import java.text.Format;
 import java.text.NumberFormat;
@@ -28,9 +29,12 @@ import java.text.ParsePosition;
  * can be configured.
  *
  * @author Apache Software Foundation
- * @version $Revision: 1.7 $ $Date: 2004/06/01 13:47:17 $
+ * @version $Revision: 1.8 $ $Date: 2004/06/02 00:07:01 $
  */
-public class ComplexFormat extends Format {
+public class ComplexFormat extends Format implements Serializable {
+    
+    /** Serializable version identifier */
+    static final long serialVersionUID = -6337346779577272306L;
     
     /** The default complex format. */ 
 	private static final ComplexFormat DEFAULT = new ComplexFormat();

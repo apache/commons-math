@@ -15,6 +15,8 @@
  */
 package org.apache.commons.math.distribution;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.UnivariateRealSolverUtils;
@@ -24,11 +26,13 @@ import org.apache.commons.math.analysis.UnivariateRealSolverUtils;
  * implementations for some of the methods that do not vary from distribution
  * to distribution.
  *  
- * @version $Revision: 1.22 $ $Date: 2004/05/30 01:24:02 $
+ * @version $Revision: 1.23 $ $Date: 2004/06/02 00:15:16 $
  */
 public abstract class AbstractContinuousDistribution
-    implements ContinuousDistribution {
+    implements ContinuousDistribution, Serializable {
 
+    static final long serialVersionUID = -38038050983108802L;
+    
     /**
      * Default constructor.
      */

@@ -24,11 +24,12 @@ import org.apache.commons.math.MathException;
  * Provide a default implementation for several functions useful to generic
  * solvers.
  *  
- * @version $Revision: 1.12 $ $Date: 2004/04/27 16:42:33 $
+ * @version $Revision: 1.13 $ $Date: 2004/06/02 00:11:08 $
  */
-public abstract class UnivariateRealSolverImpl
-    implements UnivariateRealSolver, Serializable {
+public abstract class UnivariateRealSolverImpl implements UnivariateRealSolver, Serializable {
 
+    static final long serialVersionUID = 1112491292565386596L;
+    
     /** Maximum absolute error. */
     protected double absoluteAccuracy;
 

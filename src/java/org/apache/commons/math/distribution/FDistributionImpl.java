@@ -24,11 +24,14 @@ import org.apache.commons.math.special.Beta;
  * Default implementation of
  * {@link org.apache.commons.math.distribution.FDistribution}.
  * 
- * @version $Revision: 1.16 $ $Date: 2004/05/19 14:16:31 $
+ * @version $Revision: 1.17 $ $Date: 2004/06/02 00:15:16 $
  */
 public class FDistributionImpl
     extends AbstractContinuousDistribution
     implements FDistribution, Serializable  {
+
+    /** Serializable version identifier */
+    static final long serialVersionUID = -8516354193418641566L;
 
     /** The numerator degrees of freedom*/
     private double numeratorDegreesOfFreedom;

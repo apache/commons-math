@@ -24,11 +24,14 @@ import org.apache.commons.math.util.MathUtils;
 /**
  * The default implementation of {@link HypergeometricDistribution}.
  * 
- * @version $Revision: 1.13 $ $Date: 2004/05/19 14:16:31 $
+ * @version $Revision: 1.14 $ $Date: 2004/06/02 00:15:16 $
  */
 public class HypergeometricDistributionImpl extends AbstractDiscreteDistribution
     implements HypergeometricDistribution, Serializable 
 {
+
+    /** Serializable version identifier */
+    static final long serialVersionUID = -436928820673516179L;
 
     /** The number of successes in the population. */
     private int numberOfSuccesses;

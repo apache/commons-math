@@ -25,11 +25,14 @@ import org.apache.commons.math.special.Erf;
  * Default implementation of
  * {@link org.apache.commons.math.distribution.NormalDistribution}.
  * 
- * @version $Revision: 1.10 $ $Date: 2004/05/19 15:06:44 $
+ * @version $Revision: 1.11 $ $Date: 2004/06/02 00:15:16 $
  */
 public class NormalDistributionImpl extends AbstractContinuousDistribution 
 		implements NormalDistribution, Serializable {
     
+    /** Serializable version identifier */
+    static final long serialVersionUID = 8589540077390120676L;
+
     /** The mean of this distribution. */
 	private double mean = 0;
     

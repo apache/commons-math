@@ -22,11 +22,14 @@ import org.apache.commons.math.MathException;
 /**
  * The default implementation of {@link ExponentialDistribution}
  * 
- * @version $Revision: 1.15 $ $Date: 2004/05/19 14:16:31 $
+ * @version $Revision: 1.16 $ $Date: 2004/06/02 00:15:16 $
  */
 public class ExponentialDistributionImpl
     implements ExponentialDistribution, Serializable  {
 
+    /** Serializable version identifier */
+    static final long serialVersionUID = 2401296428283614780L;
+    
     /** The mean of this distribution. */
     private double mean;
     

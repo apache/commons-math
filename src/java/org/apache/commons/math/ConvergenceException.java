@@ -21,9 +21,13 @@ import java.io.Serializable;
  * Error thrown when a numerical computation can not be performed because the
  * numerical result failed to converge to a finite value.
  * 
- * @version $Revision: 1.12 $ $Date: 2004/04/27 04:37:58 $
+ * @version $Revision: 1.13 $ $Date: 2004/06/02 00:05:28 $
  */
 public class ConvergenceException extends MathException implements Serializable{
+    
+    /** Serializable version identifier */
+    static final long serialVersionUID = -3657394299929217890L;
+    
     /**
      * Default constructor.
      */

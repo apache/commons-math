@@ -24,11 +24,14 @@ import org.apache.commons.math.util.MathUtils;
 /**
  * The default implementation of {@link BinomialDistribution}.
  * 
- * @version $Revision: 1.14 $ $Date: 2004/05/19 14:16:31 $
+ * @version $Revision: 1.15 $ $Date: 2004/06/02 00:15:16 $
  */
 public class BinomialDistributionImpl
     extends AbstractDiscreteDistribution
     implements BinomialDistribution, Serializable {
+
+    /** Serializable version identifier */
+    static final long serialVersionUID = 6751309484392813623L;
 
     /** The number of trials. */
     private int numberOfTrials;

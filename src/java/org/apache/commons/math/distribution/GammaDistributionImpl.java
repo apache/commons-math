@@ -23,10 +23,13 @@ import org.apache.commons.math.special.Gamma;
 /**
  * The default implementation of {@link GammaDistribution}
  * 
- * @version $Revision: 1.19 $ $Date: 2004/05/19 14:16:31 $
+ * @version $Revision: 1.20 $ $Date: 2004/06/02 00:15:16 $
  */
 public class GammaDistributionImpl extends AbstractContinuousDistribution
     implements GammaDistribution, Serializable  {
+
+    /** Serializable version identifier */
+    static final long serialVersionUID = -3239549463135430361L;
 
     /** The shape parameter. */
     private double alpha;

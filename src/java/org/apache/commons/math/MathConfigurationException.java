@@ -19,9 +19,12 @@ import java.io.Serializable;
 
 /**
  * Signals a configuration problem with any of the factory methods.
- * @version $Revision: 1.16 $ $Date: 2004/04/27 04:37:58 $
+ * @version $Revision: 1.17 $ $Date: 2004/06/02 00:05:28 $
  */
 public class MathConfigurationException extends MathException implements Serializable {
+    
+    /** Serializable version identifier */
+    static final long serialVersionUID = -7958299004965931723L;
 
     /**
      * Default constructor.

@@ -23,10 +23,13 @@ import java.io.Serializable;
  * real and imaginary part.
  * 
  * @author Apache Software Foundation
- * @version $Revision: 1.7 $ $Date: 2004/02/29 19:52:01 $
+ * @version $Revision: 1.8 $ $Date: 2004/06/02 00:07:01 $
  */
 public class Complex implements Serializable  {
 
+    /** Serializable version identifier */
+    static final long serialVersionUID = -6530173849413811929L;
+    
     /** The square root of -1. A number representing "0.0 + 1.0i".*/    
     public static final Complex I = new Complex(0.0, 1.0);
     

@@ -22,9 +22,13 @@ import org.apache.commons.lang.exception.NestableRuntimeException;
  * Thrown when a system attempts an operation on a matrix, and
  * that matrix does not satisfy the preconditions for the
  * aforementioned operation.
- * @version $Revision: 1.4 $ $Date: 2004/04/27 04:37:58 $
+ * @version $Revision: 1.5 $ $Date: 2004/06/02 00:06:18 $
  */
 public class InvalidMatrixException extends NestableRuntimeException {
+    
+    /** Serializable version identifier */
+    static final long serialVersionUID = 5318837237354354107L;
+    
     /**
      * Default constructor.
      */
