@@ -43,6 +43,11 @@ The <action> type attribute can be add,update,fix,remove.
         Fixed error in ChiSquareTestImpl.  Tables containing zeros were (incorrectly)
         causing IllegalArgumentExceptions to be thrown.
       </action>
+      <action dev="psteitz" type="fix" issue="32538">
+        Removed JDK 1.4-dependent code from CertifiedDataAbstractTest, 
+        InvalidMatrixException and MatrixIndexException.  Also dropped 
+        BeanTransformer, BeanTransformerTest from the release.
+      </action>
     </release>  
     <release version="1.0-RC2" date="2004-11-07"
        description="Jakarta Commons Math 1.0 - Release Candidate 2">
