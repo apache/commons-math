@@ -23,7 +23,7 @@ import org.apache.commons.math.stat.univariate.SummaryStatistics;
 /**
  * Test cases for the TTestImpl class.
  *
- * @version $Revision: 1.3 $ $Date: 2004/05/24 05:34:30 $
+ * @version $Revision: 1.4 $ $Date: 2004/06/01 00:44:24 $
  */
 
 public final class TTestTest extends TestCase {
@@ -237,11 +237,14 @@ public final class TTestTest extends TestCase {
     public void testPaired() throws Exception {
         double[] sample1 = {1d, 3d, 5d, 7d};
         double[] sample2 = {0d, 6d, 11d, 2d};
-        double[] sample3 = {0d, 2d};
+        double[] sample3 = {5d, 7d, 8d, 10d};
+        double[] sample4 = {0d, 2d};
         
         // Target values computed using R, version 1.8.1 (linux version)
         assertEquals(-0.3133, testStatistic.pairedT(sample1, sample2), 1E-4);
         assertEquals(0.774544295819, testStatistic.pairedTTest(sample1, sample2), 1E-10);
-        
+        assertEquals(0.001208, testStatistic.pairedTTest(sample1, sample3), 1E-6);
+        assertFalse(testStatistic.pairedTTest(sample1, sample3, .001));
+        assertTrue(testStatistic.pairedTTest(sample1, sample3, .002));    
     }
 }

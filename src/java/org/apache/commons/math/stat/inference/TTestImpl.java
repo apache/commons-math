@@ -26,7 +26,7 @@ import org.apache.commons.math.stat.univariate.StatisticalSummary;
 /**
  * Implements t-test statistics defined in the {@link TTest} interface.
  *
- * @version $Revision: 1.3 $ $Date: 2004/05/24 05:29:05 $
+ * @version $Revision: 1.4 $ $Date: 2004/06/01 00:44:24 $
  */
 public class TTestImpl implements TTest, Serializable {
 
@@ -80,16 +80,44 @@ public class TTestImpl implements TTest, Serializable {
                 (double) sample1.length);
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.stat.inference.TTest#pairedTTest(double[], double[], double)
+    /**
+     * Performs a paired t-test</a> evaluating that null hypothesis that the 
+     * mean of the paired differences between <code>sample1</code> and
+     * <code>sample2</code> is 0 in favor of the two-sided alternative that the 
+     * mean paired difference is not equal to 0, with significance level 
+     * <code>alpha</code>.
+     * <p>
+     * Returns <code>true</code> iff the null hypothesis can be rejected with 
+     * confidence <code>1 - alpha</code>.  To perform a 1-sided test, use 
+     * <code>alpha / 2</code>
+     * <p>
+     * <strong>Usage Note:</strong><br>
+     * The validity of the test depends on the assumptions of the parametric
+     * t-test procedure, as discussed 
+     * <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">
+     * here</a>
+     * <p>
+     * <strong>Preconditions</strong>: <ul>
+     * <li>The input array lengths must be the same and their common length 
+     * must be at least 2.
+     * </li>
+     * <li> <code> 0 < alpha < 0.5 </code>
+     * </li></ul>
+     *
+     * @param sample1 array of sample data values
+     * @param sample2 array of sample data values
+     * @param alpha significance level of the test
+     * @return true if the null hypothesis can be rejected with 
+     * confidence 1 - alpha
+     * @throws IllegalArgumentException if the preconditions are not met
+     * @throws MathException if an error occurs performing the test
      */
-    public boolean pairedTTest(
-        double[] sample1,
-        double[] sample2,
-        double alpha)
+    public boolean pairedTTest(double[] sample1, double[] sample2, double alpha)
         throws IllegalArgumentException, MathException {
-        // TODO Auto-generated method stub
-        return false;
+        if ((alpha <= 0) || (alpha > 0.5)) {
+            throw new IllegalArgumentException("bad significance level: " + alpha);
+        }
+        return (pairedTTest(sample1, sample2) < alpha);
     }
 
     /**
