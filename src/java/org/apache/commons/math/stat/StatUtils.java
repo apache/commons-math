@@ -180,7 +180,8 @@ public class StatUtils {
 				accum += Math.pow((values[i] - mean), 2.0);
                 accum2 += (values[i] - mean);
 			}
-			variance = (accum - (Math.pow(accum2,2)/(double)values.length)) / (double)(values.length - 1);
+			variance = ((accum*(double)values.length) - Math.pow(accum2,2)) / 
+                (double)(values.length*(values.length - 1));
 		}
 		return variance;
 	}
