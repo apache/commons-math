@@ -62,7 +62,7 @@ import org.apache.commons.math.util.MathUtils;
 /**
  * The default implementation of {@link BinomialDistribution}.
  * 
- * @version $Revision: 1.9 $ $Date: 2004/01/29 00:48:58 $
+ * @version $Revision: 1.10 $ $Date: 2004/02/18 04:04:18 $
  */
 public class BinomialDistributionImpl
     extends AbstractDiscreteDistribution
@@ -153,7 +153,7 @@ public class BinomialDistributionImpl
      * @param x the value at which the PDF is evaluated.
      * @return PDF for this distribution. 
      */
-    public double cummulativeProbability(int x) throws MathException {
+    public double cumulativeProbability(int x) throws MathException {
         double ret;
         if (x < 0) {
             ret = 0.0;

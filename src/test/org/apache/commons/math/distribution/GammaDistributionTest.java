@@ -59,7 +59,7 @@ import org.apache.commons.math.MathException;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.12 $ $Date: 2004/01/29 00:48:59 $
+ * @version $Revision: 1.13 $ $Date: 2004/02/18 04:04:17 $
  */
 public class GammaDistributionTest extends TestCase {
     public void testProbabilities() {
@@ -87,7 +87,7 @@ public class GammaDistributionTest extends TestCase {
                 DistributionFactory
                     .newInstance()
                     .createGammaDistribution(a, b)
-                    .cummulativeProbability(x);
+                    .cumulativeProbability(x);
             assertEquals("probability for " + x, expected, actual, 10e-4);
         } catch (MathException e) {
             // TODO Auto-generated catch block
@@ -101,7 +101,7 @@ public class GammaDistributionTest extends TestCase {
                 DistributionFactory
                     .newInstance()
                     .createGammaDistribution(a, b)
-                    .inverseCummulativeProbability(p);
+                    .inverseCumulativeProbability(p);
             assertEquals("critical value for " + p, expected, actual, 10e-4);
         } catch (MathException e) {
             // TODO Auto-generated catch block

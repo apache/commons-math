@@ -58,7 +58,7 @@ import org.apache.commons.math.MathException;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.10 $ $Date: 2004/01/29 00:48:59 $
+ * @version $Revision: 1.11 $ $Date: 2004/02/18 04:04:17 $
  */
 public class BinomialDistributionTest extends TestCase {
     private BinomialDistribution b;
@@ -90,7 +90,7 @@ public class BinomialDistributionTest extends TestCase {
         super.tearDown();
     }
 
-    public void testInverseCummulativeProbability001() {
+    public void testInverseCumulativeProbability001() {
         testValue(1, .001);
     }
 
@@ -110,7 +110,7 @@ public class BinomialDistributionTest extends TestCase {
         testValue(4, .100);
     }
 
-    public void testInverseCummulativeProbability999() {
+    public void testInverseCumulativeProbability999() {
         testValue(9, .999);
     }
 
@@ -130,7 +130,7 @@ public class BinomialDistributionTest extends TestCase {
         testValue(8, .900);
     }
 
-    public void testCummulativeProbability1() {
+    public void testCumulativeProbability1() {
         testProbability(1, .00014);
     }
 
@@ -150,13 +150,13 @@ public class BinomialDistributionTest extends TestCase {
         testProbability(9, .97175);
     }
 
-    public void testCummulativeProbability8() {
+    public void testcumulativeProbability8() {
         testProbability(8, .85069);
     }
 
     private void testProbability(int x, double expected) {
         try {
-            double actual = b.cummulativeProbability(x);
+            double actual = b.cumulativeProbability(x);
             assertEquals(expected, actual, 10e-4);
         } catch (MathException e) {
             // TODO Auto-generated catch block
@@ -167,10 +167,10 @@ public class BinomialDistributionTest extends TestCase {
 
     private void testValue(int expected, double p) {
         try {
-            int actual = b.inverseCummulativeProbability(p);
+            int actual = b.inverseCumulativeProbability(p);
             assertEquals(expected, actual);
-            assertTrue(b.cummulativeProbability(actual) <= p);
-            assertTrue(b.cummulativeProbability(actual + 1) >= p);
+            assertTrue(b.cumulativeProbability(actual) <= p);
+            assertTrue(b.cumulativeProbability(actual + 1) >= p);
         } catch (MathException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

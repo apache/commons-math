@@ -93,43 +93,43 @@ public class NormalDistributionTest extends TestCase {
 		z = null;
 	}
 
-	public void testCummulativeProbabilitydoubleM_MINUS_2SD() throws MathException {
+	public void testCumulativeProbabilitydoubleM_MINUS_2SD() throws MathException {
 		testProbability(M - 2*SD, 0.02275013);
 	}
 
-	public void testCummulativeProbabilitydoubleM_MINUS_SD() throws MathException {
+	public void testCumulativeProbabilitydoubleM_MINUS_SD() throws MathException {
 		testProbability(M - SD, 0.1586553);
 	}
 
-	public void testCummulativeProbabilitydoubleM() throws MathException {
+	public void testCumulativeProbabilitydoubleM() throws MathException {
 		testProbability(M, 0.5);
 	}
 
-	public void testCummulativeProbabilitydoubleM_PLUS_SD() throws MathException {
+	public void testCumulativeProbabilitydoubleM_PLUS_SD() throws MathException {
 		testProbability(M + SD, 0.8413447);
 	}
 	
-	public void testCummulativeProbabilitydoubleM_PLUS_2SD() throws MathException {
+	public void testCumulativeProbabilitydoubleM_PLUS_2SD() throws MathException {
 		testProbability(M + 2*SD, 0.9772499);
 	}
 	
-	public void testCummulativeProbabilitydoubleM_PLUS_3SD() throws MathException {
+	public void testCumulativeProbabilitydoubleM_PLUS_3SD() throws MathException {
 		testProbability(M + 3*SD, 0.9986501);
 	}
 	
-	public void testCummulativeProbabilitydoubleM_PLUS_4SD() throws MathException {
+	public void testCumulativeProbabilitydoubleM_PLUS_4SD() throws MathException {
 		testProbability(M + 4*SD, 0.9999683);
 	}
 	
-	public void testCummulativeProbabilitydoubleM_PLUS_5SD() throws MathException {
+	public void testCumulativeProbabilitydoubleM_PLUS_5SD() throws MathException {
 		testProbability(M + 5*SD, 0.9999997);
 	}
 	
-	public void testInverseCummulativeProbability0() throws MathException {
-		assertEquals(Double.isNaN(z.inverseCummulativeProbability(0.0)), true);
+	public void testInverseCumulativeProbability0() throws MathException {
+		assertEquals(Double.isNaN(z.inverseCumulativeProbability(0.0)), true);
 	}
 
-	public void testInverseCummulativeProbability001() throws MathException {
+	public void testInverseCumulativeProbability001() throws MathException {
 		testValue(-2.226325, .001);
 	}
 
@@ -165,12 +165,12 @@ public class NormalDistributionTest extends TestCase {
 		testValue(5.356887, .990);
 	}
 
-	public void testInverseCummulativeProbability999() throws MathException{
+	public void testInverseCumulativeProbability999() throws MathException{
 		testValue(6.426325, .999);
 	}
 
-	public void testInverseCummulativeProbability1() throws MathException {
-		assertEquals(Double.isNaN(z.inverseCummulativeProbability(1.0)), true);
+	public void testInverseCumulativeProbability1() throws MathException {
+		assertEquals(Double.isNaN(z.inverseCumulativeProbability(1.0)), true);
 	}
 
 	public void testGetMean() {
@@ -181,7 +181,7 @@ public class NormalDistributionTest extends TestCase {
 		double mu = Math.random();
 		z.setMean(mu);
 		assertEquals(mu, z.getMean(), 0);
-		assertEquals(0.5d, z.cummulativeProbability(mu), PRECISION);
+		assertEquals(0.5d, z.cumulativeProbability(mu), PRECISION);
 	}
 
 	public void testGetStandardDeviation() {
@@ -192,7 +192,7 @@ public class NormalDistributionTest extends TestCase {
 		double sigma = 0.1d + Math.random();
 		z.setStandardDeviation(sigma);
 		assertEquals(sigma, z.getStandardDeviation(), 0);
-		assertEquals(0.84134475, z.cummulativeProbability(z.getMean() + z.getStandardDeviation()), PRECISION );
+		assertEquals(0.84134475, z.cumulativeProbability(z.getMean() + z.getStandardDeviation()), PRECISION );
 	}
 
 	public void testGetCdfAlgorithm() {
@@ -207,15 +207,15 @@ public class NormalDistributionTest extends TestCase {
 	private void testProbability(double x, double expected) throws MathException {
 		double actual = Double.NaN;
 		z.setCdfAlgorithm(new NormalCDFPreciseAlgorithm());
-		actual =  z.cummulativeProbability(x);
+		actual =  z.cumulativeProbability(x);
 		assertEquals(expected, actual, PRECISION);
 		z.setCdfAlgorithm(new NormalCDFFastAlgorithm());
-		actual =  z.cummulativeProbability(x);
+		actual =  z.cumulativeProbability(x);
 		assertEquals(expected, actual, PRECISION);
 	}
 
 	private void testValue(double expected, double p) throws MathException {
-		double actual = z.inverseCummulativeProbability(p);
+		double actual = z.inverseCumulativeProbability(p);
 		assertEquals(expected, actual, PRECISION);
 	}
 

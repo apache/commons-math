@@ -61,7 +61,7 @@ import org.apache.commons.math.special.Gamma;
 /**
  * The default implementation of {@link GammaDistribution}
  * 
- * @version $Revision: 1.15 $ $Date: 2004/01/29 00:48:58 $
+ * @version $Revision: 1.16 $ $Date: 2004/02/18 04:04:18 $
  */
 public class GammaDistributionImpl extends AbstractContinuousDistribution
     implements GammaDistribution, Serializable  {
@@ -98,7 +98,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
      * @param x the value at which the CDF is evaluated.
      * @return CDF for this distribution. 
      */
-    public double cummulativeProbability(double x) throws MathException{
+    public double cumulativeProbability(double x) throws MathException{
         double ret;
     
         if (x <= 0.0) {
@@ -151,7 +151,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     /**
      * Access the domain value lower bound, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
-     * {@link #inverseCummulativeProbability(double)} to find critical values.
+     * {@link #inverseCumulativeProbability(double)} to find critical values.
      * 
      * @param p the desired probability for the critical value
      * @return domain value lower bound, i.e.
@@ -165,7 +165,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     /**
      * Access the domain value upper bound, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
-     * {@link #inverseCummulativeProbability(double)} to find critical values.
+     * {@link #inverseCumulativeProbability(double)} to find critical values.
      * 
      * @param p the desired probability for the critical value
      * @return domain value upper bound, i.e.
@@ -192,7 +192,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     /**
      * Access the initial domain value, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
-     * {@link #inverseCummulativeProbability(double)} to find critical values.
+     * {@link #inverseCumulativeProbability(double)} to find critical values.
      * 
      * @param p the desired probability for the critical value
      * @return initial domain value

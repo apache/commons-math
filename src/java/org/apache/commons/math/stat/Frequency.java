@@ -69,7 +69,7 @@ import org.apache.commons.collections.TreeBag;
  * The values are ordered using the default (natural order), unless a  <code>Comparator</code>
  *  is supplied in the constructor.
  * 
- * @version $Revision: 1.13 $ $Date: 2004/02/16 06:32:47 $
+ * @version $Revision: 1.14 $ $Date: 2004/02/18 04:04:18 $
  */
 public class Frequency implements Serializable {
     
@@ -276,7 +276,7 @@ public class Frequency implements Serializable {
     //-----------------------------------------------------------------------------------------
     
     /**
-     * Returns the cummulative frequency of values less than or equal to v.
+     * Returns the cumulative frequency of values less than or equal to v.
      * <p>
      * Returns 0 if v is not comparable to the values set.
      * 
@@ -310,7 +310,7 @@ public class Frequency implements Serializable {
     }
     
      /**
-     * Returns the cummulative frequency of values less than or equal to v.
+     * Returns the cumulative frequency of values less than or equal to v.
      * <p>
      * Returns 0 if v is not comparable to the values set.
      * 
@@ -322,7 +322,7 @@ public class Frequency implements Serializable {
     }
     
      /**
-     * Returns the cummulative frequency of values less than or equal to v.
+     * Returns the cumulative frequency of values less than or equal to v.
      * <p>
      * Returns 0 if v is not comparable to the values set.
      * 
@@ -334,7 +334,7 @@ public class Frequency implements Serializable {
     }
     
     /**
-     * Returns the cummulative frequency of values less than or equal to v.
+     * Returns the cumulative frequency of values less than or equal to v.
      * <p>
      * Returns 0 if v is not comparable to the values set.
      * 
@@ -348,7 +348,7 @@ public class Frequency implements Serializable {
     //----------------------------------------------------------------------------------------------
     
      /**
-     * Returns the cummulative percentatge of values less than or equal to v
+     * Returns the cumulative percentatge of values less than or equal to v
      * (as a proportion between 0 and 1).
      * <p>
      * Returns 0 if v is not comparable to the values set.
@@ -361,7 +361,7 @@ public class Frequency implements Serializable {
     }
     
     /**
-     * Returns the cummulative percentatge of values less than or equal to v
+     * Returns the cumulative percentatge of values less than or equal to v
      * (as a proportion between 0 and 1).
      * <p>
      * Returns 0 if v is not comparable to the values set.
@@ -374,7 +374,7 @@ public class Frequency implements Serializable {
     }
     
     /**
-     * Returns the cummulative percentatge of values less than or equal to v
+     * Returns the cumulative percentatge of values less than or equal to v
      * (as a proportion between 0 and 1).
      * <p>
      * Returns 0 if v is not comparable to the values set.
@@ -387,7 +387,7 @@ public class Frequency implements Serializable {
     }
     
     /**
-     * Returns the cummulative percentatge of values less than or equal to v
+     * Returns the cumulative percentatge of values less than or equal to v
      * (as a proportion between 0 and 1).
      * <p>
      * Returns 0 if v is not comparable to the values set.

@@ -59,7 +59,7 @@ import org.apache.commons.math.MathException;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.11 $ $Date: 2004/01/29 00:48:59 $
+ * @version $Revision: 1.12 $ $Date: 2004/02/18 04:04:17 $
  */
 public class ChiSquareDistributionTest extends TestCase {
     private ChiSquaredDistribution chiSquare;
@@ -122,7 +122,7 @@ public class ChiSquareDistributionTest extends TestCase {
     
     private void testProbability(double x, double expected){
         try {
-            double actual = chiSquare.cummulativeProbability(x);
+            double actual = chiSquare.cumulativeProbability(x);
             assertEquals("probability for " + x, expected, actual, 10e-4);
         } catch (MathException e) {
             e.printStackTrace();
@@ -132,7 +132,7 @@ public class ChiSquareDistributionTest extends TestCase {
     
     private void testValue(double p, double expected){
         try {
-            double actual = chiSquare.inverseCummulativeProbability(p);
+            double actual = chiSquare.inverseCumulativeProbability(p);
             assertEquals("value for " + p, expected, actual, 10e-4);
         } catch (MathException e) {
             e.printStackTrace();

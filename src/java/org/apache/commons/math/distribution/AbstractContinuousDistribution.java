@@ -62,7 +62,7 @@ import org.apache.commons.math.analysis.UnivariateRealSolverUtils;
  * implementations for some of the methods that do not vary from distribution
  * to distribution.
  *  
- * @version $Revision: 1.17 $ $Date: 2004/01/29 00:48:58 $
+ * @version $Revision: 1.18 $ $Date: 2004/02/18 04:04:18 $
  */
 public abstract class AbstractContinuousDistribution
     implements ContinuousDistribution {
@@ -81,11 +81,11 @@ public abstract class AbstractContinuousDistribution
      * 
      * @param x0 the lower bound
      * @param x1 the upper bound
-     * @return the cummulative probability. 
+     * @return the cumulative probability. 
      */
-    public double cummulativeProbability(double x0, double x1)
+    public double cumulativeProbability(double x0, double x1)
         throws MathException {
-        return cummulativeProbability(x1) - cummulativeProbability(x0);
+        return cumulativeProbability(x1) - cumulativeProbability(x0);
     }
 
     /**
@@ -95,7 +95,7 @@ public abstract class AbstractContinuousDistribution
      * @param p the desired probability
      * @return x, such that P(X &lt; x) = <code>p</code>
      */
-    public double inverseCummulativeProbability(final double p)
+    public double inverseCumulativeProbability(final double p)
         throws MathException {
         if (p < 0.0 || p > 1.0) {
             throw new IllegalArgumentException("p must be between 0.0 and 1.0, inclusive.");
@@ -107,7 +107,7 @@ public abstract class AbstractContinuousDistribution
             new UnivariateRealFunction() {
 
             public double value(double x) throws MathException {
-                return cummulativeProbability(x) - p;
+                return cumulativeProbability(x) - p;
             }
         };
 
@@ -132,7 +132,7 @@ public abstract class AbstractContinuousDistribution
     /**
      * Access the initial domain value, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
-     * {@link #inverseCummulativeProbability(double)} to find critical values.
+     * {@link #inverseCumulativeProbability(double)} to find critical values.
      * 
      * @param p the desired probability for the critical value
      * @return initial domain value
@@ -142,7 +142,7 @@ public abstract class AbstractContinuousDistribution
     /**
      * Access the domain value lower bound, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
-     * {@link #inverseCummulativeProbability(double)} to find critical values.
+     * {@link #inverseCumulativeProbability(double)} to find critical values.
      * 
      * @param p the desired probability for the critical value
      * @return domain value lower bound, i.e.
@@ -153,7 +153,7 @@ public abstract class AbstractContinuousDistribution
     /**
      * Access the domain value upper bound, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
-     * {@link #inverseCummulativeProbability(double)} to find critical values.
+     * {@link #inverseCumulativeProbability(double)} to find critical values.
      * 
      * @param p the desired probability for the critical value
      * @return domain value upper bound, i.e.

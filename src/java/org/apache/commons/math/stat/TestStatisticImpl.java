@@ -64,7 +64,7 @@ import org.apache.commons.math.distribution.ChiSquaredDistribution;
 /**
  * Implements test statistics defined in the TestStatistic interface.
  *
- * @version $Revision: 1.11 $ $Date: 2004/01/25 21:30:41 $
+ * @version $Revision: 1.12 $ $Date: 2004/02/18 04:04:18 $
  */
 public class TestStatisticImpl implements TestStatistic, Serializable {
 
@@ -115,7 +115,7 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
             DistributionFactory.newInstance().createChiSquareDistribution(
                 (double) expected.length - 1);
         return 1
-            - chiSquaredDistribution.cummulativeProbability(
+            - chiSquaredDistribution.cumulativeProbability(
                 chiSquare(expected, observed));
     }
 
@@ -450,7 +450,7 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
         TDistribution tDistribution =
             DistributionFactory.newInstance().createTDistribution(
                 df(v1, v2, n1, n2));
-        return 1.0 - tDistribution.cummulativeProbability(-t, t);
+        return 1.0 - tDistribution.cumulativeProbability(-t, t);
     }
 
     /**
@@ -467,6 +467,6 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
         double t = Math.abs(t(m, mu, v, n));
         TDistribution tDistribution =
             DistributionFactory.newInstance().createTDistribution(n - 1);
-        return 1.0 - tDistribution.cummulativeProbability(-t, t);
+        return 1.0 - tDistribution.cumulativeProbability(-t, t);
     }
 }

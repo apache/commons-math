@@ -58,7 +58,7 @@ import org.apache.commons.math.MathException;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.9 $ $Date: 2004/01/29 00:48:59 $
+ * @version $Revision: 1.10 $ $Date: 2004/02/18 04:04:17 $
  */
 public class FDistributionTest extends TestCase {
     private FDistribution f;
@@ -117,7 +117,7 @@ public class FDistributionTest extends TestCase {
 
     private void testProbability(double x, double expected) {
         try {
-            double actual = f.cummulativeProbability(x);
+            double actual = f.cumulativeProbability(x);
             assertEquals("probability for " + x, expected, actual, 1e-3);
         } catch (MathException e) {
             // TODO Auto-generated catch block
@@ -127,7 +127,7 @@ public class FDistributionTest extends TestCase {
 
     private void testValue(double expected, double p) {
         try {
-            double actual = f.inverseCummulativeProbability(p);
+            double actual = f.inverseCumulativeProbability(p);
             assertEquals("value for " + p, expected, actual, 1e-2);
         } catch (MathException e) {
             // TODO Auto-generated catch block

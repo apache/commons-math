@@ -59,7 +59,7 @@ import java.io.Serializable;
 /**
  * Default implementation of
  * {@link org.apache.commons.math.distribution.NormalDistribution}.<p>
- * You can choose the algorithm used to calculate cummulative probability
+ * You can choose the algorithm used to calculate cumulative probability
  * using method {@link #setCdfAlgorithm}. The deafault is the Cody algorithm 
  * {@link org.apache.commons.math.distribution.NormalCDFPreciseAlgorithm}
  */
@@ -127,7 +127,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 	 * @param x the value at which the CDF is evaluated.
 	 * @return CDF evaluted at <code>x</code>. 
 	 */
-	public double cummulativeProbability(double x) {
+	public double cumulativeProbability(double x) {
 		double z = x;
 		if(standardDeviation > 0){
 			z = (x - mean)/standardDeviation;
@@ -163,7 +163,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 	 * @param p the desired probability
 	 * @return x, such that P(X &lt; x) = <code>p</code>
 	 */
-	public double inverseCummulativeProbability(double p) {
+	public double inverseCumulativeProbability(double p) {
 		if (p < 0.0 || p > 1.0) {
 			throw new IllegalArgumentException("p must be between 0.0 and 1.0, inclusive.");
 		}
@@ -231,8 +231,8 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 
 
 	/**
-	 * Access algorithm used to calculate cummulative probability
-	 * @return cdfAlgorithm the value of cummulative probability
+	 * Access algorithm used to calculate cumulative probability
+	 * @return cdfAlgorithm the value of cumulative probability
 	 */
 	public NormalCDFAlgorithm getCdfAlgorithm() {
 		return cdfAlgorithm;
@@ -240,8 +240,8 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 
 
 	/**
-	 * Modify the algorithm used to calculate cummulative probability
-	 * @param normalCDF the algorithm used to calculate cummulative probability
+	 * Modify the algorithm used to calculate cumulative probability
+	 * @param normalCDF the algorithm used to calculate cumulative probability
 	 */
 	public void setCdfAlgorithm(NormalCDFAlgorithm normalCDF) {
 		cdfAlgorithm = normalCDF;
@@ -251,7 +251,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 	/**
 	 * Access the domain value lower bound, based on <code>p</code>, used to
 	 * bracket a CDF root.  This method is used by
-	 * {@link #inverseCummulativeProbability(double)} to find critical values.
+	 * {@link #inverseCumulativeProbability(double)} to find critical values.
 	 * 
 	 * @param p the desired probability for the critical value
 	 * @return domain value lower bound, i.e.
@@ -264,7 +264,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 	/**
 	 * Access the domain value upper bound, based on <code>p</code>, used to
 	 * bracket a CDF root.  This method is used by
-	 * {@link #inverseCummulativeProbability(double)} to find critical values.
+	 * {@link #inverseCumulativeProbability(double)} to find critical values.
 	 * 
 	 * @param p the desired probability for the critical value
 	 * @return domain value upper bound, i.e.
@@ -277,7 +277,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 	/**
 	 * Access the initial domain value, based on <code>p</code>, used to
 	 * bracket a CDF root.  This method is used by
-	 * {@link #inverseCummulativeProbability(double)} to find critical values.
+	 * {@link #inverseCumulativeProbability(double)} to find critical values.
 	 * 
 	 * @param p the desired probability for the critical value
 	 * @return initial domain value

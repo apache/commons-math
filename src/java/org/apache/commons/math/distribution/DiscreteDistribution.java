@@ -58,7 +58,7 @@ import org.apache.commons.math.MathException;
 /**
  * Base interface for various discrete distributions.
  * 
- * @version $Revision: 1.8 $ $Date: 2004/01/29 00:48:58 $
+ * @version $Revision: 1.9 $ $Date: 2004/02/18 04:04:18 $
  */
 public interface DiscreteDistribution {
     /**
@@ -73,20 +73,20 @@ public interface DiscreteDistribution {
      * @param x the value at which the PDF is evaluated.
      * @return PDF for this distribution. 
      */
-    double cummulativeProbability(int x) throws MathException;
+    double cumulativeProbability(int x) throws MathException;
 
     /**
      * For this disbution, X, this method returns P(x0 &le; X &le; x1).
      * @param x0 the inclusive, lower bound
      * @param x1 the inclusive, upper bound
-     * @return the cummulative probability. 
+     * @return the cumulative probability. 
      */
-    double cummulativeProbability(int x0, int x1) throws MathException;
+    double cumulativeProbability(int x0, int x1) throws MathException;
     
     /**
      * For this disbution, X, this method returns x such that P(X &le; x) <= p.
-     * @param p the cummulative probability.
+     * @param p the cumulative probability.
      * @return x. 
      */
-    int inverseCummulativeProbability(double p) throws MathException;
+    int inverseCumulativeProbability(double p) throws MathException;
 }

@@ -89,14 +89,14 @@ public interface NormalDistribution extends ContinuousDistribution {
 	void setStandardDeviation(double sd);
 	
 	/**
-	 * Access algorithm used to calculate cummulative probability
-	 * @return cdfAlgorithm the value of cummulative probability
+	 * Access algorithm used to calculate cumulative probability
+	 * @return cdfAlgorithm the value of cumulative probability
 	 */
 	public NormalCDFAlgorithm getCdfAlgorithm();
 
 	/**
-	 * Modify the algorithm used to calculate cummulative probability
-	 * @param normalCDF the algorithm used to calculate cummulative probability
+	 * Modify the algorithm used to calculate cumulative probability
+	 * @param normalCDF the algorithm used to calculate cumulative probability
 	 */
 	public void setCdfAlgorithm(NormalCDFAlgorithm normalCDF);
 }

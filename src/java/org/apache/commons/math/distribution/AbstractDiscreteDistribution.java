@@ -61,7 +61,7 @@ import org.apache.commons.math.MathException;
  * implementations for some of the methods that do not vary from distribution
  * to distribution.
  *  
- * @version $Revision: 1.9 $ $Date: 2004/01/29 00:48:58 $
+ * @version $Revision: 1.10 $ $Date: 2004/02/18 04:04:18 $
  */
 public abstract class AbstractDiscreteDistribution
     implements DiscreteDistribution {
@@ -77,11 +77,11 @@ public abstract class AbstractDiscreteDistribution
      * For this disbution, X, this method returns P(x0 &le; X &le; x1).
      * @param x0 the inclusive, lower bound
      * @param x1 the inclusive, upper bound
-     * @return the cummulative probability. 
+     * @return the cumulative probability. 
      */
-    public double cummulativeProbability(int x0, int x1) throws MathException{
-        return cummulativeProbability(x1) - 
-            cummulativeProbability(x0 - 1);
+    public double cumulativeProbability(int x0, int x1) throws MathException{
+        return cumulativeProbability(x1) - 
+            cumulativeProbability(x0 - 1);
     }
     
     /**
@@ -91,7 +91,7 @@ public abstract class AbstractDiscreteDistribution
      * @param p the desired probability
      * @return x, such that P(X &lt; x) = <code>p</code>
      */
-    public int inverseCummulativeProbability(final double p) throws MathException{
+    public int inverseCumulativeProbability(final double p) throws MathException{
         if (p < 0.0 || p > 1.0) {
             throw new IllegalArgumentException(
                 "p must be between 0.0 and 1.0, inclusive.");
@@ -104,7 +104,7 @@ public abstract class AbstractDiscreteDistribution
         double pm;
         while (x0 < x1) {
             int xm = x0 + (x1 - x0) / 2;
-            pm = cummulativeProbability(xm);
+            pm = cumulativeProbability(xm);
             if (pm > p) {
                 // update x1
                 if (xm == x1) {
@@ -129,10 +129,10 @@ public abstract class AbstractDiscreteDistribution
         }
         
         // insure x0 is the correct critical point
-        pm = cummulativeProbability(x0);
+        pm = cumulativeProbability(x0);
         while (pm > p) {
             --x0;
-            pm = cummulativeProbability(x0);
+            pm = cumulativeProbability(x0);
         }
         
         return x0;        
@@ -141,7 +141,7 @@ public abstract class AbstractDiscreteDistribution
     /**
      * Access the domain value lower bound, based on <code>p</code>, used to
      * bracket a PDF root.  This method is used by
-     * {@link #inverseCummulativeProbability(double)} to find critical values.
+     * {@link #inverseCumulativeProbability(double)} to find critical values.
      * 
      * @param p the desired probability for the critical value
      * @return domain value lower bound, i.e.
@@ -152,7 +152,7 @@ public abstract class AbstractDiscreteDistribution
     /**
      * Access the domain value upper bound, based on <code>p</code>, used to
      * bracket a PDF root.  This method is used by
-     * {@link #inverseCummulativeProbability(double)} to find critical values.
+     * {@link #inverseCumulativeProbability(double)} to find critical values.
      * 
      * @param p the desired probability for the critical value
      * @return domain value upper bound, i.e.

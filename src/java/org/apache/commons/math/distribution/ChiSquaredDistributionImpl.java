@@ -60,7 +60,7 @@ import org.apache.commons.math.MathException;
 /**
  * The default implementation of {@link ChiSquaredDistribution}
  * 
- * @version $Revision: 1.12 $ $Date: 2004/01/29 00:48:58 $
+ * @version $Revision: 1.13 $ $Date: 2004/02/18 04:04:18 $
  */
 public class ChiSquaredDistributionImpl
     extends AbstractContinuousDistribution
@@ -100,14 +100,14 @@ public class ChiSquaredDistributionImpl
      * @param x the value at which the CDF is evaluated.
      * @return CDF for this distribution. 
      */
-    public double cummulativeProbability(double x) throws MathException {
-        return getGamma().cummulativeProbability(x);
+    public double cumulativeProbability(double x) throws MathException {
+        return getGamma().cumulativeProbability(x);
     }
         
     /**
      * Access the domain value lower bound, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
-     * {@link #inverseCummulativeProbability(double)} to find critical values.
+     * {@link #inverseCumulativeProbability(double)} to find critical values.
      * 
      * @param p the desired probability for the critical value
      * @return domain value lower bound, i.e.
@@ -120,7 +120,7 @@ public class ChiSquaredDistributionImpl
     /**
      * Access the domain value upper bound, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
-     * {@link #inverseCummulativeProbability(double)} to find critical values.
+     * {@link #inverseCumulativeProbability(double)} to find critical values.
      * 
      * @param p the desired probability for the critical value
      * @return domain value upper bound, i.e.
@@ -146,7 +146,7 @@ public class ChiSquaredDistributionImpl
     /**
      * Access the initial domain value, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
-     * {@link #inverseCummulativeProbability(double)} to find critical values.
+     * {@link #inverseCumulativeProbability(double)} to find critical values.
      * 
      * @param p the desired probability for the critical value
      * @return initial domain value

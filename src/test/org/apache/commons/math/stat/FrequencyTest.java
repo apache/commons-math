@@ -64,7 +64,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link Frequency} class.
  *
- * @version $Revision: 1.9 $ $Date: 2004/02/08 19:51:25 $
+ * @version $Revision: 1.10 $ $Date: 2004/02/18 04:04:18 $
  */
 
 public final class FrequencyTest extends TestCase {
@@ -104,11 +104,11 @@ public final class FrequencyTest extends TestCase {
         assertEquals("two frequency count",1,f.getCount(2));
         assertEquals("three frequency count",0,f.getCount(3));
         assertEquals("total count",4,f.getSumFreq());
-        assertEquals("zero cummulative frequency", 0, f.getCumFreq(0));
-        assertEquals("one cummulative frequency", 3,  f.getCumFreq(1));
-        assertEquals("two cummulative frequency", 4,  f.getCumFreq(2));
-        assertEquals("two cummulative frequency", 4,  f.getCumFreq(5));
-        assertEquals("two cummulative frequency", 0,  f.getCumFreq("foo"));
+        assertEquals("zero cumulative frequency", 0, f.getCumFreq(0));
+        assertEquals("one cumulative frequency", 3,  f.getCumFreq(1));
+        assertEquals("two cumulative frequency", 4,  f.getCumFreq(2));
+        assertEquals("two cumulative frequency", 4,  f.getCumFreq(5));
+        assertEquals("two cumulative frequency", 0,  f.getCumFreq("foo"));
         f.clear();
         assertEquals("total count",0,f.getSumFreq());
     }     

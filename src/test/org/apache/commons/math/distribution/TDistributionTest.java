@@ -58,7 +58,7 @@ import org.apache.commons.math.MathException;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.10 $ $Date: 2004/01/29 00:48:59 $
+ * @version $Revision: 1.11 $ $Date: 2004/02/18 04:04:17 $
  */
 public class TDistributionTest extends TestCase {
     private TDistribution t;
@@ -87,7 +87,7 @@ public class TDistributionTest extends TestCase {
         super.tearDown();
     }
 
-    public void testInverseCummulativeProbability001() {
+    public void testInverseCumulativeProbability001() {
         testValue(-5.893, .001);
     }
 
@@ -107,7 +107,7 @@ public class TDistributionTest extends TestCase {
         testValue(-1.476, .100);
     }
 
-    public void testInverseCummulativeProbability999() {
+    public void testInverseCumulativeProbability999() {
         testValue(5.893, .999);
     }
 
@@ -127,7 +127,7 @@ public class TDistributionTest extends TestCase {
         testValue(1.476, .900);
     }
 
-    public void testCummulativeProbability001() {
+    public void testCumulativeProbability001() {
         testProbability(-5.893, .001);
     }
 
@@ -147,7 +147,7 @@ public class TDistributionTest extends TestCase {
         testProbability(-1.476, .100);
     }
 
-    public void testCummulativeProbability999() {
+    public void testCumulativeProbability999() {
         testProbability(5.893, .999);
     }
 
@@ -169,7 +169,7 @@ public class TDistributionTest extends TestCase {
 
     private void testProbability(double x, double expected) {
         try {
-            double actual = t.cummulativeProbability(x);
+            double actual = t.cumulativeProbability(x);
             assertEquals(expected, actual, 10e-4);
         } catch (MathException e) {
             // TODO Auto-generated catch block
@@ -179,7 +179,7 @@ public class TDistributionTest extends TestCase {
 
     private void testValue(double expected, double p) {
         try {
-            double actual = t.inverseCummulativeProbability(p);
+            double actual = t.inverseCumulativeProbability(p);
             assertEquals(expected, actual, 10e-4);
         } catch (MathException e) {
             // TODO Auto-generated catch block

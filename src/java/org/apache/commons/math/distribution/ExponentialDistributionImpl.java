@@ -60,7 +60,7 @@ import org.apache.commons.math.MathException;
 /**
  * The default implementation of {@link ExponentialDistribution}
  * 
- * @version $Revision: 1.11 $ $Date: 2004/01/29 00:48:58 $
+ * @version $Revision: 1.12 $ $Date: 2004/02/18 04:04:18 $
  */
 public class ExponentialDistributionImpl
     implements ExponentialDistribution, Serializable  {
@@ -109,7 +109,7 @@ public class ExponentialDistributionImpl
      * @param x the value at which the CDF is evaluated.
      * @return CDF for this distribution.
      */
-    public double cummulativeProbability(double x) throws MathException{
+    public double cumulativeProbability(double x) throws MathException{
         double ret;
         if (x <= 0.0) {
             ret = 0.0;
@@ -126,7 +126,7 @@ public class ExponentialDistributionImpl
      * @param p the desired probability
      * @return x, such that P(X &lt; x) = <code>p</code>
      */
-    public double inverseCummulativeProbability(double p) throws MathException{
+    public double inverseCumulativeProbability(double p) throws MathException{
         double ret;
         
         if (p < 0.0 || p > 1.0) {
@@ -144,9 +144,9 @@ public class ExponentialDistributionImpl
      * For this disbution, X, this method returns P(x0 &lt; X &lt; x1).
      * @param x0 the lower bound
      * @param x1 the upper bound
-     * @return the cummulative probability. 
+     * @return the cumulative probability. 
      */
-    public double cummulativeProbability(double x0, double x1) throws MathException{
-        return cummulativeProbability(x1) - cummulativeProbability(x0);
+    public double cumulativeProbability(double x0, double x1) throws MathException{
+        return cumulativeProbability(x1) - cumulativeProbability(x0);
     }
 }

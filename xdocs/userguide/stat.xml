@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.5 $ $Date: 2003/11/15 18:38:16 $ -->
+<!-- $Revision: 1.6 $ $Date: 2004/02/18 04:04:18 $ -->
 <document url="stat.html">
   <properties>
     <title>The Commons Math User Guide - Statistics</title>
@@ -62,18 +62,18 @@
         </p>
         <p>
           Using a distribution object, PDF and CDF probabilities are easily computed
-          using the <code>cummulativeProbability</code> methods.  For a distribution <code>X</code>,
-          and a domain value, <code>x</code>,  <code>cummulativeProbability</code> computes
+          using the <code>cumulativeProbability</code> methods.  For a distribution <code>X</code>,
+          and a domain value, <code>x</code>,  <code>cumulativeProbability</code> computes
           <code>P(X &lt;= x)</code> (i.e. the lower tail probability of <code>X</code>).
         </p>
         <source>DistributionFactory factory = DistributionFactory.newInstance();
           TDistribution t = factory.createBinomialDistribution(29);
-          double lowerTail = t.cummulativeProbability(-2.656);     // P(T &lt;= -2.656)
-          double upperTail = 1.0 - t.cummulativeProbability(2.75); // P(T &gt;= 2.75)</source>
+          double lowerTail = t.cumulativeProbability(-2.656);     // P(T &lt;= -2.656)
+          double upperTail = 1.0 - t.cumulativeProbability(2.75); // P(T &gt;= 2.75)</source>
         <p>
           The inverse PDF and CDF values are just as easily computed using the
-          <code>inverseCummulativeProbability</code>methods.  For a distribution <code>X</code>,
-          and a probability, <code>p</code>,  <code>inverseCummulativeProbability</code>
+          <code>inverseCumulativeProbability</code>methods.  For a distribution <code>X</code>,
+          and a probability, <code>p</code>,  <code>inverseCumulativeProbability</code>
           computes the domain value <code>x</code>, such that:
           <ul>
             <li><code>P(X &lt;= x) = p</code>, for continuous distributions</li>
@@ -82,7 +82,7 @@
           Notice the different cases for continuous and discrete distributions.  This is the result
           of PDFs not being invertible functions.  As such, for discrete distributions, an exact
           domain value can not be returned.  Only the "best" domain value.  For Commons-Math, the "best"
-          domain value is determined by the largest domain value whose cummulative probability is
+          domain value is determined by the largest domain value whose cumulative probability is
           less-than or equal to the given probability.
         </p>
       </subsection>

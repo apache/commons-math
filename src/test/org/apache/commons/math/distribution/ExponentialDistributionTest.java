@@ -59,7 +59,7 @@ import org.apache.commons.math.TestUtils;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.10 $ $Date: 2004/01/29 00:48:59 $
+ * @version $Revision: 1.11 $ $Date: 2004/02/18 04:04:17 $
  */
 public class ExponentialDistributionTest extends TestCase {
     private ExponentialDistribution exp;
@@ -90,113 +90,113 @@ public class ExponentialDistributionTest extends TestCase {
         super.tearDown();
     }
 
-    public void testInverseCummulativeProbability001() {
+    public void testInverseCumulativeProbability001() {
         testValue(.005003, .001);
     }
 
-    public void testInverseCummulativeProbability010() {
+    public void testInverseCumulativeProbability010() {
         testValue(0.050252, .010);
     }
 
-    public void testInverseCummulativeProbability025() {
+    public void testInverseCumulativeProbability025() {
         testValue(0.126589, .025);
     }
 
-    public void testInverseCummulativeProbability050() {
+    public void testInverseCumulativeProbability050() {
         testValue(0.256566, .050);
     }
 
-    public void testInverseCummulativeProbability100() {
+    public void testInverseCumulativeProbability100() {
         testValue(0.526803, .100);
     }
 
-    public void testInverseCummulativeProbability999() {
+    public void testInverseCumulativeProbability999() {
         testValue(34.5388, .999);
     }
 
-    public void testInverseCummulativeProbability990() {
+    public void testInverseCumulativeProbability990() {
         testValue(23.0259, .990);
     }
 
-    public void testInverseCummulativeProbability975() {
+    public void testInverseCumulativeProbability975() {
         testValue(18.4444, .975);
     }
 
-    public void testInverseCummulativeProbability950() {
+    public void testInverseCumulativeProbability950() {
         testValue(14.9787, .950);
     }
 
-    public void testInverseCummulativeProbability900() {
+    public void testInverseCumulativeProbability900() {
         testValue(11.5129, .900);
     }
 
-    public void testCummulativeProbability001() {
+    public void testCumulativeProbability001() {
         testProbability(0.005003, .001);
     }
 
-    public void testCummulativeProbability010() {
+    public void testCumulativeProbability010() {
         testProbability(0.050252, .010);
     }
 
-    public void testCummulativeProbability025() {
+    public void testCumulativeProbability025() {
         testProbability(0.126589, .025);
     }
 
-    public void testCummulativeProbability050() {
+    public void testCumulativeProbability050() {
         testProbability(0.256566, .050);
     }
 
-    public void testCummulativeProbability100() {
+    public void testCumulativeProbability100() {
         testProbability(0.526803, .100);
     }
 
-    public void testCummulativeProbability999() {
+    public void testCumulativeProbability999() {
         testProbability(34.5388, .999);
     }
 
-    public void testCummulativeProbability990() {
+    public void testCumulativeProbability990() {
         testProbability(23.0259, .990);
     }
 
-    public void testCummulativeProbability975() {
+    public void testCumulativeProbability975() {
         testProbability(18.4444, .975);
     }
 
-    public void testCummulativeProbability950() {
+    public void testCumulativeProbability950() {
         testProbability(14.9787, .950);
     }
 
-    public void testCummulativeProbability900() {
+    public void testCumulativeProbability900() {
         testProbability(11.5129, .900);
     }
 
-    public void testCummulativeProbabilityNegative() {
+    public void testCumulativeProbabilityNegative() {
         testProbability(-1.0, 0.0);
     }
 
-    public void testCummulativeProbabilityZero() {
+    public void testCumulativeProbabilityZero() {
         testProbability(0.0, 0.0);
     }
 
-    public void testInverseCummulativeProbabilityNegative() {
+    public void testInverseCumulativeProbabilityNegative() {
         testValue(Double.NaN, -1.0);
     }
 
-    public void testInverseCummulativeProbabilityZero() {
+    public void testInverseCumulativeProbabilityZero() {
         testValue(0.0, 0.0);
     }
 
-    public void testInverseCummulativeProbabilityOne() {
+    public void testInverseCumulativeProbabilityOne() {
         testValue(Double.POSITIVE_INFINITY, 1.0);
     }
 
-    public void testInverseCummulativeProbabilityPositive() {
+    public void testInverseCumulativeProbabilityPositive() {
         testValue(Double.NaN, 2.0);
     }
 
-    public void testCummulativeProbability2() {
+    public void testCumulativeProbability2() {
         try {
-            double actual = exp.cummulativeProbability(0.25, 0.75);
+            double actual = exp.cumulativeProbability(0.25, 0.75);
             assertEquals(0.0905214, actual, 10e-4);
         } catch (MathException e) {
             // TODO Auto-generated catch block
@@ -207,7 +207,7 @@ public class ExponentialDistributionTest extends TestCase {
 
     private void testProbability(double x, double expected) {
         try {
-            double actual = exp.cummulativeProbability(x);
+            double actual = exp.cumulativeProbability(x);
             TestUtils.assertEquals(expected, actual, 10e-4);
         } catch (MathException e) {
             // TODO Auto-generated catch block
@@ -217,7 +217,7 @@ public class ExponentialDistributionTest extends TestCase {
 
     private void testValue(double expected, double p) {
         try {
-            double actual = exp.inverseCummulativeProbability(p);
+            double actual = exp.inverseCumulativeProbability(p);
             TestUtils.assertEquals(expected, actual, 10e-4);
         } catch (MathException e) {
             // TODO Auto-generated catch block

@@ -87,7 +87,7 @@ import org.apache.commons.math.distribution.TDistribution;
  * the necessary computations to return the requested statistic.</li>
  * </ul>
  *
- * @version $Revision: 1.12 $ $Date: 2004/01/29 00:49:01 $
+ * @version $Revision: 1.13 $ $Date: 2004/02/18 04:04:18 $
  */
 public class BivariateRegression implements Serializable {
 
@@ -461,7 +461,7 @@ public class BivariateRegression implements Serializable {
             throw new IllegalArgumentException();
         }
         return getSlopeStdErr()
-            * getTDistribution().inverseCummulativeProbability(1d - alpha / 2d);
+            * getTDistribution().inverseCumulativeProbability(1d - alpha / 2d);
     }
 
     /**
@@ -487,7 +487,7 @@ public class BivariateRegression implements Serializable {
     public double getSignificance() throws MathException {
         return (
             1d
-                - getTDistribution().cummulativeProbability(
+                - getTDistribution().cumulativeProbability(
                     Math.abs(getSlope()) / getSlopeStdErr()));
     }
 

@@ -59,7 +59,7 @@ import org.apache.commons.math.MathException;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.8 $ $Date: 2004/01/29 00:48:59 $
+ * @version $Revision: 1.9 $ $Date: 2004/02/18 04:04:17 $
  */
 public class HypergeometricDistributionTest extends TestCase {
     private HypergeometricDistribution h;
@@ -92,7 +92,7 @@ public class HypergeometricDistributionTest extends TestCase {
         super.tearDown();
     }
 
-    public void testInverseCummulativeProbability001() {
+    public void testInverseCumulativeProbability001() {
         testValue(-1, .001);
     }
 
@@ -112,7 +112,7 @@ public class HypergeometricDistributionTest extends TestCase {
         testValue(0, .100);
     }
 
-    public void testInverseCummulativeProbability999() {
+    public void testInverseCumulativeProbability999() {
         testValue(4, .999);
     }
 
@@ -132,11 +132,11 @@ public class HypergeometricDistributionTest extends TestCase {
         testValue(3, .900);
     }
 
-    public void testCummulativeProbability0() {
+    public void testCumulativeProbability0() {
         testProbability(0, .00400);
     }
 
-    public void testCummulativeProbability1() {
+    public void testCumulativeProbability1() {
         testProbability(1, .10318);
     }
 
@@ -158,7 +158,7 @@ public class HypergeometricDistributionTest extends TestCase {
 
     private void testProbability(int x, double expected) {
         try {
-            double actual = h.cummulativeProbability(x);
+            double actual = h.cumulativeProbability(x);
             assertEquals(expected, actual, 10e-4);
         } catch (MathException e) {
             // TODO Auto-generated catch block
@@ -168,10 +168,10 @@ public class HypergeometricDistributionTest extends TestCase {
 
     private void testValue(int expected, double p) {
         try {
-            int actual = h.inverseCummulativeProbability(p);
+            int actual = h.inverseCumulativeProbability(p);
             assertEquals(expected, actual);
-            assertTrue(h.cummulativeProbability(actual) <= p);
-            assertTrue(h.cummulativeProbability(actual + 1) >= p);
+            assertTrue(h.cumulativeProbability(actual) <= p);
+            assertTrue(h.cumulativeProbability(actual + 1) >= p);
         } catch (MathException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
