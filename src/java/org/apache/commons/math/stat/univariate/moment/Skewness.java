@@ -20,7 +20,7 @@ import java.io.Serializable;
 import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
 
 /**
- * Computes <a href="http://en.wikipedia.org/wiki/Skewness">Skewness</a>.
+ * Computes the skewness of the available values.
  * <p>
  * We use the following (unbiased) formula to define skewness:
  *  <p>
@@ -29,7 +29,7 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  *  where n is the number of values, mean is the {@link Mean} and std is the 
  * {@link StandardDeviation}
  *
- * @version $Revision: 1.22 $ $Date: 2004/06/27 19:37:51 $
+ * @version $Revision: 1.23 $ $Date: 2004/07/02 05:29:14 $
  */
 public class Skewness extends AbstractStorelessUnivariateStatistic implements Serializable {
 

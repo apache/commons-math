@@ -20,7 +20,7 @@ import java.io.Serializable;
 import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
 
 /**
- * Computes <a href="http://en.wikipedia.org/wiki/Kurtosis">Kurtosis</a>.
+ * Computes the Kurtosis of the available values.
  * <p>
  * We use the following (unbiased) formula to define kurtosis:
  *  <p>
@@ -31,7 +31,7 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  *  Note that this statistic is undefined for n < 4.  <code>Double.Nan</code> is returned when
  *  there is not sufficient data to compute the statistic.
  *
- * @version $Revision: 1.23 $ $Date: 2004/06/27 19:37:51 $
+ * @version $Revision: 1.24 $ $Date: 2004/07/02 05:29:14 $
  */
 public class Kurtosis extends AbstractStorelessUnivariateStatistic implements Serializable {
 
