@@ -65,7 +65,7 @@ The Math project is a library of lightweight, self-contained mathematics and sta
     </dependency>
     <dependency>
       <id>commons-collections</id>
-      <version>2.1</version>
+      <version>SNAPSHOT</version>
     </dependency>
     <dependency>
       <id>commons-logging</id>
