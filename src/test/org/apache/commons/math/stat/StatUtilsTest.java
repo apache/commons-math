@@ -23,7 +23,7 @@ import org.apache.commons.math.TestUtils;
 
 /**
  * Test cases for the {@link StatUtils} class.
- * @version $Revision: 1.17 $ $Date: 2004/05/24 05:33:42 $
+ * @version $Revision: 1.18 $ $Date: 2004/07/11 18:42:07 $
  */
 
 public final class StatUtilsTest extends TestCase {
@@ -62,6 +62,7 @@ public final class StatUtilsTest extends TestCase {
         assertEquals("sum", sum, StatUtils.sum(values), tolerance);
         assertEquals("sumsq", sumSq, StatUtils.sumSq(values), tolerance);
         assertEquals("var", var, StatUtils.variance(values), tolerance);
+        assertEquals("var with mean", var, StatUtils.variance(values, mean), tolerance);
         assertEquals("mean", mean, StatUtils.mean(values), tolerance);
         assertEquals("min", min, StatUtils.min(values), tolerance);
         assertEquals("max", max, StatUtils.max(values), tolerance);
@@ -85,47 +86,6 @@ public final class StatUtilsTest extends TestCase {
         assertTrue(
             "Variance of n = 1 set should be zero",
             StatUtils.variance(values) == 0);
-    }
-
-    public void testSkewAndKurtosis() {
-
-        double[] values =
-            {
-                12.5,
-                12,
-                11.8,
-                14.2,
-                14.9,
-                14.5,
-                21,
-                8.2,
-                10.3,
-                11.3,
-                14.1,
-                9.9,
-                12.2,
-                12,
-                12.1,
-                11,
-                19.8,
-                11,
-                10,
-                8.8,
-                9,
-                12.3 };
-
-        assertEquals("mean", 12.40455, StatUtils.mean(values), 0.0001);
-        assertEquals("variance", 10.00236, StatUtils.variance(values), 0.0001);
-    }
-
-    public void testProductAndGeometricMean() throws Exception {
-        double[] values = { 1.0, 2.0, 3.0, 4.0 };
-
-        assertEquals(
-            "Product not expected",
-            24.0,
-            StatUtils.product(values),
-            Double.MIN_VALUE);
     }
 
     public void testArrayIndexConditions() throws Exception {
@@ -309,6 +269,10 @@ public final class StatUtilsTest extends TestCase {
         // test many
         x = new double[] {one, two, two, three};
         TestUtils.assertEquals(0.5, StatUtils.variance(x, 2, 2), tolerance);
+        
+        // test precomputed mean
+        x = new double[] {one, two, two, three};
+        TestUtils.assertEquals(0.5, StatUtils.variance(x,2.5, 2, 2), tolerance);
     }
     
     public void testMax() {
