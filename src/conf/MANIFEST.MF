@@ -1,7 +1,0 @@
-Extension-Name: org.apache.commons.math
-Specification-Title: Jakarta Commons Math
-Specification-Vendor: Apache Software Foundation
-Specification-Version: 0.1
-Implementation-Title: org.apache.commons.math
-Implementation-Vendor: Apache Software Foundation
-Implementation-Version: 0.1
