@@ -56,8 +56,11 @@ package org.apache.commons.math;
 import java.util.NoSuchElementException;
 
 /**
- * Provides an interface to implemntations which function as an array
- * of double primitives.
+ * Provides a single interface for dealing with various flavors
+ * of double arrays.  This arrays framework follows the model of the
+ * Collections API by allowing a user to select from a number of 
+ * array implementations with support for various storage mechanisms
+ * such as automatic expansion, contraction, and array "rolling".
  * 
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
  */
@@ -70,19 +73,16 @@ public interface DoubleArray {
      */
     int getNumElements();
 
-    //TODO: Throwing a NoSuchElementException might not be the right
-    //thing to do, it may be more helpful to just throw ArrayOutOfBounds...
-
     /**
-     * Returns the element at the specified index
+     * Returns the element at the specified index.  Note that if an
+     * out of bounds index is supplied a ArrayIndexOutOfBoundsException 
+     * will be thrown.
      * 
      * @param index index to fetch a value from
      * @return value stored at the specified index
-     * @throws NoSuchElementException exception thrown if the array index
-     *         exceeds the known boundaries of this array.  
      *
      */
-    double getElement(int index) throws NoSuchElementException;
+    double getElement(int index);
 
     /**
      * Sets the element at the specified index.  This method will expand the 

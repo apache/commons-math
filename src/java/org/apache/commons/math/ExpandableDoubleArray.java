@@ -54,7 +54,7 @@
 package org.apache.commons.math;
 
 import java.io.Serializable;
-import java.util.NoSuchElementException;
+
 
 /**
  * An array of double primitives which can expand as needed.
@@ -137,7 +137,7 @@ public class ExpandableDoubleArray implements Serializable, DoubleArray {
 
         // The expansion factor *must* be larger than 1.0, otherwise we'll 
         // have an inconsistency upon expansion we'll start shrinking which 
-        // will lead to ArrayOutOfBound exceptions.
+        // will lead to ArrayIndexOutOfBound exceptions.
         if (expansionFactor > 1.0) {
             this.expansionFactor = expansionFactor;
         } else {
@@ -214,18 +214,18 @@ public class ExpandableDoubleArray implements Serializable, DoubleArray {
      * @param index index to fetch a value from
      * @return value stored at the specified index
      */
-    public double getElement(int index) throws NoSuchElementException {
+    public double getElement(int index) {
         double value = Double.NaN;
         if (index >= numElements) {
             String msg = "The index specified: " + index + 
                 " is larger than the current number of elements";
-            throw new NoSuchElementException(msg);
+            throw new ArrayIndexOutOfBoundsException(msg);
         } else if (index >= 0) {
             value = internalArray[startIndex + index];
         } else {
             String msg = "Elements cannot be retrieved from a negative " +
                 "array index";
-            throw new IllegalArgumentException(msg);
+            throw new ArrayIndexOutOfBoundsException(msg);
         }
         return value;
     }
@@ -242,7 +242,7 @@ public class ExpandableDoubleArray implements Serializable, DoubleArray {
 		
 		if (index < 0) {
             String msg = "Cannot set an element at a negative index";
-            throw new IllegalArgumentException(msg);
+            throw new ArrayIndexOutOfBoundsException(msg);
         }
 
         if ((startIndex + index) >= internalArray.length) {
