@@ -43,7 +43,7 @@ import org.apache.commons.math.stat.univariate.SummaryStatistics;
  * build grouped frequnecy histograms representing the input data or to
  * generate random values "like" those in the input file -- i.e., the values
  * generated will follow the distribution of the values in the file.
- * @version $Revision: 1.19 $ $Date: 2004/06/14 23:34:46 $
+ * @version $Revision: 1.20 $ $Date: 2004/06/14 23:45:33 $
  */
 public interface EmpiricalDistribution {
 
@@ -86,23 +86,6 @@ public interface EmpiricalDistribution {
      * @throws IllegalStateException if the distribution has not been loaded
      */
     SummaryStatistics getSampleStats() throws IllegalStateException;
-
-    /**
-     * Loads a saved distribution from a file.
-     * @param file File reference for a file containing a digested distribution
-     * @throws IOException if an error occurs reading the file
-     */
-    void loadDistribution(File file) throws IOException;
-
-    /**
-     * Saves distribution to a file. Overwrites the file if it exists.
-     * <strong>Preconditions:</strong><ul>
-     * <li>the distribution must be loaded before invoking this method</li></ul>
-     * @param file File reference for the file to be written
-     * @throws IOException if an error occurs reading the file
-     * @throws IllegalStateException if the distribution has not been loaded
-     */
-    void saveDistribution(File file) throws IOException,IllegalStateException;
 
     /**
      * property indicating whether or not the distribution has been loaded

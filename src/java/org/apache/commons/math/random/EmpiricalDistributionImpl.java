@@ -53,7 +53,7 @@ import org.apache.commons.math.stat.univariate.SummaryStatistics;
  *    entry per line.</li>
  * </ul></p>
  *
- * @version $Revision: 1.22 $ $Date: 2004/06/14 23:34:46 $
+ * @version $Revision: 1.23 $ $Date: 2004/06/14 23:45:33 $
  */
 public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistribution {
 
@@ -349,15 +349,6 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
            }
         }
         throw new RuntimeException("No bin selected");
-    }
-
-    public void loadDistribution(File file) throws IOException {
-        throw new UnsupportedOperationException("Not Implemented yet :-(");
-    }
-
-    public void saveDistribution(File file) throws
-        IOException,IllegalStateException {
-       throw new UnsupportedOperationException("Not Implemented yet :-(");
     }
 
     public SummaryStatistics getSampleStats() {
