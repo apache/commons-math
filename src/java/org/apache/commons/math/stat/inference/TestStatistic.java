@@ -16,11 +16,12 @@
 package org.apache.commons.math.stat.inference;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.stat.StatisticalSummary;
 
 /**
  * A collection of commonly used test statistics and statistical tests.
  * 
- * @version $Revision: 1.2 $ $Date: 2004/04/11 20:25:16 $ 
+ * @version $Revision: 1.3 $ $Date: 2004/04/11 20:42:33 $ 
  */
 public interface TestStatistic {
     

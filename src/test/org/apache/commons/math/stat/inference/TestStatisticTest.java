@@ -20,10 +20,12 @@ import org.apache.commons.math.MathException;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
+import org.apache.commons.math.stat.SummaryStatistics;
 /**
  * Test cases for the TestStatistic class.
  *
- * @version $Revision: 1.1 $ $Date: 2004/04/11 20:30:46 $
+ * @version $Revision: 1.2 $ $Date: 2004/04/11 20:42:33 $
  */
 
 public final class TestStatisticTest extends TestCase {

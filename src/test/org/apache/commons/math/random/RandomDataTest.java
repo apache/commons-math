@@ -25,12 +25,12 @@ import java.util.HashSet;
 import org.apache.commons.math.RetryTestCase;
 import org.apache.commons.math.stat.Frequency;
 import org.apache.commons.math.stat.SummaryStatistics;
-import org.apache.commons.math.stat.TestStatisticImpl;
+import org.apache.commons.math.stat.inference.TestStatisticImpl;
 
 /**
  * Test cases for the RandomData class.
  *
- * @version $Revision: 1.13 $ $Date: 2004/03/07 16:32:44 $
+ * @version $Revision: 1.14 $ $Date: 2004/04/11 20:42:33 $
  */
 
 public final class RandomDataTest extends RetryTestCase {
