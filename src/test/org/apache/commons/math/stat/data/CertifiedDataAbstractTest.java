@@ -16,15 +16,18 @@
 
 package org.apache.commons.math.stat.data;
 
+import java.beans.Expression;
+import java.beans.PropertyDescriptor;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.commons.beanutils.PropertyUtils;
+//import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.stat.univariate.DescriptiveStatistics;
@@ -33,7 +36,7 @@ import org.apache.commons.math.stat.univariate.SummaryStatistics;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.2 $ $Date: 2004/04/12 02:27:50 $
+ * @version $Revision: 1.3 $ $Date: 2004/06/01 22:15:51 $
  */
 public abstract class CertifiedDataAbstractTest extends TestCase {
 	
@@ -115,18 +118,35 @@ public abstract class CertifiedDataAbstractTest extends TestCase {
 			String name = iter.next().toString();
 			Double expectedValue = (Double)certifiedValues.get(name);
 			try {
-				Double summariesValue = (Double)PropertyUtils.getProperty(summaries, name);
+				Double summariesValue = (Double)this.getProperty(summaries, name);
 				TestUtils.assertEquals("summary value for " + name + " is incorrect.",
 						summariesValue.doubleValue(), expectedValue.doubleValue(), getMaximumAbsoluteError());
 			} catch (Exception ex) {
 			}
 			
 			try {
-				Double descriptivesValue = (Double)PropertyUtils.getProperty(descriptives, name);
+				Double descriptivesValue = (Double)this.getProperty(descriptives, name);
 				TestUtils.assertEquals("descriptive value for " + name + " is incorrect.",
 						descriptivesValue.doubleValue(), expectedValue.doubleValue(), getMaximumAbsoluteError());
 			} catch (Exception ex) {
 			}
 		}
  	}
+	
+	
+	protected Object getProperty(Object bean, String name){
+	    
+	    // Get the value of prop
+	    String prop = "get" + name.substring(0,1).toUpperCase() + name.substring(1);
+	    
+        Expression expr = new Expression(bean, prop, new Object[0]);
+        try {
+            expr.execute();
+            return expr.getValue();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return null;
+	}
 }
