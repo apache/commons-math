@@ -61,7 +61,7 @@ import junit.framework.TestSuite;
  * Test cases for the {@link RealMatrixImpl} class.
  *
  * @author Phil Steitz
- * @version $Revision: 1.1 $ $Date: 2003/06/22 03:57:57 $
+ * @version $Revision: 1.2 $ $Date: 2003/06/25 01:39:36 $
  */
 
 public final class RealMatrixImplTest extends TestCase {
@@ -114,6 +114,8 @@ public final class RealMatrixImplTest extends TestCase {
         assertEquals("testData2 row dimension",m2.getRowDimension(),2);
         assertEquals("testData2 column dimension",m2.getColumnDimension(),3);
         assertTrue("testData2 is not square",!m2.isSquare());
+        RealMatrixImpl m3 = new RealMatrixImpl();
+        m3.setData(testData);
     } 
     
     /** test copy functions */
@@ -251,7 +253,19 @@ public final class RealMatrixImplTest extends TestCase {
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
             ;
-        }      
+        }
+        try {
+            RealMatrix a = (new RealMatrixImpl(testData2)).solve(bs);
+            fail("Expecting illegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            ;
+        } 
+        try {
+            (new RealMatrixImpl(testData2)).LUDecompose();
+            fail("Expecting illegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            ;
+        }  
     }
     
     /** test determinant */

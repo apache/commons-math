@@ -79,7 +79,7 @@ import java.io.Serializable;
  * before using any of the methods above.
  *
  * @author  Phil Steitz
- * @version $Revision: 1.1 $ $Date: 2003/06/22 03:57:57 $
+ * @version $Revision: 1.2 $ $Date: 2003/06/25 01:39:36 $
  */
 public class RealMatrixImpl implements RealMatrix, Serializable {
 
@@ -576,6 +576,10 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      * do not match.
      */
     public RealMatrix solve(RealMatrix b) throws IllegalArgumentException {
+        if (!this.isSquare()) {
+            throw new IllegalArgumentException
+                ("coefficient matrix is not square");
+        }
         if (b.getRowDimension() != this.getRowDimension()) {
             throw new IllegalArgumentException("Incorrect row dimension");
         }
@@ -645,6 +649,10 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     public void LUDecompose() throws IllegalArgumentException {
         int nRows = this.getRowDimension();
         int nCols = this.getColumnDimension();
+        if (nRows < nCols) {
+            throw new IllegalArgumentException
+              ("LU decomposition requires row dimension >= column dimension");
+        }
         lu = this.getData();
         
         // Initialize pivot array and parity

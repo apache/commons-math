@@ -57,7 +57,7 @@ package org.apache.commons.math.linear;
 /**
  * Interface defining a real-valued matrix with basic algebraic operations
  * @author  Phil Steitz
- * @version $Revision: 1.1 $ $Date: 2003/06/22 03:57:57 $
+ * @version $Revision: 1.2 $ $Date: 2003/06/25 01:39:36 $
  */
 public interface RealMatrix {
 
@@ -276,7 +276,7 @@ public interface RealMatrix {
      * to solve
      * @return matrix of solution vectors
      * @throws IllegalArgumentException if rowDimension != row dimension of b
-     * or this is singular
+     * or this is not square or singular
      */
     RealMatrix solve(RealMatrix b) throws IllegalArgumentException;
 }
