@@ -6,8 +6,9 @@
 				<xsl:apply-templates select="/document/properties/title"/>
 				<xsl:apply-templates select="/document/meta"/>
 				<style type="text/css">
-          			@import url("../stylesheets/tigris.css");
-          			@import url("../stylesheets/maven.css");
+          			@import url("../style/tigris.css");
+          			@import url("../style/maven.css");
+          			@import url("../style/project.css");
         		</style>
         		<link rel="stylesheet" href="../style/print.css" type="text/css" media="print"></link>
 			</head>
@@ -33,6 +34,13 @@
 			<xsl:apply-templates/>
 		</div>
 	</xsl:template>
+	<xsl:template match="source">
+		<div id="source">
+			<pre>
+				<xsl:apply-templates/>
+			</pre>
+		</div>
+	</xsl:template>	
 	<xsl:template match="node()|@*">
 		<xsl:copy>
 			<xsl:apply-templates select="@*"/>
