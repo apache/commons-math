@@ -26,6 +26,8 @@
 
   <body>
     <links>
+      <item name="Jakarta"                   
+            href="http://jakarta.apache.org"/>
       <item name="Jakarta Commons"                   
             href="http://jakarta.apache.org/commons/"/>
     </links>
