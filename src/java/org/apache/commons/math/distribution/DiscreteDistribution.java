@@ -20,18 +20,18 @@ import org.apache.commons.math.MathException;
 /**
  * Base interface for various discrete distributions.
  * 
- * @version $Revision: 1.12 $ $Date: 2004/05/11 02:05:25 $
+ * @version $Revision: 1.13 $ $Date: 2004/05/11 02:19:08 $
  */
 public interface DiscreteDistribution {
     /**
-     * For this disbution, X, this method returns P(X = x).
+     * For this distribution, X, this method returns P(X = x).
      * @param x the value at which the PMF is evaluated.
      * @return PMF for this distribution. 
      */
     double probability(int x);
     
     /**
-     * For this disbution, X, this method returns P(X &le; x).
+     * For this distribution, X, this method returns P(X &le; x).
      * @param x the value at which the PDF is evaluated.
      * @return PDF for this distribution. 
      * @exception MathException if the cumulative probability can not be
@@ -40,7 +40,7 @@ public interface DiscreteDistribution {
     double cumulativeProbability(int x) throws MathException;
 
     /**
-     * For this disbution, X, this method returns P(x0 &le; X &le; x1).
+     * For this distribution, X, this method returns P(x0 &le; X &le; x1).
      * @param x0 the inclusive, lower bound
      * @param x1 the inclusive, upper bound
      * @return the cumulative probability. 
@@ -51,7 +51,7 @@ public interface DiscreteDistribution {
     double cumulativeProbability(int x0, int x1) throws MathException;
     
     /**
-     * For this disbution, X, this method returns the largest x such that P(X &le; x) <= p.
+     * For this distribution, X, this method returns the largest x such that P(X &le; x) <= p.
      * @param p the cumulative probability.
      * @return x. 
      * @exception MathException if the inverse cumulative probability can not be

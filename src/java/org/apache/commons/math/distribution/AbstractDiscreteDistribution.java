@@ -23,7 +23,7 @@ import org.apache.commons.math.MathException;
  * implementations for some of the methods that do not vary from distribution
  * to distribution.
  *  
- * @version $Revision: 1.13 $ $Date: 2004/05/11 02:04:21 $
+ * @version $Revision: 1.14 $ $Date: 2004/05/11 02:19:08 $
  */
 public abstract class AbstractDiscreteDistribution
     implements DiscreteDistribution {
@@ -53,7 +53,7 @@ public abstract class AbstractDiscreteDistribution
     }
     
     /**
-     * For this distribution, X, this method returns the lagest x, such
+     * For this distribution, X, this method returns the largest x, such
      * that P(X &le; x) &le; <code>p</code>.
      *
      * @param p the desired probability
