@@ -15,73 +15,86 @@
  */
 package org.apache.commons.math.distribution;
 
-import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.13 $ $Date: 2004/05/23 21:34:19 $
+ * Test cases for FDistribution.
+ * Extends ContinuousDistributionAbstractTest.  See class javadoc for
+ * ContinuousDistributionAbstractTest for details.
+ * 
+ * @version $Revision: 1.14 $ $Date: 2004/05/30 01:39:33 $
  */
-public class FDistributionTest extends TestCase {
-    private FDistribution f;
+public class FDistributionTest extends ContinuousDistributionAbstractTest {
 
     /**
-     * Constructor for ChiSquareDistributionTest.
+     * Constructor for FDistributionTest.
      * @param name
      */
     public FDistributionTest(String name) {
         super(name);
     }
 
-    /*
-     * @see TestCase#setUp()
-     */
-    protected void setUp() throws Exception {
+    //-------------- Implementations for abstract methods -----------------------
+    
+    /** Creates the default continuous distribution instance to use in tests. */
+    public ContinuousDistribution makeDistribution() {
+        return DistributionFactory.newInstance().createFDistribution(5.0, 6.0);
+    }   
+    
+    /** Creates the default cumulative probability distribution test input values */
+    public double[] makeCumulativeTestPoints() {
+        // quantiles computed using R version 1.8.1 (linux version)
+        return new double[] {0.03468084d ,0.09370091d, 0.1433137d,
+            0.2020084d, 0.2937283d, 20.80266d, 8.745895d, 5.987565d, 
+            4.387374d, 3.107512d};
+    }
+    
+    /** Creates the default cumulative probability density test expected values */
+    public double[] makeCumulativeTestValues() {
+        return new double[] {0.001d, 0.01d, 0.025d, 0.05d, 0.1d, 0.999d,
+                0.990d, 0.975d, 0.950d, 0.900d}; 
+    }
+    
+    // --------------------- Override tolerance  --------------
+    protected void setup() throws Exception {
         super.setUp();
-        f = DistributionFactory.newInstance().createFDistribution(5.0, 6.0);
+        setTolerance(1E-6);
     }
 
-    /*
-     * @see TestCase#tearDown()
-     */
-    protected void tearDown() throws Exception {
-        f = null;
-        super.tearDown();
+    //---------------------------- Additional test cases -------------------------
+
+    public void testCumulativeProbabilityExtremes() throws Exception {
+        setCumulativeTestPoints(new double[] {-2, 0});
+        setCumulativeTestValues(new double[] {0, 0});
+        verifyCumulativeProbabilities();
     }
 
-    public void testLowerTailProbability() throws Exception {
-        testProbability(1.0 / 10.67, .010);
-        testProbability(1.0 / 6.98, .025);
-        testProbability(1.0 / 4.95, .050);
-        testProbability(1.0 / 3.40, .100);
+    public void testInverseCumulativeProbabilityExtremes() throws Exception {
+        //TODO: decide what to do about p = 1.  This currently blows up the solver.
+        setInverseCumulativeTestPoints(new double[] {0});
+        setInverseCumulativeTestValues(new double[] {0});
+        verifyInverseCumulativeProbabilities();
     }
+    
+    public void testDfAccessors() {
+        FDistribution distribution = (FDistribution) getDistribution();
+        assertEquals(5d, distribution.getNumeratorDegreesOfFreedom(), Double.MIN_VALUE);
+        distribution.setNumeratorDegreesOfFreedom(4d);
+        assertEquals(4d, distribution.getNumeratorDegreesOfFreedom(), Double.MIN_VALUE);
+        assertEquals(6d, distribution.getDenominatorDegreesOfFreedom(), Double.MIN_VALUE);
+        distribution.setDenominatorDegreesOfFreedom(4d);
+        assertEquals(4d, distribution.getDenominatorDegreesOfFreedom(), Double.MIN_VALUE);
+        try {
+            distribution.setNumeratorDegreesOfFreedom(0d);
+            fail("Expecting IllegalArgumentException for df = 0");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+        try {
+            distribution.setDenominatorDegreesOfFreedom(0d);
+            fail("Expecting IllegalArgumentException for df = 0");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+    } 
 
-    public void testUpperTailProbability() throws Exception {
-        testProbability(8.75, .990);
-        testProbability(5.99, .975);
-        testProbability(4.39, .950);
-        testProbability(3.11, .900);
-    }
-
-    public void testLowerTailValues() throws Exception {
-        testValue(1.0 / 10.67, .010);
-        testValue(1.0 / 6.98, .025);
-        testValue(1.0 / 4.95, .050);
-        testValue(1.0 / 3.40, .100);
-    }
-
-    public void testUpperTailValues() throws Exception {
-        testValue(8.75, .990);
-        testValue(5.99, .975);
-        testValue(4.39, .950);
-        testValue(3.11, .900);
-    }
-
-    private void testProbability(double x, double expected) throws Exception {
-		double actual = f.cumulativeProbability(x);
-        assertEquals("probability for " + x, expected, actual, 1e-3);
-    }
-
-    private void testValue(double expected, double p) throws Exception {
-        double actual = f.inverseCumulativeProbability(p);
-        assertEquals("value for " + p, expected, actual, 1e-2);
-    }
 }
