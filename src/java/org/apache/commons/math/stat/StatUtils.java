@@ -27,10 +27,10 @@ import org.apache.commons.math.stat.univariate.summary.SumOfLogs;
 import org.apache.commons.math.stat.univariate.summary.SumOfSquares;
 
 /**
- * StatUtils provides static implementations of common double[] based
- * statistical methods. These return a single result value or in some cases, as
- * identified in the javadoc for each method, <code>Double.NaN.</code>
- * @version $Revision: 1.29 $ $Date: 2004/06/23 16:26:17 $
+ * StatUtils provides static methods for computing statistics based on data
+ * stored in double[] arrays. 
+ * 
+ * @version $Revision: 1.30 $ $Date: 2004/07/11 18:41:19 $
  */
 public final class StatUtils {
 
@@ -56,7 +56,7 @@ public final class StatUtils {
     private static UnivariateStatistic mean = new Mean();
 
     /** variance */
-    private static UnivariateStatistic variance = new Variance();
+    private static Variance variance = new Variance();
 
     /** variance */
     private static Percentile percentile = new Percentile();
@@ -68,251 +68,429 @@ public final class StatUtils {
     }
 
     /**
-     * The sum of the values that have been added to Univariate.
-     * @param values Is a double[] containing the values
-     * @return the sum of the values or <code>Double.NaN</code> if the array is empty
+     * Returns the sum of the values in the input array, or
+     * <code>Double.NaN</code> if the array is empty.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the input array
+     * is null.
+     * 
+     * @param values  array of values to sum
+     * @return the sum of the values or <code>Double.NaN</code> if the array
+     * is empty
+     * @throws IllegalArgumentException if the array is null
      */
     public static double sum(final double[] values) {
         return sum.evaluate(values);
     }
 
     /**
-     * The sum of the values that have been added to Univariate.
-     * @param values Is a double[] containing the values
-     * @param begin processing at this point in the array
+     * Returns the sum of the entries in the specified portion of
+     * the input array, or <code>Double.NaN</code> if the designated subarray
+     * is empty.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * 
+     * @param values the input array
+     * @param begin index of the first array element to include
      * @param length the number of elements to include
-     * @return the sum of the values or <code>Double.NaN</code> if the array is empty
+     * @return the sum of the values or Double.NaN if length = 0
+     * @throws IllegalArgumentException if the array is null or the array index
+     *  parameters are not valid
      */
-    public static double sum(
-        final double[] values,
-        final int begin,
-        final int length) {
+    public static double sum(final double[] values, final int begin, 
+            final int length) {
         return sum.evaluate(values, begin, length);
     }
 
     /**
-     * Returns the sum of the squares of the available values.
-     * @param values Is a double[] containing the values
-     * @return the sum of the squared values or <code>Double.NaN</code> if the array is empty
+     * Returns the sum of the squares of the entries in the input array, or 
+     * <code>Double.NaN</code> if the array is empty.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * 
+     * @param values  input array
+     * @return the sum of the squared values or <code>Double.NaN</code> if the
+     * array is empty
+     * @throws IllegalArgumentException if the array is null
      */
     public static double sumSq(final double[] values) {
         return sumSq.evaluate(values);
     }
 
     /**
-     * Returns the sum of the squares of the available values.
-     * @param values Is a double[] containing the values
-     * @param begin processing at this point in the array
+     * Returns the sum of the squares of the entries in the specified portion of
+     * the input array, or <code>Double.NaN</code> if the designated subarray
+     * is empty.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * 
+     * @param values the input array
+     * @param begin index of the first array element to include
      * @param length the number of elements to include
-     * @return the sum of the squared values or <code>Double.NaN</code> if the array is empty
+     * @return the sum of the squares of the values or Double.NaN if length = 0
+     * @throws IllegalArgumentException if the array is null or the array index
+     * parameters are not valid
      */
-    public static double sumSq(
-        final double[] values,
-        final int begin,
-        final int length) {
+    public static double sumSq(final double[] values, final int begin,
+            final int length) {
         return sumSq.evaluate(values, begin, length);
     }
 
     /**
-     * Returns the product for this collection of values
-     * @param values Is a double[] containing the values
-     * @return the product values or <code>Double.NaN</code> if the array is empty
+     * Returns the product of the entries in the input array, or 
+     * <code>Double.NaN</code> if the array is empty.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * 
+     * @param values the input array
+     * @return the product of the values or Double.NaN if the array is empty
+     * @throws IllegalArgumentException if the array is null
      */
     public static double product(final double[] values) {
         return prod.evaluate(values);
     }
 
     /**
-     * Returns the product for this collection of values
-     * @param values Is a double[] containing the values
-     * @param begin processing at this point in the array
+     * Returns the product of the entries in the specified portion of
+     * the input array, or <code>Double.NaN</code> if the designated subarray
+     * is empty.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * 
+     * @param values the input array
+     * @param begin index of the first array element to include
      * @param length the number of elements to include
-     * @return the product values or <code>Double.NaN</code> if the array is empty
+     * @return the product of the values or Double.NaN if length = 0
+     * @throws IllegalArgumentException if the array is null or the array index
+     * parameters are not valid
      */
-    public static double product(
-        final double[] values,
-        final int begin,
-        final int length) {
+    public static double product(final double[] values, final int begin,
+            final int length) {
         return prod.evaluate(values, begin, length);
     }
 
     /**
-     * Returns the sum of the natural logs for this collection of values
-     * @param values Is a double[] containing the values
-     * @return the sumLog value or <code>Double.NaN</code> if the array is empty
+     * Returns the sum of the natural logs of the entries in the input array, or 
+     * <code>Double.NaN</code> if the array is empty.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * <p>
+     * See {@link org.apache.commons.math.stat.univariate.summary.SumOfLogs}.
+     * 
+     * @param values the input array
+     * @return the sum of the natural logs of the values or Double.NaN if 
+     * the array is empty
+     * @throws IllegalArgumentException if the array is null
      */
     public static double sumLog(final double[] values) {
         return sumLog.evaluate(values);
     }
 
     /**
-     * Returns the sum of the natural logs for this collection of values
-     * @param values Is a double[] containing the values
-     * @param begin processing at this point in the array
+     * Returns the sum of the natural logs of the entries in the specified portion of
+     * the input array, or <code>Double.NaN</code> if the designated subarray
+     * is empty.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * <p>
+      * See {@link org.apache.commons.math.stat.univariate.summary.SumOfLogs}.
+     * 
+     * @param values the input array
+     * @param begin index of the first array element to include
      * @param length the number of elements to include
-     * @return the sumLog value or <code>Double.NaN</code> if the array is empty
+     * @return the sum of the natural logs of the values or Double.NaN if 
+     * length = 0
+     * @throws IllegalArgumentException if the array is null or the array index
+     * parameters are not valid
      */
-    public static double sumLog(
-        final double[] values,
-        final int begin,
-        final int length) {
+    public static double sumLog(final double[] values, final int begin,
+            final int length) {
         return sumLog.evaluate(values, begin, length);
     }
 
     /**
-     * Returns the <a href="http://www.xycoon.com/arithmetic_mean.htm">
-     * arithmetic mean </a> of the available values
-     * @param values Is a double[] containing the values
-     * @return the mean of the values or <code>Double.NaN</code> if the array is empty
+     * Returns the arithmetic mean of the entries in the input array, or 
+     * <code>Double.NaN</code> if the array is empty.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * <p>
+     * See {@link org.apache.commons.math.stat.univariate.moment.Mean} for
+     * details on the computing algorithm.
+     * 
+     * @param values the input array
+     * @return the mean of the values or Double.NaN if the array is empty
+     * @throws IllegalArgumentException if the array is null
      */
     public static double mean(final double[] values) {
         return mean.evaluate(values);
     }
 
     /**
-      * Returns the <a href="http://www.xycoon.com/arithmetic_mean.htm">
-      * arithmetic mean </a> of the available values
-     * @param values Is a double[] containing the values
-     * @param begin processing at this point in the array
+     * Returns the arithmetic mean of the entries in the specified portion of
+     * the input array, or <code>Double.NaN</code> if the designated subarray
+     * is empty.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * <p>
+     * See {@link org.apache.commons.math.stat.univariate.moment.Mean} for
+     * details on the computing algorithm.
+     * 
+     * @param values the input array
+     * @param begin index of the first array element to include
      * @param length the number of elements to include
-      * @return the mean of the values or <code>Double.NaN</code> if the array is empty
-      */
-    public static double mean(
-        final double[] values,
-        final int begin,
-        final int length) {
+     * @return the mean of the values or Double.NaN if length = 0
+     * @throws IllegalArgumentException if the array is null or the array index
+     * parameters are not valid
+     */
+    public static double mean(final double[] values, final int begin,
+            final int length) {
         return mean.evaluate(values, begin, length);
     }
 
     /**
-     * Returns the variance of the available values. This uses a corrected
-     * two pass algorithm as described in:
+     * Returns the variance of the entries in the input array, or 
+     * <code>Double.NaN</code> if the array is empty.
      * <p>
-     * "Algorithms for Computing the Sample Variance: Analysis and
-     * Recommendations", Chan, T.F., Golub, G.H., and LeVeque, R.J.
-     * 1983, American Statistician, vol. 37, pp. 242-247.
-     *
-     * @param values Is a double[] containing the values
-     * @return the result, <code>Double.NaN</code> for an empty array
-     * or 0.0 for a single value set.
+     * See {@link org.apache.commons.math.stat.univariate.moment.Variance} for
+     * details on the computing algorithm.
+     * <p>
+     * Returns 0 for a single-value (i.e. length = 1) sample.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * 
+     * @param values the input array
+     * @return the variance of the values or Double.NaN if the array is empty
+     * @throws IllegalArgumentException if the array is null
      */
     public static double variance(final double[] values) {
         return variance.evaluate(values);
     }
 
     /**
-     * Returns the variance of the available values. This uses a corrected
-     * two pass algorithm as described in:
+     * Returns the variance of the entries in the specified portion of
+     * the input array, or <code>Double.NaN</code> if the designated subarray
+     * is empty.
      * <p>
-     * "Algorithms for Computing the Sample Variance: Analysis and
-     * Recommendations", Chan, T.F., Golub, G.H., and LeVeque, R.J.
-     * 1983, American Statistician, vol. 37, pp. 242-247.
-     *
-     * @param values Is a double[] containing the values
-     * @param begin processing at this point in the array
+     * See {@link org.apache.commons.math.stat.univariate.moment.Variance} for
+     * details on the computing algorithm.
+     * <p>
+     * Returns 0 for a single-value (i.e. length = 1) sample.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null or the
+     * array index parameters are not valid.
+     * 
+     * @param values the input array
+     * @param begin index of the first array element to include
      * @param length the number of elements to include
-     * @return the result, <code>Double.NaN</code> for an empty array
-     * or 0.0 for a single value set.
+     * @return the variance of the values or Double.NaN if length = 0
+     * @throws IllegalArgumentException if the array is null or the array index
+     *  parameters are not valid
      */
-    public static double variance(
-        final double[] values,
-        final int begin,
-        final int length) {
+    public static double variance(final double[] values, final int begin,
+            final int length) {
         return variance.evaluate(values, begin, length);
+    }
+    
+    /**
+     * Returns the variance of the entries in the specified portion of
+     * the input array, using the precomputed mean value.  Returns 
+     * <code>Double.NaN</code> if the designated subarray is empty.
+     * <p>
+     * See {@link org.apache.commons.math.stat.univariate.moment.Variance} for
+     * details on the computing algorithm.
+     * <p>
+     * Returns 0 for a single-value (i.e. length = 1) sample.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null or the
+     * array index parameters are not valid.
+     * 
+     * @param values the input array
+     * @param mean the precomputed mean value
+     * @param begin index of the first array element to include
+     * @param length the number of elements to include
+     * @return the variance of the values or Double.NaN if length = 0
+     * @throws IllegalArgumentException if the array is null or the array index
+     *  parameters are not valid
+     */
+    public static double variance(final double[] values, final double mean, 
+            final int begin, final int length) {
+        return variance.evaluate(values, mean, begin, length);    
+    }
+    
+    /**
+     * Returns the variance of the entries in the input array, using the
+     * precomputed mean value.  Returns <code>Double.NaN</code> if the array
+     * is empty.
+     * <p>
+     * See {@link org.apache.commons.math.stat.univariate.moment.Variance} for
+     * details on the computing algorithm.
+     * <p>
+     * Returns 0 for a single-value (i.e. length = 1) sample.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * 
+     * @param values the input array
+     * @param mean the precomputed mean value
+     * @return the variance of the values or Double.NaN if the array is empty
+     * @throws IllegalArgumentException if the array is null
+     */
+    public static double variance(final double[] values, final double mean) {
+        return variance.evaluate(values, mean);    
     }
 
     /**
-     * Returns the maximum of the available values
-     * @param values Is a double[] containing the values
-     * @return the maximum of the values or <code>Double.NaN</code> if the array is empty
+     * Returns the maximum of the entries in the input array, or 
+     * <code>Double.NaN</code> if the array is empty.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * <p>
+     * <ul>
+     * <li>The result is <code>NaN</code> iff all values are <code>NaN</code> 
+     * (i.e. <code>NaN</code> values have no impact on the value of the statistic).</li>
+     * <li>If any of the values equals <code>Double.POSITIVE_INFINITY</code>, 
+     * the result is <code>Double.POSITIVE_INFINITY.</code></li>
+     * </ul>
+     * 
+     * @param values the input array
+     * @return the maximum of the values or Double.NaN if the array is empty
+     * @throws IllegalArgumentException if the array is null
      */
     public static double max(final double[] values) {
         return max.evaluate(values);
     }
 
     /**
-     * Returns the maximum of the available values
-     * @param values Is a double[] containing the values
-     * @param begin processing at this point in the array
+     * Returns the maximum of the entries in the specified portion of
+     * the input array, or <code>Double.NaN</code> if the designated subarray
+     * is empty.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null or
+     * the array index parameters are not valid.
+     * <p>
+     * <ul>
+     * <li>The result is <code>NaN</code> iff all values are <code>NaN</code> 
+     * (i.e. <code>NaN</code> values have no impact on the value of the statistic).</li>
+     * <li>If any of the values equals <code>Double.POSITIVE_INFINITY</code>, 
+     * the result is <code>Double.POSITIVE_INFINITY.</code></li>
+     * </ul>
+     * 
+     * @param values the input array
+     * @param begin index of the first array element to include
      * @param length the number of elements to include
-     * @return the maximum of the values or <code>Double.NaN</code> if the array is empty
+     * @return the maximum of the values or Double.NaN if length = 0
+     * @throws IllegalArgumentException if the array is null or the array index
+     * parameters are not valid
      */
-    public static double max(
-        final double[] values,
-        final int begin,
-        final int length) {
+    public static double max(final double[] values, final int begin,
+            final int length) {
         return max.evaluate(values, begin, length);
     }
 
-    /**
-     * Returns the minimum of the available values
-     * @param values Is a double[] containing the values
-     * @return the minimum of the values or <code>Double.NaN</code> if the array is empty
+     /**
+     * Returns the minimum of the entries in the input array, or 
+     * <code>Double.NaN</code> if the array is empty.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * <p>
+     * <ul>
+     * <li>The result is <code>NaN</code> iff all values are <code>NaN</code> 
+     * (i.e. <code>NaN</code> values have no impact on the value of the statistic).</li>
+     * <li>If any of the values equals <code>Double.NEGATIVE_INFINITY</code>, 
+     * the result is <code>Double.NEGATIVE_INFINITY.</code></li>
+     * </ul> 
+     * 
+     * @param values the input array
+     * @return the minimum of the values or Double.NaN if the array is empty
+     * @throws IllegalArgumentException if the array is null
      */
     public static double min(final double[] values) {
         return min.evaluate(values);
     }
 
-    /**
-     * Returns the minimum of the available values
-     * @param values Is a double[] containing the values
-     * @param begin processing at this point in the array
+     /**
+     * Returns the minimum of the entries in the specified portion of
+     * the input array, or <code>Double.NaN</code> if the designated subarray
+     * is empty.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null or
+     * the array index parameters are not valid.
+     * <p>
+     * <ul>
+     * <li>The result is <code>NaN</code> iff all values are <code>NaN</code> 
+     * (i.e. <code>NaN</code> values have no impact on the value of the statistic).</li>
+     * <li>If any of the values equals <code>Double.NEGATIVE_INFINITY</code>, 
+     * the result is <code>Double.NEGATIVE_INFINITY.</code></li>
+     * </ul> 
+     * 
+     * @param values the input array
+     * @param begin index of the first array element to include
      * @param length the number of elements to include
-     * @return the minimum of the values or <code>Double.NaN</code> if the array is empty
+     * @return the minimum of the values or Double.NaN if length = 0
+     * @throws IllegalArgumentException if the array is null or the array index
+     * parameters are not valid
      */
-    public static double min(
-        final double[] values,
-        final int begin,
-        final int length) {
+    public static double min(final double[] values, final int begin,
+            final int length) {
         return min.evaluate(values, begin, length);
     }
     
     /**
-     * Returns an estimate for the pth percentile of the stored values. 
+     * Returns an estimate of the <code>p</code>th percentile of the values
+     * in the <code>values</code> array.
      * <p>
-     * The implementation provided here follows the first estimation procedure presented
-     * <a href="http://www.itl.nist.gov/div898/handbook/prc/section2/prc252.htm">here.</a>
-     * <p>
-     * <strong>Preconditions</strong>:<ul>
-     * <li><code>0 &lt; p &lt; 100</code> (otherwise an 
-     * <code>IllegalArgumentException</code> is thrown)</li>
-     * <li>at least one value must be stored (returns <code>Double.NaN
-     *     </code> otherwise)</li>
+     * <ul>
+     * <li>Returns <code>Double.NaN</code> if <code>values</code> has length 
+     * <code>0</code></li>
+     * <li>Returns (for any value of <code>p</code>) <code>values[0]</code>
+     *  if <code>values</code> has length <code>1</code></li>
+     * <li>Throws <code>IllegalArgumentException</code> if <code>values</code>
+     * is null  or p is not a valid quantile value (p must be greater than 0
+     * and less than or equal to 100)</li>
      * </ul>
+     * <p>
+     * See {@link org.apache.commons.math.stat.univariate.rank.Percentile} for
+     * a description of the percentile estimation algorithm used.
      * 
-     * @param values Is a double[] containing the values
-     * @param p the requested percentile (scaled from 0 - 100)
-     * @return An estimate for the pth percentile of the data values
+     * @param values input array of values
+     * @param p the percentile value to compute
+     * @return the percentile value or Double.NaN if the array is empty
+     * @throws IllegalArgumentException if <code>values</code> is null 
+     * or p is invalid
      */
     public static double percentile(final double[] values, final double p) {
             return percentile.evaluate(values,p);
     }
 
-    /**
-     * Returns an estimate for the pth percentile of the stored values. 
-     *<p>
-    * The implementation provided here follows the first estimation procedure presented
-     * <a href="http://www.itl.nist.gov/div898/handbook/prc/section2/prc252.htm">here.</a>
+     /**
+     * Returns an estimate of the <code>p</code>th percentile of the values
+     * in the <code>values</code> array, starting with the element in (0-based)
+     * position <code>begin</code> in the array and including <code>length</code>
+     * values.
      * <p>
-     * <strong>Preconditions</strong>:<ul>
-     * <li><code>0 &lt; p &lt; 100</code> (otherwise an 
-     * <code>IllegalArgumentException</code> is thrown)</li>
-     * <li>at least one value must be stored (returns <code>Double.NaN
-     *     </code> otherwise)</li>
+     * <ul>
+     * <li>Returns <code>Double.NaN</code> if <code>length = 0</code></li>
+     * <li>Returns (for any value of <code>p</code>) <code>values[begin]</code>
+     *  if <code>length = 1 </code></li>
+     * <li>Throws <code>IllegalArgumentException</code> if <code>values</code>
+     *  is null , <code>begin</code> or <code>length</code> is invalid, or 
+     * <code>p</code> is not a valid quantile value (p must be greater than 0
+     * and less than or equal to 100)</li>
      * </ul>
+     * <p>
+      * See {@link org.apache.commons.math.stat.univariate.rank.Percentile} for
+      * a description of the percentile estimation algorithm used.
      * 
-     * @param values Is a double[] containing the values
-     * @param begin processing at this point in the array
-     * @param length the number of elements to include
-     * @param p the requested percentile (scaled from 0 - 100)
-     * @return An estimate for the pth percentile of the data values
+     * @param values array of input values
+     * @param p  the percentile to compute
+     * @param begin  the first (0-based) element to include in the computation
+     * @param length  the number of array elements to include
+     * @return  the percentile value
+     * @throws IllegalArgumentException if the parameters are not valid or the
+     * input array is null
      */
-    public static double percentile(
-            final double[] values,
-            final int begin,
-            final int length, 
-            final double p) {
-            return percentile.evaluate(values, begin, length, p);
+    public static double percentile(final double[] values, final int begin, 
+            final int length, final double p) {
+        return percentile.evaluate(values, begin, length, p);
     }   
     
     /**
