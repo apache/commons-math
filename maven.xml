@@ -20,9 +20,11 @@
 		<attainGoal name="dist" />
   </goal>
 
+<!-- Uncomment when ant plugin relative path bug is fixed (still present in 1.8)
   <preGoal name="dist">
   	<attainGoal name="ant" />
   </preGoal>
+-->
 
 <!-- Uncomment to include compile time dependent jars (discovery, logging)
   <preGoal name="dist:build-bin">
