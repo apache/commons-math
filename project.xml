@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Revision: 1.39 $ $Date: 2004/01/30 19:52:08 $ -->
+<!-- $Revision: 1.40 $ $Date: 2004/02/10 19:15:04 $ -->
 <project>
-  <extend>../project.xml</extend>
+  <extend>../commons-build/project.xml</extend>
   <name>Math</name>
   <id>commons-math</id>
   <currentVersion>1.0-dev</currentVersion>
