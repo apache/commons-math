@@ -43,7 +43,7 @@ import org.apache.commons.math.stat.univariate.StatisticalSummary;
  * generate random values "like" those in the input file -- i.e., the values
  * generated will follow the distribution of the values in the file.
  * 
- * @version $Revision: 1.21 $ $Date: 2004/07/18 23:57:11 $
+ * @version $Revision: 1.22 $ $Date: 2004/07/22 02:34:25 $
  */
 public interface EmpiricalDistribution {
 
@@ -83,7 +83,9 @@ public interface EmpiricalDistribution {
 
 
     /**
-     * Returns a {@link StatisticalSummary} describing this distribution.
+     * Returns a 
+     * {@link org.apache.commons.math.stat.univariate.StatisticalSummary} 
+     * describing this distribution.
      * <strong>Preconditions:</strong><ul>
      * <li>the distribution must be loaded before invoking this method</li>
      * </ul>
@@ -108,9 +110,10 @@ public interface EmpiricalDistribution {
     int getBinCount();
 
     /**
-     * Returns a list of {@link SummaryStatistics} containing statistics
-     * describing the values in each of the bins.  The List is indexed on
-     * the bin number.
+     * Returns a list of 
+     * {@link org.apache.commons.math.stat.univariate.SummaryStatistics}
+     * containing statistics describing the values in each of the bins.  The
+     * List is indexed on the bin number.
      * 
      * @return List of bin statistics
      */

@@ -24,7 +24,7 @@ import org.apache.commons.math.FunctionEvaluationException;
  * Represents a polynomial spline function.
  * <p>
  * A <strong>polynomial spline function</strong> consists of a set of 
- * <i>interpolating polynomials</i> and an ascending array of  domain 
+ * <i>interpolating polynomials</i> and an ascending array of domain 
  * <i>knot points</i>, determining the intervals over which the spline function
  * is defined by the constituent polynomials.  The polynomials are assumed to
  * have been computed to match the values of another function at the knot
@@ -50,7 +50,7 @@ import org.apache.commons.math.FunctionEvaluationException;
  * than or equal to <code>x</code>.  The value returned is <br>
  * <code>polynomials[j](x - knot[j])</code></li></ol>
  *
- * @version $Revision: 1.8 $ $Date: 2004/07/20 12:55:01 $
+ * @version $Revision: 1.9 $ $Date: 2004/07/22 02:34:25 $
  */
 public class PolynomialSplineFunction implements UnivariateRealFunction, Serializable {
    

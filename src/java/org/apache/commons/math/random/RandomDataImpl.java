@@ -25,18 +25,16 @@ import java.util.Random;
 import java.util.Collection;
 
 /**
- * Implements the <code>RandomData</code> interface using
- * <code>java.util.Random</code> and
- * <code>java.util.Random.SecureRandom</code> instances to generate data.
+ * Implements the {@link RandomData} interface using
+ * {@link java.util.Random} and {@link java.util.Random.SecureRandom} instances
+ * to generate data.
  * <p>
- * Supports reseeding the underlying
- * <a href="http://en.wikipedia.org/wiki/Pseudorandom_number_generator">
- * PRNG</a>. The <code>SecurityProvider</code> and <code>Algorithm</code>
+ * Supports reseeding the underlying pseudo-random number generator (PRNG). 
+ * The <code>SecurityProvider</code> and <code>Algorithm</code>
  * used by the <code>SecureRandom</code> instance can also be reset.
  * <p>
- * For details on the PRNGs, see the JDK documentation for
- * <code>java.util.Random</code> and
- * <code>java.util.Random.SecureRandom</code>
+ * For details on the PRNGs, see {@link java.util.Random} and
+ * {@link java.util.Random.SecureRandom}.
  * <p>
  * <strong>Usage Notes</strong>: <ul>
  * <li>
@@ -45,9 +43,13 @@ import java.util.Collection;
  * to generate a random sequence of values or strings, you should use just
  * <strong>one</strong> <code>RandomDataImpl</code> instance repeatedly.</li>
  * <li>
- * The "secure" methods are *much* slower.  These should be used only when
- * a <a href="http://en.wikipedia.org/wiki/Cryptographically_secure_pseudo-random_number_generator">
- * Secure Random Sequence</a> is required.</li>
+ * The "secure" methods are *much* slower.  These should be used only when a
+ * cryptographically secure random sequence is required.  A secure random
+ * sequence is a sequence of pseudo-random values which, in addition to being
+ * well-dispersed (so no subsequence of values is an any more likely than other
+ * subsequence of the the same length), also has the additional property that
+ * knowledge of values generated up to any point in the sequence does not make
+ * it any easier to predict subsequent values.</li>
  * <li>
  * When a new <code>RandomDataImpl</code> is created, the underlying random
  * number generators are <strong>not</strong> intialized.  The first call to a
@@ -64,9 +66,12 @@ import java.util.Collection;
  * results in the same subsequent random sequence); whereas reSeedSecure(long)
  * does <strong>not</strong> reinitialize the secure random number generator
  * (so secure sequences started with calls to reseedSecure(long) won't be
- * identical).</li></ul>
+ * identical).</li>
+ * <li>
+ * This implementation is not synchronized.
+ * </ul>
  *
- * @version $Revision: 1.15 $ $Date: 2004/06/14 23:15:15 $
+ * @version $Revision: 1.16 $ $Date: 2004/07/22 02:34:25 $
  */
 public class RandomDataImpl implements RandomData, Serializable {
 
@@ -133,6 +138,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     /**
      * Generate a random int value uniformly distributed between
      * <code>lower</code> and <code>upper</code>, inclusive.
+     * 
      * @param lower the lower bound.
      * @param upper the upper bound.
      * @return the random integer.
@@ -149,6 +155,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     /**
      * Generate a random long value uniformly distributed between
      * <code>lower</code> and <code>upper</code>, inclusive.
+     * 
      * @param lower the lower bound.
      * @param upper the upper bound.
      * @return the random integer.
@@ -171,12 +178,10 @@ public class RandomDataImpl implements RandomData, Serializable {
      * <li>
      * SHA-1 hash is applied to yield a 20-byte binary digest.</li>
      * <li>
-     * Each byte of the binary digest is converted to 2 hex digits</li></ol>
-     * <p>
-     * TODO: find external reference or provide justification for the claim
-     * that this yields a cryptographically secure sequence of hex strings.
-     * @param len the desired string length.
-     * @return the random string.
+     * Each byte of the binary digest is converted to 2 hex digits.</li></ol>
+     *
+     * @param len the length of the generated string
+     * @return the random string
      */
     public String nextSecureHexString(int len) {
         if (len <= 0) {
@@ -229,7 +234,8 @@ public class RandomDataImpl implements RandomData, Serializable {
     /**
      * Generate a random int value uniformly distributed between
      * <code>lower</code> and <code>upper</code>, inclusive.  This algorithm
-     * using a secure random number generator for its engine.
+     * uses a secure random number generator.
+     * 
      * @param lower the lower bound.
      * @param upper the upper bound.
      * @return the random integer.
@@ -246,7 +252,8 @@ public class RandomDataImpl implements RandomData, Serializable {
     /**
      * Generate a random long value uniformly distributed between
      * <code>lower</code> and <code>upper</code>, inclusive.  This algorithm
-     * using a secure random number generator for its engine.
+     * uses a secure random number generator.
+     * 
      * @param lower the lower bound.
      * @param upper the upper bound.
      * @return the random integer.
@@ -261,7 +268,8 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
-     * Generates a random long value from the Poisson distribution with the given mean.
+     * Generates a random long value from the Poisson distribution with the
+     * given mean.
      * <p>
      * <strong>Algorithm Description</strong>:
      * Uses simulation of a Poisson process using Uniform deviates, as
@@ -269,7 +277,9 @@ public class RandomDataImpl implements RandomData, Serializable {
      * <a href ="http://dmawww.epfl.ch/benarous/Pmmi/interactive/rng7.htm">
      * here.</a>
      * <p>
-     * The Poisson process (and hence value returned) is bounded by 1000 * mean.
+     * The Poisson process (and hence value returned) is bounded by 
+     * 1000 * mean.
+     * 
      * @param mean mean of the Poisson distribution.
      * @return the random Poisson value.
      */
@@ -295,13 +305,13 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
-     * Generate a random value from a Normal distribution.  This algorithm
-     * generates random values for the general Normal distribution with the
-     * given mean, <code>mu</code> and the given standard deviation,
+     * Generate a random value from a Normal (a.k.a. Gaussian) distribution
+     * with the given mean, <code>mu</code> and the given standard deviation,
      * <code>sigma</code>.
-     * @param mu the mean of the distribution.
-     * @param sigma the standard deviation of the distribution.
-     * @return the random Normal value.
+     * 
+     * @param mu the mean of the distribution
+     * @param sigma the standard deviation of the distribution
+     * @return the random Normal value
      */
     public double nextGaussian(double mu, double sigma) {
         if (sigma <= 0) {
@@ -312,11 +322,16 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
+     * Returns a random value from an Exponential distribution with the given
+     * mean.
+     * <p>
      * <strong>Algorithm Description</strong>:  Uses the
      * <a href="http://www.jesus.ox.ac.uk/~clifford/a5/chap1/node5.html">
-     * Inversion Method</a> to generate exponential from uniform deviates.
-     * @param mean the mean of the distribution.
-     * @return the random Exponential value.
+     * Inversion Method</a> to generate exponentially distributed random values
+     * from uniform deviates.
+     * 
+     * @param mean the mean of the distribution
+     * @return the random Exponential value
      */
     public double nextExponential(double mean)  {
         if (mean < 0.0)  {
