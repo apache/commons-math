@@ -18,11 +18,20 @@ package org.apache.commons.math.stat.univariate.moment;
 import java.io.Serializable;
 
 /**
- * The SecondMoment is calculated using the following
- * <a href="http://www.spss.com/tech/stat/Algorithms/11.5/descriptives.pdf">
- * recursive strategy
- * </a>. Both incremental and evaluation strategies currently use this approach.
- * @version $Revision: 1.16 $ $Date: 2004/06/23 16:26:15 $
+ * Computes a statistic related to the Second Central Moment.  Specifically,
+ * what is computed is the sum of squared deviations from the sample mean.
+ * <p>
+ * The following recursive updating formula is used:
+ * <p>
+ * Let <ul>
+ * <li> dev = (current obs - previous mean) </li>
+ * <li> n = number of observations (including current obs) </li>
+ * </ul>
+ * Then
+ * <p>
+ * new value = old value + dev^2 * (n -1) / n.
+ * 
+ * @version $Revision: 1.17 $ $Date: 2004/06/27 19:37:51 $
  */
 public class SecondMoment extends FirstMoment implements Serializable {
 
@@ -32,9 +41,6 @@ public class SecondMoment extends FirstMoment implements Serializable {
     /** second moment of values that have been added */
     protected double m2 = Double.NaN;
 
-    /** temporary internal state made availabel for higher order moments */
-    protected double n1 = 0.0;
-
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
@@ -42,15 +48,8 @@ public class SecondMoment extends FirstMoment implements Serializable {
         if (n < 1) {
             m1 = m2 = 0.0;
         }
-
-        /* increment m1 and _n0, _dev,  _v) */
         super.increment(d);
-
-        n1 = n0 - 1;
-
-        /* increment and return m2 */
-        m2 += n1 * dev * v;
-
+        m2 += ((double) n - 1) * dev * nDev;
     }
 
     /**
@@ -59,7 +58,6 @@ public class SecondMoment extends FirstMoment implements Serializable {
     public void clear() {
         super.clear();
         m2 = Double.NaN;
-        n1 = 0.0;
     }
 
     /**

@@ -31,7 +31,7 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  *  Note that this statistic is undefined for n < 4.  <code>Double.Nan</code> is returned when
  *  there is not sufficient data to compute the statistic.
  *
- * @version $Revision: 1.22 $ $Date: 2004/06/23 16:26:14 $
+ * @version $Revision: 1.23 $ $Date: 2004/06/27 19:37:51 $
  */
 public class Kurtosis extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -86,14 +86,14 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic implements Se
         double kurtosis = Double.NaN;
         if (moment.getN() > 3) {
             double variance = moment.m2 / (double) (moment.n - 1);
-                
                 if (moment.n <= 3 || variance < 10E-20) {
                     kurtosis = 0.0;
                 } else {
+                    double n = (double) moment.n;
                     kurtosis =
-                        (moment.n0 * (moment.n0 + 1) * moment.m4 -
-                                3 * moment.m2 * moment.m2 * moment.n1) /
-                                (moment.n1 * moment.n2 * moment.n3 * variance * variance);
+                        (n * (n + 1) * moment.m4 -
+                                3 * moment.m2 * moment.m2 * (n - 1)) /
+                                ((n - 1) * (n -2) * (n -3) * variance * variance);
                 }
         }
         return kurtosis;

@@ -33,7 +33,7 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * Chan, T. F. andJ. G. Lewis 1979, <i>Communications of the ACM</i>,
  * vol. 22 no. 9, pp. 526-531.</a>.
  *
- * @version $Revision: 1.21 $ $Date: 2004/06/26 23:33:27 $
+ * @version $Revision: 1.22 $ $Date: 2004/06/27 19:37:51 $
  */
 public class Variance extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -84,7 +84,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
             } else if (moment.n == 1) {
                 return 0d;
             } else {
-                return moment.m2 / (moment.n0 - 1);
+                return moment.m2 / ((double) moment.n - 1d);
             }
     }
 

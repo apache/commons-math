@@ -20,57 +20,59 @@ import java.io.Serializable;
 import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
 
 /**
- * FirstMoment.java
+ * Computes the first moment (arithmetic mean).  Uses the definitional formula:
+ * <p>
+ * mean = sum(x_i) / n
+ * <p>
+ * where <code>n</code> is the number of observations.
+ * <p>
+ * To limit numeric errors, the value of the statistic is computed using the
+ * following recursive updating algorithm:
+ * <p>
+ * <ol>
+ * <li>Initialize <code>m = </code> the first value</li>
+ * <li>For each additional value, update using <br>
+ *   <code>m = m + (new value - m) / (number of observations)</code></li>
+ * </ol>
  *
- * The FirstMoment (arithmentic mean) is calculated using the following
- * <a href="http://www.spss.com/tech/stat/Algorithms/11.5/descriptives.pdf">
- * recursive strategy
- * </a>. Both incremental and evaluation strategies currently use this approach.
- * @version $Revision: 1.15 $ $Date: 2004/06/23 16:26:15 $
+ * @version $Revision: 1.16 $ $Date: 2004/06/27 19:37:51 $
  */
 public class FirstMoment extends AbstractStorelessUnivariateStatistic implements Serializable{
 
     /** Serializable version identifier */
     static final long serialVersionUID = -803343206421984070L; 
     
-    /** count of values that have been added */
+    /** Count of values that have been added */
     protected long n = 0;
 
-    /** first moment of values that have been added */
+    /** First moment of values that have been added */
     protected double m1 = Double.NaN;
-
-    /**
-     * temporary internal state made available for
-     * higher order moments
+    
+    /** 
+     * Deviation of most recently added value from previous first moment.
+     * Retained to prevent repeated computation in higher order moments.
      */
-    protected double dev = 0.0;
-
+    protected double dev = Double.NaN;
+    
     /**
-     * temporary internal state made available for
-     * higher order moments
+     * Deviation of most recently added value from previous first moment,
+     * normalized by previous sample size.  Retained to prevent repeated
+     * computation in higher order moments
      */
-    protected double v = 0.0;
-
-    /**
-     * temporary internal state made available for
-     * higher order moments
-     */
-    protected double n0 = 0.0;
+    protected double nDev = Double.NaN;
 
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
     public void increment(final double d) {
-        if (n < 1) {
+        if (n == 0) {
             m1 = 0.0;
         }
-
         n++;
+        double n0 = (double) n;
         dev = d - m1;
-        n0 = (double) n;
-        v = dev / n0;
-
-        m1 += v;
+        nDev = dev / n0;
+        m1 += nDev;
     }
 
     /**
@@ -79,9 +81,8 @@ public class FirstMoment extends AbstractStorelessUnivariateStatistic implements
     public void clear() {
         m1 = Double.NaN;
         n = 0;
-        dev = 0.0;
-        v = 0.0;
-        n0 = 0.0;
+        dev = Double.NaN;
+        nDev = Double.NaN;
     }
 
     /**

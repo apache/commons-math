@@ -18,11 +18,28 @@ package org.apache.commons.math.stat.univariate.moment;
 import java.io.Serializable;
 
 /**
- * The FourthMoment is calculated using the following
- * <a href="http://www.spss.com/tech/stat/Algorithms/11.5/descriptives.pdf">
- * recursive strategy
- * </a>. Both incremental and evaluation strategies currently use this approach.
- * @version $Revision: 1.17 $ $Date: 2004/06/23 16:26:15 $
+ * Computes a statistic related to the Fourth Central Moment.  Specifically,
+ * what is computed is the sum of 
+ * <p>
+ * (x_i - xbar) ^ 4,
+ * <p>
+ * where the x_i are the 
+ * sample observations and xbar is the sample mean.
+ * <p>
+ * The following recursive updating formula is used:
+ * <p>
+ * Let <ul>
+ * <li> dev = (current obs - previous mean) </li>
+ * <li> m2 = previous value of {@link SecondMoment} </li>
+ * <li> m2 = previous value of {@link ThirdMoment} </li>
+ * <li> n = number of observations (including current obs) </li>
+ * </ul>
+ * Then
+ * <p>
+ * new value = old value - 4 * (dev/n) * m3 + 6 * (dev/n)^2 * m2 + <br>
+ * [n^2 - 3 * (n-1)] * dev^4 * (n-1) / n^3
+ * 
+ * @version $Revision: 1.18 $ $Date: 2004/06/27 19:37:51 $
  */
 public class FourthMoment extends ThirdMoment implements Serializable{
 
@@ -31,13 +48,6 @@ public class FourthMoment extends ThirdMoment implements Serializable{
         
     /** fourth moment of values that have been added */
     protected double m4 = Double.NaN;
-
-    /** temporary internal state made available for higher order moments */
-    protected double prevM3 = 0.0;
-
-    /** temporary internal state made available for higher order moments */
-    protected double n3 = 0.0;
-
 
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
@@ -50,16 +60,15 @@ public class FourthMoment extends ThirdMoment implements Serializable{
             m1 = 0.0;
         }
 
-        /* retain previous m3 */
-        prevM3 = m3;
-
-        /* increment m1, m2 and m3 (and prevM2, _n0, _n1, _n2, _v, _v2) */
+        double prevM3 = m3;
+        double prevM2 = m2;
+        
         super.increment(d);
+        
+        double n0 = (double) n;
 
-        n3 = (double) (n - 3);
-
-        m4 = m4 - (4.0 * v * prevM3) + (6.0 * v2 * prevM2) +
-            ((n0 * n0) - 3 * n1) * (v2 * v2 * n1 * n0);
+        m4 = m4 - 4.0 * nDev * prevM3 + 6.0 * nDevSq * prevM2 +
+            ((n0 * n0) - 3 * (n0 -1)) * (nDevSq * nDevSq * (n0 - 1) * n0);
     }
 
     /**
@@ -75,8 +84,6 @@ public class FourthMoment extends ThirdMoment implements Serializable{
     public void clear() {
         super.clear();
         m4 = Double.NaN;
-        prevM3 = 0.0;
-        n3 = 0.0;
     }
 
 }

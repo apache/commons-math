@@ -26,26 +26,26 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  *  <p>
  *  skewness = [n / (n -1) (n - 2)] sum[(x_i - mean)^3] / std^3
  *  <p>
- *  where n is the number of values, mean is the {@link Mean} and std is the {@link StandardDeviation}
+ *  where n is the number of values, mean is the {@link Mean} and std is the 
+ * {@link StandardDeviation}
  *
- * @version $Revision: 1.21 $ $Date: 2004/06/23 16:26:14 $
+ * @version $Revision: 1.22 $ $Date: 2004/06/27 19:37:51 $
  */
 public class Skewness extends AbstractStorelessUnivariateStatistic implements Serializable {
 
     /** Serializable version identifier */
     static final long serialVersionUID = 7101857578996691352L;    
     
-    /** */
+    /** Third moment on which this statistic is based */
     protected ThirdMoment moment = null;
 
-    /** */
+     /** 
+     * Determines whether or not this statistic can be incremented or cleared.
+     * <p>
+     * Statistics based on (constructed from) external moments cannot
+     * be incremented or cleared.
+    */
     protected boolean incMoment = true;
-
-    /** */
-    protected double skewness = Double.NaN;
-
-    /** */
-    private long n = 0;
 
     /**
      * Constructs a Skewness
@@ -80,21 +80,18 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
      * @return the skewness of the available values.
      */
     public double getResult() {
-        if (n < moment.n) {
-            if (moment.n <= 0) {
-                skewness = Double.NaN;
-            }
-
-            double variance =
-                (moment.n < 1) ? 0.0 : moment.m2 / (double) (moment.n - 1);
-
-            if (moment.n <= 2 || variance < 10E-20) {
-                skewness = 0.0;
-            } else {
-                skewness = (moment.n0 * moment.m3) /
-                    (moment.n1 * moment.n2 * Math.sqrt(variance) * variance);
-            }
-            n = moment.n;
+        
+        if (moment.n < 3) {
+            return Double.NaN;
+        }
+        double variance = moment.m2 / (double) (moment.n - 1);
+        double skewness = Double.NaN;
+        if (variance < 10E-20) {
+            skewness = 0.0;
+        } else {
+            double n0 = (double) moment.getN();
+            skewness = (n0 * moment.m3) /
+            ((n0 - 1) * (n0 -2) * Math.sqrt(variance) * variance);
         }
         return skewness;
     }
@@ -113,14 +110,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
         if (incMoment) {
             moment.clear();
         }
-        skewness = Double.NaN;
-        n = 0;
     }
-
-    /*UnvariateStatistic Approach */
-
-    /** */
-    Mean mean = new Mean();
 
     /**
      * Returns the Skewness of the values array.
@@ -142,7 +132,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
         double skew = Double.NaN;
 
         if (test(values, begin, length)) {
-
+            Mean mean = new Mean();
             if (length <= 2) {
                 skew = 0.0;
             } else {

@@ -18,11 +18,21 @@ package org.apache.commons.math.stat.univariate.moment;
 import java.io.Serializable;
 
 /**
- * The ThirdMoment (arithmentic mean) is calculated using the following
- * <a href="http://www.spss.com/tech/stat/Algorithms/11.5/descriptives.pdf">
- * recursive strategy
- * </a>. Both incremental and evaluation strategies currently use this approach.
- * @version $Revision: 1.16 $ $Date: 2004/06/23 16:26:14 $
+ * Computes a statistic related to the Third Central Moment.  Specifically,
+ * what is computed is the sum of cubed deviations from the sample mean.
+ * <p>
+ * The following recursive updating formula is used:
+ * <p>
+ * Let <ul>
+ * <li> dev = (current obs - previous mean) </li>
+ * <li> m2 = previous value of {@link SecondMoment} </li>
+ * <li> n = number of observations (including current obs) </li>
+ * </ul>
+ * Then
+ * <p>
+ * new value = old value - 3 * (dev/n) * m2 + (n-1) * (n -2) * (dev^3/n^2)
+ * 
+ * @version $Revision: 1.17 $ $Date: 2004/06/27 19:37:51 $
  */
 public class ThirdMoment extends SecondMoment implements Serializable {
 
@@ -32,14 +42,13 @@ public class ThirdMoment extends SecondMoment implements Serializable {
     /** third moment of values that have been added */
     protected double m3 = Double.NaN;
 
-    /** temporary internal state made availabel for higher order moments */
-    protected double v2 = 0.0;
+     /**
+     * Square of deviation of most recently added value from previous first 
+     * moment, normalized by previous sample size.  Retained to prevent 
+     * repeated computation in higher order moments.  nDevSq = nDev * nDev.
+     */
+    protected double nDevSq = Double.NaN;
 
-    /** temporary internal state made availabel for higher order moments */
-    protected double n2 = 0.0;
-
-    /** temporary internal state made availabel for higher order moments */
-    protected double prevM2 = 0.0;
 
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
@@ -47,19 +56,13 @@ public class ThirdMoment extends SecondMoment implements Serializable {
     public void increment(final double d) {
         if (n < 1) {
             m3 = m2 = m1 = 0.0;
-        }
-
-        /* retain a reference to the last m2*/
-        prevM2 = m2;
-
-        /* increment m1 and m2 (and _n0, _n1, _v) */
+        }  
+       
+        double prevM2 = m2;
         super.increment(d);
-
-        v2 = v * v;
-        n2 = (double) (n - 2);
-
-        m3 = m3 - (3.0 * v * prevM2) + (n0 * n1 * n2 * v2 * v);
-
+        nDevSq = nDev * nDev;
+        double n0 = (double) n;
+        m3 = m3 - 3.0 * nDev * prevM2 + (n0 - 1) * (n0 - 2) * nDevSq * dev;
     }
 
     /**
@@ -75,9 +78,7 @@ public class ThirdMoment extends SecondMoment implements Serializable {
     public void clear() {
         super.clear();
         m3 = Double.NaN;
-        v2 = 0.0;
-        n2 = 0.0;
-        prevM2 = 0.0;
+        nDevSq = Double.NaN;
     }
 
 }
