@@ -1,12 +1,12 @@
 /*
  * Copyright 2003-2004 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,11 +30,11 @@ import org.apache.commons.math.stat.univariate.SummaryStatistics;
 
 /**
  * Implements <code>EmpiricalDistribution</code> interface.  This implementation
- * uses what amounts to the 
+ * uses what amounts to the
  * <a href="http://nedwww.ipac.caltech.edu/level5/March02/Silverman/Silver2_6.html">
  * Variable Kernel Method</a> with Gaussian smoothing:<p>
  * <strong>Digesting the input file</strong>
- * <ol><li>Pass the file once to compute min and max.</li>  
+ * <ol><li>Pass the file once to compute min and max.</li>
  * <li>Divide the range from min-max into <code>binCount</code> "bins."</li>
  * <li>Pass the data file again, computing bin counts and univariate
  *     statistics (mean, std dev.) for each of the bins </li>
@@ -53,39 +53,39 @@ import org.apache.commons.math.stat.univariate.SummaryStatistics;
  *    entry per line.</li>
  * </ul></p>
  *
- * @version $Revision: 1.20 $ $Date: 2004/06/02 00:20:21 $
+ * @version $Revision: 1.21 $ $Date: 2004/06/14 23:15:14 $
  */
 public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistribution {
 
     /** Serializable version identifier */
     static final long serialVersionUID = -6773236347582113490L;
-    
+
     /** List of DescriptiveStatistics objects characterizing the bins */
     private ArrayList binStats = null;
-    
+
     /** Sample statistics */
     SummaryStatistics sampleStats = null;
-    
+
     /** number of bins */
     private int binCount = 1000;
-    
+
     /** is the distribution loaded? */
     private boolean loaded = false;
-    
+
     /** upper bounds of subintervals in (0,1) "belonging" to the bins */
     private double[] upperBounds = null;
-    
+
     /** RandomData instance to use in repeated calls to getNext() */
     private RandomData randomData = new RandomDataImpl();
-    
-    /** 
+
+    /**
      * Creates a new EmpiricalDistribution  with the default bin count
      */
     public EmpiricalDistributionImpl() {
         binStats = new ArrayList();
     }
-    
-    /** 
+
+    /**
      * Creates a new EmpiricalDistribution  with the specified bin count
      * @param binCount number of bins
      */
@@ -106,12 +106,12 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
             throw new RuntimeException(e.getMessage());
         }
         loaded = true;
-        
+
     }
-    
+
     public void load(String filePath) throws IOException {
-        BufferedReader in = 
-            new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));  
+        BufferedReader in =
+            new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));
         try {
             DataAdapter da = new StreamDataAdapter(in);
             try {
@@ -119,16 +119,16 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
             } catch (Exception e) {
                 throw new IOException(e.getMessage());
             }
-            in = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));  
+            in = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));
             fillBinStats(in);
             loaded = true;
         } finally {
            if (in != null) try {in.close();} catch (Exception ex) {};
         }
     }
-    
+
     public void load(URL url) throws IOException {
-        BufferedReader in = 
+        BufferedReader in =
             new BufferedReader(new InputStreamReader(url.openStream()));
         try {
             DataAdapter da = new StreamDataAdapter(in);
@@ -144,7 +144,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
            if (in != null) try {in.close();} catch (Exception ex) {};
         }
     }
-     
+
     public void load(File file) throws IOException {
         BufferedReader in = new BufferedReader(new FileReader(file));
         try {
@@ -165,20 +165,20 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
                 };
         }
     }
-    
+
     /**
-     * Provides methods for computing <code>sampleStats</code> and 
-     * <code>beanStats</code> abstracting the source of data. 
+     * Provides methods for computing <code>sampleStats</code> and
+     * <code>beanStats</code> abstracting the source of data.
      */
     private abstract class DataAdapter{
-        public abstract void computeBinStats(double min, double delta) 
+        public abstract void computeBinStats(double min, double delta)
                 throws Exception;
         public abstract void computeStats() throws Exception;
     }
     /**
      * Factory of <code>DataAdapter</code> objects. For every supported source
      * of data (array of doubles, file, etc.) an instance of the proper object
-     * is returned. 
+     * is returned.
      */
     private class DataAdapterFactory{
         public DataAdapter getAdapter(Object in) {
@@ -206,7 +206,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         /**
          * Computes binStats
          */
-        public void computeBinStats(double min, double delta) 
+        public void computeBinStats(double min, double delta)
                 throws IOException {
             String str = null;
             double val = 0.0d;
@@ -263,17 +263,17 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
             for (int i = 0; i < inputArray.length; i++) {
                 SummaryStatistics stats =
                     (SummaryStatistics) binStats.get(
-                        Math.max((int) Math.ceil((inputArray[i] - min) / delta) 
+                        Math.max((int) Math.ceil((inputArray[i] - min) / delta)
                             - 1, 0));
                 stats.addValue(inputArray[i]);
             }
-        }    
+        }
     }
 
     /**
      * Fills binStats array (second pass through data file).
      */
-    private void fillBinStats(Object in) throws IOException {    
+    private void fillBinStats(Object in) throws IOException {
         // Load array of bin upper bounds -- evenly spaced from min - max
         double min = sampleStats.getMin();
         double max = sampleStats.getMax();
@@ -284,7 +284,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
             binUpperBounds[i] = binUpperBounds[i-1] + delta;
         }
         binUpperBounds[binCount -1] = max;
-        
+
         // Initialize binStats ArrayList
         if (!binStats.isEmpty()) {
             binStats.clear();
@@ -293,7 +293,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
             SummaryStatistics stats = SummaryStatistics.newInstance();
             binStats.add(i,stats);
         }
-        
+
         // Filling data in binStats Array
         DataAdapterFactory aFactory = new DataAdapterFactory();
         DataAdapter da = aFactory.getAdapter(in);
@@ -306,7 +306,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
                 throw new IOException(e.getMessage());
             }
         }
-        
+
         // Assign upperBounds based on bin counts
         upperBounds = new double[binCount];
         upperBounds[0] =
@@ -319,27 +319,27 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         }
         upperBounds[binCount-1] = 1.0d;
     }
-    
+
     /**
      * Generates a random value from this distribution
      * @return the random value.
      * @throws IllegalStateException if the distribution has not been loaded
      */
-    public double getNextValue() throws IllegalStateException {    
-        
+    public double getNextValue() throws IllegalStateException {
+
         if (!loaded) {
             throw new IllegalStateException("distribution not loaded");
         }
-        
+
         // Start with a uniformly distributed random number in (0,1)
         double x = Math.random();
-       
+
         // Use this to select the bin and generate a Gaussian within the bin
         for (int i = 0; i < binCount; i++) {
            if (x <= upperBounds[i]) {
                SummaryStatistics stats = (SummaryStatistics)binStats.get(i);
-               if (stats.getN() > 0) { 
-                   if (stats.getStandardDeviation() > 0) {  // more than one obs 
+               if (stats.getN() > 0) {
+                   if (stats.getStandardDeviation() > 0) {  // more than one obs
                         return randomData.nextGaussian
                             (stats.getMean(),stats.getStandardDeviation());
                    } else {
@@ -350,41 +350,41 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         }
         throw new RuntimeException("No bin selected");
     }
-       
+
     public void loadDistribution(String filePath) throws IOException {
         throw new UnsupportedOperationException("Not Implemented yet :-(");
     }
-    
+
     public void loadDistribution(File file) throws IOException {
         throw new UnsupportedOperationException("Not Implemented yet :-(");
     }
-       
-    public void saveDistribution(String filePath) throws 
+
+    public void saveDistribution(String filePath) throws
         IOException,IllegalStateException {
        throw new UnsupportedOperationException("Not Implemented yet :-(");
     }
-    
-    public void saveDistribution(File file) throws 
+
+    public void saveDistribution(File file) throws
         IOException,IllegalStateException {
        throw new UnsupportedOperationException("Not Implemented yet :-(");
     }
-        
+
     public SummaryStatistics getSampleStats() {
         return sampleStats;
     }
-    
+
     public int getBinCount() {
         return binCount;
     }
-      
+
     public ArrayList getBinStats() {
         return binStats;
     }
-       
+
     public double[] getUpperBounds() {
         return upperBounds;
     }
-    
+
     public boolean isLoaded() {
         return loaded;
     }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2003-2004 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,74 +26,74 @@ import java.net.MalformedURLException;
  * Generates values for use in simulation applications.
  * <p>
  * How values are generated is determined by the <code>mode</code>
- * property. 
- * <p> 
+ * property.
+ * <p>
  * Supported <code>mode</code> values are: <ul>
  * <li> DIGEST_MODE -- uses an empirical distribution </li>
- * <li> REPLAY_MODE -- replays data from <code>valuesFileURL</code></li> 
+ * <li> REPLAY_MODE -- replays data from <code>valuesFileURL</code></li>
  * <li> UNIFORM_MODE -- generates uniformly distributed random values with
  *                      mean = <code>mu</code> </li>
  * <li> EXPONENTIAL_MODE -- generates exponentially distributed random values
  *                         with mean = <code>mu</code></li>
  * <li> GAUSSIAN_MODE -- generates Gaussian distributed random values with
- *                       mean = <code>mu</code> and 
+ *                       mean = <code>mu</code> and
  *                       standard deviation = <code>sigma</code></li>
- * <li> CONSTANT_MODE -- returns <code>mu</code> every time.</li></ul> 
+ * <li> CONSTANT_MODE -- returns <code>mu</code> every time.</li></ul>
  *
- * @version $Revision: 1.12 $ $Date: 2004/02/21 21:35:15 $
+ * @version $Revision: 1.13 $ $Date: 2004/06/14 23:15:15 $
  *
  */
 public class ValueServer implements Serializable {
     /** mode determines how values are generated */
     private int mode = 5;
-    
+
     /** URI to raw data values  */
     private URL valuesFileURL = null;
-    
+
     /** Mean for use with non-data-driven modes */
     private double mu = 0.0;
-    
+
     /** Standard deviation for use with GAUSSIAN_MODE */
     private double sigma = 0.0;
-    
+
     /** Empirical probability distribution for use with DIGEST_MODE */
     private EmpiricalDistribution empiricalDistribution = null;
-    
+
     /** file pointer for REPLAY_MODE */
     private BufferedReader filePointer = null;
-    
+
     /** RandomDataImpl to use for random data generation */
     private RandomDataImpl randomData = new RandomDataImpl();
-    
+
     // Data generation modes ======================================
-   
+
     /** Use empirical distribution  */
-    public static final int DIGEST_MODE = 0;        
-    
+    public static final int DIGEST_MODE = 0;
+
     /** Replay data from valuesFilePath */
-    public static final int REPLAY_MODE = 1;      
-    
+    public static final int REPLAY_MODE = 1;
+
     /** Uniform random deviates with mean = mu */
-    public static final int UNIFORM_MODE = 2;    
-    
+    public static final int UNIFORM_MODE = 2;
+
     /** Exponential random deviates with mean = mu */
-    public static final int EXPONENTIAL_MODE = 3;  
-    
+    public static final int EXPONENTIAL_MODE = 3;
+
     /** Gaussian random deviates with mean = mu, std dev = sigma */
-    public static final int GAUSSIAN_MODE = 4;  
-    
+    public static final int GAUSSIAN_MODE = 4;
+
     /** Always return mu */
-    public static final int CONSTANT_MODE = 5;   
-    
+    public static final int CONSTANT_MODE = 5;
+
     /** Creates new ValueServer */
     public ValueServer() {
     }
 
-    /** 
+    /**
      * Returns the next generated value, generated according
-     * to the mode value (see MODE constants). 
+     * to the mode value (see MODE constants).
      *
-     * @return generated value 
+     * @return generated value
      * @throws IOException in REPLAY_MODE if a file I/O error occurs
      */
     public double getNext() throws IOException {
@@ -108,7 +108,7 @@ public class ValueServer implements Serializable {
                        ("Bad mode: " + mode);
         }
     }
-    
+
     /**
      * Fills the input array with values generated using getNext() repeatedly.
      *
@@ -120,9 +120,9 @@ public class ValueServer implements Serializable {
             values[i] = getNext();
         }
     }
-    
+
     /**
-     * Returns an array of length <code>length</code> with values generated 
+     * Returns an array of length <code>length</code> with values generated
      * using getNext() repeatedly.
      *
      * @param length length of output array
@@ -135,9 +135,9 @@ public class ValueServer implements Serializable {
             out[i] = getNext();
         }
         return out;
-    }       
-    
-    /** 
+    }
+
+    /**
      * Computes the empirical distribution using values from the file
      * in <code>valuesFileURL</code>, using the default number of bins.
      * <p>
@@ -153,8 +153,8 @@ public class ValueServer implements Serializable {
         empiricalDistribution = new EmpiricalDistributionImpl();
         empiricalDistribution.load(valuesFileURL);
     }
-    
-    /** 
+
+    /**
      * Computes the empirical distribution using values from the file
      * in <code>valuesFileURL</code> and <code>binCount</code> bins.
      * <p>
@@ -168,28 +168,28 @@ public class ValueServer implements Serializable {
      * distribution
      * @throws IOException if an error occurs reading the input file
      */
-    public void computeDistribution(int binCount) 
+    public void computeDistribution(int binCount)
             throws IOException {
         empiricalDistribution = new EmpiricalDistributionImpl(binCount);
         empiricalDistribution.load(valuesFileURL);
         mu = empiricalDistribution.getSampleStats().getMean();
         sigma = empiricalDistribution.getSampleStats().getStandardDeviation();
     }
-    
+
     /** Getter for property mode.
      * @return Value of property mode.
      */
     public int getMode() {
         return mode;
     }
-    
+
     /** Setter for property mode.
      * @param mode New value of property mode.
      */
     public void setMode(int mode) {
         this.mode = mode;
     }
-    
+
     /**
      * Getter for <code>valuesFileURL<code>
      * @return Value of property valuesFileURL.
@@ -197,7 +197,7 @@ public class ValueServer implements Serializable {
     public URL getValuesFileURL() {
         return valuesFileURL;
     }
-    
+
     /**
      * Sets the <code>valuesFileURL</code> using a string URL representation
      * @param url String representation for new valuesFileURL.
@@ -206,7 +206,7 @@ public class ValueServer implements Serializable {
     public void setValuesFileURL(String url) throws MalformedURLException {
         this.valuesFileURL = new URL(url);
     }
-    
+
     /**
      * Sets the <code>valuesFileURL</code>
      * @param url New value of property valuesFileURL.
@@ -214,15 +214,15 @@ public class ValueServer implements Serializable {
     public void setValuesFileURL(URL url) {
         this.valuesFileURL = url;
     }
-    
+
     /** Getter for property empiricalDistribution.
      * @return Value of property empiricalDistribution.
      */
     public EmpiricalDistribution getEmpiricalDistribution() {
         return empiricalDistribution;
-    }    
-    
-    /**  
+    }
+
+    /**
      * Opens <code>valuesFileURL</code> to use in REPLAY_MODE.
      *
      * @throws IOException if an error occurs opening the file
@@ -231,8 +231,8 @@ public class ValueServer implements Serializable {
     public void openReplayFile() throws IOException {
         resetReplayFile();
     }
-    
-    /**  
+
+    /**
      * Resets REPLAY_MODE file pointer to the beginning of the <code>valuesFileURL</code>.
      *
      * @throws IOException if an error occurs opening the file
@@ -246,8 +246,8 @@ public class ValueServer implements Serializable {
         }
         filePointer = new BufferedReader(new InputStreamReader(valuesFileURL.openStream()));
     }
-    
-    /** 
+
+    /**
      * Closes <code>valuesFileURL</code> after use in REPLAY_MODE.
      *
      * @throws IOException if an error occurs closing the file
@@ -256,66 +256,66 @@ public class ValueServer implements Serializable {
         if (filePointer != null) {
             filePointer.close();
             filePointer = null;
-        }     
+        }
     }
-    
+
     /** Getter for property mu.
      * @return Value of property mu.
      */
     public double getMu() {
         return mu;
     }
-    
+
     /** Setter for property mu.
      * @param mu New value of property mu.
      */
     public void setMu(double mu) {
         this.mu = mu;
     }
-    
+
     /** Getter for property sigma.
      * @return Value of property sigma.
      */
     public double getSigma() {
         return sigma;
     }
-    
+
     /** Setter for property sigma.
      * @param sigma New value of property sigma.
      */
     public void setSigma(double sigma) {
         this.sigma = sigma;
     }
-    
+
     //------------- private methods ---------------------------------
-    
-    /** 
+
+    /**
      * Gets a random value in DIGEST_MODE.
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>Before this method is called, <code>computeDistribution()</code>
-     * must have completed successfully; otherwise an 
+     * must have completed successfully; otherwise an
      * <code>IllegalStateException</code> will be thrown</li></ul>
      *
-     * @return next random value from the empirical distribution digest 
+     * @return next random value from the empirical distribution digest
      */
     private double getNextDigest() {
         if ((empiricalDistribution == null) ||
             (empiricalDistribution.getBinStats().size() == 0)) {
             throw new IllegalStateException("Digest not initialized");
         }
-        return empiricalDistribution.getNextValue();     
+        return empiricalDistribution.getNextValue();
     }
-    
+
     /**
      * Gets next sequential value from the <code>valuesFileURL</code>.
      * <p>
      * Throws an IOException if the read fails.
      * <p>
-     * This method will open the <code>valuesFileURL</code> if there is no 
+     * This method will open the <code>valuesFileURL</code> if there is no
      * replay file open.
      * <p>
-     * The <code>valuesFileURL</code> will be closed and reopened to wrap around 
+     * The <code>valuesFileURL</code> will be closed and reopened to wrap around
      * from EOF to BOF if EOF is encountered.
      *
      * @return next value from the replay file
@@ -330,29 +330,29 @@ public class ValueServer implements Serializable {
             closeReplayFile();
             resetReplayFile();
             str = filePointer.readLine();
-        }         
+        }
         return new Double(str).doubleValue();
     }
-    
-    /** 
-     * Gets a uniformly distributed random value with mean = mu. 
+
+    /**
+     * Gets a uniformly distributed random value with mean = mu.
      *
      * @return random uniform value
      */
     private double getNextUniform() {
         return randomData.nextUniform(0, 2 * mu);
     }
-    
-    /** 
-     * Gets an exponentially distributed random value with mean = mu. 
+
+    /**
+     * Gets an exponentially distributed random value with mean = mu.
      *
      * @return random exponential value
      */
     private double getNextExponential() {
-        return randomData.nextExponential(mu);    
+        return randomData.nextExponential(mu);
     }
-    
-    /** 
+
+    /**
      * Gets a Gaussian distributed random value with mean = mu
      * and standard deviation = sigma.
      *
@@ -361,5 +361,5 @@ public class ValueServer implements Serializable {
     private double getNextGaussian() {
         return randomData.nextGaussian(mu, sigma);
     }
-    
+
 }
