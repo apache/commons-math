@@ -23,7 +23,7 @@ import org.apache.commons.math.stat.univariate.UnivariateStatisticAbstractTest;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
- * @version $Revision: 1.11 $ $Date: 2004/03/13 20:03:16 $
+ * @version $Revision: 1.12 $ $Date: 2004/03/21 04:26:54 $
  */
 public class PercentileTest extends UnivariateStatisticAbstractTest{
 
@@ -48,8 +48,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
     public UnivariateStatistic getUnivariateStatistic() {
        
         if(stat == null)
-            stat = new Percentile(95.0);
-            
+            stat = new Percentile(95.0);         
         return stat;
     }
 
@@ -57,8 +56,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
      * @see org.apache.commons.math.stat.univariate.UnivariateStatisticAbstractTest#expectedValue()
      */
     public double expectedValue() {
-        // TODO: fix this bad calculation in Percentile
-        return 20.82;
+        return this.percentile95;
     }
 
     public void testHighPercentile(){
@@ -85,5 +83,10 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
         };
         Percentile p = new Percentile(90); 
         assertEquals(95.1981, p.evaluate(d), 1.0e-4);
+    }
+    
+    public void test5() {
+        Percentile percentile = new Percentile(5);
+        assertEquals(this.percentile5, percentile.evaluate(testArray), getTolerance());
     }
 }
