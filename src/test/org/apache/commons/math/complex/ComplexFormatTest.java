@@ -82,4 +82,19 @@ public class ComplexFormatTest extends TestCase {
 		assertEquals( ComplexFormat.formatComplex( c ), "232.22 - 342.33i" );
 	}
 
+	public void testNan() {
+		Complex c = new Complex(Double.NaN, Double.NaN);
+		assertEquals( complexFormat.format( c ), "(NaN) + (NaN)i" );
+	}
+
+	public void testPositiveInfinity() {
+		Complex c = new Complex(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+		assertEquals( complexFormat.format( c ), "(Infinity) + (Infinity)i" );
+	}
+
+	public void testNegativeInfinity() {
+		Complex c = new Complex(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
+		assertEquals( complexFormat.format( c ), "(-Infinity) - (Infinity)i" );
+	}
+
 }

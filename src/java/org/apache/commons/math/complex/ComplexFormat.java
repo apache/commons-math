@@ -24,16 +24,14 @@ import java.text.NumberFormat;
  * can be configured.
  *
  * @author Apache Software Foundation
- * @version $Revision: 1.5 $ $Date: 2004/04/27 04:37:59 $
+ * @version $Revision: 1.6 $ $Date: 2004/05/23 00:52:32 $
  */
 public class ComplexFormat {
 
     /** The default complex format. */ 
 	private static final ComplexFormat DEFAULT = new ComplexFormat();
 
-	// @TODO This class only allows for max fraction digits, we might want to allow other parameters
-    
-    /** The notation used to signify the imaginary part of the complex number. */
+	/** The notation used to signify the imaginary part of the complex number. */
     private String imaginaryCharacter = "i";
 
     /** The maximum number of decimal digits in the formatted output. */ 
@@ -74,24 +72,31 @@ public class ComplexFormat {
      */
     public String format(Complex c) {
 
-		// @TODO What happens when either a real or imaginary is NaN, INIFINITY, etc?
-
         NumberFormat format = NumberFormat.getInstance();
         format.setMaximumFractionDigits( fractionDigits );
 
         StringBuffer buffer = new StringBuffer();
 
-        buffer.append( format.format( c.getReal() ) );
+		if( Double.isNaN( c.getReal() ) || Double.isInfinite( c.getReal() ) ) {
+			buffer.append( "(" + c.getReal() + ")" );
+		} else {
+			buffer.append( format.format( c.getReal() ) );
+		}
 
         if( c.getImaginary() < 0 ) {
             buffer.append( " - " );
-            buffer.append( format.format( Math.abs(c.getImaginary()) ) );
-            buffer.append( imaginaryCharacter );
-        } else if( c.getImaginary() > 0 ) {
+        } else if( c.getImaginary() > 0 || Double.isNaN( c.getImaginary() )) {
             buffer.append( " + " );
-            buffer.append( format.format( c.getImaginary() ) );
-            buffer.append( imaginaryCharacter );
         }            
+
+		if( c.getImaginary() != 0 ) {
+			if( Double.isNaN( c.getImaginary() ) || Double.isInfinite( c.getImaginary() ) ) {
+				buffer.append( "(" + Math.abs( c.getImaginary() ) + ")" );
+			} else {
+				buffer.append( format.format( Math.abs(c.getImaginary()) ) );
+			}
+			buffer.append( imaginaryCharacter );
+		}
         
         return( buffer.toString() );
 
