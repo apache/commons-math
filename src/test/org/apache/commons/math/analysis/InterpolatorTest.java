@@ -26,7 +26,7 @@ import junit.framework.TestSuite;
 /**
  * Test the interpolation framework.
  *
- * @version $Revision: 1.11 $ $Date: 2004/02/16 06:30:21 $ 
+ * @version $Revision: 1.12 $ $Date: 2004/02/17 04:33:16 $ 
  */
 public class InterpolatorTest extends TestCase {
 
@@ -47,7 +47,9 @@ public class InterpolatorTest extends TestCase {
         double yval[] = { 0.0, 0.5, 1.0 };
         UnivariateRealInterpolator i = new SplineInterpolator();
         UnivariateRealFunction f = i.interpolate(xval, yval);
+        
         /*  todo: rewrite using assertions
+        
         double x;
         x = 0.0;
         System.out.println(
@@ -79,6 +81,29 @@ public class InterpolatorTest extends TestCase {
         double yval[] = { 0.0, 0.5, 1.0, 1.5 };
         UnivariateRealInterpolator i = new SplineInterpolator();
         UnivariateRealFunction f = i.interpolate(xval, yval);
+        /* todo: rewrite with assertions
+        double x;
+        x = 0.0;
+        System.out.println(
+                "x="
+                + x
+                + " y="
+                + f.value(x));
+
+        x = 0.5;
+        System.out.println(
+                "x="
+                + x
+                + " y="
+                + f.value(x));
+
+        x = 1 - 1E-6;
+        System.out.println(
+                "x="
+                + x
+                + " y="
+                + f.value(x));
+    */
 
     }
 
