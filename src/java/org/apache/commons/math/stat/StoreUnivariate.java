@@ -79,13 +79,6 @@ public interface StoreUnivariate extends Univariate {
     public static int PLATYKURTIC = -1;
 
     /** 
-     * Returns the mode of the values that have been added.  The mode is
-     * the element which occurs with the most frequency
-     * @return the mode
-     */
-    public abstract double getMode();
-
-    /** 
      * Returns the skewness of a given distribution.  Skewness is a 
      * measure of the assymetry of a given distribution. 
      * 
