@@ -35,7 +35,7 @@ import java.util.TreeMap;
  * The values are ordered using the default (natural order), unless a  
  * <code>Comparator</code> is supplied in the constructor.
  *
- * @version $Revision: 1.27 $ $Date: 2004/08/22 01:42:58 $
+ * @version $Revision: 1.28 $ $Date: 2004/09/19 22:47:27 $
  */
 public class Frequency implements Serializable {
     
@@ -149,6 +149,10 @@ public class Frequency implements Serializable {
     
     /**
      * Returns an Iterator over the set of values that have been added.
+     * <p>
+     * If added values are itegral (i.e., integers, longs, Integers, or Longs), 
+     * they are converted to Longs when they are added, so the objects returned
+     * by the Iterator will in this case be Longs.
      * 
      * @return values Iterator
      */
@@ -288,6 +292,9 @@ public class Frequency implements Serializable {
     public long getCumFreq(Object v) {
         if (getSumFreq() == 0) {
             return 0;
+        }
+        if (v instanceof Integer) {
+            return getCumFreq(((Integer) v).longValue());
         }
         Comparator c = freqTable.comparator();
         if (c == null) {

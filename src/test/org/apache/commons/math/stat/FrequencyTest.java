@@ -26,7 +26,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link Frequency} class.
  *
- * @version $Revision: 1.13 $ $Date: 2004/08/12 15:33:39 $
+ * @version $Revision: 1.14 $ $Date: 2004/09/19 22:47:27 $
  */
 
 public final class FrequencyTest extends TestCase {
@@ -69,6 +69,7 @@ public final class FrequencyTest extends TestCase {
         assertEquals("zero cumulative frequency", 0, f.getCumFreq(0));
         assertEquals("one cumulative frequency", 3,  f.getCumFreq(1));
         assertEquals("two cumulative frequency", 4,  f.getCumFreq(2));
+        assertEquals("Integer argument cum freq",4, f.getCumFreq(new Integer(2)));
         assertEquals("five cumulative frequency", 4,  f.getCumFreq(5));
         assertEquals("foo cumulative frequency", 0,  f.getCumFreq("foo"));
         
@@ -128,6 +129,7 @@ public final class FrequencyTest extends TestCase {
         assertEquals("foo pct",0,f.getPct("foo"),tolerance);
         assertEquals("one cum pct",0.25,f.getCumPct(1),tolerance);
         assertEquals("two cum pct",0.50,f.getCumPct(new Long(2)),tolerance);
+        assertEquals("Integer argument",0.50,f.getCumPct(new Integer(2)),tolerance);
         assertEquals("three cum pct",1.0,f.getCumPct(threeL),tolerance);
         assertEquals("five cum pct",1.0,f.getCumPct(5),tolerance);
         assertEquals("zero cum pct",0.0,f.getCumPct(0),tolerance);
