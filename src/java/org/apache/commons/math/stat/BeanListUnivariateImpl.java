@@ -54,49 +54,71 @@
 package org.apache.commons.math.stat;
 
 import java.util.List;
-import org.apache.commons.beanutils.PropertyUtils;
+
+import org.apache.commons.math.util.BeanTransformer;
 
 /**
  * This implementation of StoreUnivariate uses commons-beanutils to gather
  * univariate statistics for a List of Java Beans by property.  This 
  * implementation uses beanutils' PropertyUtils to get a simple, nested,
  * indexed, mapped, or combined property from an element of a List.
- *
- * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
+ * @version $Revision: 1.3 $ $Date: 2003/07/09 21:45:23 $
  */
 public class BeanListUnivariateImpl extends ListUnivariateImpl {
 
+    /**
+     * propertyName of the property to get from the bean
+     */
     private String propertyName;
 
+    /**
+     * Construct a BeanListUnivariate with specified
+     * backing list
+     * @param list Backing List
+     */
     public BeanListUnivariateImpl(List list) {
-        super( list );
+        super(list);
     }
 
+    /**
+     * Construct a BeanListUnivariate with specified
+     * backing list and propertyName
+     * @param list Backing List
+     * @param propertyName Bean propertyName
+     */
     public BeanListUnivariateImpl(List list, String propertyName) {
-        super( list );
-        setPropertyName( propertyName );
+        super(list);
+        setPropertyName(propertyName);
+        this.transformer = new BeanTransformer(propertyName);
     }
 
+    /**
+     * @return propertyName
+     */
     public String getPropertyName() {
         return propertyName;
     }
 
+    /**
+     * @param propertyName Name of Property
+     */
     public void setPropertyName(String propertyName) {
-        System.out.println( "Set prop name; " + propertyName );
+        System.out.println("Set prop name; " + propertyName);
         this.propertyName = propertyName;
+        this.transformer = new BeanTransformer(propertyName);
     }
 
-
-    /* (non-Javadoc)
+   /**
      * @see org.apache.commons.math.Univariate#addValue(double)
      */
     public void addValue(double v) {
-        String msg = "The BeanListUnivariateImpl does not accept values " +
-            "through the addValue method.  Because elements of this list " +
-            "are JavaBeans, one must be sure to set the 'propertyName' " +
-            "property and add new Beans to the underlying list via the " +
-            "addBean(Object bean) method";
-        throw new UnsupportedOperationException( msg );
+        String msg =
+            "The BeanListUnivariateImpl does not accept values "
+                + "through the addValue method.  Because elements of this list "
+                + "are JavaBeans, one must be sure to set the 'propertyName' "
+                + "property and add new Beans to the underlying list via the "
+                + "addBean(Object bean) method";
+        throw new UnsupportedOperationException(msg);
     }
 
     /**
@@ -106,32 +128,6 @@ public class BeanListUnivariateImpl extends ListUnivariateImpl {
      */
     public void addObject(Object bean) {
         list.add(bean);
-    }
-
-    /**
-     * Reads the property of an element in the list.
-     *
-     * @param index The location of the value in the internal List
-     * @return A Number object representing the value at a given 
-     *         index
-     */
-    protected Number getInternalIndex(int index) {
-
-        try {
-            Number n = (Number) PropertyUtils.getProperty( list.get( index ), 
-                                                           propertyName );
-
-            return n;
-        } catch( Exception e ) {
-            // TODO: We could use a better strategy for error handling
-            // here.
-
-            // This is a somewhat foolish design decision, but until
-            // we figure out what needs to be done, let's return NaN
-            return new Double(Double.NaN);
-        }
-
-
     }
 
 }

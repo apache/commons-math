@@ -57,6 +57,7 @@ package org.apache.commons.math.stat;
  * StatUtils provides easy static implementations of common double[] based
  * statistical methods. These return a single result value or in some cases, as
  * identified in the javadoc for each method, Double.NaN.
+ * @version $Revision: 1.14 $ $Date: 2003/07/09 21:45:23 $
  */
 public class StatUtils {
 
@@ -161,29 +162,6 @@ public class StatUtils {
     }
 
     /**
-     * Returns the geometric mean for this collection of values
-     * @param values Is a double[] containing the values
-     * @return the geometric mean or Double.NaN if the array is empty or
-     * any of the values are &lt;= 0.
-     */
-    public static double geometricMean(double[] values) {
-        return geometricMean(values, 0, values.length);
-    }
-
-    /**
-     * Returns the geometric mean for this collection of values
-     * @param values Is a double[] containing the values
-     * @param begin processing at this point in the array
-     * @param length processing at this point in the array
-     * @return the geometric mean or Double.NaN if the array is empty or
-     * any of the values are &lt;= 0.
-     */
-    public static double geometricMean(double[] values, int begin, int length) {
-        testInput(values, begin, length);
-        return Math.exp(sumLog(values, begin, length) / (double) length );
-    }
-
-    /**
      * Returns the <a href=http://www.xycoon.com/arithmetic_mean.htm>
      * arithmetic mean </a> of the available values 
      * @param values Is a double[] containing the values
@@ -204,36 +182,6 @@ public class StatUtils {
     public static double mean(double[] values, int begin, int length) {
         testInput(values, begin, length);
         return sum(values, begin, length) / ((double) length);
-    }
-
-    /**
-     *      
-     * @param values Is a double[] containing the values
-     * @return the result, Double.NaN if no values for an empty array 
-     * or 0.0 for a single value set.  
-     */
-    public static double standardDeviation(double[] values) {
-        return standardDeviation(values, 0, values.length);
-    }
-
-    /**
-     *      
-     * @param values Is a double[] containing the values
-     * @param begin processing at this point in the array
-     * @param length processing at this point in the array
-     * @return the result, Double.NaN if no values for an empty array 
-     * or 0.0 for a single value set.  
-     */
-    public static double standardDeviation(
-        double[] values,
-        int begin,
-        int length) {
-        testInput(values, begin, length);
-        double stdDev = Double.NaN;
-        if (values.length != 0) {
-            stdDev = Math.sqrt(variance(values, begin, length));
-        }
-        return (stdDev);
     }
 
     /**
@@ -289,122 +237,6 @@ public class StatUtils {
         return variance;
     }
 
-    /**
-     * Returns the skewness of a collection of values.  Skewness is a 
-     * measure of the assymetry of a given distribution. 
-     * @param values Is a double[] containing the values
-     * @return the skewness of the values or Double.NaN if the array is empty
-     */
-    public static double skewness(double[] values) {
-        return skewness(values, 0, values.length);
-    }
-        /**
-     * Returns the skewness of a collection of values.  Skewness is a 
-     * measure of the assymetry of a given distribution. 
-     * @param values Is a double[] containing the values
-     * @param begin processing at this point in the array
-     * @param length processing at this point in the array
-     * @return the skewness of the values or Double.NaN if the array is empty
-     */
-    public static double skewness(double[] values, int begin, int length) {
-
-        testInput(values, begin, length);
-
-        // Initialize the skewness
-        double skewness = Double.NaN;
-
-        // Get the mean and the standard deviation
-        double mean = mean(values, begin, length);
-
-        // Calc the std, this is implemented here instead of using the 
-        // standardDeviation method eliminate a duplicate pass to get the mean
-        double accum = 0.0;
-        double accum2 = 0.0;
-        for (int i = begin; i < begin + length; i++) {
-            accum += Math.pow((values[i] - mean), 2.0);
-            accum2 += (values[i] - mean);
-        }
-        double stdDev =
-            Math.sqrt(
-                (accum - (Math.pow(accum2, 2) / ((double) length)))
-                    / (double) (length - 1));
-
-        // Calculate the skew as the sum the cubes of the distance 
-        // from the mean divided by the standard deviation.
-        double accum3 = 0.0;
-        for (int i = begin; i < begin + length; i++) {
-            accum3 += Math.pow((values[i] - mean) / stdDev, 3.0);
-        }
-
-        // Get N
-        double n = length;
-
-        // Calculate skewness
-        skewness = (n / ((n - 1) * (n - 2))) * accum3;
-
-        return skewness;
-    }
-
-    /**
-     * Returns the kurtosis for this collection of values. Kurtosis is a 
-     * measure of the "peakedness" of a distribution.
-     * @param values Is a double[] containing the values
-     * @return the kurtosis of the values or Double.NaN if the array is empty
-     */
-    public static double kurtosis(double[] values) {
-        return kurtosis(values, 0, values.length);
-    }
-    
-    /**
-     * Returns the kurtosis for this collection of values. Kurtosis is a 
-     * measure of the "peakedness" of a distribution.
-     * @param values Is a double[] containing the values
-     * @param begin processing at this point in the array
-     * @param length processing at this point in the array
-     * @return the kurtosis of the values or Double.NaN if the array is empty
-     */
-    public static double kurtosis(double[] values, int begin, int length) {
-        testInput(values, begin, length);
-
-        // Initialize the kurtosis
-        double kurtosis = Double.NaN;
-
-        // Get the mean and the standard deviation
-        double mean = mean(values, begin, length);
-
-        // Calc the std, this is implemented here instead of using the 
-        // standardDeviation method eliminate a duplicate pass to get the mean
-        double accum = 0.0;
-        double accum2 = 0.0;
-        for (int i = begin; i < begin + length; i++) {
-            accum += Math.pow((values[i] - mean), 2.0);
-            accum2 += (values[i] - mean);
-        }
-        
-        double stdDev =
-            Math.sqrt(
-                (accum - (Math.pow(accum2, 2) / ((double) length)))
-                    / (double) (length - 1));
-
-        // Sum the ^4 of the distance from the mean divided by the 
-        // standard deviation
-        double accum3 = 0.0;
-        for (int i = begin; i < begin + length; i++) {
-            accum3 += Math.pow((values[i] - mean) / stdDev, 4.0);
-        }
-
-        // Get N
-        double n = length;
-
-        double coefficientOne = (n * (n + 1)) / ((n - 1) * (n - 2) * (n - 3));
-        double termTwo = ((3 * Math.pow(n - 1, 2.0)) / ((n - 2) * (n - 3)));
-        
-        // Calculate kurtosis
-        kurtosis = (coefficientOne * accum3) - termTwo;
-
-        return kurtosis;
-    }
-    
     /**
      * Returns the maximum of the available values
      * @param values Is a double[] containing the values

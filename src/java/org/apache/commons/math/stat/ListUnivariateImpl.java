@@ -54,132 +54,167 @@
 package org.apache.commons.math.stat;
 
 import java.util.List;
+import org.apache.commons.math.util.DefaultTransformer;
+import org.apache.commons.math.util.NumberTransformer;
 
 /**
- * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
+ * @version $Revision: 1.3 $ $Date: 2003/07/09 21:45:23 $
  */
-public class ListUnivariateImpl extends AbstractStoreUnivariate {
+public class ListUnivariateImpl
+    extends AbstractStoreUnivariate
+    implements StoreUnivariate {
 
-    // Holds the value of the windowSize, initial windowSize is the constant
-    // Univariate.INFINITE_WINDOW
-    private int windowSize = Univariate.INFINITE_WINDOW;
+    /**
+     * Holds a reference to a list - GENERICs are going to make
+     * out lives easier here as we could only accept List<Number>
+     */
+    protected List list;
 
-    // Holds a reference to a list - GENERICs are going to make
-    // out lives easier here as we could only accept List<Number>
-    List list;
+    /** Number Transformer maps Objects to Number for us. */
+    protected NumberTransformer transformer;
 
+    /**
+     * Construct a ListUnivariate with a specific List.
+     * @param list The list that will back this Univariate
+     */
     public ListUnivariateImpl(List list) {
+        super();
         this.list = list;
+        transformer = new DefaultTransformer();
+    }
+    
+    /**
+     * Construct a ListUnivariate with a specific List.
+     * @param list The list that will back this Univariate
+     */
+    public ListUnivariateImpl(List list, NumberTransformer transformer) {
+        super();
+        this.list = list;
+        this.transformer = transformer;
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.apache.commons.math.StoreUnivariate#getValues()
      */
     public double[] getValues() {
 
-        int startIndex = 0;
-        int endIndex = list.size() - 1;
-        
+        int length = list.size();
 
         // If the window size is not INFINITE_WINDOW AND
         // the current list is larger that the window size, we need to
         // take into account only the last n elements of the list
         // as definied by windowSize
-        if (windowSize != Univariate.INFINITE_WINDOW &&
-            windowSize < list.size()) {
-            startIndex = (list.size() - 1) - windowSize;
+
+        if (windowSize != Univariate.INFINITE_WINDOW
+            && windowSize < list.size()) {
+            length = list.size() - Math.max(0, list.size() - windowSize);
         }
 
         // Create an array to hold all values
-        double[] copiedArray = new double[list.size() - startIndex];
+        double[] copiedArray = new double[length];
 
-        for( int i = startIndex; i <= endIndex; i++ ) {
-            Number n = (Number) getInternalIndex( i );
-            copiedArray[i] = n.doubleValue();
-            i++;
+        for (int i = 0; i < copiedArray.length; i++) {
+            copiedArray[i] = getElement(i);
         }
-
         return copiedArray;
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.apache.commons.math.StoreUnivariate#getElement(int)
      */
     public double getElement(int index) {
 
         double value = Double.NaN;
-        if (windowSize != Univariate.INFINITE_WINDOW &&
-            windowSize < list.size()) {
 
-            int calcIndex = (list.size() - windowSize) + index;
+        int calcIndex = index;
 
-            Number n = (Number) getInternalIndex(calcIndex);
-            value = n.doubleValue();
-        } else {
-            Number n = (Number) getInternalIndex(index);
-            value = n.doubleValue();
+        if (windowSize != Univariate.INFINITE_WINDOW
+            && windowSize < list.size()) {
+            calcIndex = (list.size() - windowSize) + index;
         }
+
+        try {
+            value = transformer.transform(list.get(calcIndex));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return value;
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.apache.commons.math.Univariate#getN()
      */
     public int getN() {
-        int N = 0;
+        int n = 0;
 
         if (windowSize != Univariate.INFINITE_WINDOW) {
             if (list.size() > windowSize) {
-                N = windowSize;
+                n = windowSize;
             } else {
-                N = list.size();
+                n = list.size();
             }
         } else {
-            N = list.size();
+            n = list.size();
         }
-        return N;
+        return n;
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.apache.commons.math.Univariate#addValue(double)
      */
     public void addValue(double v) {
         list.add(new Double(v));
     }
-
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.Univariate#clear()
+    
+    /**
+     * Adds an object to this list. 
+     * @param o Object to add to the list
      */
-    public void clear() {
-        list.clear();
-    }
-
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.Univariate#getWindowSize()
-     */
-    public int getWindowSize() {
-        return windowSize;
-    }
-
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.Univariate#setWindowSize(int)
-     */
-    public void setWindowSize(int windowSize) {
-        this.windowSize = windowSize;
+    public void addObject(Object o) {
+        list.add(o);
     }
 
     /**
-     * This function exists to support the function of classes which 
-     * extend the ListUnivariateImpl.
-     *
-     * @param index The location of the value in the internal List
-     * @return A Number object representing the value at a given 
-     *         index
+     * @see org.apache.commons.math.Univariate#clear()
      */
-    protected Number getInternalIndex(int index) {
-
-        Number n = (Number) list.get( index );
-        return n;
-
+    public void clear() {
+        super.clear();
+        list.clear();
     }
+
+    /**
+     * @see org.apache.commons.math.stat.AbstractUnivariate#internalValues()
+     */
+    protected double[] internalValues() {
+        return getValues();
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.AbstractUnivariate#start()
+     */
+    protected int start() {
+        return 0;
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.AbstractUnivariate#size()
+     */
+    protected int size() {
+        return getN();
+    }
+    /**
+     * @return
+     */
+    public NumberTransformer getTransformer() {
+        return transformer;
+    }
+
+    /**
+     * @param transformer
+     */
+    public void setTransformer(NumberTransformer transformer) {
+        this.transformer = transformer;
+    }
+
 }

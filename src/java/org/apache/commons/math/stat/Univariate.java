@@ -69,12 +69,21 @@ package org.apache.commons.math.stat;
  * reported statistics will be based on these values<p>
  * The default windowSize is "infinite" -- i.e., all values added are included
  * in all computations.
- *
- * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
- * @version $Revision: 1.7 $ $Date: 2003/07/07 23:25:13 $
- * 
+ * @version $Revision: 1.8 $ $Date: 2003/07/09 21:45:23 $
 */
 public interface Univariate {
+    /**
+     * A LEPTOKURTIC set has a positive kurtosis (a high peak) 
+     */
+    public static int LEPTOKURTIC = 1;
+    /**
+     * A MESOKURTIC set has a kurtosis of 0 - it is a normal distribution
+     */
+    public static int MESOKURTIC = 0;
+    /**
+     * A PLATYKURTIC set has a negative kurtosis (a flat "peak")
+     */
+    public static int PLATYKURTIC = -1;
 
     /**
      * Adds the value to the set of numbers
@@ -83,14 +92,14 @@ public interface Univariate {
     void addValue(double v);
 
     /** 
-     * Returns the <a href=http://www.xycoon.com/arithmetic_mean.htm>
+     * Returns the <a href="http://www.xycoon.com/arithmetic_mean.htm">
      * arithmetic mean </a> of the available values 
      * @return The mean or Double.NaN if no values have been added.
      */
     double getMean();
 
     /** 
-     * Returns the <a href=http://www.xycoon.com/geometric_mean.htm>
+     * Returns the <a href="http://www.xycoon.com/geometric_mean.htm">
      * geometric mean </a> of the available values
      * @return The geometricMean, Double.NaN if no values have been added, 
      * or if the productof the available values is less than or equal to 0.
@@ -127,6 +136,17 @@ public interface Univariate {
      */
     double getKurtosis();
 
+    /**
+     * Returns the Kurtosis "classification" a distribution can be 
+     * leptokurtic (high peak), platykurtic (flat peak), 
+     * or mesokurtic (zero kurtosis).  
+     * 
+     * @return A static constant defined in this interface, 
+     *         StoredDeviation.LEPTOKURITC, StoredDeviation.PLATYKURTIC, or 
+     *         StoredDeviation.MESOKURTIC
+     */
+    int getKurtosisClass();
+    
     /** 
      * Returns the maximum of the available values
      * @return The max or Double.NaN if no values have been added.

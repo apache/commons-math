@@ -119,10 +119,10 @@ public class InteractionTest extends TestCase {
             k.increment(testArray[i]);
         }
         
-        assertEquals(mean,m.getValue(),tolerance);
-        assertEquals(var,v.getValue(),tolerance);
-        assertEquals(skew ,s.getValue(),tolerance);
-        assertEquals(kurt,k.getValue(),tolerance);
+        assertEquals(mean,m.getResult(),tolerance);
+        assertEquals(var,v.getResult(),tolerance);
+        assertEquals(skew ,s.getResult(),tolerance);
+        assertEquals(kurt,k.getResult(),tolerance);
 
     }
 

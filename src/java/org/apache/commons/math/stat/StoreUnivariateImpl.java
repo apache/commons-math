@@ -56,81 +56,80 @@ package org.apache.commons.math.stat;
 import org.apache.commons.math.util.ContractableDoubleArray;
 
 /**
- * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
+ * @version $Revision: 1.4 $ $Date: 2003/07/09 21:45:23 $
  */
 public class StoreUnivariateImpl extends AbstractStoreUnivariate {
 
-    // Use an internal double array
-    ContractableDoubleArray eDA;
+    /** A contractable double array is used.  memory is reclaimed when 
+     * the storage of the array becomes too empty.
+     */
+    protected ContractableDoubleArray eDA;
 
-    // Store the windowSize
-    private int windowSize = Univariate.INFINITE_WINDOW;
-
+    /**
+     * Construct a StoreUnivariateImpl
+     */
     public StoreUnivariateImpl() {
-        // A contractable double array is used.  memory is reclaimed when
-        // the storage of the array becomes too empty.
         eDA = new ContractableDoubleArray();
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.apache.commons.math.StoreUnivariate#getValues()
      */
     public double[] getValues() {
 
-        double[] copiedArray = new double[ eDA.getNumElements() ];
-        System.arraycopy( eDA.getElements(), 0, 
-                          copiedArray, 0, eDA.getNumElements());
+        double[] copiedArray = new double[eDA.getNumElements()];
+        System.arraycopy(
+            eDA.getElements(),
+            0,
+            copiedArray,
+            0,
+            eDA.getNumElements());
         return copiedArray;
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.apache.commons.math.StoreUnivariate#getElement(int)
      */
     public double getElement(int index) {
         return eDA.getElement(index);
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.apache.commons.math.Univariate#getN()
      */
     public int getN() {
         return eDA.getNumElements();
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.apache.commons.math.Univariate#addValue(double)
      */
     public synchronized void addValue(double v) {
-        if( windowSize != Univariate.INFINITE_WINDOW ) {
-            if( getN() == windowSize ) {
-                eDA.addElementRolling( v );
-            } else if( getN() < windowSize ) {
+        if (windowSize != Univariate.INFINITE_WINDOW) {
+            if (getN() == windowSize) {
+                eDA.addElementRolling(v);
+            } else if (getN() < windowSize) {
                 eDA.addElement(v);
             } else {
-                String msg = "A window Univariate had more element than " +
-					"the windowSize.  This is an inconsistent state.";
-                throw new RuntimeException( msg );
+                String msg =
+                    "A window Univariate had more element than "
+                        + "the windowSize.  This is an inconsistent state.";
+                throw new RuntimeException(msg);
             }
         } else {
             eDA.addElement(v);
         }
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.apache.commons.math.Univariate#clear()
      */
     public synchronized void clear() {
+        super.clear();
         eDA.clear();
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.Univariate#getWindowSize()
-     */
-    public int getWindowSize() {
-        return windowSize;
-    }
-
-    /* (non-Javadoc)
+    /**
      * @see org.apache.commons.math.Univariate#setWindowSize(int)
      */
     public synchronized void setWindowSize(int windowSize) {
@@ -139,8 +138,29 @@ public class StoreUnivariateImpl extends AbstractStoreUnivariate {
         // We need to check to see if we need to discard elements
         // from the front of the array.  If the windowSize is less than 
         // the current number of elements.
-        if( windowSize < eDA.getNumElements() ) {
-            eDA.discardFrontElements( eDA.getNumElements() - windowSize);
+        if (windowSize < eDA.getNumElements()) {
+            eDA.discardFrontElements(eDA.getNumElements() - windowSize);
         }
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.AbstractUnivariate#internalValues()
+     */
+    protected double[] internalValues() {
+        return eDA.getValues();
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.AbstractUnivariate#start()
+     */
+    protected int start() {
+        return eDA.start();
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.AbstractUnivariate#size()
+     */
+    protected int size() {
+        return eDA.getNumElements();
     }
 }

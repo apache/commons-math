@@ -60,51 +60,9 @@ package org.apache.commons.math.stat;
  * Univariate provides additional percentile functionality 
  * such as.  This additional functionality comes with 
  * a price of increased storage costs.
- * 
- * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
+ * @version $Revision: 1.7 $ $Date: 2003/07/09 21:45:23 $
  */
 public interface StoreUnivariate extends Univariate {
-
-    /**
-     * A LEPTOKURTIC set has a positive kurtosis (a high peak) 
-     */
-    public static int LEPTOKURTIC = 1;
-
-    /**
-     * A MESOKURTIC set has a kurtosis of 0 - it is a normal distribution
-     */
-    public static int MESOKURTIC = 0;
-
-    /**
-     * A PLATYKURTIC set has a negative kurtosis (a flat "peak")
-     */
-    public static int PLATYKURTIC = -1;
-
-    /** 
-     * Returns the skewness of a given distribution.  Skewness is a 
-     * measure of the assymetry of a given distribution. 
-     * 
-     * @return The skewness of this distribution
-     */
-    double getSkewness();
-
-    /** 
-     * Kurtosis is a measure of the "peakedness" of a distribution
-     * 
-     * @return the mode
-     */
-    double getKurtosis();
-
-    /**
-     * Returns the Kurtosis "classification" a distribution can be 
-     * leptokurtic (high peak), platykurtic (flat peak), 
-     * or mesokurtic (zero kurtosis).  
-     * 
-     * @return A static constant defined in this interface, 
-     *         StoredDeviation.LEPTOKURITC, StoredDeviation.PLATYKURTIC, or 
-     *         StoredDeviation.MESOKURTIC
-     */
-    int getKurtosisClass();
 
     /**
      * Returns the current set of values in an array of double primitives.  

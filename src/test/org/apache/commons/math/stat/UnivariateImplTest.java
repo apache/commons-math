@@ -61,7 +61,7 @@ import junit.framework.TestSuite;
  * Test cases for the {@link Univariate} class.
  *
  * @author Tim Obrien
- * @version $Revision: 1.5 $ $Date: 2003/07/07 23:19:19 $
+ * @version $Revision: 1.6 $ $Date: 2003/07/09 21:45:24 $
  */
 
 public final class UnivariateImplTest extends TestCase {
@@ -130,7 +130,7 @@ public final class UnivariateImplTest extends TestCase {
 		u.addValue(one);
 		assertTrue("mean should be one (n = 1)", 
 			u.getMean() == one);
-		assertTrue("geometric should be one (n = 1)", 
+		assertTrue("geometric should be one (n = 1) instead it is " + u.getGeometricMean(), 
 			u.getGeometricMean() == one);
 		assertTrue("Std should be zero (n = 1)", 
 			u.getStandardDeviation() == 0.0);

@@ -59,7 +59,7 @@ import junit.framework.TestSuite;
 
 /**
  * Test cases for the {@link StatUtils} class.
- * @version $Revision: 1.5 $ $Date: 2003/07/07 23:25:14 $
+ * @version $Revision: 1.6 $ $Date: 2003/07/09 21:45:24 $
  */
 
 public final class StatUtilsTest extends TestCase {
@@ -99,11 +99,6 @@ public final class StatUtilsTest extends TestCase {
         assertEquals("sum", sum, StatUtils.sum(values), tolerance);
         assertEquals("sumsq", sumSq, StatUtils.sumSq(values), tolerance);
         assertEquals("var", var, StatUtils.variance(values), tolerance);
-        assertEquals(
-            "std",
-            std,
-            StatUtils.standardDeviation(values),
-            tolerance);
         assertEquals("mean", mean, StatUtils.mean(values), tolerance);
         assertEquals("min", min, StatUtils.min(values), tolerance);
         assertEquals("max", max, StatUtils.max(values), tolerance);
@@ -116,9 +111,6 @@ public final class StatUtilsTest extends TestCase {
             "Mean of n = 0 set should be NaN",
             Double.isNaN(StatUtils.mean(values)));
         assertTrue(
-            "Standard Deviation of n = 0 set should be NaN",
-            Double.isNaN(StatUtils.standardDeviation(values)));
-        assertTrue(
             "Variance of n = 0 set should be NaN",
             Double.isNaN(StatUtils.variance(values)));
 
@@ -127,10 +119,6 @@ public final class StatUtilsTest extends TestCase {
         assertTrue(
             "Mean of n = 1 set should be value of single item n1",
             StatUtils.mean(values) == one);
-        assertTrue(
-            "StdDev of n = 1 set should be zero, instead it is: "
-                + StatUtils.standardDeviation(values),
-            StatUtils.standardDeviation(values) == 0);
         assertTrue(
             "Variance of n = 1 set should be zero",
             StatUtils.variance(values) == 0);
@@ -165,8 +153,6 @@ public final class StatUtilsTest extends TestCase {
 
         assertEquals("mean", 12.40455, StatUtils.mean(values), 0.0001);
         assertEquals("variance", 10.00236, StatUtils.variance(values), 0.0001);
-        assertEquals("skewness", 1.437424, StatUtils.skewness(values), 0.0001);
-        assertEquals("kurtosis", 2.37719, StatUtils.kurtosis(values), 0.0001);
     }
 
     public void testProductAndGeometricMean() throws Exception {
@@ -177,11 +163,6 @@ public final class StatUtilsTest extends TestCase {
             24.0,
             StatUtils.product(values),
             Double.MIN_VALUE);
-        assertEquals(
-            "Geometric mean not expected",
-            2.213364,
-            StatUtils.geometricMean(values),
-            0.00001);
     }
 
     public void testArrayIndexConditions() throws Exception {
