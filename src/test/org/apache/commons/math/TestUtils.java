@@ -19,16 +19,15 @@ package org.apache.commons.math;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import org.apache.commons.math.complex.Complex;
-
 import junit.framework.Assert;
 
+import org.apache.commons.math.complex.Complex;
+
 /**
- * @version $Revision: 1.10 $ $Date: 2004/02/21 21:35:16 $
+ * @version $Revision: 1.11 $ $Date: 2004/03/18 05:52:37 $
  */
 public class TestUtils {
     /**
@@ -39,14 +38,18 @@ public class TestUtils {
     }
 
     public static void assertEquals(double expected, double actual, double delta) {
-        // check for NaN
-        if(Double.isNaN(expected)){
-            Assert.assertTrue(Double.isNaN(actual));
-        } else {
-            Assert.assertEquals(expected, actual, delta);
-        }
+    	assertEquals(null, expected, actual, delta);
     }
 
+    public static void assertEquals(String msg, double expected, double actual, double delta) {
+    	// check for NaN
+    	if(Double.isNaN(expected)){
+    		Assert.assertTrue(msg, Double.isNaN(actual));
+    	} else {
+    		Assert.assertEquals(msg, expected, actual, delta);
+    	}
+    }
+    
     /**
      * 
      */

@@ -25,9 +25,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
+
 /**
  * Test cases for the {@link DescriptiveStatistics} class.
- * @version $Revision: 1.15 $ $Date: 2004/02/21 21:35:17 $
+ * @version $Revision: 1.16 $ $Date: 2004/03/18 05:52:36 $
  */
 public class CertifiedDataTest extends TestCase  {
 
@@ -75,14 +76,6 @@ public class CertifiedDataTest extends TestCase  {
 			e.printStackTrace();
 		}
 
-		loadStats("data/Lew.txt", u);
-		assertEquals("Lew: std", std, u.getStandardDeviation(), .000000000001);
-		assertEquals("Lew: mean", mean, u.getMean(), .000000000001);
-		
-		loadStats("data/Lottery.txt", u);
-		assertEquals("Lottery: std", std, u.getStandardDeviation(), .000000000001);
-		assertEquals("Lottery: mean", mean, u.getMean(), .000000000001);	
-		
 		loadStats("data/PiDigits.txt", u);
 		assertEquals("PiDigits: std", std, u.getStandardDeviation(), .0000000000001);
 		assertEquals("PiDigits: mean", mean, u.getMean(), .0000000000001);	
@@ -111,14 +104,6 @@ public class CertifiedDataTest extends TestCase  {
 
 		DescriptiveStatistics u = DescriptiveStatistics.newInstance();
 		
-		loadStats("data/Lew.txt", u);
-		assertEquals("Lew: std", std, u.getStandardDeviation(), .000000000001);
-		assertEquals("Lew: mean", mean, u.getMean(), .000000000001);
-		
-		loadStats("data/Lottery.txt", u);
-		assertEquals("Lottery: std", std, u.getStandardDeviation(), .000000000001);
-		assertEquals("Lottery: mean", mean, u.getMean(), .000000000001);		
-																  
 		loadStats("data/PiDigits.txt", u);
 		assertEquals("PiDigits: std", std, u.getStandardDeviation(), .0000000000001);
 		assertEquals("PiDigits: mean", mean, u.getMean(), .0000000000001);

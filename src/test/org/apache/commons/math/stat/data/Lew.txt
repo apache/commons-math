@@ -1,63 +1,55 @@
-File Name:     Lew.dat
+#####################################################################
+# Dataset Name:  Lew (Beam Deflection Data)
+#
+# Description:   This is an observed/"real world" data set
+#               consisting of 200 deflections of a steel-concrete
+#               beam while subjected to periodic pressure.
+#               The experimenter was H. S. Lew of the
+#               Center for Building Technology at NIST.
+#               We here use this data to test accuracy
+#               in summary statistics calculations.
+#
+# Stat Category: Univariate: Summary Statistics
+#
+# Reference:     http://www.itl.nist.gov/div898/strd/univ/lew.html
+#
+# Data:         "Real World"
+#               1    Response          : y = beam deflection
+#               0    Predictors
+#               200  Observations
+#
+# Model:        Lower Level of Difficulty
+#               2    Parameters        : mu, sigma
+#               1    Response Variable : y
+#               0    Predictor Variables
+#               y    = mu + e
+#####################################################################
 
-File Format:   ASCII
-               Header          : lines  1 to  60     (=  60)
-               Certified Values: lines 41 to  43     (=   3)
-               Data            : lines 61 to 260     (= 200)
+#####################################################################
+#
+# Certified Values
+#
+#####################################################################
+n                          =  200
+mean                       = -177.435000000000
+standardDeviation          =  277.332168044316
+autocorrelationCoefficient = -0.307304800605679
 
-Dataset Name:  Lew (Beam Deflection Data)
+#####################################################################
+#
+# R Generated Values
+#
+#####################################################################
+variance =  76913.13143
+max      =  300
+min      = -579
+sum      = -35487
 
-Description:   This is an observed/"real world" data set
-               consisting of 200 deflections of a steel-concrete
-               beam while subjected to periodic pressure.
-               The experimenter was H. S. Lew of the
-               Center for Building Technology at NIST.
-               We here use this data to test accuracy
-               in summary statistics calculations.
-
-Stat Category: Univariate: Summary Statistics
-
-Reference:     None
-
-Data:          "Real World"
-               1    Response          : y = beam deflection
-               0    Predictors
-               200  Observations
-
-Model:         Lower Level of Difficulty
-               2    Parameters        : mu, sigma
-               1    Response Variable : y
-               0    Predictor Variables
-
-               y    = mu + e
-
-
-
-
-
-
-
-                                                  Certified Values
-Sample Mean                                ybar:  -177.435000000000
-Sample Standard Deviation (denom. = n-1)      s:   277.332168044316
-Sample Autocorrelation Coefficient (lag 1) r(1):  -0.307304800605679
-
-Number of Observations:                             200
-
-
-
-
-
-
-
-
-
-
-
-
-
-Data: Y
-----------
+#####################################################################
+#
+# Data
+#
+#####################################################################
     -213
     -564
      -35

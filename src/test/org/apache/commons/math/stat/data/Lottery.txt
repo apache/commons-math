@@ -1,63 +1,46 @@
-File Name:     Lottery.dat
+#####################################################################
+# Dataset Name:  Lottery
+#
+#Description:   This is an observed/"real world" data set
+#               consisting of 218 lottery values
+#               from September 3, 1989 to April 14, 1990 (32 weeks).
+#               One 3-digit random number (from 000 to 999)
+#               is drawn per day, 7 days per week for most
+#               weeks, but fewer days per week for some weeks.
+#               We here use this data to test accuracy
+#               in summary statistics calculations.
+#
+# Stat Category: Univariate: Summary Statistics
+#
+# Reference:     http://www.itl.nist.gov/div898/strd/univ/lottery.html
+#
+# Data:          "Real World"
+#               1    Response          : y = 3-digit random number
+#               0    Predictors
+#               218  Observations
+#
+# Model:         Lower Level of Difficulty
+#               2    Parameters        : mu, sigma
+#               1    Response Variable : y
+#               0    Predictor Variables#
+#               y    = mu + e
+#####################################################################
 
-File Format:   ASCII
-               Header          : lines  1 to  60     (=  60)
-               Certified Values: lines 41 to  43     (=   3)
-               Data            : lines 61 to 278     (= 218)
+#####################################################################
+#
+# Certified Values
+#
+#####################################################################
+mean                       = 518.958715596330
+standardDeviation          = 291.699727470969
+autocorrelationCoefficient =  -0.120948622967393
+n                          = 218
 
-Dataset Name:  Lottery
-
-Description:   This is an observed/"real world" data set
-               consisting of 218 lottery values
-               from September 3, 1989 to April 14, 1990 (32 weeks).
-               One 3-digit random number (from 000 to 999)
-               is drawn per day, 7 days per week for most
-               weeks, but fewer days per week for some weeks.
-               We here use this data to test accuracy
-               in summary statistics calculations.
-
-Stat Category: Univariate: Summary Statistics
-
-Reference:     None
-
-Data:          "Real World"
-               1    Response          : y = 3-digit random number
-               0    Predictors
-               218  Observations
-
-Model:         Lower Level of Difficulty
-               2    Parameters        : mu, sigma
-               1    Response Variable : y
-               0    Predictor Variables
-
-               y    = mu + e
-
-
-
-
-
-
-                                                  Certified Values
-Sample Mean                                ybar:  518.958715596330
-Sample Standard Deviation (denom. = n-1)      s:  291.699727470969
-Sample Autocorrelation Coefficient (lag 1) r(1):  -0.120948622967393
-
-Number of Observations:                             218
-
-
-
-
-
-
-
-
-
-
-
-
-
-Data: Y
-----------
+#####################################################################
+#
+# Data
+#
+#####################################################################
      162
      671
      933
