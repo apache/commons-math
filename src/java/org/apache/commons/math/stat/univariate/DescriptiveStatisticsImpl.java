@@ -23,10 +23,13 @@ import org.apache.commons.math.util.ContractableDoubleArray;
  * Default implementation of
  * {@link org.apache.commons.math.stat.univariate.DescriptiveStatistics}.
  * 
- * @version $Revision: 1.5 $ $Date: 2004/05/23 00:30:01 $
+ * @version $Revision: 1.6 $ $Date: 2004/06/01 21:34:35 $
  */
-public class DescriptiveStatisticsImpl extends AbstractDescriptiveStatistics implements Serializable {
+public class DescriptiveStatisticsImpl extends DescriptiveStatistics implements Serializable {
 
+    /** Serializable version identifier */
+    static final long serialVersionUID = -1868088725461221010L;
+    
 	/** hold the window size **/
 	protected int windowSize;
     

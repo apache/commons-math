@@ -22,10 +22,13 @@ import org.apache.commons.discovery.tools.DiscoverClass;
 /**
  * Abstract factory class for univariate statistical summaries.
  * 
- * @version $Revision: 1.5 $ $Date: 2004/05/19 14:16:31 $
+ * @version $Revision: 1.6 $ $Date: 2004/06/01 21:34:35 $
  */
-public abstract class SummaryStatistics implements Serializable, StatisticalSummary {
+public abstract class SummaryStatistics implements StatisticalSummary, Serializable {
 
+    /** Serialization UID */
+    static final long serialVersionUID = -6400596334135654825L;
+    
 	/**
 	 * Create an instance of a <code>SummaryStatistics</code>
      * @param cls the type of <code>SummaryStatistics</code> object to

@@ -16,17 +16,31 @@
 package org.apache.commons.math.stat.univariate;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 import org.apache.commons.discovery.tools.DiscoverClass;
+import org.apache.commons.math.stat.univariate.moment.GeometricMean;
+import org.apache.commons.math.stat.univariate.moment.Kurtosis;
+import org.apache.commons.math.stat.univariate.moment.Mean;
+import org.apache.commons.math.stat.univariate.moment.Skewness;
+import org.apache.commons.math.stat.univariate.moment.Variance;
+import org.apache.commons.math.stat.univariate.rank.Max;
+import org.apache.commons.math.stat.univariate.rank.Min;
+import org.apache.commons.math.stat.univariate.rank.Percentile;
+import org.apache.commons.math.stat.univariate.summary.Sum;
+import org.apache.commons.math.stat.univariate.summary.SumOfSquares;
 
 
 /**
  * Abstract factory class for univariate statistical summaries.
  * 
- * @version $Revision: 1.5 $ $Date: 2004/05/23 00:56:15 $
+ * @version $Revision: 1.6 $ $Date: 2004/06/01 21:34:35 $
  */
-public abstract class DescriptiveStatistics implements Serializable, StatisticalSummary {
-
+public abstract class DescriptiveStatistics implements StatisticalSummary, Serializable {
+    
+    /** Serialization UID */
+    static final long serialVersionUID = 5188298269533339922L;
+    
 	/**
 	 * Create an instance of a <code>DescriptiveStatistics</code>
      * @param cls the type of <code>DescriptiveStatistics</code> object to
@@ -94,7 +108,9 @@ public abstract class DescriptiveStatistics implements Serializable, Statistical
 	 * arithmetic mean </a> of the available values 
 	 * @return The mean or Double.NaN if no values have been added.
 	 */
-	public abstract double getMean();
+    public double getMean() {
+    	return apply(new Mean());
+    }
 
 	/** 
 	 * Returns the <a href="http://www.xycoon.com/geometric_mean.htm">
@@ -102,21 +118,35 @@ public abstract class DescriptiveStatistics implements Serializable, Statistical
 	 * @return The geometricMean, Double.NaN if no values have been added, 
 	 * or if the productof the available values is less than or equal to 0.
 	 */
-	public abstract double getGeometricMean();
+    public double getGeometricMean() {
+    	return apply(new GeometricMean());
+    }
 
 	/** 
 	 * Returns the variance of the available values.
 	 * @return The variance, Double.NaN if no values have been added 
 	 * or 0.0 for a single value set.  
 	 */
-	public abstract double getVariance();
+    public double getVariance() {
+    	return apply(new Variance());
+    }
 
 	/** 
 	 * Returns the standard deviation of the available values.
 	 * @return The standard deviation, Double.NaN if no values have been added 
 	 * or 0.0 for a single value set. 
 	 */
-	public abstract double getStandardDeviation();
+    public double getStandardDeviation() {
+    	double stdDev = Double.NaN;
+    	if (getN() > 0) {
+    		if (getN() > 1) {
+    			stdDev = Math.sqrt(getVariance());
+    		} else {
+    			stdDev = 0.0;
+    		}
+    	}
+    	return (stdDev);
+    }
 
 	/**
 	 * Returns the skewness of the available values. Skewness is a 
@@ -124,7 +154,9 @@ public abstract class DescriptiveStatistics implements Serializable, Statistical
 	 * @return The skewness, Double.NaN if no values have been added 
 	 * or 0.0 for a value set &lt;=2. 
 	 */
-	public abstract double getSkewness();
+    public double getSkewness() {
+    	return apply(new Skewness());
+    }
 
 	/**
 	 * Returns the Kurtosis of the available values. Kurtosis is a 
@@ -132,19 +164,25 @@ public abstract class DescriptiveStatistics implements Serializable, Statistical
 	 * @return The kurtosis, Double.NaN if no values have been added, or 0.0 
 	 * for a value set &lt;=3. 
 	 */
-	public abstract double getKurtosis();
+    public double getKurtosis() {
+    	return apply(new Kurtosis());
+    }
 
 	/** 
 	 * Returns the maximum of the available values
 	 * @return The max or Double.NaN if no values have been added.
 	 */
-	public abstract double getMax();
+    public double getMax() {
+    	return apply(new Max());
+    }
 
 	/** 
 	* Returns the minimum of the available values
 	* @return The min or Double.NaN if no values have been added.
 	*/
-	public abstract double getMin();
+    public double getMin() {
+    	return apply(new Min());
+    }
 
 	/** 
 	 * Returns the number of available values
@@ -156,14 +194,18 @@ public abstract class DescriptiveStatistics implements Serializable, Statistical
 	 * Returns the sum of the values that have been added to Univariate.
 	 * @return The sum or Double.NaN if no values have been added
 	 */
-	public abstract double getSum();
+    public double getSum() {
+    	return apply(new Sum());
+    }
 
 	/**
 	 * Returns the sum of the squares of the available values.
 	 * @return The sum of the squares or Double.NaN if no 
 	 * values have been added.
 	 */
-	public abstract double getSumsq();
+    public double getSumsq() {
+    	return apply(new SumOfSquares());
+    }
 
 	/** 
 	 * Resets all statistics and storage
@@ -208,7 +250,11 @@ public abstract class DescriptiveStatistics implements Serializable, Statistical
      * @return returns the current set of 
      * numbers sorted in ascending order        
      */
-	public abstract double[] getSortedValues();
+    public double[] getSortedValues() {
+        double[] sort = getValues();
+        Arrays.sort(sort);
+        return sort;
+    }
 
     /**
      * Returns the element at the specified index
@@ -234,8 +280,29 @@ public abstract class DescriptiveStatistics implements Serializable, Statistical
      * @return An estimate for the pth percentile of the stored data 
      * values
      */
-	public abstract double getPercentile(double p);
+    public double getPercentile(double p) {
+    	return apply(new Percentile(p));
+    }
 	
+    /**
+     * Generates a text report displaying
+     * univariate statistics from values that
+     * have been added.
+     * @return String with line feeds displaying statistics
+     */
+    public String toString() {
+    	StringBuffer outBuffer = new StringBuffer();
+    	outBuffer.append("UnivariateImpl:\n");
+    	outBuffer.append("n: " + getN() + "\n");
+    	outBuffer.append("min: " + getMin() + "\n");
+    	outBuffer.append("max: " + getMax() + "\n");
+    	outBuffer.append("mean: " + getMean() + "\n");
+    	outBuffer.append("std dev: " + getStandardDeviation() + "\n");
+    	outBuffer.append("skewness: " + getSkewness() + "\n");
+    	outBuffer.append("kurtosis: " + getKurtosis() + "\n");
+    	return outBuffer.toString();
+    }
+    
 	/**
 	 * Apply the given statistic to the data associated with this set of statistics.
 	 * @param stat the statistic to apply

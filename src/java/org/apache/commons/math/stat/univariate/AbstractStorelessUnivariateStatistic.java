@@ -15,18 +15,23 @@
  */
 package org.apache.commons.math.stat.univariate;
 
+import java.io.Serializable;
+
 /**
  *
  * Abstract Implementation for the {@link StorelessUnivariateStatistic} interface.
  * <p>
  * Provides a default <code>evaluate()</code> implementation.
  * 
- * @version $Revision: 1.14 $ $Date: 2004/03/21 21:57:18 $
+ * @version $Revision: 1.15 $ $Date: 2004/06/01 21:34:35 $
  */
 public abstract class AbstractStorelessUnivariateStatistic
     extends AbstractUnivariateStatistic
-    implements StorelessUnivariateStatistic {
+    implements StorelessUnivariateStatistic, Serializable {
 
+    /** Serialization UID */
+    static final long serialVersionUID = -44915725420072521L;
+    
     /**
      * This default implementation just calls {@link #increment} in a loop over the input array and 
      * then {@link #getResult} to compute the return value.  

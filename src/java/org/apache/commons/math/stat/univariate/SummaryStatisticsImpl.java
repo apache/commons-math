@@ -15,6 +15,7 @@
  */
 package org.apache.commons.math.stat.univariate;
 
+import java.io.Serializable;
 import org.apache.commons.math.stat.univariate.moment.SecondMoment;
 import org.apache.commons.math.stat.univariate.moment.GeometricMean;
 import org.apache.commons.math.stat.univariate.moment.Mean;
@@ -28,9 +29,12 @@ import org.apache.commons.math.stat.univariate.summary.SumOfSquares;
 /**
  * Provides a default {@link SummaryStatistics} implementation.
  * 
- * @version $Revision: 1.2 $ $Date: 2004/04/27 04:37:59 $  
+ * @version $Revision: 1.3 $ $Date: 2004/06/01 21:34:35 $  
  */
-public class SummaryStatisticsImpl extends SummaryStatistics {
+public class SummaryStatisticsImpl extends SummaryStatistics implements Serializable {
+
+    /** Serializable version identifier */
+    static final long serialVersionUID = 8787174276883311692L;
 
     /** count of values that have been added */
     protected long n = 0;

@@ -15,14 +15,19 @@
  */
 package org.apache.commons.math.stat.univariate;
 
+import java.io.Serializable;
+
 /**
  * Abstract Implementation for UnivariateStatistics.
  * Provides the ability to extend polymophically so that
  * indiviual statistics do not need to implement these methods.
- * @version $Revision: 1.16 $ $Date: 2004/04/27 16:42:34 $
+ * @version $Revision: 1.17 $ $Date: 2004/06/01 21:34:35 $
  */
 public abstract class AbstractUnivariateStatistic
-    implements UnivariateStatistic {
+    implements UnivariateStatistic, Serializable {
+    
+    /** Serialization UID */
+    static final long serialVersionUID = -8007759382851708045L;
 
     /**
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[])
