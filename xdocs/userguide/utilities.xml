@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.9 $ $Date: 2004/07/20 22:29:50 $ -->
+<!-- $Revision: 1.9 $ $Date$ -->
 <document url="utilities.html">
 
 <properties>
@@ -164,7 +164,14 @@
     <li>
     a hash function, <code>hash(double),</code> returning a long-valued
     hash code for a double value.
-    </li></ul>
+    </li>
+    <li>
+    Convience methods to round floating-point number to arbitrary precision.
+    </li>
+    <li>
+    Least common multiple and greatest common denominator functions.
+    </li>
+    </ul>
     </p>
 </subsection>
 

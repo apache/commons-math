@@ -15,6 +15,10 @@
  */
 package org.apache.commons.math.util;
 
+import java.math.BigDecimal;
+
+import org.apache.commons.math.TestUtils;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -425,5 +429,27 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(150, MathUtils.lcm(-a, b));
         assertEquals(150, MathUtils.lcm(a, -b));
         assertEquals(2310, MathUtils.lcm(a, c));
+    }
+    
+    public void testRoundFloat() {
+        float x = 1.234567890f;
+        assertEquals(1.23f, MathUtils.round(x, 2), 0.0f);
+        assertEquals(1.235f, MathUtils.round(x, 3), 0.0f);
+        assertEquals(1.2346f, MathUtils.round(x, 4), 0.0f);
+
+        assertEquals(1.23f, MathUtils.round(x, 2, BigDecimal.ROUND_DOWN), 0.0f);
+        assertEquals(1.234f, MathUtils.round(x, 3, BigDecimal.ROUND_DOWN), 0.0f);
+        assertEquals(1.2345f, MathUtils.round(x, 4, BigDecimal.ROUND_DOWN), 0.0f);
+    }
+    
+    public void testRoundDouble() {
+        double x = 1.234567890;
+        assertEquals(1.23, MathUtils.round(x, 2), 0.0);
+        assertEquals(1.235, MathUtils.round(x, 3), 0.0);
+        assertEquals(1.2346, MathUtils.round(x, 4), 0.0);
+
+        assertEquals(1.23, MathUtils.round(x, 2, BigDecimal.ROUND_DOWN), 0.0);
+        assertEquals(1.234, MathUtils.round(x, 3, BigDecimal.ROUND_DOWN), 0.0);
+        assertEquals(1.2345, MathUtils.round(x, 4, BigDecimal.ROUND_DOWN), 0.0);
     }
 }

@@ -39,6 +39,9 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
     <release version="1.1" date="In Development"  
        description="Jakarta Commons Math 1.1 - Development">
+      <action dev="brentworden" type="add">
+        Added convience methods for rounding.
+      </action>
       <action dev="brentworden" type="add" due-to="C. Scott Ananian">
         Added Fraction class based on commons-lang implementation.  With the
         fraction class, FractionFormat and ProperFractionFormat classes were
