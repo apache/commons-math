@@ -44,7 +44,7 @@ import org.apache.commons.math.stat.univariate.summary.Sum;
  * one of the threads invokes the <code>increment()</code> or 
  * <code>clear()</code> method, it must be synchronized externally.
  * 
- * @version $Revision: 1.21 $ $Date: 2004/07/10 17:09:08 $
+ * @version $Revision: 1.22 $ $Date: 2004/07/18 05:34:26 $
  */
 public class Mean extends AbstractStorelessUnivariateStatistic 
     implements Serializable {
@@ -53,7 +53,7 @@ public class Mean extends AbstractStorelessUnivariateStatistic
     static final long serialVersionUID = -1296043746617791564L;    
     
     /** First moment on which this statistic is based. */
-    protected FirstMoment moment = null;
+    protected FirstMoment moment;
 
     /** 
      * Determines whether or not this statistic can be incremented or cleared.
@@ -61,10 +61,11 @@ public class Mean extends AbstractStorelessUnivariateStatistic
      * Statistics based on (constructed from) external moments cannot
      * be incremented or cleared.
      */
-    protected boolean incMoment = true;
+    protected boolean incMoment;
 
     /** Constructs a Mean. */
     public Mean() {
+        incMoment = true;
         moment = new FirstMoment();
     }
 

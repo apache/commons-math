@@ -34,7 +34,7 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * one of the threads invokes the <code>increment()</code> or 
  * <code>clear()</code> method, it must be synchronized externally.
  * 
- * @version $Revision: 1.25 $ $Date: 2004/07/10 17:02:43 $
+ * @version $Revision: 1.26 $ $Date: 2004/07/18 05:34:26 $
  */
 public class Skewness extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -50,12 +50,13 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
      * Statistics based on (constructed from) external moments cannot
      * be incremented or cleared.
     */
-    protected boolean incMoment = true;
+    protected boolean incMoment;
 
     /**
      * Constructs a Skewness
      */
     public Skewness() {
+        incMoment = true;
         moment = new ThirdMoment();
     }
 

@@ -15,8 +15,6 @@
  */
 package org.apache.commons.math.stat.univariate.moment;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
 
 /**
@@ -26,25 +24,26 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  *  <p>
  *  kurtosis = { [n(n+1) / (n -1)(n - 2)(n-3)] sum[(x_i - mean)^4] / std^4 } - [3(n-1)^2 / (n-2)(n-3)]
  *  <p>
- *  where n is the number of values, mean is the {@link Mean} and std is the {@link StandardDeviation}
+ *  where n is the number of values, mean is the {@link Mean} and std is the
+ * {@link StandardDeviation}
  * <p>
- *  Note that this statistic is undefined for n < 4.  <code>Double.Nan</code> is returned when
- *  there is not sufficient data to compute the statistic.
+ *  Note that this statistic is undefined for n < 4.  <code>Double.Nan</code>
+ *  is returned when there is not sufficient data to compute the statistic.
  * <p>
  * <strong>Note that this implementation is not synchronized.</strong> If 
  * multiple threads access an instance of this class concurrently, and at least
  * one of the threads invokes the <code>increment()</code> or 
  * <code>clear()</code> method, it must be synchronized externally.
  * 
- * @version $Revision: 1.27 $ $Date: 2004/07/10 17:09:08 $
+ * @version $Revision: 1.28 $ $Date: 2004/07/18 05:34:26 $
  */
-public class Kurtosis extends AbstractStorelessUnivariateStatistic implements Serializable {
+public class Kurtosis extends AbstractStorelessUnivariateStatistic  {
 
     /** Serializable version identifier */
     static final long serialVersionUID = 2784465764798260919L;  
       
     /**Fourth Moment on which this statistic is based */
-    protected FourthMoment moment = null;
+    protected FourthMoment moment;
 
     /** 
      * Determines whether or not this statistic can be incremented or cleared.
@@ -52,13 +51,13 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic implements Se
      * Statistics based on (constructed from) external moments cannot
      * be incremented or cleared.
     */
-    protected boolean incMoment = true;
-
+    protected boolean incMoment;
 
     /**
      * Construct a Kurtosis
      */
     public Kurtosis() {
+        incMoment = true;
         moment = new FourthMoment();
     }
 
