@@ -59,6 +59,7 @@ import java.security.SecureRandom;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.util.Random;
+import java.util.Collection;
 
 /**
  * Implements the <code>RandomData</code> interface using 
@@ -96,7 +97,7 @@ import java.util.Random;
  *</p>
  * 
  * @author Phil Steitz
- * @version $Revision: 1.1 $ $Date: 2003/05/18 00:58:51 $
+ * @version $Revision: 1.2 $ $Date: 2003/05/29 19:45:35 $
  */
 public class RandomDataImpl implements RandomData{
     
@@ -158,7 +159,7 @@ public class RandomDataImpl implements RandomData{
     public int nextInt(int lower, int upper) {
         if (lower >= upper) {
             throw new IllegalArgumentException
-                ("incorrect bounds for rendomInt");
+                ("upper bound must be > lower bound");
         }
         Random rand = getRan();
         return lower + (int)(Math.random() * (upper-lower+1));
@@ -167,7 +168,7 @@ public class RandomDataImpl implements RandomData{
     public long nextLong(long lower, long upper) {
         if (lower >= upper) {
             throw new IllegalArgumentException
-                ("upper bound must be >= lower bound");
+                ("upper bound must be > lower bound");
         }
         Random rand = getRan();
         return lower + (long)(rand.nextDouble() * (upper-lower+1));
@@ -237,7 +238,7 @@ public class RandomDataImpl implements RandomData{
     public int nextSecureInt(int lower, int upper) {
           if (lower >= upper) {
               throw new IllegalArgumentException
-                ("lower bound must be <= upper bound");
+                ("lower bound must be < upper bound");
           }
           SecureRandom sec = getSecRan();
           return lower + (int)(sec.nextDouble() * (upper-lower+1));
@@ -247,7 +248,7 @@ public class RandomDataImpl implements RandomData{
     public long nextSecureLong(long lower, long upper) {
         if (lower >= upper) {
             throw new IllegalArgumentException
-            ("lower bound must be <= upper bound");
+            ("lower bound must be < upper bound");
         }
         SecureRandom sec = getSecRan();
         return lower + (long)(sec.nextDouble() * (upper-lower+1));
@@ -440,6 +441,98 @@ public class RandomDataImpl implements RandomData{
     public void setSecureAlgorithm(String algorithm, String provider) 
         throws NoSuchAlgorithmException,NoSuchProviderException {
         secRand = SecureRandom.getInstance(algorithm,provider);
+    }
+    
+    /**
+     * Uses a 2-cycle permutation shuffle, as described
+     * <a href=http://www.maths.abdn.ac.uk/~igc/tch/mx4002/notes/node83.html>
+     * here</a>
+     *  
+     */
+    public int[] nextPermutation(int n, int k) {
+        if (k > n) {
+            throw new IllegalArgumentException
+                ("permutation k exceeds n");
+        }       
+        if (k == 0) {
+            throw new IllegalArgumentException
+                ("permutation k must be > 0");
+        }
+        
+        int[] index = getNatural(n);
+        shuffle(index,n-k);
+        int[] result = new int[k];
+        for (int i = 0; i < k; i++) {
+            result[i] = index[n-i-1];
+        }
+  
+        return result;
+    }
+    
+    /**
+     * Uses a 2-cycle permutation shuffle to generate a random
+     * permutation of <code>c.size()</code> and then returns the
+     * elements whose indexes correspond to the elements of the
+     * generated permutation.  This technique is described, and 
+     * proven to generate random samples, 
+     * <a href=http://www.maths.abdn.ac.uk/~igc/tch/mx4002/notes/node83.html>
+     * here</a>
+     */ 
+    public Object[] nextSample(Collection c, int k) {
+        int len = c.size();
+        if (k > len) {
+            throw new IllegalArgumentException
+                ("sample size exceeds collection size");
+        }
+        if (k == 0) {
+            throw new IllegalArgumentException
+                ("sample size must be > 0");
+        }
+            
+       Object[] objects = c.toArray();
+       int[] index = nextPermutation(len,k);
+       Object[] result = new Object[k];
+       for (int i = 0; i < k; i ++) {
+           result[i] = objects[index[i]];
+       }  
+       return result;
+    }
+    
+    //------------------------Private methods----------------------------------
+    
+    /** 
+     * Uses a 2-cycle permutation shuffle to randomly re-order the last
+     * end elements of list
+     * 
+     * @param list list to be shuffled
+     * @end element past which shuffling begins
+     */
+    private void shuffle(int[] list, int end) {
+        int target = 0;
+        for (int i = list.length-1 ; i >= end; i--) {
+            if (i == 0) {
+                target = 0; 
+            } else {
+                target = nextInt(0,i);
+            }
+            int temp = list[target];
+            list[target] = list[i];
+            list[i] = temp;
+        }      
+    }
+    
+    /**
+     * Returns an array representing n
+     *
+     * @param n the natural number to represent
+     * @return array with entries = elements of n
+     */
+    private int[] getNatural(int n) {
+        int[] natural = new int[n];
+        for (int i = 0; i < n; i++) {
+            natural[i] = i;
+        }
+        return natural;
     }
         
 }

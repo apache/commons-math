@@ -59,11 +59,13 @@ import junit.framework.TestSuite;
 import junit.framework.AssertionFailedError;
 import java.security.NoSuchProviderException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Collection;
+import java.util.HashSet;
 /**
  * Test cases for the RandomData class.
  *
  * @author Phil Steitz
- * @version $Revision: 1.2 $ $Date: 2003/05/22 15:31:38 $
+ * @version $Revision: 1.3 $ $Date: 2003/05/29 19:45:35 $
  */
 
 public final class RandomDataTest extends TestCase {
@@ -476,5 +478,144 @@ public final class RandomDataTest extends TestCase {
             ;
         }      
     }
+    
+    /** tests for nextSample() sampling from Collection */
+    public void testNextSample() {
+       Object[][] c = {{"0","1"},{"0","2"},{"0","3"},{"0","4"},{"1","2"},
+                        {"1","3"},{"1","4"},{"2","3"},{"2","4"},{"3","4"}};
+       double[] observed = {0,0,0,0,0,0,0,0,0,0};
+       double[] expected = {100,100,100,100,100,100,100,100,100,100};
+       
+       HashSet cPop = new HashSet();  //{0,1,2,3,4}
+       for (int i = 0; i < 5; i++) {
+           cPop.add(Integer.toString(i));
+       }
+       
+       Object[] sets = new Object[10]; // 2-sets from 5
+       for (int i = 0; i < 10; i ++) {
+           HashSet hs = new HashSet();
+           hs.add(c[i][0]);
+           hs.add(c[i][1]);
+           sets[i] = hs;
+       }
+       
+       for (int i = 0; i < 1000; i ++) {
+           Object[] cSamp = randomData.nextSample(cPop,2);
+           observed[findSample(sets,cSamp)]++;
+       }
+       
+        /* Use ChiSquare dist with df = 10-1 = 9, alpha = .001
+         * Change to 21.67 for alpha = .01
+         */
+        assertTrue("chi-square test -- will fail about 1 in 1000 times",
+            testStatistic.chiSquare(expected,observed) < 27.88);  
+       
+       // Make sure sample of size = size of collection returns same collection
+       HashSet hs = new HashSet();
+       hs.add("one");
+       Object[] one = randomData.nextSample(hs,1);
+       String oneString = (String) one[0];
+       if ((one.length != 1) || !oneString.equals("one")){
+           fail("bad sample for set size = 1, sample size = 1");
+       }
+       
+       // Make sure we fail for sample size > collection size
+       try {
+           one = randomData.nextSample(hs,2);
+           fail("sample size > set size, expecting IllegalArgumentException");
+       } catch (IllegalArgumentException ex) {
+           ;
+       }
+       
+       // Make sure we fail for empty collection
+       try {
+           hs = new HashSet();
+           one = randomData.nextSample(hs,0);
+           fail("n = k = 0, expecting IllegalArgumentException");
+       } catch (IllegalArgumentException ex) {
+           ;
+       }
+    }
+    
+    private int findSample(Object[] u, Object[] samp) {
+        int result = -1;
+        for (int i = 0; i < u.length; i++) {
+            HashSet set = (HashSet) u[i];
+            HashSet sampSet = new HashSet();
+            for (int j = 0; j < samp.length; j++) {
+                sampSet.add(samp[j]);
+            }
+            if (set.equals(sampSet)) {                 
+               return i;
+           }
+        }
+        fail("sample not found:{" + samp[0] + "," + samp[1] + "}");
+        return -1;
+    }
+    
+    /** tests for nextPermutation */
+    public void testNextPermutation() {
+         int[][] p = {{0,1,2},{0,2,1},{1,0,2},{1,2,0},{2,0,1},{2,1,0}};
+         double[] observed = {0,0,0,0,0,0,};
+         double[] expected = {100,100,100,100,100,100};
+         
+         for (int i = 0; i < 600; i++) {
+             int[] perm = randomData.nextPermutation(3,3);
+             observed[findPerm(p,perm)]++;
+         }  
+         
+        /* Use ChiSquare dist with df = 6-1 = 5, alpha = .001
+         * Change to 15.09 for alpha = .01
+         */
+        assertTrue("chi-square test -- will fail about 1 in 1000 times",
+            testStatistic.chiSquare(expected,observed) < 20.52); 
+         
+         // Check size = 1 boundary case
+         int[] perm = randomData.nextPermutation(1,1);
+         if ((perm.length != 1) || (perm[0] != 0)){
+           fail("bad permutation for n = 1, sample k = 1");
+           
+        // Make sure we fail for k size > n 
+        try {
+           perm = randomData.nextPermutation(2,3);
+           fail("permutation k > n, expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+           ;
+        }
+           
+        // Make sure we fail for n = 0
+        try {
+           perm = randomData.nextPermutation(0,0);
+           fail("permutation k = n = 0, expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+           ;
+        }
+           
+        
+       }
+         
+    }
+    
+    private int findPerm(int[][] p, int[] samp) {
+        int result = -1;
+        for (int i = 0; i < p.length; i++) {
+            boolean good = true;
+            for (int j = 0; j < samp.length; j++) {
+                if (samp[j] != p[i][j]) {
+                    good = false;
+                }
+            }
+            if (good)  {
+                return i;
+            }
+        }        
+        fail("permutation not found");
+        return -1;
+    }
+                
+                       
+            
+        
+    
 }
 

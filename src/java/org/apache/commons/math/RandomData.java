@@ -53,11 +53,12 @@
  */
 
 package org.apache.commons.math;
+import java.util.Collection;
 
 /**
  * Random data generation utilities
  * @author Phil Steitz
- * @version $Revision: 1.1 $ $Date: 2003/05/18 00:58:51 $
+ * @version $Revision: 1.2 $ $Date: 2003/05/29 19:45:35 $
  */
 public interface RandomData {      
     /**
@@ -195,7 +196,7 @@ public interface RandomData {
     public double nextExponential(double mean);   
     
     /**
-     * Generates a uniformly distributed random value from the opem interval
+     * Generates a uniformly distributed random value from the open interval
      * (<code>lower</code>,<code>upper</code>) (i.e., endpoints excluded)
      * <strong>Definition</strong>: 
      * <a href=http://www.itl.nist.gov/div898/handbook/eda/section3/eda3662.htm>
@@ -210,5 +211,43 @@ public interface RandomData {
      * @exception IllegalArgumentException thrown if
      * <code>lower</code> is not strictly less than <code>upper</code>.
      */
-    public double nextUniform(double lower, double upper);   
+    public double nextUniform(double lower, double upper);
+    
+    /**
+     * Generates an integer array of length <code>k</code> whose entries
+     * are selected randomly, without repetition, from the integers
+     * {0, ... , n-1} -- i.e., generated arrays represent permutations
+     * of <code>n</code> taken <code>k</code> at a time. <p>
+     *
+     * <strong>Preconditions:</strong><ul>
+     * <li> k must be less than or equal to n </li>
+     * <li> n must be positive (i.e. greater than 0) </li>
+     * </ul>
+     * 
+     * @param n domain of the permutation
+     * @param k size of the permutation
+     * @return random k-permutation of n 
+     */
+    public int[] nextPermutation(int n, int k);
+    
+    /**
+     * Returns an array of <code>k</code> objects selected randomly
+     * from the Collection <code>c</code>. Sampling from <code>c</code>
+     * is without replacement; but if <code>c</code> contains identical
+     * objects, the sample may include repeats.  If all elements of <code>
+     * c</code> are distinct, the resulting object array represents a 
+     * <a href=http://rkb.home.cern.ch/rkb/AN16pp/node250.html#SECTION0002500000000000000000>
+     * Simple Random Sample</a> of size
+     * <code>k</code> from the elements of <code>c</code>.<p>   
+     *
+     * <strong>Preconditions:</strong><ul>
+     * <li> k must be less than or equal to the size of c </li>
+     * <li> c must not be empty </li>
+     * </ul>
+     * 
+     * @param c collection to be sampled
+     * @param k size of the sample
+     * @return random sample of k elements from c 
+     */
+    public Object[] nextSample(Collection c, int k);
 }
