@@ -55,84 +55,33 @@ package org.apache.commons.math.stat.distribution;
 
 /**
  * <p>
- * This factory provids the means to create common statistical distributions.
- * The following distributions are supported:
- * <ul>
- * <li>Chi-Squared</li>
- * <li>F</li>
- * <li>Gamma</li>
- * <li>Student's t</li>
- * </ul>
+ * The Exponential Distribution
  * </p>
  * 
  * <p>
- * Common usage:<pre>
- * DistributionFactory factory = DistributionFactory.newInstance();
+ * Instances of ExponentialDistribution objects should be created using
+ * {@link DistributionFactory#createExponentialDistribution(double)}
+ * </p>
  * 
- * // create a Chi-Square distribution with 5 degrees of freedom.
- * ChiSquaredDistribution chi = factory.createChiSquareDistribution(5.0);
- * </pre>
+ * <p>
+ * References:
+ * <ul>
+ * <li><a href="http://mathworld.wolfram.com/ExponentialDistribution.html">
+ * Exponential Distribution</a></li>
  * </p>
  * 
  * @author Brent Worden
  */
-public abstract class DistributionFactory {
+public interface ExponentialDistribution extends ContinuousDistribution {
     /**
-     * Default constructor.
+     * Modify the mean.
+     * @param mean the new mean.
      */
-    protected DistributionFactory() {
-        super();
-    }
+    void setMean(double mean);
     
     /**
-     * Create an instance of a <code>DistributionFactory</code>
-     * @return a new factory. 
+     * Access the mean.
+     * @return the mean.
      */
-    public static DistributionFactory newInstance() {
-        // for now, return the only concrete factory.
-        // later, allow for a plugable implementation, possible using SPI and
-        // commons-discovery.
-        return new DistributionFactoryImpl();
-    }
-    
-    /**
-     * Create a new chi-square distribution with the given degrees of freedom.
-     * @param degreesOfFreedom degrees of freedom.
-     * @return a new chi-square distribution.  
-     */
-    public abstract ChiSquaredDistribution createChiSquareDistribution(
-        double degreesOfFreedom);
-    
-    /**
-     * Create a new exponential distribution with the given degrees of freedom.
-     * @param mean mean.
-     * @return a new exponential distribution.  
-     */
-    public abstract ExponentialDistribution createExponentialDistribution(
-        double mean);
-    
-    /**
-     * Create a new F-distribution with the given degrees of freedom.
-     * @param numeratorDegreesOfFreedom numerator degrees of freedom.
-     * @param denominatorDegreesOfFreedom denominator degrees of freedom.
-     * @return a new F-distribution.  
-     */
-    public abstract FDistribution createFDistribution(
-        double numeratorDegreesOfFreedom, double denominatorDegreesOfFreedom);
-    
-    /**
-     * Create a new gamma distribution with the given alpha and beta values.
-     * @param alpha the shape parameter.
-     * @param beta the scale parameter.
-     * @return a new gamma distribution.  
-     */
-    public abstract GammaDistribution createGammaDistribution(
-        double alpha, double beta);
-
-    /**
-     * Create a new t distribution with the given degrees of freedom.
-     * @param degreesOfFreedom degrees of freedom.
-     * @return a new t distribution.  
-     */
-    public abstract TDistribution createTDistribution(double degreesOfFreedom);
+    double getMean();
 }

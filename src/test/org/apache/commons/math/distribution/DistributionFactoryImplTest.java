@@ -102,6 +102,32 @@ public class DistributionFactoryImplTest extends TestCase {
         }
     }
     
+    public void testCreateExponentialDistributionNegative(){
+        try {
+            factory.createExponentialDistribution(-1.0);
+            fail("negative mean.  IllegalArgumentException expected");
+        } catch (IllegalArgumentException ex) {
+            ;
+        }
+    }
+    
+    public void testCreateExponentialDistributionZero(){
+        try {
+            factory.createExponentialDistribution(0.0);
+            fail("zero mean.  IllegalArgumentException expected");
+        } catch (IllegalArgumentException ex) {
+            ;
+        }
+    }
+    
+    public void testCreateExponentialDistributionPositive(){
+        try {
+            factory.createExponentialDistribution(1.0);
+        } catch (IllegalArgumentException ex) {
+            fail("positive mean.  IllegalArgumentException is not expected");
+        }
+    }
+    
     public void testCreateGammaDistributionNegativePositive(){
         try {
             factory.createGammaDistribution(-1.0, 1.0);
