@@ -30,7 +30,7 @@ import org.apache.commons.math.stat.univariate.summary.SumOfSquares;
  * StatUtils provides static implementations of common double[] based
  * statistical methods. These return a single result value or in some cases, as
  * identified in the javadoc for each method, <code>Double.NaN.</code>
- * @version $Revision: 1.26 $ $Date: 2004/04/11 19:00:45 $
+ * @version $Revision: 1.27 $ $Date: 2004/05/24 05:30:33 $
  */
 public final class StatUtils {
 
@@ -313,5 +313,74 @@ public final class StatUtils {
             final int length, 
             final double p) {
             return percentile.evaluate(values, begin, length, p);
-    }    
+    }   
+    
+    /**
+     * Returns the sum of the (signed) differences between corresponding elements of the
+     * input arrays -- i.e., sum(sample1[i] - sample2[i]).
+     * 
+     * @param sample1  the first array
+     * @param sample2  the second array
+     * @return sum of paired differences
+     * @throws IllegalArgumentException if the arrays do not have the same
+     * (positive) length
+     */
+    public static double sumDifference(final double[] sample1, final double[] sample2)
+    	throws IllegalArgumentException {
+        int n = sample1.length;
+        if (n  != sample2.length || n < 1) {
+            throw new IllegalArgumentException 
+            	("Input arrays must have the same (positive) length.");
+        }
+        double result = 0;
+        for (int i = 0; i < n; i++) {
+            result += sample1[i] - sample2[i];
+        }
+        return result;
+    }
+    
+    /**
+     * Returns the mean of the (signed) differences between corresponding elements of the
+     * input arrays -- i.e., sum(sample1[i] - sample2[i]) / sample1.length.
+     * 
+     * @param sample1  the first array
+     * @param sample2  the second array
+     * @return mean of paired differences
+     * @throws IllegalArgumentException if the arrays do not have the same
+     * (positive) length
+     */
+    public static double meanDifference(final double[] sample1, final double[] sample2)
+    throws IllegalArgumentException {
+        return sumDifference(sample1, sample2) / (double) sample1.length;
+    }
+    
+    /**
+     * Returns the variance of the (signed) differences between corresponding elements of the
+     * input arrays -- i.e., var(sample1[i] - sample2[i]).
+     * 
+     * @param sample1  the first array
+     * @param sample2  the second array
+     * @param meanDifference   the mean difference between corresponding entries 
+     * @see #meanDifference(double[],double[])
+     * @return variance of paired differences
+     * @throws IllegalArgumentException if the arrays do not have the same
+     * length or their common length is less than 2.
+     */
+    public static double varianceDifference(final double[] sample1, final double[] sample2, 
+            double meanDifference)  throws IllegalArgumentException {
+        double sum1 = 0d;
+        double sum2 = 0d;
+        double diff = 0d;
+        int n = sample1.length;
+        if (n < 2) {
+            throw new IllegalArgumentException("Input array lengths must be at least 2.");
+        }
+        for (int i = 0; i < n; i++) {
+            diff = sample1[i] - sample2[i];
+            sum1 += (diff - meanDifference) *(diff - meanDifference);
+            sum2 += diff - meanDifference;
+        }
+        return (sum1 - (sum2 * sum2 / (double) n)) / (double) (n - 1);
+    }      
+    
 }

@@ -23,7 +23,7 @@ import org.apache.commons.math.TestUtils;
 
 /**
  * Test cases for the {@link StatUtils} class.
- * @version $Revision: 1.16 $ $Date: 2004/05/23 00:56:15 $
+ * @version $Revision: 1.17 $ $Date: 2004/05/24 05:33:42 $
  */
 
 public final class StatUtilsTest extends TestCase {
@@ -389,5 +389,23 @@ public final class StatUtilsTest extends TestCase {
         x = new double[] {one, two, two, three};
         TestUtils.assertEquals(2.5, StatUtils.percentile(x, 70), tolerance);
         TestUtils.assertEquals(2.5, StatUtils.percentile(x, 1, 3, 62.5), tolerance);
+    }
+    
+    public void testDifferenceStats() throws Exception {
+        double sample1[] = {1d, 2d, 3d, 4d};
+        double sample2[] = {1d, 3d, 4d, 2d};
+        double diff[] = {0d, -1d, -1d, 2d};
+        double small[] = {1d, 4d};
+        double meanDifference = StatUtils.meanDifference(sample1, sample2);
+        assertEquals(StatUtils.sumDifference(sample1, sample2), StatUtils.sum(diff), tolerance);
+        assertEquals(meanDifference, StatUtils.mean(diff), tolerance);
+        assertEquals(StatUtils.varianceDifference(sample1, sample2, meanDifference), 
+                StatUtils.variance(diff), tolerance);
+        try {
+            StatUtils.meanDifference(sample1, small);
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
     }
 }
