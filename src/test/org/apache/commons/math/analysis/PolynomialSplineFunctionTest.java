@@ -25,7 +25,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 /**
  * Tests the PolynomialSplineFunction implementation.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class PolynomialSplineFunctionTest extends TestCase {
 
@@ -61,6 +61,7 @@ public class PolynomialSplineFunctionTest extends TestCase {
             new PolynomialSplineFunction(knots, polynomials);
         assertTrue(Arrays.equals(knots, spline.getKnots()));
         assertEquals(1d, spline.getPolynomials()[0].getCoefficients()[2], 0);
+        assertEquals(3, spline.getN());
         
         try { // too few knots
             spline = 
