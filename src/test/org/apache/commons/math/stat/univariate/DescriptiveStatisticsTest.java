@@ -26,7 +26,7 @@ import org.apache.commons.math.random.RandomDataImpl;
 /**
  * Test cases for the {@link Univariate} class.
  *
- * @version $Revision: 1.5 $ $Date: 2004/05/23 00:30:01 $
+ * @version $Revision: 1.6 $ $Date: 2004/05/23 00:56:15 $
  */
 
 public final class DescriptiveStatisticsTest extends TestCase {
@@ -43,7 +43,6 @@ public final class DescriptiveStatisticsTest extends TestCase {
     private double max = 3;
     private double skewness = 0;
     private double kurtosis = 0.5;
-    private int kClass = DescriptiveStatistics.LEPTOKURTIC;
     private double tolerance = 10E-15;
     
     public DescriptiveStatisticsTest(String name) {
@@ -408,30 +407,5 @@ public final class DescriptiveStatisticsTest extends TestCase {
         assertEquals(3.0, u.getMean(), tolerance);
     }
     
-    public void testKurtosisClass() {
-        DescriptiveStatistics u = DescriptiveStatistics.newInstance();
-        u.setWindowSize(5);
-        
-        u.addValue(1.0);
-        u.addValue(1.0);
-        u.addValue(2.0);
-        u.addValue(1.0);
-        u.addValue(1.0);
-        assertEquals(DescriptiveStatistics.LEPTOKURTIC, u.getKurtosisClass());
-        
-        u.addValue(1.0);
-        u.addValue(2.0);
-        u.addValue(2.0);
-        u.addValue(2.0);
-        u.addValue(1.0);
-        assertEquals(DescriptiveStatistics.PLATYKURTIC, u.getKurtosisClass());
-//        
-//        u.addValue(1.0);
-//        u.addValue(1.5);
-//        u.addValue(2.0912994180548905);
-//        u.addValue(1.5);
-//        u.addValue(1.0);
-//        assertEquals(DescriptiveStatistics.MESOKURTIC, u.getKurtosisClass());
-    }
 }
 

@@ -27,7 +27,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link Univariate} class.
  *
- * @version $Revision: 1.1 $ $Date: 2004/04/12 02:27:50 $
+ * @version $Revision: 1.2 $ $Date: 2004/05/23 00:56:15 $
  */
 
 public final class MixedListUnivariateImplTest extends TestCase {
@@ -45,7 +45,6 @@ public final class MixedListUnivariateImplTest extends TestCase {
     private double max = 3;
     private double skewness = 0;
     private double kurtosis = 0.5;
-    private int kClass = DescriptiveStatistics.LEPTOKURTIC;
     private double tolerance = 10E-15;
 
     private TransformerMap transformers = new TransformerMap();

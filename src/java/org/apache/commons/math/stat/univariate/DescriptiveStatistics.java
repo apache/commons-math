@@ -23,7 +23,7 @@ import org.apache.commons.discovery.tools.DiscoverClass;
 /**
  * Abstract factory class for univariate statistical summaries.
  * 
- * @version $Revision: 1.4 $ $Date: 2004/05/19 14:16:31 $
+ * @version $Revision: 1.5 $ $Date: 2004/05/23 00:56:15 $
  */
 public abstract class DescriptiveStatistics implements Serializable, StatisticalSummary {
 
@@ -84,19 +84,6 @@ public abstract class DescriptiveStatistics implements Serializable, Statistical
 	public static final int INFINITE_WINDOW = -1;
 
 	/**
-	 * A LEPTOKURTIC set has a positive kurtosis (a high peak) 
-	 */
-	public static int LEPTOKURTIC = 1;
-	/**
-	 * A MESOKURTIC set has a kurtosis of 0 - it is a normal distribution
-	 */
-	public static int MESOKURTIC = 0;
-	/**
-	 * A PLATYKURTIC set has a negative kurtosis (a flat "peak")
-	 */
-	public static int PLATYKURTIC = -1;
-
-	/**
 	 * Adds the value to the set of numbers
 	 * @param v the value to be added 
 	 */
@@ -147,17 +134,6 @@ public abstract class DescriptiveStatistics implements Serializable, Statistical
 	 */
 	public abstract double getKurtosis();
 
-	/**
-	 * Returns the Kurtosis "classification" a distribution can be 
-	 * leptokurtic (high peak), platykurtic (flat peak), 
-	 * or mesokurtic (zero kurtosis).  
-	 * 
-	 * @return A static constant defined in this interface, 
-	 *         StoredDeviation.LEPTOKURITC, StoredDeviation.PLATYKURTIC, or 
-	 *         StoredDeviation.MESOKURTIC
-	 */
-	public abstract int getKurtosisClass();
-    
 	/** 
 	 * Returns the maximum of the available values
 	 * @return The max or Double.NaN if no values have been added.

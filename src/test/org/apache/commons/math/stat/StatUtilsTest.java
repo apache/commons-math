@@ -20,11 +20,10 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.apache.commons.math.TestUtils;
-import org.apache.commons.math.stat.univariate.DescriptiveStatistics;
 
 /**
  * Test cases for the {@link StatUtils} class.
- * @version $Revision: 1.15 $ $Date: 2004/04/27 16:42:31 $
+ * @version $Revision: 1.16 $ $Date: 2004/05/23 00:56:15 $
  */
 
 public final class StatUtilsTest extends TestCase {
@@ -42,7 +41,6 @@ public final class StatUtilsTest extends TestCase {
     private double max = 3;
     private double skewness = 0;
     private double kurtosis = 0.5;
-    private int kClass = DescriptiveStatistics.LEPTOKURTIC;
     private double tolerance = 10E-15;
 
     public StatUtilsTest(String name) {

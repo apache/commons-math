@@ -31,7 +31,7 @@ import org.apache.commons.math.stat.univariate.summary.SumOfSquares;
 /**
  * Abstract superclass for DescriptiveStatistics implementations. 
  * 
- * @version $Revision: 1.2 $ $Date: 2004/05/03 14:32:25 $
+ * @version $Revision: 1.3 $ $Date: 2004/05/23 00:56:15 $
  */
 public abstract class AbstractDescriptiveStatistics
     extends DescriptiveStatistics {
@@ -98,21 +98,6 @@ public abstract class AbstractDescriptiveStatistics
      */
     public double getKurtosis() {
     	return apply(new Kurtosis());
-    }
-
-    /**
-     * @see org.apache.commons.math.stat.univariate.DescriptiveStatistics#getKurtosisClass()
-     */
-    public int getKurtosisClass() {
-    	int kClass = MESOKURTIC;
-
-    	double kurtosis = getKurtosis();
-    	if (kurtosis > 0) {
-    		kClass = LEPTOKURTIC;
-    	} else if (kurtosis < 0) {
-    		kClass = PLATYKURTIC;
-    	}
-    	return (kClass);
     }
 
     /**
