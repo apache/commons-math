@@ -60,7 +60,7 @@ import junit.framework.TestSuite;
  * Test cases for the TestStatistic class.
  *
  * @author Phil Steitz
- * @version $Revision: 1.2 $ $Date: 2003/06/11 03:33:05 $
+ * @version $Revision: 1.3 $ $Date: 2003/06/21 02:13:41 $
  */
 
 public final class BivariateRegressionTest extends TestCase {
@@ -130,15 +130,15 @@ public final class BivariateRegressionTest extends TestCase {
        assertEquals("r-square",0.999993745883712,
             regression.getRSquare(),10E-12);
        assertEquals("SSR",4255954.13232369, 
-            regression.getRegressionSumSquares(),10E-8);
+            regression.getRegressionSumSquares(),10E-9);
        assertEquals("MSE",0.782864662630069, 
-            regression.getMeanSquareError(),10E-8);
+            regression.getMeanSquareError(),10E-10);
        assertEquals("SSE",26.6173985294224, 
-            regression.getSumSquaredErrors(),10E-8);
+            regression.getSumSquaredErrors(),10E-9);
        assertEquals("predict(0)",-0.262323073774029,
             regression.predict(0),10E-12);
        assertEquals("predict(1)",1.00211681802045-0.262323073774029,
-            regression.predict(1),10E-11);
+            regression.predict(1),10E-12);
     }
     
     public void testCorr() {
