@@ -34,7 +34,7 @@ import org.apache.commons.math.stat.univariate.summary.SumOfSquares;
 /**
  * Abstract factory class for univariate statistical summaries.
  *
- * @version $Revision: 1.9 $ $Date: 2004/07/10 16:04:47 $
+ * @version $Revision: 1.10 $ $Date: 2004/07/22 02:29:21 $
  */
 public abstract class DescriptiveStatistics implements StatisticalSummary, Serializable {
     
@@ -268,19 +268,21 @@ public abstract class DescriptiveStatistics implements StatisticalSummary, Seria
     }
     
     /**
-     * Generates a text report displaying
-     * univariate statistics from values that
-     * have been added.
+     * Generates a text report displaying univariate statistics from values
+     * that have been added.  Each statistic is displayed on a separate
+     * line.
+     * 
      * @return String with line feeds displaying statistics
      */
     public String toString() {
         StringBuffer outBuffer = new StringBuffer();
-        outBuffer.append("UnivariateImpl:\n");
+        outBuffer.append("DescriptiveStatistics:\n");
         outBuffer.append("n: " + getN() + "\n");
         outBuffer.append("min: " + getMin() + "\n");
         outBuffer.append("max: " + getMax() + "\n");
         outBuffer.append("mean: " + getMean() + "\n");
         outBuffer.append("std dev: " + getStandardDeviation() + "\n");
+        outBuffer.append("median: " + getPercentile(50) + "\n");
         outBuffer.append("skewness: " + getSkewness() + "\n");
         outBuffer.append("kurtosis: " + getKurtosis() + "\n");
         return outBuffer.toString();
