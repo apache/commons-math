@@ -15,7 +15,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
   -->
-<!-- $Revision: 1.55 $ $Date: 2004/12/10 05:12:52 $ -->
+<!-- $Revision: 1.56 $ $Date: 2004/12/13 04:07:17 $ -->
 
 <project>
   <pomVersion>3</pomVersion>
@@ -164,6 +164,15 @@
         </resource>
       </resources>
     </unitTest>
+    <resources>
+      <resource>
+        <directory>${basedir}</directory>
+        <includes>
+          <include>NOTICE.txt</include>
+        </includes>
+        <targetPath>META-INF</targetPath>
+      </resource>
+    </resources>
   </build>
   <reports>
     <report>maven-changes-plugin</report>
