@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Revision: 1.34 $ $Date: 2004/01/11 07:42:20 $ -->
+<!-- $Revision: 1.35 $ $Date: 2004/01/17 18:16:01 $ -->
 <project>
   <extend>../../jakarta-commons/project.xml</extend>
   <name>Math</name>
@@ -8,7 +8,7 @@
   <inceptionYear>2003</inceptionYear>
   <logo>/images/math.gif</logo>
   <shortDescription>
-A library of lightweight, self-contained mathematics and statistics components.
+  	Jakarta Commons Math
   </shortDescription>
   <description>
 The Math project is a library of lightweight, self-contained mathematics and statistics components addressing the most common practical problems not immediately available in the Java programming language or commons-lang.
