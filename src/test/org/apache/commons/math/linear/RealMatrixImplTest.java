@@ -22,7 +22,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link RealMatrixImpl} class.
  *
- * @version $Revision: 1.16 $ $Date: 2004/10/09 21:15:56 $
+ * @version $Revision: 1.17 $ $Date: 2004/10/09 22:39:22 $
  */
 
 public final class RealMatrixImplTest extends TestCase {
@@ -76,6 +76,12 @@ public final class RealMatrixImplTest extends TestCase {
     protected double[][] subRows01Cols23 = {{3,4} , {3.5, 4.5}};
     protected double[][] subRows23Cols00 = {{2} , {4}};
     protected double[][] subRows00Cols33 = {{4}};
+    // row matrices
+    protected double[][] subRow0 = {{1,2,3,4}};
+    protected double[][] subRow3 = {{4,5,6,7}};
+    // column matrices
+    protected double[][] subColumn1 = {{2}, {2.5}, {4}, {5}};
+    protected double[][] subColumn3 = {{4}, {4.5}, {8}, {7}};
     
     // tolerances
     protected double entryTolerance = 10E-16;
@@ -550,6 +556,50 @@ public final class RealMatrixImplTest extends TestCase {
         }
         try {
             m.getSubMatrix(new int[] {0}, new int[] {4});
+            fail("Expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
+            // expected
+        }
+    }
+    
+    public void testGetRowMatrix() {
+        RealMatrix m = new RealMatrixImpl(subTestData);
+        RealMatrix mRow0 = new RealMatrixImpl(subRow0);
+        RealMatrix mRow3 = new RealMatrixImpl(subRow3);
+        assertClose("Row0", mRow0, 
+                m.getRowMatrix(0), normTolerance );
+        assertClose("Row3", mRow3, 
+                m.getRowMatrix(3), normTolerance );
+        try {
+            m.getRowMatrix(-1);
+            fail("Expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
+            // expected
+        }
+        try {
+            m.getRowMatrix(4);
+            fail("Expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
+            // expected
+        }
+    }
+    
+    public void testGetColumnMatrix() {
+        RealMatrix m = new RealMatrixImpl(subTestData);
+        RealMatrix mColumn1 = new RealMatrixImpl(subColumn1);
+        RealMatrix mColumn3 = new RealMatrixImpl(subColumn3);
+        assertClose("Column1", mColumn1, 
+                m.getColumnMatrix(1), normTolerance );
+        assertClose("Column3", mColumn3, 
+                m.getColumnMatrix(3), normTolerance );
+        try {
+            m.getColumnMatrix(-1);
+            fail("Expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
+            // expected
+        }
+        try {
+            m.getColumnMatrix(4);
             fail("Expecting MatrixIndexException");
         } catch (MatrixIndexException ex) {
             // expected

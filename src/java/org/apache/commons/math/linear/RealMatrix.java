@@ -22,7 +22,7 @@ package org.apache.commons.math.linear;
  * Matrix element indexing is 0-based -- e.g., <code>getEntry(0, 0)</code>
  * returns the element in the first row, first column of the matrix.
  * 
- * @version $Revision: 1.23 $ $Date: 2004/10/09 21:15:56 $
+ * @version $Revision: 1.24 $ $Date: 2004/10/09 22:39:22 $
  */
 public interface RealMatrix {
 
@@ -128,15 +128,35 @@ public interface RealMatrix {
     * Gets a submatrix. Rows and columns are indicated
     * counting from 0 to n-1.
     *
-    * @param rows Array of row indices.
-    * @param columns Array of column indices.
+    * @param selectedRows Array of row indices.
+    * @param selectedColumns Array of column indices.
     * @return The subMatrix containing the data in the
     *         specified rows and columns
     * @exception MatrixIndexException if row or column selections are not valid
     */
    RealMatrix getSubMatrix(int[] selectedRows, int[] selectedColumns)
    throws MatrixIndexException;
-             
+   
+   /**
+    * Returns the entries in row number <code>row</code>
+    * as a row matrix.  Row indices start at 0.
+    *
+    * @param row the row to be fetched
+    * @return row matrix
+    * @throws MatrixIndexException if the specified row index is invalid
+    */
+   RealMatrix getRowMatrix(int row) throws MatrixIndexException;
+   
+   /**
+    * Returns the entries in column number <code>column</code>
+    * as a column matrix.  Column indices start at 0.
+    *
+    * @param column the column to be fetched
+    * @return column matrix
+    * @throws MatrixIndexException if the specified column index is invalid
+    */
+   RealMatrix getColumnMatrix(int column) throws MatrixIndexException;
+    
     /**
      * Returns the entries in row number <code>row</code> as an array.
      * <p>

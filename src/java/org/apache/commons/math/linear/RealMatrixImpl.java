@@ -43,7 +43,7 @@ import java.io.Serializable;
  * is 0-based -- e.g., <code>getEntry(0, 0)</code>
  * returns the element in the first row, first column of the matrix.</li></ul>
  *
- * @version $Revision: 1.29 $ $Date: 2004/10/09 21:15:56 $
+ * @version $Revision: 1.30 $ $Date: 2004/10/09 22:39:22 $
  */
 public class RealMatrixImpl implements RealMatrix, Serializable {
 
@@ -343,8 +343,8 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      * Gets a submatrix. Rows and columns are indicated
      * counting from 0 to n-1.
      *
-     * @param rows Array of row indices must be non-empty
-     * @param columns Array of column indices must be non-empty
+     * @param selectedRows Array of row indices must be non-empty
+     * @param selectedColumns Array of column indices must be non-empty
      * @return The subMatrix containing the data in the
      *     specified rows and columns
      * @exception MatrixIndexException  if supplied row or column index arrays
@@ -371,6 +371,44 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
         }
         return subMatrix;
     } 
+    
+    /**
+     * Returns the entries in row number <code>row</code>
+     * as a row matrix.  Row indices start at 0.
+     *
+     * @param row the row to be fetched
+     * @return row matrix
+     * @throws MatrixIndexException if the specified row index is invalid
+     */
+    public RealMatrix getRowMatrix(int row) throws MatrixIndexException {
+        if ( !isValidCoordinate( row, 0)) {
+            throw new MatrixIndexException("illegal row argument");
+        }
+        int ncols = this.getColumnDimension();
+        double[][] out = new double[1][ncols]; 
+        System.arraycopy(data[row], 0, out[0], 0, ncols);
+        return new RealMatrixImpl(out);
+    }
+    
+    /**
+     * Returns the entries in column number <code>column</code>
+     * as a column matrix.  Column indices start at 0.
+     *
+     * @param column the column to be fetched
+     * @return column matrix
+     * @throws MatrixIndexException if the specified column index is invalid
+     */
+    public RealMatrix getColumnMatrix(int column) throws MatrixIndexException {
+        if ( !isValidCoordinate( 0, column)) {
+            throw new MatrixIndexException("illegal column argument");
+        }
+        int nRows = this.getRowDimension();
+        double[][] out = new double[nRows][1]; 
+        for (int row = 0; row < nRows; row++) {
+            out[row][0] = data[row][column];
+        }
+        return new RealMatrixImpl(out);
+    }
 
      /**
      * Returns the entries in row number <code>row</code> as an array.
