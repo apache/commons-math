@@ -46,7 +46,7 @@ import org.apache.commons.math.util.MathUtils;
  * is 0-based -- e.g., <code>getEntry(0, 0)</code>
  * returns the element in the first row, first column of the matrix.</li></ul>
  *
- * @version $Revision: 1.31 $ $Date: 2004/10/10 05:23:16 $
+ * @version $Revision: 1.32 $ $Date: 2004/10/10 18:00:33 $
  */
 public class RealMatrixImpl implements RealMatrix, Serializable {
     
@@ -88,15 +88,15 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     }
 
     /**
-     * Create a new RealMatrix using the <code>data</code> as the underlying
+     * Create a new RealMatrix using the input array as the underlying
      * data array.
      * <p>
      * The input array is copied, not referenced.
      *
      * @param d data for new matrix
-     * @throws IllegalArgumentException if data is not rectangular (not all
-     *  rows have the same length) or data is empty
-     * @throws NullPointerException if data is null
+     * @throws IllegalArgumentException if <code>data</code> is not rectangular
+     *  (not all rows have the same length) or empty
+     * @throws NullPointerException if <code>data</code> is null
      */
     public RealMatrixImpl(double[][] d) {
         int nRows = d.length;
@@ -344,9 +344,9 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      */
     public RealMatrix getSubMatrix(int startRow, int endRow, int startColumn,
             int endColumn) throws MatrixIndexException {
-        if (startRow < 0 || startRow > endRow || endRow > data.length
-             || startColumn < 0 || startColumn > endColumn
-             || endColumn > data[0].length ) {
+        if (startRow < 0 || startRow > endRow || endRow > data.length ||
+             startColumn < 0 || startColumn > endColumn ||
+             endColumn > data[0].length ) {
             throw new MatrixIndexException(
                     "invalid row or column index selection");
         }
@@ -849,20 +849,22 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     public String toString() {
         StringBuffer res = new StringBuffer();
         res.append("RealMatrixImpl{");
-        for (int i = 0; i < data.length; i++) {
-            if (i > 0)
-                res.append(",");
-            res.append("{");
-            for (int j = 0; j < data[0].length; j++) {
-                if (j > 0)
+        if (data != null) {
+            for (int i = 0; i < data.length; i++) {
+                if (i > 0)
                     res.append(",");
-                res.append(data[i][j]);
-            } //for
-            res.append("}");
-        } //for
+                res.append("{");
+                for (int j = 0; j < data[0].length; j++) {
+                    if (j > 0)
+                        res.append(",");
+                    res.append(data[i][j]);
+                } 
+                res.append("}");
+            } 
+        }
         res.append("}");
         return res.toString();
-    } //toString
+    } 
     
     /**
      * Returns true iff <code>object</code> is a 
