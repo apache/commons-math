@@ -92,7 +92,7 @@ import org.apache.commons.math.stat.SummaryStatistics;
  *    entry per line.</li>
  * </ol></p>
  *
- * @version $Revision: 1.14 $ $Date: 2004/01/25 21:30:41 $
+ * @version $Revision: 1.15 $ $Date: 2004/01/29 06:26:14 $
  */
 public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistribution {
 
@@ -213,23 +213,12 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         String str = null;
         double val = 0.0d;
         while ((str = in.readLine()) != null) {
-            val = new Double(str).doubleValue();
-            
-            // Find bin and add value to binStats for the bin
-            boolean found = false;
-            int i = 0;
-            while (!found) {
-                if (i >= binCount) {
-                    throw new RuntimeException("bin alignment error");
-                }
-                if (val <= binUpperBounds[i]) {
-                    found = true;
-                    SummaryStatistics stats = (SummaryStatistics)binStats.get(i);
-                    stats.addValue(val);
-                }
-                i++;
-            }
+           val = Double.parseDouble(str);
+           SummaryStatistics stats = 
+            (SummaryStatistics) binStats.get(Math.max((int)Math.ceil((val - min) / delta) - 1, 0));
+           stats.addValue(val);        
         }
+        
         in.close();
         in = null;
         
