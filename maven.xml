@@ -1,0 +1,16 @@
+<project xmlns:deploy="deploy">
+
+  <goal name="cut-math-release">
+		<attainGoal name="convert-snapshots" />
+		<attainGoal name="dist" />
+  </goal>
+
+  <preGoal name="dist">
+  	<attainGoal name="ant" />
+  </preGoal>
+
+  <preGoal name="dist:build-bin">
+    <deploy:copy-deps todir="${maven.build.dir}/${maven.final.name}/bin/${maven.final.name}" />
+  </preGoal>
+
+</project>
