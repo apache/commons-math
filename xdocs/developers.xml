@@ -16,7 +16,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="xdoc.xsl"?>
-<!-- $Revision: 1.11 $ $Date: 2004/06/23 16:26:17 $ -->
+<!-- $Revision: 1.12 $ $Date: 2004/07/25 15:15:55 $ -->
 <document>
  <properties>
   <title>Developers Guide</title>
@@ -61,18 +61,19 @@
    		<li>Review the completed, current and future 
    			<a href="tasks.html">tasks</a> of the project.
    		</li>
-   		<li>Be sure to join the Commons Developer and Interest <a href="mail-lists.html">
-   			email lists</a> and use them appropriately (make sure the string "[math]" is
-   			somewhere in the Subject line of all your postings). Make any proposals here 
-   			where the group can comment on them
+   		<li>Be sure to join the Commons Developer and Interest 
+   		    <a href="mail-lists.html">
+   			email lists</a> and use them appropriately (make sure the string
+   		    "[math]" is somewhere in the Subject line of all your postings).
+   		    Make any proposals here where the group can comment on them.
    		</li>
    		<li>
-   			<a href="http://nagoya.apache.org/bugzilla/createaccount.cgi">Setup an account on Bugzilla</a>
-   			and use it to formally submit Patches and identify bugs. Read the 
-   			<a href="http://nagoya.apache.org/bugzilla/bugwritinghelp.html">directions</a> for 
-   			submitting bugs and search the database to determine if an issue exists or has 
-   			already been dealt with.
-   			
+   			<a href="http://nagoya.apache.org/bugzilla/createaccount.cgi">
+   			Setup an account on Bugzilla</a> and use it to submit patches and
+   		    identify bugs. Read the 
+   			<a href="http://nagoya.apache.org/bugzilla/bugwritinghelp.html">
+   			directions</a> for submitting bugs and search the database to
+   		    determine if an issue exists or has already been dealt with.		
    			<p>
    				Submitting Issues:	
    			</p>
@@ -118,13 +119,12 @@
       interface or method comments, including specification of acceptable ranges
       of values, exceptions or special return values.</li>
      <li>
-      References to definitions for all mathematical
-      terms used in component documentation <i>must</i> be provided, preferably
-      as HTML links.</li>
+      External references or full statements of definitions for all mathematical
+      terms used in component documentation <i>must</i> be provided.</li>
      <li>
       Implementations <i>should</i> use standard algorithms and
-      references to algorithm descriptions <i>should</i> be provided,
-      preferably as HTML links.</li>
+      references or full descriptions of all algorithms <i>should</i> be 
+      provided.</li>
     </ul>
    </subsection>
    <subsection name='Unit Tests'>
@@ -236,9 +236,6 @@
       <a href="http://doi.acm.org/10.1145/359146.359152">
        Chan, T. F. and J. G. Lewis 1979, <i>Communications of the ACM</i>,
        vol. 22 no. 9, pp. 526-531.
-      </a><br/>
-      <a href="http://www.itl.nist.gov/div898/handbook">
-       http://www.wikipedia.org/wiki/
       </a><br/>
      </dd>
     </dl>
