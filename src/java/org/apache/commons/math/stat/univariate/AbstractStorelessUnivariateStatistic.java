@@ -22,9 +22,12 @@ import java.io.Serializable;
  *
  * Abstract Implementation for the {@link StorelessUnivariateStatistic} interface.
  * <p>
- * Provides a default <code>evaluate()</code> implementation.
+ * Provides default <code>evaluate()</code> and <code>incrementAll(double[])<code>
+ * implementations. 
+ * <p>
+ * <strong>Note that these implementations are not synchronized.</strong>
  *
- * @version $Revision: 1.17 $ $Date: 2004/06/23 16:26:16 $
+ * @version $Revision: 1.18 $ $Date: 2004/07/04 22:03:03 $
  */
 public abstract class AbstractStorelessUnivariateStatistic
     extends AbstractUnivariateStatistic
@@ -34,21 +37,49 @@ public abstract class AbstractStorelessUnivariateStatistic
     static final long serialVersionUID = -44915725420072521L;
     
     /**
-     * This default implementation just calls {@link #increment} in a loop over the input array and 
-     * then {@link #getResult} to compute the return value.  
+     * This default implementation calls {@link #clear}, then invokes 
+     * {@link #increment} in a loop over the the input array, and then uses 
+     * {@link #getResult} to compute the return value.  
      * <p>
-     * Most implementations will override this method with a more efficient implementation that works
-     * directly with the input array.
+     * Note that this implementation changes the internal state of the
+     * statistic.  Its side effects are the same as invoking {@link #clear} and
+     * then {@link #incrementAll(double[])}.
+     * <p>
+     * Implementations may override this method with a more efficient 
+     * implementation that works directly with the input array.
+     * <p>
+     * If the array is null, an IllegalArgumentException is thrown.
+     * 
+     * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[])
+     */
+    public double evaluate(final double[] values) {
+        if (values == null) {
+            throw new IllegalArgumentException("input value array is null");
+        }
+        return evaluate(values, 0, values.length);
+    }
+    
+    /**
+     * This default implementation calls {@link #clear}, then invokes 
+     * {@link #increment} in a loop over the specified portion of the input 
+     * array, and then uses {@link #getResult} to compute the return value.  
+     * <p>
+     * Note that this implementation changes the internal state of the
+     * statistic.  Its side effects are the same as invoking {@link #clear} and
+     * then {@link #incrementAll(double[], int, int)}.
+     * <p>
+     * Implementations may override this method with a more efficient 
+     * implementation that works directly with the input array.
+     * <p>
+     * If the array is null or the index parameters are not valid, an 
+     * IllegalArgumentException is thrown.
      * 
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
     public double evaluate(final double[] values, final int begin, final int length) {
-        if (this.test(values, begin, length)) {
-            this.clear();
-            int l = begin + length;
-            for (int i = begin; i < l; i++) {
-                increment(values[i]);
-            }
+        if (test(values, begin, length)) {
+            clear();
+            incrementAll(values, begin, length);
         }
         return getResult();
     }
@@ -67,6 +98,44 @@ public abstract class AbstractStorelessUnivariateStatistic
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
     public abstract void increment(final double d);
+    
+    /**
+     * This default implementation just calls {@link #increment} in a loop over
+     * the input array.   
+     * <p>
+     * Throws IllegalArgumentException if the input values array is null.
+     * 
+     * @param values values to add
+     * @throws IllegalArgumentException if values is null
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#incrementAll(double[])
+     */
+    public void incrementAll(double[] values) {
+        if (values == null) {
+            throw new IllegalArgumentException("input values array is null");
+        }
+        incrementAll(values, 0, values.length);
+    } 
+   
+    /**
+     * This default implementation just calls {@link #increment} in a loop over
+     * the specified portion of the input array.
+     * <p>
+     * Throws IllegalArgumentException if the input values array is null.
+     * 
+     * @param values  array holding values to add
+     * @param begin   index of the first array element to add
+     * @param length  number of array elements to add
+     * @throws IllegalArgumentException if values is null
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#incrementAll(double[], int, int)
+     */
+    public void incrementAll(double[] values, int begin, int length) {
+        if (test(values, begin, length)) {
+            int k = begin + length;
+            for (int i = begin; i < k; i++) {
+                increment(values[i]);
+            }   
+        }
+    }
     
     /**
      * Returns true iff <code>object</code> is an 
