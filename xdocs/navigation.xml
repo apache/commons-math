@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!-- $Revision: 1.8 $ $Date: 2004/01/11 19:34:31 $ -->
+
+<!DOCTYPE project [
+<!ENTITY commons-nav SYSTEM "../../incl_nav.xml">
+]>
+
 <project name="Math">
 
   <title>Math</title>
-  <organizationLogo href="/images/jakarta-logo-blue.gif">Jakarta</organizationLogo>
+  <organizationLogo href="/images/jakarta-logo-blue.gif">
+   Jakarta
+  </organizationLogo>
 
   <body>
+    <links>
+      <item name="Jakarta Commons"                   
+            href="http://jakarta.apache.org/commons/"/>
+    </links>
+
     <menu name="Math">
       <item name="Overview"                href="/index.html"/>
       <item name="Proposal"                href="/proposal.html"/>
@@ -22,5 +33,8 @@
       <item name="Special Functions"       href="/userguide/special.html"/>
       <item name="Utilities"               href="/userguide/utilities.html"/>
     </menu>
+    
+    &commons-nav;
+
   </body>
 </project>
