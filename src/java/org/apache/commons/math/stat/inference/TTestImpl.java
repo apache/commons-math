@@ -24,10 +24,13 @@ import org.apache.commons.math.stat.univariate.StatisticalSummary;
 /**
  * Implements t-test statistics defined in the {@link TTest} interface.
  *
- * @version $Revision: 1.5 $ $Date: 2004/06/02 13:08:55 $
+ * @version $Revision: 1.6 $ $Date: 2004/06/06 22:28:25 $
  */
 public class TTestImpl implements TTest  {
 
+    /** Cached DistributionFactory used to create TDistribution instances */
+    private DistributionFactory distributionFactory = null;
+    
     public TTestImpl() {
         super();
     }
@@ -694,6 +697,16 @@ public class TTestImpl implements TTest  {
     //----------------------------------------------- Protected methods 
 
     /**
+     * Gets a DistributionFactory to use in creating TDistribution instances.
+     */
+    protected DistributionFactory getDistributionFactory() {
+        if (distributionFactory == null) {
+            distributionFactory = DistributionFactory.newInstance();
+        }
+        return distributionFactory;
+    }
+    
+    /**
      * Computes approximate degrees of freedom for 2-sample t-test.
      * 
      * @param v1 first sample variance
@@ -757,8 +770,8 @@ public class TTestImpl implements TTest  {
     protected double tTest(double m, double mu, double v, double n)
     throws MathException {
         double t = Math.abs(t(m, mu, v, n));
-        TDistribution tDistribution =
-            DistributionFactory.newInstance().createTDistribution(n - 1);
+        TDistribution tDistribution = 
+            getDistributionFactory().createTDistribution(n - 1);
         return 1.0 - tDistribution.cumulativeProbability(-t, t);
     }
 
@@ -788,7 +801,7 @@ public class TTestImpl implements TTest  {
         	degreesOfFreedom= df(v1, v2, n1, n2);
         }
         TDistribution tDistribution =
-            DistributionFactory.newInstance().createTDistribution(degreesOfFreedom);
+            getDistributionFactory().createTDistribution(degreesOfFreedom);
         return 1.0 - tDistribution.cumulativeProbability(-t, t);
     }   
 }
