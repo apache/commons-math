@@ -105,7 +105,7 @@ import java.util.Collection;
  * identical).</li></ul>
  * 
  * @author Phil Steitz
- * @version $Revision: 1.3 $ $Date: 2003/06/04 02:45:49 $
+ * @version $Revision: 1.4 $ $Date: 2003/06/05 18:35:24 $
  */
 public class RandomDataImpl implements RandomData {
     
@@ -170,7 +170,7 @@ public class RandomDataImpl implements RandomData {
                 ("upper bound must be > lower bound");
         }
         Random rand = getRan();
-        return lower + (int) (Math.random() * (upper - lower + 1));
+        return lower + (int) (rand.nextDouble() * (upper - lower + 1));
     }
     
     public long nextLong(long lower, long upper) {
