@@ -24,7 +24,7 @@ import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 /**
  * Test cases for the {@link UnivariateStatistic} class.
  * 
- * @version $Revision: 1.11 $ $Date: 2004/06/17 21:37:05 $
+ * @version $Revision: 1.12 $ $Date: 2004/06/26 23:34:22 $
  */
 public class VarianceTest extends StorelessUnivariateStatisticAbstractTest{
 
@@ -55,6 +55,17 @@ public class VarianceTest extends StorelessUnivariateStatisticAbstractTest{
      */
     public double expectedValue() {
         return this.var;
+    }
+    
+    /**
+     * Make sure Double.NaN is returned iff n = 0
+     *
+     */
+    public void testNaN() {
+        StandardDeviation std = new StandardDeviation();
+        assertTrue(Double.isNaN(std.getResult()));
+        std.increment(1d);
+        assertEquals(0d, std.getResult(), 0);
     }
 
 }
