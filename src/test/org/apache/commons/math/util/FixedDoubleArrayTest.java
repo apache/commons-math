@@ -171,12 +171,5 @@ public class FixedDoubleArrayTest extends DoubleArrayAbstractTest {
 				
 	}
 	
-	public void testDiscardFront() {
-		try {
-			da.discardFrontElements( 2 );
-			fail( "Discard front elements should throw an exception");
-		} catch( Exception e ) {
-		}
-	}
 		
 }

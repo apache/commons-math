@@ -123,25 +123,4 @@ public interface DoubleArray {
      */
     void clear();
 
-    /**
-     * Discards values from the front of the list.  This function removes n 
-     * elements from the front of the array.
-     * 
-     *@param i number of elements to discard from the front of the array.
-     */
-    void discardFrontElements(int i);
-
-    /**
-     * Returns the minimum value stored in this array
-     *
-     * @return minimum value contained in this array
-     */
-    double getMin();
-
-    /**
-     * Returns the maximum value stored in this array
-     *
-     * @return maximum value contained in this array
-     */
-    double getMax();
 }

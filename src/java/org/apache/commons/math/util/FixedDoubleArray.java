@@ -121,6 +121,22 @@ public class FixedDoubleArray implements DoubleArray {
     }
 
     /**
+     * Create a fixed array backed by the provided double[] implementation. 
+     * the array should have all the elements occupied. the size and maxElements
+     * are drawn from the array's length.
+     * 
+     * This implementation of DoubleArray was created to provide a more 
+     * "performance-oriented" in-place rolling mechanism for calculations 
+     * which need to operate on a rolling window of values.
+     * @param array the backing array
+     */
+    public FixedDoubleArray(double[] array) {
+        this.maxElements = array.length;
+        this.size = array.length;
+        internalArray = array;
+    }
+    
+    /**
      * Retrieves the current size of the array.
      * @see org.apache.commons.math.DoubleArray#getNumElements()
      */
@@ -324,37 +340,4 @@ public class FixedDoubleArray implements DoubleArray {
         throw new RuntimeException(msg);
     }
 
-    /**
-     * Retrieves the minimum double value contained in this array.
-     *
-     * @return The number less than all other numbers in this 
-     *         array.
-     * @see org.apache.commons.math.DoubleArray#getMin()
-     */
-    public double getMin() {
-        double min = internalArray[0];
-        for (int i = 1; i < size; i++) {
-            if (internalArray[i] < min) {
-                min = internalArray[i];
-            }
-        }
-        return min;
-    }
-
-    /**
-     * Retrieves the maximum double value contained in this array.
-     * 
-     * @return The number greater than all other numbers in this
-     *         array.
-     * @see org.apache.commons.math.DoubleArray#getMax()
-     */
-    public double getMax() {
-        double max = internalArray[0];
-        for (int i = 1; i < size; i++) {
-            if (internalArray[i] > max) {
-                max = internalArray[i];
-            }
-        }
-        return max;
-    }
 }

@@ -53,6 +53,8 @@
  */
 package org.apache.commons.math.util;
 
+import org.apache.commons.math.stat.StatUtils;
+
 import junit.framework.TestCase;
 
 /**
@@ -126,12 +128,12 @@ public abstract class DoubleArrayAbstractTest extends TestCase {
 		assertEquals(
 			"The max element should be 2.0",
 			2.0,
-			ra.getMax(),
+            StatUtils.max(ra.getElements()),
 			Double.MIN_VALUE);
 		assertEquals(
 			"The min element should be 1.0",
 			1.0,
-			ra.getMin(),
+            StatUtils.min(ra.getElements()),
 			Double.MIN_VALUE);
 
 		for (int i = 0; i < 1024; i++) {
@@ -156,11 +158,11 @@ public abstract class DoubleArrayAbstractTest extends TestCase {
 		da.addElement(122.0);
 		da.addElement(1212.0);
 
-		assertEquals("Min should be -2.0", -2.0, da.getMin(), Double.MIN_VALUE);
+		assertEquals("Min should be -2.0", -2.0, StatUtils.min(da.getElements()), Double.MIN_VALUE);
 		assertEquals(
 			"Max should be 1212.0",
 			1212.0,
-			da.getMax(),
+            StatUtils.max(da.getElements()),
 			Double.MIN_VALUE);
 	}
 

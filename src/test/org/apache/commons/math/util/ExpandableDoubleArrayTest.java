@@ -198,17 +198,17 @@ public class ExpandableDoubleArrayTest extends DoubleArrayAbstractTest {
 		da.addElement(2.0);
 		assertEquals( "Number of elements should be 11", 11, da.getNumElements());
 		
-		da.discardFrontElements(5);
+		((ExpandableDoubleArray)da).discardFrontElements(5);
 		assertEquals( "Number of elements should be 6", 6, da.getNumElements());
 		
 		try {
-			da.discardFrontElements(-1);
+            ((ExpandableDoubleArray)da).discardFrontElements(-1);
 			fail( "Trying to discard a negative number of element is not allowed");
 		} catch( Exception e ){
 		}
 		
 		try {
-			da.discardFrontElements( 10000 );
+            ((ExpandableDoubleArray)da).discardFrontElements( 10000 );
 			fail( "You can't discard more elements than the array contains");
 		} catch( Exception e ){
 		}

@@ -54,7 +54,6 @@
 package org.apache.commons.math.stat;
 
 import org.apache.commons.math.util.ContractableDoubleArray;
-import org.apache.commons.math.util.DoubleArray;
 
 /**
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
@@ -62,7 +61,7 @@ import org.apache.commons.math.util.DoubleArray;
 public class StoreUnivariateImpl extends AbstractStoreUnivariate {
 
     // Use an internal double array
-    DoubleArray eDA;
+    ContractableDoubleArray eDA;
 
     // Store the windowSize
     private int windowSize = Univariate.INFINITE_WINDOW;
