@@ -87,7 +87,7 @@ import java.io.IOException;
  * </ol></p>
  *
  * @author  Phil Steitz
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class EmpiricalDistributionImpl implements Serializable,EmpiricalDistribution {
 
@@ -106,6 +106,9 @@ public class EmpiricalDistributionImpl implements Serializable,EmpiricalDistribu
     
     /** upper bounds of subintervals in (0,1) "belonging" to the bins */
     private double[] upperBounds = null;
+    
+    /** RandomData instance to use in repeated calls to getNext() */
+    private RandomData randomData = new RandomDataImpl();
     
     /** 
      * Creates a new EmpiricalDistribution  with the default bin count
@@ -200,10 +203,12 @@ public class EmpiricalDistributionImpl implements Serializable,EmpiricalDistribu
          // Assign upperBounds based on bin counts
          upperBounds = new double[binCount];
          upperBounds[0] = 
-            (((Univariate)binStats.get(0)).getN())/sampleStats.getN();
+            ((double)((Univariate)binStats.get(0)).getN())/
+                (double)sampleStats.getN();
          for (int i = 1; i < binCount-1; i++) {
              upperBounds[i] = upperBounds[i-1] +
-               (((Univariate)binStats.get(i)).getN())/sampleStats.getN();
+             ((double)((Univariate)binStats.get(i)).getN())/
+                (double)sampleStats.getN();
          }
          upperBounds[binCount-1] = 1.0d;   
          
@@ -221,13 +226,12 @@ public class EmpiricalDistributionImpl implements Serializable,EmpiricalDistribu
         double x = Math.random();
        
         // Use this to select the bin and generate a Gaussian within the bin
-        RandomData rd = new RandomDataImpl();
         for (int i = 0; i < binCount; i++) {
            if (x <= upperBounds[i]) {
                Univariate stats = (Univariate)binStats.get(i);
-               if (stats.getN() > 0.5) { // really mean > 0, but avoid fp error
+               if (stats.getN() > 0) { 
                    if (stats.getStandardDeviation() > 0) {  // more than one obs 
-                        return rd.nextGaussian
+                        return randomData.nextGaussian
                             (stats.getMean(),stats.getStandardDeviation());
                    } else {
                        return stats.getMean(); // only one obs in bin
