@@ -19,28 +19,28 @@ import junit.framework.TestCase;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
- * @version $Revision: 1.10 $ $Date: 2004/02/21 21:35:17 $
+ * @version $Revision: 1.11 $ $Date: 2004/03/21 04:24:17 $
  */
 public abstract class UnivariateStatisticAbstractTest extends TestCase {
 
-    protected double mean = 12.40454545454550;
-    protected double geoMean = 12.070589161633011;
+    protected double mean = 12.404545454545455d;
+    protected double geoMean = 12.070589161633011d;
 
-    protected double var = 10.00235930735930;
+    protected double var = 10.00235930735931d;
     protected double std = Math.sqrt(var);
-    protected double skew = 1.437423729196190;
-    protected double kurt = 2.377191264804700;
+    protected double skew = 1.437423729196190d;
+    protected double kurt = 2.377191264804700d;
 
-    protected double min = 8.2;
-    protected double max = 21;
-    protected double median = 12;
-    protected double percentile5 = 8.81;
-    protected double percentile95 = 19.555;
+    protected double min = 8.2d;
+    protected double max = 21d;
+    protected double median = 12d;
+    protected double percentile5 = 8.29d;
+    protected double percentile95 = 20.82d;
 
-    protected double product = 628096400563833200000000.0;
-    protected double sumLog = 54.79698061164520;
-    protected double sumSq = 3595.250;
-    protected double sum = 272.90;
+    protected double product = 628096400563833396009676.9200400128d;
+    protected double sumLog = 54.7969806116451507d;
+    protected double sumSq = 3595.250d;
+    protected double sum = 272.90d;
 
     protected double tolerance = 10E-12;
 
@@ -81,7 +81,7 @@ public abstract class UnivariateStatisticAbstractTest extends TestCase {
         return tolerance;
     }
 
-    public void testEvaluation() throws Exception {
+    public void testEvaluation() throws Exception {   
         assertEquals(
             expectedValue(),
             getUnivariateStatistic().evaluate(testArray),
