@@ -19,7 +19,7 @@ import junit.framework.TestCase;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
- * @version $Revision: 1.11 $ $Date: 2004/03/21 04:24:17 $
+ * @version $Revision: 1.12 $ $Date: 2004/06/27 19:33:38 $
  */
 public abstract class UnivariateStatisticAbstractTest extends TestCase {
 
@@ -41,33 +41,16 @@ public abstract class UnivariateStatisticAbstractTest extends TestCase {
     protected double sumLog = 54.7969806116451507d;
     protected double sumSq = 3595.250d;
     protected double sum = 272.90d;
+    protected double secondMoment = 210.04954545454547d;
+    protected double thirdMoment = 868.0906859504136;
+    protected double fourthMoment = 9244.080993773481;
 
     protected double tolerance = 10E-12;
 
     protected double[] testArray =
-        {
-            12.5,
-            12,
-            11.8,
-            14.2,
-            14.9,
-            14.5,
-            21,
-            8.2,
-            10.3,
-            11.3,
-            14.1,
-            9.9,
-            12.2,
-            12,
-            12.1,
-            11,
-            19.8,
-            11,
-            10,
-            8.8,
-            9,
-            12.3 };
+        {12.5, 12, 11.8, 14.2, 14.9, 14.5, 21, 8.2, 10.3, 11.3,
+          14.1, 9.9, 12.2, 12, 12.1, 11, 19.8, 11, 10,  8.8,
+           9, 12.3 };
 
     public UnivariateStatisticAbstractTest(String name) {
         super(name);

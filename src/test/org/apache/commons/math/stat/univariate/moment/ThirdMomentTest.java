@@ -19,18 +19,18 @@ import org.apache.commons.math.stat.univariate.StorelessUnivariateStatisticAbstr
 import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 
 /**
- * Test cases for the {@link FirstMoment} class.
- * @version $Revision: 1.3 $ $Date: 2004/06/27 19:33:38 $
+ * Test cases for the {@link ThirdMoment} class.
+ * @version $Revision: 1.1 $ $Date: 2004/06/27 19:33:38 $
  */
-public class FirstMomentTest extends StorelessUnivariateStatisticAbstractTest{
+public class ThirdMomentTest extends StorelessUnivariateStatisticAbstractTest{
 
     /** descriptive statistic. */
-    protected FirstMoment stat;
+    protected ThirdMoment stat;
     
     /**
      * @param name
      */
-    public FirstMomentTest(String name) {
+    public ThirdMomentTest(String name) {
         super(name);
     }
     
@@ -38,14 +38,14 @@ public class FirstMomentTest extends StorelessUnivariateStatisticAbstractTest{
      * @see org.apache.commons.math.stat.univariate.UnivariateStatisticAbstractTest#getUnivariateStatistic()
      */
     public UnivariateStatistic getUnivariateStatistic() {
-        return new FirstMoment();
+        return new ThirdMoment();
     }
 
     /**
      * @see org.apache.commons.math.stat.univariate.UnivariateStatisticAbstractTest#expectedValue()
      */
     public double expectedValue() {
-        return this.mean;
+      return this.thirdMoment;
     }
 
 }
