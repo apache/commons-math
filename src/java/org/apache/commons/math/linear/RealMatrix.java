@@ -20,7 +20,7 @@ package org.apache.commons.math.linear;
 
 /**
  * Interface defining a real-valued matrix with basic algebraic operations
- * @version $Revision: 1.13 $ $Date: 2004/04/03 22:18:04 $
+ * @version $Revision: 1.14 $ $Date: 2004/04/08 07:02:55 $
  */
 public interface RealMatrix {
 
@@ -81,6 +81,15 @@ public interface RealMatrix {
      *             if columnDimension(this) != rowDimension(m)
      */
     RealMatrix multiply(RealMatrix m) throws IllegalArgumentException;
+    
+    /**
+     * Returns the result premultiplying this by <code>m</code>.
+     * @param m    matrix to premultiply by
+     * @return     m * this
+     * @throws     IllegalArgumentException
+     *             if rowDimension(this) != columnDimension(m)
+     */
+    public RealMatrix preMultiply(RealMatrix m) throws IllegalArgumentException;
     
     /**
      * Returns matrix entries as a two-dimensional array.
@@ -215,13 +224,13 @@ public interface RealMatrix {
     double[] operate(double[] v) throws IllegalArgumentException;
     
     /**
-     * Returns the result of premultiplying this by the vector <code>v</code>.
+     * Returns the (row) vector result of premultiplying this by the vector <code>v</code>.
      *
      * @param v the row vector to premultiply by
      * @return v*this
      * @throws IllegalArgumentException if rowDimension != v.size()
      */
-    RealMatrix preMultiply(double[] v) throws IllegalArgumentException;  
+    double[] preMultiply(double[] v) throws IllegalArgumentException;  
     
     /**
      * Returns the solution vector for a linear system with coefficient
