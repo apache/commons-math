@@ -16,7 +16,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="xdoc.xsl"?>
-<!-- $Revision: 1.14 $ $Date: 2004/08/27 15:09:27 $ -->
+<!-- $Revision: 1.15 $ $Date: 2004/11/08 00:56:06 $ -->
 <document>
  <properties>
   <title>Developers Guide</title>
@@ -212,9 +212,6 @@
       </a><br/>
       <a href="http://www.psychstat.smsu.edu/sbk00.htm">
        Online Introductory Statistics (David W. Stockburger)
-      </a><br/>
-       <a href="http://www.ubmail.ubalt.edu/~harsham/statistics/REFSTAT.HTM">
-       Probablility and Statistics Resources
       </a><br/>
        <a href="http://www.jstatsoft.org/">
        Online Journal of Statistical Software
