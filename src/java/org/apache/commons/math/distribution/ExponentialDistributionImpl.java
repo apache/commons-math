@@ -6,7 +6,6 @@ package org.apache.commons.math.stat.distribution;
  * @author Brent Worden
  */
 public class ExponentialDistributionImpl
-	extends AbstractContinuousDistribution
 	implements ExponentialDistribution {
 
     /** The mean of this distribution. */
@@ -20,45 +19,6 @@ public class ExponentialDistributionImpl
 		super();
         setMean(mean);
 	}
-
-        
-    /**
-     * Access the domain value lower bound, based on <code>p</code>, used to
-     * bracket a CDF root.  This method is used by
-     * {@link #inverseCummulativeProbability(double)} to find critical values.
-     * 
-     * @param p the desired probability for the critical value
-     * @return domain value lower bound, i.e.
-     *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code> 
-     */
-    protected double getDomainLowerBound(double p){
-        return 0.0;
-    }
-
-    /**
-     * Access the domain value upper bound, based on <code>p</code>, used to
-     * bracket a CDF root.  This method is used by
-     * {@link #inverseCummulativeProbability(double)} to find critical values.
-     * 
-     * @param p the desired probability for the critical value
-     * @return domain value upper bound, i.e.
-     *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code> 
-     */
-    protected double getDomainUpperBound(double p){
-        return Double.MAX_VALUE;
-    }
-
-    /**
-     * Access the initial domain value, based on <code>p</code>, used to
-     * bracket a CDF root.  This method is used by
-     * {@link #inverseCummulativeProbability(double)} to find critical values.
-     * 
-     * @param p the desired probability for the critical value
-     * @return initial domain value
-     */
-    protected double getInitialDomain(double p){
-        return getMean();
-    }
 
     /**
      * Modify the mean.
@@ -98,7 +58,7 @@ public class ExponentialDistributionImpl
      */
 	public double cummulativeProbability(double x) {
         double ret;
-		if(x < 0.0){
+		if(x <= 0.0){
             ret = 0.0;
 		} else {
             ret = 1.0 - Math.exp(-x / getMean());
@@ -114,10 +74,26 @@ public class ExponentialDistributionImpl
      * @return x, such that P(X &lt; x) = <code>p</code>
      */
     public double inverseCummulativeProbability(double p){
+        double ret;
+        
         if(p < 0.0 || p > 1.0){
-            throw new IllegalArgumentException(
-                "p must be between 0.0 and 1.0, inclusive.");
+            ret = Double.NaN;
+        } else if(p == 1.0){
+            ret = Double.POSITIVE_INFINITY;
+        } else {
+            ret = -getMean() * Math.log(1.0 - p);
         }
-        return -getMean() * Math.log(1.0 - p);
+        
+        return ret;
+    }
+    
+    /**
+     * For this disbution, X, this method returns P(x0 &lt; X &lt; x1).
+     * @param x0 the lower bound
+     * @param x1 the upper bound
+     * @return the cummulative probability. 
+     */
+    public double cummulativeProbability(double x0, double x1) {
+        return cummulativeProbability(x1) - cummulativeProbability(x0);
     }
 }
