@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Revision: 1.33 $ $Date: 2003/12/23 03:55:34 $ -->
+<!-- $Revision: 1.34 $ $Date: 2004/01/11 07:42:20 $ -->
 <project>
   <extend>../../jakarta-commons/project.xml</extend>
   <name>Math</name>
@@ -45,7 +45,12 @@ The Math project is a library of lightweight, self-contained mathematics and sta
      <name>J. Pietschmann</name>
      <id>pietsch</id>
      <email>j3322ptm@yahoo.de</email>
-    </developer>    
+    </developer> 
+    <developer>
+     <name>Phil Steitz</name>
+     <id>psteitz</id>
+     <email>psteitz@apache.org</email>
+   </developer>   
     <developer>
      <name>Brent Worden</name>
      <id>brentworden</id>
@@ -54,14 +59,6 @@ The Math project is a library of lightweight, self-contained mathematics and sta
   </developers>
 
   <contributors>
-   <contributor>
-     <name>Phil Steitz</name>
-     <email>phil@steitz.com</email>
-     <roles>
-        <role>proposal author</role> 
-        <role>initial contributor</role>
-     </roles>   
-   </contributor>
   </contributors>  
 
   <dependencies>
@@ -124,7 +121,7 @@ The Math project is a library of lightweight, self-contained mathematics and sta
    <report>maven-developer-activity-plugin</report>
    <report>maven-file-activity-plugin</report> 
    <report>maven-javadoc-plugin</report>
-   <report>maven-jdepend-plugin</report> 
+   <report>maven-jdepend-plugin</report>
    <report>maven-junit-report-plugin</report>
    <report>maven-jxr-plugin</report>
    <report>maven-license-plugin</report>
