@@ -140,19 +140,19 @@ public interface StoreUnivariate extends Univariate {
     public abstract double getElement(int index);
     
     /**
-     * Returns an estimate for the pth percentile of the stored values,
-     * following the interpolation-adjusted defintion presented 
-     * <a href="http://www.utdallas.edu/~ammann/stat5311/node8.html">here</a><p>
-     *
+     * Returns an estimate for the pth percentile of the stored values. 
+     * This estimate follows the interpolation-adjusted defintion presented 
+     * <a href="http://www.utdallas.edu/~ammann/stat5311/node8.html">here</a>
+     * <p/>
      * <strong>Preconditions</strong>:<ul>
-     * <li><code>0 < p < 100</code> (otherwise an <code>IllegalArgumentException
+     * <li><code>0 &lt; p &lt; 100</code> (otherwise an <code>IllegalArgumentException
      *     </code> is thrown)</li>
      * <li>at least one value must be stored (returns <code>Double.NaN
      *     </code> otherwise)</li>
      * </ul>
      * 
      * @param p the requested percentile (scaled from 0 - 100)
-     * @return returns an estimate for the pth percentile of the stored data 
+     * @return An estimate for the pth percentile of the stored data 
      * values
      */
     public abstract double getPercentile(double p);
