@@ -90,4 +90,13 @@ public class DistributionFactoryImpl extends DistributionFactory {
 
         return new GammaDistributionImpl(alpha, beta);
     }
+
+    /**
+     * Create a new t distribution with the given degrees of freedom.
+     * @param degreesOfFreedom degrees of freedom.
+     * @return a new t distribution.  
+     */
+    public TDistribution createTDistribution(double degreesOfFreedom) {
+        return new TDistributionImpl(degreesOfFreedom);
+    }
 }

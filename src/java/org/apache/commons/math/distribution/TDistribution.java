@@ -55,66 +55,32 @@ package org.apache.commons.math.stat.distribution;
 
 /**
  * <p>
- * This factory provids the means to create common statistical distributions.
- * The following distributions are supported:
- * <ul>
- * <li>Chi-Squared</li>
- * <li>Gamma</li>
- * </ul>
+ * Student's t-Distribution.
  * </p>
  * 
  * <p>
- * Common usage:<pre>
- * DistributionFactory factory = DistributionFactory.newInstance();
+ * Instances of TDistribution objects should be created using
+ * {@link DistributionFactory#createTDistribution(double)}
+ * </p>
  * 
- * // create a Chi-Square distribution with 5 degrees of freedom.
- * ChiSquaredDistribution chi = factory.createChiSquareDistribution(5.0);
- * </pre>
+ * <p>
+ * Reference:<br/>
+ * <a href="http://mathworld.wolfram.com/Studentst-Distribution.html">
+ * Student's t-Distribution</a>
  * </p>
  * 
  * @author Brent Worden
  */
-public abstract class DistributionFactory {
+public interface TDistribution extends ContinuousDistribution {
     /**
-     * Default constructor.
+     * Modify the degrees of freedom.
+     * @param degreesOfFreedom the new degrees of freedom.
      */
-    protected DistributionFactory() {
-        super();
-    }
+    void setDegreesOfFreedom(double degreesOfFreedom);
     
     /**
-     * Create an instance of a <code>DistributionFactory</code>
-     * @return a new factory. 
+     * Access the degrees of freedom.
+     * @return the degrees of freedom.
      */
-    public static DistributionFactory newInstance() {
-        // for now, return the only concrete factory.
-        // later, allow for a plugable implementation, possible using SPI and
-        // commons-discovery.
-        return new DistributionFactoryImpl();
-    }
-    
-    /**
-     * Create a new chi-square distribution with the given degrees of freedom.
-     * @param degreesOfFreedom degrees of freedom.
-     * @return a new chi-square distribution.  
-     */
-    public abstract ChiSquaredDistribution createChiSquareDistribution(
-        double degreesOfFreedom
-    );
-    
-    /**
-     * Create a new gamma distribution with the given alpha and beta values.
-     * @param alpha the shape parameter.
-     * @param beta the scale parameter.
-     * @return a new gamma distribution.  
-     */
-    public abstract GammaDistribution createGammaDistribution(
-        double alpha, double beta);
-
-    /**
-     * Create a new t distribution with the given degrees of freedom.
-     * @param degreesOfFreedom degrees of freedom.
-     * @return a new t distribution.  
-     */
-    public abstract TDistribution createTDistribution(double degreesOfFreedom);
+    double getDegreesOfFreedom();
 }

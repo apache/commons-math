@@ -101,30 +101,30 @@ public class DistributionFactoryImplTest extends TestCase {
             fail("positive alpah and beta.  IllegalArgumentException is not expected");
         }
     }
-//    
-//    public void testCreateTDistributionNegative(){
-//        try {
-//            factory.createTDistribution(-1.0);
-//            fail("negative degrees of freedom.  IllegalArgumentException expected");
-//        } catch (IllegalArgumentException ex) {
-//            ;
-//        }
-//    }
-//    
-//    public void testCreateTDistributionZero(){
-//        try {
-//            factory.createTDistribution(0.0);
-//            fail("zero degrees of freedom.  IllegalArgumentException expected");
-//        } catch (IllegalArgumentException ex) {
-//            ;
-//        }
-//    }
-//    
-//    public void testCreateTDistributionPositive(){
-//        try {
-//            factory.createTDistribution(1.0);
-//        } catch (IllegalArgumentException ex) {
-//            fail("positive degrees of freedom.  IllegalArgumentException is not expected");
-//        }
-//    }
+    
+    public void testCreateTDistributionNegative(){
+        try {
+            factory.createTDistribution(-1.0);
+            fail("negative degrees of freedom.  IllegalArgumentException expected");
+        } catch (IllegalArgumentException ex) {
+            ;
+        }
+    }
+    
+    public void testCreateTDistributionZero(){
+        try {
+            factory.createTDistribution(0.0);
+            fail("zero degrees of freedom.  IllegalArgumentException expected");
+        } catch (IllegalArgumentException ex) {
+            ;
+        }
+    }
+    
+    public void testCreateTDistributionPositive(){
+        try {
+            factory.createTDistribution(1.0);
+        } catch (IllegalArgumentException ex) {
+            fail("positive degrees of freedom.  IllegalArgumentException is not expected");
+        }
+    }
 }

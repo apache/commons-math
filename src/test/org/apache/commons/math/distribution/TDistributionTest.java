@@ -53,68 +53,77 @@
  */
 package org.apache.commons.math.stat.distribution;
 
+import junit.framework.TestCase;
+
 /**
- * <p>
- * This factory provids the means to create common statistical distributions.
- * The following distributions are supported:
- * <ul>
- * <li>Chi-Squared</li>
- * <li>Gamma</li>
- * </ul>
- * </p>
- * 
- * <p>
- * Common usage:<pre>
- * DistributionFactory factory = DistributionFactory.newInstance();
- * 
- * // create a Chi-Square distribution with 5 degrees of freedom.
- * ChiSquaredDistribution chi = factory.createChiSquareDistribution(5.0);
- * </pre>
- * </p>
- * 
  * @author Brent Worden
  */
-public abstract class DistributionFactory {
+public class TDistributionTest extends TestCase {
+    private TDistribution t;
+    
     /**
-     * Default constructor.
+     * Constructor for ChiSquareDistributionTest.
+     * @param name
      */
-    protected DistributionFactory() {
-        super();
+    public TDistributionTest(String name) {
+        super(name);
     }
-    
-    /**
-     * Create an instance of a <code>DistributionFactory</code>
-     * @return a new factory. 
-     */
-    public static DistributionFactory newInstance() {
-        // for now, return the only concrete factory.
-        // later, allow for a plugable implementation, possible using SPI and
-        // commons-discovery.
-        return new DistributionFactoryImpl();
-    }
-    
-    /**
-     * Create a new chi-square distribution with the given degrees of freedom.
-     * @param degreesOfFreedom degrees of freedom.
-     * @return a new chi-square distribution.  
-     */
-    public abstract ChiSquaredDistribution createChiSquareDistribution(
-        double degreesOfFreedom
-    );
-    
-    /**
-     * Create a new gamma distribution with the given alpha and beta values.
-     * @param alpha the shape parameter.
-     * @param beta the scale parameter.
-     * @return a new gamma distribution.  
-     */
-    public abstract GammaDistribution createGammaDistribution(
-        double alpha, double beta);
 
-    /**
-     * Create a new t distribution with the given degrees of freedom.
-     * @param degreesOfFreedom degrees of freedom.
-     * @return a new t distribution.  
+    /*
+     * @see TestCase#setUp()
      */
-    public abstract TDistribution createTDistribution(double degreesOfFreedom);
+    protected void setUp() throws Exception {
+        super.setUp();
+        t = DistributionFactory.newInstance().createTDistribution(5.0);
+    }
+
+    /*
+     * @see TestCase#tearDown()
+     */
+    protected void tearDown() throws Exception {
+        t = null;
+        super.tearDown();
+    }
+
+    public void testLowerTailProbability(){
+        testProbability(-5.893, .001);
+        testProbability(-3.365, .010);
+        testProbability(-2.571, .025);
+        testProbability(-2.015, .050);
+        testProbability(-1.476, .100);
+    }
+
+    public void testUpperTailProbability(){
+        testProbability(5.893, .999);
+        testProbability(3.365, .990);
+        testProbability(2.571, .975);
+        testProbability(2.015, .950);
+        testProbability(1.476, .900);
+    }
+    
+    public void testLowerTailValues(){
+        testValue(-5.893, .001);
+        testValue(-3.365, .010);
+        testValue(-2.571, .025);
+        testValue(-2.015, .050);
+        testValue(-1.476, .100);
+    }
+    
+    public void testUpperTailValues(){
+        testValue(5.893, .999);
+        testValue(3.365, .990);
+        testValue(2.571, .975);
+        testValue(2.015, .950);
+        testValue(1.476, .900);
+    }
+    
+    private void testProbability(double x, double expected){
+        double actual = t.cummulativeProbability(x);
+        assertEquals("probability for " + x, expected, actual, 10e-4);
+    }
+    
+    private void testValue(double expected, double p){
+        double actual = t.inverseCummulativeProbability(p);
+        assertEquals("value for " + p, expected, actual, 10e-4);
+    }
 }
