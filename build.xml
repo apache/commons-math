@@ -126,7 +126,7 @@
       </classpath>
     </javac>
     <copy todir="${testclassesdir}">
-      <fileset dir="C:\files\projects\apache\jakarta-commons\math\src\test">
+      <fileset dir="src/test">
         <include name="**/*.xml">
         </include>
         <include name="**/*.txt">
@@ -157,8 +157,6 @@
     </javadoc>
   </target>
   <target name="get-deps" unless="noget" depends="init">
-    <get dest="${libdir}/commons-lang-2.0.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-lang/jars/commons-lang-2.0.jar">
-    </get>
     <get dest="${libdir}/commons-logging-1.0.3.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-logging/jars/commons-logging-1.0.3.jar">
     </get>
     <get dest="${libdir}/commons-discovery-0.2.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-discovery/jars/commons-discovery-0.2.jar">
