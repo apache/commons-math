@@ -39,6 +39,11 @@ The Math project is a library of lightweight, self-contained mathematics and sta
      <email/>
      <roles>proposal author, initial contributor</roles>
    </contributor>
+   <contributor>
+     <name>Mark R. Diggory</name>
+     <email>mdiggory@latte.harvard.edu</email>
+     <roles></roles>
+   </contributor>
   </contributors>  
 
   <dependencies>
