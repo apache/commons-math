@@ -309,28 +309,40 @@ public class StatUtils {
      * @return the skewness of the values or Double.NaN if the array is empty
      */
     public static double skewness(double[] values, int begin, int length) {
-        
+
         testInput(values, begin, length);
-        
+
         // Initialize the skewness
         double skewness = Double.NaN;
 
         // Get the mean and the standard deviation
         double mean = mean(values, begin, length);
-        double stdDev = standardDeviation(values, begin, length);
 
-        // Sum the cubes of the distance from the mean divided by the 
-        // standard deviation
+        // Calc the std, this is implemented here instead of using the 
+        // standardDeviation method eliminate a duplicate pass to get the mean
         double accum = 0.0;
+        double accum2 = 0.0;
         for (int i = begin; i < begin + length; i++) {
-            accum += Math.pow((values[i] - mean) / stdDev, 3.0);
+            accum += Math.pow((values[i] - mean), 2.0);
+            accum2 += (values[i] - mean);
+        }
+        double stdDev =
+            Math.sqrt(
+                (accum - (Math.pow(accum2, 2) / ((double) length)))
+                    / (double) (length - 1));
+
+        // Calculate the skew as the sum the cubes of the distance 
+        // from the mean divided by the standard deviation.
+        double accum3 = 0.0;
+        for (int i = begin; i < begin + length; i++) {
+            accum3 += Math.pow((values[i] - mean) / stdDev, 3.0);
         }
 
         // Get N
         double n = length;
 
         // Calculate skewness
-        skewness = (n / ((n - 1) * (n - 2))) * accum;
+        skewness = (n / ((n - 1) * (n - 2))) * accum3;
 
         return skewness;
     }
@@ -354,21 +366,33 @@ public class StatUtils {
      * @return the kurtosis of the values or Double.NaN if the array is empty
      */
     public static double kurtosis(double[] values, int begin, int length) {
-        
         testInput(values, begin, length);
-    
+
         // Initialize the kurtosis
         double kurtosis = Double.NaN;
 
         // Get the mean and the standard deviation
         double mean = mean(values, begin, length);
-        double stdDev = standardDeviation(values, begin, length);
+
+        // Calc the std, this is implemented here instead of using the 
+        // standardDeviation method eliminate a duplicate pass to get the mean
+        double accum = 0.0;
+        double accum2 = 0.0;
+        for (int i = begin; i < begin + length; i++) {
+            accum += Math.pow((values[i] - mean), 2.0);
+            accum2 += (values[i] - mean);
+        }
+        
+        double stdDev =
+            Math.sqrt(
+                (accum - (Math.pow(accum2, 2) / ((double) length)))
+                    / (double) (length - 1));
 
         // Sum the ^4 of the distance from the mean divided by the 
         // standard deviation
-        double accum = 0.0;
+        double accum3 = 0.0;
         for (int i = begin; i < begin + length; i++) {
-            accum += Math.pow((values[i] - mean) / stdDev, 4.0);
+            accum3 += Math.pow((values[i] - mean) / stdDev, 4.0);
         }
 
         // Get N
@@ -376,8 +400,9 @@ public class StatUtils {
 
         double coefficientOne = (n * (n + 1)) / ((n - 1) * (n - 2) * (n - 3));
         double termTwo = ((3 * Math.pow(n - 1, 2.0)) / ((n - 2) * (n - 3)));
+        
         // Calculate kurtosis
-        kurtosis = (coefficientOne * accum) - termTwo;
+        kurtosis = (coefficientOne * accum3) - termTwo;
 
         return kurtosis;
     }
