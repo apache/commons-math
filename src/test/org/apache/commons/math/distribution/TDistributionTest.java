@@ -1,12 +1,12 @@
 /*
  * Copyright 2003-2004 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,8 +19,8 @@ package org.apache.commons.math.distribution;
  * Test cases for TDistribution.
  * Extends ContinuousDistributionAbstractTest.  See class javadoc for
  * ContinuousDistributionAbstractTest for details.
- * 
- * @version $Revision: 1.15 $ $Date: 2004/07/24 21:41:37 $
+ *
+ * @version $Revision: 1.15 $ $Date$
  */
 public class TDistributionTest extends ContinuousDistributionAbstractTest {
 
@@ -33,12 +33,12 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
     }
 
 //-------------- Implementations for abstract methods -----------------------
-    
+
     /** Creates the default continuous distribution instance to use in tests. */
     public ContinuousDistribution makeDistribution() {
         return DistributionFactory.newInstance().createTDistribution(5.0);
-    }   
-    
+    }
+
     /** Creates the default cumulative probability distribution test input values */
     public double[] makeCumulativeTestPoints() {
         // quantiles computed using R version 1.8.1 (linux version)
@@ -46,13 +46,13 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
             -1.475884, 5.89343, 3.36493, 2.570582,
             2.015048, 1.475884};
     }
-    
+
     /** Creates the default cumulative probability density test expected values */
     public double[] makeCumulativeTestValues() {
         return new double[] {0.001d, 0.01d, 0.025d, 0.05d, 0.1d, 0.999d,
-                0.990d, 0.975d, 0.950d, 0.900d}; 
+                0.990d, 0.975d, 0.950d, 0.900d};
     }
-    
+
     // --------------------- Override tolerance  --------------
     protected void setup() throws Exception {
         super.setUp();
@@ -61,7 +61,7 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
 
     //---------------------------- Additional test cases -------------------------
     /**
-     * @see <a href="http://nagoya.apache.org/bugzilla/show_bug.cgi?id=27243">
+     * @see <a href="http://issues.apache.org/bugzilla/show_bug.cgi?id=27243">
      *      Bug report that prompted this unit test.</a>
      */
     public void testCumulativeProbabilityAgaintStackOverflow() throws Exception {
@@ -70,7 +70,7 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
     	est = td.cumulativeProbability(.1);
     	est = td.cumulativeProbability(.01);
     }
-    
+
     public void testSmallDf() throws Exception {
         setDistribution(DistributionFactory.newInstance().createTDistribution(1d));
         setTolerance(1E-4);
@@ -82,14 +82,14 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
         verifyCumulativeProbabilities();
         verifyInverseCumulativeProbabilities();
     }
-    
+
     public void testInverseCumulativeProbabilityExtremes() throws Exception {
         setInverseCumulativeTestPoints(new double[] {0, 1});
         setInverseCumulativeTestValues(
                 new double[] {Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY});
         verifyInverseCumulativeProbabilities();
     }
-    
+
     public void testDfAccessors() {
         TDistribution distribution = (TDistribution) getDistribution();
         assertEquals(5d, distribution.getDegreesOfFreedom(), Double.MIN_VALUE);
@@ -101,6 +101,6 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
         } catch (IllegalArgumentException ex) {
             // expected
         }
-    } 
-    
+    }
+
 }
