@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<!-- $Revision: 1.4 $ $Date: 2003/11/14 21:50:39 $ -->
+<document url="stat.html">
+  <properties>
+    <title>The Commons Math User Guide - Statistics</title>
+    <author email="phil@steitz.com">Phil Steitz</author>
+  </properties>
+  <body>
+    <section name="1 Statistics">
+      <subsection name="1.1 Overview" href="overview">
+        <p>This is yet to be written. Any contributions will be greatfully
+          accepted!</p>
+      </subsection>
+      <subsection name="1.2 Univariate statistics" href="univariate">
+        <p>This is yet to be written. Any contributions will be gratefully
+          accepted!</p>
+      </subsection>
+      <subsection name="1.3 Frequency distributions" href="frequency">
+        <p>This is yet to be written. Any contributions will be gratefully
+          accepted!</p>
+      </subsection>
+      <subsection name="1.4 Bivariate regression" href="regression">
+        <p>This is yet to be written. Any contributions will be gratefully
+          accepted!</p>
+      </subsection>
+      <subsection name="1.5 Statistical tests" href="tests">
+        <p>This is yet to be written. Any contributions will be gratefully
+          accepted!</p>
+      </subsection>
+      <subsection name="1.6 Distribution framework" href="distributions">
+        <p>
+          The distribution framework provides the means to compute probability density
+          function (PDF) probabilities and cumulative distribution function (CDF)
+          probabilities for common probability distributions. Along with the direct
+          computation of PDF and CDF probabilities, the framework also allows for the
+          computation of inverse PDF and inverse CDF values.
+        </p>
+        <p>
+          In order to use the distribution framework, first a distribution object must
+          be created. It is encouraged that all distribution object creation occurs via
+          the <code>org.apache.commons.math.stat.distribution.DistributionFactory</code>
+          class. <code>DistributionFactory</code> is a simple factory used to create all
+          of the distribution objects supported by Commons-Math. The typical usage of 
+          <code>DistributionFactory</code> to create a distribution object would be:
+        </p>
+        <source>DistributionFactory factory = DistributionFactory.newInstance();
+          BinomialDistribution binomial = factory.createBinomialDistribution(10, .75);</source>
+        <p>
+          The distributions that can be instantiated via the <code>DistributionFactory</code>
+          are detailed below:
+          <table>
+            <tr><th>Distribution</th><th>Factory Method</th><th>Parameters</th></tr>
+            <tr><td>Binomial</td><td>createBinomialDistribution</td><td><div>Number of trials</div><div>Probability of success</div></td></tr>
+            <tr><td>Chi-Squared</td><td>createChiSquaredDistribution</td><td><div>Degrees of freedom</div></td></tr>
+            <tr><td>Exponential</td><td>createExponentialDistribution</td><td><div>Mean</div></td></tr>
+            <tr><td>F</td><td>createFDistribution</td><td><div>Numerator degrees of freedom</div><div>Denominator degrees of freedom</div></td></tr>
+            <tr><td>Gamma</td><td>createGammaDistribution</td><td><div>Alpha</div><div>Beta</div></td></tr>
+            <tr><td>Hypergeometric</td><td>createHypogeometricDistribution</td><td><div>Population size</div><div>Number of successes in population</div><div>Sample size</div></td></tr>
+            <tr><td>t</td><td>createTDistribution</td><td><div>Degrees of freedom</div></td></tr>
+          </table>
+        </p>
+        <p>
+          Using a distribution object, PDF and CDF probabilities are easily computed
+          using the <code>cummulativeProbability</code> methods.  For a distribution <code>X</code>,
+          and a domain value, <code>x</code>,  <code>cummulativeProbability</code> computes
+          <code>P(X &lt;= x)</code> (i.e. the lower tail probability of <code>X</code>).
+        </p>
+        <source>DistributionFactory factory = DistributionFactory.newInstance();
+          TDistribution t = factory.createBinomialDistribution(29);
+          double lowerTail = t.cummulativeProbability(-2.656);     // P(T &lt;= -2.656)
+          double upperTail = 1.0 - t.cummulativeProbability(2.75); // P(T &gt;= 2.75)</source>
+        <p>
+          The inverse PDF and CDF values are just as easily computed using the
+          <code>inverseCummulativeProbability</code>methods.  For a distribution <code>X</code>,
+          and a probability, <code>p</code>,  <code>inverseCummulativeProbability</code>
+          computes the domain value <code>x</code>, such that:
+          <ul>
+            <li><code>P(X &lt;= x) = p</code>, for continuous distributions</li>
+            <li><code>P(X &lt;= x) &lt;= p</code>, for discrete distributions</li>
+          </ul>
+          Notice the different cases for continuous and discrete distributions.  This is the result
+          of PDFs not being invertible functions.  As such, for discrete distributions, an exact
+          domain value can not be returned.  Only the "best" domain value.  For Commons-Math, the "best"
+          domain value is determined by the largest domain value whose cummulative probability is
+          less-than or equal to the given probability.
+        </p>
+      </subsection>
+      
+    </section>
+  </body>
+</document>

@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+
+<document>
+
+ <properties>
+  <title>Commons-Math: The Jakarta Mathematics Library</title>
+  <author email="rdonkin@apache.org">Robert Burrell Donkin</author>
+  <author email="tobrien@apache.org">Tim O'Brien</author>
+ </properties>
+
+ <body>
+
+  <section name="Commons-Math: The Jakarta Mathematics Library" href="summary">
+   <p>
+    The Java programming language and the math extensions in
+    Commons Lang provide implementations for only the most basic
+    mathematical algorithms. Routine development tasks such as
+    computing basic statistics or solving a system of linear equations
+    require components not available in Java or Commons Lang.
+   </p>
+   <p>
+    Most basic mathematical or statistical algorithms are available in
+    open source implementations, but to assemble a simple set of
+    capabilities one has to use multiple libraries, many of which have
+    more restrictive licensing terms than the ASF. In addition, many
+    of the best open source implementations (e.g. the R statistical
+    package) are either not available in Java or require large support
+    libraries and/or external dependencies to work.
+   </p>
+   <p>
+    Commons Math is a library of lightweight, self-contained
+    mathematics and statistics components addressing the most common
+    problems not available in the Java programming language or Commons
+    Lang.
+   </p>
+   <p>
+    Guiding principles:
+    <ol>
+     <li>
+      Real-world application use cases will determine development
+      priority.
+     </li>
+     <li>
+      This package will emphasize small, easily integrated components
+      rather than large libraries with complex dependencies and
+      configurations.
+     </li>
+     <li>
+      All algorithms will be fully documented and follow generally
+      accepted best practices.
+     </li>
+     <li>
+      In situations where multiple standard algorithms exist, a
+      Strategy pattern will be used to support multiple
+      implementations.
+     </li>
+     <li>
+      Limited dependencies. No external dependencies beyond Commons
+      components and the core Java 2 platform.
+     </li>
+    </ol>
+   </p>
+   <subsection name='An Apology To British Users And Developers'>
+    <p>
+     Yes - I know that it should be commons-maths. But think of all the
+     bandwidth saved by losing that 's' ;)
+    </p>
+   </subsection>
+  </section>
+  <section name="Download Math">
+   <subsection name="Releases">
+    <p>
+     There haven't been any yet! The more people who contribute, the
+     quicker this will happen.
+    </p>
+   </subsection>
+   <subsection name="Nightly Builds">
+    <p>
+     Nightly builds are built once a day from the current CVS HEAD.
+     This is (nearly) the lastest code and so should be treated with
+     caution!
+    </p>
+    <p>
+     You can get the nightly builds from <a
+     href="http://jakarta.apache.org/builds/jakarta-commons/nightly/commons-math/">here</a>
+    </p>
+   </subsection>
+  </section>
+ </body>
+</document>

@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<document url="index.html">
+
+  <properties>
+    <author email="phil@steitz.com">Phil Steitz</author>
+    <title>The Commons Math User Guide - Table of Contents</title>
+  </properties>
+
+  <body>
+      <section name="Table of Contents" href="toc">
+
+        <ul>
+            <li><a href="overview.html">0. Overview</a>
+            <ul>
+              <li><a href="overview.html#about">0.1 About the User Guide</a></li>
+              <li><a href="overview.html#summary">0.2 What's in commons-math</a></li>
+              <li><a href="overview.html#organization">0.3 How commons-math is organized</a></li>
+              <li><a href="overview.html#contracts">0.4 How interface contracts are specified in commons-math javadoc</a></li>
+              <li><a href="overview.html#dependencies">0.5 Dependencies</a></li>
+            </ul></li>
+
+           <li><a href="stat.html">1. Statistics</a>
+                <ul>
+                <li><a href="stat.html#overview">1.1 Overview</a></li>
+                <li><a href="stat.html#univariate">1.2 Univariate statistics</a></li>
+                <li><a href="stat.html#frequency">1.3 Frequency distributions</a></li>
+                <li><a href="stat.html#regression">1.4 Bivariate regression</a></li>
+                <li><a href="stat.html#tests">1.5 Statistical tests</a></li>
+                <li><a href="stat.html#distributions">1.6 Distribution framework</a></li>
+                </ul></li>
+            <li><a href="random.html">2. Data Generation</a>
+                <ul>
+                <li><a href="random.html#overview">2.1 Overview</a></li>
+                <li><a href="random.html#deviates">2.2 Random numbers</a></li>
+                <li><a href="random.html#strings">2.3 Random Strings</a></li>
+                <li><a href="random.html#combinatorics">2.4 Random permutations, combinations, sampling</a></li>
+                <li><a href="random.html#empirical">2.5 Generating data "like" an input file</a></li>
+                </ul></li>
+            <li><a href="linear.html">3. Linear Algebra</a>
+                <ul>
+                <li><a href="linear.html#overview">3.1 Overview</a></li>
+                <li><a href="linear.html#real_matrices">3.2 Real matrices</a></li>
+                <li><a href="linear.html#solve">3.3 Solving linear systems</a></li> 
+                </ul></li>             
+            <li><a href="analysis.html">4. Numerical Analysis</a>
+                <ul>
+                <li><a href="analysis.html#overview">4.1 Overview</a></li>
+                <li><a href="analysis.html#rootfinding">4.2 Root-finding</a></li>                
+                <li><a href="analysis.html#interpolation">4.3 Interpolation</a></li>
+                </ul></li>     
+            <li><a href="special.html">5. Special Functions</a>
+                <ul>
+                <li><a href="special.html#overview">5.1 Overview</a></li>
+                <li><a href="special.html#gamma">5.2 Gamma functions</a></li>
+                <li><a href="special.html#beta">5.3 Beta funtions</a></li>
+                </ul></li>   
+        <li><a href="utilities.html">6. Utilities</a>
+                <ul>
+                <li><a href="utilities#overview">6.1 Overview</a></li>
+                <li><a href="utilities.html#arrays">6.2 Double array utilities</a></li>
+                <li><a href="utilities.html#continued_fractions">6.3 Continued Fractions</a></li>
+                <li><a href="utilities.html#math_utils">6.4 binomial coefficients, factorials and other common math functions</a></li>
+                <li><a href="utilities.html#stat_utils">6.5 statistical computation utiliities</a></li>
+                </ul></li>                                 
+        </ul>
+      </section>
+    
+  </body>
+  
+</document>

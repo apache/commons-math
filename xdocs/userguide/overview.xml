@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>User Guide - Overview</title>
+    <author email="rdonkin@apache.org">Robert Burrell Donkin</author>
+    <author email="phil@steitz.com">Phil Steitz</author>
+  </properties>
+  
+<body>
+
+<section name="Overview">
+
+<subsection name="0.1 About The User Guide" href="about">
+    <p>
+    This guide is intended to help programmers quickly find what they need to develop
+    solutions using Commons Math.  It also provides a supplement to the javadoc API documentation,
+    providing a little more explanation of the mathematical objects and functions included
+    in the package.    
+    </p>
+</subsection>
+
+<subsection name="0.2 What's in commons-math" href="summary">
+    <p>
+    Commons Math is made up of a small set of math/stat utilities addressing 
+    programming problems like the ones in the list below.  This list is not exhaustive, 
+    it's just meant to give a feel for the kinds of things that Commons Math provides.  
+    <ul>
+        <li>Computing means, variances and other summary statistics for a list of numbers</li>
+        <li>Fitting a line to a set of data points using linear regression</li>
+        <li>Solving equations involving real-valued functions (i.e. root-finding)</li> 
+        <li>Performing statistical significance tests</li>
+        <li>Solving systems of linear equations</li>
+        <li>Generating random numbers with more restrictions (e.g distribution, range) than what
+            is possible using the JDK</li>
+        <li>Generating random samples and/or datasets that are "like" the data in an input file</li>
+        <li>Finding a smooth curve that passes through a collection of points (interpolation)</li>
+        <li>Miscellaneous mathematical functions such as factorials and binomial
+            coefficients</li>
+    </ul></p> 
+    <p>
+    Commons Math is a new project and we are actively seeking ideas for additional components that
+    fit into the <a href="../index.html#summary">Commons Math vision</a> of a set of lightweight, 
+    self-contained math/stat components useful for solving common programming problems.
+    Suggestions for new components or enhancements to existing functionality are always welcome! 
+    All feedback/suggestions for improvement should be sent to the 
+    <a href="http://jakarta.apache.org/site/mail.html">commons-dev mailing list</a> with
+    [math] at the beginning of the subject line.
+    </p>
+</subsection>
+
+<subsection name="0.3 How commons-math is organized" href="organization">
+    <p>
+    Commons Math is divided into 6 subpackages, based on functionality provided.
+    <ol><li><a href="stat.html">org.apache.commons.math.stat</a> - statistics, statistical tests, probability distributions</li>
+        <li><a href="analysis.html">org.apache.commons.math.analysis</a> - rootfinding and interpolation</li>
+        <li><a href="random.html">org.apache.commons.math.random</a> - random numbers, strings and data generation</li>
+        <li><a href="special.html">org.apache.commons.math.special</a> - special functions (Gamma, Beta) </li>
+        <li><a href="linear.html">org.apache.commons.math.linear</a> - matrices, solving linear systems </li>
+        <li><a href="utilities.html">org.apache.commons.matn.utitlities</a> - common math/stat functions extending java.lang.Math </li>
+     </ol>
+     Package javadocs are <a href="../apidocs/index.html">here</a>
+    </p>
+</subsection>
+
+<subsection name="0.4 How interface contracts are specified in commons-math javadoc" href="contracts">
+    <p>
+    You should always read the javadoc class and method comments carefully when using 
+    Commons Math components in your programs.  The javadoc provides references to the algorithms
+    that are used, usage notes about limitations, performance, etc. as well as interface contracts.
+    Interface contracts are specified in terms of preconditions (what has to be true in order
+    for the method to return valid results), special values returned (e.g. Double.NaN) 
+    or exceptions that may be thrown if the preconditions are not met, and definitions for returned
+    values/objects or state changes.</p>
+    <p>
+     When the actual parameters provide to a method or the internal state of an object 
+     make a computation meaningless, an IllegalArgumentException or IllegalStateException may
+     be thrown. Exact conditions under which runtime exceptions (and any other exceptions) are 
+     thrown are specified in the javadoc method comments.  In some cases, to be consistent with 
+     the <a href="http://grouper.ieee.org/groups/754/">IEEE 754 standard</a> for floating point 
+     arithmetic and with java.lang.Math, Commons Math methods return Double.NaN values.
+     Conditions under which Double.NaN or other special values are returned are fully specified
+     in the javadoc method comments.
+    </p>
+</subsection>
+
+<subsection name="0.5 Dependencies" href="dependencies">
+    <p>
+    Commons Math requires JDK 1.2+ and has no dependencies other than the following Jakarta Commons
+    components:
+    <ul>
+    <li>commons-beanutils 1.5 </li>
+    <li>commons-collections 2.1 </li>
+    <li>commons-logging 1.0.3 </li>
+    </ul>
+    </p>
+</subsection>
+
+</section>
+
+</body>
+</document>
+
