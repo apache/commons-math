@@ -20,11 +20,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import org.apache.commons.logging.LogFactory;
-import org.apache.commons.logging.Log;
 
 import org.apache.commons.math.stat.univariate.SummaryStatistics;
 import org.apache.commons.math.stat.univariate.SummaryStatisticsImpl;
@@ -32,15 +28,13 @@ import org.apache.commons.math.stat.univariate.DescriptiveStatistics;
 
 /**
  * Certified data test cases.
- * @version $Revision: 1.17 $ $Date: 2004/04/12 02:27:49 $
+ * @version $Revision: 1.18 $ $Date: 2004/07/10 16:07:07 $
  */
 public class CertifiedDataTest extends TestCase  {
 
 	protected double mean = Double.NaN;
 
 	protected double std = Double.NaN;
-
-	protected Log log = LogFactory.getLog(this.getClass());
 
 	/**
 	 * Certified Data Test Constructor
@@ -94,7 +88,7 @@ public class CertifiedDataTest extends TestCase  {
 	/**
 	 * Test StorelessDescriptiveStatistics
 	 */
-	public void testStoredUnivariateImpl() {
+	public void testStoredUnivariateImpl() throws Exception {
 
 		DescriptiveStatistics u = DescriptiveStatistics.newInstance();
 		
@@ -124,60 +118,52 @@ public class CertifiedDataTest extends TestCase  {
 	 * @param file
 	 * @param statistical summary
 	 */
-	private void loadStats(String resource, Object u) {
-		
-		DescriptiveStatistics d = null;
-		SummaryStatistics s = null;
-		if (u instanceof DescriptiveStatistics) {
-			d = (DescriptiveStatistics) u;
-		} else {
-			s = (SummaryStatistics) u;
-		}
-		try {
-			u.getClass().getDeclaredMethod("clear", null).invoke(u, null);
-			mean = Double.NaN;
-			std = Double.NaN;
-
-			BufferedReader in =
-				new BufferedReader(
-					new InputStreamReader(
-						getClass().getResourceAsStream(resource)));
-
-			String line = null;
-
-			for (int j = 0; j < 60; j++) {
-				line = in.readLine();
-				if (j == 40) {
-					mean =
-						Double.parseDouble(
-							line.substring(line.lastIndexOf(":") + 1).trim());
-				}
-				if (j == 41) {
-					std =
-						Double.parseDouble(
-							line.substring(line.lastIndexOf(":") + 1).trim());
-				}
-			}
-
-			line = in.readLine();
-
-			while (line != null) {
-				if (d != null) {
-					d.addValue(Double.parseDouble(line.trim()));
-				}  else {
-					s.addValue(Double.parseDouble(line.trim()));
-				}
-				line = in.readLine();
-			}
-
-			in.close();
-
-		} catch (FileNotFoundException fnfe) {
-			log.error(fnfe.getMessage(), fnfe);
-		} catch (IOException ioe) {
-			log.error(ioe.getMessage(), ioe);
-		} catch (Exception ioe) {
-			log.error(ioe.getMessage(), ioe);
-		}
+	private void loadStats(String resource, Object u) throws Exception {
+	    
+	    DescriptiveStatistics d = null;
+	    SummaryStatistics s = null;
+	    if (u instanceof DescriptiveStatistics) {
+	        d = (DescriptiveStatistics) u;
+	    } else {
+	        s = (SummaryStatistics) u;
+	    }
+	    
+	    u.getClass().getDeclaredMethod("clear", null).invoke(u, null);
+	    mean = Double.NaN;
+	    std = Double.NaN;
+	    
+	    BufferedReader in =
+	        new BufferedReader(
+	                new InputStreamReader(
+	                        getClass().getResourceAsStream(resource)));
+	    
+	    String line = null;
+	    
+	    for (int j = 0; j < 60; j++) {
+	        line = in.readLine();
+	        if (j == 40) {
+	            mean =
+	                Double.parseDouble(
+	                        line.substring(line.lastIndexOf(":") + 1).trim());
+	        }
+	        if (j == 41) {
+	            std =
+	                Double.parseDouble(
+	                        line.substring(line.lastIndexOf(":") + 1).trim());
+	        }
+	    }
+	    
+	    line = in.readLine();
+	    
+	    while (line != null) {
+	        if (d != null) {
+	            d.addValue(Double.parseDouble(line.trim()));
+	        }  else {
+	            s.addValue(Double.parseDouble(line.trim()));
+	        }
+	        line = in.readLine();
+	    }
+	    
+	    in.close();
 	}
 }
