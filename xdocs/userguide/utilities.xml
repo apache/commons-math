@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.7 $ $Date: 2004/04/26 20:47:07 $ -->
+<!-- $Revision: 1.8 $ $Date: 2004/05/17 05:58:35 $ -->
 <document url="utilities.html">
 
 <properties>
@@ -30,7 +30,10 @@
 
 <subsection name="6.1 Overview" href="overview">
     <p>
-    This is yet to be written. Any contributions will be greatfully accepted!
+    The <a href="../apidocs/org/apache/commons/math/util/package-summary.html">
+    org.apache.commons.math.util</a> package collects a group of array utilities,
+    value transformers,  and numerical routines used by implementation classes in
+    commons-math.
     </p>
 </subsection>
 
@@ -109,12 +112,6 @@
 </subsection>
 
 <subsection name="6.4 binomial coefficients, factorials and other common math functions" href="math_utils">
-    <p>
-    This is yet to be written. Any contributions will be gratefully accepted!
-    </p>
-</subsection>
-
-<subsection name="6.5 statistical computation utiliities" href="stat_utils">
     <p>
     This is yet to be written. Any contributions will be gratefully accepted!
     </p>
