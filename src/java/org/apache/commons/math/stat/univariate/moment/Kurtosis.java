@@ -31,7 +31,7 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  *  Note that this statistic is undefined for n < 4.  <code>Double.Nan</code> is returned when
  *  there is not sufficient data to compute the statistic.
  * 
- * @version $Revision: 1.20 $ $Date: 2004/06/18 01:42:47 $
+ * @version $Revision: 1.21 $ $Date: 2004/06/18 04:14:27 $
  */
 public class Kurtosis extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -44,7 +44,7 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic implements Se
     /** 
      * Determines whether or not this statistic can be incremented or cleared.
      * <p>
-     * Statistics based on (contructed from) external moments cannot
+     * Statistics based on (constructed from) external moments cannot
      * be incremented or cleared.
     */
     protected boolean incMoment = true;
