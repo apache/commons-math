@@ -23,28 +23,12 @@ import org.apache.commons.math.util.MathUtils;
 /**
  * Abstract factory class for univariate statistical summaries.
  *
- * @version $Revision: 1.9 $ $Date: 2004/06/23 16:26:16 $
+ * @version $Revision: 1.10 $ $Date: 2004/07/10 16:04:47 $
  */
 public abstract class SummaryStatistics implements StatisticalSummary, Serializable {
 
     /** Serialization UID */
     static final long serialVersionUID = -6400596334135654825L;
-    
-    /**
-     * Create an instance of a <code>SummaryStatistics</code>
-     * @param cls the type of <code>SummaryStatistics</code> object to
-     *        create. 
-     * @return a new factory. 
-     * @throws InstantiationException is thrown if the object can not be
-     *            created.
-     * @throws IllegalAccessException is thrown if the type's default
-     *            constructor is not accessible.
-     * @throws ClassNotFoundException if the named
-     *            <code>SummaryStatistics</code> type can not be found.
-     */
-    public static SummaryStatistics newInstance(String cls) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-        return newInstance(Class.forName(cls));
-    }
      
     /**
      * Create an instance of a <code>DescriptiveStatistics</code>
@@ -62,19 +46,19 @@ public abstract class SummaryStatistics implements StatisticalSummary, Serializa
     
     /**
      * Create an instance of a <code>DescriptiveStatistics</code>
-     * @return a new factory. 
+     * @return a new SummaryStatistics instance. 
      */
     public static SummaryStatistics newInstance() {
-        SummaryStatistics factory = null;
+        SummaryStatistics instance = null;
         try {
             DiscoverClass dc = new DiscoverClass();
-            factory = (SummaryStatistics) dc.newInstance(
+            instance = (SummaryStatistics) dc.newInstance(
                 SummaryStatistics.class,
                 "org.apache.commons.math.stat.univariate.SummaryStatisticsImpl");
-        } catch(Exception ex) {
-            // ignore as default implementation will be used.
+        } catch(Throwable t) {
+            return new SummaryStatisticsImpl();
         }
-        return factory;
+        return instance;
     }
     
 

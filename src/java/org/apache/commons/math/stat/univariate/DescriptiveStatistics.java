@@ -34,28 +34,12 @@ import org.apache.commons.math.stat.univariate.summary.SumOfSquares;
 /**
  * Abstract factory class for univariate statistical summaries.
  *
- * @version $Revision: 1.8 $ $Date: 2004/06/23 16:26:16 $
+ * @version $Revision: 1.9 $ $Date: 2004/07/10 16:04:47 $
  */
 public abstract class DescriptiveStatistics implements StatisticalSummary, Serializable {
     
     /** Serialization UID */
     static final long serialVersionUID = 5188298269533339922L;
-    
-    /**
-     * Create an instance of a <code>DescriptiveStatistics</code>
-     * @param cls the type of <code>DescriptiveStatistics</code> object to
-     *        create. 
-     * @return a new factory. 
-     * @throws InstantiationException is thrown if the object can not be
-     *            created.
-     * @throws IllegalAccessException is thrown if the type's default
-     *            constructor is not accessible.
-     * @throws ClassNotFoundException if the named
-     *            <code>DescriptiveStatistics</code> type can not be found.
-     */
-    public static DescriptiveStatistics newInstance(String cls) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-        return newInstance(Class.forName(cls));
-    }
     
     /**
      * Create an instance of a <code>DescriptiveStatistics</code>
@@ -82,9 +66,8 @@ public abstract class DescriptiveStatistics implements StatisticalSummary, Seria
             factory = (DescriptiveStatistics) dc.newInstance(
                 DescriptiveStatistics.class,
                 "org.apache.commons.math.stat.univariate.DescriptiveStatisticsImpl");
-        } catch(Exception ex) {
-            ex.printStackTrace();
-            // ignore as default implementation will be used.
+        } catch(Throwable t) {
+            return new DescriptiveStatisticsImpl();
         }
         return factory;
     }
