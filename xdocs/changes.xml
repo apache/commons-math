@@ -44,6 +44,9 @@ The <action> type attribute can be add,update,fix,remove.
         to the commons-dev list by Jon Langlois on 9/14. Integer arguments to 
         getCumXxx were always returning 0 due to type conversion problems.
       </action>
+      <action dev="brentworden" type="fix">
+        Fixed locale-dependency in ComplexFormat. (pr #31325).
+      </action>
     </release>
     
     <release version="1.0-RC1" date="2004-09-07">
