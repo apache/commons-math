@@ -53,74 +53,68 @@
  */
 package org.apache.commons.math;
 
+import java.util.Iterator;
+import java.util.List;
+
 /**
- * StoreUnivariate implements the Univariate interface but maintains the set of values 
- * which contribute to the values being returned.  This implementation of Univariate
- * provides additional functionality such as skewness, kurtosis, and mode.  This additional
- * functionality comes with a price of increased storage costs.
- * 
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
  */
-public interface StoreUnivariate extends Univariate {
+public class ListUnivariateImpl extends AbstractStoreUnivariate {
 
-	/**
-	 * A LEPTOKURTIC set has a positive kurtosis (a high peak) 
-	 */
-	public static int LEPTOKURTIC = 1;
-	
-	/**
-	 * A MESOKURTIC set has a kurtosis of 0 - it is a normal distribution
-	 */
-	public static int MESOKURTIC = 0;
-	
-	/**
-	 * A PLATYKURTIC set has a negative kurtosis (a flat "peak")
-	 */
-	public static int PLATYKURTIC = -1;
+	// Holds a reference to a list - GENERICs are going to make
+	// out lives easier here as we could only accept List<Number>
+	List list;
 
-	/** 
-	 * Returns the mode of the values that have been added.  The mode is
-	 * the element which occurs with the most frequency
-	 * @return the mode
-	 */
-	public abstract double getMode();
+	public ListUnivariateImpl( List list ) {
+		this.list = list;
+	}
 
-	/** 
-	 * Returns the skewness of a given distribution.  Skewness is a measure of the
-	 * assymetry of a given distribution. 
-	 * 
-	 * @return The skewness of this distribution
-	 */
-	public abstract double getSkewness();
 
-	/** 
-	 * Kurtosis is a measure of the "peakedness" of a distribution
-	 * 
-	 * @return the mode
+	/* (non-Javadoc)
+	 * @see org.apache.commons.math.StoreUnivariate#getValues()
 	 */
-	public abstract double getKurtosis();
+	public double[] getValues() {
+
+		double[] copiedArray = new double[list.size()];
+
+		int i = 0;
+		Iterator it = list.iterator();
+		while( it.hasNext() ) {
+			Number n = (Number) it.next();
+			copiedArray[i] = n.doubleValue();
+			i++;
+		}
+
+		return copiedArray;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.apache.commons.math.StoreUnivariate#getElement(int)
+	 */
+	public double getElement(int index) {
+		Number n = (Number) list.get(index);
+		return n.doubleValue();
+	}
 	
-	/**
-	 * Returns the Kurtosis "classification" a distribution can be leptokurtic (high peak), platykurtic (flat peak), 
-	 * or mesokurtic (zero kurtosis).  
-	 * 
-	 * @return A static constant defined in this interface, StoredDeviation.LEPTOKURITC, 
-	 * 			    StoredDeviation.PLATYKURTIC, or StoredDeviation.MESOKURTIC
+	/* (non-Javadoc)
+	 * @see org.apache.commons.math.Univariate#getN()
 	 */
-	public abstract int getKurtosisClass();
+	public double getN() {
+		return list.size();
+	}
 	
-	/**
-	 * Returns the current set of values in an array of double primitives.  The order of addition is preserved
-	 * 
-	 * @return returns the current set of numbers in the order in which they were added to this set
+	/* (non-Javadoc)
+	 * @see org.apache.commons.math.Univariate#addValue(double)
 	 */
-	public abstract double[] getValues();
-	
-	/**
-	 * Returns the element at the specified index
-	 * 
-	 * @return return the element at the specified index
+	public void addValue(double v) {
+		list.add( new Double(v));
+	}
+
+	/* (non-Javadoc)
+	 * @see org.apache.commons.math.Univariate#clear()
 	 */
-	public abstract double getElement(int index);
+	public void clear() {
+		list.clear();
+	}
 
 }

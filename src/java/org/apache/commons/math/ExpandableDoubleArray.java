@@ -53,6 +53,7 @@
  */
 package org.apache.commons.math;
 
+import java.io.Serializable;
 import java.util.NoSuchElementException;
 
 /**
@@ -60,7 +61,7 @@ import java.util.NoSuchElementException;
  * 
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
  */
-public class ExpandableDoubleArray {
+public class ExpandableDoubleArray implements Serializable {
 
 	// This is the internal storage array.
 	private double[] internalArray;

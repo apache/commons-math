@@ -53,6 +53,8 @@
  */
 package org.apache.commons.math;
 
+import java.io.Serializable;
+
 /**
  *
  * Accumulates univariate statistics for values fed in 
@@ -62,10 +64,10 @@ package org.apache.commons.math;
  * to doubles by addValue().  
  *
  * @author Phil Steitz
- * @version $Revision: 1.1 $ $Date: 2003/05/15 05:39:00 $
+ * @version $Revision: 1.2 $ $Date: 2003/05/15 06:33:19 $
  * 
 */
-public class UnivariateImpl implements Univariate {
+public class UnivariateImpl implements Univariate, Serializable {
 
     /** running sum of values that have been added */
     private double sum = 0.0;

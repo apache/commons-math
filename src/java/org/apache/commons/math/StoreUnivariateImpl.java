@@ -54,11 +54,9 @@
 package org.apache.commons.math;
 
 /**
- * Provides univariate measures for an array of doubles.  
- * 
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
  */
-public class StoreUnivariateImpl implements StoreUnivariate {
+public class StoreUnivariateImpl extends AbstractStoreUnivariate {
 
 	ExpandableDoubleArray eDA;
 
@@ -66,207 +64,36 @@ public class StoreUnivariateImpl implements StoreUnivariate {
 		eDA = new ExpandableDoubleArray();
 	}
 
+
 	/* (non-Javadoc)
-	 * @see org.apache.commons.math.StoreUnivariate#getMode()
+	 * @see org.apache.commons.math.StoreUnivariate#getValues()
 	 */
-	public double getMode() {
-		// Mode depends on a refactor Freq class
-		throw new UnsupportedOperationException("getMode() is not yet implemented");
+	public double[] getValues() {
+
+		double[] copiedArray = new double[ eDA.getNumElements() ];
+		System.arraycopy( eDA.getValues(), 0, copiedArray, 0, eDA.getNumElements());
+		return copiedArray;
 	}
 
 	/* (non-Javadoc)
-	 * @see org.apache.commons.math.StoreUnivariate#getSkewness()
+	 * @see org.apache.commons.math.StoreUnivariate#getElement(int)
 	 */
-	public double getSkewness() {
-		// Initialize the skewness
-		double skewness = Double.NaN;
-		
-		// Get the mean and the standard deviation
-		double mean = getMean();
-		double stdDev = getStandardDeviation();
-
-		// Sum the cubes of the distance from the mean divided by the standard deviation
-		double accum = 0.0;
-		for( int i = 0; i < eDA.getNumElements(); i++ ) {
-			accum += Math.pow( (eDA.getElement(i) - mean) / stdDev, 3.0);
-		}
-		
-		// Get N
-		double n = getN();
-		
-		// Calculate skewness
-		skewness = ( n / ( (n-1) * (n-2) ) ) * accum;
-
-		return skewness;
+	public double getElement(int index) {
+		return eDA.getElement(index);
 	}
-
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.StoreUnivariate#getKurtosis()
-	 */
-	public double getKurtosis() {
-		// Initialize the kurtosis
-		double kurtosis = Double.NaN;
-		
-		// Get the mean and the standard deviation
-		double mean = getMean();
-		double stdDev = getStandardDeviation();
-
-		// Sum the ^4 of the distance from the mean divided by the standard deviation
-		double accum = 0.0;
-		for( int i = 0; i < eDA.getNumElements(); i++ ) {
-			accum += Math.pow( (eDA.getElement(i) - mean) / stdDev, 4.0);
-		}
-		
-		// Get N
-		double n = getN();
-		
-		double coefficientOne = ( n * (n+1)) / ( (n-1) * (n-2) * (n-3) );
-		double termTwo = (  ( 3 * Math.pow( n - 1, 2.0)) /  ( (n-2) * (n-3) ) ); 
-		// Calculate kurtosis
-		kurtosis = ( coefficientOne * accum ) - termTwo;
-
-		return kurtosis;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.StoreUnivariate#getKurtosisClass()
-	 */
-	public int getKurtosisClass() {
-
-		int kClass = StoreUnivariate.MESOKURTIC;
-		
-		double kurtosis = getKurtosis();
-		if( kurtosis > 0 ) {
-			kClass = StoreUnivariate.LEPTOKURTIC;
-		} else if( kurtosis < 0 ) {
-			kClass = StoreUnivariate.PLATYKURTIC;
-		}
-		
-		return( kClass );
-
-	}
-
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.Univariate#addValue(double)
-	 */
-	public void addValue(double v) {
-		eDA.addElement( v );
-	}
-
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.Univariate#getMean()
-	 */
-	public double getMean() {
-		double arithMean = getSum() / getN();
-		return arithMean;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.Univariate#getVariance()
-	 */
-	public double getVariance() {
-		// Initialize variance
-		double variance = Double.NaN;
-
-		if( getN() == 1 ) {
-			// If this is a single value
-			variance = 0;
-		} else if( getN() > 1 ) {
-			// Get the mean
-			double mean = getMean();
-
-			// Calculate the sum of the squares of the distance between each value and the mean
-			double accum = 0.0;		
-			for( int i = 0; i < eDA.getNumElements(); i++ ){
-					accum += Math.pow( (eDA.getElement(i) - mean), 2.0 );
-			}
-		
-			// Divide the accumulator by N - Hmmm... unbiased or biased?
-			variance = accum / (getN() - 1);
-		 }
-		
-		return variance;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.Univariate#getStandardDeviation()
-	 */
-	public double getStandardDeviation() {
-		double stdDev = Double.NaN;
-		if( getN() != 0 ) {
-			stdDev = Math.sqrt( getVariance() );
-		}
-		return( stdDev );
-	}
-
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.Univariate#getMax()
-	 */
-	public double getMax() {
-		
-		// Initialize maximum to NaN
-		double max = Double.NaN;
-		
-		for( int i = 0; i < eDA.getNumElements(); i++) {
-			if( i == 0 ) {
-				max = eDA.getElement(i);
-			} else {
-				if( eDA.getElement(i) > max ) {
-					max = eDA.getElement(i);
-				}
-			}
-		}
-
-		return max;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.Univariate#getMin()
-	 */
-	public double getMin() {
-		// Initialize minimum to NaN
-		double min = Double.NaN;
-		
-		for( int i = 0; i < eDA.getNumElements(); i++) {
-			if( i == 0 ) {
-				min = eDA.getElement(i);
-			} else {
-				if( eDA.getElement(i) < min ) {
-					min = eDA.getElement(i);
-				}
-			}
-		}
-
-		return min;
-	}
-
+	
 	/* (non-Javadoc)
 	 * @see org.apache.commons.math.Univariate#getN()
 	 */
 	public double getN() {
 		return eDA.getNumElements();
 	}
-
+	
 	/* (non-Javadoc)
-	 * @see org.apache.commons.math.Univariate#getSum()
+	 * @see org.apache.commons.math.Univariate#addValue(double)
 	 */
-	public double getSum() {
-		double accum = 0.0;
-		for( int i = 0; i < eDA.getNumElements(); i++) {
-			accum += eDA.getElement(i);
-		}
-		return accum;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.apache.commons.math.Univariate#getSumsq()
-	 */
-	public double getSumsq() {
-		double accum = 0.0;
-		for( int i = 0; i < eDA.getNumElements(); i++) {
-			accum += Math.pow(eDA.getElement(i), 2.0);
-		}
-		return accum;
+	public void addValue(double v) {
+		eDA.addElement( v );
 	}
 
 	/* (non-Javadoc)
