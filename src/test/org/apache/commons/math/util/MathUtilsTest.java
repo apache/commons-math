@@ -24,7 +24,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the MathUtils class.
  *
- * @version $Revision: 1.11 $ $Date: 2004/04/12 04:03:39 $
+ * @version $Revision: 1.12 $ $Date: 2004/04/12 04:22:09 $
  */
 
 public final class MathUtilsTest extends TestCase {
@@ -308,43 +308,43 @@ public final class MathUtilsTest extends TestCase {
         assertEquals( -1L, MathUtils.indicator( -2L ) ) ;
     }
    
-	public void testIndicatorDouble() {
-		 double delta = 0.0 ;
-		 assertEquals( 1.0, MathUtils.indicator( 2.0 ), delta ) ;
-		 assertEquals( 1.0, MathUtils.indicator( 0.0 ), delta ) ;
-		 assertEquals( -1.0, MathUtils.indicator( -2.0 ), delta ) ;
-	 }
-
-	 public void testIndicatorFloat() {
-		 float delta = 0.0F ;
-		 assertEquals( 1.0F, MathUtils.indicator( 2.0F ), delta ) ;
-		 assertEquals( 1.0F, MathUtils.indicator( 0.0F ), delta ) ;
-		 assertEquals( -1.0F, MathUtils.indicator( -2.0F ), delta ) ;
-	 }
-
-	 public void testIndicatorByte() {
-		 assertEquals( (byte)1, MathUtils.indicator( (byte)2 ) ) ;
-		 assertEquals( (byte)1, MathUtils.indicator( (byte)0 ) ) ;
-		 assertEquals( (byte)(-1), MathUtils.indicator( (byte)(-2) ) ) ;
-	 }
-
-	 public void testIndicatorShort() {
-		 assertEquals( (short)1, MathUtils.indicator( (short)2 ) ) ;
-		 assertEquals( (short)1, MathUtils.indicator( (short)0 ) ) ;
-		 assertEquals( (short)(-1), MathUtils.indicator( (short)(-2) ) ) ;
-	 }
-
-	 public void testIndicatorInt() {
-		 assertEquals( (int)1, MathUtils.indicator( (int)(2) ) ) ;
-		 assertEquals( (int)1, MathUtils.indicator( (int)(0) ) ) ;
-		 assertEquals( (int)(-1), MathUtils.indicator( (int)(-2) ) ) ;
-	 }
-
-	 public void testIndicatorLong() {
-		 assertEquals( 1L, MathUtils.indicator( 2L ) ) ;
-		 assertEquals( 1L, MathUtils.indicator( 0L ) ) ;
-		 assertEquals( -1L, MathUtils.indicator( -2L ) ) ;
-	 }
+    public void testIndicatorDouble() {
+        double delta = 0.0 ;
+        assertEquals( 1.0, MathUtils.indicator( 2.0 ), delta ) ;
+        assertEquals( 1.0, MathUtils.indicator( 0.0 ), delta ) ;
+        assertEquals( -1.0, MathUtils.indicator( -2.0 ), delta ) ;
+    }
+    
+    public void testIndicatorFloat() {
+        float delta = 0.0F ;
+        assertEquals( 1.0F, MathUtils.indicator( 2.0F ), delta ) ;
+        assertEquals( 1.0F, MathUtils.indicator( 0.0F ), delta ) ;
+        assertEquals( -1.0F, MathUtils.indicator( -2.0F ), delta ) ;
+    }
+    
+    public void testIndicatorByte() {
+        assertEquals( (byte)1, MathUtils.indicator( (byte)2 ) ) ;
+        assertEquals( (byte)1, MathUtils.indicator( (byte)0 ) ) ;
+        assertEquals( (byte)(-1), MathUtils.indicator( (byte)(-2) ) ) ;
+    }
+    
+    public void testIndicatorShort() {
+        assertEquals( (short)1, MathUtils.indicator( (short)2 ) ) ;
+        assertEquals( (short)1, MathUtils.indicator( (short)0 ) ) ;
+        assertEquals( (short)(-1), MathUtils.indicator( (short)(-2) ) ) ;
+    }
+    
+    public void testIndicatorInt() {
+        assertEquals( (int)1, MathUtils.indicator( (int)(2) ) ) ;
+        assertEquals( (int)1, MathUtils.indicator( (int)(0) ) ) ;
+        assertEquals( (int)(-1), MathUtils.indicator( (int)(-2) ) ) ;
+    }
+    
+    public void testIndicatorLong() {
+        assertEquals( 1L, MathUtils.indicator( 2L ) ) ;
+        assertEquals( 1L, MathUtils.indicator( 0L ) ) ;
+        assertEquals( -1L, MathUtils.indicator( -2L ) ) ;
+    }
     
     public void testCosh() {
         double x = 3.0;
