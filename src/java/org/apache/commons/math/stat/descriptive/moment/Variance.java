@@ -45,7 +45,7 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
  * one of the threads invokes the <code>increment()</code> or 
  * <code>clear()</code> method, it must be synchronized externally.
  * 
- * @version $Revision: 1.2 $ $Date: 2004/10/10 20:40:52 $
+ * @version $Revision: 1.3 $ $Date: 2004/10/11 04:55:10 $
  */
 public class Variance extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -105,8 +105,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * property and the supplied external second moment.
      * 
      * @param isBiasCorrected  setting for bias correction - true means
-     * bias will be corrected and is equivalent to using the argumentless
-     * constructor
+     * bias will be corrected
      * @param m2 the SecondMoment (Thrid or Fourth moments work
      * here as well.)
      */
