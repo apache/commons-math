@@ -61,10 +61,10 @@ import junit.framework.TestSuite;
  * Test cases for the {@link Univariate} class.
  *
  * @author <a href="mailto:phil@steitz.com">Phil Steitz</a>
- * @version $Revision: 1.1 $ $Date: 2003/05/12 19:02:53 $
+ * @version $Revision: 1.1 $ $Date: 2003/05/15 05:39:01 $
  */
 
-public final class UnivariateTest extends TestCase {
+public final class UnivariateImplTest extends TestCase {
     private double one = 1;
     private float twoF = 2;
     private long twoL = 2;
@@ -79,7 +79,7 @@ public final class UnivariateTest extends TestCase {
     private double max = 3;
     private double tolerance = 10E-15;
     
-    public UnivariateTest(String name) {
+    public UnivariateImplTest(String name) {
         super(name);
     }
     
@@ -87,14 +87,14 @@ public final class UnivariateTest extends TestCase {
     }
     
     public static Test suite() {
-        TestSuite suite = new TestSuite(UnivariateTest.class);
+        TestSuite suite = new TestSuite(UnivariateImplTest.class);
         suite.setName("Freq Tests");
         return suite;
     }
     
     /** test stats */
     public void testStats() {
-        Univariate u = new Univariate("test univariate"); 
+        UnivariateImpl u = new UnivariateImpl(); 
         assertEquals("total count",0,u.getN(),tolerance);
         u.addValue(one);
         u.addValue(twoF);
@@ -111,5 +111,19 @@ public final class UnivariateTest extends TestCase {
         u.clear();
         assertEquals("total count",0,u.getN(),tolerance);    
     }     
+    
+    public void testN0andN1Conditions() throws Exception {
+    	UnivariateImpl u = new UnivariateImpl();
+    	    	
+		assertTrue("Mean of n = 0 set should be NaN", Double.isNaN( u.getMean() ) );
+		assertTrue("Standard Deviation of n = 0 set should be NaN", Double.isNaN( u.getStandardDeviation() ) );
+		assertTrue("Variance of n = 0 set should be NaN", Double.isNaN(u.getVariance() ) );
+
+		u.addValue(one);
+
+		assertTrue( "Mean of n = 1 set should be value of single item n1", u.getMean() == one);
+		assertTrue( "Mean of n = 1 set should be zero", u.getStandardDeviation() == 0);
+		assertTrue( "Variance of n = 1 set should be zero", u.getVariance() == 0);	
+    }
 }
 

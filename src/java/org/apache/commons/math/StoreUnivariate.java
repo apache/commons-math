@@ -53,41 +53,66 @@
  */
 package org.apache.commons.math;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-import junit.textui.TestRunner;
 /**
- * Test suite for the Math package.
- *
- * @author Phil Steitz
- * @version $Id: MathTestSuite.java,v 1.2 2003/05/15 05:39:01 tobrien Exp $
+ * StoreUnivariate implements the Univariate interface but maintains the set of values 
+ * which contribute to the values being returned.  This implementation of Univariate
+ * provides additional functionality such as skewness, kurtosis, and mode.  This additional
+ * functionality comes with a price of increased storage costs.
+ * 
+ * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
  */
-public class MathTestSuite extends TestCase {
-    
-    /**
-     * Construct a new instance.
-     */
-    public MathTestSuite(String name) {
-        super(name);
-    }
+public interface StoreUnivariate extends Univariate {
 
-    /**
-     * Command-line interface.
-     */
-    public static void main(String[] args) {
-        TestRunner.run(suite());
-    }
+	/**
+	 * A LEPTOKURTIC set has a positive kurtosis (a high peak) 
+	 */
+	public static int LEPTOKURTIC = 1;
+	
+	/**
+	 * A MESOKURTIC set has a kurtosis of 0 - it is a normal distribution
+	 */
+	public static int MESOKURTIC = 0;
+	
+	/**
+	 * A PLATYKURTIC set has a negative kurtosis (a flat "peak")
+	 */
+	public static int PLATYKURTIC = -1;
 
-    /**
-     * Get the suite of tests
-     */
-    public static Test suite() {
-        TestSuite suite = new TestSuite();
-        suite.setName("Commons Math Tests");
-        suite.addTest(RealMatrixImplTest.suite());
-        suite.addTest(FreqTest.suite());
-        suite.addTest(UnivariateImplTest.suite());
-        return suite;
-    }
+	/** 
+	 * Returns the mode of the values that have been added.  The mode is
+	 * the element which occurs with the most frequency
+	 * @return the mode
+	 */
+	public abstract double getMode();
+
+	/** 
+	 * Returns the skewness of a given distribution.  Skewness is a measure of the
+	 * assymetry of a given distribution. 
+	 * 
+	 * @return The skewness of this distribution
+	 */
+	public abstract double getSkewness();
+
+	/** 
+	 * Kurtosis is a measure of the "peakedness" of a distribution
+	 * 
+	 * @return the mode
+	 */
+	public abstract double getKurtosis();
+	
+	/**
+	 * Returns the Kurtosis "classification" a distribution can be leptokurtic (high peak), platykurtic (flat peak), 
+	 * or mesokurtic (zero kurtosis).  
+	 * 
+	 * @return A static constant defined in this interface, StoredDeviation.LEPTOKURITC, 
+	 * 			    StoredDeviation.PLATYKURTIC, or StoredDeviation.MESOKURTIC
+	 */
+	public abstract int getKurtosisClass();
+	
+	/**
+	 * Returns the current set of values in an array of double primitives.  The order of addition is preserved
+	 * 
+	 * @return returns the current set of numbers in the order in which they were added to this set
+	 */
+	
 }
