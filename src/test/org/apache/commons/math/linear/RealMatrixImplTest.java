@@ -22,7 +22,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link RealMatrixImpl} class.
  *
- * @version $Revision: 1.18 $ $Date: 2004/10/10 05:23:16 $
+ * @version $Revision: 1.19 $ $Date: 2004/10/10 18:01:16 $
  */
 
 public final class RealMatrixImplTest extends TestCase {
@@ -619,6 +619,16 @@ public final class RealMatrixImplTest extends TestCase {
         assertEquals(m, m1);
         assertFalse(m.equals(null));
         assertFalse(m.equals(mt));
+        assertFalse(m.equals(new RealMatrixImpl(bigSingular))); 
+    }
+    
+    public void testToString() {
+        RealMatrixImpl m = new RealMatrixImpl(testData);
+        assertEquals("RealMatrixImpl{{1.0,2.0,3.0},{2.0,5.0,3.0},{1.0,0.0,8.0}}",
+                m.toString());
+        m = new RealMatrixImpl();
+        assertEquals("RealMatrixImpl{}",
+                m.toString());
     }
     
     //--------------- -----------------Protected methods
