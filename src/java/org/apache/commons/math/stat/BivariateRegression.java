@@ -84,8 +84,7 @@ import org.apache.commons.math.stat.distribution.TDistribution;
  * the necessary computations to return the requested statistic.</li>
  * </ul>
  *
- * @author  Phil Steitz
- * @version $Revision: 1.3 $ $Date: 2003/06/21 02:13:41 $
+ * @version $Revision: 1.4 $ $Date: 2003/07/07 23:19:20 $
  */
 public class BivariateRegression {
     

@@ -63,7 +63,6 @@ import org.apache.commons.collections.HashBag;
  * Accepts int, long or string values, converting
  * all to Strings and maintaining frequency counts.
  *
- * @author Phil Steitz
  */
 public class Frequency {
     /** name for this frequency distribution. */

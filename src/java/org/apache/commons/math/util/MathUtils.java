@@ -57,8 +57,7 @@ package org.apache.commons.math.util;
 /**
  * Some useful additions to the built-in functions in lang.Math<p>
  *
- * @author Phil Steitz
- * @version $Revision: 1.1 $ $Date: 2003/06/22 03:57:56 $
+ * @version $Revision: 1.2 $ $Date: 2003/07/07 23:19:22 $
  */
 public class MathUtils {
 

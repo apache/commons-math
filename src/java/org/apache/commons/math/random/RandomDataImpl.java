@@ -104,8 +104,7 @@ import java.util.Collection;
  * (so secure sequences started with calls to reseedSecure(long) won't be 
  * identical).</li></ul>
  * 
- * @author Phil Steitz
- * @version $Revision: 1.1 $ $Date: 2003/06/22 03:57:57 $
+ * @version $Revision: 1.2 $ $Date: 2003/07/07 23:19:21 $
  */
 public class RandomDataImpl implements RandomData {
     

@@ -59,8 +59,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the TestStatistic class.
  *
- * @author Phil Steitz
- * @version $Revision: 1.2 $ $Date: 2003/06/25 01:35:46 $
+ * @version $Revision: 1.3 $ $Date: 2003/07/07 23:19:19 $
  */
 
 public final class TestStatisticTest extends TestCase {

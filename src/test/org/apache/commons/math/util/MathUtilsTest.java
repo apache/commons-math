@@ -60,8 +60,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the MathUtils class.
  *
- * @author Phil Steitz
- * @version $Revision: 1.1 $ $Date: 2003/06/22 03:57:55 $
+ * @version $Revision: 1.2 $ $Date: 2003/07/07 23:19:22 $
  */
 
 public final class MathUtilsTest extends TestCase {

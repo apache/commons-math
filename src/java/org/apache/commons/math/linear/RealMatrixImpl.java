@@ -78,8 +78,7 @@ import java.io.Serializable;
  * explicitly invoke <code>LUDecompose()</code> to recompute the decomposition
  * before using any of the methods above.
  *
- * @author  Phil Steitz
- * @version $Revision: 1.2 $ $Date: 2003/06/25 01:39:36 $
+ * @version $Revision: 1.3 $ $Date: 2003/07/07 23:19:22 $
  */
 public class RealMatrixImpl implements RealMatrix, Serializable {
 

@@ -55,8 +55,7 @@ package org.apache.commons.math.stat;
 /**
  * A collection of commonly used test statistics and statistical tests.
  * 
- * @author Phil Steitz
- * @version $Revision: 1.2 $ $Date: 2003/06/25 01:35:46 $
+ * @version $Revision: 1.3 $ $Date: 2003/07/07 23:19:20 $
  * 
  */
 public interface TestStatistic {

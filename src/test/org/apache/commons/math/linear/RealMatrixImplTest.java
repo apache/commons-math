@@ -60,8 +60,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link RealMatrixImpl} class.
  *
- * @author Phil Steitz
- * @version $Revision: 1.2 $ $Date: 2003/06/25 01:39:36 $
+ * @version $Revision: 1.3 $ $Date: 2003/07/07 23:19:22 $
  */
 
 public final class RealMatrixImplTest extends TestCase {

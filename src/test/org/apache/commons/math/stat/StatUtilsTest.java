@@ -60,9 +60,8 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link StatUtils} class.
  *
- * @author <a href="mailto:phil@steitz.com">Phil Steitz</a>
  * @author <a href="mailto:mdiggory@apache.org">Mark Diggory</a>
- * @version $Revision: 1.3 $ $Date: 2003/06/24 14:08:40 $
+ * @version $Revision: 1.4 $ $Date: 2003/07/07 23:19:19 $
  */
 
 public final class StatUtilsTest extends TestCase {

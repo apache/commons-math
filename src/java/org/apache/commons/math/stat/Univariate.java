@@ -70,10 +70,9 @@ package org.apache.commons.math.stat;
  * The default windowSize is "infinite" -- i.e., all values added are included
  * in all computations.
  *
- * @author Phil Steitz
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
  * @author <a href="mailto:mdiggory@apache.org">Mark Diggory</a>
- * @version $Revision: 1.5 $ $Date: 2003/07/05 19:25:38 $
+ * @version $Revision: 1.6 $ $Date: 2003/07/07 23:19:20 $
  * 
 */
 public interface Univariate {

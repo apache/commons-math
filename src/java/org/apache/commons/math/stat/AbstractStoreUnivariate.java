@@ -59,7 +59,6 @@ import java.util.Arrays;
  * 
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
  * @author Mark Diggory
- * @author <a href="mailto:phil@steitz.com">Phil Steitz</a>
  */
 public abstract class AbstractStoreUnivariate implements StoreUnivariate {
 

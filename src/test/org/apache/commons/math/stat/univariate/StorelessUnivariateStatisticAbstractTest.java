@@ -57,8 +57,6 @@ import junit.framework.TestCase;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
- *
- * @author Mark Diggory
  */
 public abstract class StorelessUnivariateStatisticAbstractTest
     extends UnivariateStatisticAbstractTest {

@@ -65,8 +65,7 @@ import org.apache.commons.math.stat.UnivariateImpl;
 /**
  * Test cases for the EmpiricalDistribution class
  *
- * @author Phil Steitz
- * @version $Revision: 1.1 $ $Date: 2003/06/22 03:57:56 $
+ * @version $Revision: 1.2 $ $Date: 2003/07/07 23:19:21 $
  */
 
 public final class EmpiricalDistributionTest extends TestCase {

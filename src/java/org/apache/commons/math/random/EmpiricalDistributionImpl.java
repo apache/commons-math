@@ -89,8 +89,7 @@ import org.apache.commons.math.stat.UnivariateImpl;
  *    entry per line.</li>
  * </ol></p>
  *
- * @author  Phil Steitz
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class EmpiricalDistributionImpl implements Serializable,EmpiricalDistribution {
 

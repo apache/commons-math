@@ -60,8 +60,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link Frequency} class.
  *
- * @author Phil Steitz
- * @version $Revision: 1.1 $ $Date: 2003/06/22 03:57:53 $
+ * @version $Revision: 1.2 $ $Date: 2003/07/07 23:19:19 $
  */
 
 public final class FrequencyTest extends TestCase {

@@ -66,12 +66,11 @@ import org.apache.commons.math.util.FixedDoubleArray;
  * Integers, floats and longs can be added, but they will be converted
  * to doubles by addValue().
  *
- * @author Phil Steitz
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
  * @author <a href="mailto:mdiggory@apache.org">Mark Diggory</a>
  * @author Brent Worden
  * @author <a href="mailto:HotFusionMan@Yahoo.com">Albert Davidson Chou</a>
- * @version $Revision: 1.15 $ $Date: 2003/06/22 03:57:55 $
+ * @version $Revision: 1.16 $ $Date: 2003/07/07 23:19:20 $
  *
 */
 public class UnivariateImpl implements Univariate, Serializable {

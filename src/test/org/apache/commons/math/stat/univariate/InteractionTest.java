@@ -51,51 +51,79 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.commons.math.stat.univariate.rank;
+package org.apache.commons.math.stat.univariate;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import org.apache.commons.math.stat.univariate.moment.FourthMoment;
+import org.apache.commons.math.stat.univariate.moment.Kurtosis;
+import org.apache.commons.math.stat.univariate.moment.Mean;
+import org.apache.commons.math.stat.univariate.moment.Skewness;
+import org.apache.commons.math.stat.univariate.moment.Variance;
 
-import org.apache.commons.math.stat.univariate.StorelessUnivariateStatisticAbstractTest;
-import org.apache.commons.math.stat.univariate.UnivariateStatistic;
-import org.apache.commons.math.stat.univariate.UnivariateStatisticAbstractTest;
+import junit.framework.TestCase;
 
 /**
- * Test cases for the {@link UnivariateStatistic} class.
+ *
  */
-public class MaxTest extends StorelessUnivariateStatisticAbstractTest{
+public class InteractionTest extends TestCase {
 
-    protected Max stat;
-    
-    /**
-     * @param name
-     */
-    public MaxTest(String name) {
+    protected double mean = 12.40454545454550;
+    protected double var = 10.00235930735930;
+    protected double skew = 1.437423729196190;
+    protected double kurt = 2.377191264804700;
+
+    protected double tolerance = 10E-12;
+
+    protected double[] testArray =
+        {
+            12.5,
+            12,
+            11.8,
+            14.2,
+            14.9,
+            14.5,
+            21,
+            8.2,
+            10.3,
+            11.3,
+            14.1,
+            9.9,
+            12.2,
+            12,
+            12.1,
+            11,
+            19.8,
+            11,
+            10,
+            8.8,
+            9,
+            12.3 };
+
+    public InteractionTest(String name) {
         super(name);
     }
 
-    public static Test suite() {
-        TestSuite suite = new TestSuite(MaxTest.class);
-        suite.setName("Max  Tests");
-        return suite;
-    }
-    
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.stat.univariate.UnivariateStatisticAbstractTest#getUnivariateStatistic()
-     */
-    public UnivariateStatistic getUnivariateStatistic() {
-       
-        if(stat == null)
-            stat = new Max();
-            
-        return stat;
-    }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.stat.univariate.UnivariateStatisticAbstractTest#expectedValue()
-     */
-    public double expectedValue() {
-        return this.max;
+    public void testInteraction() {
+        
+        FourthMoment m4 = new FourthMoment();
+        Mean m = new Mean(m4);
+        Variance v = new Variance(m4);
+        Skewness s= new Skewness(m4);
+        Kurtosis k = new Kurtosis(m4);
+
+        for (int i = 0; i < testArray.length; i++){
+            m4.increment(testArray[i]);
+            m.increment(testArray[i]);
+            v.increment(testArray[i]);
+            s.increment(testArray[i]);
+            k.increment(testArray[i]);
+        }
+        
+        assertEquals(mean,m.getValue(),tolerance);
+        assertEquals(var,v.getValue(),tolerance);
+        assertEquals(skew ,s.getValue(),tolerance);
+        assertEquals(kurt,k.getValue(),tolerance);
+
     }
 
 }

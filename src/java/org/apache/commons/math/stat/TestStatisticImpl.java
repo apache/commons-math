@@ -61,8 +61,7 @@ import org.apache.commons.math.stat.distribution.ChiSquaredDistribution;
 /**
  * Implements test statistics defined in the TestStatistic interface.
  *
- * @author Phil Steitz
- * @version $Revision: 1.2 $ $Date: 2003/06/25 01:35:46 $
+ * @version $Revision: 1.3 $ $Date: 2003/07/07 23:19:20 $
  * 
  */
 public class TestStatisticImpl implements TestStatistic {

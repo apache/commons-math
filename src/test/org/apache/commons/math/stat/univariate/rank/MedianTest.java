@@ -61,8 +61,6 @@ import org.apache.commons.math.stat.univariate.UnivariateStatisticAbstractTest;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
- *
- * @author Mark Diggory
  */
 public class MedianTest extends UnivariateStatisticAbstractTest{
 

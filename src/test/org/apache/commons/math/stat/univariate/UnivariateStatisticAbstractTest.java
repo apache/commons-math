@@ -57,12 +57,12 @@ import junit.framework.TestCase;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
- *
- * @author Mark Diggory
  */
 public abstract class UnivariateStatisticAbstractTest extends TestCase {
 
     protected double mean = 12.40454545454550;
+    protected double geoMean = 12.070589161633011;
+
     protected double var = 10.00235930735930;
     protected double std = Math.sqrt(var);
     protected double skew = 1.437423729196190;

@@ -56,8 +56,7 @@ package org.apache.commons.math.linear;
 
 /**
  * Interface defining a real-valued matrix with basic algebraic operations
- * @author  Phil Steitz
- * @version $Revision: 1.2 $ $Date: 2003/06/25 01:39:36 $
+ * @version $Revision: 1.3 $ $Date: 2003/07/07 23:19:22 $
  */
 public interface RealMatrix {
 
