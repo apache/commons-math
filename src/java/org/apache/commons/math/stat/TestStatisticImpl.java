@@ -26,7 +26,7 @@ import org.apache.commons.math.distribution.ChiSquaredDistribution;
 /**
  * Implements test statistics defined in the TestStatistic interface.
  *
- * @version $Revision: 1.13 $ $Date: 2004/02/21 21:35:15 $
+ * @version $Revision: 1.14 $ $Date: 2004/03/08 04:22:12 $
  */
 public class TestStatisticImpl implements TestStatistic, Serializable {
 
@@ -53,15 +53,13 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
             throw new IllegalArgumentException("observed, expected array lengths incorrect");
         }
         if ((StatUtils.min(expected) <= 0) || (StatUtils.min(observed) < 0)) {
-            throw new IllegalArgumentException(
-                "observed counts must be non-negative,"
+            throw new IllegalArgumentException( "observed counts must be non-negative,"
                     + " expected counts must be postive");
         }
         for (int i = 0; i < observed.length; i++) {
             dev = (observed[i] - expected[i]);
             sumSq += dev * dev / expected[i];
         }
-
         return sumSq;
     }
 
@@ -70,15 +68,13 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
      * @param expected array of exptected frequency counts
      * @return p-value
      * @throws IllegalArgumentException if preconditions are not met
+     * @throws MathException if an error occurs computing the p-value
      */
     public double chiSquareTest(double[] expected, double[] observed)
         throws IllegalArgumentException, MathException {
         ChiSquaredDistribution chiSquaredDistribution =
-            DistributionFactory.newInstance().createChiSquareDistribution(
-                (double) expected.length - 1);
-        return 1
-            - chiSquaredDistribution.cumulativeProbability(
-                chiSquare(expected, observed));
+            DistributionFactory.newInstance().createChiSquareDistribution((double) expected.length - 1);
+        return 1 - chiSquaredDistribution.cumulativeProbability(chiSquare(expected, observed));
     }
 
     /**
@@ -88,15 +84,12 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
      * @return true iff null hypothesis can be rejected with confidence
      * 1 - alpha
      * @throws IllegalArgumentException if preconditions are not met
+     * @throws MathException if an error occurs performing the test
      */
-    public boolean chiSquareTest(
-        double[] expected,
-        double[] observed,
-        double alpha)
+    public boolean chiSquareTest(double[] expected, double[] observed, double alpha)
         throws IllegalArgumentException, MathException {
         if ((alpha <= 0) || (alpha > 0.5)) {
-            throw new IllegalArgumentException(
-                "bad significance level: " + alpha);
+            throw new IllegalArgumentException("bad significance level: " + alpha);
         }
         return (chiSquareTest(expected, observed) < alpha);
     }
@@ -112,11 +105,7 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
         if ((observed == null) || (observed.length < 5)) {
             throw new IllegalArgumentException("insufficient data for t statistic");
         }
-        return t(
-            StatUtils.mean(observed),
-            mu,
-            StatUtils.variance(observed),
-            observed.length);
+        return t(StatUtils.mean(observed), mu, StatUtils.variance(observed), observed.length);
     }
 
     /**
@@ -125,12 +114,12 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
      * @param alpha significance level of the test
      * @return p-value
      * @throws IllegalArgumentException if the precondition is not met
+     * @throws MathException if an error occurs computing the p-value
      */
     public boolean tTest(double mu, double[] sample, double alpha)
         throws IllegalArgumentException, MathException {
         if ((alpha <= 0) || (alpha > 0.5)) {
-            throw new IllegalArgumentException(
-                "bad significance level: " + alpha);
+            throw new IllegalArgumentException("bad significance level: " + alpha);
         }
         return (tTest(mu, sample) < alpha);
     }
@@ -143,18 +132,12 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
      */
     public double t(double[] sample1, double[] sample2)
         throws IllegalArgumentException {
-        if ((sample1 == null)
-            || (sample2 == null
+        if ((sample1 == null) || (sample2 == null
                 || Math.min(sample1.length, sample2.length) < 5)) {
             throw new IllegalArgumentException("insufficient data for t statistic");
         }
-        return t(
-            StatUtils.mean(sample1),
-            StatUtils.mean(sample2),
-            StatUtils.variance(sample1),
-            StatUtils.variance(sample2),
-            (double) sample1.length,
-            (double) sample2.length);
+        return t(StatUtils.mean(sample1), StatUtils.mean(sample2), StatUtils.variance(sample1),
+            StatUtils.variance(sample2),  (double) sample1.length, (double) sample2.length);
     }
 
     /**
@@ -163,21 +146,16 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
      * @param sample2 array of sample data values
      * @return tTest p-value
      * @throws IllegalArgumentException if the precondition is not met
+     * @throws MathException if an error occurs computing the p-value
      */
     public double tTest(double[] sample1, double[] sample2)
         throws IllegalArgumentException, MathException {
-        if ((sample1 == null)
-            || (sample2 == null
+        if ((sample1 == null) || (sample2 == null
                 || Math.min(sample1.length, sample2.length) < 5)) {
             throw new IllegalArgumentException("insufficient data");
         }
-        return tTest(
-            StatUtils.mean(sample1),
-            StatUtils.mean(sample2),
-            StatUtils.variance(sample1),
-            StatUtils.variance(sample2),
-            (double) sample1.length,
-            (double) sample2.length);
+        return tTest(StatUtils.mean(sample1), StatUtils.mean(sample2), StatUtils.variance(sample1),
+            StatUtils.variance(sample2), (double) sample1.length, (double) sample2.length);
     }
 
     /**
@@ -185,14 +163,14 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
      * @param sample2 array of sample data values
      * @param alpha significance level
      * @return true if the null hypothesis can be rejected with 
-     * confidence 1 - alpha
+     *     confidence 1 - alpha
      * @throws IllegalArgumentException if the preconditions are not met
+     * @throws MathException if an error occurs performing the test
      */
     public boolean tTest(double[] sample1, double[] sample2, double alpha)
         throws IllegalArgumentException, MathException {
         if ((alpha <= 0) || (alpha > 0.5)) {
-            throw new IllegalArgumentException(
-                "bad significance level: " + alpha);
+            throw new IllegalArgumentException("bad significance level: " + alpha);
         }
         return (tTest(sample1, sample2) < alpha);
     }
@@ -202,17 +180,14 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
      * @param sample array of sample data values
      * @return p-value
      * @throws IllegalArgumentException if the precondition is not met
+     * @throws MathException if an error occurs computing the p-value
      */
     public double tTest(double mu, double[] sample)
         throws IllegalArgumentException, MathException {
         if ((sample == null) || (sample.length < 5)) {
             throw new IllegalArgumentException("insufficient data for t statistic");
         }
-        return tTest(
-            StatUtils.mean(sample),
-            mu,
-            StatUtils.variance(sample),
-            sample.length);
+        return tTest( StatUtils.mean(sample), mu, StatUtils.variance(sample), sample.length);
     }
 
     /**
@@ -226,11 +201,7 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
         if ((sampleStats == null) || (sampleStats.getN() < 5)) {
             throw new IllegalArgumentException("insufficient data for t statistic");
         }
-        return t(
-            sampleStats.getMean(),
-            mu,
-            sampleStats.getVariance(),
-            sampleStats.getN());
+        return t(sampleStats.getMean(), mu, sampleStats.getVariance(), sampleStats.getN());
     }
 
     /**
@@ -239,22 +210,15 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
      * @return t statistic
      * @throws IllegalArgumentException if the precondition is not met
      */
-    public double t(
-        StatisticalSummary sampleStats1,
-        StatisticalSummary sampleStats2)
+    public double t(StatisticalSummary sampleStats1, StatisticalSummary sampleStats2)
         throws IllegalArgumentException {
         if ((sampleStats1 == null)
             || (sampleStats2 == null
                 || Math.min(sampleStats1.getN(), sampleStats2.getN()) < 5)) {
             throw new IllegalArgumentException("insufficient data for t statistic");
         }
-        return t(
-            sampleStats1.getMean(),
-            sampleStats2.getMean(),
-            sampleStats1.getVariance(),
-            sampleStats2.getVariance(),
-            (double) sampleStats1.getN(),
-            (double) sampleStats2.getN());
+        return t(sampleStats1.getMean(), sampleStats2.getMean(), sampleStats1.getVariance(),
+            sampleStats2.getVariance(), (double) sampleStats1.getN(), (double) sampleStats2.getN());
     }
 
     /**
@@ -262,23 +226,16 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
      * @param sampleStats2 StatisticalSummary describing data from the second sample
      * @return p-value for t-test
      * @throws IllegalArgumentException if the precondition is not met
+     * @throws MathException if an error occurs computing the p-value
      */
-    public double tTest(
-        StatisticalSummary sampleStats1,
-        StatisticalSummary sampleStats2)
+    public double tTest(StatisticalSummary sampleStats1, StatisticalSummary sampleStats2)
         throws IllegalArgumentException, MathException {
-        if ((sampleStats1 == null)
-            || (sampleStats2 == null
+        if ((sampleStats1 == null) || (sampleStats2 == null
                 || Math.min(sampleStats1.getN(), sampleStats2.getN()) < 5)) {
             throw new IllegalArgumentException("insufficient data for t statistic");
         }
-        return tTest(
-            sampleStats1.getMean(),
-            sampleStats2.getMean(),
-            sampleStats1.getVariance(),
-            sampleStats2.getVariance(),
-            (double) sampleStats1.getN(),
-            (double) sampleStats2.getN());
+        return tTest(sampleStats1.getMean(), sampleStats2.getMean(), sampleStats1.getVariance(),
+            sampleStats2.getVariance(), (double) sampleStats1.getN(), (double) sampleStats2.getN());
     }
 
     /**
@@ -286,17 +243,15 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
      * @param sampleStats2 StatisticalSummary describing sample data values
      * @param alpha significance level of the test
      * @return true if the null hypothesis can be rejected with 
-     * confidence 1 - alpha
+     *     confidence 1 - alpha
      * @throws IllegalArgumentException if the preconditions are not met
+     * @throws MathException if an error occurs performing the test
      */
-    public boolean tTest(
-        StatisticalSummary sampleStats1,
-        StatisticalSummary sampleStats2,
+    public boolean tTest(StatisticalSummary sampleStats1, StatisticalSummary sampleStats2,
         double alpha)
         throws IllegalArgumentException, MathException {
         if ((alpha <= 0) || (alpha > 0.5)) {
-            throw new IllegalArgumentException(
-                "bad significance level: " + alpha);
+            throw new IllegalArgumentException("bad significance level: " + alpha);
         }
         return (tTest(sampleStats1, sampleStats2) < alpha);
     }
@@ -307,15 +262,12 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
      * @param alpha significance level of the test
      * @return p-value
      * @throws IllegalArgumentException if the precondition is not met
+     * @throws MathException if an error occurs computing the p-value
      */
-    public boolean tTest(
-        double mu,
-        StatisticalSummary sampleStats,
-        double alpha)
+    public boolean tTest( double mu, StatisticalSummary sampleStats,double alpha)
         throws IllegalArgumentException, MathException {
         if ((alpha <= 0) || (alpha > 0.5)) {
-            throw new IllegalArgumentException(
-                "bad significance level: " + alpha);
+            throw new IllegalArgumentException("bad significance level: " + alpha);
         }
         return (tTest(mu, sampleStats) < alpha);
     }
@@ -325,17 +277,14 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
      * @param sampleStats StatisticalSummary describing sample data
      * @return p-value
      * @throws IllegalArgumentException if the precondition is not met
+     * @throws MathException if an error occurs computing the p-value
      */
     public double tTest(double mu, StatisticalSummary sampleStats)
         throws IllegalArgumentException, MathException {
         if ((sampleStats == null) || (sampleStats.getN() < 5)) {
             throw new IllegalArgumentException("insufficient data for t statistic");
         }
-        return tTest(
-            sampleStats.getMean(),
-            mu,
-            sampleStats.getVariance(),
-            sampleStats.getN());
+        return tTest(sampleStats.getMean(), mu, sampleStats.getVariance(), sampleStats.getN());
     }
 
     //----------------------------------------------- Private methods 
@@ -366,13 +315,7 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
     * @param n2 second sample n
     * @return t test statistic
     */
-    private double t(
-        double m1,
-        double m2,
-        double v1,
-        double v2,
-        double n1,
-        double n2) {
+    private double t(double m1, double m2,  double v1, double v2, double n1,double n2)  {
         return (m1 - m2) / Math.sqrt((v1 / n1) + (v2 / n2));
     }
 
@@ -400,18 +343,11 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
      * @param n2 second sample n
      * @return p-value
      */
-    private double tTest(
-        double m1,
-        double m2,
-        double v1,
-        double v2,
-        double n1,
-        double n2)
+    private double tTest(double m1, double m2, double v1, double v2, double n1, double n2)
         throws MathException {
         double t = Math.abs(t(m1, m2, v1, v2, n1, n2));
         TDistribution tDistribution =
-            DistributionFactory.newInstance().createTDistribution(
-                df(v1, v2, n1, n2));
+            DistributionFactory.newInstance().createTDistribution(df(v1, v2, n1, n2));
         return 1.0 - tDistribution.cumulativeProbability(-t, t);
     }
 

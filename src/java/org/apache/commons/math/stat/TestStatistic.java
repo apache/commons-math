@@ -20,7 +20,7 @@ import org.apache.commons.math.MathException;
 /**
  * A collection of commonly used test statistics and statistical tests.
  * 
- * @version $Revision: 1.12 $ $Date: 2004/02/21 21:35:15 $ 
+ * @version $Revision: 1.13 $ $Date: 2004/03/08 04:22:12 $ 
  */
 public interface TestStatistic {
     
@@ -48,7 +48,7 @@ public interface TestStatistic {
      * @throws IllegalArgumentException if preconditions are not met
      */
     double chiSquare(double[] expected, double[] observed) 
-        throws IllegalArgumentException, MathException;
+        throws IllegalArgumentException;
     
     /**
      * Returns the <i>observed significance level</i>, or <a href=
@@ -77,6 +77,7 @@ public interface TestStatistic {
      * @param expected array of exptected frequency counts
      * @return p-value
      * @throws IllegalArgumentException if preconditions are not met
+     * @throws MathException if an error occurs computing the p-value
      */
     double chiSquareTest(double[] expected, double[] observed) 
         throws IllegalArgumentException, MathException;
@@ -111,6 +112,7 @@ public interface TestStatistic {
      * @return true iff null hypothesis can be rejected with confidence
      * 1 - alpha
      * @throws IllegalArgumentException if preconditions are not met
+     * @throws MathException if an error occurs performing the test
      */
     boolean chiSquareTest(double[] expected, double[] observed, double alpha) 
         throws IllegalArgumentException, MathException;
@@ -132,7 +134,7 @@ public interface TestStatistic {
      * @throws IllegalArgumentException if input array length is less than 2
      */
     double t(double mu, double[] observed) 
-        throws IllegalArgumentException, MathException;
+        throws IllegalArgumentException;
     
     /**
      * Computes a <a href="http://www.itl.nist.gov/div898/handbook/prc/section3
@@ -183,6 +185,7 @@ public interface TestStatistic {
      * @param sample2 array of sample data values
      * @return p-value for t-test
      * @throws IllegalArgumentException if the precondition is not met
+     * @throws MathException if an error occurs computing the p-value
      */
     double tTest(double[] sample1, double[] sample2)
         throws IllegalArgumentException, MathException;
@@ -230,6 +233,7 @@ public interface TestStatistic {
      * @return true if the null hypothesis can be rejected with 
      * confidence 1 - alpha
      * @throws IllegalArgumentException if the preconditions are not met
+     * @throws MathException if an error occurs performing the test
      */
     boolean tTest(double[] sample1, double[] sample2, double alpha)
         throws IllegalArgumentException, MathException;
@@ -269,6 +273,7 @@ public interface TestStatistic {
      * @param alpha significance level of the test
      * @return p-value
      * @throws IllegalArgumentException if the precondition is not met
+     * @throws MathException if an error computing the p-value
      */
     boolean tTest(double mu, double[] sample, double alpha)
         throws IllegalArgumentException, MathException;
@@ -298,6 +303,7 @@ public interface TestStatistic {
      * @param sample array of sample data values
      * @return p-value
      * @throws IllegalArgumentException if the precondition is not met
+     * @throws MathException if an error occurs computing the p-value
      */
     double tTest(double mu, double[] sample)
         throws IllegalArgumentException, MathException;
@@ -319,7 +325,7 @@ public interface TestStatistic {
      * @throws IllegalArgumentException if the precondition is not met
      */
     double t(double mu, StatisticalSummary sampleStats) 
-        throws IllegalArgumentException, MathException;
+        throws IllegalArgumentException;
     
     /**
      * Computes a <a href="http://www.itl.nist.gov/div898/handbook/prc/section3
@@ -340,7 +346,7 @@ public interface TestStatistic {
      * @throws IllegalArgumentException if the precondition is not met
      */
     double t(StatisticalSummary sampleStats1, StatisticalSummary sampleStats2) 
-        throws IllegalArgumentException, MathException;
+        throws IllegalArgumentException;
     
     /**
      * Returns the <i>observed significance level</i>, or <a href=
@@ -372,6 +378,7 @@ public interface TestStatistic {
      * @param sampleStats2 StatisticalSummary describing data from the second sample
      * @return p-value for t-test
      * @throws IllegalArgumentException if the precondition is not met
+     * @throws MathException if an error occurs computing the p-value
      */
     double tTest(StatisticalSummary sampleStats1, StatisticalSummary sampleStats2)
         throws IllegalArgumentException, MathException;
@@ -421,6 +428,7 @@ public interface TestStatistic {
      * @return true if the null hypothesis can be rejected with 
      * confidence 1 - alpha
      * @throws IllegalArgumentException if the preconditions are not met
+     * @throws MathException if an error occurs performing the test
      */
     boolean tTest(StatisticalSummary sampleStats1, StatisticalSummary sampleStats2, 
         double alpha)
@@ -461,6 +469,7 @@ public interface TestStatistic {
      * @param alpha significance level of the test
      * @return p-value
      * @throws IllegalArgumentException if the precondition is not met
+     * @throws MathException if an error occurs computing the p-value
      */
     boolean tTest(double mu, StatisticalSummary sampleStats, double alpha)
         throws IllegalArgumentException, MathException;
@@ -491,6 +500,7 @@ public interface TestStatistic {
      * @param sampleStats StatisticalSummary describing sample data
      * @return p-value
      * @throws IllegalArgumentException if the precondition is not met
+     * @throws MathException if an error occurs computing the p-value
      */
     double tTest(double mu, StatisticalSummary sampleStats)
         throws IllegalArgumentException, MathException;
