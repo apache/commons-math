@@ -14,7 +14,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
   -->
-<!-- $Revision: 1.43 $ $Date: 2004/04/11 16:30:07 $ -->
+<!-- $Revision: 1.44 $ $Date: 2004/04/24 18:40:22 $ -->
 <project>
   <pomVersion>3</pomVersion>
   
@@ -122,11 +122,11 @@
   <dependencies>
     <dependency>
       <id>commons-beanutils</id>
-      <version>1.5</version>
+      <version>1.6.1</version>
     </dependency>
     <dependency>
       <id>commons-collections</id>
-      <version>2.1</version>
+      <version>3.0</version>
     </dependency>
     <dependency>
       <id>commons-lang</id>
@@ -138,7 +138,7 @@
     </dependency>
     <dependency>
       <id>commons-discovery</id>
-      <version>20030211.213356</version>
+      <version>0.2</version>
     </dependency>
   </dependencies>
 
