@@ -22,10 +22,10 @@ import java.io.Serializable;
 import org.apache.commons.math.MathException;
 
 /**
- * Provide the bisection algorithm for solving for zeros of real univariate
- * functions.  It will only search for one zero in the given interval.  The
- * function is supposed to be continuous but not necessarily smooth.
- * @version $Revision: 1.11 $ $Date: 2004/02/18 03:24:19 $
+ * Implements the <a href="http://mathworld.wolfram.com/Bisection.html">bisection algorithm</a>
+ *  for finding zeros of univariate real functions.  This algorithm will find only one zero in the given interval.
+ * The function should be continuous but not necessarily smooth.
+ * @version $Revision: 1.12 $ $Date: 2004/02/20 06:22:39 $
  */
 public class BisectionSolver extends UnivariateRealSolverImpl implements Serializable {
     /**
@@ -37,7 +37,7 @@ public class BisectionSolver extends UnivariateRealSolverImpl implements Seriali
     }
 
     /**
-     * Solve for a zero in the given interval.
+     * Find a zero in the given interval.
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
      * @param initial the start value to use (ignored).
@@ -52,7 +52,7 @@ public class BisectionSolver extends UnivariateRealSolverImpl implements Seriali
     }
     
     /**
-     * Solve for a zero root in the given interval.
+     * Find a zero root in the given interval.
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
      * @return the value where the function is zero
@@ -89,7 +89,7 @@ public class BisectionSolver extends UnivariateRealSolverImpl implements Seriali
             ++i;
         }
         
-        throw new MathException("Maximal iteration number exceeded");
+        throw new MathException("Maximum number of iterations exceeded");
     }
 
     /**

@@ -56,9 +56,9 @@ package org.apache.commons.math.analysis;
 import org.apache.commons.math.MathException;
 
 /**
- * Interface for interpolating a data set.
+ * Interface representing a univariate real interpolating function.
  *  
- * @version $Revision: 1.8 $ $Date: 2004/01/29 00:49:00 $
+ * @version $Revision: 1.9 $ $Date: 2004/02/20 06:22:39 $
  */
 public interface UnivariateRealInterpolator {
 

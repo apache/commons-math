@@ -56,13 +56,9 @@ package org.apache.commons.math.analysis;
 import org.apache.commons.math.MathException;
 
 /**
- * Provide an interface univariate real functions.
- * The object may held temporary data which is shared between calculations
- * of the value and the derivatives for the same argument. It is not guaranteed
- * that derivatives are evaluated after the value, the evaluation algorithm
- * should throw an InvalidStateException if it can't cope with this.
+ * An interface representing a univariate real function.
  *  
- * @version $Revision: 1.10 $ $Date: 2004/01/29 00:49:00 $
+ * @version $Revision: 1.11 $ $Date: 2004/02/20 06:22:39 $
  */
 public interface UnivariateRealFunction {
     /**

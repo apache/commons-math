@@ -22,12 +22,12 @@ import java.io.Serializable;
 import org.apache.commons.math.MathException;
 
 /**
- * Provide the Brent algorithm for solving for zeros of real univariate
- * functions.
- * It will only search for one zero in the given interval.
- * The function is supposed to be continuous but not necessarily smooth.
+ * Implements the <a href="http://mathworld.wolfram.com/BrentsMethod.html">Brent algorithm</a>
+ * for  finding zeros of real univariate
+ * functions. This algorithm will find only one zero in the given interval. 
+ * The function should be continuous but not necessarily smooth.
  *  
- * @version $Revision: 1.12 $ $Date: 2004/02/18 03:24:19 $
+ * @version $Revision: 1.13 $ $Date: 2004/02/20 06:22:39 $
  */
 public class BrentSolver extends UnivariateRealSolverImpl implements Serializable {
     /**
@@ -39,7 +39,7 @@ public class BrentSolver extends UnivariateRealSolverImpl implements Serializabl
     }
 
     /**
-     * Solve for a zero in the given interval.
+     * Find a zero in the given interval.
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
      * @param initial the start value to use (ignored).
@@ -54,7 +54,7 @@ public class BrentSolver extends UnivariateRealSolverImpl implements Serializabl
     }
     
     /**
-     * Solve for a zero root in the given interval.
+     * Find a zero in the given interval.
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
      * @return the value where the function is zero
@@ -159,6 +159,6 @@ public class BrentSolver extends UnivariateRealSolverImpl implements Serializabl
             }
             i++;
         }
-        throw new MathException("Maximal iteration number exceeded.");
+        throw new MathException("Maximum number of iterations exceeded.");
     }
 }

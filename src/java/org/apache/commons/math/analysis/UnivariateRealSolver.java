@@ -56,11 +56,11 @@ package org.apache.commons.math.analysis;
 import org.apache.commons.math.MathException;
 
 /**
- * Provide an interface to algorithms for solving for zeros of real univariate
- * functions.
- * An implementation will only search for one zero in the given interval.
+ * Interface for (univariate real) rootfinding algorithms.
+ * <p>
+ * Implementations will search for only one zero in the given interval.
  *  
- * @version $Revision: 1.9 $ $Date: 2004/01/29 00:49:00 $
+ * @version $Revision: 1.10 $ $Date: 2004/02/20 06:22:39 $
  */
 public interface UnivariateRealSolver {
 
@@ -68,7 +68,7 @@ public interface UnivariateRealSolver {
      * Set the upper limit for the number of iterations.
      * 
      * Usually a high iteration count indicates convergence problems. However,
-     * the "reasonable value" varies widely for different solvers, users are
+     * the "reasonable value" varies widely for different solvers.  Users are
      * advised to use the default value supplied by the solver.
      *  
      * An exception will be thrown if the number is exceeded.
@@ -96,8 +96,8 @@ public interface UnivariateRealSolver {
     /**
      * Set the absolute accuracy.
      * 
-     * The default is usually choosen so taht roots in the interval
-     * -10..-0.1 and +0.1..+10 can be found wit a reasonable accuracy. If the
+     * The default is usually choosen so that roots in the interval
+     * -10..-0.1 and +0.1..+10 can be found with a reasonable accuracy. If the
      * expected absolute value of your roots is of much smaller magnitude, set
      * this to a smaller value.
      * 

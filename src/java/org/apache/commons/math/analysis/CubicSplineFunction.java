@@ -23,13 +23,11 @@ import java.util.Arrays;
 import org.apache.commons.math.MathException;
 
 /**
- * Represents a cubic spline function.
- * Spline functions map a certain interval of real numbers to real numbers.
- * A cubic spline consists of segments of cubic functions. For this class,
- * polynominal coefficents are used.
- * Arguments outside of the domain cause an IllegalArgumentException.
+ * Represents a <a href="http://mathworld.wolfram.com/CubicSpline.html">cubic spline function</a>.
+ * Arguments outside of the domain determined by the x values array passed to the constructor
+ * cause an IllegalArgumentException.
  * 
- * @version $Revision: 1.12 $ $Date: 2004/02/18 03:24:19 $
+ * @version $Revision: 1.13 $ $Date: 2004/02/20 06:22:39 $
  */
 public class CubicSplineFunction implements UnivariateRealFunction, Serializable {
     /** Spline segment interval delimiters. Size is N+1 for N segments. */
@@ -54,6 +52,7 @@ public class CubicSplineFunction implements UnivariateRealFunction, Serializable
     public CubicSplineFunction(double xval[], double c[][]) {
         super();
         // TODO: should copy the arguments here, for safety. This could be a major overhead.
+        // Should also verify that xval[] is in correct order, and arrays have correct lengths
         this.xval = xval;
         this.c = c;
     }
@@ -80,10 +79,6 @@ public class CubicSplineFunction implements UnivariateRealFunction, Serializable
 
     /**
      * Compute the value for the first derivative of the function.
-     * It is recommended to provide this method only if the first derivative is
-     * analytical. Numerical derivatives may be acceptable in some cases.
-     * An implementation should throw an UnsupportedOperationException if
-     * this method is not implemented.
      * @param x the point for which the first derivative should be computed
      * @return the value
      * @throws MathException if the derivative couldn't be computed.
