@@ -55,13 +55,49 @@ package org.apache.commons.math;
 
 import java.io.Serializable;
 
-
 /**
- * An array of double primitives which can expand as needed.
+ * <p>
+ * A DoubleArray implementation which automatically expands
+ * an internal double array to handle an array of arbitrary length.  This 
+ * implementation of DoubleArray is provided to support scenarios in
+ * which the ultimate length of an array is unknown, and the 
+ * developer can control the expansion process through the
+ * <code>initialCapacity</code> and <code>expansionFactor</code> 
+ * parameters.
+ * </p>
+ *
+ * <p>
+ * This implementation also allows a developer to:
+ * <ul>
+ *  <li>Resize an array via <code>setNumElements(int)</code></li>
+ *  <li>Discard elements from the front of an array via
+ *      <code>discardFrontElements(int)</code></li>
+ *  <li>Find the minimum and maximum values stored in this array</li>
+ * </ul>
+ * </p>
+ *
+ * <p>
+ * The initialCapacity parameter sets the capacity of the initial
+ * storage array, and the expansionFactor is the factor by which
+ * the current storage capacity is multiplied each time the internal
+ * array needs to be expanded.  <b>Please note</b> that the length of the 
+ * internal storage array has nothing to do with the number of elements 
+ * currently stored in this array.  If one creates an instance of this
+ * class with an initialCapacity of "2" and an expansion factor of "2", and
+ * then adds 3546 elements to the array, this implementation will need to
+ * expand the array 10 times - first from 2 -> 4. then 4 -> 8, 8 -> 16,
+ * and so on until we reach 4096 which is sufficient to hold 3546 elements.
+ * </p>
  * 
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
  */
 public class ExpandableDoubleArray implements Serializable, DoubleArray {
+
+    // TODO: expansionFactor is valuable, by if I only need storage
+    // for 1025 items and I use the default settings, I'll end up
+    // with enough storage for 2048 elements.  Maybe this implementation
+    // should have flags for incremental growth - (i.e. when expanding, only
+    // increase storage by a constant size - 100, 200 ) ?
 
     // This is the internal storage array.
     protected double[] internalArray;
