@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!-- $Revision: 1.6 $ $Date: 2003/11/15 18:38:16 $ -->
+<!-- $Revision: 1.7 $ $Date: 2003/12/27 15:22:34 $ -->
 <project name="Math">
 
   <title>Math</title>
@@ -18,8 +18,9 @@
       <item name="Statistics"              href="/userguide/stat.html"/>
       <item name="Data generation"         href="/userguide/random.html"/>
       <item name="Linear Algebra"          href="/userguide/linear.html"/>
+      <item name="Numerical Analysis"      href="/userguide/analysis.html"/>
       <item name="Special Functions"       href="/userguide/special.html"/>
-      <item name="Utilities"               href="/userguide/utilities.html"/>     
+      <item name="Utilities"               href="/userguide/utilities.html"/>
     </menu>
   </body>
 </project>

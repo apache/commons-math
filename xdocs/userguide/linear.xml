@@ -1,36 +1,30 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.4 $ $Date: 2003/11/15 18:38:16 $ -->
+<!-- $Revision: 1.5 $ $Date: 2003/12/27 15:22:34 $ -->
 <document url="linear.html">
 
-<properties>
+  <properties>
     <title>The Commons Math User Guide - Linear Algebra</title>
     <author email="phil@steitz.com">Phil Steitz</author>
-</properties>
+  </properties>
 
-<body>
-
-<section name="3 Linear Algebra">
-
-<subsection name="3.1 Overview" href="overview">
-    <p>
-    This is yet to be written. Any contributions will be gratefully accepted!
-    </p>
-</subsection>
-
-<subsection name="3.2 Real matrices" href="real_matrices">
-    <p>
-    This is yet to be written. Any contributions will be gratefully accepted!
-    </p>
-</subsection>
-
-<subsection name="3.3 Solving linear systems" href="solve">
-    <p>
-    This is yet to be written. Any contributions will be gratefully accepted!
-    </p>
-</subsection>
-
-</section>
-
-</body>
+  <body>
+    <section name="3 Linear Algebra">
+      <subsection name="3.1 Overview" href="overview">
+        <p>
+          This is yet to be written. Any contributions will be gratefully accepted!
+        </p>
+      </subsection>
+      <subsection name="3.2 Real matrices" href="real_matrices">
+        <p>
+          This is yet to be written. Any contributions will be gratefully accepted!
+        </p>
+      </subsection>
+      <subsection name="3.3 Solving linear systems" href="solve">
+        <p>
+          This is yet to be written. Any contributions will be gratefully accepted!
+        </p>
+      </subsection>
+    </section>
+  </body>
 </document>

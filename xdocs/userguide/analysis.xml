@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.5 $ $Date: 2003/11/15 18:38:16 $ -->
+<!-- $Revision: 1.6 $ $Date: 2003/12/27 15:22:34 $ -->
 <document url="analysis.html">
   <properties>
     <title>The Commons Math User Guide - Numerical Analysis</title>
@@ -9,15 +9,57 @@
   <body>
     <section name="4 Numerical Analysis">
       <subsection name="4.1 Overview" href="overview">
-        <p>This is yet to be written. Any contributions will be gratefully
-          accepted!</p>
+        <p>
+          The numerical analysis package provides basic blocks for common tasks in numerical computation. Currently, only real valued, univariate (depending on one variable) functions are handled.
+        </p>
+        <p>
+          Available blocks:
+          <ul>
+            <li>A framework for solving non-linear equations (root finding)</li>
+            <li>Generating functions by interpolation.</li>
+          </ul>
+        </p>
+        <p>
+          Possible future additions may include numerical differentation, numerical integration and finding minimal or maximal values of a function. Functionality dealing with multivariate functions, complex valued functions or special type functions will probably go into other packages.
+        </p>
       </subsection>
       <subsection name="4.2 Root-finding" href="rootfinding">
         <p>
-          <code>org.apache.commons.math.analysis.UnivariateRealSolver</code> provides the means to
-          find roots of univariate, real valued, functions.  Commons-Math supports various
+          A <code>org.apache.commons.math.analysis.UnivariateRealSolver</code> provides the means to
+          find roots of univariate, real valued, functions. A root is the value where the function
+          value vanishes.  Commons-Math supports various
           implementations of <code>UnivariateRealSolver</code> to solve functions with differing
-          characteristics.
+          characteristics.  The current interface allows for computing exactly one root.  If the given
+          interval contains more than one root, an indication may be given or not. The current
+          implementations all wont notify the user and return simply the first root found.
+        </p>
+        <p>
+          There are numerous non-obvious traps and pitfalls in root finding.  Firstly, the usual
+          disclaimers due to the nature how real world computers calculate values apply.  If the
+          computation of the function provides numerical instabilities, for example due to bit
+          cancellation, the root finding algorithms may behave badly and fail to converge or even
+          return bogus values. There wouldn't necessarily be an indication that the computed root
+          is way off the true value.  Secondly, The root finding problem itself may be inherently
+          ill conditioned.  There is a "domain of indeterminacy", the interval for which the function
+          has near zero absolute values around the true root, may be very large.  Even worse, small
+          problems like roundoff error may cause the function value to "numerically oscillate" between
+          negative and positive values.  This may again result in roots way off the true value, without
+          indication.  There is not much a generic algorithm can do if such ill conditioned problems
+          are met.  A way around this is to transform the problem in order to get a better conditioned
+          function.
+        </p>
+        <p>
+          The package provides several implementations off root finding algorithms, each with advantages
+          and drawbacks.  The may algorithms differ in
+          <ul>
+            <li>Number of iterations for computing a specific root of a specific function.</li>
+            <li>Number of function evaluations per iteration. An algorithm needing less iterations may still
+              need multiple function evaluations, which may be more costly (for example, involve a numerical
+              integration).</li>
+            <li>Whether the interval must bracket a root or not (function values have different signs at
+              interval endpoints).</li>
+            <li>Behaviour in case of problems (indicate the error, return bogus values...).</li>
+          </ul>
         </p>
         <p>
           In order to use the root-finding features, first a solver object must be created.  It is
@@ -26,8 +68,8 @@
           of the solver objects supported by Commons-Math.  The typical usage of <code>UnivariateRealSolverFactory</code>
           to create a solver object would be:</p>
         <source>UnivariateRealFunction function = // some user defined function object
-          UnivariateRealSolverFactory factory = UnivariateRealSolverFactory.newInstance();
-          UnivariateRealSolver solver = factory.newDefaultSolver(function);</source>
+UnivariateRealSolverFactory factory = UnivariateRealSolverFactory.newInstance();
+UnivariateRealSolver solver = factory.newDefaultSolver(function);</source>
         <p>
           The solvers that can be instantiated via the <code>UnivariateRealSolverFactory</code> are detailed below:
           <table>
@@ -42,14 +84,37 @@
           methods.  For a function <code>f</code>, and two domain values, <code>min</code> and
           <code>max</code>, <code>solve</code> computes the value <code>c</code> such that:
           <ul>
-            <li><code>f(c) = 0.0</code></li>
+            <li><code>f(c) = 0.0</code> (see "function value accuracy")</li>
             <li><code>min &lt;= c &lt;= max</code></li>
           </ul>
         </p>
+        <p>
+          Typical usage:
+        </p>
         <source>UnivariateRealFunction function = // some user defined function object
-          UnivariateRealSolverFactory factory = UnivariateRealSolverFactory.newInstance();
-          UnivariateRealSolver solver = factory.newBisectionSolver(function);
-          double c = solver.solve(1.0, 5.0);</source>
+UnivariateRealSolverFactory factory = UnivariateRealSolverFactory.newInstance();
+UnivariateRealSolver solver = factory.newBisectionSolver(function);
+double c = solver.solve(1.0, 5.0);</source>
+        <p>
+          The BrentSolver uses the Brent-Dekker algorithm which is fast and robust.  This
+          algorithm is recommended for most users.  If there are multiple roots in the interval, or
+          there is a large domain of indeterminacy, the algorithm will converge to a random root in
+          the interval without indication that there are problems.  Interestingly, the examined
+          text book implementations all disagree in details of the convergence criteria. Also each implementation
+          had problems for one of the test cases, so the expressions had to be fudged further.
+          Don't expect to get exactly the same root values as for other implementations of this
+          algorithm.
+        </p>
+        <p>
+          The SecantSolver uses a variant of the well known secant algorithm.  It may be a bit faster
+          than the Brent solver for a class of well behaved functions.
+        </p>
+        <p>
+          The BisectionSolver is included for completeness and for establishing a fall back in cases
+          of emergency.  The algorithm is simple, most likely bug free and guaranteed to converge even
+          in very advert circumstances which might cause other algorithms to malfunction.  The drawback
+          is of course that it is also guaranteed to be slow.
+        </p>
         <p>
           Along with the <code>solve</code> methods, the <code>UnivariateRealSolver</code>
           interface provides many properties to control the convergence of a solver.  For the most
@@ -58,28 +123,103 @@
           is easily done through getter and setter methods on <code>UnivariateRealSolver</code>:
           <table>
             <tr><th>Property</th><th>Methods</th><th>Purpose</th></tr>
-            <tr><td>Absolute accuracy</td><td>
+            <tr>
+              <td>Absolute accuracy</td>
+              <td>
                 <div>getAbsoluteAccuracy</div>
                 <div>resetAbsoluteAccuracy</div>
-                <div>setAbsoluteAccuracy</div></td><td>This is yet to be written. Any contributions will be greatfully accepted!</td></tr>
-            <tr><td>Function value accuracy</td><td>
-                <div>getFunctionValueAccuracy</div>
-                <div>resetFunctionValueAccuracy</div>
-                <div>setFunctionValueAccuracy</div></td><td>This is yet to be written. Any contributions will be greatfully accepted!</td></tr>
-            <tr><td>Maximum iteration count</td><td>
-                <div>getMaximumIterationCount</div>
-                <div>resetMaximumIterationCount</div>
-                <div>setMaximumIterationCount</div></td><td>This is yet to be written. Any contributions will be greatfully accepted!</td></tr>
-            <tr><td>Relative accuracy</td><td>
+                <div>setAbsoluteAccuracy</div>
+              </td>
+              <td>
+                The Absolute Accuracy is maximal difference between the computed root and the true root
+                of the function.  This is what most people think of as "accuracy" intuitively.  The initial
+                value is choosen as a sane value for most real world problems, for roots in the range from
+                -100 to +100.  For accurate computation of roots near
+                zero, in the range form -0.0001 to +0.0001, the value may be decreased.  For computing roots
+                much larger in absolute value than 100, the absolute accuracy may never be reached because
+                the given relative accuracy is reached first.  
+              </td>
+            </tr>
+              <tr>
+              <td>Relative accuracy</td>
+              <td>
                 <div>getRelativeAccuracy</div>
                 <div>resetRelativeAccuracy</div>
-                <div>setRelativeAccuracy</div></td><td>This is yet to be written. Any contributions will be greatfully accepted!</td></tr>
+                <div>setRelativeAccuracy</div>
+              </td>
+              <td>
+                The Relative Accuracy is the maximal difference between the computed root and the true
+                root, divided by the maximum of the absolute values of the numbers. This accuracy
+                measurement is more suited for numerical calculations with computers, due to the way
+                floating point numbers are represented.  The default value is choosen so that algorithms
+                will get a result even for roots with large absolute values, even while it may be
+                impossible to reach the given absolute accuracy.
+              </td>
+            </tr>
+            <tr>
+              <td>Function value accuracy</td>
+              <td>
+                <div>getFunctionValueAccuracy</div>
+                <div>resetFunctionValueAccuracy</div>
+                <div>setFunctionValueAccuracy</div>
+              </td>
+              <td>
+                This value is used by some algorithms in order to prevent numerical instabilities. If the
+                function is evaluated to an absolute value smaller than the Function Value Accuracy, the
+                algorithms assume they hit a root and return the value immediately.  The default value is
+                a "very small value".  If the goal is to get a near zero function value rather than an
+                accurate root, computation may be speed up by setting this value appropriately.
+              </td>
+            </tr>
+            <tr>
+              <td>Maximum iteration count</td>
+              <td>
+                <div>getMaximumIterationCount</div>
+                <div>resetMaximumIterationCount</div>
+                <div>setMaximumIterationCount</div>
+              </td>
+              <td>
+                This is the maximal number of iterations the algorith will try. If this number is exceeded,
+                non-convergence is assumed and an exception is thrown.  The default value is 100, which
+                should be plenty giving that a bisection algorithm can't get any more accurate after 52
+                iterations because of the number of mantissa bits in a double precision floating point number.
+                If a number of ill conditioned problems is to be solved, this number can be decreased in order
+                to avoid wasting time.
+              </td>
+            </tr>
           </table>
         </p>
       </subsection>
       <subsection name="4.3 Interpolation" href="interpolation">
-        <p>This is yet to be written. Any contributions will be gratefully
-          accepted!</p>
+        <p>
+          A <code>org.apache.commons.math.analysis.UnivariateRealInterpolator</code> is used to
+          find a univariate, real valued function <code>f</code> which for a given set of pairs
+          (<code>x<sub>i</sub></code>,<code>y<sub>i</sub></code>) yields
+          <code>f(x<sub>i</sub>)=y<sub>i</sub></code> to the best accuracy possible. Currently,
+          only an interpolator for generating natural cubic splines is available.  There is
+          no interpolator factory, mainly because the interpolation algorithm is more determined
+          by the kind of the interpolated function rather than the set of points to interpolate.
+          There aren't currently any accuracy controls either.
+        </p>
+        <p>Typical usage:</p>
+        <source>double x[]={ 0.0, 1.0, 2.0 };
+double y[]={ 1.0, -1.0, 2.0);
+UnivariateRealInterpolator interpolator = SplineInterpolator();
+UnivariateRealFunction function = interpolator.interpolate();
+double x=0.5;
+double y=function.evaluate(x);
+System.out println("f("+x+")="+y);</source>
+        <p>
+          A natural spline is a function consisting of a polynominal of third degree for each interval.
+          A function interpolating <code>N</code> value pairs consists of <code>N-1</code> polynominals.
+          The function is continuous, smooth and can be derived two times.  The second derivative
+          is continuous but not smooth.  The curvature at the first and the last point is zero (that's
+          the "natural" part, coming from the flexible rulers used in construction drawing).  The x values
+          passed to the interpolator must be ordered in ascendig order (there is no such restriction for
+          the y values, of course).  It is not valid to evaluate the function for values outside the range
+          <code>x<sub>0</sub></code>..<code>x<sub>N</sub></code>.  Currently, the original array for the
+          x values is referenced by the generated function, which is probably a  bad idea.
+        </p>
       </subsection>
     </section>
   </body>

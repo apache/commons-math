@@ -58,7 +58,7 @@ import java.io.Serializable;
 /**
  * Computes a natural spline interpolation for the data set.
  *
- * @version $Revision: 1.10 $ $Date: 2003/11/19 03:28:23 $
+ * @version $Revision: 1.11 $ $Date: 2003/12/27 15:22:34 $
  *
  */
 public class SplineInterpolator implements UnivariateRealInterpolator, Serializable {
@@ -76,11 +76,12 @@ public class SplineInterpolator implements UnivariateRealInterpolator, Serializa
             throw new IllegalArgumentException("Dataset arrays must have same length.");
         }
 
+        // TODO: What's this good for? Did I really write this???
         if (c == null) {
             // Number of intervals. The number of data points is N+1.
             int n = xval.length - 1;
             // Check whether the xval vector has ascending values.
-            // Separation should be checked too (not implemented: which criteria?).
+            // TODO: Separation should be checked too (not implemented: which criteria?).
             for (int i = 0; i < n; i++) {
                 if (xval[i] >= xval[i + 1]) {
                     throw new IllegalArgumentException("Dataset must specify sorted, ascending x values.");
@@ -88,7 +89,7 @@ public class SplineInterpolator implements UnivariateRealInterpolator, Serializa
             }
             // Vectors for the equation system. There are n-1 equations for the unknowns s[i] (1<=i<=N-1),
             // which are second order derivatives for the spline at xval[i]. At the end points, s[0]=s[N]=0.
-            // Vectors are offset by -1, except the lower diagonal vector which is offset by -2. Layout:
+            // Vector indices are offset by -1, except for the lower diagonal vector where the offset is -2. Layout of the equation system:
             // d[0]*s[1]+u[0]*s[2]                                           = b[0]
             // l[0]*s[1]+d[1]*s[2]+u[1]*s[3]                                 = b[1]
             //           l[1]*s[2]+d[2]*s[3]+u[2]*s[4]                       = b[2]
@@ -102,10 +103,6 @@ public class SplineInterpolator implements UnivariateRealInterpolator, Serializa
             // Setup right hand side and diagonal.
             double dquot = (yval[1] - yval[0]) / (xval[1] - xval[0]);
             for (int i = 0; i < n - 1; i++) {
-                // TODO avoid recomputing the term
-                //    (yval[i + 2] - yval[i + 1]) / (xval[i + 2] - xval[i + 1])
-                // take it from the previous loop pass. Note: the interesting part of performance
-                // loss is the range check in the array access, not the computation itself.
                 double dquotNext = 
                     (yval[i + 2] - yval[i + 1]) / (xval[i + 2] - xval[i + 1]);
                 b[i] = 6.0 * (dquotNext - dquot);
@@ -114,7 +111,8 @@ public class SplineInterpolator implements UnivariateRealInterpolator, Serializa
             }
             // u[] and l[] (for the upper and lower diagonal respectively) are not
             // really needed, the computation is folded into the system solving loops.
-            // Keep this for documentation purposes:
+            // Keep this for documentation purposes. The computation is folded into
+            // the loops computing the solution.
             //double u[] = new double[n - 2]; // upper diagonal
             //double l[] = new double[n - 2]; // lower diagonal
             // Set up upper and lower diagonal. Keep the offsets in mind.
