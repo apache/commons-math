@@ -69,7 +69,7 @@ import org.apache.commons.math.stat.UnivariateImpl;
  * Test cases for the RandomData class.
  *
  * @author Phil Steitz
- * @version $Revision: 1.4 $ $Date: 2003/05/29 20:35:45 $
+ * @version $Revision: 1.5 $ $Date: 2003/06/04 02:45:49 $
  */
 
 public final class RandomDataTest extends TestCase {
@@ -462,9 +462,9 @@ public final class RandomDataTest extends TestCase {
         assertTrue("same seeds",
             !hex.equals(randomData.nextSecureHexString(40))); 
         
-        /* TODO: probably should remove this test as the package grows,
-         * since it takes about 4 seconds
-         */
+        /* remove this test back soon,
+         * since it takes about 4 seconds */
+         
         randomData.setSecureAlgorithm("SHA1PRNG","SUN");
         assertTrue("different seeds",
             !hex.equals(randomData.nextSecureHexString(40)));
@@ -480,7 +480,21 @@ public final class RandomDataTest extends TestCase {
             fail("expecting NoSuchProviderException");
         } catch (NoSuchProviderException ex) {
             ;
-        }      
+        } 
+        
+        // test reseeding without first using the generators
+        RandomDataImpl rd = new RandomDataImpl();
+        rd.reSeed(100);
+        double ret = rd.nextLong(1,2);
+        RandomDataImpl rd2 = new RandomDataImpl();
+        rd2.reSeedSecure(2000);
+        ret = rd2.nextSecureLong(1,2);
+        rd = new RandomDataImpl();
+        rd.reSeed();
+        ret = rd.nextLong(1,2);
+        rd2 = new RandomDataImpl();
+        rd2.reSeedSecure();
+        ret = rd2.nextSecureLong(1,2);
     }
     
     /** tests for nextSample() sampling from Collection */

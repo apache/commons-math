@@ -58,196 +58,260 @@ import java.util.Collection;
 /**
  * Random data generation utilities
  * @author Phil Steitz
- * @version $Revision: 1.2 $ $Date: 2003/05/29 19:45:35 $
+ * @version $Revision: 1.3 $ $Date: 2003/06/04 02:45:49 $
  */
 public interface RandomData {      
     /**
      * Generates a random string of hex characters of length
-     * <code>len</code>.<br>
+     * <code>len</code>.
+     * <p>
      * The generated string will be random, but not cryptographically 
      * secure. To generate cryptographically secure strings, use 
      * <code>nextSecureHexString</code>
+     * <p>
+     * <strong>Preconditions</strong>:<ul>
+     * <li><code>len > 0</code> (otherwise an IllegalArgumentException 
+     *     is thrown.)</li>
+     * </ul>
+     * 
      * @param len the length of the string to be generated
-     * @throws IllegalArgumentException if <code>len</code> is not positive.
+     * @return random string of hex characters of length <code>len</code>  
      */
-    public String nextHexString(int len);  
+    String nextHexString(int len);  
     
     /**
      * Generates a uniformly distributed random integer between 
-     * <code>lower</code> and <code>upper</code> (endpoints included).<br>
+     * <code>lower</code> and <code>upper</code> (endpoints included).
+     * <p>
      * The generated integer will be random, but not cryptographically secure.
      * To generate cryptographically secure integer sequences, use 
      * <code>nextSecureInt</code>.
+     * <p>
+     * <strong>Preconditions</strong>:<ul>
+     * <li><code>lower < upper</code> (otherwise an IllegalArgumentException 
+     *     is thrown.)</li>
+     * </ul>
+     *
      * @param lower lower bound for generated integer
      * @param upper upper bound for generated integer
-     * @exception IllegalArgumentException thrown if
-     * <code>lower</code> is not strictly less than <code>upper</code>.
      * @return a random integer greater than or equal to <code>lower</code> 
      * and less than or equal to <code>upper</code>.
      */
-    public int nextInt(int lower, int upper);  
+    int nextInt(int lower, int upper);  
     
     /**
-     * Generates a uniformly distributed random long integer between <
-     * code>lower</code> and <code>upper</code> (endpoints included).
+     * Generates a uniformly distributed random long integer between
+     * <code>lower</code> and <code>upper</code> (endpoints included).
+     * <p>
      * The generated long integer values will be random, but not 
-     * cryptographically secure.<br> 
+     * cryptographically secure.
      * To generate cryptographically secure sequences of longs, use 
      * <code>nextSecureLong</code>
+     * <p>
+     * <strong>Preconditions</strong>:<ul>
+     * <li><code>lower < upper</code> (otherwise an IllegalArgumentException 
+     *     is thrown.)</li>
+     * </ul>
+     *
      * @param lower lower bound for generated integer
      * @param upper upper bound for generated integer
-     * @exception IllegalArgumentException Thrown if lower > upper
      * @return a random integer greater than or equal to <code>lower</code>
      * and less than or equal to <code>upper</code>.
      */
-    public long nextLong(long lower, long upper);  
+    long nextLong(long lower, long upper);  
     
     /**
-     * Generates a random string of hex characters from a secure random sequence.
+     * Generates a random string of hex characters from a secure random 
+     * sequence.
+     * <p>
      * If cryptographic security is not required, 
      * use <code>nextHexString()</code>.
+     * <p>
+     * <strong>Preconditions</strong>:<ul>
+     * <li><code>len > 0</code> (otherwise an IllegalArgumentException 
+     *     is thrown.)</li>
+     * </ul>
      * @param len length of return string
-     * @exception IllegalArgumentException thrown if len <= 0 
      * @return the random hex string
      */
-    public String nextSecureHexString(int len);  
+    String nextSecureHexString(int len);  
     
     /**
      * Generates a uniformly distributed random integer between 
      * <code>lower</code> and <code>upper</code> (endpoints included) 
-     * from a secure random sequence.<br>
-     * The generated sequence will be cryptographically secure.<br>
-     * If cryptographic security is not required, <code>nextInt</code>
-     * should be used.<br>
-     * <strong>Definition</strong>(secure random sequence):
-     * http://www.wikipedia.org/wiki/Cryptographically_secure_pseudo-random_number_generator<br>
+     * from a secure random sequence.
+     * <p>
+     * Sequences of integers generated using this method will be 
+     * cryptographically secure. If cryptographic security is not required, 
+     * <code>nextInt</code> should be used instead of this method. 
+     * <p>
+     * <strong>Definition</strong>:
+     * <a href="http://www.wikipedia.org/wiki/
+     * Cryptographically_secure_pseudo-random_number_generator">
+     * Secure Random Sequence</a>
+     * <p>
+     * <strong>Preconditions</strong>:<ul>
+     * <li><code>lower < upper</code> (otherwise an IllegalArgumentException 
+     *     is thrown.)</li>
+     * </ul>
+     *
      * @param lower lower bound for generated integer
      * @param upper upper bound for generated integer
-     * @exception IllegalArgumentException thrown if
-     * <code>lower</code> is not strictly less than <code>upper</code>.
      * @return a random integer greater than or equal to <code>lower</code>
      * and less than or equal to <code>upper</code>.
      */
-    public int nextSecureInt(int lower, int upper);  
+    int nextSecureInt(int lower, int upper);  
     
     /**
      * Generates a random long integer between <code>lower</code>
-     * and <code>upper</code> (endpoints included).<br>
-     * The generated long sequence will be cryptographically secure.<br>
-     * If cryptographic security is not required,
-     * use <code>nextLong</code><br>
+     * and <code>upper</code> (endpoints included).<p>
+     * Sequences of long values generated using this method will be 
+     * cryptographically secure. If cryptographic security is not required,
+     * <code>nextLong</code> should be used instead of this method.
+     * <p>
      * <strong>Definition</strong>:
-     * <a href=http://www.wikipedia.org/wiki/Cryptographically_secure_pseudo-random_number_generator>
+     * <a href="http://www.wikipedia.org/wiki/
+     * Cryptographically_secure_pseudo-random_number_generator">
      * Secure Random Sequence</a>
+     * <p>
+     * <strong>Preconditions</strong>:<ul>
+     * <li><code>lower < upper</code> (otherwise an IllegalArgumentException 
+     *     is thrown.)</li>
+     * </ul>
+     *
      * @param lower lower bound for generated integer
      * @param upper upper bound for generated integer
-     * @exception IllegalArgumentException thrown if
-     * <code>lower</code> is not strictly less than <code>upper</code>.
      * @return a long integer greater than or equal to <code>lower</code>
      * and less than or equal to <code>upper</code>.
      */
-    public long nextSecureLong(long lower, long upper);  
+    long nextSecureLong(long lower, long upper);  
     
     /** 
      * Generates a random value from the Poisson distribution with 
-     * the given mean.<br>
+     * the given mean.
+     * <p>
      * <strong>Definition</strong>: 
-     * <a href=http://www.itl.nist.gov/div898/handbook/eda/section3/eda366j.htm>
-     * Poisson Distribution</a><br>
+     * <a href="http://www.itl.nist.gov/div898/handbook/
+     * eda/section3/eda366j.htm">
+     * Poisson Distribution</a>
+     * <p>
      * <strong>Preconditions</strong>: <ul>
-     * <li>The specified mean <i>must</i> be positive </li>
+     * <li>The specified mean <i>must</i> be positive (otherwise an 
+     *     IllegalArgumentException is thrown.)</li>
      * </ul>
      * @param mean Mean of the distribution
-     * @returns long
-     * @throws IllegalArgumentException if mean <= 0
+     * @return poisson deviate with the specified mean
      */
-    public long nextPoisson(double mean);  
+    long nextPoisson(double mean);  
     
     /** 
      * Generates a random value from the
-     * Normal (a.k.a. Gaussian) distribution with the given mean
-     * and standard deviation.<br>
+     * Normal (or Gaussian) distribution with the given mean
+     * and standard deviation.
+     * <p>
      * <strong>Definition</strong>: 
-     * <a href=http://www.itl.nist.gov/div898/handbook/eda/section3/eda3661.htm>
-     * Normal Distribution</a><br>
+     * <a href="http://www.itl.nist.gov/div898/handbook/
+     * eda/section3/eda3661.htm">
+     * Normal Distribution</a>
+     * <p>
      * <strong>Preconditions</strong>: <ul>
-     * <li>The specified standard deviation <i>must</i> be positive </li>
+     * <li><code>sigma > 0</code> (otherwise an IllegalArgumentException 
+     *     is thrown.)</li>
      * </ul>
      * @param mu Mean of the distribution
      * @param sigma Standard deviation of the distribution
      * @return random value from Gaussian distribution with mean = mu,
      * standard deviation = sigma
-     * @throws IllegalArgumentExcption if sigma <= 0
      */
-    public double nextGaussian(double mu,double sigma);  
+    double nextGaussian(double mu, double sigma);  
     
     /**
      * Generates a random value from the exponential distribution
-     * with expected value = <code>mean</code><br>
+     * with expected value = <code>mean</code>.
+     * <p>
      * <strong>Definition</strong>: 
-     * <a href=http://www.itl.nist.gov/div898/handbook/eda/section3/eda3667.htm>
-     * Exponential Distribution</a><br>
+     * <a href="http://www.itl.nist.gov/div898/handbook/
+     * eda/section3/eda3667.htm">
+     * Exponential Distribution</a>
+     * <p>
      * <strong>Preconditions</strong>: <ul>
-     * <li>The specified mean <i>must</i> be non-negative</li>
+     * <li><code>mu >= 0</code> (otherwise an IllegalArgumentException 
+     *     is thrown.)</li>
      * </ul>
-     * @param mu Mean of the distribution
+     * @param mean Mean of the distribution
      * @return random value from exponential distribution
      */
-    public double nextExponential(double mean);   
+    double nextExponential(double mean);   
     
     /**
      * Generates a uniformly distributed random value from the open interval
-     * (<code>lower</code>,<code>upper</code>) (i.e., endpoints excluded)
+     * (<code>lower</code>,<code>upper</code>) (i.e., endpoints excluded).
+     * <p>
      * <strong>Definition</strong>: 
-     * <a href=http://www.itl.nist.gov/div898/handbook/eda/section3/eda3662.htm>
-     * Uniform Distribution</a> <code>lower</code> and <code>upper - lower</code>
-     * are the 
-     * <a href = http://www.itl.nist.gov/div898/handbook/eda/section3/eda364.htm>
-     * location and scale parameters</a>, respectively<br>
+     * <a href="http://www.itl.nist.gov/div898/handbook/
+     * eda/section3/eda3662.htm">
+     * Uniform Distribution</a> <code>lower</code> and 
+     * <code>upper - lower</code> are the 
+     * <a href = "http://www.itl.nist.gov/div898/handbook/eda/
+     * section3/eda364.htm">
+     * location and scale parameters</a>, respectively.
+     * <p>
+     * <strong>Preconditions</strong>:<ul>
+     * <li><code>lower < upper</code> (otherwise an IllegalArgumentException 
+     *     is thrown.)</li>
+     * </ul>
+     *
      * @param lower lower endpoint of the interval of support
      * @param upper upper endpoint of the interval of support
      * @return uniformly distributed random value between lower
      * and upper (exclusive)
-     * @exception IllegalArgumentException thrown if
-     * <code>lower</code> is not strictly less than <code>upper</code>.
      */
-    public double nextUniform(double lower, double upper);
+    double nextUniform(double lower, double upper);
     
     /**
      * Generates an integer array of length <code>k</code> whose entries
-     * are selected randomly, without repetition, from the integers
-     * {0, ... , n-1} -- i.e., generated arrays represent permutations
-     * of <code>n</code> taken <code>k</code> at a time. <p>
-     *
+     * are selected randomly, without repetition, from the integers <code>
+     * 0 through n-1</code> (inclusive). 
+     * <p>
+     * Generated arrays represent permutations
+     * of <code>n</code> taken <code>k</code> at a time. 
+     * <p>
      * <strong>Preconditions:</strong><ul>
-     * <li> k must be less than or equal to n </li>
-     * <li> n must be positive (i.e. greater than 0) </li>
+     * <li> <code>k <= n</code></li>
+     * <li> <code>n > 0</code> </li>
      * </ul>
+     * If the preconditions are not met, an IllegalArgumentException is
+     * thrown.
      * 
      * @param n domain of the permutation
      * @param k size of the permutation
      * @return random k-permutation of n 
      */
-    public int[] nextPermutation(int n, int k);
+    int[] nextPermutation(int n, int k);
     
     /**
      * Returns an array of <code>k</code> objects selected randomly
-     * from the Collection <code>c</code>. Sampling from <code>c</code>
+     * from the Collection <code>c</code>. 
+     * <p>
+     * Sampling from <code>c</code>
      * is without replacement; but if <code>c</code> contains identical
      * objects, the sample may include repeats.  If all elements of <code>
      * c</code> are distinct, the resulting object array represents a 
-     * <a href=http://rkb.home.cern.ch/rkb/AN16pp/node250.html#SECTION0002500000000000000000>
+     * <a href="http://rkb.home.cern.ch/rkb/AN16pp/
+     * node250.html#SECTION0002500000000000000000">
      * Simple Random Sample</a> of size
-     * <code>k</code> from the elements of <code>c</code>.<p>   
-     *
+     * <code>k</code> from the elements of <code>c</code>.
+     * <p>   
      * <strong>Preconditions:</strong><ul>
      * <li> k must be less than or equal to the size of c </li>
      * <li> c must not be empty </li>
      * </ul>
+     * If the preconditions are not met, an IllegalArgumentException is
+     * thrown.
      * 
      * @param c collection to be sampled
      * @param k size of the sample
      * @return random sample of k elements from c 
      */
-    public Object[] nextSample(Collection c, int k);
+    Object[] nextSample(Collection c, int k);
 }

@@ -64,42 +64,50 @@ import java.util.Collection;
 /**
  * Implements the <code>RandomData</code> interface using 
  * <code>java.util.Random</code> and 
- * <code>java.util.Random.SecureRandom</code> instances to generate data.
+ * <code>java.util.Random.SecureRandom</code> instances to generate data. 
+ * <p>
  * Supports reseeding the underlying 
- * <a href=http://www.wikipedia.org/wiki/Pseudo-random_number_generator>PRNG</a>. 
- * The <code>SecurityProvider</code> and <code>Algorithm</code>
- * used by the <code>SecureRandom</code> instance can also be reset.<p>
+ * <a href="http://www.wikipedia.org/wiki/Pseudo-random_number_generator">
+ * PRNG</a>. The <code>SecurityProvider</code> and <code>Algorithm</code>
+ * used by the <code>SecureRandom</code> instance can also be reset.
+ * <p>
  * For details on the PRNGs, see the JDK documentation for 
  * <code>java.util.Random</code> and 
- * <code>java.util.Random.SecureRandom</code></p><p>
+ * <code>java.util.Random.SecureRandom</code>
+ * <p>
  * <strong>Usage Notes</strong>: <ul>
- * <li>Instance variables are used to maintain <code>Random</code> and 
+ * <li>
+ * Instance variables are used to maintain <code>Random</code> and 
  * <code>SecureRandom</code> instances used in data generation. Therefore,
  * to generate a random sequence of values or strings, you should use just
  * <strong>one</strong> <code>RandomDataImpl</code> instance repeatedly.</li>
- * <li>The "secure" methods are *much* slower.  These should be used only when
- * a <a href=http://www.wikipedia.org/wiki/Cryptographically_secure_pseudo-random_number_generator>
- * Secure Random Sequence</a> is required.</li>
- *<li>When a new <code>RandomDataImpl</code> is created, the underlying random
+ * <li>
+ * The "secure" methods are *much* slower.  These should be used only when
+ * a <a href="http://www.wikipedia.org/wiki/
+ * Cryptographically_secure_pseudo-random_number_generator"> Secure Random 
+ * Sequence</a> is required.</li>
+ * <li>
+ * When a new <code>RandomDataImpl</code> is created, the underlying random
  * number generators are <strong>not</strong> intialized.  The first call to a
  * data generation method, or to a <code>reSeed()</code> method instantiates
  * the appropriate generator.  If you do not explicitly seed the generator, it
  * is by default seeded with the current time in milliseconds</li>
- * <li>The <code>reSeed</code> and <code>reSeedSecure</code> methods delegate to
- * the corresponding methods on the underlying <code>Random</code> and <code>
- * SecureRandom</code> instances.  Therefore, the contracts of these methods
- * are as defined in the JDK documentation.  In particular, <code>reSeed(long)
- * </code> fully resets the initial state of the non-secure random number 
- * generator (so that reseeding with a specific value always results in the
- * same subsequent random sequence); whereas reSeedSecure(long) does <strong> not 
- * </strong> reinitialize the secure random number generator (so secure sequences
- * started with calls to reseedSecure(long) won't be identical).</li></ul>
- *</p>
+ * <li>
+ * The <code>reSeed</code> and <code>reSeedSecure</code> methods delegate 
+ * to the corresponding methods on the underlying <code>Random</code> and 
+ * <code>SecureRandom</code> instances.  Therefore, the contracts of these 
+ * methods are as defined in the JDK documentation.  In particular, 
+ * <code>reSeed(long)</code> fully resets the initial state of the non-secure 
+ * random number generator (so that reseeding with a specific value always 
+ * results in the same subsequent random sequence); whereas reSeedSecure(long)
+ * does <strong>not</strong> reinitialize the secure random number generator 
+ * (so secure sequences started with calls to reseedSecure(long) won't be 
+ * identical).</li></ul>
  * 
  * @author Phil Steitz
- * @version $Revision: 1.2 $ $Date: 2003/05/29 19:45:35 $
+ * @version $Revision: 1.3 $ $Date: 2003/06/04 02:45:49 $
  */
-public class RandomDataImpl implements RandomData{
+public class RandomDataImpl implements RandomData {
     
     /** underlying random number generator */
     private Random rand = null;
@@ -107,20 +115,19 @@ public class RandomDataImpl implements RandomData{
     /** underlying secure random number generator */
     private SecureRandom secRand = null;
     
-    public RandomDataImpl(){
+    /**
+     * Construct a RandomDataImpl.
+     */
+    public RandomDataImpl() {
     }
           
     /**
-     * Generates a random string of hex characters
-     * If cryptographic security is required, use 
-     * <code>nextSecureHexString()</code>.<br>
      * <strong>Algorithm Description:</strong> hex strings are generated 
      * using a 2-step process. <ol>
-     * <li>len/2+1 binary bytes are generated using the underlying Random</li>
-     * <li>Each binary byte is translated into 2 hex digits</li></ol>
-     * @param len length of return string
-     * @exception IllegalArgumentException thrown if len <= 0 
-     * @return the random hex string
+     * <li>
+     * len/2+1 binary bytes are generated using the underlying Random</li>
+     * <li>
+     * Each binary byte is translated into 2 hex digits</li></ol>
      */
     public String nextHexString(int len) {
         if (len <= 0) {
@@ -146,23 +153,24 @@ public class RandomDataImpl implements RandomData{
              * This guarantees <= 2 hex digits from toHexString()
              * toHexString would otherwise add 2^32 to negative arguments.
              */
-             String hex = Integer.toHexString(c.intValue()+128);
+             String hex = Integer.toHexString(c.intValue() + 128);
                 
              // Make sure we add 2 hex digits for each byte
-             if (hex.length() == 1) hex = "0" + hex;
+             if (hex.length() == 1)  {
+                 hex = "0" + hex;
+             }
              outBuffer.append(hex);
         }
         return outBuffer.toString().substring(0, len);
     }
-    
-     
+       
     public int nextInt(int lower, int upper) {
         if (lower >= upper) {
             throw new IllegalArgumentException
                 ("upper bound must be > lower bound");
         }
         Random rand = getRan();
-        return lower + (int)(Math.random() * (upper-lower+1));
+        return lower + (int) (Math.random() * (upper - lower + 1));
     }
     
     public long nextLong(long lower, long upper) {
@@ -171,23 +179,22 @@ public class RandomDataImpl implements RandomData{
                 ("upper bound must be > lower bound");
         }
         Random rand = getRan();
-        return lower + (long)(rand.nextDouble() * (upper-lower+1));
+        return lower + (long) (rand.nextDouble() * (upper - lower + 1));
     }
     
      /**
-     * Generates a random string of hex characters from a secure random sequence.
-     * If cryptographic security is not required, 
-     * use <code>nextHexString()</code>.<br>
-     * <strong>Algorithm Description:</strong> hex strings are generated in 40-byte
-     * segments using a 3-step process. <ol>
-     * <li>20 random bytes are generated using the underlying SecureRandom</li>
-     * <li>SHA-1 hash is applied to yield a 20-byte binary digest</li>
-     * <li>Each byte of the binary digest is converted to 2 hex digits</li></ol><p>
-     * TODO: find external reference or provide justification for the claim that this
-     * yields a cryptographically secure sequence of hex strings.</p>
-     * @param len length of return string
-     * @exception IllegalArgumentException thrown if len <= 0 
-     * @return the random hex string
+     * <strong>Algorithm Description:</strong> hex strings are generated in 
+     * 40-byte segments using a 3-step process. <ol>
+     * <li>
+     * 20 random bytes are generated using the underlying 
+     * <code>SecureRandom</code>.</li>
+     * <li>
+     * SHA-1 hash is applied to yield a 20-byte binary digest.</li>
+     * <li>
+     * Each byte of the binary digest is converted to 2 hex digits</li></ol>
+     * <p>
+     * TODO: find external reference or provide justification for the claim 
+     * that this yields a cryptographically secure sequence of hex strings.
      */
     public String nextSecureHexString(int len) {
         if (len <= 0) {
@@ -200,7 +207,7 @@ public class RandomDataImpl implements RandomData{
        try {
             alg = MessageDigest.getInstance("SHA-1");
        } catch (NoSuchAlgorithmException ex) {
-           return null; // gulp FIXME? -- this *should* never fail. OK to swallow????
+           return null; // gulp FIXME? -- this *should* never fail.
        }
        alg.reset(); 
        
@@ -225,48 +232,43 @@ public class RandomDataImpl implements RandomData{
                  * toHexString would otherwise add 2^32 to negative 
                  * arguments
                  */
-                String hex = Integer.toHexString(c.intValue()+128);
+                String hex = Integer.toHexString(c.intValue() + 128);
                     
                //Keep strings uniform length -- guarantees 40 bytes
-               if (hex.length() == 1) hex = "0" + hex;
+                if (hex.length() == 1) {
+                    hex = "0" + hex;
+                }
                outBuffer.append(hex);
             }
         }
         return outBuffer.toString().substring(0, len);
     }
-    
+     
     public int nextSecureInt(int lower, int upper) {
           if (lower >= upper) {
               throw new IllegalArgumentException
                 ("lower bound must be < upper bound");
           }
           SecureRandom sec = getSecRan();
-          return lower + (int)(sec.nextDouble() * (upper-lower+1));
+          return lower + (int) (sec.nextDouble() * (upper - lower + 1));
     }
-    
-    
+     
     public long nextSecureLong(long lower, long upper) {
         if (lower >= upper) {
             throw new IllegalArgumentException
             ("lower bound must be < upper bound");
         }
         SecureRandom sec = getSecRan();
-        return lower + (long)(sec.nextDouble() * (upper-lower+1));
+        return lower + (long) (sec.nextDouble() * (upper - lower + 1));
     }
     
     /** 
-     * Generates a random value from the Poisson distribution with 
-     * the given mean.<br>
-     * <strong>Definition</strong>: 
-     * <a href=http://www.itl.nist.gov/div898/handbook/eda/section3/eda366j.htm>
-     * Poisson Distribution</a><br>
      * <strong>Algorithm Description</strong>:
-     * Uses simulation of a Poisson process using Uniform deviates, as described 
-     * <a href = http://dmawww.epfl.ch/benarous/Pmmi/interactive/rng7.htm>
+     * Uses simulation of a Poisson process using Uniform deviates, as 
+     * described 
+     * <a href ="http://dmawww.epfl.ch/benarous/Pmmi/interactive/rng7.htm">
      * here</a>
-     * @param mean Mean of the distribution
-     * @returns long
-     * @throws IllegalArgumentException if mean <= 0
+     *
      */
     public long nextPoisson(double mean) {
         double p = Math.exp(-mean);
@@ -287,59 +289,38 @@ public class RandomDataImpl implements RandomData{
         }
     }
     
-    public double nextGaussian(double mu,double sigma) {
+    public double nextGaussian(double mu, double sigma) {
         if (sigma <= 0) {
             throw new IllegalArgumentException("Gaussian std dev must be > 0");
         }
         Random rand = getRan();
-        return sigma*rand.nextGaussian() + mu;
+        return sigma * rand.nextGaussian() + mu;
     }
     
     /**
-     * Generates a random value from the exponential distribution
-     * with expected value = <code>mean</code><br>
-     * <strong>Definition</strong>: 
-     * <a href=http://www.itl.nist.gov/div898/handbook/eda/section3/eda3667.htm>
-     * Exponential Distribution</a><br>
-     * <strong>Preconditions</strong>: <ul>
-     * <li>The specified mean <i>must</i> be non-negative</li>
-     * </ul>
      * <strong>Algorithm Description</strong>:  Uses the 
-     * <a href=http://www.jesus.ox.ac.uk/~clifford/a5/chap1/node5.html> 
+     * <a href="http://www.jesus.ox.ac.uk/~clifford/a5/chap1/node5.html"> 
      * Inversion Method</a> to generate exponential from uniform deviates.
-     * @param mu Mean of the distribution
-     * @return random value from exponential distribution
      */
     public double nextExponential(double mean)  {
-        if (mean < 0.0) throw new IllegalArgumentException
-            ("Exponential mean must be >= 0");
+        if (mean < 0.0)  {
+            throw new IllegalArgumentException
+                ("Exponential mean must be >= 0");
+        }
         Random rand = getRan();
         double unif = rand.nextDouble();
         while (unif == 0.0d) {
             unif = rand.nextDouble();
         }
-        return -mean*Math.log(unif);
+        return -mean * Math.log(unif);
     }
     
     /**
-     * Generates a uniformly distributed random value from the open interval
-     * (<code>lower</code>,<code>upper</code>) (i.e., endpoints excluded)
-     * <strong>Definition</strong>: 
-     * <a href=http://www.itl.nist.gov/div898/handbook/eda/section3/eda3662.htm>
-     * Uniform Distribution</a> <code>lower</code> and <code>upper - lower</code>
-     * are the 
-     * <a href = http://www.itl.nist.gov/div898/handbook/eda/section3/eda364.htm>
-     * location and scale parameters</a>, respectively<br>
      * <strong>Algorithm Description</strong>: scales the output of 
      * Random.nextDouble(), but rejects 0 values (i.e., will generate another
-     * random double if Random.nextDouble() returns 0).  This is necessary to
-     * provide a symmetric output interval (both endpoints excluded).
-     * @param lower lower endpoint of the interval of support
-     * @param upper upper endpoint of the interval of support
-     * @return uniformly distributed random value between lower
-     * and upper (exclusive)
-     * @exception IllegalArgumentException thrown if
-     * <code>lower</code> is not strictly less than <code>upper</code>.
+     * random double if Random.nextDouble() returns 0). 
+     * This is necessary to provide a symmetric output interval 
+     * (both endpoints excluded).
      */
     public double nextUniform(double lower, double upper) {
         if (lower >= upper) {
@@ -347,16 +328,18 @@ public class RandomDataImpl implements RandomData{
             ("lower bound must be <= upper bound");
         }
         Random rand = getRan();
-        double result = lower + rand.nextDouble()*(upper-lower);
+        double result = lower + rand.nextDouble() * (upper - lower);
         while (result == lower) {
-              result = lower + rand.nextDouble()*(upper-lower);
+              result = lower + rand.nextDouble() * (upper - lower);
         }
         return result;   
     }
     
     /** 
-     * Returns the static Random used to generate random data.<br>
-     * Creates and initializes if null
+     * Returns the static Random used to generate random data.
+     * <p>
+     * Creates and initializes if null.
+     * 
      * @return the static Random used to generate random data
      */
     private Random getRan() {
@@ -368,8 +351,10 @@ public class RandomDataImpl implements RandomData{
     }
     
     /** 
-     * Returns the static SecureRandom used to generate secure random data.<br>
+     * Returns the static SecureRandom used to generate secure random data.
+     * <p>
      * Creates and initializes if null.
+     *
      * @return the static SecureRandom used to generate secure random data
      */
     private SecureRandom getSecRan() {
@@ -381,8 +366,10 @@ public class RandomDataImpl implements RandomData{
     }
     
     /**
-     * Reseeds the random number generator with the supplied seed.  Will
-     * create and initialize if null.
+     * Reseeds the random number generator with the supplied seed.
+     * <p>
+     * Will create and initialize if null.
+     *
      * @param seed the seed value to use
      */
     public void reSeed(long seed) {
@@ -394,18 +381,22 @@ public class RandomDataImpl implements RandomData{
     
     /**
      * Reseeds the secure random number generator with the current time
-     * in milliseconds.  Will create and initialize if null.
+     * in milliseconds. 
+     * <p> 
+     * Will create and initialize if null.
      */
     public void reSeedSecure() {
-        if (rand == null) {
-            rand = new Random();
+        if (secRand == null) {
+            secRand = new SecureRandom();
         }
-        rand.setSeed(System.currentTimeMillis());
+        secRand.setSeed(System.currentTimeMillis());
     }
     
     /**
      * Reseeds the secure random number generator with the supplied seed.
+     * <p>
      * Will create and initialize if null.
+     *
      * @param seed the seed value to use
      */
     public void reSeedSecure(long seed) {
@@ -417,7 +408,7 @@ public class RandomDataImpl implements RandomData{
     
     /**
      * Reseeds the random number generator with the current time
-     * in milliseconds
+     * in milliseconds.
      */
     public void reSeed() {
         if (rand == null) {
@@ -429,18 +420,23 @@ public class RandomDataImpl implements RandomData{
     /**
      * Sets the PRNG algorithm for the underlying SecureRandom instance
      * using the Security Provider API, as defined in 
-     * <a href=http://java.sun.com/j2se/1.3/docs/guide/security/CryptoSpec.html#AppA>
-     * Java Cryptography Architecture API Specification & Reference</a><p>
-     * <strong>USAGE NOTE:</strong> This method carries <i>significant</i> overhead
-     * and may take several seconds to execute.</p>
+     * <a href="http://java.sun.com/j2se/1.3/docs/guide/security/
+     * CryptoSpec.html#AppA">
+     * Java Cryptography Architecture API Specification & Reference.</a>
+     * <p>
+     * <strong>USAGE NOTE:</strong> This method carries <i>significant</i> 
+     * overhead and may take several seconds to execute.
+     *
      * @param algorithm the name of the PRNG algorithm
      * @param provider the name of the provider 
-     * @throws NoSuchAlgorithmException if the specified algorithm is not available
-     * @throws NoSuchProviderException if the specified provider is not installed
+     * @throws NoSuchAlgorithmException if the specified algorithm 
+     * is not available
+     * @throws NoSuchProviderException if the specified provider 
+     * is not installed
      */
     public void setSecureAlgorithm(String algorithm, String provider) 
-        throws NoSuchAlgorithmException,NoSuchProviderException {
-        secRand = SecureRandom.getInstance(algorithm,provider);
+        throws NoSuchAlgorithmException, NoSuchProviderException {
+        secRand = SecureRandom.getInstance(algorithm, provider);
     }
     
     /**
@@ -460,22 +456,22 @@ public class RandomDataImpl implements RandomData{
         }
         
         int[] index = getNatural(n);
-        shuffle(index,n-k);
+        shuffle(index, n - k);
         int[] result = new int[k];
         for (int i = 0; i < k; i++) {
-            result[i] = index[n-i-1];
+            result[i] = index[n - i - 1];
         }
   
         return result;
     }
     
     /**
-     * Uses a 2-cycle permutation shuffle to generate a random
-     * permutation of <code>c.size()</code> and then returns the
-     * elements whose indexes correspond to the elements of the
-     * generated permutation.  This technique is described, and 
-     * proven to generate random samples, 
-     * <a href=http://www.maths.abdn.ac.uk/~igc/tch/mx4002/notes/node83.html>
+     * <strong>Algorithm Description</strong>: Uses a 2-cycle permutation 
+     * shuffle to generate a random permutation of <code>c.size()</code> and 
+     * then returns the elements whose indexes correspond to the elements of 
+     * the generated permutation.  
+     * This technique is described, and proven to generate random samples, 
+     * <a href="http://www.maths.abdn.ac.uk/~igc/tch/mx4002/notes/node83.html">
      * here</a>
      */ 
     public Object[] nextSample(Collection c, int k) {
@@ -490,9 +486,9 @@ public class RandomDataImpl implements RandomData{
         }
             
        Object[] objects = c.toArray();
-       int[] index = nextPermutation(len,k);
+       int[] index = nextPermutation(len, k);
        Object[] result = new Object[k];
-       for (int i = 0; i < k; i ++) {
+       for (int i = 0; i < k; i++) {
            result[i] = objects[index[i]];
        }  
        return result;
@@ -501,19 +497,19 @@ public class RandomDataImpl implements RandomData{
     //------------------------Private methods----------------------------------
     
     /** 
-     * Uses a 2-cycle permutation shuffle to randomly re-order the last
-     * end elements of list
+     * <strong>Algorithm Description</strong>: Uses a 2-cycle permutation 
+     * shuffle to randomly re-order the last <code>end</code> elements of list.
      * 
      * @param list list to be shuffled
      * @end element past which shuffling begins
      */
     private void shuffle(int[] list, int end) {
         int target = 0;
-        for (int i = list.length-1 ; i >= end; i--) {
+        for (int i = list.length - 1 ; i >= end; i--) {
             if (i == 0) {
                 target = 0; 
             } else {
-                target = nextInt(0,i);
+                target = nextInt(0, i);
             }
             int temp = list[target];
             list[target] = list[i];
@@ -522,7 +518,7 @@ public class RandomDataImpl implements RandomData{
     }
     
     /**
-     * Returns an array representing n
+     * Returns an array representing n.
      *
      * @param n the natural number to represent
      * @return array with entries = elements of n
