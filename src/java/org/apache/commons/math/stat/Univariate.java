@@ -51,7 +51,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
- package org.apache.commons.math.stat;
+package org.apache.commons.math.stat;
 
 /**
  *
@@ -73,7 +73,7 @@
  * @author Phil Steitz
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
  * @author <a href="mailto:mdiggory@apache.org">Mark Diggory</a>
- * @version $Revision: 1.4 $ $Date: 2003/06/21 23:38:27 $
+ * @version $Revision: 1.5 $ $Date: 2003/07/05 19:25:38 $
  * 
 */
 public interface Univariate {
@@ -82,14 +82,14 @@ public interface Univariate {
      * Adds the value to the set of numbers
      * @param v the value to be added 
      */
-    abstract void addValue(double v);
+    void addValue(double v);
 
     /** 
      * Returns the <a href=http://www.xycoon.com/arithmetic_mean.htm>
      * arithmetic mean </a> of the available values 
      * @return The mean or Double.NaN if no values have been added.
      */
-    abstract double getMean();
+    double getMean();
 
     /** 
      * Returns the <a href=http://www.xycoon.com/geometric_mean.htm>
@@ -97,73 +97,73 @@ public interface Univariate {
      * @return The geometricMean, Double.NaN if no values have been added, 
      * or if the productof the available values is less than or equal to 0.
      */
-    abstract double getGeometricMean();
+    double getGeometricMean();
 
     /** 
      * Returns the variance of the available values.
      * @return The variance, Double.NaN if no values have been added 
      * or 0.0 for a single value set.  
      */
-    abstract double getVariance();
+    double getVariance();
 
     /** 
      * Returns the standard deviation of the available values.
      * @return The standard deviation, Double.NaN if no values have been added 
      * or 0.0 for a single value set. 
      */
-    abstract double getStandardDeviation();
+    double getStandardDeviation();
 
-	/**
+    /**
      * Returns the skewness of the available values. Skewness is a 
      * measure of the assymetry of a given distribution.
-	 * @return The skewness, Double.NaN if no values have been added 
+     * @return The skewness, Double.NaN if no values have been added 
      * or 0.0 for a value set &lt;=2. 
-	 */
-	abstract double getSkewness();
-	
-	/**
+     */
+    double getSkewness();
+
+    /**
      * Returns the Kurtosis of the available values. Kurtosis is a 
      * measure of the "peakedness" of a distribution
      * @return The kurtosis, Double.NaN if no values have been added, or 0.0 
      * for a value set &lt;=3. 
-	 */
-	abstract double getKurtosis();
-		
+     */
+    double getKurtosis();
+
     /** 
      * Returns the maximum of the available values
      * @return The max or Double.NaN if no values have been added.
      */
-    abstract double getMax();
+    double getMax();
 
-     /** 
-     * Returns the minimum of the available values
-     * @return The min or Double.NaN if no values have been added.
-     */
-    abstract double getMin();
+    /** 
+    * Returns the minimum of the available values
+    * @return The min or Double.NaN if no values have been added.
+    */
+    double getMin();
 
     /** 
      * Returns the number of available values
      * @return The number of available values
      */
-    abstract int getN();
+    int getN();
 
     /**
      * Returns the sum of the values that have been added to Univariate.
      * @return The sum or Double.NaN if no values have been added
      */
-    abstract double getSum();
+    double getSum();
 
     /**
      * Returns the sum of the squares of the available values.
      * @return The sum of the squares or Double.NaN if no 
      * values have been added.
      */
-    abstract double getSumsq();
+    double getSumsq();
 
     /** 
      * Resets all statistics and storage
      */
-    abstract void clear();
+    void clear();
 
     /**
      * This constant signals that a Univariate implementation
@@ -176,10 +176,10 @@ public interface Univariate {
     /**
      * Univariate has the ability to return only measures for the
      * last N elements added to the set of values.
-	 * @return The current window size or -1 if its Infinite.
-	 */
+     * @return The current window size or -1 if its Infinite.
+     */
 
-    abstract int getWindowSize();
+    int getWindowSize();
 
     /**
      * WindowSize controls the number of values which contribute 
@@ -188,7 +188,7 @@ public interface Univariate {
      * have been added <strong> in that order</strong> 
      * then the <i>available values</i> are {3,4,5} and all
      * reported statistics will be based on these values
-	 * @param windowSize sets the size of the window.
-	 */
-    abstract void setWindowSize(int windowSize);
+     * @param windowSize sets the size of the window.
+     */
+    void setWindowSize(int windowSize);
 }

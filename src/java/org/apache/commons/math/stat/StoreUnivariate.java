@@ -54,12 +54,15 @@
 package org.apache.commons.math.stat;
 
 /**
- * StoreUnivariate implements the Univariate interface but maintains the set of values 
- * which contribute to the values being returned.  This implementation of Univariate
- * provides additional functionality such as skewness, kurtosis, and mode.  This additional
- * functionality comes with a price of increased storage costs.
+ * StoreUnivariate implements the Univariate interface 
+ * but maintains the set of values which contribute to 
+ * the values being returned.  This implementation of 
+ * Univariate provides additional percentile functionality 
+ * such as.  This additional functionality comes with 
+ * a price of increased storage costs.
  * 
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
+ * @author <a href="mailto:mdiggory@apache.org">Mark R. Diggory</a>
  */
 public interface StoreUnivariate extends Univariate {
 
@@ -84,14 +87,14 @@ public interface StoreUnivariate extends Univariate {
      * 
      * @return The skewness of this distribution
      */
-    public abstract double getSkewness();
+    double getSkewness();
 
     /** 
      * Kurtosis is a measure of the "peakedness" of a distribution
      * 
      * @return the mode
      */
-    public abstract double getKurtosis();
+    double getKurtosis();
 
     /**
      * Returns the Kurtosis "classification" a distribution can be 
@@ -102,7 +105,7 @@ public interface StoreUnivariate extends Univariate {
      *         StoredDeviation.LEPTOKURITC, StoredDeviation.PLATYKURTIC, or 
      *         StoredDeviation.MESOKURTIC
      */
-    public abstract int getKurtosisClass();
+    int getKurtosisClass();
 
     /**
      * Returns the current set of values in an array of double primitives.  
@@ -113,33 +116,33 @@ public interface StoreUnivariate extends Univariate {
      * @return returns the current set of numbers in the order in which they 
      *         were added to this set
      */
-    public abstract double[] getValues();
-    
+    double[] getValues();
+
     /**
      * Returns the current set of values in an array of double primitives,  
      * sorted in ascending order.  The returned array is a fresh
      * copy of the underlying data -- i.e., it is not a reference to the
      * stored data.
-     * 
-     * @return returns the current set of numbers sorted in ascending order        
+     * @return returns the current set of 
+     * numbers sorted in ascending order        
      */
-    public abstract double[] getSortedValues(); 
+    double[] getSortedValues();
 
     /**
      * Returns the element at the specified index
-     * 
+     * @param index The Index of the element
      * @return return the element at the specified index
      */
-    public abstract double getElement(int index);
-    
+    double getElement(int index);
+
     /**
      * Returns an estimate for the pth percentile of the stored values. 
      * This estimate follows the interpolation-adjusted defintion presented 
      * <a href="http://www.utdallas.edu/~ammann/stat5311/node8.html">here</a>
      * <p/>
      * <strong>Preconditions</strong>:<ul>
-     * <li><code>0 &lt; p &lt; 100</code> (otherwise an <code>IllegalArgumentException
-     *     </code> is thrown)</li>
+     * <li><code>0 &lt; p &lt; 100</code> (otherwise an 
+     * <code>IllegalArgumentException</code> is thrown)</li>
      * <li>at least one value must be stored (returns <code>Double.NaN
      *     </code> otherwise)</li>
      * </ul>
@@ -148,6 +151,6 @@ public interface StoreUnivariate extends Univariate {
      * @return An estimate for the pth percentile of the stored data 
      * values
      */
-    public abstract double getPercentile(double p);
+    double getPercentile(double p);
 
 }
