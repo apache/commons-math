@@ -73,7 +73,7 @@
  * @author Phil Steitz
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
  * @author Mark Diggory
- * @version $Revision: 1.1 $ $Date: 2003/05/29 20:35:45 $
+ * @version $Revision: 1.2 $ $Date: 2003/06/16 20:58:53 $
  * 
 */
 public interface Univariate {
@@ -86,85 +86,64 @@ public interface Univariate {
 
     /** 
      * Returns the <a href=http://www.xycoon.com/arithmetic_mean.htm>
-     * arithmetic mean </a> of the available values <p>
-     *
-     * Will return Double.NaN if no values have been added when
-     * this method is invoked.
-     *
-     * @return mean value
+     * arithmetic mean </a> of the available values 
+     * @return mean value, Double.NaN if no values have been added.
      */
     abstract double getMean();
 
     /** 
      * Returns the <a href=http://www.xycoon.com/geometric_mean.htm>
-     * geometric mean </a> of the available values <p>
-     *
-     * Will return Double.NaN if no values have been added or the product
+     * geometric mean </a> of the available values
+     * @return The mean value, Double.NaN if no values have been added, or the product
      * of the available values is less than or equal to 0.
-     *
-     * @return mean value
      */
     abstract double getGeometricMean();
 
     /** 
-     * Returns the product of the available values <p>
-     * Will return Double.NaN if no values have been added.
-     *
-     * @return product of all values
+     * Returns the product of the available values
+     * @return product of all values or Double.NaN if no values have been added.
      */
     abstract double getProduct();
 
     /** 
-     * Returns the variance of the available values. <p>
-     * Double.NaN is returned for an empty set of values and 0.0 is 
-     * returned for a single value set. 
-     *
-     * @return The variance of a set of values.  
+     * Returns the variance of the available values.
+     * @return The variance of a set of values, an empty set of values and 0.0 is 
+     * returned for a single value set, or Double.NaN if no values have been added.  
      */
     abstract double getVariance();
 
     /** 
-     * Returns the variance of the available values. <p>
-     * Double.NaN is returned for an empty set of values and 0.0 is 
-     * returned for a single value set. 
-     *
-     * @return standard deviation value
+     * Returns the variance of the available values.
+     * @return standard deviation value, Double.NaN is returned for an empty set 
+     * of values and 0.0 is returned for a single value set. 
      */
     abstract double getStandardDeviation();
 
 	/**
      * Returns the skewness of a given distribution.  Skewness is a 
-     * measure of the assymetry of a given distribution. <p>
-	 * Double.NaN is returned for an empty set of values and 0.0 is 
-	 * returned for a value set &lt;=2. 
-	 * 
-	 * @return Value of property skewness.
+     * measure of the assymetry of a given distribution.
+	 * @return skewness, Double.NaN is returned for an empty set of values 
+     * and 0.0 is returned for a value set &lt;=2. 
 	 */
 	abstract double getSkewness();
 	
 	/**
      * Returns the Kurtosis of the available values. Kurtosis is a 
-     * measure of the "peakedness" of a distribution <p>
-     * Double.NaN is returned for an empty set of values and 0.0 is 
+     * measure of the "peakedness" of a distribution
+     * @return kurtosis, Double.NaN is returned in no values have been added, and 0.0 is 
      * returned for a value set &lt;=3. 
-     * 
-     * @return Value of property kurtosis.
 	 */
 	abstract double getKurtosis();
 		
     /** 
-     * Returns the maximum of the available values <p>
-     * Double.NaN is returned in no values have been added
-     *
-     * @return Value of property max.
+     * Returns the maximum of the available values
+     * @return Value of property max, Double.NaN is returned in no values have been added.
      */
     abstract double getMax();
 
      /** 
-     * Returns the minimum of the available values <p>
-     * Double.NaN is returned in no values have been added
-     *
-     * @return Value of property min.
+     * Returns the minimum of the available values
+     * @return Value of property min, Double.NaN is returned in no values have been added.
      */
     abstract double getMin();
 
@@ -175,17 +154,14 @@ public interface Univariate {
     abstract int getN();
 
     /**
-     * Returns the sum of the available values <p>
-     * Returns 0 if no values have been added.
-     *
-     * @return the sum of the available values
+     * Returns the sum of the values that have been added to Univariate.
+     * @return the sum of the available values or Double.NaN if no values have been added
      */
     abstract double getSum();
 
     /**
      * Returns the sum of the squares of the available values.
      * Returns 0 if no values have been added.
-     *
      * @return the sum of the squares of the available values.
      */
     abstract double getSumsq();
