@@ -14,7 +14,7 @@
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in
  *    the documentation and/or other materials provided with the
- *    distribution. 
+ *    distribution.
  *
  * 3. The end-user documentation included with the redistribution, if
  *    any, must include the following acknowlegement:
@@ -62,16 +62,16 @@ import junit.framework.AssertionFailedError;
  * Test cases for the MathUtils class.
  *
  * @author Phil Steitz
- * @version $Revision: 1.1 $ $Date: 2003/06/04 02:31:14 $
+ * @version $Revision: 1.2 $ $Date: 2003/06/06 03:07:39 $
  */
 
 public final class MathUtilsTest extends TestCase {
 
     public MathUtilsTest(String name) {
         super(name);
-    }   
-    
-    public void setUp() { 
+    }
+
+    public void setUp() {
     }
 
     public static Test suite() {
@@ -157,10 +157,10 @@ public final class MathUtilsTest extends TestCase {
             ;
         }
         double x = MathUtils.binomialCoefficientDouble(1030,515);
-        assertTrue("expecting infinite binomial coefficient", 
+        assertTrue("expecting infinite binomial coefficient",
             Double.isInfinite(x));
     }
-    
+
     public void testFactorial() {
         for (int i = 1; i < 10; i++) {
             assertEquals(i + "! ",factorial(i),MathUtils.factorial(i));
@@ -170,7 +170,7 @@ public final class MathUtilsTest extends TestCase {
                 MathUtils.factorialLog(i),10E-12);
         }
     }
-    
+
     public void testFactorialFail() {
         try {
             long x = MathUtils.factorial(0);
@@ -196,26 +196,26 @@ public final class MathUtilsTest extends TestCase {
         } catch (ArithmeticException ex) {
             ;
         }
-        assertTrue("expecting infinite factorial value", 
+        assertTrue("expecting infinite factorial value",
             Double.isInfinite(MathUtils.factorialDouble(171)));
-        
+
     }
-   
-    
-    /** 
+
+
+    /**
      * Exact recursive implementation to test against
      */
-    private long binomialCoefficient(int n, int k) {     
+    private long binomialCoefficient(int n, int k) {
         if ((n == k) || (k == 0)) {
             return 1;
         }
         if ((k == 1) || (k == n - 1)) {
             return n;
         }
-        return binomialCoefficient(n - 1, k - 1) + 
+        return binomialCoefficient(n - 1, k - 1) +
             binomialCoefficient(n - 1, k);
-    } 
-    
+    }
+
     /**
      * Finds the largest values of n for which binomialCoefficient and
      * binomialCoefficientDouble will return values that fit in a long, double,
@@ -225,7 +225,7 @@ public final class MathUtilsTest extends TestCase {
             findBinomialLimits();
         }
      */
-    
+
     private void findBinomialLimits() {
         /**
          * will kick out 66 as the limit for long
@@ -241,8 +241,8 @@ public final class MathUtilsTest extends TestCase {
                     ("largest n for binomialCoefficient = " + (test - 1) );
             }
             test++;
-        }     
-        
+        }
+
        /**
         * will kick out 1029 as the limit for double
         */
@@ -256,19 +256,19 @@ public final class MathUtilsTest extends TestCase {
                     ("largest n for binomialCoefficientD = " + (test - 1) );
             }
             test++;
-        } 
+        }
     }
-    
+
     /**
      * Finds the largest values of n for which factiorial and
      * factorialDouble will return values that fit in a long, double,
      * resp.  Remove comments around test below to get this in test-report
-     
+
         public void testFactiorialLimits() {
             findFactorialLimits();
         }
      */
-    
+
     private void findFactorialLimits() {
         /**
          * will kick out 20 as the limit for long
@@ -284,8 +284,8 @@ public final class MathUtilsTest extends TestCase {
                     ("largest n for factorial = " + (test - 1) );
             }
             test++;
-        }     
-        
+        }
+
        /**
         * will kick out 170 as the limit for double
         */
@@ -299,21 +299,56 @@ public final class MathUtilsTest extends TestCase {
                     ("largest n for factorialDouble = " + (test - 1) );
             }
             test++;
-        } 
+        }
     }
-    
-    
-    /** 
+
+
+    /**
      * Exact direct multiplication implementation to test against
      */
-    private long factorial(int n) {     
+    private long factorial(int n) {
         long result = 1;
         for (int i = 2; i <= n; i++) {
             result *= i;
         }
         return result;
-    } 
- 
-        
+    }
 
+
+    public void testSignDouble() {
+        double delta = 0.0 ;
+        assertEquals( 1.0, MathUtils.sign( 2.0 ), delta ) ;
+        assertEquals( -1.0, MathUtils.sign( -2.0 ), delta ) ;
+    }
+
+
+    public void testSignFloat() {
+        float delta = 0.0F ;
+        assertEquals( 1.0F, MathUtils.sign( 2.0F ), delta ) ;
+        assertEquals( -1.0F, MathUtils.sign( -2.0F ), delta ) ;
+    }
+
+
+    public void testSignByte() {
+        assertEquals( (byte)1, MathUtils.sign( (byte)2 ) ) ;
+        assertEquals( (byte)(-1), MathUtils.sign( (byte)(-2) ) ) ;
+    }
+
+
+    public void testSignShort() {
+        assertEquals( (short)1, MathUtils.sign( (short)2 ) ) ;
+        assertEquals( (short)(-1), MathUtils.sign( (short)(-2) ) ) ;
+    }
+
+
+    public void testSignInt() {
+        assertEquals( (int)1, MathUtils.sign( (int)(2) ) ) ;
+        assertEquals( (int)(-1), MathUtils.sign( (int)(-2) ) ) ;
+    }
+
+
+    public void testSignLong() {
+        assertEquals( 1L, MathUtils.sign( 2L ) ) ;
+        assertEquals( -1L, MathUtils.sign( -2L ) ) ;
+    }
 }

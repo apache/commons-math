@@ -14,7 +14,7 @@
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in
  *    the documentation and/or other materials provided with the
- *    distribution. 
+ *    distribution.
  *
  * 3. The end-user documentation included with the redistribution, if
  *    any, must include the following acknowlegement:
@@ -58,31 +58,131 @@ package org.apache.commons.math;
  * Some useful additions to the built-in functions in lang.Math<p>
  *
  * @author Phil Steitz
- * @version $Revision: 1.1 $ $Date: 2003/06/04 02:31:13 $
+ * @version $Revision: 1.2 $ $Date: 2003/06/06 03:07:39 $
  */
 public class MathUtils {
 
     /**
-     * Returns an exact representation of the 
-     * <a href="http://mathworld.wolfram.com/BinomialCoefficient.html"> 
-     * Binomial Coefficient</a>,  "<code>n choose k</code>", 
-     * the number of <code>k</code>-element subsets that can be selected from 
-     * an <code>n</code>-element set.
-     * <p>
-     * <Strong>Preconditions</strong>:<ul>
-     * <li> <code>0 < k <= n </code> (otherwise 
-     *      <code>IllegalArgumentException</code> is thrown)</li>
-     * <li> The result is small enough to fit into a <code>long</code>.  The 
-     *      largest value of <code>n</code> for which all coefficients are 
-     *      <code> < Long.MAX_VALUE</code> is 66.  If the computed value 
-     *      exceeds <code>Long.MAX_VALUE</code> an <code>ArithMeticException
-     *      </code> is thrown.</li>
-     * </ul>
-     * 
-     * @param n the size of the set
-     * @param k the size of the subsets to be counted
-     * @return <code>n choose k</code>
+     * For a double precision value x, this method returns +1.0 if x >= 0
+     * and -1.0 if x < 0.
+     *
+     * @author Albert Davidson Chou
+     * @param x the value, a double
+     * @return +1.0 or -1.0, depending on the the sign of x
      */
+    public static double sign( double x ) {
+        if ( x >= 0.0 ) {
+            return 1.0 ;
+        } else {
+            return -1.0 ;
+        }
+    }
+
+    /**
+     * For a float value x, this method returns +1.0F if x >= 0
+     * and -1.0F if x < 0.
+     *
+     * @author Albert Davidson Chou
+     * @param x the value, a float
+     * @return +1.0F or -1.0F, depending on the the sign of x
+     */
+    public static float sign( float x ) {
+        if ( x >= 0.0F ) {
+            return 1.0F ;
+        } else {
+            return -1.0F ;
+        }
+    }
+
+    /**
+     * For a byte value x, this method returns (byte)(+1) if x >= 0
+     * and (byte)(-1) if x < 0.
+     *
+     * @author Albert Davidson Chou
+     * @param x the value, a byte
+     * @return (byte)(+1) or (byte)(-1), depending on the the sign of x
+     */
+    public static byte sign( byte x ) {
+        if ( x >= (byte)0 ) {
+            return (byte)1 ;
+        } else {
+            return (byte)(-1) ;
+        }
+    }
+
+    /**
+     * For a short value x, this method returns (short)(+1) if x >= 0
+     * and (short)(-1) if x < 0.
+     *
+     * @author Albert Davidson Chou
+     * @param x the value, a short
+     * @return (short)(+1) or (short)(-1), depending on the the sign of x
+     */
+    public static short sign( short x ) {
+        if ( x >= (short)0 ) {
+            return (short)1 ;
+        } else {
+            return (short)(-1) ;
+        }
+    }
+
+    /**
+     * For an int value x, this method returns +1 if x >= 0
+     * and -1 if x < 0.
+     *
+     * @author Albert Davidson Chou
+     * @param x the value, an int
+     * @return +1 or -1, depending on the the sign of x
+     */
+    public static int sign( int x ) {
+        if ( x >= 0 ) {
+            return 1 ;
+        } else {
+            return -1 ;
+        }
+    }
+ 
+    /**
+     * For a long value x, this method returns +1L if x >= 0
+     * and -1L if x < 0.
+     *
+     * @author Albert Davidson Chou
+     * @param x the value, a long
+     * @return +1L or -1L, depending on the the sign of x
+     */
+    public static long sign( long x ) {
+        if ( x >= 0L ) {
+            return 1L ;
+        } else {
+            return -1L ;
+        }
+    }
+   /**
+    * Returns an exact representation of the
+    * <a href="http://mathworld.wolfram.com/BinomialCoefficient.html">
+    * Binomial Coefficient</a>,  "<code>n choose k</code>",
+    * the number of <code>k</code>-element subsets that can be selected from
+    * an <code>n</code>-element set.
+    * <p>
+    * <Strong>Preconditions</strong>:<ul>
+    * <li> <code>0 < k <= n </code> (otherwise 
+    * <li> <code>0 < k <= n </code> (otherwise
+    *      <code>IllegalArgumentException</code> is thrown)</li>
+    * <li> The result is small enough to fit into a <code>long</code>.  The 
+    *      largest value of <code>n</code> for which all coefficients are 
+    *      <code> < Long.MAX_VALUE</code> is 66.  If the computed value 
+    * <li> The result is small enough to fit into a <code>long</code>.  The
+    *      largest value of <code>n</code> for which all coefficients are
+    *      <code> < Long.MAX_VALUE</code> is 66.  If the computed value
+    *      exceeds <code>Long.MAX_VALUE</code> an <code>ArithMeticException
+    *      </code> is thrown.</li>
+    * </ul>
+    * 
+    *
+    * @param n the size of the set
+    * @param k the size of the subsets to be counted
+    * @return <code>n choose k</code>
+    */
     public static long binomialCoefficient(int n, int k) {     
         if (n < k) {
             throw new IllegalArgumentException
@@ -98,51 +198,51 @@ public class MathUtils {
         if ((k == 1) || (k == n - 1)) {
             return n;
         }
-        
+
         long result = Math.round(binomialCoefficientDouble(n, k));
         if (result == Long.MAX_VALUE) {
             throw new ArithmeticException
                 ("result too large to represent in a long integer");
         }
-        return result;   
-    } 
-    
+        return result;
+    }
+
     /**
-     * Returns a <code>double</code> representation of the 
-     * <a href="http://mathworld.wolfram.com/BinomialCoefficient.html"> 
-     * Binomial Coefficient</a>,  "<code>n choose k</code>", 
-     * the number of <code>k</code>-element subsets that can be selected from 
+     * Returns a <code>double</code> representation of the
+     * <a href="http://mathworld.wolfram.com/BinomialCoefficient.html">
+     * Binomial Coefficient</a>,  "<code>n choose k</code>",
+     * the number of <code>k</code>-element subsets that can be selected from
      * an <code>n</code>-element set.
      * <p>
      * <Strong>Preconditions</strong>:<ul>
-     * <li> <code>0 < k <= n </code> (otherwise 
+     * <li> <code>0 < k <= n </code> (otherwise
      *      <code>IllegalArgumentException</code> is thrown)</li>
-     * <li> The result is small enough to fit into a <code>double</code>.  
-     *      The largest value of <code>n</code> for which all coefficients are 
-     *      < Double.MAX_VALUE is 1029.  If the computed value exceeds 
+     * <li> The result is small enough to fit into a <code>double</code>.
+     *      The largest value of <code>n</code> for which all coefficients are
+     *      < Double.MAX_VALUE is 1029.  If the computed value exceeds
      *      Double.MAX_VALUE, Double.POSITIVE_INFINITY is returned</li>
      * </ul>
-     * 
+     *
      * @param n the size of the set
      * @param k the size of the subsets to be counted
      * @return <code>n choose k</code>
      */
-    public static double binomialCoefficientDouble(int n, int k) {  
-        return Math.floor(Math.exp(binomialCoefficientLog(n, k)) + .5);    
+    public static double binomialCoefficientDouble(int n, int k) {
+        return Math.floor(Math.exp(binomialCoefficientLog(n, k)) + .5);
     }
-    
+
     /**
      * Returns the natural <code>log</code> of the
-     * <a href="http://mathworld.wolfram.com/BinomialCoefficient.html"> 
-     * Binomial Coefficient</a>,  "<code>n choose k</code>", 
-     * the number of <code>k</code>-element subsets that can be selected from 
+     * <a href="http://mathworld.wolfram.com/BinomialCoefficient.html">
+     * Binomial Coefficient</a>,  "<code>n choose k</code>",
+     * the number of <code>k</code>-element subsets that can be selected from
      * an <code>n</code>-element set.
      * <p>
      * <Strong>Preconditions</strong>:<ul>
-     * <li> <code>0 < k <= n </code> (otherwise 
+     * <li> <code>0 < k <= n </code> (otherwise
      *      <code>IllegalArgumentException</code> is thrown)</li>
      * </ul>
-     * 
+     *
      * @param n the size of the set
      * @param k the size of the subsets to be counted
      * @return <code>n choose k</code>
@@ -161,38 +261,38 @@ public class MathUtils {
         }
         if ((k == 1) || (k == n - 1)) {
             return Math.log((double) n);
-        }    
-        double logSum = 0; 
-        
+        }
+        double logSum = 0;
+
         // n!/k!
         for (int i = k + 1; i <= n; i++) {
             logSum += Math.log((double) i);
         }
-        
+
         // divide by (n-k)!
         for (int i = 2; i <= n - k; i++) {
             logSum -= Math.log((double) i);
         }
-        
+
         return logSum;
     }
-    
+
     /**
      * Returns <code>n</code>
-     * <a href="http://mathworld.wolfram.com/Factorial.html"> 
-     * Factorial</a>, or <code>n!</code>,  
+     * <a href="http://mathworld.wolfram.com/Factorial.html">
+     * Factorial</a>, or <code>n!</code>,
      * the product of the numbers <code>1,...,n</code>.
      * <p>
      * <Strong>Preconditions</strong>:<ul>
-     * <li> <code>n > 0</code> (otherwise 
+     * <li> <code>n > 0</code> (otherwise
      *      <code>IllegalArgumentException</code> is thrown)</li>
-     * <li> The result is small enough to fit into a <code>long</code>.  The 
-     *      largest value of <code>n</code> for which <code>n!</code> 
-     *      < Long.MAX_VALUE</code> is 20.  If the computed value 
+     * <li> The result is small enough to fit into a <code>long</code>.  The
+     *      largest value of <code>n</code> for which <code>n!</code>
+     *      < Long.MAX_VALUE</code> is 20.  If the computed value
      *      exceeds <code>Long.MAX_VALUE</code> an <code>ArithMeticException
      *      </code> is thrown.</li>
      * </ul>
-     * 
+     *
      * @param n argument
      * @return <code>n!</code>
      */
@@ -202,25 +302,25 @@ public class MathUtils {
             throw new ArithmeticException
                 ("result too large to represent in a long integer");
         }
-        return result;  
+        return result;
     }
-    
+
     /**
      * Returns <code>n</code>
-     * <a href="http://mathworld.wolfram.com/Factorial.html"> 
-     * Factorial</a>, or <code>n!</code>,  
-     * the product of the numbers <code>1,...,n</code>, as as 
+     * <a href="http://mathworld.wolfram.com/Factorial.html">
+     * Factorial</a>, or <code>n!</code>,
+     * the product of the numbers <code>1,...,n</code>, as as
      * <code>double</code>.
      * <p>
      * <Strong>Preconditions</strong>:<ul>
-     * <li> <code>n > 0</code> (otherwise 
+     * <li> <code>n > 0</code> (otherwise
      *      <code>IllegalArgumentException</code> is thrown)</li>
-     * <li> The result is small enough to fit into a <code>double</code>.  The 
-     *      largest value of <code>n</code> for which <code>n!</code> 
-     *      < Double.MAX_VALUE</code> is 170.  If the computed value exceeds 
+     * <li> The result is small enough to fit into a <code>double</code>.  The
+     *      largest value of <code>n</code> for which <code>n!</code>
+     *      < Double.MAX_VALUE</code> is 170.  If the computed value exceeds
      *      Double.MAX_VALUE, Double.POSITIVE_INFINITY is returned</li>
      * </ul>
-     * 
+     *
      * @param n argument
      * @return <code>n!</code>
      */
@@ -229,21 +329,21 @@ public class MathUtils {
             throw new IllegalArgumentException
                 ("must have n > 0 for n!");
         }
-        return Math.floor(Math.exp(factorialLog(n)) + 0.5); 
+        return Math.floor(Math.exp(factorialLog(n)) + 0.5);
     }
-    
+
    /**
      * Returns the natural <code>log</code> of <code>n</code>
-     * <a href="http://mathworld.wolfram.com/Factorial.html"> 
-     * Factorial</a>, or <code>n!</code>,  
-     * the product of the numbers <code>1,...,n</code>, as as 
+     * <a href="http://mathworld.wolfram.com/Factorial.html">
+     * Factorial</a>, or <code>n!</code>,
+     * the product of the numbers <code>1,...,n</code>, as as
      * <code>double</code>.
      * <p>
      * <Strong>Preconditions</strong>:<ul>
-     * <li> <code>n > 0</code> (otherwise 
+     * <li> <code>n > 0</code> (otherwise
      *      <code>IllegalArgumentException</code> is thrown)</li>
      * </ul>
-     * 
+     *
      * @param n argument
      * @return <code>n!</code>
      */
@@ -255,7 +355,7 @@ public class MathUtils {
         double logSum = 0;
         for (int i = 2; i <= n; i++) {
             logSum += Math.log((double) i);
-        }   
+        }
         return logSum;
-    }           
+    }
 }
