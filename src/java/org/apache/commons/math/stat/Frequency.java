@@ -22,7 +22,7 @@ import java.text.NumberFormat;
 
 import org.apache.commons.collections.ComparatorUtils;
 import org.apache.commons.collections.SortedBag;
-import org.apache.commons.collections.TreeBag;
+import org.apache.commons.collections.bag.TreeBag;
 
 /** 
  * Maintains a frequency distribution.
@@ -32,7 +32,7 @@ import org.apache.commons.collections.TreeBag;
  * The values are ordered using the default (natural order), unless a  <code>Comparator</code>
  *  is supplied in the constructor.
  * 
- * @version $Revision: 1.18 $ $Date: 2004/03/07 02:21:09 $
+ * @version $Revision: 1.19 $ $Date: 2004/04/24 18:51:01 $
  */
 public class Frequency implements Serializable {
     
