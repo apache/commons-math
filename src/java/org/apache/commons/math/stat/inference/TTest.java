@@ -21,7 +21,7 @@ import org.apache.commons.math.stat.univariate.StatisticalSummary;
 /**
  * An interface for Student's t-tests.
  * 
- * @version $Revision: 1.2 $ $Date: 2004/05/23 05:04:48 $ 
+ * @version $Revision: 1.3 $ $Date: 2004/05/23 05:45:11 $ 
  */
 public interface TTest {
     /**
@@ -50,7 +50,7 @@ public interface TTest {
      * sample means.
      * <p>
      * <strong>Preconditions</strong>: <ul>
-     * <li>The observed array lengths must both be at least 5.
+     * <li>The observed array lengths must both be at least 2.
      * </li></ul>
      *
      * @param sample1 array of sample data values
@@ -85,7 +85,7 @@ public interface TTest {
      * <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">here</a>
      * <p>
      * <strong>Preconditions</strong>: <ul>
-     * <li>The observed array lengths must both be at least 5.
+     * <li>The observed array lengths must both be at least 2.
      * </li></ul>
      *
      * @param sample1 array of sample data values
@@ -128,7 +128,7 @@ public interface TTest {
      * <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">here</a>
      * <p>
      * <strong>Preconditions</strong>: <ul>
-     * <li>The observed array lengths must both be at least 5.
+     * <li>The observed array lengths must both be at least 2.
      * </li>
      * <li> <code> 0 < alpha < 0.5 </code>
      * </li></ul>
@@ -169,7 +169,7 @@ public interface TTest {
      * <a href="http://www.basic.nwu.edu/statguidefiles/sg_glos.html#one-sample">here</a>
      * <p>
      * <strong>Preconditions</strong>: <ul>
-     * <li>The observed array length must be at least 5.
+     * <li>The observed array length must be at least 2.
      * </li></ul>
      *
      * @param mu constant value to compare sample mean against
@@ -200,7 +200,7 @@ public interface TTest {
      * <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">here</a>
      * <p>
      * <strong>Preconditions</strong>: <ul>
-     * <li>The observed array length must be at least 5.
+     * <li>The observed array length must be at least 2.
      * </li></ul>
      *
      * @param mu constant value to compare sample mean against
@@ -241,7 +241,7 @@ public interface TTest {
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The datasets described by the two Univariates must each contain
-     * at least 5 observations.
+     * at least 2 observations.
      * </li></ul>
      *
      * @param sampleStats1 StatisticalSummary describing data from the first sample
@@ -275,7 +275,7 @@ public interface TTest {
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The datasets described by the two Univariates must each contain
-     * at least 5 observations.
+     * at least 2 observations.
      * </li></ul>
      *
      * @param sampleStats1 StatisticalSummary describing data from the first sample
