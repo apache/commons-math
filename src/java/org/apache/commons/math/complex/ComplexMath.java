@@ -62,7 +62,7 @@ import org.apache.commons.math.util.MathUtils;
  * Reference:
  *   http://myweb.lmu.edu/dmsmith/ZMLIB.pdf
  * 
- * @version $Revision: 1.3 $ $Date: 2003/11/14 22:22:22 $
+ * @version $Revision: 1.4 $ $Date: 2003/11/15 18:52:31 $
  */
 public class ComplexMath {
     
@@ -105,9 +105,10 @@ public class ComplexMath {
             return Complex.NaN;
         }
         
+        
         return Complex.I.multiply(
             log(Complex.I.add(z).divide(Complex.I.subtract(z))))
-            .multiply(new Complex(2.0, 0.0));
+            .divide(new Complex(2.0, 0.0));
     }
     
     /**
@@ -219,8 +220,8 @@ public class ComplexMath {
         if (a >= 0.0) {
             return new Complex(t, b / (2.0 * t));
         } else {
-            double s = (b > 0.0 ? 1.0 : (b < 0.0 ? -1.0 : 0.0));
-            return new Complex(Math.abs(z.getImaginary()) / (2.0 * t), s * t);
+            return new Complex(Math.abs(z.getImaginary()) / (2.0 * t),
+                MathUtils.sign(b) * t);
         }
     }
     
@@ -244,7 +245,7 @@ public class ComplexMath {
         double b2 = 2.0 * z.getImaginary();
         double d = Math.cos(a2) + MathUtils.cosh(b2);
         
-        return new Complex(Math.sin(a2) / d, MathUtils.sinh(b2) / 2);
+        return new Complex(Math.sin(a2) / d, MathUtils.sinh(b2) / d);
     }
     
     /**
@@ -259,6 +260,6 @@ public class ComplexMath {
         double b2 = 2.0 * z.getImaginary();
         double d = MathUtils.cosh(a2) + Math.cos(b2);
         
-        return new Complex(MathUtils.sinh(a2) / d, Math.sin(b2) / 2);
+        return new Complex(MathUtils.sinh(a2) / d, Math.sin(b2) / d);
     }
 }

@@ -58,6 +58,7 @@ import org.apache.commons.math.stat.univariate.moment.Mean;
 import org.apache.commons.math.stat.univariate.moment.Variance;
 import org.apache.commons.math.stat.univariate.rank.Max;
 import org.apache.commons.math.stat.univariate.rank.Min;
+import org.apache.commons.math.stat.univariate.rank.Percentile;
 import org.apache.commons.math.stat.univariate.summary.Product;
 import org.apache.commons.math.stat.univariate.summary.Sum;
 import org.apache.commons.math.stat.univariate.summary.SumOfLogs;
@@ -67,34 +68,37 @@ import org.apache.commons.math.stat.univariate.summary.SumOfSquares;
  * StatUtils provides easy static implementations of common double[] based
  * statistical methods. These return a single result value or in some cases, as
  * identified in the javadoc for each method, Double.NaN.
- * @version $Revision: 1.21 $ $Date: 2003/11/14 22:22:18 $
+ * @version $Revision: 1.22 $ $Date: 2003/11/15 18:52:31 $
  */
 public final class StatUtils {
 
-	/** sum */
-	private static UnivariateStatistic sum = new Sum();
-	
-	/** sumSq */
-	private static UnivariateStatistic sumSq = new SumOfSquares();
-	
-	/** prod */
-	private static UnivariateStatistic prod = new Product();
-	
-	/** sumLog */
-	private static UnivariateStatistic sumLog = new SumOfLogs();
-	
-	/** min */
-	private static UnivariateStatistic min = new Min();	
-	
-	/** max */
-	private static UnivariateStatistic max = new Max();	
-	
-	/** mean */
-	private static UnivariateStatistic mean = new Mean();	
-	
-	/** variance */
-	private static UnivariateStatistic variance = new Variance();	
-		
+    /** sum */
+    private static UnivariateStatistic sum = new Sum();
+
+    /** sumSq */
+    private static UnivariateStatistic sumSq = new SumOfSquares();
+
+    /** prod */
+    private static UnivariateStatistic prod = new Product();
+
+    /** sumLog */
+    private static UnivariateStatistic sumLog = new SumOfLogs();
+
+    /** min */
+    private static UnivariateStatistic min = new Min();
+
+    /** max */
+    private static UnivariateStatistic max = new Max();
+
+    /** mean */
+    private static UnivariateStatistic mean = new Mean();
+
+    /** variance */
+    private static UnivariateStatistic variance = new Variance();
+
+    /** variance */
+    private static Percentile percentile = new Percentile();
+
     /**
      * Private Constructor
      */
@@ -107,7 +111,7 @@ public final class StatUtils {
      * @return the sum of the values or Double.NaN if the array is empty
      */
     public static double sum(final double[] values) {
-		return sum.evaluate(values);
+        return sum.evaluate(values);
     }
 
     /**
@@ -130,7 +134,7 @@ public final class StatUtils {
      * @return the sum of the squared values or Double.NaN if the array is empty
      */
     public static double sumSq(final double[] values) {
-		return sumSq.evaluate(values);
+        return sumSq.evaluate(values);
     }
 
     /**
@@ -176,7 +180,7 @@ public final class StatUtils {
      * @return the sumLog value or Double.NaN if the array is empty
      */
     public static double sumLog(final double[] values) {
-		return sumLog.evaluate(values);
+        return sumLog.evaluate(values);
     }
 
     /**
@@ -190,7 +194,7 @@ public final class StatUtils {
         final double[] values,
         final int begin,
         final int length) {
-		return sumLog.evaluate(values, begin, length);
+        return sumLog.evaluate(values, begin, length);
     }
 
     /**
@@ -200,7 +204,7 @@ public final class StatUtils {
      * @return the mean of the values or Double.NaN if the array is empty
      */
     public static double mean(final double[] values) {
-		return mean.evaluate(values);
+        return mean.evaluate(values);
     }
 
     /**
@@ -232,7 +236,7 @@ public final class StatUtils {
      * or 0.0 for a single value set.
      */
     public static double variance(final double[] values) {
-		return variance.evaluate(values);
+        return variance.evaluate(values);
     }
 
     /**
@@ -263,7 +267,7 @@ public final class StatUtils {
      * @return the maximum of the values or Double.NaN if the array is empty
      */
     public static double max(final double[] values) {
-		return max.evaluate(values);
+        return max.evaluate(values);
     }
 
     /**
@@ -286,7 +290,7 @@ public final class StatUtils {
      * @return the minimum of the values or Double.NaN if the array is empty
      */
     public static double min(final double[] values) {
-		return min.evaluate(values);
+        return min.evaluate(values);
     }
 
     /**
@@ -302,5 +306,52 @@ public final class StatUtils {
         final int length) {
         return min.evaluate(values, begin, length);
     }
+    
+    /**
+     * Returns an estimate for the pth percentile of the stored values. 
+     * This estimate follows the interpolation-adjusted defintion presented 
+     * <a href="http://www.utdallas.edu/~ammann/stat5311/node8.html">here</a>
+     * <p/>
+     * <strong>Preconditions</strong>:<ul>
+     * <li><code>0 &lt; p &lt; 100</code> (otherwise an 
+     * <code>IllegalArgumentException</code> is thrown)</li>
+     * <li>at least one value must be stored (returns <code>Double.NaN
+     *     </code> otherwise)</li>
+     * </ul>
+     * 
+     * @param values Is a double[] containing the values
+     * @param p the requested percentile (scaled from 0 - 100)
+     * @return An estimate for the pth percentile of the data values
+     */
+    public static double percentile(final double[] values, final double p) {
+            return percentile.evaluate(values,p);
+    }
+
+    /**
+     * Returns an estimate for the pth percentile of the stored values. 
+     * This estimate follows the interpolation-adjusted defintion presented 
+     * <a href="http://www.utdallas.edu/~ammann/stat5311/node8.html">here</a>
+     * <p/>
+     * <strong>Preconditions</strong>:<ul>
+     * <li><code>0 &lt; p &lt; 100</code> (otherwise an 
+     * <code>IllegalArgumentException</code> is thrown)</li>
+     * <li>at least one value must be stored (returns <code>Double.NaN
+     *     </code> otherwise)</li>
+     * </ul>
+     * 
+     * @param values Is a double[] containing the values
+     * @param begin processing at this point in the array
+     * @param length processing at this point in the array
+     * @param p the requested percentile (scaled from 0 - 100)
+     * @return An estimate for the pth percentile of the data values
+     */
+    public static double percentile(
+            final double[] values,
+            final int begin,
+            final int length, 
+            final double p) {
+            return percentile.evaluate(values, begin, length, p);
+    }
+    
 
 }

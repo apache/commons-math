@@ -53,6 +53,8 @@
  */
 package org.apache.commons.math.util;
 
+import org.apache.commons.math.TestUtils;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -60,7 +62,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the MathUtils class.
  *
- * @version $Revision: 1.6 $ $Date: 2003/11/14 22:22:23 $
+ * @version $Revision: 1.7 $ $Date: 2003/11/15 18:52:31 $
  */
 
 public final class MathUtilsTest extends TestCase {
@@ -349,4 +351,24 @@ public final class MathUtilsTest extends TestCase {
         assertEquals( 1L, MathUtils.sign( 2L ) ) ;
         assertEquals( -1L, MathUtils.sign( -2L ) ) ;
     }
+    
+    public void testCosh() {
+        double x = 3.0;
+        double expected = 10.06766;
+        assertEquals(expected, MathUtils.cosh(x), 1.0e-5);
+    }   
+    
+    public void testSinh() {
+        double x = 3.0;
+        double expected = 10.01787;
+        assertEquals(expected, MathUtils.sinh(x), 1.0e-5);
+    }   
+    
+    public void testCoshNaN() {
+        assertTrue(Double.isNaN(MathUtils.cosh(Double.NaN)));
+    }   
+    
+    public void testSinhNaN() {
+        assertTrue(Double.isNaN(MathUtils.sinh(Double.NaN)));
+    }   
 }

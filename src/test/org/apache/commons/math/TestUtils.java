@@ -54,10 +54,12 @@
 
 package org.apache.commons.math;
 
+import org.apache.commons.math.complex.Complex;
+
 import junit.framework.Assert;
 
 /**
- * @version $Revision: 1.6 $ $Date: 2003/11/14 22:22:23 $
+ * @version $Revision: 1.7 $ $Date: 2003/11/15 18:52:31 $
  */
 public class TestUtils {
     /**
@@ -74,5 +76,13 @@ public class TestUtils {
         } else {
             Assert.assertEquals(expected, actual, delta);
         }
+    }
+
+    /**
+     * 
+     */
+    public static void assertEquals(Complex expected, Complex actual, double delta) {
+        assertEquals(expected.getReal(), actual.getReal(), delta);
+        assertEquals(expected.getImaginary(), actual.getImaginary(), delta);
     }
 }

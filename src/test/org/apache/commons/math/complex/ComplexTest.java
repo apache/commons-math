@@ -59,7 +59,7 @@ package org.apache.commons.math.complex;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.3 $ $Date: 2003/11/14 22:22:24 $
+ * @version $Revision: 1.4 $ $Date: 2003/11/15 18:52:31 $
  */
 public class ComplexTest extends TestCase {
     
@@ -83,6 +83,10 @@ public class ComplexTest extends TestCase {
     public void testAbs() {
         Complex z = new Complex(3.0, 4.0);
         assertEquals(5.0, z.abs(), 1.0e-5);
+    }
+    
+    public void testAbsNaN() {
+        assertTrue(Double.isNaN(Complex.NaN.abs()));
     }
     
     public void testAdd() {
@@ -163,5 +167,38 @@ public class ComplexTest extends TestCase {
         Complex x = new Complex(3.0, 4.0);
         Complex z = x.subtract(Complex.NaN);
         assertTrue(z.isNaN());
+    }
+    
+    public void testEqualsNull() {
+        Complex x = new Complex(3.0, 4.0);
+        assertFalse(x.equals(null));
+    }
+    
+    public void testEqualsClass() {
+        Complex x = new Complex(3.0, 4.0);
+        assertFalse(x.equals(this));
+    }
+    
+    public void testEqualsSame() {
+        Complex x = new Complex(3.0, 4.0);
+        assertTrue(x.equals(x));
+    }
+    
+    public void testEqualsTrue() {
+        Complex x = new Complex(3.0, 4.0);
+        Complex y = new Complex(3.0, 4.0);
+        assertTrue(x.equals(y));
+    }
+    
+    public void testEqualsRealDifference() {
+        Complex x = new Complex(0.0, 0.0);
+        Complex y = new Complex(0.0 + Double.MIN_VALUE, 0.0);
+        assertFalse(x.equals(y));
+    }
+    
+    public void testEqualsImaginaryDifference() {
+        Complex x = new Complex(0.0, 0.0);
+        Complex y = new Complex(0.0, 0.0 + Double.MIN_VALUE);
+        assertFalse(x.equals(y));
     }
 }
