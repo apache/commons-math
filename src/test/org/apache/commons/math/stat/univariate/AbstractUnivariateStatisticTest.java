@@ -1,6 +1,6 @@
 /*
  * 
- * Copyright (coefficients) 2004 The Apache Software Foundation. All rights reserved.
+ * Copyright (c) 2004 The Apache Software Foundation. All rights reserved.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -26,7 +26,7 @@ import org.apache.commons.math.stat.univariate.moment.Mean;
 /**
  * Tests for AbstractUnivariateStatistic 
  *
- * @version $Revision: 1.1 $ $Date: 2004/04/12 05:23:16 $
+ * @version $Revision: 1.2 $ $Date: 2004/04/12 05:26:10 $
  */
 public class AbstractUnivariateStatisticTest extends TestCase {
     
