@@ -24,7 +24,7 @@ import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 /**
  * Test cases for the {@link UnivariateStatistic} class.
  * 
- * @version $Revision: 1.2 $ $Date: 2004/10/10 20:40:52 $
+ * @version $Revision: 1.3 $ $Date: 2004/10/11 04:54:09 $
  */
 public class VarianceTest extends StorelessUnivariateStatisticAbstractTest{
 
@@ -81,6 +81,10 @@ public class VarianceTest extends StorelessUnivariateStatisticAbstractTest{
         v1.incrementAll(values);
         assertEquals(populationVariance(values), v1.getResult(), 1E-14);
         v1 = new Variance(false, m);
+        assertEquals(populationVariance(values), v1.getResult(), 1E-14);     
+        v1 = new Variance(false);
+        assertEquals(populationVariance(values), v1.evaluate(values), 1E-14);
+        v1.incrementAll(values);
         assertEquals(populationVariance(values), v1.getResult(), 1E-14);     
     }
     
