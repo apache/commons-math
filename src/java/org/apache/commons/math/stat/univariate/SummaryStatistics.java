@@ -18,11 +18,12 @@ package org.apache.commons.math.stat.univariate;
 import java.io.Serializable;
 
 import org.apache.commons.discovery.tools.DiscoverClass;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * Abstract factory class for univariate statistical summaries.
  * 
- * @version $Revision: 1.7 $ $Date: 2004/06/14 23:26:53 $
+ * @version $Revision: 1.8 $ $Date: 2004/06/17 23:14:55 $
  */
 public abstract class SummaryStatistics implements StatisticalSummary, Serializable {
 
@@ -157,5 +158,48 @@ public abstract class SummaryStatistics implements StatisticalSummary, Serializa
      * Resets all statistics
      */
     public abstract void clear();
+    
+    /**
+     * Returns true iff <code>object</code> is a <code>SummaryStatistics</code>
+     * instance and all statistics have the same values as this.
+     *
+     * @return true if object equals this
+     */
+    public boolean equals(Object object) {
+        if (object == this ) {
+            return true;
+        }
+        if (object instanceof SummaryStatistics == false) {
+            return false;
+        }
+        SummaryStatistics stat = (SummaryStatistics) object;
+        return (MathUtils.equals(stat.getGeometricMean(), 
+                this.getGeometricMean()) &&
+                MathUtils.equals(stat.getMax(), this.getMax()) && 
+                MathUtils.equals(stat.getMean(),this.getMean()) &&
+                MathUtils.equals(stat.getMin(),this.getMin()) &&
+                MathUtils.equals(stat.getN(), this.getN()) &&
+                MathUtils.equals(stat.getSum(), this.getSum()) &&
+                MathUtils.equals(stat.getSumsq(),this.getSumsq()) &&
+                MathUtils.equals(stat.getVariance(),this.getVariance()));
+    }
+    
+    /**
+     * Returns hash code based on values of statistics
+     * 
+     * @return hash code
+     */
+    public int hashCode() {
+        int result = 31 + MathUtils.hash(getGeometricMean());
+        result = result * 31 + MathUtils.hash(getGeometricMean());
+        result = result * 31 + MathUtils.hash(getMax());
+        result = result * 31 + MathUtils.hash(getMean());
+        result = result * 31 + MathUtils.hash(getMin());
+        result = result * 31 + MathUtils.hash(getN());
+        result = result * 31 + MathUtils.hash(getSum());
+        result = result * 31 + MathUtils.hash(getSumsq());
+        result = result * 31 + MathUtils.hash(getVariance());
+        return result;
+    }
 
 }
