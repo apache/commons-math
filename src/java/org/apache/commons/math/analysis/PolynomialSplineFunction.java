@@ -28,8 +28,7 @@ import org.apache.commons.math.MathException;
  * A <strong>polynomial spline function</strong> consists of a set of <i>interpolating polynomials</i> 
  * and an ascending array of  domain <i>knot points</i>, determining the intervals over which the 
  * spline function is defined by the constituent polynomials.  The polynomials are assumed to have 
- * been computed to match the values of another function at the knot points and the first two 
- * derivatives of "adjacent" polynomials are constrained to agree at the knot points.  The value 
+ * been computed to match the values of another function at the knot points.  The value 
  * consistency constraints are not currently enforced by <code>PolynomialSplineFunction</code> itself,
  * but are assumed to hold  among the polynomials and knot points passed to the constructor.
  * <p>
@@ -44,7 +43,7 @@ import org.apache.commons.math.MathException;
  * <li> Let <code>j</code> be the index of the largest knot point that is less than or equal to <code>x</code>. 
  *  The value returned is <br> <code>polynomials[j](x - knot[j])</code></li></ol>
  * 
- * @version $Revision: 1.1 $ $Date: 2004/04/02 20:58:11 $
+ * @version $Revision: 1.2 $ $Date: 2004/04/03 03:05:33 $
  */
 public class PolynomialSplineFunction implements UnivariateRealFunction, Serializable {
    
