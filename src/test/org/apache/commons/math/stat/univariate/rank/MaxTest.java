@@ -23,7 +23,7 @@ import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
- * @version $Revision: 1.11 $ $Date: 2004/06/17 21:37:05 $
+ * @version $Revision: 1.12 $ $Date: 2004/06/18 13:24:46 $
  */
 public class MaxTest extends StorelessUnivariateStatisticAbstractTest{
 
@@ -54,6 +54,22 @@ public class MaxTest extends StorelessUnivariateStatisticAbstractTest{
      */
     public double expectedValue() {
         return this.max;
+    }
+    
+    public void testSpecialValues() {
+        double[] testArray = {0d, Double.NaN, Double.NEGATIVE_INFINITY, 
+                Double.POSITIVE_INFINITY};
+        Max max = new Max();
+        assertTrue(Double.isNaN(max.getResult()));
+        max.increment(testArray[0]);
+        assertEquals(0d, max.getResult(), 0);
+        max.increment(testArray[1]);
+       // assertEquals(0d, max.getResult(), 0);
+        max.increment(testArray[2]);
+       // assertEquals(0d, max.getResult(), 0);
+        max.increment(testArray[3]);
+       // assertEquals(Double.POSITIVE_INFINITY, max.getResult(), 0);
+        assertEquals(Double.POSITIVE_INFINITY, max.evaluate(testArray), 0);     
     }
 
 }
