@@ -83,7 +83,17 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="psteitz" type="fix" due-to="Kim van der Linde" issue="31860">
         Fixed error in SimpleRegression.getSignificance.  Value returned was
         off by a factor of 2 (did not match javadoc).
-      </action> 
+      </action>
+      <action dev="psteitz" type="update">
+        Refactored distribution package so that mixed distributions and
+        discrete distributions with non-integer values can be represented.
+        Added Distribution base interface as well as IntegerDistribution
+        extending DiscreteDistribution.  Previously existing discrete
+        distributions now implement IntegerDistribution.
+      </action>
+      <action dev="psteitz" type="update" due-to="Fredrik Norin" issue="31688">
+        Added Poisson distribution implementation.
+      </action>
     </release>
     
     <release version="1.0-RC1" date="2004-09-07">
