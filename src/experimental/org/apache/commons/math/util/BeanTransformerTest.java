@@ -22,7 +22,7 @@ import org.apache.commons.math.TestUtils;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.12 $ $Date: 2004/06/01 23:21:32 $
+ * @version $Revision: 1.3 $ $Date: 2004/12/06 05:40:48 $
  */
 public class BeanTransformerTest extends TestCase {
     
