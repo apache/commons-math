@@ -52,6 +52,10 @@ The Math project is a library of lightweight, self-contained mathematics and sta
      <name>Brent Worden</name>
      <email>brent@worden.org</email>
    </contributor>
+   <contributor>
+     <name>Albert Davidson Chou</name>
+     <email>hotfusionman@yahoo.com</email>
+   </contributor>
   </contributors>  
 
   <dependencies>
