@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.4 $ $Date: 2003/11/15 18:38:16 $ -->
+<!-- $Revision: 1.5 $ $Date: 2004/01/11 19:35:22 $ -->
 <document url="random.html">
 
 <properties>
@@ -78,36 +78,36 @@
     subsequent values in the sequence.  For example, the following will generate a random sequence
     of 50 long integers between 1 and 1,000,000, using the current time in milliseconds as the seed
     for the JDK PRNG:
-    <pre><code>
+    <source>
         RandomDataImpl randomData = new RandomDataImpl(); 
         for (int i = 0; i &lt; 1000; i++) {
             value = randomData.nextLong(1, 1000000);
         }
-    </code></pre>
+    </source>
     The following will not in general produce a good random sequence, since the PRNG is reseeded
     each time through the loop with the current time in milliseconds:
-    <pre><code>
+    <source>
         for (int i = 0; i &lt; 1000; i++) {
             RandomDataImpl randomData = new RandomDataImpl(); 
             value = randomData.nextLong(1, 1000000);
         }
-    </code></pre>
+    </source>
     The following will produce the same random sequence each time it is executed:
-    <pre><code>
+    <source>
         RandomDataImpl randomData = new RandomDataImpl(); 
         randomData.reSeed(1000);
         for (int i = 0; i = 1000; i++) {
             value = randomData.nextLong(1, 1000000);
         }
-    </code></pre>
+    </source>
     The following will produce a different random sequence each time it is executed. 
-    <pre><code>
+    <source>
         RandomDataImpl randomData = new RandomDataImpl(); 
         randomData.reSeedSecure(1000);
         for (int i = 0; i &lt; 1000; i++) {
             value = randomData.nextSecureLong(1, 1000000);
         }
-    </code></pre>
+    </source>
     </dd></dl>
     </p>
 </subsection>
