@@ -1,34 +1,40 @@
 <?xml version="1.0"?>
+<!-- $Revision: 1.2 $ $Date: 2003/09/24 20:15:50 $ -->
 <document url="special.html">
-
-<properties>
+  <properties>
     <title>The Commons Math User Guide - Special Functions</title>
     <author email="phil@steitz.com">Phil Steitz</author>
-</properties>
-
-<body>
-
-<section name="5 Special Functions">
-
-<subsection name="5.1 Overview" href="overview">
-    <p>
-    This is yet to be written. Any contributions will be gratefully accepted!
-    </p>
-</subsection>
-
-<subsection name="5.2 Gamma functions" href="gamma">
-    <p>
-    This is yet to be written. Any contributions will be gratefully accepted!
-    </p>
-</subsection>
-
-<subsection name="5.3 Beta funtions" href="beta">
-    <p>
-    This is yet to be written. Any contributions will be gratefully accepted!
-    </p>
-</subsection>
-
-</section>
-
-</body>
+  </properties>
+  <body>
+    <section name="5 Special Functions">
+      <subsection name="5.1 Overview" href="overview">
+        <p>
+          The special functions portion of Commons-Math contains several useful functions not
+          provided by <code>java.lang.Math</code>.  These functions mostly serve as building blocks
+          for other portions of Commons-Math but, as others may find them useful as stand-alone
+          methods, these special functions were included as part of the Commons-Math public API.
+        </p>
+      </subsection>
+      <subsection name="5.2 Gamma functions" href="gamma">
+        <p>
+          <code>org.apache.commons.math.special.Gamma</code> contains several useful functions involving the Gamma Function.
+          <table>
+            <tr><th>Function</th><th>Method</th><th>Reference</th></tr>
+            <tr><td>Log Gamma</td><td>logGamma</td><td>See <a href="http://mathworld.wolfram.com/GammaFunction.html">Gamma Function</a> from MathWorld</td></tr>
+            <tr><td>Regularized Gamma</td><td>regularizedGammaP</td><td>See <a href="http://mathworld.wolfram.com/RegularizedGammaFunction.html">Regularized Gamma Function</a> from MathWorld</td></tr>
+          </table>
+        </p>
+      </subsection>
+      <subsection name="5.3 Beta funtions" href="beta">
+        <p>
+          <code>org.apache.commons.math.special.Beta</code> contains several useful functions involving the Beta Function.
+          <table>
+            <tr><th>Function</th><th>Method</th><th>Reference</th></tr>
+            <tr><td>Log Beta</td><td>logBeta</td><td>See <a href="http://mathworld.wolfram.com/BetaFunction.html">Beta Function</a> from MathWorld</td></tr>
+            <tr><td>Regularized Beta</td><td>regularizedBeta</td><td>See <a href="http://mathworld.wolfram.com/RegularizedBetaFunction.html">Regularized Beta Function</a> from MathWorld</td></tr>
+          </table>
+        </p>
+      </subsection>
+    </section>
+  </body>
 </document>
