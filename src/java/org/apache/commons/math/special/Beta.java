@@ -139,17 +139,9 @@ public class Beta {
     public static double regularizedBeta(double x, final double a, final double b, double epsilon, int maxIterations) {
         double ret;
 
-        if (a <= 0.0) {
-            throw new IllegalArgumentException("a must be positive");
-        } else if (b <= 0.0) {
-            throw new IllegalArgumentException("b must be positive");
-        } else if (x < 0.0 || x > 1.0) {
-            throw new IllegalArgumentException(
-                "x must be between 0.0 and 1.0, inclusive");
-        } else if(x == 0.0){
-            ret = 0.0;
-        } else if(x == 1.0){
-            ret = 1.0;
+        if (Double.isNaN(x) || Double.isNaN(a) || Double.isNaN(b) || (x < 0)
+                || (x > 1) || (a <= 0.0) || (b <= 0.0)) {
+            ret = Double.NaN;
         } else {
             ContinuedFraction fraction = new ContinuedFraction() {
                 protected double getB(int n, double x) {
@@ -228,10 +220,8 @@ public class Beta {
     public static double logBeta(double a, double b, double epsilon, int maxIterations) {
         double ret;
 
-        if (a <= 0.0) {
-            throw new IllegalArgumentException("a must be positive");
-        } else if (b <= 0.0) {
-            throw new IllegalArgumentException("b must be positive");
+        if (Double.isNaN(a) || Double.isNaN(b) || (a <= 0.0) || (b <= 0.0)) {
+            ret = Double.NaN;
         } else {
             ret = Gamma.logGamma(a, epsilon, maxIterations) + Gamma.logGamma(b, epsilon, maxIterations)
                 - Gamma.logGamma(a + b, epsilon, maxIterations);

@@ -103,18 +103,21 @@ public class TDistributionImpl
      * @return CDF evaluted at <code>x</code>. 
      */
     public double cummulativeProbability(double x) {
-        double t = Beta.regularizedBeta(
-            getDegreesOfFreedom() / (getDegreesOfFreedom() + (x * x)),
-            0.5 * getDegreesOfFreedom(), 0.5);
-            
         double ret;
-        if(x < 0.0){
-            ret = 0.5 * t;
-        } else if(x > 0.0){
-            ret = 1.0 - 0.5 * t;
-        } else {
+        if(x == 0.0){
             ret = 0.5;
+        } else {
+            double t = Beta.regularizedBeta(
+                getDegreesOfFreedom() / (getDegreesOfFreedom() + (x * x)),
+                0.5 * getDegreesOfFreedom(), 0.5);
+                
+            if(x < 0.0){
+                ret = 0.5 * t;
+            } else {
+                ret = 1.0 - 0.5 * t;
+            }
         }
+        
         return ret;
     }
         

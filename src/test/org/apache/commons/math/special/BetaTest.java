@@ -51,127 +51,105 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.commons.math.stat.distribution;
+package org.apache.commons.math.special;
 
 import junit.framework.TestCase;
 
 /**
  * @author Brent Worden
  */
-public class TDistributionTest extends TestCase {
-    private TDistribution t;
-    
+public class BetaTest extends TestCase {
     /**
-     * Constructor for ChiSquareDistributionTest.
+     * Constructor for BetaTest.
      * @param name
      */
-    public TDistributionTest(String name) {
+    public BetaTest(String name) {
         super(name);
     }
 
-    /*
-     * @see TestCase#setUp()
-     */
-    protected void setUp() throws Exception {
-        super.setUp();
-        t = DistributionFactory.newInstance().createTDistribution(5.0);
+    private void testRegularizedBeta(double expected, double x, double a, double b) {
+        double actual = Beta.regularizedBeta(x, a, b);
+        if (Double.isNaN(expected)) {
+            assertTrue(Double.isNaN(actual));
+        } else {
+            assertEquals(expected, actual, 10e-5);
+        }
     }
 
-    /*
-     * @see TestCase#tearDown()
-     */
-    protected void tearDown() throws Exception {
-        t = null;
-        super.tearDown();
+    private void testLogBeta(double expected, double a, double b) {
+        double actual = Beta.logBeta(a, b);
+        if (Double.isNaN(expected)) {
+            assertTrue(Double.isNaN(actual));
+        } else {
+            assertEquals(expected, actual, 10e-5);
+        }
     }
 
-    public void testInverseCummulativeProbability001() {
-        testValue(-5.893, .001);
-    }
-    
-    public void testInverseCumulativeProbability010() {
-        testValue(-3.365, .010);
-    }
-    
-    public void testInverseCumulativeProbability025() {
-        testValue(-2.571, .025);
+    public void testRegularizedBetaNanPositivePositive() {
+        testRegularizedBeta(Double.NaN, Double.NaN, 1.0, 1.0);
     }
 
-    public void testInverseCumulativeProbability050() {
-        testValue(-2.015, .050);
-    }
-    
-    public void testInverseCumulativeProbability100() {
-        testValue(-1.476, .100);
+    public void testRegularizedBetaPositiveNanPositive() {
+        testRegularizedBeta(Double.NaN, 0.5, Double.NaN, 1.0);
     }
 
-    public void testInverseCummulativeProbability999() {
-        testValue(5.893, .999);
+    public void testRegularizedBetaPositivePositiveNan() {
+        testRegularizedBeta(Double.NaN, 0.5, 1.0, Double.NaN);
     }
     
-    public void testInverseCumulativeProbability990() {
-        testValue(3.365, .990);
+    public void testRegularizedBetaNegativePositivePositive() {
+        testRegularizedBeta(Double.NaN, -0.5, 1.0, 2.0);
     }
     
-    public void testInverseCumulativeProbability975() {
-        testValue(2.571, .975);
-    }
-
-    public void testInverseCumulativeProbability950() {
-        testValue(2.015, .950);
+    public void testRegularizedBetaPositiveNegativePositive() {
+        testRegularizedBeta(Double.NaN, 0.5, -1.0, 2.0);
     }
     
-    public void testInverseCumulativeProbability900() {
-        testValue(1.476, .900);
-    }
-
-    public void testCummulativeProbability001() {
-        testProbability(-5.893, .001);
+    public void testRegularizedBetaPositivePositiveNegative() {
+        testRegularizedBeta(Double.NaN, 0.5, 1.0, -2.0);
     }
     
-    public void testCumulativeProbability010() {
-        testProbability(-3.365, .010);
+    public void testRegularizedBetaZeroPositivePositive() {
+        testRegularizedBeta(0.0, 0.0, 1.0, 2.0);
     }
     
-    public void testCumulativeProbability025() {
-        testProbability(-2.571, .025);
-    }
-
-    public void testCumulativeProbability050() {
-        testProbability(-2.015, .050);
+    public void testRegularizedBetaPositiveZeroPositive() {
+        testRegularizedBeta(Double.NaN, 0.5, 0.0, 2.0);
     }
     
-    public void testCumulativeProbability100() {
-        testProbability(-1.476, .100);
-    }
-
-    public void testCummulativeProbability999() {
-        testProbability(5.893, .999);
+    public void testRegularizedBetaPositivePositiveZero() {
+        testRegularizedBeta(Double.NaN, 0.5, 1.0, 0.0);
     }
     
-    public void testCumulativeProbability990() {
-        testProbability(3.365, .990);
+    public void testRegularizedBetaPositivePositivePositive() {
+        testRegularizedBeta(0.75, 0.5, 1.0, 2.0);
     }
     
-    public void testCumulativeProbability975() {
-        testProbability(2.571, .975);
-    }
-
-    public void testCumulativeProbability950() {
-        testProbability(2.015, .950);
+    public void testLogBetaNanPositive() {
+        testLogBeta(Double.NaN, Double.NaN, 2.0);
     }
     
-    public void testCumulativeProbability900() {
-        testProbability(1.476, .900);
+    public void testLogBetaPositiveNan() {
+        testLogBeta(Double.NaN, 1.0, Double.NaN);
     }
     
-    private void testProbability(double x, double expected){
-        double actual = t.cummulativeProbability(x);
-        assertEquals(expected, actual, 10e-4);
+    public void testLogBetaNegativePositive() {
+        testLogBeta(Double.NaN, -1.0, 2.0);
     }
     
-    private void testValue(double expected, double p){
-        double actual = t.inverseCummulativeProbability(p);
-        assertEquals(expected, actual, 10e-4);
+    public void testLogBetaPositiveNegative() {
+        testLogBeta(Double.NaN, 1.0, -2.0);
+    }
+    
+    public void testLogBetaZeroPositive() {
+        testLogBeta(Double.NaN, 0.0, 2.0);
+    }
+    
+    public void testLogBetaPositiveZero() {
+        testLogBeta(Double.NaN, 1.0, 0.0);
+    }
+    
+    public void testLogBetaPositivePositive() {
+        testLogBeta(-0.693147, 1.0, 2.0);
     }
 }
