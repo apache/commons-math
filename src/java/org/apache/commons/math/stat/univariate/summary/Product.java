@@ -17,26 +17,23 @@ package org.apache.commons.math.stat.univariate.summary;
 
 import java.io.Serializable;
 
-import org
-    .apache
-    .commons
-    .math
-    .stat
-    .univariate
-    .AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
 
 /**
- * Returns the product for this collection of values.
- *
- * @version $Revision: 1.18 $ $Date: 2004/06/23 16:26:16 $
+ * Returns the product of the available values.
+ * <p>
+ * If there are no values in the dataset, or any of the values are 
+ * <code>NaN</code>, then <code>NaN</code> is returned.  
+ * 
+ * @version $Revision: 1.19 $ $Date: 2004/06/29 06:06:13 $
  */
 public class Product extends AbstractStorelessUnivariateStatistic implements Serializable {
 
     /** Serializable version identifier */
     static final long serialVersionUID = 2824226005990582538L;   
      
-    /** */
-    private int n = 0;
+    /**The number of values that have been added */
+    private long n = 0;
     
     /**
      * The current Running Product.
@@ -47,7 +44,7 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
     public void increment(final double d) {
-        if (Double.isNaN(value)) {
+        if (n == 0) {
             value = d;
         } else {
             value *= d;
@@ -79,16 +76,14 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
 
     /**
      * Returns the product for this collection of values
+     * 
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
      * @param length the number of elements to include
      * @return the product values or Double.NaN if the array is empty
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
-    public double evaluate(
-        final double[] values,
-        final int begin,
-        final int length) {
+    public double evaluate(final double[] values, final int begin, final int length) {
         double product = Double.NaN;
         if (test(values, begin, length)) {
             product = 1.0;
