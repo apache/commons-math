@@ -21,9 +21,103 @@ import org.apache.commons.math.stat.univariate.StatisticalSummary;
 /**
  * An interface for Student's t-tests.
  * 
- * @version $Revision: 1.3 $ $Date: 2004/05/23 05:45:11 $ 
+ * @version $Revision: 1.4 $ $Date: 2004/05/24 05:29:05 $ 
  */
 public interface TTest {
+    
+    
+    /**
+     * Computes a paired, 2-sample t-statistic based on the data in the input 
+     * arrays.  The t-statistic returned is equivalent to what would be returned by
+     * computing the one-sample t-statistic {@link #t(double, double[])}, with
+     * <code>mu = 0</code> and the sample array consisting of the (signed) 
+     * differences between corresponding entries in <code>sample1</code> and 
+     * <code>sample2.</code>
+     * <p>
+     * <strong>Preconditions</strong>: <ul>
+     * <li>The input arrays must have the same length and their common length
+     * must be at least 2.
+     * </li></ul>
+     *
+     * @param sample1 array of sample data values
+     * @param sample2 array of sample data values
+     * @return t statistic
+     * @throws IllegalArgumentException if the precondition is not met
+     * @throws MathException if the statistic can not be computed do to a
+     *         convergence or other numerical error.
+     */
+    double pairedT(double[] sample1, double[] sample2) 
+    throws IllegalArgumentException, MathException;
+    
+    /**
+     * Returns the <i>observed significance level</i>, or 
+     * <a href="http://www.cas.lancs.ac.uk/glossary_v1.1/hyptest.html#pvalue">
+     * p-value</a>, associated with a paired, two-sample, two-tailed t-test 
+     * based on the data in the input arrays.
+     * <p>
+     * The number returned is the smallest significance level
+     * at which one can reject the null hypothesis that the mean of the paired
+     * differences is 0 in favor of the two-sided alternative that the mean paired 
+     * difference is not equal to 0. For a one-sided test, divide the returned 
+     * value by 2.
+     * <p>
+     * This test is equivalent to a one-sample t-test computed using
+     *  {@link #tTest(double, double[])} with <code>mu = 0</code> and the sample array
+     *  consisting of the signed differences between corresponding elements of 
+     * <code>sample1</code> and <code>sample2.</code>
+     * <p>
+     * <strong>Usage Note:</strong><br>
+     * The validity of the p-value depends on the assumptions of the parametric
+     * t-test procedure, as discussed 
+     * <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">here</a>
+     * <p>
+     * <strong>Preconditions</strong>: <ul>
+     * <li>The input array lengths must be the same and their common length must
+     * be at least 2.
+     * </li></ul>
+     *
+     * @param sample1 array of sample data values
+     * @param sample2 array of sample data values
+     * @return p-value for t-test
+     * @throws IllegalArgumentException if the precondition is not met
+     * @throws MathException if an error occurs computing the p-value
+     */
+    double pairedTTest(double[] sample1, double[] sample2)
+    throws IllegalArgumentException, MathException;
+    
+    /**
+     * Performs a paired t-test</a> evaluating that null hypothesis that the 
+     * mean of the paired differences between <code>sample1</code> and
+     * <code>sample2</code> is 0 in favor of the two-sided alternative that the 
+     * mean paired difference is not equal to 0, with significance level 
+     * <code>alpha</code>.
+     * <p>
+     * Returns <code>true</code> iff the null hypothesis can be rejected with 
+     * confidence <code>1 - alpha</code>.  To perform a 1-sided test, use 
+     * <code>alpha / 2</code>
+     * <p>
+     * <strong>Usage Note:</strong><br>
+     * The validity of the test depends on the assumptions of the parametric
+     * t-test procedure, as discussed 
+     * <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">here</a>
+     * <p>
+     * <strong>Preconditions</strong>: <ul>
+     * <li>The input array lengths must be the same and their common length must be at least 2.
+     * </li>
+     * <li> <code> 0 < alpha < 0.5 </code>
+     * </li></ul>
+     *
+     * @param sample1 array of sample data values
+     * @param sample2 array of sample data values
+     * @param alpha significance level of the test
+     * @return true if the null hypothesis can be rejected with 
+     * confidence 1 - alpha
+     * @throws IllegalArgumentException if the preconditions are not met
+     * @throws MathException if an error occurs performing the test
+     */
+    boolean pairedTTest(double[] sample1, double[] sample2, double alpha)
+    throws IllegalArgumentException, MathException;
+    
     /**
      * Computes a <a href="http://www.itl.nist.gov/div898/handbook/prc/section2/prc22.htm#formula"> 
      * t statistic </a> given observed values and a comparison constant.
@@ -40,6 +134,25 @@ public interface TTest {
      * @throws IllegalArgumentException if input array length is less than 2
      */
     double t(double mu, double[] observed) 
+    throws IllegalArgumentException;
+    
+    /**
+     * Computes a <a href="http://www.itl.nist.gov/div898/handbook/prc/section2/prc22.htm#formula">
+     * t statistic </a> to use in comparing the dataset described by <code>sampleStats</code>
+     *  to <code>mu</code>.
+     * <p>
+     * This statistic can be used to perform a one sample t-test for the mean.
+     * <p>
+     * <strong>Preconditions</strong>: <ul>
+     * <li><code>observed.getN() > = 2</code>.
+     * </li></ul>
+     *
+     * @param mu comparison constant
+     * @param sampleStats DescriptiveStatistics holding sample summary statitstics
+     * @return t statistic
+     * @throws IllegalArgumentException if the precondition is not met
+     */
+    double t(double mu, StatisticalSummary sampleStats) 
     throws IllegalArgumentException;
     
     /**
@@ -61,6 +174,164 @@ public interface TTest {
      *         convergence or other numerical error.
      */
     double t(double[] sample1, double[] sample2) 
+    throws IllegalArgumentException, MathException;
+    
+    /**
+     * Computes a <a href="http://www.itl.nist.gov/div898/handbook/prc/section3/prc31.htm">
+     * 2-sample t statistic </a>, comparing the means of the datasets described
+     * by two {@link StatisticalSummary} instances without the assumption of equal sample variances.
+     * <p>
+     * This statistic can be used to perform a two-sample t-test to compare
+     * sample means.
+     * <p>
+     * <strong>Preconditions</strong>: <ul>
+     * <li>The datasets described by the two Univariates must each contain
+     * at least 2 observations.
+     * </li></ul>
+     *
+     * @param sampleStats1 StatisticalSummary describing data from the first sample
+     * @param sampleStats2 StatisticalSummary describing data from the second sample
+     * @return t statistic
+     * @throws IllegalArgumentException if the precondition is not met
+     */
+    double t(StatisticalSummary sampleStats1, StatisticalSummary sampleStats2) 
+    throws IllegalArgumentException;
+    
+    /**
+     * Returns the <i>observed significance level</i>, or 
+     * <a href="http://www.cas.lancs.ac.uk/glossary_v1.1/hyptest.html#pvalue">
+     * p-value</a>, associated with a one-sample, two-tailed t-test 
+     * comparing the mean of the input array with the constant <code>mu</code>.
+     * <p>
+     * The number returned is the smallest significance level
+     * at which one can reject the null hypothesis that the mean equals 
+     * <code>mu</code> in favor of the two-sided alternative that the mean
+     * is different from <code>mu</code>. For a one-sided test, divide the 
+     * returned value by 2.
+     * <p>
+     * <strong>Usage Note:</strong><br>
+     * The validity of the test depends on the assumptions of the parametric
+     * t-test procedure, as discussed 
+     * <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">here</a>
+     * <p>
+     * <strong>Preconditions</strong>: <ul>
+     * <li>The observed array length must be at least 2.
+     * </li></ul>
+     *
+     * @param mu constant value to compare sample mean against
+     * @param sample array of sample data values
+     * @return p-value
+     * @throws IllegalArgumentException if the precondition is not met
+     * @throws MathException if an error occurs computing the p-value
+     */
+    double tTest(double mu, double[] sample)
+    throws IllegalArgumentException, MathException;
+    
+    /**
+     * Performs a <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda353.htm">
+     * two-sided t-test</a> evaluating the null hypothesis that the mean of the population from
+     *  which <code>sample</code> is drawn equals <code>mu</code>.
+     * <p>
+     * Returns <code>true</code> iff the null hypothesis can be 
+     * rejected with confidence <code>1 - alpha</code>.  To 
+     * perform a 1-sided test, use <code>alpha / 2</code>
+     * <p>
+     * <strong>Examples:</strong><br><ol>
+     * <li>To test the (2-sided) hypothesis <code>sample mean = mu </code> at
+     * the 95% level, use <br><code>tTest(mu, sample, 0.05) </code>
+     * </li>
+     * <li>To test the (one-sided) hypothesis <code> sample mean < mu </code>
+     * at the 99% level, first verify that the measured sample mean is less 
+     * than <code>mu</code> and then use 
+     * <br><code>tTest(mu, sample, 0.005) </code>
+     * </li></ol>
+     * <p>
+     * <strong>Usage Note:</strong><br>
+     * The validity of the test depends on the assumptions of the one-sample 
+     * parametric t-test procedure, as discussed 
+     * <a href="http://www.basic.nwu.edu/statguidefiles/sg_glos.html#one-sample">here</a>
+     * <p>
+     * <strong>Preconditions</strong>: <ul>
+     * <li>The observed array length must be at least 2.
+     * </li></ul>
+     *
+     * @param mu constant value to compare sample mean against
+     * @param sample array of sample data values
+     * @param alpha significance level of the test
+     * @return p-value
+     * @throws IllegalArgumentException if the precondition is not met
+     * @throws MathException if an error computing the p-value
+     */
+    boolean tTest(double mu, double[] sample, double alpha)
+    throws IllegalArgumentException, MathException;
+    
+    /**
+     * Returns the <i>observed significance level</i>, or 
+     * <a href="http://www.cas.lancs.ac.uk/glossary_v1.1/hyptest.html#pvalue">
+     * p-value</a>, associated with a one-sample, two-tailed t-test 
+     * comparing the mean of the dataset described by <code>sampleStats</code>
+     * with the constant <code>mu</code>.
+     * <p>
+     * The number returned is the smallest significance level
+     * at which one can reject the null hypothesis that the mean equals 
+     * <code>mu</code> in favor of the two-sided alternative that the mean
+     * is different from <code>mu</code>. For a one-sided test, divide the 
+     * returned value by 2.
+     * <p>
+     * <strong>Usage Note:</strong><br>
+     * The validity of the test depends on the assumptions of the parametric
+     * t-test procedure, as discussed 
+     * <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">here</a>
+     * <p>
+     * <strong>Preconditions</strong>: <ul>
+     * <li>The sample must contain at least 2 observations.
+     * </li></ul>
+     *
+     * @param mu constant value to compare sample mean against
+     * @param sampleStats StatisticalSummary describing sample data
+     * @return p-value
+     * @throws IllegalArgumentException if the precondition is not met
+     * @throws MathException if an error occurs computing the p-value
+     */
+    double tTest(double mu, StatisticalSummary sampleStats)
+    throws IllegalArgumentException, MathException;
+    
+    /**
+     * Performs a <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda353.htm">
+     * two-sided t-test</a> evaluating the null hypothesis that the mean of the population from
+     * which the dataset described by <code>stats</code> is drawn equals <code>mu</code>.
+     * <p>
+     * Returns <code>true</code> iff the null hypothesis can be 
+     * rejected with confidence <code>1 - alpha</code>.  To 
+     * perform a 1-sided test, use <code>alpha / 2</code>
+     * <p>
+     * <strong>Examples:</strong><br><ol>
+     * <li>To test the (2-sided) hypothesis <code>sample mean = mu </code> at
+     * the 95% level, use <br><code>tTest(mu, sampleStats, 0.05) </code>
+     * </li>
+     * <li>To test the (one-sided) hypothesis <code> sample mean < mu </code>
+     * at the 99% level, first verify that the measured sample mean is less 
+     * than <code>mu</code> and then use 
+     * <br><code>tTest(mu, sampleStats, 0.005) </code>
+     * </li></ol>
+     * <p>
+     * <strong>Usage Note:</strong><br>
+     * The validity of the test depends on the assumptions of the one-sample 
+     * parametric t-test procedure, as discussed 
+     * <a href="http://www.basic.nwu.edu/statguidefiles/sg_glos.html#one-sample">here</a>
+     * <p>
+     * <strong>Preconditions</strong>: <ul>
+     * <li>The sample must include at least 2 observations.
+     * </li></ul>
+     *
+     * @param mu constant value to compare sample mean against
+     * @param sampleStats StatisticalSummary describing sample data values
+     * @param alpha significance level of the test
+     * @return p-value
+     * @throws IllegalArgumentException if the precondition is not met
+     * @throws MathException if an error occurs computing the p-value
+     */
+    boolean tTest(double mu, StatisticalSummary sampleStats, double alpha)
     throws IllegalArgumentException, MathException;
     
     /**
@@ -145,114 +416,6 @@ public interface TTest {
     throws IllegalArgumentException, MathException;
     
     /**
-     * Performs a <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda353.htm">
-     * two-sided t-test</a> evaluating the null hypothesis that the mean of the population from
-     *  which <code>sample</code> is drawn equals <code>mu</code>.
-     * <p>
-     * Returns <code>true</code> iff the null hypothesis can be 
-     * rejected with confidence <code>1 - alpha</code>.  To 
-     * perform a 1-sided test, use <code>alpha / 2</code>
-     * <p>
-     * <strong>Examples:</strong><br><ol>
-     * <li>To test the (2-sided) hypothesis <code>sample mean = mu </code> at
-     * the 95% level, use <br><code>tTest(mu, sample, 0.05) </code>
-     * </li>
-     * <li>To test the (one-sided) hypothesis <code> sample mean < mu </code>
-     * at the 99% level, first verify that the measured sample mean is less 
-     * than <code>mu</code> and then use 
-     * <br><code>tTest(mu, sample, 0.005) </code>
-     * </li></ol>
-     * <p>
-     * <strong>Usage Note:</strong><br>
-     * The validity of the test depends on the assumptions of the one-sample 
-     * parametric t-test procedure, as discussed 
-     * <a href="http://www.basic.nwu.edu/statguidefiles/sg_glos.html#one-sample">here</a>
-     * <p>
-     * <strong>Preconditions</strong>: <ul>
-     * <li>The observed array length must be at least 2.
-     * </li></ul>
-     *
-     * @param mu constant value to compare sample mean against
-     * @param sample array of sample data values
-     * @param alpha significance level of the test
-     * @return p-value
-     * @throws IllegalArgumentException if the precondition is not met
-     * @throws MathException if an error computing the p-value
-     */
-    boolean tTest(double mu, double[] sample, double alpha)
-    throws IllegalArgumentException, MathException;
-    
-    /**
-     * Returns the <i>observed significance level</i>, or 
-     * <a href="http://www.cas.lancs.ac.uk/glossary_v1.1/hyptest.html#pvalue">
-     * p-value</a>, associated with a one-sample, two-tailed t-test 
-     * comparing the mean of the input array with the constant <code>mu</code>.
-     * <p>
-     * The number returned is the smallest significance level
-     * at which one can reject the null hypothesis that the mean equals 
-     * <code>mu</code> in favor of the two-sided alternative that the mean
-     * is different from <code>mu</code>. For a one-sided test, divide the 
-     * returned value by 2.
-     * <p>
-     * <strong>Usage Note:</strong><br>
-     * The validity of the test depends on the assumptions of the parametric
-     * t-test procedure, as discussed 
-     * <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">here</a>
-     * <p>
-     * <strong>Preconditions</strong>: <ul>
-     * <li>The observed array length must be at least 2.
-     * </li></ul>
-     *
-     * @param mu constant value to compare sample mean against
-     * @param sample array of sample data values
-     * @return p-value
-     * @throws IllegalArgumentException if the precondition is not met
-     * @throws MathException if an error occurs computing the p-value
-     */
-    double tTest(double mu, double[] sample)
-    throws IllegalArgumentException, MathException;
-    
-    /**
-     * Computes a <a href="http://www.itl.nist.gov/div898/handbook/prc/section2/prc22.htm#formula">
-     * t statistic </a> to use in comparing the dataset described by <code>sampleStats</code>
-     *  to <code>mu</code>.
-     * <p>
-     * This statistic can be used to perform a one sample t-test for the mean.
-     * <p>
-     * <strong>Preconditions</strong>: <ul>
-     * <li><code>observed.getN() > = 2</code>.
-     * </li></ul>
-     *
-     * @param mu comparison constant
-     * @param sampleStats DescriptiveStatistics holding sample summary statitstics
-     * @return t statistic
-     * @throws IllegalArgumentException if the precondition is not met
-     */
-    double t(double mu, StatisticalSummary sampleStats) 
-    throws IllegalArgumentException;
-    
-    /**
-     * Computes a <a href="http://www.itl.nist.gov/div898/handbook/prc/section3/prc31.htm">
-     * 2-sample t statistic </a>, comparing the means of the datasets described
-     * by two {@link StatisticalSummary} instances without the assumption of equal sample variances.
-     * <p>
-     * This statistic can be used to perform a two-sample t-test to compare
-     * sample means.
-     * <p>
-     * <strong>Preconditions</strong>: <ul>
-     * <li>The datasets described by the two Univariates must each contain
-     * at least 2 observations.
-     * </li></ul>
-     *
-     * @param sampleStats1 StatisticalSummary describing data from the first sample
-     * @param sampleStats2 StatisticalSummary describing data from the second sample
-     * @return t statistic
-     * @throws IllegalArgumentException if the precondition is not met
-     */
-    double t(StatisticalSummary sampleStats1, StatisticalSummary sampleStats2) 
-    throws IllegalArgumentException;
-    
-    /**
      * Returns the <i>observed significance level</i>, or 
      * <a href="http://www.cas.lancs.ac.uk/glossary_v1.1/hyptest.html#pvalue">
      * p-value</a>, associated with a two-sample, two-tailed t-test 
@@ -335,74 +498,5 @@ public interface TTest {
      */
     boolean tTest(StatisticalSummary sampleStats1, StatisticalSummary sampleStats2, 
             double alpha)
-    throws IllegalArgumentException, MathException;
-    
-    /**
-     * Performs a <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda353.htm">
-     * two-sided t-test</a> evaluating the null hypothesis that the mean of the population from
-     * which the dataset described by <code>stats</code> is drawn equals <code>mu</code>.
-     * <p>
-     * Returns <code>true</code> iff the null hypothesis can be 
-     * rejected with confidence <code>1 - alpha</code>.  To 
-     * perform a 1-sided test, use <code>alpha / 2</code>
-     * <p>
-     * <strong>Examples:</strong><br><ol>
-     * <li>To test the (2-sided) hypothesis <code>sample mean = mu </code> at
-     * the 95% level, use <br><code>tTest(mu, sampleStats, 0.05) </code>
-     * </li>
-     * <li>To test the (one-sided) hypothesis <code> sample mean < mu </code>
-     * at the 99% level, first verify that the measured sample mean is less 
-     * than <code>mu</code> and then use 
-     * <br><code>tTest(mu, sampleStats, 0.005) </code>
-     * </li></ol>
-     * <p>
-     * <strong>Usage Note:</strong><br>
-     * The validity of the test depends on the assumptions of the one-sample 
-     * parametric t-test procedure, as discussed 
-     * <a href="http://www.basic.nwu.edu/statguidefiles/sg_glos.html#one-sample">here</a>
-     * <p>
-     * <strong>Preconditions</strong>: <ul>
-     * <li>The sample must include at least 2 observations.
-     * </li></ul>
-     *
-     * @param mu constant value to compare sample mean against
-     * @param sampleStats StatisticalSummary describing sample data values
-     * @param alpha significance level of the test
-     * @return p-value
-     * @throws IllegalArgumentException if the precondition is not met
-     * @throws MathException if an error occurs computing the p-value
-     */
-    boolean tTest(double mu, StatisticalSummary sampleStats, double alpha)
-    throws IllegalArgumentException, MathException;
-    
-    /**
-     * Returns the <i>observed significance level</i>, or 
-     * <a href="http://www.cas.lancs.ac.uk/glossary_v1.1/hyptest.html#pvalue">
-     * p-value</a>, associated with a one-sample, two-tailed t-test 
-     * comparing the mean of the dataset described by <code>sampleStats</code>
-     * with the constant <code>mu</code>.
-     * <p>
-     * The number returned is the smallest significance level
-     * at which one can reject the null hypothesis that the mean equals 
-     * <code>mu</code> in favor of the two-sided alternative that the mean
-     * is different from <code>mu</code>. For a one-sided test, divide the 
-     * returned value by 2.
-     * <p>
-     * <strong>Usage Note:</strong><br>
-     * The validity of the test depends on the assumptions of the parametric
-     * t-test procedure, as discussed 
-     * <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">here</a>
-     * <p>
-     * <strong>Preconditions</strong>: <ul>
-     * <li>The sample must contain at least 2 observations.
-     * </li></ul>
-     *
-     * @param mu constant value to compare sample mean against
-     * @param sampleStats StatisticalSummary describing sample data
-     * @return p-value
-     * @throws IllegalArgumentException if the precondition is not met
-     * @throws MathException if an error occurs computing the p-value
-     */
-    double tTest(double mu, StatisticalSummary sampleStats)
     throws IllegalArgumentException, MathException;
 }
