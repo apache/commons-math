@@ -18,7 +18,7 @@
  *
  * 3. The end-user documentation included with the redistribution, if
  *    any, must include the following acknowlegement:
- *       "This product includes software developed by the
+ *       "This sumLog includes software developed by the
  *        Apache Software Foundation (http://www.apache.org/)."
  *    Alternately, this acknowlegement may appear in the software itself,
  *    if and wherever such third-party acknowlegements normally appear.
@@ -71,352 +71,323 @@ import org.apache.commons.math.FixedDoubleArray;
  * @author <a href="mailto:mdiggory@apache.org">Mark Diggory</a>
  * @author Brent Worden
  * @author <a href="mailto:HotFusionMan@Yahoo.com">Albert Davidson Chou</a>
- * @version $Revision: 1.9 $ $Date: 2003/06/17 17:10:15 $
+ * @version $Revision: 1.10 $ $Date: 2003/06/18 13:47:35 $
  *
 */
 public class UnivariateImpl implements Univariate, Serializable {
 
-    /** hold the window size **/
-    private int windowSize = Univariate.INFINITE_WINDOW;
+	/** hold the window size **/
+	private int windowSize = Univariate.INFINITE_WINDOW;
 
-    /** Just in case the windowSize is not infinite, we need to
-     *  keep an array to remember values 0 to N
-     */
-    private DoubleArray doubleArray;
+	/** Just in case the windowSize is not infinite, we need to
+	 *  keep an array to remember values 0 to N
+	 */
+	private DoubleArray doubleArray;
 
-    /** count of values that have been added */
-    private int n = 0;
+	/** count of values that have been added */
+	private int n = 0;
 
-    /** min of values that have been added */
-    private double min = Double.MAX_VALUE;
+	/** sum of values that have been added */
+	private double sum = Double.NaN;
 
-    /** max of values that have been added */
-    private double max = Double.MIN_VALUE;
+	/** sum of the square of each value that has been added */
+	private double sumsq = Double.NaN;
 
-    /** product of values that have been added */
-    private double product = Double.NaN;
+	/** min of values that have been added */
+	private double min = Double.NaN;
 
-    /** mean of values that have been added */
-    private double mean = Double.NaN ;
+	/** max of values that have been added */
+	private double max = Double.NaN;
 
-    /** running ( variance * (n - 1) ) of values that have been added */
-    private double pre_variance = Double.NaN ;
+	/** sumLog of values that have been added */
+	private double sumLog = Double.NaN;
 
-    /** variance of values that have been added */
-    private double variance = Double.NaN ;
+	/** mean of values that have been added */
+	private double mean = Double.NaN;
 
-    /** running sum of values that have been added */
-    private double sum = 0.0;
+	/** second moment of values that have been added */
+	private double s2 = Double.NaN;
 
-    /** running sum of squares that have been added */
-    private double sumsq = 0.0;
+	/** third moment of values that have been added */
+	private double s3 = Double.NaN;
 
-    /** running sum of 3rd powers that have been added */
-    private double sumCube = 0.0;
+	/** fourth moment of values that have been added */
+	private double s4 = Double.NaN;
 
-    /** running sum of 4th powers that have been added */
-    private double sumQuad = 0.0;
+	/** variance of values that have been added */
+	private double variance = Double.NaN;
 
-    /** Creates new univariate with an infinite window */
-    public UnivariateImpl() {
-        clear();
-    }
+	/** skewness of values that have been added */
+	private double skewness = Double.NaN;
 
-    /** Creates a new univariate with a fixed window **/
-    public UnivariateImpl(int window) {
-        windowSize = window;
-        doubleArray = new FixedDoubleArray( window );
-    }
+	/** kurtosis of values that have been added */
+	private double kurtosis = Double.NaN;
 
-    /**
-     * @see org.apache.commons.math.stat.Univariate#addValue(double)
-     */
-    public void addValue(double v) {
-        insertValue(v);
-    }
+	/** Creates new univariate with an infinite window */
+	public UnivariateImpl() {
+	}
 
-    /**
-     * @see org.apache.commons.math.stat.Univariate#getMean()
-     */
-    public double getMean() {
-        return mean ;
-    }
+	/** Creates a new univariate with a fixed window **/
+	public UnivariateImpl(int window) {
+		setWindowSize(window);
+	}
 
-    /**
-     * @see org.apache.commons.math.stat.Univariate#getGeometricMean()
-     */
-    public double getGeometricMean() {
-        if ((product <= 0.0) || (n == 0)) {
-            return Double.NaN;
-        } else {
-            return Math.pow(product,( 1.0 / (double) n ) );
-        }
-    }
+	/* (non-Javadoc)
+	 * @see org.apache.commons.math.stat.Univariate#getN()
+	 */
+	public int getN() {
+		return n;
+	}
 
-    /**
-     * @see org.apache.commons.math.stat.Univariate#getProduct()
-     */
-    public double getProduct() {
-        return product;
-    }
+	/* (non-Javadoc)
+	 * @see org.apache.commons.math.stat.Univariate#getSum()
+	 */
+	public double getSum() {
+		if (windowSize != Univariate.INFINITE_WINDOW) {
+			return StatUtils.sum(doubleArray.getElements());
+		}
 
-    /**
-     * @see org.apache.commons.math.stat.Univariate#getStandardDeviation()
-     */
-    public double getStandardDeviation() {
-        double variance = getVariance();
+		return sum;
+	}
 
-        if ((variance == 0.0) || (variance == Double.NaN)) {
-            return variance;
-        } else {
-            return Math.sqrt(variance);
-        }
-    }
+	/* (non-Javadoc)
+	 * @see org.apache.commons.math.stat.Univariate#getSumsq()
+	 */
+	public double getSumsq() {
+		if (windowSize != Univariate.INFINITE_WINDOW) {
+			return StatUtils.sumSq(doubleArray.getElements());
+		}
 
-    /**
-     * Returns the variance of the values that have been added via West's
-     * algorithm as described by
-     * <a href="http://doi.acm.org/10.1145/359146.359152">Chan, T. F. and
-     * J. G. Lewis 1979, <i>Communications of the ACM</i>,
-     * vol. 22 no. 9, pp. 526-531.</a>.
-     *
-     * @return The variance of a set of values.  Double.NaN is returned for
-     *         an empty set of values and 0.0 is returned for a &lt;= 1 value set.
-     */
-    public double getVariance() {
-        return variance ;
-    }
+		return sumsq;
+	}
 
-    /**
-     * Returns the skewness of the values that have been added as described by
-     * <a href="http://mathworld.wolfram.com/k-Statistic.html">Equation (6) for k-Statistics</a>.
-     *
-     * @return The skew of a set of values.  Double.NaN is returned for
-     *         an empty set of values and 0.0 is returned for a &lt;= 2 value set.
-     */
-    public double getSkewness() {
+	/* (non-Javadoc)
+	 * @see org.apache.commons.math.stat.Univariate#getMean()
+	 */
+	public double getMean() {
+		if (windowSize != Univariate.INFINITE_WINDOW) {
+			return StatUtils.mean(doubleArray.getElements());
+		}
 
-        if( n < 1) return Double.NaN;
-        if( n <= 2 ) return 0.0;
+		return mean;
+	}
 
-        return ( 2 * Math.pow(sum, 3) - 3 * sum * sumsq + ((double) (n * n)) * sumCube ) /
-               ( (double) (n * (n - 1) * (n - 2)) ) ;
-    }
+	/**
+	 * Returns the standard deviation for this collection of values
+	 * @see org.apache.commons.math.stat.Univariate#getStandardDeviation()
+	 */
+	public double getStandardDeviation() {
+		double stdDev = Double.NaN;
+		if (getN() != 0) {
+			stdDev = Math.sqrt(getVariance());
+		}
+		return (stdDev);
+	}
 
-    /**
-     * Returns the kurtosis of the values that have been added as described by
-     * <a href="http://mathworld.wolfram.com/k-Statistic.html">Equation (7) for k-Statistics</a>.
-     *
-     * @return The kurtosis of a set of values.  Double.NaN is returned for
-     *         an empty set of values and 0.0 is returned for a &lt;= 3 value set.
-     */
-    public double getKurtosis() {
+	/**
+	 * Returns the variance of the values that have been added via West's
+	 * algorithm as described by
+	 * <a href="http://doi.acm.org/10.1145/359146.359152">Chan, T. F. and
+	 * J. G. Lewis 1979, <i>Communications of the ACM</i>,
+	 * vol. 22 no. 9, pp. 526-531.</a>.
+	 *
+	 * @return The variance of a set of values.  Double.NaN is returned for
+	 *         an empty set of values and 0.0 is returned for a &lt;= 1 value set.
+	 */
+	public double getVariance() {
+		if (windowSize != Univariate.INFINITE_WINDOW) {
+			variance = StatUtils.variance(doubleArray.getElements());
+		}
+		return variance;
+	}
 
-        if( n < 1) return Double.NaN;
-        if( n <= 3 ) return 0.0;
+	/**
+	 * Returns the skewness of the values that have been added as described by
+	 * <a href="http://mathworld.wolfram.com/k-Statistic.html">Equation (6) for k-Statistics</a>.
+	 *
+	 * @return The skew of a set of values.  Double.NaN is returned for
+	 *         an empty set of values and 0.0 is returned for a &lt;= 2 value set.
+	 */
+	public double getSkewness() {
+		if (windowSize != Univariate.INFINITE_WINDOW) {
+			return StatUtils.skewness(doubleArray.getElements());
+		}
+		return skewness;
+	}
 
-        double x1 = -6 * Math.pow(sum, 4);
-        double x2 = 12 * ((double) n) * Math.pow(sum, 2) * sumsq;
-        double x3 = -3 * ((double) (n * (n - 1))) * Math.pow(sumsq,2);
-        double x4 = -4 * ((double) (n * (n + 1))) * sum * sumCube;
-        double x5 = Math.pow(((double) n),2) * ((double) (n+1)) * sumQuad;
+	/**
+	 * Returns the kurtosis of the values that have been added as described by
+	 * <a href="http://mathworld.wolfram.com/k-Statistic.html">Equation (7) for k-Statistics</a>.
+	 *
+	 * @return The kurtosis of a set of values.  Double.NaN is returned for
+	 *         an empty set of values and 0.0 is returned for a &lt;= 3 value set.
+	 */
+	public double getKurtosis() {
+		if (windowSize != Univariate.INFINITE_WINDOW) {
+			return StatUtils.kurtosis(doubleArray.getElements());
+		}
+		return kurtosis;
+	}
 
-        return (x1 + x2 + x3 + x4 + x5) /
-               ( (double) (n * (n - 1) * (n - 2) * (n - 3)) );
-    }
+	/* (non-Javadoc)
+	 * @see org.apache.commons.math.stat.Univariate#getMax()
+	 */
+	public double getMax() {
+		if (windowSize != Univariate.INFINITE_WINDOW) {
+			return StatUtils.max(doubleArray.getElements());
+		}
+		return max;
+	}
 
-    /**
-     * Called in "addValue" to insert a new value into the statistic.
-     * @param v The value to be added.
-     */
-    private void insertValue(double v) {
-        // The default value of product is NaN, if you
-        // try to retrieve the product for a univariate with
-        // no values, we return NaN.
-        //
-        // If this is the first call to insertValue, we want
-        // to set product to 1.0, so that our first element
-        // is not "cancelled" out by the NaN.
-        //
-        // For the first value added, the mean is that value,
-        // and the variance is zero.
-        if( n == 0 ) {
-            product = 1.0 ;
-            mean = v ;
-            pre_variance = 0.0 ;
-            variance = 0.0 ;
-        }
+	/* (non-Javadoc)
+	 * @see org.apache.commons.math.stat.Univariate#getMin()
+	 */
+	public double getMin() {
+		if (windowSize != Univariate.INFINITE_WINDOW) {
+			return StatUtils.min(doubleArray.getElements());
+		}
+		return min;
+	}
 
-        if( windowSize != Univariate.INFINITE_WINDOW ) {
-            if( windowSize == n ) {
-                double discarded = doubleArray.addElementRolling( v );
+	/* (non-Javadoc)
+	 * @see org.apache.commons.math.stat.Univariate#getProduct()
+	 */
+	public double getProduct() {
+		if (windowSize != Univariate.INFINITE_WINDOW) {
+			return StatUtils.product(doubleArray.getElements());
+		}
 
-                // Remove the influence of the discarded
-                sum -= discarded;
-                sumsq -= discarded * discarded;
-                sumCube -= Math.pow(discarded, 3);
-                sumQuad -= Math.pow(discarded, 4);
+		return sumLog;
+	}
 
-                if(discarded == min) {
-                    min = doubleArray.getMin();
-                } else if(discarded == max){
-                    max = doubleArray.getMax();
-                }
+	/* (non-Javadoc)
+	* @see org.apache.commons.math.stat.Univariate#getGeometricMean()
+	*/
+	public double getGeometricMean() {
 
-                if(product != 0.0){
-                    // can safely remove discarded value
-                    product *= v / discarded;
-                } else if(discarded == 0.0){
-                    // need to recompute product
-                    product = 1.0;
-                    double[] elements = doubleArray.getElements();
-                    for( int i = 0; i < elements.length; i++ ) {
-                        product *= elements[i];
-                    }
-                } // else product = 0 and will still be 0 after discard
+		if (windowSize != Univariate.INFINITE_WINDOW) {
+			return StatUtils.geometricMean(doubleArray.getElements());
+		}
 
-            } else {
-                doubleArray.addElement( v );
-                n += 1 ;
-                if (v < min) {
-                    min = v;
-                }
-                if (v > max) {
-                    max = v;
-                }
-                product *= v;
-            }
-        } else {
-            // If the windowSize is infinite please don't take the time to
-            // worry about storing any values.  We don't need to discard the
-            // influence of any single item.
-            n += 1 ;
-            if (v < min) {
-                min = v;
-            }
-            if (v > max) {
-                max = v;
-            }
-            product *= v;
+		if (n == 0) {
+			return Double.NaN;
+		} else {
+			return Math.exp(sumLog / (double) n);
+		}
+	}
 
-            if ( n > 1 )
-            {
-                double deviationFromMean = v - mean ;
-                double deviationFromMean_overN = deviationFromMean / n ;
-                mean += deviationFromMean_overN ;
-                pre_variance += (n - 1) * deviationFromMean * deviationFromMean_overN ;
-                variance = pre_variance / (n - 1) ;
-            }
-        }
+	/* If windowSize is set to Infinite, moments are calculated using the following 
+	 * <a href="http://www.spss.com/tech/stat/Algorithms/11.5/descriptives.pdf">
+     * recursive strategy
+     * </a>.
+     * Otherwise, stat methods delegate to StatUtils.
+	 * @see org.apache.commons.math.stat.Univariate#addValue(double)
+	 */
+	public void addValue(double value) {
 
-        sum += v;
-        sumsq += v * v;
-        sumCube += Math.pow(v,3);
-        sumQuad += Math.pow(v,4);
-    }
+		if (windowSize != Univariate.INFINITE_WINDOW) {
+			/* then all getters deligate to StatUtils
+			 * and this clause simply adds/rolls a value in the storage array 
+			 */
+			if (windowSize == n) {
+				doubleArray.addElementRolling(value);
+			} else {
+				n++;
+				doubleArray.addElement(value);
+			}
 
-    /** Getter for property max.
-     * @return Value of property max.
-     */
-    public double getMax() {
-        if (n == 0) {
-            return Double.NaN;
-        } else {
-            return max;
-        }
-    }
+		} else {
+			/* If the windowSize is infinite don't store any values and there 
+			 * is no need to discard the influence of any single item.
+			 */
+			n++;
 
-    /** Getter for property min.
-     * @return Value of property min.
-     */
-    public double getMin() {
-        if (n == 0) {
-            return Double.NaN;
-        } else {
-            return min;
-        }
-    }
+			if (n <= 1) {
+				/* if n <= 1, initialize the sumLog, min, max, mean, variance and pre-variance */
+				sumLog = 0.0;
+				sum = min = max = mean = value;
+				sumsq = Math.pow(value, 2);
+				variance = s2 = 0.0;
+				skewness = kurtosis = 0.0;
 
-    /** Getter for property n.
-     * @return Value of property n.
-     */
-    public int getN() {
-        return n;
-    }
+			} else {
+				/* otherwise calc these values */
+				sumLog += Math.log(value);
+				sum += value;
+				sumsq += Math.pow(value, 2);
+				min = Math.min(min, value);
+				max = Math.max(max, value);
 
-    /** Getter for property sum.
-     * @return Value of property sum.
-     */
-    public double getSum() {
-        return sum;
-    }
+				double dev = value - mean;
+				double v = dev / ((double) n);
+				double v2 = Math.pow(v, 2);
+				double n1 = ((double) n - 1);
 
-    /** Getter for property sumsq.
-     * @return Value of property sumsq.
-     */
-    public double getSumsq() {
-        return sumsq;
-    }
+				s4 += v
+					* (
+						- 4.0 * s3
+						+ v * (6.0 * s2 + n1 * (1 + Math.pow((double) n, 3)) * v2));
 
-    /** Getter for property sumCube.
-     * @return Value of property sumCube.
-     */
-    public double getSumCube() {
-        return sumCube;
-    }
+				s3 += v * (-3.0 * s2 + (double) n * n1 * (n - 2) * Math.pow(v, 2));
+				s2 += n1 * dev * v;
 
-    /** Getter for property sumQuad.
-     * @return Value of property sumQuad.
-     */
-    public double getSumQuad() {
-        return sumQuad;
-    }
+				mean += v;
+				variance = 
+                    (n <= 1) ? 0.0 : s2 / n1;
+				skewness =
+					(n <= 2) ? 0.0 : s3 / ((double) n * Math.sqrt(variance) * variance);
+				kurtosis =
+					(n <= 3) ? 0.0 : s4 / ((double) n * Math.pow(variance, 2)) - 3;
+			}
+		}
+	}
 
-    /**
-     * Generates a text report displaying
-     * univariate statistics from values that
-     * have been added.
-     * @return String with line feeds displaying statistics
-     */
-    public String toString() {
-        StringBuffer outBuffer = new StringBuffer();
-        outBuffer.append("UnivariateImpl:\n");
-        outBuffer.append("n: " + n + "\n");
-        outBuffer.append("min: " + min + "\n");
-        outBuffer.append("max: " + max + "\n");
-        outBuffer.append("mean: " + getMean() + "\n");
-        outBuffer.append("std dev: " + getStandardDeviation() + "\n");
-        outBuffer.append("skewness: " + getSkewness() + "\n");
-        outBuffer.append("kurtosis: " + getKurtosis() + "\n");
-        return outBuffer.toString();
-    }
+	/**
+	 * Generates a text report displaying
+	 * univariate statistics from values that
+	 * have been added.
+	 * @return String with line feeds displaying statistics
+	 */
+	public String toString() {
+		StringBuffer outBuffer = new StringBuffer();
+		outBuffer.append("UnivariateImpl:\n");
+		outBuffer.append("n: " + n + "\n");
+		outBuffer.append("min: " + min + "\n");
+		outBuffer.append("max: " + max + "\n");
+		outBuffer.append("mean: " + getMean() + "\n");
+		outBuffer.append("std dev: " + getStandardDeviation() + "\n");
+		outBuffer.append("skewness: " + getSkewness() + "\n");
+		outBuffer.append("kurtosis: " + getKurtosis() + "\n");
+		return outBuffer.toString();
+	}
 
-    /**
-     * Resets all sums, product, mean, and variance to 0; resets min and max.
-     */
-    public void clear() {
-        this.sum = this.sumsq = this.sumCube = this.sumQuad = 0.0;
-        this.n = 0;
-        this.min = Double.MAX_VALUE;
-        this.max = Double.MIN_VALUE;
-        this.product = Double.NaN;
-        this.mean = Double.NaN ;
-        this.variance = this.pre_variance = Double.NaN ;
-    }
+	/* (non-Javadoc)
+	 * @see org.apache.commons.math.Univariate#clear()
+	 */
+	public void clear() {
+		this.n = 0;
+		this.min = this.max = Double.NaN;
+		this.sumLog = this.mean = Double.NaN;
+		this.variance = this.skewness = this.kurtosis = Double.NaN;
+        this.s2 = this.s3 = this.s4 = Double.NaN;
+		if (doubleArray != null)
+			doubleArray = new FixedDoubleArray(windowSize);
+	}
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.Univariate#getWindowSize()
-     */
-    public int getWindowSize() {
-        return windowSize;
-    }
+	/* (non-Javadoc)
+	 * @see org.apache.commons.math.Univariate#getWindowSize()
+	 */
+	public int getWindowSize() {
+		return windowSize;
+	}
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.Univariate#setWindowSize(int)
-     */
-    public void setWindowSize(int windowSize) {
-        String msg = "A fixed window size must be set via the " +
-            "UnivariateImpl constructor";
-        throw new RuntimeException( msg );
-    }
+	/* (non-Javadoc)
+	 * @see org.apache.commons.math.Univariate#setWindowSize(int)
+	 */
+	public void setWindowSize(int windowSize) {
+		clear();
+		this.windowSize = windowSize;
+		doubleArray = new FixedDoubleArray(windowSize);
+	}
+
 }
