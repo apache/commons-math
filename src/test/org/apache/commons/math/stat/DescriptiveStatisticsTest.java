@@ -64,7 +64,7 @@ import org.apache.commons.math.random.RandomDataImpl;
 /**
  * Test cases for the {@link Univariate} class.
  *
- * @version $Revision: 1.3 $ $Date: 2004/01/29 00:49:00 $
+ * @version $Revision: 1.4 $ $Date: 2004/02/16 06:30:21 $
  */
 
 public final class DescriptiveStatisticsTest extends TestCase {
@@ -196,7 +196,7 @@ public final class DescriptiveStatisticsTest extends TestCase {
 		for(int i = 0; i < 6; i++){
 			assertEquals( "Added value ["+i+"] not equal", 
 			test3[i], test1[i],0.0);
-			System.out.println(test3[i] + " "+test1[i]);
+			//System.out.println(test3[i] + " "+test1[i]);
 		}     
 				
 		for(int i = 0; i < test2.length; i++){
@@ -208,7 +208,7 @@ public final class DescriptiveStatisticsTest extends TestCase {
 		for(int i = 6; i < 12; i++){
 			assertEquals( "Added value ["+i+"] not equal", 
 			test3[i], test2[i-6],0.0);
-			System.out.println(test3[i] + " "+test2[i-6]);
+			//System.out.println(test3[i] + " "+test2[i-6]);
 		}    
 		
 		for(int i = 0; i < test2.length; i++){
@@ -220,13 +220,13 @@ public final class DescriptiveStatisticsTest extends TestCase {
 		for(int i = 0; i < 6; i++){
 			assertEquals( "Added value ["+i+"] not equal", 
 			test3[i], test2[i],0.0);
-			System.out.println(test3[i] + " "+test2[i]);
+			//System.out.println(test3[i] + " "+test2[i]);
 		}  
 		
 		for(int i = 6; i < 12; i++){
 			assertEquals( "Added value ["+i+"] not equal", 
 			test3[i], test2[i-6],0.0);
-			System.out.println(test3[i] + " "+test2[i-6]);
+			//System.out.println(test3[i] + " "+test2[i-6]);
 		}  
 		 
 	}

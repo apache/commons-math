@@ -26,7 +26,7 @@ import junit.framework.TestSuite;
 /**
  * Test the interpolation framework.
  *
- * @version $Revision: 1.10 $ $Date: 2004/01/29 16:48:49 $ 
+ * @version $Revision: 1.11 $ $Date: 2004/02/16 06:30:21 $ 
  */
 public class InterpolatorTest extends TestCase {
 
@@ -42,18 +42,19 @@ public class InterpolatorTest extends TestCase {
 
     public void testInterpolateLinearDegenerateTwoSegment()
         throws MathException {
-        System.out.println(" deg 2 seg");
+        //System.out.println(" deg 2 seg");
         double xval[] = { 0.0, 0.5, 1.0 };
         double yval[] = { 0.0, 0.5, 1.0 };
         UnivariateRealInterpolator i = new SplineInterpolator();
         UnivariateRealFunction f = i.interpolate(xval, yval);
+        /*  todo: rewrite using assertions
         double x;
         x = 0.0;
         System.out.println(
             "x="
-                + x
-                + " y="
-                + f.value(x));
+               + x
+              + " y="
+               + f.value(x));
 
         x = 0.5;
         System.out.println(
@@ -68,66 +69,26 @@ public class InterpolatorTest extends TestCase {
                 + x
                 + " y="
                 + f.value(x));
+    */
     }
 
     public void testInterpolateLinearDegenerateThreeSegment()
         throws MathException {
-        System.out.println(" deg 3 seg");
+//       System.out.println(" deg 3 seg");
         double xval[] = { 0.0, 0.5, 1.0, 1.5 };
         double yval[] = { 0.0, 0.5, 1.0, 1.5 };
         UnivariateRealInterpolator i = new SplineInterpolator();
         UnivariateRealFunction f = i.interpolate(xval, yval);
-        double x;
-        x = 0.0;
-        System.out.println(
-            "x="
-                + x
-                + " y="
-                + f.value(x));
-
-        x = 0.5 - 1E-6;
-        System.out.println(
-            "x="
-                + x
-                + " y="
-                + f.value(x));
-
-        x = 0.5;
-        System.out.println(
-            "x="
-                + x
-                + " y="
-                + f.value(x));
-
-        x = 1 - 1E-6;
-        System.out.println(
-            "x="
-                + x
-                + " y="
-                + f.value(x));
-
-        x = 1;
-        System.out.println(
-            "x="
-                + x
-                + " y="
-                + f.value(x));
-
-        x = 1.5 - 1E-6;
-        System.out.println(
-            "x="
-                + x
-                + " y="
-                + f.value(x));
 
     }
 
     public void testInterpolateLinear() throws MathException {
-        System.out.println(" triang 2 seg");
+       // System.out.println(" triang 2 seg");
         double xval[] = { 0.0, 0.5, 1.0 };
         double yval[] = { 0.0, 0.5, 0.0 };
         UnivariateRealInterpolator i = new SplineInterpolator();
         UnivariateRealFunction f = i.interpolate(xval, yval);
+        /* todo: rewrite with assertions
         double x;
         x = 0.0;
         System.out.println(
@@ -156,10 +117,11 @@ public class InterpolatorTest extends TestCase {
                 + x
                 + " y="
                 + f.value(x));
+*/
     }
-
+    
     public void testInterpolateSin() throws MathException {
-        System.out.println(" sin");
+        //System.out.println(" sin");
         double xval[] =
             {
                 0.0,
@@ -173,9 +135,12 @@ public class InterpolatorTest extends TestCase {
                 2.0 * Math.PI };
         double yval[] = { 0.0, 0.5, 1.0, 0.5, 0.0, -0.5, -1.0, -0.5, 0.0 };
 
-        System.out.println("n=" + xval.length);
+        //System.out.println("n=" + xval.length);
         UnivariateRealInterpolator i = new SplineInterpolator();
         UnivariateRealFunction f = i.interpolate(xval, yval);
+        
+        /* todo: rewrite using assertions
+        
         double x;
         x = 0.0;
         System.out.println(
@@ -234,6 +199,8 @@ public class InterpolatorTest extends TestCase {
                 + f.value(x));
 
         //assertEquals(0.5,f.value(Math.PI/6.0),)
+         
+  */
     }
 
     public void testIllegalArguments() throws MathException {
