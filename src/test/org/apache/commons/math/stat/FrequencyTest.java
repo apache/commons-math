@@ -26,7 +26,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link Frequency} class.
  *
- * @version $Revision: 1.11 $ $Date: 2004/02/21 21:35:17 $
+ * @version $Revision: 1.12 $ $Date: 2004/03/07 00:57:11 $
  */
 
 public final class FrequencyTest extends TestCase {
@@ -69,10 +69,32 @@ public final class FrequencyTest extends TestCase {
         assertEquals("zero cumulative frequency", 0, f.getCumFreq(0));
         assertEquals("one cumulative frequency", 3,  f.getCumFreq(1));
         assertEquals("two cumulative frequency", 4,  f.getCumFreq(2));
-        assertEquals("two cumulative frequency", 4,  f.getCumFreq(5));
-        assertEquals("two cumulative frequency", 0,  f.getCumFreq("foo"));
+        assertEquals("five cumulative frequency", 4,  f.getCumFreq(5));
+        assertEquals("foo cumulative frequency", 0,  f.getCumFreq("foo"));
+        
         f.clear();
         assertEquals("total count",0,f.getSumFreq());
+        
+        // userguide examples -------------------------------------------------------------------
+        f.addValue("one");
+        f.addValue("One");
+        f.addValue("oNe");
+        f.addValue("Z");
+        assertEquals("one cumulative frequency", 1 ,  f.getCount("one"));
+        assertEquals("Z cumulative pct", 0.5,  f.getCumPct("Z"), tolerance);
+        assertEquals("z cumulative pct", 1.0,  f.getCumPct("z"), tolerance);
+        assertEquals("Ot cumulative pct", 0.25,  f.getCumPct("Ot"), tolerance);
+        f.clear();
+        
+        f = null;
+        f = new Frequency(String.CASE_INSENSITIVE_ORDER);
+        f.addValue("one");
+        f.addValue("One");
+        f.addValue("oNe");
+        f.addValue("Z");
+        assertEquals("one count", 3 ,  f.getCount("one"));
+        assertEquals("Z cumulative pct -- case insensitive", 1 ,  f.getCumPct("Z"), tolerance);
+        assertEquals("z cumulative pct -- case insensitive", 1 ,  f.getCumPct("z"), tolerance);
     }     
     
     /** test pcts */
