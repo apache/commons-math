@@ -22,7 +22,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link RealMatrixImpl} class.
  *
- * @version $Revision: 1.13 $ $Date: 2004/04/08 07:08:22 $
+ * @version $Revision: 1.14 $ $Date: 2004/05/18 04:08:38 $
  */
 
 public final class RealMatrixImplTest extends TestCase {
@@ -433,6 +433,35 @@ public final class RealMatrixImplTest extends TestCase {
         } catch (InvalidMatrixException ex) {
             // expected
         }
+    }
+    
+    /** test examples in user guide */
+    public void testExamples() {
+        // Create a real matrix with two rows and three columns
+        double[][] matrixData = { {1d,2d,3d}, {2d,5d,3d}};
+        RealMatrix m = new RealMatrixImpl(matrixData);
+        // One more with three rows, two columns
+        double[][] matrixData2 = { {1d,2d}, {2d,5d}, {1d, 7d}};
+        RealMatrix n = new RealMatrixImpl();
+        n.setData(matrixData2); 
+        // Now multiply m by n
+        RealMatrix p = m.multiply(n);
+        assertEquals(2, p.getRowDimension());
+        assertEquals(2, p.getColumnDimension());
+        // Invert p
+        RealMatrix pInverse = p.inverse(); 
+        assertEquals(2, pInverse.getRowDimension());
+        assertEquals(2, pInverse.getColumnDimension());
+        
+        // Solve example
+        double[][] coefficientsData = {{2, 3, -2}, {-1, 7, 6}, {4, -3, -5}};
+        RealMatrix coefficients = new RealMatrixImpl(coefficientsData);
+        double[] constants = {1, -2, 1};
+        double[] solution = coefficients.solve(constants);
+        assertEquals(2 * solution[0] + 3 * solution[1] -2 * solution[2], constants[0], 1E-12);
+        assertEquals(-1 * solution[0] + 7 * solution[1] + 6 * solution[2], constants[1], 1E-12);
+        assertEquals(4 * solution[0] - 3 * solution[1] -5 * solution[2], constants[2], 1E-12);   
+        
     }
     
     //--------------- -----------------Protected methods
