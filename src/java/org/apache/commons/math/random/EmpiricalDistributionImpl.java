@@ -21,7 +21,6 @@ import java.io.Serializable;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -53,7 +52,7 @@ import org.apache.commons.math.stat.univariate.SummaryStatistics;
  *    entry per line.</li>
  * </ul></p>
  *
- * @version $Revision: 1.24 $ $Date: 2004/06/14 23:54:17 $
+ * @version $Revision: 1.25 $ $Date: 2004/06/15 18:33:16 $
  */
 public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistribution {
 
@@ -79,14 +78,15 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
     private RandomData randomData = new RandomDataImpl();
 
     /**
-     * Creates a new EmpiricalDistribution  with the default bin count
+     * Creates a new EmpiricalDistribution with the default bin count.
      */
     public EmpiricalDistributionImpl() {
         binStats = new ArrayList();
     }
 
     /**
-     * Creates a new EmpiricalDistribution  with the specified bin count
+     * Creates a new EmpiricalDistribution  with the specified bin count.
+     * 
      * @param binCount number of bins
      */
     public EmpiricalDistributionImpl(int binCount) {
@@ -94,8 +94,11 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         binStats = new ArrayList();
     }
 
-    /**
-     * @see org.apache.commons.math.random.EmpiricalDistribution#load(double[])
+     /**
+     * Computes the empirical distribution from the provided
+     * array of numbers.
+     * 
+     * @param in the input data array
      */
     public void load(double[] in) {
         DataAdapter da = new ArrayDataAdapter(in);
@@ -109,6 +112,12 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
 
     }
 
+    /**
+     * Computes the empirical distribution using data read from a URL.
+     * @param url  url of the input file
+     * 
+     * @throws IOException if an IO error occurs
+     */
     public void load(URL url) throws IOException {
         BufferedReader in =
             new BufferedReader(new InputStreamReader(url.openStream()));
@@ -127,6 +136,12 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         }
     }
 
+    /**
+     * Computes the empirical distribution from the input file.
+     * 
+     * @param file the input file
+     * @throws IOException if an IO error occurs
+     */
     public void load(File file) throws IOException {
         BufferedReader in = new BufferedReader(new FileReader(file));
         try {
@@ -153,8 +168,20 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
      * <code>beanStats</code> abstracting the source of data.
      */
     private abstract class DataAdapter{
+        /** 
+         * Compute bin stats.
+         * 
+         * @param min minimum value
+         * @param delta  grid size
+         * @throws Exception  if an error occurs computing bin stats
+         */
         public abstract void computeBinStats(double min, double delta)
                 throws Exception;
+        /**
+         * Compute sample statistics.
+         * 
+         * @throws Exception if an error occurs computing sample stats
+         */
         public abstract void computeStats() throws Exception;
     }
     /**
@@ -163,6 +190,12 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
      * is returned.
      */
     private class DataAdapterFactory{
+        /**
+         * Creates a DataAdapter from a data object
+         * 
+         * @param in object providing access to the data
+         * @return DataAdapter instance
+         */
         public DataAdapter getAdapter(Object in) {
             if (in instanceof BufferedReader) {
                 BufferedReader inputStream = (BufferedReader) in;
@@ -180,13 +213,25 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
      * <code>DataAdapter</code> for data provided through some input stream
      */
     private class StreamDataAdapter extends DataAdapter{
+        
+        /** Input stream providng access to the data */
         BufferedReader inputStream;
+        
+        /**
+         * Create a StreamDataAdapter from a BufferedReader
+         * 
+         * @param in BufferedReader input stream
+         */
         public StreamDataAdapter(BufferedReader in){
             super();
             inputStream = in;
         }
         /**
          * Computes binStats
+         * 
+         * @param min  minimum value
+         * @param delta  grid size
+         * @throws IOException if an IO error occurs
          */
         public void computeBinStats(double min, double delta)
                 throws IOException {
@@ -205,6 +250,8 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         }
         /**
          * Computes sampleStats
+         * 
+         * @throws IOException if an IOError occurs
          */
         public void computeStats() throws IOException {
             String str = null;
@@ -223,13 +270,23 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
      * <code>DataAdapter</code> for data provided as array of doubles.
      */
     private class ArrayDataAdapter extends DataAdapter{
+        
+        /** Array of input  data values */
         private double[] inputArray;
+        
+        /**
+         * Construct an ArrayDataAdapter from a double[] array
+         * 
+         * @param in double[] array holding the data
+         */
         public ArrayDataAdapter(double[] in){
             super();
             inputArray = in;
         }
         /**
          * Computes sampleStats
+         * 
+         * @throws IOException if an IO error occurs
          */
         public void computeStats() throws IOException {
             sampleStats = SummaryStatistics.newInstance();
@@ -239,14 +296,18 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         }
         /**
          * Computes binStats
+         * 
+         * @param min  minimum value
+         * @param delta  grid size
+         * @throws IOException  if an IO error occurs
          */
         public void computeBinStats(double min, double delta)
             throws IOException {
             for (int i = 0; i < inputArray.length; i++) {
                 SummaryStatistics stats =
                     (SummaryStatistics) binStats.get(
-                        Math.max((int) Math.ceil((inputArray[i] - min) / delta)
-                            - 1, 0));
+                        Math.max((int) Math.ceil(
+                                (inputArray[i] - min) / delta)- 1, 0));
                 stats.addValue(inputArray[i]);
             }
         }
@@ -254,6 +315,9 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
 
     /**
      * Fills binStats array (second pass through data file).
+     * 
+     * @param in object providing access to the data
+     * @throws IOException  if an IO error occurs
      */
     private void fillBinStats(Object in) throws IOException {
         // Load array of bin upper bounds -- evenly spaced from min - max
@@ -303,7 +367,8 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
     }
 
     /**
-     * Generates a random value from this distribution
+     * Generates a random value from this distribution.
+     * 
      * @return the random value.
      * @throws IllegalStateException if the distribution has not been loaded
      */
@@ -333,22 +398,53 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         throw new RuntimeException("No bin selected");
     }
 
+    /**
+     * Returns a DescriptiveStatistics describing this distribution.
+     * <strong>Preconditions:</strong><ul>
+     * <li>the distribution must be loaded before invoking this method</li></ul>
+     * 
+     * @return the sample statistics
+     * @throws IllegalStateException if the distribution has not been loaded
+     */
     public SummaryStatistics getSampleStats() {
         return sampleStats;
     }
 
+    /**
+     * Returns the number of bins.
+     * 
+     * @return the number of bins.
+     */
     public int getBinCount() {
         return binCount;
     }
 
+    /**
+     * Returns a list of Univariates containing statistics describing the
+     * values in each of the bins.  The ArrayList is indexed on the bin number.
+     * 
+     * @return ArrayList of bin statistics.
+     */
     public ArrayList getBinStats() {
         return binStats;
     }
 
+    /**
+     * Returns the array of upper bounds for the bins.  Bins are: <br/>
+     * [min,upperBounds[0]],(upperBounds[0],upperBounds[1]],...,
+     *  (upperBounds[binCount-1],max]
+     * 
+     * @return array of bin upper bounds
+     */
     public double[] getUpperBounds() {
         return upperBounds;
     }
 
+    /**
+     * Property indicating whether or not the distribution has been loaded.
+     * 
+     * @return true if the distribution has been loaded
+     */
     public boolean isLoaded() {
         return loaded;
     }
