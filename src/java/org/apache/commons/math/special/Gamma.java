@@ -53,7 +53,7 @@
  */
 package org.apache.commons.math.special;
 
-import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.analysis.ConvergenceException;
 
 /**
  * This is a utility class that provides computation methods related to the

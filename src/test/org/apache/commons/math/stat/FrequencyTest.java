@@ -53,85 +53,70 @@
  */
 package org.apache.commons.math.stat;
 
-import java.util.List;
-import org.apache.commons.beanutils.PropertyUtils;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
- * This implementation of StoreUnivariate uses commons-beanutils to gather
- * univariate statistics for a List of Java Beans by property.  This 
- * implementation uses beanutils' PropertyUtils to get a simple, nested,
- * indexed, mapped, or combined property from an element of a List.
+ * Test cases for the {@link Frequency} class.
  *
- * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
+ * @author Phil Steitz
+ * @version $Revision: 1.1 $ $Date: 2003/06/22 03:57:53 $
  */
-public class BeanListUnivariateImpl extends ListUnivariateImpl {
 
-    private String propertyName;
-
-    public BeanListUnivariateImpl(List list) {
-        super( list );
+public final class FrequencyTest extends TestCase {
+    private long oneL = 1;
+    private long twoL = 2;
+    private int oneI = 1;
+    private int twoI = 2;
+    private String oneS = "1";
+    private String twoS = "2";
+    private double tolerance = 10E-15;
+    
+    public FrequencyTest(String name) {
+        super(name);
     }
-
-    public BeanListUnivariateImpl(List list, String propertyName) {
-        super( list );
-        setPropertyName( propertyName );
+    
+    public void setUp() {  
     }
-
-    public String getPropertyName() {
-        return propertyName;
+    
+    public static Test suite() {
+        TestSuite suite = new TestSuite(FrequencyTest.class);
+        suite.setName("Frequency Tests");
+        return suite;
     }
-
-    public void setPropertyName(String propertyName) {
-        System.out.println( "Set prop name; " + propertyName );
-        this.propertyName = propertyName;
-    }
-
-
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.Univariate#addValue(double)
-     */
-    public void addValue(double v) {
-        String msg = "The BeanListUnivariateImpl does not accept values " +
-            "through the addValue method.  Because elements of this list " +
-            "are JavaBeans, one must be sure to set the 'propertyName' " +
-            "property and add new Beans to the underlying list via the " +
-            "addBean(Object bean) method";
-        throw new UnsupportedOperationException( msg );
-    }
-
-    /**
-     * Adds a bean to this list. 
-     *
-     * @param bean Bean to add to the list
-     */
-    public void addObject(Object bean) {
-        list.add(bean);
-    }
-
-    /**
-     * Reads the property of an element in the list.
-     *
-     * @param index The location of the value in the internal List
-     * @return A Number object representing the value at a given 
-     *         index
-     */
-    protected Number getInternalIndex(int index) {
-
-        try {
-            Number n = (Number) PropertyUtils.getProperty( list.get( index ), 
-                                                           propertyName );
-
-            return n;
-        } catch( Exception e ) {
-            // TODO: We could use a better strategy for error handling
-            // here.
-
-            // This is a somewhat foolish design decision, but until
-            // we figure out what needs to be done, let's return NaN
-            return new Double(Double.NaN);
-        }
-
-
-    }
-
+    
+    /** test freq counts */
+    public void testCounts() {
+        Frequency f = new Frequency("test counts"); 
+        assertEquals("total count",0,f.getSumFreq());
+        f.addValue(oneL);
+        f.addValue(twoL);
+        f.addValue(oneS);
+        f.addValue(oneI);
+        assertEquals("one frequency count",3,f.getCount("1"));
+        assertEquals("two frequency count",1,f.getCount("2"));
+        assertEquals("foo frequency count",0,f.getCount("foo"));
+        assertEquals("total count",4,f.getSumFreq());
+        f.clear();
+        assertEquals("total count",0,f.getSumFreq());
+    }     
+    
+    /** test pcts */
+    public void testPcts() {
+        Frequency f = new Frequency("test counts"); 
+        f.addValue(oneL);
+        f.addValue(twoL);
+        f.addValue(oneI);
+        f.addValue(twoI);
+        f.addValue("foo");
+        f.addValue("foo");
+        f.addValue("foo");
+        f.addValue("foo");
+        assertEquals("one pct",0.25,f.getPct("1"),tolerance);
+        assertEquals("two pct",0.25,f.getPct("2"),tolerance);
+        assertEquals("foo pct",0.5,f.getPct("foo"),tolerance);
+        assertEquals("bar pct",0,f.getPct("bar"),tolerance);
+    }      
 }
+

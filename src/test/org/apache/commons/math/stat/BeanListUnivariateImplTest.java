@@ -66,7 +66,7 @@ import org.apache.commons.math.beans.*;
  * Test cases for the {@link BeanListUnivariateImpl} class.
  *
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
- * @version $Revision: 1.1 $ $Date: 2003/05/29 20:35:46 $
+ * @version $Revision: 1.2 $ $Date: 2003/06/22 03:57:53 $
  */
 
 public final class BeanListUnivariateImplTest extends TestCase {
@@ -102,7 +102,7 @@ public final class BeanListUnivariateImplTest extends TestCase {
     
     public static Test suite() {
         TestSuite suite = new TestSuite(BeanListUnivariateImplTest.class);
-        suite.setName("Freq Tests");
+        suite.setName("Frequency Tests");
         return suite;
     }
     

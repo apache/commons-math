@@ -56,14 +56,15 @@ package org.apache.commons.math.stat;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.apache.commons.math.RandomDataImpl;
-import org.apache.commons.math.RandomData;
+
+import org.apache.commons.math.random.RandomData;
+import org.apache.commons.math.random.RandomDataImpl;
 
 /**
  * Test cases for the {@link Univariate} class.
  *
  * @author <a href="mailto:phil@steitz.com">Phil Steitz</a>
- * @version $Revision: 1.3 $ $Date: 2003/06/21 23:02:51 $
+ * @version $Revision: 1.4 $ $Date: 2003/06/22 03:57:53 $
  */
 
 public final class StoreUnivariateImplTest extends TestCase {
@@ -92,7 +93,7 @@ public final class StoreUnivariateImplTest extends TestCase {
     
     public static Test suite() {
         TestSuite suite = new TestSuite(StoreUnivariateImplTest.class);
-        suite.setName("Freq Tests");
+        suite.setName("Frequency Tests");
         return suite;
     }
     

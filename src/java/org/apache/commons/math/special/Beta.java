@@ -53,7 +53,7 @@
  */
 package org.apache.commons.math.special;
 
-import org.apache.commons.math.ContinuedFraction;
+import org.apache.commons.math.util.ContinuedFraction;
 
 /**
  * This is a utility class that provides computation methods related to the

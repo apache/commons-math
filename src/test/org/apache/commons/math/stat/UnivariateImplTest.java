@@ -62,7 +62,7 @@ import junit.framework.TestSuite;
  *
  * @author Phil Steitz
  * @author Tim Obrien
- * @version $Revision: 1.3 $ $Date: 2003/06/21 23:38:27 $
+ * @version $Revision: 1.4 $ $Date: 2003/06/22 03:57:53 $
  */
 
 public final class UnivariateImplTest extends TestCase {
@@ -89,7 +89,7 @@ public final class UnivariateImplTest extends TestCase {
     
     public static Test suite() {
         TestSuite suite = new TestSuite(UnivariateImplTest.class);
-        suite.setName("Freq Tests");
+        suite.setName("Frequency Tests");
         return suite;
     }
     

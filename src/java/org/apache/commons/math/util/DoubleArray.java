@@ -51,87 +51,97 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.commons.math.stat;
+package org.apache.commons.math.util;
 
-import java.util.List;
-import org.apache.commons.beanutils.PropertyUtils;
 
 /**
- * This implementation of StoreUnivariate uses commons-beanutils to gather
- * univariate statistics for a List of Java Beans by property.  This 
- * implementation uses beanutils' PropertyUtils to get a simple, nested,
- * indexed, mapped, or combined property from an element of a List.
- *
+ * Provides a single interface for dealing with various flavors
+ * of double arrays.  This arrays framework follows the model of the
+ * Collections API by allowing a user to select from a number of 
+ * array implementations with support for various storage mechanisms
+ * such as automatic expansion, contraction, and array "rolling".
+ * 
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
  */
-public class BeanListUnivariateImpl extends ListUnivariateImpl {
-
-    private String propertyName;
-
-    public BeanListUnivariateImpl(List list) {
-        super( list );
-    }
-
-    public BeanListUnivariateImpl(List list, String propertyName) {
-        super( list );
-        setPropertyName( propertyName );
-    }
-
-    public String getPropertyName() {
-        return propertyName;
-    }
-
-    public void setPropertyName(String propertyName) {
-        System.out.println( "Set prop name; " + propertyName );
-        this.propertyName = propertyName;
-    }
-
-
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.Univariate#addValue(double)
-     */
-    public void addValue(double v) {
-        String msg = "The BeanListUnivariateImpl does not accept values " +
-            "through the addValue method.  Because elements of this list " +
-            "are JavaBeans, one must be sure to set the 'propertyName' " +
-            "property and add new Beans to the underlying list via the " +
-            "addBean(Object bean) method";
-        throw new UnsupportedOperationException( msg );
-    }
+public interface DoubleArray {
 
     /**
-     * Adds a bean to this list. 
-     *
-     * @param bean Bean to add to the list
+     * Returns the number of elements currently in the array.  Please note
+     * that this is different from the length of the internal storage array.  
+     * @return number of elements
      */
-    public void addObject(Object bean) {
-        list.add(bean);
-    }
+    int getNumElements();
 
     /**
-     * Reads the property of an element in the list.
+     * Returns the element at the specified index.  Note that if an
+     * out of bounds index is supplied a ArrayIndexOutOfBoundsException 
+     * will be thrown.
+     * 
+     * @param index index to fetch a value from
+     * @return value stored at the specified index
      *
-     * @param index The location of the value in the internal List
-     * @return A Number object representing the value at a given 
-     *         index
      */
-    protected Number getInternalIndex(int index) {
+    double getElement(int index);
 
-        try {
-            Number n = (Number) PropertyUtils.getProperty( list.get( index ), 
-                                                           propertyName );
+    /**
+     * Sets the element at the specified index.  This method will expand the 
+     * internal storage array to accomodate the insertion of a value at an 
+     * index beyond the current capacity.
+     * @param index index to store a value in
+     * @param value value to store at the specified index
+     */
+    void setElement(int index, double value);
 
-            return n;
-        } catch( Exception e ) {
-            // TODO: We could use a better strategy for error handling
-            // here.
+    /**
+     * Adds an element to the end of this expandable array
+     * 
+     * @param value to be added to end of array
+     */
+    void addElement(double value);
 
-            // This is a somewhat foolish design decision, but until
-            // we figure out what needs to be done, let's return NaN
-            return new Double(Double.NaN);
-        }
+    /**
+     * Adds an element and moves the window of elements up one.  This
+     * has the effect of a FIFO.  when you "roll" the array an element is 
+     * removed from the array.  The return value of this function is the 
+     * discarded double.
+     * 
+     * @param value the value to be added to the array
+     * @return the value which has been discarded or "pushed" out of the array
+     *         by this rolling insert.
+     */
+    double addElementRolling(double value);
 
+    /**
+     * Returns a double[] of elements
+     *
+     * @return all elements added to the array
+     */
+    double[] getElements();
 
-    }
+    /**
+     * Clear the double array
+     */
+    void clear();
 
+    /**
+     * Discards values from the front of the list.  This function removes n 
+     * elements from the front of the array.
+     * 
+     *@param i number of elements to discard from the front of the array.
+     */
+    void discardFrontElements(int i);
+
+    /**
+     * Returns the minimum value stored in this array
+     *
+     * @return minimum value contained in this array
+     */
+    double getMin();
+
+    /**
+     * Returns the maximum value stored in this array
+     *
+     * @return maximum value contained in this array
+     */
+    double getMax();
 }

@@ -51,97 +51,117 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.commons.math.stat;
+package org.apache.commons.math.util;
 
-import org.apache.commons.math.util.ContractableDoubleArray;
-import org.apache.commons.math.util.DoubleArray;
+import junit.framework.TestCase;
 
 /**
+ * This class contains test cases for the ExpandableDoubleArray.
+ * 
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
  */
-public class StoreUnivariateImpl extends AbstractStoreUnivariate {
+public abstract class DoubleArrayAbstractTest extends TestCase {
 
-    // Use an internal double array
-    DoubleArray eDA;
+	protected DoubleArray da = null;
 
-    // Store the windowSize
-    private int windowSize = Univariate.INFINITE_WINDOW;
+	// Array used to test rolling
+	protected DoubleArray ra = null;
 
-    public StoreUnivariateImpl() {
-        // A contractable double array is used.  memory is reclaimed when
-        // the storage of the array becomes too empty.
-        eDA = new ContractableDoubleArray();
-    }
+	public DoubleArrayAbstractTest(String name) {
+		super(name);
+	}
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.StoreUnivariate#getValues()
-     */
-    public double[] getValues() {
+	public void testAdd1000() {
 
-        double[] copiedArray = new double[ eDA.getNumElements() ];
-        System.arraycopy( eDA.getElements(), 0, 
-                          copiedArray, 0, eDA.getNumElements());
-        return copiedArray;
-    }
+		for (int i = 0; i < 1000; i++) {
+			da.addElement(i);
+		}
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.StoreUnivariate#getElement(int)
-     */
-    public double getElement(int index) {
-        return eDA.getElement(index);
-    }
+		assertEquals(
+			"Number of elements should be equal to 1000 after adding 1000 values",
+			1000,
+			da.getNumElements());
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.Univariate#getN()
-     */
-    public int getN() {
-        return eDA.getNumElements();
-    }
+		assertEquals(
+			"The element at the 56th index should be 56",
+			56.0,
+			da.getElement(56),
+			Double.MIN_VALUE);
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.Univariate#addValue(double)
-     */
-    public synchronized void addValue(double v) {
-        if( windowSize != Univariate.INFINITE_WINDOW ) {
-            if( getN() == windowSize ) {
-                eDA.addElementRolling( v );
-            } else if( getN() < windowSize ) {
-                eDA.addElement(v);
-            } else {
-                String msg = "A window Univariate had more element than " +
-					"the windowSize.  This is an inconsistent state.";
-                throw new RuntimeException( msg );
-            }
-        } else {
-            eDA.addElement(v);
-        }
-    }
+	}
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.Univariate#clear()
-     */
-    public synchronized void clear() {
-        eDA.clear();
-    }
+	public void testGetValues() {
+		double[] controlArray = { 2.0, 4.0, 6.0 };
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.Univariate#getWindowSize()
-     */
-    public int getWindowSize() {
-        return windowSize;
-    }
+		da.addElement(2.0);
+		da.addElement(4.0);
+		da.addElement(6.0);
+		double[] testArray = da.getElements();
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.Univariate#setWindowSize(int)
-     */
-    public synchronized void setWindowSize(int windowSize) {
-        this.windowSize = windowSize;
+		for (int i = 0; i < da.getNumElements(); i++) {
+			assertEquals(
+				"The testArray values should equal the controlArray values, index i: "
+					+ i
+					+ " does not match",
+				testArray[i],
+				controlArray[i],
+				Double.MIN_VALUE);
+		}
 
-        // We need to check to see if we need to discard elements
-        // from the front of the array.  If the windowSize is less than 
-        // the current number of elements.
-        if( windowSize < eDA.getNumElements() ) {
-            eDA.discardFrontElements( eDA.getNumElements() - windowSize);
-        }
-    }
+	}
+
+	public void testAddElementRolling() {
+		ra.addElement(0.5);
+		ra.addElement(1.0);
+		ra.addElement(1.0);
+		ra.addElement(1.0);
+		ra.addElement(1.0);
+		ra.addElement(1.0);
+		ra.addElementRolling(2.0);
+
+		assertEquals(
+			"There should be 6 elements in the eda",
+			6,
+			ra.getNumElements());
+		assertEquals(
+			"The max element should be 2.0",
+			2.0,
+			ra.getMax(),
+			Double.MIN_VALUE);
+		assertEquals(
+			"The min element should be 1.0",
+			1.0,
+			ra.getMin(),
+			Double.MIN_VALUE);
+
+		for (int i = 0; i < 1024; i++) {
+			ra.addElementRolling(i);
+		}
+
+		assertEquals(
+			"We just inserted 1024 rolling elements, num elements should still be 6",
+			6,
+			ra.getNumElements());
+	}
+
+	public void testMinMax() {
+		da.addElement(2.0);
+		da.addElement(22.0);
+		da.addElement(-2.0);
+		da.addElement(21.0);
+		da.addElement(22.0);
+		da.addElement(42.0);
+		da.addElement(62.0);
+		da.addElement(22.0);
+		da.addElement(122.0);
+		da.addElement(1212.0);
+
+		assertEquals("Min should be -2.0", -2.0, da.getMin(), Double.MIN_VALUE);
+		assertEquals(
+			"Max should be 1212.0",
+			1212.0,
+			da.getMax(),
+			Double.MIN_VALUE);
+	}
+
 }

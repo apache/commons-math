@@ -53,8 +53,8 @@
  */
 package org.apache.commons.math.stat.distribution;
 
-import org.apache.commons.math.RootFinding;
-import org.apache.commons.math.UnivariateFunction;
+import org.apache.commons.math.analysis.RootFinding;
+import org.apache.commons.math.analysis.UnivariateFunction;
 
 /**
  * Base class for various continuous distributions.  It provides default

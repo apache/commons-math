@@ -51,87 +51,16 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.commons.math.stat;
-
-import java.util.List;
-import org.apache.commons.beanutils.PropertyUtils;
+package org.apache.commons.math.analysis;
 
 /**
- * This implementation of StoreUnivariate uses commons-beanutils to gather
- * univariate statistics for a List of Java Beans by property.  This 
- * implementation uses beanutils' PropertyUtils to get a simple, nested,
- * indexed, mapped, or combined property from an element of a List.
- *
- * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
+ * @author Brent Worden
  */
-public class BeanListUnivariateImpl extends ListUnivariateImpl {
-
-    private String propertyName;
-
-    public BeanListUnivariateImpl(List list) {
-        super( list );
-    }
-
-    public BeanListUnivariateImpl(List list, String propertyName) {
-        super( list );
-        setPropertyName( propertyName );
-    }
-
-    public String getPropertyName() {
-        return propertyName;
-    }
-
-    public void setPropertyName(String propertyName) {
-        System.out.println( "Set prop name; " + propertyName );
-        this.propertyName = propertyName;
-    }
-
-
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.Univariate#addValue(double)
-     */
-    public void addValue(double v) {
-        String msg = "The BeanListUnivariateImpl does not accept values " +
-            "through the addValue method.  Because elements of this list " +
-            "are JavaBeans, one must be sure to set the 'propertyName' " +
-            "property and add new Beans to the underlying list via the " +
-            "addBean(Object bean) method";
-        throw new UnsupportedOperationException( msg );
-    }
+public interface UnivariateFunction {
+    // TODO: More documentation
 
     /**
-     * Adds a bean to this list. 
-     *
-     * @param bean Bean to add to the list
+     * 
      */
-    public void addObject(Object bean) {
-        list.add(bean);
-    }
-
-    /**
-     * Reads the property of an element in the list.
-     *
-     * @param index The location of the value in the internal List
-     * @return A Number object representing the value at a given 
-     *         index
-     */
-    protected Number getInternalIndex(int index) {
-
-        try {
-            Number n = (Number) PropertyUtils.getProperty( list.get( index ), 
-                                                           propertyName );
-
-            return n;
-        } catch( Exception e ) {
-            // TODO: We could use a better strategy for error handling
-            // here.
-
-            // This is a somewhat foolish design decision, but until
-            // we figure out what needs to be done, let's return NaN
-            return new Double(Double.NaN);
-        }
-
-
-    }
-
+    double evaluate(double x);
 }

@@ -53,7 +53,6 @@
  */
 package org.apache.commons.math.stat;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**
