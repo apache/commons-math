@@ -69,7 +69,7 @@ import org.apache.commons.logging.*;
  * Test cases for the {@link Univariate} class.
  *
  * @author Mark R. Diggory
- * @version $Revision: 1.3 $ $Date: 2003/06/02 04:58:33 $
+ * @version $Revision: 1.4 $ $Date: 2003/06/02 05:21:06 $
  */
 
 public class CertifiedDataTest extends TestCase {
@@ -103,7 +103,7 @@ public class CertifiedDataTest extends TestCase {
 
 		dataFiles = file.listFiles(new FilenameFilter() {
 			public boolean accept(File dir, String name) {
-				return name.endsWith(".dat");
+				return name.endsWith(".txt");
 			}
 		});
 
