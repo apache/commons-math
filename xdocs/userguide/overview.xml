@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.13 $ $Date: 2004/07/11 19:19:28 $ -->
+<!-- $Revision: 1.14 $ $Date: 2004/12/05 23:56:50 $ -->
 <document>
   <properties>
     <title>User Guide - Overview</title>
@@ -105,7 +105,7 @@
 
 <subsection name="0.5 Dependencies" href="dependencies">
     <p>
-    Commons Math requires JDK 1.2+ and has no runtime dependencies.  Commons
+    Commons Math requires JDK 1.3+ and has no runtime dependencies.  Commons
     Discovery is used to enable pluggable implementations in the 
     <code>distributions, analysis</code> and <code>stat</code> packages; but
     default implementations are used if the commons-discovery and 
