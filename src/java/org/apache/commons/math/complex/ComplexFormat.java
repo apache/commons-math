@@ -18,29 +18,53 @@ package org.apache.commons.math.complex;
 
 import java.text.NumberFormat;
 
-// @TODO Maybe, eventually at least, this should work with NumberFormat
-//       but in the mean time.  This scratches an itch
+/**
+ * Formats a Complex number in cartesian format "Re(c) + Im(c)i".  'i' can
+ * be replaced with 'j', and the number of decimal places to display 
+ * can be configured.
+ *
+ * @author Apache Software Foundation
+ * @version $Revision: 1.3 $
+ */
 public class ComplexFormat {
 
 	private static final ComplexFormat DEFAULT = new ComplexFormat();
 
 	// @TODO This class only allows for max fraction digits, we might want to allow other parameters
-
     private String imaginaryCharacter = "i";
+
     private int fractionDigits = 2;
 
+    /**
+     * Create an instance with the default imaginary character 'i', and the default
+     * number of decimal places - 2.
+     */
     public ComplexFormat() {}
 
+    /**
+     * Create an instance with a custom imaginary character, and the default number
+     * of decimal places - 2.
+     */
     public ComplexFormat(String imaginaryCharacter) {
         this.imaginaryCharacter = imaginaryCharacter;
     }
 
+    /**
+     * Create an instance with a custom imaginary character, and a custom number of
+     * decimal places.
+     */
     public ComplexFormat(String imaginaryCharacter, int fractionDigits) {
         this.imaginaryCharacter = imaginaryCharacter;
         this.fractionDigits = fractionDigits;
     }
 
-	// @TODO Javadoc for this format method
+    /**
+     * Formats a Complex object and returns a String representing the "cartesian
+     * form" of a complex number.
+     *
+     * @param c Complex object to format
+     * @return A formatted number in the form "Re(c) + Im(c)i"
+     */
     public String format(Complex c) {
 
 		// @TODO What happens when either a real or imaginary is NaN, INIFINITY, etc?
@@ -66,6 +90,13 @@ public class ComplexFormat {
 
     }
     
+    /**
+     * This static method calls formatComplex() on a default instance of
+     * ComplexFormat.
+     *
+     * @param c Complex object to format
+     * @return A formatted number in the form "Re(c) + Im(c)i"
+     */
     public static String formatComplex( Complex c ) {
     	return DEFAULT.format( c );
     }
