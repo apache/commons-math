@@ -88,6 +88,32 @@ public class StatUtils {
 		return accum;
 	}
 
+    /**
+     * Returns the product for this collection of values
+     * @param values Is a double[] containing the values
+     * @return the product values or Double.NaN if the array is empty
+	 */
+    public static double product(double[] values) {
+        double product = Double.NaN;
+        if( values.length > 0 ) {
+            product = 1.0;
+            for( int i = 0; i < values.length; i++) {
+                product *= values[i];
+            }
+        }
+        return product;
+    }
+    
+    /**
+     * Returns the geometric mean for this collection of values
+     * @param values Is a double[] containing the values
+     * @return the geometric mean or Double.NaN if the array is empty or
+     * any of the values are &lt;= 0.
+	 */
+    public static double geometricMean(double[] values) {
+        return Math.pow(product(values),(1.0/values.length));
+    }
+
 	/**
      * Returns the <a href=http://www.xycoon.com/arithmetic_mean.htm>
      * arithmetic mean </a> of the available values 
