@@ -32,7 +32,7 @@ import org.apache.commons.collections.TreeBag;
  * The values are ordered using the default (natural order), unless a  <code>Comparator</code>
  *  is supplied in the constructor.
  * 
- * @version $Revision: 1.17 $ $Date: 2004/03/07 00:54:31 $
+ * @version $Revision: 1.18 $ $Date: 2004/03/07 02:21:09 $
  */
 public class Frequency implements Serializable {
     
@@ -262,8 +262,7 @@ public class Frequency implements Serializable {
             return result;   // v is not comparable
         }
         if (c.compare(v, freqTable.first()) < 0) {
-            return
-        System.out.println("iterating..."); 0;   // v is comparable, but less than the first value
+            return 0;  // v is comparable, but less than first value
         }
         if (c.compare(v, freqTable.last()) >= 0) {
             return getSumFreq();    // v is comparable, but greater than the last value
