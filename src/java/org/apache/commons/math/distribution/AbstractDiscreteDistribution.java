@@ -23,7 +23,7 @@ import org.apache.commons.math.MathException;
  * implementations for some of the methods that do not vary from distribution
  * to distribution.
  *  
- * @version $Revision: 1.12 $ $Date: 2004/04/08 20:45:59 $
+ * @version $Revision: 1.13 $ $Date: 2004/05/11 02:04:21 $
  */
 public abstract class AbstractDiscreteDistribution
     implements DiscreteDistribution {
@@ -36,31 +36,36 @@ public abstract class AbstractDiscreteDistribution
     }
     
     /**
-     * For this disbution, X, this method returns P(x0 &le; X &le; x1).
+     * For this distribution, X, this method returns P(x0 &le; X &le; x1).
      * @param x0 the inclusive, lower bound
      * @param x1 the inclusive, upper bound
      * @return the cumulative probability. 
      * @exception MathException if the cumulative probability can not be
      *            computed due to convergence or other numerical errors.
+     * @exception IllegalArgumentException if x0 > x1
      */
-    public double cumulativeProbability(int x0, int x1) throws MathException{
-        return cumulativeProbability(x1) - 
-            cumulativeProbability(x0 - 1);
+    public double cumulativeProbability(int x0, int x1) throws MathException {
+        if (x0 > x1) {
+            throw new IllegalArgumentException
+            	("lower endpoint must be less than or equal to upper endpoint");
+        }
+        return cumulativeProbability(x1) - cumulativeProbability(x0 - 1);
     }
     
     /**
-     * For this distribution, X, this method returns the critical point x, such
+     * For this distribution, X, this method returns the lagest x, such
      * that P(X &le; x) &le; <code>p</code>.
      *
      * @param p the desired probability
-     * @return x, such that P(X &lt; x) = <code>p</code>
+     * @return the largest x such that P(X &le; x) <= p
      * @exception MathException if the inverse cumulative probability can not be
      *            computed due to convergence or other numerical errors.
+     * @exception IllegalArgumentException if p < 0 or p >= 1
      */
     public int inverseCumulativeProbability(final double p) throws MathException{
-        if (p < 0.0 || p > 1.0) {
+        if (p < 0.0 || p >= 1.0) {
             throw new IllegalArgumentException(
-                "p must be between 0.0 and 1.0, inclusive.");
+                "p must be greater than or equal to 0.0 and strictly less than 1.0");
         }
         
         // by default, do simple bisection.
@@ -100,7 +105,7 @@ public abstract class AbstractDiscreteDistribution
             --x0;
             pm = cumulativeProbability(x0);
         }
-        
+    
         return x0;        
     }
     
