@@ -22,7 +22,8 @@ package org.apache.commons.math.util;
  * Collections API by allowing a user to select from a number of 
  * array implementations with support for various storage mechanisms
  * such as automatic expansion, contraction, and array "rolling".
- * @version $Revision: 1.10 $ $Date: 2004/05/19 14:16:32 $
+ * 
+ * @version $Revision: 1.11 $ $Date: 2004/06/08 14:19:40 $
  */
 public interface DoubleArray {
 
@@ -46,13 +47,14 @@ public interface DoubleArray {
     double getElement(int index);
 
     /**
-     * Sets the element at the specified index.  This method will expand the 
+     * Sets the element at the specified index.  This method may expand the 
      * internal storage array to accomodate the insertion of a value at an 
      * index beyond the current capacity.
+     * 
      * @param index index to store a value in
      * @param value value to store at the specified index
      * @throws ArrayIndexOutOfBoundsException if <code>index</code> is less than
-     *         zero or is greater than <code>getNumElements() - 1</code>.
+     *         zero.
      */
     void setElement(int index, double value);
 
@@ -65,13 +67,17 @@ public interface DoubleArray {
 
     /**
      * Adds an element and moves the window of elements up one.  This
-     * has the effect of a FIFO.  when you "roll" the array an element is 
-     * removed from the array.  The return value of this function is the 
-     * discarded double.
+     * has the effect of a FIFO.  when you "roll" the array an element may be 
+     * removed from the array.  In this case, the return value of this function is the 
+     * discarded double.  In some implementations, removal will only occur when
+     * the array has reached a capacity threshold.  
+     * <p>
+     * When removal does occur, the effect is to add an element to the end of the
+     * array and to discard the element at the beginning of the array.
      * 
      * @param value the value to be added to the array
      * @return the value which has been discarded or "pushed" out of the array
-     *         by this rolling insert.
+     *         by this rolling insert or null if no value has been discarded
      */
     double addElementRolling(double value);
 
