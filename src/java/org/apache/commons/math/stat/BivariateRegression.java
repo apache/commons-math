@@ -49,7 +49,7 @@ import org.apache.commons.math.distribution.TDistribution;
  * the necessary computations to return the requested statistic.</li>
  * </ul>
  *
- * @version $Revision: 1.14 $ $Date: 2004/02/21 21:35:15 $
+ * @version $Revision: 1.15 $ $Date: 2004/03/21 22:39:56 $
  */
 public class BivariateRegression implements Serializable {
 
@@ -117,9 +117,12 @@ public class BivariateRegression implements Serializable {
      * <code>data</code>.
      * <p>
      * <code>(data[0][0],data[0][1])</code> will be the first observation, then
-     * <code>(data[1][0],data[1][1])</code>, etc. <p> 
-     * 
-     * This method does not replace data that has already been added.  
+     * <code>(data[1][0],data[1][1])</code>, etc. 
+     * <p> 
+     * This method does not replace data that has already been added.  The
+     * observations represented by <code>data</code> are added to the existing
+     * dataset.
+     * <p> 
      * To replace all data, use <code>clear()</code> before adding the new 
      * data.
      * 
@@ -154,7 +157,8 @@ public class BivariateRegression implements Serializable {
 
     /**
      * Returns the "predicted" <code>y</code> value associated with the 
-     * supplied <code>x</code> value.
+     * supplied <code>x</code> value,  based on the data that has been
+     * added to the model when this method is activated.
      * <p>
      * <code> predict(x) = intercept + slope * x </code>
      * <p>
@@ -264,7 +268,7 @@ public class BivariateRegression implements Serializable {
      * <strong>Preconditions</strong>: <ul>
      * <li>At least two observations (with at least two different x values)
      * must have been added before invoking this method. If this method is 
-     * invoked before a model can be estimated, <code>Double,NaN</code> is
+     * invoked before a model can be estimated, <code>Double.NaN</code> is
      * returned.
      * </li></ul>
      *
@@ -292,7 +296,7 @@ public class BivariateRegression implements Serializable {
     }
 
     /**
-     * Returns <a href="http://www.stt.msu.edu/~xiaoyimi/STT200/Lecture5.pdf">
+     * Returns <a href="http://mathworld.wolfram.com/CorrelationCoefficient.html">
      * Pearson's product moment correlation coefficient</a>,
      * usually denoted r. 
      * <p>
