@@ -56,7 +56,37 @@ package org.apache.commons.math;
 import java.io.Serializable;
 
 /**
- * An array of double primitives which can expand as needed.
+ * <p>
+ * A variable length double array implementation and extension of 
+ * ExpandableDoubleArray which automatically handles expanding and
+ * contracting double arrays.
+ * </p>
+ *
+ * <p>
+ * This class extends the functionality of ExpandableDoubleArray and
+ * inherits the expansion parameters from that class.  If a developer
+ * instantiates a ContractableDoubleArray and only adds values to
+ * that instance, the behavior of this class is no different from
+ * the behavior of the super-class ExpandableDoubleArray.  If, on the
+ * other hand, elements are removed from the array, this implementation
+ * tests an additional parameter <code>contractionCriteria</code>.  The
+ * <code>contractionCriteria</code> dictates when this implementation
+ * will contract the size of the internal storage array to
+ * the number of elements + 1.  This check is performed after every
+ * operation that alters the number of elements in the array.
+ * </p>
+ *
+ * <p>
+ * Note that the contractionCriteria must always be greater than the
+ * expansionFactor.  If this were not the case (assume a 
+ * contractionCriteria of 1.5f and a expansionFactor of 2.0f) an
+ * endless series of expansions and contractions would occur.  If the 
+ * length of this array is highly varied over time it is a good idea
+ * to trade efficient memory usage for performance.  Each time an array
+ * is expanded or contracted the meaningful portions of the internal
+ * storage array are copied to a new array and the reference to the 
+ * internal storage array is swapped.
+ * </p>
  * 
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
  */
@@ -150,7 +180,24 @@ public class ContractableDoubleArray
     }
 
     /**
-     * Adds an element to the end of this expandable array
+     * <p>
+     * Adds an element to the end of this expandable array and 
+     * discards a value from the front of the array.  This method
+     * has the effect of adding a value to the end of the list
+     * and discarded an element from the front of the list.
+     * </p>
+     *
+     * <p>
+     * When an array rolls it actually "scrolls" the element array in 
+     * the internal storage array.  An element is added to the end of the
+     * array, and the first element of the array is discard by incrementing
+     * the starting index of the element array within the internal
+     * storage array.  Over time this will create an orphaned prefix
+     * to the element array within the internal storage array.  If this
+     * function is called frequently, this orphaned prefix list will
+     * gradually push the internal storage vs. element storage to
+     * the contractionCriteria.
+     * </p>
      * 
      * @return value to be added to end of array
      */
@@ -190,7 +237,11 @@ public class ContractableDoubleArray
         }
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method invokes the super class' setExpansionFactor but first it
+     * must validate the combination of expansionFactor and 
+     * contractionCriteria.
+     *
      * @see org.apache.commons.math.ExpandableDoubleArray#setExpansionFactor(float)
      */
     public void setExpansionFactor(float expansionFactor) {
