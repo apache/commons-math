@@ -70,14 +70,14 @@ import org.apache.commons.math.analysis.ConvergenceException;
 public abstract class ContinuedFraction {
     /** Maximum allowed numerical error. */
     private static final double DEFAULT_EPSILON = 10e-9;
-    
+
     /**
      * Default constructor.
      */
     protected ContinuedFraction() {
         super();
     }
-    
+
     /**
      * Access the n-th a coefficient of the continued fraction.  Since a can be
      * a function of the evaluation point, x, that is passed in as well.
@@ -86,7 +86,7 @@ public abstract class ContinuedFraction {
      * @return the n-th a coefficient.
      */
     protected abstract double getA(int n, double x);
-    
+
     /**
      * Access the n-th b coefficient of the continued fraction.  Since b can be
      * a function of the evaluation point, x, that is passed in as well.
@@ -95,7 +95,7 @@ public abstract class ContinuedFraction {
      * @return the n-th b coefficient.
      */
     protected abstract double getB(int n, double x);
-    
+
     /**
      * Evaluates the continued fraction at the value x.
      * @param x the evaluation point.
@@ -103,8 +103,8 @@ public abstract class ContinuedFraction {
      */
     public double evaluate(double x) {
         return evaluate(x, DEFAULT_EPSILON, Integer.MAX_VALUE);
-    }    
-    
+    }
+
     /**
      * Evaluates the continued fraction at the value x.
      * @param x the evaluation point.
@@ -113,8 +113,8 @@ public abstract class ContinuedFraction {
      */
     public double evaluate(double x, double epsilon) {
         return evaluate(x, epsilon, Integer.MAX_VALUE);
-    }    
-    
+    }
+
     /**
      * Evaluates the continued fraction at the value x.
      * @param x the evaluation point.
@@ -123,8 +123,8 @@ public abstract class ContinuedFraction {
      */
     public double evaluate(double x, int maxIterations) {
         return evaluate(x, DEFAULT_EPSILON, maxIterations);
-    }    
-    
+    }
+
     /**
      * Evaluates the continued fraction at the value x.
      * 
@@ -145,7 +145,7 @@ public abstract class ContinuedFraction {
         double[][] f = new double[2][2];
         double[][] a = new double[2][2];
         double[][] an = new double[2][2];
-        
+
         a[0][0] = getA(0, x);
         a[0][1] = 1.0;
         a[1][0] = 1.0;
@@ -153,7 +153,7 @@ public abstract class ContinuedFraction {
 
         return evaluate(1, x, a, an, f, epsilon, maxIterations);
     }
-    
+
     /**
      * Evaluates the n-th convergent, fn = pn / qn, for this continued fraction
      * at the value x.
@@ -167,25 +167,31 @@ public abstract class ContinuedFraction {
      * @return the value of the the n-th convergent for this continued fraction
      *         evaluated at x. 
      */
-    private double evaluate(int n, double x, double[][] a, double[][] an,
-            double[][] f, double epsilon, int maxIterations) {
+    private double evaluate(
+        int n,
+        double x,
+        double[][] a,
+        double[][] an,
+        double[][] f,
+        double epsilon,
+        int maxIterations) {
         double ret;
-        
+
         // create next matrix
         an[0][0] = getA(n, x);
         an[0][1] = 1.0;
         an[1][0] = getB(n, x);
         an[1][1] = 0.0;
-        
+
         // multiply a and an, save as f
         f[0][0] = (a[0][0] * an[0][0]) + (a[0][1] * an[1][0]);
         f[0][1] = (a[0][0] * an[0][1]) + (a[0][1] * an[1][1]);
         f[1][0] = (a[1][0] * an[0][0]) + (a[1][1] * an[1][0]);
         f[1][1] = (a[1][0] * an[0][1]) + (a[1][1] * an[1][1]);
-        
+
         // determine if we're close enough
-        if (Math.abs((f[0][0] * f[1][1]) - (f[1][0] * f[0][1])) <
-                Math.abs(epsilon * f[1][0] * f[1][1])) {
+        if (Math.abs((f[0][0] * f[1][1]) - (f[1][0] * f[0][1]))
+            < Math.abs(epsilon * f[1][0] * f[1][1])) {
             ret = f[0][0] / f[1][0];
         } else {
             if (n >= maxIterations) {
@@ -193,10 +199,12 @@ public abstract class ContinuedFraction {
                     "Continued fraction convergents failed to converge.");
             }
             // compute next
-            ret = evaluate(n + 1, x, f /* new a */, an /* reuse an */,
-                            a /* new f */, epsilon, maxIterations);
+            ret = evaluate(n + 1, x, f /* new a */
+            , an /* reuse an */
+            , a /* new f */
+            , epsilon, maxIterations);
         }
-        
+
         return ret;
     }
 }
