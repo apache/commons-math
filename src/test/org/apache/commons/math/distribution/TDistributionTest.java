@@ -15,149 +15,85 @@
  */
 package org.apache.commons.math.distribution;
 
-import org.apache.commons.math.MathException;
-
-import junit.framework.TestCase;
-
 /**
- * @version $Revision: 1.13 $ $Date: 2004/02/28 21:58:33 $
+ * Test cases for TDistribution.
+ * Extends ContinuousDistributionAbstractTest.  See class javadoc for
+ * ContinuousDistributionAbstractTest for details.
+ * 
+ * @version $Revision: 1.14 $ $Date: 2004/05/30 22:13:35 $
  */
-public class TDistributionTest extends TestCase {
-    private TDistribution t;
+public class TDistributionTest extends ContinuousDistributionAbstractTest {
 
     /**
-     * Constructor for ChiSquareDistributionTest.
+     * Constructor for TDistributionTest.
      * @param name
      */
     public TDistributionTest(String name) {
         super(name);
     }
 
-    /*
-     * @see TestCase#setUp()
-     */
-    protected void setUp() throws Exception {
+//-------------- Implementations for abstract methods -----------------------
+    
+    /** Creates the default continuous distribution instance to use in tests. */
+    public ContinuousDistribution makeDistribution() {
+        return DistributionFactory.newInstance().createTDistribution(5.0);
+    }   
+    
+    /** Creates the default cumulative probability distribution test input values */
+    public double[] makeCumulativeTestPoints() {
+        // quantiles computed using R version 1.8.1 (linux version)
+        return new double[] {-5.89343,-3.36493, -2.570582, -2.015048,
+            -1.475884, 5.89343, 3.36493, 2.570582,
+            2.015048, 1.475884};
+    }
+    
+    /** Creates the default cumulative probability density test expected values */
+    public double[] makeCumulativeTestValues() {
+        return new double[] {0.001d, 0.01d, 0.025d, 0.05d, 0.1d, 0.999d,
+                0.990d, 0.975d, 0.950d, 0.900d}; 
+    }
+    
+    // --------------------- Override tolerance  --------------
+    protected void setup() throws Exception {
         super.setUp();
-        t = DistributionFactory.newInstance().createTDistribution(5.0);
+        setTolerance(1E-6);
     }
 
-    /*
-     * @see TestCase#tearDown()
-     */
-    protected void tearDown() throws Exception {
-        t = null;
-        super.tearDown();
-    }
-
-    public void testInverseCumulativeProbability001() {
-        testValue(-5.893, .001);
-    }
-
-    public void testInverseCumulativeProbability010() {
-        testValue(-3.365, .010);
-    }
-
-    public void testInverseCumulativeProbability025() {
-        testValue(-2.571, .025);
-    }
-
-    public void testInverseCumulativeProbability050() {
-        testValue(-2.015, .050);
-    }
-
-    public void testInverseCumulativeProbability100() {
-        testValue(-1.476, .100);
-    }
-
-    public void testInverseCumulativeProbability999() {
-        testValue(5.893, .999);
-    }
-
-    public void testInverseCumulativeProbability990() {
-        testValue(3.365, .990);
-    }
-
-    public void testInverseCumulativeProbability975() {
-        testValue(2.571, .975);
-    }
-
-    public void testInverseCumulativeProbability950() {
-        testValue(2.015, .950);
-    }
-
-    public void testInverseCumulativeProbability900() {
-        testValue(1.476, .900);
-    }
-
-    public void testCumulativeProbability001() {
-        testProbability(-5.893, .001);
-    }
-
-    public void testCumulativeProbability010() {
-        testProbability(-3.365, .010);
-    }
-
-    public void testCumulativeProbability025() {
-        testProbability(-2.571, .025);
-    }
-
-    public void testCumulativeProbability050() {
-        testProbability(-2.015, .050);
-    }
-
-    public void testCumulativeProbability100() {
-        testProbability(-1.476, .100);
-    }
-
-    public void testCumulativeProbability999() {
-        testProbability(5.893, .999);
-    }
-
-    public void testCumulativeProbability990() {
-        testProbability(3.365, .990);
-    }
-
-    public void testCumulativeProbability975() {
-        testProbability(2.571, .975);
-    }
-
-    public void testCumulativeProbability950() {
-        testProbability(2.015, .950);
-    }
-
-    public void testCumulativeProbability900() {
-        testProbability(1.476, .900);
-    }
-
+    //---------------------------- Additional test cases -------------------------
     /**
      * @see <a href="http://nagoya.apache.org/bugzilla/show_bug.cgi?id=27243">
      *      Bug report that prompted this unit test.</a>
      */
-    public void testCumulativeProbabilityAgaintStackOverflow() {
-    	try {
-	    	TDistributionImpl td = new TDistributionImpl(5.);
-	    	double est;
-	    	est = td.cumulativeProbability(.1);
-	    	est = td.cumulativeProbability(.01);
-    	} catch(MathException ex) {
-    		fail(ex.getMessage());
-    	}
+    public void testCumulativeProbabilityAgaintStackOverflow() throws Exception {
+    	TDistributionImpl td = new TDistributionImpl(5.);
+    	double est;
+    	est = td.cumulativeProbability(.1);
+    	est = td.cumulativeProbability(.01);
     }
     
-    private void testProbability(double x, double expected) {
-        try {
-            double actual = t.cumulativeProbability(x);
-            assertEquals(expected, actual, 10e-4);
-        } catch (MathException e) {
-        	fail(e.getMessage());
-        }
+    public void testSmallDf() throws Exception {
+        setDistribution(DistributionFactory.newInstance().createTDistribution(1d));
+        setTolerance(1E-4);
+        // quantiles computed using R version 1.8.1 (linux version)
+        setCumulativeTestPoints(new double[] {-318.3088, -31.82052, -12.70620, -6.313752,
+            -3.077684, 318.3088, 31.82052, 12.70620,
+            6.313752, 3.077684});
+        setInverseCumulativeTestValues(getCumulativeTestPoints());
+        verifyCumulativeProbabilities();
+        verifyInverseCumulativeProbabilities();
     }
-    private void testValue(double expected, double p) {
+    
+    public void testDfAccessors() {
+        TDistribution distribution = (TDistribution) getDistribution();
+        assertEquals(5d, distribution.getDegreesOfFreedom(), Double.MIN_VALUE);
+        distribution.setDegreesOfFreedom(4d);
+        assertEquals(4d, distribution.getDegreesOfFreedom(), Double.MIN_VALUE);
         try {
-            double actual = t.inverseCumulativeProbability(p);
-            assertEquals(expected, actual, 10e-4);
-        } catch (MathException e) {
-        	fail(e.getMessage());
+            distribution.setDegreesOfFreedom(0d);
+            fail("Expecting IllegalArgumentException for df = 0");
+        } catch (IllegalArgumentException ex) {
+            // expected
         }
-    }
+    } 
+    
 }
