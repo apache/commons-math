@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.12 $ $Date: 2004/06/20 16:54:22 $ -->
+<!-- $Revision: 1.13 $ $Date: 2004/07/11 19:19:28 $ -->
 <document>
   <properties>
     <title>User Guide - Overview</title>
@@ -105,11 +105,15 @@
 
 <subsection name="0.5 Dependencies" href="dependencies">
     <p>
-    Commons Math requires JDK 1.2+ and has no dependencies other than the following Jakarta Commons
-    components:
+    Commons Math requires JDK 1.2+ and has no runtime dependencies.  Commons
+    Discovery is used to enable pluggable implementations in the 
+    <code>distributions, analysis</code> and <code>stat</code> packages; but
+    default implementations are used if the commons-discovery and 
+    commons-logging (a dependency of commons-discovery) jars are not present in
+    the classpath.  To compile the sources, the following versions of these
+    components are required:
     <ul>
     <li>commons-discovery 0.2 </li>
-    <li>commons-lang 2.0 </li>
     <li>commons-logging 1.0.3 </li>
     </ul>
     </p>
