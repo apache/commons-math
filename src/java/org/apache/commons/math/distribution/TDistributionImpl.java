@@ -53,6 +53,8 @@
  */
 package org.apache.commons.math.distribution;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.special.Beta;
 
@@ -60,15 +62,15 @@ import org.apache.commons.math.special.Beta;
  * Default implementation of
  * {@link org.apache.commons.math.distribution.TDistribution}.
  * 
- * @version $Revision: 1.10 $ $Date: 2003/11/15 18:59:10 $
+ * @version $Revision: 1.11 $ $Date: 2003/11/19 03:22:53 $
  */
 public class TDistributionImpl
     extends AbstractContinuousDistribution
-    implements TDistribution {
+    implements TDistribution, Serializable  {
 
     /** The degrees of freedom*/
     private double degreesOfFreedom;
-    
+
     /**
      * Create a t distribution using the given degrees of freedom.
      * @param degreesOfFreedom the degrees of freedom.
@@ -84,8 +86,7 @@ public class TDistributionImpl
      */
     public void setDegreesOfFreedom(double degreesOfFreedom) {
         if (degreesOfFreedom <= 0.0) {
-            throw new IllegalArgumentException(
-                "degrees of freedom must be positive.");
+            throw new IllegalArgumentException("degrees of freedom must be positive.");
         }
         this.degreesOfFreedom = degreesOfFreedom;
     }
@@ -103,30 +104,26 @@ public class TDistributionImpl
      * @param x the value at which the CDF is evaluated.
      * @return CDF evaluted at <code>x</code>. 
      */
-    public double cummulativeProbability(double x) {
+    public double cummulativeProbability(double x) throws MathException{
         double ret;
         if (x == 0.0) {
             ret = 0.5;
         } else {
-            double t;
-            try {
-                t = Beta.regularizedBeta(
+            double t =
+                Beta.regularizedBeta(
                     getDegreesOfFreedom() / (getDegreesOfFreedom() + (x * x)),
                     0.5 * getDegreesOfFreedom(),
                     0.5);
-                if (x < 0.0) {
-                    ret = 0.5 * t;
-                } else {
-                    ret = 1.0 - 0.5 * t;
-                }
-            } catch (MathException ex) {
-                ret = Double.NaN;
+            if (x < 0.0) {
+                ret = 0.5 * t;
+            } else {
+                ret = 1.0 - 0.5 * t;
             }
         }
-        
+
         return ret;
     }
-        
+
     /**
      * Access the domain value lower bound, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by

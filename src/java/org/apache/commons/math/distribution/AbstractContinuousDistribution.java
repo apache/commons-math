@@ -62,11 +62,11 @@ import org.apache.commons.math.analysis.UnivariateRealSolverUtils;
  * implementations for some of the methods that do not vary from distribution
  * to distribution.
  *  
- * @version $Revision: 1.15 $ $Date: 2003/11/15 18:47:09 $
+ * @version $Revision: 1.16 $ $Date: 2003/11/19 03:22:53 $
  */
 public abstract class AbstractContinuousDistribution
     implements ContinuousDistribution {
-        
+
     /**
      * Default constructor.
      */
@@ -83,10 +83,11 @@ public abstract class AbstractContinuousDistribution
      * @param x1 the upper bound
      * @return the cummulative probability. 
      */
-    public double cummulativeProbability(double x0, double x1) {
+    public double cummulativeProbability(double x0, double x1)
+        throws MathException {
         return cummulativeProbability(x1) - cummulativeProbability(x0);
     }
-    
+
     /**
      * For this distribution, X, this method returns the critical point x, such
      * that P(X &lt; x) = <code>p</code>.
@@ -94,39 +95,40 @@ public abstract class AbstractContinuousDistribution
      * @param p the desired probability
      * @return x, such that P(X &lt; x) = <code>p</code>
      */
-    public double inverseCummulativeProbability(final double p) {
+    public double inverseCummulativeProbability(final double p)
+        throws MathException {
         if (p < 0.0 || p > 1.0) {
-            throw new IllegalArgumentException(
-                "p must be between 0.0 and 1.0, inclusive.");
+            throw new IllegalArgumentException("p must be between 0.0 and 1.0, inclusive.");
         }
-        
+
         // by default, do simple root finding using bracketing and bisection.
         // subclasses can overide if there is a better method.
         UnivariateRealFunction rootFindingFunction =
             new UnivariateRealFunction() {
-                
+
             public double value(double x) throws MathException {
                 return cummulativeProbability(x) - p;
             }
         };
-        
-        try {
-            // bracket root
-            double[] bracket = UnivariateRealSolverUtils.bracket(rootFindingFunction,
-                getInitialDomain(p), getDomainLowerBound(p),
+
+        // bracket root
+        double[] bracket =
+            UnivariateRealSolverUtils.bracket(
+                rootFindingFunction,
+                getInitialDomain(p),
+                getDomainLowerBound(p),
                 getDomainUpperBound(p));
-            
-            // find root
-            double root = UnivariateRealSolverUtils.solve(
-                rootFindingFunction, bracket[0], bracket[1]);
-        
-            return root;
-        } catch (MathException ex) {
-            // this should never happen.
-            return Double.NaN;
-        }
+
+        // find root
+        double root =
+            UnivariateRealSolverUtils.solve(
+                rootFindingFunction,
+                bracket[0],
+                bracket[1]);
+
+        return root;
     }
-    
+
     /**
      * Access the initial domain value, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
@@ -136,7 +138,7 @@ public abstract class AbstractContinuousDistribution
      * @return initial domain value
      */
     protected abstract double getInitialDomain(double p);
-    
+
     /**
      * Access the domain value lower bound, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
@@ -147,7 +149,7 @@ public abstract class AbstractContinuousDistribution
      *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code> 
      */
     protected abstract double getDomainLowerBound(double p);
-    
+
     /**
      * Access the domain value upper bound, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by

@@ -53,14 +53,16 @@
  */
 package org.apache.commons.math.distribution;
 
+import org.apache.commons.math.MathException;
+
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.8 $ $Date: 2003/11/15 16:01:40 $
+ * @version $Revision: 1.9 $ $Date: 2003/11/19 03:22:54 $
  */
 public class TDistributionTest extends TestCase {
     private TDistribution t;
-    
+
     /**
      * Constructor for ChiSquareDistributionTest.
      * @param name
@@ -88,11 +90,11 @@ public class TDistributionTest extends TestCase {
     public void testInverseCummulativeProbability001() {
         testValue(-5.893, .001);
     }
-    
+
     public void testInverseCumulativeProbability010() {
         testValue(-3.365, .010);
     }
-    
+
     public void testInverseCumulativeProbability025() {
         testValue(-2.571, .025);
     }
@@ -100,7 +102,7 @@ public class TDistributionTest extends TestCase {
     public void testInverseCumulativeProbability050() {
         testValue(-2.015, .050);
     }
-    
+
     public void testInverseCumulativeProbability100() {
         testValue(-1.476, .100);
     }
@@ -108,11 +110,11 @@ public class TDistributionTest extends TestCase {
     public void testInverseCummulativeProbability999() {
         testValue(5.893, .999);
     }
-    
+
     public void testInverseCumulativeProbability990() {
         testValue(3.365, .990);
     }
-    
+
     public void testInverseCumulativeProbability975() {
         testValue(2.571, .975);
     }
@@ -120,7 +122,7 @@ public class TDistributionTest extends TestCase {
     public void testInverseCumulativeProbability950() {
         testValue(2.015, .950);
     }
-    
+
     public void testInverseCumulativeProbability900() {
         testValue(1.476, .900);
     }
@@ -128,11 +130,11 @@ public class TDistributionTest extends TestCase {
     public void testCummulativeProbability001() {
         testProbability(-5.893, .001);
     }
-    
+
     public void testCumulativeProbability010() {
         testProbability(-3.365, .010);
     }
-    
+
     public void testCumulativeProbability025() {
         testProbability(-2.571, .025);
     }
@@ -140,7 +142,7 @@ public class TDistributionTest extends TestCase {
     public void testCumulativeProbability050() {
         testProbability(-2.015, .050);
     }
-    
+
     public void testCumulativeProbability100() {
         testProbability(-1.476, .100);
     }
@@ -148,11 +150,11 @@ public class TDistributionTest extends TestCase {
     public void testCummulativeProbability999() {
         testProbability(5.893, .999);
     }
-    
+
     public void testCumulativeProbability990() {
         testProbability(3.365, .990);
     }
-    
+
     public void testCumulativeProbability975() {
         testProbability(2.571, .975);
     }
@@ -160,18 +162,28 @@ public class TDistributionTest extends TestCase {
     public void testCumulativeProbability950() {
         testProbability(2.015, .950);
     }
-    
+
     public void testCumulativeProbability900() {
         testProbability(1.476, .900);
     }
-    
-    private void testProbability(double x, double expected){
-        double actual = t.cummulativeProbability(x);
-        assertEquals(expected, actual, 10e-4);
+
+    private void testProbability(double x, double expected) {
+        try {
+            double actual = t.cummulativeProbability(x);
+            assertEquals(expected, actual, 10e-4);
+        } catch (MathException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
-    
-    private void testValue(double expected, double p){
-        double actual = t.inverseCummulativeProbability(p);
-        assertEquals(expected, actual, 10e-4);
+
+    private void testValue(double expected, double p) {
+        try {
+            double actual = t.inverseCummulativeProbability(p);
+            assertEquals(expected, actual, 10e-4);
+        } catch (MathException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }

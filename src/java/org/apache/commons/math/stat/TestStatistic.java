@@ -52,10 +52,13 @@
  * <http://www.apache.org/>.
  */
 package org.apache.commons.math.stat;
+
+import org.apache.commons.math.MathException;
+
 /**
  * A collection of commonly used test statistics and statistical tests.
  * 
- * @version $Revision: 1.9 $ $Date: 2003/11/15 16:01:38 $ 
+ * @version $Revision: 1.10 $ $Date: 2003/11/19 03:22:54 $ 
  */
 public interface TestStatistic {
     
@@ -83,7 +86,7 @@ public interface TestStatistic {
      * @throws IllegalArgumentException if preconditions are not met
      */
     double chiSquare(double[] expected, double[] observed) 
-        throws IllegalArgumentException;
+        throws IllegalArgumentException, MathException;
     
     /**
      * Returns the <i>observed significance level</i>, or <a href=
@@ -114,7 +117,7 @@ public interface TestStatistic {
      * @throws IllegalArgumentException if preconditions are not met
      */
     double chiSquareTest(double[] expected, double[] observed) 
-        throws IllegalArgumentException;
+        throws IllegalArgumentException, MathException;
     
     /**
      * Performs a <a href="http://www.itl.nist.gov/div898/handbook/eda/
@@ -148,7 +151,7 @@ public interface TestStatistic {
      * @throws IllegalArgumentException if preconditions are not met
      */
     boolean chiSquareTest(double[] expected, double[] observed, double alpha) 
-        throws IllegalArgumentException;
+        throws IllegalArgumentException, MathException;
     
     /**
      * Computes a <a href="http://www.itl.nist.gov/div898/handbook/prc/
@@ -167,7 +170,7 @@ public interface TestStatistic {
      * @throws IllegalArgumentException if input array length is less than 2
      */
     double t(double mu, double[] observed) 
-        throws IllegalArgumentException;
+        throws IllegalArgumentException, MathException;
     
     /**
      * Computes a <a href="http://www.itl.nist.gov/div898/handbook/prc/section3
@@ -187,7 +190,7 @@ public interface TestStatistic {
      * @throws IllegalArgumentException if the precondition is not met
      */
     double t(double[] sample1, double[] sample2) 
-        throws IllegalArgumentException;
+        throws IllegalArgumentException, MathException;
     
     /**
      * Returns the <i>observed significance level</i>, or <a href=
@@ -220,7 +223,7 @@ public interface TestStatistic {
      * @throws IllegalArgumentException if the precondition is not met
      */
     double tTest(double[] sample1, double[] sample2)
-        throws IllegalArgumentException;
+        throws IllegalArgumentException, MathException;
     
     /**
      * Performs a <a href="http://www.itl.nist.gov/div898/handbook/eda/
@@ -267,7 +270,7 @@ public interface TestStatistic {
      * @throws IllegalArgumentException if the preconditions are not met
      */
     boolean tTest(double[] sample1, double[] sample2, double alpha)
-        throws IllegalArgumentException;
+        throws IllegalArgumentException, MathException;
     
     /**
      * Performs a <a href="http://www.itl.nist.gov/div898/handbook/eda/
@@ -306,7 +309,7 @@ public interface TestStatistic {
      * @throws IllegalArgumentException if the precondition is not met
      */
     boolean tTest(double mu, double[] sample, double alpha)
-        throws IllegalArgumentException;
+        throws IllegalArgumentException, MathException;
     
     /**
      * Returns the <i>observed significance level</i>, or <a href=
@@ -335,7 +338,7 @@ public interface TestStatistic {
      * @throws IllegalArgumentException if the precondition is not met
      */
     double tTest(double mu, double[] sample)
-        throws IllegalArgumentException;
+        throws IllegalArgumentException, MathException;
     
     /**
      * Computes a <a href="http://www.itl.nist.gov/div898/handbook/prc/
@@ -354,7 +357,7 @@ public interface TestStatistic {
      * @throws IllegalArgumentException if the precondition is not met
      */
     double t(double mu, DescriptiveStatistics sampleStats) 
-        throws IllegalArgumentException;
+        throws IllegalArgumentException, MathException;
     
     /**
      * Computes a <a href="http://www.itl.nist.gov/div898/handbook/prc/section3
@@ -375,7 +378,7 @@ public interface TestStatistic {
      * @throws IllegalArgumentException if the precondition is not met
      */
     double t(DescriptiveStatistics sampleStats1, DescriptiveStatistics sampleStats2) 
-        throws IllegalArgumentException;
+        throws IllegalArgumentException, MathException;
     
     /**
      * Returns the <i>observed significance level</i>, or <a href=
@@ -409,7 +412,7 @@ public interface TestStatistic {
      * @throws IllegalArgumentException if the precondition is not met
      */
     double tTest(DescriptiveStatistics sampleStats1, DescriptiveStatistics sampleStats2)
-        throws IllegalArgumentException;
+        throws IllegalArgumentException, MathException;
     
     /**
      * Performs a <a href="http://www.itl.nist.gov/div898/handbook/eda/
@@ -459,7 +462,7 @@ public interface TestStatistic {
      */
     boolean tTest(DescriptiveStatistics sampleStats1, DescriptiveStatistics sampleStats2, 
         double alpha)
-        throws IllegalArgumentException;
+        throws IllegalArgumentException, MathException;
     
     /**
      * Performs a <a href="http://www.itl.nist.gov/div898/handbook/eda/
@@ -498,7 +501,7 @@ public interface TestStatistic {
      * @throws IllegalArgumentException if the precondition is not met
      */
     boolean tTest(double mu, DescriptiveStatistics sampleStats, double alpha)
-        throws IllegalArgumentException;
+        throws IllegalArgumentException, MathException;
     
     /**
      * Returns the <i>observed significance level</i>, or <a href=
@@ -528,6 +531,6 @@ public interface TestStatistic {
      * @throws IllegalArgumentException if the precondition is not met
      */
     double tTest(double mu, DescriptiveStatistics sampleStats)
-        throws IllegalArgumentException;
+        throws IllegalArgumentException, MathException;
 }
 

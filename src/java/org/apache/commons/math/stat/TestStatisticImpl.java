@@ -54,6 +54,9 @@
 
 package org.apache.commons.math.stat;
 
+import java.io.Serializable;
+
+import org.apache.commons.math.MathException;
 import org.apache.commons.math.distribution.DistributionFactory;
 import org.apache.commons.math.distribution.TDistribution;
 import org.apache.commons.math.distribution.ChiSquaredDistribution;
@@ -61,16 +64,18 @@ import org.apache.commons.math.distribution.ChiSquaredDistribution;
 /**
  * Implements test statistics defined in the TestStatistic interface.
  *
- * @version $Revision: 1.9 $ $Date: 2003/11/15 16:01:39 $
+ * @version $Revision: 1.10 $ $Date: 2003/11/19 03:22:54 $
  */
-public class TestStatisticImpl implements TestStatistic {
-    
+public class TestStatisticImpl implements TestStatistic, Serializable {
+
+    static final long serialVersionUID = 3357444126133491679L;
+
     /**
      * Default constructor
      */
     public TestStatisticImpl() {
     }
-    
+
     /**
      * @param observed array of observed frequency counts
      * @param expected array of expected frequency counts
@@ -83,37 +88,37 @@ public class TestStatisticImpl implements TestStatistic {
         double sumSq = 0.0d;
         double dev = 0.0d;
         if ((expected.length < 2) || (expected.length != observed.length)) {
-            throw new IllegalArgumentException
-                ("observed, expected array lengths incorrect");
+            throw new IllegalArgumentException("observed, expected array lengths incorrect");
         }
         if ((StatUtils.min(expected) <= 0) || (StatUtils.min(observed) < 0)) {
-            throw new IllegalArgumentException
-                ("observed counts must be non-negative," + 
-                    " expected counts must be postive");
+            throw new IllegalArgumentException(
+                "observed counts must be non-negative,"
+                    + " expected counts must be postive");
         }
         for (int i = 0; i < observed.length; i++) {
             dev = (observed[i] - expected[i]);
             sumSq += dev * dev / expected[i];
         }
-        
+
         return sumSq;
     }
-    
+
     /**
      * @param observed array of observed frequency counts
      * @param expected array of exptected frequency counts
      * @return p-value
      * @throws IllegalArgumentException if preconditions are not met
      */
-    public double chiSquareTest(double[] expected, double[] observed) 
-        throws IllegalArgumentException {
-        ChiSquaredDistribution chiSquaredDistribution = 
-            DistributionFactory.newInstance().createChiSquareDistribution
-                ((double) expected.length - 1);
-        return 1 - chiSquaredDistribution.cummulativeProbability(
-            chiSquare(expected, observed));     
+    public double chiSquareTest(double[] expected, double[] observed)
+        throws IllegalArgumentException, MathException {
+        ChiSquaredDistribution chiSquaredDistribution =
+            DistributionFactory.newInstance().createChiSquareDistribution(
+                (double) expected.length - 1);
+        return 1
+            - chiSquaredDistribution.cummulativeProbability(
+                chiSquare(expected, observed));
     }
-    
+
     /**
      * @param observed array of observed frequency counts
      * @param expected array of exptected frequency counts
@@ -122,12 +127,14 @@ public class TestStatisticImpl implements TestStatistic {
      * 1 - alpha
      * @throws IllegalArgumentException if preconditions are not met
      */
-    public boolean chiSquareTest(double[] expected, double[] observed, 
-        double alpha) 
-        throws IllegalArgumentException {
+    public boolean chiSquareTest(
+        double[] expected,
+        double[] observed,
+        double alpha)
+        throws IllegalArgumentException, MathException {
         if ((alpha <= 0) || (alpha > 0.5)) {
-           throw new IllegalArgumentException
-                ("bad significance level: " + alpha);
+            throw new IllegalArgumentException(
+                "bad significance level: " + alpha);
         }
         return (chiSquareTest(expected, observed) < alpha);
     }
@@ -138,16 +145,18 @@ public class TestStatisticImpl implements TestStatistic {
      * @return t statistic
      * @throws IllegalArgumentException if input array length is less than 5
      */
-    public double t(double mu, double[] observed) 
-    throws IllegalArgumentException {
+    public double t(double mu, double[] observed)
+        throws IllegalArgumentException {
         if ((observed == null) || (observed.length < 5)) {
-            throw new IllegalArgumentException
-                ("insufficient data for t statistic");
+            throw new IllegalArgumentException("insufficient data for t statistic");
         }
-        return t(StatUtils.mean(observed), mu, StatUtils.variance(observed), 
+        return t(
+            StatUtils.mean(observed),
+            mu,
+            StatUtils.variance(observed),
             observed.length);
     }
-    
+
     /**
      * @param mu constant value to compare sample mean against
      * @param sample array of sample data values
@@ -156,32 +165,36 @@ public class TestStatisticImpl implements TestStatistic {
      * @throws IllegalArgumentException if the precondition is not met
      */
     public boolean tTest(double mu, double[] sample, double alpha)
-        throws IllegalArgumentException {
+        throws IllegalArgumentException, MathException {
         if ((alpha <= 0) || (alpha > 0.5)) {
-           throw new IllegalArgumentException
-                ("bad significance level: " + alpha);
-        }   
+            throw new IllegalArgumentException(
+                "bad significance level: " + alpha);
+        }
         return (tTest(mu, sample) < alpha);
     }
-                       
+
     /**
      * @param sample1 array of sample data values
      * @param sample2 array of sample data values
      * @return t-statistic
      * @throws IllegalArgumentException if the precondition is not met
      */
-    public double t(double[] sample1, double[] sample2) 
+    public double t(double[] sample1, double[] sample2)
         throws IllegalArgumentException {
-        if ((sample1 == null) || (sample2 == null || 
-            Math.min(sample1.length, sample2.length) < 5)) {
-            throw new IllegalArgumentException
-                ("insufficient data for t statistic");
+        if ((sample1 == null)
+            || (sample2 == null
+                || Math.min(sample1.length, sample2.length) < 5)) {
+            throw new IllegalArgumentException("insufficient data for t statistic");
         }
-        return t(StatUtils.mean(sample1), StatUtils.mean(sample2), 
-            StatUtils.variance(sample1), StatUtils.variance(sample2), 
-            (double) sample1.length, (double) sample2.length);
+        return t(
+            StatUtils.mean(sample1),
+            StatUtils.mean(sample2),
+            StatUtils.variance(sample1),
+            StatUtils.variance(sample2),
+            (double) sample1.length,
+            (double) sample2.length);
     }
-    
+
     /**
      *
      * @param sample1 array of sample data values
@@ -190,17 +203,21 @@ public class TestStatisticImpl implements TestStatistic {
      * @throws IllegalArgumentException if the precondition is not met
      */
     public double tTest(double[] sample1, double[] sample2)
-        throws IllegalArgumentException  {
-        if ((sample1 == null) || (sample2 == null ||
-        Math.min(sample1.length, sample2.length) < 5)) {
-            throw new IllegalArgumentException
-            ("insufficient data");
+        throws IllegalArgumentException, MathException {
+        if ((sample1 == null)
+            || (sample2 == null
+                || Math.min(sample1.length, sample2.length) < 5)) {
+            throw new IllegalArgumentException("insufficient data");
         }
-        return tTest(StatUtils.mean(sample1), StatUtils.mean(sample2), 
-            StatUtils.variance(sample1), StatUtils.variance(sample2), 
-            (double) sample1.length, (double) sample2.length);      
+        return tTest(
+            StatUtils.mean(sample1),
+            StatUtils.mean(sample2),
+            StatUtils.variance(sample1),
+            StatUtils.variance(sample2),
+            (double) sample1.length,
+            (double) sample2.length);
     }
-    
+
     /**
      * @param sample1 array of sample data values
      * @param sample2 array of sample data values
@@ -210,82 +227,98 @@ public class TestStatisticImpl implements TestStatistic {
      * @throws IllegalArgumentException if the preconditions are not met
      */
     public boolean tTest(double[] sample1, double[] sample2, double alpha)
-        throws IllegalArgumentException {
-       if ((alpha <= 0) || (alpha > 0.5)) {
-           throw new IllegalArgumentException
-                ("bad significance level: " + alpha);
-       }
-       return (tTest(sample1, sample2) < alpha);
+        throws IllegalArgumentException, MathException {
+        if ((alpha <= 0) || (alpha > 0.5)) {
+            throw new IllegalArgumentException(
+                "bad significance level: " + alpha);
+        }
+        return (tTest(sample1, sample2) < alpha);
     }
-    
+
     /**
      * @param mu constant value to compare sample mean against
      * @param sample array of sample data values
      * @return p-value
      * @throws IllegalArgumentException if the precondition is not met
      */
-    public double tTest(double mu, double[] sample) 
-        throws IllegalArgumentException {
+    public double tTest(double mu, double[] sample)
+        throws IllegalArgumentException, MathException {
         if ((sample == null) || (sample.length < 5)) {
-            throw new IllegalArgumentException
-                ("insufficient data for t statistic");
+            throw new IllegalArgumentException("insufficient data for t statistic");
         }
-        return tTest(StatUtils.mean(sample), mu, StatUtils.variance(sample),
+        return tTest(
+            StatUtils.mean(sample),
+            mu,
+            StatUtils.variance(sample),
             sample.length);
     }
-    
+
     /**
      * @param mu comparison constant
      * @param sampleStats DescriptiveStatistics holding sample summary statitstics
      * @return t statistic
      * @throws IllegalArgumentException if the precondition is not met
      */
-    public double t(double mu, DescriptiveStatistics sampleStats) 
+    public double t(double mu, DescriptiveStatistics sampleStats)
         throws IllegalArgumentException {
         if ((sampleStats == null) || (sampleStats.getN() < 5)) {
-            throw new IllegalArgumentException
-                ("insufficient data for t statistic");
+            throw new IllegalArgumentException("insufficient data for t statistic");
         }
-        return t(sampleStats.getMean(), mu, sampleStats.getVariance(), 
+        return t(
+            sampleStats.getMean(),
+            mu,
+            sampleStats.getVariance(),
             sampleStats.getN());
     }
-    
+
     /**
      * @param sampleStats1 DescriptiveStatistics describing data from the first sample
      * @param sampleStats2 DescriptiveStatistics describing data from the second sample
      * @return t statistic
      * @throws IllegalArgumentException if the precondition is not met
      */
-    public double t(DescriptiveStatistics sampleStats1, DescriptiveStatistics sampleStats2) 
+    public double t(
+        DescriptiveStatistics sampleStats1,
+        DescriptiveStatistics sampleStats2)
         throws IllegalArgumentException {
-        if ((sampleStats1 == null) || (sampleStats2 == null || 
-            Math.min(sampleStats1.getN(), sampleStats2.getN()) < 5)) {
-            throw new IllegalArgumentException
-                ("insufficient data for t statistic");
+        if ((sampleStats1 == null)
+            || (sampleStats2 == null
+                || Math.min(sampleStats1.getN(), sampleStats2.getN()) < 5)) {
+            throw new IllegalArgumentException("insufficient data for t statistic");
         }
-        return t(sampleStats1.getMean(), sampleStats2.getMean(), 
-            sampleStats1.getVariance(), sampleStats2.getVariance(), 
-            (double) sampleStats1.getN(), (double) sampleStats2.getN());
+        return t(
+            sampleStats1.getMean(),
+            sampleStats2.getMean(),
+            sampleStats1.getVariance(),
+            sampleStats2.getVariance(),
+            (double) sampleStats1.getN(),
+            (double) sampleStats2.getN());
     }
-    
+
     /**
      * @param sampleStats1 DescriptiveStatistics describing data from the first sample
      * @param sampleStats2 DescriptiveStatistics describing data from the second sample
      * @return p-value for t-test
      * @throws IllegalArgumentException if the precondition is not met
      */
-    public double tTest(DescriptiveStatistics sampleStats1, DescriptiveStatistics sampleStats2)
-        throws IllegalArgumentException {
-        if ((sampleStats1 == null) || (sampleStats2 == null || 
-            Math.min(sampleStats1.getN(), sampleStats2.getN()) < 5)) {
-            throw new IllegalArgumentException
-                ("insufficient data for t statistic");
+    public double tTest(
+        DescriptiveStatistics sampleStats1,
+        DescriptiveStatistics sampleStats2)
+        throws IllegalArgumentException, MathException {
+        if ((sampleStats1 == null)
+            || (sampleStats2 == null
+                || Math.min(sampleStats1.getN(), sampleStats2.getN()) < 5)) {
+            throw new IllegalArgumentException("insufficient data for t statistic");
         }
-         return tTest(sampleStats1.getMean(), sampleStats2.getMean(), 
-            sampleStats1.getVariance(), sampleStats2.getVariance(), 
-            (double) sampleStats1.getN(), (double) sampleStats2.getN());
+        return tTest(
+            sampleStats1.getMean(),
+            sampleStats2.getMean(),
+            sampleStats1.getVariance(),
+            sampleStats2.getVariance(),
+            (double) sampleStats1.getN(),
+            (double) sampleStats2.getN());
     }
-    
+
     /**
      * @param sampleStats1 DescriptiveStatistics describing sample data values
      * @param sampleStats2 DescriptiveStatistics describing sample data values
@@ -294,15 +327,18 @@ public class TestStatisticImpl implements TestStatistic {
      * confidence 1 - alpha
      * @throws IllegalArgumentException if the preconditions are not met
      */
-    public boolean tTest(DescriptiveStatistics sampleStats1, DescriptiveStatistics sampleStats2, 
-    double alpha) throws IllegalArgumentException {
+    public boolean tTest(
+        DescriptiveStatistics sampleStats1,
+        DescriptiveStatistics sampleStats2,
+        double alpha)
+        throws IllegalArgumentException, MathException {
         if ((alpha <= 0) || (alpha > 0.5)) {
-            throw new IllegalArgumentException
-                ("bad significance level: " + alpha);
+            throw new IllegalArgumentException(
+                "bad significance level: " + alpha);
         }
         return (tTest(sampleStats1, sampleStats2) < alpha);
     }
-    
+
     /**
      * @param mu constant value to compare sample mean against
      * @param sampleStats DescriptiveStatistics describing sample data values
@@ -310,15 +346,18 @@ public class TestStatisticImpl implements TestStatistic {
      * @return p-value
      * @throws IllegalArgumentException if the precondition is not met
      */
-    public boolean tTest(double mu, DescriptiveStatistics sampleStats, double alpha)
-        throws IllegalArgumentException {
+    public boolean tTest(
+        double mu,
+        DescriptiveStatistics sampleStats,
+        double alpha)
+        throws IllegalArgumentException, MathException {
         if ((alpha <= 0) || (alpha > 0.5)) {
-           throw new IllegalArgumentException
-                ("bad significance level: " + alpha);
-        }   
+            throw new IllegalArgumentException(
+                "bad significance level: " + alpha);
+        }
         return (tTest(mu, sampleStats) < alpha);
     }
-    
+
     /**
      * @param mu constant value to compare sample mean against
      * @param sampleStats DescriptiveStatistics describing sample data
@@ -326,17 +365,19 @@ public class TestStatisticImpl implements TestStatistic {
      * @throws IllegalArgumentException if the precondition is not met
      */
     public double tTest(double mu, DescriptiveStatistics sampleStats)
-        throws IllegalArgumentException {
+        throws IllegalArgumentException, MathException {
         if ((sampleStats == null) || (sampleStats.getN() < 5)) {
-            throw new IllegalArgumentException
-                ("insufficient data for t statistic");
+            throw new IllegalArgumentException("insufficient data for t statistic");
         }
-        return tTest(sampleStats.getMean(), mu, sampleStats.getVariance(),
+        return tTest(
+            sampleStats.getMean(),
+            mu,
+            sampleStats.getVariance(),
             sampleStats.getN());
     }
-    
+
     //----------------------------------------------- Private methods 
-    
+
     /**
      * Computes approximate degrees of freedom for 2-sample t-test.
      * 
@@ -347,27 +388,32 @@ public class TestStatisticImpl implements TestStatistic {
      * @return approximate degrees of freedom
      */
     private double df(double v1, double v2, double n1, double n2) {
-        return (((v1 / n1) + (v2 / n2)) * ((v1 / n1) + (v2 / n2))) /
-            ((v1 * v1) / (n1 * n1 * (n1 - 1d)) + 
-                (v2 * v2) / (n2 * n2 * (n2 - 1d)));       
+        return (((v1 / n1) + (v2 / n2)) * ((v1 / n1) + (v2 / n2)))
+            / ((v1 * v1) / (n1 * n1 * (n1 - 1d))
+                + (v2 * v2) / (n2 * n2 * (n2 - 1d)));
     }
-    
-     /**
-     * Computes t test statistic for 2-sample t-test.
-     * 
-     * @param m1 first sample mean
-     * @param m2 second sample mean
-     * @param v1 first sample variance
-     * @param v2 second sample variance
-     * @param n1 first sample n
-     * @param n2 second sample n
-     * @return t test statistic
-     */
-    private double t(double m1, double m2, double v1, double v2, double n1, 
+
+    /**
+    * Computes t test statistic for 2-sample t-test.
+    * 
+    * @param m1 first sample mean
+    * @param m2 second sample mean
+    * @param v1 first sample variance
+    * @param v2 second sample variance
+    * @param n1 first sample n
+    * @param n2 second sample n
+    * @return t test statistic
+    */
+    private double t(
+        double m1,
+        double m2,
+        double v1,
+        double v2,
+        double n1,
         double n2) {
         return (m1 - m2) / Math.sqrt((v1 / n1) + (v2 / n2));
     }
-    
+
     /**
      * Computes t test statistic for 1-sample t-test.
      * 
@@ -380,7 +426,7 @@ public class TestStatisticImpl implements TestStatistic {
     private double t(double m, double mu, double v, double n) {
         return (m - mu) / Math.sqrt(v / n);
     }
-    
+
     /**
      * Computes p-value for 2-sided, 2-sample t-test.
      * 
@@ -392,15 +438,21 @@ public class TestStatisticImpl implements TestStatistic {
      * @param n2 second sample n
      * @return p-value
      */
-    private double tTest(double m1, double m2, double v1, double v2, double n1, 
-        double n2) {
+    private double tTest(
+        double m1,
+        double m2,
+        double v1,
+        double v2,
+        double n1,
+        double n2)
+        throws MathException {
         double t = Math.abs(t(m1, m2, v1, v2, n1, n2));
-        TDistribution tDistribution = 
-            DistributionFactory.newInstance().createTDistribution
-                (df(v1, v2, n1, n2));
-        return 1.0 - tDistribution.cummulativeProbability(-t, t); 
+        TDistribution tDistribution =
+            DistributionFactory.newInstance().createTDistribution(
+                df(v1, v2, n1, n2));
+        return 1.0 - tDistribution.cummulativeProbability(-t, t);
     }
-    
+
     /**
      * Computes p-value for 2-sided, 1-sample t-test.
      * 
@@ -410,11 +462,11 @@ public class TestStatisticImpl implements TestStatistic {
      * @param n sample n
      * @return p-value
      */
-    private double tTest(double m, double mu, double v, double n) {
-    double t = Math.abs(t(m, mu, v, n)); 
-        TDistribution tDistribution = 
-            DistributionFactory.newInstance().createTDistribution
-                (n - 1);
+    private double tTest(double m, double mu, double v, double n)
+        throws MathException {
+        double t = Math.abs(t(m, mu, v, n));
+        TDistribution tDistribution =
+            DistributionFactory.newInstance().createTDistribution(n - 1);
         return 1.0 - tDistribution.cummulativeProbability(-t, t);
-    }          
+    }
 }

@@ -53,13 +53,17 @@
  */
 package org.apache.commons.math.distribution;
 
+import java.io.Serializable;
+
+import org.apache.commons.math.MathException;
+
 /**
  * The default implementation of {@link ExponentialDistribution}
  * 
- * @version $Revision: 1.9 $ $Date: 2003/11/15 16:01:36 $
+ * @version $Revision: 1.10 $ $Date: 2003/11/19 03:22:53 $
  */
 public class ExponentialDistributionImpl
-    implements ExponentialDistribution {
+    implements ExponentialDistribution, Serializable  {
 
     /** The mean of this distribution. */
     private double mean;
@@ -105,7 +109,7 @@ public class ExponentialDistributionImpl
      * @param x the value at which the CDF is evaluated.
      * @return CDF for this distribution.
      */
-    public double cummulativeProbability(double x) {
+    public double cummulativeProbability(double x) throws MathException{
         double ret;
         if (x <= 0.0) {
             ret = 0.0;
@@ -122,7 +126,7 @@ public class ExponentialDistributionImpl
      * @param p the desired probability
      * @return x, such that P(X &lt; x) = <code>p</code>
      */
-    public double inverseCummulativeProbability(double p) {
+    public double inverseCummulativeProbability(double p) throws MathException{
         double ret;
         
         if (p < 0.0 || p > 1.0) {
@@ -142,7 +146,7 @@ public class ExponentialDistributionImpl
      * @param x1 the upper bound
      * @return the cummulative probability. 
      */
-    public double cummulativeProbability(double x0, double x1) {
+    public double cummulativeProbability(double x0, double x1) throws MathException{
         return cummulativeProbability(x1) - cummulativeProbability(x0);
     }
 }

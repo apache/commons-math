@@ -53,14 +53,16 @@
  */
 package org.apache.commons.math.distribution;
 
+import org.apache.commons.math.MathException;
+
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.7 $ $Date: 2003/11/15 16:01:40 $
+ * @version $Revision: 1.8 $ $Date: 2003/11/19 03:22:54 $
  */
 public class FDistributionTest extends TestCase {
     private FDistribution f;
-    
+
     /**
      * Constructor for ChiSquareDistributionTest.
      * @param name
@@ -85,41 +87,51 @@ public class FDistributionTest extends TestCase {
         super.tearDown();
     }
 
-    public void testLowerTailProbability(){
+    public void testLowerTailProbability() {
         testProbability(1.0 / 10.67, .010);
-        testProbability(1.0 /  6.98, .025);
-        testProbability(1.0 /  4.95, .050);
-        testProbability(1.0 /  3.40, .100);
+        testProbability(1.0 / 6.98, .025);
+        testProbability(1.0 / 4.95, .050);
+        testProbability(1.0 / 3.40, .100);
     }
 
-    public void testUpperTailProbability(){
+    public void testUpperTailProbability() {
         testProbability(8.75, .990);
         testProbability(5.99, .975);
         testProbability(4.39, .950);
         testProbability(3.11, .900);
     }
-    
-    public void testLowerTailValues(){
+
+    public void testLowerTailValues() {
         testValue(1.0 / 10.67, .010);
-        testValue(1.0 /  6.98, .025);
-        testValue(1.0 /  4.95, .050);
-        testValue(1.0 /  3.40, .100);
+        testValue(1.0 / 6.98, .025);
+        testValue(1.0 / 4.95, .050);
+        testValue(1.0 / 3.40, .100);
     }
-    
-    public void testUpperTailValues(){
+
+    public void testUpperTailValues() {
         testValue(8.75, .990);
         testValue(5.99, .975);
         testValue(4.39, .950);
         testValue(3.11, .900);
     }
-    
-    private void testProbability(double x, double expected){
-        double actual = f.cummulativeProbability(x);
-        assertEquals("probability for " + x, expected, actual, 1e-3);
+
+    private void testProbability(double x, double expected) {
+        try {
+            double actual = f.cummulativeProbability(x);
+            assertEquals("probability for " + x, expected, actual, 1e-3);
+        } catch (MathException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
-    
-    private void testValue(double expected, double p){
-        double actual = f.inverseCummulativeProbability(p);
-        assertEquals("value for " + p, expected, actual, 1e-2);
+
+    private void testValue(double expected, double p) {
+        try {
+            double actual = f.inverseCummulativeProbability(p);
+            assertEquals("value for " + p, expected, actual, 1e-2);
+        } catch (MathException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }

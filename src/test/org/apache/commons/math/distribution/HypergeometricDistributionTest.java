@@ -54,14 +54,16 @@
 
 package org.apache.commons.math.distribution;
 
+import org.apache.commons.math.MathException;
+
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.6 $ $Date: 2003/11/15 16:01:40 $
+ * @version $Revision: 1.7 $ $Date: 2003/11/19 03:22:54 $
  */
 public class HypergeometricDistributionTest extends TestCase {
     private HypergeometricDistribution h;
-    
+
     /**
      * Constructor for ChiSquareDistributionTest.
      * @param name
@@ -75,7 +77,11 @@ public class HypergeometricDistributionTest extends TestCase {
      */
     protected void setUp() throws Exception {
         super.setUp();
-        h = DistributionFactory.newInstance().createHypergeometricDistribution(10, 5, 5);
+        h =
+            DistributionFactory.newInstance().createHypergeometricDistribution(
+                10,
+                5,
+                5);
     }
 
     /*
@@ -89,11 +95,11 @@ public class HypergeometricDistributionTest extends TestCase {
     public void testInverseCummulativeProbability001() {
         testValue(-1, .001);
     }
-    
+
     public void testInverseCumulativeProbability010() {
         testValue(0, .010);
     }
-    
+
     public void testInverseCumulativeProbability025() {
         testValue(0, .025);
     }
@@ -101,7 +107,7 @@ public class HypergeometricDistributionTest extends TestCase {
     public void testInverseCumulativeProbability050() {
         testValue(0, .050);
     }
-    
+
     public void testInverseCumulativeProbability100() {
         testValue(0, .100);
     }
@@ -109,11 +115,11 @@ public class HypergeometricDistributionTest extends TestCase {
     public void testInverseCummulativeProbability999() {
         testValue(4, .999);
     }
-    
+
     public void testInverseCumulativeProbability990() {
         testValue(3, .990);
     }
-    
+
     public void testInverseCumulativeProbability975() {
         testValue(3, .975);
     }
@@ -121,7 +127,7 @@ public class HypergeometricDistributionTest extends TestCase {
     public void testInverseCumulativeProbability950() {
         testValue(3, .950);
     }
-    
+
     public void testInverseCumulativeProbability900() {
         testValue(3, .900);
     }
@@ -133,11 +139,11 @@ public class HypergeometricDistributionTest extends TestCase {
     public void testCummulativeProbability1() {
         testProbability(1, .10318);
     }
-    
+
     public void testCumulativeProbability2() {
         testProbability(2, .50000);
     }
-    
+
     public void testCumulativeProbability3() {
         testProbability(3, .89683);
     }
@@ -145,20 +151,30 @@ public class HypergeometricDistributionTest extends TestCase {
     public void testCumulativeProbability4() {
         testProbability(4, .99603);
     }
-    
+
     public void testCumulativeProbability5() {
         testProbability(5, 1.00000);
     }
 
-    private void testProbability(int x, double expected){
-        double actual = h.cummulativeProbability(x);
-        assertEquals(expected, actual, 10e-4);
+    private void testProbability(int x, double expected) {
+        try {
+            double actual = h.cummulativeProbability(x);
+            assertEquals(expected, actual, 10e-4);
+        } catch (MathException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
-    
-    private void testValue(int expected, double p){
-        int actual = h.inverseCummulativeProbability(p);
-        assertEquals(expected, actual);
-        assertTrue(h.cummulativeProbability(actual) <= p);
-        assertTrue(h.cummulativeProbability(actual + 1) >= p);
+
+    private void testValue(int expected, double p) {
+        try {
+            int actual = h.inverseCummulativeProbability(p);
+            assertEquals(expected, actual);
+            assertTrue(h.cummulativeProbability(actual) <= p);
+            assertTrue(h.cummulativeProbability(actual + 1) >= p);
+        } catch (MathException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }

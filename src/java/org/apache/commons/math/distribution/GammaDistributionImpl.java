@@ -53,16 +53,18 @@
  */
 package org.apache.commons.math.distribution;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.special.Gamma;
 
 /**
  * The default implementation of {@link GammaDistribution}
  * 
- * @version $Revision: 1.13 $ $Date: 2003/11/15 18:59:10 $
+ * @version $Revision: 1.14 $ $Date: 2003/11/19 03:22:53 $
  */
 public class GammaDistributionImpl extends AbstractContinuousDistribution
-    implements GammaDistribution {
+    implements GammaDistribution, Serializable  {
 
     /** The shape parameter. */
     private double alpha;
@@ -96,17 +98,13 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
      * @param x the value at which the CDF is evaluated.
      * @return CDF for this distribution. 
      */
-    public double cummulativeProbability(double x) {
+    public double cummulativeProbability(double x) throws MathException{
         double ret;
     
         if (x <= 0.0) {
             ret = 0.0;
         } else {
-            try {
-                ret = Gamma.regularizedGammaP(getAlpha(), x / getBeta());
-            } catch(MathException ex){
-                ret = Double.NaN;
-            }
+            ret = Gamma.regularizedGammaP(getAlpha(), x / getBeta());
         }
     
         return ret;

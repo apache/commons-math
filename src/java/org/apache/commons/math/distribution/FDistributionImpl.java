@@ -53,6 +53,8 @@
  */
 package org.apache.commons.math.distribution;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.special.Beta;
 
@@ -60,11 +62,11 @@ import org.apache.commons.math.special.Beta;
  * Default implementation of
  * {@link org.apache.commons.math.distribution.FDistribution}.
  * 
- * @version $Revision: 1.10 $ $Date: 2003/11/15 18:59:10 $
+ * @version $Revision: 1.11 $ $Date: 2003/11/19 03:22:53 $
  */
 public class FDistributionImpl
     extends AbstractContinuousDistribution
-    implements FDistribution {
+    implements FDistribution, Serializable  {
 
     /** The numerator degrees of freedom*/
     private double numeratorDegreesOfFreedom;
@@ -97,7 +99,7 @@ public class FDistributionImpl
      * @param x the value at which the CDF is evaluated.
      * @return CDF for this distribution. 
      */
-    public double cummulativeProbability(double x) {
+    public double cummulativeProbability(double x) throws MathException {
         double ret;
         if (x <= 0.0) {
             ret = 0.0;
@@ -105,13 +107,9 @@ public class FDistributionImpl
             double n = getNumeratorDegreesOfFreedom();
             double m = getDenominatorDegreesOfFreedom();
             
-            try {
-                ret = Beta.regularizedBeta((n * x) / (m + n * x),
-                    0.5 * n,
-                    0.5 * m);
-            } catch (MathException ex) {
-                ret = Double.NaN;
-            }
+            ret = Beta.regularizedBeta((n * x) / (m + n * x),
+                0.5 * n,
+                0.5 * m);
         }
         return ret;
     }

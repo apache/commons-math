@@ -53,13 +53,15 @@
  */
 package org.apache.commons.math.distribution;
 
+import org.apache.commons.math.MathException;
+
 
 /**
  * Base class for various discrete distributions.  It provides default
  * implementations for some of the methods that do not vary from distribution
  * to distribution.
  *  
- * @version $Revision: 1.7 $ $Date: 2003/11/15 16:01:35 $
+ * @version $Revision: 1.8 $ $Date: 2003/11/19 03:22:53 $
  */
 public abstract class AbstractDiscreteDistribution
     implements DiscreteDistribution {
@@ -77,7 +79,7 @@ public abstract class AbstractDiscreteDistribution
      * @param x1 the inclusive, upper bound
      * @return the cummulative probability. 
      */
-    public double cummulativeProbability(int x0, int x1) {
+    public double cummulativeProbability(int x0, int x1) throws MathException{
         return cummulativeProbability(x1) - 
             cummulativeProbability(x0 - 1);
     }
@@ -89,7 +91,7 @@ public abstract class AbstractDiscreteDistribution
      * @param p the desired probability
      * @return x, such that P(X &lt; x) = <code>p</code>
      */
-    public int inverseCummulativeProbability(final double p) {
+    public int inverseCummulativeProbability(final double p) throws MathException{
         if (p < 0.0 || p > 1.0) {
             throw new IllegalArgumentException(
                 "p must be between 0.0 and 1.0, inclusive.");

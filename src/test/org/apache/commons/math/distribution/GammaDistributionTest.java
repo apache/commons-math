@@ -54,34 +54,58 @@
 
 package org.apache.commons.math.distribution;
 
+import org.apache.commons.math.MathException;
+
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.10 $ $Date: 2003/11/15 16:01:40 $
+ * @version $Revision: 1.11 $ $Date: 2003/11/19 03:22:54 $
  */
 public class GammaDistributionTest extends TestCase {
-    public void testProbabilities(){
+    public void testProbabilities() {
         testProbability(-1.000, 4.0, 2.0, .0000);
         testProbability(15.501, 4.0, 2.0, .9499);
-        testProbability( 0.504, 4.0, 1.0, .0018);
+        testProbability(0.504, 4.0, 1.0, .0018);
         testProbability(10.011, 1.0, 2.0, .9933);
-        testProbability( 5.000, 2.0, 2.0, .7127);
-    }
-    
-    public void testValues(){
-        testValue(15.501, 4.0, 2.0, .9499);
-        testValue( 0.504, 4.0, 1.0, .0018);
-        testValue(10.011, 1.0, 2.0, .9933);
-        testValue( 5.000, 2.0, 2.0, .7127);
-    }
-            
-    private void testProbability(double x, double a, double b, double expected){
-        double actual = DistributionFactory.newInstance().createGammaDistribution(a, b).cummulativeProbability(x);
-        assertEquals("probability for " + x, expected, actual, 10e-4);
+        testProbability(5.000, 2.0, 2.0, .7127);
     }
 
-    private void testValue(double expected, double a, double b, double p){
-        double actual = DistributionFactory.newInstance().createGammaDistribution(a, b).inverseCummulativeProbability(p);
-        assertEquals("critical value for " + p, expected, actual, 10e-4);
+    public void testValues() {
+        testValue(15.501, 4.0, 2.0, .9499);
+        testValue(0.504, 4.0, 1.0, .0018);
+        testValue(10.011, 1.0, 2.0, .9933);
+        testValue(5.000, 2.0, 2.0, .7127);
+    }
+
+    private void testProbability(
+        double x,
+        double a,
+        double b,
+        double expected) {
+        try {
+            double actual =
+                DistributionFactory
+                    .newInstance()
+                    .createGammaDistribution(a, b)
+                    .cummulativeProbability(x);
+            assertEquals("probability for " + x, expected, actual, 10e-4);
+        } catch (MathException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    private void testValue(double expected, double a, double b, double p) {
+        try {
+            double actual =
+                DistributionFactory
+                    .newInstance()
+                    .createGammaDistribution(a, b)
+                    .inverseCummulativeProbability(p);
+            assertEquals("critical value for " + p, expected, actual, 10e-4);
+        } catch (MathException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }

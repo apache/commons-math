@@ -53,14 +53,16 @@
  */
 package org.apache.commons.math.distribution;
 
+import java.io.Serializable;
+
 
 /**
  * A concrete distribution factory.  This is the default factory used by
  * Commons-Math.
  *  
- * @version $Revision: 1.15 $ $Date: 2003/11/15 16:01:36 $
+ * @version $Revision: 1.16 $ $Date: 2003/11/19 03:22:53 $
  */
-public class DistributionFactoryImpl extends DistributionFactory {
+public class DistributionFactoryImpl extends DistributionFactory implements Serializable  {
     /**
      * Default constructor.  Package scope to prevent unwanted instantiation. 
      */

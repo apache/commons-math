@@ -54,15 +54,18 @@
 
 package org.apache.commons.math.distribution;
 
+import java.io.Serializable;
+
+import org.apache.commons.math.MathException;
 import org.apache.commons.math.util.MathUtils;
 
 /**
  * The default implementation of {@link HypergeometricDistribution}.
  * 
- * @version $Revision: 1.6 $ $Date: 2003/11/15 16:01:36 $
+ * @version $Revision: 1.7 $ $Date: 2003/11/19 03:22:53 $
  */
 public class HypergeometricDistributionImpl extends AbstractDiscreteDistribution
-    implements HypergeometricDistribution
+    implements HypergeometricDistribution, Serializable 
 {
 
     /** The number of successes in the population. */
@@ -95,7 +98,7 @@ public class HypergeometricDistributionImpl extends AbstractDiscreteDistribution
      * @param x the value at which the PDF is evaluated.
      * @return PDF for this distribution. 
      */
-    public double cummulativeProbability(int x) {
+    public double cummulativeProbability(int x) throws MathException{
         double ret;
         
         int n = getPopulationSize();

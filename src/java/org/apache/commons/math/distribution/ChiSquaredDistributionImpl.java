@@ -53,14 +53,18 @@
  */
 package org.apache.commons.math.distribution;
 
+import java.io.Serializable;
+
+import org.apache.commons.math.MathException;
+
 /**
  * The default implementation of {@link ChiSquaredDistribution}
  * 
- * @version $Revision: 1.10 $ $Date: 2003/11/15 16:01:35 $
+ * @version $Revision: 1.11 $ $Date: 2003/11/19 03:22:53 $
  */
 public class ChiSquaredDistributionImpl
     extends AbstractContinuousDistribution
-    implements ChiSquaredDistribution {
+    implements ChiSquaredDistribution, Serializable  {
     
     /** Internal Gamma distribution. */    
     private GammaDistribution gamma;
@@ -96,7 +100,7 @@ public class ChiSquaredDistributionImpl
      * @param x the value at which the CDF is evaluated.
      * @return CDF for this distribution. 
      */
-    public double cummulativeProbability(double x) {
+    public double cummulativeProbability(double x) throws MathException {
         return getGamma().cummulativeProbability(x);
     }
         

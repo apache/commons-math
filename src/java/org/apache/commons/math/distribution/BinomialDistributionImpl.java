@@ -53,6 +53,8 @@
  */
 package org.apache.commons.math.distribution;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.special.Beta;
 import org.apache.commons.math.util.MathUtils;
@@ -60,17 +62,18 @@ import org.apache.commons.math.util.MathUtils;
 /**
  * The default implementation of {@link BinomialDistribution}.
  * 
- * @version $Revision: 1.7 $ $Date: 2003/11/15 18:59:10 $
+ * @version $Revision: 1.8 $ $Date: 2003/11/19 03:22:53 $
  */
-public class BinomialDistributionImpl extends AbstractDiscreteDistribution
-    implements BinomialDistribution {
+public class BinomialDistributionImpl
+    extends AbstractDiscreteDistribution
+    implements BinomialDistribution, Serializable {
 
     /** The number of trials. */
     private int numberOfTrials;
-    
+
     /** The probability of success. */
     private double probabilityOfSuccess;
-    
+
     /**
      * Create a binomial distribution with the given number of trials and
      * probability of success.
@@ -82,7 +85,7 @@ public class BinomialDistributionImpl extends AbstractDiscreteDistribution
         setNumberOfTrials(trials);
         setProbabilityOfSuccess(p);
     }
-    
+
     /**
      * Access the number of trials for this distribution.
      * @return the number of trials.
@@ -105,8 +108,7 @@ public class BinomialDistributionImpl extends AbstractDiscreteDistribution
      */
     public void setNumberOfTrials(int trials) {
         if (trials < 0) {
-            throw new IllegalArgumentException(
-                "number of trials must be non-negative.");
+            throw new IllegalArgumentException("number of trials must be non-negative.");
         }
         numberOfTrials = trials;
     }
@@ -117,12 +119,11 @@ public class BinomialDistributionImpl extends AbstractDiscreteDistribution
      */
     public void setProbabilityOfSuccess(double p) {
         if (p < 0.0 || p > 1.0) {
-            throw new IllegalArgumentException(
-                "probability of success must be between 0.0 and 1.0, inclusive.");
+            throw new IllegalArgumentException("probability of success must be between 0.0 and 1.0, inclusive.");
         }
         probabilityOfSuccess = p;
     }
-    
+
     /**
      * Access the domain value lower bound, based on <code>p</code>, used to
      * bracket a PDF root.
@@ -152,19 +153,19 @@ public class BinomialDistributionImpl extends AbstractDiscreteDistribution
      * @param x the value at which the PDF is evaluated.
      * @return PDF for this distribution. 
      */
-    public double cummulativeProbability(int x) {
+    public double cummulativeProbability(int x) throws MathException {
         double ret;
         if (x < 0) {
             ret = 0.0;
         } else if (x >= getNumberOfTrials()) {
             ret = 1.0;
         } else {
-            try {
-                ret = 1.0 - Beta.regularizedBeta(getProbabilityOfSuccess(),
-                    x + 1.0, getNumberOfTrials() - x);
-            } catch (MathException ex) {
-                ret = Double.NaN;
-            }
+            ret =
+                1.0
+                    - Beta.regularizedBeta(
+                        getProbabilityOfSuccess(),
+                        x + 1.0,
+                        getNumberOfTrials() - x);
         }
         return ret;
     }
@@ -179,10 +180,12 @@ public class BinomialDistributionImpl extends AbstractDiscreteDistribution
         if (x < 0 || x > getNumberOfTrials()) {
             ret = 0.0;
         } else {
-            ret = MathUtils.binomialCoefficientDouble(getNumberOfTrials(), x) *
-                Math.pow(getProbabilityOfSuccess(), x) *
-                Math.pow(1.0 - getProbabilityOfSuccess(),
-                    getNumberOfTrials() - x);
+            ret =
+                MathUtils.binomialCoefficientDouble(getNumberOfTrials(), x)
+                    * Math.pow(getProbabilityOfSuccess(), x)
+                    * Math.pow(
+                        1.0 - getProbabilityOfSuccess(),
+                        getNumberOfTrials() - x);
         }
         return ret;
     }

@@ -53,10 +53,12 @@
  */
 package org.apache.commons.math.distribution;
 
+import org.apache.commons.math.MathException;
+
 /**
  * Base interface for various continuous distributions.
  * 
- * @version $Revision: 1.8 $ $Date: 2003/11/15 16:01:35 $
+ * @version $Revision: 1.9 $ $Date: 2003/11/19 03:22:53 $
  */
 public interface ContinuousDistribution {
     /**
@@ -64,7 +66,7 @@ public interface ContinuousDistribution {
      * @param x the value at which the CDF is evaluated.
      * @return CDF for this distribution. 
      */
-    double cummulativeProbability(double x);
+    double cummulativeProbability(double x) throws MathException;
 
     /**
      * For this disbution, X, this method returns P(x0 &lt; X &lt; x1).
@@ -72,12 +74,12 @@ public interface ContinuousDistribution {
      * @param x1 the upper bound
      * @return the cummulative probability. 
      */
-    double cummulativeProbability(double x0, double x1);
+    double cummulativeProbability(double x0, double x1) throws MathException;
     
     /**
      * For this disbution, X, this method returns x such that P(X &lt; x) = p.
      * @param p the cummulative probability.
      * @return x. 
      */
-    double inverseCummulativeProbability(double p);
+    double inverseCummulativeProbability(double p) throws MathException;
 }
