@@ -15,26 +15,28 @@
  */
 package org.apache.commons.math.util;
 
+import java.beans.Expression;
 import java.lang.reflect.InvocationTargetException;
 import org.apache.commons.math.MathException;
-import org.apache.commons.beanutils.PropertyUtils;
 
 /**
  * Uses PropertyUtils to map a Bean getter to a double value.
- * @version $Revision: 1.4 $ $Date: 2004/02/21 21:35:18 $
+ * @version $Revision: 1.5 $ $Date: 2004/06/01 23:21:32 $
  */
 public class BeanTransformer implements NumberTransformer {
 
     /**
      * The propertyName for this Transformer
      */
-    private String propertyName;
+    private String propertyName = null;
+    
+    private String propertyGetter = null;
 
     /**
      * Create a BeanTransformer
      */
     public BeanTransformer() {
-        this(null);
+        super();
     }
 
     /**
@@ -59,21 +61,32 @@ public class BeanTransformer implements NumberTransformer {
      * @param string The string to set the property to.
      */
     public void setPropertyName(final String string) {
-        propertyName = string;
+        this.propertyName = string;
+        this.propertyGetter = "get" + string.substring(0,1).toUpperCase() + string.substring(1);
     }
 
+    
     /**
      * @see org.apache.commons.math.util.NumberTransformer#transform(java.lang.Object)
      */
     public double transform(final Object o) throws MathException {
+        Expression expr = new Expression(o, propertyGetter, new Object[0]);
+        Object result;
         try {
-			return ((Number) PropertyUtils.getProperty(o, getPropertyName())).doubleValue();
+            expr.execute();
+            result = expr.getValue();
         } catch (IllegalAccessException e) {
 			throw new MathException("IllegalAccessException in Transformation: " + e.getMessage(), e);
         } catch (InvocationTargetException e) {
 			throw new MathException("InvocationTargetException in Transformation: " + e.getMessage(), e);
         } catch (NoSuchMethodException e) {
-			throw new MathException("oSuchMethodException in Transformation: " + e.getMessage(), e);
+			throw new MathException("NoSuchMethodException in Transformation: " + e.getMessage(), e);
+        } catch (ClassCastException e) {
+            throw new MathException("ClassCastException in Transformation: " + e.getMessage(), e);
+        } catch (Exception e) {
+            throw new MathException("Exception in Transformation: " + e.getMessage(), e);
         }
+        
+        return ((Number) result).doubleValue();
     }
 }

@@ -22,7 +22,7 @@ import org.apache.commons.math.TestUtils;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.11 $ $Date: 2004/05/23 21:34:19 $
+ * @version $Revision: 1.12 $ $Date: 2004/06/01 23:21:32 $
  */
 public class BeanTransformerTest extends TestCase {
     
@@ -79,7 +79,6 @@ public class BeanTransformerTest extends TestCase {
     }
     
     /**
-     * 
      */
     public void testTransformInvalidType() throws Exception {
         BeanTransformer b = new BeanTransformer("y");
