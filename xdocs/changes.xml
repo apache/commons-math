@@ -55,25 +55,26 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action dev="psteitz" type="update" due-to="Kim van der Linde" issue="30897 ">
         Added subMatrix and matrix-valued row and column accessor methods to 
-        RealMatrix interface and RealMatrixImpl.
+        RealMatrix, BigMatrix interfaces and RealMatrixImpl, BigMatrixImpl.
       </action>
       <action dev="psteitz" type="update">
-        Implemented equals and hashCode in RealMatrixImpl.
+        Implemented equals and hashCode in RealMatrixImpl and BigMatrixImpl.
       </action>
       <action dev="psteitz" type="fix">
-        Fixed RealMatrixImpl toString method to handle empty matrix.
+        Fixed RealMatrixImpl, BigMatrixImpl toString methods to handle empty matrix.
       </action>
       <action dev="psteitz" type="update">
         Added support for "population" variance and standard deviation in
         Variance (resp. StandardDeviation) classes.
       </action>
       <action dev="psteitz" type="update">
-        Removed data mutators from RealMatrix interface and RealMatrixImpl.
-        RealMatrix instances are now immutable.
+        Removed data mutators from RealMatrix, BigMatrix interfaces and
+        RealMatrixImpl, BigMatrixImpl.  RealMatrix and BigMatrix instances
+        are now immutable.
       </action>
       <action dev="psteitz" type="update">
-        Added MatrixUtils class, including static factory methods to create matrices
-        from double[] or double[][] arrays.
+        Added MatrixUtils class, including static factory methods to create
+        RealMatrix and BigMatrix instances from arrays of various types.
       </action>
       <action dev="psteitz" type="fix" due-to="Fredrik Norin" issue="31687">
         Changed factorial methods to return 1 for argument = 0, instead of
