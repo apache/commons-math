@@ -37,8 +37,15 @@ The <action> type attribute can be add,update,fix,remove.
     <title>Commons Math Release Notes</title>
   </properties>
   <body>
-
-    <release version="1.0-RC2" date="2004-11-07">
+    <release version="1.0" date="2004-12-06"  
+       description="Jakarta Commons Math 1.0 - General Availability Release">
+      <action dev="psteitz" type="fix" due-to="Hans van der Heijden" issue="32531">
+        Fixed error in ChiSquareTestImpl.  Tables containing zeros were (incorrectly)
+        causing IllegalArgumentExceptions to be thrown.
+      </action>
+    </release>  
+    <release version="1.0-RC2" date="2004-11-07"
+       description="Jakarta Commons Math 1.0 - Release Candidate 2">
       <action dev="psteitz" type="fix">
         Fixed cumulative frequency and cumulative percentage problem reported
         to the commons-dev list by Jon Langlois on 9/14. Integer arguments to 
@@ -99,15 +106,19 @@ The <action> type attribute can be add,update,fix,remove.
         BigMatrixImpl add, multiply, solve and subtract operations.
       </action>
     </release>
-    31713
     
-    <release version="1.0-RC1" date="2004-09-07">
+    <release version="1.0-RC1" date="2004-09-07" 
+      description="Jakarta Commons Math 1.0 - Release Candidate 1">
       <action type="add">
         This is the first release of Commons Math. Commons Math is a library
         of lightweight, self-contained mathematics and statistics components. 
         The release candidate is being made available so that users can test
         the release and provide feedback.
-      </action>    
+      </action>  
+      <action dev="psteitz" type="fix" due-to="Hans van der Heijden" issue="32531">
+        Fixed error in ChiSquareTestImpl.  Tables containing zeros were (incorrectly)
+        causing IllegalArgumentExceptions to be thrown.
+      </action>  
     </release>
     
   </body>
