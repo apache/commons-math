@@ -19,22 +19,31 @@ package org.apache.commons.math.complex;
 import org.apache.commons.math.util.MathUtils;
 
 /**
- * Reference:
- *   http://myweb.lmu.edu/dmsmith/ZMLIB.pdf
+ * Implementations of various transcendental functions for
+ * {@link org.apache.commons.math.complex.Complex} arguments.
  * 
- * @version $Revision: 1.7 $ $Date: 2004/02/21 21:35:14 $
+ * Reference:
+ * <ul>
+ * <li><a href="http://myweb.lmu.edu/dmsmith/ZMLIB.pdf">
+ * Multiple Precision Complex Arithmetic and Functions</a></li>
+ * </ul>
+ * 
+ * @version $Revision: 1.8 $ $Date: 2004/04/23 18:51:03 $
  */
 public class ComplexMath {
     
     /**
-     * 
+     * Default constructor.
      */
     private ComplexMath() {
         super();
     }
     
     /**
-     * 
+     * Compute the <a href="http://mathworld.wolfram.com/InverseCosine.html">
+     * inverse cosine</a> for the given complex argument.
+     * @param z the value whose inverse cosine is to be returned.
+     * @return the inverse cosine of <code>z</code>.
      */
     public static Complex acos(Complex z) {
         if (z.isNaN()) {
@@ -46,7 +55,10 @@ public class ComplexMath {
     }
     
     /**
-     * 
+     * Compute the <a href="http://mathworld.wolfram.com/InverseSine.html">
+     * inverse sine</a> for the given complex argument.
+     * @param z the value whose inverse sine is to be returned.
+     * @return the inverse sine of <code>z</code>.
      */
     public static Complex asin(Complex z) {
         if (z.isNaN()) {
@@ -58,7 +70,10 @@ public class ComplexMath {
     }
     
     /**
-     * 
+     * Compute the <a href="http://mathworld.wolfram.com/InverseTangent.html">
+     * inverse tangent</a> for the given complex argument.
+     * @param z the value whose inverse tangent is to be returned.
+     * @return the inverse tangent of <code>z</code>.
      */
     public static Complex atan(Complex z) {
         if (z.isNaN()) {
@@ -72,7 +87,10 @@ public class ComplexMath {
     }
     
     /**
-     * 
+     * Compute the <a href="http://mathworld.wolfram.com/Cosine.html">cosine</a>
+     * for the given complex argument.
+     * @param z the value whose cosine is to be returned.
+     * @return the cosine of <code>z</code>.
      */
     public static Complex cos(Complex z) {
         if (z.isNaN()) {
@@ -87,7 +105,10 @@ public class ComplexMath {
     }
     
     /**
-     * 
+     * Compute the <a href="http://mathworld.wolfram.com/HyperbolicCosine.html">
+     * hyperbolic cosine</a> for the given complex argument.
+     * @param z the value whose hyperbolic cosine is to be returned.
+     * @return the hyperbolic cosine of <code>z</code>.
      */
     public static Complex cosh(Complex z) {
         if (z.isNaN()) {
@@ -102,7 +123,11 @@ public class ComplexMath {
     }
     
     /**
-     * 
+     * Compute the
+     * <a href="http://mathworld.wolfram.com/ExponentialFunction.html">
+     * exponential function</a> for the given complex argument.
+     * @param z the value.
+     * @return <i>e</i><sup><code>z</code></sup>.
      */
     public static Complex exp(Complex z) {
         if (z.isNaN()) {
@@ -117,7 +142,10 @@ public class ComplexMath {
     }
     
     /**
-     * 
+     * Compute the <a href="http://mathworld.wolfram.com/NaturalLogarithm.html">
+     * natural logarithm</a> for the given complex argument.
+     * @param z the value.
+     * @return ln <code>z</code>.
      */
     public static Complex log(Complex z) {
         if (z.isNaN()) {
@@ -128,15 +156,22 @@ public class ComplexMath {
             Math.atan2(z.getImaginary(), z.getReal()));        
     }
     
+    
     /**
-     * 
+     * Returns of value of <code>y</code> raised to the power of <code>x</code>.
+     * @param y the base.
+     * @param x the exponent.
+     * @return <code>y</code><sup><code>z</code></sup>.
      */
     public static Complex pow(Complex y, Complex x) {
         return exp(x.multiply(log(y)));
     }
     
     /**
-     * 
+     * Compute the <a href="http://mathworld.wolfram.com/Sine.html">sine</a>
+     * for the given complex argument.
+     * @param z the value whose sine is to be returned.
+     * @return the sine of <code>z</code>.
      */
     public static Complex sin(Complex z) {
         if (z.isNaN()) {
@@ -151,7 +186,10 @@ public class ComplexMath {
     }
     
     /**
-     * 
+     * Compute the <a href="http://mathworld.wolfram.com/HyperbolicSine.html">
+     * hyperbolic sine</a> for the given complex argument.
+     * @param z the value whose hyperbolic sine is to be returned.
+     * @return the hyperbolic sine of <code>z</code>.
      */
     public static Complex sinh(Complex z) {
         if (z.isNaN()) {
@@ -166,7 +204,10 @@ public class ComplexMath {
     }
     
     /**
-     * 
+     * Compute the <a href="http://mathworld.wolfram.com/SquareRoot.html">squre
+     * root</a> for the given complex argument.
+     * @param z the value whose square root is to be returned.
+     * @return the square root of <code>z</code>.
      */
     public static Complex sqrt(Complex z) {
         if (z.isNaN()) {
@@ -186,15 +227,20 @@ public class ComplexMath {
     }
     
     /**
-     * Returns the square root of 1 - z^2.
-     * @return the square root of 1 - z^2.
+     * Compute the <a href="http://mathworld.wolfram.com/SquareRoot.html">squre
+     * root of 1 - <code>z</code><sup>2</sup> for the given complex argument.
+     * @param z the value.
+     * @return the square root of 1 - <code>z</code><sup>2</sup>.
      */
     public static Complex sqrt1z(Complex z) {
         return sqrt(Complex.ONE.subtract(z.multiply(z)));
     }
     
     /**
-     * 
+     * Compute the <a href="http://mathworld.wolfram.com/Tangent.html">
+     * tangent</a> for the given complex argument.
+     * @param z the value whose tangent is to be returned.
+     * @return the tangent of <code>z</code>.
      */
     public static Complex tan(Complex z) {
         if (z.isNaN()) {
@@ -209,7 +255,11 @@ public class ComplexMath {
     }
     
     /**
-     * 
+     * Compute the
+     * <a href="http://mathworld.wolfram.com/HyperbolicTangent.html">
+     * hyperbolic tangent</a> for the given complex argument.
+     * @param z the value whose hyperbolic tangent is to be returned.
+     * @return the hyperbolic tangent of <code>z</code>.
      */
     public static Complex tanh(Complex z) {
         if (z.isNaN()) {
