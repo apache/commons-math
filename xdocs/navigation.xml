@@ -15,10 +15,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
   -->
-
-<!DOCTYPE project [
-<!ENTITY commons-nav SYSTEM "../../commons-build/incl_nav.xml">
-]>
+<!DOCTYPE org.apache.commons.menus SYSTEM '../../commons-build/menus/menus.dtd'>
 
 <project name="Math">
 
@@ -50,7 +47,7 @@
       <item name="Utilities"               href="/userguide/utilities.html"/>
     </menu>
     
-    &commons-nav;
+    &common-menus;
 
   </body>
 </project>
