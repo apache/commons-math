@@ -19,20 +19,21 @@ package org.apache.commons.math.complex;
 import java.io.Serializable;
 
 /**
- * Reference:
- *   http://myweb.lmu.edu/dmsmith/ZMLIB.pdf
+ * Representation of a Complex number - a number which has both a 
+ * real and imaginary part.
  * 
- * @version $Revision: 1.6 $ $Date: 2004/02/21 21:35:14 $
+ * @author Apache Software Foundation
+ * @version $Revision: 1.7 $ $Date: 2004/02/29 19:52:01 $
  */
 public class Complex implements Serializable  {
 
-    /** The square root of -1. */    
+    /** The square root of -1. A number representing "0.0 + 1.0i".*/    
     public static final Complex I = new Complex(0.0, 1.0);
     
-    /** */
+    /** A complex number representing "(Double.NaN) + (Double.NaN)i" */
     public static final Complex NaN = new Complex(Double.NaN, Double.NaN);
 
-    /** 1. */    
+    /** A complex number representing "1.0 + 0.0i" */    
     public static final Complex ONE = new Complex(1.0, 0.0);
     
     /** The imaginary part. */
@@ -43,6 +44,7 @@ public class Complex implements Serializable  {
     
     /**
      * Create a complex number given the real and imaginary parts.
+     *
      * @param real the real part.
      * @param imaginary the imaginary part.
      */
@@ -54,6 +56,7 @@ public class Complex implements Serializable  {
 
     /**
      * Return the absolute value of this complex number.
+     *
      * @return the absolute value.
      */
     public double abs() {
@@ -65,6 +68,7 @@ public class Complex implements Serializable  {
     
     /**
      * Return the sum of this complex number and the given complex number.
+     *
      * @param rhs the other complex number.
      * @return the complex number sum.
      */
@@ -78,8 +82,11 @@ public class Complex implements Serializable  {
     }
     
     /**
-     * Return the conjugate of this complex number.
-     * @return the conjugate.
+     * Return the conjugate of this complex number.  The conjugate of
+     * "A + Bi" is "A - Bi".  Complex.NaN is returned if either the real or imaginary part of 
+     * this Complex number equals Double.NaN.
+     *
+     * @return the conjugate of this Complex object
      */
     public Complex conjugate() {
         if (isNaN()) {
@@ -113,6 +120,14 @@ public class Complex implements Serializable  {
     }
     
     /**
+     * Test for the equality of two Complex objects.  If both the
+     * real and imaginary parts of two Complex numbers are exactly
+     * the same, the two Complex objects are considered to be equal.
+     *
+     * @param other Object to test for equality to this
+     * @return true if two Complex objects are equal, false if
+     *         object is null, not an instance of Complex, or
+     *         not equal to this Complex instance.
      * 
      */
     public boolean equals(Object other) {
@@ -140,6 +155,7 @@ public class Complex implements Serializable  {
 
     /**
      * Access the imaginary part.
+     *
      * @return the imaginary part.
      */
     public double getImaginary() {
@@ -148,6 +164,7 @@ public class Complex implements Serializable  {
 
     /**
      * Access the real part.
+     *
      * @return the real part.
      */
     public double getReal() {
@@ -157,6 +174,7 @@ public class Complex implements Serializable  {
     /**
      * Returns true if this complex number is the special Not-a-Number (NaN)
      * value.
+     *
      * @return true if the value represented by this object is NaN; false
      *         otherwise.
      */
@@ -166,6 +184,7 @@ public class Complex implements Serializable  {
     
     /**
      * Return the product of this complex number and the given complex number.
+     *
      * @param rhs the other complex number.
      * @return the complex number product.
      */
@@ -182,6 +201,7 @@ public class Complex implements Serializable  {
     
     /**
      * Return the additive inverse of this complex number.
+     *
      * @return the negation of this complex number.
      */
     public Complex negate() {
@@ -194,6 +214,7 @@ public class Complex implements Serializable  {
     
     /**
      * Return the sum of the squared terms.
+     *
      * @return the square sum.
      */
     private double squareSum() {
@@ -203,6 +224,7 @@ public class Complex implements Serializable  {
     /**
      * Return the difference between this complex number and the given complex
      * number.
+     *
      * @param rhs the other complex number.
      * @return the complex number difference.
      */
