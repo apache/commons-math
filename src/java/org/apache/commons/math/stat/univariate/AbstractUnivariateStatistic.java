@@ -19,7 +19,7 @@ package org.apache.commons.math.stat.univariate;
  * Abstract Implementation for UnivariateStatistics.
  * Provides the ability to extend polymophically so that
  * indiviual statistics do not need to implement these methods.
- * @version $Revision: 1.13 $ $Date: 2004/03/04 04:25:09 $
+ * @version $Revision: 1.14 $ $Date: 2004/04/11 19:39:10 $
  */
 public abstract class AbstractUnivariateStatistic
     implements UnivariateStatistic {
@@ -56,8 +56,8 @@ public abstract class AbstractUnivariateStatistic
         final int begin,
         final int length) {
 
-        if (length > values.length) {
-            throw new IllegalArgumentException("length > values.length");
+        if (begin < 0) {
+            throw new IllegalArgumentException("start position cannot be negative");
         }
 
         if (begin + length > values.length) {
@@ -69,7 +69,7 @@ public abstract class AbstractUnivariateStatistic
             throw new IllegalArgumentException("input value array is null");
         }
 
-        if (values.length == 0 || length == 0) {
+        if (length == 0) {
             return false;
         }
 
