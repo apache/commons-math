@@ -21,7 +21,7 @@ package org.apache.commons.math.distribution;
  * Extends DiscreteDistributionAbstractTest.  See class javadoc for
  * DiscreteDistributionAbstractTest for details.
  * 
- * @version $Revision: 1.11 $ $Date: 2004/05/11 02:12:11 $
+ * @version $Revision: 1.12 $ $Date: 2004/07/25 16:29:25 $
  */
 public class HypergeometricDistributionTest extends DiscreteDistributionAbstractTest {
 
@@ -64,13 +64,13 @@ public class HypergeometricDistributionTest extends DiscreteDistributionAbstract
     
     /** Creates the default inverse cumulative probability test input values */
     public double[] makeInverseCumulativeTestPoints() {
-        return new double[] {0.001d, 0.010d, 0.025d, 0.050d, 0.100d, 0.999d,
-                0.990d, 0.975d, 0.950d, 0.900d}; 
+        return new double[] {0d, 0.001d, 0.010d, 0.025d, 0.050d, 0.100d, 0.999d,
+                0.990d, 0.975d, 0.950d, 0.900d, 1d}; 
     }
     
     /** Creates the default inverse cumulative probability density test expected values */
     public int[] makeInverseCumulativeTestValues() {
-        return new int[] {-1, 0, 0, 0, 0, 4, 3, 3, 3, 3};
+        return new int[] {-1, -1, 0, 0, 0, 0, 4, 3, 3, 3, 3, 5};
     }
     
     //-------------------- Additional test cases ------------------------------

@@ -24,7 +24,7 @@ import org.apache.commons.math.util.MathUtils;
 /**
  * The default implementation of {@link BinomialDistribution}.
  *
- * @version $Revision: 1.17 $ $Date: 2004/07/23 05:22:36 $
+ * @version $Revision: 1.18 $ $Date: 2004/07/25 16:29:24 $
  */
 public class BinomialDistributionImpl
     extends AbstractDiscreteDistribution
@@ -162,6 +162,9 @@ public class BinomialDistributionImpl
     /**
      * For this distribution, X, this method returns the largest x, such
      * that P(X &le; x) &le; <code>p</code>.
+     * <p>
+     * Returns <code>-1</code> for p=0 and <code>Integer.MAX_VALUE</code> for
+     * p=1.
      *
      * @param p the desired probability
      * @return the largest x such that P(X &le; x) <= p
@@ -172,7 +175,7 @@ public class BinomialDistributionImpl
     public int inverseCumulativeProbability(final double p) throws MathException {
         // handle extreme values explicitly
         if (p == 0) {
-            return 0;
+            return -1;
         } 
         if (p == 1) {
             return Integer.MAX_VALUE; 

@@ -20,7 +20,7 @@ package org.apache.commons.math.distribution;
  * Extends DiscreteDistributionAbstractTest.  See class javadoc for
  * DiscreteDistributionAbstractTest for details.
  * 
- * @version $Revision: 1.14 $ $Date: 2004/07/23 05:22:36 $
+ * @version $Revision: 1.15 $ $Date: 2004/07/25 16:29:25 $
  */
 public class BinomialDistributionTest extends DiscreteDistributionAbstractTest {
     
@@ -69,7 +69,7 @@ public class BinomialDistributionTest extends DiscreteDistributionAbstractTest {
     
     /** Creates the default inverse cumulative probability density test expected values */
     public int[] makeInverseCumulativeTestValues() {
-        return new int[] {0,1, 2, 3, 4, 4, 9, 9, 9, 8, 8, Integer.MAX_VALUE};
+        return new int[] {-1, 1, 2, 3, 4, 4, 9, 9, 9, 8, 8, Integer.MAX_VALUE};
     }
 
     //----------------- Additional test cases ---------------------------------
