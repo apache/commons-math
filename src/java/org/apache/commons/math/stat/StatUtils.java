@@ -62,31 +62,31 @@ package org.apache.commons.math.stat;
  */
 public class StatUtils {
 
-	/**
+    /**
      * The sum of the values that have been added to Univariate.
      * @param values Is a double[] containing the values
      * @return the sum of the values or Double.NaN if the array is empty
-	 */
-	public static double sum(double[] values) {
-		double accum = 0.0;
-		for (int i = 0; i < values.length; i++) {
-			accum += values[i];
-		}
-		return accum;
-	}
+     */
+    public static double sum(double[] values) {
+        double accum = 0.0;
+        for (int i = 0; i < values.length; i++) {
+            accum += values[i];
+        }
+        return accum;
+    }
 
-	/**
+    /**
      * Returns the sum of the squares of the available values.
      * @param values Is a double[] containing the values
      * @return the sum of the squared values or Double.NaN if the array is empty
-	 */
-	public static double sumSq(double[] values) {
-		double accum = 0.0;
-		for (int i = 0; i < values.length; i++) {
-			accum += Math.pow(values[i], 2.0);
-		}
-		return accum;
-	}
+     */
+    public static double sumSq(double[] values) {
+        double accum = 0.0;
+        for (int i = 0; i < values.length; i++) {
+            accum += Math.pow(values[i], 2.0);
+        }
+        return accum;
+    }
 
     /**
      * Returns the product for this collection of values
@@ -95,50 +95,50 @@ public class StatUtils {
      */
     public static double product(double[] values) {
         double product = Double.NaN;
-        if( values.length > 0 ) {
+        if (values.length > 0) {
             product = 1.0;
-            for( int i = 0; i < values.length; i++) {
+            for (int i = 0; i < values.length; i++) {
                 product *= values[i];
             }
         }
         return product;
     }
-    
+
     /**
      * Returns the sum of the natural logs for this collection of values
      * @param values Is a double[] containing the values
      * @return the sumLog value or Double.NaN if the array is empty
-	 */
+     */
     public static double sumLog(double[] values) {
         double sumLog = Double.NaN;
-        if( values.length > 0 ) {
+        if (values.length > 0) {
             sumLog = 0.0;
-            for( int i = 0; i < values.length; i++) {
+            for (int i = 0; i < values.length; i++) {
                 sumLog += Math.log(values[i]);
             }
         }
         return sumLog;
     }
-    
+
     /**
      * Returns the geometric mean for this collection of values
      * @param values Is a double[] containing the values
      * @return the geometric mean or Double.NaN if the array is empty or
      * any of the values are &lt;= 0.
-	 */
+     */
     public static double geometricMean(double[] values) {
-        return Math.exp(sumLog(values) / (double)values.length);
+        return Math.exp(sumLog(values) / (double) values.length);
     }
 
-	/**
+    /**
      * Returns the <a href=http://www.xycoon.com/arithmetic_mean.htm>
      * arithmetic mean </a> of the available values 
      * @param values Is a double[] containing the values
      * @return the mean of the values or Double.NaN if the array is empty
-	 */
-	public static double mean(double[] values) {
-		return sum(values) / (double)values.length;
-	}
+     */
+    public static double mean(double[] values) {
+        return sum(values) / (double) values.length;
+    }
 
     /**
      *      
@@ -153,8 +153,8 @@ public class StatUtils {
         }
         return (stdDev);
     }
-    
-	/**
+
+    /**
      * Returns the variance of the available values. This uses a corrected
      * two pass algorithm of the following 
      * <a href="http://lib-www.lanl.gov/numerical/bookcpdf/c14-1.pdf">
@@ -166,25 +166,26 @@ public class StatUtils {
      * @param values Is a double[] containing the values
      * @return the result, Double.NaN if no values for an empty array 
      * or 0.0 for a single value set.  
-	 */
-	public static double variance(double[] values) {
-		double variance = Double.NaN;
-        
-		if (values.length == 1) {
-			variance = 0;
-		} else if (values.length > 1) {
-			double mean = mean(values);
-			double accum = 0.0;
+     */
+    public static double variance(double[] values) {
+        double variance = Double.NaN;
+
+        if (values.length == 1) {
+            variance = 0;
+        } else if (values.length > 1) {
+            double mean = mean(values);
+            double accum = 0.0;
             double accum2 = 0.0;
-			for (int i = 0; i < values.length; i++) {
-				accum += Math.pow((values[i] - mean), 2.0);
+            for (int i = 0; i < values.length; i++) {
+                accum += Math.pow((values[i] - mean), 2.0);
                 accum2 += (values[i] - mean);
-			}
-			variance = ((accum*(double)values.length) - Math.pow(accum2,2)) / 
-                (double)(values.length*(values.length - 1));
-		}
-		return variance;
-	}
+            }
+            variance =
+                (accum - (Math.pow(accum2, 2) / (double) values.length))
+                    / (double) (values.length - 1);
+        }
+        return variance;
+    }
 
     /**
      * Returns the skewness of a collection of values.  Skewness is a 
@@ -241,65 +242,64 @@ public class StatUtils {
         double n = values.length;
 
         double coefficientOne = (n * (n + 1)) / ((n - 1) * (n - 2) * (n - 3));
-        double termTwo = ((3 * Math.pow(n - 1, 2.0)) 
-                           / ((n - 2) * (n - 3))); 
+        double termTwo = ((3 * Math.pow(n - 1, 2.0)) / ((n - 2) * (n - 3)));
         // Calculate kurtosis
         kurtosis = (coefficientOne * accum) - termTwo;
 
         return kurtosis;
     }
-    
-	/**
+
+    /**
      * Returns the maximum of the available values
      * @param values Is a double[] containing the values
-	 * @return the maximum of the values or Double.NaN if the array is empty
-	 */
-	public static double max(double[] values) {
-		double max = Double.NaN;
-		for (int i = 0; i < values.length; i++) {
-			if (i == 0) {
-				max = values[i];
-			} else {
-				max = Math.max(max, values[i]);
-			}
-		}
-		return max;
-	}
+     * @return the maximum of the values or Double.NaN if the array is empty
+     */
+    public static double max(double[] values) {
+        double max = Double.NaN;
+        for (int i = 0; i < values.length; i++) {
+            if (i == 0) {
+                max = values[i];
+            } else {
+                max = Math.max(max, values[i]);
+            }
+        }
+        return max;
+    }
 
-	/**
+    /**
      * Returns the minimum of the available values
      * @param values Is a double[] containing the values
-	 * @return the minimum of the values or Double.NaN if the array is empty
-	 */
-	public static double min(double[] values) {
-		double min = Double.NaN;
-		for (int i = 0; i < values.length; i++) {
-			if (i == 0) {
-				min = values[i];
-			} else {
-				min = Math.min(min, values[i]);
-			}
-		}
-		return min;
-	}
-    
+     * @return the minimum of the values or Double.NaN if the array is empty
+     */
+    public static double min(double[] values) {
+        double min = Double.NaN;
+        for (int i = 0; i < values.length; i++) {
+            if (i == 0) {
+                min = values[i];
+            } else {
+                min = Math.min(min, values[i]);
+            }
+        }
+        return min;
+    }
+
     /** 
      * Returns the mode of the values that have been added.  The mode is
      * the element which occurs with the most frequency
      * @return the mode
      */
-    public static double mode(){
+    public static double mode() {
         // Mode depends on a refactor Freq class
         String msg = "mode() is not yet implemented";
         throw new UnsupportedOperationException(msg);
     }
-    
+
     /** 
      * Returns the mode of the values that have been added.  The mode is
      * the element which occurs with the most frequency
      * @return the mode
      */
-    public static double median(double[] values){
+    public static double median(double[] values) {
         // Mode depends on a refactor Freq class
         String msg = "median() is not yet implemented";
         throw new UnsupportedOperationException(msg);
