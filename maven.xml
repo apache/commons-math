@@ -24,8 +24,10 @@
   	<attainGoal name="ant" />
   </preGoal>
 
+<!-- Uncomment to include compile time dependent jars (discovery, logging)
   <preGoal name="dist:build-bin">
     <deploy:copy-deps todir="${maven.build.dir}/${maven.final.name}/bin/${maven.final.name}" />
   </preGoal>
+ -->
 
 </project>

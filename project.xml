@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
    Copyright 2003-2004 The Apache Software Foundation
 
@@ -14,46 +15,40 @@
    See the License for the specific language governing permissions and
    limitations under the License.
   -->
-<!-- $Revision: 1.48 $ $Date: 2004/07/11 19:00:19 $ -->
+<!-- $Revision: 1.49 $ $Date: 2004/08/15 18:09:48 $ -->
+
 <project>
   <pomVersion>3</pomVersion>
-  
   <name>Math</name>
   <id>commons-math</id>
-  <currentVersion>1.0-dev</currentVersion>
+  <currentVersion>1.0-RC1</currentVersion>
   <inceptionYear>2003</inceptionYear>
   <shortDescription>Jakarta Commons Math</shortDescription>
   <description>The Math project is a library of lightweight, self-contained mathematics and statistics components addressing the most common practical problems not immediately available in the Java programming language or commons-lang.</description>
   <logo>/images/math.gif</logo>
-  
   <url>http://jakarta.apache.org/commons/${pom.artifactId.substring(8)}/</url>
   <package>org.apache.commons.${pom.artifactId.substring(8)}</package>
-
   <organization>
     <name>The Apache Software Foundation</name>
     <url>http://jakarta.apache.org</url>
     <logo>http://jakarta.apache.org/images/original-jakarta-logo.gif</logo>
   </organization>
-
   <licenses>
-	<license>
-    	<name>The Apache Software License, Version 2.0</name>
-    	<url>/LICENSE.txt</url>
-    	<distribution>repo</distribution>
-	</license>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>/LICENSE.txt</url>
+      <distribution>repo</distribution>
+    </license>
   </licenses>
-  
   <gumpRepositoryId>jakarta</gumpRepositoryId>
   <issueTrackingUrl>http://nagoya.apache.org/bugzilla/enter_bug.cgi?reporter=&amp;product=Commons&amp;version=unspecified&amp;component=Math&amp;rep_platform=All&amp;op_sys=All&amp;priority=Other&amp;bug_severity=normal&amp;bug_status=NEW&amp;assigned_to=&amp;cc=&amp;bug_file_loc=&amp;short_desc=%5Bpatch%5D+%22Your+subject+heading+here%22&amp;comment=Please+provide+details+here.+Its+best+to+submit+patches+that+alter+existing+file%0D%0Acontent+in+%22unified+cvs+diff%22+format.+%0D%0A%0D%0ASubmissions+that+provide+new+files+can+be+supplied+as+direct+file+attachments+or%0D%0Aarchives+in+zip+or+tar.gz+format.+please+be+kind+enough+to+identify+the+format%0D%0Aof+the+attached+archive+as+bugzill+tends+to+strip+these+characterstics+by%0D%0Aremoving+the+files+extension.&amp;maketemplate=Remember+values+as+bookmarkable+template&amp;form_name=enter_bug</issueTrackingUrl>
   <siteAddress>jakarta.apache.org</siteAddress>
   <siteDirectory>/www/jakarta.apache.org/commons/${pom.artifactId.substring(8)}/</siteDirectory>
   <distributionDirectory>/www/jakarta.apache.org/builds/jakarta-commons/${pom.artifactId.substring(8)}/</distributionDirectory>
-  
   <repository>
     <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:jakarta-commons/${pom.artifactId.substring(8)}</connection>
     <url>http://cvs.apache.org/viewcvs/jakarta-commons/${pom.artifactId.substring(8)}/</url>
   </repository>
-  
   <mailingLists>
     <mailingList>
       <name>Commons Dev List</name>
@@ -67,12 +62,11 @@
       <unsubscribe>commons-user-unsubscribe@jakarta.apache.org</unsubscribe>
       <archive>http://nagoya.apache.org/eyebrowse/SummarizeList?listName=commons-user@jakarta.apache.org</archive>
     </mailingList>
-  </mailingLists>   
-      
+  </mailingLists>
   <versions>
     <version>
       <id>1.0</id>
-      <name>1.0-dev</name>
+      <name>1.0-RC1</name>
     </version>
   </versions>
   <developers>
@@ -129,7 +123,6 @@
       <version>0.2</version>
     </dependency>
   </dependencies>
-
   <build>
     <nagEmailAddress>commons-dev@jakarta.apache.org</nagEmailAddress>
     <sourceDirectory>src/java</sourceDirectory>
@@ -153,18 +146,24 @@
     </unitTest>
   </build>
   <reports>
+    <!--
     <report>maven-changelog-plugin</report>
     <report>maven-changes-plugin</report>
     <report>maven-checkstyle-plugin</report>
     <report>maven-clover-plugin</report>
     <report>maven-developer-activity-plugin</report>
     <report>maven-file-activity-plugin</report>
+    -->
+
     <report>maven-javadoc-plugin</report>
     <report>maven-jdepend-plugin</report>
     <report>maven-junit-report-plugin</report>
     <report>maven-jxr-plugin</report>
     <report>maven-license-plugin</report>
+    <!--
     <report>maven-tasklist-plugin</report>
     <report>maven-linkcheck-plugin</report>
+    -->
+
   </reports>
 </project>
