@@ -22,7 +22,7 @@ import java.math.BigDecimal;
  * Interface defining a real-valued matrix with basic algebraic operations, using
  * BigDecimal representations for the entries.
  *
- * @version $Revision: 1.5 $ $Date: 2004/08/22 01:42:58 $
+ * @version $Revision: 1.6 $ $Date: 2004/09/01 21:26:11 $
  */
 public interface BigMatrix {
 
@@ -150,88 +150,122 @@ public interface BigMatrix {
     
     /**
      * Returns the entries in row number <code>row</code> as an array.
+     * <p>
+     * Row indices start at 1.  A <code>MatrixIndexException</code> is thrown
+     * unless <code>0 < row <= rowDimension.</code>
      *
      * @param row the row to be fetched
      * @return array of entries in the row
-     * @throws org.apache.commons.math.linear.MatrixIndexException if the specified row is greater
-     *                              than the number of rows in this matrix
+     * @throws MatrixIndexException if the specified row index is not valid
      */
     BigDecimal[] getRow(int row) throws MatrixIndexException;
 
     /**
      * Returns the entries in row number <code>row</code> as an array
      * of double values.
+     * <p>
+     * Row indices start at 1.  A <code>MatrixIndexException</code> is thrown
+     * unless <code>0 < row <= rowDimension.</code>
      *
      * @param row the row to be fetched
      * @return array of entries in the row
-     * @throws org.apache.commons.math.linear.MatrixIndexException if the specified row is greater
-     *                              than the number of rows in this matrix
+     * @throws MatrixIndexException if the specified row index is not valid
      */
     double [] getRowAsDoubleArray(int row) throws MatrixIndexException;
 
     /**
      * Returns the entries in column number <code>col</code> as an array.
+     * <p>
+     * Column indices start at 1.  A <code>MatrixIndexException</code> is thrown
+     * unless <code>0 < column <= columnDimension.</code>
      *
-     * @param col  column to fetch
+     * @param col the column to be fetched
      * @return array of entries in the column
-     * @throws org.apache.commons.math.linear.MatrixIndexException if the specified column is greater
-     *                              than the number of columns in this matrix
+     * @throws MatrixIndexException if the specified column index is not valid
      */
     BigDecimal[] getColumn(int col) throws MatrixIndexException;
 
     /**
      * Returns the entries in column number <code>col</code> as an array
      * of double values.
+     * <p>
+     * Column indices start at 1.  A <code>MatrixIndexException</code> is thrown
+     * unless <code>0 < column <= columnDimension.</code>
      *
-     * @param col  column to fetch
+     * @param col the column to be fetched
      * @return array of entries in the column
-     * @throws org.apache.commons.math.linear.MatrixIndexException if the specified column is greater
-     *                              than the number of columns in this matrix
+     * @throws MatrixIndexException if the specified column index is not valid
      */
     double [] getColumnAsDoubleArray(int col) throws MatrixIndexException;
 
     /**
      * Returns the entry in the specified row and column.
+     * <p>
+     * Row and column indices start at 1 and must satisfy 
+     * <ul>
+     * <li><code>0 < row <= rowDimension</code></li>
+     * <li><code> 0 < column <= columnDimension</code></li>
+     * </ul>
+     * otherwise a <code>MatrixIndexException</code> is thrown.
      *
      * @param row  row location of entry to be fetched  
      * @param column  column location of entry to be fetched
      * @return matrix entry in row,column
-     * @throws org.apache.commons.math.linear.MatrixIndexException if the specified coordinate is outside
-     *                              the dimensions of this matrix
+     * @throws MatrixIndexException if the row or column index is not valid
      */
     BigDecimal getEntry(int row, int column) throws MatrixIndexException;
     
     /**
-     * Returns the entry in the specified row and column as a double
+     * Returns the entry in the specified row and column as a double.
+     * <p>
+     * Row and column indices start at 1 and must satisfy 
+     * <ul>
+     * <li><code>0 < row <= rowDimension</code></li>
+     * <li><code> 0 < column <= columnDimension</code></li>
+     * </ul>
+     * otherwise a <code>MatrixIndexException</code> is thrown.
      *
      * @param row  row location of entry to be fetched
      * @param column  column location of entry to be fetched
      * @return matrix entry in row,column
-     * @throws org.apache.commons.math.linear.MatrixIndexException if the specified coordinate is outside
-     *                              the dimensions of this matrix
+     * @throws MatrixIndexException if the row or column index is not valid
      */
     double getEntryAsDouble(int row, int column) throws MatrixIndexException;
 
     /**
      * Sets the entry in the specified row and column to the specified value.
-     *
+     * <p>
+     * Row and column indices start at 1 and must satisfy 
+     * <ul>
+     * <li><code>0 < row <= rowDimension</code></li>
+     * <li><code> 0 < column <= columnDimension</code></li>
+     * </ul>
+     * otherwise a <code>MatrixIndexException</code> is thrown.
+     * 
      * @param row    row location of entry to be set 
      * @param column    column location of entry to be set
      * @param value  value to set 
-     * @throws org.apache.commons.math.linear.MatrixIndexException if the specified coordinate is outside
-     *                              he dimensions of this matrix
+     * @throws org.apache.commons.math.linear.MatrixIndexException if the row
+     * or column index is not valid
      */
     void setEntry(int row, int column, BigDecimal value)
         throws MatrixIndexException;
     
     /**
      * Sets the entry in the specified row and column to the specified value.
-     *
-     * @param row    row location of entry to be set
+     * <p>
+     * Row and column indices start at 1 and must satisfy 
+     * <ul>
+     * <li><code>0 < row <= rowDimension</code></li>
+     * <li><code> 0 < column <= columnDimension</code></li>
+     * </ul>
+     * otherwise a <code>MatrixIndexException</code> is thrown.
+     * 
+     * @param row    row location of entry to be set 
      * @param column    column location of entry to be set
-     * @param value  value to set
-     * @throws org.apache.commons.math.linear.MatrixIndexException if the specified coordinate is outside
-     *                              he dimensions of this matrix
+     * @param value  value to set 
+     * @throws org.apache.commons.math.linear.MatrixIndexException if the row
+     * or column index is not valid
      */
     void setEntry(int row, int column, double value)
         throws MatrixIndexException;
@@ -239,12 +273,19 @@ public interface BigMatrix {
     /**
      * Sets the entry in the specified row and column to the 
      * <code>BigDecimal</code> value represented by the input string.
-     *
+     * <p>
+     * Row and column indices start at 1 and must satisfy 
+     * <ul>
+     * <li><code>0 < row <= rowDimension</code></li>
+     * <li><code> 0 < column <= columnDimension</code></li>
+     * </ul>
+     * otherwise a <code>MatrixIndexException</code> is thrown.
+     * 
      * @param row  row location of entry to be set
      * @param column  column location of entry to be set
      * @param value  value to set
      * @throws org.apache.commons.math.linear.MatrixIndexException if the 
-     *     specified coordinate is outside the dimensions of this matrix
+     *     row or column index is not valid
      * @throws NumberFormatException if <code>value</code> is not a valid
      *     representation of a <code>BigDecimal</code> value
      */
