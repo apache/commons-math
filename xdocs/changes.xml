@@ -38,14 +38,20 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
 
-    <release version="1.0" date="TBD">
+    <release version="1.0-RC2" date="TBD">
       <action dev="psteitz" type="fix">
         Fixed cumulative frequency and cumulative percentage problem reported
         to the commons-dev list by Jon Langlois on 9/14. Integer arguments to 
         getCumXxx were always returning 0 due to type conversion problems.
       </action>
-      <action dev="brentworden" type="fix">
-        Fixed locale-dependency in ComplexFormat. (pr #31325).
+      <action dev="brentworden" type="fix" id="31325">
+        Fixed locale-dependency in ComplexFormat.
+      </action>
+      <action dev="psteitz" type="update">
+        Renamed univariate package to descriptive and multivariate to regression.
+      </action>
+      <action dev="psteitz" type="update" due-to="Ken Geis" id="31522">
+        Improved efficiency of logGamma method in o.a.c.m.special.Gamma
       </action>
     </release>
     
