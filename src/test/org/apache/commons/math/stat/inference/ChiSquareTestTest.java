@@ -22,7 +22,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the ChiSquareTestImpl class.
  *
- * @version $Revision: 1.2 $ $Date: 2004/06/07 20:30:16 $
+ * @version $Revision: 1.3 $ $Date: 2004/06/26 22:09:07 $
  */
 
 public final class ChiSquareTestTest extends TestCase {
@@ -66,7 +66,7 @@ public final class ChiSquareTestTest extends TestCase {
             fail("alpha out of range, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
-        }   
+        }  
         
         long[] tooShortObs = { 0 };
         double[] tooShortEx = { 1 };
@@ -77,6 +77,7 @@ public final class ChiSquareTestTest extends TestCase {
             // expected
         }
 
+        // unmatched arrays
         long[] unMatchedObs = { 0, 1, 2, 3 };
         double[] unMatchedEx = { 1, 1, 2 };
         try {
@@ -85,13 +86,26 @@ public final class ChiSquareTestTest extends TestCase {
         } catch (IllegalArgumentException ex) {
             // expected
         }
+        
+        // 0 expected count
         expected[0] = 0;
         try {
             testStatistic.chiSquareTest(expected, observed, .01);
             fail("bad expected count, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
-        }  
+        } 
+        
+        // negative observed count
+        expected[0] = 1;
+        observed[0] = -1;
+        try {
+            testStatistic.chiSquareTest(expected, observed, .01);
+            fail("bad expected count, IllegalArgumentException expected");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        } 
+        
     }
 
     public void testChiSquareIndependence() throws Exception {
@@ -125,7 +139,31 @@ public final class ChiSquareTestTest extends TestCase {
             fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
-        }      
+        } 
+        long[][] counts5 = {{40}, {40}, {30}, {10}};
+        try {
+            testStatistic.chiSquare(counts5);
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        } 
+        
+        // negative counts
+        long[][] counts6 = {{10, -2}, {30, 40}, {60, 90} };
+        try {
+            testStatistic.chiSquare(counts6);
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        } 
+        
+        // bad alpha
+        try {
+            testStatistic.chiSquareTest(counts, 0);
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        } 
     }
     
     public void testChiSquareLargeTestStatistic() throws Exception {
