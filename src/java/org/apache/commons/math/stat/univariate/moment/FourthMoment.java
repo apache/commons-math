@@ -29,7 +29,7 @@
  *    permission, please contact apache@apache.org.
  *
  * 5. Products derived from this software may not be called "Apache"
- *    nor may "Apache" appear in their names without prior written
+ *    nor may "Apache" appear in their name without prior written
  *    permission of the Apache Software Foundation.
  *
  * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
@@ -58,7 +58,7 @@ package org.apache.commons.math.stat.univariate.moment;
  * <a href="http://www.spss.com/tech/stat/Algorithms/11.5/descriptives.pdf">
  * recursive strategy
  * </a>. Both incremental and evaluation strategies currently use this approach.
- * @version $Revision: 1.9 $ $Date: 2003/10/13 08:10:57 $
+ * @version $Revision: 1.10 $ $Date: 2003/10/16 15:24:32 $
  */
 public class FourthMoment extends ThirdMoment {
 

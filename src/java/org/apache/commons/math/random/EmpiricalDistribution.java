@@ -29,7 +29,7 @@
  *    permission, please contact apache@apache.org.
  *
  * 5. Products derived from this software may not be called "Apache"
- *    nor may "Apache" appear in their names without prior written
+ *    nor may "Apache" appear in their name without prior written
  *    permission of the Apache Software Foundation.
  *
  * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
@@ -80,7 +80,7 @@ import org.apache.commons.math.stat.Univariate;
  * build grouped frequnecy histograms representing the input data or to
  * generate random values "like" those in the input file -- i.e., the values
  * generated will follow the distribution of the values in the file.
- * @version $Revision: 1.6 $ $Date: 2003/10/13 08:10:01 $
+ * @version $Revision: 1.7 $ $Date: 2003/10/16 15:24:31 $
  */
 public interface EmpiricalDistribution {
     

@@ -29,7 +29,7 @@
  *    permission, please contact apache@apache.org.
  *
  * 5. Products derived from this software may not be called "Apache"
- *    nor may "Apache" appear in their names without prior written
+ *    nor may "Apache" appear in their name without prior written
  *    permission of the Apache Software Foundation.
  *
  * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
@@ -56,7 +56,7 @@ package org.apache.commons.math.stat.univariate.summary;
 import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
 
 /**
- * @version $Revision: 1.10 $ $Date: 2003/10/13 08:10:58 $
+ * @version $Revision: 1.11 $ $Date: 2003/10/16 15:24:29 $
  */
 public class Sum extends AbstractStorelessUnivariateStatistic {
 

@@ -29,7 +29,7 @@
  *    permission, please contact apache@apache.org.
  *
  * 5. Products derived from this software may not be called "Apache"
- *    nor may "Apache" appear in their names without prior written
+ *    nor may "Apache" appear in their name without prior written
  *    permission of the Apache Software Foundation.
  *
  * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
@@ -53,13 +53,14 @@
  */
 package org.apache.commons.math.special;
 
-import org.apache.commons.math.analysis.ConvergenceException;
+import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.MathException;
 
 /**
  * This is a utility class that provides computation methods related to the
  * Gamma family of functions.
  * 
- * @version $Revision: 1.11 $ $Date: 2003/10/13 08:10:13 $
+ * @version $Revision: 1.12 $ $Date: 2003/10/16 15:24:28 $
  */
 public class Gamma {
     /** Maximum allowed numerical error. */
@@ -99,8 +100,11 @@ public class Gamma {
      * @param a ???
      * @param x ???
      * @return the regularized gamma function P(a, x)
+     * @throws MathException if the algorithm fails to converge.
      */
-    public static double regularizedGammaP(double a, double x) {
+    public static double regularizedGammaP(double a, double x)
+        throws MathException
+    {
         return regularizedGammaP(a, x, DEFAULT_EPSILON, Integer.MAX_VALUE);
     }
     
@@ -128,11 +132,14 @@ public class Gamma {
      *                to calculate further elements in the series.
      * @param maxIterations Maximum number of "iterations" to complete. 
      * @return the regularized gamma function P(a, x)
+     * @throws MathException if the algorithm fails to converge.
      */
     public static double regularizedGammaP(double a, 
                                            double x, 
                                            double epsilon, 
-                                           int maxIterations) {
+                                           int maxIterations) 
+        throws MathException
+    {
         double ret;
 
         if (Double.isNaN(a) || Double.isNaN(x) || (a <= 0.0) || (x < 0.0)) {

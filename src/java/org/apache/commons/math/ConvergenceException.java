@@ -29,7 +29,7 @@
  *    permission, please contact apache@apache.org.
  *
  * 5. Products derived from this software may not be called "Apache"
- *    nor may "Apache" appear in their names without prior written
+ *    nor may "Apache" appear in their name without prior written
  *    permission of the Apache Software Foundation.
  *
  * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
@@ -51,17 +51,15 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.commons.math.analysis;
-
-import org.apache.commons.lang.exception.NestableRuntimeException;
+package org.apache.commons.math;
 
 /**
  * Error thrown when a numerical computation can not be performed because the
  * numerical result failed to converge to a finite value.
  * 
- * @version $Revision: 1.4 $ $Date: 2003/10/13 08:09:31 $
+ * @version $Revision: 1.4 $ $Date: 2003/10/16 15:24:33 $
  */
-public class ConvergenceException extends NestableRuntimeException {
+public class ConvergenceException extends MathException {
     /**
      * Default constructor.
      */

@@ -29,7 +29,7 @@
  *    permission, please contact apache@apache.org.
  *
  * 5. Products derived from this software may not be called "Apache"
- *    nor may "Apache" appear in their names without prior written
+ *    nor may "Apache" appear in their name without prior written
  *    permission of the Apache Software Foundation.
  *
  * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
@@ -56,7 +56,7 @@ package org.apache.commons.math.analysis;
 /**
  * Computes a natural spline interpolation for the data set.
  *
- * @version $Revision: 1.6 $ $Date: 2003/10/13 08:09:31 $
+ * @version $Revision: 1.7 $ $Date: 2003/10/16 15:24:31 $
  *
  */
 public class SplineInterpolator implements UnivariateRealInterpolator {
@@ -144,8 +144,8 @@ public class SplineInterpolator implements UnivariateRealInterpolator {
                 c[i][3] = (d[i] - d[i - 1]) / delta / 6.0;
                 c[i][2] = d[i - 1] / 2.0;
                 c[i][1] =
-                    (yval[i + 1] - yval[i]) / delta
-                        - (d[i] / 2.0 - d[i - 1]) * delta / 3.0;
+                    (yval[i + 1] - yval[i]) / delta -
+                        (d[i] / 2.0 - d[i - 1]) * delta / 3.0;
             }
             delta = (xval[n] - xval[n - 1]);
             c[n - 1][3] = -d[n - 2] / delta / 6.0;

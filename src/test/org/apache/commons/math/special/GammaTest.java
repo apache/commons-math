@@ -29,7 +29,7 @@
  *    permission, please contact apache@apache.org.
  *
  * 5. Products derived from this software may not be called "Apache"
- *    nor may "Apache" appear in their names without prior written
+ *    nor may "Apache" appear in their name without prior written
  *    permission of the Apache Software Foundation.
  *
  * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
@@ -53,12 +53,13 @@
  */
 package org.apache.commons.math.special;
 
+import org.apache.commons.math.MathException;
 import org.apache.commons.math.TestUtils;
 
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.4 $ $Date: 2003/10/13 08:08:06 $
+ * @version $Revision: 1.5 $ $Date: 2003/10/16 15:24:32 $
  */
 public class GammaTest extends TestCase {
     /**
@@ -70,8 +71,12 @@ public class GammaTest extends TestCase {
     }
 
     private void testRegularizedGamma(double expected, double a, double x) {
-        double actual = Gamma.regularizedGammaP(a, x);
-        TestUtils.assertEquals(expected, actual, 10e-5);
+        try {
+            double actual = Gamma.regularizedGammaP(a, x);
+            TestUtils.assertEquals(expected, actual, 10e-5);
+        } catch(MathException ex){
+            fail(ex.getMessage());
+        }
     }
 
     private void testLogGamma(double expected, double x) {

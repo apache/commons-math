@@ -29,7 +29,7 @@
  *    permission, please contact apache@apache.org.
  *
  * 5. Products derived from this software may not be called "Apache"
- *    nor may "Apache" appear in their names without prior written
+ *    nor may "Apache" appear in their name without prior written
  *    permission of the Apache Software Foundation.
  *
  * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
@@ -53,12 +53,14 @@
  */
 package org.apache.commons.math.stat.distribution;
 
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.math.MathException;
 import org.apache.commons.math.special.Gamma;
 
 /**
  * The default implementation of {@link GammaDistribution}
  * 
- * @version $Revision: 1.8 $ $Date: 2003/10/13 08:10:57 $
+ * @version $Revision: 1.9 $ $Date: 2003/10/16 15:24:29 $
  */
 public class GammaDistributionImpl extends AbstractContinuousDistribution
     implements GammaDistribution {
@@ -101,7 +103,14 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
         if (x <= 0.0) {
             ret = 0.0;
         } else {
-            ret = Gamma.regularizedGammaP(getAlpha(), x / getBeta());
+            try {
+                ret = Gamma.regularizedGammaP(getAlpha(), x / getBeta());
+            } catch(MathException ex){
+                LogFactory.getLog(getClass()).error(
+                    "Failed to compute cummulative probability, returning NaN.",
+                    ex);
+                ret = Double.NaN;
+            }
         }
     
         return ret;

@@ -29,7 +29,7 @@
  *    permission, please contact apache@apache.org.
  *
  * 5. Products derived from this software may not be called "Apache"
- *    nor may "Apache" appear in their names without prior written
+ *    nor may "Apache" appear in their name without prior written
  *    permission of the Apache Software Foundation.
  *
  * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
@@ -53,13 +53,15 @@
  */
 package org.apache.commons.math.stat.distribution;
 
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.math.MathException;
 import org.apache.commons.math.special.Beta;
 
 /**
  * Default implementation of
  * {@link org.apache.commons.math.stat.distribution.TDistribution}.
  * 
- * @version $Revision: 1.5 $ $Date: 2003/10/13 08:10:57 $
+ * @version $Revision: 1.6 $ $Date: 2003/10/16 15:24:29 $
  */
 public class TDistributionImpl
     extends AbstractContinuousDistribution
@@ -107,14 +109,22 @@ public class TDistributionImpl
         if (x == 0.0) {
             ret = 0.5;
         } else {
-            double t = Beta.regularizedBeta(
-                getDegreesOfFreedom() / (getDegreesOfFreedom() + (x * x)),
-                0.5 * getDegreesOfFreedom(), 0.5);
-                
-            if (x < 0.0) {
-                ret = 0.5 * t;
-            } else {
-                ret = 1.0 - 0.5 * t;
+            double t;
+            try {
+                t = Beta.regularizedBeta(
+                    getDegreesOfFreedom() / (getDegreesOfFreedom() + (x * x)),
+                    0.5 * getDegreesOfFreedom(),
+                    0.5);
+                if (x < 0.0) {
+                    ret = 0.5 * t;
+                } else {
+                    ret = 1.0 - 0.5 * t;
+                }
+            } catch (MathException ex) {
+                LogFactory.getLog(getClass()).error(
+                    "Failed to compute cummulative probability, returning NaN.",
+                    ex);
+                ret = Double.NaN;
             }
         }
         

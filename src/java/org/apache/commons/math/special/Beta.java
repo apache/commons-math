@@ -29,7 +29,7 @@
  *    permission, please contact apache@apache.org.
  *
  * 5. Products derived from this software may not be called "Apache"
- *    nor may "Apache" appear in their names without prior written
+ *    nor may "Apache" appear in their name without prior written
  *    permission of the Apache Software Foundation.
  *
  * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
@@ -53,13 +53,14 @@
  */
 package org.apache.commons.math.special;
 
+import org.apache.commons.math.MathException;
 import org.apache.commons.math.util.ContinuedFraction;
 
 /**
  * This is a utility class that provides computation methods related to the
  * Beta family of functions.
  * 
- * @version $Revision: 1.9 $ $Date: 2003/10/13 08:10:13 $
+ * @version $Revision: 1.10 $ $Date: 2003/10/16 15:24:28 $
  */
 public class Beta {
     /** Maximum allowed numerical error. */
@@ -79,8 +80,11 @@ public class Beta {
      * @param a ???
      * @param b ???
      * @return the regularized beta function I(x, a, b)
+     * @throws MathException if the algorithm fails to converge.
      */
-    public static double regularizedBeta(double x, double a, double b) {
+    public static double regularizedBeta(double x, double a, double b)
+        throws MathException
+    {
         return regularizedBeta(x, a, b, DEFAULT_EPSILON, Integer.MAX_VALUE);
     }
 
@@ -94,10 +98,11 @@ public class Beta {
      *                series is less than epsilon the approximation ceases
      *                to calculate further elements in the series.
      * @return the regularized beta function I(x, a, b)
+     * @throws MathException if the algorithm fails to converge.
      */
     public static double regularizedBeta(double x, double a, double b,
-        double epsilon) {
-            
+        double epsilon) throws MathException
+    {
         return regularizedBeta(x, a, b, epsilon, Integer.MAX_VALUE);
     }
 
@@ -109,10 +114,11 @@ public class Beta {
      * @param b ???
      * @param maxIterations Maximum number of "iterations" to complete. 
      * @return the regularized beta function I(x, a, b)
+     * @throws MathException if the algorithm fails to converge.
      */
     public static double regularizedBeta(double x, double a, double b,
-        int maxIterations) {
-            
+        int maxIterations) throws MathException
+    {
         return regularizedBeta(x, a, b, DEFAULT_EPSILON, maxIterations);
     }
     
@@ -137,10 +143,11 @@ public class Beta {
      *                to calculate further elements in the series.
      * @param maxIterations Maximum number of "iterations" to complete. 
      * @return the regularized beta function I(x, a, b)
+     * @throws MathException if the algorithm fails to converge.
      */
     public static double regularizedBeta(double x, final double a,
-        final double b, double epsilon, int maxIterations) {
-            
+        final double b, double epsilon, int maxIterations) throws MathException
+    {
         double ret;
 
         if (Double.isNaN(x) || Double.isNaN(a) || Double.isNaN(b) || (x < 0) ||

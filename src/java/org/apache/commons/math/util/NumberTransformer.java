@@ -29,7 +29,7 @@
  *    permission, please contact apache@apache.org.
  *
  * 5. Products derived from this software may not be called "Apache"
- *    nor may "Apache" appear in their names without prior written
+ *    nor may "Apache" appear in their name without prior written
  *    permission of the Apache Software Foundation.
  *
  * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
@@ -57,7 +57,7 @@ import org.apache.commons.math.MathException;
 
 /**
  * Subclasses implementing this interface can transform Objects to doubles.
- * @version $Revision: 1.5 $ $Date: 2003/10/13 08:11:23 $
+ * @version $Revision: 1.6 $ $Date: 2003/10/16 15:24:30 $
  */
 public interface NumberTransformer {
     
@@ -67,6 +67,7 @@ public interface NumberTransformer {
      * 
      * @param o the Object to be transformed.
      * @return the double value of the Object.
+     * @throws MathException if the Object can not be transformed into a Double. 
      */
     double transform(Object o) throws MathException;
 }

@@ -29,7 +29,7 @@
  *    permission, please contact apache@apache.org.
  *
  * 5. Products derived from this software may not be called "Apache"
- *    nor may "Apache" appear in their names without prior written
+ *    nor may "Apache" appear in their name without prior written
  *    permission of the Apache Software Foundation.
  *
  * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
@@ -64,7 +64,7 @@ import java.io.InputStreamReader;
 import org.apache.commons.logging.*;
 /**
  * Test cases for the {@link Univariate} class.
- * @version $Revision: 1.8 $ $Date: 2003/10/13 08:08:38 $
+ * @version $Revision: 1.9 $ $Date: 2003/10/16 15:24:28 $
  */
 public class CertifiedDataTest extends TestCase {
 

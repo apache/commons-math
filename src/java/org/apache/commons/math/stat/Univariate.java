@@ -29,7 +29,7 @@
  *    permission, please contact apache@apache.org.
  *
  * 5. Products derived from this software may not be called "Apache"
- *    nor may "Apache" appear in their names without prior written
+ *    nor may "Apache" appear in their name without prior written
  *    permission of the Apache Software Foundation.
  *
  * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
@@ -69,7 +69,7 @@ package org.apache.commons.math.stat;
  * reported statistics will be based on these values<p>
  * The default windowSize is "infinite" -- i.e., all values added are included
  * in all computations.
- * @version $Revision: 1.10 $ $Date: 2003/10/13 08:10:56 $
+ * @version $Revision: 1.11 $ $Date: 2003/10/16 15:24:30 $
 */
 public interface Univariate extends Applyable{
     /**

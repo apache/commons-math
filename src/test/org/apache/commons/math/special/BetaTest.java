@@ -29,7 +29,7 @@
  *    permission, please contact apache@apache.org.
  *
  * 5. Products derived from this software may not be called "Apache"
- *    nor may "Apache" appear in their names without prior written
+ *    nor may "Apache" appear in their name without prior written
  *    permission of the Apache Software Foundation.
  *
  * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
@@ -53,10 +53,13 @@
  */
 package org.apache.commons.math.special;
 
+import org.apache.commons.math.MathException;
+import org.apache.commons.math.TestUtils;
+
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.3 $ $Date: 2003/10/13 08:08:06 $
+ * @version $Revision: 1.4 $ $Date: 2003/10/16 15:24:32 $
  */
 public class BetaTest extends TestCase {
     /**
@@ -67,22 +70,20 @@ public class BetaTest extends TestCase {
         super(name);
     }
 
-    private void testRegularizedBeta(double expected, double x, double a, double b) {
-        double actual = Beta.regularizedBeta(x, a, b);
-        if (Double.isNaN(expected)) {
-            assertTrue(Double.isNaN(actual));
-        } else {
-            assertEquals(expected, actual, 10e-5);
+    private void testRegularizedBeta(double expected, double x, double a,
+        double b)
+    {
+        try {
+            double actual = Beta.regularizedBeta(x, a, b);
+            TestUtils.assertEquals(expected, actual, 10e-5);
+        } catch(MathException ex){
+            fail(ex.getMessage());
         }
     }
 
     private void testLogBeta(double expected, double a, double b) {
         double actual = Beta.logBeta(a, b);
-        if (Double.isNaN(expected)) {
-            assertTrue(Double.isNaN(actual));
-        } else {
-            assertEquals(expected, actual, 10e-5);
-        }
+        TestUtils.assertEquals(expected, actual, 10e-5);
     }
 
     public void testRegularizedBetaNanPositivePositive() {

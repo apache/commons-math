@@ -29,7 +29,7 @@
  *    permission, please contact apache@apache.org.
  *
  * 5. Products derived from this software may not be called "Apache"
- *    nor may "Apache" appear in their names without prior written
+ *    nor may "Apache" appear in their name without prior written
  *    permission of the Apache Software Foundation.
  *
  * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
@@ -63,7 +63,7 @@ import org.apache.commons.collections.HashBag;
  * Accepts int, long or string values, converting
  * all to Strings and maintaining frequency counts.
  * 
- * @version $Revision: 1.6 $ $Date: 2003/10/13 08:10:56 $
+ * @version $Revision: 1.7 $ $Date: 2003/10/16 15:24:30 $
  */
 public class Frequency {
     /** name for this frequency distribution. */

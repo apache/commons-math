@@ -29,7 +29,7 @@
  *    permission, please contact apache@apache.org.
  *
  * 5. Products derived from this software may not be called "Apache"
- *    nor may "Apache" appear in their names without prior written
+ *    nor may "Apache" appear in their name without prior written
  *    permission of the Apache Software Foundation.
  *
  * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
@@ -53,7 +53,8 @@
  */
 package org.apache.commons.math.util;
 
-import org.apache.commons.math.analysis.ConvergenceException;
+import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.MathException;
 
 /**
  * Provides a generic means to evaluate continued fractions.  Subclasses simply
@@ -64,7 +65,7 @@ import org.apache.commons.math.analysis.ConvergenceException;
  * <li><a href="http://mathworld.wolfram.com/ContinuedFraction.html">
  * Continued Fraction</a></li>
  * </ul>
- * @version $Revision: 1.5 $ $Date: 2003/10/13 08:11:23 $
+ * @version $Revision: 1.6 $ $Date: 2003/10/16 15:24:30 $
  */
 public abstract class ContinuedFraction {
     /** Maximum allowed numerical error. */
@@ -99,8 +100,9 @@ public abstract class ContinuedFraction {
      * Evaluates the continued fraction at the value x.
      * @param x the evaluation point.
      * @return the value of the continued fraction evaluated at x. 
+     * @throws MathException if the algorithm fails to converge.
      */
-    public double evaluate(double x) {
+    public double evaluate(double x) throws MathException {
         return evaluate(x, DEFAULT_EPSILON, Integer.MAX_VALUE);
     }
 
@@ -109,8 +111,9 @@ public abstract class ContinuedFraction {
      * @param x the evaluation point.
      * @param epsilon maximum error allowed.
      * @return the value of the continued fraction evaluated at x. 
+     * @throws MathException if the algorithm fails to converge.
      */
-    public double evaluate(double x, double epsilon) {
+    public double evaluate(double x, double epsilon) throws MathException {
         return evaluate(x, epsilon, Integer.MAX_VALUE);
     }
 
@@ -119,8 +122,9 @@ public abstract class ContinuedFraction {
      * @param x the evaluation point.
      * @param maxIterations maximum number of convergents
      * @return the value of the continued fraction evaluated at x. 
+     * @throws MathException if the algorithm fails to converge.
      */
-    public double evaluate(double x, int maxIterations) {
+    public double evaluate(double x, int maxIterations) throws MathException {
         return evaluate(x, DEFAULT_EPSILON, maxIterations);
     }
 
@@ -139,8 +143,11 @@ public abstract class ContinuedFraction {
      * @param epsilon maximum error allowed.
      * @param maxIterations maximum number of convergents
      * @return the value of the continued fraction evaluated at x. 
+     * @throws MathException if the algorithm fails to converge.
      */
-    public double evaluate(double x, double epsilon, int maxIterations) {
+    public double evaluate(double x, double epsilon, int maxIterations)
+        throws MathException
+    {
         double[][] f = new double[2][2];
         double[][] a = new double[2][2];
         double[][] an = new double[2][2];
@@ -165,6 +172,7 @@ public abstract class ContinuedFraction {
      * @param maxIterations maximum number of convergents
      * @return the value of the the n-th convergent for this continued fraction
      *         evaluated at x. 
+     * @throws MathException if the algorithm fails to converge.
      */
     private double evaluate(
         int n,
@@ -173,7 +181,8 @@ public abstract class ContinuedFraction {
         double[][] an,
         double[][] f,
         double epsilon,
-        int maxIterations) {
+        int maxIterations) throws MathException 
+    {
         double ret;
 
         // create next matrix

@@ -29,7 +29,7 @@
  *    permission, please contact apache@apache.org.
  *
  * 5. Products derived from this software may not be called "Apache"
- *    nor may "Apache" appear in their names without prior written
+ *    nor may "Apache" appear in their name without prior written
  *    permission of the Apache Software Foundation.
  *
  * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
@@ -60,7 +60,7 @@ package org.apache.commons.math.stat;
  * Univariate provides additional percentile functionality 
  * such as.  This additional functionality comes with 
  * a price of increased storage costs.
- * @version $Revision: 1.8 $ $Date: 2003/10/13 08:10:56 $
+ * @version $Revision: 1.9 $ $Date: 2003/10/16 15:24:30 $
  */
 public interface StoreUnivariate extends Univariate {
 

@@ -29,7 +29,7 @@
  *    permission, please contact apache@apache.org.
  *
  * 5. Products derived from this software may not be called "Apache"
- *    nor may "Apache" appear in their names without prior written
+ *    nor may "Apache" appear in their name without prior written
  *    permission of the Apache Software Foundation.
  *
  * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
@@ -57,7 +57,7 @@ import org.apache.commons.lang.exception.NestableException;
 
 /**
  * A generic exception indicating problems in the math package.
- * @version $Revision: 1.7 $ $Date: 2003/10/13 08:11:33 $
+ * @version $Revision: 1.8 $ $Date: 2003/10/16 15:24:33 $
  */
 public class MathException extends NestableException {
 

@@ -29,7 +29,7 @@
  *    permission, please contact apache@apache.org.
  *
  * 5. Products derived from this software may not be called "Apache"
- *    nor may "Apache" appear in their names without prior written
+ *    nor may "Apache" appear in their name without prior written
  *    permission of the Apache Software Foundation.
  *
  * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
@@ -53,13 +53,15 @@
  */
 package org.apache.commons.math.stat.distribution;
 
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.math.MathException;
 import org.apache.commons.math.special.Beta;
 import org.apache.commons.math.util.MathUtils;
 
 /**
  * The default implementation of {@link BinomialDistribution}.
  * 
- * @version $Revision: 1.2 $ $Date: 2003/10/13 08:10:57 $
+ * @version $Revision: 1.3 $ $Date: 2003/10/16 15:24:29 $
  */
 public class BinomialDistributionImpl extends AbstractDiscreteDistribution
     implements BinomialDistribution {
@@ -158,8 +160,15 @@ public class BinomialDistributionImpl extends AbstractDiscreteDistribution
         } else if (x >= getNumberOfTrials()) {
             ret = 1.0;
         } else {
-            ret = 1.0 - Beta.regularizedBeta(getProbabilityOfSuccess(),
-                x + 1.0, getNumberOfTrials() - x);
+            try {
+                ret = 1.0 - Beta.regularizedBeta(getProbabilityOfSuccess(),
+                    x + 1.0, getNumberOfTrials() - x);
+            } catch (MathException ex) {
+                LogFactory.getLog(getClass()).error(
+                    "Failed to compute cummulative probability, returning NaN.",
+                    ex);
+                ret = Double.NaN;
+            }
         }
         return ret;
     }

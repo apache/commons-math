@@ -29,7 +29,7 @@
  *    permission, please contact apache@apache.org.
  *
  * 5. Products derived from this software may not be called "Apache"
- *    nor may "Apache" appear in their names without prior written
+ *    nor may "Apache" appear in their name without prior written
  *    permission of the Apache Software Foundation.
  *
  * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
@@ -63,7 +63,7 @@ import java.util.Set;
  * It provides a means to set NumberTransformers that will be selected 
  * based on the Class of the object handed to the Maps
  * <code>double transform(Object o)</code> method.
- * @version $Revision: 1.4 $ $Date: 2003/10/13 08:11:23 $
+ * @version $Revision: 1.5 $ $Date: 2003/10/16 15:24:30 $
  */
 public class TransformerMap implements NumberTransformer {
 
