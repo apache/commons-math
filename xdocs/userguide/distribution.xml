@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.1 $ $Date: 2004/04/26 20:06:50 $ -->
+<!-- $Revision: 1.2 $ $Date: 2004/11/09 02:26:55 $ -->
 <document url="stat.html">
   <properties>
     <title>The Commons Math User Guide - Statistics</title>
@@ -60,6 +60,7 @@ BinomialDistribution binomial = factory.createBinomialDistribution(10, .75);</so
             <tr><td>Gamma</td><td>createGammaDistribution</td><td><div>Alpha</div><div>Beta</div></td></tr>
             <tr><td>Hypergeometric</td><td>createHypogeometricDistribution</td><td><div>Population size</div><div>Number of successes in population</div><div>Sample size</div></td></tr>
             <tr><td>Normal (Gaussian)</td><td>createNormalDistribution</td><td><div>Mean</div><div>Standard Deviation</div></td></tr>
+            <tr><td>Poisson</td><td>createPoissonDistribution</td><td><div>Mean</div></td></tr>
             <tr><td>t</td><td>createTDistribution</td><td><div>Degrees of freedom</div></td></tr>
           </table>
         </p>
@@ -87,6 +88,23 @@ double upperTail = 1.0 - t.cumulativeProbability(2.75); // P(T &gt;= 2.75)</sour
           domain value can not be returned.  Only the "best" domain value.  For Commons-Math, the "best"
           domain value is determined by the largest domain value whose cumulative probability is
           less-than or equal to the given probability.
+        </p>
+      </subsection>
+      <subsection name="8.3 User Defined Distributions" href="userdefined">
+        <p>
+        Since there are numerous distributions and Commons-Math only directly supports a handfull,
+        it may be necessary to extend the distribution framework to satisfy individual needs.  It
+        is recommended that the <code>Distribution</code>, <code>ContinuousDistribution</code>,
+        <code>DiscreteDistribution</code>, and <code>IntegerDistribution</code> interfaces serve as
+        base types for any extension.  These serve as the basis for all the distributions directly
+        supported by Commons-Math and using those interfaces for implementation purposes will
+        insure any extension is compatible with the remainder of Commons-Math.  To aid in
+        implementing a distribution extension, the <code>AbstractDistribution</code>,
+        <code>AbstractContinuousDistribution</code>, and <code>AbstractIntegerDistribution</code>
+        provide implementation building blocks and offer a lot of default distribution
+        functionality.  By extending these abstract classes directly, a good portion of the
+        repetative distribution implementation is already developed and should same time and effort
+        in developing user defined distributions.
         </p>
       </subsection>
     </section>
