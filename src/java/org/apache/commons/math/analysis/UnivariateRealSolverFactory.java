@@ -41,7 +41,7 @@ import org.apache.commons.discovery.tools.DiscoverClass;
  * <code>UnivariateRealSolverFactory.newInstance().</code>  The default is
  * {@link UnivariateRealSolverFactoryImpl}.
  *
- * @version $Revision: 1.15 $ $Date: 2004/06/23 16:26:14 $
+ * @version $Revision: 1.16 $ $Date: 2004/07/10 15:59:14 $
  */
 public abstract class UnivariateRealSolverFactory {
     /**
@@ -61,8 +61,8 @@ public abstract class UnivariateRealSolverFactory {
             factory = (UnivariateRealSolverFactory) dc.newInstance(
                 UnivariateRealSolverFactory.class,
                 "org.apache.commons.math.analysis.UnivariateRealSolverFactoryImpl");
-        } catch(Exception ex) {
-            // ignore as default implementation will be used.
+        } catch(Throwable t) {
+            return new UnivariateRealSolverFactoryImpl();
         }
         return factory;
     }

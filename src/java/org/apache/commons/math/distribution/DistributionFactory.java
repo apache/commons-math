@@ -39,7 +39,7 @@ import org.apache.commons.discovery.tools.DiscoverClass;
  * ChiSquaredDistribution chi = factory.createChiSquareDistribution(5.0);
  * </pre>
  *
- * @version $Revision: 1.20 $ $Date: 2004/06/23 16:26:15 $
+ * @version $Revision: 1.21 $ $Date: 2004/07/10 15:59:14 $
  */
 public abstract class DistributionFactory {
     /**
@@ -60,8 +60,8 @@ public abstract class DistributionFactory {
             factory = (DistributionFactory) dc.newInstance(
                 DistributionFactory.class,
                 "org.apache.commons.math.distribution.DistributionFactoryImpl");
-        } catch(Exception ex) {
-            // ignore as default implementation will be used.
+        } catch(Throwable t) {
+            return new DistributionFactoryImpl();
         }
         return factory;
     }
