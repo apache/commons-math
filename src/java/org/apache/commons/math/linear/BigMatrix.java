@@ -25,7 +25,7 @@ import java.math.BigDecimal;
  * Matrix element indexing is 0-based -- e.g., <code>getEntry(0, 0)</code>
  * returns the element in the first row, first column of the matrix.
  *
- * @version $Revision: 1.7 $ $Date: 2004/09/05 01:19:23 $
+ * @version $Revision: 1.8 $ $Date: 2004/10/25 02:21:20 $
  */
 public interface BigMatrix {
 
@@ -150,6 +150,54 @@ public interface BigMatrix {
      * @return norm
      */
     BigDecimal getNorm();
+    
+    /**
+     * Gets a submatrix. Rows and columns are indicated
+     * counting from 0 to n-1.
+     *
+     * @param startRow Initial row index
+     * @param endRow Final row index
+     * @param startColumn Initial column index
+     * @param endColumn Final column index
+     * @return The subMatrix containing the data of the
+     *         specified rows and columns
+     * @exception MatrixIndexException  if the indices are not valid
+     */
+    BigMatrix getSubMatrix(int startRow, int endRow, int startColumn,
+            int endColumn) throws MatrixIndexException;
+    
+    /**
+     * Gets a submatrix. Rows and columns are indicated
+     * counting from 0 to n-1.
+     *
+     * @param selectedRows Array of row indices.
+     * @param selectedColumns Array of column indices.
+     * @return The subMatrix containing the data in the
+     *         specified rows and columns
+     * @exception MatrixIndexException if row or column selections are not valid
+     */
+    BigMatrix getSubMatrix(int[] selectedRows, int[] selectedColumns)
+    throws MatrixIndexException;
+    
+    /**
+     * Returns the entries in row number <code>row</code>
+     * as a row matrix.  Row indices start at 0.
+     *
+     * @param row the row to be fetched
+     * @return row matrix
+     * @throws MatrixIndexException if the specified row index is invalid
+     */
+    BigMatrix getRowMatrix(int row) throws MatrixIndexException;
+    
+    /**
+     * Returns the entries in column number <code>column</code>
+     * as a column matrix.  Column indices start at 0.
+     *
+     * @param column the column to be fetched
+     * @return column matrix
+     * @throws MatrixIndexException if the specified column index is invalid
+     */
+    BigMatrix getColumnMatrix(int column) throws MatrixIndexException;
     
     /**
      * Returns the entries in row number <code>row</code> as an array.

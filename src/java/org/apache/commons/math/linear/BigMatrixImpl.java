@@ -43,7 +43,7 @@ import java.math.BigDecimal;
  * As specified in the {@link BigMatrix} interface, matrix element indexing
  * is 0-based -- e.g., <code>getEntry(0, 0)</code>
  * returns the element in the first row, first column of the matrix.</li></ul>
- * @version $Revision: 1.6 $ $Date: 2004/09/05 01:19:23 $
+ * @version $Revision: 1.7 $ $Date: 2004/10/25 02:21:20 $
  */
 public class BigMatrixImpl implements BigMatrix, Serializable {
     
@@ -427,6 +427,108 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
             maxColSum = maxColSum.max(sum);
         }
         return maxColSum;
+    }
+    
+    /**
+     * Gets a submatrix. Rows and columns are indicated
+     * counting from 0 to n-1.
+     *
+     * @param startRow Initial row index
+     * @param endRow Final row index
+     * @param startColumn Initial column index
+     * @param endColumn Final column index
+     * @return The subMatrix containing the data of the
+     *         specified rows and columns
+     * @exception MatrixIndexException if row or column selections are not valid
+     */
+    public BigMatrix getSubMatrix(int startRow, int endRow, int startColumn,
+            int endColumn) throws MatrixIndexException {
+        if (startRow < 0 || startRow > endRow || endRow > data.length ||
+                startColumn < 0 || startColumn > endColumn ||
+                endColumn > data[0].length ) {
+            throw new MatrixIndexException(
+            "invalid row or column index selection");
+        }
+        BigMatrixImpl subMatrix = new BigMatrixImpl(endRow - startRow+1,
+                endColumn - startColumn+1);
+        BigDecimal[][] subMatrixData = subMatrix.getDataRef();
+        for (int i = startRow; i <= endRow; i++) {
+            for (int j = startColumn; j <= endColumn; j++) {
+                subMatrixData[i - startRow][j - startColumn] = data[i][j];
+            }
+        }
+        return subMatrix;
+    }
+    
+    /**
+     * Gets a submatrix. Rows and columns are indicated
+     * counting from 0 to n-1.
+     *
+     * @param selectedRows Array of row indices must be non-empty
+     * @param selectedColumns Array of column indices must be non-empty
+     * @return The subMatrix containing the data in the
+     *     specified rows and columns
+     * @exception MatrixIndexException  if supplied row or column index arrays
+     *     are not valid
+     */
+    public BigMatrix getSubMatrix(int[] selectedRows, int[] selectedColumns)
+    throws MatrixIndexException {
+        if (selectedRows.length * selectedColumns.length == 0) {
+            throw new MatrixIndexException(
+            "selected row and column index arrays must be non-empty");
+        }
+        BigMatrixImpl subMatrix = new BigMatrixImpl(selectedRows.length,
+                selectedColumns.length);
+        BigDecimal[][] subMatrixData = subMatrix.getDataRef();
+        try  {
+            for (int i = 0; i < selectedRows.length; i++) {
+                for (int j = 0; j < selectedColumns.length; j++) {
+                    subMatrixData[i][j] = data[selectedRows[i]][selectedColumns[j]];
+                }
+            }
+        }
+        catch (ArrayIndexOutOfBoundsException e) {
+            throw new MatrixIndexException("matrix dimension mismatch");
+        }
+        return subMatrix;
+    } 
+    
+    /**
+     * Returns the entries in row number <code>row</code>
+     * as a row matrix.  Row indices start at 0.
+     *
+     * @param row the row to be fetched
+     * @return row matrix
+     * @throws MatrixIndexException if the specified row index is invalid
+     */
+    public BigMatrix getRowMatrix(int row) throws MatrixIndexException {
+        if ( !isValidCoordinate( row, 0)) {
+            throw new MatrixIndexException("illegal row argument");
+        }
+        int ncols = this.getColumnDimension();
+        BigDecimal[][] out = new BigDecimal[1][ncols]; 
+        System.arraycopy(data[row], 0, out[0], 0, ncols);
+        return new BigMatrixImpl(out);
+    } 
+    
+    /**
+     * Returns the entries in column number <code>column</code>
+     * as a column matrix.  Column indices start at 0.
+     *
+     * @param column the column to be fetched
+     * @return column matrix
+     * @throws MatrixIndexException if the specified column index is invalid
+     */
+    public BigMatrix getColumnMatrix(int column) throws MatrixIndexException {
+        if ( !isValidCoordinate( 0, column)) {
+            throw new MatrixIndexException("illegal column argument");
+        }
+        int nRows = this.getRowDimension();
+        BigDecimal[][] out = new BigDecimal[nRows][1]; 
+        for (int row = 0; row < nRows; row++) {
+            out[row][0] = data[row][column];
+        }
+        return new BigMatrixImpl(out);
     }
     
     /**
@@ -1005,20 +1107,74 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     public String toString() {
         StringBuffer res = new StringBuffer();
         res.append("BigMatrixImpl{");
-        for (int i = 0; i < data.length; i++) {
-            if (i > 0)
-                res.append(",");
-            res.append("{");
-            for (int j = 0; j < data[0].length; j++) {
-                if (j > 0)
+        if (data != null) {
+            for (int i = 0; i < data.length; i++) {
+                if (i > 0)
                     res.append(",");
-                res.append(data[i][j]);
-            } //for
-            res.append("}");
-        } //for
+                res.append("{");
+                for (int j = 0; j < data[0].length; j++) {
+                    if (j > 0)
+                        res.append(",");
+                    res.append(data[i][j]);
+                } 
+                res.append("}");
+            } 
+        }
         res.append("}");
         return res.toString();
-    } //toString
+    } 
+    
+    /**
+     * Returns true iff <code>object</code> is a 
+     * <code>BigMatrixImpl</code> instance with the same dimensions as this
+     * and all corresponding matrix entries are equal.  BigDecimal.equals
+     * is used to compare corresponding entries.
+     * 
+     * @param object the object to test equality against.
+     * @return true if object equals this
+     */
+    public boolean equals(Object object) {
+        if (object == this ) {
+            return true;
+        }
+        if (object instanceof BigMatrixImpl == false) {
+            return false;
+        }
+        BigMatrix m = (BigMatrix) object;
+        int nRows = getRowDimension();
+        int nCols = getColumnDimension();
+        if (m.getColumnDimension() != nCols || m.getRowDimension() != nRows) {
+            return false;
+        }
+        for (int row = 0; row < nRows; row++) {
+            for (int col = 0; col < nCols; col++) {
+                if (!data[row][col].equals(m.getEntry(row, col))) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * Computes a hashcode for the matrix.
+     * 
+     * @return hashcode for matrix
+     */
+    public int hashCode() {
+        int ret = 7;
+        int nRows = getRowDimension();
+        int nCols = getColumnDimension();
+        ret = ret * 31 + nRows;
+        ret = ret * 31 + nCols;
+        for (int row = 0; row < nRows; row++) {
+            for (int col = 0; col < nCols; col++) {
+                ret = ret * 31 + (11 * (row+1) + 17 * (col+1)) * 
+                data[row][col].hashCode();
+            }
+        }   
+        return ret;
+    }
     
     //------------------------ Protected methods
     
