@@ -22,7 +22,7 @@ import org.apache.commons.math.distribution.ChiSquaredDistribution;
 /**
  * Implements Chi-Square test statistics defined in the {@link ChiSquareTest} interface.
  *
- * @version $Revision: 1.8 $ $Date: 2004/06/23 16:26:14 $
+ * @version $Revision: 1.9 $ $Date: 2004/06/26 21:20:21 $
  */
 public class ChiSquareTestImpl implements ChiSquareTest {
     
@@ -232,40 +232,6 @@ public class ChiSquareTestImpl implements ChiSquareTest {
      * @throws NullPointerException if input array is null
      */
     private boolean isPositive(double[] in) {
-        for (int i = 0; i < in.length; i ++) {
-            if (in[i] <= 0) {
-                return false;
-            }
-        }
-        return true;
-    }
-    
-    /**
-     * Returns true iff all entries of the input array are >= 0.
-     * Returns true if the array is non-null, but empty
-     * 
-     * @param in array to be tested
-     * @return true if all entries of the array are non-negative
-     * @throws NullPointerException if input array is null
-     */
-    private boolean isNonNegative(double[] in) {
-        for (int i = 0; i < in.length; i ++) {
-            if (in[i] < 0) {
-                return false;
-            }
-        }
-        return true;
-    }
-    
-    /**
-     * Returns true iff all entries of the input array are > 0.
-     * Returns true if the array is non-null, but empty
-     * 
-     * @param in array to be tested
-     * @return true if all entries of the array are positive
-     * @throws NullPointerException if input array is null
-     */
-    private boolean isPositive(long[] in) {
         for (int i = 0; i < in.length; i ++) {
             if (in[i] <= 0) {
                 return false;
