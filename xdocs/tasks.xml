@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="xdoc.xsl"?>
-<!-- $Revision: 1.16 $ $Date: 2004/01/14 07:36:35 $ -->
+<!-- $Revision: 1.17 $ $Date: 2004/01/15 05:18:51 $ -->
 <document>
   <properties>
     <title>Tasks: Done And To Do</title>
@@ -22,7 +22,7 @@
           <dd>Clover tests show gaps in test path coverage. Get all tests to 100% coverage.  Also improve test data and boundary conditions coverage.</dd>
           <dt>Code review.</dt>
           <dd>
-            <p>Code review is a continuous rpocess that all Contributors and Developers should practice while working on the code base.</p>
+            <p>Code review is a continuous process that all Contributors and Developers should practice while working on the code base.</p>
             <ul>
               <li>Javadoc generation is still throwing warnings.  Bring the Javadoc into compliance (i.e. reach zero warnings).</li>
               <li>Verify that the code matches the documentation and identify obvious inefficiencies or numerical problems.  All feedback/suggestions for improvement/patches are welcome.</li>
@@ -32,7 +32,7 @@
         </dl>
       </subsection>
       <subsection name="Algorithm Development Tasks">
-        <p>These current tasks are planned and in need completion for the inital release.</p>
+        <p>These current tasks are planned and need completion for the inital release.</p>
         <dl>
          <dt>Root Finding.</dt>
           <dd>
@@ -69,27 +69,16 @@
         </dl>
       </subsection>
     </section>
-    <!--section name="Future Goals">
+    <section name="Future Goals">
       <subsection name="Delayed Tasks slated for the next release of the Math library">
-        
-      </subsection>
-    </section-->
-    <section name="Completed">
-      <subsection name="Since Conception">
-        <ul>
-          <li>Framework and implementation strategie(s) for finding roots or real-valued functions of one (real) variable. Implemented algorithms: Brent-Dekker, secant, simple bisection.</li>
-          <li>Cubic spline interpolation.</li>
-          <li>Bivariate Regression, correlation. </li>
-          <li>Sampling from Collections</li>
-          <li>Add higher order moments to Univariate implementations.</li>
-          <li>Binomial coefficients -- incorporate an "exact" implementation that is limited to what can be stored in a long.  Also provided double-value implementation of binomial coefficients and their logs.</li>
-          <li>Add percentiles to stored Univariate implementations</li>
-          <li>Improve numerical accuracy of Univariate and BivariateRegression statistical computations</li>
-          <li>t-test statistic needs to be added and we should probably add the capability of actually performing t- and chi-square tests at fixed significance levels (.1, .05, .01, .001).</li>
-          <li>numerical approximation of the t- and chi-square distributions to enable user-supplied significance levels.</li>
-          <li>The RealMatrixImpl class is missing some key method implementations. The critical thing is solution of linear systems.  We need to implement a numerically sound solution algorithm.  This will enable inverse() and also support general linear regression.</li>
-          <li>Added double[] |-> double methods in StatUtils to take start indexes and length as parameters and delegate the current "full array" versions to these.</li>
-        </ul>
+      <dl> 
+        <dt>Statistics.</dt>
+          <dd>
+            <ul>
+              <li>Implement confidence intervals.</li>
+            </ul>
+          </dd> 
+        </dl> 
       </subsection>
     </section>
   </body>
