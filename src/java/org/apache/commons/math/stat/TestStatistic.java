@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,7 +58,7 @@ import org.apache.commons.math.MathException;
 /**
  * A collection of commonly used test statistics and statistical tests.
  * 
- * @version $Revision: 1.10 $ $Date: 2003/11/19 03:22:54 $ 
+ * @version $Revision: 1.11 $ $Date: 2004/01/25 21:30:41 $ 
  */
 public interface TestStatistic {
     
@@ -356,7 +356,7 @@ public interface TestStatistic {
      * @return t statistic
      * @throws IllegalArgumentException if the precondition is not met
      */
-    double t(double mu, DescriptiveStatistics sampleStats) 
+    double t(double mu, StatisticalSummary sampleStats) 
         throws IllegalArgumentException, MathException;
     
     /**
@@ -377,7 +377,7 @@ public interface TestStatistic {
      * @return t statistic
      * @throws IllegalArgumentException if the precondition is not met
      */
-    double t(DescriptiveStatistics sampleStats1, DescriptiveStatistics sampleStats2) 
+    double t(StatisticalSummary sampleStats1, StatisticalSummary sampleStats2) 
         throws IllegalArgumentException, MathException;
     
     /**
@@ -406,12 +406,12 @@ public interface TestStatistic {
      * at least 5 observations.
      * </li></ul>
      *
-     * @param sampleStats1 DescriptiveStatistics describing data from the first sample
-     * @param sampleStats2 DescriptiveStatistics describing data from the second sample
+     * @param sampleStats1 StatisticalSummary describing data from the first sample
+     * @param sampleStats2 StatisticalSummary describing data from the second sample
      * @return p-value for t-test
      * @throws IllegalArgumentException if the precondition is not met
      */
-    double tTest(DescriptiveStatistics sampleStats1, DescriptiveStatistics sampleStats2)
+    double tTest(StatisticalSummary sampleStats1, StatisticalSummary sampleStats2)
         throws IllegalArgumentException, MathException;
     
     /**
@@ -453,14 +453,14 @@ public interface TestStatistic {
      * <li> <code> 0 < alpha < 0.5 </code>
      * </li></ul>
      *
-     * @param sampleStats1 DescriptiveStatistics describing sample data values
-     * @param sampleStats2 DescriptiveStatistics describing sample data values
+     * @param sampleStats1 StatisticalSummary describing sample data values
+     * @param sampleStats2 StatisticalSummary describing sample data values
      * @param alpha significance level of the test
      * @return true if the null hypothesis can be rejected with 
      * confidence 1 - alpha
      * @throws IllegalArgumentException if the preconditions are not met
      */
-    boolean tTest(DescriptiveStatistics sampleStats1, DescriptiveStatistics sampleStats2, 
+    boolean tTest(StatisticalSummary sampleStats1, StatisticalSummary sampleStats2, 
         double alpha)
         throws IllegalArgumentException, MathException;
     
@@ -495,12 +495,12 @@ public interface TestStatistic {
      * </li></ul>
      *
      * @param mu constant value to compare sample mean against
-     * @param sampleStats DescriptiveStatistics describing sample data values
+     * @param sampleStats StatisticalSummary describing sample data values
      * @param alpha significance level of the test
      * @return p-value
      * @throws IllegalArgumentException if the precondition is not met
      */
-    boolean tTest(double mu, DescriptiveStatistics sampleStats, double alpha)
+    boolean tTest(double mu, StatisticalSummary sampleStats, double alpha)
         throws IllegalArgumentException, MathException;
     
     /**
@@ -526,11 +526,11 @@ public interface TestStatistic {
      * </li></ul>
      *
      * @param mu constant value to compare sample mean against
-     * @param sampleStats DescriptiveStatistics describing sample data
+     * @param sampleStats StatisticalSummary describing sample data
      * @return p-value
      * @throws IllegalArgumentException if the precondition is not met
      */
-    double tTest(double mu, DescriptiveStatistics sampleStats)
+    double tTest(double mu, StatisticalSummary sampleStats)
         throws IllegalArgumentException, MathException;
 }
 

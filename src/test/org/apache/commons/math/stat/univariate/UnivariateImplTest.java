@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -53,8 +53,7 @@
  */
 package org.apache.commons.math.stat.univariate;
 
-import org.apache.commons.math.stat.DescriptiveStatistics;
-import org.apache.commons.math.stat.StorelessDescriptiveStatisticsImpl;
+import org.apache.commons.math.stat.SummaryStatistics;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -63,7 +62,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link DescriptiveStatistics} class.
  *
- * @version $Revision: 1.1 $ $Date: 2003/11/15 16:01:41 $
+ * @version $Revision: 1.2 $ $Date: 2004/01/25 21:30:41 $
  */
 
 public final class UnivariateImplTest extends TestCase {
@@ -96,7 +95,7 @@ public final class UnivariateImplTest extends TestCase {
     
     /** test stats */
     public void testStats() {
-        StorelessDescriptiveStatisticsImpl u = new StorelessDescriptiveStatisticsImpl(); 
+        SummaryStatistics u = SummaryStatistics.newInstance();
         assertEquals("total count",0,u.getN(),tolerance);
         u.addValue(one);
         u.addValue(twoF);
@@ -115,19 +114,14 @@ public final class UnivariateImplTest extends TestCase {
     }     
     
     public void testN0andN1Conditions() throws Exception {
-    	StorelessDescriptiveStatisticsImpl u = new StorelessDescriptiveStatisticsImpl();
+    	SummaryStatistics u = SummaryStatistics.newInstance();
         assertTrue("Mean of n = 0 set should be NaN", 
             Double.isNaN( u.getMean() ) );
 		assertTrue("Standard Deviation of n = 0 set should be NaN", 
             Double.isNaN( u.getStandardDeviation() ) );
 		assertTrue("Variance of n = 0 set should be NaN", 
             Double.isNaN(u.getVariance() ) );
-		assertTrue("skew of n = 0 set should be NaN",
-			Double.isNaN(u.getSkewness() ) );	
-		assertTrue("kurtosis of n = 0 set should be NaN", 
-			Double.isNaN(u.getKurtosis() ) );		
 		
-	
 		/* n=1 */
 		u.addValue(one);
 		assertTrue("mean should be one (n = 1)", 
@@ -138,10 +132,6 @@ public final class UnivariateImplTest extends TestCase {
 			u.getStandardDeviation() == 0.0);
 		assertTrue("variance should be zero (n = 1)", 
 			u.getVariance() == 0.0);
-		assertTrue("skew should be zero (n = 1)", 
-			u.getSkewness() == 0.0);
-		assertTrue("kurtosis should be zero (n = 1)", 
-			u.getKurtosis() == 0.0);		
 					
 		/* n=2 */				
 		u.addValue(twoF);
@@ -149,27 +139,11 @@ public final class UnivariateImplTest extends TestCase {
 			u.getStandardDeviation() != 0.0);
 		assertTrue("variance should not be zero (n = 2)", 
 			u.getVariance() != 0.0);
-		assertTrue("skew should not be zero (n = 2)", 
-			u.getSkewness() == 0.0);
-		assertTrue("kurtosis should be zero (n = 2)", 
-			u.getKurtosis() == 0.0);
-
-		/* n=3 */
-		u.addValue(twoL);
-		assertTrue("skew should not be zero (n = 3)", 
-			u.getSkewness() != 0.0);
-		assertTrue("kurtosis should be zero (n = 3)", 
-			u.getKurtosis() == 0.0);
-        
-		/* n=4 */
-		u.addValue(three);
-		assertTrue("kurtosis should not be zero (n = 4)", 
-			u.getKurtosis() != 0.0);        
             
     }
 
     public void testProductAndGeometricMean() throws Exception {
-    	StorelessDescriptiveStatisticsImpl u = new StorelessDescriptiveStatisticsImpl(10);
+    	SummaryStatistics u = SummaryStatistics.newInstance();
     	    	
         u.addValue( 1.0 );
         u.addValue( 2.0 );
@@ -178,33 +152,10 @@ public final class UnivariateImplTest extends TestCase {
 
         assertEquals( "Geometric mean not expected", 2.213364, 
             u.getGeometricMean(), 0.00001 );
-
-        // Now test rolling - StorelessDescriptiveStatistics should discount the contribution
-        // of a discarded element
-        for( int i = 0; i < 10; i++ ) {
-            u.addValue( i + 2 );
-        }
-        // Values should be (2,3,4,5,6,7,8,9,10,11)
-        
-        assertEquals( "Geometric mean not expected", 5.755931, 
-            u.getGeometricMean(), 0.00001 );
-    }
-    
-    public void testRollingMinMax() {
-        StorelessDescriptiveStatisticsImpl u = new StorelessDescriptiveStatisticsImpl(3);
-        u.addValue( 1.0 );
-        u.addValue( 5.0 );
-        u.addValue( 3.0 );
-        u.addValue( 4.0 ); // discarding min
-        assertEquals( "min not expected", 3.0, 
-            u.getMin(), Double.MIN_VALUE);
-        u.addValue(1.0);  // discarding max
-        assertEquals( "max not expected", 4.0, 
-            u.getMax(), Double.MIN_VALUE);
     }
     
     public void testNaNContracts() {
-        StorelessDescriptiveStatisticsImpl u = new StorelessDescriptiveStatisticsImpl();
+    	SummaryStatistics u = SummaryStatistics.newInstance();
         double nan = Double.NaN;
         assertTrue("mean not NaN",Double.isNaN(u.getMean())); 
         assertTrue("min not NaN",Double.isNaN(u.getMin())); 
@@ -230,21 +181,5 @@ public final class UnivariateImplTest extends TestCase {
         assertTrue("geom mean not NaN",Double.isNaN(u.getGeometricMean()));
         
         //FiXME: test all other NaN contract specs
-    }
-
-    public void testSkewAndKurtosis() {
-        DescriptiveStatistics u = new StorelessDescriptiveStatisticsImpl();
-        
-        double[] testArray = 
-        { 12.5, 12, 11.8, 14.2, 14.9, 14.5, 21, 8.2, 10.3, 11.3, 14.1,
-          9.9, 12.2, 12, 12.1, 11, 19.8, 11, 10, 8.8, 9, 12.3 };
-        for( int i = 0; i < testArray.length; i++) {
-            u.addValue( testArray[i]);
-        }
-        
-        assertEquals("mean", 12.40455, u.getMean(), 0.0001);
-        assertEquals("variance", 10.00236, u.getVariance(), 0.0001);
-        assertEquals("skewness", 1.437424, u.getSkewness(), 0.0001);
-        assertEquals("kurtosis", 2.37719, u.getKurtosis(), 0.0001);
     }
 }

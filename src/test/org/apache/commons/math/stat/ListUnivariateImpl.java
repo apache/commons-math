@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,7 +61,7 @@ import org.apache.commons.math.util.DefaultTransformer;
 import org.apache.commons.math.util.NumberTransformer;
 
 /**
- * @version $Revision: 1.1 $ $Date: 2003/11/15 16:01:41 $
+ * @version $Revision: 1.2 $ $Date: 2004/01/25 21:30:41 $
  */
 public class ListUnivariateImpl extends AbstractDescriptiveStatistics {
 
@@ -73,6 +73,9 @@ public class ListUnivariateImpl extends AbstractDescriptiveStatistics {
 
     /** Number Transformer maps Objects to Number for us. */
     protected NumberTransformer transformer;
+    
+    /** hold the window size **/
+    protected int windowSize = DescriptiveStatistics.INFINITE_WINDOW;
 
     /**
      * Construct a ListUnivariate with a specific List.
@@ -149,7 +152,7 @@ public class ListUnivariateImpl extends AbstractDescriptiveStatistics {
     /**
      * @see org.apache.commons.math.stat.DescriptiveStatistics#getN()
      */
-    public int getN() {
+    public long getN() {
         int n = 0;
 
         if (windowSize != DescriptiveStatistics.INFINITE_WINDOW) {
@@ -183,7 +186,6 @@ public class ListUnivariateImpl extends AbstractDescriptiveStatistics {
      * @see org.apache.commons.math.stat.DescriptiveStatistics#clear()
      */
     public void clear() {
-        super.clear();
         list.clear();
     }
     
@@ -216,5 +218,22 @@ public class ListUnivariateImpl extends AbstractDescriptiveStatistics {
     public void setTransformer(NumberTransformer transformer) {
         this.transformer = transformer;
     }
+    
+    /**
+     * @see org.apache.commons.math.stat.Univariate#setWindowSize(int)
+     */
+    public synchronized void setWindowSize(int windowSize) {
+    	this.windowSize = windowSize;
+    	//Discard elements from the front of the list if the windowSize is less than 
+    	// the size of the list.
+    	int extra = list.size() - windowSize;
+    	for (int i = 0; i < extra; i++) {
+    		list.remove(0);
+    	}
+    }
+    	
+    	public int getWindowSize() {
+    		return windowSize;
+    	}
 
 }

@@ -61,14 +61,13 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import org.apache.commons.logging.*;
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
 /**
  * Test cases for the {@link DescriptiveStatistics} class.
- * @version $Revision: 1.12 $ $Date: 2003/11/15 16:01:40 $
+ * @version $Revision: 1.13 $ $Date: 2004/01/25 21:30:41 $
  */
-public class CertifiedDataTest extends TestCase {
-
-	protected DescriptiveStatistics u = null;
+public class CertifiedDataTest extends TestCase  {
 
 	protected double mean = Double.NaN;
 
@@ -103,9 +102,9 @@ public class CertifiedDataTest extends TestCase {
 	 * Test StorelessDescriptiveStatistics
 	*/
 	public void testUnivariateImpl() {
-
+		SummaryStatistics u = null;
 		try {
-			u = DescriptiveStatistics.newInstance(StorelessDescriptiveStatisticsImpl.class);
+			u = SummaryStatistics.newInstance(SummaryStatisticsImpl.class);
 		} catch (InstantiationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -114,19 +113,19 @@ public class CertifiedDataTest extends TestCase {
 			e.printStackTrace();
 		}
 
-		loadStats("data/Lew.txt");
+		loadStats("data/Lew.txt", u);
 		assertEquals("Lew: std", std, u.getStandardDeviation(), .000000000001);
 		assertEquals("Lew: mean", mean, u.getMean(), .000000000001);
 		
-		loadStats("data/Lottery.txt");
+		loadStats("data/Lottery.txt", u);
 		assertEquals("Lottery: std", std, u.getStandardDeviation(), .000000000001);
 		assertEquals("Lottery: mean", mean, u.getMean(), .000000000001);	
 		
-		loadStats("data/PiDigits.txt");
+		loadStats("data/PiDigits.txt", u);
 		assertEquals("PiDigits: std", std, u.getStandardDeviation(), .0000000000001);
 		assertEquals("PiDigits: mean", mean, u.getMean(), .0000000000001);	
 
-		loadStats("data/Mavro.txt");
+		loadStats("data/Mavro.txt", u);
 		assertEquals("Mavro: std", std, u.getStandardDeviation(), .00000000000001);
 		assertEquals("Mavro: mean", mean, u.getMean(), .00000000000001);
 		
@@ -134,7 +133,7 @@ public class CertifiedDataTest extends TestCase {
 		//assertEquals("Michelso: std", std, u.getStandardDeviation(), .00000000000001);
 		//assertEquals("Michelso: mean", mean, u.getMean(), .00000000000001);	
 										
-		loadStats("data/NumAcc1.txt");
+		loadStats("data/NumAcc1.txt", u);
 		assertEquals("NumAcc1: std", std, u.getStandardDeviation(), .00000000000001);
 		assertEquals("NumAcc1: mean", mean, u.getMean(), .00000000000001);
 		
@@ -148,21 +147,21 @@ public class CertifiedDataTest extends TestCase {
 	 */
 	public void testStoredUnivariateImpl() {
 
-		u = DescriptiveStatistics.newInstance();
+		DescriptiveStatistics u = DescriptiveStatistics.newInstance();
 		
-		loadStats("data/Lew.txt");
+		loadStats("data/Lew.txt", u);
 		assertEquals("Lew: std", std, u.getStandardDeviation(), .000000000001);
 		assertEquals("Lew: mean", mean, u.getMean(), .000000000001);
 		
-		loadStats("data/Lottery.txt");
+		loadStats("data/Lottery.txt", u);
 		assertEquals("Lottery: std", std, u.getStandardDeviation(), .000000000001);
 		assertEquals("Lottery: mean", mean, u.getMean(), .000000000001);		
 																  
-		loadStats("data/PiDigits.txt");
+		loadStats("data/PiDigits.txt", u);
 		assertEquals("PiDigits: std", std, u.getStandardDeviation(), .0000000000001);
 		assertEquals("PiDigits: mean", mean, u.getMean(), .0000000000001);
 		
-		loadStats("data/Mavro.txt");
+		loadStats("data/Mavro.txt", u);
 		assertEquals("Mavro: std", std, u.getStandardDeviation(), .00000000000001);
 		assertEquals("Mavro: mean", mean, u.getMean(), .00000000000001);		
 		
@@ -170,7 +169,7 @@ public class CertifiedDataTest extends TestCase {
 		//assertEquals("Michelso: std", std, u.getStandardDeviation(), .00000000000001);
 		//assertEquals("Michelso: mean", mean, u.getMean(), .00000000000001);	
 
-		loadStats("data/NumAcc1.txt");
+		loadStats("data/NumAcc1.txt", u);
 		assertEquals("NumAcc1: std", std, u.getStandardDeviation(), .00000000000001);
 		assertEquals("NumAcc1: mean", mean, u.getMean(), .00000000000001);
 		
@@ -182,12 +181,19 @@ public class CertifiedDataTest extends TestCase {
 	/**
 	 * loads a DescriptiveStatistics off of a test file
 	 * @param file
+	 * @param statistical summary
 	 */
-	private void loadStats(String resource) {
-
+	private void loadStats(String resource, Object u) {
+		
+		DescriptiveStatistics d = null;
+		SummaryStatistics s = null;
+		if (u instanceof DescriptiveStatistics) {
+			d = (DescriptiveStatistics) u;
+		} else {
+			s = (SummaryStatistics) u;
+		}
 		try {
-
-			u.clear();
+			u.getClass().getDeclaredMethod("clear", null).invoke(u, null);
 			mean = Double.NaN;
 			std = Double.NaN;
 
@@ -215,8 +221,11 @@ public class CertifiedDataTest extends TestCase {
 			line = in.readLine();
 
 			while (line != null) {
-
-				u.addValue(Double.parseDouble(line.trim()));
+				if (d != null) {
+					d.addValue(Double.parseDouble(line.trim()));
+				}  else {
+					s.addValue(Double.parseDouble(line.trim()));
+				}
 				line = in.readLine();
 			}
 
@@ -225,6 +234,8 @@ public class CertifiedDataTest extends TestCase {
 		} catch (FileNotFoundException fnfe) {
 			log.error(fnfe.getMessage(), fnfe);
 		} catch (IOException ioe) {
+			log.error(ioe.getMessage(), ioe);
+		} catch (Exception ioe) {
 			log.error(ioe.getMessage(), ioe);
 		}
 	}

@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,14 +64,14 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * <a href="http://www.spss.com/tech/stat/Algorithms/11.5/descriptives.pdf">
  * recursive strategy
  * </a>. Both incremental and evaluation strategies currently use this approach.
- * @version $Revision: 1.11 $ $Date: 2003/11/19 03:28:24 $
+ * @version $Revision: 1.12 $ $Date: 2004/01/25 21:30:41 $
  */
 public class FirstMoment extends AbstractStorelessUnivariateStatistic implements Serializable{
 
-    static final long serialVersionUID = -803343206421984070L;    
+    static final long serialVersionUID = -803343206421984070L; 
     
     /** count of values that have been added */
-    protected int n = 0;
+    protected long n = 0;
 
     /** first moment of values that have been added */
     protected double m1 = Double.NaN;

@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,7 +58,7 @@ import java.io.Serializable;
 import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
 
 /**
- * @version $Revision: 1.14 $ $Date: 2003/11/19 03:28:24 $
+ * @version $Revision: 1.15 $ $Date: 2004/01/25 21:30:41 $
  */
 public class Skewness extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -74,7 +74,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
     protected double skewness = Double.NaN;
 
     /** */
-    private int n = 0;
+    private long n = 0;
 
     /**
      * Constructs a Skewness

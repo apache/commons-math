@@ -58,13 +58,12 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import java.net.URL;
 
-import org.apache.commons.math.stat.DescriptiveStatistics;
-import org.apache.commons.math.stat.StorelessDescriptiveStatisticsImpl;
+import org.apache.commons.math.stat.SummaryStatistics;
  
 /**
  * Test cases for the ValueServer class.
  *
- * @version $Revision: 1.11 $ $Date: 2004/01/15 07:31:44 $
+ * @version $Revision: 1.12 $ $Date: 2004/01/25 21:30:41 $
  */
 
 public final class ValueServerTest extends TestCase {
@@ -103,7 +102,7 @@ public final class ValueServerTest extends TestCase {
         vs.computeDistribution();
         assertTrue("empirical distribution property", 
             vs.getEmpiricalDistribution() != null);
-        DescriptiveStatistics stats = new StorelessDescriptiveStatisticsImpl();
+        SummaryStatistics stats = SummaryStatistics.newInstance();
         for (int i = 1; i < 1000; i++) {
             next = vs.getNext();
             stats.addValue(next);
@@ -114,7 +113,7 @@ public final class ValueServerTest extends TestCase {
             tolerance);
         
         vs.computeDistribution(500);
-        stats = new StorelessDescriptiveStatisticsImpl();
+        stats = SummaryStatistics.newInstance();
         for (int i = 1; i < 1000; i++) {
             next = vs.getNext();
             stats.addValue(next);

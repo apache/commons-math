@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,7 +61,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the TestStatistic class.
  *
- * @version $Revision: 1.9 $ $Date: 2003/11/19 03:22:54 $
+ * @version $Revision: 1.10 $ $Date: 2004/01/25 21:30:41 $
  */
 
 public final class TestStatisticTest extends TestCase {
@@ -186,11 +186,11 @@ public final class TestStatisticTest extends TestCase {
                 92.0,
                 95.0 };
         double mu = 100.0;
-        DescriptiveStatistics sampleStats = null;
+        SummaryStatistics sampleStats = null;
         try {
             sampleStats =
-                DescriptiveStatistics.newInstance(
-                    StorelessDescriptiveStatisticsImpl.class);
+                SummaryStatistics.newInstance(
+                    SummaryStatisticsImpl.class);
         } catch (InstantiationException e5) {
             // TODO Auto-generated catch block
             e5.printStackTrace();
@@ -221,18 +221,8 @@ public final class TestStatisticTest extends TestCase {
             ;
         }
 
-        DescriptiveStatistics nullStats = null;
-        try {
-            nullStats =
-                DescriptiveStatistics.newInstance(
-                    StorelessDescriptiveStatisticsImpl.class);
-        } catch (InstantiationException e6) {
-            // TODO Auto-generated catch block
-            e6.printStackTrace();
-        } catch (IllegalAccessException e6) {
-            // TODO Auto-generated catch block
-            e6.printStackTrace();
-        }
+        SummaryStatistics nullStats = SummaryStatistics.newInstance();
+         
         try {
             testStatistic.t(mu, nullStats);
             fail("arguments too short, IllegalArgumentException expected");
@@ -249,18 +239,8 @@ public final class TestStatisticTest extends TestCase {
             ;
         }
 
-        DescriptiveStatistics emptyStats = null;
-        try {
-            emptyStats =
-                DescriptiveStatistics.newInstance(
-                    StorelessDescriptiveStatisticsImpl.class);
-        } catch (InstantiationException e4) {
-            // TODO Auto-generated catch block
-            e4.printStackTrace();
-        } catch (IllegalAccessException e4) {
-            // TODO Auto-generated catch block
-            e4.printStackTrace();
-        }
+        SummaryStatistics emptyStats =SummaryStatistics.newInstance();
+        
         try {
             testStatistic.t(mu, emptyStats);
             fail("arguments too short, IllegalArgumentException expected");
@@ -285,18 +265,8 @@ public final class TestStatisticTest extends TestCase {
             e.printStackTrace();
         }
 
-        DescriptiveStatistics tooShortStats = null;
-        try {
-            tooShortStats =
-                DescriptiveStatistics.newInstance(
-                    StorelessDescriptiveStatisticsImpl.class);
-        } catch (InstantiationException e3) {
-            // TODO Auto-generated catch block
-            e3.printStackTrace();
-        } catch (IllegalAccessException e3) {
-            // TODO Auto-generated catch block
-            e3.printStackTrace();
-        }
+        SummaryStatistics tooShortStats = SummaryStatistics.newInstance();
+        
         tooShortStats.addValue(0d);
         tooShortStats.addValue(2d);
         try {
@@ -339,18 +309,8 @@ public final class TestStatisticTest extends TestCase {
                 3d,
                 3d };
 
-        DescriptiveStatistics oneSidedPStats = null;
-        try {
-            oneSidedPStats =
-                DescriptiveStatistics.newInstance(
-                    StorelessDescriptiveStatisticsImpl.class);
-        } catch (InstantiationException e2) {
-            // TODO Auto-generated catch block
-            e2.printStackTrace();
-        } catch (IllegalAccessException e2) {
-            // TODO Auto-generated catch block
-            e2.printStackTrace();
-        }
+        SummaryStatistics oneSidedPStats = SummaryStatistics.newInstance();;
+        
         for (int i = 0; i < oneSidedP.length; i++) {
             oneSidedPStats.addValue(oneSidedP[i]);
         }
@@ -418,34 +378,14 @@ public final class TestStatisticTest extends TestCase {
         double[] sample2 =
             { -1d, 12d, -1d, -3d, 3d, -5d, 5d, 2d, -11d, -1d, -3d };
 
-        DescriptiveStatistics sampleStats1 = null;
-        try {
-            sampleStats1 =
-                DescriptiveStatistics.newInstance(
-                    StorelessDescriptiveStatisticsImpl.class);
-        } catch (InstantiationException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        } catch (IllegalAccessException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
+        SummaryStatistics sampleStats1 = SummaryStatistics.newInstance();
+        
         for (int i = 0; i < sample1.length; i++) {
             sampleStats1.addValue(sample1[i]);
         }
 
-        DescriptiveStatistics sampleStats2 = null;
-        try {
-            sampleStats2 =
-                DescriptiveStatistics.newInstance(
-                    StorelessDescriptiveStatisticsImpl.class);
-        } catch (InstantiationException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        SummaryStatistics sampleStats2 = SummaryStatistics.newInstance();
+        
         for (int i = 0; i < sample2.length; i++) {
             sampleStats2.addValue(sample2[i]);
         }

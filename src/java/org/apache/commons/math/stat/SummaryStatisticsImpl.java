@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
+ * Copyright (c) 2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -53,12 +53,10 @@
  */
 package org.apache.commons.math.stat;
 
-import org.apache.commons.math.stat.univariate.UnivariateStatistic;
-import org.apache.commons.math.stat.univariate.moment.FourthMoment;
+import org.apache.commons.math.stat.univariate.moment.SecondMoment;
+import org.apache.commons.math.stat.univariate.moment.FirstMoment;
 import org.apache.commons.math.stat.univariate.moment.GeometricMean;
-import org.apache.commons.math.stat.univariate.moment.Kurtosis;
 import org.apache.commons.math.stat.univariate.moment.Mean;
-import org.apache.commons.math.stat.univariate.moment.Skewness;
 import org.apache.commons.math.stat.univariate.moment.Variance;
 import org.apache.commons.math.stat.univariate.rank.Max;
 import org.apache.commons.math.stat.univariate.rank.Min;
@@ -67,21 +65,20 @@ import org.apache.commons.math.stat.univariate.summary.SumOfLogs;
 import org.apache.commons.math.stat.univariate.summary.SumOfSquares;
 
 /**
- * Provides a default {@link DescriptiveStatistics} implementation, including only statistics
- * that can be computed in one pass through the data without storing the full set of sample
- * data values.
- * @version $Revision: 1.2 $ $Date: 2004/01/18 03:45:02 $  
+ * Provides a default {@link SummaryStatistics} implementation.
+ * 
+ * @version $Revision: 1.1 $ $Date: 2004/01/25 21:30:41 $  
  */
-public abstract class AbstractStorelessDescriptiveStatistics extends DescriptiveStatistics {
-
-    /** hold the window size **/
-    protected int windowSize = INFINITE_WINDOW;
+public class SummaryStatisticsImpl extends SummaryStatistics {
 
     /** count of values that have been added */
-    protected int n = 0;
+    protected long n = 0;
 
-    /** FourthMoment is used in calculating mean, variance,skew and kurtosis */
-    protected FourthMoment moment = null;
+    /** FirstMoment is used to compute the mean */
+    protected FirstMoment firstMoment = null;
+    
+    /** SecondMoment is used to compute the variance */
+    protected SecondMoment secondMoment = null;
     
     /** sum of values that have been added */
     protected Sum sum = null;
@@ -107,63 +104,41 @@ public abstract class AbstractStorelessDescriptiveStatistics extends Descriptive
     /** variance of values that have been added */
     protected Variance variance = null;
 
-    /** skewness of values that have been added */
-    protected Skewness skewness = null;
-
-    /** kurtosis of values that have been added */
-    protected Kurtosis kurtosis = null;
-
     /**
-     * Construct an AbstractStorelessDescriptiveStatistics
+     * Construct a SummaryStatistics
      */
-    public AbstractStorelessDescriptiveStatistics() {
-        super();
-        
+    public SummaryStatisticsImpl() {
         sum = new Sum();
         sumsq = new SumOfSquares();
         min = new Min();
         max = new Max();
         sumLog = new SumOfLogs();
         geoMean = new GeometricMean();
-
-        moment = new FourthMoment();
-        mean = new Mean(moment);
-        variance = new Variance(moment);
-        skewness = new Skewness(moment);
-        kurtosis = new Kurtosis(moment);
+        secondMoment = new SecondMoment();
+        firstMoment = new FirstMoment();
     }
 
     /**
-     * Construct an AbstractStorelessDescriptiveStatistics with a window
-     * @param window The Window Size
+     * Add a value to the data
+     * 
+     * @param value  the value to add
      */
-    public AbstractStorelessDescriptiveStatistics(int window) {
-        this();
-        setWindowSize(window);
+    public void addValue(double value) {
+    	sum.increment(value);
+    	sumsq.increment(value);
+    	min.increment(value);
+    	max.increment(value);
+    	sumLog.increment(value);
+    	geoMean.increment(value);
+    	firstMoment.increment(value);
+    	secondMoment.increment(value);
+    	n++;
     }
-
-    /**
-     * Apply the given statistic to this univariate collection.
-     * @param stat the statistic to apply
-     * @return the computed value of the statistic.
-     */
-    public abstract double apply(UnivariateStatistic stat);
-    
-
-    /**
-     * If windowSize is set to Infinite, 
-     * statistics are calculated using the following 
-     * <a href="http://www.spss.com/tech/stat/Algorithms/11.5/descriptives.pdf">
-     * recursive strategy
-     * </a>.
-     * @see org.apache.commons.math.stat.Univariate#addValue(double)
-     */
-    public abstract void addValue(double value);
 
     /**
      * @see org.apache.commons.math.stat.Univariate#getN()
      */
-    public int getN() {
+    public long getN() {
         return n;
     }
 
@@ -171,26 +146,37 @@ public abstract class AbstractStorelessDescriptiveStatistics extends Descriptive
      * @see org.apache.commons.math.stat.Univariate#getSum()
      */
     public double getSum() {
-        return apply(sum);
+        return sum.getResult();
     }
 
     /**
-     * @see org.apache.commons.math.stat.Univariate#getSumsq()
+     * Returns the sum of the squares of the values that have been added.
+     * <p>
+     *  Double.NaN is returned if no values have been added.</p>
+     * 
+     * @return The sum of squares
      */
     public double getSumsq() {
-        return apply(sumsq);
+        return sumsq.getResult();
     }
 
     /**
-     * @see org.apache.commons.math.stat.Univariate#getMean()
+     * Returns the mean of the values that have been added.
+     * <p>
+     *  Double.NaN is returned if no values have been added.</p>
+     * 
+     * @return the mean
      */
     public double getMean() {
-        return apply(mean);
+      return new Mean(firstMoment).getResult();
     }
 
     /**
-     * Returns the standard deviation for this collection of values
-     * @see org.apache.commons.math.stat.Univariate#getStandardDeviation()
+     * Returns the standard deviation of the values that have been added.
+     * <p>
+     *  Double.NaN is returned if no values have been added.</p>
+     * 
+     * @return the standard deviation
      */
     public double getStandardDeviation() {
         double stdDev = Double.NaN;
@@ -205,104 +191,69 @@ public abstract class AbstractStorelessDescriptiveStatistics extends Descriptive
     }
 
     /**
-     * Returns the variance of the values that have been added via West's
-     * algorithm as described by
-     * <a href="http://doi.acm.org/10.1145/359146.359152">Chan, T. F. and
-     * J. G. Lewis 1979, <i>Communications of the ACM</i>,
-     * vol. 22 no. 9, pp. 526-531.</a>.
+     * Returns the variance of the values that have been added.
+     * <p>
+     *  Double.NaN is returned if no values have been added.</p>
      *
-     * @return The variance of a set of values.  
-     *         Double.NaN is returned for an empty 
-     *         set of values and 0.0 is returned for 
-     *         a &lt;= 1 value set.
+     * @return the variance 
      */
     public double getVariance() {
-        return apply(variance);
+        return new Variance(secondMoment).getResult();
     }
 
     /**
-     * Returns the skewness of the values that have been added as described by
-     * <a href="http://mathworld.wolfram.com/k-Statistic.html">
-     * Equation (6) for k-Statistics</a>.
-     * @return The skew of a set of values.  Double.NaN is returned for
-     *         an empty set of values and 0.0 is returned for a 
-     *         &lt;= 2 value set.
-     */
-    public double getSkewness() {
-        return apply(skewness);
-    }
-
-    /**
-     * Returns the kurtosis of the values that have been added as described by
-     * <a href="http://mathworld.wolfram.com/k-Statistic.html">
-     * Equation (7) for k-Statistics</a>.
+     * Returns the maximum of the values that have been added.
+     * <p>
+     *  Double.NaN is returned if no values have been added.</p>
      *
-     * @return The kurtosis of a set of values.  Double.NaN is returned for
-     *         an empty set of values and 0.0 is returned for a &lt;= 3 
-     *         value set.
-     */
-    public double getKurtosis() {
-        return apply(kurtosis);
-    }
-
-    /**
-     * @see org.apache.commons.math.stat.DescriptiveStatistics#getKurtosisClass()
-     */
-    public int getKurtosisClass() {
-        int kClass = MESOKURTIC;
-
-        double kurtosis = getKurtosis();
-        if (kurtosis > 0) {
-            kClass = LEPTOKURTIC;
-        } else if (kurtosis < 0) {
-            kClass = PLATYKURTIC;
-        }
-        return (kClass);
-    }
-
-    /**
-     * @see org.apache.commons.math.stat.Univariate#getMax()
+     * @return the maximum  
      */
     public double getMax() {
-        return apply(max);
+        return max.getResult();
     }
 
     /**
-     * @see org.apache.commons.math.stat.Univariate#getMin()
+     * Returns the minimum of the values that have been added.
+     * <p>
+     *  Double.NaN is returned if no values have been added.</p>
+     *
+     * @return the minimum  
      */
     public double getMin() {
-        return apply(min);
+        return min.getResult();
     }
 
     /**
-    * @see org.apache.commons.math.stat.Univariate#getGeometricMean()
-    */
+     * Returns the geometric mean of the values that have been added.
+     * <p>
+     *  Double.NaN is returned if no values have been added.</p>
+     *
+     * @return the geometric mean  
+     */
     public double getGeometricMean() {
-        return apply(geoMean);
+        return geoMean.getResult();
     }
     
     /**
      * Generates a text report displaying
-     * univariate statistics from values that
+     * summary statistics from values that
      * have been added.
      * @return String with line feeds displaying statistics
      */
     public String toString() {
         StringBuffer outBuffer = new StringBuffer();
-        outBuffer.append("UnivariateImpl:\n");
+        outBuffer.append("SummaryStatistics:\n");
         outBuffer.append("n: " + n + "\n");
         outBuffer.append("min: " + min + "\n");
         outBuffer.append("max: " + max + "\n");
         outBuffer.append("mean: " + getMean() + "\n");
         outBuffer.append("std dev: " + getStandardDeviation() + "\n");
-        outBuffer.append("skewness: " + getSkewness() + "\n");
-        outBuffer.append("kurtosis: " + getKurtosis() + "\n");
         return outBuffer.toString();
     }
 
-    /**
-     * @see org.apache.commons.math.stat.Univariate#clear()
-     */
+    /** 
+	 * Resets all statistics and storage
+	 */
     public void clear() {
         this.n = 0;
         min.clear();
@@ -311,27 +262,8 @@ public abstract class AbstractStorelessDescriptiveStatistics extends Descriptive
         sumLog.clear();
         sumsq.clear();
         geoMean.clear();
-        
-        moment.clear();
-        mean.clear();
-        variance.clear();
-        skewness.clear();
-        kurtosis.clear();
-    }
-
-    /**
-     * @see org.apache.commons.math.stat.Univariate#getWindowSize()
-     */
-    public int getWindowSize() {
-        return windowSize;
-    }
-
-    /**
-     * @see org.apache.commons.math.stat.Univariate#setWindowSize(int)
-     */
-    public void setWindowSize(int windowSize) {
-        clear();
-        this.windowSize = windowSize;
+        firstMoment.clear();
+        secondMoment.clear();
     }
 
 }

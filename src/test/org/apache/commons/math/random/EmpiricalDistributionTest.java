@@ -60,13 +60,12 @@ import java.io.File;
 import java.net.URL;
 import java.net.URLDecoder;
 
-import org.apache.commons.math.stat.DescriptiveStatistics;
-import org.apache.commons.math.stat.StorelessDescriptiveStatisticsImpl;
+import org.apache.commons.math.stat.SummaryStatistics;
 
 /**
  * Test cases for the EmpiricalDistribution class
  *
- * @version $Revision: 1.10 $ $Date: 2004/01/15 05:22:08 $
+ * @version $Revision: 1.11 $ $Date: 2004/01/25 21:30:41 $
  */
 
 public final class EmpiricalDistributionTest extends TestCase {
@@ -150,7 +149,7 @@ public final class EmpiricalDistributionTest extends TestCase {
     
     private void tstGen(double tolerance)throws Exception {
         empiricalDistribution.load(file);   
-        DescriptiveStatistics stats = new StorelessDescriptiveStatisticsImpl();
+        SummaryStatistics stats = SummaryStatistics.newInstance();
         for (int i = 1; i < 1000; i++) {
             stats.addValue(empiricalDistribution.getNextValue());
         }

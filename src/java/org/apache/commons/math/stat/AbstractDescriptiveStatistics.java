@@ -55,40 +55,157 @@ package org.apache.commons.math.stat;
 
 import java.util.Arrays;
 
+import org.apache.commons.math.stat.univariate.moment.GeometricMean;
+import org.apache.commons.math.stat.univariate.moment.Kurtosis;
+import org.apache.commons.math.stat.univariate.moment.Mean;
+import org.apache.commons.math.stat.univariate.moment.Skewness;
+import org.apache.commons.math.stat.univariate.moment.Variance;
+import org.apache.commons.math.stat.univariate.rank.Max;
+import org.apache.commons.math.stat.univariate.rank.Min;
 import org.apache.commons.math.stat.univariate.rank.Percentile;
+import org.apache.commons.math.stat.univariate.summary.Sum;
+import org.apache.commons.math.stat.univariate.summary.SumOfSquares;
+import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 
 /**
- * Extends {@link AbstractStorelessDescriptiveStatistics} to include univariate statistics
- * that may require access to the full set of sample values. 
- * @version $Revision: 1.2 $ $Date: 2004/01/18 03:45:02 $
+ * Abstract superclass for DescriptiveStatistics implementations. 
+ * 
+ * @version $Revision: 1.3 $ $Date: 2004/01/25 21:30:41 $
  */
 public abstract class AbstractDescriptiveStatistics
-    extends AbstractStorelessDescriptiveStatistics {
-
-    /** Percentile */
-    protected Percentile percentile = new Percentile(50);
+    extends DescriptiveStatistics {
         
     /**
      * Create an AbstractDescriptiveStatistics
      */
     public AbstractDescriptiveStatistics() {
-        super();
     }
 
     /**
      * Create an AbstractDescriptiveStatistics with a specific Window
      * @param window WindowSIze for stat calculation
      */
-    public AbstractDescriptiveStatistics(int window) {
-        super(window);
+    public AbstractDescriptiveStatistics(int window)  {
+    	setWindowSize(window);
     }
 
     /**
-     * @see org.apache.commons.math.stat.DescriptiveStatistics#getPercentile(double)
+     * @see org.apache.commons.math.stat.DescriptiveStatistics#getSum()
+     */
+    public double getSum() {
+    	return apply(new Sum());
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.DescriptiveStatistics#getSumsq()
+     */
+    public double getSumsq() {
+    	return apply(new SumOfSquares());
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.DescriptiveStatistics#getMean()
+     */
+    public double getMean() {
+    	return apply(new Mean());
+    }
+
+    /**
+    * @see org.apache.commons.math.stat.DescriptiveStatistics#getStandardDeviation()
+     */
+    public double getStandardDeviation() {
+    	double stdDev = Double.NaN;
+    	if (getN() > 0) {
+    		if (getN() > 1) {
+    			stdDev = Math.sqrt(getVariance());
+    		} else {
+    			stdDev = 0.0;
+    		}
+    	}
+    	return (stdDev);
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.DescriptiveStatistics#getVariance()
+     */
+    public double getVariance() {
+    	return apply(new Variance());
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.DescriptiveStatistics#getSkewness()
+     */
+    public double getSkewness() {
+    	return apply(new Skewness());
+    }
+
+    /**
+      * @see org.apache.commons.math.stat.DescriptiveStatistics#getKurtosis()
+     */
+    public double getKurtosis() {
+    	return apply(new Kurtosis());
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.DescriptiveStatistics#getKurtosisClass()
+     */
+    public int getKurtosisClass() {
+    	int kClass = MESOKURTIC;
+
+    	double kurtosis = getKurtosis();
+    	if (kurtosis > 0) {
+    		kClass = LEPTOKURTIC;
+    	} else if (kurtosis < 0) {
+    		kClass = PLATYKURTIC;
+    	}
+    	return (kClass);
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.DescriptiveStatistics#getMax()
+     */
+    public double getMax() {
+    	return apply(new Max());
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.DescriptiveStatistics#getMin()
+     */
+    public double getMin() {
+    	return apply(new Min());
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.DescriptiveStatistics#getGeometricMean()
+     */
+    public double getGeometricMean() {
+    	return apply(new GeometricMean());
+    }
+    
+    /**
+     * @see org.apache.commons.math.stat.DescriptiveStatistics#getPercentile()
      */
     public double getPercentile(double p) {
-        percentile.setPercentile(p);
-        return apply(percentile);
+    	return apply(new Percentile(p));
+    }
+    
+    /**
+     * Generates a text report displaying
+     * univariate statistics from values that
+     * have been added.
+     * @return String with line feeds displaying statistics
+     */
+    public String toString() {
+    	StringBuffer outBuffer = new StringBuffer();
+    	outBuffer.append("UnivariateImpl:\n");
+    	outBuffer.append("n: " + getN() + "\n");
+    	outBuffer.append("min: " + getMin() + "\n");
+    	outBuffer.append("max: " + getMax() + "\n");
+    	outBuffer.append("mean: " + getMean() + "\n");
+    	outBuffer.append("std dev: " + getStandardDeviation() + "\n");
+    	outBuffer.append("skewness: " + getSkewness() + "\n");
+    	outBuffer.append("kurtosis: " + getKurtosis() + "\n");
+    	return outBuffer.toString();
     }
     
     /**
@@ -101,7 +218,7 @@ public abstract class AbstractDescriptiveStatistics
     }
     
     /**
-     * @see org.apache.commons.math.stat.Univariate#addValue(double)
+     * @see org.apache.commons.math.stat.DescriptiveStatistics#addValue(double)
      */
     public abstract void addValue(double value);
 
@@ -110,12 +227,14 @@ public abstract class AbstractDescriptiveStatistics
      */
     public abstract double[] getValues();
 
-
     /**
      * @see org.apache.commons.math.stat.DescriptiveStatistics#getElement(int)
      */
     public abstract double getElement(int index);
-
-
-
+    
+    /**
+      * @see org.apache.commons.math.stat.DescriptiveStatistics#apply(UnivariateStatistic)
+     */
+    public abstract double apply(UnivariateStatistic stat);
+    
 }

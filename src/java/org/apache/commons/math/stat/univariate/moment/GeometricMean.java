@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,14 +60,14 @@ import org.apache.commons.math.stat.univariate.summary.SumOfLogs;
 /**
  * Returns the <a href="http://www.xycoon.com/geometric_mean.htm">
  * geometric mean </a> of the available values
- * @version $Revision: 1.14 $ $Date: 2003/11/19 03:28:24 $
+ * @version $Revision: 1.15 $ $Date: 2004/01/25 21:30:41 $
  */
 public class GeometricMean extends SumOfLogs implements Serializable{
 
     static final long serialVersionUID = -8178734905303459453L;  
       
     /** */
-    protected int n = 0;
+    protected long n = 0;
 
     /** */
     private double geoMean = Double.NaN;

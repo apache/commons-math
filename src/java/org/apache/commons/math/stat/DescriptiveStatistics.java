@@ -57,12 +57,14 @@ import java.io.Serializable;
 
 import org.apache.commons.discovery.tools.DiscoverClass;
 
+import org.apache.commons.math.stat.univariate.UnivariateStatistic;
+
 /**
  * Abstract factory class for univariate statistical summaries.
  * 
- * @version $Revision: 1.3 $ $Date: 2004/01/18 03:45:02 $
+ * @version $Revision: 1.4 $ $Date: 2004/01/25 21:30:41 $
  */
-public abstract class DescriptiveStatistics implements Serializable{
+public abstract class DescriptiveStatistics implements Serializable, StatisticalSummary {
 
 	/**
 	 * Create an instance of a <code>DescriptiveStatistics</code>
@@ -195,7 +197,7 @@ public abstract class DescriptiveStatistics implements Serializable{
 	 * Returns the number of available values
 	 * @return The number of available values
 	 */
-	public abstract int getN();
+	public abstract long getN();
 
 	/**
 	 * Returns the sum of the values that have been added to Univariate.
@@ -279,5 +281,12 @@ public abstract class DescriptiveStatistics implements Serializable{
      * values
      */
 	public abstract double getPercentile(double p);
+	
+	/**
+	 * Apply the given statistic to the data associated with this set of statistics.
+	 * @param stat the statistic to apply
+	 * @return the computed value of the statistic.
+	 */
+	public abstract double apply(UnivariateStatistic stat);
 
 }

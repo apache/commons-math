@@ -58,8 +58,12 @@ import java.io.Serializable;
 import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
 
 /**
- *
- * @version $Revision: 1.14 $ $Date: 2003/11/19 03:28:24 $
+ * Updating forumulas use West's algorithm as described in
+ * <a href="http://doi.acm.org/10.1145/359146.359152">Chan, T. F. and
+ * J. G. Lewis 1979, <i>Communications of the ACM</i>,
+ * vol. 22 no. 9, pp. 526-531.</a>.
+ * 
+ * @version $Revision: 1.15 $ $Date: 2004/01/25 21:30:41 $
  */
 public class Variance extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -87,7 +91,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * If the external SecondMoment is used, the this is updated from
      * that moments counter
      */
-    protected int n = 0;
+    protected long n = 0;
 
     /**
      * Constructs a Variance.

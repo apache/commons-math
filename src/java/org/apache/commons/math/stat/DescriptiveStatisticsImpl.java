@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,26 +55,44 @@ package org.apache.commons.math.stat;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.stat.univariate.*;
+import java.util.Arrays;
+
+import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 import org.apache.commons.math.util.ContractableDoubleArray;
 
 /**
- * @version $Revision: 1.2 $ $Date: 2003/11/19 03:28:23 $
+ * @version $Revision: 1.3 $ $Date: 2004/01/25 21:30:41 $
  */
 public class DescriptiveStatisticsImpl extends AbstractDescriptiveStatistics implements Serializable {
 
-    /** A contractable double array is used.  memory is reclaimed when 
-     * the storage of the array becomes too empty.
+	/** hold the window size **/
+	protected int windowSize = INFINITE_WINDOW;
+    
+    /** 
+     *  Stored data values
      */
     protected ContractableDoubleArray eDA;
 
     /**
-     * Construct a DescriptiveStatisticsImpl
+     * Construct a DescriptiveStatisticsImpl with infinite window
      */
     public DescriptiveStatisticsImpl() {
+    	super();
         eDA = new ContractableDoubleArray();
     }
+    
+    /**
+     * Construct a DescriptiveStatisticsImpl with finite window
+     */
+    public DescriptiveStatisticsImpl(int window) {
+    	super(window);
+    	eDA = new ContractableDoubleArray();
+    }
 
+    public int getWindowSize() {
+    	return windowSize;
+    }
+    
     /**
      * @see org.apache.commons.math.stat.DescriptiveStatistics#getValues()
      */
@@ -89,6 +107,15 @@ public class DescriptiveStatisticsImpl extends AbstractDescriptiveStatistics imp
             eDA.getNumElements());
         return copiedArray;
     }
+    
+    /**
+     * @see org.apache.commons.math.stat.DescriptiveStatistics#getSortedValues()
+     */
+    public double[] getSortedValues() {
+    	double[] sort = getValues();
+    	Arrays.sort(sort);
+    	return sort;
+    }
 
     /**
      * @see org.apache.commons.math.stat.DescriptiveStatistics#getElement(int)
@@ -98,14 +125,14 @@ public class DescriptiveStatisticsImpl extends AbstractDescriptiveStatistics imp
     }
 
     /**
-     * @see org.apache.commons.math.stat.Univariate#getN()
+     * @see org.apache.commons.math.stat.DescriptiveStatistics#getN()
      */
-    public int getN() {
+    public long getN() {
         return eDA.getNumElements();
     }
 
     /**
-     * @see org.apache.commons.math.stat.Univariate#addValue(double)
+     * @see org.apache.commons.math.stat.DescriptiveStatistics#addValue(double)
      */
     public synchronized void addValue(double v) {
         if (windowSize != INFINITE_WINDOW) {
@@ -125,15 +152,14 @@ public class DescriptiveStatisticsImpl extends AbstractDescriptiveStatistics imp
     }
 
     /**
-     * @see org.apache.commons.math.stat.Univariate#clear()
+     * @see org.apache.commons.math.stat.DescriptiveStatistics#clear()
      */
     public synchronized void clear() {
-        super.clear();
         eDA.clear();
     }
 
     /**
-     * @see org.apache.commons.math.stat.Univariate#setWindowSize(int)
+     * @see org.apache.commons.math.stat.DescriptiveStatistics#setWindowSize(int)
      */
     public synchronized void setWindowSize(int windowSize) {
         this.windowSize = windowSize;

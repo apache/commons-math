@@ -78,7 +78,7 @@ import java.net.MalformedURLException;
  *                       standard deviation = <code>sigma</code></li>
  * <li> CONSTANT_MODE -- returns <code>mu</code> every time.</li></ul> 
  *
- * @version $Revision: 1.10 $ $Date: 2004/01/15 05:22:08 $
+ * @version $Revision: 1.11 $ $Date: 2004/01/25 21:30:41 $
  *
  */
 public class ValueServer implements Serializable {
@@ -240,7 +240,6 @@ public class ValueServer implements Serializable {
      * Sets the <code>valuesFileURL</code> using a string URL representation
      * @param url String representation for new valuesFileURL.
      * @throws MalformedURLException if url is not well formed
-     * @deprecated use {@link #setValuesFileURL(URL)} to be removed before 0.1 release
      */
     public void setValuesFileURL(String url) throws MalformedURLException {
         this.valuesFileURL = new URL(url);

@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
+ * Copyright (c) 2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -51,63 +51,50 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.commons.math.stat.univariate;
-
-import org.apache.commons.math.TestUtils;
+package org.apache.commons.math.stat;
 
 /**
- * Test cases for the {@link UnivariateStatistic} class.
- * @version $Revision: 1.10 $ $Date: 2004/01/25 21:30:41 $
+ *  Reporting interface for basic univariate statistics.
+ * 
+  * @version $Revision: 1.1 $ $Date: 2004/01/25 21:30:41 $
  */
-public abstract class StorelessUnivariateStatisticAbstractTest
-    extends UnivariateStatisticAbstractTest {
-
-    public StorelessUnivariateStatisticAbstractTest(String name) {
-        super(name);
-    }
-
-    public abstract UnivariateStatistic getUnivariateStatistic();
-
-    public abstract double expectedValue();
-
-    public void testIncrementation() throws Exception {
-
-        StorelessUnivariateStatistic statistic =
-            (StorelessUnivariateStatistic) getUnivariateStatistic();
-
-        statistic.clear();
-
-        for (int i = 0; i < testArray.length; i++) {
-            statistic.increment(testArray[i]);
-        }
-
-        assertEquals(expectedValue(), statistic.getResult(), getTolerance());
-
-        statistic.clear();
-
-        assertTrue(Double.isNaN(statistic.getResult()));
-
-    }
-
-    public void testSerialization() throws Exception {
-
-        StorelessUnivariateStatistic statistic =
-            (StorelessUnivariateStatistic) getUnivariateStatistic();
-
-        statistic.clear();
-
-        for (int i = 0; i < testArray.length; i++) {
-            statistic.increment(testArray[i]);
-            if(i % 5 == 0)
-                statistic = (StorelessUnivariateStatistic)TestUtils.serializeAndRecover(statistic); 
-        }
-        
-        assertEquals(expectedValue(), statistic.getResult(), getTolerance());
-
-        statistic.clear();
-
-        assertTrue(Double.isNaN(statistic.getResult()));
-
-    }
-
+public interface StatisticalSummary {
+	/** 
+	 * Returns the <a href="http://www.xycoon.com/arithmetic_mean.htm">
+	 * arithmetic mean </a> of the available values 
+	 * @return The mean or Double.NaN if no values have been added.
+	 */
+	public abstract double getMean();
+	/** 
+	 * Returns the variance of the available values.
+	 * @return The variance, Double.NaN if no values have been added 
+	 * or 0.0 for a single value set.  
+	 */
+	public abstract double getVariance();
+	/** 
+	 * Returns the standard deviation of the available values.
+	 * @return The standard deviation, Double.NaN if no values have been added 
+	 * or 0.0 for a single value set. 
+	 */
+	public abstract double getStandardDeviation();
+	/** 
+	 * Returns the maximum of the available values
+	 * @return The max or Double.NaN if no values have been added.
+	 */
+	public abstract double getMax();
+	/** 
+	* Returns the minimum of the available values
+	* @return The min or Double.NaN if no values have been added.
+	*/
+	public abstract double getMin();
+	/** 
+	 * Returns the number of available values
+	 * @return The number of available values
+	 */
+	public abstract long getN();
+	/**
+	 * Returns the sum of the values that have been added to Univariate.
+	 * @return The sum or Double.NaN if no values have been added
+	 */
+	public abstract double getSum();
 }

@@ -59,7 +59,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 
-import org.apache.commons.math.stat.DescriptiveStatistics;
+import org.apache.commons.math.stat.SummaryStatistics;
 
 /**
  * Represents an <a href="http://random.mat.sbg.ac.at/~ste/dipl/node11.html">
@@ -81,7 +81,7 @@ import org.apache.commons.math.stat.DescriptiveStatistics;
  * build grouped frequnecy histograms representing the input data or to
  * generate random values "like" those in the input file -- i.e., the values
  * generated will follow the distribution of the values in the file.
- * @version $Revision: 1.12 $ $Date: 2004/01/15 05:22:08 $
+ * @version $Revision: 1.13 $ $Date: 2004/01/25 21:30:41 $
  */
 public interface EmpiricalDistribution {
     
@@ -123,7 +123,7 @@ public interface EmpiricalDistribution {
      * @return the sample statistics
      * @throws IllegalStateException if the distribution has not been loaded
      */
-    DescriptiveStatistics getSampleStats() throws IllegalStateException;
+    SummaryStatistics getSampleStats() throws IllegalStateException;
     
     /** 
      * Loads a saved distribution from a file.

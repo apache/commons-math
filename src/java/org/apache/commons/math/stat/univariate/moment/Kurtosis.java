@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,7 +64,7 @@ import org
     .AbstractStorelessUnivariateStatistic;
 
 /**
- * @version $Revision: 1.14 $ $Date: 2003/11/19 03:28:24 $
+ * @version $Revision: 1.15 $ $Date: 2004/01/25 21:30:41 $
  */
 public class Kurtosis extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -80,7 +80,7 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic implements Se
     private double kurtosis = Double.NaN;
 
     /** */
-    private int n = 0;
+    private long n = 0;
 
     /**
      * Construct a Kurtosis

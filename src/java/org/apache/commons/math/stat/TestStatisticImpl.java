@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,7 +64,7 @@ import org.apache.commons.math.distribution.ChiSquaredDistribution;
 /**
  * Implements test statistics defined in the TestStatistic interface.
  *
- * @version $Revision: 1.10 $ $Date: 2003/11/19 03:22:54 $
+ * @version $Revision: 1.11 $ $Date: 2004/01/25 21:30:41 $
  */
 public class TestStatisticImpl implements TestStatistic, Serializable {
 
@@ -255,11 +255,11 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
 
     /**
      * @param mu comparison constant
-     * @param sampleStats DescriptiveStatistics holding sample summary statitstics
+     * @param sampleStats StatisticalSummary holding sample summary statitstics
      * @return t statistic
      * @throws IllegalArgumentException if the precondition is not met
      */
-    public double t(double mu, DescriptiveStatistics sampleStats)
+    public double t(double mu, StatisticalSummary sampleStats)
         throws IllegalArgumentException {
         if ((sampleStats == null) || (sampleStats.getN() < 5)) {
             throw new IllegalArgumentException("insufficient data for t statistic");
@@ -272,14 +272,14 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
     }
 
     /**
-     * @param sampleStats1 DescriptiveStatistics describing data from the first sample
-     * @param sampleStats2 DescriptiveStatistics describing data from the second sample
+     * @param sampleStats1 StatisticalSummary describing data from the first sample
+     * @param sampleStats2 StatisticalSummary describing data from the second sample
      * @return t statistic
      * @throws IllegalArgumentException if the precondition is not met
      */
     public double t(
-        DescriptiveStatistics sampleStats1,
-        DescriptiveStatistics sampleStats2)
+        StatisticalSummary sampleStats1,
+        StatisticalSummary sampleStats2)
         throws IllegalArgumentException {
         if ((sampleStats1 == null)
             || (sampleStats2 == null
@@ -296,14 +296,14 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
     }
 
     /**
-     * @param sampleStats1 DescriptiveStatistics describing data from the first sample
-     * @param sampleStats2 DescriptiveStatistics describing data from the second sample
+     * @param sampleStats1 StatisticalSummary describing data from the first sample
+     * @param sampleStats2 StatisticalSummary describing data from the second sample
      * @return p-value for t-test
      * @throws IllegalArgumentException if the precondition is not met
      */
     public double tTest(
-        DescriptiveStatistics sampleStats1,
-        DescriptiveStatistics sampleStats2)
+        StatisticalSummary sampleStats1,
+        StatisticalSummary sampleStats2)
         throws IllegalArgumentException, MathException {
         if ((sampleStats1 == null)
             || (sampleStats2 == null
@@ -320,16 +320,16 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
     }
 
     /**
-     * @param sampleStats1 DescriptiveStatistics describing sample data values
-     * @param sampleStats2 DescriptiveStatistics describing sample data values
+     * @param sampleStats1 StatisticalSummary describing sample data values
+     * @param sampleStats2 StatisticalSummary describing sample data values
      * @param alpha significance level of the test
      * @return true if the null hypothesis can be rejected with 
      * confidence 1 - alpha
      * @throws IllegalArgumentException if the preconditions are not met
      */
     public boolean tTest(
-        DescriptiveStatistics sampleStats1,
-        DescriptiveStatistics sampleStats2,
+        StatisticalSummary sampleStats1,
+        StatisticalSummary sampleStats2,
         double alpha)
         throws IllegalArgumentException, MathException {
         if ((alpha <= 0) || (alpha > 0.5)) {
@@ -341,14 +341,14 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
 
     /**
      * @param mu constant value to compare sample mean against
-     * @param sampleStats DescriptiveStatistics describing sample data values
+     * @param sampleStats StatisticalSummary describing sample data values
      * @param alpha significance level of the test
      * @return p-value
      * @throws IllegalArgumentException if the precondition is not met
      */
     public boolean tTest(
         double mu,
-        DescriptiveStatistics sampleStats,
+        StatisticalSummary sampleStats,
         double alpha)
         throws IllegalArgumentException, MathException {
         if ((alpha <= 0) || (alpha > 0.5)) {
@@ -360,11 +360,11 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
 
     /**
      * @param mu constant value to compare sample mean against
-     * @param sampleStats DescriptiveStatistics describing sample data
+     * @param sampleStats StatisticalSummary describing sample data
      * @return p-value
      * @throws IllegalArgumentException if the precondition is not met
      */
-    public double tTest(double mu, DescriptiveStatistics sampleStats)
+    public double tTest(double mu, StatisticalSummary sampleStats)
         throws IllegalArgumentException, MathException {
         if ((sampleStats == null) || (sampleStats.getN() < 5)) {
             throw new IllegalArgumentException("insufficient data for t statistic");
