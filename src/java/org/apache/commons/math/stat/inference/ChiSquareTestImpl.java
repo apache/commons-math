@@ -22,7 +22,7 @@ import org.apache.commons.math.distribution.ChiSquaredDistribution;
 /**
  * Implements Chi-Square test statistics defined in the {@link ChiSquareTest} interface.
  *
- * @version $Revision: 1.10 $ $Date: 2004/06/26 22:08:02 $
+ * @version $Revision: 1.11 $ $Date: 2004/12/04 20:47:46 $
  */
 public class ChiSquareTestImpl implements ChiSquareTest {
     
@@ -268,7 +268,7 @@ public class ChiSquareTestImpl implements ChiSquareTest {
     private boolean isNonNegative(long[][] in) {
         for (int i = 0; i < in.length; i ++) {
             for (int j = 0; j < in[i].length; j++) {
-                if (in[i][j] <= 0) {
+                if (in[i][j] < 0) {
                     return false;
                 }
             }
