@@ -20,10 +20,11 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.apache.commons.math.TestUtils;
 /**
  * Test cases for the {@link DescriptiveStatistics} class.
  *
- * @version $Revision: 1.4 $ $Date: 2004/04/12 02:27:50 $
+ * @version $Revision: 1.5 $ $Date: 2004/05/18 04:21:28 $
  */
 
 public final class UnivariateImplTest extends TestCase {
@@ -41,11 +42,14 @@ public final class UnivariateImplTest extends TestCase {
     private double max = 3;
     private double tolerance = 10E-15;
     
+    protected SummaryStatistics u = null;
+    
     public UnivariateImplTest(String name) {
         super(name);
     }
     
     public void setUp() {  
+        u = SummaryStatistics.newInstance();
     }
     
     public static Test suite() {
@@ -56,7 +60,6 @@ public final class UnivariateImplTest extends TestCase {
     
     /** test stats */
     public void testStats() {
-        SummaryStatistics u = SummaryStatistics.newInstance();
         assertEquals("total count",0,u.getN(),tolerance);
         u.addValue(one);
         u.addValue(twoF);
@@ -75,7 +78,6 @@ public final class UnivariateImplTest extends TestCase {
     }     
     
     public void testN0andN1Conditions() throws Exception {
-    	SummaryStatistics u = SummaryStatistics.newInstance();
         assertTrue("Mean of n = 0 set should be NaN", 
             Double.isNaN( u.getMean() ) );
 		assertTrue("Standard Deviation of n = 0 set should be NaN", 
@@ -103,9 +105,7 @@ public final class UnivariateImplTest extends TestCase {
             
     }
 
-    public void testProductAndGeometricMean() throws Exception {
-    	SummaryStatistics u = SummaryStatistics.newInstance();
-    	    	
+    public void testProductAndGeometricMean() throws Exception {  	    	
         u.addValue( 1.0 );
         u.addValue( 2.0 );
         u.addValue( 3.0 );
@@ -116,7 +116,6 @@ public final class UnivariateImplTest extends TestCase {
     }
     
     public void testNaNContracts() {
-    	SummaryStatistics u = SummaryStatistics.newInstance();
         double nan = Double.NaN;
         assertTrue("mean not NaN",Double.isNaN(u.getMean())); 
         assertTrue("min not NaN",Double.isNaN(u.getMin())); 
@@ -142,5 +141,29 @@ public final class UnivariateImplTest extends TestCase {
         assertTrue("geom mean not NaN",Double.isNaN(u.getGeometricMean()));
         
         //FiXME: test all other NaN contract specs
+    }
+    
+    public void testGetSummary() {  
+        StatisticalSummary summary = u.getSummary();
+        verifySummary(summary);
+        u.addValue(1d);
+        summary = u.getSummary();
+        verifySummary(summary);
+        u.addValue(2d);
+        summary = u.getSummary();
+        verifySummary(summary);
+        u.addValue(2d);
+        summary = u.getSummary();
+        verifySummary(summary);     
+    }
+    
+    private void verifySummary(StatisticalSummary s) {
+        assertEquals("N",s.getN(),u.getN());
+        TestUtils.assertEquals("sum",s.getSum(),u.getSum(),tolerance);
+        TestUtils.assertEquals("var",s.getVariance(),u.getVariance(),tolerance);
+        TestUtils.assertEquals("std",s.getStandardDeviation(),u.getStandardDeviation(),tolerance);
+        TestUtils.assertEquals("mean",s.getMean(),u.getMean(),tolerance);
+        TestUtils.assertEquals("min",s.getMin(),u.getMin(),tolerance);
+        TestUtils.assertEquals("max",s.getMax(),u.getMax(),tolerance);   
     }
 }
