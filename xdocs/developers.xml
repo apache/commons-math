@@ -16,7 +16,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="xdoc.xsl"?>
-<!-- $Revision: 1.12 $ $Date: 2004/07/25 15:15:55 $ -->
+<!-- $Revision: 1.13 $ $Date: 2004/08/22 01:39:35 $ -->
 <document>
  <properties>
   <title>Developers Guide</title>
@@ -42,29 +42,23 @@
    </p>
    <subsection name="Contributing">
    <p>
-   	Becoming involved with a community project such as Commons Math can at 
-   	first appear to be very daunting. The Math projects motivations are to 
-   	design and build a well thoughtout API. With this in mind, there is a great 
-   	deal of review and discussion revolving around how and why a particular 
-   	package is included or written into the project. It is understandable that 
-   	individuals may have an interest in donating either their time or code to the 
-   	project, and we want to promote this. For this reason, we are working to
-   	maintain guidelines for proposing additional packages or coding efforts 
-   	within the project.
+      Here are some steps to take to get starting contributing to commons-math:
    	</p>
    	<p>
    	<ol>
-   		<li>Formost it is important to review the overall objectives 
-   			and <a href="proposal.html">proposal</a> upon which the project is 
+   		<li>Start by reviewing the overall objectives stated in the
+   			<a href="proposal.html">proposal</a> upon which the project is 
    			founded.
    		</li>
    		<li>Review the completed, current and future 
-   			<a href="tasks.html">tasks</a> of the project.
+   			<a href="tasks.html">tasks</a> of the project.  Also have a look
+   			at the<a href="http://wiki.apache.org/jakarta-commons/MathWishList">
+   			Wiki.</a>
    		</li>
-   		<li>Be sure to join the Commons Developer and Interest 
+   		<li>Be sure to join the commons-dev and commons-user 
    		    <a href="mail-lists.html">
    			email lists</a> and use them appropriately (make sure the string
-   		    "[math]" is somewhere in the Subject line of all your postings).
+   		    "[math]" starts the Subject line of all your postings).
    		    Make any proposals here where the group can comment on them.
    		</li>
    		<li>
