@@ -60,7 +60,7 @@ import junit.framework.TestSuite;
  * Test cases for the TestStatistic class.
  *
  * @author Phil Steitz
- * @version $Revision: 1.2 $ $Date: 2003/05/16 03:55:34 $
+ * @version $Revision: 1.3 $ $Date: 2003/05/26 17:29:36 $
  */
 
 public final class TestStatisticTest extends TestCase {
@@ -84,13 +84,13 @@ public final class TestStatisticTest extends TestCase {
     public void testChiSquare() {
        double[] observed = {11,24,69,96};
        double[] expected = {8.2,25.2,65.8,100.8};
-       assertEquals("chi-square statistic",
+       assertEquals("chi-square statistic", 
            1.39743495,testStatistic.chiSquare(expected,observed),10E-5);
        
        double[] tooShortObs = {0};
        double[] tooShortEx = {1};
        try {
-           double x = testStatistic.chiSquare(tooShortObs,tooShortEx);
+           testStatistic.chiSquare(tooShortObs,tooShortEx);
            fail("arguments too short, IllegalArgumentException expected");
        } catch (IllegalArgumentException ex) {
            ;
@@ -99,7 +99,7 @@ public final class TestStatisticTest extends TestCase {
        double[] unMatchedObs = {0,1,2,3};
        double[] unMatchedEx = {1,1,2};
        try {
-           double x = testStatistic.chiSquare(unMatchedEx,unMatchedObs);
+           testStatistic.chiSquare(unMatchedEx,unMatchedObs);
            fail("arrays have different lengths, IllegalArgumentException expected");
        } catch (IllegalArgumentException ex) {
            ;
@@ -110,5 +110,36 @@ public final class TestStatisticTest extends TestCase {
             testStatistic.chiSquare(expected,observed),Double.MIN_VALUE);
     }
        
+    public void testT(){
+		double[] observed = {93.0, 103.0, 95.0, 101.0, 91.0, 105.0, 96.0,
+            94.0, 101.0, 88.0, 98.0, 94.0, 101.0, 92.0, 95.0};
+        double mu = 100.0;
+        assertEquals("t statistic", -2.82, testStatistic.t(mu, observed),
+            10E-3);
+        
+        double[] nullObserved = null;
+        try {
+            testStatistic.t(mu, nullObserved);
+            fail("arguments too short, IllegalArgumentException expected");
+        } catch (IllegalArgumentException ex) {
+            ;
+        }
+        
+        double[] emptyObs = {};
+        try {
+            testStatistic.t(mu, emptyObs);
+            fail("arguments too short, IllegalArgumentException expected");
+        } catch (IllegalArgumentException ex) {
+            ;
+        }
+        
+        double[] tooShortObs = {1.0};
+        try {
+            testStatistic.t(mu, tooShortObs);
+            fail("arguments too short, IllegalArgumentException expected");
+        } catch (IllegalArgumentException ex) {
+            ;
+        }
+    }
 }
 

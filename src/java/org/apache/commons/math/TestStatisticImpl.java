@@ -56,14 +56,24 @@ package org.apache.commons.math;
 
 /**
  * Implements the following test statistics <ul>
- * <li><a href = http://www.itl.nist.gov/div898/handbook/eda/section3/eda35f.htm>
- *     Chi-Square</a></li></ul>
+ * <li>
+ *   <a href = http://www.itl.nist.gov/div898/handbook/eda/section3/eda35f.htm>
+ *   Chi-Square</a>
+ * </li>
+ * <li>
+ *   <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda352.htm">
+ *     One Sample t-test</a>
+ * </li>
+ * </ul>
  * @author Phil Steitz
- * @version $Revision: 1.1 $ $Date: 2003/05/15 21:58:23 $
+ * @version $Revision: 1.2 $ $Date: 2003/05/26 17:29:36 $
  * 
-*/
+ */
 public class TestStatisticImpl implements TestStatistic {
     
+    /**
+     * Default constructor.
+     */
     public TestStatisticImpl() {
     }
     
@@ -84,14 +94,39 @@ public class TestStatisticImpl implements TestStatistic {
             throw new IllegalArgumentException
                 ("observed, expected array lengths incorrect");
         }
-        for (int i = 0; i< observed.length; i++) {
+        for (int i = 0; i < observed.length; i++) {
             dev = (observed[i] - expected[i]);
-            sumSq += dev*dev/expected[i];
+            sumSq += dev * dev / expected[i];
         }
         
-         for (int i = 0; i< observed.length; i++) {
-        }
         return sumSq;
     }           
 
+    /**
+     * Computes t statistic given observed values<br/>
+     * <strong>Algorithm</strong>: 
+     * http://www.itl.nist.gov/div898/handbook/eda/section3/eda352.htm<br/>
+     * <strong>Numerical considerations</strong>: none <br>
+     * @param mu hypothesized mean value.
+     * @param observed array of observed values
+     * @return t-test statistic for the hypothesized mean and observed values.
+     * @throws IllegalArgumentException if input array length is less than 2
+     */
+	public double t(double mu, double[] observed) {
+        if((observed == null) || (observed.length < 2)) {
+            throw new IllegalArgumentException
+                ("observed array length incorrect");
+        }
+        
+        // leverage Univariate to compute statistics
+        Univariate univariate = new UnivariateImpl();
+        for (int i = 0; i < observed.length; i++) {
+			univariate.addValue(observed[i]);
+		}
+        double n = univariate.getN();
+        double xbar = univariate.getMean();
+        double std = univariate.getStandardDeviation();
+
+        return (xbar - mu) / (std / Math.sqrt(n));
+	}
 }

@@ -45,6 +45,10 @@ The Math project is a library of lightweight, self-contained mathematics and sta
      <email>mdiggory@latte.harvard.edu</email>
      <roles></roles>
    </contributor>
+   <contributor>
+     <name>Brent Worden</name>
+     <email>brent@worden.org</email>
+   </contributor>
   </contributors>  
 
   <dependencies>

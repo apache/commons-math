@@ -57,11 +57,14 @@ package org.apache.commons.math;
  * Interfaces for the following test statistics <ul>
  * <li><a href = http://www.itl.nist.gov/div898/handbook/eda/section3/eda35f.htm>
  *     Chi-Square</a></li>
+ * <li><a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda352.htm">
+ *     One Sample t-test</a></li>
  * </ul>
- * @author Phil Steitz
- * @version $Revision: 1.1 $ $Date: 2003/05/15 21:58:23 $
  * 
-*/
+ * @author Phil Steitz
+ * @version $Revision: 1.2 $ $Date: 2003/05/26 17:29:36 $
+ * 
+ */
 public interface TestStatistic {
     
     /**
@@ -84,5 +87,20 @@ public interface TestStatistic {
      * or length is less than 2
      */
     public double chiSquare(double[] expected, double[] observed);
+    
+    /**
+     * <strong>Description</strong>:
+     * Computes one sample, t-test statistic given observed values <br/>
+     * This statistic can be used to perform one sample tests for means.<br/>
+     * <strong>Definition</strong>: 
+     * http://www.itl.nist.gov/div898/handbook/eda/section3/eda352.htm<br/>
+     * <strong>Preconditions</strong>: <ul>
+     * <li>The observed array length <i>must</i> be at least 2.</li>
+     * </ul>
+     * @param mu hypothesized mean value.
+     * @param observed array of observed values
+     * @throws IllegalArgumentException if input array length is less than 2
+     */
+    public double t(double mu, double[] observed);
 }
 
