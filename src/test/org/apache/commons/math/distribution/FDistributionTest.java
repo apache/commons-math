@@ -21,7 +21,7 @@ package org.apache.commons.math.distribution;
  * Extends ContinuousDistributionAbstractTest.  See class javadoc for
  * ContinuousDistributionAbstractTest for details.
  * 
- * @version $Revision: 1.14 $ $Date: 2004/05/30 01:39:33 $
+ * @version $Revision: 1.15 $ $Date: 2004/06/10 18:27:47 $
  */
 public class FDistributionTest extends ContinuousDistributionAbstractTest {
 
@@ -97,4 +97,12 @@ public class FDistributionTest extends ContinuousDistributionAbstractTest {
         }
     } 
 
+    public void testLargeDegreesOfFreedom() throws Exception {
+        org.apache.commons.math.distribution.FDistributionImpl fd =
+            new org.apache.commons.math.distribution.FDistributionImpl(
+                100000., 100000.);
+        double p = fd.cumulativeProbability(.999);
+        double x = fd.inverseCumulativeProbability(p);
+        assertEquals(.999, x, 1.0e-5);
+    }
 }

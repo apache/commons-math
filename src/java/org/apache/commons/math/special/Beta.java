@@ -24,7 +24,7 @@ import org.apache.commons.math.util.ContinuedFraction;
  * This is a utility class that provides computation methods related to the
  * Beta family of functions.
  * 
- * @version $Revision: 1.19 $ $Date: 2004/04/27 04:37:59 $
+ * @version $Revision: 1.20 $ $Date: 2004/06/10 18:27:47 $
  */
 public class Beta implements Serializable {
     /** Maximum allowed numerical error. */
@@ -122,48 +122,32 @@ public class Beta implements Serializable {
             (x > 1) || (a <= 0.0) || (b <= 0.0))
         {
             ret = Double.NaN;
-        } else if (x > (a + 1.0) / (a + b + 1.0)) {
+        } else if (x > (a + 1.0) / (a + b + 2.0)) {
             ret = 1.0 - regularizedBeta(1.0 - x, b, a, epsilon, maxIterations);
         } else {
             ContinuedFraction fraction = new ContinuedFraction() {
                 protected double getB(int n, double x) {
                     double ret;
                     double m;
-                    switch (n) {
-                        case 1 :
-                            ret = 1.0;
-                            break;
-                        default :
-                            if (n % 2 == 0) { // even
-                                m = (n - 2.0) / 2.0;
-                                ret = -((a + m) * (a + b + m) * x) /
-                                    ((a + (2 * m)) * (a + (2 * m) + 1.0));
-                            } else {
-                                m = (n - 1.0) / 2.0;
-                                ret = (m * (b - m) * x) /
-                                    ((a + (2 * m) - 1) * (a + (2 * m)));
-                            }
-                            break;
+                    if (n % 2 == 0) { // even
+                        m = n / 2.0;
+                        ret = (m * (b - m) * x) /
+                            ((a + (2 * m) - 1) * (a + (2 * m)));
+                    } else {
+                        m = (n - 1.0) / 2.0;
+                        ret = -((a + m) * (a + b + m) * x) /
+                                ((a + (2 * m)) * (a + (2 * m) + 1.0));
                     }
                     return ret;
                 }
 
                 protected double getA(int n, double x) {
-                    double ret;
-                    switch (n) {
-                        case 0 :
-                            ret = 0.0;
-                            break;
-                        default :
-                            ret = 1.0;
-                            break;
-                    }
-                    return ret;
+                    return 1.0;
                 }
             };
             ret = Math.exp((a * Math.log(x)) + (b * Math.log(1.0 - x)) -
                 Math.log(a) - logBeta(a, b, epsilon, maxIterations)) *
-                fraction.evaluate(x, epsilon, maxIterations);
+                1.0 / fraction.evaluate(x, epsilon, maxIterations);
         }
 
         return ret;
