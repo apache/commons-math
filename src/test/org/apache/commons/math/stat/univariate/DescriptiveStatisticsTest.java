@@ -26,7 +26,7 @@ import org.apache.commons.math.random.RandomDataImpl;
 /**
  * Test cases for the {@link Univariate} class.
  *
- * @version $Revision: 1.1 $ $Date: 2004/04/12 02:27:50 $
+ * @version $Revision: 1.2 $ $Date: 2004/04/27 16:42:32 $
  */
 
 public final class DescriptiveStatisticsTest extends TestCase {
@@ -328,6 +328,49 @@ public final class DescriptiveStatisticsTest extends TestCase {
         u2.clear();
         assertEquals("total count",0,u2.getN(),tolerance);    
     }       
-                                   
+
+    public void testNewInstanceStringNull() {
+        try {
+            DescriptiveStatistics u = DescriptiveStatistics.newInstance((String)null);
+            fail("null is not a valid descriptive statistics class name");
+        } catch (NullPointerException ex) {
+            // success
+        } catch (Exception ex) {
+            fail();
+        }
+        
+    }
+    public void testNewInstanceStringValid() {
+        try {
+            DescriptiveStatistics u = DescriptiveStatistics.newInstance(
+            "org.apache.commons.math.stat.univariate.DescriptiveStatisticsImpl");
+            assertNotNull(u);
+            assertTrue(u instanceof DescriptiveStatisticsImpl);
+        } catch (Exception ex) {
+            fail();
+        }
+    }
+
+    public void testNewInstanceClassNull() {
+        try {
+            DescriptiveStatistics u = DescriptiveStatistics.newInstance((Class)null);
+            fail("null is not a valid descriptive statistics class");
+        } catch (NullPointerException ex) {
+            // success
+        } catch (Exception ex) {
+            fail();
+        }
+        
+    }
+    public void testNewInstanceClassValid() {
+        try {
+            DescriptiveStatistics u = DescriptiveStatistics.newInstance(
+                DescriptiveStatisticsImpl.class);
+            assertNotNull(u);
+            assertTrue(u instanceof DescriptiveStatisticsImpl);
+        } catch (Exception ex) {
+            fail();
+        }
+    }
 }
 

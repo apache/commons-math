@@ -26,10 +26,11 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * <a href="http://www.spss.com/tech/stat/Algorithms/11.5/descriptives.pdf">
  * recursive strategy
  * </a>. Both incremental and evaluation strategies currently use this approach.
- * @version $Revision: 1.13 $ $Date: 2004/02/21 21:35:15 $
+ * @version $Revision: 1.14 $ $Date: 2004/04/27 16:42:30 $
  */
 public class FirstMoment extends AbstractStorelessUnivariateStatistic implements Serializable{
 
+    /** Serializable version identifier */
     static final long serialVersionUID = -803343206421984070L; 
     
     /** count of values that have been added */

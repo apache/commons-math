@@ -28,10 +28,11 @@ import org
 /**
  * Returns the maximum of the available values.
  * 
- * @version $Revision: 1.15 $ $Date: 2004/04/26 19:15:48 $
+ * @version $Revision: 1.16 $ $Date: 2004/04/27 16:42:33 $
  */
 public class Max extends AbstractStorelessUnivariateStatistic implements Serializable {
 
+    /** Serializable version identifier */
     static final long serialVersionUID = -5593383832225844641L;    
     
     /** */

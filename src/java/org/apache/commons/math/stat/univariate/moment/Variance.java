@@ -25,10 +25,11 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * J. G. Lewis 1979, <i>Communications of the ACM</i>,
  * vol. 22 no. 9, pp. 526-531.</a>.
  * 
- * @version $Revision: 1.18 $ $Date: 2004/03/04 04:25:09 $
+ * @version $Revision: 1.19 $ $Date: 2004/04/27 16:42:30 $
  */
 public class Variance extends AbstractStorelessUnivariateStatistic implements Serializable {
 
+    /** Serializable version identifier */
     static final long serialVersionUID = -9111962718267217978L;  
       
     /** SecondMoment is used in incremental calculation of Variance*/

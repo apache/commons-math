@@ -19,7 +19,7 @@ import org.apache.commons.math.TestUtils;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
- * @version $Revision: 1.11 $ $Date: 2004/02/21 21:35:17 $
+ * @version $Revision: 1.12 $ $Date: 2004/04/27 16:42:32 $
  */
 public abstract class StorelessUnivariateStatisticAbstractTest
     extends UnivariateStatisticAbstractTest {
@@ -31,7 +31,7 @@ public abstract class StorelessUnivariateStatisticAbstractTest
     public abstract UnivariateStatistic getUnivariateStatistic();
 
     public abstract double expectedValue();
-
+    
     public void testIncrementation() throws Exception {
 
         StorelessUnivariateStatistic statistic =

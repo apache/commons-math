@@ -22,10 +22,11 @@ import org.apache.commons.math.stat.univariate.summary.SumOfLogs;
 /**
  * Returns the <a href="http://www.xycoon.com/geometric_mean.htm">
  * geometric mean </a> of the available values
- * @version $Revision: 1.17 $ $Date: 2004/03/04 04:25:09 $
+ * @version $Revision: 1.18 $ $Date: 2004/04/27 16:42:30 $
  */
 public class GeometricMean extends SumOfLogs implements Serializable{
 
+    /** Serializable version identifier */
     static final long serialVersionUID = -8178734905303459453L;  
       
     /** */

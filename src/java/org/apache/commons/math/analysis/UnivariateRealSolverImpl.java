@@ -24,7 +24,7 @@ import org.apache.commons.math.MathException;
  * Provide a default implementation for several functions useful to generic
  * solvers.
  *  
- * @version $Revision: 1.11 $ $Date: 2004/04/23 18:20:12 $
+ * @version $Revision: 1.12 $ $Date: 2004/04/27 16:42:33 $
  */
 public abstract class UnivariateRealSolverImpl
     implements UnivariateRealSolver, Serializable {
@@ -71,6 +71,7 @@ public abstract class UnivariateRealSolverImpl
      * @param f the function to solve.
      * @param defaultAbsoluteAccuracy maximum absolue error.
      * @param defaultMaximalIterationCount maximum number of iterations.
+     * @throws IllegalArgumentException if function is null.
      */
     protected UnivariateRealSolverImpl(
         UnivariateRealFunction f,
@@ -78,6 +79,10 @@ public abstract class UnivariateRealSolverImpl
         double defaultAbsoluteAccuracy) {
         
         super();
+        
+        if (f == null) {
+            throw new IllegalArgumentException("function can not be null.");
+        }
         
         this.f = f;
         this.defaultAbsoluteAccuracy = defaultAbsoluteAccuracy;

@@ -28,10 +28,11 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  *  <p>
  *  where n is the number of values, mean is the {@link Mean} and std is the {@link StandardDeviation}
  * 
- * @version $Revision: 1.19 $ $Date: 2004/03/21 00:23:29 $
+ * @version $Revision: 1.20 $ $Date: 2004/04/27 16:42:30 $
  */
 public class Skewness extends AbstractStorelessUnivariateStatistic implements Serializable {
 
+    /** Serializable version identifier */
     static final long serialVersionUID = 7101857578996691352L;    
     
     /** */
@@ -75,6 +76,8 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
      * Returns the value of the statistic based on the values that have been added.
      * <p>
      * See {@link Skewness} for the definition used in the computation.
+     * 
+     * @return the skewness of the available values.
      */
     public double getResult() {
         if (n < moment.n) {

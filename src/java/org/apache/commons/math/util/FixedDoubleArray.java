@@ -46,10 +46,11 @@ import java.io.Serializable;
  * "fixed" in memory, this implementation will never allocate, or copy
  * the internal storage array to a new array instance.
  * </p>
- * @version $Revision: 1.14 $ $Date: 2004/02/21 21:35:16 $
+ * @version $Revision: 1.15 $ $Date: 2004/04/27 16:42:34 $
  */
 public class FixedDoubleArray implements DoubleArray, Serializable {
 
+    /** Serializable version identifier */
     static final long serialVersionUID = 1247853239629842963L;    
     
     /**

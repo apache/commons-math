@@ -28,10 +28,11 @@ import org
 /**
  * Returns the sum of the natural logs for this collection of values.
  * 
- * @version $Revision: 1.16 $ $Date: 2004/04/26 19:15:48 $
+ * @version $Revision: 1.17 $ $Date: 2004/04/27 16:42:32 $
  */
 public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements Serializable {
 
+    /** Serializable version identifier */
     static final long serialVersionUID = -370076995648386763L;    
 
     /** */

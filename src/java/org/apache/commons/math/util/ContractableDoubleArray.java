@@ -50,10 +50,11 @@ import java.io.Serializable;
  * internal storage array is swapped.
  * </p>
  * 
- * @version $Revision: 1.12 $ $Date: 2004/02/21 21:35:16 $
+ * @version $Revision: 1.13 $ $Date: 2004/04/27 16:42:34 $
  */
 public class ContractableDoubleArray extends ExpandableDoubleArray implements Serializable {
 
+    /** Serializable version identifier */
     static final long serialVersionUID = -3485529955529426875L; 
    
     /** The contraction criteria defines the conditions under which this

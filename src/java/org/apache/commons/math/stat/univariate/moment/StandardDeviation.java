@@ -19,10 +19,11 @@ import java.io.Serializable;
 
 /**
  *
- * @version $Revision: 1.15 $ $Date: 2004/03/04 04:25:09 $
+ * @version $Revision: 1.16 $ $Date: 2004/04/27 16:42:30 $
  */
 public class StandardDeviation extends Variance implements Serializable {
 
+    /** Serializable version identifier */
     static final long serialVersionUID = 5728716329662425188L;    
     
     /** */

@@ -28,10 +28,11 @@ import org.apache.commons.math.stat.univariate.AbstractUnivariateStatistic;
  * follows the first estimation procedure presented
  * <a href="http://www.itl.nist.gov/div898/handbook/prc/section2/prc252.htm">here.</a>
  * 
- * @version $Revision: 1.17 $ $Date: 2004/04/26 19:15:48 $
+ * @version $Revision: 1.18 $ $Date: 2004/04/27 16:42:33 $
  */
 public class Percentile extends AbstractUnivariateStatistic implements Serializable {
 
+    /** Serializable version identifier */
     static final long serialVersionUID = -8091216485095130416L; 
        
     /** Determines what percentile is computed when evaluate() is activated with no quantile argument */
@@ -68,6 +69,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * if the array is empty
      */
     public double evaluate(final double[] values, final double p) {
+        test(values, 0, 0);
         return evaluate(values, 0, values.length, p);
     }
 

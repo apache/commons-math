@@ -28,17 +28,12 @@ import org.apache.commons.math.stat.univariate.StatisticalSummary;
 /**
  * Implements test statistics defined in the TestStatistic interface.
  *
- * @version $Revision: 1.4 $ $Date: 2004/04/12 02:27:49 $
+ * @version $Revision: 1.5 $ $Date: 2004/04/27 16:42:34 $
  */
 public class TestStatisticImpl implements TestStatistic, Serializable {
 
+    /** Serializable version identifier */
     static final long serialVersionUID = 3357444126133491679L;
-
-    /**
-     * Default constructor
-     */
-    public TestStatisticImpl() {
-    }
 
     /**
      * @param observed array of observed frequency counts
@@ -55,8 +50,8 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
             throw new IllegalArgumentException("observed, expected array lengths incorrect");
         }
         if ((StatUtils.min(expected) <= 0) || (StatUtils.min(observed) < 0)) {
-            throw new IllegalArgumentException( "observed counts must be non-negative,"
-                    + " expected counts must be postive");
+            throw new IllegalArgumentException(
+                "observed counts must be non-negative expected counts must be postive");
         }
         for (int i = 0; i < observed.length; i++) {
             dev = (observed[i] - expected[i]);
@@ -134,8 +129,8 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
      */
     public double t(double[] sample1, double[] sample2)
         throws IllegalArgumentException {
-        if ((sample1 == null) || (sample2 == null
-                || Math.min(sample1.length, sample2.length) < 5)) {
+        if ((sample1 == null) || (sample2 == null ||
+                Math.min(sample1.length, sample2.length) < 5)) {
             throw new IllegalArgumentException("insufficient data for t statistic");
         }
         return t(StatUtils.mean(sample1), StatUtils.mean(sample2), StatUtils.variance(sample1),
@@ -152,8 +147,8 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
      */
     public double tTest(double[] sample1, double[] sample2)
         throws IllegalArgumentException, MathException {
-        if ((sample1 == null) || (sample2 == null
-                || Math.min(sample1.length, sample2.length) < 5)) {
+        if ((sample1 == null) || (sample2 == null ||
+                Math.min(sample1.length, sample2.length) < 5)) {
             throw new IllegalArgumentException("insufficient data");
         }
         return tTest(StatUtils.mean(sample1), StatUtils.mean(sample2), StatUtils.variance(sample1),
@@ -214,9 +209,9 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
      */
     public double t(StatisticalSummary sampleStats1, StatisticalSummary sampleStats2)
         throws IllegalArgumentException {
-        if ((sampleStats1 == null)
-            || (sampleStats2 == null
-                || Math.min(sampleStats1.getN(), sampleStats2.getN()) < 5)) {
+        if ((sampleStats1 == null) ||
+            (sampleStats2 == null ||
+                Math.min(sampleStats1.getN(), sampleStats2.getN()) < 5)) {
             throw new IllegalArgumentException("insufficient data for t statistic");
         }
         return t(sampleStats1.getMean(), sampleStats2.getMean(), sampleStats1.getVariance(),
@@ -232,8 +227,8 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
      */
     public double tTest(StatisticalSummary sampleStats1, StatisticalSummary sampleStats2)
         throws IllegalArgumentException, MathException {
-        if ((sampleStats1 == null) || (sampleStats2 == null
-                || Math.min(sampleStats1.getN(), sampleStats2.getN()) < 5)) {
+        if ((sampleStats1 == null) || (sampleStats2 == null ||
+                Math.min(sampleStats1.getN(), sampleStats2.getN()) < 5)) {
             throw new IllegalArgumentException("insufficient data for t statistic");
         }
         return tTest(sampleStats1.getMean(), sampleStats2.getMean(), sampleStats1.getVariance(),
@@ -301,9 +296,9 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
      * @return approximate degrees of freedom
      */
     private double df(double v1, double v2, double n1, double n2) {
-        return (((v1 / n1) + (v2 / n2)) * ((v1 / n1) + (v2 / n2)))
-            / ((v1 * v1) / (n1 * n1 * (n1 - 1d))
-                + (v2 * v2) / (n2 * n2 * (n2 - 1d)));
+        return (((v1 / n1) + (v2 / n2)) * ((v1 / n1) + (v2 / n2))) /
+            ((v1 * v1) / (n1 * n1 * (n1 - 1d)) + (v2 * v2) /
+                (n2 * n2 * (n2 - 1d)));
     }
 
     /**

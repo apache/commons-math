@@ -19,11 +19,12 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.stat.univariate.DescriptiveStatistics;
 
 /**
  * Test cases for the {@link StatUtils} class.
- * @version $Revision: 1.14 $ $Date: 2004/04/12 02:27:49 $
+ * @version $Revision: 1.15 $ $Date: 2004/04/27 16:42:31 $
  */
 
 public final class StatUtilsTest extends TestCase {
@@ -162,5 +163,233 @@ public final class StatUtilsTest extends TestCase {
             assertTrue(true);
         }
 
+    }
+    
+    public void testSumSq() {
+        double[] x = null;
+        
+        // test null
+        try {
+            StatUtils.sumSq(x);
+            fail("null is not a valid data array.");
+        } catch (IllegalArgumentException ex) {
+            // success
+        }
+        
+        try {
+            StatUtils.sumSq(x, 0, 4);
+            fail("null is not a valid data array.");
+        } catch (IllegalArgumentException ex) {
+            // success
+        }
+        
+        // test empty
+        x = new double[] {};
+        TestUtils.assertEquals(Double.NaN, StatUtils.sumSq(x), tolerance);
+        TestUtils.assertEquals(Double.NaN, StatUtils.sumSq(x, 0, 0), tolerance);
+        
+        // test one
+        x = new double[] {two};
+        TestUtils.assertEquals(4, StatUtils.sumSq(x), tolerance);
+        TestUtils.assertEquals(4, StatUtils.sumSq(x, 0, 1), tolerance);
+        
+        // test many
+        x = new double[] {one, two, two, three};
+        TestUtils.assertEquals(18, StatUtils.sumSq(x), tolerance);
+        TestUtils.assertEquals(8, StatUtils.sumSq(x, 1, 2), tolerance);
+    }
+    
+    public void testProduct() {
+        double[] x = null;
+        
+        // test null
+        try {
+            StatUtils.product(x);
+            fail("null is not a valid data array.");
+        } catch (IllegalArgumentException ex) {
+            // success
+        }
+        
+        try {
+            StatUtils.product(x, 0, 4);
+            fail("null is not a valid data array.");
+        } catch (IllegalArgumentException ex) {
+            // success
+        }
+        
+        // test empty
+        x = new double[] {};
+        TestUtils.assertEquals(Double.NaN, StatUtils.product(x), tolerance);
+        TestUtils.assertEquals(Double.NaN, StatUtils.product(x, 0, 0), tolerance);
+        
+        // test one
+        x = new double[] {two};
+        TestUtils.assertEquals(two, StatUtils.product(x), tolerance);
+        TestUtils.assertEquals(two, StatUtils.product(x, 0, 1), tolerance);
+        
+        // test many
+        x = new double[] {one, two, two, three};
+        TestUtils.assertEquals(12, StatUtils.product(x), tolerance);
+        TestUtils.assertEquals(4, StatUtils.product(x, 1, 2), tolerance);
+    }
+    
+    public void testSumLog() {
+        double[] x = null;
+        
+        // test null
+        try {
+            StatUtils.sumLog(x);
+            fail("null is not a valid data array.");
+        } catch (IllegalArgumentException ex) {
+            // success
+        }
+        
+        try {
+            StatUtils.sumLog(x, 0, 4);
+            fail("null is not a valid data array.");
+        } catch (IllegalArgumentException ex) {
+            // success
+        }
+        
+        // test empty
+        x = new double[] {};
+        TestUtils.assertEquals(Double.NaN, StatUtils.sumLog(x), tolerance);
+        TestUtils.assertEquals(Double.NaN, StatUtils.sumLog(x, 0, 0), tolerance);
+        
+        // test one
+        x = new double[] {two};
+        TestUtils.assertEquals(Math.log(two), StatUtils.sumLog(x), tolerance);
+        TestUtils.assertEquals(Math.log(two), StatUtils.sumLog(x, 0, 1), tolerance);
+        
+        // test many
+        x = new double[] {one, two, two, three};
+        TestUtils.assertEquals(Math.log(one) + 2.0 * Math.log(two) + Math.log(three), StatUtils.sumLog(x), tolerance);
+        TestUtils.assertEquals(2.0 * Math.log(two), StatUtils.sumLog(x, 1, 2), tolerance);
+    }
+    
+    public void testMean() {
+        double[] x = null;
+        
+        try {
+            StatUtils.mean(x, 0, 4);
+            fail("null is not a valid data array.");
+        } catch (IllegalArgumentException ex) {
+            // success
+        }
+        
+        // test empty
+        x = new double[] {};
+        TestUtils.assertEquals(Double.NaN, StatUtils.mean(x, 0, 0), tolerance);
+        
+        // test one
+        x = new double[] {two};
+        TestUtils.assertEquals(two, StatUtils.mean(x, 0, 1), tolerance);
+        
+        // test many
+        x = new double[] {one, two, two, three};
+        TestUtils.assertEquals(2.5, StatUtils.mean(x, 2, 2), tolerance);
+    }
+    
+    public void testVariance() {
+        double[] x = null;
+        
+        try {
+            StatUtils.variance(x, 0, 4);
+            fail("null is not a valid data array.");
+        } catch (IllegalArgumentException ex) {
+            // success
+        }
+        
+        // test empty
+        x = new double[] {};
+        TestUtils.assertEquals(Double.NaN, StatUtils.variance(x, 0, 0), tolerance);
+        
+        // test one
+        x = new double[] {two};
+        TestUtils.assertEquals(0.0, StatUtils.variance(x, 0, 1), tolerance);
+        
+        // test many
+        x = new double[] {one, two, two, three};
+        TestUtils.assertEquals(0.5, StatUtils.variance(x, 2, 2), tolerance);
+    }
+    
+    public void testMax() {
+        double[] x = null;
+        
+        try {
+            StatUtils.max(x, 0, 4);
+            fail("null is not a valid data array.");
+        } catch (IllegalArgumentException ex) {
+            // success
+        }
+        
+        // test empty
+        x = new double[] {};
+        TestUtils.assertEquals(Double.NaN, StatUtils.max(x, 0, 0), tolerance);
+        
+        // test one
+        x = new double[] {two};
+        TestUtils.assertEquals(two, StatUtils.max(x, 0, 1), tolerance);
+        
+        // test many
+        x = new double[] {one, two, two, three};
+        TestUtils.assertEquals(three, StatUtils.max(x, 1, 3), tolerance);
+    }
+    
+    public void testMin() {
+        double[] x = null;
+        
+        try {
+            StatUtils.min(x, 0, 4);
+            fail("null is not a valid data array.");
+        } catch (IllegalArgumentException ex) {
+            // success
+        }
+        
+        // test empty
+        x = new double[] {};
+        TestUtils.assertEquals(Double.NaN, StatUtils.min(x, 0, 0), tolerance);
+        
+        // test one
+        x = new double[] {two};
+        TestUtils.assertEquals(two, StatUtils.min(x, 0, 1), tolerance);
+        
+        // test many
+        x = new double[] {one, two, two, three};
+        TestUtils.assertEquals(two, StatUtils.min(x, 1, 3), tolerance);
+    }
+    
+    public void testPercentile() {
+        double[] x = null;
+        
+        // test null
+        try {
+            StatUtils.percentile(x, .25);
+            fail("null is not a valid data array.");
+        } catch (IllegalArgumentException ex) {
+            // success
+        }
+        
+        try {
+            StatUtils.percentile(x, 0, 4, 0.25);
+            fail("null is not a valid data array.");
+        } catch (IllegalArgumentException ex) {
+            // success
+        }
+        
+        // test empty
+        x = new double[] {};
+        TestUtils.assertEquals(Double.NaN, StatUtils.percentile(x, 25), tolerance);
+        TestUtils.assertEquals(Double.NaN, StatUtils.percentile(x, 0, 0, 25), tolerance);
+        
+        // test one
+        x = new double[] {two};
+        TestUtils.assertEquals(two, StatUtils.percentile(x, 25), tolerance);
+        TestUtils.assertEquals(two, StatUtils.percentile(x, 0, 1, 25), tolerance);
+        
+        // test many
+        x = new double[] {one, two, two, three};
+        TestUtils.assertEquals(2.5, StatUtils.percentile(x, 70), tolerance);
+        TestUtils.assertEquals(2.5, StatUtils.percentile(x, 1, 3, 62.5), tolerance);
     }
 }

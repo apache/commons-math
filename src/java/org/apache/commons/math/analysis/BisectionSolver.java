@@ -23,9 +23,10 @@ import org.apache.commons.math.MathException;
  * Implements the <a href="http://mathworld.wolfram.com/Bisection.html">bisection algorithm</a>
  *  for finding zeros of univariate real functions.  This algorithm will find only one zero in the given interval.
  * The function should be continuous but not necessarily smooth.
- * @version $Revision: 1.14 $ $Date: 2004/04/27 04:37:58 $
+ * @version $Revision: 1.15 $ $Date: 2004/04/27 16:42:33 $
  */
 public class BisectionSolver extends UnivariateRealSolverImpl implements Serializable {
+    
     /**
      * Construct a solver for the given function.
      * @param f function to solve.

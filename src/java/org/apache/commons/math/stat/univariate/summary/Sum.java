@@ -22,10 +22,11 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
 /**
  * The sum of the values that have been added to Univariate.
  * 
- * @version $Revision: 1.18 $ $Date: 2004/04/26 19:15:48 $
+ * @version $Revision: 1.19 $ $Date: 2004/04/27 16:42:32 $
  */
 public class Sum extends AbstractStorelessUnivariateStatistic implements Serializable {
 
+    /** Serializable version identifier */
     static final long serialVersionUID = -8231831954703408316L;  
       
     /** */

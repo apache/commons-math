@@ -28,10 +28,11 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  *  <p>
  *  where n is the number of values, mean is the {@link Mean} and std is the {@link StandardDeviation}
  * 
- * @version $Revision: 1.18 $ $Date: 2004/03/21 00:22:26 $
+ * @version $Revision: 1.19 $ $Date: 2004/04/27 16:42:30 $
  */
 public class Kurtosis extends AbstractStorelessUnivariateStatistic implements Serializable {
 
+    /** Serializable version identifier */
     static final long serialVersionUID = 2784465764798260919L;  
       
     /** */

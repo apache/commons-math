@@ -22,10 +22,11 @@ import java.io.Serializable;
  * <a href="http://www.spss.com/tech/stat/Algorithms/11.5/descriptives.pdf">
  * recursive strategy
  * </a>. Both incremental and evaluation strategies currently use this approach.
- * @version $Revision: 1.14 $ $Date: 2004/02/21 21:35:15 $
+ * @version $Revision: 1.15 $ $Date: 2004/04/27 16:42:30 $
  */
 public class ThirdMoment extends SecondMoment implements Serializable {
 
+    /** Serializable version identifier */
     static final long serialVersionUID = -7818711964045118679L;  
       
     /** third moment of values that have been added */

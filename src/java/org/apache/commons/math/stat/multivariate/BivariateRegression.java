@@ -49,10 +49,11 @@ import org.apache.commons.math.distribution.TDistribution;
  * the necessary computations to return the requested statistic.</li>
  * </ul>
  *
- * @version $Revision: 1.1 $ $Date: 2004/04/11 21:52:28 $
+ * @version $Revision: 1.2 $ $Date: 2004/04/27 16:42:34 $
  */
 public class BivariateRegression implements Serializable {
 
+    /** Serializable version identifier */
     static final long serialVersionUID = -3004689053607543335L;
 
     /** sum of x values */
@@ -386,6 +387,8 @@ public class BivariateRegression implements Serializable {
      * Bivariate Normal Distribution</a>.
      *
      * @return half-width of 95% confidence interval for the slope estimate
+     * 
+     * @exception MathException if the confidence interval can not be computed.
      */
     public double getSlopeConfidenceInterval() throws MathException {
         return getSlopeConfidenceInterval(0.05d);
@@ -420,14 +423,15 @@ public class BivariateRegression implements Serializable {
      *
      * @param alpha the desired significance level 
      * @return half-width of 95% confidence interval for the slope estimate
+     * @exception MathException if the confidence interval can not be computed.
      */
     public double getSlopeConfidenceInterval(double alpha)
         throws MathException {
         if (alpha >= 1 || alpha <= 0) {
             throw new IllegalArgumentException();
         }
-        return getSlopeStdErr()
-            * getTDistribution().inverseCumulativeProbability(1d - alpha / 2d);
+        return getSlopeStdErr() *
+            getTDistribution().inverseCumulativeProbability(1d - alpha / 2d);
     }
 
     /**
@@ -449,11 +453,11 @@ public class BivariateRegression implements Serializable {
      * <code>Double.NaN</code>.
      *
      * @return significance level for slope/correlation
+     * @exception MathException if the significance level can not be computed.
      */
     public double getSignificance() throws MathException {
         return (
-            1d
-                - getTDistribution().cumulativeProbability(
+            1.0 - getTDistribution().cumulativeProbability(
                     Math.abs(getSlope()) / getSlopeStdErr()));
     }
 

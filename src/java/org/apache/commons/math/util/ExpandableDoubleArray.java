@@ -50,10 +50,11 @@ import java.io.Serializable;
  * expand the array 10 times - first from 2 -> 4. then 4 -> 8, 8 -> 16,
  * and so on until we reach 4096 which is sufficient to hold 3546 elements.
  * </p>
- * @version $Revision: 1.13 $ $Date: 2004/02/21 21:35:16 $
+ * @version $Revision: 1.14 $ $Date: 2004/04/27 16:42:34 $
  */
 public class ExpandableDoubleArray implements Serializable, DoubleArray {
 
+    /** Serializable version identifier */
     static final long serialVersionUID = -5697417774251632284L;    
    
     // TODO: expansionFactor is valuable, by if I only need storage

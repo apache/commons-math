@@ -22,10 +22,11 @@ import java.io.Serializable;
  * Returns the <a href="http://www.xycoon.com/median_2.htm">median</a> of the
  * available values.
  * 
- * @version $Revision: 1.12 $ $Date: 2004/04/26 19:15:48 $
+ * @version $Revision: 1.13 $ $Date: 2004/04/27 16:42:33 $
  */
 public class Median extends Percentile implements Serializable {
 
+    /** Serializable version identifier */
     static final long serialVersionUID = -3961477041290915687L;    
 
     /**

@@ -29,10 +29,11 @@ import org.apache.commons.math.stat.univariate.summary.Sum;
 /**
  * Returns the <a href="http://www.xycoon.com/arithmetic_mean.htm">
  * arithmetic mean </a> of the available values.
- * @version $Revision: 1.16 $ $Date: 2004/03/04 04:25:09 $
+ * @version $Revision: 1.17 $ $Date: 2004/04/27 16:42:30 $
  */
 public class Mean extends AbstractStorelessUnivariateStatistic implements Serializable{
 
+    /** Serializable version identifier */
     static final long serialVersionUID = -1296043746617791564L;    
     
     /** first moment of values that have been added */
@@ -106,7 +107,7 @@ public class Mean extends AbstractStorelessUnivariateStatistic implements Serial
         final int begin,
         final int length) {
         if (test(values, begin, length)) {
-            return sum.evaluate(values) / ((double) length);
+            return sum.evaluate(values, begin, length) / ((double) length);
         }
         return Double.NaN;
     }
