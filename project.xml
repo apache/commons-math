@@ -34,6 +34,23 @@ The Math project is a library of lightweight, self-contained mathematics and sta
     </developer>
   </developers>
 
+  <dependencies>
+
+    <dependency>
+      <id>commons-beanutils</id>
+      <version>1.5</version>
+    </dependency>
+    <dependency>
+      <id>commons-collections</id>
+      <version>2.1</version>
+    </dependency>
+    <dependency>
+      <id>commons-logging</id>
+      <version>1.0.3</version>
+    </dependency>
+
+  </dependencies>
+
   <contributors>
    <contributor>
      <name>Phil Steitz</name>
