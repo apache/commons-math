@@ -56,7 +56,7 @@ package org.apache.commons.math.analysis;
 /**
  * Computes a natural spline interpolation for the data set.
  *
- * @author pietsch at apache.org
+ * @version $Revision: 1.2 $ $Date: 2003/07/09 20:02:43 $
  *
  */
 public class SplineInterpolator implements UnivariateRealInterpolator {

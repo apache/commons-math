@@ -60,6 +60,7 @@ package org.apache.commons.math.stat.univariate;
  * in it. As such only a subset of known statistics can actually be implmented
  * using it. If a Statistic cannot be implemented in a Storeless approach it
  * should implement the UnivariateStatistic interface directly instead.
+ * @version $Revision: 1.5 $ $Date: 2003/07/09 20:04:13 $
  */
 public interface StorelessUnivariateStatistic extends UnivariateStatistic {
 

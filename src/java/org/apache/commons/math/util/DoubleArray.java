@@ -60,8 +60,7 @@ package org.apache.commons.math.util;
  * Collections API by allowing a user to select from a number of 
  * array implementations with support for various storage mechanisms
  * such as automatic expansion, contraction, and array "rolling".
- * 
- * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
+ * @version $Revision: 1.3 $ $Date: 2003/07/09 20:04:12 $
  */
 public interface DoubleArray {
 

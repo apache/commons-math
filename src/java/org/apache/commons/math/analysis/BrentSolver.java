@@ -61,7 +61,7 @@ import org.apache.commons.math.MathException;
  * It will only search for one zero in the given interval.
  * The function is supposed to be continuous but not necessarily smooth.
  *  
- * @author pietsch at apache.org
+ * @version $Revision: 1.3 $ $Date: 2003/07/09 20:02:43 $
  */
 public class BrentSolver extends UnivariateRealSolverImpl {
     /**

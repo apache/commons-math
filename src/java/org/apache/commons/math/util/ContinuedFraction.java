@@ -64,8 +64,7 @@ import org.apache.commons.math.analysis.ConvergenceException;
  * <li><a href="http://mathworld.wolfram.com/ContinuedFraction.html">
  * Continued Fraction</a></li>
  * </ul>
- * 
- * @author Brent Worden
+ * @version $Revision: 1.3 $ $Date: 2003/07/09 20:04:12 $
  */
 public abstract class ContinuedFraction {
     /** Maximum allowed numerical error. */

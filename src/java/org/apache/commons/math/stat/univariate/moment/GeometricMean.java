@@ -55,9 +55,10 @@ package org.apache.commons.math.stat.univariate.moment;
 
 import org.apache.commons.math.stat.univariate.summary.SumOfLogs;
 
-/**
- * 
- *
+/** 
+ * Returns the <a href="http://www.xycoon.com/geometric_mean.htm">
+ * geometric mean </a> of the available values
+ * @version $Revision: 1.8 $ $Date: 2003/07/09 20:04:10 $
  */
 public class GeometricMean extends SumOfLogs {
 

@@ -60,7 +60,7 @@ import org.apache.commons.math.MathException;
  * functions.  It will only search for one zero in the given interval.  The
  * function is supposed to be continuous but not necessarily smooth.
  *  
- * @author Brent Worden
+ * @version $Revision: 1.2 $ $Date: 2003/07/09 20:02:43 $
  */
 public class BisectionSolver extends UnivariateRealSolverImpl {
     /**

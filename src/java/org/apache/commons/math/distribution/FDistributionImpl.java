@@ -59,7 +59,7 @@ import org.apache.commons.math.special.Beta;
  * Default implementation of
  * {@link org.apache.commons.math.stat.distribution.FDistribution}.
  * 
- * @author Brent Worden
+ * @version $Revision: 1.4 $ $Date: 2003/07/09 20:03:23 $
  */
 public class FDistributionImpl
     extends AbstractContinuousDistribution

@@ -55,6 +55,7 @@ package org.apache.commons.math.util;
 
 /**
  * A Default NumberTransformer for java.lang.Numbers and Numeric Strings. 
+ * @version $Revision: 1.3 $ $Date: 2003/07/09 20:04:12 $
  */
 public class DefaultTransformer implements NumberTransformer {
 

@@ -60,7 +60,7 @@ import org.apache.commons.math.MathException;
  * functions.
  * An implementation will only search for one zero in the given interval.
  *  
- * @author pietsch at apache.org
+ * @version $Revision: 1.3 $ $Date: 2003/07/09 20:02:43 $
  */
 public interface UnivariateRealSolver {
 

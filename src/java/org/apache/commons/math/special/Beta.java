@@ -59,7 +59,7 @@ import org.apache.commons.math.util.ContinuedFraction;
  * This is a utility class that provides computation methods related to the
  * Beta family of functions.
  * 
- * @author Brent Worden
+ * @version $Revision: 1.7 $ $Date: 2003/07/09 20:03:09 $
  */
 public class Beta {
     /** Maximum allowed numerical error. */

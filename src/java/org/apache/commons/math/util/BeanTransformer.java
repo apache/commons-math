@@ -58,6 +58,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 
 /**
  * Uses PropertyUtils to map a Bean getter to a double value.
+ * @version $Revision: 1.3 $ $Date: 2003/07/09 20:04:12 $
  */
 public class BeanTransformer implements NumberTransformer {
 

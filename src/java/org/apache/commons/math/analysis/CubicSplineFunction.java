@@ -64,7 +64,7 @@ import org.apache.commons.math.MathException;
  * polynominal coefficents are used.
  * Arguments outside of the domain cause an IllegalArgumentException.
  * 
- * @author pietsch at apache.org
+ * @version $Revision: 1.2 $ $Date: 2003/07/09 20:02:43 $
  *
  */
 public class CubicSplineFunction implements UnivariateRealFunction {

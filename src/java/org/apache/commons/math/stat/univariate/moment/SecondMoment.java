@@ -54,8 +54,11 @@
 package org.apache.commons.math.stat.univariate.moment;
 
 /**
- * 
- *
+ * The SecondMoment is calculated using the following 
+ * <a href="http://www.spss.com/tech/stat/Algorithms/11.5/descriptives.pdf">
+ * recursive strategy
+ * </a>. Both incremental and evaluation strategies currently use this approach.
+ * @version $Revision: 1.6 $ $Date: 2003/07/09 20:04:10 $
  */
 public class SecondMoment extends FirstMoment {
 

@@ -55,7 +55,7 @@ package org.apache.commons.math.stat.univariate.moment;
 
 /**
  * 
- *
+ * @version $Revision: 1.6 $ $Date: 2003/07/09 20:04:10 $
  */
 public class StandardDeviation extends Variance {
 

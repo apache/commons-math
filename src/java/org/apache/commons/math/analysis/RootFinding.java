@@ -58,7 +58,7 @@ import org.apache.commons.math.MathException;
 /**
  * Utility class comprised of root finding techniques.
  *
- * @author Brent Worden
+ * @version $Revision: 1.3 $ $Date: 2003/07/09 20:02:43 $
  */
 public class RootFinding {
     /** Maximum allowed numerical error. */

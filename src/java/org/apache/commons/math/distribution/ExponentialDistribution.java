@@ -64,7 +64,7 @@ package org.apache.commons.math.stat.distribution;
  * <li><a href="http://mathworld.wolfram.com/ExponentialDistribution.html">
  * Exponential Distribution</a></li>
  * 
- * @author Brent Worden
+ * @version $Revision: 1.3 $ $Date: 2003/07/09 20:03:23 $
  */
 public interface ExponentialDistribution extends ContinuousDistribution {
     /**

@@ -88,7 +88,7 @@ import java.io.Serializable;
  * internal storage array is swapped.
  * </p>
  * 
- * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
+ * @version $Revision: 1.3 $ $Date: 2003/07/09 20:04:12 $
  */
 public class ContractableDoubleArray
     extends ExpandableDoubleArray

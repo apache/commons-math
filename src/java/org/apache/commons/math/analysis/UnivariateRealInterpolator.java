@@ -58,8 +58,7 @@ import org.apache.commons.math.MathException;
 /**
  *  Interface for interpolating a data set.
  *  
- *  * @author pietsch at apache.org
- *
+ * @version $Revision: 1.2 $ $Date: 2003/07/09 20:02:43 $
  */
 public interface UnivariateRealInterpolator {
 

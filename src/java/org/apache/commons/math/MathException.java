@@ -56,7 +56,7 @@ package org.apache.commons.math;
 /**
  * A generic exception indicating problems in the math package.
  *  
- * @author pietsch at apache.org
+ * @version $Revision: 1.4 $ $Date: 2003/07/09 20:02:44 $
  */
 public class MathException extends Exception {
 

@@ -65,7 +65,7 @@ package org.apache.commons.math.stat.distribution;
  * Student's t-Distribution</a></li>
  * </ul>
  * 
- * @author Brent Worden
+ * @version $Revision: 1.3 $ $Date: 2003/07/09 20:03:23 $
  */
 public interface TDistribution extends ContinuousDistribution {
     /**

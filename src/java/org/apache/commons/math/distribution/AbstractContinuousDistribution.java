@@ -63,7 +63,7 @@ import org.apache.commons.math.analysis.UnivariateRealSolverFactory;
  * implementations for some of the methods that do not vary from distribution
  * to distribution.
  *  
- * @author Brent Worden
+ * @version $Revision: 1.7 $ $Date: 2003/07/09 20:03:23 $
  */
 public abstract class AbstractContinuousDistribution
     implements ContinuousDistribution {

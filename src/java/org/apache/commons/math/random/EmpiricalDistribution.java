@@ -80,7 +80,7 @@ import org.apache.commons.math.stat.Univariate;
  * build grouped frequnecy histograms representing the input data or to
  * generate random values "like" those in the input file -- i.e., the values
  * generated will follow the distribution of the values in the file.
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $ $Date: 2003/07/09 20:02:59 $
  */
 public interface EmpiricalDistribution {
     

@@ -62,7 +62,7 @@ import org
     .AbstractStorelessUnivariateStatistic;
 
 /**
- *
+ * @version $Revision: 1.6 $ $Date: 2003/07/09 20:04:13 $
  */
 public class Product extends AbstractStorelessUnivariateStatistic {
 

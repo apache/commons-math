@@ -62,7 +62,7 @@ import org.apache.commons.math.MathException;
  * that derivatives are evaluated after the value, the evaluation algorithm
  * should throw an InvalidStateException if it can't cope with this.
  *  
- * @author pietsch at apache.org
+ * @version $Revision: 1.2 $ $Date: 2003/07/09 20:02:43 $
  */
 public interface UnivariateRealFunction {
 

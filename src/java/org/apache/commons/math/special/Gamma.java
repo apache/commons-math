@@ -59,7 +59,7 @@ import org.apache.commons.math.analysis.ConvergenceException;
  * This is a utility class that provides computation methods related to the
  * Gamma family of functions.
  * 
- * @author Brent Worden
+ * @version $Revision: 1.9 $ $Date: 2003/07/09 20:03:09 $
  */
 public class Gamma {
     /** Maximum allowed numerical error. */

@@ -56,7 +56,7 @@ package org.apache.commons.math.stat.distribution;
 /**
  * Base interface for various continuous distributions.
  * 
- * @author Brent Worden
+ * @version $Revision: 1.3 $ $Date: 2003/07/09 20:03:23 $
  */
 public interface ContinuousDistribution {
     /**

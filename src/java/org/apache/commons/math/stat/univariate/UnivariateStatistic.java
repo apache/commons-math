@@ -56,7 +56,7 @@ package org.apache.commons.math.stat.univariate;
 /**
  * UnivariateStatistic interface provides methods to evaluate 
  * double[] based content using a particular algorithm.
- * 
+ * @version $Revision: 1.4 $ $Date: 2003/07/09 20:04:13 $
  */
 public interface UnivariateStatistic {
     

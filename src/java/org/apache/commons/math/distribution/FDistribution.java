@@ -65,7 +65,7 @@ package org.apache.commons.math.stat.distribution;
  * F-Distribution</a></li>
  * </ul>
  * 
- * @author Brent Worden
+ * @version $Revision: 1.4 $ $Date: 2003/07/09 20:03:23 $
  */
 public interface FDistribution extends ContinuousDistribution {
     /**

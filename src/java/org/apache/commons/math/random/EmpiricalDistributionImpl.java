@@ -89,7 +89,7 @@ import org.apache.commons.math.stat.UnivariateImpl;
  *    entry per line.</li>
  * </ol></p>
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $ $Date: 2003/07/09 20:02:59 $
  */
 public class EmpiricalDistributionImpl implements Serializable,EmpiricalDistribution {
 

@@ -56,7 +56,7 @@ package org.apache.commons.math.stat.distribution;
 /**
  * The default implementation of {@link ExponentialDistribution}
  * 
- * @author Brent Worden
+ * @version $Revision: 1.4 $ $Date: 2003/07/09 20:03:23 $
  */
 public class ExponentialDistributionImpl
     implements ExponentialDistribution {

@@ -82,8 +82,7 @@ package org.apache.commons.math.util;
  * "fixed" in memory, this implementation will never allocate, or copy
  * the internal storage array to a new array instance.
  * </p>
- *
- * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
+ * @version $Revision: 1.5 $ $Date: 2003/07/09 20:04:12 $
  */
 public class FixedDoubleArray implements DoubleArray {
 

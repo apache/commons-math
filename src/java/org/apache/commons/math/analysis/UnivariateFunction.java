@@ -54,7 +54,7 @@
 package org.apache.commons.math.analysis;
 
 /**
- * @author Brent Worden
+ * @version $Revision: 1.2 $ $Date: 2003/07/09 20:02:43 $
  */
 public interface UnivariateFunction {
     // TODO: More documentation

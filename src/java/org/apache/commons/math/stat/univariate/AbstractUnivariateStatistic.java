@@ -57,6 +57,7 @@ package org.apache.commons.math.stat.univariate;
  * Abstract Implementation for UnivariateStatistics.
  * Provides the ability to extend polymophically so that
  * indiviual statistics do not need to implement these methods. 
+ * @version $Revision: 1.4 $ $Date: 2003/07/09 20:04:13 $
  */
 public abstract class AbstractUnivariateStatistic
     implements UnivariateStatistic {

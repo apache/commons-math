@@ -56,7 +56,7 @@ package org.apache.commons.math.stat.distribution;
 /**
  * The default implementation of {@link ChiSquaredDistribution}
  * 
- * @author Brent Worden
+ * @version $Revision: 1.5 $ $Date: 2003/07/09 20:03:23 $
  */
 public class ChiSquaredDistributionImpl
     extends AbstractContinuousDistribution

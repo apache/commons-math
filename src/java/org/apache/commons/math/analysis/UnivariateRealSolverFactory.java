@@ -59,16 +59,14 @@ import org.apache.commons.math.MathConfigurationException;
 import org.apache.commons.math.MathException;
 
 /**
- * @author pietsch at apache.org
- *
  * A factory to easily get a default solver and some convenience
  * functions.
  * Because solvers are easily reusable, the factory does not
  * store configuration data and creates preconfigured solvers
  * (this may be controversial, because the configuration data
  * may also be used for the default solver used by the static
- * solve() method).
- * 
+ * solve() method). 
+ * @version $Revision: 1.2 $ $Date: 2003/07/09 20:02:43 $
  */
 public class UnivariateRealSolverFactory {
     protected UnivariateRealSolverFactory() {

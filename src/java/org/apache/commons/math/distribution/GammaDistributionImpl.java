@@ -58,7 +58,7 @@ import org.apache.commons.math.special.Gamma;
 /**
  * The default implementation of {@link GammaDistribution}
  * 
- * @author Brent Worden
+ * @version $Revision: 1.5 $ $Date: 2003/07/09 20:03:23 $
  */
 public class GammaDistributionImpl extends AbstractContinuousDistribution
     implements GammaDistribution {

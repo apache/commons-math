@@ -57,7 +57,7 @@ import java.util.Arrays;
 import org.apache.commons.math.stat.univariate.AbstractUnivariateStatistic;
 
 /**
- *
+ * @version $Revision: 1.4 $ $Date: 2003/07/09 20:04:12 $
  */
 public class Percentile extends AbstractUnivariateStatistic {
 

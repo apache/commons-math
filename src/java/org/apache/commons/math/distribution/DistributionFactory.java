@@ -70,7 +70,7 @@ package org.apache.commons.math.stat.distribution;
  * ChiSquaredDistribution chi = factory.createChiSquareDistribution(5.0);
  * </pre>
  * 
- * @author Brent Worden
+ * @version $Revision: 1.8 $ $Date: 2003/07/09 20:03:22 $
  */
 public abstract class DistributionFactory {
     /**

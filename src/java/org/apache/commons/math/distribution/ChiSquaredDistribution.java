@@ -65,7 +65,7 @@ package org.apache.commons.math.stat.distribution;
  * Chi-Squared Distribution</a></li>
  * </ul>
  * 
- * @author Brent Worden
+ * @version $Revision: 1.5 $ $Date: 2003/07/09 20:03:22 $
  */
 public interface ChiSquaredDistribution extends ContinuousDistribution {
     /**

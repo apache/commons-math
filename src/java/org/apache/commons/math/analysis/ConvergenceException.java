@@ -57,7 +57,7 @@ package org.apache.commons.math.analysis;
  * Error thrown when a numerical computation can not be performed because the
  * numerical result failed to converge to a finite value.
  * 
- * @author Brent Worden
+ * @version $Revision: 1.2 $ $Date: 2003/07/09 20:02:43 $
  */
 public class ConvergenceException extends RuntimeException {
     /**

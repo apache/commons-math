@@ -56,7 +56,13 @@ package org.apache.commons.math.stat.univariate.moment;
 import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
 
 /**
+ * FirstMoment.java
  * 
+ * The FirstMoment (arithmentic mean) is calculated using the following 
+ * <a href="http://www.spss.com/tech/stat/Algorithms/11.5/descriptives.pdf">
+ * recursive strategy
+ * </a>. Both incremental and evaluation strategies currently use this approach.
+ * @version $Revision: 1.4 $ $Date: 2003/07/09 20:04:10 $
  */
 public class FirstMoment extends AbstractStorelessUnivariateStatistic {
 
