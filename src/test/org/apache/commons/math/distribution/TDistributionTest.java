@@ -20,7 +20,7 @@ import org.apache.commons.math.MathException;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.12 $ $Date: 2004/02/21 21:35:17 $
+ * @version $Revision: 1.13 $ $Date: 2004/02/28 21:58:33 $
  */
 public class TDistributionTest extends TestCase {
     private TDistribution t;
@@ -129,23 +129,35 @@ public class TDistributionTest extends TestCase {
         testProbability(1.476, .900);
     }
 
+    /**
+     * @see <a href="http://nagoya.apache.org/bugzilla/show_bug.cgi?id=27243">
+     *      Bug report that prompted this unit test.</a>
+     */
+    public void testCumulativeProbabilityAgaintStackOverflow() {
+    	try {
+	    	TDistributionImpl td = new TDistributionImpl(5.);
+	    	double est;
+	    	est = td.cumulativeProbability(.1);
+	    	est = td.cumulativeProbability(.01);
+    	} catch(MathException ex) {
+    		fail(ex.getMessage());
+    	}
+    }
+    
     private void testProbability(double x, double expected) {
         try {
             double actual = t.cumulativeProbability(x);
             assertEquals(expected, actual, 10e-4);
         } catch (MathException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        	fail(e.getMessage());
         }
     }
-
     private void testValue(double expected, double p) {
         try {
             double actual = t.inverseCumulativeProbability(p);
             assertEquals(expected, actual, 10e-4);
         } catch (MathException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        	fail(e.getMessage());
         }
     }
 }
