@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.stat;
+package org.apache.commons.math.stat.inference;
 
 import org.apache.commons.math.MathException;
 
 /**
  * A collection of commonly used test statistics and statistical tests.
  * 
- * @version $Revision: 1.1 $ $Date: 2004/04/11 20:19:14 $ 
+ * @version $Revision: 1.2 $ $Date: 2004/04/11 20:25:16 $ 
  */
 public interface TestStatistic {
     

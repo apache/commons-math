@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.stat;
+package org.apache.commons.math.stat.inference;
 
 import java.io.Serializable;
 
@@ -26,7 +26,7 @@ import org.apache.commons.math.distribution.ChiSquaredDistribution;
 /**
  * Implements test statistics defined in the TestStatistic interface.
  *
- * @version $Revision: 1.1 $ $Date: 2004/04/11 20:19:14 $
+ * @version $Revision: 1.2 $ $Date: 2004/04/11 20:25:16 $
  */
 public class TestStatisticImpl implements TestStatistic, Serializable {
 
