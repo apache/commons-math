@@ -17,18 +17,19 @@ package org.apache.commons.math.stat.univariate.rank;
 
 import java.io.Serializable;
 
-import org
-    .apache
-    .commons
-    .math
-    .stat
-    .univariate
-    .AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
 
 /**
  * Returns the minimum of the available values.
+ * <p>
+ * <ul>
+ * <li>The result is <code>NaN</code> iff all values are <code>NaN</code> 
+ * (i.e. <code>NaN</code> values have no impact on the value of the statistic).</li>
+ * <li>If any of the values equals <code>Double.NEGATIVE_INFINITY</code>, 
+ * the result is <code>Double.NEGATIVE_INFINITY.</code></li>
+ * </ul> 
  * 
- * @version $Revision: 1.16 $ $Date: 2004/04/27 16:42:33 $
+ * @version $Revision: 1.17 $ $Date: 2004/06/18 22:09:53 $
  */
 public class Min extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -45,7 +46,9 @@ public class Min extends AbstractStorelessUnivariateStatistic implements Seriali
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
     public void increment(final double d) {
-        value = Double.isNaN(value) ? d : Math.min(value, d);
+        if (d < value || Double.isNaN(value)) {
+            value = d;
+        }
         n++;
     }
 
@@ -76,10 +79,7 @@ public class Min extends AbstractStorelessUnivariateStatistic implements Seriali
      * 
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
-    public double evaluate(
-        final double[] values,
-        final int begin,
-        final int length) {
+    public double evaluate(final double[] values,final int begin, final int length) {
         double min = Double.NaN;
         if (test(values, begin, length)) {
             min = values[begin];
