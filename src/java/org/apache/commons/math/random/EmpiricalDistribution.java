@@ -43,7 +43,7 @@ import org.apache.commons.math.stat.univariate.SummaryStatistics;
  * build grouped frequnecy histograms representing the input data or to
  * generate random values "like" those in the input file -- i.e., the values
  * generated will follow the distribution of the values in the file.
- * @version $Revision: 1.18 $ $Date: 2004/06/14 23:15:14 $
+ * @version $Revision: 1.19 $ $Date: 2004/06/14 23:34:46 $
  */
 public interface EmpiricalDistribution {
 
@@ -53,13 +53,6 @@ public interface EmpiricalDistribution {
      * @param dataArray the data array
      */
     void load(double[] dataArray);
-
-    /**
-     * Computes the empirical distribution from the input file.
-     * @param filePath fully qualified name of a file in the local file system
-     * @throws IOException if an IO error occurs
-     */
-    void load(String filePath) throws IOException;
 
     /**
      * Computes the empirical distribution from the input file.
@@ -100,25 +93,6 @@ public interface EmpiricalDistribution {
      * @throws IOException if an error occurs reading the file
      */
     void loadDistribution(File file) throws IOException;
-
-    /**
-     * Loads a saved distribution from a file.
-     * @param filePath fully qualified file path for a file
-     * containing a digested distribution
-     * @throws IOException if an error occurs reading the file
-     */
-    void loadDistribution(String filePath) throws IOException;
-
-    /**
-     * Saves distribution to a file. Overwrites the file if it exists.
-     * <strong>Preconditions:</strong><ul>
-     * <li>the distribution must be loaded before invoking this method</li></ul>
-     * @param filePath fully qualified file path for the file to be written
-     * @throws IOException if an error occurs reading the file
-     * @throws IllegalStateException if the distribution has not been loaded
-     */
-    void saveDistribution(String filePath) throws
-        IOException,IllegalStateException;
 
     /**
      * Saves distribution to a file. Overwrites the file if it exists.
