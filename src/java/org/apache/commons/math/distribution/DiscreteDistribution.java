@@ -15,62 +15,20 @@
  */
 package org.apache.commons.math.distribution;
 
-import org.apache.commons.math.MathException;
 
 /**
- * Base interface for various discrete distributions.
+ * Base interface for discrete distributions.
  *
- * @version $Revision: 1.16 $ $Date: 2004/07/25 16:29:24 $
+ * @version $Revision: 1.17 $ $Date: 2004/11/07 03:32:48 $
  */
-public interface DiscreteDistribution {
+public interface DiscreteDistribution extends Distribution {
     /**
-     * For this distribution, X, this method returns P(X = x).
-     * @param x the value at which the PMF is evaluated.
-     * @return PMF for this distribution. 
-     */
-    double probability(int x);
-    
-    /**
-     * For this distribution, X, this method returns P(X &le; x).
-     * @param x the value at which the PDF is evaluated.
-     * @return PDF for this distribution. 
-     * @throws MathException if the cumulative probability can not be
-     *            computed due to convergence or other numerical errors.
-     */
-    double cumulativeProbability(int x) throws MathException;
-
-    /**
-     * For this distribution, X, this method returns P(x0 &le; X &le; x1).
-     * @param x0 the inclusive, lower bound
-     * @param x1 the inclusive, upper bound
-     * @return the cumulative probability. 
-     * @throws MathException if the cumulative probability can not be
-     *            computed due to convergence or other numerical errors.
-     * @throws IllegalArgumentException if x0 > x1
-     */
-    double cumulativeProbability(int x0, int x1) throws MathException;
-    
-    /**
-     * For this distribution, X, this method returns the largest x such that
-     * P(X &le; x) <= p.
-     * <p>
-     * Note that this definition implies: <ul>
-     * <li> If there is a minimum value, <code>m</code>, with postive
-     * probablility under (the density of) X, then <code>m - 1</code> is
-     * returned by <code>inverseCumulativeProbability(0).</code>  If there is
-     * no such value <code>m,  Integer.MIN_VALUE</code> is 
-     * returned.</li>
-     * <li> If there is a maximum value, <code>M</code>, such that
-     * P(X &le; M) =1, then <code>M</code> is returned by 
-     * <code>inverseCumulativeProbability(1).</code>
-     * If there is no such value, <code>M, Integer.MAX_VALUE</code> is 
-     * returned.</li></ul>
+     * For a random variable X whose values are distributed according
+     * to this distribution, this method returns P(X = x). In other words, this
+     * method represents the probability mass function, or PMF for the distribution.
      * 
-     * @param p the cumulative probability.
-     * @return the largest x such that P(X &le; x) <= p
-     * @throws MathException if the inverse cumulative probability can not be
-     *            computed due to convergence or other numerical errors.
-     * @throws IllegalArgumentException if p is not between 0 and 1 (inclusive)
+     * @param x the value at which the probability mass function is evaluated.
+     * @return the value of the probability mass function at x
      */
-    int inverseCumulativeProbability(double p) throws MathException;
+    double probability(double x);
 }

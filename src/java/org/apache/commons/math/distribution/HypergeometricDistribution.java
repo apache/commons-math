@@ -30,9 +30,9 @@ package org.apache.commons.math.distribution;
  * </ul>
  * </p>
  *
- * @version $Revision: 1.10 $ $Date: 2004/06/23 16:26:15 $
+ * @version $Revision: 1.11 $ $Date: 2004/11/07 03:32:48 $
  */
-public interface HypergeometricDistribution extends DiscreteDistribution {
+public interface HypergeometricDistribution extends IntegerDistribution {
     /**
      * Access the number of successes.
      * @return the number of successes.

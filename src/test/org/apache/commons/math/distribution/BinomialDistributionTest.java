@@ -17,12 +17,12 @@ package org.apache.commons.math.distribution;
 
 /**
  * Test cases for BinomialDistribution.
- * Extends DiscreteDistributionAbstractTest.  See class javadoc for
- * DiscreteDistributionAbstractTest for details.
+ * Extends IntegerDistributionAbstractTest.  See class javadoc for
+ * IntegerDistributionAbstractTest for details.
  * 
- * @version $Revision: 1.15 $ $Date: 2004/07/25 16:29:25 $
+ * @version $Revision: 1.16 $ $Date: 2004/11/07 03:32:49 $
  */
-public class BinomialDistributionTest extends DiscreteDistributionAbstractTest {
+public class BinomialDistributionTest extends IntegerDistributionAbstractTest {
     
     /**
      * Constructor for BinomialDistributionTest.
@@ -35,7 +35,7 @@ public class BinomialDistributionTest extends DiscreteDistributionAbstractTest {
     //-------------- Implementations for abstract methods -----------------------
     
     /** Creates the default discrete distribution instance to use in tests. */
-    public DiscreteDistribution makeDistribution() {
+    public IntegerDistribution makeDistribution() {
         return DistributionFactory.newInstance().createBinomialDistribution(10,0.70);
     }
     
@@ -89,7 +89,7 @@ public class BinomialDistributionTest extends DiscreteDistributionAbstractTest {
     }
     
     /** Test degenerate case p = 1   */
-    public void tstDegenerate1() throws Exception {
+    public void testDegenerate1() throws Exception {
         setDistribution(DistributionFactory.newInstance().createBinomialDistribution(5,1.0d));
         setCumulativeTestPoints(new int[] {-1, 0, 1, 2, 5, 10 });
         setCumulativeTestValues(new double[] {0d, 0d, 0d, 0d, 1d, 1d});

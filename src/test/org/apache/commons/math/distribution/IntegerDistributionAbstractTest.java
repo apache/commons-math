@@ -18,9 +18,9 @@ package org.apache.commons.math.distribution;
 import junit.framework.TestCase;
 
 /**
- * Abstract base class for {@link DiscreteDistribution} tests.
+ * Abstract base class for {@link IntegerDistribution} tests.
  * <p>
- * To create a concrete test class for a discrete distribution implementation,
+ * To create a concrete test class for an integer distribution implementation,
  *  implement makeDistribution() to return a distribution instance to use in 
  *  tests and each of the test data generation methods below.  In each case, the
  *  test points and test values arrays returned represent parallel arrays of 
@@ -37,13 +37,13 @@ import junit.framework.TestCase;
  *  use the setXxx methods for the instance data in test cases and call the verifyXxx methods
  *  to verify results. 
  * 
- * @version $Revision: 1.2 $ $Date: 2004/07/23 05:19:06 $
+ * @version $Revision: 1.1 $ $Date: 2004/11/07 03:32:49 $
  */
-public abstract class DiscreteDistributionAbstractTest extends TestCase {
+public abstract class IntegerDistributionAbstractTest extends TestCase {
     
 //-------------------- Private test instance data -------------------------
     /** Discrete distribution instance used to perform tests */
-    private DiscreteDistribution distribution;
+    private IntegerDistribution distribution;
     
     /** Tolerance used in comparing expected and returned values */
     private double tolerance = 1E-4;
@@ -69,17 +69,17 @@ public abstract class DiscreteDistributionAbstractTest extends TestCase {
     //-------------------------------------------------------------------------
     
     /**
-     * Constructor for DiscreteDistributionAbstractTest.
+     * Constructor for IntegerDistributionAbstractTest.
      * @param name
      */
-    public DiscreteDistributionAbstractTest(String name) {
+    public IntegerDistributionAbstractTest(String name) {
         super(name);
     }
     
     //-------------------- Abstract methods -----------------------------------
     
     /** Creates the default discrete distribution instance to use in tests. */
-    public abstract DiscreteDistribution makeDistribution();
+    public abstract IntegerDistribution makeDistribution();
     
     /** Creates the default probability density test input values */
     public abstract int[] makeDensityTestPoints();
@@ -277,14 +277,14 @@ public abstract class DiscreteDistributionAbstractTest extends TestCase {
     /**
      * @return Returns the distribution.
      */
-    protected DiscreteDistribution getDistribution() {
+    protected IntegerDistribution getDistribution() {
         return distribution;
     }
 
     /**
      * @param distribution The distribution to set.
      */
-    protected void setDistribution(DiscreteDistribution distribution) {
+    protected void setDistribution(IntegerDistribution distribution) {
         this.distribution = distribution;
     }
 

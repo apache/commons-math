@@ -21,14 +21,14 @@ import org.apache.commons.math.MathException;
 
 
 /**
- * Base class for various discrete distributions.  It provides default
- * implementations for some of the methods that do not vary from distribution
- * to distribution.
+ * Base class for integer-valued discrete distributions.  Default
+ * implementations are provided for some of the methods that do not vary
+ * from distribution to distribution.
  *  
- * @version $Revision: 1.18 $ $Date: 2004/07/23 05:20:26 $
+ * @version $Revision: 1.1 $ $Date: 2004/11/07 03:32:48 $
  */
-public abstract class AbstractDiscreteDistribution
-    implements DiscreteDistribution, Serializable {
+public abstract class AbstractIntegerDistribution extends AbstractDistribution
+    implements IntegerDistribution, Serializable {
         
     /** Serializable version identifier */
     static final long serialVersionUID = -1146319659338487221L;
@@ -36,12 +36,65 @@ public abstract class AbstractDiscreteDistribution
     /**
      * Default constructor.
      */
-    protected AbstractDiscreteDistribution() {
+    protected AbstractIntegerDistribution() {
         super();
     }
     
     /**
-     * For this distribution, X, this method returns P(x0 &le; X &le; x1).
+     * For a random variable X whose values are distributed according
+     * to this distribution, this method returns P(X &le; x).  In other words,
+     * this method represents the  (cumulative) distribution function, or
+     * CDF, for this distribution.
+     * <p>
+     * If <code>x</code> does not represent an integer value, the CDF is 
+     * evaluated at the greatest integer less than x.
+     * 
+     * @param x the value at which the distribution function is evaluated.
+     * @return cumulative probability that a random variable with this
+     * distribution takes a value less than or equal to <code>x</code>
+     * @throws MathException if the cumulative probability can not be
+     * computed due to convergence or other numerical errors.
+     */
+    public double cumulativeProbability(double x) throws MathException {
+        return cumulativeProbability((int) Math.floor(x));  
+    }
+    
+    /**
+     * For a random variable X whose values are distributed according
+     * to this distribution, this method returns P(X &le; x).  In other words,
+     * this method represents the probability distribution function, or PDF,
+     * for this distribution.
+     * 
+     * @param x the value at which the PDF is evaluated.
+     * @return PDF for this distribution. 
+     * @throws MathException if the cumulative probability can not be
+     *            computed due to convergence or other numerical errors.
+     */
+    abstract public double cumulativeProbability(int x) throws MathException;
+    
+    /**
+     * For a random variable X whose values are distributed according
+     * to this distribution, this method returns P(X = x). In other words, this
+     * method represents the probability mass function,  or PMF, for the distribution.
+     * <p>
+     * If <code>x</code> does not represent an integer value, 0 is returned.
+     * 
+     * @param x the value at which the probability density function is evaluated
+     * @return the value of the probability density function at x
+     */
+    public double probability(double x) {
+        double fl = Math.floor(x);
+        if (fl == x) {
+            return this.probability((int) x);
+        } else {
+            return 0;
+        }
+    }
+    
+    /**
+    * For a random variable X whose values are distributed according
+     * to this distribution, this method returns P(x0 &le; X &le; x1).
+     * 
      * @param x0 the inclusive, lower bound
      * @param x1 the inclusive, upper bound
      * @return the cumulative probability. 
@@ -58,7 +111,8 @@ public abstract class AbstractDiscreteDistribution
     }
     
     /**
-     * For this distribution, X, this method returns the largest x, such
+     * For a random variable X whose values are distributed according
+     * to this distribution, this method returns the largest x, such
      * that P(X &le; x) &le; <code>p</code>.
      *
      * @param p the desired probability

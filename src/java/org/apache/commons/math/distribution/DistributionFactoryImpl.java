@@ -19,7 +19,7 @@ package org.apache.commons.math.distribution;
  * A concrete distribution factory.  This is the default factory used by
  * Commons-Math.
  *  
- * @version $Revision: 1.20 $ $Date: 2004/06/23 16:26:15 $
+ * @version $Revision: 1.21 $ $Date: 2004/11/07 03:32:48 $
  */
 public class DistributionFactoryImpl extends DistributionFactory {
 
@@ -32,8 +32,9 @@ public class DistributionFactoryImpl extends DistributionFactory {
     
     /**
      * Create a new chi-square distribution with the given degrees of freedom.
-     * @param degreesOfFreedom degrees of freedom.
-     * @return a new chi-square distribution.  
+     * 
+     * @param degreesOfFreedom degrees of freedom
+     * @return a new chi-square distribution  
      */
     public ChiSquaredDistribution createChiSquareDistribution(
         final double degreesOfFreedom) {
@@ -42,10 +43,11 @@ public class DistributionFactoryImpl extends DistributionFactory {
     }
     
     /**
-     * Create a new gamma distribution the given alpha and beta values.
-     * @param alpha the shape parameter.
-     * @param beta the scale parameter.
-     * @return a new gamma distribution.  
+     * Create a new gamma distribution the given shape and scale parameters.
+     * 
+     * @param alpha the shape parameter
+     * @param beta the scale parameter
+     * @return a new gamma distribution  
      */
     public GammaDistribution createGammaDistribution(
         double alpha, double beta) {
@@ -55,7 +57,8 @@ public class DistributionFactoryImpl extends DistributionFactory {
 
     /**
      * Create a new t distribution with the given degrees of freedom.
-     * @param degreesOfFreedom degrees of freedom.
+     * 
+     * @param degreesOfFreedom degrees of freedom
      * @return a new t distribution.  
      */
     public TDistribution createTDistribution(double degreesOfFreedom) {
@@ -64,9 +67,10 @@ public class DistributionFactoryImpl extends DistributionFactory {
 
     /**
      * Create a new F-distribution with the given degrees of freedom.
-     * @param numeratorDegreesOfFreedom numerator degrees of freedom.
-     * @param denominatorDegreesOfFreedom denominator degrees of freedom.
-     * @return a new F-distribution.  
+     * 
+     * @param numeratorDegreesOfFreedom numerator degrees of freedom
+     * @param denominatorDegreesOfFreedom denominator degrees of freedom
+     * @return a new F-distribution 
      */
     public FDistribution createFDistribution(
         double numeratorDegreesOfFreedom,
@@ -77,8 +81,9 @@ public class DistributionFactoryImpl extends DistributionFactory {
 
     /**
      * Create a new exponential distribution with the given degrees of freedom.
-     * @param mean mean.
-     * @return a new exponential distribution.  
+     * 
+     * @param mean mean
+     * @return a new exponential distribution  
      */
     public ExponentialDistribution createExponentialDistribution(double mean) {
         return new ExponentialDistributionImpl(mean);
@@ -87,9 +92,10 @@ public class DistributionFactoryImpl extends DistributionFactory {
     /**
      * Create a binomial distribution with the given number of trials and
      * probability of success.
-     * @param numberOfTrials the number of trials.
-     * @param probabilityOfSuccess the probability of success.
-     * @return a new binomial distribution.
+     * 
+     * @param numberOfTrials the number of trials
+     * @param probabilityOfSuccess the probability of success
+     * @return a new binomial distribution
      */
     public BinomialDistribution createBinomialDistribution(
         int numberOfTrials, double probabilityOfSuccess) {
@@ -100,38 +106,52 @@ public class DistributionFactoryImpl extends DistributionFactory {
     /**
      * Create a new hypergeometric distribution with the given the population
      * size, the number of successes in the population, and the sample size.
-     * @param populationSize the population size.
-     * @param numberOfSuccesses number of successes in the population.
-     * @param sampleSize the sample size.
-     * @return a new hypergeometric desitribution.
+     * 
+     * @param populationSize the population size
+     * @param numberOfSuccesses number of successes in the population
+     * @param sampleSize the sample size
+     * @return a new hypergeometric desitribution
      */
     public HypergeometricDistribution createHypergeometricDistribution(
-        int populationSize,
-        int numberOfSuccesses,
-        int sampleSize)
-    {
+        int populationSize, int numberOfSuccesses, int sampleSize) {
         return new HypergeometricDistributionImpl(populationSize,
             numberOfSuccesses, sampleSize);
     }
 
 	/**
 	 * Create a new normal distribution with the given mean and standard
-	 * deviation values.
-	 * @param mean arithmetic mean.
-	 * @param sd standard deviation.
-	 * @return a new normal distribution.  
+	 * deviation.
+     *  
+	 * @param mean the mean of the distribution
+	 * @param sd standard deviation
+	 * @return a new normal distribution 
 	 */   
 	public NormalDistribution createNormalDistribution(double mean, double sd) {
 		return new NormalDistributionImpl(mean, sd);
 	}
 
 	/**
-	 * Create a new normal distribution with the mean equal to zero and standard
-	 * deviation equal to one.
-	 * @return a new normal distribution.  
+	 * Create a new normal distribution with the mean zero and standard
+	 * deviation one.
+     * 
+	 * @return a new normal distribution  
 	 */ 
 	public NormalDistribution createNormalDistribution() {
 		return new NormalDistributionImpl();
 	}
+    
+    /**
+     * Create a new Poisson distribution with poisson parameter lambda.
+     * <p>
+     * lambda must be postive; otherwise an 
+     * <code>IllegalArgumentException</code> is thrown.
+     * 
+     * @param lambda poisson parameter
+     * @return a new Poisson distribution  
+     * @throws IllegalArgumentException if lambda &le; 0
+     */               
+    public PoissonDistribution  createPoissonDistribution(double lambda) {
+        return new PoissonDistributionImpl(lambda);
+    }
 
 }

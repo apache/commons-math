@@ -18,29 +18,11 @@ package org.apache.commons.math.distribution;
 import org.apache.commons.math.MathException;
 
 /**
- * Base interface for various continuous distributions.
+ * Base interface for continuous distributions.
  *
- * @version $Revision: 1.15 $ $Date: 2004/06/23 16:26:15 $
+ * @version $Revision: 1.16 $ $Date: 2004/11/07 03:32:48 $
  */
-public interface ContinuousDistribution {
-    /**
-     * For this disbution, X, this method returns P(X &lt; x).
-     * @param x the value at which the CDF is evaluated.
-     * @return CDF for this distribution. 
-     * @throws MathException if the cumulative probability can not be
-     *            computed due to convergence or other numerical errors.
-     */
-    double cumulativeProbability(double x) throws MathException;
-
-    /**
-     * For this disbution, X, this method returns P(x0 &lt; X &lt; x1).
-     * @param x0 the lower bound
-     * @param x1 the upper bound
-     * @return the cumulative probability. 
-     * @throws MathException if the cumulative probability can not be
-     *            computed due to convergence or other numerical errors.
-     */
-    double cumulativeProbability(double x0, double x1) throws MathException;
+public interface ContinuousDistribution extends Distribution {
     
     /**
      * For this disbution, X, this method returns x such that P(X &lt; x) = p.

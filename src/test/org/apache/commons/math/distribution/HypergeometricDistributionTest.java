@@ -18,12 +18,12 @@ package org.apache.commons.math.distribution;
 
 /**
  * Test cases for HyperGeometriclDistribution.
- * Extends DiscreteDistributionAbstractTest.  See class javadoc for
- * DiscreteDistributionAbstractTest for details.
+ * Extends IntegerDistributionAbstractTest.  See class javadoc for
+ * IntegerDistributionAbstractTest for details.
  * 
- * @version $Revision: 1.12 $ $Date: 2004/07/25 16:29:25 $
+ * @version $Revision: 1.13 $ $Date: 2004/11/07 03:32:49 $
  */
-public class HypergeometricDistributionTest extends DiscreteDistributionAbstractTest {
+public class HypergeometricDistributionTest extends IntegerDistributionAbstractTest {
 
     /**
      * Constructor for ChiSquareDistributionTest.
@@ -36,7 +36,7 @@ public class HypergeometricDistributionTest extends DiscreteDistributionAbstract
 //-------------- Implementations for abstract methods -----------------------
     
     /** Creates the default discrete distribution instance to use in tests. */
-    public DiscreteDistribution makeDistribution() {
+    public IntegerDistribution makeDistribution() {
         return DistributionFactory.newInstance().createHypergeometricDistribution(10,5, 5);
     }
     

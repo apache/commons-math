@@ -24,10 +24,10 @@ import org.apache.commons.math.util.MathUtils;
 /**
  * The default implementation of {@link BinomialDistribution}.
  *
- * @version $Revision: 1.18 $ $Date: 2004/07/25 16:29:24 $
+ * @version $Revision: 1.19 $ $Date: 2004/11/07 03:32:48 $
  */
 public class BinomialDistributionImpl
-    extends AbstractDiscreteDistribution
+    extends AbstractIntegerDistribution
     implements BinomialDistribution, Serializable {
 
     /** Serializable version identifier */
@@ -118,7 +118,7 @@ public class BinomialDistributionImpl
     }
 
     /**
-     * For this disbution, X, this method returns P(X &le; x).
+     * For this distribution, X, this method returns P(X &le; x).
      * @param x the value at which the PDF is evaluated.
      * @return PDF for this distribution. 
      * @throws MathException if the cumulative probability can not be
@@ -142,6 +142,7 @@ public class BinomialDistributionImpl
 
     /**
      * For this disbution, X, this method returns P(X = x).
+     * 
      * @param x the value at which the PMF is evaluated.
      * @return PMF for this distribution. 
      */

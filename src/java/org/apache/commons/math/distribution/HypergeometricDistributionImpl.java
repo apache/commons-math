@@ -24,9 +24,9 @@ import org.apache.commons.math.util.MathUtils;
 /**
  * The default implementation of {@link HypergeometricDistribution}.
  *
- * @version $Revision: 1.15 $ $Date: 2004/06/23 16:26:15 $
+ * @version $Revision: 1.16 $ $Date: 2004/11/07 03:32:48 $
  */
-public class HypergeometricDistributionImpl extends AbstractDiscreteDistribution
+public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     implements HypergeometricDistribution, Serializable 
 {
 
@@ -183,6 +183,7 @@ public class HypergeometricDistributionImpl extends AbstractDiscreteDistribution
 
     /**
      * For this disbution, X, this method returns P(X = x).
+     * 
      * @param x the value at which the PMF is evaluated.
      * @return PMF for this distribution. 
      */
@@ -206,6 +207,7 @@ public class HypergeometricDistributionImpl extends AbstractDiscreteDistribution
     /**
      * For the disbution, X, defined by the given hypergeometric distribution
      * parameters, this method returns P(X = x).
+     * 
      * @param n the population size.
      * @param m number of successes in the population.
      * @param k the sample size.

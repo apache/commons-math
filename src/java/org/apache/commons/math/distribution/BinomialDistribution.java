@@ -29,9 +29,9 @@ package org.apache.commons.math.distribution;
  * </ul>
  * </p>
  *
- * @version $Revision: 1.11 $ $Date: 2004/06/23 16:26:15 $
+ * @version $Revision: 1.12 $ $Date: 2004/11/07 03:32:48 $
  */
-public interface BinomialDistribution extends DiscreteDistribution {
+public interface BinomialDistribution extends IntegerDistribution {
     /**
      * Access the number of trials for this distribution.
      * @return the number of trials.

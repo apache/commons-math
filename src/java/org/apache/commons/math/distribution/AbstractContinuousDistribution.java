@@ -24,13 +24,14 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.UnivariateRealSolverUtils;
 
 /**
- * Base class for various continuous distributions.  It provides default
- * implementations for some of the methods that do not vary from distribution
- * to distribution.
+ * Base class for continuous distributions.  Default implementations are
+ * provided for some of the methods that do not vary from distribution to
+ * distribution.
  *  
- * @version $Revision: 1.25 $ $Date: 2004/07/17 21:19:39 $
+ * @version $Revision: 1.26 $ $Date: 2004/11/07 03:32:48 $
  */
 public abstract class AbstractContinuousDistribution
+    extends AbstractDistribution
     implements ContinuousDistribution, Serializable {
 
     /** Serializable version identifier */
@@ -41,27 +42,6 @@ public abstract class AbstractContinuousDistribution
      */
     protected AbstractContinuousDistribution() {
         super();
-    }
-
-    /**
-     * For this distribution, X, this method returns P(x0 &lt; X &lt; x1).  This
-     * is accomplished by using the equality P(x0 &lt; X &lt; x1) =
-     * P(X &lt; x1) - P(X &lt; x0).
-     * 
-     * @param x0 the lower bound
-     * @param x1 the upper bound
-     * @return the cumulative probability. 
-     * @throws MathException if the cumulative probability can not be
-     *            computed due to convergence or other numerical errors.
-     * @throws IllegalArgumentException if x0 > x1
-     */
-    public double cumulativeProbability(double x0, double x1)
-        throws MathException {
-        if (x0 > x1) {
-            throw new IllegalArgumentException
-            ("lower endpoint must be less than or equal to upper endpoint");
-        }
-        return cumulativeProbability(x1) - cumulativeProbability(x0);
     }
 
     /**
