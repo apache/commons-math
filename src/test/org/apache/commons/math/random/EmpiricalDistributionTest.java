@@ -58,6 +58,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import java.io.File;
 import java.net.URL;
+import java.net.URLDecoder;
 
 import org.apache.commons.math.stat.DescriptiveStatistics;
 import org.apache.commons.math.stat.StorelessDescriptiveStatisticsImpl;
@@ -65,7 +66,7 @@ import org.apache.commons.math.stat.StorelessDescriptiveStatisticsImpl;
 /**
  * Test cases for the EmpiricalDistribution class
  *
- * @version $Revision: 1.8 $ $Date: 2004/01/11 07:26:51 $
+ * @version $Revision: 1.9 $ $Date: 2004/01/11 20:50:11 $
  */
 
 public final class EmpiricalDistributionTest extends TestCase {
@@ -81,7 +82,8 @@ public final class EmpiricalDistributionTest extends TestCase {
     public void setUp() {
         empiricalDistribution = new EmpiricalDistributionImpl(100);
         url = getClass().getResource("testData.txt");
-        file = new File(url.getFile());
+        String fileName = URLDecoder.decode(url.getFile());
+        file = new File(fileName);
     }
 
     public static Test suite() {
