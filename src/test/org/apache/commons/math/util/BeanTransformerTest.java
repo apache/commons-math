@@ -22,7 +22,7 @@ import org.apache.commons.math.TestUtils;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.10 $ $Date: 2004/05/23 00:33:41 $
+ * @version $Revision: 1.11 $ $Date: 2004/05/23 21:34:19 $
  */
 public class BeanTransformerTest extends TestCase {
     
@@ -70,30 +70,22 @@ public class BeanTransformerTest extends TestCase {
     /**
      * 
      */
-    public void testTransform() {
+    public void testTransform() throws Exception {
         BeanTransformer b = new BeanTransformer("x");
         TestBean target = new TestBean();
 		double value = Double.NaN;
-		try {
-			value = b.transform(target);
-		} catch (MathException e) {
-			e.printStackTrace();
-		}
+		value = b.transform(target);
 		TestUtils.assertEquals(1.0, value, 1.0e-2);
     }
     
     /**
      * 
      */
-    public void testTransformInvalidType(){
+    public void testTransformInvalidType() throws Exception {
         BeanTransformer b = new BeanTransformer("y");
         TestBean target = new TestBean();
         try {
-            try {
-				b.transform(target);
-			} catch (MathException e) {
-				e.printStackTrace();
-			}
+			b.transform(target);
             fail("Expecting ClassCastException");
         } catch(ClassCastException ex){
             // success

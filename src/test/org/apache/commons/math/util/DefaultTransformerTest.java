@@ -22,21 +22,17 @@ import org.apache.commons.math.MathException;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.11 $ $Date: 2004/05/23 00:33:41 $
+ * @version $Revision: 1.12 $ $Date: 2004/05/23 21:34:19 $
  */
 public class DefaultTransformerTest extends TestCase {
     /**
      * 
      */
-    public void testTransformDouble(){
+    public void testTransformDouble() throws Exception {
         double expected = 1.0;
         Double input = new Double(expected);
         DefaultTransformer t = new DefaultTransformer();
-        try {
-			assertEquals(expected, t.transform(input), 1.0e-4);
-		} catch (MathException e) {
-			e.printStackTrace();
-		}
+		assertEquals(expected, t.transform(input), 1.0e-4);
     }
     
     /**
@@ -55,43 +51,31 @@ public class DefaultTransformerTest extends TestCase {
     /**
      * 
      */
-    public void testTransformInteger(){
+    public void testTransformInteger() throws Exception {
         double expected = 1.0;
         Integer input = new Integer(1);
         DefaultTransformer t = new DefaultTransformer();
-        try {
-			assertEquals(expected, t.transform(input), 1.0e-4);
-		} catch (MathException e) {
-			e.printStackTrace();
-		}
+		assertEquals(expected, t.transform(input), 1.0e-4);
     }        
     
     /**
      * 
      */
-    public void testTransformBigDecimal(){
+    public void testTransformBigDecimal() throws Exception {
         double expected = 1.0;
         BigDecimal input = new BigDecimal("1.0");
         DefaultTransformer t = new DefaultTransformer();
-        try {
-			assertEquals(expected, t.transform(input), 1.0e-4);
-		} catch (MathException e) {
-			e.printStackTrace();
-		}
+		assertEquals(expected, t.transform(input), 1.0e-4);
     }        
     
     /**
      * 
      */
-    public void testTransformString(){
+    public void testTransformString() throws Exception {
         double expected = 1.0;
         String input = "1.0";
         DefaultTransformer t = new DefaultTransformer();
-        try {
-			assertEquals(expected, t.transform(input), 1.0e-4);
-		} catch (MathException e) {
-			e.printStackTrace();
-		}
+		assertEquals(expected, t.transform(input), 1.0e-4);
     }
     
     /**

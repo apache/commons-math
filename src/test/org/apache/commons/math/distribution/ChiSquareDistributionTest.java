@@ -16,12 +16,10 @@
 
 package org.apache.commons.math.distribution;
 
-import org.apache.commons.math.MathException;
-
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.13 $ $Date: 2004/02/21 21:35:17 $
+ * @version $Revision: 1.14 $ $Date: 2004/05/23 21:34:19 $
  */
 public class ChiSquareDistributionTest extends TestCase {
     private ChiSquaredDistribution chiSquare;
@@ -50,7 +48,7 @@ public class ChiSquareDistributionTest extends TestCase {
 		super.tearDown();
 	}
 
-    public void testLowerTailProbability(){
+    public void testLowerTailProbability() throws Exception {
         testProbability( .210, .001);
         testProbability( .554, .010);
         testProbability( .831, .025);
@@ -58,7 +56,7 @@ public class ChiSquareDistributionTest extends TestCase {
         testProbability(1.610, .100);
     }
 
-    public void testUpperTailProbability(){
+    public void testUpperTailProbability() throws Exception {
         testProbability(20.515, .999);
         testProbability(15.086, .990);
         testProbability(12.833, .975);
@@ -66,7 +64,7 @@ public class ChiSquareDistributionTest extends TestCase {
         testProbability( 9.236, .900);
     }
     
-    public void testLowerTailValues(){
+    public void testLowerTailValues() throws Exception {
         testValue(.001,  .210);
         testValue(.010,  .554);
         testValue(.025,  .831);
@@ -74,7 +72,7 @@ public class ChiSquareDistributionTest extends TestCase {
         testValue(.100, 1.610);
     }
     
-    public void testUpperTailValues(){
+    public void testUpperTailValues() throws Exception {
         testValue(.999, 20.515);
         testValue(.990, 15.086);
         testValue(.975, 12.833);
@@ -82,23 +80,13 @@ public class ChiSquareDistributionTest extends TestCase {
         testValue(.900,  9.236);
     }
     
-    private void testProbability(double x, double expected){
-        try {
-            double actual = chiSquare.cumulativeProbability(x);
-            assertEquals("probability for " + x, expected, actual, 10e-4);
-        } catch (MathException e) {
-            e.printStackTrace();
-        }
-        
+    private void testProbability(double x, double expected) throws Exception {
+        double actual = chiSquare.cumulativeProbability(x);
+        assertEquals("probability for " + x, expected, actual, 10e-4);
     }
     
-    private void testValue(double p, double expected){
-        try {
-            double actual = chiSquare.inverseCumulativeProbability(p);
-            assertEquals("value for " + p, expected, actual, 10e-4);
-        } catch (MathException e) {
-            e.printStackTrace();
-        }
-        
+    private void testValue(double p, double expected) throws Exception {
+        double actual = chiSquare.inverseCumulativeProbability(p);
+        assertEquals("value for " + p, expected, actual, 10e-4);
     }
 }
