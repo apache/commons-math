@@ -1,0 +1,23 @@
+$Id: RELEASE-NOTES.txt,v 1.1 2003/05/12 15:03:24 rdonkin Exp $
+
+			 Commons math Package
+			   Version 1.0-dev
+			    Release Notes
+
+
+INTRODUCTION:
+
+This document contains the release notes for this version of the Commons
+math package, and highlights changes since the previous version.  The
+current release adds new features and bug fixes, and is being done now to
+follow the release early/release often mentality.
+
+
+NEW FEATURES:
+
+* 
+
+
+BUG FIXES:
+
+
