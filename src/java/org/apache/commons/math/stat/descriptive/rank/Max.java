@@ -15,8 +15,6 @@
  */
 package org.apache.commons.math.stat.descriptive.rank;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
 
 /**
@@ -34,7 +32,7 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
  * one of the threads invokes the <code>increment()</code> or 
  * <code>clear()</code> method, it must be synchronized externally.
  * 
- * @version $Revision: 1.1 $ $Date: 2004/10/08 05:08:17 $
+ * @version $Revision: 1.2 $ $Date: 2004/11/07 02:44:45 $
  */
 public class Max extends AbstractStorelessUnivariateStatistic {
 
