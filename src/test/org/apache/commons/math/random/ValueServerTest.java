@@ -64,7 +64,7 @@ import org.apache.commons.math.stat.StorelessDescriptiveStatisticsImpl;
 /**
  * Test cases for the ValueServer class.
  *
- * @version $Revision: 1.10 $ $Date: 2004/01/15 05:22:08 $
+ * @version $Revision: 1.11 $ $Date: 2004/01/15 07:31:44 $
  */
 
 public final class ValueServerTest extends TestCase {
@@ -148,7 +148,7 @@ public final class ValueServerTest extends TestCase {
         double tolerance = 10E-15;
         double compareValue = 0.0d;
         vs.setMode(ValueServer.REPLAY_MODE);
-        vs.openReplayFile();
+        vs.resetReplayFile();
         compareValue = vs.getNext();
         assertEquals(compareValue,firstDataValue,tolerance);
         compareValue = vs.getNext();
