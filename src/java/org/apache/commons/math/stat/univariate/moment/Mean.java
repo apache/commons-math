@@ -17,38 +17,60 @@ package org.apache.commons.math.stat.univariate.moment;
 
 import java.io.Serializable;
 
-import org
-    .apache
-    .commons
-    .math
-    .stat
-    .univariate
-    .AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math.stat.univariate.summary.Sum;
 
 /**
- * Returns the <a href="http://www.xycoon.com/arithmetic_mean.htm">
- * arithmetic mean </a> of the available values.
- * @version $Revision: 1.18 $ $Date: 2004/06/23 16:26:15 $
+ * Returns the arithmetic mean of the available values. Uses the definitional 
+ * formula:
+ * <p>
+ * mean = sum(x_i) / n
+ * <p>
+ * where <code>n</code> is the number of observations.
+ * <p>
+ * The value of the statistic is computed using the following recursive
+ * updating algorithm:
+ * <p>
+ * <ol>
+ * <li>Initialize <code>m = </code> the first value</li>
+ * <li>For each additional value, update using <br>
+ *   <code>m = m + (new value - m) / (number of observations)</code></li>
+ * </ol>
+ * <p>
+ *  Returns <code>Double.NaN</code> if the dataset is empty.
+ * <p>
+ * <strong>Note that this implementation is not synchronized.</strong> If 
+ * multiple threads access an instance of this class concurrently, and at least
+ * one of the threads invokes the <code>increment()</code>, or 
+ * <code>clear()</code> method,  it must be synchronized externally.
+ * 
+ * @version $Revision: 1.19 $ $Date: 2004/07/02 13:59:49 $
  */
-public class Mean extends AbstractStorelessUnivariateStatistic implements Serializable{
+public class Mean extends AbstractStorelessUnivariateStatistic 
+    implements Serializable {
 
     /** Serializable version identifier */
     static final long serialVersionUID = -1296043746617791564L;    
     
-    /** first moment of values that have been added */
+    /** First moment on which this statistic is based. */
     protected FirstMoment moment = null;
 
-    /** */
+    /** 
+     * Determines whether or not this statistic can be incremented or cleared.
+     * <p>
+     * Statistics based on (constructed from) external moments cannot
+     * be incremented or cleared.
+     */
     protected boolean incMoment = true;
 
-    /** */
+    /** Constructs a Mean. */
     public Mean() {
         moment = new FirstMoment();
     }
 
     /**
      * Constructs a Mean with an External Moment.
+     * 
      * @param m1 the moment
      */
     public Mean(final FirstMoment m1) {
@@ -87,26 +109,25 @@ public class Mean extends AbstractStorelessUnivariateStatistic implements Serial
     public double getN() {
         return moment.getN();
     }
-    
-    /*UnvariateStatistic Approach */
-
-    /** */
-    protected Sum sum = new Sum();
 
     /**
-     * Returns the <a href="http://www.xycoon.com/arithmetic_mean.htm">
-     * arithmetic mean </a> of a double[] of the available values.
+     * Returns the arithmetic mean of the values in the input array, or
+     * <code>Double.NaN</code> if the array is empty.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * <p>
+     * See {@link Mean} for details on the computing algorithm.
+     * 
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
      * @param length the number of elements to include
      * @return the mean of the values or Double.NaN if the array is empty
+     * @throws IllegalArgumentException if the array is null
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
-    public double evaluate(
-        final double[] values,
-        final int begin,
-        final int length) {
+    public double evaluate(final double[] values,final int begin, final int length) {
         if (test(values, begin, length)) {
+            Sum sum = new Sum();
             return sum.evaluate(values, begin, length) / ((double) length);
         }
         return Double.NaN;
