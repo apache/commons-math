@@ -49,7 +49,7 @@ import org.apache.commons.math.distribution.TDistribution;
  * the necessary computations to return the requested statistic.</li>
  * </ul>
  *
- * @version $Revision: 1.4 $ $Date: 2004/06/23 16:26:17 $
+ * @version $Revision: 1.5 $ $Date: 2004/07/17 21:14:02 $
  */
 public class BivariateRegression implements Serializable {
 
@@ -82,6 +82,13 @@ public class BivariateRegression implements Serializable {
 
     // ---------------------Public methods--------------------------------------
 
+    /**
+     * Create an empty BivariateRegression instance
+     */
+    public BivariateRegression() {
+        super();
+    }
+    
     /**
      * Adds the observation (x,y) to the regression data set.
      * <p>
