@@ -15,20 +15,20 @@
  */
 package org.apache.commons.math.stat.univariate.moment;
 
-import java.io.Serializable;
-
+import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math.stat.univariate.summary.SumOfLogs;
 
 /**
  * Returns the <a href="http://www.xycoon.com/geometric_mean.htm">
  * geometric mean </a> of the available values.
  * <p>
- * Uses {@link SumOfLogs} superclass to compute sum of logs and returns
+ * Uses a {@link SumOfLogs} instance to compute sum of logs and returns
  * <code> exp( 1/n  (sum of logs) ).</code>  Therefore,
  * <ul>
  * <li>If any of values are < 0, the result is <code>NaN.</code></li>
- * <li>If all values are non-negative and less than <code>Double.POSITIVE_INFINITY</code>, 
- * but at least one value is 0, the result is <code>0.</code></li>
+ * <li>If all values are non-negative and less than 
+ * <code>Double.POSITIVE_INFINITY</code>,  but at least one value is 0, the 
+ * result is <code>0.</code></li>
  * <li>If both <code>Double.POSITIVE_INFINITY</code> and 
  * <code>Double.NEGATIVE_INFINITY</code> are among the values, the result is
  * <code>NaN.</code></li>
@@ -40,30 +40,36 @@ import org.apache.commons.math.stat.univariate.summary.SumOfLogs;
  * <code>clear()</code> method, it must be synchronized externally.
  * 
  *
- * @version $Revision: 1.21 $ $Date: 2004/07/04 09:02:36 $
+ * @version $Revision: 1.22 $ $Date: 2004/07/18 04:37:08 $
  */
-public class GeometricMean extends SumOfLogs implements Serializable{
+public class GeometricMean extends AbstractStorelessUnivariateStatistic {
 
     /** Serializable version identifier */
     static final long serialVersionUID = -8178734905303459453L;  
-      
-    /**Number of values that have been added */
-    protected long n = 0;
+    
+    /** Wrapped SumOfLogs instance */
+    private SumOfLogs sumOfLogs;
 
+    /**
+     * Create a GeometricMean instance
+     */
+    public GeometricMean() {
+        sumOfLogs = new SumOfLogs();
+    }
+    
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
     public void increment(final double d) {
-        n++;
-        super.increment(d);
+        sumOfLogs.increment(d);
     }
 
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getResult()
      */
     public double getResult() {
-        if (n > 0) {
-            return Math.exp(super.getResult() / (double) n);
+        if (sumOfLogs.getN() > 0) {
+            return Math.exp(sumOfLogs.getResult() / (double) sumOfLogs.getN());
         } else {
             return Double.NaN;
         }
@@ -73,8 +79,7 @@ public class GeometricMean extends SumOfLogs implements Serializable{
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
      */
     public void clear() {
-        super.clear();
-        n = 0;
+        sumOfLogs.clear();
     }
 
     /**
@@ -94,11 +99,16 @@ public class GeometricMean extends SumOfLogs implements Serializable{
      * index parameters are not valid
      */
     public double evaluate(
-        final double[] values,
-        final int begin,
-        final int length) {
+        final double[] values, final int begin, final int length) {
         return Math.exp(
-            super.evaluate(values, begin, length) / (double) length);
+            sumOfLogs.evaluate(values, begin, length) / (double) length);
+    }
+    
+    /**
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getN()
+     */
+    public long getN() {
+        return sumOfLogs.getN();
     }
 
 }
