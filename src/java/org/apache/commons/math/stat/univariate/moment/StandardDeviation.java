@@ -18,19 +18,16 @@ package org.apache.commons.math.stat.univariate.moment;
 import java.io.Serializable;
 
 /**
+ * Computes the sample standard deviation.  The standard deviation
+ * is the positive square root of the variance.  See {@link Variance} for
+ * more information.
  *
- * @version $Revision: 1.17 $ $Date: 2004/06/23 16:26:15 $
+ * @version $Revision: 1.18 $ $Date: 2004/06/26 22:41:27 $
  */
 public class StandardDeviation extends Variance implements Serializable {
 
     /** Serializable version identifier */
     static final long serialVersionUID = 5728716329662425188L;    
-    
-    /** */
-    protected double std = Double.NaN;
-
-    /** */
-    private double lastVar = 0.0;
 
     /**
      * Constructs a StandardDeviation
@@ -40,7 +37,8 @@ public class StandardDeviation extends Variance implements Serializable {
     }
 
     /**
-     * Constructs a StandardDeviation with an external moment
+     * Constructs a StandardDeviation from an external second moment.
+     * 
      * @param m2 the external moment
      */
     public StandardDeviation(final SecondMoment m2) {
@@ -58,17 +56,7 @@ public class StandardDeviation extends Variance implements Serializable {
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getResult()
      */
     public double getResult() {
-        if (lastVar != super.getResult()) {
-            lastVar = super.getResult();
-            if (Double.isNaN(lastVar)) {
-                std = Double.NaN;
-            } else if (lastVar == 0.0) {
-                std = 0.0;
-            } else {
-                std = Math.sqrt(lastVar);
-            }
-        }
-        return std;
+        return Math.sqrt(super.getResult());
     }
 
     /**
@@ -76,11 +64,11 @@ public class StandardDeviation extends Variance implements Serializable {
      */
     public void clear() {
         super.clear();
-        lastVar = 0.0;
     }
 
     /**
      * Returns the Standard Deviation on an array of values.
+     * 
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
      * @param length the number of elements to include
@@ -88,18 +76,8 @@ public class StandardDeviation extends Variance implements Serializable {
      * or 0.0 for a single value set.
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
-    public double evaluate(
-        final double[] values,
-        final int begin,
-        final int length) {
-
-        double var = super.evaluate(values, begin, length);
-
-        if (Double.isNaN(var)) {
-            return Double.NaN;
-        }
-
-        return var != 0.0 ? Math.sqrt(var) : 0.0;
+    public double evaluate(final double[] values, final int begin, final int length)  {
+       return Math.sqrt(super.evaluate(values, begin, length));
     }
 
 }
