@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.13 $ $Date: 2004/03/21 20:32:50 $ -->
+<!-- $Revision: 1.14 $ $Date: 2004/04/25 19:16:13 $ -->
 <document url="stat.html">
   <properties>
     <title>The Commons Math User Guide - Statistics</title>
@@ -240,8 +240,106 @@ System.out.println(f.getCumPct("z"));   // displays 1 -- last value
       </p>                  
       </subsection>
       <subsection name="1.4 Bivariate regression" href="regression">
-        <p>This is yet to be written. Any contributions will be gratefully
-          accepted!</p>
+        <p>
+         <a href="../apidocs/org/apache/commons/math/stat/multivariate/BivariateRegression.html">
+          org.apache.commons.math.stat.multivariate.BivariateRegression</a>
+          provides ordinary least squares regression with one independent variable., estimating
+          the linear model:
+         </p>
+         <p>
+           <code> y = intercept + slope * x  </code>
+         </p>
+         <p>
+           Standard errors for <code>intercept</code> and <code>slope</code> are 
+           available as well as ANOVA, r-square and Pearson's r statistics.
+         </p>
+         <p>
+           Observations (x,y pairs) can be added to the model one at a time or they 
+           can be provided in a 2-dimensional array.  The observations are not stored
+           in memory, so there is no limit to the number of observations that can be
+           added to the model. 
+         </p>
+         <p>
+           <strong>Usage Notes</strong>: <ul>
+           <li> When there are fewer than two observations in the model, or when
+            there is no variation in the x values (i.e. all x values are the same) 
+            all statistics return <code>NaN</code>.  At least two observations with
+            different x coordinates are requred to estimate a bivariate regression 
+            model.</li>
+           <li> getters for the statistics always compute values based on the current
+           set of observations -- i.e., you can get statistics, then add more data
+           and get updated statistics without using a new instance.  There is no 
+           "compute" method that updates all statistics.  Each of the getters performs
+           the necessary computations to return the requested statistic.</li>
+          </ul>
+        </p>
+        <p>
+           <strong>Implementation Notes</strong>: <ul>
+           <li> As observations are added to the model, the sum of x values, y values,
+           cross products (x times y), and squared deviations of x and y from their 
+           respective means are updated using updating formulas defined in 
+           "Algorithms for Computing the Sample Variance: Analysis and
+           Recommendations", Chan, T.F., Golub, G.H., and LeVeque, R.J. 
+           1983, American Statistician, vol. 37, pp. 242-247, referenced in
+           Weisberg, S. "Applied Linear Regression". 2nd Ed. 1985.  All regression
+           statistics are computed from these sums.</li>
+           <li> Inference statistics (confidence intervals, parameter significance levels)
+           are based on on the assumption that the observations included in the model are 
+           drawn from a <a href="http://mathworld.wolfram.com/BivariateNormalDistribution.html">
+           Bivariate Normal Distribution</a></li>
+          </ul>
+        </p>
+        <p>
+        Here is are some examples.
+        <dl>
+          <dt>Estimate a model based on observations added one at a time</dt>
+          <br></br>
+          <dd>Instantiate a regression instance and add data points
+          <source>
+ regression = new BivariateRegression();
+ regression.addData(1d, 2d);
+ // At this point, with only one observation, all regression statistics will return NaN
+ regression.addData(3d, 3d);
+ // With only two observations, slope and intercept can be computed
+ // but inference statistics will return NaN
+ regression.addData(3d, 3d);
+ // Now all statistics are defined.
+         </source>
+         </dd>
+         <dd>Compute some statistics based on observations added so far
+         <source>
+System.out.println(regression.getIntercept());   // displays intercept of regression line
+System.out.println(regression.getSlope());       // displays slope of regression line
+System.out.println(regression.getSlopeStdErr()); // displays slope standard error
+         </source>
+         </dd>
+         <dd>Use the regression model to predict the y value for a new x value
+         <source>
+System.out.println(regression.predict(1.5d)      // displays predicted y value for x = 1.5
+         </source>
+         More data points can be added and subsequent getXXX calls will incorporate
+         additional data in statistics.
+         </dd>
+         <dt>Estimate a model from a double[][] array of data points</dt>
+          <br></br>
+          <dd>Instantiate a regression object and load dataset
+          <source>
+          double[][] data = { { 1, 3 }, {2, 5 }, {3, 7 }, {4, 14 }, {5, 11 }};
+          BivariateRegression regression = new BivariateRegression();
+          regression.addData(data);
+          </source>
+          </dd>
+          <dd>Estimate regression model based on data
+         <source>
+System.out.println(regression.getIntercept());   // displays intercept of regression line
+System.out.println(regression.getSlope());       // displays slope of regression line
+System.out.println(regression.getSlopeStdErr()); // displays slope standard error
+         </source>
+         More data points -- even another double[][] array -- can be added and subsequent 
+         getXXX calls will incorporate additional data in statistics.
+         </dd>
+         </dl>
+        </p>
       </subsection>
       <subsection name="1.5 Statistical tests" href="tests">
         <p>This is yet to be written. Any contributions will be gratefully
