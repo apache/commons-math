@@ -30,9 +30,9 @@ import org.apache.commons.collections.bag.TreeBag;
  * Accepts int, long, char or Object values.  New values added must be comparable to 
  * those that have been added, otherwise the add method will throw an IllegalArgumentException.
  * The values are ordered using the default (natural order), unless a  <code>Comparator</code>
- *  is supplied in the constructor.
+ * is supplied in the constructor.
  * 
- * @version $Revision: 1.20 $ $Date: 2004/05/19 14:16:32 $
+ * @version $Revision: 1.21 $ $Date: 2004/05/31 20:57:12 $
  */
 public class Frequency implements Serializable {
     
@@ -202,7 +202,7 @@ public class Frequency implements Serializable {
     //-------------------------------------------------------------
 
     /**
-      * Returns the cumulative percentatge of values less than or equal to v
+      * Returns the percentage of values that are equal to v
      * (as a proportion between 0 and 1).
      * @param v the value to lookup.
      * @return the proportion of values equal to v
@@ -212,7 +212,7 @@ public class Frequency implements Serializable {
     }
     
     /**
-      * Returns the cumulative percentatge of values less than or equal to v
+      * Returns the percentage of values that are equal to v
      * (as a proportion between 0 and 1).
      * @param v the value to lookup.
      * @return the proportion of values equal to v
@@ -222,7 +222,7 @@ public class Frequency implements Serializable {
     }
     
     /**
-      * Returns the cumulative percentatge of values less than or equal to v
+      * Returns the percentage of values that are equal to v
      * (as a proportion between 0 and 1).
      * @param v the value to lookup.
      * @return the proportion of values equal to v
@@ -232,7 +232,7 @@ public class Frequency implements Serializable {
     }
     
     /**
-     * Returns the cumulative percentatge of values less than or equal to v
+     * Returns the percentage of values that are equal to v
      * (as a proportion between 0 and 1).
      * @param v the value to lookup.
      * @return the proportion of values equal to v
@@ -319,39 +319,39 @@ public class Frequency implements Serializable {
     //----------------------------------------------------------------------------------------------
     
      /**
-     * Returns the cumulative percentatge of values less than or equal to v
+     * Returns the cumulative percentage of values less than or equal to v
      * (as a proportion between 0 and 1).
      * <p>
      * Returns 0 if v is not comparable to the values set.
      * 
      * @param v the value to lookup.
-     * @return the proportion of values equal to v
+     * @return the proportion of values less than or equal to v
      */
     public double getCumPct(Object v) {
         return (double) getCumFreq(v) / (double) getSumFreq();        
     }
     
     /**
-     * Returns the cumulative percentatge of values less than or equal to v
+     * Returns the cumulative percentage of values less than or equal to v
      * (as a proportion between 0 and 1).
      * <p>
      * Returns 0 if v is not comparable to the values set.
      * 
      * @param v the value to lookup.
-     * @return the proportion of values equal to v
+     * @return the proportion of values less than or equal to v
      */
     public double getCumPct(int v) {
         return getCumPct(new Long(v));       
     }
     
     /**
-     * Returns the cumulative percentatge of values less than or equal to v
+     * Returns the cumulative percentage of values less than or equal to v
      * (as a proportion between 0 and 1).
      * <p>
      * Returns 0 if v is not comparable to the values set.
      * 
      * @param v the value to lookup.
-     * @return the proportion of values equal to v
+     * @return the proportion of values less than or equal to v
      */
     public double getCumPct(long v) {
         return getCumPct(new Long(v));         
@@ -364,7 +364,7 @@ public class Frequency implements Serializable {
      * Returns 0 if v is not comparable to the values set.
      * 
      * @param v the value to lookup.
-     * @return the proportion of values equal to v
+     * @return the proportion of values less than or equal to v
      */
     public double getCumPct(char v) {
         return getCumPct(new Character(v));         
