@@ -71,12 +71,12 @@ public abstract class ContinuedFraction {
     /** Maximum allowed numerical error. */
     private static final double DEFAULT_EPSILON = 10e-9;
     
-	/**
-	 * Default constructor.
-	 */
-	protected ContinuedFraction() {
-		super();
-	}
+    /**
+     * Default constructor.
+     */
+    protected ContinuedFraction() {
+        super();
+    }
     
     /**
      * Access the n-th a coefficient of the continued fraction.  Since a can be
@@ -101,7 +101,7 @@ public abstract class ContinuedFraction {
      * @param x the evaluation point.
      * @return the value of the continued fraction evaluated at x. 
      */
-    public double evaluate(double x){
+    public double evaluate(double x) {
         return evaluate(x, DEFAULT_EPSILON, Integer.MAX_VALUE);
     }    
     
@@ -111,7 +111,7 @@ public abstract class ContinuedFraction {
      * @param epsilon maximum error allowed.
      * @return the value of the continued fraction evaluated at x. 
      */
-    public double evaluate(double x, double epsilon){
+    public double evaluate(double x, double epsilon) {
         return evaluate(x, epsilon, Integer.MAX_VALUE);
     }    
     
@@ -121,7 +121,7 @@ public abstract class ContinuedFraction {
      * @param maxIterations maximum number of convergents
      * @return the value of the continued fraction evaluated at x. 
      */
-    public double evaluate(double x, int maxIterations){
+    public double evaluate(double x, int maxIterations) {
         return evaluate(x, DEFAULT_EPSILON, maxIterations);
     }    
     
@@ -159,7 +159,8 @@ public abstract class ContinuedFraction {
     }
     
     /**
-     * Evaluates the n-th convergent, fn = pn / qn, for this continued fraction at the value x.
+     * Evaluates the n-th convergent, fn = pn / qn, for this continued fraction
+     * at the value x.
      * @param n the convergent to compute.
      * @param x the evaluation point.
      * @param a (n-1)-th convergent matrix.  (Input)
@@ -167,9 +168,11 @@ public abstract class ContinuedFraction {
      * @param f the n-th convergent matrix. (Output)
      * @param epsilon maximum error allowed.
      * @param maxIterations maximum number of convergents
-     * @return the value of the the n-th convergent for this continued fraction evaluated at x. 
+     * @return the value of the the n-th convergent for this continued fraction
+     *         evaluated at x. 
      */
-    private double evaluate(int n, double x, double[][] a, double[][] an, double[][] f, double epsilon, int maxIterations) {
+    private double evaluate(int n, double x, double[][] a, double[][] an,
+            double[][] f, double epsilon, int maxIterations) {
         double ret;
         
         // create next matrix
@@ -185,14 +188,17 @@ public abstract class ContinuedFraction {
         f[1][1] = (a[1][0] * an[0][1]) + (a[1][1] * an[1][1]);
         
         // determine if we're close enough
-        if(Math.abs((f[0][0] * f[1][1]) - (f[1][0] * f[0][1])) < Math.abs(epsilon * f[1][0] * f[1][1])){
+        if(Math.abs((f[0][0] * f[1][1]) - (f[1][0] * f[0][1])) <
+                Math.abs(epsilon * f[1][0] * f[1][1])){
             ret = f[0][0] / f[1][0];
         } else {
             if(n >= maxIterations){
-                throw new ConvergenceException("Continued fraction convergents failed to converge.");
+                throw new ConvergenceException(
+                    "Continued fraction convergents failed to converge.");
             }
             // compute next
-            ret = evaluate(n + 1, x, f /* new a */, an /* reuse an */, a /* new f */, epsilon, maxIterations);
+            ret = evaluate(n + 1, x, f /* new a */, an /* reuse an */,
+                            a /* new f */, epsilon, maxIterations);
         }
         
         return ret;

@@ -60,7 +60,7 @@ package org.apache.commons.math.stat.distribution;
  * 
  * <p>
  * Instances of FDistribution objects should be created using
- * {@link DistributionFactory#createFDistribution(double)}
+ * {@link DistributionFactory#createFDistribution(double,double)}
  * </p>
  * 
  * <p>

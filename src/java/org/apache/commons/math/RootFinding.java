@@ -65,7 +65,7 @@ public class RootFinding {
     /**
      * Default constructor. Prohibit construction.
      */
-    private RootFinding(){
+    private RootFinding() {
         super();
     }
 
@@ -83,7 +83,7 @@ public class RootFinding {
     public static double[] bracket(UnivariateFunction function,
                                    double initial,
                                    double lowerBound,
-                                   double upperBound){
+                                   double upperBound) {
         return bracket( function, initial, lowerBound, upperBound, Integer.MAX_VALUE ) ;
     }
 
@@ -103,7 +103,7 @@ public class RootFinding {
                                    double initial,
                                    double lowerBound,
                                    double upperBound,
-                                   int maximumIterations){
+                                   int maximumIterations) {
         double a = initial;
         double b = initial;
         double fa;
@@ -132,13 +132,12 @@ public class RootFinding {
      */
     public static double bisection(UnivariateFunction function,
                                    double a,
-                                   double b){
+                                   double b) {
         double m;
         double fm;
         double fa;
 
-        if ( b < a )
-        {
+        if ( b < a ) {
             double xtemp = a ;
             a = b ;
             b = xtemp ;
@@ -146,11 +145,11 @@ public class RootFinding {
 
         fa = function.evaluate(a);
 
-        while(Math.abs(a - b) > EPSILON){
+        while(Math.abs(a - b) > EPSILON) {
             m = (a + b) * 0.5;  // midpoint
             fm = function.evaluate(m);
 
-            if(fm * fa > 0.0){
+            if(fm * fa > 0.0) {
                 // b and m bracket the root.
                 a = m;
                 fa = fm;

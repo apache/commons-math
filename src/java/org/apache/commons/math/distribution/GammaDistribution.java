@@ -60,7 +60,7 @@ package org.apache.commons.math.stat.distribution;
  * 
  * <p>
  * Instances of GammaDistribution objects should be created using
- * {@link DistributionFactory#createGammaDistribution(double)}
+ * {@link DistributionFactory#createGammaDistribution(double,double)}
  * </p>
  * 
  * <p>

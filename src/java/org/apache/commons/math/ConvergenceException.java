@@ -60,19 +60,21 @@ package org.apache.commons.math;
  * @author Brent Worden
  */
 public class ConvergenceException extends RuntimeException {
+    /**
+     * Construct an exception with the given message.
+     * @param message descriptive error message. 
+     */
+    public ConvergenceException(String message) {
+        super(message);
+    }
 
-	/**
-	 * 
-	 */
-	public ConvergenceException(String message) {
-		super(message);
-	}
-
-	/**
-	 * 
-	 */
-	public ConvergenceException(String message, Throwable cause) {
-		super(message, cause);
-	}
+    /**
+     * Construct an exception with the given message and root cause.
+     * @param message descriptive error message.
+     * @param cause root cause.
+     */
+    public ConvergenceException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
 }
