@@ -39,7 +39,7 @@ import java.net.MalformedURLException;
  *                       standard deviation = <code>sigma</code></li>
  * <li> CONSTANT_MODE -- returns <code>mu</code> every time.</li></ul>
  *
- * @version $Revision: 1.16 $ $Date: 2004/07/17 22:10:38 $
+ * @version $Revision: 1.17 $ $Date: 2004/08/22 01:41:30 $
  *
  */
 public class ValueServer {
@@ -219,16 +219,6 @@ public class ValueServer {
      */
     public EmpiricalDistribution getEmpiricalDistribution() {
         return empiricalDistribution;
-    }
-
-    /**
-     * Opens <code>valuesFileURL</code> to use in REPLAY_MODE.
-     *
-     * @throws IOException if an error occurs opening the file
-     * @deprecated use {@link #resetReplayFile} to be removed before 0.1 release
-     */
-    public void openReplayFile() throws IOException {
-        resetReplayFile();
     }
 
     /**
