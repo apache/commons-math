@@ -38,7 +38,7 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * one of the threads invokes the <code>increment()</code> or 
  * <code>clear()</code> method, it must be synchronized externally.
  * 
- * @version $Revision: 1.25 $ $Date: 2004/07/10 17:09:08 $
+ * @version $Revision: 1.26 $ $Date: 2004/07/11 18:38:12 $
  */
 public class Variance extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -210,6 +210,31 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
             }
         }
         return var;
+    }
+    
+    /**
+     * Returns the variance of the entries in the input array, using the
+     * precomputed mean value.  Returns <code>Double.NaN</code> if the array
+     * is empty.
+     * <p>
+     * See {@link Variance} for details on the computing algorithm.
+     * <p>
+     * Returns 0 for a single-value (i.e. length = 1) sample.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * <p>
+     * Does not change the internal state of the statistic.
+     * 
+     * @param values the input array
+     * @param mean the precomputed mean value
+     * @return the variance of the values or Double.NaN if the array is empty
+     * @throws IllegalArgumentException if the array is null
+     */
+    public double evaluate(final double[] values, final double mean) {
+        if (values == null) {
+            throw new IllegalArgumentException("input values array is null");
+        }
+        return evaluate(values, mean, 0, values.length);
     }
 
 }
