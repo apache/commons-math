@@ -16,14 +16,12 @@
 
 package org.apache.commons.math.linear;
 
-import org.apache.commons.lang.exception.NestableRuntimeException;
-
 /**
  * Thrown when an operation addresses a matrix coordinate (row,col)
  * which is outside of the dimensions of a matrix.
- * @version $Revision: 1.6 $ $Date: 2004/06/07 03:26:31 $
+ * @version $Revision: 1.7 $ $Date: 2004/07/11 18:43:44 $
  */
-public class MatrixIndexException extends NestableRuntimeException {
+public class MatrixIndexException extends RuntimeException {
 
     /** Serializable version identifier */
     static final long serialVersionUID = -1341109412864309526L;

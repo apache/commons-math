@@ -16,15 +16,13 @@
 
 package org.apache.commons.math.linear;
 
-import org.apache.commons.lang.exception.NestableRuntimeException;
-
 /**
  * Thrown when a system attempts an operation on a matrix, and
  * that matrix does not satisfy the preconditions for the
  * aforementioned operation.
- * @version $Revision: 1.6 $ $Date: 2004/06/07 03:26:31 $
+ * @version $Revision: 1.7 $ $Date: 2004/07/11 18:43:44 $
  */
-public class InvalidMatrixException extends NestableRuntimeException {
+public class InvalidMatrixException extends RuntimeException {
 
     /** Serializable version identifier */
     static final long serialVersionUID = 5318837237354354107L;
