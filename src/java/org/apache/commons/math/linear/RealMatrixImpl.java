@@ -45,7 +45,7 @@ import org.apache.commons.math.util.MathUtils;
  * is 0-based -- e.g., <code>getEntry(0, 0)</code>
  * returns the element in the first row, first column of the matrix.</li></ul>
  *
- * @version $Revision: 1.34 $ $Date: 2004/10/25 02:13:22 $
+ * @version $Revision: 1.35 $ $Date: 2004/11/07 20:19:22 $
  */
 public class RealMatrixImpl implements RealMatrix, Serializable {
     
@@ -159,11 +159,10 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
         int rowCount = this.getRowDimension();
         int columnCount = this.getColumnDimension();
         double[][] outData = new double[rowCount][columnCount];
-        double[][] mData = m.getData();
         for (int row = 0; row < rowCount; row++) {
             for (int col = 0; col < columnCount; col++) {
-                outData[row][col] = data[row][col] + mData[row][col];
-            }
+                outData[row][col] = data[row][col] + m.getEntry(row, col);
+            }  
         }
         return new RealMatrixImpl(outData);
     }
@@ -183,10 +182,9 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
         int rowCount = this.getRowDimension();
         int columnCount = this.getColumnDimension();
         double[][] outData = new double[rowCount][columnCount];
-        double[][] mData = m.getData();
         for (int row = 0; row < rowCount; row++) {
             for (int col = 0; col < columnCount; col++) {
-                outData[row][col] = data[row][col] - mData[row][col];
+                outData[row][col] = data[row][col] - m.getEntry(row, col);
             }
         }
         return new RealMatrixImpl(outData);
@@ -241,14 +239,13 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
         int nRows = this.getRowDimension();
         int nCols = m.getColumnDimension();
         int nSum = this.getColumnDimension();
-        double[][] mData = m.getData();
         double[][] outData = new double[nRows][nCols];
         double sum = 0;
         for (int row = 0; row < nRows; row++) {
             for (int col = 0; col < nCols; col++) {
                 sum = 0;
                 for (int i = 0; i < nSum; i++) {
-                    sum += data[row][i] * mData[i][col];
+                    sum += data[row][i] * m.getEntry(i, col);
                 }
                 outData[row][col] = sum;
             }
@@ -667,14 +664,12 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
         int nRowB = b.getRowDimension();
 
         // Apply permutations to b
-        double[][] bv = b.getData();
         double[][] bp = new double[nRowB][nColB];
         for (int row = 0; row < nRowB; row++) {
             for (int col = 0; col < nColB; col++) {
-                bp[row][col] = bv[permutation[row]][col];
+                bp[row][col] = b.getEntry(permutation[row], col);
             }
         }
-        bv = null;
 
         // Solve LY = b
         for (int col = 0; col < nCol; col++) {

@@ -43,7 +43,7 @@ import java.math.BigDecimal;
  * As specified in the {@link BigMatrix} interface, matrix element indexing
  * is 0-based -- e.g., <code>getEntry(0, 0)</code>
  * returns the element in the first row, first column of the matrix.</li></ul>
- * @version $Revision: 1.9 $ $Date: 2004/10/25 05:33:24 $
+ * @version $Revision: 1.10 $ $Date: 2004/11/07 20:19:22 $
  */
 public class BigMatrixImpl implements BigMatrix, Serializable {
     
@@ -231,10 +231,9 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         int rowCount = this.getRowDimension();
         int columnCount = this.getColumnDimension();
         BigDecimal[][] outData = new BigDecimal[rowCount][columnCount];
-        BigDecimal[][] mData = m.getData();
         for (int row = 0; row < rowCount; row++) {
             for (int col = 0; col < columnCount; col++) {
-                outData[row][col] = data[row][col].add(mData[row][col]);
+                outData[row][col] = data[row][col].add(m.getEntry(row, col));
             }
         }
         return new BigMatrixImpl(outData);
@@ -255,10 +254,9 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         int rowCount = this.getRowDimension();
         int columnCount = this.getColumnDimension();
         BigDecimal[][] outData = new BigDecimal[rowCount][columnCount];
-        BigDecimal[][] mData = m.getData();
         for (int row = 0; row < rowCount; row++) {
             for (int col = 0; col < columnCount; col++) {
-                outData[row][col] = data[row][col].subtract(mData[row][col]);
+                outData[row][col] = data[row][col].subtract(m.getEntry(row, col));
             }
         }
         return new BigMatrixImpl(outData);
@@ -313,14 +311,13 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         int nRows = this.getRowDimension();
         int nCols = m.getColumnDimension();
         int nSum = this.getColumnDimension();
-        BigDecimal[][] mData = m.getData();
         BigDecimal[][] outData = new BigDecimal[nRows][nCols];
         BigDecimal sum = ZERO;
         for (int row = 0; row < nRows; row++) {
             for (int col = 0; col < nCols; col++) {
                 sum = ZERO;
                 for (int i = 0; i < nSum; i++) {
-                    sum = sum.add(data[row][i].multiply(mData[i][col]));
+                    sum = sum.add(data[row][i].multiply(m.getEntry(i, col)));
                 }
                 outData[row][col] = sum;
             }
@@ -915,14 +912,12 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         int nRowB = b.getRowDimension();
         
         // Apply permutations to b
-        BigDecimal[][] bv = b.getData();
         BigDecimal[][] bp = new BigDecimal[nRowB][nColB];
         for (int row = 0; row < nRowB; row++) {
             for (int col = 0; col < nColB; col++) {
-                bp[row][col] = bv[permutation[row]][col];
+                bp[row][col] = b.getEntry(permutation[row], col);
             }
         }
-        bv = null;
         
         // Solve LY = b
         for (int col = 0; col < nCol; col++) {
