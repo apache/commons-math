@@ -30,7 +30,7 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * one of the threads invokes the <code>increment()</code> or 
  * <code>clear()</code> method, it must be synchronized externally.
  * 
- * @version $Revision: 1.23 $ $Date: 2004/09/01 15:54:39 $
+ * @version $Revision: 1.24 $ $Date: 2004/09/01 16:23:11 $
  */
 public class StandardDeviation extends AbstractStorelessUnivariateStatistic
     implements Serializable {
@@ -174,8 +174,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      * @param values the input array
      * @param mean the precomputed mean value
      * @return the standard deviation of the values or Double.NaN if length = 0
-     * @throws IllegalArgumentException if the array is null or the array index
-     *  parameters are not valid
+     * @throws IllegalArgumentException if the array is null
      */
     public double evaluate(final double[] values, final double mean)  {
         return Math.sqrt(variance.evaluate(values, mean));
