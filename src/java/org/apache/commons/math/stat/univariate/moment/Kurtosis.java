@@ -17,16 +17,18 @@ package org.apache.commons.math.stat.univariate.moment;
 
 import java.io.Serializable;
 
-import org
-    .apache
-    .commons
-    .math
-    .stat
-    .univariate
-    .AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
 
 /**
- * @version $Revision: 1.17 $ $Date: 2004/03/04 04:25:09 $
+ * Computes <a href="http://en.wikipedia.org/wiki/Kurtosis">Kurtosis</a>.
+ * <p>
+ * We use the following (unbiased) formula to define kurtosis:
+ *  <p>
+ *  kurtosis = { [n(n+1) / (n -1)(n - 2)(n-3)] sum[(x_i - mean)^4] / std^4 } - [3(n-1)^2 / (n-2)(n-3)]
+ *  <p>
+ *  where n is the number of values, mean is the {@link Mean} and std is the {@link StandardDeviation}
+ * 
+ * @version $Revision: 1.18 $ $Date: 2004/03/21 00:22:26 $
  */
 public class Kurtosis extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -119,16 +121,10 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic implements Se
     Mean mean = new Mean();
 
     /**
-     * Returns the kurtosis for this collection of values. Kurtosis is a
-     * measure of the "peakedness" of a distribution.  This algorithm uses a
-     * corrected two pass algorithm of the following
-     * <a href="http://lib-www.lanl.gov/numerical/bookcpdf/c14-1.pdf">
-     * corrected two pass formula (14.1.8)</a>, and also referenced in:
+     * Returns the kurtosis for this collection of values.  
      * <p>
-     * "Algorithms for Computing the Sample Variance: Analysis and
-     * Recommendations", Chan, T.F., Golub, G.H., and LeVeque, R.J.
-     * 1983, American Statistician, vol. 37, pp. 242?247.
-     * </p>
+     * See {@link Kurtosis} for the definition used in the computation.
+     * 
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
      * @param length the number of elements to include
@@ -169,8 +165,9 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic implements Se
                 // standard deviation
                 double accum3 = 0.0;
                 for (int i = begin; i < begin + length; i++) {
-                    accum3 += Math.pow((values[i] - m) / stdDev, 4.0);
+                    accum3 += Math.pow((values[i] - m), 4.0);
                 }
+                accum3 /= Math.pow(stdDev, 4.0d);
 
                 // Get N
                 double n0 = length;
