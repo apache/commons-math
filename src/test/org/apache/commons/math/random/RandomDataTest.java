@@ -67,7 +67,7 @@ import org.apache.commons.math.stat.TestStatisticImpl;
 /**
  * Test cases for the RandomData class.
  *
- * @version $Revision: 1.10 $ $Date: 2004/01/29 00:49:03 $
+ * @version $Revision: 1.11 $ $Date: 2004/02/08 19:51:25 $
  */
 
 public final class RandomDataTest extends TestCase {
@@ -112,8 +112,7 @@ public final class RandomDataTest extends TestCase {
         }
         double[] observed = new double[4];
         for (int i=0; i<4; i++) {
-            String iString = new Integer(i).toString();
-            observed[i] = freq.getCount(iString);
+            observed[i] = freq.getCount(i);
         } 
         
         /* Use ChiSquare dist with df = 4-1 = 3, alpha = .001
@@ -140,8 +139,7 @@ public final class RandomDataTest extends TestCase {
         }
         double[] observed = new double[4];
         for (int i=0; i<4; i++) {
-            String iString = new Integer(i).toString();
-            observed[i] = freq.getCount(iString);
+            observed[i] = freq.getCount(i);
         } 
         
         /* Use ChiSquare dist with df = 4-1 = 3, alpha = .001
@@ -168,8 +166,7 @@ public final class RandomDataTest extends TestCase {
         }
         double[] observed = new double[4];
         for (int i=0; i<4; i++) {
-            String iString = new Integer(i).toString();
-            observed[i] = freq.getCount(iString);
+            observed[i] = freq.getCount(i);
         } 
         
         /* Use ChiSquare dist with df = 4-1 = 3, alpha = .001
@@ -196,8 +193,7 @@ public final class RandomDataTest extends TestCase {
         }
         double[] observed = new double[4];
         for (int i=0; i<4; i++) {
-            String iString = new Integer(i).toString();
-            observed[i] = freq.getCount(iString);
+            observed[i] = freq.getCount(i);
         } 
         
         /* Use ChiSquare dist with df = 4-1 = 3, alpha = .001
@@ -229,8 +225,8 @@ public final class RandomDataTest extends TestCase {
                 fail(ex.getMessage());
             }
         }
-        long cumFreq = f.getCount("0") + f.getCount("1") + f.getCount("2") + 
-                        f.getCount("3") + f.getCount("4") + f.getCount("5");
+        long cumFreq = f.getCount(0) + f.getCount(1) + f.getCount(2) + 
+                        f.getCount(3) + f.getCount(4) + f.getCount(5);
         long sumFreq = f.getSumFreq();
         double cumPct = 
             new Double(cumFreq).doubleValue()/new Double(sumFreq).doubleValue();

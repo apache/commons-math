@@ -64,23 +64,27 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link Frequency} class.
  *
- * @version $Revision: 1.8 $ $Date: 2004/01/29 00:49:00 $
+ * @version $Revision: 1.9 $ $Date: 2004/02/08 19:51:25 $
  */
 
 public final class FrequencyTest extends TestCase {
     private long oneL = 1;
     private long twoL = 2;
+    private long threeL = 3;
     private int oneI = 1;
     private int twoI = 2;
+    private int threeI=3;
     private String oneS = "1";
     private String twoS = "2";
     private double tolerance = 10E-15;
+    private Frequency f = null;
     
     public FrequencyTest(String name) {
         super(name);
     }
     
     public void setUp() {  
+    	f = new Frequency();
     }
     
     public static Test suite() {
@@ -91,48 +95,77 @@ public final class FrequencyTest extends TestCase {
     
     /** test freq counts */
     public void testCounts() {
-        Frequency f = new Frequency("test counts"); 
         assertEquals("total count",0,f.getSumFreq());
         f.addValue(oneL);
         f.addValue(twoL);
-        f.addValue(oneS);
+        f.addValue(1);
         f.addValue(oneI);
-        assertEquals("one frequency count",3,f.getCount("1"));
-        assertEquals("two frequency count",1,f.getCount("2"));
-        assertEquals("foo frequency count",0,f.getCount("foo"));
+        assertEquals("one frequency count",3,f.getCount(1));
+        assertEquals("two frequency count",1,f.getCount(2));
+        assertEquals("three frequency count",0,f.getCount(3));
         assertEquals("total count",4,f.getSumFreq());
+        assertEquals("zero cummulative frequency", 0, f.getCumFreq(0));
+        assertEquals("one cummulative frequency", 3,  f.getCumFreq(1));
+        assertEquals("two cummulative frequency", 4,  f.getCumFreq(2));
+        assertEquals("two cummulative frequency", 4,  f.getCumFreq(5));
+        assertEquals("two cummulative frequency", 0,  f.getCumFreq("foo"));
         f.clear();
         assertEquals("total count",0,f.getSumFreq());
     }     
     
     /** test pcts */
     public void testPcts() {
-        Frequency f = new Frequency("test pcts"); 
         f.addValue(oneL);
         f.addValue(twoL);
         f.addValue(oneI);
         f.addValue(twoI);
-        f.addValue("foo");
-        f.addValue("foo");
-        f.addValue("foo");
-        f.addValue("foo");
-        assertEquals("one pct",0.25,f.getPct("1"),tolerance);
-        assertEquals("two pct",0.25,f.getPct("2"),tolerance);
-        assertEquals("foo pct",0.5,f.getPct("foo"),tolerance);
-        assertEquals("bar pct",0,f.getPct("bar"),tolerance);
+        f.addValue(threeL);
+        f.addValue(threeL);
+        f.addValue(3);
+        f.addValue(threeI);
+        assertEquals("one pct",0.25,f.getPct(1),tolerance);
+        assertEquals("two pct",0.25,f.getPct(new Long(2)),tolerance);
+        assertEquals("three pct",0.5,f.getPct(threeL),tolerance);
+        assertEquals("five pct",0,f.getPct(5),tolerance);
+        assertEquals("foo pct",0,f.getPct("foo"),tolerance);
+        assertEquals("one cum pct",0.25,f.getCumPct(1),tolerance);
+        assertEquals("two cum pct",0.50,f.getCumPct(new Long(2)),tolerance);
+        assertEquals("three cum pct",1.0,f.getCumPct(threeL),tolerance);
+        assertEquals("five cum pct",1.0,f.getCumPct(5),tolerance);
+        assertEquals("zero cum pct",0.0,f.getCumPct(0),tolerance);
+        assertEquals("foo cum pct",0,f.getCumPct("foo"),tolerance);
+    }
+    
+    /** test adding incomparable values */
+    public void testAdd() {
+    	char aChar = 'a';
+    	char bChar = 'b';
+    	String aString = "a";
+    	f.addValue(aChar);
+    	f.addValue(bChar);
+    	try {
+    		f.addValue(aString); 	
+    		fail("Expecting IllegalArgumentException");
+    	} catch (IllegalArgumentException ex) {
+    		// expected
+    	}
+    	assertEquals("a pct",0.5,f.getPct(aChar),tolerance);
+    	assertEquals("b cum pct",1.0,f.getCumPct(bChar),tolerance);
+    	assertEquals("a string pct",0.0,f.getPct(aString),tolerance);
+    	assertEquals("a string cum pct",0.0,f.getCumPct(aString),tolerance);
     }
     
     /**
-     * 
+     * Tests toString() 
      */
     public void testToString(){
-        Frequency f = new Frequency("test toString"); 
         f.addValue(oneL);
         f.addValue(twoL);
         f.addValue(oneI);
         f.addValue(twoI);
         
         String s = f.toString();
+        //System.out.println(s);
         assertNotNull(s);
         BufferedReader reader = new BufferedReader(new StringReader(s));
         try {
@@ -151,15 +184,5 @@ public final class FrequencyTest extends TestCase {
             fail(ex.getMessage());
         }        
     }
-    
-    /**
-     * 
-     */
-    public void testSetName(){
-        String name = "name";
-        Frequency f = new Frequency();
-        f.setName(name);
-        assertEquals(name, f.getName());
-    }              
 }
 
