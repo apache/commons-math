@@ -42,7 +42,7 @@ import java.io.Serializable;
  * explicitly invoke <code>LUDecompose()</code> to recompute the decomposition
  * before using any of the methods above.
  *
- * @version $Revision: 1.14 $ $Date: 2004/02/18 03:24:19 $
+ * @version $Revision: 1.15 $ $Date: 2004/04/03 22:18:04 $
  */
 public class RealMatrixImpl implements RealMatrix, Serializable {
 
@@ -377,7 +377,8 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
 	}
 
 	/**
-	 *
+	 * Returns the transpose matrix.
+     *
 	 * @return transpose matrix
 	 */
 	public RealMatrix transpose() {
@@ -394,10 +395,12 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
 	}
 
 	/**
+     * Returns the inverse matrix if this matrix is invertible.
+     * 
 	 * @return inverse matrix
-	 * @throws IllegalArgumentException if this is not invertible
+	 * @throws InvalidMatrixException if this is not invertible
 	 */
-	public RealMatrix inverse() throws IllegalArgumentException {
+	public RealMatrix inverse() throws InvalidMatrixException {
 		return solve(getIdentity(this.getRowDimension()));
 	}
 
@@ -409,8 +412,8 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
 		if (!isSquare()) {
 			throw new InvalidMatrixException("matrix is not square");
 		}
-		if (isSingular()) { // note: this has side effect of attempting LU
-			return 0d; //       decomp if lu == null
+		if (isSingular()) {   // note: this has side effect of attempting LU decomp if lu == null
+			return 0d;  
 		} else {
 			double det = (double) parity;
 			for (int i = 0; i < this.getRowDimension(); i++) {
@@ -431,7 +434,6 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
 	 * @return true if the matrix is singular
 	 */
 	public boolean isSingular() {
-		// @TODO A bad way to check for a singular matrix, is this the only way - kick off an LU decompose?
 		if (lu == null) {
 			try {
 				LUDecompose();

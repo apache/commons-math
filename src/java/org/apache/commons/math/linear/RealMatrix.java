@@ -20,7 +20,7 @@ package org.apache.commons.math.linear;
 
 /**
  * Interface defining a real-valued matrix with basic algebraic operations
- * @version $Revision: 1.12 $ $Date: 2004/02/18 03:24:19 $
+ * @version $Revision: 1.13 $ $Date: 2004/04/03 22:18:04 $
  */
 public interface RealMatrix {
 
@@ -160,9 +160,9 @@ public interface RealMatrix {
      * Returns the inverse of this matrix.
      *
      * @return inverse matrix
-     * @throws IllegalArgumentException if *this is not invertible
+     * @throws InvalidMatrixException if  this is not invertible
      */
-    RealMatrix inverse() throws IllegalArgumentException;
+    RealMatrix inverse() throws InvalidMatrixException;
     
     /**
      * Returns the determinant of this matrix.
