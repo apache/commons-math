@@ -32,7 +32,7 @@ import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 /**
  * Abstract superclass for DescriptiveStatistics implementations. 
  * 
- * @version $Revision: 1.4 $ $Date: 2004/02/21 21:35:15 $
+ * @version $Revision: 1.5 $ $Date: 2004/03/21 21:57:18 $
  */
 public abstract class AbstractDescriptiveStatistics
     extends DescriptiveStatistics {
@@ -145,7 +145,7 @@ public abstract class AbstractDescriptiveStatistics
     }
     
     /**
-     * @see org.apache.commons.math.stat.DescriptiveStatistics#getPercentile()
+     * @see org.apache.commons.math.stat.DescriptiveStatistics#getPercentile(double)
      */
     public double getPercentile(double p) {
     	return apply(new Percentile(p));

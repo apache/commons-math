@@ -43,7 +43,7 @@ import org.apache.commons.math.stat.SummaryStatistics;
  * build grouped frequnecy histograms representing the input data or to
  * generate random values "like" those in the input file -- i.e., the values
  * generated will follow the distribution of the values in the file.
- * @version $Revision: 1.15 $ $Date: 2004/02/21 21:35:15 $
+ * @version $Revision: 1.16 $ $Date: 2004/03/21 21:57:18 $
  */
 public interface EmpiricalDistribution {
  
@@ -70,7 +70,7 @@ public interface EmpiricalDistribution {
     
     /**
      * Computes the empirical distribution using data read from a URL.
-     * @param file url of the input file
+     * @param url url of the input file
      * @throws IOException if an IO error occurs
      */
     void load(URL url) throws IOException;

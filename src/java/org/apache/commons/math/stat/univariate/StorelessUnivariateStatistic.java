@@ -17,11 +17,12 @@ package org.apache.commons.math.stat.univariate;
 
 /**
  * Extends the definition of {@link UnivariateStatistic} with an {@link #increment}
- * method for adding values and updating internal state incrementally.  This interface
- * is designed to be used for calculating statistics that can be computed in one pass through
- * the data without storing the full array of sample values.
+ * method for adding values and updating internal state incrementally.  
+ * <p>
+ * This interface is designed to be used for calculating statistics that can be computed in 
+ * one pass through the data without storing the full array of sample values.
  * 
- * @version $Revision: 1.14 $ $Date: 2004/02/21 21:35:15 $
+ * @version $Revision: 1.15 $ $Date: 2004/03/21 21:57:19 $
  */
 public interface StorelessUnivariateStatistic extends UnivariateStatistic {
 

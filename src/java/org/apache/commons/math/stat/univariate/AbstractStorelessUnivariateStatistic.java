@@ -17,25 +17,26 @@ package org.apache.commons.math.stat.univariate;
 
 /**
  *
- * Abstract Implementation for StorelessUnivariateStatistics.
- * Provides the ability to extend polymophically so that
- * indiviual statistics do not need to implement these methods unless
- * there are better algorithms for handling the calculation.
- * @version $Revision: 1.13 $ $Date: 2004/02/21 21:35:15 $
+ * Abstract Implementation for the {@link StorelessUnivariateStatistic} interface.
+ * <p>
+ * Provides a default <code>evaluate()</code> implementation.
+ * 
+ * @version $Revision: 1.14 $ $Date: 2004/03/21 21:57:18 $
  */
 public abstract class AbstractStorelessUnivariateStatistic
     extends AbstractUnivariateStatistic
     implements StorelessUnivariateStatistic {
 
     /**
-     * This default implementation just calls {@link #increment} in a loop and then {@link #getResult} to
-     * compute the return value.  Most implementations will override this method with a more efficient implementation.
+     * This default implementation just calls {@link #increment} in a loop over the input array and 
+     * then {@link #getResult} to compute the return value.  
+     * <p>
+     * Most implementations will override this method with a more efficient implementation that works
+     * directly with the input array.
+     * 
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
-    public double evaluate(
-        final double[] values,
-        final int begin,
-        final int length) {
+    public double evaluate(final double[] values, final int begin, final int length) {
         if (this.test(values, begin, length)) {
             this.clear();
             int l = begin + length;

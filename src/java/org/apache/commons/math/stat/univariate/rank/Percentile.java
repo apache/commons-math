@@ -28,7 +28,7 @@ import org.apache.commons.math.stat.univariate.AbstractUnivariateStatistic;
  * follows the first estimation procedure presented
  * <a href="http://www.itl.nist.gov/div898/handbook/prc/section2/prc252.htm">here.</a>
  * 
- * @version $Revision: 1.15 $ $Date: 2004/03/13 20:02:28 $
+ * @version $Revision: 1.16 $ $Date: 2004/03/21 21:57:19 $
  */
 public class Percentile extends AbstractUnivariateStatistic implements Serializable {
 
@@ -107,7 +107,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * 
      * @param values Is a double[] containing the values
      * @param p Is the quantile to evaluate to.
-     * @param start  the first (0-based) element to include in the computation
+     * @param begin  the first (0-based) element to include in the computation
      * @param length  the number of array elements to include
      * @return the result of the evaluation or Double.NaN
      * if the array is empty
