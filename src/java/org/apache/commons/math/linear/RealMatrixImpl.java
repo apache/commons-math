@@ -1,12 +1,12 @@
 /*
  * Copyright 2003-2004 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,7 +20,7 @@ import java.io.Serializable;
 /**
  * Implementation for RealMatrix using a double[][] array to store entries
  * and <a href="http://www.math.gatech.edu/~bourbaki/math2601/Web-notes/2num.pdf">
- * LU decompostion</a> to support linear system 
+ * LU decompostion</a> to support linear system
  * solution and inverse.
  * <p>
  * The LU decompostion is performed as needed, to support the following operations: <ul>
@@ -31,20 +31,20 @@ import java.io.Serializable;
  * <p>
  * <strong>Usage note</strong>:<br>
  * The LU decomposition is stored and reused on subsequent calls.  If matrix
- * data are modified using any of the public setXxx methods, the saved 
+ * data are modified using any of the public setXxx methods, the saved
  * decomposition is discarded.  If data are modified via references to the
  * underlying array obtained using <code>getDataRef()</code>, then the stored
- * LU decomposition will not be discarded.  In this case, you need to 
+ * LU decomposition will not be discarded.  In this case, you need to
  * explicitly invoke <code>LUDecompose()</code> to recompute the decomposition
  * before using any of the methods above.
  *
- * @version $Revision: 1.23 $ $Date: 2004/06/05 22:31:16 $
+ * @version $Revision: 1.24 $ $Date: 2004/06/07 03:26:31 $
  */
 public class RealMatrixImpl implements RealMatrix, Serializable {
 
     /** Serializable version identifier */
     static final long serialVersionUID = 4237564493130426188L;
-    
+
     /** Entries of the matrix */
     private double data[][] = null;
 
@@ -62,7 +62,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     /** Bound to determine effective singularity in LU decomposition */
     protected static double TOO_SMALL = 10E-12;
 
-    /** 
+    /**
      * Creates a matrix with no data
      */
     public RealMatrixImpl() {
@@ -93,8 +93,8 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     }
 
     /**
-     * Create a new (column) RealMatrix using <code>v</code> as the 
-     * data for the unique column of the <code>v.length x 1</code> matrix 
+     * Create a new (column) RealMatrix using <code>v</code> as the
+     * data for the unique column of the <code>v.length x 1</code> matrix
      * created.
      * <p>
      * The input array is copied, not referenced.
@@ -229,7 +229,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
         }
         return new RealMatrixImpl(outData);
     }
-    
+
     /**
      * Returns the result premultiplying this by <code>m</code>.
      * @param m    matrix to premultiply by
@@ -308,7 +308,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      *
      * @param row the row to be fetched
      * @return array of entries in the row
-     * @throws MatrixIndexException if the specified row is greater 
+     * @throws MatrixIndexException if the specified row is greater
      *                              than the number of rows in this matrix
      */
     public double[] getRow(int row) throws MatrixIndexException {
@@ -344,10 +344,10 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     /**
      * Returns the entry in the specified row and column.
      *
-     * @param row  row location of entry to be fetched  
+     * @param row  row location of entry to be fetched
      * @param column  column location of entry to be fetched
      * @return matrix entry in row,column
-     * @throws MatrixIndexException if the specified coordinate is outside 
+     * @throws MatrixIndexException if the specified coordinate is outside
      *                              the dimensions of this matrix
      */
     public double getEntry(int row, int column)
@@ -361,9 +361,9 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     /**
      * Sets the entry in the specified row and column to the specified value.
      *
-     * @param row    row location of entry to be set 
+     * @param row    row location of entry to be set
      * @param column    column location of entry to be set
-     * @param value  value to set 
+     * @param value  value to set
      * @throws MatrixIndexException if the specified coordinate is outside
      *                              he dimensions of this matrix
      */
@@ -396,7 +396,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
 
     /**
      * Returns the inverse matrix if this matrix is invertible.
-     * 
+     *
      * @return inverse matrix
      * @throws InvalidMatrixException if this is not invertible
      */
@@ -413,7 +413,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
             throw new InvalidMatrixException("matrix is not square");
         }
         if (isSingular()) {   // note: this has side effect of attempting LU decomp if lu == null
-            return 0d;  
+            return 0d;
         } else {
             double det = (double) parity;
             for (int i = 0; i < this.getRowDimension(); i++) {
@@ -422,7 +422,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
             return det;
         }
     }
-    
+
     /**
      * @return true if the matrix is square (rowDimension = columnDimension)
      */
@@ -522,7 +522,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     /**
      * Returns a matrix of (column) solution vectors for linear systems with
      * coefficient matrix = this and constant vectors = columns of
-     * <code>b</code>. 
+     * <code>b</code>.
      *
      * @param b  array of constant forming RHS of linear systems to
      * to solve
@@ -547,7 +547,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     /**
      * Returns a matrix of (column) solution vectors for linear systems with
      * coefficient matrix = this and constant vectors = columns of
-     * <code>b</code>. 
+     * <code>b</code>.
      *
      * @param b  matrix of constant vectors forming RHS of linear systems to
      * to solve
@@ -606,9 +606,9 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     }
 
     /**
-     * Computes a new 
+     * Computes a new
      * <a href="http://www.math.gatech.edu/~bourbaki/math2601/Web-notes/2num.pdf">
-     * LU decompostion</a> for this matrix, storing the result for use by other methods. 
+     * LU decompostion</a> for this matrix, storing the result for use by other methods.
      * <p>
      * <strong>Implementation Note</strong>:<br>
      * Uses <a href="http://www.damtp.cam.ac.uk/user/fdl/people/sd/lectures/nummeth98/linear.htm">
@@ -624,7 +624,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      * @throws InvalidMatrixException if the matrix is non-square or singular.
      */
     public void luDecompose() throws InvalidMatrixException {
-         
+
         int nRows = this.getRowDimension();
         int nCols = this.getColumnDimension();
         if (nRows != nCols) {
@@ -698,7 +698,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     }
 
     /**
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     public String toString() {
@@ -737,31 +737,31 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
         }
         return out;
     }
-    
+
     /**
      *  Returns the LU decomposition as a RealMatrix.
-     *  Returns a fresh copy of the cached LU matrix if this has been computed; 
-     *  otherwise the composition is computed and cached for use by other methods.   
-     *  Since a copy is returned in either case, changes to the returned matrix do not 
-     *  affect the LU decomposition property. 
+     *  Returns a fresh copy of the cached LU matrix if this has been computed;
+     *  otherwise the composition is computed and cached for use by other methods.
+     *  Since a copy is returned in either case, changes to the returned matrix do not
+     *  affect the LU decomposition property.
      * <p>
-     * The matrix returned is a compact representation of the LU decomposition. 
-     * Elements below the main diagonal correspond to entries of the "L" matrix;   
+     * The matrix returned is a compact representation of the LU decomposition.
+     * Elements below the main diagonal correspond to entries of the "L" matrix;
      * elements on and above the main diagonal correspond to entries of the "U"
      * matrix.
      * <p>
      * Example: <pre>
-     * 
+     *
      *     Returned matrix                L                  U
-     *         2  3  1                   1  0  0            2  3  1          
+     *         2  3  1                   1  0  0            2  3  1
      *         5  4  6                   5  1  0            0  4  6
-     *         1  7  8                   1  7  1            0  0  8          
+     *         1  7  8                   1  7  1            0  0  8
      * </pre>
-     * 
+     *
      * The L and U matrices satisfy the matrix equation LU = permuteRows(this), <br>
      *  where permuteRows reorders the rows of the matrix to follow the order determined
      *  by the <a href=#getPermutation()>permutation</a> property.
-     * 
+     *
      * @return LU decomposition matrix
      * @throws InvalidMatrixException if the matrix is non-square or singular.
      */
@@ -769,9 +769,9 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
         if (lu == null) {
             luDecompose();
         }
-        return new RealMatrixImpl(lu);   
+        return new RealMatrixImpl(lu);
     }
-    
+
     /**
      * Returns the permutation associated with the lu decomposition.
      * The entries of the array represent a permutation of the numbers 0, ... , nRows - 1.
@@ -781,7 +781,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      * and current first row is last.
      * <p>
      * Returns a fresh copy of the array.
-     * 
+     *
      * @return the permutation
      */
     protected int[] getPermutation() {
@@ -836,5 +836,5 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
 
         return !(row < 1 || row > nRows || col < 1 || col > nCols);
     }
-    
+
 }
