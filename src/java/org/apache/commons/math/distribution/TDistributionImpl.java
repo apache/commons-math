@@ -53,15 +53,14 @@
  */
 package org.apache.commons.math.distribution;
 
-import org.apache.commons.logging.LogFactory;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.special.Beta;
 
 /**
  * Default implementation of
- * {@link org.apache.commons.math.stat.distribution.TDistribution}.
+ * {@link org.apache.commons.math.distribution.TDistribution}.
  * 
- * @version $Revision: 1.9 $ $Date: 2003/11/15 16:01:36 $
+ * @version $Revision: 1.10 $ $Date: 2003/11/15 18:59:10 $
  */
 public class TDistributionImpl
     extends AbstractContinuousDistribution
@@ -121,9 +120,6 @@ public class TDistributionImpl
                     ret = 1.0 - 0.5 * t;
                 }
             } catch (MathException ex) {
-                LogFactory.getLog(getClass()).error(
-                    "Failed to compute cummulative probability, returning NaN.",
-                    ex);
                 ret = Double.NaN;
             }
         }

@@ -53,7 +53,6 @@
  */
 package org.apache.commons.math.distribution;
 
-import org.apache.commons.logging.LogFactory;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.special.Beta;
 import org.apache.commons.math.util.MathUtils;
@@ -61,7 +60,7 @@ import org.apache.commons.math.util.MathUtils;
 /**
  * The default implementation of {@link BinomialDistribution}.
  * 
- * @version $Revision: 1.6 $ $Date: 2003/11/15 16:01:35 $
+ * @version $Revision: 1.7 $ $Date: 2003/11/15 18:59:10 $
  */
 public class BinomialDistributionImpl extends AbstractDiscreteDistribution
     implements BinomialDistribution {
@@ -164,9 +163,6 @@ public class BinomialDistributionImpl extends AbstractDiscreteDistribution
                 ret = 1.0 - Beta.regularizedBeta(getProbabilityOfSuccess(),
                     x + 1.0, getNumberOfTrials() - x);
             } catch (MathException ex) {
-                LogFactory.getLog(getClass()).error(
-                    "Failed to compute cummulative probability, returning NaN.",
-                    ex);
                 ret = Double.NaN;
             }
         }

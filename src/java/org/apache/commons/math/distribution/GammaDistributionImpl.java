@@ -53,14 +53,13 @@
  */
 package org.apache.commons.math.distribution;
 
-import org.apache.commons.logging.LogFactory;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.special.Gamma;
 
 /**
  * The default implementation of {@link GammaDistribution}
  * 
- * @version $Revision: 1.12 $ $Date: 2003/11/15 16:01:36 $
+ * @version $Revision: 1.13 $ $Date: 2003/11/15 18:59:10 $
  */
 public class GammaDistributionImpl extends AbstractContinuousDistribution
     implements GammaDistribution {
@@ -106,9 +105,6 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
             try {
                 ret = Gamma.regularizedGammaP(getAlpha(), x / getBeta());
             } catch(MathException ex){
-                LogFactory.getLog(getClass()).error(
-                    "Failed to compute cummulative probability, returning NaN.",
-                    ex);
                 ret = Double.NaN;
             }
         }
