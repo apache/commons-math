@@ -39,6 +39,10 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
     <release version="1.1" date="In Development"  
        description="Jakarta Commons Math 1.1 - Development">
+      <action dev="brentworden" type="fix" due-to="Ben Litchfield">
+        Fixed bug in PolynomialSplineFunction to allow evaluation of the
+		function at the last knot point.
+      </action>
       <action dev="brentworden" type="add">
         Added Weibull distribution implementation.
       </action>

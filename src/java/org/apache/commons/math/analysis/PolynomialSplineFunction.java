@@ -36,7 +36,7 @@ import org.apache.commons.math.FunctionEvaluationException;
  * centered on the knot points to compute the spline function values.  See below.
  * <p>
  * The domain of the polynomial spline function is 
- * <code>[smallest knot, largest knot)</code>.  Attempts to evaluate the
+ * <code>[smallest knot, largest knot]</code>.  Attempts to evaluate the
  * function at values outside of this range generate IllegalArgumentExceptions.
  * <p>
  * The value of the polynomial spline function for an argument <code>x</code>
@@ -44,7 +44,7 @@ import org.apache.commons.math.FunctionEvaluationException;
  * <ol>
  * <li>The knot array is searched to find the segment to which <code>x</code>
  * belongs.  If <code>x</code> is less than the smallest knot point or greater
- * than or equal to the largest one, an <code>IllegalArgumentException</code>
+ * than the largest one, an <code>IllegalArgumentException</code>
  * is thrown.</li>
  * <li> Let <code>j</code> be the index of the largest knot point that is less
  * than or equal to <code>x</code>.  The value returned is <br>
@@ -116,7 +116,7 @@ public class PolynomialSplineFunction implements UnivariateRealFunction, Seriali
      * Compute the value for the function.
      * <p>
      * Throws FunctionEvaluationException if v is outside of the domain of the
-     * function.  The domain is [smallest knot, largest knot).
+     * function.  The domain is [smallest knot, largest knot].
      * <p>
      * See {@link PolynomialSplineFunction} for details on the algorithm for
      * computing the value of the function.
@@ -125,15 +125,21 @@ public class PolynomialSplineFunction implements UnivariateRealFunction, Seriali
      * @return the value
      * @throws FunctionEvaluationException if v is outside of the domain of
      * of the spline function (less than the smallest knot point or greater
-     * than or equal to the largest knot point)
+     * than the largest knot point)
      */
     public double value(double v) throws FunctionEvaluationException {
-        if (v < knots[0] || v >= knots[n]) {
+        if (v < knots[0] || v > knots[n]) {
             throw new FunctionEvaluationException(v,"Argument outside domain");
         }
         int i = Arrays.binarySearch(knots, v);
         if (i < 0) {
             i = -i - 2;
+        }
+        //This will handle the case where v is the last knot value
+        //There are only n-1 polynomials, so if v is the last knot
+        //then we will use the last polynomial to calculate the value.
+        if ( i >= polynomials.length ) {
+            i--;
         }
         return polynomials[i].value(v - knots[i]);
     }

@@ -67,7 +67,9 @@ public class SplineInterpolatorTest extends TestCase {
         TestUtils.assertEquals(polynomials[1].getCoefficients(), target, coefficientTolerance);
         
         // Check interpolation
-        assertEquals(0.4,f.value(0.4), interpolationTolerance);    
+        assertEquals(0.0,f.value(0.0), interpolationTolerance);
+        assertEquals(0.4,f.value(0.4), interpolationTolerance);
+        assertEquals(1.0,f.value(1.0), interpolationTolerance);
     }
 
     public void testInterpolateLinearDegenerateThreeSegment()
@@ -88,7 +90,9 @@ public class SplineInterpolatorTest extends TestCase {
         TestUtils.assertEquals(polynomials[2].getCoefficients(), target, coefficientTolerance);
         
         // Check interpolation
-        assertEquals(1.4,f.value(1.4), interpolationTolerance);    
+        assertEquals(0,f.value(0), interpolationTolerance);
+        assertEquals(1.4,f.value(1.4), interpolationTolerance);
+        assertEquals(1.5,f.value(1.5), interpolationTolerance);
     }
 
     public void testInterpolateLinear() throws Exception {
@@ -179,11 +183,11 @@ public class SplineInterpolatorTest extends TestCase {
     }
     
     /**
-     * verifies that f(x[i]) = y[i] for i = 0..n -1 where n is common length -- skips last point.
+     * verifies that f(x[i]) = y[i] for i = 0..n-1 where n is common length.
      */
     protected void verifyInterpolation(UnivariateRealFunction f, double x[], double y[])  
     	throws Exception{
-        for (int i = 0; i < x.length - 1; i++) {
+        for (int i = 0; i < x.length; i++) {
             assertEquals(f.value(x[i]), y[i], knotTolerance);
         }     
     }
