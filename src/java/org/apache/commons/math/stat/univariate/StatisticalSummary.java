@@ -1,5 +1,5 @@
 /*
- * Copyright 2004,2004 The Apache Software Foundation.
+ * Copyright 2004 The Apache Software Foundation.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package org.apache.commons.math.stat.univariate;
 /**
  *  Reporting interface for basic univariate statistics.
  * 
-  * @version $Revision: 1.1 $ $Date: 2004/04/12 02:27:49 $
+  * @version $Revision: 1.2 $ $Date: 2004/04/27 04:37:59 $
  */
 public interface StatisticalSummary {
 	/** 

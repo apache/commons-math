@@ -1,5 +1,5 @@
 /*
- * Copyright 2004,2004 The Apache Software Foundation.
+ * Copyright 2004 The Apache Software Foundation.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,8 @@ import java.io.Serializable;
  * You can choose the algorithm used to calculate cumulative probability
  * using method {@link #setCdfAlgorithm}. The deafault is the Cody algorithm 
  * {@link org.apache.commons.math.distribution.NormalCDFPreciseAlgorithm}
+ * 
+ * @version $Revision: 1.5 $ $Date: 2004/04/27 04:37:58 $
  */
 public class NormalDistributionImpl extends AbstractContinuousDistribution 
 		implements NormalDistribution, Serializable {
@@ -52,9 +54,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 	 * deviation equal to one. 
 	 */
 	public NormalDistributionImpl(){
-		super();
-		setMean(0.0);
-		setStandardDeviation(1.0);
+		this(0.0, 1.0);
 	}	
 	/**
 	 * Access the mean.
@@ -98,7 +98,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 	public double cumulativeProbability(double x) {
 		double z = x;
 		if(standardDeviation > 0){
-			z = (x - mean)/standardDeviation;
+			z = (x - mean) / standardDeviation;
 		}else{
 			return 0.0;
 		}
@@ -133,7 +133,8 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 	 */
 	public double inverseCumulativeProbability(double p) {
 		if (p < 0.0 || p > 1.0) {
-			throw new IllegalArgumentException("p must be between 0.0 and 1.0, inclusive.");
+			throw new IllegalArgumentException(
+					"p must be between 0.0 and 1.0, inclusive.");
 		}
 		
 		//TODO is this ok?
@@ -157,10 +158,11 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 					   21213.794301586595867) * r + 5394.1960214247511077) * r +
 					 687.1870074920579083) * r + 42.313330701600911252) * r + 1.);
 		}else { //closer than 0.075 from {0,1} boundary
-		if (q > 0)
+		if (q > 0) {
 			r = 1 - p;
-		else
+		} else {
 			r = p;
+		}
 		r = Math.sqrt(- Math.log(r));
 		if (r <= 5.0) {
 			r += -1.6;
@@ -183,18 +185,18 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 					  0.0012426609473880784386) * r + 0.026532189526576123093) *
 					r + 0.29656057182850489123) * r +
 				   1.7848265399172913358) * r + 5.4637849111641143699) *
-				 r + 6.6579046435011037772)
-				/ (((((((r *
+				 r + 6.6579046435011037772) /
+				 (((((((r *
 						 2.04426310338993978564e-15 + 1.4215117583164458887e-7)*
 						r + 1.8463183175100546818e-5) * r +
-					   7.868691311456132591e-4) * r + 0.0148753612908506148525)
-					 * r + 0.13692988092273580531) * r +
+					   7.868691311456132591e-4) * r + 0.0148753612908506148525) *
+					   r + 0.13692988092273580531) * r +
 					0.59983220655588793769) * r + 1.0);
 		}
 		if(q < 0.0)
 			val = -val;
 		}
-		return mean + standardDeviation*val;
+		return mean + standardDeviation * val;
 	}
 
 
@@ -253,6 +255,4 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 	protected double getInitialDomain(double p) {
 		return 0.0;
 	}
-
-
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2004,2004 The Apache Software Foundation.
+ * Copyright 2004 The Apache Software Foundation.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ package org.apache.commons.math.distribution;
  * </ul>
  * </p>
  * 
- * @version $Revision: 1.4 $ $Date: 2004/04/26 19:15:48 $
+ * @version $Revision: 1.5 $ $Date: 2004/04/27 04:37:58 $
  */
 public interface NormalDistribution extends ContinuousDistribution {
 	/**

@@ -1,5 +1,5 @@
 /*
- * Copyright 2004,2004 The Apache Software Foundation.
+ * Copyright 2004 The Apache Software Foundation.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import org.apache.commons.math.stat.univariate.summary.SumOfSquares;
 /**
  * Provides a default {@link SummaryStatistics} implementation.
  * 
- * @version $Revision: 1.1 $ $Date: 2004/04/12 02:27:49 $  
+ * @version $Revision: 1.2 $ $Date: 2004/04/27 04:37:59 $  
  */
 public class SummaryStatisticsImpl extends SummaryStatistics {
 

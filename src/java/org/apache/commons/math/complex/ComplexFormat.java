@@ -1,5 +1,5 @@
 /*
- * Copyright 2004,2004 The Apache Software Foundation.
+ * Copyright 2004 The Apache Software Foundation.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ import java.text.NumberFormat;
  * can be configured.
  *
  * @author Apache Software Foundation
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $ $Date: 2004/04/27 04:37:59 $
  */
 public class ComplexFormat {
 

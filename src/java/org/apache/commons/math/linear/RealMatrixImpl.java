@@ -1,19 +1,17 @@
 /*
+ * Copyright 2003-2004 The Apache Software Foundation.
  * 
- * Copyright (c) 2003-2004 The Apache Software Foundation. All rights reserved.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy
- * of the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  * 
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations
- * under the License.
- *  
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.apache.commons.math.linear;
@@ -40,7 +38,7 @@ import java.io.Serializable;
  * explicitly invoke <code>LUDecompose()</code> to recompute the decomposition
  * before using any of the methods above.
  *
- * @version $Revision: 1.18 $ $Date: 2004/04/11 19:00:45 $
+ * @version $Revision: 1.19 $ $Date: 2004/04/27 04:37:58 $
  */
 public class RealMatrixImpl implements RealMatrix, Serializable {
 
@@ -125,8 +123,8 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
 	 * @exception  IllegalArgumentException if m is not the same size as this
 	 */
 	public RealMatrix add(RealMatrix m) throws IllegalArgumentException {
-		if (this.getColumnDimension() != m.getColumnDimension()
-			|| this.getRowDimension() != m.getRowDimension()) {
+		if (this.getColumnDimension() != m.getColumnDimension() ||
+				this.getRowDimension() != m.getRowDimension()) {
 			throw new IllegalArgumentException("matrix dimension mismatch");
 		}
 		int rowCount = this.getRowDimension();
@@ -149,8 +147,8 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
 	 * @exception  IllegalArgumentException if m is not the same size as *this
 	 */
 	public RealMatrix subtract(RealMatrix m) throws IllegalArgumentException {
-		if (this.getColumnDimension() != m.getColumnDimension()
-			|| this.getRowDimension() != m.getRowDimension()) {
+		if (this.getColumnDimension() != m.getColumnDimension() ||
+				this.getRowDimension() != m.getRowDimension()) {
 			throw new IllegalArgumentException("matrix dimension mismatch");
 		}
 		int rowCount = this.getRowDimension();
@@ -835,6 +833,8 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
 	/**
 	 * Tests a given coordinate as being valid or invalid
 	 *
+	 * @param row the row index.
+	 * @param col the column index.
 	 * @return true if the coordinate is with the current dimensions
 	 */
 	private boolean isValidCoordinate(int row, int col) {

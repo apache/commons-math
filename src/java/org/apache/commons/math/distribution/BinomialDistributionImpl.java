@@ -24,7 +24,7 @@ import org.apache.commons.math.util.MathUtils;
 /**
  * The default implementation of {@link BinomialDistribution}.
  * 
- * @version $Revision: 1.12 $ $Date: 2004/04/08 20:45:59 $
+ * @version $Revision: 1.13 $ $Date: 2004/04/27 04:37:58 $
  */
 public class BinomialDistributionImpl
     extends AbstractDiscreteDistribution
@@ -125,8 +125,7 @@ public class BinomialDistributionImpl
             ret = 1.0;
         } else {
             ret =
-                1.0
-                    - Beta.regularizedBeta(
+                1.0 - Beta.regularizedBeta(
                         getProbabilityOfSuccess(),
                         x + 1.0,
                         getNumberOfTrials() - x);
@@ -144,12 +143,11 @@ public class BinomialDistributionImpl
         if (x < 0 || x > getNumberOfTrials()) {
             ret = 0.0;
         } else {
-            ret =
-                MathUtils.binomialCoefficientDouble(getNumberOfTrials(), x)
-                    * Math.pow(getProbabilityOfSuccess(), x)
-                    * Math.pow(
-                        1.0 - getProbabilityOfSuccess(),
-                        getNumberOfTrials() - x);
+            ret = MathUtils.binomialCoefficientDouble(
+            		getNumberOfTrials(), x) *
+				  Math.pow(getProbabilityOfSuccess(), x) *
+				  Math.pow(1.0 - getProbabilityOfSuccess(),
+				  		getNumberOfTrials() - x);
         }
         return ret;
     }

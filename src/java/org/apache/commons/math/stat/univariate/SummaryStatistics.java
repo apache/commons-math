@@ -1,5 +1,5 @@
 /*
- * Copyright 2004,2004 The Apache Software Foundation.
+ * Copyright 2004 The Apache Software Foundation.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import org.apache.commons.discovery.tools.DiscoverClass;
 /**
  * Abstract factory class for univariate statistical summaries.
  * 
- * @version $Revision: 1.2 $ $Date: 2004/04/23 19:50:27 $
+ * @version $Revision: 1.3 $ $Date: 2004/04/27 04:37:59 $
  */
 public abstract class SummaryStatistics implements Serializable, StatisticalSummary{
 
