@@ -31,7 +31,7 @@ import org.apache.commons.math.stat.univariate.summary.SumOfSquares;
  * StatUtils provides static methods for computing statistics based on data
  * stored in double[] arrays. 
  * 
- * @version $Revision: 1.31 $ $Date: 2004/07/17 22:01:39 $
+ * @version $Revision: 1.32 $ $Date: 2004/09/01 15:51:39 $
  */
 public final class StatUtils {
 
@@ -343,6 +343,11 @@ public final class StatUtils {
      * See {@link org.apache.commons.math.stat.univariate.moment.Variance} for
      * details on the computing algorithm.
      * <p>
+     * The formula used assumes that the supplied mean value is the arithmetic
+     * mean of the sample data, not a known population parameter.  This method
+     * is supplied only to save computation when the mean has already been
+     * computed.
+     * <p>
      * Returns 0 for a single-value (i.e. length = 1) sample.
      * <p>
      * Throws <code>IllegalArgumentException</code> if the array is null or the
@@ -364,10 +369,15 @@ public final class StatUtils {
     /**
      * Returns the variance of the entries in the input array, using the
      * precomputed mean value.  Returns <code>Double.NaN</code> if the array
-     * is empty.
+     * is empty.  
      * <p>
      * See {@link org.apache.commons.math.stat.univariate.moment.Variance} for
-     * details on the computing algorithm.
+     * details on the computing algorithm.   
+     * <p>
+     * The formula used assumes that the supplied mean value is the arithmetic
+     * mean of the sample data, not a known population parameter.  This method
+     * is supplied only to save computation when the mean has already been
+     * computed.
      * <p>
      * Returns 0 for a single-value (i.e. length = 1) sample.
      * <p>
