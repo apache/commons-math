@@ -53,86 +53,111 @@
  */
 package org.apache.commons.math.stat.distribution;
 
+import junit.framework.TestCase;
 
 /**
- * A concrete distribution factory.  This is the default factory used by
- * Commons-Math.
- *  
- * @version $Revision: 1.8 $ $Date: 2003/08/16 17:06:15 $
+ * @author Brent Worden
  */
-public class DistributionFactoryImpl extends DistributionFactory {
-    /**
-     * Default constructor.  Package scope to prevent unwanted instantiation. 
-     */
-    DistributionFactoryImpl() {
-        super();
-    }
+public class BinomialDistributionTest extends TestCase {
+    private BinomialDistribution b;
     
     /**
-     * Create a new chi-square distribution with the given degrees of freedom.
-     * @param degreesOfFreedom degrees of freedom.
-     * @return a new chi-square distribution.  
+     * Constructor for ChiSquareDistributionTest.
+     * @param name
      */
-    public ChiSquaredDistribution createChiSquareDistribution(
-        final double degreesOfFreedom) {
-            
-        return new ChiSquaredDistributionImpl(degreesOfFreedom);
+    public BinomialDistributionTest(String name) {
+        super(name);
+    }
+
+    /*
+     * @see TestCase#setUp()
+     */
+    protected void setUp() throws Exception {
+        super.setUp();
+        b = DistributionFactory.newInstance().createBinomailDistribution(10, 0.70);
+    }
+
+    /*
+     * @see TestCase#tearDown()
+     */
+    protected void tearDown() throws Exception {
+        b = null;
+        super.tearDown();
+    }
+
+    public void testInverseCummulativeProbability001() {
+        testValue(1, .001);
     }
     
-    /**
-     * Create a new gamma distribution the given alpha and beta values.
-     * @param alpha the shape parameter.
-     * @param beta the scale parameter.
-     * @return a new gamma distribution.  
-     */
-    public GammaDistribution createGammaDistribution(
-        double alpha, double beta) {
-
-        return new GammaDistributionImpl(alpha, beta);
+    public void testInverseCumulativeProbability010() {
+        testValue(2, .010);
+    }
+    
+    public void testInverseCumulativeProbability025() {
+        testValue(3, .025);
     }
 
-    /**
-     * Create a new t distribution with the given degrees of freedom.
-     * @param degreesOfFreedom degrees of freedom.
-     * @return a new t distribution.  
-     */
-    public TDistribution createTDistribution(double degreesOfFreedom) {
-        return new TDistributionImpl(degreesOfFreedom);
+    public void testInverseCumulativeProbability050() {
+        testValue(4, .050);
+    }
+    
+    public void testInverseCumulativeProbability100() {
+        testValue(4, .100);
     }
 
-    /**
-     * Create a new F-distribution with the given degrees of freedom.
-     * @param numeratorDegreesOfFreedom numerator degrees of freedom.
-     * @param denominatorDegreesOfFreedom denominator degrees of freedom.
-     * @return a new F-distribution.  
-     */
-    public FDistribution createFDistribution(
-        double numeratorDegreesOfFreedom,
-        double denominatorDegreesOfFreedom) {
-        return new FDistributionImpl(numeratorDegreesOfFreedom,
-            denominatorDegreesOfFreedom);
+    public void testInverseCummulativeProbability999() {
+        testValue(9, .999);
+    }
+    
+    public void testInverseCumulativeProbability990() {
+        testValue(9, .990);
+    }
+    
+    public void testInverseCumulativeProbability975() {
+        testValue(9, .975);
     }
 
-    /**
-     * Create a new exponential distribution with the given degrees of freedom.
-     * @param mean mean.
-     * @return a new exponential distribution.  
-     */
-    public ExponentialDistribution createExponentialDistribution(double mean) {
-        return new ExponentialDistributionImpl(mean);
-    }    
-
-    /**
-     * Create a binomial distribution with the given number of trials and
-     * probability of success.
-     * @param numberOfTrials the number of trials.
-     * @param probabilityOfSuccess the probability of success.
-     * @return a new binomial distribution.
-     */
-    public BinomialDistribution createBinomailDistribution(
-        int numberOfTrials, double probabilityOfSuccess) {
-        return new BinomialDistributionImpl(numberOfTrials,
-            probabilityOfSuccess);
+    public void testInverseCumulativeProbability950() {
+        testValue(8, .950);
+    }
+    
+    public void testInverseCumulativeProbability900() {
+        testValue(8, .900);
     }
 
+    public void testCummulativeProbability1() {
+        testProbability(1, .00014);
+    }
+    
+    public void testCumulativeProbability2() {
+        testProbability(2, .00159);
+    }
+    
+    public void testCumulativeProbability3() {
+        testProbability(3, .01059);
+    }
+
+    public void testCumulativeProbability4() {
+        testProbability(4, .04735);
+    }
+    
+    public void testCumulativeProbability9() {
+        testProbability(9, .97175);
+    }
+
+    public void testCummulativeProbability8() {
+        testProbability(8, .85069);
+    }
+    
+    private void testProbability(int x, double expected){
+        double actual = b.cummulativeProbability(x);
+        assertEquals(expected, actual, 10e-4);
+    }
+    
+    private void testValue(int expected, double p){
+        int actual = b.inverseCummulativeProbability(p);
+        assertEquals(expected, actual);
+        assertTrue(b.cummulativeProbability(actual) <= p);
+        assertTrue(b.cummulativeProbability(actual + 1) >= p);
+    }
 }

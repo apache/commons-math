@@ -53,86 +53,42 @@
  */
 package org.apache.commons.math.stat.distribution;
 
-
 /**
- * A concrete distribution factory.  This is the default factory used by
- * Commons-Math.
- *  
- * @version $Revision: 1.8 $ $Date: 2003/08/16 17:06:15 $
+ * The Binomial Distribution.
+ * 
+ * Instances of BinomialDistribution objects should be created using
+ * {@link DistributionFactory#createBinomailDistribution(int, double)}.
+ * 
+ * References:
+ * <ul>
+ * <li><a href="http://mathworld.wolfram.com/BinomialDistribution.html">
+ * Binomial Distribution</a></li>
+ * </ul>
+ * 
+ * @version $Revision: 1.1 $ $Date: 2003/08/16 17:06:15 $
  */
-public class DistributionFactoryImpl extends DistributionFactory {
+public interface BinomialDistribution extends DiscreteDistribution {
     /**
-     * Default constructor.  Package scope to prevent unwanted instantiation. 
+     * Access the number of trials for this distribution.
+     * @return the number of trials.
      */
-    DistributionFactoryImpl() {
-        super();
-    }
+    int getNumberOfTrials();
     
     /**
-     * Create a new chi-square distribution with the given degrees of freedom.
-     * @param degreesOfFreedom degrees of freedom.
-     * @return a new chi-square distribution.  
+     * Access the probability of success for this distribution.
+     * @return the probability of success.
      */
-    public ChiSquaredDistribution createChiSquareDistribution(
-        final double degreesOfFreedom) {
-            
-        return new ChiSquaredDistributionImpl(degreesOfFreedom);
-    }
+    double getProbabilityOfSuccess();
     
     /**
-     * Create a new gamma distribution the given alpha and beta values.
-     * @param alpha the shape parameter.
-     * @param beta the scale parameter.
-     * @return a new gamma distribution.  
+     * Change the number of trials for this distribution.
+     * @param trials the new number of trials.
      */
-    public GammaDistribution createGammaDistribution(
-        double alpha, double beta) {
-
-        return new GammaDistributionImpl(alpha, beta);
-    }
-
+    void setNumberOfTrials(int trials);
+    
     /**
-     * Create a new t distribution with the given degrees of freedom.
-     * @param degreesOfFreedom degrees of freedom.
-     * @return a new t distribution.  
+     * Change the probability of success for this distribution.
+     * @param p the new probability of success.
      */
-    public TDistribution createTDistribution(double degreesOfFreedom) {
-        return new TDistributionImpl(degreesOfFreedom);
-    }
-
-    /**
-     * Create a new F-distribution with the given degrees of freedom.
-     * @param numeratorDegreesOfFreedom numerator degrees of freedom.
-     * @param denominatorDegreesOfFreedom denominator degrees of freedom.
-     * @return a new F-distribution.  
-     */
-    public FDistribution createFDistribution(
-        double numeratorDegreesOfFreedom,
-        double denominatorDegreesOfFreedom) {
-        return new FDistributionImpl(numeratorDegreesOfFreedom,
-            denominatorDegreesOfFreedom);
-    }
-
-    /**
-     * Create a new exponential distribution with the given degrees of freedom.
-     * @param mean mean.
-     * @return a new exponential distribution.  
-     */
-    public ExponentialDistribution createExponentialDistribution(double mean) {
-        return new ExponentialDistributionImpl(mean);
-    }    
-
-    /**
-     * Create a binomial distribution with the given number of trials and
-     * probability of success.
-     * @param numberOfTrials the number of trials.
-     * @param probabilityOfSuccess the probability of success.
-     * @return a new binomial distribution.
-     */
-    public BinomialDistribution createBinomailDistribution(
-        int numberOfTrials, double probabilityOfSuccess) {
-        return new BinomialDistributionImpl(numberOfTrials,
-            probabilityOfSuccess);
-    }
-
+    void setProbabilityOfSuccess(double p);
 }

@@ -197,4 +197,60 @@ public class DistributionFactoryImplTest extends TestCase {
             fail("positive degrees of freedom.  IllegalArgumentException is not expected");
         }
     }
+    
+    public void testBinomialDistributionNegativePositive(){
+        try {
+            factory.createBinomailDistribution(-1, 0.5);
+            fail("negative number of trials.  IllegalArgumentException expected");
+        } catch (IllegalArgumentException ex ) {
+        }
+    }
+    
+    public void testBinomialDistributionZeroPositive(){
+        try {
+            factory.createBinomailDistribution(0, 0.5);
+        } catch (IllegalArgumentException ex ) {
+            fail("zero number of trials.  IllegalArgumentException is not expected");
+        }
+    }
+    
+    public void testBinomialDistributionPositivePositive(){
+        try {
+            factory.createBinomailDistribution(10, 0.5);
+        } catch (IllegalArgumentException ex ) {
+            fail("positive number of trials.  IllegalArgumentException is not expected");
+        }
+    }
+    
+    public void testBinomialDistributionPositiveNegative(){
+        try {
+            factory.createBinomailDistribution(10, -0.5);
+            fail("negative probability of success.  IllegalArgumentException expected");
+        } catch (IllegalArgumentException ex ) {
+        }
+    }
+    
+    public void testBinomialDistributionPositiveZero(){
+        try {
+            factory.createBinomailDistribution(10, 0.0);
+        } catch (IllegalArgumentException ex ) {
+            fail("zero probability of success.  IllegalArgumentException is not expected");
+        }
+    }
+    
+    public void testBinomialDistributionPositiveOne(){
+        try {
+            factory.createBinomailDistribution(10, 1.0);
+        } catch (IllegalArgumentException ex ) {
+            fail("valid probability of success.  IllegalArgumentException is not expected");
+        }
+    }
+    
+    public void testBinomialDistributionPositiveTwo(){
+        try {
+            factory.createBinomailDistribution(10, 2.0);
+            fail("high probability of success.  IllegalArgumentException expected");
+        } catch (IllegalArgumentException ex ) {
+        }
+    }
 }

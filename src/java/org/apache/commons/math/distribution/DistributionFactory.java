@@ -57,7 +57,9 @@ package org.apache.commons.math.stat.distribution;
  * This factory provids the means to create common statistical distributions.
  * The following distributions are supported:
  * <ul>
+ * <li>Binomial</li>
  * <li>Chi-Squared</li>
+ * <li>Exponential</li>
  * <li>F</li>
  * <li>Gamma</li>
  * <li>Student's t</li>
@@ -70,7 +72,7 @@ package org.apache.commons.math.stat.distribution;
  * ChiSquaredDistribution chi = factory.createChiSquareDistribution(5.0);
  * </pre>
  * 
- * @version $Revision: 1.9 $ $Date: 2003/07/30 21:58:11 $
+ * @version $Revision: 1.10 $ $Date: 2003/08/16 17:06:15 $
  */
 public abstract class DistributionFactory {
     /**
@@ -89,7 +91,17 @@ public abstract class DistributionFactory {
     public static DistributionFactory newInstance() {
         return new DistributionFactoryImpl();
     }
-    
+
+    /**
+     * Create a binomial distribution with the given number of trials and
+     * probability of success.
+     * @param numberOfTrials the number of trials.
+     * @param probabilityOfSuccess the probability of success.
+     * @return a new binomial distribution.
+     */
+    public abstract BinomialDistribution createBinomailDistribution(
+        int numberOfTrials, double probabilityOfSuccess);
+        
     /**
      * Create a new chi-square distribution with the given degrees of freedom.
      * @param degreesOfFreedom degrees of freedom.
