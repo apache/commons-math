@@ -53,51 +53,51 @@
  */
 package org.apache.commons.math.stat.univariate.moment;
 
-import org.apache.commons.math.stat.univariate.summary.SumOfLogs;
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
+import org.apache.commons.math.stat.univariate.StorelessUnivariateStatisticAbstractTest;
+import org.apache.commons.math.stat.univariate.UnivariateStatistic;
+import org.apache.commons.math.stat.univariate.UnivariateStatisticAbstractTest;
 
 /**
- * @author Mark Diggory
+ * Test cases for the {@link UnivariateStatistic} class.
  *
+ * @author Mark Diggory
  */
-public class GeometricMean extends SumOfLogs {
- 
-    //private SumOfLogs sumLog = new SumOfLogs();
-    
-    private double geoMean = Double.NaN;
-    
-    private int n = 0;
+public class GeometricMeanTest extends StorelessUnivariateStatisticAbstractTest{
+
+    protected GeometricMean stat;
     
     /**
-     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
+     * @param name
      */
-    public double increment(double d) {
-        n++;
-        return geoMean = Math.exp( super.increment(d) / (double)n );
+    public GeometricMeanTest(String name) {
+        super(name);
     }
 
-    /**
-     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
-     */
-    public double getValue() {
-        return geoMean;
-    }
-
-    /**
-     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
-     */
-    public void clear() {
-        super.clear();
-        geoMean = Double.NaN;
-        n = 0;
+    public static Test suite() {
+        TestSuite suite = new TestSuite(GeometricMeanTest.class);
+        suite.setName("Mean  Tests");
+        return suite;
     }
     
-    /**
-     * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.stat.univariate.UnivariateStatisticAbstractTest#getUnivariateStatistic()
      */
-    public double evaluate(double[] values, int begin, int length) {
-        return Math.exp(super.evaluate(values, begin, length) / (double) length );
+    public UnivariateStatistic getUnivariateStatistic() {
+       
+        if(stat == null)
+            stat = new GeometricMean();
+            
+        return stat;
     }
 
-
+    /* (non-Javadoc)
+     * @see org.apache.commons.math.stat.univariate.UnivariateStatisticAbstractTest#expectedValue()
+     */
+    public double expectedValue() {
+        return this.geoMean;
+    }
 
 }
