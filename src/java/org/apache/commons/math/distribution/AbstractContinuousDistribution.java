@@ -62,7 +62,7 @@ import org.apache.commons.math.analysis.UnivariateRealSolverUtils;
  * implementations for some of the methods that do not vary from distribution
  * to distribution.
  *  
- * @version $Revision: 1.14 $ $Date: 2003/11/15 16:01:35 $
+ * @version $Revision: 1.15 $ $Date: 2003/11/15 18:47:09 $
  */
 public abstract class AbstractContinuousDistribution
     implements ContinuousDistribution {
@@ -107,14 +107,6 @@ public abstract class AbstractContinuousDistribution
                 
             public double value(double x) throws MathException {
                 return cummulativeProbability(x) - p;
-            }
-
-            public double firstDerivative(double x) throws MathException {
-                return 0;
-            }
-
-            public double secondDerivative(double x) throws MathException {
-                return 0;
             }
         };
         
