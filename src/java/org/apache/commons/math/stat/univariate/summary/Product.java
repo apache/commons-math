@@ -62,7 +62,7 @@ import org
     .AbstractStorelessUnivariateStatistic;
 
 /**
- * @author Mark Diggory
+ *
  */
 public class Product extends AbstractStorelessUnivariateStatistic {
 
@@ -99,6 +99,11 @@ public class Product extends AbstractStorelessUnivariateStatistic {
     }
 
     /**
+     * Returns the product for this collection of values
+     * @param values Is a double[] containing the values
+     * @param begin processing at this point in the array
+     * @param length processing at this point in the array
+     * @return the product values or Double.NaN if the array is empty
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
     public double evaluate(double[] values, int begin, int length) {

@@ -54,7 +54,7 @@
 package org.apache.commons.math.stat.univariate.moment;
 
 /**
- * @author Mark Diggory
+ * 
  *
  */
 public class ThirdMoment extends SecondMoment{
@@ -62,6 +62,15 @@ public class ThirdMoment extends SecondMoment{
     /** third moment of values that have been added */
     protected double m3 = Double.NaN;
 
+    /** temporary internal state made availabel for higher order moments */
+    protected double v2 = 0.0;
+    
+    /** temporary internal state made availabel for higher order moments */
+    protected double n2 = 0.0;
+            
+    /** temporary internal state made availabel for higher order moments */
+    protected double prevM2 = 0.0;
+                  
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
@@ -70,23 +79,17 @@ public class ThirdMoment extends SecondMoment{
             m3 = m2 = m1 = 0.0;
         }
         
-        n++;
+        /* retain a reference to the last m2*/
+        prevM2 = m2;
         
-        double dev = d - m1;
-        double v = dev / ((double) n);
-        double v2 = v * v;
-
-        double n0 = (double) n;
-        double n1 = (double) (n - 1);
-        double n2 = (double) (n - 2);
-
+        /* increment m1 and m2 (and _n0, _n1, _v) */
+        super.increment(d);
         
-        m3 = m3 - (3.0 * v * m2) + (n0 * n1 * n2 * v2 * v);
+        v2 = v * v;
+        n2 = (double) (n - 2);
 
-        m2 = m2 + n1 * dev * v;
+        m3 = m3 - (3.0 * v * prevM2) + (n0 * n1 * n2 * v2 * v);
 
-        m1 = m1 + v;
-        
         return m3;
     }
 
@@ -103,6 +106,9 @@ public class ThirdMoment extends SecondMoment{
     public void clear() {
         super.clear();
         m3 = Double.NaN;
+        v2 = 0.0;
+        n2 = 0.0;
+        prevM2 = 0.0;
     }
 
 }

@@ -53,23 +53,18 @@
  */
 package org.apache.commons.math.stat.univariate.moment;
 
-import org
-    .apache
-    .commons
-    .math
-    .stat
-    .univariate
-    .AbstractStorelessUnivariateStatistic;
-
 /**
- * @author Mark Diggory
+ * 
  *
  */
-public class SecondMoment extends Mean {
+public class SecondMoment extends FirstMoment {
 
     /** second moment of values that have been added */
     protected double m2 = Double.NaN;
 
+    /** temporary internal state made availabel for higher order moments */
+    protected double n1 = 0.0;
+    
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
@@ -77,16 +72,17 @@ public class SecondMoment extends Mean {
         if (n < 1) {
             m1 = m2 = 0.0;
         }
+        
+        /* increment m1 and _n0, _dev,  _v) */
+        super.increment(d);
 
-        n++;
-
-        double dev = d - m1;
-        double v = dev / ((double) n);
-
-        m2 += ((double)(n - 1)) * dev * v;
-        m1 += v;
+        n1 = n0 - 1;
+        
+        /* increment and return m2 */
+        m2 += n1 * dev * v;
         
         return m2;
+        
     }
 
     /**
@@ -95,6 +91,7 @@ public class SecondMoment extends Mean {
     public void clear() {
         super.clear();
         m2 = Double.NaN;
+        n1 = 0.0;
     }
 
     /**

@@ -62,7 +62,6 @@ import org
     .AbstractStorelessUnivariateStatistic;
 
 /**
- * @author Mark Diggory
  *
  */
 public class SumOfSquares extends AbstractStorelessUnivariateStatistic {
@@ -99,6 +98,11 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic {
     }
 
     /**
+     * Returns the sum of the squares of the available values.
+     * @param values Is a double[] containing the values
+     * @param begin processing at this point in the array
+     * @param length processing at this point in the array
+     * @return the sum of the squared values or Double.NaN if the array is empty
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
     public double evaluate(double[] values, int begin, int length) {

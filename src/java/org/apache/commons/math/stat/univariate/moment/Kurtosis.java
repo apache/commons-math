@@ -53,93 +53,131 @@
  */
 package org.apache.commons.math.stat.univariate.moment;
 
+import org
+    .apache
+    .commons
+    .math
+    .stat
+    .univariate
+    .AbstractStorelessUnivariateStatistic;
+
 /**
- * @author Mark Diggory
+ *
  */
-public class Kurtosis extends FourthMoment {
+public class Kurtosis extends AbstractStorelessUnivariateStatistic {
 
     private double kurtosis = Double.NaN;
+
+    protected FourthMoment moment = null;
+
+    protected boolean incMoment = true;
+
+    public Kurtosis() {
+        moment = new FourthMoment();
+    }
+
+    public Kurtosis(FourthMoment m4) {
+        incMoment = false;
+        this.moment = m4;
+    }
 
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
     public double increment(double d) {
-        super.increment(d);
-        
-        double variance = (n <= 1) ? 0.0 : m2 / (double) (n - 1);
+        if (incMoment) {
+            moment.increment(d);
+        }
+
+        double variance =
+            (moment.n < 1) ? 0.0 : moment.m2 / (double) (moment.n - 1);
 
         kurtosis =
-            (n <= 3 || variance < 10E-20)
+            (moment.n <= 3 || variance < 10E-20)
                 ? 0.0
-                : ((double)n * ((double)n + 1) * m4 - 3 * m2 * m2 * (n-1))
-                    / ((n-1) * (n-2) * (n-3) * variance * variance);
-        
+                : (moment.n0 * (moment.n0 + 1) * moment.m4
+                    - 3 * moment.m2 * moment.m2 * moment.n1)
+                    / (moment.n1 * moment.n2 * moment.n3 * variance * variance);
+
         return kurtosis;
     }
-    
+
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
      */
     public double getValue() {
         return kurtosis;
     }
-    
+
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
      */
     public void clear() {
-        super.clear();
+        if (incMoment) {
+            moment.clear();
+        }
         kurtosis = Double.NaN;
     }
 
+    /*UnvariateStatistic Approach */
+
+    Mean mean = new Mean();
+
     /**
-        * Returns the kurtosis for this collection of values. Kurtosis is a 
-        * measure of the "peakedness" of a distribution.
-        * @param values Is a double[] containing the values
-        * @param begin processing at this point in the array
-        * @param length processing at this point in the array
-        * @return the kurtosis of the values or Double.NaN if the array is empty
-        */
-       public double evaluate(double[] values, int begin, int length) {
-           test(values, begin, length);
+    * This algorithm uses a corrected two pass algorithm of the following 
+    * <a href="http://lib-www.lanl.gov/numerical/bookcpdf/c14-1.pdf">
+    * corrected two pass formula (14.1.8)</a>, and also referenced in:<p/>
+    * "Algorithms for Computing the Sample Variance: Analysis and
+    * Recommendations", Chan, T.F., Golub, G.H., and LeVeque, R.J. 
+    * 1983, American Statistician, vol. 37, pp. 242?247.
+    * <p/>
+    * Returns the kurtosis for this collection of values. Kurtosis is a 
+    * measure of the "peakedness" of a distribution.
+    * @param values Is a double[] containing the values
+    * @param begin processing at this point in the array
+    * @param length processing at this point in the array
+    * @return the kurtosis of the values or Double.NaN if the array is empty
+    */
+    public double evaluate(double[] values, int begin, int length) {
+        test(values, begin, length);
 
-           // Initialize the kurtosis
-           double kurt = Double.NaN;
+        // Initialize the kurtosis
+        double kurt = Double.NaN;
 
-           // Get the mean and the standard deviation
-           double mean = super.evaluate(values, begin, length);
+        // Get the mean and the standard deviation
+        double m = mean.evaluate(values, begin, length);
 
-           // Calc the std, this is implemented here instead of using the 
-           // standardDeviation method eliminate a duplicate pass to get the mean
-           double accum = 0.0;
-           double accum2 = 0.0;
-           for (int i = begin; i < begin + length; i++) {
-               accum += Math.pow((values[i] - mean), 2.0);
-               accum2 += (values[i] - mean);
-           }
-        
-           double stdDev =
-               Math.sqrt(
-                   (accum - (Math.pow(accum2, 2) / ((double) length)))
-                       / (double) (length - 1));
+        // Calc the std, this is implemented here instead of using the 
+        // standardDeviation method eliminate a duplicate pass to get the mean
+        double accum = 0.0;
+        double accum2 = 0.0;
+        for (int i = begin; i < begin + length; i++) {
+            accum += Math.pow((values[i] - m), 2.0);
+            accum2 += (values[i] - m);
+        }
 
-           // Sum the ^4 of the distance from the mean divided by the 
-           // standard deviation
-           double accum3 = 0.0;
-           for (int i = begin; i < begin + length; i++) {
-               accum3 += Math.pow((values[i] - mean) / stdDev, 4.0);
-           }
+        double stdDev =
+            Math.sqrt(
+                (accum - (Math.pow(accum2, 2) / ((double) length)))
+                    / (double) (length - 1));
 
-           // Get N
-           double n = length;
+        // Sum the ^4 of the distance from the mean divided by the 
+        // standard deviation
+        double accum3 = 0.0;
+        for (int i = begin; i < begin + length; i++) {
+            accum3 += Math.pow((values[i] - m) / stdDev, 4.0);
+        }
 
-           double coefficientOne = (n * (n + 1)) / ((n - 1) * (n - 2) * (n - 3));
-           double termTwo = ((3 * Math.pow(n - 1, 2.0)) / ((n - 2) * (n - 3)));
-        
-           // Calculate kurtosis
-           kurt = (coefficientOne * accum3) - termTwo;
+        // Get N
+        double n = length;
 
-           return kurt;
-       }
-       
+        double coefficientOne = (n * (n + 1)) / ((n - 1) * (n - 2) * (n - 3));
+        double termTwo = ((3 * Math.pow(n - 1, 2.0)) / ((n - 2) * (n - 3)));
+
+        // Calculate kurtosis
+        kurt = (coefficientOne * accum3) - termTwo;
+
+        return kurt;
+    }
+
 }

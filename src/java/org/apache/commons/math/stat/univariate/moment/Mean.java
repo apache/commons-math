@@ -53,57 +53,77 @@
  */
 package org.apache.commons.math.stat.univariate.moment;
 
-import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
+import org
+    .apache
+    .commons
+    .math
+    .stat
+    .univariate
+    .AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math.stat.univariate.summary.Sum;
 
 /**
- * @author Mark Diggory
+ *
  */
 public class Mean extends AbstractStorelessUnivariateStatistic {
 
-
-    /** count of values that have been added */
-    protected int n = 0;
-
     /** first moment of values that have been added */
-    protected double m1 = Double.NaN;
-    
-    private Sum sum = new Sum();
-    
+    protected FirstMoment moment = null;
+
+    protected boolean incMoment = true;
+
+    public Mean() {
+        moment = new FirstMoment();
+    }
+
+    public Mean(FirstMoment m1) {
+        this.moment = m1;
+        incMoment = false;
+    }
+
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
     public double increment(double d) {
-        if (n < 1) {
-             m1 = 0.0;
+        if (incMoment) {
+            moment.increment(d);
         }
-         
-        n++;
-        m1 += (d - m1) / ((double) n);
-        return m1;
+
+        return moment.m1;
     }
-    
+
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
      */
     public void clear() {
-        m1 = Double.NaN;
-        n = 0;
+        if (incMoment) {
+            moment.clear();
+        }
     }
-    
+
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
      */
     public double getValue() {
-        return m1;
+        return moment.m1;
     }
 
+    /*UnvariateStatistic Approach */
+    Sum sum = new Sum();
+
     /**
+     * Returns the <a href=http://www.xycoon.com/arithmetic_mean.htm>
+     * arithmetic mean </a> of the available values 
+     * @param values Is a double[] containing the values
+     * @param begin processing at this point in the array
+     * @param length processing at this point in the array
+     * @return the mean of the values or Double.NaN if the array is empty
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
     public double evaluate(double[] values, int begin, int length) {
-        if(test(values,begin,length))
+        if (test(values, begin, length)) {
             return sum.evaluate(values, begin, length) / ((double) length);
+        }
         return Double.NaN;
     }
 

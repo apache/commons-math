@@ -53,29 +53,37 @@
  */
 package org.apache.commons.math.stat.univariate.moment;
 
-import org
-    .apache
-    .commons
-    .math
-    .stat
-    .univariate
-    .AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
 
 /**
- * @author Mark Diggory
+ *
  *
  */
-public class Variance extends SecondMoment {
+public class Variance extends AbstractStorelessUnivariateStatistic{
 
-    private double variance = Double.NaN;
+    protected double variance = Double.NaN;
 
+    protected SecondMoment moment = null;
+    
+    protected boolean incMoment = true;
+    
+    public Variance(){
+        moment = new SecondMoment();
+    }
+    
+    public Variance(SecondMoment m2){
+        incMoment = false;
+        this.moment = m2;
+    }
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
     public double increment(double d) {
-        super.increment(d);
-
-        variance = (n < 1) ? 0.0 : m2 / (double)(n - 1);
+        if (incMoment) {
+            moment.increment(d);
+        }
+        
+        variance = (moment.n < 1) ? 0.0 : moment.m2 / (double)(moment.n - 1);
         
         return variance;
     }
@@ -91,11 +99,30 @@ public class Variance extends SecondMoment {
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
      */
     public void clear() {
-        super.clear();
+        if (incMoment) {
+            moment.clear();
+        }
         variance = Double.NaN;
     }
     
-    /* (non-Javadoc)
+    /*UnvariateStatistic Approach */
+
+    Mean mean = new Mean();
+    
+    /**
+     * Returns the variance of the available values. This uses a corrected
+     * two pass algorithm of the following 
+     * <a href="http://lib-www.lanl.gov/numerical/bookcpdf/c14-1.pdf">
+     * corrected two pass formula (14.1.8)</a>, and also referenced in:<p/>
+     * "Algorithms for Computing the Sample Variance: Analysis and
+     * Recommendations", Chan, T.F., Golub, G.H., and LeVeque, R.J. 
+     * 1983, American Statistician, vol. 37, pp. 242?247.
+     * 
+     * @param values Is a double[] containing the values
+     * @param begin processing at this point in the array
+     * @param length processing at this point in the array
+     * @return the result, Double.NaN if no values for an empty array 
+     * or 0.0 for a single value set.  
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
     public double evaluate(double[] values, int begin, int length) {
@@ -103,7 +130,7 @@ public class Variance extends SecondMoment {
         if (values.length == 1) {
             var = 0;
         } else if (values.length > 1) {
-            double m = super.evaluate(values, begin, length);
+            double m = mean.evaluate(values, begin, length);
             double accum = 0.0;
             double accum2 = 0.0;
             for (int i = begin; i < begin + length; i++) {

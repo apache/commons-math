@@ -62,7 +62,7 @@ import org
     .AbstractStorelessUnivariateStatistic;
 
 /**
- * @author Mark Diggory
+ *
  */
 public class Max extends AbstractStorelessUnivariateStatistic {
 

@@ -51,71 +51,62 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.commons.math.stat.univariate.summary;
+package org.apache.commons.math.stat.univariate.moment;
 
-import org
-    .apache
-    .commons
-    .math
-    .stat
-    .univariate
-    .AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
 
 /**
- *
+ * 
  */
-public class Sum extends AbstractStorelessUnivariateStatistic {
+public class FirstMoment extends AbstractStorelessUnivariateStatistic {
 
-    /**
-     * The currently running sum.
-     */
-    private double value = Double.NaN;
+    /** count of values that have been added */
+    protected int n = 0;
 
+    /** first moment of values that have been added */
+    protected double m1 = Double.NaN;
+    
+    /** temporary internal state made available for higher order moments */
+    protected double dev = 0.0;
+    
+    /** temporary internal state made available for higher order moments */
+    protected double v = 0.0;
+    
+    /** temporary internal state made available for higher order moments */
+    protected double n0 = 0.0;
+    
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
     public double increment(double d) {
-        if (Double.isNaN(value )) {
-            value  = d;
-        } else {
-            value  += d;
+        if (n < 1) {
+             m1 = 0.0;
         }
-        return value ;
-    }
+        
+        n++;
+        dev = d - m1;
+        n0 = (double)n;
+        v = dev / n0;
 
-    /**
-     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
-     */
-    public double getValue() {
-        return value;
+        return m1 += v;                    
     }
     
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
      */
     public void clear() {
-        value = Double.NaN;
+        m1 = Double.NaN;
+        n = 0;
+        dev = 0.0;
+        v = 0.0;
+        n0 = 0.0;
     }
-
+    
     /**
-     * The sum of the values that have been added to Univariate.
-     * @param values Is a double[] containing the values
-     * @param begin processing at this point in the array
-     * @param length processing at this point in the array
-     * @return the sum of the values or Double.NaN if the array is empty
-     * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
      */
-    public double evaluate(double[] values, int begin, int length) {
-        double sum = Double.NaN;
-        if (test(values, begin, length)) {
-            sum = 0.0;
-            for (int i = begin; i < begin + length; i++) {
-                sum += values[i];
-            }
-        }
-        return sum;
+    public double getValue() {
+        return m1;
     }
-
-
 
 }

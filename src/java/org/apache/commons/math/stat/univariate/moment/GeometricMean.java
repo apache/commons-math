@@ -56,13 +56,11 @@ package org.apache.commons.math.stat.univariate.moment;
 import org.apache.commons.math.stat.univariate.summary.SumOfLogs;
 
 /**
- * @author Mark Diggory
+ * 
  *
  */
 public class GeometricMean extends SumOfLogs {
  
-    //private SumOfLogs sumLog = new SumOfLogs();
-    
     private double geoMean = Double.NaN;
     
     private int n = 0;
@@ -92,6 +90,12 @@ public class GeometricMean extends SumOfLogs {
     }
     
     /**
+     * Returns the geometric mean for this collection of values
+     * @param values Is a double[] containing the values
+     * @param begin processing at this point in the array
+     * @param length processing at this point in the array
+     * @return the geometric mean or Double.NaN if the array is empty or
+     * any of the values are &lt;= 0.
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
     public double evaluate(double[] values, int begin, int length) {

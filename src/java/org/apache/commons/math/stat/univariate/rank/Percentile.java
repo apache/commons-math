@@ -57,9 +57,7 @@ import java.util.Arrays;
 import org.apache.commons.math.stat.univariate.AbstractUnivariateStatistic;
 
 /**
- * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
- * @author Mark Diggory
- * @author <a href="mailto:phil@steitz.com">Phil Steitz</a>
+ *
  */
 public class Percentile extends AbstractUnivariateStatistic {
 

@@ -55,7 +55,7 @@ package org.apache.commons.math.stat.univariate.rank;
 
 
 /**
- * @author Mark Diggory
+ *
  */
 public class Median extends Percentile {
 

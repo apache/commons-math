@@ -53,47 +53,57 @@
  */
 package org.apache.commons.math.stat.univariate.moment;
 
-import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
-
 /**
- * @author Mark Diggory
+ * 
  *
  */
-public class StandardDeviation extends AbstractStorelessUnivariateStatistic {
+public class StandardDeviation extends Variance {
 
-    private double value = Double.NaN;
+    private double std = Double.NaN;
     
-    private Variance var = new Variance();
+    public StandardDeviation(){
+        super();
+    }
+    
+    public StandardDeviation(SecondMoment m2){
+        super(m2);
+    }
     
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
     public double increment(double d) {
-        var.increment(d);
-        value = Math.sqrt(var.getValue());
-        return value;
+        super.increment(d);
+        std = (variance != 0.0) ? Math.sqrt(variance) : 0.0;
+        return std;
     }
     
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
      */
     public double getValue() {
-        return value;
+        return std;
     }
     
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
      */
     public void clear() {
-        var.clear();
-        value = Double.NaN;
+        super.clear();
+        std = Double.NaN;
     }
 
-    /* (non-Javadoc)
+    /**
+     * Returns the Standard Deviation on an array of values.  
+     * @param values Is a double[] containing the values
+     * @param begin processing at this point in the array
+     * @param length processing at this point in the array
+     * @return the result, Double.NaN if no values for an empty array 
+     * or 0.0 for a single value set.  
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
     public double evaluate(double[] values, int begin, int length) {
-        double tmp = var.evaluate(values, begin, length);
+        double tmp = super.evaluate(values, begin, length);
         return tmp != 0.0 ? Math.sqrt(tmp) : 0.0;
     }
 
