@@ -62,7 +62,7 @@ public class StoreUnivariateImpl extends AbstractStoreUnivariate {
     DoubleArray eDA;
 
     // Store the windowSize
-    private int windowSize = Univariate.INIFINTE_WINDOW;
+    private int windowSize = Univariate.INFINITE_WINDOW;
 
     public StoreUnivariateImpl() {
         // A contractable double array is used.  memory is reclaimed when
@@ -99,7 +99,7 @@ public class StoreUnivariateImpl extends AbstractStoreUnivariate {
      * @see org.apache.commons.math.Univariate#addValue(double)
      */
     public synchronized void addValue(double v) {
-        if( windowSize != Univariate.INIFINTE_WINDOW ) {
+        if( windowSize != Univariate.INFINITE_WINDOW ) {
             if( getN() == windowSize ) {
                 eDA.addElementRolling( v );
             } else if( getN() < windowSize ) {

@@ -63,7 +63,7 @@ public class ListUnivariateImpl extends AbstractStoreUnivariate {
 
     // Holds the value of the windowSize, initial windowSize is the constant
     // Univariate.INFINITE_WINDOW
-    private int windowSize = Univariate.INIFINTE_WINDOW;
+    private int windowSize = Univariate.INFINITE_WINDOW;
 
     // Holds a reference to a list - GENERICs are going to make
     // out lives easier here as we could only accept List<Number>
@@ -81,11 +81,11 @@ public class ListUnivariateImpl extends AbstractStoreUnivariate {
         // If we've got a windowSize, we might not care about the entire list.
         List effectiveList = list;
 
-        // If the window size is not INIFINITE_WINDOW AND
+        // If the window size is not INFINITE_WINDOW AND
         // the current list is larger that the window size, we need to
         // take into account only the last n elements of the list
         // as definied by windowSize
-        if (windowSize != Univariate.INIFINTE_WINDOW &&
+        if (windowSize != Univariate.INFINITE_WINDOW &&
             windowSize < list.size()) {
             effectiveList = list.subList((list.size() - 1) - windowSize, 
                                           (list.size()-1));
@@ -111,7 +111,7 @@ public class ListUnivariateImpl extends AbstractStoreUnivariate {
     public double getElement(int index) {
 
         double value = Double.NaN;
-        if (windowSize != Univariate.INIFINTE_WINDOW &&
+        if (windowSize != Univariate.INFINITE_WINDOW &&
             windowSize < list.size()) {
 
             int calcIndex = (list.size() - windowSize) + index;
@@ -132,7 +132,7 @@ public class ListUnivariateImpl extends AbstractStoreUnivariate {
     public int getN() {
         int N = 0;
 
-        if (windowSize != Univariate.INIFINTE_WINDOW) {
+        if (windowSize != Univariate.INFINITE_WINDOW) {
             if (list.size() > windowSize) {
                 N = windowSize;
             } else {

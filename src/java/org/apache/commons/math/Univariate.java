@@ -73,7 +73,7 @@
  * @author Phil Steitz
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
  * @author Mark Diggory
- * @version $Revision: 1.6 $ $Date: 2003/05/23 17:33:18 $
+ * @version $Revision: 1.7 $ $Date: 2003/05/26 17:40:20 $
  * 
 */
 public interface Univariate {
@@ -179,7 +179,7 @@ public interface Univariate {
      * elements.  In other words, if getWindow returns this
      * constant, there is, in effect, no "window".
      */
-    static final int INIFINTE_WINDOW = -1;
+    static final int INFINITE_WINDOW = -1;
 
     /**
      * Univariate has the ability to return only measures for the

@@ -67,13 +67,13 @@ import java.io.Serializable;
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
  * @author Mark Diggory
  * @author Brent Worden
- * @version $Revision: 1.7 $ $Date: 2003/05/23 17:33:18 $
+ * @version $Revision: 1.8 $ $Date: 2003/05/26 17:40:20 $
  * 
 */
 public class UnivariateImpl implements Univariate, Serializable {
 
     /** hold the window size **/
-    private int windowSize = Univariate.INIFINTE_WINDOW;
+    private int windowSize = Univariate.INFINITE_WINDOW;
 
     /** Just in case, the windowSize is not inifinite, we need to
      *   keep an array to remember values 0 to N
@@ -175,7 +175,7 @@ public class UnivariateImpl implements Univariate, Serializable {
             product = 1.0;
         }
 
-        if( windowSize != Univariate.INIFINTE_WINDOW ) {
+        if( windowSize != Univariate.INFINITE_WINDOW ) {
 
             if( windowSize == n ) {
                 double discarded = doubleArray.addElementRolling( v );
