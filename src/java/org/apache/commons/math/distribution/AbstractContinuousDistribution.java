@@ -53,8 +53,10 @@
  */
 package org.apache.commons.math.stat.distribution;
 
+import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.RootFinding;
-import org.apache.commons.math.analysis.UnivariateFunction;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateRealSolverFactory;
 
 /**
  * Base class for various continuous distributions.  It provides default
@@ -101,22 +103,37 @@ public abstract class AbstractContinuousDistribution
         
         // by default, do simple root finding using bracketing and bisection.
         // subclasses can overide if there is a better method.
-        UnivariateFunction rootFindingFunction = new UnivariateFunction() {
-            public double evaluate(double x) {
+        UnivariateRealFunction rootFindingFunction =
+            new UnivariateRealFunction() {
+                
+            public double value(double x) throws MathException {
                 return cummulativeProbability(x) - p;
+            }
+
+            public double firstDerivative(double x) throws MathException {
+                return 0;
+            }
+
+            public double secondDerivative(double x) throws MathException {
+                return 0;
             }
         };
         
-        // bracket root
-        double[] bracket = RootFinding.bracket(rootFindingFunction,
-            getInitialDomain(p), getDomainLowerBound(p),
-            getDomainUpperBound(p));
+        try {
+            // bracket root
+            double[] bracket = RootFinding.bracket(rootFindingFunction,
+                getInitialDomain(p), getDomainLowerBound(p),
+                getDomainUpperBound(p));
+            
+            // find root
+            double root = UnivariateRealSolverFactory.solve(
+                rootFindingFunction, bracket[0], bracket[1]);
         
-        // find root
-        double root = RootFinding.bisection(rootFindingFunction, bracket[0],
-            bracket[1]);
-        
-        return root;
+            return root;
+        } catch (MathException ex) {
+            // this should never happen.
+            return Double.NaN;
+        }
     }
     
     /**

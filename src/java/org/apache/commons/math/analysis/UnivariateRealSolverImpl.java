@@ -65,24 +65,57 @@ import org.apache.commons.math.MathException;
 public abstract class UnivariateRealSolverImpl
     implements UnivariateRealSolver {
 
+    /** Maximum absolute error. */
     protected double absoluteAccuracy;
+
+    /** Maximum relative error. */
     protected double relativeAccuracy;
+
+    /** Maximum error of function. */
     protected double functionValueAccuracy;
+
+    /** Maximum number of iterations. */
     protected int maximalIterationCount;
 
+    /** Default maximum absolute error. */
     protected double defaultAbsoluteAccuracy;
+
+    /** Default maximum relative error. */
     protected double defaultRelativeAccuracy;
+
+    /** Default maximum error of function. */
     protected double defaultFunctionValueAccuracy;
+
+    /** Default maximum number of iterations. */
     protected int defaultMaximalIterationCount;
 
+    /** Indicates where a root has been computed. */
     protected boolean resultComputed = false;
+
+    /** The last computed root. */
     protected double result;
+
     // Mainly for test framework.
+    /** The last iteration count. */
     protected int iterationCount;
 
+    /** The function to solve. */
+    protected UnivariateRealFunction f;
+
+    /**
+     * Construct a solver with given iteration count and accuracy.
+     * @param f the function to solve.
+     * @param defaultAbsoluteAccuracy maximum absolue error.
+     * @param defaultMaximalIterationCount maximum number of iterations.
+     */
     protected UnivariateRealSolverImpl(
+        UnivariateRealFunction f,
         int defaultMaximalIterationCount,
         double defaultAbsoluteAccuracy) {
+        
+        super();
+        
+        this.f = f;
         this.defaultAbsoluteAccuracy = defaultAbsoluteAccuracy;
         this.defaultRelativeAccuracy = 1E-14;
         this.defaultFunctionValueAccuracy = 1E-15;
@@ -93,48 +126,39 @@ public abstract class UnivariateRealSolverImpl
         this.maximalIterationCount = defaultMaximalIterationCount;
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.UnivariateRealSolver#solve(double, double)
-     */
-    public double solve(double min, double max) throws MathException {
-        throw new UnsupportedOperationException();
-    }
-
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.UnivariateRealSolver#solve(double, double, double)
-     */
-    public double solve(double min, double max, double startValue)
-        throws MathException {
-        throw new UnsupportedOperationException();
-    }
-
-    /*
-     * Get result of last solver run.
-     * @see org.apache.commons.math.UnivariateRealSolver#getResult()
+    /**
+     * Access the last computed root.
+     * @return the last computed root.
+     * @throws MathException if no root has been computed.
      */
     public double getResult() throws MathException {
         if (resultComputed) {
             return result;
         } else {
+            // TODO: could this be an IllegalStateException instead?
             throw new MathException("No result available");
         }
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.UnivariateRealSolver#getIterationCount()
+    /**
+     * Access the last iteration count.
+     * @return the last iteration count.
+     * @throws MathException if no root has been computed.
+     *  
      */
     public int getIterationCount() throws MathException {
         if (resultComputed) {
             return iterationCount;
         } else {
+            // TODO: could this be an IllegalStateException instead?
             throw new MathException("No result available");
         }
     }
 
-    /*
+    /**
      * Convenience function for implementations.
      * @param result the result to set
-     * @param iteratinCount the iteration count to set
+     * @param iterationCount the iteration count to set
      */
     protected final void setResult(double result, int iterationCount) {
         this.result = result;
@@ -142,97 +166,116 @@ public abstract class UnivariateRealSolverImpl
         this.resultComputed = true;
     }
 
-    /*
+    /**
      * Convenience function for implementations.
      */
     protected final void clearResult() {
         this.resultComputed = false;
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.UnivariateRealSolver#setAccuracy(double)
+    /**
+     * Set the absolute accuracy.
+     * 
+     * @param accuracy the accuracy.
+     * @throws MathException if the accuracy can't be achieved by the solver or
+     *         is otherwise deemed unreasonable. 
      */
     public void setAbsoluteAccuracy(double accuracy)
         throws MathException {
         absoluteAccuracy = accuracy;
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.UnivariateRealSolver#getAccuracy()
+    /**
+     * Get the actual absolute accuracy.
+     * 
+     * @return the accuracy
      */
     public double getAbsoluteAccuracy() {
         return absoluteAccuracy;
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.UnivariateRealSolver#resetAbsoluteAccuracy()
+    /**
+     * Reset the absolute accuracy to the default.
      */
     public void resetAbsoluteAccuracy() {
         absoluteAccuracy = defaultAbsoluteAccuracy;
     }
 
-    /* Set maximum iteration count.
-     * @see org.apache.commons.math.UnivariateRealSolver#setMaximalIterationCount(int)
+    /**
+     * Set the upper limit for the number of iterations.
+     * 
+     * @param count maximum number of iterations
      */
     public void setMaximalIterationCount(int count) {
         maximalIterationCount = count;
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.UnivariateRealSolver#getMaximalIterationCount()
+    /**
+     * Get the upper limit for the number of iterations.
+     * 
+     * @return the actual upper limit
      */
     public int getMaximalIterationCount() {
         return maximalIterationCount;
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.UnivariateRealSolver#resetMaximalIterationCount()
+    /**
+     * Reset the upper limit for the number of iterations to the default.
      */
     public void resetMaximalIterationCount() {
         maximalIterationCount = defaultMaximalIterationCount;
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.UnivariateRealSolver#setRelativeAccuracy(double)
+    /**
+     * Set the relative accuracy.
+     * 
+     * @param accuracy the relative accuracy.
+     * @throws MathException if the accuracy can't be achieved by the solver or
+     *         is otherwise deemed unreasonable. 
      */
     public void setRelativeAccuracy(double accuracy) throws MathException {
         relativeAccuracy = accuracy;
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.UnivariateRealSolver#getRelativeAccuracy()
+    /**
+     * Get the actual relative accuracy.
+     * @return the accuracy
      */
     public double getRelativeAccuracy() {
         return relativeAccuracy;
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.UnivariateRealSolver#resetRelativeAccuracy()
+    /**
+     * Reset the relative accuracy to the default.
      */
     public void resetRelativeAccuracy() {
         relativeAccuracy = defaultRelativeAccuracy;
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.UnivariateRealSolver#setFunctionValueAccuracy(double)
+    /**
+     * Set the function value accuracy.
+     * 
+     * @param accuracy the accuracy.
+     * @throws MathException if the accuracy can't be achieved by the solver or
+     *         is otherwise deemed unreasonable. 
      */
     public void setFunctionValueAccuracy(double accuracy)
         throws MathException {
         functionValueAccuracy = accuracy;
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.UnivariateRealSolver#getFunctionValueAccuracy()
+    /**
+     * Get the actual function value accuracy.
+     * @return the accuracy
      */
     public double getFunctionValueAccuracy() {
         return functionValueAccuracy;
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.UnivariateRealSolver#resetFunctionValueAccuracy()
+    /**
+     * Reset the actual function accuracy to the default.
      */
     public void resetFunctionValueAccuracy() {
         functionValueAccuracy = defaultFunctionValueAccuracy;
     }
-
 }

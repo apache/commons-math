@@ -55,77 +55,73 @@ package org.apache.commons.math.analysis;
 
 import org.apache.commons.math.MathException;
 
+import junit.framework.TestCase;
+
 /**
- * Utility class comprised of root finding techniques.
  *
- * @author Brent Worden
  */
-public class RootFinding {
-    /** Maximum allowed numerical error. */
-    private static final double EPSILON = 10e-9;
-
+public final class BisectionSolverTest extends TestCase {
     /**
-     * Default constructor. Prohibit construction.
+     *
      */
-    private RootFinding() {
-        super();
+    public BisectionSolverTest(String name) {
+        super(name);
     }
 
     /**
-     * For a function, f, this method returns two values, a and b that bracket
-     * a root of f.  That is to say, there exists a value c between a and b
-     * such that f(c) = 0.
      *
-     * @param function the function
-     * @param initial midpoint of the returned range.
-     * @param lowerBound for numerical safety, a never is less than this value.
-     * @param upperBound for numerical safety, b never is greater than this
-     *                   value.
-     * @return a two element array holding {a, b}.
-     * @throws MathException if a root can not be bracketted.
      */
-    public static double[] bracket(UnivariateRealFunction function,
-                                   double initial,
-                                   double lowerBound,
-                                   double upperBound) throws MathException {
-        return bracket( function, initial, lowerBound, upperBound,
-            Integer.MAX_VALUE ) ;
+    public void testSinZero() throws MathException {
+        UnivariateRealFunction f = new SinFunction();
+        double result;
+        
+        UnivariateRealSolver solver = new BisectionSolver(f);
+        result = solver.solve(3, 4);
+        assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
+
+        result = solver.solve(1, 4);
+        assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
     }
 
     /**
-     * For a function, f, this method returns two values, a and b that bracket
-     * a root of f.  That is to say, there exists a value c between a and b
-     * such that f(c) = 0.
      *
-     * @param function the function
-     * @param initial midpoint of the returned range.
-     * @param lowerBound for numerical safety, a never is less than this value.
-     * @param upperBound for numerical safety, b never is greater than this
-     *                   value.
-     * @param maximumIterations to guard against infinite looping, maximum
-     *                          number of iterations to perform
-     * @return a two element array holding {a, b}.
-     * @throws MathException if a root can not be bracketted.
      */
-    public static double[] bracket(UnivariateRealFunction function,
-                                   double initial,
-                                   double lowerBound,
-                                   double upperBound,
-                                   int maximumIterations) throws MathException {
-        double a = initial;
-        double b = initial;
-        double fa;
-        double fb;
-        int numIterations = 0 ;
+    public void testQuinticZero() throws MathException {
+        UnivariateRealFunction f = new QuinticFunction();
+        double result;
 
-        do {
-            a = Math.max(a - 1.0, lowerBound);
-            b = Math.min(b + 1.0, upperBound);
-            fa = function.value(a);
-            fb = function.value(b);
-            numIterations += 1 ;
-        } while ( (fa * fb > 0.0) && ( numIterations < maximumIterations ) );
+        UnivariateRealSolver solver = new BisectionSolver(f);
+        result = solver.solve(-0.2, 0.2);
+        assertEquals(result, 0, solver.getAbsoluteAccuracy());
 
-        return new double[]{a, b};
+        result = solver.solve(-0.1, 0.3);
+        assertEquals(result, 0, solver.getAbsoluteAccuracy());
+
+        result = solver.solve(-0.3, 0.45);
+        assertEquals(result, 0, solver.getAbsoluteAccuracy());
+
+        result = solver.solve(0.3, 0.7);
+        assertEquals(result, 0.5, solver.getAbsoluteAccuracy());
+
+        result = solver.solve(0.2, 0.6);
+        assertEquals(result, 0.5, solver.getAbsoluteAccuracy());
+
+        result = solver.solve(0.05, 0.95);
+        assertEquals(result, 0.5, solver.getAbsoluteAccuracy());
+
+        result = solver.solve(0.85, 1.25);
+        assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
+
+        result = solver.solve(0.8, 1.2);
+        assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
+
+        result = solver.solve(0.85, 1.75);
+        assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
+
+        result = solver.solve(0.55, 1.45);
+        assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
+
+        result = solver.solve(0.85, 5);
+        assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
     }
 }

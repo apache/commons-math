@@ -66,16 +66,36 @@ import org.apache.commons.math.MathException;
  * @author pietsch at apache.org
  */
 public class SecantSolver extends UnivariateRealSolverImpl {
-
-    private UnivariateRealFunction f;
-
+    /**
+     * Construct a solver for the given function.
+     * @param f function to solve.
+     */
     public SecantSolver(UnivariateRealFunction f) {
-        super(100, 1E-6);
-        this.f = f;
+        super(f, 100, 1E-6);
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.UnivariateRealSolver#solve(double, double)
+    /**
+     * Solve for a zero in the given interval.
+     * @param min the lower bound for the interval.
+     * @param max the upper bound for the interval.
+     * @param initial the start value to use (ignored).
+     * @return the value where the function is zero
+     * @throws MathException if the iteration count was exceeded or the
+     *  solver detects convergence problems otherwise.
+     */
+    public double solve(double min, double max, double initial)
+        throws MathException {
+            
+        return solve(min, max);
+    }
+    
+    /**
+     * Solve for a zero root in the given interval.
+     * @param min the lower bound for the interval.
+     * @param max the upper bound for the interval.
+     * @return the value where the function is zero
+     * @throws MathException if the iteration count was exceeded or the
+     *  solver detects convergence problems otherwise.
      */
     public double solve(double min, double max) throws MathException {
         clearResult();
@@ -88,7 +108,7 @@ public class SecantSolver extends UnivariateRealSolverImpl {
         double x1 = max;
         double y0 = f.value(x0);
         double y1 = f.value(x1);
-        if ((y0>0)== (y1>0)) {
+        if ((y0 > 0) == (y1 > 0)) {
             throw new MathException("Interval doesn't bracket a zero.");
         }
         double x2 = x0;
@@ -117,21 +137,19 @@ public class SecantSolver extends UnivariateRealSolverImpl {
             if (Math.abs(y1) > Math.abs(y0)) {
                 // Function value increased in last iteration. Force bisection.
                 delta = 0.5 * oldDelta;
-//                System.out.println("Forced Bisection");
             } else {
                 delta = (x0 - x1) / (1 - y0 / y1);
-                // System.out.println("delta=" + delta + " olddelta=" + oldDelta);
                 if (delta / oldDelta > 1) {
-                    // New approximation falls outside bracket. Fall back to bisection.
+                    // New approximation falls outside bracket.
+                    // Fall back to bisection.
                     delta = 0.5 * oldDelta;
-//                    System.out.println("Fallback Bisection");
                 }
             }
             x0 = x1;
             y0 = y1;
             x1 = x1 + delta;
             y1 = f.value(x1);
-            if ((y1>0) == (y2>0)) {
+            if ((y1 > 0) == (y2 > 0)) {
                 // New bracket is (x0,x1).                    
                 x2 = x0;
                 y2 = y0;

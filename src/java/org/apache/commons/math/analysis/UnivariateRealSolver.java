@@ -66,23 +66,27 @@ public interface UnivariateRealSolver {
 
     /**
      * Set the upper limit for the number of iterations.
+     * 
      * Usually a high iteration count indicates convergence problems. However,
      * the "reasonable value" varies widely for different solvers, users are
-     * advised to use the default value supplied by the solver. 
+     * advised to use the default value supplied by the solver.
+     *  
      * An exception will be thrown if the number is exceeded.
      *  
-     * @param count
+     * @param count maximum number of iterations
      */
     public void setMaximalIterationCount(int count);
 
     /**
      * Get the upper limit for the number of iterations.
+     * 
      * @return the actual upper limit
      */
     public int getMaximalIterationCount();
 
     /**
      * Reset the upper limit for the number of iterations to the default.
+     * 
      * The default value is supplied by the solver implementation.
      * 
      * @see #setMaximalIterationCount(int)
@@ -91,41 +95,50 @@ public interface UnivariateRealSolver {
 
     /**
      * Set the absolute accuracy.
+     * 
      * The default is usually choosen so taht roots in the interval
-     * -10..-0.1 and +0.1..+10 can be found wit a reasonable accuracy. If the expected
-     * absolute value of your roots is of much smaller magnitude, set this to a smaller
-     * value.
-     * Solvers are advised to do a plausibility check with the relative accuracy, but
-     * clients should not rely on this. 
+     * -10..-0.1 and +0.1..+10 can be found wit a reasonable accuracy. If the
+     * expected absolute value of your roots is of much smaller magnitude, set
+     * this to a smaller value.
+     * 
+     * Solvers are advised to do a plausibility check with the relative
+     * accuracy, but clients should not rely on this.
+     *  
      * @param accuracy the accuracy.
-     * @throws MathException if the accuracy can't be achieved by the solver or is
-     * otherwise deemed unreasonable. 
+     * @throws MathException if the accuracy can't be achieved by the solver or
+     *         is otherwise deemed unreasonable. 
      */
     public void setAbsoluteAccuracy(double accuracy) throws MathException;
 
     /**
      * Get the actual absolute accuracy.
+     * 
      * @return the accuracy
      */
     public double getAbsoluteAccuracy();
 
     /**
      * Reset the absolute accuracy to the default.
+     * 
      * The default value is provided by the solver implementation.
      */
     public void resetAbsoluteAccuracy();
 
     /**
      * Set the relative accuracy.
-     * This is used to stop iterations if the absolute accuracy can't be achieved
-     * due to large values or short mantissa length.
-     * If this should be the primary criterium for convergence rather then a safety
-     * measure, set the absolute accuracy to a ridiculously small value, like 1E-1000.
+     * 
+     * This is used to stop iterations if the absolute accuracy can't be
+     * achieved due to large values or short mantissa length.
+     * 
+     * If this should be the primary criterium for convergence rather then a
+     * safety measure, set the absolute accuracy to a ridiculously small value,
+     * like 1E-1000.
+     * 
      * @param accuracy the relative accuracy.
-     * @throws MathException if the accuracy can't be achieved by the solver or is
-     * otherwise deemed unreasonable. 
+     * @throws MathException if the accuracy can't be achieved by the solver or
+     *         is otherwise deemed unreasonable. 
      */
-    public void setRelativeAccuracy(double Accuracy) throws MathException;
+    public void setRelativeAccuracy(double accuracy) throws MathException;
 
     /**
      * Get the actual relative accuracy.
@@ -141,14 +154,18 @@ public interface UnivariateRealSolver {
 
     /**
      * Set the function value accuracy.
+     * 
      * This is used to determine whan an evaluated function value or some other
      * value which is used as divisor is zero.
-     * This is a safety guard and it shouldn't be necesary to change this in general.
+     * 
+     * This is a safety guard and it shouldn't be necesary to change this in
+     * general.
+     * 
      * @param accuracy the accuracy.
-     * @throws MathException if the accuracy can't be achieved by the solver or is
-     * otherwise deemed unreasonable. 
+     * @throws MathException if the accuracy can't be achieved by the solver or
+     *         is otherwise deemed unreasonable. 
      */
-    public void setFunctionValueAccuracy(double Accuracy) throws MathException;
+    public void setFunctionValueAccuracy(double accuracy) throws MathException;
 
     /**
      * Get the actual function value accuracy.
