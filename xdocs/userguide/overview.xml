@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.10 $ $Date: 2004/04/26 20:06:50 $ -->
+<!-- $Revision: 1.11 $ $Date: 2004/06/08 05:37:43 $ -->
 <document>
   <properties>
     <title>User Guide - Overview</title>
@@ -108,7 +108,6 @@
     Commons Math requires JDK 1.2+ and has no dependencies other than the following Jakarta Commons
     components:
     <ul>
-    <li>commons-beanutils 1.6.1 </li>
     <li>commons-collections 3.0 </li>
     <li>commons-discovery 0.2 </li>
     <li>commons-lang 2.0 </li>
