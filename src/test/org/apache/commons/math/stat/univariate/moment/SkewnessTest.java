@@ -24,7 +24,7 @@ import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 /**
  * Test cases for the {@link UnivariateStatistic} class.
  * 
- * @version $Revision: 1.11 $ $Date: 2004/06/17 21:37:05 $
+ * @version $Revision: 1.12 $ $Date: 2004/07/10 17:10:42 $
  */
 public class SkewnessTest extends StorelessUnivariateStatisticAbstractTest{
 
@@ -55,6 +55,21 @@ public class SkewnessTest extends StorelessUnivariateStatisticAbstractTest{
      */
     public double expectedValue() {
         return this.skew;
+    }
+    
+    /**
+     * Make sure Double.NaN is returned iff n < 3
+     *
+     */
+    public void testNaN() {
+        Skewness skew = new Skewness();
+        assertTrue(Double.isNaN(skew.getResult()));
+        skew.increment(1d);
+        assertTrue(Double.isNaN(skew.getResult()));
+        skew.increment(1d);
+        assertTrue(Double.isNaN(skew.getResult()));
+        skew.increment(1d);
+        assertFalse(Double.isNaN(skew.getResult()));      
     }
 
 }
