@@ -15,14 +15,18 @@
  */
 package org.apache.commons.math.analysis;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.MathException;
 
 /**
  * Auxillary class for testing solvers.
  *
- * @version $Revision: 1.12 $ $Date: 2004/04/08 21:19:17 $ 
+ * @version $Revision: 1.13 $ $Date: 2004/06/02 00:12:01 $ 
  */
-public class QuinticFunction implements DifferentiableUnivariateRealFunction {
+public class QuinticFunction implements DifferentiableUnivariateRealFunction, Serializable {
+
+    static final long serialVersionUID = -8866263034920607152L;
 
     /* Evaluate quintic.
      * @see org.apache.commons.math.UnivariateRealFunction#value(double)
