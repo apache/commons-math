@@ -39,23 +39,6 @@ The Math project is a library of lightweight, self-contained mathematics and sta
     </developer>    
   </developers>
 
-  <dependencies>
-
-    <dependency>
-      <id>commons-beanutils</id>
-      <version>1.5</version>
-    </dependency>
-    <dependency>
-      <id>commons-collections</id>
-      <version>2.1</version>
-    </dependency>
-    <dependency>
-      <id>commons-logging</id>
-      <version>1.0.3</version>
-    </dependency>
-
-  </dependencies>
-
   <contributors>
    <contributor>
      <name>Phil Steitz</name>
@@ -72,10 +55,18 @@ The Math project is a library of lightweight, self-contained mathematics and sta
   </contributors>  
 
   <dependencies>
-<!--    <dependency>
-      <id>junit</id>
-      <version>3.8</version>
-    </dependency> -->
+    <dependency>
+      <id>commons-beanutils</id>
+      <version>1.5</version>
+    </dependency>
+    <dependency>
+      <id>commons-collections</id>
+      <version>2.1</version>
+    </dependency>
+    <dependency>
+      <id>commons-logging</id>
+      <version>1.0.3</version>
+    </dependency>
   </dependencies>
 
   <issueTrackingUrl>http://nagoya.apache.org/bugzilla/buglist.cgi?bug_status=NEW&amp;bug_status=ASSIGNED&amp;bug_status=REOPENED&amp;email1=&amp;emailtype1=substring&amp;emailassigned_to1=1&amp;email2=&amp;emailtype2=substring&amp;emailreporter2=1&amp;bugidtype=include&amp;bug_id=&amp;changedin=&amp;votes=&amp;chfieldfrom=&amp;chfieldto=Now&amp;chfieldvalue=&amp;product=Commons&amp;component=Sandbox&amp;short_desc=&amp;short_desc_type=allwordssubstr&amp;long_desc=&amp;long_desc_type=allwordssubstr&amp;bug_file_loc=&amp;bug_file_loc_type=allwordssubstr&amp;keywords=&amp;keywords_type=anywords&amp;field0-0-0=noop&amp;type0-0-0=noop&amp;value0-0-0=&amp;cmdtype=doit&amp;order=%27Importance%27</issueTrackingUrl>
