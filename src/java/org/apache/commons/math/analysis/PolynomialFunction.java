@@ -23,7 +23,7 @@ import java.io.Serializable;
  * <a href="http://mathworld.wolfram.com/HornersMethod.html">Horner's Method</a>
  *  is used to evaluate the function.   
  *
- * @version $Revision: 1.11 $ $Date: 2004/06/23 16:26:14 $
+ * @version $Revision: 1.12 $ $Date: 2004/07/20 12:55:01 $
  */
 public class PolynomialFunction implements DifferentiableUnivariateRealFunction, Serializable {
 
@@ -31,13 +31,17 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
     static final long serialVersionUID = 3322454535052136809L;
     
     /**
-     * The coefficients of the polynomial, ordered by degree -- i.e.,  coefficients[0] is the constant term
-     * and coefficients[n] is the coefficient of x^n where n is the degree of the polynomial.
+     * The coefficients of the polynomial, ordered by degree -- i.e.,  
+     * coefficients[0] is the constant term and coefficients[n] is the 
+     * coefficient of x^n where n is the degree of the polynomial.
      */
     private double coefficients[];
 
     /**
-     * Construct a polynomial with the given coefficients.
+     * Construct a polynomial with the given coefficients.  The first element
+     * of the coefficients array is the constant term.  Higher degree
+     * coefficients follow in sequence.  The degree of the resulting polynomial
+     * is the length of the array minus 1. 
      * <p>
      * The constructor makes a copy of the input array and assigns the copy to
      *  the coefficients property.

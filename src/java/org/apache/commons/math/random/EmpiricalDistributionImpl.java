@@ -49,12 +49,12 @@ import org.apache.commons.math.stat.univariate.StatisticalSummary;
  *<strong>USAGE NOTES:</strong><ul>
  *<li>The <code>binCount</code> is set by default to 1000.  A good rule of thumb
  *    is to set the bin count to approximately the length of the input file divided
- *    by 10.  See TODO: add reference </li>
+ *    by 10. </li>
  *<li>The input file <i>must</i> be a plain text file containing one valid numeric
  *    entry per line.</li>
  * </ul></p>
  *
- * @version $Revision: 1.28 $ $Date: 2004/07/18 23:57:11 $
+ * @version $Revision: 1.29 $ $Date: 2004/07/20 12:53:54 $
  */
 public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistribution {
 
