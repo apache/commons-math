@@ -113,10 +113,10 @@ public class Gamma {
     public static double regularizedGammaP(double a, double x, double epsilon, int maxIterations) {
         double ret;
 
-        if (a <= 0.0) {
-            throw new IllegalArgumentException("a must be positive");
-        } else if (x <= 0.0) {
-            throw new IllegalArgumentException("x must be non-negative");
+        if (Double.isNaN(a) || Double.isNaN(x) || (a <= 0.0) || (x < 0.0)) {
+            ret = Double.NaN;
+        } else if (x == 0.0) {
+            ret = 0.0;
         } else {
             // calculate series
             double n = 0.0; // current element index
@@ -165,9 +165,8 @@ public class Gamma {
     public static double logGamma(double x, double epsilon, int maxIterations) {
         double ret;
 
-        if (x <= 0.0) {
-            throw new IllegalArgumentException(
-                "x must be non-negative");
+        if (Double.isNaN(x) || (x <= 0.0)) {
+            ret = Double.NaN;
         } else {
             double g = 607.0 / 128.0;
 
@@ -205,3 +204,4 @@ public class Gamma {
         return ret;
     }
 }
+
