@@ -36,7 +36,7 @@ import org.apache.commons.math.stat.univariate.SummaryStatistics;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.3 $ $Date: 2004/06/01 22:15:51 $
+ * @version $Revision: 1.4 $ $Date: 2004/06/01 23:40:29 $
  */
 public abstract class CertifiedDataAbstractTest extends TestCase {
 	
@@ -134,19 +134,11 @@ public abstract class CertifiedDataAbstractTest extends TestCase {
  	}
 	
 	
-	protected Object getProperty(Object bean, String name){
-	    
+	protected Object getProperty(Object bean, String name) throws Exception{
 	    // Get the value of prop
 	    String prop = "get" + name.substring(0,1).toUpperCase() + name.substring(1);
-	    
         Expression expr = new Expression(bean, prop, new Object[0]);
-        try {
-            expr.execute();
-            return expr.getValue();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        return null;
+        expr.execute();
+        return expr.getValue();
 	}
 }
