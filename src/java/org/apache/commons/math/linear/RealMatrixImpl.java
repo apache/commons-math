@@ -21,8 +21,8 @@ import org.apache.commons.math.util.MathUtils;
 
 
 /**
- * Implementation for RealMatrix using a double[][] array to store entries
- * and <a href="http://www.math.gatech.edu/~bourbaki/math2601/Web-notes/2num.pdf">
+ * Implementation for RealMatrix using a double[][] array to store entries and
+ * <a href="http://www.math.gatech.edu/~bourbaki/math2601/Web-notes/2num.pdf">
  * LU decompostion</a> to support linear system
  * solution and inverse.
  * <p>
@@ -34,19 +34,18 @@ import org.apache.commons.math.util.MathUtils;
  * <p>
  * <strong>Usage notes</strong>:<br>
  * <ul><li>
- * The LU decomposition is stored and reused on subsequent calls.  If matrix
- * data are modified using any of the public setXxx methods, the saved
- * decomposition is discarded.  If data are modified via references to the
- * underlying array obtained using <code>getDataRef()</code>, then the stored
- * LU decomposition will not be discarded.  In this case, you need to
- * explicitly invoke <code>LUDecompose()</code> to recompute the decomposition
+ * The LU decomposition is cached and reused on subsequent calls.   
+ * If data are modified via references to the underlying array obtained using
+ * <code>getDataRef()</code>, then the stored LU decomposition will not be
+ * discarded.  In this case, you need to explicitly invoke 
+ * <code>LUDecompose()</code> to recompute the decomposition
  * before using any of the methods above.</li>
  * <li>
  * As specified in the {@link RealMatrix} interface, matrix element indexing
  * is 0-based -- e.g., <code>getEntry(0, 0)</code>
  * returns the element in the first row, first column of the matrix.</li></ul>
  *
- * @version $Revision: 1.32 $ $Date: 2004/10/10 18:00:33 $
+ * @version $Revision: 1.33 $ $Date: 2004/10/12 06:19:50 $
  */
 public class RealMatrixImpl implements RealMatrix, Serializable {
     
@@ -280,17 +279,6 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     }
 
     /**
-     * Overwrites the underlying data for the matrix
-     * with a fresh copy of <code>inData</code>.
-     *
-     * @param  inData 2-dimensional array of entries
-     */
-    public void setData(double[][] inData) {
-        copyIn(inData);
-        lu = null;
-    }
-
-    /**
      * Returns a reference to the underlying data array.
      * <p>
      * Does not make a fresh copy of the underlying data.
@@ -299,19 +287,6 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      */
     public double[][] getDataRef() {
         return data;
-    }
-
-    /**
-     * Overwrites the underlying data for the matrix
-     * with a reference to <code>inData</code>.
-     * <p>
-     * Does not make a fresh copy of <code>data</code>.
-     *
-     * @param  inData 2-dimensional array of entries
-     */
-    public void setDataRef(double[][] inData) {
-        this.data = inData;
-        lu = null;
     }
 
     /**
@@ -495,30 +470,6 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
             throw new MatrixIndexException("matrix entry does not exist");
         }
         return data[row][column];
-    }
-
-    /**
-     * Sets the entry in the specified row and column to the specified value.
-     * <p>
-     * Row and column indices start at 0 and must satisfy 
-     * <ul>
-     * <li><code>0 <= row < rowDimension</code></li>
-     * <li><code> 0 <= column < columnDimension</code></li>
-     * </ul>
-     * otherwise a <code>MatrixIndexException</code> is thrown.
-     * 
-     * @param row    row location of entry to be set 
-     * @param column    column location of entry to be set
-     * @param value  value to set 
-     * @throws MatrixIndexException if the row or column index is not valid
-     */
-    public void setEntry(int row, int column, double value)
-        throws MatrixIndexException {
-        if (!isValidCoordinate(row,column)) {
-            throw new MatrixIndexException("matrix entry does not exist");
-        }
-        data[row][column] = value;
-        lu = null;
     }
 
     /**

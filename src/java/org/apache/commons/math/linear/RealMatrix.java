@@ -22,7 +22,7 @@ package org.apache.commons.math.linear;
  * Matrix element indexing is 0-based -- e.g., <code>getEntry(0, 0)</code>
  * returns the element in the first row, first column of the matrix.
  * 
- * @version $Revision: 1.24 $ $Date: 2004/10/09 22:39:22 $
+ * @version $Revision: 1.25 $ $Date: 2004/10/12 06:19:50 $
  */
 public interface RealMatrix {
 
@@ -92,14 +92,6 @@ public interface RealMatrix {
      * @return    2-dimensional array of entries
      */
     double[][] getData();
-
-    /**
-     * Overwrites the underlying data for the matrix with
-     * a fresh copy of <code>data</code>.
-     *
-     * @param  data  2-dimensional array of entries
-     */
-    void setData(double[][] data);
 
     /**
      * Returns the <a href="http://mathworld.wolfram.com/MaximumAbsoluteRowSumNorm.html">
@@ -197,24 +189,6 @@ public interface RealMatrix {
      * @throws MatrixIndexException if the row or column index is not valid
      */
     double getEntry(int row, int column) throws MatrixIndexException;
-
-    /**
-     * Sets the entry in the specified row and column to the specified value.
-     * <p>
-     * Row and column indices start at 0 and must satisfy 
-     * <ul>
-     * <li><code>0 <= row < rowDimension</code></li>
-     * <li><code> 0 <= column < columnDimension</code></li>
-     * </ul>
-     * otherwise a <code>MatrixIndexException</code> is thrown.
-     * 
-     * @param row    row location of entry to be set 
-     * @param column    column location of entry to be set
-     * @param value  value to set 
-     * @throws MatrixIndexException if the row or column index is not valid
-     */
-    void setEntry(int row, int column, double value)
-        throws MatrixIndexException;
 
     /**
      * Returns the transpose of this matrix.

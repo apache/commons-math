@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.8 $ $Date: 2004/05/17 05:57:38 $ -->
+<!-- $Revision: 1.9 $ $Date: 2004/10/12 06:19:50 $ -->
 <document url="linear.html">
 
   <properties>
@@ -56,11 +56,10 @@ RealMatrix m = new RealMatrixImpl(matrixData);
 
 // One more with three rows, two columns
 double[][] matrixData2 = { {1d,2d}, {2d,5d}, {1d, 7d}};
-RealMatrix n = new RealMatixImpl();
-n.setData(matrixData2); 
+RealMatrix n = new RealMatixImpl(matrixData2);
 
-// Note: both constructor and setData make
-// Fresh copies of input double[][] arrays
+// Note: constructor makes a
+// Fresh copy of the input double[][] array
 
 // Now multiply m by n
 RealMatrix p = m.multiply(n);

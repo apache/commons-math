@@ -22,7 +22,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link RealMatrixImpl} class.
  *
- * @version $Revision: 1.19 $ $Date: 2004/10/10 18:01:16 $
+ * @version $Revision: 1.20 $ $Date: 2004/10/12 06:19:50 $
  */
 
 public final class RealMatrixImplTest extends TestCase {
@@ -111,25 +111,13 @@ public final class RealMatrixImplTest extends TestCase {
         assertEquals("testData2 row dimension",m2.getRowDimension(),2);
         assertEquals("testData2 column dimension",m2.getColumnDimension(),3);
         assertTrue("testData2 is not square",!m2.isSquare());
-        RealMatrixImpl m3 = new RealMatrixImpl();
-        m3.setData(testData);
     } 
     
     /** test copy functions */
     public void testCopyFunctions() {
         RealMatrixImpl m = new RealMatrixImpl(testData);
-        RealMatrixImpl m2 = new RealMatrixImpl(testData2);
-        m2.setData(m.getData());
-        assertClose("getData",m2,m,entryTolerance);
-        // no dangling reference...
-        m2.setEntry(1,1,2000d);
-        RealMatrixImpl m3 = new RealMatrixImpl(testData);
-        assertClose("no getData side effect",m,m3,entryTolerance);
-        m3 = (RealMatrixImpl) m.copy();
-        double[][] stompMe = {{1d,2d,3d}};
-        m3.setDataRef(stompMe);
-        assertClose("no copy side effect",m,new RealMatrixImpl(testData),
-            entryTolerance);
+        RealMatrixImpl m2 = new RealMatrixImpl(m.getData());
+        assertEquals(m2,m);
     }           
     
     /** test add */
@@ -418,22 +406,14 @@ public final class RealMatrixImplTest extends TestCase {
         }
     }
     
-    public void testEntryMutators() {
+    public void testGetEntry() {
         RealMatrix m = new RealMatrixImpl(testData);
         assertEquals("get entry",m.getEntry(0,1),2d,entryTolerance);
-        m.setEntry(1,2,100d);
-        assertEquals("get entry",m.getEntry(1,2),100d,entryTolerance);
         try {
-            double x = m.getEntry(-1,2);
-            fail("expecting MatrixIndexException");
+            m.getEntry(10, 4);
+            fail ("Expecting MatrixIndexException");
         } catch (MatrixIndexException ex) {
-            ;
-        }
-        try {
-            m.setEntry(1,4,200d);
-            fail("expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
-            ;
+            // expected
         }
     }
         
@@ -475,8 +455,7 @@ public final class RealMatrixImplTest extends TestCase {
         RealMatrix m = new RealMatrixImpl(matrixData);
         // One more with three rows, two columns
         double[][] matrixData2 = { {1d,2d}, {2d,5d}, {1d, 7d}};
-        RealMatrix n = new RealMatrixImpl();
-        n.setData(matrixData2); 
+        RealMatrix n = new RealMatrixImpl(matrixData2);
         // Now multiply m by n
         RealMatrix p = m.multiply(n);
         assertEquals(2, p.getRowDimension());
@@ -652,24 +631,24 @@ public final class RealMatrixImplTest extends TestCase {
     }
     
     /** extracts the l  and u matrices from compact lu representation */
-    protected void splitLU(RealMatrix lu, RealMatrix lower, RealMatrix upper) throws InvalidMatrixException {
-        if (!lu.isSquare() || !lower.isSquare() || !upper.isSquare() ||
-                lower.getRowDimension() != upper.getRowDimension() 
-                || lower.getRowDimension() != lu.getRowDimension()) {
+    protected void splitLU(RealMatrix lu, double[][] lowerData, double[][] upperData) throws InvalidMatrixException {   
+        if (!lu.isSquare() || lowerData.length != lowerData[0].length || upperData.length != upperData[0].length ||
+                lowerData.length != upperData.length
+                || lowerData.length != lu.getRowDimension()) {
             throw new InvalidMatrixException("incorrect dimensions");
         }    
         int n = lu.getRowDimension();
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 if (j < i) {
-                    lower.setEntry(i, j, lu.getEntry(i, j));
-                    upper.setEntry(i, j, 0d);
+                    lowerData[i][j] = lu.getEntry(i, j);
+                    upperData[i][j] = 0d;
                 } else if (i == j) {
-                    lower.setEntry(i, j, 1d);
-                    upper.setEntry(i, j, lu.getEntry(i, j));
+                    lowerData[i][j] = 1d;
+                    upperData[i][j] = lu.getEntry(i, j);
                 } else {
-                    lower.setEntry(i, j, 0d);
-                    upper.setEntry(i, j, lu.getEntry(i, j));
+                    lowerData[i][j] = 0d;
+                    upperData[i][j] = lu.getEntry(i, j);
                 }   
             }
         }
@@ -681,21 +660,24 @@ public final class RealMatrixImplTest extends TestCase {
             throw new IllegalArgumentException("dimension mismatch");
         }
         int n = matrix.getRowDimension();
-        RealMatrix out = new RealMatrixImpl(n, n);
+        int m = matrix.getColumnDimension();
+        double out[][] = new double[m][n];
         for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                out.setEntry(i, j, matrix.getEntry(permutation[i], j));
+            for (int j = 0; j < m; j++) {
+                out[i][j] = matrix.getEntry(permutation[i], j);
             }
         }
-        return out;
+        return new RealMatrixImpl(out);
     }
     
     /** Extracts l and u matrices from lu and verifies that matrix = l times u modulo permutation */
     protected void verifyDecomposition(RealMatrix matrix, RealMatrix lu) throws Exception{
         int n = matrix.getRowDimension();
-        RealMatrix lower = new RealMatrixImpl(n, n);
-        RealMatrix upper = new RealMatrixImpl(n, n);
-        splitLU(lu, lower, upper);
+        double[][] lowerData = new double[n][n];
+        double[][] upperData = new double[n][n];
+        splitLU(lu, lowerData, upperData);
+        RealMatrix lower =new RealMatrixImpl(lowerData);
+        RealMatrix upper = new RealMatrixImpl(upperData);
         int[] permutation = ((RealMatrixImpl) matrix).getPermutation();
         RealMatrix permuted = permuteRows(matrix, permutation);
         assertClose("lu decomposition does not work", permuted, lower.multiply(upper), normTolerance);
