@@ -60,7 +60,7 @@ import org.apache.commons.math.stat.univariate.AbstractUnivariateStatistic;
  * one of the threads invokes the <code>increment()</code> or 
  * <code>clear()</code> method, it must be synchronized externally.
  * 
- * @version $Revision: 1.22 $ $Date: 2004/07/04 09:02:36 $
+ * @version $Revision: 1.23 $ $Date: 2004/07/11 18:39:08 $
  */
 public class Percentile extends AbstractUnivariateStatistic implements Serializable {
 
@@ -102,7 +102,8 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * <li>Returns (for any value of <code>p</code>) <code>values[0]</code>
      *  if <code>values</code> has length <code>1</code></li>
      * <li>Throws <code>IllegalArgumentException</code> if <code>values</code>
-     *  is null </li>
+     * is null or p is not a valid quantile value (p must be greater than 0
+     * and less than or equal to 100) </li>
      * </ul>
      * <p>
      * See {@link Percentile} for a description of the percentile estimation
@@ -110,8 +111,9 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * 
      * @param values input array of values
      * @param p the percentile value to compute
-     * @return the result of the evaluation or Double.NaN if the array is empty
-     * @throws IllegalArgumentException if <code>values</code> is null
+     * @return the percentile value or Double.NaN if the array is empty
+     * @throws IllegalArgumentException if <code>values</code> is null 
+     *     or p is invalid
      */
     public double evaluate(final double[] values, final double p) {
         test(values, 0, 0);
@@ -161,7 +163,8 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      *  if <code>length = 1 </code></li>
      * <li>Throws <code>IllegalArgumentException</code> if <code>values</code>
      *  is null , <code>begin</code> or <code>length</code> is invalid, or 
-     * <code>p</code> is not a valid quantile value</li>
+     * <code>p</code> is not a valid quantile value (p must be greater than 0
+     * and less than or equal to 100)</li>
      * </ul>
      * <p>
       * See {@link Percentile} for a description of the percentile estimation

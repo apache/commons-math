@@ -34,7 +34,7 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * one of the threads invokes the <code>increment()</code> or 
  * <code>clear()</code> method, it must be synchronized externally.
  * 
- * @version $Revision: 1.21 $ $Date: 2004/07/10 17:09:08 $
+ * @version $Revision: 1.22 $ $Date: 2004/07/11 18:39:08 $
  */
 public class Min extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -97,7 +97,7 @@ public class Min extends AbstractStorelessUnivariateStatistic implements Seriali
      * @param values the input array
      * @param begin index of the first array element to include
      * @param length the number of elements to include
-     * @return the mean of the values or Double.NaN if length = 0
+     * @return the minimum of the values or Double.NaN if length = 0
      * @throws IllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
