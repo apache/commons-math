@@ -23,7 +23,7 @@ import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
- * @version $Revision: 1.12 $ $Date: 2004/06/17 21:37:05 $
+ * @version $Revision: 1.13 $ $Date: 2004/06/29 06:07:10 $
  */
 public class ProductTest extends StorelessUnivariateStatisticAbstractTest{
 
@@ -58,6 +58,21 @@ public class ProductTest extends StorelessUnivariateStatisticAbstractTest{
      */
     public double expectedValue() {
         return this.product;
+    }
+    
+    public void testSpecialValues() {
+        Product product = new Product();
+        assertTrue(Double.isNaN(product.getResult()));
+        product.increment(1);
+        assertEquals(1, product.getResult(), 0);
+        product.increment(Double.POSITIVE_INFINITY);
+        assertEquals(Double.POSITIVE_INFINITY, product.getResult(), 0);
+        product.increment(Double.NEGATIVE_INFINITY);
+        assertEquals(Double.NEGATIVE_INFINITY, product.getResult(), 0);
+        product.increment(Double.NaN);
+        assertTrue(Double.isNaN(product.getResult())); 
+        product.increment(1);
+        assertTrue(Double.isNaN(product.getResult())); 
     }
 
 }
