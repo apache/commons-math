@@ -20,7 +20,7 @@ package org.apache.commons.math.analysis;
 
 /**
  * @todo add javadoc comment
- * @version $Revision: 1.4 $ $Date: 2004/02/18 03:24:19 $
+ * @version $Revision$ $Date$
  */
 public abstract class UnivariateRealFunctionProxy
     implements UnivariateRealFunction {

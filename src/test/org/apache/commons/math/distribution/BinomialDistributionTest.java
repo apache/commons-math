@@ -20,7 +20,7 @@ package org.apache.commons.math.distribution;
  * Extends IntegerDistributionAbstractTest.  See class javadoc for
  * IntegerDistributionAbstractTest for details.
  * 
- * @version $Revision: 1.16 $ $Date: 2004/11/07 03:32:49 $
+ * @version $Revision$ $Date$
  */
 public class BinomialDistributionTest extends IntegerDistributionAbstractTest {
     

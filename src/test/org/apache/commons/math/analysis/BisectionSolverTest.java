@@ -23,7 +23,7 @@ import org.apache.commons.math.TestUtils;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.12 $ $Date: 2004/07/17 21:19:39 $
+ * @version $Revision$ $Date$
  */
 public final class BisectionSolverTest extends TestCase {
     /**

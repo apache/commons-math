@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.3 $ $Date$ -->
+<!-- $Revision$ $Date$ -->
 <document url="stat.html">
   <properties>
     <title>The Commons Math User Guide - Statistics</title>

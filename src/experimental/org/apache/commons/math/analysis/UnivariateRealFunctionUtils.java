@@ -24,7 +24,7 @@ import org.apache.commons.math.analysis.derivative.ForwardDifferenceDerivative;
 
 /**
  * @todo add javadoc comment
- * @version $Revision: 1.4 $ $Date: 2004/02/18 03:24:19 $
+ * @version $Revision$ $Date$
  */
 public class UnivariateRealFunctionUtils {
 

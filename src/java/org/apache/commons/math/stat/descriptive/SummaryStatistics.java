@@ -23,7 +23,7 @@ import org.apache.commons.math.util.MathUtils;
 /**
  * Abstract factory class for univariate statistical summaries.
  *
- * @version $Revision: 1.1 $ $Date: 2004/10/08 05:08:17 $
+ * @version $Revision$ $Date$
  */
 public abstract class SummaryStatistics implements StatisticalSummary, Serializable {
 

@@ -21,7 +21,7 @@ package org.apache.commons.math;
  * Maintains an <code>argument</code> property holding the input value that
  * caused the function evaluation to fail.
  * 
- * @version $Revision: 1.2 $ $Date: 2004/07/17 21:12:52 $
+ * @version $Revision$ $Date$
  */
 public class FunctionEvaluationException extends MathException  {
     

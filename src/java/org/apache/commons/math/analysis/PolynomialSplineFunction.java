@@ -50,7 +50,7 @@ import org.apache.commons.math.FunctionEvaluationException;
  * than or equal to <code>x</code>.  The value returned is <br>
  * <code>polynomials[j](x - knot[j])</code></li></ol>
  *
- * @version $Revision: 1.9 $ $Date: 2004/07/22 02:34:25 $
+ * @version $Revision$ $Date$
  */
 public class PolynomialSplineFunction implements UnivariateRealFunction, Serializable {
    

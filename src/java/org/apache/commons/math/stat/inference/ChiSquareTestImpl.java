@@ -22,7 +22,7 @@ import org.apache.commons.math.distribution.ChiSquaredDistribution;
 /**
  * Implements Chi-Square test statistics defined in the {@link ChiSquareTest} interface.
  *
- * @version $Revision: 1.11 $ $Date: 2004/12/04 20:47:46 $
+ * @version $Revision$ $Date$
  */
 public class ChiSquareTestImpl implements ChiSquareTest {
     

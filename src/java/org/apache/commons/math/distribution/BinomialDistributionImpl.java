@@ -24,7 +24,7 @@ import org.apache.commons.math.util.MathUtils;
 /**
  * The default implementation of {@link BinomialDistribution}.
  *
- * @version $Revision: 1.19 $ $Date: 2004/11/07 03:32:48 $
+ * @version $Revision$ $Date$
  */
 public class BinomialDistributionImpl
     extends AbstractIntegerDistribution

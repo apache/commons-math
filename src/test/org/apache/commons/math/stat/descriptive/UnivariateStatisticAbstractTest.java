@@ -19,7 +19,7 @@ import junit.framework.TestCase;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
- * @version $Revision: 1.1 $ $Date: 2004/10/08 05:08:19 $
+ * @version $Revision$ $Date$
  */
 public abstract class UnivariateStatisticAbstractTest extends TestCase {
 

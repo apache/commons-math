@@ -22,7 +22,7 @@ import org.apache.commons.math.MathException;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.8 $ $Date: 2004/07/17 21:19:39 $
+ * @version $Revision$ $Date$
  */
 public class UnivariateRealSolverUtilsTest extends TestCase {
     

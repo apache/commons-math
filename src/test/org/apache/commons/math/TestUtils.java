@@ -27,7 +27,7 @@ import junit.framework.Assert;
 import org.apache.commons.math.complex.Complex;
 
 /**
- * @version $Revision: 1.14 $ $Date: 2004/06/17 21:41:56 $
+ * @version $Revision$ $Date$
  */
 public class TestUtils {
     /**

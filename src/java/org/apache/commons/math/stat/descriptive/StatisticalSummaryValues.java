@@ -21,7 +21,7 @@ import org.apache.commons.math.util.MathUtils;
 /**
  *  Value object representing the results of a univariate statistical summary.
  *
- * @version $Revision: 1.1 $ $Date: 2004/10/08 05:08:17 $
+ * @version $Revision$ $Date$
  */
 public class StatisticalSummaryValues implements Serializable, 
     StatisticalSummary {

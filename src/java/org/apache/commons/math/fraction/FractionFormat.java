@@ -32,7 +32,7 @@ import org.apache.commons.math.ConvergenceException;
  * configured.
  *
  * @author Apache Software Foundation
- * @version $Revision: 1.10 $ $Date: 2004-09-20 23:45:55 -0500 (Mon, 20 Sep 2004) $
+ * @version $Revision$ $Date$
  */
 public class FractionFormat extends Format implements Serializable {
     

@@ -22,7 +22,7 @@ package org.apache.commons.math.stat.descriptive;
  * <code>double[]</code> arrays as input and return the value of the statistic
  * applied to the input values.
  * 
- * @version $Revision: 1.1 $ $Date: 2004/10/08 05:08:17 $
+ * @version $Revision$ $Date$
  */
 public interface UnivariateStatistic {
 

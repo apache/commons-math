@@ -20,7 +20,7 @@ package org.apache.commons.math.linear;
  * Thrown when a system attempts an operation on a matrix, and
  * that matrix does not satisfy the preconditions for the
  * aforementioned operation.
- * @version $Revision: 1.8 $ $Date: 2004/12/06 05:49:44 $
+ * @version $Revision$ $Date$
  */
 public class InvalidMatrixException extends RuntimeException {
 

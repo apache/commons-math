@@ -27,7 +27,7 @@ import junit.framework.TestSuite;
 /**
  * Test the SplineInterpolator.
  *
- * @version $Revision: 1.1 $ $Date: 2004/04/02 20:58:59 $ 
+ * @version $Revision$ $Date$ 
  */
 public class SplineInterpolatorTest extends TestCase {
     

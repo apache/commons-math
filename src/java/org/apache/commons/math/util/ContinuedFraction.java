@@ -32,7 +32,7 @@ import org.apache.commons.math.MathException;
  * </ul>
  * </p>
  *
- * @version $Revision: 1.14 $ $Date: 2004/06/23 16:26:16 $
+ * @version $Revision$ $Date$
  */
 public abstract class ContinuedFraction implements Serializable {
     

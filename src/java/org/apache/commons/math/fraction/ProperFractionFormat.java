@@ -26,7 +26,7 @@ import org.apache.commons.math.util.MathUtils;
  * the whole number, numerator and, denominator can be configured.
  * 
  * @author Apache Software Foundation
- * @version $Revision: $ $Date: $
+ * @version $Revision$ $Date$
  */
 public class ProperFractionFormat extends FractionFormat {
     

@@ -30,7 +30,7 @@ package org.apache.commons.math.distribution;
  * </ul>
  * </p>
  *
- * @version $Revision: 1.11 $ $Date: 2004/11/07 03:32:48 $
+ * @version $Revision$ $Date$
  */
 public interface HypergeometricDistribution extends IntegerDistribution {
     /**

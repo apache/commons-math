@@ -23,7 +23,7 @@ import org.apache.commons.math.special.Gamma;
 /**
  * The default implementation of {@link GammaDistribution}
  *
- * @version $Revision: 1.22 $ $Date: 2004/07/24 21:41:36 $
+ * @version $Revision$ $Date$
  */
 public class GammaDistributionImpl extends AbstractContinuousDistribution
     implements GammaDistribution, Serializable  {

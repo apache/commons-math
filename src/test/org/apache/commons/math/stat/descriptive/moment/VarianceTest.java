@@ -24,7 +24,7 @@ import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 /**
  * Test cases for the {@link UnivariateStatistic} class.
  * 
- * @version $Revision: 1.3 $ $Date: 2004/10/11 04:54:09 $
+ * @version $Revision$ $Date$
  */
 public class VarianceTest extends StorelessUnivariateStatisticAbstractTest{
 

@@ -32,7 +32,7 @@ import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.8 $ $Date: 2004/12/06 05:49:44 $
+ * @version $Revision$ $Date$
  */
 public abstract class CertifiedDataAbstractTest extends TestCase {
 	

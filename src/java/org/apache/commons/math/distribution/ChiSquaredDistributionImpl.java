@@ -22,7 +22,7 @@ import org.apache.commons.math.MathException;
 /**
  * The default implementation of {@link ChiSquaredDistribution}
  *
- * @version $Revision: 1.19 $ $Date: 2004/07/24 20:43:29 $
+ * @version $Revision$ $Date$
  */
 public class ChiSquaredDistributionImpl
     extends AbstractContinuousDistribution

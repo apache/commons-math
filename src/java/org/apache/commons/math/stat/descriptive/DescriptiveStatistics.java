@@ -34,7 +34,7 @@ import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
 /**
  * Abstract factory class for univariate statistical summaries.
  *
- * @version $Revision: 1.1 $ $Date: 2004/10/08 05:08:17 $
+ * @version $Revision$ $Date$
  */
 public abstract class DescriptiveStatistics implements StatisticalSummary, Serializable {
     

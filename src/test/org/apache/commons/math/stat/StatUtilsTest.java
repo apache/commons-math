@@ -23,7 +23,7 @@ import org.apache.commons.math.TestUtils;
 
 /**
  * Test cases for the {@link StatUtils} class.
- * @version $Revision: 1.19 $ $Date: 2004/07/17 22:01:39 $
+ * @version $Revision$ $Date$
  */
 
 public final class StatUtilsTest extends TestCase {

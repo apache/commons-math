@@ -22,7 +22,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 /**
  * Auxillary class for testing solvers.
  *
- * @version $Revision: 1.14 $ $Date: 2004/07/17 21:19:39 $ 
+ * @version $Revision$ $Date$ 
  */
 public class QuinticFunction implements DifferentiableUnivariateRealFunction, Serializable {
 

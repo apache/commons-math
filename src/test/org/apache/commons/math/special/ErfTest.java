@@ -21,7 +21,7 @@ import org.apache.commons.math.MathException;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.1 $ $Date: 2004/05/05 19:54:58 $
+ * @version $Revision$ $Date$
  */
 public class ErfTest extends TestCase {
 

@@ -21,7 +21,7 @@ package org.apache.commons.math.analysis;
  * <p>
  * The default solver returned by this factory is a {@link BrentSolver}.
  *
- * @version $Revision: 1.13 $ $Date: 2004/06/23 16:26:14 $
+ * @version $Revision$ $Date$
  */
 public class UnivariateRealSolverFactoryImpl extends UnivariateRealSolverFactory {
         

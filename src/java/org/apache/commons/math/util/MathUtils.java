@@ -21,7 +21,7 @@ import java.math.BigDecimal;
 /**
  * Some useful additions to the built-in functions in {@link Math}.
  *
- * @version $Revision: 1.20 $ $Date$
+ * @version $Revision$ $Date$
  */
 public final class MathUtils {
     

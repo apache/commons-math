@@ -24,7 +24,7 @@ import org.apache.commons.math.stat.descriptive.moment.Variance;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.1 $ $Date: 2004/10/08 05:08:19 $
+ * @version $Revision$ $Date$
  */
 public class InteractionTest extends TestCase {
 

@@ -21,7 +21,7 @@ package org.apache.commons.math.distribution;
  * Extends IntegerDistributionAbstractTest.  See class javadoc for
  * IntegerDistributionAbstractTest for details.
  * 
- * @version $Revision: 1.13 $ $Date$
+ * @version $Revision$ $Date$
  */
 public class HypergeometricDistributionTest extends IntegerDistributionAbstractTest {
 

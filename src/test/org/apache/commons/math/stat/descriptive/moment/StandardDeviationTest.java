@@ -24,7 +24,7 @@ import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 /**
  * Test cases for the {@link UnivariateStatistic} class.
  * 
- * @version $Revision: 1.2 $ $Date: 2004/10/11 06:54:05 $
+ * @version $Revision$ $Date$
  */
 public class StandardDeviationTest extends StorelessUnivariateStatisticAbstractTest{
 

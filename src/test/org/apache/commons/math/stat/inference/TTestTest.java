@@ -23,7 +23,7 @@ import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 /**
  * Test cases for the TTestImpl class.
  *
- * @version $Revision: 1.7 $ $Date: 2004/10/08 05:08:20 $
+ * @version $Revision$ $Date$
  */
 
 public final class TTestTest extends TestCase {

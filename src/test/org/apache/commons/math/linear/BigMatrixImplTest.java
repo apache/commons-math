@@ -24,7 +24,7 @@ import java.math.BigDecimal;
 /**
  * Test cases for the {@link BigMatrixImpl} class.
  *
- * @version $Revision: 1.5 $ $Date: 2004/10/25 03:13:31 $
+ * @version $Revision$ $Date$
  */
 
 public final class BigMatrixImplTest extends TestCase {

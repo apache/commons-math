@@ -26,7 +26,7 @@ import junit.framework.TestCase;
 /**
  * Tests the PolynomialFunction implementation of a UnivariateRealFunction.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision$
  * @author Matt Cliff <matt@mattcliff.com>
  */
 public final class PolynomialFunctionTest extends TestCase {

@@ -30,7 +30,7 @@ import junit.framework.TestSuite;
  * default absolute accuracy of 10E-8 for sinus and the quintic function around
  * zero, and 5..10 iterations for the other zeros.
  * 
- * @version $Revision: 1.1 $ $Date: 2004/07/17 19:49:02 $ 
+ * @version $Revision$ $Date$ 
  */
 public final class BrentSolverTest extends TestCase {
 

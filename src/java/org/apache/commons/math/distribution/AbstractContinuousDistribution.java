@@ -28,7 +28,7 @@ import org.apache.commons.math.analysis.UnivariateRealSolverUtils;
  * provided for some of the methods that do not vary from distribution to
  * distribution.
  *  
- * @version $Revision: 1.26 $ $Date: 2004/11/07 03:32:48 $
+ * @version $Revision$ $Date$
  */
 public abstract class AbstractContinuousDistribution
     extends AbstractDistribution

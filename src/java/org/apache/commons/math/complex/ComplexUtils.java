@@ -28,7 +28,7 @@ import org.apache.commons.math.util.MathUtils;
  * Multiple Precision Complex Arithmetic and Functions</a></li>
  * </ul>
  *
- * @version $Revision: 1.1 $ $Date: 2004/07/12 00:27:09 $
+ * @version $Revision$ $Date$
  */
 public class ComplexUtils {
     

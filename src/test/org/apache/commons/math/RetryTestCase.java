@@ -27,7 +27,7 @@ import junit.framework.TestCase;
  * <p>
  * Errors or exceptions other than AssertionFailedError do not lead to retries.
  *
- * @version $Revision: 1.2 $ $Date: 2004/03/07 16:39:38 $
+ * @version $Revision$ $Date$
  */
 public class RetryTestCase extends TestCase {
 

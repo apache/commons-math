@@ -19,7 +19,7 @@ import java.io.Serializable;
 
 /**
  * Signals a configuration problem with any of the factory methods.
- * @version $Revision: 1.18 $ $Date: 2004/06/23 16:26:16 $
+ * @version $Revision$ $Date$
  */
 public class MathConfigurationException extends MathException implements Serializable {
     

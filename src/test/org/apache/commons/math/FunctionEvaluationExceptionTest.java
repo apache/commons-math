@@ -19,7 +19,7 @@ package org.apache.commons.math;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.1 $ $Date: 2004/07/17 19:41:05 $
+ * @version $Revision$ $Date$
  */
 public class FunctionEvaluationExceptionTest extends TestCase {
     

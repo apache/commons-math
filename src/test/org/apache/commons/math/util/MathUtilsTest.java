@@ -26,7 +26,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the MathUtils class.
  *
- * @version $Revision: 1.15 $ $Date$
+ * @version $Revision$ $Date$
  */
 public final class MathUtilsTest extends TestCase {
 

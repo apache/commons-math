@@ -24,7 +24,7 @@ import org.apache.commons.math.util.MathUtils;
 /**
  * The default implementation of {@link HypergeometricDistribution}.
  *
- * @version $Revision: 1.16 $ $Date: 2004/11/07 03:32:48 $
+ * @version $Revision$ $Date$
  */
 public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     implements HypergeometricDistribution, Serializable 

@@ -38,7 +38,7 @@ import org.apache.commons.math.TestUtils;
  * <p>
  * Error tolerance can be overriden by implementing getTolerance().
  * 
- * @version $Revision: 1.2 $ $Date: 2004/05/30 03:08:00 $
+ * @version $Revision$ $Date$
  */
 public abstract class ContinuousDistributionAbstractTest extends TestCase {
     

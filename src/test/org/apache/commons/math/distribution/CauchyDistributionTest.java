@@ -21,7 +21,7 @@ package org.apache.commons.math.distribution;
  * Extends ContinuousDistributionAbstractTest.  See class javadoc for
  * ContinuousDistributionAbstractTest for details.
  * 
- * @version $Revision: 1.8 $ $Date: 2004-07-24 16:41:37 -0500 (Sat, 24 Jul 2004) $
+ * @version $Revision$ $Date$
  */
 public class CauchyDistributionTest extends ContinuousDistributionAbstractTest  {
     

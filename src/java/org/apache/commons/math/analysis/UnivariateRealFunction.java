@@ -20,7 +20,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 /**
  * An interface representing a univariate real function.
  *  
- * @version $Revision: 1.14 $ $Date: 2004/07/17 21:19:39 $
+ * @version $Revision$ $Date$
  */
 public interface UnivariateRealFunction {
     /**

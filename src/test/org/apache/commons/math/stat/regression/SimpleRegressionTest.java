@@ -23,7 +23,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the TestStatistic class.
  *
- * @version $Revision: 1.4 $ $Date: 2004/12/10 05:18:16 $
+ * @version $Revision$ $Date$
  */
 
 public final class SimpleRegressionTest extends TestCase {

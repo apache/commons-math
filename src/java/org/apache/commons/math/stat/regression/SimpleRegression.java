@@ -49,7 +49,7 @@ import org.apache.commons.math.distribution.TDistribution;
  * the necessary computations to return the requested statistic.</li>
  * </ul>
  *
- * @version $Revision: 1.2 $ $Date: 2004/10/24 06:27:14 $
+ * @version $Revision$ $Date$
  */
 public class SimpleRegression implements Serializable {
 

@@ -21,7 +21,7 @@ import org.apache.commons.math.TestUtils;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.1 $ $Date: 2004/07/12 00:27:09 $
+ * @version $Revision$ $Date$
  */
 public class ComplexUtilsTest extends TestCase {
     

@@ -23,7 +23,7 @@ package org.apache.commons.math.stat.descriptive;
  * This interface is designed to be used for calculating statistics that can be computed in 
  * one pass through the data without storing the full array of sample values.
  *
- * @version $Revision: 1.1 $ $Date: 2004/10/08 05:08:17 $
+ * @version $Revision$ $Date$
  */
 public interface StorelessUnivariateStatistic extends UnivariateStatistic {
 

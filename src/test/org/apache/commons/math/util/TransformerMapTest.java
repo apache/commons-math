@@ -19,7 +19,7 @@ package org.apache.commons.math.util;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.7 $ $Date: 2004/02/21 21:35:18 $
+ * @version $Revision$ $Date$
  */
 public class TransformerMapTest extends TestCase {
     /**

@@ -27,7 +27,7 @@ import org.apache.commons.math.stat.descriptive.StatisticalSummary;
  * Uses commons-math {@link org.apache.commons.math.distribution.TDistribution}
  * implementation to estimate exact p-values.
  *
- * @version $Revision: 1.10 $ $Date: 2004/10/08 05:08:18 $
+ * @version $Revision$ $Date$
  */
 public class TTestImpl implements TTest  {
 

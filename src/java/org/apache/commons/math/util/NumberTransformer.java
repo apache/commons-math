@@ -19,7 +19,7 @@ import org.apache.commons.math.MathException;
 
 /**
  * Subclasses implementing this interface can transform Objects to doubles.
- * @version $Revision: 1.11 $ $Date: 2004/06/23 16:26:15 $
+ * @version $Revision$ $Date$
  */
 public interface NumberTransformer {
     

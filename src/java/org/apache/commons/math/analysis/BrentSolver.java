@@ -25,7 +25,7 @@ import org.apache.commons.math.FunctionEvaluationException;
  * <p>
  * The function should be continuous but not necessarily smooth.
  *  
- * @version $Revision: 1.18 $ $Date: 2004/11/07 02:17:56 $
+ * @version $Revision$ $Date$
  */
 public class BrentSolver extends UnivariateRealSolverImpl {
     

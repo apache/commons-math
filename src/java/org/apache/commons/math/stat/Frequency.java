@@ -35,7 +35,7 @@ import java.util.TreeMap;
  * The values are ordered using the default (natural order), unless a  
  * <code>Comparator</code> is supplied in the constructor.
  *
- * @version $Revision: 1.29 $ $Date: 2004/09/21 03:02:34 $
+ * @version $Revision$ $Date$
  */
 public class Frequency implements Serializable {
     

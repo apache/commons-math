@@ -71,7 +71,7 @@ import java.util.Collection;
  * This implementation is not synchronized.
  * </ul>
  *
- * @version $Revision: 1.16 $ $Date: 2004/07/22 02:34:25 $
+ * @version $Revision$ $Date$
  */
 public class RandomDataImpl implements RandomData, Serializable {
 

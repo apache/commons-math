@@ -60,7 +60,7 @@ import org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic;
  * one of the threads invokes the <code>increment()</code> or 
  * <code>clear()</code> method, it must be synchronized externally.
  * 
- * @version $Revision: 1.1 $ $Date: 2004/10/08 05:08:17 $
+ * @version $Revision$ $Date$
  */
 public class Percentile extends AbstractUnivariateStatistic implements Serializable {
 

@@ -21,7 +21,7 @@ import org.apache.commons.math.random.RandomData;
 /**
  * This class contains test cases for the ResizableDoubleArray.
  * 
- * @version $Revision: 1.1 $ $Date: 2004/06/14 21:41:33 $
+ * @version $Revision$ $Date$
  */
 public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
     

@@ -20,7 +20,7 @@ import org.apache.commons.math.ConvergenceException;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: $ $Date: $
+ * @version $Revision$ $Date$
  */
 public class FractionTest extends TestCase {
 

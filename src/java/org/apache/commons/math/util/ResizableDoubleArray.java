@@ -66,7 +66,7 @@ import java.io.Serializable;
  * is violated.
  * </p>
  * <p>
- * @version $Revision: 1.2 $ $Date: 2004/06/23 16:26:16 $
+ * @version $Revision$ $Date$
  */
 public class ResizableDoubleArray implements DoubleArray, Serializable {
     

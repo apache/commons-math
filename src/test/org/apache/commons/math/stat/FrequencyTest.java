@@ -27,7 +27,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link Frequency} class.
  *
- * @version $Revision: 1.15 $ $Date: 2004/09/21 03:03:54 $
+ * @version $Revision$ $Date$
  */
 
 public final class FrequencyTest extends TestCase {

@@ -20,7 +20,7 @@ package org.apache.commons.math.analysis;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.1 $ $Date: 2004/04/27 16:42:32 $
+ * @version $Revision$ $Date$
  */
 public class UnivariateRealSolverFactoryImplTest extends TestCase {
     

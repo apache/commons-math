@@ -23,7 +23,7 @@ import java.io.Serializable;
  * real and imaginary part.
  *
  * @author Apache Software Foundation
- * @version $Revision: 1.9 $ $Date: 2004/06/23 16:26:16 $
+ * @version $Revision$ $Date$
  */
 public class Complex implements Serializable  {
 

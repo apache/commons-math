@@ -25,7 +25,7 @@ import org.apache.commons.math.MathException;
  * implementations are provided for some of the methods that do not vary
  * from distribution to distribution.
  *  
- * @version $Revision: 1.1 $ $Date: 2004/11/07 03:32:48 $
+ * @version $Revision$ $Date$
  */
 public abstract class AbstractIntegerDistribution extends AbstractDistribution
     implements IntegerDistribution, Serializable {

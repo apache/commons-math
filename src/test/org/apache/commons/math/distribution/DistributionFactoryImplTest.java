@@ -19,7 +19,7 @@ package org.apache.commons.math.distribution;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.16 $ $Date$
+ * @version $Revision$ $Date$
  */
 public class DistributionFactoryImplTest extends TestCase {
     /** */

@@ -24,7 +24,7 @@ import org.apache.commons.math.special.Beta;
  * Default implementation of
  * {@link org.apache.commons.math.distribution.TDistribution}.
  *
- * @version $Revision: 1.19 $ $Date: 2004/07/24 21:41:36 $
+ * @version $Revision$ $Date$
  */
 public class TDistributionImpl
     extends AbstractContinuousDistribution

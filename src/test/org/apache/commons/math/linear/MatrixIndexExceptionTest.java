@@ -19,7 +19,7 @@ package org.apache.commons.math.linear;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.2 $ $Date: 2004/12/06 05:49:44 $
+ * @version $Revision$ $Date$
  */
 public class MatrixIndexExceptionTest extends TestCase {
     /**

@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.4 $ $Date: 2004-11-07 19:03:43 -0600 (Sun, 07 Nov 2004) $ -->
+<!-- $Revision$ $Date$ -->
 <document url="stat.html">
   <properties>
     <title>The Commons Math User Guide - Fractions</title>

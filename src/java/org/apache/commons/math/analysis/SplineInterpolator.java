@@ -37,7 +37,7 @@ package org.apache.commons.math.analysis;
  * The cubic spline interpolation algorithm implemented is as described in R.L. Burden, J.D. Faires, 
  * <u>Numerical Analysis</u>, 4th Ed., 1989, PWS-Kent, ISBN 0-53491-585-X, pp 126-131.
  *
- * @version $Revision: 1.19 $ $Date: 2004/06/23 16:26:14 $
+ * @version $Revision$ $Date$
  *
  */
 public class SplineInterpolator implements UnivariateRealInterpolator {

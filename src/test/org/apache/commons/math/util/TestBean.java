@@ -17,7 +17,7 @@
 package org.apache.commons.math.util;
 
 /**
- * @version $Revision: 1.7 $ $Date: 2004/02/21 21:35:18 $
+ * @version $Revision$ $Date$
  */
 public class TestBean {
     private Double x = new Double(1.0);

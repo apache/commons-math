@@ -24,7 +24,7 @@ import org.apache.commons.math.FunctionEvaluationException;
  * Provide a default implementation for several functions useful to generic
  * solvers.
  *  
- * @version $Revision: 1.15 $ $Date: 2004/07/17 21:19:39 $
+ * @version $Revision$ $Date$
  */
 public abstract class UnivariateRealSolverImpl implements UnivariateRealSolver,
     Serializable {

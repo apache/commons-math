@@ -29,7 +29,7 @@ import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 /**
  * Test cases for the RandomData class.
  *
- * @version $Revision: 1.17 $ $Date: 2004/10/08 05:08:19 $
+ * @version $Revision$ $Date$
  */
 
 public final class RandomDataTest extends RetryTestCase {

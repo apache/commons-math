@@ -24,7 +24,7 @@ import org.apache.commons.math.util.ContinuedFraction;
  * This is a utility class that provides computation methods related to the
  * Beta family of functions.
  *
- * @version $Revision: 1.21 $ $Date: 2004/06/23 16:26:17 $
+ * @version $Revision$ $Date$
  */
 public class Beta implements Serializable {
     /** Maximum allowed numerical error. */

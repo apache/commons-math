@@ -35,7 +35,7 @@ import org.apache.commons.math.FunctionEvaluationException;
  * <p>
  * The function is assumed to be continuous but not necessarily smooth.
  *  
- * @version $Revision: 1.17 $ $Date: 2004/07/17 21:19:39 $
+ * @version $Revision$ $Date$
  */
 public class SecantSolver extends UnivariateRealSolverImpl implements Serializable {
     

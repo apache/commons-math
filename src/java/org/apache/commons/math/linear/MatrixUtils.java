@@ -21,7 +21,7 @@ import java.math.BigDecimal;
 /**
  * A collection of static methods that operate on or return matrices.
  * 
- * @version $Revision: 1.2 $ $Date: 2004/10/25 05:36:15 $
+ * @version $Revision$ $Date$
  */
 public class MatrixUtils {
 

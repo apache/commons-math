@@ -41,7 +41,7 @@ import org.apache.commons.discovery.tools.DiscoverClass;
  * <code>UnivariateRealSolverFactory.newInstance().</code>  The default is
  * {@link UnivariateRealSolverFactoryImpl}.
  *
- * @version $Revision: 1.16 $ $Date: 2004/07/10 15:59:14 $
+ * @version $Revision$ $Date$
  */
 public abstract class UnivariateRealSolverFactory {
     /**

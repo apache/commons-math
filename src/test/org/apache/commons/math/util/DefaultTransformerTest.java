@@ -22,7 +22,7 @@ import org.apache.commons.math.MathException;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.12 $ $Date: 2004/05/23 21:34:19 $
+ * @version $Revision$ $Date$
  */
 public class DefaultTransformerTest extends TestCase {
     /**

@@ -24,7 +24,7 @@ import org.apache.commons.math.util.MathUtils;
 /**
  * Implementation for the @link{PoissonDistribution}
  * 
- * @version $Revision: 1.2 $ $Date: 2004/11/07 20:39:15 $
+ * @version $Revision$ $Date$
  */
 public class PoissonDistributionImpl extends AbstractIntegerDistribution
         implements PoissonDistribution, Serializable {

@@ -39,7 +39,7 @@ import java.net.MalformedURLException;
  *                       standard deviation = <code>sigma</code></li>
  * <li> CONSTANT_MODE -- returns <code>mu</code> every time.</li></ul>
  *
- * @version $Revision: 1.17 $ $Date: 2004/08/22 01:41:30 $
+ * @version $Revision$ $Date$
  *
  */
 public class ValueServer {

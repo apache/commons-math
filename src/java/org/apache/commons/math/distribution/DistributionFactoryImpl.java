@@ -19,7 +19,7 @@ package org.apache.commons.math.distribution;
  * A concrete distribution factory.  This is the default factory used by
  * Commons-Math.
  *  
- * @version $Revision: 1.21 $ $Date: 2004/11/07 03:32:48 $
+ * @version $Revision$ $Date$
  */
 public class DistributionFactoryImpl extends DistributionFactory {
 

@@ -18,7 +18,7 @@ package org.apache.commons.math.distribution;
 /**
  * <code>PoissonDistributionTest</code>
  * 
- * @version $Revision: 1.2 $ $Date$
+ * @version $Revision$ $Date$
  */
 public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
 

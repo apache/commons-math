@@ -27,7 +27,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link Univariate} class.
  *
- * @version $Revision: 1.1 $ $Date: 2004/10/08 05:08:19 $
+ * @version $Revision$ $Date$
  */
 
 public final class MixedListUnivariateImplTest extends TestCase {

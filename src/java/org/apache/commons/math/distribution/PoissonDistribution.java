@@ -28,7 +28,7 @@ import org.apache.commons.math.MathException;
  * </ul>
  * </p>
  * 
- * @version $Revision: 1.2 $ $Date: 2004/11/07 20:39:15 $
+ * @version $Revision$ $Date$
  */
 public interface PoissonDistribution extends IntegerDistribution {
 

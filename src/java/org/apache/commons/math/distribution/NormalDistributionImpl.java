@@ -25,7 +25,7 @@ import org.apache.commons.math.special.Erf;
  * Default implementation of
  * {@link org.apache.commons.math.distribution.NormalDistribution}.
  *
- * @version $Revision: 1.13 $ $Date: 2004/07/24 21:41:36 $
+ * @version $Revision$ $Date$
  */
 public class NormalDistributionImpl extends AbstractContinuousDistribution 
 		implements NormalDistribution, Serializable {

@@ -22,7 +22,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link RealMatrixImpl} class.
  *
- * @version $Revision: 1.20 $ $Date: 2004/10/12 06:19:50 $
+ * @version $Revision$ $Date$
  */
 
 public final class RealMatrixImplTest extends TestCase {

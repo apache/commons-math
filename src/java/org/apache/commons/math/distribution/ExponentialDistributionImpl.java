@@ -22,7 +22,7 @@ import org.apache.commons.math.MathException;
 /**
  * The default implementation of {@link ExponentialDistribution}
  *
- * @version $Revision: 1.19 $ $Date: 2004/07/24 21:41:36 $
+ * @version $Revision$ $Date$
  */
 public class ExponentialDistributionImpl extends AbstractContinuousDistribution
     implements ExponentialDistribution, Serializable {

@@ -20,7 +20,7 @@ import org.apache.commons.math.MathException;
 /**
  * Base interface for continuous distributions.
  *
- * @version $Revision: 1.16 $ $Date: 2004/11/07 03:32:48 $
+ * @version $Revision$ $Date$
  */
 public interface ContinuousDistribution extends Distribution {
     

@@ -19,7 +19,7 @@ package org.apache.commons.math.linear;
 /**
  * Thrown when an operation addresses a matrix coordinate (row,col)
  * which is outside of the dimensions of a matrix.
- * @version $Revision: 1.8 $ $Date: 2004/12/06 05:49:44 $
+ * @version $Revision$ $Date$
  */
 public class MatrixIndexException extends RuntimeException {
 

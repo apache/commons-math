@@ -23,7 +23,7 @@ import org.apache.commons.math.util.ResizableDoubleArray;
  * Default implementation of
  * {@link org.apache.commons.math.stat.descriptive.DescriptiveStatistics}.
  *
- * @version $Revision: 1.1 $ $Date: 2004/10/08 05:08:17 $
+ * @version $Revision$ $Date$
  */
 public class DescriptiveStatisticsImpl extends DescriptiveStatistics implements Serializable {
 

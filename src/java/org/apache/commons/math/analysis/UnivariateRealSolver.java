@@ -24,7 +24,7 @@ import org.apache.commons.math.FunctionEvaluationException;
  * <p>
  * Implementations will search for only one zero in the given interval.
  *  
- * @version $Revision: 1.14 $ $Date: 2004/07/17 21:19:39 $
+ * @version $Revision$ $Date$
  */
 public interface UnivariateRealSolver {
 

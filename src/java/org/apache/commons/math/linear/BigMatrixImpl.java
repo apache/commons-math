@@ -43,7 +43,7 @@ import java.math.BigDecimal;
  * As specified in the {@link BigMatrix} interface, matrix element indexing
  * is 0-based -- e.g., <code>getEntry(0, 0)</code>
  * returns the element in the first row, first column of the matrix.</li></ul>
- * @version $Revision: 1.10 $ $Date: 2004/11/07 20:19:22 $
+ * @version $Revision$ $Date$
  */
 public class BigMatrixImpl implements BigMatrix, Serializable {
     

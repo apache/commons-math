@@ -26,7 +26,7 @@ import java.io.PrintWriter;
 * <p>
 * Adapted from {@link org.apache.commons.collections.FunctorException}.
 * 
-* @version $Revision: 1.20 $ $Date: 2004/11/07 02:17:56 $
+* @version $Revision$ $Date$
 */
 public class MathException extends Exception {
     

@@ -25,7 +25,7 @@ import org.apache.commons.math.FunctionEvaluationException;
  * <p> 
  * The function should be continuous but not necessarily smooth.
  *
- * @version $Revision: 1.6 $ $Date: 2004/07/17 21:19:39 $
+ * @version $Revision$ $Date$
  */
 public class NewtonSolver extends UnivariateRealSolverImpl {
     

@@ -26,7 +26,7 @@ import org.apache.commons.math.util.DefaultTransformer;
 import org.apache.commons.math.util.NumberTransformer;
 
 /**
- * @version $Revision: 1.1 $ $Date: 2004/10/08 05:08:19 $
+ * @version $Revision$ $Date$
  */
 public class ListUnivariateImpl extends DescriptiveStatistics implements Serializable {
 

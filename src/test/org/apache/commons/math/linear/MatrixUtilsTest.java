@@ -23,7 +23,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link MatrixUtils} class.
  *
- * @version $Revision: 1.3 $ $Date: 2004/10/28 03:02:34 $
+ * @version $Revision$ $Date$
  */
 
 public final class MatrixUtilsTest extends TestCase {

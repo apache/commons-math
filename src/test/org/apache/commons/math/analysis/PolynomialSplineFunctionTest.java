@@ -25,7 +25,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 /**
  * Tests the PolynomialSplineFunction implementation.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision$
  */
 public class PolynomialSplineFunctionTest extends TestCase {
 

@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 
 /**
  * @todo add javadoc comment
- * @version $Revision: 1.4 $ $Date: 2004/02/18 03:24:19 $
+ * @version $Revision$ $Date$
  */
 public class UnivariateRealFunctionUtilsTest extends TestCase {
     /**

@@ -20,7 +20,7 @@ import org.apache.commons.math.stat.descriptive.moment.SecondMoment;
 
 /**
  * Test cases for {@link StorelessUnivariateStatistic} classes.
- * @version $Revision: 1.1 $ $Date: 2004/10/08 05:08:19 $
+ * @version $Revision$ $Date$
  */
 public abstract class StorelessUnivariateStatisticAbstractTest
     extends UnivariateStatisticAbstractTest {

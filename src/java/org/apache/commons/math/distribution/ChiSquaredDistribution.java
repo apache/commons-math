@@ -29,7 +29,7 @@ package org.apache.commons.math.distribution;
  * </ul>
  * </p>
  *
- * @version $Revision: 1.14 $ $Date: 2004/06/23 16:26:15 $
+ * @version $Revision$ $Date$
  */
 public interface ChiSquaredDistribution extends ContinuousDistribution {
     /**

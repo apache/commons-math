@@ -28,7 +28,7 @@ import java.io.Serializable;
  * validation for the <code>evaluate</code> methods.
  * <p>
  * 
- * @version $Revision: 1.1 $ $Date: 2004/10/08 05:08:17 $
+ * @version $Revision$ $Date$
  */
 public abstract class AbstractUnivariateStatistic
     implements UnivariateStatistic, Serializable {

@@ -20,7 +20,7 @@ import org.apache.commons.math.MathException;
 /**
  * An interface for Chi-Square tests.
  *
- * @version $Revision: 1.3 $ $Date: 2004/06/23 16:26:14 $ 
+ * @version $Revision$ $Date$ 
  */
 public interface ChiSquareTest {
      

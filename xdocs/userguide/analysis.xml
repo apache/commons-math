@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.10 $ $Date: 2004/07/23 05:14:43 $ -->
+<!-- $Revision$ $Date$ -->
 <document url="analysis.html">
   <properties>
     <title>The Commons Math User Guide - Numerical Analysis</title>

@@ -19,7 +19,7 @@ package org.apache.commons.math.distribution;
 /**
  * Base interface for discrete distributions.
  *
- * @version $Revision: 1.17 $ $Date: 2004/11/07 03:32:48 $
+ * @version $Revision$ $Date$
  */
 public interface DiscreteDistribution extends Distribution {
     /**

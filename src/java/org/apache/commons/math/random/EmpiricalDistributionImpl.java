@@ -54,7 +54,7 @@ import org.apache.commons.math.stat.descriptive.StatisticalSummary;
  *    entry per line.</li>
  * </ul></p>
  *
- * @version $Revision: 1.30 $ $Date: 2004/10/08 05:08:16 $
+ * @version $Revision$ $Date$
  */
 public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistribution {
 

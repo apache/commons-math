@@ -20,7 +20,7 @@ package org.apache.commons.math.distribution;
  * Extends ContinuousDistributionAbstractTest.  See class javadoc for
  * ContinuousDistributionAbstractTest for details.
  * 
- * @version $Revision: 1.16 $ $Date: 2004/12/10 05:16:52 $
+ * @version $Revision$ $Date$
  */
 public class ExponentialDistributionTest extends ContinuousDistributionAbstractTest {
 

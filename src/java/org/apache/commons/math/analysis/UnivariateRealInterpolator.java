@@ -20,7 +20,7 @@ import org.apache.commons.math.MathException;
 /**
  * Interface representing a univariate real interpolating function.
  *  
- * @version $Revision: 1.11 $ $Date: 2004/06/23 16:26:14 $
+ * @version $Revision$ $Date$
  */
 public interface UnivariateRealInterpolator {
 

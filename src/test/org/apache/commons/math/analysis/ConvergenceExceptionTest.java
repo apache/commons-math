@@ -23,7 +23,7 @@ import org.apache.commons.math.ConvergenceException;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.8 $ $Date: 2004/02/18 03:24:20 $
+ * @version $Revision$ $Date$
  */
 public class ConvergenceExceptionTest extends TestCase {
     /**

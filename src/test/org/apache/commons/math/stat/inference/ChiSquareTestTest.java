@@ -22,7 +22,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the ChiSquareTestImpl class.
  *
- * @version $Revision: 1.5 $ $Date: 2004/12/10 05:18:16 $
+ * @version $Revision$ $Date$
  */
 
 public final class ChiSquareTestTest extends TestCase {

@@ -21,7 +21,7 @@ import org.apache.commons.math.TestUtils;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.10 $ $Date: 2004/06/07 20:30:16 $
+ * @version $Revision$ $Date$
  */
 public class GammaTest extends TestCase {
     /**

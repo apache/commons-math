@@ -34,7 +34,7 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
  * one of the threads invokes the <code>increment()</code> or 
  * <code>clear()</code> method, it must be synchronized externally.
  * 
- * @version $Revision: 1.2 $ $Date: 2004/10/11 06:54:05 $
+ * @version $Revision$ $Date$
  */
 public class StandardDeviation extends AbstractStorelessUnivariateStatistic
     implements Serializable {

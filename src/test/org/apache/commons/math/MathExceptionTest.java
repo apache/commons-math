@@ -23,7 +23,7 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 
 /**
- * @version $Revision: 1.8 $ $Date: 2004/07/10 22:23:14 $
+ * @version $Revision$ $Date$
  */
 public class MathExceptionTest extends TestCase {
     /**

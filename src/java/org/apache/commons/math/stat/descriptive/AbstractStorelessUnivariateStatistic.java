@@ -27,7 +27,7 @@ import java.io.Serializable;
  * <p>
  * <strong>Note that these implementations are not synchronized.</strong>
  *
- * @version $Revision: 1.1 $ $Date: 2004/10/08 05:08:17 $
+ * @version $Revision$ $Date$
  */
 public abstract class AbstractStorelessUnivariateStatistic
     extends AbstractUnivariateStatistic

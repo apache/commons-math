@@ -31,7 +31,7 @@ import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
  * StatUtils provides static methods for computing statistics based on data
  * stored in double[] arrays. 
  * 
- * @version $Revision: 1.33 $ $Date: 2004/10/08 05:08:16 $
+ * @version $Revision$ $Date$
  */
 public final class StatUtils {
 

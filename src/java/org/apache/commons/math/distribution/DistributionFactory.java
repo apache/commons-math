@@ -41,7 +41,7 @@ import org.apache.commons.discovery.tools.DiscoverClass;
  * ChiSquaredDistribution chi = factory.createChiSquareDistribution(5.0);
  * </pre>
  *
- * @version $Revision: 1.22 $ $Date$
+ * @version $Revision$ $Date$
  */
 public abstract class DistributionFactory {
     /**

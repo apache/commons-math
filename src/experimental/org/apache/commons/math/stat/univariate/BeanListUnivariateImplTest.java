@@ -28,7 +28,7 @@ import org.apache.commons.math.stat.StatUtils;
 /**
  * Test cases for the {@link BeanListUnivariateImpl} class.
  *
- * @version $Revision: 1.1 $ $Date: 2004/06/01 21:28:06 $
+ * @version $Revision$ $Date$
  */
 
 public final class BeanListUnivariateImplTest extends TestCase {

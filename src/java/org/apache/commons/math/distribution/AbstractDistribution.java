@@ -22,7 +22,7 @@ import org.apache.commons.math.MathException;
 /**
  * Base class for probability distributions.   
  *  
- * @version $Revision: 1.2 $ $Date: 2004/11/07 20:39:15 $
+ * @version $Revision$ $Date$
  */
 public abstract class AbstractDistribution
     implements Distribution, Serializable {

@@ -21,7 +21,7 @@ import org.apache.commons.math.ConvergenceException;
 /**
  * Utility routines for {@link UnivariateRealSolver} objects.
  * 
- * @version $Revision: 1.10 $ $Date: 2004/07/17 21:19:39 $
+ * @version $Revision$ $Date$
  */
 public class UnivariateRealSolverUtils {
     /**

@@ -28,7 +28,7 @@ import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 
 /**
  * Certified data test cases.
- * @version $Revision: 1.19 $ $Date: 2004/10/08 05:08:19 $
+ * @version $Revision$ $Date$
  */
 public class CertifiedDataTest extends TestCase  {
 

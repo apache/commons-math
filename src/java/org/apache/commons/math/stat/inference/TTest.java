@@ -41,7 +41,7 @@ import org.apache.commons.math.stat.descriptive.StatisticalSummary;
  * {@link StatisticalSummary} instances.
  * 
  *
- * @version $Revision: 1.8 $ $Date: 2004/10/08 05:08:18 $ 
+ * @version $Revision$ $Date$ 
  */
 public interface TTest {
     /**

@@ -23,7 +23,7 @@ import java.io.Serializable;
  * <a href="http://mathworld.wolfram.com/HornersMethod.html">Horner's Method</a>
  *  is used to evaluate the function.   
  *
- * @version $Revision: 1.12 $ $Date: 2004/07/20 12:55:01 $
+ * @version $Revision$ $Date$
  */
 public class PolynomialFunction implements DifferentiableUnivariateRealFunction, Serializable {
 

@@ -20,7 +20,7 @@ import org.apache.commons.math.MathException;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.8 $ $Date: 2004/02/21 21:35:18 $
+ * @version $Revision$ $Date$
  */
 public class ContinuedFractionTest extends TestCase {
 	/**

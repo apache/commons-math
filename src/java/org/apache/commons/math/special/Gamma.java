@@ -25,7 +25,7 @@ import org.apache.commons.math.util.ContinuedFraction;
  * This is a utility class that provides computation methods related to the
  * Gamma family of functions.
  *
- * @version $Revision: 1.22 $ $Date: 2004/10/08 05:53:18 $
+ * @version $Revision$ $Date$
  */
 public class Gamma implements Serializable {
     

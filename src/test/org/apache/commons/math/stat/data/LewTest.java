@@ -17,7 +17,7 @@
 package org.apache.commons.math.stat.data;
 
 /**
- * @version $Revision: 1.1 $ $Date: 2004/03/18 05:52:37 $
+ * @version $Revision$ $Date$
  */
 public class LewTest extends CertifiedDataAbstractTest {
 

@@ -29,7 +29,7 @@ import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
 /**
  * Provides a default {@link SummaryStatistics} implementation.
  *
- * @version $Revision: 1.1 $ $Date: 2004/10/08 05:08:17 $  
+ * @version $Revision$ $Date$  
  */
 public class SummaryStatisticsImpl extends SummaryStatistics implements Serializable {
 

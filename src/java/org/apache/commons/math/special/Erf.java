@@ -23,7 +23,7 @@ import org.apache.commons.math.MathException;
  * This is a utility class that provides computation methods related to the
  * error functions.
  *
- * @version $Revision: 1.2 $ $Date: 2004/06/23 16:26:17 $
+ * @version $Revision$ $Date$
  */
 public class Erf implements Serializable {
 

@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 /**
  * This class contains test cases for the ExpandableDoubleArray.
  * 
- * @version $Revision: 1.9 $ $Date: 2004/02/21 21:35:18 $
+ * @version $Revision$ $Date$
  */
 public abstract class DoubleArrayAbstractTest extends TestCase {
 

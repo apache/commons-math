@@ -30,7 +30,7 @@ import java.util.Locale;
  * can be configured.
  *
  * @author Apache Software Foundation
- * @version $Revision: 1.10 $ $Date: 2004/09/21 04:45:55 $
+ * @version $Revision$ $Date$
  */
 public class ComplexFormat extends Format implements Serializable {
     
