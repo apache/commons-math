@@ -60,7 +60,7 @@ import org.apache.commons.math.util.ContinuedFraction;
  * This is a utility class that provides computation methods related to the
  * Beta family of functions.
  * 
- * @version $Revision: 1.12 $ $Date: 2003/11/14 22:22:17 $
+ * @version $Revision: 1.13 $ $Date: 2003/11/18 15:07:12 $
  */
 public class Beta {
     /** Maximum allowed numerical error. */
@@ -151,8 +151,11 @@ public class Beta {
         double ret;
 
         if (Double.isNaN(x) || Double.isNaN(a) || Double.isNaN(b) || (x < 0) ||
-            (x > 1) || (a <= 0.0) || (b <= 0.0)) {
+            (x > 1) || (a <= 0.0) || (b <= 0.0))
+        {
             ret = Double.NaN;
+        } else if (x > (a + 1.0) / (a + b + 1.0)) {
+            ret = 1.0 - regularizedBeta(1.0 - x, b, a, epsilon, maxIterations);
         } else {
             ContinuedFraction fraction = new ContinuedFraction() {
                 protected double getB(int n, double x) {

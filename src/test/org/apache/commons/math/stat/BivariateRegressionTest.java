@@ -53,13 +53,15 @@
  */
 package org.apache.commons.math.stat;
 
+import java.util.Random;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 /**
  * Test cases for the TestStatistic class.
  *
- * @version $Revision: 1.8 $ $Date: 2003/11/14 22:22:18 $
+ * @version $Revision: 1.9 $ $Date: 2003/11/18 15:07:12 $
  */
 
 public final class BivariateRegressionTest extends TestCase {
@@ -258,6 +260,35 @@ public final class BivariateRegressionTest extends TestCase {
            ;
        }
        
-    }                                        
+    }
+    
+    public void testPerfect() {
+        BivariateRegression regression = new BivariateRegression();
+        int n = 100;
+        for (int i = 0; i < n; i++) {
+            regression.addData(((double) i) / (n - 1), i);
+        }
+        assertEquals(0.0, regression.getSignificance(), 1.0e-5);
+        assertTrue(regression.getSlope() > 0.0);
+    }
+    
+    public void testPerfectNegative() {
+        BivariateRegression regression = new BivariateRegression();
+        int n = 100;
+        for (int i = 0; i < n; i++) {
+            regression.addData(-((double) i) / (n - 1), i);
+        }
+        assertEquals(0.0, regression.getSignificance(), 1.0e-5);
+        assertTrue(regression.getSlope() < 0.0);
+    }
+    
+    public void testRandom() {
+        BivariateRegression regression = new BivariateRegression();
+        Random random = new Random(1);
+        int n = 100;
+        for (int i = 0; i < n; i++) {
+            regression.addData(((double) i) / (n - 1), random.nextDouble());
+        }
+        assertTrue(0.0 < regression.getSignificance() && regression.getSignificance() < 1.0);
+    }
 }
-

@@ -84,7 +84,7 @@ import org.apache.commons.math.distribution.TDistribution;
  * the necessary computations to return the requested statistic.</li>
  * </ul>
  *
- * @version $Revision: 1.9 $ $Date: 2003/11/15 16:01:38 $
+ * @version $Revision: 1.10 $ $Date: 2003/11/18 15:07:12 $
  */
 public class BivariateRegression {
     
@@ -133,11 +133,13 @@ public class BivariateRegression {
             xbar = x;
             ybar = y;
         } else {
-            sumXX += ((double) n / (double) (n + 1)) * (x - xbar) * (x - xbar);
-            sumYY += ((double) n / (double) (n + 1)) * (y - ybar) * (y - ybar);
-            sumXY += ((double) n / (double) (n + 1)) * (x - xbar) * (y - ybar);
-            xbar += (1d / (double) (n + 1)) * (x - xbar);
-            ybar += (1d / (double) (n + 1)) * (y - ybar);
+            double dx = x - xbar;
+            double dy = y - ybar;
+            sumXX += dx * dx * (double) n / (double) (n + 1.0);
+            sumYY += dy * dy * (double) n / (double) (n + 1.0);
+            sumXY += dx * dy * (double) n / (double) (n + 1.0);
+            xbar += dx / (double) (n + 1.0);
+            ybar += dy / (double) (n + 1.0);
         }
         sumX += x;
         sumY += y;
