@@ -23,7 +23,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the TestStatistic class.
  *
- * @version $Revision: 1.3 $ $Date: 2004/10/24 21:47:16 $
+ * @version $Revision: 1.4 $ $Date: 2004/12/10 05:18:16 $
  */
 
 public final class SimpleRegressionTest extends TestCase {
@@ -117,7 +117,7 @@ public final class SimpleRegressionTest extends TestCase {
         regression.addData(corrData);
         assertEquals("number of observations", 17, regression.getN());
         assertEquals("r-square", .896123, regression.getRSquare(), 10E-6);
-        assertEquals("r", -.946638, regression.getR(), 10E-6);
+        assertEquals("r", -0.94663767742, regression.getR(), 1E-10);
     }
 
     public void testNaNs() {
@@ -210,8 +210,8 @@ public final class SimpleRegressionTest extends TestCase {
                 regression.getSlopeStdErr(), 1E-8);
         assertEquals("std err intercept",4.17718672,
                 regression.getInterceptStdErr(),1E-8);
-        assertEquals("significance", 0.26183,
-                regression.getSignificance(),1E-5);    
+        assertEquals("significance", 0.261829133982,
+                regression.getSignificance(),1E-11);    
         assertEquals("slope conf interval half-width", 2.97802204827, 
                 regression.getSlopeConfidenceInterval(),1E-8);
         //------------- End R-verified tests -------------------------------

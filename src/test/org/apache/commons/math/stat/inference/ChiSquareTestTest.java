@@ -22,7 +22,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the ChiSquareTestImpl class.
  *
- * @version $Revision: 1.4 $ $Date: 2004/12/04 20:52:43 $
+ * @version $Revision: 1.5 $ $Date: 2004/12/10 05:18:16 $
  */
 
 public final class ChiSquareTestTest extends TestCase {
@@ -47,16 +47,16 @@ public final class ChiSquareTestTest extends TestCase {
         // Target values computed using R version 1.8.1 
         // Some assembly required ;-)  
         //      Use sum((obs - exp)^2/exp) for the chi-square statistic and
-        //      1 - pchisq(sum((obs - exp)^2/exp), obs.length - 1) for the p-value
+        //      1 - pchisq(sum((obs - exp)^2/exp), length(obs) - 1) for the p-value
         
         long[] observed = {10, 9, 11};
         double[] expected = {10, 10, 10};
         assertEquals("chi-square statistic", 0.2,  testStatistic.chiSquare(expected, observed), 10E-12);
-        assertEquals("chi-square p-value", 0.9048374, testStatistic.chiSquareTest(expected, observed), 1E-7);
+        assertEquals("chi-square p-value", 0.904837418036, testStatistic.chiSquareTest(expected, observed), 1E-10);
         
         long[] observed1 = { 500, 623, 72, 70, 31 };
         double[] expected1 = { 485, 541, 82, 61, 37 };
-        assertEquals( "chi-square test statistic", 16.41311, testStatistic.chiSquare(expected1, observed1), 1E-5);
+        assertEquals( "chi-square test statistic", 16.4131070362, testStatistic.chiSquare(expected1, observed1), 1E-10);
         assertEquals("chi-square p-value", 0.002512096, testStatistic.chiSquareTest(expected1, observed1), 1E-9);
         assertTrue("chi-square test reject", testStatistic.chiSquareTest(expected1, observed1, 0.003));
         assertTrue("chi-square test accept", !testStatistic.chiSquareTest(expected1, observed1, 0.002));
@@ -114,13 +114,13 @@ public final class ChiSquareTestTest extends TestCase {
         
         long[][] counts = { {40, 22, 43}, {91, 21, 28}, {60, 10, 22}};
         assertEquals( "chi-square test statistic", 22.709027688, testStatistic.chiSquare(counts), 1E-9);
-        assertEquals("chi-square p-value", 0.0001448, testStatistic.chiSquareTest(counts), 1E-7);
+        assertEquals("chi-square p-value", 0.000144751460134, testStatistic.chiSquareTest(counts), 1E-9);
         assertTrue("chi-square test reject", testStatistic.chiSquareTest(counts, 0.0002));
         assertTrue("chi-square test accept", !testStatistic.chiSquareTest(counts, 0.0001));    
         
         long[][] counts2 = {{10, 15}, {30, 40}, {60, 90} };
-        assertEquals( "chi-square test statistic", 0.169, testStatistic.chiSquare(counts2), 1E-3);
-        assertEquals("chi-square p-value", 0.919, testStatistic.chiSquareTest(counts2), 1E-3);
+        assertEquals( "chi-square test statistic", 0.168965517241, testStatistic.chiSquare(counts2), 1E-9);
+        assertEquals("chi-square p-value",0.918987499852, testStatistic.chiSquareTest(counts2), 1E-9);
         assertTrue("chi-square test accept", !testStatistic.chiSquareTest(counts2, 0.1)); 
         
         // ragged input array
@@ -179,6 +179,8 @@ public final class ChiSquareTestTest extends TestCase {
             new org.apache.commons.math.stat.inference.ChiSquareTestImpl(); 
         double cst = csti.chiSquareTest(exp, obs); 
         assertEquals("chi-square p-value", 0.0, cst, 1E-3);
+        assertEquals( "chi-square test statistic", 
+                3624883.342907764, testStatistic.chiSquare(exp, obs), 1E-9);
     }
     
     /** Contingency table containing zeros - PR # 32531 */
