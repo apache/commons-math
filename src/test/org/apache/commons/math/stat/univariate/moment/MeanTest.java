@@ -23,7 +23,7 @@ import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
- * @version $Revision: 1.11 $ $Date: 2004/06/17 21:37:05 $
+ * @version $Revision: 1.12 $ $Date: 2004/06/29 06:08:22 $
  */
 public class MeanTest extends StorelessUnivariateStatisticAbstractTest{
 
@@ -54,6 +54,13 @@ public class MeanTest extends StorelessUnivariateStatisticAbstractTest{
      */
     public double expectedValue() {
         return this.mean;
+    }
+    
+    public void testSmallSamples() {
+        Mean mean = new Mean();
+        assertTrue(Double.isNaN(mean.getResult()));
+        mean.increment(1d);
+        assertEquals(1d, mean.getResult(), 0);
     }
 
 }
