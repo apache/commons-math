@@ -56,6 +56,10 @@ The Math project is a library of lightweight, self-contained mathematics and sta
      <name>Albert Davidson Chou</name>
      <email>hotfusionman@yahoo.com</email>
    </contributor>
+   <contributor>
+     <name>J.Pietschmann</name>
+     <email>j3322ptm@yahoo.de</email>
+   </contributor>
   </contributors>  
 
   <dependencies>
