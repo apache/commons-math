@@ -24,7 +24,7 @@ import org.apache.commons.math.distribution.ChiSquaredDistribution;
 /**
  * Implements Chi-Square test statistics defined in the {@link ChiSquareTest} interface.
  *
- * @version $Revision: 1.2 $ $Date: 2004/05/19 14:16:32 $
+ * @version $Revision: 1.3 $ $Date: 2004/05/19 15:06:44 $
  */
 public class ChiSquareTestImpl implements ChiSquareTest, Serializable {
 
@@ -92,13 +92,11 @@ public class ChiSquareTestImpl implements ChiSquareTest, Serializable {
     }
     
     /**
-     * @param observed array of observed frequency counts
-     * @param expected array of expected frequency counts
+     * @param counts array representation of 2-way table
      * @return chi-square test statistic
      * @throws IllegalArgumentException if preconditions are not met
      */
-    public double chiSquare(long[][] counts)
-    throws IllegalArgumentException {
+    public double chiSquare(long[][] counts) throws IllegalArgumentException {
         
         checkArray(counts);
         int nRows = counts.length;
@@ -130,8 +128,7 @@ public class ChiSquareTestImpl implements ChiSquareTest, Serializable {
     }
 
     /**
-     * @param observed array of observed frequency counts
-     * @param expected array of exptected frequency counts
+     * @param counts array representation of 2-way table
      * @return p-value
      * @throws IllegalArgumentException if preconditions are not met
      * @throws MathException if an error occurs computing the p-value
@@ -146,8 +143,7 @@ public class ChiSquareTestImpl implements ChiSquareTest, Serializable {
     }
 
     /**
-     * @param observed array of observed frequency counts
-     * @param expected array of exptected frequency counts
+     * @param counts array representation of 2-way table
      * @param alpha significance level of the test
      * @return true iff null hypothesis can be rejected with confidence
      * 1 - alpha

@@ -20,7 +20,7 @@ import org.apache.commons.math.MathException;
 /**
  * An interface for Chi-Square tests.
  * 
- * @version $Revision: 1.1 $ $Date: 2004/05/03 03:02:25 $ 
+ * @version $Revision: 1.2 $ $Date: 2004/05/19 15:06:44 $ 
  */
 public interface ChiSquareTest {
      
@@ -201,8 +201,7 @@ public interface ChiSquareTest {
      * If any of the preconditions are not met, an 
      * <code>IllegalArgumentException</code> is thrown.
      *
-     * @param observed array of observed frequency counts
-     * @param expected array of exptected frequency counts
+     * @param counts array representation of 2-way table
      * @param alpha significance level of the test
      * @return true iff null hypothesis can be rejected with confidence
      * 1 - alpha

@@ -23,12 +23,9 @@ import org.apache.commons.math.special.Erf;
 
 /**
  * Default implementation of
- * {@link org.apache.commons.math.distribution.NormalDistribution}.<p>
- * You can choose the algorithm used to calculate cumulative probability
- * using method {@link #setCdfAlgorithm}. The deafault is the Cody algorithm 
- * {@link org.apache.commons.math.distribution.NormalCDFPreciseAlgorithm}
+ * {@link org.apache.commons.math.distribution.NormalDistribution}.
  * 
- * @version $Revision: 1.9 $ $Date: 2004/05/19 14:16:31 $
+ * @version $Revision: 1.10 $ $Date: 2004/05/19 15:06:44 $
  */
 public class NormalDistributionImpl extends AbstractContinuousDistribution 
 		implements NormalDistribution, Serializable {
@@ -49,13 +46,15 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 		setMean(mean);
 		setStandardDeviation(sd);
 	}
+    
 	/**
 	 * Creates normal distribution with the mean equal to zero and standard
 	 * deviation equal to one. 
 	 */
 	public NormalDistributionImpl(){
 		this(0.0, 1.0);
-	}	
+	}
+    
 	/**
 	 * Access the mean.
 	 * @return mean for this distribution
@@ -63,6 +62,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 	public double getMean() {
 		return mean;
 	}
+    
 	/**
 	 * Modify the mean.
 	 * @param mean for this distribution
