@@ -24,7 +24,7 @@ import org.apache.commons.math.util.DefaultTransformer;
 import org.apache.commons.math.util.NumberTransformer;
 
 /**
- * @version $Revision: 1.2 $ $Date: 2004/04/24 21:41:02 $
+ * @version $Revision: 1.3 $ $Date: 2004/05/23 00:33:41 $
  */
 public class ListUnivariateImpl extends AbstractDescriptiveStatistics {
 
@@ -105,7 +105,6 @@ public class ListUnivariateImpl extends AbstractDescriptiveStatistics {
         try {
 			value = transformer.transform(list.get(calcIndex));
 		} catch (MathException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         

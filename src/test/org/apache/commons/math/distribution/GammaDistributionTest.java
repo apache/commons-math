@@ -21,7 +21,7 @@ import org.apache.commons.math.MathException;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.14 $ $Date: 2004/02/21 21:35:17 $
+ * @version $Revision: 1.15 $ $Date: 2004/05/23 00:33:40 $
  */
 public class GammaDistributionTest extends TestCase {
     public void testProbabilities() {
@@ -52,7 +52,6 @@ public class GammaDistributionTest extends TestCase {
                     .cumulativeProbability(x);
             assertEquals("probability for " + x, expected, actual, 10e-4);
         } catch (MathException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -66,7 +65,6 @@ public class GammaDistributionTest extends TestCase {
                     .inverseCumulativeProbability(p);
             assertEquals("critical value for " + p, expected, actual, 10e-4);
         } catch (MathException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

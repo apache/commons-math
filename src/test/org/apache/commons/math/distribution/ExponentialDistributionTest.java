@@ -21,7 +21,7 @@ import org.apache.commons.math.TestUtils;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.12 $ $Date: 2004/02/21 21:35:17 $
+ * @version $Revision: 1.13 $ $Date: 2004/05/23 00:33:40 $
  */
 public class ExponentialDistributionTest extends TestCase {
     private ExponentialDistribution exp;
@@ -161,7 +161,6 @@ public class ExponentialDistributionTest extends TestCase {
             double actual = exp.cumulativeProbability(0.25, 0.75);
             assertEquals(0.0905214, actual, 10e-4);
         } catch (MathException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -172,7 +171,6 @@ public class ExponentialDistributionTest extends TestCase {
             double actual = exp.cumulativeProbability(x);
             TestUtils.assertEquals(expected, actual, 10e-4);
         } catch (MathException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -182,7 +180,6 @@ public class ExponentialDistributionTest extends TestCase {
             double actual = exp.inverseCumulativeProbability(p);
             TestUtils.assertEquals(expected, actual, 10e-4);
         } catch (MathException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

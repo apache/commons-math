@@ -22,7 +22,7 @@ import org.apache.commons.math.TestUtils;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.9 $ $Date: 2004/02/21 21:35:18 $
+ * @version $Revision: 1.10 $ $Date: 2004/05/23 00:33:41 $
  */
 public class BeanTransformerTest extends TestCase {
     
@@ -77,7 +77,6 @@ public class BeanTransformerTest extends TestCase {
 		try {
 			value = b.transform(target);
 		} catch (MathException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		TestUtils.assertEquals(1.0, value, 1.0e-2);
@@ -93,7 +92,6 @@ public class BeanTransformerTest extends TestCase {
             try {
 				b.transform(target);
 			} catch (MathException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
             fail("Expecting ClassCastException");

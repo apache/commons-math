@@ -20,7 +20,7 @@ import org.apache.commons.math.MathException;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.11 $ $Date: 2004/02/21 21:35:17 $
+ * @version $Revision: 1.12 $ $Date: 2004/05/23 00:33:40 $
  */
 public class FDistributionTest extends TestCase {
     private FDistribution f;
@@ -82,7 +82,6 @@ public class FDistributionTest extends TestCase {
             double actual = f.cumulativeProbability(x);
             assertEquals("probability for " + x, expected, actual, 1e-3);
         } catch (MathException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -92,7 +91,6 @@ public class FDistributionTest extends TestCase {
             double actual = f.inverseCumulativeProbability(p);
             assertEquals("value for " + p, expected, actual, 1e-2);
         } catch (MathException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

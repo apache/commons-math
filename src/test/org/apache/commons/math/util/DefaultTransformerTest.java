@@ -22,7 +22,7 @@ import org.apache.commons.math.MathException;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.10 $ $Date: 2004/05/23 00:30:01 $
+ * @version $Revision: 1.11 $ $Date: 2004/05/23 00:33:41 $
  */
 public class DefaultTransformerTest extends TestCase {
     /**
@@ -35,7 +35,6 @@ public class DefaultTransformerTest extends TestCase {
         try {
 			assertEquals(expected, t.transform(input), 1.0e-4);
 		} catch (MathException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
@@ -63,7 +62,6 @@ public class DefaultTransformerTest extends TestCase {
         try {
 			assertEquals(expected, t.transform(input), 1.0e-4);
 		} catch (MathException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }        
@@ -78,7 +76,6 @@ public class DefaultTransformerTest extends TestCase {
         try {
 			assertEquals(expected, t.transform(input), 1.0e-4);
 		} catch (MathException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }        
@@ -93,7 +90,6 @@ public class DefaultTransformerTest extends TestCase {
         try {
 			assertEquals(expected, t.transform(input), 1.0e-4);
 		} catch (MathException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
