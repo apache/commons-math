@@ -62,7 +62,7 @@ import junit.framework.TestSuite;
  *
  * @author Phil Steitz
  * @author Tim Obrien
- * @version $Revision: 1.1 $ $Date: 2003/05/29 20:35:46 $
+ * @version $Revision: 1.2 $ $Date: 2003/06/21 02:08:23 $
  */
 
 public final class UnivariateImplTest extends TestCase {
@@ -235,4 +235,19 @@ public final class UnivariateImplTest extends TestCase {
         //FiXME: test all other NaN contract specs
     }
 
+    public void testSkewAndKurtosis() {
+        Univariate u = new UnivariateImpl();
+        
+        double[] testArray = 
+        { 12.5, 12, 11.8, 14.2, 14.9, 14.5, 21, 8.2, 10.3, 11.3, 14.1,
+          9.9, 12.2, 12, 12.1, 11, 19.8, 11, 10, 8.8, 9, 12.3 };
+        for( int i = 0; i < testArray.length; i++) {
+            u.addValue( testArray[i]);
+        }
+        
+        assertEquals("mean", 12.40455, u.getMean(), 0.0001);
+        assertEquals("variance", 10.00236, u.getVariance(), 0.0001);
+        assertEquals("skewness", 1.437424, u.getSkewness(), 0.0001);
+        assertEquals("kurtosis", 2.37719, u.getKurtosis(), 0.0001);
+    }
 }

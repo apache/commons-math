@@ -71,7 +71,7 @@ import org.apache.commons.math.FixedDoubleArray;
  * @author <a href="mailto:mdiggory@apache.org">Mark Diggory</a>
  * @author Brent Worden
  * @author <a href="mailto:HotFusionMan@Yahoo.com">Albert Davidson Chou</a>
- * @version $Revision: 1.11 $ $Date: 2003/06/18 13:57:24 $
+ * @version $Revision: 1.12 $ $Date: 2003/06/21 02:08:23 $
  *
 */
 public class UnivariateImpl implements Univariate, Serializable {
@@ -106,13 +106,13 @@ public class UnivariateImpl implements Univariate, Serializable {
     private double mean = Double.NaN;
 
     /** second moment of values that have been added */
-    private double s2 = Double.NaN;
+    private double m2 = Double.NaN;
 
     /** third moment of values that have been added */
-    private double s3 = Double.NaN;
+    private double m3 = Double.NaN;
 
     /** fourth moment of values that have been added */
-    private double s4 = Double.NaN;
+    private double m4 = Double.NaN;
 
     /** variance of values that have been added */
     private double variance = Double.NaN;
@@ -307,9 +307,9 @@ public class UnivariateImpl implements Univariate, Serializable {
                 sumLog = 0.0;
                 sum = min = max = mean = value;
                 sumsq = Math.pow(value, 2);
-                variance = s2 = 0.0;
+                variance = m2 = 0.0;
                 skewness = kurtosis = 0.0;
-
+                m2 = m3 = m4 = 0.0;
             } else {
                 /* otherwise calc these values */
                 sumLog += Math.log(value);
@@ -321,29 +321,36 @@ public class UnivariateImpl implements Univariate, Serializable {
                 double dev = value - mean;
                 double v = dev / ((double) n);
                 double v2 = Math.pow(v, 2);
-                double n1 = ((double) n - 1);
 
-                s4 += v
-                    * (
-                        - 4.0 * s3
-                        + v
-                            * (6.0 * s2
-                                + n1 * (1 + Math.pow((double) n, 3)) * v2));
+                double n0 = (double) n;
+                double n1 = (double) (n - 1);
+                double n2 = (double) (n - 2);
+                double n3 = (double) (n - 3);
 
-                s3 += v
-                    * (-3.0 * s2 + (double) n * n1 * (n - 2) * Math.pow(v, 2));
-                s2 += n1 * dev * v;
+                m4 =
+                    m4
+                        - (4.0 * v * m3)
+                        + (6.0 * v2 * m2)
+                        + ((n0 * n0) - 3 * n1) * (v2 * v2 * n1 * n0);
+
+                m3 = m3 - (3.0 * v * m2) + (n0 * n1 * n2 * v2 * v);
+
+                m2 += n1 * dev * v;
 
                 mean += v;
-                variance = (n <= 1) ? 0.0 : s2 / n1;
+
+                variance = (n <= 1) ? 0.0 : m2 / n1;
+
                 skewness =
-                    (n <= 2)
+                    (n <= 2 || variance < 10E-20)
                         ? 0.0
-                        : s3 / ((double) n * Math.sqrt(variance) * variance);
+                        : (n0 * m3) / (n1 * n2 * Math.sqrt(variance) * variance);
+
                 kurtosis =
-                    (n <= 3)
+                    (n <= 3 || variance < 10E-20)
                         ? 0.0
-                        : s4 / ((double) n * Math.pow(variance, 2)) - 3;
+                        : (n0 * (n0 + 1) * m4 - 3 * m2 * m2 * n1)
+                            / (n1 * n2 * n3 * variance * variance);
             }
         }
     }
@@ -375,7 +382,7 @@ public class UnivariateImpl implements Univariate, Serializable {
         this.min = this.max = Double.NaN;
         this.sumLog = this.mean = Double.NaN;
         this.variance = this.skewness = this.kurtosis = Double.NaN;
-        this.s2 = this.s3 = this.s4 = Double.NaN;
+        this.m2 = this.m3 = this.m4 = Double.NaN;
         if (doubleArray != null)
             doubleArray = new FixedDoubleArray(windowSize);
     }
