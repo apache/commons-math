@@ -68,7 +68,7 @@ public class SecondMoment extends FirstMoment {
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
-    public double increment(double d) {
+    public void increment(double d) {
         if (n < 1) {
             m1 = m2 = 0.0;
         }
@@ -80,9 +80,6 @@ public class SecondMoment extends FirstMoment {
         
         /* increment and return m2 */
         m2 += n1 * dev * v;
-        
-        return m2;
-        
     }
 
     /**

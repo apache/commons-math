@@ -72,7 +72,7 @@ public class FourthMoment extends ThirdMoment {
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
-    public double increment(double d) {
+    public void increment(double d) {
         if (n < 1) {
             m4 = m3 = m2 = m1 = 0.0;
         }
@@ -90,8 +90,6 @@ public class FourthMoment extends ThirdMoment {
                 - (4.0 * v * prevM3)
                 + (6.0 * v2 * prevM2)
                 + ((n0 * n0) - 3 * n1) * (v2 * v2 * n1 * n0);
-
-        return m4;
     }
     
     /**

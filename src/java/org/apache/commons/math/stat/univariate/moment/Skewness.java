@@ -67,8 +67,6 @@ import org
  */
 public class Skewness extends AbstractStorelessUnivariateStatistic {
 
-    private double skewness = Double.NaN;
-
     protected ThirdMoment moment = null;
 
     protected boolean incMoment = true;
@@ -85,28 +83,29 @@ public class Skewness extends AbstractStorelessUnivariateStatistic {
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
-    public double increment(double d) {
+    public void increment(double d) {
         if (incMoment) {
             moment.increment(d);
         }
-
-        double variance =
-            (moment.n < 1) ? 0.0 : moment.m2 / (double) (moment.n - 1);
-
-        skewness =
-            (moment.n <= 2 || variance < 10E-20)
-                ? 0.0
-                : (moment.n0 * moment.m3)
-                    / (moment.n1 * moment.n2 * Math.sqrt(variance) * variance);
-
-        return skewness;
     }
 
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
      */
     public double getValue() {
-        return skewness;
+        if (moment.n <= 0) {
+            return Double.NaN;
+        }
+
+        double variance =
+            (moment.n < 1) ? 0.0 : moment.m2 / (double) (moment.n - 1);
+
+        if (moment.n <= 2 || variance < 10E-20) {
+            return 0.0;
+        }
+
+        return (moment.n0 * moment.m3)
+                / (moment.n1 * moment.n2 * Math.sqrt(variance) * variance);
     }
 
     /**
@@ -116,7 +115,6 @@ public class Skewness extends AbstractStorelessUnivariateStatistic {
         if (incMoment) {
             moment.clear();
         }
-        skewness = Double.NaN;
     }
 
     /*UnvariateStatistic Approach */
@@ -141,39 +139,44 @@ public class Skewness extends AbstractStorelessUnivariateStatistic {
      */
     public double evaluate(double[] values, int begin, int length) {
 
-        test(values, begin, length);
-
         // Initialize the skewness
         double skew = Double.NaN;
 
-        // Get the mean and the standard deviation
-        double m = mean.evaluate(values, begin, length);
+        if (test(values, begin, length)) {
 
-        // Calc the std, this is implemented here instead of using the 
-        // standardDeviation method eliminate a duplicate pass to get the mean
-        double accum = 0.0;
-        double accum2 = 0.0;
-        for (int i = begin; i < begin + length; i++) {
-            accum += Math.pow((values[i] - m), 2.0);
-            accum2 += (values[i] - m);
+            if (length <= 2) {
+                skew = 0.0;
+            } else {
+                // Get the mean and the standard deviation
+                double m = mean.evaluate(values, begin, length);
+
+                // Calc the std, this is implemented here instead of using the 
+                // standardDeviation method eliminate a duplicate pass to get the mean
+                double accum = 0.0;
+                double accum2 = 0.0;
+                for (int i = begin; i < begin + length; i++) {
+                    accum += Math.pow((values[i] - m), 2.0);
+                    accum2 += (values[i] - m);
+                }
+                double stdDev =
+                    Math.sqrt(
+                        (accum - (Math.pow(accum2, 2) / ((double) length)))
+                            / (double) (length - 1));
+
+                // Calculate the skew as the sum the cubes of the distance 
+                // from the mean divided by the standard deviation.
+                double accum3 = 0.0;
+                for (int i = begin; i < begin + length; i++) {
+                    accum3 += Math.pow((values[i] - m) / stdDev, 3.0);
+                }
+
+                // Get N
+                double n = length;
+
+                // Calculate skewness
+                skew = (n / ((n - 1) * (n - 2))) * accum3;
+            }
         }
-        double stdDev =
-            Math.sqrt(
-                (accum - (Math.pow(accum2, 2) / ((double) length)))
-                    / (double) (length - 1));
-
-        // Calculate the skew as the sum the cubes of the distance 
-        // from the mean divided by the standard deviation.
-        double accum3 = 0.0;
-        for (int i = begin; i < begin + length; i++) {
-            accum3 += Math.pow((values[i] - m) / stdDev, 3.0);
-        }
-
-        // Get N
-        double n = length;
-
-        // Calculate skewness
-        skew = (n / ((n - 1) * (n - 2))) * accum3;
 
         return skew;
     }

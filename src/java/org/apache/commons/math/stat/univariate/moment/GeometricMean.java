@@ -61,23 +61,21 @@ import org.apache.commons.math.stat.univariate.summary.SumOfLogs;
  */
 public class GeometricMean extends SumOfLogs {
  
-    private double geoMean = Double.NaN;
-    
     private int n = 0;
     
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
-    public double increment(double d) {
+    public void increment(double d) {
         n++;
-        return geoMean = Math.exp( super.increment(d) / (double)n );
+        super.increment(d);
     }
 
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
      */
     public double getValue() {
-        return geoMean;
+        return Math.exp( super.getValue() / (double)n );
     }
 
     /**
@@ -85,7 +83,6 @@ public class GeometricMean extends SumOfLogs {
      */
     public void clear() {
         super.clear();
-        geoMean = Double.NaN;
         n = 0;
     }
     

@@ -78,7 +78,7 @@ public class FirstMoment extends AbstractStorelessUnivariateStatistic {
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
-    public double increment(double d) {
+    public void increment(double d) {
         if (n < 1) {
              m1 = 0.0;
         }
@@ -88,7 +88,7 @@ public class FirstMoment extends AbstractStorelessUnivariateStatistic {
         n0 = (double)n;
         v = dev / n0;
 
-        return m1 += v;                    
+        m1 += v;                    
     }
     
     /**

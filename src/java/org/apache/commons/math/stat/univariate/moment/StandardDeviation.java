@@ -59,8 +59,6 @@ package org.apache.commons.math.stat.univariate.moment;
  */
 public class StandardDeviation extends Variance {
 
-    private double std = Double.NaN;
-    
     public StandardDeviation(){
         super();
     }
@@ -72,17 +70,24 @@ public class StandardDeviation extends Variance {
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
-    public double increment(double d) {
-        super.increment(d);
-        std = (variance != 0.0) ? Math.sqrt(variance) : 0.0;
-        return std;
+    public void increment(double d) {
+        super.increment(d);        
     }
     
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
      */
     public double getValue() {
-        return std;
+        
+        double var = super.getValue();
+        
+        if(Double.isNaN(var)){
+            return Double.NaN;
+        }else if (var == 0.0){
+            return 0.0;
+        }
+        
+        return Math.sqrt(var);
     }
     
     /**
@@ -90,7 +95,6 @@ public class StandardDeviation extends Variance {
      */
     public void clear() {
         super.clear();
-        std = Double.NaN;
     }
 
     /**
@@ -103,8 +107,13 @@ public class StandardDeviation extends Variance {
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
     public double evaluate(double[] values, int begin, int length) {
-        double tmp = super.evaluate(values, begin, length);
-        return tmp != 0.0 ? Math.sqrt(tmp) : 0.0;
+        double var = super.evaluate(values, begin, length);
+        
+        if(Double.isNaN(var)){
+            return Double.NaN;
+        }
+
+        return var != 0.0 ? Math.sqrt(var) : 0.0;
     }
 
 }

@@ -74,13 +74,12 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic {
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
-    public double increment(double d) {
+    public void increment(double d) {
         if (Double.isNaN(value )) {
             value = d * d;
         } else {
             value += d * d;
         }
-        return value;
     }
 
     /**

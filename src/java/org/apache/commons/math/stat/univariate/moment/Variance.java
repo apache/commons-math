@@ -53,46 +53,51 @@
  */
 package org.apache.commons.math.stat.univariate.moment;
 
-import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
+import org
+    .apache
+    .commons
+    .math
+    .stat
+    .univariate
+    .AbstractStorelessUnivariateStatistic;
 
 /**
  *
  *
  */
-public class Variance extends AbstractStorelessUnivariateStatistic{
-
-    protected double variance = Double.NaN;
+public class Variance extends AbstractStorelessUnivariateStatistic {
 
     protected SecondMoment moment = null;
-    
+
     protected boolean incMoment = true;
-    
-    public Variance(){
+
+    public Variance() {
         moment = new SecondMoment();
     }
-    
-    public Variance(SecondMoment m2){
+
+    public Variance(SecondMoment m2) {
         incMoment = false;
         this.moment = m2;
     }
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
-    public double increment(double d) {
+    public void increment(double d) {
         if (incMoment) {
             moment.increment(d);
         }
-        
-        variance = (moment.n < 1) ? 0.0 : moment.m2 / (double)(moment.n - 1);
-        
-        return variance;
     }
-    
+
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
      */
     public double getValue() {
-        return variance;
+        if (moment.n <= 0) {
+            return Double.NaN;
+        } else if (moment.n <= 1) {
+            return 0.0;
+        }
+        return moment.m2 / (moment.n0 - 1);
     }
 
     /**
@@ -102,13 +107,12 @@ public class Variance extends AbstractStorelessUnivariateStatistic{
         if (incMoment) {
             moment.clear();
         }
-        variance = Double.NaN;
     }
-    
+
     /*UnvariateStatistic Approach */
 
     Mean mean = new Mean();
-    
+
     /**
      * Returns the variance of the available values. This uses a corrected
      * two pass algorithm of the following 
@@ -126,24 +130,26 @@ public class Variance extends AbstractStorelessUnivariateStatistic{
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
     public double evaluate(double[] values, int begin, int length) {
+
         double var = Double.NaN;
-        if (values.length == 1) {
-            var = 0;
-        } else if (values.length > 1) {
-            double m = mean.evaluate(values, begin, length);
-            double accum = 0.0;
-            double accum2 = 0.0;
-            for (int i = begin; i < begin + length; i++) {
-                accum += Math.pow((values[i] - m), 2.0);
-                accum2 += (values[i] - m);
+
+        if (test(values, begin, length)) {
+            if (length == 1) {
+                var = 0.0;
+            } else if (length > 1) {
+                double m = mean.evaluate(values, begin, length);
+                double accum = 0.0;
+                double accum2 = 0.0;
+                for (int i = begin; i < begin + length; i++) {
+                    accum += Math.pow((values[i] - m), 2.0);
+                    accum2 += (values[i] - m);
+                }
+                var =
+                    (accum - (Math.pow(accum2, 2) / ((double) length)))
+                        / (double) (length - 1);
             }
-            var =
-                (accum - (Math.pow(accum2, 2) / ((double) length)))
-                    / (double) (length - 1);
         }
         return var;
     }
-
-
 
 }

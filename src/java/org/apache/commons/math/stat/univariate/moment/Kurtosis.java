@@ -66,8 +66,6 @@ import org
  */
 public class Kurtosis extends AbstractStorelessUnivariateStatistic {
 
-    private double kurtosis = Double.NaN;
-
     protected FourthMoment moment = null;
 
     protected boolean incMoment = true;
@@ -84,29 +82,32 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic {
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
-    public double increment(double d) {
+    public void increment(double d) {
         if (incMoment) {
             moment.increment(d);
         }
-
-        double variance =
-            (moment.n < 1) ? 0.0 : moment.m2 / (double) (moment.n - 1);
-
-        kurtosis =
-            (moment.n <= 3 || variance < 10E-20)
-                ? 0.0
-                : (moment.n0 * (moment.n0 + 1) * moment.m4
-                    - 3 * moment.m2 * moment.m2 * moment.n1)
-                    / (moment.n1 * moment.n2 * moment.n3 * variance * variance);
-
-        return kurtosis;
     }
 
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
      */
     public double getValue() {
-        return kurtosis;
+
+        if (moment.n <= 0) {
+            return Double.NaN;
+        }
+
+        double variance =
+            (moment.n < 1) ? 0.0 : moment.m2 / (double) (moment.n - 1);
+
+        if (moment.n <= 3 || variance < 10E-20) {
+            return 0.0;
+        }
+
+        return (moment.n0 * (moment.n0 + 1) * moment.m4
+                - 3 * moment.m2 * moment.m2 * moment.n1)
+                / (moment.n1 * moment.n2 * moment.n3 * variance * variance);
+
     }
 
     /**
@@ -116,7 +117,6 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic {
         if (incMoment) {
             moment.clear();
         }
-        kurtosis = Double.NaN;
     }
 
     /*UnvariateStatistic Approach */
@@ -139,43 +139,52 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic {
     * @return the kurtosis of the values or Double.NaN if the array is empty
     */
     public double evaluate(double[] values, int begin, int length) {
-        test(values, begin, length);
+        ;
 
         // Initialize the kurtosis
         double kurt = Double.NaN;
 
-        // Get the mean and the standard deviation
-        double m = mean.evaluate(values, begin, length);
+        if (test(values, begin, length)) {
+            if (length <= 3) {
+                kurt = 0.0;
+            } else {
 
-        // Calc the std, this is implemented here instead of using the 
-        // standardDeviation method eliminate a duplicate pass to get the mean
-        double accum = 0.0;
-        double accum2 = 0.0;
-        for (int i = begin; i < begin + length; i++) {
-            accum += Math.pow((values[i] - m), 2.0);
-            accum2 += (values[i] - m);
+                // Get the mean and the standard deviation
+                double m = mean.evaluate(values, begin, length);
+
+                // Calc the std, this is implemented here instead of using the 
+                // standardDeviation method eliminate a duplicate pass to get the mean
+                double accum = 0.0;
+                double accum2 = 0.0;
+                for (int i = begin; i < begin + length; i++) {
+                    accum += Math.pow((values[i] - m), 2.0);
+                    accum2 += (values[i] - m);
+                }
+
+                double stdDev =
+                    Math.sqrt(
+                        (accum - (Math.pow(accum2, 2) / ((double) length)))
+                            / (double) (length - 1));
+
+                // Sum the ^4 of the distance from the mean divided by the 
+                // standard deviation
+                double accum3 = 0.0;
+                for (int i = begin; i < begin + length; i++) {
+                    accum3 += Math.pow((values[i] - m) / stdDev, 4.0);
+                }
+
+                // Get N
+                double n = length;
+
+                double coefficientOne =
+                    (n * (n + 1)) / ((n - 1) * (n - 2) * (n - 3));
+                double termTwo =
+                    ((3 * Math.pow(n - 1, 2.0)) / ((n - 2) * (n - 3)));
+
+                // Calculate kurtosis
+                kurt = (coefficientOne * accum3) - termTwo;
+            }
         }
-
-        double stdDev =
-            Math.sqrt(
-                (accum - (Math.pow(accum2, 2) / ((double) length)))
-                    / (double) (length - 1));
-
-        // Sum the ^4 of the distance from the mean divided by the 
-        // standard deviation
-        double accum3 = 0.0;
-        for (int i = begin; i < begin + length; i++) {
-            accum3 += Math.pow((values[i] - m) / stdDev, 4.0);
-        }
-
-        // Get N
-        double n = length;
-
-        double coefficientOne = (n * (n + 1)) / ((n - 1) * (n - 2) * (n - 3));
-        double termTwo = ((3 * Math.pow(n - 1, 2.0)) / ((n - 2) * (n - 3)));
-
-        // Calculate kurtosis
-        kurt = (coefficientOne * accum3) - termTwo;
 
         return kurt;
     }

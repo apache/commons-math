@@ -69,7 +69,7 @@ public interface StorelessUnivariateStatistic extends UnivariateStatistic {
      * the same value as <code>getValue()</code>, Double.NaN if it
      * has been cleared or just instantiated.
      */
-    public double increment(double d);
+    public void increment(double d);
 
     /**
      * Returns the current state of the statistic after the

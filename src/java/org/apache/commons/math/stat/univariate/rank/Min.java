@@ -71,9 +71,8 @@ public class Min extends AbstractStorelessUnivariateStatistic {
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
-    public double increment(double d) {
+    public void increment(double d) {
         value = Double.isNaN(value) ? d : Math.min(value, d);
-        return value;
     }
 
     /**

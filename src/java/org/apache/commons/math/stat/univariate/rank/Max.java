@@ -71,8 +71,8 @@ public class Max extends AbstractStorelessUnivariateStatistic {
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
-    public double increment(double d) {
-        return value = Double.isNaN(value) ? d : Math.max(value, d);
+    public void increment(double d) {
+        value = Double.isNaN(value) ? d : Math.max(value, d);
     }
 
     /**

@@ -84,12 +84,10 @@ public class Mean extends AbstractStorelessUnivariateStatistic {
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
-    public double increment(double d) {
+    public void increment(double d) {
         if (incMoment) {
             moment.increment(d);
         }
-
-        return moment.m1;
     }
 
     /**

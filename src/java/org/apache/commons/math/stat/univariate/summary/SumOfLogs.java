@@ -71,17 +71,17 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic {
      */
     private double value = Double.NaN;
 
+    private boolean init = true;
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
-    public double increment(double d) {
-        if (Double.isNaN(value )) {
+    public void increment(double d) {
+        if (init) {
             value = Math.log(d);
+            init = false;
         } else {
             value += Math.log(d);
         }
-
-        return value;
     }
 
     /**
@@ -96,6 +96,7 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic {
      */
     public void clear() {
         value = Double.NaN;
+        init = true;
     }
     
     /**
