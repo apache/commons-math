@@ -29,11 +29,16 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * <p>
  * The definitional formula does not have good numerical properties, so
  * this implementation uses updating formulas based on West's algorithm
- *  as described in <a href="http://doi.acm.org/10.1145/359146.359152">
+ * as described in <a href="http://doi.acm.org/10.1145/359146.359152">
  * Chan, T. F. andJ. G. Lewis 1979, <i>Communications of the ACM</i>,
  * vol. 22 no. 9, pp. 526-531.</a>.
- *
- * @version $Revision: 1.22 $ $Date: 2004/06/27 19:37:51 $
+* <p>
+ * <strong>Note that this implementation is not synchronized.</strong> If 
+ * multiple threads access an instance of this class concurrently, and at least
+ * one of the threads invokes the <code>increment()</code> or 
+ * <code>clear()</code> method, it must be synchronized externally.
+ * 
+ * @version $Revision: 1.23 $ $Date: 2004/07/04 09:02:36 $
  */
 public class Variance extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -105,21 +110,22 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
     }
 
     /**
-     * Returns the variance of the available values. This uses a corrected
-     * two pass algorithm of the following
-     * <a href="http://lib-www.lanl.gov/numerical/bookcpdf/c14-1.pdf">
-     * corrected two pass formula (14.1.8)</a>, and also referenced in:
+     * Returns the variance of the entries in the specified portion of
+     * the input array, or <code>Double.NaN</code> if the designated subarray
+     * is empty.
      * <p>
-     * "Algorithms for Computing the Sample Variance: Analysis and
-     * Recommendations", Chan, T.F., Golub, G.H., and LeVeque, R.J.
-     * 1983, American Statistician, vol. 37, pp. 242?247.
-     * </p>
-     * @param values Is a double[] containing the values
-     * @param begin processing at this point in the array
+     * See {@link Variance} for details on the computing algorithm.
+     * <p>
+     * Returns 0 for a single-value (i.e. length = 1) sample.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * 
+     * @param values the input array
+     * @param begin index of the first array element to include
      * @param length the number of elements to include
-     * @return the result, Double.NaN if no values for an empty array
-     * or 0.0 for a single value set.
-     * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
+     * @return the variance of the values or Double.NaN if length = 0
+     * @throws IllegalArgumentException if the array is null or the array index
+     *  parameters are not valid
      */
     public double evaluate(final double[] values, final int begin, final int length) {
 

@@ -31,8 +31,13 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * <code>Double.NEGATIVE_INFINITY</code> are among the values, the result is
  * <code>NaN.</code></li>
  * </ul>
- *
- * @version $Revision: 1.19 $ $Date: 2004/06/23 16:26:16 $
+ * <p>
+ * <strong>Note that this implementation is not synchronized.</strong> If 
+ * multiple threads access an instance of this class concurrently, and at least
+ * one of the threads invokes the <code>increment()</code> or 
+ * <code>clear()</code> method, it must be synchronized externally.
+ * 
+ * @version $Revision: 1.20 $ $Date: 2004/07/04 09:02:36 $
  */
 public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -82,15 +87,21 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements S
     }
 
     /**
-     * Returns the sum of the natural logs for this collection of values.
+     * Returns the sum of the natural logs of the entries in the specified portion of
+     * the input array, or <code>Double.NaN</code> if the designated subarray
+     * is empty.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
      * <p>
      * See {@link SumOfLogs}.
      * 
-     * @param values Is a double[] containing the values
-     * @param begin processing at this point in the array
+     * @param values the input array
+     * @param begin index of the first array element to include
      * @param length the number of elements to include
-     * @return the sumLog value or Double.NaN if the array is empty
-     * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
+     * @return the sum of the natural logs of the values or Double.NaN if 
+     * length = 0
+     * @throws IllegalArgumentException if the array is null or the array index
+     *  parameters are not valid
      */
     public double evaluate(final double[] values, final int begin, final int length) {
         double sumLog = Double.NaN;

@@ -42,7 +42,6 @@ import org.apache.commons.math.stat.univariate.AbstractUnivariateStatistic;
  * </li>
  * </ol>
  * <p>
- *
  * To compute percentiles, the data must be (totally) ordered.  Input arrays
  * are copied and then sorted using  {@link java.util.Arrays#sort(double[])}.
  * The ordering used by <code>Arrays.sort(double[]</code> is the one determined
@@ -55,8 +54,13 @@ import org.apache.commons.math.stat.univariate.AbstractUnivariateStatistic;
  * Since percentile estimation usually involves interpolation between array 
  * elements, arrays containing  <code>NaN</code> or infinite values will often
  * result in <code>NaN<code> or infinite values returned.
- *
- * @version $Revision: 1.21 $ $Date: 2004/06/23 16:26:17 $
+ * <p>
+ * <strong>Note that this implementation is not synchronized.</strong> If 
+ * multiple threads access an instance of this class concurrently, and at least
+ * one of the threads invokes the <code>increment()</code> or 
+ * <code>clear()</code> method, it must be synchronized externally.
+ * 
+ * @version $Revision: 1.22 $ $Date: 2004/07/04 09:02:36 $
  */
 public class Percentile extends AbstractUnivariateStatistic implements Serializable {
 
@@ -102,10 +106,10 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * </ul>
      * <p>
      * See {@link Percentile} for a description of the percentile estimation
-     *  algorithm used.
+     * algorithm used.
      * 
-     * @param values Is a double[] containing the values
-     * @param p Is the quantile to evaluate to.
+     * @param values input array of values
+     * @param p the percentile value to compute
      * @return the result of the evaluation or Double.NaN if the array is empty
      * @throws IllegalArgumentException if <code>values</code> is null
      */
@@ -116,8 +120,8 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
 
     /**
      * Returns an estimate of the <code>quantile</code>th percentile of the
-     * values in the <code>values</code> array.  The quantile estimated is
-     * determined by the <code>quantile</code> property.
+     * designated values in the <code>values</code> array.  The quantile
+     * estimated is determined by the <code>quantile</code> property.
      * <p>
      * <ul>
      * <li>Returns <code>Double.NaN</code> if <code>length = 0</code></li>
@@ -131,9 +135,9 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * See {@link Percentile} for a description of the percentile estimation
      * algorithm used.
      * 
-     * @param values  array of input values
-     * @param start  the first (0-based) element to include in the computation
-     * @param length  the number of array elements to include
+     * @param values the input array
+     * @param start index of the first array element to include
+     * @param length the number of elements to include
      * @return the percentile value
      * @throws IllegalArgumentException if the parameters are not valid
      * 
@@ -168,7 +172,8 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * @param begin  the first (0-based) element to include in the computation
      * @param length  the number of array elements to include
      * @return  the percentile value
-     * @throws IllegalArgumentException if the parameters are not valid
+     * @throws IllegalArgumentException if the parameters are not valid or the
+     * input array is null
      */
     public double evaluate(final double[] values, final int begin, 
             final int length, final double p) {

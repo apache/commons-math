@@ -18,10 +18,17 @@ package org.apache.commons.math.stat.univariate;
 import java.io.Serializable;
 
 /**
- * Abstract Implementation for UnivariateStatistics.
- * Provides the ability to extend polymophically so that
- * indiviual statistics do not need to implement these methods.
- * @version $Revision: 1.18 $ $Date: 2004/06/23 16:26:16 $
+ * Abstract base class for all implementations of the 
+ * {@link UnivariateStatistic} interface.
+ * <p>
+ * Provides a default implementation of <code>evaluate(double[]),</code> 
+ * delegating to <code>evaluate(double[], int, int)</code> in the natural way.
+ * <p>
+ * Also includes a <code>test</code> method that performs generic parameter
+ * validation for the <code>evaluate</code> methods.
+ * <p>
+ * 
+ * @version $Revision: 1.19 $ $Date: 2004/07/04 09:02:36 $
  */
 public abstract class AbstractUnivariateStatistic
     implements UnivariateStatistic, Serializable {
@@ -40,19 +47,23 @@ public abstract class AbstractUnivariateStatistic
     /**
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
-    public abstract double evaluate(
-        final double[] values,
-        final int begin,
-        final int length);
+    public abstract double evaluate(final double[] values, final int begin, final int length);
 
     /**
-     * This method is used by all evaluation methods to verify that the content
-     * of the array and indices are correct.
+     * This method is used by <code>evaluate(double[], int, int)</code> methods
+     * to verify that the input parameters designate a subarray of positive length.
      * <p>
-     *  It is used by an individual statistic to determine if calculation
-     *  should continue, or return <code>Double.NaN</code> </p>
-     * @param values Is a double[] containing the values
-     * @param begin processing at this point in the array
+     * <ul>
+     * <li>returns <code>true</code> iff the parameters designate a subarray of 
+     * positive length</li>
+     * <li>throws <code>IllegalArgumentException</code> if the array is null or
+     * or the indices are invalid</li>
+     * <li>returns <code>false</li> if the array is non-null, but 
+     * <code>length</code> is 0.
+     * </ul>
+     *
+     * @param values the input array
+     * @param begin index of the first array element to include
      * @param length the number of elements to include
      * @return true if the parameters are valid and designate a subarray of positive length
      * @throws IllegalArgumentException if the indices are invalid or the array is null

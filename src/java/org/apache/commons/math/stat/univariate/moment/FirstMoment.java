@@ -36,10 +36,16 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * </ol>
  * <p>
  *  Returns <code>Double.NaN</code> if the dataset is empty.
+ * <p>
+ * <strong>Note that this implementation is not synchronized.</strong> If 
+ * multiple threads access an instance of this class concurrently, and at least
+ * one of the threads invokes the <code>increment()</code> or 
+ * <code>clear()</code> method, it must be synchronized externally.
  *
- * @version $Revision: 1.17 $ $Date: 2004/06/29 02:14:17 $
+ * @version $Revision: 1.18 $ $Date: 2004/07/04 09:02:36 $
  */
-public class FirstMoment extends AbstractStorelessUnivariateStatistic implements Serializable{
+public class FirstMoment extends AbstractStorelessUnivariateStatistic 
+    implements Serializable {
 
     /** Serializable version identifier */
     static final long serialVersionUID = -803343206421984070L; 

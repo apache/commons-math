@@ -23,13 +23,18 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * Computes the skewness of the available values.
  * <p>
  * We use the following (unbiased) formula to define skewness:
- *  <p>
- *  skewness = [n / (n -1) (n - 2)] sum[(x_i - mean)^3] / std^3
- *  <p>
- *  where n is the number of values, mean is the {@link Mean} and std is the 
+ * <p>
+ * skewness = [n / (n -1) (n - 2)] sum[(x_i - mean)^3] / std^3
+ * <p>
+ * where n is the number of values, mean is the {@link Mean} and std is the 
  * {@link StandardDeviation}
- *
- * @version $Revision: 1.23 $ $Date: 2004/07/02 05:29:14 $
+ * <p>
+ * <strong>Note that this implementation is not synchronized.</strong> If 
+ * multiple threads access an instance of this class concurrently, and at least
+ * one of the threads invokes the <code>increment()</code> or 
+ * <code>clear()</code> method, it must be synchronized externally.
+ * 
+ * @version $Revision: 1.24 $ $Date: 2004/07/04 09:02:36 $
  */
 public class Skewness extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -113,20 +118,23 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
     }
 
     /**
-     * Returns the Skewness of the values array.
+     * Returns the Skewness of the entries in the specifed portion of the
+     * input array.
      * <p>
      * See {@link Skewness} for the definition used in the computation.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
      * 
-     * @param values Is a double[] containing the values
-     * @param begin processing at this point in the array
+     * @param values the input array
+     * @param begin the index of the first array element to include
      * @param length the number of elements to include
-     * @return the skewness of the values or Double.NaN if the array is empty
-     * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
+     * @return the skewness of the values or Double.NaN if length is less than
+     * 3
+     * @throws IllegalArgumentException if the array is null or the array index
+     *  parameters are not valid
      */
-    public double evaluate(
-        final double[] values,
-        final int begin,
-        final int length) {
+    public double evaluate(final double[] values,final int begin, 
+            final int length) {
 
         // Initialize the skewness
         double skew = Double.NaN;

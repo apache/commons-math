@@ -33,9 +33,14 @@ import org.apache.commons.math.stat.univariate.summary.SumOfLogs;
  * <code>Double.NEGATIVE_INFINITY</code> are among the values, the result is
  * <code>NaN.</code></li>
  * </ul>
+ * <p>
+ * <strong>Note that this implementation is not synchronized.</strong> If 
+ * multiple threads access an instance of this class concurrently, and at least
+ * one of the threads invokes the <code>increment()</code> or 
+ * <code>clear()</code> method, it must be synchronized externally.
+ * 
  *
- *
- * @version $Revision: 1.20 $ $Date: 2004/06/23 16:26:15 $
+ * @version $Revision: 1.21 $ $Date: 2004/07/04 09:02:36 $
  */
 public class GeometricMean extends SumOfLogs implements Serializable{
 
@@ -73,13 +78,20 @@ public class GeometricMean extends SumOfLogs implements Serializable{
     }
 
     /**
-     * Returns the geometric mean for this collection of values
-     * @param values Is a double[] containing the values
-     * @param begin processing at this point in the array
+     * Returns the geometric mean of the entries in the specified portion
+     * of the input array.
+     * <p>
+     * See {@link GeometricMean} for details on the computing algorithm.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * 
+     * @param values input array containing the values
+     * @param begin first array element to include
      * @param length the number of elements to include
-     * @return the geometric mean or Double.NaN if the array is empty or
+     * @return the geometric mean or Double.NaN if length = 0 or
      * any of the values are &lt;= 0.
-     * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
+     * @throws IllegalArgumentException if the input array is null or the array
+     * index parameters are not valid
      */
     public double evaluate(
         final double[] values,

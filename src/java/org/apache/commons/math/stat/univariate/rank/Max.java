@@ -28,8 +28,13 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * <li>If any of the values equals <code>Double.POSITIVE_INFINITY</code>, 
  * the result is <code>Double.POSITIVE_INFINITY.</code></li>
  * </ul>
- *
- * @version $Revision: 1.18 $ $Date: 2004/06/23 16:26:17 $
+* <p>
+ * <strong>Note that this implementation is not synchronized.</strong> If 
+ * multiple threads access an instance of this class concurrently, and at least
+ * one of the threads invokes the <code>increment()</code> or 
+ * <code>clear()</code> method, it must be synchronized externally.
+ * 
+ * @version $Revision: 1.19 $ $Date: 2004/07/04 09:02:36 $
  */
 public class Max extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -75,9 +80,26 @@ public class Max extends AbstractStorelessUnivariateStatistic implements Seriali
     }
     
     /**
-     * Returns the maximum of the available values.
+     * Returns the maximum of the entries in the specified portion of
+     * the input array, or <code>Double.NaN</code> if the designated subarray
+     * is empty.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null or
+     * the array index parameters are not valid.
+     * <p>
+     * <ul>
+     * <li>The result is <code>NaN</code> iff all values are <code>NaN</code> 
+     * (i.e. <code>NaN</code> values have no impact on the value of the statistic).</li>
+     * <li>If any of the values equals <code>Double.POSITIVE_INFINITY</code>, 
+     * the result is <code>Double.POSITIVE_INFINITY.</code></li>
+     * </ul>
      * 
-     * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
+     * @param values the input array
+     * @param begin index of the first array element to include
+     * @param length the number of elements to include
+     * @return the mean of the values or Double.NaN if length = 0
+     * @throws IllegalArgumentException if the array is null or the array index
+     *  parameters are not valid
      */
     public double evaluate(final double[] values, final int begin, final int length) {
         double max = Double.NaN;

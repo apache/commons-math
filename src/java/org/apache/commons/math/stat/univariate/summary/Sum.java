@@ -24,8 +24,13 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * <p>
  * If there are no values in the dataset, or any of the values are 
  * <code>NaN</code>, then <code>NaN</code> is returned.  
+ * <p>
+ * <strong>Note that this implementation is not synchronized.</strong> If 
+ * multiple threads access an instance of this class concurrently, and at least
+ * one of the threads invokes the <code>increment()</code> or 
+ * <code>clear()</code> method, it must be synchronized externally.
  * 
- * @version $Revision: 1.22 $ $Date: 2004/06/29 15:39:15 $
+ * @version $Revision: 1.23 $ $Date: 2004/07/04 09:02:36 $
  */
 public class Sum extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -75,13 +80,18 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
     }
 
     /**
-     * The sum of the values that have been added.
+     * The sum of the entries in the specified portion of
+     * the input array, or <code>Double.NaN</code> if the designated subarray
+     * is empty.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
      * 
-     * @param values Is a double[] containing the values
-     * @param begin processing at this point in the array
+     * @param values the input array
+     * @param begin index of the first array element to include
      * @param length the number of elements to include
-     * @return the sum of the values or Double.NaN if the array is empty
-     * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
+     * @return the sum of the values or Double.NaN if length = 0
+     * @throws IllegalArgumentException if the array is null or the array index
+     *  parameters are not valid
      */
     public double evaluate(final double[] values, final int begin, final int length) {
         double sum = Double.NaN;

@@ -41,10 +41,10 @@ import org.apache.commons.math.stat.univariate.summary.Sum;
  * <p>
  * <strong>Note that this implementation is not synchronized.</strong> If 
  * multiple threads access an instance of this class concurrently, and at least
- * one of the threads invokes the <code>increment()</code>, or 
- * <code>clear()</code> method,  it must be synchronized externally.
+ * one of the threads invokes the <code>increment()</code> or 
+ * <code>clear()</code> method, it must be synchronized externally.
  * 
- * @version $Revision: 1.19 $ $Date: 2004/07/02 13:59:49 $
+ * @version $Revision: 1.20 $ $Date: 2004/07/04 09:02:36 $
  */
 public class Mean extends AbstractStorelessUnivariateStatistic 
     implements Serializable {
@@ -111,19 +111,20 @@ public class Mean extends AbstractStorelessUnivariateStatistic
     }
 
     /**
-     * Returns the arithmetic mean of the values in the input array, or
-     * <code>Double.NaN</code> if the array is empty.
+     * Returns the arithmetic mean of the entries in the specified portion of
+     * the input array, or <code>Double.NaN</code> if the designated subarray
+     * is empty.
      * <p>
      * Throws <code>IllegalArgumentException</code> if the array is null.
      * <p>
      * See {@link Mean} for details on the computing algorithm.
      * 
-     * @param values Is a double[] containing the values
-     * @param begin processing at this point in the array
+     * @param values the input array
+     * @param begin index of the first array element to include
      * @param length the number of elements to include
-     * @return the mean of the values or Double.NaN if the array is empty
-     * @throws IllegalArgumentException if the array is null
-     * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
+     * @return the mean of the values or Double.NaN if length = 0
+     * @throws IllegalArgumentException if the array is null or the array index
+     *  parameters are not valid
      */
     public double evaluate(final double[] values,final int begin, final int length) {
         if (test(values, begin, length)) {

@@ -16,30 +16,32 @@
 package org.apache.commons.math.stat.univariate;
 
 /**
- * UnivariateStatistic interface provides methods to evaluate
- * double[] based content using an implemented statistical approach.
- * The interface provides two "stateless" simple methods to calculate
- * a statistic from a double[] based parameter.
- * @version $Revision: 1.14 $ $Date: 2004/06/23 16:26:16 $
+ * Base evaluation interface implemented by all statistics.
+ * <p>
+ * Includes "stateless" <code>evaluate</code> methods that take
+ * <code>double[]</code> arrays as input and return the value of the statistic
+ * applied to the input values.
+ * 
+ * @version $Revision: 1.15 $ $Date: 2004/07/04 09:02:36 $
  */
 public interface UnivariateStatistic {
 
     /**
-     * Evaluates the double[] returning the result of the evaluation.
-     * @param values Is a double[] containing the values
-     * @return the result of the evaluation or Double.NaN
-     * if the array is empty
+     * Returns the result of evaluating the statistic over the input array.
+     * 
+     * @param values input array
+     * @return the value of the statistic applied to the input array
      */
     double evaluate(double[] values);
 
     /**
-     * Evaluates part of a double[] returning the result
-     * of the evaluation.
-     * @param values Is a double[] containing the values
-     * @param begin processing at this point in the array
+     * Returns the result of evaluating the statistic over the specified entries
+     * in the input array.
+     * 
+     * @param values the input array
+     * @param begin the index of the first element to include
      * @param length the number of elements to include
-     * @return the result of the evaluation or Double.NaN
-     * if the array is empty
+     * @return the value of the statistic applied to the included array entries
      */
     double evaluate(double[] values, int begin, int length);
 

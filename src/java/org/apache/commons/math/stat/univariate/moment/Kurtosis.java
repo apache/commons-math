@@ -30,8 +30,13 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * <p>
  *  Note that this statistic is undefined for n < 4.  <code>Double.Nan</code> is returned when
  *  there is not sufficient data to compute the statistic.
- *
- * @version $Revision: 1.24 $ $Date: 2004/07/02 05:29:14 $
+ * <p>
+ * <strong>Note that this implementation is not synchronized.</strong> If 
+ * multiple threads access an instance of this class concurrently, and at least
+ * one of the threads invokes the <code>increment()</code> or 
+ * <code>clear()</code> method, it must be synchronized externally.
+ * 
+ * @version $Revision: 1.25 $ $Date: 2004/07/04 09:02:36 $
  */
 public class Kurtosis extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -121,15 +126,20 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic implements Se
     /* UnvariateStatistic Approach  */
 
     /**
-     * Returns the kurtosis for this collection of values.  
+     * Returns the kurtosis of the entries in the specified portion of the
+     * input array.  
      * <p>
-     * See {@link Kurtosis} for the definition used in the computation.
+     * See {@link Kurtosis} for details on the computing algorithm.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
      * 
-     * @param values Is a double[] containing the values
-     * @param begin processing at this point in the array
+     * @param values the input array
+     * @param begin index of the first array element to include
      * @param length the number of elements to include
-     * @return the kurtosis of the values or Double.NaN if the array is empty or has fewer than
-     *  four elements
+     * @return the kurtosis of the values or Double.NaN if length is less than
+     * 4
+     * @throws IllegalArgumentException if the input array is null or the array
+     * index parameters are not valid
      */
     public double evaluate(final double[] values,final int begin, final int length) {
         // Initialize the kurtosis  
