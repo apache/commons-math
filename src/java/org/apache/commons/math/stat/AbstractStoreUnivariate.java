@@ -58,6 +58,7 @@ package org.apache.commons.math.stat;
  * 
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
  * @author Mark Diggory
+ * @author <a href="mailto:phil@steitz.com">Phil Steitz</a>
  */
 public abstract class AbstractStoreUnivariate implements StoreUnivariate {
 
@@ -290,6 +291,66 @@ public abstract class AbstractStoreUnivariate implements StoreUnivariate {
             accum += Math.pow(getElement(i), 2.0);
         }
         return accum;
+    }
+   
+    /**
+     * Uses <a href="http://www.nist.gov/dads/HTML/shellsort.html">Shell sort
+     * </a>
+     * @see org.apache.commons.math.StoreUnivariate#getSortedValues()
+     *
+     */ 
+    public double[] getSortedValues() {
+        double[] values = getValues();
+        int n = values.length;
+        int j = n;
+        while (j > 1) {
+            j = j / 2;
+            boolean done = false;
+            while (!done) {
+                done = true;
+                for (int i = 0; i < n - j; i++) {
+                    int k = i + j;
+                    if (values[i] > values[k]) {
+                        double temp = values[i];
+                        values[i] = values[k];
+                        values[k] = temp;
+                        done = false;
+                    }
+                }
+            }
+        }
+        return values;
+    }
+    
+    /**
+     * Returns an estimate for the pth percentile of the stored values
+     * @see org.apache.commons.math.StoreUnivariate#getPercentile()
+     */
+    public double getPercentile(double p) {    
+        if ((p > 100) || (p <= 0)) {
+            throw new IllegalArgumentException("invalid percentile value");
+        }
+        double n = (double) getN();
+        if (n == 0) {
+            return Double.NaN;
+        }
+        if (n == 1) {
+            return getElement(0);  // always return single value for n = 1
+        }
+        double pos = p * (n + 1) / 100;
+        double fpos = Math.floor(pos);
+        int intPos = (int) fpos;
+        double d = pos - fpos;
+        double[] sorted = getSortedValues();
+        if (pos < 1) {
+            return sorted[0];
+        }
+        if (pos > n) {
+            return sorted[getN() - 1];
+        }
+        double lower = sorted[intPos - 1];
+        double upper = sorted[intPos];
+        return lower + d * (upper - lower);       
     }
 
 }

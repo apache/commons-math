@@ -113,12 +113,24 @@ public interface StoreUnivariate extends Univariate {
 
     /**
      * Returns the current set of values in an array of double primitives.  
-     * The order of addition is preserved
+     * The order of addition is preserved.  The returned array is a fresh
+     * copy of the underlying data -- i.e., it is not a reference to the
+     * stored data.
      * 
      * @return returns the current set of numbers in the order in which they 
      *         were added to this set
      */
     public abstract double[] getValues();
+    
+    /**
+     * Returns the current set of values in an array of double primitives,  
+     * sorted in ascending order.  The returned array is a fresh
+     * copy of the underlying data -- i.e., it is not a reference to the
+     * stored data.
+     * 
+     * @return returns the current set of numbers sorted in ascending order        
+     */
+    public abstract double[] getSortedValues(); 
 
     /**
      * Returns the element at the specified index
@@ -126,5 +138,23 @@ public interface StoreUnivariate extends Univariate {
      * @return return the element at the specified index
      */
     public abstract double getElement(int index);
+    
+    /**
+     * Returns an estimate for the pth percentile of the stored values,
+     * following the interpolation-adjusted defintion presented 
+     * <a href="http://www.utdallas.edu/~ammann/stat5311/node8.html">here</a><p>
+     *
+     * <strong>Preconditions</strong>:<ul>
+     * <li><code>0 < p < 100</code> (otherwise an <code>IllegalArgumentException
+     *     </code> is thrown)</li>
+     * <li>at least one value must be stored (returns <code>Double.NaN
+     *     </code> otherwise)</li>
+     * </ul>
+     * 
+     * @param p the requested percentile (scaled from 0 - 100)
+     * @return returns an estimate for the pth percentile of the stored data 
+     * values
+     */
+    public abstract double getPercentile(double p);
 
 }
