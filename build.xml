@@ -3,7 +3,7 @@
 
 <!--
         "math" component of the Jakarta Commons Subproject
-        $Id: build.xml,v 1.1 2003/05/12 15:07:41 rdonkin Exp $
+        $Id: build.xml,v 1.2 2003/05/12 19:02:11 rdonkin Exp $
 -->
 
 
@@ -232,7 +232,7 @@
     <echo message="Running math tests ..."/>
     <java classname="${test.runner}" fork="yes"
         failonerror="${test.failonerror}">
-      <arg value="org.apache.commons.math.SomeTestCase"/>
+      <arg value="org.apache.commons.math.MathTestSuite"/>
       <classpath refid="test.classpath"/>
     </java>
   </target>
