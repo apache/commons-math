@@ -23,7 +23,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the TestStatistic class.
  *
- * @version $Revision: 1.12 $ $Date: 2004/03/07 20:47:06 $
+ * @version $Revision: 1.13 $ $Date: 2004/03/07 21:55:18 $
  */
 
 public final class TestStatisticTest extends TestCase {
@@ -212,14 +212,13 @@ public final class TestStatisticTest extends TestCase {
         for (int i = 0; i < sample2.length; i++) {
             sampleStats2.addValue(sample2[i]);
         }
-        //FIXME: textbook example reported t stat uses pooled variance
-        // should replace the following two tests  with R-verified example
-        assertEquals("two sample t stat", 1.634, testStatistic.t(sample1, sample2), 0.1);
-        assertEquals("two sample t stat", 1.634, testStatistic.t(sampleStats1, sampleStats2), 0.1);
+         
+        // Target comparison values computed using R version 1.8.1 (Linux version)
+        assertEquals("two sample t stat", 1.6037, testStatistic.t(sample1, sample2), 10E-4);
+        assertEquals("two sample t stat", 1.6037, testStatistic.t(sampleStats1, sampleStats2), 10E-4);
+        assertEquals("two sample p value", 0.0644, testStatistic.tTest(sample1, sample2) / 2d, 10E-4);
+        assertEquals("two sample p value", 0.0644, testStatistic.tTest(sampleStats1, sampleStats2) / 2d, 10E-4);
         
-        // These tests are OK, since book reports non-pooled exact p-value
-        assertEquals("two sample p value", 0.059, testStatistic.tTest(sample1, sample2) / 2d, 10E-3);
-        assertEquals("two sample p value", 0.059, testStatistic.tTest(sampleStats1, sampleStats2) / 2d, 10E-3);
         assertTrue("two sample t-test reject", testStatistic.tTest(sample1, sample2, 0.2));
         assertTrue("two sample t-test reject", testStatistic.tTest(sampleStats1, sampleStats2, 0.2));
         assertTrue("two sample t-test accept", !testStatistic.tTest(sample1, sample2, 0.1));
@@ -278,7 +277,7 @@ public final class TestStatisticTest extends TestCase {
             testStatistic.t(sampleStats1, tooShortStats);
             fail("insufficient data, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
-           // exptected
+           // expected
         }
     }
 }
