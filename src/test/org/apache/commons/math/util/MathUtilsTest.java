@@ -22,7 +22,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the MathUtils class.
  *
- * @version $Revision: 1.14 $ $Date: 2004/06/17 21:31:00 $
+ * @version $Revision: 1.15 $ $Date: 2004/10/14 04:01:04 $
  */
 
 public final class MathUtilsTest extends TestCase {
@@ -120,23 +120,26 @@ public final class MathUtilsTest extends TestCase {
             assertEquals(i + "! ",Math.log((double)factorial(i)),
                 MathUtils.factorialLog(i),10E-12);
         }
+        assertEquals("0", 1, MathUtils.factorial(0));
+        assertEquals("0", 1.0d, MathUtils.factorialDouble(0), 1E-14);
+        assertEquals("0", 0.0d, MathUtils.factorialLog(0), 1E-14);
     }
 
     public void testFactorialFail() {
         try {
-            long x = MathUtils.factorial(0);
+            long x = MathUtils.factorial(-1);
             fail ("expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             ;
         }
         try {
-            double x = MathUtils.factorialDouble(0);
+            double x = MathUtils.factorialDouble(-1);
             fail ("expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             ;
         }
         try {
-            double x = MathUtils.factorialLog(0);
+            double x = MathUtils.factorialLog(-1);
             fail ("expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             ;
@@ -149,7 +152,6 @@ public final class MathUtilsTest extends TestCase {
         }
         assertTrue("expecting infinite factorial value",
             Double.isInfinite(MathUtils.factorialDouble(171)));
-
     }
 
 

@@ -19,7 +19,7 @@ package org.apache.commons.math.util;
 /**
  * Some useful additions to the built-in functions in {@link Math}.
  *
- * @version $Revision: 1.19 $ $Date: 2004/06/23 16:26:16 $
+ * @version $Revision: 1.20 $ $Date: 2004/10/14 04:01:04 $
  */
 public final class MathUtils {
     
@@ -348,7 +348,7 @@ public final class MathUtils {
      *
      * <p>
      * <Strong>Preconditions</strong>:<ul>
-     * <li> <code>n > 0</code> (otherwise
+     * <li> <code>n >= 0</code> (otherwise
      *      <code>IllegalArgumentException</code> is thrown)</li>
      * <li> The result is small enough to fit into a <code>long</code>.  The
      *      largest value of <code>n</code> for which <code>n!</code>
@@ -362,6 +362,7 @@ public final class MathUtils {
      * @return <code>n!</code>
      * @throws ArithmeticException if the result is too large to be represented
      *         by a long integer.
+     * @throws IllegalArgumentException if n < 0
      */
     public static long factorial(final int n) {
         long result = Math.round(factorialDouble(n));
@@ -380,7 +381,7 @@ public final class MathUtils {
      *
      * <p>
      * <Strong>Preconditions</strong>:<ul>
-     * <li> <code>n > 0</code> (otherwise
+     * <li> <code>n >= 0</code> (otherwise
      *      <code>IllegalArgumentException</code> is thrown)</li>
      * <li> The result is small enough to fit into a <code>double</code>.  The
      *      largest value of <code>n</code> for which <code>n!</code>
@@ -391,10 +392,11 @@ public final class MathUtils {
      *
      * @param n argument
      * @return <code>n!</code>
+     * @throws IllegalArgumentException if n < 0
      */
     public static double factorialDouble(final int n) {
-        if (n <= 0) {
-            throw new IllegalArgumentException("must have n > 0 for n!");
+        if (n < 0) {
+            throw new IllegalArgumentException("must have n >= 0 for n!");
         }
         return Math.floor(Math.exp(factorialLog(n)) + 0.5);
     }
@@ -403,7 +405,7 @@ public final class MathUtils {
      * Returns the natural logarithm of n!.
      * <p>
      * <Strong>Preconditions</strong>:<ul>
-     * <li> <code>n > 0</code> (otherwise
+     * <li> <code>n >= 0</code> (otherwise
      *      <code>IllegalArgumentException</code> is thrown)</li>
      * </ul>
      *
@@ -412,7 +414,7 @@ public final class MathUtils {
      * @throws IllegalArgumentException if preconditions are not met.
      */
     public static double factorialLog(final int n) {
-        if (n <= 0) {
+        if (n < 0) {
             throw new IllegalArgumentException("must have n > 0 for n!");
         }
         double logSum = 0;
