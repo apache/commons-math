@@ -2,3 +2,7 @@ build.properties
 target
 dist
 *.log
+*.project
+*.classpath
+*.checkstyle
+bin

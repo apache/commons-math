@@ -53,8 +53,10 @@
  */
 package org.apache.commons.math.stat;
 
-import java.util.Hashtable;
-import java.util.Enumeration;
+import java.util.Iterator;
+
+import org.apache.commons.collections.Bag;
+import org.apache.commons.collections.HashBag;
 
 /** 
  * Maintains a frequency distribution. <br>
@@ -63,111 +65,109 @@ import java.util.Enumeration;
  *
  * @author Phil Steitz
  */
-
 public class Frequency {
-
+    /** name for this frequency distribution. */
     private String name;
 
-    private Hashtable freqTable;
+    /** underlying collection */
+    private Bag freqTable = new HashBag();
 
-    /** instance initializer */
-    {
-        freqTable = new Hashtable();
-    }
-
+    /**
+     * Default constructor.
+     */
     public Frequency() {
+        this(null);
     }
 
+    /**
+     * Construct a frequency distribution with the given name.
+     * @param name the name for the new distribution.
+     */
     public Frequency(String name) {
+        super();
         this.name = name;
     }
 
+    /**
+     * Return a string representation of describing this frequency
+     * distribution.
+     * @return a string representation.
+     */
     public String toString() {
         StringBuffer outBuffer = new StringBuffer();
         outBuffer.append("Value \t Frequency \n");
-        Enumeration e = freqTable.keys();
-        Long count = null;
-        String value = null;
-        while (e.hasMoreElements()) {
-            value = (String)e.nextElement();
-            count = (Long)freqTable.get(value);
+        Iterator iter = freqTable.uniqueSet().iterator();
+        while (iter.hasNext()) {
+            Object value = iter.next();
             outBuffer.append(value);
-            outBuffer.append("\t");
-            outBuffer.append(count.toString());
-            outBuffer.append("\n");
+            outBuffer.append('\t');
+            outBuffer.append(freqTable.getCount(value));
+            outBuffer.append('\n');
         }
         return outBuffer.toString();
     }
 
-    public String toXML() {
-        throw new UnsupportedOperationException("not implemented yet");
+    /**
+     * Adds 1 to the frequency count for v
+     * @param v the value to add.
+     */
+    public void addValue(String v) {
+        freqTable.add(v);
     }
 
-    /** Adds 1 to the frequency count for v */
-    public void addValue(java.lang.String v) {
-        insertValue(v);
-    }
-
-    /** Adds 1 to the frequency count for v */
+    /**
+     * Adds 1 to the frequency count for v
+     * @param v the value to add.
+     */
     public void addValue(int v) {
-        insertValue((new Integer(v)).toString());
+        addValue((new Integer(v)).toString());
     }
 
-    /** Adds 1 to the frequency count for v */
+    /**
+     * Adds 1 to the frequency count for v.
+     * @param v the value to add.
+     */
     public void addValue(long v) {
-        insertValue((new Long(v)).toString());
+        addValue((new Long(v)).toString());
     }
-    
-    /** Returns the number of values = v */
+
+    /**
+     * Returns the number of values = v
+     * @param v the value to lookup.
+     * @return the absolute frequency of v.
+     */
     public long getCount(String v) {
-        Long ct = (Long)freqTable.get(v);
-        if (ct == null) {
-            return 0;
-        } else {
-            return ct.longValue();
-        }
+        return freqTable.getCount(v);
     }
-    
-    /** Returns the sum of all frequencies */
+
+    /**
+     * Returns the sum of all frequencies
+     * @return the aggregate frequency.
+     */
     public long getSumFreq() {
-        Enumeration e = freqTable.keys();
-        long count = 0;
-        String value = null;
-        while (e.hasMoreElements()) {
-            value = (String)e.nextElement();
-            count += ((Long)freqTable.get(value)).longValue();
-        }
-        return count;
+        return freqTable.size();
     }
-    
-    /** Returns the percentage of values = v */
+
+    /**
+     * Returns the percentage of values = v.
+     * @param v the value to lookup.
+     * @return the relative frequency of v.
+     */
     public double getPct(String v) {
-        return (new Double(getCount(v))).doubleValue()
-                   /(new Double(getSumFreq())).doubleValue();
+        return (double) getCount(v) / (double) getSumFreq();        
     }
-    
+
     /** Clears the frequency table */
     public void clear() {
         freqTable.clear();
-    }
-        
-    /** Adds 1 to the frequency count for v */
-    private void insertValue(String v) {
-        Long ct = (Long)freqTable.get(v);
-        if (ct == null) {
-            Long val = new Long(1);
-            freqTable.put(v,val);
-        } else {
-            freqTable.put(v,(new Long(ct.longValue()+1)));
-        }
     }
 
     /** Getter for property name.
      * @return Value of property name.
      */
-    public java.lang.String getName() {
+    public String getName() {
         return name;
-    }    
+    }
 
     /** Setter for property name.
      * @param name New value of property name.
@@ -175,5 +175,5 @@ public class Frequency {
     public void setName(java.lang.String name) {
         this.name = name;
     }
-    
+
 }
