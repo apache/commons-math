@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.20 $ $Date: 2004/08/02 04:20:09 $ -->
+<!-- $Revision: 1.21 $ $Date: 2004/08/12 15:34:14 $ -->
 <document url="stat.html">
   <properties>
     <title>The Commons Math User Guide - Statistics</title>
@@ -229,7 +229,7 @@ in.close();
  f.addValue(1);
  f.addValue(new Integer(1));
  f.addValue(new Long(1));
- f.addValue(2)
+ f.addValue(2);
  f.addValue(new Integer(-1));
  System.out.prinltn(f.getCount(1));   // displays 3
  System.out.println(f.getCumPct(0));  // displays 0.2
