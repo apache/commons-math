@@ -1,0 +1,84 @@
+#   Copyright 2004 The Apache Software Foundation
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+#------------------------------------------------------------------------------
+# R source file to validate Normal distribution tests in
+# org.apache.commons.math.distribution.NormalDistributionTest
+#
+# To run the test, install R, put this file and testFunctions
+# into the same directory, launch R from this directory and then enter
+# source("<name-of-this-file>")
+#
+# R functions used
+# pnorm(q, mean=0, sd=1, lower.tail = TRUE, log.p = FALSE) <-- distribution
+#-----------------------------------------------------------------------------
+tol <- 1E-7
+
+# Function definitions
+
+source("testFunctions")           # utility test functions
+
+# function to verify distribution computations
+
+verifyDistribution <- function(points, expected, mu, sigma, tol) {
+ rDistValues <- rep(0, length(points))
+    i <- 0
+    for (point in points) {
+        i <- i + 1
+        rDistValues[i] <- pnorm(point, mu, sigma, log = FALSE)
+    }
+    output <- c("Distribution test mu = ",mu,", sigma = ", sigma)
+    if (assertEquals(expected, rDistValues, tol, "Distribution Values")) {
+        displayPadded(output, SUCCEEDED, WIDTH)
+    } else {
+        displayPadded(output, FAILED, WIDTH)
+    }       
+}
+
+#--------------------------------------------------------------------------
+cat("Normal test cases\n")
+
+mu <- 2.1
+sigma <- 1.4
+
+distributionValues <- c(0.001, 0.01, 0.025, 0.05, 0.1, 0.999,
+                0.990, 0.975, 0.950, 0.900)
+distributionPoints <- c(-2.226325, -1.156887, -0.6439496, -0.2027951,
+                0.3058278, 6.426325, 5.356887, 4.84395, 4.402795, 3.894172)
+
+verifyDistribution(distributionPoints, distributionValues, mu, sigma, tol)
+
+distributionValues <- c(0.02275013, 0.1586553, 0.5, 0.8413447, 
+                0.9772499, 0.9986501, 0.9999683,  0.9999997)
+distributionPoints <- c(mu - 2 *sigma, mu - sigma, mu, mu + sigma,
+		mu + 2 * sigma,  mu + 3 * sigma, mu + 4 * sigma,
+                    mu + 5 * sigma)
+
+verifyDistribution(distributionPoints, distributionValues, mu, sigma, tol)
+
+mu <- 0
+sigma <- 1
+distributionPoints <- c(mu - 2 *sigma, mu - sigma, mu, mu + sigma,
+		mu + 2 * sigma,  mu + 3 * sigma, mu + 4 * sigma,
+                    mu + 5 * sigma)
+verifyDistribution(distributionPoints, distributionValues, mu, sigma, tol)
+
+mu <- 0
+sigma <- 0.1
+distributionPoints <- c(mu - 2 *sigma, mu - sigma, mu, mu + sigma,
+		mu + 2 * sigma,  mu + 3 * sigma, mu + 4 * sigma,
+                    mu + 5 * sigma)
+verifyDistribution(distributionPoints, distributionValues, mu, sigma, tol)
+
+displayDashes(WIDTH)
