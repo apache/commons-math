@@ -35,7 +35,7 @@ import java.util.TreeMap;
  * The values are ordered using the default (natural order), unless a  
  * <code>Comparator</code>is supplied in the constructor.
  *
- * @version $Revision: 1.25 $ $Date: 2004/07/02 05:27:41 $
+ * @version $Revision: 1.26 $ $Date: 2004/08/12 15:33:39 $
  */
 public class Frequency implements Serializable {
     
@@ -114,6 +114,15 @@ public class Frequency implements Serializable {
     public void addValue(int v) {
         addValue(new Long(v));
     }
+    
+    /**
+     * Adds 1 to the frequency count for v.
+     * 
+     * @param v the value to add.
+     */
+    public void addValue(Integer v) {
+        addValue(new Long(v.longValue()));
+    }
 
     /**
      * Adds 1 to the frequency count for v.
@@ -170,6 +179,9 @@ public class Frequency implements Serializable {
      * @return the frequency of v.
      */
     public long getCount(Object v) {
+        if (v instanceof Integer) {
+            return getCount(((Integer) v).longValue());
+        }
         long result = 0;
         try { 
             Long count =  (Long) freqTable.get(v);
@@ -217,11 +229,16 @@ public class Frequency implements Serializable {
     /**
       * Returns the percentage of values that are equal to v
      * (as a proportion between 0 and 1).
+     * <p>
+     * Returns <code>Double.NaN</code> if no values have been added.
      * 
      * @param v the value to lookup
      * @return the proportion of values equal to v
      */
     public double getPct(Object v) {
+        if (getSumFreq() == 0) {
+            return Double.NaN;
+        }
         return (double) getCount(v) / (double) getSumFreq();        
     }
     
@@ -269,6 +286,9 @@ public class Frequency implements Serializable {
      * @return the proportion of values equal to v
      */
     public long getCumFreq(Object v) {
+        if (getSumFreq() == 0) {
+            return 0;
+        }
         Comparator c = freqTable.comparator();
         if (c == null) {
             c = new NaturalComparator();
@@ -346,12 +366,17 @@ public class Frequency implements Serializable {
      * Returns the cumulative percentage of values less than or equal to v
      * (as a proportion between 0 and 1).
      * <p>
-     * Returns 0 if v is not comparable to the values set.
+     * Returns <code>Double.NaN</code> if no values have been added.
+     * Returns 0 if at least one value has been added, but v is not comparable
+     * to the values set.
      * 
      * @param v the value to lookup
      * @return the proportion of values less than or equal to v
      */
     public double getCumPct(Object v) {
+        if (getSumFreq() == 0) {
+            return Double.NaN;
+        }
         return (double) getCumFreq(v) / (double) getSumFreq();        
     }
     

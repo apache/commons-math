@@ -26,7 +26,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link Frequency} class.
  *
- * @version $Revision: 1.12 $ $Date: 2004/03/07 00:57:11 $
+ * @version $Revision: 1.13 $ $Date: 2004/08/12 15:33:39 $
  */
 
 public final class FrequencyTest extends TestCase {
@@ -87,6 +87,20 @@ public final class FrequencyTest extends TestCase {
         f.clear();
         
         f = null;
+        Frequency f = new Frequency();
+        f.addValue(1);
+        f.addValue(new Integer(1));
+        f.addValue(new Long(1));
+        f.addValue(2);
+        f.addValue(new Integer(-1));
+        assertEquals("1 count", 3, f.getCount(1));
+        assertEquals("1 count", 3, f.getCount(new Integer(1)));
+        assertEquals("0 cum pct", 0.2, f.getCumPct(0), tolerance);
+        assertEquals("1 pct", 0.6, f.getPct(new Integer(1)), tolerance);
+        assertEquals("-2 cum pct", 0, f.getCumPct(-2), tolerance);
+        assertEquals("10 cum pct", 1, f.getCumPct(10), tolerance);   
+        
+        f = null;
         f = new Frequency(String.CASE_INSENSITIVE_ORDER);
         f.addValue("one");
         f.addValue("One");
@@ -137,6 +151,19 @@ public final class FrequencyTest extends TestCase {
     	assertEquals("b cum pct",1.0,f.getCumPct(bChar),tolerance);
     	assertEquals("a string pct",0.0,f.getPct(aString),tolerance);
     	assertEquals("a string cum pct",0.0,f.getCumPct(aString),tolerance);
+    }
+    
+    /** test empty table */
+    public void testEmptyTable() {
+        assertEquals("freq sum, empty table", 0, f.getSumFreq());
+        assertEquals("count, empty table", 0, f.getCount(0));
+        assertEquals("count, empty table",0, f.getCount(new Integer(0)));
+        assertEquals("cum freq, empty table", 0, f.getCumFreq(0));
+        assertEquals("cum freq, empty table", 0, f.getCumFreq("x"));
+        assertTrue("pct, empty table", Double.isNaN(f.getPct(0)));
+        assertTrue("pct, empty table", Double.isNaN(f.getPct(new Integer(0))));
+        assertTrue("cum pct, empty table", Double.isNaN(f.getCumPct(0)));
+        assertTrue("cum pct, empty table", Double.isNaN(f.getCumPct(new Integer(0))));   
     }
     
     /**
