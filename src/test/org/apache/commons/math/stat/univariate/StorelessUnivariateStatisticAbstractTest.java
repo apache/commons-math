@@ -80,11 +80,11 @@ public abstract class StorelessUnivariateStatisticAbstractTest
             statistic.increment(testArray[i]);
         }
 
-        assertEquals(expectedValue(), statistic.getValue(), getTolerance());
+        assertEquals(expectedValue(), statistic.getResult(), getTolerance());
         
         statistic.clear();
-        
-        assertTrue(Double.isNaN(statistic.getValue()));
+
+        assertTrue(Double.isNaN(statistic.getResult()));
         
     }
 
