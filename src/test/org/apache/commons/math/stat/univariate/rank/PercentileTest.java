@@ -23,7 +23,7 @@ import org.apache.commons.math.stat.univariate.UnivariateStatisticAbstractTest;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
- * @version $Revision: 1.10 $ $Date: 2004/02/21 21:35:18 $
+ * @version $Revision: 1.11 $ $Date: 2004/03/13 20:03:16 $
  */
 public class PercentileTest extends UnivariateStatisticAbstractTest{
 
@@ -65,5 +65,25 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
         double[] d = new double[]{1, 2, 3};
         Percentile p = new Percentile(75);
         assertEquals(3.0, p.evaluate(d), 1.0e-5);
+    }
+    
+    public void testPercentile() {
+        double[] d = new double[] {1, 3, 2, 4};
+        Percentile p = new Percentile(30);
+        assertEquals(1.5, p.evaluate(d), 1.0e-5);
+        p.setQuantile(25);
+        assertEquals(1.25, p.evaluate(d), 1.0e-5);
+        p.setQuantile(75);
+        assertEquals(3.75, p.evaluate(d), 1.0e-5);
+        p.setQuantile(50);
+        assertEquals(2.5, p.evaluate(d), 1.0e-5);
+    }
+    
+    public void testNISTExample() {
+        double[] d = new double[] {95.1772, 95.1567, 95.1937, 95.1959, 
+                95.1442, 95.0610,  95.1591, 95.1195, 95.1772, 95.0925, 95.1990, 95.1682
+        };
+        Percentile p = new Percentile(90); 
+        assertEquals(95.1981, p.evaluate(d), 1.0e-4);
     }
 }
