@@ -14,11 +14,76 @@
     case for other components. It is important that developers follow 
     guidelines laid down by the community to ensure that the code they create 
     can be successfully maintained by others.
+    </p>
+   </section>
+   <section name='Guidelines'>
+   <p>
+   Developers are asked to comply with the following development guidelines. 
+   Code that does not comply with the guidelines including the word <i>must</i>
+   will not be committed.  Our aim will be to fix all of the exceptions to the
+   "<i>should</i>" guidelines prior to a release.
    </p>
-  </section>
-  <section name='Guidelines'>
-   Still under development...!
-  </section>
+   <subsection name='Coding Style'>
+    <p>
+     Commons-math follows <a href="http://java.sun.com/docs/codeconv/">Code 
+     Conventions for the Java Programming Language</a>. As part of the maven
+     build process, style checking is performed using the checkStyle plugin,
+     using the properties specified in <code>checkStyle.properties</code>.  
+     Committed code <i>should</i> generate no checkStyle errors.
+    </p>
+   </subsection>
+   <subsection name='Documentation'>  
+    <ul>
+     <li>
+      Committed code <i>must</i> include full javadoc.</li> 
+     <li>
+      All component contracts <i>must</i> be fully specified in the javadoc class, 
+      interface or method comments, including specification of acceptable ranges 
+      of values, exceptions or special return values.</li>      
+     <li>
+      References to definitions for all mathematical 
+      terms used in component documentation <i>must</i> be provided, preferably
+      as HTML links.</li>
+     <li>
+      Implementations <i>should</i> use standard algorithms and 
+      references to algorithm descriptions <i>should</i> be provided,
+      preferably as HTML links.</li>
+    </ul>
+   </subsection>  
+   <subsection name='Unit Tests'>  
+    <ul>
+     <li>
+      Committed code <i>must</i> include unit tests.</li> 
+     <li>
+      Unit tests <i>should</i> provide full path coverage. </li>     
+     <li>
+      Unit tests <i>should</i> verify all boundary conditions specified in 
+      interface contracts, including verification that exceptions are thrown or
+      special values (e.g. Double.NaN, Double.Infinity) are returned as 
+      expected. </li>
+    </ul> 
+   </subsection>
+   <subsection name='Licensing and copyright'>
+    <ul>
+     <li>
+      All new source file submissions <i>must</i> include the Apache Software 
+      License in a comment that begins the file </li>
+     <li>
+      All contributions must comply with the terms of the 
+      <a href="http://www.apache.org/foundation/ASF_Contributor_License_1_form.pdf">
+      Apache Contributor License Agreement (CLA)</a></li>
+     <li> 
+       Patches <i>must</i> be accompanied by a clear reference to a "source" 
+       - if code has been "ported" from another language, clearly state the 
+       source of the original implementation.  If the "expression" of a given
+       algorithm is derivative, please note the original source (textbook,
+       paper, etc.).</li> 
+     <li>
+       References to source materials covered by restrictive proprietary
+       licenses should be avoided.</li>
+    </ul>
+   </subsection>            
+  </section> 
   <section name='Recommended Readings'>
    <p>
     Here is a list of relevant materials.  Much of the discussion surrounding
