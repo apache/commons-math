@@ -16,10 +16,10 @@
 
 package org.apache.commons.math.stat.data;
 
-import java.beans.Expression;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -32,7 +32,7 @@ import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.7 $ $Date: 2004/10/08 05:08:19 $
+ * @version $Revision: 1.8 $ $Date: 2004/12/06 05:49:44 $
  */
 public abstract class CertifiedDataAbstractTest extends TestCase {
 	
@@ -134,9 +134,8 @@ public abstract class CertifiedDataAbstractTest extends TestCase {
 	
 	protected Object getProperty(Object bean, String name) throws Exception{
 	    // Get the value of prop
-	    String prop = "get" + name.substring(0,1).toUpperCase() + name.substring(1);
-        Expression expr = new Expression(bean, prop, new Object[0]);
-        expr.execute();
-        return expr.getValue();
+	    String prop = "get" + name.substring(0,1).toUpperCase() + name.substring(1); 
+        Method meth = bean.getClass().getMethod(prop, new Class[0]);
+        return meth.invoke(bean, new Object[0]);
 	}
 }

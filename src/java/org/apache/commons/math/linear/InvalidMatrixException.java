@@ -20,7 +20,7 @@ package org.apache.commons.math.linear;
  * Thrown when a system attempts an operation on a matrix, and
  * that matrix does not satisfy the preconditions for the
  * aforementioned operation.
- * @version $Revision: 1.7 $ $Date: 2004/07/11 18:43:44 $
+ * @version $Revision: 1.8 $ $Date: 2004/12/06 05:49:44 $
  */
 public class InvalidMatrixException extends RuntimeException {
 
@@ -31,7 +31,7 @@ public class InvalidMatrixException extends RuntimeException {
      * Default constructor.
      */
     public InvalidMatrixException() {
-        this(null, null);
+        this(null);
     }
 
     /**
@@ -39,23 +39,7 @@ public class InvalidMatrixException extends RuntimeException {
      * @param message descriptive error message.
      */
     public InvalidMatrixException(String message) {
-        this(message, null);
+        super(message);
     }
 
-    /**
-     * Construct an exception with the given message and root cause.
-     * @param message descriptive error message.
-     * @param cause root cause.
-     */
-    public InvalidMatrixException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    /**
-     * Create an exception with a given root cause.
-     * @param throwable caught exception causing this problem
-     */
-    public InvalidMatrixException(Throwable throwable) {
-        this(null, throwable);
-    }
 }

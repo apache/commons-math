@@ -19,7 +19,7 @@ package org.apache.commons.math.linear;
 /**
  * Thrown when an operation addresses a matrix coordinate (row,col)
  * which is outside of the dimensions of a matrix.
- * @version $Revision: 1.7 $ $Date: 2004/07/11 18:43:44 $
+ * @version $Revision: 1.8 $ $Date: 2004/12/06 05:49:44 $
  */
 public class MatrixIndexException extends RuntimeException {
 
@@ -30,31 +30,15 @@ public class MatrixIndexException extends RuntimeException {
      * Default constructor.
      */
     public MatrixIndexException() {
-        this(null, null);
-    }
-
-    /**
-     * Construct an exception with the given message.
-     * @param message descriptive error message.
-     */
-    public MatrixIndexException(String message) {
-        this(message, null);
+        this(null);
     }
 
     /**
      * Construct an exception with the given message and root cause.
      * @param message descriptive error message.
-     * @param cause root cause.
      */
-    public MatrixIndexException(String message, Throwable cause) {
-        super(message, cause);
+    public MatrixIndexException(String message) {
+        super(message);
     }
 
-    /**
-     * Create an exception with a given root cause.
-     * @param throwable caught exception causing this problem
-     */
-    public MatrixIndexException(Throwable throwable) {
-        this(null, throwable);
-    }
 }

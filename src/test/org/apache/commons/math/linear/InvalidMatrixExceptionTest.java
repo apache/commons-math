@@ -19,7 +19,7 @@ package org.apache.commons.math.linear;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.1 $ $Date: 2004/04/27 16:51:52 $
+ * @version $Revision: 1.2 $ $Date: 2004/12/06 05:49:44 $
  */
 public class InvalidMatrixExceptionTest extends TestCase {
     /**
@@ -27,7 +27,6 @@ public class InvalidMatrixExceptionTest extends TestCase {
      */
     public void testConstructor(){
         InvalidMatrixException ex = new InvalidMatrixException();
-        assertNull(ex.getCause());
         assertNull(ex.getMessage());
     }
     
@@ -37,29 +36,6 @@ public class InvalidMatrixExceptionTest extends TestCase {
     public void testConstructorMessage(){
         String msg = "message";
         InvalidMatrixException ex = new InvalidMatrixException(msg);
-        assertNull(ex.getCause());
         assertEquals(msg, ex.getMessage());
-    }
-    
-    /**
-     * 
-     */
-    public void testConstructorMessageCause(){
-        String outMsg = "outer message";
-        String inMsg = "inner message";
-        Exception cause = new Exception(inMsg);
-        InvalidMatrixException ex = new InvalidMatrixException(outMsg, cause);
-        assertEquals(outMsg, ex.getMessage());
-        assertEquals(cause, ex.getCause());
-    }
-    
-    /**
-     * 
-     */
-    public void testConstructorCause(){
-        String inMsg = "inner message";
-        Exception cause = new Exception(inMsg);
-        InvalidMatrixException ex = new InvalidMatrixException(cause);
-        assertEquals(cause, ex.getCause());
     }
 }
