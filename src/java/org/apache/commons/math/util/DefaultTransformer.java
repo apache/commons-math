@@ -26,7 +26,7 @@ import org.apache.commons.math.MathException;
  * into a primitive double or to turn a String representation of a Number into 
  * a double.
  * 
- * @version $Revision: 1.14 $ $Date: 2004/06/01 21:35:13 $
+ * @version $Revision: 1.15 $ $Date: 2004/06/18 04:59:06 $
  */
 public class DefaultTransformer implements NumberTransformer, Serializable {
     
@@ -42,18 +42,18 @@ public class DefaultTransformer implements NumberTransformer, Serializable {
      */
     public double transform(Object o) throws MathException{
 
-		if (o == null) {
-			throw new MathException("Conversion Exception in Transformation, Object is null");
-		}
+        if (o == null) {
+            throw new MathException("Conversion Exception in Transformation, Object is null");
+        }
 
-		if (o instanceof Number) {
-			return ((Number)o).doubleValue();
-		}
+        if (o instanceof Number) {
+            return ((Number)o).doubleValue();
+        }
             
-		try {
-			return new Double(o.toString()).doubleValue();
-		} catch (Exception e) {
-			throw new MathException("Conversion Exception in Transformation: " + e.getMessage(), e);
-		}
+        try {
+            return new Double(o.toString()).doubleValue();
+        } catch (Exception e) {
+            throw new MathException("Conversion Exception in Transformation: " + e.getMessage(), e);
+        }
     }
 }
