@@ -55,16 +55,15 @@ package org.apache.commons.math.stat;
 
 import java.util.List;
 
+import org.apache.commons.math.MathException;
 import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 import org.apache.commons.math.util.DefaultTransformer;
 import org.apache.commons.math.util.NumberTransformer;
 
 /**
- * @version $Revision: 1.11 $ $Date: 2003/11/14 22:22:18 $
+ * @version $Revision: 1.1 $ $Date: 2003/11/15 16:01:41 $
  */
-public class ListUnivariateImpl
-    extends AbstractStoreUnivariate
-    implements StoreUnivariate {
+public class ListUnivariateImpl extends AbstractDescriptiveStatistics {
 
     /**
      * Holds a reference to a list - GENERICs are going to make
@@ -77,7 +76,7 @@ public class ListUnivariateImpl
 
     /**
      * Construct a ListUnivariate with a specific List.
-     * @param list The list that will back this Univariate
+     * @param list The list that will back this DescriptiveStatistics
      */
     public ListUnivariateImpl(List list) {
         this(list, new DefaultTransformer());
@@ -85,7 +84,7 @@ public class ListUnivariateImpl
     
     /**
      * Construct a ListUnivariate with a specific List.
-     * @param list The list that will back this Univariate
+     * @param list The list that will back this DescriptiveStatistics
      * @param transformer the number transformer used to convert the list items.
      */
     public ListUnivariateImpl(List list, NumberTransformer transformer) {
@@ -95,7 +94,7 @@ public class ListUnivariateImpl
     }
 
     /**
-     * @see org.apache.commons.math.stat.StoreUnivariate#getValues()
+     * @see org.apache.commons.math.stat.DescriptiveStatistics#getValues()
      */
     public double[] getValues() {
 
@@ -106,7 +105,7 @@ public class ListUnivariateImpl
         // take into account only the last n elements of the list
         // as definied by windowSize
 
-        if (windowSize != Univariate.INFINITE_WINDOW &&
+        if (windowSize != DescriptiveStatistics.INFINITE_WINDOW &&
             windowSize < list.size())
         {
             length = list.size() - Math.max(0, list.size() - windowSize);
@@ -122,7 +121,7 @@ public class ListUnivariateImpl
     }
 
     /**
-     * @see org.apache.commons.math.stat.StoreUnivariate#getElement(int)
+     * @see org.apache.commons.math.stat.DescriptiveStatistics#getElement(int)
      */
     public double getElement(int index) {
 
@@ -130,28 +129,30 @@ public class ListUnivariateImpl
 
         int calcIndex = index;
 
-        if (windowSize != Univariate.INFINITE_WINDOW &&
+        if (windowSize != DescriptiveStatistics.INFINITE_WINDOW &&
             windowSize < list.size())
         {
             calcIndex = (list.size() - windowSize) + index;
         }
 
+        
         try {
-            value = transformer.transform(list.get(calcIndex));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+			value = transformer.transform(list.get(calcIndex));
+		} catch (MathException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
         return value;
     }
 
     /**
-     * @see org.apache.commons.math.stat.Univariate#getN()
+     * @see org.apache.commons.math.stat.DescriptiveStatistics#getN()
      */
     public int getN() {
         int n = 0;
 
-        if (windowSize != Univariate.INFINITE_WINDOW) {
+        if (windowSize != DescriptiveStatistics.INFINITE_WINDOW) {
             if (list.size() > windowSize) {
                 n = windowSize;
             } else {
@@ -164,7 +165,7 @@ public class ListUnivariateImpl
     }
 
     /**
-     * @see org.apache.commons.math.stat.Univariate#addValue(double)
+     * @see org.apache.commons.math.stat.DescriptiveStatistics#addValue(double)
      */
     public void addValue(double v) {
         list.add(new Double(v));
@@ -179,7 +180,7 @@ public class ListUnivariateImpl
     }
 
     /**
-     * @see org.apache.commons.math.stat.Univariate#clear()
+     * @see org.apache.commons.math.stat.DescriptiveStatistics#clear()
      */
     public void clear() {
         super.clear();

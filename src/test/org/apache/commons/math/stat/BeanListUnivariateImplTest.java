@@ -65,7 +65,7 @@ import org.apache.commons.math.beans.*;
 /**
  * Test cases for the {@link BeanListUnivariateImpl} class.
  *
- * @version $Revision: 1.9 $ $Date: 2003/11/14 22:22:18 $
+ * @version $Revision: 1.10 $ $Date: 2003/11/15 16:01:40 $
  */
 
 public final class BeanListUnivariateImplTest extends TestCase {
@@ -108,7 +108,7 @@ public final class BeanListUnivariateImplTest extends TestCase {
     /** test stats */
     public void testStats() {
     	
-        StoreUnivariate u = new BeanListUnivariateImpl( patientList ); 
+        DescriptiveStatistics u = new BeanListUnivariateImpl( patientList ); 
 
         assertEquals("total count",3,u.getN(),tolerance);
 
@@ -118,7 +118,7 @@ public final class BeanListUnivariateImplTest extends TestCase {
     
     public void testPropStats() {
 
-        StoreUnivariate heartU = new BeanListUnivariateImpl( patientList,
+        DescriptiveStatistics heartU = new BeanListUnivariateImpl( patientList,
                                           "vitalStats.heartRate" );
 
         
@@ -128,7 +128,7 @@ public final class BeanListUnivariateImplTest extends TestCase {
         assertEquals( "Max heart rate unexpected", 120.0, 
                       heartU.getMax(), 0.001 );
 
-        StoreUnivariate ageU = new BeanListUnivariateImpl( patientList,
+        DescriptiveStatistics ageU = new BeanListUnivariateImpl( patientList,
                                                            "age" );
 
         assertEquals( "Mean age unexpected", 33.333,

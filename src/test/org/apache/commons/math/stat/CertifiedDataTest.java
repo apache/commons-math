@@ -63,12 +63,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import org.apache.commons.logging.*;
 /**
- * Test cases for the {@link Univariate} class.
- * @version $Revision: 1.11 $ $Date: 2003/11/14 22:22:18 $
+ * Test cases for the {@link DescriptiveStatistics} class.
+ * @version $Revision: 1.12 $ $Date: 2003/11/15 16:01:40 $
  */
 public class CertifiedDataTest extends TestCase {
 
-	protected Univariate u = null;
+	protected DescriptiveStatistics u = null;
 
 	protected double mean = Double.NaN;
 
@@ -100,11 +100,19 @@ public class CertifiedDataTest extends TestCase {
 	}
 
 	/**
-	 * Test UnivariateImpl
+	 * Test StorelessDescriptiveStatistics
 	*/
 	public void testUnivariateImpl() {
 
-		u = new UnivariateImpl();
+		try {
+			u = DescriptiveStatistics.newInstance(StorelessDescriptiveStatisticsImpl.class);
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		loadStats("data/Lew.txt");
 		assertEquals("Lew: std", std, u.getStandardDeviation(), .000000000001);
@@ -136,11 +144,11 @@ public class CertifiedDataTest extends TestCase {
 	}
 
 	/**
-	 * Test UnivariateImpl
+	 * Test StorelessDescriptiveStatistics
 	 */
 	public void testStoredUnivariateImpl() {
 
-		u = new StoreUnivariateImpl();
+		u = DescriptiveStatistics.newInstance();
 		
 		loadStats("data/Lew.txt");
 		assertEquals("Lew: std", std, u.getStandardDeviation(), .000000000001);
@@ -172,7 +180,7 @@ public class CertifiedDataTest extends TestCase {
 	}
 
 	/**
-	 * loads a Univariate off of a test file
+	 * loads a DescriptiveStatistics off of a test file
 	 * @param file
 	 */
 	private void loadStats(String resource) {

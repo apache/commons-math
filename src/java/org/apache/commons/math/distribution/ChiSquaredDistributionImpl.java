@@ -51,12 +51,12 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.commons.math.stat.distribution;
+package org.apache.commons.math.distribution;
 
 /**
  * The default implementation of {@link ChiSquaredDistribution}
  * 
- * @version $Revision: 1.9 $ $Date: 2003/11/14 22:22:19 $
+ * @version $Revision: 1.10 $ $Date: 2003/11/15 16:01:35 $
  */
 public class ChiSquaredDistributionImpl
     extends AbstractContinuousDistribution

@@ -53,69 +53,106 @@
  */
 package org.apache.commons.math.stat;
 
-import java.util.Arrays;
-
-import org.apache.commons.math.stat.univariate.rank.Percentile;
+import org.apache.commons.math.stat.univariate.*;
+import org.apache.commons.math.util.ContractableDoubleArray;
 
 /**
- * Provides univariate measures for an array of doubles. 
- * @version $Revision: 1.15 $ $Date: 2003/11/14 22:22:18 $
+ * @version $Revision: 1.1 $ $Date: 2003/11/15 16:01:38 $
  */
-public abstract class AbstractStoreUnivariate
-    extends AbstractUnivariate
-    implements StoreUnivariate {
+public class DescriptiveStatisticsImpl extends AbstractDescriptiveStatistics {
 
-    /** Percentile */
-    protected Percentile percentile = new Percentile(50);
-        
-    /**
-     * Create an AbstractStoreUnivariate
+    /** A contractable double array is used.  memory is reclaimed when 
+     * the storage of the array becomes too empty.
      */
-    public AbstractStoreUnivariate() {
-        super();
-    }
+    protected ContractableDoubleArray eDA;
 
     /**
-     * Create an AbstractStoreUnivariate with a specific Window
-     * @param window WindowSIze for stat calculation
+     * Construct a DescriptiveStatisticsImpl
      */
-    public AbstractStoreUnivariate(int window) {
-        super(window);
+    public DescriptiveStatisticsImpl() {
+        eDA = new ContractableDoubleArray();
     }
 
     /**
-     * @see org.apache.commons.math.stat.StoreUnivariate#getPercentile(double)
+     * @see org.apache.commons.math.stat.DescriptiveStatistics#getValues()
      */
-    public double getPercentile(double p) {
-        percentile.setPercentile(p);
-        return apply(percentile);
+    public double[] getValues() {
+
+        double[] copiedArray = new double[eDA.getNumElements()];
+        System.arraycopy(
+            eDA.getElements(),
+            0,
+            copiedArray,
+            0,
+            eDA.getNumElements());
+        return copiedArray;
     }
-    
+
     /**
-     * @see org.apache.commons.math.stat.StoreUnivariate#getSortedValues()
+     * @see org.apache.commons.math.stat.DescriptiveStatistics#getElement(int)
      */
-    public double[] getSortedValues() {
-        double[] sort = getValues();
-        Arrays.sort(sort);
-        return sort;
+    public double getElement(int index) {
+        return eDA.getElement(index);
     }
-    
+
+    /**
+     * @see org.apache.commons.math.stat.Univariate#getN()
+     */
+    public int getN() {
+        return eDA.getNumElements();
+    }
+
     /**
      * @see org.apache.commons.math.stat.Univariate#addValue(double)
      */
-    public abstract void addValue(double value);
+    public synchronized void addValue(double v) {
+        if (windowSize != INFINITE_WINDOW) {
+            if (getN() == windowSize) {
+                eDA.addElementRolling(v);
+            } else if (getN() < windowSize) {
+                eDA.addElement(v);
+            } else {
+                String msg =
+                    "A window Univariate had more element than " +
+                    "the windowSize.  This is an inconsistent state.";
+                throw new RuntimeException(msg);
+            }
+        } else {
+            eDA.addElement(v);
+        }
+    }
 
     /**
-     * @see org.apache.commons.math.stat.StoreUnivariate#getValues()
+     * @see org.apache.commons.math.stat.Univariate#clear()
      */
-    public abstract double[] getValues();
-
+    public synchronized void clear() {
+        super.clear();
+        eDA.clear();
+    }
 
     /**
-     * @see org.apache.commons.math.stat.StoreUnivariate#getElement(int)
+     * @see org.apache.commons.math.stat.Univariate#setWindowSize(int)
      */
-    public abstract double getElement(int index);
+    public synchronized void setWindowSize(int windowSize) {
+        this.windowSize = windowSize;
 
+        // We need to check to see if we need to discard elements
+        // from the front of the array.  If the windowSize is less than 
+        // the current number of elements.
+        if (windowSize < eDA.getNumElements()) {
+            eDA.discardFrontElements(eDA.getNumElements() - windowSize);
+        }
+    }
 
-
+    /**
+     * Apply the given statistic to this univariate collection.
+     * @param stat the statistic to apply
+     * @return the computed value of the statistic.
+     */
+    public double apply(UnivariateStatistic stat) {
+        if (eDA != null) {
+            return stat.evaluate(eDA.getValues(), eDA.start(), eDA.getNumElements());
+        }
+        return Double.NaN;
+    }
 }

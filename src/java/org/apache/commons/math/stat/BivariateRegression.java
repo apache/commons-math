@@ -53,8 +53,8 @@
  */
 
 package org.apache.commons.math.stat;
-import org.apache.commons.math.stat.distribution.DistributionFactory;
-import org.apache.commons.math.stat.distribution.TDistribution;
+import org.apache.commons.math.distribution.DistributionFactory;
+import org.apache.commons.math.distribution.TDistribution;
 
 /**
  * Estimates an ordinary least squares regression model
@@ -84,7 +84,7 @@ import org.apache.commons.math.stat.distribution.TDistribution;
  * the necessary computations to return the requested statistic.</li>
  * </ul>
  *
- * @version $Revision: 1.8 $ $Date: 2003/11/14 22:22:18 $
+ * @version $Revision: 1.9 $ $Date: 2003/11/15 16:01:38 $
  */
 public class BivariateRegression {
     

@@ -51,16 +51,19 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.commons.math.stat;
+package org.apache.commons.math.stat.univariate;
+
+import org.apache.commons.math.stat.DescriptiveStatistics;
+import org.apache.commons.math.stat.StorelessDescriptiveStatisticsImpl;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * Test cases for the {@link Univariate} class.
+ * Test cases for the {@link DescriptiveStatistics} class.
  *
- * @version $Revision: 1.11 $ $Date: 2003/11/14 22:22:18 $
+ * @version $Revision: 1.1 $ $Date: 2003/11/15 16:01:41 $
  */
 
 public final class UnivariateImplTest extends TestCase {
@@ -93,7 +96,7 @@ public final class UnivariateImplTest extends TestCase {
     
     /** test stats */
     public void testStats() {
-        UnivariateImpl u = new UnivariateImpl(); 
+        StorelessDescriptiveStatisticsImpl u = new StorelessDescriptiveStatisticsImpl(); 
         assertEquals("total count",0,u.getN(),tolerance);
         u.addValue(one);
         u.addValue(twoF);
@@ -112,7 +115,7 @@ public final class UnivariateImplTest extends TestCase {
     }     
     
     public void testN0andN1Conditions() throws Exception {
-    	UnivariateImpl u = new UnivariateImpl();
+    	StorelessDescriptiveStatisticsImpl u = new StorelessDescriptiveStatisticsImpl();
         assertTrue("Mean of n = 0 set should be NaN", 
             Double.isNaN( u.getMean() ) );
 		assertTrue("Standard Deviation of n = 0 set should be NaN", 
@@ -166,7 +169,7 @@ public final class UnivariateImplTest extends TestCase {
     }
 
     public void testProductAndGeometricMean() throws Exception {
-    	UnivariateImpl u = new UnivariateImpl(10);
+    	StorelessDescriptiveStatisticsImpl u = new StorelessDescriptiveStatisticsImpl(10);
     	    	
         u.addValue( 1.0 );
         u.addValue( 2.0 );
@@ -176,7 +179,7 @@ public final class UnivariateImplTest extends TestCase {
         assertEquals( "Geometric mean not expected", 2.213364, 
             u.getGeometricMean(), 0.00001 );
 
-        // Now test rolling - UnivariateImpl should discount the contribution
+        // Now test rolling - StorelessDescriptiveStatistics should discount the contribution
         // of a discarded element
         for( int i = 0; i < 10; i++ ) {
             u.addValue( i + 2 );
@@ -188,7 +191,7 @@ public final class UnivariateImplTest extends TestCase {
     }
     
     public void testRollingMinMax() {
-        UnivariateImpl u = new UnivariateImpl(3);
+        StorelessDescriptiveStatisticsImpl u = new StorelessDescriptiveStatisticsImpl(3);
         u.addValue( 1.0 );
         u.addValue( 5.0 );
         u.addValue( 3.0 );
@@ -201,7 +204,7 @@ public final class UnivariateImplTest extends TestCase {
     }
     
     public void testNaNContracts() {
-        UnivariateImpl u = new UnivariateImpl();
+        StorelessDescriptiveStatisticsImpl u = new StorelessDescriptiveStatisticsImpl();
         double nan = Double.NaN;
         assertTrue("mean not NaN",Double.isNaN(u.getMean())); 
         assertTrue("min not NaN",Double.isNaN(u.getMin())); 
@@ -230,7 +233,7 @@ public final class UnivariateImplTest extends TestCase {
     }
 
     public void testSkewAndKurtosis() {
-        Univariate u = new UnivariateImpl();
+        DescriptiveStatistics u = new StorelessDescriptiveStatisticsImpl();
         
         double[] testArray = 
         { 12.5, 12, 11.8, 14.2, 14.9, 14.5, 21, 8.2, 10.3, 11.3, 14.1,

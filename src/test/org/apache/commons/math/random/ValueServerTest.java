@@ -58,13 +58,13 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import java.net.URL;
 
-import org.apache.commons.math.stat.Univariate;
-import org.apache.commons.math.stat.UnivariateImpl;
+import org.apache.commons.math.stat.DescriptiveStatistics;
+import org.apache.commons.math.stat.StorelessDescriptiveStatisticsImpl;
  
 /**
  * Test cases for the ValueServer class.
  *
- * @version $Revision: 1.7 $ $Date: 2003/11/14 22:22:22 $
+ * @version $Revision: 1.8 $ $Date: 2003/11/15 16:01:40 $
  */
 
 public final class ValueServerTest extends TestCase {
@@ -103,7 +103,7 @@ public final class ValueServerTest extends TestCase {
         vs.computeDistribution();
         assertTrue("empirical distribution property", 
             vs.getEmpiricalDistribution() != null);
-        Univariate stats = new UnivariateImpl();
+        DescriptiveStatistics stats = new StorelessDescriptiveStatisticsImpl();
         for (int i = 1; i < 1000; i++) {
             next = vs.getNext();
             stats.addValue(next);
@@ -114,7 +114,7 @@ public final class ValueServerTest extends TestCase {
             tolerance);
         
         vs.computeDistribution(500);
-        stats = new UnivariateImpl();
+        stats = new StorelessDescriptiveStatisticsImpl();
         for (int i = 1; i < 1000; i++) {
             next = vs.getNext();
             stats.addValue(next);

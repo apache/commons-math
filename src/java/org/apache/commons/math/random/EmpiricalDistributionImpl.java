@@ -61,8 +61,8 @@ import java.io.FileReader;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.math.stat.Univariate;
-import org.apache.commons.math.stat.UnivariateImpl;
+import org.apache.commons.math.stat.DescriptiveStatistics;
+import org.apache.commons.math.stat.StorelessDescriptiveStatisticsImpl;
 
 /**
  * Implements <code>EmpiricalDistribution</code> interface.  This implementation
@@ -89,16 +89,16 @@ import org.apache.commons.math.stat.UnivariateImpl;
  *    entry per line.</li>
  * </ol></p>
  *
- * @version $Revision: 1.9 $ $Date: 2003/11/14 22:22:21 $
+ * @version $Revision: 1.10 $ $Date: 2003/11/15 16:01:37 $
  */
 public class EmpiricalDistributionImpl implements Serializable,EmpiricalDistribution {
 
     
-    /** List of Univariate objects characterizing the bins */
+    /** List of DescriptiveStatistics objects characterizing the bins */
     private ArrayList binStats = null;
     
     /** Sample statistics */
-    Univariate sampleStats = null;
+    DescriptiveStatistics sampleStats = null;
     
     /** number of bins */
     private int binCount = 1000;
@@ -142,7 +142,7 @@ public class EmpiricalDistributionImpl implements Serializable,EmpiricalDistribu
             in = new BufferedReader(new FileReader(file));
             String str = null;
             double val = 0.0;
-            sampleStats = new UnivariateImpl();
+            sampleStats = new StorelessDescriptiveStatisticsImpl();
             while ((str = in.readLine()) != null) {
               val = new Double(str).doubleValue();
               sampleStats.addValue(val);   
@@ -169,7 +169,7 @@ public class EmpiricalDistributionImpl implements Serializable,EmpiricalDistribu
             binStats.clear();
         }
         for (int i = 0; i < binCount; i++) {
-            Univariate stats = new UnivariateImpl();
+            DescriptiveStatistics stats = new StorelessDescriptiveStatisticsImpl();
             binStats.add(i,stats);
         }
          
@@ -190,7 +190,7 @@ public class EmpiricalDistributionImpl implements Serializable,EmpiricalDistribu
                   }
                   if (val <= binUpperBounds[i]) {
                       found = true;
-                      Univariate stats = (Univariate)binStats.get(i);
+                      DescriptiveStatistics stats = (DescriptiveStatistics)binStats.get(i);
                       stats.addValue(val);
                   }
                   i++;
@@ -205,11 +205,11 @@ public class EmpiricalDistributionImpl implements Serializable,EmpiricalDistribu
          // Assign upperBounds based on bin counts
          upperBounds = new double[binCount];
          upperBounds[0] = 
-            ((double)((Univariate)binStats.get(0)).getN())/
+            ((double)((DescriptiveStatistics)binStats.get(0)).getN())/
                 (double)sampleStats.getN();
          for (int i = 1; i < binCount-1; i++) {
              upperBounds[i] = upperBounds[i-1] +
-             ((double)((Univariate)binStats.get(i)).getN())/
+             ((double)((DescriptiveStatistics)binStats.get(i)).getN())/
                 (double)sampleStats.getN();
          }
          upperBounds[binCount-1] = 1.0d;   
@@ -234,7 +234,7 @@ public class EmpiricalDistributionImpl implements Serializable,EmpiricalDistribu
         // Use this to select the bin and generate a Gaussian within the bin
         for (int i = 0; i < binCount; i++) {
            if (x <= upperBounds[i]) {
-               Univariate stats = (Univariate)binStats.get(i);
+               DescriptiveStatistics stats = (DescriptiveStatistics)binStats.get(i);
                if (stats.getN() > 0) { 
                    if (stats.getStandardDeviation() > 0) {  // more than one obs 
                         return randomData.nextGaussian
@@ -266,7 +266,7 @@ public class EmpiricalDistributionImpl implements Serializable,EmpiricalDistribu
        throw new UnsupportedOperationException("Not Implemented yet :-(");
     }
         
-    public Univariate getSampleStats() {
+    public DescriptiveStatistics getSampleStats() {
         return sampleStats;
     }
     

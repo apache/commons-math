@@ -52,7 +52,7 @@
  * <http://www.apache.org/>.
  */
 
-package org.apache.commons.math.stat.distribution;
+package org.apache.commons.math.distribution;
 
 import org.apache.commons.discovery.tools.DiscoverClass;
 
@@ -75,7 +75,7 @@ import org.apache.commons.discovery.tools.DiscoverClass;
  * ChiSquaredDistribution chi = factory.createChiSquareDistribution(5.0);
  * </pre>
  * 
- * @version $Revision: 1.16 $ $Date: 2003/11/14 22:22:19 $
+ * @version $Revision: 1.17 $ $Date: 2003/11/15 16:01:35 $
  */
 public abstract class DistributionFactory {
     /**
@@ -95,7 +95,7 @@ public abstract class DistributionFactory {
             DiscoverClass dc = new DiscoverClass();
             factory = (DistributionFactory) dc.newInstance(
                 DistributionFactory.class,
-                "org.apache.commons.math.stat.distribution.DistributionFactoryImpl");
+                "org.apache.commons.math.distribution.DistributionFactoryImpl");
         } catch(Exception ex) {
             // ignore as default implementation will be used.
         }

@@ -51,12 +51,12 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.commons.math.stat.distribution;
+package org.apache.commons.math.distribution;
 
 /**
  * Base interface for various discrete distributions.
  * 
- * @version $Revision: 1.5 $ $Date: 2003/11/14 22:22:19 $
+ * @version $Revision: 1.6 $ $Date: 2003/11/15 16:01:35 $
  */
 public interface DiscreteDistribution {
     /**

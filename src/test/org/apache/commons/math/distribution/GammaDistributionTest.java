@@ -52,12 +52,12 @@
  * <http://www.apache.org/>.
  */
 
-package org.apache.commons.math.stat.distribution;
+package org.apache.commons.math.distribution;
 
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.9 $ $Date: 2003/11/14 22:22:22 $
+ * @version $Revision: 1.10 $ $Date: 2003/11/15 16:01:40 $
  */
 public class GammaDistributionTest extends TestCase {
     public void testProbabilities(){

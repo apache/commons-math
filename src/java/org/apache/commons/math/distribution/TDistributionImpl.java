@@ -51,7 +51,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.commons.math.stat.distribution;
+package org.apache.commons.math.distribution;
 
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.math.MathException;
@@ -61,7 +61,7 @@ import org.apache.commons.math.special.Beta;
  * Default implementation of
  * {@link org.apache.commons.math.stat.distribution.TDistribution}.
  * 
- * @version $Revision: 1.8 $ $Date: 2003/11/14 22:25:28 $
+ * @version $Revision: 1.9 $ $Date: 2003/11/15 16:01:36 $
  */
 public class TDistributionImpl
     extends AbstractContinuousDistribution

@@ -58,7 +58,7 @@ import java.io.IOException;
 import java.io.File;
 import java.util.ArrayList;
 
-import org.apache.commons.math.stat.Univariate;
+import org.apache.commons.math.stat.DescriptiveStatistics;
 
 /**
  * Represents an <a href="http://random.mat.sbg.ac.at/~ste/dipl/node11.html">
@@ -80,7 +80,7 @@ import org.apache.commons.math.stat.Univariate;
  * build grouped frequnecy histograms representing the input data or to
  * generate random values "like" those in the input file -- i.e., the values
  * generated will follow the distribution of the values in the file.
- * @version $Revision: 1.9 $ $Date: 2003/11/14 22:22:21 $
+ * @version $Revision: 1.10 $ $Date: 2003/11/15 16:01:37 $
  */
 public interface EmpiricalDistribution {
     
@@ -109,13 +109,13 @@ public interface EmpiricalDistribution {
     
      
     /** 
-     * Returns a Univariate describing this distribution.
+     * Returns a DescriptiveStatistics describing this distribution.
      * <strong>Preconditions:</strong><ul>
      * <li>the distribution must be loaded before invoking this method</li></ul>
      * @return the sample statistics
      * @throws IllegalStateException if the distribution has not been loaded
      */
-    Univariate getSampleStats() throws IllegalStateException;
+    DescriptiveStatistics getSampleStats() throws IllegalStateException;
     
     /** 
      * Loads a saved distribution from a file.

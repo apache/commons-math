@@ -53,61 +53,68 @@
  */
 package org.apache.commons.math.stat;
 
+import java.util.Arrays;
+
+import org.apache.commons.math.stat.univariate.rank.Percentile;
+
 /**
- * StoreUnivariate implements the Univariate interface 
- * but maintains the set of values which contribute to 
- * the values being returned.  This implementation of 
- * Univariate provides additional percentile functionality 
- * such as.  This additional functionality comes with 
- * a price of increased storage costs.
- * @version $Revision: 1.11 $ $Date: 2003/11/14 22:22:18 $
+ * Provides univariate measures for an array of doubles. 
+ * @version $Revision: 1.1 $ $Date: 2003/11/15 16:01:37 $
  */
-public interface StoreUnivariate extends Univariate {
+public abstract class AbstractDescriptiveStatistics
+    extends AbstractStorelessDescriptiveStatistics {
+
+    /** Percentile */
+    protected Percentile percentile = new Percentile(50);
+        
+    /**
+     * Create an AbstractDescriptiveStatistics
+     */
+    public AbstractDescriptiveStatistics() {
+        super();
+    }
 
     /**
-     * Returns the current set of values in an array of double primitives.  
-     * The order of addition is preserved.  The returned array is a fresh
-     * copy of the underlying data -- i.e., it is not a reference to the
-     * stored data.
-     * 
-     * @return returns the current set of numbers in the order in which they 
-     *         were added to this set
+     * Create an AbstractDescriptiveStatistics with a specific Window
+     * @param window WindowSIze for stat calculation
      */
-    double[] getValues();
+    public AbstractDescriptiveStatistics(int window) {
+        super(window);
+    }
 
     /**
-     * Returns the current set of values in an array of double primitives,  
-     * sorted in ascending order.  The returned array is a fresh
-     * copy of the underlying data -- i.e., it is not a reference to the
-     * stored data.
-     * @return returns the current set of 
-     * numbers sorted in ascending order        
+     * @see org.apache.commons.math.stat.DescriptiveStatistics#getPercentile(double)
      */
-    double[] getSortedValues();
+    public double getPercentile(double p) {
+        percentile.setPercentile(p);
+        return apply(percentile);
+    }
+    
+    /**
+     * @see org.apache.commons.math.stat.DescriptiveStatistics#getSortedValues()
+     */
+    public double[] getSortedValues() {
+        double[] sort = getValues();
+        Arrays.sort(sort);
+        return sort;
+    }
+    
+    /**
+     * @see org.apache.commons.math.stat.Univariate#addValue(double)
+     */
+    public abstract void addValue(double value);
 
     /**
-     * Returns the element at the specified index
-     * @param index The Index of the element
-     * @return return the element at the specified index
+     * @see org.apache.commons.math.stat.DescriptiveStatistics#getValues()
      */
-    double getElement(int index);
+    public abstract double[] getValues();
+
 
     /**
-     * Returns an estimate for the pth percentile of the stored values. 
-     * This estimate follows the interpolation-adjusted defintion presented 
-     * <a href="http://www.utdallas.edu/~ammann/stat5311/node8.html">here</a>
-     * <p/>
-     * <strong>Preconditions</strong>:<ul>
-     * <li><code>0 &lt; p &lt; 100</code> (otherwise an 
-     * <code>IllegalArgumentException</code> is thrown)</li>
-     * <li>at least one value must be stored (returns <code>Double.NaN
-     *     </code> otherwise)</li>
-     * </ul>
-     * 
-     * @param p the requested percentile (scaled from 0 - 100)
-     * @return An estimate for the pth percentile of the stored data 
-     * values
+     * @see org.apache.commons.math.stat.DescriptiveStatistics#getElement(int)
      */
-    double getPercentile(double p);
+    public abstract double getElement(int index);
+
+
 
 }

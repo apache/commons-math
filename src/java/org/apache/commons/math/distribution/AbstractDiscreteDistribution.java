@@ -51,7 +51,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.commons.math.stat.distribution;
+package org.apache.commons.math.distribution;
 
 
 /**
@@ -59,7 +59,7 @@ package org.apache.commons.math.stat.distribution;
  * implementations for some of the methods that do not vary from distribution
  * to distribution.
  *  
- * @version $Revision: 1.6 $ $Date: 2003/11/14 22:22:19 $
+ * @version $Revision: 1.7 $ $Date: 2003/11/15 16:01:35 $
  */
 public abstract class AbstractDiscreteDistribution
     implements DiscreteDistribution {

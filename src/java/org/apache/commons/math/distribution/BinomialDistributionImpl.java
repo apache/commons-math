@@ -51,7 +51,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.commons.math.stat.distribution;
+package org.apache.commons.math.distribution;
 
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.math.MathException;
@@ -61,7 +61,7 @@ import org.apache.commons.math.util.MathUtils;
 /**
  * The default implementation of {@link BinomialDistribution}.
  * 
- * @version $Revision: 1.5 $ $Date: 2003/11/14 22:22:19 $
+ * @version $Revision: 1.6 $ $Date: 2003/11/15 16:01:35 $
  */
 public class BinomialDistributionImpl extends AbstractDiscreteDistribution
     implements BinomialDistribution {

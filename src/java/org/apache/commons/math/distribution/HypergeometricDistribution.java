@@ -52,7 +52,7 @@
  * <http://www.apache.org/>.
  */
 
-package org.apache.commons.math.stat.distribution;
+package org.apache.commons.math.distribution;
 
 /**
  * The Hypergeometric Distribution.
@@ -66,7 +66,7 @@ package org.apache.commons.math.stat.distribution;
  * Hypergeometric Distribution</a></li>
  * </ul>
  * 
- * @version $Revision: 1.5 $ $Date: 2003/11/14 22:22:19 $
+ * @version $Revision: 1.6 $ $Date: 2003/11/15 16:01:36 $
  */
 public interface HypergeometricDistribution extends DiscreteDistribution {
     /**

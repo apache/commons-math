@@ -68,12 +68,12 @@ import org.apache.commons.math.stat.univariate.summary.SumOfSquares;
 
 /**
  * Provides univariate measures for an array of doubles.
- * @version $Revision: 1.8 $ $Date: 2003/11/14 22:22:18 $  
+ * @version $Revision: 1.1 $ $Date: 2003/11/15 16:01:37 $  
  */
-public abstract class AbstractUnivariate implements Univariate {
+public abstract class AbstractStorelessDescriptiveStatistics extends DescriptiveStatistics {
 
     /** hold the window size **/
-    protected int windowSize = Univariate.INFINITE_WINDOW;
+    protected int windowSize = INFINITE_WINDOW;
 
     /** count of values that have been added */
     protected int n = 0;
@@ -112,9 +112,9 @@ public abstract class AbstractUnivariate implements Univariate {
     protected Kurtosis kurtosis = null;
 
     /**
-     * Construct an AbstractUnivariate
+     * Construct an AbstractStorelessDescriptiveStatistics
      */
-    public AbstractUnivariate() {
+    public AbstractStorelessDescriptiveStatistics() {
         super();
         
         sum = new Sum();
@@ -132,10 +132,10 @@ public abstract class AbstractUnivariate implements Univariate {
     }
 
     /**
-     * Construct an AbstractUnivariate with a window
+     * Construct an AbstractStorelessDescriptiveStatistics with a window
      * @param window The Window Size
      */
-    public AbstractUnivariate(int window) {
+    public AbstractStorelessDescriptiveStatistics(int window) {
         this();
         setWindowSize(window);
     }
@@ -244,16 +244,16 @@ public abstract class AbstractUnivariate implements Univariate {
     }
 
     /**
-     * @see org.apache.commons.math.stat.StoreUnivariate#getKurtosisClass()
+     * @see org.apache.commons.math.stat.DescriptiveStatistics#getKurtosisClass()
      */
     public int getKurtosisClass() {
-        int kClass = Univariate.MESOKURTIC;
+        int kClass = MESOKURTIC;
 
         double kurtosis = getKurtosis();
         if (kurtosis > 0) {
-            kClass = Univariate.LEPTOKURTIC;
+            kClass = LEPTOKURTIC;
         } else if (kurtosis < 0) {
-            kClass = Univariate.PLATYKURTIC;
+            kClass = PLATYKURTIC;
         }
         return (kClass);
     }

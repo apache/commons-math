@@ -51,25 +51,66 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.commons.math.stat;
+package org.apache.commons.math.util;
 
-import org.apache.commons.math.stat.univariate.UnivariateStatistic;
+import java.lang.reflect.InvocationTargetException;
+import org.apache.commons.math.MathException;
 
 /**
- * Applyable.java
- * 
- * TODO: add javadocs
- * 
- * @version $Revision: 1.6 $ $Date: 2003/11/14 22:22:18 $
+ * Uses PropertyUtils to map a Bean getter to a double value.
+ * @version $Revision: 1.1 $ $Date: 2003/11/15 16:01:42 $
  */
-public interface Applyable {
-    
+public class BeanTransformer implements NumberTransformer {
+
     /**
-     * Applies a UnivariateStatistic object against this object 
-     * and returns the result.
-     * @param stat The stat to apply.
-     * @return The result value of the application.
+     * The propertyName for this Transformer
      */
-    double apply(UnivariateStatistic stat);
-    
+    private String propertyName;
+
+    /**
+     * Create a BeanTransformer
+     */
+    public BeanTransformer() {
+        this(null);
+    }
+
+    /**
+     * Create a BeanTransformer with a specific PropertyName.
+     * @param property The property.
+     */
+    public BeanTransformer(final String property) {
+        super();
+        setPropertyName(property);
+    }
+
+    /**
+     * Get the property String
+     * @return the Property Name String
+     */
+    public String getPropertyName() {
+        return propertyName;
+    }
+
+    /**
+     * Set the propertyString
+     * @param string The string to set the property to.
+     */
+    public void setPropertyName(final String string) {
+        propertyName = string;
+    }
+
+    /**
+     * @see org.apache.commons.math.util.NumberTransformer#transform(java.lang.Object)
+     */
+    public double transform(final Object o) throws MathException {
+        try {
+			return ((Number) org.apache.commons.beanutils.PropertyUtils.getProperty(o, getPropertyName())).doubleValue();
+        } catch (IllegalAccessException e) {
+			throw new MathException("IllegalAccessException in Transformation: " + e.getMessage(), e);
+        } catch (InvocationTargetException e) {
+			throw new MathException("InvocationTargetException in Transformation: " + e.getMessage(), e);
+        } catch (NoSuchMethodException e) {
+			throw new MathException("oSuchMethodException in Transformation: " + e.getMessage(), e);
+        }
+    }
 }

@@ -52,12 +52,12 @@
  * <http://www.apache.org/>.
  */
 
-package org.apache.commons.math.stat.distribution;
+package org.apache.commons.math.distribution;
 
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.13 $ $Date: 2003/11/14 22:22:22 $
+ * @version $Revision: 1.14 $ $Date: 2003/11/15 16:01:39 $
  */
 public class DistributionFactoryImplTest extends TestCase {
     /** */

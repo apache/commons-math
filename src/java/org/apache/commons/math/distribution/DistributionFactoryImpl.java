@@ -51,14 +51,14 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.commons.math.stat.distribution;
+package org.apache.commons.math.distribution;
 
 
 /**
  * A concrete distribution factory.  This is the default factory used by
  * Commons-Math.
  *  
- * @version $Revision: 1.14 $ $Date: 2003/11/14 22:22:19 $
+ * @version $Revision: 1.15 $ $Date: 2003/11/15 16:01:36 $
  */
 public class DistributionFactoryImpl extends DistributionFactory {
     /**

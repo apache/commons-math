@@ -61,14 +61,14 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
 
 import org.apache.commons.math.stat.Frequency;
+import org.apache.commons.math.stat.StorelessDescriptiveStatisticsImpl;
 import org.apache.commons.math.stat.TestStatisticImpl;
-import org.apache.commons.math.stat.Univariate;
-import org.apache.commons.math.stat.UnivariateImpl;
+import org.apache.commons.math.stat.DescriptiveStatistics;
 
 /**
  * Test cases for the RandomData class.
  *
- * @version $Revision: 1.7 $ $Date: 2003/11/14 22:22:22 $
+ * @version $Revision: 1.8 $ $Date: 2003/11/15 16:01:40 $
  */
 
 public final class RandomDataTest extends TestCase {
@@ -405,7 +405,7 @@ public final class RandomDataTest extends TestCase {
         } catch (IllegalArgumentException ex) {
             ;
         }
-        Univariate u = new UnivariateImpl();
+        DescriptiveStatistics u = new StorelessDescriptiveStatisticsImpl();
         for (int i = 0; i<largeSampleSize; i++) {
             u.addValue(randomData.nextGaussian(0,1));
         }

@@ -54,14 +54,14 @@
 
 package org.apache.commons.math.stat;
 
-import org.apache.commons.math.stat.distribution.DistributionFactory;
-import org.apache.commons.math.stat.distribution.TDistribution;
-import org.apache.commons.math.stat.distribution.ChiSquaredDistribution;
+import org.apache.commons.math.distribution.DistributionFactory;
+import org.apache.commons.math.distribution.TDistribution;
+import org.apache.commons.math.distribution.ChiSquaredDistribution;
 
 /**
  * Implements test statistics defined in the TestStatistic interface.
  *
- * @version $Revision: 1.8 $ $Date: 2003/11/14 22:22:18 $
+ * @version $Revision: 1.9 $ $Date: 2003/11/15 16:01:39 $
  */
 public class TestStatisticImpl implements TestStatistic {
     
@@ -236,11 +236,11 @@ public class TestStatisticImpl implements TestStatistic {
     
     /**
      * @param mu comparison constant
-     * @param sampleStats Univariate holding sample summary statitstics
+     * @param sampleStats DescriptiveStatistics holding sample summary statitstics
      * @return t statistic
      * @throws IllegalArgumentException if the precondition is not met
      */
-    public double t(double mu, Univariate sampleStats) 
+    public double t(double mu, DescriptiveStatistics sampleStats) 
         throws IllegalArgumentException {
         if ((sampleStats == null) || (sampleStats.getN() < 5)) {
             throw new IllegalArgumentException
@@ -251,12 +251,12 @@ public class TestStatisticImpl implements TestStatistic {
     }
     
     /**
-     * @param sampleStats1 Univariate describing data from the first sample
-     * @param sampleStats2 Univariate describing data from the second sample
+     * @param sampleStats1 DescriptiveStatistics describing data from the first sample
+     * @param sampleStats2 DescriptiveStatistics describing data from the second sample
      * @return t statistic
      * @throws IllegalArgumentException if the precondition is not met
      */
-    public double t(Univariate sampleStats1, Univariate sampleStats2) 
+    public double t(DescriptiveStatistics sampleStats1, DescriptiveStatistics sampleStats2) 
         throws IllegalArgumentException {
         if ((sampleStats1 == null) || (sampleStats2 == null || 
             Math.min(sampleStats1.getN(), sampleStats2.getN()) < 5)) {
@@ -269,12 +269,12 @@ public class TestStatisticImpl implements TestStatistic {
     }
     
     /**
-     * @param sampleStats1 Univariate describing data from the first sample
-     * @param sampleStats2 Univariate describing data from the second sample
+     * @param sampleStats1 DescriptiveStatistics describing data from the first sample
+     * @param sampleStats2 DescriptiveStatistics describing data from the second sample
      * @return p-value for t-test
      * @throws IllegalArgumentException if the precondition is not met
      */
-    public double tTest(Univariate sampleStats1, Univariate sampleStats2)
+    public double tTest(DescriptiveStatistics sampleStats1, DescriptiveStatistics sampleStats2)
         throws IllegalArgumentException {
         if ((sampleStats1 == null) || (sampleStats2 == null || 
             Math.min(sampleStats1.getN(), sampleStats2.getN()) < 5)) {
@@ -287,14 +287,14 @@ public class TestStatisticImpl implements TestStatistic {
     }
     
     /**
-     * @param sampleStats1 Univariate describing sample data values
-     * @param sampleStats2 Univariate describing sample data values
+     * @param sampleStats1 DescriptiveStatistics describing sample data values
+     * @param sampleStats2 DescriptiveStatistics describing sample data values
      * @param alpha significance level of the test
      * @return true if the null hypothesis can be rejected with 
      * confidence 1 - alpha
      * @throws IllegalArgumentException if the preconditions are not met
      */
-    public boolean tTest(Univariate sampleStats1, Univariate sampleStats2, 
+    public boolean tTest(DescriptiveStatistics sampleStats1, DescriptiveStatistics sampleStats2, 
     double alpha) throws IllegalArgumentException {
         if ((alpha <= 0) || (alpha > 0.5)) {
             throw new IllegalArgumentException
@@ -305,12 +305,12 @@ public class TestStatisticImpl implements TestStatistic {
     
     /**
      * @param mu constant value to compare sample mean against
-     * @param sampleStats Univariate describing sample data values
+     * @param sampleStats DescriptiveStatistics describing sample data values
      * @param alpha significance level of the test
      * @return p-value
      * @throws IllegalArgumentException if the precondition is not met
      */
-    public boolean tTest(double mu, Univariate sampleStats, double alpha)
+    public boolean tTest(double mu, DescriptiveStatistics sampleStats, double alpha)
         throws IllegalArgumentException {
         if ((alpha <= 0) || (alpha > 0.5)) {
            throw new IllegalArgumentException
@@ -321,11 +321,11 @@ public class TestStatisticImpl implements TestStatistic {
     
     /**
      * @param mu constant value to compare sample mean against
-     * @param sampleStats Univariate describing sample data
+     * @param sampleStats DescriptiveStatistics describing sample data
      * @return p-value
      * @throws IllegalArgumentException if the precondition is not met
      */
-    public double tTest(double mu, Univariate sampleStats)
+    public double tTest(double mu, DescriptiveStatistics sampleStats)
         throws IllegalArgumentException {
         if ((sampleStats == null) || (sampleStats.getN() < 5)) {
             throw new IllegalArgumentException

@@ -63,7 +63,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link Univariate} class.
  *
- * @version $Revision: 1.9 $ $Date: 2003/11/14 22:22:18 $
+ * @version $Revision: 1.10 $ $Date: 2003/11/15 16:01:41 $
  */
 
 public final class ListUnivariateImplTest extends TestCase {
@@ -81,7 +81,7 @@ public final class ListUnivariateImplTest extends TestCase {
     private double max = 3;
     private double skewness = 0;
     private double kurtosis = 0.5;
-    private int kClass = StoreUnivariate.LEPTOKURTIC;
+    private int kClass = DescriptiveStatistics.LEPTOKURTIC;
     private double tolerance = 10E-15;
     
     public ListUnivariateImplTest(String name) {
@@ -101,7 +101,7 @@ public final class ListUnivariateImplTest extends TestCase {
     public void testStats() {
     	List externalList = new ArrayList();
     	
-        StoreUnivariate u = new ListUnivariateImpl( externalList ); 
+        DescriptiveStatistics u = new ListUnivariateImpl( externalList ); 
 
         assertEquals("total count",0,u.getN(),tolerance);
         u.addValue(one);
@@ -123,7 +123,7 @@ public final class ListUnivariateImplTest extends TestCase {
     public void testN0andN1Conditions() throws Exception {
     	List list = new ArrayList();
     	
-    	StoreUnivariate u = new ListUnivariateImpl( list );
+    	DescriptiveStatistics u = new ListUnivariateImpl( list );
     	    	
 		assertTrue("Mean of n = 0 set should be NaN", Double.isNaN( u.getMean() ) );
 		assertTrue("Standard Deviation of n = 0 set should be NaN", Double.isNaN( u.getStandardDeviation() ) );
@@ -137,7 +137,7 @@ public final class ListUnivariateImplTest extends TestCase {
     }
     
     public void testSkewAndKurtosis() {
-    	StoreUnivariate u = new StoreUnivariateImpl();
+    	DescriptiveStatistics u = DescriptiveStatistics.newInstance();
     	
     	double[] testArray = { 12.5, 12, 11.8, 14.2, 14.9, 14.5, 21, 8.2, 10.3, 11.3, 14.1,
   	  										 9.9, 12.2, 12, 12.1, 11, 19.8, 11, 10, 8.8, 9, 12.3 };
@@ -162,7 +162,7 @@ public final class ListUnivariateImplTest extends TestCase {
 
         assertEquals( "Geometric mean not expected", 2.213364, u.getGeometricMean(), 0.00001 );
 
-        // Now test rolling - UnivariateImpl should discount the contribution
+        // Now test rolling - StorelessDescriptiveStatistics should discount the contribution
         // of a discarded element
         for( int i = 0; i < 10; i++ ) {
             u.addValue( i + 2 );

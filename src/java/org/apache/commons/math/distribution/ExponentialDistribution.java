@@ -51,7 +51,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.commons.math.stat.distribution;
+package org.apache.commons.math.distribution;
 
 /**
  * The Exponential Distribution.
@@ -64,7 +64,7 @@ package org.apache.commons.math.stat.distribution;
  * <li><a href="http://mathworld.wolfram.com/ExponentialDistribution.html">
  * Exponential Distribution</a></li>
  * 
- * @version $Revision: 1.7 $ $Date: 2003/11/14 22:22:19 $
+ * @version $Revision: 1.8 $ $Date: 2003/11/15 16:01:36 $
  */
 public interface ExponentialDistribution extends ContinuousDistribution {
     /**

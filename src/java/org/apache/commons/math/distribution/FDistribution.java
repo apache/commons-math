@@ -51,7 +51,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.commons.math.stat.distribution;
+package org.apache.commons.math.distribution;
 
 /**
  * F-Distribution.
@@ -65,7 +65,7 @@ package org.apache.commons.math.stat.distribution;
  * F-Distribution</a></li>
  * </ul>
  * 
- * @version $Revision: 1.8 $ $Date: 2003/11/14 22:22:19 $
+ * @version $Revision: 1.9 $ $Date: 2003/11/15 16:01:36 $
  */
 public interface FDistribution extends ContinuousDistribution {
     /**

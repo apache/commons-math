@@ -52,12 +52,12 @@
  * <http://www.apache.org/>.
  */
 
-package org.apache.commons.math.stat.distribution;
+package org.apache.commons.math.distribution;
 
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.8 $ $Date: 2003/11/14 22:22:22 $
+ * @version $Revision: 1.9 $ $Date: 2003/11/15 16:01:39 $
  */
 public class ChiSquareDistributionTest extends TestCase {
     private ChiSquaredDistribution chiSquare;

@@ -51,14 +51,14 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.commons.math.stat.distribution;
+package org.apache.commons.math.distribution;
 
 import org.apache.commons.math.TestUtils;
 
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.7 $ $Date: 2003/11/14 22:22:22 $
+ * @version $Revision: 1.8 $ $Date: 2003/11/15 16:01:39 $
  */
 public class ExponentialDistributionTest extends TestCase {
     private ExponentialDistribution exp;

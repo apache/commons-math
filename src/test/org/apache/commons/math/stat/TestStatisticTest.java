@@ -53,13 +53,14 @@
  */
 package org.apache.commons.math.stat;
 
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 /**
  * Test cases for the TestStatistic class.
  *
- * @version $Revision: 1.7 $ $Date: 2003/11/14 22:22:18 $
+ * @version $Revision: 1.8 $ $Date: 2003/11/15 16:01:41 $
  */
 
 public final class TestStatisticTest extends TestCase {
@@ -141,8 +142,17 @@ public final class TestStatisticTest extends TestCase {
 	double[] observed = {93.0, 103.0, 95.0, 101.0, 91.0, 105.0, 96.0,
             94.0, 101.0, 88.0, 98.0, 94.0, 101.0, 92.0, 95.0};
         double mu = 100.0;
-        Univariate sampleStats = new UnivariateImpl();
-        for (int i = 0; i < observed.length; i++) {
+        DescriptiveStatistics sampleStats = null;
+		try {
+			sampleStats = DescriptiveStatistics.newInstance(StorelessDescriptiveStatisticsImpl.class);
+		} catch (InstantiationException e5) {
+			// TODO Auto-generated catch block
+			e5.printStackTrace();
+		} catch (IllegalAccessException e5) {
+			// TODO Auto-generated catch block
+			e5.printStackTrace();
+		}
+		for (int i = 0; i < observed.length; i++) {
             sampleStats.addValue(observed[i]);
         }
         
@@ -159,8 +169,17 @@ public final class TestStatisticTest extends TestCase {
             ;
         }
         
-        UnivariateImpl nullStats = null;
-        try {
+		DescriptiveStatistics nullStats = null;
+		try {
+			nullStats = DescriptiveStatistics.newInstance(StorelessDescriptiveStatisticsImpl.class);
+		} catch (InstantiationException e6) {
+			// TODO Auto-generated catch block
+			e6.printStackTrace();
+		} catch (IllegalAccessException e6) {
+			// TODO Auto-generated catch block
+			e6.printStackTrace();
+		}
+		try {
             testStatistic.t(mu, nullStats);
             fail("arguments too short, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
@@ -174,9 +193,18 @@ public final class TestStatisticTest extends TestCase {
         } catch (IllegalArgumentException ex) {
             ;
         }
-        
-        Univariate emptyStats = new UnivariateImpl();
-        try {
+
+		DescriptiveStatistics emptyStats = null;
+		try {
+			emptyStats = DescriptiveStatistics.newInstance(StorelessDescriptiveStatisticsImpl.class);
+		} catch (InstantiationException e4) {
+			// TODO Auto-generated catch block
+			e4.printStackTrace();
+		} catch (IllegalAccessException e4) {
+			// TODO Auto-generated catch block
+			e4.printStackTrace();
+		}
+		try {
             testStatistic.t(mu, emptyStats);
             fail("arguments too short, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
@@ -196,9 +224,18 @@ public final class TestStatisticTest extends TestCase {
         } catch (IllegalArgumentException ex) {
             ;
         }
-        
-        Univariate tooShortStats = new UnivariateImpl();
-        tooShortStats.addValue(0d);
+
+		DescriptiveStatistics tooShortStats = null;
+		try {
+			tooShortStats = DescriptiveStatistics.newInstance(StorelessDescriptiveStatisticsImpl.class);
+		} catch (InstantiationException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		} catch (IllegalAccessException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		}
+		tooShortStats.addValue(0d);
         tooShortStats.addValue(2d);
         try {
             testStatistic.t(mu, tooShortStats);
@@ -216,8 +253,19 @@ public final class TestStatisticTest extends TestCase {
         /** Moore and McCabe Example 8.3, p 516 */
         double[] oneSidedP = {2d, 0d, 6d, 6d, 3d, 3d, 2d, 3d, -6d, 6d, 6d, 
             6d, 3d, 0d, 1d, 1d, 0d, 2d, 3d, 3d};
-        Univariate oneSidedPStats = new UnivariateImpl();
-        for (int i = 0; i < oneSidedP.length; i++) {
+            
+
+		DescriptiveStatistics oneSidedPStats = null;
+		try {
+			oneSidedPStats = DescriptiveStatistics.newInstance(StorelessDescriptiveStatisticsImpl.class);
+		} catch (InstantiationException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (IllegalAccessException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		for (int i = 0; i < oneSidedP.length; i++) {
             oneSidedPStats.addValue(oneSidedP[i]);
         }
         assertEquals("one sample t stat",3.86,
@@ -252,12 +300,32 @@ public final class TestStatisticTest extends TestCase {
         /** Moore and McCabe Example 8.12, p 552 */
         double[] sample1 = {7d, -4d, 18d, 17d, -3d, -5d, 1d, 10d, 11d, -2d};
         double[] sample2 = {-1d, 12d, -1d, -3d, 3d, -5d, 5d, 2d, -11d, -1d, -3d};
-        Univariate sampleStats1 = new UnivariateImpl();
-        for (int i = 0; i < sample1.length; i++) {
+
+		DescriptiveStatistics sampleStats1 = null;
+		try {
+			sampleStats1 = DescriptiveStatistics.newInstance(StorelessDescriptiveStatisticsImpl.class);
+		} catch (InstantiationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IllegalAccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		for (int i = 0; i < sample1.length; i++) {
             sampleStats1.addValue(sample1[i]);
         }
-        Univariate sampleStats2 = new UnivariateImpl();
-        for (int i = 0; i < sample2.length; i++) {
+        
+		DescriptiveStatistics sampleStats2 = null;
+		try {
+			sampleStats2 = DescriptiveStatistics.newInstance(StorelessDescriptiveStatisticsImpl.class);
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for (int i = 0; i < sample2.length; i++) {
             sampleStats2.addValue(sample2[i]);
         }
         //FIXME: textbook example reported t stat uses pooled variance

@@ -55,7 +55,7 @@ package org.apache.commons.math.stat;
 /**
  * A collection of commonly used test statistics and statistical tests.
  * 
- * @version $Revision: 1.8 $ $Date: 2003/11/14 22:22:18 $ 
+ * @version $Revision: 1.9 $ $Date: 2003/11/15 16:01:38 $ 
  */
 public interface TestStatistic {
     
@@ -349,11 +349,11 @@ public interface TestStatistic {
      * </li></ul>
      *
      * @param mu comparison constant
-     * @param sampleStats Univariate holding sample summary statitstics
+     * @param sampleStats DescriptiveStatistics holding sample summary statitstics
      * @return t statistic
      * @throws IllegalArgumentException if the precondition is not met
      */
-    double t(double mu, Univariate sampleStats) 
+    double t(double mu, DescriptiveStatistics sampleStats) 
         throws IllegalArgumentException;
     
     /**
@@ -369,12 +369,12 @@ public interface TestStatistic {
      * at least 5 observations.
      * </li></ul>
      *
-     * @param sampleStats1 Univariate describing data from the first sample
-     * @param sampleStats2 Univariate describing data from the second sample
+     * @param sampleStats1 DescriptiveStatistics describing data from the first sample
+     * @param sampleStats2 DescriptiveStatistics describing data from the second sample
      * @return t statistic
      * @throws IllegalArgumentException if the precondition is not met
      */
-    double t(Univariate sampleStats1, Univariate sampleStats2) 
+    double t(DescriptiveStatistics sampleStats1, DescriptiveStatistics sampleStats2) 
         throws IllegalArgumentException;
     
     /**
@@ -403,12 +403,12 @@ public interface TestStatistic {
      * at least 5 observations.
      * </li></ul>
      *
-     * @param sampleStats1 Univariate describing data from the first sample
-     * @param sampleStats2 Univariate describing data from the second sample
+     * @param sampleStats1 DescriptiveStatistics describing data from the first sample
+     * @param sampleStats2 DescriptiveStatistics describing data from the second sample
      * @return p-value for t-test
      * @throws IllegalArgumentException if the precondition is not met
      */
-    double tTest(Univariate sampleStats1, Univariate sampleStats2)
+    double tTest(DescriptiveStatistics sampleStats1, DescriptiveStatistics sampleStats2)
         throws IllegalArgumentException;
     
     /**
@@ -450,14 +450,14 @@ public interface TestStatistic {
      * <li> <code> 0 < alpha < 0.5 </code>
      * </li></ul>
      *
-     * @param sampleStats1 Univariate describing sample data values
-     * @param sampleStats2 Univariate describing sample data values
+     * @param sampleStats1 DescriptiveStatistics describing sample data values
+     * @param sampleStats2 DescriptiveStatistics describing sample data values
      * @param alpha significance level of the test
      * @return true if the null hypothesis can be rejected with 
      * confidence 1 - alpha
      * @throws IllegalArgumentException if the preconditions are not met
      */
-    boolean tTest(Univariate sampleStats1, Univariate sampleStats2, 
+    boolean tTest(DescriptiveStatistics sampleStats1, DescriptiveStatistics sampleStats2, 
         double alpha)
         throws IllegalArgumentException;
     
@@ -492,12 +492,12 @@ public interface TestStatistic {
      * </li></ul>
      *
      * @param mu constant value to compare sample mean against
-     * @param sampleStats Univariate describing sample data values
+     * @param sampleStats DescriptiveStatistics describing sample data values
      * @param alpha significance level of the test
      * @return p-value
      * @throws IllegalArgumentException if the precondition is not met
      */
-    boolean tTest(double mu, Univariate sampleStats, double alpha)
+    boolean tTest(double mu, DescriptiveStatistics sampleStats, double alpha)
         throws IllegalArgumentException;
     
     /**
@@ -523,11 +523,11 @@ public interface TestStatistic {
      * </li></ul>
      *
      * @param mu constant value to compare sample mean against
-     * @param sampleStats Univariate describing sample data
+     * @param sampleStats DescriptiveStatistics describing sample data
      * @return p-value
      * @throws IllegalArgumentException if the precondition is not met
      */
-    double tTest(double mu, Univariate sampleStats)
+    double tTest(double mu, DescriptiveStatistics sampleStats)
         throws IllegalArgumentException;
 }
 

@@ -51,7 +51,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.commons.math.stat.distribution;
+package org.apache.commons.math.distribution;
 
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.math.MathException;
@@ -60,7 +60,7 @@ import org.apache.commons.math.special.Gamma;
 /**
  * The default implementation of {@link GammaDistribution}
  * 
- * @version $Revision: 1.11 $ $Date: 2003/11/14 22:22:19 $
+ * @version $Revision: 1.12 $ $Date: 2003/11/15 16:01:36 $
  */
 public class GammaDistributionImpl extends AbstractContinuousDistribution
     implements GammaDistribution {

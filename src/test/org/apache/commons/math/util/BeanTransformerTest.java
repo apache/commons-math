@@ -54,12 +54,13 @@
 
 package org.apache.commons.math.util;
 
+import org.apache.commons.math.MathException;
 import org.apache.commons.math.TestUtils;
 
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.5 $ $Date: 2003/11/14 22:22:23 $
+ * @version $Revision: 1.6 $ $Date: 2003/11/15 16:01:42 $
  */
 public class BeanTransformerTest extends TestCase {
     
@@ -96,8 +97,14 @@ public class BeanTransformerTest extends TestCase {
     public void testTransformNoSuchMethod(){
         BeanTransformer b = new BeanTransformer("z");
         TestBean target = new TestBean();
-        double value = b.transform(target);
-        TestUtils.assertEquals(Double.NaN, value, 1.0e-2);
+        double value = Double.NaN;
+		try {
+			value = b.transform(target);
+		} catch (MathException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		TestUtils.assertEquals(Double.NaN, value, 1.0e-2);
     }
     
     /**
@@ -106,8 +113,14 @@ public class BeanTransformerTest extends TestCase {
     public void testTransform(){
         BeanTransformer b = new BeanTransformer("x");
         TestBean target = new TestBean();
-        double value = b.transform(target);
-        TestUtils.assertEquals(1.0, value, 1.0e-2);
+		double value = Double.NaN;
+		try {
+			value = b.transform(target);
+		} catch (MathException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		TestUtils.assertEquals(1.0, value, 1.0e-2);
     }
     
     /**
@@ -116,8 +129,14 @@ public class BeanTransformerTest extends TestCase {
     public void testTransformInvocationError(){
         BeanTransformer b = new BeanTransformer("z");
         TestBean target = new TestBean();
-        double value = b.transform(target);
-        TestUtils.assertEquals(Double.NaN, value, 1.0e-2);
+		double value = Double.NaN;
+		try {
+			value = b.transform(target);
+		} catch (MathException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		TestUtils.assertEquals(Double.NaN, value, 1.0e-2);
     }
     
     /**
@@ -127,7 +146,12 @@ public class BeanTransformerTest extends TestCase {
         BeanTransformer b = new BeanTransformer("y");
         TestBean target = new TestBean();
         try {
-            b.transform(target);
+            try {
+				b.transform(target);
+			} catch (MathException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
             fail();
         } catch(ClassCastException ex){
             // success

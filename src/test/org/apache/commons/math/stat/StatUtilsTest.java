@@ -59,7 +59,7 @@ import junit.framework.TestSuite;
 
 /**
  * Test cases for the {@link StatUtils} class.
- * @version $Revision: 1.10 $ $Date: 2003/11/14 22:22:18 $
+ * @version $Revision: 1.11 $ $Date: 2003/11/15 16:01:41 $
  */
 
 public final class StatUtilsTest extends TestCase {
@@ -77,7 +77,7 @@ public final class StatUtilsTest extends TestCase {
     private double max = 3;
     private double skewness = 0;
     private double kurtosis = 0.5;
-    private int kClass = StoreUnivariate.LEPTOKURTIC;
+    private int kClass = DescriptiveStatistics.LEPTOKURTIC;
     private double tolerance = 10E-15;
 
     public StatUtilsTest(String name) {

@@ -64,7 +64,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link Univariate} class.
  *
- * @version $Revision: 1.5 $ $Date: 2003/11/14 22:22:18 $
+ * @version $Revision: 1.6 $ $Date: 2003/11/15 16:01:41 $
  */
 
 public final class MixedListUnivariateImplTest extends TestCase {
@@ -82,7 +82,7 @@ public final class MixedListUnivariateImplTest extends TestCase {
     private double max = 3;
     private double skewness = 0;
     private double kurtosis = 0.5;
-    private int kClass = StoreUnivariate.LEPTOKURTIC;
+    private int kClass = DescriptiveStatistics.LEPTOKURTIC;
     private double tolerance = 10E-15;
 
     private TransformerMap transformers = new TransformerMap();
@@ -119,7 +119,7 @@ public final class MixedListUnivariateImplTest extends TestCase {
     public void testStats() {
         List externalList = new ArrayList();
 
-        StoreUnivariate u = new ListUnivariateImpl(externalList,transformers);
+        DescriptiveStatistics u = new ListUnivariateImpl(externalList,transformers);
 
         assertEquals("total count", 0, u.getN(), tolerance);
         u.addValue(one);
@@ -141,7 +141,7 @@ public final class MixedListUnivariateImplTest extends TestCase {
     public void testN0andN1Conditions() throws Exception {
         List list = new ArrayList();
 
-        StoreUnivariate u = new ListUnivariateImpl(new ArrayList(),transformers);
+        DescriptiveStatistics u = new ListUnivariateImpl(new ArrayList(),transformers);
 
         assertTrue(
             "Mean of n = 0 set should be NaN",
@@ -217,7 +217,7 @@ public final class MixedListUnivariateImplTest extends TestCase {
             u.getGeometricMean(),
             0.00001);
 
-        // Now test rolling - UnivariateImpl should discount the contribution
+        // Now test rolling - StorelessDescriptiveStatistics should discount the contribution
         // of a discarded element
         for (int i = 0; i < 10; i++) {
             u.addValue(i + 2);

@@ -59,13 +59,13 @@ import junit.framework.TestSuite;
 import java.io.File;
 import java.net.URL;
 
-import org.apache.commons.math.stat.Univariate;
-import org.apache.commons.math.stat.UnivariateImpl;
+import org.apache.commons.math.stat.DescriptiveStatistics;
+import org.apache.commons.math.stat.StorelessDescriptiveStatisticsImpl;
 
 /**
  * Test cases for the EmpiricalDistribution class
  *
- * @version $Revision: 1.6 $ $Date: 2003/11/14 22:22:22 $
+ * @version $Revision: 1.7 $ $Date: 2003/11/15 16:01:40 $
  */
 
 public final class EmpiricalDistributionTest extends TestCase {
@@ -147,7 +147,7 @@ public final class EmpiricalDistributionTest extends TestCase {
     
     private void tstGen(double tolerance)throws Exception {
         empiricalDistribution.load(file);   
-        Univariate stats = new UnivariateImpl();
+        DescriptiveStatistics stats = new StorelessDescriptiveStatisticsImpl();
         for (int i = 1; i < 1000; i++) {
             stats.addValue(empiricalDistribution.getNextValue());
         }
