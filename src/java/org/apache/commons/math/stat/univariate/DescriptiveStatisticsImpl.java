@@ -17,13 +17,13 @@ package org.apache.commons.math.stat.univariate;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.util.ContractableDoubleArray;
+import org.apache.commons.math.util.ResizableDoubleArray;
 
 /**
  * Default implementation of
  * {@link org.apache.commons.math.stat.univariate.DescriptiveStatistics}.
  * 
- * @version $Revision: 1.6 $ $Date: 2004/06/01 21:34:35 $
+ * @version $Revision: 1.7 $ $Date: 2004/06/14 21:41:33 $
  */
 public class DescriptiveStatisticsImpl extends DescriptiveStatistics implements Serializable {
 
@@ -36,7 +36,7 @@ public class DescriptiveStatisticsImpl extends DescriptiveStatistics implements 
     /** 
      *  Stored data values
      */
-    protected ContractableDoubleArray eDA;
+    protected ResizableDoubleArray eDA;
 
     /**
      * Construct a DescriptiveStatisticsImpl with infinite window
@@ -51,7 +51,7 @@ public class DescriptiveStatisticsImpl extends DescriptiveStatistics implements 
      */
     public DescriptiveStatisticsImpl(int window) {
     	super();
-    	eDA = new ContractableDoubleArray();
+    	eDA = new ResizableDoubleArray();
         setWindowSize(window);
     }
 

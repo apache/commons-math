@@ -17,19 +17,18 @@ package org.apache.commons.math.util;
 
 
 /**
- * Provides a single interface for dealing with various flavors
- * of double arrays.  This arrays framework follows the model of the
- * Collections API by allowing a user to select from a number of 
- * array implementations with support for various storage mechanisms
+ * Provides a standard interface for double arrays.  Allows different
+ * array implementations to support various storage mechanisms
  * such as automatic expansion, contraction, and array "rolling".
  * 
- * @version $Revision: 1.11 $ $Date: 2004/06/08 14:19:40 $
+ * @version $Revision: 1.12 $ $Date: 2004/06/14 21:41:33 $
  */
 public interface DoubleArray {
 
     /**
      * Returns the number of elements currently in the array.  Please note
-     * that this is different from the length of the internal storage array.  
+     * that this may be different from the length of the internal storage array.  
+     * 
      * @return number of elements
      */
     int getNumElements();
@@ -47,9 +46,11 @@ public interface DoubleArray {
     double getElement(int index);
 
     /**
-     * Sets the element at the specified index.  This method may expand the 
-     * internal storage array to accomodate the insertion of a value at an 
-     * index beyond the current capacity.
+     * Sets the element at the specified index.  If the specified index is greater than
+     * <code>getNumElements() - 1</code>, the <code>numElements</code> property
+     * is increased to <code>index +1</code> and additional storage is allocated 
+     * (if necessary) for the new element and all  (uninitialized) elements 
+     * between the new element and the previous end of the array).
      * 
      * @param index index to store a value in
      * @param value value to store at the specified index
@@ -66,23 +67,29 @@ public interface DoubleArray {
     void addElement(double value);
 
     /**
-     * Adds an element and moves the window of elements up one.  This
-     * has the effect of a FIFO.  when you "roll" the array an element may be 
-     * removed from the array.  In this case, the return value of this function is the 
-     * discarded double.  In some implementations, removal will only occur when
-     * the array has reached a capacity threshold.  
      * <p>
-     * When removal does occur, the effect is to add an element to the end of the
-     * array and to discard the element at the beginning of the array.
+     * Adds an element to the end of the array and removes the first
+     * element in the array.  Returns the discarded first element.
+     * The effect is similar to a push operation in a FIFO queue.
+     * </p>
+     * <p>
+     * Example: If the array contains the elements 1, 2, 3, 4 (in that order)
+     * and addElementRolling(5) is invoked, the result is an array containing
+     * the entries 2, 3, 4, 5 and the value returned is 1.
+     * </p>
      * 
      * @param value the value to be added to the array
      * @return the value which has been discarded or "pushed" out of the array
-     *         by this rolling insert or null if no value has been discarded
+     *         by this rolling insert
      */
     double addElementRolling(double value);
 
     /**
-     * Returns a double[] of elements
+     * Returns a double[] array containing the elements of this 
+     * <code>DoubleArray</code>.  If the underlying implementation is 
+     * array-based, this method should always return a copy, rather than a 
+     * reference to the underlying array so that changes made to the returned
+     *  array have no effect on the <code>DoubleArray.</code>
      *
      * @return all elements added to the array
      */
