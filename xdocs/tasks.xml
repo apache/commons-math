@@ -52,8 +52,7 @@
    <subsection name="Unclassified priority"> 
     <ul>
      <li>
-      Add quantiles (1,5,10,25,50,75,90,95,99) to all Univaraite
-      implementations and bootstrap confidence intervals to StoredUnivariate
+      Add bootstrap confidence intervals to StoredUnivariate
       implementations.
      </li>
      <li>
@@ -76,15 +75,11 @@
       support general linear regression.
      </li>
      <li>
-      ComplexNumber interface and implementation.  The only tricky thing
-      here is making division numerically sound and what extended value
-      topology to adopt.
+      ComplexNumber implementation, supporting C9x Annex G spec.
      </li>
-     <li>
-      Binomial coefficients -- incorporate an "exact" implementation that is
-      limited to what can be stored in a long.  Use this to provide binomial and
-      hypergeometric CDFs and densities.  Extend distribution framework to 
-      support discrete distributions.
+     <li> Extend distribution framework to 
+      support discrete distributions and implement binomial and hypergeometric
+      distributions.
      </li>
      <li>
       Framework and implementation strategie(s) for finding roots or real-valued
@@ -131,6 +126,14 @@
     </li>
     <li>
       Add higher order moments to Univariate implementations.
+    </li>
+    <li>
+      Binomial coefficients -- incorporate an "exact" implementation that is
+      limited to what can be stored in a long.  Also provided double-valued
+      implementation of binomial coefficients and their logs.
+    </li>
+    <li>
+      Add percentiles to stored Univariate implementations
     </li>
     </ul>
    </subsection>
