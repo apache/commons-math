@@ -49,9 +49,9 @@ import org.apache.commons.math.distribution.TDistribution;
  * the necessary computations to return the requested statistic.</li>
  * </ul>
  *
- * @version $Revision: 1.5 $ $Date: 2004/07/17 21:14:02 $
+ * @version $Revision: 1.1 $ $Date: 2004/09/01 15:19:32 $
  */
-public class BivariateRegression implements Serializable {
+public class SimpleRegression implements Serializable {
 
     /** Serializable version identifier */
     static final long serialVersionUID = -3004689053607543335L;
@@ -83,9 +83,9 @@ public class BivariateRegression implements Serializable {
     // ---------------------Public methods--------------------------------------
 
     /**
-     * Create an empty BivariateRegression instance
+     * Create an empty SimpleRegression instance
      */
-    public BivariateRegression() {
+    public SimpleRegression() {
         super();
     }
     

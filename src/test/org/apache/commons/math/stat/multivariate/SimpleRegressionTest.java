@@ -23,10 +23,10 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the TestStatistic class.
  *
- * @version $Revision: 1.2 $ $Date: 2004/04/25 19:38:17 $
+ * @version $Revision: 1.1 $ $Date: 2004/09/01 15:19:32 $
  */
 
-public final class BivariateRegressionTest extends TestCase {
+public final class SimpleRegressionTest extends TestCase {
 
     /* 
      * NIST "Norris" refernce data set from 
@@ -66,7 +66,7 @@ public final class BivariateRegressionTest extends TestCase {
      */
     private double[][] infData2 = { { 1, 3 }, {2, 5 }, {3, 7 }, {4, 14 }, {5, 11 }};
 
-    public BivariateRegressionTest(String name) {
+    public SimpleRegressionTest(String name) {
         super(name);
     }
 
@@ -74,13 +74,13 @@ public final class BivariateRegressionTest extends TestCase {
     }
 
     public static Test suite() {
-        TestSuite suite = new TestSuite(BivariateRegressionTest.class);
+        TestSuite suite = new TestSuite(SimpleRegressionTest.class);
         suite.setName("BivariateRegression Tests");
         return suite;
     }
 
     public void testNorris() {
-        BivariateRegression regression = new BivariateRegression();
+        SimpleRegression regression = new SimpleRegression();
         for (int i = 0; i < data.length; i++) {
             regression.addData(data[i][1], data[i][0]);
         }
@@ -107,7 +107,7 @@ public final class BivariateRegressionTest extends TestCase {
     }
 
     public void testCorr() {
-        BivariateRegression regression = new BivariateRegression();
+        SimpleRegression regression = new SimpleRegression();
         regression.addData(corrData);
         assertEquals("number of observations", 17, regression.getN());
         assertEquals("r-square", .896123, regression.getRSquare(), 10E-6);
@@ -115,7 +115,7 @@ public final class BivariateRegressionTest extends TestCase {
     }
 
     public void testNaNs() {
-        BivariateRegression regression = new BivariateRegression();
+        SimpleRegression regression = new SimpleRegression();
         assertTrue("intercept not NaN", Double.isNaN(regression.getIntercept()));
         assertTrue("slope not NaN", Double.isNaN(regression.getSlope()));
         assertTrue("slope std err not NaN", Double.isNaN(regression.getSlopeStdErr()));
@@ -146,7 +146,7 @@ public final class BivariateRegressionTest extends TestCase {
         // but SSTO should be OK
         assertTrue("SSTO NaN", !Double.isNaN(regression.getTotalSumSquares()));
 
-        regression = new BivariateRegression();
+        regression = new SimpleRegression();
 
         regression.addData(1, 2);
         regression.addData(3, 3);
@@ -173,7 +173,7 @@ public final class BivariateRegressionTest extends TestCase {
     }
 
     public void testClear() {
-        BivariateRegression regression = new BivariateRegression();
+        SimpleRegression regression = new SimpleRegression();
         regression.addData(corrData);
         assertEquals("number of observations", 17, regression.getN());
         regression.clear();
@@ -186,7 +186,7 @@ public final class BivariateRegressionTest extends TestCase {
 
     public void testInference() throws Exception {
 
-        BivariateRegression regression = new BivariateRegression();
+        SimpleRegression regression = new SimpleRegression();
         regression.addData(infData);
         
         assertEquals("slope confidence interval",  0.0271,
@@ -194,7 +194,7 @@ public final class BivariateRegressionTest extends TestCase {
         assertEquals("slope std err",0.01146,
                 regression.getSlopeStdErr(), 0.0001);
    
-        regression = new BivariateRegression();
+        regression = new SimpleRegression();
         regression.addData(infData2);
         assertEquals("significance",0.023331,
                 regression.getSignificance(),0.0001);
@@ -213,7 +213,7 @@ public final class BivariateRegressionTest extends TestCase {
     }
 
     public void testPerfect() throws Exception {
-        BivariateRegression regression = new BivariateRegression();
+        SimpleRegression regression = new SimpleRegression();
         int n = 100;
         for (int i = 0; i < n; i++) {
             regression.addData(((double) i) / (n - 1), i);
@@ -223,7 +223,7 @@ public final class BivariateRegressionTest extends TestCase {
     }
 
     public void testPerfectNegative() throws Exception {
-        BivariateRegression regression = new BivariateRegression();
+        SimpleRegression regression = new SimpleRegression();
         int n = 100;
         for (int i = 0; i < n; i++) {
             regression.addData(- ((double) i) / (n - 1), i);
@@ -234,7 +234,7 @@ public final class BivariateRegressionTest extends TestCase {
     }
 
     public void testRandom() throws Exception {
-        BivariateRegression regression = new BivariateRegression();
+        SimpleRegression regression = new SimpleRegression();
         Random random = new Random(1);
         int n = 100;
         for (int i = 0; i < n; i++) {
