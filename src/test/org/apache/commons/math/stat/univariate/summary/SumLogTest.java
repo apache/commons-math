@@ -23,7 +23,7 @@ import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
- * @version $Revision: 1.11 $ $Date: 2004/06/17 21:37:05 $
+ * @version $Revision: 1.12 $ $Date: 2004/06/18 06:33:27 $
  */
 public class SumLogTest extends StorelessUnivariateStatisticAbstractTest{
 
@@ -54,6 +54,36 @@ public class SumLogTest extends StorelessUnivariateStatisticAbstractTest{
      */
     public double expectedValue() {
         return this.sumLog;
+    }
+    
+    public void testSpecialValues() {
+        SumOfLogs sum = new SumOfLogs();
+        // empty
+        assertTrue(Double.isNaN(sum.getResult()));
+        
+        // finite data
+        sum.increment(1d);
+        assertFalse(Double.isNaN(sum.getResult()));
+        
+        // add negative infinity
+        sum.increment(0d);
+        assertEquals(Double.NEGATIVE_INFINITY, sum.getResult(), 0);
+        
+        // add positive infinity -- should make NaN
+        sum.increment(Double.POSITIVE_INFINITY);
+        assertTrue(Double.isNaN(sum.getResult()));
+        
+        // clear
+        sum.clear();
+        assertTrue(Double.isNaN(sum.getResult()));
+        
+        // positive infinity by itself
+        sum.increment(Double.POSITIVE_INFINITY);
+        assertEquals(Double.POSITIVE_INFINITY, sum.getResult(), 0);
+        
+        // negative value -- should make NaN
+        sum.increment(-2d);
+        assertTrue(Double.isNaN(sum.getResult()));
     }
 
 }
