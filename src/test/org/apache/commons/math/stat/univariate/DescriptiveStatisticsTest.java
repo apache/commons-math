@@ -26,7 +26,7 @@ import org.apache.commons.math.random.RandomDataImpl;
 /**
  * Test cases for the {@link Univariate} class.
  *
- * @version $Revision: 1.7 $ $Date: 2004/07/10 17:13:00 $
+ * @version $Revision: 1.8 $ $Date: 2004/07/22 02:30:01 $
  */
 
 public final class DescriptiveStatisticsTest extends TestCase {
@@ -382,6 +382,20 @@ public final class DescriptiveStatisticsTest extends TestCase {
         
         u.setWindowSize(1);
         assertEquals(3.0, u.getMean(), tolerance);
+    }
+    
+    public void testToString() {
+        DescriptiveStatistics u = DescriptiveStatistics.newInstance();
+        assertTrue(u.toString().indexOf("NaN") > 0);  
+        assertTrue(u.toString().startsWith("DescriptiveStatistics"));
+        double[] testArray = 
+            { 12.5, 12, 11.8, 14.2, 14.9, 14.5, 21, 8.2, 10.3, 11.3, 14.1,
+                9.9, 12.2, 12, 12.1, 11, 19.8, 11, 10, 8.8, 9, 12.3 };
+        for( int i = 0; i < testArray.length; i++) {
+            u.addValue( testArray[i]);
+        }        
+        assertTrue(u.toString().indexOf("NaN") == -1);  
+        assertTrue(u.toString().startsWith("DescriptiveStatistics"));
     }
     
 }
