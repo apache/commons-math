@@ -29,7 +29,7 @@ import org.apache.commons.math.stat.univariate.summary.SumOfSquares;
 /**
  * Provides a default {@link SummaryStatistics} implementation.
  * 
- * @version $Revision: 1.4 $ $Date: 2004/06/14 23:26:53 $  
+ * @version $Revision: 1.5 $ $Date: 2004/06/17 23:27:52 $  
  */
 public class SummaryStatisticsImpl extends SummaryStatistics implements Serializable {
 
@@ -205,11 +205,14 @@ public class SummaryStatisticsImpl extends SummaryStatistics implements Serializ
     public String toString() {
         StringBuffer outBuffer = new StringBuffer();
         outBuffer.append("SummaryStatistics:\n");
-        outBuffer.append("n: " + n + "\n");
-        outBuffer.append("min: " + min + "\n");
-        outBuffer.append("max: " + max + "\n");
+        outBuffer.append("n: " + getN() + "\n");
+        outBuffer.append("min: " + getMin() + "\n");
+        outBuffer.append("max: " + getMax() + "\n");
         outBuffer.append("mean: " + getMean() + "\n");
-        outBuffer.append("std dev: " + getStandardDeviation() + "\n");
+        outBuffer.append("geometric mean: " + getGeometricMean() + "\n");
+        outBuffer.append("variance: " + getVariance() + "\n");
+        outBuffer.append("sum of squares: " + getSumsq() + "\n");
+        outBuffer.append("standard deviation: " + getStandardDeviation() + "\n");
         return outBuffer.toString();
     }
 
