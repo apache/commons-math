@@ -27,7 +27,7 @@ import junit.framework.Assert;
 import org.apache.commons.math.complex.Complex;
 
 /**
- * @version $Revision: 1.11 $ $Date: 2004/03/18 05:52:37 $
+ * @version $Revision: 1.12 $ $Date: 2004/04/02 21:30:08 $
  */
 public class TestUtils {
     /**
@@ -56,6 +56,16 @@ public class TestUtils {
     public static void assertEquals(Complex expected, Complex actual, double delta) {
         assertEquals(expected.getReal(), actual.getReal(), delta);
         assertEquals(expected.getImaginary(), actual.getImaginary(), delta);
+    }
+    
+    /**
+     * Verifies that two double arrays have equal entries, up to tolerance
+     */
+    public static void assertEquals(double a[], double b[], double tolerance) {
+        Assert.assertEquals(a.length, b.length);
+        for (int i = 0; i < a.length; i++) {
+            Assert.assertEquals(a[i], b[i], tolerance);
+        }
     }
     
     public static Object serializeAndRecover(Object o){
