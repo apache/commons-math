@@ -100,7 +100,7 @@ public class Freq {
     }
 
     public String toXML() {
-        return null;
+        throw new UnsupportedOperationException("not implemented yet");
     }
 
     /** Adds 1 to the frequency count for v */

@@ -57,7 +57,7 @@ package org.apache.commons.math;
 /**
  * Interface defining a real-valued matrix with basic algebraic operations
  * @author  Phil Steitz
- * @version $Revision: 1.1 $ $Date: 2003/05/12 19:03:41 $
+ * @version $Revision: 1.2 $ $Date: 2003/05/13 19:08:14 $
  */
 public interface RealMatrix {
 
@@ -221,6 +221,16 @@ public interface RealMatrix {
      * @return v*this
      * @throws IllegalArgumentException if rowDimension != v.size()
      */
-    public RealMatrix preMultiply(double[] v);    
+    public RealMatrix preMultiply(double[] v);  
+    
+    /**
+     * Returns the solution vector for a linear system with coefficient
+     * matrix = *this and constant vector = b 
+     * @param b  constant vector
+     * @return   vector of solution values to AX = b, where A is *this
+     * @throws   IllegalArgumentException if rowDimension != b.length or matrix 
+     *           is singular
+     */
+    public double[] solve(double[] b);
 }
 

@@ -53,14 +53,16 @@
  */
 
 package org.apache.commons.math;
+import java.io.Serializable;
 
 /**
  * Implementation for RealMatrix using double[][] array
  * @author  Phil Stetiz
- * @version $Revision: 1.1 $ $Date: 2003/05/12 19:04:10 $
+ * @version $Revision: 1.2 $ $Date: 2003/05/13 19:08:14 $
  */
-public class RealMatrixImpl implements RealMatrix {
+public class RealMatrixImpl implements RealMatrix, Serializable {
 
+    /** Entries of the matrix */
     private double data[][];
     
     public RealMatrixImpl() {
@@ -86,7 +88,7 @@ public class RealMatrixImpl implements RealMatrix {
      * @return  the cloned matrix
      */
     public RealMatrix copy() {
-        return null;
+        throw new UnsupportedOperationException("not implemented yet");
     }
     
     /**
@@ -373,5 +375,17 @@ public class RealMatrixImpl implements RealMatrix {
     public RealMatrix preMultiply(double[] v) {
         throw new UnsupportedOperationException("not implemented yet");
     }
+    
+    /**
+     * Returns the solution vector for a linear system with coefficient
+     * matrix = *this and constant vector = b 
+     * @param b  constant vector
+     * @return   vector of solution values to AX = b, where A is *this
+     * @throws   IllegalArgumentException if rowDimension != b.length or matrix 
+     *           is singular
+     */
+    public double[] solve(double[] b) {
+      throw new UnsupportedOperationException("not implemented yet");
+    } 
     
 }
