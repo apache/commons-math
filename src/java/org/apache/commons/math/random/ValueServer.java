@@ -40,10 +40,10 @@ import java.net.MalformedURLException;
  *                       standard deviation = <code>sigma</code></li>
  * <li> CONSTANT_MODE -- returns <code>mu</code> every time.</li></ul>
  *
- * @version $Revision: 1.14 $ $Date: 2004/06/23 16:26:17 $
+ * @version $Revision: 1.15 $ $Date: 2004/07/17 21:17:48 $
  *
  */
-public class ValueServer implements Serializable {
+public class ValueServer {
     /** mode determines how values are generated */
     private int mode = 5;
 
