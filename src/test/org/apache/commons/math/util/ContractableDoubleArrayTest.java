@@ -19,7 +19,7 @@ package org.apache.commons.math.util;
 /**
  * This class contains test cases for the ExpandableDoubleArray.
  * 
- * @version $Revision: 1.8 $ $Date: 2004/02/21 21:35:18 $
+ * @version $Revision: 1.9 $ $Date: 2004/05/04 13:15:47 $
  */
 public class ContractableDoubleArrayTest extends ExpandableDoubleArrayTest {
 
@@ -35,4 +35,23 @@ public class ContractableDoubleArrayTest extends ExpandableDoubleArrayTest {
 		ra = new ContractableDoubleArray();
 	}
 
+    protected ExpandableDoubleArray newInstance(int initialCapacity) {
+        return new ContractableDoubleArray(initialCapacity);
+    }
+
+    protected ExpandableDoubleArray newInstance() {
+        return new ContractableDoubleArray();
+    }
+    
+    protected ExpandableDoubleArray newInstance(int initialCapacity, float expansionFactor) {
+        if (expansionFactor < 2.5f) {
+            return new ContractableDoubleArray(initialCapacity, expansionFactor);
+        } else {
+            return newInstance(initialCapacity, expansionFactor, expansionFactor + 1.0f);
+        }
+    }
+
+    protected ExpandableDoubleArray newInstance(int initialCapacity, float expansionFactor, float contractionFactor) {
+        return new ContractableDoubleArray(initialCapacity, expansionFactor, contractionFactor);
+    }
 }

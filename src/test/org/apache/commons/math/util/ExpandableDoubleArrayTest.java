@@ -19,7 +19,7 @@ package org.apache.commons.math.util;
 /**
  * This class contains test cases for the ExpandableDoubleArray.
  * 
- * @version $Revision: 1.9 $ $Date: 2004/02/21 21:35:18 $
+ * @version $Revision: 1.10 $ $Date: 2004/05/04 13:15:47 $
  */
 public class ExpandableDoubleArrayTest extends DoubleArrayAbstractTest {
 
@@ -31,8 +31,8 @@ public class ExpandableDoubleArrayTest extends DoubleArrayAbstractTest {
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	protected void setUp() throws Exception {
-		da = new ExpandableDoubleArray();
-		ra = new ExpandableDoubleArray();
+		da = newInstance();
+		ra = newInstance();
 	}
 
 	/* (non-Javadoc)
@@ -108,7 +108,7 @@ public class ExpandableDoubleArrayTest extends DoubleArrayAbstractTest {
 
 	public void testWithInitialCapacity() {
 
-		ExpandableDoubleArray eDA2 = new ExpandableDoubleArray(2);
+		ExpandableDoubleArray eDA2 = newInstance(2);
 		assertEquals("Initial number of elements should be 0", 0, eDA2.getNumElements());
 
 		int iterations = (int) Math.pow(2.0, 15.0);
@@ -127,7 +127,7 @@ public class ExpandableDoubleArrayTest extends DoubleArrayAbstractTest {
 
 	public void testWithInitialCapacityAndExpansionFactor() {
 
-		ExpandableDoubleArray eDA3 = new ExpandableDoubleArray(3, 3.0f);
+		ExpandableDoubleArray eDA3 = newInstance(3, 3.0f);
 		assertEquals("Initial number of elements should be 0", 0, eDA3.getNumElements() );
 
 		int iterations = (int) Math.pow(3.0, 7.0);
@@ -181,12 +181,12 @@ public class ExpandableDoubleArrayTest extends DoubleArrayAbstractTest {
 
 	public void testIllegalInitialCapacity() {
 		try {
-			ExpandableDoubleArray eDA = new ExpandableDoubleArray(-3, 2.0f);
+			ExpandableDoubleArray eDA = newInstance(-3, 2.0f);
 			fail( "That constructor should have thrown an IllegalArgumentException because " +				"the initialCapacity was negative, if it didn't then" +				" the range checking of initialCapacity is not working properly" );
 		} catch( IllegalArgumentException iae ) {
 		}
 		try {
-			ExpandableDoubleArray eDA = new ExpandableDoubleArray(0, 2.0f);
+			ExpandableDoubleArray eDA = newInstance(0, 2.0f);
 			fail( "That constructor should have thrown an IllegalArgumentException because " +
 				"the initialCapacity was ZERO if it didn't then" +
 				" the range checking of initialCapacity is not working properly" );
@@ -196,19 +196,19 @@ public class ExpandableDoubleArrayTest extends DoubleArrayAbstractTest {
 	
 	public void testIllegalExpansionFactor() {
 		try {
-			ExpandableDoubleArray eDA = new ExpandableDoubleArray(3, 0.66f);
+			ExpandableDoubleArray eDA = newInstance(3, 0.66f);
 			fail( "That constructor should have thrown an IllegalArgumentException because " +				"the expansionFactor for 0.66 which would shrink the array instead of expand the array");
 		} catch( IllegalArgumentException iae ) {
 		}
 		try {
-			ExpandableDoubleArray eDA = new ExpandableDoubleArray(3, 0.0f);
+			ExpandableDoubleArray eDA = newInstance(3, 0.0f);
 			fail( "That constructor should have thrown an IllegalArgumentException because " +
 				"the expansionFactor for 0.0");
 		} catch( IllegalArgumentException iae) {
 		}
 		
 		try {
-			ExpandableDoubleArray eDA = new ExpandableDoubleArray(3, -4.35f);
+			ExpandableDoubleArray eDA = newInstance(3, -4.35f);
 			fail( "That constructor should have thrown an IllegalArgumentException because " +
 				"the expansionFactor for -4.35");
 		} catch( IllegalArgumentException iae) {
@@ -236,5 +236,16 @@ public class ExpandableDoubleArrayTest extends DoubleArrayAbstractTest {
 		} catch( Exception e ){
 		}
 	}
-	
+
+    protected ExpandableDoubleArray newInstance(int initialCapacity) {
+        return new ExpandableDoubleArray(initialCapacity);
+    }
+
+    protected ExpandableDoubleArray newInstance() {
+        return new ExpandableDoubleArray();
+    }
+    
+    protected ExpandableDoubleArray newInstance(int initialCapacity, float expansionFactor) {
+        return new ExpandableDoubleArray(initialCapacity, expansionFactor);
+    }
 }
