@@ -66,7 +66,7 @@ import org.apache.commons.math.stat.UnivariateImpl;
  * Test cases for the ValueServer class.
  *
  * @author  Phil Steitz
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 
 public final class ValueServerTest extends TestCase {
@@ -103,6 +103,8 @@ public final class ValueServerTest extends TestCase {
         double next = 0.0;
         double tolerance = 0.1;
         vs.computeDistribution();
+        assertTrue("empirical distribution property", 
+            vs.getEmpiricalDistribution() != null);
         Univariate stats = new UnivariateImpl();
         for (int i = 1; i < 1000; i++) {
             next = vs.getNext();
@@ -110,7 +112,20 @@ public final class ValueServerTest extends TestCase {
         }    
         assertEquals("mean", 5.069831575018909, stats.getMean(), tolerance);
         assertEquals
-         ("std dev", 1.0173699343977738, stats.getStandardDeviation(), tolerance);
+         ("std dev", 1.0173699343977738, stats.getStandardDeviation(), 
+            tolerance);
+        
+        vs.computeDistribution(500);
+        stats = new UnivariateImpl();
+        for (int i = 1; i < 1000; i++) {
+            next = vs.getNext();
+            stats.addValue(next);
+        }    
+        assertEquals("mean", 5.069831575018909, stats.getMean(), tolerance);
+        assertEquals
+         ("std dev", 1.0173699343977738, stats.getStandardDeviation(), 
+            tolerance);
+        
     }
     
     /**
@@ -159,5 +174,70 @@ public final class ValueServerTest extends TestCase {
         assertEquals(compareValue,firstDataValue,tolerance);
         compareValue = vs.getNext();
         assertEquals(compareValue,secondDataValue,tolerance);
+        vs.closeReplayFile();
+        // make sure no NPE
+        vs.closeReplayFile();
     }
+    
+    /** 
+     * Test other ValueServer modes
+     */
+    public void testModes() throws Exception {
+        vs.setMode(ValueServer.CONSTANT_MODE);
+        vs.setMu(0);
+        assertEquals("constant mode test",vs.getMu(),vs.getNext(),Double.MIN_VALUE);
+        vs.setMode(ValueServer.UNIFORM_MODE);
+        vs.setMu(2);
+        double val = vs.getNext();
+        assertTrue(val > 0 && val < 4);
+        vs.setSigma(1);
+        vs.setMode(ValueServer.GAUSSIAN_MODE);
+        val = vs.getNext();
+        assertTrue("gaussian value close enough to mean",
+            val < vs.getMu() + 100*vs.getSigma());
+        vs.setMode(ValueServer.EXPONENTIAL_MODE);
+        val = vs.getNext();
+        assertTrue(val > 0);
+        try {
+            vs.setMode(1000);
+            vs.getNext();
+            fail("bad mode, expecting IllegalStateException");
+        } catch (IllegalStateException ex) {
+            ;
+        }
+    }
+    
+    /**
+     * Test fill
+     */
+    public void testFill() throws Exception {
+        vs.setMode(ValueServer.CONSTANT_MODE);
+        vs.setMu(2);
+        double[] val = new double[5];
+        vs.fill(val);
+        for (int i = 0; i < 5; i++) {
+            assertEquals("fill test in place",2,val[i],Double.MIN_VALUE);
+        }
+        double v2[] = vs.fill(3);
+        for (int i = 0; i < 3; i++) {
+            assertEquals("fill test in place",2,v2[i],Double.MIN_VALUE);
+        }
+    }
+    
+    /**
+     * Test getters to make Clover happy
+     */
+    public void testProperties() throws Exception {
+        vs.setMode(ValueServer.CONSTANT_MODE);
+        assertEquals("mode test",ValueServer.CONSTANT_MODE,vs.getMode());
+        vs.setValuesFileURL("http://www.apache.org");
+        String s = vs.getValuesFileURL();
+        assertEquals("valuesFileURL test","http://www.apache.org",s);
+    }
+        
+        
+        
+        
+        
+        
 }
