@@ -24,7 +24,7 @@ import java.math.BigDecimal;
 /**
  * Test cases for the {@link BigMatrixImpl} class.
  *
- * @version $Revision: 1.2 $ $Date: 2004/07/11 04:49:24 $
+ * @version $Revision: 1.3 $ $Date: 2004/09/05 01:19:23 $
  */
 
 public final class BigMatrixImplTest extends TestCase {
@@ -425,8 +425,8 @@ public final class BigMatrixImplTest extends TestCase {
     
     public void testGetVectors() {
         BigMatrix m = new BigMatrixImpl(testData);
-        assertClose("get row",m.getRowAsDoubleArray(1),testDataRow1,entryTolerance);
-        assertClose("get col",m.getColumnAsDoubleArray(3),testDataCol3,entryTolerance);
+        assertClose("get row",m.getRowAsDoubleArray(0),testDataRow1,entryTolerance);
+        assertClose("get col",m.getColumnAsDoubleArray(2),testDataCol3,entryTolerance);
         try {
             double[] x = m.getRowAsDoubleArray(10);
             fail("expecting MatrixIndexException");
@@ -443,17 +443,17 @@ public final class BigMatrixImplTest extends TestCase {
     
     public void testEntryMutators() {
         BigMatrix m = new BigMatrixImpl(testData);
-        assertEquals("get entry",m.getEntry(1,2).doubleValue(),2d,entryTolerance);
-        m.setEntry(1,2,100d);
-        assertEquals("get entry",m.getEntry(1,2).doubleValue(),100d,entryTolerance);
+        assertEquals("get entry",m.getEntry(0,1).doubleValue(),2d,entryTolerance);
+        m.setEntry(0,1,100d);
+        assertEquals("get entry",m.getEntry(0,1).doubleValue(),100d,entryTolerance);
         try {
-            double x = m.getEntry(0,2).doubleValue();
+            double x = m.getEntry(-1,2).doubleValue();
             fail("expecting MatrixIndexException");
         } catch (MatrixIndexException ex) {
             ;
         }
         try {
-            m.setEntry(1,4,200d);
+            m.setEntry(1,3,200d);
             fail("expecting MatrixIndexException");
         } catch (MatrixIndexException ex) {
             ;
@@ -529,8 +529,8 @@ public final class BigMatrixImplTest extends TestCase {
             throw new InvalidMatrixException("incorrect dimensions");
         }    
         int n = lu.getRowDimension();
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= n; j++) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
                 if (j < i) {
                     lower.setEntry(i, j, lu.getEntry(i, j));
                     upper.setEntry(i, j, 0d);
@@ -552,9 +552,9 @@ public final class BigMatrixImplTest extends TestCase {
         }
         int n = matrix.getRowDimension();
         BigMatrix out = new BigMatrixImpl(n, n);
-        for (int i =1; i <= n; i++) {
-            for (int j = 1; j <= n; j++) {
-                out.setEntry(i, j, matrix.getEntry(permutation[i -1] + 1, j));
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                out.setEntry(i, j, matrix.getEntry(permutation[i], j));
             }
         }
         return out;
@@ -577,7 +577,7 @@ public final class BigMatrixImplTest extends TestCase {
           for (int i = 0; i < m.getRowDimension(); i++) {
               String os = "";
               for (int j = 0; j < m.getColumnDimension(); j++) {
-                  os += m.getEntry(i+1, j+1) + " ";
+                  os += m.getEntry(i, j) + " ";
               }
               System.out.println(os);
           }

@@ -22,7 +22,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link RealMatrixImpl} class.
  *
- * @version $Revision: 1.14 $ $Date: 2004/05/18 04:08:38 $
+ * @version $Revision: 1.15 $ $Date: 2004/09/05 01:19:23 $
  */
 
 public final class RealMatrixImplTest extends TestCase {
@@ -369,8 +369,8 @@ public final class RealMatrixImplTest extends TestCase {
     
     public void testGetVectors() {
         RealMatrix m = new RealMatrixImpl(testData);
-        assertClose("get row",m.getRow(1),testDataRow1,entryTolerance);
-        assertClose("get col",m.getColumn(3),testDataCol3,entryTolerance);
+        assertClose("get row",m.getRow(0),testDataRow1,entryTolerance);
+        assertClose("get col",m.getColumn(2),testDataCol3,entryTolerance);
         try {
             double[] x = m.getRow(10);
             fail("expecting MatrixIndexException");
@@ -387,11 +387,11 @@ public final class RealMatrixImplTest extends TestCase {
     
     public void testEntryMutators() {
         RealMatrix m = new RealMatrixImpl(testData);
-        assertEquals("get entry",m.getEntry(1,2),2d,entryTolerance);
+        assertEquals("get entry",m.getEntry(0,1),2d,entryTolerance);
         m.setEntry(1,2,100d);
         assertEquals("get entry",m.getEntry(1,2),100d,entryTolerance);
         try {
-            double x = m.getEntry(0,2);
+            double x = m.getEntry(-1,2);
             fail("expecting MatrixIndexException");
         } catch (MatrixIndexException ex) {
             ;
@@ -492,8 +492,8 @@ public final class RealMatrixImplTest extends TestCase {
             throw new InvalidMatrixException("incorrect dimensions");
         }    
         int n = lu.getRowDimension();
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= n; j++) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
                 if (j < i) {
                     lower.setEntry(i, j, lu.getEntry(i, j));
                     upper.setEntry(i, j, 0d);
@@ -515,9 +515,9 @@ public final class RealMatrixImplTest extends TestCase {
         }
         int n = matrix.getRowDimension();
         RealMatrix out = new RealMatrixImpl(n, n);
-        for (int i =1; i <= n; i++) {
-            for (int j = 1; j <= n; j++) {
-                out.setEntry(i, j, matrix.getEntry(permutation[i -1] + 1, j));
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                out.setEntry(i, j, matrix.getEntry(permutation[i], j));
             }
         }
         return out;
@@ -540,7 +540,7 @@ public final class RealMatrixImplTest extends TestCase {
           for (int i = 0; i < m.getRowDimension(); i++) {
               String os = "";
               for (int j = 0; j < m.getColumnDimension(); j++) {
-                  os += m.getEntry(i+1, j+1) + " ";
+                  os += m.getEntry(i, j) + " ";
               }
               System.out.println(os);
           }

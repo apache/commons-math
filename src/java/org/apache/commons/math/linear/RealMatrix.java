@@ -17,8 +17,12 @@
 package org.apache.commons.math.linear;
 
 /**
- * Interface defining a real-valued matrix with basic algebraic operations
- * @version $Revision: 1.21 $ $Date: 2004/09/01 21:26:11 $
+ * Interface defining a real-valued matrix with basic algebraic operations.
+ * <p>
+ * Matrix element indexing is 0-based -- e.g., <code>getEntry(0, 0)</code>
+ * returns the element in the first row, first column of the matrix.
+ * 
+ * @version $Revision: 1.22 $ $Date: 2004/09/05 01:19:23 $
  */
 public interface RealMatrix {
 
@@ -108,8 +112,8 @@ public interface RealMatrix {
     /**
      * Returns the entries in row number <code>row</code> as an array.
      * <p>
-     * Row indices start at 1.  A <code>MatrixIndexException</code> is thrown
-     * unless <code>0 < row <= rowDimension.</code>
+     * Row indices start at 0.  A <code>MatrixIndexException</code> is thrown
+     * unless <code>0 <= row < rowDimension.</code>
      *
      * @param row the row to be fetched
      * @return array of entries in the row
@@ -120,8 +124,8 @@ public interface RealMatrix {
     /**
      * Returns the entries in column number <code>col</code> as an array.
      * <p>
-     * Column indices start at 1.  A <code>MatrixIndexException</code> is thrown
-     * unless <code>0 < column <= columnDimension.</code>
+     * Column indices start at 0.  A <code>MatrixIndexException</code> is thrown
+     * unless <code>0 <= column < columnDimension.</code>
      *
      * @param col the column to be fetched
      * @return array of entries in the column
@@ -132,10 +136,10 @@ public interface RealMatrix {
     /**
      * Returns the entry in the specified row and column.
      * <p>
-     * Row and column indices start at 1 and must satisfy 
+     * Row and column indices start at 0 and must satisfy 
      * <ul>
-     * <li><code>0 < row <= rowDimension</code></li>
-     * <li><code> 0 < column <= columnDimension</code></li>
+     * <li><code>0 <= row < rowDimension</code></li>
+     * <li><code> 0 <= column < columnDimension</code></li>
      * </ul>
      * otherwise a <code>MatrixIndexException</code> is thrown.
      * 
@@ -149,10 +153,10 @@ public interface RealMatrix {
     /**
      * Sets the entry in the specified row and column to the specified value.
      * <p>
-     * Row and column indices start at 1 and must satisfy 
+     * Row and column indices start at 0 and must satisfy 
      * <ul>
-     * <li><code>0 < row <= rowDimension</code></li>
-     * <li><code> 0 < column <= columnDimension</code></li>
+     * <li><code>0 <= row < rowDimension</code></li>
+     * <li><code> 0 <= column < columnDimension</code></li>
      * </ul>
      * otherwise a <code>MatrixIndexException</code> is thrown.
      * 

@@ -21,8 +21,11 @@ import java.math.BigDecimal;
 /**
  * Interface defining a real-valued matrix with basic algebraic operations, using
  * BigDecimal representations for the entries.
+ * <p>
+ * Matrix element indexing is 0-based -- e.g., <code>getEntry(0, 0)</code>
+ * returns the element in the first row, first column of the matrix.
  *
- * @version $Revision: 1.6 $ $Date: 2004/09/01 21:26:11 $
+ * @version $Revision: 1.7 $ $Date: 2004/09/05 01:19:23 $
  */
 public interface BigMatrix {
 
@@ -151,8 +154,8 @@ public interface BigMatrix {
     /**
      * Returns the entries in row number <code>row</code> as an array.
      * <p>
-     * Row indices start at 1.  A <code>MatrixIndexException</code> is thrown
-     * unless <code>0 < row <= rowDimension.</code>
+     * Row indices start at 0.  A <code>MatrixIndexException</code> is thrown
+     * unless <code>0 <= row < rowDimension.</code>
      *
      * @param row the row to be fetched
      * @return array of entries in the row
@@ -164,8 +167,8 @@ public interface BigMatrix {
      * Returns the entries in row number <code>row</code> as an array
      * of double values.
      * <p>
-     * Row indices start at 1.  A <code>MatrixIndexException</code> is thrown
-     * unless <code>0 < row <= rowDimension.</code>
+     * Row indices start at 0.  A <code>MatrixIndexException</code> is thrown
+     * unless <code>0 <= row < rowDimension.</code>
      *
      * @param row the row to be fetched
      * @return array of entries in the row
@@ -176,8 +179,8 @@ public interface BigMatrix {
     /**
      * Returns the entries in column number <code>col</code> as an array.
      * <p>
-     * Column indices start at 1.  A <code>MatrixIndexException</code> is thrown
-     * unless <code>0 < column <= columnDimension.</code>
+     * Column indices start at 0.  A <code>MatrixIndexException</code> is thrown
+     * unless <code>0 <= column < columnDimension.</code>
      *
      * @param col the column to be fetched
      * @return array of entries in the column
@@ -189,8 +192,8 @@ public interface BigMatrix {
      * Returns the entries in column number <code>col</code> as an array
      * of double values.
      * <p>
-     * Column indices start at 1.  A <code>MatrixIndexException</code> is thrown
-     * unless <code>0 < column <= columnDimension.</code>
+     * Column indices start at 0.  A <code>MatrixIndexException</code> is thrown
+     * unless <code>0 <= column < columnDimension.</code>
      *
      * @param col the column to be fetched
      * @return array of entries in the column
@@ -201,10 +204,10 @@ public interface BigMatrix {
     /**
      * Returns the entry in the specified row and column.
      * <p>
-     * Row and column indices start at 1 and must satisfy 
+     * Row and column indices start at 0 and must satisfy 
      * <ul>
-     * <li><code>0 < row <= rowDimension</code></li>
-     * <li><code> 0 < column <= columnDimension</code></li>
+     * <li><code>0 <= row < rowDimension</code></li>
+     * <li><code> 0 <= column < columnDimension</code></li>
      * </ul>
      * otherwise a <code>MatrixIndexException</code> is thrown.
      *
@@ -218,10 +221,10 @@ public interface BigMatrix {
     /**
      * Returns the entry in the specified row and column as a double.
      * <p>
-     * Row and column indices start at 1 and must satisfy 
+     * Row and column indices start at 0 and must satisfy 
      * <ul>
-     * <li><code>0 < row <= rowDimension</code></li>
-     * <li><code> 0 < column <= columnDimension</code></li>
+     * <li><code>0 <= row < rowDimension</code></li>
+     * <li><code> 0 <= column < columnDimension</code></li>
      * </ul>
      * otherwise a <code>MatrixIndexException</code> is thrown.
      *
@@ -235,10 +238,10 @@ public interface BigMatrix {
     /**
      * Sets the entry in the specified row and column to the specified value.
      * <p>
-     * Row and column indices start at 1 and must satisfy 
+     * Row and column indices start at 0 and must satisfy 
      * <ul>
-     * <li><code>0 < row <= rowDimension</code></li>
-     * <li><code> 0 < column <= columnDimension</code></li>
+     * <li><code>0 <= row < rowDimension</code></li>
+     * <li><code> 0 <= column < columnDimension</code></li>
      * </ul>
      * otherwise a <code>MatrixIndexException</code> is thrown.
      * 
@@ -254,10 +257,10 @@ public interface BigMatrix {
     /**
      * Sets the entry in the specified row and column to the specified value.
      * <p>
-     * Row and column indices start at 1 and must satisfy 
+     * Row and column indices start at 0 and must satisfy 
      * <ul>
-     * <li><code>0 < row <= rowDimension</code></li>
-     * <li><code> 0 < column <= columnDimension</code></li>
+     * <li><code>0 <= row < rowDimension</code></li>
+     * <li><code> 0 <= column < columnDimension</code></li>
      * </ul>
      * otherwise a <code>MatrixIndexException</code> is thrown.
      * 
@@ -274,10 +277,10 @@ public interface BigMatrix {
      * Sets the entry in the specified row and column to the 
      * <code>BigDecimal</code> value represented by the input string.
      * <p>
-     * Row and column indices start at 1 and must satisfy 
+     * Row and column indices start at 0 and must satisfy 
      * <ul>
-     * <li><code>0 < row <= rowDimension</code></li>
-     * <li><code> 0 < column <= columnDimension</code></li>
+     * <li><code>0 <= row < rowDimension</code></li>
+     * <li><code> 0 <= column < columnDimension</code></li>
      * </ul>
      * otherwise a <code>MatrixIndexException</code> is thrown.
      * 

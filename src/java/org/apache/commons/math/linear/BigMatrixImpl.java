@@ -30,16 +30,20 @@ import java.math.BigDecimal;
  * <li>getDeterminant</li>
  * <li>inverse</li> </ul>
  * <p>
- * <strong>Usage note</strong>:<br>
+* <strong>Usage notes</strong>:<br>
+ * <ul><li>
  * The LU decomposition is stored and reused on subsequent calls.  If matrix
- * data are modified using any of the public setXxx methods, the saved 
+ * data are modified using any of the public setXxx methods, the saved
  * decomposition is discarded.  If data are modified via references to the
  * underlying array obtained using <code>getDataRef()</code>, then the stored
- * LU decomposition will not be discarded.  In this case, you need to 
+ * LU decomposition will not be discarded.  In this case, you need to
  * explicitly invoke <code>LUDecompose()</code> to recompute the decomposition
- * before using any of the methods above.
- *
- * @version $Revision: 1.5 $ $Date: 2004/09/01 21:26:11 $
+ * before using any of the methods above.</li>
+ * <li>
+ * As specified in the {@link BigMatrix} interface, matrix element indexing
+ * is 0-based -- e.g., <code>getEntry(0, 0)</code>
+ * returns the element in the first row, first column of the matrix.</li></ul>
+ * @version $Revision: 1.6 $ $Date: 2004/09/05 01:19:23 $
  */
 public class BigMatrixImpl implements BigMatrix, Serializable {
     
@@ -428,20 +432,20 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     /**
      * Returns the entries in row number <code>row</code> as an array.
      * <p>
-     * Row indices start at 1.  A <code>MatrixIndexException</code> is thrown
-     * unless <code>0 < row <= rowDimension.</code>
+     * Row indices start at 0.  A <code>MatrixIndexException</code> is thrown
+     * unless <code>0 <= row < rowDimension.</code>
      *
      * @param row the row to be fetched
      * @return array of entries in the row
      * @throws MatrixIndexException if the specified row index is not valid
      */
     public BigDecimal[] getRow(int row) throws MatrixIndexException {
-        if ( !isValidCoordinate( row, 1 ) ) {
+        if ( !isValidCoordinate( row, 0 ) ) {
             throw new MatrixIndexException("illegal row argument");
         }
         int ncols = this.getColumnDimension();
         BigDecimal[] out = new BigDecimal[ncols];
-        System.arraycopy(data[row - 1], 0, out, 0, ncols);
+        System.arraycopy(data[row], 0, out, 0, ncols);
         return out;
     }
     
@@ -449,21 +453,21 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      * Returns the entries in row number <code>row</code> as an array
      * of double values.
      * <p>
-     * Row indices start at 1.  A <code>MatrixIndexException</code> is thrown
-     * unless <code>0 < row <= rowDimension.</code>
+     * Row indices start at 0.  A <code>MatrixIndexException</code> is thrown
+     * unless <code>0 <= row < rowDimension.</code>
      *
      * @param row the row to be fetched
      * @return array of entries in the row
      * @throws MatrixIndexException if the specified row index is not valid
      */
     public double[] getRowAsDoubleArray(int row) throws MatrixIndexException {
-        if ( !isValidCoordinate( row, 1 ) ) {
+        if ( !isValidCoordinate( row, 0 ) ) {
             throw new MatrixIndexException("illegal row argument");
         }
         int ncols = this.getColumnDimension();
         double[] out = new double[ncols];
         for (int i=0;i<ncols;i++) {
-            out[i] = data[row-1][i].doubleValue();
+            out[i] = data[row][i].doubleValue();
         }
         return out;
     }
@@ -471,21 +475,21 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      /**
      * Returns the entries in column number <code>col</code> as an array.
      * <p>
-     * Column indices start at 1.  A <code>MatrixIndexException</code> is thrown
-     * unless <code>0 < column <= columnDimension.</code>
+     * Column indices start at 0.  A <code>MatrixIndexException</code> is thrown
+     * unless <code>0 <= column < columnDimension.</code>
      *
      * @param col the column to be fetched
      * @return array of entries in the column
      * @throws MatrixIndexException if the specified column index is not valid
      */
     public BigDecimal[] getColumn(int col) throws MatrixIndexException {
-        if ( !isValidCoordinate(1, col) ) {
+        if ( !isValidCoordinate(0, col) ) {
             throw new MatrixIndexException("illegal column argument");
         }
         int nRows = this.getRowDimension();
         BigDecimal[] out = new BigDecimal[nRows];
         for (int i = 0; i < nRows; i++) {
-            out[i] = data[i][col - 1];
+            out[i] = data[i][col];
         }
         return out;
     }
@@ -494,21 +498,21 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      * Returns the entries in column number <code>col</code> as an array
      * of double values.
      * <p>
-     * Column indices start at 1.  A <code>MatrixIndexException</code> is thrown
-     * unless <code>0 < column <= columnDimension.</code>
+     * Column indices start at 0.  A <code>MatrixIndexException</code> is thrown
+     * unless <code>0 <= column < columnDimension.</code>
      *
      * @param col the column to be fetched
      * @return array of entries in the column
      * @throws MatrixIndexException if the specified column index is not valid
      */
     public double[] getColumnAsDoubleArray(int col) throws MatrixIndexException {
-        if ( !isValidCoordinate( 1, col ) ) {
+        if ( !isValidCoordinate( 0, col ) ) {
             throw new MatrixIndexException("illegal column argument");
         }
         int nrows = this.getRowDimension();
         double[] out = new double[nrows];
         for (int i=0;i<nrows;i++) {
-            out[i] = data[i][col-1].doubleValue();
+            out[i] = data[i][col].doubleValue();
         }
         return out;
     }
@@ -516,10 +520,10 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      /**
      * Returns the entry in the specified row and column.
      * <p>
-     * Row and column indices start at 1 and must satisfy 
+     * Row and column indices start at 0 and must satisfy 
      * <ul>
-     * <li><code>0 < row <= rowDimension</code></li>
-     * <li><code> 0 < column <= columnDimension</code></li>
+     * <li><code>0 <= row < rowDimension</code></li>
+     * <li><code> 0 <= column < columnDimension</code></li>
      * </ul>
      * otherwise a <code>MatrixIndexException</code> is thrown.
      *
@@ -533,16 +537,16 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         if (!isValidCoordinate(row,column)) {
             throw new MatrixIndexException("matrix entry does not exist");
         }
-        return data[row - 1][column - 1];
+        return data[row][column];
     }
     
     /**
      * Returns the entry in the specified row and column as a double.
      * <p>
-     * Row and column indices start at 1 and must satisfy 
+     * Row and column indices start at 0 and must satisfy 
      * <ul>
-     * <li><code>0 < row <= rowDimension</code></li>
-     * <li><code> 0 < column <= columnDimension</code></li>
+     * <li><code>0 <= row < rowDimension</code></li>
+     * <li><code> 0 <= column < columnDimension</code></li>
      * </ul>
      * otherwise a <code>MatrixIndexException</code> is thrown.
      *
@@ -559,10 +563,10 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     /**
      * Sets the entry in the specified row and column to the specified value.
      * <p>
-     * Row and column indices start at 1 and must satisfy 
+     * Row and column indices start at 0 and must satisfy 
      * <ul>
-     * <li><code>0 < row <= rowDimension</code></li>
-     * <li><code> 0 < column <= columnDimension</code></li>
+     * <li><code>0 <= row < rowDimension</code></li>
+     * <li><code> 0 <= column < columnDimension</code></li>
      * </ul>
      * otherwise a <code>MatrixIndexException</code> is thrown.
      * 
@@ -576,17 +580,17 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         if (!isValidCoordinate(row,column)) {
             throw new MatrixIndexException("matrix entry does not exist");
         }
-        data[row - 1][column - 1] = value;
+        data[row][column] = value;
         lu = null;
     }
     
     /**
      * Sets the entry in the specified row and column to the specified value.
      * <p>
-     * Row and column indices start at 1 and must satisfy 
+     * Row and column indices start at 0 and must satisfy 
      * <ul>
-     * <li><code>0 < row <= rowDimension</code></li>
-     * <li><code> 0 < column <= columnDimension</code></li>
+     * <li><code>0 <= row < rowDimension</code></li>
+     * <li><code> 0 <= column < columnDimension</code></li>
      * </ul>
      * otherwise a <code>MatrixIndexException</code> is thrown.
      * 
@@ -603,10 +607,10 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      * Sets the entry in the specified row and column to the 
      * <code>BigDecimal</code> value represented by the input string.
      * <p>
-     * Row and column indices start at 1 and must satisfy 
+     * Row and column indices start at 0 and must satisfy 
      * <ul>
-     * <li><code>0 < row <= rowDimension</code></li>
-     * <li><code> 0 < column <= columnDimension</code></li>
+     * <li><code>0 <= row < rowDimension</code></li>
+     * <li><code> 0 <= column < columnDimension</code></li>
      * </ul>
      * otherwise a <code>MatrixIndexException</code> is thrown.
      * 
@@ -1166,7 +1170,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         int nRows = this.getRowDimension();
         int nCols = this.getColumnDimension();
         
-        return !(row < 1 || row > nRows || col < 1 || col > nCols);
+        return !(row < 0 || row >= nRows || col < 0 || col >= nCols);
     }
     
 }
