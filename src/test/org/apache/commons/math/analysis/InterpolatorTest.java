@@ -62,7 +62,7 @@ import junit.framework.TestSuite;
 /**
  * Test the interpolation framework.
  *
- * @version $Revision: 1.7 $ $Date: 2003/11/14 22:22:16 $ 
+ * @version $Revision: 1.8 $ $Date: 2003/11/15 19:04:28 $ 
  */
 public class InterpolatorTest extends TestCase {
 
@@ -89,31 +89,21 @@ public class InterpolatorTest extends TestCase {
             "x="
                 + x
                 + " y="
-                + f.value(x)
-                + " y'="
-                + f.firstDerivative(x)
-                + " y''="
-                + f.secondDerivative(x));
+                + f.value(x));
+
         x = 0.5;
         System.out.println(
             "x="
                 + x
                 + " y="
-                + f.value(x)
-                + " y'="
-                + f.firstDerivative(x)
-                + " y''="
-                + f.secondDerivative(x));
+                + f.value(x));
+
         x = 1 - 1E-6;
         System.out.println(
             "x="
                 + x
                 + " y="
-                + f.value(x)
-                + " y'="
-                + f.firstDerivative(x)
-                + " y''="
-                + f.secondDerivative(x));
+                + f.value(x));
     }
 
     public void testInterpolateLinearDegenerateThreeSegment()
@@ -129,61 +119,43 @@ public class InterpolatorTest extends TestCase {
             "x="
                 + x
                 + " y="
-                + f.value(x)
-                + " y'="
-                + f.firstDerivative(x)
-                + " y''="
-                + f.secondDerivative(x));
+                + f.value(x));
+
         x = 0.5 - 1E-6;
         System.out.println(
             "x="
                 + x
                 + " y="
-                + f.value(x)
-                + " y'="
-                + f.firstDerivative(x)
-                + " y''="
-                + f.secondDerivative(x));
+                + f.value(x));
+
         x = 0.5;
         System.out.println(
             "x="
                 + x
                 + " y="
-                + f.value(x)
-                + " y'="
-                + f.firstDerivative(x)
-                + " y''="
-                + f.secondDerivative(x));
+                + f.value(x));
+
         x = 1 - 1E-6;
         System.out.println(
             "x="
                 + x
                 + " y="
-                + f.value(x)
-                + " y'="
-                + f.firstDerivative(x)
-                + " y''="
-                + f.secondDerivative(x));
+                + f.value(x));
+
         x = 1;
         System.out.println(
             "x="
                 + x
                 + " y="
-                + f.value(x)
-                + " y'="
-                + f.firstDerivative(x)
-                + " y''="
-                + f.secondDerivative(x));
+                + f.value(x));
+
         x = 1.5 - 1E-6;
         System.out.println(
             "x="
                 + x
                 + " y="
-                + f.value(x)
-                + " y'="
-                + f.firstDerivative(x)
-                + " y''="
-                + f.secondDerivative(x));
+                + f.value(x));
+
     }
 
     public void testInterpolateLinear() throws MathException {
@@ -198,41 +170,28 @@ public class InterpolatorTest extends TestCase {
             "x="
                 + x
                 + " y="
-                + f.value(x)
-                + " y'="
-                + f.firstDerivative(x)
-                + " y''="
-                + f.secondDerivative(x));
+                + f.value(x));
+
         x = 0.5 - 1E-6;
         System.out.println(
             "x="
                 + x
                 + " y="
-                + f.value(x)
-                + " y'="
-                + f.firstDerivative(x)
-                + " y''="
-                + f.secondDerivative(x));
+                + f.value(x));
+
         x = 0.5;
         System.out.println(
             "x="
                 + x
                 + " y="
-                + f.value(x)
-                + " y'="
-                + f.firstDerivative(x)
-                + " y''="
-                + f.secondDerivative(x));
+                + f.value(x));
+
         x = 1 - 1E-6;
         System.out.println(
             "x="
                 + x
                 + " y="
-                + f.value(x)
-                + " y'="
-                + f.firstDerivative(x)
-                + " y''="
-                + f.secondDerivative(x));
+                + f.value(x));
     }
 
     public void testInterpolateSin() throws MathException {
@@ -259,81 +218,57 @@ public class InterpolatorTest extends TestCase {
             "x="
                 + x
                 + " y="
-                + f.value(x)
-                + " y'="
-                + f.firstDerivative(x)
-                + " y''="
-                + f.secondDerivative(x));
+                + f.value(x));
+
         x = Math.PI / 6.0 - 1E-6;
         System.out.println(
             "x="
                 + x
                 + " y="
-                + f.value(x)
-                + " y'="
-                + f.firstDerivative(x)
-                + " y''="
-                + f.secondDerivative(x));
+                + f.value(x));
+
         x = Math.PI / 6.0 + 1E-6;
         System.out.println(
             "x="
                 + x
                 + " y="
-                + f.value(x)
-                + " y'="
-                + f.firstDerivative(x)
-                + " y''="
-                + f.secondDerivative(x));
+                + f.value(x));
+
         x = Math.PI / 2 - 1E-6;
         System.out.println(
             "x="
                 + x
                 + " y="
-                + f.value(x)
-                + " y'="
-                + f.firstDerivative(x)
-                + " y''="
-                + f.secondDerivative(x));
+                + f.value(x));
+
         x = Math.PI / 2 + 1E-6;
         System.out.println(
             "x="
                 + x
                 + " y="
-                + f.value(x)
-                + " y'="
-                + f.firstDerivative(x)
-                + " y''="
-                + f.secondDerivative(x));
+                + f.value(x));
+
         x = Math.PI - 1E-6;
         System.out.println(
             "x="
                 + x
                 + " y="
-                + f.value(x)
-                + " y'="
-                + f.firstDerivative(x)
-                + " y''="
-                + f.secondDerivative(x));
+                + f.value(x));
+
         x = Math.PI + 1E-6;
         System.out.println(
             "x="
                 + x
                 + " y="
-                + f.value(x)
-                + " y'="
-                + f.firstDerivative(x)
-                + " y''="
-                + f.secondDerivative(x));
+                + f.value(x));
+
         x = 2.0 * Math.PI - 1E-6;
         System.out.println(
             "x="
                 + x
                 + " y="
-                + f.value(x)
-                + " y'="
-                + f.firstDerivative(x)
-                + " y''="
-                + f.secondDerivative(x));
+                + f.value(x));
+
         //assertEquals(0.5,f.value(Math.PI/6.0),)
     }
 
