@@ -22,13 +22,16 @@ import org.apache.commons.math.distribution.ChiSquaredDistribution;
 /**
  * Implements Chi-Square test statistics defined in the {@link ChiSquareTest} interface.
  *
- * @version $Revision: 1.6 $ $Date: 2004/06/14 23:26:53 $
+ * @version $Revision: 1.7 $ $Date: 2004/06/20 02:54:05 $
  */
 public class ChiSquareTestImpl implements ChiSquareTest {
     
     /** Cached DistributionFactory used to create ChiSquaredDistribution instances */
     private DistributionFactory distributionFactory = null;
   
+    /**
+     * Construct a ChiSquareTestImpl 
+     */
     public ChiSquareTestImpl() {
         super();
     }
@@ -45,7 +48,8 @@ public class ChiSquareTestImpl implements ChiSquareTest {
         double sumSq = 0.0d;
         double dev = 0.0d;
         if ((expected.length < 2) || (expected.length != observed.length)) {
-            throw new IllegalArgumentException("observed, expected array lengths incorrect");
+            throw new IllegalArgumentException(
+                    "observed, expected array lengths incorrect");
         }
         if (!isPositive(expected) || !isNonNegative(observed)) {
             throw new IllegalArgumentException(
@@ -68,8 +72,10 @@ public class ChiSquareTestImpl implements ChiSquareTest {
     public double chiSquareTest(double[] expected, long[] observed)
         throws IllegalArgumentException, MathException {
         ChiSquaredDistribution chiSquaredDistribution =
-            getDistributionFactory().createChiSquareDistribution((double) expected.length - 1);
-        return 1 - chiSquaredDistribution.cumulativeProbability(chiSquare(expected, observed));
+            getDistributionFactory().createChiSquareDistribution(
+                    (double) expected.length - 1);
+        return 1 - chiSquaredDistribution.cumulativeProbability(
+                chiSquare(expected, observed));
     }
 
     /**
@@ -81,10 +87,11 @@ public class ChiSquareTestImpl implements ChiSquareTest {
      * @throws IllegalArgumentException if preconditions are not met
      * @throws MathException if an error occurs performing the test
      */
-    public boolean chiSquareTest(double[] expected, long[] observed, double alpha)
-        throws IllegalArgumentException, MathException {
+    public boolean chiSquareTest(double[] expected, long[] observed, 
+            double alpha) throws IllegalArgumentException, MathException {
         if ((alpha <= 0) || (alpha > 0.5)) {
-            throw new IllegalArgumentException("bad significance level: " + alpha);
+            throw new IllegalArgumentException(
+                    "bad significance level: " + alpha);
         }
         return (chiSquareTest(expected, observed) < alpha);
     }
@@ -118,8 +125,8 @@ public class ChiSquareTestImpl implements ChiSquareTest {
         for (int row = 0; row < nRows; row++) {
             for (int col = 0; col < nCols; col++) {
                 expected = (rowSum[row] * colSum[col]) / total;
-                sumSq += (((double) counts[row][col] - expected) * ((double) counts[row][col] - expected))
-                    / expected; 
+                sumSq += (((double) counts[row][col] - expected) * 
+                        ((double) counts[row][col] - expected)) / expected; 
             }
         } 
         return sumSq;
@@ -162,7 +169,7 @@ public class ChiSquareTestImpl implements ChiSquareTest {
      * throwing IllegalArgumentException if any of these checks fail.
      * 
      * @param in input 2-way table to check
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException if the array is not valid
      */
     private void checkArray(long[][] in) throws IllegalArgumentException {
         
@@ -187,6 +194,8 @@ public class ChiSquareTestImpl implements ChiSquareTest {
     //---------------------  Protected methods ---------------------------------
     /**
      * Gets a DistributionFactory to use in creating ChiSquaredDistribution instances.
+     * 
+     * @return a DistributionFactory
      */
     protected DistributionFactory getDistributionFactory() {
         if (distributionFactory == null) {
