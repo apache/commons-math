@@ -27,7 +27,7 @@ import junit.framework.Assert;
 import org.apache.commons.math.complex.Complex;
 
 /**
- * @version $Revision: 1.12 $ $Date: 2004/04/02 21:30:08 $
+ * @version $Revision: 1.13 $ $Date: 2004/05/05 19:55:14 $
  */
 public class TestUtils {
     /**
@@ -44,7 +44,8 @@ public class TestUtils {
     public static void assertEquals(String msg, double expected, double actual, double delta) {
     	// check for NaN
     	if(Double.isNaN(expected)){
-    		Assert.assertTrue(msg, Double.isNaN(actual));
+    		Assert.assertTrue("" + actual + " is not NaN.",
+    		    Double.isNaN(actual));
     	} else {
     		Assert.assertEquals(msg, expected, actual, delta);
     	}
