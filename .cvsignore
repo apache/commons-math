@@ -6,3 +6,5 @@ dist
 *.classpath
 *.checkstyle
 bin
+.clover
+junit*.properties
