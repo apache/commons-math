@@ -61,21 +61,34 @@ import junit.framework.TestSuite;
  * Test cases for the {@link RealMatrixImpl} class.
  *
  * @author Phil Steitz
- * @version $Revision: 1.1 $ $Date: 2003/05/12 19:02:53 $
+ * @version $Revision: 1.2 $ $Date: 2003/06/15 17:01:39 $
  */
 
 public final class RealMatrixImplTest extends TestCase {
     
     private double[][] testData = { {1d,2d,3d}, {2d,5d,3d}, {1d,0d,8d} };
+    private double[][] testDataPlus2 = { {3d,4d,5d}, {4d,7d,5d}, {3d,2d,10d} };
+    private double[][] testDataMinus = { {-1d,-2d,-3d}, {-2d,-5d,-3d}, 
+       {-1d,0d,-8d} };
+    private double[] testDataRow1 = {1d,2d,3d};
+    private double[] testDataCol3 = {3d,3d,8d};
     private double[][] testDataInv = 
         { {-40d,16d,9d}, {13d,-5d,-3d}, {5d,-2d,-1d} };
+    private double[][] preMultTest = {{8,12,33}};
     private double[][] testData2 ={ {1d,2d,3d}, {2d,5d,3d}};
+    private double[][] testData2T = { {1d,2d}, {2d,5d}, {3d,3d}};
     private double[][] testDataPlusInv = 
         { {-39d,18d,12d}, {15d,0d,0d}, {6d,-2d,7d} };
     private double[][] id = { {1d,0d,0d}, {0d,1d,0d}, {0d,0d,1d} };
+    private double[][] luData = { {2d,3d,3d}, {0d,5d,7d}, {6d,9d,8d} };
+    private double[][] singular = { {2d,3d}, {2d,3d} };
+    private double[][] bigSingular = {{1d,2d,3d,4d}, {2d,5d,3d,4d},
+        {7d,3d,256d,1930d}, {3d,7d,6d,8d}}; // 4th row = 1st + 2nd
+    private double[][] detData = { {1d,2d,3d}, {4d,5d,6d}, {7d,8d,10d} };
     private double[] testVector = {1,2,3};
-    private double entryTolerance = Math.pow(2,-64);
-    private double normTolerance = Math.pow(2,-64);
+    private double[] testVector2 = {1,2,3,4};
+    private double entryTolerance = 10E-16;
+    private double normTolerance = 10E-14;
     
     public RealMatrixImplTest(String name) {
         super(name);
@@ -101,7 +114,24 @@ public final class RealMatrixImplTest extends TestCase {
         assertEquals("testData2 row dimension",m2.getRowDimension(),2);
         assertEquals("testData2 column dimension",m2.getColumnDimension(),3);
         assertTrue("testData2 is not square",!m2.isSquare());
-    }     
+    } 
+    
+    /** test copy functions */
+    public void testCopyFunctions() {
+        RealMatrixImpl m = new RealMatrixImpl(testData);
+        RealMatrixImpl m2 = new RealMatrixImpl(testData2);
+        m2.setData(m.getData());
+        assertClose("getData",m2,m,entryTolerance);
+        // no dangling reference...
+        m2.setEntry(1,1,2000d);
+        RealMatrixImpl m3 = new RealMatrixImpl(testData);
+        assertClose("no getData side effect",m,m3,entryTolerance);
+        m3 = (RealMatrixImpl) m.copy();
+        double[][] stompMe = {{1d,2d,3d}};
+        m3.setDataRef(stompMe);
+        assertClose("no copy side effect",m,new RealMatrixImpl(testData),
+            entryTolerance);
+    }           
     
     /** test add */
     public void testAdd() {
@@ -143,7 +173,13 @@ public final class RealMatrixImplTest extends TestCase {
         RealMatrixImpl m = new RealMatrixImpl(testData);
         RealMatrixImpl m2 = new RealMatrixImpl(testDataInv);
         assertClose("m-n = m + -n",m.subtract(m2),
-            m2.scalarMultiply(-1d).add(m),entryTolerance);
+            m2.scalarMultiply(-1d).add(m),entryTolerance);        
+        try {
+            RealMatrix a = m.subtract(new RealMatrixImpl(testData2));
+            fail("Expecting illegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            ;
+        }      
     }
     
     /** test multiply */
@@ -161,12 +197,202 @@ public final class RealMatrixImplTest extends TestCase {
         assertClose("identity multiply",identity.multiply(mInv),
             mInv,entryTolerance);
         assertClose("identity multiply",m2.multiply(identity),
-            m2,entryTolerance);       
+            m2,entryTolerance); 
+        try {
+            RealMatrix a = m.multiply(new RealMatrixImpl(bigSingular));
+            fail("Expecting illegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            ;
+        }      
+    }   
+        
+    /** test isSingular */
+    public void testIsSingular() {
+        RealMatrixImpl m = new RealMatrixImpl(singular);
+        assertTrue("singular",m.isSingular());
+        m = new RealMatrixImpl(bigSingular);
+        assertTrue("big singular",m.isSingular());
+        m = new RealMatrixImpl(id);
+        assertTrue("identity nonsingular",!m.isSingular());
+        m = new RealMatrixImpl(testData);
+        assertTrue("testData nonsingular",!m.isSingular());
+    }
+        
+    /** test inverse */
+    public void testInverse() {
+        RealMatrixImpl m = new RealMatrixImpl(testData);
+        RealMatrix mInv = new RealMatrixImpl(testDataInv);
+        assertClose("inverse",mInv,m.inverse(),normTolerance);
+        assertClose("inverse^2",m,m.inverse().inverse(),10E-12);
     }
     
+    /** test solve */
+    public void testSolve() {
+        RealMatrixImpl m = new RealMatrixImpl(testData);
+        RealMatrix mInv = new RealMatrixImpl(testDataInv);
+        // being a bit slothful here -- actually testing that X = A^-1 * B
+        assertClose("inverse-operate",mInv.operate(testVector),
+            m.solve(testVector),normTolerance);
+        try {
+            double[] x = m.solve(testVector2);
+            fail("expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            ;
+        }       
+        RealMatrix bs = new RealMatrixImpl(bigSingular);
+        try {
+            RealMatrix a = bs.solve(bs);
+            fail("Expecting illegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            ;
+        }
+        try {
+            RealMatrix a = m.solve(bs);
+            fail("Expecting illegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            ;
+        }      
+    }
+    
+    /** test determinant */
+    public void testDeterminant() {       
+        RealMatrix m = new RealMatrixImpl(bigSingular);
+        assertEquals("singular determinant",0,m.getDeterminant(),0);
+        m = new RealMatrixImpl(detData);
+        assertEquals("nonsingular test",-3d,m.getDeterminant(),normTolerance);
+        try {
+            double a = new RealMatrixImpl(testData2).getDeterminant();
+            fail("Expecting illegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            ;
+        }      
+    }
+    
+    /** test trace */
+    public void testTrace() {
+        RealMatrix m = new RealMatrixImpl(id);
+        assertEquals("identity trace",3d,m.getTrace(),entryTolerance);
+        m = new RealMatrixImpl(testData2);
+        try {
+            double x = m.getTrace();
+            fail("Expecting illegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            ;
+        }      
+    }
+    
+    /** test sclarAdd */
+    public void testScalarAdd() {
+        RealMatrix m = new RealMatrixImpl(testData);
+        assertClose("scalar add",new RealMatrixImpl(testDataPlus2),
+            m.scalarAdd(2d),entryTolerance);
+    }
+                    
+    /** test operate */
+    public void testOperate() {
+        RealMatrix m = new RealMatrixImpl(id);
+        double[] x = m.operate(testVector);
+        assertClose("identity operate",testVector,x,entryTolerance);
+        m = new RealMatrixImpl(bigSingular);
+        try {
+            x = m.operate(testVector);
+            fail("Expecting illegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            ;
+        }      
+    }
+    
+    /** test transpose */
+    public void testTranspose() {
+        RealMatrix m = new RealMatrixImpl(testData); 
+        assertClose("inverse-transpose",m.inverse().transpose(),
+            m.transpose().inverse(),normTolerance);
+        m = new RealMatrixImpl(testData2);
+        RealMatrix mt = new RealMatrixImpl(testData2T);
+        assertClose("transpose",mt,m.transpose(),normTolerance);
+    }
+    
+    /** test preMultiply */
+    public void testPremultiply() {
+        RealMatrix m = new RealMatrixImpl(testData);
+        RealMatrix mp = new RealMatrixImpl(preMultTest);
+        assertClose("premultiply",m.preMultiply(testVector),mp,normTolerance);
+        m = new RealMatrixImpl(bigSingular);
+        try {
+            RealMatrix x = m.preMultiply(testVector);
+            fail("expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            ;
+        }
+    }
+    
+    public void testGetVectors() {
+        RealMatrix m = new RealMatrixImpl(testData);
+        assertClose("get row",m.getRow(1),testDataRow1,entryTolerance);
+        assertClose("get col",m.getColumn(3),testDataCol3,entryTolerance);
+        try {
+            double[] x = m.getRow(10);
+            fail("expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            ;
+        }
+        try {
+            double[] x = m.getColumn(-1);
+            fail("expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            ;
+        }
+    }
+    
+    public void testEntryMutators() {
+        RealMatrix m = new RealMatrixImpl(testData);
+        assertEquals("get entry",m.getEntry(1,2),2d,entryTolerance);
+        m.setEntry(1,2,100d);
+        assertEquals("get entry",m.getEntry(1,2),100d,entryTolerance);
+        try {
+            double x = m.getEntry(0,2);
+            fail("expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            ;
+        }
+        try {
+            m.setEntry(1,4,200d);
+            fail("expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            ;
+        }
+    }
+        
+    
+    //--------------- -----------------Private methods
+        
+    /** verifies that two matrices are close (1-norm) */              
     private void assertClose(String msg, RealMatrix m, RealMatrix n,
         double tolerance) {
         assertTrue(msg,m.subtract(n).getNorm() < tolerance);
+    }
+    
+    /** verifies that two vectors are close (sup norm) */
+    private void assertClose(String msg, double[] m, double[] n,
+        double tolerance) {
+        if (m.length != n.length) {
+            fail("vectors not same length");
+        }
+        for (int i = 0; i < m.length; i++) {
+            assertEquals(msg + " " +  i + " elements differ", 
+                m[i],n[i],tolerance);
+        }
+    }
+    
+    /** Useful for debugging */
+    private void dumpMatrix(RealMatrix m) {
+          for (int i = 0; i < m.getRowDimension(); i++) {
+              String os = "";
+              for (int j = 0; j < m.getColumnDimension(); j++) {
+                  os += m.getEntry(i+1, j+1) + " ";
+              }
+              System.out.println(os);
+          }
     }
         
 }

@@ -57,180 +57,227 @@ package org.apache.commons.math;
 /**
  * Interface defining a real-valued matrix with basic algebraic operations
  * @author  Phil Steitz
- * @version $Revision: 1.3 $ $Date: 2003/06/11 14:50:29 $
+ * @version $Revision: 1.4 $ $Date: 2003/06/15 17:01:39 $
  */
 public interface RealMatrix {
 
-    public RealMatrix copy();
+    /**
+     * Returns a (deep) copy of this.
+     *
+     * @return matrix copy
+     */
+    RealMatrix copy();
     
     /**
-     * Compute the sum of *this and m
+     * Compute the sum of this and m.
+     *
      * @param m    matrix to be added
      * @return     this + m
-     * @exception  IllegalArgumentException if m is not the same size as *this
+     * @exception  IllegalArgumentException if m is not the same size as this
      */
-    public RealMatrix add(RealMatrix m);   
+    RealMatrix add(RealMatrix m) throws IllegalArgumentException;   
     
     /**
-     * Compute *this minus m
+     * Compute this minus m.
+     *
      * @param m    matrix to be subtracted
      * @return     this + m
-     * @exception  IllegalArgumentException if m is not the same size as *this
+     * @exception  IllegalArgumentException if m is not the same size as this
      */
-    public RealMatrix subtract(RealMatrix m);   
+    RealMatrix subtract(RealMatrix m) throws IllegalArgumentException;   
     
     /**
-     * Returns the rank of the matrix
-     * @return     the rank of this matrix
+     * Returns the rank of the matrix.
+     *
+     * @return the rank of this matrix
      */
-    public int getRank();
+    int getRank();
     
      /**
-     * Returns the result of adding d to each entry of *this
+     * Returns the result of adding d to each entry of this.
+     *
      * @param d    value to be added to each entry
      * @return     d + this
      */
-    public RealMatrix scalarAdd(double d);
+    RealMatrix scalarAdd(double d);
     
     /**
-     * Returns the result multiplying each entry of *this by d
+     * Returns the result multiplying each entry of this by d.
+     *
      * @param d    value to multiply all entries by
-     * @return     d*this
+     * @return     d * this
      */
-    public RealMatrix scalarMultiply(double d);
+    RealMatrix scalarMultiply(double d);
     
     /**
-     * Returns the result postmultiplyin *this by m
+     * Returns the result postmultiplying this by m.
+     *
      * @param m    matrix to postmultiply by
-     * @return     this*m
+     * @return     this * m
      * @throws     IllegalArgumentException 
      *             if columnDimension(this) != rowDimension(m)
      */
-    public RealMatrix multiply(RealMatrix m);
+    RealMatrix multiply(RealMatrix m) throws IllegalArgumentException;
     
     /**
-     * Returns matrix entries as a two-dimensional array
+     * Returns matrix entries as a two-dimensional array.
+     *
      * @return    2-dimensional array of entries
      */
-    public double[][] getData();
+    double[][] getData();
     
     /**
-     * Sets/overwrites the underlying data for the matrix
+     * Overwrites the underlying data for the matrix with
+     * a fresh copy of <code>data</code>.
+     *
      * @param  data  2-dimensional array of entries
      */
-    public void setData(double[][] data);
+    void setData(double[][] data);
     
     /**
-     * Returns the norm of the matrix
+     * Returns the <a href="http://mathworld.wolfram.com/
+     * MaximumAbsoluteRowSumNorm.html">maximum absolute row sum norm</a> 
+     * of the matrix.
+     *
      * @return norm
      */
-    public double getNorm();
+    double getNorm();
     
     /**
-     * Returns entries in row as an array
-     * @param row  the row to be fetched
-     * @return     array of entries in the row
-     * @throws     IllegalArgumentException if row > rowDimension
+     * Returns the entries in row number <code>row</code> as an array.
+     *
+     * @param row the row to be fetched
+     * @return array of entries in the row
+     * @throws IllegalArgumentException if row > rowDimension
      */
-    public double[] getRow(int row);
+    double[] getRow(int row) throws IllegalArgumentException;
     
     /**
-     * Returns entries in column as an array
+     * Returns the entries in column number <code>col</code> as an array.
+     *
      * @param col  column to fetch
-     * @return     array of entries in the column
-     * @throws     IllegalArgumentException if column > columnDimension
+     * @return array of entries in the column
+     * @throws IllegalArgumentException if column > columnDimension
      */
-    public double[] getColumn(int col);
+    double[] getColumn(int col) throws IllegalArgumentException;
     
     /**
-     * Returns the entry in the specified row and column
+     * Returns the entry in the specified row and column.
+     *
      * @param row  row location of entry to be fetched  
      * @param column  column location of entry to be fetched
      * @return     matrix entry in row,column
      * @throws     IllegalArgumentException if entry does not exist
      */
-    public double getEntry(int row, int column);
+    double getEntry(int row, int column) throws IllegalArgumentException;
     
     /**
-     * Sets the entry in the specified row and column to the specified value
+     * Sets the entry in the specified row and column to the specified value.
+     *
      * @param row    row location of entry to be set 
      * @param column    column location of entry to be set
      * @param value  value to set 
      * @throws IllegalArgumentException if entry does not exist
      */
-    public void setEntry(int row, int column, double value);
+    void setEntry(int row, int column, double value) 
+        throws IllegalArgumentException;
     
     /**
-     * Returns the transpose of this matrix
+     * Returns the transpose of this matrix.
+     *
      * @return transpose matrix
      */
-    public RealMatrix transpose();
+    RealMatrix transpose();
     
     /**
-     * Returns the inverse of this matrix
+     * Returns the inverse of this matrix.
+     *
      * @return inverse matrix
      * @throws IllegalArgumentException if *this is not invertible
      */
-    public RealMatrix inverse();
+    RealMatrix inverse() throws IllegalArgumentException;
     
     /**
-     * Returns the determinant of this matrix
+     * Returns the determinant of this matrix.
+     *
      * @return determinant
      */
-    public double getDeterminant();
+    double getDeterminant();
     
     /**
      * Is this a square matrix?
      * @return true if the matrix is square (rowDimension = columnDimension)
      */
-    public boolean isSquare();
+    boolean isSquare();
     
     /**
      * Is this a singular matrix?
      * @return true if the matrix is singular
      */
-    public boolean isSingular();
+    boolean isSingular();
     
     /**
-     * Returns the number of rows in the matrix
+     * Returns the number of rows in the matrix.
+     *
      * @return rowDimension
      */
-    public int getRowDimension();
+    int getRowDimension();
     
     /**
-     * Returns the number of columns in the matrix
+     * Returns the number of columns in the matrix.
+     *
      * @return columnDimension
      */
-    public int getColumnDimension();
+    int getColumnDimension();
     
     /**
-     * Returns the trace of the matrix
+     * Returns the <a href="http://mathworld.wolfram.com/MatrixTrace.html">
+     * trace</a> of the matrix (the sum of the elements on the main diagonal).
+     *
      * @return trace
      */
-    public double getTrace();
+    double getTrace();
     
     /**
-     * Returns the result of multiplying this by vector v
+     * Returns the result of multiplying this by the vector <code>v</code>.
+     *
+     * @param v the vector to operate on
      * @return this*v
      * @throws IllegalArgumentException if columnDimension != v.size()
      */
-    public double[] operate(double[] v);
+    double[] operate(double[] v) throws IllegalArgumentException;
     
     /**
-     * Returns the result of premultiplying this by vector v
+     * Returns the result of premultiplying this by the vector <code>v</code>.
+     *
+     * @param v the row vector to premultiply by
      * @return v*this
      * @throws IllegalArgumentException if rowDimension != v.size()
      */
-    public RealMatrix preMultiply(double[] v);  
+    RealMatrix preMultiply(double[] v) throws IllegalArgumentException;  
     
     /**
      * Returns the solution vector for a linear system with coefficient
-     * matrix = *this and constant vector = b 
+     * matrix = this and constant vector = <code>b</code>.
+     *
      * @param b  constant vector
      * @return   vector of solution values to AX = b, where A is *this
      * @throws   IllegalArgumentException if rowDimension != b.length or matrix 
      *           is singular
      */
-    public double[] solve(double[] b);
+    double[] solve(double[] b) throws IllegalArgumentException;
+    
+    /**
+     * Returns a matrix of (column) solution vectors for linear systems with
+     * coefficient matrix = this and constant vectors = columns of
+     * <code>b</code>. 
+     *
+     * @param b  matrix of constant vectors forming RHS of linear systems to
+     * to solve
+     * @return matrix of solution vectors
+     * @throws IllegalArgumentException if rowDimension != row dimension of b
+     * or this is singular
+     */
+    RealMatrix solve(RealMatrix b) throws IllegalArgumentException;
 }
 
