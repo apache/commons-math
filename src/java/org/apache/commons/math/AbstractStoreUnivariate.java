@@ -57,6 +57,7 @@ package org.apache.commons.math;
  * Provides univariate measures for an array of doubles.  
  * 
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
+ * @author Mark Diggory
  */
 public abstract class AbstractStoreUnivariate implements StoreUnivariate {
 
@@ -157,6 +158,31 @@ public abstract class AbstractStoreUnivariate implements StoreUnivariate {
         double arithMean = getSum() / getN();
         return arithMean;
     }
+
+    /**
+     * Returns the geometric mean for this collection of values
+     * @see org.apache.commons.math.Univariate#getGeometricMean()
+     */
+    public double getGeometricMean() {
+        double gMean = Math.pow(getProduct(),(1.0/getN()));
+        return gMean;
+    }
+
+    /**
+     * Returns the product for this collection of values
+     * @see org.apache.commons.math.Univariate#getProduct()
+     */
+    public double getProduct() {
+        double product = Double.NaN;
+        if( getN() > 0 ) {
+            product = 1.0;
+            for( int i = 0; i < getN(); i++) {
+                product *= getElement(i);
+            }
+        }
+        return product;
+    }
+       
 
     /**
      * Returns the variance for this collection of values

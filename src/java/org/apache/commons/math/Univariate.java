@@ -61,7 +61,8 @@
  *
  * @author Phil Steitz
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
- * @version $Revision: 1.4 $ $Date: 2003/05/20 18:15:29 $
+ * @author Mark Diggory
+ * @version $Revision: 1.5 $ $Date: 2003/05/21 17:59:19 $
  * 
 */
 public interface Univariate {
@@ -77,6 +78,18 @@ public interface Univariate {
      * @return mean value
      */
     public abstract double getMean();
+
+    /** 
+     * Returns the geometric mean of the values that have been added
+     * @return mean value
+     */
+    public abstract double getGeometricMean();
+
+    /** 
+     * Returns the product of all values that have been added
+     * @return product of all values
+     */
+    public abstract double getProduct();
 
     /** 
      * Returns the variance of the values that have been added
@@ -103,7 +116,7 @@ public interface Univariate {
     /** Getter for property n.
      * @return Value of property n.
      */
-    public abstract double getN();
+    public abstract int getN();
 
     /** Getter for property sum.
      * @return Value of property sum.

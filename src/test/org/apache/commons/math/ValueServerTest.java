@@ -63,7 +63,7 @@ import java.net.URL;
  * Test cases for the ValueServer class.
  *
  * @author  Phil Steitz
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 
 public final class ValueServerTest extends TestCase {
@@ -105,9 +105,9 @@ public final class ValueServerTest extends TestCase {
             next = vs.getNext();
             stats.addValue(next);
         }    
-        assertEquals("mean", stats.getMean(),5.069831575018909,tolerance);
+        assertEquals("mean", 5.069831575018909, stats.getMean(), tolerance);
         assertEquals
-         ("std dev", stats.getStandardDeviation(),1.0173699343977738,tolerance);
+         ("std dev", 1.0173699343977738, stats.getStandardDeviation(), tolerance);
     }
     
     /**

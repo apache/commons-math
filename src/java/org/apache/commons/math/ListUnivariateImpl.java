@@ -113,21 +113,24 @@ public class ListUnivariateImpl extends AbstractStoreUnivariate {
         double value = Double.NaN;
         if (windowSize != Univariate.INIFINTE_WINDOW &&
             windowSize < list.size()) {
-            Number n = (Number) list.get(((list.size() - 1) - windowSize) +
-                                          index) ;
+
+            int calcIndex = (list.size() - windowSize) + index;
+
+            Number n = (Number) list.get(calcIndex);
             value = n.doubleValue();
         } else {
             Number n = (Number) list.get(index);
             value = n.doubleValue();
         }
+        System.out.println( "Returning value: " + value );
         return value;
     }
 
     /* (non-Javadoc)
      * @see org.apache.commons.math.Univariate#getN()
      */
-    public double getN() {
-        double N = 0.0;
+    public int getN() {
+        int N = 0;
 
         if (windowSize != Univariate.INIFINTE_WINDOW) {
             if (list.size() > windowSize) {

@@ -61,7 +61,7 @@ import junit.framework.TestSuite;
  * Test cases for the {@link Univariate} class.
  *
  * @author <a href="mailto:phil@steitz.com">Phil Steitz</a>
- * @version $Revision: 1.1 $ $Date: 2003/05/15 05:39:01 $
+ * @version $Revision: 1.2 $ $Date: 2003/05/21 17:59:20 $
  */
 
 public final class StoreUnivariateImplTest extends TestCase {
@@ -142,5 +142,31 @@ public final class StoreUnivariateImplTest extends TestCase {
 		assertEquals("skewness", 1.437424, u.getSkewness(), 0.0001);
   	  	assertEquals("kurtosis", 2.37719, u.getKurtosis(), 0.0001);
     }
+
+    public void testProductAndGeometricMean() throws Exception {
+    	StoreUnivariateImpl u = new StoreUnivariateImpl();
+        u.setWindowSize(10);
+    	    	
+        u.addValue( 1.0 );
+        u.addValue( 2.0 );
+        u.addValue( 3.0 );
+        u.addValue( 4.0 );
+
+        assertEquals( "Product not expected", 24.0, u.getProduct(), Double.MIN_VALUE );
+        assertEquals( "Geometric mean not expected", 2.213364, u.getGeometricMean(), 0.00001 );
+
+        // Now test rolling - UnivariateImpl should discount the contribution
+        // of a discarded element
+        for( int i = 0; i < 10; i++ ) {
+            u.addValue( i + 2 );
+        }
+        // Values should be (2,3,4,5,6,7,8,9,10,11)
+        
+        assertEquals( "Product not expected", 39916800.0, u.getProduct(), 0.00001 );
+        assertEquals( "Geometric mean not expected", 5.755931, u.getGeometricMean(), 0.00001 );
+
+
+    }
+
 }
 

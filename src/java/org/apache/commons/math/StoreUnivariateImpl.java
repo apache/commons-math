@@ -91,7 +91,7 @@ public class StoreUnivariateImpl extends AbstractStoreUnivariate {
     /* (non-Javadoc)
      * @see org.apache.commons.math.Univariate#getN()
      */
-    public double getN() {
+    public int getN() {
         return eDA.getNumElements();
     }
 

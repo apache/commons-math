@@ -64,7 +64,9 @@ import java.io.Serializable;
  * to doubles by addValue().  
  *
  * @author Phil Steitz
- * @version $Revision: 1.5 $ $Date: 2003/05/20 18:15:29 $
+ * @author Mark Diggory
+ * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
+ * @version $Revision: 1.6 $ $Date: 2003/05/21 17:59:19 $
  * 
 */
 public class UnivariateImpl implements Univariate, Serializable {
@@ -84,13 +86,16 @@ public class UnivariateImpl implements Univariate, Serializable {
     private double sumsq = 0.0;
 
     /** count of values that have been added */
-    private double n = 0.0;
+    private int n = 0;
 
     /** min of values that have been added */
     private double min = Double.MAX_VALUE;
 
     /** max of values that have been added */
     private double max = Double.MIN_VALUE;
+
+    /** produce of values that have been added */
+    private double product = Double.NaN;
 
     /** Creates new univariate */
     public UnivariateImpl() {
@@ -118,7 +123,23 @@ public class UnivariateImpl implements Univariate, Serializable {
      */
     public double getMean() {
         // FIXME: throw something meaningful if n = 0
-        return sum/n;
+        return (sum / (double) n );
+     }
+
+    /** 
+     * Returns the geometric mean of the values that have been added
+     * @return geometric mean value
+     */
+    public double getGeometricMean() {
+        return Math.pow(product,( 1.0/n ) );
+    }
+
+    /** 
+     * Returns the product of all values add to this Univariate
+     * @return product value
+     */
+    public double getProduct() {
+        return product;
     }
 
     /** 
@@ -133,7 +154,7 @@ public class UnivariateImpl implements Univariate, Serializable {
             variance = 0.0;
         } else if( n > 1 ) {
             double xbar = getMean();
-            variance =  (sumsq - xbar*xbar*n)/(n-1);
+            variance =  (sumsq - xbar*xbar*((double) n))/(((double) n)-1);
         }
 
         return variance;
@@ -156,18 +177,25 @@ public class UnivariateImpl implements Univariate, Serializable {
      */
     private void insertValue(double v) {
 
+        // The default value of product is NaN, if you
+        // try to retrieve the product for a univariate with
+        // no values, we return NaN.
+        //
+        // If this is the first call to insertValue, we want
+        // to set product to 1.0, so that our first element
+        // is not "cancelled" out by the NaN.
+        if( n == 0 ) {
+            product = 1.0;
+        }
+
         if( windowSize != Univariate.INIFINTE_WINDOW ) {
+
             if( windowSize == n ) {
                 double discarded = doubleArray.addElementRolling( v );
 
-                // Remove the influence of discarded value ONLY
-                // if the discard value has any meaning.  In other words
-                // don't discount until we "roll".
-                if( windowSize > doubleArray.getNumElements() ) {
-                    // Remove the influence of the discarded
-                    sum -= discarded;
-                    sumsq -= discarded * discarded;
-                }
+                // Remove the influence of the discarded
+                sum -= discarded;
+                sumsq -= discarded * discarded;
 
                 // Include the influence of the new
                 // TODO: The next two lines seems rather expensive, but
@@ -176,6 +204,19 @@ public class UnivariateImpl implements Univariate, Serializable {
                 max = doubleArray.getMax();
                 sum += v;
                 sumsq += v*v;
+
+                // Note that the product CANNOT be discarded
+                // properly because one cannot discount the effect
+                // of a zero value.  For this reason, the product
+                // of the altered array must be calculated from the
+                // current array elements.  Product must be recalculated
+                // everytime the array is "rolled"
+                product = 1.0;
+                double[] elements = doubleArray.getElements();
+                for( int i = 0; i < elements.length; i++ ) {
+                    product *= elements[i];
+                }
+
             } else {
                 doubleArray.addElement( v );        	
                 n += 1.0;
@@ -183,6 +224,7 @@ public class UnivariateImpl implements Univariate, Serializable {
                 if (v > max) max = v;
                 sum += v;
                 sumsq += v*v;
+                product *= v;
             }
         } else {
             // If the windowSize is inifinite please don't take the time to
@@ -193,6 +235,7 @@ public class UnivariateImpl implements Univariate, Serializable {
             if (v > max) max = v;
             sum += v;
             sumsq += v*v;
+            product *= v;
         }
     }
 
@@ -220,7 +263,7 @@ public class UnivariateImpl implements Univariate, Serializable {
     /** Getter for property n.
      * @return Value of property n.
      */
-    public double getN() {
+    public int getN() {
         return n;
     }
 
@@ -259,7 +302,7 @@ public class UnivariateImpl implements Univariate, Serializable {
     public void clear() {
         this.sum = 0.0;
         this.sumsq = 0.0;
-        this.n = 0.0;
+        this.n = 0;
         this.min = Double.MAX_VALUE;
         this.max = Double.MIN_VALUE;
     }
