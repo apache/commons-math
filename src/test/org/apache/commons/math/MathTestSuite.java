@@ -61,7 +61,7 @@ import junit.textui.TestRunner;
  * Test suite for the Math package.
  *
  * @author Phil Steitz
- * @version $Id: MathTestSuite.java,v 1.2 2003/05/15 05:39:01 tobrien Exp $
+ * @version $Id: MathTestSuite.java,v 1.3 2003/05/18 00:58:52 tobrien Exp $
  */
 public class MathTestSuite extends TestCase {
     
@@ -88,6 +88,8 @@ public class MathTestSuite extends TestCase {
         suite.addTest(RealMatrixImplTest.suite());
         suite.addTest(FreqTest.suite());
         suite.addTest(UnivariateImplTest.suite());
+        suite.addTest(TestStatisticTest.suite());
+        suite.addTest(RandomDataTest.suite());
         return suite;
     }
 }
