@@ -22,8 +22,9 @@ import org.apache.commons.math.stat.univariate.StorelessUnivariateStatisticAbstr
 import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 
 /**
- * Test cases for the {@link UnivariateStatistic} class.
- * @version $Revision: 1.11 $ $Date: 2004/06/17 21:37:05 $
+ * Test cases for the {@link SumOfSquares} class.
+ * 
+ * @version $Revision: 1.12 $ $Date: 2004/06/29 15:40:07 $
  */
 public class SumSqTest extends StorelessUnivariateStatisticAbstractTest{
 
@@ -54,6 +55,21 @@ public class SumSqTest extends StorelessUnivariateStatisticAbstractTest{
      */
     public double expectedValue() {
         return this.sumSq;
+    }
+    
+    public void testSpecialValues() {
+        SumOfSquares sumSq = new SumOfSquares();
+        assertTrue(Double.isNaN(sumSq.getResult()));
+        sumSq.increment(2d);
+        assertEquals(4d, sumSq.getResult(), 0);
+        sumSq.increment(Double.POSITIVE_INFINITY);
+        assertEquals(Double.POSITIVE_INFINITY, sumSq.getResult(), 0);
+        sumSq.increment(Double.NEGATIVE_INFINITY);
+        assertEquals(Double.POSITIVE_INFINITY, sumSq.getResult(), 0);
+        sumSq.increment(Double.NaN);
+        assertTrue(Double.isNaN(sumSq.getResult())); 
+        sumSq.increment(1);
+        assertTrue(Double.isNaN(sumSq.getResult())); 
     }
 
 }
