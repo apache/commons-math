@@ -17,12 +17,12 @@ package org.apache.commons.math.analysis;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.MathException;
+import org.apache.commons.math.FunctionEvaluationException;
 
 /**
  * Auxillary class for testing solvers.
  *
- * @version $Revision: 1.13 $ $Date: 2004/06/02 00:12:01 $ 
+ * @version $Revision: 1.14 $ $Date: 2004/07/17 21:19:39 $ 
  */
 public class QuinticFunction implements DifferentiableUnivariateRealFunction, Serializable {
 
@@ -31,13 +31,13 @@ public class QuinticFunction implements DifferentiableUnivariateRealFunction, Se
     /* Evaluate quintic.
      * @see org.apache.commons.math.UnivariateRealFunction#value(double)
      */
-    public double value(double x) throws MathException {
+    public double value(double x) throws FunctionEvaluationException {
         return (x-1)*(x-0.5)*x*(x+0.5)*(x+1);
     }
 
     public UnivariateRealFunction derivative() {
         return new UnivariateRealFunction() {
-            public double value(double x) throws MathException {
+            public double value(double x) throws FunctionEvaluationException {
                 return (5*x*x-3.75)*x*x+0.25;
             }
         };

@@ -17,6 +17,8 @@ package org.apache.commons.math.distribution;
 
 import java.io.Serializable;
 
+import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.UnivariateRealSolverUtils;
@@ -26,7 +28,7 @@ import org.apache.commons.math.analysis.UnivariateRealSolverUtils;
  * implementations for some of the methods that do not vary from distribution
  * to distribution.
  *  
- * @version $Revision: 1.24 $ $Date: 2004/06/23 16:26:15 $
+ * @version $Revision: 1.25 $ $Date: 2004/07/17 21:19:39 $
  */
 public abstract class AbstractContinuousDistribution
     implements ContinuousDistribution, Serializable {
@@ -79,31 +81,51 @@ public abstract class AbstractContinuousDistribution
             throw new IllegalArgumentException("p must be between 0.0 and 1.0, inclusive.");
         }
 
-        // by default, do simple root finding using bracketing and bisection.
+        // by default, do simple root finding using bracketing and default solver.
         // subclasses can overide if there is a better method.
         UnivariateRealFunction rootFindingFunction =
             new UnivariateRealFunction() {
 
-            public double value(double x) throws MathException {
-                return cumulativeProbability(x) - p;
+            public double value(double x) throws FunctionEvaluationException {
+                try {
+                    return cumulativeProbability(x) - p;
+                } catch (MathException ex) {
+                    throw new FunctionEvaluationException
+                        (x, "Error computing cdf", ex);
+                }
             }
         };
-
-        // bracket root
-        double[] bracket =
-            UnivariateRealSolverUtils.bracket(
-                rootFindingFunction,
-                getInitialDomain(p),
-                getDomainLowerBound(p),
-                getDomainUpperBound(p));
+              
+        // Try to bracket root, test domain endoints if this fails     
+        double lowerBound = getDomainLowerBound(p);
+        double upperBound = getDomainUpperBound(p);
+        double[] bracket = null;
+        try {
+            bracket = UnivariateRealSolverUtils.bracket(
+                    rootFindingFunction, getInitialDomain(p),
+                    lowerBound, upperBound);
+        }  catch (ConvergenceException ex) {
+            /* 
+             * Check domain endpoints to see if one gives value that is within
+             * the default solver's defaultAbsoluteAccuracy of 0 (will be the
+             * case if density has bounded support and p is 0 or 1).
+             * 
+             * TODO: expose the default solver, defaultAbsoluteAccuracy as
+             * a constant.
+             */ 
+            if (Math.abs(rootFindingFunction.value(lowerBound)) < 1E-6) {
+                return lowerBound;
+            }
+            if (Math.abs(rootFindingFunction.value(upperBound)) < 1E-6) {
+                return upperBound;
+            }     
+            // Failed bracket convergence was not because of corner solution
+            throw new MathException(ex);
+        }
 
         // find root
-        double root =
-            UnivariateRealSolverUtils.solve(
-                rootFindingFunction,
-                bracket[0],
-                bracket[1]);
-
+        double root = UnivariateRealSolverUtils.solve(rootFindingFunction,
+                bracket[0],bracket[1]);
         return root;
     }
 

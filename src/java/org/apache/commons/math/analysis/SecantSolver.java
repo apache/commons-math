@@ -17,21 +17,25 @@ package org.apache.commons.math.analysis;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.MathException;
+import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.FunctionEvaluationException;
+
 
 /**
  * Implements a modified version of the 
  * <a href="http://mathworld.wolfram.com/SecantMethod.html">secant method</a>
  * for approximating a zero of a real univariate function.  
  * <p>
- * The algorithm is modified to maintain bracketing of a root by subsequent approximations. 
- * Because of forced bracketing, convergence may be slower than the unrestricted secant algorithm. 
- * However, this implementation  should in general outperform the 
- * <a href="http://mathworld.wolfram.com/MethodofFalsePosition.html">regula falsi method.</a>
+ * The algorithm is modified to maintain bracketing of a root by successive
+ * approximations. Because of forced bracketing, convergence may be slower than
+ * the unrestricted secant algorithm. However, this implementation should in
+ * general outperform the 
+ * <a href="http://mathworld.wolfram.com/MethodofFalsePosition.html">
+ * regula falsi method.</a>
  * <p>
- * The function is supposed to be continuous but not necessarily smooth.
+ * The function is assumed to be continuous but not necessarily smooth.
  *  
- * @version $Revision: 1.16 $ $Date: 2004/06/23 16:26:14 $
+ * @version $Revision: 1.17 $ $Date: 2004/07/17 21:19:39 $
  */
 public class SecantSolver extends UnivariateRealSolverImpl implements Serializable {
     
@@ -48,15 +52,19 @@ public class SecantSolver extends UnivariateRealSolverImpl implements Serializab
 
     /**
      * Find a zero in the given interval.
-     * @param min the lower bound for the interval.
-     * @param max the upper bound for the interval.
-     * @param initial the start value to use (ignored).
+     * 
+     * @param min the lower bound for the interval
+     * @param max the upper bound for the interval
+     * @param initial the start value to use (ignored)
      * @return the value where the function is zero
-     * @throws MathException if the iteration count was exceeded or the
-     *  solver detects convergence problems otherwise.
+     * @throws ConvergenceException if the maximum iteration count is exceeded
+     * @throws FunctionEvaluationException if an error occurs evaluating the
+     * function 
+     * @throws IllegalArgumentException if min is not less than max or the
+     * signs of the values of the function at the endpoints are not opposites
      */
     public double solve(double min, double max, double initial)
-        throws MathException {
+        throws ConvergenceException, FunctionEvaluationException {
             
         return solve(min, max);
     }
@@ -66,11 +74,18 @@ public class SecantSolver extends UnivariateRealSolverImpl implements Serializab
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
      * @return the value where the function is zero
-     * @throws MathException if the iteration count was exceeded or the
-     *  solver detects convergence problems otherwise.
+     * @throws ConvergenceException  if the maximum iteration count is exceeded
+     * @throws FunctionEvaluationException if an error occurs evaluating the
+     * function 
+     * @throws IllegalArgumentException if min is not less than max or the
+     * signs of the values of the function at the endpoints are not opposites
      */
-    public double solve(double min, double max) throws MathException {
+    public double solve(double min, double max) throws ConvergenceException, 
+        FunctionEvaluationException {
+        
         clearResult();
+        verifyBracketing(min, max, f);
+        
         // Index 0 is the old approximation for the root.
         // Index 1 is the last calculated approximation  for the root.
         // Index 2 is a bracket for the root with respect to x0.
@@ -80,9 +95,6 @@ public class SecantSolver extends UnivariateRealSolverImpl implements Serializab
         double x1 = max;
         double y0 = f.value(x0);
         double y1 = f.value(x1);
-        if ((y0 > 0) == (y1 > 0)) {
-            throw new MathException("Interval doesn't bracket a zero.");
-        }
         double x2 = x0;
         double y2 = y0;
         double oldDelta = x2 - x1;
@@ -129,7 +141,7 @@ public class SecantSolver extends UnivariateRealSolverImpl implements Serializab
             oldDelta = x2 - x1;
             i++;
         }
-        throw new MathException("Maximal iteration number exceeded");
+        throw new ConvergenceException("Maximal iteration number exceeded" + i);
     }
 
 }

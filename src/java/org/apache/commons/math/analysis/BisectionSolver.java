@@ -15,23 +15,25 @@
  */
 package org.apache.commons.math.analysis;
 
-import java.io.Serializable;
-
-import org.apache.commons.math.MathException;
+import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.ConvergenceException;
 
 /**
- * Implements the <a href="http://mathworld.wolfram.com/Bisection.html">bisection algorithm</a>
- *  for finding zeros of univariate real functions.  This algorithm will find only one zero in the given interval.
+ * Implements the <a href="http://mathworld.wolfram.com/Bisection.html">
+ * bisection algorithm</a> for finding zeros of univariate real functions. 
+ * <p>
  * The function should be continuous but not necessarily smooth.
- * @version $Revision: 1.17 $ $Date: 2004/06/23 16:26:14 $
+ * 
+ * @version $Revision: 1.18 $ $Date: 2004/07/17 21:19:39 $
  */
-public class BisectionSolver extends UnivariateRealSolverImpl implements Serializable {
+public class BisectionSolver extends UnivariateRealSolverImpl {
     
     /** Serializable version identifier */
     static final long serialVersionUID = 7137520585963699578L;
     
     /**
      * Construct a solver for the given function.
+     * 
      * @param f function to solve.
      */
     public BisectionSolver(UnivariateRealFunction f) {
@@ -40,30 +42,38 @@ public class BisectionSolver extends UnivariateRealSolverImpl implements Seriali
 
     /**
      * Find a zero in the given interval.
+     * 
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
      * @param initial the start value to use (ignored).
      * @return the value where the function is zero
-     * @throws MathException if the iteration count was exceeded or the
-     *  solver detects convergence problems otherwise.
+     * @throws ConvergenceException the maximum iteration count is exceeded 
+     * @throws FunctionEvaluationException if an error occurs evaluating
+     *  the function
+     * @throws IllegalArgumentException if min is not less than max
      */
     public double solve(double min, double max, double initial)
-        throws MathException {
-            
+        throws ConvergenceException, FunctionEvaluationException {
+          
         return solve(min, max);
     }
     
     /**
      * Find a zero root in the given interval.
-     * @param min the lower bound for the interval.
-     * @param max the upper bound for the interval.
+     * 
+     * @param min the lower bound for the interval
+     * @param max the upper bound for the interval
      * @return the value where the function is zero
-     * @throws MathException if the iteration count was exceeded or the
-     *  solver detects convergence problems otherwise.
+     * @throws ConvergenceException if the maximum iteration count is exceeded.
+     * @throws FunctionEvaluationException if an error occurs evaluating the
+     * function
+     * @throws IllegalArgumentException if min is not less than max
      */
-    public double solve(double min, double max) throws MathException {
+    public double solve(double min, double max) throws ConvergenceException,
+        FunctionEvaluationException {
+        
         clearResult();
-
+        verifyInterval(min,max);
         double m;
         double fm;
         double fmin;
@@ -71,8 +81,8 @@ public class BisectionSolver extends UnivariateRealSolverImpl implements Seriali
         int i = 0;
         while (i < maximalIterationCount) {
             m = UnivariateRealSolverUtils.midpoint(min, max);
-            fmin = f.value(min);
-            fm = f.value(m);
+           fmin = f.value(min);
+           fm = f.value(m);
 
             if (fm * fmin > 0.0) {
                 // max and m bracket the root.
@@ -91,6 +101,7 @@ public class BisectionSolver extends UnivariateRealSolverImpl implements Seriali
             ++i;
         }
         
-        throw new MathException("Maximum number of iterations exceeded");
+        throw new ConvergenceException
+            ("Maximum number of iterations exceeded: "  + maximalIterationCount);
     }
 }

@@ -15,14 +15,16 @@
  */
 package org.apache.commons.math.analysis;
 
-import org.apache.commons.math.MathException;
+import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.FunctionEvaluationException;
+
 
 /**
  * Interface for (univariate real) rootfinding algorithms.
  * <p>
  * Implementations will search for only one zero in the given interval.
  *  
- * @version $Revision: 1.13 $ $Date: 2004/06/23 16:26:14 $
+ * @version $Revision: 1.14 $ $Date: 2004/07/17 21:19:39 $
  */
 public interface UnivariateRealSolver {
 
@@ -33,18 +35,19 @@ public interface UnivariateRealSolver {
      * the "reasonable value" varies widely for different solvers.  Users are
      * advised to use the default value supplied by the solver.
      * <p>
-     * An exception will be thrown if the number is exceeded.
+     * A <code>ConvergenceException</code> will be thrown if this number
+     * is exceeded.
      *  
      * @param count maximum number of iterations
      */
-    public void setMaximalIterationCount(int count);
+    void setMaximalIterationCount(int count);
 
     /**
      * Get the upper limit for the number of iterations.
      * 
      * @return the actual upper limit
      */
-    public int getMaximalIterationCount();
+    int getMaximalIterationCount();
 
     /**
      * Reset the upper limit for the number of iterations to the default.
@@ -53,7 +56,7 @@ public interface UnivariateRealSolver {
      * 
      * @see #setMaximalIterationCount(int)
      */
-    public void resetMaximalIterationCount();
+    void resetMaximalIterationCount();
 
     /**
      * Set the absolute accuracy.
@@ -67,24 +70,24 @@ public interface UnivariateRealSolver {
      * accuracy, but clients should not rely on this.
      *  
      * @param accuracy the accuracy.
-     * @throws MathException if the accuracy can't be achieved by the solver or
-     *         is otherwise deemed unreasonable. 
+     * @throws IllegalArgumentException if the accuracy can't be achieved by
+     * the solver or is otherwise deemed unreasonable. 
      */
-    public void setAbsoluteAccuracy(double accuracy) throws MathException;
+    void setAbsoluteAccuracy(double accuracy);
 
     /**
      * Get the actual absolute accuracy.
      * 
      * @return the accuracy
      */
-    public double getAbsoluteAccuracy();
+    double getAbsoluteAccuracy();
 
     /**
      * Reset the absolute accuracy to the default.
      * <p>
      * The default value is provided by the solver implementation.
      */
-    public void resetAbsoluteAccuracy();
+    void resetAbsoluteAccuracy();
 
     /**
      * Set the relative accuracy.
@@ -97,22 +100,22 @@ public interface UnivariateRealSolver {
      * like 1E-1000.
      * 
      * @param accuracy the relative accuracy.
-     * @throws MathException if the accuracy can't be achieved by the solver or
-     *         is otherwise deemed unreasonable. 
+     * @throws IllegalArgumentException if the accuracy can't be achieved by
+     *  the solver or is otherwise deemed unreasonable. 
      */
-    public void setRelativeAccuracy(double accuracy) throws MathException;
+    void setRelativeAccuracy(double accuracy);
 
     /**
      * Get the actual relative accuracy.
      * @return the accuracy
      */
-    public double getRelativeAccuracy();
+    double getRelativeAccuracy();
 
     /**
      * Reset the relative accuracy to the default.
      * The default value is provided by the solver implementation.
      */
-    public void resetRelativeAccuracy();
+    void resetRelativeAccuracy();
 
     /**
      * Set the function value accuracy.
@@ -124,22 +127,22 @@ public interface UnivariateRealSolver {
      * general.
      * 
      * @param accuracy the accuracy.
-     * @throws MathException if the accuracy can't be achieved by the solver or
-     *         is otherwise deemed unreasonable. 
+     * @throws IllegalArgumentException if the accuracy can't be achieved by
+     * the solver or is otherwise deemed unreasonable. 
      */
-    public void setFunctionValueAccuracy(double accuracy) throws MathException;
+    void setFunctionValueAccuracy(double accuracy);
 
     /**
      * Get the actual function value accuracy.
      * @return the accuracy
      */
-    public double getFunctionValueAccuracy();
+    double getFunctionValueAccuracy();
 
     /**
      * Reset the actual function accuracy to the default.
      * The default value is provided by the solver implementation.
      */
-    public void resetFunctionValueAccuracy();
+    void resetFunctionValueAccuracy();
 
     /**
      * Solve for a zero root in the given interval.
@@ -148,10 +151,15 @@ public interface UnivariateRealSolver {
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
      * @return a value where the function is zero
-     * @throws MathException if the iteration count was exceeded or the
-     *  solver detects convergence problems otherwise.
+     * @throws ConvergenceException if the maximum iteration count is exceeded
+     * or the solver detects convergence problems otherwise.
+     * @throws FunctionEvaluationException if an error occurs evaluating the
+     * function
+     * @throws IllegalArgumentException if min > max or the endpoints do not
+     * satisfy the requirements specified by the solver
      */
-    public double solve(double min, double max) throws MathException;
+    double solve(double min, double max) throws ConvergenceException, 
+        FunctionEvaluationException;
 
     /**
      * Solve for a zero in the given interval, start at startValue.
@@ -161,19 +169,24 @@ public interface UnivariateRealSolver {
      * @param max the upper bound for the interval.
      * @param startValue the start value to use
      * @return a value where the function is zero
-     * @throws MathException if the iteration count was exceeded or the
-     *  solver detects convergence problems otherwise.
+     * @throws ConvergenceException if the maximum iteration count is exceeded
+     * or the solver detects convergence problems otherwise.
+     * @throws FunctionEvaluationException if an error occurs evaluating the
+     * function
+     * @throws IllegalArgumentException if min > max or the arguments do not
+     * satisfy the requirements specified by the solver
      */
-    public double solve(double min, double max, double startValue)
-        throws MathException;
+    double solve(double min, double max, double startValue)
+        throws ConvergenceException, FunctionEvaluationException;
 
     /**
      * Get the result of the last run of the solver.
+     * 
      * @return the last result.
-     * @throws MathException if there is no result available, either
+     * @throws IllegalStateException if there is no result available, either
      * because no result was yet computed or the last attempt failed.
      */
-    public double getResult() throws MathException;
+    double getResult();
 
     /**
      * Get the number of iterations in the last run of the solver.
@@ -185,8 +198,8 @@ public interface UnivariateRealSolver {
      * problem.
      * 
      * @return the last iteration count.
-     * @throws MathException if there is no result available, either
+     * @throws IllegalStateException if there is no result available, either
      * because no result was yet computed or the last attempt failed.
      */
-    public int getIterationCount() throws MathException;
+    int getIterationCount();
 }

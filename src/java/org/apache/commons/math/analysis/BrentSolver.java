@@ -17,23 +17,25 @@ package org.apache.commons.math.analysis;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.MathException;
+import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.FunctionEvaluationException;
 
 /**
- * Implements the <a href="http://mathworld.wolfram.com/BrentsMethod.html">Brent algorithm</a>
- * for  finding zeros of real univariate
- * functions. This algorithm will find only one zero in the given interval. 
+ * Implements the <a href="http://mathworld.wolfram.com/BrentsMethod.html">
+ * Brent algorithm</a> for  finding zeros of real univariate functions.
+ * <p>
  * The function should be continuous but not necessarily smooth.
  *  
- * @version $Revision: 1.16 $ $Date: 2004/06/23 16:26:14 $
+ * @version $Revision: 1.17 $ $Date: 2004/07/17 21:19:39 $
  */
-public class BrentSolver extends UnivariateRealSolverImpl implements Serializable {
+public class BrentSolver extends UnivariateRealSolverImpl {
     
     /** Serializable version identifier */
     static final long serialVersionUID = 3350616277306882875L;
 
     /**
      * Construct a solver for the given function.
+     * 
      * @param f function to solve.
      */
     public BrentSolver(UnivariateRealFunction f) {
@@ -42,39 +44,57 @@ public class BrentSolver extends UnivariateRealSolverImpl implements Serializabl
 
     /**
      * Find a zero in the given interval.
+     * <p>
+     * Throws <code>ConvergenceException</code> if the values of the function
+     * at the endpoints of the interval have the same sign.
+     * 
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
      * @param initial the start value to use (ignored).
      * @return the value where the function is zero
-     * @throws MathException if the iteration count was exceeded or the
-     *  solver detects convergence problems otherwise.
+     * @throws ConvergenceException the maximum iteration count is exceeded 
+     * @throws FunctionEvaluationException if an error occurs evaluating
+     *  the function
+     * @throws IllegalArgumentException if initial is not between min and max
      */
     public double solve(double min, double max, double initial)
-        throws MathException {
+        throws ConvergenceException, FunctionEvaluationException {
             
         return solve(min, max);
     }
     
     /**
      * Find a zero in the given interval.
+     * <p>
+     * Requires that the values of the function at the endpoints have opposite
+     * signs. An <code>IllegalArgumentException</code> is thrown if this is not
+     * the case.
+     * 
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
      * @return the value where the function is zero
-     * @throws MathException if the iteration count was exceeded or the
-     *  solver detects convergence problems otherwise.
+     * @throws ConvergenceException if the maximum iteration count is exceeded
+     * @throws FunctionEvaluationException if an error occurs evaluating the
+     * function 
+     * @throws IllegalArgumentException if min is not less than max or the
+     * signs of the values of the function at the endpoints are not opposites
      */
-    public double solve(double min, double max) throws MathException {
+    public double solve(double min, double max) throws ConvergenceException, 
+        FunctionEvaluationException {
+        
         clearResult();
+        verifyBracketing(min, max, f);
+        
         // Index 0 is the old approximation for the root.
         // Index 1 is the last calculated approximation  for the root.
         // Index 2 is a bracket for the root with respect to x1.
         double x0 = min;
         double x1 = max;
-        double y0 = f.value(x0);
-        double y1 = f.value(x1);
-        if ((y0 > 0) == (y1 > 0)) {
-            throw new MathException("Interval doesn't bracket a zero.");
-        }
+        double y0;
+        double y1;
+        y0 = f.value(x0);
+        y1 = f.value(x1);
+   
         double x2 = x0;
         double y2 = y0;
         double delta = x1 - x0;
@@ -161,6 +181,6 @@ public class BrentSolver extends UnivariateRealSolverImpl implements Serializabl
             }
             i++;
         }
-        throw new MathException("Maximum number of iterations exceeded.");
+        throw new ConvergenceException("Maximum number of iterations exceeded.");
     }
 }

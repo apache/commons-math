@@ -15,7 +15,7 @@
  */
 package org.apache.commons.math.analysis;
 
-import org.apache.commons.math.MathException;
+import org.apache.commons.math.FunctionEvaluationException;
 
 /**
  * Auxillary class for testing solvers.
@@ -25,14 +25,14 @@ import org.apache.commons.math.MathException;
  * which means linear approximation (Regula Falsi) will converge
  * quadratically.
  * 
- * @version $Revision: 1.12 $ $Date: 2004/04/08 21:19:17 $
+ * @version $Revision: 1.13 $ $Date: 2004/07/17 21:19:39 $
  */
 public class SinFunction implements DifferentiableUnivariateRealFunction {
 
     /* Evaluate sinus fuction.
      * @see org.apache.commons.math.UnivariateRealFunction#value(double)
      */
-    public double value(double x) throws MathException {
+    public double value(double x) throws FunctionEvaluationException {
         return Math.sin(x);
     }
 
@@ -40,7 +40,7 @@ public class SinFunction implements DifferentiableUnivariateRealFunction {
      */
     public UnivariateRealFunction derivative() {
         return new UnivariateRealFunction() {
-            public double value(double x) throws MathException {
+            public double value(double x) throws FunctionEvaluationException {
                 return Math.cos(x);
             }
         };

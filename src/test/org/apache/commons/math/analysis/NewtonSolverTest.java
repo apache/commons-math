@@ -22,7 +22,7 @@ import org.apache.commons.math.MathException;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.1 $ $Date: 2004/04/08 21:19:17 $
+ * @version $Revision: 1.2 $ $Date: 2004/07/17 21:19:39 $
  */
 public final class NewtonSolverTest extends TestCase {
     /**
@@ -38,6 +38,10 @@ public final class NewtonSolverTest extends TestCase {
 
         result = solver.solve(1, 4);
         assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
+        
+        //TODO:  create abstract solver test class, move these there
+        assertEquals(result, solver.getResult(), 0);
+        assertTrue(solver.getIterationCount() > 0);
     }
 
     /**

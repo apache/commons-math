@@ -18,7 +18,7 @@ package org.apache.commons.math.analysis;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import org.apache.commons.math.MathException;
+import org.apache.commons.math.FunctionEvaluationException;
 
 /**
  * Represents a polynomial spline function.
@@ -41,7 +41,7 @@ import org.apache.commons.math.MathException;
  * <li> Let <code>j</code> be the index of the largest knot point that is less than or equal to <code>x</code>. 
  *  The value returned is <br> <code>polynomials[j](x - knot[j])</code></li></ol>
  *
- * @version $Revision: 1.6 $ $Date: 2004/06/23 16:26:14 $
+ * @version $Revision: 1.7 $ $Date: 2004/07/17 21:19:39 $
  */
 public class PolynomialSplineFunction implements UnivariateRealFunction, Serializable {
    
@@ -104,13 +104,13 @@ public class PolynomialSplineFunction implements UnivariateRealFunction, Seriali
      * 
      * @param v the point for which the function value should be computed
      * @return the value
-     * @throws MathException if the function couldn't be computed due to
-     *  missing additional data or other environmental problems.
-     * @see UnivariateRealFunction#value(double)
+     * @throws FunctionEvaluationException if v is outside of the domain of
+     * of the spline function (less than the smallest knot point or greater
+     * than the largest knot point)
      */
-    public double value(double v) throws MathException {
+    public double value(double v) throws FunctionEvaluationException {
         if (v < knots[0] || v >= knots[n]) {
-            throw new IllegalArgumentException("Argument outside domain");
+            throw new FunctionEvaluationException(v,"Argument outside domain");
         }
         int i = Arrays.binarySearch(knots, v);
         if (i < 0) {

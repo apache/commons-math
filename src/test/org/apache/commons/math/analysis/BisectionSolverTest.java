@@ -19,12 +19,11 @@ package org.apache.commons.math.analysis;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.TestUtils;
-import org.apache.commons.math.stat.univariate.DescriptiveStatistics;
 
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.11 $ $Date: 2004/06/02 00:11:53 $
+ * @version $Revision: 1.12 $ $Date: 2004/07/17 21:19:39 $
  */
 public final class BisectionSolverTest extends TestCase {
     /**
@@ -82,74 +81,57 @@ public final class BisectionSolverTest extends TestCase {
 
         result = solver.solve(0.85, 5);
         assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
+        
+        assertEquals(result, solver.getResult(), 0);
+        assertTrue(solver.getIterationCount() > 0);
     }
     
     /**
      * 
      */
     public void testSetFunctionValueAccuracy(){
-        double expected = 1.0e-2;
-        
+        double expected = 1.0e-2;    
         UnivariateRealFunction f = new QuinticFunction();
         UnivariateRealSolver solver = new BisectionSolver(f);
-        try {
-            solver.setFunctionValueAccuracy(expected);
-            assertEquals(expected, solver.getFunctionValueAccuracy(), 1.0e-2);
-        } catch (MathException ex) {
-            fail(ex.getMessage());
-        }
+        solver.setFunctionValueAccuracy(expected);
+        assertEquals(expected, solver.getFunctionValueAccuracy(), 1.0e-2);
     }        
     
     /**
      * 
      */
     public void testResetFunctionValueAccuracy(){
-        double newValue = 1.0e-2;
-        
+        double newValue = 1.0e-2;    
         UnivariateRealFunction f = new QuinticFunction();
         UnivariateRealSolver solver = new BisectionSolver(f);
-        try {
-            double oldValue = solver.getFunctionValueAccuracy();
-            solver.setFunctionValueAccuracy(newValue);
-            solver.resetFunctionValueAccuracy();
-            assertEquals(oldValue, solver.getFunctionValueAccuracy(), 1.0e-2);
-        } catch(MathException ex){
-            fail(ex.getMessage());
-        }
+        double oldValue = solver.getFunctionValueAccuracy();
+        solver.setFunctionValueAccuracy(newValue);
+        solver.resetFunctionValueAccuracy();
+        assertEquals(oldValue, solver.getFunctionValueAccuracy(), 1.0e-2);
     }        
     
     /**
      * 
      */
     public void testSetAbsoluteAccuracy(){
-        double expected = 1.0e-2;
-        
+        double expected = 1.0e-2; 
         UnivariateRealFunction f = new QuinticFunction();
         UnivariateRealSolver solver = new BisectionSolver(f);
-        try {
-            solver.setAbsoluteAccuracy(expected);
-            assertEquals(expected, solver.getAbsoluteAccuracy(), 1.0e-2);
-        } catch(MathException ex){
-            fail(ex.getMessage());
-        }
+        solver.setAbsoluteAccuracy(expected);
+        assertEquals(expected, solver.getAbsoluteAccuracy(), 1.0e-2); 
     }        
     
     /**
      * 
      */
     public void testResetAbsoluteAccuracy(){
-        double newValue = 1.0e-2;
-        
+        double newValue = 1.0e-2;       
         UnivariateRealFunction f = new QuinticFunction();
         UnivariateRealSolver solver = new BisectionSolver(f);
-        try {
-            double oldValue = solver.getAbsoluteAccuracy();
-            solver.setAbsoluteAccuracy(newValue);
-            solver.resetAbsoluteAccuracy();
-            assertEquals(oldValue, solver.getAbsoluteAccuracy(), 1.0e-2);
-        } catch(MathException ex){
-            fail(ex.getMessage());
-        }
+        double oldValue = solver.getAbsoluteAccuracy();
+        solver.setAbsoluteAccuracy(newValue);
+        solver.resetAbsoluteAccuracy();
+        assertEquals(oldValue, solver.getAbsoluteAccuracy(), 1.0e-2);
     }        
     
     /**
@@ -186,117 +168,96 @@ public final class BisectionSolverTest extends TestCase {
         
         UnivariateRealFunction f = new QuinticFunction();
         UnivariateRealSolver solver = new BisectionSolver(f);
-        try {
-            solver.setRelativeAccuracy(expected);
-            assertEquals(expected, solver.getRelativeAccuracy(), 1.0e-2);
-        } catch(MathException ex){
-            fail(ex.getMessage());
-        }
+        solver.setRelativeAccuracy(expected);
+        assertEquals(expected, solver.getRelativeAccuracy(), 1.0e-2);
     }        
     
     /**
      * 
      */
     public void testResetRelativeAccuracy(){
-        double newValue = 1.0e-2;
-        
+        double newValue = 1.0e-2;        
         UnivariateRealFunction f = new QuinticFunction();
         UnivariateRealSolver solver = new BisectionSolver(f);
-        try {
-            double oldValue = solver.getRelativeAccuracy();
-            solver.setRelativeAccuracy(newValue);
-            solver.resetRelativeAccuracy();
-            assertEquals(oldValue, solver.getRelativeAccuracy(), 1.0e-2);
-        } catch(MathException ex){
-            fail(ex.getMessage());
-        }
+        double oldValue = solver.getRelativeAccuracy();
+        solver.setRelativeAccuracy(newValue);
+        solver.resetRelativeAccuracy();
+        assertEquals(oldValue, solver.getRelativeAccuracy(), 1.0e-2);
     }        
     
     /**
      * Test Serialization and Recovery
      */
-   public void testSerialization() {
-
+   public void testSerialization() throws MathException {
+       UnivariateRealFunction f = (UnivariateRealFunction)TestUtils.serializeAndRecover(new QuinticFunction());
+       double result;
        
-       try {
-           UnivariateRealFunction f = (UnivariateRealFunction)TestUtils.serializeAndRecover(new QuinticFunction());
-           double result;
-           
-           BisectionSolver solver = new BisectionSolver(f);
-           UnivariateRealSolver solver2 = (UnivariateRealSolver)TestUtils.serializeAndRecover(solver);
-           
-           result = solver.solve(-0.2, 0.2);
-           assertEquals(result, 0, solver.getAbsoluteAccuracy());
-           assertEquals(solver2.solve(-0.2, 0.2), result, solver2.getAbsoluteAccuracy());
-           
-           result = solver.solve(-0.1, 0.3);
-           assertEquals(result, 0, solver.getAbsoluteAccuracy());
-           assertEquals(solver2.solve(-0.1, 0.3), result, solver2.getAbsoluteAccuracy());
-           
-           result = solver.solve(-0.3, 0.45);
-           assertEquals(result, 0, solver.getAbsoluteAccuracy());
-           assertEquals(solver2.solve(-0.3, 0.45), result, solver2.getAbsoluteAccuracy());
-           
-           result = solver.solve(0.3, 0.7);
-           assertEquals(result, 0.5, solver.getAbsoluteAccuracy());
-           assertEquals(solver2.solve(0.3, 0.7), result, solver2.getAbsoluteAccuracy());
-           
-           result = solver.solve(0.2, 0.6);
-           assertEquals(result, 0.5, solver.getAbsoluteAccuracy());
-           assertEquals(solver2.solve(0.2, 0.6), result, solver2.getAbsoluteAccuracy());
-           
-           result = solver.solve(0.05, 0.95);
-           assertEquals(result, 0.5, solver.getAbsoluteAccuracy());
-           assertEquals(solver2.solve(0.05, 0.95), result, solver2.getAbsoluteAccuracy());
-           
-           result = solver.solve(0.85, 1.25);
-           assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
-           assertEquals(solver2.solve(0.85, 1.25), result, solver2.getAbsoluteAccuracy());
-           
-           result = solver.solve(0.8, 1.2);
-           assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
-           assertEquals(solver2.solve(0.8, 1.2), result, solver2.getAbsoluteAccuracy());
-           
-           result = solver.solve(0.85, 1.75);
-           assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
-           assertEquals(solver2.solve(0.85, 1.75), result, solver2.getAbsoluteAccuracy());
-           
-           result = solver.solve(0.55, 1.45);
-           assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
-           assertEquals(solver2.solve(0.55, 1.45), result, solver2.getAbsoluteAccuracy());
-           
-           result = solver.solve(0.85, 5);
-           assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
-           assertEquals(solver2.solve(0.85, 5), result, solver2.getAbsoluteAccuracy());
-           
-       } catch(MathException ex){
-           fail(ex.getMessage());
-       }
+       BisectionSolver solver = new BisectionSolver(f);
+       UnivariateRealSolver solver2 = (UnivariateRealSolver)TestUtils.serializeAndRecover(solver);
+       
+       result = solver.solve(-0.2, 0.2);
+       assertEquals(result, 0, solver.getAbsoluteAccuracy());
+       assertEquals(solver2.solve(-0.2, 0.2), result, solver2.getAbsoluteAccuracy());
+       
+       result = solver.solve(-0.1, 0.3);
+       assertEquals(result, 0, solver.getAbsoluteAccuracy());
+       assertEquals(solver2.solve(-0.1, 0.3), result, solver2.getAbsoluteAccuracy());
+       
+       result = solver.solve(-0.3, 0.45);
+       assertEquals(result, 0, solver.getAbsoluteAccuracy());
+       assertEquals(solver2.solve(-0.3, 0.45), result, solver2.getAbsoluteAccuracy());
+       
+       result = solver.solve(0.3, 0.7);
+       assertEquals(result, 0.5, solver.getAbsoluteAccuracy());
+       assertEquals(solver2.solve(0.3, 0.7), result, solver2.getAbsoluteAccuracy());
+       
+       result = solver.solve(0.2, 0.6);
+       assertEquals(result, 0.5, solver.getAbsoluteAccuracy());
+       assertEquals(solver2.solve(0.2, 0.6), result, solver2.getAbsoluteAccuracy());
+       
+       result = solver.solve(0.05, 0.95);
+       assertEquals(result, 0.5, solver.getAbsoluteAccuracy());
+       assertEquals(solver2.solve(0.05, 0.95), result, solver2.getAbsoluteAccuracy());
+       
+       result = solver.solve(0.85, 1.25);
+       assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
+       assertEquals(solver2.solve(0.85, 1.25), result, solver2.getAbsoluteAccuracy());
+       
+       result = solver.solve(0.8, 1.2);
+       assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
+       assertEquals(solver2.solve(0.8, 1.2), result, solver2.getAbsoluteAccuracy());
+       
+       result = solver.solve(0.85, 1.75);
+       assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
+       assertEquals(solver2.solve(0.85, 1.75), result, solver2.getAbsoluteAccuracy());
+       
+       result = solver.solve(0.55, 1.45);
+       assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
+       assertEquals(solver2.solve(0.55, 1.45), result, solver2.getAbsoluteAccuracy());
+       
+       result = solver.solve(0.85, 5);
+       assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
+       assertEquals(solver2.solve(0.85, 5), result, solver2.getAbsoluteAccuracy());
        
        /* Test Reset */
-       try{ 
-           double newValue = 1.0e-2;
-           UnivariateRealFunction f = (UnivariateRealFunction)TestUtils.serializeAndRecover(new QuinticFunction());
-           UnivariateRealSolver solver = new BisectionSolver(f);
-
-           double oldValue = solver.getRelativeAccuracy();
-           solver.setRelativeAccuracy(newValue);
-           solver.resetRelativeAccuracy();
-           assertEquals(oldValue, solver.getRelativeAccuracy(), 1.0e-2);
+       double newValue = 1.0e-2;
+       f = (UnivariateRealFunction)TestUtils.serializeAndRecover(new QuinticFunction());
+       solver = new BisectionSolver(f);
        
-           UnivariateRealSolver  solver2 = (UnivariateRealSolver)TestUtils.serializeAndRecover(solver); 
+       double oldValue = solver.getRelativeAccuracy();
+       solver.setRelativeAccuracy(newValue);
+       solver.resetRelativeAccuracy();
+       assertEquals(oldValue, solver.getRelativeAccuracy(), 1.0e-2);
        
-           assertEquals(oldValue, solver2.getRelativeAccuracy(), 1.0e-2);
+       solver2 = (UnivariateRealSolver)TestUtils.serializeAndRecover(solver); 
        
-           solver2.setRelativeAccuracy(newValue);
-           solver2.resetRelativeAccuracy();
+       assertEquals(oldValue, solver2.getRelativeAccuracy(), 1.0e-2);
        
-           assertEquals(oldValue, solver2.getRelativeAccuracy(), 1.0e-2);
+       solver2.setRelativeAccuracy(newValue);
+       solver2.resetRelativeAccuracy();
        
-       } catch(MathException ex){
-           fail(ex.getMessage());
-       }
-    
+       assertEquals(oldValue, solver2.getRelativeAccuracy(), 1.0e-2);
+       
    }
-    
+   
 }

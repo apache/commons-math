@@ -16,19 +16,18 @@
 
 package org.apache.commons.math.analysis;
 
-import java.io.Serializable;
-
-import org.apache.commons.math.MathException;
+import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.FunctionEvaluationException; 
 
 /**
  * Implements <a href="http://mathworld.wolfram.com/NewtonsMethod.html">
- * Newton's Method</a> for finding zeros of real univariate functions. This
- * algorithm will find only one zero in the given interval.  The function should
- * be continuous but not necessarily smooth.
+ * Newton's Method</a> for finding zeros of real univariate functions. 
+ * <p> 
+ * The function should be continuous but not necessarily smooth.
  *
- * @version $Revision: 1.5 $ $Date: 2004/06/23 16:26:14 $
+ * @version $Revision: 1.6 $ $Date: 2004/07/17 21:19:39 $
  */
-public class NewtonSolver extends UnivariateRealSolverImpl implements Serializable {
+public class NewtonSolver extends UnivariateRealSolverImpl {
     
     /** Serializable version identifier */
     static final long serialVersionUID = 2606474895443431607L;
@@ -47,29 +46,37 @@ public class NewtonSolver extends UnivariateRealSolverImpl implements Serializab
 
     /**
      * Find a zero near the midpoint of <code>min</code> and <code>max</code>.
-     * @param min the lower bound for the interval.
-     * @param max the upper bound for the interval.
+     * 
+     * @param min the lower bound for the interval
+     * @param max the upper bound for the interval
      * @return the value where the function is zero
-     * @throws MathException if the iteration count was exceeded or the
-     *  solver detects convergence problems otherwise.
+     * @throws ConvergenceException if the maximum iteration count is exceeded 
+     * @throws FunctionEvaluationException if an error occurs evaluating the
+     * function or derivative
+     * @throws IllegalArgumentException if min is not less than max
      */
-    public double solve(double min, double max) throws MathException {
+    public double solve(double min, double max) throws ConvergenceException, 
+        FunctionEvaluationException  {
         return solve(min, max, UnivariateRealSolverUtils.midpoint(min, max));
     }
 
     /**
      * Find a zero near the value <code>startValue</code>.
+     * 
      * @param min the lower bound for the interval (ignored).
      * @param max the upper bound for the interval (ignored).
      * @param startValue the start value to use.
      * @return the value where the function is zero
-     * @throws MathException if the iteration count was exceeded or the
-     *  solver detects convergence problems otherwise.
+    * @throws ConvergenceException if the maximum iteration count is exceeded 
+     * @throws FunctionEvaluationException if an error occurs evaluating the
+     * function or derivative
+     * @throws IllegalArgumentException if startValue is not between min and max
      */
     public double solve(double min, double max, double startValue)
-        throws MathException {
+        throws ConvergenceException, FunctionEvaluationException {
         
         clearResult();
+        verifySequence(min, startValue, max);
 
         double x0 = startValue;
         double x1;
@@ -77,7 +84,6 @@ public class NewtonSolver extends UnivariateRealSolverImpl implements Serializab
         int i = 0;
         while (i < maximalIterationCount) {
             x1 = x0 - (f.value(x0) / derivative.value(x0));
-
             if (Math.abs(x1 - x0) <= absoluteAccuracy) {
                 
                 setResult(x1, i);
@@ -88,7 +94,8 @@ public class NewtonSolver extends UnivariateRealSolverImpl implements Serializab
             ++i;
         }
         
-        throw new MathException("Maximum number of iterations exceeded");
+        throw new ConvergenceException
+            ("Maximum number of iterations exceeded " + i);
     }
 
 }
