@@ -59,7 +59,10 @@ import java.io.Serializable;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 
 import org.apache.commons.math.stat.DescriptiveStatistics;
 import org.apache.commons.math.stat.StorelessDescriptiveStatisticsImpl;
@@ -89,7 +92,7 @@ import org.apache.commons.math.stat.StorelessDescriptiveStatisticsImpl;
  *    entry per line.</li>
  * </ol></p>
  *
- * @version $Revision: 1.11 $ $Date: 2003/11/19 03:28:24 $
+ * @version $Revision: 1.12 $ $Date: 2004/01/11 07:22:14 $
  */
 public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistribution {
 
@@ -128,42 +131,75 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         binStats = new ArrayList();
     }
     
-    
     public void load(String filePath) throws IOException {
-        File file = new File(filePath);
-        load(file);
+        BufferedReader in = 
+            new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));  
+        try {
+            computeStats(in);
+            in = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));  
+            fillBinStats(in);
+            loaded = true;
+        } finally {
+           if (in != null) try {in.close();} catch (Exception ex) {};
+        }
     }
     
+    public void load(URL url) throws IOException {
+        BufferedReader in = 
+            new BufferedReader(new InputStreamReader(url.openStream()));
+        try {
+            computeStats(in);
+            in = new BufferedReader(new InputStreamReader(url.openStream()));
+            fillBinStats(in);
+            loaded = true;
+        } finally {
+           if (in != null) try {in.close();} catch (Exception ex) {};
+        }
+    }
      
     public void load(File file) throws IOException {
-        // Pass the file once to get sample stats
-         BufferedReader in = null;
-         try {  
+        BufferedReader in = new BufferedReader(new FileReader(file));
+        try {
+            computeStats(in);
             in = new BufferedReader(new FileReader(file));
-            String str = null;
-            double val = 0.0;
-            sampleStats = new StorelessDescriptiveStatisticsImpl();
-            while ((str = in.readLine()) != null) {
-              val = new Double(str).doubleValue();
-              sampleStats.addValue(val);   
-            }
-            in.close();
-            in = null;
-         } finally {
-             if (in != null) try {in.close();} catch (Exception ex) {};
-         }               
+            fillBinStats(in);
+            loaded = true;
+        } finally {
+           if (in != null) try {in.close();} catch (Exception ex) {};
+        }
+    }
+    
+    /**
+     * Computes sampleStats (first pass through data file).
+     */
+    private void computeStats(BufferedReader in) throws IOException {
+        String str = null;
+        double val = 0.0;
+        sampleStats = new StorelessDescriptiveStatisticsImpl();
+        while ((str = in.readLine()) != null) {
+            val = new Double(str).doubleValue();
+            sampleStats.addValue(val);
+        }
+        in.close();
+        in = null;
+    }
+    
+    /**
+     * Fills binStats array (second pass through data file).
+     */
+    private void fillBinStats(BufferedReader in) throws IOException {
         
-         // Load array of bin upper bounds -- evenly spaced from min - max
-         double min = sampleStats.getMin();
-         double max = sampleStats.getMax();
-         double delta = (max - min)/(new Double(binCount)).doubleValue();
-         double[] binUpperBounds = new double[binCount];
-         binUpperBounds[0] = min + delta;
-         for (int i = 1; i< binCount - 1; i++) {
-             binUpperBounds[i] = binUpperBounds[i-1] + delta;
-         }
-         binUpperBounds[binCount -1] = max;
-         
+        // Load array of bin upper bounds -- evenly spaced from min - max
+        double min = sampleStats.getMin();
+        double max = sampleStats.getMax();
+        double delta = (max - min)/(new Double(binCount)).doubleValue();
+        double[] binUpperBounds = new double[binCount];
+        binUpperBounds[0] = min + delta;
+        for (int i = 1; i< binCount - 1; i++) {
+            binUpperBounds[i] = binUpperBounds[i-1] + delta;
+        }
+        binUpperBounds[binCount -1] = max;
+        
         // Initialize binStats ArrayList
         if (!binStats.isEmpty()) {
             binStats.clear();
@@ -172,49 +208,42 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
             DescriptiveStatistics stats = new StorelessDescriptiveStatisticsImpl();
             binStats.add(i,stats);
         }
-         
-        // Pass the data again, filling data in binStats Array 
-         try {
-            in = new BufferedReader(new FileReader(file));
-            String str = null;
-            double val = 0.0d;
-            while ((str = in.readLine()) != null) {
-              val = new Double(str).doubleValue();
-              
-              // Find bin and add value to binStats for the bin
-              boolean found = false;
-              int i = 0; 
-              while (!found) {
-                  if (i >= binCount) {
-                      throw new RuntimeException("bin alignment error");
-                  }
-                  if (val <= binUpperBounds[i]) {
-                      found = true;
-                      DescriptiveStatistics stats = (DescriptiveStatistics)binStats.get(i);
-                      stats.addValue(val);
-                  }
-                  i++;
-              }       
-            }
-            in.close();
-            in = null;
-         } finally {
-             if (in != null) try {in.close();} catch (Exception ex) {};
-         }               
         
-         // Assign upperBounds based on bin counts
-         upperBounds = new double[binCount];
-         upperBounds[0] = 
-            ((double)((DescriptiveStatistics)binStats.get(0)).getN())/
-                (double)sampleStats.getN();
-         for (int i = 1; i < binCount-1; i++) {
-             upperBounds[i] = upperBounds[i-1] +
-             ((double)((DescriptiveStatistics)binStats.get(i)).getN())/
-                (double)sampleStats.getN();
-         }
-         upperBounds[binCount-1] = 1.0d;   
-         
-         loaded = true;
+        // Pass the data again, filling data in binStats Array
+        String str = null;
+        double val = 0.0d;
+        while ((str = in.readLine()) != null) {
+            val = new Double(str).doubleValue();
+            
+            // Find bin and add value to binStats for the bin
+            boolean found = false;
+            int i = 0;
+            while (!found) {
+                if (i >= binCount) {
+                    throw new RuntimeException("bin alignment error");
+                }
+                if (val <= binUpperBounds[i]) {
+                    found = true;
+                    DescriptiveStatistics stats = (DescriptiveStatistics)binStats.get(i);
+                    stats.addValue(val);
+                }
+                i++;
+            }
+        }
+        in.close();
+        in = null;
+        
+        // Assign upperBounds based on bin counts
+        upperBounds = new double[binCount];
+        upperBounds[0] =
+        ((double)((DescriptiveStatistics)binStats.get(0)).getN())/
+        (double)sampleStats.getN();
+        for (int i = 1; i < binCount-1; i++) {
+            upperBounds[i] = upperBounds[i-1] +
+            ((double)((DescriptiveStatistics)binStats.get(i)).getN())/
+            (double)sampleStats.getN();
+        }
+        upperBounds[binCount-1] = 1.0d;
     }
     
     /**
