@@ -57,10 +57,11 @@ import java.util.Arrays;
 import org.apache.commons.math.stat.univariate.AbstractUnivariateStatistic;
 
 /**
- * @version $Revision: 1.4 $ $Date: 2003/07/09 20:04:12 $
+ * @version $Revision: 1.5 $ $Date: 2003/08/09 04:03:41 $
  */
 public class Percentile extends AbstractUnivariateStatistic {
 
+    /** */
     private double percentile = 0.0;
 
     /**
@@ -71,50 +72,58 @@ public class Percentile extends AbstractUnivariateStatistic {
         super();
         percentile = 50.0;
     }
-    
+
     /**
      * Constructs a Percentile with the specific percentile value.
-     * @param percentile
+     * @param p the percentile
      */
-    public Percentile(double percentile) {
-        this.percentile = percentile;
+    public Percentile(final double p) {
+        this.percentile = p;
     }
 
     /**
-     * Evaluates the double[] top the specified percentile. 
-     * This does not alter the interal percentile state of the 
+     * Evaluates the double[] top the specified percentile.
+     * This does not alter the interal percentile state of the
      * statistic.
      * @param values Is a double[] containing the values
      * @param p Is the percentile to evaluate to.
-     * @return the result of the evaluation or Double.NaN 
+     * @return the result of the evaluation or Double.NaN
      * if the array is empty
      */
-    public double evaluate(double[] values, double p) {
-        return evaluate(values, 0,values.length, p);
+    public double evaluate(final double[] values, final double p) {
+        return evaluate(values, 0, values.length, p);
     }
-    
+
     /**
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
-    public double evaluate(double[] values, int start, int length) {
+    public double evaluate(
+        final double[] values,
+        final int start,
+        final int length) {
+
         return evaluate(values, start, length, percentile);
     }
 
     /**
-     * Evaluates the double[] top the specified percentile. 
-     * This does not alter the interal percentile state of the 
+     * Evaluates the double[] top the specified percentile.
+     * This does not alter the interal percentile state of the
      * statistic.
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
      * @param length processing at this point in the array
-     * @param p Is the percentile to evaluate to.* 
-     * @return the result of the evaluation or Double.NaN 
+     * @param p Is the percentile to evaluate to.*
+     * @return the result of the evaluation or Double.NaN
      * if the array is empty
      */
-    public double evaluate(double[] values, int begin, int length, double p) {
+    public double evaluate(
+        final double[] values,
+        final int begin,
+        final int length,
+        final double p) {
 
-        test(values,begin,length);
-        
+        test(values, begin, length);
+
         if ((p > 100) || (p <= 0)) {
             throw new IllegalArgumentException("invalid percentile value");
         }
@@ -130,9 +139,9 @@ public class Percentile extends AbstractUnivariateStatistic {
         int intPos = (int) fpos;
         double dif = pos - fpos;
         double[] sorted = new double[length];
-        System.arraycopy(values, begin,sorted, 0, length);
+        System.arraycopy(values, begin, sorted, 0, length);
         Arrays.sort(sorted);
-        
+
         if (pos < 1) {
             return sorted[0];
         }
@@ -143,7 +152,7 @@ public class Percentile extends AbstractUnivariateStatistic {
         double upper = sorted[intPos];
         return lower + dif * (upper - lower);
     }
-                
+
     /**
      * The default internal state of this percentile can be set.
      * This will return that value.
@@ -158,7 +167,7 @@ public class Percentile extends AbstractUnivariateStatistic {
      * This will setthat value.
      * @param p a value between 0 <= p <= 100
      */
-    public void setPercentile(double p) {
+    public void setPercentile(final double p) {
         percentile = p;
     }
 

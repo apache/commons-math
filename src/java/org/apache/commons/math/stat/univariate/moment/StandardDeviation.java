@@ -54,32 +54,41 @@
 package org.apache.commons.math.stat.univariate.moment;
 
 /**
- * 
- * @version $Revision: 1.6 $ $Date: 2003/07/09 20:04:10 $
+ *
+ * @version $Revision: 1.7 $ $Date: 2003/08/09 04:03:40 $
  */
 public class StandardDeviation extends Variance {
 
+    /** */
     protected double std = Double.NaN;
 
+    /** */
     private double lastVar = 0.0;
-    
+
+    /**
+     * Constructs a StandardDeviation
+     */
     public StandardDeviation() {
         super();
     }
 
-    public StandardDeviation(SecondMoment m2) {
+    /**
+     * Constructs a StandardDeviation with an external moment
+     * @param m2 the external moment
+     */
+    public StandardDeviation(final SecondMoment m2) {
         super(m2);
     }
 
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
-    public void increment(double d) {
+    public void increment(final double d) {
         super.increment(d);
     }
 
     /**
-     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getResult()
      */
     public double getResult() {
         if (lastVar != super.getResult()) {
@@ -104,15 +113,19 @@ public class StandardDeviation extends Variance {
     }
 
     /**
-     * Returns the Standard Deviation on an array of values.  
+     * Returns the Standard Deviation on an array of values.
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
      * @param length processing at this point in the array
-     * @return the result, Double.NaN if no values for an empty array 
-     * or 0.0 for a single value set.  
+     * @return the result, Double.NaN if no values for an empty array
+     * or 0.0 for a single value set.
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
-    public double evaluate(double[] values, int begin, int length) {
+    public double evaluate(
+        final double[] values,
+        final int begin,
+        final int length) {
+
         double var = super.evaluate(values, begin, length);
 
         if (Double.isNaN(var)) {

@@ -53,26 +53,38 @@
  */
 package org.apache.commons.math.stat.univariate.moment;
 
-import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
+import org
+    .apache
+    .commons
+    .math
+    .stat
+    .univariate
+    .AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math.stat.univariate.summary.Sum;
 
 /**
  * Returns the <a href="http://www.xycoon.com/arithmetic_mean.htm">
  * arithmetic mean </a> of the available values.
- * @version $Revision: 1.7 $ $Date: 2003/07/15 03:36:36 $
+ * @version $Revision: 1.8 $ $Date: 2003/08/09 04:03:40 $
  */
 public class Mean extends AbstractStorelessUnivariateStatistic {
 
     /** first moment of values that have been added */
     protected FirstMoment moment = null;
 
+    /** */
     protected boolean incMoment = true;
 
+    /** */
     public Mean() {
         moment = new FirstMoment();
     }
 
-    public Mean(FirstMoment m1) {
+    /**
+     * Constructs a Mean with an External Moment.
+     * @param m1 the moment
+     */
+    public Mean(final FirstMoment m1) {
         this.moment = m1;
         incMoment = false;
     }
@@ -80,7 +92,7 @@ public class Mean extends AbstractStorelessUnivariateStatistic {
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
-    public void increment(double d) {
+    public void increment(final double d) {
         if (incMoment) {
             moment.increment(d);
         }
@@ -96,15 +108,17 @@ public class Mean extends AbstractStorelessUnivariateStatistic {
     }
 
     /**
-     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getResult()
      */
     public double getResult() {
         return moment.m1;
     }
 
     /*UnvariateStatistic Approach */
-    Sum sum = new Sum();
-    
+
+    /** */
+    protected Sum sum = new Sum();
+
     /**
      * Returns the <a href="http://www.xycoon.com/arithmetic_mean.htm">
      * arithmetic mean </a> of a double[] of the available values.
@@ -114,7 +128,10 @@ public class Mean extends AbstractStorelessUnivariateStatistic {
      * @return the mean of the values or Double.NaN if the array is empty
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
-    public double evaluate(double[] values, int begin, int length) {
+    public double evaluate(
+        final double[] values,
+        final int begin,
+        final int length) {
         if (test(values, begin, length)) {
             return sum.evaluate(values) / ((double) length);
         }

@@ -62,7 +62,7 @@ import org
     .AbstractStorelessUnivariateStatistic;
 
 /**
- * @version $Revision: 1.6 $ $Date: 2003/07/09 20:04:13 $
+ * @version $Revision: 1.7 $ $Date: 2003/08/09 04:03:41 $
  */
 public class SumOfLogs extends AbstractStorelessUnivariateStatistic {
 
@@ -71,11 +71,13 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic {
      */
     private double value = Double.NaN;
 
+    /** */
     private boolean init = true;
+
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
-    public void increment(double d) {
+    public void increment(final double d) {
         if (init) {
             value = Math.log(d);
             init = false;
@@ -85,7 +87,7 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic {
     }
 
     /**
-     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getResult()
      */
     public double getResult() {
         return value;
@@ -98,7 +100,7 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic {
         value = Double.NaN;
         init = true;
     }
-    
+
     /**
      * Returns the sum of the natural logs for this collection of values
      * @param values Is a double[] containing the values
@@ -107,7 +109,10 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic {
      * @return the sumLog value or Double.NaN if the array is empty
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
-    public double evaluate(double[] values, int begin, int length) {
+    public double evaluate(
+        final double[] values,
+        final int begin,
+        final int length) {
         double sumLog = Double.NaN;
         if (test(values, begin, length)) {
             sumLog = 0.0;

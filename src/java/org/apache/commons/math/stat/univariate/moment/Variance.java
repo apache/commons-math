@@ -57,39 +57,61 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
 
 /**
  *
- * @version $Revision: 1.7 $ $Date: 2003/07/15 03:36:36 $
+ * @version $Revision: 1.8 $ $Date: 2003/08/09 04:03:40 $
  */
 public class Variance extends AbstractStorelessUnivariateStatistic {
 
+    /** SecondMoment is used in incremental calculation of Variance*/
     protected SecondMoment moment = null;
 
+    /**
+     * Boolean test to determine if this Variance should also increment
+     * the second moment, this evaluates to false when this Variance is
+     * constructed with an external SecondMoment as a parameter.
+     */
     protected boolean incMoment = true;
 
+    /**
+     * This property maintains the latest calculated
+     * variance for efficiency when getResult() is called
+     * many times between increments.
+     */
     protected double variance = Double.NaN;
 
+    /**
+     * Maintains the current count of inrementations that have occured.
+     * If the external SecondMoment is used, the this is updated from
+     * that moments counter
+     */
     protected int n = 0;
-    
+
+    /**
+     * Constructs a Variance.
+     */
     public Variance() {
         moment = new SecondMoment();
     }
 
-    public Variance(SecondMoment m2) {
+    /**
+     * Constructs a Variance based on an externalized second moment.
+     * @param m2 the SecondMoment (Thrid or Fourth moments work
+     * here as well.)
+     */
+    public Variance(final SecondMoment m2) {
         incMoment = false;
         this.moment = m2;
     }
     /**
-     * @see org.apache.commons.math.stat.univariate.
-     * StorelessUnivariateStatistic#increment(double)
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
-    public void increment(double d) {
+    public void increment(final double d) {
         if (incMoment) {
             moment.increment(d);
         }
     }
 
     /**
-     * @see org.apache.commons.math.stat.univariate.
-     * StorelessUnivariateStatistic#getValue()
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getResult()
      */
     public double getResult() {
         if (n < moment.n) {
@@ -98,7 +120,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic {
             } else if (moment.n <= 1) {
                 variance = 0.0;
             } else {
-                variance = moment.m2 / (moment.n0 - 1); 
+                variance = moment.m2 / (moment.n0 - 1);
             }
             n = moment.n;
         }
@@ -107,8 +129,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic {
     }
 
     /**
-     * @see org.apache.commons.math.stat.univariate.
-     * StorelessUnivariateStatistic#clear()
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
      */
     public void clear() {
         if (incMoment) {
@@ -118,28 +139,30 @@ public class Variance extends AbstractStorelessUnivariateStatistic {
         n = 0;
     }
 
-    /*UnvariateStatistic Approach */
-    Mean mean = new Mean();
+    /** Mean to be used in UnvariateStatistic evaluation approach. */
+    protected Mean mean = new Mean();
 
     /**
      * Returns the variance of the available values. This uses a corrected
-     * two pass algorithm of the following 
+     * two pass algorithm of the following
      * <a href="http://lib-www.lanl.gov/numerical/bookcpdf/c14-1.pdf">
      * corrected two pass formula (14.1.8)</a>, and also referenced in:
      * <p>
      * "Algorithms for Computing the Sample Variance: Analysis and
-     * Recommendations", Chan, T.F., Golub, G.H., and LeVeque, R.J. 
+     * Recommendations", Chan, T.F., Golub, G.H., and LeVeque, R.J.
      * 1983, American Statistician, vol. 37, pp. 242?247.
      * </p>
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
      * @param length processing at this point in the array
-     * @return the result, Double.NaN if no values for an empty array 
-     * or 0.0 for a single value set.  
-     * @see org.apache.commons.math.stat.univariate.
-     * UnivariateStatistic#evaluate(double[], int, int)
+     * @return the result, Double.NaN if no values for an empty array
+     * or 0.0 for a single value set.
+     * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
-    public double evaluate(double[] values, int begin, int length) {
+    public double evaluate(
+        final double[] values,
+        final int begin,
+        final int length) {
 
         double var = Double.NaN;
 

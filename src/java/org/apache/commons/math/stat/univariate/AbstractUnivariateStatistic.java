@@ -56,8 +56,8 @@ package org.apache.commons.math.stat.univariate;
 /**
  * Abstract Implementation for UnivariateStatistics.
  * Provides the ability to extend polymophically so that
- * indiviual statistics do not need to implement these methods. 
- * @version $Revision: 1.5 $ $Date: 2003/07/15 03:37:10 $
+ * indiviual statistics do not need to implement these methods.
+ * @version $Revision: 1.6 $ $Date: 2003/08/09 04:03:41 $
  */
 public abstract class AbstractUnivariateStatistic
     implements UnivariateStatistic {
@@ -65,36 +65,43 @@ public abstract class AbstractUnivariateStatistic
     /**
      * This implementation provides a simple wrapper around the double[]
      * and passes the request onto the evaluate(DoubleArray da) method.
-     * 
-     * @see org.apache.commons.math.stat.univariate.
-     * UnivariateStatistic#evaluate(double[])
+     * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[])
      */
-    public double evaluate(double[] values) {
+    public double evaluate(final double[] values) {
         return evaluate(values, 0, values.length);
     }
 
     /**
      * Subclasses of AbstractUnivariateStatistc need to implement this method.
-     * @see org.apache.commons.math.stat.univariate.
-     * UnivariateStatistic#evaluate(double[], int, int)
+     * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
-    public abstract double evaluate(double[] values, int begin, int length);
+    public abstract double evaluate(
+        final double[] values,
+        final int begin,
+        final int length);
 
     /**
-     * this protected test method used by all methods to verify the content 
+     * this protected test method used by all methods to verify the content
      * of the array and indicies are correct.
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
      * @param length processing at this point in the array
+     * @return this is used to determine if the array is of 0 length or not,
+     * it is used by an individual statistic to determine if continuation
+     * of a statistical calculation should continue or return NaN.
      */
-    protected boolean test(double[] values, int begin, int length) {
+    protected boolean test(
+        final double[] values,
+        final int begin,
+        final int length) {
 
         if (length > values.length) {
             throw new IllegalArgumentException("length > values.length");
         }
 
         if (begin + length > values.length) {
-            throw new IllegalArgumentException("begin + length > values.length");
+            throw new IllegalArgumentException(
+                "begin + length > values.length");
         }
 
         if (values == null) {

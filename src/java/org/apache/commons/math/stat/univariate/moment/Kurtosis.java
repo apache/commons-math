@@ -62,23 +62,34 @@ import org
     .AbstractStorelessUnivariateStatistic;
 
 /**
- * @version $Revision: 1.6 $ $Date: 2003/07/09 20:04:10 $
+ * @version $Revision: 1.7 $ $Date: 2003/08/09 04:03:40 $
  */
 public class Kurtosis extends AbstractStorelessUnivariateStatistic {
 
+    /** */
     protected FourthMoment moment = null;
 
+    /** */
     protected boolean incMoment = true;
 
+    /** */
     private double kurtosis = Double.NaN;
 
+    /** */
     private int n = 0;
-    
+
+    /**
+     * Construct a Kurtosis
+     */
     public Kurtosis() {
         moment = new FourthMoment();
     }
 
-    public Kurtosis(FourthMoment m4) {
+    /**
+     * Construct a Kurtosis with an external moment
+     * @param m4 external Moment
+     */
+    public Kurtosis(final FourthMoment m4) {
         incMoment = false;
         this.moment = m4;
     }
@@ -86,14 +97,14 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic {
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
-    public void increment(double d) {
+    public void increment(final double d) {
         if (incMoment) {
             moment.increment(d);
         }
     }
 
     /**
-     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getResult()
      */
     public double getResult() {
         if (n < moment.n) {
@@ -118,7 +129,7 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic {
             }
             n = moment.n;
         }
-        
+
         return kurtosis;
     }
 
@@ -135,26 +146,29 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic {
 
     /*UnvariateStatistic Approach */
 
+    /** */
     Mean mean = new Mean();
 
     /**
-    * This algorithm uses a corrected two pass algorithm of the following 
+    * This algorithm uses a corrected two pass algorithm of the following
      * <a href="http://lib-www.lanl.gov/numerical/bookcpdf/c14-1.pdf">
      * corrected two pass formula (14.1.8)</a>, and also referenced in:
      * <p>
      * "Algorithms for Computing the Sample Variance: Analysis and
-     * Recommendations", Chan, T.F., Golub, G.H., and LeVeque, R.J. 
+     * Recommendations", Chan, T.F., Golub, G.H., and LeVeque, R.J.
      * 1983, American Statistician, vol. 37, pp. 242?247.
      * </p>
-    * Returns the kurtosis for this collection of values. Kurtosis is a 
+    * Returns the kurtosis for this collection of values. Kurtosis is a
     * measure of the "peakedness" of a distribution.
     * @param values Is a double[] containing the values
     * @param begin processing at this point in the array
     * @param length processing at this point in the array
     * @return the kurtosis of the values or Double.NaN if the array is empty
     */
-    public double evaluate(double[] values, int begin, int length) {
-        ;
+    public double evaluate(
+        final double[] values,
+        final int begin,
+        final int length) {
 
         // Initialize the kurtosis
         double kurt = Double.NaN;
@@ -167,8 +181,9 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic {
                 // Get the mean and the standard deviation
                 double m = mean.evaluate(values, begin, length);
 
-                // Calc the std, this is implemented here instead of using the 
-                // standardDeviation method eliminate a duplicate pass to get the mean
+                // Calc the std, this is implemented here instead
+                // of using the standardDeviation method eliminate
+                // a duplicate pass to get the mean
                 double accum = 0.0;
                 double accum2 = 0.0;
                 for (int i = begin; i < begin + length; i++) {
@@ -181,7 +196,7 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic {
                         (accum - (Math.pow(accum2, 2) / ((double) length)))
                             / (double) (length - 1));
 
-                // Sum the ^4 of the distance from the mean divided by the 
+                // Sum the ^4 of the distance from the mean divided by the
                 // standard deviation
                 double accum3 = 0.0;
                 for (int i = begin; i < begin + length; i++) {
@@ -189,12 +204,12 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic {
                 }
 
                 // Get N
-                double n = length;
+                double n0 = length;
 
                 double coefficientOne =
-                    (n * (n + 1)) / ((n - 1) * (n - 2) * (n - 3));
+                    (n0 * (n0 + 1)) / ((n0 - 1) * (n0 - 2) * (n0 - 3));
                 double termTwo =
-                    ((3 * Math.pow(n - 1, 2.0)) / ((n - 2) * (n - 3)));
+                    ((3 * Math.pow(n0 - 1, 2.0)) / ((n0 - 2) * (n0 - 3)));
 
                 // Calculate kurtosis
                 kurt = (coefficientOne * accum3) - termTwo;

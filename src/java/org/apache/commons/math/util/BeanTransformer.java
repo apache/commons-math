@@ -58,7 +58,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 
 /**
  * Uses PropertyUtils to map a Bean getter to a double value.
- * @version $Revision: 1.3 $ $Date: 2003/07/09 20:04:12 $
+ * @version $Revision: 1.4 $ $Date: 2003/08/09 04:03:41 $
  */
 public class BeanTransformer implements NumberTransformer {
 
@@ -68,7 +68,7 @@ public class BeanTransformer implements NumberTransformer {
     private String propertyName;
 
     /**
-     * Create a BeanTransformer 
+     * Create a BeanTransformer
      */
     public BeanTransformer() {
         super();
@@ -76,16 +76,16 @@ public class BeanTransformer implements NumberTransformer {
 
     /**
      * Create a BeanTransformer with a specific PropertyName.
-     * @param propertyName The property.
+     * @param property The property.
      */
-    public BeanTransformer(String propertyName) {
-        this.propertyName = propertyName;
+    public BeanTransformer(final String property) {
+        this.propertyName = property;
     }
 
     /**
      * @see org.apache.commons.math.util.NumberTransformer#transform(java.lang.Object)
      */
-    public double transform(Object o) {
+    public double transform(final Object o) {
         double d = Double.NaN;
         try {
             d =
@@ -113,7 +113,7 @@ public class BeanTransformer implements NumberTransformer {
      * Set the propertyString
      * @param string The string to set the property to.
      */
-    public void setPropertyName(String string) {
+    public void setPropertyName(final String string) {
         propertyName = string;
     }
 

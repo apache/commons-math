@@ -59,21 +59,23 @@ package org.apache.commons.math.stat.univariate;
  * Provides the ability to extend polymophically so that
  * indiviual statistics do not need to implement these methods unless
  * there are better algorithms for handling the calculation.
- * @version $Revision: 1.6 $ $Date: 2003/07/30 21:58:11 $
+ * @version $Revision: 1.7 $ $Date: 2003/08/09 04:03:41 $
  */
 public abstract class AbstractStorelessUnivariateStatistic
     extends AbstractUnivariateStatistic
     implements StorelessUnivariateStatistic {
 
     /**
-     * This implements the AbstractUnivariateStatistic impl to funnel 
+     * This implements the AbstractUnivariateStatistic impl to funnel
      * calculation off to the instantanious increment method. In most cases of
-     * StorelessUnivariateStatistic this is never really used because more 
+     * StorelessUnivariateStatistic this is never really used because more
      * efficient algorithms are available for that statistic.
-     * @see org.apache.commons.math.stat.univariate.
-     * UnivariateStatistic#evaluate(double[], int, int)
+     * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
-    public double evaluate(double[] values, int begin, int length) {
+    public double evaluate(
+        final double[] values,
+        final int begin,
+        final int length) {
         if (this.test(values, begin, length)) {
             this.clear();
             int l = begin + length;
@@ -83,5 +85,20 @@ public abstract class AbstractStorelessUnivariateStatistic
         }
         return getResult();
     }
+
+    /**
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
+     */
+    public abstract void clear();
+
+    /**
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getResult()
+     */
+    public abstract double getResult();
+
+    /**
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
+     */
+    public abstract void increment(final double d);
 
 }

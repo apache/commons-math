@@ -55,13 +55,12 @@ package org.apache.commons.math;
 
 /**
  * A generic exception indicating problems in the math package.
- *  
- * @version $Revision: 1.4 $ $Date: 2003/07/09 20:02:44 $
+ * @version $Revision: 1.5 $ $Date: 2003/08/09 04:03:41 $
  */
 public class MathException extends Exception {
 
     /**
-     * 
+     * Constructs a MathException
      */
     public MathException() {
         super();
@@ -70,7 +69,7 @@ public class MathException extends Exception {
     /**
      * @param message message describing the problem
      */
-    public MathException(String message) {
+    public MathException(final String message) {
         super(message);
     }
 
@@ -78,14 +77,14 @@ public class MathException extends Exception {
      * @param message message describing the problem
      * @param throwable caught exception causing this problem
      */
-    public MathException(String message, Throwable throwable) {
+    public MathException(final String message, final Throwable throwable) {
         super(message, throwable);
     }
 
     /**
      * @param throwable caught exception causing this problem
      */
-    public MathException(Throwable throwable) {
+    public MathException(final Throwable throwable) {
         super(throwable);
     }
 

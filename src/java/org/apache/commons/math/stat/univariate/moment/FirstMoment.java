@@ -57,12 +57,12 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
 
 /**
  * FirstMoment.java
- * 
- * The FirstMoment (arithmentic mean) is calculated using the following 
+ *
+ * The FirstMoment (arithmentic mean) is calculated using the following
  * <a href="http://www.spss.com/tech/stat/Algorithms/11.5/descriptives.pdf">
  * recursive strategy
  * </a>. Both incremental and evaluation strategies currently use this approach.
- * @version $Revision: 1.5 $ $Date: 2003/07/15 03:36:36 $
+ * @version $Revision: 1.6 $ $Date: 2003/08/09 04:03:40 $
  */
 public class FirstMoment extends AbstractStorelessUnivariateStatistic {
 
@@ -72,29 +72,28 @@ public class FirstMoment extends AbstractStorelessUnivariateStatistic {
     /** first moment of values that have been added */
     protected double m1 = Double.NaN;
 
-    /** 
+    /**
      * temporary internal state made available for
-     * higher order moments 
+     * higher order moments
      */
     protected double dev = 0.0;
 
-    /** 
+    /**
      * temporary internal state made available for
-     * higher order moments 
+     * higher order moments
      */
     protected double v = 0.0;
 
-    /** 
+    /**
      * temporary internal state made available for
-     * higher order moments 
+     * higher order moments
      */
     protected double n0 = 0.0;
 
     /**
-     * @see org.apache.commons.math.stat.univariate.
-     * StorelessUnivariateStatistic#increment(double)
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
-    public void increment(double d) {
+    public void increment(final double d) {
         if (n < 1) {
             m1 = 0.0;
         }
@@ -108,8 +107,7 @@ public class FirstMoment extends AbstractStorelessUnivariateStatistic {
     }
 
     /**
-     * @see org.apache.commons.math.stat.univariate.
-     * StorelessUnivariateStatistic#clear()
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
      */
     public void clear() {
         m1 = Double.NaN;
@@ -120,8 +118,7 @@ public class FirstMoment extends AbstractStorelessUnivariateStatistic {
     }
 
     /**
-     * @see org.apache.commons.math.stat.univariate.
-     * StorelessUnivariateStatistic#getValue()
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getResult()
      */
     public double getResult() {
         return m1;

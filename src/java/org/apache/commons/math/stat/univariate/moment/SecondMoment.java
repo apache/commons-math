@@ -54,11 +54,11 @@
 package org.apache.commons.math.stat.univariate.moment;
 
 /**
- * The SecondMoment is calculated using the following 
+ * The SecondMoment is calculated using the following
  * <a href="http://www.spss.com/tech/stat/Algorithms/11.5/descriptives.pdf">
  * recursive strategy
  * </a>. Both incremental and evaluation strategies currently use this approach.
- * @version $Revision: 1.6 $ $Date: 2003/07/09 20:04:10 $
+ * @version $Revision: 1.7 $ $Date: 2003/08/09 04:03:40 $
  */
 public class SecondMoment extends FirstMoment {
 
@@ -67,20 +67,20 @@ public class SecondMoment extends FirstMoment {
 
     /** temporary internal state made availabel for higher order moments */
     protected double n1 = 0.0;
-    
+
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
-    public void increment(double d) {
+    public void increment(final double d) {
         if (n < 1) {
             m1 = m2 = 0.0;
         }
-        
+
         /* increment m1 and _n0, _dev,  _v) */
         super.increment(d);
 
         n1 = n0 - 1;
-        
+
         /* increment and return m2 */
         m2 += n1 * dev * v;
 
@@ -96,7 +96,7 @@ public class SecondMoment extends FirstMoment {
     }
 
     /**
-     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getResult()
      */
     public double getResult() {
         return m2;

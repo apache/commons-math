@@ -57,16 +57,22 @@ package org.apache.commons.math.stat;
  * StatUtils provides easy static implementations of common double[] based
  * statistical methods. These return a single result value or in some cases, as
  * identified in the javadoc for each method, Double.NaN.
- * @version $Revision: 1.14 $ $Date: 2003/07/09 21:45:23 $
+ * @version $Revision: 1.15 $ $Date: 2003/08/09 04:03:41 $
  */
-public class StatUtils {
+public final class StatUtils {
+
+    /**
+     * Private Constructor
+     */
+    private StatUtils() {
+    }
 
     /**
      * The sum of the values that have been added to Univariate.
      * @param values Is a double[] containing the values
      * @return the sum of the values or Double.NaN if the array is empty
      */
-    public static double sum(double[] values) {
+    public static double sum(final double[] values) {
         return sum(values, 0, values.length);
     }
 
@@ -77,7 +83,10 @@ public class StatUtils {
      * @param length processing at this point in the array
      * @return the sum of the values or Double.NaN if the array is empty
      */
-    public static double sum(double[] values, int begin, int length) {
+    public static double sum(
+        final double[] values,
+        final int begin,
+        final int length) {
         testInput(values, begin, length);
         double accum = 0.0;
         for (int i = begin; i < begin + length; i++) {
@@ -91,7 +100,7 @@ public class StatUtils {
      * @param values Is a double[] containing the values
      * @return the sum of the squared values or Double.NaN if the array is empty
      */
-    public static double sumSq(double[] values) {
+    public static double sumSq(final double[] values) {
         return sumSq(values, 0, values.length);
     }
 
@@ -102,7 +111,10 @@ public class StatUtils {
      * @param length processing at this point in the array
      * @return the sum of the squared values or Double.NaN if the array is empty
      */
-    public static double sumSq(double[] values, int begin, int length) {
+    public static double sumSq(
+        final double[] values,
+        final int begin,
+        final int length) {
         testInput(values, begin, length);
         double accum = 0.0;
         for (int i = begin; i < begin + length; i++) {
@@ -116,7 +128,7 @@ public class StatUtils {
      * @param values Is a double[] containing the values
      * @return the product values or Double.NaN if the array is empty
      */
-    public static double product(double[] values) {
+    public static double product(final double[] values) {
         return product(values, 0, values.length);
     }
 
@@ -127,7 +139,10 @@ public class StatUtils {
      * @param length processing at this point in the array
      * @return the product values or Double.NaN if the array is empty
      */
-    public static double product(double[] values, int begin, int length) {
+    public static double product(
+        final double[] values,
+        final int begin,
+        final int length) {
         testInput(values, begin, length);
         double product = 1.0;
         for (int i = begin; i < begin + length; i++) {
@@ -141,7 +156,7 @@ public class StatUtils {
      * @param values Is a double[] containing the values
      * @return the sumLog value or Double.NaN if the array is empty
      */
-    public static double sumLog(double[] values) {
+    public static double sumLog(final double[] values) {
         return sumLog(values, 0, values.length);
     }
 
@@ -152,7 +167,10 @@ public class StatUtils {
      * @param length processing at this point in the array
      * @return the sumLog value or Double.NaN if the array is empty
      */
-    public static double sumLog(double[] values, int begin, int length) {
+    public static double sumLog(
+        final double[] values,
+        final int begin,
+        final int length) {
         testInput(values, begin, length);
         double sumLog = 0.0;
         for (int i = begin; i < begin + length; i++) {
@@ -163,60 +181,66 @@ public class StatUtils {
 
     /**
      * Returns the <a href=http://www.xycoon.com/arithmetic_mean.htm>
-     * arithmetic mean </a> of the available values 
+     * arithmetic mean </a> of the available values
      * @param values Is a double[] containing the values
      * @return the mean of the values or Double.NaN if the array is empty
      */
-    public static double mean(double[] values) {
+    public static double mean(final double[] values) {
         return sum(values) / (double) values.length;
     }
 
     /**
       * Returns the <a href=http://www.xycoon.com/arithmetic_mean.htm>
-      * arithmetic mean </a> of the available values 
+      * arithmetic mean </a> of the available values
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
      * @param length processing at this point in the array
       * @return the mean of the values or Double.NaN if the array is empty
       */
-    public static double mean(double[] values, int begin, int length) {
+    public static double mean(
+        final double[] values,
+        final int begin,
+        final int length) {
         testInput(values, begin, length);
         return sum(values, begin, length) / ((double) length);
     }
 
     /**
      * Returns the variance of the available values. This uses a corrected
-     * two pass algorithm of the following 
+     * two pass algorithm of the following
      * <a href="http://lib-www.lanl.gov/numerical/bookcpdf/c14-1.pdf">
      * corrected two pass formula (14.1.8)</a>, and also referenced in:<p/>
      * "Algorithms for Computing the Sample Variance: Analysis and
-     * Recommendations", Chan, T.F., Golub, G.H., and LeVeque, R.J. 
+     * Recommendations", Chan, T.F., Golub, G.H., and LeVeque, R.J.
      * 1983, American Statistician, vol. 37, pp. 242?247.
-     * 
+     *
      * @param values Is a double[] containing the values
-     * @return the result, Double.NaN if no values for an empty array 
-     * or 0.0 for a single value set.  
+     * @return the result, Double.NaN if no values for an empty array
+     * or 0.0 for a single value set.
      */
-    public static double variance(double[] values) {
+    public static double variance(final double[] values) {
         return variance(values, 0, values.length);
     }
 
     /**
      * Returns the variance of the available values. This uses a corrected
-     * two pass algorithm of the following 
+     * two pass algorithm of the following
      * <a href="http://lib-www.lanl.gov/numerical/bookcpdf/c14-1.pdf">
      * corrected two pass formula (14.1.8)</a>, and also referenced in:<p/>
      * "Algorithms for Computing the Sample Variance: Analysis and
-     * Recommendations", Chan, T.F., Golub, G.H., and LeVeque, R.J. 
+     * Recommendations", Chan, T.F., Golub, G.H., and LeVeque, R.J.
      * 1983, American Statistician, vol. 37, pp. 242?247.
-     * 
+     *
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
      * @param length processing at this point in the array
-     * @return the result, Double.NaN if no values for an empty array 
-     * or 0.0 for a single value set.  
+     * @return the result, Double.NaN if no values for an empty array
+     * or 0.0 for a single value set.
      */
-    public static double variance(double[] values, int begin, int length) {
+    public static double variance(
+        final double[] values,
+        final int begin,
+        final int length) {
         testInput(values, begin, length);
 
         double variance = Double.NaN;
@@ -231,7 +255,7 @@ public class StatUtils {
                 accum2 += (values[i] - mean);
             }
             variance =
-                (accum - (Math.pow(accum2, 2) / ((double)length)))
+                (accum - (Math.pow(accum2, 2) / ((double) length)))
                     / (double) (length - 1);
         }
         return variance;
@@ -242,7 +266,7 @@ public class StatUtils {
      * @param values Is a double[] containing the values
      * @return the maximum of the values or Double.NaN if the array is empty
      */
-    public static double max(double[] values) {
+    public static double max(final double[] values) {
         return max(values, 0, values.length);
     }
 
@@ -253,14 +277,19 @@ public class StatUtils {
      * @param length processing at this point in the array
      * @return the maximum of the values or Double.NaN if the array is empty
      */
-    public static double max(double[] values, int begin, int length) {
+    public static double max(
+        final double[] values,
+        final int begin,
+        final int length) {
         testInput(values, begin, length);
         double max = Double.NaN;
         for (int i = begin; i < begin + length; i++) {
             if (i == 0) {
                 max = values[i];
             } else {
-                max = (max > values[i]) ? max : values[i];
+                if (max < values[i]) {
+                    max = values[i];
+                }
             }
         }
         return max;
@@ -271,7 +300,7 @@ public class StatUtils {
      * @param values Is a double[] containing the values
      * @return the minimum of the values or Double.NaN if the array is empty
      */
-    public static double min(double[] values) {
+    public static double min(final double[] values) {
         return min(values, 0, values.length);
     }
 
@@ -282,7 +311,11 @@ public class StatUtils {
      * @param length processing at this point in the array
      * @return the minimum of the values or Double.NaN if the array is empty
      */
-    public static double min(double[] values, int begin, int length) {
+    public static double min(
+        final double[] values,
+        final int begin,
+        final int length) {
+
         testInput(values, begin, length);
 
         double min = Double.NaN;
@@ -290,29 +323,37 @@ public class StatUtils {
             if (i == 0) {
                 min = values[i];
             } else {
-                min = (min < values[i]) ? min : values[i];
+                if (min > values[i]) {
+                    min = values[i];
+                }
             }
         }
         return min;
     }
 
     /**
-     * Private testInput method used by all methods to verify the content 
+     * Private testInput method used by all methods to verify the content
      * of the array and indicies are correct.
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
      * @param length processing at this point in the array
      */
-    private static void testInput(double[] values, int begin, int length) {
+    private static void testInput(
+        final double[] values,
+        final int begin,
+        final int length) {
 
-        if (length > values.length)
+        if (length > values.length) {
             throw new IllegalArgumentException("length > values.length");
+        }
 
-        if (begin + length > values.length)
-            throw new IllegalArgumentException("begin + length > values.length");
+        if (begin + length > values.length) {
+            throw new IllegalArgumentException(
+               "begin + length > values.length");
+        }
 
-        if (values == null)
+        if (values == null) {
             throw new IllegalArgumentException("input value array is null");
-
+        }
     }
 }

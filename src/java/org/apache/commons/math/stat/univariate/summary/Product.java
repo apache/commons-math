@@ -62,7 +62,7 @@ import org
     .AbstractStorelessUnivariateStatistic;
 
 /**
- * @version $Revision: 1.6 $ $Date: 2003/07/09 20:04:13 $
+ * @version $Revision: 1.7 $ $Date: 2003/08/09 04:03:41 $
  */
 public class Product extends AbstractStorelessUnivariateStatistic {
 
@@ -74,7 +74,7 @@ public class Product extends AbstractStorelessUnivariateStatistic {
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
-    public void increment(double d) {
+    public void increment(final double d) {
         if (Double.isNaN(value)) {
             value = d;
         } else {
@@ -83,7 +83,7 @@ public class Product extends AbstractStorelessUnivariateStatistic {
     }
 
     /**
-     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getResult()
      */
     public double getResult() {
         return value;
@@ -104,7 +104,10 @@ public class Product extends AbstractStorelessUnivariateStatistic {
      * @return the product values or Double.NaN if the array is empty
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
-    public double evaluate(double[] values, int begin, int length) {
+    public double evaluate(
+        final double[] values,
+        final int begin,
+        final int length) {
         double product = Double.NaN;
         if (test(values, begin, length)) {
             product = 1.0;

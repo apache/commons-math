@@ -54,40 +54,40 @@
 package org.apache.commons.math.stat.univariate.moment;
 
 /**
- * The ThirdMoment (arithmentic mean) is calculated using the following 
+ * The ThirdMoment (arithmentic mean) is calculated using the following
  * <a href="http://www.spss.com/tech/stat/Algorithms/11.5/descriptives.pdf">
  * recursive strategy
  * </a>. Both incremental and evaluation strategies currently use this approach.
- * @version $Revision: 1.6 $ $Date: 2003/07/09 20:04:10 $
+ * @version $Revision: 1.7 $ $Date: 2003/08/09 04:03:40 $
  */
-public class ThirdMoment extends SecondMoment{
+public class ThirdMoment extends SecondMoment {
 
     /** third moment of values that have been added */
     protected double m3 = Double.NaN;
 
     /** temporary internal state made availabel for higher order moments */
     protected double v2 = 0.0;
-    
+
     /** temporary internal state made availabel for higher order moments */
     protected double n2 = 0.0;
-            
+
     /** temporary internal state made availabel for higher order moments */
     protected double prevM2 = 0.0;
-                  
+
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
-    public void increment(double d) {
+    public void increment(final double d) {
         if (n < 1) {
             m3 = m2 = m1 = 0.0;
         }
-        
+
         /* retain a reference to the last m2*/
         prevM2 = m2;
-        
+
         /* increment m1 and m2 (and _n0, _n1, _v) */
         super.increment(d);
-        
+
         v2 = v * v;
         n2 = (double) (n - 2);
 
@@ -96,7 +96,7 @@ public class ThirdMoment extends SecondMoment{
     }
 
     /**
-     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getResult()
      */
     public double getResult() {
         return m3;

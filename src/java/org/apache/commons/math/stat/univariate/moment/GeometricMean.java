@@ -55,28 +55,32 @@ package org.apache.commons.math.stat.univariate.moment;
 
 import org.apache.commons.math.stat.univariate.summary.SumOfLogs;
 
-/** 
+/**
  * Returns the <a href="http://www.xycoon.com/geometric_mean.htm">
  * geometric mean </a> of the available values
- * @version $Revision: 1.8 $ $Date: 2003/07/09 20:04:10 $
+ * @version $Revision: 1.9 $ $Date: 2003/08/09 04:03:40 $
  */
 public class GeometricMean extends SumOfLogs {
 
+    /** */
     protected int n = 0;
 
+    /** */
     private double geoMean = Double.NaN;
-    
+
+    /** */
     private double lastSum = 0.0;
+
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
-    public void increment(double d) {
+    public void increment(final double d) {
         n++;
         super.increment(d);
     }
 
     /**
-     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getResult()
      */
     public double getResult() {
         if (lastSum != super.getResult() || n == 1) {
@@ -105,7 +109,10 @@ public class GeometricMean extends SumOfLogs {
      * any of the values are &lt;= 0.
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
-    public double evaluate(double[] values, int begin, int length) {
+    public double evaluate(
+        final double[] values,
+        final int begin,
+        final int length) {
         return Math.exp(
             super.evaluate(values, begin, length) / (double) length);
     }

@@ -62,16 +62,17 @@ import org
     .AbstractStorelessUnivariateStatistic;
 
 /**
- * @version $Revision: 1.6 $ $Date: 2003/07/09 20:04:12 $
+ * @version $Revision: 1.7 $ $Date: 2003/08/09 04:03:41 $
  */
 public class Max extends AbstractStorelessUnivariateStatistic {
 
+    /** */
     private double value = Double.NaN;
 
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
-    public void increment(double d) {
+    public void increment(final double d) {
         value = Double.isNaN(value) ? d : Math.max(value, d);
     }
 
@@ -83,16 +84,19 @@ public class Max extends AbstractStorelessUnivariateStatistic {
     }
 
     /**
-     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getResult()
      */
     public double getResult() {
         return value;
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
-    public double evaluate(double[] values, int begin, int length) {
+    public double evaluate(
+        final double[] values,
+        final int begin,
+        final int length) {
         double max = Double.NaN;
         if (test(values, begin, length)) {
             max = values[begin];

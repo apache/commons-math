@@ -54,49 +54,52 @@
 package org.apache.commons.math.stat.univariate.moment;
 
 /**
- * The FourthMoment is calculated using the following 
+ * The FourthMoment is calculated using the following
  * <a href="http://www.spss.com/tech/stat/Algorithms/11.5/descriptives.pdf">
  * recursive strategy
  * </a>. Both incremental and evaluation strategies currently use this approach.
- * @version $Revision: 1.6 $ $Date: 2003/07/09 20:04:10 $
+ * @version $Revision: 1.7 $ $Date: 2003/08/09 04:03:40 $
  */
 public class FourthMoment extends ThirdMoment {
 
     /** fourth moment of values that have been added */
     protected double m4 = Double.NaN;
-    
+
     /** temporary internal state made available for higher order moments */
     protected double prevM3 = 0.0;
 
     /** temporary internal state made available for higher order moments */
     protected double n3 = 0.0;
-            
-            
+
+
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
-    public void increment(double d) {
+    public void increment(final double d) {
         if (n < 1) {
-            m4 = m3 = m2 = m1 = 0.0;
+            m4 = 0.0;
+            m3 = 0.0;
+            m2 = 0.0;
+            m1 = 0.0;
         }
 
         /* retain previous m3 */
         prevM3 = m3;
-        
+
         /* increment m1, m2 and m3 (and prevM2, _n0, _n1, _n2, _v, _v2) */
         super.increment(d);
 
         n3 = (double) (n - 3);
-        
+
         m4 =
             m4
                 - (4.0 * v * prevM3)
                 + (6.0 * v2 * prevM2)
                 + ((n0 * n0) - 3 * n1) * (v2 * v2 * n1 * n0);
     }
-    
+
     /**
-     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getValue()
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getResult()
      */
     public double getResult() {
         return m4;

@@ -56,13 +56,13 @@ package org.apache.commons.math.stat.univariate;
 /**
  * Extends the capabilities of UnivariateStatistic with a statefull incremental
  * strategy through three methods for calculating a statistic without having to
- * maintain a double[] of the values. Because a StorelessUnivariateStatistic 
- * does not require that a double[] storage structure be maintained with the 
- * values in it, there are only a subset of known statistics can actually be 
- * implemented using it. If a Statistic cannot be implemented in a Storeless 
- * approach it should implement the UnivariateStatistic interface directly 
+ * maintain a double[] of the values. Because a StorelessUnivariateStatistic
+ * does not require that a double[] storage structure be maintained with the
+ * values in it, there are only a subset of known statistics can actually be
+ * implemented using it. If a Statistic cannot be implemented in a Storeless
+ * approach it should implement the UnivariateStatistic interface directly
  * instead.
- * @version $Revision: 1.6 $ $Date: 2003/07/15 03:37:10 $
+ * @version $Revision: 1.7 $ $Date: 2003/08/09 04:03:41 $
  */
 public interface StorelessUnivariateStatistic extends UnivariateStatistic {
 

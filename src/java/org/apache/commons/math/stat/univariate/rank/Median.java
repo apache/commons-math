@@ -55,12 +55,15 @@ package org.apache.commons.math.stat.univariate.rank;
 
 
 /**
- * @version $Revision: 1.3 $ $Date: 2003/07/09 20:04:12 $
+ * @version $Revision: 1.4 $ $Date: 2003/08/09 04:03:41 $
  */
 public class Median extends Percentile {
 
+    /**
+     *
+     */
     public Median() {
         super(50.0);
     }
-    
+
 }
