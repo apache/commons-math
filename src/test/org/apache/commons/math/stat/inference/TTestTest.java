@@ -23,7 +23,7 @@ import org.apache.commons.math.stat.univariate.SummaryStatistics;
 /**
  * Test cases for the TTestImpl class.
  *
- * @version $Revision: 1.1 $ $Date: 2004/05/03 03:04:54 $
+ * @version $Revision: 1.2 $ $Date: 2004/05/23 05:06:20 $
  */
 
 public final class TTestTest extends TestCase {
@@ -91,29 +91,28 @@ public final class TTestTest extends TestCase {
         double[] tooShortObs = { 1.0 };
         try {
             testStatistic.t(mu, tooShortObs);
-            fail("arguments too short, IllegalArgumentException expected");
+            fail("insufficient data to compute t statistic, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // exptected
         }
         try {
             testStatistic.tTest(mu, tooShortObs);
-            fail("arguments too short, IllegalArgumentException expected");
+            fail("insufficient data to perform t test, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
            // expected
         }  
 
         SummaryStatistics tooShortStats = SummaryStatistics.newInstance();     
         tooShortStats.addValue(0d);
-        tooShortStats.addValue(2d);
         try {
             testStatistic.t(mu, tooShortStats);
-            fail("arguments too short, IllegalArgumentException expected");
+            fail("insufficient data to compute t statistic, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // exptected
         }
         try {
             testStatistic.tTest(mu, tooShortStats);
-            fail("arguments too short, IllegalArgumentException expected");
+            fail("insufficient data to perform t test, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // exptected
         }  
@@ -224,5 +223,13 @@ public final class TTestTest extends TestCase {
         } catch (IllegalArgumentException ex) {
            // expected
         }
+    }
+    
+    public void testSmallSamples() throws Exception {
+        double[] sample1 = {1d, 3d};
+        double[] sample2 = {4d, 5d};        
+        // Target values computed using R, version 1.8.1 (linux version)
+        assertEquals(-2.2361, testStatistic.t(sample1, sample2), 1E-4);
+        assertEquals(0.1987, testStatistic.tTest(sample1, sample2), 1E-4);
     }
 }
