@@ -108,6 +108,10 @@
      <li>
       Addition of a Arithmetic Geometric Mean
      </li>
+     <li>
+      Javadoc generation currently throws 35 warnings.  Bring the 
+      Javadoc into compliance (i.e. reach zero warnings).
+     </li>
     </ul>
    </subsection>
 
