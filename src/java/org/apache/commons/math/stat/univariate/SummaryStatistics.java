@@ -23,7 +23,7 @@ import org.apache.commons.math.util.MathUtils;
 /**
  * Abstract factory class for univariate statistical summaries.
  *
- * @version $Revision: 1.10 $ $Date: 2004/07/10 16:04:47 $
+ * @version $Revision: 1.11 $ $Date: 2004/07/19 00:01:05 $
  */
 public abstract class SummaryStatistics implements StatisticalSummary, Serializable {
 
@@ -31,7 +31,8 @@ public abstract class SummaryStatistics implements StatisticalSummary, Serializa
     static final long serialVersionUID = -6400596334135654825L;
      
     /**
-     * Create an instance of a <code>DescriptiveStatistics</code>
+     * Create an instance of a <code>SummaryStatistics</code>
+     * 
      * @param cls the type of <code>SummaryStatistics</code> object to
      *        create. 
      * @return a new factory. 
@@ -40,12 +41,14 @@ public abstract class SummaryStatistics implements StatisticalSummary, Serializa
      * @throws IllegalAccessException is thrown if the type's default
      *            constructor is not accessible.
      */
-    public static SummaryStatistics newInstance(Class cls) throws InstantiationException, IllegalAccessException {
+    public static SummaryStatistics newInstance(Class cls) throws 
+        InstantiationException, IllegalAccessException {
         return (SummaryStatistics)cls.newInstance();
     }
     
     /**
-     * Create an instance of a <code>DescriptiveStatistics</code>
+     * Create an instance of a <code>SummaryStatistics</code>
+     * 
      * @return a new SummaryStatistics instance. 
      */
     public static SummaryStatistics newInstance() {
@@ -63,7 +66,8 @@ public abstract class SummaryStatistics implements StatisticalSummary, Serializa
     
 
     /**
-     * Return a StatisticalSummaryValues instance reporting current statistics.
+     * Return a {@link StatisticalSummaryValues} instance reporting current
+     * statistics.
      * 
      * @return Current values of statistics 
      */
