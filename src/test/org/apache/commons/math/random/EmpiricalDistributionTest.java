@@ -65,7 +65,7 @@ import org.apache.commons.math.stat.SummaryStatistics;
 /**
  * Test cases for the EmpiricalDistribution class
  *
- * @version $Revision: 1.11 $ $Date: 2004/01/25 21:30:41 $
+ * @version $Revision: 1.12 $ $Date: 2004/01/29 05:27:54 $
  */
 
 public final class EmpiricalDistributionTest extends TestCase {
@@ -81,8 +81,6 @@ public final class EmpiricalDistributionTest extends TestCase {
     public void setUp() {
         empiricalDistribution = new EmpiricalDistributionImpl(100);
         url = getClass().getResource("testData.txt");
-        String fileName = URLDecoder.decode(url.getFile());
-        file = new File(fileName);
     }
 
     public static Test suite() {
@@ -134,7 +132,7 @@ public final class EmpiricalDistributionTest extends TestCase {
      * Make sure we can handle a grid size that is too fine
      */
     public void testGridTooFine() throws Exception {
-        empiricalDistribution = new EmpiricalDistributionImpl(10000);
+        empiricalDistribution = new EmpiricalDistributionImpl(1001);
         tstGen(0.1);    
     }
     
@@ -148,12 +146,11 @@ public final class EmpiricalDistributionTest extends TestCase {
     }
     
     private void tstGen(double tolerance)throws Exception {
-        empiricalDistribution.load(file);   
+        empiricalDistribution.load(url);   
         SummaryStatistics stats = SummaryStatistics.newInstance();
         for (int i = 1; i < 1000; i++) {
             stats.addValue(empiricalDistribution.getNextValue());
         }
-        //TODO: replace these with statistical tests -- refactor as necessary
         assertEquals("mean", stats.getMean(),5.069831575018909,tolerance);
         assertEquals
          ("std dev", stats.getStandardDeviation(),1.0173699343977738,tolerance);
