@@ -19,7 +19,7 @@ import org.apache.commons.math.TestUtils;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
- * @version $Revision: 1.12 $ $Date: 2004/04/27 16:42:32 $
+ * @version $Revision: 1.13 $ $Date: 2004/06/17 22:33:23 $
  */
 public abstract class StorelessUnivariateStatisticAbstractTest
     extends UnivariateStatisticAbstractTest {
@@ -28,10 +28,13 @@ public abstract class StorelessUnivariateStatisticAbstractTest
         super(name);
     }
 
+    /** Return a new instance of the statistic */
     public abstract UnivariateStatistic getUnivariateStatistic();
 
+    /**Expected value for  the testArray defined in UnivariateStatisticAbstractTest */
     public abstract double expectedValue();
     
+    /** Verify that calling increment() in a loop over testArray results in correct state */
     public void testIncrementation() throws Exception {
 
         StorelessUnivariateStatistic statistic =
@@ -44,6 +47,7 @@ public abstract class StorelessUnivariateStatisticAbstractTest
         }
 
         assertEquals(expectedValue(), statistic.getResult(), getTolerance());
+        //TODO:  add test for getN() once type is fixed
 
         statistic.clear();
 
@@ -55,6 +59,8 @@ public abstract class StorelessUnivariateStatisticAbstractTest
 
         StorelessUnivariateStatistic statistic =
             (StorelessUnivariateStatistic) getUnivariateStatistic();
+        
+        TestUtils.checkSerializedEquality(statistic);
 
         statistic.clear();
 
@@ -64,12 +70,60 @@ public abstract class StorelessUnivariateStatisticAbstractTest
                 statistic = (StorelessUnivariateStatistic)TestUtils.serializeAndRecover(statistic); 
         }
         
+        TestUtils.checkSerializedEquality(statistic);
+        
         assertEquals(expectedValue(), statistic.getResult(), getTolerance());
 
         statistic.clear();
 
         assertTrue(Double.isNaN(statistic.getResult()));
 
+    }
+    
+    public void testEqualsAndHashCode() {
+        StorelessUnivariateStatistic statistic =
+            (StorelessUnivariateStatistic) getUnivariateStatistic();
+        StorelessUnivariateStatistic statistic2 = null;
+        
+        assertTrue("non-null, compared to null", !statistic.equals(statistic2));
+        assertTrue("reflexive, non-null", statistic.equals(statistic));
+        
+        int emptyHash = statistic.hashCode();
+        statistic2 = (StorelessUnivariateStatistic) getUnivariateStatistic();
+        assertTrue("empty stats should be equal", statistic.equals(statistic2));
+        assertEquals("empty stats should have the same hashcode", 
+                emptyHash, statistic2.hashCode());
+        
+        statistic.increment(1d);
+        assertTrue("reflexive, non-empty", statistic.equals(statistic));
+        assertTrue("non-empty, compared to empty", !statistic.equals(statistic2));
+        assertTrue("non-empty, compared to empty", !statistic2.equals(statistic));
+        assertTrue("non-empty stat should have different hashcode from empty stat",
+                statistic.hashCode() != emptyHash);
+        
+        statistic2.increment(1d);
+        assertTrue("stats with same data should be equal", statistic.equals(statistic2));
+        assertEquals("stats with same data should have the same hashcode", 
+                statistic.hashCode(), statistic2.hashCode());
+        
+        statistic.increment(Double.POSITIVE_INFINITY);
+        assertTrue("stats with different n's should not be equal", !statistic2.equals(statistic));
+        assertTrue("stats with different n's should have different hashcodes",
+                statistic.hashCode() != statistic2.hashCode());
+        
+        statistic2.increment(Double.POSITIVE_INFINITY);
+        assertTrue("stats with same data should be equal", statistic.equals(statistic2));
+        assertEquals("stats with same data should have the same hashcode", 
+                statistic.hashCode(), statistic2.hashCode()); 
+        
+        statistic.clear();
+        statistic2.clear();
+        assertTrue("cleared stats should be equal", statistic.equals(statistic2));
+        assertEquals("cleared stats should have thashcode of empty stat", 
+                emptyHash, statistic2.hashCode());
+        assertEquals("cleared stats should have thashcode of empty stat", 
+                emptyHash, statistic.hashCode());
+        
     }
 
 }
