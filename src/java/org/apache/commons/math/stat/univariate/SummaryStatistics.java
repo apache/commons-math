@@ -22,9 +22,9 @@ import org.apache.commons.discovery.tools.DiscoverClass;
 /**
  * Abstract factory class for univariate statistical summaries.
  * 
- * @version $Revision: 1.3 $ $Date: 2004/04/27 04:37:59 $
+ * @version $Revision: 1.4 $ $Date: 2004/05/18 04:19:53 $
  */
-public abstract class SummaryStatistics implements Serializable, StatisticalSummary{
+public abstract class SummaryStatistics implements Serializable, StatisticalSummary {
 
 	/**
 	 * Create an instance of a <code>SummaryStatistics</code>
@@ -71,6 +71,17 @@ public abstract class SummaryStatistics implements Serializable, StatisticalSumm
 			// ignore as default implementation will be used.
 		}
 		return factory;
+	}
+	
+
+	/**
+	 * Return a StatisticalSummaryValues instance reporting current statistics.
+	 * 
+	 * @return Current values of statistics 
+	 */
+	public StatisticalSummary getSummary() {
+	    return new StatisticalSummaryValues(getMean(), getVariance(), getN(),
+	            getMax(), getMin(), getSum());
 	}
 	
 	/**
