@@ -54,12 +54,19 @@
 
 package org.apache.commons.math;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 import org.apache.commons.math.complex.Complex;
 
 import junit.framework.Assert;
 
 /**
- * @version $Revision: 1.7 $ $Date: 2003/11/15 18:52:31 $
+ * @version $Revision: 1.8 $ $Date: 2003/11/19 13:26:42 $
  */
 public class TestUtils {
     /**
@@ -84,5 +91,34 @@ public class TestUtils {
     public static void assertEquals(Complex expected, Complex actual, double delta) {
         assertEquals(expected.getReal(), actual.getReal(), delta);
         assertEquals(expected.getImaginary(), actual.getImaginary(), delta);
+    }
+    
+    public static Object serializeAndRecover(Object o){
+        
+        Object result = null;
+        
+        File tmp = null;
+        
+        try {
+            
+            // serialize the Object
+            tmp = File.createTempFile("test",".ser");
+            FileOutputStream fo = new FileOutputStream(tmp);
+            ObjectOutputStream so = new ObjectOutputStream(fo);
+            so.writeObject(o);
+            so.flush();
+
+            // deserialize the Book
+            FileInputStream fi = new FileInputStream(tmp);
+            ObjectInputStream si = new ObjectInputStream(fi);  
+            result = si.readObject();
+            
+        }catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            if(tmp != null) tmp.delete();
+        }
+        
+        return result;
     }
 }

@@ -57,13 +57,14 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.random.RandomData;
 import org.apache.commons.math.random.RandomDataImpl;
 
 /**
  * Test cases for the {@link Univariate} class.
  *
- * @version $Revision: 1.1 $ $Date: 2003/11/15 16:01:41 $
+ * @version $Revision: 1.2 $ $Date: 2003/11/19 13:26:42 $
  */
 
 public final class DescriptiveStatisticsTest extends TestCase {
@@ -340,6 +341,31 @@ public final class DescriptiveStatisticsTest extends TestCase {
         assertTrue("empty value set should return NaN",
             Double.isNaN(u.getPercentile(50)));
     }
-                                     
+                      
+    /** test stats */
+    public void testSerialization() {
+        DescriptiveStatistics u = DescriptiveStatistics.newInstance(); 
+        assertEquals("total count",0,u.getN(),tolerance);
+        u.addValue(one);
+        u.addValue(two);
+        
+        DescriptiveStatistics u2 = (DescriptiveStatistics)TestUtils.serializeAndRecover(u); 
+ 
+        u2.addValue(two);
+        u2.addValue(three);
+        
+        assertEquals("N",n,u2.getN(),tolerance);
+        assertEquals("sum",sum,u2.getSum(),tolerance);
+        assertEquals("sumsq",sumSq,u2.getSumsq(),tolerance);
+        assertEquals("var",var,u2.getVariance(),tolerance);
+        assertEquals("std",std,u2.getStandardDeviation(),tolerance);
+        assertEquals("mean",mean,u2.getMean(),tolerance);
+        assertEquals("min",min,u2.getMin(),tolerance);
+        assertEquals("max",max,u2.getMax(),tolerance);
+
+        u2.clear();
+        assertEquals("total count",0,u2.getN(),tolerance);    
+    }       
+                                   
 }
 
