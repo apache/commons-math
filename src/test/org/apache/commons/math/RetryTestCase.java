@@ -22,12 +22,12 @@ import junit.framework.TestCase;
 /**
  * A TestCase that retries tests when assertions fail.
  * <p>
- * If one or more tests throws an AssertionFailedError, all tests are 
+ * If one or more tests throw an AssertionFailedError, all tests are 
  * repeated one time.  
  * <p>
  * Errors or exceptions other than AssertionFailedError do not lead to retries.
  *
- * @version $Revision: 1.1 $ $Date: 2004/03/07 16:29:38 $
+ * @version $Revision: 1.2 $ $Date: 2004/03/07 16:39:38 $
  */
 public class RetryTestCase extends TestCase {
 
