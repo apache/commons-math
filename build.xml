@@ -135,7 +135,7 @@
     </property>
     <property name="title" value="Math 0.1 API">
     </property>
-    <javadoc bottom="Copyright &amp;copy; 2003-2004 Apache Software Foundation. All Rights Reserved." windowtitle="Math 0.1 API" use="true" private="true" destdir="${javadocdir}" author="true" doctitle="Math 0.1 API" version="true" sourcepath="C:\eclipse\workspace\math\src\java" packagenames="org.apache.commons.*.*">
+    <javadoc bottom="Copyright &amp;copy; 2003-2004 Apache Software Foundation. All Rights Reserved." windowtitle="Math 0.1 API" use="true" private="true" destdir="${javadocdir}" author="true" doctitle="Math 0.1 API" version="true" sourcepath="src/java" packagenames="org.apache.commons.*.*">
       <classpath>
         <fileset dir="${libdir}">
           <include name="*.jar">
@@ -157,7 +157,7 @@
     </get>
     <get dest="${libdir}/commons-discovery-SNAPSHOT.jar" usetimestamp="true" ignoreerrors="true" src="http://www.apache.org/dist/java-repository/commons-discovery/jars/commons-discovery-SNAPSHOT.jar">
     </get>
-    <get dest="${libdir}/junit-3.8.1.jar" usetimestamp="true" ignoreerrors="true" src="http://www.apache.org/dist/java-repository/junit/jars/junit-3.8.1.jar">
+    <get dest="${libdir}/junit-3.8.1.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/junit/jars/junit-3.8.1.jar">
     </get>
     <get dest="${libdir}/ant-1.5.jar" usetimestamp="true" ignoreerrors="true" src="http://www.apache.org/dist/java-repository/ant/jars/ant-1.5.jar">
     </get>
