@@ -53,81 +53,101 @@
  */
 package org.apache.commons.math.stat.distribution;
 
-import org.apache.commons.math.RootFinding;
-import org.apache.commons.math.UnivariateFunction;
+import org.apache.commons.math.special.Gamma;
 
 /**
- * Base class for various continuous distributions.  It provides default
- * implementations for some of the methods that do not vary from distribution
- * to distribution.
- *  
+ * The default implementation of {@link GammaDistribution}
+ * 
  * @author Brent Worden
  */
-public abstract class AbstractContinuousDistribution
-    implements ContinuousDistribution {
-        
-    /**
-     * Default constructor.
-     */
-    protected AbstractContinuousDistribution() {
-        super();
-    }
+public class GammaDistributionImpl extends AbstractContinuousDistribution
+    implements GammaDistribution {
 
+    /** The shape parameter. */
+    private double alpha;
+    
+    /** The scale parameter. */
+    private double beta;
+    
     /**
-     * For this distribution, X, this method returns P(x0 &lt; X &lt; x1).  This
-     * is accomplished by using the equality P(x0 &lt; X &lt; x1) =
-     * P(X &lt; x1) - P(X &lt; x0).
-     * 
-     * @param x0 the lower bound
-     * @param x1 the upper bound
-     * @return the cummulative probability. 
+     * Create a new gamma distribution with the given alpha and beta values.
+     * @param alpha the shape parameter.
+     * @param beta the scale parameter.
      */
-    public double cummulativeProbability(double x0, double x1) {
-        return cummulativeProbability(x1) - cummulativeProbability(x0);
+    public GammaDistributionImpl(double alpha, double beta) {
+        super();
+        setAlpha(alpha);
+        setBeta(beta);
     }
     
     /**
-     * For this distribution, X, this method returns the critical point x, such
-     * that P(X &lt; x) = <code>p</code>.
-     *
-     * @param p the desired probability
-     * @return x, such that P(X &lt; x) = <code>p</code>
+     * <p>
+     * For this disbution, X, this method returns P(X &lt; x).
+     * </p>
+     * 
+     * <p>
+     * The implementation of this method is based on:
+     * <ul>
+     * <li>
+     * <a href="http://mathworld.wolfram.com/Chi-SquaredDistribution.html">
+     * Chi-Squared Distribution</a>, equation (9).</li>
+     * <li>Casella, G., & Berger, R. (1990). <i>Statistical Inference</i>.
+     * Belmont, CA: Duxbury Press.</li>
+     * </ul>
+     * </p>
+     * 
+     * @param x the value at which the CDF is evaluated.
+     * @return CDF for this distribution. 
      */
-    public double inverseCummulativeProbability(final double p){
-        if(p < 0.0 || p > 1.0){
-            throw new IllegalArgumentException(
-                "p must be between 0.0 and 1.0, inclusive.");
+    public double cummulativeProbability(double x) {
+        double ret;
+    
+        if (x <= 0.0) {
+            ret = 0.0;
+        } else {
+            ret = Gamma.regularizedGammaP(getAlpha(), x / getBeta());
         }
-        
-        // by default, do simple root finding using bracketing and bisection.
-        // subclasses can overide if there is a better method.
-        UnivariateFunction rootFindingFunction = new UnivariateFunction() {
-            public double evaluate(double x) {
-                return cummulativeProbability(x) - p;
-            }
-        };
-        
-        // bracket root
-        double[] bracket = RootFinding.bracket(rootFindingFunction,
-            getInitialDomain(p), getDomainLowerBound(p),
-            getDomainUpperBound(p));
-        
-        // find root
-        double root = RootFinding.bisection(rootFindingFunction, bracket[0],
-            bracket[1]);
-        
-        return root;
+    
+        return ret;
     }
     
     /**
-     * Access the initial domain value, based on <code>p</code>, used to
-     * bracket a CDF root.  This method is used by
-     * {@link #inverseCummulativeProbability(double)} to find critical values.
-     * 
-     * @param p the desired probability for the critical value
-     * @return initial domain value
+     * Modify the shape parameter, alpha.
+     * @param alpha the new shape parameter.
      */
-    protected abstract double getInitialDomain(double p);
+    public void setAlpha(double alpha) {
+        if (alpha <= 0.0) {
+            throw new IllegalArgumentException("alpha must be positive");
+        }
+        this.alpha = alpha;
+    }
+    
+    /**
+     * Access the shape parameter, alpha
+     * @return alpha.
+     */
+    public double getAlpha() {
+        return alpha;
+    }
+    
+    /**
+     * Modify the scale parameter, beta.
+     * @param beta the new scale parameter.
+     */
+    public void setBeta(double beta) {
+        if (beta <= 0.0) {
+            throw new IllegalArgumentException("beta must be positive");
+        }
+        this.beta = beta;
+    }
+    
+    /**
+     * Access the scale parameter, beta
+     * @return beta.
+     */
+    public double getBeta() {
+        return beta;
+    }
     
     /**
      * Access the domain value lower bound, based on <code>p</code>, used to
@@ -138,8 +158,11 @@ public abstract class AbstractContinuousDistribution
      * @return domain value lower bound, i.e.
      *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code> 
      */
-    protected abstract double getDomainLowerBound(double p);
-    
+    protected double getDomainLowerBound(double p) {
+        // TODO: try to improve on this estimate
+        return Double.MIN_VALUE;
+    }
+
     /**
      * Access the domain value upper bound, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
@@ -149,5 +172,47 @@ public abstract class AbstractContinuousDistribution
      * @return domain value upper bound, i.e.
      *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code> 
      */
-    protected abstract double getDomainUpperBound(double p);
+    protected double getDomainUpperBound(double p) {
+        // NOTE: gamma is skewed to the left
+        // NOTE: therefore, P(X < &mu;) > .5
+        // TODO: try to improve on this estimate
+
+        double ret;
+
+        if(p < .5){
+            // use mean
+            ret = getAlpha() * getBeta();
+        } else {
+            // use max value
+            ret = Double.MAX_VALUE;
+        }
+        
+        return ret;
+    }
+
+    /**
+     * Access the initial domain value, based on <code>p</code>, used to
+     * bracket a CDF root.  This method is used by
+     * {@link #inverseCummulativeProbability(double)} to find critical values.
+     * 
+     * @param p the desired probability for the critical value
+     * @return initial domain value
+     */
+    protected double getInitialDomain(double p) {
+        // NOTE: gamma is skewed to the left
+        // NOTE: therefore, P(X < &mu;) > .5
+        // TODO: try to improve on this estimate
+
+        double ret;
+
+        if(p < .5){
+            // use 1/2 mean
+            ret = getAlpha() * getBeta() * .5;
+        } else {
+            // use mean
+            ret = getAlpha() * getBeta();
+        }
+        
+        return ret;
+    }
 }

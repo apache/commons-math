@@ -54,30 +54,34 @@
 package org.apache.commons.math.stat.distribution;
 
 /**
- * Base interface for various continuous distributions.
+ * <p>
+ * The Chi-Squared Distribution
+ * </p>
+ * 
+ * <p>
+ * Instances of ChiSquaredDistribution objects should be created using
+ * {@link DistributionFactory#createChiSquareDistribution(double)}
+ * </p>
+ * 
+ * <p>
+ * References:
+ * <ul>
+ * <li><a href="http://mathworld.wolfram.com/Chi-SquaredDistribution.html">
+ * Chi-Squared Distribution</a></li>
+ * </p>
  * 
  * @author Brent Worden
  */
-public interface ContinuousDistribution {
+public interface ChiSquaredDistribution extends ContinuousDistribution {
     /**
-     * For this disbution, X, this method returns P(X &lt; x).
-     * @param x the value at which the CDF is evaluated.
-     * @return CDF for this distribution. 
+     * Modify the degrees of freedom.
+     * @param degreesOfFreedom the new degrees of freedom.
      */
-    double cummulativeProbability(double x);
-
-    /**
-     * For this disbution, X, this method returns P(x0 &lt; X &lt; x1).
-     * @param x0 the lower bound
-     * @param x1 the upper bound
-     * @return the cummulative probability. 
-     */
-    double cummulativeProbability(double x0, double x1);
+    void setDegreesOfFreedom(double degreesOfFreedom);
     
     /**
-     * For this disbution, X, this method returns x such that P(X &lt; x) = p.
-     * @param p the cummulative probability.
-     * @return x. 
+     * Access the degrees of freedom.
+     * @return the degrees of freedom.
      */
-    double inverseCummulativeProbability(double p);
+    double getDegreesOfFreedom();
 }

@@ -54,30 +54,60 @@
 package org.apache.commons.math.stat.distribution;
 
 /**
- * Base interface for various continuous distributions.
+ * <p>
+ * This factory provids the means to create common statistical distributions.
+ * The following distributions are supported:
+ * <ul>
+ * <li>Chi-Squared</li>
+ * <li>Gamma</li>
+ * </ul>
+ * </p>
+ * 
+ * <p>
+ * Common usage:<pre>
+ * DistributionFactory factory = DistributionFactory.newInstance();
+ * 
+ * // create a Chi-Square distribution with 5 degrees of freedom.
+ * ChiSquaredDistribution chi = factory.createChiSquareDistribution(5.0);
+ * </pre>
+ * </p>
  * 
  * @author Brent Worden
  */
-public interface ContinuousDistribution {
+public abstract class DistributionFactory {
     /**
-     * For this disbution, X, this method returns P(X &lt; x).
-     * @param x the value at which the CDF is evaluated.
-     * @return CDF for this distribution. 
+     * Default constructor.
      */
-    double cummulativeProbability(double x);
-
-    /**
-     * For this disbution, X, this method returns P(x0 &lt; X &lt; x1).
-     * @param x0 the lower bound
-     * @param x1 the upper bound
-     * @return the cummulative probability. 
-     */
-    double cummulativeProbability(double x0, double x1);
+    protected DistributionFactory() {
+        super();
+    }
     
     /**
-     * For this disbution, X, this method returns x such that P(X &lt; x) = p.
-     * @param p the cummulative probability.
-     * @return x. 
+     * Create an instance of a <code>DistributionFactory</code>
+     * @return a new factory. 
      */
-    double inverseCummulativeProbability(double p);
+    public static DistributionFactory newInstance() {
+        // for now, return the only concrete factory.
+        // later, allow for a plugable implementation, possible using SPI and
+        // commons-discovery.
+        return new DistributionFactoryImpl();
+    }
+    
+    /**
+     * Create a new chi-square distribution with the given degrees of freedom.
+     * @param degreesOfFreedom degrees of freedom.
+     * @return a new chi-square distribution.  
+     */
+    public abstract ChiSquaredDistribution createChiSquareDistribution(
+        double degreesOfFreedom
+    );
+    
+    /**
+     * Create a new gamma distribution with the given alpha and beta values.
+     * @param alpha the shape parameter.
+     * @param beta the scale parameter.
+     * @return a new gamma distribution.  
+     */
+    public abstract GammaDistribution createGammaDistribution(
+        double alpha, double beta);
 }

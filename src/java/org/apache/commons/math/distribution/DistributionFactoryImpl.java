@@ -53,31 +53,41 @@
  */
 package org.apache.commons.math.stat.distribution;
 
+
 /**
- * Base interface for various continuous distributions.
- * 
+ * A concrete distribution factory.  This is the default factory used by
+ * Commons-Math.
+ *  
  * @author Brent Worden
  */
-public interface ContinuousDistribution {
+public class DistributionFactoryImpl extends DistributionFactory {
     /**
-     * For this disbution, X, this method returns P(X &lt; x).
-     * @param x the value at which the CDF is evaluated.
-     * @return CDF for this distribution. 
+     * Default constructor.  Package scope to prevent unwanted instantiation. 
      */
-    double cummulativeProbability(double x);
-
-    /**
-     * For this disbution, X, this method returns P(x0 &lt; X &lt; x1).
-     * @param x0 the lower bound
-     * @param x1 the upper bound
-     * @return the cummulative probability. 
-     */
-    double cummulativeProbability(double x0, double x1);
+    DistributionFactoryImpl() {
+        super();
+    }
     
     /**
-     * For this disbution, X, this method returns x such that P(X &lt; x) = p.
-     * @param p the cummulative probability.
-     * @return x. 
+     * Create a new chi-square distribution with the given degrees of freedom.
+     * @param degreesOfFreedom degrees of freedom.
+     * @return a new chi-square distribution.  
      */
-    double inverseCummulativeProbability(double p);
+    public ChiSquaredDistribution createChiSquareDistribution(
+        final double degreesOfFreedom) {
+            
+        return new ChiSquaredDistributionImpl(degreesOfFreedom);
+    }
+    
+    /**
+     * Create a new gamma distribution the given alpha and beta values.
+     * @param alpha the shape parameter.
+     * @param beta the scale parameter.
+     * @return a new gamma distribution.  
+     */
+    public GammaDistribution createGammaDistribution(
+        double alpha, double beta) {
+
+        return new GammaDistributionImpl(alpha, beta);
+    }
 }

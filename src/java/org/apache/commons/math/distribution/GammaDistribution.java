@@ -54,30 +54,46 @@
 package org.apache.commons.math.stat.distribution;
 
 /**
- * Base interface for various continuous distributions.
+ * <p>
+ * The Gamma Distribution
+ * </p>
  * 
+ * <p>
+ * Instances of GammaDistribution objects should be created using
+ * {@link DistributionFactory#createGammaDistribution(double)}
+ * </p>
+ * 
+ * <p>
+ * References:
+ * <ul>
+ * <li><a href="http://mathworld.wolfram.com/GammaDistribution.html">
+ * Gamma Distribution</a></li>
+ * </p>
+ *  
  * @author Brent Worden
  */
-public interface ContinuousDistribution {
+public interface GammaDistribution extends ContinuousDistribution {
     /**
-     * For this disbution, X, this method returns P(X &lt; x).
-     * @param x the value at which the CDF is evaluated.
-     * @return CDF for this distribution. 
+     * Modify the shape parameter, alpha.
+     * @param alpha the new shape parameter.
      */
-    double cummulativeProbability(double x);
-
-    /**
-     * For this disbution, X, this method returns P(x0 &lt; X &lt; x1).
-     * @param x0 the lower bound
-     * @param x1 the upper bound
-     * @return the cummulative probability. 
-     */
-    double cummulativeProbability(double x0, double x1);
+    void setAlpha(double alpha);
     
     /**
-     * For this disbution, X, this method returns x such that P(X &lt; x) = p.
-     * @param p the cummulative probability.
-     * @return x. 
+     * Access the shape parameter, alpha
+     * @return alpha.
      */
-    double inverseCummulativeProbability(double p);
+    double getAlpha();
+    
+    /**
+     * Modify the scale parameter, beta.
+     * @param beta the new scale parameter.
+     */
+    void setBeta(double beta);
+    
+    /**
+     * Access the scale parameter, beta
+     * @return beta.
+     */
+    double getBeta();
 }
