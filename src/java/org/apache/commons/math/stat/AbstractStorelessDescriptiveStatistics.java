@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -67,8 +67,10 @@ import org.apache.commons.math.stat.univariate.summary.SumOfLogs;
 import org.apache.commons.math.stat.univariate.summary.SumOfSquares;
 
 /**
- * Provides univariate measures for an array of doubles.
- * @version $Revision: 1.1 $ $Date: 2003/11/15 16:01:37 $  
+ * Provides a default {@link DescriptiveStatistics} implementation, including only statistics
+ * that can be computed in one pass through the data without storing the full set of sample
+ * data values.
+ * @version $Revision: 1.2 $ $Date: 2004/01/18 03:45:02 $  
  */
 public abstract class AbstractStorelessDescriptiveStatistics extends DescriptiveStatistics {
 

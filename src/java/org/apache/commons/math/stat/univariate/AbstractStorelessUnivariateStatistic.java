@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,17 +59,15 @@ package org.apache.commons.math.stat.univariate;
  * Provides the ability to extend polymophically so that
  * indiviual statistics do not need to implement these methods unless
  * there are better algorithms for handling the calculation.
- * @version $Revision: 1.11 $ $Date: 2003/11/14 22:22:21 $
+ * @version $Revision: 1.12 $ $Date: 2004/01/18 03:45:02 $
  */
 public abstract class AbstractStorelessUnivariateStatistic
     extends AbstractUnivariateStatistic
     implements StorelessUnivariateStatistic {
 
     /**
-     * This implements the AbstractUnivariateStatistic impl to funnel
-     * calculation off to the instantanious increment method. In most cases of
-     * StorelessUnivariateStatistic this is never really used because more
-     * efficient algorithms are available for that statistic.
+     * This default implementation just calls {@link #increment} in a loop and then {@link #getResult} to
+     * compute the return value.  Most implementations will override this method with a more efficient implementation.
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
     public double evaluate(

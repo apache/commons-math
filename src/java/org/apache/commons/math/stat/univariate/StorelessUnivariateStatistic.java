@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -54,38 +54,31 @@
 package org.apache.commons.math.stat.univariate;
 
 /**
- * Extends the capabilities of UnivariateStatistic with a statefull incremental
- * strategy through three methods for calculating a statistic without having to
- * maintain a double[] of the values. Because a StorelessUnivariateStatistic
- * does not require that a double[] storage structure be maintained with the
- * values in it, there are only a subset of known statistics can actually be
- * implemented using it. If a Statistic cannot be implemented in a Storeless
- * approach it should implement the UnivariateStatistic interface directly
- * instead.
- * @version $Revision: 1.12 $ $Date: 2003/11/19 03:28:25 $
+ * Extends the definition of {@link UnivariateStatistic} with an {@link #increment}
+ * method for adding values and updating internal state incrementally.  This interface
+ * is designed to be used for calculating statistics that can be computed in one pass through
+ * the data without storing the full array of sample values.
+ * 
+ * @version $Revision: 1.13 $ $Date: 2004/01/18 03:45:02 $
  */
 public interface StorelessUnivariateStatistic extends UnivariateStatistic {
 
     /**
-     * Increments the internal state of the Storagless
-     * Implementation.
-     * @param d is the value to increment the state by.
+     * Updates the internal state of the statistic to reflect the addition of the new value.
+     * @param d  the new value.
      */
     void increment(double d);
 
     /**
-     * Returns the current state of the statistic after the
-     * last increment.
-     * @return value of the statistic, Double.NaN if it
+     * Returns the current value of the Statistic.
+     * @return value of the statistic, <code>Double.NaN</code> if it
      * has been cleared or just instantiated.
      */
     double getResult();
 
     /**
-     * Returns the current state of the statistic after the
-     * last increment.
-     * @return value of the statistic, Double.NaN if it
-     * has been cleared or just instantiated.
+     * Returns the number of values that have been added.
+     * @return the number of values.
      */
     double getN();
 

@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,13 +58,9 @@ import java.io.Serializable;
 import org.apache.commons.discovery.tools.DiscoverClass;
 
 /**
- * DescriptiveStatistics implements the Univariate interface 
- * but maintains the set of values which contribute to 
- * the values being returned.  This implementation of 
- * Univariate provides additional percentile functionality 
- * such as.  This additional functionality comes with 
- * a price of increased storage costs.
- * @version $Revision: 1.2 $ $Date: 2003/11/19 03:28:23 $
+ * Abstract factory class for univariate statistical summaries.
+ * 
+ * @version $Revision: 1.3 $ $Date: 2004/01/18 03:45:02 $
  */
 public abstract class DescriptiveStatistics implements Serializable{
 

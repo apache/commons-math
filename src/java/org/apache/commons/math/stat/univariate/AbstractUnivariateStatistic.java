@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,14 +57,12 @@ package org.apache.commons.math.stat.univariate;
  * Abstract Implementation for UnivariateStatistics.
  * Provides the ability to extend polymophically so that
  * indiviual statistics do not need to implement these methods.
- * @version $Revision: 1.10 $ $Date: 2003/11/14 22:22:21 $
+ * @version $Revision: 1.11 $ $Date: 2004/01/18 03:45:02 $
  */
 public abstract class AbstractUnivariateStatistic
     implements UnivariateStatistic {
 
     /**
-     * This implementation provides a simple wrapper around the double[]
-     * and passes the request onto the evaluate(DoubleArray da) method.
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[])
      */
     public double evaluate(final double[] values) {
@@ -72,7 +70,6 @@ public abstract class AbstractUnivariateStatistic
     }
 
     /**
-     * Subclasses of AbstractUnivariateStatistc need to implement this method.
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
     public abstract double evaluate(
@@ -81,14 +78,16 @@ public abstract class AbstractUnivariateStatistic
         final int length);
 
     /**
-     * this protected test method used by all methods to verify the content
-     * of the array and indicies are correct.
+     * This method is used by all evaluation methods to verify that the content
+     * of the array and indices are correct.
+     * <p>
+     *  It is used by an individual statistic to determine if calculation
+     *  should continue, or return <code>Double.NaN</code> </p>
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
      * @param length processing at this point in the array
-     * @return this is used to determine if the array is of 0 length or not,
-     * it is used by an individual statistic to determine if continuation
-     * of a statistical calculation should continue or return NaN.
+     * @return true if the array has postive length
+     * @throws IllegalArgumentException if the indices are invalid or the array is null
      */
     protected boolean test(
         final double[] values,
