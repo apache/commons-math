@@ -99,22 +99,30 @@ public class ExpandableDoubleArray implements Serializable, DoubleArray {
     // should have flags for incremental growth - (i.e. when expanding, only
     // increase storage by a constant size - 100, 200 ) ?
 
-    // This is the internal storage array.
+    /** 
+     * This is the internal storage array.
+     */
     protected double[] internalArray;
 
-    // Number of elements in the array
+    /** 
+     * Number of elements in the array
+     */
     protected int numElements = 0;
 
-    // Keeps track of a starting index
+    /** 
+     * Keeps track of a starting index
+     */
     protected int startIndex = 0;
 
-    // The initial capacity of the array. 
-    // Initial capacity is not exposed as a property as it is only meaningful
-    // when passed to a constructor.
+    /**The initial capacity of the array. 
+     * Initial capacity is not exposed as a property as it is only meaningful
+     * when passed to a constructor.
+     */
     protected int initialCapacity = 16;
 
-    // The expand factor of the array.  When the array need to be expanded, 
-    // the new array size will be internalArray.length * expandFactor 
+    /** The expand factor of the array.  When the array need to be expanded, 
+     * the new array size will be internalArray.length * expandFactor 
+     */
     protected float expansionFactor = 2.0f;
 
     /**
@@ -177,23 +185,24 @@ public class ExpandableDoubleArray implements Serializable, DoubleArray {
         if (expansionFactor > 1.0) {
             this.expansionFactor = expansionFactor;
         } else {
-            String msg = "The expansion factor must be a number greater " +
-                "than 1.0";
+            String msg =
+                "The expansion factor must be a number greater " + "than 1.0";
             throw new IllegalArgumentException(msg);
         }
     }
 
     /**
      * Sets the initial capacity
-     * 
-     * @param initialCapacity
+     * @param initialCapacity of the array
      */
     public void setInitialCapacity(int initialCapacity) {
         if (initialCapacity > 0) {
             this.initialCapacity = initialCapacity;
         } else {
-            String msg = "The initial capacity supplied: " + initialCapacity +
-                "must be a positive integer";
+            String msg =
+                "The initial capacity supplied: "
+                    + initialCapacity
+                    + "must be a positive integer";
             throw new IllegalArgumentException(msg);
         }
     }
@@ -203,8 +212,16 @@ public class ExpandableDoubleArray implements Serializable, DoubleArray {
      * 
      * @return the internal storage array used by this object
      */
-    protected double[] getValues() {
+    public double[] getValues() {
         return (internalArray);
+    }
+
+    /**
+     * Returns the starting index of the internal array.
+     * @return starting index
+     */
+    public int start() {
+        return startIndex;
     }
 
     /**
@@ -228,9 +245,9 @@ public class ExpandableDoubleArray implements Serializable, DoubleArray {
     public synchronized void setNumElements(int i) {
 
         // If index is negative thrown an error
-        if (i <  0) {
-            String msg = "Number of elements must be zero or a positive " +
-                "integer";
+        if (i < 0) {
+            String msg =
+                "Number of elements must be zero or a positive " + "integer";
             throw new IllegalArgumentException(msg);
         }
 
@@ -253,14 +270,16 @@ public class ExpandableDoubleArray implements Serializable, DoubleArray {
     public double getElement(int index) {
         double value = Double.NaN;
         if (index >= numElements) {
-            String msg = "The index specified: " + index + 
-                " is larger than the current number of elements";
+            String msg =
+                "The index specified: "
+                    + index
+                    + " is larger than the current number of elements";
             throw new ArrayIndexOutOfBoundsException(msg);
         } else if (index >= 0) {
             value = internalArray[startIndex + index];
         } else {
-            String msg = "Elements cannot be retrieved from a negative " +
-                "array index";
+            String msg =
+                "Elements cannot be retrieved from a negative " + "array index";
             throw new ArrayIndexOutOfBoundsException(msg);
         }
         return value;
@@ -275,8 +294,8 @@ public class ExpandableDoubleArray implements Serializable, DoubleArray {
      * @param value value to store at the specified index
      */
     public synchronized void setElement(int index, double value) {
-		
-		if (index < 0) {
+
+        if (index < 0) {
             String msg = "Cannot set an element at a negative index";
             throw new ArrayIndexOutOfBoundsException(msg);
         }
@@ -296,7 +315,7 @@ public class ExpandableDoubleArray implements Serializable, DoubleArray {
     private synchronized void expandTo(int size) {
         double[] tempArray = new double[size];
         // Copy and swap
-        System.arraycopy(internalArray,0,tempArray,0,internalArray.length);
+        System.arraycopy(internalArray, 0, tempArray, 0, internalArray.length);
         internalArray = tempArray;
     }
 
@@ -305,10 +324,10 @@ public class ExpandableDoubleArray implements Serializable, DoubleArray {
      */
     protected synchronized void expand() {
 
-		// notice the use of Math.ceil(), this gaurantees that we will always 
+        // notice the use of Math.ceil(), this gaurantees that we will always 
         // have an array of at least currentSize + 1.   Assume that the 
         // current initial capacity is 1 and the expansion factor
-		// is 1.000000000000000001.  The newly calculated size will be 
+        // is 1.000000000000000001.  The newly calculated size will be 
         // rounded up to 2 after the multiplication is performed.
         int newSize = (int) Math.ceil(internalArray.length * expansionFactor);
         double[] tempArray = new double[newSize];
@@ -336,14 +355,14 @@ public class ExpandableDoubleArray implements Serializable, DoubleArray {
      * has the effect of a FIFO.  when you "roll" the array an element is 
      * removed from the array.  The return value of this function is the 
      * discarded double.
-     * 
-     * @return the value which has been discarded or "pushed" out of the array
-     * 	  by this rolling insert.
+     * @param value the value to add
+     * @return the value which has been discarded or "pushed" out of the array 
+     * by this rolling insert.
      */
     public synchronized double addElementRolling(double value) {
         double discarded = internalArray[startIndex];
 
-        if ((startIndex + (numElements+1)) > internalArray.length) {
+        if ((startIndex + (numElements + 1)) > internalArray.length) {
             expand();
         }
         // Increment the start index
@@ -366,7 +385,7 @@ public class ExpandableDoubleArray implements Serializable, DoubleArray {
     int getInternalLength() {
         return (internalArray.length);
     }
-	
+
     /**
      * Clear the array, reset the size to the initialCapacity and the number 
      * of elements to zero.
@@ -385,8 +404,9 @@ public class ExpandableDoubleArray implements Serializable, DoubleArray {
     public synchronized void discardFrontElements(int i) {
 
         if (i > numElements) {
-            String msg = "Cannot discard more elements than are" +
-                "contained in this array.";
+            String msg =
+                "Cannot discard more elements than are"
+                    + "contained in this array.";
             throw new IllegalArgumentException(msg);
         } else if (i < 0) {
             String msg = "Cannot discard a negative number of elements.";
@@ -398,13 +418,17 @@ public class ExpandableDoubleArray implements Serializable, DoubleArray {
         }
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.apache.commons.math.DoubleArray#getElements()
      */
     public double[] getElements() {
         double[] elementArray = new double[numElements];
-        System.arraycopy(internalArray, startIndex, 
-                         elementArray, 0, numElements);
+        System.arraycopy(
+            internalArray,
+            startIndex,
+            elementArray,
+            0,
+            numElements);
         return elementArray;
     }
 

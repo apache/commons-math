@@ -90,14 +90,15 @@ import java.io.Serializable;
  * 
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
  */
-public class ContractableDoubleArray 
-    extends ExpandableDoubleArray 
+public class ContractableDoubleArray
+    extends ExpandableDoubleArray
     implements Serializable {
 
-    // The contraction criteria defines the conditions under which this
-    // object will "resize" the internal array to the number of elements
-    // contained in the element array + 1
-    protected float contractionCriteria = 2.5f;
+    /** The contraction criteria defines the conditions under which this
+     * object will "resize" the internal array to the number of elements
+     * contained in the element array + 1
+     */
+    private float contractionCriteria = 2.5f;
 
     /**
      * Create an expandable double array with the default initial capacity of 
@@ -125,8 +126,9 @@ public class ContractableDoubleArray
      * @param expansionFactor the array will be expanded based on this 
      *                        parameter
      */
-    public ContractableDoubleArray(int initialCapacity, 
-                                   float expansionFactor) {
+    public ContractableDoubleArray(
+        int initialCapacity,
+        float expansionFactor) {
         this.expansionFactor = expansionFactor;
         setInitialCapacity(initialCapacity);
         internalArray = new double[initialCapacity];
@@ -140,10 +142,12 @@ public class ContractableDoubleArray
      * @param initialCapacity The initial size of the internal storage array
      * @param expansionFactor the array will be expanded based on this 
      *                        parameter
+     * @param contractionCriteria The contraction Criteria.
      */
-    public ContractableDoubleArray(int initialCapacity, 
-                                   float expansionFactor, 
-                                   float contractionCriteria) {
+    public ContractableDoubleArray(
+        int initialCapacity,
+        float expansionFactor,
+        float contractionCriteria) {
         this.contractionCriteria = contractionCriteria;
         this.expansionFactor = expansionFactor;
         setInitialCapacity(initialCapacity);
@@ -160,7 +164,7 @@ public class ContractableDoubleArray
         double[] tempArray = new double[numElements + 1];
 
         // Copy and swap - copy only the element array from the src array.
-        System.arraycopy(internalArray,startIndex,tempArray,0,numElements);
+        System.arraycopy(internalArray, startIndex, tempArray, 0, numElements);
         internalArray = tempArray;
 
         // Reset the start index to zero
@@ -198,8 +202,8 @@ public class ContractableDoubleArray
      * gradually push the internal storage vs. element storage to
      * the contractionCriteria.
      * </p>
-     * 
-     * @return value to be added to end of array
+     * @param value to be added to end of array
+     * @return value added
      */
     public synchronized double addElementRolling(double value) {
         double discarded = super.addElementRolling(value);
@@ -227,8 +231,8 @@ public class ContractableDoubleArray
         return shouldContract;
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.ExpandableDoubleArray#setElement(int, double)
+    /**
+     * @see org.apache.commons.math.util.DoubleArray#setElement(int, double)
      */
     public synchronized void setElement(int index, double value) {
         super.setElement(index, value);
@@ -279,38 +283,41 @@ public class ContractableDoubleArray
      * IllegalArgumentException if the contractionCriteria is less than the 
      * expansionCriteria
      * 
-     * @param expansionFactor 
-     * @param contractionCritera
+     * @param expansionFactor factor to be checked
+     * @param contractionCritera critera to be checked
      */
-    protected void checkContractExpand(float contractionCritera, 
-                                        float expansionFactor) {
+    protected void checkContractExpand(
+        float contractionCritera,
+        float expansionFactor) {
 
         if (contractionCritera < expansionFactor) {
-            String msg = "Contraction criteria can never be smaller than " +
-                "the expansion factor.  This would lead to a never ending " +
-                "loop of expansion and contraction as a newly expanded " +
-                "internal storage array would immediately satisfy the " +
-                "criteria for contraction";
+            String msg =
+                "Contraction criteria can never be smaller than "
+                    + "the expansion factor.  This would lead to a never "
+                    + "ending loop of expansion and contraction as a newly "
+                    + "expanded internal storage array would immediately "
+                    + "satisfy the criteria for contraction";
             throw new IllegalArgumentException(msg);
         }
 
         if (contractionCriteria <= 1.0) {
-            String msg = "The contraction criteria must be a number larger " +
-                "than one.  If the contractionCriteria is less than or " +
-                "equal to one an endless loop of contraction and expansion " +
-                "would ensue as an internalArray.length == numElements " +
-                "would satisfy the contraction criteria";
-            throw new IllegalArgumentException(msg); 
+            String msg =
+                "The contraction criteria must be a number larger "
+                    + "than one.  If the contractionCriteria is less than or "
+                    + "equal to one an endless loop of contraction and "
+                    + "expansion would ensue as an internalArray.length "
+                    + "== numElements would satisfy the contraction criteria";
+            throw new IllegalArgumentException(msg);
         }
 
         if (expansionFactor < 1.0) {
-            String msg = "The expansion factor must be a number greater " +
-                "than 1.0";
+            String msg =
+                "The expansion factor must be a number greater " + "than 1.0";
             throw new IllegalArgumentException(msg);
         }
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.apache.commons.math.ExpandableDoubleArray#discardFrontElements(int)
      */
     public synchronized void discardFrontElements(int i) {
