@@ -29,17 +29,17 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * the result is <code>Double.NEGATIVE_INFINITY.</code></li>
  * </ul> 
  * 
- * @version $Revision: 1.17 $ $Date: 2004/06/18 22:09:53 $
+ * @version $Revision: 1.18 $ $Date: 2004/06/18 22:11:33 $
  */
 public class Min extends AbstractStorelessUnivariateStatistic implements Serializable {
 
     /** Serializable version identifier */
     static final long serialVersionUID = -2941995784909003131L;  
       
-    /** */
+    /**Number of values that have been added */
     private long n = 0;
     
-    /** */
+    /**Current value of the statistic */
     private double value = Double.NaN;
 
     /**
