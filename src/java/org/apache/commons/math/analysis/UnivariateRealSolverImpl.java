@@ -24,7 +24,7 @@ import org.apache.commons.math.MathException;
  * Provide a default implementation for several functions useful to generic
  * solvers.
  *  
- * @version $Revision: 1.10 $ $Date: 2004/02/21 21:35:14 $
+ * @version $Revision: 1.11 $ $Date: 2004/04/23 18:20:12 $
  */
 public abstract class UnivariateRealSolverImpl
     implements UnivariateRealSolver, Serializable {
@@ -99,7 +99,6 @@ public abstract class UnivariateRealSolverImpl
         if (resultComputed) {
             return result;
         } else {
-            // TODO: could this be an IllegalStateException instead?
             throw new MathException("No result available");
         }
     }
@@ -114,7 +113,6 @@ public abstract class UnivariateRealSolverImpl
         if (resultComputed) {
             return iterationCount;
         } else {
-            // TODO: could this be an IllegalStateException instead?
             throw new MathException("No result available");
         }
     }
