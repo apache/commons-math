@@ -18,7 +18,6 @@ package org.apache.commons.math.random;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.URL;
 import java.net.MalformedURLException;
 
@@ -40,7 +39,7 @@ import java.net.MalformedURLException;
  *                       standard deviation = <code>sigma</code></li>
  * <li> CONSTANT_MODE -- returns <code>mu</code> every time.</li></ul>
  *
- * @version $Revision: 1.15 $ $Date: 2004/07/17 21:17:48 $
+ * @version $Revision: 1.16 $ $Date: 2004/07/17 22:10:38 $
  *
  */
 public class ValueServer {
