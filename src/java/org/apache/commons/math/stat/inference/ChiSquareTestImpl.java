@@ -15,8 +15,6 @@
  */
 package org.apache.commons.math.stat.inference;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.distribution.DistributionFactory;
 import org.apache.commons.math.distribution.ChiSquaredDistribution;
@@ -24,9 +22,12 @@ import org.apache.commons.math.distribution.ChiSquaredDistribution;
 /**
  * Implements Chi-Square test statistics defined in the {@link ChiSquareTest} interface.
  *
- * @version $Revision: 1.4 $ $Date: 2004/06/05 20:11:06 $
+ * @version $Revision: 1.5 $ $Date: 2004/06/06 23:14:09 $
  */
 public class ChiSquareTestImpl implements ChiSquareTest {
+    
+    /** Cached DistributionFactory used to create ChiSquaredDistribution instances */
+    private DistributionFactory distributionFactory = null;
   
     public ChiSquareTestImpl() {
         super();
@@ -67,7 +68,7 @@ public class ChiSquareTestImpl implements ChiSquareTest {
     public double chiSquareTest(double[] expected, long[] observed)
         throws IllegalArgumentException, MathException {
         ChiSquaredDistribution chiSquaredDistribution =
-            DistributionFactory.newInstance().createChiSquareDistribution((double) expected.length - 1);
+            getDistributionFactory().createChiSquareDistribution((double) expected.length - 1);
         return 1 - chiSquaredDistribution.cumulativeProbability(chiSquare(expected, observed));
     }
 
@@ -135,7 +136,7 @@ public class ChiSquareTestImpl implements ChiSquareTest {
         checkArray(counts);
         double df = ((double) counts.length -1) * ((double) counts[0].length - 1);
         ChiSquaredDistribution chiSquaredDistribution =
-            DistributionFactory.newInstance().createChiSquareDistribution(df);
+            getDistributionFactory().createChiSquareDistribution(df);
         return 1 - chiSquaredDistribution.cumulativeProbability(chiSquare(counts));
     }
 
@@ -181,6 +182,17 @@ public class ChiSquareTestImpl implements ChiSquareTest {
             throw new IllegalArgumentException("All entries in input 2-way table must be non-negative");
         }
         
+    }
+    
+    //---------------------  Protected methods ---------------------------------
+    /**
+     * Gets a DistributionFactory to use in creating ChiSquaredDistribution instances.
+     */
+    protected DistributionFactory getDistributionFactory() {
+        if (distributionFactory == null) {
+            distributionFactory = DistributionFactory.newInstance();
+        }
+        return distributionFactory;
     }
     
     //---------------------  Private array methods -- should find a utility home for these
