@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.2 $ $Date: 2004/11/09 02:26:55 $ -->
+<!-- $Revision: 1.3 $ $Date: 2004/11/09 12:41:37 $ -->
 <document url="stat.html">
   <properties>
     <title>The Commons Math User Guide - Statistics</title>
@@ -92,7 +92,7 @@ double upperTail = 1.0 - t.cumulativeProbability(2.75); // P(T &gt;= 2.75)</sour
       </subsection>
       <subsection name="8.3 User Defined Distributions" href="userdefined">
         <p>
-        Since there are numerous distributions and Commons-Math only directly supports a handfull,
+        Since there are numerous distributions and Commons-Math only directly supports a handful,
         it may be necessary to extend the distribution framework to satisfy individual needs.  It
         is recommended that the <code>Distribution</code>, <code>ContinuousDistribution</code>,
         <code>DiscreteDistribution</code>, and <code>IntegerDistribution</code> interfaces serve as
@@ -103,7 +103,7 @@ double upperTail = 1.0 - t.cumulativeProbability(2.75); // P(T &gt;= 2.75)</sour
         <code>AbstractContinuousDistribution</code>, and <code>AbstractIntegerDistribution</code>
         provide implementation building blocks and offer a lot of default distribution
         functionality.  By extending these abstract classes directly, a good portion of the
-        repetative distribution implementation is already developed and should same time and effort
+        repetitive distribution implementation is already developed and should save time and effort
         in developing user defined distributions.
         </p>
       </subsection>
