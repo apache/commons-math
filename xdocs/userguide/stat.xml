@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.21 $ $Date: 2004/08/12 15:34:14 $ -->
+<!-- $Revision: 1.22 $ $Date: 2004/09/01 16:19:21 $ -->
 <document url="stat.html">
   <properties>
     <title>The Commons Math User Guide - Statistics</title>
@@ -33,7 +33,7 @@
         <p>
          <a href="#1.2 Univariate statistics">Univariate Statistics</a><br></br>
          <a href="#1.3 Frequency distributions">Frequency distributions</a><br></br>
-         <a href="#1.4 Bivariate regression">Bivariate Regression</a><br></br>
+         <a href="#1.4 Simple regression">Simple Regression</a><br></br>
          <a href="#1.5 Statistical tests">Statistical Tests</a><br></br>
         </p>
       </subsection>
@@ -266,10 +266,10 @@ System.out.println(f.getCumPct("z"));  // displays 1
        </dl>
       </p>                  
       </subsection>
-      <subsection name="1.4 Bivariate regression" href="regression">
+      <subsection name="1.4 Simple regression" href="regression">
         <p>
-         <a href="../apidocs/org/apache/commons/math/stat/multivariate/BivariateRegression.html">
-          org.apache.commons.math.stat.multivariate.BivariateRegression</a>
+         <a href="../apidocs/org/apache/commons/math/stat/multivariate/SimpleRegression.html">
+          org.apache.commons.math.stat.multivariate.SimpleRegression</a>
           provides ordinary least squares regression with one independent variable, 
           estimating the linear model:
          </p>
@@ -323,7 +323,7 @@ System.out.println(f.getCumPct("z"));  // displays 1
           <br></br>
           <dd>Instantiate a regression instance and add data points
           <source>
-regression = new BivariateRegression();
+regression = new SimpleRegression();
 regression.addData(1d, 2d);
 // At this point, with only one observation,
 // all regression statistics will return NaN
@@ -362,7 +362,7 @@ System.out.println(regression.predict(1.5d)
           <dd>Instantiate a regression object and load dataset
           <source>
 double[][] data = { { 1, 3 }, {2, 5 }, {3, 7 }, {4, 14 }, {5, 11 }};
-BivariateRegression regression = new BivariateRegression();
+SimpleRegression regression = new SimpleRegression();
 regression.addData(data);
           </source>
           </dd>
