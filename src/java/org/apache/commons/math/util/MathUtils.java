@@ -19,20 +19,26 @@ package org.apache.commons.math.util;
 /**
  * Some useful additions to the built-in functions in {@link Math}.
  *
- * @version $Revision: 1.13 $ $Date: 2004/04/05 03:47:49 $
+ * @version $Revision: 1.14 $ $Date: 2004/04/08 20:46:01 $
  */
 public final class MathUtils {
     
+    /** 0.0 cast as a byte. */
     private static final byte ZB = (byte) 0;
     
+    /** -1.0 cast as a byte. */
     private static final byte NB = (byte) -1;
     
+    /** 1.0 cast as a byte. */
     private static final byte PB = (byte) 1;
     
+    /** 0.0 cast as a short. */
     private static final short ZS = (short) 0;
     
+    /** -1.0 cast as a short. */
     private static final short NS = (short) -1;
     
+    /** 1.0 cast as a short. */
     private static final short PS = (short) 1;
     
     /**

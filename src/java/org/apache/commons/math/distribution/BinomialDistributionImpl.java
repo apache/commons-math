@@ -24,7 +24,7 @@ import org.apache.commons.math.util.MathUtils;
 /**
  * The default implementation of {@link BinomialDistribution}.
  * 
- * @version $Revision: 1.11 $ $Date: 2004/02/21 21:35:14 $
+ * @version $Revision: 1.12 $ $Date: 2004/04/08 20:45:59 $
  */
 public class BinomialDistributionImpl
     extends AbstractDiscreteDistribution
@@ -114,6 +114,8 @@ public class BinomialDistributionImpl
      * For this disbution, X, this method returns P(X &le; x).
      * @param x the value at which the PDF is evaluated.
      * @return PDF for this distribution. 
+     * @exception MathException if the cumulative probability can not be
+     *            computed due to convergence or other numerical errors.
      */
     public double cumulativeProbability(int x) throws MathException {
         double ret;

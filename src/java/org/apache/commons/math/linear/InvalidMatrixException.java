@@ -18,16 +18,44 @@
 
 package org.apache.commons.math.linear;
 
+import org.apache.commons.lang.exception.NestableRuntimeException;
+
 /**
  * Thrown when a system attempts an operation on a matrix, and
  * that matrix does not satisfy the preconditions for the
  * aforementioned operation.
- * @version $Revision: 1.2 $ $Date: 2004/01/29 16:48:49 $
+ * @version $Revision: 1.3 $ $Date: 2004/04/08 20:46:01 $
  */
-public class InvalidMatrixException extends RuntimeException {
-
-    public InvalidMatrixException(String s) {
-        super( s );
+public class InvalidMatrixException extends NestableRuntimeException {
+    /**
+     * Default constructor.
+     */
+    public InvalidMatrixException() {
+        this(null, null);
+    }
+    
+    /**
+     * Construct an exception with the given message.
+     * @param message descriptive error message. 
+     */
+    public InvalidMatrixException(String message) {
+        this(message, null);
     }
 
+    /**
+     * Construct an exception with the given message and root cause.
+     * @param message descriptive error message.
+     * @param cause root cause.
+     */
+    public InvalidMatrixException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    /**
+     * Create an exception with a given root cause.
+     * @param throwable caught exception causing this problem
+     */
+    public InvalidMatrixException(Throwable throwable) {
+        this(null, throwable);
+    }
 }

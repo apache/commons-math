@@ -23,7 +23,7 @@ import org.apache.commons.math.special.Gamma;
 /**
  * The default implementation of {@link GammaDistribution}
  * 
- * @version $Revision: 1.17 $ $Date: 2004/02/21 21:35:14 $
+ * @version $Revision: 1.18 $ $Date: 2004/04/08 20:45:59 $
  */
 public class GammaDistributionImpl extends AbstractContinuousDistribution
     implements GammaDistribution, Serializable  {
@@ -59,6 +59,8 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
      * 
      * @param x the value at which the CDF is evaluated.
      * @return CDF for this distribution. 
+     * @exception MathException if the cumulative probability can not be
+     *            computed due to convergence or other numerical errors.
      */
     public double cumulativeProbability(double x) throws MathException{
         double ret;

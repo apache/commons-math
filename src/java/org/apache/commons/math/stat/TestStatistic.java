@@ -20,7 +20,7 @@ import org.apache.commons.math.MathException;
 /**
  * A collection of commonly used test statistics and statistical tests.
  * 
- * @version $Revision: 1.13 $ $Date: 2004/03/08 04:22:12 $ 
+ * @version $Revision: 1.14 $ $Date: 2004/04/08 20:46:00 $ 
  */
 public interface TestStatistic {
     
@@ -152,6 +152,8 @@ public interface TestStatistic {
      * @param sample2 array of sample data values
      * @return t statistic
      * @throws IllegalArgumentException if the precondition is not met
+     * @throws MathException if the statistic can not be computed do to a
+     *         convergence or other numerical error.
      */
     double t(double[] sample1, double[] sample2) 
         throws IllegalArgumentException, MathException;

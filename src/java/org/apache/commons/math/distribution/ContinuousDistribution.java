@@ -20,13 +20,15 @@ import org.apache.commons.math.MathException;
 /**
  * Base interface for various continuous distributions.
  * 
- * @version $Revision: 1.12 $ $Date: 2004/02/21 21:35:14 $
+ * @version $Revision: 1.13 $ $Date: 2004/04/08 20:45:59 $
  */
 public interface ContinuousDistribution {
     /**
      * For this disbution, X, this method returns P(X &lt; x).
      * @param x the value at which the CDF is evaluated.
      * @return CDF for this distribution. 
+     * @exception MathException if the cumulative probability can not be
+     *            computed due to convergence or other numerical errors.
      */
     double cumulativeProbability(double x) throws MathException;
 
@@ -35,6 +37,8 @@ public interface ContinuousDistribution {
      * @param x0 the lower bound
      * @param x1 the upper bound
      * @return the cumulative probability. 
+     * @exception MathException if the cumulative probability can not be
+     *            computed due to convergence or other numerical errors.
      */
     double cumulativeProbability(double x0, double x1) throws MathException;
     
@@ -42,6 +46,8 @@ public interface ContinuousDistribution {
      * For this disbution, X, this method returns x such that P(X &lt; x) = p.
      * @param p the cumulative probability.
      * @return x. 
+     * @exception MathException if the inverse cumulative probability can not be
+     *            computed due to convergence or other numerical errors.
      */
     double inverseCumulativeProbability(double p) throws MathException;
 }

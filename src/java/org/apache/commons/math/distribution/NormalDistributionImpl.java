@@ -27,8 +27,14 @@ import java.io.Serializable;
  */
 public class NormalDistributionImpl extends AbstractContinuousDistribution 
 		implements NormalDistribution, Serializable {
+    
+    /** The mean of this distribution. */
 	private double mean = 0;
+    
+    /** The standard deviation of this distribution. */
 	private double standardDeviation = 1;
+    
+    /** The algorithm used to compute cumulative probabilities. */
 	private NormalCDFAlgorithm cdfAlgorithm = new NormalCDFPreciseAlgorithm();
 	
 	/**

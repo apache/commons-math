@@ -26,7 +26,7 @@ import org.apache.commons.math.distribution.ChiSquaredDistribution;
 /**
  * Implements test statistics defined in the TestStatistic interface.
  *
- * @version $Revision: 1.14 $ $Date: 2004/03/08 04:22:12 $
+ * @version $Revision: 1.15 $ $Date: 2004/04/08 20:46:00 $
  */
 public class TestStatisticImpl implements TestStatistic, Serializable {
 
@@ -342,6 +342,7 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
      * @param n1 first sample n
      * @param n2 second sample n
      * @return p-value
+     * @throws MathException if an error occurs computing the p-value
      */
     private double tTest(double m1, double m2, double v1, double v2, double n1, double n2)
         throws MathException {
@@ -359,6 +360,7 @@ public class TestStatisticImpl implements TestStatistic, Serializable {
      * @param v sample variance
      * @param n sample n
      * @return p-value
+     * @throws MathException if an error occurs computing the p-value
      */
     private double tTest(double m, double mu, double v, double n)
         throws MathException {

@@ -24,15 +24,19 @@ import java.text.NumberFormat;
  * can be configured.
  *
  * @author Apache Software Foundation
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class ComplexFormat {
 
+    /** The default complex format. */ 
 	private static final ComplexFormat DEFAULT = new ComplexFormat();
 
 	// @TODO This class only allows for max fraction digits, we might want to allow other parameters
+    
+    /** The notation used to signify the imaginary part of the complex number. */
     private String imaginaryCharacter = "i";
 
+    /** The maximum number of decimal digits in the formatted output. */ 
     private int fractionDigits = 2;
 
     /**
@@ -44,6 +48,7 @@ public class ComplexFormat {
     /**
      * Create an instance with a custom imaginary character, and the default number
      * of decimal places - 2.
+     * @param imaginaryCharacter The custom imaginary character.
      */
     public ComplexFormat(String imaginaryCharacter) {
         this.imaginaryCharacter = imaginaryCharacter;
@@ -52,6 +57,8 @@ public class ComplexFormat {
     /**
      * Create an instance with a custom imaginary character, and a custom number of
      * decimal places.
+     * @param imaginaryCharacter The custom imaginary character.
+     * @param fractionDigits The custom number of decimal places.
      */
     public ComplexFormat(String imaginaryCharacter, int fractionDigits) {
         this.imaginaryCharacter = imaginaryCharacter;

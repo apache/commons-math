@@ -24,7 +24,7 @@ import org.apache.commons.math.special.Beta;
  * Default implementation of
  * {@link org.apache.commons.math.distribution.TDistribution}.
  * 
- * @version $Revision: 1.14 $ $Date: 2004/02/21 21:35:14 $
+ * @version $Revision: 1.15 $ $Date: 2004/04/08 20:45:59 $
  */
 public class TDistributionImpl
     extends AbstractContinuousDistribution
@@ -65,6 +65,8 @@ public class TDistributionImpl
      * For this disbution, X, this method returns P(X &lt; <code>x</code>).
      * @param x the value at which the CDF is evaluated.
      * @return CDF evaluted at <code>x</code>. 
+     * @exception MathException if the cumulative probability can not be
+     *            computed due to convergence or other numerical errors.
      */
     public double cumulativeProbability(double x) throws MathException{
         double ret;

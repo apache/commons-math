@@ -22,7 +22,7 @@ import org.apache.commons.math.MathException;
 /**
  * The default implementation of {@link ChiSquaredDistribution}
  * 
- * @version $Revision: 1.14 $ $Date: 2004/02/21 21:35:14 $
+ * @version $Revision: 1.15 $ $Date: 2004/04/08 20:45:59 $
  */
 public class ChiSquaredDistributionImpl
     extends AbstractContinuousDistribution
@@ -61,6 +61,8 @@ public class ChiSquaredDistributionImpl
      * For this disbution, X, this method returns P(X &lt; x).
      * @param x the value at which the CDF is evaluated.
      * @return CDF for this distribution. 
+     * @exception MathException if the cumulative probability can not be
+     *            computed due to convergence or other numerical errors.
      */
     public double cumulativeProbability(double x) throws MathException {
         return getGamma().cumulativeProbability(x);

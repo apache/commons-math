@@ -42,7 +42,7 @@ import java.io.Serializable;
  * explicitly invoke <code>LUDecompose()</code> to recompute the decomposition
  * before using any of the methods above.
  *
- * @version $Revision: 1.16 $ $Date: 2004/04/08 07:01:17 $
+ * @version $Revision: 1.17 $ $Date: 2004/04/08 20:46:01 $
  */
 public class RealMatrixImpl implements RealMatrix, Serializable {
 
@@ -417,7 +417,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
 
 	/**
 	 * @return determinant
-	 * @throws IllegalArgumentException if matrix is not square
+	 * @throws InvalidMatrixException if matrix is not square
 	 */
 	public double getDeterminant() throws InvalidMatrixException {
 		if (!isSquare()) {

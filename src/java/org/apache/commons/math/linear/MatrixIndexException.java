@@ -18,15 +18,43 @@
 
 package org.apache.commons.math.linear;
 
+import org.apache.commons.lang.exception.NestableRuntimeException;
+
 /**
  * Thrown when an operation addresses a matrix coordinate (row,col)
  * which is outside of the dimensions of a matrix.
- * @version $Revision: 1.2 $ $Date: 2004/01/29 16:48:49 $
+ * @version $Revision: 1.3 $ $Date: 2004/04/08 20:46:01 $
  */
-public class MatrixIndexException extends RuntimeException {
-
-    public MatrixIndexException(String s) {
-        super( s );
+public class MatrixIndexException extends NestableRuntimeException {
+    /**
+     * Default constructor.
+     */
+    public MatrixIndexException() {
+        this(null, null);
+    }
+    
+    /**
+     * Construct an exception with the given message.
+     * @param message descriptive error message. 
+     */
+    public MatrixIndexException(String message) {
+        this(message, null);
     }
 
+    /**
+     * Construct an exception with the given message and root cause.
+     * @param message descriptive error message.
+     * @param cause root cause.
+     */
+    public MatrixIndexException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    /**
+     * Create an exception with a given root cause.
+     * @param throwable caught exception causing this problem
+     */
+    public MatrixIndexException(Throwable throwable) {
+        this(null, throwable);
+    }
 }

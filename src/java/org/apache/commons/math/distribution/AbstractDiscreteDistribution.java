@@ -23,7 +23,7 @@ import org.apache.commons.math.MathException;
  * implementations for some of the methods that do not vary from distribution
  * to distribution.
  *  
- * @version $Revision: 1.11 $ $Date: 2004/02/21 21:35:14 $
+ * @version $Revision: 1.12 $ $Date: 2004/04/08 20:45:59 $
  */
 public abstract class AbstractDiscreteDistribution
     implements DiscreteDistribution {
@@ -40,6 +40,8 @@ public abstract class AbstractDiscreteDistribution
      * @param x0 the inclusive, lower bound
      * @param x1 the inclusive, upper bound
      * @return the cumulative probability. 
+     * @exception MathException if the cumulative probability can not be
+     *            computed due to convergence or other numerical errors.
      */
     public double cumulativeProbability(int x0, int x1) throws MathException{
         return cumulativeProbability(x1) - 
@@ -52,6 +54,8 @@ public abstract class AbstractDiscreteDistribution
      *
      * @param p the desired probability
      * @return x, such that P(X &lt; x) = <code>p</code>
+     * @exception MathException if the inverse cumulative probability can not be
+     *            computed due to convergence or other numerical errors.
      */
     public int inverseCumulativeProbability(final double p) throws MathException{
         if (p < 0.0 || p > 1.0) {
