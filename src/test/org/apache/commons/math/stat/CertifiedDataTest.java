@@ -58,25 +58,18 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FilenameFilter;
 import java.io.IOException;
-import java.net.URL;
+import java.io.InputStreamReader;
 import org.apache.commons.logging.*;
 /**
  * Test cases for the {@link Univariate} class.
  *
  * @author Mark R. Diggory
- * @version $Revision: 1.4 $ $Date: 2003/06/02 05:21:06 $
+ * @version $Revision: 1.5 $ $Date: 2003/06/04 04:03:55 $
  */
 
 public class CertifiedDataTest extends TestCase {
-
-	protected double tolerance = .01;
-
-	protected File[] dataFiles = null;
 
 	protected Univariate u = null;
 
@@ -98,15 +91,6 @@ public class CertifiedDataTest extends TestCase {
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	public void setUp() {
-		URL url = getClass().getResource("data");
-		File file = new File(url.getFile());
-
-		dataFiles = file.listFiles(new FilenameFilter() {
-			public boolean accept(File dir, String name) {
-				return name.endsWith(".txt");
-			}
-		});
-
 	}
 
 	/**
@@ -120,68 +104,92 @@ public class CertifiedDataTest extends TestCase {
 
 	/**
 	 * Test UnivariateImpl
- 	
+	*/
 	public void testUnivariateImpl() {
 
-		for (int i = 0; i < dataFiles.length; i++) {
+		u = new UnivariateImpl();
 
-			u = new UnivariateImpl();
+		loadStats("data/Lew.txt");
+		assertEquals("Lew: std", std, u.getStandardDeviation(), .000000000001);
+		assertEquals("Lew: mean", mean, u.getMean(), .000000000001);
+		
+		loadStats("data/Lottery.txt");
+		assertEquals("Lottery: std", std, u.getStandardDeviation(), .000000000001);
+		assertEquals("Lottery: mean", mean, u.getMean(), .000000000001);	
+		
+		loadStats("data/PiDigits.txt");
+		assertEquals("PiDigits: std", std, u.getStandardDeviation(), .00000000000001);
+		assertEquals("PiDigits: mean", mean, u.getMean(), .00000000000001);	
 
-			loadStats(dataFiles[i]);
-
-			assertEquals(
-				dataFiles[i].getName() + ":std",
-				std,
-				u.getStandardDeviation(),
-				tolerance);
-				
-			assertEquals(
-				dataFiles[i].getName() + ":mean",
-				mean,
-				u.getMean(),
-				tolerance);
-
-		}
+		loadStats("data/Mavro.txt");
+		assertEquals("Mavro: std", std, u.getStandardDeviation(), .00000000000001);
+		assertEquals("Mavro: mean", mean, u.getMean(), .00000000000001);
+		
+		//loadStats("data/Michelso.txt");
+		//assertEquals("Michelso: std", std, u.getStandardDeviation(), .00000000000001);
+		//assertEquals("Michelso: mean", mean, u.getMean(), .00000000000001);	
+										
+		loadStats("data/NumAcc1.txt");
+		assertEquals("NumAcc1: std", std, u.getStandardDeviation(), .00000000000001);
+		assertEquals("NumAcc1: mean", mean, u.getMean(), .00000000000001);
+		
+		//loadStats("data/NumAcc2.txt");
+		//assertEquals("NumAcc2: std", std, u.getStandardDeviation(), .000000001);
+		//assertEquals("NumAcc2: mean", mean, u.getMean(), .00000000000001);
 	}
-	*/
+
 	/**
 	 * Test UnivariateImpl
 	 */
 	public void testStoredUnivariateImpl() {
 
-		for (int i = 0; i < dataFiles.length; i++) {
+		u = new StoreUnivariateImpl();
+		
+		loadStats("data/Lew.txt");
+		assertEquals("Lew: std", std, u.getStandardDeviation(), .000000000001);
+		assertEquals("Lew: mean", mean, u.getMean(), .000000000001);
+		
+		loadStats("data/Lottery.txt");
+		assertEquals("Lottery: std", std, u.getStandardDeviation(), .000000000001);
+		assertEquals("Lottery: mean", mean, u.getMean(), .000000000001);		
+																  
+		loadStats("data/PiDigits.txt");
+		assertEquals("PiDigits: std", std, u.getStandardDeviation(), .00000000000001);
+		assertEquals("PiDigits: mean", mean, u.getMean(), .00000000000001);
+		
+		loadStats("data/Mavro.txt");
+		assertEquals("Mavro: std", std, u.getStandardDeviation(), .00000000000001);
+		assertEquals("Mavro: mean", mean, u.getMean(), .00000000000001);		
+		
+		//loadStats("data/Michelso.txt");
+		//assertEquals("Michelso: std", std, u.getStandardDeviation(), .00000000000001);
+		//assertEquals("Michelso: mean", mean, u.getMean(), .00000000000001);	
 
-			u = new StoreUnivariateImpl();
-
-			loadStats(dataFiles[i]);
-
-			assertEquals(
-				dataFiles[i].getName() + ":std",
-				std,
-				u.getStandardDeviation(),
-				tolerance);
-			assertEquals(
-				dataFiles[i].getName() + ":mean",
-				mean,
-				u.getMean(),
-				tolerance);
-
-		}
+		loadStats("data/NumAcc1.txt");
+		assertEquals("NumAcc1: std", std, u.getStandardDeviation(), .00000000000001);
+		assertEquals("NumAcc1: mean", mean, u.getMean(), .00000000000001);
+		
+		//loadStats("data/NumAcc2.txt");
+		//assertEquals("NumAcc2: std", std, u.getStandardDeviation(), .000000001);
+		//assertEquals("NumAcc2: mean", mean, u.getMean(), .00000000000001);
 	}
 
 	/**
 	 * loads a Univariate off of a test file
 	 * @param file
 	 */
-	private void loadStats(File file) {
+	private void loadStats(String resource) {
 
 		try {
 
 			u.clear();
 			mean = Double.NaN;
 			std = Double.NaN;
-			
-			BufferedReader in = new BufferedReader(new FileReader(file));
+
+			BufferedReader in =
+				new BufferedReader(
+					new InputStreamReader(
+						getClass().getResourceAsStream(resource)));
 
 			String line = null;
 
