@@ -39,7 +39,7 @@ import java.math.BigDecimal;
  * explicitly invoke <code>LUDecompose()</code> to recompute the decomposition
  * before using any of the methods above.
  *
- * @version $Revision: 1.2 $ $Date: 2004/06/23 16:26:17 $
+ * @version $Revision: 1.3 $ $Date: 2004/07/11 04:49:24 $
  */
 public class BigMatrixImpl implements BigMatrix, Serializable {
     
@@ -114,6 +114,17 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      * @param d data for new matrix
      */
     public BigMatrixImpl(double[][] d) {
+        this.copyIn(d);
+        lu = null;
+    }
+    
+    /**
+     * Create a new BigMatrix using the values represented by the strings in 
+     * <code>data</code> as the underlying data array.
+     *
+     * @param d data for new matrix
+     */
+    public BigMatrixImpl(String[][] d) {
         this.copyIn(d);
         lu = null;
     }
@@ -321,6 +332,20 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     }
     
     /**
+     * Overwrites the underlying data for the matrix with
+     * <code>BigDecimal</code> entries with values represented by the strings
+     * in <code>data</code>.
+     *
+     * @param  data  2-dimensional array of entries
+     * @throws NumberFormatException if any of the entries in <code>data</code>
+     *    are not valid representations of <code>BigDecimal</code> values
+     */
+    public void setData(String[][] data) {
+        copyIn(data);
+        lu = null;
+    }
+    
+    /**
      * Returns a reference to the underlying data array.
      * <p>
      * Does not make a fresh copy of the underlying data.
@@ -346,7 +371,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     
     /***
      * Gets the rounding mode for division operations
-     * The default is {@link BigDecimal#ROUND_HALF_UP}
+     * The default is {@link java.math.BigDecimal#ROUND_HALF_UP}
      * @see BigDecimal
      * @return the rounding mode.
      */ 
@@ -424,8 +449,8 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      *
      * @param row the row to be fetched
      * @return array of entries in the row
-     * @throws org.apache.commons.math.linear.MatrixIndexException if the specified row is greater
-     *                              than the number of rows in this matrix
+     * @throws org.apache.commons.math.linear.MatrixIndexException if the 
+     *    specified row is greater than the number of rows in this matrix
      */
     public double[] getRowAsDoubleArray(int row) throws MatrixIndexException {
         if ( !isValidCoordinate( row, 1 ) ) {
@@ -444,8 +469,8 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      *
      * @param col  column to fetch
      * @return array of entries in the column
-     * @throws MatrixIndexException if the specified column is greater
-     *                              than the number of columns in this matrix
+     * @throws org.apache.commons.math.linear.MatrixIndexException if the 
+     *     specified column is greater than the number of columns in this matrix
      */
     public BigDecimal[] getColumn(int col) throws MatrixIndexException {
         if ( !isValidCoordinate(1, col) ) {
@@ -465,8 +490,8 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      *
      * @param col  column to fetch
      * @return array of entries in the column
-     * @throws org.apache.commons.math.linear.MatrixIndexException if the specified column is greater
-     *                              than the number of columns in this matrix
+     * @throws org.apache.commons.math.linear.MatrixIndexException if the 
+     *   specified column is greater than the number of columns in this matrix
      */
     public double[] getColumnAsDoubleArray(int col) throws MatrixIndexException {
         if ( !isValidCoordinate( 1, col ) ) {
@@ -503,8 +528,8 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      * @param row  row location of entry to be fetched
      * @param column  column location of entry to be fetched
      * @return matrix entry in row,column
-     * @throws org.apache.commons.math.linear.MatrixIndexException if the specified coordinate is outside
-     *                              the dimensions of this matrix
+     * @throws org.apache.commons.math.linear.MatrixIndexException if the 
+     *     specified coordinate is outside the dimensions of this matrix
      */
     public double getEntryAsDouble(int row, int column) throws MatrixIndexException {
         return getEntry(row,column).doubleValue();
@@ -534,10 +559,26 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      * @param row    row location of entry to be set
      * @param column    column location of entry to be set
      * @param value  value to set
-     * @throws org.apache.commons.math.linear.MatrixIndexException if the specified coordinate is outside
-     *                              he dimensions of this matrix
+     * @throws org.apache.commons.math.linear.MatrixIndexException if the 
+     *     specified coordinate is outside the dimensions of this matrix
      */
     public void setEntry(int row, int column, double value) throws MatrixIndexException {
+        setEntry(row, column, new BigDecimal(value));
+    }
+    
+    /**
+     * Sets the entry in the specified row and column to the 
+     * <code>BigDecimal</code> value represented by the input string.
+     *
+     * @param row  row location of entry to be set
+     * @param column  column location of entry to be set
+     * @param value  value to set
+     * @throws org.apache.commons.math.linear.MatrixIndexException if the 
+     *     specified coordinate is outside the dimensions of this matrix
+     * @throws NumberFormatException if <code>value</code> is not a valid
+     *     representation of a <code>BigDecimal</code> value
+     */
+    public void setEntry(int row, int column, String value) throws MatrixIndexException {
         setEntry(row, column, new BigDecimal(value));
     }
     
@@ -1046,6 +1087,24 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      * @param in data to copy in
      */
     private void copyIn(double[][] in) {
+        int nRows = in.length;
+        int nCols = in[0].length;
+        data = new BigDecimal[nRows][nCols];
+        for (int i = 0; i < nRows; i++) {
+            for (int j=0; j < nCols; j++) {
+                data[i][j] = new BigDecimal(in[i][j]);
+            }
+        }
+        lu = null;
+    }
+    
+    /**
+     * Replaces data with BigDecimals represented by the strings in the input
+     * array.
+     *
+     * @param in data to copy in
+     */
+    private void copyIn(String[][] in) {
         int nRows = in.length;
         int nCols = in[0].length;
         data = new BigDecimal[nRows][nCols];

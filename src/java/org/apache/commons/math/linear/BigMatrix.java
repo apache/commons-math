@@ -22,7 +22,7 @@ import java.math.BigDecimal;
  * Interface defining a real-valued matrix with basic algebraic operations, using
  * BigDecimal representations for the entries.
  *
- * @version $Revision: 1.3 $ $Date: 2004/06/23 16:26:17 $
+ * @version $Revision: 1.4 $ $Date: 2004/07/11 04:49:24 $
  */
 public interface BigMatrix {
 
@@ -115,6 +115,17 @@ public interface BigMatrix {
      * @param  data  2-dimensional array of entries
      */
     void setData(double[][] data);
+    
+    /**
+     * Overwrites the underlying data for the matrix with
+     * <code>BigDecimal</code> entries with values represented by the strings
+     * in <code>data</code>.
+     *
+     * @param  data  2-dimensional array of entries
+     * @throws NumberFormatException if any of the entries in <code>data</code>
+     *    are not valid representations of <code>BigDecimal</code> values
+     */
+    void setData(String[][] data);
 
     /***
      * Sets the rounding mode to use when dividing values
@@ -224,6 +235,21 @@ public interface BigMatrix {
      */
     void setEntry(int row, int column, double value)
         throws MatrixIndexException;
+    
+    /**
+     * Sets the entry in the specified row and column to the 
+     * <code>BigDecimal</code> value represented by the input string.
+     *
+     * @param row  row location of entry to be set
+     * @param column  column location of entry to be set
+     * @param value  value to set
+     * @throws org.apache.commons.math.linear.MatrixIndexException if the 
+     *     specified coordinate is outside the dimensions of this matrix
+     * @throws NumberFormatException if <code>value</code> is not a valid
+     *     representation of a <code>BigDecimal</code> value
+     */
+    void setEntry(int row, int column, String value)
+    throws MatrixIndexException;
 
     /**
      * Returns the transpose of this matrix.
@@ -236,7 +262,8 @@ public interface BigMatrix {
      * Returns the inverse of this matrix.
      *
      * @return inverse matrix
-     * @throws org.apache.commons.math.linear.InvalidMatrixException if  this is not invertible
+     * @throws org.apache.commons.math.linear.InvalidMatrixException if 
+     *     this is not invertible
      */
     BigMatrix inverse() throws InvalidMatrixException;
     
@@ -244,9 +271,10 @@ public interface BigMatrix {
      * Returns the determinant of this matrix.
      *
      * @return determinant
-      *@throws InvalidMatrixException if matrix is not square
+      *@throws org.apache.commons.math.linear.InvalidMatrixException if 
+      *    matrix is not square
      */
-    BigDecimal getDeterminant();
+    BigDecimal getDeterminant() throws InvalidMatrixException;
     
     /**
      * Is this a square matrix?

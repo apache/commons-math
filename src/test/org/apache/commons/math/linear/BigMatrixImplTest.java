@@ -24,12 +24,13 @@ import java.math.BigDecimal;
 /**
  * Test cases for the {@link BigMatrixImpl} class.
  *
- * @version $Revision: 1.1 $ $Date: 2004/06/06 04:20:45 $
+ * @version $Revision: 1.2 $ $Date: 2004/07/11 04:49:24 $
  */
 
 public final class BigMatrixImplTest extends TestCase {
     
     private double[][] testData = { {1d,2d,3d}, {2d,5d,3d}, {1d,0d,8d} };
+    private String[][] testDataString = { {"1","2","3"}, {"2","5","3"}, {"1","0","8"} };
     private double[][] testDataLU = {{2d, 5d, 3d}, {.5d, -2.5d, 6.5d}, {0.5d, 0.2d, .2d}};
     private double[][] testDataPlus2 = { {3d,4d,5d}, {4d,7d,5d}, {3d,2d,10d} };
     private double[][] testDataMinus = { {-1d,-2d,-3d}, {-2d,-5d,-3d}, 
@@ -134,7 +135,23 @@ public final class BigMatrixImplTest extends TestCase {
         m3.setDataRef(asBigDecimal(stompMe));
         assertClose("no copy side effect",m,new BigMatrixImpl(testData),
             entryTolerance);
-    }           
+    }
+    
+    /** test constructors */
+    public void testConstructors() {
+        BigMatrix m1 = new BigMatrixImpl(testData);
+        BigMatrix m2 = new BigMatrixImpl(testDataString);
+        BigMatrix m3 = new BigMatrixImpl(asBigDecimal(testData));
+        assertClose("double, string", m1, m2, Double.MIN_VALUE);
+        assertClose("double, BigDecimal", m1, m3, Double.MIN_VALUE);
+        assertClose("string, BigDecimal", m2, m3, Double.MIN_VALUE);
+        try {
+            BigMatrix m4 = new BigMatrixImpl(new String[][] {{"0", "hello", "1"}});
+            fail("Expecting NumberFormatException");
+        } catch (NumberFormatException ex) {
+            // expected
+        }
+    }
     
     /** test add */
     public void testAdd() {
@@ -441,6 +458,16 @@ public final class BigMatrixImplTest extends TestCase {
         } catch (MatrixIndexException ex) {
             ;
         }
+        m.setEntry(1, 2, "0.1");
+        m.setEntry(1, 1, 0.1d);
+        assertFalse(m.getEntry(1, 2).equals(m.getEntry(1, 1)));
+        assertTrue(m.getEntry(1, 2).equals(new BigDecimal("0.1")));
+        try {
+            m.setEntry(1, 2, "not a number");
+            fail("Expecting NumberFormatException");
+        } catch (NumberFormatException ex) {
+            ;
+        }     
     }
         
     public void testLUDecomposition() throws Exception {
