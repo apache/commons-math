@@ -15,7 +15,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
   -->
-<!-- $Revision: 1.52 $ $Date: 2004/10/09 21:21:42 $ -->
+<!-- $Revision: 1.53 $ $Date: 2004/11/07 03:41:37 $ -->
 
 <project>
   <pomVersion>3</pomVersion>
@@ -111,6 +111,9 @@
     </contributor>
     <contributor>
       <name>Piotr Kochanski</name>
+    </contributor>
+    <contributor>
+      <name>Fredrik Norin</name>
     </contributor>
     <contributor>
       <name>Christopher Schuck</name>
