@@ -18,6 +18,7 @@ package org.apache.commons.math.stat;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.Iterator;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -26,7 +27,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link Frequency} class.
  *
- * @version $Revision: 1.14 $ $Date: 2004/09/19 22:47:27 $
+ * @version $Revision: 1.15 $ $Date: 2004/09/21 03:03:54 $
  */
 
 public final class FrequencyTest extends TestCase {
@@ -196,6 +197,25 @@ public final class FrequencyTest extends TestCase {
         } catch(IOException ex){
             fail(ex.getMessage());
         }        
+    }
+    public void testIntegerValues() {
+        Object obj1 = null;
+        obj1 = new Integer(1);
+        Integer int1 = new Integer(1);
+        f.addValue(obj1);
+        f.addValue(int1);
+        f.addValue(2);
+        f.addValue(new Long(2));
+        assertEquals("Integer 1 count", 2, f.getCount(1));
+        assertEquals("Integer 1 count", 2, f.getCount(new Integer(1)));
+        assertEquals("Integer 1 count", 2, f.getCount(new Long(1)));
+        assertEquals("Integer 1 cumPct", 0.5, f.getCumPct(1), tolerance);
+        assertEquals("Integer 1 cumPct", 0.5, f.getCumPct(new Long(1)), tolerance);
+        assertEquals("Integer 1 cumPct", 0.5, f.getCumPct(new Integer(1)), tolerance);
+        Iterator it = f.valuesIterator();
+        while (it.hasNext()) {
+            assertTrue(it.next() instanceof Long);
+        }     
     }
 }
 
