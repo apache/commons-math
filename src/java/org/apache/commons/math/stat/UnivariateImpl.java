@@ -60,41 +60,30 @@ import org.apache.commons.math.FixedDoubleArray;
 
 /**
  *
- * Accumulates univariate statistics for values fed in 
+ * Accumulates univariate statistics for values fed in
  * through the addValue() method.  Does not store raw data values.
  * All data are represented internally as doubles.
- * Integers, floats and longs can be added, but will be converted
- * to doubles by addValue().  
+ * Integers, floats and longs can be added, but they will be converted
+ * to doubles by addValue().
  *
  * @author Phil Steitz
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
  * @author <a href="mailto:mdiggory@apache.org">Mark Diggory</a>
  * @author Brent Worden
- * @version $Revision: 1.4 $ $Date: 2003/06/14 04:17:49 $
- * 
+ * @author <a href="mailto:HotFusionMan@Yahoo.com">Albert Davidson Chou</a>
+ * @version $Revision: 1.5 $ $Date: 2003/06/16 14:29:30 $
+ *
 */
 public class UnivariateImpl implements Univariate, Serializable {
 
     /** hold the window size **/
     private int windowSize = Univariate.INFINITE_WINDOW;
 
-    /** Just in case, the windowSize is not inifinite, we need to
+    /** Just in case the windowSize is not infinite, we need to
      *  keep an array to remember values 0 to N
      */
     private DoubleArray doubleArray;
 
-    /** running sum of values that have been added */
-    private double sum = 0.0;
-
-    /** running sum of squares that have been added */
-    private double sumsq = 0.0;
-
-    /** running sum of 3rd powers that have been added */
-    private double sumCube = 0.0;
-    
-    /** running sum of 4th powers that have been added */
-    private double sumQuad = 0.0;
-    
     /** count of values that have been added */
     private int n = 0;
 
@@ -107,18 +96,38 @@ public class UnivariateImpl implements Univariate, Serializable {
     /** product of values that have been added */
     private double product = Double.NaN;
 
-    /** Creates new univariate with an inifinite window */
+    /** mean of values that have been added */
+    private double mean = Double.NaN ;
+
+    /** running ( variance * (n - 1) ) of values that have been added */
+    private double pre_variance = Double.NaN ;
+
+    /** variance of values that have been added */
+    private double variance = Double.NaN ;
+
+    /** running sum of values that have been added */
+    private double sum = 0.0;
+
+    /** running sum of squares that have been added */
+    private double sumsq = 0.0;
+
+    /** running sum of 3rd powers that have been added */
+    private double sumCube = 0.0;
+
+    /** running sum of 4th powers that have been added */
+    private double sumQuad = 0.0;
+
+    /** Creates new univariate with an infinite window */
     public UnivariateImpl() {
         clear();
     }
-    
+
     /** Creates a new univariate with a fixed window **/
     public UnivariateImpl(int window) {
         windowSize = window;
         doubleArray = new FixedDoubleArray( window );
     }
 
-     
     /**
      * @see org.apache.commons.math.stat.Univariate#addValue(double)
      */
@@ -126,25 +135,19 @@ public class UnivariateImpl implements Univariate, Serializable {
         insertValue(v);
     }
 
-    
     /**
      * @see org.apache.commons.math.stat.Univariate#getMean()
      */
     public double getMean() {
-        if (n == 0) {
-            return Double.NaN;
-        } else {
-            return (sum / (double) n );
-        }
-     }
+        return mean ;
+    }
 
-     
     /**
      * @see org.apache.commons.math.stat.Univariate#getGeometricMean()
      */
     public double getGeometricMean() {
         if ((product <= 0.0) || (n == 0)) {
-            return Double.NaN; 
+            return Double.NaN;
         } else {
             return Math.pow(product,( 1.0 / (double) n ) );
         }
@@ -162,76 +165,71 @@ public class UnivariateImpl implements Univariate, Serializable {
      */
     public double getStandardDeviation() {
         double variance = getVariance();
+
         if ((variance == 0.0) || (variance == Double.NaN)) {
             return variance;
         } else {
             return Math.sqrt(variance);
         }
     }
-    
+
     /**
-     * Returns the variance of the values that have been added as described by
-     * <a href="http://mathworld.wolfram.com/k-Statistic.html">Equation (5) for k-Statistics</a>.
-     * 
+     * Returns the variance of the values that have been added via West's
+     * algorithm as described by
+     * <a href="http://doi.acm.org/10.1145/359146.359152">Chan, T. F. and
+     * J. G. Lewis 1979, <i>Communications of the ACM</i>,
+     * vol. 22 no. 9, pp. 526-531.</a>.
+     *
      * @return The variance of a set of values.  Double.NaN is returned for
      *         an empty set of values and 0.0 is returned for a &lt;= 1 value set.
      */
     public double getVariance() {
-        double variance = Double.NaN;
-
-        if( n == 1 ) {
-            variance = 0.0;
-        } else if( n > 1 ) {
-            variance = (((double) n) * sumsq - (sum * sum)) / (double) (n * (n - 1));    
-        }
-
-        return variance < 0 ? 0.0 : variance;
+        return variance ;
     }
-     
+
     /**
      * Returns the skewness of the values that have been added as described by
      * <a href="http://mathworld.wolfram.com/k-Statistic.html">Equation (6) for k-Statistics</a>.
-     * 
+     *
      * @return The skew of a set of values.  Double.NaN is returned for
      *         an empty set of values and 0.0 is returned for a &lt;= 2 value set.
      */
     public double getSkewness() {
-        
+
         if( n < 1) return Double.NaN;
-        if( n <= 2 ) return 0.0;                  
-            
-        return ( 2 * Math.pow(sum, 3) - 3 * sum * sumsq + ((double) (n * n)) * sumCube ) / 
-               ( (double) (n * (n - 1) * (n - 2)) ) ;  
+        if( n <= 2 ) return 0.0;
+
+        return ( 2 * Math.pow(sum, 3) - 3 * sum * sumsq + ((double) (n * n)) * sumCube ) /
+               ( (double) (n * (n - 1) * (n - 2)) ) ;
     }
-    
+
     /**
      * Returns the kurtosis of the values that have been added as described by
      * <a href="http://mathworld.wolfram.com/k-Statistic.html">Equation (7) for k-Statistics</a>.
-     * 
+     *
      * @return The kurtosis of a set of values.  Double.NaN is returned for
      *         an empty set of values and 0.0 is returned for a &lt;= 3 value set.
      */
     public double getKurtosis() {
-        
+
         if( n < 1) return Double.NaN;
         if( n <= 3 ) return 0.0;
-        
+
         double x1 = -6 * Math.pow(sum, 4);
         double x2 = 12 * ((double) n) * Math.pow(sum, 2) * sumsq;
         double x3 = -3 * ((double) (n * (n - 1))) * Math.pow(sumsq,2);
         double x4 = -4 * ((double) (n * (n + 1))) * sum * sumCube;
         double x5 = Math.pow(((double) n),2) * ((double) (n+1)) * sumQuad;
-        
-        return (x1 + x2 + x3 + x4 + x5) / 
+
+        return (x1 + x2 + x3 + x4 + x5) /
                ( (double) (n * (n - 1) * (n - 2) * (n - 3)) );
-    } 
-    
+    }
+
     /**
      * Called in "addValue" to insert a new value into the statistic.
      * @param v The value to be added.
      */
     private void insertValue(double v) {
-
         // The default value of product is NaN, if you
         // try to retrieve the product for a univariate with
         // no values, we return NaN.
@@ -239,8 +237,14 @@ public class UnivariateImpl implements Univariate, Serializable {
         // If this is the first call to insertValue, we want
         // to set product to 1.0, so that our first element
         // is not "cancelled" out by the NaN.
+        //
+        // For the first value added, the mean is that value,
+        // and the variance is zero.
         if( n == 0 ) {
-            product = 1.0;
+            product = 1.0 ;
+            mean = v ;
+            pre_variance = 0.0 ;
+            variance = 0.0 ;
         }
 
         if( windowSize != Univariate.INFINITE_WINDOW ) {
@@ -251,17 +255,17 @@ public class UnivariateImpl implements Univariate, Serializable {
                 sum -= discarded;
                 sumsq -= discarded * discarded;
                 sumCube -= Math.pow(discarded, 3);
-                sumQuad -= Math.pow(discarded, 4); 
-                
+                sumQuad -= Math.pow(discarded, 4);
+
                 if(discarded == min) {
                     min = doubleArray.getMin();
                 } else if(discarded == max){
                     max = doubleArray.getMax();
-                } 
-                
+                }
+
                 if(product != 0.0){
                     // can safely remove discarded value
-                    product *=  v / discarded;
+                    product *= v / discarded;
                 } else if(discarded == 0.0){
                     // need to recompute product
                     product = 1.0;
@@ -272,8 +276,8 @@ public class UnivariateImpl implements Univariate, Serializable {
                 } // else product = 0 and will still be 0 after discard
 
             } else {
-                doubleArray.addElement( v );            
-                n += 1.0;
+                doubleArray.addElement( v );
+                n += 1 ;
                 if (v < min) {
                     min = v;
                 }
@@ -283,19 +287,28 @@ public class UnivariateImpl implements Univariate, Serializable {
                 product *= v;
             }
         } else {
-            // If the windowSize is inifinite please don't take the time to
+            // If the windowSize is infinite please don't take the time to
             // worry about storing any values.  We don't need to discard the
             // influence of any single item.
-            n += 1.0;
+            n += 1 ;
             if (v < min) {
                 min = v;
-            } 
+            }
             if (v > max) {
                 max = v;
-            } 
+            }
             product *= v;
+
+            if ( n > 1 )
+            {
+                double deviationFromMean = v - mean ;
+                double deviationFromMean_overN = deviationFromMean / n ;
+                mean += deviationFromMean_overN ;
+                pre_variance += (n - 1) * deviationFromMean * deviationFromMean_overN ;
+                variance = pre_variance / (n - 1) ;
+            }
         }
-        
+
         sum += v;
         sumsq += v * v;
         sumCube += Math.pow(v,3);
@@ -306,7 +319,7 @@ public class UnivariateImpl implements Univariate, Serializable {
      * @return Value of property max.
      */
     public double getMax() {
-        if (n == 0) { 
+        if (n == 0) {
             return Double.NaN;
         } else {
             return max;
@@ -317,7 +330,7 @@ public class UnivariateImpl implements Univariate, Serializable {
      * @return Value of property min.
      */
     public double getMin() {
-        if (n == 0) { 
+        if (n == 0) {
             return Double.NaN;
         } else {
             return min;
@@ -351,16 +364,16 @@ public class UnivariateImpl implements Univariate, Serializable {
     public double getSumCube() {
         return sumCube;
     }
-    
+
     /** Getter for property sumQuad.
      * @return Value of property sumQuad.
      */
     public double getSumQuad() {
         return sumQuad;
     }
-    
+
     /**
-     * Generates a text report displaying 
+     * Generates a text report displaying
      * univariate statistics from values that
      * have been added.
      * @return String with line feeds displaying statistics
@@ -377,9 +390,9 @@ public class UnivariateImpl implements Univariate, Serializable {
         outBuffer.append("kurtosis: " + getKurtosis() + "\n");
         return outBuffer.toString();
     }
-    
-    /** 
-     * Resets all sums to 0, resets min and max 
+
+    /**
+     * Resets all sums, product, mean, and variance to 0; resets min and max.
      */
     public void clear() {
         this.sum = this.sumsq = this.sumCube = this.sumQuad = 0.0;
@@ -387,6 +400,8 @@ public class UnivariateImpl implements Univariate, Serializable {
         this.min = Double.MAX_VALUE;
         this.max = Double.MIN_VALUE;
         this.product = Double.NaN;
+        this.mean = Double.NaN ;
+        this.variance = this.pre_variance = Double.NaN ;
     }
 
     /* (non-Javadoc)

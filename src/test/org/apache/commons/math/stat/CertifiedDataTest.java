@@ -66,7 +66,7 @@ import org.apache.commons.logging.*;
  * Test cases for the {@link Univariate} class.
  *
  * @author Mark R. Diggory
- * @version $Revision: 1.5 $ $Date: 2003/06/04 04:03:55 $
+ * @version $Revision: 1.6 $ $Date: 2003/06/16 14:29:30 $
  */
 
 public class CertifiedDataTest extends TestCase {
@@ -118,8 +118,8 @@ public class CertifiedDataTest extends TestCase {
 		assertEquals("Lottery: mean", mean, u.getMean(), .000000000001);	
 		
 		loadStats("data/PiDigits.txt");
-		assertEquals("PiDigits: std", std, u.getStandardDeviation(), .00000000000001);
-		assertEquals("PiDigits: mean", mean, u.getMean(), .00000000000001);	
+		assertEquals("PiDigits: std", std, u.getStandardDeviation(), .0000000000001);
+		assertEquals("PiDigits: mean", mean, u.getMean(), .0000000000001);	
 
 		loadStats("data/Mavro.txt");
 		assertEquals("Mavro: std", std, u.getStandardDeviation(), .00000000000001);
@@ -154,8 +154,8 @@ public class CertifiedDataTest extends TestCase {
 		assertEquals("Lottery: mean", mean, u.getMean(), .000000000001);		
 																  
 		loadStats("data/PiDigits.txt");
-		assertEquals("PiDigits: std", std, u.getStandardDeviation(), .00000000000001);
-		assertEquals("PiDigits: mean", mean, u.getMean(), .00000000000001);
+		assertEquals("PiDigits: std", std, u.getStandardDeviation(), .0000000000001);
+		assertEquals("PiDigits: mean", mean, u.getMean(), .0000000000001);
 		
 		loadStats("data/Mavro.txt");
 		assertEquals("Mavro: std", std, u.getStandardDeviation(), .00000000000001);
