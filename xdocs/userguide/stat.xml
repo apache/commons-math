@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.17 $ $Date: 2004/05/06 04:24:28 $ -->
+<!-- $Revision: 1.18 $ $Date: 2004/06/05 19:28:43 $ -->
 <document url="stat.html">
   <properties>
     <title>The Commons Math User Guide - Statistics</title>
@@ -28,7 +28,7 @@
         <p>
           The statistics package provides frameworks and implementations for
           basic univariate statistics, frequency distributions, bivariate regression,  
-          and t- and chi-square test statistic.
+          and t- and chi-square test statistics.
         </p>
         <p>
          <a href="#1.2 Univariate statistics">Univariate Statistics</a><br></br>
@@ -55,7 +55,7 @@
           statistics can be computed without maintaining the full list of input 
           data values in memory.  The stat package provides interfaces and 
           implementations that do not require value storage as well as 
-          implementations that operate on arraysof stored values.  
+          implementations that operate on arrays of stored values.  
         </p>
         <p>
           The top level interface is 
@@ -68,7 +68,8 @@
           StorelessUnivariateStatistic</a>, which adds <code>increment(),</code>
           <code>getResult()</code> and associated methods to support 
           "storageless" implementations that maintain counters, sums or other 
-          state information as values are added using the <code>increment()</code>method.  
+          state information as values are added using the <code>increment()</code>
+          method.  
         </p>
         <p>
           Abstract implementations of the top level interfaces are provided in 
@@ -230,16 +231,11 @@ in.close();
  f.addValue(new Long(1));
  f.addValue(2)
  f.addValue(new Integer(-1));
- System.out.prinltn(f.getCount(1));              
- // displays 3
- System.out.println(f.getCumPct(0));             
- // displays 0.2
- System.out.println(f.getPct(new Integer(1)));   
- // displays 0.6 
- System.out.println(f.getCumPct(-2));            
- // displays 0 -- all values are greater than this
- System.out.println(f.getCumPct(10));            
- // displays 1 -- all values are less than this
+ System.out.prinltn(f.getCount(1));   // displays 3
+ System.out.println(f.getCumPct(0));  // displays 0.2
+ System.out.println(f.getPct(new Integer(1)));  // displays 0.6 
+ System.out.println(f.getCumPct(-2));   // displays 0
+ System.out.println(f.getCumPct(10));  // displays 1 
           </source> 
           </dd>
           <dt>Count string frequencies</dt>
@@ -251,12 +247,9 @@ f.addValue("one");
 f.addValue("One");
 f.addValue("oNe");
 f.addValue("Z");
-System.out.println(f.getCount("one"));    
-// displays 1
-System.out.println(f.getCumPct("Z"));     
-// displays 0.5 -- second in sort order
-System.out.println(f.getCumPct("Ot"));   
-// displays 0.25 -- between first ("One") and second ("Z") value
+System.out.println(f.getCount("one")); // displays 1
+System.out.println(f.getCumPct("Z"));  // displays 0.5 
+System.out.println(f.getCumPct("Ot")); // displays 0.25 
           </source>
           </dd>
           <dd>Using case-insensitive comparator:
@@ -266,10 +259,8 @@ f.addValue("one");
 f.addValue("One");
 f.addValue("oNe");
 f.addValue("Z");
-System.out.println(f.getCount("one"));  
-// displays 3
-System.out.println(f.getCumPct("z"));   
-// displays 1 -- last value
+System.out.println(f.getCount("one"));  // displays 3
+System.out.println(f.getCumPct("z"));  // displays 1 
           </source>
          </dd>
        </dl>
@@ -332,24 +323,28 @@ System.out.println(f.getCumPct("z"));
           <br></br>
           <dd>Instantiate a regression instance and add data points
           <source>
- regression = new BivariateRegression();
- regression.addData(1d, 2d);
- // At this point, with only one observation,
- // all regression statistics will return NaN
- regression.addData(3d, 3d);
- // With only two observations, 
- // slope and intercept can be computed
- // but inference statistics will return NaN
- regression.addData(3d, 3d);
- // Now all statistics are defined.
+regression = new BivariateRegression();
+regression.addData(1d, 2d);
+// At this point, with only one observation,
+// all regression statistics will return NaN
+ 
+regression.addData(3d, 3d);
+// With only two observations, 
+// slope and intercept can be computed
+// but inference statistics will return NaN
+ 
+regression.addData(3d, 3d);
+// Now all statistics are defined.
          </source>
          </dd>
          <dd>Compute some statistics based on observations added so far
          <source>
 System.out.println(regression.getIntercept());   
 // displays intercept of regression line
+
 System.out.println(regression.getSlope());       
 // displays slope of regression line
+
 System.out.println(regression.getSlopeStdErr()); 
 // displays slope standard error
          </source>
@@ -375,8 +370,10 @@ regression.addData(data);
          <source>
 System.out.println(regression.getIntercept());   
 // displays intercept of regression line
+
 System.out.println(regression.getSlope());       
 // displays slope of regression line
+
 System.out.println(regression.getSlopeStdErr()); 
 // displays slope standard error
          </source>
@@ -392,7 +389,9 @@ System.out.println(regression.getSlopeStdErr());
           <a href="../apidocs/org/apache/commons/math/stat/inference/">
           org.apache.commons.math.stat.inference</a> package provide 
           <a href="http://www.itl.nist.gov/div898/handbook/prc/section2/prc22.htm">
-          Student's t</a> and <a href="">Chi-Square</a> test statistics as well as 
+          Student's t</a> and 
+          <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda35f.htm">
+          Chi-Square</a> test statistics as well as 
           <a href="http://www.cas.lancs.ac.uk/glossary_v1.1/hyptest.html#pvalue">
           p-values</a> associated with <code>t-</code> and 
           <code>Chi-Square</code> tests.
@@ -400,11 +399,20 @@ System.out.println(regression.getSlopeStdErr());
         <p>
           <strong>Implementation Notes</strong>
           <ul>
-          <li>The t-test implementation provided in <code>TTestImpl</code> does 
-          not assume that the underlying popuation variances are equal and it uses 
-          approximated degrees of freedom computed from the sample data as described 
-          <a href="http://www.itl.nist.gov/div898/handbook/prc/section3/prc31.htm">
-          here</a></li>
+          <li>Both one- and two-sample t-tests are supported.  Two sample tests
+          can be either paired or unpaired and the unpaired two-sample tests can
+          be conducted under the assumption of equal subpopulation variances or
+          without this assumption.  When equal variances is assumed, a pooled 
+          variance estimate is used to compute the t-statistic and the degrees
+          of freedom used in the t-test equals the sum of the sample sizes minus 2.
+          When equal variances is not assumed, the t-statistic uses both sample 
+          variances and the 
+          <a href="http://www.itl.nist.gov/div898/handbook/prc/section3/gifs/nu3.gif">
+          Welch-Satterwaite approximation</a> is used to compute the degrees 
+          of freedom.  Methods to return t-statistics and p-values are provided in each 
+          case, as well as boolean-valued methods to perform fixed significance
+          level tests. See the examples below and the API documentation for 
+          more details.</li>
           <li>The validity of the p-values returned by the t-test depends on the 
           assumptions of the parametric t-test procedure, as discussed 
           <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">
@@ -412,6 +420,10 @@ System.out.println(regression.getSlopeStdErr());
           <li>p-values returned by both t- and chi-square tests are exact, based 
            on numerical approximations to the t- and chi-square distributions in the 
            <code>distributions</code> package. </li>
+           <li>p-values returned by t-tests are for two-sided tests and the boolean-valued
+           methods supporting fixed significance level tests assume that the hypotheses
+           are two-sided.  One sided tests can be performed by dividing returned p-values
+           (resp. critical values) by 2.</li>
            <li>Degrees of freedom for chi-square tests are integral values, based on the
            number of observed or expected counts (number of observed counts - 1) 
            for the goodness-of-fit tests and (number of columns -1) * (number of rows - 1) 
@@ -421,7 +433,7 @@ System.out.println(regression.getSlopeStdErr());
           <p>
         <strong>Examples:</strong>
         <dl>
-          <dt>Computing <code>t</code> test statistics</dt>
+          <dt><strong>One-sample <code>t</code> tests</strong></dt>
           <br></br>
           <dd>To compare the mean of a double[] array to a fixed value:
           <source>
@@ -448,8 +460,6 @@ for (int i = 0; i &lt; observed.length; i++) {
 System.out.println(testStatistic.t(mu, observed); 
 </source>
            </dd>
-           <dt>Performing <code>t</code> tests</dt>
-           <br></br>
            <dd>To compute the p-value associated with the null hypothesis that the mean
             of a set of values equals a point estimate, against the two-sided alternative that
             the mean is different from the target value:
@@ -463,7 +473,7 @@ System.out.println(testStatistic.tTest(mu, observed);
           hypothesis that the mean of the population from which the 
           <code>observed</code> values are drawn equals <code>mu.</code>
           </dd>
-          <dd> To perform the test using a fixed significance level, use:
+          <dd>To perform the test using a fixed significance level, use:
           <source>
 testStatistic.tTest(mu, observed, alpha);  
           </source>
@@ -473,11 +483,81 @@ testStatistic.tTest(mu, observed, alpha);
           To test, for example at the 95% level of confidence, use 
           <code>alpha = 0.05</code>
           </dd>
-          <dd>Two-sample tests just add another sample.  There is no requirement 
-          that the sample sizes be the same.  Null hypotheses for two-sample tests 
-          are that the two population means are the same, evaluated against two-sided 
-          alternatives.  To perform one-sided tests, returned p-values can be divided 
-          by 2 (or significance levels doubled).</dd>
+          <dt><strong>Two-Sample t-tests</strong></dt>
+          <br></br>
+          <dd><strong>Example 1:</strong> Paired test evaluating 
+          the null hypothesis that the mean difference between corresponding
+          (paired) elements of the <code>double[]</code> arrays 
+          <code>sample1</code> and <code>sample2</code> is zero.  
+          <p>
+          To compute the t-statistic:
+          <source>
+TTestImpl testStatistic = new TTestImpl();
+testStatistic.pairedT(sample1, sample2);
+          </source>
+           </p>
+           <p>
+           To compute the (one-sided) p-value:
+           <source>
+testStatistic.pairedTTest(sample1, sample2);
+           </source> 
+           </p>
+           <p>
+           To perform a fixed significance level test with alpha = .05:
+           <source>
+testStatistic.pairedTTest(sample1, sample2, .05);    
+           </source>
+           </p>
+           The last example will return <code>true</code> iff the p-value
+           returned by <code>testStatistic.pairedTTest(sample1, sample2)</code>
+           is less than <code>.05</code>
+           </dd> 
+           <dd><strong>Example 2: </strong> unpaired, two-sample t-test using
+           <code>StatisticalSummary</code> instances, without assuming that
+           subpopulation variances are equal.  
+           <p>
+           First create the <code>StatisticalSummary</code> instances.  Both
+           <code>DescriptiveStatistics</code> and <code>SummaryStatistics</code>
+           implement this interface.  Assume that <code>summary1</code> and
+           <code>summary2</code> are <code>SummaryStatistics</code> instances,
+           each of which has had at least 2 values added to the (virtual) dataset that
+           it describes.  The sample sizes do not have to be the same -- all that is required
+           is that both samples have at least 2 elements. 
+           </p>
+           <p><strong>Note:</strong> The <code>SummaryStatistics</code> class does
+           not store the dataset that it describes in memory, but it does compute all 
+           statistics necessary to perform t-tests, so this method can be used to 
+           conduct t-tests with very large samples.  One-sample tests can also be 
+           performed this way.
+           (See <a href="#1.2 Univariate statistics">Univariate Statistics</a> for details
+           on the <code>SummaryStatistics</code> class.)
+           </p>
+           <p>
+          To compute the t-statistic:
+          <source>
+TTestImpl testStatistic = new TTestImpl();
+testStatistic.t(summary1, summary2, false);  
+          </source>
+           </p>
+           <p>
+           To compute the (one-sided) p-value:
+           <source>
+testStatistic.tTest(sample1, sample2, false);
+           </source> 
+           </p>
+           <p>
+           To perform a fixed significance level test with alpha = .05:
+           <source>
+testStatistic.tTest(sample1, sample2, .05, false);    
+           </source>
+           </p> 
+           <p>
+           In each case above, the last (boolean) parameter determines
+           whether or not the test should assume that subpopulation variances
+           are equal.  Replacing this with <code>true</code> will result in 
+           homoscedastic (equal variances) tests / test statistics.
+           </p>   
+           </dd>     
           <dt>Computing <code>chi-square</code> test statistics</dt>
           <br></br>
           <dd>To compute a chi-square statistic measuring the agreement between a 
