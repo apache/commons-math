@@ -22,28 +22,28 @@ import org.apache.commons.math.TestUtils;
  * Abstract base class for {@link ContinuousDistribution} tests.
  * <p>
  * To create a concrete test class for a continuous distribution implementation,
- *  implement makeDistribution() to return a distribution instance to use in 
- *  tests and each of the test data generation methods below.  In each case, the
- *  test points and test values arrays returned represent parallel arrays of 
- *  inputs and expected values for the distribution returned by makeDistribution().
+ * implement makeDistribution() to return a distribution instance to use in 
+ * tests and each of the test data generation methods below.  In each case, the
+ * test points and test values arrays returned represent parallel arrays of 
+ * inputs and expected values for the distribution returned by makeDistribution().
  *  <p>
- *  makeCumulativeTestPoints() -- arguments used to test cumulative probabilities
- *  makeCumulativeTestValues() -- expected cumulative probabilites
- *  makeInverseCumulativeTestPoints() -- arguments used to test inverse cdf evaluation
- *  makeInverseCumulativeTestValues() -- expected inverse cdf values
+ * makeCumulativeTestPoints() -- arguments used to test cumulative probabilities
+ * makeCumulativeTestValues() -- expected cumulative probabilites
+ * makeInverseCumulativeTestPoints() -- arguments used to test inverse cdf evaluation
+ * makeInverseCumulativeTestValues() -- expected inverse cdf values
  * <p>
- *  To implement additional test cases with different distribution instances and test data,
- *  use the setXxx methods for the instance data in test cases and call the verifyXxx methods
- *  to verify results. 
+ * To implement additional test cases with different distribution instances and test data,
+ * use the setXxx methods for the instance data in test cases and call the verifyXxx methods
+ * to verify results. 
  * <p>
- *  Error tolerance can be overriden by implementing getTolerance().
+ * Error tolerance can be overriden by implementing getTolerance().
  * 
- * @version $Revision: 1.1 $ $Date: 2004/05/29 22:51:32 $
+ * @version $Revision: 1.2 $ $Date: 2004/05/30 03:08:00 $
  */
 public abstract class ContinuousDistributionAbstractTest extends TestCase {
     
 //-------------------- Private test instance data -------------------------
-    /** Discrete distribution instance used to perform tests */
+    /**  Distribution instance used to perform tests */
     private ContinuousDistribution distribution;
     
     /** Tolerance used in comparing expected and returned values */
@@ -64,7 +64,7 @@ public abstract class ContinuousDistributionAbstractTest extends TestCase {
     //-------------------------------------------------------------------------
     
     /**
-     * Constructor for DiscreteDistributionAbstractTest.
+     * Constructor for ContinuousDistributionAbstractTest.
      * @param name
      */
     public ContinuousDistributionAbstractTest(String name) {
@@ -136,7 +136,7 @@ public abstract class ContinuousDistributionAbstractTest extends TestCase {
     }
     
     /**
-     * Verifies that inverse cumulative probability density calculations match exptected values
+     * Verifies that inverse cumulative probability density calculations match expected values
      * using current test instance data
      */
     protected void verifyInverseCumulativeProbabilities() throws Exception {
@@ -151,7 +151,7 @@ public abstract class ContinuousDistributionAbstractTest extends TestCase {
     //------------------------ Default test cases -----------------------------
     
     /**
-     * Verifies that cumulative probability density calculations match exptected values
+     * Verifies that cumulative probability density calculations match expected values
      * using default test instance data
      */
     public void testCumulativeProbabilities() throws Exception {
@@ -159,7 +159,7 @@ public abstract class ContinuousDistributionAbstractTest extends TestCase {
     }
     
     /**
-     * Verifies that inverse cumulative probability density calculations match exptected values
+     * Verifies that inverse cumulative probability density calculations match expected values
      * using default test instance data
      */
     public void testInverseCumulativeProbabilities() throws Exception {
