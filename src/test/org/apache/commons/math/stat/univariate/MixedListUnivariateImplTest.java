@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.stat;
+package org.apache.commons.math.stat.univariate;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.commons.math.util.NumberTransformer;
 import org.apache.commons.math.util.TransformerMap;
 import junit.framework.Test;
@@ -26,7 +27,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link Univariate} class.
  *
- * @version $Revision: 1.8 $ $Date: 2004/02/21 21:35:17 $
+ * @version $Revision: 1.1 $ $Date: 2004/04/12 02:27:50 $
  */
 
 public final class MixedListUnivariateImplTest extends TestCase {

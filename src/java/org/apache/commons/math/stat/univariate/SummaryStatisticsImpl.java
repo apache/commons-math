@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.stat;
+package org.apache.commons.math.stat.univariate;
 
 import org.apache.commons.math.stat.univariate.moment.SecondMoment;
 import org.apache.commons.math.stat.univariate.moment.GeometricMean;
@@ -28,7 +28,7 @@ import org.apache.commons.math.stat.univariate.summary.SumOfSquares;
 /**
  * Provides a default {@link SummaryStatistics} implementation.
  * 
- * @version $Revision: 1.4 $ $Date: 2004/03/21 21:56:26 $  
+ * @version $Revision: 1.1 $ $Date: 2004/04/12 02:27:49 $  
  */
 public class SummaryStatisticsImpl extends SummaryStatistics {
 

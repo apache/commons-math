@@ -22,13 +22,13 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.distribution.DistributionFactory;
 import org.apache.commons.math.distribution.TDistribution;
 import org.apache.commons.math.distribution.ChiSquaredDistribution;
-import org.apache.commons.math.stat.StatisticalSummary;
 import org.apache.commons.math.stat.StatUtils;
+import org.apache.commons.math.stat.univariate.StatisticalSummary;
 
 /**
  * Implements test statistics defined in the TestStatistic interface.
  *
- * @version $Revision: 1.3 $ $Date: 2004/04/11 20:42:33 $
+ * @version $Revision: 1.4 $ $Date: 2004/04/12 02:27:49 $
  */
 public class TestStatisticImpl implements TestStatistic, Serializable {
 

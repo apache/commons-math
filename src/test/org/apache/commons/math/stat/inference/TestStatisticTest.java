@@ -21,11 +21,11 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.apache.commons.math.stat.SummaryStatistics;
+import org.apache.commons.math.stat.univariate.SummaryStatistics;
 /**
  * Test cases for the TestStatistic class.
  *
- * @version $Revision: 1.2 $ $Date: 2004/04/11 20:42:33 $
+ * @version $Revision: 1.3 $ $Date: 2004/04/12 02:27:50 $
  */
 
 public final class TestStatisticTest extends TestCase {

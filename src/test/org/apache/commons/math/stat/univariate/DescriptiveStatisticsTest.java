@@ -13,22 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.stat;
+package org.apache.commons.math.stat.univariate;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.random.RandomData;
 import org.apache.commons.math.random.RandomDataImpl;
 
 /**
  * Test cases for the {@link Univariate} class.
  *
- * @version $Revision: 1.12 $ $Date: 2004/02/21 21:35:17 $
+ * @version $Revision: 1.1 $ $Date: 2004/04/12 02:27:50 $
  */
 
-public final class StoreUnivariateImplTest extends TestCase {
+public final class DescriptiveStatisticsTest extends TestCase {
     private double one = 1;
     private float two = 2;
     private int three = 3;
@@ -45,7 +46,7 @@ public final class StoreUnivariateImplTest extends TestCase {
     private int kClass = DescriptiveStatistics.LEPTOKURTIC;
     private double tolerance = 10E-15;
     
-    public StoreUnivariateImplTest(String name) {
+    public DescriptiveStatisticsTest(String name) {
         super(name);
     }
     
@@ -53,8 +54,8 @@ public final class StoreUnivariateImplTest extends TestCase {
     }
     
     public static Test suite() {
-        TestSuite suite = new TestSuite(StoreUnivariateImplTest.class);
-        suite.setName("Frequency Tests");
+        TestSuite suite = new TestSuite(DescriptiveStatisticsTest.class);
+        suite.setName("Descriptive Statistics Tests");
         return suite;
     }
     
@@ -79,7 +80,7 @@ public final class StoreUnivariateImplTest extends TestCase {
     }     
     
     public void testN0andN1Conditions() throws Exception {
-    	DescriptiveStatistics u = DescriptiveStatistics.newInstance(); 
+    	DescriptiveStatistics u = DescriptiveStatistics.newInstance();
     	    	
             assertTrue("Mean of n = 0 set should be NaN", 
                 Double.isNaN( u.getMean() ) );
@@ -99,7 +100,7 @@ public final class StoreUnivariateImplTest extends TestCase {
     }
     
     public void testSkewAndKurtosis() {
-    	DescriptiveStatistics u = DescriptiveStatistics.newInstance(); 
+    	DescriptiveStatistics u = DescriptiveStatistics.newInstance();
     	
     	double[] testArray = 
         { 12.5, 12, 11.8, 14.2, 14.9, 14.5, 21, 8.2, 10.3, 11.3, 14.1,
@@ -115,7 +116,7 @@ public final class StoreUnivariateImplTest extends TestCase {
     }
 
     public void testProductAndGeometricMean() throws Exception {
-    	DescriptiveStatistics u = DescriptiveStatistics.newInstance(); 
+    	DescriptiveStatistics u = DescriptiveStatistics.newInstance();
         u.setWindowSize(10);
     	    	
         u.addValue( 1.0 );
@@ -141,6 +142,57 @@ public final class StoreUnivariateImplTest extends TestCase {
             u.getGeometricMean(), 0.00001 );
     }
     
+	public void testAddValue() {
+		double[] test1 = {5,4,3,2,1,0};
+		double[] test2 = {5,2,1,0,4,3};
+
+		DescriptiveStatistics stats = DescriptiveStatistics.newInstance();
+		stats.setWindowSize(12);
+		
+		for(int i = 0; i < test1.length; i++){
+			stats.addValue(test1[i]);
+		}     
+		
+		double[] test3 = stats.getValues();
+		
+		for(int i = 0; i < 6; i++){
+			assertEquals( "Added value ["+i+"] not equal", 
+			test3[i], test1[i],0.0);
+			//System.out.println(test3[i] + " "+test1[i]);
+		}     
+				
+		for(int i = 0; i < test2.length; i++){
+			stats.addValue(test2[i]);
+		}     
+ 
+		test3 = stats.getValues();  
+		
+		for(int i = 6; i < 12; i++){
+			assertEquals( "Added value ["+i+"] not equal", 
+			test3[i], test2[i-6],0.0);
+			//System.out.println(test3[i] + " "+test2[i-6]);
+		}    
+		
+		for(int i = 0; i < test2.length; i++){
+			stats.addValue(test2[i]);
+		}     
+ 
+		test3 = stats.getValues();  
+		
+		for(int i = 0; i < 6; i++){
+			assertEquals( "Added value ["+i+"] not equal", 
+			test3[i], test2[i],0.0);
+			//System.out.println(test3[i] + " "+test2[i]);
+		}  
+		
+		for(int i = 6; i < 12; i++){
+			assertEquals( "Added value ["+i+"] not equal", 
+			test3[i], test2[i-6],0.0);
+			//System.out.println(test3[i] + " "+test2[i-6]);
+		}  
+		 
+	}
+	
     public void testGetSortedValues() {
         double[] test1 = {5,4,3,2,1};
         double[] test2 = {5,2,1,3,4,0};
@@ -170,8 +222,10 @@ public final class StoreUnivariateImplTest extends TestCase {
     }
     
         
+        
     private void tstGetSortedValues(double[] test) {
-        DescriptiveStatistics u = DescriptiveStatistics.newInstance(); 
+        DescriptiveStatistics u = DescriptiveStatistics.newInstance();
+        u.setWindowSize(test.length);
         for (int i = 0; i < test.length; i++) {
             u.addValue(test[i]);
         }
@@ -188,7 +242,8 @@ public final class StoreUnivariateImplTest extends TestCase {
     
     public void testPercentiles() {
         double[] test = {5,4,3,2,1};
-        DescriptiveStatistics u = DescriptiveStatistics.newInstance(); 
+        DescriptiveStatistics u = DescriptiveStatistics.newInstance();
+        u.setWindowSize(110);
         for (int i = 0; i < test.length; i++) {
             u.addValue(test[i]);
         }
@@ -248,6 +303,31 @@ public final class StoreUnivariateImplTest extends TestCase {
         assertTrue("empty value set should return NaN",
             Double.isNaN(u.getPercentile(50)));
     }
-                                     
+                      
+    /** test stats */
+    public void testSerialization() {
+        DescriptiveStatistics u = DescriptiveStatistics.newInstance(); 
+        assertEquals("total count",0,u.getN(),tolerance);
+        u.addValue(one);
+        u.addValue(two);
+        
+        DescriptiveStatistics u2 = (DescriptiveStatistics)TestUtils.serializeAndRecover(u); 
+ 
+        u2.addValue(two);
+        u2.addValue(three);
+        
+        assertEquals("N",n,u2.getN(),tolerance);
+        assertEquals("sum",sum,u2.getSum(),tolerance);
+        assertEquals("sumsq",sumSq,u2.getSumsq(),tolerance);
+        assertEquals("var",var,u2.getVariance(),tolerance);
+        assertEquals("std",std,u2.getStandardDeviation(),tolerance);
+        assertEquals("mean",mean,u2.getMean(),tolerance);
+        assertEquals("min",min,u2.getMin(),tolerance);
+        assertEquals("max",max,u2.getMax(),tolerance);
+
+        u2.clear();
+        assertEquals("total count",0,u2.getN(),tolerance);    
+    }       
+                                   
 }
 

@@ -13,18 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.stat;
+package org.apache.commons.math.stat.univariate;
 
 import java.io.Serializable;
 
 import org.apache.commons.discovery.tools.DiscoverClass;
 
-import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 
 /**
  * Abstract factory class for univariate statistical summaries.
  * 
- * @version $Revision: 1.6 $ $Date: 2004/04/11 19:00:45 $
+ * @version $Revision: 1.1 $ $Date: 2004/04/12 02:27:49 $
  */
 public abstract class DescriptiveStatistics implements Serializable, StatisticalSummary {
 
@@ -53,7 +52,7 @@ public abstract class DescriptiveStatistics implements Serializable, Statistical
 			DiscoverClass dc = new DiscoverClass();
 			factory = (DescriptiveStatistics) dc.newInstance(
 				DescriptiveStatistics.class,
-				"org.apache.commons.math.stat.DescriptiveStatisticsImpl");
+				"org.apache.commons.math.stat.univariate.DescriptiveStatisticsImpl");
 		} catch(Exception ex) {
 			// ignore as default implementation will be used.
 		}

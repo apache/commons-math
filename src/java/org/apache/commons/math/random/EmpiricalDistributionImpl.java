@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-import org.apache.commons.math.stat.SummaryStatistics;
+import org.apache.commons.math.stat.univariate.SummaryStatistics;
 
 /**
  * Implements <code>EmpiricalDistribution</code> interface.  This implementation
@@ -53,7 +53,7 @@ import org.apache.commons.math.stat.SummaryStatistics;
  *    entry per line.</li>
  * </ol></p>
  *
- * @version $Revision: 1.17 $ $Date: 2004/02/21 21:35:15 $
+ * @version $Revision: 1.18 $ $Date: 2004/04/12 02:27:49 $
  */
 public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistribution {
 

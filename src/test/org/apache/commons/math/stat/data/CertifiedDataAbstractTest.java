@@ -27,13 +27,13 @@ import java.util.Map;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.math.TestUtils;
-import org.apache.commons.math.stat.DescriptiveStatistics;
-import org.apache.commons.math.stat.SummaryStatistics;
+import org.apache.commons.math.stat.univariate.DescriptiveStatistics;
+import org.apache.commons.math.stat.univariate.SummaryStatistics;
 
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.1 $ $Date: 2004/03/18 05:52:37 $
+ * @version $Revision: 1.2 $ $Date: 2004/04/12 02:27:50 $
  */
 public abstract class CertifiedDataAbstractTest extends TestCase {
 	

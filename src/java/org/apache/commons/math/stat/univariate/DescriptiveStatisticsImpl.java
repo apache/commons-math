@@ -13,17 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.stat;
+package org.apache.commons.math.stat.univariate;
 
 import java.io.Serializable;
 
 import java.util.Arrays;
 
-import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 import org.apache.commons.math.util.ContractableDoubleArray;
 
 /**
- * @version $Revision: 1.4 $ $Date: 2004/02/21 21:35:15 $
+ * @version $Revision: 1.1 $ $Date: 2004/04/12 02:27:49 $
  */
 public class DescriptiveStatisticsImpl extends AbstractDescriptiveStatistics implements Serializable {
 
@@ -56,7 +55,7 @@ public class DescriptiveStatisticsImpl extends AbstractDescriptiveStatistics imp
     }
     
     /**
-     * @see org.apache.commons.math.stat.DescriptiveStatistics#getValues()
+     * @see org.apache.commons.math.stat.univariate.DescriptiveStatistics#getValues()
      */
     public double[] getValues() {
 
@@ -71,7 +70,7 @@ public class DescriptiveStatisticsImpl extends AbstractDescriptiveStatistics imp
     }
     
     /**
-     * @see org.apache.commons.math.stat.DescriptiveStatistics#getSortedValues()
+     * @see org.apache.commons.math.stat.univariate.DescriptiveStatistics#getSortedValues()
      */
     public double[] getSortedValues() {
     	double[] sort = getValues();
@@ -80,21 +79,21 @@ public class DescriptiveStatisticsImpl extends AbstractDescriptiveStatistics imp
     }
 
     /**
-     * @see org.apache.commons.math.stat.DescriptiveStatistics#getElement(int)
+     * @see org.apache.commons.math.stat.univariate.DescriptiveStatistics#getElement(int)
      */
     public double getElement(int index) {
         return eDA.getElement(index);
     }
 
     /**
-     * @see org.apache.commons.math.stat.DescriptiveStatistics#getN()
+     * @see org.apache.commons.math.stat.univariate.DescriptiveStatistics#getN()
      */
     public long getN() {
         return eDA.getNumElements();
     }
 
     /**
-     * @see org.apache.commons.math.stat.DescriptiveStatistics#addValue(double)
+     * @see org.apache.commons.math.stat.univariate.DescriptiveStatistics#addValue(double)
      */
     public synchronized void addValue(double v) {
         if (windowSize != INFINITE_WINDOW) {
@@ -114,14 +113,14 @@ public class DescriptiveStatisticsImpl extends AbstractDescriptiveStatistics imp
     }
 
     /**
-     * @see org.apache.commons.math.stat.DescriptiveStatistics#clear()
+     * @see org.apache.commons.math.stat.univariate.DescriptiveStatistics#clear()
      */
     public synchronized void clear() {
         eDA.clear();
     }
 
     /**
-     * @see org.apache.commons.math.stat.DescriptiveStatistics#setWindowSize(int)
+     * @see org.apache.commons.math.stat.univariate.DescriptiveStatistics#setWindowSize(int)
      */
     public synchronized void setWindowSize(int windowSize) {
         this.windowSize = windowSize;

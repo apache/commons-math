@@ -15,7 +15,6 @@
  */
 package org.apache.commons.math.stat.univariate;
 
-import org.apache.commons.math.stat.SummaryStatistics;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -24,7 +23,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link DescriptiveStatistics} class.
  *
- * @version $Revision: 1.3 $ $Date: 2004/02/21 21:35:17 $
+ * @version $Revision: 1.4 $ $Date: 2004/04/12 02:27:50 $
  */
 
 public final class UnivariateImplTest extends TestCase {

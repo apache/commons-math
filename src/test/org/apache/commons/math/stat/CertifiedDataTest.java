@@ -26,9 +26,13 @@ import java.io.InputStreamReader;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
 
+import org.apache.commons.math.stat.univariate.SummaryStatistics;
+import org.apache.commons.math.stat.univariate.SummaryStatisticsImpl;
+import org.apache.commons.math.stat.univariate.DescriptiveStatistics;
+
 /**
- * Test cases for the {@link DescriptiveStatistics} class.
- * @version $Revision: 1.16 $ $Date: 2004/03/18 05:52:36 $
+ * Certified data test cases.
+ * @version $Revision: 1.17 $ $Date: 2004/04/12 02:27:49 $
  */
 public class CertifiedDataTest extends TestCase  {
 
@@ -64,18 +68,8 @@ public class CertifiedDataTest extends TestCase  {
 	/**
 	 * Test StorelessDescriptiveStatistics
 	*/
-	public void testUnivariateImpl() {
-		SummaryStatistics u = null;
-		try {
-			u = SummaryStatistics.newInstance(SummaryStatisticsImpl.class);
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+	public void testUnivariateImpl() throws Exception {
+		SummaryStatistics u = SummaryStatistics.newInstance(SummaryStatisticsImpl.class);
 		loadStats("data/PiDigits.txt", u);
 		assertEquals("PiDigits: std", std, u.getStandardDeviation(), .0000000000001);
 		assertEquals("PiDigits: mean", mean, u.getMean(), .0000000000001);	

@@ -21,12 +21,12 @@ import junit.framework.TestSuite;
 import java.net.URL;
 
 import org.apache.commons.math.RetryTestCase;
-import org.apache.commons.math.stat.SummaryStatistics;
+import org.apache.commons.math.stat.univariate.SummaryStatistics;
  
 /**
  * Test cases for the ValueServer class.
  *
- * @version $Revision: 1.14 $ $Date: 2004/03/07 16:32:44 $
+ * @version $Revision: 1.15 $ $Date: 2004/04/12 02:27:49 $
  */
 
 public final class ValueServerTest extends RetryTestCase {

@@ -21,7 +21,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 
-import org.apache.commons.math.stat.SummaryStatistics;
+import org.apache.commons.math.stat.univariate.SummaryStatistics;
 
 /**
  * Represents an <a href="http://random.mat.sbg.ac.at/~ste/dipl/node11.html">
@@ -43,7 +43,7 @@ import org.apache.commons.math.stat.SummaryStatistics;
  * build grouped frequnecy histograms representing the input data or to
  * generate random values "like" those in the input file -- i.e., the values
  * generated will follow the distribution of the values in the file.
- * @version $Revision: 1.16 $ $Date: 2004/03/21 21:57:18 $
+ * @version $Revision: 1.17 $ $Date: 2004/04/12 02:27:49 $
  */
 public interface EmpiricalDistribution {
  

@@ -13,17 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.stat;
+package org.apache.commons.math.stat.univariate;
 
 import java.util.List;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.stat.univariate.UnivariateStatistic;
+import org.apache.commons.math.stat.univariate.AbstractDescriptiveStatistics;
 import org.apache.commons.math.util.DefaultTransformer;
 import org.apache.commons.math.util.NumberTransformer;
 
 /**
- * @version $Revision: 1.3 $ $Date: 2004/02/21 21:35:17 $
+ * @version $Revision: 1.1 $ $Date: 2004/04/12 02:27:50 $
  */
 public class ListUnivariateImpl extends AbstractDescriptiveStatistics {
 
@@ -59,7 +60,7 @@ public class ListUnivariateImpl extends AbstractDescriptiveStatistics {
     }
 
     /**
-     * @see org.apache.commons.math.stat.DescriptiveStatistics#getValues()
+     * @see org.apache.commons.math.stat.univariate.DescriptiveStatistics#getValues()
      */
     public double[] getValues() {
 
@@ -86,7 +87,7 @@ public class ListUnivariateImpl extends AbstractDescriptiveStatistics {
     }
 
     /**
-     * @see org.apache.commons.math.stat.DescriptiveStatistics#getElement(int)
+     * @see org.apache.commons.math.stat.univariate.DescriptiveStatistics#getElement(int)
      */
     public double getElement(int index) {
 
@@ -112,7 +113,7 @@ public class ListUnivariateImpl extends AbstractDescriptiveStatistics {
     }
 
     /**
-     * @see org.apache.commons.math.stat.DescriptiveStatistics#getN()
+     * @see org.apache.commons.math.stat.univariate.DescriptiveStatistics#getN()
      */
     public long getN() {
         int n = 0;
@@ -130,7 +131,7 @@ public class ListUnivariateImpl extends AbstractDescriptiveStatistics {
     }
 
     /**
-     * @see org.apache.commons.math.stat.DescriptiveStatistics#addValue(double)
+     * @see org.apache.commons.math.stat.univariate.DescriptiveStatistics#addValue(double)
      */
     public void addValue(double v) {
         list.add(new Double(v));
@@ -145,7 +146,7 @@ public class ListUnivariateImpl extends AbstractDescriptiveStatistics {
     }
 
     /**
-     * @see org.apache.commons.math.stat.DescriptiveStatistics#clear()
+     * @see org.apache.commons.math.stat.univariate.DescriptiveStatistics#clear()
      */
     public void clear() {
         list.clear();
