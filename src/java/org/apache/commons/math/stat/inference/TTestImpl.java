@@ -26,7 +26,7 @@ import org.apache.commons.math.stat.univariate.StatisticalSummary;
 /**
  * Implements t-test statistics defined in the {@link TTest} interface.
  *
- * @version $Revision: 1.1 $ $Date: 2004/05/03 03:03:21 $
+ * @version $Revision: 1.2 $ $Date: 2004/05/23 05:04:48 $
  */
 public class TTestImpl implements TTest, Serializable {
 
@@ -41,11 +41,11 @@ public class TTestImpl implements TTest, Serializable {
      * @param mu comparison constant
      * @param observed array of values
      * @return t statistic
-     * @throws IllegalArgumentException if input array length is less than 5
+     * @throws IllegalArgumentException if input array length is less than 2
      */
     public double t(double mu, double[] observed)
     throws IllegalArgumentException {
-        if ((observed == null) || (observed.length < 5)) {
+        if ((observed == null) || (observed.length < 2)) {
             throw new IllegalArgumentException("insufficient data for t statistic");
         }
         return t(StatUtils.mean(observed), mu, StatUtils.variance(observed), observed.length);
@@ -76,7 +76,7 @@ public class TTestImpl implements TTest, Serializable {
     public double t(double[] sample1, double[] sample2)
     throws IllegalArgumentException {
         if ((sample1 == null) || (sample2 == null ||
-                Math.min(sample1.length, sample2.length) < 5)) {
+                Math.min(sample1.length, sample2.length) < 2)) {
             throw new IllegalArgumentException("insufficient data for t statistic");
         }
         return t(StatUtils.mean(sample1), StatUtils.mean(sample2), StatUtils.variance(sample1),
@@ -94,7 +94,7 @@ public class TTestImpl implements TTest, Serializable {
     public double tTest(double[] sample1, double[] sample2)
     throws IllegalArgumentException, MathException {
         if ((sample1 == null) || (sample2 == null ||
-                Math.min(sample1.length, sample2.length) < 5)) {
+                Math.min(sample1.length, sample2.length) < 2)) {
             throw new IllegalArgumentException("insufficient data");
         }
         return tTest(StatUtils.mean(sample1), StatUtils.mean(sample2), StatUtils.variance(sample1),
@@ -127,7 +127,7 @@ public class TTestImpl implements TTest, Serializable {
      */
     public double tTest(double mu, double[] sample)
     throws IllegalArgumentException, MathException {
-        if ((sample == null) || (sample.length < 5)) {
+        if ((sample == null) || (sample.length < 2)) {
             throw new IllegalArgumentException("insufficient data for t statistic");
         }
         return tTest( StatUtils.mean(sample), mu, StatUtils.variance(sample), sample.length);
@@ -141,7 +141,7 @@ public class TTestImpl implements TTest, Serializable {
      */
     public double t(double mu, StatisticalSummary sampleStats)
     throws IllegalArgumentException {
-        if ((sampleStats == null) || (sampleStats.getN() < 5)) {
+        if ((sampleStats == null) || (sampleStats.getN() < 2)) {
             throw new IllegalArgumentException("insufficient data for t statistic");
         }
         return t(sampleStats.getMean(), mu, sampleStats.getVariance(), sampleStats.getN());
@@ -157,7 +157,7 @@ public class TTestImpl implements TTest, Serializable {
     throws IllegalArgumentException {
         if ((sampleStats1 == null) ||
                 (sampleStats2 == null ||
-                        Math.min(sampleStats1.getN(), sampleStats2.getN()) < 5)) {
+                        Math.min(sampleStats1.getN(), sampleStats2.getN()) < 2)) {
             throw new IllegalArgumentException("insufficient data for t statistic");
         }
         return t(sampleStats1.getMean(), sampleStats2.getMean(), sampleStats1.getVariance(),
@@ -174,7 +174,7 @@ public class TTestImpl implements TTest, Serializable {
     public double tTest(StatisticalSummary sampleStats1, StatisticalSummary sampleStats2)
     throws IllegalArgumentException, MathException {
         if ((sampleStats1 == null) || (sampleStats2 == null ||
-                Math.min(sampleStats1.getN(), sampleStats2.getN()) < 5)) {
+                Math.min(sampleStats1.getN(), sampleStats2.getN()) < 2)) {
             throw new IllegalArgumentException("insufficient data for t statistic");
         }
         return tTest(sampleStats1.getMean(), sampleStats2.getMean(), sampleStats1.getVariance(),
@@ -224,7 +224,7 @@ public class TTestImpl implements TTest, Serializable {
      */
     public double tTest(double mu, StatisticalSummary sampleStats)
     throws IllegalArgumentException, MathException {
-        if ((sampleStats == null) || (sampleStats.getN() < 5)) {
+        if ((sampleStats == null) || (sampleStats.getN() < 2)) {
             throw new IllegalArgumentException("insufficient data for t statistic");
         }
         return tTest(sampleStats.getMean(), mu, sampleStats.getVariance(), sampleStats.getN());

@@ -21,7 +21,7 @@ import org.apache.commons.math.stat.univariate.StatisticalSummary;
 /**
  * An interface for Student's t-tests.
  * 
- * @version $Revision: 1.1 $ $Date: 2004/05/03 03:03:21 $ 
+ * @version $Revision: 1.2 $ $Date: 2004/05/23 05:04:48 $ 
  */
 public interface TTest {
     /**
@@ -320,7 +320,7 @@ public interface TTest {
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The datasets described by the two Univariates must each contain
-     * at least 5 observations.
+     * at least 2 observations.
      * </li>
      * <li> <code> 0 < alpha < 0.5 </code>
      * </li></ul>
@@ -362,7 +362,7 @@ public interface TTest {
      * <a href="http://www.basic.nwu.edu/statguidefiles/sg_glos.html#one-sample">here</a>
      * <p>
      * <strong>Preconditions</strong>: <ul>
-     * <li>The sample must include at least 5 observations.
+     * <li>The sample must include at least 2 observations.
      * </li></ul>
      *
      * @param mu constant value to compare sample mean against
@@ -394,7 +394,7 @@ public interface TTest {
      * <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">here</a>
      * <p>
      * <strong>Preconditions</strong>: <ul>
-     * <li>The sample must contain at least 5 observations.
+     * <li>The sample must contain at least 2 observations.
      * </li></ul>
      *
      * @param mu constant value to compare sample mean against
