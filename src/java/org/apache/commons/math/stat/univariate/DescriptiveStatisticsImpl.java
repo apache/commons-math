@@ -22,7 +22,7 @@ import java.util.Arrays;
 import org.apache.commons.math.util.ContractableDoubleArray;
 
 /**
- * @version $Revision: 1.1 $ $Date: 2004/04/12 02:27:49 $
+ * @version $Revision: 1.2 $ $Date: 2004/04/23 19:50:27 $
  */
 public class DescriptiveStatisticsImpl extends AbstractDescriptiveStatistics implements Serializable {
 
@@ -44,12 +44,17 @@ public class DescriptiveStatisticsImpl extends AbstractDescriptiveStatistics imp
     
     /**
      * Construct a DescriptiveStatisticsImpl with finite window
+     * @param window the finite window size.
      */
     public DescriptiveStatisticsImpl(int window) {
     	super(window);
     	eDA = new ContractableDoubleArray();
     }
 
+    /**
+     * Access the window size.
+     * @return the current window size.
+     */
     public int getWindowSize() {
     	return windowSize;
     }

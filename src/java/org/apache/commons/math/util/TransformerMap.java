@@ -28,7 +28,7 @@ import org.apache.commons.math.MathException;
  * It provides a means to set NumberTransformers that will be selected 
  * based on the Class of the object handed to the Maps
  * <code>double transform(Object o)</code> method.
- * @version $Revision: 1.11 $ $Date: 2004/02/21 21:35:16 $
+ * @version $Revision: 1.12 $ $Date: 2004/04/23 19:50:27 $
  */
 public class TransformerMap implements NumberTransformer, Serializable {
 
@@ -136,8 +136,7 @@ public class TransformerMap implements NumberTransformer, Serializable {
 		if (o instanceof Number || o instanceof String) {
 			value = defaultTransformer.transform(o);
 		} else {
-			NumberTransformer trans =
-				(NumberTransformer) this.getTransformer(o.getClass());
+			NumberTransformer trans = getTransformer(o.getClass());
 			if (trans != null) {
 				value = trans.transform(o);
 			}
