@@ -15,7 +15,6 @@
  */
 package org.apache.commons.math;
 
-import java.io.Serializable;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 
@@ -27,7 +26,7 @@ import java.io.PrintWriter;
 * <p>
 * Adapted from {@link org.apache.commons.collections.FunctorException}.
 * 
-* @version $Revision: 1.19 $ $Date: 2004/07/17 19:55:32 $
+* @version $Revision: 1.20 $ $Date: 2004/11/07 02:17:56 $
 */
 public class MathException extends Exception {
     
