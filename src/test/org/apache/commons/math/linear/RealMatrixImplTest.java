@@ -60,7 +60,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link RealMatrixImpl} class.
  *
- * @version $Revision: 1.7 $ $Date: 2003/11/14 22:22:19 $
+ * @version $Revision: 1.8 $ $Date: 2003/11/23 20:34:41 $
  */
 
 public final class RealMatrixImplTest extends TestCase {
@@ -182,7 +182,7 @@ public final class RealMatrixImplTest extends TestCase {
             ;
         }      
     }
-    
+   
     /** test multiply */
      public void testMultiply() {
         RealMatrixImpl m = new RealMatrixImpl(testData);
@@ -206,6 +206,19 @@ public final class RealMatrixImplTest extends TestCase {
             ;
         }      
     }   
+    
+    //Additional Test for RealMatrixImplTest.testMultiply
+
+    private double[][] d3 = new double[][] {{1,2,3,4},{5,6,7,8}};
+    private double[][] d4 = new double[][] {{1},{2},{3},{4}};
+    private double[][] d5 = new double[][] {{30},{70}};
+     
+    public void testMultiply2() { 
+       RealMatrix m3 = new RealMatrixImpl(d3);   
+       RealMatrix m4 = new RealMatrixImpl(d4);
+       RealMatrix m5 = new RealMatrixImpl(d5);
+       assertClose("m3*m4=m5", m3.multiply(m4), m5, entryTolerance);
+   }  
         
     /** test isSingular */
     public void testIsSingular() {
