@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="xdoc.xsl"?>
-<!-- $Revision: 1.15 $ $Date: 2003/11/15 18:38:16 $ -->
+<!-- $Revision: 1.16 $ $Date: 2004/01/14 07:36:35 $ -->
 <document>
   <properties>
     <title>Tasks: Done And To Do</title>
@@ -34,11 +34,7 @@
       <subsection name="Algorithm Development Tasks">
         <p>These current tasks are planned and in need completion for the inital release.</p>
         <dl>
-          <dt>Add confidence intervals to Univariate implementations.</dt>
-          <dd>Provide any comments on this task here.</dd>
-          <dt>Distributions.</dt>
-          <dd>Extend distribution framework to support discrete distributions and implement binomial and hypergeometric distributions.</dd>
-          <dt>Analysis.</dt>
+         <dt>Root Finding.</dt>
           <dd>
             <ul>
               <li>Rework unit tests for root finding and spline interpolation.</li>
@@ -64,6 +60,12 @@
                   </a></li>
               </ul>
           </dd>
+        <dt>RealMatrix.</dt>
+          <dd>
+            <ul>
+              <li>Refactor RealMatrix to minimally make solve() pluggable.</li>
+            </ul>
+          </dd> 
         </dl>
       </subsection>
     </section>
