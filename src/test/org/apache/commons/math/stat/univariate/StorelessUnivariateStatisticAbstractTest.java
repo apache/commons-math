@@ -20,7 +20,7 @@ import org.apache.commons.math.stat.univariate.moment.SecondMoment;
 
 /**
  * Test cases for {@link StorelessUnivariateStatistic} classes.
- * @version $Revision: 1.14 $ $Date: 2004/06/29 06:11:22 $
+ * @version $Revision: 1.15 $ $Date: 2004/07/07 12:50:50 $
  */
 public abstract class StorelessUnivariateStatisticAbstractTest
     extends UnivariateStatisticAbstractTest {
@@ -135,6 +135,16 @@ public abstract class StorelessUnivariateStatisticAbstractTest
             moment.increment(1d);
             assertEquals(0d, moment.getResult(), 0);
         }
+    }
+    
+    /** 
+     * Make sure that evaluate(double[]) and inrementAll(double[]), 
+     * getResult() give same results.
+     */
+    public void testConsistency() {
+        StorelessUnivariateStatistic stat = (StorelessUnivariateStatistic) getUnivariateStatistic();
+        stat.incrementAll(testArray);
+        assertEquals(stat.getResult(), stat.evaluate(testArray), getTolerance());
     }
 
 }
