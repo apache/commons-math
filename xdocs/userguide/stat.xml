@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.11 $ $Date: 2004/03/06 20:43:00 $ -->
+<!-- $Revision: 1.12 $ $Date: 2004/03/07 00:56:14 $ -->
 <document url="stat.html">
   <properties>
     <title>The Commons Math User Guide - Statistics</title>
@@ -215,6 +215,7 @@ f.addValue("oNe");
 f.addValue("Z");
 System.out.println(f.getCount("one"));   // displays 1
 System.out.println(f.getCumPct("Z"));   // displays 0.5 -- second in sort order
+System.out.println(f.getCumPct("Ot"));  // displays 0.25 -- between first ("One") and second ("Z") value
           </source>
           </dd>
           <dd>Using case-insensitive comparator:
