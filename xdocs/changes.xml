@@ -79,7 +79,7 @@ The <action> type attribute can be add,update,fix,remove.
         Changed factorial methods to return 1 for argument = 0, instead of
         (incorrectly) throwing IllegalArgumentException.
       </action> 
-      <action dev="psteitz" type="fix" due-to="Kim van Der Linde" issue="31860">
+      <action dev="psteitz" type="fix" due-to="Kim van der Linde" issue="31860">
         Fixed error in SimpleRegression.getSignificance.  Value returned was
         off by a factor of 2 (did not match javadoc).
       </action> 
