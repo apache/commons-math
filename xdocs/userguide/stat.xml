@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.12 $ $Date: 2004/03/07 00:56:14 $ -->
+<!-- $Revision: 1.13 $ $Date: 2004/03/21 20:32:50 $ -->
 <document url="stat.html">
   <properties>
     <title>The Commons Math User Guide - Statistics</title>
@@ -57,7 +57,7 @@
           all statistics, consists of <code>evaluate()</code> methods that take double[] arrays as arguments and return 
           the value of the statistic.   This interface is extended by 
           <a href="../apidocs/org/apache/commons/math/stat/univariate/StorelessUnivariateStatistic.html">
-          StorelessUnivariateStatistic,</a> which adds <code>increment(),</code>
+          StorelessUnivariateStatistic</a>, which adds <code>increment(),</code>
           <code>getResult()</code> and associated methods to support "storageless" implementations that
           maintain counters, sums or other state information as values are added using the <code>increment()</code>
           method.  
@@ -76,10 +76,16 @@
           There are several ways to instantiate and use statistics.  Statistics can be instantiated and used directly,  but it is
           generally more convenient (and efficient) to access them using the provided aggregates, <a href="../apidocs/org/apache/commons/math/stat/DescriptiveStatistics.html">
             DescriptiveStatistics</a> and <a href="../apidocs/org/apache/commons/math/stat/SummaryStatistics.html">
-            SummaryStatistics.</a>  <code>DescriptiveStatistics</code> maintains the input data in memory and has the capability
-            of producing "rolling" statistics computed from a "window" consisting of the most recently added values.  <code>SummaryStatisics</code>
-            does not store the input data values in memory, so the statistics included in this aggregate are limited to those that can be
-            computed in one pass through the data without access to the full array of values.  
+            SummaryStatistics.</a>  
+        </p>
+        <p>
+           <code>DescriptiveStatistics</code> maintains the input data in memory and has the capability
+            of producing "rolling" statistics computed from a "window" consisting of the most recently added values.  
+        </p>
+        <p>
+           <code>SummaryStatisics</code> does not store the input data values in memory, so the statistics
+            included in this aggregate are limited to those that can be computed in one pass through the data 
+            without access to the full array of values.  
         </p>
         <p>
           <table>
@@ -92,8 +98,7 @@
         </p>
         <p>
           There is also a utility class, <a href="../apidocs/org/apache/commons/math/stat/StatUtils.html">
-           StatUtils,</a> that provides static methods for computing statistics
-           directly from double[] arrays. 
+           StatUtils</a>, that provides static methods for computing statistics directly from double[] arrays. 
         </p>
         <p>
           Here are some examples showing how to compute univariate statistics.
@@ -140,6 +145,7 @@ double std = stats.getStandardDeviation();
 double mean = StatUtils.mean(values);
 double std = StatUtils.variance(values);
 double median = StatUtils.percentile(50);
+
 // Compute the mean of the first three values in the array 
 mean = StatuUtils.mean(values, 0, 3); 
   	  	</source>
@@ -151,6 +157,7 @@ mean = StatuUtils.mean(values, 0, 3);
 // Create a DescriptiveStats instance and set the window size to 100
 DescriptiveStatistics stats = DescriptiveStatistics.newInstance();
 stats.setWindowSize(100);
+
 // Read data from an input stream, displaying the mean of the most recent 100 observations
 // after every 100 observations
 long nLines = 0;
@@ -177,7 +184,7 @@ in.close();
           values.  
         </p>
         <p> 
-          Strings, integers, longs, chars are all supported as value types, as well as instances
+          Strings, integers, longs and chars are all supported as value types, as well as instances
           of any class that implements <code>Comparable.</code>   The ordering of values
           used in computing cumulative frequencies is by default the <i>natural ordering,</i>
           but this can be overriden by supplying a <code>Comparator</code> to the constructor.
@@ -197,11 +204,11 @@ in.close();
  f.addValue(new Long(1));
  f.addValue(2)
  f.addValue(new Integer(-1));
- System.out.prinltn(f.getCount(1));   // displays 3
- System.out.println(f.getCumPct(0));  // displays 0.2
- System.out.println(f.getPct(new Integer(1)));  // displays 0.6 
- System.out.println(f.getCumPct(-2));   // displays 0 -- all values are greater than this
- System.out.println(f.getCumPct(10));  // displays 1 -- all values are less than this
+ System.out.prinltn(f.getCount(1));              // displays 3
+ System.out.println(f.getCumPct(0));             // displays 0.2
+ System.out.println(f.getPct(new Integer(1)));   // displays 0.6 
+ System.out.println(f.getCumPct(-2));            // displays 0 -- all values are greater than this
+ System.out.println(f.getCumPct(10));            // displays 1 -- all values are less than this
           </source> 
           </dd>
           <dt>Count string frequencies</dt>
@@ -213,9 +220,9 @@ f.addValue("one");
 f.addValue("One");
 f.addValue("oNe");
 f.addValue("Z");
-System.out.println(f.getCount("one"));   // displays 1
-System.out.println(f.getCumPct("Z"));   // displays 0.5 -- second in sort order
-System.out.println(f.getCumPct("Ot"));  // displays 0.25 -- between first ("One") and second ("Z") value
+System.out.println(f.getCount("one"));    // displays 1
+System.out.println(f.getCumPct("Z"));     // displays 0.5 -- second in sort order
+System.out.println(f.getCumPct("Ot"));    // displays 0.25 -- between first ("One") and second ("Z") value
           </source>
           </dd>
           <dd>Using case-insensitive comparator:
@@ -226,7 +233,7 @@ f.addValue("One");
 f.addValue("oNe");
 f.addValue("Z");
 System.out.println(f.getCount("one"));  // displays 3
-System.out.println(f.getCumPct("z"));  // displays 1 -- last value
+System.out.println(f.getCumPct("z"));   // displays 1 -- last value
           </source>
          </dd>
        </dl>
