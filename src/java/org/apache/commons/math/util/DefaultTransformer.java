@@ -54,28 +54,39 @@
 
 package org.apache.commons.math.util;
 
-import org.apache.commons.beanutils.ConversionException;
-import org.apache.commons.beanutils.converters.DoubleConverter;
+import org.apache.commons.math.MathException;
 
 /**
- * A Default NumberTransformer for java.lang.Numbers and Numeric Strings. 
- * @version $Revision: 1.8 $ $Date: 2003/11/14 22:22:17 $
+ * A Default NumberTransformer for java.lang.Numbers and Numeric Strings. This 
+ * provides some simple conversion capabilities to turn any java/lang.Number 
+ * into a primitive double or to turn a String representation of a Number into 
+ * a double.
+ * 
+ * @version $Revision: 1.9 $ $Date: 2003/11/15 19:02:44 $
  */
 public class DefaultTransformer implements NumberTransformer {
-    /** Converter used to transform objects. */
-    private static final DoubleConverter converter =
-        new DoubleConverter(new Double(Double.NaN));
     
     /**
+     * @param Object o Is the object that gets transformed.
+     * @return a double primitive representation of the Object o.
+     * @throws org.apache.commons.math.MathException If it cannot successfully 
+     * be transformed or is null.
      * @see org.apache.commons.collections.Transformer#transform(java.lang.Object)
      */
-    public double transform(Object o) {
-        double d;
-        try {
-            d = ((Double)converter.convert(Double.class, o)).doubleValue();
-        } catch(ConversionException ex){
-            d = Double.NaN;
-        }
-        return d;
+    public double transform(Object o) throws MathException{
+
+		if (o == null) {
+			throw new MathException("Conversion Exception in Transformation, Object is null");
+		}
+
+		if (o instanceof Number) {
+			return ((Number)o).doubleValue();
+		}
+            
+		try {
+			return new Double(o.toString()).doubleValue();
+		} catch (Exception e) {
+			throw new MathException("Conversion Exception in Transformation: " + e.getMessage(), e);
+		}
     }
 }
