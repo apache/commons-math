@@ -27,7 +27,7 @@ import junit.framework.Assert;
 import org.apache.commons.math.complex.Complex;
 
 /**
- * @version $Revision: 1.13 $ $Date: 2004/05/05 19:55:14 $
+ * @version $Revision: 1.14 $ $Date: 2004/06/17 21:41:56 $
  */
 public class TestUtils {
     /**
@@ -96,5 +96,16 @@ public class TestUtils {
         }
         
         return result;
+    }
+    
+    /**
+     * Verifies that serialization preserves equals and hashCode
+     * 
+     * @param object
+     */
+    public static void checkSerializedEquality(Object object) {
+        Object object2 = serializeAndRecover(object);
+        Assert.assertEquals("Equals check", object, object2);
+        Assert.assertEquals("HashCode check", object.hashCode(), object2.hashCode());
     }
 }
