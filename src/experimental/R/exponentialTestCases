@@ -1,0 +1,69 @@
+#   Copyright 2004 The Apache Software Foundation
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+#------------------------------------------------------------------------------
+# R source file to validate exponential distribution tests in
+# org.apache.commons.math.distribution.ExponentialDistributionTest
+#
+# To run the test, install R, put this file and testFunctions
+# into the same directory, launch R from this directory and then enter
+# source("<name-of-this-file>")
+#
+# R functions used
+# pexp(q, rate = 1, lower.tail = TRUE, log.p = FALSE) <- distribution
+# qexp(p, rate = 1, lower.tail = TRUE, log.p = FALSE) <- quantiles
+#------------------------------------------------------------------------------
+tol <- 1E-7
+
+# Function definitions
+
+source("testFunctions")           # utility test functions
+
+# function to verify distribution computations
+
+verifyDistribution <- function(points, expected, mean, tol) {
+ rDistValues <- rep(0, length(points))
+    i <- 0
+    for (point in points) {
+        i <- i + 1
+        rDistValues[i] <- pexp(point, 1/mean)
+    }
+    output <- c("Distribution test mean = ", mean)
+    if (assertEquals(expected, rDistValues, tol, "Distribution Values")) {
+        displayPadded(output, SUCCEEDED, WIDTH)
+    } else {
+        displayPadded(output, FAILED, WIDTH)
+    }       
+}
+
+#--------------------------------------------------------------------------
+cat("Exponential test cases\n")
+
+mean <- 5
+
+distributionValues <- c(0, 0, 0.001, 0.01, 0.025, 0.05, 0.1, 0.999,
+                0.990, 0.975, 0.950, 0.900)
+distributionPoints <- c(-2, 0, 0.005002502, 0.05025168, 0.1265890, 0.2564665, 0.5268026, 
+                34.53878, 23.02585, 18.44440, 14.97866, 11.51293)
+
+verifyDistribution(distributionPoints, distributionValues, mean, tol)
+
+output <- "Probability test P(.25 < X < .75)"
+if (assertEquals(0.0905214, pexp(.75, 1/mean) - pexp(.25, 1/mean), tol, "Probability value")) {
+    displayPadded(output, SUCCEEDED, WIDTH)
+} else {
+    displayPadded(output, FAILED, WIDTH)
+}      
+
+displayDashes(WIDTH)
