@@ -37,6 +37,14 @@ The <action> type attribute can be add,update,fix,remove.
     <title>Commons Math Release Notes</title>
   </properties>
   <body>
+    <release version="1.1" date="In Development"  
+       description="Jakarta Commons Math 1.1 - Development">
+      <action dev="brentworden" type="add" due-to="C. Scott Ananian">
+        Added Fraction class based on commons-lang implementation.  With the
+        fraction class, FractionFormat and ProperFractionFormat classes were
+        added to provide fraction formatting and parsing.
+      </action>
+    </release>  
     <release version="1.0" date="2004-12-06"  
        description="Jakarta Commons Math 1.0 - General Availability Release">
       <action dev="psteitz" type="fix" due-to="Hans van der Heijden" issue="32531">

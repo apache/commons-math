@@ -1,5 +1,5 @@
 /*
- * Copyright 2003-2004 The Apache Software Foundation.
+ * Copyright 2003-2005 The Apache Software Foundation.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,9 +22,8 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the MathUtils class.
  *
- * @version $Revision: 1.15 $ $Date: 2004/10/14 04:01:04 $
+ * @version $Revision: 1.15 $ $Date$
  */
-
 public final class MathUtilsTest extends TestCase {
 
     public MathUtilsTest(String name) {
@@ -388,5 +387,43 @@ public final class MathUtilsTest extends TestCase {
                 }
             }
         } 
+    }
+    
+    public void testGcd() {
+        int a = 30;
+        int b = 50;
+        int c = 77;
+
+        assertEquals(0, MathUtils.gcd(0, 0));
+        
+        assertEquals(b, MathUtils.gcd( 0,  b));
+        assertEquals(a, MathUtils.gcd( a,  0));
+        assertEquals(b, MathUtils.gcd( 0, -b));
+        assertEquals(a, MathUtils.gcd(-a,  0));
+        
+        assertEquals(10, MathUtils.gcd( a,  b));
+        assertEquals(10, MathUtils.gcd(-a,  b));
+        assertEquals(10, MathUtils.gcd( a, -b));
+        assertEquals(10, MathUtils.gcd(-a, -b));
+        
+        assertEquals(1, MathUtils.gcd( a,  c));
+        assertEquals(1, MathUtils.gcd(-a,  c));
+        assertEquals(1, MathUtils.gcd( a, -c));
+        assertEquals(1, MathUtils.gcd(-a, -c));
+    }
+    
+    public void testLcm() {
+        int a = 30;
+        int b = 50;
+        int c = 77;
+        
+        assertEquals(0, MathUtils.lcm(0, b));
+        assertEquals(0, MathUtils.lcm(a, 0));
+        assertEquals(b, MathUtils.lcm(1, b));
+        assertEquals(a, MathUtils.lcm(a, 1));
+        assertEquals(150, MathUtils.lcm(a, b));
+        assertEquals(150, MathUtils.lcm(-a, b));
+        assertEquals(150, MathUtils.lcm(a, -b));
+        assertEquals(2310, MathUtils.lcm(a, c));
     }
 }

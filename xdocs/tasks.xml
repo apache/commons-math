@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="xdoc.xsl"?>
-<!-- $Revision: 1.24 $ $Date: 2004/07/25 15:13:47 $ -->
+<!-- $Revision: 1.24 $ $Date$ -->
 <document>
   <properties>
     <title>Tasks: To Do</title>
@@ -77,12 +77,6 @@
               <li>More matrix decompositions (Cholesky, QR, SVD) and framework
                to support.</li>
               <li>Sparse matrices</li>
-            </ul>
-          </dd> 
-          <dt>Math</dt>
-          <dd>
-            <ul>
-              <li>Rational Number (or Fraction) class</li>
             </ul>
           </dd> 
         </dl> 

@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.13 $ $Date: 2004/11/09 02:26:55 $ -->
+<!-- $Revision: 1.13 $ $Date$ -->
 <document url="index.html">
   <properties>
     <title>The Commons Math User Guide - Table of Contents</title>
@@ -91,6 +91,12 @@
                 <li><a href="distribution.html#overview">8.1 Overview</a></li>
                 <li><a href="distribution.html#distributions">8.2 Distribution Framework</a></li>
                 <li><a href="distribution.html#userdefined">8.3 User Defined Distributions</a></li>
+                </ul></li>                                 
+        <li><a href="fraction.html">9. Fractions</a>
+                <ul>
+                <li><a href="fraction.html#overview">9.1 Overview</a></li>
+                <li><a href="fraction.html#fraction">9.2 Fraction Numbers</a></li>
+                <li><a href="fraction.html#formatting">9.3 Fraction Formatting and Parsing</a></li>
                 </ul></li>                                 
         </ul>
       </section>

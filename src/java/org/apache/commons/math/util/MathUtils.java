@@ -1,5 +1,5 @@
 /*
- * Copyright 2003-2004 The Apache Software Foundation.
+ * Copyright 2003-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ package org.apache.commons.math.util;
 /**
  * Some useful additions to the built-in functions in {@link Math}.
  *
- * @version $Revision: 1.20 $ $Date: 2004/10/14 04:01:04 $
+ * @version $Revision: 1.20 $ $Date$
  */
 public final class MathUtils {
     
@@ -467,5 +467,44 @@ public final class MathUtils {
      */
     public static boolean equals(double x, double y) {
         return ((Double.isNaN(x) && Double.isNaN(y)) || x == y);
+    }
+
+    /**
+     * Returns the least common multiple between two integer values.
+     * @param a the first integer value.
+     * @param b the second integer value.
+     * @return the least common multiple between a and b.
+     */
+    public static int lcm(int a, int b) {
+        return Math.abs(a / gcd(a, b) * b);
+    }
+
+    /**
+     * Returns the greatest common divisor between two integer values.
+     * @param a the first integer value.
+     * @param b the second integer value.
+     * @return the greatest common divisor between a and b.
+     */
+    public static int gcd(int a, int b) {
+        int ret;
+        
+        if (a == 0) {
+            ret = Math.abs(b);
+        } else if (b == 0) {
+            ret = Math.abs(a);
+        } else if (a < 0) {
+            ret = gcd(-a, b);
+        } else if (b < 0) {
+            ret = gcd(a, -b);
+        } else {
+            int r = 0;
+            while(b > 0){
+                r = a % b;
+                a = b;
+                b = r;
+            }
+            ret = a;
+        }
+        return ret;
     }
 }

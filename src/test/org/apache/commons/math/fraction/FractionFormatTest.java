@@ -1,0 +1,176 @@
+/*
+ * Copyright 2004 The Apache Software Foundation.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.apache.commons.math.fraction;
+
+import java.text.ParseException;
+import java.util.Locale;
+
+import junit.framework.TestCase;
+
+public class FractionFormatTest extends TestCase {
+ 
+	FractionFormat properFormat = null;
+	FractionFormat improperFormat = null;
+
+    protected Locale getLocale() {
+        return Locale.getDefault();
+    }
+
+	protected void setUp() throws Exception {
+		properFormat = FractionFormat.getProperInstance(getLocale());
+		improperFormat = FractionFormat.getImproperInstance(getLocale());
+	}
+   
+    public void testFormat() {
+        Fraction c = new Fraction(1, 2);
+        String expected = "1 / 2";
+        
+        String actual = properFormat.format(c); 
+        assertEquals(expected, actual);
+
+        actual = improperFormat.format(c);
+        assertEquals(expected, actual);
+    }
+
+	public void testFormatNegative() {
+        Fraction c = new Fraction(-1, 2);
+        String expected = "-1 / 2";
+
+        String actual = properFormat.format(c); 
+        assertEquals(expected, actual);
+
+        actual = improperFormat.format(c); 
+        assertEquals(expected, actual);
+	}
+
+	public void testFormatZero() {
+        Fraction c = new Fraction(0, 1);
+        String expected = "0 / 1";
+
+        String actual = properFormat.format(c); 
+        assertEquals(expected, actual);
+
+        actual = improperFormat.format(c); 
+        assertEquals(expected, actual);
+	}
+    
+    public void testFormatImproper() {
+        Fraction c = new Fraction(5, 3);
+
+        String actual = properFormat.format(c); 
+        assertEquals("1 2 / 3", actual);
+
+        actual = improperFormat.format(c); 
+        assertEquals("5 / 3", actual);
+    }
+    
+    public void testFormatImproperNegative() {
+        Fraction c = new Fraction(-5, 3);
+
+        String actual = properFormat.format(c); 
+        assertEquals("-1 2 / 3", actual);
+
+        actual = improperFormat.format(c); 
+        assertEquals("-5 / 3", actual);
+    }
+    
+    public void testParse() {
+        String source = "1 / 2";
+
+        try {
+            Fraction c = properFormat.parse(source);
+            assertNotNull(c);
+            assertEquals(1, c.getNumerator());
+            assertEquals(2, c.getDenominator());
+            
+            c = improperFormat.parse(source);
+            assertNotNull(c);
+            assertEquals(1, c.getNumerator());
+            assertEquals(2, c.getDenominator());
+        } catch (ParseException ex) {
+            fail(ex.getMessage());
+        }
+    }
+    
+    public void testParseNegative() {
+
+        try {
+            String source = "-1 / 2";
+            Fraction c = properFormat.parse(source);
+            assertNotNull(c);
+            assertEquals(-1, c.getNumerator());
+            assertEquals(2, c.getDenominator());
+            
+            c = improperFormat.parse(source);
+            assertNotNull(c);
+            assertEquals(-1, c.getNumerator());
+            assertEquals(2, c.getDenominator());
+
+            source = "1 / -2";
+            c = properFormat.parse(source);
+            assertNotNull(c);
+            assertEquals(-1, c.getNumerator());
+            assertEquals(2, c.getDenominator());
+            
+            c = improperFormat.parse(source);
+            assertNotNull(c);
+            assertEquals(-1, c.getNumerator());
+            assertEquals(2, c.getDenominator());
+        } catch (ParseException ex) {
+            fail(ex.getMessage());
+        }
+    }
+    
+    public void testParseProper() {
+        String source = "1 2 / 3";
+
+        try {
+            Fraction c = properFormat.parse(source);
+            assertNotNull(c);
+            assertEquals(5, c.getNumerator());
+            assertEquals(3, c.getDenominator());
+        } catch (ParseException ex) {
+            fail(ex.getMessage());
+        }
+        
+        try {
+            improperFormat.parse(source);
+            fail("invalid improper fraction.");
+        } catch (ParseException ex) {
+            // success
+        }
+    }
+    
+    public void testParseProperNegative() {
+        String source = "-1 2 / 3";
+        try {
+            Fraction c = properFormat.parse(source);
+            assertNotNull(c);
+            assertEquals(-5, c.getNumerator());
+            assertEquals(3, c.getDenominator());
+        } catch (ParseException ex) {
+            fail(ex.getMessage());
+        }
+        
+        try {
+            improperFormat.parse(source);
+            fail("invalid improper fraction.");
+        } catch (ParseException ex) {
+            // success
+        }
+    }
+}
