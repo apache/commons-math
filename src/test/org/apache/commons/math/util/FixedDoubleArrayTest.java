@@ -89,7 +89,7 @@ public class FixedDoubleArrayTest extends DoubleArrayAbstractTest {
 		super.testAddElementRolling();
 		
 		assertEquals( "FixedDoubleArray should have 6 size internal storage", 
-								6, ((FixedDoubleArray) ra).internalArray.length);		
+								6, ((FixedDoubleArray) ra).getValues().length);		
 	}
 	
 	public void testExceedingElements() {
