@@ -38,7 +38,7 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * one of the threads invokes the <code>increment()</code> or 
  * <code>clear()</code> method, it must be synchronized externally.
  * 
- * @version $Revision: 1.23 $ $Date: 2004/07/04 09:02:36 $
+ * @version $Revision: 1.24 $ $Date: 2004/07/04 22:09:07 $
  */
 public class Variance extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -108,6 +108,29 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
             moment.clear();
         }
     }
+    
+    /**
+     * Returns the variance of the entries in the input array, or 
+     * <code>Double.NaN</code> if the array is empty.
+     * <p>
+     * See {@link Variance} for details on the computing algorithm.
+     * <p>
+     * Returns 0 for a single-value (i.e. length = 1) sample.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * <p>
+     * Does not change the internal state of the statistic.
+     * 
+     * @param values the input array
+     * @return the variance of the values or Double.NaN if length = 0
+     * @throws IllegalArgumentException if the array is null
+     */
+    public double evaluate(final double[] values) {
+        if (values == null) {
+            throw new IllegalArgumentException("input values array is null");
+        }
+        return evaluate(values, 0, values.length);
+    }
 
     /**
      * Returns the variance of the entries in the specified portion of
@@ -117,6 +140,8 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * See {@link Variance} for details on the computing algorithm.
      * <p>
      * Returns 0 for a single-value (i.e. length = 1) sample.
+     * <p>
+     * Does not change the internal state of the statistic.
      * <p>
      * Throws <code>IllegalArgumentException</code> if the array is null.
      * 
@@ -129,22 +154,59 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      */
     public double evaluate(final double[] values, final int begin, final int length) {
 
-        Mean mean = new Mean();
+        double var = Double.NaN;
+
+        if (test(values, begin, length)) {
+            clear();
+            if (length == 1) {
+                var = 0.0;
+            } else if (length > 1) {
+                Mean mean = new Mean();
+                double m = mean.evaluate(values, begin, length);
+                var = evaluate(values, m, begin, length);
+            }
+        }
+        return var;
+    }
+    
+    /**
+     * Returns the variance of the entries in the specified portion of
+     * the input array, using the precomputed mean value.  Returns 
+     * <code>Double.NaN</code> if the designated subarray is empty.
+     * <p>
+     * See {@link Variance} for details on the computing algorithm.
+     * <p>
+     * Returns 0 for a single-value (i.e. length = 1) sample.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * <p>
+     * Does not change the internal state of the statistic.
+     * 
+     * @param values the input array
+     * @param mean the precomputed mean value
+     * @param begin index of the first array element to include
+     * @param length the number of elements to include
+     * @return the variance of the values or Double.NaN if length = 0
+     * @throws IllegalArgumentException if the array is null or the array index
+     *  parameters are not valid
+     */
+    public double evaluate(final double[] values, final double mean, 
+            final int begin, final int length) {
+        
         double var = Double.NaN;
 
         if (test(values, begin, length)) {
             if (length == 1) {
                 var = 0.0;
             } else if (length > 1) {
-                double m = mean.evaluate(values, begin, length);
                 double accum = 0.0;
                 double accum2 = 0.0;
                 for (int i = begin; i < begin + length; i++) {
-                    accum += Math.pow((values[i] - m), 2.0);
-                    accum2 += (values[i] - m);
+                    accum += Math.pow((values[i] - mean), 2.0);
+                    accum2 += (values[i] - mean);
                 }
                 var = (accum - (Math.pow(accum2, 2) / ((double) length))) /
-                    (double) (length - 1);
+                (double) (length - 1);
             }
         }
         return var;
