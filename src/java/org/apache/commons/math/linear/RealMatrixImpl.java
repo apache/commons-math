@@ -45,7 +45,7 @@ import org.apache.commons.math.util.MathUtils;
  * is 0-based -- e.g., <code>getEntry(0, 0)</code>
  * returns the element in the first row, first column of the matrix.</li></ul>
  *
- * @version $Revision: 1.33 $ $Date: 2004/10/12 06:19:50 $
+ * @version $Revision: 1.34 $ $Date: 2004/10/25 02:13:22 $
  */
 public class RealMatrixImpl implements RealMatrix, Serializable {
     
@@ -861,10 +861,10 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
         ret = ret * 31 + nCols;
         for (int row = 0; row < nRows; row++) {
            for (int col = 0; col < nCols; col++) {
-               ret = ret * 31 + (11 * row + 17 * col) * 
+               ret = ret * 31 + (11 * (row+1) + 17 * (col+1)) * 
                    MathUtils.hash(data[row][col]);
            }
-        }   
+        }
         return ret;
     }
 
