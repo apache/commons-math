@@ -26,13 +26,13 @@ import junit.framework.TestCase;
 /**
  * Tests the PolynomialFunction implementation of a UnivariateRealFunction.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @author Matt Cliff <matt@mattcliff.com>
  */
 public final class PolynomialFunctionTest extends TestCase {
 
-    // all values are known precisely accept 15 digit precision error 
-    final double error = 1.0e-15;
+    /** Error tolerance for tests */
+    protected double tolerance = 1.0e-12;
 
     /**
      * tests the value of a constant polynomial.
@@ -44,16 +44,16 @@ public final class PolynomialFunctionTest extends TestCase {
         PolynomialFunction f = new PolynomialFunction( c );
 
         // verify that we are equal to c[0] at several (nonsymmetric) places
-        assertEquals( f.value( 0.0), c[0], error );
-        assertEquals( f.value( -1.0), c[0], error );
-        assertEquals( f.value( -123.5), c[0], error );
-        assertEquals( f.value( 3.0), c[0], error );
-        assertEquals( f.value( 456.89), c[0], error );
+        assertEquals( f.value( 0.0), c[0], tolerance );
+        assertEquals( f.value( -1.0), c[0], tolerance );
+        assertEquals( f.value( -123.5), c[0], tolerance );
+        assertEquals( f.value( 3.0), c[0], tolerance );
+        assertEquals( f.value( 456.89), c[0], tolerance );
         
         assertEquals(f.degree(), 0);
-        assertEquals(f.firstDerivative(0), 0, error);
+        assertEquals(f.derivative().value(0), 0, tolerance);
         
-        assertEquals(f.secondDerivative(0), 0, error);
+        assertEquals(f.polynomialDerivative().derivative().value(0), 0, tolerance);
     }
 
     /**
@@ -70,18 +70,18 @@ public final class PolynomialFunctionTest extends TestCase {
         PolynomialFunction f = new PolynomialFunction( c );
 
         // verify that we are equal to c[0] when x=0
-        assertEquals( f.value( 0.0), c[0], error );
+        assertEquals( f.value( 0.0), c[0], tolerance );
 
         // now check a few other places
-        assertEquals( -4.5, f.value( -1.0), error );
-        assertEquals( -9.0, f.value( -2.5), error );
-        assertEquals( 0.0, f.value( 0.5), error );
-        assertEquals( 3.0, f.value( 1.5), error );
-        assertEquals( 7.5, f.value( 3.0), error );
+        assertEquals( -4.5, f.value( -1.0), tolerance );
+        assertEquals( -9.0, f.value( -2.5), tolerance );
+        assertEquals( 0.0, f.value( 0.5), tolerance );
+        assertEquals( 3.0, f.value( 1.5), tolerance );
+        assertEquals( 7.5, f.value( 3.0), tolerance );
         
         assertEquals(f.degree(), 1);
         
-        assertEquals(f.secondDerivative(0), 0, error);
+        assertEquals(f.polynomialDerivative().derivative().value(0), 0, tolerance);
     
     }
 
@@ -96,14 +96,14 @@ public final class PolynomialFunctionTest extends TestCase {
         PolynomialFunction f = new PolynomialFunction( c );
 
         // verify that we are equal to c[0] when x=0
-        assertEquals( f.value( 0.0), c[0], error );
+        assertEquals( f.value( 0.0), c[0], tolerance );
 
         // now check a few other places
-        assertEquals( 0.0, f.value( -0.5), error );
-        assertEquals( 0.0, f.value( 2.0), error );
-        assertEquals( -2.0, f.value( 1.5), error );
-        assertEquals( 7.0, f.value( -1.5), error );
-        assertEquals( 265.5312, f.value( 12.34), error );
+        assertEquals( 0.0, f.value( -0.5), tolerance );
+        assertEquals( 0.0, f.value( 2.0), tolerance );
+        assertEquals( -2.0, f.value( 1.5), tolerance );
+        assertEquals( 7.0, f.value( -1.5), tolerance );
+        assertEquals( 265.5312, f.value( 12.34), tolerance );
     
     }    
 
@@ -118,14 +118,14 @@ public final class PolynomialFunctionTest extends TestCase {
         PolynomialFunction f = new PolynomialFunction( c );
 
         // verify that we are equal to c[0] when x=0
-        assertEquals( f.value( 0.0), c[0], error );
+        assertEquals( f.value( 0.0), c[0], tolerance );
 
         // now check a few other places
-        assertEquals( 0.0, f.value( 5.0), error );
-        assertEquals( 0.0, f.value( 1.0), error );
-        assertEquals( 0.0, f.value( -3.0), error );
-        assertEquals( 54.84375, f.value( -1.5), error );
-        assertEquals( -8.06637, f.value( 1.3), error );
+        assertEquals( 0.0, f.value( 5.0), tolerance );
+        assertEquals( 0.0, f.value( 1.0), tolerance );
+        assertEquals( 0.0, f.value( -3.0), tolerance );
+        assertEquals( 54.84375, f.value( -1.5), tolerance );
+        assertEquals( -8.06637, f.value( 1.3), tolerance );
         
         assertEquals(f.degree(), 5);
     
@@ -149,11 +149,11 @@ public final class PolynomialFunctionTest extends TestCase {
         PolynomialFunction h = new PolynomialFunction( h_coeff );
 
         // compare f' = g
-        assertEquals( f.firstDerivative(0.0), g.value(0.0), error );
-        assertEquals( f.firstDerivative(1.0), g.value(1.0), error );
-        assertEquals( f.firstDerivative(100.0), g.value(100.0), error );
-        assertEquals( f.firstDerivative(4.1), g.value(4.1), error );
-        assertEquals( f.firstDerivative(-3.25), g.value(-3.25), error );
+        assertEquals( f.derivative().value(0.0), g.value(0.0), tolerance );
+        assertEquals( f.derivative().value(1.0), g.value(1.0), tolerance );
+        assertEquals( f.derivative().value(100.0), g.value(100.0), tolerance );
+        assertEquals( f.derivative().value(4.1), g.value(4.1), tolerance );
+        assertEquals( f.derivative().value(-3.25), g.value(-3.25), tolerance );
 
         // compare g' = h
 
