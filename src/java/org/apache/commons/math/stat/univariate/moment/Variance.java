@@ -38,7 +38,7 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * one of the threads invokes the <code>increment()</code> or 
  * <code>clear()</code> method, it must be synchronized externally.
  * 
- * @version $Revision: 1.26 $ $Date: 2004/07/11 18:38:12 $
+ * @version $Revision: 1.27 $ $Date: 2004/07/11 23:39:08 $
  */
 public class Variance extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -231,9 +231,6 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * @throws IllegalArgumentException if the array is null
      */
     public double evaluate(final double[] values, final double mean) {
-        if (values == null) {
-            throw new IllegalArgumentException("input values array is null");
-        }
         return evaluate(values, mean, 0, values.length);
     }
 
