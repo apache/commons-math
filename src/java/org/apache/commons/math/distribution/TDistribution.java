@@ -54,20 +54,16 @@
 package org.apache.commons.math.stat.distribution;
 
 /**
- * <p>
  * Student's t-Distribution.
- * </p>
  * 
- * <p>
  * Instances of TDistribution objects should be created using
  * {@link DistributionFactory#createTDistribution(double)}
- * </p>
  * 
- * <p>
- * Reference:<br/>
- * <a href="http://mathworld.wolfram.com/Studentst-Distribution.html">
- * Student's t-Distribution</a>
- * </p>
+ * References:
+ * <ul>
+ * <li><a href="http://mathworld.wolfram.com/Studentst-Distribution.html">
+ * Student's t-Distribution</a></li>
+ * </ul>
  * 
  * @author Brent Worden
  */

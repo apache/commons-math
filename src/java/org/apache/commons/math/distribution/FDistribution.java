@@ -54,20 +54,16 @@
 package org.apache.commons.math.stat.distribution;
 
 /**
- * <p>
  * F-Distribution.
- * </p>
  * 
- * <p>
  * Instances of FDistribution objects should be created using
- * {@link DistributionFactory#createFDistribution(double,double)}
- * </p>
+ * {@link DistributionFactory#createFDistribution(double,double)}.
  * 
- * <p>
- * Reference:<br/>
- * <a href="http://mathworld.wolfram.com/F-Distribution.html">
- * F-Distribution</a>
- * </p>
+ * References:
+ * <ul>
+ * <li><a href="http://mathworld.wolfram.com/F-Distribution.html">
+ * F-Distribution</a></li>
+ * </ul>
  * 
  * @author Brent Worden
  */

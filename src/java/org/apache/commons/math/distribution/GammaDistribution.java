@@ -54,21 +54,16 @@
 package org.apache.commons.math.stat.distribution;
 
 /**
- * <p>
- * The Gamma Distribution
- * </p>
+ * The Gamma Distribution.
  * 
- * <p>
  * Instances of GammaDistribution objects should be created using
- * {@link DistributionFactory#createGammaDistribution(double,double)}
- * </p>
+ * {@link DistributionFactory#createGammaDistribution(double,double)}.
  * 
- * <p>
  * References:
  * <ul>
  * <li><a href="http://mathworld.wolfram.com/GammaDistribution.html">
  * Gamma Distribution</a></li>
- * </p>
+ * </ul>
  *  
  * @author Brent Worden
  */

@@ -54,16 +54,14 @@
 package org.apache.commons.math;
 
 /**
- * <p>
  * Provides a generic means to evaluate continued fractions.  Subclasses simply
  * provided the a and b coefficients to evaluate the continued fraction.
- * </p>
  * 
- * <p>
- * Reference:<br/>
- * <a href="http://mathworld.wolfram.com/ContinuedFraction.html">
- * Continued Fraction</a>
- * </p>
+ * References:
+ * <ul>
+ * <li><a href="http://mathworld.wolfram.com/ContinuedFraction.html">
+ * Continued Fraction</a></li>
+ * </ul>
  * 
  * @author Brent Worden
  */
@@ -126,11 +124,8 @@ public abstract class ContinuedFraction {
     }    
     
     /**
-     * <p>
      * Evaluates the continued fraction at the value x.
-     * </p>
      * 
-     * <p>
      * The implementation of this method is based on:
      * <ul>
      * <li>O. E-gecio-glu, C . K. Koc, J. Rifa i Coma,
@@ -138,7 +133,6 @@ public abstract class ContinuedFraction {
      * Fast Computation of Continued Fractions</a>, Computers Math. Applic.,
      * 21(2--3), 1991, 167--169.</li>
      * </ul>
-     * </p>
      * 
      * @param x the evaluation point.
      * @param epsilon maximum error allowed.
@@ -188,11 +182,11 @@ public abstract class ContinuedFraction {
         f[1][1] = (a[1][0] * an[0][1]) + (a[1][1] * an[1][1]);
         
         // determine if we're close enough
-        if(Math.abs((f[0][0] * f[1][1]) - (f[1][0] * f[0][1])) <
-                Math.abs(epsilon * f[1][0] * f[1][1])){
+        if (Math.abs((f[0][0] * f[1][1]) - (f[1][0] * f[0][1])) <
+                Math.abs(epsilon * f[1][0] * f[1][1])) {
             ret = f[0][0] / f[1][0];
         } else {
-            if(n >= maxIterations){
+            if (n >= maxIterations) {
                 throw new ConvergenceException(
                     "Continued fraction convergents failed to converge.");
             }

@@ -72,7 +72,7 @@ public class TDistributionImpl
      * Create a t distribution using the given degrees of freedom.
      * @param degreesOfFreedom the degrees of freedom.
      */
-    public TDistributionImpl(double degreesOfFreedom){
+    public TDistributionImpl(double degreesOfFreedom) {
         super();
         setDegreesOfFreedom(degreesOfFreedom);
     }
@@ -82,7 +82,7 @@ public class TDistributionImpl
      * @param degreesOfFreedom the new degrees of freedom.
      */
     public void setDegreesOfFreedom(double degreesOfFreedom) {
-        if(degreesOfFreedom <= 0.0){
+        if (degreesOfFreedom <= 0.0) {
             throw new IllegalArgumentException(
                 "degrees of freedom must be positive.");
         }
@@ -104,14 +104,14 @@ public class TDistributionImpl
      */
     public double cummulativeProbability(double x) {
         double ret;
-        if(x == 0.0){
+        if (x == 0.0) {
             ret = 0.5;
         } else {
             double t = Beta.regularizedBeta(
                 getDegreesOfFreedom() / (getDegreesOfFreedom() + (x * x)),
                 0.5 * getDegreesOfFreedom(), 0.5);
                 
-            if(x < 0.0){
+            if (x < 0.0) {
                 ret = 0.5 * t;
             } else {
                 ret = 1.0 - 0.5 * t;
@@ -130,7 +130,7 @@ public class TDistributionImpl
      * @return domain value lower bound, i.e.
      *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code> 
      */
-    protected double getDomainLowerBound(double p){
+    protected double getDomainLowerBound(double p) {
         return -Double.MAX_VALUE;
     }
 
@@ -143,7 +143,7 @@ public class TDistributionImpl
      * @return domain value upper bound, i.e.
      *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code> 
      */
-    protected double getDomainUpperBound(double p){
+    protected double getDomainUpperBound(double p) {
         return Double.MAX_VALUE;
     }
 
@@ -155,7 +155,7 @@ public class TDistributionImpl
      * @param p the desired probability for the critical value
      * @return initial domain value
      */
-    protected double getInitialDomain(double p){
+    protected double getInitialDomain(double p) {
         return 0.0;
     }
 }

@@ -54,7 +54,6 @@
 package org.apache.commons.math.stat.distribution;
 
 /**
- * <p>
  * This factory provids the means to create common statistical distributions.
  * The following distributions are supported:
  * <ul>
@@ -63,16 +62,13 @@ package org.apache.commons.math.stat.distribution;
  * <li>Gamma</li>
  * <li>Student's t</li>
  * </ul>
- * </p>
  * 
- * <p>
  * Common usage:<pre>
  * DistributionFactory factory = DistributionFactory.newInstance();
  * 
  * // create a Chi-Square distribution with 5 degrees of freedom.
  * ChiSquaredDistribution chi = factory.createChiSquareDistribution(5.0);
  * </pre>
- * </p>
  * 
  * @author Brent Worden
  */

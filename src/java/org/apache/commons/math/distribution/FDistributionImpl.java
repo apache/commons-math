@@ -57,7 +57,7 @@ import org.apache.commons.math.special.Beta;
 
 /**
  * Default implementation of
- * {@link org.apache.commons.math.stat.distribution.TDistribution}.
+ * {@link org.apache.commons.math.stat.distribution.FDistribution}.
  * 
  * @author Brent Worden
  */
@@ -73,35 +73,32 @@ public class FDistributionImpl
     
     /**
      * Create a F distribution using the given degrees of freedom.
-     * @param numeratorDegreesOfFreedom the degrees of freedom.
-     * @param denominatorDegreesOfFreedom
+     * @param numeratorDegreesOfFreedom the numerator degrees of freedom.
+     * @param denominatorDegreesOfFreedom the denominator degrees of freedom.
      */
     public FDistributionImpl(double numeratorDegreesOfFreedom,
-            double denominatorDegreesOfFreedom){
+            double denominatorDegreesOfFreedom) {
         super();
         setNumeratorDegreesOfFreedom(numeratorDegreesOfFreedom);
         setDenominatorDegreesOfFreedom(denominatorDegreesOfFreedom);
     }
     
     /**
-     * <p>
      * For this disbution, X, this method returns P(X &lt; x).
-     * </p>
      * 
-     * <p>
      * The implementation of this method is based on:
      * <ul>
      * <li>
      * <a href="http://mathworld.wolfram.com/F-Distribution.html">
      * F-Distribution</a>, equation (4).</li>
-     * </p>
+     * </ul>
      * 
      * @param x the value at which the CDF is evaluated.
      * @return CDF for this distribution. 
      */
     public double cummulativeProbability(double x) {
         double ret;
-        if(x <= 0.0){
+        if (x <= 0.0) {
             ret = 0.0;
         } else {
             double n = getNumeratorDegreesOfFreedom();
@@ -123,7 +120,7 @@ public class FDistributionImpl
      * @return domain value lower bound, i.e.
      *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code> 
      */
-    protected double getDomainLowerBound(double p){
+    protected double getDomainLowerBound(double p) {
         return 0.0;
     }
 
@@ -136,7 +133,7 @@ public class FDistributionImpl
      * @return domain value upper bound, i.e.
      *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code> 
      */
-    protected double getDomainUpperBound(double p){
+    protected double getDomainUpperBound(double p) {
         return Double.MAX_VALUE;
     }
 
@@ -148,16 +145,17 @@ public class FDistributionImpl
      * @param p the desired probability for the critical value
      * @return initial domain value
      */
-    protected double getInitialDomain(double p){
-        return getDenominatorDegreesOfFreedom() / (getDenominatorDegreesOfFreedom() - 2.0);
+    protected double getInitialDomain(double p) {
+        return getDenominatorDegreesOfFreedom() /
+            (getDenominatorDegreesOfFreedom() - 2.0);
     }
     
     /**
      * Modify the numerator degrees of freedom.
      * @param degreesOfFreedom the new numerator degrees of freedom.
      */
-    public void setNumeratorDegreesOfFreedom(double degreesOfFreedom){
-        if(degreesOfFreedom <= 0.0){
+    public void setNumeratorDegreesOfFreedom(double degreesOfFreedom) {
+        if (degreesOfFreedom <= 0.0) {
             throw new IllegalArgumentException(
                 "degrees of freedom must be positive.");
         }
@@ -168,7 +166,7 @@ public class FDistributionImpl
      * Access the numerator degrees of freedom.
      * @return the numerator degrees of freedom.
      */
-    public double getNumeratorDegreesOfFreedom(){
+    public double getNumeratorDegreesOfFreedom() {
         return numeratorDegreesOfFreedom;
     }
     
@@ -176,8 +174,8 @@ public class FDistributionImpl
      * Modify the denominator degrees of freedom.
      * @param degreesOfFreedom the new denominator degrees of freedom.
      */
-    public void setDenominatorDegreesOfFreedom(double degreesOfFreedom){
-        if(degreesOfFreedom <= 0.0){
+    public void setDenominatorDegreesOfFreedom(double degreesOfFreedom) {
+        if (degreesOfFreedom <= 0.0) {
             throw new IllegalArgumentException(
                 "degrees of freedom must be positive.");
         }
@@ -188,7 +186,7 @@ public class FDistributionImpl
      * Access the denominator degrees of freedom.
      * @return the denominator degrees of freedom.
      */
-    public double getDenominatorDegreesOfFreedom(){
+    public double getDenominatorDegreesOfFreedom() {
         return denominatorDegreesOfFreedom;
     }
 }

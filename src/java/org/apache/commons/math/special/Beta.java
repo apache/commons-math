@@ -73,9 +73,7 @@ public class Beta {
     }
 
     /**
-     * <p>
      * Returns the regularized beta function I(x, a, b).
-     * </p>
      * 
      * @param x ???
      * @param a ???
@@ -87,39 +85,40 @@ public class Beta {
     }
 
     /**
-     * <p>
      * Returns the regularized beta function I(x, a, b).
-     * </p>
      * 
      * @param x ???
      * @param a ???
      * @param b ???
+     * @param epsilon When the absolute value of the nth item in the
+     *                series is less than epsilon the approximation ceases
+     *                to calculate further elements in the series.
      * @return the regularized beta function I(x, a, b)
      */
-    public static double regularizedBeta(double x, double a, double b, double epsilon) {
+    public static double regularizedBeta(double x, double a, double b,
+        double epsilon) {
+            
         return regularizedBeta(x, a, b, epsilon, Integer.MAX_VALUE);
     }
 
     /**
-     * <p>
      * Returns the regularized beta function I(x, a, b).
-     * </p>
      * 
      * @param x ???
      * @param a ???
      * @param b ???
+     * @param maxIterations Maximum number of "iterations" to complete. 
      * @return the regularized beta function I(x, a, b)
      */
-    public static double regularizedBeta(double x, double a, double b, int maxIterations) {
+    public static double regularizedBeta(double x, double a, double b,
+        int maxIterations) {
+            
         return regularizedBeta(x, a, b, DEFAULT_EPSILON, maxIterations);
     }
     
     /**
-     * <p>
      * Returns the regularized beta function I(x, a, b).
-     * </p>
      * 
-     * <p>
      * The implementation of this method is based on:
      * <ul>
      * <li>
@@ -129,14 +128,19 @@ public class Beta {
      * <a href="http://functions.wolfram.com/06.21.10.0001.01">
      * Regularized Beta Function</a>.</li>
      * </ul>
-     * </p>
      * 
      * @param x ???
      * @param a ???
      * @param b ???
+     * @param epsilon When the absolute value of the nth item in the
+     *                series is less than epsilon the approximation ceases
+     *                to calculate further elements in the series.
+     * @param maxIterations Maximum number of "iterations" to complete. 
      * @return the regularized beta function I(x, a, b)
      */
-    public static double regularizedBeta(double x, final double a, final double b, double epsilon, int maxIterations) {
+    public static double regularizedBeta(double x, final double a,
+        final double b, double epsilon, int maxIterations) {
+            
         double ret;
 
         if (Double.isNaN(x) || Double.isNaN(a) || Double.isNaN(b) || (x < 0)
@@ -155,8 +159,9 @@ public class Beta {
                             if (n % 2 == 0) { // even
                                 m = (n - 2.0) / 2.0;
                                 ret =
-                                    - ((a + m) * (a + b + m) * x)
-                                        / ((a + (2 * m)) * (a + (2 * m) + 1.0));
+                                    -((a + m) * (a + b + m) * x)
+                                        / ((a + (2 * m))
+                                        * (a + (2 * m) + 1.0));
                             } else {
                                 m = (n - 1.0) / 2.0;
                                 ret =
@@ -180,17 +185,17 @@ public class Beta {
                     }
                     return ret;
                 }
-			};
-            ret = Math.exp((a * Math.log(x)) + (b * Math.log(1.0 - x)) - Math.log(a) - logBeta(a, b, epsilon, maxIterations)) * fraction.evaluate(x, epsilon, maxIterations);
+            };
+            ret = Math.exp((a * Math.log(x)) + (b * Math.log(1.0 - x))
+                - Math.log(a) - logBeta(a, b, epsilon, maxIterations))
+                * fraction.evaluate(x, epsilon, maxIterations);
         }
 
         return ret;
     }
 
     /**
-     * <p>
      * Returns the natural logarithm of the beta function B(a, b).
-     * </p>
      * 
      * @param a ???
      * @param b ???
@@ -201,23 +206,25 @@ public class Beta {
     }
     
     /**
-     * <p>
      * Returns the natural logarithm of the beta function B(a, b).
-     * </p>
      *
-     * <p> 
      * The implementation of this method is based on:
      * <ul>
      * <li><a href="http://mathworld.wolfram.com/BetaFunction.html">
      * Beta Function</a>, equation (1).</li>
      * </ul>
-     * </p>
      * 
      * @param a ???
      * @param b ???
+     * @param epsilon When the absolute value of the nth item in the
+     *                series is less than epsilon the approximation ceases
+     *                to calculate further elements in the series.
+     * @param maxIterations Maximum number of "iterations" to complete. 
      * @return log(B(a, b))
      */
-    public static double logBeta(double a, double b, double epsilon, int maxIterations) {
+    public static double logBeta(double a, double b, double epsilon,
+        int maxIterations) {
+            
         double ret;
 
         if (Double.isNaN(a) || Double.isNaN(b) || (a <= 0.0) || (b <= 0.0)) {

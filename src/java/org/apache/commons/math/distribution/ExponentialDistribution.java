@@ -54,21 +54,15 @@
 package org.apache.commons.math.stat.distribution;
 
 /**
- * <p>
- * The Exponential Distribution
- * </p>
+ * The Exponential Distribution.
  * 
- * <p>
  * Instances of ExponentialDistribution objects should be created using
- * {@link DistributionFactory#createExponentialDistribution(double)}
- * </p>
+ * {@link DistributionFactory#createExponentialDistribution(double)}.
  * 
- * <p>
  * References:
  * <ul>
  * <li><a href="http://mathworld.wolfram.com/ExponentialDistribution.html">
  * Exponential Distribution</a></li>
- * </p>
  * 
  * @author Brent Worden
  */

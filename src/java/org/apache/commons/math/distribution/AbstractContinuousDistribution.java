@@ -94,7 +94,7 @@ public abstract class AbstractContinuousDistribution
      * @return x, such that P(X &lt; x) = <code>p</code>
      */
     public double inverseCummulativeProbability(final double p) {
-        if (p < 0.0 || p > 1.0){
+        if (p < 0.0 || p > 1.0) {
             throw new IllegalArgumentException(
                 "p must be between 0.0 and 1.0, inclusive.");
         }

@@ -94,9 +94,7 @@ public class Gamma {
     }
 
     /**
-     * <p>
      * Returns the regularized gamma function P(a, x).
-     * </p>
      * 
      * @param a ???
      * @param x ???
@@ -107,11 +105,8 @@ public class Gamma {
     }
     
     /**
-     * <p>
      * Returns the regularized gamma function P(a, x).
-     * </p>
      * 
-     * <p>
      * The implementation of this method is based on:
      * <ul>
      * <li>
@@ -125,7 +120,6 @@ public class Gamma {
      * Confluent Hypergeometric Function of the First Kind</a>, equation (1).
      * </li>
      * </ul>
-     * </p>
      * 
      * @param a ???
      * @param x ???
@@ -173,11 +167,8 @@ public class Gamma {
     }
 
     /**
-     * <p>
      * Returns the natural logarithm of the gamma function &#915;(x).
-     * </p>
      *
-     * <p> 
      * The implementation of this method is based on:
      * <ul>
      * <li><a href="http://mathworld.wolfram.com/GammaFunction.html">
@@ -188,7 +179,6 @@ public class Gamma {
      * the computation of the convergent Lanczos complex Gamma approximation
      * </a></li>
      * </ul>
-     * </p>
      * 
      * @param x ???
      * @return log(&#915;(x))

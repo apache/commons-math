@@ -81,11 +81,8 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     }
     
     /**
-     * <p>
      * For this disbution, X, this method returns P(X &lt; x).
-     * </p>
      * 
-     * <p>
      * The implementation of this method is based on:
      * <ul>
      * <li>
@@ -94,7 +91,6 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
      * <li>Casella, G., & Berger, R. (1990). <i>Statistical Inference</i>.
      * Belmont, CA: Duxbury Press.</li>
      * </ul>
-     * </p>
      * 
      * @param x the value at which the CDF is evaluated.
      * @return CDF for this distribution. 
@@ -179,7 +175,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
 
         double ret;
 
-        if(p < .5){
+        if (p < .5) {
             // use mean
             ret = getAlpha() * getBeta();
         } else {
@@ -205,7 +201,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
 
         double ret;
 
-        if(p < .5){
+        if (p < .5) {
             // use 1/2 mean
             ret = getAlpha() * getBeta() * .5;
         } else {

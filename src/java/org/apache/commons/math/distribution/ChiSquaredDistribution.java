@@ -54,21 +54,16 @@
 package org.apache.commons.math.stat.distribution;
 
 /**
- * <p>
- * The Chi-Squared Distribution
- * </p>
+ * The Chi-Squared Distribution.
  * 
- * <p>
  * Instances of ChiSquaredDistribution objects should be created using
- * {@link DistributionFactory#createChiSquareDistribution(double)}
- * </p>
+ * {@link DistributionFactory#createChiSquareDistribution(double)}.
  * 
- * <p>
  * References:
  * <ul>
  * <li><a href="http://mathworld.wolfram.com/Chi-SquaredDistribution.html">
  * Chi-Squared Distribution</a></li>
- * </p>
+ * </ul>
  * 
  * @author Brent Worden
  */
