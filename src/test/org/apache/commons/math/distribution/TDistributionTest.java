@@ -49,7 +49,7 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
 
     /** Creates the default cumulative probability density test expected values */
     public double[] makeCumulativeTestValues() {
-        return new double[] {0.001d, 0.01d, 0.025d, 0.05d, 0.1d, 0.0d, 0.999d,
+        return new double[] {0.001d, 0.01d, 0.025d, 0.05d, 0.1d, 0.5d, 0.999d,
                 0.990d, 0.975d, 0.950d, 0.900d};
     }
 
@@ -76,7 +76,7 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
         setTolerance(1E-4);
         // quantiles computed using R version 1.8.1 (linux version)
         setCumulativeTestPoints(new double[] {-318.3088, -31.82052, -12.70620, -6.313752,
-            -3.077684, 318.3088, 31.82052, 12.70620,
+            -3.077684, 0.0, 318.3088, 31.82052, 12.70620,
             6.313752, 3.077684});
         setInverseCumulativeTestValues(getCumulativeTestPoints());
         verifyCumulativeProbabilities();
