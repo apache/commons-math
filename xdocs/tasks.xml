@@ -17,26 +17,32 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="xdoc.xsl"?>
-<!-- $Revision: 1.18 $ $Date: 2004/02/28 17:47:37 $ -->
+<!-- $Revision: 1.19 $ $Date: 2004/04/05 05:22:00 $ -->
 <document>
   <properties>
     <title>Tasks: Done And To Do</title>
   </properties>
   <body>
     <section name="Aim">
-      <p>This page aims to be a handy reference not only of the work done but also of work pending for the next planned release. Users who want new features should submit patches to this page in the unclassified section of this document. Developers who want to lend a hand can grab tasks from this page. Everyone can see the progress which is being made.</p>
+      <p>This page aims to be a handy reference not only of the work done but also of work pending for the next planned release. 
+      Users who want new features should submit patches to this page in the unclassified section of this document. 
+      Developers who want to lend a hand can grab tasks from this page. Everyone can see the progress which is being made.</p>
     </section>
     <section name="TODO list">
       <p>The following is a list of items still <code>TODO</code> for Math.  Contributions are welcome!</p>
       <subsection name="Documentation and Code Conformance Tasks">
-        <p>Many of these will always be a required. Please focus on applying format standards and provide as many test cases as possible for your code.</p>
+        <p>Many of these will always be a required. Please focus on applying format standards and provide as many 
+        test cases as possible for your code.</p>
         <dl>
           <dt>Develop user's guide following the package structure.</dt>
-          <dd>Provide any comments on this task here.</dd>
+          <dd>Missing sections:  complex, utilities, linear. Incomplete: stat (missing BivariateRegression, Statistical Tests)</dd>
           <dt>Performance and accuracy testing.</dt>
-          <dd>If anyone is interested in helping out here, what we could really use is a wider selection of test cases for the core numerical functions and validation against either other packages (e.g. R for the statistical stuff), verified datasets, or experiments comparing implementions using floats to doubles.</dd>
+          <dd>If anyone is interested in helping out here, what we could really use is a wider selection of test cases for the core
+           numerical functions and validation against either other packages (e.g. R for the statistical stuff), verified datasets,
+           or experiments comparing implementions using floats to doubles.</dd>
           <dt>Test Coverage.</dt>
-          <dd>Clover tests show gaps in test path coverage. Get all tests to 100% coverage.  Also improve test data and boundary conditions coverage.</dd>
+          <dd>Clover tests show gaps in test path coverage. Get all tests to 100% coverage.  Also improve test data and 
+           boundary conditions coverage.</dd>
           <dt>Code review.</dt>
           <dd>
             <p>Code review is a continuous process that all Contributors and Developers should practice while working on the code base.</p>
@@ -46,28 +52,30 @@
               <li>CheckStyle with modified properties still shows many errors.  Try to clean these up.</li>
             </ul>
           </dd>
+          <dt>Javadoc</dt>
+          <dd>Bring all javadoc up to requirements in the <a href="developers.html">Developer's Guide</a></dd>
+          <dd>Run linkcheck and fix all broken links in Javadoc</dd>
         </dl>
       </subsection>
       <subsection name="Algorithm Development Tasks">
-        <p>These current tasks are planned and need completion for the inital release.</p>
+        <p>These current tasks are planned and need completion for the inital release</p>
         <dl>
-         <dt>Root Finding.</dt>
+         <dt>Root Finding</dt>
           <dd>
             <ul>
-              <li>Rework unit tests for root finding and spline interpolation.</li>
+              <li>Rework unit tests for root finding</li>
               <li>CheckStyle with modified properties still shows many errors.  Try to clean these up.</li>
+              <li>Finalize API (maybe move to stateless implementation)</li>
             </ul>
           </dd>
-          <dt>Distributions.</dt>
-          <dd>Finalize the contents of MathUtils and StatUtils. Suggest any additions -- ideally with patches --  to these utility classes.</dd>
-        <dt>Complex Number Library.</dt>
+        
+        <dt>Complex Number Library</dt>
           <dd>
               An initial <a href="http://nagoya.apache.org/bugzilla/show_bug.cgi?id=24241">submission</a>
               of a complex number library has been donated by Brent Worden. It has been added 
               and is open to be reviewed/tested by others for feedback. 
               The implementation is based on the following source:
-              <a href="http://myweb.lmu.edu/dmsmith/ZMLIB.pdf">http://myweb.lmu.edu/dmsmith/ZMLIB.pdf</a>.
-              
+              <a href="http://myweb.lmu.edu/dmsmith/ZMLIB.pdf">http://myweb.lmu.edu/dmsmith/ZMLIB.pdf</a>.            
               <ul>
                   <li><a href="http://nagoya.apache.org/eyebrowse/ReadMsg?listId=15&amp;msgNo=28132">
                       Thread Subject: [math] Complex dilemmas
@@ -77,10 +85,16 @@
                   </a></li>
               </ul>
           </dd>
-        <dt>RealMatrix.</dt>
+        <dt>RealMatrix</dt>
           <dd>
             <ul>
-              <li>Refactor RealMatrix to minimally make solve() pluggable.</li>
+              <li>Implement rank() method or drop from interface.</li>
+            </ul>
+          </dd> 
+        <dt>BeanList Statistics</dt>
+          <dd>
+            <ul>
+              <li>Refactor BeanList statistics, find appropriate package placement</li>
             </ul>
           </dd> 
         </dl>
@@ -89,10 +103,18 @@
     <section name="Future Goals">
       <subsection name="Delayed Tasks slated for the next release of the Math library">
       <dl> 
-        <dt>Statistics.</dt>
+        <dt>Statistics</dt>
           <dd>
             <ul>
-              <li>Implement confidence intervals.</li>
+              <li>More inference methods</li>
+              <li>Multiple regression</li>
+            </ul>
+          </dd> 
+          <dt>Linear Algebra</dt>
+          <dd>
+            <ul>
+              <li>More matrix decompositions (Cholesky, QR, SVD) and framework to support.</li>
+              <li>Sparse matrices</li>
             </ul>
           </dd> 
         </dl> 
