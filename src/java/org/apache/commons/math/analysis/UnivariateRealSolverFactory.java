@@ -53,11 +53,6 @@
  */
 package org.apache.commons.math.analysis;
 
-import java.lang.reflect.InvocationTargetException;
-
-import org.apache.commons.math.MathConfigurationException;
-import org.apache.commons.math.MathException;
-
 /**
  * A factory to easily get a default solver and some convenience
  * functions.
@@ -66,106 +61,58 @@ import org.apache.commons.math.MathException;
  * (this may be controversial, because the configuration data
  * may also be used for the default solver used by the static
  * solve() method). 
- * @version $Revision: 1.3 $ $Date: 2003/07/11 15:59:14 $
+ * @version $Revision: 1.4 $ $Date: 2003/07/30 21:58:10 $
  */
-public class UnivariateRealSolverFactory {
+public abstract class UnivariateRealSolverFactory {
     /**
      * Default constructor.
      */
-    private UnivariateRealSolverFactory() {
+    protected UnivariateRealSolverFactory() {
     }
 
+    /**
+     * @return a new factory.
+     * @todo add comment
+     * @todo for now, return the only concrete factory.  Later, allow for a
+     *       plugable implementation, possibly using SPI and commons-discovery.
+     */
+    public static UnivariateRealSolverFactory newInstance() {
+        return new UnivariateRealSolverFactoryImpl();
+    }
+    
     /**
      * Create a new {@link UnivariateRealSolver} for the given function.  The
-     * actual solver returned can be controlled by defining the
-     * <code>org.apache.commons.math.analysis.UnivariateRealSolver</code>
-     * property on the JVM command-line (<code>
-     * -Dorg.apache.commons.math.analysis.UnivariateRealSolver=
-     * <i>class name</i></code>).  The value of the property should be any,
-     * fully qualified class name for a type that implements the
-     * {@link UnivariateRealSolver} interface.  By default, an instance of
-     * {@link BrentSolver} is returned.
+     * actual solver returned is determined by the underlying factory.
      * @param f the function.
      * @return the new solver.
-     * @throws MathConfigurationException if a
      */
-    public static UnivariateRealSolver newSolver(UnivariateRealFunction f)
-        throws MathConfigurationException {
-        String solverClassName =
-            System.getProperty(
-                "org.apache.commons.math.analysis.UnivariateRealSolver",
-                "org.apache.commons.math.analysis.BrentSolver");
-        try {
-            Class clazz = Class.forName(solverClassName);
-            Class paramClass[] = new Class[1];
-            paramClass[0] = UnivariateRealFunction.class;
-            Object param[] = new Object[1];
-            param[0] = f;
-            return (UnivariateRealSolver)clazz.getConstructor(
-                paramClass).newInstance(
-                param);
-        } catch (IllegalArgumentException e) {
-            throw new MathConfigurationException(e);
-        } catch (SecurityException e) {
-            throw new MathConfigurationException(
-                "Can't access " + solverClassName,
-                e);
-        } catch (ClassNotFoundException e) {
-            throw new MathConfigurationException(
-                "Class not found: " + solverClassName,
-                e);
-        } catch (InstantiationException e) {
-            throw new MathConfigurationException(
-                "Can't instantiate " + solverClassName,
-                e);
-        } catch (IllegalAccessException e) {
-            throw new MathConfigurationException(
-                "Can't access " + solverClassName,
-                e);
-        } catch (InvocationTargetException e) {
-            throw new MathConfigurationException(e);
-        } catch (NoSuchMethodException e) {
-            throw new MathConfigurationException(
-                "No constructor with UnivariateRealFunction in " +
-                solverClassName,
-                e);
-        }
-    }
-
+    public abstract UnivariateRealSolver newDefaultSolver(
+        UnivariateRealFunction f);
+    
     /**
-     * Convience method to solve for zeros of real univariate functions.  A
-     * default solver is created and used for solving. 
+     * Create a new {@link UnivariateRealSolver} for the given function.  The
+     * solver is an implementation of the bisection method.
      * @param f the function.
-     * @param x0 the lower bound for the interval.
-     * @param x1 the upper bound for the interval.
-     * @return a value where the function is zero.
-     * @throws MathException if the iteration count was exceeded or the
-     *         solver detects convergence problems otherwise.
+     * @return the new solver.
      */
-    public static double solve(UnivariateRealFunction f, double x0, double x1)
-        throws MathException {
-        return newSolver(f).solve(x0, x1);
-    }
-
+    public abstract UnivariateRealSolver newBisectionSolver(
+        UnivariateRealFunction f);
+    
     /**
-     * Convience method to solve for zeros of real univariate functions.  A
-     * default solver is created and used for solving. 
+     * Create a new {@link UnivariateRealSolver} for the given function.  The
+     * solver is an implementation of the Brent method.
      * @param f the function.
-     * @param x0 the lower bound for the interval.
-     * @param x1 the upper bound for the interval.
-     * @param absoluteAccuracy the accuracy to be used by the solver.
-     * @return a value where the function is zero.
-     * @throws MathException if the iteration count was exceeded or the
-     *         solver detects convergence problems otherwise.
+     * @return the new solver.
      */
-    public static double solve(
-        UnivariateRealFunction f,
-        double x0,
-        double x1,
-        double absoluteAccuracy)
-        throws MathException {
-        UnivariateRealSolver solver = newSolver(f);
-        solver.setAbsoluteAccuracy(absoluteAccuracy);
-        return solver.solve(x0, x1);
-    }
+    public abstract UnivariateRealSolver newBrentSolver(
+        UnivariateRealFunction f);
+    
+    /**
+     * Create a new {@link UnivariateRealSolver} for the given function.  The
+     * solver is an implementation of the secant method.
+     * @param f the function.
+     * @return the new solver.
+     */
+    public abstract UnivariateRealSolver newSecantSolver(
+        UnivariateRealFunction f);
 }

@@ -59,7 +59,7 @@ import org.apache.commons.math.util.ContinuedFraction;
  * This is a utility class that provides computation methods related to the
  * Beta family of functions.
  * 
- * @version $Revision: 1.7 $ $Date: 2003/07/09 20:03:09 $
+ * @version $Revision: 1.8 $ $Date: 2003/07/30 21:58:10 $
  */
 public class Beta {
     /** Maximum allowed numerical error. */
@@ -143,8 +143,8 @@ public class Beta {
             
         double ret;
 
-        if (Double.isNaN(x) || Double.isNaN(a) || Double.isNaN(b) || (x < 0)
-                || (x > 1) || (a <= 0.0) || (b <= 0.0)) {
+        if (Double.isNaN(x) || Double.isNaN(a) || Double.isNaN(b) || (x < 0) ||
+            (x > 1) || (a <= 0.0) || (b <= 0.0)) {
             ret = Double.NaN;
         } else {
             ContinuedFraction fraction = new ContinuedFraction() {
@@ -158,15 +158,12 @@ public class Beta {
                         default :
                             if (n % 2 == 0) { // even
                                 m = (n - 2.0) / 2.0;
-                                ret =
-                                    -((a + m) * (a + b + m) * x)
-                                        / ((a + (2 * m))
-                                        * (a + (2 * m) + 1.0));
+                                ret = -((a + m) * (a + b + m) * x) /
+                                    ((a + (2 * m)) * (a + (2 * m) + 1.0));
                             } else {
                                 m = (n - 1.0) / 2.0;
-                                ret =
-                                    (m * (b - m) * x)
-                                        / ((a + (2 * m) - 1) * (a + (2 * m)));
+                                ret = (m * (b - m) * x) /
+                                    ((a + (2 * m) - 1) * (a + (2 * m)));
                             }
                             break;
                     }
@@ -186,9 +183,9 @@ public class Beta {
                     return ret;
                 }
             };
-            ret = Math.exp((a * Math.log(x)) + (b * Math.log(1.0 - x))
-                - Math.log(a) - logBeta(a, b, epsilon, maxIterations))
-                * fraction.evaluate(x, epsilon, maxIterations);
+            ret = Math.exp((a * Math.log(x)) + (b * Math.log(1.0 - x)) -
+                Math.log(a) - logBeta(a, b, epsilon, maxIterations)) *
+                fraction.evaluate(x, epsilon, maxIterations);
         }
 
         return ret;
@@ -230,8 +227,8 @@ public class Beta {
         if (Double.isNaN(a) || Double.isNaN(b) || (a <= 0.0) || (b <= 0.0)) {
             ret = Double.NaN;
         } else {
-            ret = Gamma.logGamma(a) + Gamma.logGamma(b)
-                - Gamma.logGamma(a + b);
+            ret = Gamma.logGamma(a) + Gamma.logGamma(b) -
+                Gamma.logGamma(a + b);
         }
 
         return ret;

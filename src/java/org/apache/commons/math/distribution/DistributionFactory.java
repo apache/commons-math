@@ -70,7 +70,7 @@ package org.apache.commons.math.stat.distribution;
  * ChiSquaredDistribution chi = factory.createChiSquareDistribution(5.0);
  * </pre>
  * 
- * @version $Revision: 1.8 $ $Date: 2003/07/09 20:03:22 $
+ * @version $Revision: 1.9 $ $Date: 2003/07/30 21:58:11 $
  */
 public abstract class DistributionFactory {
     /**
@@ -83,11 +83,10 @@ public abstract class DistributionFactory {
     /**
      * Create an instance of a <code>DistributionFactory</code>
      * @return a new factory. 
+     * @todo for now, return the only concrete factory.  Later, allow for a
+     *       plugable implementation, possibly using SPI and commons-discovery.
      */
     public static DistributionFactory newInstance() {
-        // for now, return the only concrete factory.
-        // later, allow for a plugable implementation, possible using SPI and
-        // commons-discovery.
         return new DistributionFactoryImpl();
     }
     

@@ -59,7 +59,7 @@ import org.apache.commons.math.analysis.ConvergenceException;
  * This is a utility class that provides computation methods related to the
  * Gamma family of functions.
  * 
- * @version $Revision: 1.9 $ $Date: 2003/07/09 20:03:09 $
+ * @version $Revision: 1.10 $ $Date: 2003/07/30 21:58:10 $
  */
 public class Gamma {
     /** Maximum allowed numerical error. */
@@ -156,10 +156,7 @@ public class Gamma {
                 throw new ConvergenceException(
                     "maximum number of iterations reached");
             } else {
-                ret = Math.exp(-x + 
-                               (a * Math.log(x)) - 
-                               logGamma(a)) 
-                    * sum;
+                ret = Math.exp(-x + (a * Math.log(x)) - logGamma(a)) * sum;
             }
         }
 
@@ -198,8 +195,8 @@ public class Gamma {
             sum = sum + lanczos[0];
 
             double tmp = x + g + .5;
-            ret = ((x + .5) * Math.log(tmp)) - tmp
-                + (.5 * Math.log(2.0 * Math.PI)) + Math.log(sum) - Math.log(x);
+            ret = ((x + .5) * Math.log(tmp)) - tmp +
+                (.5 * Math.log(2.0 * Math.PI)) + Math.log(sum) - Math.log(x);
         }
 
         return ret;

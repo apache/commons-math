@@ -56,29 +56,35 @@ package org.apache.commons.math.analysis;
 /**
  * Computes a natural spline interpolation for the data set.
  *
- * @version $Revision: 1.2 $ $Date: 2003/07/09 20:02:43 $
+ * @version $Revision: 1.3 $ $Date: 2003/07/30 21:58:10 $
  *
  */
 public class SplineInterpolator implements UnivariateRealInterpolator {
-    private double[][] c = null ;
+    private double[][] c = null;
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.UnivariateRealInterpolator#interpolate(double[], double[])
+    /**
+     * Computes an interpolating function for the data set.
+     * @param xval the arguments for the interpolation points
+     * @param yval the values for the interpolation points
+     * @return a function which interpolates the data set
+     * @throws MathException if arguments violate assumptions made by the
+     *         interpolationg algorithm
      */
     public UnivariateRealFunction interpolate(double[] xval, double[] yval) {
         if (xval.length != yval.length) {
-            throw new IllegalArgumentException("Dataset arrays must have same length.");
+            throw new IllegalArgumentException(
+                "Dataset arrays must have same length.");
         }
 
-        if ( c == null )
-        {
+        if (c == null) {
             // Number of intervals. The number of data points is N+1.
             int n = xval.length - 1;
             // Check whether the xval vector has ascending values.
             // Separation should be checked too (not implemented: which criteria?).
             for (int i = 0; i < n; i++) {
-                if (xval[i]>=xval[i+1]) {
-                    throw new IllegalArgumentException("Dataset must specify sorted, ascending x values.");
+                if (xval[i] >= xval[i + 1]) {
+                    throw new IllegalArgumentException(
+                        "Dataset must specify sorted, ascending x values.");
                 }
             }
             // Vectors for the equation system. There are n-1 equations for the unknowns s[i] (1<=i<=N-1),
@@ -104,10 +110,9 @@ public class SplineInterpolator implements UnivariateRealInterpolator {
                 //    (yval[i + 2] - yval[i + 1]) / (xval[i + 2] - xval[i + 1])
                 // take it from the previous loop pass. Note: the interesting part of performance
                 // loss is the range check in the array access, not the computation itself.
-                b[i] =
-                    6.0
-                        * ((yval[i + 2] - yval[i + 1]) / (xval[i + 2] - xval[i + 1])
-                            - (yval[i + 1] - yval[i]) / (xval[i + 1] - xval[i]));
+                b[i] = 6.0 * ((yval[i + 2] - yval[i + 1]) / (xval[i + 2] - 
+                    xval[i + 1]) - (yval[i + 1] - yval[i]) / (xval[i + 1] -
+                    xval[i]));
                 d[i] = 2.0 * (xval[i + 2] - xval[i]);
             }
             // Set up upper and lower diagonal. Keep the offsets in mind.
@@ -132,26 +137,21 @@ public class SplineInterpolator implements UnivariateRealInterpolator {
             c = new double[n][4];
             c[0][3] = d[0] / (xval[1] - xval[0]) / 6.0;
             c[0][2] = 0.0;
-            c[0][1] =
-                (yval[1] - yval[0]) / (xval[1] - xval[0])
-                    - d[0] * (xval[1] - xval[0]) / 6.0;
+            c[0][1] = (yval[1] - yval[0]) / (xval[1] - xval[0]) - d[0] * 
+                (xval[1] - xval[0]) / 6.0;
             for (int i = 1; i < n - 2; i++) {
                 // TODO: This relies on compiler for CSE of xval[i + 1] - xval[i]. Is this a reasonable assumption?
                 c[i][3] = (d[i] - d[i - 1]) / (xval[i + 1] - xval[i]) / 6.0;
                 c[i][2] = d[i - 1] / 2.0;
-                c[i][1] =
-                    (yval[i + 1] - yval[i]) / (xval[i + 1] - xval[i])
-                        - d[i] * (xval[i + 1] - xval[i]) / 6.0
-                        - d[i
-                        - 1] * (xval[i + 1] - xval[i]) / 3.0;
+                c[i][1] = (yval[i + 1] - yval[i]) / (xval[i + 1] - xval[i]) -
+                    d[i] * (xval[i + 1] - xval[i]) / 6.0 - d[i - 1] * 
+                    (xval[i + 1] - xval[i]) / 3.0;
             }
             // TODO: again, CSE aspects.
             c[n - 1][3] = -d[n - 2] / (xval[n] - xval[n - 1]) / 6.0;
             c[n - 1][2] = d[n - 2] / 2.0;
-            c[n - 1][1] =
-                (yval[n] - yval[n - 1]) / (xval[n] - xval[n - 1])
-                    - d[n
-                    - 2] * (xval[n] - xval[n - 1]) / 3.0;
+            c[n - 1][1] = (yval[n] - yval[n - 1]) / (xval[n] - xval[n - 1]) -
+                d[n - 2] * (xval[n] - xval[n - 1]) / 3.0;
             for (int i = 0; i < n; i++) {
                 c[i][0] = yval[i];
             }

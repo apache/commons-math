@@ -78,7 +78,7 @@ import java.io.Serializable;
  * explicitly invoke <code>LUDecompose()</code> to recompute the decomposition
  * before using any of the methods above.
  *
- * @version $Revision: 1.3 $ $Date: 2003/07/07 23:19:22 $
+ * @version $Revision: 1.4 $ $Date: 2003/07/30 21:58:10 $
  */
 public class RealMatrixImpl implements RealMatrix, Serializable {
 
@@ -384,8 +384,9 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      */
     public double getEntry(int row, int column)
     throws IllegalArgumentException {
-        if (row < 1 || column < 1 || row > this.getRowDimension()
-        || column > this.getColumnDimension()) {
+        if (row < 1 || column < 1 || row > this.getRowDimension() ||
+            column > this.getColumnDimension()) {
+                
             throw new IllegalArgumentException
             ("matrix entry does not exist");
         }
@@ -400,8 +401,9 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      */
     public void setEntry(int row, int column, double value)
     throws IllegalArgumentException {
-        if (row < 1 || column < 1 || row > this.getRowDimension()
-        || column > this.getColumnDimension()) {
+        if (row < 1 || column < 1 || row > this.getRowDimension() ||
+            column > this.getColumnDimension()) {
+                
             throw new IllegalArgumentException
             ("matrix entry does not exist");
         }
@@ -587,7 +589,6 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
         }
         
         int nCol = this.getColumnDimension();
-        int nRow = this.getRowDimension();
         int nColB = b.getColumnDimension();
         int nRowB = b.getRowDimension();
         
