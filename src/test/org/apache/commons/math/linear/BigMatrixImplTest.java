@@ -24,7 +24,7 @@ import java.math.BigDecimal;
 /**
  * Test cases for the {@link BigMatrixImpl} class.
  *
- * @version $Revision: 1.4 $ $Date: 2004/10/25 02:23:29 $
+ * @version $Revision: 1.5 $ $Date: 2004/10/25 03:13:31 $
  */
 
 public final class BigMatrixImplTest extends TestCase {
@@ -151,25 +151,13 @@ public final class BigMatrixImplTest extends TestCase {
         assertEquals("testData2 row dimension",m2.getRowDimension(),2);
         assertEquals("testData2 column dimension",m2.getColumnDimension(),3);
         assertTrue("testData2 is not square",!m2.isSquare());
-        BigMatrixImpl m3 = new BigMatrixImpl();
-        m3.setData(testData);
     } 
     
     /** test copy functions */
     public void testCopyFunctions() {
         BigMatrixImpl m = new BigMatrixImpl(testData);
-        BigMatrixImpl m2 = new BigMatrixImpl(testData2);
-        m2.setData(m.getData());
-        assertClose("getData",m2,m,entryTolerance);
-        // no dangling reference...
-        m2.setEntry(1,1,2000d);
-        BigMatrixImpl m3 = new BigMatrixImpl(testData);
-        assertClose("no getData side effect",m,m3,entryTolerance);
-        m3 = (BigMatrixImpl) m.copy();
-        double[][] stompMe = {{1d,2d,3d}};
-        m3.setDataRef(asBigDecimal(stompMe));
-        assertClose("no copy side effect",m,new BigMatrixImpl(testData),
-            entryTolerance);
+        BigMatrixImpl m2 = new BigMatrixImpl(m.getData());
+        assertEquals(m2,m);
     }
     
     /** test constructors */
@@ -475,36 +463,7 @@ public final class BigMatrixImplTest extends TestCase {
             ;
         }
     }
-    
-    public void testEntryMutators() {
-        BigMatrix m = new BigMatrixImpl(testData);
-        assertEquals("get entry",m.getEntry(0,1).doubleValue(),2d,entryTolerance);
-        m.setEntry(0,1,100d);
-        assertEquals("get entry",m.getEntry(0,1).doubleValue(),100d,entryTolerance);
-        try {
-            double x = m.getEntry(-1,2).doubleValue();
-            fail("expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
-            ;
-        }
-        try {
-            m.setEntry(1,3,200d);
-            fail("expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
-            ;
-        }
-        m.setEntry(1, 2, "0.1");
-        m.setEntry(1, 1, 0.1d);
-        assertFalse(m.getEntry(1, 2).equals(m.getEntry(1, 1)));
-        assertTrue(m.getEntry(1, 2).equals(new BigDecimal("0.1")));
-        try {
-            m.setEntry(1, 2, "not a number");
-            fail("Expecting NumberFormatException");
-        } catch (NumberFormatException ex) {
-            ;
-        }     
-    }
-        
+      
     public void testLUDecomposition() throws Exception {
         BigMatrixImpl m = new BigMatrixImpl(testData);
         BigMatrix lu = m.getLUMatrix();
@@ -698,24 +657,24 @@ public final class BigMatrixImplTest extends TestCase {
     }
     
     /** extracts the l  and u matrices from compact lu representation */
-    protected void splitLU(BigMatrix lu, BigMatrix lower, BigMatrix upper) throws InvalidMatrixException {
-        if (!lu.isSquare() || !lower.isSquare() || !upper.isSquare() ||
-                lower.getRowDimension() != upper.getRowDimension() 
-                || lower.getRowDimension() != lu.getRowDimension()) {
+    protected void splitLU(BigMatrix lu, BigDecimal[][] lowerData, BigDecimal[][] upperData) throws InvalidMatrixException {
+        if (!lu.isSquare() || lowerData.length != lowerData[0].length || upperData.length != upperData[0].length ||
+                lowerData.length != upperData.length
+                || lowerData.length != lu.getRowDimension()) {
             throw new InvalidMatrixException("incorrect dimensions");
         }    
         int n = lu.getRowDimension();
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 if (j < i) {
-                    lower.setEntry(i, j, lu.getEntry(i, j));
-                    upper.setEntry(i, j, 0d);
+                    lowerData[i][j] = lu.getEntry(i, j);
+                    upperData[i][j] = new BigDecimal(0);
                 } else if (i == j) {
-                    lower.setEntry(i, j, 1d);
-                    upper.setEntry(i, j, lu.getEntry(i, j));
+                    lowerData[i][j] = new BigDecimal(1);
+                    upperData[i][j] = lu.getEntry(i, j);
                 } else {
-                    lower.setEntry(i, j, 0d);
-                    upper.setEntry(i, j, lu.getEntry(i, j));
+                    lowerData[i][j] = new BigDecimal(0);
+                    upperData[i][j] = lu.getEntry(i, j);
                 }   
             }
         }
@@ -727,27 +686,30 @@ public final class BigMatrixImplTest extends TestCase {
             throw new IllegalArgumentException("dimension mismatch");
         }
         int n = matrix.getRowDimension();
-        BigMatrix out = new BigMatrixImpl(n, n);
+        int m = matrix.getColumnDimension();
+        BigDecimal out[][] = new BigDecimal[m][n];
         for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                out.setEntry(i, j, matrix.getEntry(permutation[i], j));
+            for (int j = 0; j < m; j++) {
+                out[i][j] = matrix.getEntry(permutation[i], j);
             }
         }
-        return out;
+        return new BigMatrixImpl(out);
     }
     
     /** Extracts l and u matrices from lu and verifies that matrix = l times u modulo permutation */
     protected void verifyDecomposition(BigMatrix matrix, BigMatrix lu) throws Exception{
         int n = matrix.getRowDimension();
-        BigMatrix lower = new BigMatrixImpl(n, n);
-        BigMatrix upper = new BigMatrixImpl(n, n);
-        splitLU(lu, lower, upper);
+        BigDecimal[][] lowerData = new BigDecimal[n][n];
+        BigDecimal[][] upperData = new BigDecimal[n][n];
+        splitLU(lu, lowerData, upperData);
+        BigMatrix lower =new BigMatrixImpl(lowerData);
+        BigMatrix upper = new BigMatrixImpl(upperData);
         int[] permutation = ((BigMatrixImpl) matrix).getPermutation();
         BigMatrix permuted = permuteRows(matrix, permutation);
-        assertClose("lu decomposition does not work", permuted, lower.multiply(upper), normTolerance);
+        assertClose("lu decomposition does not work", permuted,
+                lower.multiply(upper), normTolerance);
     }
-      
-    
+         
     /** Useful for debugging */
     private void dumpMatrix(BigMatrix m) {
           for (int i = 0; i < m.getRowDimension(); i++) {
