@@ -155,7 +155,14 @@ public class StatUtils {
     }
     
 	/**
-     * Returns the variance of the available values.
+     * Returns the variance of the available values. This uses a corrected
+     * two pass algorithm of the following 
+     * <a href="http://lib-www.lanl.gov/numerical/bookcpdf/c14-1.pdf">
+     * corrected two pass formula (14.1.8)</a>, and also referenced in:<p/>
+     * "Algorithms for Computing the Sample Variance: Analysis and
+     * Recommendations", Chan, T.F., Golub, G.H., and LeVeque, R.J. 
+     * 1983, American Statistician, vol. 37, pp. 242?247.
+     * 
      * @param values Is a double[] containing the values
      * @return the result, Double.NaN if no values for an empty array 
      * or 0.0 for a single value set.  
@@ -168,10 +175,12 @@ public class StatUtils {
 		} else if (values.length > 1) {
 			double mean = mean(values);
 			double accum = 0.0;
+            double accum2 = 0.0;
 			for (int i = 0; i < values.length; i++) {
 				accum += Math.pow((values[i] - mean), 2.0);
+                accum2 += (values[i] - mean);
 			}
-			variance = accum / (double)(values.length - 1);
+			variance = (accum - (Math.pow(accum2,2)/(double)values.length)) / (double)(values.length - 1);
 		}
 		return variance;
 	}
