@@ -53,14 +53,17 @@
  */
 package org.apache.commons.math.stat.univariate.rank;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import org.apache.commons.math.stat.univariate.AbstractUnivariateStatistic;
 
 /**
- * @version $Revision: 1.10 $ $Date: 2003/11/14 22:22:21 $
+ * @version $Revision: 1.11 $ $Date: 2003/11/19 03:28:24 $
  */
-public class Percentile extends AbstractUnivariateStatistic {
+public class Percentile extends AbstractUnivariateStatistic implements Serializable {
 
+    static final long serialVersionUID = -8091216485095130416L; 
+       
     /** */
     private double percentile = 0.0;
 

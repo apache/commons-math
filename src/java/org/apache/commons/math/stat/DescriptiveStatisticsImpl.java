@@ -53,13 +53,15 @@
  */
 package org.apache.commons.math.stat;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.stat.univariate.*;
 import org.apache.commons.math.util.ContractableDoubleArray;
 
 /**
- * @version $Revision: 1.1 $ $Date: 2003/11/15 16:01:38 $
+ * @version $Revision: 1.2 $ $Date: 2003/11/19 03:28:23 $
  */
-public class DescriptiveStatisticsImpl extends AbstractDescriptiveStatistics {
+public class DescriptiveStatisticsImpl extends AbstractDescriptiveStatistics implements Serializable {
 
     /** A contractable double array is used.  memory is reclaimed when 
      * the storage of the array becomes too empty.

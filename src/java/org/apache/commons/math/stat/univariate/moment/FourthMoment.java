@@ -53,15 +53,19 @@
  */
 package org.apache.commons.math.stat.univariate.moment;
 
+import java.io.Serializable;
+
 /**
  * The FourthMoment is calculated using the following
  * <a href="http://www.spss.com/tech/stat/Algorithms/11.5/descriptives.pdf">
  * recursive strategy
  * </a>. Both incremental and evaluation strategies currently use this approach.
- * @version $Revision: 1.12 $ $Date: 2003/11/14 22:22:20 $
+ * @version $Revision: 1.13 $ $Date: 2003/11/19 03:28:24 $
  */
-public class FourthMoment extends ThirdMoment {
+public class FourthMoment extends ThirdMoment implements Serializable{
 
+    static final long serialVersionUID = 4763990447117157611L;
+        
     /** fourth moment of values that have been added */
     protected double m4 = Double.NaN;
 

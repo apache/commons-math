@@ -88,12 +88,12 @@ import java.io.Serializable;
  * internal storage array is swapped.
  * </p>
  * 
- * @version $Revision: 1.9 $ $Date: 2003/11/14 22:22:17 $
+ * @version $Revision: 1.10 $ $Date: 2003/11/19 03:28:24 $
  */
-public class ContractableDoubleArray
-    extends ExpandableDoubleArray
-    implements Serializable {
+public class ContractableDoubleArray extends ExpandableDoubleArray implements Serializable {
 
+    static final long serialVersionUID = -3485529955529426875L; 
+   
     /** The contraction criteria defines the conditions under which this
      * object will "resize" the internal array to the number of elements
      * contained in the element array + 1

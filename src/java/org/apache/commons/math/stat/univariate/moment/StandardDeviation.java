@@ -53,12 +53,16 @@
  */
 package org.apache.commons.math.stat.univariate.moment;
 
+import java.io.Serializable;
+
 /**
  *
- * @version $Revision: 1.11 $ $Date: 2003/11/14 22:22:20 $
+ * @version $Revision: 1.12 $ $Date: 2003/11/19 03:28:24 $
  */
-public class StandardDeviation extends Variance {
+public class StandardDeviation extends Variance implements Serializable {
 
+    static final long serialVersionUID = 5728716329662425188L;    
+    
     /** */
     protected double std = Double.NaN;
 

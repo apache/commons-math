@@ -66,11 +66,9 @@ import org.apache.commons.math.util.FixedDoubleArray;
  * Integers, floats and longs can be added, but they will be converted
  * to doubles by addValue().
  *
- * @version $Revision: 1.1 $ $Date: 2003/11/15 16:01:38 $
+ * @version $Revision: 1.2 $ $Date: 2003/11/19 03:28:23 $
 */
-public class StorelessDescriptiveStatisticsImpl
-	extends AbstractStorelessDescriptiveStatistics
-	implements Serializable {
+public class StorelessDescriptiveStatisticsImpl extends AbstractStorelessDescriptiveStatistics implements Serializable {
 
 	/** fixed storage */
 	private FixedDoubleArray storage = null;

@@ -53,6 +53,8 @@
  */
 package org.apache.commons.math.analysis;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.MathException;
 
 /**
@@ -61,9 +63,9 @@ import org.apache.commons.math.MathException;
  * It will only search for one zero in the given interval.
  * The function is supposed to be continuous but not necessarily smooth.
  *  
- * @version $Revision: 1.8 $ $Date: 2003/11/14 22:22:17 $
+ * @version $Revision: 1.9 $ $Date: 2003/11/19 03:28:23 $
  */
-public class BrentSolver extends UnivariateRealSolverImpl {
+public class BrentSolver extends UnivariateRealSolverImpl implements Serializable {
     /**
      * Construct a solver for the given function.
      * @param f function to solve.

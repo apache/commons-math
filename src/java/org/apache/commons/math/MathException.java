@@ -53,13 +53,15 @@
  */
 package org.apache.commons.math;
 
+import java.io.Serializable;
+
 import org.apache.commons.lang.exception.NestableException;
 
 /**
  * A generic exception indicating problems in the math package.
- * @version $Revision: 1.10 $ $Date: 2003/11/14 22:22:22 $
+ * @version $Revision: 1.11 $ $Date: 2003/11/19 03:28:25 $
  */
-public class MathException extends NestableException {
+public class MathException extends NestableException implements Serializable {
 
     /**
      * Constructs a MathException

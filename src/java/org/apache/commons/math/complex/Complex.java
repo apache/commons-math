@@ -56,13 +56,15 @@
 
 package org.apache.commons.math.complex;
 
+import java.io.Serializable;
+
 /**
  * Reference:
  *   http://myweb.lmu.edu/dmsmith/ZMLIB.pdf
  * 
- * @version $Revision: 1.3 $ $Date: 2003/11/14 22:22:22 $
+ * @version $Revision: 1.4 $ $Date: 2003/11/19 03:28:25 $
  */
-public class Complex {
+public class Complex implements Serializable  {
 
     /** The square root of -1. */    
     public static final Complex I = new Complex(0.0, 1.0);

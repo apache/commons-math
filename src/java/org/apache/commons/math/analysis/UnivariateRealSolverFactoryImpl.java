@@ -53,6 +53,8 @@
  */
 package org.apache.commons.math.analysis;
 
+import java.io.Serializable;
+
 
 /**
  * A factory to easily get a default solver and some convenience
@@ -62,10 +64,10 @@ package org.apache.commons.math.analysis;
  * (this may be controversial, because the configuration data
  * may also be used for the default solver used by the static
  * solve() method). 
- * @version $Revision: 1.6 $ $Date: 2003/11/14 22:22:18 $
+ * @version $Revision: 1.7 $ $Date: 2003/11/19 03:28:23 $
  */
 public class UnivariateRealSolverFactoryImpl
-    extends UnivariateRealSolverFactory {
+    extends UnivariateRealSolverFactory implements Serializable {
         
     /**
      * Default constructor.

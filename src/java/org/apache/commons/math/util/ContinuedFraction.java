@@ -53,6 +53,8 @@
  */
 package org.apache.commons.math.util;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.MathException;
 
@@ -65,9 +67,9 @@ import org.apache.commons.math.MathException;
  * <li><a href="http://mathworld.wolfram.com/ContinuedFraction.html">
  * Continued Fraction</a></li>
  * </ul>
- * @version $Revision: 1.8 $ $Date: 2003/11/14 22:22:17 $
+ * @version $Revision: 1.9 $ $Date: 2003/11/19 03:28:24 $
  */
-public abstract class ContinuedFraction {
+public abstract class ContinuedFraction implements Serializable {
     /** Maximum allowed numerical error. */
     private static final double DEFAULT_EPSILON = 10e-9;
 

@@ -54,6 +54,7 @@
 
 package org.apache.commons.math.random;
 
+import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.security.NoSuchAlgorithmException;
@@ -104,9 +105,9 @@ import java.util.Collection;
  * (so secure sequences started with calls to reseedSecure(long) won't be 
  * identical).</li></ul>
  * 
- * @version $Revision: 1.8 $ $Date: 2003/11/14 22:22:21 $
+ * @version $Revision: 1.9 $ $Date: 2003/11/19 03:28:24 $
  */
-public class RandomDataImpl implements RandomData {
+public class RandomDataImpl implements RandomData, Serializable {
     
     /** underlying random number generator */
     private Random rand = null;

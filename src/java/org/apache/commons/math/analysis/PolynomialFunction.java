@@ -55,6 +55,8 @@ package org.apache.commons.math.analysis;
 
 
 
+import java.io.Serializable;
+
 import org.apache.commons.math.MathException;
 
 /**
@@ -64,9 +66,9 @@ import org.apache.commons.math.MathException;
  * polynominal coefficents are used.
  * Arguments outside of the domain cause an IllegalArgumentException.
  * 
- * @version $Revision: 1.1 $ $Date: 2003/11/15 18:44:52 $
+ * @version $Revision: 1.2 $ $Date: 2003/11/19 03:28:23 $
  */
-public class PolynomialFunction implements UnivariateRealFunction {
+public class PolynomialFunction implements UnivariateRealFunction, Serializable {
 
     /**
      * The polynominal coefficients.

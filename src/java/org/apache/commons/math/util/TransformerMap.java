@@ -53,6 +53,7 @@
  */
 package org.apache.commons.math.util;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -65,9 +66,9 @@ import org.apache.commons.math.MathException;
  * It provides a means to set NumberTransformers that will be selected 
  * based on the Class of the object handed to the Maps
  * <code>double transform(Object o)</code> method.
- * @version $Revision: 1.8 $ $Date: 2003/11/15 19:02:44 $
+ * @version $Revision: 1.9 $ $Date: 2003/11/19 03:28:24 $
  */
-public class TransformerMap implements NumberTransformer {
+public class TransformerMap implements NumberTransformer, Serializable {
 
 	/**
 	 * A default Number Transformer for Numbers and numeric Strings.

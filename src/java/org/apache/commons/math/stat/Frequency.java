@@ -53,6 +53,7 @@
  */
 package org.apache.commons.math.stat;
 
+import java.io.Serializable;
 import java.util.Iterator;
 
 import org.apache.commons.collections.Bag;
@@ -63,9 +64,10 @@ import org.apache.commons.collections.HashBag;
  * Accepts int, long or string values, converting
  * all to Strings and maintaining frequency counts.
  * 
- * @version $Revision: 1.9 $ $Date: 2003/11/14 22:22:18 $
+ * @version $Revision: 1.10 $ $Date: 2003/11/19 03:28:23 $
  */
-public class Frequency {
+public class Frequency implements Serializable{
+    
     /** name for this frequency distribution. */
     private String name;
 

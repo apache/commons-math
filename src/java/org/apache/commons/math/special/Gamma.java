@@ -53,6 +53,8 @@
  */
 package org.apache.commons.math.special;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.MathException;
 
@@ -60,9 +62,9 @@ import org.apache.commons.math.MathException;
  * This is a utility class that provides computation methods related to the
  * Gamma family of functions.
  * 
- * @version $Revision: 1.14 $ $Date: 2003/11/14 22:22:17 $
+ * @version $Revision: 1.15 $ $Date: 2003/11/19 03:28:25 $
  */
-public class Gamma {
+public class Gamma implements Serializable{
     /** Maximum allowed numerical error. */
     private static final double DEFAULT_EPSILON = 10e-9;
 

@@ -53,6 +53,8 @@
  */
 package org.apache.commons.math.stat.univariate.summary;
 
+import java.io.Serializable;
+
 import org
     .apache
     .commons
@@ -62,10 +64,15 @@ import org
     .AbstractStorelessUnivariateStatistic;
 
 /**
- * @version $Revision: 1.11 $ $Date: 2003/11/14 22:22:23 $
+ * @version $Revision: 1.12 $ $Date: 2003/11/19 03:28:24 $
  */
-public class SumOfSquares extends AbstractStorelessUnivariateStatistic {
+public class SumOfSquares extends AbstractStorelessUnivariateStatistic implements Serializable {
 
+    static final long serialVersionUID = 1460986908574398008L;  
+      
+    /** */
+    private int n = 0;
+    
     /**
      * The currently running sumSq
      */
@@ -80,6 +87,7 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic {
         } else {
             value += d * d;
         }
+        n++;
     }
 
     /**
@@ -90,10 +98,18 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic {
     }
 
     /**
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getN()
+     */
+    public double getN() {
+        return n;
+    }
+    
+    /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
      */
     public void clear() {
         value = Double.NaN;
+        n = 0;
     }
 
     /**

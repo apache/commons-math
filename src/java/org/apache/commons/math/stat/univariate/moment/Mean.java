@@ -53,6 +53,8 @@
  */
 package org.apache.commons.math.stat.univariate.moment;
 
+import java.io.Serializable;
+
 import org
     .apache
     .commons
@@ -65,10 +67,12 @@ import org.apache.commons.math.stat.univariate.summary.Sum;
 /**
  * Returns the <a href="http://www.xycoon.com/arithmetic_mean.htm">
  * arithmetic mean </a> of the available values.
- * @version $Revision: 1.12 $ $Date: 2003/11/14 22:22:20 $
+ * @version $Revision: 1.13 $ $Date: 2003/11/19 03:28:24 $
  */
-public class Mean extends AbstractStorelessUnivariateStatistic {
+public class Mean extends AbstractStorelessUnivariateStatistic implements Serializable{
 
+    static final long serialVersionUID = -1296043746617791564L;    
+    
     /** first moment of values that have been added */
     protected FirstMoment moment = null;
 
@@ -114,6 +118,13 @@ public class Mean extends AbstractStorelessUnivariateStatistic {
         return moment.m1;
     }
 
+    /**
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getN()
+     */
+    public double getN() {
+        return moment.getN();
+    }
+    
     /*UnvariateStatistic Approach */
 
     /** */

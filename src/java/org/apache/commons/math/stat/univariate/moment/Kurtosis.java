@@ -53,6 +53,8 @@
  */
 package org.apache.commons.math.stat.univariate.moment;
 
+import java.io.Serializable;
+
 import org
     .apache
     .commons
@@ -62,10 +64,12 @@ import org
     .AbstractStorelessUnivariateStatistic;
 
 /**
- * @version $Revision: 1.13 $ $Date: 2003/11/14 22:22:20 $
+ * @version $Revision: 1.14 $ $Date: 2003/11/19 03:28:24 $
  */
-public class Kurtosis extends AbstractStorelessUnivariateStatistic {
+public class Kurtosis extends AbstractStorelessUnivariateStatistic implements Serializable {
 
+    static final long serialVersionUID = 2784465764798260919L;  
+      
     /** */
     protected FourthMoment moment = null;
 
@@ -140,6 +144,13 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic {
         n = 0;
     }
 
+    /**
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getN()
+     */
+    public double getN() {
+        return moment.getN();
+    }
+    
     /*UnvariateStatistic Approach */
 
     /** */

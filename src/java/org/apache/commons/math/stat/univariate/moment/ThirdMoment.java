@@ -53,15 +53,19 @@
  */
 package org.apache.commons.math.stat.univariate.moment;
 
+import java.io.Serializable;
+
 /**
  * The ThirdMoment (arithmentic mean) is calculated using the following
  * <a href="http://www.spss.com/tech/stat/Algorithms/11.5/descriptives.pdf">
  * recursive strategy
  * </a>. Both incremental and evaluation strategies currently use this approach.
- * @version $Revision: 1.11 $ $Date: 2003/11/14 22:22:20 $
+ * @version $Revision: 1.12 $ $Date: 2003/11/19 03:28:24 $
  */
-public class ThirdMoment extends SecondMoment {
+public class ThirdMoment extends SecondMoment implements Serializable {
 
+    static final long serialVersionUID = -7818711964045118679L;  
+      
     /** third moment of values that have been added */
     protected double m3 = Double.NaN;
 

@@ -53,13 +53,15 @@
  */
 package org.apache.commons.math.analysis;
 
+import java.io.Serializable;
+
 /**
  * Computes a natural spline interpolation for the data set.
  *
- * @version $Revision: 1.9 $ $Date: 2003/11/14 22:22:17 $
+ * @version $Revision: 1.10 $ $Date: 2003/11/19 03:28:23 $
  *
  */
-public class SplineInterpolator implements UnivariateRealInterpolator {
+public class SplineInterpolator implements UnivariateRealInterpolator, Serializable {
     /** the natural spline coefficients. */
     private double[][] c = null;
 

@@ -62,7 +62,7 @@ package org.apache.commons.math.stat.univariate;
  * implemented using it. If a Statistic cannot be implemented in a Storeless
  * approach it should implement the UnivariateStatistic interface directly
  * instead.
- * @version $Revision: 1.11 $ $Date: 2003/11/14 22:22:21 $
+ * @version $Revision: 1.12 $ $Date: 2003/11/19 03:28:25 $
  */
 public interface StorelessUnivariateStatistic extends UnivariateStatistic {
 
@@ -81,6 +81,13 @@ public interface StorelessUnivariateStatistic extends UnivariateStatistic {
      */
     double getResult();
 
+    /**
+     * Returns the current state of the statistic after the
+     * last increment.
+     * @return value of the statistic, Double.NaN if it
+     * has been cleared or just instantiated.
+     */
+    double getN();
 
     /**
      * Clears all the internal state of the Statistic

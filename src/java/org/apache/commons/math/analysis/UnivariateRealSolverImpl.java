@@ -54,16 +54,18 @@
 
 package org.apache.commons.math.analysis;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.MathException;
 
 /**
  * Provide a default implementation for several functions useful to generic
  * solvers.
  *  
- * @version $Revision: 1.7 $ $Date: 2003/11/14 22:22:17 $
+ * @version $Revision: 1.8 $ $Date: 2003/11/19 03:28:23 $
  */
 public abstract class UnivariateRealSolverImpl
-    implements UnivariateRealSolver {
+    implements UnivariateRealSolver, Serializable {
 
     /** Maximum absolute error. */
     protected double absoluteAccuracy;

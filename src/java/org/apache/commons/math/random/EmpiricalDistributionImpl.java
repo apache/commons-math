@@ -89,9 +89,9 @@ import org.apache.commons.math.stat.StorelessDescriptiveStatisticsImpl;
  *    entry per line.</li>
  * </ol></p>
  *
- * @version $Revision: 1.10 $ $Date: 2003/11/15 16:01:37 $
+ * @version $Revision: 1.11 $ $Date: 2003/11/19 03:28:24 $
  */
-public class EmpiricalDistributionImpl implements Serializable,EmpiricalDistribution {
+public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistribution {
 
     
     /** List of DescriptiveStatistics objects characterizing the bins */

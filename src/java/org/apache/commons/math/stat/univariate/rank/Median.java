@@ -53,11 +53,15 @@
  */
 package org.apache.commons.math.stat.univariate.rank;
 
+import java.io.Serializable;
+
 
 /**
- * @version $Revision: 1.8 $ $Date: 2003/11/14 22:22:21 $
+ * @version $Revision: 1.9 $ $Date: 2003/11/19 03:28:24 $
  */
-public class Median extends Percentile {
+public class Median extends Percentile implements Serializable {
+
+    static final long serialVersionUID = -3961477041290915687L;    
 
     /**
      *

@@ -53,6 +53,8 @@
  */
 package org.apache.commons.math.stat.univariate.moment;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
 
 /**
@@ -62,10 +64,12 @@ import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatis
  * <a href="http://www.spss.com/tech/stat/Algorithms/11.5/descriptives.pdf">
  * recursive strategy
  * </a>. Both incremental and evaluation strategies currently use this approach.
- * @version $Revision: 1.10 $ $Date: 2003/11/14 22:22:20 $
+ * @version $Revision: 1.11 $ $Date: 2003/11/19 03:28:24 $
  */
-public class FirstMoment extends AbstractStorelessUnivariateStatistic {
+public class FirstMoment extends AbstractStorelessUnivariateStatistic implements Serializable{
 
+    static final long serialVersionUID = -803343206421984070L;    
+    
     /** count of values that have been added */
     protected int n = 0;
 
@@ -122,6 +126,13 @@ public class FirstMoment extends AbstractStorelessUnivariateStatistic {
      */
     public double getResult() {
         return m1;
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getN()
+     */
+    public double getN() {
+        return n;
     }
 
 }

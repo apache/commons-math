@@ -53,6 +53,7 @@
  */
 package org.apache.commons.math.analysis;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 import org.apache.commons.math.MathException;
@@ -64,9 +65,9 @@ import org.apache.commons.math.MathException;
  * polynominal coefficents are used.
  * Arguments outside of the domain cause an IllegalArgumentException.
  * 
- * @version $Revision: 1.8 $ $Date: 2003/11/15 18:44:52 $
+ * @version $Revision: 1.9 $ $Date: 2003/11/19 03:28:23 $
  */
-public class CubicSplineFunction implements UnivariateRealFunction {
+public class CubicSplineFunction implements UnivariateRealFunction, Serializable {
     /** Spline segment interval delimiters. Size is N+1 for N segments. */
     private double xval[];
 

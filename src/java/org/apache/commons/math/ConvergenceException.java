@@ -53,13 +53,15 @@
  */
 package org.apache.commons.math;
 
+import java.io.Serializable;
+
 /**
  * Error thrown when a numerical computation can not be performed because the
  * numerical result failed to converge to a finite value.
  * 
- * @version $Revision: 1.6 $ $Date: 2003/11/14 22:22:22 $
+ * @version $Revision: 1.7 $ $Date: 2003/11/19 03:28:25 $
  */
-public class ConvergenceException extends MathException {
+public class ConvergenceException extends MathException implements Serializable{
     /**
      * Default constructor.
      */

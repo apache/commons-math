@@ -53,6 +53,8 @@
  */
 package org.apache.commons.math.stat;
 
+import java.io.Serializable;
+
 import org.apache.commons.discovery.tools.DiscoverClass;
 
 /**
@@ -62,9 +64,9 @@ import org.apache.commons.discovery.tools.DiscoverClass;
  * Univariate provides additional percentile functionality 
  * such as.  This additional functionality comes with 
  * a price of increased storage costs.
- * @version $Revision: 1.1 $ $Date: 2003/11/15 16:01:38 $
+ * @version $Revision: 1.2 $ $Date: 2003/11/19 03:28:23 $
  */
-public abstract class DescriptiveStatistics {
+public abstract class DescriptiveStatistics implements Serializable{
 
 	/**
 	 * Create an instance of a <code>DescriptiveStatistics</code>

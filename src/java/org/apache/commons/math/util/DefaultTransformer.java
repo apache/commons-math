@@ -54,6 +54,8 @@
 
 package org.apache.commons.math.util;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.MathException;
 
 /**
@@ -62,9 +64,9 @@ import org.apache.commons.math.MathException;
  * into a primitive double or to turn a String representation of a Number into 
  * a double.
  * 
- * @version $Revision: 1.9 $ $Date: 2003/11/15 19:02:44 $
+ * @version $Revision: 1.10 $ $Date: 2003/11/19 03:28:24 $
  */
-public class DefaultTransformer implements NumberTransformer {
+public class DefaultTransformer implements NumberTransformer, Serializable {
     
     /**
      * @param Object o Is the object that gets transformed.

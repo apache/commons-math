@@ -53,13 +53,17 @@
  */
 package org.apache.commons.math.stat.univariate.moment;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
 
 /**
- * @version $Revision: 1.13 $ $Date: 2003/11/14 22:22:20 $
+ * @version $Revision: 1.14 $ $Date: 2003/11/19 03:28:24 $
  */
-public class Skewness extends AbstractStorelessUnivariateStatistic {
+public class Skewness extends AbstractStorelessUnivariateStatistic implements Serializable {
 
+    static final long serialVersionUID = 7101857578996691352L;    
+    
     /** */
     protected ThirdMoment moment = null;
 
@@ -120,6 +124,13 @@ public class Skewness extends AbstractStorelessUnivariateStatistic {
         return skewness;
     }
 
+    /**
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getN()
+     */
+    public double getN() {
+        return moment.getN();
+    }
+    
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
      */

@@ -53,6 +53,8 @@
  */
 package org.apache.commons.math.util;
 
+import java.io.Serializable;
+
 /**
  * <p>
  * Provides an implementation of the DoubleArray with a maximum number of
@@ -82,10 +84,12 @@ package org.apache.commons.math.util;
  * "fixed" in memory, this implementation will never allocate, or copy
  * the internal storage array to a new array instance.
  * </p>
- * @version $Revision: 1.11 $ $Date: 2003/11/14 22:22:17 $
+ * @version $Revision: 1.12 $ $Date: 2003/11/19 03:28:24 $
  */
-public class FixedDoubleArray implements DoubleArray {
+public class FixedDoubleArray implements DoubleArray, Serializable {
 
+    static final long serialVersionUID = 1247853239629842963L;    
+    
     /**
      * This is the internal storage array.  This array is assigned
      * a known fixed size in the constructor

@@ -53,11 +53,13 @@
  */
 package org.apache.commons.math;
 
+import java.io.Serializable;
+
 /**
  * Signals a configuration problem with any of the factory methods.
- * @version $Revision: 1.11 $ $Date: 2003/11/14 22:22:22 $
+ * @version $Revision: 1.12 $ $Date: 2003/11/19 03:28:25 $
  */
-public class MathConfigurationException extends MathException {
+public class MathConfigurationException extends MathException implements Serializable {
 
     /**
      * Default constructor.

@@ -53,6 +53,8 @@
  */
 package org.apache.commons.math.stat.univariate.rank;
 
+import java.io.Serializable;
+
 import org
     .apache
     .commons
@@ -62,10 +64,15 @@ import org
     .AbstractStorelessUnivariateStatistic;
 
 /**
- * @version $Revision: 1.11 $ $Date: 2003/11/14 22:22:21 $
+ * @version $Revision: 1.12 $ $Date: 2003/11/19 03:28:24 $
  */
-public class Min extends AbstractStorelessUnivariateStatistic {
+public class Min extends AbstractStorelessUnivariateStatistic implements Serializable {
 
+    static final long serialVersionUID = -2941995784909003131L;  
+      
+    /** */
+    private int n = 0;
+    
     /** */
     private double value = Double.NaN;
 
@@ -74,6 +81,7 @@ public class Min extends AbstractStorelessUnivariateStatistic {
      */
     public void increment(final double d) {
         value = Double.isNaN(value) ? d : Math.min(value, d);
+        n++;
     }
 
     /**
@@ -81,6 +89,7 @@ public class Min extends AbstractStorelessUnivariateStatistic {
      */
     public void clear() {
         value = Double.NaN;
+        n = 0;
     }
 
     /**
@@ -90,6 +99,13 @@ public class Min extends AbstractStorelessUnivariateStatistic {
         return value;
     }
 
+    /**
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getN()
+     */
+    public double getN() {
+        return n;
+    }
+    
     /**
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */

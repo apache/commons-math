@@ -53,14 +53,18 @@
  */
 package org.apache.commons.math.stat.univariate.moment;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
 
 /**
  *
- * @version $Revision: 1.13 $ $Date: 2003/11/14 22:22:20 $
+ * @version $Revision: 1.14 $ $Date: 2003/11/19 03:28:24 $
  */
-public class Variance extends AbstractStorelessUnivariateStatistic {
+public class Variance extends AbstractStorelessUnivariateStatistic implements Serializable {
 
+    static final long serialVersionUID = -9111962718267217978L;  
+      
     /** SecondMoment is used in incremental calculation of Variance*/
     protected SecondMoment moment = null;
 
@@ -128,6 +132,13 @@ public class Variance extends AbstractStorelessUnivariateStatistic {
         return variance;
     }
 
+    /**
+     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getN()
+     */
+    public double getN() {
+        return moment.getN();
+    }
+    
     /**
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#clear()
      */

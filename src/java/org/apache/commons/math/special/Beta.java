@@ -53,6 +53,8 @@
  */
 package org.apache.commons.math.special;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.util.ContinuedFraction;
 
@@ -60,9 +62,9 @@ import org.apache.commons.math.util.ContinuedFraction;
  * This is a utility class that provides computation methods related to the
  * Beta family of functions.
  * 
- * @version $Revision: 1.13 $ $Date: 2003/11/18 15:07:12 $
+ * @version $Revision: 1.14 $ $Date: 2003/11/19 03:28:25 $
  */
-public class Beta {
+public class Beta implements Serializable {
     /** Maximum allowed numerical error. */
     private static final double DEFAULT_EPSILON = 10e-9;
 

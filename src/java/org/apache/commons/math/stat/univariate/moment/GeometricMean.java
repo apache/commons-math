@@ -53,15 +53,19 @@
  */
 package org.apache.commons.math.stat.univariate.moment;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.stat.univariate.summary.SumOfLogs;
 
 /**
  * Returns the <a href="http://www.xycoon.com/geometric_mean.htm">
  * geometric mean </a> of the available values
- * @version $Revision: 1.13 $ $Date: 2003/11/14 22:22:20 $
+ * @version $Revision: 1.14 $ $Date: 2003/11/19 03:28:24 $
  */
-public class GeometricMean extends SumOfLogs {
+public class GeometricMean extends SumOfLogs implements Serializable{
 
+    static final long serialVersionUID = -8178734905303459453L;  
+      
     /** */
     protected int n = 0;
 
