@@ -22,7 +22,7 @@ import java.io.Serializable;
  * Default implementation of
  * {@link org.apache.commons.math.distribution.CauchyDistribution}.
  *
- * @version $Revision$ $Date$
+ * @version $Revision: 1.13 $ $Date$
  */
 public class CauchyDistributionImpl extends AbstractContinuousDistribution 
 		implements CauchyDistribution, Serializable {
@@ -37,8 +37,8 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
 	private double scale = 1;
     
 	/**
-	 * Creates normal distribution with the mean equal to zero and standard
-	 * deviation equal to one. 
+	 * Creates cauchy distribution with the medain equal to zero and scale
+	 * equal to one. 
 	 */
 	public CauchyDistributionImpl(){
 		this(0.0, 1.0);

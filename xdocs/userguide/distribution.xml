@@ -63,6 +63,7 @@ BinomialDistribution binomial = factory.createBinomialDistribution(10, .75);</so
             <tr><td>Normal (Gaussian)</td><td>createNormalDistribution</td><td><div>Mean</div><div>Standard Deviation</div></td></tr>
             <tr><td>Poisson</td><td>createPoissonDistribution</td><td><div>Mean</div></td></tr>
             <tr><td>t</td><td>createTDistribution</td><td><div>Degrees of freedom</div></td></tr>
+            <tr><td>Weibull</td><td>createWeibullDistribution</td><td><div>Shape</div><div>Scale</div><div>Location</div></td></tr>
           </table>
         </p>
         <p>

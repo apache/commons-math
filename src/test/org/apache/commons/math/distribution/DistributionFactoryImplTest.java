@@ -325,4 +325,52 @@ public class DistributionFactoryImplTest extends TestCase {
         } catch(IllegalArgumentException ex) {
         }
     }
+    
+    public void testCauchyDistributionNegative() {
+        try {
+            factory.createCauchyDistribution(0.0, -1.0);
+            fail("invalid scale. IllegalArgumentException expected");
+        } catch(IllegalArgumentException ex) {
+        }
+    }
+    
+    public void testCauchyDistributionZero() {
+        try {
+            factory.createCauchyDistribution(0.0, 0.0);
+            fail("invalid scale. IllegalArgumentException expected");
+        } catch(IllegalArgumentException ex) {
+        }
+    }
+    
+    public void testWeibullDistributionNegativePositive() {
+        try {
+            factory.createWeibullDistribution(-1.0, 1.0);
+            fail("invalid shape. IllegalArgumentException expected");
+        } catch(IllegalArgumentException ex) {
+        }
+    }
+    
+    public void testWeibullDistributionZeroPositive() {
+        try {
+            factory.createWeibullDistribution(0.0, 1.0);
+            fail("invalid shape. IllegalArgumentException expected");
+        } catch(IllegalArgumentException ex) {
+        }
+    }
+    
+    public void testWeibullDistributionPositiveNegative() {
+        try {
+            factory.createWeibullDistribution(1.0, -1.0);
+            fail("invalid scale. IllegalArgumentException expected");
+        } catch(IllegalArgumentException ex) {
+        }
+    }
+    
+    public void testWeibullDistributionPositiveZero() {
+        try {
+            factory.createWeibullDistribution(1.0, 0.0);
+            fail("invalid scale. IllegalArgumentException expected");
+        } catch(IllegalArgumentException ex) {
+        }
+    }
 }

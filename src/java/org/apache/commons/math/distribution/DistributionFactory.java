@@ -32,6 +32,7 @@ import org.apache.commons.discovery.tools.DiscoverClass;
  * <li>Poisson</li>
  * <li>Normal</li>
  * <li>Student's t</li>
+ * <li>Weibull</li>
  * </ul>
  *
  * Common usage:<pre>
@@ -175,8 +176,22 @@ public abstract class DistributionFactory {
      * Create a new Poisson distribution with poisson parameter lambda.
      * 
      * @param lambda poisson parameter
-     * @return a new normal distribution.  
+     * @return a new poisson distribution.  
      */               
     public abstract PoissonDistribution 
         createPoissonDistribution(double lambda);
+    
+    /**
+     * Create a new Weibull distribution with the given shape and scale
+     * parameters.
+     * 
+     * @param alpha the shape parameter.
+     * @param beta the scale parameter.
+     * @return a new Weibull distribution.  
+     */               
+    public WeibullDistribution createWeibullDistribution(
+        double alpha, double beta)
+    {
+        return new WeibullDistributionImpl(alpha, beta);
+    }
 }
