@@ -21,7 +21,7 @@ import org.apache.commons.math.util.MathUtils;
 /**
  *  Value object representing the results of a univariate statistical summary.
  *
- * @version $Revision: 1.4 $ $Date: 2004/06/29 02:18:22 $
+ * @version $Revision: 1.5 $ $Date: 2004/07/02 06:25:05 $
  */
 public class StatisticalSummaryValues implements Serializable, 
     StatisticalSummary {
@@ -30,22 +30,22 @@ public class StatisticalSummaryValues implements Serializable,
     static final long serialVersionUID = -5108854841843722536L;
 
     /** The sample mean */
-    private double mean = Double.NaN;
+    private final double mean;
     
     /** The sample variance */
-    private double variance = Double.NaN;
+    private final double variance;
     
     /** The number of observations in the sample */
-    private long n = 0;
+    private final long n;
     
     /** The maximum value */
-    private double max = Double.NaN;
+    private final double max;
     
     /** The minimum value */
-    private double min = Double.NaN;
+    private final double min;
     
     /** The sum of the sample values */
-    private double sum = Double.NaN;
+    private final double sum;
     
     /**
       * Constructor
@@ -66,11 +66,6 @@ public class StatisticalSummaryValues implements Serializable,
         this.max = max;
         this.min = min;
         this.sum = sum;
-    }
-    
-    /** Private no argument contstructor */
-    private StatisticalSummaryValues() {
-        super();
     }
 
     /**
