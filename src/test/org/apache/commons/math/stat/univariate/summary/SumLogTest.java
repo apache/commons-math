@@ -23,7 +23,7 @@ import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
- * @version $Revision: 1.10 $ $Date: 2004/02/21 21:35:18 $
+ * @version $Revision: 1.11 $ $Date: 2004/06/17 21:37:05 $
  */
 public class SumLogTest extends StorelessUnivariateStatisticAbstractTest{
 
@@ -45,12 +45,8 @@ public class SumLogTest extends StorelessUnivariateStatisticAbstractTest{
     /* (non-Javadoc)
      * @see org.apache.commons.math.stat.univariate.UnivariateStatisticAbstractTest#getUnivariateStatistic()
      */
-    public UnivariateStatistic getUnivariateStatistic() {
-       
-        if(stat == null)
-            stat = new SumOfLogs();
-            
-        return stat;
+    public UnivariateStatistic getUnivariateStatistic() {        
+        return new SumOfLogs();
     }
 
     /* (non-Javadoc)

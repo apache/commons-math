@@ -20,7 +20,7 @@ import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
- * @version $Revision: 1.1 $ $Date: 2004/04/27 16:42:33 $
+ * @version $Revision: 1.2 $ $Date: 2004/06/17 21:37:05 $
  */
 public class FirstMomentTest extends StorelessUnivariateStatisticAbstractTest{
 
@@ -38,11 +38,7 @@ public class FirstMomentTest extends StorelessUnivariateStatisticAbstractTest{
      * @see org.apache.commons.math.stat.univariate.UnivariateStatisticAbstractTest#getUnivariateStatistic()
      */
     public UnivariateStatistic getUnivariateStatistic() {
-       
-        if(stat == null)
-            stat = new FirstMoment();
-            
-        return stat;
+        return new FirstMoment();
     }
 
     /**

@@ -23,7 +23,7 @@ import org.apache.commons.math.stat.univariate.UnivariateStatisticAbstractTest;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
- * @version $Revision: 1.12 $ $Date: 2004/03/21 04:26:54 $
+ * @version $Revision: 1.13 $ $Date: 2004/06/17 21:37:05 $
  */
 public class PercentileTest extends UnivariateStatisticAbstractTest{
 
@@ -45,11 +45,8 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
     /* (non-Javadoc)
      * @see org.apache.commons.math.stat.univariate.UnivariateStatisticAbstractTest#getUnivariateStatistic()
      */
-    public UnivariateStatistic getUnivariateStatistic() {
-       
-        if(stat == null)
-            stat = new Percentile(95.0);         
-        return stat;
+    public UnivariateStatistic getUnivariateStatistic() {   
+        return new Percentile(95.0);
     }
 
     /* (non-Javadoc)

@@ -24,7 +24,7 @@ import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 /**
  * Test cases for the {@link UnivariateStatistic} class.
  * 
- * @version $Revision: 1.10 $ $Date: 2004/02/21 21:35:18 $
+ * @version $Revision: 1.11 $ $Date: 2004/06/17 21:37:05 $
  */
 public class SkewnessTest extends StorelessUnivariateStatisticAbstractTest{
 
@@ -41,11 +41,7 @@ public class SkewnessTest extends StorelessUnivariateStatisticAbstractTest{
      * @see org.apache.commons.math.stat.univariate.UnivariateStatisticAbstractTest#getUnivariateStatistic()
      */
     public UnivariateStatistic getUnivariateStatistic() {
-       
-        if(stat == null)
-            stat = new Skewness();
-            
-        return stat;
+        return new Skewness();
     }
 
     public static Test suite() {

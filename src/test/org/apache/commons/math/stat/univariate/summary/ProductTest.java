@@ -23,7 +23,7 @@ import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
- * @version $Revision: 1.11 $ $Date: 2004/03/21 04:29:20 $
+ * @version $Revision: 1.12 $ $Date: 2004/06/17 21:37:05 $
  */
 public class ProductTest extends StorelessUnivariateStatisticAbstractTest{
 
@@ -46,11 +46,7 @@ public class ProductTest extends StorelessUnivariateStatisticAbstractTest{
      * @see org.apache.commons.math.stat.univariate.UnivariateStatisticAbstractTest#getUnivariateStatistic()
      */
     public UnivariateStatistic getUnivariateStatistic() {
-       
-        if(stat == null)
-            stat = new Product();
-            
-        return stat;
+        return new Product();
     }
 
     public double getTolerance() {
