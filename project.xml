@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <extend>../../jakarta-commons/project.xml</extend>
+  <name>Math</name>
+  <id>commons-math</id>
+  <currentVersion>1.0-dev</currentVersion>
+  <inceptionYear>2003</inceptionYear>
+  <shortDescription>
+   A collection of math utilities
+  </shortDescription>
+  <description>
+   The math package contains a few simple math utilities
+  </description>
+
+  <versions>
+    <version>
+      <id>1.0-dev</id>
+      <name>1.0-dev</name>
+    </version>
+  </versions>
+
+  <developers>
+    <developer>
+      <name>Robert Burrell Donkin</name>
+      <id>rdonkin</id>
+      <email>rdonkin@apache.org</email>
+    </developer>
+    <developer>
+      <name>Tim OBrien</name>
+      <id>tobrien</id>
+      <email>tobrien@apache.org</email>
+    </developer>
+  </developers>
+
+  <contributors>
+   <contributor>
+     <name>Phil Steitz</name>
+     <email>phil@steitz.com</email>
+     <roles>proposal author, initial contributor</roles>
+   </contributor>
+  </contributors>  
+
+  <dependencies>
+<!--    <dependency>
+      <id>junit</id>
+      <version>3.8</version>
+    </dependency> -->
+  </dependencies>
+
+<!--  <issueTrackingUrl>http://nagoya.apache.org/bugzilla/buglist.cgi?bug_status=NEW&amp;bug_status=ASSIGNED&amp;bug_status=REOPENED&amp;email1=&amp;emailtype1=substring&amp;emailassigned_to1=1&amp;email2=&amp;emailtype2=substring&amp;emailreporter2=1&amp;bugidtype=include&amp;bug_id=&amp;changedin=&amp;votes=&amp;chfieldfrom=&amp;chfieldto=Now&amp;chfieldvalue=&amp;product=Commons&amp;component=Sandbox&amp;short_desc=&amp;short_desc_type=allwordssubstr&amp;long_desc=&amp;long_desc_type=allwordssubstr&amp;bug_file_loc=&amp;bug_file_loc_type=allwordssubstr&amp;keywords=&amp;keywords_type=anywords&amp;field0-0-0=noop&amp;type0-0-0=noop&amp;value0-0-0=&amp;cmdtype=doit&amp;order=%27Importance%27</issueTrackingUrl>
+-->
+  <repository>
+    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:jakarta-commons-sandbox/${pom.artifactId.substring(8)}</connection>
+    <url>http://cvs.apache.org/viewcvs/jakarta-commons-sandbox/${pom.artifactId.substring(8)}/</url>
+  </repository>
+  
+  <build>
+    <unitTest>
+      <includes>
+        <include>**/*Test.java</include>
+      </includes>
+      <excludes>
+        <exclude>**/*AbstractTest.java</exclude>
+      </excludes>
+      <resources>
+         <resource>
+            <directory>${pom.build.unitTestSourceDirectory}</directory>
+            <includes>
+              <include>**/*.xml</include>
+            </includes>
+         </resource>
+      </resources>
+    </unitTest>
+  </build>
+
+  <reports>
+   <report>maven-changelog-plugin</report>
+   <report>maven-changes-plugin</report>
+   <report>maven-checkstyle-plugin</report>
+   <report>maven-clover-plugin</report>
+   <report>maven-developer-activity-plugin</report>
+   <report>maven-file-activity-plugin</report>
+   <report>maven-javadoc-plugin</report>
+   <report>maven-jdepend-plugin</report>
+   <report>maven-jellydoc-plugin</report>
+   <report>maven-junit-report-plugin</report>
+   <report>maven-jxr-plugin</report>
+   <report>maven-license-plugin</report>
+   <report>maven-linkcheck-plugin</report>
+   <report>maven-statcvs-plugin</report>
+   <report>maven-tasklist-plugin</report>
+  </reports>
+</project>
