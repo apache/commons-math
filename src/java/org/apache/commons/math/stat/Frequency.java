@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.Comparator;
 import java.text.NumberFormat;
 
+import org.apache.commons.collections.ComparatorUtils;
 import org.apache.commons.collections.SortedBag;
 import org.apache.commons.collections.TreeBag;
 
@@ -31,7 +32,7 @@ import org.apache.commons.collections.TreeBag;
  * The values are ordered using the default (natural order), unless a  <code>Comparator</code>
  *  is supplied in the constructor.
  * 
- * @version $Revision: 1.16 $ $Date: 2004/02/22 22:01:29 $
+ * @version $Revision: 1.17 $ $Date: 2004/03/07 00:54:31 $
  */
 public class Frequency implements Serializable {
     
@@ -50,7 +51,7 @@ public class Frequency implements Serializable {
      * @param comparator Comparator used to order values
      */
     public Frequency(Comparator comparator) {
-    	freqTable = new TreeBag(comparator);
+        freqTable = new TreeBag(comparator);
     }
 
     /**
@@ -59,7 +60,7 @@ public class Frequency implements Serializable {
      * @return a string representation.
      */
     public String toString() {
-    	NumberFormat nf = NumberFormat.getPercentInstance();
+        NumberFormat nf = NumberFormat.getPercentInstance();
         StringBuffer outBuffer = new StringBuffer();
         outBuffer.append("Value \t Freq. \t Pct. \t Cum Pct. \n");
         Iterator iter = freqTable.uniqueSet().iterator();
@@ -82,12 +83,12 @@ public class Frequency implements Serializable {
      * @param v the value to add.
      */
     public void addValue(Object v) {
-    	try {
-    		freqTable.add(v);
-    	} catch (ClassCastException ex) {	
-    		//TreeBag will throw ClassCastException if v is not comparable
-    		throw new IllegalArgumentException("Value not comparable to existing values.");
-    	}
+        try {
+            freqTable.add(v);
+        } catch (ClassCastException ex) {   
+            //TreeBag will throw ClassCastException if v is not comparable
+            throw new IllegalArgumentException("Value not comparable to existing values.");
+        }
     }
 
     /**
@@ -111,12 +112,12 @@ public class Frequency implements Serializable {
      * @param v the value to add.
      */
     public void addValue(char v) {
-    	addValue(new Character(v));
+        addValue(new Character(v));
     }
     
     /** Clears the frequency table */
     public void clear() {
-    	freqTable.clear();
+        freqTable.clear();
     }
     
     /**
@@ -124,7 +125,7 @@ public class Frequency implements Serializable {
      * @return values Iterator
      */
     public Iterator valuesIterator() {
-    	return freqTable.uniqueSet().iterator();
+        return freqTable.uniqueSet().iterator();
     }
     
     //-------------------------------------------------------------------------
@@ -134,7 +135,7 @@ public class Frequency implements Serializable {
      * @return the total frequency count.
      */
     public long getSumFreq() {
-    	return freqTable.size();
+        return freqTable.size();
     }
 
     /**
@@ -143,13 +144,13 @@ public class Frequency implements Serializable {
      * @return the frequency of v.
      */
     public long getCount(Object v) {
-    	long result = 0;
-    	try { 
-    		result = freqTable.getCount(v);
-    	} catch (Exception ex) {
-    		// ignore and return 0 -- ClassCastException will be thrown if value is not comparable
-    	}
-    	return result;
+        long result = 0;
+        try { 
+            result = freqTable.getCount(v);
+        } catch (Exception ex) {
+            // ignore and return 0 -- ClassCastException will be thrown if value is not comparable
+        }
+        return result;
     }
 
     /**
@@ -158,13 +159,13 @@ public class Frequency implements Serializable {
      * @return the frequency of v.
      */
     public long getCount(int v) {
-    	long result = 0;
-    	try { 
-    		result = freqTable.getCount(new Long(v));
-    	} catch (Exception ex) {
-    		// ignore and return 0 -- ClassCastException will be thrown if value is not comparable
-    	}
-    	return result;
+        long result = 0;
+        try { 
+            result = freqTable.getCount(new Long(v));
+        } catch (Exception ex) {
+            // ignore and return 0 -- ClassCastException will be thrown if value is not comparable
+        }
+        return result;
     }
     
     /**
@@ -173,13 +174,13 @@ public class Frequency implements Serializable {
      * @return the frequency of v.
      */
     public long getCount(long v) {
-    	long result = 0;
-    	try { 
-    		result = freqTable.getCount(new Long(v));
-    	} catch (Exception ex) {
-    		// ignore and return 0 -- ClassCastException will be thrown if value is not comparable
-    	}
-    	return result;
+        long result = 0;
+        try { 
+            result = freqTable.getCount(new Long(v));
+        } catch (Exception ex) {
+            // ignore and return 0 -- ClassCastException will be thrown if value is not comparable
+        }
+        return result;
     }
     
     /**
@@ -188,13 +189,13 @@ public class Frequency implements Serializable {
      * @return the frequency of v.
      */
     public long getCount(char v) {
-    	long result = 0;
-    	try { 
-    		result = freqTable.getCount(new Character(v));
-    	} catch (Exception ex) {
-    		// ignore and return 0 -- ClassCastException will be thrown if value is not comparable
-    	}
-    	return result;
+        long result = 0;
+        try { 
+            result = freqTable.getCount(new Character(v));
+        } catch (Exception ex) {
+            // ignore and return 0 -- ClassCastException will be thrown if value is not comparable
+        }
+        return result;
     }
     
     //-------------------------------------------------------------
@@ -206,7 +207,7 @@ public class Frequency implements Serializable {
      * @return the proportion of values equal to v
      */
     public double getPct(Object v) {
-    	return (double) getCount(v) / (double) getSumFreq();        
+        return (double) getCount(v) / (double) getSumFreq();        
     }
     
     /**
@@ -226,7 +227,7 @@ public class Frequency implements Serializable {
      * @return the proportion of values equal to v
      */
     public double getPct(long v) {
-    	return getPct(new Long(v));         
+        return getPct(new Long(v));         
     }
     
     /**
@@ -236,7 +237,7 @@ public class Frequency implements Serializable {
      * @return the proportion of values equal to v
      */
     public double getPct(char v) {
-    	return getPct(new Character(v));         
+        return getPct(new Character(v));         
     }
     
     //-----------------------------------------------------------------------------------------
@@ -250,29 +251,33 @@ public class Frequency implements Serializable {
      * @return the proportion of values equal to v
      */
     public long getCumFreq(Object v) {
-    	long result = 0;
-    	try {
-    		result = freqTable.getCount(v);
-    	} catch (ClassCastException ex) {
-    		return result;   // v is not comparable
-    	}
-    	Comparable c = (Comparable) v;
-    	if (c.compareTo(freqTable.first()) < 0) {
-    		return 0;	// v is comparable, but less than the first value
-    	}
-    	if (c.compareTo(freqTable.last()) > 0) {
-    		return getSumFreq();	// v is comparable, but greater than the last value
-    	}
-    	Iterator values = valuesIterator();
-    	while (values.hasNext()) {
-    		Object nextValue = values.next();
-    		if (c.compareTo(nextValue) > 0) {
-    			result += getCount(nextValue);
-    		} else {
-    			return result;
-    		}
-    	}
-    	return result;
+        Comparator c = freqTable.comparator();
+        if (c == null) {
+            c = ComparatorUtils.NATURAL_COMPARATOR;
+        }
+        long result = 0;
+        try {
+            result = freqTable.getCount(v);
+        } catch (ClassCastException ex) {
+            return result;   // v is not comparable
+        }
+        if (c.compare(v, freqTable.first()) < 0) {
+            return
+        System.out.println("iterating..."); 0;   // v is comparable, but less than the first value
+        }
+        if (c.compare(v, freqTable.last()) >= 0) {
+            return getSumFreq();    // v is comparable, but greater than the last value
+        }
+        Iterator values = valuesIterator();
+        while (values.hasNext()) {
+            Object nextValue = values.next();
+            if (c.compare(v, nextValue) > 0) {
+                result += getCount(nextValue);
+            } else {
+                return result;
+            }
+        }
+        return result;
     }
     
      /**
@@ -284,7 +289,7 @@ public class Frequency implements Serializable {
      * @return the proportion of values equal to v
      */
     public long getCumFreq(int v) {
-    	return getCumFreq(new Long(v));       
+        return getCumFreq(new Long(v));       
     }
     
      /**
@@ -296,7 +301,7 @@ public class Frequency implements Serializable {
      * @return the proportion of values equal to v
      */
     public long getCumFreq(long v) {
-    	return getCumFreq(new Long(v));         
+        return getCumFreq(new Long(v));         
     }
     
     /**
@@ -308,7 +313,7 @@ public class Frequency implements Serializable {
      * @return the proportion of values equal to v
      */
     public long getCumFreq(char v) {
-    	return getCumFreq(new Character(v));         
+        return getCumFreq(new Character(v));         
     }
     
     //----------------------------------------------------------------------------------------------
@@ -323,7 +328,7 @@ public class Frequency implements Serializable {
      * @return the proportion of values equal to v
      */
     public double getCumPct(Object v) {
-    	return (double) getCumFreq(v) / (double) getSumFreq();        
+        return (double) getCumFreq(v) / (double) getSumFreq();        
     }
     
     /**
@@ -336,7 +341,7 @@ public class Frequency implements Serializable {
      * @return the proportion of values equal to v
      */
     public double getCumPct(int v) {
-    	return getCumPct(new Long(v));       
+        return getCumPct(new Long(v));       
     }
     
     /**
@@ -349,7 +354,7 @@ public class Frequency implements Serializable {
      * @return the proportion of values equal to v
      */
     public double getCumPct(long v) {
-    	return getCumPct(new Long(v));         
+        return getCumPct(new Long(v));         
     }
     
     /**
@@ -362,6 +367,6 @@ public class Frequency implements Serializable {
      * @return the proportion of values equal to v
      */
     public double getCumPct(char v) {
-    	return getCumPct(new Character(v));         
+        return getCumPct(new Character(v));         
     }
 }
