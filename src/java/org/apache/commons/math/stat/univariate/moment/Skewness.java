@@ -20,7 +20,15 @@ import java.io.Serializable;
 import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
 
 /**
- * @version $Revision: 1.17 $ $Date: 2004/03/04 04:25:09 $
+ * Computes Skewness.
+ * <p>
+ * We use the following formula to define skewness:
+ *  <p>
+ *  skewness = [n / (n -1) (n - 2)] sum[(x_i - mean)^3] / std^3
+ *  <p>
+ *  where n is the number of values, mean is the {@link Mean} and std is the {@link StandardDeviation}
+ * 
+ * @version $Revision: 1.18 $ $Date: 2004/03/20 23:55:19 $
  */
 public class Skewness extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -64,7 +72,9 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
     }
 
     /**
-     * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#getResult()
+     * Returns the value of the statistic based on the values that have been added.
+     * <p>
+     * See {@link Skewness} for the definition used in the computation.
      */
     public double getResult() {
         if (n < moment.n) {
@@ -110,16 +120,10 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
     Mean mean = new Mean();
 
     /**
-     * Returns the skewness of a collection of values.  Skewness is a
-     * measure of the assymetry of a given distribution.
-     * This algorithm uses a corrected two pass algorithm of the following
-     * <a href="http://lib-www.lanl.gov/numerical/bookcpdf/c14-1.pdf">
-     * corrected two pass formula (14.1.8)</a>, and also referenced in
+     * Returns the Skewness of the values array.
      * <p>
-     * "Algorithms for Computing the Sample Variance: Analysis and
-     * Recommendations", Chan, T.F., Golub, G.H., and LeVeque, R.J.
-     * 1983, American Statistician, vol. 37, pp. 242?247.
-     * </p>
+     * See {@link Skewness} for the definition used in the computation.
+     * 
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
      * @param length the number of elements to include
@@ -151,17 +155,14 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
                     accum += Math.pow((values[i] - m), 2.0);
                     accum2 += (values[i] - m);
                 }
-                double stdDev =
-                    Math.sqrt(
-                        (accum - (Math.pow(accum2, 2) / ((double) length))) /
-                            (double) (length - 1));
+                double stdDev = Math.sqrt((accum - (Math.pow(accum2, 2) / ((double) length))) /
+                        (double) (length - 1));
 
-                // Calculate the skew as the sum the cubes of the distance
-                // from the mean divided by the standard deviation.
                 double accum3 = 0.0;
                 for (int i = begin; i < begin + length; i++) {
-                    accum3 += Math.pow((values[i] - m) / stdDev, 3.0);
+                    accum3 += Math.pow(values[i] - m, 3.0d);
                 }
+                accum3 /= Math.pow(stdDev, 3.0d);
 
                 // Get N
                 double n0 = length;
