@@ -43,7 +43,7 @@ import org.apache.commons.math.MathException;
  * <li> Let <code>j</code> be the index of the largest knot point that is less than or equal to <code>x</code>. 
  *  The value returned is <br> <code>polynomials[j](x - knot[j])</code></li></ol>
  * 
- * @version $Revision: 1.2 $ $Date: 2004/04/03 03:05:33 $
+ * @version $Revision: 1.3 $ $Date: 2004/04/23 18:16:06 $
  */
 public class PolynomialSplineFunction implements UnivariateRealFunction, Serializable {
    
@@ -86,8 +86,10 @@ public class PolynomialSplineFunction implements UnivariateRealFunction, Seriali
             throw new IllegalArgumentException 
             ("Number of polynomial interpolants must match the number of segments.");
         }
-        
-        // TODO: check that knots is increasing
+        if (!isStrictlyIncreasing(knots)) {
+            throw new IllegalArgumentException 
+                ("Knot values must be strictly increasing.");
+        }
         
         this.n = knots.length -1;
         this.knots = new double[n + 1];
@@ -174,4 +176,19 @@ public class PolynomialSplineFunction implements UnivariateRealFunction, Seriali
         return out;  
     }
 
+    /**
+     * Determines if the given array is ordered in a strictly increasing
+     * fashion.
+     * @param x the array to examine.
+     * @return <code>true</code> if the elements in <code>x</code> are ordered
+     *         in a stricly increasing manner.  <code>false</code>, otherwise.
+     */
+    private static boolean isStrictlyIncreasing(double[] x) {
+        for (int i = 1; i < x.length; ++i) {
+            if (x[i - 1] >= x[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
