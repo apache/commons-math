@@ -21,7 +21,7 @@ package org.apache.commons.math.distribution;
  * Extends ContinuousDistributionAbstractTest.  See class javadoc for
  * ContinuousDistributionAbstractTest for details.
  * 
- * @version $Revision: 1.15 $ $Date: 2004/06/10 18:27:47 $
+ * @version $Revision: 1.16 $ $Date: 2004/07/24 21:41:37 $
  */
 public class FDistributionTest extends ContinuousDistributionAbstractTest {
 
@@ -69,9 +69,8 @@ public class FDistributionTest extends ContinuousDistributionAbstractTest {
     }
 
     public void testInverseCumulativeProbabilityExtremes() throws Exception {
-        //TODO: decide what to do about p = 1.  This currently blows up the solver.
-        setInverseCumulativeTestPoints(new double[] {0});
-        setInverseCumulativeTestValues(new double[] {0});
+        setInverseCumulativeTestPoints(new double[] {0, 1});
+        setInverseCumulativeTestValues(new double[] {0, Double.POSITIVE_INFINITY});
         verifyInverseCumulativeProbabilities();
     }
     

@@ -22,7 +22,7 @@ import org.apache.commons.math.MathException;
 /**
  * The default implementation of {@link ExponentialDistribution}
  *
- * @version $Revision: 1.18 $ $Date: 2004/06/23 16:26:15 $
+ * @version $Revision: 1.19 $ $Date: 2004/07/24 21:41:36 $
  */
 public class ExponentialDistributionImpl extends AbstractContinuousDistribution
     implements ExponentialDistribution, Serializable {
@@ -90,7 +90,9 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
     /**
      * For this distribution, X, this method returns the critical point x, such
      * that P(X &lt; x) = <code>p</code>.
-     *
+     * <p>
+     * Returns 0 for p=0 and <code>Double.POSITIVE_INFINITY</code> for p=1.
+     * 
      * @param p the desired probability
      * @return x, such that P(X &lt; x) = <code>p</code>
      * @throws MathException if the inverse cumulative probability can not be

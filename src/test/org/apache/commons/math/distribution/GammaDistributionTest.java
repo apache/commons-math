@@ -21,7 +21,7 @@ package org.apache.commons.math.distribution;
  * Extends ContinuousDistributionAbstractTest.  See class javadoc for
  * ContinuousDistributionAbstractTest for details.
  * 
- * @version $Revision: 1.17 $ $Date: 2004/05/31 00:55:22 $
+ * @version $Revision: 1.18 $ $Date: 2004/07/24 21:41:37 $
  */
 public class GammaDistributionTest extends ContinuousDistributionAbstractTest {
     
@@ -110,5 +110,11 @@ public class GammaDistributionTest extends ContinuousDistributionAbstractTest {
 		GammaDistribution distribution = factory.createGammaDistribution( a, b );
         double actual = distribution.inverseCumulativeProbability(p);
         assertEquals("critical value for " + p, expected, actual, 10e-4);
+    }
+    
+    public void testInverseCumulativeProbabilityExtremes() throws Exception {
+        setInverseCumulativeTestPoints(new double[] {0, 1});
+        setInverseCumulativeTestValues(new double[] {0, Double.POSITIVE_INFINITY});
+        verifyInverseCumulativeProbabilities();
     }
 }

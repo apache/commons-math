@@ -20,7 +20,7 @@ package org.apache.commons.math.distribution;
  * Extends ContinuousDistributionAbstractTest.  See class javadoc for
  * ContinuousDistributionAbstractTest for details.
  * 
- * @version $Revision: 1.14 $ $Date: 2004/05/30 22:13:35 $
+ * @version $Revision: 1.15 $ $Date: 2004/07/24 21:41:37 $
  */
 public class TDistributionTest extends ContinuousDistributionAbstractTest {
 
@@ -80,6 +80,13 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
             6.313752, 3.077684});
         setInverseCumulativeTestValues(getCumulativeTestPoints());
         verifyCumulativeProbabilities();
+        verifyInverseCumulativeProbabilities();
+    }
+    
+    public void testInverseCumulativeProbabilityExtremes() throws Exception {
+        setInverseCumulativeTestPoints(new double[] {0, 1});
+        setInverseCumulativeTestValues(
+                new double[] {Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY});
         verifyInverseCumulativeProbabilities();
     }
     

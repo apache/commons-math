@@ -21,7 +21,7 @@ package org.apache.commons.math.distribution;
  * Extends ContinuousDistributionAbstractTest.  See class javadoc for
  * ContinuousDistributionAbstractTest for details.
  * 
- * @version $Revision: 1.7 $ $Date: 2004/05/30 05:54:43 $
+ * @version $Revision: 1.8 $ $Date: 2004/07/24 21:41:37 $
  */
 public class NormalDistributionTest extends ContinuousDistributionAbstractTest  {
     
@@ -84,6 +84,13 @@ public class NormalDistributionTest extends ContinuousDistributionAbstractTest  
         verifyQuantiles();
         setDistribution(DistributionFactory.newInstance().createNormalDistribution(0, 0.1));
         verifyQuantiles();
+    }
+    
+    public void testInverseCumulativeProbabilityExtremes() throws Exception {
+        setInverseCumulativeTestPoints(new double[] {0, 1});
+        setInverseCumulativeTestValues(
+                new double[] {Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY});
+        verifyInverseCumulativeProbabilities();
     }
     
     public void testGetMean() {

@@ -25,7 +25,7 @@ import org.apache.commons.math.special.Erf;
  * Default implementation of
  * {@link org.apache.commons.math.distribution.NormalDistribution}.
  *
- * @version $Revision: 1.12 $ $Date: 2004/06/23 16:26:15 $
+ * @version $Revision: 1.13 $ $Date: 2004/07/24 21:41:36 $
  */
 public class NormalDistributionImpl extends AbstractContinuousDistribution 
 		implements NormalDistribution, Serializable {
@@ -105,6 +105,31 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
         return 0.5 * (1.0 + Erf.erf((x - mean) /
                 (standardDeviation * Math.sqrt(2.0))));
 	}
+    
+    /**
+     * For this distribution, X, this method returns the critical point x, such
+     * that P(X &lt; x) = <code>p</code>.
+     * <p>
+     * Returns <code>Double.NEGATIVE_INFINITY</code> for p=0 and 
+     * <code>Double.POSITIVE_INFINITY</code> for p=1.
+     *
+     * @param p the desired probability
+     * @return x, such that P(X &lt; x) = <code>p</code>
+     * @throws MathException if the inverse cumulative probability can not be
+     *         computed due to convergence or other numerical errors.
+     * @throws IllegalArgumentException if <code>p</code> is not a valid
+     *         probability.
+     */
+    public double inverseCumulativeProbability(final double p) 
+    throws MathException {
+        if (p == 0) {
+            return Double.NEGATIVE_INFINITY;
+        }
+        if (p == 1) {
+            return Double.POSITIVE_INFINITY;
+        }
+        return super.inverseCumulativeProbability(p);
+    }
 	
 	/**
 	 * Access the domain value lower bound, based on <code>p</code>, used to

@@ -24,7 +24,7 @@ import org.apache.commons.math.special.Beta;
  * Default implementation of
  * {@link org.apache.commons.math.distribution.TDistribution}.
  *
- * @version $Revision: 1.18 $ $Date: 2004/06/23 16:26:15 $
+ * @version $Revision: 1.19 $ $Date: 2004/07/24 21:41:36 $
  */
 public class TDistributionImpl
     extends AbstractContinuousDistribution
@@ -89,6 +89,31 @@ public class TDistributionImpl
         }
 
         return ret;
+    }
+    
+    /**
+     * For this distribution, X, this method returns the critical point x, such
+     * that P(X &lt; x) = <code>p</code>.
+     * <p>
+     * Returns <code>Double.NEGATIVE_INFINITY</code> for p=0 and 
+     * <code>Double.POSITIVE_INFINITY</code> for p=1.
+     *
+     * @param p the desired probability
+     * @return x, such that P(X &lt; x) = <code>p</code>
+     * @throws MathException if the inverse cumulative probability can not be
+     *         computed due to convergence or other numerical errors.
+     * @throws IllegalArgumentException if <code>p</code> is not a valid
+     *         probability.
+     */
+    public double inverseCumulativeProbability(final double p) 
+    throws MathException {
+        if (p == 0) {
+            return Double.NEGATIVE_INFINITY;
+        }
+        if (p == 1) {
+            return Double.POSITIVE_INFINITY;
+        }
+        return super.inverseCumulativeProbability(p);
     }
 
     /**
