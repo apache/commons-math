@@ -17,11 +17,9 @@
 package org.apache.commons.math.stat.data;
 
 import java.beans.Expression;
-import java.beans.PropertyDescriptor;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -34,7 +32,7 @@ import org.apache.commons.math.stat.univariate.SummaryStatistics;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.5 $ $Date: 2004/06/04 13:53:12 $
+ * @version $Revision: 1.6 $ $Date: 2004/06/04 13:54:03 $
  */
 public abstract class CertifiedDataAbstractTest extends TestCase {
 	
