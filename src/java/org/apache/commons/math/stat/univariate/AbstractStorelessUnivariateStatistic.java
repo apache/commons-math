@@ -15,6 +15,7 @@
  */
 package org.apache.commons.math.stat.univariate;
 
+import org.apache.commons.math.util.MathUtils;
 import java.io.Serializable;
 
 /**
@@ -23,7 +24,7 @@ import java.io.Serializable;
  * <p>
  * Provides a default <code>evaluate()</code> implementation.
  * 
- * @version $Revision: 1.15 $ $Date: 2004/06/01 21:34:35 $
+ * @version $Revision: 1.16 $ $Date: 2004/06/17 22:31:58 $
  */
 public abstract class AbstractStorelessUnivariateStatistic
     extends AbstractUnivariateStatistic
@@ -66,5 +67,33 @@ public abstract class AbstractStorelessUnivariateStatistic
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
     public abstract void increment(final double d);
+    
+    /**
+     * Returns true iff <code>object</code> is an 
+     * <code>AbstractStorelessUnivariateStatistic</code> returning the same
+     * values as this for <code>getResult()</code> and <code>getN()</code>
+     * 
+     * @return true if object returns the same value as this
+     */
+    public boolean equals(Object object) {
+        if (object == this ) {
+            return true;
+        }
+       if (object instanceof AbstractStorelessUnivariateStatistic == false) {
+            return false;
+        }
+        AbstractStorelessUnivariateStatistic stat = (AbstractStorelessUnivariateStatistic) object;
+        return (MathUtils.equals(stat.getResult(), this.getResult()) && 
+                MathUtils.equals(stat.getN(), this.getN()));
+    }
+    
+    /**
+     * Returns hash code based on getResult() and getN()
+     * 
+     * @return hash code
+     */
+    public int hashCode() {
+        return 31* (31 + MathUtils.hash(getResult())) + MathUtils.hash(getN());
+    }
 
 }
