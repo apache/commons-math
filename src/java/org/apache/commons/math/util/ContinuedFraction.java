@@ -17,11 +17,11 @@
  *    distribution.
  *
  * 3. The end-user documentation included with the redistribution, if
- *    any, must include the following acknowlegement:
+ *    any, must include the following acknowledgement:
  *       "This product includes software developed by the
  *        Apache Software Foundation (http://www.apache.org/)."
- *    Alternately, this acknowlegement may appear in the software itself,
- *    if and wherever such third-party acknowlegements normally appear.
+ *    Alternately, this acknowledgement may appear in the software itself,
+ *    if and wherever such third-party acknowledgements normally appear.
  *
  * 4. The names "The Jakarta Project", "Commons", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
@@ -64,7 +64,7 @@ import org.apache.commons.math.analysis.ConvergenceException;
  * <li><a href="http://mathworld.wolfram.com/ContinuedFraction.html">
  * Continued Fraction</a></li>
  * </ul>
- * @version $Revision: 1.4 $ $Date: 2003/09/07 03:12:56 $
+ * @version $Revision: 1.5 $ $Date: 2003/10/13 08:11:23 $
  */
 public abstract class ContinuedFraction {
     /** Maximum allowed numerical error. */

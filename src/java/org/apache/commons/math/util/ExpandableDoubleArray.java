@@ -17,11 +17,11 @@
  *    distribution.
  *
  * 3. The end-user documentation included with the redistribution, if
- *    any, must include the following acknowlegement:
+ *    any, must include the following acknowledgement:
  *       "This product includes software developed by the
  *        Apache Software Foundation (http://www.apache.org/)."
- *    Alternately, this acknowlegement may appear in the software itself,
- *    if and wherever such third-party acknowlegements normally appear.
+ *    Alternately, this acknowledgement may appear in the software itself,
+ *    if and wherever such third-party acknowledgements normally appear.
  *
  * 4. The names "The Jakarta Project", "Commons", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
@@ -88,7 +88,7 @@ import java.io.Serializable;
  * expand the array 10 times - first from 2 -> 4. then 4 -> 8, 8 -> 16,
  * and so on until we reach 4096 which is sufficient to hold 3546 elements.
  * </p>
- * @version $Revision: 1.6 $ $Date: 2003/09/26 19:30:33 $
+ * @version $Revision: 1.7 $ $Date: 2003/10/13 08:11:23 $
  */
 public class ExpandableDoubleArray implements Serializable, DoubleArray {
 
