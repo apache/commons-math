@@ -23,7 +23,7 @@ import org.apache.commons.math.TestUtils;
 
 /**
  * Test cases for the {@link StatUtils} class.
- * @version $Revision: 1.18 $ $Date: 2004/07/11 18:42:07 $
+ * @version $Revision: 1.19 $ $Date: 2004/07/17 22:01:39 $
  */
 
 public final class StatUtilsTest extends TestCase {
@@ -371,5 +371,18 @@ public final class StatUtilsTest extends TestCase {
         } catch (IllegalArgumentException ex) {
             // expected
         }
+    }
+    
+    public void testGeometricMean() throws Exception {
+        double[] test = null;
+        try {
+            double x = StatUtils.geometricMean(test);
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+        test = new double[] {2, 4, 6, 8};
+        assertEquals(Math.exp(0.25d * StatUtils.sumLog(test)), 
+                StatUtils.geometricMean(test), Double.MIN_VALUE);
     }
 }

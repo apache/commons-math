@@ -16,6 +16,7 @@
 package org.apache.commons.math.stat;
 
 import org.apache.commons.math.stat.univariate.UnivariateStatistic;
+import org.apache.commons.math.stat.univariate.moment.GeometricMean;
 import org.apache.commons.math.stat.univariate.moment.Mean;
 import org.apache.commons.math.stat.univariate.moment.Variance;
 import org.apache.commons.math.stat.univariate.rank.Max;
@@ -30,7 +31,7 @@ import org.apache.commons.math.stat.univariate.summary.SumOfSquares;
  * StatUtils provides static methods for computing statistics based on data
  * stored in double[] arrays. 
  * 
- * @version $Revision: 1.30 $ $Date: 2004/07/11 18:41:19 $
+ * @version $Revision: 1.31 $ $Date: 2004/07/17 22:01:39 $
  */
 public final class StatUtils {
 
@@ -58,8 +59,11 @@ public final class StatUtils {
     /** variance */
     private static Variance variance = new Variance();
 
-    /** variance */
+    /** percentile */
     private static Percentile percentile = new Percentile();
+    
+    /** geometric mean */
+    private static GeometricMean geometricMean = new GeometricMean();
 
     /**
      * Private Constructor
@@ -246,6 +250,46 @@ public final class StatUtils {
             final int length) {
         return mean.evaluate(values, begin, length);
     }
+    
+    /**
+     * Returns the geometric mean of the entries in the input array, or 
+     * <code>Double.NaN</code> if the array is empty.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * <p>
+     * See {@link org.apache.commons.math.stat.univariate.moment.GeometricMean}
+     * for details on the computing algorithm.
+     * 
+     * @param values the input array
+     * @return the geometric mean of the values or Double.NaN if the array is empty
+     * @throws IllegalArgumentException if the array is null
+     */
+    public static double geometricMean(final double[] values) {
+        return geometricMean.evaluate(values);
+    }
+
+    /**
+     * Returns the geometric mean of the entries in the specified portion of
+     * the input array, or <code>Double.NaN</code> if the designated subarray
+     * is empty.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * <p>
+     * See {@link org.apache.commons.math.stat.univariate.moment.GeometricMean}
+     * for details on the computing algorithm.
+     * 
+     * @param values the input array
+     * @param begin index of the first array element to include
+     * @param length the number of elements to include
+     * @return the geometric mean of the values or Double.NaN if length = 0
+     * @throws IllegalArgumentException if the array is null or the array index
+     * parameters are not valid
+     */
+    public static double geometricMean(final double[] values, final int begin,
+            final int length) {
+        return geometricMean.evaluate(values, begin, length);
+    }
+    
 
     /**
      * Returns the variance of the entries in the input array, or 
