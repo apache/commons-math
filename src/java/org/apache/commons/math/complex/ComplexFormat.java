@@ -22,6 +22,7 @@ import java.text.Format;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
+import java.util.Locale;
 
 /**
  * Formats a Complex number in cartesian format "Re(c) + Im(c)i".  'i' can
@@ -29,16 +30,13 @@ import java.text.ParsePosition;
  * can be configured.
  *
  * @author Apache Software Foundation
- * @version $Revision: 1.9 $ $Date: 2004/06/23 16:26:16 $
+ * @version $Revision: 1.10 $ $Date: 2004/09/21 04:45:55 $
  */
 public class ComplexFormat extends Format implements Serializable {
     
     /** Serializable version identifier */
     static final long serialVersionUID = -6337346779577272306L;
     
-    /** The default complex format. */ 
-	private static final ComplexFormat DEFAULT = new ComplexFormat();
-
     /** The default imaginary character. */
     private static final String DEFAULT_IMAGINARY_CHARACTER = "i";
     
@@ -122,20 +120,7 @@ public class ComplexFormat extends Format implements Serializable {
      * @return A formatted number in the form "Re(c) + Im(c)i"
      */
     public static String formatComplex( Complex c ) {
-    	return DEFAULT.format( c );
-    }
-    
-    /**
-     * Create a default number format.  The default number format is based on
-     * {@link NumberFormat#getInstance()} with the only customizing is the
-     * maximum number of fraction digits, which is set to 2.  
-     *
-     * @return the default number format.
-     */
-    private static NumberFormat getDefaultNumberFormat() {
-        NumberFormat nf = NumberFormat.getInstance();
-        nf.setMaximumFractionDigits(2);
-        return nf;
+    	return getInstance().format( c );
     }
     
     /**
@@ -233,6 +218,38 @@ public class ComplexFormat extends Format implements Serializable {
     }
     
     /**
+     * Get the set of locales for which complex formats are available.  This
+     * is the same set as the {@link NumberFormat} set. 
+     * @return available complex format locales.
+     */
+    public static Locale[] getAvailableLocales() {
+        return NumberFormat.getAvailableLocales();
+    }
+    
+    /**
+     * Create a default number format.  The default number format is based on
+     * {@link NumberFormat#getInstance()} with the only customizing is the
+     * maximum number of fraction digits, which is set to 2.  
+     * @return the default number format.
+     */
+    private static NumberFormat getDefaultNumberFormat() {
+        return getDefaultNumberFormat(Locale.getDefault());
+    }
+    
+    /**
+     * Create a default number format.  The default number format is based on
+     * {@link NumberFormat#getInstance(java.util.Locale)} with the only
+     * customizing is the maximum number of fraction digits, which is set to 2.  
+     * @param locale the specific locale used by the format.
+     * @return the default number format specific to the given locale.
+     */
+    private static NumberFormat getDefaultNumberFormat(Locale locale) {
+        NumberFormat nf = NumberFormat.getInstance(locale);
+        nf.setMaximumFractionDigits(2);
+        return nf;
+    }
+    
+    /**
      * Access the imaginaryCharacter.
      * @return the imaginaryCharacter.
      */
@@ -246,6 +263,24 @@ public class ComplexFormat extends Format implements Serializable {
      */
     public NumberFormat getImaginaryFormat() {
         return imaginaryFormat;
+    }
+    
+    /**
+     * Returns the default complex format for the current locale.
+     * @return the default complex format.
+     */
+    public static ComplexFormat getInstance() {
+        return getInstance(Locale.getDefault());
+    }
+    
+    /**
+     * Returns the default complex format for the given locale.
+     * @param locale the specific locale used by the format.
+     * @return the complex format specific to the given locale.
+     */
+    public static ComplexFormat getInstance(Locale locale) {
+        NumberFormat f = getDefaultNumberFormat(locale);
+        return new ComplexFormat(f);
     }
     
     /**
