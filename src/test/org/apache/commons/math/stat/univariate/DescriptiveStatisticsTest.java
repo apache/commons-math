@@ -30,7 +30,7 @@ import org.apache.commons.math.random.RandomDataImpl;
 /**
  * Test cases for the {@link Univariate} class.
  *
- * @version $Revision: 1.3 $ $Date: 2004/05/03 14:32:25 $
+ * @version $Revision: 1.4 $ $Date: 2004/05/03 23:16:39 $
  */
 
 public final class DescriptiveStatisticsTest extends TestCase {
@@ -410,25 +410,6 @@ public final class DescriptiveStatisticsTest extends TestCase {
         
         u.setWindowSize(1);
         assertEquals(3.0, u.getMean(), tolerance);
-    }
-    
-    public void testGetKurtosis() throws MathException {
-        UnivariateRealFunction f = new UnivariateRealFunction() {
-            public double value(double x) throws MathException {
-                DescriptiveStatistics u = DescriptiveStatistics.newInstance();
-                u.setWindowSize(5);
-                
-                u.addValue(1.0);
-                u.addValue(1.5);
-                u.addValue(x);
-                u.addValue(1.5);
-                u.addValue(1.0);
-                
-                return u.getKurtosis();
-            }
-        };
-        
-        assertEquals(0.0, UnivariateRealSolverUtils.solve(f, 2.0, 2.5), 1.0e-5);
     }
     
     public void testKurtosisClass() {
