@@ -1,59 +1,123 @@
 <?xml version="1.0"?>
 
 <document>
-  <properties>
-    <title>Tasks: Done And To Do</title>
-    <author email="jstrachan@apache.org">James Strachan</author>
-  </properties>
+ <properties>
+  <title>Tasks: Done And To Do</title>
+ </properties>
 
-  <body>
-        <section name='Aim'>
-            <p>
-This page aims to be a handy reference not only of the work done but also of work pending.
-Users who want new features should submit patches to this page. Developers who want to lend
-a hand can grab tasks from this page. Everyone can see the progress which is being made.
-        </p>
-    </section>
+ <body>
+  <section name='Aim'>
+   <p>
+    This page aims to be a handy reference not only of the work done but 
+    also of work pending for the next planned release. Users who want new 
+    features should submit patches to this page in the unclassified section
+    of this document. Developers who want to lend a hand can grab tasks from 
+    this page. Everyone can see the progress which is being made.
+   </p>
+  </section>
     
-    <section name="TODO list">
-      <p>
-        The following is a list of items still <code>TODO</code> for 
-        Math.  Contributions are welcome! 
-      </p>
+  <section name="TODO list">
+   <p>
+    The following is a list of items still <code>TODO</code> for 
+    Math.  Contributions are welcome! 
+   </p>
     
-    <subsection name="High priority"> 
-      <ul>
-        <li>
-            <strong>Fill Me In!</strong>
-            With A High Priority Task
-        </li>
-       </ul>
-    </subsection>
+   <subsection name="High priority"> 
+    <ul>
+     <li>
+      <strong>Fill Me In!</strong>
+      With A High Priority Task
+     </li>
+    </ul>
+   </subsection>
     
-    <subsection name="Medium priority"> 
-      <ul>
-            <li>
-                <strong>Fill Me In</strong>
-                With A Medium Priority Task
-            </li>
-      </ul>
-    </subsection>
+   <subsection name="Medium priority"> 
+    <ul>
+     <li>
+      <strong>Fill Me In</strong>
+      With A Medium Priority Task
+     </li>
+    </ul>
+   </subsection>
     
-    <subsection name="Low priority"> 
-      <ul>
-        <li>
-                <strong>Fill Me In</strong>
-                With A Low Priority Task
-        </li>
-      </ul>
-    </subsection>
-</section>
-<section name='Completed'>
-    <subsection name='Since Conception'>
-        <ul>
-        </ul>
-    </subsection>
-</section>
-</body>
+   <subsection name="Low priority"> 
+    <ul>
+     <li>
+      <strong>Fill Me In</strong>
+      With A Low Priority Task
+     </li>
+    </ul>
+   </subsection>
+
+   <subsection name="Unclassified priority"> 
+    Tasklist is based on an email from Phil Steitz on May 21, 2003
+    <ul>
+     <li>
+      Add quantiles (1,5,10,25,50,75,90,95,99) to all Univaraite
+      implementations and bootstrap confidence intervals to StoredUnivariate
+      implementations.
+     </li>
+     <li>
+      Add higher order moments to StoredUnivariate (UnivariateImpl 
+      if possible).
+     </li>
+     <li>
+      t-test statistic needs to be added and we should probably add the
+      capability of actually performing t- and chi-square tests at fixed
+      significance levels (.1, .05, .01, .001).
+     </li>
+     <li>
+      numerical approximation of the t- and chi-square distributions to
+      enable user-supplied significance levels.      
+     </li>
+     <li>
+      The RealMatrixImpl class is missing some key method implementations.
+      The critical thing is inversion.  We need to implement a numerically
+      sound inversion algorithm.  This will enable solve() and also
+      support general linear regression.
+     </li>
+     <li>
+      ComplexNumber interface and implementation.  The only tricky thing
+      here is making division numerically sound and what extended value
+      topology to adopt.
+     </li>
+     <li>
+      Bivariate Regression, corellation.  This could be done with simple
+      formulas manipulating arrays and this is probably what we should aim
+      for in an initial release.  Down the road, we should use the
+      RealMatrixImpl solve() to support general linear regression.
+     </li>
+     <li>
+      Binomial coefficients  An "exact" implementation that is
+      limited to what can be stored in a long exists.  This should be 
+      extended to use BigIntegers and potentially to support logarithmic
+      representations.
+     </li>
+     <li>
+      Newton's method for finding roots
+     </li>
+     <li>
+      Exponential growth and decay 
+     </li>
+     <li>
+      Polynomial Interpolation (curve fitting)
+     </li>
+     <li>
+      Sampling from Collections
+     </li>
+     <li>
+      Addition of a Arithmetic Geometric Mean
+     </li>
+    </ul>
+   </subsection>
+
+  </section>
+  <section name='Completed'>
+   <subsection name='Since Conception'>
+    <ul>
+    </ul>
+   </subsection>
+  </section>
+ </body>
 </document>
 
