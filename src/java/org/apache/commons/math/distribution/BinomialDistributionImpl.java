@@ -24,7 +24,7 @@ import org.apache.commons.math.util.MathUtils;
 /**
  * The default implementation of {@link BinomialDistribution}.
  * 
- * @version $Revision: 1.13 $ $Date: 2004/04/27 04:37:58 $
+ * @version $Revision: 1.14 $ $Date: 2004/05/19 14:16:31 $
  */
 public class BinomialDistributionImpl
     extends AbstractDiscreteDistribution
@@ -67,6 +67,8 @@ public class BinomialDistributionImpl
     /**
      * Change the number of trials for this distribution.
      * @param trials the new number of trials.
+     * @throws IllegalArgumentException if <code>trials</code> is not a valid
+     *         number of trials.
      */
     public void setNumberOfTrials(int trials) {
         if (trials < 0) {
@@ -78,6 +80,8 @@ public class BinomialDistributionImpl
     /**
      * Change the probability of success for this distribution.
      * @param p the new probability of success.
+     * @throws IllegalArgumentException if <code>p</code> is not a valid
+     *         probability.
      */
     public void setProbabilityOfSuccess(double p) {
         if (p < 0.0 || p > 1.0) {
@@ -114,7 +118,7 @@ public class BinomialDistributionImpl
      * For this disbution, X, this method returns P(X &le; x).
      * @param x the value at which the PDF is evaluated.
      * @return PDF for this distribution. 
-     * @exception MathException if the cumulative probability can not be
+     * @throws MathException if the cumulative probability can not be
      *            computed due to convergence or other numerical errors.
      */
     public double cumulativeProbability(int x) throws MathException {

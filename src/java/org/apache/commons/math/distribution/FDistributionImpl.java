@@ -24,7 +24,7 @@ import org.apache.commons.math.special.Beta;
  * Default implementation of
  * {@link org.apache.commons.math.distribution.FDistribution}.
  * 
- * @version $Revision: 1.15 $ $Date: 2004/04/08 20:45:59 $
+ * @version $Revision: 1.16 $ $Date: 2004/05/19 14:16:31 $
  */
 public class FDistributionImpl
     extends AbstractContinuousDistribution
@@ -60,7 +60,7 @@ public class FDistributionImpl
      * 
      * @param x the value at which the CDF is evaluated.
      * @return CDF for this distribution. 
-     * @exception MathException if the cumulative probability can not be
+     * @throws MathException if the cumulative probability can not be
      *            computed due to convergence or other numerical errors.
      */
     public double cumulativeProbability(double x) throws MathException {
@@ -120,6 +120,8 @@ public class FDistributionImpl
     /**
      * Modify the numerator degrees of freedom.
      * @param degreesOfFreedom the new numerator degrees of freedom.
+     * @throws IllegalArgumentException if <code>degreesOfFreedom</code> is not
+     *         positive.
      */
     public void setNumeratorDegreesOfFreedom(double degreesOfFreedom) {
         if (degreesOfFreedom <= 0.0) {
@@ -140,6 +142,8 @@ public class FDistributionImpl
     /**
      * Modify the denominator degrees of freedom.
      * @param degreesOfFreedom the new denominator degrees of freedom.
+     * @throws IllegalArgumentException if <code>degreesOfFreedom</code> is not
+     *         positive.
      */
     public void setDenominatorDegreesOfFreedom(double degreesOfFreedom) {
         if (degreesOfFreedom <= 0.0) {

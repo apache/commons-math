@@ -22,7 +22,7 @@ import org.apache.commons.math.MathException;
 /**
  * The default implementation of {@link ExponentialDistribution}
  * 
- * @version $Revision: 1.14 $ $Date: 2004/04/08 20:45:59 $
+ * @version $Revision: 1.15 $ $Date: 2004/05/19 14:16:31 $
  */
 public class ExponentialDistributionImpl
     implements ExponentialDistribution, Serializable  {
@@ -42,6 +42,7 @@ public class ExponentialDistributionImpl
     /**
      * Modify the mean.
      * @param mean the new mean.
+     * @throws IllegalArgumentException if <code>mean</code> is not positive.
      */
     public void setMean(double mean) {
         if (mean <= 0.0) {
@@ -70,7 +71,7 @@ public class ExponentialDistributionImpl
      * 
      * @param x the value at which the CDF is evaluated.
      * @return CDF for this distribution.
-     * @exception MathException if the cumulative probability can not be
+     * @throws MathException if the cumulative probability can not be
      *            computed due to convergence or other numerical errors.
      */
     public double cumulativeProbability(double x) throws MathException{
@@ -89,7 +90,7 @@ public class ExponentialDistributionImpl
      *
      * @param p the desired probability
      * @return x, such that P(X &lt; x) = <code>p</code>
-     * @exception MathException if the inverse cumulative probability can not be
+     * @throws MathException if the inverse cumulative probability can not be
      *            computed due to convergence or other numerical errors.
      */
     public double inverseCumulativeProbability(double p) throws MathException{
@@ -111,7 +112,7 @@ public class ExponentialDistributionImpl
      * @param x0 the lower bound
      * @param x1 the upper bound
      * @return the cumulative probability. 
-     * @exception MathException if the cumulative probability can not be
+     * @throws MathException if the cumulative probability can not be
      *            computed due to convergence or other numerical errors.
      */
     public double cumulativeProbability(double x0, double x1) throws MathException{

@@ -50,7 +50,7 @@ import java.io.Serializable;
  * expand the array 10 times - first from 2 -> 4. then 4 -> 8, 8 -> 16,
  * and so on until we reach 4096 which is sufficient to hold 3546 elements.
  * </p>
- * @version $Revision: 1.14 $ $Date: 2004/04/27 16:42:34 $
+ * @version $Revision: 1.15 $ $Date: 2004/05/19 14:16:32 $
  */
 public class ExpandableDoubleArray implements Serializable, DoubleArray {
 
@@ -140,6 +140,8 @@ public class ExpandableDoubleArray implements Serializable, DoubleArray {
      * The expansion factor will affect the next expansion of this array.
      * 
      * @param expansionFactor the expansion factor of this array
+     * @throws IllegalArgumentException if <code>expansionFactor</code> is less
+     *         than or equal to 1.0
      */
     public void setExpansionFactor(float expansionFactor) {
 
@@ -158,6 +160,8 @@ public class ExpandableDoubleArray implements Serializable, DoubleArray {
     /**
      * Sets the initial capacity
      * @param initialCapacity of the array
+     * @throws IllegalArgumentException if <code>initialCapacity</code> is not
+     *         positive.
      */
     public void setInitialCapacity(int initialCapacity) {
         if (initialCapacity > 0) {
@@ -204,6 +208,7 @@ public class ExpandableDoubleArray implements Serializable, DoubleArray {
      * array as needed.
      * 
      * @param i a new number of elements
+     * @throws IllegalArgumentException if <code>i</code> is negative.
      */
     public synchronized void setNumElements(int i) {
 
@@ -229,6 +234,8 @@ public class ExpandableDoubleArray implements Serializable, DoubleArray {
      * 
      * @param index index to fetch a value from
      * @return value stored at the specified index
+     * @throws ArrayIndexOutOfBoundsException if <code>index</code> is less than
+     *         zero or is greater than <code>getNumElements() - 1</code>.
      */
     public double getElement(int index) {
         double value = Double.NaN;
@@ -254,6 +261,8 @@ public class ExpandableDoubleArray implements Serializable, DoubleArray {
      *
      * @param index index to store a value in
      * @param value value to store at the specified index
+     * @throws ArrayIndexOutOfBoundsException if <code>index</code> is less than
+     *         zero.
      */
     public synchronized void setElement(int index, double value) {
 
@@ -362,6 +371,8 @@ public class ExpandableDoubleArray implements Serializable, DoubleArray {
      * elements from the front of the array.
      * 
      * @param i number of elements to discard from the front of the array.
+     * @throws IllegalArgumentException if <code>i</code> is negative of is
+     *         greater than <code>getNumElements()</code>.
      */
     public synchronized void discardFrontElements(int i) {
 

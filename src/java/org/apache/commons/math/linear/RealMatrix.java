@@ -18,7 +18,7 @@ package org.apache.commons.math.linear;
 
 /**
  * Interface defining a real-valued matrix with basic algebraic operations
- * @version $Revision: 1.16 $ $Date: 2004/04/27 04:37:58 $
+ * @version $Revision: 1.17 $ $Date: 2004/05/19 14:16:32 $
  */
 public interface RealMatrix {
 
@@ -34,7 +34,7 @@ public interface RealMatrix {
      *
      * @param m    matrix to be added
      * @return     this + m
-     * @exception  IllegalArgumentException if m is not the same size as this
+     * @throws  IllegalArgumentException if m is not the same size as this
      */
     RealMatrix add(RealMatrix m) throws IllegalArgumentException;   
     
@@ -43,7 +43,7 @@ public interface RealMatrix {
      *
      * @param m    matrix to be subtracted
      * @return     this + m
-     * @exception  IllegalArgumentException if m is not the same size as this
+     * @throws  IllegalArgumentException if m is not the same size as this
      */
     RealMatrix subtract(RealMatrix m) throws IllegalArgumentException;   
     

@@ -23,7 +23,7 @@ import org.apache.commons.math.MathException;
  * implementations for some of the methods that do not vary from distribution
  * to distribution.
  *  
- * @version $Revision: 1.14 $ $Date: 2004/05/11 02:19:08 $
+ * @version $Revision: 1.15 $ $Date: 2004/05/19 14:16:31 $
  */
 public abstract class AbstractDiscreteDistribution
     implements DiscreteDistribution {
@@ -40,9 +40,9 @@ public abstract class AbstractDiscreteDistribution
      * @param x0 the inclusive, lower bound
      * @param x1 the inclusive, upper bound
      * @return the cumulative probability. 
-     * @exception MathException if the cumulative probability can not be
+     * @throws MathException if the cumulative probability can not be
      *            computed due to convergence or other numerical errors.
-     * @exception IllegalArgumentException if x0 > x1
+     * @throws IllegalArgumentException if x0 > x1
      */
     public double cumulativeProbability(int x0, int x1) throws MathException {
         if (x0 > x1) {
@@ -58,9 +58,9 @@ public abstract class AbstractDiscreteDistribution
      *
      * @param p the desired probability
      * @return the largest x such that P(X &le; x) <= p
-     * @exception MathException if the inverse cumulative probability can not be
+     * @throws MathException if the inverse cumulative probability can not be
      *            computed due to convergence or other numerical errors.
-     * @exception IllegalArgumentException if p < 0 or p >= 1
+     * @throws IllegalArgumentException if p < 0 or p >= 1
      */
     public int inverseCumulativeProbability(final double p) throws MathException{
         if (p < 0.0 || p >= 1.0) {

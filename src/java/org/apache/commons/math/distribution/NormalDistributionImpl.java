@@ -28,7 +28,7 @@ import org.apache.commons.math.special.Erf;
  * using method {@link #setCdfAlgorithm}. The deafault is the Cody algorithm 
  * {@link org.apache.commons.math.distribution.NormalCDFPreciseAlgorithm}
  * 
- * @version $Revision: 1.8 $ $Date: 2004/05/05 19:59:11 $
+ * @version $Revision: 1.9 $ $Date: 2004/05/19 14:16:31 $
  */
 public class NormalDistributionImpl extends AbstractContinuousDistribution 
 		implements NormalDistribution, Serializable {
@@ -82,6 +82,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 	/**
 	 * Modify the standard deviation.
 	 * @param sd standard deviation for this distribution
+     * @throws IllegalArgumentException if <code>sd</code> is not positive.
 	 */
 	public void setStandardDeviation(double sd) {
 		if (sd <= 0.0) {

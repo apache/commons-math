@@ -50,7 +50,7 @@ import java.io.Serializable;
  * internal storage array is swapped.
  * </p>
  * 
- * @version $Revision: 1.13 $ $Date: 2004/04/27 16:42:34 $
+ * @version $Revision: 1.14 $ $Date: 2004/05/19 14:16:32 $
  */
 public class ContractableDoubleArray extends ExpandableDoubleArray implements Serializable {
 
@@ -248,6 +248,8 @@ public class ContractableDoubleArray extends ExpandableDoubleArray implements Se
      * 
      * @param expansionFactor factor to be checked
      * @param contractionCritera critera to be checked
+     * @throws IllegalArgumentException if the contractionCriteria is less than
+     *         the expansionCriteria.
      */
     protected void checkContractExpand(
         float contractionCritera,

@@ -24,7 +24,7 @@ import org.apache.commons.math.analysis.UnivariateRealSolverUtils;
  * implementations for some of the methods that do not vary from distribution
  * to distribution.
  *  
- * @version $Revision: 1.20 $ $Date: 2004/04/08 20:45:59 $
+ * @version $Revision: 1.21 $ $Date: 2004/05/19 14:16:31 $
  */
 public abstract class AbstractContinuousDistribution
     implements ContinuousDistribution {
@@ -44,7 +44,7 @@ public abstract class AbstractContinuousDistribution
      * @param x0 the lower bound
      * @param x1 the upper bound
      * @return the cumulative probability. 
-     * @exception MathException if the cumulative probability can not be
+     * @throws MathException if the cumulative probability can not be
      *            computed due to convergence or other numerical errors.
      */
     public double cumulativeProbability(double x0, double x1)
@@ -58,8 +58,10 @@ public abstract class AbstractContinuousDistribution
      *
      * @param p the desired probability
      * @return x, such that P(X &lt; x) = <code>p</code>
-     * @exception MathException if the inverse cumulative probability can not be
-     *            computed due to convergence or other numerical errors.
+     * @throws MathException if the inverse cumulative probability can not be
+     *         computed due to convergence or other numerical errors.
+     * @throws IllegalArgumentException if <code>p</code> is not a valid
+     *         probability.
      */
     public double inverseCumulativeProbability(final double p)
         throws MathException {

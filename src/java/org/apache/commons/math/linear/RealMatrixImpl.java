@@ -38,7 +38,7 @@ import java.io.Serializable;
  * explicitly invoke <code>LUDecompose()</code> to recompute the decomposition
  * before using any of the methods above.
  *
- * @version $Revision: 1.19 $ $Date: 2004/04/27 04:37:58 $
+ * @version $Revision: 1.20 $ $Date: 2004/05/19 14:16:32 $
  */
 public class RealMatrixImpl implements RealMatrix, Serializable {
 
@@ -120,7 +120,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
 	 *
 	 * @param m    matrix to be added
 	 * @return     this + m
-	 * @exception  IllegalArgumentException if m is not the same size as this
+	 * @throws  IllegalArgumentException if m is not the same size as this
 	 */
 	public RealMatrix add(RealMatrix m) throws IllegalArgumentException {
 		if (this.getColumnDimension() != m.getColumnDimension() ||
@@ -144,7 +144,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
 	 *
 	 * @param m    matrix to be subtracted
 	 * @return     this + m
-	 * @exception  IllegalArgumentException if m is not the same size as *this
+	 * @throws  IllegalArgumentException if m is not the same size as *this
 	 */
 	public RealMatrix subtract(RealMatrix m) throws IllegalArgumentException {
 		if (this.getColumnDimension() != m.getColumnDimension() ||

@@ -19,7 +19,7 @@ package org.apache.commons.math.util;
 /**
  * Some useful additions to the built-in functions in {@link Math}.
  *
- * @version $Revision: 1.16 $ $Date: 2004/05/09 04:36:08 $
+ * @version $Revision: 1.17 $ $Date: 2004/05/19 14:16:32 $
  */
 public final class MathUtils {
     
@@ -241,6 +241,9 @@ public final class MathUtils {
      * @param n the size of the set
      * @param k the size of the subsets to be counted
      * @return <code>n choose k</code>
+     * @throws IllegalArgumentException if preconditions are not met.
+     * @throws ArithmeticException if the result is too large to be represented
+     *         by a long integer.
      */
     public static long binomialCoefficient(final int n, final int k) {
         if (n < k) {
@@ -285,6 +288,7 @@ public final class MathUtils {
      * @param n the size of the set
      * @param k the size of the subsets to be counted
      * @return <code>n choose k</code>
+     * @throws IllegalArgumentException if preconditions are not met.
      */
     public static double binomialCoefficientDouble(final int n, final int k) {
         return Math.floor(Math.exp(binomialCoefficientLog(n, k)) + 0.5);
@@ -305,6 +309,7 @@ public final class MathUtils {
      * @param n the size of the set
      * @param k the size of the subsets to be counted
      * @return <code>n choose k</code>
+     * @throws IllegalArgumentException if preconditions are not met.
      */
     public static double binomialCoefficientLog(final int n, final int k) {
         if (n < k) {
@@ -355,6 +360,8 @@ public final class MathUtils {
      *
      * @param n argument
      * @return <code>n!</code>
+     * @throws ArithmeticException if the result is too large to be represented
+     *         by a long integer.
      */
     public static long factorial(final int n) {
         long result = Math.round(factorialDouble(n));
@@ -402,6 +409,7 @@ public final class MathUtils {
      *
      * @param n argument
      * @return <code>n!</code>
+     * @throws IllegalArgumentException if preconditions are not met.
      */
     public static double factorialLog(final int n) {
         if (n <= 0) {

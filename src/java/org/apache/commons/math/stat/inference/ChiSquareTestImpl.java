@@ -24,7 +24,7 @@ import org.apache.commons.math.distribution.ChiSquaredDistribution;
 /**
  * Implements Chi-Square test statistics defined in the {@link ChiSquareTest} interface.
  *
- * @version $Revision: 1.1 $ $Date: 2004/05/03 03:02:25 $
+ * @version $Revision: 1.2 $ $Date: 2004/05/19 14:16:32 $
  */
 public class ChiSquareTestImpl implements ChiSquareTest, Serializable {
 
@@ -194,11 +194,11 @@ public class ChiSquareTestImpl implements ChiSquareTest, Serializable {
     
     /**
      * Returns true iff input array is rectangular.
-     * Throws NullPointerException if input array is null
-     * Throws ArrayIndexOutOfBoundsException if input array is empty
      * 
      * @param in array to be tested
      * @return true if the array is rectangular
+     * @throws NullPointerException if input array is null
+     * @throws ArrayIndexOutOfBoundsException if input array is empty
      */
     private boolean isRectangular(long[][] in) {
         for (int i = 1; i < in.length; i++) {
@@ -211,11 +211,11 @@ public class ChiSquareTestImpl implements ChiSquareTest, Serializable {
     
     /**
      * Returns true iff all entries of the input array are > 0.
-     * Throws NullPointerException if input array is null.
      * Returns true if the array is non-null, but empty
      * 
      * @param in array to be tested
      * @return true if all entries of the array are positive
+     * @throws NullPointerException if input array is null
      */
     private boolean isPositive(double[] in) {
         for (int i = 0; i < in.length; i ++) {
@@ -228,11 +228,11 @@ public class ChiSquareTestImpl implements ChiSquareTest, Serializable {
     
     /**
      * Returns true iff all entries of the input array are >= 0.
-     * Throws NullPointerException if input array is null.
      * Returns true if the array is non-null, but empty
      * 
      * @param in array to be tested
      * @return true if all entries of the array are non-negative
+     * @throws NullPointerException if input array is null
      */
     private boolean isNonNegative(double[] in) {
         for (int i = 0; i < in.length; i ++) {
@@ -245,11 +245,11 @@ public class ChiSquareTestImpl implements ChiSquareTest, Serializable {
     
     /**
      * Returns true iff all entries of the input array are > 0.
-     * Throws NullPointerException if input array is null.
      * Returns true if the array is non-null, but empty
      * 
      * @param in array to be tested
      * @return true if all entries of the array are positive
+     * @throws NullPointerException if input array is null
      */
     private boolean isPositive(long[] in) {
         for (int i = 0; i < in.length; i ++) {
@@ -262,11 +262,11 @@ public class ChiSquareTestImpl implements ChiSquareTest, Serializable {
     
     /**
      * Returns true iff all entries of the input array are >= 0.
-     * Throws NullPointerException if input array is null.
      * Returns true if the array is non-null, but empty
      * 
      * @param in array to be tested
      * @return true if all entries of the array are non-negative
+     * @throws NullPointerException if input array is null
      */
     private boolean isNonNegative(long[] in) {
         for (int i = 0; i < in.length; i ++) {
@@ -279,11 +279,11 @@ public class ChiSquareTestImpl implements ChiSquareTest, Serializable {
     
     /**
      * Returns true iff all entries of (all subarrays of) the input array are > 0.
-     * Throws NullPointerException if input array is null.
      * Returns true if the array is non-null, but empty
      * 
      * @param in array to be tested
      * @return true if all entries of the array are positive
+     * @throws NullPointerException if input array is null
      */
     private boolean isPositive(long[][] in) {
         for (int i = 0; i < in.length; i ++) {
@@ -298,11 +298,11 @@ public class ChiSquareTestImpl implements ChiSquareTest, Serializable {
     
     /**
      * Returns true iff all entries of (all subarrays of) the input array are >= 0.
-     * Throws NullPointerException if input array is null.
      * Returns true if the array is non-null, but empty
      * 
      * @param in array to be tested
      * @return true if all entries of the array are non-negative
+     * @throws NullPointerException if input array is null
      */
     private boolean isNonNegative(long[][] in) {
         for (int i = 0; i < in.length; i ++) {

@@ -32,7 +32,7 @@ import org.apache.commons.collections.bag.TreeBag;
  * The values are ordered using the default (natural order), unless a  <code>Comparator</code>
  *  is supplied in the constructor.
  * 
- * @version $Revision: 1.19 $ $Date: 2004/04/24 18:51:01 $
+ * @version $Revision: 1.20 $ $Date: 2004/05/19 14:16:32 $
  */
 public class Frequency implements Serializable {
     
@@ -81,6 +81,7 @@ public class Frequency implements Serializable {
     /**
      * Adds 1 to the frequency count for v
      * @param v the value to add.
+     * @throws IllegalArgumentException if <code>v</code> is not comparable.
      */
     public void addValue(Object v) {
         try {
@@ -147,7 +148,7 @@ public class Frequency implements Serializable {
         long result = 0;
         try { 
             result = freqTable.getCount(v);
-        } catch (Exception ex) {
+        } catch (ClassCastException ex) {
             // ignore and return 0 -- ClassCastException will be thrown if value is not comparable
         }
         return result;
@@ -162,7 +163,7 @@ public class Frequency implements Serializable {
         long result = 0;
         try { 
             result = freqTable.getCount(new Long(v));
-        } catch (Exception ex) {
+        } catch (ClassCastException ex) {
             // ignore and return 0 -- ClassCastException will be thrown if value is not comparable
         }
         return result;
@@ -177,7 +178,7 @@ public class Frequency implements Serializable {
         long result = 0;
         try { 
             result = freqTable.getCount(new Long(v));
-        } catch (Exception ex) {
+        } catch (ClassCastException ex) {
             // ignore and return 0 -- ClassCastException will be thrown if value is not comparable
         }
         return result;
@@ -192,7 +193,7 @@ public class Frequency implements Serializable {
         long result = 0;
         try { 
             result = freqTable.getCount(new Character(v));
-        } catch (Exception ex) {
+        } catch (ClassCastException ex) {
             // ignore and return 0 -- ClassCastException will be thrown if value is not comparable
         }
         return result;

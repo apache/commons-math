@@ -22,7 +22,7 @@ package org.apache.commons.math.util;
  * Collections API by allowing a user to select from a number of 
  * array implementations with support for various storage mechanisms
  * such as automatic expansion, contraction, and array "rolling".
- * @version $Revision: 1.9 $ $Date: 2004/02/21 21:35:16 $
+ * @version $Revision: 1.10 $ $Date: 2004/05/19 14:16:32 $
  */
 public interface DoubleArray {
 
@@ -40,7 +40,8 @@ public interface DoubleArray {
      * 
      * @param index index to fetch a value from
      * @return value stored at the specified index
-     *
+     * @throws ArrayIndexOutOfBoundsException if <code>index</code> is less than
+     *         zero or is greater than <code>getNumElements() - 1</code>.
      */
     double getElement(int index);
 
@@ -50,6 +51,8 @@ public interface DoubleArray {
      * index beyond the current capacity.
      * @param index index to store a value in
      * @param value value to store at the specified index
+     * @throws ArrayIndexOutOfBoundsException if <code>index</code> is less than
+     *         zero or is greater than <code>getNumElements() - 1</code>.
      */
     void setElement(int index, double value);
 

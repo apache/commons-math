@@ -46,7 +46,7 @@ import java.io.Serializable;
  * "fixed" in memory, this implementation will never allocate, or copy
  * the internal storage array to a new array instance.
  * </p>
- * @version $Revision: 1.15 $ $Date: 2004/04/27 16:42:34 $
+ * @version $Revision: 1.16 $ $Date: 2004/05/19 14:16:32 $
  */
 public class FixedDoubleArray implements DoubleArray, Serializable {
 
@@ -127,6 +127,8 @@ public class FixedDoubleArray implements DoubleArray, Serializable {
      * array will throw an ArrayIndexOutOfBoundsException.
      *
      * @see org.apache.commons.math.util.DoubleArray#getElement(int)
+     * @throws ArrayIndexOutOfBoundsException if <code>index</code> is less than
+     *         zero or is greater than <code>getNumElements() - 1</code>.
      */
     public double getElement(int index) {
         if (index > (size - 1)) {
@@ -166,6 +168,8 @@ public class FixedDoubleArray implements DoubleArray, Serializable {
      * </p>
      *
      * @see org.apache.commons.math.util.DoubleArray#setElement(int, double)
+     * @throws ArrayIndexOutOfBoundsException if <code>index</code> is less than
+     *         zero or is greater than <code>getNumElements() - 1</code>.
      */
     public void setElement(int index, double value) {
         if (index > (size - 1)) {
@@ -183,6 +187,7 @@ public class FixedDoubleArray implements DoubleArray, Serializable {
      * of elements
      *
      * @see org.apache.commons.math.util.DoubleArray#addElement(double)
+     * @throws ArrayIndexOutOfBoundsException if array is already at capacity.
      */
     public void addElement(double value) {
         if (size < internalArray.length) {

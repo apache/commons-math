@@ -23,7 +23,7 @@ import org.apache.commons.discovery.tools.DiscoverClass;
 /**
  * Abstract factory class for univariate statistical summaries.
  * 
- * @version $Revision: 1.3 $ $Date: 2004/05/03 14:32:25 $
+ * @version $Revision: 1.4 $ $Date: 2004/05/19 14:16:31 $
  */
 public abstract class DescriptiveStatistics implements Serializable, StatisticalSummary {
 
@@ -32,11 +32,11 @@ public abstract class DescriptiveStatistics implements Serializable, Statistical
      * @param cls the type of <code>DescriptiveStatistics</code> object to
      *        create. 
 	 * @return a new factory. 
-     * @exception InstantiationException is thrown if the object can not be
+     * @throws InstantiationException is thrown if the object can not be
      *            created.
-     * @exception IllegalAccessException is thrown if the type's default
+     * @throws IllegalAccessException is thrown if the type's default
      *            constructor is not accessible.
-     * @exception ClassNotFoundException if the named
+     * @throws ClassNotFoundException if the named
      *            <code>DescriptiveStatistics</code> type can not be found.
 	 */
 	public static DescriptiveStatistics newInstance(String cls) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
@@ -48,9 +48,9 @@ public abstract class DescriptiveStatistics implements Serializable, Statistical
      * @param cls the type of <code>DescriptiveStatistics</code> object to
      *        create. 
 	 * @return a new factory. 
-     * @exception InstantiationException is thrown if the object can not be
+     * @throws InstantiationException is thrown if the object can not be
      *            created.
-     * @exception IllegalAccessException is thrown if the type's default
+     * @throws IllegalAccessException is thrown if the type's default
      *            constructor is not accessible.
 	 */
 	public static DescriptiveStatistics newInstance(Class cls) throws InstantiationException, IllegalAccessException {

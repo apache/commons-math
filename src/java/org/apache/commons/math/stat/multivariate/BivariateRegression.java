@@ -49,7 +49,7 @@ import org.apache.commons.math.distribution.TDistribution;
  * the necessary computations to return the requested statistic.</li>
  * </ul>
  *
- * @version $Revision: 1.2 $ $Date: 2004/04/27 16:42:34 $
+ * @version $Revision: 1.3 $ $Date: 2004/05/19 14:16:32 $
  */
 public class BivariateRegression implements Serializable {
 
@@ -388,7 +388,7 @@ public class BivariateRegression implements Serializable {
      *
      * @return half-width of 95% confidence interval for the slope estimate
      * 
-     * @exception MathException if the confidence interval can not be computed.
+     * @throws MathException if the confidence interval can not be computed.
      */
     public double getSlopeConfidenceInterval() throws MathException {
         return getSlopeConfidenceInterval(0.05d);
@@ -423,7 +423,7 @@ public class BivariateRegression implements Serializable {
      *
      * @param alpha the desired significance level 
      * @return half-width of 95% confidence interval for the slope estimate
-     * @exception MathException if the confidence interval can not be computed.
+     * @throws MathException if the confidence interval can not be computed.
      */
     public double getSlopeConfidenceInterval(double alpha)
         throws MathException {
@@ -453,7 +453,7 @@ public class BivariateRegression implements Serializable {
      * <code>Double.NaN</code>.
      *
      * @return significance level for slope/correlation
-     * @exception MathException if the significance level can not be computed.
+     * @throws MathException if the significance level can not be computed.
      */
     public double getSignificance() throws MathException {
         return (

@@ -24,7 +24,7 @@ import org.apache.commons.math.util.MathUtils;
 /**
  * The default implementation of {@link HypergeometricDistribution}.
  * 
- * @version $Revision: 1.12 $ $Date: 2004/05/11 02:07:58 $
+ * @version $Revision: 1.13 $ $Date: 2004/05/19 14:16:31 $
  */
 public class HypergeometricDistributionImpl extends AbstractDiscreteDistribution
     implements HypergeometricDistribution, Serializable 
@@ -66,7 +66,7 @@ public class HypergeometricDistributionImpl extends AbstractDiscreteDistribution
      * For this disbution, X, this method returns P(X &le; x).
      * @param x the value at which the PDF is evaluated.
      * @return PDF for this distribution. 
-     * @exception MathException if the cumulative probability can not be
+     * @throws MathException if the cumulative probability can not be
      *            computed due to convergence or other numerical errors.
      */
     public double cumulativeProbability(int x) throws MathException{
@@ -218,6 +218,7 @@ public class HypergeometricDistributionImpl extends AbstractDiscreteDistribution
     /**
      * Modify the number of successes.
      * @param num the new number of successes.
+     * @throws IllegalArgumentException if <code>num</code> is negative.
      */
     public void setNumberOfSuccesses(int num) {
         if(num < 0){
@@ -230,6 +231,7 @@ public class HypergeometricDistributionImpl extends AbstractDiscreteDistribution
     /**
      * Modify the population size.
      * @param size the new population size.
+     * @throws IllegalArgumentException if <code>size</code> is not positive.
      */
     public void setPopulationSize(int size) {
         if(size <= 0){
@@ -242,6 +244,7 @@ public class HypergeometricDistributionImpl extends AbstractDiscreteDistribution
     /**
      * Modify the sample size.
      * @param size the new sample size.
+     * @throws IllegalArgumentException if <code>size</code> is negative.
      */
     public void setSampleSize(int size) {
         if (size < 0) {
