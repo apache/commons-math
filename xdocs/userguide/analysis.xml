@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.8 $ $Date: 2004/02/29 18:50:10 $ -->
+<!-- $Revision: 1.9 $ $Date: 2004/04/26 20:47:07 $ -->
 <document url="analysis.html">
   <properties>
     <title>The Commons Math User Guide - Numerical Analysis</title>
@@ -92,6 +92,7 @@ UnivariateRealSolver solver = factory.newDefaultSolver(function);</source>
             <tr><th>Solver</th><th>Factory Method</th><th>Notes on Use</th></tr>
             <tr><td>Bisection</td><td>newBisectionSolver</td><td><div>Root must be bracketted.</div><div>Linear, guaranteed convergence</div></td></tr>
             <tr><td>Brent</td><td>newBrentSolver</td><td><div>Root must be bracketted.</div><div>Super-linear, guaranteed convergence</div></td></tr>
+            <tr><td>Newton</td><td>newNewtonSolver</td><td><div>Uses single value for initialization.</div><div>Super-linear, non-guaranteed convergence</div><div>Function must be differentiable</div></td></tr>
             <tr><td>Secant</td><td>newSecantSolver</td><td><div>Root must be bracketted.</div><div>Super-linear, non-guaranteed convergence</div></td></tr>
           </table>
         </p>

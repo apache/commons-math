@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.6 $ $Date: 2004/02/29 18:50:10 $ -->
+<!-- $Revision: 1.7 $ $Date: 2004/04/26 20:47:07 $ -->
 <document url="utilities.html">
 
 <properties>
@@ -41,9 +41,71 @@
 </subsection>
 
 <subsection name="6.3 Continued Fractions" href="continued_fractions">
-    <p>
-    This is yet to be written. Any contributions will be gratefully accepted!
-    </p>
+  <p>
+    The <a href="../apidocs/org/apache/commons/math/util/ContinuedFraction.html">
+    org.apache.commons.math.util.ContinuedFraction</a> class provides a generic
+    way to create and evaluate continued fractions.  The easiest way to create a
+    continued fraction is to subclass <code>ContinuedFraction</code> and
+    override the <code>getA</code> and <code>getB</code> methods which return
+    the continued fraction terms.  The precise definition of these terms is
+    explained in <a href="http://mathworld.wolfram.com/ContinuedFraction.html">
+    Continued Fraction, equation (1)</a> from MathWorld.
+  </p>
+  <p>
+    As an example, the constant Pi could be computed using the continued fraction
+    defined at <a href="http://functions.wolfram.com/Constants/Pi/10/0002/">
+    http://functions.wolfram.com/Constants/Pi/10/0002/</a>.  The following
+    anonymous class provides the implementation:
+    <source>ContinuedFraction c = new ContinuedFraction() {
+    public double getA(int n, double x) {
+        switch(n) {
+            case 0: return 3.0;
+            default: return 6.0;
+        }
+    }
+    
+    public double getB(int n, double x) {
+        double y = (2.0 * n) - 1.0;
+        return y * y;
+    }
+}</source>
+  </p>
+  <p>
+    Then, to evalute Pi, simply call any of the <code>evalute</code> methods
+    (Note, the point of evalution in this example is meaningless since Pi is a
+    constant).
+  </p>
+  <p>
+    For a more practical use of continued fractions, consider the exponential
+    function with the continued fraction definition of
+    <a href="http://functions.wolfram.com/ElementaryFunctions/Exp/10/">
+    http://functions.wolfram.com/ElementaryFunctions/Exp/10/</a>.  The
+    following anonymous class provides its implementation:
+    <source>ContinuedFraction c = new ContinuedFraction() {
+    public double getA(int n, double x) {
+        if (n % 2 == 0) {
+            switch(n) {
+                case 0: return 1.0;
+                default: return 2.0;
+            }
+        } else {
+            return n;
+        }
+    }
+    
+    public double getB(int n, double x) {
+        if (n % 2 == 0) {
+            return -x;
+        } else {
+            return x;
+        }
+    }
+}</source>
+  </p>
+  <p>
+    Then, to evalute <i>e</i><sup>x</sup> for any value x, simply call any of the
+    <code>evalute</code> methods.
+  </p>
 </subsection>
 
 <subsection name="6.4 binomial coefficients, factorials and other common math functions" href="math_utils">

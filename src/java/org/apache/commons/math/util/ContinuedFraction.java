@@ -24,12 +24,15 @@ import org.apache.commons.math.MathException;
  * Provides a generic means to evaluate continued fractions.  Subclasses simply
  * provided the a and b coefficients to evaluate the continued fraction.
  * 
+ * <p>
  * References:
  * <ul>
  * <li><a href="http://mathworld.wolfram.com/ContinuedFraction.html">
  * Continued Fraction</a></li>
  * </ul>
- * @version $Revision: 1.11 $ $Date: 2004/02/21 21:35:16 $
+ * </p>
+ * 
+ * @version $Revision: 1.12 $ $Date: 2004/04/26 20:47:07 $
  */
 public abstract class ContinuedFraction implements Serializable {
     /** Maximum allowed numerical error. */
