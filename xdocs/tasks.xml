@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Revision: 1.8 $ $Date: 2003/09/24 20:15:50 $ -->
+<!-- $Revision: 1.9 $ $Date: 2003/09/26 19:30:33 $ -->
 <document>
   <properties>
     <title>Tasks: Done And To Do</title>
@@ -40,8 +40,7 @@
           <dt>Analysis.</dt>
           <dd>
             <ul>
-              <li>Framework and implementation strategie(s) for finding roots or real-valued functions of one (real) variable.</li>
-              <li>Cubic spline interpolation.</li>
+              <li>Rework unit tests for root finding and spline interpolation.</li>
               <li>CheckStyle with modified properties still shows many errors.  Try to clean these up.</li>
             </ul>
           </dd>
@@ -62,6 +61,8 @@
     <section name="Completed">
       <subsection name="Since Conception">
         <ul>
+          <li>Framework and implementation strategie(s) for finding roots or real-valued functions of one (real) variable. Implemented algorithms: Brent-Dekker, secant, simple bisection.</li>
+          <li>Cubic spline interpolation.</li>
           <li>Bivariate Regression, correlation. </li>
           <li>Sampling from Collections</li>
           <li>Add higher order moments to Univariate implementations.</li>

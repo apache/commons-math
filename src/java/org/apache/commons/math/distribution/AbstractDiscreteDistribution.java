@@ -59,7 +59,7 @@ package org.apache.commons.math.stat.distribution;
  * implementations for some of the methods that do not vary from distribution
  * to distribution.
  *  
- * @version $Revision: 1.1 $ $Date: 2003/08/16 17:06:15 $
+ * @version $Revision: 1.2 $ $Date: 2003/09/26 19:30:33 $
  */
 public abstract class AbstractDiscreteDistribution
     implements DiscreteDistribution {
@@ -139,7 +139,7 @@ public abstract class AbstractDiscreteDistribution
     /**
      * Access the domain value lower bound, based on <code>p</code>, used to
      * bracket a PDF root.  This method is used by
-     * {@link #inverseCummulativeProbability(int)} to find critical values.
+     * {@link #inverseCummulativeProbability(double)} to find critical values.
      * 
      * @param p the desired probability for the critical value
      * @return domain value lower bound, i.e.
@@ -150,7 +150,7 @@ public abstract class AbstractDiscreteDistribution
     /**
      * Access the domain value upper bound, based on <code>p</code>, used to
      * bracket a PDF root.  This method is used by
-     * {@link #inverseCummulativeProbability(int)} to find critical values.
+     * {@link #inverseCummulativeProbability(double)} to find critical values.
      * 
      * @param p the desired probability for the critical value
      * @return domain value upper bound, i.e.

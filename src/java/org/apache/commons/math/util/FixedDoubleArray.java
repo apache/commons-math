@@ -82,7 +82,7 @@ package org.apache.commons.math.util;
  * "fixed" in memory, this implementation will never allocate, or copy
  * the internal storage array to a new array instance.
  * </p>
- * @version $Revision: 1.6 $ $Date: 2003/09/07 03:12:56 $
+ * @version $Revision: 1.7 $ $Date: 2003/09/26 19:30:33 $
  */
 public class FixedDoubleArray implements DoubleArray {
 
@@ -144,7 +144,7 @@ public class FixedDoubleArray implements DoubleArray {
 
     /**
      * Retrieves the current size of the array.
-     * @see org.apache.commons.math.DoubleArray#getNumElements()
+     * @see org.apache.commons.math.util.DoubleArray#getNumElements()
      */
     public int getNumElements() {
         return size;
@@ -159,7 +159,7 @@ public class FixedDoubleArray implements DoubleArray {
      * 2 - trying to retrieve an element outside of the current element
      * array will throw an ArrayIndexOutOfBoundsException.
      *
-     * @see org.apache.commons.math.DoubleArray#getElement(int)
+     * @see org.apache.commons.math.util.DoubleArray#getElement(int)
      */
     public double getElement(int index) {
         if (index > (size - 1)) {
@@ -198,7 +198,7 @@ public class FixedDoubleArray implements DoubleArray {
      * </ul>
      * </p>
      *
-     * @see org.apache.commons.math.DoubleArray#setElement(int, double)
+     * @see org.apache.commons.math.util.DoubleArray#setElement(int, double)
      */
     public void setElement(int index, double value) {
         if (index > (size - 1)) {
@@ -215,7 +215,7 @@ public class FixedDoubleArray implements DoubleArray {
      * this array has already met or exceeded the maximum number
      * of elements
      *
-     * @see org.apache.commons.math.DoubleArray#addElement(double)
+     * @see org.apache.commons.math.util.DoubleArray#addElement(double)
      */
     public void addElement(double value) {
         if (size < internalArray.length) {
@@ -305,7 +305,7 @@ public class FixedDoubleArray implements DoubleArray {
      * 
      * @return The array of elements added to this DoubleArray
      *         implementation.
-     * @see org.apache.commons.math.DoubleArray#getElements()
+     * @see org.apache.commons.math.util.DoubleArray#getElements()
      */
     public double[] getElements() {
         double[] copy = new double[size];
@@ -336,7 +336,7 @@ public class FixedDoubleArray implements DoubleArray {
      * setting the size of the array back to zero, and reinitializing
      * the internal storage array.
      *
-     * @see org.apache.commons.math.DoubleArray#clear()
+     * @see org.apache.commons.math.util.DoubleArray#clear()
      */
     public void clear() {
         size = 0;

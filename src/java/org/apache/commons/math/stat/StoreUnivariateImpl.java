@@ -57,7 +57,7 @@ import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 import org.apache.commons.math.util.ContractableDoubleArray;
 
 /**
- * @version $Revision: 1.6 $ $Date: 2003/09/07 03:12:56 $
+ * @version $Revision: 1.7 $ $Date: 2003/09/26 19:30:32 $
  */
 public class StoreUnivariateImpl extends AbstractStoreUnivariate {
 
@@ -74,7 +74,7 @@ public class StoreUnivariateImpl extends AbstractStoreUnivariate {
     }
 
     /**
-     * @see org.apache.commons.math.StoreUnivariate#getValues()
+     * @see org.apache.commons.math.stat.StoreUnivariate#getValues()
      */
     public double[] getValues() {
 
@@ -89,21 +89,21 @@ public class StoreUnivariateImpl extends AbstractStoreUnivariate {
     }
 
     /**
-     * @see org.apache.commons.math.StoreUnivariate#getElement(int)
+     * @see org.apache.commons.math.stat.StoreUnivariate#getElement(int)
      */
     public double getElement(int index) {
         return eDA.getElement(index);
     }
 
     /**
-     * @see org.apache.commons.math.Univariate#getN()
+     * @see org.apache.commons.math.stat.Univariate#getN()
      */
     public int getN() {
         return eDA.getNumElements();
     }
 
     /**
-     * @see org.apache.commons.math.Univariate#addValue(double)
+     * @see org.apache.commons.math.stat.Univariate#addValue(double)
      */
     public synchronized void addValue(double v) {
         if (windowSize != Univariate.INFINITE_WINDOW) {
@@ -123,7 +123,7 @@ public class StoreUnivariateImpl extends AbstractStoreUnivariate {
     }
 
     /**
-     * @see org.apache.commons.math.Univariate#clear()
+     * @see org.apache.commons.math.stat.Univariate#clear()
      */
     public synchronized void clear() {
         super.clear();
@@ -131,7 +131,7 @@ public class StoreUnivariateImpl extends AbstractStoreUnivariate {
     }
 
     /**
-     * @see org.apache.commons.math.Univariate#setWindowSize(int)
+     * @see org.apache.commons.math.stat.Univariate#setWindowSize(int)
      */
     public synchronized void setWindowSize(int windowSize) {
         this.windowSize = windowSize;

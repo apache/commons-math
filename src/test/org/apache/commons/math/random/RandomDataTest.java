@@ -14,7 +14,7 @@
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in
  *    the documentation and/or other materials provided with the
- *    distribution. 
+ *    distribution.
  *
  * 3. The end-user documentation included with the redistribution, if
  *    any, must include the following acknowlegement:
@@ -68,7 +68,7 @@ import org.apache.commons.math.stat.UnivariateImpl;
 /**
  * Test cases for the RandomData class.
  *
- * @version $Revision: 1.2 $ $Date: 2003/07/07 23:19:21 $
+ * @version $Revision: 1.3 $ $Date: 2003/09/26 19:30:33 $
  */
 
 public final class RandomDataTest extends TestCase {

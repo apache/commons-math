@@ -88,7 +88,7 @@ import java.io.Serializable;
  * expand the array 10 times - first from 2 -> 4. then 4 -> 8, 8 -> 16,
  * and so on until we reach 4096 which is sufficient to hold 3546 elements.
  * </p>
- * @version $Revision: 1.5 $ $Date: 2003/09/07 03:12:56 $
+ * @version $Revision: 1.6 $ $Date: 2003/09/26 19:30:33 $
  */
 public class ExpandableDoubleArray implements Serializable, DoubleArray {
 
@@ -415,7 +415,7 @@ public class ExpandableDoubleArray implements Serializable, DoubleArray {
     }
 
     /**
-     * @see org.apache.commons.math.DoubleArray#getElements()
+     * @see org.apache.commons.math.util.DoubleArray#getElements()
      */
     public double[] getElements() {
         double[] elementArray = new double[numElements];

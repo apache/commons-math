@@ -88,7 +88,7 @@ import java.io.Serializable;
  * internal storage array is swapped.
  * </p>
  * 
- * @version $Revision: 1.4 $ $Date: 2003/09/07 03:12:56 $
+ * @version $Revision: 1.5 $ $Date: 2003/09/26 19:30:33 $
  */
 public class ContractableDoubleArray
     extends ExpandableDoubleArray
@@ -246,7 +246,7 @@ public class ContractableDoubleArray
      * must validate the combination of expansionFactor and 
      * contractionCriteria.
      *
-     * @see org.apache.commons.math.ExpandableDoubleArray#setExpansionFactor(float)
+     * @see org.apache.commons.math.util.ExpandableDoubleArray#setExpansionFactor(float)
      */
     public void setExpansionFactor(float expansionFactor) {
         checkContractExpand(getContractionCriteria(), expansionFactor);
@@ -318,7 +318,7 @@ public class ContractableDoubleArray
     }
 
     /**
-     * @see org.apache.commons.math.ExpandableDoubleArray#discardFrontElements(int)
+     * @see org.apache.commons.math.util.ExpandableDoubleArray#discardFrontElements(int)
      */
     public synchronized void discardFrontElements(int i) {
         super.discardFrontElements(i);

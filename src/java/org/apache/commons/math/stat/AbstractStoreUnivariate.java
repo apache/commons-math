@@ -59,7 +59,7 @@ import org.apache.commons.math.stat.univariate.rank.Percentile;
 
 /**
  * Provides univariate measures for an array of doubles. 
- * @version $Revision: 1.10 $ $Date: 2003/07/15 03:45:10 $
+ * @version $Revision: 1.11 $ $Date: 2003/09/26 19:30:32 $
  */
 public abstract class AbstractStoreUnivariate
     extends AbstractUnivariate
@@ -92,7 +92,7 @@ public abstract class AbstractStoreUnivariate
     }
     
     /**
-     * @see org.apache.commons.math.stat2.AbstractStoreUnivariate#getSortedValues()
+     * @see org.apache.commons.math.stat.StoreUnivariate#getSortedValues()
      */
     public double[] getSortedValues() {
         double[] sort = getValues();

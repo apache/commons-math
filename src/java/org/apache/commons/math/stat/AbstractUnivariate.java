@@ -68,7 +68,7 @@ import org.apache.commons.math.stat.univariate.summary.SumOfSquares;
 
 /**
  * Provides univariate measures for an array of doubles.
- * @version $Revision: 1.2 $ $Date: 2003/07/15 03:45:10 $  
+ * @version $Revision: 1.3 $ $Date: 2003/09/26 19:30:32 $  
  */
 public abstract class AbstractUnivariate implements Univariate {
 
@@ -294,7 +294,7 @@ public abstract class AbstractUnivariate implements Univariate {
     }
 
     /**
-     * @see org.apache.commons.math.Univariate#clear()
+     * @see org.apache.commons.math.stat.Univariate#clear()
      */
     public void clear() {
         this.n = 0;
@@ -313,14 +313,14 @@ public abstract class AbstractUnivariate implements Univariate {
     }
 
     /**
-     * @see org.apache.commons.math.Univariate#getWindowSize()
+     * @see org.apache.commons.math.stat.Univariate#getWindowSize()
      */
     public int getWindowSize() {
         return windowSize;
     }
 
     /**
-     * @see org.apache.commons.math.Univariate#setWindowSize(int)
+     * @see org.apache.commons.math.stat.Univariate#setWindowSize(int)
      */
     public void setWindowSize(int windowSize) {
         clear();

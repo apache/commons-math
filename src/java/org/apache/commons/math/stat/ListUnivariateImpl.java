@@ -60,7 +60,7 @@ import org.apache.commons.math.util.DefaultTransformer;
 import org.apache.commons.math.util.NumberTransformer;
 
 /**
- * @version $Revision: 1.5 $ $Date: 2003/09/07 03:12:56 $
+ * @version $Revision: 1.6 $ $Date: 2003/09/26 19:30:32 $
  */
 public class ListUnivariateImpl
     extends AbstractStoreUnivariate
@@ -97,7 +97,7 @@ public class ListUnivariateImpl
     }
 
     /**
-     * @see org.apache.commons.math.StoreUnivariate#getValues()
+     * @see org.apache.commons.math.stat.StoreUnivariate#getValues()
      */
     public double[] getValues() {
 
@@ -124,7 +124,7 @@ public class ListUnivariateImpl
     }
 
     /**
-     * @see org.apache.commons.math.StoreUnivariate#getElement(int)
+     * @see org.apache.commons.math.stat.StoreUnivariate#getElement(int)
      */
     public double getElement(int index) {
 
@@ -148,7 +148,7 @@ public class ListUnivariateImpl
     }
 
     /**
-     * @see org.apache.commons.math.Univariate#getN()
+     * @see org.apache.commons.math.stat.Univariate#getN()
      */
     public int getN() {
         int n = 0;
@@ -166,7 +166,7 @@ public class ListUnivariateImpl
     }
 
     /**
-     * @see org.apache.commons.math.Univariate#addValue(double)
+     * @see org.apache.commons.math.stat.Univariate#addValue(double)
      */
     public void addValue(double v) {
         list.add(new Double(v));
@@ -181,7 +181,7 @@ public class ListUnivariateImpl
     }
 
     /**
-     * @see org.apache.commons.math.Univariate#clear()
+     * @see org.apache.commons.math.stat.Univariate#clear()
      */
     public void clear() {
         super.clear();

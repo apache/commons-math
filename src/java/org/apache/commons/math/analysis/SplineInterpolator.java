@@ -56,7 +56,7 @@ package org.apache.commons.math.analysis;
 /**
  * Computes a natural spline interpolation for the data set.
  *
- * @version $Revision: 1.4 $ $Date: 2003/09/07 03:12:56 $
+ * @version $Revision: 1.5 $ $Date: 2003/09/26 19:30:32 $
  *
  */
 public class SplineInterpolator implements UnivariateRealInterpolator {
@@ -71,8 +71,7 @@ public class SplineInterpolator implements UnivariateRealInterpolator {
      */
     public UnivariateRealFunction interpolate(double[] xval, double[] yval) {
         if (xval.length != yval.length) {
-            throw new IllegalArgumentException(
-                "Dataset arrays must have same length.");
+            throw new IllegalArgumentException("Dataset arrays must have same length.");
         }
 
         if (c == null) {
@@ -82,8 +81,7 @@ public class SplineInterpolator implements UnivariateRealInterpolator {
             // Separation should be checked too (not implemented: which criteria?).
             for (int i = 0; i < n; i++) {
                 if (xval[i] >= xval[i + 1]) {
-                    throw new IllegalArgumentException(
-                        "Dataset must specify sorted, ascending x values.");
+                    throw new IllegalArgumentException("Dataset must specify sorted, ascending x values.");
                 }
             }
             // Vectors for the equation system. There are n-1 equations for the unknowns s[i] (1<=i<=N-1),
@@ -95,36 +93,39 @@ public class SplineInterpolator implements UnivariateRealInterpolator {
             //                           ...
             //                     l[N-4]*s[N-3]+d[N-3]*s[N-2]+u[N-3]*s[N-1] = b[N-3]
             //                                   l[N-3]*s[N-2]+d[N-2]*s[N-1] = b[N-2]
-            // Vector b is the right hand side of the system.
+            // Vector b is the right hand side (RHS) of the system.
             double b[] = new double[n - 1];
             // Vector d is diagonal of the matrix and also holds the computed solution.
             double d[] = new double[n - 1];
-            // u[] and l[] are not really needed, the computation can be folded into the
-            // system solving loops.
-            //double u[] = new double[n - 2]; // upper diagonal
-            //double l[] = new double[n - 2]; // lower diagonal
-            // Setup RHS and diagonal.
+            // Setup right hand side and diagonal.
+            double dquot = (yval[1] - yval[0]) / (xval[1] - xval[0]);
             for (int i = 0; i < n - 1; i++) {
                 // TODO avoid recomputing the term
                 //    (yval[i + 2] - yval[i + 1]) / (xval[i + 2] - xval[i + 1])
                 // take it from the previous loop pass. Note: the interesting part of performance
                 // loss is the range check in the array access, not the computation itself.
-                b[i] = 6.0 * ((yval[i + 2] - yval[i + 1]) / (xval[i + 2] - 
-                    xval[i + 1]) - (yval[i + 1] - yval[i]) / (xval[i + 1] -
-                    xval[i]));
+                double dquotNext = 
+                    (yval[i + 2] - yval[i + 1]) / (xval[i + 2] - xval[i + 1]);
+                b[i] = 6.0 * (dquotNext - dquot);
                 d[i] = 2.0 * (xval[i + 2] - xval[i]);
+                dquot = dquotNext;
             }
+            // u[] and l[] (for the upper and lower diagonal respectively) are not
+            // really needed, the computation is folded into the system solving loops.
+            // Keep this for documentation purposes:
+            //double u[] = new double[n - 2]; // upper diagonal
+            //double l[] = new double[n - 2]; // lower diagonal
             // Set up upper and lower diagonal. Keep the offsets in mind.
             //for (int i = 0; i < n - 2; i++) {
-            //u[i] = xval[i + 2] - xval[i + 1];
-            //l[i] = xval[i + 2] - xval[i + 1];
+            //  u[i] = xval[i + 2] - xval[i + 1];
+            //  l[i] = xval[i + 2] - xval[i + 1];
             //}
             // Solve the system: forward pass.
             for (int i = 0; i < n - 2; i++) {
-                // TODO: This relies on compiler for CSE of delta/d[i]. Is this a reasonable assumption?
                 double delta = xval[i + 2] - xval[i + 1];
-                d[i + 1] -= delta * delta / d[i];
-                b[i + 1] -= b[i] * delta / d[i];
+                double deltaquot = delta / d[i];
+                d[i + 1] -= delta * deltaquot;
+                b[i + 1] -= b[i] * deltaquot;
             }
             // Solve the system: backward pass.
             d[n - 2] = b[n - 2] / d[n - 2];
@@ -134,23 +135,23 @@ public class SplineInterpolator implements UnivariateRealInterpolator {
             // Compute coefficients as usual polynomial coefficients.
             // Not the best with respect to roundoff on evaluation, but simple.
             c = new double[n][4];
-            c[0][3] = d[0] / (xval[1] - xval[0]) / 6.0;
+            double delta = xval[1] - xval[0];
+            c[0][3] = d[0] / delta / 6.0;
             c[0][2] = 0.0;
-            c[0][1] = (yval[1] - yval[0]) / (xval[1] - xval[0]) - d[0] * 
-                (xval[1] - xval[0]) / 6.0;
+            c[0][1] = (yval[1] - yval[0]) / delta - d[0] * delta / 6.0;
             for (int i = 1; i < n - 2; i++) {
-                // TODO: This relies on compiler for CSE of xval[i + 1] - xval[i]. Is this a reasonable assumption?
-                c[i][3] = (d[i] - d[i - 1]) / (xval[i + 1] - xval[i]) / 6.0;
+                delta = xval[i + 1] - xval[i];
+                c[i][3] = (d[i] - d[i - 1]) / delta / 6.0;
                 c[i][2] = d[i - 1] / 2.0;
-                c[i][1] = (yval[i + 1] - yval[i]) / (xval[i + 1] - xval[i]) -
-                    d[i] * (xval[i + 1] - xval[i]) / 6.0 - d[i - 1] * 
-                    (xval[i + 1] - xval[i]) / 3.0;
+                c[i][1] =
+                    (yval[i + 1] - yval[i]) / delta
+                        - (d[i] / 2.0 - d[i - 1]) * delta / 3.0;
             }
-            // TODO: again, CSE aspects.
-            c[n - 1][3] = -d[n - 2] / (xval[n] - xval[n - 1]) / 6.0;
+            delta = (xval[n] - xval[n - 1]);
+            c[n - 1][3] = -d[n - 2] / delta / 6.0;
             c[n - 1][2] = d[n - 2] / 2.0;
-            c[n - 1][1] = (yval[n] - yval[n - 1]) / (xval[n] - xval[n - 1]) -
-                d[n - 2] * (xval[n] - xval[n - 1]) / 3.0;
+            c[n - 1][1] =
+                (yval[n] - yval[n - 1]) / delta - d[n - 2] * delta / 3.0;
             for (int i = 0; i < n; i++) {
                 c[i][0] = yval[i];
             }
