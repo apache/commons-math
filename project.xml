@@ -42,7 +42,7 @@
   </licenses>
   <gumpRepositoryId>jakarta</gumpRepositoryId>
   <issueTrackingUrl>http://issues.apache.org/bugzilla/enter_bug.cgi?reporter=&amp;product=Commons&amp;version=unspecified&amp;component=Math&amp;rep_platform=All&amp;op_sys=All&amp;priority=Other&amp;bug_severity=normal&amp;bug_status=NEW&amp;assigned_to=&amp;cc=&amp;bug_file_loc=&amp;short_desc=%5Bpatch%5D+%22Your+subject+heading+here%22&amp;comment=Please+provide+details+here.+Its+best+to+submit+patches+that+alter+existing+file%0D%0Acontent+in+%22unified+cvs+diff%22+format.+%0D%0A%0D%0ASubmissions+that+provide+new+files+can+be+supplied+as+direct+file+attachments+or%0D%0Aarchives+in+zip+or+tar.gz+format.+please+be+kind+enough+to+identify+the+format%0D%0Aof+the+attached+archive+as+bugzill+tends+to+strip+these+characterstics+by%0D%0Aremoving+the+files+extension.&amp;maketemplate=Remember+values+as+bookmarkable+template&amp;form_name=enter_bug</issueTrackingUrl>
-  <siteAddress>jakarta.apache.org</siteAddress>
+  <siteAddress>cvs.apache.org</siteAddress>
   <siteDirectory>/www/jakarta.apache.org/commons/${pom.artifactId.substring(8)}/</siteDirectory>
   <distributionDirectory>/www/jakarta.apache.org/builds/jakarta-commons/${pom.artifactId.substring(8)}/</distributionDirectory>
   <repository>
@@ -54,13 +54,13 @@
       <name>Commons Dev List</name>
       <subscribe>commons-dev-subscribe@jakarta.apache.org</subscribe>
       <unsubscribe>commons-dev-unsubscribe@jakarta.apache.org</unsubscribe>
-      <archive>http://mail-archives.apache.org/eyebrowse/SummarizeList?listName=commons-dev@jakarta.apache.org</archive>
+      <archive>http://mail-archives.eu.apache.org/mod_mbox/jakarta-commons-dev/</archive>
     </mailingList>
     <mailingList>
       <name>Commons User List</name>
       <subscribe>commons-user-subscribe@jakarta.apache.org</subscribe>
       <unsubscribe>commons-user-unsubscribe@jakarta.apache.org</unsubscribe>
-      <archive>http://mail-archives.apache.org/eyebrowse/SummarizeList?listName=commons-user@jakarta.apache.org</archive>
+      <archive>http://mail-archives.eu.apache.org/mod_mbox/jakarta-commons-user/</archive>
     </mailingList>
   </mailingLists>
   <versions>
