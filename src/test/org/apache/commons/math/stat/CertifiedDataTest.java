@@ -69,7 +69,7 @@ import org.apache.commons.logging.*;
  * Test cases for the {@link Univariate} class.
  *
  * @author Mark R. Diggory
- * @version $Revision: 1.2 $ $Date: 2003/06/02 04:27:26 $
+ * @version $Revision: 1.3 $ $Date: 2003/06/02 04:58:33 $
  */
 
 public class CertifiedDataTest extends TestCase {
@@ -92,7 +92,6 @@ public class CertifiedDataTest extends TestCase {
 	 */
 	public CertifiedDataTest(String name) {
 		super(name);
-		setUp();
 	}
 
 	/* (non-Javadoc)
@@ -121,7 +120,7 @@ public class CertifiedDataTest extends TestCase {
 
 	/**
 	 * Test UnivariateImpl
-	 */
+ 	
 	public void testUnivariateImpl() {
 
 		for (int i = 0; i < dataFiles.length; i++) {
@@ -144,7 +143,7 @@ public class CertifiedDataTest extends TestCase {
 
 		}
 	}
-
+	*/
 	/**
 	 * Test UnivariateImpl
 	 */
