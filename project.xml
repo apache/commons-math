@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Revision: 1.38 $ $Date: 2004/01/30 14:19:26 $ -->
+<!-- $Revision: 1.39 $ $Date: 2004/01/30 19:52:08 $ -->
 <project>
   <extend>../project.xml</extend>
-
-
   <name>Math</name>
   <id>commons-math</id>
-  <currentVersion>0.1-dev</currentVersion>
-
+  <currentVersion>1.0-dev</currentVersion>
   <organization>
     <name>Apache Software Foundation</name>
     <url>http://www.apache.org</url>
     <logo>http://jakarta.apache.org/images/jakarta-logo.gif</logo>
   </organization>
-
   <inceptionYear>2003</inceptionYear>
   <logo>/images/math.gif</logo>
   <shortDescription>
@@ -25,46 +21,45 @@ The Math project is a library of lightweight, self-contained mathematics and sta
   <siteDirectory>/www/jakarta.apache.org/commons/math/</siteDirectory>
   <versions>
     <version>
-      <id>0.1-dev</id>
-      <name>0.1-dev</name>
+      <id>1.0</id>
+      <name>1.0-dev</name>
     </version>
   </versions>
-
   <developers>
-  	<developer>
-     <name>Albert Davidson Chou</name>
-     <email>hotfusionman@yahoo.com</email>
-    </developer>  
+    <developer>
+      <name>Albert Davidson Chou</name>
+      <email>achou at apache dot org</email>
+    </developer>
     <developer>
       <name>Mark Diggory</name>
       <id>mdiggory</id>
-      <email>mdiggory@apache.org</email>
-    </developer> 
+      <email>mdiggory at apache dot org</email>
+    </developer>
     <developer>
       <name>Robert Burrell Donkin</name>
       <id>rdonkin</id>
-      <email>rdonkin@apache.org</email>
+      <email>rdonkin at apache dot org</email>
     </developer>
     <developer>
       <name>Tim O'Brien</name>
       <id>tobrien</id>
-      <email>tobrien@apache.org</email>
-    </developer> 
+      <email>tobrien at apache dot org</email>
+    </developer>
     <developer>
-     <name>J. Pietschmann</name>
-     <id>pietsch</id>
-     <email>j3322ptm@yahoo.de</email>
-    </developer> 
+      <name>J. Pietschmann</name>
+      <id>pietsch</id>
+      <email>j3322ptm at yahoo dot de</email>
+    </developer>
     <developer>
-     <name>Phil Steitz</name>
-     <id>psteitz</id>
-     <email>psteitz@apache.org</email>
-   </developer>   
+      <name>Phil Steitz</name>
+      <id>psteitz</id>
+      <email>psteitz at apache dot org</email>
+    </developer>
     <developer>
-     <name>Brent Worden</name>
-     <id>brentworden</id>
-     <email>brentworden@apache.org</email>
-    </developer>  
+      <name>Brent Worden</name>
+      <id>brentworden</id>
+      <email>brentworden at apache dot org</email>
+    </developer>
   </developers>
 
   <contributors>
