@@ -49,7 +49,7 @@ import org.apache.commons.math.distribution.TDistribution;
  * the necessary computations to return the requested statistic.</li>
  * </ul>
  *
- * @version $Revision: 1.1 $ $Date: 2004/10/08 05:08:18 $
+ * @version $Revision: 1.2 $ $Date: 2004/10/24 06:27:14 $
  */
 public class SimpleRegression implements Serializable {
 
@@ -463,8 +463,7 @@ public class SimpleRegression implements Serializable {
      * @throws MathException if the significance level can not be computed.
      */
     public double getSignificance() throws MathException {
-        return (
-            1.0 - getTDistribution().cumulativeProbability(
+        return 2d* (1.0 - getTDistribution().cumulativeProbability(
                     Math.abs(getSlope()) / getSlopeStdErr()));
     }
 
