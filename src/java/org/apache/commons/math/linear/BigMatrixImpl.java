@@ -43,7 +43,7 @@ import java.math.BigDecimal;
  * As specified in the {@link BigMatrix} interface, matrix element indexing
  * is 0-based -- e.g., <code>getEntry(0, 0)</code>
  * returns the element in the first row, first column of the matrix.</li></ul>
- * @version $Revision: 1.7 $ $Date: 2004/10/25 02:21:20 $
+ * @version $Revision: 1.8 $ $Date: 2004/10/25 03:12:28 $
  */
 public class BigMatrixImpl implements BigMatrix, Serializable {
     
@@ -314,42 +314,6 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     }
     
     /**
-     * Overwrites the underlying data for the matrix
-     * with a fresh copy of <code>inData</code>.
-     *
-     * @param  inData 2-dimensional array of entries
-     */
-    public void setData(BigDecimal[][] inData) {
-        copyIn(inData);
-        lu = null;
-    }
-    
-    /**
-     * Overwrites the underlying data for the matrix
-     * with a fresh copy of <code>inData</code>.
-     *
-     * @param  inData 2-dimensional array of entries
-     */
-    public void setData(double[][] inData) {
-        copyIn(inData);
-        lu = null;
-    }
-    
-    /**
-     * Overwrites the underlying data for the matrix with
-     * <code>BigDecimal</code> entries with values represented by the strings
-     * in <code>data</code>.
-     *
-     * @param  data  2-dimensional array of entries
-     * @throws NumberFormatException if any of the entries in <code>data</code>
-     *    are not valid representations of <code>BigDecimal</code> values
-     */
-    public void setData(String[][] data) {
-        copyIn(data);
-        lu = null;
-    }
-    
-    /**
      * Returns a reference to the underlying data array.
      * <p>
      * Does not make a fresh copy of the underlying data.
@@ -358,19 +322,6 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      */
     public BigDecimal[][] getDataRef() {
         return data;
-    }
-    
-    /**
-     * Overwrites the underlying data for the matrix
-     * with a reference to <code>inData</code>.
-     * <p>
-     * Does not make a fresh copy of <code>data</code>.
-     *
-     * @param  inData 2-dimensional array of entries
-     */
-    public void setDataRef(BigDecimal[][] inData) {
-        this.data = inData;
-        lu = null;
     }
     
     /***
@@ -660,71 +611,6 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      */
     public double getEntryAsDouble(int row, int column) throws MatrixIndexException {
         return getEntry(row,column).doubleValue();
-    }
-    
-    /**
-     * Sets the entry in the specified row and column to the specified value.
-     * <p>
-     * Row and column indices start at 0 and must satisfy 
-     * <ul>
-     * <li><code>0 <= row < rowDimension</code></li>
-     * <li><code> 0 <= column < columnDimension</code></li>
-     * </ul>
-     * otherwise a <code>MatrixIndexException</code> is thrown.
-     * 
-     * @param row    row location of entry to be set 
-     * @param column    column location of entry to be set
-     * @param value  value to set 
-     * @throws MatrixIndexException if the row or column index is not valid
-     */
-    public void setEntry(int row, int column, BigDecimal value)
-    throws MatrixIndexException {
-        if (!isValidCoordinate(row,column)) {
-            throw new MatrixIndexException("matrix entry does not exist");
-        }
-        data[row][column] = value;
-        lu = null;
-    }
-    
-    /**
-     * Sets the entry in the specified row and column to the specified value.
-     * <p>
-     * Row and column indices start at 0 and must satisfy 
-     * <ul>
-     * <li><code>0 <= row < rowDimension</code></li>
-     * <li><code> 0 <= column < columnDimension</code></li>
-     * </ul>
-     * otherwise a <code>MatrixIndexException</code> is thrown.
-     * 
-     * @param row    row location of entry to be set 
-     * @param column    column location of entry to be set
-     * @param value  value to set 
-     * @throws MatrixIndexException if the row or column index is not valid
-     */
-    public void setEntry(int row, int column, double value) throws MatrixIndexException {
-        setEntry(row, column, new BigDecimal(value));
-    }
-    
-     /**
-     * Sets the entry in the specified row and column to the 
-     * <code>BigDecimal</code> value represented by the input string.
-     * <p>
-     * Row and column indices start at 0 and must satisfy 
-     * <ul>
-     * <li><code>0 <= row < rowDimension</code></li>
-     * <li><code> 0 <= column < columnDimension</code></li>
-     * </ul>
-     * otherwise a <code>MatrixIndexException</code> is thrown.
-     * 
-     * @param row  row location of entry to be set
-     * @param column  column location of entry to be set
-     * @param value  value to set
-     * @throws MatrixIndexException if the row or column index is not valid
-     * @throws NumberFormatException if <code>value</code> is not a valid
-     *     representation of a <code>BigDecimal</code> value
-     */
-    public void setEntry(int row, int column, String value) throws MatrixIndexException {
-        setEntry(row, column, new BigDecimal(value));
     }
     
     /**

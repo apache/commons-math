@@ -25,7 +25,7 @@ import java.math.BigDecimal;
  * Matrix element indexing is 0-based -- e.g., <code>getEntry(0, 0)</code>
  * returns the element in the first row, first column of the matrix.
  *
- * @version $Revision: 1.8 $ $Date: 2004/10/25 02:21:20 $
+ * @version $Revision: 1.9 $ $Date: 2004/10/25 03:12:28 $
  */
 public interface BigMatrix {
 
@@ -102,40 +102,6 @@ public interface BigMatrix {
      * @return    2-dimensional array of entries
      */
     double [][] getDataAsDoubleArray();
-
-    /**
-     * Overwrites the underlying data for the matrix with
-     * a fresh copy of <code>data</code>.
-     *
-     * @param  data  2-dimensional array of entries
-     */
-    void setData(BigDecimal[][] data);
-
-    /**
-     * Overwrites the underlying data for the matrix with
-     * a fresh copy of <code>data</code>.
-     *
-     * @param  data  2-dimensional array of entries
-     */
-    void setData(double[][] data);
-    
-    /**
-     * Overwrites the underlying data for the matrix with
-     * <code>BigDecimal</code> entries with values represented by the strings
-     * in <code>data</code>.
-     *
-     * @param  data  2-dimensional array of entries
-     * @throws NumberFormatException if any of the entries in <code>data</code>
-     *    are not valid representations of <code>BigDecimal</code> values
-     */
-    void setData(String[][] data);
-
-    /***
-     * Sets the rounding mode to use when dividing values
-     * @see java.math.BigDecimal
-     * @param roundingMode
-     */
-    void setRoundingMode(int roundingMode);
 
     /***
      * Gets the rounding mode
@@ -282,66 +248,6 @@ public interface BigMatrix {
      * @throws MatrixIndexException if the row or column index is not valid
      */
     double getEntryAsDouble(int row, int column) throws MatrixIndexException;
-
-    /**
-     * Sets the entry in the specified row and column to the specified value.
-     * <p>
-     * Row and column indices start at 0 and must satisfy 
-     * <ul>
-     * <li><code>0 <= row < rowDimension</code></li>
-     * <li><code> 0 <= column < columnDimension</code></li>
-     * </ul>
-     * otherwise a <code>MatrixIndexException</code> is thrown.
-     * 
-     * @param row    row location of entry to be set 
-     * @param column    column location of entry to be set
-     * @param value  value to set 
-     * @throws org.apache.commons.math.linear.MatrixIndexException if the row
-     * or column index is not valid
-     */
-    void setEntry(int row, int column, BigDecimal value)
-        throws MatrixIndexException;
-    
-    /**
-     * Sets the entry in the specified row and column to the specified value.
-     * <p>
-     * Row and column indices start at 0 and must satisfy 
-     * <ul>
-     * <li><code>0 <= row < rowDimension</code></li>
-     * <li><code> 0 <= column < columnDimension</code></li>
-     * </ul>
-     * otherwise a <code>MatrixIndexException</code> is thrown.
-     * 
-     * @param row    row location of entry to be set 
-     * @param column    column location of entry to be set
-     * @param value  value to set 
-     * @throws org.apache.commons.math.linear.MatrixIndexException if the row
-     * or column index is not valid
-     */
-    void setEntry(int row, int column, double value)
-        throws MatrixIndexException;
-    
-    /**
-     * Sets the entry in the specified row and column to the 
-     * <code>BigDecimal</code> value represented by the input string.
-     * <p>
-     * Row and column indices start at 0 and must satisfy 
-     * <ul>
-     * <li><code>0 <= row < rowDimension</code></li>
-     * <li><code> 0 <= column < columnDimension</code></li>
-     * </ul>
-     * otherwise a <code>MatrixIndexException</code> is thrown.
-     * 
-     * @param row  row location of entry to be set
-     * @param column  column location of entry to be set
-     * @param value  value to set
-     * @throws org.apache.commons.math.linear.MatrixIndexException if the 
-     *     row or column index is not valid
-     * @throws NumberFormatException if <code>value</code> is not a valid
-     *     representation of a <code>BigDecimal</code> value
-     */
-    void setEntry(int row, int column, String value)
-    throws MatrixIndexException;
 
     /**
      * Returns the transpose of this matrix.
