@@ -51,9 +51,9 @@ import org.apache.commons.math.stat.univariate.SummaryStatistics;
  *    by 10.  See TODO: add reference </li>
  *<li>The input file <i>must</i> be a plain text file containing one valid numeric
  *    entry per line.</li>
- * </ol></p>
+ * </ul></p>
  *
- * @version $Revision: 1.18 $ $Date: 2004/04/12 02:27:49 $
+ * @version $Revision: 1.19 $ $Date: 2004/04/26 19:15:48 $
  */
 public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistribution {
 

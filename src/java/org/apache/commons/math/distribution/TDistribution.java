@@ -21,13 +21,15 @@ package org.apache.commons.math.distribution;
  * Instances of TDistribution objects should be created using
  * {@link DistributionFactory#createTDistribution(double)}
  * 
+ * <p>
  * References:
  * <ul>
  * <li><a href="http://mathworld.wolfram.com/Studentst-Distribution.html">
  * Student's t-Distribution</a></li>
  * </ul>
+ * </p>
  * 
- * @version $Revision: 1.10 $ $Date: 2004/02/21 21:35:14 $
+ * @version $Revision: 1.11 $ $Date: 2004/04/26 19:15:48 $
  */
 public interface TDistribution extends ContinuousDistribution {
     /**

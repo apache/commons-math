@@ -21,13 +21,15 @@ package org.apache.commons.math.distribution;
  * Instances of GammaDistribution objects should be created using
  * {@link DistributionFactory#createGammaDistribution(double,double)}.
  * 
+ * <p>
  * References:
  * <ul>
  * <li><a href="http://mathworld.wolfram.com/GammaDistribution.html">
  * Gamma Distribution</a></li>
  * </ul>
- *  
- * @version $Revision: 1.13 $ $Date: 2004/02/21 21:35:14 $
+ * </p>
+ * 
+ * @version $Revision: 1.14 $ $Date: 2004/04/26 19:15:48 $
  */
 public interface GammaDistribution extends ContinuousDistribution {
     /**

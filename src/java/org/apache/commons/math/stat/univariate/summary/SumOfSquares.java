@@ -26,7 +26,9 @@ import org
     .AbstractStorelessUnivariateStatistic;
 
 /**
- * @version $Revision: 1.15 $ $Date: 2004/03/04 04:25:09 $
+ * Returns the sum of the squares of the available values.
+ * 
+ * @version $Revision: 1.16 $ $Date: 2004/04/26 19:15:48 $
  */
 public class SumOfSquares extends AbstractStorelessUnivariateStatistic implements Serializable {
 

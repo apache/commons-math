@@ -26,7 +26,9 @@ import org
     .AbstractStorelessUnivariateStatistic;
 
 /**
- * @version $Revision: 1.14 $ $Date: 2004/02/21 21:35:16 $
+ * Returns the maximum of the available values.
+ * 
+ * @version $Revision: 1.15 $ $Date: 2004/04/26 19:15:48 $
  */
 public class Max extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -69,6 +71,8 @@ public class Max extends AbstractStorelessUnivariateStatistic implements Seriali
     }
     
     /**
+     * Returns the maximum of the available values.
+     * 
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
     public double evaluate(

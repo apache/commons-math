@@ -17,17 +17,19 @@ package org.apache.commons.math.distribution;
 
 /**
  * The Binomial Distribution.
- * 
+ *
  * Instances of BinomialDistribution objects should be created using
  * {@link DistributionFactory#createBinomialDistribution(int, double)}.
  * 
+ * <p>
  * References:
  * <ul>
  * <li><a href="http://mathworld.wolfram.com/BinomialDistribution.html">
  * Binomial Distribution</a></li>
  * </ul>
+ * </p>
  * 
- * @version $Revision: 1.9 $ $Date: 2004/02/21 21:35:14 $
+ * @version $Revision: 1.10 $ $Date: 2004/04/26 19:15:48 $
  */
 public interface BinomialDistribution extends DiscreteDistribution {
     /**

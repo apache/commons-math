@@ -21,12 +21,15 @@ package org.apache.commons.math.distribution;
  * Instances of NormalDistribution objects should be created using
  * {@link DistributionFactory#createNormalDistribution(double, double)}.<p>
  * 
+ * <p>
  * References:<p>
  * <ul>
  * <li><a href="http://mathworld.wolfram.com/NormalDistribution.html">
  * Normal Distribution</a></li>
  * </ul>
+ * </p>
  * 
+ * @version $Revision: 1.4 $ $Date: 2004/04/26 19:15:48 $
  */
 public interface NormalDistribution extends ContinuousDistribution {
 	/**

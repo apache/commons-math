@@ -20,7 +20,9 @@ import java.io.Serializable;
 import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
 
 /**
- * @version $Revision: 1.17 $ $Date: 2004/03/04 04:25:09 $
+ * The sum of the values that have been added to Univariate.
+ * 
+ * @version $Revision: 1.18 $ $Date: 2004/04/26 19:15:48 $
  */
 public class Sum extends AbstractStorelessUnivariateStatistic implements Serializable {
 

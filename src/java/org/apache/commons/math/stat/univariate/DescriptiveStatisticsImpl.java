@@ -22,7 +22,10 @@ import java.util.Arrays;
 import org.apache.commons.math.util.ContractableDoubleArray;
 
 /**
- * @version $Revision: 1.2 $ $Date: 2004/04/23 19:50:27 $
+ * Default implementation of
+ * {@link org.apache.commons.math.stat.univariate.DescriptiveStatistics}.
+ * 
+ * @version $Revision: 1.3 $ $Date: 2004/04/26 19:15:48 $
  */
 public class DescriptiveStatisticsImpl extends AbstractDescriptiveStatistics implements Serializable {
 

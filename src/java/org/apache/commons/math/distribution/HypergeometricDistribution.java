@@ -22,13 +22,15 @@ package org.apache.commons.math.distribution;
  * Instances of HypergeometricDistribution objects should be created using
  * {@link DistributionFactory#createHypergeometricDistribution(int, int, int)}.
  * 
+ * <p>
  * References:
  * <ul>
  * <li><a href="http://mathworld.wolfram.com/HypergeometricDistribution.html">
  * Hypergeometric Distribution</a></li>
  * </ul>
+ * </p>
  * 
- * @version $Revision: 1.8 $ $Date: 2004/02/21 21:35:14 $
+ * @version $Revision: 1.9 $ $Date: 2004/04/26 19:15:48 $
  */
 public interface HypergeometricDistribution extends DiscreteDistribution {
     /**

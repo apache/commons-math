@@ -28,7 +28,7 @@ import org.apache.commons.math.stat.univariate.AbstractUnivariateStatistic;
  * follows the first estimation procedure presented
  * <a href="http://www.itl.nist.gov/div898/handbook/prc/section2/prc252.htm">here.</a>
  * 
- * @version $Revision: 1.16 $ $Date: 2004/03/21 21:57:19 $
+ * @version $Revision: 1.17 $ $Date: 2004/04/26 19:15:48 $
  */
 public class Percentile extends AbstractUnivariateStatistic implements Serializable {
 
@@ -42,8 +42,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * value of 50.0.
      */
     public Percentile() {
-        super();
-        quantile = 50.0;
+        this(50.0);
     }
 
     /**

@@ -22,12 +22,12 @@ import java.io.Serializable;
 import org.apache.commons.math.MathException;
 
 /**
- * Implements <a href="http://mathworld.wolfram.com/NewtonsMethod.html">\
+ * Implements <a href="http://mathworld.wolfram.com/NewtonsMethod.html">
  * Newton's Method</a> for finding zeros of real univariate functions. This
  * algorithm will find only one zero in the given interval.  The function should
  * be continuous but not necessarily smooth.
  *
- * @version $Revision: 1.1 $ $Date: 2004/04/08 21:19:17 $
+ * @version $Revision: 1.2 $ $Date: 2004/04/26 19:15:48 $
  */
 public class NewtonSolver extends UnivariateRealSolverImpl implements Serializable {
     

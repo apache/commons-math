@@ -21,13 +21,15 @@ package org.apache.commons.math.distribution;
  * Instances of FDistribution objects should be created using
  * {@link DistributionFactory#createFDistribution(double,double)}.
  * 
+ * <p>
  * References:
  * <ul>
  * <li><a href="http://mathworld.wolfram.com/F-Distribution.html">
  * F-Distribution</a></li>
  * </ul>
+ * </p>
  * 
- * @version $Revision: 1.11 $ $Date: 2004/02/21 21:35:14 $
+ * @version $Revision: 1.12 $ $Date: 2004/04/26 19:15:48 $
  */
 public interface FDistribution extends ContinuousDistribution {
     /**
