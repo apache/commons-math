@@ -23,7 +23,7 @@ import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
- * @version $Revision: 1.11 $ $Date: 2004/06/17 21:37:05 $
+ * @version $Revision: 1.12 $ $Date: 2004/06/18 22:10:35 $
  */
 public class MinTest extends StorelessUnivariateStatisticAbstractTest{
 
@@ -54,6 +54,22 @@ public class MinTest extends StorelessUnivariateStatisticAbstractTest{
      */
     public double expectedValue() {
         return this.min;
+    }
+    
+    public void testSpecialValues() {
+        double[] testArray = {0d, Double.NaN, Double.POSITIVE_INFINITY, 
+                Double.NEGATIVE_INFINITY};
+        Min min = new Min();
+        assertTrue(Double.isNaN(min.getResult()));
+        min.increment(testArray[0]);
+        assertEquals(0d, min.getResult(), 0);
+        min.increment(testArray[1]);
+        assertEquals(0d, min.getResult(), 0);
+        min.increment(testArray[2]);
+        assertEquals(0d, min.getResult(), 0);
+        min.increment(testArray[3]);
+        assertEquals(Double.NEGATIVE_INFINITY, min.getResult(), 0);
+        assertEquals(Double.NEGATIVE_INFINITY, min.evaluate(testArray), 0);     
     }
 
 }
