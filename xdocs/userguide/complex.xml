@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.1 $ $Date: 2004/04/26 20:06:50 $ -->
+<!-- $Revision: 1.2 $ $Date: 2004/06/01 13:47:17 $ -->
 <document url="stat.html">
   <properties>
     <title>The Commons Math User Guide - Statistics</title>
@@ -75,9 +75,55 @@ Complex answer = ComplexMath.log(first);          // natural logarithm.
         answer = ComplexMath.pow(first, second);  // first raised to the power of second</source>
         </p>
       </subsection>
-      <subsection name="7.4 Complex Formatting" href="formatting">
-        <p>This is yet to be written. Any contributions will be gratefully
-          accepted!</p>
+      <subsection name="7.4 Complex Formatting and Parsing" href="formatting">
+        <p>
+          <code>Complex</code> instances can be converted to and from strings
+          using the<a href="../apidocs/org/apache/commons/math/complex/ComplexFormat.html">
+		  org.apache.commons.math.complex.ComplexFormat</a> class.
+		  <code>ComplexFormat</code> is a <code>java.text.Format</code>
+		  extension and, as such, is used like other formatting objects (e.g.
+		  <code>java.text.SimpleDateFormat</code>:
+		  <source>ComplexFormat format = new ComplexFormat(); // default format
+Complex c = new Complex(1.1111, 2.2222);
+String s = format.format(c); // s contains "1.11 + 2.22i"</source>
+        </p>
+        <p>
+          To customize the formatting output, one or two
+          <code>java.text.NumberFormat</code> instances can be used to construct
+          a <code>ComplexFormat</code>.  These number formats control the
+          formatting of the real and imaginary values of the complex number:
+          <source>NumberFormat nf = NumberFormat.getInstance();
+nf.setMinimumFractionDigits(3);
+nf.setMaximumFractionDigits(3);
+
+// create complex format with custom number format
+// when one number format is used, both real and
+// imaginary parts are formatted the same
+ComplexFormat cf = new ComplexFormat(nf);
+Complex c = new Complex(1.11, 2.2222);
+String s = format.format(c); // s contains "1.110 + 2.222i"
+
+NumberFormat nf2 = NumberFormat.getInstance();
+nf.setMinimumFractionDigits(1);
+nf.setMaximumFractionDigits(1);
+
+// create complex format with custom number formats
+cf = new ComplexFormat(nf, nf2);
+s = format.format(c); // s contains "1.110 + 2.2i"</source>
+		</p>
+		<p>
+		  Another formatting customization provided by
+		  <code>ComplexFormat</code> is the text used for the imaginary
+		  designation.  By default, the imaginary notation is "i" but, it can be
+		  manipulated using the <code>setImaginaryCharacter</code> method.
+		</p>
+		<p>
+		  Formatting inverse operation, parsing, can also be performed by
+		  <code>ComplexFormat</code>.  Parse a complex number from a string,
+		  simply call the <code>parse</code> method:
+		  <source>ComplexFormat cf = new ComplexFormat();
+Complex c = cf.parse("1.110 + 2.222i");</source>
+		</p>
       </subsection>
     </section>
   </body>
