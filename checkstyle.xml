@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE module PUBLIC
+    "-//Puppy Crawl//DTD Check Configuration 1.1//EN"
+    "http://www.puppycrawl.com/dtds/configuration_1_1.dtd">
+
+<!-- commons math customization of default Checkstyle behavior -->
+<module name="Checker">
+  <property name="basedir" value="src/checkstyle"/>
+  <property name="localeLanguage" value="en"/>
+
+  <module name="TreeWalker">
+    <!-- Verify that EVERY source file has the appropriate license -->
+    <module name="Header">
+      <property name="headerFile" value="LICENSE.txt"/>
+    </module>
+
+    <module name="OperatorWrap">
+      <property name="option" value="eol"/>
+    </module>
+  </module>
+</module>
+
