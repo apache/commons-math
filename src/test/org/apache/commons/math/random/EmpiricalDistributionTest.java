@@ -28,12 +28,12 @@ import java.util.Iterator;
 
 import org.apache.commons.math.RetryTestCase;
 import org.apache.commons.math.TestUtils;
-import org.apache.commons.math.stat.univariate.SummaryStatistics;
+import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 
 /**
  * Test cases for the EmpiricalDistribution class
  *
- * @version $Revision: 1.18 $ $Date: 2004/06/17 23:51:33 $
+ * @version $Revision: 1.19 $ $Date: 2004/10/08 05:08:19 $
  */
 
 public final class EmpiricalDistributionTest extends RetryTestCase {

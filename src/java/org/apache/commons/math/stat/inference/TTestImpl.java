@@ -19,7 +19,7 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.distribution.DistributionFactory;
 import org.apache.commons.math.distribution.TDistribution;
 import org.apache.commons.math.stat.StatUtils;
-import org.apache.commons.math.stat.univariate.StatisticalSummary;
+import org.apache.commons.math.stat.descriptive.StatisticalSummary;
 
 /**
  * Implements t-test statistics defined in the {@link TTest} interface.
@@ -27,7 +27,7 @@ import org.apache.commons.math.stat.univariate.StatisticalSummary;
  * Uses commons-math {@link org.apache.commons.math.distribution.TDistribution}
  * implementation to estimate exact p-values.
  *
- * @version $Revision: 1.9 $ $Date: 2004/08/02 04:20:08 $
+ * @version $Revision: 1.10 $ $Date: 2004/10/08 05:08:18 $
  */
 public class TTestImpl implements TTest  {
 

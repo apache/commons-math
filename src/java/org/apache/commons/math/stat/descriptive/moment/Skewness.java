@@ -1,0 +1,174 @@
+/*
+ * Copyright 2003-2004 The Apache Software Foundation.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.math.stat.descriptive.moment;
+
+import java.io.Serializable;
+
+import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
+
+/**
+ * Computes the skewness of the available values.
+ * <p>
+ * We use the following (unbiased) formula to define skewness:
+ * <p>
+ * skewness = [n / (n -1) (n - 2)] sum[(x_i - mean)^3] / std^3
+ * <p>
+ * where n is the number of values, mean is the {@link Mean} and std is the 
+ * {@link StandardDeviation}
+ * <p>
+ * <strong>Note that this implementation is not synchronized.</strong> If 
+ * multiple threads access an instance of this class concurrently, and at least
+ * one of the threads invokes the <code>increment()</code> or 
+ * <code>clear()</code> method, it must be synchronized externally.
+ * 
+ * @version $Revision: 1.1 $ $Date: 2004/10/08 05:08:17 $
+ */
+public class Skewness extends AbstractStorelessUnivariateStatistic implements Serializable {
+
+    /** Serializable version identifier */
+    static final long serialVersionUID = 7101857578996691352L;    
+    
+    /** Third moment on which this statistic is based */
+    protected ThirdMoment moment = null;
+
+     /** 
+     * Determines whether or not this statistic can be incremented or cleared.
+     * <p>
+     * Statistics based on (constructed from) external moments cannot
+     * be incremented or cleared.
+    */
+    protected boolean incMoment;
+
+    /**
+     * Constructs a Skewness
+     */
+    public Skewness() {
+        incMoment = true;
+        moment = new ThirdMoment();
+    }
+
+    /**
+     * Constructs a Skewness with an external moment
+     * @param m3 external moment
+     */
+    public Skewness(final ThirdMoment m3) {
+        incMoment = false;
+        this.moment = m3;
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#increment(double)
+     */
+    public void increment(final double d) {
+        if (incMoment) {
+            moment.increment(d);
+        }
+    }
+
+    /**
+     * Returns the value of the statistic based on the values that have been added.
+     * <p>
+     * See {@link Skewness} for the definition used in the computation.
+     * 
+     * @return the skewness of the available values.
+     */
+    public double getResult() {
+        
+        if (moment.n < 3) {
+            return Double.NaN;
+        }
+        double variance = moment.m2 / (double) (moment.n - 1);
+        double skewness = Double.NaN;
+        if (variance < 10E-20) {
+            skewness = 0.0;
+        } else {
+            double n0 = (double) moment.getN();
+            skewness = (n0 * moment.m3) /
+            ((n0 - 1) * (n0 -2) * Math.sqrt(variance) * variance);
+        }
+        return skewness;
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getN()
+     */
+    public long getN() {
+        return moment.getN();
+    }
+    
+    /**
+     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#clear()
+     */
+    public void clear() {
+        if (incMoment) {
+            moment.clear();
+        }
+    }
+
+    /**
+     * Returns the Skewness of the entries in the specifed portion of the
+     * input array.
+     * <p>
+     * See {@link Skewness} for the definition used in the computation.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * 
+     * @param values the input array
+     * @param begin the index of the first array element to include
+     * @param length the number of elements to include
+     * @return the skewness of the values or Double.NaN if length is less than
+     * 3
+     * @throws IllegalArgumentException if the array is null or the array index
+     *  parameters are not valid
+     */
+    public double evaluate(final double[] values,final int begin, 
+            final int length) {
+
+        // Initialize the skewness
+        double skew = Double.NaN;
+
+        if (test(values, begin, length) && length > 2 ){
+            Mean mean = new Mean();
+            // Get the mean and the standard deviation
+            double m = mean.evaluate(values, begin, length);
+            
+            // Calc the std, this is implemented here instead
+            // of using the standardDeviation method eliminate
+            // a duplicate pass to get the mean
+            double accum = 0.0;
+            double accum2 = 0.0;
+            for (int i = begin; i < begin + length; i++) {
+                accum += Math.pow((values[i] - m), 2.0);
+                accum2 += (values[i] - m);
+            }
+            double stdDev = Math.sqrt((accum - (Math.pow(accum2, 2) / ((double) length))) /
+                    (double) (length - 1));
+            
+            double accum3 = 0.0;
+            for (int i = begin; i < begin + length; i++) {
+                accum3 += Math.pow(values[i] - m, 3.0d);
+            }
+            accum3 /= Math.pow(stdDev, 3.0d);
+            
+            // Get N
+            double n0 = length;
+            
+            // Calculate skewness
+            skew = (n0 / ((n0 - 1) * (n0 - 2))) * accum3;
+        }
+        return skew;
+    }
+}

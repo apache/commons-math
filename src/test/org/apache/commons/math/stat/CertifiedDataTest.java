@@ -22,13 +22,13 @@ import junit.framework.TestSuite;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import org.apache.commons.math.stat.univariate.SummaryStatistics;
-import org.apache.commons.math.stat.univariate.SummaryStatisticsImpl;
-import org.apache.commons.math.stat.univariate.DescriptiveStatistics;
+import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+import org.apache.commons.math.stat.descriptive.SummaryStatisticsImpl;
+import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 
 /**
  * Certified data test cases.
- * @version $Revision: 1.18 $ $Date: 2004/07/10 16:07:07 $
+ * @version $Revision: 1.19 $ $Date: 2004/10/08 05:08:19 $
  */
 public class CertifiedDataTest extends TestCase  {
 

@@ -19,11 +19,11 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.apache.commons.math.stat.univariate.SummaryStatistics;
+import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 /**
  * Test cases for the TTestImpl class.
  *
- * @version $Revision: 1.6 $ $Date: 2004/08/02 04:20:09 $
+ * @version $Revision: 1.7 $ $Date: 2004/10/08 05:08:20 $
  */
 
 public final class TTestTest extends TestCase {

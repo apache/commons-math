@@ -15,23 +15,23 @@
  */
 package org.apache.commons.math.stat;
 
-import org.apache.commons.math.stat.univariate.UnivariateStatistic;
-import org.apache.commons.math.stat.univariate.moment.GeometricMean;
-import org.apache.commons.math.stat.univariate.moment.Mean;
-import org.apache.commons.math.stat.univariate.moment.Variance;
-import org.apache.commons.math.stat.univariate.rank.Max;
-import org.apache.commons.math.stat.univariate.rank.Min;
-import org.apache.commons.math.stat.univariate.rank.Percentile;
-import org.apache.commons.math.stat.univariate.summary.Product;
-import org.apache.commons.math.stat.univariate.summary.Sum;
-import org.apache.commons.math.stat.univariate.summary.SumOfLogs;
-import org.apache.commons.math.stat.univariate.summary.SumOfSquares;
+import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
+import org.apache.commons.math.stat.descriptive.moment.GeometricMean;
+import org.apache.commons.math.stat.descriptive.moment.Mean;
+import org.apache.commons.math.stat.descriptive.moment.Variance;
+import org.apache.commons.math.stat.descriptive.rank.Max;
+import org.apache.commons.math.stat.descriptive.rank.Min;
+import org.apache.commons.math.stat.descriptive.rank.Percentile;
+import org.apache.commons.math.stat.descriptive.summary.Product;
+import org.apache.commons.math.stat.descriptive.summary.Sum;
+import org.apache.commons.math.stat.descriptive.summary.SumOfLogs;
+import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
 
 /**
  * StatUtils provides static methods for computing statistics based on data
  * stored in double[] arrays. 
  * 
- * @version $Revision: 1.32 $ $Date: 2004/09/01 15:51:39 $
+ * @version $Revision: 1.33 $ $Date: 2004/10/08 05:08:16 $
  */
 public final class StatUtils {
 
@@ -179,7 +179,7 @@ public final class StatUtils {
      * <p>
      * Throws <code>IllegalArgumentException</code> if the array is null.
      * <p>
-     * See {@link org.apache.commons.math.stat.univariate.summary.SumOfLogs}.
+     * See {@link org.apache.commons.math.stat.descriptive.summary.SumOfLogs}.
      * 
      * @param values the input array
      * @return the sum of the natural logs of the values or Double.NaN if 
@@ -197,7 +197,7 @@ public final class StatUtils {
      * <p>
      * Throws <code>IllegalArgumentException</code> if the array is null.
      * <p>
-      * See {@link org.apache.commons.math.stat.univariate.summary.SumOfLogs}.
+      * See {@link org.apache.commons.math.stat.descriptive.summary.SumOfLogs}.
      * 
      * @param values the input array
      * @param begin index of the first array element to include
@@ -218,7 +218,7 @@ public final class StatUtils {
      * <p>
      * Throws <code>IllegalArgumentException</code> if the array is null.
      * <p>
-     * See {@link org.apache.commons.math.stat.univariate.moment.Mean} for
+     * See {@link org.apache.commons.math.stat.descriptive.moment.Mean} for
      * details on the computing algorithm.
      * 
      * @param values the input array
@@ -236,7 +236,7 @@ public final class StatUtils {
      * <p>
      * Throws <code>IllegalArgumentException</code> if the array is null.
      * <p>
-     * See {@link org.apache.commons.math.stat.univariate.moment.Mean} for
+     * See {@link org.apache.commons.math.stat.descriptive.moment.Mean} for
      * details on the computing algorithm.
      * 
      * @param values the input array
@@ -257,7 +257,7 @@ public final class StatUtils {
      * <p>
      * Throws <code>IllegalArgumentException</code> if the array is null.
      * <p>
-     * See {@link org.apache.commons.math.stat.univariate.moment.GeometricMean}
+     * See {@link org.apache.commons.math.stat.descriptive.moment.GeometricMean}
      * for details on the computing algorithm.
      * 
      * @param values the input array
@@ -275,7 +275,7 @@ public final class StatUtils {
      * <p>
      * Throws <code>IllegalArgumentException</code> if the array is null.
      * <p>
-     * See {@link org.apache.commons.math.stat.univariate.moment.GeometricMean}
+     * See {@link org.apache.commons.math.stat.descriptive.moment.GeometricMean}
      * for details on the computing algorithm.
      * 
      * @param values the input array
@@ -295,7 +295,7 @@ public final class StatUtils {
      * Returns the variance of the entries in the input array, or 
      * <code>Double.NaN</code> if the array is empty.
      * <p>
-     * See {@link org.apache.commons.math.stat.univariate.moment.Variance} for
+     * See {@link org.apache.commons.math.stat.descriptive.moment.Variance} for
      * details on the computing algorithm.
      * <p>
      * Returns 0 for a single-value (i.e. length = 1) sample.
@@ -315,7 +315,7 @@ public final class StatUtils {
      * the input array, or <code>Double.NaN</code> if the designated subarray
      * is empty.
      * <p>
-     * See {@link org.apache.commons.math.stat.univariate.moment.Variance} for
+     * See {@link org.apache.commons.math.stat.descriptive.moment.Variance} for
      * details on the computing algorithm.
      * <p>
      * Returns 0 for a single-value (i.e. length = 1) sample.
@@ -340,7 +340,7 @@ public final class StatUtils {
      * the input array, using the precomputed mean value.  Returns 
      * <code>Double.NaN</code> if the designated subarray is empty.
      * <p>
-     * See {@link org.apache.commons.math.stat.univariate.moment.Variance} for
+     * See {@link org.apache.commons.math.stat.descriptive.moment.Variance} for
      * details on the computing algorithm.
      * <p>
      * The formula used assumes that the supplied mean value is the arithmetic
@@ -371,7 +371,7 @@ public final class StatUtils {
      * precomputed mean value.  Returns <code>Double.NaN</code> if the array
      * is empty.  
      * <p>
-     * See {@link org.apache.commons.math.stat.univariate.moment.Variance} for
+     * See {@link org.apache.commons.math.stat.descriptive.moment.Variance} for
      * details on the computing algorithm.   
      * <p>
      * The formula used assumes that the supplied mean value is the arithmetic
@@ -502,7 +502,7 @@ public final class StatUtils {
      * and less than or equal to 100)</li>
      * </ul>
      * <p>
-     * See {@link org.apache.commons.math.stat.univariate.rank.Percentile} for
+     * See {@link org.apache.commons.math.stat.descriptive.rank.Percentile} for
      * a description of the percentile estimation algorithm used.
      * 
      * @param values input array of values
@@ -531,7 +531,7 @@ public final class StatUtils {
      * and less than or equal to 100)</li>
      * </ul>
      * <p>
-      * See {@link org.apache.commons.math.stat.univariate.rank.Percentile} for
+      * See {@link org.apache.commons.math.stat.descriptive.rank.Percentile} for
       * a description of the percentile estimation algorithm used.
      * 
      * @param values array of input values

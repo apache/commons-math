@@ -1,0 +1,161 @@
+/*
+ * Copyright 2003-2004 The Apache Software Foundation.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.math.stat.descriptive;
+
+import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.stat.descriptive.moment.SecondMoment;
+
+/**
+ * Test cases for {@link StorelessUnivariateStatistic} classes.
+ * @version $Revision: 1.1 $ $Date: 2004/10/08 05:08:19 $
+ */
+public abstract class StorelessUnivariateStatisticAbstractTest
+    extends UnivariateStatisticAbstractTest {
+
+    public StorelessUnivariateStatisticAbstractTest(String name) {
+        super(name);
+    }
+    
+    /** Small sample arrays */
+    protected double[][] smallSamples = {{}, {1}, {1,2}, {1,2,3}, {1,2,3,4}};
+
+    /** Return a new instance of the statistic */
+    public abstract UnivariateStatistic getUnivariateStatistic();
+
+    /**Expected value for  the testArray defined in UnivariateStatisticAbstractTest */
+    public abstract double expectedValue();
+    
+    /** Verify that calling increment() in a loop over testArray results in correct state */
+    public void testIncrementation() throws Exception {
+
+        StorelessUnivariateStatistic statistic =
+            (StorelessUnivariateStatistic) getUnivariateStatistic();
+
+        statistic.clear();
+
+        for (int i = 0; i < testArray.length; i++) {
+            statistic.increment(testArray[i]);
+        }
+
+        assertEquals(expectedValue(), statistic.getResult(), getTolerance());
+        assertEquals(testArray.length, statistic.getN());
+
+        statistic.clear();
+
+        assertTrue(Double.isNaN(statistic.getResult()));
+        assertEquals(0, statistic.getN());
+
+    }
+
+    public void testSerialization() throws Exception {
+
+        StorelessUnivariateStatistic statistic =
+            (StorelessUnivariateStatistic) getUnivariateStatistic();
+        
+        TestUtils.checkSerializedEquality(statistic);
+
+        statistic.clear();
+
+        for (int i = 0; i < testArray.length; i++) {
+            statistic.increment(testArray[i]);
+            if(i % 5 == 0)
+                statistic = (StorelessUnivariateStatistic)TestUtils.serializeAndRecover(statistic); 
+        }
+        
+        TestUtils.checkSerializedEquality(statistic);
+        
+        assertEquals(expectedValue(), statistic.getResult(), getTolerance());
+
+        statistic.clear();
+
+        assertTrue(Double.isNaN(statistic.getResult()));
+
+    }
+    
+    public void testEqualsAndHashCode() {
+        StorelessUnivariateStatistic statistic =
+            (StorelessUnivariateStatistic) getUnivariateStatistic();
+        StorelessUnivariateStatistic statistic2 = null;
+        
+        assertTrue("non-null, compared to null", !statistic.equals(statistic2));
+        assertTrue("reflexive, non-null", statistic.equals(statistic));
+        
+        int emptyHash = statistic.hashCode();
+        statistic2 = (StorelessUnivariateStatistic) getUnivariateStatistic();
+        assertTrue("empty stats should be equal", statistic.equals(statistic2));
+        assertEquals("empty stats should have the same hashcode", 
+                emptyHash, statistic2.hashCode());
+        
+        statistic.increment(1d);
+        assertTrue("reflexive, non-empty", statistic.equals(statistic));
+        assertTrue("non-empty, compared to empty", !statistic.equals(statistic2));
+        assertTrue("non-empty, compared to empty", !statistic2.equals(statistic));
+        assertTrue("non-empty stat should have different hashcode from empty stat",
+                statistic.hashCode() != emptyHash);
+        
+        statistic2.increment(1d);
+        assertTrue("stats with same data should be equal", statistic.equals(statistic2));
+        assertEquals("stats with same data should have the same hashcode", 
+                statistic.hashCode(), statistic2.hashCode());
+        
+        statistic.increment(Double.POSITIVE_INFINITY);
+        assertTrue("stats with different n's should not be equal", !statistic2.equals(statistic));
+        assertTrue("stats with different n's should have different hashcodes",
+                statistic.hashCode() != statistic2.hashCode());
+        
+        statistic2.increment(Double.POSITIVE_INFINITY);
+        assertTrue("stats with same data should be equal", statistic.equals(statistic2));
+        assertEquals("stats with same data should have the same hashcode", 
+                statistic.hashCode(), statistic2.hashCode()); 
+        
+        statistic.clear();
+        statistic2.clear();
+        assertTrue("cleared stats should be equal", statistic.equals(statistic2));
+        assertEquals("cleared stats should have thashcode of empty stat", 
+                emptyHash, statistic2.hashCode());
+        assertEquals("cleared stats should have thashcode of empty stat", 
+                emptyHash, statistic.hashCode());
+        
+    }
+    
+    public void testMomentSmallSamples() {
+        UnivariateStatistic stat = getUnivariateStatistic();
+        if (stat instanceof SecondMoment) {
+            SecondMoment moment = (SecondMoment) getUnivariateStatistic();
+            assertTrue(Double.isNaN(moment.getResult()));
+            moment.increment(1d);
+            assertEquals(0d, moment.getResult(), 0);
+        }
+    }
+    
+    /** 
+     * Make sure that evaluate(double[]) and inrementAll(double[]), 
+     * getResult() give same results.
+     */
+    public void testConsistency() {
+        StorelessUnivariateStatistic stat = (StorelessUnivariateStatistic) getUnivariateStatistic();
+        stat.incrementAll(testArray);
+        assertEquals(stat.getResult(), stat.evaluate(testArray), getTolerance());
+        for (int i = 0; i < smallSamples.length; i++) {
+            stat.clear();
+            for (int j =0; j < smallSamples[i].length; j++) {
+                stat.increment(smallSamples[i][j]);
+            }
+            TestUtils.assertEquals(stat.getResult(), stat.evaluate(smallSamples[i]), getTolerance());
+        }
+    }
+
+}

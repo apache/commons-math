@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.11 $ $Date: 2004/09/01 16:19:21 $ -->
+<!-- $Revision: 1.12 $ $Date: 2004/10/08 05:08:21 $ -->
 <document url="index.html">
   <properties>
     <title>The Commons Math User Guide - Table of Contents</title>
@@ -39,7 +39,7 @@
            <li><a href="stat.html">1. Statistics</a>
                 <ul>
                 <li><a href="stat.html#overview">1.1 Overview</a></li>
-                <li><a href="stat.html#univariate">1.2 Univariate statistics</a></li>
+                <li><a href="stat.html#descriptive">1.2 Descriptive statistics</a></li>
                 <li><a href="stat.html#frequency">1.3 Frequency distributions</a></li>
                 <li><a href="stat.html#regression">1.4 Simple regression</a></li>
                 <li><a href="stat.html#tests">1.5 Statistical tests</a></li>

@@ -21,7 +21,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.List;
 
-import org.apache.commons.math.stat.univariate.StatisticalSummary;
+import org.apache.commons.math.stat.descriptive.StatisticalSummary;
 
 /**
  * Represents an <a href="http://random.mat.sbg.ac.at/~ste/dipl/node11.html">
@@ -43,7 +43,7 @@ import org.apache.commons.math.stat.univariate.StatisticalSummary;
  * generate random values "like" those in the input file -- i.e., the values
  * generated will follow the distribution of the values in the file.
  * 
- * @version $Revision: 1.22 $ $Date: 2004/07/22 02:34:25 $
+ * @version $Revision: 1.23 $ $Date: 2004/10/08 05:08:16 $
  */
 public interface EmpiricalDistribution {
 
@@ -84,7 +84,7 @@ public interface EmpiricalDistribution {
 
     /**
      * Returns a 
-     * {@link org.apache.commons.math.stat.univariate.StatisticalSummary} 
+     * {@link org.apache.commons.math.stat.descriptive.StatisticalSummary} 
      * describing this distribution.
      * <strong>Preconditions:</strong><ul>
      * <li>the distribution must be loaded before invoking this method</li>
@@ -111,7 +111,7 @@ public interface EmpiricalDistribution {
 
     /**
      * Returns a list of 
-     * {@link org.apache.commons.math.stat.univariate.SummaryStatistics}
+     * {@link org.apache.commons.math.stat.descriptive.SummaryStatistics}
      * containing statistics describing the values in each of the bins.  The
      * List is indexed on the bin number.
      * 

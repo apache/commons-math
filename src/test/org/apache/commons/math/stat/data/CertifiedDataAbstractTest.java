@@ -26,13 +26,13 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.math.TestUtils;
-import org.apache.commons.math.stat.univariate.DescriptiveStatistics;
-import org.apache.commons.math.stat.univariate.SummaryStatistics;
+import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 
 import junit.framework.TestCase;
 
 /**
- * @version $Revision: 1.6 $ $Date: 2004/06/04 13:54:03 $
+ * @version $Revision: 1.7 $ $Date: 2004/10/08 05:08:19 $
  */
 public abstract class CertifiedDataAbstractTest extends TestCase {
 	

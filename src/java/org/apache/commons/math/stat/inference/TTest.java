@@ -16,7 +16,7 @@
 package org.apache.commons.math.stat.inference;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.stat.univariate.StatisticalSummary;
+import org.apache.commons.math.stat.descriptive.StatisticalSummary;
 
 /**
  * An interface for Student's t-tests.
@@ -41,7 +41,7 @@ import org.apache.commons.math.stat.univariate.StatisticalSummary;
  * {@link StatisticalSummary} instances.
  * 
  *
- * @version $Revision: 1.7 $ $Date: 2004/08/02 04:20:08 $ 
+ * @version $Revision: 1.8 $ $Date: 2004/10/08 05:08:18 $ 
  */
 public interface TTest {
     /**

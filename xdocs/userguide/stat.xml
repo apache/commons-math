@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.22 $ $Date: 2004/09/01 16:19:21 $ -->
+<!-- $Revision: 1.23 $ $Date: 2004/10/08 05:08:21 $ -->
 <document url="stat.html">
   <properties>
     <title>The Commons Math User Guide - Statistics</title>
@@ -27,20 +27,20 @@
       <subsection name="1.1 Overview" href="overview">
         <p>
           The statistics package provides frameworks and implementations for
-          basic univariate statistics, frequency distributions, bivariate regression,  
+          basic Descriptive statistics, frequency distributions, bivariate regression,  
           and t- and chi-square test statistics.
         </p>
         <p>
-         <a href="#1.2 Univariate statistics">Univariate Statistics</a><br></br>
+         <a href="#1.2 Descriptive statistics">Descriptive statistics</a><br></br>
          <a href="#1.3 Frequency distributions">Frequency distributions</a><br></br>
          <a href="#1.4 Simple regression">Simple Regression</a><br></br>
          <a href="#1.5 Statistical tests">Statistical Tests</a><br></br>
         </p>
       </subsection>
-      <subsection name="1.2 Univariate statistics" href="univariate">
+      <subsection name="1.2 Descriptive statistics" href="univariate">
         <p>
           The stat package includes a framework and default implementations for
-           the following univariate statistics:
+           the following Descriptive statistics:
           <ul>
             <li>arithmetic and geometric means</li>
             <li>variance and standard deviation</li>
@@ -59,12 +59,12 @@
         </p>
         <p>
           The top level interface is 
-          <a href="../apidocs/org/apache/commons/math/stat/univariate/UnivariateStatistic.html">
-          org.apache.commons.math.stat.univariate.UnivariateStatistic.</a> 
+          <a href="../apidocs/org/apache/commons/math/stat/descriptive/UnivariateStatistic.html">
+          org.apache.commons.math.stat.descriptive.UnivariateStatistic.</a> 
           This interface, implemented by all statistics, consists of 
           <code>evaluate()</code> methods that take double[] arrays as arguments
           and return the value of the statistic.   This interface is extended by 
-          <a href="../apidocs/org/apache/commons/math/stat/univariate/StorelessUnivariateStatistic.html">
+          <a href="../apidocs/org/apache/commons/math/stat/descriptive/StorelessUnivariateStatistic.html">
           StorelessUnivariateStatistic</a>, which adds <code>increment(),</code>
           <code>getResult()</code> and associated methods to support 
           "storageless" implementations that maintain counters, sums or other 
@@ -73,9 +73,9 @@
         </p>
         <p>
           Abstract implementations of the top level interfaces are provided in 
-          <a href="../apidocs/org/apache/commons/math/stat/univariate/AbstractUnivariateStatistic.html">
+          <a href="../apidocs/org/apache/commons/math/stat/descriptive/AbstractUnivariateStatistic.html">
           AbstractUnivariateStatistic</a> and
-          <a href="../apidocs/org/apache/commons/math/stat/univariate/AbstractStorelessUnivariateStatistic.html">
+          <a href="../apidocs/org/apache/commons/math/stat/descriptive/AbstractStorelessUnivariateStatistic.html">
           AbstractStorelessUnivariateStatistic</a> respectively.
         </p>
         <p>
@@ -85,9 +85,9 @@
           compute the statistic). There are several ways to instantiate and use statistics.  
           Statistics can be instantiated and used directly,  but it is generally more convenient
           (and efficient) to access them using the provided aggregates, 
-          <a href="../apidocs/org/apache/commons/math/stat/univariate/DescriptiveStatistics.html">
+          <a href="../apidocs/org/apache/commons/math/stat/descriptive/DescriptiveStatistics.html">
            DescriptiveStatistics</a> and 
-           <a href="../apidocs/org/apache/commons/math/stat/univariate/SummaryStatistics.html">
+           <a href="../apidocs/org/apache/commons/math/stat/descriptive/SummaryStatistics.html">
            SummaryStatistics.</a>  
         </p>
         <p>
@@ -97,7 +97,7 @@
         </p>
         <p>
            <code>SummaryStatisics</code> does not store the input data values 
-           in memory, so the statisticsincluded in this aggregate are limited to those 
+           in memory, so the statistics included in this aggregate are limited to those 
            that can be computed in one pass through the data without access to 
            the full array of values.  
         </p>
@@ -105,11 +105,11 @@
           <table>
             <tr><th>Aggregate</th><th>Statistics Included</th><th>Values stored?</th>
             <th>"Rolling" capability?</th></tr><tr><td>
-            <a href="../apidocs/org/apache/commons/math/stat/univariate/DescriptiveStatistics.html">
+            <a href="../apidocs/org/apache/commons/math/stat/descriptive/DescriptiveStatistics.html">
             DescriptiveStatistics</a></td><td>min, max, mean, geometric mean, n, 
             sum, sum of squares, standard deviation, variance, percentiles, skewness, 
             kurtosis, median</td><td>Yes</td><td>Yes</td></tr><tr><td>
-            <a href="../apidocs/org/apache/commons/math/stat/univariate/SummaryStatistics.html">
+            <a href="../apidocs/org/apache/commons/math/stat/descriptive/SummaryStatistics.html">
             SummaryStatistics</a></td><td>min, max, mean, geometric mean, n, 
             sum, sum of squares, standard deviation, variance</td><td>No</td><td>No</td></tr>
           </table>
@@ -121,7 +121,7 @@
            directly from double[] arrays. 
         </p>
         <p>
-          Here are some examples showing how to compute univariate statistics.
+          Here are some examples showing how to compute Descriptive statistics.
           <dl>
           <dt>Compute summary statistics for a list of double values</dt>
           <br></br>
@@ -205,7 +205,7 @@ in.close();
       <subsection name="1.3 Frequency distributions" href="frequency">
         <p>
           <a href="../apidocs/org/apache/commons/math/stat/Frequency.html">
-          org.apache.commons.math.stat.univariate.Frequency</a>
+          org.apache.commons.math.stat.descriptive.Frequency</a>
           provides a simple interface for maintaining counts and percentages of discrete
           values.  
         </p>
@@ -268,8 +268,8 @@ System.out.println(f.getCumPct("z"));  // displays 1
       </subsection>
       <subsection name="1.4 Simple regression" href="regression">
         <p>
-         <a href="../apidocs/org/apache/commons/math/stat/multivariate/SimpleRegression.html">
-          org.apache.commons.math.stat.multivariate.SimpleRegression</a>
+         <a href="../apidocs/org/apache/commons/math/stat/regression/SimpleRegression.html">
+          org.apache.commons.math.stat.regression.SimpleRegression</a>
           provides ordinary least squares regression with one independent variable, 
           estimating the linear model:
          </p>
@@ -450,8 +450,8 @@ System.out.println(testStatistic.t(mu, observed);
            <code>mu.</code>
           </dd>
           <dd>To compare the mean of a dataset described by a 
-          <a href="../apidocs/org/apache/commons/math/stat/univariate/StatisticalSummary.html">
-          org.apache.commons.math.stat.univariate.StatisticalSummary</a>  to a fixed value:
+          <a href="../apidocs/org/apache/commons/math/stat/descriptive/StatisticalSummary.html">
+          org.apache.commons.math.stat.descriptive.StatisticalSummary</a>  to a fixed value:
           <source>
 double[] observed ={1d, 2d, 3d};
 double mu = 2.5d;
@@ -532,7 +532,7 @@ testStatistic.pairedTTest(sample1, sample2, .05);
            statistics necessary to perform t-tests, so this method can be used to 
            conduct t-tests with very large samples.  One-sample tests can also be 
            performed this way.
-           (See <a href="#1.2 Univariate statistics">Univariate Statistics</a> for details
+           (See <a href="#1.2 Descriptive statistics">Descriptive statistics</a> for details
            on the <code>SummaryStatistics</code> class.)
            </p>
            <p>

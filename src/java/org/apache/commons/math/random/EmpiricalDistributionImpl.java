@@ -26,8 +26,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math.stat.univariate.SummaryStatistics;
-import org.apache.commons.math.stat.univariate.StatisticalSummary;
+import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+import org.apache.commons.math.stat.descriptive.StatisticalSummary;
 
 /**
  * Implements <code>EmpiricalDistribution</code> interface.  This implementation
@@ -54,7 +54,7 @@ import org.apache.commons.math.stat.univariate.StatisticalSummary;
  *    entry per line.</li>
  * </ul></p>
  *
- * @version $Revision: 1.29 $ $Date: 2004/07/20 12:53:54 $
+ * @version $Revision: 1.30 $ $Date: 2004/10/08 05:08:16 $
  */
 public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistribution {
 
