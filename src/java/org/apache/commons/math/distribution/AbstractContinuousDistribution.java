@@ -24,7 +24,7 @@ import org.apache.commons.math.analysis.UnivariateRealSolverUtils;
  * implementations for some of the methods that do not vary from distribution
  * to distribution.
  *  
- * @version $Revision: 1.21 $ $Date: 2004/05/19 14:16:31 $
+ * @version $Revision: 1.22 $ $Date: 2004/05/30 01:24:02 $
  */
 public abstract class AbstractContinuousDistribution
     implements ContinuousDistribution {
@@ -46,9 +46,14 @@ public abstract class AbstractContinuousDistribution
      * @return the cumulative probability. 
      * @throws MathException if the cumulative probability can not be
      *            computed due to convergence or other numerical errors.
+     * @throws IllegalArgumentException if x0 > x1
      */
     public double cumulativeProbability(double x0, double x1)
         throws MathException {
+        if (x0 > x1) {
+            throw new IllegalArgumentException
+            ("lower endpoint must be less than or equal to upper endpoint");
+        }
         return cumulativeProbability(x1) - cumulativeProbability(x0);
     }
 
