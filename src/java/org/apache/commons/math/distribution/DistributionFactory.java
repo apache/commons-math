@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -65,6 +65,8 @@ import org.apache.commons.discovery.tools.DiscoverClass;
  * <li>Exponential</li>
  * <li>F</li>
  * <li>Gamma</li>
+ * <li>HyperGeometric</li>
+ * <li>Normal</li>
  * <li>Student's t</li>
  * </ul>
  * 
@@ -75,7 +77,7 @@ import org.apache.commons.discovery.tools.DiscoverClass;
  * ChiSquaredDistribution chi = factory.createChiSquareDistribution(5.0);
  * </pre>
  * 
- * @version $Revision: 1.17 $ $Date: 2003/11/15 16:01:35 $
+ * @version $Revision: 1.18 $ $Date: 2004/01/26 03:04:31 $
  */
 public abstract class DistributionFactory {
     /**
@@ -164,4 +166,21 @@ public abstract class DistributionFactory {
     public abstract HypergeometricDistribution
         createHypergeometricDistribution(int populationSize,
             int numberOfSuccesses, int sampleSize);
+ 
+	/**
+	 * Create a new normal distribution with the given mean and standard
+	 * deviation values.
+	 * @param mean arithmetic mean.
+	 * @param sd standard deviation.
+	 * @return a new normal distribution.  
+	 */           
+    public abstract NormalDistribution 
+    	createNormalDistribution(double mean, double sd);
+    	
+	/**
+	 * Create a new normal distribution with the mean equal to zero and standard
+	 * deviation equal to one.
+	 * @return a new normal distribution.  
+	 */               
+	public abstract NormalDistribution createNormalDistribution();
 }

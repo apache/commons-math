@@ -1,7 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,7 +60,7 @@ import java.io.Serializable;
  * A concrete distribution factory.  This is the default factory used by
  * Commons-Math.
  *  
- * @version $Revision: 1.16 $ $Date: 2003/11/19 03:22:53 $
+ * @version $Revision: 1.17 $ $Date: 2004/01/26 03:04:31 $
  */
 public class DistributionFactoryImpl extends DistributionFactory implements Serializable  {
     /**
@@ -153,5 +153,25 @@ public class DistributionFactoryImpl extends DistributionFactory implements Seri
         return new HypergeometricDistributionImpl(populationSize,
             numberOfSuccesses, sampleSize);
     }
+
+	/**
+	 * Create a new normal distribution with the given mean and standard
+	 * deviation values.
+	 * @param mean arithmetic mean.
+	 * @param sd standard deviation.
+	 * @return a new normal distribution.  
+	 */   
+	public NormalDistribution createNormalDistribution(double mean, double sd) {
+		return new NormalDistributionImpl(mean, sd);
+	}
+
+	/**
+	 * Create a new normal distribution with the mean equal to zero and standard
+	 * deviation equal to one.
+	 * @return a new normal distribution.  
+	 */ 
+	public NormalDistribution createNormalDistribution() {
+		return new NormalDistributionImpl();
+	}
 
 }
