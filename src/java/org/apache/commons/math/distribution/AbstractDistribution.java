@@ -1,5 +1,5 @@
 /*
- * Copyright 2003-2004 The Apache Software Foundation.
+ * Copyright 2004 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import org.apache.commons.math.MathException;
 /**
  * Base class for probability distributions.   
  *  
- * @version $Revision: 1.1 $ $Date: 2004/11/07 03:32:48 $
+ * @version $Revision: 1.2 $ $Date: 2004/11/07 20:39:15 $
  */
 public abstract class AbstractDistribution
     implements Distribution, Serializable {
