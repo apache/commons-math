@@ -53,10 +53,11 @@
  */
 package org.apache.commons.math.stat.univariate;
 
+import org.apache.commons.math.TestUtils;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
- * @version $Revision: 1.8 $ $Date: 2003/11/14 22:22:23 $
+ * @version $Revision: 1.9 $ $Date: 2003/11/19 13:35:10 $
  */
 public abstract class StorelessUnivariateStatisticAbstractTest
     extends UnivariateStatisticAbstractTest {
@@ -81,11 +82,32 @@ public abstract class StorelessUnivariateStatisticAbstractTest
         }
 
         assertEquals(expectedValue(), statistic.getResult(), getTolerance());
-        
+
         statistic.clear();
 
         assertTrue(Double.isNaN(statistic.getResult()));
+
+    }
+
+    public void testSerialization() throws Exception {
+
+        StorelessUnivariateStatistic statistic =
+            (StorelessUnivariateStatistic) getUnivariateStatistic();
+
+        statistic.clear();
+
+        for (int i = 0; i < testArray.length; i++) {
+            statistic.increment(testArray[i]);
+            if(i % 5 == 0)
+                statistic = (StorelessUnivariateStatistic)TestUtils.serializeAndRecover(statistic); 
+        }
         
+        assertEquals(expectedValue(), statistic.getResult(), getTolerance());
+
+        statistic.clear();
+
+        assertTrue(Double.isNaN(statistic.getResult()));
+
     }
 
 }
