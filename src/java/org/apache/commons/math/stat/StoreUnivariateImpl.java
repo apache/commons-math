@@ -57,7 +57,7 @@ import org.apache.commons.math.stat.univariate.UnivariateStatistic;
 import org.apache.commons.math.util.ContractableDoubleArray;
 
 /**
- * @version $Revision: 1.7 $ $Date: 2003/09/26 19:30:32 $
+ * @version $Revision: 1.8 $ $Date: 2003/09/27 04:13:33 $
  */
 public class StoreUnivariateImpl extends AbstractStoreUnivariate {
 
@@ -144,8 +144,10 @@ public class StoreUnivariateImpl extends AbstractStoreUnivariate {
         }
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.stat.AbstractUnivariate#apply(org.apache.commons.math.stat.univariate.UnivariateStatistic)
+    /**
+     * Apply the given statistic to this univariate collection.
+     * @param stat the statistic to apply
+     * @return the computed value of the statistic.
      */
     public double apply(UnivariateStatistic stat) {
         if (eDA != null) {

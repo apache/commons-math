@@ -54,28 +54,88 @@
 
 package org.apache.commons.math.util;
 
-import org.apache.commons.beanutils.ConversionException;
-import org.apache.commons.beanutils.converters.DoubleConverter;
+import junit.framework.TestCase;
 
 /**
- * A Default NumberTransformer for java.lang.Numbers and Numeric Strings. 
- * @version $Revision: 1.4 $ $Date: 2003/09/27 04:13:34 $
+ * @version $Revision: 1.1 $ $Date: 2003/09/27 04:13:34 $
  */
-public class DefaultTransformer implements NumberTransformer {
-    /** Converter used to transform objects. */
-    private static final DoubleConverter converter =
-        new DoubleConverter(new Double(Double.NaN));
+public class TransformerMapTest extends TestCase {
+    /**
+     * 
+     */
+    public void testPutTransformer(){
+        NumberTransformer expected = new DefaultTransformer();
+        
+        TransformerMap map = new TransformerMap();
+        map.putTransformer(TransformerMapTest.class, expected);
+        assertEquals(expected, map.getTransformer(TransformerMapTest.class));
+    }
     
     /**
-     * @see org.apache.commons.collections.Transformer#transform(java.lang.Object)
+     * 
      */
-    public double transform(Object o) {
-        double d;
-        try {
-            d = ((Double)converter.convert(Double.class, o)).doubleValue();
-        } catch(ConversionException ex){
-            d = Double.NaN;
-        }
-        return d;
+    public void testContainsClass(){
+        NumberTransformer expected = new DefaultTransformer();
+        TransformerMap map = new TransformerMap();
+        map.putTransformer(TransformerMapTest.class, expected);
+        assertTrue(map.containsClass(TransformerMapTest.class));
+    }
+    
+    /**
+     * 
+     */
+    public void testContainsTransformer(){
+        NumberTransformer expected = new DefaultTransformer();
+        TransformerMap map = new TransformerMap();
+        map.putTransformer(TransformerMapTest.class, expected);
+        assertTrue(map.containsTransformer(expected));
+    }
+
+    /**
+     * 
+     */
+    public void testRemoveTransformer(){
+        NumberTransformer expected = new DefaultTransformer();
+        
+        TransformerMap map = new TransformerMap();
+        map.putTransformer(TransformerMapTest.class, expected);
+        assertTrue(map.containsClass(TransformerMapTest.class));
+        assertTrue(map.containsTransformer(expected));
+        map.removeTransformer(TransformerMapTest.class);
+        assertFalse(map.containsClass(TransformerMapTest.class));
+        assertFalse(map.containsTransformer(expected));
+    }
+
+    /**
+     * 
+     */
+    public void testClear(){
+        NumberTransformer expected = new DefaultTransformer();
+        
+        TransformerMap map = new TransformerMap();
+        map.putTransformer(TransformerMapTest.class, expected);
+        assertTrue(map.containsClass(TransformerMapTest.class));
+        map.clear();
+        assertFalse(map.containsClass(TransformerMapTest.class));
+    }
+    
+    /**
+     * 
+     */
+    public void testClasses(){
+        NumberTransformer expected = new DefaultTransformer();
+        TransformerMap map = new TransformerMap();
+        map.putTransformer(TransformerMapTest.class, expected);
+        assertTrue(map.classes().contains(TransformerMapTest.class));
+    }
+    
+    /**
+     * 
+     */
+    public void testTransformers(){
+        NumberTransformer expected = new DefaultTransformer();
+        TransformerMap map = new TransformerMap();
+        map.putTransformer(TransformerMapTest.class, expected);
+        assertTrue(map.transformers().contains(expected));
     }
 }

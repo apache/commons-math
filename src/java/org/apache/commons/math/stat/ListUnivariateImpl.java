@@ -60,7 +60,7 @@ import org.apache.commons.math.util.DefaultTransformer;
 import org.apache.commons.math.util.NumberTransformer;
 
 /**
- * @version $Revision: 1.6 $ $Date: 2003/09/26 19:30:32 $
+ * @version $Revision: 1.7 $ $Date: 2003/09/27 04:13:33 $
  */
 public class ListUnivariateImpl
     extends AbstractStoreUnivariate
@@ -80,9 +80,7 @@ public class ListUnivariateImpl
      * @param list The list that will back this Univariate
      */
     public ListUnivariateImpl(List list) {
-        super();
-        this.list = list;
-        transformer = new DefaultTransformer();
+        this(list, new DefaultTransformer());
     }
     
     /**
@@ -188,8 +186,10 @@ public class ListUnivariateImpl
         list.clear();
     }
     
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.stat.AbstractUnivariate#apply(org.apache.commons.math.stat.univariate.UnivariateStatistic)
+    /**
+     * Apply the given statistic to this univariate collection.
+     * @param stat the statistic to apply
+     * @return the computed value of the statistic.
      */
     public double apply(UnivariateStatistic stat) {
         double[] v = this.getValues();

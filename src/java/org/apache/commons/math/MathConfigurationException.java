@@ -55,7 +55,7 @@ package org.apache.commons.math;
 
 /**
  * Signals a configuration problem with any of the factory methods.
- * @version $Revision: 1.6 $ $Date: 2003/08/09 04:03:41 $
+ * @version $Revision: 1.7 $ $Date: 2003/09/27 04:13:34 $
  */
 public class MathConfigurationException extends MathException {
 
@@ -63,7 +63,7 @@ public class MathConfigurationException extends MathException {
      * Default constructor.
      */
     public MathConfigurationException() {
-        super();
+        this(null, null);
     }
 
     /**
@@ -71,7 +71,7 @@ public class MathConfigurationException extends MathException {
      * @param message message describing the problem
      */
     public MathConfigurationException(final String message) {
-        super(message);
+        this(message, null);
     }
 
     /**
@@ -90,6 +90,6 @@ public class MathConfigurationException extends MathException {
      * @param throwable caught exception causing this problem
      */
     public MathConfigurationException(final Throwable throwable) {
-        super(throwable);
+        this(null, throwable);
     }
 }

@@ -53,19 +53,28 @@
  */
 package org.apache.commons.math.analysis;
 
+import org.apache.commons.lang.exception.NestableRuntimeException;
+
 /**
  * Error thrown when a numerical computation can not be performed because the
  * numerical result failed to converge to a finite value.
  * 
- * @version $Revision: 1.2 $ $Date: 2003/07/09 20:02:43 $
+ * @version $Revision: 1.3 $ $Date: 2003/09/27 04:13:33 $
  */
-public class ConvergenceException extends RuntimeException {
+public class ConvergenceException extends NestableRuntimeException {
+    /**
+     * Default constructor.
+     */
+    public ConvergenceException() {
+        this(null, null);
+    }
+    
     /**
      * Construct an exception with the given message.
      * @param message descriptive error message. 
      */
     public ConvergenceException(String message) {
-        super(message);
+        this(message, null);
     }
 
     /**
@@ -75,6 +84,14 @@ public class ConvergenceException extends RuntimeException {
      */
     public ConvergenceException(String message, Throwable cause) {
         super(message, cause);
+    }
+
+    /**
+     * Create an exception with a given root cause.
+     * @param throwable caught exception causing this problem
+     */
+    public ConvergenceException(Throwable throwable) {
+        this(null, throwable);
     }
 
 }

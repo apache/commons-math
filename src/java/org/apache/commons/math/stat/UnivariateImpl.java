@@ -67,7 +67,7 @@ import org.apache.commons.math.util.FixedDoubleArray;
  * Integers, floats and longs can be added, but they will be converted
  * to doubles by addValue().
  *
- * @version $Revision: 1.20 $ $Date: 2003/09/26 19:30:32 $
+ * @version $Revision: 1.21 $ $Date: 2003/09/27 04:13:33 $
 */
 public class UnivariateImpl
     extends AbstractUnivariate
@@ -161,8 +161,10 @@ public class UnivariateImpl
         }
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.stat.AbstractUnivariate#apply(org.apache.commons.math.stat.univariate.UnivariateStatistic)
+    /**
+     * Apply the given statistic to this univariate collection.
+     * @param stat the statistic to apply
+     * @return the computed value of the statistic.
      */
     public double apply(UnivariateStatistic stat) {
         

@@ -63,7 +63,7 @@ import org.apache.commons.collections.HashBag;
  * Accepts int, long or string values, converting
  * all to Strings and maintaining frequency counts.
  * 
- * @version $Revision: 1.4 $ $Date: 2003/07/09 21:45:23 $
+ * @version $Revision: 1.5 $ $Date: 2003/09/27 04:13:33 $
  */
 public class Frequency {
     /** name for this frequency distribution. */
@@ -85,7 +85,7 @@ public class Frequency {
      */
     public Frequency(String name) {
         super();
-        this.name = name;
+        setName(name);
     }
 
     /**

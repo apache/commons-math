@@ -55,11 +55,11 @@ package org.apache.commons.math.util;
 
 import java.lang.reflect.InvocationTargetException;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.math.MathException;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Uses PropertyUtils to map a Bean getter to a double value.
- * @version $Revision: 1.5 $ $Date: 2003/09/17 19:19:09 $
+ * @version $Revision: 1.6 $ $Date: 2003/09/27 04:13:34 $
  */
 public class BeanTransformer implements NumberTransformer {
 
@@ -72,7 +72,7 @@ public class BeanTransformer implements NumberTransformer {
      * Create a BeanTransformer
      */
     public BeanTransformer() {
-        super();
+        this(null);
     }
 
     /**
@@ -80,26 +80,8 @@ public class BeanTransformer implements NumberTransformer {
      * @param property The property.
      */
     public BeanTransformer(final String property) {
-        this.propertyName = property;
-    }
-
-    /**
-     * @see org.apache.commons.math.util.NumberTransformer#transform(java.lang.Object)
-     */
-    public double transform(final Object o) throws MathException {
-        double d = Double.NaN;
-        try {
-            d =
-                ((Number) PropertyUtils.getProperty(o, propertyName))
-                    .doubleValue();
-        } catch (IllegalAccessException e) {
-            throw new MathException(e.getMessage(),e);
-        } catch (InvocationTargetException e) {
-            throw new MathException(e.getMessage(),e);
-        } catch (NoSuchMethodException e) {
-            throw new MathException(e.getMessage(),e);
-        }
-        return d;
+        super();
+        setPropertyName(property);
     }
 
     /**
@@ -118,4 +100,26 @@ public class BeanTransformer implements NumberTransformer {
         propertyName = string;
     }
 
+    /**
+     * @see org.apache.commons.math.util.NumberTransformer#transform(java.lang.Object)
+     */
+    public double transform(final Object o) {
+        double d = Double.NaN;
+        try {
+            d =
+                ((Number) PropertyUtils.getProperty(o, getPropertyName()))
+                    .doubleValue();
+        } catch (IllegalAccessException e) {
+            LogFactory.getLog(getClass()).error(
+                "Property can not be accessed.  Using NaN.", e);
+        } catch (InvocationTargetException e) {
+            LogFactory.getLog(getClass()).error(
+                "Property accessor method threw an exception.  Using NaN.", e);
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            LogFactory.getLog(getClass()).error(
+                "Property accessor method does not exist.  Using NaN.", e);
+        }
+        return d;
+    }
 }

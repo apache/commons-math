@@ -51,78 +51,59 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.commons.math.analysis;
 
-import org.apache.commons.math.MathException;
+package org.apache.commons.math.util;
 
 /**
- * Utility class comprised of root finding techniques.
- *
- * @version $Revision: 1.4 $ $Date: 2003/09/07 03:12:56 $
+ * @version $Revision: 1.1 $ $Date: 2003/09/27 04:13:34 $
  */
-public class RootFinding {
+public class TestBean {
+    private Double x = new Double(1.0);
+    
+    private String y = "1.0";
+    
+    private Double z = new Double(2.0);
+    
     /**
-     * Default constructor. Prohibit construction.
+     * 
      */
-    private RootFinding() {
-        super();
+    public Double getX() {
+        return x;
     }
 
     /**
-     * For a function, f, this method returns two values, a and b that bracket
-     * a root of f.  That is to say, there exists a value c between a and b
-     * such that f(c) = 0.
-     *
-     * @param function the function
-     * @param initial midpoint of the returned range.
-     * @param lowerBound for numerical safety, a never is less than this value.
-     * @param upperBound for numerical safety, b never is greater than this
-     *                   value.
-     * @return a two element array holding {a, b}.
-     * @throws MathException if a root can not be bracketted.
+     * 
      */
-    public static double[] bracket(UnivariateRealFunction function,
-                                   double initial,
-                                   double lowerBound,
-                                   double upperBound) throws MathException {
-        return bracket( function, initial, lowerBound, upperBound,
-            Integer.MAX_VALUE ) ;
+    public String getY() {
+        return y;
     }
 
     /**
-     * For a function, f, this method returns two values, a and b that bracket
-     * a root of f.  That is to say, there exists a value c between a and b
-     * such that f(c) = 0.
-     *
-     * @param function the function
-     * @param initial midpoint of the returned range.
-     * @param lowerBound for numerical safety, a never is less than this value.
-     * @param upperBound for numerical safety, b never is greater than this
-     *                   value.
-     * @param maximumIterations to guard against infinite looping, maximum
-     *                          number of iterations to perform
-     * @return a two element array holding {a, b}.
-     * @throws MathException if a root can not be bracketted.
+     * 
      */
-    public static double[] bracket(UnivariateRealFunction function,
-                                   double initial,
-                                   double lowerBound,
-                                   double upperBound,
-                                   int maximumIterations) throws MathException {
-        double a = initial;
-        double b = initial;
-        double fa;
-        double fb;
-        int numIterations = 0 ;
-
-        do {
-            a = Math.max(a - 1.0, lowerBound);
-            b = Math.min(b + 1.0, upperBound);
-            fa = function.value(a);
-            fb = function.value(b);
-            numIterations += 1 ;
-        } while ( (fa * fb > 0.0) && ( numIterations < maximumIterations ) );
-
-        return new double[]{a, b};
+    public void setX(Double double1) {
+        x = double1;
     }
+
+    /**
+     * 
+     */
+    public void setY(String string) {
+        y = string;
+    }
+    
+    /**
+     * 
+     */
+    public Double getZ() {
+        throw new RuntimeException();
+    }
+
+    /**
+     * 
+     */
+    public void setZ(Double double1) {
+        z = double1;
+    }
+
 }

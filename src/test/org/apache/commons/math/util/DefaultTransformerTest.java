@@ -54,28 +54,72 @@
 
 package org.apache.commons.math.util;
 
-import org.apache.commons.beanutils.ConversionException;
-import org.apache.commons.beanutils.converters.DoubleConverter;
+import java.math.BigDecimal;
+
+import org.apache.commons.math.TestUtils;
+
+import junit.framework.TestCase;
 
 /**
- * A Default NumberTransformer for java.lang.Numbers and Numeric Strings. 
- * @version $Revision: 1.4 $ $Date: 2003/09/27 04:13:34 $
+ * @version $Revision: 1.1 $ $Date: 2003/09/27 04:13:34 $
  */
-public class DefaultTransformer implements NumberTransformer {
-    /** Converter used to transform objects. */
-    private static final DoubleConverter converter =
-        new DoubleConverter(new Double(Double.NaN));
+public class DefaultTransformerTest extends TestCase {
+    /**
+     * 
+     */
+    public void testTransformDouble(){
+        double expected = 1.0;
+        Double input = new Double(expected);
+        DefaultTransformer t = new DefaultTransformer();
+        assertEquals(expected, t.transform(input), 1.0e-4);
+    }
     
     /**
-     * @see org.apache.commons.collections.Transformer#transform(java.lang.Object)
+     * 
      */
-    public double transform(Object o) {
-        double d;
-        try {
-            d = ((Double)converter.convert(Double.class, o)).doubleValue();
-        } catch(ConversionException ex){
-            d = Double.NaN;
-        }
-        return d;
+    public void testTransformNull(){
+        double expected = Double.NaN;
+        DefaultTransformer t = new DefaultTransformer();
+        TestUtils.assertEquals(expected, t.transform(null), 1.0e-4);
+    }
+    
+    /**
+     * 
+     */
+    public void testTransformInteger(){
+        double expected = 1.0;
+        Integer input = new Integer(1);
+        DefaultTransformer t = new DefaultTransformer();
+        assertEquals(expected, t.transform(input), 1.0e-4);
+    }        
+    
+    /**
+     * 
+     */
+    public void testTransformBigDecimal(){
+        double expected = 1.0;
+        BigDecimal input = new BigDecimal("1.0");
+        DefaultTransformer t = new DefaultTransformer();
+        assertEquals(expected, t.transform(input), 1.0e-4);
+    }        
+    
+    /**
+     * 
+     */
+    public void testTransformString(){
+        double expected = 1.0;
+        String input = "1.0";
+        DefaultTransformer t = new DefaultTransformer();
+        assertEquals(expected, t.transform(input), 1.0e-4);
+    }
+    
+    /**
+     * 
+     */
+    public void testTransformObject(){
+        double expected = Double.NaN;
+        Boolean input = Boolean.TRUE;
+        DefaultTransformer t = new DefaultTransformer();
+        TestUtils.assertEquals(expected, t.transform(input), 1.0e-4);
     }
 }

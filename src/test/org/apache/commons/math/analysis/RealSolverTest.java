@@ -69,7 +69,7 @@ import junit.framework.TestSuite;
  * default absolute accuracy of 10E-8 for sinus and the quintic function around
  * zero, and 5..10 iterations for the other zeros.
  * 
- * @version $Revision: 1.3 $ $Date: 2003/09/17 19:29:27 $
+ * @version $Revision: 1.4 $ $Date: 2003/09/27 04:13:34 $
  */
 public final class RealSolverTest extends TestCase {
 
@@ -281,27 +281,27 @@ public final class RealSolverTest extends TestCase {
         // 14 iterations on i586 JDK 1.4.1.
         assertTrue(solver.getIterationCount() <= 15);
         // Static solve method
-        result = UnivariateRealSolverUtil.solve(f, -0.2, 0.2);
+        result = UnivariateRealSolverUtils.solve(f, -0.2, 0.2);
         assertEquals(result, 0, solver.getAbsoluteAccuracy());
-        result = UnivariateRealSolverUtil.solve(f, -0.1, 0.3);
+        result = UnivariateRealSolverUtils.solve(f, -0.1, 0.3);
         Assert.assertEquals(result, 0, 1E-8);
-        result = UnivariateRealSolverUtil.solve(f, -0.3, 0.45);
+        result = UnivariateRealSolverUtils.solve(f, -0.3, 0.45);
         Assert.assertEquals(result, 0, 1E-6);
-        result = UnivariateRealSolverUtil.solve(f, 0.3, 0.7);
+        result = UnivariateRealSolverUtils.solve(f, 0.3, 0.7);
         Assert.assertEquals(result, 0.5, 1E-6);
-        result = UnivariateRealSolverUtil.solve(f, 0.2, 0.6);
+        result = UnivariateRealSolverUtils.solve(f, 0.2, 0.6);
         Assert.assertEquals(result, 0.5, 1E-6);
-        result = UnivariateRealSolverUtil.solve(f, 0.05, 0.95);
+        result = UnivariateRealSolverUtils.solve(f, 0.05, 0.95);
         Assert.assertEquals(result, 0.5, 1E-6);
-        result = UnivariateRealSolverUtil.solve(f, 0.85, 1.25);
+        result = UnivariateRealSolverUtils.solve(f, 0.85, 1.25);
         Assert.assertEquals(result, 1.0, 1E-6);
-        result = UnivariateRealSolverUtil.solve(f, 0.8, 1.2);
+        result = UnivariateRealSolverUtils.solve(f, 0.8, 1.2);
         Assert.assertEquals(result, 1.0, 1E-6);
-        result = UnivariateRealSolverUtil.solve(f, 0.85, 1.75);
+        result = UnivariateRealSolverUtils.solve(f, 0.85, 1.75);
         Assert.assertEquals(result, 1.0, 1E-6);
-        result = UnivariateRealSolverUtil.solve(f, 0.55, 1.45);
+        result = UnivariateRealSolverUtils.solve(f, 0.55, 1.45);
         Assert.assertEquals(result, 1.0, 1E-6);
-        result = UnivariateRealSolverUtil.solve(f, 0.85, 5);
+        result = UnivariateRealSolverUtils.solve(f, 0.85, 5);
         Assert.assertEquals(result, 1.0, 1E-6);
     }
 }

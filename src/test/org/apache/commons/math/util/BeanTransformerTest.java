@@ -54,28 +54,83 @@
 
 package org.apache.commons.math.util;
 
-import org.apache.commons.beanutils.ConversionException;
-import org.apache.commons.beanutils.converters.DoubleConverter;
+import org.apache.commons.math.TestUtils;
+
+import junit.framework.TestCase;
 
 /**
- * A Default NumberTransformer for java.lang.Numbers and Numeric Strings. 
- * @version $Revision: 1.4 $ $Date: 2003/09/27 04:13:34 $
+ * @version $Revision: 1.1 $ $Date: 2003/09/27 04:13:34 $
  */
-public class DefaultTransformer implements NumberTransformer {
-    /** Converter used to transform objects. */
-    private static final DoubleConverter converter =
-        new DoubleConverter(new Double(Double.NaN));
+public class BeanTransformerTest extends TestCase {
     
     /**
-     * @see org.apache.commons.collections.Transformer#transform(java.lang.Object)
+     *
      */
-    public double transform(Object o) {
-        double d;
+    public void testConstructor(){
+        BeanTransformer b = new BeanTransformer();
+        assertNull(b.getPropertyName());
+    }
+    
+    /**
+     *
+     */
+    public void testConstructorString(){
+        String name = "property";
+        BeanTransformer b = new BeanTransformer(name);
+        assertEquals(name, b.getPropertyName());
+    }
+    
+    /**
+     *
+     */
+    public void testSetPropertyName(){
+        String name = "property";
+        BeanTransformer b = new BeanTransformer();
+        b.setPropertyName(name);
+        assertEquals(name, b.getPropertyName());
+    }
+    
+    /**
+     * 
+     */
+    public void testTransformNoSuchMethod(){
+        BeanTransformer b = new BeanTransformer("z");
+        TestBean target = new TestBean();
+        double value = b.transform(target);
+        TestUtils.assertEquals(Double.NaN, value, 1.0e-2);
+    }
+    
+    /**
+     * 
+     */
+    public void testTransform(){
+        BeanTransformer b = new BeanTransformer("x");
+        TestBean target = new TestBean();
+        double value = b.transform(target);
+        TestUtils.assertEquals(1.0, value, 1.0e-2);
+    }
+    
+    /**
+     * 
+     */
+    public void testTransformInvocationError(){
+        BeanTransformer b = new BeanTransformer("z");
+        TestBean target = new TestBean();
+        double value = b.transform(target);
+        TestUtils.assertEquals(Double.NaN, value, 1.0e-2);
+    }
+    
+    /**
+     * 
+     */
+    public void testTransformInvalidType(){
+        BeanTransformer b = new BeanTransformer("y");
+        TestBean target = new TestBean();
         try {
-            d = ((Double)converter.convert(Double.class, o)).doubleValue();
-        } catch(ConversionException ex){
-            d = Double.NaN;
+            b.transform(target);
+            fail();
+        } catch(ClassCastException ex){
+            // success
         }
-        return d;
     }
 }

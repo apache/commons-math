@@ -68,7 +68,7 @@ import org.apache.commons.math.stat.univariate.summary.SumOfSquares;
 
 /**
  * Provides univariate measures for an array of doubles.
- * @version $Revision: 1.3 $ $Date: 2003/09/26 19:30:32 $  
+ * @version $Revision: 1.4 $ $Date: 2003/09/27 04:13:33 $  
  */
 public abstract class AbstractUnivariate implements Univariate {
 
@@ -140,6 +140,11 @@ public abstract class AbstractUnivariate implements Univariate {
         setWindowSize(window);
     }
 
+    /**
+     * Apply the given statistic to this univariate collection.
+     * @param stat the statistic to apply
+     * @return the computed value of the statistic.
+     */
     public abstract double apply(UnivariateStatistic stat);
     
 

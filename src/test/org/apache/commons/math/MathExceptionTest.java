@@ -51,60 +51,53 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  */
-package org.apache.commons.math.analysis;
 
-import org.apache.commons.math.MathException;
+package org.apache.commons.math;
+
+import junit.framework.TestCase;
 
 /**
- * Utility routines for {@link UnivariateRealSolver} objects.
- * @version $Revision: 1.2 $ $Date: 2003/09/07 03:12:56 $
+ * @version $Revision: 1.1 $ $Date: 2003/09/27 04:13:34 $
  */
-public class UnivariateRealSolverUtil {
+public class MathExceptionTest extends TestCase {
     /**
-     * Default constructor.
+     * 
      */
-    private UnivariateRealSolverUtil() {
-        super();
+    public void testConstructor(){
+        MathException ex = new MathException();
+        assertNull(ex.getCause());
+        assertNull(ex.getMessage());
     }
-
+    
     /**
-     * Method to solve for zeros of real univariate functions.  A
-     * default solver is created and used for solving. 
-     * @param f the function.
-     * @param x0 the lower bound for the interval.
-     * @param x1 the upper bound for the interval.
-     * @return a value where the function is zero.
-     * @throws MathException if the iteration count was exceeded or the
-     *         solver detects convergence problems otherwise.
+     * 
      */
-    public static double solve(UnivariateRealFunction f, double x0, double x1)
-        throws MathException {
-            
-        return UnivariateRealSolverFactory.newInstance().newDefaultSolver(f)
-            .solve(x0, x1);
+    public void testConstructorMessage(){
+        String msg = "message";
+        MathException ex = new MathException(msg);
+        assertNull(ex.getCause());
+        assertEquals(msg, ex.getMessage());
     }
-
+    
     /**
-     * Convience method to solve for zeros of real univariate functions.  A
-     * default solver is created and used for solving. 
-     * @param f the function.
-     * @param x0 the lower bound for the interval.
-     * @param x1 the upper bound for the interval.
-     * @param absoluteAccuracy the accuracy to be used by the solver.
-     * @return a value where the function is zero.
-     * @throws MathException if the iteration count was exceeded or the
-     *         solver detects convergence problems otherwise.
+     * 
      */
-    public static double solve(
-        UnivariateRealFunction f,
-        double x0,
-        double x1,
-        double absoluteAccuracy)
-        throws MathException {
-            
-        UnivariateRealSolver solver = UnivariateRealSolverFactory.newInstance()
-            .newDefaultSolver(f);
-        solver.setAbsoluteAccuracy(absoluteAccuracy);
-        return solver.solve(x0, x1);
+    public void testConstructorMessageCause(){
+        String outMsg = "outer message";
+        String inMsg = "inner message";
+        Exception cause = new Exception(inMsg);
+        MathException ex = new MathException(outMsg, cause);
+        assertEquals(outMsg, ex.getMessage());
+        assertEquals(cause, ex.getCause());
+    }
+    
+    /**
+     * 
+     */
+    public void testConstructorCause(){
+        String inMsg = "inner message";
+        Exception cause = new Exception(inMsg);
+        MathException ex = new MathException(cause);
+        assertEquals(cause, ex.getCause());
     }
 }

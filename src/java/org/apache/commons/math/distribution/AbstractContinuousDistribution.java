@@ -54,16 +54,15 @@
 package org.apache.commons.math.stat.distribution;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.analysis.RootFinding;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.analysis.UnivariateRealSolverUtil;
+import org.apache.commons.math.analysis.UnivariateRealSolverUtils;
 
 /**
  * Base class for various continuous distributions.  It provides default
  * implementations for some of the methods that do not vary from distribution
  * to distribution.
  *  
- * @version $Revision: 1.8 $ $Date: 2003/07/30 21:58:11 $
+ * @version $Revision: 1.9 $ $Date: 2003/09/27 04:13:34 $
  */
 public abstract class AbstractContinuousDistribution
     implements ContinuousDistribution {
@@ -121,12 +120,12 @@ public abstract class AbstractContinuousDistribution
         
         try {
             // bracket root
-            double[] bracket = RootFinding.bracket(rootFindingFunction,
+            double[] bracket = UnivariateRealSolverUtils.bracket(rootFindingFunction,
                 getInitialDomain(p), getDomainLowerBound(p),
                 getDomainUpperBound(p));
             
             // find root
-            double root = UnivariateRealSolverUtil.solve(
+            double root = UnivariateRealSolverUtils.solve(
                 rootFindingFunction, bracket[0], bracket[1]);
         
             return root;

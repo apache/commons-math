@@ -52,30 +52,69 @@
  * <http://www.apache.org/>.
  */
 
-package org.apache.commons.math.util;
+package org.apache.commons.math.analysis;
 
-import org.apache.commons.beanutils.ConversionException;
-import org.apache.commons.beanutils.converters.DoubleConverter;
+import org.apache.commons.math.MathException;
+
+import junit.framework.TestCase;
 
 /**
- * A Default NumberTransformer for java.lang.Numbers and Numeric Strings. 
- * @version $Revision: 1.4 $ $Date: 2003/09/27 04:13:34 $
+ * @version $Revision: 1.1 $ $Date: 2003/09/27 04:13:34 $
  */
-public class DefaultTransformer implements NumberTransformer {
-    /** Converter used to transform objects. */
-    private static final DoubleConverter converter =
-        new DoubleConverter(new Double(Double.NaN));
+public class UnivariateRealSolverUtilsTest extends TestCase {
+    /**
+     * 
+     */
+    public void testSolveNull(){
+        try {
+            UnivariateRealSolverUtils.solve(null, 0.0, 4.0);
+            fail();
+        } catch(MathException ex){
+            fail("math exception should no be thrown.");
+        } catch(IllegalArgumentException ex){
+            // success
+        }
+    }
     
     /**
-     * @see org.apache.commons.collections.Transformer#transform(java.lang.Object)
+     * 
      */
-    public double transform(Object o) {
-        double d;
+    public void testSolveSin(){
         try {
-            d = ((Double)converter.convert(Double.class, o)).doubleValue();
-        } catch(ConversionException ex){
-            d = Double.NaN;
+            double x = UnivariateRealSolverUtils.solve(new SinFunction(), 1.0,
+                4.0);
+            assertEquals(Math.PI, x, 1.0e-4);
+        } catch(MathException ex){
+            fail("math exception should no be thrown.");
         }
-        return d;
+    }
+
+    /**
+     * 
+     */
+    public void testSolveAccuracyNull(){
+        try {
+            double accuracy = 1.0e-6;
+            UnivariateRealSolverUtils.solve(null, 0.0, 4.0, accuracy);
+            fail();
+        } catch(MathException ex){
+            fail("math exception should no be thrown.");
+        } catch(IllegalArgumentException ex){
+            // success
+        }
+    }
+    
+    /**
+     * 
+     */
+    public void testSolveAccuracySin(){
+        try {
+            double accuracy = 1.0e-6;
+            double x = UnivariateRealSolverUtils.solve(new SinFunction(), 1.0,
+                4.0, accuracy);
+            assertEquals(Math.PI, x, accuracy);
+        } catch(MathException ex){
+            fail("math exception should no be thrown.");
+        }
     }
 }

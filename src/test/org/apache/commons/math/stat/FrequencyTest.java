@@ -53,6 +53,10 @@
  */
 package org.apache.commons.math.stat;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -60,7 +64,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link Frequency} class.
  *
- * @version $Revision: 1.2 $ $Date: 2003/07/07 23:19:19 $
+ * @version $Revision: 1.3 $ $Date: 2003/09/27 04:13:33 $
  */
 
 public final class FrequencyTest extends TestCase {
@@ -103,7 +107,7 @@ public final class FrequencyTest extends TestCase {
     
     /** test pcts */
     public void testPcts() {
-        Frequency f = new Frequency("test counts"); 
+        Frequency f = new Frequency("test pcts"); 
         f.addValue(oneL);
         f.addValue(twoL);
         f.addValue(oneI);
@@ -116,6 +120,46 @@ public final class FrequencyTest extends TestCase {
         assertEquals("two pct",0.25,f.getPct("2"),tolerance);
         assertEquals("foo pct",0.5,f.getPct("foo"),tolerance);
         assertEquals("bar pct",0,f.getPct("bar"),tolerance);
-    }      
+    }
+    
+    /**
+     * 
+     */
+    public void testToString(){
+        Frequency f = new Frequency("test toString"); 
+        f.addValue(oneL);
+        f.addValue(twoL);
+        f.addValue(oneI);
+        f.addValue(twoI);
+        
+        String s = f.toString();
+        assertNotNull(s);
+        BufferedReader reader = new BufferedReader(new StringReader(s));
+        try {
+            String line = reader.readLine(); // header line
+            assertNotNull(line);
+            
+            line = reader.readLine(); // one's or two's line
+            assertNotNull(line);
+                        
+            line = reader.readLine(); // one's or two's line
+            assertNotNull(line);
+
+            line = reader.readLine(); // no more elements
+            assertNull(line);
+        } catch(IOException ex){
+            fail(ex.getMessage());
+        }        
+    }
+    
+    /**
+     * 
+     */
+    public void testSetName(){
+        String name = "name";
+        Frequency f = new Frequency();
+        f.setName(name);
+        assertEquals(name, f.getName());
+    }              
 }
 

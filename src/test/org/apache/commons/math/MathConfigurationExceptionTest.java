@@ -52,30 +52,52 @@
  * <http://www.apache.org/>.
  */
 
-package org.apache.commons.math.util;
+package org.apache.commons.math;
 
-import org.apache.commons.beanutils.ConversionException;
-import org.apache.commons.beanutils.converters.DoubleConverter;
+import junit.framework.TestCase;
 
 /**
- * A Default NumberTransformer for java.lang.Numbers and Numeric Strings. 
- * @version $Revision: 1.4 $ $Date: 2003/09/27 04:13:34 $
+ * @version $Revision: 1.1 $ $Date: 2003/09/27 04:13:34 $
  */
-public class DefaultTransformer implements NumberTransformer {
-    /** Converter used to transform objects. */
-    private static final DoubleConverter converter =
-        new DoubleConverter(new Double(Double.NaN));
+public class MathConfigurationExceptionTest extends TestCase {
+    /**
+     * 
+     */
+    public void testConstructor(){
+        MathConfigurationException ex = new MathConfigurationException();
+        assertNull(ex.getCause());
+        assertNull(ex.getMessage());
+    }
     
     /**
-     * @see org.apache.commons.collections.Transformer#transform(java.lang.Object)
+     * 
      */
-    public double transform(Object o) {
-        double d;
-        try {
-            d = ((Double)converter.convert(Double.class, o)).doubleValue();
-        } catch(ConversionException ex){
-            d = Double.NaN;
-        }
-        return d;
+    public void testConstructorMessage(){
+        String msg = "message";
+        MathConfigurationException ex = new MathConfigurationException(msg);
+        assertNull(ex.getCause());
+        assertEquals(msg, ex.getMessage());
+    }
+    
+    /**
+     * 
+     */
+    public void testConstructorMessageCause(){
+        String outMsg = "outer message";
+        String inMsg = "inner message";
+        Exception cause = new Exception(inMsg);
+        MathConfigurationException ex = new MathConfigurationException(outMsg, cause);
+        assertEquals(outMsg, ex.getMessage());
+        assertEquals(cause, ex.getCause());
+    }
+    
+    /**
+     * 
+     */
+    public void testConstructorCause(){
+        String inMsg = "inner message";
+        Exception cause = new Exception(inMsg);
+        MathConfigurationException ex = new MathConfigurationException(cause);
+        assertEquals(cause, ex.getCause());
     }
 }

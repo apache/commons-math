@@ -53,27 +53,31 @@
  */
 package org.apache.commons.math;
 
+import org.apache.commons.lang.exception.NestableException;
+
 /**
  * A generic exception indicating problems in the math package.
- * @version $Revision: 1.5 $ $Date: 2003/08/09 04:03:41 $
+ * @version $Revision: 1.6 $ $Date: 2003/09/27 04:13:34 $
  */
-public class MathException extends Exception {
+public class MathException extends NestableException {
 
     /**
      * Constructs a MathException
      */
     public MathException() {
-        super();
+        this(null, null);
     }
 
     /**
+     * Create an exception with a given error message.
      * @param message message describing the problem
      */
     public MathException(final String message) {
-        super(message);
+        this(message, null);
     }
 
     /**
+     * Create an exception with a given error message and root cause.
      * @param message message describing the problem
      * @param throwable caught exception causing this problem
      */
@@ -82,10 +86,10 @@ public class MathException extends Exception {
     }
 
     /**
+     * Create an exception with a given root cause.
      * @param throwable caught exception causing this problem
      */
     public MathException(final Throwable throwable) {
-        super(throwable);
+        this(null, throwable);
     }
-
 }

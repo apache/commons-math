@@ -65,7 +65,7 @@ import org.apache.commons.math.beans.*;
 /**
  * Test cases for the {@link BeanListUnivariateImpl} class.
  *
- * @version $Revision: 1.4 $ $Date: 2003/09/17 19:29:32 $
+ * @version $Revision: 1.5 $ $Date: 2003/09/27 04:13:33 $
  */
 
 public final class BeanListUnivariateImplTest extends TestCase {
@@ -136,6 +136,13 @@ public final class BeanListUnivariateImplTest extends TestCase {
         assertEquals( "Max age unexpected", 42.0,
                       ageU.getMax(), 0.001 );
 
+    }
+    
+    public void testSetPropertyName(){
+        BeanListUnivariateImpl u = new BeanListUnivariateImpl(null);
+        String expected = "property";
+        u.setPropertyName(expected);
+        assertEquals(expected, u.getPropertyName());
     }
 }
 

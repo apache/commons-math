@@ -1,134 +1,133 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Revision: 1.25 $ $Date: 2003/09/26 19:30:32 $ -->
+<!-- $Revision: 1.26 $ $Date: 2003/09/27 04:13:34 $ -->
 <project>
-	<extend>../../jakarta-commons/project.xml</extend>
-	<name>Math</name>
-	<id>commons-math</id>
-	<currentVersion>0.1-dev</currentVersion>
-	<inceptionYear>2003</inceptionYear>
-	<logo/>
-	<shortDescription>A library of lightweight, self-contained mathematics and
-		statistics components.</shortDescription>
-	<description>The Math project is a library of lightweight, self-contained
-		mathematics and statistics components addressing the most common practical
-		problems not immediately available in the Java programming language or
-		commons-lang.</description>
-	<siteDirectory>/www/jakarta.apache.org/commons/sandbox/math/</siteDirectory>
-	<versions>
-		<version>
-			<id>0.1-dev</id>
-			<name>0.1-dev</name>
-		</version>
-	</versions>
-	<developers>
-		<developer>
-			<name>Robert Burrell Donkin</name>
-			<id>rdonkin</id>
-			<email>rdonkin@apache.org</email>
-		</developer>
-		<developer>
-			<name>Tim OBrien</name>
-			<id>tobrien</id>
-			<email>tobrien@apache.org</email>
-		</developer>
-		<developer>
-			<name>Mark R. Diggory</name>
-			<id>mdiggory</id>
-			<email>mdiggory@apache.org</email>
-		</developer>
-		<developer>
-			<name>J.Pietschmann</name>
-			<id>pietsch</id>
-			<email>pietsch@apache.org</email>
-			<email>j3322ptm@yahoo.de</email>
-		</developer>
-	</developers>
-	<contributors>
-		<contributor>
-			<name>Phil Steitz</name>
-			<email>phil@steitz.com</email>
-			<roles>
-				<role>proposal author</role>
-				<role>initial contributor</role>
-			</roles>
-		</contributor>
-		<contributor>
-			<name>Brent Worden</name>
-			<email>brent@worden.org</email>
-		</contributor>
-		<contributor>
-			<name>Albert Davidson Chou</name>
-			<email>hotfusionman@yahoo.com</email>
-		</contributor>
-	</contributors>
-	<dependencies>
-		<dependency>
-			<id>commons-beanutils</id>
-			<version>SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<id>commons-collections</id>
-			<version>SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<id>commons-discovery</id>
-			<version>SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<id>commons-logging</id>
-			<version>1.0.3</version>
-		</dependency>
-	</dependencies>
-	<issueTrackingUrl>http://nagoya.apache.org/bugzilla/buglist.cgi?bug_status=NEW&amp;
-		bug_status=ASSIGNED&amp;bug_status=REOPENED&amp;email1=&amp;
-		emailtype1=substring&amp;emailassigned_to1=1&amp;email2=&amp;
-		emailtype2=substring&amp;emailreporter2=1&amp;bugidtype=include&amp;bug_id=&amp;
-		changedin=&amp;votes=&amp;chfieldfrom=&amp;chfieldto=Now&amp;chfieldvalue=&amp;
-		product=Commons&amp;component=Sandbox&amp;short_desc=&amp;
-		short_desc_type=allwordssubstr&amp;long_desc=&amp;
-		long_desc_type=allwordssubstr&amp;bug_file_loc=&amp;
-		bug_file_loc_type=allwordssubstr&amp;keywords=&amp;keywords_type=anywords&amp;
-		field0-0-0=noop&amp;type0-0-0=noop&amp;value0-0-0=&amp;cmdtype=doit&amp;
-		order=%27Importance%27</issueTrackingUrl>
-	<repository>
-		<connection>
-			scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:jakarta-commons-sandbox/${pom.artifactId.substring(8)}</connection>
-		<url>
-			http://cvs.apache.org/viewcvs/jakarta-commons-sandbox/${pom.artifactId.substring(8)}/</url>
-	</repository>
-	<build>
-		<unitTest>
-			<includes>
-				<include>**/*Test.java</include>
-			</includes>
-			<excludes>
-				<exclude>**/*AbstractTest.java</exclude>
-			</excludes>
-			<resources>
-				<resource>
-					<directory>${pom.build.unitTestSourceDirectory}</directory>
-					<includes>
-						<include>**/*.xml</include>
-						<include>**/*.txt</include>
-					</includes>
-				</resource>
-			</resources>
-		</unitTest>
-	</build>
-	<reports>
-		<report>maven-changelog-plugin</report>
-		<report>maven-changes-plugin</report>
-		<report>maven-checkstyle-plugin</report>
-		<!--   <report>maven-clover-plugin</report> -->
-		<report>maven-developer-activity-plugin</report>
-		<report>maven-file-activity-plugin</report>
-		<report>maven-javadoc-plugin</report>
-		<report>maven-jdepend-plugin</report>
-		<report>maven-junit-report-plugin</report>
-		<report>maven-jxr-plugin</report>
-		<report>maven-license-plugin</report>
-		<!--   <report>maven-linkcheck-plugin</report> -->
-		<report>maven-statcvs-plugin</report>
-		<report>maven-tasklist-plugin</report>
-	</reports>
+  <extend>../../jakarta-commons/project.xml</extend>
+  <name>Math</name>
+  <id>commons-math</id>
+  <currentVersion>0.1-dev</currentVersion>
+  <inceptionYear>2003</inceptionYear>
+  <logo/>
+  <shortDescription>
+A library of lightweight, self-contained mathematics and statistics components.
+  </shortDescription>
+  <description>
+The Math project is a library of lightweight, self-contained mathematics and statistics components addressing the most common practical problems not immediately available in the Java programming language or commons-lang.
+  </description>
+  <siteDirectory>/www/jakarta.apache.org/commons/sandbox/math/</siteDirectory>
+  <versions>
+    <version>
+      <id>0.1-dev</id>
+      <name>0.1-dev</name>
+    </version>
+  </versions>
+
+  <developers>
+    <developer>
+      <name>Robert Burrell Donkin</name>
+      <id>rdonkin</id>
+      <email>rdonkin@apache.org</email>
+    </developer>
+    <developer>
+      <name>Tim OBrien</name>
+      <id>tobrien</id>
+      <email>tobrien@apache.org</email>
+    </developer>
+    <developer>
+      <name>Mark R. Diggory</name>
+      <id>mdiggory</id>
+      <email>mdiggory@apache.org</email>
+    </developer>    
+  </developers>
+
+  <contributors>
+   <contributor>
+     <name>Phil Steitz</name>
+     <email>phil@steitz.com</email>
+     <roles>
+        <role>proposal author</role> 
+        <role>initial contributor</role>
+     </roles>   
+   </contributor>
+   <contributor>
+     <name>Brent Worden</name>
+     <email>brent@worden.org</email>
+   </contributor>
+   <contributor>
+     <name>Albert Davidson Chou</name>
+     <email>hotfusionman@yahoo.com</email>
+   </contributor>
+   <contributor>
+     <name>J.Pietschmann</name>
+     <email>j3322ptm@yahoo.de</email>
+   </contributor>
+  </contributors>  
+
+  <dependencies>
+    <dependency>
+      <id>commons-beanutils</id>
+      <version>1.5</version>
+    </dependency>
+    <dependency>
+      <id>commons-collections</id>
+      <version>SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <id>commons-lang</id>
+      <version>SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <id>commons-logging</id>
+      <version>1.0.3</version>
+    </dependency>
+    <dependency>
+      <id>commons-discovery</id>
+      <version>SNAPSHOT</version>
+	</dependency>
+  </dependencies>
+
+  <issueTrackingUrl>http://nagoya.apache.org/bugzilla/buglist.cgi?bug_status=NEW&amp;bug_status=ASSIGNED&amp;bug_status=REOPENED&amp;email1=&amp;emailtype1=substring&amp;emailassigned_to1=1&amp;email2=&amp;emailtype2=substring&amp;emailreporter2=1&amp;bugidtype=include&amp;bug_id=&amp;changedin=&amp;votes=&amp;chfieldfrom=&amp;chfieldto=Now&amp;chfieldvalue=&amp;product=Commons&amp;component=Sandbox&amp;short_desc=&amp;short_desc_type=allwordssubstr&amp;long_desc=&amp;long_desc_type=allwordssubstr&amp;bug_file_loc=&amp;bug_file_loc_type=allwordssubstr&amp;keywords=&amp;keywords_type=anywords&amp;field0-0-0=noop&amp;type0-0-0=noop&amp;value0-0-0=&amp;cmdtype=doit&amp;order=%27Importance%27</issueTrackingUrl>
+
+  <repository>
+    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:jakarta-commons-sandbox/${pom.artifactId.substring(8)}</connection>
+    <url>http://cvs.apache.org/viewcvs/jakarta-commons-sandbox/${pom.artifactId.substring(8)}/</url>
+  </repository>
+  
+  <build>
+    <unitTest>
+      <includes>
+        <include>**/*Test.java</include>
+      </includes>
+      <excludes>
+        <exclude>**/*AbstractTest.java</exclude>
+      </excludes>
+      <resources>
+         <resource>
+            <directory>${pom.build.unitTestSourceDirectory}</directory>
+            <includes>
+              <include>**/*.xml</include>
+              <include>**/*.txt</include>
+            </includes>
+         </resource>
+      </resources>
+    </unitTest>
+  </build>
+
+  <reports>
+   <report>maven-changelog-plugin</report> 
+   <report>maven-changes-plugin</report>
+   <report>maven-checkstyle-plugin</report>
+   <report>maven-developer-activity-plugin</report>
+   <report>maven-file-activity-plugin</report> 
+   <report>maven-javadoc-plugin</report>
+   <report>maven-jdepend-plugin</report> 
+   <report>maven-junit-report-plugin</report>
+   <report>maven-jxr-plugin</report>
+   <report>maven-license-plugin</report>
+   <report>maven-statcvs-plugin</report>
+   <report>maven-tasklist-plugin</report>
+<!--
+   <report>maven-clover-plugin</report>
+	 <report>maven-linkcheck-plugin</report>
+-->
+  </reports>
 </project>
