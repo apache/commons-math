@@ -17,24 +17,30 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.16 $ $Date: 2004/04/26 20:06:50 $ -->
+<!-- $Revision: 1.17 $ $Date: 2004/05/06 04:24:28 $ -->
 <document url="stat.html">
   <properties>
     <title>The Commons Math User Guide - Statistics</title>
   </properties>
   <body>
-    <section name="1 Statistics and Distributions">
+    <section name="1 Statistics">
       <subsection name="1.1 Overview" href="overview">
         <p>
-          The statistics and distributions packages provide frameworks and implementations for
-          basic univariate statistics, frequency distributions, bivariate regression,  t- and chi-square test 
-          statistics and some commonly used probability distributions.
+          The statistics package provides frameworks and implementations for
+          basic univariate statistics, frequency distributions, bivariate regression,  
+          and t- and chi-square test statistic.
+        </p>
+        <p>
+         <a href="#1.2 Univariate statistics">Univariate Statistics</a><br></br>
+         <a href="#1.3 Frequency distributions">Frequency distributions</a><br></br>
+         <a href="#1.4 Bivariate regression">Bivariate Regression</a><br></br>
+         <a href="#1.5 Statistical tests">Statistical Tests</a><br></br>
         </p>
       </subsection>
       <subsection name="1.2 Univariate statistics" href="univariate">
         <p>
-          The stat package includes a framework and default implementations for the following univariate
-          statistics:
+          The stat package includes a framework and default implementations for
+           the following univariate statistics:
           <ul>
             <li>arithmetic and geometric means</li>
             <li>variance and standard deviation</li>
@@ -45,22 +51,24 @@
           </ul>
         </p>
         <p>
-          With the exception of percentiles and the median, all of these statistics can be computed without
-          maintaining the full list of input data values in memory.  The stat package provides interfaces and
-          implementations that do not require value storage as well as implementations that operate on arrays
-          of stored values.  
+          With the exception of percentiles and the median, all of these 
+          statistics can be computed without maintaining the full list of input 
+          data values in memory.  The stat package provides interfaces and 
+          implementations that do not require value storage as well as 
+          implementations that operate on arraysof stored values.  
         </p>
         <p>
           The top level interface is 
           <a href="../apidocs/org/apache/commons/math/stat/univariate/UnivariateStatistic.html">
-          org.apache.commons.math.stat.univariate.UnivariateStatistic.</a> This interface, implemented by
-          all statistics, consists of <code>evaluate()</code> methods that take double[] arrays as arguments and return 
-          the value of the statistic.   This interface is extended by 
+          org.apache.commons.math.stat.univariate.UnivariateStatistic.</a> 
+          This interface, implemented by all statistics, consists of 
+          <code>evaluate()</code> methods that take double[] arrays as arguments
+          and return the value of the statistic.   This interface is extended by 
           <a href="../apidocs/org/apache/commons/math/stat/univariate/StorelessUnivariateStatistic.html">
           StorelessUnivariateStatistic</a>, which adds <code>increment(),</code>
-          <code>getResult()</code> and associated methods to support "storageless" implementations that
-          maintain counters, sums or other state information as values are added using the <code>increment()</code>
-          method.  
+          <code>getResult()</code> and associated methods to support 
+          "storageless" implementations that maintain counters, sums or other 
+          state information as values are added using the <code>increment()</code>method.  
         </p>
         <p>
           Abstract implementations of the top level interfaces are provided in 
@@ -70,42 +78,54 @@
           AbstractStorelessUnivariateStatistic</a> respectively.
         </p>
         <p>
-          Each statistic is implemented as a separate class, in one of the subpackages (moment, rank, summary) and
-          each extends one of the abstract classes above (depending on whether or not value storage is required to 
-          compute the statistic).
-          There are several ways to instantiate and use statistics.  Statistics can be instantiated and used directly,  but it is
-          generally more convenient (and efficient) to access them using the provided aggregates, <a href="../apidocs/org/apache/commons/math/stat/DescriptiveStatistics.html">
-            DescriptiveStatistics</a> and <a href="../apidocs/org/apache/commons/math/stat/SummaryStatistics.html">
-            SummaryStatistics.</a>  
+          Each statistic is implemented as a separate class, in one of the 
+          subpackages (moment, rank, summary) and each extends one of the abstract 
+          classes above (depending on whether or not value storage is required to 
+          compute the statistic). There are several ways to instantiate and use statistics.  
+          Statistics can be instantiated and used directly,  but it is generally more convenient
+          (and efficient) to access them using the provided aggregates, 
+          <a href="../apidocs/org/apache/commons/math/stat/DescriptiveStatistics.html">
+           DescriptiveStatistics</a> and 
+           <a href="../apidocs/org/apache/commons/math/stat/SummaryStatistics.html">
+           SummaryStatistics.</a>  
         </p>
         <p>
-           <code>DescriptiveStatistics</code> maintains the input data in memory and has the capability
-            of producing "rolling" statistics computed from a "window" consisting of the most recently added values.  
+           <code>DescriptiveStatistics</code> maintains the input data in memory 
+           and has the capability of producing "rolling" statistics computed from a 
+           "window" consisting of the most recently added values.  
         </p>
         <p>
-           <code>SummaryStatisics</code> does not store the input data values in memory, so the statistics
-            included in this aggregate are limited to those that can be computed in one pass through the data 
-            without access to the full array of values.  
+           <code>SummaryStatisics</code> does not store the input data values 
+           in memory, so the statisticsincluded in this aggregate are limited to those 
+           that can be computed in one pass through the data without access to 
+           the full array of values.  
         </p>
         <p>
           <table>
-            <tr><th>Aggregate</th><th>Statistics Included</th><th>Values stored?</th><th>"Rolling" capability?</th></tr>
-            <tr><td><a href="../apidocs/org/apache/commons/math/stat/DescriptiveStatistics.html">
-            DescriptiveStatistics</a></td><td>min, max, mean, geometric mean, n, sum, sum of squares, standard deviation, variance, percentiles, skewness, kurtosis, median</td><td>Yes</td><td>Yes</td></tr>
-            <tr><td><a href="../apidocs/org/apache/commons/math/stat/SummaryStatistics.html">
-            SummaryStatistics</a></td><td>min, max, mean, geometric mean, n, sum, sum of squares, standard deviation, variance</td><td>No</td><td>No</td></tr>
+            <tr><th>Aggregate</th><th>Statistics Included</th><th>Values stored?</th>
+            <th>"Rolling" capability?</th></tr><tr><td>
+            <a href="../apidocs/org/apache/commons/math/stat/DescriptiveStatistics.html">
+            DescriptiveStatistics</a></td><td>min, max, mean, geometric mean, n, 
+            sum, sum of squares, standard deviation, variance, percentiles, skewness, 
+            kurtosis, median</td><td>Yes</td><td>Yes</td></tr><tr><td>
+            <a href="../apidocs/org/apache/commons/math/stat/SummaryStatistics.html">
+            SummaryStatistics</a></td><td>min, max, mean, geometric mean, n, 
+            sum, sum of squares, standard deviation, variance</td><td>No</td><td>No</td></tr>
           </table>
         </p>
         <p>
-          There is also a utility class, <a href="../apidocs/org/apache/commons/math/stat/StatUtils.html">
-           StatUtils</a>, that provides static methods for computing statistics directly from double[] arrays. 
+          There is also a utility class, 
+          <a href="../apidocs/org/apache/commons/math/stat/StatUtils.html">
+           StatUtils</a>, that provides static methods for computing statistics 
+           directly from double[] arrays. 
         </p>
         <p>
           Here are some examples showing how to compute univariate statistics.
           <dl>
           <dt>Compute summary statistics for a list of double values</dt>
           <br></br>
-          <dd>Using the <code>DescriptiveStatistics</code> aggregate (values are stored in memory):
+          <dd>Using the <code>DescriptiveStatistics</code> aggregate 
+          (values are stored in memory):
         <source>
 // Get a DescriptiveStatistics instance using factory method
 DescriptiveStatistics stats = DescriptiveStatistics.newInstance(); 
@@ -121,12 +141,14 @@ double std = stats.getStandardDeviation();
 double median = stats.getMedian();
   	  	</source>
   	    </dd>
-  	    <dd>Using the <code>SummaryStatistics</code> aggregate (values are <strong>not</strong> stored in memory):
+  	    <dd>Using the <code>SummaryStatistics</code> aggregate (values are 
+  	    <strong>not</strong> stored in memory):
        <source>
 // Get a SummaryStatistics instance using factory method
 SummaryStatistics stats = SummaryStatistics.newInstance(); 
 
-// Read data from an input stream, adding values and updating sums, counters, etc. necessary for stats
+// Read data from an input stream, 
+// adding values and updating sums, counters, etc.
 while (line != null) {
         line = in.readLine();
         stats.addValue(Double.parseDouble(line.trim()));
@@ -136,12 +158,13 @@ in.close();
 // Compute the statistics 
 double mean = stats.getMean();
 double std = stats.getStandardDeviation();
-//double median = stats.getMedian(); &lt;-- NOT AVAILABLE in SummaryStatistics
+//double median = stats.getMedian(); &lt;-- NOT AVAILABLE
   	  	</source>
   	    </dd>	
   	     <dd>Using the <code>StatUtils</code> utility class:
        <source>
-// Compute statistics directly from the array -- assume values is a double[] array
+// Compute statistics directly from the array
+// assume values is a double[] array
 double mean = StatUtils.mean(values);
 double std = StatUtils.variance(values);
 double median = StatUtils.percentile(50);
@@ -150,15 +173,18 @@ double median = StatUtils.percentile(50);
 mean = StatuUtils.mean(values, 0, 3); 
   	  	</source>
   	    </dd>  
-  	    <dt>Maintain a "rolling mean" of the most recent 100 values from an input stream</dt>
+  	    <dt>Maintain a "rolling mean" of the most recent 100 values from 
+  	    an input stream</dt>
   	    <br></br>
-  	    <dd>Use a <code>DescriptiveStatistics</code> instance with window size set to 100
+  	    <dd>Use a <code>DescriptiveStatistics</code> instance with 
+  	    window size set to 100
   	    <source>
 // Create a DescriptiveStats instance and set the window size to 100
 DescriptiveStatistics stats = DescriptiveStatistics.newInstance();
 stats.setWindowSize(100);
 
-// Read data from an input stream, displaying the mean of the most recent 100 observations
+// Read data from an input stream, 
+// displaying the mean of the most recent 100 observations
 // after every 100 observations
 long nLines = 0;
 while (line != null) {
@@ -166,7 +192,7 @@ while (line != null) {
         stats.addValue(Double.parseDouble(line.trim()));
         if (nLines == 100) {
                 nLines = 0;
-                System.out.println(stats.getMean());  // "rolling" mean of most recent 100 values
+                System.out.println(stats.getMean());
        }
 }
 in.close();
@@ -174,8 +200,7 @@ in.close();
   	    </dd>  	    
   	    </dl>
   	   </p>
-      </subsection>
-      
+      </subsection>  
       <subsection name="1.3 Frequency distributions" href="frequency">
         <p>
           <a href="../apidocs/org/apache/commons/math/stat/Frequency.html">
@@ -184,11 +209,12 @@ in.close();
           values.  
         </p>
         <p> 
-          Strings, integers, longs and chars are all supported as value types, as well as instances
-          of any class that implements <code>Comparable.</code>   The ordering of values
-          used in computing cumulative frequencies is by default the <i>natural ordering,</i>
-          but this can be overriden by supplying a <code>Comparator</code> to the constructor.
-          Adding values that are not comparable to those that have already been added results in an
+          Strings, integers, longs and chars are all supported as value types, 
+          as well as instances of any class that implements <code>Comparable.</code>
+          The ordering of values used in computing cumulative frequencies is by 
+          default the <i>natural ordering,</i> but this can be overriden by supplying a 
+          <code>Comparator</code> to the constructor. Adding values that are not 
+          comparable to those that have already been added results in an
           <code>IllegalArgumentException.</code>
         </p>
         <p>
@@ -204,11 +230,16 @@ in.close();
  f.addValue(new Long(1));
  f.addValue(2)
  f.addValue(new Integer(-1));
- System.out.prinltn(f.getCount(1));              // displays 3
- System.out.println(f.getCumPct(0));             // displays 0.2
- System.out.println(f.getPct(new Integer(1)));   // displays 0.6 
- System.out.println(f.getCumPct(-2));            // displays 0 -- all values are greater than this
- System.out.println(f.getCumPct(10));            // displays 1 -- all values are less than this
+ System.out.prinltn(f.getCount(1));              
+ // displays 3
+ System.out.println(f.getCumPct(0));             
+ // displays 0.2
+ System.out.println(f.getPct(new Integer(1)));   
+ // displays 0.6 
+ System.out.println(f.getCumPct(-2));            
+ // displays 0 -- all values are greater than this
+ System.out.println(f.getCumPct(10));            
+ // displays 1 -- all values are less than this
           </source> 
           </dd>
           <dt>Count string frequencies</dt>
@@ -220,9 +251,12 @@ f.addValue("one");
 f.addValue("One");
 f.addValue("oNe");
 f.addValue("Z");
-System.out.println(f.getCount("one"));    // displays 1
-System.out.println(f.getCumPct("Z"));     // displays 0.5 -- second in sort order
-System.out.println(f.getCumPct("Ot"));    // displays 0.25 -- between first ("One") and second ("Z") value
+System.out.println(f.getCount("one"));    
+// displays 1
+System.out.println(f.getCumPct("Z"));     
+// displays 0.5 -- second in sort order
+System.out.println(f.getCumPct("Ot"));   
+// displays 0.25 -- between first ("One") and second ("Z") value
           </source>
           </dd>
           <dd>Using case-insensitive comparator:
@@ -232,8 +266,10 @@ f.addValue("one");
 f.addValue("One");
 f.addValue("oNe");
 f.addValue("Z");
-System.out.println(f.getCount("one"));  // displays 3
-System.out.println(f.getCumPct("z"));   // displays 1 -- last value
+System.out.println(f.getCount("one"));  
+// displays 3
+System.out.println(f.getCumPct("z"));   
+// displays 1 -- last value
           </source>
          </dd>
        </dl>
@@ -243,8 +279,8 @@ System.out.println(f.getCumPct("z"));   // displays 1 -- last value
         <p>
          <a href="../apidocs/org/apache/commons/math/stat/multivariate/BivariateRegression.html">
           org.apache.commons.math.stat.multivariate.BivariateRegression</a>
-          provides ordinary least squares regression with one independent variable, estimating
-          the linear model:
+          provides ordinary least squares regression with one independent variable, 
+          estimating the linear model:
          </p>
          <p>
            <code> y = intercept + slope * x  </code>
@@ -290,7 +326,7 @@ System.out.println(f.getCumPct("z"));   // displays 1 -- last value
           </ul>
         </p>
         <p>
-        Here is are some examples.
+        Here are some examples.
         <dl>
           <dt>Estimate a model based on observations added one at a time</dt>
           <br></br>
@@ -298,9 +334,11 @@ System.out.println(f.getCumPct("z"));   // displays 1 -- last value
           <source>
  regression = new BivariateRegression();
  regression.addData(1d, 2d);
- // At this point, with only one observation, all regression statistics will return NaN
+ // At this point, with only one observation,
+ // all regression statistics will return NaN
  regression.addData(3d, 3d);
- // With only two observations, slope and intercept can be computed
+ // With only two observations, 
+ // slope and intercept can be computed
  // but inference statistics will return NaN
  regression.addData(3d, 3d);
  // Now all statistics are defined.
@@ -308,14 +346,18 @@ System.out.println(f.getCumPct("z"));   // displays 1 -- last value
          </dd>
          <dd>Compute some statistics based on observations added so far
          <source>
-System.out.println(regression.getIntercept());   // displays intercept of regression line
-System.out.println(regression.getSlope());       // displays slope of regression line
-System.out.println(regression.getSlopeStdErr()); // displays slope standard error
+System.out.println(regression.getIntercept());   
+// displays intercept of regression line
+System.out.println(regression.getSlope());       
+// displays slope of regression line
+System.out.println(regression.getSlopeStdErr()); 
+// displays slope standard error
          </source>
          </dd>
          <dd>Use the regression model to predict the y value for a new x value
          <source>
-System.out.println(regression.predict(1.5d)      // displays predicted y value for x = 1.5
+System.out.println(regression.predict(1.5d)      
+// displays predicted y value for x = 1.5
          </source>
          More data points can be added and subsequent getXxx calls will incorporate
          additional data in statistics.
@@ -324,16 +366,19 @@ System.out.println(regression.predict(1.5d)      // displays predicted y value f
           <br></br>
           <dd>Instantiate a regression object and load dataset
           <source>
-          double[][] data = { { 1, 3 }, {2, 5 }, {3, 7 }, {4, 14 }, {5, 11 }};
-          BivariateRegression regression = new BivariateRegression();
-          regression.addData(data);
+double[][] data = { { 1, 3 }, {2, 5 }, {3, 7 }, {4, 14 }, {5, 11 }};
+BivariateRegression regression = new BivariateRegression();
+regression.addData(data);
           </source>
           </dd>
           <dd>Estimate regression model based on data
          <source>
-System.out.println(regression.getIntercept());   // displays intercept of regression line
-System.out.println(regression.getSlope());       // displays slope of regression line
-System.out.println(regression.getSlopeStdErr()); // displays slope standard error
+System.out.println(regression.getIntercept());   
+// displays intercept of regression line
+System.out.println(regression.getSlope());       
+// displays slope of regression line
+System.out.println(regression.getSlopeStdErr()); 
+// displays slope standard error
          </source>
          More data points -- even another double[][] array -- can be added and subsequent 
          getXxx calls will incorporate additional data in statistics.
@@ -342,8 +387,160 @@ System.out.println(regression.getSlopeStdErr()); // displays slope standard erro
         </p>
       </subsection>
       <subsection name="1.5 Statistical tests" href="tests">
-        <p>This is yet to be written. Any contributions will be gratefully
-          accepted!</p>
+        <p> 
+          The interfaces and implementations in the 
+          <a href="../apidocs/org/apache/commons/math/stat/inference/">
+          org.apache.commons.math.stat.inference</a> package provide 
+          <a href="http://www.itl.nist.gov/div898/handbook/prc/section2/prc22.htm">
+          Student's t</a> and <a href="">Chi-Square</a> test statistics as well as 
+          <a href="http://www.cas.lancs.ac.uk/glossary_v1.1/hyptest.html#pvalue">
+          p-values</a> associated with <code>t-</code> and 
+          <code>Chi-Square</code> tests.
+        </p>
+        <p>
+          <strong>Implementation Notes</strong>
+          <ul>
+          <li>The t-test implementation provided in <code>TTestImpl</code> does 
+          not assume that the underlying popuation variances are equal and it uses 
+          approximated degrees of freedom computed from the sample data as described 
+          <a href="http://www.itl.nist.gov/div898/handbook/prc/section3/prc31.htm">
+          here</a></li>
+          <li>The validity of the p-values returned by the t-test depends on the 
+          assumptions of the parametric t-test procedure, as discussed 
+          <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">
+          here</a></li>
+          <li>p-values returned by both t- and chi-square tests are exact, based 
+           on numerical approximations to the t- and chi-square distributions in the 
+           <code>distributions</code> package. </li>
+           <li>Degrees of freedom for chi-square tests are integral values, based on the
+           number of observed or expected counts (number of observed counts - 1) 
+           for the goodness-of-fit tests and (number of columns -1) * (number of rows - 1) 
+           for independence tests.</li>
+          </ul> 
+          </p>
+          <p>
+        <strong>Examples:</strong>
+        <dl>
+          <dt>Computing <code>t</code> test statistics</dt>
+          <br></br>
+          <dd>To compare the mean of a double[] array to a fixed value:
+          <source>
+double[] observed = {1d, 2d, 3d}; 
+double mu = 2.5d;
+TTestImpl testStatistic = new TTestImpl();
+System.out.println(testStatistic.t(mu, observed); 
+          </source>
+          The code above will display the t-statisitic associated with a one-sample
+           t-test comparing the mean of the <code>observed</code> values against
+           <code>mu.</code>
+          </dd>
+          <dd>To compare the mean of a dataset described by a 
+          <a href="../apidocs/org/apache/commons/math/stat/univariate/StatisticalSummary.html">
+          org.apache.commons.math.stat.univariate.StatisticalSummary</a>  to a fixed value:
+          <source>
+double[] observed ={1d, 2d, 3d};
+double mu = 2.5d;
+SummaryStatistics sampleStats = null;
+sampleStats = SummaryStatistics.newInstance();
+for (int i = 0; i &lt; observed.length; i++) {
+    sampleStats.addValue(observed[i]);
+}
+System.out.println(testStatistic.t(mu, observed); 
+</source>
+           </dd>
+           <dt>Performing <code>t</code> tests</dt>
+           <br></br>
+           <dd>To compute the p-value associated with the null hypothesis that the mean
+            of a set of values equals a point estimate, against the two-sided alternative that
+            the mean is different from the target value:
+            <source>
+double[] observed = {1d, 2d, 3d}; 
+double mu = 2.5d;
+TTestImpl testStatistic = new TTestImpl();
+System.out.println(testStatistic.tTest(mu, observed);
+           </source>
+          The snippet above will display the p-value associated with the null
+          hypothesis that the mean of the population from which the 
+          <code>observed</code> values are drawn equals <code>mu.</code>
+          </dd>
+          <dd> To perform the test using a fixed significance level, use:
+          <source>
+testStatistic.tTest(mu, observed, alpha);  
+          </source>
+          where <code>0 &lt; alpha &lt; 0.5</code> is the significance level of
+          the test.  The boolean value returned will be <code>true</code> iff the 
+          null hypothesis can be rejected with confidence <code>1 - alpha</code>.  
+          To test, for example at the 95% level of confidence, use 
+          <code>alpha = 0.05</code>
+          </dd>
+          <dd>Two-sample tests just add another sample.  There is no requirement 
+          that the sample sizes be the same.  Null hypotheses for two-sample tests 
+          are that the two population means are the same, evaluated against two-sided 
+          alternatives.  To perform one-sided tests, returned p-values can be divided 
+          by 2 (or significance levels doubled).</dd>
+          <dt>Computing <code>chi-square</code> test statistics</dt>
+          <br></br>
+          <dd>To compute a chi-square statistic measuring the agreement between a 
+          <code>long[]</code> array of observed counts and a <code>double[]</code>
+          array of expected counts, use:
+          <source>
+ChiSquareTestImpl testStatistic = new ChiSquareTestImpl();
+long[] observed = {10, 9, 11};
+double[] expected = {10.1, 9.8, 10.3};
+System.out.println(testStatistic.chiSquare(expected, observed));
+          </source>
+          the value displayed will be 
+          <code>sum((expected[i] - observed[i])^2 / expected[i])</code>
+          </dd>
+          <dd> To get the p-value associated with the null hypothesis that 
+          <code>observed</code> conforms to <code>expected</code> use:
+          <source>
+testStatistic.chiSquareTest(expected, observed);
+          </source> 
+          </dd>    
+          <dd> To test the null hypothesis that <code>observed</code> conforms to 
+          <code>expected</code> with <code>alpha</code> siginficance level 
+          (equiv. <code>100 * (1-alpha)%</code> confidence) where <code>
+          0 &lt; alpha &lt; 1 </code> use:
+          <source>
+testStatistic.chiSquareTest(expected, observed, alpha);
+          </source>  
+          The boolean value returned will be <code>true</code> iff the null hypothesis
+          can be rejected with confidence <code>1 - alpha</code>.
+          </dd>
+          <dd>To compute a chi-square statistic statistic associated with a 
+          <a href="http://www.itl.nist.gov/div898/handbook/prc/section4/prc45.htm">
+          chi-square test of independence</a> based on a two-dimensional (long[][])
+          <code>counts</code> array viewed as a two-way table, use:
+          <source>
+testStatistic.chiSquareTest(counts);
+          </source> 
+          The rows of the 2-way table are 
+          <code>count[0], ... , count[count.length - 1]. </code><br></br>
+          The chi-square statistic returned is 
+          <code>sum((counts[i][j] - expected[i][j])^2/expected[i][j])</code>
+          where the sum is taken over all table entries and 
+          <code>expected[i][j]</code> is the product of the row and column sums at 
+          row <code>i</code>, column <code>j</code> divided by the total count.
+          </dd> 
+          <dd>To compute the p-value associated with the null hypothesis that 
+          the classifications represented by the counts in the columns of the input 2-way 
+          table are independent of the rows, use:
+          <source>
+testStatistic.chiSquareTest(counts);
+          </source> 
+          </dd>
+          <dd>To perform a chi-square test of independence with <code>alpha</code>
+          siginficance level (equiv. <code>100 * (1-alpha)%</code> confidence) 
+          where <code>0 &lt; alpha &lt; 1 </code> use:
+          <source>
+testStatistic.chiSquareTest(counts, alpha);
+          </source> 
+          The boolean value returned will be <code>true</code> iff the null 
+          hypothesis can be rejected with confidence <code>1 - alpha</code>.
+          </dd>
+          </dl>
+        </p> 
       </subsection>
     </section>
   </body>
