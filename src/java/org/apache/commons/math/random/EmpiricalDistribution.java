@@ -56,6 +56,7 @@ package org.apache.commons.math.random;
 
 import java.io.IOException;
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 
 import org.apache.commons.math.stat.DescriptiveStatistics;
@@ -80,23 +81,30 @@ import org.apache.commons.math.stat.DescriptiveStatistics;
  * build grouped frequnecy histograms representing the input data or to
  * generate random values "like" those in the input file -- i.e., the values
  * generated will follow the distribution of the values in the file.
- * @version $Revision: 1.10 $ $Date: 2003/11/15 16:01:37 $
+ * @version $Revision: 1.11 $ $Date: 2004/01/11 07:19:52 $
  */
 public interface EmpiricalDistribution {
     
     /**
-     * Computes the empirical distribution from the input file
+     * Computes the empirical distribution from the input file.
      * @param filePath fully qualified name of a file in the local file system
      * @throws IOException if an IO error occurs
      */
     void load(String filePath) throws IOException; 
     
     /**
-     * Computes the empirical distribution from the input file
-     * @param file url of the input file
+     * Computes the empirical distribution from the input file.
+     * @param file the input file
      * @throws IOException if an IO error occurs
      */
     void load(File file) throws IOException;
+    
+    /**
+     * Computes the empirical distribution using data read from a URL.
+     * @param file url of the input file
+     * @throws IOException if an IO error occurs
+     */
+    void load(URL url) throws IOException;
     
     /** 
      * Generates a random value from this distribution.
