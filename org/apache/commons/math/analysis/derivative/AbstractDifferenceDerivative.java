@@ -1,6 +1,6 @@
 /*
  * 
- * Copyright (c) 2004 The Apache Software Foundation. All rights reserved.
+ * Copyright (c) 2003-2004 The Apache Software Foundation. All rights reserved.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -23,7 +23,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunctionProxy;
 
 /**
  * @todo add javadoc comment
- * @version $Revision: 1.3 $ $Date: 2004/01/29 16:54:04 $
+ * @version $Revision: 1.4 $ $Date: 2004/02/18 03:24:19 $
  */
 public abstract class AbstractDifferenceDerivative extends UnivariateRealFunctionProxy implements UnivariateRealFunction {
     /** */
