@@ -20,9 +20,12 @@ import java.io.Serializable;
 import org.apache.commons.math.stat.univariate.AbstractStorelessUnivariateStatistic;
 
 /**
- * The sum of the values that have been added to Univariate.
- *
- * @version $Revision: 1.20 $ $Date: 2004/06/23 16:26:16 $
+  * Returns the sum of the available values.
+ * <p>
+ * If there are no values in the dataset, or any of the values are 
+ * <code>NaN</code>, then <code>NaN</code> is returned.  
+ * 
+ * @version $Revision: 1.21 $ $Date: 2004/06/29 14:50:21 $
  */
 public class Sum extends AbstractStorelessUnivariateStatistic implements Serializable {
 
@@ -41,7 +44,7 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
      * @see org.apache.commons.math.stat.univariate.StorelessUnivariateStatistic#increment(double)
      */
     public void increment(final double d) {
-        if (Double.isNaN(value)) {
+        if (n == 0) {
             value = d;
         } else {
             value += d;
@@ -72,17 +75,15 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
     }
 
     /**
-     * The sum of the values that have been added to Univariate.
+     * The sum of the values that have been added.
+     * 
      * @param values Is a double[] containing the values
      * @param begin processing at this point in the array
      * @param length the number of elements to include
      * @return the sum of the values or Double.NaN if the array is empty
      * @see org.apache.commons.math.stat.univariate.UnivariateStatistic#evaluate(double[], int, int)
      */
-    public double evaluate(
-        final double[] values,
-        final int begin,
-        final int length) {
+    public double evaluate(final double[] values, final int begin, final int length) {
         double sum = Double.NaN;
         if (test(values, begin, length)) {
             sum = 0.0;
