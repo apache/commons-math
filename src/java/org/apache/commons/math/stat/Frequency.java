@@ -31,7 +31,7 @@ import org.apache.commons.collections.TreeBag;
  * The values are ordered using the default (natural order), unless a  <code>Comparator</code>
  *  is supplied in the constructor.
  * 
- * @version $Revision: 1.15 $ $Date: 2004/02/21 21:35:15 $
+ * @version $Revision: 1.16 $ $Date: 2004/02/22 22:01:29 $
  */
 public class Frequency implements Serializable {
     
@@ -200,7 +200,8 @@ public class Frequency implements Serializable {
     //-------------------------------------------------------------
 
     /**
-     * Returns the percentage of values = v (as a proportion -- i.e. between 0 and 1).
+      * Returns the cumulative percentatge of values less than or equal to v
+     * (as a proportion between 0 and 1).
      * @param v the value to lookup.
      * @return the proportion of values equal to v
      */
@@ -209,7 +210,8 @@ public class Frequency implements Serializable {
     }
     
     /**
-     * Returns the percentage of values = v (as a proportion -- i.e. between 0 and 1).
+      * Returns the cumulative percentatge of values less than or equal to v
+     * (as a proportion between 0 and 1).
      * @param v the value to lookup.
      * @return the proportion of values equal to v
      */
@@ -218,7 +220,8 @@ public class Frequency implements Serializable {
     }
     
     /**
-     * Returns the percentage of values = v (as a proportion -- i.e. between 0 and 1).
+      * Returns the cumulative percentatge of values less than or equal to v
+     * (as a proportion between 0 and 1).
      * @param v the value to lookup.
      * @return the proportion of values equal to v
      */
@@ -227,7 +230,8 @@ public class Frequency implements Serializable {
     }
     
     /**
-     * Returns the percentage of values = v (as a proportion -- i.e. between 0 and 1).
+     * Returns the cumulative percentatge of values less than or equal to v
+     * (as a proportion between 0 and 1).
      * @param v the value to lookup.
      * @return the proportion of values equal to v
      */

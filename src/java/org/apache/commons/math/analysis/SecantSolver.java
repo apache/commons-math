@@ -22,14 +22,18 @@ import java.io.Serializable;
 import org.apache.commons.math.MathException;
 
 /**
- * Provide the secant algorithm for solving for zeros of real univariate
- * functions. Because of forced bracketing, convergence is slower than
- * the unrestricted secant algorithm. However, slow convergence of the
- * Regula Falsi can be avoided.
- * It will only search for one zero in the given interval.
+ * Implements a modified version of the 
+ * <a href="http://mathworld.wolfram.com/SecantMethod.html">secant method</a>
+ * for approximating a zero of a real univariate function.  
+ * <p>
+ * The algorithm is modified to maintain bracketing of a root by subsequent approximations. 
+ * Because of forced bracketing, convergence may be slower than the unrestricted secant algorithm. 
+ * However, this implementation  should in general outperform the 
+ * <a href="http://mathworld.wolfram.com/MethodofFalsePosition.html">regula falsi method.</a>
+ * <p>
  * The function is supposed to be continuous but not necessarily smooth.
  *  
- * @version $Revision: 1.12 $ $Date: 2004/02/18 03:24:19 $
+ * @version $Revision: 1.13 $ $Date: 2004/02/22 22:01:29 $
  */
 public class SecantSolver extends UnivariateRealSolverImpl implements Serializable {
     /**
@@ -41,7 +45,7 @@ public class SecantSolver extends UnivariateRealSolverImpl implements Serializab
     }
 
     /**
-     * Solve for a zero in the given interval.
+     * Find a zero in the given interval.
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
      * @param initial the start value to use (ignored).
@@ -56,7 +60,7 @@ public class SecantSolver extends UnivariateRealSolverImpl implements Serializab
     }
     
     /**
-     * Solve for a zero root in the given interval.
+     * Find a zero in the given interval.
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
      * @return the value where the function is zero

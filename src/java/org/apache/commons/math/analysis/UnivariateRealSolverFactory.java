@@ -18,14 +18,30 @@ package org.apache.commons.math.analysis;
 import org.apache.commons.discovery.tools.DiscoverClass;
 
 /**
- * A factory to easily get a default solver and some convenience
- * functions.
- * Because solvers are easily reusable, the factory does not
- * store configuration data and creates preconfigured solvers
- * (this may be controversial, because the configuration data
- * may also be used for the default solver used by the static
- * solve() method). 
- * @version $Revision: 1.12 $ $Date: 2004/02/21 21:35:14 $
+ * Abstract factory class used to create {@link UnivariateRealSolver} instances.
+ * <p>
+ * Solvers implementing the following algorithms are supported:
+ * <ul>
+ * <li>Bisection</li>
+ * <li>Brent's method</li>
+ * <li>Secant method</li>
+ * </ul>
+ * Concrete factories extending this class also specify a default solver, instances of which
+ * are returned by <code>newDefaultSolver()</code>.
+ * <p>
+ * Common usage:<pre>
+ * SolverFactory factory = UnivariateRealSolverFactory.newInstance();
+ * 
+ * // create a Brent solver to use with a UnivariateRealFunction f
+ * BrentSolver solver = factory.newBrentSolver(f);
+ * </pre>
+ * 
+ * <a href="http://jakarta.apache.org/commons/discovery/">Jakarta Commons Discovery</a>
+ * is used to determine the concrete factory returned by 
+ * <code>UnivariateRealSolverFactory.newInstance().</code>  The default is
+ * {@link UnivariateRealSolverFactoryImpl}.
+ * 
+ * @version $Revision: 1.13 $ $Date: 2004/02/22 22:01:29 $
  */
 public abstract class UnivariateRealSolverFactory {
     /**

@@ -19,14 +19,12 @@ import java.io.Serializable;
 
 
 /**
- * A factory to easily get a default solver and some convenience
- * functions.
- * Because solvers are easily reusable, the factory does not
- * store configuration data and creates preconfigured solvers
- * (this may be controversial, because the configuration data
- * may also be used for the default solver used by the static
- * solve() method). 
- * @version $Revision: 1.9 $ $Date: 2004/02/21 21:35:14 $
+ * A concrete {@link  UnivariateRealSolverFactory}.  This is the default solver factory
+ * used by commons-math.
+ * <p>
+ * The default solver returned by this factory is a {@link BrentSolver}.
+ * 
+ * @version $Revision: 1.10 $ $Date: 2004/02/22 22:01:29 $
  */
 public class UnivariateRealSolverFactoryImpl
     extends UnivariateRealSolverFactory implements Serializable {

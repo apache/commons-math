@@ -19,14 +19,10 @@ package org.apache.commons.math.analysis;
 
 import java.io.Serializable;
 
-import java.util.Arrays;
-
-import org.apache.commons.math.MathException;
-
 /**
  * Represents a polynomial function with real coefficients.
  * 
- * @version $Revision: 1.6 $ $Date: 2004/02/20 06:17:54 $
+ * @version $Revision: 1.7 $ $Date: 2004/02/22 22:01:29 $
  */
 public class PolynomialFunction implements UnivariateRealFunction, Serializable {
 
