@@ -16,10 +16,11 @@
 package org.apache.commons.math.stat.univariate;
 
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.stat.univariate.moment.SecondMoment;
 
 /**
- * Test cases for the {@link UnivariateStatistic} class.
- * @version $Revision: 1.13 $ $Date: 2004/06/17 22:33:23 $
+ * Test cases for {@link StorelessUnivariateStatistic} classes.
+ * @version $Revision: 1.14 $ $Date: 2004/06/29 06:11:22 $
  */
 public abstract class StorelessUnivariateStatisticAbstractTest
     extends UnivariateStatisticAbstractTest {
@@ -124,6 +125,16 @@ public abstract class StorelessUnivariateStatisticAbstractTest
         assertEquals("cleared stats should have thashcode of empty stat", 
                 emptyHash, statistic.hashCode());
         
+    }
+    
+    public void testMomentSmallSamples() {
+        UnivariateStatistic stat = getUnivariateStatistic();
+        if (stat instanceof SecondMoment) {
+            SecondMoment moment = (SecondMoment) getUnivariateStatistic();
+            assertTrue(Double.isNaN(moment.getResult()));
+            moment.increment(1d);
+            assertEquals(0d, moment.getResult(), 0);
+        }
     }
 
 }
