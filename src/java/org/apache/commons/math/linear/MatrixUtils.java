@@ -16,10 +16,12 @@
 
 package org.apache.commons.math.linear;
 
+import java.math.BigDecimal;
+
 /**
  * A collection of static methods that operate on or return matrices.
  * 
- * @version $Revision: 1.1 $ $Date: 2004/10/12 06:27:44 $
+ * @version $Revision: 1.2 $ $Date: 2004/10/25 05:36:15 $
  */
 public class MatrixUtils {
 
@@ -45,6 +47,48 @@ public class MatrixUtils {
     }
     
     /**
+     * Returns a {@link BigMatrix} whose entries are the the values in the
+     * the input array.  The input array is copied, not referenced.
+     * 
+     * @param data input array
+     * @return  RealMatrix containing the values of the array
+     * @throws IllegalArgumentException if <code>data</code> is not rectangular
+     *  (not all rows have the same length) or empty
+     * @throws NullPointerException if data is null
+     */
+    public static BigMatrix createBigMatrix(double[][] data) {
+        return new BigMatrixImpl(data);
+    }
+    
+    /**
+     * Returns a {@link BigMatrix} whose entries are the the values in the
+     * the input array.  The input array is copied, not referenced.
+     * 
+     * @param data input array
+     * @return  RealMatrix containing the values of the array
+     * @throws IllegalArgumentException if <code>data</code> is not rectangular
+     *  (not all rows have the same length) or empty
+     * @throws NullPointerException if data is null
+     */
+    public static BigMatrix createBigMatrix(BigDecimal[][] data) {
+        return new BigMatrixImpl(data);
+    }
+    
+    /**
+     * Returns a {@link BigMatrix} whose entries are the the values in the
+     * the input array.  The input array is copied, not referenced.
+     * 
+     * @param data input array
+     * @return  RealMatrix containing the values of the array
+     * @throws IllegalArgumentException if <code>data</code> is not rectangular
+     *  (not all rows have the same length) or empty
+     * @throws NullPointerException if data is null
+     */
+    public static BigMatrix createBigMatrix(String[][] data) {
+        return new BigMatrixImpl(data);
+    }
+    
+    /**
      * Creates a row {@link RealMatrix} using the data from the input
      * array. 
      * 
@@ -58,6 +102,54 @@ public class MatrixUtils {
         double[][] data = new double[1][nCols];
         System.arraycopy(rowData, 0, data[0], 0, nCols);
         return new RealMatrixImpl(data);
+    }
+    
+    /**
+     * Creates a row {@link BigMatrix} using the data from the input
+     * array. 
+     * 
+     * @param rowData the input row data
+     * @return a 1 x rowData.length BigMatrix
+     * @throws IllegalArgumentException if <code>rowData</code> is empty
+     * @throws NullPointerException if <code>rowData</code>is null
+     */
+    public static BigMatrix createRowBigMatrix(double[] rowData) {
+        int nCols = rowData.length;
+        double[][] data = new double[1][nCols];
+        System.arraycopy(rowData, 0, data[0], 0, nCols);
+        return new BigMatrixImpl(data);
+    }
+    
+    /**
+     * Creates a row {@link BigMatrix} using the data from the input
+     * array. 
+     * 
+     * @param rowData the input row data
+     * @return a 1 x rowData.length BigMatrix
+     * @throws IllegalArgumentException if <code>rowData</code> is empty
+     * @throws NullPointerException if <code>rowData</code>is null
+     */
+    public static BigMatrix createRowBigMatrix(BigDecimal[] rowData) {
+        int nCols = rowData.length;
+        BigDecimal[][] data = new BigDecimal[1][nCols];
+        System.arraycopy(rowData, 0, data[0], 0, nCols);
+        return new BigMatrixImpl(data);
+    }
+    
+    /**
+     * Creates a row {@link BigMatrix} using the data from the input
+     * array. 
+     * 
+     * @param rowData the input row data
+     * @return a 1 x rowData.length BigMatrix
+     * @throws IllegalArgumentException if <code>rowData</code> is empty
+     * @throws NullPointerException if <code>rowData</code>is null
+     */
+    public static BigMatrix createRowBigMatrix(String[] rowData) {
+        int nCols = rowData.length;
+        String[][] data = new String[1][nCols];
+        System.arraycopy(rowData, 0, data[0], 0, nCols);
+        return new BigMatrixImpl(data);
     }
     
     /**
@@ -76,6 +168,60 @@ public class MatrixUtils {
             data[row][0] = columnData[row];
         }
         return new RealMatrixImpl(data);
+    }
+    
+    /**
+     * Creates a column {@link BigMatrix} using the data from the input
+     * array.
+     * 
+     * @param columnData  the input column data
+     * @return a columnData x 1 BigMatrix
+     * @throws IllegalArgumentException if <code>columnData</code> is empty
+     * @throws NullPointerException if <code>columnData</code>is null
+     */
+    public static BigMatrix createColumnBigMatrix(double[] columnData) {
+        int nRows = columnData.length;
+        double[][] data = new double[nRows][1];
+        for (int row = 0; row < nRows; row++) {
+            data[row][0] = columnData[row];
+        }
+        return new BigMatrixImpl(data);
+    }
+    
+    /**
+     * Creates a column {@link BigMatrix} using the data from the input
+     * array.
+     * 
+     * @param columnData  the input column data
+     * @return a columnData x 1 BigMatrix
+     * @throws IllegalArgumentException if <code>columnData</code> is empty
+     * @throws NullPointerException if <code>columnData</code>is null
+     */
+    public static BigMatrix createColumnBigMatrix(BigDecimal[] columnData) {
+        int nRows = columnData.length;
+        BigDecimal[][] data = new BigDecimal[nRows][1];
+        for (int row = 0; row < nRows; row++) {
+            data[row][0] = columnData[row];
+        }
+        return new BigMatrixImpl(data);
+    }
+    
+    /**
+     * Creates a column {@link BigMatrix} using the data from the input
+     * array.
+     * 
+     * @param columnData  the input column data
+     * @return a columnData x 1 BigMatrix
+     * @throws IllegalArgumentException if <code>columnData</code> is empty
+     * @throws NullPointerException if <code>columnData</code>is null
+     */
+    public static BigMatrix createColumnBigMatrix(String[] columnData) {
+        int nRows = columnData.length;
+        String[][] data = new String[nRows][1];
+        for (int row = 0; row < nRows; row++) {
+            data[row][0] = columnData[row];
+        }
+        return new BigMatrixImpl(data);
     }
     
 }

@@ -15,6 +15,7 @@
  */
 package org.apache.commons.math.linear;
 
+import java.math.BigDecimal;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -22,19 +23,36 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link MatrixUtils} class.
  *
- * @version $Revision: 1.1 $ $Date: 2004/10/12 06:27:44 $
+ * @version $Revision: 1.2 $ $Date: 2004/10/25 05:36:15 $
  */
 
 public final class MatrixUtilsTest extends TestCase {
     
     protected double[][] testData = { {1d,2d,3d}, {2d,5d,3d}, {1d,0d,8d} };
+    protected double[][] nullMatrix = null;
     protected double[] row = {1,2,3};
+    protected BigDecimal[] bigRow = 
+        {new BigDecimal(1),new BigDecimal(2),new BigDecimal(3)};
+    protected String[] stringRow = {"1", "2", "3"};
     protected double[][] rowMatrix = {{1,2,3}};
+    protected BigDecimal[][] bigRowMatrix = 
+        {{new BigDecimal(1), new BigDecimal(2), new BigDecimal(3)}};
+    protected String[][] stringRowMatrix = {{"1", "2", "3"}};
     protected double[] col = {0,4,6};
+    protected BigDecimal[] bigCol = 
+        {new BigDecimal(0),new BigDecimal(4),new BigDecimal(6)};
+    protected String[] stringCol = {"0","4","6"};
+    protected double[] nullDoubleArray = null;
     protected double[][] colMatrix = {{0},{4},{6}};
+    protected BigDecimal[][] bigColMatrix = 
+        {{new BigDecimal(0)},{new BigDecimal(4)},{new BigDecimal(6)}};
+    protected String[][] stringColMatrix = {{"0"}, {"4"}, {"6"}};
     
     public MatrixUtilsTest(String name) {
         super(name);
+        for (int i = 0; i < row.length; i++) {
+            
+        }
     }
     
     public void setUp() {     
@@ -68,6 +86,33 @@ public final class MatrixUtilsTest extends TestCase {
             // expected
         } 
     }
+    
+    public void testCreateBigMatrix() {
+        assertEquals(new BigMatrixImpl(testData), 
+                MatrixUtils.createBigMatrix(testData));
+        assertEquals(new BigMatrixImpl(bigColMatrix), 
+                MatrixUtils.createBigMatrix(bigColMatrix));
+        assertEquals(new BigMatrixImpl(stringColMatrix), 
+                MatrixUtils.createBigMatrix(stringColMatrix));
+        try {
+            MatrixUtils.createBigMatrix(new double[][] {{1}, {1,2}});  // ragged
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        } 
+        try {
+            MatrixUtils.createBigMatrix(new double[][] {{}, {}});  // no columns
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+        try {
+            MatrixUtils.createBigMatrix(nullMatrix);  // null
+            fail("Expecting NullPointerException");
+        } catch (NullPointerException ex) {
+            // expected
+        } 
+    }
         
     public void testCreateRowRealMatrix() {
         assertEquals((RealMatrixImpl) MatrixUtils.createRowRealMatrix(row),
@@ -86,6 +131,27 @@ public final class MatrixUtilsTest extends TestCase {
         } 
     }
     
+    public void testCreateRowBigMatrix() {
+        assertEquals((BigMatrixImpl) MatrixUtils.createRowBigMatrix(row),
+                new BigMatrixImpl(rowMatrix));
+        assertEquals((BigMatrixImpl) MatrixUtils.createRowBigMatrix(bigRow),
+                new BigMatrixImpl(bigRowMatrix));
+        assertEquals((BigMatrixImpl) MatrixUtils.createRowBigMatrix(stringRow),
+                new BigMatrixImpl(stringRowMatrix));
+        try {
+            MatrixUtils.createRowBigMatrix(new double[] {});  // empty
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+        try {
+            MatrixUtils.createRowBigMatrix(nullDoubleArray);  // null
+            fail("Expecting NullPointerException");
+        } catch (NullPointerException ex) {
+            // expected
+        } 
+    }
+    
     public void testCreateColumnRealMatrix() {
         assertEquals((RealMatrixImpl) MatrixUtils.createColumnRealMatrix(col),
                 new RealMatrixImpl(colMatrix));
@@ -97,6 +163,28 @@ public final class MatrixUtilsTest extends TestCase {
         }
         try {
             MatrixUtils.createColumnRealMatrix(null);  // null
+            fail("Expecting NullPointerException");
+        } catch (NullPointerException ex) {
+            // expected
+        } 
+    }
+    
+    public void testCreateColumnBigMatrix() {
+        assertEquals((BigMatrixImpl) MatrixUtils.createColumnBigMatrix(col),
+                new BigMatrixImpl(colMatrix));
+        assertEquals((BigMatrixImpl) MatrixUtils.createColumnBigMatrix(bigCol),
+                new BigMatrixImpl(bigColMatrix));
+        assertEquals((BigMatrixImpl) MatrixUtils.createColumnBigMatrix(stringCol),
+                new BigMatrixImpl(stringColMatrix));   
+       
+        try {
+            MatrixUtils.createColumnBigMatrix(new double[] {});  // empty
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+        try {
+            MatrixUtils.createColumnBigMatrix(nullDoubleArray);  // null
             fail("Expecting NullPointerException");
         } catch (NullPointerException ex) {
             // expected
