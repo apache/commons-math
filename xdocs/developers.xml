@@ -1,23 +1,57 @@
 <?xml version="1.0"?>
 
 <document>
-  <properties>
-    <title>Developers Guide</title>
-    <author email="rdonkin@apache.org">Robert Burrell Donkin</author>
-  </properties>
+ <properties>
+  <title>Developers Guide</title>
+  <author email="rdonkin@apache.org">Robert Burrell Donkin</author>
+ </properties>
 
-  <body>
-        <section name="Aims">
-            <p>
-Creating and maintaining a mathematical and statistical library that is accurate requires a greater
-degree of communication than might be the case for other components. It is important that developers
-follow guidelines laid down by the community to ensure that the code they create can be successfully
-maintained by others.
-      </p>
-    </section>
-        <section name='Guidelines'>
-Still under development...!
-    </section>
-</body>
+ <body>
+  <section name="Aims">
+   <p>
+    Creating and maintaining a mathematical and statistical library that is 
+    accurate requires a greater degree of communication than might be the 
+    case for other components. It is important that developers follow 
+    guidelines laid down by the community to ensure that the code they create 
+    can be successfully maintained by others.
+   </p>
+  </section>
+  <section name='Guidelines'>
+   Still under development...!
+  </section>
+  <section name='Recommended Readings'>
+   <p>
+    Here is a list of relevant materials.  Much of the discussion surrounding
+    the development of this component will refer to the various sources 
+    listed below, and frequently the Javadoc for a particular class or 
+    interface will link to a definition contained in these documents. 
+   </p>
+   <subsection name='Recommended Readings'>
+    <dl>
+     <dt>Concerning floating point arithmetic.</dt>
+     <dd>
+      <a href="http://www.validlab.com/goldberg/paper.ps">
+       http://www.validlab.com/goldberg/paper.ps
+      </a><br/>
+      <a href="http://www.cs.berkeley.edu/~wkahan/ieee754status/ieee754.ps">
+       http://www.cs.berkeley.edu/~wkahan/ieee754status/ieee754.ps
+      </a><br/>
+     </dd>
+    </dl>
+   </subsection>
+   <subsection name='Javadoc Comment Resources'>
+    <dl>
+     <dt>References for mathematical definitions.</dt>
+     <dd>
+      <a href="http://rd11.web.cern.ch/RD11/rkb/titleA.html">
+       http://rd11.web.cern.ch/RD11/rkb/titleA.html
+      </a><br/>
+      <a href="http://mathworld.wolfram.com">
+       http://mathworld.wolfram.com
+      </a><br/>
+     </dd>
+    </dl>
+   </subsection>
+  </section>
+ </body>
 </document>
-
