@@ -26,7 +26,7 @@ import org.apache.commons.math.stat.univariate.moment.Mean;
 /**
  * Tests for AbstractUnivariateStatistic 
  *
- * @version $Revision: 1.2 $ $Date: 2004/04/12 05:26:10 $
+ * @version $Revision: 1.3 $ $Date: 2004/04/12 12:00:41 $
  */
 public class AbstractUnivariateStatisticTest extends TestCase {
     
@@ -46,7 +46,7 @@ public class AbstractUnivariateStatisticTest extends TestCase {
     protected Mean testStatistic = new Mean();
     
     public void testTestPositive() {
-        for (int j = 0; j < 5; j++) {
+        for (int j = 0; j < 6; j++) {
             for (int i = 1; i < (7 - j); i++) {
                 assertTrue(testStatistic.test(testArray, 0, i));
             }  
@@ -59,26 +59,31 @@ public class AbstractUnivariateStatisticTest extends TestCase {
         assertFalse(testStatistic.test(testArray, 0, 0));
         try {
             testStatistic.test(singletonArray, 2, 1);  // start past end
+            fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         try {
             testStatistic.test(testArray, 0, 7);  // end past end
+            fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         try {
             testStatistic.test(testArray, -1, 1);  // start negative
+            fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         try {
             testStatistic.test(testArray, 0, -1);  // length negative
+            fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         try {
             testStatistic.test(nullArray, 0, 1);  // null array
+            fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
         }      
