@@ -20,6 +20,16 @@
 		<attainGoal name="dist" />
   </goal>
   
+  <!-- [Commons-Build] Required: Look and Feel for distributions -->
+  <postGoal name="xdoc:copy-resources">  
+    <copy todir="${basedir}/target/docs/style/">
+      <fileset dir="${basedir}/../commons-build/xdocs/style">
+      	<include name='**/*'/>
+      	<exclude name='**/CVS/**'/>
+      </fileset>
+    </copy>
+  </postGoal>
+  
   <preGoal name="dist:build-bin">  
     <copy todir="${maven.dist.bin.assembly.dir}">
       <fileset file='${basedir}/NOTICE.txt'/>
