@@ -50,10 +50,19 @@
    			<a href="proposal.html">proposal</a> upon which the project is 
    			founded.
    		</li>
-   		<li>Review the completed, current and future 
-   			<a href="tasks.html">tasks</a> of the project.  Also have a look
-   			at the<a href="http://wiki.apache.org/jakarta-commons/MathWishList">
-   			Wiki.</a>
+   		<li>Download the commons math source code.  Follow the instructions
+   		under the heading "Anonymous Subversion"
+   		<a href="http://www.apache.org/dev/version-control.html">here</a> (and 
+   		also have a look <a href="http://wiki.apache.org/jakarta-commons/UsingSVN">
+   		here</a>) to check out the commons math code base from Subversion 
+   		(Jakarta Commons now uses Subversion as our source control system). The
+   		svn url for the current development sources of commons-math
+   		is 
+<source>https://svn.apache.org/repos/asf/jakarta/commons/proper/math/trunk</source>
+   		</li>
+   		<li>Have a look at the new features that users and developers have requested
+   			on the <a href="http://wiki.apache.org/jakarta-commons/MathWishList">
+   			Math Wish List Wiki Page.</a>
    		</li>
    		<li>Be sure to join the commons-dev and commons-user 
    		    <a href="mail-lists.html">
@@ -93,10 +102,9 @@
    			</ul>
    			
 		  <li>
-		  		Generating patches: The requested format for generating patches is the Unified Diff format, which can be easily generated using the cvs client or Eclipse IDE.
-		  		<source>
-					cvs diff -u > patch
-				</source>
+		  		Generating patches: The requested format for generating patches is the Unified Diff format, 
+		  		which can be easily generated using the svn client or Eclipse IDE.
+<source>svn diff  > patch </source>
 		  </li>
 
    		</li>
