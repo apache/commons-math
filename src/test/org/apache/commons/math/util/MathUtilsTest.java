@@ -15,8 +15,6 @@
  */
 package org.apache.commons.math.util;
 
-import org.apache.commons.math.TestUtils;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -24,7 +22,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the MathUtils class.
  *
- * @version $Revision: 1.12 $ $Date: 2004/04/12 04:22:09 $
+ * @version $Revision: 1.13 $ $Date: 2004/05/09 04:36:09 $
  */
 
 public final class MathUtilsTest extends TestCase {
@@ -75,37 +73,28 @@ public final class MathUtilsTest extends TestCase {
        */
     }
     
+    /** Verify that b(0,0) = 1 */
+    public void test0Choose0() {
+        assertEquals(MathUtils.binomialCoefficientDouble(0, 0), 1d, 0);
+        assertEquals(MathUtils.binomialCoefficientLog(0, 0), 0d, 0);
+        assertEquals(MathUtils.binomialCoefficient(0, 0), 1);
+    }
+    
     public void testBinomialCoefficientFail() {
-        try {
-            long x = MathUtils.binomialCoefficient(0,0);
-            fail ("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
-            ;
-        }
         try {
             long x = MathUtils.binomialCoefficient(4,5);
             fail ("expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             ;
         }
-        try {
-            double x = MathUtils.binomialCoefficientDouble(0,0);
-            fail ("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
-            ;
-        }
+        
         try {
             double x = MathUtils.binomialCoefficientDouble(4,5);
             fail ("expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             ;
         }
-        try {
-            double x = MathUtils.binomialCoefficientLog(0,0);
-            fail ("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
-            ;
-        }
+        
         try {
             double x = MathUtils.binomialCoefficientLog(4,5);
             fail ("expecting IllegalArgumentException");

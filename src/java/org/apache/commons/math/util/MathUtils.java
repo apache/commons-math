@@ -19,7 +19,7 @@ package org.apache.commons.math.util;
 /**
  * Some useful additions to the built-in functions in {@link Math}.
  *
- * @version $Revision: 1.15 $ $Date: 2004/04/27 04:37:59 $
+ * @version $Revision: 1.16 $ $Date: 2004/05/09 04:36:08 $
  */
 public final class MathUtils {
     
@@ -229,7 +229,7 @@ public final class MathUtils {
      * an <code>n</code>-element set.
      * <p>
      * <Strong>Preconditions</strong>:<ul>
-     * <li> <code>0 < k <= n </code> (otherwise
+     * <li> <code>0 <= k <= n </code> (otherwise
      *      <code>IllegalArgumentException</code> is thrown)</li>
      * <li> The result is small enough to fit into a <code>long</code>.  The
      *      largest value of <code>n</code> for which all coefficients are
@@ -247,9 +247,9 @@ public final class MathUtils {
             throw new IllegalArgumentException(
             "must have n >= k for binomial coefficient (n,k)");
         }
-        if (n <= 0) {
+        if (n < 0) {
             throw new IllegalArgumentException(
-            "must have n > 0 for binomial coefficient (n,k)");
+            "must have n >= 0 for binomial coefficient (n,k)");
         }
         if ((n == k) || (k == 0)) {
             return 1;
@@ -274,7 +274,7 @@ public final class MathUtils {
      * an <code>n</code>-element set.
      * <p>
      * <Strong>Preconditions</strong>:<ul>
-     * <li> <code>0 < k <= n </code> (otherwise
+     * <li> <code>0 <= k <= n </code> (otherwise
      *      <code>IllegalArgumentException</code> is thrown)</li>
      * <li> The result is small enough to fit into a <code>double</code>.
      *      The largest value of <code>n</code> for which all coefficients are
@@ -298,7 +298,7 @@ public final class MathUtils {
      * an <code>n</code>-element set.
      * <p>
      * <Strong>Preconditions</strong>:<ul>
-     * <li> <code>0 < k <= n </code> (otherwise
+     * <li> <code>0 <= k <= n </code> (otherwise
      *      <code>IllegalArgumentException</code> is thrown)</li>
      * </ul>
      *
@@ -311,9 +311,9 @@ public final class MathUtils {
             throw new IllegalArgumentException(
             "must have n >= k for binomial coefficient (n,k)");
         }
-        if (n <= 0) {
+        if (n < 0) {
             throw new IllegalArgumentException(
-            "must have n > 0 for binomial coefficient (n,k)");
+            "must have n >= 0 for binomial coefficient (n,k)");
         }
         if ((n == k) || (k == 0)) {
             return 0;
