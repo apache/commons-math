@@ -17,13 +17,11 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="xdoc.xsl"?>
-<!-- $Revision: 1.7 $ $Date: 2004/02/28 17:47:37 $ -->
+<!-- $Revision: 1.8 $ $Date: 2004/04/22 04:10:57 $ -->
 <document>
 
  <properties>
   <title>Commons-Math: The Jakarta Mathematics Library</title>
-  <author email="rdonkin@apache.org">Robert Burrell Donkin</author>
-  <author email="tobrien@apache.org">Tim O'Brien</author>
  </properties>
 
  <body>
@@ -100,7 +98,7 @@
     </p>
     <p>
      You can get the nightly builds from <a
-     href="http://jakarta.apache.org/builds/jakarta-commons/nightly/commons-math/">here</a>
+     href="http://cvs.apache.org/builds/jakarta-commons/nightly/commons-math/">here</a>
     </p>
    </subsection>
   </section>
