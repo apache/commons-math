@@ -22,7 +22,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link RealMatrixImpl} class.
  *
- * @version $Revision: 1.11 $ $Date: 2004/02/21 21:35:17 $
+ * @version $Revision: 1.12 $ $Date: 2004/04/03 22:19:24 $
  */
 
 public final class RealMatrixImplTest extends TestCase {
@@ -200,6 +200,24 @@ public final class RealMatrixImplTest extends TestCase {
         RealMatrix mInv = new RealMatrixImpl(testDataInv);
         assertClose("inverse",mInv,m.inverse(),normTolerance);
         assertClose("inverse^2",m,m.inverse().inverse(),10E-12);
+        
+        // Not square
+        m = new RealMatrixImpl(testData2);
+        try {
+            m.inverse();
+            fail("Expecting InvalidMatrixException");
+        } catch (InvalidMatrixException ex) {
+            // expected
+        }
+        
+        // Singular
+        m = new RealMatrixImpl(singular);
+        try {
+            m.inverse();
+            fail("Expecting InvalidMatrixException");
+        } catch (InvalidMatrixException ex) {
+            // expected
+        }
     }
     
     /** test solve */
