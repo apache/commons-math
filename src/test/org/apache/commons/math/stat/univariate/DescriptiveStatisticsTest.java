@@ -26,7 +26,7 @@ import org.apache.commons.math.random.RandomDataImpl;
 /**
  * Test cases for the {@link Univariate} class.
  *
- * @version $Revision: 1.6 $ $Date: 2004/05/23 00:56:15 $
+ * @version $Revision: 1.7 $ $Date: 2004/07/10 17:13:00 $
  */
 
 public final class DescriptiveStatisticsTest extends TestCase {
@@ -327,29 +327,6 @@ public final class DescriptiveStatisticsTest extends TestCase {
         u2.clear();
         assertEquals("total count",0,u2.getN(),tolerance);    
     }       
-
-    public void testNewInstanceStringNull() {
-        try {
-            DescriptiveStatistics u = DescriptiveStatistics.newInstance((String)null);
-            fail("null is not a valid descriptive statistics class name");
-        } catch (NullPointerException ex) {
-            // success
-        } catch (Exception ex) {
-            fail();
-        }
-        
-    }
-    
-    public void testNewInstanceStringValid() {
-        try {
-            DescriptiveStatistics u = DescriptiveStatistics.newInstance(
-            "org.apache.commons.math.stat.univariate.DescriptiveStatisticsImpl");
-            assertNotNull(u);
-            assertTrue(u instanceof DescriptiveStatisticsImpl);
-        } catch (Exception ex) {
-            fail();
-        }
-    }
 
     public void testNewInstanceClassNull() {
         try {
