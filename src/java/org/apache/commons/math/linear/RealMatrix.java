@@ -56,7 +56,7 @@ package org.apache.commons.math.linear;
 
 /**
  * Interface defining a real-valued matrix with basic algebraic operations
- * @version $Revision: 1.7 $ $Date: 2003/11/14 22:22:19 $
+ * @version $Revision: 1.8 $ $Date: 2004/01/28 20:15:03 $
  */
 public interface RealMatrix {
 
@@ -147,28 +147,31 @@ public interface RealMatrix {
      *
      * @param row the row to be fetched
      * @return array of entries in the row
-     * @throws IllegalArgumentException if row > rowDimension
+     * @throws MatrixIndexException if the specified row is greater 
+     *                              than the number of rows in this matrix
      */
-    double[] getRow(int row) throws IllegalArgumentException;
+    double[] getRow(int row) throws MatrixIndexException;
     
     /**
      * Returns the entries in column number <code>col</code> as an array.
      *
      * @param col  column to fetch
      * @return array of entries in the column
-     * @throws IllegalArgumentException if column > columnDimension
+     * @throws MatrixIndexException if the specified column is greater
+     *                              than the number of columns in this matrix
      */
-    double[] getColumn(int col) throws IllegalArgumentException;
+    double[] getColumn(int col) throws MatrixIndexException;
     
     /**
      * Returns the entry in the specified row and column.
      *
      * @param row  row location of entry to be fetched  
      * @param column  column location of entry to be fetched
-     * @return     matrix entry in row,column
-     * @throws     IllegalArgumentException if entry does not exist
+     * @return matrix entry in row,column
+     * @throws MatrixIndexException if the specified coordinate is outside 
+     *                              the dimensions of this matrix
      */
-    double getEntry(int row, int column) throws IllegalArgumentException;
+    double getEntry(int row, int column) throws MatrixIndexException;
     
     /**
      * Sets the entry in the specified row and column to the specified value.
@@ -176,10 +179,11 @@ public interface RealMatrix {
      * @param row    row location of entry to be set 
      * @param column    column location of entry to be set
      * @param value  value to set 
-     * @throws IllegalArgumentException if entry does not exist
+     * @throws MatrixIndexException if the specified coordinate is outside
+     *                              he dimensions of this matrix
      */
     void setEntry(int row, int column, double value) 
-        throws IllegalArgumentException;
+        throws MatrixIndexException;
     
     /**
      * Returns the transpose of this matrix.
@@ -260,11 +264,11 @@ public interface RealMatrix {
      * matrix = this and constant vector = <code>b</code>.
      *
      * @param b  constant vector
-     * @return   vector of solution values to AX = b, where A is *this
-     * @throws   IllegalArgumentException if rowDimension != b.length or matrix 
-     *           is singular
+     * @return vector of solution values to AX = b, where A is *this
+     * @throws IllegalArgumentException if this.rowDimension != b.length 
+     * @throws InvalidMatrixException if this matrix is square or singular
      */
-    double[] solve(double[] b) throws IllegalArgumentException;
+    double[] solve(double[] b) throws IllegalArgumentException, InvalidMatrixException;
     
     /**
      * Returns a matrix of (column) solution vectors for linear systems with
@@ -274,9 +278,9 @@ public interface RealMatrix {
      * @param b  matrix of constant vectors forming RHS of linear systems to
      * to solve
      * @return matrix of solution vectors
-     * @throws IllegalArgumentException if rowDimension != row dimension of b
-     * or this is not square or singular
+     * @throws IllegalArgumentException if this.rowDimension != row dimension
+     * @throws InvalidMatrixException if this matrix is square or singular
      */
-    RealMatrix solve(RealMatrix b) throws IllegalArgumentException;
+    RealMatrix solve(RealMatrix b) throws IllegalArgumentException, InvalidMatrixException;
 }
 

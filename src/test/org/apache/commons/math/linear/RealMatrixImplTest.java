@@ -60,7 +60,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link RealMatrixImpl} class.
  *
- * @version $Revision: 1.8 $ $Date: 2003/11/23 20:34:41 $
+ * @version $Revision: 1.9 $ $Date: 2004/01/28 20:15:03 $
  */
 
 public final class RealMatrixImplTest extends TestCase {
@@ -256,13 +256,13 @@ public final class RealMatrixImplTest extends TestCase {
         RealMatrix bs = new RealMatrixImpl(bigSingular);
         try {
             RealMatrix a = bs.solve(bs);
-            fail("Expecting illegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting InvalidMatrixException");
+        } catch (InvalidMatrixException ex) {
             ;
         }
         try {
             RealMatrix a = m.solve(bs);
-            fail("Expecting illegalArgumentException");
+            fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             ;
         }
@@ -274,8 +274,8 @@ public final class RealMatrixImplTest extends TestCase {
         } 
         try {
             (new RealMatrixImpl(testData2)).LUDecompose();
-            fail("Expecting illegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting InvalidMatrixException");
+        } catch (InvalidMatrixException ex) {
             ;
         }  
     }
@@ -288,8 +288,8 @@ public final class RealMatrixImplTest extends TestCase {
         assertEquals("nonsingular test",-3d,m.getDeterminant(),normTolerance);
         try {
             double a = new RealMatrixImpl(testData2).getDeterminant();
-            fail("Expecting illegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting InvalidMatrixException");
+        } catch (InvalidMatrixException ex) {
             ;
         }      
     }
@@ -358,14 +358,14 @@ public final class RealMatrixImplTest extends TestCase {
         assertClose("get col",m.getColumn(3),testDataCol3,entryTolerance);
         try {
             double[] x = m.getRow(10);
-            fail("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
             ;
         }
         try {
             double[] x = m.getColumn(-1);
-            fail("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
             ;
         }
     }
@@ -377,14 +377,14 @@ public final class RealMatrixImplTest extends TestCase {
         assertEquals("get entry",m.getEntry(1,2),100d,entryTolerance);
         try {
             double x = m.getEntry(0,2);
-            fail("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
             ;
         }
         try {
             m.setEntry(1,4,200d);
-            fail("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
             ;
         }
     }
