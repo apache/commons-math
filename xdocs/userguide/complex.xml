@@ -17,7 +17,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 1.3 $ $Date: 2004/06/23 16:26:16 $ -->
+<!-- $Revision: 1.4 $ $Date: 2004/11/08 01:03:43 $ -->
 <document url="stat.html">
   <properties>
     <title>The Commons Math User Guide - Statistics</title>
@@ -61,7 +61,7 @@ Complex answer = lhs.add(rhs);       // add two complex numbers
       </subsection>
       <subsection name="7.3 Complex Transcendental Functions" href="function">
         <p>
-		  <a href="../apidocs/org/apache/commons/math/complex/ComplexMath.html">
+		  <a href="../apidocs/org/apache/commons/math/complex/ComplexUtils.html">
 		  org.apache.commons.math.complex.ComplexMath</a> provides
 		  implementations of serveral transcendental functions involving complex
 		  number arguments.  These operations provide the means to compute the
