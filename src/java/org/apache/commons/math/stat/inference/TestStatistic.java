@@ -20,7 +20,7 @@ import org.apache.commons.math.MathException;
 /**
  * A collection of commonly used test statistics and statistical tests.
  * 
- * @version $Revision: 1.15 $ $Date: 2004/04/11 19:00:45 $ 
+ * @version $Revision: 1.1 $ $Date: 2004/04/11 20:19:14 $ 
  */
 public interface TestStatistic {
     
