@@ -21,7 +21,7 @@ package org.apache.commons.math.distribution;
  * Extends ContinuousDistributionAbstractTest.  See class javadoc for
  * ContinuousDistributionAbstractTest for details.
  * 
- * @version $Revision: 1.15 $ $Date: 2004/05/29 22:52:44 $
+ * @version $Revision: 1.16 $ $Date: 2004/07/24 20:43:29 $
  */
 public class ChiSquareDistributionTest extends ContinuousDistributionAbstractTest {
     
@@ -51,7 +51,20 @@ public class ChiSquareDistributionTest extends ContinuousDistributionAbstractTes
     public double[] makeCumulativeTestValues() {
         return new double[] {0.001d, 0.01d, 0.025d, 0.05d, 0.1d, 0.999d,
                 0.990d, 0.975d, 0.950d, 0.900d}; 
-        }
+    }
+    
+    /** Creates the default inverse cumulative probability test input values */
+    public double[] makeInverseCumulativeTestPoints() {
+        return new double[] {0, 0.001d, 0.01d, 0.025d, 0.05d, 0.1d, 0.999d,
+                0.990d, 0.975d, 0.950d, 0.900d, 1};     
+    }
+    
+    /** Creates the default inverse cumulative probability density test expected values */
+    public double[] makeInverseCumulativeTestValues() {
+        return new double[] {0, 0.210216d, 0.5542981d, 0.8312116d, 1.145476d, 1.610308d, 
+                20.51501d, 15.08627d, 12.83250d, 11.07050d, 9.236357d, 
+                Double.POSITIVE_INFINITY};
+    }
     
  // --------------------- Override tolerance  --------------
     protected void setup() throws Exception {
@@ -69,6 +82,7 @@ public class ChiSquareDistributionTest extends ContinuousDistributionAbstractTes
                 1.144775E-26, 1.168926E-20, 5.472917, 2.175255, 1.13438, 
                 0.5318646, 0.1526342});
         setInverseCumulativeTestValues(getCumulativeTestPoints());
+        setInverseCumulativeTestPoints(getCumulativeTestValues());
         verifyCumulativeProbabilities();
         verifyInverseCumulativeProbabilities();
     }
