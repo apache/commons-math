@@ -20,7 +20,7 @@ import org.apache.commons.math.stat.univariate.moment.SecondMoment;
 
 /**
  * Test cases for {@link StorelessUnivariateStatistic} classes.
- * @version $Revision: 1.15 $ $Date: 2004/07/07 12:50:50 $
+ * @version $Revision: 1.16 $ $Date: 2004/07/10 17:14:15 $
  */
 public abstract class StorelessUnivariateStatisticAbstractTest
     extends UnivariateStatisticAbstractTest {
@@ -28,6 +28,9 @@ public abstract class StorelessUnivariateStatisticAbstractTest
     public StorelessUnivariateStatisticAbstractTest(String name) {
         super(name);
     }
+    
+    /** Small sample arrays */
+    protected double[][] smallSamples = {{}, {1}, {1,2}, {1,2,3}, {1,2,3,4}};
 
     /** Return a new instance of the statistic */
     public abstract UnivariateStatistic getUnivariateStatistic();
@@ -48,11 +51,12 @@ public abstract class StorelessUnivariateStatisticAbstractTest
         }
 
         assertEquals(expectedValue(), statistic.getResult(), getTolerance());
-        //TODO:  add test for getN() once type is fixed
+        assertEquals(testArray.length, statistic.getN());
 
         statistic.clear();
 
         assertTrue(Double.isNaN(statistic.getResult()));
+        assertEquals(0, statistic.getN());
 
     }
 
@@ -145,6 +149,13 @@ public abstract class StorelessUnivariateStatisticAbstractTest
         StorelessUnivariateStatistic stat = (StorelessUnivariateStatistic) getUnivariateStatistic();
         stat.incrementAll(testArray);
         assertEquals(stat.getResult(), stat.evaluate(testArray), getTolerance());
+        for (int i = 0; i < smallSamples.length; i++) {
+            stat.clear();
+            for (int j =0; j < smallSamples[i].length; j++) {
+                stat.increment(smallSamples[i][j]);
+            }
+            TestUtils.assertEquals(stat.getResult(), stat.evaluate(smallSamples[i]), getTolerance());
+        }
     }
 
 }
