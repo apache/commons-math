@@ -70,6 +70,7 @@ public class ExpandableDoubleArrayTest extends DoubleArrayAbstractTest {
 	 */
 	protected void setUp() throws Exception {
 		da = new ExpandableDoubleArray();
+		ra = new ExpandableDoubleArray();
 	}
 
 	/* (non-Javadoc)
@@ -77,12 +78,35 @@ public class ExpandableDoubleArrayTest extends DoubleArrayAbstractTest {
 	 */
 	protected void tearDown() throws Exception {
 		da = null;
+		ra = null;
 	}
 	
 	
 	/** TEST NORMAL OPERATIONS - calling super class test and then checking internal
 	 *   storage **/
 	
+	
+	public void testSetElementArbitraryExpansion() {
+		double[] controlArray = {2.0, 4.0, 6.0};
+		
+		da.addElement(2.0);
+		da.addElement(4.0);
+		da.addElement(6.0);
+		da.setElement(1, 3.0);
+		
+		// Expand the array arbitrarily to 1000 items
+		da.setElement(1000, 3.4);
+
+		assertEquals( "The number of elements should now be 1001, it isn't", da.getNumElements(), 1001);
+		
+		assertEquals( "Uninitialized Elements are default value of 0.0, index 766 wasn't", 0.0,
+							da.getElement( 760 ), Double.MIN_VALUE );
+		
+		assertEquals( "The 1000th index should be 3.4, it isn't", 3.4, da.getElement(1000), Double.MIN_VALUE );
+		assertEquals( "The 0th index should be 2.0, it isn't", 2.0, da.getElement(0), Double.MIN_VALUE);		
+		
+	}
+		
 	public void testAdd1000() {
 		super.testAdd1000();
 		assertEquals("Internal Storage length should be 1024 if we started out with initial capacity of " +
@@ -90,14 +114,32 @@ public class ExpandableDoubleArrayTest extends DoubleArrayAbstractTest {
 							1024, ((ExpandableDoubleArray) da).getInternalLength());
 	}
 	
-	public void testSetElementArbitraryExpansion() {
-		super.testSetElementArbitraryExpansion();
-		assertEquals( "The length of the internal array should now be 1001, it isn't", ((ExpandableDoubleArray) da).getInternalLength(), 1001);
-	}
-
 	public void testAddElementRolling() {
 		super.testAddElementRolling();
-		assertEquals( "Even though there are only 6 element, internal storage should be 2048", ((ExpandableDoubleArray) da).getInternalLength(), 2048);
+	}
+
+	public void testSetNumberOfElements() {
+		da.addElement( 1.0 );
+		da.addElement( 1.0 );
+		da.addElement( 1.0 );
+		da.addElement( 1.0 );
+		da.addElement( 1.0 );
+		da.addElement( 1.0 );
+		assertEquals( "Number of elements should equal 6", da.getNumElements(), 6);
+		
+		((ExpandableDoubleArray) da).setNumElements( 3 );
+		assertEquals( "Number of elements should equal 3", da.getNumElements(), 3);
+		
+		try {
+			((ExpandableDoubleArray) da).setNumElements( -3 );
+			fail( "Setting number of elements to negative should've thrown an exception");
+		} catch( IllegalArgumentException iae ) {
+		}
+
+		((ExpandableDoubleArray) da).setNumElements(1024);
+		assertEquals( "Number of elements should now be 1024", da.getNumElements(), 1024);
+		assertEquals( "Element 453 should be a default double", da.getElement( 453 ), 0.0, Double.MIN_VALUE);
+				
 	}
 
 	/** TESTS WHICH FOCUS ON ExpandableSpecific internal storage */
@@ -105,7 +147,6 @@ public class ExpandableDoubleArrayTest extends DoubleArrayAbstractTest {
 	public void testWithInitialCapacity() {
 
 		ExpandableDoubleArray eDA2 = new ExpandableDoubleArray(2);
-		assertEquals("Initial internal length should be 2", 2, eDA2.getInternalLength());
 		assertEquals("Initial number of elements should be 0", 0, eDA2.getNumElements());
 
 		int iterations = (int) Math.pow(2.0, 15.0);
@@ -115,19 +156,16 @@ public class ExpandableDoubleArrayTest extends DoubleArrayAbstractTest {
 		}
 		
 		assertEquals("Number of elements should be equal to 2^15", (int) Math.pow(2.0, 15.0), eDA2.getNumElements());
-		assertEquals("Internal length should be 2^15", (int) Math.pow(2.0, 15.0), eDA2.getInternalLength());
 		
 		eDA2.addElement( 2.0 );
 		
 		assertEquals("Number of elements should be equals to 2^15 + 1",
 		        ( (int) Math.pow(2.0, 15.0) + 1 ), eDA2.getNumElements() );
-		assertEquals("Internal length should be 2^16", (int) Math.pow(2.0, 16.0), eDA2.getInternalLength());
 	}
 
 	public void testWithInitialCapacityAndExpansionFactor() {
 
 		ExpandableDoubleArray eDA3 = new ExpandableDoubleArray(3, 3.0f);
-		assertEquals("Initial internal length should be 3", 3, eDA3.getInternalLength() );
 		assertEquals("Initial number of elements should be 0", 0, eDA3.getNumElements() );
 
 		int iterations = (int) Math.pow(3.0, 7.0);
@@ -137,18 +175,46 @@ public class ExpandableDoubleArrayTest extends DoubleArrayAbstractTest {
 		}
 		
 		assertEquals("Number of elements should be equal to 3^7", (int) Math.pow(3.0, 7.0), eDA3.getNumElements());
-		assertEquals("Internal length should be 3^7", (int) Math.pow(3.0, 7.0), eDA3.getInternalLength());
 		
 		eDA3.addElement( 2.0 );
 		
 		assertEquals("Number of elements should be equals to 3^7 + 1",
 			( (int) Math.pow(3.0, 7.0) + 1 ), eDA3.getNumElements() );
-		assertEquals("Internal length should be 3^8", (int) Math.pow(3.0, 8.0), eDA3.getInternalLength());
 						   
 		assertEquals("Expansion factor should equal 3.0", 3.0f, eDA3.getExpansionFactor(), Double.MIN_VALUE);
 	}
 	
-	
+	public void testDiscard() {
+		da.addElement(2.0);
+		da.addElement(2.0);
+		da.addElement(2.0);
+		da.addElement(2.0);
+		da.addElement(2.0);
+		da.addElement(2.0);
+		da.addElement(2.0);
+		da.addElement(2.0);
+		da.addElement(2.0);
+		da.addElement(2.0);
+		da.addElement(2.0);
+		assertEquals( "Number of elements should be 11", 11, da.getNumElements());
+		
+		da.discardFrontElements(5);
+		assertEquals( "Number of elements should be 6", 6, da.getNumElements());
+		
+		try {
+			da.discardFrontElements(-1);
+			fail( "Trying to discard a negative number of element is not allowed");
+		} catch( Exception e ){
+		}
+		
+		try {
+			da.discardFrontElements( 10000 );
+			fail( "You can't discard more elements than the array contains");
+		} catch( Exception e ){
+		}
+		
+	}
+		
 	/** TEST ERROR CONDITIONS **/
 
 	public void testIllegalInitialCapacity() {
@@ -184,6 +250,28 @@ public class ExpandableDoubleArrayTest extends DoubleArrayAbstractTest {
 			fail( "That constructor should have thrown an IllegalArgumentException because " +
 				"the expansionFactor for -4.35");
 		} catch( IllegalArgumentException iae) {
+		}
+	}
+	
+	public void testSetOutOfBounds() {
+			try {
+				da.setElement( -1, 2.0);
+				fail( "Cannot set a negative index");	
+			} catch( Exception e ){
+			}
+	}
+	
+	public void testGetOutOfBounds() {
+		try {
+			da.getElement(10000);
+			fail( "Cannot get an element that is larger than the number of elements");
+		} catch( Exception e ) {
+		}
+		
+		try {
+			da.getElement(-3);
+			fail("Cannot get a negative index");
+		} catch( Exception e ){
 		}
 	}
 	

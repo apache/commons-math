@@ -64,7 +64,7 @@ import java.io.Serializable;
  * to doubles by addValue().  
  *
  * @author Phil Steitz
- * @version $Revision: 1.3 $ $Date: 2003/05/16 05:23:29 $
+ * @version $Revision: 1.4 $ $Date: 2003/05/17 23:24:21 $
  * 
 */
 public class UnivariateImpl implements Univariate, Serializable {
@@ -75,9 +75,8 @@ public class UnivariateImpl implements Univariate, Serializable {
 	/** Just in case, the windowSize is not inifinite, we need to
 	 *   keep an array to remember values 0 to N
 	 */
-	private DoubleArray doubleArray =
-		new ContractableDoubleArray(); 
-
+	private DoubleArray doubleArray;
+	
     /** running sum of values that have been added */
     private double sum = 0.0;
 
@@ -97,6 +96,12 @@ public class UnivariateImpl implements Univariate, Serializable {
     public UnivariateImpl() {
         clear();
     }
+    
+    /** Create a new univariate with a fixed window **/
+    public UnivariateImpl(int window) {
+    	windowSize = window;
+   		doubleArray = new FixedDoubleArray( window );
+     }
 
     /**
      * Adds the value, updating running sums.
@@ -154,9 +159,14 @@ public class UnivariateImpl implements Univariate, Serializable {
     		if( windowSize == n ) {
 				double discarded = doubleArray.addElementRolling( v );        	
 			
-				// Remove the influence of the discarded
-				sum -= discarded;
-				sumsq -= discarded * discarded;
+				// Remove the influence of discarded value ONLY
+				// if the discard value has any meaning.  In other words
+				// don't discount until we "roll".
+				if( windowSize > doubleArray.getNumElements() ) {
+					// Remove the influence of the discarded
+					sum -= discarded;
+					sumsq -= discarded * discarded;
+				}
 			
 				// Include the influence of the new
 				// TODO: The next two lines seems rather expensive, but
@@ -264,7 +274,7 @@ public class UnivariateImpl implements Univariate, Serializable {
 	 * @see org.apache.commons.math.Univariate#setWindowSize(int)
 	 */
 	public void setWindowSize(int windowSize) {
-		this.windowSize = windowSize;
+		throw new RuntimeException( "A fixed window size must be set via the UnivariateImpl constructor");
 	}
 
 }

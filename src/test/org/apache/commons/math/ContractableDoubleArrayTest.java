@@ -59,7 +59,7 @@ package org.apache.commons.math;
  * 
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
  */
-public class ContractableDoubleArrayTest extends DoubleArrayAbstractTest {
+public class ContractableDoubleArrayTest extends ExpandableDoubleArrayTest {
 
 	public ContractableDoubleArrayTest(String name) {
 		super( name );
@@ -70,69 +70,7 @@ public class ContractableDoubleArrayTest extends DoubleArrayAbstractTest {
 	 */
 	protected void setUp() throws Exception {
 		da = new ContractableDoubleArray();
+		ra = new ContractableDoubleArray();
 	}
-
-	/** Test normal operations and then test internal storage */
-	public void testAdd1000() {
-		super.testAdd1000();
-		assertEquals("Internal Storage length should be 1024 if we started out with initial capacity of " +
-			"16 and an expansion factor of 2.0",
-							1024, ((ExpandableDoubleArray) da).getInternalLength());
-	}
-	
-	public void testSetElementArbitraryExpansion() {
-		super.testSetElementArbitraryExpansion();
-		assertEquals( "The length of the internal array should now be 1001, it isn't", ((ExpandableDoubleArray) da).getInternalLength(), 1001);
-	}
-
-	public void testAddElementRolling() {
-		super.testAddElementRolling();
-		assertTrue( "Even though there are only 6 element, internal storage should be less than 2.5 times the number of elements", 
-			((ExpandableDoubleArray) da).getInternalLength() < ((int) 6 * 2.5) );
-	}
-
-
-	/** Test ERROR conditions */
-	/** TEST ERROR CONDITIONS **/
-
-	public void testIllegalInitialCapacity() {
-		try {
-			ContractableDoubleArray eDA = new ContractableDoubleArray(-3, 2.0f);
-			fail( "That constructor should have thrown an IllegalArgumentException because " +
-				"the initialCapacity was negative, if it didn't then" +
-				" the range checking of initialCapacity is not working properly" );
-		} catch( IllegalArgumentException iae ) {
-		}
-		try {
-			ContractableDoubleArray eDA = new ContractableDoubleArray(0, 2.0f);
-			fail( "That constructor should have thrown an IllegalArgumentException because " +
-				"the initialCapacity was ZERO if it didn't then" +
-				" the range checking of initialCapacity is not working properly" );
-		} catch( IllegalArgumentException iae ) {
-		}
-	}
-	
-	public void testIllegalExpansionFactor() {
-		try {
-			ContractableDoubleArray eDA = new ContractableDoubleArray(3, 0.66f);
-			fail( "That constructor should have thrown an IllegalArgumentException because " +
-				"the expansionFactor for 0.66 which would shrink the array instead of expand the array");
-		} catch( IllegalArgumentException iae ) {
-		}
-		try {
-			ContractableDoubleArray eDA = new ContractableDoubleArray(3, 0.0f);
-			fail( "That constructor should have thrown an IllegalArgumentException because " +
-				"the expansionFactor for 0.0");
-		} catch( IllegalArgumentException iae) {
-		}
-		
-		try {
-			ContractableDoubleArray eDA = new ContractableDoubleArray(3, -4.35f);
-			fail( "That constructor should have thrown an IllegalArgumentException because " +
-				"the expansionFactor for -4.35");
-		} catch( IllegalArgumentException iae) {
-		}
-	}
-	
 
 }

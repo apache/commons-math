@@ -53,115 +53,130 @@
  */
 package org.apache.commons.math;
 
-import junit.framework.TestCase;
 
 /**
  * This class contains test cases for the ExpandableDoubleArray.
  * 
  * @author <a href="mailto:tobrien@apache.org">Tim O'Brien</a>
  */
-public abstract class DoubleArrayAbstractTest extends TestCase {
+public class FixedDoubleArrayTest extends DoubleArrayAbstractTest {
 
-	protected DoubleArray da = null;
-
-	// Array used to test rolling
-	protected DoubleArray ra = null;
-
-	public DoubleArrayAbstractTest(String name) {
-		super(name);
+	public FixedDoubleArrayTest(String name) {
+		super( name );
+	}
+	
+	/* (non-Javadoc)
+	 * @see junit.framework.TestCase#setUp()
+	 */
+	protected void setUp() throws Exception {
+		da = new FixedDoubleArray(4000);
 	}
 
-	public void testAdd1000() {
-
-		for (int i = 0; i < 1000; i++) {
-			da.addElement(i);
-		}
-
-		assertEquals(
-			"Number of elements should be equal to 1000 after adding 1000 values",
-			1000,
-			da.getNumElements());
-
-		assertEquals(
-			"The element at the 56th index should be 56",
-			56.0,
-			da.getElement(56),
-			Double.MIN_VALUE);
-
+	/* (non-Javadoc)
+	 * @see junit.framework.TestCase#tearDown()
+	 */
+	protected void tearDown() throws Exception {
+		da = null;
 	}
-
-	public void testGetValues() {
-		double[] controlArray = { 2.0, 4.0, 6.0 };
-
-		da.addElement(2.0);
-		da.addElement(4.0);
-		da.addElement(6.0);
-		double[] testArray = da.getElements();
-
-		for (int i = 0; i < da.getNumElements(); i++) {
-			assertEquals(
-				"The testArray values should equal the controlArray values, index i: "
-					+ i
-					+ " does not match",
-				testArray[i],
-				controlArray[i],
-				Double.MIN_VALUE);
-		}
-
-	}
-
+	
+	
+	/** TEST NORMAL OPERATIONS - calling super class test and then checking internal
+	 *   storage **/
+	
 	public void testAddElementRolling() {
-		ra.addElement(0.5);
-		ra.addElement(1.0);
-		ra.addElement(1.0);
-		ra.addElement(1.0);
-		ra.addElement(1.0);
-		ra.addElement(1.0);
-		ra.addElementRolling(2.0);
+		ra = new FixedDoubleArray(6);
 
-		assertEquals(
-			"There should be 6 elements in the eda",
-			6,
-			ra.getNumElements());
-		assertEquals(
-			"The max element should be 2.0",
-			2.0,
-			ra.getMax(),
-			Double.MIN_VALUE);
-		assertEquals(
-			"The min element should be 1.0",
-			1.0,
-			ra.getMin(),
-			Double.MIN_VALUE);
-
-		for (int i = 0; i < 1024; i++) {
-			ra.addElementRolling(i);
+		super.testAddElementRolling();
+		
+		assertEquals( "FixedDoubleArray should have 6 size internal storage", 
+								6, ((FixedDoubleArray) ra).internalArray.length);		
+	}
+	
+	public void testExceedingElements() {
+		
+		for( int i = 0; i < 3999; i++) {
+			da.addElement( 1.0 );
 		}
 
-		assertEquals(
-			"We just inserted 1024 rolling elements, num elements should still be 6",
-			6,
-			ra.getNumElements());
+		da.addElement( 1.0 );
+		
+		try {
+			da.addElement( 2.0 );
+			fail( " Adding more than 4000 elements should cause an exception ");
+		} catch( Exception e ) {
+		}
+		
+		da.addElementRolling(2.0);
+		assertEquals( "This is the first rolling add, the first element should be 2.0",
+								2.0, da.getElement(0), Double.MIN_VALUE);
+	}
+	
+	public void testGetExceeding() {
+		try {
+			da.getElement(100);
+			fail( "I haven't added 100 elements to the list yet, trying to getElement(100) should " +				"thrown an error");
+		} catch (Exception e ){ 
+		}
+		
 	}
 
-	public void testMinMax() {
-		da.addElement(2.0);
-		da.addElement(22.0);
-		da.addElement(-2.0);
-		da.addElement(21.0);
-		da.addElement(22.0);
-		da.addElement(42.0);
-		da.addElement(62.0);
-		da.addElement(22.0);
-		da.addElement(122.0);
-		da.addElement(1212.0);
-
-		assertEquals("Min should be -2.0", -2.0, da.getMin(), Double.MIN_VALUE);
-		assertEquals(
-			"Max should be 1212.0",
-			1212.0,
-			da.getMax(),
-			Double.MIN_VALUE);
+	public void testSetElement() {
+		da.addElement( 1.0 );
+		da.addElement( 1.0 );
+		da.addElement( 1.0 );
+		da.addElement( 1.0 );
+		da.addElement( 1.0 );
+		da.addElement( 1.0 );
+		da.addElement( 1.0 );
+		
+		da.setElement( 2, 4.0 );
+		assertEquals( "Index 2 should be 4.0", 4.0, da.getElement(2), Double.MIN_VALUE);
+		
+		try {
+			da.setElement(2000, 45.0);
+			fail( "The array does not contain 2000 elements yet, setting this element should" +				" cause an excpetion");
+		} catch(Exception e) {
+		}
+		
 	}
 
+	public void testOnlyRolling() {
+		for( int i = 0; i < 8000; i++) {
+			da.addElementRolling( i );
+		}
+		
+		assertEquals( "The 2000th element should equal 6000",
+			6000.0, da.getElement(2000), Double.MIN_VALUE);
+	}
+	
+	public void testClear() {
+		for( int i = 0; i < 10; i++) {
+			da.addElementRolling(1.0);
+		}
+		
+		assertEquals( "There should be ten elements in the array",
+								10, da.getNumElements() );
+		
+		da.clear();
+
+		assertEquals( "There should be zero elements in the array",
+								0, da.getNumElements() );
+
+		for( int i = 0; i < 10; i++) {
+			da.addElementRolling(1.0);
+		}
+		
+		assertEquals( "There should be ten elements in the array",
+								10, da.getNumElements() );
+				
+	}
+	
+	public void testDiscardFront() {
+		try {
+			da.discardFrontElements( 2 );
+			fail( "Discard front elements should throw an exception");
+		} catch( Exception e ) {
+		}
+	}
+		
 }

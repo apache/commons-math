@@ -306,7 +306,7 @@ public class ExpandableDoubleArray implements Serializable, DoubleArray {
 		startIndex += 1;
 		
 		// Add the new value
-		internalArray[startIndex + (numElements -1)] = value;
+		internalArray[startIndex + (numElements - 1)] = value;
 		
 		return discarded;
 	}
@@ -365,7 +365,7 @@ public class ExpandableDoubleArray implements Serializable, DoubleArray {
 	public double getMax() {
 		double max = internalArray[startIndex];
 		
-		for( int i = startIndex + 1; i < numElements; i++) {
+		for( int i = startIndex + 1; i < (numElements + startIndex); i++) {
 			if( internalArray[i] > max ) {
 				max = internalArray[i];
 			}
@@ -380,7 +380,7 @@ public class ExpandableDoubleArray implements Serializable, DoubleArray {
 	public double getMin() {
 		double min = internalArray[startIndex];
 		
-		for( int i = startIndex + 1; i < numElements; i++) {
+		for( int i = startIndex + 1; i < (numElements + startIndex); i++) {
 			if( internalArray[i] < min ) {
 				min = internalArray[i];
 			}
