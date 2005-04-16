@@ -110,7 +110,7 @@ public interface TTest {
      * <p>
      * Returns <code>true</code> iff the null hypothesis can be rejected with 
      * confidence <code>1 - alpha</code>.  To perform a 1-sided test, use 
-     * <code>alpha / 2</code>
+     * <code>alpha * 2</code>
      * <p>
      * <strong>Usage Note:</strong><br>
      * The validity of the test depends on the assumptions of the parametric
@@ -347,7 +347,7 @@ public interface TTest {
      * <p>
      * Returns <code>true</code> iff the null hypothesis can be 
      * rejected with confidence <code>1 - alpha</code>.  To 
-     * perform a 1-sided test, use <code>alpha / 2</code>
+     * perform a 1-sided test, use <code>alpha * 2</code>
      * <p>
      * <strong>Examples:</strong><br><ol>
      * <li>To test the (2-sided) hypothesis <code>sample mean = mu </code> at
@@ -356,7 +356,7 @@ public interface TTest {
      * <li>To test the (one-sided) hypothesis <code> sample mean < mu </code>
      * at the 99% level, first verify that the measured sample mean is less 
      * than <code>mu</code> and then use 
-     * <br><code>tTest(mu, sample, 0.005) </code>
+     * <br><code>tTest(mu, sample, 0.02) </code>
      * </li></ol>
      * <p>
      * <strong>Usage Note:</strong><br>
@@ -415,7 +415,7 @@ public interface TTest {
      * <p>
      * Returns <code>true</code> iff the null hypothesis can be rejected with
      * confidence <code>1 - alpha</code>.  To  perform a 1-sided test, use
-     * <code>alpha / 2.</code>
+     * <code>alpha * 2.</code>
      * <p>
      * <strong>Examples:</strong><br><ol>
      * <li>To test the (2-sided) hypothesis <code>sample mean = mu </code> at
@@ -424,7 +424,7 @@ public interface TTest {
      * <li>To test the (one-sided) hypothesis <code> sample mean < mu </code>
      * at the 99% level, first verify that the measured sample mean is less 
      * than <code>mu</code> and then use 
-     * <br><code>tTest(mu, sampleStats, 0.005) </code>
+     * <br><code>tTest(mu, sampleStats, 0.02) </code>
      * </li></ol>
      * <p>
      * <strong>Usage Note:</strong><br>
@@ -535,7 +535,7 @@ public interface TTest {
      * <p>
      * Returns <code>true</code> iff the null hypothesis that the means are
      * equal can be rejected with confidence <code>1 - alpha</code>.  To 
-     * perform a 1-sided test, use <code>alpha / 2</code>
+     * perform a 1-sided test, use <code>alpha * 2</code>
      * <p>
      * See {@link #t(double[], double[])} for the formula used to compute the
      * t-statistic.  Degrees of freedom are approximated using the
@@ -549,9 +549,9 @@ public interface TTest {
      * <br><code>tTest(sample1, sample2, 0.05). </code>
      * </li>
      * <li>To test the (one-sided) hypothesis <code> mean 1 < mean 2 </code>,
-     * first verify that the measured  mean of <code>sample 1</code> is less
-     * than the mean of <code>sample 2</code> and then use 
-     * <br><code>tTest(sample1, sample2, 0.005) </code>
+     * at the 99% level, first verify that the measured  mean of <code>sample 1</code>
+     * is less than the mean of <code>sample 2</code> and then use 
+     * <br><code>tTest(sample1, sample2, 0.02) </code>
      * </li></ol>
      * <p>
      * <strong>Usage Note:</strong><br>
@@ -591,7 +591,7 @@ public interface TTest {
      * <p>
      * Returns <code>true</code> iff the null hypothesis that the means are
      * equal can be rejected with confidence <code>1 - alpha</code>.  To 
-     * perform a 1-sided test, use <code>alpha / 2.</code>  To perform the test
+     * perform a 1-sided test, use <code>alpha * 2.</code>  To perform the test
      * without the assumption of equal subpopulation variances, use 
      * {@link #tTest(double[], double[], double)}.
      * <p>
@@ -607,7 +607,7 @@ public interface TTest {
      * at the 99% level, first verify that the measured mean of 
      * <code>sample 1</code> is less than the mean of <code>sample 2</code>
      * and then use
-     * <br><code>tTest(sample1, sample2, 0.005) </code>
+     * <br><code>tTest(sample1, sample2, 0.02) </code>
      * </li></ol>
      * <p>
      * <strong>Usage Note:</strong><br>
@@ -723,7 +723,7 @@ public interface TTest {
      * <p>
      * Returns <code>true</code> iff the null hypothesis that the means are
      * equal can be rejected with confidence <code>1 - alpha</code>.  To 
-     * perform a 1-sided test, use <code>alpha / 2</code>
+     * perform a 1-sided test, use <code>alpha * 2</code>
      * <p>
      * See {@link #t(double[], double[])} for the formula used to compute the
      * t-statistic.  Degrees of freedom are approximated using the
@@ -739,7 +739,7 @@ public interface TTest {
      * at the 99% level,  first verify that the measured mean of  
      * <code>sample 1</code> is less than  the mean of <code>sample 2</code>
      * and then use 
-     * <br><code>tTest(sampleStats1, sampleStats2, 0.005) </code>
+     * <br><code>tTest(sampleStats1, sampleStats2, 0.02) </code>
      * </li></ol>
      * <p>
      * <strong>Usage Note:</strong><br>

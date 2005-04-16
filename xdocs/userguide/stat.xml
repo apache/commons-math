@@ -500,7 +500,7 @@ testStatistic.pairedT(sample1, sample2);
           </source>
            </p>
            <p>
-           To compute the (one-sided) p-value:
+           To compute the p-value:
            <source>
 testStatistic.pairedTTest(sample1, sample2);
            </source> 
@@ -515,7 +515,7 @@ testStatistic.pairedTTest(sample1, sample2, .05);
            returned by <code>testStatistic.pairedTTest(sample1, sample2)</code>
            is less than <code>.05</code>
            </dd> 
-           <dd><strong>Example 2: </strong> unpaired, two-sample t-test using
+           <dd><strong>Example 2: </strong> unpaired, two-sided, two-sample t-test using
            <code>StatisticalSummary</code> instances, without assuming that
            subpopulation variances are equal.  
            <p>
@@ -543,7 +543,7 @@ testStatistic.t(summary1, summary2);
           </source>
            </p>
            <p>
-           To compute the (one-sided) p-value:
+           To compute the p-value:
            <source>
 testStatistic.tTest(sample1, sample2);
            </source> 
