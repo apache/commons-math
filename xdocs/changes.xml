@@ -39,6 +39,10 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
     <release version="1.1" date="In Development"  
        description="Jakarta Commons Math 1.1 - Development">
+       <action dev="psteitz" type="fix" issue="34448"  due-to="Gilles Gaillard">
+        Fixed javadoc errors. One-sided t-test significance adjustment was
+        reversed in javadoc for boolean-valued test methods.
+      </action>
       <action dev="brentworden" type="fix" due-to="Ben Litchfield">
         Fixed bug in PolynomialSplineFunction to allow evaluation of the
 		function at the last knot point.
@@ -50,7 +54,7 @@ The <action> type attribute can be add,update,fix,remove.
         Added Cauchy distribution implementation.
       </action>
       <action dev="brentworden" type="add">
-        Added convience methods for rounding.
+        Added convenience methods for rounding.
       </action>
       <action dev="brentworden" type="add" due-to="C. Scott Ananian">
         Added Fraction class based on commons-lang implementation.  With the
