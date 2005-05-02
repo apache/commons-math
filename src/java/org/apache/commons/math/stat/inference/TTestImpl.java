@@ -1043,7 +1043,7 @@ public class TTestImpl implements TTest  {
     protected double homoscedasticTTest(double m1, double m2, double v1,
             double v2, double n1, double n2)
     throws MathException {
-        double t = Math.abs(t(m1, m2, v1, v2, n1, n2));
+        double t = Math.abs(homoscedasticT(m1, m2, v1, v2, n1, n2));
         double degreesOfFreedom = 0;
             degreesOfFreedom = (double) (n1 + n2 - 2);
         TDistribution tDistribution =

@@ -1,5 +1,5 @@
 /*
- * Copyright 2004 The Apache Software Foundation.
+ * Copyright 2004-2005 The Apache Software Foundation.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,8 +62,15 @@ public final class TTestTest extends TestCase {
             sampleStats.addValue(observed[i]);
         }
 
-        assertEquals("t statistic", -2.82, testStatistic.t(mu, observed), 10E-3);
-        assertEquals("t statistic", -2.82, testStatistic.t(mu, sampleStats), 10E-3);
+        // Target comparison values computed using R version 1.8.1 (Linux version)
+        assertEquals("t statistic",  -2.81976445346,
+                testStatistic.t(mu, observed), 10E-10);
+        assertEquals("t statistic",  -2.81976445346,
+                testStatistic.t(mu, sampleStats), 10E-10);
+        assertEquals("p value", 0.0136390585873,
+                testStatistic.tTest(mu, observed), 10E-10);
+        assertEquals("p value", 0.0136390585873,
+                testStatistic.tTest(mu, sampleStats), 10E-10);
 
         try {
             testStatistic.t(mu, nullObserved);
@@ -127,10 +134,15 @@ public final class TTestTest extends TestCase {
         for (int i = 0; i < oneSidedP.length; i++) {
             oneSidedPStats.addValue(oneSidedP[i]);
         }
-        assertEquals("one sample t stat", 3.86, testStatistic.t(0d, oneSidedP), 0.01);
-        assertEquals("one sample t stat", 3.86, testStatistic.t(0d, oneSidedPStats), 0.01);
-        assertEquals("one sample p value", 0.00052, testStatistic.tTest(0d, oneSidedP) / 2d, 10E-5);
-        assertEquals("one sample p value", 0.00052, testStatistic.tTest(0d, oneSidedPStats) / 2d, 10E-5);
+        // Target comparison values computed using R version 1.8.1 (Linux version)
+        assertEquals("one sample t stat", 3.86485535541, 
+                testStatistic.t(0d, oneSidedP), 10E-10);
+        assertEquals("one sample t stat", 3.86485535541, 
+                testStatistic.t(0d, oneSidedPStats),1E-10);
+        assertEquals("one sample p value", 0.000521637019637,
+                testStatistic.tTest(0d, oneSidedP) / 2d, 10E-10);
+        assertEquals("one sample p value", 0.000521637019637,
+                testStatistic.tTest(0d, oneSidedPStats) / 2d, 10E-5);
         assertTrue("one sample t-test reject", testStatistic.tTest(0d, oneSidedP, 0.01));
         assertTrue("one sample t-test reject", testStatistic.tTest(0d, oneSidedPStats, 0.01));
         assertTrue("one sample t-test accept", !testStatistic.tTest(0d, oneSidedP, 0.0001));
@@ -165,14 +177,14 @@ public final class TTestTest extends TestCase {
         }
          
         // Target comparison values computed using R version 1.8.1 (Linux version)
-        assertEquals("two sample heteroscedastic t stat", 1.603717, 
-                testStatistic.t(sample1, sample2), 1E-6);
-        assertEquals("two sample heteroscedastic t stat", 1.603717, 
-                testStatistic.t(sampleStats1, sampleStats2), 1E-6);
-        assertEquals("two sample heteroscedastic p value", 0.1288394, 
-                testStatistic.tTest(sample1, sample2), 1E-7);
-        assertEquals("two sample heteroscedastic p value", 0.1288394, 
-                testStatistic.tTest(sampleStats1, sampleStats2), 1E-7);     
+        assertEquals("two sample heteroscedastic t stat", 1.60371728768, 
+                testStatistic.t(sample1, sample2), 1E-10);
+        assertEquals("two sample heteroscedastic t stat", 1.60371728768, 
+                testStatistic.t(sampleStats1, sampleStats2), 1E-10);
+        assertEquals("two sample heteroscedastic p value", 0.128839369622, 
+                testStatistic.tTest(sample1, sample2), 1E-10);
+        assertEquals("two sample heteroscedastic p value", 0.128839369622, 
+                testStatistic.tTest(sampleStats1, sampleStats2), 1E-10);     
         assertTrue("two sample heteroscedastic t-test reject", 
                 testStatistic.tTest(sample1, sample2, 0.2));
         assertTrue("two sample heteroscedastic t-test reject", 
@@ -239,7 +251,7 @@ public final class TTestTest extends TestCase {
         }
     }
     public void testTwoSampleTHomoscedastic() throws Exception {
-        double[] sample1 ={2, 4, 6, 8, 10};
+        double[] sample1 ={2, 4, 6, 8, 10, 97};
         double[] sample2 = {4, 6, 8, 10, 16};
         SummaryStatistics sampleStats1 = SummaryStatistics.newInstance();  
         for (int i = 0; i < sample1.length; i++) {
@@ -251,14 +263,14 @@ public final class TTestTest extends TestCase {
         }
         
         // Target comparison values computed using R version 1.8.1 (Linux version)
-       assertEquals("two sample homoscedastic t stat", -1.120897, 
-              testStatistic.homoscedasticT(sample1, sample2), 10E-6);
-        assertEquals("two sample homoscedastic p value", 0.2948490, 
-                testStatistic.homoscedasticTTest(sampleStats1, sampleStats2), 1E-6);     
+        assertEquals("two sample homoscedastic t stat", 0.73096310086, 
+              testStatistic.homoscedasticT(sample1, sample2), 10E-11);
+        assertEquals("two sample homoscedastic p value", 0.4833963785, 
+                testStatistic.homoscedasticTTest(sampleStats1, sampleStats2), 1E-10);     
         assertTrue("two sample homoscedastic t-test reject", 
-                testStatistic.homoscedasticTTest(sample1, sample2, 0.3));
+                testStatistic.homoscedasticTTest(sample1, sample2, 0.49));
         assertTrue("two sample homoscedastic t-test accept", 
-                !testStatistic.homoscedasticTTest(sample1, sample2, 0.2));
+                !testStatistic.homoscedasticTTest(sample1, sample2, 0.48));
     }
     
     public void testSmallSamples() throws Exception {
@@ -266,8 +278,10 @@ public final class TTestTest extends TestCase {
         double[] sample2 = {4d, 5d};        
         
         // Target values computed using R, version 1.8.1 (linux version)
-        assertEquals(-2.2361, testStatistic.t(sample1, sample2), 1E-4);
-        assertEquals(0.1987, testStatistic.tTest(sample1, sample2), 1E-4);
+        assertEquals(-2.2360679775, testStatistic.t(sample1, sample2),
+                1E-10);
+        assertEquals(0.198727388935, testStatistic.tTest(sample1, sample2),
+                1E-10);
     }
     
     public void testPaired() throws Exception {

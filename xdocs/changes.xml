@@ -39,6 +39,11 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
     <release version="1.1" date="In Development"  
        description="Jakarta Commons Math 1.1 - Development">
+       <action dev="psteitz" type="fix" issue="34677"  due-to="Gilles Gaillard">
+        Fixed error in TTestImpl.homoscedasticTtest.  Implementation was
+        incorrectly using heteroscedastic t statistic.  Also improved sensitivity
+        of test cases.
+      </action>
        <action dev="psteitz" type="fix" issue="34448"  due-to="Gilles Gaillard">
         Fixed javadoc errors. One-sided t-test significance adjustment was
         reversed in javadoc for boolean-valued test methods.
