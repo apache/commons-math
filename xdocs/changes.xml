@@ -44,7 +44,12 @@ The <action> type attribute can be add,update,fix,remove.
         incorrectly using heteroscedastic t statistic.  Also improved sensitivity
         of test cases.
       </action>
-       <action dev="psteitz" type="fix" issue="34448"  due-to="Gilles Gaillard">
+      <action dev="psteitz" type="update">
+        Ported numerics improvements in commons lang Fraction implementation.
+        Added utility methods for overflow-checked integer arithmetic and
+        improved gcd method in MathUtils.
+      </action>
+      <action dev="psteitz" type="fix" issue="34448"  due-to="Gilles Gaillard">
         Fixed javadoc errors. One-sided t-test significance adjustment was
         reversed in javadoc for boolean-valued test methods.
       </action>

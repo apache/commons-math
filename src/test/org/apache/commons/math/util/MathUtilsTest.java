@@ -41,6 +41,42 @@ public final class MathUtilsTest extends TestCase {
         return suite;
     }
     
+    public void testAddAndCheck() {
+        int big = Integer.MAX_VALUE;
+        int bigNeg = Integer.MIN_VALUE;
+        assertEquals(big, MathUtils.addAndCheck(big, 0));
+        try {
+            int res = MathUtils.addAndCheck(big, 1);
+        } catch (ArithmeticException ex) {}
+        try {
+            int res = MathUtils.addAndCheck(bigNeg, -1);
+        } catch (ArithmeticException ex) {}
+    }
+    
+    public void testMulAndCheck() {
+        int big = Integer.MAX_VALUE;
+        int bigNeg = Integer.MIN_VALUE;
+        assertEquals(big, MathUtils.mulAndCheck(big, 1));
+        try {
+            int res = MathUtils.mulAndCheck(big, 2);
+        } catch (ArithmeticException ex) {}
+        try {
+            int res = MathUtils.mulAndCheck(bigNeg, 2);
+        } catch (ArithmeticException ex) {}
+    }
+    
+    public void testSubAndCheck() {
+        int big = Integer.MAX_VALUE;
+        int bigNeg = Integer.MIN_VALUE;
+        assertEquals(big, MathUtils.subAndCheck(big, 0));
+        try {
+            int res = MathUtils.subAndCheck(big, -1);
+        } catch (ArithmeticException ex) {}
+        try {
+            int res = MathUtils.subAndCheck(bigNeg, 1);
+        } catch (ArithmeticException ex) {}
+    }
+    
     public void testBinomialCoefficient() {
         long[] bcoef5 = {1,5,10,10,5,1};
         long[] bcoef6 = {1,6,15,20,15,6,1};

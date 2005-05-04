@@ -15,6 +15,7 @@
  */
 package org.apache.commons.math.fraction;
 
+import java.math.BigInteger;
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.util.MathUtils;
 
@@ -118,9 +119,21 @@ public class Fraction extends Number implements Comparable {
      * reduced to lowest terms.
      * @param num the numerator.
      * @param den the denominator.
+     * @throws ArithmeticException if the denomiator is <code>zero</code>
      */
     public Fraction(int num, int den) {
         super();
+        if (den == 0) {
+            throw new ArithmeticException("The denominator must not be zero");
+        }
+        if (den < 0) {
+            if (num == Integer.MIN_VALUE ||
+                    den == Integer.MIN_VALUE) {
+                throw new ArithmeticException("overflow: can't negate");
+            }
+            num = -num;
+            den = -den;
+        }
         this.numerator = num;
         this.denominator = den;
         reduce();
@@ -138,20 +151,6 @@ public class Fraction extends Number implements Comparable {
             ret = negate();
         }
         return ret;        
-    }
-    
-    /**
-     * Return the sum of this fraction and the given fraction.  The returned
-     * fraction is reduced to lowest terms.
-     *
-     * @param rhs the other fraction.
-     * @return the fraction sum in lowest terms.
-     */
-    public Fraction add(Fraction rhs) {
-        int den = MathUtils.lcm(denominator, rhs.denominator);
-        int num = (numerator * (den / denominator)) +
-            (rhs.numerator * (den / rhs.denominator));
-        return new Fraction(num, den);
     }
     
     /**
@@ -176,16 +175,6 @@ public class Fraction extends Number implements Comparable {
         }
         
         return ret;
-    }
-
-    /**
-     * Return the quotient of this fraction and the given fraction.  The
-     * returned fraction is reduced to lowest terms.
-     * @param rhs the other fraction.
-     * @return the fraction quotient in lowest terms.
-     */
-    public Fraction divide(Fraction rhs) {
-        return multiply(rhs.reciprocal());
     }
     
     /**
@@ -281,21 +270,13 @@ public class Fraction extends Number implements Comparable {
     }
     
     /**
-     * Return the product of this fraction and the given fraction.  The returned
-     * fraction is reduced to lowest terms.
-     * @param rhs the other fraction.
-     * @return the fraction product in lowest terms.
-     */
-    public Fraction multiply(Fraction rhs) {
-        return new Fraction(numerator * rhs.numerator, 
-                denominator * rhs.denominator);
-    }
-    
-    /**
      * Return the additive inverse of this fraction.
      * @return the negation of this fraction.
      */
     public Fraction negate() {
+        if (numerator==Integer.MIN_VALUE) {
+            throw new ArithmeticException("overflow: too large to negate");
+        }
         return new Fraction(-numerator, denominator);
     }
 
@@ -308,13 +289,171 @@ public class Fraction extends Number implements Comparable {
     }
     
     /**
-     * Return the difference between this fraction and the given fraction.  The
-     * returned fraction is reduced to lowest terms.
-     * @param rhs the other fraction.
-     * @return the fraction difference in lowest terms.
+     * <p>Adds the value of this fraction to another, returning the result in reduced form.
+     * The algorithm follows Knuth, 4.5.1.</p>
+     *
+     * @param fraction  the fraction to add, must not be <code>null</code>
+     * @return a <code>Fraction</code> instance with the resulting values
+     * @throws IllegalArgumentException if the fraction is <code>null</code>
+     * @throws ArithmeticException if the resulting numerator or denominator exceeds
+     *  <code>Integer.MAX_VALUE</code>
      */
-    public Fraction subtract(Fraction rhs) {
-        return add(rhs.negate());
+    public Fraction add(Fraction fraction) {
+        return addSub(fraction, true /* add */);
+    }
+
+    /**
+     * <p>Subtracts the value of another fraction from the value of this one, 
+     * returning the result in reduced form.</p>
+     *
+     * @param fraction  the fraction to subtract, must not be <code>null</code>
+     * @return a <code>Fraction</code> instance with the resulting values
+     * @throws IllegalArgumentException if the fraction is <code>null</code>
+     * @throws ArithmeticException if the resulting numerator or denominator
+     *   cannot be represented in an <code>int</code>.
+     */
+    public Fraction subtract(Fraction fraction) {
+        return addSub(fraction, false /* subtract */);
+    }
+
+    /** 
+     * Implement add and subtract using algorithm described in Knuth 4.5.1.
+     * 
+     * @param fraction the fraction to subtract, must not be <code>null</code>
+     * @param isAdd true to add, false to subtract
+     * @return a <code>Fraction</code> instance with the resulting values
+     * @throws IllegalArgumentException if the fraction is <code>null</code>
+     * @throws ArithmeticException if the resulting numerator or denominator
+     *   cannot be represented in an <code>int</code>.
+     */
+    private Fraction addSub(Fraction fraction, boolean isAdd) {
+        if (fraction == null) {
+            throw new IllegalArgumentException("The fraction must not be null");
+        }
+        // zero is identity for addition.
+        if (numerator == 0) {
+            return isAdd ? fraction : fraction.negate();
+        }
+        if (fraction.numerator == 0) {
+            return this;
+        }     
+        // if denominators are randomly distributed, d1 will be 1 about 61%
+        // of the time.
+        int d1 = MathUtils.gcd(denominator, fraction.denominator);
+        if (d1==1) {
+            // result is ( (u*v' +/- u'v) / u'v')
+            int uvp = MathUtils.mulAndCheck(numerator, fraction.denominator);
+            int upv = MathUtils.mulAndCheck(fraction.numerator, denominator);
+            return new Fraction
+                (isAdd ? MathUtils.addAndCheck(uvp, upv) : 
+                 MathUtils.subAndCheck(uvp, upv),
+                 MathUtils.mulAndCheck(denominator, fraction.denominator));
+        }
+        // the quantity 't' requires 65 bits of precision; see knuth 4.5.1
+        // exercise 7.  we're going to use a BigInteger.
+        // t = u(v'/d1) +/- v(u'/d1)
+        BigInteger uvp = BigInteger.valueOf(numerator)
+        .multiply(BigInteger.valueOf(fraction.denominator/d1));
+        BigInteger upv = BigInteger.valueOf(fraction.numerator)
+        .multiply(BigInteger.valueOf(denominator/d1));
+        BigInteger t = isAdd ? uvp.add(upv) : uvp.subtract(upv);
+        // but d2 doesn't need extra precision because
+        // d2 = gcd(t,d1) = gcd(t mod d1, d1)
+        int tmodd1 = t.mod(BigInteger.valueOf(d1)).intValue();
+        int d2 = (tmodd1==0)?d1:MathUtils.gcd(tmodd1, d1);
+
+        // result is (t/d2) / (u'/d1)(v'/d2)
+        BigInteger w = t.divide(BigInteger.valueOf(d2));
+        if (w.bitLength() > 31) {
+            throw new ArithmeticException
+            ("overflow: numerator too large after multiply");
+        }
+        return new Fraction (w.intValue(), 
+                MathUtils.mulAndCheck(denominator/d1, 
+                        fraction.denominator/d2));
+    }
+
+    /**
+     * <p>Multiplies the value of this fraction by another, returning the 
+     * result in reduced form.</p>
+     *
+     * @param fraction  the fraction to multiply by, must not be <code>null</code>
+     * @return a <code>Fraction</code> instance with the resulting values
+     * @throws IllegalArgumentException if the fraction is <code>null</code>
+     * @throws ArithmeticException if the resulting numerator or denominator exceeds
+     *  <code>Integer.MAX_VALUE</code>
+     */
+    public Fraction multiply(Fraction fraction) {
+        if (fraction == null) {
+            throw new IllegalArgumentException("The fraction must not be null");
+        }
+        if (numerator == 0 || fraction.numerator == 0) {
+            return ZERO;
+        }
+        // knuth 4.5.1
+        // make sure we don't overflow unless the result *must* overflow.
+        int d1 = MathUtils.gcd(numerator, fraction.denominator);
+        int d2 = MathUtils.gcd(fraction.numerator, denominator);
+        return getReducedFraction
+        (MathUtils.mulAndCheck(numerator/d1, fraction.numerator/d2),
+                MathUtils.mulAndCheck(denominator/d2, fraction.denominator/d1));
+    }
+
+    /**
+     * <p>Divide the value of this fraction by another.</p>
+     *
+     * @param fraction  the fraction to divide by, must not be <code>null</code>
+     * @return a <code>Fraction</code> instance with the resulting values
+     * @throws IllegalArgumentException if the fraction is <code>null</code>
+     * @throws ArithmeticException if the fraction to divide by is zero
+     * @throws ArithmeticException if the resulting numerator or denominator exceeds
+     *  <code>Integer.MAX_VALUE</code>
+     */
+    public Fraction divide(Fraction fraction) {
+        if (fraction == null) {
+            throw new IllegalArgumentException("The fraction must not be null");
+        }
+        if (fraction.numerator == 0) {
+            throw new ArithmeticException("The fraction to divide by must not be zero");
+        }
+        return multiply(fraction.reciprocal());
+    }
+    
+    /**
+     * <p>Creates a <code>Fraction</code> instance with the 2 parts
+     * of a fraction Y/Z.</p>
+     *
+     * <p>Any negative signs are resolved to be on the numerator.</p>
+     *
+     * @param numerator  the numerator, for example the three in 'three sevenths'
+     * @param denominator  the denominator, for example the seven in 'three sevenths'
+     * @return a new fraction instance, with the numerator and denominator reduced
+     * @throws ArithmeticException if the denominator is <code>zero</code>
+     */
+    public static Fraction getReducedFraction(int numerator, int denominator) {
+        if (denominator == 0) {
+            throw new ArithmeticException("The denominator must not be zero");
+        }
+        if (numerator==0) {
+            return ZERO; // normalize zero.
+        }
+        // allow 2^k/-2^31 as a valid fraction (where k>0)
+        if (denominator==Integer.MIN_VALUE && (numerator&1)==0) {
+            numerator/=2; denominator/=2;
+        }
+        if (denominator < 0) {
+            if (numerator==Integer.MIN_VALUE ||
+                    denominator==Integer.MIN_VALUE) {
+                throw new ArithmeticException("overflow: can't negate");
+            }
+            numerator = -numerator;
+            denominator = -denominator;
+        }
+        // simplify fraction.
+        int gcd = MathUtils.gcd(numerator, denominator);
+        numerator /= gcd;
+        denominator /= gcd;
+        return new Fraction(numerator, denominator);
     }
     
     /**
