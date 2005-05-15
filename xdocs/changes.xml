@@ -39,7 +39,16 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
     <release version="1.1" date="In Development"  
        description="Jakarta Commons Math 1.1 - Development">
-       <action dev="psteitz" type="update" due-to="C. Scott Ananian">
+      <action dev="psteitz" type="update">
+        Made PRNG pluggable for classes in the random package.  Added
+        RandomGenerator interface extracted from java.util.random and abstract
+        implementation, AbstractRandomGenerator providing default
+        implementations of methods based on nextDouble().  Added a constructor
+        taking a RandomGenerator as an argument to RandomDataImpl.  Changed
+        ValueServer to use a RandomData in its constructor.  Changes to 
+        1.0 classes should be backward compatible (including serialization).
+      </action>
+      <action dev="psteitz" type="update" due-to="C. Scott Ananian">
         Ported numerics improvements in commons lang Fraction implementation.
         Added utility methods for overflow-checked integer arithmetic and
         improved gcd method in MathUtils.

@@ -21,24 +21,28 @@ import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
-import java.util.Random;
 import java.util.Collection;
 
 /**
- * Implements the {@link RandomData} interface using
- * {@link java.util.Random} and {@link java.util.Random.SecureRandom} instances
- * to generate data.
+ * Implements the {@link RandomData} interface using a {@link RandomGenerator}
+ * instance to generate non-secure data and a 
+ * {@link java.security.SecureRandom} instance to provide data for the
+ * <code>nextSecureXxx</code> methods.  If no <code>RandomGenerator</code>
+ * is provided in the constructor, the default is to use a generator based on
+ * {@link java.util.Random}.   To plug in a different implementation, 
+ * either implement <code>RandomGenerator</code> directly or extend
+ * {@link AbstractRandomGenerator}.
  * <p>
  * Supports reseeding the underlying pseudo-random number generator (PRNG). 
  * The <code>SecurityProvider</code> and <code>Algorithm</code>
  * used by the <code>SecureRandom</code> instance can also be reset.
  * <p>
- * For details on the PRNGs, see {@link java.util.Random} and
- * {@link java.util.Random.SecureRandom}.
+ * For details on the default PRNGs, see {@link java.util.Random} and
+ * {@link java.security.SecureRandom}. 
  * <p>
  * <strong>Usage Notes</strong>: <ul>
  * <li>
- * Instance variables are used to maintain <code>Random</code> and
+ * Instance variables are used to maintain <code>RandomGenerator</code> and
  * <code>SecureRandom</code> instances used in data generation. Therefore,
  * to generate a random sequence of values or strings, you should use just
  * <strong>one</strong> <code>RandomDataImpl</code> instance repeatedly.</li>
@@ -52,15 +56,16 @@ import java.util.Collection;
  * it any easier to predict subsequent values.</li>
  * <li>
  * When a new <code>RandomDataImpl</code> is created, the underlying random
- * number generators are <strong>not</strong> intialized.  The first call to a
- * data generation method, or to a <code>reSeed()</code> method instantiates
- * the appropriate generator.  If you do not explicitly seed the generator, it
- * is by default seeded with the current time in milliseconds</li>
+ * number generators are <strong>not</strong> intialized.  If you do not
+ * explicitly seed the default non-secure generator, it is seeded with the current time
+ * in milliseconds on first use.  The same holds for the secure generator.  
+ * If you provide a <code>RandomGenerator</code> to the constructor, however,
+ * this generator is not reseeded by the constructor nor is it reseeded on
+ * first use. </li>
  * <li>
  * The <code>reSeed</code> and <code>reSeedSecure</code> methods delegate
- * to the corresponding methods on the underlying <code>Random</code> and
- * <code>SecureRandom</code> instances.  Therefore, the contracts of these
- * methods are as defined in the JDK documentation.  In particular,
+ * to the corresponding methods on the underlying <code>RandomGenerator</code>
+ * and<code>SecureRandom</code> instances.  Therefore, 
  * <code>reSeed(long)</code> fully resets the initial state of the non-secure
  * random number generator (so that reseeding with a specific value always
  * results in the same subsequent random sequence); whereas reSeedSecure(long)
@@ -79,7 +84,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     static final long serialVersionUID = -626730818244969716L;
 
     /** underlying random number generator */
-    private Random rand = null;
+    private RandomGenerator rand = null;
 
     /** underlying secure random number generator */
     private SecureRandom secRand = null;
@@ -88,6 +93,17 @@ public class RandomDataImpl implements RandomData, Serializable {
      * Construct a RandomDataImpl.
      */
     public RandomDataImpl() {
+    }
+    
+    /**
+     * Construct a RandomDataImpl using the supplied {@link RandomGenerator}
+     * as the source of (non-secure) random data.
+     * 
+     * @param rand  the source of (non-secure) random data
+     */
+    public RandomDataImpl(RandomGenerator rand) {
+        super();
+        this.rand = rand;
     }
 
     /**
@@ -106,7 +122,7 @@ public class RandomDataImpl implements RandomData, Serializable {
         }
 
         //Get a random number generator
-        Random ran = getRan();
+        RandomGenerator ran = getRan();
 
         //Initialize output buffer
         StringBuffer outBuffer = new StringBuffer();
@@ -148,7 +164,7 @@ public class RandomDataImpl implements RandomData, Serializable {
             throw new IllegalArgumentException
                 ("upper bound must be > lower bound");
         }
-        Random rand = getRan();
+        RandomGenerator rand = getRan();
         return lower + (int) (rand.nextDouble() * (upper - lower + 1));
     }
 
@@ -165,7 +181,7 @@ public class RandomDataImpl implements RandomData, Serializable {
             throw new IllegalArgumentException
                 ("upper bound must be > lower bound");
         }
-        Random rand = getRan();
+        RandomGenerator rand = getRan();
         return lower + (long) (rand.nextDouble() * (upper - lower + 1));
     }
 
@@ -291,7 +307,7 @@ public class RandomDataImpl implements RandomData, Serializable {
         long n = 0;
         double r = 1.0d;
         double rnd = 1.0d;
-        Random rand = getRan();
+        RandomGenerator rand = getRan();
         while (n < 1000 * mean) {
             rnd = rand.nextDouble();
             r = r * rnd;
@@ -317,7 +333,7 @@ public class RandomDataImpl implements RandomData, Serializable {
         if (sigma <= 0) {
             throw new IllegalArgumentException("Gaussian std dev must be > 0");
         }
-        Random rand = getRan();
+        RandomGenerator rand = getRan();
         return sigma * rand.nextGaussian() + mu;
     }
 
@@ -338,7 +354,7 @@ public class RandomDataImpl implements RandomData, Serializable {
             throw new IllegalArgumentException
                 ("Exponential mean must be >= 0");
         }
-        Random rand = getRan();
+        RandomGenerator rand = getRan();
         double unif = rand.nextDouble();
         while (unif == 0.0d) {
             unif = rand.nextDouble();
@@ -352,18 +368,19 @@ public class RandomDataImpl implements RandomData, Serializable {
      * random double if Random.nextDouble() returns 0).
      * This is necessary to provide a symmetric output interval
      * (both endpoints excluded).
+     * 
      * @param lower the lower bound.
      * @param upper the upper bound.
-     * @return the random value.
+     * @return a uniformly distributed random value from the interval (lower, upper)
      */
     public double nextUniform(double lower, double upper) {
         if (lower >= upper) {
             throw new IllegalArgumentException
             ("lower bound must be <= upper bound");
         }
-        Random rand = getRan();
+        RandomGenerator rand = getRan();
 
-        // insure nextDouble() isn't 0.0
+        // ensure nextDouble() isn't 0.0
         double u = rand.nextDouble();
         while(u <= 0.0){
             u = rand.nextDouble();
@@ -373,26 +390,27 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
-     * Returns the static Random used to generate random data.
+     * Returns the RandomGenerator used to generate non-secure
+     * random data.
      * <p>
-     * Creates and initializes if null.
+     * Creates and initializes a default generator if null.
      *
-     * @return the static Random used to generate random data
+     * @return the Random used to generate random data
      */
-    private Random getRan() {
+    private RandomGenerator getRan() {
         if (rand == null) {
-            rand = new Random();
+            rand = new JDKRandomGenerator();
             rand.setSeed(System.currentTimeMillis());
         }
         return rand;
     }
 
     /**
-     * Returns the static SecureRandom used to generate secure random data.
+     * Returns the SecureRandom used to generate secure random data.
      * <p>
      * Creates and initializes if null.
      *
-     * @return the static SecureRandom used to generate secure random data
+     * @return the SecureRandom used to generate secure random data
      */
     private SecureRandom getSecRan() {
         if (secRand == null) {
@@ -411,7 +429,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      */
     public void reSeed(long seed) {
         if (rand == null) {
-            rand = new Random();
+            rand = new JDKRandomGenerator();
         }
         rand.setSeed(seed);
     }
@@ -449,7 +467,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      */
     public void reSeed() {
         if (rand == null) {
-            rand = new Random();
+            rand = new JDKRandomGenerator();
         }
         rand.setSeed(System.currentTimeMillis());
     }
@@ -574,5 +592,4 @@ public class RandomDataImpl implements RandomData, Serializable {
         }
         return natural;
     }
-
 }

@@ -32,10 +32,11 @@ import org.apache.commons.math.stat.descriptive.SummaryStatistics;
  * @version $Revision$ $Date$
  */
 
-public final class RandomDataTest extends RetryTestCase {
+public class RandomDataTest extends RetryTestCase {
 
     public RandomDataTest(String name) {
         super(name);
+        randomData = new RandomDataImpl();
     }
 
     private long smallSampleSize = 1000;
@@ -44,7 +45,7 @@ public final class RandomDataTest extends RetryTestCase {
     private int tolerance = 50;
     private String[] hex = 
         {"0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"}; 
-    private RandomDataImpl randomData = new RandomDataImpl(); 
+    protected RandomDataImpl randomData = null; 
     private ChiSquareTestImpl testStatistic = new ChiSquareTestImpl();
     
     public void setUp() { 
@@ -400,7 +401,7 @@ public final class RandomDataTest extends RetryTestCase {
     
     /** test reseeding, algorithm/provider games */
     public void testConfig() throws NoSuchProviderException, 
-      NoSuchAlgorithmException{
+      NoSuchAlgorithmException {
         randomData.reSeed(1000);
         double v = randomData.nextUniform(0,1);
         randomData.reSeed();

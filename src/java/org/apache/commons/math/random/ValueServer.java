@@ -62,7 +62,7 @@ public class ValueServer {
     private BufferedReader filePointer = null;
 
     /** RandomDataImpl to use for random data generation */
-    private RandomDataImpl randomData = new RandomDataImpl();
+    private RandomData randomData = new RandomDataImpl();
 
     // Data generation modes ======================================
 
@@ -353,4 +353,14 @@ public class ValueServer {
         return randomData.nextGaussian(mu, sigma);
     }
 
+    /**
+     * Construct a ValueServer instance using a RandomData as its source
+     * of random data.
+     * 
+     * @param randomData the RandomData instance used to source random data
+     */
+    public ValueServer(RandomData randomData) {
+        super();
+        this.randomData = randomData;
+    }
 }
