@@ -40,6 +40,13 @@ The <action> type attribute can be add,update,fix,remove.
     <release version="1.1" date="In Development"  
        description="Jakarta Commons Math 1.1 - Development">
       <action dev="psteitz" type="update">
+        Added createXIdentityMatrix methods to MatrixUtils and deprecated
+        getIdentity methods in RealMatrixImpl, BigMatrixImpl.
+        Modified RealMatrixImpl, BigMatrixImpl constructors to throw
+        IllegalArgumentExceptions instead of ArrayIndexOutOfBounds when
+        dimension arguments are not positive.
+      </action>
+      <action dev="psteitz" type="update">
         Made PRNG pluggable for classes in the random package.  Added
         RandomGenerator interface extracted from java.util.random and abstract
         implementation, AbstractRandomGenerator providing default

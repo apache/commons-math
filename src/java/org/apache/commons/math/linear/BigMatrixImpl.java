@@ -50,12 +50,6 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     /** Serialization id */
     static final long serialVersionUID = -1011428905656140431L;
     
-    /** The number zero. */
-    private static final BigDecimal ZERO = new BigDecimal(0);
-    
-    /** The number one. */
-    private static final BigDecimal ONE = new BigDecimal(1);
-    
     /** Entries of the matrix */
     private BigDecimal data[][] = null;
     
@@ -79,6 +73,11 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     /** Bound to determine effective singularity in LU decomposition */
     protected static BigDecimal TOO_SMALL = new BigDecimal(10E-12);
     
+    /** BigDecimal 0 */
+    static final BigDecimal ZERO = new BigDecimal(0);
+    /** BigDecimal 1 */
+    static final BigDecimal ONE = new BigDecimal(1);
+    
     /** 
      * Creates a matrix with no data
      */
@@ -90,8 +89,14 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      *
      * @param rowDimension      the number of rows in the new matrix
      * @param columnDimension   the number of columns in the new matrix
+     * @throws IllegalArgumentException if row or column dimension is not
+     *  positive
      */
     public BigMatrixImpl(int rowDimension, int columnDimension) {
+        if (rowDimension <=0 || columnDimension <=0) {
+            throw new IllegalArgumentException
+            ("row and column dimensions must be positive");
+        }
         data = new BigDecimal[rowDimension][columnDimension];
         lu = null;
     }
@@ -692,7 +697,8 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      * @throws InvalidMatrixException if this is not invertible
      */
     public BigMatrix inverse() throws InvalidMatrixException {
-        return solve(getIdentity(this.getRowDimension()));
+        return solve(MatrixUtils.createBigIdentityMatrix
+                (this.getRowDimension()));
     }
     
     /**
@@ -1121,16 +1127,11 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      *
      * @param dimension dimension of identity matrix to generate
      * @return identity matrix
+     * @throws IllegalArgumentException if dimension is not positive
+     * @deprecated  use {@link MatrixUtils#createBigIdentityMatrix}
      */
     protected BigMatrix getIdentity(int dimension) {
-        BigMatrixImpl out = new BigMatrixImpl(dimension, dimension);
-        BigDecimal[][] d = out.getDataRef();
-        for (int row = 0; row < dimension; row++) {
-            for (int col = 0; col < dimension; col++) {
-                d[row][col] = row == col ? ONE : ZERO;
-            }
-        }
-        return out;
+        return MatrixUtils.createBigIdentityMatrix(dimension);
     }
     
     /**

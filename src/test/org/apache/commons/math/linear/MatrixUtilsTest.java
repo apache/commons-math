@@ -187,6 +187,58 @@ public final class MatrixUtilsTest extends TestCase {
             // expected
         } 
     }
+    
+    /**
+     * Verifies that the matrix is an identity matrix
+     */
+    protected void checkIdentityMatrix(RealMatrix m) {
+        for (int i = 0; i < m.getRowDimension(); i++) {
+            for (int j =0; j < m.getColumnDimension(); j++) {
+                if (i == j) {
+                    assertEquals(m.getEntry(i, j), 1d, 0);
+                } else {
+                    assertEquals(m.getEntry(i, j), 0d, 0);
+                }
+            }
+        }   
+    }
+    
+    public void testCreateIdentityMatrix() {
+        checkIdentityMatrix(MatrixUtils.createRealIdentityMatrix(3));
+        checkIdentityMatrix(MatrixUtils.createRealIdentityMatrix(2));
+        checkIdentityMatrix(MatrixUtils.createRealIdentityMatrix(1));
+        try {
+            MatrixUtils.createRealIdentityMatrix(0);
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+    }
+    
+    /**
+     * Verifies that the matrix is an identity matrix
+     */
+    protected void checkIdentityBigMatrix(BigMatrix m) {
+        for (int i = 0; i < m.getRowDimension(); i++) {
+            for (int j =0; j < m.getColumnDimension(); j++) {
+                if (i == j) {
+                    assertEquals(m.getEntry(i, j), BigMatrixImpl.ONE);
+                } else {
+                    assertEquals(m.getEntry(i, j), BigMatrixImpl.ZERO);
+                }
+            }
+        }   
+    }
+    
+    public void testCreateBigIdentityMatrix() {
+        checkIdentityBigMatrix(MatrixUtils.createBigIdentityMatrix(3));
+        checkIdentityBigMatrix(MatrixUtils.createBigIdentityMatrix(2));
+        checkIdentityBigMatrix(MatrixUtils.createBigIdentityMatrix(1));
+        try {
+            MatrixUtils.createRealIdentityMatrix(0);
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+    }
         
 }
 

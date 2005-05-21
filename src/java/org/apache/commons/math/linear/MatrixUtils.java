@@ -47,6 +47,24 @@ public class MatrixUtils {
     }
     
     /**
+     * Returns <code>dimension x dimension</code> identity matrix.
+     *
+     * @param dimension dimension of identity matrix to generate
+     * @return identity matrix
+     * @throws IllegalArgumentException if dimension is not positive
+     */
+    public static RealMatrix createRealIdentityMatrix(int dimension) {
+        RealMatrixImpl out = new RealMatrixImpl(dimension, dimension);
+        double[][] d = out.getDataRef();
+        for (int row = 0; row < dimension; row++) {
+            for (int col = 0; col < dimension; col++) {
+                d[row][col] = row == col ? 1d : 0d;
+            }
+        }
+        return out;
+    }
+    
+    /**
      * Returns a {@link BigMatrix} whose entries are the the values in the
      * the input array.  The input array is copied, not referenced.
      * 
@@ -222,6 +240,27 @@ public class MatrixUtils {
             data[row][0] = columnData[row];
         }
         return new BigMatrixImpl(data);
+    }
+    /** BigDecimal constants */
+    //private static final BigDecimal ZERO = new BigDecimal(0);      
+    //private static final BigDecimal ONE = new BigDecimal(1);
+    
+    /**
+     * Returns <code>dimension x dimension</code> identity matrix.
+     *
+     * @param dimension dimension of identity matrix to generate
+     * @return identity matrix
+     * @throws IllegalArgumentException if dimension is not positive
+     */
+    public static BigMatrix createBigIdentityMatrix(int dimension) {
+        BigMatrixImpl out = new BigMatrixImpl(dimension, dimension);
+        BigDecimal[][] d = out.getDataRef();
+        for (int row = 0; row < dimension; row++) {
+            for (int col = 0; col < dimension; col++) {
+                d[row][col] = row == col ? BigMatrixImpl.ONE : BigMatrixImpl.ZERO;
+            }
+        }
+        return out;
     }
     
 }

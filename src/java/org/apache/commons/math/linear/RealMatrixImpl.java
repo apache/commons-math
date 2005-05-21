@@ -78,10 +78,16 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     /**
      * Create a new RealMatrix with the supplied row and column dimensions.
      *
-     * @param rowDimension      the number of rows in the new matrix
-     * @param columnDimension   the number of columns in the new matrix
+     * @param rowDimension  the number of rows in the new matrix
+     * @param columnDimension  the number of columns in the new matrix
+     * @throws IllegalArgumentException if row or column dimension is not
+     *  positive
      */
     public RealMatrixImpl(int rowDimension, int columnDimension) {
+        if (rowDimension <= 0 || columnDimension <= 0) {
+            throw new IllegalArgumentException(
+                    "row and column dimensions must be postive");
+        }
         data = new double[rowDimension][columnDimension];
         lu = null;
     }
@@ -494,7 +500,8 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      * @throws InvalidMatrixException if this is not invertible
      */
     public RealMatrix inverse() throws InvalidMatrixException {
-        return solve(getIdentity(this.getRowDimension()));
+        return solve(MatrixUtils.createRealIdentityMatrix
+                (this.getRowDimension()));
     }
 
     /**
@@ -870,16 +877,11 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      *
      * @param dimension dimension of identity matrix to generate
      * @return identity matrix
+     * @throws IllegalArgumentException  if dimension is not positive
+     * @deprecated use {@link MatrixUtils#createRealIdentityMatrix}
      */
     protected RealMatrix getIdentity(int dimension) {
-        RealMatrixImpl out = new RealMatrixImpl(dimension, dimension);
-        double[][] d = out.getDataRef();
-        for (int row = 0; row < dimension; row++) {
-            for (int col = 0; col < dimension; col++) {
-                d[row][col] = row == col ? 1d : 0d;
-            }
-        }
-        return out;
+        return MatrixUtils.createRealIdentityMatrix(dimension);
     }
 
     /**
