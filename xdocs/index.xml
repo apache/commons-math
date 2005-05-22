@@ -28,22 +28,6 @@
 
   <section name="Commons-Math: The Jakarta Mathematics Library" href="summary">
    <p>
-    The Java programming language and the math extensions in
-    Commons Lang provide implementations for only the most basic
-    mathematical algorithms. Routine development tasks such as
-    computing basic statistics or solving a system of linear equations
-    require components not available in Java or Commons Lang.
-   </p>
-   <p>
-    Most basic mathematical or statistical algorithms are available in
-    open source implementations, but to assemble a simple set of
-    capabilities one has to use multiple libraries, many of which have
-    more restrictive licensing terms than the ASF. In addition, many
-    of the best open source implementations (e.g. the R statistical
-    package) are either not available in Java or require large support
-    libraries and/or external dependencies to work.
-   </p>
-   <p>
     Commons Math is a library of lightweight, self-contained
     mathematics and statistics components addressing the most common
     problems not available in the Java programming language or Commons
@@ -76,30 +60,18 @@
      </li>
     </ol>
    </p>
-   <subsection name='An Apology To British Users And Developers'>
-    <p>
-     Yes - I know that it should be commons-maths. But think of all the
-     bandwidth saved by losing that 's' ;)
-    </p>
-   </subsection>
   </section>
   <section name="Download Math">
    <subsection name="Releases">
     <p>
-      The latest release of Commons Math is available for download here:
-      <ul>
-         <li>
-         <a href="http://jakarta.apache.org/site/binindex.cgi#commons-math">
-         1.0 Binary </a></li>
-         <li>
-         <a href="http://jakarta.apache.org/site/sourceindex.cgi#commons-math">
-         1.0 Source </a></li>
-      </ul>
+      The latest release of Commons Math is available for download
+      <a href="http://jakarta.apache.org/site/downloads/downloads_commons-math.cgi">
+      here</a>
     </p>
    </subsection>
    <subsection name="Nightly Builds">
     <p>
-     Nightly builds are built once a day from the current CVS HEAD.
+     Nightly builds are built once a day from the current SVN HEAD.
      This is (nearly) the lastest code and so should be treated with
      caution!
     </p>

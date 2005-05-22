@@ -47,7 +47,7 @@
   <distributionDirectory>/www/jakarta.apache.org/builds/jakarta-commons/${pom.artifactId.substring(8)}/</distributionDirectory>
   <repository>
     <connection>scm:svn:http://svn.apache.org/repos/asf/jakarta/commons/proper/${pom.artifactId.substring(8)}/trunk</connection>
-    <url>http://svn.apache.org/repos/asf/jakarta/commons/proper/${pom.artifactId.substring(8)}/trunk</url>
+    <url>http://svn.apache.org/viewcvs.cgi/jakarta/commons/proper/math/trunk/</url>
   </repository>
   <mailingLists>
     <mailingList>

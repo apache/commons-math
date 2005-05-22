@@ -38,6 +38,8 @@
       <item name="Developers Guide"        href="/developers.html"/>
       <item name="Javadoc (1.0 release)"                 href="api/index.html"/>
       <item name="Javadoc (1.1-dev)"                 href="apidocs/index.html"/>
+      <item name="Source Repository (current)"  
+       href="http://svn.apache.org/viewcvs.cgi/jakarta/commons/proper/math/trunk"/>
       <item name="Wiki (Wish List)"  
             href="http://wiki.apache.org/jakarta-commons/MathWishList"/>
     </menu>
