@@ -178,7 +178,7 @@
     </p>
 </subsection>
 
-<subsection name='2.5 Generating data "like" an input file' href="empirical">
+<subsection name="2.5 Generating data 'like' an input file" href="empirical">
     <p>
     Using the <code>ValueServer</code> class, you can generate data based on the 
     values in an input file in one of two ways:

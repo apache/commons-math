@@ -22,6 +22,7 @@ import java.io.Serializable;
  * Default implementation of
  * {@link org.apache.commons.math.distribution.WeibullDistribution}.
  *
+ * @since 1.1
  * @version $Revision: 1.13 $ $Date: 2004-07-24 16:41:37 -0500 (Sat, 24 Jul 2004) $
  */
 public class WeibullDistributionImpl extends AbstractContinuousDistribution
@@ -64,16 +65,16 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
-     * Access alpha.
-     * @return the alpha.
+     * Access the shape parameter.
+     * @return the shape parameter.
      */
     public double getShape() {
         return alpha;
     }
     
     /**
-     * Access beta.
-     * @return the beta.
+     * Access the scale parameter.
+     * @return the scale parameter.
      */
     public double getScale() {
         return beta;
@@ -107,8 +108,8 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
     }
     
     /**
-     * Modify alpha.
-     * @param alpha The new alpha value.
+     * Modify the shape parameter.
+     * @param alpha the new shape parameter value.
      */
     public void setShape(double alpha) {
         if (alpha <= 0.0) {
@@ -119,8 +120,8 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
     }
     
     /**
-     * Modify beta.
-     * @param beta The new beta value.
+     * Modify the scale parameter.
+     * @param beta the new scale parameter value.
      */
     public void setScale(double beta) {
         if (beta <= 0.0) {

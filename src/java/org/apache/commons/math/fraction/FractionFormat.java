@@ -31,7 +31,7 @@ import org.apache.commons.math.ConvergenceException;
  * format for each of the whole number, numerator and, denominator can be
  * configured.
  *
- * @author Apache Software Foundation
+ * @since 1.1
  * @version $Revision$ $Date$
  */
 public class FractionFormat extends Format implements Serializable {

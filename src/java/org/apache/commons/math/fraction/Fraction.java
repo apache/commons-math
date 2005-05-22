@@ -22,7 +22,7 @@ import org.apache.commons.math.util.MathUtils;
 /**
  * Representation of a rational number.
  *
- * @author Apache Software Foundation
+ * @since 1.1
  * @version $Revision$ $Date$
  */
 public class Fraction extends Number implements Comparable {

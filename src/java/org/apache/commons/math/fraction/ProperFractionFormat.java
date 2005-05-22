@@ -25,7 +25,7 @@ import org.apache.commons.math.util.MathUtils;
  * Formats a Fraction number in proper format.  The number format for each of
  * the whole number, numerator and, denominator can be configured.
  * 
- * @author Apache Software Foundation
+ * @since 1.1
  * @version $Revision$ $Date$
  */
 public class ProperFractionFormat extends FractionFormat {

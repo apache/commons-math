@@ -33,6 +33,7 @@ package org.apache.commons.math.distribution;
  * </ul>
  * </p>
  *
+ * @since 1.1
  * @version $Revision: 1.12 $ $Date: 2004-06-23 11:26:18 -0500 (Wed, 23 Jun 2004) $
  */
 public interface WeibullDistribution extends ContinuousDistribution {

@@ -100,6 +100,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * as the source of (non-secure) random data.
      * 
      * @param rand  the source of (non-secure) random data
+     * @since 1.1
      */
     public RandomDataImpl(RandomGenerator rand) {
         super();
@@ -290,7 +291,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * <strong>Algorithm Description</strong>:
      * Uses simulation of a Poisson process using Uniform deviates, as
      * described
-     * <a href ="http://dmawww.epfl.ch/benarous/Pmmi/interactive/rng7.htm">
+     * <a href="http://irmi.epfl.ch/cmos/Pmmi/interactive/rng7.htm">
      * here.</a>
      * <p>
      * The Poisson process (and hence value returned) is bounded by 
@@ -396,6 +397,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * Creates and initializes a default generator if null.
      *
      * @return the Random used to generate random data
+     * @since 1.1
      */
     private RandomGenerator getRan() {
         if (rand == null) {

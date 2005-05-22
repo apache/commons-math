@@ -55,6 +55,7 @@ public final class MathUtils {
      * @param x the value to round.
      * @param scale the number of digits to the right of the decimal point.
      * @return the rounded value.
+     * @since 1.1
      */
     public static double round(double x, int scale) {
         return round(x, scale, BigDecimal.ROUND_HALF_UP);
@@ -69,6 +70,7 @@ public final class MathUtils {
      * @param roundingMethod the rounding method as defined in
      *        {@link BigDecimal}. 
      * @return the rounded value.
+     * @since 1.1
      */
     public static double round(
         double x, int scale, int roundingMethod)
@@ -83,6 +85,7 @@ public final class MathUtils {
      * @param x the value to round.
      * @param scale the number of digits to the right of the decimal point.
      * @return the rounded value.
+     * @since 1.1
      */
     public static float round(float x, int scale) {
         return round(x, scale, BigDecimal.ROUND_HALF_UP);
@@ -97,6 +100,7 @@ public final class MathUtils {
      * @param roundingMethod the rounding method as defined in
      *        {@link BigDecimal}. 
      * @return the rounded value.
+     * @since 1.1
      */
     public static float round(float x, int scale, int roundingMethod) {
         return (new BigDecimal(x).setScale(scale, roundingMethod)).floatValue();

@@ -67,7 +67,7 @@
 
 <subsection name="0.3 How commons-math is organized" href="organization">
     <p>
-    Commons Math is divided into eight subpackages, based on functionality provided.
+    Commons Math is divided into nine subpackages, based on functionality provided.
     <ol>
       <li><a href="stat.html">org.apache.commons.math.stat</a> - statistics, statistical tests</li>
       <li><a href="analysis.html">org.apache.commons.math.analysis</a> - rootfinding and interpolation</li>
@@ -77,6 +77,7 @@
       <li><a href="utilities.html">org.apache.commons.math.util</a> - common math/stat functions extending java.lang.Math </li>
       <li><a href="complex.html">org.apache.commons.math.complex</a> - complex numbers</li>
       <li><a href="distribution.html">org.apache.commons.math.distribution</a> - probability distributions</li>
+      <li><a href="fraction.html">org.apache.commons.math.fraction</a> - rational numbers</li>
     </ol>
     Package javadocs are <a href="../apidocs/index.html">here</a>
     </p>

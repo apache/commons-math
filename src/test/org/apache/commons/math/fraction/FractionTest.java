@@ -39,6 +39,63 @@ public class FractionTest extends TestCase {
         assertFraction(-1, 2, new Fraction(1, -2));
         assertFraction(-1, 2, new Fraction(-2, 4));
         assertFraction(-1, 2, new Fraction(2, -4));
+        
+        // overflow
+        try {
+            new Fraction(Integer.MIN_VALUE, -1);
+            fail();
+        } catch (ArithmeticException ex) {
+            // success
+        }
+        try {
+            new Fraction(1, Integer.MIN_VALUE);
+            fail();
+        } catch (ArithmeticException ex) {
+            // success
+        }
+    }
+    
+    public void testCompareTo() {
+        Fraction first = new Fraction(1, 2);
+        Fraction second = new Fraction(1, 3);
+        Fraction third = new Fraction(1, 2);
+        
+        assertEquals(0, first.compareTo(first));
+        assertEquals(0, first.compareTo(third));
+        assertEquals(1, first.compareTo(second));
+        assertEquals(-1, second.compareTo(first));
+    }
+    
+    public void testDoubleValue() {
+        Fraction first = new Fraction(1, 2);
+        Fraction second = new Fraction(1, 3);
+
+        assertEquals(0.5, first.doubleValue(), 0.0);
+        assertEquals(1.0 / 3.0, second.doubleValue(), 0.0);
+    }
+    
+    public void testFloatValue() {
+        Fraction first = new Fraction(1, 2);
+        Fraction second = new Fraction(1, 3);
+
+        assertEquals(0.5f, first.floatValue(), 0.0f);
+        assertEquals((float)(1.0 / 3.0), second.floatValue(), 0.0f);
+    }
+    
+    public void testIntValue() {
+        Fraction first = new Fraction(1, 2);
+        Fraction second = new Fraction(3, 2);
+
+        assertEquals(0, first.intValue());
+        assertEquals(1, second.intValue());
+    }
+    
+    public void testLongValue() {
+        Fraction first = new Fraction(1, 2);
+        Fraction second = new Fraction(3, 2);
+
+        assertEquals(0L, first.longValue());
+        assertEquals(1L, second.longValue());
     }
     
     public void testConstructorDouble() {

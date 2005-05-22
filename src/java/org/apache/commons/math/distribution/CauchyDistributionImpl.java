@@ -22,7 +22,8 @@ import java.io.Serializable;
  * Default implementation of
  * {@link org.apache.commons.math.distribution.CauchyDistribution}.
  *
- * @version $Revision: 1.13 $ $Date$
+ * @since 1.1
+ * @version $Revision$ $Date$
  */
 public class CauchyDistributionImpl extends AbstractContinuousDistribution 
 		implements CauchyDistribution, Serializable {

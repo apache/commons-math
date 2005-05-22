@@ -358,6 +358,7 @@ public class ValueServer {
      * of random data.
      * 
      * @param randomData the RandomData instance used to source random data
+     * @since 1.1
      */
     public ValueServer(RandomData randomData) {
         super();

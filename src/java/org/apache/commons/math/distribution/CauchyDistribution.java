@@ -29,6 +29,7 @@ package org.apache.commons.math.distribution;
  * </ul>
  * </p>
  *
+ * @since 1.1
  * @version $Revision$ $Date$
  */
 public interface CauchyDistribution extends ContinuousDistribution {

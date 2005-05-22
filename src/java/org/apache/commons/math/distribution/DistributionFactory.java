@@ -85,6 +85,7 @@ public abstract class DistributionFactory {
      * @param median the median of the distribution
      * @param scale the scale
      * @return a new cauchy distribution  
+     * @since 1.1
      */           
     public CauchyDistribution createCauchyDistribution(
         double median, double scale)
@@ -188,6 +189,7 @@ public abstract class DistributionFactory {
      * @param alpha the shape parameter.
      * @param beta the scale parameter.
      * @return a new Weibull distribution.  
+     * @since 1.1
      */               
     public WeibullDistribution createWeibullDistribution(
         double alpha, double beta)
