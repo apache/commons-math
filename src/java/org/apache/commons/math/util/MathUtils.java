@@ -533,6 +533,7 @@ public final class MathUtils {
      * @param a the first integer value.
      * @param b the second integer value.
      * @return the least common multiple between a and b.
+     * @since 1.1
      */
     public static int lcm(int a, int b) {
         return Math.abs(a / gcd(a, b) * b);
@@ -547,6 +548,7 @@ public final class MathUtils {
      * @param u  a non-zero number
      * @param v  a non-zero number
      * @return the greatest common divisor, never zero
+     * @since 1.1
      */
     public static int gcd(int u, int v) {
         if (u * v == 0) {
@@ -600,6 +602,7 @@ public final class MathUtils {
      * @return the product <code>x*y</code>
      * @throws ArithmeticException if the result can not be represented as
      *                             an int
+     * @since 1.1
      */
     public static int mulAndCheck(int x, int y) {
         long m = ((long)x)*((long)y);
@@ -618,6 +621,7 @@ public final class MathUtils {
      * @return the sum <code>x+y</code>
      * @throws ArithmeticException if the result can not be represented as
      * an int
+     * @since 1.1
      */
     public static int addAndCheck(int x, int y) {
         long s = (long)x+(long)y;
@@ -636,6 +640,7 @@ public final class MathUtils {
      * @return the difference <code>x-y</code>
      * @throws ArithmeticException if the result can not be represented as
      * an int
+     * @since 1.1
      */
     public static int subAndCheck(int x, int y) {
         long s = (long)x-(long)y;
