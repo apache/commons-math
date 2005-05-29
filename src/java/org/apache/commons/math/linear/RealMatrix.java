@@ -1,5 +1,5 @@
 /*
- * Copyright 2003-2004 The Apache Software Foundation.
+ * Copyright 2003-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,6 @@ package org.apache.commons.math.linear;
  * @version $Revision$ $Date$
  */
 public interface RealMatrix {
-
     /**
      * Returns a (deep) copy of this.
      *
@@ -128,6 +127,35 @@ public interface RealMatrix {
     */
    RealMatrix getSubMatrix(int[] selectedRows, int[] selectedColumns)
    throws MatrixIndexException;
+   
+    /**
+     * Replace the submatrix starting at <code>row, column</code> using data in
+     * the input <code>subMatrix</code> array. Indexes are 0-based.
+     * <p> 
+     * Example:<br>
+     * Starting with <pre>
+     * 1  2  3  4
+     * 5  6  7  8
+     * 9  0  1  2
+     * </pre>
+     * and <code>subMatrix = {{3, 4} {5,6}}</code>, invoking 
+     * <code>setSubMatrix(subMatrix,1,1))</code> will result in <pre>
+     * 1  2  3  4
+     * 5  3  4  8
+     * 9  5  6  2
+     * </pre>
+     * 
+     * @param subMatrix  array containing the submatrix replacement data
+     * @param row  row coordinate of the top, left element to be replaced
+     * @param column  column coordinate of the top, left element to be replaced
+     * @throws MatrixIndexException  if subMatrix does not fit into this 
+     *    matrix from element in (row, column) 
+     * @throws IllegalArgumentException if <code>subMatrix</code> is not rectangular
+     *  (not all rows have the same length) or empty
+     * @throws NullPointerException if <code>subMatrix</code> is null
+     */
+    public void setSubMatrix(double subMatrix[][], int row, int column) throws MatrixIndexException;
+   
    
    /**
     * Returns the entries in row number <code>row</code>

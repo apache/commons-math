@@ -1,5 +1,5 @@
 /*
- * Copyright 2003-2004 The Apache Software Foundation.
+ * Copyright 2003-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -104,22 +104,6 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      * @throws NullPointerException if <code>data</code> is null
      */
     public RealMatrixImpl(double[][] d) {
-        int nRows = d.length;
-        if (nRows == 0) {
-            throw new IllegalArgumentException(
-                    "Matrix must have at least one row."); 
-        }
-        int nCols = d[0].length;
-        if (nCols == 0) {
-            throw new IllegalArgumentException(
-            "Matrix must have at least one column."); 
-        }
-        for (int row = 1; row < nRows; row++) {
-            if (d[row].length != nCols) {
-                throw new IllegalArgumentException(
-                    "All input rows must have the same length.");
-            }
-        }
         this.copyIn(d);
         lu = null;
     }
@@ -371,12 +355,76 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
         }
         return subMatrix;
     } 
+
+    /**
+     * Replace the submatrix starting at <code>row, column</code> using data in
+     * the input <code>subMatrix</code> array. Indexes are 0-based.
+     * <p> 
+     * Example:<br>
+     * Starting with <pre>
+     * 1  2  3  4
+     * 5  6  7  8
+     * 9  0  1  2
+     * </pre>
+     * and <code>subMatrix = {{3, 4} {5,6}}</code>, invoking 
+     * <code>setSubMatrix(subMatrix,1,1))</code> will result in <pre>
+     * 1  2  3  4
+     * 5  3  4  8
+     * 9  5  6  2
+     * </pre>
+     * 
+     * @param subMatrix  array containing the submatrix replacement data
+     * @param row  row coordinate of the top, left element to be replaced
+     * @param column  column coordinate of the top, left element to be replaced
+     * @throws MatrixIndexException  if subMatrix does not fit into this 
+     *    matrix from element in (row, column) 
+     * @throws IllegalArgumentException if <code>subMatrix</code> is not rectangular
+     *  (not all rows have the same length) or empty
+     * @throws NullPointerException if <code>subMatrix</code> is null
+     */
+    public void setSubMatrix(double[][] subMatrix, int row, int column) 
+        throws MatrixIndexException {
+        if ((row < 0) || (column < 0)){
+            throw new MatrixIndexException
+                ("invalid row or column index selection");          
+        }
+        int nRows = subMatrix.length;
+        if (nRows == 0) {
+            throw new IllegalArgumentException(
+            "Matrix must have at least one row."); 
+        }
+        int nCols = subMatrix[0].length;
+        if (nCols == 0) {
+            throw new IllegalArgumentException(
+            "Matrix must have at least one column."); 
+        }
+        for (int r = 1; r < nRows; r++) {
+            if (subMatrix[r].length != nCols) {
+                throw new IllegalArgumentException(
+                "All input rows must have the same length.");
+            }
+        }       
+        if (data == null) {
+            if ((row > 0)||(column > 0)) throw new MatrixIndexException
+                ("matrix must be initialized to perfom this method");
+            data = new double[nRows][nCols];
+            System.arraycopy(subMatrix, 0, data, 0, subMatrix.length);          
+        }   
+        if (((nRows + row) > this.getRowDimension())
+                || (nCols + column > this.getColumnDimension()))
+            throw new MatrixIndexException(
+                    "invalid row or column index selection");                   
+        for (int i = 0; i < nRows; i++) {
+            System.arraycopy(subMatrix[i], 0, data[row + i], column, nCols);
+        } 
+        lu = null;
+    }
     
     /**
-     * Returns the entries in row number <code>row</code>
-     * as a row matrix.  Row indices start at 0.
-     *
-     * @param row the row to be fetched
+     * Returns the entries in row number <code>row</code> as a row matrix.
+     * Row indices start at 0.
+     * 
+     * @param row  the row to be fetched
      * @return row matrix
      * @throws MatrixIndexException if the specified row index is invalid
      */
@@ -955,18 +1003,16 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
 
     /**
      * Replaces data with a fresh copy of the input array.
+     * <p>
+     * Verifies that the input array is rectangular and non-empty
      *
      * @param in data to copy in
+     * @throws IllegalArgumentException if input array is emtpy or not
+     *    rectangular
+     * @throws NullPointerException if input array is null
      */
     private void copyIn(double[][] in) {
-        int nRows = in.length;
-        int nCols = in[0].length;
-        data = new double[nRows][nCols];
-        System.arraycopy(in, 0, data, 0, in.length);
-        for (int i = 0; i < nRows; i++) {
-            System.arraycopy(in[i], 0, data[i], 0, nCols);
-        }
-        lu = null;
+        setSubMatrix(in,0,0);
     }
 
     /**

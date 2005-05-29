@@ -1,5 +1,5 @@
 /*
- * Copyright 2004 The Apache Software Foundation.
+ * Copyright 2004-2005 The Apache Software Foundation.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -634,6 +634,75 @@ public final class BigMatrixImplTest extends TestCase {
         m = new BigMatrixImpl();
         assertEquals("BigMatrixImpl{}",
                 m.toString());
+    }
+    
+    public void testSetSubMatrix() throws Exception {
+        BigDecimal[][] detData3 = 
+            MatrixUtils.createBigMatrix(detData2).getData();
+        BigMatrixImpl m = new BigMatrixImpl(testData);
+        m.setSubMatrix(detData3,1,1);
+        BigMatrix expected = MatrixUtils.createBigMatrix
+            (new double[][] {{1.0,2.0,3.0},{2.0,1.0,3.0},{1.0,2.0,4.0}});
+        assertEquals(expected, m);  
+        
+        m.setSubMatrix(detData3,0,0);
+        expected = MatrixUtils.createBigMatrix
+            (new double[][] {{1.0,3.0,3.0},{2.0,4.0,3.0},{1.0,2.0,4.0}});
+        assertEquals(expected, m);  
+        
+        BigDecimal[][] testDataPlus3 = 
+            MatrixUtils.createBigMatrix(testDataPlus2).getData();
+        m.setSubMatrix(testDataPlus3,0,0);      
+        expected = MatrixUtils.createBigMatrix
+        (new double[][] {{3.0,4.0,5.0},{4.0,7.0,5.0},{3.0,2.0,10.0}});
+        assertEquals(expected, m);   
+        
+        // javadoc example
+        BigMatrix matrix = MatrixUtils.createBigMatrix
+            (new double[][] {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 0, 1 , 2}});
+        matrix.setSubMatrix(new BigDecimal[][] {{new BigDecimal(3),
+            new BigDecimal(4)}, {new BigDecimal(5), new BigDecimal(6)}}, 1, 1);
+        expected = MatrixUtils.createBigMatrix
+            (new BigDecimal[][] {{new BigDecimal(1), new BigDecimal(2),
+             new BigDecimal(3), new BigDecimal(4)}, {new BigDecimal(5),
+             new BigDecimal(3), new BigDecimal(4), new BigDecimal(8)},
+             {new BigDecimal(9), new BigDecimal(5) , new BigDecimal(6),
+              new BigDecimal(2)}});
+        assertEquals(expected, matrix);   
+        
+        // dimension overflow
+        try {  
+            m.setSubMatrix(matrix.getData(),1,1);
+            fail("expecting MatrixIndexException");
+        } catch (MatrixIndexException e) {
+            // expected
+        }
+        
+        // null
+        try {
+            m.setSubMatrix(null,1,1);
+            fail("expecting NullPointerException");
+        } catch (NullPointerException e) {
+            // expected
+        }
+        
+        // ragged
+        try {
+            m.setSubMatrix(new BigDecimal[][] {{new BigDecimal(1)},
+                    {new BigDecimal(2), new BigDecimal(3)}}, 0, 0);
+            fail("expecting IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            // expected
+        }
+        
+        // empty
+        try {
+            m.setSubMatrix(new BigDecimal[][] {{}}, 0, 0);
+            fail("expecting IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            // expected
+        }
+        
     }
     
     //--------------- -----------------Protected methods

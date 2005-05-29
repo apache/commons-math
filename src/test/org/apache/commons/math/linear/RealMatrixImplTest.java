@@ -1,5 +1,5 @@
 /*
- * Copyright 2003-2004 The Apache Software Foundation.
+ * Copyright 2003-2005 The Apache Software Foundation.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -608,6 +608,65 @@ public final class RealMatrixImplTest extends TestCase {
         m = new RealMatrixImpl();
         assertEquals("RealMatrixImpl{}",
                 m.toString());
+    }
+    
+    public void testSetSubMatrix() throws Exception {
+        RealMatrixImpl m = new RealMatrixImpl(testData);
+        m.setSubMatrix(detData2,1,1);
+        RealMatrix expected = MatrixUtils.createRealMatrix
+            (new double[][] {{1.0,2.0,3.0},{2.0,1.0,3.0},{1.0,2.0,4.0}});
+        assertEquals(expected, m);  
+        
+        m.setSubMatrix(detData2,0,0);
+        expected = MatrixUtils.createRealMatrix
+            (new double[][] {{1.0,3.0,3.0},{2.0,4.0,3.0},{1.0,2.0,4.0}});
+        assertEquals(expected, m);  
+        
+        m.setSubMatrix(testDataPlus2,0,0);      
+        expected = MatrixUtils.createRealMatrix
+            (new double[][] {{3.0,4.0,5.0},{4.0,7.0,5.0},{3.0,2.0,10.0}});
+        assertEquals(expected, m);   
+        
+        // javadoc example
+        RealMatrix matrix = MatrixUtils.createRealMatrix
+            (new double[][] {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 0, 1 , 2}});
+        matrix.setSubMatrix(new double[][] {{3, 4}, {5, 6}}, 1, 1);
+        expected = MatrixUtils.createRealMatrix
+            (new double[][] {{1, 2, 3, 4}, {5, 3, 4, 8}, {9, 5 ,6, 2}});
+        assertEquals(expected, matrix);   
+        
+        // dimension overflow
+        try {  
+            m.setSubMatrix(testData,1,1);
+            fail("expecting MatrixIndexException");
+        } catch (MatrixIndexException e) {
+            // expected
+        }
+        
+        // null
+        try {
+            m.setSubMatrix(null,1,1);
+            fail("expecting NullPointerException");
+        } catch (NullPointerException e) {
+            // expected
+        }
+        
+        // ragged
+        try {
+            m.setSubMatrix(new double[][] {{1}, {2, 3}}, 0, 0);
+            fail("expecting IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            // expected
+        }
+       
+        // empty
+        try {
+            m.setSubMatrix(new double[][] {{}}, 0, 0);
+            fail("expecting IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            // expected
+        }
+        
     }
     
     //--------------- -----------------Protected methods
