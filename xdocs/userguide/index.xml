@@ -50,7 +50,8 @@
                 <li><a href="random.html#2.2 Random numbers">2.2 Random numbers</a></li>
                 <li><a href="random.html#2.3 Random Strings">2.3 Random Strings</a></li>
                 <li><a href="random.html#2.4 Random permutations, combinations, sampling">2.4 Random permutations, combinations, sampling</a></li>
-                <li><a href="random.html#2.5 Generating data &amp;apos;like&amp;apos; an input file">2.5 Generating data 'like' an input file</a></li>
+                <li><a href="random.html#2.5 Generating data 'like' an input file">2.5 Generating data 'like' an input file</a></li>
+                <li><a href="random.html#2.6 PRNG Pluggability">2.6 PRNG Pluggability</a></li>
                 </ul></li>
             <li><a href="linear.html">3. Linear Algebra</a>
                 <ul>

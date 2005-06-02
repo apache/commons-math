@@ -34,95 +34,130 @@
     <ul>
         <li>generating random numbers</li>
         <li>generating random strings</li>
-        <li>generating cryptographically secure sequences of random numbers or strings</li>
+        <li>generating cryptographically secure sequences of random numbers or
+         strings</li>
         <li>generating random samples and permuations</li>
-        <li>analyzing distributions of values in an input file and generating values "like"
-            the values in the file</li>
-        <li>generating data for grouped frequency distributions or histograms</li>
-    </ul></p>  
+        <li>analyzing distributions of values in an input file and generating
+         values "like" the values in the file</li>
+        <li>generating data for grouped frequency distributions or
+         histograms</li>
+    </ul></p>
+    <p>
+     The source of random data used by the data generation utilities is
+     pluggable.  By default, the JDK-supplied PseudoRandom Number Generator
+     (PRNG) is used, but alternative generators can be "plugged in" using an
+     adaptor framework, which provides a generic facility for replacing 
+     <code>java.util.Random</code> with an alternative PRNG.
+    </p>
+    <p>
+     Sections 2.3-2.5 below show how to use the commons math API to generate
+     different kinds of random data.  The examples all use the default
+     JDK-supplied PRNG.  PRNG pluggability is covered in 2.6.  The only 
+     modification required to the examples to use alternative PRNGs is to
+     replace the argumentless constructor calls with invocations including
+     a <code>RandomGenerator</code> instance as a parameter.
+    </p>  
 </subsection>
 
 <subsection name="2.2 Random numbers" href="deviates">
     <p>
     The <a href="../apidocs/org/apache/commons/math/random/RandomData.html">
-    org.apache.commons.math.RandomData</a> interface defines methods for generating
-    random sequences of numbers. The API contracts of these methods use the following concepts:
+    org.apache.commons.math.RandomData</a> interface defines methods for
+    generating random sequences of numbers. The API contracts of these methods
+    use the following concepts:
     <dl>
     <dt>Random sequence of numbers from a probability distribution</dt>
-    <dd>There is no such thing as a single "random number."  What can be generated
-    are <i>sequences</i> of numbers that appear to be random.  When using the
-    built-in JDK function <code>Math.random(),</code> sequences of values generated
-    follow the <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda3662.htm">
-    Uniform Distribution</a>, which means that the values are evenly spread over the interval 
-    between 0 and 1, with no sub-interval having a greater probability of containing generated 
-    values than any other interval of the same length.  The mathematical concept of a <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda36.htm">
-    probability distribution</a> basically amounts to asserting that different ranges in the set 
-    of possible values for of a random variable have different probabilities of containing the value.  
-    Commons Math supports generating random sequences from the following probability distributions. The 
-    javadoc for the <code>nextXxx</code> methods in <code>RandomDataImpl</code> describes the algorithms used
-    to generate random deviates from each of these distributions. 
+    <dd>There is no such thing as a single "random number."  What can be
+    generated  are <i>sequences</i> of numbers that appear to be random.  When
+    using the built-in JDK function <code>Math.random(),</code> sequences of 
+    values generated follow the 
+    <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda3662.htm">
+    Uniform Distribution</a>, which means that the values are evenly spread
+    over the interval  between 0 and 1, with no sub-interval having a greater
+    probability of containing generated values than any other interval of the
+    same length.  The mathematical concept of a
+    <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda36.htm">
+    probability distribution</a> basically amounts to asserting that different
+    ranges in the set  of possible values for of a random variable have
+    different probabilities of containing the value.  Commons Math supports
+    generating random sequences from the following probability distributions.
+    The javadoc for the <code>nextXxx</code> methods in 
+    <code>RandomDataImpl</code> describes the algorithms used to generate
+    random deviates from each of these distributions. 
     <ul>
-    <li><a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda3662.htm">uniform distribution</a></li>
-    <li><a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda3667.htm">exponential distribution</a></li>
-    <li><a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda366j.htm">poisson distribution</a></li>
-    <li><a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda3661.htm">Gaussian distribution</a></li>
+    <li><a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda3662.htm">
+     uniform distribution</a></li>
+    <li><a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda3667.htm">
+     exponential distribution</a></li>
+    <li><a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda366j.htm">
+    poisson distribution</a></li>
+    <li><a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda3661.htm">
+    Gaussian distribution</a></li>
     </ul>        
     </dd>
     <dt>Cryptographically secure random sequences</dt>
-    <dd>It is possible for a sequence of numbers to appear random, but nonetheless to be
-    predictable based on the algorithm used to generate the sequence. If in addition to 
-    randomness, strong unpredictability is required, it is best to use a 
+    <dd>It is possible for a sequence of numbers to appear random, but
+    nonetheless to be predictable based on the algorithm used to generate the
+    sequence. If in addition to randomness, strong unpredictability is
+    required, it is best to use a  
     <a href="http://www.wikipedia.org/wiki/Cryptographically_secure_pseudo-random_number_generator">
-    secure random number generator</a> to generate values (or strings). The nextSecureXxx methods
-    in the <code>RandomDataImpl</code> implementation of the <code>RandomData</code> interface use the 
-    JDK <code>SecureRandom</code> pseudo-random number generator (PRNG)
-    to generate cryptographically secure sequences.  The <code>setSecureAlgorithm</code> method
-    allows you to change the underlying PRNG. These methods are <strong>much slower</strong> than
-    the corresponding "non-secure" versions, so they should only be used when cryptographic security
-    is required.</dd>
+    secure random number generator</a> to generate values (or strings). The
+    nextSecureXxx methods in the <code>RandomDataImpl</code> implementation of
+    the <code>RandomData</code> interface use the JDK <code>SecureRandom</code>
+    PRNG to generate cryptographically secure sequences.  The 
+    <code>setSecureAlgorithm</code> method allows you to change the underlying
+    PRNG. These methods are <strong>much slower</strong> than the corresponding
+    "non-secure" versions, so they should only be used when cryptographic
+    security is required.</dd>
     <dt>Seeding pseudo-random number generators</dt>
-    <dd>By default, the implementation provided in <code>RandomDataImpl</code> uses the JDK-provided
-    PRNG.  Like other PRNGs, the JDK generator generates sequences of random numbers based on an initial
-    "seed value".  For the non-secure methods, starting with the same seed always produces the same
-    sequence of values.  Secure sequences started with the same seeds will diverge. When a new 
-    <code>RandomDataImpl</code> is created, the underlying random number generators are 
-    <strong>not</strong> intialized.  The first call to a data generation method, or to a 
-    <code>reSeed()</code> method initializes the appropriate generator.  If you do not explicitly 
-    seed the generator, it is by default seeded with the current time in milliseconds.  Therefore,
-    to generate sequences of random data values, you should always instantiate <strong>one</strong>
-    <code>RandomDataImpl</code> and use it repeatedly instead of creating new instances for
-    subsequent values in the sequence.  For example, the following will generate a random sequence
-    of 50 long integers between 1 and 1,000,000, using the current time in milliseconds as the seed
-    for the JDK PRNG:
+    <dd>By default, the implementation provided in <code>RandomDataImpl</code>
+    uses the JDK-provided PRNG.  Like most other PRNGs, the JDK generator
+    generates sequences of random numbers based on an initial "seed value".
+    For the non-secure methods, starting with the same seed always produces the
+    same sequence of values.  Secure sequences started with the same seeds will
+    diverge. When a new <code>RandomDataImpl</code> is created, the underlying
+    random number generators are <strong>not</strong> intialized.  The first
+    call to a data generation method, or to a  <code>reSeed()</code> method
+    initializes the appropriate generator.  If you do not explicitly seed the
+    generator, it is by default seeded with the current time in milliseconds.
+    Therefore, to generate sequences of random data values, you should always
+    instantiate <strong>one</strong> <code>RandomDataImpl</code> and use it
+    repeatedly instead of creating new instances for subsequent values in the
+    sequence.  For example, the following will generate a random sequence of 50
+    long integers between 1 and 1,000,000, using the current time in
+    milliseconds as the seed for the JDK PRNG:
     <source>
-        RandomDataImpl randomData = new RandomDataImpl(); 
-        for (int i = 0; i &lt; 1000; i++) {
-            value = randomData.nextLong(1, 1000000);
-        }
+RandomDataImpl randomData = new RandomDataImpl(); 
+for (int i = 0; i &lt; 1000; i++) {
+    value = randomData.nextLong(1, 1000000);
+}
     </source>
-    The following will not in general produce a good random sequence, since the PRNG is reseeded
-    each time through the loop with the current time in milliseconds:
+    The following will not in general produce a good random sequence, since the
+    PRNG is reseeded each time through the loop with the current time in
+    milliseconds:
     <source>
-        for (int i = 0; i &lt; 1000; i++) {
-            RandomDataImpl randomData = new RandomDataImpl(); 
-            value = randomData.nextLong(1, 1000000);
-        }
+for (int i = 0; i &lt; 1000; i++) {
+    RandomDataImpl randomData = new RandomDataImpl(); 
+    value = randomData.nextLong(1, 1000000);
+}
     </source>
-    The following will produce the same random sequence each time it is executed:
+    The following will produce the same random sequence each time it is
+    executed:
     <source>
-        RandomDataImpl randomData = new RandomDataImpl(); 
-        randomData.reSeed(1000);
-        for (int i = 0; i = 1000; i++) {
-            value = randomData.nextLong(1, 1000000);
-        }
+RandomDataImpl randomData = new RandomDataImpl(); 
+randomData.reSeed(1000);
+for (int i = 0; i = 1000; i++) {
+    value = randomData.nextLong(1, 1000000);
+}
     </source>
-    The following will produce a different random sequence each time it is executed. 
+    The following will produce a different random sequence each time it is
+     executed. 
     <source>
-        RandomDataImpl randomData = new RandomDataImpl(); 
-        randomData.reSeedSecure(1000);
-        for (int i = 0; i &lt; 1000; i++) {
-            value = randomData.nextSecureLong(1, 1000000);
-        }
+RandomDataImpl randomData = new RandomDataImpl(); 
+randomData.reSeedSecure(1000);
+for (int i = 0; i &lt; 1000; i++) {
+    value = randomData.nextSecureLong(1, 1000000);
+}
     </source>
     </dd></dl>
     </p>
@@ -226,6 +261,87 @@
       </dd>
     </dl>
   </p>
+</subsection>
+
+<subsection name="2.6 PRNG Pluggability" href="pluggability">
+  <p>
+      To enable alternative PRNGs to be "plugged in" to the commons-math data
+      generation utilities and to provide a generic means to replace 
+      <code>java.util.Random</code> in applications, a random generator 
+      adaptor framework has been added to commons-math.  The
+      <a href="../apidocs/org/apache/commons/math/random/RandomGenerator.html">
+      org.apache.commons.math.RandomGenerator</a> interface abstracts the public
+      interface of <code>java.util.Random</code> and any implementation of this
+      interface can be used as the source of random data for the commons-math 
+      data generation classes.  An abstract superclass, 
+      <a href="../apidocs/org/apache/commons/math/random/AbstractRandomGenerator.html">
+      org.apache.commons.math.AbstractRandomGenerator</a> is provided to make
+      implementation easier.  This class provides default implementations of
+      "derived" data generation methods based on the primitive, 
+      <code>nextDouble().</code>  To support generic replacement of 
+      <code>java.util.Random</code>,  the 
+      <a href="../apidocs/org/apache/commons/math/random/RandomAdaptor.html">
+      org.apache.commons.math.RandomAdaptor</a> class is provided,  which
+      extends <code>java.util.Random</code> and wraps and delegates calls to
+      a <code>RandomGenerator</code> instance.   
+  </p>
+  <p>
+     Examples:
+     <dl>
+      <dt>Create a RandomGenerator based on RngPack's Mersenne Twister</dt>
+      <dd>To create a RandomGenerator using the RngPack Mersenne Twister PRNG
+       as the source of randomness, extend <code>AbstractRandomGenerator</code>
+       overriding the derived methods that the RngPack implementation provides:
+       <source>
+import edu.cornell.lassp.houle.RngPack.RanMT;
+/**
+ * AbstractRandomGenerator based on RngPack RanMT generator.
+ */
+public class RngPackGenerator extends AbstractRandomGenerator {
+    
+    private RanMT random = new RanMT();
+    
+    public void setSeed(long seed) {
+       random = new RanMT(seed);
+    }
+    
+    public double nextDouble() {
+        return random.raw();
+    }
+    
+    public double nextGaussian() {
+        return random.gaussian();
+    }
+    
+    public int nextInt(int n) {
+        return random.choose(n);
+    }
+    
+    public boolean nextBoolean() {
+        return random.coin();
+    }
+}
+      </source>
+      </dd>
+      <dt>Use the Mersenne Twister RandomGenerator in place of 
+      <code>java.util.Random</code> in <code>RandomData</code></dt>
+      <dd>
+      <source>
+RandomData randomData = new RandomDataImpl(new RngPackGenerator());
+      </source>
+      </dd>
+      <dt>Create an adaptor instance based on the Mersenne Twister generator
+      that can be used in place of a <code>Random</code></dt>
+      <dd>
+      <source>
+ RandomGenerator generator = new RngPackGenerator();
+ Random random = RandomAdaptor.createAdaptor(generator);
+ // random can now be used in place of a Random instance, data generation
+ // calls will be delegated to the wrapped Mersenne Twister
+      </source>
+      </dd>
+  </dl>
+ </p>
 </subsection>
 
 </section>
