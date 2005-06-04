@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <!--
-   Copyright 2003-2004 The Apache Software Foundation
+   Copyright 2003-2005 The Apache Software Foundation
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -53,7 +53,7 @@
         </p>
         <p>
           There are numerous non-obvious traps and pitfalls in root finding.
-          First, the usual disclaimers due to the nature how real world computers
+          First, the usual disclaimers due to the way real world computers
           calculate values apply.  If the computation of the function provides
           numerical instabilities, for example due to bit cancellation, the root
           finding algorithms may behave badly and fail to converge or even
@@ -71,7 +71,7 @@
           selection of a root-finding algorithm and its configuration parameters
           requires knowledge of the analytical properties of the function under
           analysis and numerical analysis techniques.  Users are encouraged
-          to consult a numerical analysis text (or an numerical analyst) when
+          to consult a numerical analysis text (or a numerical analyst) when
           selecting and configuring a solver.
         </p>
         <p>
@@ -212,7 +212,7 @@ double c = solver.solve(1.0, 5.0);</source>
                 <div>setMaximumIterationCount</div>
               </td>
               <td>
-                This is the maximal number of iterations the algorith will try.
+                This is the maximal number of iterations the algorithm will try.
                 If this number is exceeded, non-convergence is assumed and a
                 <code>ConvergenceException</code> exception is thrown.  The
                 default value is 100, which should be plenty, given that a
