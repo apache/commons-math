@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <!--
-   Copyright 2003-2004 The Apache Software Foundation
+   Copyright 2003-2005 The Apache Software Foundation
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -37,21 +37,21 @@
     Guiding principles:
     <ol>
      <li>
-      Real-world application use cases will determine development
+      Real-world application use cases determine development
       priority.
      </li>
      <li>
-      This package will emphasize small, easily integrated components
+      This package emphasizes small, easily integrated components
       rather than large libraries with complex dependencies and
       configurations.
      </li>
      <li>
-      All algorithms will be fully documented and follow generally
+      All algorithms are fully documented and follow generally
       accepted best practices.
      </li>
      <li>
       In situations where multiple standard algorithms exist, a
-      Strategy pattern will be used to support multiple
+      Strategy pattern is used to support multiple
       implementations.
      </li>
      <li>
