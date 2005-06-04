@@ -84,7 +84,7 @@ public class SecantSolver extends UnivariateRealSolverImpl implements Serializab
         FunctionEvaluationException {
         
         clearResult();
-        verifyBracketing(min, max, f);
+        verifyInterval(min, max);
         
         // Index 0 is the old approximation for the root.
         // Index 1 is the last calculated approximation  for the root.
@@ -95,6 +95,15 @@ public class SecantSolver extends UnivariateRealSolverImpl implements Serializab
         double x1 = max;
         double y0 = f.value(x0);
         double y1 = f.value(x1);
+        
+        // Verify bracketing
+        if (y0 * y1 >= 0) {
+            throw new IllegalArgumentException
+            ("Function values at endpoints do not have different signs." +
+                    "  Endpoints: [" + min + "," + max + "]" + 
+                    "  Values: [" + y0 + "," + y1 + "]");       
+        }
+        
         double x2 = x0;
         double y2 = y0;
         double oldDelta = x2 - x1;

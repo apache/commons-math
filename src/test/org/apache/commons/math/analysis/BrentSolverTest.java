@@ -266,4 +266,21 @@ public final class BrentSolverTest extends TestCase {
         result = UnivariateRealSolverUtils.solve(f, 0.85, 5);
         assertEquals(result, 1.0, 1E-6);
     }
+    
+    public void testBadEndpoints() throws Exception {
+        UnivariateRealFunction f = new SinFunction();
+        UnivariateRealSolver solver = new BrentSolver(f);
+        try {  // bad interval
+            solver.solve(1, -1);
+            fail("Expecting IllegalArgumentException - bad interval");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+        try {  // no bracket
+            solver.solve(1, 1.5);
+            fail("Expecting IllegalArgumentException - non-bracketing");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+    }
 }
