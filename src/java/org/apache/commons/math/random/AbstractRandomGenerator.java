@@ -21,7 +21,7 @@ package org.apache.commons.math.random;
  * {@link #setSeed(long)} are provided. 
  * <p>
  * All data generation methods are based on <code>nextDouble().</code>
- * Concrete implementations <strong>must</strong> overrride
+ * Concrete implementations <strong>must</strong> override
  * this method and <strong>should</strong> provide better / more
  * performant implementations of the other methods if the underlying PRNG
  * supplies them.
@@ -49,10 +49,10 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
     }
     
     /**
-     * Clears the cache used by the default implementation of {@link #nextGaussian}.
-     * Implemementations that do not override the default
-     * implementation of <code>nextGaussian</code> should call this method
-     * in the implementation of {@link #setSeed(long)}
+     * Clears the cache used by the default implementation of 
+     * {@link #nextGaussian}. Implemementations that do not override the
+     * default implementation of <code>nextGaussian</code> should call this
+     * method in the implementation of {@link #setSeed(long)}
      */
     public void clear() {
         cachedNormalDeviate = Double.NaN;
@@ -76,8 +76,8 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
      * byte array.  The number of random bytes produced is equal to 
      * the length of the byte array.
      * <p>
-     * The default implementation provided here fills the array with bytes
-     * extracted from random integers generated using {@link #nextInt}.
+     * The default implementation fills the array with bytes extracted from
+     * random integers generated using {@link #nextInt}.
      * 
      * @param bytes the non-null byte array in which to put the 
      * random bytes
@@ -121,7 +121,7 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
      * between 0 (inclusive) and the specified value (exclusive), drawn from
      * this random number generator's sequence. 
      * <p>  
-     * The default implementation provided here returns 
+     * The default implementation returns 
      * <pre>
      * <code>(int) (nextDouble() * n</code>
      * </pre>
@@ -146,7 +146,7 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
      * 2<font size="-1"><sup>64</sup></font> possible <tt>long</tt> values 
      * should be produced with (approximately) equal probability. 
      * <p>  
-     * The default implementation provided here returns 
+     * The default implementation returns 
      * <pre>
      * <code>(long) (nextDouble() * Long.MAX_VALUE)</code>
      * </pre>
@@ -163,7 +163,7 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
      * <code>boolean</code> value from this random number generator's
      * sequence.  
      * <p>  
-     * The default implementation provided here returns 
+     * The default implementation returns 
      * <pre>
      * <code>nextDouble() <= 0.5</code>
      * </pre>
@@ -181,7 +181,7 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
      * value between <code>0.0</code> and <code>1.0</code> from this random
      * number generator's sequence.  
      * <p>  
-     * The default implementation provided here returns 
+     * The default implementation returns 
      * <pre>
      * <code>(float) nextDouble() </code>
      * </pre>
@@ -213,7 +213,7 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
      * <code>double</code> value with mean <code>0.0</code> and standard
      * deviation <code>1.0</code> from this random number generator's sequence.
      * <p>
-     * The default implementation provided here uses the <em>Polar Method</em>
+     * The default implementation uses the <em>Polar Method</em>
      * due to G.E.P. Box, M.E. Muller and G. Marsaglia, as described in 
      * D. Knuth, <u>The Art of Computer Programming</u>, 3.4.1C.
      * <p>
@@ -234,7 +234,7 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
             cachedNormalDeviate = Double.NaN;
             return dev;
         }
-        double v1 =0;
+        double v1 = 0;
         double v2 = 0;
         double s = 1;
         while (s >=1 ) { 
@@ -243,7 +243,7 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
             s = v1 * v1 + v2 * v2;
         }
         if (s != 0) {
-            s = Math.sqrt(-2 * Math.log(s)/s);   
+            s = Math.sqrt(-2 * Math.log(s) / s);   
         }
         cachedNormalDeviate = v2 * s;
         return v1 * s;      
