@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <!--
-   Copyright 2003-2004 The Apache Software Foundation
+   Copyright 2003-2005 The Apache Software Foundation
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -50,7 +50,7 @@
      <code>java.util.Random</code> with an alternative PRNG.
     </p>
     <p>
-     Sections 2.3-2.5 below show how to use the commons math API to generate
+     Sections 2.2-2.5 below show how to use the commons math API to generate
      different kinds of random data.  The examples all use the default
      JDK-supplied PRNG.  PRNG pluggability is covered in 2.6.  The only 
      modification required to the examples to use alternative PRNGs is to
@@ -78,7 +78,7 @@
     same length.  The mathematical concept of a
     <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda36.htm">
     probability distribution</a> basically amounts to asserting that different
-    ranges in the set  of possible values for of a random variable have
+    ranges in the set  of possible values of a random variable have
     different probabilities of containing the value.  Commons Math supports
     generating random sequences from the following probability distributions.
     The javadoc for the <code>nextXxx</code> methods in 
@@ -127,7 +127,7 @@
     long integers between 1 and 1,000,000, using the current time in
     milliseconds as the seed for the JDK PRNG:
     <source>
-RandomDataImpl randomData = new RandomDataImpl(); 
+RandomData randomData = new RandomDataImpl(); 
 for (int i = 0; i &lt; 1000; i++) {
     value = randomData.nextLong(1, 1000000);
 }
@@ -144,7 +144,7 @@ for (int i = 0; i &lt; 1000; i++) {
     The following will produce the same random sequence each time it is
     executed:
     <source>
-RandomDataImpl randomData = new RandomDataImpl(); 
+RandomData randomData = new RandomDataImpl(); 
 randomData.reSeed(1000);
 for (int i = 0; i = 1000; i++) {
     value = randomData.nextLong(1, 1000000);
@@ -153,7 +153,7 @@ for (int i = 0; i = 1000; i++) {
     The following will produce a different random sequence each time it is
      executed. 
     <source>
-RandomDataImpl randomData = new RandomDataImpl(); 
+RandomData randomData = new RandomDataImpl(); 
 randomData.reSeedSecure(1000);
 for (int i = 0; i &lt; 1000; i++) {
     value = randomData.nextSecureLong(1, 1000000);
@@ -166,57 +166,64 @@ for (int i = 0; i &lt; 1000; i++) {
 <subsection name="2.3 Random Strings" href="strings">
     <p>
     The methods <code>nextHexString</code> and <code>nextSecureHexString</code>
-    can be used to generate random strings of hexadecimal characters.  Both of these
-    methods produce sequences of strings with good dispersion properties.  
-    The difference between the two methods is that the second is cryptographically secure.  
-    Specifically, the implementation of <code>nextHexString(n)</code> in <code>RandomDataImpl</code> 
-    uses the following simple algorithm to generate a string of <code>n</code> hex digits:
+    can be used to generate random strings of hexadecimal characters.  Both
+    of these methods produce sequences of strings with good dispersion
+    properties.  The difference between the two methods is that the second is
+    cryptographically secure.  Specifically, the implementation of 
+    <code>nextHexString(n)</code> in <code>RandomDataImpl</code> uses the
+    following simple algorithm to generate a string of <code>n</code> hex digits:
     <ol>
     <li>n/2+1 binary bytes are generated using the underlying Random</li>
     <li>Each binary byte is translated into 2 hex digits</li></ol>
     The <code>RandomDataImpl</code> implementation of the "secure" version, 
-    <code>nextSecureHexString</code> generates hex characters in 40-byte "chunks" 
-    using a 3-step process:
+    <code>nextSecureHexString</code> generates hex characters in 40-byte
+    "chunks" using a 3-step process:
     <ol>
-    <li>20 random bytes are generated using the underlying <code>SecureRandom.</code></li>
+    <li>20 random bytes are generated using the underlying 
+    <code>SecureRandom.</code></li>
     <li>SHA-1 hash is applied to yield a 20-byte binary digest.</li>
     <li>Each byte of the binary digest is converted to 2 hex digits</li></ol>
-    Similarly to the secure random number generation methods, <code>nextSecureHexString</code>
-    is <strong>much slower</strong> than the non-secure version.  It should be used only for 
-    applications such as generating unique session or transaction ids where predictability of
-    subsequent ids based on observation of previous values is a security concern.  If all
-    that is needed is an even distribution of hex characters in the generated strings, the
-    non-secure method should be used.        
+    Similarly to the secure random number generation methods, 
+    <code>nextSecureHexString</code> is <strong>much slower</strong> than
+    the non-secure version.  It should be used only for applications such as 
+    generating unique session or transaction ids where predictability of
+    subsequent ids based on observation of previous values is a security
+    concern.  If all that is needed is an even distribution of hex characters
+    in the generated strings, the non-secure method should be used.        
     </p>
 </subsection>
 
-<subsection name="2.4 Random permutations, combinations, sampling" href="combinatorics">
+<subsection name="2.4 Random permutations, combinations, sampling"
+ href="combinatorics">
     <p>
     To select a random sample of objects in a collection, you can use the
-    <code>nextSample</code> method in the <code>RandomData</code> interface.  Specifically,
-    if <code>c</code> is a collection containing at least <code>k</code> objects, and
-    <code>ranomData</code> is a <code>RandomDataImpl</code> instance
-    <code>randomData.nextSample(c, k)</code>
-    will return an <code>object[]</code> array of length <code>k</code> consisting of
-    elements randomly selected from the collection.  If <code>c</code> contains
-    duplicate references, there may be duplicate references in the returned array;
-    otherwise returned elements will be unique -- i.e., the sampling is without
-    replacement among the object references in the collection. </p>
+    <code>nextSample</code> method in the <code>RandomData</code> interface.
+    Specifically,  if <code>c</code> is a collection containing at least 
+    <code>k</code> objects, and <code>ranomData</code> is a 
+    <code>RandomData</code> instance <code>randomData.nextSample(c, k)</code>
+    will return an <code>object[]</code> array of length <code>k</code>
+    consisting of elements randomly selected from the collection.  If 
+    <code>c</code> contains duplicate references, there may be duplicate
+    references in the returned array; otherwise returned elements will be
+    unique -- i.e., the sampling is without replacement among the object
+    references in the collection. </p>
     <p>
-    If <code>randomData</code> is a <code>RandomDataImpl</code> instance, and 
-    <code>n</code> and <code>k</code> are integers with <code> k &lt;= n</code>,
-    then <code>randomData.nextPermutation(n, k)</code> returns an <code>int[]</code>
+    If <code>randomData</code> is a <code>RandomData</code> instance, and 
+    <code>n</code> and <code>k</code> are integers with 
+    <code> k &lt;= n</code>,  then 
+    <code>randomData.nextPermutation(n, k)</code> returns an <code>int[]</code>
     array of length <code>k</code> whose whose entries are selected randomly, 
-    without repetition, from the integers <code>0</code> through <code>n-1</code> (inclusive), i.e.,
-    <code>randomData.nextPermutation(n, k)</code> returns a random permutation of 
-    <code>n</code> taken <code>k</code> at a time.   
+    without repetition, from the integers <code>0</code> through
+    <code>n-1</code> (inclusive), i.e., 
+    <code>randomData.nextPermutation(n, k)</code> returns a random
+    permutation of  <code>n</code> taken <code>k</code> at a time.   
     </p>
 </subsection>
 
 <subsection name="2.5 Generating data 'like' an input file" href="empirical">
     <p>
-    Using the <code>ValueServer</code> class, you can generate data based on the 
-    values in an input file in one of two ways:
+    Using the <code>ValueServer</code> class, you can generate data based on
+    the values in an input file in one of two ways:
     <dl>
       <dt>Replay Mode</dt>
       <dd> The following code will read data from <code>url</code> 
@@ -233,20 +240,22 @@ for (int i = 0; i &lt; 1000; i++) {
       vs.closeReplayFile();
       </source>
       The values in the file are not stored in memory, so it does not matter
-      how large the file is, but you do need to explicitly close the file as above. 
-      The expected file format is \n -delimited (i.e. one per line) strings 
-      representing valid floating point numbers.
+      how large the file is, but you do need to explicitly close the file
+      as above.  The expected file format is \n -delimited (i.e. one per line)
+      strings representing valid floating point numbers.
       </dd>
       <dt>Digest Mode</dt>
       <dd>When used in Digest Mode, the ValueServer reads the entire input file
       and estimates a probability density function based on data from the file.
-      The estimation method is essentially the <a href="http://nedwww.ipac.caltech.edu/level5/March02/Silverman/Silver2_6.html">
-      Variable Kernel Method</a> with Gaussian smoothing.  Once the density has been
-      estimated, <code>getNext()</code> returns random values whose probability
-      distribution matches the empirical distribution -- i.e., if you generate a large
-      number of such values, their distribution should "look like" the distribution of
-      the values in the input file.  The values are not stored in memory in this case either,
-      so there is no limit to the size of the input file.  Here is an example:
+      The estimation method is essentially the 
+      <a href="http://nedwww.ipac.caltech.edu/level5/March02/Silverman/Silver2_6.html">
+      Variable Kernel Method</a> with Gaussian smoothing.  Once the density
+      has been estimated, <code>getNext()</code> returns random values whose
+      probability distribution matches the empirical distribution -- i.e., if
+      you generate a large number of such values, their distribution should
+      "look like" the distribution of the values in the input file.  The values
+      are not stored in memory in this case either, so there is no limit to the
+      size of the input file.  Here is an example:
       <source>
       ValueServer vs = new ValueServer();
       vs.setValuesFileURL(url); 
@@ -255,9 +264,10 @@ for (int i = 0; i &lt; 1000; i++) {
       double value = vs.getNext();
       // ...Generate and use more values...
       </source>
-      See the javadoc for <code>ValueServer</code> and <code>EmpiricalDistribution</code>
-      for more details.  Note that <code>computeDistribution()</code> opens and closes
-      the input file by itself. 
+      See the javadoc for <code>ValueServer</code> and 
+      <code>EmpiricalDistribution</code> for more details.  Note that 
+      <code>computeDistribution()</code> opens and closes the input file
+       by itself. 
       </dd>
     </dl>
   </p>
@@ -273,7 +283,7 @@ for (int i = 0; i &lt; 1000; i++) {
       org.apache.commons.math.RandomGenerator</a> interface abstracts the public
       interface of <code>java.util.Random</code> and any implementation of this
       interface can be used as the source of random data for the commons-math 
-      data generation classes.  An abstract superclass, 
+      data generation classes.  An abstract base class, 
       <a href="../apidocs/org/apache/commons/math/random/AbstractRandomGenerator.html">
       org.apache.commons.math.AbstractRandomGenerator</a> is provided to make
       implementation easier.  This class provides default implementations of
