@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <!--
-   Copyright 2003-2004 The Apache Software Foundation
+   Copyright 2003-2005 The Apache Software Foundation
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -51,12 +51,12 @@
             is possible using the JDK</li>
         <li>Generating random samples and/or datasets that are "like" the data in an input file</li>
         <li>Finding a smooth curve that passes through a collection of points (interpolation)</li>
-        <li>Miscellaneous mathematical functions such as factorials and binomial
-            coefficients</li>
+        <li>Miscellaneous mathematical functions such as factorials, binomial
+            coefficients and "special functions" (e.g. gamma, beta functions)</li>
     </ul></p> 
     <p>
-    Commons Math is a new project and we are actively seeking ideas for additional components that
-    fit into the <a href="../index.html#summary">Commons Math vision</a> of a set of lightweight, 
+    We are actively seeking ideas for additional components that fit into the 
+    <a href="../index.html#summary">Commons Math vision</a> of a set of lightweight, 
     self-contained math/stat components useful for solving common programming problems.
     Suggestions for new components or enhancements to existing functionality are always welcome! 
     All feedback/suggestions for improvement should be sent to the 
@@ -93,7 +93,7 @@
     or exceptions that may be thrown if the preconditions are not met, and definitions for returned
     values/objects or state changes.</p>
     <p>
-     When the actual parameters provide to a method or the internal state of an object 
+     When the actual parameters provided to a method or the internal state of an object 
      make a computation meaningless, an IllegalArgumentException or IllegalStateException may
      be thrown. Exact conditions under which runtime exceptions (and any other exceptions) are 
      thrown are specified in the javadoc method comments.  In some cases, to be consistent with 
