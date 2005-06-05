@@ -410,8 +410,8 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
             data = new double[nRows][nCols];
             System.arraycopy(subMatrix, 0, data, 0, subMatrix.length);          
         }   
-        if (((nRows + row) > this.getRowDimension())
-                || (nCols + column > this.getColumnDimension()))
+        if (((nRows + row) > this.getRowDimension()) ||
+            (nCols + column > this.getColumnDimension()))
             throw new MatrixIndexException(
                     "invalid row or column index selection");                   
         for (int i = 0; i < nRows; i++) {
