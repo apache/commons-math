@@ -394,7 +394,25 @@ System.out.println(regression.getSlopeStdErr());
           Chi-Square</a> test statistics as well as 
           <a href="http://www.cas.lancs.ac.uk/glossary_v1.1/hyptest.html#pvalue">
           p-values</a> associated with <code>t-</code> and 
-          <code>Chi-Square</code> tests.
+          <code>Chi-Square</code> tests.  The interfaces are
+          <a href="../apidocs/org/apache/commons/math/stat/inference/TTest.html">
+          TTest</a> and
+          <a href="../apidocs/org/apache/commons/math/stat/inference/ChiSquareTest.html">
+          ChiSquareTest</a>, with
+          provided implementations
+          <a href="../apidocs/org/apache/commons/math/stat/inference/TTestImpl.html">
+          TTestImpl</a> and
+          <a href="../apidocs/org/apache/commons/math/stat/inference/ChiSquareTestImpl.html">
+          ChiSquareTestImpl</a>.
+          Abstract and default factories are provided, with configuration
+          optional using commons-discovery to specify the concrete factory.  The
+          <a href="../apidocs/org/apache/commons/math/stat/inference/TestUtils.html">
+          TestUtils</a> class provides static methods to get test instances or
+          to compute test statistics directly.  The examples below all use the
+          static methods in <code>TestUtils</code> to execute tests.  To get
+          test object instances, either use e.g., 
+          <code>TestUtils.getTTest()</code> or use the factory directly, e.g., 
+          <code>TestFactory.newInstance().createChiSquareTest()</code>.
         </p>
         <p>
           <strong>Implementation Notes</strong>
@@ -442,8 +460,7 @@ System.out.println(regression.getSlopeStdErr());
           <source>
 double[] observed = {1d, 2d, 3d}; 
 double mu = 2.5d;
-TTestImpl testStatistic = new TTestImpl();
-System.out.println(testStatistic.t(mu, observed); 
+System.out.println(TestUtils.t(mu, observed); 
           </source>
           The code above will display the t-statisitic associated with a one-sample
            t-test comparing the mean of the <code>observed</code> values against
@@ -460,7 +477,7 @@ sampleStats = SummaryStatistics.newInstance();
 for (int i = 0; i &lt; observed.length; i++) {
     sampleStats.addValue(observed[i]);
 }
-System.out.println(testStatistic.t(mu, observed); 
+System.out.println(TestUtils.t(mu, observed); 
 </source>
            </dd>
            <dd>To compute the p-value associated with the null hypothesis that the mean
@@ -469,8 +486,7 @@ System.out.println(testStatistic.t(mu, observed);
             <source>
 double[] observed = {1d, 2d, 3d}; 
 double mu = 2.5d;
-TTestImpl testStatistic = new TTestImpl();
-System.out.println(testStatistic.tTest(mu, observed);
+System.out.println(TestUtils.tTest(mu, observed);
            </source>
           The snippet above will display the p-value associated with the null
           hypothesis that the mean of the population from which the 
@@ -478,7 +494,7 @@ System.out.println(testStatistic.tTest(mu, observed);
           </dd>
           <dd>To perform the test using a fixed significance level, use:
           <source>
-testStatistic.tTest(mu, observed, alpha);  
+TestUtils.tTest(mu, observed, alpha);  
           </source>
           where <code>0 &lt; alpha &lt; 0.5</code> is the significance level of
           the test.  The boolean value returned will be <code>true</code> iff the 
@@ -495,24 +511,23 @@ testStatistic.tTest(mu, observed, alpha);
           <p>
           To compute the t-statistic:
           <source>
-TTestImpl testStatistic = new TTestImpl();
-testStatistic.pairedT(sample1, sample2);
+TestUtils.pairedT(sample1, sample2);
           </source>
            </p>
            <p>
            To compute the p-value:
            <source>
-testStatistic.pairedTTest(sample1, sample2);
+TestUtils.pairedTTest(sample1, sample2);
            </source> 
            </p>
            <p>
            To perform a fixed significance level test with alpha = .05:
            <source>
-testStatistic.pairedTTest(sample1, sample2, .05);    
+TestUtils.pairedTTest(sample1, sample2, .05);    
            </source>
            </p>
            The last example will return <code>true</code> iff the p-value
-           returned by <code>testStatistic.pairedTTest(sample1, sample2)</code>
+           returned by <code>TestUtils.pairedTTest(sample1, sample2)</code>
            is less than <code>.05</code>
            </dd> 
            <dd><strong>Example 2: </strong> unpaired, two-sided, two-sample t-test using
@@ -538,20 +553,19 @@ testStatistic.pairedTTest(sample1, sample2, .05);
            <p>
           To compute the t-statistic:
           <source>
-TTestImpl testStatistic = new TTestImpl();
-testStatistic.t(summary1, summary2);  
+TestUtils.t(summary1, summary2);  
           </source>
            </p>
            <p>
            To compute the p-value:
            <source>
-testStatistic.tTest(sample1, sample2);
+TestUtils.tTest(sample1, sample2);
            </source> 
            </p>
            <p>
            To perform a fixed significance level test with alpha = .05:
            <source>
-testStatistic.tTest(sample1, sample2, .05);    
+TestUtils.tTest(sample1, sample2, .05);    
            </source>
            </p> 
            <p>
@@ -566,10 +580,9 @@ testStatistic.tTest(sample1, sample2, .05);
           <code>long[]</code> array of observed counts and a <code>double[]</code>
           array of expected counts, use:
           <source>
-ChiSquareTestImpl testStatistic = new ChiSquareTestImpl();
 long[] observed = {10, 9, 11};
 double[] expected = {10.1, 9.8, 10.3};
-System.out.println(testStatistic.chiSquare(expected, observed));
+System.out.println(TestUtils.chiSquare(expected, observed));
           </source>
           the value displayed will be 
           <code>sum((expected[i] - observed[i])^2 / expected[i])</code>
@@ -577,7 +590,7 @@ System.out.println(testStatistic.chiSquare(expected, observed));
           <dd> To get the p-value associated with the null hypothesis that 
           <code>observed</code> conforms to <code>expected</code> use:
           <source>
-testStatistic.chiSquareTest(expected, observed);
+TestUtils.chiSquareTest(expected, observed);
           </source> 
           </dd>    
           <dd> To test the null hypothesis that <code>observed</code> conforms to 
@@ -585,7 +598,7 @@ testStatistic.chiSquareTest(expected, observed);
           (equiv. <code>100 * (1-alpha)%</code> confidence) where <code>
           0 &lt; alpha &lt; 1 </code> use:
           <source>
-testStatistic.chiSquareTest(expected, observed, alpha);
+TestUtils.chiSquareTest(expected, observed, alpha);
           </source>  
           The boolean value returned will be <code>true</code> iff the null hypothesis
           can be rejected with confidence <code>1 - alpha</code>.
@@ -595,7 +608,7 @@ testStatistic.chiSquareTest(expected, observed, alpha);
           chi-square test of independence</a> based on a two-dimensional (long[][])
           <code>counts</code> array viewed as a two-way table, use:
           <source>
-testStatistic.chiSquareTest(counts);
+TestUtils.chiSquareTest(counts);
           </source> 
           The rows of the 2-way table are 
           <code>count[0], ... , count[count.length - 1]. </code><br></br>
@@ -609,14 +622,14 @@ testStatistic.chiSquareTest(counts);
           the classifications represented by the counts in the columns of the input 2-way 
           table are independent of the rows, use:
           <source>
-testStatistic.chiSquareTest(counts);
+ TestUtils.chiSquareTest(counts);
           </source> 
           </dd>
           <dd>To perform a chi-square test of independence with <code>alpha</code>
           siginficance level (equiv. <code>100 * (1-alpha)%</code> confidence) 
           where <code>0 &lt; alpha &lt; 1 </code> use:
           <source>
-testStatistic.chiSquareTest(counts, alpha);
+TestUtils.chiSquareTest(counts, alpha);
           </source> 
           The boolean value returned will be <code>true</code> iff the null 
           hypothesis can be rejected with confidence <code>1 - alpha</code>.

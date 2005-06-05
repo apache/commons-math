@@ -26,9 +26,9 @@ import org.apache.commons.math.stat.descriptive.SummaryStatistics;
  * @version $Revision$ $Date$
  */
 
-public final class TTestTest extends TestCase {
+public class TTestTest extends TestCase {
 
-    private TTestImpl testStatistic = new TTestImpl();
+    protected TTest testStatistic = new TTestImpl();
     
     private double[] tooShortObs = { 1.0 };
     private double[] nullObserved = null;

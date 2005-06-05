@@ -25,9 +25,9 @@ import junit.framework.TestSuite;
  * @version $Revision$ $Date$
  */
 
-public final class ChiSquareTestTest extends TestCase {
+public class ChiSquareTestTest extends TestCase {
 
-    private ChiSquareTestImpl testStatistic = new ChiSquareTestImpl();
+    protected ChiSquareTest testStatistic = new ChiSquareTestImpl();
 
     public ChiSquareTestTest(String name) {
         super(name);
