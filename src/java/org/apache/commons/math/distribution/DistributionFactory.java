@@ -62,7 +62,7 @@ public abstract class DistributionFactory {
             DiscoverClass dc = new DiscoverClass();
             factory = (DistributionFactory) dc.newInstance(
                 DistributionFactory.class,
-                "org.apache.commons.math.distribution.TestFactoryImpl");
+                "org.apache.commons.math.distribution.DistributionFactoryImpl");
         } catch(Throwable t) {
             return new DistributionFactoryImpl();
         }
