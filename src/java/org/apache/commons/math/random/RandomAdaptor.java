@@ -47,7 +47,7 @@ public class RandomAdaptor extends Random implements RandomGenerator {
      * Factory method to create a <code>Random</code> using the supplied
      * <code>RandomGenerator</code>.
      * 
-     * @param randomGenerator
+     * @param randomGenerator  wrapped RandomGenerator instance
      * @return a Random instance wrapping the RandomGenerator
      */
     public static Random createAdaptor(RandomGenerator randomGenerator) {
