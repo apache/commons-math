@@ -33,10 +33,10 @@
       </subsection>
       <subsection name="7.2 Complex Numbers" href="complex">
         <p>
-		  <a href="../apidocs/org/apache/commons/math/complex/Complex.html">
-		  org.apache.commons.math.complex.Complex</a> provides a complex number
-		  type that forms the basis for the complex functionality found in 
-		  commons-math.
+          <a href="../apidocs/org/apache/commons/math/complex/Complex.html">
+          org.apache.commons.math.complex.Complex</a> provides a complex number
+          type that forms the basis for the complex functionality found in 
+          commons-math.
         </p>
         <p>
           To create a complex number, simply call the constructor passing in two
@@ -61,12 +61,12 @@ Complex answer = lhs.add(rhs);       // add two complex numbers
       </subsection>
       <subsection name="7.3 Complex Transcendental Functions" href="function">
         <p>
-		  <a href="../apidocs/org/apache/commons/math/complex/ComplexUtils.html">
-		  org.apache.commons.math.complex.ComplexMath</a> provides
-		  implementations of serveral transcendental functions involving complex
-		  number arguments.  These operations provide the means to compute the
-		  log, sine, tangent and, other complex values similar to the real
-		  number functions found in <code>java.lang.Math</code>:
+          <a href="../apidocs/org/apache/commons/math/complex/ComplexUtils.html">
+          org.apache.commons.math.complex.ComplexMath</a> provides
+          implementations of serveral transcendental functions involving complex
+          number arguments.  These operations provide the means to compute the
+          log, sine, tangent and, other complex values similar to the real
+          number functions found in <code>java.lang.Math</code>:
           <source>Complex first = new Complex(1.0, 3.0);
 Complex second = new Complex(2.0, 5.0);
 
@@ -79,11 +79,11 @@ Complex answer = ComplexMath.log(first);          // natural logarithm.
         <p>
           <code>Complex</code> instances can be converted to and from strings
           using the<a href="../apidocs/org/apache/commons/math/complex/ComplexFormat.html">
-		  org.apache.commons.math.complex.ComplexFormat</a> class.
-		  <code>ComplexFormat</code> is a <code>java.text.Format</code>
-		  extension and, as such, is used like other formatting objects (e.g.
-		  <code>java.text.SimpleDateFormat</code>):
-		  <source>ComplexFormat format = new ComplexFormat(); // default format
+          org.apache.commons.math.complex.ComplexFormat</a> class.
+          <code>ComplexFormat</code> is a <code>java.text.Format</code>
+          extension and, as such, is used like other formatting objects (e.g.
+          <code>java.text.SimpleDateFormat</code>):
+          <source>ComplexFormat format = new ComplexFormat(); // default format
 Complex c = new Complex(1.1111, 2.2222);
 String s = format.format(c); // s contains "1.11 + 2.22i"</source>
         </p>
@@ -110,20 +110,20 @@ nf.setMaximumFractionDigits(1);
 // create complex format with custom number formats
 cf = new ComplexFormat(nf, nf2);
 s = format.format(c); // s contains "1.110 + 2.2i"</source>
-		</p>
-		<p>
-		  Another formatting customization provided by
-		  <code>ComplexFormat</code> is the text used for the imaginary
-		  designation.  By default, the imaginary notation is "i" but, it can be
-		  manipulated using the <code>setImaginaryCharacter</code> method.
-		</p>
-		<p>
-		  Formatting inverse operation, parsing, can also be performed by
-		  <code>ComplexFormat</code>.  Parse a complex number from a string,
-		  simply call the <code>parse</code> method:
-		  <source>ComplexFormat cf = new ComplexFormat();
+        </p>
+        <p>
+          Another formatting customization provided by
+          <code>ComplexFormat</code> is the text used for the imaginary
+          designation.  By default, the imaginary notation is "i" but, it can be
+          manipulated using the <code>setImaginaryCharacter</code> method.
+        </p>
+        <p>
+          Formatting inverse operation, parsing, can also be performed by
+          <code>ComplexFormat</code>.  Parse a complex number from a string,
+          simply call the <code>parse</code> method:
+          <source>ComplexFormat cf = new ComplexFormat();
 Complex c = cf.parse("1.110 + 2.222i");</source>
-		</p>
+        </p>
       </subsection>
     </section>
   </body>

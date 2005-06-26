@@ -43,8 +43,8 @@
    </section>
    <section name='Distribution Contents'>
    <subsection name="Binary Releases (tar.gz and zip)">
-    	<source>
-    	
+        <source>
+        
    Length     Date   Time    Name
   --------    ----   ----    ----
          0  01-29-04 09:31   commons-math-0.1-dev/
@@ -61,7 +61,7 @@
      31605  01-29-04 09:31   commons-math-0.1-dev/commons-logging-1.0.3.jar
     169763  01-29-04 09:31   commons-math-0.1-dev/commons-lang-2.0.jar
     
-    	</source>
+        </source>
    </subsection>
    <subsection name="Source Releases">
     <p>
@@ -98,7 +98,7 @@
      *jar release* (jar)
     </p>
     <source>
-  	
+    
 
  Archive:  commons-math-0.1-dev.jar
    Length     Date   Time    Name

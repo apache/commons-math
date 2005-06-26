@@ -68,7 +68,7 @@ System.out.println(p.getRowDimension()); // 2
 
 // Invert p
 RealMatrix pInverse = p.inverse();
-		 </source>
+         </source>
         </p>         
       </subsection>
       <subsection name="3.3 Solving linear systems" href="solve">

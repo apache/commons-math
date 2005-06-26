@@ -140,10 +140,10 @@ for( int i = 0; i &lt; inputArray.length; i++) {
 double mean = stats.getMean();
 double std = stats.getStandardDeviation();
 double median = stats.getMedian();
-  	  	</source>
-  	    </dd>
-  	    <dd>Using the <code>SummaryStatistics</code> aggregate (values are 
-  	    <strong>not</strong> stored in memory):
+        </source>
+        </dd>
+        <dd>Using the <code>SummaryStatistics</code> aggregate (values are 
+        <strong>not</strong> stored in memory):
        <source>
 // Get a SummaryStatistics instance using factory method
 SummaryStatistics stats = SummaryStatistics.newInstance(); 
@@ -160,9 +160,9 @@ in.close();
 double mean = stats.getMean();
 double std = stats.getStandardDeviation();
 //double median = stats.getMedian(); &lt;-- NOT AVAILABLE
-  	  	</source>
-  	    </dd>	
-  	     <dd>Using the <code>StatUtils</code> utility class:
+        </source>
+        </dd>   
+         <dd>Using the <code>StatUtils</code> utility class:
        <source>
 // Compute statistics directly from the array
 // assume values is a double[] array
@@ -172,14 +172,14 @@ double median = StatUtils.percentile(50);
 
 // Compute the mean of the first three values in the array 
 mean = StatuUtils.mean(values, 0, 3); 
-  	  	</source>
-  	    </dd>  
-  	    <dt>Maintain a "rolling mean" of the most recent 100 values from 
-  	    an input stream</dt>
-  	    <br></br>
-  	    <dd>Use a <code>DescriptiveStatistics</code> instance with 
-  	    window size set to 100
-  	    <source>
+        </source>
+        </dd>  
+        <dt>Maintain a "rolling mean" of the most recent 100 values from 
+        an input stream</dt>
+        <br></br>
+        <dd>Use a <code>DescriptiveStatistics</code> instance with 
+        window size set to 100
+        <source>
 // Create a DescriptiveStats instance and set the window size to 100
 DescriptiveStatistics stats = DescriptiveStatistics.newInstance();
 stats.setWindowSize(100);
@@ -197,10 +197,10 @@ while (line != null) {
        }
 }
 in.close();
-  	    </source>
-  	    </dd>  	    
-  	    </dl>
-  	   </p>
+        </source>
+        </dd>       
+        </dl>
+       </p>
       </subsection>  
       <subsection name="1.3 Frequency distributions" href="frequency">
         <p>
