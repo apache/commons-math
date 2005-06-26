@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
   -->
-<project xmlns:deploy="deploy" default="jar:jar" >
+<project xmlns:deploy="deploy" default="jar:jar" xmlns:ant="jelly:ant"> 
 
   <!-- ================================================================== -->
   <!-- START : C O M M O N S - B U I L D                                  -->
@@ -37,15 +37,22 @@
 		<attainGoal name="dist" />
   </goal>
   
+  <preGoal name="dist">
+    <ant:xslt in="xdocs/changes.xml" out="release-notes.txt"
+      style="release-notes.xsl"/>
+  </preGoal>
+
   <preGoal name="dist:build-bin">  
     <copy todir="${maven.dist.bin.assembly.dir}">
       <fileset file='${basedir}/NOTICE.txt'/>
+      <fileset file='${basedir}/release-notes.txt'/>
     </copy>
   </preGoal>
   
   <preGoal name="dist:build-src">
     <copy todir="${maven.dist.src.assembly.dir}">
       <fileset file='${basedir}/NOTICE.txt'/>
+      <fileset file='${basedir}/release-notes.txt'/>
     </copy>
     <delete dir="${maven.dist.src.assembly.dir}/src/experimental" />
   </preGoal>
