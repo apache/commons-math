@@ -80,7 +80,7 @@ NEW FEATURES
 <xsl:variable name="pad" select="'   '"/>
 <xsl:template name="keep.breaks">
   <xsl:param name="input"/>
-  <xsl:if test="string-length($input) &gt; 0">      
+  <xsl:if test="string-length($input) &gt; 0">
     <xsl:choose>
       <xsl:when test="contains($input,$pad)">
         <xsl:variable name="init" select="normalize-space(substring-before($input,$pad))"/>
@@ -97,7 +97,7 @@ NEW FEATURES
       <xsl:otherwise>
         <xsl:value-of select="normalize-space($input)"/>
       </xsl:otherwise>
-    </xsl:choose>           
-  </xsl:if>    
+    </xsl:choose>
+  </xsl:if>
 </xsl:template>
 </xsl:stylesheet>
