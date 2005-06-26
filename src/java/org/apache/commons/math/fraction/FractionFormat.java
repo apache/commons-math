@@ -134,8 +134,8 @@ public class FractionFormat extends Format implements Serializable {
     
     /**
      * Create a default number format.  The default number format is based on
-     * {@link NumberFormat#getInstance()} with the only customizing is the
-     * maximum number of fraction digits, which is set to 2.  
+     * {@link NumberFormat#getNumberInstance(java.util.Locale)} with the only
+     * customizing is the maximum number of fraction digits, which is set to 0.  
      * @return the default number format.
      */
     protected static NumberFormat getDefaultNumberFormat() {
@@ -144,13 +144,14 @@ public class FractionFormat extends Format implements Serializable {
     
     /**
      * Create a default number format.  The default number format is based on
-     * {@link NumberFormat#getInstance(java.util.Locale)} with the only
-     * customizing is the maximum number of fraction digits, which is set to 2.  
+     * {@link NumberFormat#getNumberInstance(java.util.Locale)} with the only
+     * customizing is the maximum number of fraction digits, which is set to 0.  
      * @param locale the specific locale used by the format.
      * @return the default number format specific to the given locale.
      */
     private static NumberFormat getDefaultNumberFormat(Locale locale) {
-        NumberFormat nf = NumberFormat.getIntegerInstance(locale);
+        NumberFormat nf = NumberFormat.getNumberInstance(locale);
+        nf.setMaximumFractionDigits(0);
         return nf;
     }
     
