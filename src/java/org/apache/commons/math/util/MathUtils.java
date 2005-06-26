@@ -530,13 +530,15 @@ public final class MathUtils {
 
     /**
      * Returns the least common multiple between two integer values.
+     * 
      * @param a the first integer value.
      * @param b the second integer value.
      * @return the least common multiple between a and b.
+     * @throws ArithmeticException if the lcm is too large to store as an int
      * @since 1.1
      */
     public static int lcm(int a, int b) {
-        return Math.abs(a / gcd(a, b) * b);
+        return Math.abs(mulAndCheck(a / gcd(a, b) , b));
     }
 
     /**

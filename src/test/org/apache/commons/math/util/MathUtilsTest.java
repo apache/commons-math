@@ -463,6 +463,13 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(150, MathUtils.lcm(-a, b));
         assertEquals(150, MathUtils.lcm(a, -b));
         assertEquals(2310, MathUtils.lcm(a, c));
+        
+        try {
+            MathUtils.lcm(Integer.MAX_VALUE, Integer.MAX_VALUE - 1);
+            fail("Expecting ArithmeticException");
+        } catch (ArithmeticException ex) {
+            // expected
+        }
     }
     
     public void testRoundFloat() {
