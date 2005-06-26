@@ -73,6 +73,14 @@ public class Fraction extends Number implements Comparable {
     {
         double r0 = value;
         int a0 = (int)Math.floor(r0);
+
+        // check for (almost) integer arguments, which should not go
+        // to iterations.
+        if (Math.abs(a0 - value) < epsilon) {
+            this.numerator = a0;
+            this.denominator = 1;
+            return;
+        }
         
         int p0 = 1;
         int q0 = 0;

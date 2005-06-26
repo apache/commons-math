@@ -39,13 +39,16 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
     <release version="1.1" date="In Development"  
        description="Jakarta Commons Math 1.1 - Development">
-      <action dev="psteitz" type="fix" issue="32663"  due-to="Mary Ellen Foster">
-        Added factories for TTest, ChiSquareTest and TestUtils class with
-        static methods to create instances and execute tests.
+      <action dev="psteitz" type="update" issue="35434"  due-to="Jörg Weimar">
+        Changed Fraction(double) to correctly handle near-integral arguments.
       </action>
       <action dev="psteitz" type="update" issue="35431"  due-to="Jörg Weimar">
         Changed lcm to throw ArithmeticException (instead of returning bogus
         value) if the result is too large to store as an integer.
+      </action>
+      <action dev="psteitz" type="fix" issue="32663"  due-to="Mary Ellen Foster">
+        Added factories for TTest, ChiSquareTest and TestUtils class with
+        static methods to create instances and execute tests.
       </action>
       <action dev="psteitz" type="update" issue="35042"  due-to="Paul Field">
         Eliminated repeated endpoint function evalutations in BrentSolver, SecantSolver.

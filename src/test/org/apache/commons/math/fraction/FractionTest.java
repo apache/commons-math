@@ -53,6 +53,14 @@ public class FractionTest extends TestCase {
         } catch (ArithmeticException ex) {
             // success
         }
+        try {        
+            assertFraction(0, 1, new Fraction(0.00000000000001));
+            assertFraction(2, 5, new Fraction(0.40000000000001));
+            assertFraction(15, 1, new Fraction(15.0000000000001));
+            
+        } catch (ConvergenceException ex) {
+            fail(ex.getMessage());
+        }
     }
     
     public void testCompareTo() {
