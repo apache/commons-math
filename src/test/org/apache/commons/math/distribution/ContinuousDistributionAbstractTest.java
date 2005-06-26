@@ -181,7 +181,7 @@ public abstract class ContinuousDistributionAbstractTest extends TestCase {
             double upper = Math.max(cumulativeTestPoints[i], cumulativeTestPoints[i -1]);
             double lower = Math.min(cumulativeTestPoints[i], cumulativeTestPoints[i -1]);
             double diff = distribution.cumulativeProbability(upper) - 
-            	distribution.cumulativeProbability(lower);
+                distribution.cumulativeProbability(lower);
             double direct = distribution.cumulativeProbability(lower, upper);
             TestUtils.assertEquals("Inconsistent cumulative probabilities for (" 
                     + lower + "," + upper + ")", diff, direct, tolerance);

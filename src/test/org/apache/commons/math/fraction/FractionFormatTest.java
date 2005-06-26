@@ -23,17 +23,17 @@ import junit.framework.TestCase;
 
 public class FractionFormatTest extends TestCase {
  
-	FractionFormat properFormat = null;
-	FractionFormat improperFormat = null;
+    FractionFormat properFormat = null;
+    FractionFormat improperFormat = null;
 
     protected Locale getLocale() {
         return Locale.getDefault();
     }
 
-	protected void setUp() throws Exception {
-		properFormat = FractionFormat.getProperInstance(getLocale());
-		improperFormat = FractionFormat.getImproperInstance(getLocale());
-	}
+    protected void setUp() throws Exception {
+        properFormat = FractionFormat.getProperInstance(getLocale());
+        improperFormat = FractionFormat.getImproperInstance(getLocale());
+    }
    
     public void testFormat() {
         Fraction c = new Fraction(1, 2);
@@ -46,7 +46,7 @@ public class FractionFormatTest extends TestCase {
         assertEquals(expected, actual);
     }
 
-	public void testFormatNegative() {
+    public void testFormatNegative() {
         Fraction c = new Fraction(-1, 2);
         String expected = "-1 / 2";
 
@@ -55,9 +55,9 @@ public class FractionFormatTest extends TestCase {
 
         actual = improperFormat.format(c); 
         assertEquals(expected, actual);
-	}
+    }
 
-	public void testFormatZero() {
+    public void testFormatZero() {
         Fraction c = new Fraction(0, 1);
         String expected = "0 / 1";
 
@@ -66,7 +66,7 @@ public class FractionFormatTest extends TestCase {
 
         actual = improperFormat.format(c); 
         assertEquals(expected, actual);
-	}
+    }
     
     public void testFormatImproper() {
         Fraction c = new Fraction(5, 3);

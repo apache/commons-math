@@ -25,28 +25,28 @@ public class DistributionFactoryImplTest extends TestCase {
     /** */
     private DistributionFactory factory;
     
-	/**
-	 * Constructor for DistributionFactoryImplTest.
-	 * @param name
-	 */
-	public DistributionFactoryImplTest(String name) {
-		super(name);
-	}
-	/**
-	 * @throws java.lang.Exception
-	 */
-	protected void setUp() throws Exception {
-		super.setUp();
+    /**
+     * Constructor for DistributionFactoryImplTest.
+     * @param name
+     */
+    public DistributionFactoryImplTest(String name) {
+        super(name);
+    }
+    /**
+     * @throws java.lang.Exception
+     */
+    protected void setUp() throws Exception {
+        super.setUp();
         factory = new DistributionFactoryImpl();
-	}
+    }
 
-	/**
-	 * @throws java.lang.Exception
-	 */
-	protected void tearDown() throws Exception {
+    /**
+     * @throws java.lang.Exception
+     */
+    protected void tearDown() throws Exception {
         factory = null;
-		super.tearDown();
-	}
+        super.tearDown();
+    }
     
     public void testCreateChiSquareDistributionNegative(){
         try {

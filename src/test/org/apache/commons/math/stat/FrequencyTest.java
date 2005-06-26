@@ -47,7 +47,7 @@ public final class FrequencyTest extends TestCase {
     }
     
     public void setUp() {  
-    	f = new Frequency();
+        f = new Frequency();
     }
     
     public static Test suite() {
@@ -139,21 +139,21 @@ public final class FrequencyTest extends TestCase {
     
     /** test adding incomparable values */
     public void testAdd() {
-    	char aChar = 'a';
-    	char bChar = 'b';
-    	String aString = "a";
-    	f.addValue(aChar);
-    	f.addValue(bChar);
-    	try {
-    		f.addValue(aString); 	
-    		fail("Expecting IllegalArgumentException");
-    	} catch (IllegalArgumentException ex) {
-    		// expected
-    	}
-    	assertEquals("a pct",0.5,f.getPct(aChar),tolerance);
-    	assertEquals("b cum pct",1.0,f.getCumPct(bChar),tolerance);
-    	assertEquals("a string pct",0.0,f.getPct(aString),tolerance);
-    	assertEquals("a string cum pct",0.0,f.getCumPct(aString),tolerance);
+        char aChar = 'a';
+        char bChar = 'b';
+        String aString = "a";
+        f.addValue(aChar);
+        f.addValue(bChar);
+        try {
+            f.addValue(aString);    
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+        assertEquals("a pct",0.5,f.getPct(aChar),tolerance);
+        assertEquals("b cum pct",1.0,f.getCumPct(bChar),tolerance);
+        assertEquals("a string pct",0.0,f.getPct(aString),tolerance);
+        assertEquals("a string cum pct",0.0,f.getCumPct(aString),tolerance);
     }
     
     /** test empty table */

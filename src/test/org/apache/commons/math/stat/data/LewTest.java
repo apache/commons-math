@@ -21,7 +21,7 @@ package org.apache.commons.math.stat.data;
  */
 public class LewTest extends CertifiedDataAbstractTest {
 
-	protected String getResourceName() {
-		return "org/apache/commons/math/stat/data/Lew.txt";
-	}
+    protected String getResourceName() {
+        return "org/apache/commons/math/stat/data/Lew.txt";
+    }
 }

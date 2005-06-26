@@ -80,32 +80,32 @@ public final class SummaryStatisticsImplTest extends TestCase {
     public void testN0andN1Conditions() throws Exception {
         assertTrue("Mean of n = 0 set should be NaN", 
             Double.isNaN( u.getMean() ) );
-		assertTrue("Standard Deviation of n = 0 set should be NaN", 
+        assertTrue("Standard Deviation of n = 0 set should be NaN", 
             Double.isNaN( u.getStandardDeviation() ) );
-		assertTrue("Variance of n = 0 set should be NaN", 
+        assertTrue("Variance of n = 0 set should be NaN", 
             Double.isNaN(u.getVariance() ) );
-		
-		/* n=1 */
-		u.addValue(one);
-		assertTrue("mean should be one (n = 1)", 
-			u.getMean() == one);
-		assertTrue("geometric should be one (n = 1) instead it is " + u.getGeometricMean(), 
-			u.getGeometricMean() == one);
-		assertTrue("Std should be zero (n = 1)", 
-			u.getStandardDeviation() == 0.0);
-		assertTrue("variance should be zero (n = 1)", 
-			u.getVariance() == 0.0);
-					
-		/* n=2 */				
-		u.addValue(twoF);
-		assertTrue("Std should not be zero (n = 2)", 
-			u.getStandardDeviation() != 0.0);
-		assertTrue("variance should not be zero (n = 2)", 
-			u.getVariance() != 0.0);
+        
+        /* n=1 */
+        u.addValue(one);
+        assertTrue("mean should be one (n = 1)", 
+            u.getMean() == one);
+        assertTrue("geometric should be one (n = 1) instead it is " + u.getGeometricMean(), 
+            u.getGeometricMean() == one);
+        assertTrue("Std should be zero (n = 1)", 
+            u.getStandardDeviation() == 0.0);
+        assertTrue("variance should be zero (n = 1)", 
+            u.getVariance() == 0.0);
+                    
+        /* n=2 */               
+        u.addValue(twoF);
+        assertTrue("Std should not be zero (n = 2)", 
+            u.getStandardDeviation() != 0.0);
+        assertTrue("variance should not be zero (n = 2)", 
+            u.getVariance() != 0.0);
             
     }
 
-    public void testProductAndGeometricMean() throws Exception {  	    	
+    public void testProductAndGeometricMean() throws Exception {            
         u.addValue( 1.0 );
         u.addValue( 2.0 );
         u.addValue( 3.0 );

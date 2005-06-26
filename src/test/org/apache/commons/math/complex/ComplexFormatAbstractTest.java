@@ -24,18 +24,18 @@ import junit.framework.TestCase;
 
 public abstract class ComplexFormatAbstractTest extends TestCase {
  
-	ComplexFormat complexFormat = null;
-	ComplexFormat complexFormatJ = null;
+    ComplexFormat complexFormat = null;
+    ComplexFormat complexFormatJ = null;
 
     protected abstract Locale getLocale();
 
     protected abstract char getDecimalCharacter();
     
-	protected void setUp() throws Exception {
-		complexFormat = ComplexFormat.getInstance(getLocale());
-		complexFormatJ = ComplexFormat.getInstance(getLocale());
+    protected void setUp() throws Exception {
+        complexFormat = ComplexFormat.getInstance(getLocale());
+        complexFormatJ = ComplexFormat.getInstance(getLocale());
         complexFormatJ.setImaginaryCharacter("j");
-	}
+    }
    
     public void testSimpleNoDecimals() {
         Complex c = new Complex(1, 1);
@@ -44,94 +44,94 @@ public abstract class ComplexFormatAbstractTest extends TestCase {
         assertEquals(expected, actual);
     }
 
-	public void testSimpleWithDecimals() {
-		Complex c = new Complex(1.23, 1.43);
+    public void testSimpleWithDecimals() {
+        Complex c = new Complex(1.23, 1.43);
         String expected = "1" + getDecimalCharacter() + "23 + 1" + getDecimalCharacter() + "43i";
         String actual = complexFormat.format(c); 
         assertEquals(expected, actual);
-	}
+    }
 
-	public void testSimpleWithDecimalsTrunc() {
-		Complex c = new Complex(1.2323, 1.4343);
+    public void testSimpleWithDecimalsTrunc() {
+        Complex c = new Complex(1.2323, 1.4343);
         String expected = "1" + getDecimalCharacter() + "23 + 1" + getDecimalCharacter() + "43i";
         String actual = complexFormat.format(c); 
         assertEquals(expected, actual);
-	}
+    }
 
-	public void testNegativeReal() {
-		Complex c = new Complex(-1.2323, 1.4343);
+    public void testNegativeReal() {
+        Complex c = new Complex(-1.2323, 1.4343);
         String expected = "-1" + getDecimalCharacter() + "23 + 1" + getDecimalCharacter() + "43i";
         String actual = complexFormat.format(c); 
         assertEquals(expected, actual);
-	}
+    }
 
-	public void testNegativeImaginary() {
-		Complex c = new Complex(1.2323, -1.4343);
+    public void testNegativeImaginary() {
+        Complex c = new Complex(1.2323, -1.4343);
         String expected = "1" + getDecimalCharacter() + "23 - 1" + getDecimalCharacter() + "43i";
         String actual = complexFormat.format(c); 
         assertEquals(expected, actual);
-	}
+    }
 
-	public void testNegativeBoth() {
-		Complex c = new Complex(-1.2323, -1.4343);
+    public void testNegativeBoth() {
+        Complex c = new Complex(-1.2323, -1.4343);
         String expected = "-1" + getDecimalCharacter() + "23 - 1" + getDecimalCharacter() + "43i";
         String actual = complexFormat.format(c); 
         assertEquals(expected, actual);
-	}
+    }
 
-	public void testZeroReal() {
-		Complex c = new Complex(0.0, -1.4343);
+    public void testZeroReal() {
+        Complex c = new Complex(0.0, -1.4343);
         String expected = "0 - 1" + getDecimalCharacter() + "43i";
         String actual = complexFormat.format(c); 
         assertEquals(expected, actual);
-	}
+    }
 
-	public void testZeroImaginary() {
-		Complex c = new Complex(30.233, 0);
+    public void testZeroImaginary() {
+        Complex c = new Complex(30.233, 0);
         String expected = "30" + getDecimalCharacter() + "23";
         String actual = complexFormat.format(c); 
         assertEquals(expected, actual);
-	}
+    }
 
-	public void testDifferentImaginaryChar() {
-		Complex c = new Complex(1, 1);
+    public void testDifferentImaginaryChar() {
+        Complex c = new Complex(1, 1);
         String expected = "1 + 1j";
         String actual = complexFormatJ.format(c); 
         assertEquals(expected, actual);
-	}
-	
-	public void testStaticFormatComplex() {
+    }
+    
+    public void testStaticFormatComplex() {
         Locale defaultLocal = Locale.getDefault();
         Locale.setDefault(getLocale());
         
-		Complex c = new Complex(232.222, -342.33);
+        Complex c = new Complex(232.222, -342.33);
         String expected = "232" + getDecimalCharacter() + "22 - 342" + getDecimalCharacter() + "33i";
         String actual = ComplexFormat.formatComplex(c); 
         assertEquals(expected, actual);
         
         Locale.setDefault(defaultLocal);
-	}
+    }
 
-	public void testNan() {
-		Complex c = new Complex(Double.NaN, Double.NaN);
+    public void testNan() {
+        Complex c = new Complex(Double.NaN, Double.NaN);
         String expected = "(NaN) + (NaN)i";
         String actual = complexFormat.format(c); 
         assertEquals(expected, actual);
-	}
+    }
 
-	public void testPositiveInfinity() {
-		Complex c = new Complex(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+    public void testPositiveInfinity() {
+        Complex c = new Complex(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
         String expected = "(Infinity) + (Infinity)i";
         String actual = complexFormat.format(c); 
         assertEquals(expected, actual);
-	}
+    }
 
-	public void testNegativeInfinity() {
-		Complex c = new Complex(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
+    public void testNegativeInfinity() {
+        Complex c = new Complex(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
         String expected = "(-Infinity) - (Infinity)i";
         String actual = complexFormat.format(c); 
         assertEquals(expected, actual);
-	}
+    }
     
     public void testParseSimpleNoDecimals() {
         String source = "1 + 1i";

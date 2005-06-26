@@ -78,8 +78,8 @@ public final class DescriptiveStatisticsImplTest extends TestCase {
     }     
     
     public void testN0andN1Conditions() throws Exception {
-    	DescriptiveStatistics u = DescriptiveStatistics.newInstance(); 
-    	    	
+        DescriptiveStatistics u = DescriptiveStatistics.newInstance(); 
+                
             assertTrue("Mean of n = 0 set should be NaN", 
                 Double.isNaN( u.getMean() ) );
             assertTrue("Standard Deviation of n = 0 set should be NaN", 
@@ -94,29 +94,29 @@ public final class DescriptiveStatisticsImplTest extends TestCase {
             assertTrue( "StdDev of n = 1 set should be zero, instead it is: " 
                 + u.getStandardDeviation(), u.getStandardDeviation() == 0);
             assertTrue( "Variance of n = 1 set should be zero", 
-                u.getVariance() == 0);	
+                u.getVariance() == 0);  
     }
     
     public void testSkewAndKurtosis() {
-    	DescriptiveStatistics u = DescriptiveStatistics.newInstance(); 
-    	
-    	double[] testArray = 
+        DescriptiveStatistics u = DescriptiveStatistics.newInstance(); 
+        
+        double[] testArray = 
         { 12.5, 12, 11.8, 14.2, 14.9, 14.5, 21, 8.2, 10.3, 11.3, 14.1,
           9.9, 12.2, 12, 12.1, 11, 19.8, 11, 10, 8.8, 9, 12.3 };
-  	  	for( int i = 0; i < testArray.length; i++) {
-  	  		u.addValue( testArray[i]);
-  	  	}
-  	  	
-		assertEquals("mean", 12.40455, u.getMean(), 0.0001);
-		assertEquals("variance", 10.00236, u.getVariance(), 0.0001);
-		assertEquals("skewness", 1.437424, u.getSkewness(), 0.0001);
-  	  	assertEquals("kurtosis", 2.37719, u.getKurtosis(), 0.0001);
+        for( int i = 0; i < testArray.length; i++) {
+            u.addValue( testArray[i]);
+        }
+        
+        assertEquals("mean", 12.40455, u.getMean(), 0.0001);
+        assertEquals("variance", 10.00236, u.getVariance(), 0.0001);
+        assertEquals("skewness", 1.437424, u.getSkewness(), 0.0001);
+        assertEquals("kurtosis", 2.37719, u.getKurtosis(), 0.0001);
     }
 
     public void testProductAndGeometricMean() throws Exception {
-    	DescriptiveStatistics u = DescriptiveStatistics.newInstance(); 
+        DescriptiveStatistics u = DescriptiveStatistics.newInstance(); 
         u.setWindowSize(10);
-    	    	
+                
         u.addValue( 1.0 );
         u.addValue( 2.0 );
         u.addValue( 3.0 );

@@ -23,24 +23,24 @@ import junit.framework.TestCase;
  * @version $Revision$ $Date$
  */
 public class ContinuedFractionTest extends TestCase {
-	/**
-	 * Constructor for ContinuedFractionTest.
-	 * @param name
-	 */
-	public ContinuedFractionTest(String name) {
-		super(name);
-	}
+    /**
+     * Constructor for ContinuedFractionTest.
+     * @param name
+     */
+    public ContinuedFractionTest(String name) {
+        super(name);
+    }
 
-	public void testGoldenRation(){
+    public void testGoldenRation(){
         ContinuedFraction cf = new ContinuedFraction() {
-			public double getA(int n, double x) {
-				return 1.0;
-			}
+            public double getA(int n, double x) {
+                return 1.0;
+            }
 
-			public double getB(int n, double x) {
-				return 1.0;
-			}
-		};
+            public double getB(int n, double x) {
+                return 1.0;
+            }
+        };
         
         try {
             double gr = cf.evaluate(0.0, 10e-9);
@@ -48,5 +48,5 @@ public class ContinuedFractionTest extends TestCase {
         } catch (MathException e) {
             fail(e.getMessage());
         }
-	}
+    }
 }

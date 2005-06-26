@@ -38,17 +38,17 @@ public class TestUtils {
     }
 
     public static void assertEquals(double expected, double actual, double delta) {
-    	assertEquals(null, expected, actual, delta);
+        assertEquals(null, expected, actual, delta);
     }
 
     public static void assertEquals(String msg, double expected, double actual, double delta) {
-    	// check for NaN
-    	if(Double.isNaN(expected)){
-    		Assert.assertTrue("" + actual + " is not NaN.",
-    		    Double.isNaN(actual));
-    	} else {
-    		Assert.assertEquals(msg, expected, actual, delta);
-    	}
+        // check for NaN
+        if(Double.isNaN(expected)){
+            Assert.assertTrue("" + actual + " is not NaN.",
+                Double.isNaN(actual));
+        } else {
+            Assert.assertEquals(msg, expected, actual, delta);
+        }
     }
     
     /**

@@ -100,14 +100,14 @@ public class GammaDistributionTest extends ContinuousDistributionAbstractTest {
 
     private void testProbability(double x, double a, double b, double expected) throws Exception {
         DistributionFactory factory = DistributionFactory.newInstance();
-		GammaDistribution distribution = factory.createGammaDistribution( a, b );
+        GammaDistribution distribution = factory.createGammaDistribution( a, b );
         double actual = distribution.cumulativeProbability(x);
         assertEquals("probability for " + x, expected, actual, 10e-4);
     }
 
     private void testValue(double expected, double a, double b, double p) throws Exception {
-		DistributionFactory factory = DistributionFactory.newInstance();
-		GammaDistribution distribution = factory.createGammaDistribution( a, b );
+        DistributionFactory factory = DistributionFactory.newInstance();
+        GammaDistribution distribution = factory.createGammaDistribution( a, b );
         double actual = distribution.inverseCumulativeProbability(p);
         assertEquals("critical value for " + p, expected, actual, 10e-4);
     }

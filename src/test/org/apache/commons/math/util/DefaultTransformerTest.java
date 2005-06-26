@@ -32,7 +32,7 @@ public class DefaultTransformerTest extends TestCase {
         double expected = 1.0;
         Double input = new Double(expected);
         DefaultTransformer t = new DefaultTransformer();
-		assertEquals(expected, t.transform(input), 1.0e-4);
+        assertEquals(expected, t.transform(input), 1.0e-4);
     }
     
     /**
@@ -41,11 +41,11 @@ public class DefaultTransformerTest extends TestCase {
     public void testTransformNull(){
         DefaultTransformer t = new DefaultTransformer();
         try {
-			t.transform(null);
-			fail("Expection MathException");
-		} catch (MathException e) {
-			// expected
-		}
+            t.transform(null);
+            fail("Expection MathException");
+        } catch (MathException e) {
+            // expected
+        }
     }
     
     /**
@@ -55,7 +55,7 @@ public class DefaultTransformerTest extends TestCase {
         double expected = 1.0;
         Integer input = new Integer(1);
         DefaultTransformer t = new DefaultTransformer();
-		assertEquals(expected, t.transform(input), 1.0e-4);
+        assertEquals(expected, t.transform(input), 1.0e-4);
     }        
     
     /**
@@ -65,7 +65,7 @@ public class DefaultTransformerTest extends TestCase {
         double expected = 1.0;
         BigDecimal input = new BigDecimal("1.0");
         DefaultTransformer t = new DefaultTransformer();
-		assertEquals(expected, t.transform(input), 1.0e-4);
+        assertEquals(expected, t.transform(input), 1.0e-4);
     }        
     
     /**
@@ -75,7 +75,7 @@ public class DefaultTransformerTest extends TestCase {
         double expected = 1.0;
         String input = "1.0";
         DefaultTransformer t = new DefaultTransformer();
-		assertEquals(expected, t.transform(input), 1.0e-4);
+        assertEquals(expected, t.transform(input), 1.0e-4);
     }
     
     /**
@@ -85,10 +85,10 @@ public class DefaultTransformerTest extends TestCase {
         Boolean input = Boolean.TRUE;
         DefaultTransformer t = new DefaultTransformer();
         try {
-			t.transform(input);
-			fail("Expecting MathException");
-		} catch (MathException e) {
-		    // expected
-		}
+            t.transform(input);
+            fail("Expecting MathException");
+        } catch (MathException e) {
+            // expected
+        }
     }
 }

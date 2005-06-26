@@ -65,10 +65,10 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
      *      Bug report that prompted this unit test.</a>
      */
     public void testCumulativeProbabilityAgaintStackOverflow() throws Exception {
-    	TDistributionImpl td = new TDistributionImpl(5.);
-    	double est;
-    	est = td.cumulativeProbability(.1);
-    	est = td.cumulativeProbability(.01);
+        TDistributionImpl td = new TDistributionImpl(5.);
+        double est;
+        est = td.cumulativeProbability(.1);
+        est = td.cumulativeProbability(.01);
     }
 
     public void testSmallDf() throws Exception {

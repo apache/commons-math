@@ -45,13 +45,13 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
     /** hold the window size **/
     protected int windowSize = DescriptiveStatistics.INFINITE_WINDOW;
 
-	/**
-	 * No argument Constructor
-	 */
-	public ListUnivariateImpl(){
-	    this(new ArrayList());
-	}
-	
+    /**
+     * No argument Constructor
+     */
+    public ListUnivariateImpl(){
+        this(new ArrayList());
+    }
+    
     /**
      * Construct a ListUnivariate with a specific List.
      * @param list The list that will back this DescriptiveStatistics
@@ -115,10 +115,10 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
 
         
         try {
-			value = transformer.transform(list.get(calcIndex));
-		} catch (MathException e) {
-			e.printStackTrace();
-		}
+            value = transformer.transform(list.get(calcIndex));
+        } catch (MathException e) {
+            e.printStackTrace();
+        }
         
         return value;
     }
@@ -199,20 +199,20 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
      * @see org.apache.commons.math.stat.descriptive.DescriptiveStatistics#setWindowSize(int)
      */
     public synchronized void setWindowSize(int windowSize) {
-    	this.windowSize = windowSize;
-    	//Discard elements from the front of the list if the windowSize is less than 
-    	// the size of the list.
-    	int extra = list.size() - windowSize;
-    	for (int i = 0; i < extra; i++) {
-    		list.remove(0);
-    	}
+        this.windowSize = windowSize;
+        //Discard elements from the front of the list if the windowSize is less than 
+        // the size of the list.
+        int extra = list.size() - windowSize;
+        for (int i = 0; i < extra; i++) {
+            list.remove(0);
+        }
     }
 
     /**
      * @see org.apache.commons.math.stat.descriptive.DescriptiveStatistics#getWindowSize
      */
     public int getWindowSize() {
-    	return windowSize;
+        return windowSize;
     }
 
 }

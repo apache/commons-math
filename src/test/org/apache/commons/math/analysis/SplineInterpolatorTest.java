@@ -186,7 +186,7 @@ public class SplineInterpolatorTest extends TestCase {
      * verifies that f(x[i]) = y[i] for i = 0..n-1 where n is common length.
      */
     protected void verifyInterpolation(UnivariateRealFunction f, double x[], double y[])  
-    	throws Exception{
+        throws Exception{
         for (int i = 0; i < x.length; i++) {
             assertEquals(f.value(x[i]), y[i], knotTolerance);
         }     
@@ -197,7 +197,7 @@ public class SplineInterpolatorTest extends TestCase {
      *    adjacent polynomials must agree through two derivatives at knot points
      */
     protected void verifyConsistency(PolynomialSplineFunction f, double x[]) 
-    	throws Exception {
+        throws Exception {
         PolynomialFunction polynomials[] = f.getPolynomials();
         for (int i = 1; i < x.length - 2; i++) {
             // evaluate polynomials and derivatives at x[i + 1]  
