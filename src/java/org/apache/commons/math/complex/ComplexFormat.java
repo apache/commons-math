@@ -120,7 +120,7 @@ public class ComplexFormat extends Format implements Serializable {
      * @return A formatted number in the form "Re(c) + Im(c)i"
      */
     public static String formatComplex( Complex c ) {
-    	return getInstance().format( c );
+        return getInstance().format( c );
     }
     
     /**

@@ -152,10 +152,10 @@ public class BinomialDistributionImpl
             ret = 0.0;
         } else {
             ret = MathUtils.binomialCoefficientDouble(
-            		getNumberOfTrials(), x) *
-				  Math.pow(getProbabilityOfSuccess(), x) *
-				  Math.pow(1.0 - getProbabilityOfSuccess(),
-				  		getNumberOfTrials() - x);
+                    getNumberOfTrials(), x) *
+                  Math.pow(getProbabilityOfSuccess(), x) *
+                  Math.pow(1.0 - getProbabilityOfSuccess(),
+                        getNumberOfTrials() - x);
         }
         return ret;
     }

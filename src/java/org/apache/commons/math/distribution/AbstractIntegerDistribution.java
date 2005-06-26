@@ -105,7 +105,7 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
     public double cumulativeProbability(int x0, int x1) throws MathException {
         if (x0 > x1) {
             throw new IllegalArgumentException
-            	("lower endpoint must be less than or equal to upper endpoint");
+                ("lower endpoint must be less than or equal to upper endpoint");
         }
         return cumulativeProbability(x1) - cumulativeProbability(x0 - 1);
     }

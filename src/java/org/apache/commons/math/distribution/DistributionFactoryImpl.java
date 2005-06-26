@@ -118,27 +118,27 @@ public class DistributionFactoryImpl extends DistributionFactory {
             numberOfSuccesses, sampleSize);
     }
 
-	/**
-	 * Create a new normal distribution with the given mean and standard
-	 * deviation.
+    /**
+     * Create a new normal distribution with the given mean and standard
+     * deviation.
      *  
-	 * @param mean the mean of the distribution
-	 * @param sd standard deviation
-	 * @return a new normal distribution 
-	 */   
-	public NormalDistribution createNormalDistribution(double mean, double sd) {
-		return new NormalDistributionImpl(mean, sd);
-	}
+     * @param mean the mean of the distribution
+     * @param sd standard deviation
+     * @return a new normal distribution 
+     */   
+    public NormalDistribution createNormalDistribution(double mean, double sd) {
+        return new NormalDistributionImpl(mean, sd);
+    }
 
-	/**
-	 * Create a new normal distribution with the mean zero and standard
-	 * deviation one.
+    /**
+     * Create a new normal distribution with the mean zero and standard
+     * deviation one.
      * 
-	 * @return a new normal distribution  
-	 */ 
-	public NormalDistribution createNormalDistribution() {
-		return new NormalDistributionImpl();
-	}
+     * @return a new normal distribution  
+     */ 
+    public NormalDistribution createNormalDistribution() {
+        return new NormalDistributionImpl();
+    }
     
     /**
      * Create a new Poisson distribution with poisson parameter lambda.

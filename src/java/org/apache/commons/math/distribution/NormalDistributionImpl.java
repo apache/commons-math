@@ -28,83 +28,83 @@ import org.apache.commons.math.special.Erf;
  * @version $Revision$ $Date$
  */
 public class NormalDistributionImpl extends AbstractContinuousDistribution 
-		implements NormalDistribution, Serializable {
+        implements NormalDistribution, Serializable {
     
     /** Serializable version identifier */
     static final long serialVersionUID = 8589540077390120676L;
 
     /** The mean of this distribution. */
-	private double mean = 0;
+    private double mean = 0;
     
     /** The standard deviation of this distribution. */
-	private double standardDeviation = 1;
-	
-	/**
-	 * Create a normal distribution using the given mean and standard deviation.
-	 * @param mean mean for this distribution
-	 * @param sd standard deviation for this distribution
-	 */
-	public NormalDistributionImpl(double mean, double sd){
-		super();
-		setMean(mean);
-		setStandardDeviation(sd);
-	}
+    private double standardDeviation = 1;
     
-	/**
-	 * Creates normal distribution with the mean equal to zero and standard
-	 * deviation equal to one. 
-	 */
-	public NormalDistributionImpl(){
-		this(0.0, 1.0);
-	}
+    /**
+     * Create a normal distribution using the given mean and standard deviation.
+     * @param mean mean for this distribution
+     * @param sd standard deviation for this distribution
+     */
+    public NormalDistributionImpl(double mean, double sd){
+        super();
+        setMean(mean);
+        setStandardDeviation(sd);
+    }
     
-	/**
-	 * Access the mean.
-	 * @return mean for this distribution
-	 */	
-	public double getMean() {
-		return mean;
-	}
+    /**
+     * Creates normal distribution with the mean equal to zero and standard
+     * deviation equal to one. 
+     */
+    public NormalDistributionImpl(){
+        this(0.0, 1.0);
+    }
     
-	/**
-	 * Modify the mean.
-	 * @param mean for this distribution
-	 */
-	public void setMean(double mean) {
-		this.mean = mean;
-	}
+    /**
+     * Access the mean.
+     * @return mean for this distribution
+     */ 
+    public double getMean() {
+        return mean;
+    }
+    
+    /**
+     * Modify the mean.
+     * @param mean for this distribution
+     */
+    public void setMean(double mean) {
+        this.mean = mean;
+    }
 
-	/**
-	 * Access the standard deviation.
-	 * @return standard deviation for this distribution
-	 */
-	public double getStandardDeviation() {
-		return standardDeviation;
-	}
+    /**
+     * Access the standard deviation.
+     * @return standard deviation for this distribution
+     */
+    public double getStandardDeviation() {
+        return standardDeviation;
+    }
 
-	/**
-	 * Modify the standard deviation.
-	 * @param sd standard deviation for this distribution
+    /**
+     * Modify the standard deviation.
+     * @param sd standard deviation for this distribution
      * @throws IllegalArgumentException if <code>sd</code> is not positive.
-	 */
-	public void setStandardDeviation(double sd) {
-		if (sd <= 0.0) {
-			throw new IllegalArgumentException(
+     */
+    public void setStandardDeviation(double sd) {
+        if (sd <= 0.0) {
+            throw new IllegalArgumentException(
                 "Standard deviation must be positive.");
-		}		
-		standardDeviation = sd;
-	}
+        }       
+        standardDeviation = sd;
+    }
 
-	/**
-	 * For this disbution, X, this method returns P(X &lt; <code>x</code>).
-	 * @param x the value at which the CDF is evaluated.
-	 * @return CDF evaluted at <code>x</code>. 
-	 * @throws MathException if the algorithm fails to converge.
-	 */
-	public double cumulativeProbability(double x) throws MathException {
+    /**
+     * For this disbution, X, this method returns P(X &lt; <code>x</code>).
+     * @param x the value at which the CDF is evaluated.
+     * @return CDF evaluted at <code>x</code>. 
+     * @throws MathException if the algorithm fails to converge.
+     */
+    public double cumulativeProbability(double x) throws MathException {
         return 0.5 * (1.0 + Erf.erf((x - mean) /
                 (standardDeviation * Math.sqrt(2.0))));
-	}
+    }
     
     /**
      * For this distribution, X, this method returns the critical point x, such
@@ -130,17 +130,17 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
         }
         return super.inverseCumulativeProbability(p);
     }
-	
-	/**
-	 * Access the domain value lower bound, based on <code>p</code>, used to
-	 * bracket a CDF root.  This method is used by
-	 * {@link #inverseCumulativeProbability(double)} to find critical values.
-	 * 
-	 * @param p the desired probability for the critical value
-	 * @return domain value lower bound, i.e.
-	 *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code> 
-	 */
-	protected double getDomainLowerBound(double p) {
+    
+    /**
+     * Access the domain value lower bound, based on <code>p</code>, used to
+     * bracket a CDF root.  This method is used by
+     * {@link #inverseCumulativeProbability(double)} to find critical values.
+     * 
+     * @param p the desired probability for the critical value
+     * @return domain value lower bound, i.e.
+     *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code> 
+     */
+    protected double getDomainLowerBound(double p) {
         double ret;
 
         if (p < .5) {
@@ -152,16 +152,16 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
         return ret;
     }
 
-	/**
-	 * Access the domain value upper bound, based on <code>p</code>, used to
-	 * bracket a CDF root.  This method is used by
-	 * {@link #inverseCumulativeProbability(double)} to find critical values.
-	 * 
-	 * @param p the desired probability for the critical value
-	 * @return domain value upper bound, i.e.
-	 *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code> 
-	 */
-	protected double getDomainUpperBound(double p) {
+    /**
+     * Access the domain value upper bound, based on <code>p</code>, used to
+     * bracket a CDF root.  This method is used by
+     * {@link #inverseCumulativeProbability(double)} to find critical values.
+     * 
+     * @param p the desired probability for the critical value
+     * @return domain value upper bound, i.e.
+     *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code> 
+     */
+    protected double getDomainUpperBound(double p) {
         double ret;
 
         if (p < .5) {
@@ -173,15 +173,15 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
         return ret;
     }
 
-	/**
-	 * Access the initial domain value, based on <code>p</code>, used to
-	 * bracket a CDF root.  This method is used by
-	 * {@link #inverseCumulativeProbability(double)} to find critical values.
-	 * 
-	 * @param p the desired probability for the critical value
-	 * @return initial domain value
-	 */
-	protected double getInitialDomain(double p) {
+    /**
+     * Access the initial domain value, based on <code>p</code>, used to
+     * bracket a CDF root.  This method is used by
+     * {@link #inverseCumulativeProbability(double)} to find critical values.
+     * 
+     * @param p the desired probability for the critical value
+     * @return initial domain value
+     */
+    protected double getInitialDomain(double p) {
         double ret;
 
         if (p < .5) {
@@ -193,5 +193,5 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
         }
         
         return ret;
-	}
+    }
 }

@@ -154,24 +154,24 @@ public abstract class DistributionFactory {
         createHypergeometricDistribution(int populationSize,
             int numberOfSuccesses, int sampleSize);
  
-	/**
-	 * Create a new normal distribution with the given mean and standard
-	 * deviation.
+    /**
+     * Create a new normal distribution with the given mean and standard
+     * deviation.
      * 
-	 * @param mean the mean of the distribution
-	 * @param sd standard deviation
-	 * @return a new normal distribution  
-	 */           
+     * @param mean the mean of the distribution
+     * @param sd standard deviation
+     * @return a new normal distribution  
+     */           
     public abstract NormalDistribution 
-    	createNormalDistribution(double mean, double sd);
-    	
-	/**
-	 * Create a new normal distribution with mean zero and standard
-	 * deviation one.
+        createNormalDistribution(double mean, double sd);
+        
+    /**
+     * Create a new normal distribution with mean zero and standard
+     * deviation one.
      * 
-	 * @return a new normal distribution.  
-	 */               
-	public abstract NormalDistribution createNormalDistribution();
+     * @return a new normal distribution.  
+     */               
+    public abstract NormalDistribution createNormalDistribution();
     
     /**
      * Create a new Poisson distribution with poisson parameter lambda.

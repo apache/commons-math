@@ -34,27 +34,27 @@ package org.apache.commons.math.distribution;
  */
 public interface CauchyDistribution extends ContinuousDistribution {
     
-	/**
-	 * Access the median.
-	 * @return median for this distribution
-	 */
-	double getMedian();
+    /**
+     * Access the median.
+     * @return median for this distribution
+     */
+    double getMedian();
     
-	/**
-	 * Access the scale parameter.
-	 * @return scale parameter for this distribution
-	 */
-	double getScale();
+    /**
+     * Access the scale parameter.
+     * @return scale parameter for this distribution
+     */
+    double getScale();
     
-	/**
-	 * Modify the median.
-	 * @param median for this distribution
-	 */
-	void setMedian(double median);
+    /**
+     * Modify the median.
+     * @param median for this distribution
+     */
+    void setMedian(double median);
     
-	/**
-	 * Modify the scale parameter.
-	 * @param s scale parameter for this distribution
-	 */
-	void setScale(double s);
+    /**
+     * Modify the scale parameter.
+     * @param s scale parameter for this distribution
+     */
+    void setScale(double s);
 }

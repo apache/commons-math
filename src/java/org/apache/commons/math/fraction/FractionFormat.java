@@ -84,7 +84,7 @@ public class FractionFormat extends Format implements Serializable {
      * @return A formatted fraction in proper form.
      */
     public static String formatFraction(Fraction f) {
-    	return getImproperInstance().format(f);
+        return getImproperInstance().format(f);
     }
     
     /**

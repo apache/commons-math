@@ -94,7 +94,7 @@ public class PolynomialSplineFunction implements UnivariateRealFunction, Seriali
     public PolynomialSplineFunction(double knots[], PolynomialFunction polynomials[]) {
         if (knots.length < 2) {
             throw new IllegalArgumentException
-            	("Not enough knot values -- spline partition must have at least 2 points.");
+                ("Not enough knot values -- spline partition must have at least 2 points.");
         }
         if (knots.length - 1 != polynomials.length) {
             throw new IllegalArgumentException 
