@@ -113,6 +113,22 @@ public class MathExceptionTest extends TestCase {
         PrintWriter pw2 = new PrintWriter(ps2, true);
         image.printStackTrace(ps2);
         String stack2 = baos2.toString();
-        assertEquals(stack, stack2);
+        
+        // See if JDK supports nested exceptions.  If not, stack trace of
+        // inner exception will not be serialized
+        boolean jdkSupportsNesting = false;
+        try {
+            Throwable.class.getDeclaredMethod("getCause", new Class[0]);
+            jdkSupportsNesting = true;
+        } catch (NoSuchMethodException e) {
+            jdkSupportsNesting = false;
+        }
+        
+        if (jdkSupportsNesting) {
+            assertEquals(stack, stack2);
+        } else {
+            assertTrue(stack2.indexOf(inMsg) != -1);
+            assertTrue(stack2.indexOf("MathConfigurationException") != -1);
+        }
     }
 }
