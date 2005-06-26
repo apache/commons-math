@@ -34,15 +34,16 @@ The <action> type attribute can be add,update,fix,remove.
 
 <document>
   <properties>
-    <title>Commons Math Release Notes</title>
+    <title>
+Commons Math Release Notes</title>
   </properties>
   <body>
     <release version="1.1" date="In Development"  
-       description="Jakarta Commons Math 1.1 - Development">
-      <action dev="psteitz" type="update" issue="35434"  due-to="Jörg Weimar">
+       description= "Jakarta Commons Math 1.1 - Development">
+      <action dev="psteitz" type="fix" issue="35434"  due-to="Jörg Weimar">
         Changed Fraction(double) to correctly handle near-integral arguments.
       </action>
-      <action dev="psteitz" type="update" issue="35431"  due-to="Jörg Weimar">
+      <action dev="psteitz" type="fix" issue="35431"  due-to="Jörg Weimar">
         Changed lcm to throw ArithmeticException (instead of returning bogus
         value) if the result is too large to store as an integer.
       </action>
@@ -77,18 +78,18 @@ The <action> type attribute can be add,update,fix,remove.
         Added utility methods for overflow-checked integer arithmetic and
         improved gcd method in MathUtils.
       </action>
-       <action dev="psteitz" type="fix" issue="34677"  due-to="Gilles Gaillard">
+       <action dev="psteitz" type="fix" issue="34677" due-to="Gilles Gaillard">
         Fixed error in TTestImpl.homoscedasticTtest.  Implementation was
-        incorrectly using heteroscedastic t statistic.  Also improved sensitivity
-        of test cases.
+        incorrectly using heteroscedastic t statistic.  Also improved
+        sensitivity of test cases.
       </action>
-      <action dev="psteitz" type="fix" issue="34448"  due-to="Gilles Gaillard">
+      <action dev="psteitz" type="fix" issue="34448" due-to="Gilles Gaillard">
         Fixed javadoc errors. One-sided t-test significance adjustment was
         reversed in javadoc for boolean-valued test methods.
       </action>
       <action dev="brentworden" type="fix" due-to="Ben Litchfield">
         Fixed bug in PolynomialSplineFunction to allow evaluation of the
-		function at the last knot point.
+        function at the last knot point.
       </action>
       <action dev="brentworden" type="add">
         Added Weibull distribution implementation.
@@ -107,9 +108,10 @@ The <action> type attribute can be add,update,fix,remove.
     </release>  
     <release version="1.0" date="2004-12-06"  
        description="Jakarta Commons Math 1.0 - General Availability Release">
-      <action dev="psteitz" type="fix" due-to="Hans van der Heijden" issue="32531">
-        Fixed error in ChiSquareTestImpl.  Tables containing zeros were (incorrectly)
-        causing IllegalArgumentExceptions to be thrown.
+      <action dev="psteitz" type="fix" due-to="Hans van der Heijden"
+       issue="32531">
+        Fixed error in ChiSquareTestImpl.  Tables containing zeros were
+        (incorrectly) causing IllegalArgumentExceptions to be thrown.
       </action>
       <action dev="psteitz" type="fix" issue="32538">
         Removed JDK 1.4-dependent code from CertifiedDataAbstractTest, 
@@ -128,12 +130,14 @@ The <action> type attribute can be add,update,fix,remove.
         Fixed locale-dependency in ComplexFormat.
       </action>
       <action dev="psteitz" type="update">
-        Renamed univariate package to descriptive and multivariate to regression.
+        Renamed univariate package to descriptive and multivariate to
+        regression.
       </action>
       <action dev="psteitz" type="update" due-to="Ken Geis" issue="31522">
         Improved efficiency of logGamma method in o.a.c.m.special.Gamma
       </action>
-      <action dev="psteitz" type="update" due-to="Kim van der Linde" issue="30897 ">
+      <action dev="psteitz" type="update" due-to="Kim van der Linde"
+       issue="30897">
         Added subMatrix and matrix-valued row and column accessor methods to 
         RealMatrix, BigMatrix interfaces and RealMatrixImpl, BigMatrixImpl.
       </action>
@@ -141,7 +145,8 @@ The <action> type attribute can be add,update,fix,remove.
         Implemented equals and hashCode in RealMatrixImpl and BigMatrixImpl.
       </action>
       <action dev="psteitz" type="fix">
-        Fixed RealMatrixImpl, BigMatrixImpl toString methods to handle empty matrix.
+        Fixed RealMatrixImpl, BigMatrixImpl toString methods to handle empty
+        matrix.
       </action>
       <action dev="psteitz" type="update">
         Added support for "population" variance and standard deviation in
@@ -160,7 +165,8 @@ The <action> type attribute can be add,update,fix,remove.
         Changed factorial methods to return 1 for argument = 0, instead of
         (incorrectly) throwing IllegalArgumentException.
       </action> 
-      <action dev="psteitz" type="fix" due-to="Kim van der Linde" issue="31860">
+      <action dev="psteitz" type="fix" due-to="Kim van der Linde" 
+       issue="31860">
         Fixed error in SimpleRegression.getSignificance.  Value returned was
         off by a factor of 2 (did not match javadoc).
       </action>
@@ -181,13 +187,11 @@ The <action> type attribute can be add,update,fix,remove.
     </release>
     
     <release version="1.0-RC1" date="2004-09-07" 
-      description="Jakarta Commons Math 1.0 - Release Candidate 1">
-      <action type="add">
-        This is the first release of Commons Math. Commons Math is a library
-        of lightweight, self-contained mathematics and statistics components. 
-        The release candidate is being made available so that users can test
-        the release and provide feedback.
-      </action>  
+      description="Jakarta Commons Math 1.0 - Release Candidate 1
+      This is the first release of Commons Math. Commons Math is a library
+      of lightweight, self-contained mathematics and statistics components. 
+      The release candidate is being made available so that users can test
+      the release and provide feedback.">
     </release>
     
   </body>
