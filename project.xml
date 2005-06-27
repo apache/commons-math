@@ -139,6 +139,9 @@
     <contributor>
       <name>Kim van der Linde</name>
     </contributor>
+    <contributor>
+      <name>Jörg Weimar</name>
+    </contributor>
   </contributors>
   <dependencies>
     <dependency>
