@@ -36,13 +36,9 @@
 		<attainGoal name="convert-snapshots" />
 		<attainGoal name="dist" />
   </goal>
-  
-  <preGoal name="dist">
-    <ant:xslt in="xdocs/changes.xml" out="release-notes.txt"
-      style="release-notes.xsl"/>
-  </preGoal>
 
   <preGoal name="dist:build-bin">  
+    <attainGoal name="announcement:generate" />
     <copy todir="${maven.dist.bin.assembly.dir}">
       <fileset file='${basedir}/NOTICE.txt'/>
       <fileset file='${basedir}/release-notes.txt'/>
