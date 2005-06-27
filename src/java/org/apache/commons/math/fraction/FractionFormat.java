@@ -152,6 +152,7 @@ public class FractionFormat extends Format implements Serializable {
     private static NumberFormat getDefaultNumberFormat(Locale locale) {
         NumberFormat nf = NumberFormat.getNumberInstance(locale);
         nf.setMaximumFractionDigits(0);
+        nf.setParseIntegerOnly(true);
         return nf;
     }
     
