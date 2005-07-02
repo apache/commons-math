@@ -127,8 +127,8 @@ public class CertifiedDataTest extends TestCase  {
         } else {
             s = (SummaryStatistics) u;
         }
-        
-        u.getClass().getDeclaredMethod("clear", null).invoke(u, null);
+        u.getClass().getDeclaredMethod(
+                "clear", new Class[]{}).invoke(u, new Object[]{});
         mean = Double.NaN;
         std = Double.NaN;
         
