@@ -151,7 +151,7 @@ public final class BigMatrixImplTest extends TestCase {
         assertEquals("testData2 row dimension",m2.getRowDimension(),2);
         assertEquals("testData2 column dimension",m2.getColumnDimension(),3);
         assertTrue("testData2 is not square",!m2.isSquare());
-    } 
+    }  
     
     /** test copy functions */
     public void testCopyFunctions() {
@@ -658,7 +658,7 @@ public final class BigMatrixImplTest extends TestCase {
         assertEquals(expected, m);   
         
         // javadoc example
-        BigMatrix matrix = MatrixUtils.createBigMatrix
+        BigMatrixImpl matrix = (BigMatrixImpl) MatrixUtils.createBigMatrix
             (new double[][] {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 0, 1 , 2}});
         matrix.setSubMatrix(new BigDecimal[][] {{new BigDecimal(3),
             new BigDecimal(4)}, {new BigDecimal(5), new BigDecimal(6)}}, 1, 1);

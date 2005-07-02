@@ -628,7 +628,7 @@ public final class RealMatrixImplTest extends TestCase {
         assertEquals(expected, m);   
         
         // javadoc example
-        RealMatrix matrix = MatrixUtils.createRealMatrix
+        RealMatrixImpl matrix = (RealMatrixImpl) MatrixUtils.createRealMatrix
             (new double[][] {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 0, 1 , 2}});
         matrix.setSubMatrix(new double[][] {{3, 4}, {5, 6}}, 1, 1);
         expected = MatrixUtils.createRealMatrix
