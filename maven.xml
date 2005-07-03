@@ -41,7 +41,7 @@
     <attainGoal name="announcement:generate" />
     <copy todir="${maven.dist.bin.assembly.dir}">
       <fileset file='${basedir}/NOTICE.txt'/>
-      <fileset file='${basedir}/release-notes.txt'/>
+      <fileset file='${basedir}/RELEASE-NOTES.txt'/>
     </copy>
   </preGoal>
   
