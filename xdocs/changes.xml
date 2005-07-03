@@ -38,9 +38,8 @@ The <action> type attribute can be add,update,fix,remove.
 Commons Math Release Notes</title>
   </properties>
   <body>
-    <release version="1.1" date="TBD"  
-       description="
-       This is a maintenance release containing bug fixes and enhancements.
+    <release version="1.1-RC1" date="TBD"  
+ description="This is a maintenance release containing bug fixes and enhancements.
        All API changes are binary compatible with version 1.0. The enhancements 
        include some new probability distributions, a Fraction class, new matrix
        and numerical utilities, and a PRNG pluggability framework making it
@@ -61,7 +60,9 @@ Commons Math Release Notes</title>
         Eliminated repeated endpoint function evalutations in BrentSolver, SecantSolver.
       </action>
       <action dev="psteitz" type="update" issue="35007"  due-to="Rodrigo di Lorenzo Lopes">
-        Added setSubMatrix methods to RealMatrix, BigMatrix.
+        Added setSubMatrix methods to RealMatrixImpl, BigMatrixImpl.  To
+        Preserve backward compatibility with version 1.0, these methods were
+        not added to the RealMatrix, BigMatrix interfaces.
       </action>
       <action dev="psteitz" type="update">
         Added createXIdentityMatrix methods to MatrixUtils and deprecated
