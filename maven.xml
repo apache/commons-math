@@ -51,6 +51,9 @@
       <fileset file='${basedir}/release-notes.txt'/>
     </copy>
     <delete dir="${maven.dist.src.assembly.dir}/src/experimental" />
+    <move todir="${maven.dist.src.assembly.dir}-src">
+      <fileset dir="${maven.dist.src.assembly.dir}"/>
+    </move>
   </preGoal>
 
 <!-- Uncomment when ant plugin relative path bug is fixed (still present in 1.8)
