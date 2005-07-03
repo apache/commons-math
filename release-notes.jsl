@@ -1,0 +1,161 @@
+<?xml version="1.0"?>
+
+<!--
+ * ========================================================================
+ * 
+ * Copyright 2005 The Apache Software Foundation.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ * ========================================================================
+-->
+
+<!--
+ Customized version of maven annnouncement plugin style sheet to create
+ release notes for commons-math.  Customizations are:
+ * Add a title
+ * Display the description attribute in the release at the beginning
+ * Add a heading to the project description and move the URL to follow
+ * Get rid of "have fun" sig-like thingy
+-->
+    
+<jsl:stylesheet
+    select="$doc"
+    xmlns:j="jelly:core"
+    xmlns:jsl="jelly:jsl"
+    xmlns:x="jelly:xml"
+    xmlns:u="jelly:util"
+    xmlns:maven="jelly:maven"
+    xmlns="dummy" trim="true">
+
+  <!-- This stylesheet expects the versionVariable to be defined before calling it -->
+  <jsl:template match="document/body/release">
+
+    <x:set var="version" select="string(@version)"/>
+    <x:set var="description" select="string(@description)"/>
+    <j:if test="${versionVariable.equals(version)}">
+      <j:whitespace trim="false">
+Jakarta Commons Math Version ${version} 
+         RELEASE NOTES
+
+      </j:whitespace>
+
+      <j:useBean var="formatter" class="org.apache.maven.announcement.Formatter"/>
+
+      <j:set var="header" trim="false" value="${description}"/>
+
+<j:forEach var="line" items="${formatter.format(header,78)}">
+<j:whitespace trim="false">${line}
+</j:whitespace>
+</j:forEach>
+For more information on Jakarta Commons Math, see
+${pom.url}
+      <j:whitespace trim="false">
+Changes in this version include:</j:whitespace>
+
+      <x:set var="actions" select="action[@type='add']" sort="@type" />
+        <j:if test="${!empty(actions)}">
+<j:whitespace trim="false">
+
+  New Features:
+</j:whitespace>
+        <j:forEach var="action" items="${actions}">
+          <x:set var="item" select="."/><jsl:applyTemplates select="$action"/>
+        </j:forEach>
+      </j:if>
+      <x:set var="actions" select="action[@type='fix']" sort="@type" />
+        <j:if test="${!empty(actions)}">
+<j:whitespace trim="false">
+
+  Fixed bugs:
+</j:whitespace>
+        <j:forEach var="action" items="${actions}">
+          <x:set var="item" select="."/><jsl:applyTemplates select="$action"/>
+        </j:forEach>
+      </j:if>
+      <x:set var="actions" select="action[@type='update']" sort="@type" />
+        <j:if test="${!empty(actions)}">
+<j:whitespace trim="false">
+
+  Changes:
+</j:whitespace>
+        <j:forEach var="action" items="${actions}">
+          <x:set var="item" select="."/><jsl:applyTemplates select="$action"/>
+        </j:forEach>
+      </j:if>
+      <x:set var="actions" select="action[@type='remove']" sort="@type" />
+        <j:if test="${!empty(actions)}">
+<j:whitespace trim="false">
+
+  Removed features:
+</j:whitespace>
+        <j:forEach var="action" items="${actions}">
+          <x:set var="item" select="."/><jsl:applyTemplates select="$action"/>
+        </j:forEach>
+      </j:if>
+
+      <!-- Nasty hack to detect a plugin until pom.type exists -->
+      <u:available file="${basedir}/plugin.jelly">
+        <j:whitespace trim="false"> 
+
+To automatically install the plugin, type the following on a single line:
+
+maven plugin:download 
+  -DgroupId=${pom.groupId} 
+  -DartifactId=${pom.artifactId}
+  -Dversion=${versionVariable}
+
+For a manual installation, you can download the plugin here:
+${distributionUrl}/${pom.artifactId}-${versionVariable}.jar
+        </j:whitespace>
+      </u:available>
+      <j:whitespace trim="false"> 
+
+      </j:whitespace>
+    </j:if>
+
+  </jsl:template>
+  
+  <jsl:template match="action" trim="true">
+    <x:set var="body" select="string(.)"/>
+    <j:set var="counter" value=""/>
+        
+    <j:set var="issue"><x:expr select="@issue"/></j:set>
+    <j:set var="dueto"><x:expr select="@due-to"/></j:set>
+        
+    <j:set var="text" trim="true">
+      ${body}
+      <j:if test="${issue != ''}"><j:whitespace> Issue: ${issue}.</j:whitespace></j:if>
+      <j:if test="${dueto != ''}"><j:whitespace> Thanks to ${dueto}.</j:whitespace></j:if>
+    </j:set>
+        
+    <j:forEach var="line" items="${formatter.format(text,75)}">
+      <j:choose>
+        <j:when test="${counter.length() == '0'}">
+          <j:whitespace trim="false">
+o ${line}</j:whitespace>
+        </j:when>
+        <j:otherwise>
+          <j:whitespace trim="false">
+  ${line}</j:whitespace>
+        </j:otherwise>
+      </j:choose>
+      <j:set var="counter" value="${counter}X"/>
+    </j:forEach>
+  </jsl:template>
+
+  <jsl:template match="@*"/>
+
+  <jsl:template match="text()"/>
+
+</jsl:stylesheet>
