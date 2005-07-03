@@ -21,7 +21,7 @@
   <pomVersion>3</pomVersion>
   <name>Math</name>
   <id>commons-math</id>
-  <currentVersion>1.1-dev</currentVersion>
+  <currentVersion>1.1-RC1</currentVersion>
   <inceptionYear>2003</inceptionYear>
   <shortDescription>Jakarta Commons Math</shortDescription>
   <description>The Math project is a library of lightweight, self-contained mathematics and statistics components addressing the most common practical problems not immediately available in the Java programming language or commons-lang.</description>
@@ -78,6 +78,11 @@
       <id>1.0</id>
       <name>1.0</name>
       <tag>MATH_1_0</tag>
+    </version>
+    <version>
+      <id>1.1-RC1</id>
+      <name>1.1</name>
+      <tag>MATH_1_1_RC1</tag>
     </version>
   </versions>
   <developers>
