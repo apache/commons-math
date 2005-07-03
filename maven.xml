@@ -48,7 +48,7 @@
   <preGoal name="dist:build-src">
     <copy todir="${maven.dist.src.assembly.dir}">
       <fileset file='${basedir}/NOTICE.txt'/>
-      <fileset file='${basedir}/release-notes.txt'/>
+      <fileset file='${basedir}/RELEASE-NOTES.txt'/>
     </copy>
     <delete dir="${maven.dist.src.assembly.dir}/src/experimental" />
     <move todir="${maven.dist.src.assembly.dir}-src">
