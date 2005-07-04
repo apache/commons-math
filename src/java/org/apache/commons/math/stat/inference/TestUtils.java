@@ -22,6 +22,7 @@ import org.apache.commons.math.stat.descriptive.StatisticalSummary;
  * A collection of static methods to create inference test instances or to
  * perform inference tests.
  *
+ * @since 1.1
  * @version $Revision$ $Date$ 
  */
 public class TestUtils  {

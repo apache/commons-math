@@ -52,6 +52,7 @@ public class MatrixUtils {
      * @param dimension dimension of identity matrix to generate
      * @return identity matrix
      * @throws IllegalArgumentException if dimension is not positive
+     * @since 1.1
      */
     public static RealMatrix createRealIdentityMatrix(int dimension) {
         RealMatrixImpl out = new RealMatrixImpl(dimension, dimension);
@@ -251,6 +252,7 @@ public class MatrixUtils {
      * @param dimension dimension of identity matrix to generate
      * @return identity matrix
      * @throws IllegalArgumentException if dimension is not positive
+     * @since 1.1
      */
     public static BigMatrix createBigIdentityMatrix(int dimension) {
         BigMatrixImpl out = new BigMatrixImpl(dimension, dimension);

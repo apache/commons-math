@@ -19,6 +19,7 @@ import org.apache.commons.discovery.tools.DiscoverClass;
 /**
  * Abstract factory to create inference test instances.
  *
+ * @since 1.1
  * @version $Revision$ $Date$ 
  */
 public abstract class TestFactory {

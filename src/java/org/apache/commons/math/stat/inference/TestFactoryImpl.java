@@ -19,6 +19,7 @@ package org.apache.commons.math.stat.inference;
  * A concrete inference test factory.  This is the default factory used by
  * Commons-Math.
  *  
+ * @since 1.1
  * @version $Revision$ $Date$
  */
 public class TestFactoryImpl extends TestFactory {

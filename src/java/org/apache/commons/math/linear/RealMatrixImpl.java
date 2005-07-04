@@ -381,6 +381,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      * @throws IllegalArgumentException if <code>subMatrix</code> is not rectangular
      *  (not all rows have the same length) or empty
      * @throws NullPointerException if <code>subMatrix</code> is null
+     * @since 1.1
      */
     public void setSubMatrix(double[][] subMatrix, int row, int column) 
         throws MatrixIndexException {
