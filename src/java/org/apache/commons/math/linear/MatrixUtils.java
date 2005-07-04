@@ -242,9 +242,6 @@ public class MatrixUtils {
         }
         return new BigMatrixImpl(data);
     }
-    /** BigDecimal constants */
-    //private static final BigDecimal ZERO = new BigDecimal(0);      
-    //private static final BigDecimal ONE = new BigDecimal(1);
     
     /**
      * Returns <code>dimension x dimension</code> identity matrix.
