@@ -477,6 +477,16 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(1.23f, MathUtils.round(x, 2), 0.0f);
         assertEquals(1.235f, MathUtils.round(x, 3), 0.0f);
         assertEquals(1.2346f, MathUtils.round(x, 4), 0.0f);
+        
+        
+        // BZ 35904
+        assertEquals(30.1f, MathUtils.round(30.095f, 2), 0.0f);
+        assertEquals(30.1f, MathUtils.round(30.095f, 1), 0.0f);
+        assertEquals(50.09f,  MathUtils.round(50.085f, 2), 0.0f);
+        assertEquals(50.19f,  MathUtils.round(50.185f, 2), 0.0f);
+        assertEquals(50.01f,  MathUtils.round(50.005f, 2), 0.0f);
+        assertEquals(30.01f,  MathUtils.round(30.005f, 2), 0.0f);
+        assertEquals(30.65f,  MathUtils.round(30.645f, 2), 0.0f);
 
         assertEquals(1.23f, MathUtils.round(x, 2, BigDecimal.ROUND_DOWN), 0.0f);
         assertEquals(1.234f, MathUtils.round(x, 3, BigDecimal.ROUND_DOWN), 0.0f);
@@ -488,6 +498,15 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(1.23, MathUtils.round(x, 2), 0.0);
         assertEquals(1.235, MathUtils.round(x, 3), 0.0);
         assertEquals(1.2346, MathUtils.round(x, 4), 0.0);
+        
+        // BZ 35904
+        assertEquals(30.1d, MathUtils.round(30.095d, 2), 0.0d);
+        assertEquals(30.1d, MathUtils.round(30.095d, 1), 0.0d);
+        assertEquals(50.09d,  MathUtils.round(50.085d, 2), 0.0d);
+        assertEquals(50.19d,  MathUtils.round(50.185d, 2), 0.0d);
+        assertEquals(50.01d,  MathUtils.round(50.005d, 2), 0.0d);
+        assertEquals(30.01d,  MathUtils.round(30.005d, 2), 0.0d);
+        assertEquals(30.65d,  MathUtils.round(30.645d, 2), 0.0d);
 
         assertEquals(1.23, MathUtils.round(x, 2, BigDecimal.ROUND_DOWN), 0.0);
         assertEquals(1.234, MathUtils.round(x, 3, BigDecimal.ROUND_DOWN), 0.0);

@@ -75,7 +75,7 @@ public final class MathUtils {
     public static double round(
         double x, int scale, int roundingMethod)
     {
-        return (new BigDecimal(x).setScale(scale, roundingMethod))
+        return (new BigDecimal(new Double(x).toString()).setScale(scale, roundingMethod))
             .doubleValue();
     }
     
@@ -103,7 +103,7 @@ public final class MathUtils {
      * @since 1.1
      */
     public static float round(float x, int scale, int roundingMethod) {
-        return (new BigDecimal(x).setScale(scale, roundingMethod)).floatValue();
+        return (new BigDecimal(new Float(x).toString()).setScale(scale, roundingMethod)).floatValue();
     }
     
     /**
