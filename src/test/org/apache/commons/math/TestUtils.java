@@ -19,6 +19,7 @@ package org.apache.commons.math;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -74,25 +75,43 @@ public class TestUtils {
         Object result = null;
         
         File tmp = null;
+        FileOutputStream fo = null;
+        FileInputStream fi = null;
         
         try {
-            
             // serialize the Object
             tmp = File.createTempFile("test",".ser");
-            FileOutputStream fo = new FileOutputStream(tmp);
+            fo = new FileOutputStream(tmp);
             ObjectOutputStream so = new ObjectOutputStream(fo);
             so.writeObject(o);
             so.flush();
+            fo.close();
 
             // deserialize the Book
-            FileInputStream fi = new FileInputStream(tmp);
+            fi = new FileInputStream(tmp);
             ObjectInputStream si = new ObjectInputStream(fi);  
             result = si.readObject();
-            
-        }catch (Exception e) {
-            e.printStackTrace();
-        }finally{
-            if(tmp != null) tmp.delete();
+        } catch (Exception ex) {
+        	
+        } finally {
+        	if (fo != null) {
+        		try {
+        			fo.close();
+        		} catch (IOException ex) {
+        		}
+        	}
+
+        	if (fi != null) {
+        		try {
+            		fi.close();
+        		} catch (IOException ex) {
+        		}
+        	}
+        }
+        
+        
+        if (tmp != null) {
+        	tmp.delete();
         }
         
         return result;
