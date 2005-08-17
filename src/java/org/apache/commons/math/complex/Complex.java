@@ -66,7 +66,19 @@ public class Complex implements Serializable  {
         if (isNaN()) {
             return Double.NaN;
         }
-        return Math.sqrt(squareSum());       
+        if (Math.abs(real) < Math.abs(imaginary)) {
+            if (imaginary == 0.0) {
+                return Math.abs(real);
+            }
+            double q = real / imaginary;
+            return (Math.abs(imaginary) * Math.sqrt(1 + q*q));
+        } else {
+            if (real == 0.0) {
+                return Math.abs(imaginary);
+            }
+            double q = imaginary / real;
+            return (Math.abs(real) * Math.sqrt(1 + q*q));
+        }
     }
     
     /**
@@ -108,17 +120,29 @@ public class Complex implements Serializable  {
         if (isNaN() || rhs.isNaN()) {
             return NaN;
         }
-        
-        if (Math.abs(rhs.getReal()) < Math.abs(rhs.getImaginary())) {
-            double q = rhs.getReal() / rhs.getImaginary();
-            double d = (rhs.getReal() * q) + rhs.getImaginary();
-            return new Complex(((real * q) + imaginary) / d,
-                ((imaginary * q) - real) / d);
+
+        double c = rhs.getReal();
+        double d = rhs.getImaginary();
+        if (c == 0.0 && d == 0.0) {
+            throw new ArithmeticException("Error: division by zero.");
+        }
+
+        if (Math.abs(c) < Math.abs(d)) {
+            if (d == 0.0) {
+                return new Complex(real/c, imaginary/c);
+            }
+            double q = c / d;
+            double denominator = c * q + d;
+            return new Complex((real * q + imaginary) / denominator,
+                (imaginary * q - real) / denominator);
         } else {
-            double q = rhs.getImaginary() / rhs.getReal();
-            double d = (rhs.getImaginary() * q) + rhs.getReal();
-            return new Complex(((imaginary * q) + real) / d,
-                (imaginary - (real * q)) / d);
+            if (c == 0.0) {
+                return new Complex(imaginary/d, -real/c);
+            }
+            double q = d / c;
+            double denominator = d * q + c;
+            return new Complex((imaginary * q + real) / denominator,
+                (imaginary - real * q) / denominator);
         }
     }
     
@@ -213,15 +237,6 @@ public class Complex implements Serializable  {
         }
         
         return new Complex(-real, -imaginary);
-    }
-    
-    /**
-     * Return the sum of the squared terms.
-     *
-     * @return the square sum.
-     */
-    private double squareSum() {
-        return real * real + imaginary * imaginary;
     }
     
     /**
