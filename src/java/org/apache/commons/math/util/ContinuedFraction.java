@@ -100,16 +100,25 @@ public abstract class ContinuedFraction implements Serializable {
     }
 
     /**
+     * <p>
      * Evaluates the continued fraction at the value x.
+     * </p>
      * 
-     * The implementation of this method is based on:
+     * <p>
+     * The implementation of this method is based on equations 14-17 of:
      * <ul>
-     * <li>O. E-gecio-glu, C . K. Koc, J. Rifa i Coma,
-     * <a href="http://citeseer.ist.psu.edu/egecioglu91fast.html">
-     * On Fast Computation of Continued Fractions</a>, Computers Math. Applic.,
-     * 21(2--3), 1991, 167--169.</li>
+     * <li>
+     *   Eric W. Weisstein. "Continued Fraction." From MathWorld--A Wolfram Web
+     *   Resource. <a target="_blank"
+     *   href="http://mathworld.wolfram.com/ContinuedFraction.html">
+     *   http://mathworld.wolfram.com/ContinuedFraction.html</a>
+     * </li>
      * </ul>
-     * 
+     * The recurrence relationship defined in those equations can result in
+     * very large intermediate results which can result in numerical overflow.
+     * As a means to combat these overflow conditions, the intermediate results
+     * are scaled whenever they threaten to become numerically unstable.
+     *   
      * @param x the evaluation point.
      * @param epsilon maximum error allowed.
      * @param maxIterations maximum number of convergents
@@ -119,72 +128,50 @@ public abstract class ContinuedFraction implements Serializable {
     public double evaluate(double x, double epsilon, int maxIterations)
         throws MathException
     {
-        double[][] f = new double[2][2];
-        double[][] a = new double[2][2];
-        double[][] an = new double[2][2];
+    	double p0 = 1.0;
+    	double p1 = getA(0, x);
+    	double q0 = 0.0;
+    	double q1 = 1.0;
+    	double c = p1 / q1;
+    	int n = 0;
+    	double relativeError = Double.MAX_VALUE;
+    	while (n < maxIterations && relativeError > epsilon) {
+    		++n;
+    		double a = getA(n, x);
+    		double b = getB(n, x);
+  			double p2 = a * p1 + b * p0;
+   			double q2 = a * q1 + b * q0;
+   			if (Double.isInfinite(p2) || Double.isInfinite(q2)) {
+   				// need to scale
+   				if (a != 0.0) {
+   					p2 = p1 + (b / a * p0);
+   					q2 = q1 + (b / a * q0);
+   				} else if (b != 0) {
+   					p2 = (a / b * p1) + p0;
+   					q2 = (a / b * q1) + q0;
+   				} else {
+   					// can not scale an convergent is unbounded.
+   		            throw new ConvergenceException(
+   	                	"Continued fraction convergents diverged to +/- " +
+   	                	"infinity.");
+   				}
+   			}
+   			double r = p2 / q2;
+   			relativeError = Math.abs(r / c - 1.0);
+    			
+   			// prepare for next iteration
+   			c = p2 / q2;
+   			p0 = p1;
+   			p1 = p2;
+   			q0 = q1;
+   			q1 = q2;
+    	}
 
-        a[0][0] = getA(0, x);
-        a[0][1] = 1.0;
-        a[1][0] = 1.0;
-        a[1][1] = 0.0;
-
-        return evaluate(1, x, a, an, f, epsilon, maxIterations);
-    }
-
-    /**
-     * Evaluates the n-th convergent, fn = pn / qn, for this continued fraction
-     * at the value x.
-     * @param n the convergent to compute.
-     * @param x the evaluation point.
-     * @param a (n-1)-th convergent matrix.  (Input)
-     * @param an the n-th coefficient matrix. (Output)
-     * @param f the n-th convergent matrix. (Output)
-     * @param epsilon maximum error allowed.
-     * @param maxIterations maximum number of convergents
-     * @return the value of the the n-th convergent for this continued fraction
-     *         evaluated at x. 
-     * @throws MathException if the algorithm fails to converge.
-     */
-    private double evaluate(
-        int n,
-        double x,
-        double[][] a,
-        double[][] an,
-        double[][] f,
-        double epsilon,
-        int maxIterations) throws MathException 
-    {
-        double ret;
-
-        // create next matrix
-        an[0][0] = getA(n, x);
-        an[0][1] = 1.0;
-        an[1][0] = getB(n, x);
-        an[1][1] = 0.0;
-
-        // multiply a and an, save as f
-        f[0][0] = (a[0][0] * an[0][0]) + (a[0][1] * an[1][0]);
-        f[0][1] = (a[0][0] * an[0][1]) + (a[0][1] * an[1][1]);
-        f[1][0] = (a[1][0] * an[0][0]) + (a[1][1] * an[1][0]);
-        f[1][1] = (a[1][0] * an[0][1]) + (a[1][1] * an[1][1]);
-
-        // determine if we're close enough
-        if (Math.abs((f[0][0] * f[1][1]) - (f[1][0] * f[0][1])) <
-            Math.abs(epsilon * f[1][0] * f[1][1]))
-        {
-            ret = f[0][0] / f[1][0];
-        } else {
-            if (n >= maxIterations) {
-                throw new ConvergenceException(
-                    "Continued fraction convergents failed to converge.");
-            }
-            // compute next
-            ret = evaluate(n + 1, x, f /* new a */
-            , an /* reuse an */
-            , a /* new f */
-            , epsilon, maxIterations);
+    	if (n >= maxIterations) {
+            throw new ConvergenceException(
+                "Continued fraction convergents failed to converge.");
         }
 
-        return ret;
+        return c;
     }
 }

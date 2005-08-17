@@ -45,6 +45,10 @@ Commons Math Release Notes</title>
        and numerical utilities, and a PRNG pluggability framework making it
        possible to replace the JDK-supplied random number generator in
        commons-math (and elsewhere) with alternative PRNG implementations.">
+	  <action dev="brentworden" type="fix" issue="36105" due-to="Mikael Weigelt">
+		Changed ContinuedFraction to better handle infinite convergents that
+		resulted in divergent continued fraction evaluations.
+	  </action>
       <action dev="brentworden" type="fix" issue="35904"  due-to="Srinivas Vemury">
         Changed rounding methods to not rely on BigDecimal conversions which
 		was causing numerical error.

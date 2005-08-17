@@ -15,6 +15,8 @@
  */
 package org.apache.commons.math.distribution;
 
+import org.apache.commons.math.MathException;
+
 /**
  * <code>PoissonDistributionTest</code>
  * 
@@ -132,5 +134,47 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
         
         dist.setMean(10.0);
         assertEquals(10.0, dist.getMean(), 0.0);
+    }
+    
+    public void testLargeMeanCumulativeProbability() {
+    	PoissonDistribution dist = DistributionFactory.newInstance().createPoissonDistribution(1.0);
+    	double mean = 1.0;
+    	while (mean <= 10000000.0) {
+    		dist.setMean(mean);
+    		
+    		double x = mean * 2.0;
+    		double dx = x / 10.0;
+    		while (x >= 0) {
+    			try {
+    				dist.cumulativeProbability(x);
+    			} catch (MathException ex) {
+    				fail("mean of " + mean + " and x of " + x + " caused " + ex.getMessage());
+    			}
+				x -= dx;
+    		}
+    		
+    		mean *= 10.0;
+    	}
+    }
+    
+    public void testLargeMeanInverseCumulativeProbability() {
+    	PoissonDistribution dist = DistributionFactory.newInstance().createPoissonDistribution(1.0);
+    	double mean = 1.0;
+    	while (mean <= 10000000.0) {
+    		dist.setMean(mean);
+    		
+    		double p = 0.1;
+    		double dp = p;
+    		while (p < 1.0) {
+    			try {
+    				dist.inverseCumulativeProbability(p);
+    			} catch (MathException ex) {
+    				fail("mean of " + mean + " and p of " + p + " caused " + ex.getMessage());
+    			}
+				p += dp;
+    		}
+    		
+    		mean *= 10.0;
+    	}
     }
 }
