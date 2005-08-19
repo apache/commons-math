@@ -18,7 +18,6 @@ package org.apache.commons.math.distribution;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -54,7 +53,8 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
         super();
         if (numberOfSuccesses > populationSize) {
             throw new IllegalArgumentException(
-            "number of successes must be less than or equal to population size");
+            	"number of successes must be less than or equal to " +
+            	"population size");
         }
         if (sampleSize > populationSize) {
             throw new IllegalArgumentException(
@@ -69,10 +69,8 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      * For this disbution, X, this method returns P(X &le; x).
      * @param x the value at which the PDF is evaluated.
      * @return PDF for this distribution. 
-     * @throws MathException if the cumulative probability can not be
-     *            computed due to convergence or other numerical errors.
      */
-    public double cumulativeProbability(int x) throws MathException{
+    public double cumulativeProbability(int x) {
         double ret;
         
         int n = getPopulationSize();
@@ -84,11 +82,10 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
             ret = 0.0;
         } else if(x >= domain[1]) {
             ret = 1.0;
+        } else if (x - domain[0] < domain[1] - x) {
+            ret = lowerCumulativeProbability(domain[0], x, n, m, k);
         } else {
-            ret = 0.0;
-            for (int i = domain[0]; i <= x; ++i){
-                ret += probability(n, m, k, i);
-            }
+        	ret = 1.0 - upperCumulativeProbability(x + 1, domain[1], n, m, k);
         }
         
         return ret;
@@ -182,6 +179,28 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     }
 
     /**
+     * For this disbution, X, this method returns P(x0 &le; X &le; x1).  This
+     * probability is computed by summing the point probabilities for the values
+     * x0, x0 + 1, x0 + 2, ..., x1, in that order. 
+     * @param x0 the inclusive, lower bound
+     * @param x1 the inclusive, upper bound
+     * @param n the population size.
+     * @param m number of successes in the population.
+     * @param k the sample size.
+     * @return P(x0 &le; X &le; x1). 
+     */
+    private double lowerCumulativeProbability(
+        int x0, int x1, int n, int m, int k)
+    {
+		double ret;
+		ret = 0.0;
+		for (int i = x0; i <= x1; ++i) {
+			ret += probability(n, m, k, i);
+		}
+		return ret;
+	}
+
+    /**
      * For this disbution, X, this method returns P(X = x).
      * 
      * @param x the value at which the PMF is evaluated.
@@ -203,7 +222,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
         
         return ret;
     }
-
+    
     /**
      * For the disbution, X, defined by the given hypergeometric distribution
      * parameters, this method returns P(X = x).
@@ -219,7 +238,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
             MathUtils.binomialCoefficientLog(n - m, k - x) -
             MathUtils.binomialCoefficientLog(n, k));
     }
-    
+
     /**
      * Modify the number of successes.
      * @param num the new number of successes.
@@ -245,8 +264,8 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
         }
         populationSize = size;
     }
-
-    /**
+    
+	/**
      * Modify the sample size.
      * @param size the new sample size.
      * @throws IllegalArgumentException if <code>size</code> is negative.
@@ -258,4 +277,52 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
         }    
         sampleSize = size;
     }
+
+    /**
+     * For this disbution, X, this method returns P(X &ge; x).
+     * @param x the value at which the CDF is evaluated.
+     * @return upper tail CDF for this distribution. 
+     */
+	public double upperCumulativeProbability(int x) {
+    	double ret;
+    	
+        int n = getPopulationSize();
+        int m = getNumberOfSuccesses();
+        int k = getSampleSize();
+
+        int[] domain = getDomain(n, m, k);
+        if (x < domain[0]) {
+            ret = 1.0;
+        } else if(x >= domain[1]) {
+            ret = 0.0;
+        } else if (x - domain[0] < domain[1] - x) {
+        	ret = 1.0 - lowerCumulativeProbability(domain[0], x - 1, n, m, k);
+        } else {
+        	ret = upperCumulativeProbability(x, domain[1], n, m, k);
+        }
+        
+        return ret;
+    }
+    
+    /**
+     * For this disbution, X, this method returns P(x0 &le; X &le; x1).  This
+     * probability is computed by summing the point probabilities for the values
+     * x1, x1 - 1, x1 - 2, ..., x0, in that order. 
+     * @param x0 the inclusive, lower bound
+     * @param x1 the inclusive, upper bound
+     * @param n the population size.
+     * @param m number of successes in the population.
+     * @param k the sample size.
+     * @return P(x0 &le; X &le; x1). 
+     */
+    private double upperCumulativeProbability(
+    	int x0, int x1, int n, int m, int k)
+    {
+    	double ret = 0.0;
+    	for (int i = x1; i >= x0; --i) {
+    		ret += probability(n, m, k, i);
+    	}
+		return ret;
+	}
+
 }

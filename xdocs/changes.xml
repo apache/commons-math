@@ -45,6 +45,9 @@ Commons Math Release Notes</title>
        and numerical utilities, and a PRNG pluggability framework making it
        possible to replace the JDK-supplied random number generator in
        commons-math (and elsewhere) with alternative PRNG implementations.">
+	  <action dev="brentworden" type="update" issue="36215" due-to="Mike Hu">
+		Added upper tail cumulative probability method to HypergeometricDistributionImpl.
+	  </action>
 	  <action dev="brentworden" type="fix" issue="36205" due-to="Xiaogang Zhang">
 		Added better handling of numerical overflow and division by zero in
 		Complex calculations.
