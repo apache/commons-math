@@ -604,8 +604,8 @@ public final class StatUtils {
         double sum2 = 0d;
         double diff = 0d;
         int n = sample1.length;
-        if (n < 2) {
-            throw new IllegalArgumentException("Input array lengths must be at least 2.");
+        if (n < 2 || n != sample2.length) {
+            throw new IllegalArgumentException("Input array lengths must be equal and at least 2.");
         }
         for (int i = 0; i < n; i++) {
             diff = sample1[i] - sample2[i];

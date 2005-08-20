@@ -422,6 +422,11 @@ public final class RealMatrixImplTest extends TestCase {
         RealMatrix lu = m.getLUMatrix();
         assertClose("LU decomposition", lu, (RealMatrix) new RealMatrixImpl(testDataLU), normTolerance);
         verifyDecomposition(m, lu);
+        // access LU decomposition on same object to verify caching.
+        lu = m.getLUMatrix();
+        assertClose("LU decomposition", lu, (RealMatrix) new RealMatrixImpl(testDataLU), normTolerance);
+        verifyDecomposition(m, lu);
+
         m = new RealMatrixImpl(luData);
         lu = m.getLUMatrix();
         assertClose("LU decomposition", lu, (RealMatrix) new RealMatrixImpl(luDataLUDecomposition), normTolerance);
@@ -638,6 +643,19 @@ public final class RealMatrixImplTest extends TestCase {
         // dimension overflow
         try {  
             m.setSubMatrix(testData,1,1);
+            fail("expecting MatrixIndexException");
+        } catch (MatrixIndexException e) {
+            // expected
+        }
+        // dimension underflow
+        try {  
+            m.setSubMatrix(testData,-1,1);
+            fail("expecting MatrixIndexException");
+        } catch (MatrixIndexException e) {
+            // expected
+        }
+        try {  
+            m.setSubMatrix(testData,1,-1);
             fail("expecting MatrixIndexException");
         } catch (MatrixIndexException e) {
             // expected
