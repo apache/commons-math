@@ -499,7 +499,7 @@ public final class MathUtils {
      * @since 1.1
      */
     public static double round(double x, int scale, int roundingMethod) {
-        double sign = sign(x);
+        double sign = indicator(x);
         double factor = Math.pow(10.0, scale) * sign;
         return roundUnscaled(x * factor, sign, roundingMethod) / factor;
     }
@@ -530,7 +530,7 @@ public final class MathUtils {
      * @since 1.1
      */
     public static float round(float x, int scale, int roundingMethod) {
-        float sign = sign(x);
+        float sign = indicator(x);
         float factor = (float)Math.pow(10.0f, scale) * sign;
         return (float)roundUnscaled(x * factor, sign, roundingMethod) / factor;
     }

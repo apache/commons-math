@@ -17,6 +17,8 @@ package org.apache.commons.math.util;
 
 import java.math.BigDecimal;
 
+import org.apache.commons.math.TestUtils;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -556,6 +558,12 @@ public final class MathUtilsTest extends TestCase {
         } catch (IllegalArgumentException ex) {
             // success
         }
+        
+        // special values
+        TestUtils.assertEquals(Float.NaN, MathUtils.round(Float.NaN, 2), 0.0f);
+        assertEquals(0.0f, MathUtils.round(0.0f, 2), 0.0f);
+        assertEquals(Float.POSITIVE_INFINITY, MathUtils.round(Float.POSITIVE_INFINITY, 2), 0.0f);
+        assertEquals(Float.NEGATIVE_INFINITY, MathUtils.round(Float.NEGATIVE_INFINITY, 2), 0.0f);
     }
     
     public void testRoundDouble() {
@@ -646,5 +654,11 @@ public final class MathUtilsTest extends TestCase {
         } catch (IllegalArgumentException ex) {
             // success
         }
+        
+        // special values
+        TestUtils.assertEquals(Double.NaN, MathUtils.round(Double.NaN, 2), 0.0);
+        assertEquals(0.0, MathUtils.round(0.0, 2), 0.0);
+        assertEquals(Double.POSITIVE_INFINITY, MathUtils.round(Double.POSITIVE_INFINITY, 2), 0.0);
+        assertEquals(Double.NEGATIVE_INFINITY, MathUtils.round(Double.NEGATIVE_INFINITY, 2), 0.0);
     }
 }
