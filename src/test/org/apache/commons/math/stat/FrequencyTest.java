@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.Iterator;
 
+import org.apache.commons.math.TestUtils;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -111,6 +113,21 @@ public final class FrequencyTest extends TestCase {
         assertEquals("one count", 3 ,  f.getCount("one"));
         assertEquals("Z cumulative pct -- case insensitive", 1 ,  f.getCumPct("Z"), tolerance);
         assertEquals("z cumulative pct -- case insensitive", 1 ,  f.getCumPct("z"), tolerance);
+        
+        f = null;
+        f = new Frequency();
+        assertEquals(0L, f.getCount('a'));
+        assertEquals(0L, f.getCumFreq('b'));
+        TestUtils.assertEquals(Double.NaN, f.getPct('a'), 0.0);
+        TestUtils.assertEquals(Double.NaN, f.getCumPct('b'), 0.0);
+        f.addValue('a');
+        f.addValue('b');
+        f.addValue('c');
+        f.addValue('d');
+        assertEquals(1L, f.getCount('a'));
+        assertEquals(2L, f.getCumFreq('b'));
+        assertEquals(0.25, f.getPct('a'), 0.0);
+        assertEquals(0.5, f.getCumPct('b'), 0.0);
     }     
     
     /** test pcts */

@@ -72,6 +72,20 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
         assertEquals(3.75, p.evaluate(d), 1.0e-5);
         p.setQuantile(50);
         assertEquals(2.5, p.evaluate(d), 1.0e-5);
+        
+        // invalid percentiles
+        try {
+        	p.evaluate(d, 0, d.length, -1.0);
+        	fail();
+        } catch (IllegalArgumentException ex) {
+        	// success
+        }
+        try {
+        	p.evaluate(d, 0, d.length, 101.0);
+        	fail();
+        } catch (IllegalArgumentException ex) {
+        	// success
+        }
     }
     
     public void testNISTExample() {

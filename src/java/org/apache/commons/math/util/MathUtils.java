@@ -1,12 +1,17 @@
 /*
- * Copyright 2003-2005 The Apache Software Foundation. Licensed under the Apache
- * License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law
- * or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * Copyright 2003-2004 The Apache Software Foundation.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.apache.commons.math.util;
@@ -15,9 +20,7 @@ import java.math.BigDecimal;
 
 /**
  * Some useful additions to the built-in functions in {@link Math}.
- * 
- * @version $Revision$ $Date: 2005-07-30 02:25:26 -0500 (Sat, 30 Jul
- *          2005) $
+ * @version $Revision$ $Date$
  */
 public final class MathUtils {
 
@@ -496,7 +499,7 @@ public final class MathUtils {
      * @since 1.1
      */
     public static double round(double x, int scale, int roundingMethod) {
-        double sign = sign(x);
+        double sign = indicator(x);
         double factor = Math.pow(10.0, scale) * sign;
         return roundUnscaled(x * factor, sign, roundingMethod) / factor;
     }
@@ -527,7 +530,7 @@ public final class MathUtils {
      * @since 1.1
      */
     public static float round(float x, int scale, int roundingMethod) {
-        float sign = sign(x);
+        float sign = indicator(x);
         float factor = (float)Math.pow(10.0f, scale) * sign;
         return (float)roundUnscaled(x * factor, sign, roundingMethod) / factor;
     }
