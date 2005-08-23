@@ -45,6 +45,9 @@ Commons Math Release Notes</title>
        and numerical utilities, and a PRNG pluggability framework making it
        possible to replace the JDK-supplied random number generator in
        commons-math (and elsewhere) with alternative PRNG implementations.">
+	  <action dev="brentworden" type="fix" issue="36232" due-to="Xiaogang Zhang">
+		Added protection against numerical overflow and underflow in the isBracketing method.
+	  </action>
 	  <action dev="brentworden" type="fix" issue="36300" due-to="Nikhil Gupte">
 		Fixed division by zero error in rounding methods.
 	  </action>
