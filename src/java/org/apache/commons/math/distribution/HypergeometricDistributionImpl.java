@@ -281,7 +281,8 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     /**
      * For this disbution, X, this method returns P(X &ge; x).
      * @param x the value at which the CDF is evaluated.
-     * @return upper tail CDF for this distribution. 
+     * @return upper tail CDF for this distribution.
+     * @since 1.1
      */
 	public double upperCumulativeProbability(int x) {
     	double ret;
