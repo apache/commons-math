@@ -216,12 +216,15 @@ public class ComplexUtils {
         
         double a = z.getReal();
         double b = z.getImaginary();
+        if (a == 0.0 && b == 0.0) {
+            return new Complex(0.0, 0.0);
+        }
         
         double t = Math.sqrt((Math.abs(a) + z.abs()) / 2.0);
         if (a >= 0.0) {
             return new Complex(t, b / (2.0 * t));
         } else {
-            return new Complex(Math.abs(z.getImaginary()) / (2.0 * t),
+            return new Complex(Math.abs(b) / (2.0 * t),
                 MathUtils.indicator(b) * t);
         }
     }
