@@ -20,7 +20,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/SimpsonsRule.html">
- * Simpson's Rule</a> for integrating of real univariate functions. For
+ * Simpson's Rule</a> for integration of real univariate functions. For
  * reference, see <b>Introduction to Numerical Analysis</b>, ISBN 038795452X,
  * chapter 3.
  * <p>
@@ -37,7 +37,7 @@ public class SimpsonIntegrator extends UnivariateRealIntegratorImpl {
     /**
      * Construct an integrator for the given function.
      * 
-     * @param f function to solve
+     * @param f function to integrate
      */
     public SimpsonIntegrator(UnivariateRealFunction f) {
         super(f, 64);

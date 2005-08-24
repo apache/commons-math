@@ -20,7 +20,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/TrapezoidalRule.html">
- * Trapezoidal Rule</a> for integrating of real univariate functions. For
+ * Trapezoidal Rule</a> for integration of real univariate functions. For
  * reference, see <b>Introduction to Numerical Analysis</b>, ISBN 038795452X,
  * chapter 3.
  * <p>
@@ -39,7 +39,7 @@ public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
     /**
      * Construct an integrator for the given function.
      * 
-     * @param f function to solve
+     * @param f function to integrate
      */
     public TrapezoidIntegrator(UnivariateRealFunction f) {
         super(f, 64);
