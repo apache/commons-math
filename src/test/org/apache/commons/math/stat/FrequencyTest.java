@@ -113,7 +113,7 @@ public final class FrequencyTest extends TestCase {
         assertEquals("one count", 3 ,  f.getCount("one"));
         assertEquals("Z cumulative pct -- case insensitive", 1 ,  f.getCumPct("Z"), tolerance);
         assertEquals("z cumulative pct -- case insensitive", 1 ,  f.getCumPct("z"), tolerance);
-        
+
         f = null;
         f = new Frequency();
         assertEquals(0L, f.getCount('a'));
@@ -128,6 +128,7 @@ public final class FrequencyTest extends TestCase {
         assertEquals(2L, f.getCumFreq('b'));
         assertEquals(0.25, f.getPct('a'), 0.0);
         assertEquals(0.5, f.getCumPct('b'), 0.0);
+        assertEquals(1.0, f.getCumPct('e'), 0.0);
     }     
     
     /** test pcts */

@@ -82,10 +82,8 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
             ret = 0.0;
         } else if(x >= domain[1]) {
             ret = 1.0;
-        } else if (x - domain[0] < domain[1] - x) {
-            ret = lowerCumulativeProbability(domain[0], x, n, m, k);
         } else {
-        	ret = 1.0 - upperCumulativeProbability(x + 1, domain[1], n, m, k);
+            ret = innerCumulativeProbability(domain[0], x, 1, n, m, k);
         }
         
         return ret;
@@ -179,28 +177,6 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     }
 
     /**
-     * For this disbution, X, this method returns P(x0 &le; X &le; x1).  This
-     * probability is computed by summing the point probabilities for the values
-     * x0, x0 + 1, x0 + 2, ..., x1, in that order. 
-     * @param x0 the inclusive, lower bound
-     * @param x1 the inclusive, upper bound
-     * @param n the population size.
-     * @param m number of successes in the population.
-     * @param k the sample size.
-     * @return P(x0 &le; X &le; x1). 
-     */
-    private double lowerCumulativeProbability(
-        int x0, int x1, int n, int m, int k)
-    {
-		double ret;
-		ret = 0.0;
-		for (int i = x0; i <= x1; ++i) {
-			ret += probability(n, m, k, i);
-		}
-		return ret;
-	}
-
-    /**
      * For this disbution, X, this method returns P(X = x).
      * 
      * @param x the value at which the PMF is evaluated.
@@ -281,7 +257,8 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     /**
      * For this disbution, X, this method returns P(X &ge; x).
      * @param x the value at which the CDF is evaluated.
-     * @return upper tail CDF for this distribution. 
+     * @return upper tail CDF for this distribution.
+     * @since 1.1
      */
 	public double upperCumulativeProbability(int x) {
     	double ret;
@@ -293,36 +270,36 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
         int[] domain = getDomain(n, m, k);
         if (x < domain[0]) {
             ret = 1.0;
-        } else if(x >= domain[1]) {
+        } else if(x > domain[1]) {
             ret = 0.0;
-        } else if (x - domain[0] < domain[1] - x) {
-        	ret = 1.0 - lowerCumulativeProbability(domain[0], x - 1, n, m, k);
         } else {
-        	ret = upperCumulativeProbability(x, domain[1], n, m, k);
+        	ret = innerCumulativeProbability(domain[1], x, -1, n, m, k);
         }
         
         return ret;
     }
-    
+	
     /**
      * For this disbution, X, this method returns P(x0 &le; X &le; x1).  This
      * probability is computed by summing the point probabilities for the values
-     * x1, x1 - 1, x1 - 2, ..., x0, in that order. 
+     * x0, x0 + 1, x0 + 2, ..., x1, in the order directed by dx. 
      * @param x0 the inclusive, lower bound
      * @param x1 the inclusive, upper bound
+     * @param dx the direction of summation. 1 indicates summing from x0 to x1.
+     *           0 indicates summing from x1 to x0.
      * @param n the population size.
      * @param m number of successes in the population.
      * @param k the sample size.
      * @return P(x0 &le; X &le; x1). 
      */
-    private double upperCumulativeProbability(
-    	int x0, int x1, int n, int m, int k)
+    private double innerCumulativeProbability(
+    	int x0, int x1, int dx, int n, int m, int k)
     {
-    	double ret = 0.0;
-    	for (int i = x1; i >= x0; --i) {
-    		ret += probability(n, m, k, i);
+    	double ret = probability(n, m, k, x0);
+    	while (x0 != x1) {
+    		x0 += dx;
+    		ret += probability(n, m, k, x0);
     	}
 		return ret;
 	}
-
 }

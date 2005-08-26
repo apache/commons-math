@@ -174,6 +174,37 @@ public final class BigMatrixImplTest extends TestCase {
         } catch (NumberFormatException ex) {
             // expected
         }
+        try {
+            BigMatrix m4 = new BigMatrixImpl(new String[][] {});
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+        try {
+            BigMatrix m4 = new BigMatrixImpl(new String[][] {{},{}});
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+        try {
+            BigMatrix m4 = new BigMatrixImpl(new String[][] {{"a", "b"},{"c"}});
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+
+        try {
+            BigMatrix m4 = new BigMatrixImpl(0, 1);
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+        try {
+            BigMatrix m4 = new BigMatrixImpl(1, 0);
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
     }
     
     /** test add */

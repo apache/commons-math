@@ -127,4 +127,23 @@ public class TestUtils {
         Assert.assertEquals("Equals check", object, object2);
         Assert.assertEquals("HashCode check", object.hashCode(), object2.hashCode());
     }
+
+	public static void assertRelativelyEquals(double expected, double actual, double relativeError) {
+		assertRelativelyEquals(null, expected, actual, relativeError);
+	}
+	
+	public static void assertRelativelyEquals(String msg, double expected, double actual, double relativeError) {
+        if (Double.isNaN(expected)) {
+            Assert.assertTrue(msg, Double.isNaN(actual));
+        } else if (Double.isNaN(actual)) {
+        	Assert.assertTrue(msg, Double.isNaN(expected));
+        } else if (Double.isInfinite(actual) || Double.isInfinite(expected)) {
+            Assert.assertEquals(expected, actual, relativeError);
+        } else if (expected == 0.0) {
+            Assert.assertEquals(msg, actual, expected, relativeError);
+        } else {
+            double x = Math.abs((expected - actual) / expected);
+            Assert.assertEquals(msg, 0.0, x, relativeError);
+        }
+	}
 }

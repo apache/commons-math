@@ -668,6 +668,19 @@ public final class RealMatrixImplTest extends TestCase {
         } catch (NullPointerException e) {
             // expected
         }
+        RealMatrixImpl m2 = new RealMatrixImpl();
+        try {
+            m2.setSubMatrix(testData,0,1);
+            fail("expecting MatrixIndexException");
+        } catch (MatrixIndexException e) {
+            // expected
+        }
+        try {
+            m2.setSubMatrix(testData,1,0);
+            fail("expecting MatrixIndexException");
+        } catch (MatrixIndexException e) {
+            // expected
+        }
         
         // ragged
         try {

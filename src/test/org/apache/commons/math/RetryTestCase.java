@@ -29,7 +29,7 @@ import junit.framework.TestCase;
  *
  * @version $Revision$ $Date$
  */
-public class RetryTestCase extends TestCase {
+public abstract class RetryTestCase extends TestCase {
 
     public RetryTestCase() {
         super();
