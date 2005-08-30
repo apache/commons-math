@@ -39,14 +39,14 @@ public class RandomDataTest extends RetryTestCase {
         randomData = new RandomDataImpl();
     }
 
-    private long smallSampleSize = 1000;
-    private double[] expected = {250,250,250,250};
-    private int largeSampleSize = 10000;
+    protected long smallSampleSize = 1000;
+    protected double[] expected = {250,250,250,250};
+    protected int largeSampleSize = 10000;
     private int tolerance = 50;
     private String[] hex = 
         {"0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"}; 
     protected RandomDataImpl randomData = null; 
-    private ChiSquareTestImpl testStatistic = new ChiSquareTestImpl();
+    protected ChiSquareTestImpl testStatistic = new ChiSquareTestImpl();
     
     public void setUp() { 
     }
