@@ -38,7 +38,7 @@ The <action> type attribute can be add,update,fix,remove.
 Commons Math Release Notes</title>
   </properties>
   <body>
-    <release version="1.1-RC1" date="TBD"  
+    <release version="1.1-RC2" date="TBD"  
  description="This is a maintenance release containing bug fixes and enhancements.
        All API changes are binary compatible with version 1.0. The enhancements 
        include some new probability distributions, a Fraction class, new matrix

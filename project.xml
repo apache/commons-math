@@ -84,6 +84,11 @@
       <name>1.1</name>
       <tag>MATH_1_1_RC1</tag>
     </version>
+    <version>
+      <id>1.1-RC2</id>
+      <name>1.1</name>
+      <tag>MATH_1_1_RC2</tag>
+    </version>
   </versions>
   <developers>
     <developer>
