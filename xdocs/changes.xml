@@ -38,14 +38,14 @@ The <action> type attribute can be add,update,fix,remove.
 Commons Math Release Notes</title>
   </properties>
   <body>
-    <release version="1.1-RC2" date="TBD"  
+    <release version="1.1-RC3" date="TBD"  
  description="This is a maintenance release containing bug fixes and enhancements.
        All API changes are binary compatible with version 1.0. The enhancements 
        include some new probability distributions, a Fraction class, new matrix
        and numerical utilities, and a PRNG pluggability framework making it
        possible to replace the JDK-supplied random number generator in
        commons-math (and elsewhere) with alternative PRNG implementations.">
-          <action dev="psteitz" type="fix" issue="36450" due-to="Keith McDonald">
+      <action dev="psteitz" type="fix" issue="36450" due-to="Keith McDonald">
 		Fixed bin index overflow problem in EmpiricalDistributionImpl.
 	  </action>
 	  <action dev="brentworden" type="fix" issue="36232" due-to="Xiaogang Zhang">
