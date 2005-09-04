@@ -160,6 +160,14 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
         tstDoubleGen(5);           
     }
     
+    /**
+     * Test bin index overflow problem (BZ 36450)
+     */
+    public void testBinIndexOverflow() throws Exception {
+        double[] x = new double[] {9474.94326071674, 2080107.8865462579};
+        new EmpiricalDistributionImpl().load(x);
+    }
+    
     public void testSerialization() {
         // Empty
         EmpiricalDistribution dist = new EmpiricalDistributionImpl();

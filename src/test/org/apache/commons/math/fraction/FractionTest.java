@@ -412,4 +412,34 @@ public class FractionTest extends TestCase {
             fail("expecting ArithmeticException but got: " + f.toString());
         } catch (ArithmeticException ex) {}
     }
+    
+    public void testEqualsAndHashCode() {
+        Fraction zero  = new Fraction(0,1);
+        Fraction nullFraction = null;
+        int zeroHash = zero.hashCode();
+        assertTrue( zero.equals(zero));
+        assertFalse(zero.equals(nullFraction));
+        assertFalse(zero.equals(new Double(0)));
+        Fraction zero2 = new Fraction(0,2);
+        assertTrue(zero.equals(zero2));
+        assertEquals(zero.hashCode(), zero2.hashCode());
+        Fraction one = new Fraction(1,1);
+        assertFalse((one.equals(zero) ||zero.equals(one)));
+    }
+    
+    public void testGetReducedFraction() {
+        Fraction threeFourths = new Fraction(3, 4);
+        assertTrue(threeFourths.equals(Fraction.getReducedFraction(6, 8)));
+        assertTrue(Fraction.ZERO.equals(Fraction.getReducedFraction(0, -1)));
+        try {
+            Fraction f = Fraction.getReducedFraction(1, 0);
+            fail("expecting ArithmeticException");
+        } catch (ArithmeticException ex) {
+            // expected
+        }
+        assertEquals(Fraction.getReducedFraction
+                (2, Integer.MIN_VALUE).getNumerator(),-1);
+        assertEquals(Fraction.getReducedFraction
+                (1, -1).getNumerator(), -1);
+    }
 }

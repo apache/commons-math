@@ -250,8 +250,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
             while ((str = inputStream.readLine()) != null) {
                 val = Double.parseDouble(str);
                 SummaryStatistics stats =
-                    (SummaryStatistics) binStats.get(
-                        Math.max((int) Math.ceil((val - min) / delta) - 1, 0));
+                    (SummaryStatistics) binStats.get(findBin(min, val, delta));
                 stats.addValue(val);
             }
 
@@ -316,8 +315,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
             for (int i = 0; i < inputArray.length; i++) {
                 SummaryStatistics stats =
                     (SummaryStatistics) binStats.get(
-                        Math.max((int) Math.ceil(
-                                (inputArray[i] - min) / delta)- 1, 0));
+                            findBin(min, inputArray[i], delta));
                 stats.addValue(inputArray[i]);
             }
         }
@@ -375,6 +373,20 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         }
         upperBounds[binCount-1] = 1.0d;
     }
+    
+    /**
+     * Returns the index of the bin to which the given value belongs
+     * 
+     * @param min  the minimum value
+     * @param value  the value whose bin we are trying to find
+     * @param delta  the grid size
+     * @return
+     */
+    private int findBin(double min, double value, double delta) {
+        return Math.min(
+                Math.max((int) Math.ceil((value- min) / delta) - 1, 0), 
+                binCount - 1);
+        }
 
     /**
      * Generates a random value from this distribution.
