@@ -41,9 +41,7 @@
    "<i>should</i>" guidelines prior to a release.
    </p>
    <subsection name="Contributing">
-   <p>
-      Here are some steps to take to get starting contributing to commons-math:
-    </p>
+    <p><strong>Getting Started</strong></p>
     <p>
     <ol>
         <li>Start by reviewing the overall objectives stated in the
@@ -51,14 +49,20 @@
             founded.
         </li>
         <li>Download the commons math source code.  Follow the instructions
-        under the heading "Anonymous Subversion"
-        <a href="http://www.apache.org/dev/version-control.html">here</a> (and 
-        also have a look <a href="http://wiki.apache.org/jakarta-commons/UsingSVN">
-        here</a>) to check out the commons math code base from Subversion 
-        (Jakarta Commons now uses Subversion as our source control system). The
-        svn url for the current development sources of commons-math
+        under the heading "Anonymous Subversion" on the
+        <a href="http://www.apache.org/dev/version-control.html">Apache version
+         control page</a>  (Also have a look at the 
+        <a href="http://wiki.apache.org/jakarta-commons/UsingSVN">Jakarta wiki
+        svn page </a>) to check out the commons math code base from Subversion.
+        The svn url for the current development sources of commons-math
         is 
 <source>https://svn.apache.org/repos/asf/jakarta/commons/proper/math/trunk</source>
+        </li>
+        <li>Like most commons components, commons-math uses maven as our build
+            tool.  Follow the 
+            <a href="http://jakarta.apache.org/commons/building.html">building
+            components</a> instructions to get set up with maven so that you
+            can build commons-math from source.
         </li>
         <li>Have a look at the new features that users and developers have requested
             on the <a href="http://wiki.apache.org/jakarta-commons/MathWishList">
@@ -99,17 +103,58 @@
                 <li><a href="http://issues.apache.org/bugzilla/buglist.cgi?bug_status=UNCONFIRMED&amp;bug_status=RESOLVED&amp;bug_status=VERIFIED&amp;bug_status=CLOSED&amp;email1=&amp;emailtype1=substring&amp;emailassigned_to1=1&amp;email2=&amp;emailtype2=substring&amp;emailreporter2=1&amp;bugidtype=include&amp;bug_id=&amp;changedin=&amp;votes=&amp;chfieldfrom=&amp;chfieldto=Now&amp;chfieldvalue=&amp;product=Commons&amp;component=Math&amp;short_desc=&amp;short_desc_type=allwordssubstr&amp;long_desc=&amp;long_desc_type=allwordssubstr&amp;bug_file_loc=&amp;bug_file_loc_type=allwordssubstr&amp;keywords=&amp;keywords_type=anywords&amp;field0-0-0=noop&amp;type0-0-0=noop&amp;value0-0-0=&amp;cmdtype=doit&amp;newqueryname=&amp;order=Reuse+same+sort+as+last+time">
                     Resolved and Closed Issues.
                 </a></li>
-            </ul>
-            
+            </ul>          
           <li>
                 Generating patches: The requested format for generating patches is the Unified Diff format, 
                 which can be easily generated using the svn client or Eclipse IDE.
 <source>svn diff  > patch </source>
           </li>
-
         </li>
     </ol>
     </p>
+    <p><strong>Contributing ideas and code</strong></p>
+    <p>
+     Follow the steps below when making suggestions for additions or
+     enhancements to commons-math. This will make it easier for the community
+     to comment on your ideas and for the committers to keep track of them. 
+     Thanks in advance!
+     <ol>
+       <li>Start with a post to the commons-dev mailing list, with [math] at
+       the beginning of the subject line, followed by a good, short title
+       describing the new feature or enhancement.  For example, "[math]
+       Prinicpal Components Analysis." The body of the post should include each
+       of the following items (but be <strong>as brief as possible</strong>):
+       <ul>
+         <li>A concise description of the new feature / enhancement</li>
+         <li>References to definitions and algorithms. Using standard
+         definitions and algorithms makes communication much easier and will
+         greatly increase the chances that we will accept the code / idea</li>
+         <li>Some indication of why the addition / enhancement is practically
+         useful</li>
+       </ul></li>
+       <li>Assuming a generally favorable response to the idea on commons-dev,
+       the next step is to add an entry to the 
+       <a href="http://wiki.apache.org/jakarta-commons/MathWishList">Math Wish
+       List</a> corresponding to the idea.  Include a reference to the
+       discussion thread and, for substantial enhancements, a new Wiki page
+       named using the enhancement / addition name, e.g. 
+       "PrincipalComponentsAnalysis." We can then us this page to lay out the
+       development plan and track progress and decisions related to the
+       feature.</li>
+       <li>Create a Bugzilla ticket using the the feature title as the short
+       description. Incorporate feedback from the initial posting in the
+       description. Add a link to the Bugzilla ticket to the WishList entry.
+       </li>
+       <li>Submit code as attachments to the Bugzilla ticket.  Please use one
+       ticket for each feature, adding multiple patches to the ticket
+       as necessary.  Use the svn diff command to generate your patches as
+       diffs.  Please do not submit modified copies of existing java files. Be
+       patient (but not <strong>too</strong> patient) with  committers reviewing
+       patches. Post a *nudge* message to commons-dev with a reference to the
+       ticket if a patch goes more than a few days with no comment or commit.
+       </li>
+      </ol>
+    </p>   
    </subsection>
    <subsection name='Coding Style'>
     <p>
@@ -135,6 +180,9 @@
       Implementations <i>should</i> use standard algorithms and
       references or full descriptions of all algorithms <i>should</i> be 
       provided.</li>
+     <li>
+      Additions and enhancements <i>should</i> include updates to the User
+      Guide.</li>
     </ul>
    </subsection>
    <subsection name='Unit Tests'>
@@ -167,7 +215,12 @@
        paper, etc.).</li>
      <li>
        References to source materials covered by restrictive proprietary
-       licenses should be avoided.</li>
+       licenses should be avoided.  In particular, contributions should not
+       implement or include references to algorithms in 
+       <a href="http://www.nr.com/">Numerical Recipes (NR)</a>.
+       Any questions about copyright or patent issues should be raised on
+       the commons-dev mailing list before contributing or committing code.
+      </li>
     </ul>
    </subsection>
   </section>
@@ -194,9 +247,6 @@
      </dd>
      <dt>Numerical analysis</dt>
      <dd>
-      <a href="http://www.nr.com/">
-       Numerical Recipes (NR)
-      </a><br/>
       <a href="http://www.mathcom.com/corpdir/techinfo.mdir/scifaq/index.html">
         Scientific Computing FAQ @ Mathcom
       </a><br/>
