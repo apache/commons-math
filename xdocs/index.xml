@@ -64,20 +64,17 @@
   <section name="Download Math">
    <subsection name="Releases">
     <p>
-      The latest release of Commons Math is available for download
+      Download the 
       <a href="http://jakarta.apache.org/site/downloads/downloads_commons-math.cgi">
-      here</a>
+      Latest Release</a> of Commons Math.
     </p>
    </subsection>
    <subsection name="Nightly Builds">
     <p>
-     Nightly builds are built once a day from the current SVN HEAD.
+     <a href="http://cvs.apache.org/builds/jakarta-commons/nightly/commons-math/">
+     Nightly builds</a> are built once a day from the current SVN HEAD.
      This is (nearly) the lastest code and so should be treated with
      caution!
-    </p>
-    <p>
-     You can get the nightly builds from <a
-     href="http://cvs.apache.org/builds/jakarta-commons/nightly/commons-math/">here</a>
     </p>
    </subsection>
   </section>
