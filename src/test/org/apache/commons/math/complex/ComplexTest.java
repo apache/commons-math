@@ -169,9 +169,6 @@ public class ComplexTest extends TestCase {
         assertTrue(realNaN.equals(imaginaryNaN));
         assertTrue(imaginaryNaN.equals(complexNaN));
         assertTrue(realNaN.equals(complexNaN));
-        Double d = new Double(Double.NaN);
-        Double d2 = new Double(Double.NaN);
-        assertTrue(d.equals(d2));
     }
     
     public void testHashCode() {
