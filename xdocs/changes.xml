@@ -45,11 +45,16 @@ Commons Math Release Notes</title>
        and numerical utilities, and a PRNG pluggability framework making it
        possible to replace the JDK-supplied random number generator in
        commons-math (and elsewhere) with alternative PRNG implementations.">
+      <action dev="psteitz" type="fix" issue="36491">
+       Implemented hashCode in the Complex class and changed the semantics of
+       equals to make all instances with real or imaginary part NaN equal.
+      </action>
       <action dev="psteitz" type="fix" issue="36450" due-to="Keith McDonald">
 		Fixed bin index overflow problem in EmpiricalDistributionImpl.
 	  </action>
 	  <action dev="brentworden" type="fix" issue="36232" due-to="Xiaogang Zhang">
-		Added protection against numerical overflow and underflow in the isBracketing method.
+        Added protection against numerical overflow and underflow in the
+        isBracketing method.
 	  </action>
 	  <action dev="brentworden" type="fix" issue="36300" due-to="Nikhil Gupte">
 		Fixed division by zero error in rounding methods.
