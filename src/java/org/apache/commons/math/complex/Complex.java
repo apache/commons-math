@@ -34,7 +34,7 @@ public class Complex implements Serializable  {
     /** The square root of -1. A number representing "0.0 + 1.0i".*/    
     public static final Complex I = new Complex(0.0, 1.0);
     
-    /** A complex number analogous to {@link Double.NaN} */
+    /** A complex number analogous to {@link java.lang.Double#NaN} */
     public static final Complex NaN = new Complex(Double.NaN, Double.NaN);
 
     /** A complex number representing "1.0 + 0.0i" */    
