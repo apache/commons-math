@@ -91,15 +91,13 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
             return Double.NaN;
         }
         double variance = moment.m2 / (double) (moment.n - 1);
-        double skewness = Double.NaN;
         if (variance < 10E-20) {
-            skewness = 0.0;
+            return 0.0d;
         } else {
             double n0 = (double) moment.getN();
-            skewness = (n0 * moment.m3) /
+            return  (n0 * moment.m3) /
             ((n0 - 1) * (n0 -2) * Math.sqrt(variance) * variance);
         }
-        return skewness;
     }
 
     /**

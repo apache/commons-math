@@ -46,6 +46,10 @@ Commons Math Release Notes</title>
        possible to replace the JDK-supplied random number generator in
        commons-math (and elsewhere) with alternative PRNG implementations.">
       <action dev="psteitz" type="fix" issue="36491">
+       Eliminated unnecessary assignment statements in Skewness.getResult
+       method.
+      </action>
+      <action dev="psteitz" type="fix" issue="36491">
        Synchronized getters in ResizeableDoubleArray.
       </action>
       <action dev="psteitz" type="fix" issue="36491">
