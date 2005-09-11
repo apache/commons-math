@@ -46,6 +46,9 @@ Commons Math Release Notes</title>
        possible to replace the JDK-supplied random number generator in
        commons-math (and elsewhere) with alternative PRNG implementations.">
       <action dev="psteitz" type="fix" issue="36491">
+       Eliminated floating point equals comparison in Percentile.evaluate.
+      </action>
+      <action dev="psteitz" type="fix" issue="36491">
        Eliminated unnecessary assignment statements in Skewness.getResult
        method.
       </action>
