@@ -76,6 +76,16 @@ public final class MathUtilsTest extends TestCase {
         } catch (ArithmeticException ex) {}
     }
     
+    public void testSubAndCheckErrorMessage() {
+        int big = Integer.MAX_VALUE;
+        int bigNeg = Integer.MIN_VALUE;
+        try {
+            int res = MathUtils.subAndCheck(big, -1);
+        } catch (ArithmeticException ex) {
+            assertEquals("overflow: subtract", ex.getMessage());
+        }
+    }
+    
     public void testBinomialCoefficient() {
         long[] bcoef5 = {1,5,10,10,5,1};
         long[] bcoef6 = {1,6,15,20,15,6,1};
