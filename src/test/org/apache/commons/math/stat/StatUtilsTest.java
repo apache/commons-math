@@ -42,6 +42,7 @@ public final class StatUtilsTest extends TestCase {
     private double skewness = 0;
     private double kurtosis = 0.5;
     private double tolerance = 10E-15;
+    private double nan = Double.NaN;
 
     public StatUtilsTest(String name) {
         super(name);
@@ -296,6 +297,22 @@ public final class StatUtilsTest extends TestCase {
         // test many
         x = new double[] {one, two, two, three};
         TestUtils.assertEquals(three, StatUtils.max(x, 1, 3), tolerance);
+
+        // test first nan is ignored
+        x = new double[] {nan, two, three};
+        TestUtils.assertEquals(three, StatUtils.max(x), tolerance);
+
+        // test middle nan is ignored
+        x = new double[] {one, nan, three};
+        TestUtils.assertEquals(three, StatUtils.max(x), tolerance);
+        
+        // test last nan is ignored
+        x = new double[] {one, two, nan};
+        TestUtils.assertEquals(two, StatUtils.max(x), tolerance);
+
+        // test all nan returns nan
+        x = new double[] {nan, nan, nan};
+        TestUtils.assertEquals(nan, StatUtils.max(x), tolerance);
     }
     
     public void testMin() {
@@ -319,6 +336,22 @@ public final class StatUtilsTest extends TestCase {
         // test many
         x = new double[] {one, two, two, three};
         TestUtils.assertEquals(two, StatUtils.min(x, 1, 3), tolerance);
+
+        // test first nan is ignored
+        x = new double[] {nan, two, three};
+        TestUtils.assertEquals(two, StatUtils.min(x), tolerance);
+
+        // test middle nan is ignored
+        x = new double[] {one, nan, three};
+        TestUtils.assertEquals(one, StatUtils.min(x), tolerance);
+        
+        // test last nan is ignored
+        x = new double[] {one, two, nan};
+        TestUtils.assertEquals(one, StatUtils.min(x), tolerance);
+
+        // test all nan returns nan
+        x = new double[] {nan, nan, nan};
+        TestUtils.assertEquals(nan, StatUtils.min(x), tolerance);
     }
     
     public void testPercentile() {

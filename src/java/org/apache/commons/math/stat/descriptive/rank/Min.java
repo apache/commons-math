@@ -114,7 +114,9 @@ public class Min extends AbstractStorelessUnivariateStatistic implements Seriali
         if (test(values, begin, length)) {
             min = values[begin];
             for (int i = begin; i < begin + length; i++) {
-                min = (min < values[i]) ? min : values[i];
+                if (!Double.isNaN(values[i])) {
+                    min = (min < values[i]) ? min : values[i];
+                }
             }
         }
         return min;
