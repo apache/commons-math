@@ -47,6 +47,8 @@
   
   <preGoal name="dist:build-src">
     <copy todir="${maven.dist.src.assembly.dir}">
+      <fileset file='${basedir}/checkstyle.xml'/>
+      <fileset file='${basedir}/license-header.txt'/>
       <fileset file='${basedir}/NOTICE.txt'/>
       <fileset file='${basedir}/RELEASE-NOTES.txt'/>
     </copy>

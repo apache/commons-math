@@ -112,7 +112,9 @@ public class Max extends AbstractStorelessUnivariateStatistic {
         if (test(values, begin, length)) {
             max = values[begin];
             for (int i = begin; i < begin + length; i++) {
-                max = (max > values[i]) ? max : values[i];
+                if (!Double.isNaN(values[i])) {
+                    max = (max > values[i]) ? max : values[i];
+                }
             }
         }
         return max;

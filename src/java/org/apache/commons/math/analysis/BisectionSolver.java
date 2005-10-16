@@ -87,7 +87,6 @@ public class BisectionSolver extends UnivariateRealSolverImpl {
             if (fm * fmin > 0.0) {
                 // max and m bracket the root.
                 min = m;
-                fmin = fm;
             } else {
                 // min and m bracket the root.
                 max = m;

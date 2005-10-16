@@ -451,21 +451,19 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @throws ArrayIndexOutOfBoundsException if <code>index</code> is less than
      *         zero or is greater than <code>getNumElements() - 1</code>.
      */
-    public double getElement(int index) {
-        double value = Double.NaN;
+    public synchronized double getElement(int index) {
         if (index >= numElements) {
             String msg =
                 "The index specified: " + index +
                 " is larger than the current number of elements";
             throw new ArrayIndexOutOfBoundsException(msg);
         } else if (index >= 0) {
-            value = internalArray[startIndex + index];
+            return internalArray[startIndex + index];
         } else {
             String msg =
                 "Elements cannot be retrieved from a negative array index";
             throw new ArrayIndexOutOfBoundsException(msg);
         }
-        return value;
     }
     
      /**
@@ -475,7 +473,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      *  array have no effect on this <code>ResizableArray.</code>
      * @return the double array.
      */
-    public double[] getElements() {
+    public synchronized double[] getElements() {
         double[] elementArray = new double[numElements];
         System.arraycopy( internalArray, startIndex, elementArray, 0,
                 numElements);
@@ -517,7 +515,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * 
      * @return the length of the internal storage array.
      */
-    int getInternalLength() {
+    synchronized int getInternalLength() {
         return (internalArray.length);
     }
 
@@ -527,7 +525,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      *
      * @return number of elements
      */
-    public int getNumElements() {
+    public synchronized int getNumElements() {
         return (numElements);
     }
     
@@ -542,7 +540,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * 
      * @return the internal storage array used by this object
      */
-    public double[] getValues() {
+    public synchronized double[] getValues() {
         return (internalArray);
     }
 
@@ -683,7 +681,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      *
      * @return starting index
      */
-    public int start() {
+    public synchronized int start() {
         return startIndex;
     }
 

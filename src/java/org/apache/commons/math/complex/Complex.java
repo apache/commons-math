@@ -17,6 +17,7 @@
 package org.apache.commons.math.complex;
 
 import java.io.Serializable;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * Representation of a Complex number - a number which has both a 
@@ -33,7 +34,7 @@ public class Complex implements Serializable  {
     /** The square root of -1. A number representing "0.0 + 1.0i".*/    
     public static final Complex I = new Complex(0.0, 1.0);
     
-    /** A complex number representing "(Double.NaN) + (Double.NaN)i" */
+    /** A complex number analogous to {@link java.lang.Double#NaN} */
     public static final Complex NaN = new Complex(Double.NaN, Double.NaN);
 
     /** A complex number representing "1.0 + 0.0i" */    
@@ -147,9 +148,16 @@ public class Complex implements Serializable  {
     }
     
     /**
-     * Test for the equality of two Complex objects.  If both the
-     * real and imaginary parts of two Complex numbers are exactly
-     * the same, the two Complex objects are considered to be equal.
+     * Test for the equality of two Complex objects.
+     * <p>
+     * If both the real and imaginary parts of two Complex numbers
+     * are exactly the same, and neither is <code>Double.NaN</code>, the two
+     * Complex objects are considered to be equal. 
+     * <p>
+     * All <code>NaN</code> values are considered to be equal - i.e, if either
+     * (or both) real and imaginary parts of the complex number are equal
+     * to Double.NaN, the complex number is equal to 
+     * <code>Complex.NaN</code>.
      *
      * @param other Object to test for equality to this
      * @return true if two Complex objects are equal, false if
@@ -164,20 +172,39 @@ public class Complex implements Serializable  {
             ret = true;
         } else if (other == null) {
             ret = false;
-        } else {
+        } else  {
             try {
                 Complex rhs = (Complex)other;
+                if (rhs.isNaN()) {
+                    ret = this.isNaN();
+                } else {
                 ret = (Double.doubleToRawLongBits(real) ==
                         Double.doubleToRawLongBits(rhs.getReal())) &&
                     (Double.doubleToRawLongBits(imaginary) ==
                         Double.doubleToRawLongBits(rhs.getImaginary())); 
+                }
             } catch (ClassCastException ex) {
                 // ignore exception
                 ret = false;
             }
         }
-        
+      
         return ret;
+    }
+    
+    /**
+     * Get a hashCode for the complex number.
+     * <p>
+     * All NaN values have the same hash code.
+     * 
+     * @return a hash code value for this object
+     */
+    public int hashCode() {
+        if (isNaN()) {
+            return 7;
+        }
+        return 37 * (17 * MathUtils.hash(imaginary) + 
+            MathUtils.hash(real));
     }
 
     /**

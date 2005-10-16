@@ -871,7 +871,8 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     /**
      * Returns true iff <code>object</code> is a 
      * <code>RealMatrixImpl</code> instance with the same dimensions as this
-     *  and all corresponding matrix entries are equal.
+     * and all corresponding matrix entries are equal.  Corresponding entries
+     * are compared using {@link java.lang.Double#doubleToLongBits(double)}
      * 
      * @param object the object to test equality against.
      * @return true if object equals this
@@ -891,7 +892,8 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
         }
         for (int row = 0; row < nRows; row++) {
             for (int col = 0; col < nCols; col++) {
-                if (data[row][col] != m.getEntry(row, col)) {
+                if (Double.doubleToLongBits(data[row][col]) != 
+                    Double.doubleToLongBits(m.getEntry(row, col))) {
                     return false;
                 }
             }

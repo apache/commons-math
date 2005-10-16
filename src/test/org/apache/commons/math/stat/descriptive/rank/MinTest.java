@@ -72,4 +72,13 @@ public class MinTest extends StorelessUnivariateStatisticAbstractTest{
         assertEquals(Double.NEGATIVE_INFINITY, min.evaluate(testArray), 0);     
     }
 
+    public void testNaNs() {
+        Min min = new Min();
+        double nan = Double.NaN;
+        assertEquals(2d, min.evaluate(new double[]{nan, 2d, 3d}), 0);     
+        assertEquals(1d, min.evaluate(new double[]{1d, nan, 3d}), 0);     
+        assertEquals(1d, min.evaluate(new double[]{1d, 2d, nan}), 0);     
+        assertTrue(Double.isNaN(min.evaluate(new double[]{nan, nan, nan})));     
+    }
+    
 }

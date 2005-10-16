@@ -46,9 +46,11 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(big, MathUtils.addAndCheck(big, 0));
         try {
             int res = MathUtils.addAndCheck(big, 1);
+            fail("Expecting ArithmeticException");
         } catch (ArithmeticException ex) {}
         try {
             int res = MathUtils.addAndCheck(bigNeg, -1);
+            fail("Expecting ArithmeticException");
         } catch (ArithmeticException ex) {}
     }
     
@@ -58,9 +60,11 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(big, MathUtils.mulAndCheck(big, 1));
         try {
             int res = MathUtils.mulAndCheck(big, 2);
+            fail("Expecting ArithmeticException");
         } catch (ArithmeticException ex) {}
         try {
             int res = MathUtils.mulAndCheck(bigNeg, 2);
+            fail("Expecting ArithmeticException");
         } catch (ArithmeticException ex) {}
     }
     
@@ -70,10 +74,23 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(big, MathUtils.subAndCheck(big, 0));
         try {
             int res = MathUtils.subAndCheck(big, -1);
+            fail("Expecting ArithmeticException");
         } catch (ArithmeticException ex) {}
         try {
             int res = MathUtils.subAndCheck(bigNeg, 1);
+            fail("Expecting ArithmeticException");
         } catch (ArithmeticException ex) {}
+    }
+    
+    public void testSubAndCheckErrorMessage() {
+        int big = Integer.MAX_VALUE;
+        int bigNeg = Integer.MIN_VALUE;
+        try {
+            int res = MathUtils.subAndCheck(big, -1);
+            fail("Expecting ArithmeticException");
+        } catch (ArithmeticException ex) {
+            assertEquals("overflow: subtract", ex.getMessage());
+        }
     }
     
     public void testBinomialCoefficient() {

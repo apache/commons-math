@@ -84,6 +84,11 @@
       <name>1.1</name>
       <tag>MATH_1_1_RC1</tag>
     </version>
+    <version>
+      <id>1.1-RC3</id>
+      <name>1.1</name>
+      <tag>MATH_1_1_RC3</tag>
+    </version>
   </versions>
   <developers>
     <developer>
@@ -140,6 +145,9 @@
     </contributor>
     <contributor>
       <name>Christopher Schuck</name>
+    </contributor>
+    <contributor>
+      <name>Mauro Talevi</name>
     </contributor>
     <contributor>
       <name>Kim van der Linde</name>

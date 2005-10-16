@@ -161,4 +161,25 @@ public class ComplexTest extends TestCase {
         Complex y = new Complex(0.0, 0.0 + Double.MIN_VALUE);
         assertFalse(x.equals(y));
     }
+    
+    public void testEqualsNaN() {
+        Complex realNaN = new Complex(Double.NaN, 0.0);
+        Complex imaginaryNaN = new Complex(0.0, Double.NaN);
+        Complex complexNaN = Complex.NaN;
+        assertTrue(realNaN.equals(imaginaryNaN));
+        assertTrue(imaginaryNaN.equals(complexNaN));
+        assertTrue(realNaN.equals(complexNaN));
+    }
+    
+    public void testHashCode() {
+        Complex x = new Complex(0.0, 0.0);
+        Complex y = new Complex(0.0, 0.0 + Double.MIN_VALUE);
+        assertFalse(x.hashCode()==y.hashCode());
+        y = new Complex(0.0 + Double.MIN_VALUE, 0.0);
+        assertFalse(x.hashCode()==y.hashCode());
+        Complex realNaN = new Complex(Double.NaN, 0.0);
+        Complex imaginaryNaN = new Complex(0.0, Double.NaN);
+        assertEquals(realNaN.hashCode(), imaginaryNaN.hashCode());
+        assertEquals(imaginaryNaN.hashCode(), Complex.NaN.hashCode());
+    }
 }

@@ -72,4 +72,13 @@ public class MaxTest extends StorelessUnivariateStatisticAbstractTest{
         assertEquals(Double.POSITIVE_INFINITY, max.evaluate(testArray), 0);     
     }
 
+    public void testNaNs() {
+        Max max = new Max();
+        double nan = Double.NaN;
+        assertEquals(3d, max.evaluate(new double[]{nan, 2d, 3d}), 0);     
+        assertEquals(3d, max.evaluate(new double[]{1d, nan, 3d}), 0);     
+        assertEquals(2d, max.evaluate(new double[]{1d, 2d, nan}), 0);     
+        assertTrue(Double.isNaN(max.evaluate(new double[]{nan, nan, nan})));     
+    }
+
 }

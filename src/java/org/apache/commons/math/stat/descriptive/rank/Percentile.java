@@ -186,13 +186,13 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
         if ((p > 100) || (p <= 0)) {
             throw new IllegalArgumentException("invalid quantile value: " + p);
         }
-        double n = (double) length;
-        if (n == 0) {
+        if (length == 0) {
             return Double.NaN;
         }
-        if (n == 1) {
+        if (length == 1) {
             return values[begin]; // always return single value for n = 1
         }
+        double n = (double) length;
         double pos = p * (n + 1) / 100;
         double fpos = Math.floor(pos);
         int intPos = (int) fpos;
