@@ -1,5 +1,5 @@
 /*
- * Copyright 2003-2004 The Apache Software Foundation.
+ * Copyright 2003-2005 The Apache Software Foundation.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,16 @@ import junit.framework.TestCase;
  */
 public class ComplexTest extends TestCase {
     
+    private double inf = Double.POSITIVE_INFINITY;
+    private double neginf = Double.NEGATIVE_INFINITY;
+    private double nan = Double.NaN;
+    private Complex oneInf = new Complex(1, inf);
+    private Complex oneNegInf = new Complex(1, neginf);
+    private Complex infOne = new Complex(inf, 1);
+    private Complex negInfInf = new Complex(neginf, inf);
+    private Complex negInfNegInf = new Complex(neginf, neginf);
+    private Complex oneNaN = new Complex(1, nan);
+    
     public void testConstructor() {
         Complex z = new Complex(3.0, 4.0);
         assertEquals(3.0, z.getReal(), 1.0e-5);
@@ -33,7 +43,7 @@ public class ComplexTest extends TestCase {
         Complex z = new Complex(3.0, Double.NaN);
         assertTrue(z.isNaN());
 
-        z = new Complex(Double.NaN, 4.0);
+        z = new Complex(nan, 4.0);
         assertTrue(z.isNaN());
 
         z = new Complex(3.0, 4.0);
@@ -47,6 +57,17 @@ public class ComplexTest extends TestCase {
     
     public void testAbsNaN() {
         assertTrue(Double.isNaN(Complex.NaN.abs()));
+        Complex z = new Complex(inf, nan);
+        assertTrue(Double.isNaN(z.abs()));
+    }
+    
+    public void testAbsInfinite() {
+        Complex z = new Complex(inf, 0);
+        assertEquals(inf, z.abs(), 0);
+        z = new Complex(0, neginf);
+        assertEquals(inf, z.abs(), 0);
+        z = new Complex(inf, neginf);
+        assertEquals(inf, z.abs(), 0);     
     }
     
     public void testAdd() {
@@ -61,6 +82,21 @@ public class ComplexTest extends TestCase {
         Complex x = new Complex(3.0, 4.0);
         Complex z = x.add(Complex.NaN);
         assertTrue(z.isNaN());
+        z = new Complex(1, nan);
+        Complex w = x.add(z);
+        assertEquals(w.real, 4.0, 0);
+        assertTrue(Double.isNaN(w.imaginary));
+    }
+    
+    public void testAddInfinite() {
+        Complex x = new Complex(1, 1);
+        Complex z = new Complex(inf, 0);
+        Complex w = x.add(z);
+        assertEquals(w.imaginary, 1, 0);
+        assertEquals(inf, w.real, 0);
+        
+        x = new Complex(neginf, 0);
+        assertTrue(Double.isNaN(x.add(z).real));
     }
     
     public void testConjugate() {
@@ -75,6 +111,13 @@ public class ComplexTest extends TestCase {
         assertTrue(z.isNaN());
     }
     
+    public void testConjugateInfiinite() {
+        Complex z = new Complex(0, inf);
+        assertEquals(neginf, z.conjugate().imaginary, 0);
+        z = new Complex(0, neginf);
+        assertEquals(inf, z.conjugate().imaginary, 0);
+    }
+    
     public void testDivide() {
         Complex x = new Complex(3.0, 4.0);
         Complex y = new Complex(5.0, 6.0);
@@ -83,10 +126,44 @@ public class ComplexTest extends TestCase {
         assertEquals(2.0 / 61.0, z.getImaginary(), 1.0e-5);
     }
     
+    public void testDivideInfinite() {
+        Complex x = new Complex(3, 4);
+        Complex w = new Complex(neginf, inf);
+        assertTrue(x.divide(w).equals(Complex.ZERO));
+        
+        Complex z = w.divide(x);
+        assertTrue(Double.isNaN(z.real));
+        assertEquals(inf, z.imaginary, 0);
+        
+        w = new Complex(inf, inf);
+        z = w.divide(x);
+        assertTrue(Double.isNaN(z.imaginary));
+        assertEquals(inf, z.real, 0);
+        
+        w = new Complex(1, inf);
+        z = w.divide(w);
+        assertTrue(Double.isNaN(z.real));
+        assertTrue(Double.isNaN(z.imaginary));
+    }
+    
     public void testDivideNaN() {
         Complex x = new Complex(3.0, 4.0);
         Complex z = x.divide(Complex.NaN);
         assertTrue(z.isNaN());
+    }
+    
+    public void testDivideNaNInf() {  
+       Complex z = oneInf.divide(Complex.ONE);
+       assertTrue(Double.isNaN(z.real));
+       assertEquals(inf, z.imaginary, 0);
+       
+       z = negInfNegInf.divide(oneNaN);
+       assertTrue(Double.isNaN(z.real));
+       assertTrue(Double.isNaN(z.imaginary));
+       
+       z = negInfInf.divide(Complex.ONE);
+       assertTrue(Double.isNaN(z.real));
+       assertTrue(Double.isNaN(z.imaginary));
     }
     
     public void testMultiply() {
@@ -101,6 +178,21 @@ public class ComplexTest extends TestCase {
         Complex x = new Complex(3.0, 4.0);
         Complex z = x.multiply(Complex.NaN);
         assertTrue(z.isNaN());
+    }
+    
+    public void testMultiplyNaNInf() {
+        Complex z = new Complex(1,1);
+        Complex w = z.multiply(infOne);
+        assertEquals(w.real, inf, 0);
+        assertEquals(w.imaginary, inf, 0);
+        
+        w = oneInf.multiply(oneNegInf);
+        assertEquals(w.real, inf, 0);
+        assertTrue(Double.isNaN(w.imaginary));
+        
+        w = negInfNegInf.multiply(oneNaN);
+        assertTrue(Double.isNaN(w.real));
+        assertTrue(Double.isNaN(w.imaginary));  
     }
     
     public void testNegate() {
