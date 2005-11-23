@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <!--
-   Copyright 2003-2004 The Apache Software Foundation
+   Copyright 2003-2005 The Apache Software Foundation
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
 <!-- $Revision$ $Date$ -->
 <document url="stat.html">
   <properties>
-    <title>The Commons Math User Guide - Statistics</title>
+    <title>The Commons Math User Guide - Complex Numbers</title>
   </properties>
   <body>
     <section name="7 Complex Numbers">
@@ -37,6 +37,18 @@
           org.apache.commons.math.complex.Complex</a> provides a complex number
           type that forms the basis for the complex functionality found in 
           commons-math.
+         </p>  
+         <p>
+           Complex functions and arithmetic operations are implemented in
+           commons-math by applying standard computational formulas and
+           following the rules for <code>java.lang.Double</code> arithmetic in 
+           handling infinite and <code>NaN</code> values.  No attempt is made
+           to comply with ANSII/IEC C99x Annex G or any other standard for
+           Complex arithmetic.  See the class and method javadocs for the 
+           <a href="../apidocs/org/apache/commons/math/complex/Complex.html">
+           Complex</a> and
+           <a href="../apidocs/org/apache/commons/math/complex/ComplexUtils.html">
+           ComplexUtils</a> classes for details on computing formulas.
         </p>
         <p>
           To create a complex number, simply call the constructor passing in two
@@ -45,9 +57,14 @@
           <source>Complex c = new Complex(1.0, 3.0); // 1 + 3i</source>
         </p>
         <p>
-          The <code>Complex</code> class provides many unary and binary
+          Complex numbers may also be created from polar representations
+          using the <code>polar2Complex</code> method in 
+          <code>ComplexUtils</code>.
+        </p>
+        <p>
+          The <code>Complex</code> class provides basic unary and binary
           complex number operations.  These operations provide the means to add,
-          subtract, multiple and, divide complex numbers along with other
+          subtract, multiply and divide complex numbers along with other
           complex number functions similar to the real number functions found in
           <code>java.math.BigDecimal</code>:
           <source>Complex lhs = new Complex(1.0, 3.0);
@@ -62,7 +79,7 @@ Complex answer = lhs.add(rhs);       // add two complex numbers
       <subsection name="7.3 Complex Transcendental Functions" href="function">
         <p>
           <a href="../apidocs/org/apache/commons/math/complex/ComplexUtils.html">
-          org.apache.commons.math.complex.ComplexMath</a> provides
+          org.apache.commons.math.complex.ComplexUtils</a> provides
           implementations of serveral transcendental functions involving complex
           number arguments.  These operations provide the means to compute the
           log, sine, tangent and, other complex values similar to the real

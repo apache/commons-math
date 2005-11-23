@@ -42,6 +42,10 @@ public class TestUtils {
         assertEquals(null, expected, actual, delta);
     }
 
+    /**
+     * Verifies that expected and actual are within delta, or are both NaN or
+     * infinities of the same sign.
+     */
     public static void assertEquals(String msg, double expected, double actual, double delta) {
         // check for NaN
         if(Double.isNaN(expected)){
@@ -52,8 +56,26 @@ public class TestUtils {
         }
     }
     
+    /*
+     * Verifies that the two arguments are exactly the same, either
+     * both NaN or infinities of same sign, or identical floating point values.
+     */
+    public static void assertSame(double expected, double actual) {
+     assertEquals(expected, actual, 0);
+    }
+    
     /**
-     * 
+     * Verifies that real and imaginary parts of the two complex arguments
+     * are exactly the same.  Also ensures that NaN / infinite components match.
+     */
+    public static void assertSame(Complex expected, Complex actual) {
+        assertSame(expected.getReal(), actual.getReal());
+        assertSame(expected.getImaginary(), actual.getImaginary());
+    }
+    
+    /**
+     * Verifies that real and imaginary parts of the two complex arguments
+     * differ by at most delta.  Also ensures that NaN / infinite components match.
      */
     public static void assertEquals(Complex expected, Complex actual, double delta) {
         assertEquals(expected.getReal(), actual.getReal(), delta);
