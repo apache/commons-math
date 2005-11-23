@@ -35,7 +35,7 @@ public abstract class AbstractContinuousDistribution
     implements ContinuousDistribution, Serializable {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = -38038050983108802L;
+    private static final long serialVersionUID = -38038050983108802L;
     
     /**
      * Default constructor.

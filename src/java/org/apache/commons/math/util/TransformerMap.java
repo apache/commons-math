@@ -33,7 +33,7 @@ import org.apache.commons.math.MathException;
 public class TransformerMap implements NumberTransformer, Serializable {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = -942772950698439883L;
+    private static final long serialVersionUID = -942772950698439883L;
     
     /**
      * A default Number Transformer for Numbers and numeric Strings.

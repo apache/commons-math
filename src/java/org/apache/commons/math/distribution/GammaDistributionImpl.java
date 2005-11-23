@@ -29,7 +29,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     implements GammaDistribution, Serializable  {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = -3239549463135430361L;
+    private static final long serialVersionUID = -3239549463135430361L;
 
     /** The shape parameter. */
     private double alpha;

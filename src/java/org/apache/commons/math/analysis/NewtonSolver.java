@@ -30,7 +30,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 public class NewtonSolver extends UnivariateRealSolverImpl {
     
     /** Serializable version identifier */
-    static final long serialVersionUID = 2606474895443431607L;
+    private static final long serialVersionUID = 2606474895443431607L;
     
     /** The first derivative of the target function. */
     private UnivariateRealFunction derivative;

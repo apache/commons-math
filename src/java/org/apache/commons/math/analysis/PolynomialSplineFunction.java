@@ -55,7 +55,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 public class PolynomialSplineFunction implements UnivariateRealFunction, Serializable {
    
     /** Serializable version identifier */
-    static final long serialVersionUID = 7011031166416885789L;
+    private static final long serialVersionUID = 7011031166416885789L;
     
     /** Spline segment interval delimiters (knots).   Size is n+1 for n segments. */
     private double knots[];

@@ -28,7 +28,7 @@ import java.io.Serializable;
 public class PolynomialFunction implements DifferentiableUnivariateRealFunction, Serializable {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = 3322454535052136809L;
+    private static final long serialVersionUID = 3322454535052136809L;
     
     /**
      * The coefficients of the polynomial, ordered by degree -- i.e.,  

@@ -50,7 +50,7 @@ import org.apache.commons.math.util.MathUtils;
 public class RealMatrixImpl implements RealMatrix, Serializable {
     
     /** Serializable version identifier */
-    static final long serialVersionUID = 4237564493130426188L;
+    private static final long serialVersionUID = 4237564493130426188L;
 
     /** Entries of the matrix */
     private double data[][] = null;

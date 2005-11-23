@@ -37,7 +37,7 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
 public class Max extends AbstractStorelessUnivariateStatistic {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = -5593383832225844641L;    
+    private static final long serialVersionUID = -5593383832225844641L;    
     
     /** Number of values that have been added */
     private long n;

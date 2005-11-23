@@ -48,7 +48,7 @@ public class FirstMoment extends AbstractStorelessUnivariateStatistic
     implements Serializable {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = -803343206421984070L; 
+    private static final long serialVersionUID = -803343206421984070L; 
     
     /** Count of values that have been added */
     protected long n;

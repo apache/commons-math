@@ -30,7 +30,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 public class BrentSolver extends UnivariateRealSolverImpl {
     
     /** Serializable version identifier */
-    static final long serialVersionUID = 3350616277306882875L;
+    private static final long serialVersionUID = 3350616277306882875L;
 
     /**
      * Construct a solver for the given function.

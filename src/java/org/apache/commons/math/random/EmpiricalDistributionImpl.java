@@ -59,7 +59,7 @@ import org.apache.commons.math.stat.descriptive.StatisticalSummary;
 public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistribution {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = -6773236347582113490L;
+    private static final long serialVersionUID = -6773236347582113490L;
 
     /** List of SummaryStatistics objects characterizing the bins */
     private ArrayList binStats = null;

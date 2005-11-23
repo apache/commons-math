@@ -26,7 +26,7 @@ import java.io.Serializable;
 public class ConvergenceException extends MathException implements Serializable{
     
     /** Serializable version identifier */
-    static final long serialVersionUID = -3657394299929217890L;
+    private static final long serialVersionUID = -3657394299929217890L;
     
     /**
      * Default constructor.

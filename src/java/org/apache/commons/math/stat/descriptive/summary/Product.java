@@ -35,7 +35,7 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
 public class Product extends AbstractStorelessUnivariateStatistic implements Serializable {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = 2824226005990582538L;   
+    private static final long serialVersionUID = 2824226005990582538L;   
      
     /**The number of values that have been added */
     private long n;

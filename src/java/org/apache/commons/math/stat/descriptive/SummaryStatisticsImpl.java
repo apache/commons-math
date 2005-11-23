@@ -34,7 +34,7 @@ import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
 public class SummaryStatisticsImpl extends SummaryStatistics implements Serializable {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = 8787174276883311692L;
+    private static final long serialVersionUID = 8787174276883311692L;
 
     /** count of values that have been added */
     protected long n = 0;

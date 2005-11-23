@@ -50,7 +50,7 @@ public class Mean extends AbstractStorelessUnivariateStatistic
     implements Serializable {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = -1296043746617791564L;    
+    private static final long serialVersionUID = -1296043746617791564L;    
     
     /** First moment on which this statistic is based. */
     protected FirstMoment moment;

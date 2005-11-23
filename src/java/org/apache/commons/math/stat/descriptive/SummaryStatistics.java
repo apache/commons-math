@@ -28,7 +28,7 @@ import org.apache.commons.math.util.MathUtils;
 public abstract class SummaryStatistics implements StatisticalSummary, Serializable {
 
     /** Serialization UID */
-    static final long serialVersionUID = -6400596334135654825L;
+    private static final long serialVersionUID = -6400596334135654825L;
      
     /**
      * Create an instance of a <code>SummaryStatistics</code>

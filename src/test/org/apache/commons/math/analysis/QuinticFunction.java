@@ -26,7 +26,7 @@ import org.apache.commons.math.FunctionEvaluationException;
  */
 public class QuinticFunction implements DifferentiableUnivariateRealFunction, Serializable {
 
-    static final long serialVersionUID = -8866263034920607152L;
+    private static final long serialVersionUID = -8866263034920607152L;
 
     /* Evaluate quintic.
      * @see org.apache.commons.math.UnivariateRealFunction#value(double)

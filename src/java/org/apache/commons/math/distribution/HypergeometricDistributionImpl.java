@@ -30,7 +30,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
 {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = -436928820673516179L;
+    private static final long serialVersionUID = -436928820673516179L;
 
     /** The number of successes in the population. */
     private int numberOfSuccesses;

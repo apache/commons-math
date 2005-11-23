@@ -50,7 +50,7 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
 public class Variance extends AbstractStorelessUnivariateStatistic implements Serializable {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = -9111962718267217978L;  
+    private static final long serialVersionUID = -9111962718267217978L;  
       
     /** SecondMoment is used in incremental calculation of Variance*/
     protected SecondMoment moment = null;

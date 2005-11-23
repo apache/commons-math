@@ -48,7 +48,7 @@ import java.math.BigDecimal;
 public class BigMatrixImpl implements BigMatrix, Serializable {
     
     /** Serialization id */
-    static final long serialVersionUID = -1011428905656140431L;
+    private static final long serialVersionUID = -1011428905656140431L;
     
     /** Entries of the matrix */
     private BigDecimal data[][] = null;

@@ -43,7 +43,7 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
 public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements Serializable {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = -370076995648386763L;    
+    private static final long serialVersionUID = -370076995648386763L;    
 
     /**Number of values that have been added */
     private int n;

@@ -49,6 +49,9 @@ Commons Math Release Notes</title>
         Added polar2Complex method to ComplexUtils to create Complex numbers
         from polar representations.
       </action>
+      <action dev="psteitz" type="fix" issue="37162" due-to="Elliotte Harold">
+        Made all serialVersionUIDs private.
+      </action> 
       <action dev="psteitz" type="fix" issue="37086">
         Improved documentation and test cases related to handling of infinite
         and NaN values in Complex, ComplexUtils classes. 

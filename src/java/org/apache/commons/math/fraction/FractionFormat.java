@@ -37,7 +37,7 @@ import org.apache.commons.math.ConvergenceException;
 public class FractionFormat extends Format implements Serializable {
     
     /** Serializable version identifier */
-    static final long serialVersionUID = -6337346779577272306L;
+    private static final long serialVersionUID = -6337346779577272306L;
 
     /** The format used for the denominator. */
     private NumberFormat denominatorFormat;

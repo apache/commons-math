@@ -29,7 +29,7 @@ public class ChiSquaredDistributionImpl
     implements ChiSquaredDistribution, Serializable  {
     
     /** Serializable version identifier */
-    static final long serialVersionUID = -8352658048349159782L;
+    private static final long serialVersionUID = -8352658048349159782L;
 
     /** Internal Gamma distribution. */    
     private GammaDistribution gamma;

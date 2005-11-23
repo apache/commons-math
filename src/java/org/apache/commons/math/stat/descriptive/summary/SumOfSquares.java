@@ -35,7 +35,7 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
 public class SumOfSquares extends AbstractStorelessUnivariateStatistic implements Serializable {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = 1460986908574398008L;  
+    private static final long serialVersionUID = 1460986908574398008L;  
       
     /** */
     private long n;

@@ -31,7 +31,7 @@ import java.io.PrintWriter;
 public class MathException extends Exception {
     
     /** Serializable version identifier */
-    static final long serialVersionUID = -8594613561393443827L;
+    private static final long serialVersionUID = -8594613561393443827L;
     
     /**
      * Does JDK support nested exceptions?

@@ -28,7 +28,7 @@ import org.apache.commons.math.util.ResizableDoubleArray;
 public class DescriptiveStatisticsImpl extends DescriptiveStatistics implements Serializable {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = -1868088725461221010L;
+    private static final long serialVersionUID = -1868088725461221010L;
     
     /** hold the window size **/
     protected int windowSize;

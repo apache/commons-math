@@ -37,7 +37,7 @@ import org.apache.commons.math.util.NumberTransformer;
 public class BeanListUnivariateImpl extends ListUnivariateImpl implements Serializable {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = -6428201899045406285L;
+    private static final long serialVersionUID = -6428201899045406285L;
     
 	/**
 	 * propertyName of the property to get from the bean

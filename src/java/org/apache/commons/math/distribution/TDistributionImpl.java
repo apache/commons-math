@@ -31,7 +31,7 @@ public class TDistributionImpl
     implements TDistribution, Serializable  {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = -5852615386664158222L;
+    private static final long serialVersionUID = -5852615386664158222L;
     
     /** The degrees of freedom*/
     private double degreesOfFreedom;

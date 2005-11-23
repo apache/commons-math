@@ -28,7 +28,7 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
     implements ExponentialDistribution, Serializable {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = 2401296428283614780L;
+    private static final long serialVersionUID = 2401296428283614780L;
     
     /** The mean of this distribution. */
     private double mean;

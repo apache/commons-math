@@ -39,7 +39,7 @@ import org.apache.commons.math.util.MathUtils;
 public class Complex implements Serializable  {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = -6530173849413811929L;
+    private static final long serialVersionUID = -6530173849413811929L;
     
     /** The square root of -1. A number representing "0.0 + 1.0i".*/    
     public static final Complex I = new Complex(0.0, 1.0);

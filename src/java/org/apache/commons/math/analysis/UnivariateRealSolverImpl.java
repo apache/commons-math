@@ -30,7 +30,7 @@ public abstract class UnivariateRealSolverImpl implements UnivariateRealSolver,
     Serializable {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = 1112491292565386596L;
+    private static final long serialVersionUID = 1112491292565386596L;
     
     /** Maximum absolute error. */
     protected double absoluteAccuracy;

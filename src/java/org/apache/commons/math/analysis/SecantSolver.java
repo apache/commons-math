@@ -40,7 +40,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 public class SecantSolver extends UnivariateRealSolverImpl implements Serializable {
     
     /** Serializable version identifier */
-    static final long serialVersionUID = 1984971194738974867L;
+    private static final long serialVersionUID = 1984971194738974867L;
     
     /**
      * Construct a solver for the given function.

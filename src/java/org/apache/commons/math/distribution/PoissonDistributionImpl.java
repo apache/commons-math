@@ -30,7 +30,7 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
         implements PoissonDistribution, Serializable {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = -3349935121172596109L;
+    private static final long serialVersionUID = -3349935121172596109L;
     
     /**
      * Holds the Poisson mean for the distribution.

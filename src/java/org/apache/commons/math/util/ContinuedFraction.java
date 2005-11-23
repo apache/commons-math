@@ -37,7 +37,7 @@ import org.apache.commons.math.MathException;
 public abstract class ContinuedFraction implements Serializable {
     
     /** Serialization UID */
-    static final long serialVersionUID = 1768555336266158242L;
+    private static final long serialVersionUID = 1768555336266158242L;
     
     /** Maximum allowed numerical error. */
     private static final double DEFAULT_EPSILON = 10e-9;

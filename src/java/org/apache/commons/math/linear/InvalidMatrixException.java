@@ -25,7 +25,7 @@ package org.apache.commons.math.linear;
 public class InvalidMatrixException extends RuntimeException {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = 5318837237354354107L;
+    private static final long serialVersionUID = 5318837237354354107L;
 
     /**
      * Default constructor.

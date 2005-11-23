@@ -81,7 +81,7 @@ import java.util.Collection;
 public class RandomDataImpl implements RandomData, Serializable {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = -626730818244969716L;
+    private static final long serialVersionUID = -626730818244969716L;
 
     /** underlying random number generator */
     private RandomGenerator rand = null;
