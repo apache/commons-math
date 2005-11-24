@@ -16,6 +16,7 @@
 
 package org.apache.commons.math.analysis;
 
+import java.io.IOException;
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException; 
 
@@ -33,7 +34,7 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
     private static final long serialVersionUID = 2606474895443431607L;
     
     /** The first derivative of the target function. */
-    private UnivariateRealFunction derivative;
+    private transient UnivariateRealFunction derivative;
     
     /**
      * Construct a solver for the given function.
@@ -97,5 +98,17 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
         throw new ConvergenceException
             ("Maximum number of iterations exceeded " + i);
     }
-
+    
+    /**
+     * Custom deserialization to initialize transient deriviate field.
+     * 
+     * @param in serialized object input stream
+     * @throws IOException if IO error occurs 
+     * @throws ClassNotFoundException if instantiation error occurs
+     */
+    private void readObject(java.io.ObjectInputStream in)
+    throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        derivative = ((DifferentiableUnivariateRealFunction) f).derivative();
+    }    
 }

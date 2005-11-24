@@ -45,13 +45,17 @@ Commons Math Release Notes</title>
        and numerical utilities, and a PRNG pluggability framework making it
        possible to replace the JDK-supplied random number generator in
        commons-math (and elsewhere) with alternative PRNG implementations.">
-      <action dev="psteitz" type="update">
-        Added polar2Complex method to ComplexUtils to create Complex numbers
-        from polar representations.
+      <action dev="psteitz" type="fix" issue="36491">
+        Made NewtonSolver derivative field transient and implemented readObject to
+        initialize.
       </action>
       <action dev="psteitz" type="fix" issue="36491">
        Made sampleStats field private and changed getUpperBounds to return a fresh
        copy in EmpiricalDistributionImpl.
+      </action>
+      <action dev="psteitz" type="update">
+        Added polar2Complex method to ComplexUtils to create Complex numbers
+        from polar representations.
       </action>
       <action dev="psteitz" type="fix" issue="37162" due-to="Elliotte Harold">
         Made all serialVersionUIDs private.
