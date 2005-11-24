@@ -52,7 +52,8 @@ import org.apache.commons.math.FunctionEvaluationException;
  *
  * @version $Revision$ $Date$
  */
-public class PolynomialSplineFunction implements UnivariateRealFunction, Serializable {
+public class PolynomialSplineFunction 
+    implements DifferentiableUnivariateRealFunction, Serializable {
    
     /** Serializable version identifier */
     private static final long serialVersionUID = 7011031166416885789L;
