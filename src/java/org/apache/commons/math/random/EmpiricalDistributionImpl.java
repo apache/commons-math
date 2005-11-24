@@ -65,7 +65,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
     private ArrayList binStats = null;
 
     /** Sample statistics */
-    SummaryStatistics sampleStats = null;
+    private SummaryStatistics sampleStats = null;
 
     /** number of bins */
     private int binCount = 1000;
@@ -453,14 +453,18 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
     }
 
     /**
-     * Returns the array of upper bounds for the bins.  Bins are: <br/>
+     * Returns (a fresh copy of) the array of upper bounds for the bins.
+       Bins are: <br/>
      * [min,upperBounds[0]],(upperBounds[0],upperBounds[1]],...,
      *  (upperBounds[binCount-1],max]
      * 
      * @return array of bin upper bounds
      */
     public double[] getUpperBounds() {
-        return upperBounds;
+        int len = upperBounds.length;
+        double[] out = new double[len];
+        System.arraycopy(upperBounds, 0, out, 0, len);
+        return out;
     }
 
     /**
