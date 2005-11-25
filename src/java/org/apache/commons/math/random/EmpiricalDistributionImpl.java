@@ -225,7 +225,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
     private class StreamDataAdapter extends DataAdapter{
         
         /** Input stream providng access to the data */
-        BufferedReader inputStream;
+        private BufferedReader inputStream;
         
         /**
          * Create a StreamDataAdapter from a BufferedReader
