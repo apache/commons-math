@@ -162,7 +162,15 @@
      Conventions for the Java Programming Language</a>. As part of the maven
      build process, style checking is performed using the Checkstyle plugin,
      using the properties specified in <code>checkstyle.xml</code>.
-     Committed code <i>should</i> generate no Checkstyle errors.
+     Committed code <i>should</i> generate no Checkstyle errors.  One thing
+     that Checkstyle will complain about is tabs included in the source code.
+     Please make sure to set your IDE or editor to use spaces instead of tabs.
+    </p>
+    <p>
+      Committers should make sure that svn properties are correctly set on
+      files added to the repository.  See the section on Committer Subversion
+      Access on the <a href="http://www.apache.org/dev/version-control.html">
+      Apache Source Code Repositories</a> page.
     </p>
    </subsection>
    <subsection name='Documentation'>
