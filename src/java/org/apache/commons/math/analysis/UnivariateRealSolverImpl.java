@@ -265,9 +265,9 @@ public abstract class UnivariateRealSolverImpl implements UnivariateRealSolver,
      */
     protected boolean isBracketing(double lower, double upper, 
             UnivariateRealFunction f) throws FunctionEvaluationException {
-    	double f1 = f.value(lower);
-    	double f2 = f.value(upper);
-    	return ((f1 > 0 && f2 < 0) || (f1 < 0 && f2 > 0));
+        double f1 = f.value(lower);
+        double f2 = f.value(upper);
+        return ((f1 > 0 && f2 < 0) || (f1 < 0 && f2 > 0));
     }
     
     /**

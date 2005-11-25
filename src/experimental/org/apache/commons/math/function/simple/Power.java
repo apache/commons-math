@@ -30,26 +30,26 @@ import org.apache.commons.math.function.EvaluationException;
  */
 public class Power implements Evaluation, Serializable {
 
-	private Evaluation argument;
+    private Evaluation argument;
 
-	private Evaluation power;
-	
-	public void setOperand(Evaluation argument) {
-		this.argument = argument;
-	}
+    private Evaluation power;
+    
+    public void setOperand(Evaluation argument) {
+        this.argument = argument;
+    }
 
-	public void setPower(Evaluation power) {
-		this.power = power;
-	}
-		
-	public Evaluation evaluate(EvaluationContext context) throws EvaluationException {
+    public void setPower(Evaluation power) {
+        this.power = power;
+    }
+        
+    public Evaluation evaluate(EvaluationContext context) throws EvaluationException {
         return context.evaluate(
             Math.pow(
                 context.doubleValue(argument),
                 context.doubleValue(power)
             )
         );
-	}
+    }
     
     public String toString() {
         return "Power";

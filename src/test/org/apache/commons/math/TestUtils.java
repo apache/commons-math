@@ -114,26 +114,26 @@ public class TestUtils {
             ObjectInputStream si = new ObjectInputStream(fi);  
             result = si.readObject();
         } catch (Exception ex) {
-        	
+            
         } finally {
-        	if (fo != null) {
-        		try {
-        			fo.close();
-        		} catch (IOException ex) {
-        		}
-        	}
+            if (fo != null) {
+                try {
+                    fo.close();
+                } catch (IOException ex) {
+                }
+            }
 
-        	if (fi != null) {
-        		try {
-            		fi.close();
-        		} catch (IOException ex) {
-        		}
-        	}
+            if (fi != null) {
+                try {
+                    fi.close();
+                } catch (IOException ex) {
+                }
+            }
         }
         
         
         if (tmp != null) {
-        	tmp.delete();
+            tmp.delete();
         }
         
         return result;
@@ -150,15 +150,15 @@ public class TestUtils {
         Assert.assertEquals("HashCode check", object.hashCode(), object2.hashCode());
     }
 
-	public static void assertRelativelyEquals(double expected, double actual, double relativeError) {
-		assertRelativelyEquals(null, expected, actual, relativeError);
-	}
-	
-	public static void assertRelativelyEquals(String msg, double expected, double actual, double relativeError) {
+    public static void assertRelativelyEquals(double expected, double actual, double relativeError) {
+        assertRelativelyEquals(null, expected, actual, relativeError);
+    }
+    
+    public static void assertRelativelyEquals(String msg, double expected, double actual, double relativeError) {
         if (Double.isNaN(expected)) {
             Assert.assertTrue(msg, Double.isNaN(actual));
         } else if (Double.isNaN(actual)) {
-        	Assert.assertTrue(msg, Double.isNaN(expected));
+            Assert.assertTrue(msg, Double.isNaN(expected));
         } else if (Double.isInfinite(actual) || Double.isInfinite(expected)) {
             Assert.assertEquals(expected, actual, relativeError);
         } else if (expected == 0.0) {
@@ -167,5 +167,5 @@ public class TestUtils {
             double x = Math.abs((expected - actual) / expected);
             Assert.assertEquals(msg, 0.0, x, relativeError);
         }
-	}
+    }
 }

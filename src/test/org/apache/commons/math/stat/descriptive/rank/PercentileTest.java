@@ -75,16 +75,16 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
         
         // invalid percentiles
         try {
-        	p.evaluate(d, 0, d.length, -1.0);
-        	fail();
+            p.evaluate(d, 0, d.length, -1.0);
+            fail();
         } catch (IllegalArgumentException ex) {
-        	// success
+            // success
         }
         try {
-        	p.evaluate(d, 0, d.length, 101.0);
-        	fail();
+            p.evaluate(d, 0, d.length, 101.0);
+            fail();
         } catch (IllegalArgumentException ex) {
-        	// success
+            // success
         }
     }
     

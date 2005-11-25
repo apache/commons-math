@@ -27,12 +27,12 @@ public class Variable implements Evaluation, Serializable {
 
     public Evaluation evaluate(EvaluationContext context)
         throws EvaluationException {
-		return null;
+        return null;
         
         //context.evaluate(value.doubleValue());
-	}
+    }
     
     public String toString() {
-    	return "Variable";
-	}	
+        return "Variable";
+    }   
 }

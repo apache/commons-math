@@ -29,22 +29,22 @@ import org.apache.commons.math.function.EvaluationContext;
  */
 public class Equals implements Evaluation, Serializable {
 
-	private Evaluation left;
+    private Evaluation left;
 
-	private Evaluation right;
+    private Evaluation right;
 
-	public void setLeftOperand(Evaluation left) {
-		this.left = left;
-	}
+    public void setLeftOperand(Evaluation left) {
+        this.left = left;
+    }
 
-	public void setRightOperand(Evaluation right) {
-		this.right = right;
-	}
+    public void setRightOperand(Evaluation right) {
+        this.right = right;
+    }
     
-	public Evaluation evaluate(EvaluationContext context) {
+    public Evaluation evaluate(EvaluationContext context) {
 
-		return null;
-	}
+        return null;
+    }
     
     public String toString() {
         return "Equals";

@@ -59,12 +59,12 @@ public class BeanTransformerTest extends TestCase {
     public void testTransformNoSuchMethod(){
         BeanTransformer b = new BeanTransformer("z");
         TestBean target = new TestBean();
-		try {
-		    b.transform(target);
-			fail("Expecting MathException");
-		} catch (MathException e) {
-			// expected
-		}
+        try {
+            b.transform(target);
+            fail("Expecting MathException");
+        } catch (MathException e) {
+            // expected
+        }
     }
     
     /**
@@ -73,9 +73,9 @@ public class BeanTransformerTest extends TestCase {
     public void testTransform() throws Exception {
         BeanTransformer b = new BeanTransformer("x");
         TestBean target = new TestBean();
-		double value = Double.NaN;
-		value = b.transform(target);
-		TestUtils.assertEquals(1.0, value, 1.0e-2);
+        double value = Double.NaN;
+        value = b.transform(target);
+        TestUtils.assertEquals(1.0, value, 1.0e-2);
     }
     
     /**
@@ -84,7 +84,7 @@ public class BeanTransformerTest extends TestCase {
         BeanTransformer b = new BeanTransformer("y");
         TestBean target = new TestBean();
         try {
-			b.transform(target);
+            b.transform(target);
             fail("Expecting ClassCastException");
         } catch(ClassCastException ex){
             // success

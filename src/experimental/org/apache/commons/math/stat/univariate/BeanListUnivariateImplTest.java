@@ -84,7 +84,7 @@ public final class BeanListUnivariateImplTest extends TestCase {
     }
     
     /** test stats */
-    public void testStats() {	
+    public void testStats() {   
         DescriptiveStatistics u = new BeanListUnivariateImpl( patientList, "age" ); 
         double[] values = {35d, 23d, 42d};
         assertEquals("total count",3,u.getN(),tolerance);

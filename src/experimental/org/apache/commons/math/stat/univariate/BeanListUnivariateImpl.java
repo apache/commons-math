@@ -39,110 +39,110 @@ public class BeanListUnivariateImpl extends ListUnivariateImpl implements Serial
     /** Serializable version identifier */
     private static final long serialVersionUID = -6428201899045406285L;
     
-	/**
-	 * propertyName of the property to get from the bean
-	 */
-	private String propertyName;
+    /**
+     * propertyName of the property to get from the bean
+     */
+    private String propertyName;
 
-	/**
-	 * No argument Constructor
-	 */
-	public BeanListUnivariateImpl(){
-	    this(new ArrayList());
-	}
-	
-	/**
-	 * Construct a BeanListUnivariate with specified
-	 * backing list
-	 * @param list Backing List
-	 */
-	public BeanListUnivariateImpl(List list) {
-		this(list, null);
-	}
+    /**
+     * No argument Constructor
+     */
+    public BeanListUnivariateImpl(){
+        this(new ArrayList());
+    }
+    
+    /**
+     * Construct a BeanListUnivariate with specified
+     * backing list
+     * @param list Backing List
+     */
+    public BeanListUnivariateImpl(List list) {
+        this(list, null);
+    }
 
-	/**
-	 * Construct a BeanListUnivariate with specified
-	 * backing list and propertyName
-	 * @param list Backing List
-	 * @param propertyName Bean propertyName
-	 */
-	public BeanListUnivariateImpl(List list, String propertyName) {
-		super(list);
-		setPropertyName(propertyName);
-	}
+    /**
+     * Construct a BeanListUnivariate with specified
+     * backing list and propertyName
+     * @param list Backing List
+     * @param propertyName Bean propertyName
+     */
+    public BeanListUnivariateImpl(List list, String propertyName) {
+        super(list);
+        setPropertyName(propertyName);
+    }
 
-	/**
-	 * @return propertyName
-	 */
-	public String getPropertyName() {
-		return propertyName;
-	}
+    /**
+     * @return propertyName
+     */
+    public String getPropertyName() {
+        return propertyName;
+    }
 
-	/**
-	 * @param propertyName Name of Property
-	 */
-	public void setPropertyName(String propertyName) {
-		this.propertyName = propertyName;
-		this.transformer = new NumberTransformer() {
+    /**
+     * @param propertyName Name of Property
+     */
+    public void setPropertyName(String propertyName) {
+        this.propertyName = propertyName;
+        this.transformer = new NumberTransformer() {
 
-			/**
-			 * @see org.apache.commons.math.util.NumberTransformer#transform(java.lang.Object)
-			 */
-			public double transform(final Object o) throws MathException {
-				try {
-					return (
-						(Number) PropertyUtils.getProperty(
-							o,
-							getPropertyName()))
-						.doubleValue();
-				} catch (IllegalAccessException e) {
-					throw new MathException(
-						"IllegalAccessException in Transformation: "
-							+ e.getMessage(),
-						e);
-				} catch (InvocationTargetException e) {
-					throw new MathException(
-						"InvocationTargetException in Transformation: "
-							+ e.getMessage(),
-						e);
-				} catch (NoSuchMethodException e) {
-					throw new MathException(
-						"oSuchMethodException in Transformation: "
-							+ e.getMessage(),
-						e);
-				}
-			}
-		};
-	}
+            /**
+             * @see org.apache.commons.math.util.NumberTransformer#transform(java.lang.Object)
+             */
+            public double transform(final Object o) throws MathException {
+                try {
+                    return (
+                        (Number) PropertyUtils.getProperty(
+                            o,
+                            getPropertyName()))
+                        .doubleValue();
+                } catch (IllegalAccessException e) {
+                    throw new MathException(
+                        "IllegalAccessException in Transformation: "
+                            + e.getMessage(),
+                        e);
+                } catch (InvocationTargetException e) {
+                    throw new MathException(
+                        "InvocationTargetException in Transformation: "
+                            + e.getMessage(),
+                        e);
+                } catch (NoSuchMethodException e) {
+                    throw new MathException(
+                        "oSuchMethodException in Transformation: "
+                            + e.getMessage(),
+                        e);
+                }
+            }
+        };
+    }
 
-	/**
-	  *  Creates a {@link org.apache.commons.beanutils.DynaBean} with a 
-	  *  {@link org.apache.commons.beanutils.DynaProperty} named 
-	  *  <code>propertyName,</code> sets the value of the property to <code>v</code>
-	  *  and adds the DynaBean to the underlying list.
-	  *
-	  */
-	public void addValue(double v)  {
-	    DynaProperty[] props = new DynaProperty[] {
-	            new DynaProperty(propertyName, Double.class)
-	    };
-	    BasicDynaClass dynaClass = new BasicDynaClass(null, null, props);
-	    DynaBean dynaBean = null;
-	    try {
-	        dynaBean = dynaClass.newInstance();
-	    } catch (Exception ex) {              // InstantiationException, IllegalAccessException
-	        throw new RuntimeException(ex);   // should never happen
-	    }
-		dynaBean.set(propertyName, new Double(v));
-		addObject(dynaBean);
-	}
+    /**
+      *  Creates a {@link org.apache.commons.beanutils.DynaBean} with a 
+      *  {@link org.apache.commons.beanutils.DynaProperty} named 
+      *  <code>propertyName,</code> sets the value of the property to <code>v</code>
+      *  and adds the DynaBean to the underlying list.
+      *
+      */
+    public void addValue(double v)  {
+        DynaProperty[] props = new DynaProperty[] {
+                new DynaProperty(propertyName, Double.class)
+        };
+        BasicDynaClass dynaClass = new BasicDynaClass(null, null, props);
+        DynaBean dynaBean = null;
+        try {
+            dynaBean = dynaClass.newInstance();
+        } catch (Exception ex) {              // InstantiationException, IllegalAccessException
+            throw new RuntimeException(ex);   // should never happen
+        }
+        dynaBean.set(propertyName, new Double(v));
+        addObject(dynaBean);
+    }
 
-	/**
-	 * Adds a bean to this list. 
-	 *
-	 * @param bean Bean to add to the list
-	 */
-	public void addObject(Object bean) {
-		list.add(bean);
-	}
+    /**
+     * Adds a bean to this list. 
+     *
+     * @param bean Bean to add to the list
+     */
+    public void addObject(Object bean) {
+        list.add(bean);
+    }
 }
