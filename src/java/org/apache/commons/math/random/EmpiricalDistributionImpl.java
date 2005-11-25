@@ -380,7 +380,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
      * @param min  the minimum value
      * @param value  the value whose bin we are trying to find
      * @param delta  the grid size
-     * @return
+     * @return the index of the bin containing the value
      */
     private int findBin(double min, double value, double delta) {
         return Math.min(
