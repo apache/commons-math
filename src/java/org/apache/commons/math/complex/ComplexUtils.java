@@ -46,7 +46,8 @@ public class ComplexUtils {
     }
     
     /**
-     * Compute the <a href="http://mathworld.wolfram.com/InverseCosine.html">
+     * Compute the 
+     * <a href="http://mathworld.wolfram.com/InverseCosine.html" TARGET="_top">
      * inverse cosine</a> for the given complex argument.
      * <p>
      * Implements the formula: <pre>
@@ -54,11 +55,10 @@ public class ComplexUtils {
      * <p>
      * Returns {@link Complex#NaN} if either real or imaginary part of the 
      * input argument is <code>NaN</code> or infinite.
-     * <p>
-     * Throws <code>NullPointerException</code> if z is null.
      * 
-     * @param z the value whose inverse cosine is to be returned.
-     * @return the inverse cosine of <code>z</code>.
+     * @param z the value whose inverse cosine is to be returned
+     * @return the inverse cosine of <code>z</code>
+     * @throws NullPointerException if <code>z</code> is null
      */
     public static Complex acos(Complex z) {
         if (z.isNaN()) {
@@ -70,7 +70,8 @@ public class ComplexUtils {
     }
     
     /**
-     * Compute the <a href="http://mathworld.wolfram.com/InverseSine.html">
+     * Compute the 
+     * <a href="http://mathworld.wolfram.com/InverseSine.html" TARGET="_top">
      * inverse sine</a> for the given complex argument.
      * <p>
      * Implements the formula: <pre>
@@ -78,11 +79,10 @@ public class ComplexUtils {
      * <p>
      * Returns {@link Complex#NaN} if either real or imaginary part of the 
      * input argument is <code>NaN</code> or infinite.
-     * <p>
-     * Throws <code>NullPointerException</code> if z is null.
      * 
      * @param z the value whose inverse sine is to be returned.
      * @return the inverse sine of <code>z</code>.
+     * @throws NullPointerException if <code>z</code> is null
      */
     public static Complex asin(Complex z) {
         if (z.isNaN()) {
@@ -94,19 +94,19 @@ public class ComplexUtils {
     }
     
     /**
-     * Compute the <a href="http://mathworld.wolfram.com/InverseTangent.html">
+     * Compute the 
+     * <a href="http://mathworld.wolfram.com/InverseTangent.html" TARGET="_top">
      * inverse tangent</a> for the given complex argument.
      * <p>
      * Implements the formula: <pre>
      * <code> atan(z) = (i/2) log((i + z)/(i - z)) </code></pre>
      * <p>
      * Returns {@link Complex#NaN} if either real or imaginary part of the 
-     * input argument is <code>NaN</code> or infinite.
-     * <p>
-     * Throws <code>NullPointerException</code> if z is null.
+     * input argument is <code>NaN</code> or infinite. 
      * 
-     * @param z the value whose inverse tangent is to be returned.
-     * @return the inverse tangent of <code>z</code>.
+     * @param z the value whose inverse tangent is to be returned
+     * @return the inverse tangent of <code>z</code>
+     * @throws NullPointerException if <code>z</code> is null
      */
     public static Complex atan(Complex z) {
         if (z.isNaN()) {
@@ -119,7 +119,9 @@ public class ComplexUtils {
     }
     
     /**
-     * Compute the <a href="http://mathworld.wolfram.com/Cosine.html">cosine</a>
+     * Compute the 
+     * <a href="http://mathworld.wolfram.com/Cosine.html" TARGET="_top">
+     * cosine</a>
      * for the given complex argument.
      * <p>
      * Implements the formula: <pre>
@@ -139,10 +141,9 @@ public class ComplexUtils {
      * cos(&plusmn;INFINITY + i) = NaN + NaN i
      * cos(&plusmn;INFINITY &plusmn; INFINITY i) = NaN + NaN i</code></pre>
      * 
-     * Throws <code>NullPointerException</code> if z is null. 
-     * 
-     * @param z the value whose cosine is to be returned.
-     * @return the cosine of <code>z</code>.
+     * @param z the value whose cosine is to be returned
+     * @return the cosine of <code>z</code>
+     * @throws NullPointerException if <code>z</code> is null
      */
     public static Complex cos(Complex z) {
         if (z.isNaN()) {
@@ -157,7 +158,8 @@ public class ComplexUtils {
     }
     
     /**
-     * Compute the <a href="http://mathworld.wolfram.com/HyperbolicCosine.html">
+     * Compute the 
+     * <a href="http://mathworld.wolfram.com/HyperbolicCosine.html" TARGET="_top">
      * hyperbolic cosine</a> for the given complex argument.
      * <p>
      * Implements the formula: <pre>
@@ -196,7 +198,7 @@ public class ComplexUtils {
     
     /**
      * Compute the
-     * <a href="http://mathworld.wolfram.com/ExponentialFunction.html">
+     * <a href="http://mathworld.wolfram.com/ExponentialFunction.html" TARGET="_top">
      * exponential function</a> for the given complex argument.
      * <p>
      * Implements the formula: <pre>
@@ -219,8 +221,8 @@ public class ComplexUtils {
      * <p>
      * Throws <code>NullPointerException</code> if z is null.
      * 
-     * @param z the value.
-     * @return <i>e</i><sup><code>z</code></sup>.
+     * @param z the value
+     * @return <i>e</i><sup><code>z</code></sup>
      */
     public static Complex exp(Complex z) {
         if (z.isNaN()) {
@@ -233,7 +235,8 @@ public class ComplexUtils {
     }
     
     /**
-     * Compute the <a href="http://mathworld.wolfram.com/NaturalLogarithm.html">
+     * Compute the 
+     * <a href="http://mathworld.wolfram.com/NaturalLogarithm.html" TARGET="_top">
      * natural logarithm</a> for the given complex argument.
      * <p>
      * Implements the formula: <pre>
@@ -245,8 +248,8 @@ public class ComplexUtils {
      * Returns {@link Complex#NaN} if either real or imaginary part of the 
      * input argument is <code>NaN</code>.
      * <p>
-     * Infinite values in real or imaginary parts of the input may result in
-     * infinite or NaN values returned in parts of the result.<pre>
+     * Infinite (or critical) values in real or imaginary parts of the input may
+     * result in infinite or NaN values returned in parts of the result.<pre>
      * Examples: 
      * <code>
      * log(1 &plusmn; INFINITY i) = INFINITY &plusmn; (&pi;/2)i
@@ -254,6 +257,7 @@ public class ComplexUtils {
      * log(-INFINITY + i) = INFINITY + &pi;i
      * log(INFINITY &plusmn; INFINITY i) = INFINITY &plusmn; (&pi;/4)i
      * log(-INFINITY &plusmn; INFINITY i) = INFINITY &plusmn; (3&pi;/4)i
+     * log(0 + 0i) = -INFINITY + 0i
      * </code></pre>
      * Throws <code>NullPointerException</code> if z is null.
      * 
@@ -272,8 +276,8 @@ public class ComplexUtils {
     /**
      * Creates a complex number from the given polar representation.
      * <p>
-     * The value returned is <code>r&middot;e<sup>i&middot;theta</sup></code>, computed as
-     * <code>r&middot;cos(theta) + r&middot;sin(theta)i</code>
+     * The value returned is <code>r&middot;e<sup>i&middot;theta</sup></code>,
+     * computed as <code>r&middot;cos(theta) + r&middot;sin(theta)i</code>
      * <p>
      * If either <code>r</code> or <code>theta</code> is NaN, or 
      * <code>theta</code> is infinite, {@link Complex#NaN} is returned.
@@ -287,8 +291,6 @@ public class ComplexUtils {
      * polar2Complex(INFINITY, 0) = INFINITY + NaN i
      * polar2Complex(INFINITY, -&pi;/4) = INFINITY - INFINITY i
      * polar2Complex(INFINITY, 5&pi;/4) = -INFINITY - INFINITY i </code></pre>
-     * 
-     * Throws <code>IllegalArgumentException</code> if <code>r < 0</code>
      * 
      * @param r the modulus of the complex number to create
      * @param theta  the argument of the complex number to create
@@ -312,20 +314,22 @@ public class ComplexUtils {
      * {@link #log}, respectively.
      * <p>
      * Returns {@link Complex#NaN} if either real or imaginary part of the 
-     * input argument is <code>NaN</code> or infinite.
-     * <p>
-     * Throws <code>NullPointerException</code> if either x or y is null.
+     * input argument is <code>NaN</code> or infinite, or if <code>y</code>
+     * equals {@link Complex#ZERO}.
      * 
      * @param y the base.
      * @param x the exponent.
      * @return <code>y</code><sup><code>x</code></sup>
+     * @throws NullpointerException if either x or y is null
      */
     public static Complex pow(Complex y, Complex x) {
         return exp(x.multiply(log(y)));
     }
     
     /**
-     * Compute the <a href="http://mathworld.wolfram.com/Sine.html">sine</a>
+     * Compute the 
+     * <a href="http://mathworld.wolfram.com/Sine.html" TARGET="_top">
+     * sine</a>
      * for the given complex argument.
      * <p>
       * Implements the formula: <pre>
@@ -363,7 +367,8 @@ public class ComplexUtils {
     }
     
     /**
-     * Compute the <a href="http://mathworld.wolfram.com/HyperbolicSine.html">
+     * Compute the 
+     * <a href="http://mathworld.wolfram.com/HyperbolicSine.html" TARGET="_top">
      * hyperbolic sine</a> for the given complex argument.
      * <p>
      * Implements the formula: <pre>
@@ -381,12 +386,11 @@ public class ComplexUtils {
      * <code>
      * sinh(1 &plusmn; INFINITY i) = NaN + NaN i
      * sinh(&plusmn;INFINITY + i) = &plusmn; INFINITY + INFINITY i
-     * sinh(&plusmn;INFINITY &plusmn; INFINITY i) = NaN + NaN i</code></pre>
-     * <p>
-     * Throws <code>NullPointerException</code> if z is null.
+     * sinh(&plusmn;INFINITY &plusmn; INFINITY i) = NaN + NaN i</code></pre
      * 
-     * @param z the value whose hyperbolic sine is to be returned.
-     * @return the hyperbolic sine of <code>z</code>.
+     * @param z the value whose hyperbolic sine is to be returned
+     * @return the hyperbolic sine of <code>z</code>
+     * @throws NullPointerException if <code>z</code> is null
      */
     public static Complex sinh(Complex z) {
         if (z.isNaN()) {
@@ -401,8 +405,9 @@ public class ComplexUtils {
     }
     
     /**
-     * Compute the <a href="http://mathworld.wolfram.com/SquareRoot.html">square
-     * root</a> for the given complex argument.
+     * Compute the 
+     * <a href="http://mathworld.wolfram.com/SquareRoot.html" TARGET="_top">
+     * square root</a> for the given complex argument.
      * <p>
      * Implements the following algorithm to compute <code>sqrt(a + bi)</code>: 
      * <ol><li>Let <code>t = sqrt((|a| + |a + bi|) / 2)</code></li>
@@ -429,10 +434,9 @@ public class ComplexUtils {
      * sqrt(-INFINITY &plusmn; INFINITY i) = NaN &plusmn; INFINITY i
      * </code></pre>
      * 
-     * Throws <code>NullPointerException</code> if z is null.
-     * 
-     * @param z the value whose square root is to be returned.
-     * @return the square root of <code>z</code>.
+     * @param z the value whose square root is to be returned
+     * @return the square root of <code>z</code>
+     * @throws NullPointerException if <code>z</code> is null
      */
     public static Complex sqrt(Complex z) {
         if (z.isNaN()) {
@@ -452,8 +456,10 @@ public class ComplexUtils {
     }
     
     /**
-     * Compute the <a href="http://mathworld.wolfram.com/SquareRoot.html">square
-     * root</a> of 1 - <code>z</code><sup>2</sup> for the given complex argument.
+     * Compute the 
+     * <a href="http://mathworld.wolfram.com/SquareRoot.html" TARGET="_top">
+     * square root</a> of 1 - <code>z</code><sup>2</sup> for the given complex
+     * argument.
      * <p>
      * Computes the result directly as 
      * <code>sqrt(Complex.ONE.subtract(z.multiply(z)))</code>.
@@ -463,18 +469,18 @@ public class ComplexUtils {
      * <p>
      * Infinite values in real or imaginary parts of the input may result in
      * infinite or NaN values returned in parts of the result. 
-     * <p>
-     * Throws <code>NullPointerException</code> if z is null.
      * 
-     * @param z the value.
-     * @return the square root of 1 - <code>z</code><sup>2</sup>.
+     * @param z the value
+     * @return the square root of 1 - <code>z</code><sup>2</sup>
+     * @throws NullPointerException if <code>z</code> is null
      */
     public static Complex sqrt1z(Complex z) {
         return sqrt(Complex.ONE.subtract(z.multiply(z)));
     }
     
     /**
-     * Compute the <a href="http://mathworld.wolfram.com/Tangent.html">
+     * Compute the 
+     * <a href="http://mathworld.wolfram.com/Tangent.html" TARGET="_top">
      * tangent</a> for the given complex argument.
      * <p>
      * Implements the formula: <pre>
@@ -486,18 +492,18 @@ public class ComplexUtils {
      * Returns {@link Complex#NaN} if either real or imaginary part of the 
      * input argument is <code>NaN</code>.
      * <p>
-     * Infinite values in real or imaginary parts of the input may result in
-     * infinite or NaN values returned in parts of the result.<pre>
+     * Infinite (or critical) values in real or imaginary parts of the input may
+     * result in infinite or NaN values returned in parts of the result.<pre>
      * Examples: 
      * <code>
      * tan(1 &plusmn; INFINITY i) = 0 + NaN i
      * tan(&plusmn;INFINITY + i) = NaN + NaN i
-     * tan(&plusmn;INFINITY &plusmn; INFINITY i) = NaN + NaN i</code></pre>
+     * tan(&plusmn;INFINITY &plusmn; INFINITY i) = NaN + NaN i
+     * tan(&plusmn;&pi/2 + 0 i) = &plusmn;INFINITY + NaN i</code></pre>
      * 
-     * Throws <code>NullPointerException</code> if z is null.
-     * 
-     * @param z the value whose tangent is to be returned.
-     * @return the tangent of <code>z</code>.
+     * @param z the value whose tangent is to be returned
+     * @return the tangent of <code>z</code>
+     * @throws NullPointerException if <code>z</code> is null
      */
     public static Complex tan(Complex z) {
         if (z.isNaN()) {
@@ -513,7 +519,7 @@ public class ComplexUtils {
     
     /**
      * Compute the
-     * <a href="http://mathworld.wolfram.com/HyperbolicTangent.html">
+     * <a href="http://mathworld.wolfram.com/HyperbolicTangent.html" TARGET="_top">
      * hyperbolic tangent</a> for the given complex argument.
     * <p>
      * Implements the formula: <pre>
@@ -529,14 +535,14 @@ public class ComplexUtils {
      * infinite or NaN values returned in parts of the result.<pre>
      * Examples: 
      * <code>
-     * tan(1 &plusmn; INFINITY i) = NaN + NaN i
-     * tan(&plusmn;INFINITY + i) = NaN + 0 i
-     * tan(&plusmn;INFINITY &plusmn; INFINITY i) = NaN + NaN i</code></pre>
-     * 
-     * Throws <code>NullPointerException</code> if z is null.
-     * 
-     * @param z the value whose hyperbolic tangent is to be returned.
-     * @return the hyperbolic tangent of <code>z</code>.
+     * tanh(1 &plusmn; INFINITY i) = NaN + NaN i
+     * tanh(&plusmn;INFINITY + i) = NaN + 0 i
+     * tanh(&plusmn;INFINITY &plusmn; INFINITY i) = NaN + NaN i
+     * tanh(0 + (&pi/2)i) = NaN + INFINITY i</code></pre>
+     *
+     * @param z the value whose hyperbolic tangent is to be returned
+     * @return the hyperbolic tangent of <code>z</code>
+     * @throws NullPointerException if <code>z</code> is null
      */
     public static Complex tanh(Complex z) {
         if (z.isNaN()) {

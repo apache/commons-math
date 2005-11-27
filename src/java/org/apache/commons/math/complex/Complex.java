@@ -41,10 +41,10 @@ public class Complex implements Serializable  {
     /** Serializable version identifier */
     private static final long serialVersionUID = -6530173849413811929L;
     
-    /** The square root of -1. A number representing "0.0 + 1.0i".*/    
+    /** The square root of -1. A number representing "0.0 + 1.0i" */    
     public static final Complex I = new Complex(0.0, 1.0);
     
-    /** A complex number analogous to {@link java.lang.Double#NaN} */
+    /** A complex number representing "NaN + NaNi" */
     public static final Complex NaN = new Complex(Double.NaN, Double.NaN);
 
     /** A complex number representing "1.0 + 0.0i" */    
@@ -53,17 +53,17 @@ public class Complex implements Serializable  {
     /** A complex number representing "0.0 + 0.0i" */    
     public static final Complex ZERO = new Complex(0.0, 0.0);
     
-    /** The imaginary part. */
+    /** The imaginary part */
     protected double imaginary;
     
-    /** The real part. */
+    /** The real part */
     protected double real;
     
     /**
      * Create a complex number given the real and imaginary parts.
      *
-     * @param real the real part.
-     * @param imaginary the imaginary part.
+     * @param real the real part
+     * @param imaginary the imaginary part
      */
     public Complex(double real, double imaginary) {
         super();
@@ -79,7 +79,7 @@ public class Complex implements Serializable  {
      * neither part is <code>NaN</code>, but at least one part takes an infinite
      * value.
      *
-     * @return the absolute value.
+     * @return the absolute value
      */
     public double abs() {
         if (isNaN()) {
@@ -117,11 +117,10 @@ public class Complex implements Serializable  {
      * {@link #NaN} is returned; otherwise Inifinite and NaN values are
      * returned in the parts of the result according to the rules for
      * {@link java.lang.Double} arithmetic. 
-     * <p>
-     * Throws <code>NullPointerException</code> if <code>rhs</code> is null.
      *
-     * @param rhs the other complex number.
-     * @return the complex number sum.
+     * @param rhs the other complex number
+     * @return the complex number sum
+     * @throws NullPointerException if <code>rhs</code> is null
      */
     public Complex add(Complex rhs) {   
         return new Complex(real + rhs.getReal(),
@@ -179,10 +178,10 @@ public class Complex implements Serializable  {
      * returned in the parts of the result if the {@link java.lang.Double}
      * rules applied to the definitional formula force NaN results.</li>
      * </ul>
-     * Throws <code>NullPointerException</code> if <code>rhs</code> is null.
      * 
      * @param rhs the other complex number
      * @return the complex number quotient
+     * @throws NullPointerException if <code>rhs</code> is null
      */
     public Complex divide(Complex rhs) {
         if (isNaN() || rhs.isNaN()) {
@@ -281,7 +280,7 @@ public class Complex implements Serializable  {
     /**
      * Access the imaginary part.
      *
-     * @return the imaginary part.
+     * @return the imaginary part
      */
     public double getImaginary() {
         return imaginary;
@@ -290,18 +289,18 @@ public class Complex implements Serializable  {
     /**
      * Access the real part.
      *
-     * @return the real part.
+     * @return the real part
      */
     public double getReal() {
         return real;
     }
     
     /**
-     * Returns true if this complex number is equal to the special 
-     * Not-a-Number (NaN) value.  
+     * Returns true if either or both parts of this complex number is NaN;
+     * false otherwise
      *
-     * @return  true if either or both parts of this complex number take
-     * NaN values; false otherwise.
+     * @return  true if either or both parts of this complex number is NaN;
+     * false otherwise
      */
     public boolean isNaN() {
         return Double.isNaN(real) || Double.isNaN(imaginary);        
@@ -332,7 +331,7 @@ public class Complex implements Serializable  {
      * Returns {@link #NaN} if either this or <code>rhs</code> has one or more
      * NaN parts.
      * <p>
-     * Returns NaN or infintite values in components of the result per the
+     * Returns NaN or infinite values in components of the result per the
      * definitional formula and and the rules for {@link java.lang.Double}
      * arithmetic.  Examples:
      * <pre><code>
@@ -341,10 +340,9 @@ public class Complex implements Serializable  {
      *  (-INF + -INFi)(1 + NaNi) = NaN + NaNi
      *  </code></pre>
      * 
-     * Throws <code>NullPointerException</code> if <code>rhs</code> is null.
-     * 
-     * @param rhs the other complex number.
-     * @return the complex number product.
+     * @param rhs the other complex number
+     * @return the complex number product
+     * @throws NullPointerException if <code>rhs</code> is null
      */
     public Complex multiply(Complex rhs) {
         if (isNaN() || rhs.isNaN()) {
@@ -360,7 +358,7 @@ public class Complex implements Serializable  {
      * Returns <code>Complex.NaN</code> if either real or imaginary
      * part of this Complex number equals <code>Double.NaN</code>.
      *
-     * @return the negation of this complex number.
+     * @return the negation of this complex number
      */
     public Complex negate() {
         if (isNaN()) {
@@ -383,11 +381,10 @@ public class Complex implements Serializable  {
      * {@link #NaN} is returned; otherwise inifinite and NaN values are
      * returned in the parts of the result according to the rules for
      * {@link java.lang.Double} arithmetic. 
-     * <p>
-     * Throws <code>NullPointerException</code> if <code>rhs</code> is null.
      * 
-     * @param rhs the other complex number.
-     * @return the complex number difference.
+     * @param rhs the other complex number
+     * @return the complex number difference
+     * @throws NullPointerException if <code>rhs</code> is null
      */
     public Complex subtract(Complex rhs) {
         if (isNaN() || rhs.isNaN()) {
