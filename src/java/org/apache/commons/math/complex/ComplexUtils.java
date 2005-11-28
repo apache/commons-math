@@ -296,6 +296,7 @@ public class ComplexUtils {
      * @param theta  the argument of the complex number to create
      * @return <code>r&middot;e<sup>i&middot;theta</sup></code>
      * @throws IllegalArgumentException  if r is negative
+     * @since 1.1
      */
     public static Complex polar2Complex(double r, double theta) {
         if (r < 0) {
