@@ -321,7 +321,7 @@ public class ComplexUtils {
      * @param y the base.
      * @param x the exponent.
      * @return <code>y</code><sup><code>x</code></sup>
-     * @throws NullpointerException if either x or y is null
+     * @throws NullPointerException if either x or y is null
      */
     public static Complex pow(Complex y, Complex x) {
         return exp(x.multiply(log(y)));
