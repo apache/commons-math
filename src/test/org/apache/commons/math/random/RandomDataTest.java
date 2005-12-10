@@ -420,13 +420,19 @@ public class RandomDataTest extends RetryTestCase {
         
         /* remove this test back soon,
          * since it takes about 4 seconds */
-         
-        randomData.setSecureAlgorithm("SHA1PRNG","SUN");
+
+        try {
+            randomData.setSecureAlgorithm("SHA1PRNG","SUN");
+        } catch (NoSuchProviderException ex) {
+            ;
+        }
         assertTrue("different seeds",
             !hex.equals(randomData.nextSecureHexString(40)));
         try {
             randomData.setSecureAlgorithm("NOSUCHTHING","SUN");
             fail("expecting NoSuchAlgorithmException");
+        } catch (NoSuchProviderException ex) {
+            ;
         } catch (NoSuchAlgorithmException ex) {
             ;
         }
