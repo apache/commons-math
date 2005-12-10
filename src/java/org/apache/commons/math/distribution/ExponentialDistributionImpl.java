@@ -20,7 +20,7 @@ import java.io.Serializable;
 import org.apache.commons.math.MathException;
 
 /**
- * The default implementation of {@link ExponentialDistribution}
+ * The default implementation of {@link ExponentialDistribution}.
  *
  * @version $Revision$ $Date$
  */

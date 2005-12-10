@@ -21,7 +21,7 @@ import org.apache.commons.math.util.MathUtils;
 
 
 /**
- * Implementation for RealMatrix using a double[][] array to store entries and
+ * Implementation of RealMatrix using a double[][] array to store entries and
  * <a href="http://www.math.gatech.edu/~bourbaki/math2601/Web-notes/2num.pdf">
  * LU decompostion</a> to support linear system
  * solution and inverse.

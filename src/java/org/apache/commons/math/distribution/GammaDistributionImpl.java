@@ -21,7 +21,7 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.special.Gamma;
 
 /**
- * The default implementation of {@link GammaDistribution}
+ * The default implementation of {@link GammaDistribution}.
  *
  * @version $Revision$ $Date$
  */

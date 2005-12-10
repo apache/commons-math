@@ -19,7 +19,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * Implementation for {@link BigMatrix} using a BigDecimal[][] array to store entries
+ * Implementation of {@link BigMatrix} using a BigDecimal[][] array to store entries
  * and <a href="http://www.math.gatech.edu/~bourbaki/math2601/Web-notes/2num.pdf">
  * LU decompostion</a> to support linear system 
  * solution and inverse.

@@ -16,7 +16,7 @@
 package org.apache.commons.math.analysis;
 
 /**
- * Computes a natural (a.k.a. "free", "unclamped") cubic spline interpolation for the data set.
+ * Computes a natural (also known as "free", "unclamped") cubic spline interpolation for the data set.
  * <p>
  * The {@link #interpolate(double[], double[])} method returns a {@link PolynomialSplineFunction}
  * consisting of n cubic polynomials, defined over the subintervals determined by the x values,  

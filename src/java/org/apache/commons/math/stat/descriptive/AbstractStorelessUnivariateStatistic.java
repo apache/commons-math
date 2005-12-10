@@ -20,7 +20,7 @@ import java.io.Serializable;
 
 /**
  *
- * Abstract Implementation for the {@link StorelessUnivariateStatistic} interface.
+ * Abstract implementation of the {@link StorelessUnivariateStatistic} interface.
  * <p>
  * Provides default <code>evaluate()</code> and <code>incrementAll(double[])<code>
  * implementations. 

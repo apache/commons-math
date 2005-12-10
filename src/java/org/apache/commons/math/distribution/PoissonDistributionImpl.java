@@ -22,7 +22,7 @@ import org.apache.commons.math.special.Gamma;
 import org.apache.commons.math.util.MathUtils;
 
 /**
- * Implementation for the {@link PoissonDistribution}
+ * Implementation for the {@link PoissonDistribution}.
  * 
  * @version $Revision$ $Date$
  */
