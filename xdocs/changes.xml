@@ -150,7 +150,6 @@ Commons Math Release Notes</title>
         1.0 classes should be backward compatible (including serialization).
       </action>
       <action dev="psteitz" type="update" due-to="C. Scott Ananian">
-        Ported numerics improvements in commons lang Fraction implementation.
         Added utility methods for overflow-checked integer arithmetic and
         improved gcd method in MathUtils.
       </action>
