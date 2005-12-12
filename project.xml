@@ -20,7 +20,8 @@
 <project>
   <pomVersion>3</pomVersion>
   <name>Math</name>
-  <id>commons-math</id>
+  <groupId>commons-math</groupId>
+  <artifactId>commons-math</artifactId>
   <currentVersion>1.2-SNAPSHOT</currentVersion>
   <inceptionYear>2003</inceptionYear>
   <shortDescription>Jakarta Commons Math</shortDescription>
@@ -161,11 +162,13 @@
   </contributors>
   <dependencies>
     <dependency>
-      <id>commons-logging</id>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
       <version>1.0.3</version>
     </dependency>
     <dependency>
-      <id>commons-discovery</id>
+      <groupId>commons-discovery</groupId>
+      <artifactId>commons-discovery</artifactId>
       <version>0.2</version>
     </dependency>
   </dependencies>
