@@ -11,9 +11,9 @@ Developers:
              && gpg --armor --export <your name>) >> this file.
 
 pub  1024D/F07D567E 2004-08-21 Phil Steitz (For signing Apache distributions) <psteitz@apache.org>
-sig 3       F07D567E 2004-08-21   Phil Steitz (For signing Apache distributions) <psteitz@apache.org>
-sub  1024g/56EEF1D4 2004-08-21 [expires: 2006-08-21]
-sig         F07D567E 2004-08-21   Phil Steitz (For signing Apache distributions) <psteitz@apache.org>
+sig 3       F07D567E 2005-12-18   Phil Steitz (For signing Apache distributions) <psteitz@apache.org>
+sub  1024g/56EEF1D4 2004-08-21
+sig         F07D567E 2005-12-18   Phil Steitz (For signing Apache distributions) <psteitz@apache.org>
 
 -----BEGIN PGP PUBLIC KEY BLOCK-----
 Version: GnuPG v1.2.1 (GNU/Linux)
@@ -28,15 +28,15 @@ aLi1A/4+Z7l1W/sMN09ZfOvTxEmznKOscCBNQPWwu/NBFYVzCAAv2pNVFvmjU1OV
 u85pXfY8/x0lkpUlexd4bL0x1IPmrJn+H4dTI2sVFXLuKVceug1HjXW+zN/LWhT2
 08bq6V/+a9+9oVjcdYMqJldoxEe5Tac7fwExQvqRFUvteL2LTbRDUGhpbCBTdGVp
 dHogKEZvciBzaWduaW5nIEFwYWNoZSBkaXN0cmlidXRpb25zKSA8cHN0ZWl0ekBh
-cGFjaGUub3JnPohfBBMRAgAfBQJBJ9eRBQkDwmcABAsHAwIDFQIDAxYCAQIeAQIX
-gAAKCRDNMDj+8H1WftJeAJ0fJZqjLXtnA5xHkDZNufePZOe9jwCfSMfQxO+Ryafo
-HcANUbKZ6Grb5oK5AQ0EQSfXlBAEALwMYOc2vE64Kb5N68f/69R9bvBdtZrTFQuA
-5w1hFMPU7PhMP6MuMUxDT02gN8FbYgwcaKx6EJcWarqllDXFBZ66kksie0uTQ4gF
-imC+ns9DIF3epasC/LQOKykIQyt5D6p7hekRVHwuWga0MQmzTpOTmTEvluf8Ngog
-qoYyrZBzAAMFA/9OJ869ulxQdFx22wheG0m8okd70E1jgTpr9apBp2rrEM2xaYN+
-E9ZeSmGo3tAu5+/lGUpQ9rlpLGE27UdyaQFpn+POjLgG2eVYk7IcvCuYmuepNsiP
-2WkhKxux2YzMWuBvHnFsitYLh0+CzBKG1lAO/XLP3MHcKr1FfN0tZWtwJYhMBBgR
-AgAMBQJBJ9eUBQkDwmcAAAoJEM0wOP7wfVZ+1AIAn1ZUKrQ94+Ilgz7KbWbX1oOE
-y3u0AKCG8kZWjXE8vs9SY9PnMLw1VaBKEA==
-=6sCc
+cGFjaGUub3JnPohcBBMRAgAcBQJDpNgEAhsDBAsHAwIDFQIDAxYCAQIeAQIXgAAK
+CRDNMDj+8H1WfsgnAJ0eaV+75trHBS2ujHXrxl+3hK5d6wCgkwnA3nTINeX7DGpY
+KUB/P/QviuS5AQ0EQSfXlBAEALwMYOc2vE64Kb5N68f/69R9bvBdtZrTFQuA5w1h
+FMPU7PhMP6MuMUxDT02gN8FbYgwcaKx6EJcWarqllDXFBZ66kksie0uTQ4gFimC+
+ns9DIF3epasC/LQOKykIQyt5D6p7hekRVHwuWga0MQmzTpOTmTEvluf8NgogqoYy
+rZBzAAMFA/9OJ869ulxQdFx22wheG0m8okd70E1jgTpr9apBp2rrEM2xaYN+E9Ze
+SmGo3tAu5+/lGUpQ9rlpLGE27UdyaQFpn+POjLgG2eVYk7IcvCuYmuepNsiP2Wkh
+Kxux2YzMWuBvHnFsitYLh0+CzBKG1lAO/XLP3MHcKr1FfN0tZWtwJYhGBBgRAgAG
+BQJDpNhCAAoJEM0wOP7wfVZ+jDAAniGOdJ2kMhG44e1RaXSI/0aUZMm0AJ93656S
+t56L+rXevUEA6KAyv+cQWQ==
+=/HrN
 -----END PGP PUBLIC KEY BLOCK-----
