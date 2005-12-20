@@ -39,17 +39,33 @@ Commons Math Release Notes</title>
   </properties>
   <body>
     <release version="1.2" date="TBD">
-      <action dev="psteitz" type="add" due-to="Xiaogang Zhang">
-       Added Trapeziod, Simpson, Romberg numerical integration.
-       </action>
     </release>
-    <release version="1.1" date="TBD"  
+    <release version="1.1" date="2005-12-17"  
  description="This is a maintenance release containing bug fixes and enhancements.
        All API changes are binary compatible with version 1.0. The enhancements 
        include some new probability distributions, a Fraction class, new matrix
        and numerical utilities, and a PRNG pluggability framework making it
        possible to replace the JDK-supplied random number generator in
        commons-math (and elsewhere) with alternative PRNG implementations.">
+      <action dev="psteitz" type="fix" issue="36491">
+        Made NewtonSolver derivative field transient and implemented readObject to
+        initialize.
+      </action>
+      <action dev="psteitz" type="fix" issue="36491">
+       Made sampleStats field private and changed getUpperBounds to return a fresh
+       copy in EmpiricalDistributionImpl.
+      </action>
+      <action dev="psteitz" type="update">
+        Added polar2Complex method to ComplexUtils to create Complex numbers
+        from polar representations.
+      </action>
+      <action dev="psteitz" type="fix" issue="37162" due-to="Elliotte Harold">
+        Made all serialVersionUIDs private.
+      </action> 
+      <action dev="psteitz" type="fix" issue="37086">
+        Improved documentation and test cases related to handling of infinite
+        and NaN values in Complex, ComplexUtils classes. 
+      </action> 
       <action dev="psteitz" type="fix" issue="37019" due-to="Mauro Talevi">
         Fixed incorrect NaN handling in o.a.m.s.d.rank.Min, Max
       </action>
@@ -78,7 +94,7 @@ Commons Math Release Notes</title>
       <action dev="psteitz" type="fix" issue="36450" due-to="Keith McDonald">
 		Fixed bin index overflow problem in EmpiricalDistributionImpl.
 	  </action>
-          <action dev="brentworden" type="fix" issue="36232" due-to="Xiaogang Zhang">
+	  <action dev="brentworden" type="fix" issue="36232" due-to="Xiaogang Zhang">
         Added protection against numerical overflow and underflow in the
         isBracketing method.
 	  </action>
@@ -136,7 +152,6 @@ Commons Math Release Notes</title>
         1.0 classes should be backward compatible (including serialization).
       </action>
       <action dev="psteitz" type="update" due-to="C. Scott Ananian">
-        Ported numerics improvements in commons lang Fraction implementation.
         Added utility methods for overflow-checked integer arithmetic and
         improved gcd method in MathUtils.
       </action>
