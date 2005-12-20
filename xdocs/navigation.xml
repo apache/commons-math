@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!--
-   Copyright 2003-2004 The Apache Software Foundation
+   Copyright 2003-2005 The Apache Software Foundation
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -36,8 +36,9 @@
       <item name="Overview"                href="/index.html"/>
       <item name="Proposal"                href="/proposal.html"/>
       <item name="Developers Guide"        href="/developers.html"/>
-      <item name="Javadoc (1.0 release)"                 href="api/index.html"/>
-      <item name="Javadoc (1.1-dev)"                 href="apidocs/index.html"/>
+      <item name="Javadoc (1.0 release)"   href="http://jakarta.apache.org/commons/math/api-1.0/index.html"/>
+      <item name="Javadoc (1.1 release)"   href="http://jakarta.apache.org/commons/math/api-1.1/index.html"/>
+      <item name="Javadoc (1.2-dev)"       href="apidocs/index.html"/>
       <item name="Source Repository (current)"  
        href="http://svn.apache.org/viewcvs.cgi/jakarta/commons/proper/math/trunk"/>
       <item name="Wiki (Wish List)"  
