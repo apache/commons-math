@@ -39,7 +39,7 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
 public class Skewness extends AbstractStorelessUnivariateStatistic implements Serializable {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = 7101857578996691352L;    
+    private static final long serialVersionUID = 7101857578996691352L;    
     
     /** Third moment on which this statistic is based */
     protected ThirdMoment moment = null;

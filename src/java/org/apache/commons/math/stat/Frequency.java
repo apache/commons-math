@@ -40,7 +40,7 @@ import java.util.TreeMap;
 public class Frequency implements Serializable {
     
     /** Serializable version identifier */
-    static final long serialVersionUID = -3845586908418844111L;
+    private static final long serialVersionUID = -3845586908418844111L;
 
     /** underlying collection */
     private TreeMap freqTable = null;

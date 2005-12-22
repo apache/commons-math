@@ -65,7 +65,7 @@ import org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic;
 public class Percentile extends AbstractUnivariateStatistic implements Serializable {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = -8091216485095130416L; 
+    private static final long serialVersionUID = -8091216485095130416L; 
        
     /** Determines what percentile is computed when evaluate() is activated 
      * with no quantile argument */

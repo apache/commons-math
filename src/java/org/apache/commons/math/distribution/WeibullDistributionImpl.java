@@ -29,7 +29,7 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
         implements WeibullDistribution, Serializable {
     
     /** Serializable version identifier */
-    static final long serialVersionUID = 8589540077390120676L;
+    private static final long serialVersionUID = 8589540077390120676L;
     
     /** The shape parameter. */
     private double alpha;

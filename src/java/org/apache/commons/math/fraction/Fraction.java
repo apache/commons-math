@@ -34,7 +34,7 @@ public class Fraction extends Number implements Comparable {
     public static final Fraction ZERO = new Fraction(0, 1);
     
     /** Serializable version identifier */
-    static final long serialVersionUID = 65382027393090L;
+    private static final long serialVersionUID = 65382027393090L;
     
     /** The denominator. */
     private int denominator;

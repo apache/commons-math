@@ -29,7 +29,7 @@ import org.apache.commons.math.ConvergenceException;
 public class BisectionSolver extends UnivariateRealSolverImpl {
     
     /** Serializable version identifier */
-    static final long serialVersionUID = 7137520585963699578L;
+    private static final long serialVersionUID = 7137520585963699578L;
     
     /**
      * Construct a solver for the given function.

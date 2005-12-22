@@ -40,7 +40,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
     implements Serializable {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = 5728716329662425188L;  
+    private static final long serialVersionUID = 5728716329662425188L;  
     
     /** Wrapped Variance instance */
     private Variance variance = null;

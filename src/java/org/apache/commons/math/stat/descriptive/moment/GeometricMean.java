@@ -45,7 +45,7 @@ import org.apache.commons.math.stat.descriptive.summary.SumOfLogs;
 public class GeometricMean extends AbstractStorelessUnivariateStatistic {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = -8178734905303459453L;  
+    private static final long serialVersionUID = -8178734905303459453L;  
     
     /** Wrapped SumOfLogs instance */
     private SumOfLogs sumOfLogs;

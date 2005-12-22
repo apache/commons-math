@@ -42,6 +42,10 @@ public class TestUtils {
         assertEquals(null, expected, actual, delta);
     }
 
+    /**
+     * Verifies that expected and actual are within delta, or are both NaN or
+     * infinities of the same sign.
+     */
     public static void assertEquals(String msg, double expected, double actual, double delta) {
         // check for NaN
         if(Double.isNaN(expected)){
@@ -52,8 +56,26 @@ public class TestUtils {
         }
     }
     
+    /*
+     * Verifies that the two arguments are exactly the same, either
+     * both NaN or infinities of same sign, or identical floating point values.
+     */
+    public static void assertSame(double expected, double actual) {
+     assertEquals(expected, actual, 0);
+    }
+    
     /**
-     * 
+     * Verifies that real and imaginary parts of the two complex arguments
+     * are exactly the same.  Also ensures that NaN / infinite components match.
+     */
+    public static void assertSame(Complex expected, Complex actual) {
+        assertSame(expected.getReal(), actual.getReal());
+        assertSame(expected.getImaginary(), actual.getImaginary());
+    }
+    
+    /**
+     * Verifies that real and imaginary parts of the two complex arguments
+     * differ by at most delta.  Also ensures that NaN / infinite components match.
      */
     public static void assertEquals(Complex expected, Complex actual, double delta) {
         assertEquals(expected.getReal(), actual.getReal(), delta);
@@ -92,26 +114,26 @@ public class TestUtils {
             ObjectInputStream si = new ObjectInputStream(fi);  
             result = si.readObject();
         } catch (Exception ex) {
-        	
+            
         } finally {
-        	if (fo != null) {
-        		try {
-        			fo.close();
-        		} catch (IOException ex) {
-        		}
-        	}
+            if (fo != null) {
+                try {
+                    fo.close();
+                } catch (IOException ex) {
+                }
+            }
 
-        	if (fi != null) {
-        		try {
-            		fi.close();
-        		} catch (IOException ex) {
-        		}
-        	}
+            if (fi != null) {
+                try {
+                    fi.close();
+                } catch (IOException ex) {
+                }
+            }
         }
         
         
         if (tmp != null) {
-        	tmp.delete();
+            tmp.delete();
         }
         
         return result;
@@ -128,15 +150,15 @@ public class TestUtils {
         Assert.assertEquals("HashCode check", object.hashCode(), object2.hashCode());
     }
 
-	public static void assertRelativelyEquals(double expected, double actual, double relativeError) {
-		assertRelativelyEquals(null, expected, actual, relativeError);
-	}
-	
-	public static void assertRelativelyEquals(String msg, double expected, double actual, double relativeError) {
+    public static void assertRelativelyEquals(double expected, double actual, double relativeError) {
+        assertRelativelyEquals(null, expected, actual, relativeError);
+    }
+    
+    public static void assertRelativelyEquals(String msg, double expected, double actual, double relativeError) {
         if (Double.isNaN(expected)) {
             Assert.assertTrue(msg, Double.isNaN(actual));
         } else if (Double.isNaN(actual)) {
-        	Assert.assertTrue(msg, Double.isNaN(expected));
+            Assert.assertTrue(msg, Double.isNaN(expected));
         } else if (Double.isInfinite(actual) || Double.isInfinite(expected)) {
             Assert.assertEquals(expected, actual, relativeError);
         } else if (expected == 0.0) {
@@ -145,5 +167,5 @@ public class TestUtils {
             double x = Math.abs((expected - actual) / expected);
             Assert.assertEquals(msg, 0.0, x, relativeError);
         }
-	}
+    }
 }

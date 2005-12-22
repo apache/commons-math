@@ -31,7 +31,7 @@ import org.apache.commons.math.MathException;
 public class DefaultTransformer implements NumberTransformer, Serializable {
     
     /** Serializable version identifier */
-    static final long serialVersionUID = 4019938025047800455L;
+    private static final long serialVersionUID = 4019938025047800455L;
     
     /**
      * @param o  the object that gets transformed.

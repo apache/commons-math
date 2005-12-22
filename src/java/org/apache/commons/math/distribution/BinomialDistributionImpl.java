@@ -31,7 +31,7 @@ public class BinomialDistributionImpl
     implements BinomialDistribution, Serializable {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = 6751309484392813623L;
+    private static final long serialVersionUID = 6751309484392813623L;
 
     /** The number of trials. */
     private int numberOfTrials;

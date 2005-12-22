@@ -31,7 +31,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
         implements NormalDistribution, Serializable {
     
     /** Serializable version identifier */
-    static final long serialVersionUID = 8589540077390120676L;
+    private static final long serialVersionUID = 8589540077390120676L;
 
     /** The mean of this distribution. */
     private double mean = 0;

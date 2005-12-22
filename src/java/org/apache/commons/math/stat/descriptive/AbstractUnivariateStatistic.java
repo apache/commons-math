@@ -34,7 +34,7 @@ public abstract class AbstractUnivariateStatistic
     implements UnivariateStatistic, Serializable {
     
     /** Serialization UID */
-    static final long serialVersionUID = -8007759382851708045L;
+    private static final long serialVersionUID = -8007759382851708045L;
 
     /**
      * @see org.apache.commons.math.stat.descriptive.UnivariateStatistic#evaluate(double[])

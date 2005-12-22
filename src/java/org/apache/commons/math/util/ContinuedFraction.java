@@ -37,7 +37,7 @@ import org.apache.commons.math.MathException;
 public abstract class ContinuedFraction implements Serializable {
     
     /** Serialization UID */
-    static final long serialVersionUID = 1768555336266158242L;
+    private static final long serialVersionUID = 1768555336266158242L;
     
     /** Maximum allowed numerical error. */
     private static final double DEFAULT_EPSILON = 10e-9;
@@ -128,46 +128,46 @@ public abstract class ContinuedFraction implements Serializable {
     public double evaluate(double x, double epsilon, int maxIterations)
         throws MathException
     {
-    	double p0 = 1.0;
-    	double p1 = getA(0, x);
-    	double q0 = 0.0;
-    	double q1 = 1.0;
-    	double c = p1 / q1;
-    	int n = 0;
-    	double relativeError = Double.MAX_VALUE;
-    	while (n < maxIterations && relativeError > epsilon) {
-    		++n;
-    		double a = getA(n, x);
-    		double b = getB(n, x);
-  			double p2 = a * p1 + b * p0;
-   			double q2 = a * q1 + b * q0;
-   			if (Double.isInfinite(p2) || Double.isInfinite(q2)) {
-   				// need to scale
-   				if (a != 0.0) {
-   					p2 = p1 + (b / a * p0);
-   					q2 = q1 + (b / a * q0);
-   				} else if (b != 0) {
-   					p2 = (a / b * p1) + p0;
-   					q2 = (a / b * q1) + q0;
-   				} else {
-   					// can not scale an convergent is unbounded.
-   		            throw new ConvergenceException(
-   	                	"Continued fraction convergents diverged to +/- " +
-   	                	"infinity.");
-   				}
-   			}
-   			double r = p2 / q2;
-   			relativeError = Math.abs(r / c - 1.0);
-    			
-   			// prepare for next iteration
-   			c = p2 / q2;
-   			p0 = p1;
-   			p1 = p2;
-   			q0 = q1;
-   			q1 = q2;
-    	}
+        double p0 = 1.0;
+        double p1 = getA(0, x);
+        double q0 = 0.0;
+        double q1 = 1.0;
+        double c = p1 / q1;
+        int n = 0;
+        double relativeError = Double.MAX_VALUE;
+        while (n < maxIterations && relativeError > epsilon) {
+            ++n;
+            double a = getA(n, x);
+            double b = getB(n, x);
+            double p2 = a * p1 + b * p0;
+            double q2 = a * q1 + b * q0;
+            if (Double.isInfinite(p2) || Double.isInfinite(q2)) {
+                // need to scale
+                if (a != 0.0) {
+                    p2 = p1 + (b / a * p0);
+                    q2 = q1 + (b / a * q0);
+                } else if (b != 0) {
+                    p2 = (a / b * p1) + p0;
+                    q2 = (a / b * q1) + q0;
+                } else {
+                    // can not scale an convergent is unbounded.
+                    throw new ConvergenceException(
+                        "Continued fraction convergents diverged to +/- " +
+                        "infinity.");
+                }
+            }
+            double r = p2 / q2;
+            relativeError = Math.abs(r / c - 1.0);
+                
+            // prepare for next iteration
+            c = p2 / q2;
+            p0 = p1;
+            p1 = p2;
+            q0 = q1;
+            q1 = q2;
+        }
 
-    	if (n >= maxIterations) {
+        if (n >= maxIterations) {
             throw new ConvergenceException(
                 "Continued fraction convergents failed to converge.");
         }

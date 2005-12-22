@@ -27,7 +27,7 @@ public class StatisticalSummaryValues implements Serializable,
     StatisticalSummary {
    
     /** Serialization id */
-    static final long serialVersionUID = -5108854841843722536L;
+    private static final long serialVersionUID = -5108854841843722536L;
 
     /** The sample mean */
     private final double mean;

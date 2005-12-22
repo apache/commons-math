@@ -20,7 +20,7 @@ import java.io.Serializable;
 import org.apache.commons.math.MathException;
 
 /**
- * The default implementation of {@link ExponentialDistribution}
+ * The default implementation of {@link ExponentialDistribution}.
  *
  * @version $Revision$ $Date$
  */
@@ -28,7 +28,7 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
     implements ExponentialDistribution, Serializable {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = 2401296428283614780L;
+    private static final long serialVersionUID = 2401296428283614780L;
     
     /** The mean of this distribution. */
     private double mean;

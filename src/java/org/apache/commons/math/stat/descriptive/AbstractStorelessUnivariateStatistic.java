@@ -20,7 +20,7 @@ import java.io.Serializable;
 
 /**
  *
- * Abstract Implementation for the {@link StorelessUnivariateStatistic} interface.
+ * Abstract implementation of the {@link StorelessUnivariateStatistic} interface.
  * <p>
  * Provides default <code>evaluate()</code> and <code>incrementAll(double[])<code>
  * implementations. 
@@ -34,7 +34,7 @@ public abstract class AbstractStorelessUnivariateStatistic
     implements StorelessUnivariateStatistic, Serializable {
 
     /** Serialization UID */
-    static final long serialVersionUID = -44915725420072521L;
+    private static final long serialVersionUID = -44915725420072521L;
     
     /**
      * This default implementation calls {@link #clear}, then invokes 

@@ -31,7 +31,7 @@ import org.apache.commons.math.util.MathUtils;
 public class ProperFractionFormat extends FractionFormat {
     
     /** Serializable version identifier */
-    static final long serialVersionUID = -6337346779577272307L;
+    private static final long serialVersionUID = -6337346779577272307L;
     
     /** The format used for the whole number. */
     private NumberFormat wholeFormat;

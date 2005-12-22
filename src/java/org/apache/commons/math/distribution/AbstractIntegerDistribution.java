@@ -31,7 +31,7 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
     implements IntegerDistribution, Serializable {
         
     /** Serializable version identifier */
-    static final long serialVersionUID = -1146319659338487221L;
+    private static final long serialVersionUID = -1146319659338487221L;
     
     /**
      * Default constructor.

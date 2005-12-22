@@ -411,7 +411,7 @@ public final class StatUtilsTest extends TestCase {
             // expected
         }
         try {
-        	double[] single = {1.0};
+            double[] single = {1.0};
             StatUtils.varianceDifference(single, single, meanDifference);
             fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {

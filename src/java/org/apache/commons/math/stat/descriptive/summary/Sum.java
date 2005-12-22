@@ -35,7 +35,7 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
 public class Sum extends AbstractStorelessUnivariateStatistic implements Serializable {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = -8231831954703408316L;  
+    private static final long serialVersionUID = -8231831954703408316L;  
       
     /** */
     private long n;

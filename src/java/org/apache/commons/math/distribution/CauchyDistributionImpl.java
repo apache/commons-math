@@ -29,7 +29,7 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
         implements CauchyDistribution, Serializable {
     
     /** Serializable version identifier */
-    static final long serialVersionUID = 8589540077390120676L;
+    private static final long serialVersionUID = 8589540077390120676L;
 
     /** The median of this distribution. */
     private double median = 0;

@@ -54,7 +54,7 @@ import org.apache.commons.math.distribution.TDistribution;
 public class SimpleRegression implements Serializable {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = -3004689053607543335L;
+    private static final long serialVersionUID = -3004689053607543335L;
 
     /** sum of x values */
     private double sumX = 0d;

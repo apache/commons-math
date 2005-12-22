@@ -132,17 +132,17 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
     }
     
     public void testLargeValues() {
-    	int populationSize = 3456;
-    	int sampleSize = 789;
-    	int numberOfSucceses = 101;
-    	double[][] data = {
-    	    {0.0, 2.75646034603961e-12, 2.75646034603961e-12, 1.0},
-    	    {1.0, 8.55705370142386e-11, 8.83269973602783e-11, 0.999999999997244},
-    	    {2.0, 1.31288129219665e-9, 1.40120828955693e-9, 0.999999999911673},
-    	    {3.0, 1.32724172984193e-8, 1.46736255879763e-8, 0.999999998598792},
-    	    {4.0, 9.94501711734089e-8, 1.14123796761385e-7, 0.999999985326375},
-    	    {5.0, 5.89080768883643e-7, 7.03204565645028e-7, 0.999999885876203},
-        	{20.0, 0.0760051397707708, 0.27349758476299, 0.802507555007781}, 
+        int populationSize = 3456;
+        int sampleSize = 789;
+        int numberOfSucceses = 101;
+        double[][] data = {
+            {0.0, 2.75646034603961e-12, 2.75646034603961e-12, 1.0},
+            {1.0, 8.55705370142386e-11, 8.83269973602783e-11, 0.999999999997244},
+            {2.0, 1.31288129219665e-9, 1.40120828955693e-9, 0.999999999911673},
+            {3.0, 1.32724172984193e-8, 1.46736255879763e-8, 0.999999998598792},
+            {4.0, 9.94501711734089e-8, 1.14123796761385e-7, 0.999999985326375},
+            {5.0, 5.89080768883643e-7, 7.03204565645028e-7, 0.999999885876203},
+            {20.0, 0.0760051397707708, 0.27349758476299, 0.802507555007781}, 
             {21.0, 0.087144222047629, 0.360641806810619, 0.72650241523701}, 
             {22.0, 0.0940378846881819, 0.454679691498801, 0.639358193189381}, 
             {23.0, 0.0956897500614809, 0.550369441560282, 0.545320308501199}, 
@@ -154,40 +154,40 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
             {99.0, 6.63604297068222e-63, 1.0, 6.670480942963e-63}, 
             {100.0, 3.43501099007557e-65, 1.0, 3.4437972280786e-65},
             {101.0, 8.78623800302957e-68, 1.0, 8.78623800302957e-68},
-    	};
+        };
         
-    	testHypergeometricDistributionProbabilities(populationSize, sampleSize, numberOfSucceses, data);
+        testHypergeometricDistributionProbabilities(populationSize, sampleSize, numberOfSucceses, data);
     }
 
-	private void testHypergeometricDistributionProbabilities(int populationSize, int sampleSize, int numberOfSucceses, double[][] data) {
-		HypergeometricDistributionImpl dist = new HypergeometricDistributionImpl(populationSize, numberOfSucceses, sampleSize);
-    	for (int i = 0; i < data.length; ++i) {
-    		int x = (int)data[i][0];
-    		double pdf = data[i][1];
-    		double actualPdf = dist.probability(x);
-    		TestUtils.assertRelativelyEquals(pdf, actualPdf, 1.0e-9);
+    private void testHypergeometricDistributionProbabilities(int populationSize, int sampleSize, int numberOfSucceses, double[][] data) {
+        HypergeometricDistributionImpl dist = new HypergeometricDistributionImpl(populationSize, numberOfSucceses, sampleSize);
+        for (int i = 0; i < data.length; ++i) {
+            int x = (int)data[i][0];
+            double pdf = data[i][1];
+            double actualPdf = dist.probability(x);
+            TestUtils.assertRelativelyEquals(pdf, actualPdf, 1.0e-9);
 
-    		double cdf = data[i][2];
-    		double actualCdf = dist.cumulativeProbability(x);
-			TestUtils.assertRelativelyEquals(cdf, actualCdf, 1.0e-9);
+            double cdf = data[i][2];
+            double actualCdf = dist.cumulativeProbability(x);
+            TestUtils.assertRelativelyEquals(cdf, actualCdf, 1.0e-9);
 
-			double cdf1 = data[i][3];
-    		double actualCdf1 = dist.upperCumulativeProbability(x);
-			TestUtils.assertRelativelyEquals(cdf1, actualCdf1, 1.0e-9);
-    	}
-	}
+            double cdf1 = data[i][3];
+            double actualCdf1 = dist.upperCumulativeProbability(x);
+            TestUtils.assertRelativelyEquals(cdf1, actualCdf1, 1.0e-9);
+        }
+    }
     
     public void testMoreLargeValues() {
-    	int populationSize = 26896;
-    	int sampleSize = 895;
-    	int numberOfSucceses = 55;
-    	double[][] data = {
-    	    {0.0, 0.155168304750504, 0.155168304750504, 1.0}, 
+        int populationSize = 26896;
+        int sampleSize = 895;
+        int numberOfSucceses = 55;
+        double[][] data = {
+            {0.0, 0.155168304750504, 0.155168304750504, 1.0}, 
             {1.0, 0.29437545000746, 0.449543754757964, 0.844831695249496}, 
-    	    {2.0, 0.273841321577003, 0.723385076334967, 0.550456245242036}, 
-    	    {3.0, 0.166488572570786, 0.889873648905753, 0.276614923665033}, 
-    	    {4.0, 0.0743969744713231, 0.964270623377076, 0.110126351094247}, 
-    	    {5.0, 0.0260542785784855, 0.990324901955562, 0.0357293766229237}, 
+            {2.0, 0.273841321577003, 0.723385076334967, 0.550456245242036}, 
+            {3.0, 0.166488572570786, 0.889873648905753, 0.276614923665033}, 
+            {4.0, 0.0743969744713231, 0.964270623377076, 0.110126351094247}, 
+            {5.0, 0.0260542785784855, 0.990324901955562, 0.0357293766229237}, 
             {20.0, 3.57101101678792e-16, 1.0, 3.78252101622096e-16}, 
             {21.0, 2.00551638598312e-17, 1.0, 2.11509999433041e-17}, 
             {22.0, 1.04317070180562e-18, 1.0, 1.09583608347287e-18}, 
@@ -200,7 +200,7 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
             {53.0, 1.43662126065532e-76, 1.0, 1.43834540093295e-76}, 
             {54.0, 1.72312692517348e-79, 1.0, 1.7241402776278e-79}, 
             {55.0, 1.01335245432581e-82, 1.0, 1.01335245432581e-82},        
-    	};
-    	testHypergeometricDistributionProbabilities(populationSize, sampleSize, numberOfSucceses, data);
+        };
+        testHypergeometricDistributionProbabilities(populationSize, sampleSize, numberOfSucceses, data);
     }
 }

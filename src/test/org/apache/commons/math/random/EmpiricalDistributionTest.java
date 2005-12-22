@@ -115,6 +115,11 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
         assertEquals
           (empiricalDistribution2.getSampleStats().getStandardDeviation(),
                 1.0173699343977738,10E-7);
+        
+        double[] bounds = empiricalDistribution2.getUpperBounds();
+        assertEquals(bounds.length, 100);
+        assertEquals(bounds[99], 1.0, 10e-12);
+          
     }
    
     /** 

@@ -40,7 +40,7 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
 public class Kurtosis extends AbstractStorelessUnivariateStatistic  {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = 2784465764798260919L;  
+    private static final long serialVersionUID = 2784465764798260919L;  
       
     /**Fourth Moment on which this statistic is based */
     protected FourthMoment moment;

@@ -32,7 +32,7 @@ import java.io.Serializable;
 public class Median extends Percentile implements Serializable {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = -3961477041290915687L;    
+    private static final long serialVersionUID = -3961477041290915687L;    
 
     /**
      * Default constructor.

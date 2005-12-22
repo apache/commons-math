@@ -1,0 +1,3 @@
+Build-Jdk: 1.3.1_16
+Specification-Version: 1.1
+Implementation-Vendor-Id: org.apache

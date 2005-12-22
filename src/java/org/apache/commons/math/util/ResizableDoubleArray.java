@@ -71,7 +71,7 @@ import java.io.Serializable;
 public class ResizableDoubleArray implements DoubleArray, Serializable {
     
     /** Serializable version identifier */
-    static final long serialVersionUID = -3485529955529426875L; 
+    private static final long serialVersionUID = -3485529955529426875L; 
     
     /** additive expansion mode */
     public static final int ADDITIVE_MODE = 1;

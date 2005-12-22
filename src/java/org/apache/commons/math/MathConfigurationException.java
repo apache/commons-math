@@ -24,7 +24,7 @@ import java.io.Serializable;
 public class MathConfigurationException extends MathException implements Serializable {
     
     /** Serializable version identifier */
-    static final long serialVersionUID = -7958299004965931723L;
+    private static final long serialVersionUID = -7958299004965931723L;
 
     /**
      * Default constructor.

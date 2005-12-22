@@ -39,7 +39,7 @@ import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
 public abstract class DescriptiveStatistics implements StatisticalSummary, Serializable {
     
     /** Serialization UID */
-    static final long serialVersionUID = 5188298269533339922L;
+    private static final long serialVersionUID = 5188298269533339922L;
     
     /**
      * Create an instance of a <code>DescriptiveStatistics</code>

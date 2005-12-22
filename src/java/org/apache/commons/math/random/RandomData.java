@@ -18,7 +18,7 @@ package org.apache.commons.math.random;
 import java.util.Collection;
 
 /**
- * Random data generation utilities
+ * Random data generation utilities.
  * @version $Revision$ $Date$
  */
 public interface RandomData {

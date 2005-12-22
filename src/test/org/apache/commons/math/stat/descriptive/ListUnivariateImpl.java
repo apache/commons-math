@@ -31,7 +31,7 @@ import org.apache.commons.math.util.NumberTransformer;
 public class ListUnivariateImpl extends DescriptiveStatistics implements Serializable {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = -8837442489133392138L;
+    private static final long serialVersionUID = -8837442489133392138L;
     
     /**
      * Holds a reference to a list - GENERICs are going to make

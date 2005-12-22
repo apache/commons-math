@@ -105,6 +105,11 @@
       <name>1.1</name>
       <tag>MATH_1_1</tag>
     </version>
+    <version>
+      <id>1.2-SNAPSHOT</id>
+      <name>1.1</name>
+      <tag>trunk</tag>
+    </version>
   </versions>
   <developers>
     <developer>

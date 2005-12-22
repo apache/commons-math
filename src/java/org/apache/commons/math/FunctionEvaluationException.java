@@ -26,7 +26,7 @@ package org.apache.commons.math;
 public class FunctionEvaluationException extends MathException  {
     
     /** Serializable version identifier */
-    static final long serialVersionUID = -317289374378977972L;
+    private static final long serialVersionUID = -317289374378977972L;
     
     /** Argument causing function evaluation failure */
     private double argument = Double.NaN;

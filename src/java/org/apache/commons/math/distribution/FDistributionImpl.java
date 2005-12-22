@@ -31,7 +31,7 @@ public class FDistributionImpl
     implements FDistribution, Serializable  {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = -8516354193418641566L;
+    private static final long serialVersionUID = -8516354193418641566L;
 
     /** The numerator degrees of freedom*/
     private double numeratorDegreesOfFreedom;

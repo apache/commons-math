@@ -131,17 +131,17 @@ public final class LaguerreSolverTest extends TestCase {
         expected = new Complex(0.5, 0.5 * Math.sqrt(3.0));
         tolerance = Math.max(solver.getAbsoluteAccuracy(),
                     Math.abs(expected.abs() * solver.getRelativeAccuracy()));
-        assertEquals(0.0, (expected.subtract(result[2])).abs(), tolerance);
+        assertEquals(0.0, (expected.subtract(result[3])).abs(), tolerance);
 
         expected = new Complex(-1.0, 0.0);
         tolerance = Math.max(solver.getAbsoluteAccuracy(),
                     Math.abs(expected.abs() * solver.getRelativeAccuracy()));
-        assertEquals(0.0, (expected.subtract(result[3])).abs(), tolerance);
+        assertEquals(0.0, (expected.subtract(result[4])).abs(), tolerance);
 
         expected = new Complex(0.5, -0.5 * Math.sqrt(3.0));
         tolerance = Math.max(solver.getAbsoluteAccuracy(),
                     Math.abs(expected.abs() * solver.getRelativeAccuracy()));
-        assertEquals(0.0, (expected.subtract(result[4])).abs(), tolerance);
+        assertEquals(0.0, (expected.subtract(result[2])).abs(), tolerance);
     }
 
     /**

@@ -30,7 +30,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
 {
 
     /** Serializable version identifier */
-    static final long serialVersionUID = -436928820673516179L;
+    private static final long serialVersionUID = -436928820673516179L;
 
     /** The number of successes in the population. */
     private int numberOfSuccesses;
@@ -53,8 +53,8 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
         super();
         if (numberOfSuccesses > populationSize) {
             throw new IllegalArgumentException(
-            	"number of successes must be less than or equal to " +
-            	"population size");
+                "number of successes must be less than or equal to " +
+                "population size");
         }
         if (sampleSize > populationSize) {
             throw new IllegalArgumentException(
@@ -241,7 +241,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
         populationSize = size;
     }
     
-	/**
+    /**
      * Modify the sample size.
      * @param size the new sample size.
      * @throws IllegalArgumentException if <code>size</code> is negative.
@@ -260,9 +260,9 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      * @return upper tail CDF for this distribution.
      * @since 1.1
      */
-	public double upperCumulativeProbability(int x) {
-    	double ret;
-    	
+    public double upperCumulativeProbability(int x) {
+        double ret;
+        
         int n = getPopulationSize();
         int m = getNumberOfSuccesses();
         int k = getSampleSize();
@@ -273,12 +273,12 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
         } else if(x > domain[1]) {
             ret = 0.0;
         } else {
-        	ret = innerCumulativeProbability(domain[1], x, -1, n, m, k);
+            ret = innerCumulativeProbability(domain[1], x, -1, n, m, k);
         }
         
         return ret;
     }
-	
+    
     /**
      * For this disbution, X, this method returns P(x0 &le; X &le; x1).  This
      * probability is computed by summing the point probabilities for the values
@@ -293,13 +293,13 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      * @return P(x0 &le; X &le; x1). 
      */
     private double innerCumulativeProbability(
-    	int x0, int x1, int dx, int n, int m, int k)
+        int x0, int x1, int dx, int n, int m, int k)
     {
-    	double ret = probability(n, m, k, x0);
-    	while (x0 != x1) {
-    		x0 += dx;
-    		ret += probability(n, m, k, x0);
-    	}
-		return ret;
-	}
+        double ret = probability(n, m, k, x0);
+        while (x0 != x1) {
+            x0 += dx;
+            ret += probability(n, m, k, x0);
+        }
+        return ret;
+    }
 }
