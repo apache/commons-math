@@ -42,7 +42,7 @@
     </license>
   </licenses>
   <gumpRepositoryId>jakarta</gumpRepositoryId>
-  <issueTrackingUrl>http://issues.apache.org/bugzilla/enter_bug.cgi?reporter=&amp;product=Commons&amp;version=unspecified&amp;component=Math&amp;rep_platform=All&amp;op_sys=All&amp;priority=Other&amp;bug_severity=normal&amp;bug_status=NEW&amp;assigned_to=&amp;cc=&amp;bug_file_loc=&amp;short_desc=%5Bpatch%5D+%22Your+subject+heading+here%22&amp;comment=Please+provide+details+here.+Its+best+to+submit+patches+that+alter+existing+file%0D%0Acontent+in+%22unified+cvs+diff%22+format.+%0D%0A%0D%0ASubmissions+that+provide+new+files+can+be+supplied+as+direct+file+attachments+or%0D%0Aarchives+in+zip+or+tar.gz+format.+please+be+kind+enough+to+identify+the+format%0D%0Aof+the+attached+archive+as+bugzill+tends+to+strip+these+characterstics+by%0D%0Aremoving+the+files+extension.&amp;maketemplate=Remember+values+as+bookmarkable+template&amp;form_name=enter_bug</issueTrackingUrl>
+  <issueTrackingUrl>http://issues.apache.org/bugzilla/</issueTrackingUrl>
   <siteAddress>cvs.apache.org</siteAddress>
   <siteDirectory>/www/jakarta.apache.org/commons/${pom.artifactId.substring(8)}/</siteDirectory>
   <distributionDirectory>/www/jakarta.apache.org/builds/jakarta-commons/${pom.artifactId.substring(8)}/</distributionDirectory>
@@ -159,6 +159,9 @@
       <name>Ken Geis</name>
     </contributor>
     <contributor>
+      <name>Elliotte Rusty Harold</name>
+    </contributor>
+    <contributor>
       <name>Piotr Kochanski</name>
     </contributor>
     <contributor>
@@ -181,17 +184,19 @@
     </contributor>
   </contributors>
   <dependencies>
-    <dependency>
+     <dependency>
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
-      <version>1.0.3</version>
-    </dependency>
-    <dependency>
+       <version>1.0.3</version>
+       <url>http://jakarta.apache.org/commons/logging</url>
+     </dependency>
+     <dependency>
       <groupId>commons-discovery</groupId>
       <artifactId>commons-discovery</artifactId>
       <version>0.2</version>
-    </dependency>
-  </dependencies>
+      <url>http://jakarta.apache.org/commons/discovery</url>
+     </dependency>
+   </dependencies>
   <build>
     <nagEmailAddress>commons-dev@jakarta.apache.org</nagEmailAddress>
     <sourceDirectory>src/java</sourceDirectory>
@@ -227,12 +232,11 @@
     <report>maven-changes-plugin</report>
     <!--
     <report>maven-changelog-plugin</report>
-    <report>maven-checkstyle-plugin</report>
     <report>maven-clover-plugin</report>
     <report>maven-developer-activity-plugin</report>
     <report>maven-file-activity-plugin</report>
     -->
-
+    <report>maven-checkstyle-plugin</report>
     <report>maven-javadoc-plugin</report>
     <report>maven-jdepend-plugin</report>
     <report>maven-junit-report-plugin</report>

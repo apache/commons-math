@@ -49,8 +49,13 @@
     <copy todir="${maven.dist.src.assembly.dir}">
       <fileset file='${basedir}/checkstyle.xml'/>
       <fileset file='${basedir}/license-header.txt'/>
+      <fileset file='${basedir}/build.properties.sample'/>
       <fileset file='${basedir}/NOTICE.txt'/>
       <fileset file='${basedir}/RELEASE-NOTES.txt'/>
+      <fileset file='${basedir}/release-notes.jsl'/>
+    </copy>
+    <copy todir="${maven.dist.src.assembly.dir}/xdocs">
+        <fileset dir="./xdocs"/>
     </copy>
     <delete dir="${maven.dist.src.assembly.dir}/src/experimental" />
     <move todir="${maven.dist.src.assembly.dir}-src">
