@@ -16,6 +16,7 @@
 package org.apache.commons.math.analysis;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.complex.Complex;
 import junit.framework.TestCase;
 
@@ -116,32 +117,30 @@ public final class LaguerreSolverTest extends TestCase {
         LaguerreSolver solver = new LaguerreSolver(f);
         result = solver.solveAll(coefficients, initial);
 
-        // The order of roots returned by solveAll() depends on
-        // initial value, solveAll() does no sorting.
         expected = new Complex(0.0, -2.0);
         tolerance = Math.max(solver.getAbsoluteAccuracy(),
                     Math.abs(expected.abs() * solver.getRelativeAccuracy()));
-        assertEquals(0.0, (expected.subtract(result[0])).abs(), tolerance);
+        TestUtils.assertContains(result, expected, tolerance);
 
         expected = new Complex(0.0, 2.0);
         tolerance = Math.max(solver.getAbsoluteAccuracy(),
                     Math.abs(expected.abs() * solver.getRelativeAccuracy()));
-        assertEquals(0.0, (expected.subtract(result[1])).abs(), tolerance);
+        TestUtils.assertContains(result, expected, tolerance);
 
         expected = new Complex(0.5, 0.5 * Math.sqrt(3.0));
         tolerance = Math.max(solver.getAbsoluteAccuracy(),
                     Math.abs(expected.abs() * solver.getRelativeAccuracy()));
-        assertEquals(0.0, (expected.subtract(result[3])).abs(), tolerance);
+        TestUtils.assertContains(result, expected, tolerance);
 
         expected = new Complex(-1.0, 0.0);
         tolerance = Math.max(solver.getAbsoluteAccuracy(),
                     Math.abs(expected.abs() * solver.getRelativeAccuracy()));
-        assertEquals(0.0, (expected.subtract(result[4])).abs(), tolerance);
-
+        TestUtils.assertContains(result, expected, tolerance);
+        
         expected = new Complex(0.5, -0.5 * Math.sqrt(3.0));
         tolerance = Math.max(solver.getAbsoluteAccuracy(),
                     Math.abs(expected.abs() * solver.getRelativeAccuracy()));
-        assertEquals(0.0, (expected.subtract(result[2])).abs(), tolerance);
+        TestUtils.assertContains(result, expected, tolerance);
     }
 
     /**
