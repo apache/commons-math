@@ -24,8 +24,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import junit.framework.Assert;
+import junit.framework.AssertionFailedError;
 
 import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math.complex.ComplexFormat;
 
 /**
  * @version $Revision$ $Date$
@@ -95,7 +97,6 @@ public class TestUtils {
     public static Object serializeAndRecover(Object o){
         
         Object result = null;
-        
         File tmp = null;
         FileOutputStream fo = null;
         FileInputStream fi = null;
@@ -109,7 +110,7 @@ public class TestUtils {
             so.flush();
             fo.close();
 
-            // deserialize the Book
+            // deserialize the Object
             fi = new FileInputStream(tmp);
             ObjectInputStream si = new ObjectInputStream(fi);  
             result = si.readObject();
@@ -130,8 +131,7 @@ public class TestUtils {
                 }
             }
         }
-        
-        
+           
         if (tmp != null) {
             tmp.delete();
         }
@@ -168,4 +168,82 @@ public class TestUtils {
             Assert.assertEquals(msg, 0.0, x, relativeError);
         }
     }
+    
+    /**
+     * Fails iff values does not contain a number within epsilon of z.
+     * 
+     * @param msg  message to return with failure
+     * @param values complex array to search
+     * @param z  value sought
+     * @param epsilon  tolerance
+     */
+    public static void assertContains(String msg, Complex[] values,
+            Complex z, double epsilon) {
+        int i = 0;
+        boolean found = false;
+        while (!found && i < values.length) {
+            try {
+                assertEquals(values[i], z, epsilon);
+                found = true; 
+            } catch (AssertionFailedError er) {
+                // no match
+            }
+            i++;
+        }
+        if (!found) {
+            Assert.fail(msg + 
+                " Unable to find " + ComplexFormat.formatComplex(z));
+        }
+    }
+    
+    /**
+     * Fails iff values does not contain a number within epsilon of z.
+     * 
+     * @param values complex array to search
+     * @param z  value sought
+     * @param epsilon  tolerance
+     */
+    public static void assertContains(Complex[] values,
+            Complex z, double epsilon) {
+        assertContains(null, values, z, epsilon);      
+    }
+    
+    /**
+     * Fails iff values does not contain a number within epsilon of x.
+     * 
+     * @param msg  message to return with failure
+     * @param values double array to search
+     * @param x value sought
+     * @param epsilon  tolerance
+     */
+    public static void assertContains(String msg, double[] values,
+            double x, double epsilon) {
+        int i = 0;
+        boolean found = false;
+        while (!found && i < values.length) {
+            try {
+                assertEquals(values[i], x, epsilon);
+                found = true; 
+            } catch (AssertionFailedError er) {
+                // no match
+            }
+            i++;
+        }
+        if (!found) {
+            Assert.fail(msg + " Unable to find" + x);
+        }
+    }
+    
+    /**
+     * Fails iff values does not contain a number within epsilon of x.
+     * 
+     * @param values double array to search
+     * @param x value sought
+     * @param epsilon  tolerance
+     */
+    public static void assertContains(double[] values, double x,
+            double epsilon) {
+       assertContains(null, values, x, epsilon);
+    }
+    
 }
