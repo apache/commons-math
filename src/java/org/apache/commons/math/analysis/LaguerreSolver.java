@@ -17,7 +17,8 @@ package org.apache.commons.math.analysis;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.complex.*;
+import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math.complex.ComplexUtils;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/LaguerresMethod.html">
@@ -33,7 +34,7 @@ import org.apache.commons.math.complex.*;
 public class LaguerreSolver extends UnivariateRealSolverImpl {
 
     /** serializable version identifier */
-    static final long serialVersionUID = 5287689975005870178L;
+    private static final long serialVersionUID = 5287689975005870178L;
 
     /** polynomial function to solve */
     private PolynomialFunction p;
@@ -117,27 +118,25 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
     public double solve(double min, double max) throws ConvergenceException, 
         FunctionEvaluationException {
 
-        Complex c[], root[], initial, z;
-
         // check for zeros before verifying bracketing
         if (p.value(min) == 0.0) { return min; }
         if (p.value(max) == 0.0) { return max; }
         verifyBracketing(min, max, p);
 
         double coefficients[] = p.getCoefficients();
-        c = new Complex[coefficients.length];
+        Complex c[] = new Complex[coefficients.length];
         for (int i = 0; i < coefficients.length; i++) {
             c[i] = new Complex(coefficients[i], 0.0);
         }
-        initial = new Complex(0.5 * (min + max), 0.0);
-        z = solve(c, initial);
+        Complex initial = new Complex(0.5 * (min + max), 0.0);
+        Complex z = solve(c, initial);
         if (isRootOK(min, max, z)) {
             setResult(z.getReal(), iterationCount);
             return result;
         }
 
         // solve all roots and select the one we're seeking
-        root = solveAll(c, initial);
+        Complex[] root = solveAll(c, initial);
         for (int i = 0; i < root.length; i++) {
             if (isRootOK(min, max, root[i])) {
                 setResult(root[i].getReal(), iterationCount);
@@ -205,28 +204,27 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
     public Complex[] solveAll(Complex coefficients[], Complex initial) throws
         ConvergenceException, FunctionEvaluationException {
 
-        int i, j, n, iterationCount = 0;
-        Complex root[], c[], subarray[], oldc, newc;
-
-        n = coefficients.length - 1;
+        int n = coefficients.length - 1;
+        int iterationCount = 0;
         if (n < 1) {
             throw new IllegalArgumentException
                 ("Polynomial degree must be positive: degree=" + n);
         }
-        c = new Complex[n+1];    // coefficients for deflated polynomial
-        for (i = 0; i <= n; i++) {
+        Complex c[] = new Complex[n+1];    // coefficients for deflated polynomial
+        for (int i = 0; i <= n; i++) {
             c[i] = coefficients[i];
         }
 
         // solve individual root successively
-        root = new Complex[n];
-        for (i = 0; i < n; i++) {
-            subarray = new Complex[n-i+1];
+        Complex root[] = new Complex[n];
+        for (int i = 0; i < n; i++) {
+            Complex subarray[] = new Complex[n-i+1];
             System.arraycopy(c, 0, subarray, 0, subarray.length);
             root[i] = solve(subarray, initial);
             // polynomial deflation using synthetic division
-            newc = c[n-i];
-            for (j = n-i-1; j >= 0; j--) {
+            Complex newc = c[n-i];
+            Complex oldc = null;
+            for (int j = n-i-1; j >= 0; j--) {
                 oldc = c[j];
                 c[j] = newc;
                 newc = oldc.add(newc.multiply(root[i]));
@@ -255,8 +253,6 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
     public Complex solve(Complex coefficients[], Complex initial) throws
         ConvergenceException, FunctionEvaluationException {
 
-        Complex z = initial, oldz, pv, dv, d2v, G, G2, H, delta, denominator;
-
         int n = coefficients.length - 1;
         if (n < 1) {
             throw new IllegalArgumentException
@@ -266,12 +262,22 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
         Complex N1 = new Complex((double)(n-1), 0.0);
 
         int i = 1;
-        oldz = new Complex(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+        Complex pv = null;
+        Complex dv = null;
+        Complex d2v = null;
+        Complex G = null;
+        Complex G2 = null;
+        Complex H = null;
+        Complex delta = null;
+        Complex denominator = null;
+        Complex z = initial;
+        Complex oldz = new Complex(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
         while (i <= maximalIterationCount) {
             // Compute pv (polynomial value), dv (derivative value), and
             // d2v (second derivative value) simultaneously.
             pv = coefficients[n];
-            dv = d2v = new Complex(0.0, 0.0);
+            dv = Complex.ZERO;
+            d2v = Complex.ZERO;
             for (int j = n-1; j >= 0; j--) {
                 d2v = dv.add(z.multiply(d2v));
                 dv = pv.add(z.multiply(dv));
