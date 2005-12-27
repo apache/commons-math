@@ -1,5 +1,5 @@
 /*
- * Copyright 2003-2004 The Apache Software Foundation.
+ * Copyright 2003-2005 The Apache Software Foundation.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,12 +34,16 @@ import org.apache.commons.math.complex.ComplexFormat;
  */
 public class TestUtils {
     /**
-     * 
+     * Collection of static methods used in math unit tests.
      */
     private TestUtils() {
         super();
     }
 
+    /**
+     * Verifies that expected and actual are within delta, or are both NaN or
+     * infinities of the same sign.
+     */
     public static void assertEquals(double expected, double actual, double delta) {
         assertEquals(null, expected, actual, delta);
     }
@@ -58,7 +62,7 @@ public class TestUtils {
         }
     }
     
-    /*
+    /**
      * Verifies that the two arguments are exactly the same, either
      * both NaN or infinities of same sign, or identical floating point values.
      */
@@ -94,6 +98,13 @@ public class TestUtils {
         }
     }
     
+    /**
+     * Serializes an object to a temp file and then recovers the object from the file.
+     * Returns the deserialized object.
+     * 
+     * @param o  object to serialize and recover
+     * @return  the recovered, deseriailized object
+     */
     public static Object serializeAndRecover(Object o){
         
         Object result = null;
@@ -140,9 +151,10 @@ public class TestUtils {
     }
     
     /**
-     * Verifies that serialization preserves equals and hashCode
+     * Verifies that serialization preserves equals and hashCode.
+     * Serializes the object, then recovers it and checks equals and hash code.
      * 
-     * @param object
+     * @param object  the object to serialize and recover
      */
     public static void checkSerializedEquality(Object object) {
         Object object2 = serializeAndRecover(object);
@@ -150,11 +162,32 @@ public class TestUtils {
         Assert.assertEquals("HashCode check", object.hashCode(), object2.hashCode());
     }
 
-    public static void assertRelativelyEquals(double expected, double actual, double relativeError) {
+    /**
+     * Verifies that the relative error in actual vs. expected is less than or
+     * equal to relativeError.  If expected is infinite or NaN, actual must be
+     * the same (NaN or infinity of the same sign).
+     * 
+     * @param expected expected value
+     * @param actual  observed value
+     * @param relativeError  maximum allowable relative error
+     */
+    public static void assertRelativelyEquals(double expected, double actual,
+            double relativeError) {
         assertRelativelyEquals(null, expected, actual, relativeError);
     }
     
-    public static void assertRelativelyEquals(String msg, double expected, double actual, double relativeError) {
+    /**
+     * Verifies that the relative error in actual vs. expected is less than or
+     * equal to relativeError.  If expected is infinite or NaN, actual must be
+     * the same (NaN or infinity of the same sign).
+     * 
+     * @param msg  message to return with failure
+     * @param expected expected value
+     * @param actual  observed value
+     * @param relativeError  maximum allowable relative error
+     */
+    public static void assertRelativelyEquals(String msg, double expected,
+            double actual, double relativeError) {
         if (Double.isNaN(expected)) {
             Assert.assertTrue(msg, Double.isNaN(actual));
         } else if (Double.isNaN(actual)) {
