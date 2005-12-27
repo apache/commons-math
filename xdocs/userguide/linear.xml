@@ -56,10 +56,9 @@ RealMatrix m = new RealMatrixImpl(matrixData);
 
 // One more with three rows, two columns
 double[][] matrixData2 = { {1d,2d}, {2d,5d}, {1d, 7d}};
-RealMatrix n = new RealMatixImpl(matrixData2);
+RealMatrix n = new RealMatrixImpl(matrixData2);
 
-// Note: constructor makes a
-// Fresh copy of the input double[][] array
+// Note: The constructor copies  the input double[][] array.
 
 // Now multiply m by n
 RealMatrix p = m.multiply(n);
