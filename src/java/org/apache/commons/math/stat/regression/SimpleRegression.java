@@ -246,7 +246,7 @@ public class SimpleRegression implements Serializable {
      * @return sum of squared errors associated with the regression model
      */
     public double getSumSquaredErrors() {
-        return getSumSquaredErrors(getSlope());
+        return sumYY - sumXY * sumXY / sumXX;
     }
 
     /**
@@ -319,7 +319,7 @@ public class SimpleRegression implements Serializable {
      */
     public double getR() {
         double b1 = getSlope();
-        double result = Math.sqrt(getRSquare(b1));
+        double result = Math.sqrt(getRSquare());
         if (b1 < 0) {
             result = -result;
         }
@@ -341,7 +341,8 @@ public class SimpleRegression implements Serializable {
      * @return r-square
      */
     public double getRSquare() {
-        return getRSquare(getSlope());
+        double ssto = getTotalSumSquares();
+        return (ssto - getSumSquaredErrors()) / ssto;
     }
 
     /**
@@ -479,32 +480,6 @@ public class SimpleRegression implements Serializable {
     */
     private double getIntercept(double slope) {
         return (sumY - slope * sumX) / ((double) n);
-    }
-
-    /**
-     * Returns the sum of squared errors associated with the regression 
-     * model, using the slope of the regression line. 
-     * <p> 
-     * Returns NaN if the slope is NaN.
-     * 
-     * @param b1 current slope
-     * @return sum of squared errors associated with the regression model
-     */
-    private double getSumSquaredErrors(double b1) {
-        return sumYY - sumXY * sumXY / sumXX;
-    }
-
-    /** 
-     * Computes r-square from the slope.
-     * <p>
-     * will return NaN if slope is Nan.
-     *
-     * @param b1 current slope
-     * @return r-square
-     */
-    private double getRSquare(double b1) {
-        double ssto = getTotalSumSquares();
-        return (ssto - getSumSquaredErrors(b1)) / ssto;
     }
 
     /**
