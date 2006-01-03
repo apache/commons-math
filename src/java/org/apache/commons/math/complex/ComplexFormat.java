@@ -212,7 +212,7 @@ public class ComplexFormat extends Format implements Serializable {
             toAppendTo.append(value);
             toAppendTo.append(')');
         } else {
-            format.format(value, toAppendTo, pos);
+            getRealFormat().format(value, toAppendTo, pos);
         }
         return toAppendTo;
     }
@@ -467,7 +467,7 @@ public class ComplexFormat extends Format implements Serializable {
      */
     private Number parseNumber(String source, NumberFormat format, ParsePosition pos) {
         int startIndex = pos.getIndex();
-        Number number = format.parse(source, pos);
+        Number number = getRealFormat().parse(source, pos);
         int endIndex = pos.getIndex();
         
         // check for error parsing number

@@ -38,13 +38,6 @@ The <action> type attribute can be add,update,fix,remove.
 Commons Math Release Notes</title>
   </properties>
   <body>
-    <release version="1.2" date="In Development"
-        description="">
-      <action dev="brentworden" type="fix" issue="38091" due-to="Phil Steitz">
-        Made ComplexFormat format double values with a provided NumberFormat
-        instance instead of using the real part format for all values.
-      </action>
-    </release>
     <release version="1.1" date="2005-12-17"  
  description="This is a maintenance release containing bug fixes and enhancements.
        All API changes are binary compatible with version 1.0. The enhancements 
