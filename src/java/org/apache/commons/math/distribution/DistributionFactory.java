@@ -33,6 +33,7 @@ import org.apache.commons.discovery.tools.DiscoverClass;
  * <li>Normal</li>
  * <li>Student's t</li>
  * <li>Weibull</li>
+ * <li>Pascal</li>
  * </ul>
  *
  * Common usage:<pre>
@@ -79,6 +80,17 @@ public abstract class DistributionFactory {
      */
     public abstract BinomialDistribution createBinomialDistribution(
         int numberOfTrials, double probabilityOfSuccess);
+    
+    /**
+     * Create a Pascal distribution with the given number of successes and
+     * probability of success.
+     * 
+     * @param numberOfSuccesses the number of successes.
+     * @param probabilityOfSuccess the probability of success
+     * @return a new Pascal distribution
+     */
+    public abstract PascalDistribution createPascalDistribution(
+        int numberOfSuccesses, double probabilityOfSuccess);
     
     /**
      * Create a new cauchy distribution with the given median and scale.

@@ -154,4 +154,16 @@ public class DistributionFactoryImpl extends DistributionFactory {
         return new PoissonDistributionImpl(lambda);
     }
 
+    /**
+     * Create a Pascal distribution with the given number of successes and
+     * probability of success.
+     * 
+     * @param numberOfSuccesses the number of successes.
+     * @param probabilityOfSuccess the probability of success
+     * @return a new Pascal distribution
+     */
+    public PascalDistribution createPascalDistribution(int numberOfSuccesses, double probabilityOfSuccess) {
+        return new PascalDistributionImpl(numberOfSuccesses, probabilityOfSuccess);
+    }
+
 }
