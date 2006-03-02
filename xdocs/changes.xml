@@ -43,7 +43,7 @@ Commons Math Release Notes</title>
         Made ComplexFormat format double values with a provided NumberFormat
         instance instead of using the real part format for all values.
       </action>
-      <action dev="psteitz" type="update" issue="38766">
+      <action dev="psteitz" type="update" issue="38766" due-to="Todd C. Parnell">
         Added Pascal distribution implementation.
       </action>
     </release>
