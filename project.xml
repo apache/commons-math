@@ -192,12 +192,24 @@
       <artifactId>commons-logging</artifactId>
        <version>1.0.3</version>
        <url>http://jakarta.apache.org/commons/logging</url>
+       <properties>
+       <comment>
+        Only required when commons-discovery is used for class factory
+        configuration. No hard compile or runtime dependency.
+       </comment>
+      </properties>
      </dependency>
      <dependency>
       <groupId>commons-discovery</groupId>
       <artifactId>commons-discovery</artifactId>
       <version>0.2</version>
       <url>http://jakarta.apache.org/commons/discovery</url>
+      <properties>
+       <comment>
+        Only required when commons-discovery is used for class
+        factory configuration. No hard compile or runtime dependency.
+       </comment>
+      </properties>
      </dependency>
      <dependency>
       <groupId>maven-plugins</groupId>
@@ -205,6 +217,25 @@
       <version>1.1.1</version>
       <url>http://maven-plugins.sourceforge.net/maven-cobertura-plugin/</url>
       <type>plugin</type>
+      <properties>
+       <scope>test</scope>
+       <comment>
+        Required only for generating test coverage reports.
+       </comment>
+      </properties>
+    </dependency>
+    <dependency>
+     <groupId>maven</groupId>
+     <artifactId>maven-xdoc-plugin</artifactId>
+     <version>1.9.2</version>
+     <url>http://maven.apache.org/reference/plugins/xdoc/</url>
+     <type>plugin</type>
+     <properties>
+       <comment>
+        &lt;strong&gt;Site Only&lt;/strong&gt; - v1.9.2 (minimum)
+        required for building the project web site.
+       </comment>
+     </properties>
     </dependency>
    </dependencies>
   <build>
