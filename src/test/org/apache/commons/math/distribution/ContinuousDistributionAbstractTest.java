@@ -44,7 +44,7 @@ import org.apache.commons.math.TestUtils;
  * Test data should be validated against reference tables or other packages
  * where possible, and the source of the reference data and/or validation
  * should be documented in the test cases.  A framework for validating
- * distribution data against R is included in the /src/R source tree.
+ * distribution data against R is included in the /src/test/R source tree.
  * <p>
  * See {@link NormalDistributionTest} and {@link ChiSquareDistributionTest}
  * for examples.
