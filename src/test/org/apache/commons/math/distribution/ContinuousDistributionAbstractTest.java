@@ -21,22 +21,33 @@ import org.apache.commons.math.TestUtils;
 /**
  * Abstract base class for {@link ContinuousDistribution} tests.
  * <p>
- * To create a concrete test class for a continuous distribution implementation,
- * implement makeDistribution() to return a distribution instance to use in 
- * tests and each of the test data generation methods below.  In each case, the
- * test points and test values arrays returned represent parallel arrays of 
- * inputs and expected values for the distribution returned by makeDistribution().
- *  <p>
+ * To create a concrete test class for a continuous distribution
+ * implementation, first implement makeDistribution() to return a distribution
+ * instance to use in tests. Then implement each of the test data generation
+ * methods below.  In each case, the test points and test values arrays
+ * returned represent parallel arrays of inputs and expected values for the
+ * distribution returned by makeDistribution().  Default implementations
+ * are provided for the makeInverseXxx methods that just invert the mapping
+ * defined by the arrays returned by the makeCumulativeXxx methods.
+ * <p>
  * makeCumulativeTestPoints() -- arguments used to test cumulative probabilities
  * makeCumulativeTestValues() -- expected cumulative probabilites
- * makeInverseCumulativeTestPoints() -- arguments used to test inverse cdf evaluation
+ * makeInverseCumulativeTestPoints() -- arguments used to test inverse cdf
  * makeInverseCumulativeTestValues() -- expected inverse cdf values
  * <p>
- * To implement additional test cases with different distribution instances and test data,
- * use the setXxx methods for the instance data in test cases and call the verifyXxx methods
- * to verify results. 
+ * To implement additional test cases with different distribution instances and
+ * test data, use the setXxx methods for the instance data in test cases and
+ * call the verifyXxx methods to verify results. 
  * <p>
  * Error tolerance can be overriden by implementing getTolerance().
+ * <p>
+ * Test data should be validated against reference tables or other packages
+ * where possible, and the source of the reference data and/or validation
+ * should be documented in the test cases.  A framework for validating
+ * distribution data against R is included in the /src/R source tree.
+ * <p>
+ * See {@link NormalDistributionTest} and {@link ChiSquareDistributionTest}
+ * for examples.
  * 
  * @version $Revision$ $Date$
  */

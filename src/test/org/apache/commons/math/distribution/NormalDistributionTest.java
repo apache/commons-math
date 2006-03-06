@@ -33,10 +33,6 @@ public class NormalDistributionTest extends ContinuousDistributionAbstractTest  
         super(arg0);
     }
     
-    public static void main(String[] args) {
-        junit.swingui.TestRunner.run(NormalDistributionTest.class);
-    }
-    
     //-------------- Implementations for abstract methods -----------------------
     
     /** Creates the default continuous distribution instance to use in tests. */
