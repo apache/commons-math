@@ -231,13 +231,15 @@ public class FractionFormatTest extends TestCase {
     
     public void testNumeratorFormat() {
     	NumberFormat old = properFormat.getNumeratorFormat();
-    	NumberFormat nf = NumberFormat.getIntegerInstance();
+        NumberFormat nf = NumberFormat.getInstance();
+        nf.setParseIntegerOnly(true);
     	properFormat.setNumeratorFormat(nf);
     	assertEquals(nf, properFormat.getNumeratorFormat());
     	properFormat.setNumeratorFormat(old);
 
     	old = improperFormat.getNumeratorFormat();
-    	nf = NumberFormat.getIntegerInstance();
+        nf = NumberFormat.getInstance();
+        nf.setParseIntegerOnly(true);
     	improperFormat.setNumeratorFormat(nf);
     	assertEquals(nf, improperFormat.getNumeratorFormat());
     	improperFormat.setNumeratorFormat(old);
@@ -245,13 +247,15 @@ public class FractionFormatTest extends TestCase {
     
     public void testDenominatorFormat() {
     	NumberFormat old = properFormat.getDenominatorFormat();
-    	NumberFormat nf = NumberFormat.getIntegerInstance();
+        NumberFormat nf = NumberFormat.getInstance();
+        nf.setParseIntegerOnly(true);
     	properFormat.setDenominatorFormat(nf);
     	assertEquals(nf, properFormat.getDenominatorFormat());
     	properFormat.setDenominatorFormat(old);
 
     	old = improperFormat.getDenominatorFormat();
-    	nf = NumberFormat.getIntegerInstance();
+        nf = NumberFormat.getInstance();
+        nf.setParseIntegerOnly(true);
     	improperFormat.setDenominatorFormat(nf);
     	assertEquals(nf, improperFormat.getDenominatorFormat());
     	improperFormat.setDenominatorFormat(old);
@@ -261,7 +265,8 @@ public class FractionFormatTest extends TestCase {
     	ProperFractionFormat format = (ProperFractionFormat)properFormat;
     	
     	NumberFormat old = format.getWholeFormat();
-    	NumberFormat nf = NumberFormat.getIntegerInstance();
+        NumberFormat nf = NumberFormat.getInstance();
+        nf.setParseIntegerOnly(true);
     	format.setWholeFormat(nf);
     	assertEquals(nf, format.getWholeFormat());
     	format.setWholeFormat(old);
