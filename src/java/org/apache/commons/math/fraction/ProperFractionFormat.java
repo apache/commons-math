@@ -24,6 +24,10 @@ import org.apache.commons.math.util.MathUtils;
 /**
  * Formats a Fraction number in proper format.  The number format for each of
  * the whole number, numerator and, denominator can be configured.
+ * <p>
+ * Minus signs are only allowed in the whole number part - i.e.,
+ * "-3 1/2" is legitimate and denotes -7/2, but "-3 -1/2" is invalid and
+ * will result in a <code>ParseException</code>.
  * 
  * @since 1.1
  * @version $Revision$ $Date$
@@ -114,6 +118,11 @@ public class ProperFractionFormat extends FractionFormat {
     /**
      * Parses a string to produce a {@link Fraction} object.  This method
      * expects the string to be formatted as a proper fraction.
+     * <p>
+     * Minus signs are only allowed in the whole number part - i.e.,
+     * "-3 1/2" is legitimate and denotes -7/2, but "-3 -1/2" is invalid and
+     * will result in a <code>ParseException</code>.
+     * 
      * @param source the string to parse
      * @param pos input/ouput parsing parameter.
      * @return the parsed {@link Fraction} object.
@@ -152,6 +161,12 @@ public class ProperFractionFormat extends FractionFormat {
             pos.setIndex(initialIndex);
             return null;
         }
+        
+        if (num.intValue() < 0) {
+            // minus signs should be leading, invalid expression
+            pos.setIndex(initialIndex);
+            return null;
+        }
 
         // parse '/'
         int startIndex = pos.getIndex();
@@ -182,6 +197,12 @@ public class ProperFractionFormat extends FractionFormat {
             // invalid integer number
             // set index back to initial, error index should already be set
             // character examined.
+            pos.setIndex(initialIndex);
+            return null;
+        }
+        
+        if (den.intValue() < 0) {
+            // minus signs must be leading, invalid
             pos.setIndex(initialIndex);
             return null;
         }
