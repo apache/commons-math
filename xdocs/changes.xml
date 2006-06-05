@@ -39,11 +39,11 @@ Commons Math Release Notes</title>
   </properties>
   <body>
     <release version="1.2-SNAPSHOT" date="TBD">
-      <action dev="brentworden" type="fix" issue="38091" due-to="Phil Steitz">
+      <action dev="brentworden" type="fix" issue="MATH-18" due-to="Phil Steitz">
         Made ComplexFormat format double values with a provided NumberFormat
         instance instead of using the real part format for all values.
       </action>
-      <action dev="psteitz" type="update" issue="38766" due-to="Todd C. Parnell">
+      <action dev="psteitz" type="update" issue="MATH-120" due-to="Todd C. Parnell">
         Added Pascal distribution implementation.
       </action>
       <action dev="psteitz" type="update" issue="MATH-148" due-to="Joni Salonen">
@@ -60,11 +60,11 @@ Commons Math Release Notes</title>
        and numerical utilities, and a PRNG pluggability framework making it
        possible to replace the JDK-supplied random number generator in
        commons-math (and elsewhere) with alternative PRNG implementations.">
-      <action dev="psteitz" type="fix" issue="36491">
+      <action dev="psteitz" type="fix" issue="MATH-74">
         Made NewtonSolver derivative field transient and implemented readObject to
         initialize.
       </action>
-      <action dev="psteitz" type="fix" issue="36491">
+      <action dev="psteitz" type="fix" issue="MATH-74">
        Made sampleStats field private and changed getUpperBounds to return a fresh
        copy in EmpiricalDistributionImpl.
       </action>
@@ -72,78 +72,78 @@ Commons Math Release Notes</title>
         Added polar2Complex method to ComplexUtils to create Complex numbers
         from polar representations.
       </action>
-      <action dev="psteitz" type="fix" issue="37162" due-to="Elliotte Harold">
+      <action dev="psteitz" type="fix" issue="MATH-49" due-to="Elliotte Harold">
         Made all serialVersionUIDs private.
       </action> 
-      <action dev="psteitz" type="fix" issue="37086">
+      <action dev="psteitz" type="fix" issue="MATH-5">
         Improved documentation and test cases related to handling of infinite
         and NaN values in Complex, ComplexUtils classes. 
       </action> 
-      <action dev="psteitz" type="fix" issue="37019" due-to="Mauro Talevi">
+      <action dev="psteitz" type="fix" issue="MATH-57" due-to="Mauro Talevi">
         Fixed incorrect NaN handling in o.a.m.s.d.rank.Min, Max
       </action>
-      <action dev="psteitz" type="fix" issue="36491">
+      <action dev="psteitz" type="fix" issue="MATH-74">
        Changed RealMatrixImpl.equals to use Double.doubleToLongBits to compare
        corresponding matrix entries.
       </action>
-      <action dev="psteitz" type="fix" issue="36491">
+      <action dev="psteitz" type="fix" issue="MATH-74">
        Eliminated floating point equals comparison in Percentile.evaluate.
       </action>
-      <action dev="psteitz" type="fix" issue="36491">
+      <action dev="psteitz" type="fix" issue="MATH-74">
        Eliminated unnecessary assignment statements in Skewness.getResult
        method.
       </action>
-      <action dev="psteitz" type="fix" issue="36491">
+      <action dev="psteitz" type="fix" issue="MATH-74">
        Synchronized getters in ResizeableDoubleArray.
       </action>
-      <action dev="psteitz" type="fix" issue="36491">
+      <action dev="psteitz" type="fix" issue="MATH-74">
        Eliminated unnecessary assignment statement in BisectionSolver.solve
        method.
       </action>
-      <action dev="psteitz" type="fix" issue="36491">
+      <action dev="psteitz" type="fix" issue="MATH-74">
        Implemented hashCode in the Complex class and changed the semantics of
        equals to make all instances with real or imaginary part NaN equal.
       </action>
-      <action dev="psteitz" type="fix" issue="36450" due-to="Keith McDonald">
+      <action dev="psteitz" type="fix" issue="MATH-12" due-to="Keith McDonald">
 		Fixed bin index overflow problem in EmpiricalDistributionImpl.
 	  </action>
-	  <action dev="brentworden" type="fix" issue="36232" due-to="Xiaogang Zhang">
+	  <action dev="brentworden" type="fix" issue="MATH-108" due-to="Xiaogang Zhang">
         Added protection against numerical overflow and underflow in the
         isBracketing method.
 	  </action>
-	  <action dev="brentworden" type="fix" issue="36300" due-to="Nikhil Gupte">
+	  <action dev="brentworden" type="fix" issue="MATH-47" due-to="Nikhil Gupte">
 		Fixed division by zero error in rounding methods.
 	  </action>
-	  <action dev="brentworden" type="fix" issue="36215" due-to="Mike Hu">
+	  <action dev="brentworden" type="fix" issue="MATH-100" due-to="Mike Hu">
 		Added upper tail cumulative probability method to HypergeometricDistributionImpl.
 	  </action>
-	  <action dev="brentworden" type="fix" issue="36205" due-to="Xiaogang Zhang">
+	  <action dev="brentworden" type="fix" issue="MATH-22" due-to="Xiaogang Zhang">
 		Added better handling of numerical overflow and division by zero in
 		Complex calculations.
 	  </action>
-	  <action dev="brentworden" type="fix" issue="36105" due-to="Mikael Weigelt">
+	  <action dev="brentworden" type="fix" issue="MATH-92" due-to="Mikael Weigelt">
 		Changed ContinuedFraction to better handle infinite convergents that
 		resulted in divergent continued fraction evaluations.
 	  </action>
-      <action dev="brentworden" type="fix" issue="35904"  due-to="Srinivas Vemury">
+      <action dev="brentworden" type="fix" issue="MATH-32"  due-to="Srinivas Vemury">
         Changed rounding methods to not rely on BigDecimal conversions which
 		was causing numerical error.
       </action>
-      <action dev="psteitz" type="fix" issue="35434"  due-to="Jörg Weimar">
+      <action dev="psteitz" type="fix" issue="MATH-3"  due-to="Jörg Weimar">
         Changed Fraction(double) to correctly handle near-integral arguments.
       </action>
-      <action dev="psteitz" type="fix" issue="35431"  due-to="Jörg Weimar">
+      <action dev="psteitz" type="fix" issue="MATH-143"  due-to="Jörg Weimar">
         Changed lcm to throw ArithmeticException (instead of returning bogus
         value) if the result is too large to store as an integer.
       </action>
-      <action dev="psteitz" type="fix" issue="32663"  due-to="Mary Ellen Foster">
+      <action dev="psteitz" type="fix" issue="MATH-70"  due-to="Mary Ellen Foster">
         Added factories for TTest, ChiSquareTest and TestUtils class with
         static methods to create instances and execute tests.
       </action>
-      <action dev="psteitz" type="update" issue="35042"  due-to="Paul Field">
+      <action dev="psteitz" type="update" issue="MATH-95"  due-to="Paul Field">
         Eliminated repeated endpoint function evalutations in BrentSolver, SecantSolver.
       </action>
-      <action dev="psteitz" type="update" issue="35007"  due-to="Rodrigo di Lorenzo Lopes">
+      <action dev="psteitz" type="update" issue="MATH-137"  due-to="Rodrigo di Lorenzo Lopes">
         Added setSubMatrix methods to RealMatrixImpl, BigMatrixImpl.  To
         Preserve backward compatibility with version 1.0, these methods were
         not added to the RealMatrix, BigMatrix interfaces.
@@ -168,12 +168,12 @@ Commons Math Release Notes</title>
         Added utility methods for overflow-checked integer arithmetic and
         improved gcd method in MathUtils.
       </action>
-       <action dev="psteitz" type="fix" issue="34677" due-to="Gilles Gaillard">
+       <action dev="psteitz" type="fix" issue="MATH-79" due-to="Gilles Gaillard">
         Fixed error in TTestImpl.homoscedasticTtest.  Implementation was
         incorrectly using heteroscedastic t statistic.  Also improved
         sensitivity of test cases.
       </action>
-      <action dev="psteitz" type="fix" issue="34448" due-to="Gilles Gaillard">
+      <action dev="psteitz" type="fix" issue="MATH-44" due-to="Gilles Gaillard">
         Fixed javadoc errors. One-sided t-test significance adjustment was
         reversed in javadoc for boolean-valued test methods.
       </action>
@@ -199,11 +199,11 @@ Commons Math Release Notes</title>
     <release version="1.0" date="2004-12-06"  
        description="Jakarta Commons Math 1.0 - General Availability Release">
       <action dev="psteitz" type="fix" due-to="Hans van der Heijden"
-       issue="32531">
+       issue="MATH-24">
         Fixed error in ChiSquareTestImpl.  Tables containing zeros were
         (incorrectly) causing IllegalArgumentExceptions to be thrown.
       </action>
-      <action dev="psteitz" type="fix" issue="32538">
+      <action dev="psteitz" type="fix" issue="MATH-4">
         Removed JDK 1.4-dependent code from CertifiedDataAbstractTest, 
         InvalidMatrixException and MatrixIndexException.  Also dropped 
         BeanTransformer, BeanTransformerTest from the release.
@@ -216,18 +216,18 @@ Commons Math Release Notes</title>
         to the commons-dev list by Jon Langlois on 9/14. Integer arguments to 
         getCumXxx were always returning 0 due to type conversion problems.
       </action>
-      <action dev="brentworden" type="fix" issue="31325">
+      <action dev="brentworden" type="fix" issue="MATH-63">
         Fixed locale-dependency in ComplexFormat.
       </action>
       <action dev="psteitz" type="update">
         Renamed univariate package to descriptive and multivariate to
         regression.
       </action>
-      <action dev="psteitz" type="update" due-to="Ken Geis" issue="31522">
+      <action dev="psteitz" type="update" due-to="Ken Geis" issue="MATH-14">
         Improved efficiency of logGamma method in o.a.c.m.special.Gamma
       </action>
       <action dev="psteitz" type="update" due-to="Kim van der Linde"
-       issue="30897">
+       issue="MATH-122">
         Added subMatrix and matrix-valued row and column accessor methods to 
         RealMatrix, BigMatrix interfaces and RealMatrixImpl, BigMatrixImpl.
       </action>
@@ -251,12 +251,12 @@ Commons Math Release Notes</title>
         Added MatrixUtils class, including static factory methods to create
         RealMatrix and BigMatrix instances from arrays of various types.
       </action>
-      <action dev="psteitz" type="fix" due-to="Fredrik Norin" issue="31687">
+      <action dev="psteitz" type="fix" due-to="Fredrik Norin" issue="MATH-28">
         Changed factorial methods to return 1 for argument = 0, instead of
         (incorrectly) throwing IllegalArgumentException.
       </action> 
       <action dev="psteitz" type="fix" due-to="Kim van der Linde" 
-       issue="31860">
+       issue="MATH-109">
         Fixed error in SimpleRegression.getSignificance.  Value returned was
         off by a factor of 2 (did not match javadoc).
       </action>
@@ -267,10 +267,10 @@ Commons Math Release Notes</title>
         extending DiscreteDistribution.  Previously existing discrete
         distributions now implement IntegerDistribution.
       </action>
-      <action dev="psteitz" type="update" due-to="Fredrik Norin" issue="31688">
+      <action dev="psteitz" type="update" due-to="Fredrik Norin" issue="MATH-35">
         Added Poisson distribution implementation.
       </action>
-      <action dev="psteitz" type="fix" issue="31713">
+      <action dev="psteitz" type="fix" issue="MATH-45">
         Eliminated unecessary array copy operations in RealMatrixImpl, 
         BigMatrixImpl add, multiply, solve and subtract operations.
       </action>
