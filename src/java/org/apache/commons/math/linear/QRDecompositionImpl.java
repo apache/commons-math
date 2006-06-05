@@ -166,7 +166,7 @@ public class QRDecompositionImpl implements QRDecomposition {
         for (int minor = Math.min(m,n)-1; minor >= 0; minor--){
             Q[minor][minor] = 1;
             if (qr[minor][minor] != 0.0) {
-                for (int col = minor; col < m; col++) {				
+                for (int col = minor; col < m; col++) {
                     double alpha = 0;
                     for (int row = minor; row < m; row++) {
                         alpha -= Q[row][col] * qr[row][minor];
