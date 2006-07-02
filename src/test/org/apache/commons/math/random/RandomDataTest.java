@@ -419,7 +419,7 @@ public class RandomDataTest extends RetryTestCase {
             !hex.equals(randomData.nextSecureHexString(40))); 
         
         /* remove this test back soon,
-         * since it takes about 4 seconds */
+         * since it takes about 4 seconds 
 
         try {
             randomData.setSecureAlgorithm("SHA1PRNG","SUN");
@@ -443,6 +443,7 @@ public class RandomDataTest extends RetryTestCase {
         } catch (NoSuchProviderException ex) {
             ;
         } 
+        */
         
         // test reseeding without first using the generators
         RandomDataImpl rd = new RandomDataImpl();
