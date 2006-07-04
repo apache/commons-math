@@ -27,6 +27,8 @@ package org.apache.commons.math.linear;
  *
  * @see <a href="http://mathworld.wolfram.com/QRDecomposition.html">MathWorld</a>
  * @see <a href="http://en.wikipedia.org/wiki/QR_decomposition">Wikipedia</a>
+ * 
+ * @version $Revision$ $Date$
  */
 public class QRDecompositionImpl implements QRDecomposition {
 
@@ -57,7 +59,7 @@ public class QRDecompositionImpl implements QRDecomposition {
     /**
      * Calculates the QR decomposition of the given matrix. 
      * 
-     * @param matrix The matrix to factorize.
+     * @param matrix The matrix to decompose.
      */
     public QRDecompositionImpl(RealMatrix matrix) {
         m = matrix.getRowDimension();
@@ -128,6 +130,8 @@ public class QRDecompositionImpl implements QRDecomposition {
 
     /**
      * Returns the matrix R of the QR-decomposition. 
+     * 
+     * @return the R matrix
      */
     public RealMatrix getR()
     {
@@ -147,6 +151,8 @@ public class QRDecompositionImpl implements QRDecomposition {
 
     /**
      * Returns the matrix Q of the QR-decomposition.
+     * 
+     * @return the Q matrix
      */
     public RealMatrix getQ()
     {

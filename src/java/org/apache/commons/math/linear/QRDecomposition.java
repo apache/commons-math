@@ -22,16 +22,22 @@ package org.apache.commons.math.linear;
  *   
  * @see <a href="http://mathworld.wolfram.com/QRDecomposition.html">MathWorld</a>
  * @see <a href="http://en.wikipedia.org/wiki/QR_decomposition">Wikipedia</a>
+ * 
+ * @version $Revision$ $Date$
  */
 public interface QRDecomposition {
 
     /**
      * Returns the matrix R of the decomposition. 
+     * 
+     * @return the R matrix
      */
     public abstract RealMatrix getR();
 
     /**
-     * Returbs the matrix Q of the decomposition.
+     * Returns the matrix Q of the decomposition.
+     * 
+     * @return the Q matrix
      */
     public abstract RealMatrix getQ();
 }
