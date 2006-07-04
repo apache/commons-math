@@ -583,15 +583,100 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(Float.NEGATIVE_INFINITY, MathUtils.round(Float.NEGATIVE_INFINITY, 2), 0.0f);
     }
     
+    public void testNextAfterSpecialCases() {
+        assertTrue(Double.isInfinite(MathUtils.nextAfter(Double.NEGATIVE_INFINITY, 0)));
+        assertTrue(Double.isInfinite(MathUtils.nextAfter(Double.POSITIVE_INFINITY, 0)));
+        assertTrue(Double.isNaN(MathUtils.nextAfter(Double.NaN, 0)));
+        assertTrue(Double.isInfinite(MathUtils.nextAfter( Double.MAX_VALUE, Double.POSITIVE_INFINITY)));
+        assertTrue(Double.isInfinite(MathUtils.nextAfter(-Double.MAX_VALUE, Double.NEGATIVE_INFINITY)));
+        assertEquals( Double.MIN_VALUE, MathUtils.nextAfter(0,  1), 0);
+        assertEquals(-Double.MIN_VALUE, MathUtils.nextAfter(0, -1), 0);
+        assertEquals(0, MathUtils.nextAfter( Double.MIN_VALUE, -1), 0);
+        assertEquals(0, MathUtils.nextAfter(-Double.MIN_VALUE,  1), 0);
+    }
+    
+    public void testNextAfter() {
+        // 0x402fffffffffffff 0x404123456789abcd -> 4030000000000000
+        assertEquals(16.0, MathUtils.nextAfter(15.999999999999998, 34.27555555555555), 0.0);
+
+        // 0xc02fffffffffffff 0x404123456789abcd -> c02ffffffffffffe
+        assertEquals(-15.999999999999996, MathUtils.nextAfter(-15.999999999999998, 34.27555555555555), 0.0);
+
+        // 0x402fffffffffffff 0x400123456789abcd -> 402ffffffffffffe
+        assertEquals(15.999999999999996, MathUtils.nextAfter(15.999999999999998, 2.142222222222222), 0.0);
+
+        // 0xc02fffffffffffff 0x400123456789abcd -> c02ffffffffffffe
+        assertEquals(-15.999999999999996, MathUtils.nextAfter(-15.999999999999998, 2.142222222222222), 0.0);
+
+        // 0x4020000000000000 0x404123456789abcd -> 4020000000000001
+        assertEquals(8.000000000000002, MathUtils.nextAfter(8.0, 34.27555555555555), 0.0);
+
+        // 0xc020000000000000 0x404123456789abcd -> c01fffffffffffff
+        assertEquals(-7.999999999999999, MathUtils.nextAfter(-8.0, 34.27555555555555), 0.0);
+
+        // 0x4020000000000000 0x400123456789abcd -> 401fffffffffffff
+        assertEquals(7.999999999999999, MathUtils.nextAfter(8.0, 2.142222222222222), 0.0);
+
+        // 0xc020000000000000 0x400123456789abcd -> c01fffffffffffff
+        assertEquals(-7.999999999999999, MathUtils.nextAfter(-8.0, 2.142222222222222), 0.0);
+
+        // 0x3f2e43753d36a223 0x3f2e43753d36a224 -> 3f2e43753d36a224
+        assertEquals(2.308922399667661E-4, MathUtils.nextAfter(2.3089223996676606E-4, 2.308922399667661E-4), 0.0);
+
+        // 0x3f2e43753d36a223 0x3f2e43753d36a223 -> 3f2e43753d36a224
+        assertEquals(2.308922399667661E-4, MathUtils.nextAfter(2.3089223996676606E-4, 2.3089223996676606E-4), 0.0);
+
+        // 0x3f2e43753d36a223 0x3f2e43753d36a222 -> 3f2e43753d36a222
+        assertEquals(2.3089223996676603E-4, MathUtils.nextAfter(2.3089223996676606E-4, 2.3089223996676603E-4), 0.0);
+
+        // 0x3f2e43753d36a223 0xbf2e43753d36a224 -> 3f2e43753d36a222
+        assertEquals(2.3089223996676603E-4, MathUtils.nextAfter(2.3089223996676606E-4, -2.308922399667661E-4), 0.0);
+
+        // 0x3f2e43753d36a223 0xbf2e43753d36a223 -> 3f2e43753d36a222
+        assertEquals(2.3089223996676603E-4, MathUtils.nextAfter(2.3089223996676606E-4, -2.3089223996676606E-4), 0.0);
+
+        // 0x3f2e43753d36a223 0xbf2e43753d36a222 -> 3f2e43753d36a222
+        assertEquals(2.3089223996676603E-4, MathUtils.nextAfter(2.3089223996676606E-4, -2.3089223996676603E-4), 0.0);
+
+        // 0xbf2e43753d36a223 0x3f2e43753d36a224 -> bf2e43753d36a222
+        assertEquals(-2.3089223996676603E-4, MathUtils.nextAfter(-2.3089223996676606E-4, 2.308922399667661E-4), 0.0);
+
+        // 0xbf2e43753d36a223 0x3f2e43753d36a223 -> bf2e43753d36a222
+        assertEquals(-2.3089223996676603E-4, MathUtils.nextAfter(-2.3089223996676606E-4, 2.3089223996676606E-4), 0.0);
+
+        // 0xbf2e43753d36a223 0x3f2e43753d36a222 -> bf2e43753d36a222
+        assertEquals(-2.3089223996676603E-4, MathUtils.nextAfter(-2.3089223996676606E-4, 2.3089223996676603E-4), 0.0);
+
+        // 0xbf2e43753d36a223 0xbf2e43753d36a224 -> bf2e43753d36a224
+        assertEquals(-2.308922399667661E-4, MathUtils.nextAfter(-2.3089223996676606E-4, -2.308922399667661E-4), 0.0);
+
+        // 0xbf2e43753d36a223 0xbf2e43753d36a223 -> bf2e43753d36a224
+        assertEquals(-2.308922399667661E-4, MathUtils.nextAfter(-2.3089223996676606E-4, -2.3089223996676606E-4), 0.0);
+
+        // 0xbf2e43753d36a223 0xbf2e43753d36a222 -> bf2e43753d36a222
+        assertEquals(-2.3089223996676603E-4, MathUtils.nextAfter(-2.3089223996676606E-4, -2.3089223996676603E-4), 0.0);
+
+    }
+
     public void testRoundDouble() {
         double x = 1.234567890;
         assertEquals(1.23, MathUtils.round(x, 2), 0.0);
         assertEquals(1.235, MathUtils.round(x, 3), 0.0);
         assertEquals(1.2346, MathUtils.round(x, 4), 0.0);
         
+        // JIRA MATH-151
+        assertEquals(39.25,MathUtils.round(39.245, 2), 0.0);
+        assertEquals(39.24,MathUtils.round(39.245, 2, 
+                BigDecimal.ROUND_DOWN), 0.0);
+        double xx = 39.0;
+        xx = xx + 245d/1000d;
+        assertEquals(39.25,MathUtils.round(xx, 2), 0.0);
+        
         // BZ 35904
         assertEquals(30.1d, MathUtils.round(30.095d, 2), 0.0d);
         assertEquals(30.1d, MathUtils.round(30.095d, 1), 0.0d);
+        assertEquals(33.1d, MathUtils.round(33.095d, 1), 0.0d);
+        assertEquals(33.1d, MathUtils.round(33.095d, 2), 0.0d);
         assertEquals(50.09d,  MathUtils.round(50.085d, 2), 0.0d);
         assertEquals(50.19d,  MathUtils.round(50.185d, 2), 0.0d);
         assertEquals(50.01d,  MathUtils.round(50.005d, 2), 0.0d);
@@ -671,7 +756,10 @@ public final class MathUtilsTest extends TestCase {
         } catch (IllegalArgumentException ex) {
             // success
         }
-        
+
+        // MATH-151
+        assertEquals(39.25, MathUtils.round(39.245, 2, BigDecimal.ROUND_HALF_UP), 0.0);
+     
         // special values
         TestUtils.assertEquals(Double.NaN, MathUtils.round(Double.NaN, 2), 0.0);
         assertEquals(0.0, MathUtils.round(0.0, 2), 0.0);

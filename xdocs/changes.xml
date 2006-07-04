@@ -52,6 +52,13 @@ Commons Math Release Notes</title>
       <action dev="psteitz" type="fix" issue="MATH-60" due-to="Nhung Nnguyen">
         Modified ProperFractionFormat to reject embedded minus signs.
       </action>
+      <action dev="psteitz" type="fix" issue="MATH-151" due-to="Luc Maisonobe">
+        Added a nextAfter method in MathUtils to return the next
+        machine-representable number in a specified direction from a given
+        floating point number.  Used this to ensure that MathUtils.round does
+        not return incorrect results for numbers with bad IEEE754 
+        representations.
+      </action>
     </release>
     <release version="1.1" date="2005-12-17"  
  description="This is a maintenance release containing bug fixes and enhancements.

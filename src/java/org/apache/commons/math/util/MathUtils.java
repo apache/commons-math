@@ -474,6 +474,55 @@ public final class MathUtils {
     }
 
     /**
+     * Get the closest machine representable number
+     * from a number in some direction.
+
+     * @param d base number
+     * @param direction (the only important thing is whether
+     * direction is greater or smaller than d)
+     * @return
+     */
+    public static double nextAfter(double d, double direction) {
+
+        // handling of some important special cases
+        if (Double.isNaN(d) || Double.isInfinite(d)) {
+                return d;
+        } else if (d == 0) {
+                return (direction < 0) ? -Double.MIN_VALUE : Double.MIN_VALUE;
+        }
+        // special cases MAX_VALUE to infinity and  MIN_VALUE to 0
+        // are handled just as normal numbers
+
+        // split the double in raw components
+        long bits     = Double.doubleToLongBits(d);
+        long sign     = bits & 0x8000000000000000L;
+        long exponent = bits & 0x7ff0000000000000L;
+        long mantissa = bits & 0x000fffffffffffffL;
+
+        if (d * (direction - d) >= 0) {
+                // we should increase the mantissa
+                if (mantissa == 0x000fffffffffffffL) {
+                        return Double.longBitsToDouble(sign |
+                                        (exponent + 0x0010000000000000L));
+                } else {
+                        return Double.longBitsToDouble(sign |
+                                        exponent | (mantissa + 1));
+                }
+        } else {
+                // we should decrease the mantissa
+                if (mantissa == 0L) {
+                        return Double.longBitsToDouble(sign |
+                                        (exponent - 0x0010000000000000L) |
+                                        0x000fffffffffffffL);
+                } else {
+                        return Double.longBitsToDouble(sign |
+                                        exponent | (mantissa - 1));
+                }
+        }
+
+    }
+
+    /**
      * Round the given value to the specified number of decimal places. The
      * value is rounded using the {@link BigDecimal#ROUND_HALF_UP} method.
      * 
@@ -499,9 +548,18 @@ public final class MathUtils {
      * @since 1.1
      */
     public static double round(double x, int scale, int roundingMethod) {
-        double sign = indicator(x);
-        double factor = Math.pow(10.0, scale) * sign;
-        return roundUnscaled(x * factor, sign, roundingMethod) / factor;
+        try {
+            return (new BigDecimal
+                   (new Double(x).toString())
+                   .setScale(scale, roundingMethod))
+                   .doubleValue();
+        } catch (NumberFormatException ex) {
+            if (Double.isInfinite(x)) {
+                return x;          
+            } else {
+                return Double.NaN;
+            }
+        }
     }
 
     /**
@@ -552,23 +610,24 @@ public final class MathUtils {
         switch (roundingMethod) {
         case BigDecimal.ROUND_CEILING :
             if (sign == -1) {
-                unscaled = Math.floor(unscaled);
+                unscaled = Math.floor(nextAfter(unscaled, Double.NEGATIVE_INFINITY));
             } else {
-                unscaled = Math.ceil(unscaled);
+                unscaled = Math.ceil(nextAfter(unscaled, Double.POSITIVE_INFINITY));
             }
             break;
         case BigDecimal.ROUND_DOWN :
-            unscaled = Math.floor(unscaled);
+            unscaled = Math.floor(nextAfter(unscaled, Double.NEGATIVE_INFINITY));
             break;
         case BigDecimal.ROUND_FLOOR :
             if (sign == -1) {
-                unscaled = Math.ceil(unscaled);
+                unscaled = Math.ceil(nextAfter(unscaled, Double.POSITIVE_INFINITY));
             } else {
-                unscaled = Math.floor(unscaled);
+                unscaled = Math.floor(nextAfter(unscaled, Double.NEGATIVE_INFINITY));
             }
             break;
         case BigDecimal.ROUND_HALF_DOWN : {
-            double fraction = Math.abs(unscaled - Math.floor(unscaled));
+            unscaled = nextAfter(unscaled, Double.NEGATIVE_INFINITY);
+            double fraction = unscaled - Math.floor(unscaled);
             if (fraction > 0.5) {
                 unscaled = Math.ceil(unscaled);
             } else {
@@ -577,7 +636,7 @@ public final class MathUtils {
             break;
         }
         case BigDecimal.ROUND_HALF_EVEN : {
-            double fraction = Math.abs(unscaled - Math.floor(unscaled));
+            double fraction = unscaled - Math.floor(unscaled);
             if (fraction > 0.5) {
                 unscaled = Math.ceil(unscaled);
             } else if (fraction < 0.5) {
@@ -593,7 +652,8 @@ public final class MathUtils {
             break;
         }
         case BigDecimal.ROUND_HALF_UP : {
-            double fraction = Math.abs(unscaled - Math.floor(unscaled));
+            unscaled = nextAfter(unscaled, Double.POSITIVE_INFINITY);
+            double fraction = unscaled - Math.floor(unscaled);
             if (fraction >= 0.5) {
                 unscaled = Math.ceil(unscaled);
             } else {
@@ -607,7 +667,7 @@ public final class MathUtils {
             }
             break;
         case BigDecimal.ROUND_UP :
-            unscaled = Math.ceil(unscaled);
+            unscaled = Math.ceil(nextAfter(unscaled,  Double.POSITIVE_INFINITY));
             break;
         default :
             throw new IllegalArgumentException("Invalid rounding method.");
