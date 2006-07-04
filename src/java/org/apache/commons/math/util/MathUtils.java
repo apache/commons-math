@@ -474,13 +474,20 @@ public final class MathUtils {
     }
 
     /**
-     * Get the closest machine representable number
-     * from a number in some direction.
-
+     * Get the next machine representable number after a number, moving
+     * in the direction of another number.
+     * <p>
+     * If <code>direction</code> is greater than or equal to<code>d</code>,
+     * the smallest machine representable number strictly greater than
+     * <code>d</code> is returned; otherwise the largest representable number
+     * strictly less than <code>d</code> is returned.
+     * <p>
+     * If <code>d</code> is NaN or Infinite, it is returned unchanged.
+     * 
      * @param d base number
      * @param direction (the only important thing is whether
      * direction is greater or smaller than d)
-     * @return
+     * @return the next machine representable number in the specified direction
      */
     public static double nextAfter(double d, double direction) {
 
