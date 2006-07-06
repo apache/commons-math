@@ -236,6 +236,21 @@ public class SimpleRegression implements Serializable {
      * sum of squared errors</a> (SSE) associated with the regression 
      * model.
      * <p>
+     * The sum is computed using the computational formula
+     * <p>
+     * <code>SSE = SYY - (SXY * SXY / SXX)</code>
+     * <p>
+     * where <code>SYY</code> is the sum of the squared deviations of the y
+     * values about their mean, <code>SXX</code> is similarly defined and
+     * <code>SXY</code> is the sum of the products of x and y mean deviations.
+     * <p>
+     * The sums are accumulated using the updating algorithm referenced in 
+     * {@link #addData}.  
+     * <p>
+     * The return value is constrained to be non-negative - i.e., if due to 
+     * rounding errors the computational formula returns a negative result, 
+     * 0 is returned.
+     * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>At least two observations (with at least two different x values)
      * must have been added before invoking this method. If this method is 
@@ -246,7 +261,7 @@ public class SimpleRegression implements Serializable {
      * @return sum of squared errors associated with the regression model
      */
     public double getSumSquaredErrors() {
-        return sumYY - sumXY * sumXY / sumXX;
+        return Math.max(0d, sumYY - sumXY * sumXY / sumXX);
     }
 
     /**

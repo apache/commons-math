@@ -62,6 +62,10 @@ Commons Math Release Notes</title>
       <action dev="psteitz" type="update" issue="MATH-140" due-to="Xiaogang Zhang">
         Added Fast Fourier Transform implementation.
       </action>
+      <action dev="psteitz" type="fix" issue="MATH-85" due-to="Mark Osborn, Luc Maisonobe">
+        Modified getSumSquaredErrors method in SimpleRegression to always
+        return a non-negative result.
+      </action>
     </release>
     <release version="1.1" date="2005-12-17"  
  description="This is a maintenance release containing bug fixes and enhancements.

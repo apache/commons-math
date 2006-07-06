@@ -237,6 +237,7 @@ public final class SimpleRegressionTest extends TestCase {
         }
         assertEquals(0.0, regression.getSignificance(), 1.0e-5);
         assertTrue(regression.getSlope() > 0.0);
+        assertTrue(regression.getSumSquaredErrors() >= 0.0);
     }
 
     public void testPerfectNegative() throws Exception {
@@ -261,4 +262,16 @@ public final class SimpleRegressionTest extends TestCase {
         assertTrue( 0.0 < regression.getSignificance()
                     && regression.getSignificance() < 1.0);       
     }
+    
+    
+    // Jira MATH-85 = Bugzilla 39432
+    public void testSSENonNegative() {
+        double[] y = { 8915.102, 8919.302, 8923.502 };
+        double[] x = { 1.107178495E2, 1.107264895E2, 1.107351295E2 };
+        SimpleRegression reg = new SimpleRegression();
+        for (int i = 0; i < x.length; i++) {
+            reg.addData(x[i], y[i]);
+        }
+        assertTrue(reg.getSumSquaredErrors() >= 0.0);
+    } 
 }
