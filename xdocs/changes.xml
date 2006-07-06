@@ -59,7 +59,7 @@ Commons Math Release Notes</title>
         not return incorrect results for numbers with bad IEEE754 
         representations.
       </action>
-      <action dev="psteitz" type="update" issue=MATH-140 due-to="Xiaogang Zhang">
+      <action dev="psteitz" type="update" issue="MATH-140" due-to="Xiaogang Zhang">
         Added Fast Fourier Transform implementation.
       </action>
     </release>
