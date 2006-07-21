@@ -43,7 +43,7 @@ public class FastSineTransformer implements Serializable {
     /**
      * Construct a default transformer.
      */
-    FastSineTransformer() {
+    public FastSineTransformer() {
         super();
     }
 

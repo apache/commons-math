@@ -55,7 +55,7 @@ public class FastFourierTransformer implements Serializable {
     /**
      * Construct a default transformer.
      */
-    FastFourierTransformer() {
+    public FastFourierTransformer() {
         super();
     }
 
