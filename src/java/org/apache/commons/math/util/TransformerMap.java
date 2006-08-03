@@ -24,7 +24,7 @@ import java.util.Set;
 import org.apache.commons.math.MathException;
 
 /**
- * This TansformerMap automates the transformation of of mixed object types.
+ * This TansformerMap automates the transformation of mixed object types.
  * It provides a means to set NumberTransformers that will be selected 
  * based on the Class of the object handed to the Maps
  * <code>double transform(Object o)</code> method.
