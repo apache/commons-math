@@ -13,7 +13,7 @@
     <description xml:lang="en">The Math project is a library of lightweight, self-contained mathematics and statistics components addressing the most common practical problems not immediately available in the Java programming language or commons-lang.</description>
     <repository>
       <SVNRepository>
-        <browse rdf:resource="http://svn.apache.org/viewcvs.cgi/jakarta/commons/proper/math/trunk/"/>
+        <browse rdf:resource="http://svn.apache.org/viewvc/jakarta/commons/proper/math/trunk/"/>
         <location rdf:resource="http://svn.apache.org/repos/asf/jakarta/commons/proper/math"/>
       </SVNRepository>
     </repository>
