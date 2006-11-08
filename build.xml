@@ -188,13 +188,13 @@
   <target name="get-dep-commons-logging.jar" description="o Download the dependency : commons-logging.jar" unless="commons-logging.jar" depends="init,setProxy,noProxy,get-custom-dep-commons-logging.jar">
     <mkdir dir="${libdir}/commons-logging/jars/">
     </mkdir>
-    <get dest="${libdir}/commons-logging/jars/commons-logging-1.0.3.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-logging/jars/commons-logging-1.0.3.jar">
+    <get dest="${libdir}/commons-logging/jars/commons-logging-1.0.4.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-logging/jars/commons-logging-1.0.4.jar">
     </get>
   </target>
   <target name="get-custom-dep-commons-logging.jar" if="commons-logging.jar" depends="init,setProxy,noProxy">
     <mkdir dir="${libdir}/commons-logging/jars/">
     </mkdir>
-    <get dest="${libdir}/commons-logging/jars/commons-logging-1.0.3.jar" usetimestamp="true" ignoreerrors="true" src="${commons-logging.jar}">
+    <get dest="${libdir}/commons-logging/jars/commons-logging-1.0.4.jar" usetimestamp="true" ignoreerrors="true" src="${commons-logging.jar}">
     </get>
   </target>
   <target name="get-dep-commons-discovery.jar" description="o Download the dependency : commons-discovery.jar" unless="commons-discovery.jar" depends="init,setProxy,noProxy,get-custom-dep-commons-discovery.jar">
