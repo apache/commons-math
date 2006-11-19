@@ -1,0 +1,33 @@
+<html>
+<body>
+This package provides classes to perform some random draws and
+statistical anaysis.
+
+<p>The aim of this package is to provide the basic components needed
+to generate random variables (correlated or not in the case of
+vectorial variables) that could be used in a simulation application
+and to provide some basic statistical classes in order to analyze the
+simulation results.</p>
+
+<p>Vectorial generators are build by embedding a {@link
+org.spaceroots.mantissa.random.NormalizedRandomGenerator normalized}
+scalar generator into the vectorial generator classes {@link
+org.spaceroots.mantissa.random.CorrelatedRandomVectorGenerator
+CorrelatedRandomVectorGenerator} or {@link
+org.spaceroots.mantissa.random.UncorrelatedRandomVectorGenerator
+UncorrelatedRandomVectorGenerator} that will be responsible for
+packaging all numbers into vectors with the specified mean values, standard
+deviations and correlation coefficients. Since most practical problems
+make the assumption the probability distribution is a gaussian one,
+the normalized generator will often be an instance of {@link
+org.spaceroots.mantissa.random.GaussianRandomGenerator
+GaussianRandomGenerator}, but uniform distribution are also available
+using instances of {@link
+org.spaceroots.mantissa.random.UniformRandomGenerator
+UniformRandomGenerator}.</p>
+
+<img src="doc-files/org_spaceroots_mantissa_random_classes.png" />
+
+@author L. Maisonobe
+</body>
+</html>

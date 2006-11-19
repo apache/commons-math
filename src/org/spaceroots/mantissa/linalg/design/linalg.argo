@@ -1,0 +1,68 @@
+<?xml version = "1.0" encoding = "ISO-8859-1" ?>
+<!DOCTYPE argo SYSTEM "argo.dtd" >
+<argo>
+  <documentation>
+    <authorname></authorname>
+    <version></version>
+    <description>
+      
+    </description>
+  </documentation>
+  
+  <searchpath href="PROJECT_DIR" />
+  <member
+    type="pgml"
+    name="linalg_classdiagram1.pgml"
+  />
+  <member
+    type="xmi"
+    name="linalg.xmi"
+  />
+  <historyfile name="" />
+  <stats>
+    <stat name="clicksInToDoPane"
+         value="0" />
+    <stat name="dblClicksInToDoPane"
+         value="0" />
+    <stat name="longestToDoList"
+         value="48" />
+    <stat name="longestAdd"
+         value="0" />
+    <stat name="longestHot"
+         value="0" />
+    <stat name="numCriticsFired"
+         value="17738" />
+    <stat name="numNotValid"
+         value="4" />
+    <stat name="numCriticsApplied"
+         value="0" />
+    <stat name="toDoPerspectivesChanged"
+         value="1" />
+    <stat name="navPerspectivesChanged"
+         value="5" />
+    <stat name="clicksInNavPane"
+         value="3" />
+    <stat name="numFinds"
+         value="1" />
+    <stat name="numJumpToRelated"
+         value="0" />
+    <stat name="numDecisionModel"
+         value="0" />
+    <stat name="numGoalsModel"
+         value="0" />
+    <stat name="numCriticBrowser"
+         value="0" />
+    <stat name="numNavConfig"
+         value="0" />
+    <stat name="numHushes"
+         value="0" />
+    <stat name="numChecks"
+         value="0" />
+    <stat name="Num_Button_Clicks"
+         value="0" />
+    <stat name="Drags_To_New"
+         value="0" />
+    <stat name="Drags_To_Existing"
+         value="0" />
+  </stats>
+</argo>
