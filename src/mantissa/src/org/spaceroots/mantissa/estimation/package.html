@@ -1,0 +1,52 @@
+<html>
+<body>
+This package provides classes to solve estimation problems.
+
+<p>The estimation problems considered here are parametric problems where a user model
+depends on initially unknown scalar parameters and several measurements made on
+values that depend on the model are available. As an example, one can consider the
+flow rate of a river given rain data on its vicinity, or the center and radius of a
+circle given points on a ring.</p>
+
+<p>One important class of estimation problems is weighted least squares problems.
+They basically consist in finding the values for some parameters p<sub>k</sub> such
+that a cost function J = sum(w<sub>i</sub> r<sub>i</sub><sup>2</sup>) is minimized.
+The various r<sub>i</sub> terms represent the deviation r<sub>i</sub> =
+mes<sub>i</sub> - mod<sub>i</sub> between the measurements and the parameterized
+models. The w<sub>i</sub> factors are the measurements weights, they are often chosen
+either all equal to 1.0 or proportional to the inverse of the variance of the
+measurement type. The solver adjusts the values of the estimated parameters
+p<sub>k</sub> which are not bound. It does not touch the parameters which have been
+put in a bound state by the user.</p>
+ 
+<p>This package provides the {@link
+org.spaceroots.mantissa.estimation.EstimatedParameter EstimatedParameter} class to
+represent each estimated parameter, and the {@link
+org.spaceroots.mantissa.estimation.WeightedMeasurement WeightedMeasurement} abstract
+class the user can extend to define its measurements. All parameters and measurements
+are then provided to some {@link org.spaceroots.mantissa.estimation.Estimator
+Estimator} packed together in an {@link
+org.spaceroots.mantissa.estimation.EstimationProblem EstimationProblem} instance
+which acts only as a container. The package provides two common estimators for
+weighted least squares problems, one based on the {@link
+org.spaceroots.mantissa.estimation.GaussNewtonEstimator Gauss-Newton} method and the
+other one based on the {@link
+org.spaceroots.mantissa.estimation.LevenbergMarquardtEstimator Levenberg-Marquardt}
+method.</p>
+
+<p>The class diagram for the public classes of this package is displayed below. The
+orange boxes <code>UserProblem</code>, <code>UserFirstMeasurementType</code> and
+<code>UserSecondMeasurementType</code> are exemple of what the user should create to
+use this package: implement his own problem and measurement types using the {@link
+org.spaceroots.mantissa.estimation.EstimationProblem} interface and {@link
+org.spaceroots.mantissa.estimation.WeightedMeasurement} abstract class, and then use
+one of the provided estimators (for example {@link
+org.spaceroots.mantissa.estimation.GaussNewtonEstimator} or {@link
+org.spaceroots.mantissa.estimation.LevenbergMarquardtEstimator}) to solve it. The
+white boxes are the interfaces and classes already provided by the library.</p>
+
+<img src="doc-files/org_spaceroots_mantissa_estimation_classes.png" />
+
+@author L. Maisonobe
+</body>
+</html>

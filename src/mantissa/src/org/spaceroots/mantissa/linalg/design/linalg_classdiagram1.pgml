@@ -1,0 +1,1046 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE pgml SYSTEM "pgml.dtd">
+<pgml description="uci.uml.visual.UMLClassDiagram|127-0-0-1-2d157f:e3465cec1e:-8000"
+      name="overview"
+>
+  <group name="Fig0"
+       description="uci.uml.visual.FigClass[9, 2, 247, 207]"
+       href="127-0-0-1-2d157f:e3465cec1e:-7ffb"
+       fill="1"
+       fillcolor="-1"
+       stroke="1"
+       strokecolor="-16777216"
+  >
+    <private>
+    </private>
+    
+    <rectangle name="Fig0.0"
+      x="10"
+      y="3"
+      width="245"
+      height="205"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+    />
+    <text name="Fig0.1"
+      x="9"
+      y="2"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+      font="dialog.italic"
+      textsize="9"
+    >Matrix</text>
+    <text name="Fig0.2"
+      x="9"
+      y="16"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+      font="dialog"
+      textsize="9"
+    >protected int rows_
+protected int columns_
+protected double[] data_</text>
+    <text name="Fig0.3"
+      x="9"
+      y="57"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+      font="dialog"
+      textsize="9"
+    >public Matrix duplicate()
+public int getRows(int i)
+public int getColumns(int j)
+public double getElement(int i, int j)
+public void setElement(int i, int j, double value)
+public Matrix add(Matrix m)
+public Matrix sub(Matrix m)
+public Matrix mul(Matrix m)
+public Matrix mul(double a)
+public void selfMul(double a)
+public Matrix getTranspose()
+public NonNullRange getRangeForRow(int i)
+public NonNullRange getRangeForColumn(int j)
+public String toString()</text>
+  </group>
+  <group name="Fig1"
+       description="uci.uml.visual.FigClass[327, 421, 216, 53]"
+       href="127-0-0-1-2d157f:e3465cec1e:-7ff9"
+       fill="1"
+       fillcolor="-1"
+       stroke="1"
+       strokecolor="-16777216"
+  >
+    <private>
+    </private>
+    
+    <rectangle name="Fig1.0"
+      x="328"
+      y="422"
+      width="214"
+      height="51"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+    />
+    <text name="Fig1.1"
+      x="327"
+      y="421"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+      font="dialog"
+      textsize="9"
+    >UpperTriangularMatrix</text>
+    <text name="Fig1.2"
+      x="327"
+      y="435"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+      font="dialog"
+      textsize="9"
+    ></text>
+    <text name="Fig1.3"
+      x="327"
+      y="449"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+      font="dialog"
+      textsize="9"
+    >public void selfAdd(UpperTriangularMatrix u)
+public void selfSub(UpperTriangularMatrix u)</text>
+  </group>
+  <group name="Fig2"
+       description="uci.uml.visual.FigClass[35, 421, 212, 53]"
+       href="127-0-0-1-2d157f:e34b40957b:-7ffe"
+       fill="1"
+       fillcolor="-1"
+       stroke="1"
+       strokecolor="-16777216"
+  >
+    <private>
+    </private>
+    
+    <rectangle name="Fig2.0"
+      x="36"
+      y="422"
+      width="210"
+      height="51"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+    />
+    <text name="Fig2.1"
+      x="35"
+      y="421"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+      font="dialog"
+      textsize="9"
+    >LowerTriangularMatrix</text>
+    <text name="Fig2.2"
+      x="35"
+      y="435"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+      font="dialog"
+      textsize="9"
+    ></text>
+    <text name="Fig2.3"
+      x="35"
+      y="449"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+      font="dialog"
+      textsize="9"
+    >public void selfAdd(LowerTriangularMatrix l)
+public void selfSub(LowerTriangularMatrix l)</text>
+  </group>
+  <group name="Fig3"
+       description="uci.uml.visual.FigClass[467, 262, 117, 43]"
+       href="127-0-0-1-2d157f:e34b40957b:-7ffc"
+       fill="1"
+       fillcolor="-1"
+       stroke="1"
+       strokecolor="-16777216"
+  >
+    <private>
+    </private>
+    
+    <rectangle name="Fig3.0"
+      x="468"
+      y="263"
+      width="115"
+      height="41"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+    />
+    <text name="Fig3.1"
+      x="467"
+      y="262"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+      font="dialog"
+      textsize="9"
+    >DiagonalMatrix</text>
+    <text name="Fig3.2"
+      x="467"
+      y="276"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+      font="dialog"
+      textsize="9"
+    ></text>
+    <text name="Fig3.3"
+      x="467"
+      y="290"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+      font="dialog"
+      textsize="9"
+    ></text>
+  </group>
+  <group name="Fig4"
+       description="uci.uml.visual.FigClass[195, 344, 171, 63]"
+       href="127-0-0-1-2d157f:e34b40957b:-7ffa"
+       fill="1"
+       fillcolor="-1"
+       stroke="1"
+       strokecolor="-16777216"
+  >
+    <private>
+    </private>
+    
+    <rectangle name="Fig4.0"
+      x="196"
+      y="345"
+      width="169"
+      height="61"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+    />
+    <text name="Fig4.1"
+      x="195"
+      y="344"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+      font="dialog"
+      textsize="9"
+    >GeneralSquareMatrix</text>
+    <text name="Fig4.2"
+      x="195"
+      y="358"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+      font="dialog"
+      textsize="9"
+    >private int[] permutations_
+private boolean evenPermutations_</text>
+    <text name="Fig4.3"
+      x="195"
+      y="382"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+      font="dialog"
+      textsize="9"
+    >public void selfAdd(SquareMatrix s)
+public void selfSub(SquareMatrix s)</text>
+  </group>
+  <group name="Fig5"
+       description="uci.uml.visual.FigClass[95, 501, 335, 73]"
+       href="127-0-0-1-2d157f:e34b40957b:-7ff8"
+       fill="1"
+       fillcolor="-1"
+       stroke="1"
+       strokecolor="-16777216"
+  >
+    <private>
+    </private>
+    
+    <rectangle name="Fig5.0"
+      x="96"
+      y="502"
+      width="333"
+      height="71"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+    />
+    <text name="Fig5.1"
+      x="95"
+      y="501"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+      font="dialog"
+      textsize="9"
+    >SymetricalMatrix</text>
+    <text name="Fig5.2"
+      x="95"
+      y="515"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+      font="dialog"
+      textsize="9"
+    ></text>
+    <text name="Fig5.3"
+      x="95"
+      y="529"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+      font="dialog"
+      textsize="9"
+    >public void selfAdd(SymetricalMatrix s)
+public void selfSub(SymetricalMatrix s)
+public void setElementAndSymetricalElement(int i, int j, double value)
+public void selfAddWAAt(double w, double[] a)</text>
+  </group>
+  <group name="Fig6"
+       description="uci.uml.visual.FigClass[464, 133, 142, 53]"
+       href="127-0-0-1-2d157f:e3506e50c8:-7ffc"
+       fill="1"
+       fillcolor="-1"
+       stroke="1"
+       strokecolor="-16777216"
+  >
+    <private>
+    </private>
+    
+    <rectangle name="Fig6.0"
+      x="465"
+      y="134"
+      width="140"
+      height="51"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+    />
+    <text name="Fig6.1"
+      x="464"
+      y="133"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+      font="dialog"
+      textsize="9"
+    >GeneralMatrix</text>
+    <text name="Fig6.2"
+      x="464"
+      y="147"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+      font="dialog"
+      textsize="9"
+    ></text>
+    <text name="Fig6.3"
+      x="464"
+      y="161"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+      font="dialog"
+      textsize="9"
+    >public void selfAdd(Matrix m)
+public void selfSub(Matrix m)</text>
+  </group>
+  <group name="Fig7"
+       description="uci.uml.visual.FigClass[136, 228, 278, 93]"
+       href="127-0-0-1-2d157f:e3506e50c8:-7ffa"
+       fill="1"
+       fillcolor="-1"
+       stroke="1"
+       strokecolor="-16777216"
+  >
+    <private>
+    </private>
+    
+    <rectangle name="Fig7.0"
+      x="137"
+      y="229"
+      width="276"
+      height="91"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+    />
+    <text name="Fig7.1"
+      x="136"
+      y="228"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+      font="dialog.italic"
+      textsize="9"
+    >SquareMatrix</text>
+    <text name="Fig7.2"
+      x="136"
+      y="242"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+      font="dialog"
+      textsize="9"
+    ></text>
+    <text name="Fig7.3"
+      x="136"
+      y="266"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+      font="dialog"
+      textsize="9"
+    >public double getDeterminant(double epsilon)
+public SquareMatrix getInverse(double epsilon)
+public Matrix solve(Matrix b, double epsilon)
+public SquareMatrix solve(SquareMatrix b, double epsilon)</text>
+  </group>
+  <group name="Fig8"
+       description="uci.uml.visual.FigClass[16, 600, 600, 61]"
+       href="127-0-0-1-2d157f:e3597960f1:-7ff6"
+       fill="1"
+       fillcolor="-1"
+       stroke="1"
+       strokecolor="-16777216"
+  >
+    <private>
+    </private>
+    
+    <rectangle name="Fig8.0"
+      x="17"
+      y="601"
+      width="598"
+      height="59"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+    />
+    <text name="Fig8.1"
+      x="16"
+      y="600"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+      font="dialog"
+      textsize="9"
+    >MatrixFactory</text>
+    <text name="Fig8.2"
+      x="16"
+      y="614"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+      font="dialog"
+      textsize="9"
+    ></text>
+    <text name="Fig8.3"
+      x="16"
+      y="632"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+      font="dialog"
+      textsize="9"
+    >public Matrix buildMatrix(int rows, int columns, double[] data, int lowerElements, int upperElements)
+public Matrix buildMatrix(int rows, int columns, double[] data)</text>
+  </group>
+  <group name="Fig9"
+       description="uci.uml.visual.FigClass[288, 40, 368, 63]"
+       href="42f352:e3b1c8064a:-7ffe"
+       fill="1"
+       fillcolor="-1"
+       stroke="1"
+       strokecolor="-16777216"
+  >
+    <private>
+    </private>
+    
+    <rectangle name="Fig9.0"
+      x="289"
+      y="41"
+      width="366"
+      height="61"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+    />
+    <text name="Fig9.1"
+      x="288"
+      y="40"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+      font="dialog"
+      textsize="9"
+    >NonNullRange</text>
+    <text name="Fig9.2"
+      x="288"
+      y="54"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+      font="dialog"
+      textsize="9"
+    >public int begin
+public int end</text>
+    <text name="Fig9.3"
+      x="288"
+      y="78"
+      fill="1"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+      font="dialog"
+      textsize="9"
+    >public NonNullRange intersection(NonNullRange first, NonNullRange second)
+public NonNullRange reunion(NonNullRange first, NonNullRange second)</text>
+  </group>
+  <group name="Fig10"
+       description="uci.uml.visual.FigGeneralization"
+       href="127-0-0-1-2d157f:e3506e50c8:-7ffb"
+       stroke="1"
+       strokecolor="-16777216"
+  >
+    <private>
+      sourcePortFig="Fig6"
+      destPortFig="Fig0"
+      sourceFigNode="Fig6"
+      destFigNode="Fig0"
+    </private>
+    <path name="Fig10.1"
+      description="uci.gef.FigPoly"
+      fill="0"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+    >
+      <moveto x="464"
+              y="152" />
+      <lineto x="256"
+              y="152" />
+    </path>
+  </group>
+  <group name="Fig11"
+       description="uci.uml.visual.FigGeneralization"
+       href="127-0-0-1-2d157f:e3506e50c8:-7ff8"
+       stroke="1"
+       strokecolor="-16777216"
+  >
+    <private>
+      sourcePortFig="Fig7.0"
+      destPortFig="Fig0.0"
+      sourceFigNode="Fig7"
+      destFigNode="Fig0"
+    </private>
+    <path name="Fig11.1"
+      description="uci.gef.FigPoly"
+      fill="0"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+    >
+      <moveto x="192"
+              y="229" />
+      <lineto x="192"
+              y="208" />
+    </path>
+  </group>
+  <group name="Fig12"
+       description="uci.uml.visual.FigGeneralization"
+       href="127-0-0-1-2d157f:e3506e50c8:-7ff7"
+       stroke="1"
+       strokecolor="-16777216"
+  >
+    <private>
+      sourcePortFig="Fig4.0"
+      destPortFig="Fig7.0"
+      sourceFigNode="Fig4"
+      destFigNode="Fig7"
+    </private>
+    <path name="Fig12.1"
+      description="uci.gef.FigPoly"
+      fill="0"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+    >
+      <moveto x="272"
+              y="345" />
+      <lineto x="272"
+              y="320" />
+    </path>
+  </group>
+  <group name="Fig13"
+       description="uci.uml.visual.FigGeneralization"
+       href="127-0-0-1-2d157f:e3506e50c8:-7ff5"
+       stroke="1"
+       strokecolor="-16777216"
+  >
+    <private>
+      sourcePortFig="Fig1.0"
+      destPortFig="Fig7.0"
+      sourceFigNode="Fig1"
+      destFigNode="Fig7"
+    </private>
+    <path name="Fig13.1"
+      description="uci.gef.FigPoly"
+      fill="0"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+    >
+      <moveto x="472"
+              y="422" />
+      <lineto x="472"
+              y="336" />
+      <lineto x="272"
+              y="336" />
+      <lineto x="272"
+              y="320" />
+    </path>
+  </group>
+  <group name="Fig14"
+       description="uci.uml.visual.FigGeneralization"
+       href="127-0-0-1-2d157f:e3506e50c8:-7ff4"
+       stroke="1"
+       strokecolor="-16777216"
+  >
+    <private>
+      sourcePortFig="Fig2.0"
+      destPortFig="Fig7.0"
+      sourceFigNode="Fig2"
+      destFigNode="Fig7"
+    </private>
+    <path name="Fig14.1"
+      description="uci.gef.FigPoly"
+      fill="0"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+    >
+      <moveto x="64"
+              y="422" />
+      <lineto x="64"
+              y="336" />
+      <lineto x="272"
+              y="336" />
+      <lineto x="272"
+              y="320" />
+    </path>
+  </group>
+  <group name="Fig15"
+       description="uci.uml.visual.FigGeneralization"
+       href="127-0-0-1-2d157f:e3506e50c8:-7ff3"
+       stroke="1"
+       strokecolor="-16777216"
+  >
+    <private>
+      sourcePortFig="Fig3.0"
+      destPortFig="Fig7.0"
+      sourceFigNode="Fig3"
+      destFigNode="Fig7"
+    </private>
+    <path name="Fig15.1"
+      description="uci.gef.FigPoly"
+      fill="0"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+    >
+      <moveto x="468"
+              y="280" />
+      <lineto x="413"
+              y="280" />
+    </path>
+  </group>
+  <group name="Fig16"
+       description="uci.uml.visual.FigDependency"
+       href="127-0-0-1-2d157f:e3597960f1:-7ff5"
+       stroke="1"
+       strokecolor="-16777216"
+  >
+    <private>
+      sourcePortFig="Fig0.0"
+      destPortFig="Fig8.0"
+      sourceFigNode="Fig0"
+      destFigNode="Fig8"
+    </private>
+    <path name="Fig16.1"
+      description="uci.gef.FigPoly"
+      fill="0"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+    >
+      <moveto x="24"
+              y="208" />
+      <lineto x="24"
+              y="601" />
+    </path>
+  </group>
+  <group name="Fig17"
+       description="uci.uml.visual.FigDependency"
+       href="127-0-0-1-2d157f:e3597960f1:-7ff4"
+       stroke="1"
+       strokecolor="-16777216"
+  >
+    <private>
+      sourcePortFig="Fig8.0"
+      destPortFig="Fig4.0"
+      sourceFigNode="Fig8"
+      destFigNode="Fig4"
+    </private>
+    <path name="Fig17.1"
+      description="uci.gef.FigPoly"
+      fill="0"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+    >
+      <moveto x="448"
+              y="601" />
+      <lineto x="448"
+              y="488" />
+      <lineto x="312"
+              y="488" />
+      <lineto x="312"
+              y="406" />
+    </path>
+  </group>
+  <group name="Fig18"
+       description="uci.uml.visual.FigDependency"
+       href="127-0-0-1-2d157f:e3597960f1:-7ff2"
+       stroke="1"
+       strokecolor="-16777216"
+  >
+    <private>
+      sourcePortFig="Fig8.0"
+      destPortFig="Fig1.0"
+      sourceFigNode="Fig8"
+      destFigNode="Fig1"
+    </private>
+    <path name="Fig18.1"
+      description="uci.gef.FigPoly"
+      fill="0"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+    >
+      <moveto x="480"
+              y="601" />
+      <lineto x="480"
+              y="473" />
+    </path>
+  </group>
+  <group name="Fig19"
+       description="uci.uml.visual.FigDependency"
+       href="127-0-0-1-2d157f:e3597960f1:-7ff1"
+       stroke="1"
+       strokecolor="-16777216"
+  >
+    <private>
+      sourcePortFig="Fig8.0"
+      destPortFig="Fig2.0"
+      sourceFigNode="Fig8"
+      destFigNode="Fig2"
+    </private>
+    <path name="Fig19.1"
+      description="uci.gef.FigPoly"
+      fill="0"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+    >
+      <moveto x="72"
+              y="601" />
+      <lineto x="72"
+              y="473" />
+    </path>
+  </group>
+  <group name="Fig20"
+       description="uci.uml.visual.FigDependency"
+       href="127-0-0-1-2d157f:e3597960f1:-7ff0"
+       stroke="1"
+       strokecolor="-16777216"
+  >
+    <private>
+      sourcePortFig="Fig8.0"
+      destPortFig="Fig3.0"
+      sourceFigNode="Fig8"
+      destFigNode="Fig3"
+    </private>
+    <path name="Fig20.1"
+      description="uci.gef.FigPoly"
+      fill="0"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+    >
+      <moveto x="552"
+              y="601" />
+      <lineto x="552"
+              y="304" />
+    </path>
+  </group>
+  <group name="Fig21"
+       description="uci.uml.visual.FigDependency"
+       href="127-0-0-1-2d157f:e3597960f1:-7fef"
+       stroke="1"
+       strokecolor="-16777216"
+  >
+    <private>
+      sourcePortFig="Fig8.0"
+      destPortFig="Fig6.0"
+      sourceFigNode="Fig8"
+      destFigNode="Fig6"
+    </private>
+    <path name="Fig21.1"
+      description="uci.gef.FigPoly"
+      fill="0"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+    >
+      <moveto x="592"
+              y="601" />
+      <lineto x="592"
+              y="185" />
+    </path>
+  </group>
+  <group name="Fig22"
+       description="uci.uml.visual.FigAssociation"
+       href="127-0-0-1-2d157f:e3599e98cf:-7ffe"
+       stroke="1"
+       strokecolor="-16777216"
+  >
+    <private>
+      sourcePortFig="Fig4.0"
+      destPortFig="Fig2.0"
+      sourceFigNode="Fig4"
+      destFigNode="Fig2"
+    </private>
+    <path name="Fig22.1"
+      description="uci.gef.FigPoly"
+      fill="0"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+    >
+      <moveto x="196"
+              y="368" />
+      <lineto x="128"
+              y="368" />
+      <lineto x="128"
+              y="422" />
+    </path>
+  </group>
+  <group name="Fig23"
+       description="uci.uml.visual.FigAssociation"
+       href="127-0-0-1-2d157f:e3599e98cf:-7ffd"
+       stroke="1"
+       strokecolor="-16777216"
+  >
+    <private>
+      sourcePortFig="Fig4.0"
+      destPortFig="Fig1.0"
+      sourceFigNode="Fig4"
+      destFigNode="Fig1"
+    </private>
+    <path name="Fig23.1"
+      description="uci.gef.FigPoly"
+      fill="0"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+    >
+      <moveto x="365"
+              y="368" />
+      <lineto x="424"
+              y="368" />
+      <lineto x="424"
+              y="422" />
+    </path>
+  </group>
+  <group name="Fig24"
+       description="uci.uml.visual.FigDependency"
+       href="127-0-0-1-2d157f:e35a86f004:-7ffe"
+       stroke="1"
+       strokecolor="-16777216"
+  >
+    <private>
+      sourcePortFig="Fig1.0"
+      destPortFig="Fig8.0"
+      sourceFigNode="Fig1"
+      destFigNode="Fig8"
+    </private>
+    <path name="Fig24.1"
+      description="uci.gef.FigPoly"
+      fill="0"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+    >
+      <moveto x="496"
+              y="473" />
+      <lineto x="496"
+              y="601" />
+    </path>
+  </group>
+  <group name="Fig25"
+       description="uci.uml.visual.FigDependency"
+       href="127-0-0-1-2d157f:e35a86f004:-7ffd"
+       stroke="1"
+       strokecolor="-16777216"
+  >
+    <private>
+      sourcePortFig="Fig2.0"
+      destPortFig="Fig8.0"
+      sourceFigNode="Fig2"
+      destFigNode="Fig8"
+    </private>
+    <path name="Fig25.1"
+      description="uci.gef.FigPoly"
+      fill="0"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+    >
+      <moveto x="56"
+              y="473" />
+      <lineto x="56"
+              y="601" />
+    </path>
+  </group>
+  <group name="Fig26"
+       description="uci.uml.visual.FigDependency"
+       href="127-0-0-1-2d157f:e35a86f004:-7ffc"
+       stroke="1"
+       strokecolor="-16777216"
+  >
+    <private>
+      sourcePortFig="Fig3.0"
+      destPortFig="Fig8.0"
+      sourceFigNode="Fig3"
+      destFigNode="Fig8"
+    </private>
+    <path name="Fig26.1"
+      description="uci.gef.FigPoly"
+      fill="0"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+    >
+      <moveto x="568"
+              y="304" />
+      <lineto x="568"
+              y="601" />
+    </path>
+  </group>
+  <group name="Fig27"
+       description="uci.uml.visual.FigGeneralization"
+       href="42f352:e3b1c8064a:-7fff"
+       stroke="1"
+       strokecolor="-16777216"
+  >
+    <private>
+      sourcePortFig="Fig5.0"
+      destPortFig="Fig4.0"
+      sourceFigNode="Fig5"
+      destFigNode="Fig4"
+    </private>
+    <path name="Fig27.1"
+      description="uci.gef.FigPoly"
+      fill="0"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+    >
+      <moveto x="285"
+              y="502" />
+      <lineto x="285"
+              y="406" />
+    </path>
+  </group>
+  <group name="Fig28"
+       description="uci.uml.visual.FigDependency"
+       href="42f352:e3b1c8064a:-7ffd"
+       stroke="1"
+       strokecolor="-16777216"
+  >
+    <private>
+      sourcePortFig="Fig0.0"
+      destPortFig="Fig9.0"
+      sourceFigNode="Fig0"
+      destFigNode="Fig9"
+    </private>
+    <path name="Fig28.1"
+      description="uci.gef.FigPoly"
+      fill="0"
+      fillcolor="-1"
+      stroke="1"
+      strokecolor="-16777216"
+    >
+      <moveto x="255"
+              y="72" />
+      <lineto x="289"
+              y="72" />
+    </path>
+  </group>
+</pgml>
