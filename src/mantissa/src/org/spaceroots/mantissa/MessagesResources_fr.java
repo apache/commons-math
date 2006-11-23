@@ -91,7 +91,7 @@ public class MessagesResources_fr
     { "dimensions mismatch: ODE problem has dimension {0},"
     + " state vector has dimension {1}",
       "incompatibilit\u00e9 de dimensions entre le probl\u00e8me ODE ({0}),"
-    + " et le vecteur d'\u00e9tat ({1})" },
+    + " et le vecteur d''\u00e9tat ({1})" },
     { "too small integration interval: length = {0}",
       "intervalle d''int\u00e9gration trop petit : {0}" },
 

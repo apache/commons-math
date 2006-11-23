@@ -26,7 +26,6 @@ public class AllTests {
     TestSuite suite = new TestSuite("org.spaceroots.mantissa.geometry"); 
 
     suite.addTest(Vector3DTest.suite());
-    suite.addTest(ImmutableVector3DTest.suite());
     suite.addTest(RotationTest.suite());
 
     return suite; 

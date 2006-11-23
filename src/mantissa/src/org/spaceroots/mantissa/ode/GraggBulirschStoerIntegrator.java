@@ -880,7 +880,11 @@ public class GraggBulirschStoerIntegrator
         interpolator.storeTime(currentT);
         handler.handleStep(interpolator, lastStep);
 
-        switchesHandler.reset(currentT, y);
+        if (switchesHandler.reset(currentT, y) && ! lastStep) {
+          // some switching function has triggered changes that
+          // invalidate the derivatives, we need to recompute them
+          firstStepAlreadyComputed = false;
+        }
 
         int optimalIter;
         if (k == 1) {

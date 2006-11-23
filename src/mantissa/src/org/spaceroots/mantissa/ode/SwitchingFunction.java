@@ -22,18 +22,20 @@ package org.spaceroots.mantissa.ode;
  * <p>A switching function allows to handle discrete events in
  * integration problems. These events occur for example when the
  * integration process should be stopped as some value is reached
- * (G-stop facility), or when the derivatives has
- * discontinuities. These events are traditionally defined as
- * occurring when a <code>g</code> function sign changes.</p>
+ * (G-stop facility), or when the derivatives have
+ * discontinuities, or simply when the user wants to monitor some
+ * states boundaries crossings. These events are traditionally defined
+ * as occurring when a <code>g</code> function sign changes, hence
+ * the name <em>switching functions</em>.</p>
  *
  * <p>Since events are only problem-dependent and are triggered by the
  * independant <i>time</i> variable and the state vector, they can
- * occur at virtually any time. The integrators will take care to
- * avoid sign changes inside the steps, they will reduce the step size
- * when such an event is detected in order to put this event exactly
- * at the end of the current step. This guarantees that step
- * interpolation (which always has a one step scope) is relevant even
- * in presence of discontinuities. This is independent from the
+ * occur at virtually any time, unknown in advance. The integrators will
+ * take care to avoid sign changes inside the steps, they will reduce
+ * the step size when such an event is detected in order to put this
+ * event exactly at the end of the current step. This guarantees that
+ * step interpolation (which always has a one step scope) is relevant
+ * even in presence of discontinuities. This is independent from the
  * stepsize control provided by integrators that monitor the local
  * error (this feature is available on all integrators, including
  * fixed step ones).</p>
@@ -52,29 +54,38 @@ public interface SwitchingFunction {
    */
   public static final int STOP = 0;
 
-  /** Reset indicator.
+  /** Reset state indicator.
    * <p>This value should be used as the return value of the {@link
    * #eventOccurred eventOccurred} method when the integration should
    * go on after the event ending the current step, with a new state
-   * vector (which will be retrieved through the {@link #resetState
+   * vector (which will be retrieved thanks to the {@link #resetState
    * resetState} method).</p>
    */
-  public static final int RESET = 1;
+  public static final int RESET_STATE = 1;
+
+  /** Reset derivatives indicator.
+   * <p>This value should be used as the return value of the {@link
+   * #eventOccurred eventOccurred} method when the integration should
+   * go on after the event ending the current step, with a new derivatives
+   * vector (which will be retrieved thanks to the {@link
+   * FirstOrderDifferentialEquations#computeDerivatives} method).</p>
+   */
+  public static final int RESET_DERIVATIVES = 2;
 
   /** Continue indicator.
    * <p>This value should be used as the return value of the {@link
    * #eventOccurred eventOccurred} method when the integration should go
    * on after the event ending the current step.</p>
    */
-  public static final int CONTINUE = 2;
+  public static final int CONTINUE = 3;
 
   /** Compute the value of the switching function.
 
    * <p>Discrete events are generated when the sign of this function
    * changes, the integrator will take care to change the stepsize in
    * such a way these events occur exactly at step boundaries. This
-   * function must be continuous, as the integrator will need to find
-   * its roots to locate the events.</p>
+   * function must be continuous (at least in its roots neighborhood),
+   * as the integrator will need to find its roots to locate the events.</p>
 
    * @param t current value of the independant <i>time</i> variable
    * @param y array containing the current value of the state vector
@@ -88,22 +99,33 @@ public interface SwitchingFunction {
    * ending exactly on a sign change of the function, just before the
    * step handler itself is called. It allows the user to update his
    * internal data to acknowledge the fact the event has been handled
-   * (for example setting a flag to switch the derivatives computation
-   * in case of discontinuity), and it allows to direct the integrator
-   * to either stop or continue integration, possibly with a reset
-   * state.</p>
+   * (for example setting a flag in the {@link
+   * FirstOrderDifferentialEquations differential equations} to switch
+   * the derivatives computation in case of discontinuity), or to
+   * direct the integrator to either stop or continue integration,
+   * possibly with a reset state or derivatives.</p>
 
-   * <p>If {@link #STOP} is returned, the step handler will be called
-   * with the <code>isLast</code> flag of the {@link
-   * StepHandler#handleStep handleStep} method set to true. If {@link
-   * #RESET} is returned, the {@link #resetState resetState} method
-   * will be called once the step handler has finished its task.</p>
+   * <ul>
+   *   <li>if {@link #STOP} is returned, the step handler will be called
+   *   with the <code>isLast</code> flag of the {@link
+   *   StepHandler#handleStep handleStep} method set to true and the
+   *   integration will be stopped,</li>
+   *   <li>if {@link #RESET_STATE} is returned, the {@link #resetState
+   *   resetState} method will be called once the step handler has
+   *   finished its task, and the integrator will also recompute the
+   *   derivatives,</li>
+   *   <li>if {@link #RESET_DERIVATIVES} is returned, the integrator
+   *   will recompute the derivatives,
+   *   <li>if {@link #CONTINUE} is returned, no specific action will
+   *   be taken (apart from having called this method) and integration
+   *   will continue.</li>
+   * </ul>
 
    * @param t current value of the independant <i>time</i> variable
    * @param y array containing the current value of the state vector
    * @return indication of what the integrator should do next, this
-   * value must be one of {@link #STOP}, {@link #RESET} or {@link
-   * #CONTINUE}
+   * value must be one of {@link #STOP}, {@link #RESET_STATE},
+   * {@link #RESET_DERIVATIVES} or {@link #CONTINUE}
    */
   public int eventOccurred(double t, double[] y);
   
@@ -111,11 +133,11 @@ public interface SwitchingFunction {
 
    * <p>This method is called after the step handler has returned and
    * before the next step is started, but only when {@link
-   * #eventOccurred} has itself returned the {@link #RESET}
+   * #eventOccurred} has itself returned the {@link #RESET_STATE}
    * indicator. It allows the user to reset the state vector for the
    * next step, without perturbing the step handler of the finishing
    * step. If the {@link #eventOccurred} never returns the {@link
-   * #RESET} indicator, this function will never be called, and it is
+   * #RESET_STATE} indicator, this function will never be called, and it is
    * safe to leave its body empty.</p>
 
    * @param t current value of the independant <i>time</i> variable

@@ -18,52 +18,32 @@
 package org.spaceroots.mantissa.geometry;
 
 import java.io.Serializable;
-import org.spaceroots.mantissa.utilities.ArraySliceMappable;
 
 
 /** This class implements vectors in a three-dimensional space.
+ * <p>Vector3D are guaranteed to be immutable objects.</p>
  * @version $Id: Vector3D.java 1705 2006-09-17 19:57:39Z luc $
  * @author L. Maisonobe
  */
+public class Vector3D implements Serializable {
 
-public class Vector3D
-  implements ArraySliceMappable, Serializable {
+  /** First canonical vector (coordinates : 1, 0, 0). */
+  public static final Vector3D plusI = new Vector3D(1, 0, 0);
 
-  /** First canonical vector (coordinates : 1, 0, 0).
-   * This is really an {@link ImmutableVector3D ImmutableVector3D},
-   * hence it can't be changed in any way.
-   */
-  public static final Vector3D plusI = new ImmutableVector3D(1, 0, 0);
+  /** Opposite of the first canonical vector (coordinates : -1, 0, 0). */
+  public static final Vector3D minusI = new Vector3D(-1, 0, 0);
 
-  /** Opposite of the first canonical vector (coordinates : -1, 0, 0).
-   * This is really an {@link ImmutableVector3D ImmutableVector3D},
-   * hence it can't be changed in any way.
-   */
-  public static final Vector3D minusI = new ImmutableVector3D(-1, 0, 0);
+  /** Second canonical vector (coordinates : 0, 1, 0). */
+  public static final Vector3D plusJ = new Vector3D(0, 1, 0);
 
-  /** Second canonical vector (coordinates : 0, 1, 0).
-   * This is really an {@link ImmutableVector3D ImmutableVector3D},
-   * hence it can't be changed in any way.
-   */
-  public static final Vector3D plusJ = new ImmutableVector3D(0, 1, 0);
+  /** Opposite of the second canonical vector (coordinates : 0, -1, 0). */
+  public static final Vector3D minusJ = new Vector3D(0, -1, 0);
 
-  /** Opposite of the second canonical vector (coordinates : 0, -1, 0).
-   * This is really an {@link ImmutableVector3D ImmutableVector3D},
-   * hence it can't be changed in any way.
-   */
-  public static final Vector3D minusJ = new ImmutableVector3D(0, -1, 0);
+  /** Third canonical vector (coordinates : 0, 0, 1). */
+  public static final Vector3D plusK = new Vector3D(0, 0, 1);
 
-  /** Third canonical vector (coordinates : 0, 0, 1).
-   * This is really an {@link ImmutableVector3D ImmutableVector3D},
-   * hence it can't be changed in any way.
-   */
-  public static final Vector3D plusK = new ImmutableVector3D(0, 0, 1);
-
-  /** Opposite of the third canonical vector (coordinates : 0, 0, -1).
-   * This is really an {@link ImmutableVector3D ImmutableVector3D},
-   * hence it can't be changed in any way.
-   */
-  public static final Vector3D minusK = new ImmutableVector3D(0, 0, -1);
+  /** Opposite of the third canonical vector (coordinates : 0, 0, -1). */
+  public static final Vector3D minusK = new Vector3D(0, 0, -1);
 
   /** Simple constructor.
    * Build a null vector.
@@ -140,31 +120,30 @@ public class Vector3D
    * @param c third scale factor
    * @param w third base (unscaled) vector
    */
-  public Vector3D(double a, Vector3D u,
-                  double b, Vector3D v,
+  public Vector3D(double a, Vector3D u, double b, Vector3D v,
                   double c, Vector3D w) {
     this.x = a * u.x + b * v.x + c * w.x;
     this.y = a * u.y + b * v.y + c * w.y;
     this.z = a * u.z + b * v.z + c * w.z;
   }
 
-  /** Copy constructor.
-   * Build a copy of a vector
-   * @param v vector to copy
+  /** Linear constructor
+   * Build a vector from four other ones and corresponding scale factors.
+   * The vector built will be a * t +  b * u + c * v + d * w
+   * @param a first scale factor
+   * @param t first base (unscaled) vector
+   * @param b second scale factor
+   * @param u second base (unscaled) vector
+   * @param c third scale factor
+   * @param v third base (unscaled) vector
+   * @param d third scale factor
+   * @param w third base (unscaled) vector
    */
-  public Vector3D(Vector3D v) {
-    x = v.x;
-    y = v.y;
-    z = v.z;
-  }
-
-  /** Reset the instance.
-   * @param v vector to copy data from
-   */
-  public void reset(Vector3D v) {
-    x = v.x;
-    y = v.y;
-    z = v.z;
+  public Vector3D(double a, Vector3D t, double b, Vector3D u,
+                  double c, Vector3D v, double d, Vector3D w) {
+    this.x = a * t.x + b * u.x + c * v.x + d * w.x;
+    this.y = a * t.y + b * u.y + c * v.y + d * w.y;
+    this.z = a * t.z + b * u.z + c * v.z + d * w.z;
   }
 
   /** Get the abscissa of the vector.
@@ -176,15 +155,6 @@ public class Vector3D
     return x;
   }
 
-  /** Set the abscissa of the vector.
-   * @param x new abscissa for the vector
-   * @see #getX()
-   * @see #setCoordinates(double, double, double)
-   */
-  public void setX(double x) {
-    this.x = x;
-  }
-
   /** Get the ordinate of the vector.
    * @return ordinate of the vector
    * @see #Vector3D(double, double, double)
@@ -194,15 +164,6 @@ public class Vector3D
     return y;
   }
 
-  /** Set the ordinate of the vector.
-   * @param y new ordinate for the vector
-   * @see #getY()
-   * @see #setCoordinates(double, double, double)
-   */
-  public void setY(double y) {
-    this.y = y;
-  }
-
   /** Get the height of the vector.
    * @return height of the vector
    * @see #Vector3D(double, double, double)
@@ -210,27 +171,6 @@ public class Vector3D
    */
   public double getZ() {
     return z;
-  }
-
-  /** Set the height of the vector.
-   * @param z new height for the vector
-   * @see #getZ()
-   * @see #setCoordinates(double, double, double)
-   */
-  public void setZ(double z) {
-    this.z = z;
-  }
-
-  /** Set all coordinates of the vector.
-   * @param x new abscissa for the vector
-   * @param y new ordinate for the vector
-   * @param z new height for the vector
-   * @see #Vector3D(double, double, double)
-   */
-  public void setCoordinates(double x, double y, double z) {
-    this.x = x;
-    this.y = y;
-    this.z = z;
   }
 
   /** Get the norm for the vector.
@@ -256,25 +196,18 @@ public class Vector3D
     return Math.asin(z / getNorm());
   }
 
-  /** Add a vector to the instance.
-   * Add a vector to the instance. The instance is changed.
-   * @param v vector to add
+  /** Normalize a vector.
+    * @param v vector to normalize
+   * @return a new vector equal to v / ||v||
+   * @exception ArithmeticException if the norm of the instance is null
    */
-  public void addToSelf(Vector3D v) {
-    x += v.x;
-    y += v.y;
-    z += v.z;
-  }
-
-  /** Add a scaled vector to the instance.
-   * Add a scaled vector to the instance. The instance is changed.
-   * @param factor scale factor to apply to v before adding it
-   * @param v vector to add
-   */
-  public void addToSelf(double factor, Vector3D v) {
-    x += factor * v.x;
-    y += factor * v.y;
-    z += factor * v.z;
+  public static Vector3D normalize(Vector3D v) {
+	double norm = v.getNorm();
+	if (norm == 0) {
+      throw new ArithmeticException("null norm");
+	}
+	double inv = 1.0 / norm;
+	return new Vector3D(inv * v.x, inv * v.y, inv * v.z);
   }
 
   /** Add two vectors.
@@ -287,16 +220,6 @@ public class Vector3D
     return new Vector3D(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
   }
 
-  /** Subtract a vector from the instance.
-   * Subtract a vector from the instance. The instance is changed.
-   * @param v vector to subtract
-   */
-  public void subtractFromSelf(Vector3D v) {
-    x -= v.x;
-    y -= v.y;
-    z -= v.z;
-  }
-
   /** Subtract two vectors.
    * Subtract two vectors and return the difference as a new vector
    * @param v1 first vector
@@ -307,22 +230,6 @@ public class Vector3D
     return new Vector3D(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
   }
 
-  /** Normalize the instance.
-   * Divide the instance by its norm in order to have a unit
-   * vector. The instance is changed.
-   * @exception ArithmeticException if the norm is null
-   */
-  public void normalizeSelf() {
-    double s = getNorm();
-    if (s == 0) {
-      throw new ArithmeticException("null norm");
-    }
-    double invNorm = 1 / s;
-    x *= invNorm;
-    y *= invNorm;
-    z *= invNorm;
-  }
-
   /** Get a vector orthogonal to the instance.
    * <p>There are an infinite number of normalized vectors orthogonal
    * to the instance. This method picks up one of them almost
@@ -331,8 +238,7 @@ public class Vector3D
    * following example shows how to build a frame having the k axis
    * aligned with the known vector u :
    * <pre><code>
-   *   Vector3D k = u;
-   *   k.normalizeSelf();
+   *   Vector3D k = Vector3D.normalize(u);
    *   Vector3D i = k.orthogonal();
    *   Vector3D j = Vector3D.crossProduct(k, i);
    * </code></pre></p>
@@ -392,31 +298,12 @@ public class Vector3D
 
   }
 
-  /** Revert the instance.
-   * Replace the instance u by -u
-   */
-  public void negateSelf() {
-    x = -x;
-    y = -y;
-    z = -z;
-  }
-
   /** Get the opposite of a vector.
    * @param u vector to revert
    * @return a new vector which is -u
    */
   public static Vector3D negate(Vector3D u) {
     return new Vector3D(-u.x, -u.y, -u.z);
-  }
-
-  /** Multiply the instance by a scalar
-   * Multiply the instance by a scalar. The instance is changed.
-   * @param a scalar by which the instance should be multiplied
-   */
-  public void multiplySelf(double a) {
-    x *= a;
-    y *= a;
-    z *= a;
   }
 
   /** Multiply a vector by a scalar
@@ -438,18 +325,6 @@ public class Vector3D
     return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
   }
 
-  /** Set the instance to the result of the cross-product of two vectors.
-   * @param v1 first vector (can be the instance)
-   * @param v2 second vector (can be the instance)
-   */
-  public void setToCrossProduct(Vector3D v1, Vector3D v2) {
-    double newX = v1.y * v2.z - v1.z * v2.y;
-    double newY = v1.z * v2.x - v1.x * v2.z;
-    z = v1.x * v2.y - v1.y * v2.x;
-    x = newX;
-    y = newY;
-  }
-
   /** Compute the cross-product of two vectors.
    * @param v1 first vector
    * @param v2 second vector
@@ -461,31 +336,15 @@ public class Vector3D
                         v1.x * v2.y - v1.y * v2.x);
   }
 
-  public int getStateDimension() {
-    return 3;
-  }
-    
-  public void mapStateFromArray(int start, double[] array) {
-    x = array[start];
-    y = array[start + 1];
-    z = array[start + 2];
-  }
-
-  public void mapStateToArray(int start, double[] array) {
-    array[start]     = x;
-    array[start + 1] = y;
-    array[start + 2] = z;
-  }
-
   /** Abscissa. */
-  protected double x;
+  private final double x;
 
   /** Ordinate. */
-  protected double y;
+  private final double y;
 
   /** Height. */
-  protected double z;
+  private final double z;
 
-   private static final long serialVersionUID = 4115635019045864211L;
+  private static final long serialVersionUID = 484345009325358136L;
 
 }

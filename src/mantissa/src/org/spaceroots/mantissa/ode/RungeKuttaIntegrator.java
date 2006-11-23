@@ -234,7 +234,11 @@ public abstract class RungeKuttaIntegrator
         System.arraycopy(yDotK[stages - 1], 0, yDotK[0], 0, y0.length);
       }
 
-      switchesHandler.reset(currentT, y);
+      if (switchesHandler.reset(currentT, y) && ! lastStep) {
+        // some switching function has triggered changes that
+        // invalidate the derivatives, we need to recompute them
+        equations.computeDerivatives(currentT, y, yDotK[0]);
+      }
 
       if (needUpdate) {
         // a switching function has changed the step
