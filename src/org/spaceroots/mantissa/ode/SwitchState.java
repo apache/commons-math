@@ -239,15 +239,23 @@ class SwitchState
    * beginning of the next step
    * @param y array were to put the desired state vector at the beginning
    * of the next step
+   * @return true if the integrator should reset the derivatives too
    */
-  public void reset(double t, double[] y) {
-    if (pendingEvent) {
-      if (nextAction == SwitchingFunction.RESET) {
-        function.resetState(t, y);
-      }
-      pendingEvent      = false;
-      pendingEventTime  = Double.NaN;
+  public boolean reset(double t, double[] y) {
+
+    if (! pendingEvent) {
+      return false;
     }
+
+    if (nextAction == SwitchingFunction.RESET_STATE) {
+      function.resetState(t, y);
+    }
+    pendingEvent      = false;
+    pendingEventTime  = Double.NaN;
+
+    return (nextAction == SwitchingFunction.RESET_STATE)
+        || (nextAction == SwitchingFunction.RESET_DERIVATIVES);
+
   }
 
   /** Get the value of the g function at the specified time.

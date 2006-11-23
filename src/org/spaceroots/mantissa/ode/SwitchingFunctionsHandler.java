@@ -166,11 +166,16 @@ public class SwitchingFunctionsHandler {
    * beginning of the next step
    * @param y array were to put the desired state vector at the beginning
    * of the next step
+   * @return true if the integrator should reset the derivatives too
    */
-  public void reset(double t, double[] y) {
+  public boolean reset(double t, double[] y) {
+    boolean resetDerivatives = false;
     for (Iterator iter = functions.iterator(); iter.hasNext();) {
-      ((SwitchState) iter.next()).reset(t, y);
+      if (((SwitchState) iter.next()).reset(t, y)) {
+        resetDerivatives = true;
+      }
     }
+    return resetDerivatives;
   }
 
   /** Switching functions. */

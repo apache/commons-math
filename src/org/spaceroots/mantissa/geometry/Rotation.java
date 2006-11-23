@@ -17,7 +17,6 @@
 
 package org.spaceroots.mantissa.geometry;
 
-import org.spaceroots.mantissa.utilities.ArraySliceMappable;
 import java.io.Serializable;
 
 /**
@@ -25,59 +24,61 @@ import java.io.Serializable;
 
  * <p>Rotations can be represented by several different mathematical
  * entities (matrices, axe and angle, Cardan or Euler angles,
- * quaternions). This class is an higher level abstraction, more
- * user-oriented and hiding this implementation detail. Well, for the
+ * quaternions). This class presents an higher level abstraction, more
+ * user-oriented and hiding this implementation details. Well, for the
  * curious, we use quaternions for the internal representation. The
  * user can build a rotation from any of these representations, and
  * any of these representations can be retrieved from a
  * <code>Rotation</code> instance (see the various constructors and
  * getters). In addition, a rotation can also be built implicitely
- * from a set of vectors before and after it has been applied. This
- * means that this class can be used to compute transformations from
- * one representation to another one. For example, extracting a set of
- * Cardan angles from a rotation matrix can be done using one single
- * line of code:</p>
+ * from a set of vectors and their image.</p>
+ * <p>This implies that this class can be used to transform one
+ * representation into another one. For example, converting a rotation
+ * matrix into a set of Cardan angles from can be done using the
+ * followong single line of code:</p>
  * <pre>
  * double[] angles = new Rotation(matrix, 1.0e-10).getAngles(RotationOrder.XYZ);
  * </pre>
- * <p>Focus is more oriented on what a rotation <em>do</em>. Once it
- * has been built, and regardless of its representation, a rotation is
- * an <em>operator</em> which basically transforms three dimensional
- * {@link Vector3D vectors} into other three dimensional {@link
- * Vector3D vectors}. Depending on the application, the meaning of
- * these vectors can vary. For example in an attitude simulation tool,
- * you will often consider the vector is fixed and you transform its
- * coordinates in one frame into its coordinates in another frame. In
- * this case, the rotation implicitely defines the relation between
- * the two frames. Another example could be a telescope control application,
- * where the rotation would transform the sighting direction at rest
- * into the desired observing direction. In this case the frame is the
- * same (probably a topocentric one) and the raw and transformed
- * vectors are different. In many case, both approaches will be
- * combined, in our telescope example, we will probably also need to
- * transform the observing direction in the topocentric frame into the
- * observing direction in inertial frame taking into account the
- * observatory location and the earth rotation.</p>
+ * <p>Focus is oriented on what a rotation <em>do</em> rather than on its
+ * underlying representation. Once it has been built, and regardless of its
+ * internal representation, a rotation is an <em>operator</em> which basically
+ * transforms three dimensional {@link Vector3D vectors} into other three
+ * dimensional {@link Vector3D vectors}. Depending on the application, the
+ * meaning of these vectors may vary and the semantics of the rotation also.</p>
+ * <p>For example in an spacecraft attitude simulation tool, users will often
+ * consider the vectors are fixed (say the Earth direction for example) and the
+ * rotation transforms the coordinates coordinates of this vector in inertial
+ * frame into the coordinates of the same vector in satellite frame. In this
+ * case, the rotation implicitely defines the relation between the two frames.
+ * Another example could be a telescope control application, where the rotation
+ * would transform the sighting direction at rest into the desired observing
+ * direction when the telescope is pointed towards an object of interest. In this
+ * case the rotation transforms the directionf at rest in a topocentric frame
+ * into the sighting direction in the same topocentric frame. In many case, both
+ * approaches will be combined, in our telescope example, we will probably also
+ * need to transform the observing direction in the topocentric frame into the
+ * observing direction in inertial frame taking into account the observatory
+ * location and the Earth rotation.</p>
 
- * <p>These examples show that a rotation is what the user wants it to
- * be, so this class does not push the user towards one specific
- * definition and hence does not provide methods like
- * <code>projectVectorIntoDestinationFrame</code> or
- * <code>computeTransformedDirection</code>. It provides simpler and
- * more generic methods: {@link #applyTo(Vector3D) applyTo(Vector3D)}
- * and {@link #applyInverseTo(Vector3D) applyInverseTo(Vector3D)}.</p>
+ * <p>These examples show that a rotation is what the user wants it to be, so this
+ * class does not push the user towards one specific definition and hence does not
+ * provide methods like <code>projectVectorIntoDestinationFrame</code> or
+ * <code>computeTransformedDirection</code>. It provides simpler and more generic
+ * methods: {@link #applyTo(Vector3D) applyTo(Vector3D)} and {@link
+ * #applyInverseTo(Vector3D) applyInverseTo(Vector3D)}.</p>
 
- * <p>Since a rotation is basically a vectorial operator, several
- * rotations can be composed together and the composite operation
- * <code>r = r1 o r2</code> (which means that for each vector
- * <code>u</code>, <code>r(u) = r1(r2(u))</code>) is also a
- * rotation. Hence we can consider that in addition to vectors, a
- * rotation can be applied to other rotations (or to itself). With our
- * previous notations, we would say we can apply <code>r1</code> to
- * <code>r2</code> and the result we get is <code>r = r1 o
- * r2</code>. For this purpose, the class provides the methods: {@link
- * #applyTo(Rotation) applyTo(Rotation)} and {@link
- * #applyInverseTo(Rotation) applyInverseTo(Rotation)}.</p>
+ * <p>Since a rotation is basically a vectorial operator, several rotations can be
+ * composed together and the composite operation <code>r = r<sub>1</sub> o
+ * r<sub>2</sub></code> (which means that for each vector <code>u</code>,
+ * <code>r(u) = r<sub>1</sub>(r<sub>2</sub>(u))</code>) is also a rotation. Hence
+ * we can consider that in addition to vectors, a rotation can be applied to other
+ * rotations as well (or to itself). With our previous notations, we would say we
+ * can apply <code>r<sub>1</sub></code> to <code>r<sub>2</sub></code> and the result
+ * we get is <code>r = r<sub>1</sub> o r<sub>2</sub></code>. For this purpose, the
+ * class provides the methods: {@link #applyTo(Rotation) applyTo(Rotation)} and
+ * {@link #applyInverseTo(Rotation) applyInverseTo(Rotation)}.</p>
+
+ * <p>Rotations are guaranteed to be immutable objects.</p>
 
  * @version $Id: Rotation.java 1705 2006-09-17 19:57:39Z luc $
  * @author L. Maisonobe
@@ -86,8 +87,7 @@ import java.io.Serializable;
 
  */
 
-public class Rotation
-  implements ArraySliceMappable, Serializable {
+public class Rotation implements Serializable {
 
   /** Build the identity rotation.
    */
@@ -99,30 +99,11 @@ public class Rotation
   }
 
   /** Build a rotation from the quaternion coordinates.
-   * @param q0 scalar part of the quaternion
-   * @param q1 first coordinate of the vectorial part of the quaternion
-   * @param q2 second coordinate of the vectorial part of the quaternion
-   * @param q3 third coordinate of the vectorial part of the quaternion
-   * @deprecated since Mantissa 6.3, this method as been deprecated as it
-   * does not properly handles non-normalized quaternions, it should be
-   * replaced by {@link #Rotation(double, double, double, double, boolean)}
-   */
-  public Rotation(double q0, double q1, double q2, double q3) {
-    this.q0 = q0;
-    this.q1 = q1;
-    this.q2 = q2;
-    this.q3 = q3;
-  }
-
-  /** Build a rotation from the quaternion coordinates.
    * <p>A rotation can be built from a <em>normalized</em> quaternion,
    * i.e. a quaternion for which q<sub>0</sub><sup>2</sup> +
    * q<sub>1</sub><sup>2</sup> + q<sub>2</sub><sup>2</sup> +
    * q<sub>3</sub><sup>2</sup> = 1. If the quaternion is not normalized,
    * the constructor can normalize it in a preprocessing step.</p>
-   * <p>This method replaces the {@link #Rotation(double, double,
-   * double, double) constructor using only 4 doubles} which was deprecated
-   * as of version 6.3 of Mantissa.</p>
    * @param q0 scalar part of the quaternion
    * @param q1 first coordinate of the vectorial part of the quaternion
    * @param q2 second coordinate of the vectorial part of the quaternion
@@ -181,7 +162,7 @@ public class Rotation
   /** Build a rotation from a 3X3 matrix.
 
    * <p>Rotation matrices are orthogonal matrices, i.e. unit matrices
-   * (which are matrices for which m.mT = I) with real
+   * (which are matrices for which m.m<sup>T</sup> = I) with real
    * coefficients. The module of the determinant of unit matrices is
    * 1, among the orthogonal 3X3 matrices, only the ones having a
    * positive determinant (+1) are rotation matrices.</p>
@@ -290,14 +271,15 @@ public class Rotation
 
   /** Build the rotation that transforms a pair of vector into another pair.
 
-   * <p>Except for possible scale factors, if the instance were
-   * applied to the pair (u1, u2) it will produce the pair (v1,
-   * v2).</p>
+   * <p>Except for possible scale factors, if the instance were applied to
+   * the pair (u<sub>1</sub>, u<sub>2</sub>) it will produce the pair
+   * (v<sub>1</sub>, v<sub>2</sub>).</p>
 
-   * <p>If the angular separation between u1 and u2 is not the same as
-   * the angular separation between v1 and v2, then a corrected v2'
-   * will be used rather than v2, the corrected vector will be in the
-   * (v1, v2) plane.</p>
+   * <p>If the angular separation between u<sub>1</sub> and u<sub>2</sub> is
+   * not the same as the angular separation between v<sub>1</sub> and
+   * v<sub>2</sub>, then a corrected v'<sub>2</sub> will be used rather than
+   * v<sub>2</sub>, the corrected vector will be in the (v<sub>1</sub>,
+   * v<sub>2</sub>) plane.</p>
 
    * @param u1 first vector of the origin pair
    * @param u2 second vector of the origin pair
@@ -477,11 +459,11 @@ public class Rotation
    * rotations are three successive rotations around the canonical
    * axes X, Y and Z, the first and last rotations beeing around the
    * same axis. There are 6 such sets of rotations (XYX, XZX, YXY,
-   * YZY, ZXZ and ZYZ), the most popular one being ZXZ. Beware that
-   * many people routinely use the term Euler angles even for what
-   * really are Cardan angles (this confusion is especially widespread
-   * in the aerospace business where Roll, Pitch and Yaw angles are
-   * often tagged as Euler angles).</p>
+   * YZY, ZXZ and ZYZ), the most popular one being ZXZ.</p>
+   * <p>Beware that many people routinely use the term Euler angles even
+   * for what really are Cardan angles (this confusion is especially
+   * widespread in the aerospace business where Roll, Pitch and Yaw angles
+   * are often tagged as Euler angles).</p>
 
    * @param order order of rotations to use
    * @param alpha1 angle of the first elementary rotation
@@ -490,105 +472,89 @@ public class Rotation
    */
   public Rotation(RotationOrder order,
                   double alpha1, double alpha2, double alpha3) {
-
-    if (order == RotationOrder.XYZ) {
-
-      compose(new Rotation(Vector3D.plusI, alpha1),
-              new Rotation(Vector3D.plusJ, alpha2),
-              new Rotation(Vector3D.plusK, alpha3));
-
-    } else if (order == RotationOrder.XZY) {
-
-      compose(new Rotation(Vector3D.plusI, alpha1),
-              new Rotation(Vector3D.plusK, alpha2),
-              new Rotation(Vector3D.plusJ, alpha3));
-
-    } else if (order == RotationOrder.YXZ) {
-
-      compose(new Rotation(Vector3D.plusJ, alpha1),
-              new Rotation(Vector3D.plusI, alpha2),
-              new Rotation(Vector3D.plusK, alpha3));
-
-    } else if (order == RotationOrder.YZX) {
-
-      compose(new Rotation(Vector3D.plusJ, alpha1),
-              new Rotation(Vector3D.plusK, alpha2),
-              new Rotation(Vector3D.plusI, alpha3));
-
-    } else if (order == RotationOrder.ZXY) {
-
-      compose(new Rotation(Vector3D.plusK, alpha1),
-              new Rotation(Vector3D.plusI, alpha2),
-              new Rotation(Vector3D.plusJ, alpha3));
-
-    } else if (order == RotationOrder.ZYX) {
-
-      compose(new Rotation(Vector3D.plusK, alpha1),
-              new Rotation(Vector3D.plusJ, alpha2),
-              new Rotation(Vector3D.plusI, alpha3));
-
-    } else if (order == RotationOrder.XYX) {
-
-      compose(new Rotation(Vector3D.plusI, alpha1),
-              new Rotation(Vector3D.plusJ, alpha2),
-              new Rotation(Vector3D.plusI, alpha3));
-
-    } else if (order == RotationOrder.XZX) {
-
-      compose(new Rotation(Vector3D.plusI, alpha1),
-              new Rotation(Vector3D.plusK, alpha2),
-              new Rotation(Vector3D.plusI, alpha3));
-
-    } else if (order == RotationOrder.YXY) {
-
-      compose(new Rotation(Vector3D.plusJ, alpha1),
-              new Rotation(Vector3D.plusI, alpha2),
-              new Rotation(Vector3D.plusJ, alpha3));
-
-    } else if (order == RotationOrder.YZY) {
-
-      compose(new Rotation(Vector3D.plusJ, alpha1),
-              new Rotation(Vector3D.plusK, alpha2),
-              new Rotation(Vector3D.plusJ, alpha3));
-
-    } else if (order == RotationOrder.ZXZ) {
-
-      compose(new Rotation(Vector3D.plusK, alpha1),
-              new Rotation(Vector3D.plusI, alpha2),
-              new Rotation(Vector3D.plusK, alpha3));
-
-    } else { // last possibility is ZYZ
-
-      compose(new Rotation(Vector3D.plusK, alpha1),
-              new Rotation(Vector3D.plusJ, alpha2),
-              new Rotation(Vector3D.plusK, alpha3));
-
-    }
-
-  }
-
-  /** Override the instance by the composition of three rotations.
-   * @param r1 last (outermost) rotation to compose
-   * @param r2 intermediate rotation to compose
-   * @param r3 first (innermost) rotation to compose
-   */
-  private void compose(Rotation r1, Rotation r2, Rotation r3) {
-    Rotation composed = r1.applyTo(r2.applyTo(r3));
-    q0 = composed.q0;
-    q1 = composed.q1;
-    q2 = composed.q2;
-    q3 = composed.q3;
+    this(computeRotation(order, alpha1, alpha2, alpha3));
   }
 
   /** Copy constructor.
-   * Build a copy of a rotation
+   * <p>This constructor is used only for the sake of Cardan/Euler
+   * angles handling.</p>
    * @param r rotation to copy
    */
-  public Rotation(Rotation r) {
+  private Rotation(Rotation r) {
     q0 = r.q0;
     q1 = r.q1;
     q2 = r.q2;
     q3 = r.q3;
+  }
+
+  /** Build a rotation from three Cardan or Euler elementary rotations.
+   * @param order order of rotations to use
+   * @param alpha1 angle of the first elementary rotation
+   * @param alpha2 angle of the second elementary rotation
+   * @param alpha3 angle of the third elementary rotation
+   */
+  public static Rotation computeRotation(RotationOrder order,
+		                                 double alpha1,
+		                                 double alpha2,
+		                                 double alpha3) {
+    if (order == RotationOrder.XYZ) {
+      return compose(new Rotation(Vector3D.plusI, alpha1),
+                     new Rotation(Vector3D.plusJ, alpha2),
+                     new Rotation(Vector3D.plusK, alpha3));
+    } else if (order == RotationOrder.XZY) {
+      return compose(new Rotation(Vector3D.plusI, alpha1),
+                     new Rotation(Vector3D.plusK, alpha2),
+                     new Rotation(Vector3D.plusJ, alpha3));
+    } else if (order == RotationOrder.YXZ) {
+      return compose(new Rotation(Vector3D.plusJ, alpha1),
+                     new Rotation(Vector3D.plusI, alpha2),
+                     new Rotation(Vector3D.plusK, alpha3));
+    } else if (order == RotationOrder.YZX) {
+      return compose(new Rotation(Vector3D.plusJ, alpha1),
+                     new Rotation(Vector3D.plusK, alpha2),
+                     new Rotation(Vector3D.plusI, alpha3));
+    } else if (order == RotationOrder.ZXY) {
+      return compose(new Rotation(Vector3D.plusK, alpha1),
+                     new Rotation(Vector3D.plusI, alpha2),
+                     new Rotation(Vector3D.plusJ, alpha3));
+    } else if (order == RotationOrder.ZYX) {
+     return compose(new Rotation(Vector3D.plusK, alpha1),
+                    new Rotation(Vector3D.plusJ, alpha2),
+                    new Rotation(Vector3D.plusI, alpha3));
+    } else if (order == RotationOrder.XYX) {
+     return compose(new Rotation(Vector3D.plusI, alpha1),
+                    new Rotation(Vector3D.plusJ, alpha2),
+                    new Rotation(Vector3D.plusI, alpha3));
+    } else if (order == RotationOrder.XZX) {
+     return compose(new Rotation(Vector3D.plusI, alpha1),
+                    new Rotation(Vector3D.plusK, alpha2),
+                    new Rotation(Vector3D.plusI, alpha3));
+    } else if (order == RotationOrder.YXY) {
+     return compose(new Rotation(Vector3D.plusJ, alpha1),
+                    new Rotation(Vector3D.plusI, alpha2),
+                    new Rotation(Vector3D.plusJ, alpha3));
+    } else if (order == RotationOrder.YZY) {
+     return compose(new Rotation(Vector3D.plusJ, alpha1),
+                    new Rotation(Vector3D.plusK, alpha2),
+                    new Rotation(Vector3D.plusJ, alpha3));
+    } else if (order == RotationOrder.ZXZ) {
+     return compose(new Rotation(Vector3D.plusK, alpha1),
+                    new Rotation(Vector3D.plusI, alpha2),
+                    new Rotation(Vector3D.plusK, alpha3));
+    } else { // last possibility is ZYZ
+     return compose(new Rotation(Vector3D.plusK, alpha1),
+                    new Rotation(Vector3D.plusJ, alpha2),
+                    new Rotation(Vector3D.plusK, alpha3));
+    }
+  }
+
+  /** Override the instance by the composition of three rotations.
+   * @param r3 last (outermost) rotation to compose
+   * @param r2 intermediate rotation to compose
+   * @param r1 first (innermost) rotation to compose
+   */
+  private static Rotation compose(Rotation r3, Rotation r2, Rotation r1) {
+    return r3.applyTo(r2.applyTo(r1));
   }
 
   /** Revert a rotation.
@@ -599,7 +565,7 @@ public class Rotation
    * of the instance
    */
   public Rotation revert() {
-    return new Rotation(-q0, q1, q2, q3);
+    return new Rotation(-q0, q1, q2, q3, false);
   }
 
   /** Get the scalar coordinate of the quaternion.
@@ -647,7 +613,7 @@ public class Rotation
   }
 
   /** Get the angle of the rotation.
-   * @return angle of the rotation (between 0 and PI)
+   * @return angle of the rotation (between 0 and &pi;)
    */
   public double getAngle() {
     if ((q0 < -0.1) || (q0 > 0.1)) {
@@ -663,14 +629,15 @@ public class Rotation
 
    * <p>The equations show that each rotation can be defined by two
    * different values of the Cardan or Euler angles set. For example
-   * if Cardan angles are used, the rotation defined by the angles a1,
-   * a2 and a3 is the same as the rotation defined by the angles PI +
-   * a1, PI - a2 and PI + a3. This method implements the following
-   * arbitrary choices. For Cardan angles, the chosen set is the one
-   * for which the second angle is between -PI/2 and PI/2 (i.e its
-   * cosine is positive). For Euler angles, the chosen set is the one
-   * for which the second angle is between 0 and PI (i.e its sine is
-   * positive).</p>
+   * if Cardan angles are used, the rotation defined by the angles
+   * a<sub>1</sub>, a<sub>2</sub> and a<sub>3</sub> is the same as
+   * the rotation defined by the angles &pi; + a<sub>1</sub>, &pi;
+   * - a<sub>2</sub> and &pi; + a<sub>3</sub>. This method implements
+   * the following arbitrary choices. For Cardan angles, the chosen
+   * set is the one for which the second angle is between -&pi;/2 and
+   * &pi;/2 (i.e its cosine is positive). For Euler angles, the chosen
+   * set is the one for which the second angle is between 0 and &pi;
+   * (i.e its sine is positive).</p>
 
    * <p>Cardan and Euler angle have a very disappointing drawback: all
    * of them have singularities. This means that if the instance is
@@ -678,12 +645,12 @@ public class Rotation
    * rotation order, it will be impossible to retrieve the angles. For
    * Cardan angles, this is often called gimbal lock. There is
    * <em>nothing</em> to do to prevent this, it is an intrisic problem
-   * of Cardan and Euler representation (but not a problem with the
+   * with Cardan and Euler representation (but not a problem with the
    * rotation itself, which is perfectly well defined). For Cardan
    * angles, singularities occur when the second angle is close to
-   * -PI/2 or +PI/2, for Euler angle singularities occur when the
-   * second angle is close to 0 or PI, this means that the identity
-   * rotation is always singular for Euler angles !
+   * -&pi;/2 or +&pi;/2, for Euler angle singularities occur when the
+   * second angle is close to 0 or &pi;, this implies that the identity
+   * rotation is always singular for Euler angles!
 
    * @param order rotation order to use
    * @return an array of three angles, in the order specified by the set
@@ -988,7 +955,8 @@ public class Rotation
     return new Rotation(r.q0 * q0 - (r.q1 * q1 + r.q2 * q2 + r.q3 * q3),
                         r.q1 * q0 + r.q0 * q1 + (r.q2 * q3 - r.q3 * q2),
                         r.q2 * q0 + r.q0 * q2 + (r.q3 * q1 - r.q1 * q3),
-                        r.q3 * q0 + r.q0 * q3 + (r.q1 * q2 - r.q2 * q1));
+                        r.q3 * q0 + r.q0 * q3 + (r.q1 * q2 - r.q2 * q1),
+                        false);
   }
 
   /** Apply the inverse of the instance to another rotation.
@@ -1006,7 +974,8 @@ public class Rotation
     return new Rotation(-r.q0 * q0 - (r.q1 * q1 + r.q2 * q2 + r.q3 * q3),
                         -r.q1 * q0 + r.q0 * q1 + (r.q2 * q3 - r.q3 * q2),
                         -r.q2 * q0 + r.q0 * q2 + (r.q3 * q1 - r.q1 * q3),
-                        -r.q3 * q0 + r.q0 * q3 + (r.q1 * q2 - r.q2 * q1));
+                        -r.q3 * q0 + r.q0 * q3 + (r.q1 * q2 - r.q2 * q1),
+                        false);
   }
 
   /** Perfect orthogonality on a 3X3 matrix.
@@ -1106,35 +1075,17 @@ public class Rotation
                                           });
   }
 
-  public int getStateDimension() {
-    return 4;
-  }
-    
-  public void mapStateFromArray(int start, double[] array) {
-    q0 = array[start];
-    q1 = array[start + 1];
-    q2 = array[start + 2];
-    q3 = array[start + 3];
-  }
-
-  public void mapStateToArray(int start, double[] array) {
-    array[start]     = q0;
-    array[start + 1] = q1;
-    array[start + 2] = q2;
-    array[start + 3] = q3;
-  }
-
   /** Scalar coordinate of the quaternion. */
-  private double q0;
+  private final double q0;
 
   /** First coordinate of the vectorial part of the quaternion. */
-  private double q1;
+  private final double q1;
 
   /** Second coordinate of the vectorial part of the quaternion. */
-  private double q2;
+  private final double q2;
 
   /** Third coordinate of the vectorial part of the quaternion. */
-  private double q3;
+  private final double q3;
 
   private static final long serialVersionUID = 7264384082212242475L;
 

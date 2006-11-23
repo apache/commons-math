@@ -104,7 +104,7 @@ class TestProblem4
     public int eventOccurred(double t, double[] y) {
       // this sign change is needed because the state will be reset soon
       sign = -sign;
-      return SwitchingFunction.RESET;
+      return SwitchingFunction.RESET_STATE;
     }
   
     public void resetState(double t, double[] y) {
