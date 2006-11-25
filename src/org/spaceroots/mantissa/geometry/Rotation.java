@@ -494,9 +494,9 @@ public class Rotation implements Serializable {
    * @param alpha3 angle of the third elementary rotation
    */
   public static Rotation computeRotation(RotationOrder order,
-		                                 double alpha1,
-		                                 double alpha2,
-		                                 double alpha3) {
+                                         double alpha1,
+                                         double alpha2,
+                                         double alpha3) {
     if (order == RotationOrder.XYZ) {
       return compose(new Rotation(Vector3D.plusI, alpha1),
                      new Rotation(Vector3D.plusJ, alpha2),

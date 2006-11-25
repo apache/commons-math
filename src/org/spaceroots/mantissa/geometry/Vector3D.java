@@ -202,12 +202,12 @@ public class Vector3D implements Serializable {
    * @exception ArithmeticException if the norm of the instance is null
    */
   public static Vector3D normalize(Vector3D v) {
-	double norm = v.getNorm();
-	if (norm == 0) {
+    double norm = v.getNorm();
+    if (norm == 0) {
       throw new ArithmeticException("null norm");
-	}
-	double inv = 1.0 / norm;
-	return new Vector3D(inv * v.x, inv * v.y, inv * v.z);
+    }
+    double inv = 1.0 / norm;
+    return new Vector3D(inv * v.x, inv * v.y, inv * v.z);
   }
 
   /** Add two vectors.
