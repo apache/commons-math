@@ -108,8 +108,8 @@ public class FractionFormatTest extends TestCase {
     }
     
     public void testParseInteger() {
-		String source = "10";
-    	try {
+        String source = "10";
+        try {
             Fraction c = properFormat.parse(source);
             assertNotNull(c);
             assertEquals(10, c.getNumerator());
@@ -117,7 +117,7 @@ public class FractionFormatTest extends TestCase {
         } catch (ParseException ex) {
             fail(ex.getMessage());
         }
-    	try {
+        try {
             Fraction c = improperFormat.parse(source);
             assertNotNull(c);
             assertEquals(10, c.getNumerator());
@@ -128,36 +128,36 @@ public class FractionFormatTest extends TestCase {
     }
     
     public void testParseInvalid() {
-		String source = "a";
+        String source = "a";
         String msg = "should not be able to parse '10 / a'.";
-    	try {
+        try {
             properFormat.parse(source);
-			fail(msg);
+            fail(msg);
         } catch (ParseException ex) {
-        	// success
+            // success
         }
-    	try {
+        try {
             improperFormat.parse(source);
-			fail(msg);
+            fail(msg);
         } catch (ParseException ex) {
-        	// success
+            // success
         }
     }
     
     public void testParseInvalidDenominator() {
-		String source = "10 / a";
+        String source = "10 / a";
         String msg = "should not be able to parse '10 / a'.";
-    	try {
+        try {
             properFormat.parse(source);
-			fail(msg);
+            fail(msg);
         } catch (ParseException ex) {
-        	// success
+            // success
         }
-    	try {
+        try {
             improperFormat.parse(source);
-			fail(msg);
+            fail(msg);
         } catch (ParseException ex) {
-        	// success
+            // success
         }
     }
     
@@ -247,45 +247,45 @@ public class FractionFormatTest extends TestCase {
     }
     
     public void testNumeratorFormat() {
-    	NumberFormat old = properFormat.getNumeratorFormat();
+        NumberFormat old = properFormat.getNumeratorFormat();
         NumberFormat nf = NumberFormat.getInstance();
         nf.setParseIntegerOnly(true);
-    	properFormat.setNumeratorFormat(nf);
-    	assertEquals(nf, properFormat.getNumeratorFormat());
-    	properFormat.setNumeratorFormat(old);
+        properFormat.setNumeratorFormat(nf);
+        assertEquals(nf, properFormat.getNumeratorFormat());
+        properFormat.setNumeratorFormat(old);
 
-    	old = improperFormat.getNumeratorFormat();
+        old = improperFormat.getNumeratorFormat();
         nf = NumberFormat.getInstance();
         nf.setParseIntegerOnly(true);
-    	improperFormat.setNumeratorFormat(nf);
-    	assertEquals(nf, improperFormat.getNumeratorFormat());
-    	improperFormat.setNumeratorFormat(old);
+        improperFormat.setNumeratorFormat(nf);
+        assertEquals(nf, improperFormat.getNumeratorFormat());
+        improperFormat.setNumeratorFormat(old);
     }
     
     public void testDenominatorFormat() {
-    	NumberFormat old = properFormat.getDenominatorFormat();
+        NumberFormat old = properFormat.getDenominatorFormat();
         NumberFormat nf = NumberFormat.getInstance();
         nf.setParseIntegerOnly(true);
-    	properFormat.setDenominatorFormat(nf);
-    	assertEquals(nf, properFormat.getDenominatorFormat());
-    	properFormat.setDenominatorFormat(old);
+        properFormat.setDenominatorFormat(nf);
+        assertEquals(nf, properFormat.getDenominatorFormat());
+        properFormat.setDenominatorFormat(old);
 
-    	old = improperFormat.getDenominatorFormat();
+        old = improperFormat.getDenominatorFormat();
         nf = NumberFormat.getInstance();
         nf.setParseIntegerOnly(true);
-    	improperFormat.setDenominatorFormat(nf);
-    	assertEquals(nf, improperFormat.getDenominatorFormat());
-    	improperFormat.setDenominatorFormat(old);
+        improperFormat.setDenominatorFormat(nf);
+        assertEquals(nf, improperFormat.getDenominatorFormat());
+        improperFormat.setDenominatorFormat(old);
     }
     
     public void testWholeFormat() {
-    	ProperFractionFormat format = (ProperFractionFormat)properFormat;
-    	
-    	NumberFormat old = format.getWholeFormat();
+        ProperFractionFormat format = (ProperFractionFormat)properFormat;
+        
+        NumberFormat old = format.getWholeFormat();
         NumberFormat nf = NumberFormat.getInstance();
         nf.setParseIntegerOnly(true);
-    	format.setWholeFormat(nf);
-    	assertEquals(nf, format.getWholeFormat());
-    	format.setWholeFormat(old);
+        format.setWholeFormat(nf);
+        assertEquals(nf, format.getWholeFormat());
+        format.setWholeFormat(old);
     }
 }
