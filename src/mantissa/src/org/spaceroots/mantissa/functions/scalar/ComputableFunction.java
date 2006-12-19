@@ -17,6 +17,8 @@
 
 package org.spaceroots.mantissa.functions.scalar;
 
+import java.io.Serializable;
+
 import org.spaceroots.mantissa.functions.FunctionException;
 
 /** This interface represents scalar functions of one real variable.
@@ -42,7 +44,7 @@ import org.spaceroots.mantissa.functions.FunctionException;
  * @author L. Maisonobe
 
  */
-public interface ComputableFunction {
+public interface ComputableFunction extends Serializable {
 
   /** Get the value of the function at the specified abscissa.
    * @param x current abscissa

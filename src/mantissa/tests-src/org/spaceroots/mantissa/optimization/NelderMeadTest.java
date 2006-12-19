@@ -46,9 +46,9 @@ public class NelderMeadTest
                                  new double[] {  3.5, -2.3 });
 
     assertTrue(count < 50);
-    assertEquals(0.0, optimum.getCost(), 6.0e-4);
-    assertEquals(1.0, optimum.getPoint()[0], 0.05);
-    assertEquals(1.0, optimum.getPoint()[1], 0.05);
+    assertEquals(0.0, optimum.cost, 6.0e-4);
+    assertEquals(1.0, optimum.point[0], 0.05);
+    assertEquals(1.0, optimum.point[1], 0.05);
 
   }
 
@@ -73,15 +73,15 @@ public class NelderMeadTest
                                  new double[] {  3.0, -1.0, 0.0, 1.0 },
                                  new double[] {  4.0,  0.0, 1.0, 2.0 });
     assertTrue(count < 150);
-    assertEquals(0.0, optimum.getCost(), 6.0e-4);
-    assertEquals(0.0, optimum.getPoint()[0], 0.07);
-    assertEquals(0.0, optimum.getPoint()[1], 0.07);
-    assertEquals(0.0, optimum.getPoint()[2], 0.07);
-    assertEquals(0.0, optimum.getPoint()[3], 0.07);
+    assertEquals(0.0, optimum.cost, 6.0e-4);
+    assertEquals(0.0, optimum.point[0], 0.07);
+    assertEquals(0.0, optimum.point[1], 0.07);
+    assertEquals(0.0, optimum.point[2], 0.07);
+    assertEquals(0.0, optimum.point[3], 0.07);
 
   }
 
-  private class ValueChecker implements ConvergenceChecker {
+  private static class ValueChecker implements ConvergenceChecker {
 
     public ValueChecker(double threshold) {
       this.threshold = threshold;
@@ -90,7 +90,7 @@ public class NelderMeadTest
     public boolean converged(PointCostPair[] simplex) {
       PointCostPair smallest = simplex[0];
       PointCostPair largest  = simplex[simplex.length - 1];
-      return (largest.getCost() - smallest.getCost()) < threshold;
+      return (largest.cost - smallest.cost) < threshold;
     }
 
     private double threshold;

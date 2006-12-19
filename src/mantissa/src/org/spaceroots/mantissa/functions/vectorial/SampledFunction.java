@@ -17,6 +17,8 @@
 
 package org.spaceroots.mantissa.functions.vectorial;
 
+import java.io.Serializable;
+
 import org.spaceroots.mantissa.functions.FunctionException;
 
 /** This interface represent sampled vectorial functions.
@@ -45,7 +47,7 @@ import org.spaceroots.mantissa.functions.FunctionException;
  * @author L. Maisonobe
 
  */
-public interface SampledFunction {
+public interface SampledFunction extends Serializable {
 
   /** Get the number of points in the sample.
    * @return number of points in the sample

@@ -81,13 +81,12 @@ public class CorrelatedRandomVectorGenerator
                                     });
       throw new IllegalArgumentException(message);
     }
-    this.mean = mean;
+    this.mean = (double[]) mean.clone();
 
     factorize(covariance);
 
     this.generator = generator;
     normalized = new double[rank];
-    correlated = new double[order];
 
   }
 
@@ -114,7 +113,6 @@ public class CorrelatedRandomVectorGenerator
 
     this.generator = generator;
     normalized = new double[rank];
-    correlated = new double[order];
 
   }
 
@@ -240,10 +238,8 @@ public class CorrelatedRandomVectorGenerator
   }
 
   /** Generate a correlated random vector.
-   * @return a random vector as an array of double. The generator
-   * <em>will</em> reuse the same array for each call, in order to
-   * save the allocation time, so the user should keep a copy by
-   * himself if he needs so.
+   * @return a random vector as an array of double. The returned array
+   * is created at each call, the caller can do what it wants with it.
    */
   public double[] nextVector() {
 
@@ -253,6 +249,7 @@ public class CorrelatedRandomVectorGenerator
     }
 
     // compute correlated vector
+    double[] correlated = new double[mean.length];
     for (int i = 0; i < correlated.length; ++i) {
       correlated[i] = mean[i];
       for (int j = 0; j < rank; ++j) {
@@ -279,9 +276,6 @@ public class CorrelatedRandomVectorGenerator
   /** Storage for the normalized vector. */
   private double[] normalized;
 
-  /** Storage for the random vector. */
-  private double[] correlated;
-
-  private static final long serialVersionUID = -4754497552287369719L;
+  private static final long serialVersionUID = -88563624902398453L;
 
 }

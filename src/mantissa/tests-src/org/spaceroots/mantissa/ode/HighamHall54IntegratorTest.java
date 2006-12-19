@@ -115,11 +115,9 @@ public class HighamHall54IntegratorTest
     TestProblemHandler handler = new TestProblemHandler(pb);
     integ.setStepHandler(handler);
     SwitchingFunction[] functions = pb.getSwitchingFunctions();
-    if (functions != null) {
-      for (int l = 0; l < functions.length; ++l) {
-        integ.addSwitchingFunction(functions[l],
-                                   Double.POSITIVE_INFINITY, 1.0e-8 * maxStep);
-      }
+    for (int l = 0; l < functions.length; ++l) {
+      integ.addSwitchingFunction(functions[l],
+                                 Double.POSITIVE_INFINITY, 1.0e-8 * maxStep);
     }
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
@@ -142,37 +140,45 @@ public class HighamHall54IntegratorTest
     FirstOrderIntegrator integ = new HighamHall54Integrator(minStep, maxStep,
                                                             scalAbsoluteTolerance,
                                                             scalRelativeTolerance);
-    integ.setStepHandler(new StepHandler() {
-                      private int nbSteps = 0;
-                      private double maxError = 0;
-                      public boolean requiresDenseOutput() {
-                        return false;
-                      }
-                      public void reset() {
-                        nbSteps = 0;
-                        maxError = 0;
-                      }
-                      public void handleStep(StepInterpolator interpolator,
-                                             boolean isLast) {
-
-                        ++nbSteps;
-                        double[] interpolatedY = interpolator.getInterpolatedState ();
-                        double[] theoreticalY  = pb.computeTheoreticalState(interpolator.getCurrentTime());
-                        double dx = interpolatedY[0] - theoreticalY[0];
-                        double dy = interpolatedY[1] - theoreticalY[1];
-                        double error = dx * dx + dy * dy;
-                        if (error > maxError) {
-                          maxError = error;
-                        }
-                        if (isLast) {
-                          assertTrue(maxError < 1.54e-10);
-                          assertTrue(nbSteps < 520);
-                        }
-                      }
-      });
+    integ.setStepHandler(new KeplerHandler(pb));
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
+  }
+
+  private static class KeplerHandler implements StepHandler {
+    public KeplerHandler(TestProblem3 pb) {
+      this.pb = pb;
+      nbSteps = 0;
+      maxError = 0;
+    }
+    public boolean requiresDenseOutput() {
+      return false;
+    }
+    public void reset() {
+      nbSteps = 0;
+      maxError = 0;
+    }
+    public void handleStep(StepInterpolator interpolator,
+                           boolean isLast) {
+
+      ++nbSteps;
+      double[] interpolatedY = interpolator.getInterpolatedState ();
+      double[] theoreticalY  = pb.computeTheoreticalState(interpolator.getCurrentTime());
+      double dx = interpolatedY[0] - theoreticalY[0];
+      double dy = interpolatedY[1] - theoreticalY[1];
+      double error = dx * dx + dy * dy;
+      if (error > maxError) {
+        maxError = error;
+      }
+      if (isLast) {
+        assertTrue(maxError < 1.54e-10);
+        assertTrue(nbSteps < 520);
+      }
+    }
+    private TestProblem3 pb;
+    private int nbSteps;
+    private double maxError;
   }
 
   public static Test suite() {

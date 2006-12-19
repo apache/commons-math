@@ -55,8 +55,7 @@ public class EulerStepInterpolatorTest
     double   t0 = 0;
     double[] y0 = {0.0, 1.0, -2.0};
 
-    double[] y = new double[y0.length];
-    System.arraycopy(y0, 0, y, 0, y0.length);
+    double[] y = (double[]) y0.clone();
     double[][] yDot = { new double[y0.length] };
     EulerStepInterpolator interpolator = new EulerStepInterpolator();
     interpolator.reinitialize(new DummyEquations(), y, yDot, true);
@@ -154,7 +153,7 @@ public class EulerStepInterpolatorTest
 
   }
 
-  private class DummyEquations
+  private static class DummyEquations
     implements FirstOrderDifferentialEquations {
     public int getDimension() {
       return 0;

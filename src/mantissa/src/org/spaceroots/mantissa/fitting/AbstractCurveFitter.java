@@ -20,7 +20,6 @@ package org.spaceroots.mantissa.fitting;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Iterator;
 
 import org.spaceroots.mantissa.estimation.*;
 
@@ -40,72 +39,30 @@ import org.spaceroots.mantissa.estimation.*;
 public abstract class AbstractCurveFitter
   implements EstimationProblem, Serializable {
 
-  /**
-   * Simple constructor.
+  /** Simple constructor.
    * @param n number of coefficients in the underlying function
-   * @param maxIterations maximum number of iterations allowed
-   * @param convergence criterion threshold below which we do not need
-   * to improve the criterion anymore
-   * @param steadyStateThreshold steady state detection threshold, the
-   * problem has reached a steady state (read converged) if
-   * <code>Math.abs (Jn - Jn-1) < Jn * convergence</code>, where
-   * <code>Jn</code> and <code>Jn-1</code> are the current and
-   * preceding criterion value (square sum of the weighted residuals
-   * of considered measurements).
-   * @param epsilon threshold under which the matrix of the linearized
-   * problem is considered singular (see {@link
-   * org.spaceroots.mantissa.linalg.SquareMatrix#solve(
-   * org.spaceroots.mantissa.linalg.Matrix,double) SquareMatrix.solve}).
+   * @param estimator estimator to use for the fitting
    */
-  protected AbstractCurveFitter(int n,
-                                int maxIterations,
-                                double convergence,
-                                double steadyStateThreshold,
-                                double epsilon) {
+  protected AbstractCurveFitter(int n, Estimator estimator) {
 
-    coefficients              = new EstimatedParameter[n];
-    measurements              = new ArrayList();
-    measurementsArray         = null;
-    this.maxIterations        = maxIterations;
-    this.steadyStateThreshold = steadyStateThreshold;
-    this.convergence          = convergence;
-    this.epsilon              = epsilon;
-
+    coefficients   = new EstimatedParameter[n];
+    measurements   = new ArrayList();
+    this.estimator = estimator;
   }
 
-  /**
-   * Simple constructor.
+  /** Simple constructor.
    * @param coefficients first estimate of the coefficients. A
    * reference to this array is hold by the newly created object. Its
    * elements will be adjusted during the fitting process and they will
    * be set to the adjusted coefficients at the end.
-   * @param maxIterations maximum number of iterations allowed
-   * @param convergence criterion threshold below which we do not need
-   * to improve the criterion anymore
-   * @param steadyStateThreshold steady state detection threshold, the
-   * problem has reached a steady state (read converged) if
-   * <code>Math.abs (Jn - Jn-1) < Jn * convergence</code>, where
-   * <code>Jn</code> and <code>Jn-1</code> are the current and
-   * preceding criterion value (square sum of the weighted residuals
-   * of considered measurements).
-   * @param epsilon threshold under which the matrix of the linearized
-   * problem is considered singular (see {@link
-   * org.spaceroots.mantissa.linalg.SquareMatrix#solve(
-   * org.spaceroots.mantissa.linalg.Matrix,double) SquareMatrix.solve}).
+   * @param estimator estimator to use for the fitting
    */
   protected AbstractCurveFitter(EstimatedParameter[] coefficients,
-                                int maxIterations,
-                                double convergence,
-                                double steadyStateThreshold,
-                                double epsilon) {
+                                Estimator estimator) {
 
-    this.coefficients         = coefficients;
-    measurements              = new ArrayList();
-    measurementsArray         = null;
-    this.maxIterations        = maxIterations;
-    this.steadyStateThreshold = steadyStateThreshold;
-    this.convergence          = convergence;
-    this.epsilon              = epsilon;
+    this.coefficients = coefficients;
+    measurements      = new ArrayList();
+    this.estimator     = estimator;
   }
 
   /** Add a weighted (x,y) pair to the sample.
@@ -114,7 +71,6 @@ public abstract class AbstractCurveFitter
    * @param y      ordinate, we have <code>y = f (x)</code>
    */
   public void addWeightedPair(double weight, double x, double y) {
-    measurementsArray = null;
     measurements.add(new FitMeasurement(weight, x, y));
   }
 
@@ -131,9 +87,8 @@ public abstract class AbstractCurveFitter
    */
   public double[] fit()
     throws EstimationException {
-    // perform the fit using a linear least square estimator
-    new GaussNewtonEstimator(maxIterations, convergence,
-                             steadyStateThreshold, epsilon).estimate(this);
+    // perform the fit
+    estimator.estimate(this);
 
     // extract the coefficients
     double[] fittedCoefficients = new double[coefficients.length];
@@ -146,14 +101,7 @@ public abstract class AbstractCurveFitter
   }
 
   public WeightedMeasurement[] getMeasurements() {
-    if (measurementsArray == null) {
-      measurementsArray = new FitMeasurement[measurements.size()];
-      int i = 0;
-      for (Iterator iterator = measurements.iterator(); iterator.hasNext(); ++i) {
-        measurementsArray[i] = (FitMeasurement) iterator.next();
-      }
-    }
-    return measurementsArray;
+    return (WeightedMeasurement[]) measurements.toArray(new FitMeasurement[measurements.size()]);
   }
 
   /** Get the unbound parameters of the problem.
@@ -161,14 +109,14 @@ public abstract class AbstractCurveFitter
    * @return unbound parameters
    */
   public EstimatedParameter[] getUnboundParameters() {
-   return coefficients;
+   return (EstimatedParameter[]) coefficients.clone();
   }
 
   /** Get all the parameters of the problem.
    * @return parameters
    */
   public EstimatedParameter[] getAllParameters() {
-   return coefficients;
+   return (EstimatedParameter[]) coefficients.clone();
   }
 
   /** Utility method to sort the measurements with respect to the abscissa.
@@ -204,10 +152,6 @@ public abstract class AbstractCurveFitter
         curr = (FitMeasurement) measurements.get(j);
       }
     }
-
-    // make sure subsequent calls to getMeasurements
-    // will not use the unsorted array
-    measurementsArray = null;
 
   }
 
@@ -272,15 +216,7 @@ public abstract class AbstractCurveFitter
   /** Measurements vector */
   protected List measurements;
 
-  /** Measurements array.
-   * This array contains the same entries as measurements_, but in a
-   * different structure.
-   */
-  private FitMeasurement[] measurementsArray;
-
-  private int    maxIterations;
-  private double convergence;
-  private double steadyStateThreshold;
-  private double epsilon;
+  /** Estimator for the fitting problem. */
+  private Estimator estimator;
 
 }

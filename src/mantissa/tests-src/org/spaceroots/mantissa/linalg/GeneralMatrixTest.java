@@ -54,26 +54,14 @@ public class GeneralMatrixTest
   }
 
   public void testElements() {
-    Matrix m = buildMatrix(5, 10, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.01 * j;
-        }
-      });
+    Matrix m = buildMatrix(5, 10, new BilinearPattern(1.0, 0.01));
 
-    checkMatrix(m, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.01 * j;
-        }
-      });
+    checkMatrix(m, new BilinearPattern(1.0, 0.01));
 
   }
 
   public void testCopy() {
-    Matrix m1 = buildMatrix(5, 10, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.01 * j;
-        }
-      });
+    Matrix m1 = buildMatrix(5, 10, new BilinearPattern(1.0, 0.01));
 
     GeneralMatrix m2 = new GeneralMatrix(m1);
 
@@ -86,20 +74,12 @@ public class GeneralMatrixTest
     assertTrue(m2.getRows() == m1.getRows());
     assertTrue(m2.getColumns() == m1.getColumns());
 
-    checkMatrix(m2, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.01 * j;
-        }
-      });
+    checkMatrix(m2, new BilinearPattern(1.0, 0.01));
 
   }
 
   public void testDuplicate() {
-    Matrix m1 = buildMatrix(5, 10, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.01 * j;
-        }
-      });
+    Matrix m1 = buildMatrix(5, 10, new BilinearPattern(1.0, 0.01));
 
     Matrix m2 = m1.duplicate();
     assertTrue(m2 instanceof GeneralMatrix);
@@ -113,11 +93,7 @@ public class GeneralMatrixTest
     assertTrue(m2.getRows() == m1.getRows());
     assertTrue(m2.getColumns() == m1.getColumns());
 
-    checkMatrix (m2, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.01 * j;
-        }
-      });
+    checkMatrix (m2, new BilinearPattern(1.0, 0.01));
 
   }
 
@@ -133,53 +109,29 @@ public class GeneralMatrixTest
 
   public void testAddOK() {
 
-    Matrix m1 = buildMatrix(5, 10, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.01 * j;
-        }
-      });
+    Matrix m1 = buildMatrix(5, 10, new BilinearPattern(1.0, 0.01));
 
     Matrix m2 = buildMatrix(m1.getRows(),
                             m1.getColumns(),
-                            new ElementPattern() {
-                              public double value(int i, int j) {
-                                return 100 * i - 0.01 * j;
-                              }
-                            });
+                            new BilinearPattern(100, -0.01));
 
     Matrix m3 = m1.add(m2);
 
-    checkMatrix(m3, new ElementPattern() {
-        public double value(int i, int j) {
-          return 101 * i;
-        }
-      });
+    checkMatrix(m3, new BilinearPattern(101, 0));
 
   }
 
   public void testSelfAdd() {
 
-    GeneralMatrix m1 = buildMatrix(5, 10, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.01 * j;
-        }
-      });
+    GeneralMatrix m1 = buildMatrix(5, 10, new BilinearPattern(1.0, 0.01));
 
     Matrix m2 = buildMatrix(m1.getRows(),
                             m1.getColumns(),
-                            new ElementPattern() {
-                              public double value(int i, int j) {
-                                return 100 * i - 0.01 * j;
-                              }
-                            });
+                            new BilinearPattern(100, -0.01));
 
     m1.selfAdd(m2);
 
-    checkMatrix(m1, new ElementPattern() {
-        public double value(int i, int j) {
-          return 101 * i;
-        }
-      });
+    checkMatrix(m1, new BilinearPattern(101, 0));
 
   }
 
@@ -195,53 +147,29 @@ public class GeneralMatrixTest
 
   public void testSubOK() {
 
-    Matrix m1 = buildMatrix(5, 10, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.01 * j;
-        }
-      });
+    Matrix m1 = buildMatrix(5, 10, new BilinearPattern(1.0, 0.01));
 
     Matrix m2 = buildMatrix(m1.getRows(),
                             m1.getColumns(),
-                            new ElementPattern() {
-                              public double value(int i, int j) {
-                                return 100 * i - 0.01 * j;
-                              }
-                            });
+                            new BilinearPattern(100, -0.01));
 
     Matrix m3 = m1.sub(m2);
 
-    checkMatrix(m3, new ElementPattern() {
-        public double value(int i, int j) {
-          return 0.02 * j - 99 * i;
-        }
-      });
+    checkMatrix(m3, new BilinearPattern(-99, 0.02));
 
   }
 
   public void testSelfSub() {
 
-    GeneralMatrix m1 = buildMatrix(5, 10, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.01 * j;
-        }
-      });
+    GeneralMatrix m1 = buildMatrix(5, 10, new BilinearPattern(1.0, 0.01));
 
     Matrix m2 = buildMatrix(m1.getRows(),
                             m1.getColumns(),
-                            new ElementPattern() {
-                              public double value(int i, int j) {
-                                return 100 * i - 0.01 * j;
-                              }
-                            });
+                            new BilinearPattern(100, -0.01));
 
     m1.selfSub(m2);
 
-    checkMatrix(m1, new ElementPattern() {
-        public double value(int i, int j) {
-          return 0.02 * j - 99 * i;
-        }
-      });
+    checkMatrix(m1, new BilinearPattern(-99, 0.02));
 
   }
 
@@ -257,85 +185,46 @@ public class GeneralMatrixTest
 
   public void testMulMOK() {
 
-    Matrix m1 = buildMatrix(5, 10, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.01 * j;
-        }
-      });
+    Matrix m1 = buildMatrix(5, 10, new BilinearPattern(1.0, 0.01));
 
-    Matrix m2 = buildMatrix(m1.getColumns(), 4, new ElementPattern() {
-        public double value(int i, int j) {
-          return 2 * i - j;
-        }
-      });
+    Matrix m2 = buildMatrix(m1.getColumns(), 4, new BilinearPattern(2, -1));
 
     Matrix m3 = m1.mul(m2);
 
-    checkMatrix(m3, new ElementPattern() {
-        public double value(int i, int j) {
-          int p = 10; // must be equal to m1.getColumns()
-          return p * ((2 * i - 0.01 *j) * (p - 1) / 2.0
-                      - i* j
-                      + (p - 1) * (2 * p - 1) / 300.0);
-        }
-      });
+    checkMatrix(m3, new ComplexPattern(m1.getColumns()));
 
   }
 
   public void testMulD() {
 
-    Matrix m1 = buildMatrix(5, 10, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.01 * j;
-        }
-      });
+    Matrix m1 = buildMatrix(5, 10, new BilinearPattern(1.0, 0.01));
 
     Matrix m2 = m1.mul(2.5);
 
-    checkMatrix(m2, new ElementPattern() {
-        public double value(int i, int j) {
-          return 2.5 * (i + 0.01 * j);
-        }
-      });
+    checkMatrix(m2, new BilinearPattern(2.5, 0.025));
 
   }
 
   public void testSelfMul() {
 
-    Matrix m = buildMatrix(5, 10, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.01 * j;
-        }
-      });
+    Matrix m = buildMatrix(5, 10, new BilinearPattern(1.0, 0.01));
 
     m.selfMul(2.5);
 
-    checkMatrix(m, new ElementPattern() {
-        public double value(int i, int j) {
-          return 2.5 * (i + 0.01 * j);
-        }
-      });
+    checkMatrix(m, new BilinearPattern(2.5, 0.025));
 
   }
 
   public void testTranspose() {
 
-    Matrix m1 = buildMatrix(5, 10, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.01 * j;
-        }
-      });
+    Matrix m1 = buildMatrix(5, 10, new BilinearPattern(1.0, 0.01));
 
     Matrix m2 = m1.getTranspose();
 
     assertTrue(m1.getRows() == m2.getColumns());
     assertTrue(m1.getColumns() == m2.getRows());
 
-    checkMatrix(m2, new ElementPattern() {
-        public double value(int i, int j) {
-          return 0.01 * i + j;
-        }
-      });
+    checkMatrix(m2, new BilinearPattern(0.01, 1.0));
 
   }
 
@@ -343,12 +232,36 @@ public class GeneralMatrixTest
     return new TestSuite(GeneralMatrixTest.class);
   }
 
-  public interface ElementPattern {
+  private interface ElementPattern {
     public double value(int i, int j);
   }
 
+  private static class BilinearPattern implements ElementPattern {
+    public BilinearPattern(double coeffI, double coeffJ) {
+      this.coeffI = coeffI;
+      this.coeffJ = coeffJ;
+    }
+    public double value(int i, int j) {
+      return coeffI * i + coeffJ * j;
+    }
+    private final double coeffI;
+    private final double coeffJ;
+  }
+
+  private static class ComplexPattern implements ElementPattern {
+    public ComplexPattern(int p) {
+      this.p = p;
+    }
+    public double value(int i, int j) {
+      return p * ((2 * i - 0.01 *j) * (p - 1) / 2.0
+                  - i* j
+                  + (p - 1) * (2 * p - 1) / 300.0);
+    }
+    private final int p;
+  }
+  
   public GeneralMatrix buildMatrix(int rows, int columns,
-                                   ElementPattern pattern) {
+                                   BilinearPattern pattern) {
     GeneralMatrix m = new GeneralMatrix(rows, columns);
 
     for (int i = 0; i < m.getRows(); ++i) {

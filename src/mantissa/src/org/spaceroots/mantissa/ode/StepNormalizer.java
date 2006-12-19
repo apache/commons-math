@@ -104,8 +104,7 @@ public class StepNormalizer
       interpolator.setInterpolatedTime(lastTime);
 
       double[] state = interpolator.getInterpolatedState();
-      lastState = new double[state.length];
-      System.arraycopy(state, 0, lastState, 0, lastState.length);
+      lastState = (double[]) state.clone();
 
       // take the integration direction into account
       forward = (interpolator.getCurrentTime() >= lastTime);

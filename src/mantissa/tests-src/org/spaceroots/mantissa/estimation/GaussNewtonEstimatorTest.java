@@ -106,7 +106,7 @@ public class GaussNewtonEstimatorTest
     for (int i = 0; i < gridSize; ++i) {
       for (int j = 0; j < gridSize; ++j) {
 
-        String name            = new Integer(k).toString();
+        String name            = Integer.toString(k);
         perfectPars[2 * k]     = new EstimatedParameter("x" + name, i);
         perfectPars[2 * k + 1] = new EstimatedParameter("y" + name, j);
         ++k;
@@ -194,7 +194,7 @@ public class GaussNewtonEstimatorTest
 
   }
 
-  private class Distance extends WeightedMeasurement {
+  private static class Distance extends WeightedMeasurement {
 
     public Distance(double weight, double measuredValue,
                     EstimatedParameter x1, EstimatedParameter y1,
@@ -243,15 +243,15 @@ public class GaussNewtonEstimatorTest
   }
 
   public WeightedMeasurement[] getMeasurements() {
-    return measurements;
+    return (WeightedMeasurement[]) measurements.clone();
   }
 
   public EstimatedParameter[] getUnboundParameters() {
-    return unboundPars;
+    return (EstimatedParameter[]) unboundPars.clone();
   }
 
   public EstimatedParameter[] getAllParameters() {
-    return randomizedPars;
+    return (EstimatedParameter[]) randomizedPars.clone();
   }
 
   private EstimatedParameter[]  perfectPars;

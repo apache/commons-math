@@ -68,18 +68,10 @@ class DormandPrince54StepInterpolator
 
     } else {
 
-      int dimension = interpolator.v1.length;
-
-      v1 = new double[dimension];
-      v2 = new double[dimension];
-      v3 = new double[dimension];
-      v4 = new double[dimension];
-
-      System.arraycopy(interpolator.v1, 0, v1, 0, dimension);
-      System.arraycopy(interpolator.v2, 0, v2, 0, dimension);
-      System.arraycopy(interpolator.v3, 0, v3, 0, dimension);
-      System.arraycopy(interpolator.v4, 0, v4, 0, dimension);
-
+      v1 = (double[]) interpolator.v1.clone();
+      v2 = (double[]) interpolator.v2.clone();
+      v3 = (double[]) interpolator.v3.clone();
+      v4 = (double[]) interpolator.v4.clone();
       vectorsInitialized = interpolator.vectorsInitialized;
 
     }

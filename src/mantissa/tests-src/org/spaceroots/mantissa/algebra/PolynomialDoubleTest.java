@@ -49,20 +49,14 @@ public class PolynomialDoubleTest
 
   public void testConversion() {
     Polynomial.Rational r = new Polynomial.Rational(1l, 3l, -5l);
-    r.multiplySelf(new RationalNumber(1l, 2l));
+    r = (Polynomial.Rational) r.multiply(new RationalNumber(1l, 2l));
     Polynomial.Double p = new Polynomial.Double(r);
     checkPolynomial(p, "-2.5 + 1.5 x + 0.5 x^2");
   }
 
   public void testString() {
-
     Polynomial.Double p = new Polynomial.Double(1.0, 3.0, -5.0);
     checkPolynomial(p, "-5.0 + 3.0 x + x^2");
-    p.setUnknownName("alpha");
-    checkPolynomial(p, "-5.0 + 3.0 alpha + alpha^2");
-    p.setUnknownName(null);
-    checkPolynomial(p, "-5.0 + 3.0 x + x^2");
-
     checkPolynomial(new Polynomial.Double(3.0, -2.0, 0.0),
                     "-2.0 x + 3.0 x^2");
     checkPolynomial(new Polynomial.Double(3.0, -2.0, 1.0),
@@ -75,22 +69,20 @@ public class PolynomialDoubleTest
                     "1.0 + 3.0 x^2");
     checkPolynomial(new Polynomial.Double(0.0),
                     "0");
-
   }
 
   public void testAddition() {
 
     Polynomial.Double p1 = new Polynomial.Double(1.0, -2.0);
     Polynomial.Double p2 = new Polynomial.Double(0.0, -1.0, 2.0);
-    assertTrue(Polynomial.Double.add(p1, p2).isZero());
+    assertTrue(p1.add(p2).isZero());
 
-    p2 = new Polynomial.Double(p1);
-    p2.addToSelf(p2);
+    p2 = p1.add(p1);
     checkPolynomial(p2, "-4.0 + 2.0 x");
 
     p1 = new Polynomial.Double(2.0, -4.0, 1.0);
     p2 = new Polynomial.Double(-2.0, 3.0, -1.0);
-    p1.addToSelf(p2);
+    p1 = p1.add(p2);
     assertEquals(1, p1.getDegree());
     checkPolynomial(p1, "-x");
 
@@ -99,15 +91,15 @@ public class PolynomialDoubleTest
   public void testSubtraction() {
 
     Polynomial.Double p1 = new Polynomial.Double(1.0, -2.0);
-    assertTrue(Polynomial.Double.subtract(p1, p1).isZero());
+    assertTrue(p1.subtract(p1).isZero());
 
     Polynomial.Double p2 = new Polynomial.Double(6.0, -2.0);
-    p2.subtractFromSelf(p1);
+    p2 = p2.subtract(p1);
     checkPolynomial(p2, "5.0 x");
 
     p1 = new Polynomial.Double(2.0, -4.0, 1.0);
     p2 = new Polynomial.Double(2.0, 3.0, -1.0);
-    p1.subtractFromSelf(p2);
+    p1 = p1.subtract(p2);
     assertEquals(1, p1.getDegree());
     checkPolynomial(p1, "2.0 - 7.0 x");
 
@@ -117,12 +109,12 @@ public class PolynomialDoubleTest
 
     Polynomial.Double p1 = new Polynomial.Double(2.0, -3.0);
     Polynomial.Double p2 = new Polynomial.Double(1.0, 2.0, 3.0);
-    checkPolynomial(Polynomial.Double.multiply(p1, p2), "-9.0 + x^2 + 2.0 x^3");
+    checkPolynomial(p1.multiply(p2), "-9.0 + x^2 + 2.0 x^3");
 
     p1 = new Polynomial.Double(1.0, 0.0);
-    p2 = new Polynomial.Double(p1);
+    p2 = p1;
     for (int i = 2; i < 10; ++i) {
-      p2.multiplySelf(p1);
+      p2 = p2.multiply(p1);
       checkPolynomial(p2, "x^" + i);
     }
 

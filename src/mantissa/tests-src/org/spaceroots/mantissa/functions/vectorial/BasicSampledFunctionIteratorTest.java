@@ -38,9 +38,9 @@ public class BasicSampledFunctionIteratorTest
     for (int i = 0; i < 10; ++i) {
       assertTrue(iter.hasNext());
       VectorialValuedPair pair = iter.nextSamplePoint();
-      assertTrue(Math.abs(pair.getX()    - 0.1 * i) < 1.0e-10);
-      assertTrue(Math.abs(pair.getY()[0] + 0.1 * i) < 1.0e-10);
-      assertTrue(Math.abs(pair.getY()[1] + 0.2 * i) < 1.0e-10);
+      assertTrue(Math.abs(pair.x    - 0.1 * i) < 1.0e-10);
+      assertTrue(Math.abs(pair.y[0] + 0.1 * i) < 1.0e-10);
+      assertTrue(Math.abs(pair.y[1] + 0.2 * i) < 1.0e-10);
     }
 
   }
@@ -72,27 +72,7 @@ public class BasicSampledFunctionIteratorTest
     throws ExhaustedSampleException, FunctionException {
 
     BasicSampledFunctionIterator iter =
-      new BasicSampledFunctionIterator(new SampledFunction() {
-
-          private boolean fireException = false;
-
-          public int size() {
-            return 2;
-          }
-
-          public int getDimension() {
-            return 2;
-          }
-
-          public VectorialValuedPair samplePointAt(int i)
-            throws FunctionException {
-            if (fireException) {
-              throw new FunctionException("boom");
-            }
-            fireException = true;
-            return new VectorialValuedPair(0.0, null);
-          }
-        });
+      new BasicSampledFunctionIterator(new ExceptionGeneratingFunction());
 
     boolean exceptionOccurred = false;
     try {
@@ -116,9 +96,10 @@ public class BasicSampledFunctionIteratorTest
     return new TestSuite(BasicSampledFunctionIteratorTest.class);
   }
 
-  private class Function
+  private static class Function
     implements SampledFunction {
 
+    private static final long serialVersionUID = -6049535144225908344L;
     private double   begin;
     private double   step;
     private int      n;
@@ -151,6 +132,30 @@ public class BasicSampledFunctionIteratorTest
       values[1] = 2.0 * values[0];
       return new VectorialValuedPair(x, values);
 
+    }
+  }
+
+  private static class ExceptionGeneratingFunction
+    implements SampledFunction {
+
+    private static final long serialVersionUID = 3750401068561053681L;
+    private boolean fireException = false;
+
+    public int size() {
+      return 2;
+    }
+
+    public int getDimension() {
+      return 2;
+    }
+
+    public VectorialValuedPair samplePointAt(int i)
+      throws FunctionException {
+      if (fireException) {
+        throw new FunctionException("boom");
+      }
+      fireException = true;
+      return new VectorialValuedPair(0.0, new double[] { 0, 1 });
     }
   }
 

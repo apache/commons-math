@@ -22,7 +22,7 @@ import java.io.Serializable;
 /** This class represents an (x, f(x)) pair for vectorial functions.
 
  * <p>A vectorial function is a function of one vectorial parameter x whose
- * value is a vector. This class is used has a simple placeholder to
+ * value is a vector. This class is used has a simple immutable placeholder to
  * contain both an abscissa and the value of the function at this
  * abscissa.</p>
 
@@ -44,56 +44,15 @@ public class VectorialValuedPair
    */
   public VectorialValuedPair(double x, double[] y) {
     this.x = x;
-    this.y = y;
-  }
-
-  /**
-   * Copy-constructor.
-   * @param p point to copy
-   */
-  public VectorialValuedPair(VectorialValuedPair p) {
-    x = p.x;
-    y = p.y;
-  }
-
-  /**
-   * Getter for the abscissa.
-   * @return value of the abscissa
-   */
-  public double getX() {
-    return x;
-  }
-
-  /**
-   * Getter for the ordinate.
-   * @return value of the ordinate
-   */
-  public double[] getY() {
-    return y;
-  }
-
-  /**
-   * Setter for the abscissa.
-   * @param x new value for the abscissa
-   */
-  public void setX(double x) {
-    this.x = x;
-  }
-
-  /**
-   * Setter for the ordinate.
-   * @param y new value for the ordinate
-   */
-  public void setY(double[] y) {
-    this.y = y;
+    this.y = (double[]) y.clone();
   }
 
   /** Abscissa of the point. */
-  private double x;
+  public final double x;
 
   /** Vectorial ordinate of the point, y = f (x). */
-  private double[] y;
+  public final double[] y;
 
-  private static final long serialVersionUID = -1336411215846160578L;
+  private static final long serialVersionUID = -7397116933564410103L;
 
 }

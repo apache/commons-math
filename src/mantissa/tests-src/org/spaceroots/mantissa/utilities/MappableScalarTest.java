@@ -24,15 +24,19 @@ public class MappableScalarTest
 
   public MappableScalarTest(String name) {
     super(name);
+    mapper  = null;
+    scalar1 = null;
+    scalar2 = null;
+    scalar3 = null;
   }
 
   public void testDimensionCheck() {
-    assertTrue(mapper.getInternalDataArray().length == 3);
+    assertTrue(mapper.getDataArray().length == 3);
   }
 
   public void testUpdateObjects() {
 
-    double[] data = new double [mapper.getInternalDataArray().length];
+    double[] data = new double [mapper.getDataArray().length];
     for (int i = 0; i < data.length; ++i) {
       data [i] = i * 0.1;
     }
@@ -53,7 +57,7 @@ public class MappableScalarTest
 
     mapper.updateArray();
 
-    double[] data = mapper.getInternalDataArray();
+    double[] data = mapper.getDataArray();
     for (int i = 0; i < data.length; ++i) {
       assertTrue(Math.abs(data [i] - i * 10.0) < 1.0e-10);
     }

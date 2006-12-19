@@ -42,7 +42,7 @@ public class TrapezoidIntegrator
 
     try {
       while (true) {
-        sum = sampler.nextSamplePoint().getY();
+        sum = sampler.nextSamplePoint().y;
       }
     } catch(ExhaustedSampleException e) {
     }

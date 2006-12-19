@@ -26,6 +26,9 @@ public class UncorrelatedRandomVectorGeneratorTest
 
   public UncorrelatedRandomVectorGeneratorTest(String name) {
     super(name);
+    mean = null;
+    standardDeviation = null;
+    generator = null;
   }
 
   public void testMeanAndCorrelation() {
@@ -35,7 +38,7 @@ public class UncorrelatedRandomVectorGeneratorTest
       sample.add(generator.nextVector());
     }
 
-    double[] estimatedMean = sample.getMean(null);
+    double[] estimatedMean = sample.getMean();
     double scale;
     SymetricalMatrix estimatedCorrelation = sample.getCovarianceMatrix(null);
     for (int i = 0; i < estimatedMean.length; ++i) {

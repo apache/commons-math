@@ -88,7 +88,7 @@ package org.spaceroots.mantissa.ode;
 public class GraggBulirschStoerIntegrator
   extends AdaptiveStepsizeIntegrator {
 
-  private static final String methodName = new String("Gragg-Bulirsch-Stoer");
+  private static final String methodName = "Gragg-Bulirsch-Stoer";
 
   /** Simple constructor.
    * Build a Gragg-Bulirsch-Stoer integrator with the given step
@@ -713,7 +713,7 @@ public class GraggBulirschStoerIntegrator
                     // estimate if there is a chance convergence will
                     // be reached on next iteration, using the
                     // asymptotic evolution of error
-                    double ratio = sequence [k] * sequence[k+1]
+                    double ratio = ((double) sequence [k] * sequence[k+1])
                                  / (sequence[0] * sequence[0]);
                     if (error > ratio * ratio) {
                       // we don't expect to converge on next iteration
@@ -740,7 +740,7 @@ public class GraggBulirschStoerIntegrator
                   // estimate if there is a chance convergence will
                   // be reached on next iteration, using the
                   // asymptotic evolution of error
-                  double ratio = sequence[k+1] / sequence[0];
+                  double ratio = ((double) sequence[k+1]) / sequence[0];
                   if (error > ratio * ratio) {
                     // we don't expect to converge on next iteration
                     // we reject the step immediately

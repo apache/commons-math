@@ -17,16 +17,25 @@
 
 package org.spaceroots.mantissa.algebra;
 
+import java.io.Serializable;
 import java.math.BigInteger;
+
 /**
  * This class implements reduced rational numbers.
+ * <p>Instances of this class are immutable.</p>
 
  * @version $Id: RationalNumber.java 1705 2006-09-17 19:57:39Z luc $
  * @author L. Maisonobe
 
  */
 
-public class RationalNumber {
+public class RationalNumber implements Serializable {
+
+  /** Zero as a rational numer. */
+  public static final RationalNumber ZERO = new RationalNumber(0l);
+
+  /** One as a rational numer. */
+  public static final RationalNumber ONE  = new RationalNumber(1l);
 
   /**
    * Simple constructor.
@@ -37,63 +46,14 @@ public class RationalNumber {
     q = BigInteger.ONE;
   }
 
-  /**
-   * Simple constructor.
+  /** Simple constructor.
    * Build a rational number from a numerator and a denominator.
    * @param numerator numerator of the rational number
    * @param denominator denominator of the rational number
    * @exception ArithmeticException if the denominator is zero
    */
   public RationalNumber(long numerator, long denominator) {
-    reset(numerator, denominator);
-  }
 
-  /**
-   * Simple constructor.
-   * Build a rational number from a numerator and a denominator.
-   * @param numerator numerator of the rational number
-   * @param denominator denominator of the rational number
-   * @exception ArithmeticException if the denominator is zero
-   */
-  public RationalNumber(BigInteger numerator, BigInteger denominator) {
-    reset(numerator, denominator);
-  }
-
-  /**
-   * Simple constructor.
-   * Build a rational number from a single integer
-   * @param l value of the rational number
-   */
-  public RationalNumber(long l) {
-    p = BigInteger.valueOf(l);
-    q = BigInteger.ONE;
-  }
-
-  /**
-   * Simple constructor.
-   * Build a rational number from a single integer
-   * @param i value of the rational number
-   */
-  public RationalNumber(BigInteger i) {
-    p = i;
-    q = BigInteger.ONE;
-  }
-
-  /**
-   * Copy-constructor.
-   * @param r rational number to copy
-   */
-  public RationalNumber(RationalNumber r) {
-    p = r.p;
-    q = r.q;
-  }
-
-  /** Reset the instance from a numerator and a denominator.
-   * @param numerator numerator of the rational number
-   * @param denominator denominator of the rational number
-   * @exception ArithmeticException if the denominator is zero
-   */
-  public void reset(long numerator, long denominator) {
     if (denominator == 0l) {
       throw new ArithmeticException("divide by zero");
     }
@@ -110,12 +70,14 @@ public class RationalNumber {
 
   }
 
-  /** Reset the instance from a numerator and a denominator.
+  /** Simple constructor.
+   * Build a rational number from a numerator and a denominator.
    * @param numerator numerator of the rational number
    * @param denominator denominator of the rational number
    * @exception ArithmeticException if the denominator is zero
    */
-  public void reset(BigInteger numerator, BigInteger denominator) {
+  public RationalNumber(BigInteger numerator, BigInteger denominator) {
+
     if (denominator.signum() == 0) {
       throw new ArithmeticException("divide by zero");
     }
@@ -132,291 +94,166 @@ public class RationalNumber {
 
   }
 
-  /** Reset the instance from a single integer
+  /** Simple constructor.
+   * Build a rational number from a single integer
    * @param l value of the rational number
    */
-  public void reset(long l) {
+  public RationalNumber(long l) {
     p = BigInteger.valueOf(l);
     q = BigInteger.ONE;
   }
 
-  /** Reset the instance from a single integer
+  /** Simple constructor.
+   * Build a rational number from a single integer
    * @param i value of the rational number
    */
-  public void reset(BigInteger i) {
+  public RationalNumber(BigInteger i) {
     p = i;
     q = BigInteger.ONE;
   }
 
-  /** Reset the instance from another rational number.
-   * @param r rational number to copy
+  /** Negate the instance.
+   * @return a new rational number, opposite to the isntance
    */
-  public void reset(RationalNumber r) {
-    p = r.p;
-    q = r.q;
+  public RationalNumber negate() {
+    return new RationalNumber(p.negate(), q);
   }
 
-  /**
-   * Negate the instance
+  /** Add an integer to the instance.
+   * @param l integer to add
+   * @return a new rational number which is the sum of the instance and l
    */
-  public void negateSelf() {
-    p = p.negate();
+  public RationalNumber add(long l) {
+    return add(BigInteger.valueOf(l));
   }
 
-  /**
-   * Negate a rational number.
-   * @param r rational number to negate
-   * @return a new rational number which is the opposite of r
+  /** Add an integer to the instance.
+   * @param l integer to add
+   * @return a new rational number which is the sum of the instance and l
    */
-  public static RationalNumber negate(RationalNumber r) {
-    RationalNumber copy = new RationalNumber(r);
-    copy.negateSelf();
-    return copy;
+  public RationalNumber add(BigInteger l) {
+    return new RationalNumber(p.add(q.multiply(l)), q);
   }
 
-  /**
-   * Add a rational number to the instance.
-   * @param r rational number to add.
+  /** Add a rational number to the instance.
+   * @param r rational number to add
+   * @return a new rational number which is the sum of the instance and r
    */
-  public void addToSelf(RationalNumber r) {
-    p = p.multiply(r.q).add(r.p.multiply(q));
-    q = q.multiply(r.q);
-    simplify();
+  public RationalNumber add(RationalNumber r) {
+    return new RationalNumber(p.multiply(r.q).add(r.p.multiply(q)),
+                              q.multiply(r.q));
   }
 
-  /** Add two rational numbers.
-   * @param r1 first rational number
-   * @param r2 second rational number
-   * @return a new rational number which is the sum of r1 and r2
+  /** Subtract an integer from the instance.
+   * @param l integer to subtract
+   * @return a new rational number which is the difference the instance minus l
    */
-  public static RationalNumber add(RationalNumber r1, RationalNumber r2) {
-    return new RationalNumber(r1.p.multiply(r2.q).add(r2.p.multiply(r1.q)),
-                              r1.q.multiply(r2.q));
+  public RationalNumber subtract(long l) {
+    return subtract(BigInteger.valueOf(l));
   }
 
-  /**
-   * Subtract a rational number to the instance.
-   * @param r rational number to subtract.
+  /** Subtract an integer from the instance.
+   * @param l integer to subtract
+   * @return a new rational number which is the difference the instance minus l
    */
-  public void subtractFromSelf(RationalNumber r) {
-    p = p.multiply(r.q).subtract(r.p.multiply(q));
-    q = q.multiply(r.q);
-    simplify();
+  public RationalNumber subtract(BigInteger l) {
+    return new RationalNumber(p.subtract(q.multiply(l)), q);
   }
 
-  /** Subtract two rational numbers.
-   * @param r1 first rational number
-   * @param r2 second rational number
-   * @return a new rational number which is the difference r1 minus r2
+  /** Subtract a rational number from the instance.
+   * @param r rational number to subtract
+   * @return a new rational number which is the difference the instance minus r
    */
-  public static RationalNumber subtract(RationalNumber r1, RationalNumber r2) {
-    return new RationalNumber(r1.p.multiply(r2.q).subtract(r2.p.multiply(r1.q)),
-                              r1.q.multiply(r2.q));
+  public RationalNumber subtract(RationalNumber r) {
+    return new RationalNumber(p.multiply(r.q).subtract(r.p.multiply(q)),
+                              q.multiply(r.q));
   }
 
   /** Multiply the instance by an integer.
    * @param l integer to multiply by
+   * @return a new rational number which is the produc of the instance by l
    */
-  public void multiplySelf(long l) {
-    p = p.multiply(BigInteger.valueOf(l));
-    simplify();
+  public RationalNumber multiply(long l) {
+    return multiply(BigInteger.valueOf(l));
   }
 
   /** Multiply the instance by an integer.
-   * @param i integer to multiply by
-   */
-  public void multiplySelf(BigInteger i) {
-    p = p.multiply(i);
-    simplify();
-  }
-
-  /** Multiply a rational number by an integer.
    * @param l integer to multiply by
+   * @return a new rational number which is the produc of the instance by l
    */
-  public static RationalNumber multiply(RationalNumber r, long l) {
-    return new RationalNumber(r.p.multiply(BigInteger.valueOf(l)), r.q);
-  }
-
-  /** Multiply a rational number by an integer.
-   * @param i integer to multiply by
-   */
-  public static RationalNumber multiply(RationalNumber r, BigInteger i) {
-    return new RationalNumber(r.p.multiply(i), r.q);
+  public RationalNumber multiply(BigInteger l) {
+    return new RationalNumber(p.multiply(l), q);
   }
 
   /** Multiply the instance by a rational number.
-   * @param r rational number to multiply by
+   * @param r rational number to multiply the instance with
+   * @return a new rational number which is the product of the instance and r
    */
-  public void multiplySelf(RationalNumber r) {
-    p = p.multiply(r.p);
-    q = q.multiply(r.q);
-    simplify();
-  }
-
-  /** Multiply two rational numbers.
-   * @param r1 first rational number
-   * @param r2 second rational number
-   * @return a new rational number which is the product of r1 and r2
-   */
-  public static RationalNumber multiply(RationalNumber r1, RationalNumber r2) {
-    return new RationalNumber(r1.p.multiply(r2.p),
-                              r1.q.multiply(r2.q));
+  public RationalNumber multiply(RationalNumber r) {
+    return new RationalNumber(p.multiply(r.p), q.multiply(r.q));
   }
 
   /** Divide the instance by an integer.
    * @param l integer to divide by
+   * @return a new rational number which is the quotient of the instance by l
    * @exception ArithmeticException if l is zero
    */
-  public void divideSelf(long l) {
-
-    if (l == 0l) {
-      throw new ArithmeticException("divide by zero");
-    } else if (l > 0l) {
-      q = q.multiply(BigInteger.valueOf(l));
-    } else {
-      p = p.negate();
-      q = q.multiply(BigInteger.valueOf(-l));
-    }
-
-    simplify();
-
+  public RationalNumber divide(long l) {
+    return divide(BigInteger.valueOf(l));
   }
 
   /** Divide the instance by an integer.
-   * @param i integer to divide by
+   * @param l integer to divide by
+   * @return a new rational number which is the quotient of the instance by l
    * @exception ArithmeticException if l is zero
    */
-  public void divideSelf(BigInteger i) {
+  public RationalNumber divide(BigInteger l) {
 
-    if (i.signum() == 0) {
+    if (l.signum() == 0) {
       throw new ArithmeticException("divide by zero");
-    } else if (i.signum() > 0) {
-      q = q.multiply(i);
-    } else {
-      p = p.negate();
-      q = q.multiply(i.negate());
     }
 
-    simplify();
+    if (l.signum() > 0) {
+      return new RationalNumber(p, q.multiply(l));
+    }
 
-  }
+    return new RationalNumber(p.negate(), q.multiply(l.negate()));
 
-  /** Divide a rational number by an integer
-   * @param r rational number
-   * @param l integer
-   * @return a new rational number which is the quotient of r by l
-   * @exception ArithmeticException if l is zero
-   */
-  public static RationalNumber divide(RationalNumber r, long l) {
-    RationalNumber copy = new RationalNumber(r);
-    copy.divideSelf(l);
-    return copy;
-  }
-
-  /** Divide a rational number by an integer
-   * @param r rational number
-   * @param i integer
-   * @return a new rational number which is the quotient of r by l
-   * @exception ArithmeticException if l is zero
-   */
-  public static RationalNumber divide(RationalNumber r, BigInteger i) {
-    RationalNumber copy = new RationalNumber(r);
-    copy.divideSelf(i);
-    return copy;
   }
 
   /** Divide the instance by a rational number.
    * @param r rational number to divide by
+   * @return a new rational number which is the quotient of the instance by r
    * @exception ArithmeticException if r is zero
    */
-  public void divideSelf(RationalNumber r) {
+  public RationalNumber divide(RationalNumber r) {
 
     if (r.p.signum() == 0) {
       throw new ArithmeticException("divide by zero");
     }
 
-    p = p.multiply(r.q);
-    q = q.multiply(r.p);
+    BigInteger newP = p.multiply(r.q);
+    BigInteger newQ = q.multiply(r.p);
 
-    if (q.signum() < 0) {
-      p = p.negate();
-      q = q.negate();
-    }
+    return (newQ.signum() < 0) ? new RationalNumber(newP.negate(),
+                                                    newQ.negate())
+                               : new RationalNumber(newP, newQ);
 
-    simplify();
-
-  }
-
-  /** Divide two rational numbers.
-   * @param r1 first rational number
-   * @param r2 second rational number
-   * @return a new rational number which is the quotient of r1 by r2
-   * @exception ArithmeticException if r2 is zero
-   */
-  public static RationalNumber divide(RationalNumber r1, RationalNumber r2) {
-    RationalNumber copy = new RationalNumber(r1);
-    copy.divideSelf(r2);
-    return copy;
   }
 
   /** Invert the instance.
-   * Replace the instance by its inverse.
+   * @return the inverse of the instance
    * @exception ArithmeticException if the instance is zero
    */
-  public void invertSelf() {
+  public RationalNumber invert() {
 
     if (p.signum() == 0) {
       throw new ArithmeticException("divide by zero");
     }
 
-    BigInteger tmp = p;
-    p = q;
-    q = tmp;
+    return (q.signum() < 0) ? new RationalNumber(q.negate(), p.negate())
+                            : new RationalNumber(q, p);
 
-    if (q.signum() < 0) {
-      p = p.negate();
-      q = q.negate();
-    }
-
-  }
-
-  /** Invert a rational number.
-   * @param r rational number to invert
-   * @return a new rational number which is the inverse of r
-   * @exception ArithmeticException if r is zero
-   */
-  public static RationalNumber invert(RationalNumber r) {
-    return new RationalNumber(r.q, r.p);
-  }
-
-  /**
-   * Add the product of two rational numbers to the instance.
-   * This operation is equivalent to
-   * <code>addToSelf(RationalNumber.multiply(r1, r2))</code> except
-   * that no intermediate simplification is attempted.
-   * @param r1 first term of the product to add
-   * @param r2 second term of the product to add
-   */
-  public void multiplyAndAddToSelf(RationalNumber r1, RationalNumber r2) {
-    BigInteger r1qr2q = r1.q.multiply(r2.q);
-    p = p.multiply(r1qr2q).add(r1.p.multiply(r2.p).multiply(q));
-    q = q.multiply(r1qr2q);
-    simplify();
-  }
-
-  /**
-   * Subtract the product of two rational numbers from the instance.
-   * This operation is equivalent to
-   * <code>subtractFromSelf(RationalNumber.multiply(r1, r2))</code>
-   * except that no intermediate simplification is attempted.
-   * @param r1 first term of the product to subtract
-   * @param r2 second term of the product to subtract
-   */
-  public void multiplyAndSubtractFromSelf(RationalNumber r1, RationalNumber r2) {
-    BigInteger r1qr2q = r1.q.multiply(r2.q);
-    p = p.multiply(r1qr2q).subtract(r1.p.multiply(r2.p).multiply(q));
-    q = q.multiply(r1qr2q);
-    simplify();
   }
 
   /** Simplify a rational number by removing common factors.
@@ -431,16 +268,14 @@ public class RationalNumber {
     }
   }
 
-  /**
-   * Get the numerator.
+  /** Get the numerator.
    * @return the signed numerator
    */
   public BigInteger getNumerator() {
     return p;
   }
 
-  /**
-   * Get the denominator.
+  /** Get the denominator.
    * @return the denominator (always positive)
    */
   public BigInteger getDenominator() {
@@ -532,5 +367,7 @@ public class RationalNumber {
 
   /** Denominator. */
   private BigInteger q;
+
+  private static final long serialVersionUID = -324954393137577531L;
 
 }

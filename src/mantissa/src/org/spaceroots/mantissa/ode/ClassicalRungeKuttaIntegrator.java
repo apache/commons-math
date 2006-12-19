@@ -47,7 +47,7 @@ package org.spaceroots.mantissa.ode;
 public class ClassicalRungeKuttaIntegrator
   extends RungeKuttaIntegrator {
 
-  private static final String methodName = new String("classical Runge-Kutta");
+  private static final String methodName = "classical Runge-Kutta";
 
   private static final double[] c = {
     1.0 / 2.0, 1.0 / 2.0, 1.0

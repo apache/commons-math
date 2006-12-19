@@ -17,6 +17,8 @@
 
 package org.spaceroots.mantissa.functions.vectorial;
 
+import java.io.Serializable;
+
 import org.spaceroots.mantissa.functions.FunctionException;
 
 /** This interface represents vectorial functions of one real variable.
@@ -42,7 +44,7 @@ import org.spaceroots.mantissa.functions.FunctionException;
  * @author L. Maisonobe
 
  */
-public interface ComputableFunction {
+public interface ComputableFunction extends Serializable {
   /** Get the dimension of the vectorial values of the function.
    * @return dimension
    */

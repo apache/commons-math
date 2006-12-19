@@ -57,10 +57,6 @@ public class PolynomialRationalTest
 
     Polynomial.Rational p = new Polynomial.Rational(1l, 3l, -5l);
     checkPolynomial(p, "-5 + 3 x + x^2");
-    p.setUnknownName("alpha");
-    checkPolynomial(p, "-5 + 3 alpha + alpha^2");
-    p.setUnknownName(null);
-    checkPolynomial(p, "-5 + 3 x + x^2");
 
     checkPolynomial(new Polynomial.Rational(3l, -2l, 0l), "-2 x + 3 x^2");
     checkPolynomial(new Polynomial.Rational(3l, -2l, 1l), "1 - 2 x + 3 x^2");
@@ -75,15 +71,14 @@ public class PolynomialRationalTest
 
     Polynomial.Rational p1 = new Polynomial.Rational(1l, -2l);
     Polynomial.Rational p2 = new Polynomial.Rational(0l, -1l, 2l);
-    assertTrue(Polynomial.Rational.add(p1, p2).isZero());
+    assertTrue(p1.add(p2).isZero());
 
-    p2 = new Polynomial.Rational(p1);
-    p2.addToSelf(p2);
+    p2 = p1.add(p1);
     checkPolynomial(p2, "-4 + 2 x");
 
     p1 = new Polynomial.Rational(2l, -4l, 1l);
     p2 = new Polynomial.Rational(-2l, 3l, -1l);
-    p1.addToSelf(p2);
+    p1 = p1.add(p2);
     assertEquals(1, p1.getDegree());
     checkPolynomial(p1, "-x");
 
@@ -92,15 +87,15 @@ public class PolynomialRationalTest
   public void testSubtraction() {
 
     Polynomial.Rational p1 = new Polynomial.Rational(1l, -2l);
-    assertTrue(Polynomial.Rational.subtract(p1, p1).isZero());
+    assertTrue(p1.subtract(p1).isZero());
 
     Polynomial.Rational p2 = new Polynomial.Rational(6l, -2l);
-    p2.subtractFromSelf(p1);
+    p2 = p2.subtract(p1);
     checkPolynomial(p2, "5 x");
 
     p1 = new Polynomial.Rational(2l, -4l, 1l);
     p2 = new Polynomial.Rational(2l, 3l, -1l);
-    p1.subtractFromSelf(p2);
+    p1 = p1.subtract(p2);
     assertEquals(1, p1.getDegree());
     checkPolynomial(p1, "2 - 7 x");
 
@@ -110,12 +105,12 @@ public class PolynomialRationalTest
 
     Polynomial.Rational p1 = new Polynomial.Rational(2l, -3l);
     Polynomial.Rational p2 = new Polynomial.Rational(1l, 2l, 3l);
-    checkPolynomial(Polynomial.Rational.multiply(p1, p2), "-9 + x^2 + 2 x^3");
+    checkPolynomial(p1.multiply(p2), "-9 + x^2 + 2 x^3");
 
     p1 = new Polynomial.Rational(1l, 0l);
-    p2 = new Polynomial.Rational(p1);
+    p2 = p1;
     for (int i = 2; i < 10; ++i) {
-      p2.multiplySelf(p1);
+      p2 = p2.multiply(p1);
       checkPolynomial(p2, "x^" + i);
     }
 
@@ -128,7 +123,7 @@ public class PolynomialRationalTest
     checkPolynomial(p, "3/4 - 1/6 x + 2/5 x^2");
     BigInteger lcm = p.getDenominatorsLCM();
     assertEquals(BigInteger.valueOf(60l), lcm);
-    p.multiplySelf(lcm);
+    p = (Polynomial.Rational) p.multiply(lcm);
     checkPolynomial(p, "45 - 10 x + 24 x^2");
   }
 

@@ -17,9 +17,9 @@
 
 package org.spaceroots.mantissa.fitting;
 
-import java.io.Serializable;
-
-import org.spaceroots.mantissa.estimation.*;
+import org.spaceroots.mantissa.estimation.EstimatedParameter;
+import org.spaceroots.mantissa.estimation.Estimator;
+import org.spaceroots.mantissa.estimation.GaussNewtonEstimator;
 
 /** This class implements a curve fitting specialized for polynomials.
 
@@ -38,11 +38,47 @@ import org.spaceroots.mantissa.estimation.*;
  */
 
 public class PolynomialFitter
-  extends AbstractCurveFitter
-  implements EstimationProblem, Serializable {
+  extends AbstractCurveFitter {
 
-  /**
-   * Simple constructor.
+  /** Simple constructor.
+
+   * <p>The polynomial fitter built this way are complete polynoms,
+   * ie. a n-degree polynom has n+1 coefficients. In order to build
+   * fitter for sparse polynoms (for example <code>a x^20 - b
+   * x^30</code>, on should first build the coefficients array and
+   * provide it to {@link
+   * #PolynomialFitter(PolynomialCoefficient[], int, double, double,
+   * double)}.</p>
+   * @param degree maximal degree of the polynom
+   * @param estimator estimator to use for the fitting
+   */
+  public PolynomialFitter(int degree, Estimator estimator) {
+    super(degree + 1, estimator);
+    for (int i = 0; i < coefficients.length; ++i) {
+      coefficients[i] = new PolynomialCoefficient(i);
+    }
+  }
+
+  /** Simple constructor.
+
+   * <p>This constructor can be used either when a first estimate of
+   * the coefficients is already known (which is of little interest
+   * because the fit cost is the same whether a first guess is known or
+   * not) or when one needs to handle sparse polynoms like <code>a
+   * x^20 - b x^30</code>.</p>
+
+   * @param coefficients first estimate of the coefficients.
+   * A reference to this array is hold by the newly created
+   * object. Its elements will be adjusted during the fitting process
+   * and they will be set to the adjusted coefficients at the end.
+   * @param estimator estimator to use for the fitting
+   */
+  public PolynomialFitter(PolynomialCoefficient[] coefficients,
+                          Estimator estimator) {
+    super(coefficients, estimator);
+  }
+
+  /** Simple constructor.
 
    * <p>The polynomial fitter built this way are complete polynoms,
    * ie. a n-degree polynom has n+1 coefficients. In order to build
@@ -66,23 +102,18 @@ public class PolynomialFitter
    * org.spaceroots.mantissa.linalg.SquareMatrix#solve(
    * org.spaceroots.mantissa.linalg.Matrix,double) SquareMatrix.solve}).
  
+   * @deprecated replaced by {@link #PolynomialFitter(int,Estimator)}
+   * as of version 7.0
    */
   public PolynomialFitter(int degree,
                           int maxIterations, double convergence,
                           double steadyStateThreshold, double epsilon) {
-
-    super(degree + 1,
-          maxIterations, steadyStateThreshold,
-          convergence, epsilon);
-
-    for (int i = 0; i < coefficients.length; ++i) {
-      coefficients[i] = new PolynomialCoefficient(i);
-    }
-
+    this(degree,
+         new GaussNewtonEstimator(maxIterations, steadyStateThreshold,
+                                  convergence, epsilon));
   }
 
-  /**
-   * Simple constructor.
+  /** Simple constructor.
 
    * <p>This constructor can be used either when a first estimate of
    * the coefficients is already known (which is of little interest
@@ -108,13 +139,15 @@ public class PolynomialFitter
    * org.spaceroots.mantissa.linalg.SquareMatrix#solve(
    * org.spaceroots.mantissa.linalg.Matrix,double) SquareMatrix.solve}).
 
+   * @deprecated replaced by {@link #PolynomialFitter(PolynomialCoefficient[],
+   * Estimator)} as of version 7.0
    */
   public PolynomialFitter(PolynomialCoefficient[] coefficients,
                           int maxIterations, double convergence,
                           double steadyStateThreshold, double epsilon) {
-    super(coefficients,
-          maxIterations, steadyStateThreshold,
-          convergence, epsilon);
+    this(coefficients,
+         new GaussNewtonEstimator(maxIterations, steadyStateThreshold,
+                                  convergence, epsilon));
   }
 
   /** Get the value of the function at x according to the current parameters value.
@@ -135,9 +168,12 @@ public class PolynomialFitter
    * @return partial derivative
    */
   public double partial(double x, EstimatedParameter p) {
-    return Math.pow(x, ((PolynomialCoefficient) p).degree);
+    if (p instanceof PolynomialCoefficient) {
+      return Math.pow(x, ((PolynomialCoefficient) p).degree);
+    }
+    throw new RuntimeException("internal error");
   }
 
-  private static final long serialVersionUID = -226724596015163603L;
+  private static final long serialVersionUID = -744904084649890769L;
 
 }

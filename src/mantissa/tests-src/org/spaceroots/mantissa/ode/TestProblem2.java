@@ -57,8 +57,7 @@ class TestProblem2
    */
   public TestProblem2(TestProblem2 problem) {
     super(problem);
-    y = new double[problem.y.length];
-    System.arraycopy(problem.y, 0, y, 0, problem.y.length);
+    y = (double[]) problem.y.clone();
   }
 
   /**

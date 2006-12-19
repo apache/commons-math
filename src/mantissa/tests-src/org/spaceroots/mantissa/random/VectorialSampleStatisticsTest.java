@@ -26,6 +26,7 @@ public class VectorialSampleStatisticsTest
 
   public VectorialSampleStatisticsTest(String name) {
     super(name);
+    points = null;
   }
 
   public void testSimplistic() {
@@ -49,7 +50,7 @@ public class VectorialSampleStatisticsTest
 
     double[] min = sample.getMin();
     double[] max = sample.getMax();
-    double[] mean = sample.getMean(null);
+    double[] mean = sample.getMean();
     SymetricalMatrix c = sample.getCovarianceMatrix(null);
 
     double[]   refMin  = new double[] {-0.70, 0.00, -3.10};
@@ -92,12 +93,12 @@ public class VectorialSampleStatisticsTest
 
     double[] min = even.getMin();
     double[] max = even.getMax();
-    double[] mean = even.getMean(null);
+    double[] mean = even.getMean();
     SymetricalMatrix c = even.getCovarianceMatrix(null);
 
     double[] refMin = all.getMin();
     double[] refMax = all.getMax();
-    double[] refMean = all.getMean(null);
+    double[] refMean = all.getMean();
     SymetricalMatrix refC = all.getCovarianceMatrix(null);
 
     for (int i = 0; i < min.length; ++i) {
@@ -124,12 +125,12 @@ public class VectorialSampleStatisticsTest
 
     double[] min = direct.getMin();
     double[] max = direct.getMax();
-    double[] mean = direct.getMean(null);
+    double[] mean = direct.getMean();
     SymetricalMatrix c = direct.getCovarianceMatrix(null);
 
     double[] refMin = loop.getMin();
     double[] refMax = loop.getMax();
-    double[] refMean = loop.getMean(null);
+    double[] refMean = loop.getMean();
     SymetricalMatrix refC = loop.getCovarianceMatrix(null);
 
     for (int i = 0; i < min.length; ++i) {

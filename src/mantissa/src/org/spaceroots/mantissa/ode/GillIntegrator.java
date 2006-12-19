@@ -46,7 +46,7 @@ package org.spaceroots.mantissa.ode;
 public class GillIntegrator
   extends RungeKuttaIntegrator {
 
-  private static final String methodName = new String("Gill");
+  private static final String methodName = "Gill";
 
   private static final double sqrt2 = Math.sqrt(2.0);
 

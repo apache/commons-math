@@ -19,9 +19,9 @@ package org.spaceroots.mantissa.algebra;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.Arrays;
 
-/**
- * This class implements polynomials with one unknown.
+/** This class implements polynomials with one unknown.
 
  * <p>This is an abstract class that only declares general methods but
  * does not hold the coefficients by themselves. Specific subclasses
@@ -34,17 +34,13 @@ import java.math.BigInteger;
  * considered (value of the polynom for a given unknown,
  * derivative).</p>
 
+ * <p>Instances of this class are immutable.</p>
+
  * @version $Id: Polynomial.java 1705 2006-09-17 19:57:39Z luc $
  * @author L. Maisonobe
 
 */
-public abstract class Polynomial
-  implements Cloneable, Serializable {
-
-  /** Create a copy of the instance.
-   * @return a copy of the instance
-   */
-  public abstract Object clone();
+public abstract class Polynomial implements Serializable {
 
   /** Check if the instance is the null polynomial.
    * @return true if the polynomial is null
@@ -67,27 +63,58 @@ public abstract class Polynomial
   public abstract int getDegree();
 
   /** Negate the instance.
+   * @return a new polynomial
    */
-  public abstract void negateSelf();
+  public abstract Polynomial negate();
 
   /** Multiply the instance by a constant.
    * @param r constant to multiply by
+   * @return a new polynomial
    */
-  public abstract void multiplySelf(RationalNumber r);
+  public abstract Polynomial multiply(RationalNumber r);
 
   /** Multiply the instance by a constant.
    * @param l constant to multiply by
+   * @return a new Polynomial
    */
-  public abstract void multiplySelf(long l);
+  public abstract Polynomial multiply(long l);
 
   /** Multiply the instance by a constant.
    * @param i constant to multiply by
+   * @return a new Polynomial
    */
-  public void multiplySelf(BigInteger i) {
-    multiplySelf(new RationalNumber(i));
+  public Polynomial multiply(BigInteger i) {
+    return multiply(new RationalNumber(i));
   }
 
-  /** Get the value of the polynomial for a specified unknown.
+  /** Divide the instance by a constant.
+   * @param l constant to multiply by
+   * @return a new polynomial
+   * @exception ArithmeticException if the constant is zero
+   */
+  public Polynomial divide(long l) {
+    return divide(new RationalNumber(l));
+  }
+
+  /** Divide the instance by a constant.
+   * @param r constant to multiply by
+   * @return a new polynomial
+   * @exception ArithmeticException if the constant is zero
+   */
+  public Polynomial divide(RationalNumber r) {
+    return multiply(r.invert());
+  }
+
+  /** Divide the instance by a constant.
+   * @param i constant to multiply by
+   * @return a new polynomial
+   * @exception ArithmeticException if the constant is zero
+   */
+  public Polynomial divide(BigInteger i) {
+    return divide(new RationalNumber(i));
+  }
+
+ /** Get the value of the polynomial for a specified unknown.
    * @param x value of the unknown
    * @return value of the polynomial
    */
@@ -99,11 +126,6 @@ public abstract class Polynomial
    * @return a new polynomial which is the derivative of the instance
    */
   public abstract Polynomial getDerivative();
-
-  /** Set the name of the unknown (to appear during conversions to strings).
-   * @param name name to set (if null, the default 'x' value  will be used)
-   */
-  public abstract void setUnknownName(String name);
 
   /** This class implements polynomials with one unknown and rational
    * coefficients.
@@ -118,9 +140,7 @@ public abstract class Polynomial
      * Build a null polynomial
      */
     public Rational() {
-      a = new RationalNumber[1];
-      a[0] = new RationalNumber(0l);
-      unknown = null;
+      a = new RationalNumber[] { RationalNumber.ZERO };
     }
 
     /** Simple constructor.
@@ -136,9 +156,7 @@ public abstract class Polynomial
      * @param value constant value of the polynomial
      */
     public Rational(RationalNumber value) {
-      a = new RationalNumber[1];
-      a[0] = value;
-      unknown = null;
+      a = new RationalNumber[] { value };
     }
 
     /** Simple constructor.
@@ -157,13 +175,10 @@ public abstract class Polynomial
      */
     public Rational(RationalNumber a1, RationalNumber a0) {
       if (! a1.isZero()) {
-        a = new RationalNumber[2];
-        a[1] = a1;
+        a = new RationalNumber[] { a0, a1 };
       } else {
-        a = new RationalNumber[1];
+        a = new RationalNumber[] { a0 };
       }
-      a[0] = a0;
-      unknown = null;
     }
 
     /** Simple constructor.
@@ -186,19 +201,52 @@ public abstract class Polynomial
      */
     public Rational(RationalNumber a2, RationalNumber a1, RationalNumber a0) {
       if (! a2.isZero()) {
-        a = new RationalNumber[3];
-        a[2] = a2;
-        a[1] = a1;
+        a = new RationalNumber[] { a0, a1, a2 };
       } else {
         if (! a1.isZero()) {
-          a = new RationalNumber[2];
-          a[1] = a1;
+          a = new RationalNumber[] { a0, a1 };
         } else {
-          a = new RationalNumber[1];
+          a = new RationalNumber[] { a0 };
         }
       }
-      a[0] = a0;
-      unknown = null;
+    }
+
+    /** Simple constructor.
+     * Build a third degree polynomial
+     * @param a3 leeding degree coefficient
+     * @param a2 second degree coefficient
+     * @param a1 first degree coefficient
+     * @param a0 constant term
+     */
+    public Rational(long a3, long a2, long a1, long a0) {
+      this(new RationalNumber(a3),
+           new RationalNumber(a2),
+           new RationalNumber(a1),
+           new RationalNumber(a0));
+    }
+
+    /** Simple constructor.
+     * Build a third degree polynomial
+     * @param a3 leeding degree coefficient
+     * @param a2 second degree coefficient
+     * @param a1 first degree coefficient
+     * @param a0 constant term
+     */
+    public Rational(RationalNumber a3, RationalNumber a2,
+                    RationalNumber a1, RationalNumber a0) {
+      if (! a3.isZero()) {
+        a = new RationalNumber[] { a0, a1, a2, a3 };
+      } else {
+        if (! a2.isZero()) {
+          a = new RationalNumber[] { a0, a1, a2 };
+        } else {
+          if (! a1.isZero()) {
+            a = new RationalNumber[] { a0, a1 };
+          } else {
+            a = new RationalNumber[] { a0 };
+          }
+        }
+      }
     }
 
     /** Simple constructor.
@@ -220,8 +268,6 @@ public abstract class Polynomial
       this.a = new RationalNumber[i + 1];
       System.arraycopy(a, 0, this.a, 0, i + 1);
 
-      unknown = null;
-
     }
 
     /** Simple constructor.
@@ -232,45 +278,13 @@ public abstract class Polynomial
     public Rational(RationalNumber c, int degree) {
 
       if (c.isZero() || degree < 0) {
-        a = new RationalNumber[1];
-        a[0] = new RationalNumber(0l);
+        a = new RationalNumber[] { RationalNumber.ZERO };
       } else {
         a = new RationalNumber[degree + 1];
-        for (int i = 0; i < degree; ++i) {
-          a[i] = new RationalNumber(0l);
-        }
-        a[degree] = new RationalNumber(c);
+        Arrays.fill(a, 0, degree, RationalNumber.ZERO);
+        a[degree] = c;
       }
 
-      unknown = null;
-
-    }
-
-    /** Copy constructor.
-     * The copy is a deep copy: the polynomials do <em>not</em> share
-     * their coefficients arrays
-     * @param p polynomial to copy
-     */
-    public Rational(Rational p) {
-
-      a = new RationalNumber[p.a.length];
-      for (int i = 0; i < a.length; ++i) {
-        a[i] = new RationalNumber(p.a[i]);
-      }
-
-      if (p.unknown == null) {
-        unknown = null;
-      } else {
-        unknown = new String(p.unknown);
-      }
-
-    }
-
-    /** Create a copy of the instance.
-     * @return a copy of the instance
-     */
-    public Object clone() {
-      return new Rational(this);
     }
 
     /** Check if the instance is the null polynomial.
@@ -302,205 +316,123 @@ public abstract class Polynomial
     }
 
     /** Get the coefficients of the polynomial.
-     * @return a reference to the internal coefficients array, the array
+     * @return a copy of the coefficients array, the array
      * element at index 0 is the constant term while the element at
-     * index a.length-1 is the leeding degree coefficient
+     * index a.length-1 is the leading degree coefficient
      */
     public RationalNumber[] getCoefficients() {
-      return a;
+      return (RationalNumber[]) a.clone();
     }
 
-    /** Set the name of the unknown (to appear during conversions to strings).
-     * @param name name to set (if null, the default 'x' value  will be used)
-     */
-    public void setUnknownName(String name) {
-      unknown = name;
-    }
-
-    /** Simplify the polynomial, by removing null high degree terms.
-     */
-    private void simplify() {
-
-      int i = a.length - 1;
-      while ((i > 0) && a[i].isZero()) {
-        --i;
-      }
-
-      if (i < a.length - 1) {
-        RationalNumber[] newA = new RationalNumber[i + 1];
-        System.arraycopy(a, 0, newA, 0, i + 1);
-        a = newA;
-      }
-
-    }
-
-    /** Add a polynomial to the instance.
+    /** Add a polynomial to the instance
      * @param p polynomial to add
+     * @return a new polynomial which is the sum of the instance and p
      */
-    public void addToSelf(Rational p) {
+    public Rational add(Rational p) {
 
-      if (p.a.length > a.length) {
-        RationalNumber[] newA = new RationalNumber[p.a.length];
-        System.arraycopy(a, 0, newA, 0, a.length);
-        for (int i = a.length; i < newA.length; ++i) {
-          newA[i] = new RationalNumber(0l);
-        }
-        a = newA;
+      // identify the lowest degree polynomial
+      int lowLength  = Math.min(a.length, p.a.length);
+      int highLength = Math.max(a.length, p.a.length);
+
+      // build the coefficients array
+      RationalNumber[] newA = new RationalNumber[highLength];
+      for (int i = 0; i < lowLength; ++i) {
+        newA[i] = a[i].add(p.a[i]);
       }
+      System.arraycopy((a.length < p.a.length) ? p.a : a,
+                       lowLength, newA, lowLength, highLength - lowLength);
 
-      for (int i = 0; i < p.a.length; ++i) {
-        a[i].addToSelf(p.a[i]);
-      }
+      return new Rational(newA);
 
-      simplify();
-
-    }
-
-    /** Add two polynomials.
-     * @param p1 first polynomial
-     * @param p2 second polynomial
-     * @return a new polynomial which is the sum of p1 and p2
-     */
-    public static Rational add(Rational p1, Rational p2) {
-      Rational copy = new Rational(p1);
-      copy.addToSelf(p2);
-      return copy;
     }
 
     /** Subtract a polynomial from the instance.
      * @param p polynomial to subtract
+     * @return a new polynomial which is the difference the instance minus p
      */
-    public void subtractFromSelf(Rational p) {
+    public Rational subtract(Rational p) {
 
-      if (p.a.length > a.length) {
-        RationalNumber[] newA = new RationalNumber[p.a.length];
-        System.arraycopy(a, 0, newA, 0, a.length);
-        for (int i = a.length; i < newA.length; ++i) {
-          newA[i] = new RationalNumber(0l);
+      // identify the lowest degree polynomial
+      int lowLength  = Math.min(a.length, p.a.length);
+      int highLength = Math.max(a.length, p.a.length);
+
+      // build the coefficients array
+      RationalNumber[] newA = new RationalNumber[highLength];
+      for (int i = 0; i < lowLength; ++i) {
+        newA[i] = a[i].subtract(p.a[i]);
+      }
+      if (a.length < p.a.length) {
+        for (int i = lowLength; i < highLength; ++i) {
+          newA[i] = p.a[i].negate();
         }
-        a = newA;
+      } else {
+        System.arraycopy(a, lowLength, newA, lowLength, highLength - lowLength);
       }
 
-      for (int i = 0; i < p.a.length; ++i) {
-        a[i].subtractFromSelf(p.a[i]);
-      }
+      return new Rational(newA);
 
-      simplify();
-
-    }
-
-    /** Subtract two polynomials.
-     * @param p1 first polynomial
-     * @param p2 second polynomial
-     * @return a new polynomial which is the difference p1 minus p2
-     */
-    public static Rational subtract(Rational p1, Rational p2) {
-      Rational copy = new Rational(p1);
-      copy.subtractFromSelf(p2);
-      return copy;
     }
 
     /** Negate the instance.
+     * @return a new polynomial
      */
-    public void negateSelf() {
+    public Polynomial negate() {
+      RationalNumber[] newA = new RationalNumber[a.length];
       for (int i = 0; i < a.length; ++i) {
-        a[i].negateSelf();
+        newA[i] = a[i].negate();
       }
-    }
-
-    /** Negate a polynomial.
-     * @param p polynomial to negate
-     * @return a new polynomial which is the opposite of p
-     */
-    public static Rational negate(Rational p) {
-      Rational copy = new Rational(p);
-      copy.negateSelf();
-      return copy;
+      return new Rational(newA);
     }
 
     /** Multiply the instance by a polynomial.
      * @param p polynomial to multiply by
+     * @return a new polynomial
      */
-    public void multiplySelf(Rational p) {
+    public Rational multiply(Rational p) {
 
       RationalNumber[] newA = new RationalNumber[a.length + p.a.length - 1];
 
       for (int i = 0; i < newA.length; ++i) {
-        newA[i] = new RationalNumber(0l);
+        newA[i] = RationalNumber.ZERO;
         for (int j = Math.max(0, i + 1 - p.a.length);
              j < Math.min(a.length, i + 1);
              ++j) {
-          newA[i].addToSelf(RationalNumber.multiply(a[j], p.a[i-j]));
+          newA[i] = newA[i].add(a[j].multiply(p.a[i-j]));
         }
       }
 
-      a = newA;
+      return new Rational(newA);
 
-    }
-
-    /** Multiply two polynomials.
-     * @param p1 first polynomial
-     * @param p2 second polynomial
-     * @return a new polynomial which is the product of p1 and p2
-     */
-    public static Rational multiply(Rational p1, Rational p2) {
-      Rational copy = new Rational(p1);
-      copy.multiplySelf(p2);
-      return copy;
-    }
-
-    /** Multiply the instance by a constant.
-     * @param r constant to multiply by
-     */
-    public void multiplySelf(RationalNumber r) {
-
-      if (r.isZero()) {
-        a = new RationalNumber[1];
-        a[0] = new RationalNumber(0l);
-      }
-
-      for (int i = 0; i < a.length; ++i) {
-        a[i].multiplySelf(r);
-      }
-
-    }
-
-    /** Multiply a polynomial by a constant.
-     * @param p polynomial
-     * @param r constant
-     * @return a new polynomial which is the product of p and r
-     */
-    public static Rational multiply(Rational p, RationalNumber r) {
-      Rational copy = new Rational(p);
-      copy.multiplySelf(r);
-      return copy;
     }
 
     /** Multiply the instance by a constant.
      * @param l constant to multiply by
+     * @return a new polynomial
      */
-    public void multiplySelf(long l) {
-
-      if (l == 0l) {
-        a = new RationalNumber[1];
-        a[0] = new RationalNumber(0l);
-      }
-
-      for (int i = 0; i < a.length; ++i) {
-        a[i].multiplySelf(l);
-      }
-
+    public Polynomial multiply(long l) {
+      return multiply(new RationalNumber(l));
     }
 
-    /** Multiply a polynomial by a constant.
-     * @param p polynomial
-     * @param l constant
-     * @return a new polynomial which is the product of p and l
+    /** Multiply the instance by a constant.
+     * @param r constant to multiply by
+     * @return a new polynomial
      */
-    public static Rational multiply(Rational p, long l) {
-      Rational copy = new Rational(p);
-      copy.multiplySelf(l);
-      return copy;
+    public Polynomial multiply(RationalNumber r) {
+
+      if (r.isZero()) {
+        return new Rational(new RationalNumber[] { RationalNumber.ZERO });
+      }
+
+      if (r.isOne()) {
+        return this;
+      }
+
+      RationalNumber[] newA = new RationalNumber[a.length];
+      for (int i = 0; i < a.length; ++i) {
+        newA[i] = a[i].multiply(r);
+      }
+      return new Rational(newA);
+
     }
 
     /** Get the value of the polynomial for a specified unknown.
@@ -521,15 +453,14 @@ public abstract class Polynomial
      * @return a new polynomial which is the derivative of the instance
      */
     public Polynomial getDerivative() {
-      Rational derivative = new Rational();
       if (a.length == 1) {
-        return derivative;
+        return new Rational();
       }
-      derivative.a = new RationalNumber[a.length - 1];
+      RationalNumber[] newA = new RationalNumber[a.length - 1];
       for (int i = 1; i < a.length; ++i) {
-        derivative.a[i-1] = RationalNumber.multiply(a[i], i);
+        newA[i - 1] = a[i].multiply(i);
       }
-      return derivative;
+      return new Rational(newA);
     }
 
     /** Perform the euclidian division of two polynomials.
@@ -541,18 +472,18 @@ public abstract class Polynomial
                                                    Rational divisor) {
 
       Rational quotient  = new Rational(0l);
-      Rational remainder = new Rational(dividend);
+      Rational remainder = dividend;
 
       int divisorDegree   = divisor.getDegree();
       int remainderDegree = remainder.getDegree();
       while ((! remainder.isZero()) && (remainderDegree >= divisorDegree)) {
 
-        RationalNumber c = RationalNumber.divide(remainder.a[remainderDegree],
-                                                 divisor.a[divisorDegree]);
+        RationalNumber c =
+          remainder.a[remainderDegree].divide(divisor.a[divisorDegree]);
         Rational monomial = new Rational(c, remainderDegree - divisorDegree);
 
-        remainder.subtractFromSelf(Rational.multiply(monomial, divisor));
-        quotient.addToSelf(monomial);
+        remainder = remainder.subtract(monomial.multiply(divisor));
+        quotient  = quotient.add(monomial);
 
         remainderDegree = remainder.getDegree();
 
@@ -572,7 +503,7 @@ public abstract class Polynomial
       BigInteger lcm = BigInteger.ONE;
 
       for (int i = 0; i < a.length; ++i) {
-        RationalNumber newCoeff = RationalNumber.multiply(a[i], lcm);
+        RationalNumber newCoeff = a[i].multiply(lcm);
         if (! newCoeff.isInteger()) {
           lcm = lcm.multiply(newCoeff.getDenominator());
         }
@@ -593,10 +524,6 @@ public abstract class Polynomial
     * (i.e. we display <code>-3</code> for a constant negative polynomial,
     * but <code>1 - 3 x + x^2</code> if the negative coefficient is not
     * the first one displayed).</p>
-
-    * <p>The name of the unknown is <code>x</code> by default, but can
-    * be changed using the {@link #setUnknownName setUnknownName}
-    * method.</p>
 
     * @return a string representation of the polynomial
 
@@ -634,7 +561,7 @@ public abstract class Polynomial
             s.append(' ');
           }
 
-          s.append((unknown == null) ? defaultUnknown : unknown);
+          s.append("x");
           if (i > 1) {
             s.append('^');
             s.append(Integer.toString(i));
@@ -650,10 +577,7 @@ public abstract class Polynomial
     /** Coefficients array. */
     protected RationalNumber[] a;
 
-    /** Name of the unknown. */
-    protected String unknown;
-
-    private static final long serialVersionUID = 3035650338772911046L;
+    private static final long serialVersionUID = -794133890636181115L;
 
   }
 
@@ -687,9 +611,15 @@ public abstract class Polynomial
      * Build a null polynomial
      */
     public Double() {
-      a = new double[1];
-      a[0] = 0;
-      unknown = null;
+      a = new double[] { 0.0 };
+    }
+
+    /** Simple constructor.
+     * Build a constant polynomial
+     * @param value constant value of the polynomial
+     */
+    public Double(long value) {
+      this((double) value);
     }
 
     /** Simple constructor.
@@ -697,9 +627,16 @@ public abstract class Polynomial
      * @param value constant value of the polynomial
      */
     public Double(double value) {
-      a = new double[1];
-      a[0] = value;
-      unknown = null;
+      a = new double[] { value };
+    }
+
+    /** Simple constructor.
+     * Build a first degree polynomial
+     * @param a1 leeding degree coefficient
+     * @param a0 constant term
+     */
+    public Double(long a1, long a0) {
+      this((double) a1, (double) a0);
     }
 
     /** Simple constructor.
@@ -708,14 +645,21 @@ public abstract class Polynomial
      * @param a0 constant term
      */
     public Double(double a1, double a0) {
-      if (Math.abs(a1) > 1.0e-12) {
-        a = new double[2];
-        a[1] = a1;
+      if (a1 != 0) {
+        a = new double[] { a0, a1 };
       } else {
-        a = new double[1];
+        a = new double[] { a0 };
       }
-      a[0] = a0;
-      unknown = null;
+    }
+
+    /** Simple constructor.
+     * Build a second degree polynomial
+     * @param a2 leeding degree coefficient
+     * @param a1 first degree coefficient
+     * @param a0 constant term
+     */
+    public Double(long a2, long a1, long a0) {
+      this((double) a2, (double) a1, (double) a0);
     }
 
     /** Simple constructor.
@@ -725,20 +669,49 @@ public abstract class Polynomial
      * @param a0 constant term
      */
     public Double(double a2, double a1, double a0) {
-      if (Math.abs(a2) > 1.0e-12) {
-        a = new double[3];
-        a[2] = a2;
-        a[1] = a1;
+      if (a2 != 0) {
+        a = new double[] { a0, a1, a2 };
       } else {
-        if (Math.abs(a1) > 1.0e-12) {
-          a = new double[2];
-          a[1] = a1;
+        if (a1 != 0) {
+          a = new double[] { a0, a1 };
         } else {
-          a = new double[1];
+          a = new double[] { a0 };
         }
       }
-      a[0] = a0;
-      unknown = null;
+    }
+
+    /** Simple constructor.
+     * Build a third degree polynomial
+     * @param a3 leeding degree coefficient
+     * @param a2 second degree coefficient
+     * @param a1 first degree coefficient
+     * @param a0 constant term
+     */
+    public Double(long a3, long a2, long a1, long a0) {
+      this((double) a3, (double) a2, (double) a1, (double) a0);
+    }
+
+    /** Simple constructor.
+     * Build a third degree polynomial
+     * @param a3 leeding degree coefficient
+     * @param a2 second degree coefficient
+     * @param a1 first degree coefficient
+     * @param a0 constant term
+     */
+    public Double(double a3, double a2, double a1, double a0) {
+      if (a3 != 0) {
+        a = new double[] { a0, a1, a2, a3 };
+      } else {
+        if (a2 != 0) {
+          a = new double[] { a0, a1, a2 };
+        } else {
+          if (a1 != 0) {
+            a = new double[] { a0, a1 };
+          } else {
+            a = new double[] { a0 };
+          }
+        }
+      }
     }
 
     /** Simple constructor.
@@ -752,15 +725,13 @@ public abstract class Polynomial
 
       // remove null high degree coefficients
       int i = a.length - 1;
-      while ((i > 0) && (Math.abs(a[i]) <= 1.0e-12)) {
+      while ((i > 0) && (a[i] == 0)) {
         --i;
       }
 
       // copy the remaining coefficients
       this.a = new double[i + 1];
       System.arraycopy(a, 0, this.a, 0, i + 1);
-
-      unknown = null;
 
     }
 
@@ -770,91 +741,47 @@ public abstract class Polynomial
      * @param degree degree associated with the coefficient
      */
     public Double(double c, int degree) {
-
-      if ((Math.abs(c) <= 1.0e-12) || degree < 0) {
-        a = new double[1];
-        a[0] = 0;
+      if ((c == 0) || degree < 0) {
+        a = new double[] { 0.0 };
       } else {
         a = new double[degree + 1];
-        for (int i = 0; i < degree; ++i) {
-          a[i] = 0;
-        }
+        Arrays.fill(a, 0, degree, 0.0);
         a[degree] = c;
       }
-
-      unknown = null;
-
     }
 
-    /** Copy constructor.
-     * The copy is a deep copy: the polynomials do <em>not</em> share
-     * their coefficients arrays
-     * @param p polynomial to copy
+    /** Simple constructor.
+     * Build a {@link Polynomial.Double Polynomial.Double} from a
+     * {@link Polynomial.Rational Polynomial.Rational}
+     * @param r a rational polynomial
      */
-    public Double(Double p) {
-
-      a = new double[p.a.length];
+    public Double(Rational r) {
+      // convert the coefficients
+      a = new double[r.a.length];
       for (int i = 0; i < a.length; ++i) {
-        a[i] = p.a[i];
+        a[i] = r.a[i].doubleValue();
       }
-
-      if (p.unknown == null) {
-        unknown = null;
-      } else {
-        unknown = new String(p.unknown);
-      }
-
-    }
-
-    /** Copy constructor.
-     * The copy is a deep copy: the polynomials do <em>not</em> share
-     * their coefficients arrays
-     * @param p polynomial to copy
-     */
-    public Double(Rational p) {
-
-      RationalNumber[] pA = p.getCoefficients();
-      a = new double[pA.length];
-      for (int i = 0; i < a.length; ++i) {
-        a[i] = pA[i].doubleValue();
-      }
-
-      if (p.unknown == null) {
-        unknown = null;
-      } else {
-        unknown = new String(p.unknown);
-      }
-
-    }
-
-    /** Create a copy of the instance.
-     * @return a copy of the instance
-     */
-    public Object clone() {
-      return new Double(this);
     }
 
     /** Check if the instance is the null polynomial.
      * @return true if the polynomial is null
      */
     public boolean isZero() {
-      return (a.length == 1) && (Math.abs(a[0]) < 1.0e-12);
+      return (a.length == 1) && (a[0] == 0);
     }
 
     /** Check if the instance is the constant unit polynomial.
      * @return true if the polynomial is the constant unit polynomial
      */
     public boolean isOne() {
-      return (a.length == 1) && (Math.abs(a[0] - 1) < 1.0e-12);
+      return (a.length == 1) && ((a[0] - 1.0) == 0);
     }
 
     /** Check if the instance is the identity polynomial.
      * @return true if the polynomial is the identity polynomial
      */
     public boolean isIdentity() {
-      return (a.length == 2)
-        && (Math.abs(a[0]) < 1.0e-12)
-        && (Math.abs(a[1] - 1) < 1.0e-12);
+      return (a.length == 2) && (a[0] == 0) && ((a[1] - 1.0) == 0);
     }
 
     /** Get the polynomial degree.
@@ -865,124 +792,84 @@ public abstract class Polynomial
     }
 
     /** Get the coefficients of the polynomial.
-     * @return a reference to the internal coefficients array, the array
+     * @return a copy of the coefficients array, the array
      * element at index 0 is the constant term while the element at
-     * index a.length-1 is the leeding degree coefficient
+     * index a.length-1 is the leading degree coefficient
      */
     public double[] getCoefficients() {
-      return a;
+      return (double[]) a.clone();
     }
 
-    /** Simplify the polynomial, by removing null high degree terms.
-     */
-    private void simplify() {
-
-      int i = a.length - 1;
-      while ((i > 0) && (Math.abs(a[i]) <= 1.0e-12)) {
-        --i;
-      }
-
-      if (i < a.length - 1) {
-        double[] newA = new double[i + 1];
-        System.arraycopy(a, 0, newA, 0, i + 1);
-        a = newA;
-      }
-
-    }
-
-    /** Add a polynomial to the instance.
+    /** Add a polynomial to the instance
      * @param p polynomial to add
+     * @return a new polynomial which is the sum of the instance and p
      */
-    public void addToSelf(Double p) {
+    public Double add(Double p) {
 
-      if (p.a.length > a.length) {
-        double[] newA = new double[p.a.length];
-        System.arraycopy(a, 0, newA, 0, a.length);
-        for (int i = a.length; i < newA.length; ++i) {
-          newA[i] = 0;
-        }
-        a = newA;
+      // identify the lowest degree polynomial
+      int lowLength  = Math.min(a.length, p.a.length);
+      int highLength = Math.max(a.length, p.a.length);
+
+      // build the coefficients array
+      double[] newA = new double[highLength];
+      for (int i = 0; i < lowLength; ++i) {
+        newA[i] = a[i] + p.a[i];
       }
+      System.arraycopy((a.length < p.a.length) ? p.a : a,
+                       lowLength, newA, lowLength, highLength - lowLength);
 
-      for (int i = 0; i < p.a.length; ++i) {
-        a[i] += p.a[i];
-      }
+      return new Double(newA);
 
-      simplify();
-
-    }
-
-    /** Add two polynomials.
-     * @param p1 first polynomial
-     * @param p2 second polynomial
-     * @return a new polynomial which is the sum of p1 and p2
-     */
-    public static Double add(Double p1, Double p2) {
-      Double copy = new Double(p1);
-      copy.addToSelf(p2);
-      return copy;
     }
 
     /** Subtract a polynomial from the instance.
      * @param p polynomial to subtract
+     * @return a new polynomial which is the difference the instance minus p
      */
-    public void subtractFromSelf(Double p) {
+    public Double subtract(Double p) {
 
-      if (p.a.length > a.length) {
-        double[] newA = new double[p.a.length];
-        System.arraycopy(a, 0, newA, 0, a.length);
-        for (int i = a.length; i < newA.length; ++i) {
-          newA[i] = 0;
+      // identify the lowest degree polynomial
+      int lowLength  = Math.min(a.length, p.a.length);
+      int highLength = Math.max(a.length, p.a.length);
+
+      // build the coefficients array
+      double[] newA = new double[highLength];
+      for (int i = 0; i < lowLength; ++i) {
+        newA[i] = a[i] - p.a[i];
+      }
+      if (a.length < p.a.length) {
+        for (int i = lowLength; i < highLength; ++i) {
+          newA[i] = -p.a[i];
         }
-        a = newA;
+      } else {
+        System.arraycopy(a, lowLength, newA, lowLength, highLength - lowLength);
       }
 
-      for (int i = 0; i < p.a.length; ++i) {
-        a[i] -= p.a[i];
-      }
+      return new Double(newA);
 
-      simplify();
-
-    }
-
-    /** Subtract two polynomials.
-     * @param p1 first polynomial
-     * @param p2 second polynomial
-     * @return a new polynomial which is the difference p1 minus p2
-     */
-    public static Double subtract(Double p1, Double p2) {
-      Double copy = new Double(p1);
-      copy.subtractFromSelf(p2);
-      return copy;
     }
 
     /** Negate the instance.
+     * @return a new polynomial
      */
-    public void negateSelf() {
+    public Polynomial negate() {
+      double[] newA = new double[a.length];
       for (int i = 0; i < a.length; ++i) {
-        a[i] = -a[i];
+        newA[i] = -a[i];
       }
-    }
-
-    /** Negate a polynomial.
-     * @param p polynomial to negate
-     * @return a new polynomial which is the opposite of p
-     */
-    public static Double negate(Double p) {
-      Double copy = new Double(p);
-      copy.negateSelf();
-      return copy;
+      return new Double(newA);
     }
 
     /** Multiply the instance by a polynomial.
      * @param p polynomial to multiply by
+     * @return a new polynomial
      */
-    public void multiplySelf(Double p) {
+    public Double multiply(Double p) {
 
       double[] newA = new double[a.length + p.a.length - 1];
 
       for (int i = 0; i < newA.length; ++i) {
-        newA[i] = 0;
+        newA[i] = 0.0;
         for (int j = Math.max(0, i + 1 - p.a.length);
              j < Math.min(a.length, i + 1);
              ++j) {
@@ -990,90 +877,42 @@ public abstract class Polynomial
         }
       }
 
-      a = newA;
-
-    }
-
-    /** Multiply two polynomials.
-     * @param p1 first polynomial
-     * @param p2 second polynomial
-     * @return a new polynomial which is the product of p1 and p2
-     */
-    public static Double multiply(Double p1, Double p2) {
-      Double copy = new Double(p1);
-      copy.multiplySelf(p2);
-      return copy;
-    }
-
-    /** Multiply the instance by a constant.
-     * @param r constant to multiply by
-     */
-    public void multiplySelf(double r) {
-
-      if (Math.abs(r) < 1.0e-12) {
-        a = new double[1];
-        a[0] = 0;
-      }
-
-      for (int i = 0; i < a.length; ++i) {
-        a[i] *= r;
-      }
-
-    }
-
-    /** Multiply a polynomial by a constant.
-     * @param p polynomial
-     * @param r constant
-     * @return a new polynomial which is the product of p and r
-     */
-    public static Double multiply(Double p, double r) {
-      Double copy = new Double(p);
-      copy.multiplySelf(r);
-      return copy;
-    }
-
-    /** Multiply the instance by a constant.
-     * @param r constant to multiply by
-     */
-    public void multiplySelf(RationalNumber r) {
-
-      if (r.isZero()) {
-        a = new double[1];
-        a[0] = 0;
-      }
-
-      double rValue = r.doubleValue();
-      for (int i = 0; i < a.length; ++i) {
-        a[i] *= rValue;
-      }
+      return new Double(newA);
 
     }
 
     /** Multiply the instance by a constant.
      * @param l constant to multiply by
+     * @return a new polynomial
      */
-    public void multiplySelf(long l) {
-
-      if (l == 0l) {
-        a = new double[1];
-        a[0] = 0;
-      }
-
-      for (int i = 0; i < a.length; ++i) {
-        a[i] *= l;
-      }
-
+    public Polynomial multiply(long l) {
+      return multiply((double) l);
     }
 
-    /** Multiply a polynomial by a constant.
-     * @param p polynomial
-     * @param l constant
-     * @return a new polynomial which is the product of p and l
+    /** Multiply the instance by a constant.
+     * @param r constant to multiply by
+     * @return a new polynomial
      */
-    public static Double multiply(Double p, long l) {
-      Double copy = new Double(p);
-      copy.multiplySelf(l);
-      return copy;
+    public Polynomial multiply(RationalNumber r) {
+      return multiply(r.doubleValue());
+    }
+
+    /** Multiply the instance by a constant.
+     * @param r constant to multiply by
+     * @return a new polynomial
+     */
+    public Polynomial multiply(double r) {
+
+      if (r == 0) {
+        return new Double(new double[] { 0.0 });
+      }
+
+      double[] newA = new double[a.length];
+      for (int i = 0; i < a.length; ++i) {
+        newA[i] = a[i] * r;
+      }
+      return new Double(newA);
+
     }
 
     /** Get the value of the polynomial for a specified unknown.
@@ -1094,22 +933,14 @@ public abstract class Polynomial
      * @return a new polynomial which is the derivative of the instance
      */
     public Polynomial getDerivative() {
-      Double derivative = new Double();
       if (a.length == 1) {
-        return derivative;
+        return new Double();
       }
-      derivative.a = new double[a.length - 1];
+      double[] newA = new double[a.length - 1];
       for (int i = 1; i < a.length; ++i) {
-        derivative.a[i-1] = a[i] * i;
+        newA[i - 1] = a[i] * i;
       }
-      return derivative;
-    }
-
-    /** Set the name of the unknown (to appear during conversions to strings).
-     * @param name name to set (if null, the default 'x' value  will be used)
-     */
-    public void setUnknownName(String name) {
-      unknown = name;
+      return new Double(newA);
     }
 
     /** Returns a string representation of the polynomial.
@@ -1124,36 +955,23 @@ public abstract class Polynomial
     * but <code>1 - 3 x + x^2</code> if the negative coefficient is not
     * the first one displayed).</p>
 
-    * <p>The name of the unknown is <code>x</code> by default, but can
-    * be changed using the {@link #setUnknownName setUnknownName}
-    * method.</p>
-
     * @return a string representation of the polynomial
 
     */
     public String toString() {
 
-      double maxCoeff = 0;
-      for (int i = 0; i < a.length; ++i) {
-        double abs = Math.abs(a[i]);
-        if (abs > maxCoeff) {
-          maxCoeff = abs;
-        }
-      }
-      double epsilon = 1.0e-12 * maxCoeff;
-
       StringBuffer s = new StringBuffer();
-      if (Math.abs(a[0]) <= epsilon) {
+      if (a[0] == 0.0) {
         if (a.length == 1) {
           return "0";
         }
       } else {
-        s.append(a[0]);
+        s.append(java.lang.Double.toString(a[0]));
       }
 
       for (int i = 1; i < a.length; ++i) {
 
-        if (Math.abs(a[i]) > epsilon) {
+        if (a[i] != 0) {
 
           if (s.length() > 0) {
             if (a[i] < 0) {
@@ -1168,12 +986,12 @@ public abstract class Polynomial
           }
 
           double absAi = Math.abs(a[i]);
-          if (Math.abs(absAi - 1) > 1.0e-12) {
-            s.append(absAi);
+          if ((absAi - 1) != 0) {
+            s.append(java.lang.Double.toString(absAi));
             s.append(' ');
           }
 
-          s.append((unknown == null) ? defaultUnknown : unknown);
+          s.append("x");
           if (i > 1) {
             s.append('^');
             s.append(Integer.toString(i));
@@ -1189,14 +1007,8 @@ public abstract class Polynomial
     /** Coefficients array. */
     protected double[] a;
 
-    /** Name of the unknown. */
-    protected String unknown;
-
-    private static final long serialVersionUID = -5907669461605191069L;
+    private static final long serialVersionUID = -4210522025715687648L;
 
   }
-
-  /** Default name of unknowns. */
-  protected static String defaultUnknown = new String("x");
 
 }

@@ -24,6 +24,8 @@ public class StepNormalizerTest
 
   public StepNormalizerTest(String name) {
     super(name);
+    pb    = null;
+    integ = null;
   }
 
   public void testBoundaries()

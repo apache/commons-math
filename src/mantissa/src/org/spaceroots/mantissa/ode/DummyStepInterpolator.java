@@ -49,7 +49,7 @@ public class DummyStepInterpolator
    * to create the step interpolators by cloning an uninitialized
    * model and latter initializing the copy.
    */
-  protected DummyStepInterpolator() {
+  public DummyStepInterpolator() {
     super();
   }
 
@@ -81,15 +81,6 @@ public class DummyStepInterpolator
    */
   protected DummyStepInterpolator(DummyStepInterpolator interpolator) {
     super(interpolator);
-  }
-
-  /** Copy the instance.
-   * the copy is a deep copy: its arrays are separated from the
-   * original arrays of the instance
-   * @return a copy of the instance.
-   */
-  public Object clone() {
-    return new DummyStepInterpolator(this);
   }
 
   /** Compute the state at the interpolated time.

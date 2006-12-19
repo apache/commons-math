@@ -71,24 +71,7 @@ public class BasicSampledFunctionIteratorTest
     throws ExhaustedSampleException, FunctionException {
 
     BasicSampledFunctionIterator iter =
-      new BasicSampledFunctionIterator(new SampledFunction() {
-
-          private boolean fireException = false;
-
-          public int size() {
-            return 2;
-          }
-
-          public ScalarValuedPair samplePointAt(int i)
-            throws FunctionException {
-            if (fireException) {
-              throw new FunctionException("boom");
-            }
-            fireException = true;
-            return new ScalarValuedPair(0.0, 0.0);
-          }
-
-        });
+      new BasicSampledFunctionIterator(new ExceptionGeneratingFunction());
 
     boolean exceptionOccurred = false;
     try {
@@ -112,9 +95,10 @@ public class BasicSampledFunctionIteratorTest
     return new TestSuite(BasicSampledFunctionIteratorTest.class);
   }
 
-  private class Function
+  private static class Function
     implements SampledFunction {
 
+    private static final long serialVersionUID = -5071329620086891960L;
     private double begin;
     private double step;
     private int    n;
@@ -142,4 +126,24 @@ public class BasicSampledFunctionIteratorTest
     }
   }
 
+  private static class ExceptionGeneratingFunction
+    implements SampledFunction {
+
+    private static final long serialVersionUID = 1417147976215668305L;
+    private boolean fireException = false;
+
+    public int size() {
+      return 2;
+    }
+
+    public ScalarValuedPair samplePointAt(int i)
+      throws FunctionException {
+      if (fireException) {
+        throw new FunctionException("boom");
+      }
+      fireException = true;
+      return new ScalarValuedPair(0.0, 0.0);
+    }
+
+  }
 }

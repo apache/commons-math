@@ -19,8 +19,6 @@ package org.spaceroots.mantissa.random;
 
 import org.spaceroots.mantissa.linalg.SymetricalMatrix;
 
-import java.util.Arrays;
-
 /** This class compute basic statistics on a scalar sample.
  * @version $Id: VectorialSampleStatistics.java 1705 2006-09-17 19:57:39Z luc $
  * @author L. Maisonobe
@@ -65,16 +63,6 @@ public class VectorialSampleStatistics {
     sum2       = null;
   }
 
-  /** Allocate all the arrays. */
-  private void allocate() {
-    min        = new double[dimension];
-    minIndices = new int[dimension];
-    max        = new double[dimension];
-    maxIndices = new int[dimension];
-    sum        = new double[dimension];
-    sum2       = new double[dimension * (dimension + 1) / 2];
-  }
-
   /** Add one point to the instance.
    * @param x value of the sample point
    * @exception IllegalArgumentException if there is a dimension
@@ -85,14 +73,13 @@ public class VectorialSampleStatistics {
 
     if (n == 0) {
 
-      dimension = x.length;
-      allocate();
-
-      Arrays.fill(minIndices, 0);
-      Arrays.fill(maxIndices, 0);
-      System.arraycopy(x, 0, min, 0, dimension);
-      System.arraycopy(x, 0, max, 0, dimension);
-      System.arraycopy(x, 0, sum, 0, dimension);
+      dimension  = x.length;
+      minIndices = new int[dimension];
+      maxIndices = new int[dimension];
+      min        = (double[]) x.clone();
+      max        = (double[]) x.clone();
+      sum        = (double[]) x.clone();
+      sum2       = new double[dimension * (dimension + 1) / 2];
 
       int k = 0;
       for (int i = 0; i < dimension; ++i) {
@@ -153,14 +140,12 @@ public class VectorialSampleStatistics {
     if (n == 0) {
 
       dimension = s.dimension;
-      allocate();
-
-      System.arraycopy(s.min,         0, min,         0, dimension);
-      System.arraycopy(s.minIndices,  0, minIndices,  0, dimension);
-      System.arraycopy(s.max,         0, max,         0, dimension);
-      System.arraycopy(s.maxIndices,  0, maxIndices,  0, dimension);
-      System.arraycopy(s.sum,         0, sum,         0, dimension);
-      System.arraycopy(s.sum2,        0, sum2,        0, sum2.length);
+      min        = (double[]) s.min.clone();
+      minIndices = (int[])    s.minIndices.clone();
+      max        = (double[]) s.max.clone();
+      maxIndices = (int[])    s.maxIndices.clone();
+      sum        = (double[]) s.sum.clone();
+      sum2       = (double[]) s.sum2.clone();
 
     } else {
       int k = 0;
@@ -203,26 +188,22 @@ public class VectorialSampleStatistics {
    * of the sample at which the minimum was encountered can be
    * retrieved with the {@link #getMinIndices getMinIndices}
    * method.</p>
-   * @return minimal value in the sample (the array is a reference to
-   * an internal array that changes each time something is added to
-   * the instance, the caller should neither change it nor rely on its
-   * value in the long term)
+   * @return minimal value in the sample (a new array is created
+   * at each call, the caller may do what it wants to with it)
    * @see #getMinIndices
    */
   public double[] getMin() {
-    return min;
+    return (double[]) min.clone();
   }
 
   /** Get the indices at which the minimal value occurred in the sample.
    * @return a vector reporting at which occurrence each component of
-   * the sample reached its minimal value (the array is a reference to
-   * an internal array that changes each time something is added to
-   * the instance, the caller should neither change it nor rely on its
-   * value in the long term)
+   * the sample reached its minimal value (a new array is created
+   * at each call, the caller may do what it wants to with it)
    * @see #getMin
    */
   public int[] getMinIndices() {
-    return minIndices;
+    return (int[]) minIndices.clone();
   }
 
   /** Get the maximal value in the sample.
@@ -232,43 +213,34 @@ public class VectorialSampleStatistics {
    * of the sample at which the maximum was encountered can be
    * retrieved with the {@link #getMaxIndices getMaxIndices}
    * method.</p>
-   * @return maximal value in the sample (the array is a reference to
-   * an internal array that changes each time something is added to
-   * the instance, the caller should neither change it nor rely on its
-   * value in the long term)
+   * @return maximal value in the sample (a new array is created
+   * at each call, the caller may do what it wants to with it)
    * @see #getMaxIndices
    */
   public double[] getMax() {
-    return max;
+    return (double[]) max.clone();
   }
 
   /** Get the indices at which the maximal value occurred in the sample.
    * @return a vector reporting at which occurrence each component of
-   * the sample reached its maximal value (the array is a reference to
-   * an internal array that changes each time something is added to
-   * the instance, the caller should neither change it nor rely on its
-   * value in the long term)
+   * the sample reached its maximal value (a new array is created
+   * at each call, the caller may do what it wants to with it)
    * @see #getMax
    */
   public int[] getMaxIndices() {
-    return maxIndices;
+    return (int[]) maxIndices.clone();
   }
 
   /** Get the mean value of the sample.
-   * @param mean placeholder where to store the array, if null a new
-   * array will be allocated
-   * @return mean value of the sample or null if the sample is empty
-   * and hence the dimension of the vectors is still unknown
-   * (reference to mean if it was non-null, reference to a new array
-   * otherwise)
+   * @return mean value of the sample or an empty array
+   * if the sample is empty (a new array is created
+   * at each call, the caller may do what it wants to with it)
    */
-  public double[] getMean(double[] mean) {
+  public double[] getMean() {
     if (n == 0) {
-      return null;
+      return new double[0];
     }
-    if (mean == null) {
-      mean = new double[dimension];
-    }
+    double[] mean = new double[dimension];
     for (int i = 0; i < dimension; ++i) {
       mean[i] = sum[i] / n;
     }

@@ -50,7 +50,7 @@ package org.spaceroots.mantissa.ode;
 public class EulerIntegrator
   extends RungeKuttaIntegrator {
 
-  private static final String methodName = new String("Euler");
+  private static final String methodName = "Euler";
 
   private static final double[] c = {
   };

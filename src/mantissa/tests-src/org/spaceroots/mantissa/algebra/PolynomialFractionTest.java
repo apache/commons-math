@@ -55,18 +55,18 @@ public class PolynomialFractionTest
   public void testInvert() {
 
     PolynomialFraction f = new PolynomialFraction(2l, 4l);
-    f.invertSelf();
+    f= f.invert();
     checkValue(f, "2");
-    f.invertSelf();
+    f = f.invert();
     checkValue(f, "1/2");
 
     f = new PolynomialFraction(120l);
-    f.invertSelf();
+    f = f.invert();
     checkValue(f, "1/120");
 
     f = new PolynomialFraction(0l, 4l);
     try {
-      f.invertSelf();
+      f = f.invert();
       fail("an exception should have been thrown");
     } catch (ArithmeticException e) {
     } catch (Exception e) {
@@ -74,7 +74,7 @@ public class PolynomialFractionTest
     }
 
     f = new PolynomialFraction(307692l, 999999l);
-    PolynomialFraction fInverse = PolynomialFraction.invert(f);
+    PolynomialFraction fInverse = f.invert();
     checkValue(fInverse, "13/4");
     checkValue(f, "4/13");
 
@@ -83,23 +83,18 @@ public class PolynomialFractionTest
   public void testAddition() {
 
     PolynomialFraction f1 = new PolynomialFraction(4l, 6l);
-    f1.addToSelf(f1);
+    f1 = f1.add(f1);
     checkValue(f1, "4/3");
 
-    checkValue(PolynomialFraction.add(new PolynomialFraction(17l, 3l),
-                                      new PolynomialFraction(-17l, 3l)),
+    checkValue(new PolynomialFraction(17l, 3l).add(new PolynomialFraction(-17l, 3l)),
                "0");
-    checkValue(PolynomialFraction.add(new PolynomialFraction(2l, 3l),
-                                      new PolynomialFraction(3l, 4l)),
+    checkValue(new PolynomialFraction(2l, 3l).add(new PolynomialFraction(3l, 4l)),
                "17/12");
-    checkValue(PolynomialFraction.add(new PolynomialFraction(1l, 6l),
-                                      new PolynomialFraction(2l, 6l)),
+    checkValue(new PolynomialFraction(1l, 6l).add(new PolynomialFraction(2l, 6l)),
                "1/2");
-    checkValue(PolynomialFraction.add(new PolynomialFraction(4l, 5l),
-                                      new PolynomialFraction(-3l, 4l)),
+    checkValue(new PolynomialFraction(4l, 5l).add(new PolynomialFraction(-3l, 4l)),
                "1/20");
-    checkValue(PolynomialFraction.add(new PolynomialFraction(-3l, 4l),
-                                      new PolynomialFraction(4l, 5l)),
+    checkValue(new PolynomialFraction(-3l, 4l).add(new PolynomialFraction(4l, 5l)),
                "1/20");
 
   }
@@ -107,44 +102,32 @@ public class PolynomialFractionTest
   public void testSubtraction() {
 
     PolynomialFraction f1 = new PolynomialFraction(4l, 6l);
-    f1.subtractFromSelf(f1);
-    checkValue(f1, "0");
+    checkValue(f1.subtract(f1), "0");
 
-    checkValue(PolynomialFraction.subtract(new PolynomialFraction(7l, 3l),
-                                           new PolynomialFraction(-7l, 3l)),
+    checkValue(new PolynomialFraction(7l, 3l).subtract(new PolynomialFraction(-7l, 3l)),
                "14/3");
 
-    checkValue(PolynomialFraction.subtract(new PolynomialFraction(3l, 4l),
-                                           new PolynomialFraction(2l, 3l)),
+    checkValue(new PolynomialFraction(3l, 4l).subtract(new PolynomialFraction(2l, 3l)),
                "1/12");
-    checkValue(PolynomialFraction.subtract(new PolynomialFraction(3l, 4l),
-                                           new PolynomialFraction(-2l, 3l)),
+    checkValue(new PolynomialFraction(3l, 4l).subtract(new PolynomialFraction(-2l, 3l)),
                "17/12");
-    checkValue(PolynomialFraction.subtract(new PolynomialFraction(-3l, 4l),
-                                           new PolynomialFraction(2l, 3l)),
+    checkValue(new PolynomialFraction(-3l, 4l).subtract(new PolynomialFraction(2l, 3l)),
                "-17/12");
-    checkValue(PolynomialFraction.subtract(new PolynomialFraction(-3l, 4l),
-                                           new PolynomialFraction(-2l, 3l)),
+    checkValue(new PolynomialFraction(-3l, 4l).subtract(new PolynomialFraction(-2l, 3l)),
                "-1/12");
 
-    checkValue(PolynomialFraction.subtract(new PolynomialFraction(2l, 3l),
-                                           new PolynomialFraction(3l, 4l)),
+    checkValue(new PolynomialFraction(2l, 3l).subtract(new PolynomialFraction(3l, 4l)),
                "-1/12");
-    checkValue(PolynomialFraction.subtract(new PolynomialFraction(-2l, 3l),
-                                           new PolynomialFraction(3l, 4l)),
+    checkValue(new PolynomialFraction(-2l, 3l).subtract(new PolynomialFraction(3l, 4l)),
                "-17/12");
-    checkValue(PolynomialFraction.subtract(new PolynomialFraction(2l, 3l),
-                                           new PolynomialFraction(-3l, 4l)),
+    checkValue(new PolynomialFraction(2l, 3l).subtract(new PolynomialFraction(-3l, 4l)),
                "17/12");
-    checkValue(PolynomialFraction.subtract(new PolynomialFraction(-2l, 3l),
-                                           new PolynomialFraction(-3l, 4l)),
+    checkValue(new PolynomialFraction(-2l, 3l).subtract(new PolynomialFraction(-3l, 4l)),
                "1/12");
 
-    checkValue(PolynomialFraction.subtract(new PolynomialFraction(1l, 6l),
-                                           new PolynomialFraction(2l, 6l)),
+    checkValue(new PolynomialFraction(1l, 6l).subtract(new PolynomialFraction(2l, 6l)),
                "-1/6");
-    checkValue(PolynomialFraction.subtract(new PolynomialFraction(1l, 2l),
-                                           new PolynomialFraction(1l, 6l)),
+    checkValue(new PolynomialFraction(1l, 2l).subtract(new PolynomialFraction(1l, 6l)),
                "1/3");
 
   }
@@ -152,23 +135,17 @@ public class PolynomialFractionTest
   public void testMultiplication() {
 
     PolynomialFraction f = new PolynomialFraction(2l, 3l);
-    f.multiplySelf(new PolynomialFraction(9l,4l));
-    checkValue(f, "3/2");
+    checkValue(f.multiply(new PolynomialFraction(9l,4l)), "3/2");
 
-    checkValue(PolynomialFraction.multiply(new PolynomialFraction(1l, 2l),
-                                           new PolynomialFraction(0l)),
+    checkValue(new PolynomialFraction(1l, 2l).multiply(new PolynomialFraction(0l)),
                "0");
-    checkValue(PolynomialFraction.multiply(new PolynomialFraction(4l, 15l),
-                                           new PolynomialFraction(-5l, 2l)),
+    checkValue(new PolynomialFraction(4l, 15l).multiply(new PolynomialFraction(-5l, 2l)),
                "-2/3");
-    checkValue(PolynomialFraction.multiply(new PolynomialFraction(-4l, 15l),
-                                           new PolynomialFraction(5l, 2l)),
+    checkValue(new PolynomialFraction(-4l, 15l).multiply(new PolynomialFraction(5l, 2l)),
                "-2/3");
-    checkValue(PolynomialFraction.multiply(new PolynomialFraction(4l, 15l),
-                                           new PolynomialFraction(5l, 2l)),
+    checkValue(new PolynomialFraction(4l, 15l).multiply(new PolynomialFraction(5l, 2l)),
                "2/3");
-    checkValue(PolynomialFraction.multiply(new PolynomialFraction(-4l, 15l),
-                                           new PolynomialFraction(-5l, 2l)),
+    checkValue(new PolynomialFraction(-4l, 15l).multiply(new PolynomialFraction(-5l, 2l)),
                "2/3");
 
   }
@@ -176,29 +153,24 @@ public class PolynomialFractionTest
   public void testDivision() {
 
     PolynomialFraction f = new PolynomialFraction(2l, 3l);
-    f.divideSelf(new PolynomialFraction(4l,9l));
-    checkValue(f, "3/2");
+    ;
+    checkValue(f.divide(new PolynomialFraction(4l,9l)), "3/2");
 
     try {
-      PolynomialFraction.divide(new PolynomialFraction(1l, 2l),
-                                new PolynomialFraction(0l));
+      new PolynomialFraction(1l, 2l).divide(new PolynomialFraction(0l));
       fail("an exception should have been thrown");
     } catch (ArithmeticException e) {
     } catch (Exception e) {
       fail("wrong exception caught");
     }
 
-    checkValue(PolynomialFraction.divide(new PolynomialFraction(4l, 15l),
-                                         new PolynomialFraction(-2l, 5l)),
+    checkValue(new PolynomialFraction(4l, 15l).divide(new PolynomialFraction(-2l, 5l)),
                "-2/3");
-    checkValue(PolynomialFraction.divide(new PolynomialFraction(-4l, 15l),
-                                         new PolynomialFraction(2l, 5l)),
+    checkValue(new PolynomialFraction(-4l, 15l).divide(new PolynomialFraction(2l, 5l)),
                "-2/3");
-    checkValue(PolynomialFraction.divide(new PolynomialFraction(4l, 15l),
-                                         new PolynomialFraction(2l, 5l)),
+    checkValue(new PolynomialFraction(4l, 15l).divide(new PolynomialFraction(2l, 5l)),
                "2/3");
-    checkValue(PolynomialFraction.divide(new PolynomialFraction(-4l, 15l),
-                                         new PolynomialFraction(-2l, 5l)),
+    checkValue(new PolynomialFraction(-4l, 15l).divide(new PolynomialFraction(-2l, 5l)),
                "2/3");
 
   }

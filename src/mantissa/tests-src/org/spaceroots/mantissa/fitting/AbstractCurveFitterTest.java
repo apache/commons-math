@@ -21,6 +21,7 @@ import java.util.Random;
 import junit.framework.*;
 
 import org.spaceroots.mantissa.estimation.EstimatedParameter;
+import org.spaceroots.mantissa.estimation.LevenbergMarquardtEstimator;
 import org.spaceroots.mantissa.estimation.WeightedMeasurement;
 
 public class AbstractCurveFitterTest
@@ -28,6 +29,7 @@ public class AbstractCurveFitterTest
 
   public AbstractCurveFitterTest(String name) {
     super(name);
+    fitter = null;
   }
 
   public void testAlreadySorted() {
@@ -74,15 +76,15 @@ public class AbstractCurveFitterTest
     fitter = new DummyFitter();
   }
 
-  public void tearOff() {
+  public void tearDown() {
     fitter = null;
   }
 
-  private class DummyFitter
+  private static class DummyFitter
     extends AbstractCurveFitter {
 
     public DummyFitter() {
-      super(10, 10, 0.0, 0.0, 0.0);
+      super(10, new LevenbergMarquardtEstimator());
     }
 
     public double valueAt(double x) {
@@ -97,7 +99,7 @@ public class AbstractCurveFitterTest
       sortMeasurements();
     }
 
-    private static final long serialVersionUID = -5453139487565082528L;
+    private static final long serialVersionUID = 4016396219767783678L;
 
   }
 

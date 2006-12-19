@@ -47,7 +47,7 @@ package org.spaceroots.mantissa.ode;
 public class DormandPrince54Integrator
   extends RungeKuttaFehlbergIntegrator {
 
-  private static final String methodName = new String("Dormand-Prince 5(4)");
+  private static final String methodName = "Dormand-Prince 5(4)";
 
   private static final double[] c = {
     1.0/5.0, 3.0/10.0, 4.0/5.0, 8.0/9.0, 1.0, 1.0

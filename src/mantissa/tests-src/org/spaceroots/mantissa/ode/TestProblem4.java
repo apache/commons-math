@@ -60,8 +60,7 @@ class TestProblem4
   public TestProblem4(TestProblem4 problem) {
     super(problem);
     a = problem.a;
-    y = new double[problem.y.length];
-    System.arraycopy(problem.y, 0, y, 0, problem.y.length);
+    y = (double[]) problem.y.clone();
   }
 
   /**
@@ -91,6 +90,7 @@ class TestProblem4
 
   private static class Bounce implements SwitchingFunction {
 
+    private static final long serialVersionUID = 1356097180027801200L;
     private int sign;
 
     public Bounce() {
@@ -114,6 +114,8 @@ class TestProblem4
   }
 
   private static class Stop implements SwitchingFunction {
+
+    private static final long serialVersionUID = 6975050568227951931L;
 
     public Stop() {
     }

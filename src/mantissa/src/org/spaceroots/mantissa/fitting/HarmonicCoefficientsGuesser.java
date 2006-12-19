@@ -32,32 +32,32 @@ import org.spaceroots.mantissa.estimation.EstimationException;
 
  * <p>The algorithm used to guess the coefficients is as follows:</p>
 
- * <p>We know f (t) at some sampling points ti and want to find a,
- * omega and phi such that f (t) = a cos (omega t + phi).
+ * <p>We know f (t) at some sampling points t<sub>i</sub> and want to find a,
+ * &omega; and &phi; such that f (t) = a cos (&omega; t + &phi;).
  * </p>
  *
  * <p>From the analytical expression, we can compute two primitives :
  * <pre>
- *     If2  (t) = int (f^2)  = a^2 * [t + S (t)] / 2
- *     If'2 (t) = int (f'^2) = a^2 * omega^2 * [t - S (t)] / 2
- *     where S (t) = sin (2 * (omega * t + phi)) / (2 * omega)
+ *     If2  (t) = &int; f<sup>2</sup>  = a<sup>2</sup> &times; [t + S (t)] / 2
+ *     If'2 (t) = &int; f'<sup>2</sup> = a<sup>2</sup> &omega;<sup>2</sup> &times; [t - S (t)] / 2
+ *     where S (t) = sin (2 (&omega; t + &phi;)) / (2 &omega;)
  * </pre>
  * </p>
  *
  * <p>We can remove S between these expressions :
  * <pre>
- *     If'2 (t) = a^2 * omega ^ 2 * t - omega ^ 2 * If2 (t)
+ *     If'2 (t) = a<sup>2</sup> &omega;<sup>2</sup> t - &omega;<sup>2</sup> If2 (t)
  * </pre>
  * </p>
  *
  * <p>The preceding expression shows that If'2 (t) is a linear
- * combination of both t and If2 (t): If'2 (t) = A * t + B * If2 (t)
+ * combination of both t and If2 (t): If'2 (t) = A &times; t + B &times; If2 (t)
  * </p>
  *
  * <p>From the primitive, we can deduce the same form for definite
- * integrals between t1 and ti for each ti :
+ * integrals between t<sub>1</sub> and t<sub>i</sub> for each t<sub>i</sub> :
  * <pre>
- *   If2 (ti) - If2 (t1) = A * (ti - t1) + B * (If2 (ti) - If2 (t1))
+ *   If2 (t<sub>i</sub>) - If2 (t<sub>1</sub>) = A &times; (t<sub>i</sub> - t<sub>1</sub>) + B &times; (If2 (t<sub>i</sub>) - If2 (t<sub>1</sub>))
  * </pre>
  * </p>
  *
@@ -66,62 +66,60 @@ import org.spaceroots.mantissa.estimation.EstimationException;
  * each sample points.
  * </p>
  *
- * <p>For a bilinear expression z (xi, yi) = A * xi + B * yi, the
- * coefficients a and b that minimize a least square criterion
- * Sum ((zi - z (xi, yi))^2) are given by these expressions:</p>
+ * <p>For a bilinear expression z (x<sub>i</sub>, y<sub>i</sub>) = A &times; x<sub>i</sub> + B &times; y<sub>i</sub>, the
+ * coefficients A and B that minimize a least square criterion
+ * &sum; (z<sub>i</sub> - z (x<sub>i</sub>, y<sub>i</sub>))<sup>2</sup> are given by these expressions:</p>
  * <pre>
  *
- *         Sum (yi^2) Sum (xi zi) - Sum (xi yi) Sum (yi zi)
- *     A = ------------------------------------------------
- *         Sum (xi^2) Sum (yi^2)  - Sum (xi yi) Sum (xi yi)
+ *         &sum;y<sub>i</sub>y<sub>i</sub> &sum;x<sub>i</sub>z<sub>i</sub> - &sum;x<sub>i</sub>y<sub>i</sub> &sum;y<sub>i</sub>z<sub>i</sub>
+ *     A = ------------------------
+ *         &sum;x<sub>i</sub>x<sub>i</sub> &sum;y<sub>i</sub>y<sub>i</sub> - &sum;x<sub>i</sub>y<sub>i</sub> &sum;x<sub>i</sub>y<sub>i</sub>
  *
- *         Sum (xi^2) Sum (yi zi) - Sum (xi yi) Sum (xi zi)
- *     B = ------------------------------------------------
- *         Sum (xi^2) Sum (yi^2)  - Sum (xi yi) Sum (xi yi)
+ *         &sum;x<sub>i</sub>x<sub>i</sub> &sum;y<sub>i</sub>z<sub>i</sub> - &sum;x<sub>i</sub>y<sub>i</sub> &sum;x<sub>i</sub>z<sub>i</sub>
+ *     B = ------------------------
+ *         &sum;x<sub>i</sub>x<sub>i</sub> &sum;y<sub>i</sub>y<sub>i</sub> - &sum;x<sub>i</sub>y<sub>i</sub> &sum;x<sub>i</sub>y<sub>i</sub>
  * </pre>
  * </p>
  *
  *
- * <p>In fact, we can assume both a and omega are positive and
- * compute them directly, knowing that A = a^2 * omega^2 and that
- * B = - omega^2. The complete algorithm is therefore:</p>
+ * <p>In fact, we can assume both a and &omega; are positive and
+ * compute them directly, knowing that A = a<sup>2</sup> &omega;<sup>2</sup> and that
+ * B = - &omega;<sup>2</sup>. The complete algorithm is therefore:</p>
  * <pre>
  *
- * for each ti from t1 to t(n-1), compute:
- *   f  (ti)
- *   f' (ti) = (f (t(i+1)) - f(t(i-1))) / (t(i+1) - t(i-1))
- *   xi = ti - t1
- *   yi = int (f^2) from t1 to ti
- *   zi = int (f'^2) from t1 to ti
- *   update the sums Sum (xi^2), Sum (yi^2),
- *                   Sum (xi yi), Sum (xi zi)
- *                   and Sum (yi zi)
+ * for each t<sub>i</sub> from t<sub>1</sub> to t<sub>n-1</sub>, compute:
+ *   f  (t<sub>i</sub>)
+ *   f' (t<sub>i</sub>) = (f (t<sub>i+1</sub>) - f(t<sub>i-1</sub>)) / (t<sub>i+1</sub> - t<sub>i-1</sub>)
+ *   x<sub>i</sub> = t<sub>i</sub> - t<sub>1</sub>
+ *   y<sub>i</sub> = &int; f<sup>2</sup> from t<sub>1</sub> to t<sub>i</sub>
+ *   z<sub>i</sub> = &int; f'<sup>2</sup> from t<sub>1</sub> to t<sub>i</sub>
+ *   update the sums &sum;x<sub>i</sub>x<sub>i</sub>, &sum;y<sub>i</sub>y<sub>i</sub>, &sum;x<sub>i</sub>y<sub>i</sub>, &sum;x<sub>i</sub>z<sub>i</sub> and &sum;y<sub>i</sub>z<sub>i</sub>
  * end for
  *
- *            |-------------------------------------------------
- *         \  | Sum (yi^2) Sum (xi zi) - Sum (xi yi) Sum (yi zi)
- * a     =  \ | ------------------------------------------------
- *           \| Sum (xi yi) Sum (xi zi) - Sum (xi^2) Sum (yi zi)
+ *            |--------------------------
+ *         \  | &sum;y<sub>i</sub>y<sub>i</sub> &sum;x<sub>i</sub>z<sub>i</sub> - &sum;x<sub>i</sub>y<sub>i</sub> &sum;y<sub>i</sub>z<sub>i</sub>
+ * a     =  \ | ------------------------
+ *           \| &sum;x<sub>i</sub>y<sub>i</sub> &sum;x<sub>i</sub>z<sub>i</sub> - &sum;x<sub>i</sub>x<sub>i</sub> &sum;y<sub>i</sub>z<sub>i</sub>
  *
  *
- *            |-------------------------------------------------
- *         \  | Sum (xi yi) Sum (xi zi) - Sum (xi^2) Sum (yi zi)
- * omega =  \ | ------------------------------------------------
- *           \| Sum (xi^2) Sum (yi^2)  - Sum (xi yi) Sum (xi yi)
+ *            |--------------------------
+ *         \  | &sum;x<sub>i</sub>y<sub>i</sub> &sum;x<sub>i</sub>z<sub>i</sub> - &sum;x<sub>i</sub>x<sub>i</sub> &sum;y<sub>i</sub>z<sub>i</sub>
+ * &omega;     =  \ | ------------------------
+ *           \| &sum;x<sub>i</sub>x<sub>i</sub> &sum;y<sub>i</sub>y<sub>i</sub> - &sum;x<sub>i</sub>y<sub>i</sub> &sum;x<sub>i</sub>y<sub>i</sub>
  *
  * </pre>
  * </p>
 
- * <p>Once we know omega, we can compute:
+ * <p>Once we know &omega;, we can compute:
  * <pre>
- *    fc = omega * f (t) * cos (omega * t) - f' (t) * sin (omega * t)
- *    fs = omega * f (t) * sin (omega * t) + f' (t) * cos (omega * t)
+ *    fc = &omega; f (t) cos (&omega; t) - f' (t) sin (&omega; t)
+ *    fs = &omega; f (t) sin (&omega; t) + f' (t) cos (&omega; t)
  * </pre>
  * </p>
 
- * <p>It appears that <code>fc = a * omega * cos (phi)</code> and
- * <code>fs = -a * omega * sin (phi)</code>, so we can use these
- * expressions to compute phi. The best estimate over the sample is
+ * <p>It appears that <code>fc = a &omega; cos (&phi;)</code> and
+ * <code>fs = -a &omega; sin (&phi;)</code>, so we can use these
+ * expressions to compute &phi;. The best estimate over the sample is
  * given by averaging these expressions.
  * </p>
 
@@ -138,7 +136,8 @@ public class HarmonicCoefficientsGuesser
   implements Serializable{
 
   public HarmonicCoefficientsGuesser(AbstractCurveFitter.FitMeasurement[] measurements) {
-    this.measurements = measurements;
+    this.measurements =
+      (AbstractCurveFitter.FitMeasurement[]) measurements.clone();
     a                 = Double.NaN;
     omega             = Double.NaN;
   }
@@ -159,7 +158,7 @@ public class HarmonicCoefficientsGuesser
     guessPhi();
   }
 
-  /** Estimate a first guess of the a and omega coefficients.
+  /** Estimate a first guess of the a and &omega; coefficients.
 
    * @exception ExhaustedSampleException if the sample is exhausted.
 
@@ -185,25 +184,25 @@ public class HarmonicCoefficientsGuesser
     SampledFunctionIterator sampler =
       new EnhancedSimpsonIntegratorSampler(iter);
     VectorialValuedPair p0 = sampler.nextSamplePoint();
-    double   p0X = p0.getX();
-    double[] p0Y = p0.getY();
+    double   p0X = p0.x;
+    double[] p0Y = p0.y;
 
     // get the points for the linear model
     while (sampler.hasNext()) {
 
       VectorialValuedPair point = sampler.nextSamplePoint();
-      double   pX = point.getX();
-      double[] pY = point.getY();
+      double   pX = point.x;
+      double[] pY = point.y;
 
-      double dx  = pX    - p0X;
-      double dy0 = pY[0] - p0Y[0];
-      double dy1 = pY[1] - p0Y[1];
+      double x = pX    - p0X;
+      double y = pY[0] - p0Y[0];
+      double z = pY[1] - p0Y[1];
 
-      sx2 += dx  * dx;
-      sy2 += dy0 * dy0;
-      sxy += dx  * dy0;
-      sxz += dx  * dy1;
-      syz += dy0 * dy1;
+      sx2 += x * x;
+      sy2 += y * y;
+      sxy += x * y;
+      sxz += x * z;
+      syz += y * z;
 
     }
 
@@ -219,7 +218,7 @@ public class HarmonicCoefficientsGuesser
 
   }
 
-  /** Estimate a first guess of the phi coefficient.
+  /** Estimate a first guess of the &phi; coefficient.
 
    * @exception ExhaustedSampleException if the sample is exhausted.
 
@@ -237,12 +236,11 @@ public class HarmonicCoefficientsGuesser
 
     while (iter.hasNext()) {
       VectorialValuedPair point = iter.nextSamplePoint();
-      double   omegaX = omega * point.getX();
-      double[] pY     = point.getY();
+      double   omegaX = omega * point.x;
       double   cosine = Math.cos(omegaX);
       double   sine   = Math.sin(omegaX);
-      fcMean += omega * pY[0] * cosine - pY[1] *   sine;
-      fsMean += omega * pY[0] *   sine + pY[1] * cosine;
+      fcMean += omega * point.y[0] * cosine - point.y[1] *   sine;
+      fsMean += omega * point.y[0] *   sine + point.y[1] * cosine;
     }
 
     phi = Math.atan2(-fsMean, fcMean);

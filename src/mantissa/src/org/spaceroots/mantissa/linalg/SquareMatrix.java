@@ -17,8 +17,6 @@
 
 package org.spaceroots.mantissa.linalg;
 
-import java.io.Serializable;
-
 /** This class factor all services common to square matrices of linear algebra.
 
  * <p>This class is the base class of all square matrix
@@ -31,8 +29,7 @@ import java.io.Serializable;
  */
 
 public abstract class SquareMatrix
-  extends Matrix
-  implements Serializable, Cloneable {
+  extends Matrix {
   /** Simple constructor.
    * Build a matrix with null elements.
    * @param order order of the matrix

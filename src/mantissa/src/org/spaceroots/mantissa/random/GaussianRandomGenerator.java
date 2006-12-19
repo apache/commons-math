@@ -33,9 +33,6 @@ import java.util.Random;
 public class GaussianRandomGenerator
   implements NormalizedRandomGenerator {
 
-  /** Underlying generator. */
-  Random generator;
-
   /** Create a new generator.
    * The seed of the generator is related to the current time.
    */
@@ -63,5 +60,10 @@ public class GaussianRandomGenerator
   public double nextDouble() {
     return generator.nextGaussian();
   }
+
+  /** Underlying generator. */
+  private Random generator;
+
+  private static final long serialVersionUID = 5504568059866195697L;
 
 }

@@ -55,12 +55,11 @@ public class HermiteTest
       Polynomial.Rational g1 = new Polynomial.Rational(-2l, 0l);
       Polynomial.Rational g2 = new Polynomial.Rational(1l);
 
-      Polynomial.Rational Hk0g0 = Polynomial.Rational.multiply(Hk0, g0);
-      Polynomial.Rational Hk1g1 = Polynomial.Rational.multiply(Hk1, g1);
-      Polynomial.Rational Hk2g2 = Polynomial.Rational.multiply(Hk2, g2);
+      Polynomial.Rational Hk0g0 = Hk0.multiply(g0);
+      Polynomial.Rational Hk1g1 = Hk1.multiply(g1);
+      Polynomial.Rational Hk2g2 = Hk2.multiply(g2);
 
-      Polynomial.Rational d =
-        Polynomial.Rational.add(Hk0g0, Polynomial.Rational.add(Hk1g1, Hk2g2));
+      Polynomial.Rational d = Hk0g0.add(Hk1g1.add(Hk2g2));
       assertTrue(d.isZero());
 
     }

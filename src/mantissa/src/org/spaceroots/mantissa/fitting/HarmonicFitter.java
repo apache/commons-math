@@ -17,9 +17,10 @@
 
 package org.spaceroots.mantissa.fitting;
 
-import java.io.Serializable;
-
-import org.spaceroots.mantissa.estimation.*;
+import org.spaceroots.mantissa.estimation.EstimatedParameter;
+import org.spaceroots.mantissa.estimation.EstimationException;
+import org.spaceroots.mantissa.estimation.Estimator;
+import org.spaceroots.mantissa.estimation.GaussNewtonEstimator;
 import org.spaceroots.mantissa.functions.ExhaustedSampleException;
 import org.spaceroots.mantissa.functions.FunctionException;
 
@@ -40,8 +41,37 @@ import org.spaceroots.mantissa.functions.FunctionException;
  */
 
 public class HarmonicFitter
-  extends AbstractCurveFitter
-  implements EstimationProblem, Serializable {
+  extends AbstractCurveFitter {
+
+  /** Simple constructor.
+   * @param estimator estimator to use for the fitting
+   */
+  public HarmonicFitter(Estimator estimator) {
+    super(3, estimator);
+    coefficients[0]  = new EstimatedParameter("a", 2.0 * Math.PI);
+    coefficients[1]  = new EstimatedParameter("omega", 0.0);
+    coefficients[2]  = new EstimatedParameter("phi", 0.0);
+    firstGuessNeeded = true;
+  }
+
+  /**
+   * Simple constructor.
+
+   * <p>This constructor can be used when a first estimate of the
+   * coefficients is already known.</p>
+
+   * @param coefficients first estimate of the coefficients.
+   * A reference to this array is hold by the newly created
+   * object. Its elements will be adjusted during the fitting process
+   * and they will be set to the adjusted coefficients at the end.
+   * @param estimator estimator to use for the fitting
+
+   */
+  public HarmonicFitter(EstimatedParameter[] coefficients,
+                        Estimator estimator) {
+    super(coefficients, estimator);
+    firstGuessNeeded = false;
+  }
 
   /**
    * Simple constructor.
@@ -58,14 +88,13 @@ public class HarmonicFitter
    * problem is considered singular (see {@link
    * org.spaceroots.mantissa.linalg.SquareMatrix#solve(
    * org.spaceroots.mantissa.linalg.Matrix,double) SquareMatrix.solve}).
+   * @deprecated replaced by {@link #HarmonicFitter(Estimator)}
+   * as of version 7.0
    */
   public HarmonicFitter(int maxIterations, double convergence,
                         double steadyStateThreshold, double epsilon) {
-    super(3, maxIterations, convergence, steadyStateThreshold, epsilon);
-    coefficients[0]  = new EstimatedParameter("a", 2.0 * Math.PI);
-    coefficients[1]  = new EstimatedParameter("omega", 0.0);
-    coefficients[2]  = new EstimatedParameter("phi", 0.0);
-    firstGuessNeeded = true;
+    this(new GaussNewtonEstimator(maxIterations, convergence,
+                                   steadyStateThreshold, epsilon));
   }
 
   /**
@@ -92,14 +121,15 @@ public class HarmonicFitter
    * org.spaceroots.mantissa.linalg.SquareMatrix#solve(
    * org.spaceroots.mantissa.linalg.Matrix,double) SquareMatrix.solve}).
 
+   * @deprecated replaced by {@link #HarmonicFitter(EstimatedParameter[],
+   * Estimator)} as of version 7.0
    */
   public HarmonicFitter(EstimatedParameter[] coefficients,
                         int maxIterations, double convergence,
                         double steadyStateThreshold, double epsilon) {
-    super(coefficients,
-          maxIterations, convergence,
-          steadyStateThreshold, epsilon);
-    firstGuessNeeded = false;
+    this(coefficients,
+          new GaussNewtonEstimator(maxIterations, convergence,
+                                   steadyStateThreshold, epsilon));
   }
 
   public double[] fit()

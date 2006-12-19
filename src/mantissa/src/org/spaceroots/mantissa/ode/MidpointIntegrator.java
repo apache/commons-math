@@ -43,7 +43,7 @@ package org.spaceroots.mantissa.ode;
 public class MidpointIntegrator
   extends RungeKuttaIntegrator {
 
-  private static final String methodName = new String("midpoint");
+  private static final String methodName = "midpoint";
 
   private static final double[] c = {
     1.0 / 2.0

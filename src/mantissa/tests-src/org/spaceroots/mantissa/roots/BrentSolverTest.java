@@ -45,7 +45,7 @@ public class BrentSolverTest
 
   }
 
-  private class Checker implements ConvergenceChecker {
+  private static class Checker implements ConvergenceChecker {
 
     private double tolerance;
 

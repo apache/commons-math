@@ -243,7 +243,7 @@ public abstract class DirectSearchOptimizer {
     }
 
     RandomVectorGenerator rvg =
-      new CorrelatedRandomVectorGenerator(statistics.getMean(null),
+      new CorrelatedRandomVectorGenerator(statistics.getMean(),
                                           statistics.getCovarianceMatrix(null),
                                           new UniformRandomGenerator(seed));
     setMultiStart(starts, rvg);
@@ -344,7 +344,7 @@ public abstract class DirectSearchOptimizer {
       if (i < n) {
         System.arraycopy(vertexA, i, vertex, i, n - i);
       }
-      simplex[i] = new PointCostPair(vertex);
+      simplex[i] = new PointCostPair(vertex, Double.NaN);
     }
 
   }
@@ -356,7 +356,7 @@ public abstract class DirectSearchOptimizer {
     int n = vertices.length - 1;
     simplex = new PointCostPair[n + 1];
     for (int i = 0; i <= n; ++i) {
-      simplex[i] = new PointCostPair(vertices[i]);
+      simplex[i] = new PointCostPair(vertices[i], Double.NaN);
     }
   }
 
@@ -369,11 +369,11 @@ public abstract class DirectSearchOptimizer {
     double[] vertex = generator.nextVector();
     int n = vertex.length;
     simplex = new PointCostPair[n + 1];
-    simplex[0] = new PointCostPair(vertex);
+    simplex[0] = new PointCostPair(vertex, Double.NaN);
 
     // fill up the vertex
     for (int i = 1; i <= n; ++i) {
-      simplex[i] = new PointCostPair(generator.nextVector());
+      simplex[i] = new PointCostPair(generator.nextVector(), Double.NaN);
     }
 
   }
@@ -428,7 +428,7 @@ public abstract class DirectSearchOptimizer {
    * minimizes} has not been called
    */
   public PointCostPair[] getMinima() {
-    return minima;
+    return (PointCostPair[]) minima.clone();
   }
 
   /** Minimizes a cost function.
@@ -522,8 +522,8 @@ public abstract class DirectSearchOptimizer {
     // evaluate the cost at all non-evaluated simplex points
     for (int i = 0; i < simplex.length; ++i) {
       PointCostPair pair = simplex[i];
-      if (! pair.isEvaluated()) {
-        pair.setCost(evaluateCost(pair.getPoint()));
+      if (Double.isNaN(pair.cost)) {
+        simplex[i] = new PointCostPair(pair.point, evaluateCost(pair.point));
       }
     }
 
@@ -538,7 +538,7 @@ public abstract class DirectSearchOptimizer {
   protected void replaceWorstPoint(PointCostPair pointCostPair) {
     int n = simplex.length - 1;
     for (int i = 0; i < n; ++i) {
-      if (simplex[i].getCost() > pointCostPair.getCost()) {
+      if (simplex[i].cost > pointCostPair.cost) {
         PointCostPair tmp = simplex[i];
         simplex[i]        = pointCostPair;
         pointCostPair     = tmp;
@@ -555,8 +555,8 @@ public abstract class DirectSearchOptimizer {
         } else if (o2 == null) {
           return -1;
         } else {
-          double cost1 = ((PointCostPair) o1).getCost();
-          double cost2 = ((PointCostPair) o2).getCost();
+          double cost1 = ((PointCostPair) o1).cost;
+          double cost2 = ((PointCostPair) o2).cost;
           return (cost1 < cost2) ? -1 : ((o1 == o2) ? 0 : +1);
         }
       }

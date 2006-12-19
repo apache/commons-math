@@ -38,8 +38,7 @@ public class LowerTriangularMatrixTest
         } else {
           boolean gotIt = false;
           try {
-            l.setElement
-              (i, j, -1.3);
+            l.setElement(i, j, -1.3);
           } catch(ArrayIndexOutOfBoundsException e) {
             gotIt = true;
           }
@@ -48,58 +47,34 @@ public class LowerTriangularMatrixTest
       }
     }
 
-    checkMatrix(l, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.1 * j;
-        }
-      });
+    checkMatrix(l, new BilinearPattern(1.0, 0.1));
 
   }
 
   public void testCopy() {
 
-    LowerTriangularMatrix l1 = buildMatrix(4, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.1 * j;
-        }
-      });
+    LowerTriangularMatrix l1 = buildMatrix(4, new BilinearPattern(1.0, 0.01));
 
     LowerTriangularMatrix l2 = new LowerTriangularMatrix (l1);
 
-    checkMatrix (l2, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.1 * j;
-        }
-      });
+    checkMatrix (l2, new BilinearPattern(1.0, 0.01));
 
   }
 
   public void testDuplicate() {
 
-    LowerTriangularMatrix l1 = buildMatrix(4, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.1 * j;
-        }
-      });
+    LowerTriangularMatrix l1 = buildMatrix(4, new BilinearPattern(1.0, 0.01));
 
     Matrix l2 = l1.duplicate();
     assertTrue(l2 instanceof LowerTriangularMatrix);
 
-    checkMatrix(l2, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.1 * j;
-        }
-      });
+    checkMatrix(l2, new BilinearPattern(1.0, 0.01));
 
   }
 
   public void testTranspose() {
 
-    LowerTriangularMatrix l = buildMatrix(7, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.1 * j;
-        }
-      });
+    LowerTriangularMatrix l = buildMatrix(7, new BilinearPattern(1.0, 0.1));
 
     Matrix transposed = l.getTranspose();
     assertTrue(transposed instanceof UpperTriangularMatrix);
@@ -114,46 +89,23 @@ public class LowerTriangularMatrixTest
   }
 
   public void testSelfAdd() {
-    LowerTriangularMatrix l1 = buildMatrix(7, new ElementPattern() {
-        public double value(int i, int j) {
-          return 3 * i - 0.2 * j;
-        }
-      });
+    LowerTriangularMatrix l1 = buildMatrix(7, new BilinearPattern(3, -0.2));
 
-    LowerTriangularMatrix l2 = buildMatrix(7, new ElementPattern() {
-        public double value(int i, int j) {
-          return 2 * i - 0.4 * j; }
-      });
+    LowerTriangularMatrix l2 = buildMatrix(7, new BilinearPattern(2, -0.4));
 
     l1.selfAdd(l2);
 
-    checkMatrix(l1, new ElementPattern() {
-        public double value(int i, int j) {
-          return 5 * i - 0.6 * j;
-        }
-      });
+    checkMatrix(l1, new BilinearPattern(5, -0.6));
   }
 
   public void testSelfSub() {
-    LowerTriangularMatrix l1 = buildMatrix(7, new ElementPattern() {
-        public double value(int i, int j) {
-          return 3 * i - 0.2 * j;
-        }
-      });
+    LowerTriangularMatrix l1 = buildMatrix(7, new BilinearPattern(3, -0.2));
 
-    LowerTriangularMatrix l2 = buildMatrix(7, new ElementPattern() {
-        public double value(int i, int j) {
-          return 2 * i - 0.4 * j;
-        }
-      });
+    LowerTriangularMatrix l2 = buildMatrix(7, new BilinearPattern(2, -0.4));
 
     l1.selfSub(l2);
 
-    checkMatrix(l1, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.2 * j;
-        }
-      });
+    checkMatrix(l1, new BilinearPattern(1, 0.2));
   }
 
   public void testDeterminant() {
@@ -199,7 +151,7 @@ public class LowerTriangularMatrixTest
     boolean gotIt = false;
     try {
       l.setElement(3, 3, 0.0);
-      result = l.solve(b, 1.0e-10);
+      l.solve(b, 1.0e-10);
     } catch(SingularMatrixException e) {
       gotIt = true;
     }
@@ -233,6 +185,18 @@ public class LowerTriangularMatrixTest
 
   public interface ElementPattern {
     public double value(int i, int j);
+  }
+
+  private static class BilinearPattern implements ElementPattern {
+    public BilinearPattern(double coeffI, double coeffJ) {
+      this.coeffI = coeffI;
+      this.coeffJ = coeffJ;
+    }
+    public double value(int i, int j) {
+      return coeffI * i + coeffJ * j;
+    }
+    private final double coeffI;
+    private final double coeffJ;
   }
 
   public LowerTriangularMatrix buildMatrix(int order,

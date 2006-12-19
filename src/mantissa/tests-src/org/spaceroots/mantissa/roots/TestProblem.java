@@ -204,11 +204,12 @@ public abstract class TestProblem implements ComputableFunction {
       problems.add(new APSProblem28(n28[k], -10000.0, 10000.0, roots28[k]));
     }
 
-    return (TestProblem[]) problems.toArray(new TestProblem[0]);
+    return (TestProblem[]) problems.toArray(new TestProblem[problems.size()]);
 
   }
 
   private static class APSProblem1 extends TestProblem {
+    private static final long serialVersionUID = -186095948802525864L;
     public APSProblem1(double a, double b, double expectedRoot) {
       super(a, b, expectedRoot);
     }
@@ -218,6 +219,7 @@ public abstract class TestProblem implements ComputableFunction {
   }
 
   private static class APSProblems2To11 extends TestProblem {
+    private static final long serialVersionUID = -1284328672006328516L;
     public APSProblems2To11(double a, double b, double expectedRoot) {
       super(a, b, expectedRoot);
     }
@@ -233,6 +235,7 @@ public abstract class TestProblem implements ComputableFunction {
   }
 
   private static class APSProblems12To14 extends TestProblem {
+    private static final long serialVersionUID = 3371996034561221313L;
     private int n;
     public APSProblems12To14(int n, double a, double b, double expectedRoot) {
       super(a, b, expectedRoot);
@@ -244,6 +247,7 @@ public abstract class TestProblem implements ComputableFunction {
   }
 
   private static class APSProblems15To17 extends TestProblem {
+    private static final long serialVersionUID = -5460543876513796612L;
     private int    n;
     private double u;
     public APSProblems15To17(int n, double u,
@@ -258,6 +262,7 @@ public abstract class TestProblem implements ComputableFunction {
   }
 
   private static class APSProblem18 extends TestProblem {
+    private static final long serialVersionUID = 6762799934117390438L;
     public APSProblem18(double a, double b, double expectedRoot) {
       super(a, b, expectedRoot);
     }
@@ -267,6 +272,7 @@ public abstract class TestProblem implements ComputableFunction {
   }
 
   private static class APSProblem19 extends TestProblem {
+    private static final long serialVersionUID = 4962041891152128524L;
     private int n;
     public APSProblem19(int n, double a, double b, double expectedRoot) {
       super(a, b, expectedRoot);
@@ -278,6 +284,7 @@ public abstract class TestProblem implements ComputableFunction {
   }
 
   private static class APSProblem20 extends TestProblem {
+    private static final long serialVersionUID = -7391954140799812791L;
     private int n;
     private int oPoMn2;
     public APSProblem20(int n, double a, double b, double expectedRoot) {
@@ -293,6 +300,7 @@ public abstract class TestProblem implements ComputableFunction {
   }
 
   private static class APSProblem21 extends TestProblem {
+    private static final long serialVersionUID = -4160028543895639114L;
     private int n;
     public APSProblem21(int n, double a, double b, double expectedRoot) {
       super(a, b, expectedRoot);
@@ -304,6 +312,7 @@ public abstract class TestProblem implements ComputableFunction {
   }
 
   private static class APSProblem22 extends TestProblem {
+    private static final long serialVersionUID = 3807046732154081146L;
     private int n;
     private int oPoMn4;
     public APSProblem22(int n, double a, double b, double expectedRoot) {
@@ -321,6 +330,7 @@ public abstract class TestProblem implements ComputableFunction {
   }
 
   private static class APSProblem23 extends TestProblem {
+    private static final long serialVersionUID = -486669213837396921L;
     private int n;
     public APSProblem23(int n, double a, double b, double expectedRoot) {
       super(a, b, expectedRoot);
@@ -332,6 +342,7 @@ public abstract class TestProblem implements ComputableFunction {
   }
 
   private static class APSProblem24 extends TestProblem {
+    private static final long serialVersionUID = -628275471717968182L;
     private int n;
     public APSProblem24(int n, double a, double b, double expectedRoot) {
       super(a, b, expectedRoot);
@@ -343,6 +354,7 @@ public abstract class TestProblem implements ComputableFunction {
   }
 
   private static class APSProblem25 extends TestProblem {
+    private static final long serialVersionUID = 5207170686914959073L;
     private double u;
     private double v;;
     public APSProblem25(int n, double a, double b, double expectedRoot) {
@@ -356,6 +368,8 @@ public abstract class TestProblem implements ComputableFunction {
   }
 
   private static class APSProblem26 extends TestProblem {
+    private static final long serialVersionUID = 1063884352586457076L;
+
     public APSProblem26(double a, double b, double expectedRoot) {
       super(a, b, expectedRoot);
     }
@@ -381,6 +395,7 @@ public abstract class TestProblem implements ComputableFunction {
   }
 
   private static class APSProblem27 extends TestProblem {
+    private static final long serialVersionUID = -3549158218723499035L;
     private double u;
     public APSProblem27(int n, double a, double b, double expectedRoot) {
       super(a, b, expectedRoot);
@@ -395,13 +410,13 @@ public abstract class TestProblem implements ComputableFunction {
   }
 
   private static class APSProblem28 extends TestProblem {
+    private static final long serialVersionUID = -8198306839874267863L;
     private double threshold;
-    private double yHigh;
+    private static final double yHigh= Math.exp(1.0) - 1.859;
     private int    u;
     public APSProblem28(int n, double a, double b, double expectedRoot) {
       super(a, b, expectedRoot);
       threshold = 0.002 / (1 + n);
-      yHigh     = Math.exp(1.0) - 1.859;
       u         = (n + 1) * 500;
     }
     public double valueAt(double x) {

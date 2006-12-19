@@ -86,15 +86,13 @@ public class RiemannIntegratorSampler
     // performs one step of a Riemann scheme
     VectorialValuedPair previous = current;
     current = iter.nextSamplePoint();
-    double step =  (current.getX() - previous.getX());
-    double[] pY = previous.getY();
+    double step =  (current.x - previous.x);
+    double[] pY = previous.y;
     for (int i = 0; i < sum.length; ++i) {
       sum[i] += step * pY[i];
     }
 
-    double[] values = new double[sum.length];
-    System.arraycopy(sum, 0, values, 0, sum.length);
-    return new VectorialValuedPair (current.getX(), values);
+    return new VectorialValuedPair (current.x, (double[]) sum.clone());
 
   }
 

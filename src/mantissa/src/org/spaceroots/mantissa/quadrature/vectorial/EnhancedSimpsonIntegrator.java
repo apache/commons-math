@@ -45,7 +45,7 @@ public class EnhancedSimpsonIntegrator
 
     try {
       while (true) {
-        sum = sampler.nextSamplePoint().getY();
+        sum = sampler.nextSamplePoint().y;
       }
     } catch(ExhaustedSampleException e) {
     }

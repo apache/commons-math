@@ -72,8 +72,7 @@ class TestProblem3
   public TestProblem3(TestProblem3 problem) {
     super(problem);
     e = problem.e;
-    y = new double[problem.y.length];
-    System.arraycopy(problem.y, 0, y, 0, problem.y.length);
+    y = (double[]) problem.y.clone();
   }
 
   /**

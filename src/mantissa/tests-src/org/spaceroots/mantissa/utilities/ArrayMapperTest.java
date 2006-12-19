@@ -25,13 +25,16 @@ public class ArrayMapperTest
   public ArrayMapperTest(String name) {
     super(name);
     mapper = null;
+    b1 = null;
+    b2 = null;
+    b3 = null;
   }
 
   public void testDimensionCheck() {
     int size = b1.getStateDimension();
     size += b2.getStateDimension();
     size += b3.getStateDimension();
-    assertTrue(mapper.getInternalDataArray().length == size);
+    assertTrue(mapper.getDataArray().length == size);
   }
 
   public void testUpdateObjects() {
@@ -69,7 +72,7 @@ public class ArrayMapperTest
 
     mapper.updateArray();
 
-    double[] data = mapper.getInternalDataArray();
+    double[] data = mapper.getDataArray();
     for (int i = 0; i < 7; ++i) {
       assertTrue(Math.abs(data [i] - i * 10.0) < 1.0e-10);
     }
@@ -103,7 +106,7 @@ public class ArrayMapperTest
     return new TestSuite(ArrayMapperTest.class);
   }
 
-  private class DomainObject implements ArraySliceMappable {
+  private static class DomainObject implements ArraySliceMappable {
 
     private double[] data;
 

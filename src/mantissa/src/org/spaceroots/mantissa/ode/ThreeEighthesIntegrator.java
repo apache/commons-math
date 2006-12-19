@@ -46,7 +46,7 @@ package org.spaceroots.mantissa.ode;
 public class ThreeEighthesIntegrator
   extends RungeKuttaIntegrator {
 
-  private static final String methodName = new String("3/8");
+  private static final String methodName = "3/8";
 
   private static final double[] c = {
     1.0 / 3.0, 2.0 / 3.0, 1.0

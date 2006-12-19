@@ -85,15 +85,15 @@ public class EnhancedSimpsonIntegratorSampler
     try {
       next = iter.nextSamplePoint();
 
-      double h1 = current.getX() - previous.getX();
-      double h2 = next.getX()    - current.getX();
+      double h1 = current.x - previous.x;
+      double h2 = next.x    - current.x;
       double cP = (h1 + h2) * (2 * h1 - h2) / (6 * h1);
       double cC = (h1 + h2) * (h1 + h2) * (h1 + h2) / (6 * h1 * h2);
       double cN = (h1 + h2) * (2 * h2 - h1) / (6 * h2);
 
-      double[] pY = previous.getY();
-      double[] cY = current.getY();
-      double[] nY = next.getY();
+      double[] pY = previous.y;
+      double[] cY = current.y;
+      double[] nY = next.y;
       for (int i = 0; i < sum.length; ++i) {
         sum [i] += cP * pY[i] + cC * cY[i] + cN * nY[i];
       }
@@ -101,18 +101,16 @@ public class EnhancedSimpsonIntegratorSampler
     } catch(ExhaustedSampleException e) {
       // we have an incomplete step at the end of the sample
       // we use a trapezoid scheme for this last step
-      double halfDx = 0.5 * (current.getX() - previous.getX());
-      double[] pY = previous.getY();
-      double[] cY = current.getY();
+      double halfDx = 0.5 * (current.x - previous.x);
+      double[] pY = previous.y;
+      double[] cY = current.y;
       for (int i = 0; i < sum.length; ++i) {
         sum [i] += halfDx * (pY[i] + cY[i]);
       }
-      return new VectorialValuedPair(current.getX(), sum);
+      return new VectorialValuedPair(current.x, sum);
     }
 
-    double[] values = new double[sum.length];
-    System.arraycopy(sum, 0, values, 0, sum.length);
-    return new VectorialValuedPair(next.getX(), values);
+    return new VectorialValuedPair(next.x, (double[]) sum.clone());
 
   }
 

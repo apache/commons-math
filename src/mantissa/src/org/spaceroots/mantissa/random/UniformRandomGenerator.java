@@ -34,13 +34,6 @@ import java.util.Random;
 public class UniformRandomGenerator
   implements NormalizedRandomGenerator {
 
-  private static final double SQRT3 = Math.sqrt(3.0);
-
-  private static final double TWOSQRT3 = 2.0 * Math.sqrt(3.0);
-
-  /** Underlying generator. */
-  Random generator;
-
   /** Create a new generator.
    * The seed of the generator is related to the current time.
    */
@@ -70,5 +63,14 @@ public class UniformRandomGenerator
   public double nextDouble() {
     return TWOSQRT3 * generator.nextDouble() - SQRT3;
   }
+
+  /** Underlying generator. */
+  private Random generator;
+
+  private static final double SQRT3 = Math.sqrt(3.0);
+
+  private static final double TWOSQRT3 = 2.0 * Math.sqrt(3.0);
+
+  private static final long serialVersionUID = -6913329325753217654L;
 
 }

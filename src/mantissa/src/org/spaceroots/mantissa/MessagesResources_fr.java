@@ -32,7 +32,7 @@ public class MessagesResources_fr
   }
 
   public Object[][] getContents() {
-    return contents;
+    return (Object[][]) contents.clone();
   }
 
   static final Object[][] contents = {
