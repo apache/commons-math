@@ -17,8 +17,6 @@
 
 package org.spaceroots.mantissa.linalg;
 
-import java.io.Serializable;
-
 /** This class implements diagonal matrices of linear algebra.
 
  * @version $Id: DiagonalMatrix.java 1705 2006-09-17 19:57:39Z luc $
@@ -27,8 +25,7 @@ import java.io.Serializable;
  */
 
 public class DiagonalMatrix
-  extends SquareMatrix
-  implements Serializable, Cloneable {
+  extends SquareMatrix {
 
   /** Simple constructor.
    * This constructor builds a diagonal matrix of specified order, all

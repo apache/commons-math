@@ -46,7 +46,7 @@ public class MultiDirectionalTest
                                        new double[] {  3.5, -2.3 });
 
     assertTrue(count > 60);
-    assertTrue(optimum.getCost() > 0.02);
+    assertTrue(optimum.cost > 0.02);
 
   }
 
@@ -71,11 +71,11 @@ public class MultiDirectionalTest
                                        new double[] {  3.0, -1.0, 0.0, 1.0 },
                                        new double[] {  4.0,  0.0, 1.0, 2.0 });
     assertTrue(count > 850);
-    assertTrue(optimum.getCost() > 0.015);
+    assertTrue(optimum.cost > 0.015);
 
   }
 
-  private class ValueChecker implements ConvergenceChecker {
+  private static class ValueChecker implements ConvergenceChecker {
 
     public ValueChecker(double threshold) {
       this.threshold = threshold;
@@ -84,7 +84,7 @@ public class MultiDirectionalTest
     public boolean converged(PointCostPair[] simplex) {
       PointCostPair smallest = simplex[0];
       PointCostPair largest  = simplex[simplex.length - 1];
-      return (largest.getCost() - smallest.getCost()) < threshold;
+      return (largest.cost - smallest.cost) < threshold;
     }
 
     private double threshold;

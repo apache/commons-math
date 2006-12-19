@@ -20,6 +20,7 @@ package org.spaceroots.mantissa.ode;
 import junit.framework.*;
 
 import org.spaceroots.mantissa.estimation.EstimationException;
+import org.spaceroots.mantissa.estimation.LevenbergMarquardtEstimator;
 import org.spaceroots.mantissa.fitting.PolynomialFitter;
 
 public class ClassicalRungeKuttaIntegratorTest
@@ -72,11 +73,9 @@ public class ClassicalRungeKuttaIntegratorTest
         TestProblemHandler handler = new TestProblemHandler(pb);
         integ.setStepHandler(handler);
         SwitchingFunction[] functions = pb.getSwitchingFunctions();
-        if (functions != null) {
-          for (int l = 0; l < functions.length; ++l) {
-            integ.addSwitchingFunction(functions[l],
-                                       Double.POSITIVE_INFINITY, 1.0e-6 * step);
-          }
+        for (int l = 0; l < functions.length; ++l) {
+          integ.addSwitchingFunction(functions[l],
+                                     Double.POSITIVE_INFINITY, 1.0e-6 * step);
         }
         integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                         pb.getFinalTime(), new double[pb.getDimension()]);
@@ -95,9 +94,8 @@ public class ClassicalRungeKuttaIntegratorTest
   public void testOrder()
   throws EstimationException, DerivativeException,
          IntegratorException {
-    PolynomialFitter fitter = new PolynomialFitter(1,
-                                                   10, 1.0e-7, 1.0e-10,
-                                                   1.0e-10);
+    PolynomialFitter fitter =
+      new PolynomialFitter(1, new LevenbergMarquardtEstimator());
 
     TestProblemAbstract[] problems = TestProblemFactory.getProblems();
     for (int k = 0; k < problems.length; ++k) {
@@ -112,11 +110,9 @@ public class ClassicalRungeKuttaIntegratorTest
         TestProblemHandler handler = new TestProblemHandler(pb);
         integ.setStepHandler(handler);
         SwitchingFunction[] functions = pb.getSwitchingFunctions();
-        if (functions != null) {
-          for (int l = 0; l < functions.length; ++l) {
-            integ.addSwitchingFunction(functions[l],
-                                       Double.POSITIVE_INFINITY, 1.0e-6 * step);
-          }
+        for (int l = 0; l < functions.length; ++l) {
+          integ.addSwitchingFunction(functions[l],
+                                     Double.POSITIVE_INFINITY, 1.0e-6 * step);
         }
         integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                         pb.getFinalTime(), new double[pb.getDimension()]);
@@ -177,36 +173,43 @@ public class ClassicalRungeKuttaIntegratorTest
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.0003;
 
     FirstOrderIntegrator integ = new ClassicalRungeKuttaIntegrator(step);
-    integ.setStepHandler(new StepHandler() {
-                      private double maxError = 0;
-                      public boolean requiresDenseOutput() {
-                        return false;
-                      }
-                      public void reset() {
-                        maxError = 0;
-                      }
-                      public void handleStep(StepInterpolator interpolator,
-                                             boolean isLast) {
-
-                        double[] interpolatedY = interpolator.getInterpolatedState ();
-                        double[] theoreticalY  = pb.computeTheoreticalState(interpolator.getCurrentTime());
-                        double dx = interpolatedY[0] - theoreticalY[0];
-                        double dy = interpolatedY[1] - theoreticalY[1];
-                        double error = dx * dx + dy * dy;
-                        if (error > maxError) {
-                          maxError = error;
-                        }
-                        if (isLast) {
-                          // even with more than 1000 evaluations per period,
-                          // RK4 is not able to integrate such an eccentric
-                          // orbit with a good accuracy
-                          assertTrue(maxError > 0.005);
-                        }
-                      }
-      });
+    integ.setStepHandler(new KeplerHandler(pb));
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
+  }
+
+  private static class KeplerHandler implements StepHandler {
+    public KeplerHandler(TestProblem3 pb) {
+      this.pb = pb;
+      reset();
+    }
+    public boolean requiresDenseOutput() {
+      return false;
+    }
+    public void reset() {
+      maxError = 0;
+    }
+    public void handleStep(StepInterpolator interpolator,
+                           boolean isLast) {
+
+      double[] interpolatedY = interpolator.getInterpolatedState ();
+      double[] theoreticalY  = pb.computeTheoreticalState(interpolator.getCurrentTime());
+      double dx = interpolatedY[0] - theoreticalY[0];
+      double dy = interpolatedY[1] - theoreticalY[1];
+      double error = dx * dx + dy * dy;
+      if (error > maxError) {
+        maxError = error;
+      }
+      if (isLast) {
+        // even with more than 1000 evaluations per period,
+        // RK4 is not able to integrate such an eccentric
+        // orbit with a good accuracy
+        assertTrue(maxError > 0.005);
+      }
+    }
+    private double maxError = 0;
+    private TestProblem3 pb;
   }
 
   public static Test suite() {

@@ -87,16 +87,14 @@ public class TrapezoidIntegratorSampler
     VectorialValuedPair previous = current;
     current = iter.nextSamplePoint();
 
-    double halfDx = 0.5 * (current.getX() - previous.getX());
-    double[] pY = previous.getY();
-    double[] cY = current.getY();
+    double halfDx = 0.5 * (current.x - previous.x);
+    double[] pY = previous.y;
+    double[] cY = current.y;
     for (int i = 0; i < sum.length; ++i) {
       sum[i] += halfDx * (pY[i] + cY[i]);
     }
 
-    double[] values = new double[sum.length];
-    System.arraycopy(sum, 0, values, 0, sum.length);
-    return new VectorialValuedPair (current.getX(), values);
+    return new VectorialValuedPair (current.x, (double[]) sum.clone());
 
   }
 

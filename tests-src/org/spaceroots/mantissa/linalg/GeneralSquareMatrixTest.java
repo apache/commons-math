@@ -54,26 +54,14 @@ public class GeneralSquareMatrixTest
   }
 
   public void testElements() {
-    Matrix m = buildMatrix(5, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.01 * j;
-        }
-      });
+    Matrix m = buildMatrix(5, new BilinearPattern(1.0, 0.01));
 
-    checkMatrix(m, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.01 * j;
-        }
-      });
+    checkMatrix(m, new BilinearPattern(1.0, 0.01));
 
   }
 
   public void testCopy() {
-    GeneralSquareMatrix m1 = buildMatrix(5, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.01 * j;
-        }
-      });
+    GeneralSquareMatrix m1 = buildMatrix(5, new BilinearPattern(1.0, 0.01));
 
     GeneralSquareMatrix m2 = new GeneralSquareMatrix(m1);
 
@@ -86,20 +74,12 @@ public class GeneralSquareMatrixTest
     assertTrue(m2.getRows() == m1.getRows());
     assertTrue(m2.getColumns() == m1.getColumns());
 
-    checkMatrix(m2, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.01 * j;
-        }
-      });
+    checkMatrix(m2, new BilinearPattern(1.0, 0.01));
 
   }
 
   public void testDuplicate() {
-    GeneralSquareMatrix m1 = buildMatrix(5, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.01 * j;
-        }
-      });
+    GeneralSquareMatrix m1 = buildMatrix(5, new BilinearPattern(1.0, 0.01));
 
     Matrix m2 = m1.duplicate();
     assertTrue(m2 instanceof GeneralSquareMatrix);
@@ -113,59 +93,31 @@ public class GeneralSquareMatrixTest
     assertTrue(m2.getRows() == m1.getRows());
     assertTrue(m2.getColumns() == m1.getColumns());
 
-    checkMatrix(m2, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.01 * j;
-        }
-      });
+    checkMatrix(m2, new BilinearPattern(1.0, 0.01));
 
   }
 
   public void testSelfAdd() {
-    GeneralSquareMatrix m1 = buildMatrix(5, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.01 * j;
-        }
-      });
+    GeneralSquareMatrix m1 = buildMatrix(5, new BilinearPattern(1.0, 0.01));
 
-    GeneralSquareMatrix m2 = buildMatrix(5, new ElementPattern() {
-        public double value(int i, int j) {
-          return 2 * i - 0.03 * j;
-        }
-      });
+    GeneralSquareMatrix m2 = buildMatrix(5, new BilinearPattern(2, -0.03));
 
 
     m1.selfAdd(m2);
 
-    checkMatrix(m1, new ElementPattern() {
-        public double value(int i, int j) {
-          return 3 * i - 0.02 * j;
-        }
-      });
+    checkMatrix(m1, new BilinearPattern(3, -0.02));
 
   }
 
   public void testSelfSub() {
-    GeneralSquareMatrix m1 = buildMatrix(5, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.01 * j;
-        }
-      });
+    GeneralSquareMatrix m1 = buildMatrix(5, new BilinearPattern(1.0, 0.01));
 
-    GeneralSquareMatrix m2 = buildMatrix(5, new ElementPattern() {
-        public double value(int i, int j) {
-          return 2 * i - 0.03 * j;
-        }
-      });
+    GeneralSquareMatrix m2 = buildMatrix(5, new BilinearPattern(2, -0.03));
 
 
     m1.selfSub(m2);
 
-    checkMatrix(m1, new ElementPattern() {
-        public double value(int i, int j) {
-          return 0.04 * j - i;
-        }
-      });
+    checkMatrix(m1, new BilinearPattern(-1, 0.04));
 
   }
 
@@ -196,15 +148,16 @@ public class GeneralSquareMatrixTest
     result = p.a.solve(p.b, 1.0e-10);
     checkSolve(p, result);
 
-    boolean gotIt = false;
     try {
       p = buildProblem3();
       result = p.a.solve(p.b, 1.0e-10);
+      fail("got " + result + ", should have caught an exception");
     } catch(SingularMatrixException e) {
-      gotIt = true;
+      // expected
+    } catch(Exception e) {
+      fail("wrong exception caught: " + e.getMessage());
     }
-    assertTrue(gotIt);
-
+ 
   }
 
   public void testInverse()
@@ -214,28 +167,21 @@ public class GeneralSquareMatrixTest
 
     a = buildProblem1().a;
     inverse = a.getInverse(1.0e-10);
-    checkMatrix(a.mul(inverse), new ElementPattern() {
-        public double value(int i, int j) {
-          return (i == j) ? 1.0 : 0.0;
-        }
-      });
+    checkMatrix(a.mul(inverse), new IdentityPattern());
     
     a = buildProblem2().a;
     inverse = a.getInverse(1.0e-10);
-    checkMatrix(a.mul(inverse), new ElementPattern() {
-        public double value(int i, int j) {
-          return (i == j) ? 1.0 : 0.0;
-        }
-      });
+    checkMatrix(a.mul(inverse), new IdentityPattern());
 
-    boolean gotIt = false;
     try {
       a = buildProblem3().a;
       inverse = a.getInverse(1.0e-10);
+      fail("got " + inverse + ", should have caught an exception");
     } catch(SingularMatrixException e) {
-      gotIt = true;
+      // expected
+    } catch(Exception e) {
+      fail("wrong exception caught: " + e.getMessage());
     }
-    assertTrue(gotIt);
 
   }
 
@@ -243,8 +189,26 @@ public class GeneralSquareMatrixTest
     return new TestSuite(GeneralSquareMatrixTest.class);
   }
 
-  public interface ElementPattern {
+  private interface ElementPattern {
     public double value(int i, int j);
+  }
+
+  private static class BilinearPattern implements ElementPattern {
+    public BilinearPattern(double coeffI, double coeffJ) {
+      this.coeffI = coeffI;
+      this.coeffJ = coeffJ;
+    }
+    public double value(int i, int j) {
+      return coeffI * i + coeffJ * j;
+    }
+    private final double coeffI;
+    private final double coeffJ;
+  }
+
+  private static class IdentityPattern implements ElementPattern {
+    public double value(int i, int j) {
+      return (i == j) ? 1.0 : 0.0;
+    }
   }
 
   public GeneralSquareMatrix buildMatrix(int order,
@@ -270,7 +234,7 @@ public class GeneralSquareMatrixTest
     }
   }
 
-  private class LinearProblem {
+  private static class LinearProblem {
     public GeneralSquareMatrix a;
     public Matrix              x;
     public Matrix              b;

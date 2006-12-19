@@ -64,7 +64,8 @@ public class GaussLegendreIntegratorTest
     return new TestSuite(GaussLegendreIntegratorTest.class);
   }
 
-  private class Polynom implements ComputableFunction {
+  private static class Polynom implements ComputableFunction {
+
     public Polynom(int degree, Random random, double max) {
       coeffs = new double[degree + 1];
       for (int i = 0; i <= degree; ++i) {
@@ -93,6 +94,8 @@ public class GaussLegendreIntegratorTest
     }
 
     private double[] coeffs;
+
+     private static final long serialVersionUID = -7304282612679254557L;
 
   }
 

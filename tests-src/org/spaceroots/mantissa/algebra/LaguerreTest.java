@@ -61,19 +61,18 @@ public class LaguerreTest
       Polynomial.Rational g1 = new Polynomial.Rational(-1l, 1l);
       Polynomial.Rational g2 = new Polynomial.Rational(1l, 0l);
 
-      Polynomial.Rational Lk0g0 = Polynomial.Rational.multiply(Lk0, g0);
-      Polynomial.Rational Lk1g1 = Polynomial.Rational.multiply(Lk1, g1);
-      Polynomial.Rational Lk2g2 = Polynomial.Rational.multiply(Lk2, g2);
+      Polynomial.Rational Lk0g0 = Lk0.multiply(g0);
+      Polynomial.Rational Lk1g1 = Lk1.multiply(g1);
+      Polynomial.Rational Lk2g2 = Lk2.multiply(g2);
 
-      Polynomial.Rational d =
-        Polynomial.Rational.add(Lk0g0, Polynomial.Rational.add(Lk1g1, Lk2g2));
+      Polynomial.Rational d = Lk0g0.add(Lk1g1.add(Lk2g2));
       assertTrue(d.isZero());
 
     }
   }
 
   public void checkLaguerre(Laguerre p, long denominator, String reference) {
-    assertTrue(Laguerre.multiply(p, denominator).toString().equals(reference));
+    assertTrue(p.multiply(denominator).toString().equals(reference));
   }
 
   public static Test suite() {

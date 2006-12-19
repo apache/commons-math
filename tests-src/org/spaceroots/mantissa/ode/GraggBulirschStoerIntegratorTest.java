@@ -132,11 +132,9 @@ public class GraggBulirschStoerIntegratorTest
     TestProblemHandler handler = new TestProblemHandler(pb);
     integ.setStepHandler(handler);
     SwitchingFunction[] functions = pb.getSwitchingFunctions();
-    if (functions != null) {
-      for (int l = 0; l < functions.length; ++l) {
-        integ.addSwitchingFunction(functions[l],
-                                   Double.POSITIVE_INFINITY, 1.0e-8 * maxStep);
-      }
+    for (int l = 0; l < functions.length; ++l) {
+      integ.addSwitchingFunction(functions[l],
+                                 Double.POSITIVE_INFINITY, 1.0e-8 * maxStep);
     }
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
@@ -159,43 +157,7 @@ public class GraggBulirschStoerIntegratorTest
     FirstOrderIntegrator integ =
       new GraggBulirschStoerIntegrator(minStep, maxStep,
                                        absTolerance, relTolerance);
-    integ.setStepHandler(new StepHandler() {
-                      private int nbSteps = 0;
-                      private double maxError = 0;
-                      public boolean requiresDenseOutput() {
-                        return true;
-                      }
-                      public void reset() {
-                        nbSteps = 0;
-                        maxError = 0;
-                      }
-                      public void handleStep(StepInterpolator interpolator,
-                                             boolean isLast)
-                        throws DerivativeException {
-
-                        ++nbSteps;
-                        for (int a = 1; a < 100; ++a) {
-
-                          double prev   = interpolator.getPreviousTime();
-                          double curr   = interpolator.getCurrentTime();
-                          double interp = ((100 - a) * prev + a * curr) / 100;
-                          interpolator.setInterpolatedTime(interp);
-
-                          double[] interpolatedY = interpolator.getInterpolatedState ();
-                          double[] theoreticalY  = pb.computeTheoreticalState(interpolator.getInterpolatedTime());
-                          double dx = interpolatedY[0] - theoreticalY[0];
-                          double dy = interpolatedY[1] - theoreticalY[1];
-                          double error = dx * dx + dy * dy;
-                          if (error > maxError) {
-                            maxError = error;
-                          }
-                        }
-                        if (isLast) {
-                          assertTrue(maxError < 2.7e-6);
-                          assertTrue(nbSteps < 80);
-                        }
-                      }
-      });
+    integ.setStepHandler(new KeplerStepHandler(pb));
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
@@ -215,42 +177,7 @@ public class GraggBulirschStoerIntegratorTest
     FirstOrderIntegrator integ =
       new GraggBulirschStoerIntegrator(minStep, maxStep,
                                        absTolerance, relTolerance);
-    integ.setStepHandler(new StepHandler() {
-                      private boolean firstTime = true;
-                      private double  minStep = 0;
-                      private double  maxStep = 0;
-                      public boolean requiresDenseOutput() {
-                        return false;
-                      }
-                      public void reset() {
-                        firstTime = true;
-                        minStep = 0;
-                        maxStep = 0;
-                      }
-                      public void handleStep(StepInterpolator interpolator,
-                                             boolean isLast) {
-
-                        double step = Math.abs(interpolator.getCurrentTime()
-                                               - interpolator.getPreviousTime());
-                        if (firstTime) {
-                          minStep   = Math.abs(step);
-                          maxStep   = minStep;
-                          firstTime = false;
-                        } else {
-                          if (step < minStep) {
-                            minStep = step;
-                          }
-                          if (step > maxStep) {
-                            maxStep = step;
-                          }
-                        }
-
-                        if (isLast) {
-                          assertTrue(minStep < 8.2e-3);
-                          assertTrue(maxStep > 1.7);
-                        }
-                      }
-      });
+    integ.setStepHandler(new VariableStepHandler());
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
@@ -267,6 +194,88 @@ public class GraggBulirschStoerIntegratorTest
     assertEquals(8.0, y[0], 1.0e-12);
   }
 
+  private static class KeplerStepHandler implements StepHandler {
+    public KeplerStepHandler(TestProblem3 pb) {
+      this.pb = pb;
+      reset();
+    }
+    public boolean requiresDenseOutput() {
+      return true;
+    }
+    public void reset() {
+      nbSteps = 0;
+      maxError = 0;
+    }
+    public void handleStep(StepInterpolator interpolator,
+                           boolean isLast)
+    throws DerivativeException {
+
+      ++nbSteps;
+      for (int a = 1; a < 100; ++a) {
+
+        double prev   = interpolator.getPreviousTime();
+        double curr   = interpolator.getCurrentTime();
+        double interp = ((100 - a) * prev + a * curr) / 100;
+        interpolator.setInterpolatedTime(interp);
+
+        double[] interpolatedY = interpolator.getInterpolatedState ();
+        double[] theoreticalY  = pb.computeTheoreticalState(interpolator.getInterpolatedTime());
+        double dx = interpolatedY[0] - theoreticalY[0];
+        double dy = interpolatedY[1] - theoreticalY[1];
+        double error = dx * dx + dy * dy;
+        if (error > maxError) {
+          maxError = error;
+        }
+      }
+      if (isLast) {
+        assertTrue(maxError < 2.7e-6);
+        assertTrue(nbSteps < 80);
+      }
+    }
+    private int nbSteps;
+    private double maxError;
+    private TestProblem3 pb;
+  }
+
+  public static class VariableStepHandler implements StepHandler {
+    public VariableStepHandler() {
+      reset();
+    }
+    public boolean requiresDenseOutput() {
+      return false;
+    }
+    public void reset() {
+      firstTime = true;
+      minStep = 0;
+      maxStep = 0;
+    }
+    public void handleStep(StepInterpolator interpolator,
+                           boolean isLast) {
+
+      double step = Math.abs(interpolator.getCurrentTime()
+                             - interpolator.getPreviousTime());
+      if (firstTime) {
+        minStep   = Math.abs(step);
+        maxStep   = minStep;
+        firstTime = false;
+      } else {
+        if (step < minStep) {
+          minStep = step;
+        }
+        if (step > maxStep) {
+          maxStep = step;
+        }
+      }
+
+      if (isLast) {
+        assertTrue(minStep < 8.2e-3);
+        assertTrue(maxStep > 1.7);
+      }
+    }
+    private boolean firstTime;
+    private double  minStep;
+    private double  maxStep;
+  }
   public static Test suite() {
     return new TestSuite(GraggBulirschStoerIntegratorTest.class);
   }

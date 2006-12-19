@@ -17,18 +17,15 @@
 
 package org.spaceroots.mantissa.algebra;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * This class implements Hermite polynomials.
 
  * <p>Hermite polynomials can be defined by the following recurrence
  * relations:
  * <pre>
- *  H0(X)   = 1
- *  H1(X)   = 2X
- *  Hk+1(X) = 2X Hk(X) - 2k Hk-1(X)
+ *  H<sub>0</sub>(X)   = 1
+ *  H<sub>1</sub>(X)   = 2X
+ *  H<sub>k+1</sub>(X) = 2X H<sub>k</sub>(X) - 2k H<sub>k-1</sub>(X)
  * </pre></p>
 
  * @version $Id: Hermite.java 1705 2006-09-17 19:57:39Z luc $
@@ -38,67 +35,35 @@ import java.util.List;
 public class Hermite
   extends OrthogonalPolynomial {
 
+  /** Generator for the Hermite polynomials. */
+  private static final CoefficientsGenerator generator =
+    new CoefficientsGenerator(new RationalNumber(1l),
+                              new RationalNumber(0l),
+                              new RationalNumber(2l)) {
+    public void setRecurrenceCoefficients(int k) {
+      // the recurrence relation is
+      // Hk+1(X) = 2X Hk(X) - 2k Hk-1(X)
+      setRecurrenceCoefficients(new RationalNumber(0l),
+                                new RationalNumber(2l),
+                                new RationalNumber(k * 2l));
+    }
+  };
+
   /** Simple constructor.
    * Build a degree 0 Hermite polynomial
    */
   public Hermite() {
-    super(0, l, maxDegree);
+    super(0, generator);
   }
 
   /** Simple constructor.
    * Build a degree d Hermite polynomial
-   * @param d degree of the polynomial
+   * @param degree degree of the polynomial
    */
-  public Hermite(int d) {
-    super(d, l, maxDegree);
+  public Hermite(int degree) {
+    super(degree, generator);
   }
 
-  /** Initialize the recurrence coefficients.
-   * The recurrence relation is
-   *  <pre>Hk+1(X) = 2X Hk(X) - 2k Hk-1(X)</pre>
-   * @param k index of the current step
-   * @param b2k coefficient to initialize (b2k = a2k / a1k)
-   * @param b3k coefficient to initialize (b3k = a3k / a1k)
-   * @param b4k coefficient to initialize (b4k = a4k / a1k)
-   */
-  protected void initRecurrenceCoefficients(int k,
-                                            RationalNumber b2k,
-                                            RationalNumber b3k,
-                                            RationalNumber b4k) {
-    b2k.reset(0l);
-    b3k.reset(2l);
-    b4k.reset(2l * k);
-  }
-
-  /** Set the maximal degree of already computed polynomials.
-   * @param d maximal degree of already computed polynomials
-   */
-  protected void setMaxDegree(int d) {
-    maxDegree = d;
-  }
-
-  private static final long serialVersionUID = -4639726453485128770L;
-
-  /** Table holding the coefficients of the polynomials computed so far. */
-  private static List l;
-
-  /** Maximal degree of the polynomials computed so far. */
-  private static int maxDegree;
-
-  /** Build the first two polynomials. */
-  static {
-
-    l = new ArrayList ();
-
-    // H0(X)  = 1
-    l.add(new RationalNumber(1l));
-
-    // H1(X)  = 2X
-    l.add(new RationalNumber(0l));
-    l.add(new RationalNumber(2l));
-
-    maxDegree = 1;
-
-  }
+  private static final long serialVersionUID = 7910082423686662133L;
 
 }

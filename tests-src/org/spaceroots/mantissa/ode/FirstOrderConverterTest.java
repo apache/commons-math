@@ -69,7 +69,7 @@ public class FirstOrderConverterTest
     return new TestSuite(FirstOrderConverterTest.class);
   }
 
-  private class Equations
+  private static class Equations
     implements SecondOrderDifferentialEquations {
       
       private int n;

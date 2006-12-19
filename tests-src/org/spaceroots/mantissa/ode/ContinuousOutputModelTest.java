@@ -25,6 +25,8 @@ public class ContinuousOutputModelTest
 
   public ContinuousOutputModelTest(String name) {
     super(name);
+    pb    = null;
+    integ = null;
   }
 
   public void testBoundaries()

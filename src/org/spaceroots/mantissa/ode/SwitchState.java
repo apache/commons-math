@@ -42,6 +42,8 @@ import org.spaceroots.mantissa.roots.BrentSolver;
 class SwitchState
   implements ComputableFunction, ConvergenceChecker {
 
+  private static final long serialVersionUID = 6944466361876662425L;
+
   /** Switching function. */
   private SwitchingFunction function;
 

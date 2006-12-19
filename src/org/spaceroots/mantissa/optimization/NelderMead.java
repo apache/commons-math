@@ -61,16 +61,16 @@ public class NelderMead
     int n = simplex.length - 1;
 
     // interesting costs
-    double   smallest      = simplex[0].getCost();
-    double   secondLargest = simplex[n-1].getCost();
-    double   largest       = simplex[n].getCost();
-    double[] xLargest      = simplex[n].getPoint();
+    double   smallest      = simplex[0].cost;
+    double   secondLargest = simplex[n-1].cost;
+    double   largest       = simplex[n].cost;
+    double[] xLargest      = simplex[n].point;
 
     // compute the centroid of the best vertices
     // (dismissing the worst point at index n)
     double[] centroid = new double[n];
     for (int i = 0; i < n; ++i) {
-      double[] x = simplex[i].getPoint();
+      double[] x = simplex[i].point;
       for (int j = 0; j < n; ++j) {
         centroid[j] += x[j];
       }
@@ -90,9 +90,7 @@ public class NelderMead
     if ((smallest <= costR) && (costR < secondLargest)) {
 
       // accept the reflected point
-      PointCostPair r = new PointCostPair(xR);
-      r.setCost(costR);
-      replaceWorstPoint(r);
+      replaceWorstPoint(new PointCostPair(xR, costR));
 
     } else if (costR < smallest) {
 
@@ -105,14 +103,10 @@ public class NelderMead
 
       if (costE < costR) {
         // accept the expansion point
-        PointCostPair e = new PointCostPair(xE);
-        e.setCost(costE);
-        replaceWorstPoint(e);
+        replaceWorstPoint(new PointCostPair(xE, costE));
       } else {
         // accept the reflected point
-        PointCostPair r = new PointCostPair(xR);
-        r.setCost(costR);
-        replaceWorstPoint(r);
+        replaceWorstPoint(new PointCostPair(xR, costR));
       }
 
     } else {
@@ -128,9 +122,7 @@ public class NelderMead
 
         if (costC <= costR) {
           // accept the contraction point
-          PointCostPair c = new PointCostPair(xC);
-          c.setCost(costC);
-          replaceWorstPoint(c);
+          replaceWorstPoint(new PointCostPair(xC, costC));
           return;
         }
 
@@ -145,23 +137,20 @@ public class NelderMead
 
         if (costC < largest) {
           // accept the contraction point
-          PointCostPair c = new PointCostPair(xC);
-          c.setCost(costC);
-          replaceWorstPoint(c);
+          replaceWorstPoint(new PointCostPair(xC, costC));
           return;
         }
 
       }
 
       // perform a shrink
-      double[] xSmallest = simplex[0].getPoint();
+      double[] xSmallest = simplex[0].point;
       for (int i = 1; i < simplex.length; ++i) {
-        PointCostPair pair = simplex[i];
-        double[] x = pair.getPoint();
+        double[] x = simplex[i].point;
         for (int j = 0; j < n; ++j) {
           x[j] = xSmallest[j] + sigma * (x[j] - xSmallest[j]);
         }
-        pair.setCost(Double.NaN);
+        simplex[i] = new PointCostPair(x, Double.NaN);
       }
       evaluateSimplex();
 

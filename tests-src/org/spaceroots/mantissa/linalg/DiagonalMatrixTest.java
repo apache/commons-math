@@ -149,7 +149,7 @@ public class DiagonalMatrixTest
     boolean gotIt = false;
     try {
       d.setElement(3, 3, 0.0);
-      result = d.solve(b, 1.0e-10);
+      d.solve(b, 1.0e-10);
     } catch (SingularMatrixException e) {
       gotIt = true;
     }

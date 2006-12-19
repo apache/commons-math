@@ -30,6 +30,7 @@ public class AllTests {
     suite.addTest(WeightedMeasurementTest.suite());
     suite.addTest(GaussNewtonEstimatorTest.suite());
     suite.addTest(LevenbergMarquardtEstimatorTest.suite());
+    suite.addTest(MinpackTest.suite());
 
     return suite; 
 

@@ -46,58 +46,34 @@ public class UpperTriangularMatrixTest
       }
     }
 
-    checkMatrix(u, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.1 * j;
-        }
-      });
+    checkMatrix(u, new BilinearPattern(1.0, 0.1));
 
   }
 
   public void testCopy() {
 
-    UpperTriangularMatrix u1 = buildMatrix(4, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.1 * j;
-        }
-      });
+    UpperTriangularMatrix u1 = buildMatrix(4, new BilinearPattern(1.0, 0.1));
 
     UpperTriangularMatrix u2 = new UpperTriangularMatrix(u1);
 
-    checkMatrix(u2, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.1 * j;
-        }
-      });
+    checkMatrix(u2, new BilinearPattern(1.0, 0.1));
 
   }
 
   public void testDuplicate() {
 
-    UpperTriangularMatrix u1 = buildMatrix(4, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.1 * j;
-        }
-      });
+    UpperTriangularMatrix u1 = buildMatrix(4, new BilinearPattern(1.0, 0.1));
 
     Matrix u2 = u1.duplicate();
     assertTrue(u2 instanceof UpperTriangularMatrix);
 
-    checkMatrix(u2, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.1 * j;
-        }
-      });
+    checkMatrix(u2, new BilinearPattern(1.0, 0.1));
 
   }
 
   public void testTranspose() {
 
-    UpperTriangularMatrix u = buildMatrix(7, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.1 * j;
-        }
-      });
+    UpperTriangularMatrix u = buildMatrix(7, new BilinearPattern(1.0, 0.1));
 
     Matrix transposed = u.getTranspose();
     assertTrue(transposed instanceof LowerTriangularMatrix);
@@ -112,47 +88,23 @@ public class UpperTriangularMatrixTest
   }
 
   public void testSelfAdd() {
-    UpperTriangularMatrix u1 = buildMatrix(7, new ElementPattern() {
-        public double value(int i, int j) {
-          return 3 * i - 0.2 * j;
-        }
-      });
+    UpperTriangularMatrix u1 = buildMatrix(7, new BilinearPattern(3, -0.2));
 
-    UpperTriangularMatrix u2 = buildMatrix(7, new ElementPattern() {
-        public double value(int i, int j) {
-          return 2 * i - 0.4 * j;
-        }
-      });
+    UpperTriangularMatrix u2 = buildMatrix(7, new BilinearPattern(2, -0.4));
 
     u1.selfAdd(u2);
 
-    checkMatrix(u1, new ElementPattern() {
-        public double value(int i, int j) {
-          return 5 * i - 0.6 * j;
-        }
-      });
+    checkMatrix(u1, new BilinearPattern(5, -0.6));
   }
 
   public void testSelfSub() {
-    UpperTriangularMatrix u1 = buildMatrix(7, new ElementPattern() {
-        public double value(int i, int j) {
-          return 3 * i - 0.2 * j;
-        }
-      });
+    UpperTriangularMatrix u1 = buildMatrix(7, new BilinearPattern(3, -0.2));
 
-    UpperTriangularMatrix u2 = buildMatrix(7, new ElementPattern() {
-        public double value(int i, int j) {
-          return 2 * i - 0.4 * j;
-        }
-      });
+    UpperTriangularMatrix u2 = buildMatrix(7, new BilinearPattern(2, -0.4));
 
     u1.selfSub(u2);
 
-    checkMatrix(u1, new ElementPattern() {
-        public double value(int i, int j) {
-          return i + 0.2 * j;
-        }
-      });
+    checkMatrix(u1, new BilinearPattern(1, 0.2));
   }
 
   public void testDeterminant() {
@@ -199,7 +151,7 @@ public class UpperTriangularMatrixTest
     boolean gotIt = false;
     try {
       u.setElement(3, 3, 0.0);
-      result = u.solve(b, 1.0e-10);
+      u.solve(b, 1.0e-10);
     } catch(SingularMatrixException e) {
       gotIt = true;
     }
@@ -233,6 +185,18 @@ public class UpperTriangularMatrixTest
 
   public interface ElementPattern {
     public double value(int i, int j);
+  }
+
+  private static class BilinearPattern implements ElementPattern {
+    public BilinearPattern(double coeffI, double coeffJ) {
+      this.coeffI = coeffI;
+      this.coeffJ = coeffJ;
+    }
+    public double value(int i, int j) {
+      return coeffI * i + coeffJ * j;
+    }
+    private final double coeffI;
+    private final double coeffJ;
   }
 
   public UpperTriangularMatrix buildMatrix(int order,

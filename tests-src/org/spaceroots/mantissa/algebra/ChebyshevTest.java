@@ -26,7 +26,7 @@ public class ChebyshevTest
     super(name);
   }
 
-  public void aatestOne() {
+  public void testOne() {
     assertTrue(new Chebyshev().isOne());
   }
 
@@ -44,16 +44,16 @@ public class ChebyshevTest
 
   }
 
-  public void aatestBounds() {
+  public void testBounds() {
     for (int k = 0; k < 12; ++k) {
-      Chebyshev Tk = new Chebyshev(k);
+      OrthogonalPolynomial Tk = new Chebyshev(k);
       for (double x = -1.0; x <= 1.0; x += 0.02) {
         assertTrue(Math.abs(Tk.valueAt(x)) < (1.0 + 1.0e-12));
       }
     }
   }
 
-  public void aatestDifferentials() {
+  public void testDifferentials() {
     for (int k = 0; k < 12; ++k) {
 
       Polynomial.Rational Tk0 = new Chebyshev(k);
@@ -64,12 +64,11 @@ public class ChebyshevTest
       Polynomial.Rational g1 = new Polynomial.Rational(-1l, 0l);
       Polynomial.Rational g2 = new Polynomial.Rational(-1l, 0l, 1l);
 
-      Polynomial.Rational Tk0g0 = Polynomial.Rational.multiply(Tk0, g0);
-      Polynomial.Rational Tk1g1 = Polynomial.Rational.multiply(Tk1, g1);
-      Polynomial.Rational Tk2g2 = Polynomial.Rational.multiply(Tk2, g2);
+      Polynomial.Rational Tk0g0 = Tk0.multiply(g0);
+      Polynomial.Rational Tk1g1 = Tk1.multiply(g1);
+      Polynomial.Rational Tk2g2 = Tk2.multiply(g2);
 
-      Polynomial.Rational d =
-        Polynomial.Rational.add(Tk0g0, Polynomial.Rational.add(Tk1g1, Tk2g2));
+      Polynomial.Rational d = Tk0g0.add(Tk1g1.add(Tk2g2));
       assertTrue(d.isZero());
 
     }

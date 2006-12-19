@@ -55,12 +55,11 @@ public class LegendreTest
       Polynomial.Rational g1 = new Polynomial.Rational(-2l, 0l);
       Polynomial.Rational g2 = new Polynomial.Rational(-1l, 0l, 1l);
 
-      Polynomial.Rational Pk0g0 = Polynomial.Rational.multiply(Pk0, g0);
-      Polynomial.Rational Pk1g1 = Polynomial.Rational.multiply(Pk1, g1);
-      Polynomial.Rational Pk2g2 = Polynomial.Rational.multiply(Pk2, g2);
+      Polynomial.Rational Pk0g0 = Pk0.multiply(g0);
+      Polynomial.Rational Pk1g1 = Pk1.multiply(g1);
+      Polynomial.Rational Pk2g2 = Pk2.multiply(g2);
 
-      Polynomial.Rational d =
-        Polynomial.Rational.add(Pk0g0, Polynomial.Rational.add(Pk1g1, Pk2g2));
+      Polynomial.Rational d = Pk0g0.add(Pk1g1.add(Pk2g2));
       assertTrue(d.isZero());
 
     }
@@ -92,7 +91,7 @@ public class LegendreTest
   }
 
   public void checkLegendre(Legendre p, long denominator, String reference) {
-    assertTrue(Legendre.multiply(p, denominator).toString().equals(reference));
+    assertTrue(p.multiply(denominator).toString().equals(reference));
   }
 
   public static Test suite() {

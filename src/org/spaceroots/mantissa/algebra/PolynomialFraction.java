@@ -17,26 +17,28 @@
 
 package org.spaceroots.mantissa.algebra;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 
 /**
  * This class implements fractions of polynomials with one unknown and
  * rational coefficients.
+ * <p>Instances of this class are immutable.</p>
 
  * @version $Id: PolynomialFraction.java 1705 2006-09-17 19:57:39Z luc $
  * @author L. Maisonobe
 
  */
 
-public class PolynomialFraction {
+public class PolynomialFraction implements Serializable {
 
   /**
    * Simple constructor.
    * Build a constant null fraction
    */
   public PolynomialFraction() {
-    this(new Polynomial.Rational(new RationalNumber(0l)),
-         new Polynomial.Rational(new RationalNumber(1l)));
+    this(new Polynomial.Rational(RationalNumber.ZERO),
+         new Polynomial.Rational(RationalNumber.ONE));
   }
 
   /**
@@ -47,8 +49,8 @@ public class PolynomialFraction {
    * @exception ArithmeticException if the denominator is null
    */
   public PolynomialFraction(long numerator, long denominator) {
-    this(new Polynomial.Rational(new RationalNumber(numerator)),
-         new Polynomial.Rational(new RationalNumber(denominator)));
+    this(new Polynomial.Rational(numerator),
+         new Polynomial.Rational(denominator));
   }
 
   /**
@@ -90,21 +92,20 @@ public class PolynomialFraction {
       throw new ArithmeticException("null denominator");
     }
 
-    p = new Polynomial.Rational(numerator);
-    q = new Polynomial.Rational(denominator);
+    p = numerator;
+    q = denominator;
 
     RationalNumber[] a = q.getCoefficients();
     if (a[a.length - 1].isNegative()) {
-      p.negateSelf();
-      q.negateSelf();
+      p = (Polynomial.Rational) p.negate();
+      q = (Polynomial.Rational) q.negate();
     }
 
     simplify();
 
   }
 
-  /**
-   * Simple constructor.
+  /** Simple constructor.
    * Build a fraction from a single integer
    * @param l value of the fraction
    */
@@ -121,8 +122,7 @@ public class PolynomialFraction {
     this(i, BigInteger.ONE);
   }
 
-  /**
-   * Simple constructor.
+  /** Simple constructor.
    * Build a fraction from a single rational number
    * @param r value of the fraction
    */
@@ -130,178 +130,95 @@ public class PolynomialFraction {
     this(r.getNumerator(), r.getDenominator());
   }
 
-  /**
-   * Simple constructor.
-   * Build a fraction from a single Polynom
+  /** Simple constructor.
+   * Build a fraction from a single Polynomial
    * @param p value of the fraction
    */
   public PolynomialFraction(Polynomial.Rational p) {
-    this(p, new Polynomial.Rational(new RationalNumber(1l)));
+    this(p, new Polynomial.Rational(1l));
   }
 
-  /**
-   * Copy-constructor.
-   * @param f fraction to copy
+  /** Negate the instance.
+   * @return a new polynomial fraction opposite to the instance
    */
-  public PolynomialFraction(PolynomialFraction f) {
-    p = new Polynomial.Rational(f.p);
-    q = new Polynomial.Rational(f.q);
+  public PolynomialFraction negate() {
+    return new PolynomialFraction((Polynomial.Rational) p.negate(), q);
   }
 
-  /**
-   * Negate the instance
+  /** Add a polynomial fraction to the instance.
+   * @param f polynomial fraction to add.
+   * @return a new polynomial fraction
    */
-  public void negateSelf() {
-    p.negateSelf();
+  public PolynomialFraction add(PolynomialFraction f) {
+    return new PolynomialFraction(p.multiply(f.q).add(f.p.multiply(q)),
+                                  q.multiply(f.q));
   }
 
-  /**
-   * Negate a fraction.
-   * @param f fraction to negate
-   * @return a new fraction which is the opposite of f
+  /** Subtract a fraction from the instance.
+   * @param f polynomial fraction to subtract.
+   * @return a new polynomial fraction
    */
-  public static PolynomialFraction negate(PolynomialFraction f) {
-    PolynomialFraction copy = new PolynomialFraction(f);
-    copy.negateSelf();
-    return copy;
+  public PolynomialFraction subtract(PolynomialFraction f) {
+    return new PolynomialFraction(p.multiply(f.q).subtract(f.p.multiply(q)),
+                                  q.multiply(f.q));
   }
 
-  /**
-   * Add a fraction to the instance.
-   * @param f fraction to add.
+  /** Multiply the instance by a polynomial fraction.
+   * @param f polynomial fraction to multiply by
+   * @return a new polynomial fraction
    */
-  public void addToSelf(PolynomialFraction f) {
-    PolynomialFraction sum = add(this, f);
-    p = sum.p;
-    q = sum.q;
+  public PolynomialFraction multiply(PolynomialFraction f) {
+    PolynomialFraction product =
+      new PolynomialFraction(p.multiply(f.p), q.multiply(f.q));
+    product.simplify();
+    return product;
   }
 
-  /** Add two fractions.
-   * @param f1 first fraction
-   * @param f2 second fraction
-   * @return a new fraction which is the sum of f1 and f2
-   */
-  public static PolynomialFraction add(PolynomialFraction f1,
-                                       PolynomialFraction f2) {
-    Polynomial.Rational num =
-      Polynomial.Rational.add(Polynomial.Rational.multiply(f1.p, f2.q),
-                              Polynomial.Rational.multiply(f2.p, f1.q));
-    Polynomial.Rational den = Polynomial.Rational.multiply(f1.q, f2.q);
-    return new PolynomialFraction(num, den);
-  }
-
-  /**
-   * Subtract a fraction to the instance.
-   * @param f fraction to subtract.
-   */
-  public void subtractFromSelf(PolynomialFraction f) {
-    PolynomialFraction diff = subtract(this, f);
-    p = diff.p;
-    q = diff.q;
-  }
-
-  /** Subtract two fractions.
-   * @param f1 first fraction
-   * @param f2 second fraction
-   * @return a new fraction which is the difference f1 minus f2
-   */
-  public static PolynomialFraction subtract(PolynomialFraction f1,
-                                            PolynomialFraction f2) {
-    Polynomial.Rational num =
-      Polynomial.Rational.subtract(Polynomial.Rational.multiply(f1.p, f2.q),
-                                   Polynomial.Rational.multiply(f2.p, f1.q));
-    Polynomial.Rational den = Polynomial.Rational.multiply(f1.q, f2.q);
-    return new PolynomialFraction(num, den);
-  }
-
-  /** Multiply the instance by a fraction.
-   * @param f fraction to multiply by
-   */
-  public void multiplySelf(PolynomialFraction f) {
-    p.multiplySelf(f.p);
-    q.multiplySelf(f.q);
-    simplify();
-  }
-
-  /** Multiply two fractions.
-   * @param f1 first fraction
-   * @param f2 second fraction
-   * @return a new fraction which is the product of f1 and f2
-   */
-  public static PolynomialFraction multiply(PolynomialFraction f1,
-                                            PolynomialFraction f2) {
-    PolynomialFraction copy = new PolynomialFraction(f1);
-    copy.multiplySelf(f2);
-    return copy;
-  }
-
-  /** Divide the instance by a fraction.
-   * @param f fraction to divide by
+  /** Divide the instance by a polynomial fraction.
+   * @param f polynomial fraction to divide by
+   * @return a new polynomial fraction
    * @exception ArithmeticException if f is null
    */
-  public void divideSelf(PolynomialFraction f) {
+  public PolynomialFraction divide(PolynomialFraction f) {
 
     if (f.p.isZero()) {
       throw new ArithmeticException("divide by zero");
     }
 
-    p.multiplySelf(f.q);
-    q.multiplySelf(f.p);
+    Polynomial.Rational newP = p.multiply(f.q);
+    Polynomial.Rational newQ = q.multiply(f.p);
 
-    RationalNumber[] a = q.getCoefficients();
+    RationalNumber[] a = newQ.getCoefficients();
     if (a[a.length - 1].isNegative()) {
-      p.negateSelf();
-      q.negateSelf();
+      newP = (Polynomial.Rational) newP.negate();
+      newQ = (Polynomial.Rational) newQ.negate();
     }
 
-    simplify();
+    PolynomialFraction result = new PolynomialFraction(newP, newQ);
+    result.simplify();
+    return result;
 
-  }
-
-  /** Divide two fractions.
-   * @param f1 first fraction
-   * @param f2 second fraction
-   * @return a new fraction which is the quotient of f1 by f2
-   */
-  public static PolynomialFraction divide(PolynomialFraction f1,
-                                          PolynomialFraction f2) {
-    PolynomialFraction copy = new PolynomialFraction(f1);
-    copy.divideSelf(f2);
-    return copy;
   }
 
   /** Invert the instance.
-   * Replace the instance by its inverse.
-   * @exception ArithmeticException if the instance is null
+   * @return the inverse of the instance
+   * @exception ArithmeticException if the instance is zero
    */
-  public void invertSelf() {
+  public PolynomialFraction invert() {
 
     if (p.isZero()) {
       throw new ArithmeticException("divide by zero");
     }
 
-    Polynomial.Rational tmp = p;
-    p = q;
-    q = tmp;
+    RationalNumber[] a = p.getCoefficients();
+    PolynomialFraction inverse =
+      (a[a.length - 1].isNegative())
+      ? new PolynomialFraction((Polynomial.Rational) q.negate(),
+                               (Polynomial.Rational) p.negate())
+      : new PolynomialFraction(q, p);
+    inverse.simplify();
+    return inverse;
 
-    RationalNumber[] a = q.getCoefficients();
-    if (a[a.length - 1].isNegative()) {
-      p.negateSelf();
-      q.negateSelf();
-    }
-
-    simplify();
-
-  }
-
-  /** Invert a fraction.
-   * @param f fraction to invert
-   * @return a new fraction which is the inverse of f
-   */
-  public static PolynomialFraction invert(PolynomialFraction f) {
-    PolynomialFraction copy = new PolynomialFraction(f);
-    copy.invertSelf();
-    return copy;
   }
 
   /** Simplify a fraction.
@@ -318,8 +235,8 @@ public class PolynomialFraction {
    */
   private void simplify() {
 
-    Polynomial.Rational a = new Polynomial.Rational(p);
-    Polynomial.Rational b = new Polynomial.Rational(q);
+    Polynomial.Rational a = p;
+    Polynomial.Rational b = q;
     if (a.getDegree() < b.getDegree()) {
       Polynomial.Rational tmp = a;
       a = b;
@@ -342,30 +259,28 @@ public class PolynomialFraction {
 
     if (q.getDegree() == 0) {
       if (! q.isOne()) {
-        RationalNumber f = q.getCoefficients()[0];
-        f.invertSelf();
-        p.multiplySelf(f);
+        p = (Polynomial.Rational) p.divide(q.getCoefficients()[0]);
         q = new Polynomial.Rational(1l);
       }
     } else {
 
       BigInteger lcm = p.getDenominatorsLCM();
       if (lcm.compareTo(BigInteger.ONE) != 0) {
-        p.multiplySelf(lcm);
-        q.multiplySelf(lcm);
+        p = (Polynomial.Rational) p.multiply(lcm);
+        q = (Polynomial.Rational) q.multiply(lcm);
       }
 
       lcm = q.getDenominatorsLCM();
       if (lcm.compareTo(BigInteger.ONE) != 0) {
-        p.multiplySelf(lcm);
-        q.multiplySelf(lcm);
+        p = (Polynomial.Rational) p.multiply(lcm);
+        q = (Polynomial.Rational) q.multiply(lcm);
       }
 
     }
 
     if (q.getCoefficients()[q.getDegree()].isNegative()) {
-      p.negateSelf();
-      q.negateSelf();
+      p = (Polynomial.Rational) p.negate();
+      q = (Polynomial.Rational) q.negate();
     }
 
   }
@@ -384,16 +299,6 @@ public class PolynomialFraction {
    */
   public Polynomial.Rational getDenominator() {
     return q;
-  }
-
-  /** Set the name of the unknown (to appear during conversions to
-   * strings).
-   * @param name name to set (if null, the default 'x' value will be
-   * used)
-   */
-  public void setUnknownName(String name) {
-    p.setUnknownName(name);
-    q.setUnknownName(name);
   }
 
   public String toString() {
@@ -435,5 +340,7 @@ public class PolynomialFraction {
 
   /** Denominator. */
   private Polynomial.Rational q;
+
+  private static final long serialVersionUID = 6033909492898954748L;
 
 }

@@ -59,7 +59,7 @@ public class RotationTest
     checkAngle(r.getAngle(), 2 * Math.PI / 3);
 
     try {
-      r = new Rotation(new Vector3D(0, 0, 0), 2 * Math.PI / 3);
+      new Rotation(new Vector3D(0, 0, 0), 2 * Math.PI / 3);
       fail("an exception should have been thrown");
     } catch (ArithmeticException e) {
     } catch (Exception e) {
@@ -81,10 +81,9 @@ public class RotationTest
     Vector3D u = new Vector3D(3, 2, 1);
     Vector3D v = new Vector3D(-4, 2, 2);
     Rotation r = new Rotation(u, v);
-    checkVector(r.applyTo(Vector3D.multiply(v.getNorm(), u)),
-                Vector3D.multiply(u.getNorm(), v));
+    checkVector(r.applyTo(u.multiply(v.getNorm())), v.multiply(u.getNorm()));
 
-    checkAngle(new Rotation(u, Vector3D.negate(u)).getAngle(), Math.PI);
+    checkAngle(new Rotation(u, u.negate()).getAngle(), Math.PI);
 
   }
 
@@ -96,14 +95,14 @@ public class RotationTest
     Vector3D v2 = new Vector3D(-2, 0, 2);
     Rotation r = new Rotation(u1, u2, v1, v2);
     checkVector(r.applyTo(Vector3D.plusI), Vector3D.plusK);
-    checkVector(r.applyTo(Vector3D.plusJ), Vector3D.negate(Vector3D.plusI));
+    checkVector(r.applyTo(Vector3D.plusJ), Vector3D.minusI);
 
-    r = new Rotation(u1, u2, Vector3D.negate(u1), Vector3D.negate(u2));
+    r = new Rotation(u1, u2, u1.negate(), u2.negate());
     Vector3D axis = r.getAxis();
     if (Vector3D.dotProduct(axis, Vector3D.plusK) > 0) {
       checkVector(axis, Vector3D.plusK);
     } else {
-      checkVector(axis, Vector3D.negate(Vector3D.plusK));
+      checkVector(axis, Vector3D.minusK);
     }
     checkAngle(r.getAngle(), Math.PI);
 
@@ -187,8 +186,9 @@ public class RotationTest
                         { 0.0, 1.0, 0.0 },
                         { 1.0, 0.0, 0.0 } };
       r = new Rotation(m5, 1.0e-7);
-      fail("an exception should have been thrown");
+      fail("got " + r + ", should have caught an exception");
     } catch (NotARotationMatrixException e) {
+      // expected
     } catch (Exception e) {
       fail("wrong exception caught");
     }
@@ -329,7 +329,7 @@ public class RotationTest
   }
 
   private void checkVector(Vector3D v1, Vector3D v2) {
-    assertTrue(Vector3D.subtract(v1, v2).getNorm() < 1.0e-10);
+    assertTrue(v1.subtract(v2).getNorm() < 1.0e-10);
   }
 
   private void checkAngle(double a1, double a2) {

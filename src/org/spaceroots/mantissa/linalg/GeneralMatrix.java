@@ -17,8 +17,6 @@
 
 package org.spaceroots.mantissa.linalg;
 
-import java.io.Serializable;
-
 /** This class represents matrices of the most general type.
 
  * <p>This class is the basic implementation of matrices to use when
@@ -30,8 +28,7 @@ import java.io.Serializable;
  */
 
 public class GeneralMatrix
-  extends Matrix
-  implements Serializable {
+  extends Matrix {
 
   /** Simple constructor.
    * Build a matrix with null elements.

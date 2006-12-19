@@ -78,7 +78,7 @@ public abstract class Matrix
 
     this.rows    = rows;
     this.columns = columns;
-    this.data    = data;
+    this.data    = (data == null) ? null : (double[]) data.clone();
 
   }
 

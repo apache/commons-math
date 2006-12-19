@@ -17,8 +17,6 @@
 
 package org.spaceroots.mantissa.linalg;
 
-import java.io.Serializable;
-
 /** This class implements symetrical matrices of linear algebra.
 
  * @version $Id: SymetricalMatrix.java 1705 2006-09-17 19:57:39Z luc $
@@ -27,8 +25,7 @@ import java.io.Serializable;
  */
 
 public class SymetricalMatrix
-  extends GeneralSquareMatrix
-  implements Serializable, Cloneable {
+  extends GeneralSquareMatrix {
 
   /** Simple constructor.
    * This constructor builds a symetrical matrix of specified order, all

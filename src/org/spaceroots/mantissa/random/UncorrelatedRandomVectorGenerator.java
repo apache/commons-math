@@ -46,11 +46,10 @@ public class UncorrelatedRandomVectorGenerator
     if (mean.length != standardDeviation.length) {
       throw new IllegalArgumentException("dimension mismatch");
     }
-    this.mean              = mean;
-    this.standardDeviation = standardDeviation;
+    this.mean              = (double[]) mean.clone();
+    this.standardDeviation = (double[]) standardDeviation.clone();
 
     this.generator = generator;
-    random = new double[mean.length];
 
   }
 
@@ -72,7 +71,6 @@ public class UncorrelatedRandomVectorGenerator
     }
 
     this.generator = generator;
-    random = new double[dimension];
 
   }
 
@@ -84,13 +82,12 @@ public class UncorrelatedRandomVectorGenerator
   }
 
   /** Generate a correlated random vector.
-   * @return a random vector as an array of double. The generator
-   * <em>will</em> reuse the same array for each call, in order to
-   * save the allocation time, so the user should keep a copy by
-   * himself if he needs so.
+   * @return a random vector as an array of double. The returned array
+   * is created at each call, the caller can do what it wants with it.
    */
   public double[] nextVector() {
 
+    double[] random = new double[mean.length]; 
     for (int i = 0; i < random.length; ++i) {
       random[i] = mean[i] + standardDeviation[i] * generator.nextDouble();
     }
@@ -108,9 +105,6 @@ public class UncorrelatedRandomVectorGenerator
   /** Underlying scalar generator. */
   NormalizedRandomGenerator generator;
 
-  /** Storage for the random vector. */
-  private double[] random;
-
-  private static final long serialVersionUID = -3323293740860311151L;
+  private static final long serialVersionUID = -9094322067568302961L;
 
 }

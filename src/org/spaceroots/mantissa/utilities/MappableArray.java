@@ -43,24 +43,16 @@ public class MappableArray
   /** Simple constructor.
    * Build a mappable array from an existing array
    * @param array array to use
-   * @param doReallocate true if a new array should be allocated and
-   * initialized using the other argument, false if the instance
-   * should reference the existing array throughout its lifetime
    */
-  public MappableArray(double[] array, boolean doReallocate) {
-    if (doReallocate) {
-      internalArray = new double[array.length];
-      System.arraycopy(array, 0, internalArray, 0, array.length);
-    } else {
-      internalArray = array;
-    }
+  public MappableArray(double[] array) {
+    internalArray = (double[]) array.clone();
   }
 
   /** Get the array stored in the instance.
    * @return array stored in the instance
    */
   public double[] getArray () {
-    return internalArray;
+    return (double[]) internalArray.clone();
   }
 
   /** Get the dimension of the internal array.

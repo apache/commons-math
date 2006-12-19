@@ -91,7 +91,7 @@ public class DormandPrince54IntegratorTest
 
   }
 
-  private class DP54SmallLastHandler implements StepHandler {
+  private static class DP54SmallLastHandler implements StepHandler {
 
     public DP54SmallLastHandler(double minStep) {
       lastSeen = false;
@@ -170,11 +170,9 @@ public class DormandPrince54IntegratorTest
     TestProblemHandler handler = new TestProblemHandler(pb);
     integ.setStepHandler(handler);
     SwitchingFunction[] functions = pb.getSwitchingFunctions();
-    if (functions != null) {
-      for (int l = 0; l < functions.length; ++l) {
-        integ.addSwitchingFunction(functions[l],
-                                   Double.POSITIVE_INFINITY, 1.0e-8 * maxStep);
-      }
+    for (int l = 0; l < functions.length; ++l) {
+      integ.addSwitchingFunction(functions[l],
+                                 Double.POSITIVE_INFINITY, 1.0e-8 * maxStep);
     }
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
@@ -197,43 +195,7 @@ public class DormandPrince54IntegratorTest
     FirstOrderIntegrator integ = new DormandPrince54Integrator(minStep, maxStep,
                                                                scalAbsoluteTolerance,
                                                                scalRelativeTolerance);
-    integ.setStepHandler(new StepHandler() {
-                      private int nbSteps = 0;
-                      private double maxError = 0;
-                      public boolean requiresDenseOutput() {
-                        return true;
-                      }
-                      public void reset() {
-                        nbSteps = 0;
-                        maxError = 0;
-                      }
-                      public void handleStep(StepInterpolator interpolator,
-                                             boolean isLast)
-                        throws DerivativeException {
-
-                        ++nbSteps;
-                        for (int a = 1; a < 10; ++a) {
-
-                          double prev   = interpolator.getPreviousTime();
-                          double curr   = interpolator.getCurrentTime();
-                          double interp = ((10 - a) * prev + a * curr) / 10;
-                          interpolator.setInterpolatedTime(interp);
-
-                          double[] interpolatedY = interpolator.getInterpolatedState ();
-                          double[] theoreticalY  = pb.computeTheoreticalState(interpolator.getInterpolatedTime());
-                          double dx = interpolatedY[0] - theoreticalY[0];
-                          double dy = interpolatedY[1] - theoreticalY[1];
-                          double error = dx * dx + dy * dy;
-                          if (error > maxError) {
-                            maxError = error;
-                          }
-                        }
-                        if (isLast) {
-                          assertTrue(maxError < 7.0e-10);
-                          assertTrue(nbSteps < 400);
-                        }
-                      }
-      });
+    integ.setStepHandler(new KeplerHandler(pb));
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
@@ -254,45 +216,95 @@ public class DormandPrince54IntegratorTest
     FirstOrderIntegrator integ = new DormandPrince54Integrator(minStep, maxStep,
                                                                scalAbsoluteTolerance,
                                                                scalRelativeTolerance);
-    integ.setStepHandler(new StepHandler() {
-                      private boolean firstTime = true;
-                      private double  minStep = 0;
-                      private double  maxStep = 0;
-                      public boolean requiresDenseOutput() {
-                        return false;
-                      }
-                      public void reset() {
-                        firstTime = true;
-                        minStep = 0;
-                        maxStep = 0;
-                      }
-                      public void handleStep(StepInterpolator interpolator,
-                                             boolean isLast) {
-
-                        double step = Math.abs(interpolator.getCurrentTime()
-                                               - interpolator.getPreviousTime());
-                        if (firstTime) {
-                          minStep   = Math.abs(step);
-                          maxStep   = minStep;
-                          firstTime = false;
-                        } else {
-                          if (step < minStep) {
-                            minStep = step;
-                          }
-                          if (step > maxStep) {
-                            maxStep = step;
-                          }
-                        }
-
-                        if (isLast) {
-                          assertTrue(minStep < (1.0 / 450.0));
-                          assertTrue(maxStep > (1.0 / 4.2));
-                        }
-                      }
-      });
+    integ.setStepHandler(new VariableHandler());
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
+  }
+
+  private static class KeplerHandler implements StepHandler {
+    public KeplerHandler(TestProblem3 pb) {
+      this.pb = pb;
+      reset();
+    }
+    public boolean requiresDenseOutput() {
+      return true;
+    }
+    public void reset() {
+      nbSteps = 0;
+      maxError = 0;
+    }
+    public void handleStep(StepInterpolator interpolator,
+                           boolean isLast)
+    throws DerivativeException {
+
+      ++nbSteps;
+      for (int a = 1; a < 10; ++a) {
+
+        double prev   = interpolator.getPreviousTime();
+        double curr   = interpolator.getCurrentTime();
+        double interp = ((10 - a) * prev + a * curr) / 10;
+        interpolator.setInterpolatedTime(interp);
+
+        double[] interpolatedY = interpolator.getInterpolatedState ();
+        double[] theoreticalY  = pb.computeTheoreticalState(interpolator.getInterpolatedTime());
+        double dx = interpolatedY[0] - theoreticalY[0];
+        double dy = interpolatedY[1] - theoreticalY[1];
+        double error = dx * dx + dy * dy;
+        if (error > maxError) {
+          maxError = error;
+        }
+      }
+      if (isLast) {
+        assertTrue(maxError < 7.0e-10);
+        assertTrue(nbSteps < 400);
+      }
+    }
+    private int nbSteps;
+    private double maxError;
+    private TestProblem3 pb;
+  }
+
+  private static class VariableHandler implements StepHandler {
+    public VariableHandler() {
+      firstTime = true;
+      minStep = 0;
+      maxStep = 0;
+    }
+    public boolean requiresDenseOutput() {
+      return false;
+    }
+    public void reset() {
+      firstTime = true;
+      minStep = 0;
+      maxStep = 0;
+    }
+    public void handleStep(StepInterpolator interpolator,
+                           boolean isLast) {
+
+      double step = Math.abs(interpolator.getCurrentTime()
+                             - interpolator.getPreviousTime());
+      if (firstTime) {
+        minStep   = Math.abs(step);
+        maxStep   = minStep;
+        firstTime = false;
+      } else {
+        if (step < minStep) {
+          minStep = step;
+        }
+        if (step > maxStep) {
+          maxStep = step;
+        }
+      }
+
+      if (isLast) {
+        assertTrue(minStep < (1.0 / 450.0));
+        assertTrue(maxStep > (1.0 / 4.2));
+      }
+    }  
+    private boolean firstTime;
+    private double  minStep;
+    private double  maxStep;
   }
 
   public static Test suite() {

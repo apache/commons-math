@@ -52,7 +52,7 @@ import java.io.Serializable;
 
  */
 class NonNullRange
-  implements Serializable, Cloneable {
+  implements Serializable {
 
   /** Index in row/column count of the first non-null element. */
   public final int begin;

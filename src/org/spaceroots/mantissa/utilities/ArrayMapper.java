@@ -77,14 +77,14 @@ public class ArrayMapper {
 
   }
 
-  /** Get the internal data array.
-   * @return internal data array
+  /** Get the data array.
+   * @return copy of the data array
    */
-  public double[] getInternalDataArray() {
+  public double[] getDataArray() {
     if (internalData == null) {
       internalData = new double [size];
     }
-    return internalData;
+    return (double[]) internalData.clone();
   }
 
   /** Map data from the internal array to the domain objects.

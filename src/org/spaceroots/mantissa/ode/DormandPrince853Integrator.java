@@ -55,7 +55,7 @@ package org.spaceroots.mantissa.ode;
 public class DormandPrince853Integrator
   extends RungeKuttaFehlbergIntegrator {
 
-  private static final String methodName = new String("Dormand-Prince 8 (5, 3)");
+  private static final String methodName = "Dormand-Prince 8 (5, 3)";
 
   private static final double sqrt6 = Math.sqrt(6.0);
 

@@ -131,15 +131,7 @@ public class ComputableFunctionSamplerTest
   public void testUnderlyingException() {
 
     ComputableFunctionSampler sampler =
-      new ComputableFunctionSampler(new ComputableFunction() {
-          public double valueAt(double x)
-            throws FunctionException {
-            if (x < 0.5) {
-              return -x;
-            }
-            throw new FunctionException("upper half range exception");
-          }
-        },
+      new ComputableFunctionSampler(new ExceptionGeneratingFunction(),
                                     0.0, 0.1, 11);
 
     boolean exceptionOccurred = false;
@@ -164,9 +156,10 @@ public class ComputableFunctionSamplerTest
     return new TestSuite(ComputableFunctionSamplerTest.class);
   }
 
-  private class Function
+  private static class Function
     implements ComputableFunction {
 
+    private static final long serialVersionUID = -7173012970400285826L;
     private double min;
     private double max;
 
@@ -186,6 +179,18 @@ public class ComputableFunctionSamplerTest
 
     }
 
+  }
+
+  private static class ExceptionGeneratingFunction
+  implements ComputableFunction {
+    private static final long serialVersionUID = 7853080602731012102L;
+    public double valueAt(double x)
+      throws FunctionException {
+      if (x < 0.5) {
+        return -x;
+      }
+      throw new FunctionException("upper half range exception");
+    }
   }
 
 }

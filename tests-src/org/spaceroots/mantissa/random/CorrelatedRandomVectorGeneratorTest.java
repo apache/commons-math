@@ -28,6 +28,9 @@ public class CorrelatedRandomVectorGeneratorTest
 
   public CorrelatedRandomVectorGeneratorTest(String name) {
     super(name);
+    mean       = null;
+    covariance = null;
+    generator  = null;
   }
 
   public void testRank() {
@@ -53,7 +56,7 @@ public class CorrelatedRandomVectorGeneratorTest
       sample.add(generator.nextVector());
     }
 
-    double[] estimatedMean = sample.getMean(null);
+    double[] estimatedMean = sample.getMean();
     SymetricalMatrix estimatedCovariance = sample.getCovarianceMatrix(null);
     for (int i = 0; i < estimatedMean.length; ++i) {
       assertEquals(mean[i], estimatedMean[i], 0.07);

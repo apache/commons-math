@@ -21,6 +21,7 @@ import java.util.Random;
 import junit.framework.*;
 
 import org.spaceroots.mantissa.estimation.EstimationException;
+import org.spaceroots.mantissa.estimation.LevenbergMarquardtEstimator;
 import org.spaceroots.mantissa.estimation.WeightedMeasurement;
 
 public class HarmonicFitterTest
@@ -34,8 +35,8 @@ public class HarmonicFitterTest
     throws EstimationException {
     HarmonicFunction f = new HarmonicFunction(0.2, 3.4, 4.1);
 
-    HarmonicFitter fitter = new HarmonicFitter(20, 1.0e-7,
-                                               1.0e-10, 1.0e-10);
+    HarmonicFitter fitter =
+      new HarmonicFitter(new LevenbergMarquardtEstimator());
     for (double x = 0.0; x < 1.3; x += 0.01) {
       fitter.addWeightedPair(1.0, x, f.valueAt(x));
     }
@@ -45,12 +46,12 @@ public class HarmonicFitterTest
     HarmonicFunction fitted = new HarmonicFunction(coeffs[0],
                                                    coeffs[1],
                                                    coeffs[2]);
-    assertTrue(Math.abs(coeffs[0] - f.getA()) < 1.0e-12);
-    assertTrue(Math.abs(coeffs[1] - f.getOmega()) < 1.0e-12);
-    assertTrue(Math.abs(coeffs[2] - center(f.getPhi(), coeffs[2])) < 1.0e-12);
+    assertTrue(Math.abs(coeffs[0] - f.getA()) < 1.0e-13);
+    assertTrue(Math.abs(coeffs[1] - f.getOmega()) < 1.0e-13);
+    assertTrue(Math.abs(coeffs[2] - center(f.getPhi(), coeffs[2])) < 1.0e-13);
 
     for (double x = -1.0; x < 1.0; x += 0.01) {
-      assertTrue(Math.abs(f.valueAt(x) - fitted.valueAt(x)) < 1.0e-12);
+      assertTrue(Math.abs(f.valueAt(x) - fitted.valueAt(x)) < 1.0e-13);
     }
 
   }
@@ -60,8 +61,8 @@ public class HarmonicFitterTest
     Random randomizer = new Random(64925784252l);
     HarmonicFunction f = new HarmonicFunction(0.2, 3.4, 4.1);
 
-    HarmonicFitter fitter = new HarmonicFitter(20, 1.0e-7,
-                                               1.0e-10, 1.0e-10);
+    HarmonicFitter fitter =
+      new HarmonicFitter(new LevenbergMarquardtEstimator());
     for (double x = 0.0; x < 10.0; x += 0.1) {
       fitter.addWeightedPair(1.0, x,
                              f.valueAt(x) + 0.01 * randomizer.nextGaussian());
@@ -70,9 +71,9 @@ public class HarmonicFitterTest
     double[] coeffs = fitter.fit();
 
     new HarmonicFunction(coeffs[0], coeffs[1], coeffs[2]);
-    assertTrue(Math.abs(coeffs[0] - f.getA()) < 1.0e-3);
-    assertTrue(Math.abs(coeffs[1] - f.getOmega()) < 3.5e-3);
-    assertTrue(Math.abs(coeffs[2] - center(f.getPhi(), coeffs[2])) < 2.0e-2);
+    assertTrue(Math.abs(coeffs[0] - f.getA()) < 7.6e-4);
+    assertTrue(Math.abs(coeffs[1] - f.getOmega()) < 2.7e-3);
+    assertTrue(Math.abs(coeffs[2] - center(f.getPhi(), coeffs[2])) < 1.3e-2);
 
     WeightedMeasurement[] measurements = fitter.getMeasurements();
     for (int i = 0; i < measurements.length; ++i) {
@@ -88,8 +89,8 @@ public class HarmonicFitterTest
     Random randomizer = new Random(64925784252l);
     HarmonicFunction f = new HarmonicFunction(0.2, 3.4, 4.1);
 
-    HarmonicFitter fitter = new HarmonicFitter(100, 1.0e-7,
-                                               1.0e-10, 1.0e-10);
+    HarmonicFitter fitter =
+      new HarmonicFitter(new LevenbergMarquardtEstimator());
 
     // build a regularly spaced array of measurements
     int size = 100;
@@ -120,9 +121,9 @@ public class HarmonicFitterTest
     double[] coeffs = fitter.fit();
 
     new HarmonicFunction(coeffs[0], coeffs[1], coeffs[2]);
-    assertTrue(Math.abs(coeffs[0] - f.getA()) < 1.0e-3);
+    assertTrue(Math.abs(coeffs[0] - f.getA()) < 7.6e-4);
     assertTrue(Math.abs(coeffs[1] - f.getOmega()) < 3.5e-3);
-    assertTrue(Math.abs(coeffs[2] - center(f.getPhi(), coeffs[2])) < 2.0e-2);
+    assertTrue(Math.abs(coeffs[2] - center(f.getPhi(), coeffs[2])) < 1.5e-2);
 
     WeightedMeasurement[] measurements = fitter.getMeasurements();
     for (int i = 0; i < measurements.length; ++i) {
@@ -142,7 +143,7 @@ public class HarmonicFitterTest
     return a - twoPi * Math.floor((a + Math.PI - ref) / twoPi);
   }
 
-  private class HarmonicFunction {
+  private static class HarmonicFunction {
     public HarmonicFunction(double a, double omega, double phi) {
       this.a     = a;
       this.omega = omega;

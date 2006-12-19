@@ -32,8 +32,8 @@ import java.io.Serializable;
  * <code>Rotation</code> instance (see the various constructors and
  * getters). In addition, a rotation can also be built implicitely
  * from a set of vectors and their image.</p>
- * <p>This implies that this class can be used to transform one
- * representation into another one. For example, converting a rotation
+ * <p>This implies that this class can be used to convert from one
+ * representation to another one. For example, converting a rotation
  * matrix into a set of Cardan angles from can be done using the
  * followong single line of code:</p>
  * <pre>
@@ -463,7 +463,7 @@ public class Rotation implements Serializable {
    * <p>Beware that many people routinely use the term Euler angles even
    * for what really are Cardan angles (this confusion is especially
    * widespread in the aerospace business where Roll, Pitch and Yaw angles
-   * are often tagged as Euler angles).</p>
+   * are often wrongly tagged as Euler angles).</p>
 
    * @param order order of rotations to use
    * @param alpha1 angle of the first elementary rotation
@@ -472,94 +472,19 @@ public class Rotation implements Serializable {
    */
   public Rotation(RotationOrder order,
                   double alpha1, double alpha2, double alpha3) {
-    this(computeRotation(order, alpha1, alpha2, alpha3));
-  }
-
-  /** Copy constructor.
-   * <p>This constructor is used only for the sake of Cardan/Euler
-   * angles handling.</p>
-   * @param r rotation to copy
-   */
-  private Rotation(Rotation r) {
-    q0 = r.q0;
-    q1 = r.q1;
-    q2 = r.q2;
-    q3 = r.q3;
-  }
-
-  /** Build a rotation from three Cardan or Euler elementary rotations.
-   * @param order order of rotations to use
-   * @param alpha1 angle of the first elementary rotation
-   * @param alpha2 angle of the second elementary rotation
-   * @param alpha3 angle of the third elementary rotation
-   */
-  public static Rotation computeRotation(RotationOrder order,
-                                         double alpha1,
-                                         double alpha2,
-                                         double alpha3) {
-    if (order == RotationOrder.XYZ) {
-      return compose(new Rotation(Vector3D.plusI, alpha1),
-                     new Rotation(Vector3D.plusJ, alpha2),
-                     new Rotation(Vector3D.plusK, alpha3));
-    } else if (order == RotationOrder.XZY) {
-      return compose(new Rotation(Vector3D.plusI, alpha1),
-                     new Rotation(Vector3D.plusK, alpha2),
-                     new Rotation(Vector3D.plusJ, alpha3));
-    } else if (order == RotationOrder.YXZ) {
-      return compose(new Rotation(Vector3D.plusJ, alpha1),
-                     new Rotation(Vector3D.plusI, alpha2),
-                     new Rotation(Vector3D.plusK, alpha3));
-    } else if (order == RotationOrder.YZX) {
-      return compose(new Rotation(Vector3D.plusJ, alpha1),
-                     new Rotation(Vector3D.plusK, alpha2),
-                     new Rotation(Vector3D.plusI, alpha3));
-    } else if (order == RotationOrder.ZXY) {
-      return compose(new Rotation(Vector3D.plusK, alpha1),
-                     new Rotation(Vector3D.plusI, alpha2),
-                     new Rotation(Vector3D.plusJ, alpha3));
-    } else if (order == RotationOrder.ZYX) {
-     return compose(new Rotation(Vector3D.plusK, alpha1),
-                    new Rotation(Vector3D.plusJ, alpha2),
-                    new Rotation(Vector3D.plusI, alpha3));
-    } else if (order == RotationOrder.XYX) {
-     return compose(new Rotation(Vector3D.plusI, alpha1),
-                    new Rotation(Vector3D.plusJ, alpha2),
-                    new Rotation(Vector3D.plusI, alpha3));
-    } else if (order == RotationOrder.XZX) {
-     return compose(new Rotation(Vector3D.plusI, alpha1),
-                    new Rotation(Vector3D.plusK, alpha2),
-                    new Rotation(Vector3D.plusI, alpha3));
-    } else if (order == RotationOrder.YXY) {
-     return compose(new Rotation(Vector3D.plusJ, alpha1),
-                    new Rotation(Vector3D.plusI, alpha2),
-                    new Rotation(Vector3D.plusJ, alpha3));
-    } else if (order == RotationOrder.YZY) {
-     return compose(new Rotation(Vector3D.plusJ, alpha1),
-                    new Rotation(Vector3D.plusK, alpha2),
-                    new Rotation(Vector3D.plusJ, alpha3));
-    } else if (order == RotationOrder.ZXZ) {
-     return compose(new Rotation(Vector3D.plusK, alpha1),
-                    new Rotation(Vector3D.plusI, alpha2),
-                    new Rotation(Vector3D.plusK, alpha3));
-    } else { // last possibility is ZYZ
-     return compose(new Rotation(Vector3D.plusK, alpha1),
-                    new Rotation(Vector3D.plusJ, alpha2),
-                    new Rotation(Vector3D.plusK, alpha3));
-    }
-  }
-
-  /** Override the instance by the composition of three rotations.
-   * @param r3 last (outermost) rotation to compose
-   * @param r2 intermediate rotation to compose
-   * @param r1 first (innermost) rotation to compose
-   */
-  private static Rotation compose(Rotation r3, Rotation r2, Rotation r1) {
-    return r3.applyTo(r2.applyTo(r1));
+    Rotation r1 = new Rotation(order.getA1(), alpha1);
+    Rotation r2 = new Rotation(order.getA2(), alpha2);
+    Rotation r3 = new Rotation(order.getA3(), alpha3);
+    Rotation composed = r1.applyTo(r2.applyTo(r3));
+    q0 = composed.q0;
+    q1 = composed.q1;
+    q2 = composed.q2;
+    q3 = composed.q3;
   }
 
   /** Revert a rotation.
    * Build a rotation which reverse the effect of another
-   * rotation. This means that is r(u) = v, then r.revert (v) = u. The
+   * rotation. This means that if r(u) = v, then r.revert(v) = u. The
    * instance is not changed.
    * @return a new rotation whose effect is the reverse of the effect
    * of the instance
@@ -1087,6 +1012,6 @@ public class Rotation implements Serializable {
   /** Third coordinate of the vectorial part of the quaternion. */
   private final double q3;
 
-  private static final long serialVersionUID = 7264384082212242475L;
+  private static final long serialVersionUID = 5127795878493115119L;
 
 }

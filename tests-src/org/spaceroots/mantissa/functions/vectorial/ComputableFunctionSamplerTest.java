@@ -36,15 +36,15 @@ public class ComputableFunctionSamplerTest
 
     assertTrue(sampler.size() == 11);
     assertTrue(sampler.getDimension() == 2);
-    assertTrue(Math.abs(sampler.samplePointAt(0).getX()     - 0.000) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(0).getY()[0]  + 0.000) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(0).getY()[1]  + 0.000) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(5).getX()     - 0.495) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(5).getY()[0]  + 0.495) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(5).getY()[1]  + 0.990) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(10).getX()    - 0.990) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(10).getY()[0] + 0.990) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(10).getY()[1] + 1.980) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(0).x     - 0.000) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(0).y[0]  + 0.000) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(0).y[1]  + 0.000) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(5).x     - 0.495) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(5).y[0]  + 0.495) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(5).y[1]  + 0.990) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(10).x    - 0.990) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(10).y[0] + 0.990) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(10).y[1] + 1.980) < 1.0e-10);
 
   }
 
@@ -59,15 +59,15 @@ public class ComputableFunctionSamplerTest
 
     assertTrue(sampler.size() == 11);
     assertTrue(sampler.getDimension() == 2);
-    assertTrue(Math.abs(sampler.samplePointAt(0).getX()     - 0.0) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(0).getY()[0]  + 0.0) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(0).getY()[1]  + 0.0) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(5).getX()     - 0.5) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(5).getY()[0]  + 0.5) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(5).getY()[1]  + 1.0) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(10).getX()    - 1.0) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(10).getY()[0] + 1.0) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(10).getY()[1] + 2.0) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(0).x     - 0.0) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(0).y[0]  + 0.0) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(0).y[1]  + 0.0) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(5).x     - 0.5) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(5).y[0]  + 0.5) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(5).y[1]  + 1.0) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(10).x    - 1.0) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(10).y[0] + 1.0) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(10).y[1] + 2.0) < 1.0e-10);
 
   }
 
@@ -83,15 +83,15 @@ public class ComputableFunctionSamplerTest
 
     assertTrue(sampler.size() == 12);
     assertTrue(sampler.getDimension() == 2);
-    assertTrue(Math.abs(sampler.samplePointAt(0).getX()     - 0.000) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(0).getY()[0]  + 0.000) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(0).getY()[1]  + 0.000) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(5).getX()     - 0.415) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(5).getY()[0]  + 0.415) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(5).getY()[1]  + 0.830) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(11).getX()    - 0.913) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(11).getY()[0] + 0.913) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(11).getY()[1] + 1.826) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(0).x     - 0.000) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(0).y[0]  + 0.000) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(0).y[1]  + 0.000) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(5).x     - 0.415) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(5).y[0]  + 0.415) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(5).y[1]  + 0.830) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(11).x    - 0.913) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(11).y[0] + 0.913) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(11).y[1] + 1.826) < 1.0e-10);
 
   }
 
@@ -107,15 +107,15 @@ public class ComputableFunctionSamplerTest
 
     assertTrue(sampler.size() == 13);
     assertTrue(sampler.getDimension() == 2);
-    assertTrue(Math.abs(sampler.samplePointAt(0).getX()     - 0.0) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(0).getY()[0]  + 0.0) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(0).getY()[1]  + 0.0) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(6).getX()     - 0.5) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(6).getY()[0]  + 0.5) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(6).getY()[1]  + 1.0) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(12).getX()    - 1.0) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(12).getY()[0] + 1.0) < 1.0e-10);
-    assertTrue(Math.abs(sampler.samplePointAt(12).getY()[1] + 2.0) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(0).x     - 0.0) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(0).y[0]  + 0.0) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(0).y[1]  + 0.0) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(6).x     - 0.5) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(6).y[0]  + 0.5) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(6).y[1]  + 1.0) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(12).x    - 1.0) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(12).y[0] + 1.0) < 1.0e-10);
+    assertTrue(Math.abs(sampler.samplePointAt(12).y[1] + 2.0) < 1.0e-10);
 
   }
 
@@ -146,24 +146,7 @@ public class ComputableFunctionSamplerTest
   public void testUnderlyingException() {
 
     ComputableFunctionSampler sampler =
-      new ComputableFunctionSampler(new ComputableFunction() {
-
-          public int getDimension() {
-            return 2;
-          }
-
-          public double[] valueAt(double x)
-            throws FunctionException {
-            if (x < 0.5) {
-              double[] res = new double[2];
-              res[0] = -x;
-              res[1] = -2.0 * x;
-              return res;
-            }
-            throw new FunctionException("upper half range exception");
-           }
-
-        },
+      new ComputableFunctionSampler(new ExceptionGeneratingFunction(),
                                     0.0, 0.1, 11);
 
     boolean exceptionOccurred = false;
@@ -188,7 +171,7 @@ public class ComputableFunctionSamplerTest
     return new TestSuite(ComputableFunctionSamplerTest.class);
   }
 
-  private class Function
+  private static class Function
     implements ComputableFunction {
     private double   min;
     private double   max;
@@ -216,6 +199,31 @@ public class ComputableFunctionSamplerTest
       return values;
 
     }
+
+    private static final long serialVersionUID = -1859103913610458563L;
+
+  }
+
+  private static class ExceptionGeneratingFunction
+    implements ComputableFunction {
+
+    public int getDimension() {
+      return 2;
+    }
+
+    public double[] valueAt(double x)
+      throws FunctionException {
+      if (x < 0.5) {
+        double[] res = new double[2];
+        res[0] = -x;
+        res[1] = -2.0 * x;
+        return res;
+      }
+      throw new FunctionException("upper half range exception");
+     }
+
+    private static final long serialVersionUID = 2849780376767626912L;
+
   }
 
 }

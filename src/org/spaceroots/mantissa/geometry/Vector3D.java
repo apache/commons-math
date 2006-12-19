@@ -19,13 +19,14 @@ package org.spaceroots.mantissa.geometry;
 
 import java.io.Serializable;
 
-
 /** This class implements vectors in a three-dimensional space.
- * <p>Vector3D are guaranteed to be immutable objects.</p>
- * @version $Id: Vector3D.java 1705 2006-09-17 19:57:39Z luc $
+ * <p>Instance of this class are guaranteed to be immutable.</p>
+ * @version $Id: Vector3D.java 1716 2006-12-13 22:56:35Z luc $
  * @author L. Maisonobe
  */
-public class Vector3D implements Serializable {
+
+public class Vector3D
+  implements Serializable {
 
   /** First canonical vector (coordinates : 1, 0, 0). */
   public static final Vector3D plusI = new Vector3D(1, 0, 0);
@@ -42,7 +43,7 @@ public class Vector3D implements Serializable {
   /** Third canonical vector (coordinates : 0, 0, 1). */
   public static final Vector3D plusK = new Vector3D(0, 0, 1);
 
-  /** Opposite of the third canonical vector (coordinates : 0, 0, -1). */
+  /** Opposite of the third canonical vector (coordinates : 0, 0, -1).  */
   public static final Vector3D minusK = new Vector3D(0, 0, -1);
 
   /** Simple constructor.
@@ -98,58 +99,57 @@ public class Vector3D implements Serializable {
 
   /** Linear constructor
    * Build a vector from two other ones and corresponding scale factors.
-   * The vector built will be a * u +  b * v
-   * @param a first scale factor
-   * @param u first base (unscaled) vector
-   * @param b second scale factor
-   * @param v second base (unscaled) vector
+   * The vector built will be a1 * u1 + a2 * u2
+   * @param a1 first scale factor
+   * @param u1 first base (unscaled) vector
+   * @param a2 second scale factor
+   * @param u2 second base (unscaled) vector
    */
-  public Vector3D(double a, Vector3D u, double b, Vector3D v) {
-    this.x = a * u.x + b * v.x;
-    this.y = a * u.y + b * v.y;
-    this.z = a * u.z + b * v.z;
+  public Vector3D(double a1, Vector3D u1, double a2, Vector3D u2) {
+    this.x = a1 * u1.x + a2 * u2.x;
+    this.y = a1 * u1.y + a2 * u2.y;
+    this.z = a1 * u1.z + a2 * u2.z;
   }
 
   /** Linear constructor
    * Build a vector from three other ones and corresponding scale factors.
-   * The vector built will be a * u +  b * v + c * w
-   * @param a first scale factor
-   * @param u first base (unscaled) vector
-   * @param b second scale factor
-   * @param v second base (unscaled) vector
-   * @param c third scale factor
-   * @param w third base (unscaled) vector
+   * The vector built will be a1 * u1 + a2 * u2 + a3 * u3
+   * @param a1 first scale factor
+   * @param u1 first base (unscaled) vector
+   * @param a2 second scale factor
+   * @param u2 second base (unscaled) vector
+   * @param a3 third scale factor
+   * @param u3 third base (unscaled) vector
    */
-  public Vector3D(double a, Vector3D u, double b, Vector3D v,
-                  double c, Vector3D w) {
-    this.x = a * u.x + b * v.x + c * w.x;
-    this.y = a * u.y + b * v.y + c * w.y;
-    this.z = a * u.z + b * v.z + c * w.z;
+  public Vector3D(double a1, Vector3D u1, double a2, Vector3D u2,
+                  double a3, Vector3D u3) {
+    this.x = a1 * u1.x + a2 * u2.x + a3 * u3.x;
+    this.y = a1 * u1.y + a2 * u2.y + a3 * u3.y;
+    this.z = a1 * u1.z + a2 * u2.z + a3 * u3.z;
   }
 
   /** Linear constructor
    * Build a vector from four other ones and corresponding scale factors.
-   * The vector built will be a * t +  b * u + c * v + d * w
-   * @param a first scale factor
-   * @param t first base (unscaled) vector
-   * @param b second scale factor
-   * @param u second base (unscaled) vector
-   * @param c third scale factor
-   * @param v third base (unscaled) vector
-   * @param d third scale factor
-   * @param w third base (unscaled) vector
+   * The vector built will be a1 * u1 + a2 * u2 + a3 * u3 + a4 * u4
+   * @param a1 first scale factor
+   * @param u1 first base (unscaled) vector
+   * @param a2 second scale factor
+   * @param u2 second base (unscaled) vector
+   * @param a3 third scale factor
+   * @param u3 third base (unscaled) vector
+   * @param a4 fourth scale factor
+   * @param u4 fourth base (unscaled) vector
    */
-  public Vector3D(double a, Vector3D t, double b, Vector3D u,
-                  double c, Vector3D v, double d, Vector3D w) {
-    this.x = a * t.x + b * u.x + c * v.x + d * w.x;
-    this.y = a * t.y + b * u.y + c * v.y + d * w.y;
-    this.z = a * t.z + b * u.z + c * v.z + d * w.z;
+  public Vector3D(double a1, Vector3D u1, double a2, Vector3D u2,
+                  double a3, Vector3D u3, double a4, Vector3D u4) {
+    this.x = a1 * u1.x + a2 * u2.x + a3 * u3.x + a4 * u4.x;
+    this.y = a1 * u1.y + a2 * u2.y + a3 * u3.y + a4 * u4.y;
+    this.z = a1 * u1.z + a2 * u2.z + a3 * u3.z + a4 * u4.z;
   }
 
   /** Get the abscissa of the vector.
    * @return abscissa of the vector
    * @see #Vector3D(double, double, double)
-   * @see #setX(double)
    */
   public double getX() {
     return x;
@@ -158,7 +158,6 @@ public class Vector3D implements Serializable {
   /** Get the ordinate of the vector.
    * @return ordinate of the vector
    * @see #Vector3D(double, double, double)
-   * @see #setY(double)
    */
   public double getY() {
     return y;
@@ -167,7 +166,6 @@ public class Vector3D implements Serializable {
   /** Get the height of the vector.
    * @return height of the vector
    * @see #Vector3D(double, double, double)
-   * @see #setZ(double)
    */
   public double getZ() {
     return z;
@@ -196,38 +194,50 @@ public class Vector3D implements Serializable {
     return Math.asin(z / getNorm());
   }
 
-  /** Normalize a vector.
-    * @param v vector to normalize
-   * @return a new vector equal to v / ||v||
-   * @exception ArithmeticException if the norm of the instance is null
+  /** Add a vector to the instance.
+   * @param v vector to add
+   * @return a new vector
    */
-  public static Vector3D normalize(Vector3D v) {
-    double norm = v.getNorm();
-    if (norm == 0) {
+  public Vector3D add(Vector3D v) {
+    return new Vector3D(x + v.x, y + v.y, z + v.z);
+  }
+
+  /** Add a scaled vector to the instance.
+   * @param factor scale factor to apply to v before adding it
+   * @param v vector to add
+   * @return a new vector
+   */
+  public Vector3D add(double factor, Vector3D v) {
+    return new Vector3D(x + factor * v.x, y + factor * v.y, z + factor * v.z);
+  }
+
+  /** Subtract a vector from the instance.
+   * @param v vector to subtract
+   * @return a new vector
+   */
+  public Vector3D subtract(Vector3D v) {
+    return new Vector3D(x - v.x, y - v.y, z - v.z);
+  }
+
+  /** Subtract a scaled vector from the instance.
+   * @param factor scale factor to apply to v before subtracting it
+   * @param v vector to subtract
+   * @return a new vector
+   */
+  public Vector3D subtract(double factor, Vector3D v) {
+    return new Vector3D(x - factor * v.x, y - factor * v.y, z - factor * v.z);
+  }
+
+  /** Normalize the instance.
+   * @return a new normalized vector
+   * @exception ArithmeticException if the norm is null
+   */
+  public Vector3D normalize() {
+    double s = getNorm();
+    if (s == 0) {
       throw new ArithmeticException("null norm");
     }
-    double inv = 1.0 / norm;
-    return new Vector3D(inv * v.x, inv * v.y, inv * v.z);
-  }
-
-  /** Add two vectors.
-   * Add two vectors and return the sum as a new vector
-   * @param v1 first vector
-   * @param v2 second vector
-   * @return a new vector equal to v1 + v2
-   */
-  public static Vector3D add(Vector3D v1, Vector3D v2) {
-    return new Vector3D(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
-  }
-
-  /** Subtract two vectors.
-   * Subtract two vectors and return the difference as a new vector
-   * @param v1 first vector
-   * @param v2 second vector
-   * @return a new vector equal to v1 - v2
-   */
-  public static Vector3D subtract(Vector3D v1, Vector3D v2) {
-    return new Vector3D(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
+    return multiply(1 / s);
   }
 
   /** Get a vector orthogonal to the instance.
@@ -238,7 +248,7 @@ public class Vector3D implements Serializable {
    * following example shows how to build a frame having the k axis
    * aligned with the known vector u :
    * <pre><code>
-   *   Vector3D k = Vector3D.normalize(u);
+   *   Vector3D k = u.normalize();
    *   Vector3D i = k.orthogonal();
    *   Vector3D j = Vector3D.crossProduct(k, i);
    * </code></pre></p>
@@ -298,22 +308,19 @@ public class Vector3D implements Serializable {
 
   }
 
-  /** Get the opposite of a vector.
-   * @param u vector to revert
-   * @return a new vector which is -u
+  /** Get the opposite of the instance.
+   * @return a new vector which is opposite to the instance
    */
-  public static Vector3D negate(Vector3D u) {
-    return new Vector3D(-u.x, -u.y, -u.z);
+  public Vector3D negate() {
+    return new Vector3D(-x, -y, -z);
   }
 
-  /** Multiply a vector by a scalar
-   * Multiply a vectors by a scalar and return the product as a new vector
+  /** Multiply the instance by a scalar
    * @param a scalar
-   * @param v vector
-   * @return a new vector equal to a * v
+   * @return a new vector
    */
-  public static Vector3D multiply(double a, Vector3D v) {
-    return new Vector3D(a * v.x, a * v.y, a * v.z);
+  public Vector3D multiply(double a) {
+    return new Vector3D(a * x, a * y, a * z);
   }
 
   /** Compute the dot-product of two vectors.
@@ -345,6 +352,6 @@ public class Vector3D implements Serializable {
   /** Height. */
   private final double z;
 
-  private static final long serialVersionUID = 484345009325358136L;
+  private static final long serialVersionUID = 7318440192750283659L;
 
 }

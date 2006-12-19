@@ -65,15 +65,12 @@ abstract class TestProblemAbstract
     if (problem.y0 == null) {
       y0 = null;
     } else {
-      y0 = new double[problem.y0.length];
-      System.arraycopy(problem.y0, 0, y0, 0, problem.y0.length);
+      y0 = (double[]) problem.y0.clone();
     }
     if (problem.errorScale == null) {
       errorScale = null;
     } else {
-      errorScale = new double[problem.errorScale.length];
-      System.arraycopy(problem.errorScale, 0, errorScale, 0,
-                       problem.errorScale.length);
+      errorScale = (double[]) problem.errorScale.clone();
     }
     t1 = problem.t1;
   }
@@ -93,8 +90,7 @@ abstract class TestProblemAbstract
     calls     = 0;
     n         = y0.length;
     this.t0   = t0;
-    this.y0   = new double[y0.length];
-    System.arraycopy(y0, 0, this.y0, 0, y0.length); 
+    this.y0   = (double[]) y0.clone(); 
    }
 
   /**
@@ -110,9 +106,7 @@ abstract class TestProblemAbstract
    * @param errorScale error scale
    */
   protected void setErrorScale(double[] errorScale) {
-    this.errorScale = new double[errorScale.length];
-    System.arraycopy(errorScale, 0, this.errorScale, 0,
-                     errorScale.length); 
+    this.errorScale = (double[]) errorScale.clone(); 
   }
 
   public int getDimension() {
@@ -156,7 +150,7 @@ abstract class TestProblemAbstract
    * @return switching functions
    */
   public SwitchingFunction[] getSwitchingFunctions() {
-    return null;
+    return new SwitchingFunction[0];
   }
 
   /**

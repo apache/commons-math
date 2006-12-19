@@ -43,29 +43,29 @@ public class Vector3DTest
 
     Vector3D v1 = new Vector3D(1, 2, 3);
     Vector3D v2 = new Vector3D(-3, -2, -1);
-    v1 = Vector3D.subtract(v1, v2);
+    v1 = v1.subtract(v2);
     checkVector(v1, new Vector3D(4, 4, 4));
 
-    checkVector(Vector3D.subtract(v2, v1), new Vector3D(-7, -6, -5));
+    checkVector(v2.subtract(v1), new Vector3D(-7, -6, -5));
 
   }
 
   public void testAdd() {
     Vector3D v1 = new Vector3D(1, 2, 3);
     Vector3D v2 = new Vector3D(-3, -2, -1);
-    v1 = Vector3D.add(v1, v2);
+    v1 = v1.add(v2);
     checkVector(v1, new Vector3D(-2, 0, 2));
 
-    checkVector(Vector3D.add(v2, v1), new Vector3D(-5, -2, 1));
+    checkVector(v2.add(v1), new Vector3D(-5, -2, 1));
 
   }
 
   public void testScalarProduct() {
     Vector3D v = new Vector3D(1, 2, 3);
-    v = Vector3D.multiply(3, v);
+    v = v.multiply(3);
     checkVector(v, new Vector3D(3, 6, 9));
 
-    checkVector(Vector3D.multiply(0.5, v), new Vector3D(1.5, 3, 4.5));
+    checkVector(v.multiply(0.5), new Vector3D(1.5, 3, 4.5));
 
   }
 
@@ -101,17 +101,16 @@ public class Vector3DTest
   public void testAngularSeparation() {
     Vector3D v1 = new Vector3D(2, -1, 4);
 
-    Vector3D  k = Vector3D.normalize(v1);
+    Vector3D  k = v1.normalize();
     Vector3D  i = k.orthogonal();
-
-    Vector3D v2 = new Vector3D(Math.cos(1.2), k, Math.sin(1.2), i);
+    Vector3D v2 = k.multiply(Math.cos(1.2)).add(i.multiply(Math.sin(1.2)));
 
     assertTrue(Math.abs(Vector3D.angle(v1, v2) - 1.2) < 1.0e-12);
 
   }
 
   private void checkVector(Vector3D v1, Vector3D v2) {
-    assertTrue(Vector3D.subtract(v1, v2).getNorm() < 1.0e-12);
+    assertTrue(v1.subtract(v2).getNorm() < 1.0e-12);
   }
   
   public static Test suite() {

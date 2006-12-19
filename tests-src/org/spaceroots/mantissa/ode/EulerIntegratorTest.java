@@ -20,6 +20,7 @@ package org.spaceroots.mantissa.ode;
 import junit.framework.*;
 
 import org.spaceroots.mantissa.estimation.EstimationException;
+import org.spaceroots.mantissa.estimation.LevenbergMarquardtEstimator;
 import org.spaceroots.mantissa.fitting.PolynomialFitter;
 
 public class EulerIntegratorTest
@@ -59,11 +60,9 @@ public class EulerIntegratorTest
         TestProblemHandler handler = new TestProblemHandler(pb);
         integ.setStepHandler(handler);
         SwitchingFunction[] functions = pb.getSwitchingFunctions();
-        if (functions != null) {
-          for (int l = 0; l < functions.length; ++l) {
-            integ.addSwitchingFunction(functions[l],
-                                       Double.POSITIVE_INFINITY, 1.0e-6 * step);
-          }
+        for (int l = 0; l < functions.length; ++l) {
+          integ.addSwitchingFunction(functions[l],
+                                     Double.POSITIVE_INFINITY, 1.0e-6 * step);
         }
         integ.integrate(pb,
                         pb.getInitialTime(), pb.getInitialState(),
@@ -84,9 +83,8 @@ public class EulerIntegratorTest
   public void testOrder()
   throws EstimationException, DerivativeException,
          IntegratorException {
-    PolynomialFitter fitter = new PolynomialFitter(1,
-                                                   10, 1.0e-7, 1.0e-10,
-                                                   1.0e-10);
+    PolynomialFitter fitter =
+      new PolynomialFitter(1, new LevenbergMarquardtEstimator());
 
     TestProblemAbstract[] problems = TestProblemFactory.getProblems();
     for (int k = 0; k < problems.length; ++k) {
@@ -101,11 +99,9 @@ public class EulerIntegratorTest
         TestProblemHandler handler = new TestProblemHandler(pb);
         integ.setStepHandler(handler);
         SwitchingFunction[] functions = pb.getSwitchingFunctions();
-        if (functions != null) {
-          for (int l = 0; l < functions.length; ++l) {
-            integ.addSwitchingFunction(functions[l],
-                                       Double.POSITIVE_INFINITY, 1.0e-6 * step);
-          }
+        for (int l = 0; l < functions.length; ++l) {
+          integ.addSwitchingFunction(functions[l],
+                                     Double.POSITIVE_INFINITY, 1.0e-6 * step);
         }
         integ.integrate(pb,
                         pb.getInitialTime(), pb.getInitialState(),

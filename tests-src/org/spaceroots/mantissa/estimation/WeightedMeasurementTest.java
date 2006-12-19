@@ -24,16 +24,18 @@ public class WeightedMeasurementTest
 
   public WeightedMeasurementTest(String name) {
     super(name);
+    p1 = null;
+    p2 = null;
   }
 
   public void testConstruction() {
-    WeightedMeasurement m = new MyMeasurement(3.0, theoretical() + 0.1);
+    WeightedMeasurement m = new MyMeasurement(3.0, theoretical() + 0.1, this);
     checkValue(m.getWeight(), 3.0);
     checkValue(m.getMeasuredValue(), theoretical() + 0.1);
   }
 
   public void testIgnored() {
-    WeightedMeasurement m = new MyMeasurement(3.0, theoretical() + 0.1);
+    WeightedMeasurement m = new MyMeasurement(3.0, theoretical() + 0.1, this);
     assertTrue(!m.isIgnored());
     m.setIgnored(true);
     assertTrue(m.isIgnored());
@@ -42,7 +44,7 @@ public class WeightedMeasurementTest
   }
 
   public void testTheory() {
-    WeightedMeasurement m = new MyMeasurement(3.0, theoretical() + 0.1);
+    WeightedMeasurement m = new MyMeasurement(3.0, theoretical() + 0.1, this);
     checkValue(m.getTheoreticalValue(), theoretical());
     checkValue(m.getResidual(), 0.1);
 
@@ -92,20 +94,24 @@ public class WeightedMeasurementTest
     }
   }
 
-  private class MyMeasurement
+  private static class MyMeasurement
     extends WeightedMeasurement {
 
-    public MyMeasurement(double weight, double measuredValue) {
+    public MyMeasurement(double weight, double measuredValue,
+                         WeightedMeasurementTest testInstance) {
       super(weight, measuredValue);
+      this.testInstance = testInstance;
     }
 
     public double getTheoreticalValue() {
-      return theoretical();
+      return testInstance.theoretical();
     }
 
     public double getPartial(EstimatedParameter p) {
-      return partial(p);
+      return testInstance.partial(p);
     }
+
+    private transient WeightedMeasurementTest testInstance;
 
     private static final long serialVersionUID = -246712922500792332L;
 

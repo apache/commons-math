@@ -36,9 +36,16 @@ public final class RotationOrder {
    * This is a utility class that cannot be instantiated by the user,
    * so its only constructor is private.
    * @param name name of the rotation order
+   * @param a1 axis of the first rotation
+   * @param a2 axis of the second rotation
+   * @param a3 axis of the third rotation
    */
-  private RotationOrder(String name) {
+  private RotationOrder(String name,
+                        Vector3D a1, Vector3D a2, Vector3D a3) {
     this.name = name;
+    this.a1   = a1;
+    this.a2   = a2;
+    this.a3   = a3;
   }
 
   /** Get a string representation of the instance.
@@ -48,79 +55,121 @@ public final class RotationOrder {
     return name;
   }
 
+  /** Get the axis of the first rotation.
+   * @return axis of the first rotation
+   */
+  public Vector3D getA1() {
+    return a1;
+  }
+
+  /** Get the axis of the second rotation.
+   * @return axis of the second rotation
+   */
+  public Vector3D getA2() {
+    return a2;
+  }
+
+  /** Get the axis of the second rotation.
+   * @return axis of the second rotation
+   */
+  public Vector3D getA3() {
+    return a3;
+  }
+
   /** Set of Cardan angles.
    * this ordered set of rotations is around X, then around Y, then
    * around Z
    */
-  public static final RotationOrder XYZ = new RotationOrder("XYZ");
+  public static final RotationOrder XYZ =
+    new RotationOrder("XYZ", Vector3D.plusI, Vector3D.plusJ, Vector3D.plusK);
 
   /** Set of Cardan angles.
    * this ordered set of rotations is around X, then around Z, then
    * around Y
    */
-  public static final RotationOrder XZY = new RotationOrder("XZY");
+  public static final RotationOrder XZY =
+    new RotationOrder("XZY", Vector3D.plusI, Vector3D.plusK, Vector3D.plusJ);
 
   /** Set of Cardan angles.
    * this ordered set of rotations is around Y, then around X, then
    * around Z
    */
-  public static final RotationOrder YXZ = new RotationOrder("YXZ");
+  public static final RotationOrder YXZ =
+    new RotationOrder("YXZ", Vector3D.plusJ, Vector3D.plusI, Vector3D.plusK);
 
   /** Set of Cardan angles.
    * this ordered set of rotations is around Y, then around Z, then
    * around X
    */
-  public static final RotationOrder YZX = new RotationOrder("YZX");
+  public static final RotationOrder YZX =
+    new RotationOrder("YZX", Vector3D.plusJ, Vector3D.plusK, Vector3D.plusI);
 
   /** Set of Cardan angles.
    * this ordered set of rotations is around Z, then around X, then
    * around Y
    */
-  public static final RotationOrder ZXY = new RotationOrder("ZXY");
+  public static final RotationOrder ZXY =
+    new RotationOrder("ZXY", Vector3D.plusK, Vector3D.plusI, Vector3D.plusJ);
 
   /** Set of Cardan angles.
    * this ordered set of rotations is around Z, then around Y, then
    * around X
    */
-  public static final RotationOrder ZYX = new RotationOrder("ZYX");
+  public static final RotationOrder ZYX =
+    new RotationOrder("ZYX", Vector3D.plusK, Vector3D.plusJ, Vector3D.plusI);
 
   /** Set of Euler angles.
    * this ordered set of rotations is around X, then around Y, then
    * around X
    */
-  public static final RotationOrder XYX = new RotationOrder("XYX");
+  public static final RotationOrder XYX =
+    new RotationOrder("XYX", Vector3D.plusI, Vector3D.plusJ, Vector3D.plusI);
 
   /** Set of Euler angles.
    * this ordered set of rotations is around X, then around Z, then
    * around X
    */
-  public static final RotationOrder XZX = new RotationOrder("XZX");
+  public static final RotationOrder XZX =
+    new RotationOrder("XZX", Vector3D.plusI, Vector3D.plusK, Vector3D.plusI);
 
   /** Set of Euler angles.
    * this ordered set of rotations is around Y, then around X, then
    * around Y
    */
-  public static final RotationOrder YXY = new RotationOrder("YXY");
+  public static final RotationOrder YXY =
+    new RotationOrder("YXY", Vector3D.plusJ, Vector3D.plusI, Vector3D.plusJ);
 
   /** Set of Euler angles.
    * this ordered set of rotations is around Y, then around Z, then
    * around Y
    */
-  public static final RotationOrder YZY = new RotationOrder("YZY");
+  public static final RotationOrder YZY =
+    new RotationOrder("YZY", Vector3D.plusJ, Vector3D.plusK, Vector3D.plusJ);
 
   /** Set of Euler angles.
    * this ordered set of rotations is around Z, then around X, then
    * around Z
    */
-  public static final RotationOrder ZXZ = new RotationOrder("ZXZ");
+  public static final RotationOrder ZXZ =
+    new RotationOrder("ZXZ", Vector3D.plusK, Vector3D.plusI, Vector3D.plusK);
 
   /** Set of Euler angles.
    * this ordered set of rotations is around Z, then around Y, then
    * around Z
    */
-  public static final RotationOrder ZYZ = new RotationOrder("ZYZ");
+  public static final RotationOrder ZYZ =
+    new RotationOrder("ZYZ", Vector3D.plusK, Vector3D.plusJ, Vector3D.plusK);
 
   /** Name of the rotations order. */
   private final String name;
+
+  /** Axis of the first rotation. */
+  private final Vector3D a1;
+
+  /** Axis of the second rotation. */
+  private final Vector3D a2;
+
+  /** Axis of the third rotation. */
+  private final Vector3D a3;
 
 }

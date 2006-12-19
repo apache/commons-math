@@ -35,7 +35,7 @@ package org.spaceroots.mantissa.ode;
 public class HighamHall54Integrator
   extends RungeKuttaFehlbergIntegrator {
 
-  private static final String methodName = new String("Higham-Hall 5(4)");
+  private static final String methodName = "Higham-Hall 5(4)";
 
   private static final double[] c = {
     2.0/9.0, 1.0/3.0, 1.0/2.0, 3.0/5.0, 1.0, 1.0

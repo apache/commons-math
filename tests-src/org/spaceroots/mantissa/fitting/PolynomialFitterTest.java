@@ -21,6 +21,9 @@ import java.util.Random;
 import junit.framework.*;
 
 import org.spaceroots.mantissa.estimation.EstimationException;
+import org.spaceroots.mantissa.estimation.Estimator;
+import org.spaceroots.mantissa.estimation.GaussNewtonEstimator;
+import org.spaceroots.mantissa.estimation.LevenbergMarquardtEstimator;
 
 public class PolynomialFitterTest
   extends TestCase {
@@ -38,9 +41,8 @@ public class PolynomialFitterTest
         p.initCoeff (i, randomizer.nextGaussian());
       }
 
-      PolynomialFitter fitter = new PolynomialFitter(degree,
-                                                     10, 1.0e-7,
-                                                     1.0e-10, 1.0e-10);
+      PolynomialFitter fitter =
+        new PolynomialFitter(degree, new LevenbergMarquardtEstimator());
       for (int i = 0; i <= degree; ++i) {
         fitter.addWeightedPair(1.0, i, p.valueAt(i));
       }
@@ -66,9 +68,8 @@ public class PolynomialFitterTest
         p.initCoeff(i, randomizer.nextGaussian());
       }
 
-      PolynomialFitter fitter = new PolynomialFitter(degree,
-                                                     10, 1.0e-7,
-                                                     1.0e-10, 1.0e-10);
+      PolynomialFitter fitter =
+        new PolynomialFitter(degree, new LevenbergMarquardtEstimator());
       for (double x = -1.0; x < 1.0; x += 0.01) {
         fitter.addWeightedPair(1.0, x,
                                p.valueAt(x) + 0.1 * randomizer.nextGaussian());
@@ -85,18 +86,28 @@ public class PolynomialFitterTest
 
   }
 
-  public void testUnsolvableProblem()
-    throws EstimationException {
+  public void testRedundantSolvable() {
+    // Levenberg-Marquardt should handle redundant information gracefully
+    checkUnsolvableProblem(new LevenbergMarquardtEstimator(), true);
+  }
+
+  public void testRedundantUnsolvable() {
+    // Gauss-Newton should not be able to solve redundant information
+    checkUnsolvableProblem(new GaussNewtonEstimator(10, 1.0e-7, 1.0e-7,
+                                                    1.0e-10),
+                           false);
+  }
+
+  private void checkUnsolvableProblem(Estimator estimator,
+                                      boolean solvable) {
     Random randomizer = new Random(1248788532l);
     for (int degree = 0; degree < 10; ++degree) {
       Polynom p = new Polynom(degree);
-      for (int i = 1; i <= degree; ++i) {
+      for (int i = 0; i <= degree; ++i) {
         p.initCoeff(i, randomizer.nextGaussian());
       }
 
-      PolynomialFitter fitter = new PolynomialFitter(degree,
-                                                     10, 1.0e-7,
-                                                     1.0e-10, 1.0e-10);
+      PolynomialFitter fitter = new PolynomialFitter(degree, estimator);
 
       // reusing the same point over and over again does not bring
       // information, the problem cannot be solved in this case for
@@ -106,13 +117,12 @@ public class PolynomialFitterTest
         fitter.addWeightedPair(1.0, 0.0, p.valueAt(0.0));
       }
 
-      boolean gotIt = false;
       try {
         fitter.fit();
+        assertTrue(solvable || (degree == 0));
       } catch(EstimationException e) {
-        gotIt = true;
+        assertTrue((! solvable) && (degree > 0));
       }
-      assertTrue((degree == 0 && ! gotIt) || (degree > 0 && gotIt));
 
     }
 
@@ -122,7 +132,7 @@ public class PolynomialFitterTest
     return new TestSuite(PolynomialFitterTest.class);
   }
 
-  private class Polynom {
+  private static class Polynom {
 
     public Polynom(int degree) {
       coeffs = new double[degree + 1];

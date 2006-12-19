@@ -54,19 +54,17 @@ public class RationalNumberTest
 
   public void testInvert() {
 
-    RationalNumber f = new RationalNumber(2l, 4l);
-    f.invertSelf();
+    RationalNumber f = new RationalNumber(2l, 4l).invert();
     checkValue(f, "2");
-    f.invertSelf();
+    f = f.invert();
     checkValue(f, "1/2");
 
-    f = new RationalNumber(120l);
-    f.invertSelf();
+    f = new RationalNumber(120l).invert();
     checkValue(f, "1/120");
 
     f = new RationalNumber(0l, 4l);
     try {
-      f.invertSelf();
+      f.invert();
       fail("an exception should have been thrown");
     } catch (ArithmeticException e) {
     } catch (Exception e) {
@@ -74,7 +72,7 @@ public class RationalNumberTest
     }
 
     f = new RationalNumber(307692l, 999999l);
-    RationalNumber fInverse = RationalNumber.invert(f);
+    RationalNumber fInverse = f.invert();
     checkValue(fInverse, "13/4");
     checkValue(f, "4/13");
 
@@ -83,23 +81,18 @@ public class RationalNumberTest
   public void testAddition() {
 
     RationalNumber f1 = new RationalNumber(4l, 6l);
-    f1.addToSelf(f1);
+    f1 = f1.add(f1);
     checkValue(f1, "4/3");
 
-    checkValue(RationalNumber.add(new RationalNumber(17l, 3l),
-                                  new RationalNumber(-17l, 3l)),
+    checkValue(new RationalNumber(17l, 3l).add(new RationalNumber(-17l, 3l)),
                "0");
-    checkValue(RationalNumber.add(new RationalNumber(2l, 3l),
-                                  new RationalNumber(3l, 4l)),
+    checkValue(new RationalNumber(2l, 3l).add(new RationalNumber(3l, 4l)),
                "17/12");
-    checkValue(RationalNumber.add(new RationalNumber(1l, 6l),
-                                  new RationalNumber(2l, 6l)),
+    checkValue(new RationalNumber(1l, 6l).add(new RationalNumber(2l, 6l)),
                "1/2");
-    checkValue(RationalNumber.add(new RationalNumber(4l, 5l),
-                                  new RationalNumber(-3l, 4l)),
+    checkValue(new RationalNumber(4l, 5l).add(new RationalNumber(-3l, 4l)),
                "1/20");
-    checkValue(RationalNumber.add(new RationalNumber(-3l, 4l),
-                                  new RationalNumber(4l, 5l)),
+    checkValue(new RationalNumber(-3l, 4l).add(new RationalNumber(4l, 5l)),
                "1/20");
 
   }
@@ -107,44 +100,33 @@ public class RationalNumberTest
   public void testSubtraction() {
 
     RationalNumber f1 = new RationalNumber(4l, 6l);
-    f1.subtractFromSelf(f1);
+    f1 = f1.subtract(f1);
     checkValue(f1, "0");
 
-    checkValue(RationalNumber.subtract(new RationalNumber(7l, 3l),
-                                       new RationalNumber(-7l, 3l)),
+    checkValue(new RationalNumber(7l, 3l).subtract(new RationalNumber(-7l, 3l)),
                "14/3");
 
-    checkValue(RationalNumber.subtract(new RationalNumber(3l, 4l),
-                                       new RationalNumber(2l, 3l)),
+    checkValue(new RationalNumber(3l, 4l).subtract(new RationalNumber(2l, 3l)),
                "1/12");
-    checkValue(RationalNumber.subtract(new RationalNumber(3l, 4l),
-                                       new RationalNumber(-2l, 3l)),
+    checkValue(new RationalNumber(3l, 4l).subtract(new RationalNumber(-2l, 3l)),
                "17/12");
-    checkValue(RationalNumber.subtract(new RationalNumber(-3l, 4l),
-                                       new RationalNumber(2l, 3l)),
+    checkValue(new RationalNumber(-3l, 4l).subtract(new RationalNumber(2l, 3l)),
                "-17/12");
-    checkValue(RationalNumber.subtract(new RationalNumber(-3l, 4l),
-                                       new RationalNumber(-2l, 3l)),
+    checkValue(new RationalNumber(-3l, 4l).subtract(new RationalNumber(-2l, 3l)),
                "-1/12");
 
-    checkValue(RationalNumber.subtract(new RationalNumber(2l, 3l),
-                                       new RationalNumber(3l, 4l)),
+    checkValue(new RationalNumber(2l, 3l).subtract(new RationalNumber(3l, 4l)),
                "-1/12");
-    checkValue(RationalNumber.subtract(new RationalNumber(-2l, 3l),
-                                       new RationalNumber(3l, 4l)),
+    checkValue(new RationalNumber(-2l, 3l).subtract(new RationalNumber(3l, 4l)),
                "-17/12");
-    checkValue(RationalNumber.subtract(new RationalNumber(2l, 3l),
-                                       new RationalNumber(-3l, 4l)),
+    checkValue(new RationalNumber(2l, 3l).subtract(new RationalNumber(-3l, 4l)),
                "17/12");
-    checkValue(RationalNumber.subtract(new RationalNumber(-2l, 3l),
-                                       new RationalNumber(-3l, 4l)),
+    checkValue(new RationalNumber(-2l, 3l).subtract(new RationalNumber(-3l, 4l)),
                "1/12");
 
-    checkValue(RationalNumber.subtract(new RationalNumber(1l, 6l),
-                                       new RationalNumber(2l, 6l)),
+    checkValue(new RationalNumber(1l, 6l).subtract(new RationalNumber(2l, 6l)),
                "-1/6");
-    checkValue(RationalNumber.subtract(new RationalNumber(1l, 2l),
-                                       new RationalNumber(1l, 6l)),
+    checkValue(new RationalNumber(1l, 2l).subtract(new RationalNumber(1l, 6l)),
                "1/3");
 
   }
@@ -152,23 +134,18 @@ public class RationalNumberTest
   public void testMultiplication() {
 
     RationalNumber f = new RationalNumber(2l, 3l);
-    f.multiplySelf(new RationalNumber(9l,4l));
+    f = f.multiply(new RationalNumber(9l,4l));
     checkValue(f, "3/2");
 
-    checkValue(RationalNumber.multiply(new RationalNumber(1l, 2l),
-                                       new RationalNumber(0l)),
+    checkValue(new RationalNumber(1l, 2l).multiply(new RationalNumber(0l)),
                "0");
-    checkValue(RationalNumber.multiply(new RationalNumber(4l, 15l),
-                                       new RationalNumber(-5l, 2l)),
+    checkValue(new RationalNumber(4l, 15l).multiply(new RationalNumber(-5l, 2l)),
                "-2/3");
-    checkValue(RationalNumber.multiply(new RationalNumber(-4l, 15l),
-                                       new RationalNumber(5l, 2l)),
+    checkValue(new RationalNumber(-4l, 15l).multiply(new RationalNumber(5l, 2l)),
                "-2/3");
-    checkValue(RationalNumber.multiply(new RationalNumber(4l, 15l),
-                                       new RationalNumber(5l, 2l)),
+    checkValue(new RationalNumber(4l, 15l).multiply(new RationalNumber(5l, 2l)),
                "2/3");
-    checkValue(RationalNumber.multiply(new RationalNumber(-4l, 15l),
-                                       new RationalNumber(-5l, 2l)),
+    checkValue(new RationalNumber(-4l, 15l).multiply(new RationalNumber(-5l, 2l)),
                "2/3");
 
   }
@@ -176,29 +153,24 @@ public class RationalNumberTest
   public void testDivision() {
 
     RationalNumber f = new RationalNumber(2l, 3l);
-    f.divideSelf(new RationalNumber(4l,9l));
+    f = f.divide(new RationalNumber(4l,9l));
     checkValue(f, "3/2");
 
     try {
-      RationalNumber.divide(new RationalNumber(1l, 2l),
-                            new RationalNumber(0l));
+      new RationalNumber(1l, 2l).divide(new RationalNumber(0l));
       fail("an exception should have been thrown");
     } catch (ArithmeticException e) {
     } catch (Exception e) {
       fail("wrong exception caught");
     }
 
-    checkValue(RationalNumber.divide(new RationalNumber(4l, 15l),
-                                     new RationalNumber(-2l, 5l)),
+    checkValue(new RationalNumber(4l, 15l).divide(new RationalNumber(-2l, 5l)),
                "-2/3");
-    checkValue(RationalNumber.divide(new RationalNumber(-4l, 15l),
-                                     new RationalNumber(2l, 5l)),
+    checkValue(new RationalNumber(-4l, 15l).divide(new RationalNumber(2l, 5l)),
                "-2/3");
-    checkValue(RationalNumber.divide(new RationalNumber(4l, 15l),
-                                     new RationalNumber(2l, 5l)),
+    checkValue(new RationalNumber(4l, 15l).divide(new RationalNumber(2l, 5l)),
                "2/3");
-    checkValue(RationalNumber.divide(new RationalNumber(-4l, 15l),
-                                     new RationalNumber(-2l, 5l)),
+    checkValue(new RationalNumber(-4l, 15l).divide(new RationalNumber(-2l, 5l)),
                "2/3");
 
   }

@@ -24,6 +24,7 @@ public class ScalarSampleStatisticsTest
 
   public ScalarSampleStatisticsTest(String name) {
     super(name);
+    points = null;
   }
 
   public void testBasicStats() {

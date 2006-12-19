@@ -131,15 +131,8 @@ public abstract class AbstractStepInterpolator
     interpolatedTime  = interpolator.interpolatedTime;
 
     if (interpolator.currentState != null) {
-      int dimension = interpolator.currentState.length;
-
-      currentState = new double[dimension];
-      System.arraycopy(interpolator.currentState, 0, currentState, 0,
-                       dimension);
-
-      interpolatedState = new double[dimension];
-      System.arraycopy(interpolator.interpolatedState, 0, interpolatedState, 0,
-                       dimension);
+      currentState      = (double[]) interpolator.currentState.clone();
+      interpolatedState = (double[]) interpolator.interpolatedState.clone();
     } else {
       currentState      = null;
       interpolatedState = null;
@@ -189,7 +182,14 @@ public abstract class AbstractStepInterpolator
   * @return a copy of the instance.
 
   */
-  public abstract Object clone();
+  public Object clone() {
+    try {
+      return super.clone();
+    } catch (CloneNotSupportedException cnse) {
+      // should never happen
+      return null;
+    }
+  }
 
   /** Shift one step forward.
    * Copy the current time into the previous time, hence preparing the
@@ -291,7 +291,7 @@ public abstract class AbstractStepInterpolator
    * @return state vector at time {@link #getInterpolatedTime}
    */
   public double[] getInterpolatedState() {
-    return interpolatedState;
+    return (double[]) interpolatedState.clone();
   }
 
 

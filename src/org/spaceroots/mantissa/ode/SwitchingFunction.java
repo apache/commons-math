@@ -17,6 +17,8 @@
 
 package org.spaceroots.mantissa.ode;
 
+import java.io.Serializable;
+
 /** This interface represents a switching function.
  *
  * <p>A switching function allows to handle discrete events in
@@ -45,7 +47,7 @@ package org.spaceroots.mantissa.ode;
  *
  */
 
-public interface SwitchingFunction {
+public interface SwitchingFunction extends Serializable {
 
   /** Stop indicator.
    * <p>This value should be used as the return value of the {@link

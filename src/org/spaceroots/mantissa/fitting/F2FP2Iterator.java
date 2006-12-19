@@ -58,12 +58,13 @@ class F2FP2Iterator
 
     // get the raw values from the underlying FFPIterator
     VectorialValuedPair point = ffpIterator.nextSamplePoint();
+    double[] y = point.y;
 
-    // hack the values (to avoid building a new object)
-    double[] y = point.getY();
-    y[0] *= y[0];
-    y[1] *= y[1];
-    return point;
+    // square the values
+    return new VectorialValuedPair(point.x,
+                                   new double[] {
+                                     y[0] * y[0], y[1] * y[1]             
+                                   });
 
   }
 
