@@ -71,8 +71,7 @@ public abstract class AbstractContinuousDistribution
                 try {
                     return cumulativeProbability(x) - p;
                 } catch (MathException ex) {
-                    throw new FunctionEvaluationException
-                        (x, "Error computing cdf", ex);
+                    throw new FunctionEvaluationException(x, ex.getPattern(), ex.getArguments(), ex);
                 }
             }
         };
