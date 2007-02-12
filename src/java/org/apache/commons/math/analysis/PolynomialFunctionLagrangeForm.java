@@ -17,6 +17,8 @@
 package org.apache.commons.math.analysis;
 
 import java.io.Serializable;
+
+import org.apache.commons.math.DuplicateSampleAbscissaException;
 import org.apache.commons.math.FunctionEvaluationException;
 
 /**
@@ -83,7 +85,11 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction,
      * @see UnivariateRealFunction#value(double)
      */
     public double value(double z) throws FunctionEvaluationException {
-       return evaluate(x, y, z);
+        try {
+            return evaluate(x, y, z);
+        } catch (DuplicateSampleAbscissaException e) {
+            throw new FunctionEvaluationException(z, e.getPattern(), e.getArguments(), e);
+        }
     }
 
     /**
@@ -149,11 +155,11 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction,
      * @param y the interpolating values array
      * @param z the point at which the function value is to be computed
      * @return the function value
-     * @throws FunctionEvaluationException if a runtime error occurs
+     * @throws DuplicateSampleAbscissaException if the sample has duplicate abscissas
      * @throws IllegalArgumentException if inputs are not valid
      */
     public static double evaluate(double x[], double y[], double z) throws
-        FunctionEvaluationException, IllegalArgumentException {
+        DuplicateSampleAbscissaException, IllegalArgumentException {
 
         int i, j, n, nearest = 0;
         double value, c[], d[], tc, td, divider, w, dist, min_dist;
@@ -186,9 +192,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction,
                 divider = x[j] - x[i+j];
                 if (divider == 0.0) {
                     // This happens only when two abscissas are identical.
-                    throw new FunctionEvaluationException(z, 
-                        "Identical abscissas cause division by zero: x[" +
-                        i + "] = x[" + (i+j) + "] = " + x[i]);
+                    throw new DuplicateSampleAbscissaException(x[i], i, i+j);
                 }
                 // update the difference arrays
                 w = (c[j+1] - d[j]) / divider;

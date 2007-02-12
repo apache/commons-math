@@ -17,7 +17,8 @@
 package org.apache.commons.math.analysis;
 
 import java.io.Serializable;
-import org.apache.commons.math.MathException;
+
+import org.apache.commons.math.DuplicateSampleAbscissaException;
 
 /**
  * Implements the <a href="
@@ -35,7 +36,7 @@ public class DividedDifferenceInterpolator implements UnivariateRealInterpolator
     Serializable {
 
     /** serializable version identifier */
-    static final long serialVersionUID = 107049519551235069L;
+    private static final long serialVersionUID = 107049519551235069L;
 
     /**
      * Computes an interpolating function for the data set.
@@ -43,10 +44,10 @@ public class DividedDifferenceInterpolator implements UnivariateRealInterpolator
      * @param x the interpolating points array
      * @param y the interpolating values array
      * @return a function which interpolates the data set
-     * @throws MathException if arguments are invalid
+     * @throws DuplicateSampleAbscissaException if arguments are invalid
      */
     public UnivariateRealFunction interpolate(double x[], double y[]) throws
-        MathException {
+        DuplicateSampleAbscissaException {
 
         /**
          * a[] and c[] are defined in the general formula of Newton form:
@@ -86,10 +87,10 @@ public class DividedDifferenceInterpolator implements UnivariateRealInterpolator
      * The computational complexity is O(N^2).
      *
      * @return a fresh copy of the divided difference array
-     * @throws MathException if any abscissas coincide
+     * @throws DuplicateSampleAbscissaException if any abscissas coincide
      */
     protected static double[] computeDividedDifference(double x[], double y[])
-        throws MathException {
+        throws DuplicateSampleAbscissaException {
 
         int i, j, n;
         double divdiff[], a[], denominator;
@@ -109,8 +110,7 @@ public class DividedDifferenceInterpolator implements UnivariateRealInterpolator
                 denominator = x[j+i] - x[j];
                 if (denominator == 0.0) {
                     // This happens only when two abscissas are identical.
-                    throw new MathException
-                        ("Identical abscissas cause division by zero.");
+                    throw new DuplicateSampleAbscissaException(x[j], j, j+i);
                 }
                 divdiff[j] = (divdiff[j+1] - divdiff[j]) / denominator;
             }
