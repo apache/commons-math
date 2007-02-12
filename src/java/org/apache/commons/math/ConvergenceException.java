@@ -27,27 +27,39 @@ import java.io.Serializable;
 public class ConvergenceException extends MathException implements Serializable{
     
     /** Serializable version identifier */
-    private static final long serialVersionUID = -3657394299929217890L;
-    
+    private static final long serialVersionUID = 7426445244781020663L;
+
     /**
      * Default constructor.
      */
     public ConvergenceException() {
-        this(null, null);
+        super("Convergence failed", new Object[0]);
     }
     
     /**
      * Construct an exception with the given message.
-     * @param message descriptive error message. 
+     * @param message descriptive error message
+     * @deprecated as of 1.2, replaced by {@link #ConvergenceException(String, Object[])}
      */
     public ConvergenceException(String message) {
-        this(message, null);
+        super(message);
+    }
+
+    /**
+     * Constructs an exception with specified formatted detail message.
+     * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * @param pattern format specifier
+     * @param arguments format arguments
+     */
+    public ConvergenceException(String pattern, Object[] arguments) {
+        super(pattern, arguments);
     }
 
     /**
      * Construct an exception with the given message and root cause.
-     * @param message descriptive error message.
-     * @param cause root cause.
+     * @param message descriptive error message
+     * @param cause  the exception or error that caused this exception to be thrown
+     * @deprecated as of 1.2, replaced by {@link #ConvergenceException(String, Object[], Throwable)}
      */
     public ConvergenceException(String message, Throwable cause) {
         super(message, cause);
@@ -55,9 +67,21 @@ public class ConvergenceException extends MathException implements Serializable{
 
     /**
      * Create an exception with a given root cause.
-     * @param throwable caught exception causing this problem
+     * @param cause  the exception or error that caused this exception to be thrown
      */
-    public ConvergenceException(Throwable throwable) {
-        this(null, throwable);
+    public ConvergenceException(Throwable cause) {
+        super(cause);
     }
+
+    /**
+     * Constructs an exception with specified formatted detail message and root cause.
+     * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * @param pattern format specifier
+     * @param arguments format arguments
+     * @param cause  the exception or error that caused this exception to be thrown
+     */
+    public ConvergenceException(String pattern, Object[] arguments, Throwable cause) {
+        super(pattern, arguments, cause);
+    }
+
 }

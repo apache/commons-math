@@ -22,42 +22,63 @@ import java.io.Serializable;
  * Signals a configuration problem with any of the factory methods.
  * @version $Revision$ $Date$
  */
-public class MathConfigurationException extends MathException implements Serializable {
-    
-    /** Serializable version identifier */
-    private static final long serialVersionUID = -7958299004965931723L;
+public class MathConfigurationException extends MathException implements Serializable{
 
+    /** Serializable version identifier */
+    private static final long serialVersionUID = -4056541384141349722L;
     /**
      * Default constructor.
      */
     public MathConfigurationException() {
-        this(null, null);
+        super();
+    }
+    
+    /**
+     * Construct an exception with the given message.
+     * @param message descriptive error message
+     * @deprecated as of 1.2, replaced by {@link #MathConfigurationException(String, Object[])}
+     */
+    public MathConfigurationException(String message) {
+        super(message);
     }
 
     /**
-     * Construct an exception with the given message.
-     * @param message message describing the problem
+     * Constructs an exception with specified formatted detail message.
+     * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * @param pattern format specifier
+     * @param arguments format arguments
      */
-    public MathConfigurationException(final String message) {
-        this(message, null);
+    public MathConfigurationException(String pattern, Object[] arguments) {
+        super(pattern, arguments);
     }
 
     /**
      * Construct an exception with the given message and root cause.
-     * @param message message describing the problem
-     * @param throwable caught exception causing this problem
+     * @param message descriptive error message
+     * @param cause  the exception or error that caused this exception to be thrown
+     * @deprecated as of 1.2, replaced by {@link #MathConfigurationException(String, Object[], Throwable)}
      */
-    public MathConfigurationException(
-        final String message,
-        final Throwable throwable) {
-        super(message, throwable);
+    public MathConfigurationException(String message, Throwable cause) {
+        super(message, cause);
     }
 
     /**
-     * Construct an exception with the given root cause.
-     * @param throwable caught exception causing this problem
+     * Create an exception with a given root cause.
+     * @param cause  the exception or error that caused this exception to be thrown
      */
-    public MathConfigurationException(final Throwable throwable) {
-        this(null, throwable);
+    public MathConfigurationException(Throwable cause) {
+        super(cause);
     }
+
+    /**
+     * Constructs an exception with specified formatted detail message and root cause.
+     * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * @param pattern format specifier
+     * @param arguments format arguments
+     * @param cause  the exception or error that caused this exception to be thrown
+     */
+    public MathConfigurationException(String pattern, Object[] arguments, Throwable cause) {
+        super(pattern, arguments, cause);
+    }
+
 }

@@ -26,51 +26,79 @@ package org.apache.commons.math;
  */
 public class FunctionEvaluationException extends MathException  {
     
-    /** Serializable version identifier */
-    private static final long serialVersionUID = -317289374378977972L;
-    
+    /** Serializable version identifier. */
+    private static final long serialVersionUID = -7619974756160279127L;
+
     /** Argument causing function evaluation failure */
     private double argument = Double.NaN;
     
     /**
      * Construct an exception indicating the argument value
-     * that caused the function evaluation to fail.  Generates an exception
-     * message of the form "Evaluation failed for argument = " + argument.
+     * that caused the function evaluation to fail.
      * 
      * @param argument  the failing function argument 
      */
     public FunctionEvaluationException(double argument) {
-        this(argument, "Evaluation failed for argument = " + argument);
+        super("Evaluation failed for argument = {0}",
+              new Object[] { new Double(argument) });
+        this.argument = argument;
     }
     
     /**
      * Construct an exception using the given argument and message
-     * text.  The message text of the exception will start with 
-     * <code>message</code> and be followed by 
-     * " Evaluation failed for argument = " + argument.
+     * text.
      * 
      * @param argument  the failing function argument 
      * @param message  the exception message text
+     * @deprecated as of 1.2, replaced by {@link #FunctionEvaluationException(double, String, Object[])
      */
     public FunctionEvaluationException(double argument, String message) {
-        this(argument, message, null);
+        super(message);
+        this.argument = argument;
+    }
+
+    /**
+     * Constructs an exception with specified formatted detail message.
+     * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * @param argument  the failing function argument 
+     * @param pattern format specifier
+     * @param arguments format arguments
+     */
+    public FunctionEvaluationException(double argument,
+                                       String pattern, Object[] arguments) {
+        super(pattern, arguments);
+        this.argument = argument;
     }
 
     /**
      * Construct an exception with the given argument, message and root cause.
-     * The message text of the exception will start with  <code>message</code>
-     * and be followed by " Evaluation failed for argument = " + argument.
      * 
      * @param argument  the failing function argument 
      * @param message descriptive error message
      * @param cause root cause.
+     * @deprecated as of 1.2, replaced by {@link #FunctionEvaluationException(double, String, Object[], Throwable)}
      */
-    public FunctionEvaluationException(double argument, String message, 
-            Throwable cause) {
-        super(message + " Evaluation failed for argument=" + argument, cause);
+    public FunctionEvaluationException(double argument,
+                                       String message, Throwable cause) {
+        super(message, cause);
         this.argument = argument;
     }
-    
+
+    /**
+     * Constructs an exception with specified formatted detail message and root cause.
+     * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * @param argument  the failing function argument 
+     * @param pattern format specifier
+     * @param arguments format arguments
+     * @param cause  the exception or error that caused this exception to be thrown
+     */
+    public FunctionEvaluationException(double argument,
+                                       String pattern, Object[] arguments,
+                                       Throwable cause) {
+        super(pattern, arguments, cause);
+        this.argument = argument;
+    }
+
     /**
      * Returns the function argument that caused this exception.
      * 
@@ -79,4 +107,5 @@ public class FunctionEvaluationException extends MathException  {
     public double getArgument() {
         return this.argument;
     }
+
 }

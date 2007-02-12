@@ -18,6 +18,10 @@ package org.apache.commons.math;
 
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.text.MessageFormat;
+import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 
 /**
@@ -32,8 +36,8 @@ import java.io.PrintWriter;
 public class MathException extends Exception {
     
     /** Serializable version identifier */
-    private static final long serialVersionUID = -8594613561393443827L;
-    
+    private static final long serialVersionUID = -8602234299177097102L;
+
     /**
      * Does JDK support nested exceptions?
      */
@@ -49,18 +53,62 @@ public class MathException extends Exception {
         }
         JDK_SUPPORTS_NESTED = flag;
     }
-    
+
+    private static ResourceBundle cachedResources = null;
+ 
+    /**
+     * Pattern used to build the message.
+     */
+    private final String pattern;
+
+    /**
+     * Arguments used to build the message.
+     */
+    private final Object[] arguments;
+
     /**
      * Root cause of the exception
      */
     private final Throwable rootCause;
     
     /**
+     * Translate a string to a given locale.
+     * @param s string to translate
+     * @param locale locale into which to translate the string
+     * @return translated string or original string
+     * for unsupported locales or unknown strings
+     */
+    private static String translate(String s, Locale locale) {
+        try {
+            if ((cachedResources == null) || (! cachedResources.getLocale().equals(locale))) {
+                // caching the resource bundle
+                cachedResources =
+                    ResourceBundle.getBundle("org.apache.commons.math.MessagesResources", locale);
+            }
+
+            if (cachedResources.getLocale().equals(locale)) {
+                // the value of the resource is the translated string
+                return cachedResources.getString(s);
+            }
+            
+        } catch (MissingResourceException mre) {
+            // do nothing here
+        }
+
+        // the locale is not supported or the resource is unknown
+        // don't translate and fall back to using the string as is
+        return s;
+
+    }
+
+    /**
      * Constructs a new <code>MathException</code> with no
      * detail message.
      */
     public MathException() {
         super();
+        this.pattern   = null;
+        this.arguments = new Object[0];
         this.rootCause = null;
     }
     
@@ -69,12 +117,29 @@ public class MathException extends Exception {
      * detail message.
      *
      * @param msg  the error message.
+     * @deprecated as of 1.2, replaced by {@link #MathException(String, Object[])}
      */
     public MathException(String msg) {
         super(msg);
+        this.pattern   = msg;
+        this.arguments = new Object[0];
         this.rootCause = null;
     }
-    
+
+    /**
+     * Constructs a new <code>MathException</code> with specified
+     * formatted detail message.
+     * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * @param pattern format specifier
+     * @param arguments format arguments
+     */
+    public MathException(String pattern, Object[] arguments) {
+      super(new MessageFormat(pattern, Locale.US).format(arguments));
+      this.pattern   = pattern;
+      this.arguments = arguments;
+      this.rootCause = null;
+    }
+
     /**
      * Constructs a new <code>MathException</code> with specified
      * nested <code>Throwable</code> root cause.
@@ -84,6 +149,8 @@ public class MathException extends Exception {
      */
     public MathException(Throwable rootCause) {
         super((rootCause == null ? null : rootCause.getMessage()));
+        this.pattern   = getMessage();
+        this.arguments = new Object[0];
         this.rootCause = rootCause;
     }
     
@@ -94,12 +161,60 @@ public class MathException extends Exception {
      * @param msg  the error message.
      * @param rootCause  the exception or error that caused this exception
      *                   to be thrown.
+     * @deprecated as of 1.2, replaced by {@link #MathException(String, Object[], Throwable)}
      */
     public MathException(String msg, Throwable rootCause) {
         super(msg);
+        this.pattern   = msg;
+        this.arguments = new Object[0];
         this.rootCause = rootCause;
     }
-    
+
+    /**
+     * Constructs a new <code>MathException</code> with specified
+     * formatted detail message and nested <code>Throwable</code> root cause.
+     * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * @param pattern format specifier
+     * @param arguments format arguments
+     * @param rootCause  the exception or error that caused this exception
+     *                   to be thrown.
+     */
+    public MathException(String pattern, Object[] arguments, Throwable rootCause) {
+      super(new MessageFormat(pattern, Locale.US).format(arguments));
+      this.pattern   = pattern;
+      this.arguments = arguments;
+      this.rootCause = rootCause;
+    }
+
+    /** Gets the pattern used to build the message of this throwable.
+     *
+     * @return the pattern used to build the message of this throwable
+     */
+    public String getPattern() {
+        return pattern;
+    }
+
+    /** Gets the arguments used to build the message of this throwable.
+     *
+     * @return the arguments used to build the message of this throwable
+     */
+    public Object[] getArguments() {
+        return arguments;
+    }
+
+    /** Gets the message in a specified locale.
+     *
+     * @param locale Locale in which the message should be translated
+     * 
+     * @return localized message
+     */
+    public String getMessage(Locale locale) {
+        if (pattern == null) {
+            return null;
+        }
+        return new MessageFormat(translate(pattern, locale), locale).format(arguments);
+    }
+
     /**
      * Gets the cause of this throwable.
      * 

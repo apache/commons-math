@@ -17,6 +17,8 @@
 
 package org.apache.commons.math;
 
+import java.util.Locale;
+
 import junit.framework.TestCase;
 
 /**
@@ -28,26 +30,38 @@ public class FunctionEvaluationExceptionTest extends TestCase {
         FunctionEvaluationException ex = new FunctionEvaluationException(0.0);
         assertNull(ex.getCause());
         assertNotNull(ex.getMessage());
-        assertEquals(0.0, ex.getArgument(), 0);
-    }
-    
-    public void testConstructorMessage(){
-        String msg = "message";
-        FunctionEvaluationException  ex = new FunctionEvaluationException(0.0, msg);
-        assertNull(ex.getCause());
-        assertTrue(ex.getMessage().startsWith(msg));
         assertTrue(ex.getMessage().indexOf("0") > 0);
         assertEquals(0.0, ex.getArgument(), 0);
     }
     
-    public void testConstructorMessageCause(){
-        String outMsg = "outer message";
+    public void testConstructorPatternArguments(){
+        String pattern = "Evaluation failed for argument = {0}";
+        Object[] arguments = { new Double(0.0) };
+        FunctionEvaluationException ex = new FunctionEvaluationException(0.0, pattern, arguments);
+        assertNull(ex.getCause());
+        assertEquals(pattern, ex.getPattern());
+        assertEquals(arguments.length, ex.getArguments().length);
+        for (int i = 0; i < arguments.length; ++i) {
+            assertEquals(arguments[i], ex.getArguments()[i]);
+        }
+        assertFalse(pattern.equals(ex.getMessage()));
+        assertFalse(ex.getMessage().equals(ex.getMessage(Locale.FRENCH)));
+    }
+
+    public void testConstructorPatternArgumentsCause(){
+        String pattern = "Evaluation failed for argument = {0}";
+        Object[] arguments = { new Double(0.0) };
         String inMsg = "inner message";
         Exception cause = new Exception(inMsg);
-        FunctionEvaluationException ex = new FunctionEvaluationException(0, outMsg, cause);
-        assertTrue(ex.getMessage().startsWith(outMsg));
-        assertTrue(ex.getMessage().indexOf("0") > 0);
+        FunctionEvaluationException ex = new FunctionEvaluationException(0.0, pattern, arguments, cause);
         assertEquals(cause, ex.getCause());
-        assertEquals(0.0, ex.getArgument(), 0);
+        assertEquals(pattern, ex.getPattern());
+        assertEquals(arguments.length, ex.getArguments().length);
+        for (int i = 0; i < arguments.length; ++i) {
+            assertEquals(arguments[i], ex.getArguments()[i]);
+        }
+        assertFalse(pattern.equals(ex.getMessage()));
+        assertFalse(ex.getMessage().equals(ex.getMessage(Locale.FRENCH)));
     }
+
 }

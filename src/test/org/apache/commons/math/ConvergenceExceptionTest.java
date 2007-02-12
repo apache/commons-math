@@ -22,21 +22,22 @@ import junit.framework.TestCase;
 import java.util.Locale;
 
 /**
- * @version $Revision$ $Date$
+ * @version $Revision: 480442 $ $Date: 2006-11-29 08:21:22 +0100 (mer., 29 nov. 2006) $
  */
-public class MathConfigurationExceptionTest extends TestCase {
+public class ConvergenceExceptionTest extends TestCase {
 
     public void testConstructor(){
-        MathConfigurationException ex = new MathConfigurationException();
+        ConvergenceException ex = new ConvergenceException();
         assertNull(ex.getCause());
-        assertNull(ex.getMessage());
-        assertNull(ex.getMessage(Locale.FRENCH));
+        assertNotNull(ex.getMessage());
+        assertNotNull(ex.getMessage(Locale.FRENCH));
+        assertFalse(ex.getMessage().equals(ex.getMessage(Locale.FRENCH)));
     }
     
     public void testConstructorPatternArguments(){
         String pattern = "a {0}x{1} matrix cannot be a rotation matrix";
         Object[] arguments = { new Integer(6), new Integer(4) };
-        MathConfigurationException ex = new MathConfigurationException(pattern, arguments);
+        ConvergenceException ex = new ConvergenceException(pattern, arguments);
         assertNull(ex.getCause());
         assertEquals(pattern, ex.getPattern());
         assertEquals(arguments.length, ex.getArguments().length);
@@ -50,7 +51,7 @@ public class MathConfigurationExceptionTest extends TestCase {
     public void testConstructorCause(){
         String inMsg = "inner message";
         Exception cause = new Exception(inMsg);
-        MathConfigurationException ex = new MathConfigurationException(cause);
+        ConvergenceException ex = new ConvergenceException(cause);
         assertEquals(cause, ex.getCause());
     }
 
@@ -59,7 +60,7 @@ public class MathConfigurationExceptionTest extends TestCase {
         Object[] arguments = { new Integer(6), new Integer(4) };
         String inMsg = "inner message";
         Exception cause = new Exception(inMsg);
-        MathConfigurationException ex = new MathConfigurationException(pattern, arguments, cause);
+        ConvergenceException ex = new ConvergenceException(pattern, arguments, cause);
         assertEquals(cause, ex.getCause());
         assertEquals(pattern, ex.getPattern());
         assertEquals(arguments.length, ex.getArguments().length);
