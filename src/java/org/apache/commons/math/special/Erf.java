@@ -28,6 +28,9 @@ import org.apache.commons.math.MathException;
  */
 public class Erf implements Serializable {
 
+    /** Serializable version identifier */
+    private static final long serialVersionUID = 490960015010326571L;
+
     /**
      * Default constructor.  Prohibit instantiation.
      */

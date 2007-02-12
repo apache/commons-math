@@ -27,6 +27,9 @@ import java.util.Random;
  */
 public class RandomAdaptor extends Random implements RandomGenerator {
     
+    /** Serializable version identifier */
+    private static final long serialVersionUID = 2570805822599485047L;
+
     /** Wrapped randomGenerator instance */
     private RandomGenerator randomGenerator = null;
     

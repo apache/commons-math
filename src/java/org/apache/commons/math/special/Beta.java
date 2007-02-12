@@ -28,6 +28,10 @@ import org.apache.commons.math.util.ContinuedFraction;
  * @version $Revision$ $Date$
  */
 public class Beta implements Serializable {
+
+    /** Serializable version identifier */
+    private static final long serialVersionUID = -3833485397404128220L;
+
     /** Maximum allowed numerical error. */
     private static final double DEFAULT_EPSILON = 10e-9;
 
@@ -127,6 +131,9 @@ public class Beta implements Serializable {
             ret = 1.0 - regularizedBeta(1.0 - x, b, a, epsilon, maxIterations);
         } else {
             ContinuedFraction fraction = new ContinuedFraction() {
+
+                private static final long serialVersionUID = -7658917278956100597L;
+
                 protected double getB(int n, double x) {
                     double ret;
                     double m;

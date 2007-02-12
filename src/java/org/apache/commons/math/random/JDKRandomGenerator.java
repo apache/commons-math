@@ -26,4 +26,6 @@ import java.util.Random;
  * @version $Revision:$ $Date$
  */
 public class JDKRandomGenerator extends Random implements RandomGenerator {
+    /** Serializable version identifier */
+    private static final long serialVersionUID = -3561898582944940550L;
 }
