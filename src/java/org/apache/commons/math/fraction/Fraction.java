@@ -17,7 +17,6 @@
 package org.apache.commons.math.fraction;
 
 import java.math.BigInteger;
-import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -35,7 +34,8 @@ public class Fraction extends Number implements Comparable {
     public static final Fraction ZERO = new Fraction(0, 1);
     
     /** Serializable version identifier */
-    private static final long serialVersionUID = 65382027393090L;
+    private static final long serialVersionUID = 6222990762865980424L;
+
     
     /** The denominator. */
     private int denominator;
@@ -46,10 +46,10 @@ public class Fraction extends Number implements Comparable {
     /**
      * Create a fraction given the double value.
      * @param value the double value to convert to a fraction.
-     * @throws ConvergenceException if the continued fraction failed to
+     * @throws FractionConversionException if the continued fraction failed to
      *         converge.
      */
-    public Fraction(double value) throws ConvergenceException {
+    public Fraction(double value) throws FractionConversionException {
         this(value, 1.0e-5, 100);
     }
 
@@ -66,11 +66,11 @@ public class Fraction extends Number implements Comparable {
      * @param epsilon maximum error allowed.  The resulting fraction is within
      *        <code>epsilon</code> of <code>value</code>, in absolute terms.
      * @param maxIterations maximum number of convergents
-     * @throws ConvergenceException if the continued fraction failed to
+     * @throws FractionConversionException if the continued fraction failed to
      *         converge.
      */
     public Fraction(double value, double epsilon, int maxIterations)
-        throws ConvergenceException
+        throws FractionConversionException
     {
         double r0 = value;
         int a0 = (int)Math.floor(r0);
@@ -114,8 +114,7 @@ public class Fraction extends Number implements Comparable {
         } while (!stop);
 
         if (n >= maxIterations) {
-            throw new ConvergenceException(
-                    "Unable to convert double to fraction");
+            throw new FractionConversionException(value, maxIterations);
         }
         
         this.numerator = p2;
