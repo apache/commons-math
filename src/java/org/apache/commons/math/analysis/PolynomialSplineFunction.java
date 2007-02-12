@@ -19,7 +19,7 @@ package org.apache.commons.math.analysis;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.ArgumentOutsideDomainException;
 
 /**
  * Represents a polynomial spline function.
@@ -55,10 +55,10 @@ import org.apache.commons.math.FunctionEvaluationException;
  */
 public class PolynomialSplineFunction 
     implements DifferentiableUnivariateRealFunction, Serializable {
-   
+
     /** Serializable version identifier */
-    private static final long serialVersionUID = 7011031166416885789L;
-    
+    private static final long serialVersionUID = 1619940313389547244L;
+
     /** Spline segment interval delimiters (knots).   Size is n+1 for n segments. */
     private double knots[];
 
@@ -125,13 +125,13 @@ public class PolynomialSplineFunction
      * 
      * @param v the point for which the function value should be computed
      * @return the value
-     * @throws FunctionEvaluationException if v is outside of the domain of
+     * @throws ArgumentOutsideDomainException if v is outside of the domain of
      * of the spline function (less than the smallest knot point or greater
      * than the largest knot point)
      */
-    public double value(double v) throws FunctionEvaluationException {
+    public double value(double v) throws ArgumentOutsideDomainException {
         if (v < knots[0] || v > knots[n]) {
-            throw new FunctionEvaluationException(v,"Argument outside domain");
+            throw new ArgumentOutsideDomainException(v, knots[0], knots[n]);
         }
         int i = Arrays.binarySearch(knots, v);
         if (i < 0) {
