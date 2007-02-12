@@ -16,8 +16,8 @@
  */
 package org.apache.commons.math.analysis;
 
-import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -35,7 +35,7 @@ import org.apache.commons.math.util.MathUtils;
 public class MullerSolver extends UnivariateRealSolverImpl {
 
     /** serializable version identifier */
-    static final long serialVersionUID = 2619993603551148137L;
+    private static final long serialVersionUID = 6552227503458976920L;
 
     /**
      * Construct a solver for the given function.
@@ -55,14 +55,14 @@ public class MullerSolver extends UnivariateRealSolverImpl {
      * @param max the upper bound for the interval
      * @param initial the start value to use
      * @return the point at which the function value is zero
-     * @throws ConvergenceException if the maximum iteration count is exceeded
+     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise
      * @throws FunctionEvaluationException if an error occurs evaluating the
      * function
      * @throws IllegalArgumentException if any parameters are invalid
      */
     public double solve(double min, double max, double initial) throws
-        ConvergenceException, FunctionEvaluationException {
+        MaxIterationsExceededException, FunctionEvaluationException {
 
         // check for zeros before verifying bracketing
         if (f.value(min) == 0.0) { return min; }
@@ -96,13 +96,13 @@ public class MullerSolver extends UnivariateRealSolverImpl {
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
      * @return the point at which the function value is zero
-     * @throws ConvergenceException if the maximum iteration count is exceeded
+     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise
      * @throws FunctionEvaluationException if an error occurs evaluating the
      * function 
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double solve(double min, double max) throws ConvergenceException, 
+    public double solve(double min, double max) throws MaxIterationsExceededException, 
         FunctionEvaluationException {
 
         // [x0, x2] is the bracketing interval in each iteration
@@ -178,7 +178,7 @@ public class MullerSolver extends UnivariateRealSolverImpl {
             }
             i++;
         }
-        throw new ConvergenceException("Maximum number of iterations exceeded.");
+        throw new MaxIterationsExceededException(maximalIterationCount);
     }
 
     /**
@@ -200,13 +200,13 @@ public class MullerSolver extends UnivariateRealSolverImpl {
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
      * @return the point at which the function value is zero
-     * @throws ConvergenceException if the maximum iteration count is exceeded
+     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise
      * @throws FunctionEvaluationException if an error occurs evaluating the
      * function 
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double solve2(double min, double max) throws ConvergenceException, 
+    public double solve2(double min, double max) throws MaxIterationsExceededException, 
         FunctionEvaluationException {
 
         // x2 is the last root approximation
@@ -273,6 +273,6 @@ public class MullerSolver extends UnivariateRealSolverImpl {
             oldx = x;
             i++;
         }
-        throw new ConvergenceException("Maximum number of iterations exceeded.");
+        throw new MaxIterationsExceededException(maximalIterationCount);
     }
 }

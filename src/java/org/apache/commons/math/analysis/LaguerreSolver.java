@@ -18,6 +18,7 @@ package org.apache.commons.math.analysis;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.complex.ComplexUtils;
 
@@ -35,7 +36,7 @@ import org.apache.commons.math.complex.ComplexUtils;
 public class LaguerreSolver extends UnivariateRealSolverImpl {
 
     /** serializable version identifier */
-    private static final long serialVersionUID = 5287689975005870178L;
+    private static final long serialVersionUID = -3775334783473775723L;
 
     /** polynomial function to solve */
     private PolynomialFunction p;
@@ -146,7 +147,7 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
         }
 
         // should never happen
-        throw new ConvergenceException("Convergence failed.");
+        throw new ConvergenceException();
     }
 
     /**
@@ -196,14 +197,14 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
      * @param coefficients the polynomial coefficients array
      * @param initial the start value to use
      * @return the point at which the function value is zero
-     * @throws ConvergenceException if the maximum iteration count is exceeded
+     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise
      * @throws FunctionEvaluationException if an error occurs evaluating the
      * function 
      * @throws IllegalArgumentException if any parameters are invalid
      */
     public Complex[] solveAll(Complex coefficients[], Complex initial) throws
-        ConvergenceException, FunctionEvaluationException {
+        MaxIterationsExceededException, FunctionEvaluationException {
 
         int n = coefficients.length - 1;
         int iterationCount = 0;
@@ -245,14 +246,14 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
      * @param coefficients the polynomial coefficients array
      * @param initial the start value to use
      * @return the point at which the function value is zero
-     * @throws ConvergenceException if the maximum iteration count is exceeded
+     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise
      * @throws FunctionEvaluationException if an error occurs evaluating the
      * function 
      * @throws IllegalArgumentException if any parameters are invalid
      */
     public Complex solve(Complex coefficients[], Complex initial) throws
-        ConvergenceException, FunctionEvaluationException {
+        MaxIterationsExceededException, FunctionEvaluationException {
 
         int n = coefficients.length - 1;
         if (n < 1) {
@@ -321,6 +322,6 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
             }
             i++;
         }
-        throw new ConvergenceException("Maximum number of iterations exceeded.");
+        throw new MaxIterationsExceededException(maximalIterationCount);
     }
 }

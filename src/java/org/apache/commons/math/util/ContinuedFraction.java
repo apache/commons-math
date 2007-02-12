@@ -20,6 +20,7 @@ import java.io.Serializable;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.MaxIterationsExceededException;
 
 /**
  * Provides a generic means to evaluate continued fractions.  Subclasses simply
@@ -153,8 +154,8 @@ public abstract class ContinuedFraction implements Serializable {
                 } else {
                     // can not scale an convergent is unbounded.
                     throw new ConvergenceException(
-                        "Continued fraction convergents diverged to +/- " +
-                        "infinity.");
+                        "Continued fraction convergents diverged to +/- infinity for value {0}",
+                        new Object[] { new Double(x) });
                 }
             }
             double r = p2 / q2;
@@ -169,8 +170,9 @@ public abstract class ContinuedFraction implements Serializable {
         }
 
         if (n >= maxIterations) {
-            throw new ConvergenceException(
-                "Continued fraction convergents failed to converge.");
+            throw new MaxIterationsExceededException(maxIterations,
+                "Continued fraction convergents failed to converge for value {0}",
+                new Object[] { new Double(x) });
         }
 
         return c;

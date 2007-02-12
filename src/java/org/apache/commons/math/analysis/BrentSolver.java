@@ -17,8 +17,8 @@
 package org.apache.commons.math.analysis;
 
 
-import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MaxIterationsExceededException;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/BrentsMethod.html">
@@ -31,7 +31,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 public class BrentSolver extends UnivariateRealSolverImpl {
     
     /** Serializable version identifier */
-    private static final long serialVersionUID = 3350616277306882875L;
+    private static final long serialVersionUID = -2136672307739067002L;
 
     /**
      * Construct a solver for the given function.
@@ -52,13 +52,13 @@ public class BrentSolver extends UnivariateRealSolverImpl {
      * @param max the upper bound for the interval.
      * @param initial the start value to use (ignored).
      * @return the value where the function is zero
-     * @throws ConvergenceException the maximum iteration count is exceeded 
+     * @throws MaxIterationsExceededException the maximum iteration count is exceeded 
      * @throws FunctionEvaluationException if an error occurs evaluating
      *  the function
      * @throws IllegalArgumentException if initial is not between min and max
      */
     public double solve(double min, double max, double initial)
-        throws ConvergenceException, FunctionEvaluationException {
+        throws MaxIterationsExceededException, FunctionEvaluationException {
             
         return solve(min, max);
     }
@@ -73,13 +73,13 @@ public class BrentSolver extends UnivariateRealSolverImpl {
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
      * @return the value where the function is zero
-     * @throws ConvergenceException if the maximum iteration count is exceeded
+     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
      * @throws FunctionEvaluationException if an error occurs evaluating the
      * function 
      * @throws IllegalArgumentException if min is not less than max or the
      * signs of the values of the function at the endpoints are not opposites
      */
-    public double solve(double min, double max) throws ConvergenceException, 
+    public double solve(double min, double max) throws MaxIterationsExceededException, 
         FunctionEvaluationException {
         
         clearResult();
@@ -189,6 +189,6 @@ public class BrentSolver extends UnivariateRealSolverImpl {
             }
             i++;
         }
-        throw new ConvergenceException("Maximum number of iterations exceeded.");
+        throw new MaxIterationsExceededException(maximalIterationCount);
     }
 }

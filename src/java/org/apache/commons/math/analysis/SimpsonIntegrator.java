@@ -16,8 +16,8 @@
  */
 package org.apache.commons.math.analysis;
 
-import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MaxIterationsExceededException;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/SimpsonsRule.html">
@@ -33,7 +33,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 public class SimpsonIntegrator extends UnivariateRealIntegratorImpl {
 
     /** serializable version identifier */
-    static final long serialVersionUID = 3405465123320678216L;
+    private static final long serialVersionUID = 3405465123320678216L;
 
     /**
      * Construct an integrator for the given function.
@@ -50,13 +50,13 @@ public class SimpsonIntegrator extends UnivariateRealIntegratorImpl {
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
      * @return the value of integral
-     * @throws ConvergenceException if the maximum iteration count is exceeded
+     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
      * or the integrator detects convergence problems otherwise
      * @throws FunctionEvaluationException if an error occurs evaluating the
      * function
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double integrate(double min, double max) throws ConvergenceException,
+    public double integrate(double min, double max) throws MaxIterationsExceededException,
         FunctionEvaluationException, IllegalArgumentException {
         
         int i = 1;
@@ -88,7 +88,7 @@ public class SimpsonIntegrator extends UnivariateRealIntegratorImpl {
             oldt = t;
             i++;
         }
-        throw new ConvergenceException("Maximum number of iterations exceeded.");
+        throw new MaxIterationsExceededException(maximalIterationCount);
     }
 
     /**

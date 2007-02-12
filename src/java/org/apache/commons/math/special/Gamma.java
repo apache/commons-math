@@ -18,8 +18,8 @@ package org.apache.commons.math.special;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.util.ContinuedFraction;
 
 /**
@@ -30,6 +30,9 @@ import org.apache.commons.math.util.ContinuedFraction;
  */
 public class Gamma implements Serializable {
     
+    /** Serializable version identifier */
+    private static final long serialVersionUID = -6587513359895466954L;
+
     /** Maximum allowed numerical error. */
     private static final double DEFAULT_EPSILON = 10e-9;
 
@@ -174,8 +177,7 @@ public class Gamma implements Serializable {
                 sum = sum + an;
             }
             if (n >= maxIterations) {
-                throw new ConvergenceException(
-                    "maximum number of iterations reached");
+                throw new MaxIterationsExceededException(maxIterations);
             } else {
                 ret = Math.exp(-x + (a * Math.log(x)) - logGamma(a)) * sum;
             }
@@ -239,6 +241,9 @@ public class Gamma implements Serializable {
         } else {
             // create continued fraction
             ContinuedFraction cf = new ContinuedFraction() {
+
+                private static final long serialVersionUID = 5378525034886164398L;
+
                 protected double getA(int n, double x) {
                     return ((2.0 * n) + 1.0) - a + x;
                 }

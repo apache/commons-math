@@ -18,8 +18,8 @@ package org.apache.commons.math.analysis;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MaxIterationsExceededException;
 
 
 /**
@@ -42,7 +42,7 @@ public class SecantSolver extends UnivariateRealSolverImpl implements Serializab
     
     /** Serializable version identifier */
     private static final long serialVersionUID = 1984971194738974867L;
-    
+
     /**
      * Construct a solver for the given function.
      * @param f function to solve.
@@ -58,14 +58,14 @@ public class SecantSolver extends UnivariateRealSolverImpl implements Serializab
      * @param max the upper bound for the interval
      * @param initial the start value to use (ignored)
      * @return the value where the function is zero
-     * @throws ConvergenceException if the maximum iteration count is exceeded
+     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
      * @throws FunctionEvaluationException if an error occurs evaluating the
      * function 
      * @throws IllegalArgumentException if min is not less than max or the
      * signs of the values of the function at the endpoints are not opposites
      */
     public double solve(double min, double max, double initial)
-        throws ConvergenceException, FunctionEvaluationException {
+        throws MaxIterationsExceededException, FunctionEvaluationException {
             
         return solve(min, max);
     }
@@ -75,13 +75,13 @@ public class SecantSolver extends UnivariateRealSolverImpl implements Serializab
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
      * @return the value where the function is zero
-     * @throws ConvergenceException  if the maximum iteration count is exceeded
+     * @throws MaxIterationsExceededException  if the maximum iteration count is exceeded
      * @throws FunctionEvaluationException if an error occurs evaluating the
      * function 
      * @throws IllegalArgumentException if min is not less than max or the
      * signs of the values of the function at the endpoints are not opposites
      */
-    public double solve(double min, double max) throws ConvergenceException, 
+    public double solve(double min, double max) throws MaxIterationsExceededException, 
         FunctionEvaluationException {
         
         clearResult();
@@ -151,7 +151,7 @@ public class SecantSolver extends UnivariateRealSolverImpl implements Serializab
             oldDelta = x2 - x1;
             i++;
         }
-        throw new ConvergenceException("Maximal iteration number exceeded" + i);
+        throw new MaxIterationsExceededException(maximalIterationCount);
     }
 
 }

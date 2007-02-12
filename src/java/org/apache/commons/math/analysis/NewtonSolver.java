@@ -18,8 +18,8 @@
 package org.apache.commons.math.analysis;
 
 import java.io.IOException;
-import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException; 
+import org.apache.commons.math.MaxIterationsExceededException;
 
 /**
  * Implements <a href="http://mathworld.wolfram.com/NewtonsMethod.html">
@@ -32,8 +32,8 @@ import org.apache.commons.math.FunctionEvaluationException;
 public class NewtonSolver extends UnivariateRealSolverImpl {
     
     /** Serializable version identifier */
-    private static final long serialVersionUID = 2606474895443431607L;
-    
+    private static final long serialVersionUID = 2067325783137941016L;
+
     /** The first derivative of the target function. */
     private transient UnivariateRealFunction derivative;
     
@@ -52,12 +52,12 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
      * @return the value where the function is zero
-     * @throws ConvergenceException if the maximum iteration count is exceeded 
+     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded 
      * @throws FunctionEvaluationException if an error occurs evaluating the
      * function or derivative
      * @throws IllegalArgumentException if min is not less than max
      */
-    public double solve(double min, double max) throws ConvergenceException, 
+    public double solve(double min, double max) throws MaxIterationsExceededException, 
         FunctionEvaluationException  {
         return solve(min, max, UnivariateRealSolverUtils.midpoint(min, max));
     }
@@ -69,13 +69,13 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
      * @param max the upper bound for the interval (ignored).
      * @param startValue the start value to use.
      * @return the value where the function is zero
-    * @throws ConvergenceException if the maximum iteration count is exceeded 
+     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded 
      * @throws FunctionEvaluationException if an error occurs evaluating the
      * function or derivative
      * @throws IllegalArgumentException if startValue is not between min and max
      */
     public double solve(double min, double max, double startValue)
-        throws ConvergenceException, FunctionEvaluationException {
+        throws MaxIterationsExceededException, FunctionEvaluationException {
         
         clearResult();
         verifySequence(min, startValue, max);
@@ -96,8 +96,7 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
             ++i;
         }
         
-        throw new ConvergenceException
-            ("Maximum number of iterations exceeded " + i);
+        throw new MaxIterationsExceededException(maximalIterationCount);
     }
     
     /**

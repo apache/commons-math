@@ -17,7 +17,7 @@
 package org.apache.commons.math.analysis;
 
 import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.MaxIterationsExceededException;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/Bisection.html">
@@ -30,8 +30,8 @@ import org.apache.commons.math.ConvergenceException;
 public class BisectionSolver extends UnivariateRealSolverImpl {
     
     /** Serializable version identifier */
-    private static final long serialVersionUID = 7137520585963699578L;
-    
+    private static final long serialVersionUID = 4963578633786538912L;
+
     /**
      * Construct a solver for the given function.
      * 
@@ -48,13 +48,13 @@ public class BisectionSolver extends UnivariateRealSolverImpl {
      * @param max the upper bound for the interval.
      * @param initial the start value to use (ignored).
      * @return the value where the function is zero
-     * @throws ConvergenceException the maximum iteration count is exceeded 
+     * @throws MaxIterationsExceededException the maximum iteration count is exceeded 
      * @throws FunctionEvaluationException if an error occurs evaluating
      *  the function
      * @throws IllegalArgumentException if min is not less than max
      */
     public double solve(double min, double max, double initial)
-        throws ConvergenceException, FunctionEvaluationException {
+        throws MaxIterationsExceededException, FunctionEvaluationException {
           
         return solve(min, max);
     }
@@ -65,12 +65,12 @@ public class BisectionSolver extends UnivariateRealSolverImpl {
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
      * @return the value where the function is zero
-     * @throws ConvergenceException if the maximum iteration count is exceeded.
+     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded.
      * @throws FunctionEvaluationException if an error occurs evaluating the
      * function
      * @throws IllegalArgumentException if min is not less than max
      */
-    public double solve(double min, double max) throws ConvergenceException,
+    public double solve(double min, double max) throws MaxIterationsExceededException,
         FunctionEvaluationException {
         
         clearResult();
@@ -101,7 +101,6 @@ public class BisectionSolver extends UnivariateRealSolverImpl {
             ++i;
         }
         
-        throw new ConvergenceException
-            ("Maximum number of iterations exceeded: "  + maximalIterationCount);
+        throw new MaxIterationsExceededException(maximalIterationCount);
     }
 }
