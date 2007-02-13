@@ -86,7 +86,7 @@ public class MathException extends Exception {
                     ResourceBundle.getBundle("org.apache.commons.math.MessagesResources", locale);
             }
 
-            if (cachedResources.getLocale().equals(locale)) {
+            if (cachedResources.getLocale().getLanguage().equals(locale.getLanguage())) {
                 // the value of the resource is the translated string
                 return cachedResources.getString(s);
             }
