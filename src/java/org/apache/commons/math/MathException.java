@@ -102,6 +102,20 @@ public class MathException extends Exception {
     }
 
     /**
+     * Builds a message string by from a pattern and its arguments.
+     * @param pattern format specifier
+     * @param arguments format arguments
+     * @param locale Locale in which the message should be translated
+     * @return a message string
+     */
+    private static String buildMessage(String pattern, Object[] arguments, Locale locale) {
+        // do it the hard way, for Java 1.3. compatibility
+        MessageFormat mf = new MessageFormat(translate(pattern, locale));
+        mf.setLocale(locale);
+        return mf.format(arguments);        
+    }
+
+    /**
      * Constructs a new <code>MathException</code> with no
      * detail message.
      */
@@ -134,7 +148,7 @@ public class MathException extends Exception {
      * @param arguments format arguments
      */
     public MathException(String pattern, Object[] arguments) {
-      super(new MessageFormat(pattern, Locale.US).format(arguments));
+      super(buildMessage(pattern, arguments, Locale.US));
       this.pattern   = pattern;
       this.arguments = arguments;
       this.rootCause = null;
@@ -180,7 +194,7 @@ public class MathException extends Exception {
      *                   to be thrown.
      */
     public MathException(String pattern, Object[] arguments, Throwable rootCause) {
-      super(new MessageFormat(pattern, Locale.US).format(arguments));
+      super(buildMessage(pattern, arguments, Locale.US));
       this.pattern   = pattern;
       this.arguments = arguments;
       this.rootCause = rootCause;
@@ -209,10 +223,7 @@ public class MathException extends Exception {
      * @return localized message
      */
     public String getMessage(Locale locale) {
-        if (pattern == null) {
-            return null;
-        }
-        return new MessageFormat(translate(pattern, locale), locale).format(arguments);
+        return (pattern == null) ? null : buildMessage(pattern, arguments, locale);
     }
 
     /**
