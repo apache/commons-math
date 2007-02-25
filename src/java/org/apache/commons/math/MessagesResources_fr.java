@@ -101,7 +101,7 @@ public class MessagesResources_fr
 
     // org.apache.commons.math.geometry.Rotation
     { "a {0}x{1} matrix cannot be a rotation matrix",
-      "une matrice {0}x{1} ne peut pas \u00e9tre une matrice de rotation" },
+      "une matrice {0}x{1} ne peut pas \u00eatre une matrice de rotation" },
     { "the closest orthogonal matrix has a negative determinant {0}",
       "la matrice orthogonale la plus proche a un d\u00e9terminant n\u00e9gatif {0}" },
     { "unable to orthogonalize matrix in {0} iterations",
