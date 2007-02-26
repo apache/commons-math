@@ -15,42 +15,34 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package org.spaceroots.mantissa.random;
+package org.apache.commons.math.random;
 
-import java.io.Serializable;
+import java.util.Arrays;
 
 /** This class allows to generate random vectors with uncorrelated components.
-
- * @version $Id: UncorrelatedRandomVectorGenerator.java 1705 2006-09-17 19:57:39Z luc $
- * @author L. Maisonobe
-
+ * @version $Id:$
  */
 
 public class UncorrelatedRandomVectorGenerator
-  implements Serializable, RandomVectorGenerator {
+  implements RandomVectorGenerator {
 
   /** Simple constructor.
-   * <p>Build an uncorrelated random vector generator from its mean
-   * and standard deviation vectors.</p>
-   * @param mean expected mean values for all components
-   * @param standardDeviation standard deviation for all components
+   * <p>Build an uncorrelated random vector generator from
+   * its mean and standard deviation vectors.</p>
+   * @param mean expected mean values for each component
+   * @param standardDeviation standard deviation for each component
    * @param generator underlying generator for uncorrelated normalized
    * components
-   * @exception IllegalArgumentException if there is a dimension
-   * mismatch between the mean and standard deviation vectors
    */
   public UncorrelatedRandomVectorGenerator(double[] mean,
                                            double[] standardDeviation,
                                            NormalizedRandomGenerator generator) {
-
     if (mean.length != standardDeviation.length) {
       throw new IllegalArgumentException("dimension mismatch");
     }
     this.mean              = (double[]) mean.clone();
     this.standardDeviation = (double[]) standardDeviation.clone();
-
     this.generator = generator;
-
   }
 
   /** Simple constructor.
@@ -62,34 +54,20 @@ public class UncorrelatedRandomVectorGenerator
    */
   public UncorrelatedRandomVectorGenerator(int dimension,
                                            NormalizedRandomGenerator generator) {
-
     mean              = new double[dimension];
     standardDeviation = new double[dimension];
-    for (int i = 0; i < dimension; ++i) {
-      mean[i]              = 0;
-      standardDeviation[i] = 1;
-    }
-
+    Arrays.fill(standardDeviation, 1.0);
     this.generator = generator;
-
-  }
-
-  /** Get the underlying normalized components generator.
-   * @return underlying uncorrelated components generator
-   */
-  public NormalizedRandomGenerator getGenerator() {
-    return generator;
   }
 
   /** Generate a correlated random vector.
-   * @return a random vector as an array of double. The returned array
-   * is created at each call, the caller can do what it wants with it.
+   * @return a random vector as a newly built array of double
    */
   public double[] nextVector() {
 
     double[] random = new double[mean.length]; 
     for (int i = 0; i < random.length; ++i) {
-      random[i] = mean[i] + standardDeviation[i] * generator.nextDouble();
+      random[i] = mean[i] + standardDeviation[i] * generator.nextNormalizedDouble();
     }
 
     return random;
@@ -103,8 +81,6 @@ public class UncorrelatedRandomVectorGenerator
   private double[] standardDeviation;
 
   /** Underlying scalar generator. */
-  NormalizedRandomGenerator generator;
-
-  private static final long serialVersionUID = -9094322067568302961L;
+  private NormalizedRandomGenerator generator;
 
 }

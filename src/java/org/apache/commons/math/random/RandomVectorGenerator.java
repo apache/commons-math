@@ -15,26 +15,20 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package org.spaceroots.mantissa.random;
+package org.apache.commons.math.random;
 
-import java.io.Serializable;
+/** This interface represent a random generator for whole vectors.
 
-/** This interface represent a normalized random generator for
- * scalars.
- * Normalized generator should provide null mean and unit standard
- * deviation scalars.
- * @version $Id: NormalizedRandomGenerator.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id: RandomVectorGenerator.java 1705 2006-09-17 19:57:39Z luc $
  * @author L. Maisonobe
- */
-public interface NormalizedRandomGenerator extends Serializable {
 
-  /** Generate a random scalar with null mean and unit standard deviation.
-   * <p>This method does <strong>not</strong> specify the shape of the
-   * distribution, it is the implementing class that provides it. The
-   * only contract here is to generate numbers with null mean and unit
-   * standard deviation.</p>
-   * @return a random scalar
+ */
+
+public interface RandomVectorGenerator {
+
+  /** Generate a random vector.
+   * @return a random vector as an array of double.
    */
-  public double nextDouble();
+  public double[] nextVector();
 
 }

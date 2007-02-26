@@ -15,29 +15,25 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package org.spaceroots.mantissa.random;
+package org.apache.commons.math.random;
 
-import junit.framework.*;
+import org.apache.commons.math.MathException;
 
-public class GaussianRandomGeneratorTest
-  extends TestCase {
+/** This class represents exceptions thrown by the correlated random
+ * vector generator.
+ * @version $Revision:$ $Date$
+ */
 
-  public GaussianRandomGeneratorTest(String name) {
-    super(name);
-  }
+public class NotPositiveDefiniteMatrixException extends MathException {
 
-  public void testMeanAndStandardDeviation() {
-    GaussianRandomGenerator generator = new GaussianRandomGenerator(17399225432l);
-    ScalarSampleStatistics sample = new ScalarSampleStatistics();
-    for (int i = 0; i < 10000; ++i) {
-      sample.add(generator.nextDouble());
+    /** Serializable version identifier */
+    private static final long serialVersionUID = 4122929125438624648L;
+
+    /** Simple constructor.
+     * build an exception with a default message.
+     */
+    public NotPositiveDefiniteMatrixException() {
+        super("not positive definite matrix", new Object[0]);
     }
-    assertEquals(0.0, sample.getMean(), 0.012);
-    assertEquals(1.0, sample.getStandardDeviation(), 0.01);
-  }
-
-  public static Test suite() {
-    return new TestSuite(GaussianRandomGeneratorTest.class);
-  }
 
 }

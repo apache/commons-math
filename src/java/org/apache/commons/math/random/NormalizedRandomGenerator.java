@@ -15,29 +15,22 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package org.spaceroots.mantissa.random;
+package org.apache.commons.math.random;
 
-import junit.framework.*;
+/** This interface represent a normalized random generator for
+ * scalars.
+ * Normalized generator provide null mean and unit standard deviation scalars.
+ * @version $Revision:$ $Date$
+ */
+public interface NormalizedRandomGenerator {
 
-public class UniformRandomGeneratorTest
-  extends TestCase {
-
-  public UniformRandomGeneratorTest(String name) {
-    super(name);
-  }
-
-  public void testMeanAndStandardDeviation() {
-    UniformRandomGenerator generator = new UniformRandomGenerator(17399225432l);
-    ScalarSampleStatistics sample = new ScalarSampleStatistics();
-    for (int i = 0; i < 1000; ++i) {
-      sample.add(generator.nextDouble());
-    }
-    assertEquals(0.0, sample.getMean(), 0.07);
-    assertEquals(1.0, sample.getStandardDeviation(), 0.02);
-  }
-
-  public static Test suite() {
-    return new TestSuite(UniformRandomGeneratorTest.class);
-  }
+  /** Generate a random scalar with null mean and unit standard deviation.
+   * <p>This method does <strong>not</strong> specify the shape of the
+   * distribution, it is the implementing class that provides it. The
+   * only contract here is to generate numbers with null mean and unit
+   * standard deviation.</p>
+   * @return a random scalar with null mean and unit standard deviation
+   */
+  public double nextNormalizedDouble();
 
 }
