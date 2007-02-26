@@ -121,10 +121,10 @@ public interface UnivariateRealSolver {
     /**
      * Set the function value accuracy.
      * <p>
-     * This is used to determine whan an evaluated function value or some other
+     * This is used to determine when an evaluated function value or some other
      * value which is used as divisor is zero.
      * <p>
-     * This is a safety guard and it shouldn't be necesary to change this in
+     * This is a safety guard and it shouldn't be necessary to change this in
      * general.
      * 
      * @param accuracy the accuracy.
