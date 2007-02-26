@@ -1,6 +1,12 @@
-package org.spaceroots.mantissa.estimation;
+package org.apache.commons.math.estimation;
 
 import java.util.Arrays;
+
+import org.apache.commons.math.estimation.EstimatedParameter;
+import org.apache.commons.math.estimation.EstimationException;
+import org.apache.commons.math.estimation.EstimationProblem;
+import org.apache.commons.math.estimation.LevenbergMarquardtEstimator;
+import org.apache.commons.math.estimation.WeightedMeasurement;
 
 import junit.framework.*;
 

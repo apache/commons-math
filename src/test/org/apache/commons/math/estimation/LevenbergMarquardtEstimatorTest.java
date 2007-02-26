@@ -15,12 +15,18 @@
  * limitations under the License.
  */
 
-package org.spaceroots.mantissa.estimation;
+package org.apache.commons.math.estimation;
 
 import java.util.ArrayList;
-import java.util.IdentityHashMap;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
+
+import org.apache.commons.math.estimation.EstimatedParameter;
+import org.apache.commons.math.estimation.EstimationException;
+import org.apache.commons.math.estimation.EstimationProblem;
+import org.apache.commons.math.estimation.LevenbergMarquardtEstimator;
+import org.apache.commons.math.estimation.WeightedMeasurement;
 
 import junit.framework.*;
 
@@ -519,7 +525,7 @@ public class LevenbergMarquardtEstimatorTest
     }
 
     public EstimatedParameter[] getAllParameters() {
-      IdentityHashMap map = new IdentityHashMap();
+      HashMap map = new HashMap();
       for (int i = 0; i < measurements.length; ++i) {
         EstimatedParameter[] parameters = measurements[i].getParameters();
         for (int j = 0; j < parameters.length; ++j) {

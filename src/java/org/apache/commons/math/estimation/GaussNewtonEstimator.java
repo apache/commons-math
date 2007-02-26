@@ -15,14 +15,13 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package org.spaceroots.mantissa.estimation;
+package org.apache.commons.math.estimation;
 
 import java.io.Serializable;
 
-import org.spaceroots.mantissa.linalg.Matrix;
-import org.spaceroots.mantissa.linalg.GeneralMatrix;
-import org.spaceroots.mantissa.linalg.SymetricalMatrix;
-import org.spaceroots.mantissa.linalg.SingularMatrixException;
+import org.apache.commons.math.linear.InvalidMatrixException;
+import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.linear.RealMatrixImpl;
 
 /** This class implements a solver for estimation problems.
 
@@ -67,18 +66,13 @@ public class GaussNewtonEstimator
    * <code>Jn</code> and <code>Jn-1</code> are the current and
    * preceding criterion value (square sum of the weighted residuals
    * of considered measurements).
-   * @param epsilon threshold under which the matrix of the linearized
-   * problem is considered singular (see {@link
-   * org.spaceroots.mantissa.linalg.SquareMatrix#solve(Matrix,double)
-   * SquareMatrix.solve}).  */
+   */
   public GaussNewtonEstimator(int maxIterations,
                                double convergence,
-                               double steadyStateThreshold,
-                               double epsilon) {
+                               double steadyStateThreshold) {
     this.maxIterations        = maxIterations;
     this.steadyStateThreshold = steadyStateThreshold;
     this.convergence          = convergence;
-    this.epsilon              = epsilon;
   }
 
   /** Solve an estimation problem using a least squares criterion.
@@ -153,40 +147,52 @@ public class GaussNewtonEstimator
     WeightedMeasurement[] measurements = problem.getMeasurements();
 
     // build the linear problem
-    GeneralMatrix    b = new GeneralMatrix(parameters.length, 1);
-    SymetricalMatrix a = new SymetricalMatrix(parameters.length);
+    RealMatrix b              = new RealMatrixImpl(parameters.length, 1);
+    RealMatrix a              = new RealMatrixImpl(parameters.length, parameters.length);
+    double[] grad             = new double[parameters.length];
+    RealMatrixImpl bDecrement = new RealMatrixImpl(parameters.length, 1);
+    double[][] bDecrementData = bDecrement.getDataRef();
+    RealMatrixImpl wGradGradT = new RealMatrixImpl(parameters.length, parameters.length);
+    double[][] wggData        = wGradGradT.getDataRef();
     for (int i = 0; i < measurements.length; ++i) {
-      if (! measurements [i].isIgnored()) {
-        double weight   = measurements[i].getWeight();
-        double residual = measurements[i].getResidual();
+        if (! measurements [i].isIgnored()) {
 
-        // compute the normal equation
-        double[] grad     = new double[parameters.length];
-        Matrix bDecrement = new GeneralMatrix(parameters.length, 1);
-        for (int j = 0; j < parameters.length; ++j) {
-          grad[j] = measurements[i].getPartial(parameters[j]);
-          bDecrement.setElement(j, 0, weight * residual * grad[j]);
+            double weight   = measurements[i].getWeight();
+            double residual = measurements[i].getResidual();
+
+            // compute the normal equation
+            for (int j = 0; j < parameters.length; ++j) {
+                grad[j] = measurements[i].getPartial(parameters[j]);
+                bDecrementData[j][0] = weight * residual * grad[j];
+            }
+
+            // build the contribution matrix for measurement i
+            for (int k = 0; k < parameters.length; ++k) {
+                double[] wggRow = wggData[k];
+                double gk = grad[k];
+                for (int l = 0; l < parameters.length; ++l) {
+                    wggRow[l] =  weight * gk * grad[l];
+                }
+            }
+
+            // update the matrices
+            a = a.add(wGradGradT);
+            b = b.add(bDecrement);
+
         }
-
-        // update the matrices
-        a.selfAddWAAt(weight, grad);
-        b.selfAdd(bDecrement);
-
-      }
     }
 
     try {
 
       // solve the linearized least squares problem
-      Matrix dX = a.solve(b, epsilon);
+      RealMatrix dX = a.solve(b);
 
       // update the estimated parameters
       for (int i = 0; i < parameters.length; ++i) {
-        parameters[i].setEstimate(parameters[i].getEstimate()
-                                  + dX.getElement(i, 0));
+        parameters[i].setEstimate(parameters[i].getEstimate() + dX.getEntry(i, 0));
       }
 
-    } catch(SingularMatrixException e) {
+    } catch(InvalidMatrixException e) {
       throw new EstimationException(e);
     }
 
@@ -223,7 +229,6 @@ public class GaussNewtonEstimator
   private int    maxIterations;
   private double steadyStateThreshold;
   private double convergence;
-  private double epsilon;
 
   private static final long serialVersionUID = -7606628156644194170L;
 

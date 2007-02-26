@@ -15,9 +15,9 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package org.spaceroots.mantissa.estimation;
+package org.apache.commons.math.estimation;
 
-import org.spaceroots.mantissa.MantissaException;
+import org.apache.commons.math.MathException;
 
 /** This class represents exceptions thrown by the estimation solvers.
 
@@ -27,33 +27,26 @@ import org.spaceroots.mantissa.MantissaException;
  */
 
 public class EstimationException
-  extends MantissaException {
+extends MathException {
 
-  /** Simple constructor.
-   * Build an exception by translating the specified message
-   * @param message message to translate
-   */
-  public EstimationException(String message) {
-    super(message);
-  }
+    /** Serializable version identifier. */
+    private static final long serialVersionUID = -7414806622114810487L;
 
-  /** Simple constructor.
-   * Build an exception by translating and formating a message
-   * @param specifier format specifier (to be translated)
-   * @param parts to insert in the format (no translation)
-   */
-  public EstimationException(String specifier, String[] parts) {
-    super(specifier, parts);
-  }
+    /** Simple constructor.
+     * Build an exception by translating and formating a message
+     * @param specifier format specifier (to be translated)
+     * @param parts to insert in the format (no translation)
+     */
+    public EstimationException(String specifier, String[] parts) {
+        super(specifier, parts);
+    }
 
-  /** Simple constructor.
-   * Build an exception from a cause
-   * @param cause cause of this exception
-   */
-  public EstimationException(Throwable cause) {
-    super(cause);
-  }
-
-  private static final long serialVersionUID = 1613719630569355278L;
+    /** Simple constructor.
+     * Build an exception from a cause
+     * @param cause cause of this exception
+     */
+    public EstimationException(Throwable cause) {
+        super(cause);
+    }
 
 }

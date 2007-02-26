@@ -15,7 +15,10 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package org.spaceroots.mantissa.estimation;
+package org.apache.commons.math.estimation;
+
+import org.apache.commons.math.estimation.EstimatedParameter;
+import org.apache.commons.math.estimation.WeightedMeasurement;
 
 import junit.framework.*;
 
