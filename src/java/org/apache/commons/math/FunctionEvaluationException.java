@@ -85,6 +85,17 @@ public class FunctionEvaluationException extends MathException  {
     }
 
     /**
+     * Constructs an exception with specified root cause.
+     * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * @param argument  the failing function argument 
+     * @param cause  the exception or error that caused this exception to be thrown
+     */
+    public FunctionEvaluationException(double argument, Throwable cause) {
+        super(cause);
+        this.argument = argument;
+    }
+
+    /**
      * Constructs an exception with specified formatted detail message and root cause.
      * Message formatting is delegated to {@link java.text.MessageFormat}.
      * @param argument  the failing function argument 

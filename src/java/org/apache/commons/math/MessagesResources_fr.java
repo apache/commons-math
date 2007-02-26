@@ -56,6 +56,14 @@ public class MessagesResources_fr
     { "Maximal number of iterations ({0}) exceeded",
       "Nombre maximal d''it\u00e9rations ({0}) d\u00e9pass\u00e9" },
 
+    // org.apache.commons.math.DimensionMismatchException
+    { "dimension mismatch {0} != {1}",
+      "dimensions incompatibles {0} != {1}" },
+
+    // org.apache.commons.math.random.NotPositiveDefiniteMatrixException
+    { "not positive definite matrix",
+      "matrice non d\u00e9finie positive" },
+
     // org.apache.commons.math.fraction.FractionConversionException
     { "Unable to convert {0} to fraction after {1} iterations",
       "Impossible de convertir {0} en fraction apr\u00e8s {1} it\u00e9rations" },

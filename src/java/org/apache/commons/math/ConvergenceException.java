@@ -16,18 +16,16 @@
  */
 package org.apache.commons.math;
 
-import java.io.Serializable;
-
 /**
  * Error thrown when a numerical computation can not be performed because the
  * numerical result failed to converge to a finite value.
  *
  * @version $Revision$ $Date$
  */
-public class ConvergenceException extends MathException implements Serializable{
+public class ConvergenceException extends MathException {
     
     /** Serializable version identifier */
-    private static final long serialVersionUID = 7426445244781020663L;
+    private static final long serialVersionUID = 4380655778005469702L;
 
     /**
      * Default constructor.
@@ -37,15 +35,6 @@ public class ConvergenceException extends MathException implements Serializable{
     }
     
     /**
-     * Construct an exception with the given message.
-     * @param message descriptive error message
-     * @deprecated as of 1.2, replaced by {@link #ConvergenceException(String, Object[])}
-     */
-    public ConvergenceException(String message) {
-        super(message);
-    }
-
-    /**
      * Constructs an exception with specified formatted detail message.
      * Message formatting is delegated to {@link java.text.MessageFormat}.
      * @param pattern format specifier
@@ -53,16 +42,6 @@ public class ConvergenceException extends MathException implements Serializable{
      */
     public ConvergenceException(String pattern, Object[] arguments) {
         super(pattern, arguments);
-    }
-
-    /**
-     * Construct an exception with the given message and root cause.
-     * @param message descriptive error message
-     * @param cause  the exception or error that caused this exception to be thrown
-     * @deprecated as of 1.2, replaced by {@link #ConvergenceException(String, Object[], Throwable)}
-     */
-    public ConvergenceException(String message, Throwable cause) {
-        super(message, cause);
     }
 
     /**
