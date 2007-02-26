@@ -29,6 +29,7 @@ public class MatrixIndexException extends RuntimeException {
 
     /**
      * Default constructor.
+     * @deprecated as of 1.2 replaced by #MatrixIndexException(String)
      */
     public MatrixIndexException() {
         this(null);

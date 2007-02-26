@@ -23,13 +23,6 @@ import junit.framework.TestCase;
  * @version $Revision$ $Date$
  */
 public class MatrixIndexExceptionTest extends TestCase {
-    /**
-     * 
-     */
-    public void testConstructor(){
-        MatrixIndexException ex = new MatrixIndexException();
-        assertNull(ex.getMessage());
-    }
     
     /**
      * 
