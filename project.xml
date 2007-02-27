@@ -134,6 +134,11 @@
       <email>tobrien at apache dot org</email>
     </developer>
     <developer>
+      <name>Luc Maisonobe</name>
+      <id>luc</id>
+      <email>luc at apache dot org</email>
+    </developer>
+    <developer>
       <name>J. Pietschmann</name>
       <id>pietsch</id>
       <email>j3322ptm at yahoo dot de</email>
@@ -164,9 +169,6 @@
     </contributor>
     <contributor>
       <name>Piotr Kochanski</name>
-    </contributor>
-    <contributor>
-      <name>Luc Maisonobe</name>
     </contributor>
     <contributor>
       <name>Fredrik Norin</name>
