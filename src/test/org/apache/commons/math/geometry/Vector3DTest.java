@@ -15,7 +15,9 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package org.spaceroots.mantissa.geometry;
+package org.apache.commons.math.geometry;
+
+import org.apache.commons.math.geometry.Vector3D;
 
 import junit.framework.*;
 

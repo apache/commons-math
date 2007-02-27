@@ -15,7 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package org.spaceroots.mantissa.geometry;
+package org.apache.commons.math.geometry;
 
 /**
  * This class is a utility representing a rotation order specification

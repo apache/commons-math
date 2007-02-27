@@ -15,30 +15,30 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package org.spaceroots.mantissa.geometry;
+package org.apache.commons.math.geometry;
 
-import org.spaceroots.mantissa.MantissaException;
+import org.apache.commons.math.MathException;
 
-/** This class represents exceptions thrown while building rotations
- * from matrices.
+/** This class represents exceptions thrown while extractiong Cardan
+ * or Euler angles from a rotation.
 
- * @version $Id: NotARotationMatrixException.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id: CardanEulerSingularityException.java 1705 2006-09-17 19:57:39Z luc $
  * @author L. Maisonobe
 
  */
 
-public class NotARotationMatrixException
-  extends MantissaException {
+public class CardanEulerSingularityException
+  extends MathException {
 
   /** Simple constructor.
-   * Build an exception by translating and formating a message
-   * @param specifier format specifier (to be translated)
-   * @param parts to insert in the format (no translation)
+   * build an exception with a default message.
+   * @param isCardan if true, the rotation is related to Cardan angles,
+   * if false it is related to EulerAngles
    */
-  public NotARotationMatrixException(String specifier, String[] parts) {
-    super(specifier, parts);
+  public CardanEulerSingularityException(boolean isCardan) {
+    super(isCardan ? "Cardan angles singularity" : "Euler angles singularity", new Object[0]);
   }
 
-  private static final long serialVersionUID = 5647178478658937642L;
+  private static final long serialVersionUID = -1360952845582206770L;
 
 }
