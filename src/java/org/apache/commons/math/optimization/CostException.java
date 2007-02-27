@@ -15,9 +15,9 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package org.spaceroots.mantissa.optimization;
+package org.apache.commons.math.optimization;
 
-import org.spaceroots.mantissa.MantissaException;
+import org.apache.commons.math.MathException;
 
 /** This class represents exceptions thrown by cost functions.
 
@@ -27,40 +27,31 @@ import org.spaceroots.mantissa.MantissaException;
  */
 
 public class CostException
-  extends MantissaException {
+  extends MathException {
 
-  /** Simple constructor.
-   * Build an exception with a default message
-   */
-  public CostException() {
-    super("cost exception");
-  }
+    /** Serializable version identifier. */
+    private static final long serialVersionUID = 467695563268795689L;
 
-  /** Simple constructor.
-   * Build an exception with the specified message
-   * @param message exception message
-   */
-  public CostException(String message) {
-    super(message);
-  }
+    /**
+     * Constructs a new <code>MathException</code> with specified
+     * formatted detail message.
+     * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * @param pattern format specifier
+     * @param arguments format arguments
+     */
+    public CostException(String pattern, Object[] arguments) {
+      super(pattern, arguments);
+    }
 
-  /** Simple constructor.
-   * Build an exception from a cause
-   * @param cause cause of this exception
-   */
-  public CostException(Throwable cause) {
-    super(cause);
-  }
-
-  /** Simple constructor.
-   * Build an exception from a message and a cause
-   * @param message exception message
-   * @param cause cause of this exception
-   */
-  public CostException(String message, Throwable cause) {
-    super(message, cause);
-  }
-
-  private static final long serialVersionUID = -6099968585593678071L;
-
+    /**
+     * Constructs a new <code>MathException</code> with specified
+     * nested <code>Throwable</code> root cause.
+     *
+     * @param rootCause  the exception or error that caused this exception
+     *                   to be thrown.
+     */
+    public CostException(Throwable rootCause) {
+        super(rootCause);
+    }
+    
 }

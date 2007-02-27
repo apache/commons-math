@@ -15,7 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package org.spaceroots.mantissa.optimization;
+package org.apache.commons.math.optimization;
 
 /** This class implements the multi-directional direct search method.
 

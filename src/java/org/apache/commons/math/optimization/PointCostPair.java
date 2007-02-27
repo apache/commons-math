@@ -15,7 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package org.spaceroots.mantissa.optimization;
+package org.apache.commons.math.optimization;
 
 /** This class holds a point and its associated cost.
  * <p>This is a simple immutable container.</p>
