@@ -41,10 +41,10 @@ public class DummyStepInterpolator
 
   /** Simple constructor.
    * This constructor builds an instance that is not usable yet, the
-   * {@link AbstractStepInterpolator#reinitialize} method should be called
-   * before using the instance in order to initialize the internal arrays. This
-   * constructor is used only in order to delay the initialization in
-   * some cases. As an example, the {@link
+   * <code>AbstractStepInterpolator.reinitialize</code> protected method
+   * should be called before using the instance in order to initialize
+   * the internal arrays. This constructor is used only in order to delay
+   * the initialization in some cases. As an example, the {@link
    * RungeKuttaFehlbergIntegrator} uses the prototyping design pattern
    * to create the step interpolators by cloning an uninitialized
    * model and latter initializing the copy.

@@ -39,7 +39,6 @@ package org.apache.commons.math.ode;
  * @see FirstOrderIntegrator
  * @see FirstOrderConverter
  * @see SecondOrderDifferentialEquations
- * @see org.spaceroots.mantissa.utilities.ArraySliceMappable
  *
  * @version $Id: FirstOrderDifferentialEquations.java 1705 2006-09-17 19:57:39Z luc $
  * @author L. Maisonobe

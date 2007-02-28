@@ -41,7 +41,7 @@ public class MaxIterationsExceededException extends ConvergenceException {
     /**
      * Constructs an exception with specified formatted detail message.
      * Message formatting is delegated to {@link java.text.MessageFormat}.
-     * @param argument  the failing function argument 
+     * @param maxIterations the exceeded maximal number of iterations
      * @param pattern format specifier
      * @param arguments format arguments
      */

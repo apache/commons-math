@@ -51,7 +51,7 @@ public class VectorialCovariance implements Serializable {
 
     /**
      * Add a new vector to the sample.
-     * @param vector vector to add
+     * @param v vector to add
      * @exception DimensionMismatchException if the vector does not have the right dimension
      */
     public void increment(double[] v) throws DimensionMismatchException {

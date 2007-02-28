@@ -50,7 +50,7 @@ public class FunctionEvaluationException extends MathException  {
      * 
      * @param argument  the failing function argument 
      * @param message  the exception message text
-     * @deprecated as of 1.2, replaced by {@link #FunctionEvaluationException(double, String, Object[])
+     * @deprecated as of 1.2, replaced by {@link #FunctionEvaluationException(double, String, Object[])}
      */
     public FunctionEvaluationException(double argument, String message) {
         super(message);

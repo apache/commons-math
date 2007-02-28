@@ -324,15 +324,14 @@ public abstract class AbstractStepInterpolator
    * finalize the instance, then copy this finalized instance into a
    * new object that can be kept.</p>
 
-   * <p>This method calls the protected {@link #doFinalize doFinalize}
-   * method if it has never been called during this step and set a
-   * flag indicating that it has been called once. It is the {@link
-   * #doFinalize doFinalize} method which should perform the
-   * evaluations. This wrapping prevents from calling {@link
-   * #doFinalize doFinalize} several times and hence evaluating the
-   * differential equations too often. Therefore, subclasses are not
-   * allowed not reimplement it, they should rather reimplement {@link
-   * #doFinalize doFinalize}.</p>
+   * <p>This method calls the protected <code>doFinalize</code> method
+   * if it has never been called during this step and set a flag
+   * indicating that it has been called once. It is the <code>
+   * doFinalize</code> method which should perform the evaluations.
+   * This wrapping prevents from calling <code>doFinalize</code> several
+   * times and hence evaluating the differential equations too often.
+   * Therefore, subclasses are not allowed not reimplement it, they
+   * should rather reimplement <code>doFinalize</code>.</p>
 
    * @throws DerivativeException this exception is propagated to the
    * caller if the underlying user function triggers one
