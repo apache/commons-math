@@ -22,6 +22,7 @@ import java.util.Comparator;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.DimensionMismatchException;
+import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.random.CorrelatedRandomVectorGenerator;
 import org.apache.commons.math.random.JDKRandomGenerator;
 import org.apache.commons.math.random.NotPositiveDefiniteMatrixException;
@@ -251,12 +252,15 @@ public abstract class DirectSearchOptimizer {
                 meanStat.increment(vertices[i]);
                 covStat.increment(vertices[i]);
             }
+            double[] mean = meanStat.getResult();
+            RealMatrix covariance = covStat.getResult();
+            
 
             RandomGenerator rg = new JDKRandomGenerator();
             rg.setSeed(seed);
             RandomVectorGenerator rvg =
-                new CorrelatedRandomVectorGenerator(meanStat.getResult(),
-                                                    covStat.getResult(),
+                new CorrelatedRandomVectorGenerator(mean,
+                                                    covariance, 1.0e-12 * covariance.getNorm(),
                                                     new UniformRandomGenerator(rg));
             setMultiStart(starts, rvg);
 
