@@ -60,11 +60,12 @@ BinomialDistribution binomial = factory.createBinomialDistribution(10, .75);</so
             <tr><td>Exponential</td><td>createExponentialDistribution</td><td><div>Mean</div></td></tr>
             <tr><td>F</td><td>createFDistribution</td><td><div>Numerator degrees of freedom</div><div>Denominator degrees of freedom</div></td></tr>
             <tr><td>Gamma</td><td>createGammaDistribution</td><td><div>Alpha</div><div>Beta</div></td></tr>
-            <tr><td>Hypergeometric</td><td>createHypogeometricDistribution</td><td><div>Population size</div><div>Number of successes in population</div><div>Sample size</div></td></tr>
+            <tr><td>Hypergeometric</td><td>createHypergeometricDistribution</td><td><div>Population size</div><div>Number of successes in population</div><div>Sample size</div></td></tr>
             <tr><td>Normal (Gaussian)</td><td>createNormalDistribution</td><td><div>Mean</div><div>Standard Deviation</div></td></tr>
             <tr><td>Poisson</td><td>createPoissonDistribution</td><td><div>Mean</div></td></tr>
             <tr><td>t</td><td>createTDistribution</td><td><div>Degrees of freedom</div></td></tr>
             <tr><td>Weibull</td><td>createWeibullDistribution</td><td><div>Shape</div><div>Scale</div><div>Location</div></td></tr>
+            <tr><td>Pascal</td><td>createPascalDistribution</td><td><div>numberOfSuccesses</div><div>probabilityOfSuccess</div></td></tr>
           </table>
         </p>
         <p>
@@ -74,13 +75,13 @@ BinomialDistribution binomial = factory.createBinomialDistribution(10, .75);</so
           <code>P(X &lt;= x)</code> (i.e. the lower tail probability of <code>X</code>).
         </p>
         <source>DistributionFactory factory = DistributionFactory.newInstance();
-TDistribution t = factory.createBinomialDistribution(29);
+TDistribution t = factory.createTDistribution(29);
 double lowerTail = t.cumulativeProbability(-2.656);     // P(T &lt;= -2.656)
 double upperTail = 1.0 - t.cumulativeProbability(2.75); // P(T &gt;= 2.75)</source>
         <p>
           The inverse PDF and CDF values are just as easily computed using the
-          <code>inverseCumulativeProbability</code>methods.  For a distribution <code>X</code>,
-          and a probability, <code>p</code>,  <code>inverseCumulativeProbability</code>
+          <code>inverseCumulativeProbability</code> methods.  For a distribution <code>X</code>,
+          and a probability, <code>p</code>, <code>inverseCumulativeProbability</code>
           computes the domain value <code>x</code>, such that:
           <ul>
             <li><code>P(X &lt;= x) = p</code>, for continuous distributions</li>
