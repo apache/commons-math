@@ -28,23 +28,26 @@ import java.io.Serializable;
 public class Vector3D
   implements Serializable {
 
-  /** First canonical vector (coordinates : 1, 0, 0). */
+  /** First canonical vector (coordinates: 1, 0, 0). */
   public static final Vector3D plusI = new Vector3D(1, 0, 0);
 
-  /** Opposite of the first canonical vector (coordinates : -1, 0, 0). */
+  /** Opposite of the first canonical vector (coordinates: -1, 0, 0). */
   public static final Vector3D minusI = new Vector3D(-1, 0, 0);
 
-  /** Second canonical vector (coordinates : 0, 1, 0). */
+  /** Second canonical vector (coordinates: 0, 1, 0). */
   public static final Vector3D plusJ = new Vector3D(0, 1, 0);
 
-  /** Opposite of the second canonical vector (coordinates : 0, -1, 0). */
+  /** Opposite of the second canonical vector (coordinates: 0, -1, 0). */
   public static final Vector3D minusJ = new Vector3D(0, -1, 0);
 
-  /** Third canonical vector (coordinates : 0, 0, 1). */
+  /** Third canonical vector (coordinates: 0, 0, 1). */
   public static final Vector3D plusK = new Vector3D(0, 0, 1);
 
-  /** Opposite of the third canonical vector (coordinates : 0, 0, -1).  */
+  /** Opposite of the third canonical vector (coordinates: 0, 0, -1).  */
   public static final Vector3D minusK = new Vector3D(0, 0, -1);
+
+  /** Null vector (coordinates: 0, 0, 0). */
+  public static final Vector3D zero   = new Vector3D(0, 0, 0);
 
   /** Simple constructor.
    * Build a null vector.
