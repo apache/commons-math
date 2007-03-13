@@ -40,6 +40,10 @@ Commons Math Release Notes</title>
   </properties>
   <body>
     <release version="1.2-SNAPSHOT" date="TBD">
+      <action dev="luc" type="update">
+        Added the estimation optimization, geometry and ode package from the
+        Mantissa library.
+      </action>
       <action dev="brentworden" type="fix" issue="MATH-18" due-to="Phil Steitz">
         Made ComplexFormat format double values with a provided NumberFormat
         instance instead of using the real part format for all values.
