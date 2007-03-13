@@ -99,6 +99,32 @@
                 <li><a href="fraction.html#9.2 Fraction Numbers">9.2 Fraction Numbers</a></li>
                 <li><a href="fraction.html#9.3 Fraction Formatting and Parsing">9.3 Fraction Formatting and Parsing</a></li>
                 </ul></li>                                 
+        <li><a href="transform.html">10. Transform methods</a></li>                                 
+        <li><a href="geometry.html">11. Geometry</a>
+                <ul>
+                <li><a href="geometry.html#11.1 Overview">11.1 Overview</a></li>
+                <li><a href="geometry.html#11.2 Vectors">11.2 Vectors</a></li>
+                <li><a href="geometry.html#11.3 Rotations">11.3 Rotations</a></li>
+                </ul></li>                                 
+        <li><a href="estimation.html">12. Parametric Estimation</a>
+                <ul>
+                <li><a href="estimation.html#12.1 Overview">12.1 Overview</a></li>
+                <li><a href="estimation.html#12.2 Models">12.2 Models</a></li>
+                <li><a href="estimation.html#12.3 Parameters">12.3 Parameters</a></li>
+                <li><a href="estimation.html#12.4 Measurements">12.4 Measurements</a></li>
+                <li><a href="estimation.html#12.5 Solvers">12.5 Solvers</a></li>
+                </ul></li>                                 
+        <li><a href="optimization.html">13. Optimization</a>
+                <ul>
+                <li><a href="optimization.html#13.1 Overview">13.1 Overview</a></li>
+                <li><a href="optimization.html#13.2 Direct Methods">13.2 Direct Methods</a></li>
+                </ul></li>                                 
+        <li><a href="ode.html">14. Ordinary Differential Equations Integration</a>
+                <ul>
+                <li><a href="ode.html#14.1 Overview">14.1 Overview</a></li>
+                <li><a href="ode.html#14.2 ODE Problems">14.2 ODE Problems</a></li>
+                <li><a href="ode.html#14.3 Integrators">14.3 Integrators</a></li>
+                </ul></li>                                 
         </ul>
       </section>
     

@@ -45,13 +45,16 @@
     <ul>
         <li>Computing means, variances and other summary statistics for a list of numbers</li>
         <li>Fitting a line to a set of data points using linear regression</li>
+        <li>Finding a smooth curve that passes through a collection of points (interpolation)</li>
+        <li>Fitting a parametric model to a set of measurements using least-squares methods</li>
         <li>Solving equations involving real-valued functions (i.e. root-finding)</li> 
-        <li>Performing statistical significance tests</li>
         <li>Solving systems of linear equations</li>
+        <li>Solving Ordinary Differential Equations</li>
+        <li>Minimizing multi-dimensional functions</li>
         <li>Generating random numbers with more restrictions (e.g distribution, range) than what
             is possible using the JDK</li>
         <li>Generating random samples and/or datasets that are "like" the data in an input file</li>
-        <li>Finding a smooth curve that passes through a collection of points (interpolation)</li>
+        <li>Performing statistical significance tests</li>
         <li>Miscellaneous mathematical functions such as factorials, binomial
             coefficients and "special functions" (e.g. gamma, beta functions)</li>
     </ul></p> 
@@ -68,7 +71,7 @@
 
 <subsection name="0.3 How commons-math is organized" href="organization">
     <p>
-    Commons Math is divided into nine subpackages, based on functionality provided.
+    Commons Math is divided into fourteen subpackages, based on functionality provided.
     <ol>
       <li><a href="stat.html">org.apache.commons.math.stat</a> - statistics, statistical tests</li>
       <li><a href="analysis.html">org.apache.commons.math.analysis</a> - rootfinding and interpolation</li>
@@ -79,6 +82,11 @@
       <li><a href="complex.html">org.apache.commons.math.complex</a> - complex numbers</li>
       <li><a href="distribution.html">org.apache.commons.math.distribution</a> - probability distributions</li>
       <li><a href="fraction.html">org.apache.commons.math.fraction</a> - rational numbers</li>
+      <li><a href="transform.html">org.apache.commons.math.transform</a> - transform methods (Fast Fourier)</li>
+      <li><a href="geometry.html">org.apache.commons.math.geometry</a> - 3D geometry (vectors and rotations)</li>
+      <li><a href="estimation.html">org.apache.commons.math.estimation</a> - parametric estimation problems</li>
+      <li><a href="optimization.html">org.apache.commons.math.optimization</a> - multi-dimensional functions minimization</li>
+      <li><a href="ode.html">org.apache.commons.math.ode</a> - Ordinary Differential Equations integration</li>
     </ol>
     Package javadocs are <a href="../apidocs/index.html">here</a>
     </p>

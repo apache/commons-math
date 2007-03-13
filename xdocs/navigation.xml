@@ -56,7 +56,12 @@
       <item name="Utilities"               href="/userguide/utilities.html"/>
       <item name="Complex Numbers"         href="/userguide/complex.html"/>
       <item name="Distributions"           href="/userguide/distribution.html"/>
-      <item name="Fractions"           href="/userguide/fraction.html"/>
+      <item name="Fractions"               href="/userguide/fraction.html"/>
+      <item name="Transform Methods"       href="/userguide/transform.html"/>
+      <item name="3D Geometry"             href="/userguide/geometry.html"/>
+      <item name="Parametric Estimation"   href="/userguide/estimation.html"/>
+      <item name="Optimization"            href="/userguide/optimization.html"/>
+      <item name="Ordinary Differential Equations" href="/userguide/ode.html"/>
     </menu>
     
     &commons;
