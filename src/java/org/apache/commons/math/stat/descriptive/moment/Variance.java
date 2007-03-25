@@ -255,17 +255,18 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
                 var = 0.0;
             } else if (length > 1) {
                 double accum = 0.0;
+                double dev = 0.0;
                 double accum2 = 0.0;
                 for (int i = begin; i < begin + length; i++) {
-                    accum += Math.pow((values[i] - mean), 2.0);
-                    accum2 += (values[i] - mean);
+                    dev = values[i] - mean;
+                    accum += dev * dev;
+                    accum2 += dev;
                 }
+                double len = (double) length;            
                 if (isBiasCorrected) {
-                    var = (accum - (Math.pow(accum2, 2) / ((double) length))) /
-                    (double) (length - 1);
+                    var = (accum - (accum2 * accum2 / len)) / (len - 1.0);
                 } else {
-                    var = (accum - (Math.pow(accum2, 2) / ((double) length))) /
-                    (double) length;
+                    var = (accum - (accum2 * accum2 / len)) / len;
                 }
             }
         }
