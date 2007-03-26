@@ -44,7 +44,9 @@
         <p>
         One important class of estimation problems is weighted least squares problems.
         They basically consist in finding the values for some parameters p<sub>k</sub>
-        such that a cost function J = &sum;(w<sub>i</sub> r<sub>i</sub><sup>2</sup>)
+        such that a cost function J = 
+        <!-- TODO: get entity for summation imported -->
+        sum(w<sub>i</sub> r<sub>i</sub><sup>2</sup>)
         is minimized. The various r<sub>i</sub> terms represent the deviation
         r<sub>i</sub> = mes<sub>i</sub> - mod<sub>i</sub> between the measurements and
         the parameterized models. The w<sub>i</sub> factors are the measurements weights,
@@ -63,6 +65,7 @@
             </li>
             <li>
               they are residuals based instead of generic cost functions based
+            </li>
           </ul>
         </p>
         

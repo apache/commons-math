@@ -42,6 +42,7 @@
             <li>
               they do not rely on residuals-based quadratic cost functions but
               handle any cost functions, including non-continuous ones! 
+            </li>
           </ul>
         </p>
       </subsection>
