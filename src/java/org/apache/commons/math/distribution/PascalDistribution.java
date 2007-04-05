@@ -17,20 +17,29 @@
 package org.apache.commons.math.distribution;
 
 /**
- * The Pascal Distribution.
+ * The Pascal distribution.  The Pascal distribution is a special case of the
+ * Negative Binomial distribution where the number of successes parameter is an
+ * integer.
+ * 
+ * There are various ways to express the probability mass and distribution
+ * functions for the Pascal distribution.  The convention employed by the
+ * library is to express these functions in terms of the number of failures in
+ * a Bernoulli experiment [2].
  *
  * Instances of PascalDistribution objects should be created using
  * {@link DistributionFactory#createPascalDistribution(int, double)}.
  *
  * <p>
  * References:
- * <ul>
+ * <ol>
  * <li><a href="http://mathworld.wolfram.com/NegativeBinomialDistribution.html">
  * Negative Binomial Distribution</a></li>
+ * <oi><a href="http://en.wikipedia.org/wiki/Negative_binomial_distribution#Waiting_time_in_a_Bernoulli_process">Waiting Time in a Bernoulli Process</a></li>
  * </ul>
  * </p>
  *
  * @version $Revision:$
+ * @since 1.2
  */
 public interface PascalDistribution extends IntegerDistribution {
     /**

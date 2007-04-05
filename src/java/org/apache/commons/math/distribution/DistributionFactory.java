@@ -89,9 +89,12 @@ public abstract class DistributionFactory {
      * @param numberOfSuccesses the number of successes.
      * @param probabilityOfSuccess the probability of success
      * @return a new Pascal distribution
+     * @since 1.2
      */
-    public abstract PascalDistribution createPascalDistribution(
-        int numberOfSuccesses, double probabilityOfSuccess);
+    public PascalDistribution createPascalDistribution(
+        int numberOfSuccesses, double probabilityOfSuccess) {
+        return new PascalDistributionImpl(numberOfSuccesses, probabilityOfSuccess);
+    }
     
     /**
      * Create a new cauchy distribution with the given median and scale.
