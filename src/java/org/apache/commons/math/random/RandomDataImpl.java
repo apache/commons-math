@@ -167,7 +167,8 @@ public class RandomDataImpl implements RandomData, Serializable {
                 ("upper bound must be > lower bound");
         }
         RandomGenerator rand = getRan();
-        return lower + (int) (rand.nextDouble() * (upper - lower + 1));
+        double r = rand.nextDouble();
+        return (int)((r * upper) + ((1.0 - r) * lower) + r);
     }
 
     /**
@@ -184,7 +185,8 @@ public class RandomDataImpl implements RandomData, Serializable {
                 ("upper bound must be > lower bound");
         }
         RandomGenerator rand = getRan();
-        return lower + (long) (rand.nextDouble() * (upper - lower + 1));
+        double r = rand.nextDouble();
+        return (long)((r * upper) + ((1.0 - r) * lower) + r);
     }
 
      /**

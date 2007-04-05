@@ -58,6 +58,18 @@ public class RandomDataTest extends RetryTestCase {
         return suite;
     }
 
+    public void testNextIntExtremeValues() {
+        int x = randomData.nextInt(Integer.MIN_VALUE, Integer.MAX_VALUE);
+        int y = randomData.nextInt(Integer.MIN_VALUE, Integer.MAX_VALUE);
+        assertFalse(x == y);
+    }
+
+    public void testNextLongExtremeValues() {
+        long x = randomData.nextLong(Long.MIN_VALUE, Long.MAX_VALUE);
+        long y = randomData.nextLong(Long.MIN_VALUE, Long.MAX_VALUE);
+        assertFalse(x == y);
+    }
+    
     /** test dispersion and failure modes for nextInt() */
     public void testNextInt() {
         try {
