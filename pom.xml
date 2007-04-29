@@ -181,7 +181,7 @@
       </resources>
       <testResources>
         <testResource>
-          <directory>${pom.build.unitTestSourceDirectory}</directory>
+          <directory>src/test</directory>
           <includes>
             <include>**/*.xml</include>
             <include>**/*.txt</include>
