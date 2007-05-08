@@ -284,4 +284,48 @@ public final class BrentSolverTest extends TestCase {
             // expected
         }
     }
+
+    public void testInitialGuess() throws MathException {
+
+        MonitoredFunction f = new MonitoredFunction(new QuinticFunction());
+        UnivariateRealSolver solver = new BrentSolver(f);
+        double result;
+
+        // no guess
+        result = solver.solve(0.6, 7.0);
+        assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
+        int referenceCallsCount = f.getCallsCount();
+        assertTrue(referenceCallsCount >= 13);
+ 
+        // invalid guess (it *is* a root, but outside of the range)
+        try {
+          result = solver.solve(0.6, 7.0, 0.0);
+          fail("an IllegalArgumentException was expected");
+        } catch (IllegalArgumentException iae) {
+            // expected behaviour
+        } catch (Exception e) {
+            fail("wrong exception caught: " + e.getMessage());
+        }
+ 
+        // bad guess
+        f.setCallsCount(0);
+        result = solver.solve(0.6, 7.0, 0.61);
+        assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
+        assertTrue(f.getCallsCount() > referenceCallsCount);
+ 
+        // good guess
+        f.setCallsCount(0);
+        result = solver.solve(0.6, 7.0, 0.999999);
+        assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
+        assertTrue(f.getCallsCount() < referenceCallsCount);
+
+        // perfect guess
+        f.setCallsCount(0);
+        result = solver.solve(0.6, 7.0, 1.0);
+        assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
+        assertEquals(0, solver.getIterationCount());
+        assertEquals(1, f.getCallsCount());
+ 
+    }
+    
 }

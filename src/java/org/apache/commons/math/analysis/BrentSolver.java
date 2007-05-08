@@ -43,24 +43,67 @@ public class BrentSolver extends UnivariateRealSolverImpl {
     }
 
     /**
-     * Find a zero in the given interval.
-     * <p>
-     * Throws <code>ConvergenceException</code> if the values of the function
-     * at the endpoints of the interval have the same sign.
+     * Find a zero in the given interval with an initial guess.
+     * <p>Throws <code>IllegalArgumentException</code> if the values of the
+     * function at the three points have the same sign (note that it is
+     * allowed to have endpoints with the same signe if the initial point has
+     * opposite sign function-wise).</p>
      * 
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
-     * @param initial the start value to use (ignored).
+     * @param initial the start value to use (must be set to x0 if no
+     * initial point is known).
      * @return the value where the function is zero
-     * @throws MaxIterationsExceededException the maximum iteration count is exceeded 
+     * @throws MaxIterationsExceededException the maximum iteration count
+     * is exceeded 
      * @throws FunctionEvaluationException if an error occurs evaluating
      *  the function
      * @throws IllegalArgumentException if initial is not between min and max
+     * (even if it <em>is</em> a root)
      */
     public double solve(double min, double max, double initial)
         throws MaxIterationsExceededException, FunctionEvaluationException {
-            
-        return solve(min, max);
+
+        if (((initial - min) * (max -initial)) < 0) {
+            throw new IllegalArgumentException("Initial guess is not in search"
+                    + " interval." + "  Initial: " + initial
+                    +  "  Endpoints: [" + min + "," + max + "]");
+        }
+
+        // return the initial guess if it is good enough
+        double yInitial = f.value(initial);
+        if (Math.abs(yInitial) <= functionValueAccuracy) {
+            setResult(initial, 0);
+            return result;
+        }
+
+        // return the first endpoint if it is good enough
+        double yMin = f.value(min);
+        if (Math.abs(yMin) <= functionValueAccuracy) {
+            setResult(yMin, 0);
+            return result;
+        }
+
+        // reduce interval if min and initial bracket the root
+        if (yInitial * yMin < 0) {
+            return solve(min, yMin, initial, yInitial, min, yMin);
+        }
+
+        // return the second endpoint if it is good enough
+        double yMax = f.value(max);
+        if (Math.abs(yMax) <= functionValueAccuracy) {
+            setResult(yMax, 0);
+            return result;
+        }
+
+        // reduce interval if initial and max bracket the root
+        if (yInitial * yMax < 0) {
+            return solve(initial, yInitial, max, yMax, initial, yInitial);
+        }
+
+        // full Brent algorithm starting with provided initial guess
+        return solve(min, yMin, max, yMax, initial, yInitial);
+
     }
     
     /**
@@ -85,32 +128,50 @@ public class BrentSolver extends UnivariateRealSolverImpl {
         clearResult();
         verifyInterval(min, max);
         
-        // Index 0 is the old approximation for the root.
-        // Index 1 is the last calculated approximation  for the root.
-        // Index 2 is a bracket for the root with respect to x1.
-        double x0 = min;
-        double x1 = max;
-        double y0;
-        double y1;
-        y0 = f.value(x0);
-        y1 = f.value(x1);
+        double yMin = f.value(min);
+        double yMax = f.value(max);
         
         // Verify bracketing
-        if (y0 * y1 >= 0) {
+        if (yMin * yMax >= 0) {
             throw new IllegalArgumentException
             ("Function values at endpoints do not have different signs." +
                     "  Endpoints: [" + min + "," + max + "]" + 
-                    "  Values: [" + y0 + "," + y1 + "]");       
+                    "  Values: [" + yMin + "," + yMax + "]");       
         }
-   
-        double x2 = x0;
-        double y2 = y0;
+
+        // solve using only the first endpoint as initial guess
+        return solve(min, yMin, max, yMax, min, yMin);
+
+    }
+        
+    /**
+     * Find a zero starting search according to the three provided points.
+     * @param x0 old approximation for the root
+     * @param y0 function value at the approximation for the root
+     * @param x1 last calculated approximation for the root
+     * @param y1 function value at the last calculated approximation
+     * for the root
+     * @param x2 bracket point (must be set to x0 if no bracket point is
+     * known, this will force starting with linear interpolation)
+     * @param y3 function value at the bracket point.
+     * @return the value where the function is zero
+     * @throws MaxIterationsExceededException if the maximum iteration count
+     * is exceeded
+     * @throws FunctionEvaluationException if an error occurs evaluating
+     * the function 
+     */
+    private double solve(double x0, double y0,
+                         double x1, double y1,
+                         double x2, double y2)
+    throws MaxIterationsExceededException, FunctionEvaluationException {
+
         double delta = x1 - x0;
         double oldDelta = delta;
 
         int i = 0;
         while (i < maximalIterationCount) {
             if (Math.abs(y2) < Math.abs(y1)) {
+                // use the bracket point if is better than last approximation
                 x0 = x1;
                 x1 = x2;
                 x2 = x0;
