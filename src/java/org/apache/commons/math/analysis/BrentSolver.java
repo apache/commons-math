@@ -46,12 +46,12 @@ public class BrentSolver extends UnivariateRealSolverImpl {
      * Find a zero in the given interval with an initial guess.
      * <p>Throws <code>IllegalArgumentException</code> if the values of the
      * function at the three points have the same sign (note that it is
-     * allowed to have endpoints with the same signe if the initial point has
+     * allowed to have endpoints with the same sign if the initial point has
      * opposite sign function-wise).</p>
      * 
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
-     * @param initial the start value to use (must be set to x0 if no
+     * @param initial the start value to use (must be set to min if no
      * initial point is known).
      * @return the value where the function is zero
      * @throws MaxIterationsExceededException the maximum iteration count
