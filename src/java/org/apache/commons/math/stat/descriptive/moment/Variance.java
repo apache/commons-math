@@ -32,7 +32,7 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
  * The definitional formula does not have good numerical properties, so
  * this implementation uses updating formulas based on West's algorithm
  * as described in <a href="http://doi.acm.org/10.1145/359146.359152">
- * Chan, T. F. andJ. G. Lewis 1979, <i>Communications of the ACM</i>,
+ * Chan, T. F. and J. G. Lewis 1979, <i>Communications of the ACM</i>,
  * vol. 22 no. 9, pp. 526-531.</a>.
  * <p>
  * The "population variance"  ( sum((x_i - mean)^2) / n ) can also
