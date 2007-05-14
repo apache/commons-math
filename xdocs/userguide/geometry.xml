@@ -38,7 +38,7 @@
           <a href="../apidocs/org/apache/commons/math/geometry/Vector3D.html">
           org.apache.commons.math.geometry.Vector3D</a> provides a simple vector
           type. One important feature is that instances of this class are guaranteed
-          to be immutable, this greatly simplifies modelization of dynamical systems
+          to be immutable, this greatly simplifies modelling dynamical systems
           with changing states: once a vector has been computed, a reference to it
           is known to preserve its state as long as the reference itself is preserved.
         </p>
@@ -66,8 +66,8 @@
         <p>
           Rotations can be represented by several different mathematical
           entities (matrices, axe and angle, Cardan or Euler angles,
-          quaternions). This class presents an higher level abstraction, more
-          user-oriented and hiding this implementation details. Well, for the
+          quaternions). This class presents a higher level abstraction, more
+          user-oriented and hiding implementation details. Well, for the
           curious, we use quaternions for the internal representation. The user
           can build a rotation from any of these representations, and any of
           these representations can be retrieved from a <code>Rotation</code>
@@ -83,7 +83,7 @@
         </p>
         <source>double[] angles = new Rotation(matrix, 1.0e-10).getAngles(RotationOrder.XYZ);</source>
         <p>
-          Focus is oriented on what a rotation <em>do</em> rather than on its
+          Focus is oriented on what a rotation <em>does</em> rather than on its
           underlying representation. Once it has been built, and regardless of
           its internal representation, a rotation is an <em>operator</em> which
           basically transforms three dimensional vectors into other three
@@ -95,7 +95,7 @@
           often consider the vectors are fixed (say the Earth direction for
           example) and the rotation transforms the coordinates coordinates of
           this vector in inertial frame into the coordinates of the same vector
-          in satellite frame. In this case, the rotation implicitely defines the
+          in satellite frame. In this case, the rotation implicitly defines the
           relation between the two frames (we have fixed vectors and moving frame).
           Another example could be a telescope control application, where the
           rotation would transform the sighting direction at rest into the desired
