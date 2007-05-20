@@ -504,7 +504,7 @@ public class ComplexUtils {
      * tan(1 &plusmn; INFINITY i) = 0 + NaN i
      * tan(&plusmn;INFINITY + i) = NaN + NaN i
      * tan(&plusmn;INFINITY &plusmn; INFINITY i) = NaN + NaN i
-     * tan(&plusmn;&pi/2 + 0 i) = &plusmn;INFINITY + NaN i</code></pre>
+     * tan(&plusmn;&pi;/2 + 0 i) = &plusmn;INFINITY + NaN i</code></pre>
      * 
      * @param z the value whose tangent is to be returned
      * @return the tangent of <code>z</code>
@@ -543,7 +543,7 @@ public class ComplexUtils {
      * tanh(1 &plusmn; INFINITY i) = NaN + NaN i
      * tanh(&plusmn;INFINITY + i) = NaN + 0 i
      * tanh(&plusmn;INFINITY &plusmn; INFINITY i) = NaN + NaN i
-     * tanh(0 + (&pi/2)i) = NaN + INFINITY i</code></pre>
+     * tanh(0 + (&pi;/2)i) = NaN + INFINITY i</code></pre>
      *
      * @param z the value whose hyperbolic tangent is to be returned
      * @return the hyperbolic tangent of <code>z</code>
