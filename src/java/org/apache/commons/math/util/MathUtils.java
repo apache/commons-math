@@ -558,7 +558,7 @@ public final class MathUtils {
     public static double round(double x, int scale, int roundingMethod) {
         try {
             return (new BigDecimal
-                   (new Double(x).toString())
+                   (Double.toString(x))
                    .setScale(scale, roundingMethod))
                    .doubleValue();
         } catch (NumberFormatException ex) {
