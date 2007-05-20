@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.random;
 
-/** This interface represent a random generator for whole vectors.
+/** This interface represents a random generator for whole vectors.
 
  * @version $Id: RandomVectorGenerator.java 1705 2006-09-17 19:57:39Z luc $
  * @author L. Maisonobe

@@ -19,8 +19,12 @@ package org.apache.commons.math.random;
 
 import java.util.Arrays;
 
-/** This class allows to generate random vectors with uncorrelated components.
- * @version $Id:$
+/** 
+ * A {@link RandomVectorGenerator} that generates vectors with uncorrelated
+ * components. Components of generated vectors follow (independent) Gaussian
+ * distributions, with parameters supplied in the constructor.
+ * 
+ * @version $Revision$
  */
 
 public class UncorrelatedRandomVectorGenerator
@@ -60,7 +64,7 @@ public class UncorrelatedRandomVectorGenerator
     this.generator = generator;
   }
 
-  /** Generate a correlated random vector.
+  /** Generate an uncorrelated random vector.
    * @return a random vector as a newly built array of double
    */
   public double[] nextVector() {
