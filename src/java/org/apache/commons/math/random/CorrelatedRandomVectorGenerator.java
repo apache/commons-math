@@ -21,13 +21,13 @@ import org.apache.commons.math.DimensionMismatchException;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealMatrixImpl;
 
-/** This class allows to generate random vectors with correlated components.
-
+/** 
+ * A {@link RandomVectorGenerator} that generates vectors with with 
+ * correlated components.
  * <p>Random vectors with correlated components are built by combining
- * the uncorrelated components of another random vector in such a way
+ * the uncorrelated components of another random vector in such a way that
  * the resulting correlations are the ones specified by a positive
  * definite covariance matrix.</p>
-
  * <p>Sometimes, the covariance matrix for a given simulation is not
  * strictly positive definite. This means that the correlations are
  * not all independant from each other. In this case, however, the non
@@ -40,7 +40,7 @@ import org.apache.commons.math.linear.RealMatrixImpl;
  * more rows than columns. The number of columns of <code>B</code> is
  * the rank of the covariance matrix, and it is the dimension of the
  * uncorrelated random vector that is needed to compute the component
- * of the correlated vector. This class does handle this situation
+ * of the correlated vector. This class handles this situation
  * automatically.</p>
 
  * @version $Revision:$ $Date$
