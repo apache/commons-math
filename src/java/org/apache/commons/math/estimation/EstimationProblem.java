@@ -17,12 +17,13 @@
 
 package org.apache.commons.math.estimation;
 
-/** This interface represents an estimation problem.
-
+/** 
+ * This interface represents an estimation problem.
+ *
  * <p>This interface should be implemented by all real estimation
  * problems before they can be handled by the estimators through the
  * {@link Estimator#estimate Estimator.estimate} method.</p>
-
+ *
  * <p>An estimation problem, as seen by a solver is a set of
  * parameters and a set of measurements. The parameters are adjusted
  * during the estimation through the {@link #getUnboundParameters
@@ -33,26 +34,29 @@ package org.apache.commons.math.estimation;
  * the parameters are adjusted. The purpose of the solver is to reduce
  * the residual between these values, it can retrieve the measurements
  * through the {@link #getMeasurements getMeasurements} method.</p>
-
+ *
  * @see Estimator
  * @see WeightedMeasurement
-
+ *
  * @version $Id: EstimationProblem.java 1705 2006-09-17 19:57:39Z luc $
-
+ *
  */
 
 public interface EstimationProblem {
-  /** Get the measurements of an estimation problem.
+  /** 
+   * Get the measurements of an estimation problem.
    * @return measurements
    */
   public WeightedMeasurement[] getMeasurements();
 
-  /** Get the unbound parameters of the problem.
+  /** 
+   * Get the unbound parameters of the problem.
    * @return unbound parameters
    */
   public EstimatedParameter[] getUnboundParameters();
 
-  /** Get all the parameters of the problem.
+  /** 
+   * Get all the parameters of the problem.
    * @return parameters
    */
   public EstimatedParameter[] getAllParameters();

@@ -19,10 +19,11 @@ package org.apache.commons.math.estimation;
 
 import org.apache.commons.math.MathException;
 
-/** This class represents exceptions thrown by the estimation solvers.
-
+/** 
+ * This class represents exceptions thrown by the estimation solvers.
+ *
  * @version $Id: EstimationException.java 1705 2006-09-17 19:57:39Z luc $
-
+ *
  */
 
 public class EstimationException
@@ -31,7 +32,8 @@ extends MathException {
     /** Serializable version identifier. */
     private static final long serialVersionUID = -7414806622114810487L;
 
-    /** Simple constructor.
+    /** 
+     * Simple constructor.
      * Build an exception by translating and formating a message
      * @param specifier format specifier (to be translated)
      * @param parts to insert in the format (no translation)
@@ -40,7 +42,8 @@ extends MathException {
         super(specifier, parts);
     }
 
-    /** Simple constructor.
+    /** 
+     * Simple constructor.
      * Build an exception from a cause
      * @param cause cause of this exception
      */

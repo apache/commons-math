@@ -23,39 +23,41 @@ import org.apache.commons.math.linear.InvalidMatrixException;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealMatrixImpl;
 
-/** This class implements a solver for estimation problems.
-
+/** 
+ * This class implements a solver for estimation problems.
+ *
  * <p>This class solves estimation problems using a weighted least
  * squares criterion on the measurement residuals. It uses a
  * Gauss-Newton algorithm.</p>
-
+ *
  * @version $Id: GaussNewtonEstimator.java 1705 2006-09-17 19:57:39Z luc $
-
+ *
  */
 
 public class GaussNewtonEstimator
   implements Estimator, Serializable {
 
-  /** Simple constructor.
-
-   * <p>This constructor build an estimator and store its convergence
+  /** 
+   * Simple constructor.
+   *
+   * <p>This constructor builds an estimator and stores its convergence
    * characteristics.</p>
-
+   *
    * <p>An estimator is considered to have converged whenever either
    * the criterion goes below a physical threshold under which
    * improvements are considered useless or when the algorithm is
    * unable to improve it (even if it is still high). The first
    * condition that is met stops the iterations.</p>
-
+   *
    * <p>The fact an estimator has converged does not mean that the
    * model accurately fits the measurements. It only means no better
    * solution can be found, it does not mean this one is good. Such an
    * analysis is left to the caller.</p>
-
+   *
    * <p>If neither conditions are fulfilled before a given number of
    * iterations, the algorithm is considered to have failed and an
    * {@link EstimationException} is thrown.</p>
-
+   *
    * @param maxIterations maximum number of iterations allowed
    * @param convergence criterion threshold below which we do not need
    * to improve the criterion anymore
@@ -74,14 +76,15 @@ public class GaussNewtonEstimator
     this.convergence          = convergence;
   }
 
-  /** Solve an estimation problem using a least squares criterion.
-
+  /** 
+   * Solve an estimation problem using a least squares criterion.
+   *
    * <p>This method set the unbound parameters of the given problem
    * starting from their current values through several iterations. At
    * each step, the unbound parameters are changed in order to
    * minimize a weighted least square criterion based on the
    * measurements of the problem.</p>
-
+   *
    * <p>The iterations are stopped either when the criterion goes
    * below a physical threshold under which improvement are considered
    * useless or when the algorithm is unable to improve it (even if it
@@ -89,12 +92,12 @@ public class GaussNewtonEstimator
    * iterations. If the convergence it nos reached before the maximum
    * number of iterations, an {@link EstimationException} is
    * thrown.</p>
-
+   *
    * @param problem estimation problem to solve
    * @exception EstimationException if the problem cannot be solved
-
+   *
    * @see EstimationProblem
-
+   *
    */
   public void estimate(EstimationProblem problem)
     throws EstimationException {
@@ -124,20 +127,21 @@ public class GaussNewtonEstimator
 
   }
 
-  /** Estimate the solution of a linear least square problem.
-
+  /** 
+   * Estimate the solution of a linear least square problem.
+   *
    * <p>The Gauss-Newton algorithm is iterative. Each iteration
-   * consist in solving a linearized least square problem. Several
+   * consists in solving a linearized least square problem. Several
    * iterations are needed for general problems since the
    * linearization is only an approximation of the problem
    * behaviour. However, for linear problems one iteration is enough
    * to get the solution. This method is provided in the public
    * interface in order to handle more efficiently these linear
    * problems.</p>
-
+   *
    * @param problem estimation problem to solve
    * @exception EstimationException if the problem cannot be solved
-
+   *
    */
   public void linearEstimate(EstimationProblem problem)
     throws EstimationException {
@@ -210,7 +214,8 @@ public class GaussNewtonEstimator
 
   }
 
-  /** Get the Root Mean Square value.
+  /** 
+   * Get the Root Mean Square value.
    * Get the Root Mean Square value, i.e. the root of the arithmetic
    * mean of the square of all weighted residuals. This is related to the
    * criterion that is minimized by the estimator as follows: if

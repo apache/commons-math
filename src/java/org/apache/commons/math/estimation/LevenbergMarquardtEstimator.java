@@ -19,15 +19,16 @@ package org.apache.commons.math.estimation;
 import java.io.Serializable;
 import java.util.Arrays;
 
-/** This class solves a least squares problem.
-
+/** 
+ * This class solves a least squares problem.
+ *
  * <p>This implementation <em>should</em> work even for over-determined systems
  * (i.e. systems having more variables than equations). Over-determined systems
  * are solved by ignoring the variables which have the smallest impact according
  * to their jacobian column norm. Only the rank of the matrix and some loop bounds
  * are changed to implement this. This feature has undergone only basic testing
  * for now and should still be considered experimental.</p>
-
+ *
  * <p>The resolution engine is a simple translation of the MINPACK <a
  * href="http://www.netlib.org/minpack/lmder.f">lmder</a> routine with minor
  * changes. The changes include the over-determined resolution and the Q.R.
@@ -37,7 +38,7 @@ import java.util.Arrays;
  * redistribution policy for MINPACK is available <a
  * href="http://www.netlib.org/minpack/disclaimer">here</a>, for convenience, it
  * is reproduced below.</p>
-
+ *
  * <table border="0" width="80%" cellpadding="10" align="center" bgcolor="#E0E0E0">
  * <tr><td>
  *    Minpack Copyright Notice (1999) University of Chicago.
@@ -93,7 +94,8 @@ import java.util.Arrays;
  */
 public class LevenbergMarquardtEstimator implements Serializable, Estimator {
 
-  /** Build an estimator for least squares problems.
+  /** 
+   * Build an estimator for least squares problems.
    * <p>The default values for the algorithm settings are:
    *   <ul>
    *    <li>{@link #setInitialStepBoundFactor initial step bound factor}: 100.0</li>
@@ -113,10 +115,12 @@ public class LevenbergMarquardtEstimator implements Serializable, Estimator {
     setOrthoTolerance(1.0e-10);
   }
 
-  /** Set the positive input variable used in determining the initial step bound.
+  /** 
+   * Set the positive input variable used in determining the initial step bound.
    * This bound is set to the product of initialStepBoundFactor and the euclidean norm of diag*x if nonzero,
    * or else to initialStepBoundFactor itself. In most cases factor should lie
    * in the interval (0.1, 100.0). 100.0 is a generally recommended value
+   * 
    * @param initialStepBoundFactor initial step bound factor
    * @see #estimate
    */
@@ -124,15 +128,19 @@ public class LevenbergMarquardtEstimator implements Serializable, Estimator {
     this.initialStepBoundFactor = initialStepBoundFactor;
   }
 
-  /** Set the maximal number of cost evaluations.
-  * @param maxCostEval maximal number of cost evaluations
+  /** 
+   * Set the maximal number of cost evaluations.
+   * 
+   * @param maxCostEval maximal number of cost evaluations
    * @see #estimate
   */
   public void setMaxCostEval(int maxCostEval) {
     this.maxCostEval = maxCostEval;
   }
 
-  /** Set the desired relative error in the sum of squares.
+  /** 
+   * Set the desired relative error in the sum of squares.
+   * 
    * @param costRelativeTolerance desired relative error in the sum of squares
    * @see #estimate
    */
@@ -140,7 +148,9 @@ public class LevenbergMarquardtEstimator implements Serializable, Estimator {
     this.costRelativeTolerance = costRelativeTolerance;
   }
 
-  /** Set the desired relative error in the approximate solution parameters.
+  /** 
+   * Set the desired relative error in the approximate solution parameters.
+   * 
    * @param parRelativeTolerance desired relative error
    * in the approximate solution parameters
    * @see #estimate
@@ -149,7 +159,9 @@ public class LevenbergMarquardtEstimator implements Serializable, Estimator {
     this.parRelativeTolerance = parRelativeTolerance;
   }
 
-  /** Set the desired max cosine on the orthogonality.
+  /** 
+   * Set the desired max cosine on the orthogonality.
+   * 
    * @param orthoTolerance desired max cosine on the orthogonality
    * between the function vector and the columns of the jacobian
    * @see #estimate
@@ -158,21 +170,26 @@ public class LevenbergMarquardtEstimator implements Serializable, Estimator {
     this.orthoTolerance = orthoTolerance;
   }
 
-  /** Get the number of cost evaluations.
+  /** 
+   * Get the number of cost evaluations.
+   * 
    * @return number of cost evaluations
    * */
   public int getCostEvaluations() {
     return costEvaluations;
   }
 
-  /** Get the number of jacobian evaluations.
+  /** 
+   * Get the number of jacobian evaluations.
+   * 
    * @return number of jacobian evaluations
    * */
   public int getJacobianEvaluations() {
     return jacobianEvaluations;
   }
 
-  /** Update the jacobian matrix.
+  /** 
+   * Update the jacobian matrix.
    */
   private void updateJacobian() {
     ++jacobianEvaluations;
@@ -186,7 +203,8 @@ public class LevenbergMarquardtEstimator implements Serializable, Estimator {
     }
   }
 
-  /** Update the residuals array and cost function value.
+  /** 
+   * Update the residuals array and cost function value.
    */
   private void updateResidualsAndCost() {
     ++costEvaluations;
@@ -200,12 +218,14 @@ public class LevenbergMarquardtEstimator implements Serializable, Estimator {
     cost = Math.sqrt(cost);
   }
 
-  /** Get the Root Mean Square value.
+  /** 
+   * Get the Root Mean Square value.
    * Get the Root Mean Square value, i.e. the root of the arithmetic
    * mean of the square of all weighted residuals. This is related to the
    * criterion that is minimized by the estimator as follows: if
    * <em>c</em> if the criterion, and <em>n</em> is the number of
    * measurements, then the RMS is <em>sqrt (c/n)</em>.
+   * 
    * @param problem estimation problem
    * @return RMS value
    */
@@ -219,7 +239,8 @@ public class LevenbergMarquardtEstimator implements Serializable, Estimator {
     return Math.sqrt(criterion / wm.length);
   }
 
-  /** Solve an estimation problem using the Levenberg-Marquardt algorithm.
+  /** 
+   * Solve an estimation problem using the Levenberg-Marquardt algorithm.
    * <p>The algorithm used is a modified Levenberg-Marquardt one, based
    * on the MINPACK <a href="http://www.netlib.org/minpack/lmder.f">lmder</a>
    * routine. The algorithm settings must have been set up before this method
@@ -236,6 +257,7 @@ public class LevenbergMarquardtEstimator implements Serializable, Estimator {
    *   <li>Jorge   J. More</li>
    *   </ul>
    * <p>Luc Maisonobe did the Java translation.</p>
+   * 
    * @param problem estimation problem to solve
    * @exception EstimationException if convergence cannot be
    * reached with the specified algorithm settings or if there are more variables
@@ -493,7 +515,8 @@ public class LevenbergMarquardtEstimator implements Serializable, Estimator {
 
   }
 
-  /** Determine the Levenberg-Marquardt parameter.
+  /** 
+   * Determine the Levenberg-Marquardt parameter.
    * <p>This implementation is a translation in Java of the MINPACK
    * <a href="http://www.netlib.org/minpack/lmpar.f">lmpar</a>
    * routine.</p>
@@ -506,6 +529,7 @@ public class LevenbergMarquardtEstimator implements Serializable, Estimator {
    *   <li>Jorge   J. More</li>
    * </ul>
    * <p>Luc Maisonobe did the Java translation.</p>
+   * 
    * @param qy array containing qTy
    * @param delta upper bound on the euclidean norm of diagR * lmDir
    * @param diag diagonal matrix
@@ -661,7 +685,8 @@ public class LevenbergMarquardtEstimator implements Serializable, Estimator {
     }
   }
 
-  /** Solve a*x = b and d*x = 0 in the least squares sense.
+  /** 
+   * Solve a*x = b and d*x = 0 in the least squares sense.
    * <p>This implementation is a translation in Java of the MINPACK
    * <a href="http://www.netlib.org/minpack/qrsolv.f">qrsolv</a>
    * routine.</p>
@@ -674,6 +699,7 @@ public class LevenbergMarquardtEstimator implements Serializable, Estimator {
    *   <li>Jorge   J. More</li>
    * </ul>
    * <p>Luc Maisonobe did the Java translation.</p>
+   * 
    * @param qy array containing qTy
    * @param diag diagonal matrix
    * @param lmDiag diagonal elements associated with lmDir
@@ -783,7 +809,8 @@ public class LevenbergMarquardtEstimator implements Serializable, Estimator {
 
   }
 
-  /** Decompose a matrix A as A.P = Q.R using Householder transforms.
+  /** 
+   * Decompose a matrix A as A.P = Q.R using Householder transforms.
    * <p>As suggested in the P. Lascaux and R. Theodor book
    * <i>Analyse num&eacute;rique matricielle appliqu&eacute;e &agrave;
    * l'art de l'ing&eacute;nieur</i> (Masson, 1986), instead of representing
@@ -872,7 +899,9 @@ public class LevenbergMarquardtEstimator implements Serializable, Estimator {
 
   }
 
-  /** Compute the product Qt.y for some Q.R. decomposition.
+  /** 
+   * Compute the product Qt.y for some Q.R. decomposition.
+   * 
    * @param y vector to multiply (will be overwritten with the result)
    */
   private void qTy(double[] y) {
@@ -896,7 +925,8 @@ public class LevenbergMarquardtEstimator implements Serializable, Estimator {
   /** Array of parameters. */
   private EstimatedParameter[] parameters;
 
-  /** Jacobian matrix.
+  /** 
+   * Jacobian matrix.
    * <p>Depending on the computation phase, this matrix is either in
    * canonical form (just after the calls to updateJacobian) or in
    * Q.R. decomposed form (after calls to qrDecomposition)</p>

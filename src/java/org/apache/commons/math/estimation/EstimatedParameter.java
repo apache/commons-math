@@ -19,16 +19,16 @@ package org.apache.commons.math.estimation;
 
 import java.io.Serializable;
 
-/** This class represent the estimated parameters of an estimation problem.
-
+/** This class represents the estimated parameters of an estimation problem.
+ *
  * <p>The parameters of an estimation problem have a name, a value and
  * a bound flag. The value of bound parameters is considered trusted
  * and the solvers should not adjust them. On the other hand, the
  * solvers should adjust the value of unbounds parameters until they
  * satisfy convergence criterions specific to each solver.</p>
-
+ *
  * @version $Id: EstimatedParameter.java 1705 2006-09-17 19:57:39Z luc $
-
+ *
  */
 
 public class EstimatedParameter
