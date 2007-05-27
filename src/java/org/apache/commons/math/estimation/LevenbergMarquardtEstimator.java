@@ -90,7 +90,6 @@ import java.util.Arrays;
  * @author Burton S. Garbow (original fortran)
  * @author Kenneth E. Hillstrom (original fortran)
  * @author Jorge J. More (original fortran)
- * @author Luc Maisonobe (Java translation)
  */
 public class LevenbergMarquardtEstimator implements Serializable, Estimator {
 
