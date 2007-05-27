@@ -80,7 +80,6 @@ package org.apache.commons.math.ode;
  * </table>
 
  * @author E. Hairer and G. Wanner (fortran version)
- * @author L. Maisonobe (Java port)
  * @version $Id: GraggBulirschStoerIntegrator.java 1705 2006-09-17 19:57:39Z luc $
 
  */
