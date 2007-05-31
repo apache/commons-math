@@ -302,16 +302,18 @@ public class ValueServer {
     /**
      * Gets next sequential value from the <code>valuesFileURL</code>.
      * <p>
-     * Throws an IOException if the read fails.
+     * Throws an IOException if the read fails.</p>
      * <p>
      * This method will open the <code>valuesFileURL</code> if there is no
-     * replay file open.
+     * replay file open.</p>
      * <p>
      * The <code>valuesFileURL</code> will be closed and reopened to wrap around
-     * from EOF to BOF if EOF is encountered.
+     * from EOF to BOF if EOF is encountered.</p>
      *
      * @return next value from the replay file
      * @throws IOException if there is a problem reading from the file
+     * @throws NumberFormatException if an invalid numeric string is
+     *   encountered in the file
      */
     private double getNextReplay() throws IOException {
         String str = null;
@@ -323,7 +325,7 @@ public class ValueServer {
             resetReplayFile();
             str = filePointer.readLine();
         }
-        return new Double(str).doubleValue();
+        return Double.valueOf(str).doubleValue();
     }
 
     /**
