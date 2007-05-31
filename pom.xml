@@ -28,7 +28,7 @@
   <groupId>commons-math</groupId>
   <artifactId>commons-math</artifactId>
   <version>1.2-SNAPSHOT</version>
-  <name>Lang</name>
+  <name>Math</name>
 
   <inceptionYear>2003</inceptionYear>
   <description>The Math project is a library of lightweight, self-contained mathematics and statistics components addressing the most common practical problems not immediately available in the Java programming language or commons-lang.</description>
