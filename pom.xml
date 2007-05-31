@@ -45,6 +45,14 @@
     <developerConnection>scm:svn:https://svn.apache.org/repos/asf/jakarta/commons/proper/math/trunk</developerConnection>
     <url>http://svn.apache.org/viewvc/jakarta/commons/proper/math/trunk</url>
   </scm>
+  
+  <distributionManagement>
+    <site>
+      <id>people.apache.org</id>
+      <name>Commons Math</name>
+      <url>scp://people.apache.org/www/jakarta.apache.org/commons/math</url>
+    </site>
+  </distributionManagement>
 
   <developers>
     <developer>
