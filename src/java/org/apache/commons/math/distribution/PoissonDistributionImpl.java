@@ -33,6 +33,8 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
     /** Serializable version identifier */
     private static final long serialVersionUID = -3349935121172596109L;
     
+    private NormalDistribution normal;
+    
     /**
      * Holds the Poisson mean for the distribution.
      */
@@ -47,7 +49,22 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
      * @throws IllegalArgumentException if p &le; 0
      */
     public PoissonDistributionImpl(double p) {
+        this(p, new NormalDistributionImpl());
+    }
+
+    /**
+     * Create a new Poisson distribution with the given the mean.
+     * The mean value must be positive; otherwise an 
+     * <code>IllegalArgument</code> is thrown.
+     * 
+     * @param p the Poisson mean
+     * @param z a normal distribution used to compute normal approximations.
+     * @throws IllegalArgumentException if p &le; 0
+     * @since 1.2
+     */
+    public PoissonDistributionImpl(double p, NormalDistribution z) {
         super();
+        setNormal(z);
         setMean(p);
     }
 
@@ -74,6 +91,8 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
                     "The Poisson mean must be positive");
         }
         this.mean = p;
+        normal.setMean(p);
+        normal.setStandardDeviation(Math.sqrt(p));
     }
 
     /**
@@ -122,10 +141,6 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
      * @throws MathException if an error occurs computing the normal approximation
      */
     public double normalApproximateProbability(int x) throws MathException {
-        NormalDistribution normal = DistributionFactory.newInstance()
-                .createNormalDistribution(getMean(),
-                        Math.sqrt(getMean()));
-
         // calculate the probability using half-correction
         return normal.cumulativeProbability(x + 0.5);
     }
@@ -152,6 +167,17 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
      */
     protected int getDomainUpperBound(double p) {
         return Integer.MAX_VALUE;
+    }
+    
+    /**
+     * Modify the normal distribution used to compute normal approximations.
+     * The caller is responsible for insuring the normal distribution has the
+     * proper parameter settings.
+     * @param value the new distribution
+     * @since 1.2
+     */
+    public void setNormal(NormalDistribution value) {
+        normal = value;
     }
     
 }
