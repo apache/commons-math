@@ -19,6 +19,7 @@ package org.apache.commons.math.stat.inference;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.distribution.DistributionFactory;
 import org.apache.commons.math.distribution.TDistribution;
+import org.apache.commons.math.distribution.TDistributionImpl;
 import org.apache.commons.math.stat.StatUtils;
 import org.apache.commons.math.stat.descriptive.StatisticalSummary;
 
@@ -32,14 +33,25 @@ import org.apache.commons.math.stat.descriptive.StatisticalSummary;
  */
 public class TTestImpl implements TTest  {
 
-    /** Cached DistributionFactory used to create TDistribution instances */
-    private DistributionFactory distributionFactory = null;
+    /** Distribution used to compute inference statistics. */
+    private TDistribution distribution;
     
     /**
      * Default constructor.
      */
     public TTestImpl() {
+        this(new TDistributionImpl(1.0));
+    }
+    
+    /**
+     * Create a test instance using the given distribution for computing
+     * inference statistics.
+     * @param t distribution used to compute inference statistics.
+     * @since 1.2
+     */
+    public TTestImpl(TDistribution t) {
         super();
+        setDistribution(t);
     }
     
     /**
@@ -910,12 +922,10 @@ public class TTestImpl implements TTest  {
     /**
      * Gets a DistributionFactory to use in creating TDistribution instances.
      * @return a distribution factory.
+     * @deprecated inject TDistribution directly instead of using a factory.
      */
     protected DistributionFactory getDistributionFactory() {
-        if (distributionFactory == null) {
-            distributionFactory = DistributionFactory.newInstance();
-        }
-        return distributionFactory;
+        return DistributionFactory.newInstance();
     }
     
     /**
@@ -995,9 +1005,8 @@ public class TTestImpl implements TTest  {
     protected double tTest(double m, double mu, double v, double n)
     throws MathException {
         double t = Math.abs(t(m, mu, v, n));
-        TDistribution tDistribution = 
-            getDistributionFactory().createTDistribution(n - 1);
-        return 1.0 - tDistribution.cumulativeProbability(-t, t);
+        distribution.setDegreesOfFreedom(n - 1);
+        return 1.0 - distribution.cumulativeProbability(-t, t);
     }
 
     /**
@@ -1020,10 +1029,9 @@ public class TTestImpl implements TTest  {
     throws MathException {
         double t = Math.abs(t(m1, m2, v1, v2, n1, n2));
         double degreesOfFreedom = 0;
-        degreesOfFreedom= df(v1, v2, n1, n2);
-        TDistribution tDistribution =
-            getDistributionFactory().createTDistribution(degreesOfFreedom);
-        return 1.0 - tDistribution.cumulativeProbability(-t, t);
+        degreesOfFreedom = df(v1, v2, n1, n2);
+        distribution.setDegreesOfFreedom(degreesOfFreedom);
+        return 1.0 - distribution.cumulativeProbability(-t, t);
     }
     
     /**
@@ -1045,10 +1053,17 @@ public class TTestImpl implements TTest  {
             double v2, double n1, double n2)
     throws MathException {
         double t = Math.abs(homoscedasticT(m1, m2, v1, v2, n1, n2));
-        double degreesOfFreedom = 0;
-            degreesOfFreedom = (double) (n1 + n2 - 2);
-        TDistribution tDistribution =
-            getDistributionFactory().createTDistribution(degreesOfFreedom);
-        return 1.0 - tDistribution.cumulativeProbability(-t, t);
-    }   
+        double degreesOfFreedom = (double) (n1 + n2 - 2);
+        distribution.setDegreesOfFreedom(degreesOfFreedom);
+        return 1.0 - distribution.cumulativeProbability(-t, t);
+    }
+    
+    /**
+     * Modify the distribution used to compute inference statistics.
+     * @param value the new distribution
+     * @since 1.2
+     */
+    public void setDistribution(TDistribution value) {
+        distribution = value;
+    }
 }
