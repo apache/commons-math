@@ -37,12 +37,22 @@ public class ChiSquaredDistributionImpl
     
     /**
      * Create a Chi-Squared distribution with the given degrees of freedom.
-     * @param degreesOfFreedom degrees of freedom.
+     * @param df degrees of freedom.
      */
-    public ChiSquaredDistributionImpl(double degreesOfFreedom) {
+    public ChiSquaredDistributionImpl(double df) {
+        this(df, new GammaDistributionImpl(df / 2.0, 2.0));
+    }
+    
+    /**
+     * Create a Chi-Squared distribution with the given degrees of freedom.
+     * @param df degrees of freedom.
+     * @param g the underlying gamma distribution used to compute probabilities.
+     * @since 1.2
+     */
+    public ChiSquaredDistributionImpl(double df, GammaDistribution g) {
         super();
-        setGamma(DistributionFactory.newInstance().createGammaDistribution(
-            degreesOfFreedom / 2.0, 2.0));
+        setGamma(g);
+        setDegreesOfFreedom(df);
     }
     
     /**
@@ -161,11 +171,14 @@ public class ChiSquaredDistributionImpl
     }
     
     /**
-     * Modify the Gamma distribution.
-     * @param gamma the new distribution.
+     * Modify the underlying gamma distribution.  The caller is responsible for
+     * insuring the gamma distribution has the proper parameter settings.
+     * @param g the new distribution.
+     * @since 1.2 made public
      */
-    private void setGamma(GammaDistribution gamma) {
-        this.gamma = gamma;
+    public void setGamma(GammaDistribution g) {
+        this.gamma = g;
+        
     }
 
     /**
