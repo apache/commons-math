@@ -26,9 +26,6 @@ package org.apache.commons.math.distribution;
  * library is to express these functions in terms of the number of failures in
  * a Bernoulli experiment [2].
  *
- * Instances of PascalDistribution objects should be created using
- * {@link DistributionFactory#createPascalDistribution(int, double)}.
- *
  * <p>
  * References:
  * <ol>

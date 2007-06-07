@@ -40,7 +40,7 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
     
     /** Creates the default discrete distribution instance to use in tests. */
     public IntegerDistribution makeDistribution() {
-        return DistributionFactory.newInstance().createHypergeometricDistribution(10,5, 5);
+        return new HypergeometricDistributionImpl(10,5, 5);
     }
     
     /** Creates the default probability density test input values */
@@ -80,7 +80,7 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
     
     /** Verify that if there are no failures, mass is concentrated on sampleSize */
     public void testDegenerateNoFailures() throws Exception {
-        setDistribution(DistributionFactory.newInstance().createHypergeometricDistribution(5,5,3));
+        setDistribution(new HypergeometricDistributionImpl(5,5,3));
         setCumulativeTestPoints(new int[] {-1, 0, 1, 3, 10 });
         setCumulativeTestValues(new double[] {0d, 0d, 0d, 1d, 1d});
         setDensityTestPoints(new int[] {-1, 0, 1, 3, 10});
@@ -94,7 +94,7 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
     
     /** Verify that if there are no successes, mass is concentrated on 0 */
     public void testDegenerateNoSuccesses() throws Exception {
-        setDistribution(DistributionFactory.newInstance().createHypergeometricDistribution(5,0,3));
+        setDistribution(new HypergeometricDistributionImpl(5,0,3));
         setCumulativeTestPoints(new int[] {-1, 0, 1, 3, 10 });
         setCumulativeTestValues(new double[] {0d, 1d, 1d, 1d, 1d});
         setDensityTestPoints(new int[] {-1, 0, 1, 3, 10});
@@ -108,7 +108,7 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
     
     /** Verify that if sampleSize = populationSize, mass is concentrated on numberOfSuccesses */
     public void testDegenerateFullSample() throws Exception {
-        setDistribution(DistributionFactory.newInstance().createHypergeometricDistribution(5,3,5));
+        setDistribution(new HypergeometricDistributionImpl(5,3,5));
         setCumulativeTestPoints(new int[] {-1, 0, 1, 3, 10 });
         setCumulativeTestValues(new double[] {0d, 0d, 0d, 1d, 1d});
         setDensityTestPoints(new int[] {-1, 0, 1, 3, 10});
@@ -121,7 +121,7 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
     }
 
     public void testPopulationSize() {
-        HypergeometricDistribution dist = DistributionFactory.newInstance().createHypergeometricDistribution(5,3,5);
+        HypergeometricDistribution dist = new HypergeometricDistributionImpl(5,3,5);
         try {
             dist.setPopulationSize(-1);
             fail("negative population size.  IllegalArgumentException expected");

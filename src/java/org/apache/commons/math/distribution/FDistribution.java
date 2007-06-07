@@ -19,9 +19,6 @@ package org.apache.commons.math.distribution;
 /**
  * F-Distribution.
  *
- * Instances of FDistribution objects should be created using
- * {@link DistributionFactory#createFDistribution(double,double)}.
- *
  * <p>
  * References:
  * <ul>

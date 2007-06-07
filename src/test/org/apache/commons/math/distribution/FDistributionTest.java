@@ -38,7 +38,7 @@ public class FDistributionTest extends ContinuousDistributionAbstractTest {
     
     /** Creates the default continuous distribution instance to use in tests. */
     public ContinuousDistribution makeDistribution() {
-        return DistributionFactory.newInstance().createFDistribution(5.0, 6.0);
+        return new FDistributionImpl(5.0, 6.0);
     }   
     
     /** Creates the default cumulative probability distribution test input values */

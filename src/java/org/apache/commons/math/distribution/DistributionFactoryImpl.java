@@ -21,6 +21,8 @@ package org.apache.commons.math.distribution;
  * Commons-Math.
  *  
  * @version $Revision$ $Date$
+ * @deprecated pluggability of distribution instances is now provided through
+ *             constructors and setters.
  */
 public class DistributionFactoryImpl extends DistributionFactory {
 

@@ -19,9 +19,6 @@ package org.apache.commons.math.distribution;
 /**
  * The Gamma Distribution.
  *
- * Instances of GammaDistribution objects should be created using
- * {@link DistributionFactory#createGammaDistribution(double,double)}.
- *
  * <p>
  * References:
  * <ul>

@@ -19,8 +19,6 @@ package org.apache.commons.math.distribution;
 
 /**
  * Cauchy Distribution.
- * Instances of CauchyDistribution objects should be created using
- * {@link DistributionFactory#createCauchyDistribution(double, double)}.<p>
  *
  * <p>
  * References:<p>

@@ -19,9 +19,6 @@ package org.apache.commons.math.distribution;
 /**
  * The Binomial Distribution.
  *
- * Instances of BinomialDistribution objects should be created using
- * {@link DistributionFactory#createBinomialDistribution(int, double)}.
- *
  * <p>
  * References:
  * <ul>

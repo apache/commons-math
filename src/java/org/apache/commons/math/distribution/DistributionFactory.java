@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.distribution;
 
-import org.apache.commons.discovery.tools.DiscoverClass;
-
 /**
  * This factory provids the means to create common statistical distributions.
  * The following distributions are supported:
@@ -45,6 +43,8 @@ import org.apache.commons.discovery.tools.DiscoverClass;
  * </pre>
  *
  * @version $Revision$ $Date$
+ * @deprecated pluggability of distribution instances is now provided through
+ *             constructors and setters.
  */
 public abstract class DistributionFactory {
     /**
@@ -59,16 +59,7 @@ public abstract class DistributionFactory {
      * @return a new factory. 
      */
     public static DistributionFactory newInstance() {
-        DistributionFactory factory = null;
-        try {
-            DiscoverClass dc = new DiscoverClass();
-            factory = (DistributionFactory) dc.newInstance(
-                DistributionFactory.class,
-                "org.apache.commons.math.distribution.DistributionFactoryImpl");
-        } catch(Throwable t) {
-            return new DistributionFactoryImpl();
-        }
-        return factory;
+        return new DistributionFactoryImpl();
     }
 
     /**

@@ -37,7 +37,7 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
 
     /** Creates the default continuous distribution instance to use in tests. */
     public ContinuousDistribution makeDistribution() {
-        return DistributionFactory.newInstance().createTDistribution(5.0);
+        return new TDistributionImpl(5.0);
     }
 
     /** Creates the default cumulative probability distribution test input values */
@@ -67,13 +67,12 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
      */
     public void testCumulativeProbabilityAgaintStackOverflow() throws Exception {
         TDistributionImpl td = new TDistributionImpl(5.);
-        double est;
-        est = td.cumulativeProbability(.1);
-        est = td.cumulativeProbability(.01);
+        td.cumulativeProbability(.1);
+        td.cumulativeProbability(.01);
     }
 
     public void testSmallDf() throws Exception {
-        setDistribution(DistributionFactory.newInstance().createTDistribution(1d));
+        setDistribution(new TDistributionImpl(1d));
         setTolerance(1E-4);
         // quantiles computed using R version 1.8.1 (linux version)
         setCumulativeTestPoints(new double[] {-318.3088, -31.82052, -12.70620, -6.313752,

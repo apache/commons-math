@@ -19,8 +19,6 @@ package org.apache.commons.math.distribution;
 
 /**
  * Normal (Gauss) Distribution.
- * Instances of NormalDistribution objects should be created using
- * {@link DistributionFactory#createNormalDistribution(double, double)}.<p>
  *
  * <p>
  * References:<p>

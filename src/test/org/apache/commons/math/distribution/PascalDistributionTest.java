@@ -37,7 +37,7 @@ public class PascalDistributionTest extends IntegerDistributionAbstractTest {
     
     /** Creates the default discrete distribution instance to use in tests. */
     public IntegerDistribution makeDistribution() {
-        return DistributionFactory.newInstance().createPascalDistribution(10,0.70);
+        return new PascalDistributionImpl(10,0.70);
     }
     
     /** Creates the default probability density test input values */
@@ -77,7 +77,7 @@ public class PascalDistributionTest extends IntegerDistributionAbstractTest {
    
     /** Test degenerate case p = 0   */
     public void testDegenerate0() throws Exception {
-        setDistribution(DistributionFactory.newInstance().createPascalDistribution(5,0.0d));
+        setDistribution(new PascalDistributionImpl(5,0.0d));
         setCumulativeTestPoints(new int[] {-1, 0, 1, 5, 10 });
         setCumulativeTestValues(new double[] {0d, 0d, 0d, 0d, 0d});
         setDensityTestPoints(new int[] {-1, 0, 1, 10, 11});
@@ -91,7 +91,7 @@ public class PascalDistributionTest extends IntegerDistributionAbstractTest {
     
     /** Test degenerate case p = 1   */
     public void testDegenerate1() throws Exception {
-        setDistribution(DistributionFactory.newInstance().createPascalDistribution(5,1.0d));
+        setDistribution(new PascalDistributionImpl(5,1.0d));
         setCumulativeTestPoints(new int[] {-1, 0, 1, 2, 5, 10 });
         setCumulativeTestValues(new double[] {0d, 1d, 1d, 1d, 1d, 1d});
         setDensityTestPoints(new int[] {-1, 0, 1, 2, 5, 10});

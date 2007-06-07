@@ -23,9 +23,6 @@ package org.apache.commons.math.distribution;
  * <a href="http://mathworld.wolfram.com/WeibullDistribution.html">
  * Weibull Distribution</a>, equations (1) and (2).
  *
- * Instances of WeibullDistribution objects should be created using
- * {@link DistributionFactory#createWeibullDistribution(double, double)}
- *
  * <p>
  * References:
  * <ul>

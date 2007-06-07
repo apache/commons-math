@@ -17,6 +17,7 @@
 package org.apache.commons.math.distribution;
 
 import junit.framework.TestCase;
+
 import org.apache.commons.math.TestUtils;
 
 /**

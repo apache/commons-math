@@ -19,9 +19,6 @@ package org.apache.commons.math.distribution;
 /**
  * Student's t-Distribution.
  *
- * Instances of TDistribution objects should be created using
- * {@link DistributionFactory#createTDistribution(double)}
- *
  * <p>
  * References:
  * <ul>

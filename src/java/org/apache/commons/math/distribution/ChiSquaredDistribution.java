@@ -19,9 +19,6 @@ package org.apache.commons.math.distribution;
 /**
  * The Chi-Squared Distribution.
  *
- * Instances of ChiSquaredDistribution objects should be created using
- * {@link DistributionFactory#createChiSquareDistribution(double)}.
- *
  * <p>
  * References:
  * <ul>

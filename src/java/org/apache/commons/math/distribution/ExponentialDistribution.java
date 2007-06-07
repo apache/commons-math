@@ -19,9 +19,6 @@ package org.apache.commons.math.distribution;
 /**
  * The Exponential Distribution.
  *
- * Instances of ExponentialDistribution objects should be created using
- * {@link DistributionFactory#createExponentialDistribution(double)}.
- *
  * <p>
  * References:
  * <ul>

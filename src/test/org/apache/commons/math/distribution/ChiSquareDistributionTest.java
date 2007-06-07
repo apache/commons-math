@@ -38,7 +38,7 @@ public class ChiSquareDistributionTest extends ContinuousDistributionAbstractTes
     
     /** Creates the default continuous distribution instance to use in tests. */
     public ContinuousDistribution makeDistribution() {
-        return DistributionFactory.newInstance().createChiSquareDistribution(5.0);
+        return new ChiSquaredDistributionImpl(5.0);
     }   
     
     /** Creates the default cumulative probability distribution test input values */
@@ -76,7 +76,7 @@ public class ChiSquareDistributionTest extends ContinuousDistributionAbstractTes
  //---------------------------- Additional test cases -------------------------
     
     public void testSmallDf() throws Exception {
-        setDistribution(DistributionFactory.newInstance().createChiSquareDistribution(0.1d));
+        setDistribution(new ChiSquaredDistributionImpl(0.1d));
         setTolerance(1E-4);
         // quantiles computed using R version 1.8.1 (linux version)
         setCumulativeTestPoints(new double[] {1.168926E-60, 1.168926E-40, 1.063132E-32, 

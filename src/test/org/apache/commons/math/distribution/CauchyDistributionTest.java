@@ -38,7 +38,7 @@ public class CauchyDistributionTest extends ContinuousDistributionAbstractTest  
     
     /** Creates the default continuous distribution instance to use in tests. */
     public ContinuousDistribution makeDistribution() {
-        return DistributionFactory.newInstance().createCauchyDistribution(1.2, 2.1);
+        return new CauchyDistributionImpl(1.2, 2.1);
     }   
     
     /** Creates the default cumulative probability distribution test input values */

@@ -38,7 +38,7 @@ public class GammaDistributionTest extends ContinuousDistributionAbstractTest {
     
     /** Creates the default continuous distribution instance to use in tests. */
     public ContinuousDistribution makeDistribution() {
-        return DistributionFactory.newInstance().createGammaDistribution(4d, 2d);
+        return new GammaDistributionImpl(4d, 2d);
     }   
     
     /** Creates the default cumulative probability distribution test input values */
@@ -100,15 +100,13 @@ public class GammaDistributionTest extends ContinuousDistributionAbstractTest {
     }
 
     private void testProbability(double x, double a, double b, double expected) throws Exception {
-        DistributionFactory factory = DistributionFactory.newInstance();
-        GammaDistribution distribution = factory.createGammaDistribution( a, b );
+        GammaDistribution distribution = new GammaDistributionImpl( a, b );
         double actual = distribution.cumulativeProbability(x);
         assertEquals("probability for " + x, expected, actual, 10e-4);
     }
 
     private void testValue(double expected, double a, double b, double p) throws Exception {
-        DistributionFactory factory = DistributionFactory.newInstance();
-        GammaDistribution distribution = factory.createGammaDistribution( a, b );
+        GammaDistribution distribution = new GammaDistributionImpl( a, b );
         double actual = distribution.inverseCumulativeProbability(p);
         assertEquals("critical value for " + p, expected, actual, 10e-4);
     }

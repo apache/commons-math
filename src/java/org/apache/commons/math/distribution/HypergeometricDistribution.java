@@ -20,9 +20,6 @@ package org.apache.commons.math.distribution;
 /**
  * The Hypergeometric Distribution.
  *
- * Instances of HypergeometricDistribution objects should be created using
- * {@link DistributionFactory#createHypergeometricDistribution(int, int, int)}.
- *
  * <p>
  * References:
  * <ul>

@@ -37,7 +37,7 @@ public class ExponentialDistributionTest extends ContinuousDistributionAbstractT
     
     /** Creates the default continuous distribution instance to use in tests. */
     public ContinuousDistribution makeDistribution() {
-        return DistributionFactory.newInstance().createExponentialDistribution(5.0);
+        return new ExponentialDistributionImpl(5.0);
     }   
     
     /** Creates the default cumulative probability distribution test input values */

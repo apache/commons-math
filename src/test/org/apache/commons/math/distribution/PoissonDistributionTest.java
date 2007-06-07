@@ -43,8 +43,7 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
      * Creates the default discrete distribution instance to use in tests. 
      */
     public IntegerDistribution makeDistribution() {
-        return DistributionFactory.newInstance().createPoissonDistribution
-            (DEFAULT_TEST_POISSON_PARAMETER);  
+        return new PoissonDistributionImpl(DEFAULT_TEST_POISSON_PARAMETER);  
     }
 
     /** 
@@ -105,7 +104,7 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
      * P(9900 &le; X &le; 10200) for X  = Po(10000)
      */
     public void testNormalApproximateProbability() throws Exception {
-        PoissonDistribution dist = DistributionFactory.newInstance().createPoissonDistribution(100);
+        PoissonDistribution dist = new PoissonDistributionImpl(100);
         double result = dist.normalApproximateProbability(110)
                 - dist.normalApproximateProbability(89);
         assertEquals(0.706281887248, result, 1E-10);
@@ -120,13 +119,13 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
      * @throws Exception
      */
     public void testDegenerateInverseCumulativeProbability() throws Exception {
-        PoissonDistribution dist = DistributionFactory.newInstance().createPoissonDistribution(DEFAULT_TEST_POISSON_PARAMETER);
+        PoissonDistribution dist = new PoissonDistributionImpl(DEFAULT_TEST_POISSON_PARAMETER);
         assertEquals(Integer.MAX_VALUE, dist.inverseCumulativeProbability(1.0d));
         assertEquals(-1, dist.inverseCumulativeProbability(0d));
     }
     
     public void testMean() {
-        PoissonDistribution dist = DistributionFactory.newInstance().createPoissonDistribution(DEFAULT_TEST_POISSON_PARAMETER);
+        PoissonDistribution dist = new PoissonDistributionImpl(DEFAULT_TEST_POISSON_PARAMETER);
         try {
             dist.setMean(-1);
             fail("negative mean.  IllegalArgumentException expected");
@@ -138,7 +137,7 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
     }
     
     public void testLargeMeanCumulativeProbability() {
-        PoissonDistribution dist = DistributionFactory.newInstance().createPoissonDistribution(1.0);
+        PoissonDistribution dist = new PoissonDistributionImpl(1.0);
         double mean = 1.0;
         while (mean <= 10000000.0) {
             dist.setMean(mean);
@@ -159,7 +158,7 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
     }
     
     public void testLargeMeanInverseCumulativeProbability() {
-        PoissonDistribution dist = DistributionFactory.newInstance().createPoissonDistribution(1.0);
+        PoissonDistribution dist = new PoissonDistributionImpl(1.0);
         double mean = 1.0;
         while (mean <= 10000000.0) {
             dist.setMean(mean);

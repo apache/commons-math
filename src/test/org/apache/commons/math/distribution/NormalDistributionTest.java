@@ -38,7 +38,7 @@ public class NormalDistributionTest extends ContinuousDistributionAbstractTest  
     
     /** Creates the default continuous distribution instance to use in tests. */
     public ContinuousDistribution makeDistribution() {
-        return DistributionFactory.newInstance().createNormalDistribution(2.1, 1.4);
+        return new NormalDistributionImpl(2.1, 1.4);
     }   
     
     /** Creates the default cumulative probability distribution test input values */
@@ -77,9 +77,9 @@ public class NormalDistributionTest extends ContinuousDistributionAbstractTest  
     
     public void testQuantiles() throws Exception {
         verifyQuantiles();
-        setDistribution(DistributionFactory.newInstance().createNormalDistribution(0, 1));
+        setDistribution(new NormalDistributionImpl(0, 1));
         verifyQuantiles();
-        setDistribution(DistributionFactory.newInstance().createNormalDistribution(0, 0.1));
+        setDistribution(new NormalDistributionImpl(0, 0.1));
         verifyQuantiles();
     }
     

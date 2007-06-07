@@ -38,7 +38,7 @@ public class WeibullDistributionTest extends ContinuousDistributionAbstractTest 
     
     /** Creates the default continuous distribution instance to use in tests. */
     public ContinuousDistribution makeDistribution() {
-        return DistributionFactory.newInstance().createWeibullDistribution(1.2, 2.1);
+        return new WeibullDistributionImpl(1.2, 2.1);
     }   
     
     /** Creates the default cumulative probability distribution test input values */
