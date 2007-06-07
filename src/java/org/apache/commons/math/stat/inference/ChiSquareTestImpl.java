@@ -17,8 +17,9 @@
 package org.apache.commons.math.stat.inference;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.distribution.DistributionFactory;
 import org.apache.commons.math.distribution.ChiSquaredDistribution;
+import org.apache.commons.math.distribution.ChiSquaredDistributionImpl;
+import org.apache.commons.math.distribution.DistributionFactory;
 
 /**
  * Implements Chi-Square test statistics defined in the {@link ChiSquareTest} interface.
@@ -26,17 +27,27 @@ import org.apache.commons.math.distribution.ChiSquaredDistribution;
  * @version $Revision$ $Date$
  */
 public class ChiSquareTestImpl implements ChiSquareTest {
-    
-    /** Cached DistributionFactory used to create ChiSquaredDistribution instances */
-    private DistributionFactory distributionFactory = null;
+
+    /** Distribution used to compute inference statistics. */
+    private ChiSquaredDistribution distribution;
   
     /**
      * Construct a ChiSquareTestImpl 
      */
     public ChiSquareTestImpl() {
-        super();
+        this(new ChiSquaredDistributionImpl(1.0));
     }
 
+    /**
+     * Create a test instance using the given distribution for computing
+     * inference statistics.
+     * @param x distribution used to compute inference statistics.
+     * @since 1.2
+     */
+    public ChiSquareTestImpl(ChiSquaredDistribution x) {
+        super();
+        setDistribution(x);
+    }
      /**
      * @param observed array of observed frequency counts
      * @param expected array of expected frequency counts
@@ -72,11 +83,9 @@ public class ChiSquareTestImpl implements ChiSquareTest {
      */
     public double chiSquareTest(double[] expected, long[] observed)
         throws IllegalArgumentException, MathException {
-        ChiSquaredDistribution chiSquaredDistribution =
-            getDistributionFactory().createChiSquareDistribution(
-                    (double) expected.length - 1);
-        return 1 - chiSquaredDistribution.cumulativeProbability(
-                chiSquare(expected, observed));
+        distribution.setDegreesOfFreedom(expected.length - 1.0);
+        return 1.0 - distribution.cumulativeProbability(
+            chiSquare(expected, observed));
     }
 
     /**
@@ -143,9 +152,8 @@ public class ChiSquareTestImpl implements ChiSquareTest {
     throws IllegalArgumentException, MathException {
         checkArray(counts);
         double df = ((double) counts.length -1) * ((double) counts[0].length - 1);
-        ChiSquaredDistribution chiSquaredDistribution =
-            getDistributionFactory().createChiSquareDistribution(df);
-        return 1 - chiSquaredDistribution.cumulativeProbability(chiSquare(counts));
+        distribution.setDegreesOfFreedom(df);
+        return 1 - distribution.cumulativeProbability(chiSquare(counts));
     }
 
     /**
@@ -195,14 +203,11 @@ public class ChiSquareTestImpl implements ChiSquareTest {
     //---------------------  Protected methods ---------------------------------
     /**
      * Gets a DistributionFactory to use in creating ChiSquaredDistribution instances.
-     * 
-     * @return a DistributionFactory
+     * @deprecated inject ChiSquaredDistribution instances directly instead of
+     *             using a factory.
      */
     protected DistributionFactory getDistributionFactory() {
-        if (distributionFactory == null) {
-            distributionFactory = DistributionFactory.newInstance();
-        }
-        return distributionFactory;
+        return DistributionFactory.newInstance();
     }
     
     //---------------------  Private array methods -- should find a utility home for these
@@ -277,4 +282,12 @@ public class ChiSquareTestImpl implements ChiSquareTest {
         return true;
     }
     
+    /**
+     * Modify the distribution used to compute inference statistics.
+     * @param value the new distribution
+     * @since 1.2
+     */
+    public void setDistribution(ChiSquaredDistribution value) {
+        distribution = value;
+    }
 }
