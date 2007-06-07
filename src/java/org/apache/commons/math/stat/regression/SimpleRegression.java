@@ -19,8 +19,8 @@ package org.apache.commons.math.stat.regression;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.distribution.DistributionFactory;
 import org.apache.commons.math.distribution.TDistribution;
+import org.apache.commons.math.distribution.TDistributionImpl;
 
 /**
  * Estimates an ordinary least squares regression model
@@ -57,6 +57,9 @@ public class SimpleRegression implements Serializable {
     /** Serializable version identifier */
     private static final long serialVersionUID = -3004689053607543335L;
 
+    /** the distribution used to compute inference statistics. */
+    private TDistribution distribution;
+    
     /** sum of x values */
     private double sumX = 0d;
 
@@ -87,7 +90,18 @@ public class SimpleRegression implements Serializable {
      * Create an empty SimpleRegression instance
      */
     public SimpleRegression() {
+        this(new TDistributionImpl(1.0));
+    }
+    
+    /**
+     * Create an empty SimpleRegression using the given distribution object to
+     * compute inference statistics.
+     * @param t the distribution used to compute inference statistics.
+     * @since 1.2
+     */
+    public SimpleRegression(TDistribution t) {
         super();
+        setDistribution(t);
     }
     
     /**
@@ -119,6 +133,10 @@ public class SimpleRegression implements Serializable {
         sumX += x;
         sumY += y;
         n++;
+        
+        if (n > 2) {
+            distribution.setDegreesOfFreedom(n - 2);
+        }
     }
 
     /**
@@ -455,7 +473,7 @@ public class SimpleRegression implements Serializable {
             throw new IllegalArgumentException();
         }
         return getSlopeStdErr() *
-            getTDistribution().inverseCumulativeProbability(1d - alpha / 2d);
+            distribution.inverseCumulativeProbability(1d - alpha / 2d);
     }
 
     /**
@@ -480,7 +498,7 @@ public class SimpleRegression implements Serializable {
      * @throws MathException if the significance level can not be computed.
      */
     public double getSignificance() throws MathException {
-        return 2d* (1.0 - getTDistribution().cumulativeProbability(
+        return 2d * (1.0 - distribution.cumulativeProbability(
                     Math.abs(getSlope()) / getSlopeStdErr()));
     }
 
@@ -507,14 +525,18 @@ public class SimpleRegression implements Serializable {
     private double getRegressionSumSquares(double slope) {
         return slope * slope * sumXX;
     }
-
+    
     /**
-     * Uses distribution framework to get a t distribution instance 
-     * with df = n - 2
-     *
-     * @return t distribution with df = n - 2
+     * Modify the distribution used to compute inference statistics.
+     * @param value the new distribution
+     * @since 1.2
      */
-    private TDistribution getTDistribution() {
-        return DistributionFactory.newInstance().createTDistribution(n - 2);
+    public void setDistribution(TDistribution value) {
+        distribution = value;
+        
+        // modify degrees of freedom
+        if (n > 2) {
+            distribution.setDegreesOfFreedom(n - 2);
+        }
     }
 }
