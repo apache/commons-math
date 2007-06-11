@@ -46,8 +46,9 @@ public abstract class AbstractStorelessUnivariateStatistic
      * statistic.  Its side effects are the same as invoking {@link #clear} and
      * then {@link #incrementAll(double[])}.
      * <p>
-     * Implementations may override this method with a more efficient 
-     * implementation that works directly with the input array.
+     * Implementations may override this method with a more efficient and
+     * possibly more accurate implementation that works directly with the
+     * input array.
      * <p>
      * If the array is null, an IllegalArgumentException is thrown.
      * 
@@ -69,8 +70,9 @@ public abstract class AbstractStorelessUnivariateStatistic
      * statistic.  Its side effects are the same as invoking {@link #clear} and
      * then {@link #incrementAll(double[], int, int)}.
      * <p>
-     * Implementations may override this method with a more efficient 
-     * implementation that works directly with the input array.
+     * Implementations may override this method with a more efficient and
+     * possibly more accurate implementation that works directly with the
+     * input array.
      * <p>
      * If the array is null or the index parameters are not valid, an 
      * IllegalArgumentException is thrown.

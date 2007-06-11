@@ -21,7 +21,7 @@ import java.io.Serializable;
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
 
 /**
- * Computes the variance of the available values.   By default, the unbiased
+ * Computes the variance of the available values.  By default, the unbiased
  * "sample variance" definitional formula is used: 
  * <p>
  * variance = sum((x_i - mean)^2) / (n - 1)
@@ -30,21 +30,34 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
  * of sample observations.  
  * <p>
  * The definitional formula does not have good numerical properties, so
- * this implementation uses updating formulas based on West's algorithm
- * as described in <a href="http://doi.acm.org/10.1145/359146.359152">
- * Chan, T. F. and J. G. Lewis 1979, <i>Communications of the ACM</i>,
- * vol. 22 no. 9, pp. 526-531.</a>.
+ * this implementation does not compute the statistic using the definitional
+ * formula. <ul>
+ * <li> The <code>getResult</code> method computes the variance using 
+ * updating formulas based on West's algorithm, as described in
+ * <a href="http://doi.acm.org/10.1145/359146.359152"> Chan, T. F. and
+ * J. G. Lewis 1979, <i>Communications of the ACM</i>,
+ * vol. 22 no. 9, pp. 526-531.</a></li>
+ * <li> The <code>evaluate</code> methods leverage the fact that they have the
+ * full array of values in memory to execute a two-pass algorithm. 
+ * Specifically, these methods use the "corrected two-pass algorithm" from
+ * Chan, Golub, Levesque, <i>Algorithms for Computing the Sample Variance</i>,
+ * American Statistician, August 1983.</li></ul>
+ * Note that adding values using <code>increment</code> or 
+ * <code>incrementAll</code> and then executing <code>getResult</code> will
+ * sometimes give a different, less accurate, result than executing 
+ * <code>evaluate</code> with the full array of values. The former approach
+ * should only be used when the full array of values is not available.
  * <p>
  * The "population variance"  ( sum((x_i - mean)^2) / n ) can also
  * be computed using this statistic.  The <code>isBiasCorrected</code>
  * property determines whether the "population" or "sample" value is
  * returned by the <code>evaluate</code> and <code>getResult</code> methods.
  * To compute population variances, set this property to <code>false.</code>
- *
+ * <p>
  * <strong>Note that this implementation is not synchronized.</strong> If 
  * multiple threads access an instance of this class concurrently, and at least
  * one of the threads invokes the <code>increment()</code> or 
- * <code>clear()</code> method, it must be synchronized externally.
+ * <code>clear()</code> method, it must be synchronized externally.</p>
  * 
  * @version $Revision$ $Date$
  */
@@ -118,7 +131,13 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
     }
    
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#increment(double)
+     * {@inheritDoc}  
+     * <p>If all values are available, it is more accurate to use 
+     * {@link #evaluate(double[])} rather than adding values one at a time
+     * using this method and then executing {@link #getResult}, since
+     * <code>evaluate</code> leverages the fact that is has the full 
+     * list of values together to execute a two-pass algorithm.  
+     * See {@link Variance}.</p>
      */
     public void increment(final double d) {
         if (incMoment) {
