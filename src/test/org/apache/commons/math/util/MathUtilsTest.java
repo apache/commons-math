@@ -444,6 +444,16 @@ public final class MathUtilsTest extends TestCase {
         } 
     }
     
+    public void testLog() {
+    	assertEquals(2.0, MathUtils.log(2,4), 0);
+    	assertEquals(3.0, MathUtils.log(2,8), 0);
+        assertTrue(Double.isNaN(MathUtils.log(-1, 1)));
+        assertTrue(Double.isNaN(MathUtils.log(1, -1)));
+        assertTrue(Double.isNaN(MathUtils.log(0, 0)));
+        assertEquals(0, MathUtils.log(0, 10), 0);
+        assertEquals(Double.NEGATIVE_INFINITY, MathUtils.log(10, 0), 0);
+    }
+    
     public void testGcd() {
         int a = 30;
         int b = 50;

@@ -117,7 +117,26 @@ public final class MathUtils {
         }
         return result;
     }
-
+    
+    /** 
+     * <p>Returns the 
+     * <a href="http://mathworld.wolfram.com/Logarithm.html">logarithm</a>
+     * for base <code>b</code> of <code>x</code>.
+     * </p>
+     * <p>Returns <code>NaN<code> if either argument is negative.  If 
+     * <code>base</code> is 0 and <code>x</code> is positive, 0 is returned.
+     * If <code>base</code> is positive and <code>x</code> is 0, 
+     * <code>Double.NEGATIVE_INFINITY</code> is returned.  If both arguments
+     * are 0, the result is <code>NaN</code>.</p>
+     * 
+     * @param base the base of the logarithm, must be greater than 0
+     * @param x argument, must be greater than 0
+     * @return the value of the logarithm - the number y such that base^y = x.
+     */ 
+    public static double log(double base, double x) {
+    	return Math.log(x)/Math.log(base);
+    }
+    
     /**
      * Returns a <code>double</code> representation of the <a
      * href="http://mathworld.wolfram.com/BinomialCoefficient.html"> Binomial
