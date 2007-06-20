@@ -34,7 +34,7 @@ public class Gamma implements Serializable {
     private static final long serialVersionUID = -6587513359895466954L;
 
     /** Maximum allowed numerical error. */
-    private static final double DEFAULT_EPSILON = 10e-9;
+    private static final double DEFAULT_EPSILON = 10e-15;
 
     /** Lanczos coefficients */
     private static double[] lanczos =

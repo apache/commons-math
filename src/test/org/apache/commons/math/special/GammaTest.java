@@ -37,8 +37,8 @@ public class GammaTest extends TestCase {
         try {
             double actualP = Gamma.regularizedGammaP(a, x);
             double actualQ = Gamma.regularizedGammaQ(a, x);
-            TestUtils.assertEquals(expected, actualP, 10e-5);
-            TestUtils.assertEquals(actualP, 1.0 - actualQ, 10e-5);
+            TestUtils.assertEquals(expected, actualP, 10e-15);
+            TestUtils.assertEquals(actualP, 1.0 - actualQ, 10e-15);
         } catch(MathException ex){
             fail(ex.getMessage());
         }
@@ -46,7 +46,7 @@ public class GammaTest extends TestCase {
 
     private void testLogGamma(double expected, double x) {
         double actual = Gamma.logGamma(x);
-        TestUtils.assertEquals(expected, actual, 10e-5);
+        TestUtils.assertEquals(expected, actual, 10e-15);
     }
 
     public void testRegularizedGammaNanPositive() {
@@ -74,7 +74,7 @@ public class GammaTest extends TestCase {
     }
     
     public void testRegularizedGammaPositivePositive() {
-        testRegularizedGamma(0.632121, 1.0, 1.0);
+        testRegularizedGamma(0.632120558828558, 1.0, 1.0);
     }
     
     public void testLogGammaNan() {
@@ -90,6 +90,6 @@ public class GammaTest extends TestCase {
     }
     
     public void testLogGammaPositive() {
-        testLogGamma(0.693147, 3.0);
+        testLogGamma(0.6931471805599457, 3.0);
     }
 }

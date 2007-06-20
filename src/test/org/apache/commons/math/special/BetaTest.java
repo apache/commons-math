@@ -38,7 +38,7 @@ public class BetaTest extends TestCase {
     {
         try {
             double actual = Beta.regularizedBeta(x, a, b);
-            TestUtils.assertEquals(expected, actual, 10e-5);
+            TestUtils.assertEquals(expected, actual, 10e-15);
         } catch(MathException ex){
             fail(ex.getMessage());
         }
@@ -46,7 +46,7 @@ public class BetaTest extends TestCase {
 
     private void testLogBeta(double expected, double a, double b) {
         double actual = Beta.logBeta(a, b);
-        TestUtils.assertEquals(expected, actual, 10e-5);
+        TestUtils.assertEquals(expected, actual, 10e-15);
     }
 
     public void testRegularizedBetaNanPositivePositive() {
@@ -114,6 +114,6 @@ public class BetaTest extends TestCase {
     }
     
     public void testLogBetaPositivePositive() {
-        testLogBeta(-0.693147, 1.0, 2.0);
+        testLogBeta(-0.693147180559945, 1.0, 2.0);
     }
 }

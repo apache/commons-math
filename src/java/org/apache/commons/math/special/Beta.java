@@ -33,7 +33,7 @@ public class Beta implements Serializable {
     private static final long serialVersionUID = -3833485397404128220L;
 
     /** Maximum allowed numerical error. */
-    private static final double DEFAULT_EPSILON = 10e-9;
+    private static final double DEFAULT_EPSILON = 10e-15;
 
     /**
      * Default constructor.  Prohibit instantiation.
