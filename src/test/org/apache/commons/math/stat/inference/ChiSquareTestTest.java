@@ -193,4 +193,70 @@ public class ChiSquareTestTest extends TestCase {
         assertEquals("chi-square p-value", 0.0462835770603,
                 testStatistic.chiSquareTest(counts), 1E-9);       
     }
+    
+    /** Target values verified using DATAPLOT version 2006.3 */
+    public void testChiSquareDataSetsComparisonEqualCounts()
+    throws Exception {
+        long[] observed1 = {10, 12, 12, 10};
+        long[] observed2 = {5, 15, 14, 10};    
+        assertEquals("chi-square p value", 0.541096, 
+                testStatistic.chiSquareTestDataSetsComparison(
+                observed1, observed2), 1E-6);
+        assertEquals("chi-square test statistic", 2.153846,
+                testStatistic.chiSquareDataSetsComparison(
+                observed1, observed2), 1E-6);
+        assertFalse("chi-square test result", 
+                testStatistic.chiSquareTestDataSetsComparison(
+                observed1, observed2, 0.4));
+    }
+    
+    /** Target values verified using DATAPLOT version 2006.3 */
+    public void testChiSquareDataSetsComparisonUnEqualCounts()
+    throws Exception {
+        long[] observed1 = {10, 12, 12, 10, 15};
+        long[] observed2 = {15, 10, 10, 15, 5};    
+        assertEquals("chi-square p value", 0.124115, 
+                testStatistic.chiSquareTestDataSetsComparison(
+                observed1, observed2), 1E-6);
+        assertEquals("chi-square test statistic", 7.232189,
+                testStatistic.chiSquareDataSetsComparison(
+                observed1, observed2), 1E-6);
+        assertTrue("chi-square test result", 
+                testStatistic.chiSquareTestDataSetsComparison(
+                observed1, observed2, 0.13));
+        assertFalse("chi-square test result", 
+                testStatistic.chiSquareTestDataSetsComparison(
+                observed1, observed2, 0.12));
+    }
+    
+    public void testChiSquareDataSetsComparisonBadCounts()
+    throws Exception {
+        long[] observed1 = {10, -1, 12, 10, 15};
+        long[] observed2 = {15, 10, 10, 15, 5};
+        try {
+            testStatistic.chiSquareTestDataSetsComparison(
+                    observed1, observed2);
+            fail("Expecting IllegalArgumentException - negative count");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+        long[] observed3 = {10, 0, 12, 10, 15};
+        long[] observed4 = {15, 0, 10, 15, 5};
+        try {
+            testStatistic.chiSquareTestDataSetsComparison(
+                    observed3, observed4);
+            fail("Expecting IllegalArgumentException - double 0's");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+        long[] observed5 = {10, 10, 12, 10, 15};
+        long[] observed6 = {0, 0, 0, 0, 0};
+        try {
+            testStatistic.chiSquareTestDataSetsComparison(
+                    observed5, observed6);
+            fail("Expecting IllegalArgumentException - vanishing counts");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+    }
 }

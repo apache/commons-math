@@ -173,6 +173,99 @@ public class ChiSquareTestImpl implements ChiSquareTest {
     }
     
     /**
+     * @param observed1 array of observed frequency counts of the first data set
+     * @param observed2 array of observed frequency counts of the second data set
+     * @return chi-square test statistic
+     * @throws IllegalArgumentException if preconditions are not met
+     */
+    public double chiSquareDataSetsComparison(long[] observed1, long[] observed2)
+        throws IllegalArgumentException {
+        
+        // Make sure lengths are same
+        if ((observed1.length < 2) || (observed1.length != observed2.length)) {
+            throw new IllegalArgumentException(
+                    "oberved1, observed2 array lengths incorrect");
+        }
+        // Ensure non-negative counts
+        if (!isNonNegative(observed1) || !isNonNegative(observed2)) {
+            throw new IllegalArgumentException(
+                "observed counts must be non-negative");
+        }
+        // Compute and compare count sums
+        long countSum1 = 0;
+        long countSum2 = 0;
+        boolean unequalCounts = false;
+        double weight = 0.0;
+        for (int i = 0; i < observed1.length; i++) {
+            countSum1 += observed1[i];
+            countSum2 += observed2[i];   
+        }
+        // Ensure neither sample is uniformly 0
+        if (countSum1 * countSum2 == 0) {
+            throw new IllegalArgumentException(
+             "observed counts cannot all be 0"); 
+        }
+        // Compare and compute weight only if different
+        unequalCounts = (countSum1 != countSum2);
+        if (unequalCounts) {
+            weight = Math.sqrt((double) countSum1 / (double) countSum2);
+        }
+        // Compute ChiSquare statistic
+        double sumSq = 0.0d;
+        double dev = 0.0d;
+        double obs1 = 0.0d;
+        double obs2 = 0.0d;
+        for (int i = 0; i < observed1.length; i++) {
+            if (observed1[i] == 0 && observed2[i] == 0) {
+                throw new IllegalArgumentException(
+                        "observed counts must not both be zero");
+            } else {
+                obs1 = (double) observed1[i];
+                obs2 = (double) observed2[i];
+                if (unequalCounts) { // apply weights
+                    dev = obs1/weight - obs2 * weight;
+                } else {
+                    dev = obs1 - obs2;
+                }
+                sumSq += (dev * dev) / (obs1 + obs2);
+            }
+        }
+        return sumSq;
+    }
+
+    /**
+     * @param observed1 array of observed frequency counts of the first data set
+     * @param observed2 array of observed frequency counts of the second data set
+     * @return p-value
+     * @throws IllegalArgumentException if preconditions are not met
+     * @throws MathException if an error occurs computing the p-value
+     */
+    public double chiSquareTestDataSetsComparison(long[] observed1, long[] observed2)
+        throws IllegalArgumentException, MathException {
+        distribution.setDegreesOfFreedom((double) observed1.length - 1);
+        return 1 - distribution.cumulativeProbability(
+                chiSquareDataSetsComparison(observed1, observed2));
+    }
+
+    /**
+     * @param observed1 array of observed frequency counts of the first data set
+     * @param observed2 array of observed frequency counts of the second data set
+     * @param alpha significance level of the test
+     * @return true iff null hypothesis can be rejected with confidence
+     * 1 - alpha
+     * @throws IllegalArgumentException if preconditions are not met
+     * @throws MathException if an error occurs performing the test
+     */
+    public boolean chiSquareTestDataSetsComparison(long[] observed1, long[] observed2,
+            double alpha) throws IllegalArgumentException, MathException {
+        if ((alpha <= 0) || (alpha > 0.5)) {
+            throw new IllegalArgumentException(
+                    "bad significance level: " + alpha);
+        }
+        return (chiSquareTestDataSetsComparison(observed1, observed2) < alpha);
+    }
+
+    /**
      * Checks to make sure that the input long[][] array is rectangular,
      * has at least 2 rows and 2 columns, and has all non-negative entries,
      * throwing IllegalArgumentException if any of these checks fail.
@@ -281,10 +374,12 @@ public class ChiSquareTestImpl implements ChiSquareTest {
         }
         return true;
     }
-    
+ 
     /**
      * Modify the distribution used to compute inference statistics.
-     * @param value the new distribution
+     * 
+     * @param value
+     *            the new distribution
      * @since 1.2
      */
     public void setDistribution(ChiSquaredDistribution value) {

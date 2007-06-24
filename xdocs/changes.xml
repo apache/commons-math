@@ -84,6 +84,9 @@ Commons Math Release Notes</title>
       <action dev="psteitz" type="update" issue="MATH-158" due-to "Hasan Diwan">
         Added log function to MathUtils.
       </action>
+      <action dev="psteitz" type="update" issue="MATH-160" due-to "Matthias Hummel">
+        Added two sample (binned comparison) ChiSquare test.
+      </action>
     </release>
     <release version="1.1" date="2005-12-17"  
  description="This is a maintenance release containing bug fixes and enhancements.

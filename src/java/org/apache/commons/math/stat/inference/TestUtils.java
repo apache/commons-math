@@ -276,4 +276,31 @@ public class TestUtils  {
         return chiSquareTest. chiSquareTest(counts);
     }
 
+    /**
+     * @see org.apache.commons.math.stat.inference.ChiSquareTest#chiSquareDataSetsComparison(double[], double[])
+     */
+    public static double chiSquareDataSetsComparison(long[] observed1, long[] observed2)
+        throws IllegalArgumentException {
+        return chiSquareTest.chiSquareDataSetsComparison(observed1, observed2);
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.inference.ChiSquareTest#chiSquareTestDataSetsComparison(double[], double[])
+     */
+    public static double chiSquareTestDataSetsComparison(long[] observed1, long[] observed2)
+        throws IllegalArgumentException, MathException {
+        return chiSquareTest.chiSquareTestDataSetsComparison(observed1, observed2);
+    }
+
+
+    /**
+     * @see org.apache.commons.math.stat.inference.ChiSquareTest#chiSquareTestDataSetsComparison(double[], double[], double)
+     */
+    public static boolean chiSquareTestDataSetsComparison(long[] observed1, long[] observed2,
+        double alpha)
+        throws IllegalArgumentException, MathException {
+        return chiSquareTest.chiSquareTestDataSetsComparison(observed1, observed2, alpha);
+    }
+
+
 }
