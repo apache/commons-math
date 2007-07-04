@@ -28,15 +28,26 @@ import org.apache.commons.math.linear.RealMatrixImpl;
  * the uncorrelated components of another random vector in such a way that
  * the resulting correlations are the ones specified by a positive
  * definite covariance matrix.</p>
+ * <p>The main use for correlated random vector generation is for Monte-Carlo
+ * simulation of physical problems with several variables, for example to
+ * generate error vectors to be added to a nominal vector. A particularly
+ * interesting case is when the generated vector should be drawn from a <a
+ * href="http://en.wikipedia.org/wiki/Multivariate_normal_distribution">
+ * Multivariate Normal Distribution</a>. The approach using a Cholesky
+ * decomposition is quite usual in this case. However, it cas be extended
+ * to other cases as long as the underlying random generator provides
+ * {@link NormalizedRandomGenerator normalized values} like {@link
+ * GaussianRandomGenerator} or {@link UniformRandomGenerator}.</p>
  * <p>Sometimes, the covariance matrix for a given simulation is not
  * strictly positive definite. This means that the correlations are
  * not all independant from each other. In this case, however, the non
  * strictly positive elements found during the Cholesky decomposition
  * of the covariance matrix should not be negative either, they
- * should be null. This implies that rather than computing <code>C =
- * U<sup>T</sup>.U</code> where <code>C</code> is the covariance matrix and
- * <code>U</code> is an uppertriangular matrix, we compute <code>C =
- * B.B<sup>T</sup></code> where <code>B</code> is a rectangular matrix having
+ * should be null. Another non-conventional extension handling this case
+ * is used here. Rather than computing <code>C = U<sup>T</sup>.U</code>
+ * where <code>C</code> is the covariance matrix and <code>U</code>
+ * is an uppertriangular matrix, we compute <code>C = B.B<sup>T</sup></code>
+ * where <code>B</code> is a rectangular matrix having
  * more rows than columns. The number of columns of <code>B</code> is
  * the rank of the covariance matrix, and it is the dimension of the
  * uncorrelated random vector that is needed to compute the component

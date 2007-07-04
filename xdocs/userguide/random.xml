@@ -37,7 +37,7 @@
         <li>generating random strings</li>
         <li>generating cryptographically secure sequences of random numbers or
          strings</li>
-        <li>generating random samples and permuations</li>
+        <li>generating random samples and permutations</li>
         <li>analyzing distributions of values in an input file and generating
          values "like" the values in the file</li>
         <li>generating data for grouped frequency distributions or
@@ -51,9 +51,9 @@
      <code>java.util.Random</code> with an alternative PRNG.
     </p>
     <p>
-     Sections 2.2-2.5 below show how to use the commons math API to generate
+     Sections 2.2-2.6 below show how to use the commons math API to generate
      different kinds of random data.  The examples all use the default
-     JDK-supplied PRNG.  PRNG pluggability is covered in 2.6.  The only 
+     JDK-supplied PRNG.  PRNG pluggability is covered in 2.7.  The only 
      modification required to the examples to use alternative PRNGs is to
      replace the argumentless constructor calls with invocations including
      a <code>RandomGenerator</code> instance as a parameter.
@@ -164,7 +164,33 @@ for (int i = 0; i &lt; 1000; i++) {
     </p>
 </subsection>
 
-<subsection name="2.3 Random Strings" href="strings">
+<subsection name="2.3 Random Vectors" href="vectors">
+    <p>
+    Some algorithm requires random vectors instead of random scalars. When the
+    components of these vectors are uncorrelated, they may be generated simply
+    one at a time and packed together in the vector. The <a
+    href="../apidocs/org/apache/commons/math/random/UncorrelatedRandomVectorGenerator.html">
+    org.apache.commons.math.UncorrelatedRandomVectorGenerator</a> class
+    does however simplify this process by setting the mean and deviation of each
+    component once and generating complete vectors. When the components are correlated
+    however, generating them is much more difficult. The <a
+    href="../apidocs/org/apache/commons/math/random/CorrelatedRandomVectorGenerator.html">
+    org.apache.commons.math.CorrelatedRandomVectorGenerator</a> class
+    provides this service. In this case, the user must set a complete covariance matrix
+    instead of a simple standard deviations vector, this matrix gather both the variance
+    and the correlation information of the probability law.
+    </p>
+    <p>
+    The main use for correlated random vector generation is for Monte-Carlo
+    simulation of physical problems with several variables, for example to
+    generate error vectors to be added to a nominal vector. A particularly
+    interesting case is when the generated vector should be drawn from a <a
+    href="http://en.wikipedia.org/wiki/Multivariate_normal_distribution">
+    Multivariate Normal Distribution</a>.
+    </p>
+ </subsection>
+
+<subsection name="2.4 Random Strings" href="strings">
     <p>
     The methods <code>nextHexString</code> and <code>nextSecureHexString</code>
     can be used to generate random strings of hexadecimal characters.  Both
@@ -194,7 +220,7 @@ for (int i = 0; i &lt; 1000; i++) {
     </p>
 </subsection>
 
-<subsection name="2.4 Random permutations, combinations, sampling"
+<subsection name="2.5 Random permutations, combinations, sampling"
  href="combinatorics">
     <p>
     To select a random sample of objects in a collection, you can use the
@@ -221,7 +247,7 @@ for (int i = 0; i &lt; 1000; i++) {
     </p>
 </subsection>
 
-<subsection name="2.5 Generating data 'like' an input file" href="empirical">
+<subsection name="2.6 Generating data 'like' an input file" href="empirical">
     <p>
     Using the <code>ValueServer</code> class, you can generate data based on
     the values in an input file in one of two ways:
@@ -274,7 +300,7 @@ for (int i = 0; i &lt; 1000; i++) {
   </p>
 </subsection>
 
-<subsection name="2.6 PRNG Pluggability" href="pluggability">
+<subsection name="2.7 PRNG Pluggability" href="pluggability">
   <p>
       To enable alternative PRNGs to be "plugged in" to the commons-math data
       generation utilities and to provide a generic means to replace 
