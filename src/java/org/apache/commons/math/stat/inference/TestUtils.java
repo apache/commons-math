@@ -277,7 +277,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math.stat.inference.ChiSquareTest#chiSquareDataSetsComparison(double[], double[])
+     * @see org.apache.commons.math.stat.inference.ChiSquareTest#chiSquareDataSetsComparison(long[], long[])
      */
     public static double chiSquareDataSetsComparison(long[] observed1, long[] observed2)
         throws IllegalArgumentException {
@@ -285,7 +285,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math.stat.inference.ChiSquareTest#chiSquareTestDataSetsComparison(double[], double[])
+     * @see org.apache.commons.math.stat.inference.ChiSquareTest#chiSquareTestDataSetsComparison(long[], long[])
      */
     public static double chiSquareTestDataSetsComparison(long[] observed1, long[] observed2)
         throws IllegalArgumentException, MathException {
@@ -294,7 +294,7 @@ public class TestUtils  {
 
 
     /**
-     * @see org.apache.commons.math.stat.inference.ChiSquareTest#chiSquareTestDataSetsComparison(double[], double[], double)
+     * @see org.apache.commons.math.stat.inference.ChiSquareTest#chiSquareTestDataSetsComparison(long[], long[], double)
      */
     public static boolean chiSquareTestDataSetsComparison(long[] observed1, long[] observed2,
         double alpha)

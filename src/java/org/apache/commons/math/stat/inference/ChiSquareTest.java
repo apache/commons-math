@@ -259,7 +259,7 @@ public interface ChiSquareTest {
      * can reject the null hypothesis that the observed counts conform to the
      * same distribution.
      * </p>
-     * <p>See {@link #chiSquareDataSetsComparison(long[], long[]) for details
+     * <p>See {@link #chiSquareDataSetsComparison(long[], long[])} for details
      * on the formula used to compute the test statistic. The degrees of
      * of freedom used to perform the test is one less than the common length
      * of the input observed count arrays.
@@ -294,8 +294,8 @@ public interface ChiSquareTest {
      * significance level <code>alpha</code>.  Returns true iff the null
      * hypothesis can be rejected with 100 * (1 - alpha) percent confidence.
      * </p>
-     * <p>See {@link #chiSquareDataSetsComparison(double[], double[])} for 
-     * details on the forumla used to compute the Chisquare statistic used
+     * <p>See {@link #chiSquareDataSetsComparison(long[], long[])} for 
+     * details on the formula used to compute the Chisquare statistic used
      * in the test. The degrees of of freedom used to perform the test is
      * one less than the common length of the input observed count arrays.
      * </p>
