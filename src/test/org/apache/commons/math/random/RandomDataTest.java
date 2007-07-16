@@ -367,6 +367,14 @@ public class RandomDataTest extends RetryTestCase {
             testStatistic.chiSquare(expected,observed) < 10.83);  
     }
     
+    /** test exclusive endpoints of nextUniform **/
+    public void testNextUniformExclusiveEndpoints() {
+        for (int i = 0; i < 1000; i++) {
+            double u = randomData.nextUniform(0.99, 1);
+            assertTrue(u > 0.99 && u < 1);
+        }
+    }
+    
     /** test failure modes and distribution of nextGaussian() */  
     public void testNextGaussian() { 
         try {
