@@ -380,7 +380,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     public double nextUniform(double lower, double upper) {
         if (lower >= upper) {
             throw new IllegalArgumentException
-            ("lower bound must be <= upper bound");
+            ("lower bound must be < upper bound");
         }
         RandomGenerator rand = getRan();
 
