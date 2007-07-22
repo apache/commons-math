@@ -87,6 +87,11 @@ Commons Math Release Notes</title>
       <action dev="psteitz" type="update" issue="MATH-160" due-to "Matthias Hummel">
         Added two sample (binned comparison) ChiSquare test.
       </action>
+      <action dev="psteitz" type="fix" issue="MATH-167">
+        Modified NormalDistributionImpl.cumulativeProbablity to catch
+        MaxIterationsExceededException and return 0 or 1, resp. if the argument
+        is more than 20 standard deviations from the mean.
+      </action>
     </release>
     <release version="1.1" date="2005-12-17"  
  description="This is a maintenance release containing bug fixes and enhancements.

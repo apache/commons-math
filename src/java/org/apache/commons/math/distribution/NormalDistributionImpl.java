@@ -20,6 +20,7 @@ package org.apache.commons.math.distribution;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.special.Erf;
 
 /**
@@ -100,11 +101,23 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      * For this disbution, X, this method returns P(X &lt; <code>x</code>).
      * @param x the value at which the CDF is evaluated.
      * @return CDF evaluted at <code>x</code>. 
-     * @throws MathException if the algorithm fails to converge.
+     * @throws MathException if the algorithm fails to converge; unless
+     * x is more than 20 standard deviations from the mean, in which case the
+     * convergence exception is caught and 0 or 1 is returned.
      */
     public double cumulativeProbability(double x) throws MathException {
-        return 0.5 * (1.0 + Erf.erf((x - mean) /
-                (standardDeviation * Math.sqrt(2.0))));
+        try {
+            return 0.5 * (1.0 + Erf.erf((x - mean) /
+                    (standardDeviation * Math.sqrt(2.0))));
+        } catch (MaxIterationsExceededException ex) {
+            if (x < (mean - 20 * standardDeviation)) { // JDK 1.5 blows at 38
+                return 0.0d;
+            } else if (x > (mean + 20 * standardDeviation)) {
+                return 1.0d;
+            } else {
+                throw ex;
+            }
+        }
     }
     
     /**
