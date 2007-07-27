@@ -33,7 +33,7 @@
   <inceptionYear>2003</inceptionYear>
   <description>The Math project is a library of lightweight, self-contained mathematics and statistics components addressing the most common practical problems not immediately available in the Java programming language or commons-lang.</description>
 
-  <url>http://jakarta.apache.org/commons/math/</url>
+  <url>http://commons.apache.org/math/</url>
 
   <issueManagement>
     <system>jira</system>
@@ -41,16 +41,16 @@
   </issueManagement>
 
   <scm>
-    <connection>scm:svn:https://svn.apache.org/repos/asf/jakarta/commons/proper/math/trunk</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/jakarta/commons/proper/math/trunk</developerConnection>
-    <url>http://svn.apache.org/viewvc/jakarta/commons/proper/math/trunk</url>
+    <connection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/math/trunk</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/math/trunk</developerConnection>
+    <url>http://svn.apache.org/viewvc/commons/proper/math/trunk</url>
   </scm>
   
   <distributionManagement>
     <site>
       <id>people.apache.org</id>
       <name>Commons Math</name>
-      <url>scp://people.apache.org/www/jakarta.apache.org/commons/math</url>
+      <url>scp://people.apache.org/www/commons.apache.org/math</url>
     </site>
   </distributionManagement>
 
