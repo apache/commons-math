@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <rdf:RDF xmlns="http://usefulinc.com/ns/doap#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:asfext="http://projects.apache.org/ns/asfext#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:doap="http://usefulinc.com/ns/doap#" xml:lang="en">
-  <Project rdf:about="http://jakarta.apache.org/commons/math/">
-    <name>Apache Jakarta Commons Math</name>
-    <homepage rdf:resource="http://jakarta.apache.org/commons/math/"/>
+  <Project rdf:about="http://commons.apache.org/math/">
+    <name>Apache Apache Commons Math</name>
+    <homepage rdf:resource="http://commons.apache.org/math/"/>
     <programming-language>Java</programming-language>
     <category rdf:resource="http://projects.apache.org/category/library"/>
     <license rdf:resource="http://usefulinc.com/doap/licenses/asl20"/>
     <bug-database rdf:resource="http://issues.apache.org/jira/browse/MATH"/>
     <download-page rdf:resource="http://jakarta.apache.org/site/downloads/downloads_commons-math.cgi"/>
-    <asfext:pmc rdf:resource="http://jakarta.apache.org/"/>
-    <shortdesc xml:lang="en">Jakarta Commons Math</shortdesc>
+    <asfext:pmc rdf:resource="http://commons.apache.org/"/>
+    <shortdesc xml:lang="en">Apache Commons Math</shortdesc>
     <description xml:lang="en">The Math project is a library of lightweight, self-contained mathematics and statistics components addressing the most common practical problems not immediately available in the Java programming language or commons-lang.</description>
     <repository>
       <SVNRepository>
@@ -24,6 +24,6 @@
         <version>1.1</version>
       </revision>
     </release>
-    <mailing-list rdf:resource="http://jakarta.apache.org/site/mail2.html#Commons"/>
+    <mailing-list rdf:resource="http://commons.apache.org/mail-lists.html"/>
   </Project>
 </rdf:RDF>
