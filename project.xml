@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <!--
    Licensed to the Apache Software Foundation (ASF) under one or more
@@ -25,15 +25,15 @@
   <artifactId>commons-math</artifactId>
   <currentVersion>1.2-SNAPSHOT</currentVersion>
   <inceptionYear>2003</inceptionYear>
-  <shortDescription>Jakarta Commons Math</shortDescription>
+  <shortDescription>Commons Math</shortDescription>
   <description>The Math project is a library of lightweight, self-contained mathematics and statistics components addressing the most common practical problems not immediately available in the Java programming language or commons-lang.</description>
   <logo>/images/math.gif</logo>
-  <url>http://jakarta.apache.org/commons/${pom.artifactId.substring(8)}/</url>
+  <url>http://commons.apache.org/${pom.artifactId.substring(8)}/</url>
   <package>org.apache.commons.${pom.artifactId.substring(8)}</package>
   <organization>
     <name>The Apache Software Foundation</name>
-    <url>http://jakarta.apache.org</url>
-    <logo>http://jakarta.apache.org/images/original-jakarta-logo.gif</logo>
+    <url>http://commons.apache.org/</url>
+    <logo>http://commons.apache.org/images/logo.png</logo>
   </organization>
   <licenses>
     <license>
@@ -42,27 +42,27 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-  <gumpRepositoryId>jakarta</gumpRepositoryId>
+  <gumpRepositoryId>commons</gumpRepositoryId>
   <issueTrackingUrl>http://issues.apache.org/jira/</issueTrackingUrl>
   <siteAddress>people.apache.org</siteAddress>
-  <siteDirectory>/www/jakarta.apache.org/commons/${pom.artifactId.substring(8)}/</siteDirectory>
-  <distributionDirectory>/www/jakarta.apache.org/builds/jakarta-commons/${pom.artifactId.substring(8)}/</distributionDirectory>
+  <siteDirectory>/www/commons.apache.org/${pom.artifactId.substring(8)}/</siteDirectory>
+  <distributionDirectory>/www/people.apache.org/builds/commons/${pom.artifactId.substring(8)}/</distributionDirectory>
   <repository>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/jakarta/commons/proper/${pom.artifactId.substring(8)}/trunk</connection>
-    <url>http://svn.apache.org/viewvc/jakarta/commons/proper/math/trunk/</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/${pom.artifactId.substring(8)}/trunk</connection>
+    <url>http://svn.apache.org/viewvc/commons/proper/math/trunk/</url>
   </repository>
   <mailingLists>
     <mailingList>
       <name>Commons Dev List</name>
-      <subscribe>commons-dev-subscribe@jakarta.apache.org</subscribe>
-      <unsubscribe>commons-dev-unsubscribe@jakarta.apache.org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/jakarta-commons-dev/</archive>
+      <subscribe>dev-subscribe@commons.apache.org</subscribe>
+      <unsubscribe>dev-unsubscribe@commons.apache.org</unsubscribe>
+      <archive>http://mail-archives.apache.org/mod_mbox/commons-dev/</archive>
     </mailingList>
     <mailingList>
       <name>Commons User List</name>
-      <subscribe>commons-user-subscribe@jakarta.apache.org</subscribe>
-      <unsubscribe>commons-user-unsubscribe@jakarta.apache.org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/jakarta-commons-user/</archive>
+      <subscribe>user-subscribe@commons.apache.org</subscribe>
+      <unsubscribe>user-unsubscribe@commons.apache.org</unsubscribe>
+      <archive>http://mail-archives.apache.org/mod_mbox/commons-user/</archive>
     </mailingList>
   </mailingLists>
   <versions>
@@ -195,7 +195,7 @@
       <name>Kim van der Linde</name>
     </contributor>
     <contributor>
-      <name>Jörg Weimar</name>
+      <name>J�rg Weimar</name>
     </contributor>
     <contributor>
       <name>Xiaogang Zhang</name>
@@ -206,7 +206,7 @@
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
        <version>1.0.4</version>
-       <url>http://jakarta.apache.org/commons/logging</url>
+       <url>http://commons.apache.org/logging</url>
        <properties>
        <comment>
         Only required when commons-discovery is used for class factory
@@ -219,7 +219,7 @@
       <groupId>commons-discovery</groupId>
       <artifactId>commons-discovery</artifactId>
       <version>0.2</version>
-      <url>http://jakarta.apache.org/commons/discovery</url>
+      <url>http://commons.apache.org/discovery</url>
       <properties>
        <comment>
         Only required when commons-discovery is used for class
@@ -256,7 +256,7 @@
     </dependency>
    </dependencies>
   <build>
-    <nagEmailAddress>commons-dev@jakarta.apache.org</nagEmailAddress>
+    <nagEmailAddress>dev@commons.apache.org</nagEmailAddress>
     <sourceDirectory>src/java</sourceDirectory>
     <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
     <unitTest>
