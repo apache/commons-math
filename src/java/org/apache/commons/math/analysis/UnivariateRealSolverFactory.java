@@ -37,7 +37,7 @@ import org.apache.commons.discovery.tools.DiscoverClass;
  * BrentSolver solver = factory.newBrentSolver(f);
  * </pre>
  *
- * <a href="http://jakarta.apache.org/commons/discovery/">Jakarta Commons Discovery</a>
+ * <a href="http://commons.apache.org/discovery/">Apache Commons Discovery</a>
  * is used to determine the concrete factory returned by 
  * <code>UnivariateRealSolverFactory.newInstance().</code>  The default is
  * {@link UnivariateRealSolverFactoryImpl}.

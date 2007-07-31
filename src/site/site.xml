@@ -28,12 +28,12 @@
       <item name="Proposal" href="/proposal.html"/>
       <item name="Developers Guide" href="/developers.html"/>
       <item name="Javadoc (1.0 release)"
-         href="http://jakarta.apache.org/commons/math/api-1.0/index.html"/>
+         href="http://commons.apache.org/math/api-1.0/index.html"/>
       <item name="Javadoc (1.1 release)"   
-         href="http://jakarta.apache.org/commons/math/api-1.1/index.html"/>
+         href="http://commons.apache.org/math/api-1.1/index.html"/>
       <item name="Javadoc (1.2-SNAPSHOT)" href="apidocs/index.html"/>
       <item name="Source Repository (current)" 
-         href="http://svn.apache.org/viewcvs.cgi/jakarta/commons/proper/math/trunk"/>
+         href="http://svn.apache.org/viewvc/commons/proper/math/trunk"/>
       <item name="Issue Tracking" href="/issue-tracking.html"/>
       <item name="Wiki"  
             href="http://wiki.apache.org/jakarta-commons/Math"/>

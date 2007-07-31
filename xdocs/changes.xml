@@ -237,7 +237,7 @@ Commons Math Release Notes</title>
       </action>
     </release>  
     <release version="1.0" date="2004-12-06"  
-       description="Jakarta Commons Math 1.0 - General Availability Release">
+       description="Apache Commons Math 1.0 - General Availability Release">
       <action dev="psteitz" type="fix" due-to="Hans van der Heijden"
        issue="MATH-24">
         Fixed error in ChiSquareTestImpl.  Tables containing zeros were
@@ -250,7 +250,7 @@ Commons Math Release Notes</title>
       </action>
     </release>  
     <release version="1.0-RC2" date="2004-11-07"
-       description="Jakarta Commons Math 1.0 - Release Candidate 2">
+       description="Apache Commons Math 1.0 - Release Candidate 2">
       <action dev="psteitz" type="fix">
         Fixed cumulative frequency and cumulative percentage problem reported
         to the commons-dev list by Jon Langlois on 9/14. Integer arguments to 
@@ -317,7 +317,7 @@ Commons Math Release Notes</title>
     </release>
     
     <release version="1.0-RC1" date="2004-09-07" 
-      description="Jakarta Commons Math 1.0 - Release Candidate 1
+      description="Apache Commons Math 1.0 - Release Candidate 1
       This is the first release of Commons Math. Commons Math is a library
       of lightweight, self-contained mathematics and statistics components. 
       The release candidate is being made available so that users can test

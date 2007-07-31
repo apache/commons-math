@@ -57,11 +57,11 @@
         svn page </a>) to check out the commons math code base from Subversion.
         The svn url for the current development sources of commons-math
         is 
-<source>https://svn.apache.org/repos/asf/jakarta/commons/proper/math/trunk</source>
+<source>https://svn.apache.org/repos/asf/commons/proper/math/trunk</source>
         </li>
         <li>Like most commons components, commons-math uses maven as our build
             tool.  Follow the 
-            <a href="http://jakarta.apache.org/commons/building.html">building
+            <a href="http://commons.apache.org/building.html">building
             components</a> instructions to get set up with maven so that you
             can build commons-math from source.
         </li>

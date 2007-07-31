@@ -54,7 +54,7 @@ import org.apache.commons.discovery.tools.DiscoverClass;
  *                                         scalRelativeTolerance);
  * </pre>
  *
- * <a href="http://jakarta.apache.org/commons/discovery/">Jakarta Commons Discovery</a>
+ * <a href="http://commons.apache.org/discovery/">Apache Commons Discovery</a>
  * is used to determine the concrete factory returned by 
  * <code>FirstOrderIntegratorFactory.newInstance().</code>  The default is
  * {@link FirstOrderIntegratorFactoryImpl}
