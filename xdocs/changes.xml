@@ -81,10 +81,10 @@ Commons Math Release Notes</title>
       <action dev="psteitz" type="fix" issue="MATH-166" due-to="Lukas Theussl">
         Increased default precision of Gamma and Beta functions.
       </action>
-      <action dev="psteitz" type="update" issue="MATH-158" due-to "Hasan Diwan">
+      <action dev="psteitz" type="update" issue="MATH-158" due-to="Hasan Diwan">
         Added log function to MathUtils.
       </action>
-      <action dev="psteitz" type="update" issue="MATH-160" due-to "Matthias Hummel">
+      <action dev="psteitz" type="update" issue="MATH-160" due-to="Matthias Hummel">
         Added two sample (binned comparison) ChiSquare test.
       </action>
       <action dev="psteitz" type="fix" issue="MATH-167">
