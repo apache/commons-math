@@ -21,14 +21,12 @@
 <project name="Math">
 
   <title>Math</title>
-  <organizationLogo href="/images/jakarta-logo-blue.gif">
-   Jakarta
+  <organizationLogo href="http://commons.apache.org/images/logo.png">
+   Commons
   </organizationLogo>
 
   <body>
     <links>
-      <item name="Jakarta"                   
-            href="http://jakarta.apache.org"/>
       <item name="Apache Commons"                   
             href="http://commons.apache.org/"/>
     </links>

@@ -22,12 +22,12 @@
 <document>
 
  <properties>
-  <title>Commons-Math: The Jakarta Mathematics Library</title>
+  <title>Commons-Math: The Mathematics Library</title>
  </properties>
 
  <body>
 
-  <section name="Commons-Math: The Jakarta Mathematics Library" href="summary">
+  <section name="Commons-Math: The Mathematics Library" href="summary">
    <p>
     Commons Math is a library of lightweight, self-contained
     mathematics and statistics components addressing the most common
@@ -66,13 +66,13 @@
    <subsection name="Releases">
     <p>
       Download the 
-      <a href="http://jakarta.apache.org/site/downloads/downloads_commons-math.cgi">
+      <a href="http://commons.apache.org/downloads/download_math.cgi">
       Latest Release</a> of Commons Math.
     </p>
    </subsection>
    <subsection name="Nightly Builds">
     <p>
-     <a href="http://people.apache.org/builds/jakarta-commons/nightly/commons-math/">
+     <a href="http://people.apache.org/builds/commons/nightly/commons-math/">
      Nightly builds</a> are built once a day from the current SVN HEAD.
      This is (nearly) the lastest code and so should be treated with
      caution!
