@@ -41,7 +41,7 @@
       <item name="Source Repository (current)"  
        href="http://svn.apache.org/viewvc/commons/proper/math/trunk"/>
       <item name="Wiki"  
-            href="http://wiki.apache.org/jakarta-commons/Math"/>
+            href="http://wiki.apache.org/commons/Math"/>
     </menu>
     <menu name="User Guide">
       <item name="Contents"                href="/userguide/index.html"/>

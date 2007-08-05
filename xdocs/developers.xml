@@ -53,7 +53,7 @@
         under the heading "Anonymous Subversion" on the
         <a href="http://www.apache.org/dev/version-control.html">Apache version
          control page</a>  (Also have a look at the 
-        <a href="http://wiki.apache.org/jakarta-commons/UsingSVN">Jakarta wiki
+        <a href="http://wiki.apache.org/commons/UsingSVN">Commons wiki
         svn page </a>) to check out the commons math code base from Subversion.
         The svn url for the current development sources of commons-math
         is 
@@ -66,7 +66,7 @@
             can build commons-math from source.
         </li>
         <li>Have a look at the new features that users and developers have requested
-            on the <a href="http://wiki.apache.org/jakarta-commons/MathWishList">
+            on the <a href="http://wiki.apache.org/commons/MathWishList">
             Math Wish List Wiki Page.</a>
         </li>
         <li>Be sure to join the commons-dev and commons-user 
@@ -135,7 +135,7 @@
        </ul></li>
        <li>Assuming a generally favorable response to the idea on commons-dev,
        the next step is to add an entry to the 
-       <a href="http://wiki.apache.org/jakarta-commons/MathWishList">Math Wish
+       <a href="http://wiki.apache.org/commons/MathWishList">Math Wish
        List</a> corresponding to the idea.  Include a reference to the
        discussion thread and, for substantial enhancements, a new Wiki page
        named using the enhancement / addition name, e.g. 
