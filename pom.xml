@@ -233,7 +233,6 @@
             <execution>
               <goals>
                 <goal>clean</goal>
-                <goal>check</goal>
               </goals>
             </execution>
           </executions>
