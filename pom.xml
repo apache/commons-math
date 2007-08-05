@@ -41,7 +41,7 @@
   </issueManagement>
 
   <scm>
-    <connection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/math/trunk</connection>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/math/trunk</connection>
     <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/math/trunk</developerConnection>
     <url>http://svn.apache.org/viewvc/commons/proper/math/trunk</url>
   </scm>
