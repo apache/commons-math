@@ -31,6 +31,7 @@ public class TTestFactoryTest extends TTestTest {
     }
     
     public void setUp() {
+    	super.setUp();
         testStatistic = TestUtils.getTTest();
     }
 

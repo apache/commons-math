@@ -56,9 +56,9 @@ public class GammaDistributionTest extends ContinuousDistributionAbstractTest {
     }
     
     // --------------------- Override tolerance  --------------
-    protected void setup() throws Exception {
+    protected void setUp() throws Exception {
         super.setUp();
-        setTolerance(1E-6);
+        setTolerance(6e-6);
     }
 
     //---------------------------- Additional test cases -------------------------

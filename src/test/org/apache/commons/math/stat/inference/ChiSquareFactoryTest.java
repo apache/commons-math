@@ -31,6 +31,7 @@ public class ChiSquareFactoryTest extends ChiSquareTestTest {
     }
     
     public void setUp() {
+    	super.setUp();
         testStatistic = TestUtils.getChiSquareTest();
     }
 

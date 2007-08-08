@@ -68,9 +68,9 @@ public class ChiSquareDistributionTest extends ContinuousDistributionAbstractTes
     }
     
  // --------------------- Override tolerance  --------------
-    protected void setup() throws Exception {
+    protected void setUp() throws Exception {
         super.setUp();
-        setTolerance(1E-6);
+        setTolerance(5e-6);
     }
 
  //---------------------------- Additional test cases -------------------------
