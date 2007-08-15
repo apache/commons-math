@@ -18,7 +18,7 @@
 INTRODUCTION
 
 The purpose of the R programs included in this directory is to validate 
-the target values used in jakarta commons math unit tests. Success running the 
+the target values used in Apache commons math unit tests. Success running the 
 R and commons-math tests on a platform (OS and R version) means that R and 
 commons-math give results for the test cases that are close in value.  The 
 tests include configurable tolerance levels; but care must be taken in changing 

@@ -7,7 +7,7 @@
     <category rdf:resource="http://projects.apache.org/category/library"/>
     <license rdf:resource="http://usefulinc.com/doap/licenses/asl20"/>
     <bug-database rdf:resource="http://issues.apache.org/jira/browse/MATH"/>
-    <download-page rdf:resource="http://jakarta.apache.org/site/downloads/downloads_commons-math.cgi"/>
+    <download-page rdf:resource="http://commons.apache.org/downloads/download_math.cgi"/>
     <asfext:pmc rdf:resource="http://commons.apache.org/"/>
     <shortdesc xml:lang="en">Apache Commons Math</shortdesc>
     <description xml:lang="en">The Math project is a library of lightweight, self-contained mathematics and statistics components addressing the most common practical problems not immediately available in the Java programming language or commons-lang.</description>
