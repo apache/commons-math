@@ -45,8 +45,6 @@ public final class ListUnivariateImplTest extends TestCase {
     private double n = 4;
     private double min = 1;
     private double max = 3;
-    private double skewness = 0;
-    private double kurtosis = 0.5;
     private double tolerance = 10E-15;
     
     public ListUnivariateImplTest(String name) {

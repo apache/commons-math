@@ -170,38 +170,38 @@ public final class BigMatrixImplTest extends TestCase {
         assertClose("double, BigDecimal", m1, m3, Double.MIN_VALUE);
         assertClose("string, BigDecimal", m2, m3, Double.MIN_VALUE);
         try {
-            BigMatrix m4 = new BigMatrixImpl(new String[][] {{"0", "hello", "1"}});
+            new BigMatrixImpl(new String[][] {{"0", "hello", "1"}});
             fail("Expecting NumberFormatException");
         } catch (NumberFormatException ex) {
             // expected
         }
         try {
-            BigMatrix m4 = new BigMatrixImpl(new String[][] {});
+            new BigMatrixImpl(new String[][] {});
             fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         try {
-            BigMatrix m4 = new BigMatrixImpl(new String[][] {{},{}});
+            new BigMatrixImpl(new String[][] {{},{}});
             fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         try {
-            BigMatrix m4 = new BigMatrixImpl(new String[][] {{"a", "b"},{"c"}});
+            new BigMatrixImpl(new String[][] {{"a", "b"},{"c"}});
             fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
         }
 
         try {
-            BigMatrix m4 = new BigMatrixImpl(0, 1);
+            new BigMatrixImpl(0, 1);
             fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         try {
-            BigMatrix m4 = new BigMatrixImpl(1, 0);
+            new BigMatrixImpl(1, 0);
             fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
@@ -228,7 +228,7 @@ public final class BigMatrixImplTest extends TestCase {
         BigMatrixImpl m = new BigMatrixImpl(testData);
         BigMatrixImpl m2 = new BigMatrixImpl(testData2);
         try {
-            BigMatrixImpl mPlusMInv = (BigMatrixImpl)m.add(m2);
+            m.add(m2);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             ;
@@ -250,7 +250,7 @@ public final class BigMatrixImplTest extends TestCase {
         assertClose("m-n = m + -n",m.subtract(m2),
             m2.scalarMultiply(new BigDecimal(-1d)).add(m),entryTolerance);
         try {
-            BigMatrix a = m.subtract(new BigMatrixImpl(testData2));
+            m.subtract(new BigMatrixImpl(testData2));
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
             ;
@@ -274,7 +274,7 @@ public final class BigMatrixImplTest extends TestCase {
         assertClose("identity multiply",m2.multiply(identity),
             m2,entryTolerance); 
         try {
-            BigMatrix a = m.multiply(new BigMatrixImpl(bigSingular));
+            m.multiply(new BigMatrixImpl(bigSingular));
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
             ;
@@ -342,26 +342,26 @@ public final class BigMatrixImplTest extends TestCase {
                     asDouble(m.solve(asBigDecimal(testVector))),
                     normTolerance);
         try {
-            double[] x = asDouble(m.solve(asBigDecimal(testVector2)));
+            asDouble(m.solve(asBigDecimal(testVector2)));
             fail("expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             ;
         }       
         BigMatrix bs = new BigMatrixImpl(bigSingular);
         try {
-            BigMatrix a = bs.solve(bs);
+            bs.solve(bs);
             fail("Expecting InvalidMatrixException");
         } catch (InvalidMatrixException ex) {
             ;
         }
         try {
-            BigMatrix a = m.solve(bs);
+            m.solve(bs);
             fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             ;
         }
         try {
-            BigMatrix a = (new BigMatrixImpl(testData2)).solve(bs);
+            new BigMatrixImpl(testData2).solve(bs);
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
             ;
@@ -388,7 +388,7 @@ public final class BigMatrixImplTest extends TestCase {
         assertEquals("nonsingular  R test 2",-1d,m.getDeterminant().doubleValue(),normTolerance);
 
         try {
-            double a = new BigMatrixImpl(testData2).getDeterminant().doubleValue();
+            new BigMatrixImpl(testData2).getDeterminant().doubleValue();
             fail("Expecting InvalidMatrixException");
         } catch (InvalidMatrixException ex) {
             ;
@@ -401,7 +401,7 @@ public final class BigMatrixImplTest extends TestCase {
         assertEquals("identity trace",3d,m.getTrace().doubleValue(),entryTolerance);
         m = new BigMatrixImpl(testData2);
         try {
-            double x = m.getTrace().doubleValue();
+            m.getTrace().doubleValue();
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
             ;
@@ -422,7 +422,7 @@ public final class BigMatrixImplTest extends TestCase {
         assertClose("identity operate",testVector,x,entryTolerance);
         m = new BigMatrixImpl(bigSingular);
         try {
-            x = asDouble(m.operate(asBigDecimal(testVector)));
+            asDouble(m.operate(asBigDecimal(testVector)));
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
             ;
@@ -461,7 +461,7 @@ public final class BigMatrixImplTest extends TestCase {
         BigMatrixImpl m = new BigMatrixImpl(testData);
         BigMatrixImpl mInv = new BigMatrixImpl(testDataInv);
         BigMatrixImpl identity = new BigMatrixImpl(id);
-        BigMatrixImpl m2 = new BigMatrixImpl(testData2);
+        new BigMatrixImpl(testData2);
         assertClose("inverse multiply",m.preMultiply(mInv),
                 identity,entryTolerance);
         assertClose("inverse multiply",mInv.preMultiply(m),
@@ -471,7 +471,7 @@ public final class BigMatrixImplTest extends TestCase {
         assertClose("identity multiply",identity.preMultiply(mInv),
                 mInv,entryTolerance);
         try {
-            BigMatrix a = m.preMultiply(new BigMatrixImpl(bigSingular));
+            m.preMultiply(new BigMatrixImpl(bigSingular));
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
             ;
@@ -483,13 +483,13 @@ public final class BigMatrixImplTest extends TestCase {
         assertClose("get row",m.getRowAsDoubleArray(0),testDataRow1,entryTolerance);
         assertClose("get col",m.getColumnAsDoubleArray(2),testDataCol3,entryTolerance);
         try {
-            double[] x = m.getRowAsDoubleArray(10);
+            m.getRowAsDoubleArray(10);
             fail("expecting MatrixIndexException");
         } catch (MatrixIndexException ex) {
             ;
         }
         try {
-            double[] x = m.getColumnAsDoubleArray(-1);
+            m.getColumnAsDoubleArray(-1);
             fail("expecting MatrixIndexException");
         } catch (MatrixIndexException ex) {
             ;

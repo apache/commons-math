@@ -40,11 +40,14 @@ Commons Math Release Notes</title>
   </properties>
   <body>
     <release version="1.2-SNAPSHOT" date="TBD">
+      <action dev="luc" type="fix">
+        Fixed numerous warnings in test code.
+      </action>
       <action dev="luc" type="fix" issue="MATH-156" due-to="Tyler Ward">
         Use the initial guess provided by the user in BrentSolver.solve(), thus
         improving speed.
       </action>
-      <action dev="luc" type="update">
+      <action dev="luc" type="add">
         Added the estimation optimization, geometry and ode package from the
         Mantissa library.
       </action>

@@ -43,7 +43,6 @@ public class RandomDataTest extends RetryTestCase {
     protected long smallSampleSize = 1000;
     protected double[] expected = {250,250,250,250};
     protected int largeSampleSize = 10000;
-    private int tolerance = 50;
     private String[] hex = 
         {"0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"}; 
     protected RandomDataImpl randomData = null; 
@@ -73,7 +72,7 @@ public class RandomDataTest extends RetryTestCase {
     /** test dispersion and failure modes for nextInt() */
     public void testNextInt() {
         try {
-            int x = randomData.nextInt(4,3);
+            randomData.nextInt(4,3);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             ;
@@ -100,7 +99,7 @@ public class RandomDataTest extends RetryTestCase {
     /** test dispersion and failure modes for nextLong() */
     public void testNextLong() {
        try {
-            long x = randomData.nextLong(4,3);
+            randomData.nextLong(4,3);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             ;
@@ -127,7 +126,7 @@ public class RandomDataTest extends RetryTestCase {
     /** test dispersion and failure modes for nextSecureLong() */
     public void testNextSecureLong() {
         try {
-            long x = randomData.nextSecureLong(4,3);
+            randomData.nextSecureLong(4,3);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             ;
@@ -154,7 +153,7 @@ public class RandomDataTest extends RetryTestCase {
     /** test dispersion and failure modes for nextSecureInt() */
     public void testNextSecureInt() {
         try {
-            long x = randomData.nextSecureInt(4,3);
+            randomData.nextSecureInt(4,3);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             ;
@@ -186,13 +185,12 @@ public class RandomDataTest extends RetryTestCase {
      */
     public void testNextPoisson() {
         try {
-            long x = randomData.nextPoisson(0);
+            randomData.nextPoisson(0);
             fail("zero mean -- expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             ;
         }
         Frequency f = new Frequency();
-        long v = 0;
         for (int i = 0; i<largeSampleSize; i++) {
             try {
                 f.addValue(randomData.nextPoisson(4.0d));
@@ -207,13 +205,13 @@ public class RandomDataTest extends RetryTestCase {
             new Double(cumFreq).doubleValue()/new Double(sumFreq).doubleValue();
         assertEquals("cum Poisson(4)",cumPct,0.7851,0.2);
         try {
-            long x = randomData.nextPoisson(-1);
+            randomData.nextPoisson(-1);
             fail("negative mean supplied -- IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             ;
         }
         try {
-            long x = randomData.nextPoisson(0);
+            randomData.nextPoisson(0);
             fail("0 mean supplied -- IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             ;
@@ -224,13 +222,13 @@ public class RandomDataTest extends RetryTestCase {
     /** test dispersion and failute modes for nextHex() */
     public void testNextHex() {
         try {
-            String x = randomData.nextHexString(-1);
+            randomData.nextHexString(-1);
             fail("negative length supplied -- IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             ;
         }
         try {
-            String x = randomData.nextHexString(0);
+            randomData.nextHexString(0);
             fail("zero length supplied -- IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             ;
@@ -278,13 +276,13 @@ public class RandomDataTest extends RetryTestCase {
     /** test dispersion and failute modes for nextHex() */
     public void testNextSecureHex() {
         try {
-            String x = randomData.nextSecureHexString(-1);
+            randomData.nextSecureHexString(-1);
             fail("negative length -- IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             ;
         }
         try {
-            String x = randomData.nextSecureHexString(0);
+            randomData.nextSecureHexString(0);
             fail("zero length -- IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             ;
@@ -332,13 +330,13 @@ public class RandomDataTest extends RetryTestCase {
     /** test failure modes and dispersion of nextUniform() */  
     public void testNextUniform() {    
         try {
-            double x = randomData.nextUniform(4,3);
+            randomData.nextUniform(4,3);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             ;
         }
         try {
-            double x = randomData.nextUniform(3,3);
+            randomData.nextUniform(3,3);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             ;
@@ -378,7 +376,7 @@ public class RandomDataTest extends RetryTestCase {
     /** test failure modes and distribution of nextGaussian() */  
     public void testNextGaussian() { 
         try {
-            double x = randomData.nextGaussian(0,0);
+            randomData.nextGaussian(0,0);
             fail("zero sigma -- IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             ;
@@ -399,7 +397,7 @@ public class RandomDataTest extends RetryTestCase {
     /** test failure modes and distribution of nextExponential() */  
     public void testNextExponential() {
         try {
-            double x = randomData.nextExponential(-1);
+            randomData.nextExponential(-1);
             fail("negative mean -- expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             ;
@@ -469,16 +467,16 @@ public class RandomDataTest extends RetryTestCase {
         // test reseeding without first using the generators
         RandomDataImpl rd = new RandomDataImpl();
         rd.reSeed(100);
-        double ret = rd.nextLong(1,2);
+        rd.nextLong(1,2);
         RandomDataImpl rd2 = new RandomDataImpl();
         rd2.reSeedSecure(2000);
-        ret = rd2.nextSecureLong(1,2);
+        rd2.nextSecureLong(1,2);
         rd = new RandomDataImpl();
         rd.reSeed();
-        ret = rd.nextLong(1,2);
+        rd.nextLong(1,2);
         rd2 = new RandomDataImpl();
         rd2.reSeedSecure();
-        ret = rd2.nextSecureLong(1,2);
+        rd2.nextSecureLong(1,2);
     }
     
     /** tests for nextSample() sampling from Collection */
@@ -540,7 +538,6 @@ public class RandomDataTest extends RetryTestCase {
     }
     
     private int findSample(Object[] u, Object[] samp) {
-        int result = -1;
         for (int i = 0; i < u.length; i++) {
             HashSet set = (HashSet) u[i];
             HashSet sampSet = new HashSet();
@@ -596,7 +593,6 @@ public class RandomDataTest extends RetryTestCase {
     }
     
     private int findPerm(int[][] p, int[] samp) {
-        int result = -1;
         for (int i = 0; i < p.length; i++) {
             boolean good = true;
             for (int j = 0; j < samp.length; j++) {

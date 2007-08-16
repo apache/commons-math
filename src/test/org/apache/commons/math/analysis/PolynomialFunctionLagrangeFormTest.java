@@ -126,13 +126,12 @@ public final class PolynomialFunctionLagrangeFormTest extends TestCase {
      * Test of parameters for the polynomial.
      */
     public void testParameters() throws Exception {
-        PolynomialFunctionLagrangeForm p;
 
         try {
             // bad input array length
             double x[] = { 1.0 };
             double y[] = { 2.0 };
-            p = new PolynomialFunctionLagrangeForm(x, y);
+            new PolynomialFunctionLagrangeForm(x, y);
             fail("Expecting IllegalArgumentException - bad input array length");
         } catch (IllegalArgumentException ex) {
             // expected
@@ -141,7 +140,7 @@ public final class PolynomialFunctionLagrangeFormTest extends TestCase {
             // mismatch input arrays
             double x[] = { 1.0, 2.0, 3.0, 4.0 };
             double y[] = { 0.0, -4.0, -24.0 };
-            p = new PolynomialFunctionLagrangeForm(x, y);
+            new PolynomialFunctionLagrangeForm(x, y);
             fail("Expecting IllegalArgumentException - mismatch input arrays");
         } catch (IllegalArgumentException ex) {
             // expected

@@ -125,13 +125,12 @@ public final class PolynomialFunctionNewtonFormTest extends TestCase {
      * Test of parameters for the polynomial.
      */
     public void testParameters() throws Exception {
-        PolynomialFunctionNewtonForm p;
 
         try {
             // bad input array length
             double a[] = { 1.0 };
             double c[] = { 2.0 };
-            p = new PolynomialFunctionNewtonForm(a, c);
+            new PolynomialFunctionNewtonForm(a, c);
             fail("Expecting IllegalArgumentException - bad input array length");
         } catch (IllegalArgumentException ex) {
             // expected
@@ -140,7 +139,7 @@ public final class PolynomialFunctionNewtonFormTest extends TestCase {
             // mismatch input arrays
             double a[] = { 1.0, 2.0, 3.0, 4.0 };
             double c[] = { 4.0, 3.0, 2.0, 1.0 };
-            p = new PolynomialFunctionNewtonForm(a, c);
+            new PolynomialFunctionNewtonForm(a, c);
             fail("Expecting IllegalArgumentException - mismatch input arrays");
         } catch (IllegalArgumentException ex) {
             // expected

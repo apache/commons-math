@@ -44,7 +44,7 @@ public class AbstractRandomGeneratorTest extends RandomDataTest {
     
     public void testNextInt() {
         try {
-            int x = testGenerator.nextInt(-1);
+            testGenerator.nextInt(-1);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             ;

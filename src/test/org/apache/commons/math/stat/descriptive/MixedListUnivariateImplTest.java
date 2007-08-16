@@ -44,8 +44,6 @@ public final class MixedListUnivariateImplTest extends TestCase {
     private double n = 4;
     private double min = 1;
     private double max = 3;
-    private double skewness = 0;
-    private double kurtosis = 0.5;
     private double tolerance = 10E-15;
 
     private TransformerMap transformers = new TransformerMap();
@@ -102,8 +100,6 @@ public final class MixedListUnivariateImplTest extends TestCase {
     }
 
     public void testN0andN1Conditions() throws Exception {
-        List list = new ArrayList();
-
         DescriptiveStatistics u = new ListUnivariateImpl(new ArrayList(),transformers);
 
         assertTrue(

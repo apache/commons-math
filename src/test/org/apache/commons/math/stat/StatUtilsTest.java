@@ -36,12 +36,8 @@ public final class StatUtilsTest extends TestCase {
     private double sumSq = 18;
     private double sum = 8;
     private double var = 0.666666666666666666667;
-    private double std = Math.sqrt(var);
-    private double n = 4;
     private double min = 1;
     private double max = 3;
-    private double skewness = 0;
-    private double kurtosis = 0.5;
     private double tolerance = 10E-15;
     private double nan = Double.NaN;
 
@@ -423,7 +419,7 @@ public final class StatUtilsTest extends TestCase {
     public void testGeometricMean() throws Exception {
         double[] test = null;
         try {
-            double x = StatUtils.geometricMean(test);
+            StatUtils.geometricMean(test);
             fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected

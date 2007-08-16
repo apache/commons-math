@@ -132,13 +132,13 @@ public final class PolynomialFunctionTest extends TestCase {
 
 
     /**
-     * tests the firstDerivative function by comparision
+     * tests the firstDerivative function by comparison
      *
      * <p>This will test the functions 
      * <tt>f(x) = x^3 - 2x^2 + 6x + 3, g(x) = 3x^2 - 4x + 6</tt>
      * and <tt>h(x) = 6x - 4</tt>
      */
-    public void testfirstDerivativeComparision() throws MathException {
+    public void testfirstDerivativeComparison() throws MathException {
         double[] f_coeff = { 3.0, 6.0, -2.0, 1.0 };
         double[] g_coeff = { 6.0, -4.0, 3.0 };
         double[] h_coeff = { -4.0, 6.0 };
@@ -155,9 +155,9 @@ public final class PolynomialFunctionTest extends TestCase {
         assertEquals( f.derivative().value(-3.25), g.value(-3.25), tolerance );
 
         // compare g' = h
+        assertEquals( g.derivative().value(Math.PI), h.value(Math.PI), tolerance );
+        assertEquals( g.derivative().value(Math.E),  h.value(Math.E),  tolerance );
 
-
-        // compare f'' = h
     }
 
 }

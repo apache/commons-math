@@ -193,11 +193,8 @@ public class TestUtilsTest extends TestCase {
     }
     
     private double[] tooShortObs = { 1.0 };
-    private double[] nullObserved = null;
     private double[] emptyObs = {};
     private SummaryStatistics emptyStats = SummaryStatistics.newInstance();  
-    private SummaryStatistics nullStats = null;   
-    SummaryStatistics tooShortStats = null;  
 
     public void testOneSampleT() throws Exception {
         double[] observed =
@@ -220,14 +217,14 @@ public class TestUtilsTest extends TestCase {
                 TestUtils.tTest(mu, sampleStats), 10E-10);
 
         try {
-            TestUtils.t(mu, nullObserved);
+            TestUtils.t(mu, (double[]) null);
             fail("arguments too short, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
         }
 
         try {
-            TestUtils.t(mu, nullStats);
+            TestUtils.t(mu, (SummaryStatistics) null);
             fail("arguments too short, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
@@ -261,13 +258,13 @@ public class TestUtilsTest extends TestCase {
         }  
 
         try {
-            TestUtils.t(mu, tooShortStats);
+            TestUtils.t(mu, (SummaryStatistics) null);
             fail("insufficient data to compute t statistic, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // exptected
         }
         try {
-            TestUtils.tTest(mu, tooShortStats);
+            TestUtils.tTest(mu, (SummaryStatistics) null);
             fail("insufficient data to perform t test, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // exptected
@@ -363,7 +360,7 @@ public class TestUtilsTest extends TestCase {
         }  
         
         try {
-            TestUtils.tTest(sampleStats1, tooShortStats, .01);
+            TestUtils.tTest(sampleStats1, (SummaryStatistics) null, .01);
             fail("insufficient data, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
@@ -377,7 +374,7 @@ public class TestUtilsTest extends TestCase {
         }  
         
         try {
-            TestUtils.tTest(sampleStats1, tooShortStats);
+            TestUtils.tTest(sampleStats1, (SummaryStatistics) null);
             fail("insufficient data, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
@@ -391,7 +388,7 @@ public class TestUtilsTest extends TestCase {
         }
         
         try {
-            TestUtils.t(sampleStats1, tooShortStats);
+            TestUtils.t(sampleStats1, (SummaryStatistics) null);
             fail("insufficient data, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
@@ -435,8 +432,7 @@ public class TestUtilsTest extends TestCase {
         double[] sample1 = {1d, 3d, 5d, 7d};
         double[] sample2 = {0d, 6d, 11d, 2d};
         double[] sample3 = {5d, 7d, 8d, 10d};
-        double[] sample4 = {0d, 2d};
-        
+
         // Target values computed using R, version 1.8.1 (linux version)
         assertEquals(-0.3133, TestUtils.pairedT(sample1, sample2), 1E-4);
         assertEquals(0.774544295819, TestUtils.pairedTTest(sample1, sample2), 1E-10);

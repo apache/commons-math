@@ -141,7 +141,7 @@ public final class RealMatrixImplTest extends TestCase {
         RealMatrixImpl m = new RealMatrixImpl(testData);
         RealMatrixImpl m2 = new RealMatrixImpl(testData2);
         try {
-            RealMatrixImpl mPlusMInv = (RealMatrixImpl)m.add(m2);
+            m.add(m2);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             ;
@@ -163,7 +163,7 @@ public final class RealMatrixImplTest extends TestCase {
         assertClose("m-n = m + -n",m.subtract(m2),
             m2.scalarMultiply(-1d).add(m),entryTolerance);        
         try {
-            RealMatrix a = m.subtract(new RealMatrixImpl(testData2));
+            m.subtract(new RealMatrixImpl(testData2));
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
             ;
@@ -187,7 +187,7 @@ public final class RealMatrixImplTest extends TestCase {
         assertClose("identity multiply",m2.multiply(identity),
             m2,entryTolerance); 
         try {
-            RealMatrix a = m.multiply(new RealMatrixImpl(bigSingular));
+            m.multiply(new RealMatrixImpl(bigSingular));
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
             ;
@@ -253,26 +253,26 @@ public final class RealMatrixImplTest extends TestCase {
         assertClose("inverse-operate",mInv.operate(testVector),
             m.solve(testVector),normTolerance);
         try {
-            double[] x = m.solve(testVector2);
+            m.solve(testVector2);
             fail("expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             ;
         }       
         RealMatrix bs = new RealMatrixImpl(bigSingular);
         try {
-            RealMatrix a = bs.solve(bs);
+            bs.solve(bs);
             fail("Expecting InvalidMatrixException");
         } catch (InvalidMatrixException ex) {
             ;
         }
         try {
-            RealMatrix a = m.solve(bs);
+            m.solve(bs);
             fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             ;
         }
         try {
-            RealMatrix a = (new RealMatrixImpl(testData2)).solve(bs);
+            new RealMatrixImpl(testData2).solve(bs);
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
             ;
@@ -299,7 +299,7 @@ public final class RealMatrixImplTest extends TestCase {
         assertEquals("nonsingular  R test 2",-1d,m.getDeterminant(),normTolerance);
 
         try {
-            double a = new RealMatrixImpl(testData2).getDeterminant();
+            new RealMatrixImpl(testData2).getDeterminant();
             fail("Expecting InvalidMatrixException");
         } catch (InvalidMatrixException ex) {
             ;
@@ -312,7 +312,7 @@ public final class RealMatrixImplTest extends TestCase {
         assertEquals("identity trace",3d,m.getTrace(),entryTolerance);
         m = new RealMatrixImpl(testData2);
         try {
-            double x = m.getTrace();
+            m.getTrace();
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
             ;
@@ -333,7 +333,7 @@ public final class RealMatrixImplTest extends TestCase {
         assertClose("identity operate",testVector,x,entryTolerance);
         m = new RealMatrixImpl(bigSingular);
         try {
-            x = m.operate(testVector);
+            m.operate(testVector);
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
             ;
@@ -372,7 +372,6 @@ public final class RealMatrixImplTest extends TestCase {
         RealMatrixImpl m = new RealMatrixImpl(testData);
         RealMatrixImpl mInv = new RealMatrixImpl(testDataInv);
         RealMatrixImpl identity = new RealMatrixImpl(id);
-        RealMatrixImpl m2 = new RealMatrixImpl(testData2);
         assertClose("inverse multiply",m.preMultiply(mInv),
                 identity,entryTolerance);
         assertClose("inverse multiply",mInv.preMultiply(m),
@@ -382,7 +381,7 @@ public final class RealMatrixImplTest extends TestCase {
         assertClose("identity multiply",identity.preMultiply(mInv),
                 mInv,entryTolerance);
         try {
-            RealMatrix a = m.preMultiply(new RealMatrixImpl(bigSingular));
+            m.preMultiply(new RealMatrixImpl(bigSingular));
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
             ;
@@ -394,13 +393,13 @@ public final class RealMatrixImplTest extends TestCase {
         assertClose("get row",m.getRow(0),testDataRow1,entryTolerance);
         assertClose("get col",m.getColumn(2),testDataCol3,entryTolerance);
         try {
-            double[] x = m.getRow(10);
+            m.getRow(10);
             fail("expecting MatrixIndexException");
         } catch (MatrixIndexException ex) {
             ;
         }
         try {
-            double[] x = m.getColumn(-1);
+            m.getColumn(-1);
             fail("expecting MatrixIndexException");
         } catch (MatrixIndexException ex) {
             ;

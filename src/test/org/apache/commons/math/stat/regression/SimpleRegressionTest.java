@@ -222,7 +222,7 @@ public final class SimpleRegressionTest extends TestCase {
                 regression.getSlopeConfidenceInterval() < regression.getSlopeConfidenceInterval(0.01));
      
         try {
-            double x = regression.getSlopeConfidenceInterval(1);
+            regression.getSlopeConfidenceInterval(1);
             fail("expecting IllegalArgumentException for alpha = 1");
         } catch (IllegalArgumentException ex) {
             ;

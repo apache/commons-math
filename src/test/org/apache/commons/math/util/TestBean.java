@@ -22,11 +22,9 @@ package org.apache.commons.math.util;
  */
 public class TestBean {
     private Double x = new Double(1.0);
-    
+
     private String y = "1.0";
-    
-    private Double z = new Double(2.0);
-    
+
     /**
      * 
      */
@@ -66,7 +64,6 @@ public class TestBean {
      * 
      */
     public void setZ(Double double1) {
-        z = double1;
     }
 
 }

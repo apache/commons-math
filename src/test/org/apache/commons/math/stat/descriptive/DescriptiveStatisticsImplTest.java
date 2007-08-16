@@ -41,10 +41,8 @@ public final class DescriptiveStatisticsImplTest extends TestCase {
     private double n = 4;
     private double min = 1;
     private double max = 3;
-    private double skewness = 0;
-    private double kurtosis = 0.5;
     private double tolerance = 10E-15;
-    
+
     public DescriptiveStatisticsImplTest(String name) {
         super(name);
     }
@@ -196,13 +194,13 @@ public final class DescriptiveStatisticsImplTest extends TestCase {
         assertEquals("expecting max",5,u.getPercentile(99),10E-12);
         assertEquals("expecting middle",3,u.getPercentile(50),10E-12);
         try {
-            double x = u.getPercentile(0);
+            u.getPercentile(0);
             fail("expecting IllegalArgumentException for getPercentile(0)");
         } catch (IllegalArgumentException ex) {
             ;
         }
         try {
-            double x = u.getPercentile(120);
+            u.getPercentile(120);
             fail("expecting IllegalArgumentException for getPercentile(120)");
         } catch (IllegalArgumentException ex) {
             ;

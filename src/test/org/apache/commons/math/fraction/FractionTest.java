@@ -280,7 +280,7 @@ public class FractionTest extends TestCase {
         Fraction f1 = new Fraction(3, 5);
         Fraction f2 = Fraction.ZERO;
         try {
-            Fraction f = f1.divide(f2);
+            f1.divide(f2);
             fail("expecting ArithmeticException");
         } catch (ArithmeticException ex) {}
         
@@ -417,7 +417,6 @@ public class FractionTest extends TestCase {
     public void testEqualsAndHashCode() {
         Fraction zero  = new Fraction(0,1);
         Fraction nullFraction = null;
-        int zeroHash = zero.hashCode();
         assertTrue( zero.equals(zero));
         assertFalse(zero.equals(nullFraction));
         assertFalse(zero.equals(new Double(0)));
@@ -433,7 +432,7 @@ public class FractionTest extends TestCase {
         assertTrue(threeFourths.equals(Fraction.getReducedFraction(6, 8)));
         assertTrue(Fraction.ZERO.equals(Fraction.getReducedFraction(0, -1)));
         try {
-            Fraction f = Fraction.getReducedFraction(1, 0);
+            Fraction.getReducedFraction(1, 0);
             fail("expecting ArithmeticException");
         } catch (ArithmeticException ex) {
             // expected

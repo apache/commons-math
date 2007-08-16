@@ -39,7 +39,6 @@ public class ComplexUtilsTest extends TestCase {
     private Complex infNegInf = new Complex(inf, negInf);
     private Complex infInf = new Complex(inf, inf);
     private Complex negInfNegInf = new Complex(negInf, negInf);
-    private Complex oneNaN = new Complex(1, nan);
     private Complex infNaN = new Complex(inf, nan);
     private Complex negInfNaN = new Complex(negInf, nan);
     private Complex nanInf = new Complex(nan, inf);
@@ -48,10 +47,7 @@ public class ComplexUtilsTest extends TestCase {
     private Complex nanZero = new Complex(nan, 0);
     private Complex infZero = new Complex(inf, 0);
     private Complex zeroInf = new Complex(0, inf);
-    private Complex zeroNegInf = new Complex(0, negInf);
     private Complex negInfZero = new Complex(negInf, 0);
-    
-    private ComplexFormat fmt = new ComplexFormat();
     
     public void testAcos() {
         Complex z = new Complex(3, 4);
@@ -78,7 +74,7 @@ public class ComplexUtilsTest extends TestCase {
     
     public void testAcosNull() {
         try {
-            Complex z = ComplexUtils.acos(null); 
+            ComplexUtils.acos(null); 
             fail("Expecting NullPointerException");
         } catch (NullPointerException ex) {
             // expected
@@ -108,7 +104,7 @@ public class ComplexUtilsTest extends TestCase {
     
     public void testAsinNull() {
         try {
-            Complex z = ComplexUtils.asin(null); 
+            ComplexUtils.asin(null); 
             fail("Expecting NullPointerException");
         } catch (NullPointerException ex) {
             // expected
@@ -139,7 +135,7 @@ public class ComplexUtilsTest extends TestCase {
     
     public void testAtanNull() {
         try {
-            Complex z = ComplexUtils.atan(null); 
+            ComplexUtils.atan(null); 
             fail("Expecting NullPointerException");
         } catch (NullPointerException ex) {
             // expected
@@ -169,7 +165,7 @@ public class ComplexUtilsTest extends TestCase {
     
     public void testCosNull() {
         try {
-            Complex z = ComplexUtils.cos(null); 
+            ComplexUtils.cos(null); 
             fail("Expecting NullPointerException");
         } catch (NullPointerException ex) {
             // expected
@@ -199,7 +195,7 @@ public class ComplexUtilsTest extends TestCase {
     
     public void testCoshNull() {
         try {
-            Complex z = ComplexUtils.cosh(null); 
+            ComplexUtils.cosh(null); 
             fail("Expecting NullPointerException");
         } catch (NullPointerException ex) {
             // expected
@@ -234,7 +230,7 @@ public class ComplexUtilsTest extends TestCase {
     
     public void testExpNull() {
         try {
-            Complex z = ComplexUtils.exp(null); 
+            ComplexUtils.exp(null); 
             fail("Expecting NullPointerException");
         } catch (NullPointerException ex) {
             // expected
@@ -275,7 +271,7 @@ public class ComplexUtilsTest extends TestCase {
     
     public void testlogNull() {
         try {
-            Complex z = ComplexUtils.log(null); 
+            ComplexUtils.log(null); 
             fail("Expecting NullPointerException");
         } catch (NullPointerException ex) {
             // expected
@@ -318,7 +314,7 @@ public class ComplexUtilsTest extends TestCase {
     
     public void testPolar2ComplexIllegalModulus() {
         try {
-            Complex z = ComplexUtils.polar2Complex(-1, 0);
+            ComplexUtils.polar2Complex(-1, 0);
             fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
@@ -405,13 +401,13 @@ public class ComplexUtilsTest extends TestCase {
     
     public void testpowNull() {
         try {
-            Complex z = ComplexUtils.pow(null, Complex.ONE); 
+            ComplexUtils.pow(null, Complex.ONE); 
             fail("Expecting NullPointerException");
         } catch (NullPointerException ex) {
             // expected
         }
         try {
-            Complex z = ComplexUtils.pow(Complex.ONE, null); 
+            ComplexUtils.pow(Complex.ONE, null); 
             fail("Expecting NullPointerException");
         } catch (NullPointerException ex) {
             // expected
@@ -441,7 +437,7 @@ public class ComplexUtilsTest extends TestCase {
     
     public void testSinNull() {
         try {
-            Complex z = ComplexUtils.sin(null); 
+            ComplexUtils.sin(null); 
             fail("Expecting NullPointerException");
         } catch (NullPointerException ex) {
             // expected
@@ -471,7 +467,7 @@ public class ComplexUtilsTest extends TestCase {
     
     public void testsinhNull() {
         try {
-            Complex z = ComplexUtils.sinh(null); 
+            ComplexUtils.sinh(null); 
             fail("Expecting NullPointerException");
         } catch (NullPointerException ex) {
             // expected
@@ -539,7 +535,7 @@ public class ComplexUtilsTest extends TestCase {
     
     public void testSqrtNull() {
         try {
-            Complex z = ComplexUtils.sqrt(null); 
+            ComplexUtils.sqrt(null); 
             fail("Expecting NullPointerException");
         } catch (NullPointerException ex) {
             // expected
@@ -558,7 +554,7 @@ public class ComplexUtilsTest extends TestCase {
     
     public void testSqrt1zNull() {
         try {
-            Complex z = ComplexUtils.sqrt1z(null); 
+            ComplexUtils.sqrt1z(null); 
             fail("Expecting NullPointerException");
         } catch (NullPointerException ex) {
             // expected
@@ -593,7 +589,7 @@ public class ComplexUtilsTest extends TestCase {
     
     public void testTanNull() {
         try {
-            Complex z = ComplexUtils.tan(null); 
+            ComplexUtils.tan(null); 
             fail("Expecting NullPointerException");
         } catch (NullPointerException ex) {
             // expected
@@ -627,7 +623,7 @@ public class ComplexUtilsTest extends TestCase {
     
     public void testTanhNull() {
         try {
-            Complex z = ComplexUtils.tanh(null); 
+            ComplexUtils.tanh(null); 
             fail("Expecting NullPointerException");
         } catch (NullPointerException ex) {
             // expected

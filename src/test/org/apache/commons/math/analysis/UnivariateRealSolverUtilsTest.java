@@ -40,20 +40,19 @@ public class UnivariateRealSolverUtilsTest extends TestCase {
     
     public void testSolveBadParameters() throws MathException {
         try { // bad endpoints
-            double x = UnivariateRealSolverUtils.solve(sin,0.0, 4.0, 4.0); 
+            UnivariateRealSolverUtils.solve(sin,0.0, 4.0, 4.0); 
         } catch (IllegalArgumentException ex) {
             // expected
         }    
         try { // bad accuracy
-            double x = UnivariateRealSolverUtils.solve(sin, 0.0, 4.0, 0.0); 
+            UnivariateRealSolverUtils.solve(sin, 0.0, 4.0, 0.0); 
         } catch (IllegalArgumentException ex) {
             // expected
         }        
     }
     
     public void testSolveSin() throws MathException {     
-        double x = UnivariateRealSolverUtils.solve(sin, 1.0,
-                4.0);
+        double x = UnivariateRealSolverUtils.solve(sin, 1.0, 4.0);
         assertEquals(Math.PI, x, 1.0e-4);
     }
     
@@ -76,8 +75,7 @@ public class UnivariateRealSolverUtilsTest extends TestCase {
     
     public void testSolveNoRoot() throws MathException {
         try {
-            double x = UnivariateRealSolverUtils.solve(sin, 1.0,
-                    1.5);  
+            UnivariateRealSolverUtils.solve(sin, 1.0, 1.5);  
             fail("Expecting IllegalArgumentException ");  
         } catch (IllegalArgumentException ex) {
             // expected
@@ -93,8 +91,7 @@ public class UnivariateRealSolverUtilsTest extends TestCase {
     
     public void testBracketCornerSolution() throws MathException {
         try {
-            double[] result = UnivariateRealSolverUtils.bracket(sin, 
-                    1.5, 0, 2.0); 
+            UnivariateRealSolverUtils.bracket(sin, 1.5, 0, 2.0); 
             fail("Expecting ConvergenceException");
         } catch (ConvergenceException ex) {
             // expected
@@ -103,25 +100,25 @@ public class UnivariateRealSolverUtilsTest extends TestCase {
     
     public void testBadParameters() throws MathException {
         try { // null function
-            double[] result = UnivariateRealSolverUtils.bracket(null, 1.5, 0, 2.0);
+            UnivariateRealSolverUtils.bracket(null, 1.5, 0, 2.0);
             fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         try { // initial not between endpoints
-            double[] result = UnivariateRealSolverUtils.bracket(sin, 2.5, 0, 2.0);
+            UnivariateRealSolverUtils.bracket(sin, 2.5, 0, 2.0);
             fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         try { // endpoints not valid
-            double[] result = UnivariateRealSolverUtils.bracket(sin, 1.5, 2.0, 1.0);
+            UnivariateRealSolverUtils.bracket(sin, 1.5, 2.0, 1.0);
             fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         try { // bad maximum iterations
-            double[] result = UnivariateRealSolverUtils.bracket(sin, 1.5, 0, 2.0, 0);
+            UnivariateRealSolverUtils.bracket(sin, 1.5, 0, 2.0, 0);
             fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected

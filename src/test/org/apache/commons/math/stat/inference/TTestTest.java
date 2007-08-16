@@ -32,11 +32,9 @@ public class TTestTest extends TestCase {
     protected TTest testStatistic = new TTestImpl();
     
     private double[] tooShortObs = { 1.0 };
-    private double[] nullObserved = null;
     private double[] emptyObs = {};
     private SummaryStatistics emptyStats = SummaryStatistics.newInstance();  
-    private SummaryStatistics nullStats = null;   
-    SummaryStatistics tooShortStats = null;  
+   SummaryStatistics tooShortStats = null;  
 
     public TTestTest(String name) {
         super(name);
@@ -74,14 +72,14 @@ public class TTestTest extends TestCase {
                 testStatistic.tTest(mu, sampleStats), 10E-10);
 
         try {
-            testStatistic.t(mu, nullObserved);
+            testStatistic.t(mu, (double[]) null);
             fail("arguments too short, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
         }
 
         try {
-            testStatistic.t(mu, nullStats);
+            testStatistic.t(mu, (SummaryStatistics) null);
             fail("arguments too short, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
@@ -289,8 +287,7 @@ public class TTestTest extends TestCase {
         double[] sample1 = {1d, 3d, 5d, 7d};
         double[] sample2 = {0d, 6d, 11d, 2d};
         double[] sample3 = {5d, 7d, 8d, 10d};
-        double[] sample4 = {0d, 2d};
-        
+
         // Target values computed using R, version 1.8.1 (linux version)
         assertEquals(-0.3133, testStatistic.pairedT(sample1, sample2), 1E-4);
         assertEquals(0.774544295819, testStatistic.pairedTTest(sample1, sample2), 1E-10);

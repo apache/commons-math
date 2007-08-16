@@ -63,24 +63,21 @@ public class PolynomialSplineFunctionTest extends TestCase {
         assertEquals(3, spline.getN());
         
         try { // too few knots
-            spline = 
-                new PolynomialSplineFunction(new double[] {0}, polynomials);
+            new PolynomialSplineFunction(new double[] {0}, polynomials);
             fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         
         try { // too many knots
-            spline = 
-                new PolynomialSplineFunction(new double[] {0,1,2,3,4}, polynomials);
+            new PolynomialSplineFunction(new double[] {0,1,2,3,4}, polynomials);
             fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         
         try { // knots not increasing
-            spline = 
-                new PolynomialSplineFunction(new double[] {0,1, 3, 2}, polynomials);
+            new PolynomialSplineFunction(new double[] {0,1, 3, 2}, polynomials);
             fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected

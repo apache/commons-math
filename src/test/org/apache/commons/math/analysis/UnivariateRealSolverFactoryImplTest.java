@@ -52,7 +52,7 @@ public class UnivariateRealSolverFactoryImplTest extends TestCase {
 
     public void testNewBisectionSolverNull() {
         try {
-            UnivariateRealSolver solver = factory.newBisectionSolver(null);
+            factory.newBisectionSolver(null);
             fail();
         } catch(IllegalArgumentException ex) {
             // success
@@ -67,7 +67,7 @@ public class UnivariateRealSolverFactoryImplTest extends TestCase {
 
     public void testNewNewtonSolverNull() {
         try {
-            UnivariateRealSolver solver = factory.newNewtonSolver(null);
+            factory.newNewtonSolver(null);
             fail();
         } catch(IllegalArgumentException ex) {
             // success
@@ -82,7 +82,7 @@ public class UnivariateRealSolverFactoryImplTest extends TestCase {
 
     public void testNewBrentSolverNull() {
         try {
-            UnivariateRealSolver solver = factory.newBrentSolver(null);
+            factory.newBrentSolver(null);
             fail();
         } catch(IllegalArgumentException ex) {
             // success
@@ -97,7 +97,7 @@ public class UnivariateRealSolverFactoryImplTest extends TestCase {
 
     public void testNewSecantSolverNull() {
         try {
-            UnivariateRealSolver solver = factory.newSecantSolver(null);
+            factory.newSecantSolver(null);
             fail();
         } catch(IllegalArgumentException ex) {
             // success

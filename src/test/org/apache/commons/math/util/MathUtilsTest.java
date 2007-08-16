@@ -46,11 +46,11 @@ public final class MathUtilsTest extends TestCase {
         int bigNeg = Integer.MIN_VALUE;
         assertEquals(big, MathUtils.addAndCheck(big, 0));
         try {
-            int res = MathUtils.addAndCheck(big, 1);
+            MathUtils.addAndCheck(big, 1);
             fail("Expecting ArithmeticException");
         } catch (ArithmeticException ex) {}
         try {
-            int res = MathUtils.addAndCheck(bigNeg, -1);
+            MathUtils.addAndCheck(bigNeg, -1);
             fail("Expecting ArithmeticException");
         } catch (ArithmeticException ex) {}
     }
@@ -60,11 +60,11 @@ public final class MathUtilsTest extends TestCase {
         int bigNeg = Integer.MIN_VALUE;
         assertEquals(big, MathUtils.mulAndCheck(big, 1));
         try {
-            int res = MathUtils.mulAndCheck(big, 2);
+            MathUtils.mulAndCheck(big, 2);
             fail("Expecting ArithmeticException");
         } catch (ArithmeticException ex) {}
         try {
-            int res = MathUtils.mulAndCheck(bigNeg, 2);
+            MathUtils.mulAndCheck(bigNeg, 2);
             fail("Expecting ArithmeticException");
         } catch (ArithmeticException ex) {}
     }
@@ -74,20 +74,19 @@ public final class MathUtilsTest extends TestCase {
         int bigNeg = Integer.MIN_VALUE;
         assertEquals(big, MathUtils.subAndCheck(big, 0));
         try {
-            int res = MathUtils.subAndCheck(big, -1);
+            MathUtils.subAndCheck(big, -1);
             fail("Expecting ArithmeticException");
         } catch (ArithmeticException ex) {}
         try {
-            int res = MathUtils.subAndCheck(bigNeg, 1);
+            MathUtils.subAndCheck(bigNeg, 1);
             fail("Expecting ArithmeticException");
         } catch (ArithmeticException ex) {}
     }
     
     public void testSubAndCheckErrorMessage() {
         int big = Integer.MAX_VALUE;
-        int bigNeg = Integer.MIN_VALUE;
         try {
-            int res = MathUtils.subAndCheck(big, -1);
+            MathUtils.subAndCheck(big, -1);
             fail("Expecting ArithmeticException");
         } catch (ArithmeticException ex) {
             assertEquals("overflow: subtract", ex.getMessage());
@@ -136,27 +135,27 @@ public final class MathUtilsTest extends TestCase {
     
     public void testBinomialCoefficientFail() {
         try {
-            long x = MathUtils.binomialCoefficient(4,5);
+            MathUtils.binomialCoefficient(4,5);
             fail ("expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             ;
         }
         
         try {
-            double x = MathUtils.binomialCoefficientDouble(4,5);
+            MathUtils.binomialCoefficientDouble(4,5);
             fail ("expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             ;
         }
         
         try {
-            double x = MathUtils.binomialCoefficientLog(4,5);
+            MathUtils.binomialCoefficientLog(4,5);
             fail ("expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             ;
         }
         try {
-            long x = MathUtils.binomialCoefficient(67,34);
+            MathUtils.binomialCoefficient(67,34);
             fail ("expecting ArithmeticException");
         } catch (ArithmeticException ex) {
             ;
@@ -181,25 +180,25 @@ public final class MathUtilsTest extends TestCase {
 
     public void testFactorialFail() {
         try {
-            long x = MathUtils.factorial(-1);
+            MathUtils.factorial(-1);
             fail ("expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             ;
         }
         try {
-            double x = MathUtils.factorialDouble(-1);
+            MathUtils.factorialDouble(-1);
             fail ("expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             ;
         }
         try {
-            double x = MathUtils.factorialLog(-1);
+            MathUtils.factorialLog(-1);
             fail ("expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             ;
         }
         try {
-            double x = MathUtils.factorial(21);
+            MathUtils.factorial(21);
             fail ("expecting ArithmeticException");
         } catch (ArithmeticException ex) {
             ;
@@ -241,7 +240,7 @@ public final class MathUtilsTest extends TestCase {
         int test = 10;
         while (!foundLimit) {
             try {
-                double x = MathUtils.binomialCoefficient(test, test / 2);
+                MathUtils.binomialCoefficient(test, test / 2);
             } catch (ArithmeticException ex) {
                 foundLimit = true;
                 System.out.println
@@ -284,7 +283,7 @@ public final class MathUtilsTest extends TestCase {
         int test = 10;
         while (!foundLimit) {
             try {
-                double x = MathUtils.factorial(test);
+                MathUtils.factorial(test);
             } catch (ArithmeticException ex) {
                 foundLimit = true;
                 System.out.println

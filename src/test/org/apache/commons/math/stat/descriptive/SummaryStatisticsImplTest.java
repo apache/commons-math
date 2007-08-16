@@ -117,7 +117,6 @@ public final class SummaryStatisticsImplTest extends TestCase {
     }
     
     public void testNaNContracts() {
-        double nan = Double.NaN;
         assertTrue("mean not NaN",Double.isNaN(u.getMean())); 
         assertTrue("min not NaN",Double.isNaN(u.getMin())); 
         assertTrue("std dev not NaN",Double.isNaN(u.getStandardDeviation())); 

@@ -40,8 +40,6 @@ public final class FrequencyTest extends TestCase {
     private int oneI = 1;
     private int twoI = 2;
     private int threeI=3;
-    private String oneS = "1";
-    private String twoS = "2";
     private double tolerance = 10E-15;
     private Frequency f = null;
     

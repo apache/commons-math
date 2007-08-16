@@ -42,8 +42,6 @@ public final class DescriptiveStatisticsTest extends TestCase {
     private double n = 4;
     private double min = 1;
     private double max = 3;
-    private double skewness = 0;
-    private double kurtosis = 0.5;
     private double tolerance = 10E-15;
     
     public DescriptiveStatisticsTest(String name) {
@@ -251,13 +249,13 @@ public final class DescriptiveStatisticsTest extends TestCase {
         assertEquals("expecting max",5,u.getPercentile(99),10E-12);
         assertEquals("expecting middle",3,u.getPercentile(50),10E-12);
         try {
-            double x = u.getPercentile(0);
+            u.getPercentile(0);
             fail("expecting IllegalArgumentException for getPercentile(0)");
         } catch (IllegalArgumentException ex) {
             ;
         }
         try {
-            double x = u.getPercentile(120);
+            u.getPercentile(120);
             fail("expecting IllegalArgumentException for getPercentile(120)");
         } catch (IllegalArgumentException ex) {
             ;
@@ -331,7 +329,7 @@ public final class DescriptiveStatisticsTest extends TestCase {
 
     public void testNewInstanceClassNull() {
         try {
-            DescriptiveStatistics u = DescriptiveStatistics.newInstance((Class)null);
+            DescriptiveStatistics.newInstance((Class)null);
             fail("null is not a valid descriptive statistics class");
         } catch (NullPointerException ex) {
             // success
@@ -347,7 +345,9 @@ public final class DescriptiveStatisticsTest extends TestCase {
                 DescriptiveStatisticsImpl.class);
             assertNotNull(u);
             assertTrue(u instanceof DescriptiveStatisticsImpl);
-        } catch (Exception ex) {
+        } catch (InstantiationException ex) {
+            fail();
+        } catch (IllegalAccessException ex) {
             fail();
         }
     }

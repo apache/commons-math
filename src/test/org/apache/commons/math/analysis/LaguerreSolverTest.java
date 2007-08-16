@@ -169,7 +169,7 @@ public final class LaguerreSolverTest extends TestCase {
         try {
             // bad function
             UnivariateRealFunction f2 = new SinFunction();
-            UnivariateRealSolver solver2 = new LaguerreSolver(f2);
+            new LaguerreSolver(f2);
             fail("Expecting IllegalArgumentException - bad function");
         } catch (IllegalArgumentException ex) {
             // expected
