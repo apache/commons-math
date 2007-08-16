@@ -62,7 +62,7 @@ public final class FastFourierTransformerTest extends TestCase {
         }
 
         double x2[] = {10.4, 21.6, 40.8, 13.6, 23.2, 32.8, 13.6, 19.2};
-        transformer.scaleArray(x2, 1.0 / Math.sqrt(x2.length));
+        FastFourierTransformer.scaleArray(x2, 1.0 / Math.sqrt(x2.length));
         Complex y2[] = y;
 
         result = transformer.transform2(y2);
