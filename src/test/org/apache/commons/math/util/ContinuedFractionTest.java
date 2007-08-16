@@ -32,8 +32,10 @@ public class ContinuedFractionTest extends TestCase {
         super(name);
     }
 
-    public void testGoldenRation(){
+    public void testGoldenRatio(){
         ContinuedFraction cf = new ContinuedFraction() {
+            private static final long serialVersionUID = 4696264881688589546L;
+
             public double getA(int n, double x) {
                 return 1.0;
             }
