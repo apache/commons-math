@@ -41,7 +41,8 @@ public class SimpleEstimationProblem implements EstimationProblem {
      * Build an empty instance without parameters nor measurements.
      */
     public SimpleEstimationProblem() {
-        parameters = new ArrayList();
+        parameters   = new ArrayList();
+        measurements = new ArrayList();
     }
 
     public EstimatedParameter[] getAllParameters() {
