@@ -156,7 +156,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
             // expected
         }
         try {
-            percentile = new Percentile(0);
+            new Percentile(0);
             fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected

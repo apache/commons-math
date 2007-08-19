@@ -43,9 +43,9 @@ public class QRDecompositionImplTest extends TestCase {
             { -4, 24, -41, }, 
             { -5, 34, 7, }, };
 
-    final double entryTolerance = 10e-16;
+    private static final double entryTolerance = 10e-16;
 
-    final double normTolerance = 10e-14;
+    private static final double normTolerance = 10e-14;
 
     public QRDecompositionImplTest(String name) {
         super(name);

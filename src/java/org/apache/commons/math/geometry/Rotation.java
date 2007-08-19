@@ -557,24 +557,27 @@ public class Rotation implements Serializable {
    * a<sub>1</sub>, a<sub>2</sub> and a<sub>3</sub> is the same as
    * the rotation defined by the angles &pi; + a<sub>1</sub>, &pi;
    * - a<sub>2</sub> and &pi; + a<sub>3</sub>. This method implements
-   * the following arbitrary choices. For Cardan angles, the chosen
-   * set is the one for which the second angle is between -&pi;/2 and
-   * &pi;/2 (i.e its cosine is positive). For Euler angles, the chosen
-   * set is the one for which the second angle is between 0 and &pi;
-   * (i.e its sine is positive).</p>
+   * the following arbitrary choices:</p>
+   * <ul>
+   *   <li>for Cardan angles, the chosen set is the one for which the
+   *   second angle is between -&pi;/2 and &pi;/2 (i.e its cosine is
+   *   positive),</li>
+   *   <li>for Euler angles, the chosen set is the one for which the
+   *   second angle is between 0 and &pi; (i.e its sine is positive).</li>
+   * </ul>
 
    * <p>Cardan and Euler angle have a very disappointing drawback: all
    * of them have singularities. This means that if the instance is
    * too close to the singularities corresponding to the given
    * rotation order, it will be impossible to retrieve the angles. For
    * Cardan angles, this is often called gimbal lock. There is
-   * <em>nothing</em> to do to prevent this, it is an intrisic problem
+   * <em>nothing</em> to do to prevent this, it is an intrinsic problem
    * with Cardan and Euler representation (but not a problem with the
    * rotation itself, which is perfectly well defined). For Cardan
    * angles, singularities occur when the second angle is close to
    * -&pi;/2 or +&pi;/2, for Euler angle singularities occur when the
    * second angle is close to 0 or &pi;, this implies that the identity
-   * rotation is always singular for Euler angles!
+   * rotation is always singular for Euler angles!</p>
 
    * @param order rotation order to use
    * @return an array of three angles, in the order specified by the set
@@ -584,14 +587,6 @@ public class Rotation implements Serializable {
   public double[] getAngles(RotationOrder order)
     throws CardanEulerSingularityException {
 
-    final double small        = 1.0e-10;
-    final double maxThreshold = 1.0 - small;
-    final double minThreshold = -maxThreshold;
-
-    double[] angles = new double[3];
-    Vector3D v1 = null;
-    Vector3D v2 = null;
-
     if (order == RotationOrder.XYZ) {
 
       // r (Vector3D.plusK) coordinates are :
@@ -599,14 +594,16 @@ public class Rotation implements Serializable {
       // (-r) (Vector3D.plusI) coordinates are :
       // cos (psi) cos (theta), -sin (psi) cos (theta), sin (theta)
       // and we can choose to have theta in the interval [-PI/2 ; +PI/2]
-      v1 = applyTo(Vector3D.plusK);
-      v2 = applyInverseTo(Vector3D.plusI);
-      if  ((v2.getZ() < minThreshold) || (v2.getZ() > maxThreshold)) {
+      Vector3D v1 = applyTo(Vector3D.plusK);
+      Vector3D v2 = applyInverseTo(Vector3D.plusI);
+      if  ((v2.getZ() < -0.9999999999) || (v2.getZ() > 0.9999999999)) {
         throw new CardanEulerSingularityException(true);
       }
-      angles[0] = Math.atan2(-(v1.getY()), v1.getZ());
-      angles[1] = Math.asin(v2.getZ());
-      angles[2] = Math.atan2(-(v2.getY()), v2.getX());
+      return new double[] {
+        Math.atan2(-(v1.getY()), v1.getZ()),
+        Math.asin(v2.getZ()),
+        Math.atan2(-(v2.getY()), v2.getX())
+      };
 
     } else if (order == RotationOrder.XZY) {
 
@@ -615,14 +612,16 @@ public class Rotation implements Serializable {
       // (-r) (Vector3D.plusI) coordinates are :
       // cos (theta) cos (psi), -sin (psi), sin (theta) cos (psi)
       // and we can choose to have psi in the interval [-PI/2 ; +PI/2]
-      v1 = applyTo(Vector3D.plusJ);
-      v2 = applyInverseTo(Vector3D.plusI);
-      if ((v2.getY() < minThreshold) || (v2.getY() > maxThreshold)) {
+      Vector3D v1 = applyTo(Vector3D.plusJ);
+      Vector3D v2 = applyInverseTo(Vector3D.plusI);
+      if ((v2.getY() < -0.9999999999) || (v2.getY() > 0.9999999999)) {
         throw new CardanEulerSingularityException(true);
       }
-      angles[0] = Math.atan2(v1.getZ(), v1.getY());
-      angles[1] = -Math.asin(v2.getY());
-      angles[2] = Math.atan2(v2.getZ(), v2.getX());
+      return new double[] {
+        Math.atan2(v1.getZ(), v1.getY()),
+       -Math.asin(v2.getY()),
+        Math.atan2(v2.getZ(), v2.getX())
+      };
 
     } else if (order == RotationOrder.YXZ) {
 
@@ -631,14 +630,16 @@ public class Rotation implements Serializable {
       // (-r) (Vector3D.plusJ) coordinates are :
       // sin (psi) cos (phi), cos (psi) cos (phi), -sin (phi)
       // and we can choose to have phi in the interval [-PI/2 ; +PI/2]
-      v1 = applyTo(Vector3D.plusK);
-      v2 = applyInverseTo(Vector3D.plusJ);
-      if ((v2.getZ() < minThreshold) || (v2.getZ() > maxThreshold)) {
+      Vector3D v1 = applyTo(Vector3D.plusK);
+      Vector3D v2 = applyInverseTo(Vector3D.plusJ);
+      if ((v2.getZ() < -0.9999999999) || (v2.getZ() > 0.9999999999)) {
         throw new CardanEulerSingularityException(true);
       }
-      angles[0] = Math.atan2(v1.getX(), v1.getZ());
-      angles[1] = -Math.asin(v2.getZ());
-      angles[2] = Math.atan2(v2.getX(), v2.getY());
+      return new double[] {
+        Math.atan2(v1.getX(), v1.getZ()),
+       -Math.asin(v2.getZ()),
+        Math.atan2(v2.getX(), v2.getY())
+      };
 
     } else if (order == RotationOrder.YZX) {
 
@@ -647,14 +648,16 @@ public class Rotation implements Serializable {
       // (-r) (Vector3D.plusJ) coordinates are :
       // sin (psi), cos (phi) cos (psi), -sin (phi) cos (psi)
       // and we can choose to have psi in the interval [-PI/2 ; +PI/2]
-      v1 = applyTo(Vector3D.plusI);
-      v2 = applyInverseTo(Vector3D.plusJ);
-      if ((v2.getX() < minThreshold) || (v2.getX() > maxThreshold)) {
+      Vector3D v1 = applyTo(Vector3D.plusI);
+      Vector3D v2 = applyInverseTo(Vector3D.plusJ);
+      if ((v2.getX() < -0.9999999999) || (v2.getX() > 0.9999999999)) {
         throw new CardanEulerSingularityException(true);
       }
-      angles[0] = Math.atan2(-(v1.getZ()), v1.getX());
-      angles[1] = Math.asin(v2.getX());
-      angles[2] = Math.atan2(-(v2.getZ()), v2.getY());
+      return new double[] {
+        Math.atan2(-(v1.getZ()), v1.getX()),
+        Math.asin(v2.getX()),
+        Math.atan2(-(v2.getZ()), v2.getY())
+      };
 
     } else if (order == RotationOrder.ZXY) {
 
@@ -663,14 +666,16 @@ public class Rotation implements Serializable {
       // (-r) (Vector3D.plusK) coordinates are :
       // -sin (theta) cos (phi), sin (phi), cos (theta) cos (phi)
       // and we can choose to have phi in the interval [-PI/2 ; +PI/2]
-      v1 = applyTo(Vector3D.plusJ);
-      v2 = applyInverseTo(Vector3D.plusK);
-      if ((v2.getY() < minThreshold) || (v2.getY() > maxThreshold)) {
+      Vector3D v1 = applyTo(Vector3D.plusJ);
+      Vector3D v2 = applyInverseTo(Vector3D.plusK);
+      if ((v2.getY() < -0.9999999999) || (v2.getY() > 0.9999999999)) {
         throw new CardanEulerSingularityException(true);
       }
-      angles[0] = Math.atan2(-(v1.getX()), v1.getY());
-      angles[1] = Math.asin(v2.getY());
-      angles[2] = Math.atan2(-(v2.getX()), v2.getZ());
+      return new double[] {
+        Math.atan2(-(v1.getX()), v1.getY()),
+        Math.asin(v2.getY()),
+        Math.atan2(-(v2.getX()), v2.getZ())
+      };
 
     } else if (order == RotationOrder.ZYX) {
 
@@ -679,14 +684,16 @@ public class Rotation implements Serializable {
       // (-r) (Vector3D.plusK) coordinates are :
       // -sin (theta), sin (phi) cos (theta), cos (phi) cos (theta)
       // and we can choose to have theta in the interval [-PI/2 ; +PI/2]
-      v1 = applyTo(Vector3D.plusI);
-      v2 = applyInverseTo(Vector3D.plusK);
-      if ((v2.getX() < minThreshold) || (v2.getX() > maxThreshold)) {
+      Vector3D v1 = applyTo(Vector3D.plusI);
+      Vector3D v2 = applyInverseTo(Vector3D.plusK);
+      if ((v2.getX() < -0.9999999999) || (v2.getX() > 0.9999999999)) {
         throw new CardanEulerSingularityException(true);
       }
-      angles[0] = Math.atan2(v1.getY(), v1.getX());
-      angles[1] = -Math.asin(v2.getX());
-      angles[2] = Math.atan2(v2.getY(), v2.getZ());
+      return new double[] {
+        Math.atan2(v1.getY(), v1.getX()),
+       -Math.asin(v2.getX()),
+        Math.atan2(v2.getY(), v2.getZ())
+      };
 
     } else if (order == RotationOrder.XYX) {
 
@@ -695,14 +702,16 @@ public class Rotation implements Serializable {
       // (-r) (Vector3D.plusI) coordinates are :
       // cos (theta), sin (theta) sin (phi2), sin (theta) cos (phi2)
       // and we can choose to have theta in the interval [0 ; PI]
-      v1 = applyTo(Vector3D.plusI);
-      v2 = applyInverseTo(Vector3D.plusI);
-      if ((v2.getX() < minThreshold) || (v2.getX() > maxThreshold)) {
+      Vector3D v1 = applyTo(Vector3D.plusI);
+      Vector3D v2 = applyInverseTo(Vector3D.plusI);
+      if ((v2.getX() < -0.9999999999) || (v2.getX() > 0.9999999999)) {
         throw new CardanEulerSingularityException(false);
       }
-      angles[0] = Math.atan2(v1.getY(), -v1.getZ());
-      angles[1] = Math.acos(v2.getX());
-      angles[2] = Math.atan2(v2.getY(), v2.getZ());
+      return new double[] {
+        Math.atan2(v1.getY(), -v1.getZ()),
+        Math.acos(v2.getX()),
+        Math.atan2(v2.getY(), v2.getZ())
+      };
 
     } else if (order == RotationOrder.XZX) {
 
@@ -711,14 +720,16 @@ public class Rotation implements Serializable {
       // (-r) (Vector3D.plusI) coordinates are :
       // cos (psi), -sin (psi) cos (phi2), sin (psi) sin (phi2)
       // and we can choose to have psi in the interval [0 ; PI]
-      v1 = applyTo(Vector3D.plusI);
-      v2 = applyInverseTo(Vector3D.plusI);
-      if ((v2.getX() < minThreshold) || (v2.getX() > maxThreshold)) {
+      Vector3D v1 = applyTo(Vector3D.plusI);
+      Vector3D v2 = applyInverseTo(Vector3D.plusI);
+      if ((v2.getX() < -0.9999999999) || (v2.getX() > 0.9999999999)) {
         throw new CardanEulerSingularityException(false);
       }
-      angles[0] = Math.atan2(v1.getZ(), v1.getY());
-      angles[1] = Math.acos(v2.getX());
-      angles[2] = Math.atan2(v2.getZ(), -v2.getY());
+      return new double[] {
+        Math.atan2(v1.getZ(), v1.getY()),
+        Math.acos(v2.getX()),
+        Math.atan2(v2.getZ(), -v2.getY())
+      };
 
     } else if (order == RotationOrder.YXY) {
 
@@ -727,14 +738,16 @@ public class Rotation implements Serializable {
       // (-r) (Vector3D.plusJ) coordinates are :
       // sin (phi) sin (theta2), cos (phi), -sin (phi) cos (theta2)
       // and we can choose to have phi in the interval [0 ; PI]
-      v1 = applyTo(Vector3D.plusJ);
-      v2 = applyInverseTo(Vector3D.plusJ);
-      if ((v2.getY() < minThreshold) || (v2.getY() > maxThreshold)) {
+      Vector3D v1 = applyTo(Vector3D.plusJ);
+      Vector3D v2 = applyInverseTo(Vector3D.plusJ);
+      if ((v2.getY() < -0.9999999999) || (v2.getY() > 0.9999999999)) {
         throw new CardanEulerSingularityException(false);
       }
-      angles[0] = Math.atan2(v1.getX(), v1.getZ());
-      angles[1] = Math.acos(v2.getY());
-      angles[2] = Math.atan2(v2.getX(), -v2.getZ());
+      return new double[] {
+        Math.atan2(v1.getX(), v1.getZ()),
+        Math.acos(v2.getY()),
+        Math.atan2(v2.getX(), -v2.getZ())
+      };
 
     } else if (order == RotationOrder.YZY) {
 
@@ -743,14 +756,16 @@ public class Rotation implements Serializable {
       // (-r) (Vector3D.plusJ) coordinates are :
       // sin (psi) cos (theta2), cos (psi), sin (psi) sin (theta2)
       // and we can choose to have psi in the interval [0 ; PI]
-      v1 = applyTo(Vector3D.plusJ);
-      v2 = applyInverseTo(Vector3D.plusJ);
-      if ((v2.getY() < minThreshold) || (v2.getY() > maxThreshold)) {
+      Vector3D v1 = applyTo(Vector3D.plusJ);
+      Vector3D v2 = applyInverseTo(Vector3D.plusJ);
+      if ((v2.getY() < -0.9999999999) || (v2.getY() > 0.9999999999)) {
         throw new CardanEulerSingularityException(false);
       }
-      angles[0] = Math.atan2(v1.getZ(), -v1.getX());
-      angles[1] = Math.acos(v2.getY());
-      angles[2] = Math.atan2(v2.getZ(), v2.getX());
+      return new double[] {
+        Math.atan2(v1.getZ(), -v1.getX()),
+        Math.acos(v2.getY()),
+        Math.atan2(v2.getZ(), v2.getX())
+      };
 
     } else if (order == RotationOrder.ZXZ) {
 
@@ -759,14 +774,16 @@ public class Rotation implements Serializable {
       // (-r) (Vector3D.plusK) coordinates are :
       // sin (phi) sin (psi2), sin (phi) cos (psi2), cos (phi)
       // and we can choose to have phi in the interval [0 ; PI]
-      v1 = applyTo(Vector3D.plusK);
-      v2 = applyInverseTo(Vector3D.plusK);
-      if ((v2.getZ() < minThreshold) || (v2.getZ() > maxThreshold)) {
+      Vector3D v1 = applyTo(Vector3D.plusK);
+      Vector3D v2 = applyInverseTo(Vector3D.plusK);
+      if ((v2.getZ() < -0.9999999999) || (v2.getZ() > 0.9999999999)) {
         throw new CardanEulerSingularityException(false);
       }
-      angles[0] = Math.atan2(v1.getX(), -v1.getY());
-      angles[1] = Math.acos(v2.getZ());
-      angles[2] = Math.atan2(v2.getX(), v2.getY());
+      return new double[] {
+        Math.atan2(v1.getX(), -v1.getY()),
+        Math.acos(v2.getZ()),
+        Math.atan2(v2.getX(), v2.getY())
+      };
 
     } else { // last possibility is ZYZ
 
@@ -775,18 +792,18 @@ public class Rotation implements Serializable {
       // (-r) (Vector3D.plusK) coordinates are :
       // -sin (theta) cos (psi2), sin (theta) sin (psi2), cos (theta)
       // and we can choose to have theta in the interval [0 ; PI]
-      v1 = applyTo(Vector3D.plusK);
-      v2 = applyInverseTo(Vector3D.plusK);
-      if ((v2.getZ() < minThreshold) || (v2.getZ() > maxThreshold)) {
+      Vector3D v1 = applyTo(Vector3D.plusK);
+      Vector3D v2 = applyInverseTo(Vector3D.plusK);
+      if ((v2.getZ() < -0.9999999999) || (v2.getZ() > 0.9999999999)) {
         throw new CardanEulerSingularityException(false);
       }
-      angles[0] = Math.atan2(v1.getY(), v1.getX());
-      angles[1] = Math.acos(v2.getZ());
-      angles[2] = Math.atan2(v2.getY(), -v2.getX());
+      return new double[] {
+        Math.atan2(v1.getY(), v1.getX()),
+        Math.acos(v2.getZ()),
+        Math.atan2(v2.getY(), -v2.getX())
+      };
 
     }
-
-    return angles;
 
   }
 
