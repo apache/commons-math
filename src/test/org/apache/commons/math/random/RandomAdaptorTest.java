@@ -65,7 +65,7 @@ public class RandomAdaptorTest extends RandomDataTest {
      * "Powered by Eclipse ;-)"
      * 
      */
-    private class ConstantGenerator implements RandomGenerator {
+    private static class ConstantGenerator implements RandomGenerator {
         
         public boolean nextBoolean() {
             return false;

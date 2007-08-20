@@ -190,13 +190,13 @@ public final class MixedListUnivariateImplTest extends TestCase {
 
     }
 
-    public final class Foo {
+    public static final class Foo {
         public String heresFoo() {
             return "14.9";
         }
     }
 
-    public final class Bar {
+    public static final class Bar {
         public String heresBar() {
             return "12.0";
         }
