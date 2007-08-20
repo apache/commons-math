@@ -212,7 +212,7 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
     /**
      * @see org.apache.commons.math.stat.descriptive.DescriptiveStatistics#getWindowSize
      */
-    public int getWindowSize() {
+    public synchronized int getWindowSize() {
         return windowSize;
     }
 
