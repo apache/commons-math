@@ -667,7 +667,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      */
     private synchronized boolean shouldContract() {
         if (expansionMode == MULTIPLICATIVE_MODE) { 
-            return (internalArray.length / numElements) > contractionCriteria;
+            return (internalArray.length / ((float) numElements)) > contractionCriteria;
         } else {
             return (internalArray.length - numElements) > contractionCriteria;
         }
