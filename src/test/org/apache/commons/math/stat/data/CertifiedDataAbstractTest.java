@@ -111,7 +111,7 @@ public abstract class CertifiedDataAbstractTest extends TestCase {
         certifiedValues = null;
     }
     
-    public void testCertifiedValues() throws Exception {
+    public void testCertifiedValues() {
         Iterator iter = certifiedValues.keySet().iterator();
         while (iter.hasNext()) {
             String name = iter.next().toString();
