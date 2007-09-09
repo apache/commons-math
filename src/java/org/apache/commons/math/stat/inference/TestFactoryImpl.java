@@ -44,9 +44,9 @@ public class TestFactoryImpl extends TestFactory {
     }
     
     /**
-     * Create an UnknownDistributionChiSquareTest instance.
+     * Create a ChiSquareTest instance.
      * 
-     * @return a new UnknownDistributionChiSquareTest instance
+     * @return a new ChiSquareTest instance
      */
     public ChiSquareTest createChiSquareTest() { 
         return new ChiSquareTestImpl();

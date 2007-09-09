@@ -59,9 +59,9 @@ public abstract class TestFactory {
     public abstract TTest createTTest();
     
     /**
-     * Create an UnknownDistributionChiSquareTest instance.
+     * Create a ChiSquareTest instance.
      * 
-     * @return a new UnknownDistributionChiSquareTest instance
+     * @return a new ChiSquareTest instance
      */
     public abstract ChiSquareTest createChiSquareTest();  
 }
