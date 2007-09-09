@@ -22,6 +22,8 @@ import org.apache.commons.discovery.tools.DiscoverClass;
  *
  * @since 1.1
  * @version $Revision$ $Date$ 
+ * @deprecated as of 1.2, pluggability of test instances is now provided through
+ *             constructors and setters.
  */
 public abstract class TestFactory {
     /**
@@ -57,9 +59,9 @@ public abstract class TestFactory {
     public abstract TTest createTTest();
     
     /**
-     * Create a ChiSquareTest instance.
+     * Create an UnknownDistributionChiSquareTest instance.
      * 
-     * @return a new ChiSquareTest instance
+     * @return a new UnknownDistributionChiSquareTest instance
      */
     public abstract ChiSquareTest createChiSquareTest();  
 }

@@ -20,6 +20,8 @@ package org.apache.commons.math.stat.inference;
  * A concrete inference test factory.  This is the default factory used by
  * Commons-Math.
  *  
+ * @deprecated as of 1.2, pluggability of test instances is now provided through
+ *             constructors and setters.
  * @since 1.1
  * @version $Revision$ $Date$
  */
@@ -42,11 +44,11 @@ public class TestFactoryImpl extends TestFactory {
     }
     
     /**
-     * Create a ChiSquareTest instance.
+     * Create an UnknownDistributionChiSquareTest instance.
      * 
-     * @return a new ChiSquareTest instance
+     * @return a new UnknownDistributionChiSquareTest instance
      */
-    public ChiSquareTest createChiSquareTest() {
+    public ChiSquareTest createChiSquareTest() { 
         return new ChiSquareTestImpl();
     }
     

@@ -32,7 +32,7 @@ public class ChiSquareFactoryTest extends ChiSquareTestTest {
     
     public void setUp() {
     	super.setUp();
-        testStatistic = TestUtils.getChiSquareTest();
+        testStatistic = TestUtils.getUnknownDistributionChiSquareTest();
     }
 
     public static Test suite() {

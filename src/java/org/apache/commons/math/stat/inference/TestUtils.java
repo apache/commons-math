@@ -34,12 +34,26 @@ public class TestUtils  {
         super();
     }
     
-    /** Singleton TTest instance initialized using configured factory */
-    private static TTest tTest = TestFactory.newInstance().createTTest();
+    /** Singleton TTest instance using default implementation. */
+    private static TTest tTest = new TTestImpl();
    
-    /** Singleton ChiSquareTest instance initialized using configured factory */
+    /** Singleton ChiSquareTest instance using default implementation. */
     private static ChiSquareTest chiSquareTest = 
-        TestFactory.newInstance().createChiSquareTest();
+        new ChiSquareTestImpl();
+    
+    /** Singleton ChiSquareTest instance using default implementation. */
+    private static UnknownDistributionChiSquareTest unknownDistributionChiSquareTest = 
+        new ChiSquareTestImpl();
+    
+    /**
+     * Set the (singleton) TTest instance.
+     * 
+     * @param tTest the new instance to use
+     * @since 1.2
+     */
+    public static void setChiSquareTest(TTest tTest) {
+        TestUtils.tTest = tTest;
+    }
     
     /**
      * Return a (singleton) TTest instance.  Does not create a new instance.
@@ -51,12 +65,41 @@ public class TestUtils  {
     }
     
     /**
+     * Set the (singleton) ChiSquareTest instance.
+     * 
+     * @param chiSquareTest the new instance to use
+     * @since 1.2
+     */
+    public static void setChiSquareTest(ChiSquareTest chiSquareTest) {
+        TestUtils.chiSquareTest = chiSquareTest;
+    }
+    
+    /**
      * Return a (singleton) ChiSquareTest instance.  Does not create a new instance.
      * 
      * @return a ChiSquareTest instance
      */
     public static ChiSquareTest getChiSquareTest() {
         return chiSquareTest;
+    }
+    
+    /**
+     * Set the (singleton) UnknownDistributionChiSquareTest instance.
+     * 
+     * @param unknownDistributionChiSquareTest the new instance to use
+     * @since 1.2
+     */
+    public static void setUnknownDistributionChiSquareTest(UnknownDistributionChiSquareTest unknownDistributionChiSquareTest) {
+        TestUtils.unknownDistributionChiSquareTest = unknownDistributionChiSquareTest;
+    }
+    
+    /**
+     * Return a (singleton) UnknownDistributionChiSquareTest instance.  Does not create a new instance.
+     * 
+     * @return a UnknownDistributionChiSquareTest instance
+     */
+    public static UnknownDistributionChiSquareTest getUnknownDistributionChiSquareTest() {
+        return unknownDistributionChiSquareTest;
     }
     
     /**
@@ -277,29 +320,29 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math.stat.inference.ChiSquareTest#chiSquareDataSetsComparison(long[], long[])
+     * @see org.apache.commons.math.stat.inference.UnknownDistributionChiSquareTest#chiSquareDataSetsComparison(long[], long[])
      */
     public static double chiSquareDataSetsComparison(long[] observed1, long[] observed2)
         throws IllegalArgumentException {
-        return chiSquareTest.chiSquareDataSetsComparison(observed1, observed2);
+        return unknownDistributionChiSquareTest.chiSquareDataSetsComparison(observed1, observed2);
     }
 
     /**
-     * @see org.apache.commons.math.stat.inference.ChiSquareTest#chiSquareTestDataSetsComparison(long[], long[])
+     * @see org.apache.commons.math.stat.inference.UnknownDistributionChiSquareTest#chiSquareTestDataSetsComparison(long[], long[])
      */
     public static double chiSquareTestDataSetsComparison(long[] observed1, long[] observed2)
         throws IllegalArgumentException, MathException {
-        return chiSquareTest.chiSquareTestDataSetsComparison(observed1, observed2);
+        return unknownDistributionChiSquareTest.chiSquareTestDataSetsComparison(observed1, observed2);
     }
 
 
     /**
-     * @see org.apache.commons.math.stat.inference.ChiSquareTest#chiSquareTestDataSetsComparison(long[], long[], double)
+     * @see org.apache.commons.math.stat.inference.UnknownDistributionChiSquareTest#chiSquareTestDataSetsComparison(long[], long[], double)
      */
     public static boolean chiSquareTestDataSetsComparison(long[] observed1, long[] observed2,
         double alpha)
         throws IllegalArgumentException, MathException {
-        return chiSquareTest.chiSquareTestDataSetsComparison(observed1, observed2, alpha);
+        return unknownDistributionChiSquareTest.chiSquareTestDataSetsComparison(observed1, observed2, alpha);
     }
 
 

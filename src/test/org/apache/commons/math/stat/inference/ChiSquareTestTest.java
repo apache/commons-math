@@ -28,7 +28,7 @@ import junit.framework.TestSuite;
 
 public class ChiSquareTestTest extends TestCase {
 
-    protected ChiSquareTest testStatistic = new ChiSquareTestImpl();
+    protected UnknownDistributionChiSquareTest testStatistic = new ChiSquareTestImpl();
 
     public ChiSquareTestTest(String name) {
         super(name);

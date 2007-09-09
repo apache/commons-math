@@ -22,11 +22,12 @@ import org.apache.commons.math.distribution.ChiSquaredDistributionImpl;
 import org.apache.commons.math.distribution.DistributionFactory;
 
 /**
- * Implements Chi-Square test statistics defined in the {@link ChiSquareTest} interface.
+ * Implements Chi-Square test statistics defined in the
+ * {@link UnknownDistributionChiSquareTest} interface.
  *
  * @version $Revision$ $Date$
  */
-public class ChiSquareTestImpl implements ChiSquareTest {
+public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
 
     /** Distribution used to compute inference statistics. */
     private ChiSquaredDistribution distribution;
