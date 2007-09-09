@@ -412,7 +412,7 @@ public abstract class DirectSearchOptimizer {
      * equal to 1
      * @param generator random vector generator to use for restarts
      */
-    public void setMultiStart(int starts, RandomVectorGenerator generator) {
+    private void setMultiStart(int starts, RandomVectorGenerator generator) {
         if (starts < 2) {
             this.starts    = 1;
             this.generator = null;
