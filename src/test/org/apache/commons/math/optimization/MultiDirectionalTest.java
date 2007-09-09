@@ -33,6 +33,41 @@ public class MultiDirectionalTest
     super(name);
   }
 
+  public void testCostExceptions() throws ConvergenceException {
+      CostFunction wrong =
+          new CostFunction() {
+            public double cost(double[] x) throws CostException {
+                if (x[0] < 0) {
+                    throw new CostException("{0}", new Object[] { "oops"});
+                } else if (x[0] > 1) {
+                    throw new CostException(new RuntimeException("oops"));
+                } else {
+                    return x[0] * (1 - x[0]);
+                }
+            }
+      };
+      try {
+          new MultiDirectional(1.9, 0.4).minimizes(wrong, 10, new ValueChecker(1.0e-3),
+                                           new double[] { -0.5 }, new double[] { 0.5 });
+          fail("an exception should have been thrown");
+      } catch (CostException ce) {
+          // expected behavior
+          assertNull(ce.getCause());
+      } catch (Exception e) {
+          fail("wrong exception caught: " + e.getMessage());
+      } 
+      try {
+          new MultiDirectional(1.9, 0.4).minimizes(wrong, 10, new ValueChecker(1.0e-3),
+                                           new double[] { 0.5 }, new double[] { 1.5 });
+          fail("an exception should have been thrown");
+      } catch (CostException ce) {
+          // expected behavior
+          assertNotNull(ce.getCause());
+      } catch (Exception e) {
+          fail("wrong exception caught: " + e.getMessage());
+      } 
+  }
+
   public void testRosenbrock()
     throws CostException, ConvergenceException {
 
@@ -49,11 +84,12 @@ public class MultiDirectionalTest
     count = 0;
     PointCostPair optimum =
       new MultiDirectional().minimizes(rosenbrock, 100, new ValueChecker(1.0e-3),
-                                       new double[] { -1.2,  1.0 },
-                                       new double[] {  3.5, -2.3 });
+                                       new double[][] {
+                                         { -1.2,  1.0 }, { 0.9, 1.2 } , {  3.5, -2.3 }
+                                       });
 
     assertTrue(count > 60);
-    assertTrue(optimum.cost > 0.02);
+    assertTrue(optimum.cost > 0.01);
 
   }
 
