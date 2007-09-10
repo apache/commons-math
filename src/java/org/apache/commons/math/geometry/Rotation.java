@@ -220,7 +220,7 @@ public class Rotation implements Serializable {
     // There are different ways to compute the quaternions elements
     // from the matrix. They all involve computing one element from
     // the diagonal of the matrix, and computing the three other ones
-    // unsing a formula involving a division by the first element,
+    // using a formula involving a division by the first element,
     // which unfortunately can be null. Since the norm of the
     // quaternion is 1, we know at least one element has an absolute
     // value greater or equal to 0.5, so it is always possible to
@@ -292,9 +292,9 @@ public class Rotation implements Serializable {
   double u2u2 = Vector3D.dotProduct(u2, u2);
   double v1v1 = Vector3D.dotProduct(v1, v1);
   double v2v2 = Vector3D.dotProduct(v2, v2);
-  if ((u1u1 < 1.0e-15) || (u2u2 < 1.0e-15)
-      || (v1v1 < 1.0e-15) || (v2v2 < 1.0e-15))
+  if ((u1u1 == 0) || (u2u2 == 0) || (v1v1 == 0) || (v2v2 == 0)) {
     throw new ArithmeticException("null norm");
+  }
 
   double u1x = u1.getX();
   double u1y = u1.getY();
@@ -304,7 +304,7 @@ public class Rotation implements Serializable {
   double u2y = u2.getY();
   double u2z = u2.getZ();
 
-  // renormalize v1 in order to have (v1'|v1') = (u1|u1)
+  // normalize v1 in order to have (v1'|v1') = (u1|u1)
   double coeff = Math.sqrt (u1u1 / v1v1);
   double v1x   = coeff * v1.getX();
   double v1y   = coeff * v1.getY();
@@ -341,7 +341,7 @@ public class Rotation implements Serializable {
            + k.getY() * (u1z * u2x - u1x * u2z)
            + k.getZ() * (u1x * u2y - u1y * u2x);
 
-  if (c < (1.0e-10 * u1u1 * u2u2)) {
+  if (c == 0) {
     // the (q1, q2, q3) vector is in the (u1, u2) plane
     // we try other vectors
     Vector3D u3 = Vector3D.crossProduct(u1, u2);
@@ -352,7 +352,6 @@ public class Rotation implements Serializable {
     double v3x  = v3.getX();
     double v3y  = v3.getY();
     double v3z  = v3.getZ();
-    double u3u3 = u1u1 * u2u2 - u1u2 * u1u2;
 
     double dx3 = v3x - u3x;
     double dy3 = v3y - u3y;
@@ -364,7 +363,7 @@ public class Rotation implements Serializable {
       + k.getY() * (u1z * u3x - u1x * u3z)
       + k.getZ() * (u1x * u3y - u1y * u3x);
 
-    if (c < (1.0e-10 * u1u1 * u3u3)) {
+    if (c == 0) {
       // the (q1, q2, q3) vector is aligned with u1:
       // we try (u2, u3) and (v2, v3)
       k = new Vector3D(dy2 * dz3 - dz2 * dy3,
@@ -374,7 +373,7 @@ public class Rotation implements Serializable {
         + k.getY() * (u2z * u3x - u2x * u3z)
         + k.getZ() * (u2x * u3y - u2y * u3x);
 
-      if (c < (1.0e-10 * u2u2 * u3u3)) {
+      if (c == 0) {
         // the (q1, q2, q3) vector is aligned with everything
         // this is really the identity rotation
         q0 = 1.0;
@@ -424,7 +423,7 @@ public class Rotation implements Serializable {
   public Rotation(Vector3D u, Vector3D v) {
 
     double normProduct = u.getNorm() * v.getNorm();
-    if (normProduct < 1.0e-15) {
+    if (normProduct == 0) {
       throw new ArithmeticException("null norm");
     }
 
@@ -525,15 +524,14 @@ public class Rotation implements Serializable {
    */
   public Vector3D getAxis() {
     double squaredSine = q1 * q1 + q2 * q2 + q3 * q3;
-    if (squaredSine < 1.0e-12) {
+    if (squaredSine == 0) {
       return new Vector3D(1, 0, 0);
     } else if (q0 < 0) {
       double inverse = 1 / Math.sqrt(squaredSine);
       return new Vector3D(q1 * inverse, q2 * inverse, q3 * inverse);
-    } else {
-      double inverse = -1 / Math.sqrt(squaredSine);
-      return new Vector3D(q1 * inverse, q2 * inverse, q3 * inverse);
     }
+    double inverse = -1 / Math.sqrt(squaredSine);
+    return new Vector3D(q1 * inverse, q2 * inverse, q3 * inverse);
   }
 
   /** Get the angle of the rotation.
@@ -544,9 +542,8 @@ public class Rotation implements Serializable {
       return 2 * Math.asin(Math.sqrt(q1 * q1 + q2 * q2 + q3 * q3));
     } else if (q0 < 0) {
       return 2 * Math.acos(-q0);
-    } else {
-      return 2 * Math.acos(q0);
     }
+    return 2 * Math.acos(q0);
   }
 
   /** Get the Cardan or Euler angles corresponding to the instance.
@@ -931,79 +928,82 @@ public class Rotation implements Serializable {
    */
   private double[][] orthogonalizeMatrix(double[][] m, double threshold)
     throws NotARotationMatrixException {
-    double x00 = m[0][0];
-    double x01 = m[0][1];
-    double x02 = m[0][2];
-    double x10 = m[1][0];
-    double x11 = m[1][1];
-    double x12 = m[1][2];
-    double x20 = m[2][0];
-    double x21 = m[2][1];
-    double x22 = m[2][2];
+    double[] m0 = m[0];
+    double[] m1 = m[1];
+    double[] m2 = m[2];
+    double x00 = m0[0];
+    double x01 = m0[1];
+    double x02 = m0[2];
+    double x10 = m1[0];
+    double x11 = m1[1];
+    double x12 = m1[2];
+    double x20 = m2[0];
+    double x21 = m2[1];
+    double x22 = m2[2];
     double fn = 0;
     double fn1;
 
-    double[][] o = new double[3][];
-    o[0] = new double[3];
-    o[1] = new double[3];
-    o[2] = new double[3];
+    double[][] o = new double[3][3];
+    double[] o0 = o[0];
+    double[] o1 = o[1];
+    double[] o2 = o[2];
 
     // iterative correction: Xn+1 = Xn - 0.5 * (Xn.Mt.Xn - M)
     int i = 0;
     while (++i < 11) {
 
       // Mt.Xn
-      double mx00 = m[0][0] * x00 + m[1][0] * x10 + m[2][0] * x20;
-      double mx10 = m[0][1] * x00 + m[1][1] * x10 + m[2][1] * x20;
-      double mx20 = m[0][2] * x00 + m[1][2] * x10 + m[2][2] * x20;
-      double mx01 = m[0][0] * x01 + m[1][0] * x11 + m[2][0] * x21;
-      double mx11 = m[0][1] * x01 + m[1][1] * x11 + m[2][1] * x21;
-      double mx21 = m[0][2] * x01 + m[1][2] * x11 + m[2][2] * x21;
-      double mx02 = m[0][0] * x02 + m[1][0] * x12 + m[2][0] * x22;
-      double mx12 = m[0][1] * x02 + m[1][1] * x12 + m[2][1] * x22;
-      double mx22 = m[0][2] * x02 + m[1][2] * x12 + m[2][2] * x22;
+      double mx00 = m0[0] * x00 + m1[0] * x10 + m2[0] * x20;
+      double mx10 = m0[1] * x00 + m1[1] * x10 + m2[1] * x20;
+      double mx20 = m0[2] * x00 + m1[2] * x10 + m2[2] * x20;
+      double mx01 = m0[0] * x01 + m1[0] * x11 + m2[0] * x21;
+      double mx11 = m0[1] * x01 + m1[1] * x11 + m2[1] * x21;
+      double mx21 = m0[2] * x01 + m1[2] * x11 + m2[2] * x21;
+      double mx02 = m0[0] * x02 + m1[0] * x12 + m2[0] * x22;
+      double mx12 = m0[1] * x02 + m1[1] * x12 + m2[1] * x22;
+      double mx22 = m0[2] * x02 + m1[2] * x12 + m2[2] * x22;
 
       // Xn+1
-      o[0][0] = x00 - 0.5 * (x00 * mx00 + x01 * mx10 + x02 * mx20 - m[0][0]);
-      o[0][1] = x01 - 0.5 * (x00 * mx01 + x01 * mx11 + x02 * mx21 - m[0][1]);
-      o[0][2] = x02 - 0.5 * (x00 * mx02 + x01 * mx12 + x02 * mx22 - m[0][2]);
-      o[1][0] = x10 - 0.5 * (x10 * mx00 + x11 * mx10 + x12 * mx20 - m[1][0]);
-      o[1][1] = x11 - 0.5 * (x10 * mx01 + x11 * mx11 + x12 * mx21 - m[1][1]);
-      o[1][2] = x12 - 0.5 * (x10 * mx02 + x11 * mx12 + x12 * mx22 - m[1][2]);
-      o[2][0] = x20 - 0.5 * (x20 * mx00 + x21 * mx10 + x22 * mx20 - m[2][0]);
-      o[2][1] = x21 - 0.5 * (x20 * mx01 + x21 * mx11 + x22 * mx21 - m[2][1]);
-      o[2][2] = x22 - 0.5 * (x20 * mx02 + x21 * mx12 + x22 * mx22 - m[2][2]);
+      o0[0] = x00 - 0.5 * (x00 * mx00 + x01 * mx10 + x02 * mx20 - m0[0]);
+      o0[1] = x01 - 0.5 * (x00 * mx01 + x01 * mx11 + x02 * mx21 - m0[1]);
+      o0[2] = x02 - 0.5 * (x00 * mx02 + x01 * mx12 + x02 * mx22 - m0[2]);
+      o1[0] = x10 - 0.5 * (x10 * mx00 + x11 * mx10 + x12 * mx20 - m1[0]);
+      o1[1] = x11 - 0.5 * (x10 * mx01 + x11 * mx11 + x12 * mx21 - m1[1]);
+      o1[2] = x12 - 0.5 * (x10 * mx02 + x11 * mx12 + x12 * mx22 - m1[2]);
+      o2[0] = x20 - 0.5 * (x20 * mx00 + x21 * mx10 + x22 * mx20 - m2[0]);
+      o2[1] = x21 - 0.5 * (x20 * mx01 + x21 * mx11 + x22 * mx21 - m2[1]);
+      o2[2] = x22 - 0.5 * (x20 * mx02 + x21 * mx12 + x22 * mx22 - m2[2]);
 
       // correction on each elements
-      double corr00 = o[0][0] - m[0][0];
-      double corr01 = o[0][1] - m[0][1];
-      double corr02 = o[0][2] - m[0][2];
-      double corr10 = o[1][0] - m[1][0];
-      double corr11 = o[1][1] - m[1][1];
-      double corr12 = o[1][2] - m[1][2];
-      double corr20 = o[2][0] - m[2][0];
-      double corr21 = o[2][1] - m[2][1];
-      double corr22 = o[2][2] - m[2][2];
+      double corr00 = o0[0] - m0[0];
+      double corr01 = o0[1] - m0[1];
+      double corr02 = o0[2] - m0[2];
+      double corr10 = o1[0] - m1[0];
+      double corr11 = o1[1] - m1[1];
+      double corr12 = o1[2] - m1[2];
+      double corr20 = o2[0] - m2[0];
+      double corr21 = o2[1] - m2[1];
+      double corr22 = o2[2] - m2[2];
 
       // Frobenius norm of the correction
       fn1 = corr00 * corr00 + corr01 * corr01 + corr02 * corr02
-        + corr10 * corr10 + corr11 * corr11 + corr12 * corr12
-        + corr20 * corr20 + corr21 * corr21 + corr22 * corr22;
+          + corr10 * corr10 + corr11 * corr11 + corr12 * corr12
+          + corr20 * corr20 + corr21 * corr21 + corr22 * corr22;
 
       // convergence test
       if (Math.abs(fn1 - fn) <= threshold)
         return o;
 
       // prepare next iteration
-      x00 = o[0][0];
-      x01 = o[0][1];
-      x02 = o[0][2];
-      x10 = o[1][0];
-      x11 = o[1][1];
-      x12 = o[1][2];
-      x20 = o[2][0];
-      x21 = o[2][1];
-      x22 = o[2][2];
+      x00 = o0[0];
+      x01 = o0[1];
+      x02 = o0[2];
+      x10 = o1[0];
+      x11 = o1[1];
+      x12 = o1[2];
+      x20 = o2[0];
+      x21 = o2[1];
+      x22 = o2[2];
       fn  = fn1;
 
     }
