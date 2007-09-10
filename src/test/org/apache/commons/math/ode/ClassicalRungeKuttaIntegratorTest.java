@@ -34,20 +34,27 @@ public class ClassicalRungeKuttaIntegratorTest
     super(name);
   }
 
-  public void testDimensionCheck() {
+  public void testSanityChecks() {
     try  {
       TestProblem1 pb = new TestProblem1();
       new ClassicalRungeKuttaIntegrator(0.01).integrate(pb,
                                                         0.0, new double[pb.getDimension()+10],
-                                                        1.0, new double[pb.getDimension()+10]);
+                                                        1.0, new double[pb.getDimension()]);
         fail("an exception should have been thrown");
     } catch(DerivativeException de) {
       fail("wrong exception caught");
     } catch(IntegratorException ie) {
     }
-  }
-  
-  public void testNullIntervalCheck() {
+    try  {
+        TestProblem1 pb = new TestProblem1();
+        new ClassicalRungeKuttaIntegrator(0.01).integrate(pb,
+                                                          0.0, new double[pb.getDimension()],
+                                                          1.0, new double[pb.getDimension()+10]);
+          fail("an exception should have been thrown");
+      } catch(DerivativeException de) {
+        fail("wrong exception caught");
+      } catch(IntegratorException ie) {
+      }
     try  {
       TestProblem1 pb = new TestProblem1();
       new ClassicalRungeKuttaIntegrator(0.01).integrate(pb,

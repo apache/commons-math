@@ -34,18 +34,41 @@ public class HighamHall54IntegratorTest
     super(name);
   }
 
-  public void testDimensionCheck() {
-    try  {
-      TestProblem1 pb = new TestProblem1();
-      HighamHall54Integrator integrator = new HighamHall54Integrator(0.0, 1.0,
-                                                                     1.0e-10, 1.0e-10);
-      integrator.integrate(pb,
-                           0.0, new double[pb.getDimension()+10],
-                           1.0, new double[pb.getDimension()+10]);
-      fail("an exception should have been thrown");
-    } catch(DerivativeException de) {
-      fail("wrong exception caught");
-    } catch(IntegratorException ie) {
+  public void testWrongDerivative() {
+    try {
+      HighamHall54Integrator integrator =
+          new HighamHall54Integrator(0.0, 1.0, 1.0e-10, 1.0e-10);
+      FirstOrderDifferentialEquations equations =
+          new FirstOrderDifferentialEquations() {
+          public void computeDerivatives(double t, double[] y, double[] dot)
+            throws DerivativeException {
+            if (t < -0.5) {
+                throw new DerivativeException("{0}", new String[] { "oops" });
+            } else {
+                throw new DerivativeException(new RuntimeException("oops"));
+           }
+          }
+          public int getDimension() {
+              return 1;
+          }
+      };
+
+      try  {
+        integrator.integrate(equations, -1.0, new double[1], 0.0, new double[1]);
+        fail("an exception should have been thrown");
+      } catch(DerivativeException de) {
+        // expected behavior
+      }
+
+      try  {
+        integrator.integrate(equations, 0.0, new double[1], 1.0, new double[1]);
+        fail("an exception should have been thrown");
+      } catch(DerivativeException de) {
+        // expected behavior
+      }
+
+    } catch (Exception e) {
+      fail("wrong exception caught: " + e.getMessage());        
     }
   }
 
@@ -136,18 +159,79 @@ public class HighamHall54IntegratorTest
 
   }
 
+  public void testSanityChecks() {
+    try {
+      final TestProblem3 pb  = new TestProblem3(0.9);
+      double minStep = 0;
+      double maxStep = pb.getFinalTime() - pb.getInitialTime();
+
+      try {
+        FirstOrderIntegrator integ =
+            new HighamHall54Integrator(minStep, maxStep, new double[4], new double[4]);
+        integ.integrate(pb, pb.getInitialTime(), new double[6],
+                        pb.getFinalTime(), new double[pb.getDimension()]);
+        fail("an exception should have been thrown");
+      } catch (IntegratorException ie) {
+        // expected behavior
+      }
+
+      try {
+        FirstOrderIntegrator integ =
+            new HighamHall54Integrator(minStep, maxStep, new double[4], new double[4]);
+        integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
+                        pb.getFinalTime(), new double[6]);
+        fail("an exception should have been thrown");
+      } catch (IntegratorException ie) {
+        // expected behavior
+      }
+
+      try {
+        FirstOrderIntegrator integ =
+            new HighamHall54Integrator(minStep, maxStep, new double[2], new double[4]);
+        integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
+                        pb.getFinalTime(), new double[pb.getDimension()]);
+        fail("an exception should have been thrown");
+      } catch (IntegratorException ie) {
+        // expected behavior
+      }
+
+      try {
+        FirstOrderIntegrator integ =
+            new HighamHall54Integrator(minStep, maxStep, new double[4], new double[2]);
+        integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
+                        pb.getFinalTime(), new double[pb.getDimension()]);
+        fail("an exception should have been thrown");
+      } catch (IntegratorException ie) {
+        // expected behavior
+      }
+
+      try {
+        FirstOrderIntegrator integ =
+            new HighamHall54Integrator(minStep, maxStep, new double[4], new double[4]);
+        integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
+                        pb.getInitialTime(), new double[pb.getDimension()]);
+        fail("an exception should have been thrown");
+      } catch (IntegratorException ie) {
+        // expected behavior
+      }
+
+    } catch (Exception e) {
+      fail("wrong exception caught: " + e.getMessage());
+    }
+  }
+
   public void testKepler()
     throws DerivativeException, IntegratorException {
 
     final TestProblem3 pb  = new TestProblem3(0.9);
     double minStep = 0;
     double maxStep = pb.getFinalTime() - pb.getInitialTime();
-    double scalAbsoluteTolerance = 1.0e-8;
-    double scalRelativeTolerance = scalAbsoluteTolerance;
+    double[] vecAbsoluteTolerance = { 1.0e-8, 1.0e-8, 1.0e-10, 1.0e-10 };
+    double[] vecRelativeTolerance = { 1.0e-10, 1.0e-10, 1.0e-8, 1.0e-8 };
 
     FirstOrderIntegrator integ = new HighamHall54Integrator(minStep, maxStep,
-                                                            scalAbsoluteTolerance,
-                                                            scalRelativeTolerance);
+                                                            vecAbsoluteTolerance,
+                                                            vecRelativeTolerance);
     integ.setStepHandler(new KeplerHandler(pb));
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
@@ -180,8 +264,8 @@ public class HighamHall54IntegratorTest
         maxError = error;
       }
       if (isLast) {
-        assertTrue(maxError < 1.54e-10);
-        assertTrue(nbSteps < 520);
+        assertTrue(maxError < 4e-11);
+        assertTrue(nbSteps < 670);
       }
     }
     private TestProblem3 pb;
