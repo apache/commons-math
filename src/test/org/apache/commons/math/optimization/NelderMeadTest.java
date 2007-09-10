@@ -106,18 +106,27 @@ public class NelderMeadTest
         nm.minimizes(rosenbrock, 100, new ValueChecker(1.0e-3),
                      new double[][] {
                        { -1.2, 1.0 }, { 0.9, 1.2 }, { 3.5, -2.3 }
-                     }, 3, 1642738l);
+                     }, 10, 1642738l);
 
-    assertTrue(count < 200);
+    assertTrue(count > 700);
+    assertTrue(count < 800);
     assertEquals(0.0, optimum.cost, 5.0e-5);
     assertEquals(1.0, optimum.point[0], 0.01);
     assertEquals(1.0, optimum.point[1], 0.01);
 
     PointCostPair[] minima = nm.getMinima();
-    assertEquals(3, minima.length);
-    for (int i = 1; i < minima.length; ++i) {
-        if (minima[i] != null) {
-            assertTrue(minima[i-1].cost <= minima[i].cost);
+    assertEquals(10, minima.length);
+    assertNotNull(minima[0]);
+    assertNull(minima[minima.length - 1]);
+    for (int i = 0; i < minima.length; ++i) {
+        if (minima[i] == null) {
+            if ((i + 1) < minima.length) {
+                assertTrue(minima[i+1] == null);
+            }
+        } else {
+            if (i > 0) {
+                assertTrue(minima[i-1].cost <= minima[i].cost);
+            }
         }
     }
 
