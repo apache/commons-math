@@ -37,10 +37,8 @@ public class GraggBulirschStoerIntegratorTest
   public void testDimensionCheck() {
     try  {
       TestProblem1 pb = new TestProblem1();
-      FirstOrderIntegratorFactory factory =
-          FirstOrderIntegratorFactory.newInstance();
       AdaptiveStepsizeIntegrator integrator =
-        factory.newGraggBulirschStoerIntegrator(0.0, 1.0, 1.0e-10, 1.0e-10);
+        new GraggBulirschStoerIntegrator(0.0, 1.0, 1.0e-10, 1.0e-10);
       integrator.integrate(pb,
                            0.0, new double[pb.getDimension()+10],
                            1.0, new double[pb.getDimension()+10]);
