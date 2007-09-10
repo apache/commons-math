@@ -573,11 +573,10 @@ public abstract class DirectSearchOptimizer {
                 return (o2 == null) ? 0 : +1;
             } else if (o2 == null) {
                 return -1;
-            } else {
-                double cost1 = ((PointCostPair) o1).cost;
-                double cost2 = ((PointCostPair) o2).cost;
-                return (cost1 < cost2) ? -1 : ((o1 == o2) ? 0 : +1);
             }
+            double cost1 = ((PointCostPair) o1).cost;
+            double cost2 = ((PointCostPair) o2).cost;
+            return (cost1 < cost2) ? -1 : ((o1 == o2) ? 0 : +1);
         }
     };
 
