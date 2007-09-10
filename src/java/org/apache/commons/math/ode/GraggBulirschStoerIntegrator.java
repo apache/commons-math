@@ -508,23 +508,7 @@ public class GraggBulirschStoerIntegrator
                         double t0, double[] y0, double t, double[] y)
   throws DerivativeException, IntegratorException {
 
-    // sanity check
-    if (equations.getDimension() != y0.length) {
-      throw new IntegratorException("dimensions mismatch: "
-                                    + "ODE problem has dimension {0}"
-                                    + ", state vector has dimension {1}",
-                                    new String[] {
-                                      Integer.toString(equations.getDimension()),
-                                      Integer.toString(y0.length)
-                                    });
-    }
-    if (Math.abs(t - t0) <= 1.0e-12 * Math.max(Math.abs(t0), Math.abs(t))) {
-      throw new IntegratorException("too small integration interval: length = {0}",
-                                    new String[] {
-                                      Double.toString(Math.abs(t - t0))
-                                    });
-    }
-
+    sanityChecks(equations, t0, y0, t, y);
     boolean forward = (t > t0);
 
     // create some internal working arrays

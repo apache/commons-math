@@ -114,27 +114,47 @@ public abstract class RungeKuttaIntegrator
     switchesHandler.add(function, maxCheckInterval, convergence);
   }
 
-  public void integrate(FirstOrderDifferentialEquations equations,
-                        double t0, double[] y0,
-                        double t, double[] y)
-  throws DerivativeException, IntegratorException {
-
-    // sanity check
+  /** Perform some sanity checks on the integration parameters.
+   * @param equations differential equations set
+   * @param t0 start time
+   * @param y0 state vector at t0
+   * @param t target time for the integration
+   * @param y placeholder where to put the state vector
+   * @exception IntegratorException if some inconsistency is detected
+   */
+  private void sanityChecks(FirstOrderDifferentialEquations equations,
+                            double t0, double[] y0, double t, double[] y)
+    throws IntegratorException {
     if (equations.getDimension() != y0.length) {
       throw new IntegratorException("dimensions mismatch: ODE problem has dimension {0},"
-                                    + " state vector has dimension {1}",
+                                    + " initial state vector has dimension {1}",
                                     new String[] {
                                       Integer.toString(equations.getDimension()),
                                       Integer.toString(y0.length)
                                     });
     }
+    if (equations.getDimension() != y.length) {
+        throw new IntegratorException("dimensions mismatch: ODE problem has dimension {0},"
+                                      + " final state vector has dimension {1}",
+                                      new String[] {
+                                        Integer.toString(equations.getDimension()),
+                                        Integer.toString(y.length)
+                                      });
+      }
     if (Math.abs(t - t0) <= 1.0e-12 * Math.max(Math.abs(t0), Math.abs(t))) {
       throw new IntegratorException("too small integration interval: length = {0}",
                                     new String[] {
                                       Double.toString(Math.abs(t - t0))
                                     });
-    }
-    
+    }      
+  }
+
+  public void integrate(FirstOrderDifferentialEquations equations,
+                        double t0, double[] y0,
+                        double t, double[] y)
+  throws DerivativeException, IntegratorException {
+
+    sanityChecks(equations, t0, y0, t, y);
     boolean forward = (t > t0);
 
     // create some internal working arrays

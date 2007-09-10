@@ -154,6 +154,58 @@ public abstract class AdaptiveStepsizeIntegrator
     switchesHandler.add(function, maxCheckInterval, convergence);
   }
 
+  /** Perform some sanity checks on the integration parameters.
+   * @param equations differential equations set
+   * @param t0 start time
+   * @param y0 state vector at t0
+   * @param t target time for the integration
+   * @param y placeholder where to put the state vector
+   * @exception IntegratorException if some inconsistency is detected
+   */
+  protected void sanityChecks(FirstOrderDifferentialEquations equations,
+                              double t0, double[] y0, double t, double[] y)
+    throws IntegratorException {
+      if (equations.getDimension() != y0.length) {
+          throw new IntegratorException("dimensions mismatch: ODE problem has dimension {0},"
+                                        + " initial state vector has dimension {1}",
+                                        new String[] {
+                                          Integer.toString(equations.getDimension()),
+                                          Integer.toString(y0.length)
+                                        });
+      }
+      if (equations.getDimension() != y.length) {
+          throw new IntegratorException("dimensions mismatch: ODE problem has dimension {0},"
+                                        + " final state vector has dimension {1}",
+                                        new String[] {
+                                          Integer.toString(equations.getDimension()),
+                                          Integer.toString(y.length)
+                                        });
+      }
+      if ((vecAbsoluteTolerance != null) && (vecAbsoluteTolerance.length != y0.length)) {
+          throw new IntegratorException("dimensions mismatch: state vector has dimension {0},"
+                                        + " absolute tolerance vector has dimension {1}",
+                                        new String[] {
+                                          Integer.toString(y0.length),
+                                          Integer.toString(vecAbsoluteTolerance.length)
+                                        });
+      }
+      if ((vecRelativeTolerance != null) && (vecRelativeTolerance.length != y0.length)) {
+          throw new IntegratorException("dimensions mismatch: state vector has dimension {0},"
+                                        + " relative tolerance vector has dimension {1}",
+                                        new String[] {
+                                          Integer.toString(y0.length),
+                                          Integer.toString(vecRelativeTolerance.length)
+                                        });
+      }
+      if (Math.abs(t - t0) <= 1.0e-12 * Math.max(Math.abs(t0), Math.abs(t))) {
+        throw new IntegratorException("too small integration interval: length = {0}",
+                                      new String[] {
+                                        Double.toString(Math.abs(t - t0))
+                                      });
+      }
+      
+  }
+
   /** Initialize the integration step.
    * @param equations differential equations set
    * @param forward forward integration indicator
