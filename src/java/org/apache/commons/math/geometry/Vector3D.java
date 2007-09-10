@@ -270,10 +270,9 @@ public class Vector3D
     } else if ((y >= -threshold) && (y <= threshold)) {
       double inverse  = 1 / Math.sqrt(x * x + z * z);
       return new Vector3D(-inverse * z, 0, inverse * x);
-    } else {
-      double inverse  = 1 / Math.sqrt(x * x + y * y);
-      return new Vector3D(inverse * y, -inverse * x, 0);
     }
+    double inverse  = 1 / Math.sqrt(x * x + y * y);
+    return new Vector3D(inverse * y, -inverse * x, 0);
 
   }
 
