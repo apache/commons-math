@@ -53,13 +53,12 @@ import org.apache.commons.math.stat.descriptive.moment.VectorialMean;
  * set of n+1 points in dimension n) that is updated by the algorithms
  * steps.</p>
 
- * <p>The instances can be built either in single-start or in
+ * <p>Minimization can be attempted either in single-start or in
  * multi-start mode. Multi-start is a traditional way to try to avoid
- * beeing trapped in a local minimum and miss the global minimum of a
+ * being trapped in a local minimum and miss the global minimum of a
  * function. It can also be used to verify the convergence of an
- * algorithm. In multi-start mode, the {@link #minimizes(CostFunction,
- * int, ConvergenceChecker, double[], double[]) minimizes}
- * method returns the best minimum found after all starts, and the
+ * algorithm. The various multi-start-enabled <code>minimizes</code>
+ * methods return the best minimum found after all starts, and the
  * {@link #getMinima getMinima} method can be used to retrieve all
  * minima from all starts (including the one already provided by the
  * {@link #minimizes(CostFunction, int, ConvergenceChecker, double[],
@@ -87,7 +86,7 @@ public abstract class DirectSearchOptimizer {
      * considered to represent two opposite vertices of a box parallel
      * to the canonical axes of the space. The simplex is the subset of
      * vertices encountered while going from vertexA to vertexB
-     * travelling along the box edges only. This can be seen as a scaled
+     * traveling along the box edges only. This can be seen as a scaled
      * regular simplex using the projected separation between the given
      * points as the scaling factor along each coordinate axis.</p>
      * <p>The optimization is performed in single-start mode.</p>
@@ -125,7 +124,7 @@ public abstract class DirectSearchOptimizer {
      * considered to represent two opposite vertices of a box parallel
      * to the canonical axes of the space. The simplex is the subset of
      * vertices encountered while going from vertexA to vertexB
-     * travelling along the box edges only. This can be seen as a scaled
+     * traveling along the box edges only. This can be seen as a scaled
      * regular simplex using the projected separation between the given
      * points as the scaling factor along each coordinate axis.</p>
      * <p>The optimization is performed in multi-start mode.</p>
@@ -154,12 +153,12 @@ public abstract class DirectSearchOptimizer {
                                    int starts, long seed)
     throws CostException, ConvergenceException {
 
-        // set up the simplex travelling around the box
+        // set up the simplex traveling around the box
         buildSimplex(vertexA, vertexB);
 
         // we consider the simplex could have been produced by a generator
         // having its mean value at the center of the box, the standard
-        // deviation along each axe beeing the corresponding half size
+        // deviation along each axe being the corresponding half size
         double[] mean              = new double[vertexA.length];
         double[] standardDeviation = new double[vertexA.length];
         for (int i = 0; i < vertexA.length; ++i) {
@@ -343,7 +342,7 @@ public abstract class DirectSearchOptimizer {
      * <p>The two vertices are considered to represent two opposite
      * vertices of a box parallel to the canonical axes of the
      * space. The simplex is the subset of vertices encountered while
-     * going from vertexA to vertexB travelling along the box edges
+     * going from vertexA to vertexB traveling along the box edges
      * only. This can be seen as a scaled regular simplex using the
      * projected separation between the given points as the scaling
      * factor along each coordinate axis.</p>
@@ -355,7 +354,7 @@ public abstract class DirectSearchOptimizer {
         int n = vertexA.length;
         simplex = new PointCostPair[n + 1];
 
-        // set up the simplex travelling around the box
+        // set up the simplex traveling around the box
         for (int i = 0; i <= n; ++i) {
             double[] vertex = new double[n];
             if (i > 0) {
@@ -441,7 +440,7 @@ public abstract class DirectSearchOptimizer {
      * highest minimum cost, and null elements corresponding to the runs
      * that did not converge (all elements will be null if the {@link
      * #minimizes(CostFunction, int, ConvergenceChecker, double[], double[])
-     * minimizes} method throwed a {@link ConvergenceException
+     * minimizes} method did throw a {@link ConvergenceException
      * ConvergenceException}).</p>
      * @return array containing the minima, or null if {@link
      * #minimizes(CostFunction, int, ConvergenceChecker, double[], double[])
