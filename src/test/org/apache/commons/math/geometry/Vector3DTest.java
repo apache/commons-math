@@ -28,6 +28,24 @@ public class Vector3DTest
     super(name);
   }
 
+  public void testConstructors() {
+      double r = Math.sqrt(2) /2;
+      checkVector(new Vector3D(2, new Vector3D(Math.PI / 3, -Math.PI / 4)),
+                  r, r * Math.sqrt(3), -2 * r);
+      checkVector(new Vector3D(2, Vector3D.plusI,
+                              -3, Vector3D.minusK),
+                  2, 0, 3);
+      checkVector(new Vector3D(2, Vector3D.plusI,
+                               5, Vector3D.plusJ,
+                              -3, Vector3D.minusK),
+                  2, 5, 3);
+      checkVector(new Vector3D(2, Vector3D.plusI,
+                               5, Vector3D.plusJ,
+                               5, Vector3D.minusJ,
+                               -3, Vector3D.minusK),
+                  2, 0, 3);
+  }
+
   public void testCoordinates() {
     Vector3D v = new Vector3D(1, 2, 3);
     assertTrue(Math.abs(v.getX() - 1) < 1.0e-12);
@@ -46,9 +64,10 @@ public class Vector3DTest
     Vector3D v1 = new Vector3D(1, 2, 3);
     Vector3D v2 = new Vector3D(-3, -2, -1);
     v1 = v1.subtract(v2);
-    checkVector(v1, new Vector3D(4, 4, 4));
+    checkVector(v1, 4, 4, 4);
 
-    checkVector(v2.subtract(v1), new Vector3D(-7, -6, -5));
+    checkVector(v2.subtract(v1), -7, -6, -5);
+    checkVector(v2.subtract(3, v1), -15, -14, -13);
 
   }
 
@@ -56,18 +75,19 @@ public class Vector3DTest
     Vector3D v1 = new Vector3D(1, 2, 3);
     Vector3D v2 = new Vector3D(-3, -2, -1);
     v1 = v1.add(v2);
-    checkVector(v1, new Vector3D(-2, 0, 2));
+    checkVector(v1, -2, 0, 2);
 
-    checkVector(v2.add(v1), new Vector3D(-5, -2, 1));
+    checkVector(v2.add(v1), -5, -2, 1);
+    checkVector(v2.add(3, v1), -9, -2, 5);
 
   }
 
   public void testScalarProduct() {
     Vector3D v = new Vector3D(1, 2, 3);
     v = v.multiply(3);
-    checkVector(v, new Vector3D(3, 6, 9));
+    checkVector(v, 3, 6, 9);
 
-    checkVector(v.multiply(0.5), new Vector3D(1.5, 3, 4.5));
+    checkVector(v.multiply(0.5), 1.5, 3, 4.5);
 
   }
 
@@ -78,7 +98,7 @@ public class Vector3DTest
     assertTrue(Math.abs(Vector3D.dotProduct(v1, v2) - 11) < 1.0e-12);
 
     Vector3D v3 = Vector3D.crossProduct(v1, v2);
-    checkVector(v3, new Vector3D(3, -10, -1));
+    checkVector(v3, 3, -10, -1);
 
     assertTrue(Math.abs(Vector3D.dotProduct(v1, v3)) < 1.0e-12);
     assertTrue(Math.abs(Vector3D.dotProduct(v2, v3)) < 1.0e-12);
@@ -111,8 +131,59 @@ public class Vector3DTest
 
   }
 
-  private void checkVector(Vector3D v1, Vector3D v2) {
-    assertTrue(v1.subtract(v2).getNorm() < 1.0e-12);
+  public void testNormalize() {
+    assertEquals(1.0, new Vector3D(5, -4, 2).normalize().getNorm(), 1.0e-12);
+    try {
+        new Vector3D().normalize();
+        fail("an exception should have been thrown");
+    } catch (ArithmeticException ae) {
+        // expected behavior
+    } catch (Exception e) {
+        fail("wrong exception caught: " + e.getMessage());
+    }
+  }
+
+  public void testOrthogonal() {
+      Vector3D v1 = new Vector3D(0.1, 2.5, 1.3);
+      assertEquals(0.0, Vector3D.dotProduct(v1, v1.orthogonal()), 1.0e-12);
+      Vector3D v2 = new Vector3D(2.3, -0.003, 7.6);
+      assertEquals(0.0, Vector3D.dotProduct(v2, v2.orthogonal()), 1.0e-12);
+      Vector3D v3 = new Vector3D(-1.7, 1.4, 0.2);
+      assertEquals(0.0, Vector3D.dotProduct(v3, v3.orthogonal()), 1.0e-12);
+      try {
+          new Vector3D(0, 0, 0).orthogonal();
+          fail("an exception should have been thrown");
+      } catch (ArithmeticException ae) {
+          // expected behavior
+      } catch (Exception e) {
+          fail("wrong exception caught: " + e.getMessage());
+      }
+  }
+
+  public void testAngle() {
+     assertEquals(0.22572612855273393616, 
+                  Vector3D.angle(new Vector3D(1, 2, 3), new Vector3D(4, 5, 6)),
+                  1.0e-12);
+     assertEquals(7.98595620686106654517199e-8, 
+                  Vector3D.angle(new Vector3D(1, 2, 3), new Vector3D(2, 4, 6.000001)),
+                  1.0e-12);
+     assertEquals(3.14159257373023116985197793156, 
+                  Vector3D.angle(new Vector3D(1, 2, 3), new Vector3D(-2, -4, -6.000001)),
+                  1.0e-12);
+     try {
+         Vector3D.angle(new Vector3D(), Vector3D.plusI);
+         fail("an exception should have been thrown");
+     } catch (ArithmeticException ae) {
+         // expected behavior
+     } catch (Exception e) {
+         fail("wrong exception caught: " + e.getMessage());
+     }
+  }
+
+  private void checkVector(Vector3D v, double x, double y, double z) {
+      assertEquals(x, v.getX(), 1.0e-12);
+      assertEquals(y, v.getY(), 1.0e-12);
+      assertEquals(z, v.getZ(), 1.0e-12);
   }
   
   public static Test suite() {

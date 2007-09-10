@@ -80,6 +80,17 @@ public class RotationTest
     checkVector(r.getAxis(), Vector3D.plusJ);
     checkAngle(r.getAngle(), Math.PI);
 
+    checkVector(new Rotation().getAxis(), Vector3D.plusI);
+
+  }
+
+  public void testRevert() {
+    Rotation r = new Rotation(0.001, 0.36, 0.48, 0.8, true);
+    Rotation reverted = r.revert();
+    checkRotation(r.applyTo(reverted), 1, 0, 0, 0);
+    checkRotation(reverted.applyTo(r), 1, 0, 0, 0);
+    assertEquals(r.getAngle(), reverted.getAngle(), 1.0e-12);
+    assertEquals(-1, Vector3D.dotProduct(r.getAxis(), reverted.getAxis()), 1.0e-12);
   }
 
   public void testVectorOnePair() {
@@ -90,6 +101,14 @@ public class RotationTest
     checkVector(r.applyTo(u.multiply(v.getNorm())), v.multiply(u.getNorm()));
 
     checkAngle(new Rotation(u, u.negate()).getAngle(), Math.PI);
+
+    try {
+        new Rotation(u, new Vector3D());
+        fail("an exception should have been thrown");
+      } catch (ArithmeticException e) {
+      } catch (Exception e) {
+        fail("unexpected exception");
+    }
 
   }
 
@@ -112,10 +131,92 @@ public class RotationTest
     }
     checkAngle(r.getAngle(), Math.PI);
 
+    double sqrt = Math.sqrt(2) / 2;
+    r = new Rotation(Vector3D.plusI,  Vector3D.plusJ,
+                     new Vector3D(0.5, 0.5,  sqrt),
+                     new Vector3D(0.5, 0.5, -sqrt));
+    checkRotation(r, sqrt, 0.5, 0.5, 0);
+
+    r = new Rotation(u1, u2, u1, Vector3D.crossProduct(u1, u2));
+    checkRotation(r, sqrt, -sqrt, 0, 0);
+
+    checkRotation(new Rotation(u1, u2, u1, u2), 1, 0, 0, 0);
+
+    try {
+        new Rotation(u1, u2, new Vector3D(), v2);
+        fail("an exception should have been thrown");
+      } catch (ArithmeticException e) {
+      } catch (Exception e) {
+        fail("unexpected exception");
+    }
+
   }
 
   public void testMatrix()
     throws NotARotationMatrixException {
+
+    try {
+      new Rotation(new double[][] {
+                     { 0.0, 1.0, 0.0 },
+                     { 1.0, 0.0, 0.0 }
+                   }, 1.0e-7);
+    } catch (NotARotationMatrixException nrme) {
+      // expected behavior
+    } catch (Exception e) {
+      fail("wrong exception caught: " + e.getMessage());
+    }
+
+    try {
+      new Rotation(new double[][] {
+                     {  0.445888,  0.797184, -0.407040 },
+                     {  0.821760, -0.184320,  0.539200 },
+                     { -0.354816,  0.574912,  0.737280 }
+                   }, 1.0e-7);
+    } catch (NotARotationMatrixException nrme) {
+      // expected behavior
+    } catch (Exception e) {
+      fail("wrong exception caught: " + e.getMessage());
+    }
+
+    try {
+        new Rotation(new double[][] {
+                       {  0.4,  0.8, -0.4 },
+                       { -0.4,  0.6,  0.7 },
+                       {  0.8, -0.2,  0.5 }
+                     }, 1.0e-15);
+      } catch (NotARotationMatrixException nrme) {
+        // expected behavior
+      } catch (Exception e) {
+        fail("wrong exception caught: " + e.getMessage());
+      }
+
+    checkRotation(new Rotation(new double[][] {
+                                 {  0.445888,  0.797184, -0.407040 },
+                                 { -0.354816,  0.574912,  0.737280 },
+                                 {  0.821760, -0.184320,  0.539200 }
+                               }, 1.0e-10),
+                  0.8, 0.288, 0.384, 0.36);
+
+    checkRotation(new Rotation(new double[][] {
+                                 {  0.539200,  0.737280,  0.407040 },
+                                 {  0.184320, -0.574912,  0.797184 },
+                                 {  0.821760, -0.354816, -0.445888 }
+                              }, 1.0e-10),
+                  0.36, 0.8, 0.288, 0.384);
+
+    checkRotation(new Rotation(new double[][] {
+                                 { -0.445888,  0.797184, -0.407040 },
+                                 {  0.354816,  0.574912,  0.737280 },
+                                 {  0.821760,  0.184320, -0.539200 }
+                               }, 1.0e-10),
+                  0.384, 0.36, 0.8, 0.288);
+
+    checkRotation(new Rotation(new double[][] {
+                                 { -0.539200,  0.737280,  0.407040 },
+                                 { -0.184320, -0.574912,  0.797184 },
+                                 {  0.821760,  0.354816,  0.445888 }
+                               }, 1.0e-10),
+                  0.288, 0.384, 0.36, 0.8);
 
     double[][] m1 = { { 0.0, 1.0, 0.0 },
                       { 0.0, 0.0, 1.0 },
@@ -209,17 +310,11 @@ public class RotationTest
       RotationOrder.YZX, RotationOrder.ZXY, RotationOrder.ZYX
     };
 
-    RotationOrder[] EulerOrders = {
-      RotationOrder.XYX, RotationOrder.XZX, RotationOrder.YXY,
-      RotationOrder.YZY, RotationOrder.ZXZ, RotationOrder.ZYZ
-    };
-
     for (int i = 0; i < CardanOrders.length; ++i) {
       for (double alpha1 = 0.1; alpha1 < 6.2; alpha1 += 0.3) {
         for (double alpha2 = -1.55; alpha2 < 1.55; alpha2 += 0.3) {
           for (double alpha3 = 0.1; alpha3 < 6.2; alpha3 += 0.3) {
-            Rotation r = new Rotation(CardanOrders[i],
-                                      alpha1, alpha2, alpha3);
+            Rotation r = new Rotation(CardanOrders[i], alpha1, alpha2, alpha3);
             double[] angles = r.getAngles(CardanOrders[i]);
             checkAngle(angles[0], alpha1);
             checkAngle(angles[1], alpha2);
@@ -228,6 +323,11 @@ public class RotationTest
         }
       }
     }
+
+    RotationOrder[] EulerOrders = {
+            RotationOrder.XYX, RotationOrder.XZX, RotationOrder.YXY,
+            RotationOrder.YZY, RotationOrder.ZXZ, RotationOrder.ZYZ
+          };
 
     for (int i = 0; i < EulerOrders.length; ++i) {
       for (double alpha1 = 0.1; alpha1 < 6.2; alpha1 += 0.3) {
@@ -246,7 +346,54 @@ public class RotationTest
 
   }
 
+  public void testSingularities()
+    throws CardanEulerSingularityException {
+
+    RotationOrder[] CardanOrders = {
+      RotationOrder.XYZ, RotationOrder.XZY, RotationOrder.YXZ,
+      RotationOrder.YZX, RotationOrder.ZXY, RotationOrder.ZYX
+    };
+
+    double[] singularCardanAngle = { Math.PI / 2, -Math.PI / 2 };
+    for (int i = 0; i < CardanOrders.length; ++i) {
+      for (int j = 0; j < singularCardanAngle.length; ++j) {
+        Rotation r = new Rotation(CardanOrders[i], 0.1, singularCardanAngle[j], 0.3);
+        try {
+          r.getAngles(CardanOrders[i]);
+          fail("an exception should have been caught");
+        } catch (CardanEulerSingularityException cese) {
+          // expected behavior
+        } catch (Exception e) {
+          fail("wrong exception caught: " + e.getMessage());
+        }
+      }
+    }
+
+    RotationOrder[] EulerOrders = {
+            RotationOrder.XYX, RotationOrder.XZX, RotationOrder.YXY,
+            RotationOrder.YZY, RotationOrder.ZXZ, RotationOrder.ZYZ
+          };
+
+    double[] singularEulerAngle = { 0, Math.PI };
+    for (int i = 0; i < EulerOrders.length; ++i) {
+      for (int j = 0; j < singularEulerAngle.length; ++j) {
+        Rotation r = new Rotation(EulerOrders[i], 0.1, singularEulerAngle[j], 0.3);
+        try {
+          r.getAngles(EulerOrders[i]);
+          fail("an exception should have been caught");
+        } catch (CardanEulerSingularityException cese) {
+          // expected behavior
+        } catch (Exception e) {
+          fail("wrong exception caught: " + e.getMessage());
+        }
+      }
+    }
+
+
+  }
+
   public void testQuaternion() {
+
     Rotation r1 = new Rotation(new Vector3D(2, -3, 5), 1.7);
     double n = 23.5;
     Rotation r2 = new Rotation(n * r1.getQ0(), n * r1.getQ1(),
@@ -260,6 +407,10 @@ public class RotationTest
         }
       }
     }
+
+    r1 = new Rotation( 0.288,  0.384,  0.36,  0.8, false);
+    checkRotation(r1, -r1.getQ0(), -r1.getQ1(), -r1.getQ2(), -r1.getQ3());
+
   }
 
   public void testCompose() {
@@ -341,6 +492,11 @@ public class RotationTest
   private void checkAngle(double a1, double a2) {
     a2 -= 2 * Math.PI * Math.floor((a2 + Math.PI - a1) / (2 * Math.PI));
     assertTrue(Math.abs(a1 - a2) < 1.0e-10);
+  }
+
+  private void checkRotation(Rotation r, double q0, double q1, double q2, double q3) {
+    Rotation reference = new Rotation(q0, q1, q2, q3, false);
+    assertEquals(0, r.applyInverseTo(reference).getAngle(), 1.0e-12);
   }
 
   public static Test suite() {
