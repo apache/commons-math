@@ -187,7 +187,7 @@ public abstract class RungeKuttaFehlbergIntegrator
     }
     interpolator.storeTime(t0);
 
-    double  currentT  = t0;
+    stepStart  = t0;
     double  hNew      = 0;
     boolean firstTime = true;
     boolean lastStep;
@@ -196,13 +196,12 @@ public abstract class RungeKuttaFehlbergIntegrator
 
       interpolator.shift();
 
-      double h     = 0;
       double error = 0;
       for (boolean loop = true; loop;) {
 
         if (firstTime || !fsal) {
           // first stage
-          equations.computeDerivatives(currentT, y, yDotK[0]);
+          equations.computeDerivatives(stepStart, y, yDotK[0]);
         }
 
         if (firstTime) {
@@ -216,16 +215,16 @@ public abstract class RungeKuttaFehlbergIntegrator
             }
           }
           hNew = initializeStep(equations, forward, getOrder(), scale,
-                                currentT, y, yDotK[0], yTmp, yDotK[1]);
+                                stepStart, y, yDotK[0], yTmp, yDotK[1]);
           firstTime = false;
         }
 
-        h = hNew;
+        stepSize = hNew;
 
         // step adjustment near bounds
-        if ((forward && (currentT + h > t))
-            || ((! forward) && (currentT + h < t))) {
-          h = t - currentT;
+        if ((forward && (stepStart + stepSize > t))
+            || ((! forward) && (stepStart + stepSize < t))) {
+          stepSize = t - stepStart;
         }
 
         // next stages
@@ -236,10 +235,10 @@ public abstract class RungeKuttaFehlbergIntegrator
             for (int l = 1; l < k; ++l) {
               sum += a[k-1][l] * yDotK[l][j];
             }
-            yTmp[j] = y[j] + h * sum;
+            yTmp[j] = y[j] + stepSize * sum;
           }
 
-          equations.computeDerivatives(currentT + c[k-1] * h, yTmp, yDotK[k]);
+          equations.computeDerivatives(stepStart + c[k-1] * stepSize, yTmp, yDotK[k]);
 
         }
 
@@ -249,18 +248,18 @@ public abstract class RungeKuttaFehlbergIntegrator
           for (int l = 1; l < stages; ++l) {
             sum    += b[l] * yDotK[l][j];
           }
-          yTmp[j] = y[j] + h * sum;
+          yTmp[j] = y[j] + stepSize * sum;
         }
 
         // estimate the error at the end of the step
-        error = estimateError(yDotK, y, yTmp, h);
+        error = estimateError(yDotK, y, yTmp, stepSize);
         if (error <= 1.0) {
 
           // Switching functions handling
-          interpolator.storeTime(currentT + h);
+          interpolator.storeTime(stepStart + stepSize);
           if (switchesHandler.evaluateStep(interpolator)) {
             // reject the step to match exactly the next switch time
-            hNew = switchesHandler.getEventTime() - currentT;
+            hNew = switchesHandler.getEventTime() - stepStart;
           } else {
             // accept the step
             loop = false;
@@ -271,23 +270,23 @@ public abstract class RungeKuttaFehlbergIntegrator
           double factor = Math.min(maxGrowth,
                                    Math.max(minReduction,
                                             safety * Math.pow(error, exp)));
-          hNew = filterStep(h * factor, false);
+          hNew = filterStep(stepSize * factor, false);
         }
 
       }
 
       // the step has been accepted
-      currentT += h;
+      stepStart += stepSize;
       System.arraycopy(yTmp, 0, y, 0, y0.length);
-      switchesHandler.stepAccepted(currentT, y);
+      switchesHandler.stepAccepted(stepStart, y);
       if (switchesHandler.stop()) {
         lastStep = true;
       } else {
-        lastStep = forward ? (currentT >= t) : (currentT <= t);
+        lastStep = forward ? (stepStart >= t) : (stepStart <= t);
       }
 
       // provide the step data to the step handler
-      interpolator.storeTime(currentT);
+      interpolator.storeTime(stepStart);
       handler.handleStep(interpolator, lastStep);
 
       if (fsal) {
@@ -295,10 +294,10 @@ public abstract class RungeKuttaFehlbergIntegrator
         System.arraycopy(yDotK[stages - 1], 0, yDotK[0], 0, y0.length);
       }
 
-      if (switchesHandler.reset(currentT, y) && ! lastStep) {
+      if (switchesHandler.reset(stepStart, y) && ! lastStep) {
         // some switching function has triggered changes that
         // invalidate the derivatives, we need to recompute them
-        equations.computeDerivatives(currentT, y, yDotK[0]);
+        equations.computeDerivatives(stepStart, y, yDotK[0]);
       }
 
       if (! lastStep) {
@@ -306,13 +305,15 @@ public abstract class RungeKuttaFehlbergIntegrator
         double  factor     = Math.min(maxGrowth,
                                       Math.max(minReduction,
                                                safety * Math.pow(error, exp)));
-        double  scaledH    = h * factor;
-        double  nextT      = currentT + scaledH;
+        double  scaledH    = stepSize * factor;
+        double  nextT      = stepStart + scaledH;
         boolean nextIsLast = forward ? (nextT >= t) : (nextT <= t);
         hNew = filterStep(scaledH, nextIsLast);
       }
 
     } while (! lastStep);
+
+    resetInternalState();
 
   }
 

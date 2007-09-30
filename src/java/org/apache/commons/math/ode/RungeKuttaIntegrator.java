@@ -78,6 +78,7 @@ public abstract class RungeKuttaIntegrator
     this.step       = step;
     handler         = DummyStepHandler.getInstance();
     switchesHandler = new SwitchingFunctionsHandler();
+    resetInternalState();
   }
 
   /** Get the name of the method.
@@ -180,11 +181,11 @@ public abstract class RungeKuttaIntegrator
     interpolator.storeTime(t0);
 
     // recompute the step
-    double  currentT  = t0;
     long    nbStep    = Math.max(1l, Math.abs(Math.round((t - t0) / step)));
-    double  h         = (t - t0) / nbStep;
     boolean firstTime = true;
     boolean lastStep  = false;
+    stepStart = t0;
+    stepSize  = (t - t0) / nbStep;
     handler.reset();
     for (long i = 0; ! lastStep; ++i) {
 
@@ -195,7 +196,7 @@ public abstract class RungeKuttaIntegrator
 
         if (firstTime || !fsal) {
           // first stage
-          equations.computeDerivatives(currentT, y, yDotK[0]);
+          equations.computeDerivatives(stepStart, y, yDotK[0]);
           firstTime = false;
         }
 
@@ -207,10 +208,10 @@ public abstract class RungeKuttaIntegrator
             for (int l = 1; l < k; ++l) {
               sum += a[k-1][l] * yDotK[l][j];
             }
-            yTmp[j] = y[j] + h * sum;
+            yTmp[j] = y[j] + stepSize * sum;
           }
 
-          equations.computeDerivatives(currentT + c[k-1] * h, yTmp, yDotK[k]);
+          equations.computeDerivatives(stepStart + c[k-1] * stepSize, yTmp, yDotK[k]);
 
         }
 
@@ -220,14 +221,14 @@ public abstract class RungeKuttaIntegrator
           for (int l = 1; l < stages; ++l) {
             sum    += b[l] * yDotK[l][j];
           }
-          yTmp[j] = y[j] + h * sum;
+          yTmp[j] = y[j] + stepSize * sum;
         }
 
         // Switching functions handling
-        interpolator.storeTime(currentT + h);
+        interpolator.storeTime(stepStart + stepSize);
         if (switchesHandler.evaluateStep(interpolator)) {
           needUpdate = true;
-          h = switchesHandler.getEventTime() - currentT;
+          stepSize = switchesHandler.getEventTime() - stepStart;
         } else {
           loop = false;
         }
@@ -235,9 +236,9 @@ public abstract class RungeKuttaIntegrator
       }
 
       // the step has been accepted
-      currentT += h;
+      stepStart += stepSize;
       System.arraycopy(yTmp, 0, y, 0, y0.length);
-      switchesHandler.stepAccepted(currentT, y);
+      switchesHandler.stepAccepted(stepStart, y);
       if (switchesHandler.stop()) {
         lastStep = true;
       } else {
@@ -245,7 +246,7 @@ public abstract class RungeKuttaIntegrator
       }
 
       // provide the step data to the step handler
-      interpolator.storeTime(currentT);
+      interpolator.storeTime(stepStart);
       handler.handleStep(interpolator, lastStep);
 
       if (fsal) {
@@ -253,22 +254,38 @@ public abstract class RungeKuttaIntegrator
         System.arraycopy(yDotK[stages - 1], 0, yDotK[0], 0, y0.length);
       }
 
-      if (switchesHandler.reset(currentT, y) && ! lastStep) {
+      if (switchesHandler.reset(stepStart, y) && ! lastStep) {
         // some switching function has triggered changes that
         // invalidate the derivatives, we need to recompute them
-        equations.computeDerivatives(currentT, y, yDotK[0]);
+        equations.computeDerivatives(stepStart, y, yDotK[0]);
       }
 
       if (needUpdate) {
         // a switching function has changed the step
         // we need to recompute stepsize
-        nbStep = Math.max(1l, Math.abs(Math.round((t - currentT) / step)));
-        h = (t - currentT) / nbStep;
+        nbStep = Math.max(1l, Math.abs(Math.round((t - stepStart) / step)));
+        stepSize = (t - stepStart) / nbStep;
         i = -1;
       }
 
     }
 
+    resetInternalState();
+
+  }
+
+  public double getCurrentStepStart() {
+    return stepStart;
+  }
+
+  public double getCurrentStepsize() {
+    return stepSize;
+  }
+
+  /** Reset internal state to dummy values. */
+  private void resetInternalState() {
+    stepStart = Double.NaN;
+    stepSize  = Double.NaN;
   }
 
   /** Indicator for <i>fsal</i> methods. */
@@ -294,5 +311,11 @@ public abstract class RungeKuttaIntegrator
 
   /** Switching functions handler. */
   protected SwitchingFunctionsHandler switchesHandler;
+
+  /** Current step start time. */
+  private double stepStart;
+
+  /** Current stepsize. */
+  private double stepSize;
 
 }

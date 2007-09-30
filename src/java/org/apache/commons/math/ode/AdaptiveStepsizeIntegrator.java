@@ -75,6 +75,8 @@ public abstract class AdaptiveStepsizeIntegrator
 
     switchesHandler = new SwitchingFunctionsHandler();
 
+    resetInternalState();
+
   }
 
   /** Build an integrator with the given stepsize bounds.
@@ -103,6 +105,8 @@ public abstract class AdaptiveStepsizeIntegrator
     handler = DummyStepHandler.getInstance();
 
     switchesHandler = new SwitchingFunctionsHandler();
+
+    resetInternalState();
 
   }
 
@@ -324,6 +328,20 @@ public abstract class AdaptiveStepsizeIntegrator
                                   double t, double[] y)
     throws DerivativeException, IntegratorException;
 
+  public double getCurrentStepStart() {
+    return stepStart;
+  }
+
+  public double getCurrentStepsize() {
+    return stepSize;
+  }
+
+  /** Reset internal state to dummy values. */
+  protected void resetInternalState() {
+    stepStart = Double.NaN;
+    stepSize  = Math.sqrt(minStep * maxStep);
+  }
+
   /** Get the minimal step.
    * @return minimal step
    */
@@ -364,5 +382,11 @@ public abstract class AdaptiveStepsizeIntegrator
 
   /** Switching functions handler. */
   protected SwitchingFunctionsHandler switchesHandler;
+
+  /** Current step start time. */
+  protected double stepStart;
+
+  /** Current stepsize. */
+  protected double stepSize;
 
 }

@@ -579,7 +579,7 @@ public class GraggBulirschStoerIntegrator
     }
     interpolator.storeTime(t0);
 
-    double  currentT         = t0;
+    stepStart = t0;
     double  hNew             = 0;
     double  maxError         = Double.MAX_VALUE;
     boolean previousRejected = false;
@@ -591,7 +591,6 @@ public class GraggBulirschStoerIntegrator
     costPerTimeUnit[0] = 0;
     while (! lastStep) {
 
-      double h;
       double error;
       boolean reject = false;
 
@@ -601,14 +600,14 @@ public class GraggBulirschStoerIntegrator
 
         // first evaluation, at the beginning of the step
         if (! firstStepAlreadyComputed) {
-          equations.computeDerivatives(currentT, y, yDot0);
+          equations.computeDerivatives(stepStart, y, yDot0);
         }
 
         if (firstTime) {
 
           hNew = initializeStep(equations, forward,
                                 2 * targetIter + 1, scale,
-                                currentT, y, yDot0, yTmp, yTmpDot);
+                                stepStart, y, yDot0, yTmp, yTmpDot);
 
           if (! forward) {
             hNew = -hNew;
@@ -620,14 +619,14 @@ public class GraggBulirschStoerIntegrator
 
       }
 
-      h = hNew;
+      stepSize = hNew;
 
       // step adjustment near bounds
-      if ((forward && (currentT + h > t))
-          || ((! forward) && (currentT + h < t))) {
-        h = t - currentT;
+      if ((forward && (stepStart + stepSize > t))
+          || ((! forward) && (stepStart + stepSize < t))) {
+        stepSize = t - stepStart;
       }
-      double nextT = currentT + h;
+      double nextT = stepStart + stepSize;
       lastStep = forward ? (nextT >= t) : (nextT <= t);
 
       // iterate over several substep sizes
@@ -637,13 +636,13 @@ public class GraggBulirschStoerIntegrator
         ++k;
 
         // modified midpoint integration with the current substep
-        if ( ! tryStep(equations, currentT, y, h, k, scale, fk[k],
+        if ( ! tryStep(equations, stepStart, y, stepSize, k, scale, fk[k],
                        (k == 0) ? yMidDots[0] : diagonal[k-1],
                        (k == 0) ? y1 : y1Diag[k-1],
                        yTmp)) {
 
           // the stability check failed, we reduce the global step
-          hNew   = Math.abs(filterStep(h * stabilityReduction, false));
+          hNew   = Math.abs(filterStep(stepSize * stabilityReduction, false));
           reject = true;
           loop   = false;
 
@@ -667,7 +666,7 @@ public class GraggBulirschStoerIntegrator
 
             if ((error > 1.0e15) || ((k > 1) && (error > maxError))) {
               // error is too big, we reduce the global step
-              hNew   = Math.abs(filterStep(h * stabilityReduction, false));
+              hNew   = Math.abs(filterStep(stepSize * stabilityReduction, false));
               reject = true;
               loop   = false;
             } else {
@@ -679,7 +678,7 @@ public class GraggBulirschStoerIntegrator
               double fac = stepControl2 / Math.pow(error / stepControl1, exp);
               double pow = Math.pow(stepControl3, exp);
               fac = Math.max(pow / stepControl4, Math.min(1 / pow, fac));
-              optimalStep[k]     = Math.abs(filterStep(h * fac, true));
+              optimalStep[k]     = Math.abs(filterStep(stepSize * fac, true));
               costPerTimeUnit[k] = costPerStep[k] / optimalStep[k];
 
               // check convergence
@@ -775,7 +774,7 @@ public class GraggBulirschStoerIntegrator
         }
 
         // derivative at end of step
-        equations.computeDerivatives(currentT + h, y1, yDot1);
+        equations.computeDerivatives(stepStart + stepSize, y1, yDot1);
 
         int mu = 2 * k - mudif + 3;
 
@@ -797,7 +796,7 @@ public class GraggBulirschStoerIntegrator
             extrapolate(l2, j, diagonal, yMidDots[l+1]);
           }
           for (int i = 0; i < y0.length; ++i) {
-            yMidDots[l+1][i] *= h;
+            yMidDots[l+1][i] *= stepSize;
           }
 
           // compute centered differences to evaluate next derivatives
@@ -816,13 +815,13 @@ public class GraggBulirschStoerIntegrator
           // estimate the dense output coefficients
           GraggBulirschStoerStepInterpolator gbsInterpolator
             = (GraggBulirschStoerStepInterpolator) interpolator;
-          gbsInterpolator.computeCoefficients(mu, h);
+          gbsInterpolator.computeCoefficients(mu, stepSize);
 
           if (useInterpolationError) {
             // use the interpolation error to limit stepsize
             double interpError = gbsInterpolator.estimateError(scale);
-            hInt = Math.abs(h / Math.max(Math.pow(interpError, 1.0 / (mu+4)),
-                                         0.01));
+            hInt = Math.abs(stepSize / Math.max(Math.pow(interpError, 1.0 / (mu+4)),
+                                                0.01));
             if (interpError > 10.0) {
               hNew = hInt;
               reject = true;
@@ -831,10 +830,10 @@ public class GraggBulirschStoerIntegrator
 
           // Switching functions handling
           if (!reject) {
-            interpolator.storeTime(currentT + h);
+            interpolator.storeTime(stepStart + stepSize);
             if (switchesHandler.evaluateStep(interpolator)) {
               reject = true;
-              hNew = Math.abs(switchesHandler.getEventTime() - currentT);
+              hNew = Math.abs(switchesHandler.getEventTime() - stepStart);
             }
           }
 
@@ -851,19 +850,19 @@ public class GraggBulirschStoerIntegrator
       if (! reject) {
 
         // store end of step state
-        currentT += h;
+        stepStart += stepSize;
         System.arraycopy(y1, 0, y, 0, y0.length);
 
-        switchesHandler.stepAccepted(currentT, y);
+        switchesHandler.stepAccepted(stepStart, y);
         if (switchesHandler.stop()) {
           lastStep = true;
         }
 
         // provide the step data to the step handler
-        interpolator.storeTime(currentT);
+        interpolator.storeTime(stepStart);
         handler.handleStep(interpolator, lastStep);
 
-        if (switchesHandler.reset(currentT, y) && ! lastStep) {
+        if (switchesHandler.reset(stepStart, y) && ! lastStep) {
           // some switching function has triggered changes that
           // invalidate the derivatives, we need to recompute them
           firstStepAlreadyComputed = false;
@@ -897,7 +896,7 @@ public class GraggBulirschStoerIntegrator
           // after a rejected step neither order nor stepsize
           // should increase
           targetIter = Math.min(optimalIter, k);
-          hNew = Math.min(Math.abs(h), optimalStep[targetIter]);
+          hNew = Math.min(Math.abs(stepSize), optimalStep[targetIter]);
         } else {
           // stepsize control
           if (optimalIter <= k) {

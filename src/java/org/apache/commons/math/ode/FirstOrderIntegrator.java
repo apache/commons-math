@@ -63,12 +63,16 @@ public interface FirstOrderIntegrator {
                                    double maxCheckInterval,
                                    double convergence);
 
-  /** Integrate the differential equations up to the given time
+  /** Integrate the differential equations up to the given time.
+   * <p>This method solves an Initial Value Problem (IVP).</p>
+   * <p>Since this method stores some internal state variables made
+   * available in its public interface during integration ({@link
+   * #getCurrentStepsize()}), it is <em>not</em> thread-safe.</p>
    * @param equations differential equations to integrate
    * @param t0 initial time
    * @param y0 initial value of the state vector at t0
    * @param t target time for the integration
-   * (can be set to a value smaller thant <code>t0</code> for backward integration)
+   * (can be set to a value smaller than <code>t0</code> for backward integration)
    * @param y placeholder where to put the state vector at each successful
    *  step (and hence at the end of integration), can be the same object as y0
    * @throws IntegratorException if the integrator cannot perform integration
@@ -79,5 +83,27 @@ public interface FirstOrderIntegrator {
                          double t0, double[] y0,
                          double t, double[] y)
     throws DerivativeException, IntegratorException;
+
+  /** Get the current value of the step start time t<sub>i</sub>.
+   * <p>This method can be called during integration (typically by
+   * the object implementing the {@link FirstOrderDifferentialEquations
+   * differential equations} problem) if the value of the current step that
+   * is attempted is needed.</p>
+   * <p>The result is undefined if the method is called outside of
+   * calls to {@link #integrate}</p>
+   * @return current value of the step start time t<sub>i</sub>
+   */
+  public double getCurrentStepStart();
+
+  /** Get the current value of the integration stepsize.
+   * <p>This method can be called during integration (typically by
+   * the object implementing the {@link FirstOrderDifferentialEquations
+   * differential equations} problem) if the value of the current stepsize
+   * that is tried is needed.</p>
+   * <p>The result is undefined if the method is called outside of
+   * calls to {@link #integrate}</p>
+   * @return current value of the stepsize
+   */
+  public double getCurrentStepsize();
 
 }
