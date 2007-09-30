@@ -136,7 +136,7 @@ public class SwitchingFunctionsHandler {
 
   /** Inform the switching functions that the step has been accepted
    * by the integrator.
-   * @param t value of the independant <i>time</i> variable at the
+   * @param t value of the independent <i>time</i> variable at the
    * end of the step
    * @param y array containing the current value of the state vector
    * at the end of the step
@@ -161,7 +161,7 @@ public class SwitchingFunctionsHandler {
   }
 
   /** Let the switching functions reset the state if they want.
-   * @param t value of the independant <i>time</i> variable at the
+   * @param t value of the independent <i>time</i> variable at the
    * beginning of the next step
    * @param y array were to put the desired state vector at the beginning
    * of the next step

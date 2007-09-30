@@ -34,7 +34,7 @@ import java.io.Serializable;
  * parameters can be retrieved through the {@link
  * EstimationProblem#getAllParameters
  * EstimationProblem.getAllParameters} method if the measurements are
- * independant of the problem, or directly if they are implemented as
+ * independent of the problem, or directly if they are implemented as
  * inner classes of the problem.</p>
  *
  * <p>The instances for which the <code>ignored</code> flag is set

@@ -31,7 +31,7 @@ import java.io.Serializable;
  * the name <em>switching functions</em>.</p>
  *
  * <p>Since events are only problem-dependent and are triggered by the
- * independant <i>time</i> variable and the state vector, they can
+ * independent <i>time</i> variable and the state vector, they can
  * occur at virtually any time, unknown in advance. The integrators will
  * take care to avoid sign changes inside the steps, they will reduce
  * the step size when such an event is detected in order to put this
@@ -88,7 +88,7 @@ public interface SwitchingFunction extends Serializable {
    * function must be continuous (at least in its roots neighborhood),
    * as the integrator will need to find its roots to locate the events.</p>
 
-   * @param t current value of the independant <i>time</i> variable
+   * @param t current value of the independent <i>time</i> variable
    * @param y array containing the current value of the state vector
    * @return value of the g function
    */
@@ -122,7 +122,7 @@ public interface SwitchingFunction extends Serializable {
    *   will continue.</li>
    * </ul>
 
-   * @param t current value of the independant <i>time</i> variable
+   * @param t current value of the independent <i>time</i> variable
    * @param y array containing the current value of the state vector
    * @return indication of what the integrator should do next, this
    * value must be one of {@link #STOP}, {@link #RESET_STATE},
@@ -141,7 +141,7 @@ public interface SwitchingFunction extends Serializable {
    * #RESET_STATE} indicator, this function will never be called, and it is
    * safe to leave its body empty.</p>
 
-   * @param t current value of the independant <i>time</i> variable
+   * @param t current value of the independent <i>time</i> variable
    * @param y array containing the current value of the state vector
    * the new state should be put in the same array
    */

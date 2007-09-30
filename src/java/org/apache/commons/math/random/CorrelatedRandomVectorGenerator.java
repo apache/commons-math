@@ -40,7 +40,7 @@ import org.apache.commons.math.linear.RealMatrixImpl;
  * GaussianRandomGenerator} or {@link UniformRandomGenerator}.</p>
  * <p>Sometimes, the covariance matrix for a given simulation is not
  * strictly positive definite. This means that the correlations are
- * not all independant from each other. In this case, however, the non
+ * not all independent from each other. In this case, however, the non
  * strictly positive elements found during the Cholesky decomposition
  * of the covariance matrix should not be negative either, they
  * should be null. Another non-conventional extension handling this case
@@ -141,7 +141,7 @@ implements RandomVectorGenerator {
     }
 
     /** Get the rank of the covariance matrix.
-     * The rank is the number of independant rows in the covariance
+     * The rank is the number of independent rows in the covariance
      * matrix, it is also the number of columns of the rectangular
      * matrix of the decomposition.
      * @return rank of the square matrix.

@@ -105,7 +105,7 @@ class SwitchState implements Serializable {
   }
 
   /** Reinitialize the beginning of the step.
-   * @param t0 value of the independant <i>time</i> variable at the
+   * @param t0 value of the independent <i>time</i> variable at the
    * beginning of the step
    * @param y0 array containing the current value of the state vector
    * at the beginning of the step
@@ -210,7 +210,7 @@ class SwitchState implements Serializable {
   }
 
   /** Acknowledge the fact the step has been accepted by the integrator.
-   * @param t value of the independant <i>time</i> variable at the
+   * @param t value of the independent <i>time</i> variable at the
    * end of the step
    * @param y array containing the current value of the state vector
    * at the end of the step
@@ -240,7 +240,7 @@ class SwitchState implements Serializable {
   }
 
   /** Let the switching function reset the state if it wants.
-   * @param t value of the independant <i>time</i> variable at the
+   * @param t value of the independent <i>time</i> variable at the
    * beginning of the next step
    * @param y array were to put the desired state vector at the beginning
    * of the next step

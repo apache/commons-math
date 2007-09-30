@@ -52,7 +52,7 @@ public interface FirstOrderDifferentialEquations {
     public int getDimension();
     
     /** Get the current time derivative of the state vector.
-     * @param t current value of the independant <I>time</I> variable
+     * @param t current value of the independent <I>time</I> variable
      * @param y array containing the current value of the state vector
      * @param yDot placeholder array where to put the time derivative of the state vector
      * @throws DerivativeException this exception is propagated to the caller if the

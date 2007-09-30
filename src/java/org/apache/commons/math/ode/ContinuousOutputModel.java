@@ -38,7 +38,7 @@ import java.io.Serializable;
  * variables are set only once the last step has been handled.</p>
 
  * <p>This is useful for example if the main loop of the user
- * application should remain independant from the integration process
+ * application should remain independent from the integration process
  * or if one needs to mimic the behaviour of an analytical model
  * despite a numerical model is used (i.e. one needs the ability to
  * get the model value at any time or to navigate through the
