@@ -61,27 +61,6 @@ public class DummyStepInterpolator
     super(y, forward);
   }
 
-  /** Copy constructor.
-
-   * <p>The copied interpolator should have been finalized before the
-   * copy, otherwise the copy will not be able to perform correctly
-   * any interpolation and will throw a {@link NullPointerException}
-   * later. Since we don't want this constructor to throw the
-   * exceptions finalization may involve and since we don't want this
-   * method to modify the state of the copied interpolator,
-   * finalization is <strong>not</strong> done automatically, it
-   * remains under user control.</p>
-
-   * <p>The copy is a deep copy: its arrays are separated from the
-   * original arrays of the instance.</p>
-
-   * @param interpolator interpolator to copy from.
-
-   */
-  protected DummyStepInterpolator(DummyStepInterpolator interpolator) {
-    super(interpolator);
-  }
-
   /** Compute the state at the interpolated time.
    * In this class, this method does nothing: the interpolated state
    * is always the state at the end of the current step.
@@ -94,6 +73,7 @@ public class DummyStepInterpolator
    */
   protected void computeInterpolatedState(double theta, double oneMinusThetaH)
     throws DerivativeException {
+      System.arraycopy(currentState, 0, interpolatedState, 0, currentState.length);
   }
     
   public void writeExternal(ObjectOutput out)
