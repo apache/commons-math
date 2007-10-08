@@ -76,41 +76,24 @@
             Make any proposals here where the group can comment on them.
         </li>
         <li>
-            <a href="http://issues.apache.org/bugzilla/createaccount.cgi">
-            Setup an account on Bugzilla</a> and use it to submit patches and
+            <a href="https://issues.apache.org/jira/secure/Signup!default.jspa">
+            Setup an account on JIRA</a> and use it to submit patches and
             identify bugs. Read the 
             <a href="http://issues.apache.org/bugwritinghelp.html">
             directions</a> for submitting bugs and search the database to
             determine if an issue exists or has already been dealt with.        
             <p>
-                Submitting Issues:  
-            </p>
-            <ul>
-                <li><a href="http://issues.apache.org/bugzilla/enter_bug.cgi?reporter=&amp;product=Commons&amp;version=unspecified&amp;component=Math&amp;rep_platform=All&amp;op_sys=All&amp;priority=Other&amp;bug_severity=normal&amp;bug_status=NEW&amp;assigned_to=&amp;cc=&amp;bug_file_loc=&amp;short_desc=%5Bmath%5D%5Bpatch%5D+%22Your+subject+heading+here%22&amp;comment=Please+provide+details+here.+Its+best+to+submit+patches+that+alter+existing+file%0D%0Acontent+in+%22unified+cvs+diff%22+format.+%0D%0A%0D%0ASubmissions+that+provide+new+files+can+be+supplied+as+direct+file+attachments+or%0D%0Aarchives+in+zip+or+tar.gz+format.+please+be+kind+enough+to+identify+the+format%0D%0Aof+the+attached+archive+as+bugzill+tends+to+strip+these+characterstics+by%0D%0Aremoving+the+files+extension.&amp;maketemplate=Remember+values+as+bookmarkable+template&amp;form_name=enter_bug">
-                Bookmarkable Template for submitting patches.
-                </a></li>
-                <li><a href="http://issues.apache.org/bugzilla/enter_bug.cgi?reporter=&amp;product=Commons&amp;version=unspecified&amp;component=Math&amp;rep_platform=All&amp;op_sys=All&amp;priority=Other&amp;bug_severity=normal&amp;bug_status=NEW&amp;assigned_to=&amp;cc=&amp;bug_file_loc=http%3A%2F%2F&amp;short_desc=%5Bmath%5D+%22Your+subject+heading+here%22&amp;comment=Please+review+the+bug+writing+guidelines+and+supply+as+much+detail+as+possible%0D%0Ato+allow+us+to+diagnose+and+correct+the+existing+issue.+Please+search+the+bug%0D%0Adatabase+to+determine+if+the+bug+has+possibly+been+addressed+in+the+past.&amp;maketemplate=Remember+values+as+bookmarkable+template&amp;form_name=enter_bug">
-                Bookmarkable Template for submitting bugs.
-                </a></li>
-            </ul>
-            
-            <p>
-                Querying the Database:  
-            </p>
-            <ul>
-                <li><a href="http://issues.apache.org/bugzilla/buglist.cgi?bug_status=NEW&amp;bug_status=ASSIGNED&amp;bug_status=REOPENED&amp;email1=&amp;emailtype1=substring&amp;emailassigned_to1=1&amp;email2=&amp;emailtype2=substring&amp;emailreporter2=1&amp;bugidtype=include&amp;bug_id=&amp;changedin=&amp;votes=&amp;chfieldfrom=&amp;chfieldto=Now&amp;chfieldvalue=&amp;product=Commons&amp;component=Math&amp;short_desc=&amp;short_desc_type=allwordssubstr&amp;long_desc=&amp;long_desc_type=allwordssubstr&amp;bug_file_loc=&amp;bug_file_loc_type=allwordssubstr&amp;keywords=&amp;keywords_type=anywords&amp;field0-0-0=noop&amp;type0-0-0=noop&amp;value0-0-0=&amp;cmdtype=doit&amp;newqueryname=&amp;order=Reuse+same+sort+as+last+time">
-                    New and Existing Issues.
-                </a></li>
-                <li><a href="http://issues.apache.org/bugzilla/buglist.cgi?bug_status=UNCONFIRMED&amp;bug_status=RESOLVED&amp;bug_status=VERIFIED&amp;bug_status=CLOSED&amp;email1=&amp;emailtype1=substring&amp;emailassigned_to1=1&amp;email2=&amp;emailtype2=substring&amp;emailreporter2=1&amp;bugidtype=include&amp;bug_id=&amp;changedin=&amp;votes=&amp;chfieldfrom=&amp;chfieldto=Now&amp;chfieldvalue=&amp;product=Commons&amp;component=Math&amp;short_desc=&amp;short_desc_type=allwordssubstr&amp;long_desc=&amp;long_desc_type=allwordssubstr&amp;bug_file_loc=&amp;bug_file_loc_type=allwordssubstr&amp;keywords=&amp;keywords_type=anywords&amp;field0-0-0=noop&amp;type0-0-0=noop&amp;value0-0-0=&amp;cmdtype=doit&amp;newqueryname=&amp;order=Reuse+same+sort+as+last+time">
-                    Resolved and Closed Issues.
-                </a></li>
-            </ul>          
-          <li>
-                Generating patches: The requested format for generating patches is the Unified Diff format, 
-                which can be easily generated using the svn client or Eclipse IDE.
+              See the <a href="http://commons.apache.org/math/issue-tracking.html">
+              Commons Math Issue Tracking Page</a> for more information on how to
+              search for or submit bugs or enhancement requests.
+            </p>     
+        <li>
+          Generating patches: The requested format for generating patches is
+          the Unified Diff format, which can be easily generated using the svn
+          client or various IDEs.
 <source>svn diff  > patch </source>
-          </li>
         </li>
+      </li>
     </ol>
     </p>
     <p><strong>Contributing ideas and code</strong></p>
@@ -142,11 +125,11 @@
        "PrincipalComponentsAnalysis." We can then us this page to lay out the
        development plan and track progress and decisions related to the
        feature.</li>
-       <li>Create a Bugzilla ticket using the the feature title as the short
+       <li>Create a JIRA ticket using the the feature title as the short
        description. Incorporate feedback from the initial posting in the
-       description. Add a link to the Bugzilla ticket to the WishList entry.
+       description. Add a reference to the JIRA ticket to the WishList entry.
        </li>
-       <li>Submit code as attachments to the Bugzilla ticket.  Please use one
+       <li>Submit code as attachments to the JIRA ticket.  Please use one
        ticket for each feature, adding multiple patches to the ticket
        as necessary.  Use the svn diff command to generate your patches as
        diffs.  Please do not submit modified copies of existing java files. Be
