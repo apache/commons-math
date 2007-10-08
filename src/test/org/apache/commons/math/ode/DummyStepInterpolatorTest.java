@@ -18,7 +18,6 @@
 package org.apache.commons.math.ode;
 
 import junit.framework.*;
-import java.util.Random;
 import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ObjectOutputStream;
