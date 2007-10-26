@@ -76,6 +76,99 @@ public class ContinuousOutputModelTest
 
   }
 
+  public void testModelsMerging()
+    throws DerivativeException, IntegratorException {
+
+      // theoretical solution: y[0] = cos(t), y[1] = sin(t)
+      FirstOrderDifferentialEquations problem =
+          new FirstOrderDifferentialEquations() {
+          public void computeDerivatives(double t, double[] y, double[] dot)
+          throws DerivativeException {
+              dot[0] = -y[1];
+              dot[1] =  y[0];
+          }
+          public int getDimension() {
+              return 2;
+          }
+      };
+
+      // integrate backward from &pi; to 0;
+      ContinuousOutputModel cm1 = new ContinuousOutputModel();
+      FirstOrderIntegrator integ1 =
+          new DormandPrince853Integrator(0, 1.0, 1.0e-8, 1.0e-8);
+      integ1.setStepHandler(cm1);
+      integ1.integrate(problem, Math.PI, new double[] { -1.0, 0.0 },
+                       0, new double[2]);
+
+      // integrate backward from 2&pi; to &pi;
+      ContinuousOutputModel cm2 = new ContinuousOutputModel();
+      FirstOrderIntegrator integ2 =
+          new DormandPrince853Integrator(0, 0.1, 1.0e-12, 1.0e-12);
+      integ2.setStepHandler(cm2);
+      integ2.integrate(problem, 2.0 * Math.PI, new double[] { 1.0, 0.0 },
+                       Math.PI, new double[2]);
+
+      // merge the two half circles
+      ContinuousOutputModel cm = new ContinuousOutputModel();
+      cm.append(cm2);
+      cm.append(new ContinuousOutputModel());
+      cm.append(cm1);
+
+      // check circle
+      assertEquals(2.0 * Math.PI, cm.getInitialTime(), 1.0e-12);
+      assertEquals(0, cm.getFinalTime(), 1.0e-12);
+      assertEquals(cm.getFinalTime(), cm.getInterpolatedTime(), 1.0e-12);
+      for (double t = 0; t < 2.0 * Math.PI; t += 0.1) {
+          cm.setInterpolatedTime(t);
+          double[] y = cm.getInterpolatedState();
+          assertEquals(Math.cos(t), y[0], 1.0e-7);
+          assertEquals(Math.sin(t), y[1], 1.0e-7);
+      }
+      
+  }
+
+  public void testErrorConditions()
+    throws DerivativeException {
+
+      ContinuousOutputModel cm = new ContinuousOutputModel();
+      cm.handleStep(buildInterpolator(0, new double[] { 0.0, 1.0, -2.0 }, 1), true);
+      
+      // dimension mismatch
+      assertTrue(checkAppendError(cm, 1.0, new double[] { 0.0, 1.0 }, 2.0));
+
+      // hole between time ranges
+      assertTrue(checkAppendError(cm, 10.0, new double[] { 0.0, 1.0, -2.0 }, 20.0));
+
+      // propagation direction mismatch
+      assertTrue(checkAppendError(cm, 1.0, new double[] { 0.0, 1.0, -2.0 }, 0.0));
+
+      // no errors
+      assertFalse(checkAppendError(cm, 1.0, new double[] { 0.0, 1.0, -2.0 }, 2.0));
+
+  }
+
+  private boolean checkAppendError(ContinuousOutputModel cm,
+                                   double t0, double[] y0, double t1)
+  throws DerivativeException {
+      try {
+          ContinuousOutputModel otherCm = new ContinuousOutputModel();
+          otherCm.handleStep(buildInterpolator(t0, y0, t1), true);
+          cm.append(otherCm);
+      } catch(IllegalArgumentException iae) {
+          //expected behavior
+          return true;
+      }
+      return false;
+  }
+
+  private StepInterpolator buildInterpolator(double t0, double[] y0, double t1) {
+      DummyStepInterpolator interpolator  = new DummyStepInterpolator(y0, t1 >= t0);
+      interpolator.storeTime(t0);
+      interpolator.shift();
+      interpolator.storeTime(t1);
+      return interpolator;
+  }
+
   public void checkValue(double value, double reference) {
     assertTrue(Math.abs(value - reference) < 1.0e-10);
   }
