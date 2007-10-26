@@ -70,32 +70,78 @@ public class DummyStepInterpolatorTest
   }
 
   public void testSerialization()
-    throws DerivativeException, IntegratorException,
-           IOException, ClassNotFoundException {
+  throws DerivativeException, IntegratorException,
+         IOException, ClassNotFoundException {
 
-      double[]   y    =   { 0.0, 1.0, -2.0 };
-      DummyStepInterpolator interpolator = new DummyStepInterpolator(y, true);
-      interpolator.storeTime(0);
-      interpolator.shift();
-      interpolator.storeTime(1);
+    double[]   y    =   { 0.0, 1.0, -2.0 };
+    DummyStepInterpolator interpolator = new DummyStepInterpolator(y, true);
+    interpolator.storeTime(0);
+    interpolator.shift();
+    interpolator.storeTime(1);
 
-      ByteArrayOutputStream bos = new ByteArrayOutputStream();
-      ObjectOutputStream    oos = new ObjectOutputStream(bos);
-      oos.writeObject(interpolator);
+    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+    ObjectOutputStream    oos = new ObjectOutputStream(bos);
+    oos.writeObject(interpolator);
 
-      assertTrue(bos.size () > 150);
-      assertTrue(bos.size () < 250);
+    assertTrue(bos.size () > 150);
+    assertTrue(bos.size () < 250);
 
-      ByteArrayInputStream  bis = new ByteArrayInputStream(bos.toByteArray());
-      ObjectInputStream     ois = new ObjectInputStream(bis);
-      DummyStepInterpolator dsi = (DummyStepInterpolator) ois.readObject();
+    ByteArrayInputStream  bis = new ByteArrayInputStream(bos.toByteArray());
+    ObjectInputStream     ois = new ObjectInputStream(bis);
+    DummyStepInterpolator dsi = (DummyStepInterpolator) ois.readObject();
 
-      dsi.setInterpolatedTime(0.5);
-      double[] result = dsi.getInterpolatedState();
-      for (int i = 0; i < result.length; ++i) {
-          assertTrue(Math.abs(result[i] - y[i]) < 1.0e-10);
+    dsi.setInterpolatedTime(0.5);
+    double[] result = dsi.getInterpolatedState();
+    for (int i = 0; i < result.length; ++i) {
+        assertTrue(Math.abs(result[i] - y[i]) < 1.0e-10);
+    }
+
+  }
+
+  public void testSerializationError()
+  throws DerivativeException, IntegratorException,
+         IOException, ClassNotFoundException {
+
+    double[] y = { 0.0, 1.0, -2.0 };
+    ErrorGeneratingInterpolator interpolator =
+        new ErrorGeneratingInterpolator(y, true);
+    interpolator.storeTime(0);
+    interpolator.shift();
+    interpolator.storeTime(1);
+
+    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+    ObjectOutputStream    oos = new ObjectOutputStream(bos);
+    oos.writeObject(interpolator);
+
+    assertTrue(bos.size () > 250);
+    assertTrue(bos.size () < 300);
+
+    ByteArrayInputStream  bis = new ByteArrayInputStream(bos.toByteArray());
+    ObjectInputStream     ois = new ObjectInputStream(bis);
+    try {
+        ois.readObject();
+        fail("an exception should have been thrown");
+    } catch (IOException ioe) {
+        // expected behavior
+        assertNull(ioe.getMessage());
+    } catch (Exception e) {
+        fail("wrong exception caught");
+    }
+
+  }
+
+  private static class ErrorGeneratingInterpolator extends DummyStepInterpolator {
+      public ErrorGeneratingInterpolator() {
+          super();
       }
-
+      protected ErrorGeneratingInterpolator(double[] y, boolean forward) {
+          super(y, forward);
+      }
+      public void computeInterpolatedState(double theta, double oneMinusThetaH)
+      throws DerivativeException {
+          throw new DerivativeException(null);
+      }
+      private static final long serialVersionUID = 0x3f6ab636f0c93571L;
   }
 
   public static Test suite() {
