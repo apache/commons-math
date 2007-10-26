@@ -116,7 +116,7 @@ public class ClassicalRungeKuttaIntegratorTest
 
     assertTrue(handler.getLastError() < 2.0e-13);
     assertTrue(handler.getMaximalError() < 4.0e-12);
-
+    assertEquals("classical Runge-Kutta", integ.getName());
   }
 
   public void testBigStep()

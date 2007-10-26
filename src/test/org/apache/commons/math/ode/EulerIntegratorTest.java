@@ -97,6 +97,7 @@ public class EulerIntegratorTest
 
    assertTrue(handler.getLastError() < 2.0e-4);
    assertTrue(handler.getMaximalError() < 1.0e-3);
+   assertEquals("Euler", integ.getName());
 
   }
 

@@ -97,6 +97,7 @@ public class DormandPrince54IntegratorTest
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
     assertTrue(handler.wasLastSeen());
+    assertEquals("Dormand-Prince 5(4)", integ.getName());
 
   }
 

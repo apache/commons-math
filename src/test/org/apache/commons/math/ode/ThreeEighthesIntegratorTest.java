@@ -96,6 +96,7 @@ public class ThreeEighthesIntegratorTest
 
     assertTrue(handler.getLastError() < 2.0e-13);
     assertTrue(handler.getMaximalError() < 4.0e-12);
+    assertEquals("3/8", integ.getName());
 
   }
 

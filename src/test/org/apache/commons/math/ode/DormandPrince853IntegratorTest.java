@@ -189,6 +189,7 @@ public class DormandPrince853IntegratorTest
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
+    assertEquals("Dormand-Prince 8 (5, 3)", integ.getName());
   }
 
   public void testNoDenseOutput()

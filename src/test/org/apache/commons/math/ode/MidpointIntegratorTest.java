@@ -95,6 +95,7 @@ public class MidpointIntegratorTest
 
     assertTrue(handler.getLastError() < 2.0e-7);
     assertTrue(handler.getMaximalError() < 1.0e-6);
+    assertEquals("midpoint", integ.getName());
 
   }
 

@@ -189,6 +189,7 @@ public class GraggBulirschStoerIntegratorTest
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
+    assertEquals("Gragg-Bulirsch-Stoer", integ.getName());
   }
 
   public void testUnstableDerivative()

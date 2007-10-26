@@ -236,6 +236,7 @@ public class HighamHall54IntegratorTest
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
+    assertEquals("Higham-Hall 5(4)", integ.getName());
   }
 
   private static class KeplerHandler implements StepHandler {
