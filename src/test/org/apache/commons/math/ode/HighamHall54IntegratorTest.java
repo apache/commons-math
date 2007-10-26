@@ -79,12 +79,12 @@ public class HighamHall54IntegratorTest
       TestProblem1 pb = new TestProblem1();
       double minStep = 0.1 * (pb.getFinalTime() - pb.getInitialTime());
       double maxStep = pb.getFinalTime() - pb.getInitialTime();
-      double scalAbsoluteTolerance = 1.0e-15;
-      double scalRelativeTolerance = 1.0e-15;
+      double[] vecAbsoluteTolerance = { 1.0e-15, 1.0e-16 };
+      double[] vecRelativeTolerance = { 1.0e-15, 1.0e-16 };
 
       FirstOrderIntegrator integ = new HighamHall54Integrator(minStep, maxStep,
-                                                              scalAbsoluteTolerance,
-                                                              scalRelativeTolerance);
+                                                              vecAbsoluteTolerance,
+                                                              vecRelativeTolerance);
       TestProblemHandler handler = new TestProblemHandler(pb);
       integ.setStepHandler(handler);
       integ.integrate(pb,

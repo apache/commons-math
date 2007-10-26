@@ -71,12 +71,12 @@ public class GraggBulirschStoerIntegratorTest
       TestProblem1 pb  = new TestProblem1();
       double minStep   = 0.1 * (pb.getFinalTime() - pb.getInitialTime());
       double maxStep   = pb.getFinalTime() - pb.getInitialTime();
-      double absTolerance = 1.0e-20;
-      double relTolerance = 1.0e-20;
+      double[] vecAbsoluteTolerance = { 1.0e-20, 1.0e-21 };
+      double[] vecRelativeTolerance = { 1.0e-20, 1.0e-21 };
 
       FirstOrderIntegrator integ =
         new GraggBulirschStoerIntegrator(minStep, maxStep,
-                                         absTolerance, relTolerance);
+                                         vecAbsoluteTolerance, vecRelativeTolerance);
       TestProblemHandler handler = new TestProblemHandler(pb);
       integ.setStepHandler(handler);
       integ.integrate(pb,
