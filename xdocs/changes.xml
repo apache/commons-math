@@ -98,6 +98,10 @@ Commons Math Release Notes</title>
       <action dev="brentworden" type="update" issue="MATH-170" due-to="David J. M. Karlsen">
         Added SynchronizedDescriptiveStatistics class.
       </action>
+      <action dev="brentworden" type="update" issue="MATH-154" due-to="Remi Arntzen">
+        Added addAndCheck, mulAndCheck, and subAndCheck MathUtils methods for
+        long integer arguments.
+      </action>
     </release>
     <release version="1.1" date="2005-12-17"  
  description="This is a maintenance release containing bug fixes and enhancements.

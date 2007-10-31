@@ -69,6 +69,66 @@ public final class MathUtils {
     }
 
     /**
+     * Add two long integers, checking for overflow.
+     * 
+     * @param a an addend
+     * @param b an addend
+     * @return the sum <code>a+b</code>
+     * @throws ArithmeticException if the result can not be represented as an
+     *         long
+     * @since 1.2
+     */
+    public static long addAndCheck(long a, long b) {
+        return addAndCheck(a, b, "overflow: add");
+    }
+    
+    /**
+     * Add two long integers, checking for overflow.
+     * 
+     * @param a an addend
+     * @param b an addend
+     * @param msg the message to use for any thrown exception.
+     * @return the sum <code>a+b</code>
+     * @throws ArithmeticException if the result can not be represented as an
+     *         long
+     * @since 1.2
+     */
+    private static long addAndCheck(long a, long b, String msg) {
+        long ret;
+        if (a > b) {
+            // use symmetry to reduce boundry cases
+            ret = addAndCheck(b, a, msg);
+        } else {
+            // assert a <= b
+            
+            if (a < 0) {
+                if (b < 0) {
+                    // check for negative overflow
+                    if (Long.MIN_VALUE - b <= a) {
+                        ret = a + b;
+                    } else {
+                        throw new ArithmeticException(msg);
+                    }
+                } else {
+                    // oppisite sign addition is always safe
+                    ret = a + b;
+                }
+            } else {
+                // assert a >= 0
+                // assert b >= 0
+
+                // check for positive overflow
+                if (a <= Long.MAX_VALUE - b) {
+                    ret = a + b;
+                } else {
+                    throw new ArithmeticException(msg);
+                }
+            }
+        }
+        return ret;
+    }
+    
+    /**
      * Returns an exact representation of the <a
      * href="http://mathworld.wolfram.com/BinomialCoefficient.html"> Binomial
      * Coefficient</a>, "<code>n choose k</code>", the number of
@@ -117,26 +177,7 @@ public final class MathUtils {
         }
         return result;
     }
-    
-    /** 
-     * <p>Returns the 
-     * <a href="http://mathworld.wolfram.com/Logarithm.html">logarithm</a>
-     * for base <code>b</code> of <code>x</code>.
-     * </p>
-     * <p>Returns <code>NaN<code> if either argument is negative.  If 
-     * <code>base</code> is 0 and <code>x</code> is positive, 0 is returned.
-     * If <code>base</code> is positive and <code>x</code> is 0, 
-     * <code>Double.NEGATIVE_INFINITY</code> is returned.  If both arguments
-     * are 0, the result is <code>NaN</code>.</p>
-     * 
-     * @param base the base of the logarithm, must be greater than 0
-     * @param x argument, must be greater than 0
-     * @return the value of the logarithm - the number y such that base^y = x.
-     */ 
-    public static double log(double base, double x) {
-    	return Math.log(x)/Math.log(base);
-    }
-    
+
     /**
      * Returns a <code>double</code> representation of the <a
      * href="http://mathworld.wolfram.com/BinomialCoefficient.html"> Binomial
@@ -162,7 +203,7 @@ public final class MathUtils {
     public static double binomialCoefficientDouble(final int n, final int k) {
         return Math.floor(Math.exp(binomialCoefficientLog(n, k)) + 0.5);
     }
-
+    
     /**
      * Returns the natural <code>log</code> of the <a
      * href="http://mathworld.wolfram.com/BinomialCoefficient.html"> Binomial
@@ -210,7 +251,7 @@ public final class MathUtils {
 
         return logSum;
     }
-
+    
     /**
      * Returns the <a href="http://mathworld.wolfram.com/HyperbolicCosine.html">
      * hyperbolic cosine</a> of x.
@@ -221,7 +262,7 @@ public final class MathUtils {
     public static double cosh(double x) {
         return (Math.exp(x) + Math.exp(-x)) / 2.0;
     }
-
+    
     /**
      * Returns true iff both arguments are NaN or neither is NaN and they are
      * equal
@@ -475,6 +516,25 @@ public final class MathUtils {
         return Math.abs(mulAndCheck(a / gcd(a, b), b));
     }
 
+    /** 
+     * <p>Returns the 
+     * <a href="http://mathworld.wolfram.com/Logarithm.html">logarithm</a>
+     * for base <code>b</code> of <code>x</code>.
+     * </p>
+     * <p>Returns <code>NaN<code> if either argument is negative.  If 
+     * <code>base</code> is 0 and <code>x</code> is positive, 0 is returned.
+     * If <code>base</code> is positive and <code>x</code> is 0, 
+     * <code>Double.NEGATIVE_INFINITY</code> is returned.  If both arguments
+     * are 0, the result is <code>NaN</code>.</p>
+     * 
+     * @param base the base of the logarithm, must be greater than 0
+     * @param x argument, must be greater than 0
+     * @return the value of the logarithm - the number y such that base^y = x.
+     */ 
+    public static double log(double base, double x) {
+    	return Math.log(x)/Math.log(base);
+    }
+
     /**
      * Multiply two integers, checking for overflow.
      * 
@@ -491,6 +551,61 @@ public final class MathUtils {
             throw new ArithmeticException("overflow: mul");
         }
         return (int)m;
+    }
+
+    /**
+     * Multiply two long integers, checking for overflow.
+     * 
+     * @param a first value
+     * @param b second value
+     * @return the product <code>a * b</code>
+     * @throws ArithmeticException if the result can not be represented as an
+     *         long
+     * @since 1.2
+     */
+    public static long mulAndCheck(long a, long b) {
+        long ret;
+        String msg = "overflow: multiply";
+        if (a > b) {
+            // use symmetry to reduce boundry cases
+            ret = mulAndCheck(b, a);
+        } else {
+            if (a < 0) {
+                if (b < 0) {
+                    // check for positive overflow with negative a, negative b
+                    if (a >= Long.MAX_VALUE / b) {
+                        ret = a * b;
+                    } else {
+                        throw new ArithmeticException(msg);
+                    }
+                } else if (b > 0) {
+                    // check for negative overflow with negative a, positive b
+                    if (Long.MIN_VALUE / b <= a) {
+                        ret = a * b;
+                    } else {
+                        throw new ArithmeticException(msg);
+                        
+                    }
+                } else {
+                    // assert b == 0
+                    ret = 0;
+                }
+            } else if (a > 0) {
+                // assert a > 0
+                // assert b > 0
+                
+                // check for positive overflow with positive a, positive b
+                if (a <= Long.MAX_VALUE / b) {
+                    ret = a * b;
+                } else {
+                    throw new ArithmeticException(msg);
+                }
+            } else {
+                // assert a == 0
+                ret = 0;
+            }
+        }
+        return ret;
     }
 
     /**
@@ -823,5 +938,31 @@ public final class MathUtils {
             throw new ArithmeticException("overflow: subtract");
         }
         return (int)s;
+    }
+
+    /**
+     * Subtract two long integers, checking for overflow.
+     * 
+     * @param a first value
+     * @param b second value
+     * @return the difference <code>a-b</code>
+     * @throws ArithmeticException if the result can not be represented as an
+     *         long
+     * @since 1.2
+     */
+    public static long subAndCheck(long a, long b) {
+        long ret;
+        String msg = "overflow: subtract";
+        if (b == Long.MIN_VALUE) {
+            if (a < 0) {
+                ret = a - b;
+            } else {
+                throw new ArithmeticException(msg);
+            }
+        } else {
+            // use additive inverse
+            ret = addAndCheck(a, -b, msg);
+        }
+        return ret;
     }
 }
