@@ -26,6 +26,7 @@ package org.apache.commons.math.stat.descriptive;
  * thread is computing a statistic from the instance, no other thread can modify
  * the instance nor compute another statistic. 
  *
+ * @since 1.2
  * @version $Revision: 480440 $ $Date: 2006-11-29 01:14:12 -0600 (Wed, 29 Nov 2006) $
  */
 public class SynchronizedDescriptiveStatistics extends DescriptiveStatisticsImpl {
