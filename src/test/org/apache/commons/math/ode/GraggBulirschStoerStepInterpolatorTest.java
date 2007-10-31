@@ -86,6 +86,50 @@ public class GraggBulirschStoerStepInterpolatorTest
 
   }
 
+  public void testClone()
+  throws DerivativeException, IntegratorException {
+    TestProblem3 pb = new TestProblem3(0.9);
+    double minStep = 0;
+    double maxStep = pb.getFinalTime() - pb.getInitialTime();
+    double scalAbsoluteTolerance = 1.0e-8;
+    double scalRelativeTolerance = scalAbsoluteTolerance;
+    GraggBulirschStoerIntegrator integ = new GraggBulirschStoerIntegrator(minStep, maxStep,
+                                                                          scalAbsoluteTolerance,
+                                                                          scalRelativeTolerance);
+    integ.setStepHandler(new StepHandler() {
+        public void handleStep(StepInterpolator interpolator, boolean isLast)
+        throws DerivativeException {
+            StepInterpolator cloned = interpolator.copy();
+            double tA = cloned.getPreviousTime();
+            double tB = cloned.getCurrentTime();
+            double halfStep = Math.abs(tB - tA) / 2;
+            assertEquals(interpolator.getPreviousTime(), tA, 1.0e-12);
+            assertEquals(interpolator.getCurrentTime(), tB, 1.0e-12);
+            for (int i = 0; i < 10; ++i) {
+                double t = (i * tB + (9 - i) * tA) / 9;
+                interpolator.setInterpolatedTime(t);
+                assertTrue(Math.abs(cloned.getInterpolatedTime() - t) > (halfStep / 10));
+                cloned.setInterpolatedTime(t);
+                assertEquals(t, cloned.getInterpolatedTime(), 1.0e-12);
+                double[] referenceState = interpolator.getInterpolatedState();
+                double[] cloneState     = cloned.getInterpolatedState();
+                for (int j = 0; j < referenceState.length; ++j) {
+                    assertEquals(referenceState[j], cloneState[j], 1.0e-12);
+                }
+            }
+        }
+        public boolean requiresDenseOutput() {
+            return true;
+        }
+        public void reset() {
+        }
+    });
+    integ.integrate(pb,
+            pb.getInitialTime(), pb.getInitialState(),
+            pb.getFinalTime(), new double[pb.getDimension()]);
+
+  }
+
   public static Test suite() {
     return new TestSuite(GraggBulirschStoerStepInterpolatorTest.class);
   }

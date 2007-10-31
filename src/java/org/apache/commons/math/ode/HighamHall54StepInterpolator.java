@@ -52,15 +52,12 @@ class HighamHall54StepInterpolator
     super(interpolator);
   }
 
-  /**
-   * Clone the instance.
-   * the copy is a deep copy: its arrays are separated from the
-   * original arrays of the instance
-   * @return a copy of the instance
+  /** Really copy the finalized instance.
    */
-  public Object clone() {
+  protected StepInterpolator doCopy() {
     return new HighamHall54StepInterpolator(this);
   }
+
 
   /** Compute the state at the interpolated time.
    * @param theta normalized interpolation abscissa within the step

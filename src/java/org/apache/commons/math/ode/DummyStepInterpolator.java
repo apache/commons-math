@@ -61,6 +61,21 @@ public class DummyStepInterpolator
     super(y, forward);
   }
 
+  /** Copy constructor.
+   * @param interpolator interpolator to copy from. The copy is a deep
+   * copy: its arrays are separated from the original arrays of the
+   * instance
+   */
+  public DummyStepInterpolator(DummyStepInterpolator interpolator) {
+    super(interpolator);
+  }
+
+  /** Really copy the finalized instance.
+   */
+  protected StepInterpolator doCopy() {
+    return new DummyStepInterpolator(this);
+  }
+
   /** Compute the state at the interpolated time.
    * In this class, this method does nothing: the interpolated state
    * is always the state at the end of the current step.

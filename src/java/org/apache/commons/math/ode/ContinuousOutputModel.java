@@ -92,11 +92,14 @@ public class ContinuousOutputModel
 
   /** Append another model at the end of the instance.
    * @param model model to add at the end of the instance
+   * @exception DerivativeException if some step interpolators from
+   * the appended model cannot be copied
    * @exception IllegalArgumentException if the model to append is not
    * compatible with the instance (dimension of the state vector,
    * propagation direction, hole between the dates)
    */
-  public void append(ContinuousOutputModel model) {
+  public void append(ContinuousOutputModel model)
+    throws DerivativeException {
 
     if (model.steps.size() == 0) {
       return;
@@ -127,8 +130,7 @@ public class ContinuousOutputModel
     }
 
     for (Iterator iter = model.steps.iterator(); iter.hasNext(); ) {
-      AbstractStepInterpolator ai = (AbstractStepInterpolator) iter.next();
-      steps.add(ai.clone());
+      steps.add(((AbstractStepInterpolator) iter.next()).copy());
     }
 
     index = steps.size() - 1;
@@ -176,8 +178,7 @@ public class ContinuousOutputModel
       forward     = interpolator.isForward();
     }
 
-    ai.finalizeStep();
-    steps.add(ai.clone());
+    steps.add(ai.copy());
 
     if (isLast) {
       finalTime = ai.getCurrentTime();

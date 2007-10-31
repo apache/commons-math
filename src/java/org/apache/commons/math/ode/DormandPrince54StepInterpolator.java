@@ -77,15 +77,12 @@ class DormandPrince54StepInterpolator
 
   }
 
-  /**
-   * Clone the instance.
-   * the copy is a deep copy: its arrays are separated from the
-   * original arrays of the instance
-   * @return a copy of the instance
+  /** Really copy the finalized instance.
    */
-  public Object clone() {
+  protected StepInterpolator doCopy() {
     return new DormandPrince54StepInterpolator(this);
   }
+
 
   /** Reinitialize the instance
    * @param equations set of differential equations being integrated

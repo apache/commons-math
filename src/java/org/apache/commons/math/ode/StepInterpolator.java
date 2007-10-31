@@ -62,12 +62,14 @@ public interface StepInterpolator
     
   /**
    * Set the time of the interpolated point.
-   * <p>Setting the time outside of the current step is now allowed
-   * (it was not allowed up to version 5.4 of Mantissa), but should be
-   * used with care since the accuracy of the interpolator will
+   * <p>Setting the time outside of the current step is now allowed, but
+   * should be used with care since the accuracy of the interpolator will
    * probably be very poor far from this step. This allowance has been
    * added to simplify implementation of search algorithms near the
    * step endpoints.</p>
+   * <p>Setting the time changes the instance internal state. If a
+   * specific state must be preserved, a copy of the instance must be
+   * created using {@link #copy()}.</p>
    * @param time time of the interpolated point
    * @throws DerivativeException if this call induces an automatic
    * step finalization that throws one
@@ -91,5 +93,16 @@ public interface StepInterpolator
    * integration
    */
   public boolean isForward();
+
+  /** Copy the instance.
+   * <p>The copied instance is guaranteed to be independent from the
+   * original one. Both can be used with different settings for
+   * interpolated time without any side effect.</p>
+   * @return a deep copy of the instance, which can be used independently.
+   * @throws DerivativeException if this call induces an automatic
+   * step finalization that throws one
+   * @see #setInterpolatedTime(double)
+   */
+   public StepInterpolator copy() throws DerivativeException;
 
 }

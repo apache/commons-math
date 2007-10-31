@@ -219,15 +219,12 @@ class GraggBulirschStoerStepInterpolator
 
   }
 
-  /**
-   * Clone the instance.
-   * the copy is a deep copy: its arrays are separated from the
-   * original arrays of the instance
-   * @return a copy of the instance
+  /** Really copy the finalized instance.
    */
-  public Object clone() {
+  protected StepInterpolator doCopy() {
     return new GraggBulirschStoerStepInterpolator(this);
   }
+
 
   /** Compute the interpolation coefficients for dense output.
    * @param mu degree of the interpolation polynom

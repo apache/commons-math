@@ -179,7 +179,7 @@ public abstract class RungeKuttaFehlbergIntegrator
     // set up an interpolator sharing the integrator arrays
     AbstractStepInterpolator interpolator;
     if (handler.requiresDenseOutput() || (! switchesHandler.isEmpty())) {
-      RungeKuttaStepInterpolator rki = (RungeKuttaStepInterpolator) prototype.clone();
+      RungeKuttaStepInterpolator rki = (RungeKuttaStepInterpolator) prototype.copy();
       rki.reinitialize(equations, yTmp, yDotK, forward);
       interpolator = rki;
     } else {

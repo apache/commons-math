@@ -46,7 +46,6 @@ class DormandPrince853StepInterpolator
   public DormandPrince853StepInterpolator() {
     super();
     yDotKLast = null;
-    yTmp      = null;
     v         = null;
     vectorsInitialized = false;
   }
@@ -87,18 +86,11 @@ class DormandPrince853StepInterpolator
 
     }
 
-    // the step has been finalized, we don't need this anymore
-    yTmp = null;
-
   }
 
-  /**
-   * Clone the instance.
-   * the copy is a deep copy: its arrays are separated from the
-   * original arrays of the instance
-   * @return a copy of the instance
+  /** Really copy the finalized instance.
    */
-  public Object clone() {
+  protected StepInterpolator doCopy() {
     return new DormandPrince853StepInterpolator(this);
   }
 
@@ -134,8 +126,6 @@ class DormandPrince853StepInterpolator
     for (int k = 0; k < yDotKLast.length; ++k) {
       yDotKLast[k] = new double[dimension];
     }
-
-    yTmp = new double[dimension];
 
     v = new double[7][];
     for (int k = 0; k < v.length; ++k) {
@@ -225,7 +215,13 @@ class DormandPrince853StepInterpolator
   protected void doFinalize()
     throws DerivativeException {
 
+    if (currentState == null) {
+      // we are finalizing an uninitialized instance
+      return;
+    }
+
     double s;
+    double[] yTmp = new double[currentState.length];
 
     // k14
     for (int j = 0; j < currentState.length; ++j) {
@@ -310,9 +306,6 @@ class DormandPrince853StepInterpolator
 
   /** Last evaluations. */
   private double[][] yDotKLast;
-
-  /** Temporary state vector. */
-  private double[] yTmp;
 
   /** Vectors for interpolation. */
   private double[][] v;
@@ -407,6 +400,6 @@ class DormandPrince853StepInterpolator
 
   };
 
-  private static final long serialVersionUID = 4165537490327432186L;
+  private static final long serialVersionUID = 7152276390558450974L;
 
 }

@@ -66,15 +66,12 @@ class GillStepInterpolator
     super(interpolator);
   }
 
-  /**
-   * Clone the instance.
-   * the copy is a deep copy: its arrays are separated from the
-   * original arrays of the instance
-   * @return a copy of the instance
+  /** Really copy the finalized instance.
    */
-  public Object clone() {
+  protected StepInterpolator doCopy() {
     return new GillStepInterpolator(this);
   }
+
 
   /** Compute the state at the interpolated time.
    * This is the main processing method that should be implemented by

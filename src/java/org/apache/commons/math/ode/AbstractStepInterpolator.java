@@ -38,7 +38,7 @@ import java.io.IOException;
  */
 
 public abstract class AbstractStepInterpolator
-  implements StepInterpolator, Cloneable {
+  implements StepInterpolator {
 
   /** previous time */
   protected double previousTime;
@@ -163,32 +163,31 @@ public abstract class AbstractStepInterpolator
   }
 
   /** Copy the instance.
+   * <p>The copied instance is guaranteed to be independent from the
+   * original one. Both can be used with different settings for
+   * interpolated time without any side effect.</p>
+   * @return a deep copy of the instance, which can be used independently.
+   * @throws DerivativeException if this call induces an automatic
+   * step finalization that throws one
+   * @see #setInterpolatedTime(double)
+   */
+   public StepInterpolator copy() throws DerivativeException {
 
-  * <p>The copied interpolator should have been finalized before the
-  * copy, otherwise the copy will not be able to perform correctly any
-  * interpolation and will throw a {@link NullPointerException}
-  * later. Since we don't want this constructor to throw the
-  * exceptions finalization may involve and since we don't want this
-  * method to modify the state of the copied interpolator,
-  * finalization is <strong>not</strong> done automatically, it
-  * remains under user control.</p>
+     // finalize the step before performing copy
+     finalizeStep();
 
-  * <p>The copy is a deep copy: its arrays are separated from the
-  * original arrays of the instance.</p>
+     // create the new independent instance
+     return doCopy();
 
-  * <p>This method has been redeclared as public instead of protected.</p>
+   }
 
-  * @return a copy of the instance.
-
-  */
-  public Object clone() {
-    try {
-      return super.clone();
-    } catch (CloneNotSupportedException cnse) {
-      // should never happen
-      return null;
-    }
-  }
+   /** Really copy the finalized instance.
+    * <p>This method is called by {@link #copy()} after the
+    * step has been finalized. It must perform a deep copy
+    * to have an new instance completely independent for the
+    * original instance.
+    */
+   protected abstract StepInterpolator doCopy();
 
   /** Shift one step forward.
    * Copy the current time into the previous time, hence preparing the
