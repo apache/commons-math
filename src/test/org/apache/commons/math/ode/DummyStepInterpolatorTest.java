@@ -98,6 +98,35 @@ public class DummyStepInterpolatorTest
 
   }
 
+  public void testImpossibleSerialization()
+  throws DerivativeException, IntegratorException,
+         IOException, ClassNotFoundException {
+
+    double[] y = { 0.0, 1.0, -2.0 };
+    DummyStepInterpolator interpolator = new DummyStepInterpolator(y, true) {
+      protected void doFinalize()
+        throws DerivativeException {
+          throw new DerivativeException(null);
+      }
+    };
+    interpolator.storeTime(0);
+    interpolator.shift();
+    interpolator.storeTime(1);
+
+    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+    ObjectOutputStream    oos = new ObjectOutputStream(bos);
+    try {
+        oos.writeObject(interpolator);
+        fail("an exception should have been thrown");
+    } catch (IOException ioe) {
+        // expected behavior
+        assertNull(ioe.getMessage());
+    } catch (Exception e) {
+        fail("wrong exception caught");
+    }
+
+  }
+
   public void testSerializationError()
   throws DerivativeException, IntegratorException,
          IOException, ClassNotFoundException {
