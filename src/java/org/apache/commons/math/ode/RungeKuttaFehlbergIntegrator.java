@@ -87,9 +87,8 @@ public abstract class RungeKuttaFehlbergIntegrator
 
     exp = -1.0 / getOrder();
 
-    this.safety = 0.9;
-
     // set the default values of the algorithm control parameters
+    setSafety(0.9);
     setMinReduction(0.2);
     setMaxGrowth(10.0);
 
@@ -125,9 +124,8 @@ public abstract class RungeKuttaFehlbergIntegrator
 
     exp = -1.0 / getOrder();
 
-    this.safety = 0.9;
-
     // set the default values of the algorithm control parameters
+    setSafety(0.9);
     setMinReduction(0.2);
     setMaxGrowth(10.0);
 
