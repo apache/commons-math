@@ -199,7 +199,16 @@ while (line != null) {
 }
 in.close();
         </source>
-        </dd>       
+        </dd>
+        <dt>Compute statistics in a thread-safe manner</dt>
+        <br/>
+        <dd>Use a <code>ThreadSafeDescriptiveStatistics</code> instance
+        <source>
+// Create a SynchronizedDescriptiveStatistics instance and
+// use as any other DescriptiveStatistics instance
+DescriptiveStatistics stats = DescriptiveStatistics.newInstance(SynchronizedDescriptiveStatistics.class);
+        </source>
+        </dd>
         </dl>
        </p>
       </subsection>  

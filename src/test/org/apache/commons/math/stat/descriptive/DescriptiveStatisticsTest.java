@@ -29,26 +29,22 @@ import org.apache.commons.math.random.RandomDataImpl;
  *
  * @version $Revision$ $Date$
  */
-
-public final class DescriptiveStatisticsTest extends TestCase {
-    private double one = 1;
-    private float two = 2;
-    private int three = 3;
-    private double mean = 2;
-    private double sumSq = 18;
-    private double sum = 8;
+public abstract class DescriptiveStatisticsTest extends TestCase {
     private double var = 0.666666666666666666667;
-    private double std = Math.sqrt(var);
-    private double n = 4;
-    private double min = 1;
     private double max = 3;
+    private double mean = 2;
+    private double min = 1;
+    private double n = 4;
+    private double one = 1;
+    private double std = Math.sqrt(var);
+    private double sum = 8;
+    private double sumSq = 18;
+    private int three = 3;
     private double tolerance = 10E-15;
+    private float two = 2;
     
     public DescriptiveStatisticsTest(String name) {
         super(name);
-    }
-    
-    public void setUp() {  
     }
     
     public static Test suite() {
@@ -57,94 +53,16 @@ public final class DescriptiveStatisticsTest extends TestCase {
         return suite;
     }
     
-    /** test stats */
-    public void testStats() {
-        DescriptiveStatistics u = DescriptiveStatistics.newInstance(); 
-        assertEquals("total count",0,u.getN(),tolerance);
-        u.addValue(one);
-        u.addValue(two);
-        u.addValue(two);
-        u.addValue(three);
-        assertEquals("N",n,u.getN(),tolerance);
-        assertEquals("sum",sum,u.getSum(),tolerance);
-        assertEquals("sumsq",sumSq,u.getSumsq(),tolerance);
-        assertEquals("var",var,u.getVariance(),tolerance);
-        assertEquals("std",std,u.getStandardDeviation(),tolerance);
-        assertEquals("mean",mean,u.getMean(),tolerance);
-        assertEquals("min",min,u.getMin(),tolerance);
-        assertEquals("max",max,u.getMax(),tolerance);
-        u.clear();
-        assertEquals("total count",0,u.getN(),tolerance);    
-    }     
+    protected abstract DescriptiveStatistics createDescriptiveStatistics();
     
-    public void testN0andN1Conditions() throws Exception {
-        DescriptiveStatistics u = DescriptiveStatistics.newInstance();
-                
-            assertTrue("Mean of n = 0 set should be NaN", 
-                Double.isNaN( u.getMean() ) );
-            assertTrue("Standard Deviation of n = 0 set should be NaN", 
-                Double.isNaN( u.getStandardDeviation() ) );
-            assertTrue("Variance of n = 0 set should be NaN",
-                Double.isNaN(u.getVariance() ) );
-
-            u.addValue(one);
-
-            assertTrue( "Mean of n = 1 set should be value of single item n1",
-                u.getMean() == one);
-            assertTrue( "StdDev of n = 1 set should be zero, instead it is: " 
-                + u.getStandardDeviation(), u.getStandardDeviation() == 0);
-            assertTrue( "Variance of n = 1 set should be zero", 
-                u.getVariance() == 0);  
-    }
-    
-    public void testSkewAndKurtosis() {
-        DescriptiveStatistics u = DescriptiveStatistics.newInstance();
-        
-        double[] testArray = 
-        { 12.5, 12, 11.8, 14.2, 14.9, 14.5, 21, 8.2, 10.3, 11.3, 14.1,
-          9.9, 12.2, 12, 12.1, 11, 19.8, 11, 10, 8.8, 9, 12.3 };
-        for( int i = 0; i < testArray.length; i++) {
-            u.addValue( testArray[i]);
-        }
-        
-        assertEquals("mean", 12.40455, u.getMean(), 0.0001);
-        assertEquals("variance", 10.00236, u.getVariance(), 0.0001);
-        assertEquals("skewness", 1.437424, u.getSkewness(), 0.0001);
-        assertEquals("kurtosis", 2.37719, u.getKurtosis(), 0.0001);
+    public void setUp() {  
     }
 
-    public void testProductAndGeometricMean() throws Exception {
-        DescriptiveStatistics u = DescriptiveStatistics.newInstance();
-        u.setWindowSize(10);
-                
-        u.addValue( 1.0 );
-        u.addValue( 2.0 );
-        u.addValue( 3.0 );
-        u.addValue( 4.0 );
-
-        //assertEquals( "Product not expected", 
-        //    24.0, u.getProduct(), Double.MIN_VALUE );
-        assertEquals( "Geometric mean not expected", 
-            2.213364, u.getGeometricMean(), 0.00001 );
-
-        // Now test rolling - StorelessDescriptiveStatistics should discount the contribution
-        // of a discarded element
-        for( int i = 0; i < 10; i++ ) {
-            u.addValue( i + 2 );
-        }
-        // Values should be (2,3,4,5,6,7,8,9,10,11)
-        
-        //assertEquals( "Product not expected", 39916800.0, 
-        //    u.getProduct(), 0.00001 );
-        assertEquals( "Geometric mean not expected", 5.755931, 
-            u.getGeometricMean(), 0.00001 );
-    }
-    
     public void testAddValue() {
         double[] test1 = {5,4,3,2,1,0};
         double[] test2 = {5,2,1,0,4,3};
 
-        DescriptiveStatistics stats = DescriptiveStatistics.newInstance();
+        DescriptiveStatistics stats = createDescriptiveStatistics();
         stats.setWindowSize(12);
         
         for(int i = 0; i < test1.length; i++){
@@ -189,7 +107,7 @@ public final class DescriptiveStatisticsTest extends TestCase {
             //System.out.println(test3[i] + " "+test2[i-6]);
         }  
          
-    }
+    }     
     
     public void testGetSortedValues() {
         double[] test1 = {5,4,3,2,1};
@@ -219,28 +137,54 @@ public final class DescriptiveStatisticsTest extends TestCase {
         }        
     }
     
-        
-        
-    private void tstGetSortedValues(double[] test) {
-        DescriptiveStatistics u = DescriptiveStatistics.newInstance();
-        u.setWindowSize(test.length);
-        for (int i = 0; i < test.length; i++) {
-            u.addValue(test[i]);
+    public void testN0andN1Conditions() throws Exception {
+        DescriptiveStatistics u = createDescriptiveStatistics();
+                
+            assertTrue("Mean of n = 0 set should be NaN", 
+                Double.isNaN( u.getMean() ) );
+            assertTrue("Standard Deviation of n = 0 set should be NaN", 
+                Double.isNaN( u.getStandardDeviation() ) );
+            assertTrue("Variance of n = 0 set should be NaN",
+                Double.isNaN(u.getVariance() ) );
+
+            u.addValue(one);
+
+            assertTrue( "Mean of n = 1 set should be value of single item n1",
+                u.getMean() == one);
+            assertTrue( "StdDev of n = 1 set should be zero, instead it is: " 
+                + u.getStandardDeviation(), u.getStandardDeviation() == 0);
+            assertTrue( "Variance of n = 1 set should be zero", 
+                u.getVariance() == 0);  
+    }
+
+    public void testNewInstanceClassNull() {
+        try {
+            DescriptiveStatistics.newInstance((Class)null);
+            fail("null is not a valid descriptive statistics class");
+        } catch (NullPointerException ex) {
+            // success
+        } catch (Exception ex) {
+            fail();
         }
-        double[] sorted = u.getSortedValues();
-        if (sorted.length != test.length) {
-            fail("wrong length for sorted values array");
-        }
-        for (int i = 0; i < sorted.length-1; i++) {
-            if (sorted[i] > sorted[i+1]) {
-                fail("sorted values out of sequence");
-            }
+        
+    }
+    
+    public void testNewInstanceClassValid() {
+        try {
+            DescriptiveStatistics u = DescriptiveStatistics.newInstance(
+                DescriptiveStatisticsImpl.class);
+            assertNotNull(u);
+            assertTrue(u instanceof DescriptiveStatisticsImpl);
+        } catch (InstantiationException ex) {
+            fail();
+        } catch (IllegalAccessException ex) {
+            fail();
         }
     }
     
     public void testPercentiles() {
         double[] test = {5,4,3,2,1};
-        DescriptiveStatistics u = DescriptiveStatistics.newInstance();
+        DescriptiveStatistics u = createDescriptiveStatistics();
         u.setWindowSize(110);
         for (int i = 0; i < test.length; i++) {
             u.addValue(test[i]);
@@ -301,10 +245,39 @@ public final class DescriptiveStatisticsTest extends TestCase {
         assertTrue("empty value set should return NaN",
             Double.isNaN(u.getPercentile(50)));
     }
-                      
+    
+        
+        
+    public void testProductAndGeometricMean() throws Exception {
+        DescriptiveStatistics u = createDescriptiveStatistics();
+        u.setWindowSize(10);
+                
+        u.addValue( 1.0 );
+        u.addValue( 2.0 );
+        u.addValue( 3.0 );
+        u.addValue( 4.0 );
+
+        //assertEquals( "Product not expected", 
+        //    24.0, u.getProduct(), Double.MIN_VALUE );
+        assertEquals( "Geometric mean not expected", 
+            2.213364, u.getGeometricMean(), 0.00001 );
+
+        // Now test rolling - StorelessDescriptiveStatistics should discount the contribution
+        // of a discarded element
+        for( int i = 0; i < 10; i++ ) {
+            u.addValue( i + 2 );
+        }
+        // Values should be (2,3,4,5,6,7,8,9,10,11)
+        
+        //assertEquals( "Product not expected", 39916800.0, 
+        //    u.getProduct(), 0.00001 );
+        assertEquals( "Geometric mean not expected", 5.755931, 
+            u.getGeometricMean(), 0.00001 );
+    }
+    
     /** test stats */
     public void testSerialization() {
-        DescriptiveStatistics u = DescriptiveStatistics.newInstance(); 
+        DescriptiveStatistics u = createDescriptiveStatistics(); 
         assertEquals("total count",0,u.getN(),tolerance);
         u.addValue(one);
         u.addValue(two);
@@ -325,51 +298,60 @@ public final class DescriptiveStatisticsTest extends TestCase {
 
         u2.clear();
         assertEquals("total count",0,u2.getN(),tolerance);    
+    }
+                      
+    public void testSkewAndKurtosis() {
+        DescriptiveStatistics u = createDescriptiveStatistics();
+        
+        double[] testArray = 
+        { 12.5, 12, 11.8, 14.2, 14.9, 14.5, 21, 8.2, 10.3, 11.3, 14.1,
+          9.9, 12.2, 12, 12.1, 11, 19.8, 11, 10, 8.8, 9, 12.3 };
+        for( int i = 0; i < testArray.length; i++) {
+            u.addValue( testArray[i]);
+        }
+        
+        assertEquals("mean", 12.40455, u.getMean(), 0.0001);
+        assertEquals("variance", 10.00236, u.getVariance(), 0.0001);
+        assertEquals("skewness", 1.437424, u.getSkewness(), 0.0001);
+        assertEquals("kurtosis", 2.37719, u.getKurtosis(), 0.0001);
     }       
 
-    public void testNewInstanceClassNull() {
-        try {
-            DescriptiveStatistics.newInstance((Class)null);
-            fail("null is not a valid descriptive statistics class");
-        } catch (NullPointerException ex) {
-            // success
-        } catch (Exception ex) {
-            fail();
-        }
-        
+    /** test stats */
+    public void testStats() {
+        DescriptiveStatistics u = createDescriptiveStatistics(); 
+        assertEquals("total count",0,u.getN(),tolerance);
+        u.addValue(one);
+        u.addValue(two);
+        u.addValue(two);
+        u.addValue(three);
+        assertEquals("N",n,u.getN(),tolerance);
+        assertEquals("sum",sum,u.getSum(),tolerance);
+        assertEquals("sumsq",sumSq,u.getSumsq(),tolerance);
+        assertEquals("var",var,u.getVariance(),tolerance);
+        assertEquals("std",std,u.getStandardDeviation(),tolerance);
+        assertEquals("mean",mean,u.getMean(),tolerance);
+        assertEquals("min",min,u.getMin(),tolerance);
+        assertEquals("max",max,u.getMax(),tolerance);
+        u.clear();
+        assertEquals("total count",0,u.getN(),tolerance);    
     }
     
-    public void testNewInstanceClassValid() {
-        try {
-            DescriptiveStatistics u = DescriptiveStatistics.newInstance(
-                DescriptiveStatisticsImpl.class);
-            assertNotNull(u);
-            assertTrue(u instanceof DescriptiveStatisticsImpl);
-        } catch (InstantiationException ex) {
-            fail();
-        } catch (IllegalAccessException ex) {
-            fail();
-        }
-    }
-    
-    public void testWindowSize() {
-        DescriptiveStatistics u = DescriptiveStatistics.newInstance();
-        u.setWindowSize(1234);
-        assertEquals(1234, u.getWindowSize());
-        
-        u.addValue(1.0);
-        u.addValue(2.0);
-        u.addValue(3.0);
-        u.addValue(4.0);
-        u.addValue(5.0);
-        assertEquals(5, u.getN());
-        
-        u.setWindowSize(DescriptiveStatistics.INFINITE_WINDOW);
-        assertEquals(5, u.getN());
+    public void testToString() {
+        DescriptiveStatistics u = createDescriptiveStatistics();
+        assertTrue(u.toString().indexOf("NaN") > 0);  
+        assertTrue(u.toString().startsWith("DescriptiveStatistics"));
+        double[] testArray = 
+            { 12.5, 12, 11.8, 14.2, 14.9, 14.5, 21, 8.2, 10.3, 11.3, 14.1,
+                9.9, 12.2, 12, 12.1, 11, 19.8, 11, 10, 8.8, 9, 12.3 };
+        for( int i = 0; i < testArray.length; i++) {
+            u.addValue( testArray[i]);
+        }        
+        assertTrue(u.toString().indexOf("NaN") == -1);  
+        assertTrue(u.toString().startsWith("DescriptiveStatistics"));
     }
     
     public void testWindowing() {
-        DescriptiveStatistics u = DescriptiveStatistics.newInstance();
+        DescriptiveStatistics u = createDescriptiveStatistics();
         u.setWindowSize(2);
         
         u.addValue(1.0);
@@ -385,18 +367,37 @@ public final class DescriptiveStatisticsTest extends TestCase {
         assertEquals(3.0, u.getMean(), tolerance);
     }
     
-    public void testToString() {
-        DescriptiveStatistics u = DescriptiveStatistics.newInstance();
-        assertTrue(u.toString().indexOf("NaN") > 0);  
-        assertTrue(u.toString().startsWith("DescriptiveStatistics"));
-        double[] testArray = 
-            { 12.5, 12, 11.8, 14.2, 14.9, 14.5, 21, 8.2, 10.3, 11.3, 14.1,
-                9.9, 12.2, 12, 12.1, 11, 19.8, 11, 10, 8.8, 9, 12.3 };
-        for( int i = 0; i < testArray.length; i++) {
-            u.addValue( testArray[i]);
-        }        
-        assertTrue(u.toString().indexOf("NaN") == -1);  
-        assertTrue(u.toString().startsWith("DescriptiveStatistics"));
+    public void testWindowSize() {
+        DescriptiveStatistics u = createDescriptiveStatistics();
+        u.setWindowSize(1234);
+        assertEquals(1234, u.getWindowSize());
+        
+        u.addValue(1.0);
+        u.addValue(2.0);
+        u.addValue(3.0);
+        u.addValue(4.0);
+        u.addValue(5.0);
+        assertEquals(5, u.getN());
+        
+        u.setWindowSize(DescriptiveStatistics.INFINITE_WINDOW);
+        assertEquals(5, u.getN());
+    }
+    
+    private void tstGetSortedValues(double[] test) {
+        DescriptiveStatistics u = createDescriptiveStatistics();
+        u.setWindowSize(test.length);
+        for (int i = 0; i < test.length; i++) {
+            u.addValue(test[i]);
+        }
+        double[] sorted = u.getSortedValues();
+        if (sorted.length != test.length) {
+            fail("wrong length for sorted values array");
+        }
+        for (int i = 0; i < sorted.length-1; i++) {
+            if (sorted[i] > sorted[i+1]) {
+                fail("sorted values out of sequence");
+            }
+        }
     }
     
 }

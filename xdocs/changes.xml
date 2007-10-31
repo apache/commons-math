@@ -95,6 +95,9 @@ Commons Math Release Notes</title>
         MaxIterationsExceededException and return 0 or 1, resp. if the argument
         is more than 20 standard deviations from the mean.
       </action>
+      <action dev="brentworden" type="update" issue="MATH-170" due-to="David J. M. Karlsen">
+        Added SynchronizedDescriptiveStatistics class.
+      </action>
     </release>
     <release version="1.1" date="2005-12-17"  
  description="This is a maintenance release containing bug fixes and enhancements.
