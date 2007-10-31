@@ -143,14 +143,20 @@ public class DormandPrince54IntegratorTest
       double scalAbsoluteTolerance = Math.pow(10.0, i);
       double scalRelativeTolerance = 0.01 * scalAbsoluteTolerance;
 
-      FirstOrderIntegrator integ = new DormandPrince54Integrator(minStep, maxStep,
-                                                                 scalAbsoluteTolerance,
-                                                                 scalRelativeTolerance);
+      RungeKuttaFehlbergIntegrator integ =
+          new DormandPrince54Integrator(minStep, maxStep,
+                                        scalAbsoluteTolerance, scalRelativeTolerance);
       TestProblemHandler handler = new TestProblemHandler(pb);
+      integ.setSafety(0.8);
+      integ.setMaxGrowth(5.0);
+      integ.setMinReduction(0.3);
       integ.setStepHandler(handler);
       integ.integrate(pb,
                       pb.getInitialTime(), pb.getInitialState(),
                       pb.getFinalTime(), new double[pb.getDimension()]);
+      assertEquals(0.8, integ.getSafety(), 1.0e-12);
+      assertEquals(5.0, integ.getMaxGrowth(), 1.0e-12);
+      assertEquals(0.3, integ.getMinReduction(), 1.0e-12);
 
       // the 0.7 factor is only valid for this test
       // and has been obtained from trial and error

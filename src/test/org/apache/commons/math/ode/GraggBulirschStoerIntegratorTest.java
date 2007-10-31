@@ -68,9 +68,9 @@ public class GraggBulirschStoerIntegratorTest
     throws DerivativeException, IntegratorException {
 
     try {
-      TestProblem1 pb  = new TestProblem1();
-      double minStep   = 0.1 * (pb.getFinalTime() - pb.getInitialTime());
-      double maxStep   = pb.getFinalTime() - pb.getInitialTime();
+      TestProblem5 pb  = new TestProblem5();
+      double minStep   = 0.1 * Math.abs(pb.getFinalTime() - pb.getInitialTime());
+      double maxStep   = Math.abs(pb.getFinalTime() - pb.getInitialTime());
       double[] vecAbsoluteTolerance = { 1.0e-20, 1.0e-21 };
       double[] vecRelativeTolerance = { 1.0e-20, 1.0e-21 };
 
@@ -123,6 +123,45 @@ public class GraggBulirschStoerIntegratorTest
 
     }
 
+  }
+
+  public void testIntegratorControls()
+  throws DerivativeException, IntegratorException {
+
+    TestProblem3 pb = new TestProblem3(0.999);
+    GraggBulirschStoerIntegrator integ =
+        new GraggBulirschStoerIntegrator(0, pb.getFinalTime() - pb.getInitialTime(),
+                1.0e-8, 1.0e-10);
+
+    double errorWithDefaultSettings = getMaxError(integ, pb);
+
+    // stability control
+    integ.setStabilityCheck(true, 2, 1, 0.99);
+    assertTrue(errorWithDefaultSettings < getMaxError(integ, pb));
+    integ.setStabilityCheck(true, -1, -1, -1);
+
+    integ.setStepsizeControl(0.5, 0.99, 0.1, 2.5);
+    assertTrue(errorWithDefaultSettings < getMaxError(integ, pb));
+    integ.setStepsizeControl(-1, -1, -1, -1);
+
+    integ.setOrderControl(10, 0.7, 0.95);
+    assertTrue(errorWithDefaultSettings < getMaxError(integ, pb));
+    integ.setOrderControl(-1, -1, -1);
+
+    integ.setInterpolationControl(true, 3);
+    assertTrue(errorWithDefaultSettings < getMaxError(integ, pb));
+    integ.setInterpolationControl(true, -1);
+
+  }
+
+  private double getMaxError(FirstOrderIntegrator integrator, TestProblemAbstract pb)
+    throws DerivativeException, IntegratorException {
+      TestProblemHandler handler = new TestProblemHandler(pb);
+      integrator.setStepHandler(handler);
+      integrator.integrate(pb,
+                           pb.getInitialTime(), pb.getInitialState(),
+                           pb.getFinalTime(), new double[pb.getDimension()]);
+      return handler.getMaximalError();
   }
 
   public void testSwitchingFunctions()
