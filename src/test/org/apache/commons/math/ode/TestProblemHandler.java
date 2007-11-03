@@ -31,8 +31,9 @@ class TestProblemHandler
   /** Associated problem. */
   private TestProblemAbstract problem;
 
-  /** Maximal error encountered during the integration. */
-  private double maxError;
+  /** Maximal errors encountered during the integration. */
+  private double maxValueError;
+  private double maxTimeError;
 
   /** Error at the end of the integration. */
   private double lastError;
@@ -40,12 +41,20 @@ class TestProblemHandler
   /** Time at the end of integration. */
   private double lastTime;
 
+  /** ODE solver used. */
+  private FirstOrderIntegrator integrator;
+
+  /** Expected start for step. */
+  private double expectedStepStart;
+
   /**
    * Simple constructor.
    * @param problem problem for which steps should be handled
+   * @param integrator ODE solver used
    */
-  public TestProblemHandler(TestProblemAbstract problem) {
+  public TestProblemHandler(TestProblemAbstract problem, FirstOrderIntegrator integrator) {
     this.problem = problem;
+    this.integrator = integrator;
     reset();
   }
 
@@ -54,13 +63,19 @@ class TestProblemHandler
   }
 
   public void reset() {
-    maxError  = 0;
-    lastError = 0;
+    maxValueError = 0;
+    maxTimeError  = 0;
+    lastError     = 0;
+    expectedStepStart = problem.getInitialTime();
   }
 
   public void handleStep(StepInterpolator interpolator,
                          boolean isLast)
     throws DerivativeException {
+
+    double start = integrator.getCurrentStepStart();
+    maxTimeError = Math.max(maxTimeError, Math.abs(start - expectedStepStart));
+    expectedStepStart = start + integrator.getCurrentSignedStepsize();
 
     double pT = interpolator.getPreviousTime();
     double cT = interpolator.getCurrentTime();
@@ -90,8 +105,8 @@ class TestProblemHandler
       // update the errors
       for (int i = 0; i < interpolatedY.length; ++i) {
         double error = errorScale[i] * Math.abs(interpolatedY[i] - theoreticalY[i]);
-        if (error > maxError) {
-          maxError = error;
+        if (error > maxValueError) {
+          maxValueError = error;
         }
       }
 
@@ -99,11 +114,19 @@ class TestProblemHandler
   }
 
   /**
-   * Get the maximal error encountered during integration.
-   * @return maximal error
+   * Get the maximal value error encountered during integration.
+   * @return maximal value error
    */
-  public double getMaximalError() {
-    return maxError;
+  public double getMaximalValueError() {
+    return maxValueError;
+  }
+
+  /**
+   * Get the maximal time error encountered during integration.
+   * @return maximal time error
+   */
+  public double getMaximalTimeError() {
+    return maxTimeError;
   }
 
   /**

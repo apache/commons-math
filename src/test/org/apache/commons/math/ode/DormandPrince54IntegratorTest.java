@@ -63,7 +63,7 @@ public class DormandPrince54IntegratorTest
       FirstOrderIntegrator integ = new DormandPrince54Integrator(minStep, maxStep,
                                                                  vecAbsoluteTolerance,
                                                                  vecRelativeTolerance);
-      TestProblemHandler handler = new TestProblemHandler(pb);
+      TestProblemHandler handler = new TestProblemHandler(pb, integ);
       integ.setStepHandler(handler);
       integ.integrate(pb,
                       pb.getInitialTime(), pb.getInitialState(),
@@ -146,7 +146,7 @@ public class DormandPrince54IntegratorTest
       RungeKuttaFehlbergIntegrator integ =
           new DormandPrince54Integrator(minStep, maxStep,
                                         scalAbsoluteTolerance, scalRelativeTolerance);
-      TestProblemHandler handler = new TestProblemHandler(pb);
+      TestProblemHandler handler = new TestProblemHandler(pb, integ);
       integ.setSafety(0.8);
       integ.setMaxGrowth(5.0);
       integ.setMinReduction(0.3);
@@ -161,7 +161,8 @@ public class DormandPrince54IntegratorTest
       // the 0.7 factor is only valid for this test
       // and has been obtained from trial and error
       // there is no general relation between local and global errors
-      assertTrue(handler.getMaximalError() < (0.7 * scalAbsoluteTolerance));
+      assertTrue(handler.getMaximalValueError() < (0.7 * scalAbsoluteTolerance));
+      assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
 
       int calls = pb.getCalls();
       assertTrue(calls <= previousCalls);
@@ -183,7 +184,7 @@ public class DormandPrince54IntegratorTest
     FirstOrderIntegrator integ = new DormandPrince54Integrator(minStep, maxStep,
                                                                scalAbsoluteTolerance,
                                                                scalRelativeTolerance);
-    TestProblemHandler handler = new TestProblemHandler(pb);
+    TestProblemHandler handler = new TestProblemHandler(pb, integ);
     integ.setStepHandler(handler);
     SwitchingFunction[] functions = pb.getSwitchingFunctions();
     for (int l = 0; l < functions.length; ++l) {
@@ -194,7 +195,8 @@ public class DormandPrince54IntegratorTest
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
-    assertTrue(handler.getMaximalError() < 5.0e-6);
+    assertTrue(handler.getMaximalValueError() < 5.0e-6);
+    assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
     assertEquals(12.0, handler.getLastTime(), 1.0e-8 * maxStep);
 
   }

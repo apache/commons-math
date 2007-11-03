@@ -61,7 +61,7 @@ public class ThreeEighthesIntegratorTest
           * Math.pow(2.0, -i);
 
         FirstOrderIntegrator integ = new ThreeEighthesIntegrator(step);
-        TestProblemHandler handler = new TestProblemHandler(pb);
+        TestProblemHandler handler = new TestProblemHandler(pb, integ);
         integ.setStepHandler(handler);
         SwitchingFunction[] functions = pb.getSwitchingFunctions();
         for (int l = 0; l < functions.length; ++l) {
@@ -71,11 +71,13 @@ public class ThreeEighthesIntegratorTest
         integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                         pb.getFinalTime(), new double[pb.getDimension()]);
 
-        double error = handler.getMaximalError();
+        double error = handler.getMaximalValueError();
         if (i > 4) {
           assertTrue(error < Math.abs(previousError));
         }
         previousError = error;
+        assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
+
       }
 
     }
@@ -89,13 +91,14 @@ public class ThreeEighthesIntegratorTest
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.001;
 
     FirstOrderIntegrator integ = new ThreeEighthesIntegrator(step);
-    TestProblemHandler handler = new TestProblemHandler(pb);
+    TestProblemHandler handler = new TestProblemHandler(pb, integ);
     integ.setStepHandler(handler);
     integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
     assertTrue(handler.getLastError() < 2.0e-13);
-    assertTrue(handler.getMaximalError() < 4.0e-12);
+    assertTrue(handler.getMaximalValueError() < 4.0e-12);
+    assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
     assertEquals("3/8", integ.getName());
 
   }
@@ -107,13 +110,14 @@ public class ThreeEighthesIntegratorTest
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.2;
 
     FirstOrderIntegrator integ = new ThreeEighthesIntegrator(step);
-    TestProblemHandler handler = new TestProblemHandler(pb);
+    TestProblemHandler handler = new TestProblemHandler(pb, integ);
     integ.setStepHandler(handler);
     integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
     assertTrue(handler.getLastError() > 0.0004);
-    assertTrue(handler.getMaximalError() > 0.005);
+    assertTrue(handler.getMaximalValueError() > 0.005);
+    assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
 
   }
 

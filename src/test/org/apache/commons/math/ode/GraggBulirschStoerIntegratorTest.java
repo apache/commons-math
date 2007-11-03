@@ -77,7 +77,7 @@ public class GraggBulirschStoerIntegratorTest
       FirstOrderIntegrator integ =
         new GraggBulirschStoerIntegrator(minStep, maxStep,
                                          vecAbsoluteTolerance, vecRelativeTolerance);
-      TestProblemHandler handler = new TestProblemHandler(pb);
+      TestProblemHandler handler = new TestProblemHandler(pb, integ);
       integ.setStepHandler(handler);
       integ.integrate(pb,
                       pb.getInitialTime(), pb.getInitialState(),
@@ -104,7 +104,7 @@ public class GraggBulirschStoerIntegratorTest
       FirstOrderIntegrator integ =
         new GraggBulirschStoerIntegrator(minStep, maxStep,
                                          absTolerance, relTolerance);
-      TestProblemHandler handler = new TestProblemHandler(pb);
+      TestProblemHandler handler = new TestProblemHandler(pb, integ);
       integ.setStepHandler(handler);
       integ.integrate(pb,
                       pb.getInitialTime(), pb.getInitialState(),
@@ -113,9 +113,10 @@ public class GraggBulirschStoerIntegratorTest
       // the coefficients are only valid for this test
       // and have been obtained from trial and error
       // there is no general relation between local and global errors
-      double ratio =  handler.getMaximalError() / absTolerance;
+      double ratio =  handler.getMaximalValueError() / absTolerance;
       assertTrue(ratio < 2.4);
       assertTrue(ratio > 0.02);
+      assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
 
       int calls = pb.getCalls();
       assertTrue(calls <= previousCalls);
@@ -156,12 +157,12 @@ public class GraggBulirschStoerIntegratorTest
 
   private double getMaxError(FirstOrderIntegrator integrator, TestProblemAbstract pb)
     throws DerivativeException, IntegratorException {
-      TestProblemHandler handler = new TestProblemHandler(pb);
+      TestProblemHandler handler = new TestProblemHandler(pb, integrator);
       integrator.setStepHandler(handler);
       integrator.integrate(pb,
                            pb.getInitialTime(), pb.getInitialState(),
                            pb.getFinalTime(), new double[pb.getDimension()]);
-      return handler.getMaximalError();
+      return handler.getMaximalValueError();
   }
 
   public void testSwitchingFunctions()
@@ -176,7 +177,7 @@ public class GraggBulirschStoerIntegratorTest
     FirstOrderIntegrator integ = new GraggBulirschStoerIntegrator(minStep, maxStep,
                                                                   scalAbsoluteTolerance,
                                                                   scalRelativeTolerance);
-    TestProblemHandler handler = new TestProblemHandler(pb);
+    TestProblemHandler handler = new TestProblemHandler(pb, integ);
     integ.setStepHandler(handler);
     SwitchingFunction[] functions = pb.getSwitchingFunctions();
     for (int l = 0; l < functions.length; ++l) {
@@ -187,7 +188,8 @@ public class GraggBulirschStoerIntegratorTest
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
-    assertTrue(handler.getMaximalError() < 5.0e-8);
+    assertTrue(handler.getMaximalValueError() < 5.0e-8);
+    assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
     assertEquals(12.0, handler.getLastTime(), 1.0e-8 * maxStep);
 
   }

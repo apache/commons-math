@@ -78,7 +78,7 @@ public class DormandPrince853IntegratorTest
       FirstOrderIntegrator integ = new DormandPrince853Integrator(minStep, maxStep,
                                                                   vecAbsoluteTolerance,
                                                                   vecRelativeTolerance);
-      TestProblemHandler handler = new TestProblemHandler(pb);
+      TestProblemHandler handler = new TestProblemHandler(pb, integ);
       integ.setStepHandler(handler);
       integ.integrate(pb,
                       pb.getInitialTime(), pb.getInitialState(),
@@ -105,7 +105,7 @@ public class DormandPrince853IntegratorTest
       FirstOrderIntegrator integ = new DormandPrince853Integrator(minStep, maxStep,
                                                                   scalAbsoluteTolerance,
                                                                   scalRelativeTolerance);
-      TestProblemHandler handler = new TestProblemHandler(pb);
+      TestProblemHandler handler = new TestProblemHandler(pb, integ);
       integ.setStepHandler(handler);
       integ.integrate(pb,
                       pb.getInitialTime(), pb.getInitialState(),
@@ -114,7 +114,8 @@ public class DormandPrince853IntegratorTest
       // the 1.3 factor is only valid for this test
       // and has been obtained from trial and error
       // there is no general relation between local and global errors
-      assertTrue(handler.getMaximalError() < (1.3 * scalAbsoluteTolerance));
+      assertTrue(handler.getMaximalValueError() < (1.3 * scalAbsoluteTolerance));
+      assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
 
       int calls = pb.getCalls();
       assertTrue(calls <= previousCalls);
@@ -136,7 +137,7 @@ public class DormandPrince853IntegratorTest
     FirstOrderIntegrator integ = new DormandPrince853Integrator(minStep, maxStep,
                                                                 scalAbsoluteTolerance,
                                                                 scalRelativeTolerance);
-    TestProblemHandler handler = new TestProblemHandler(pb);
+    TestProblemHandler handler = new TestProblemHandler(pb, integ);
     integ.setStepHandler(handler);
     SwitchingFunction[] functions = pb.getSwitchingFunctions();
     for (int l = 0; l < functions.length; ++l) {
@@ -147,7 +148,8 @@ public class DormandPrince853IntegratorTest
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
-    assertTrue(handler.getMaximalError() < 5.0e-8);
+    assertTrue(handler.getMaximalValueError() < 5.0e-8);
+    assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
     assertEquals(12.0, handler.getLastTime(), 1.0e-8 * maxStep);
 
   }

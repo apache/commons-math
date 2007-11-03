@@ -85,7 +85,7 @@ public class HighamHall54IntegratorTest
       FirstOrderIntegrator integ = new HighamHall54Integrator(minStep, maxStep,
                                                               vecAbsoluteTolerance,
                                                               vecRelativeTolerance);
-      TestProblemHandler handler = new TestProblemHandler(pb);
+      TestProblemHandler handler = new TestProblemHandler(pb, integ);
       integ.setStepHandler(handler);
       integ.integrate(pb,
                       pb.getInitialTime(), pb.getInitialState(),
@@ -112,7 +112,7 @@ public class HighamHall54IntegratorTest
       FirstOrderIntegrator integ = new HighamHall54Integrator(minStep, maxStep,
                                                               scalAbsoluteTolerance,
                                                               scalRelativeTolerance);
-      TestProblemHandler handler = new TestProblemHandler(pb);
+      TestProblemHandler handler = new TestProblemHandler(pb, integ);
       integ.setStepHandler(handler);
       integ.integrate(pb,
                       pb.getInitialTime(), pb.getInitialState(),
@@ -121,7 +121,8 @@ public class HighamHall54IntegratorTest
       // the 1.3 factor is only valid for this test
       // and has been obtained from trial and error
       // there is no general relation between local and global errors
-      assertTrue(handler.getMaximalError() < (1.3 * scalAbsoluteTolerance));
+      assertTrue(handler.getMaximalValueError() < (1.3 * scalAbsoluteTolerance));
+      assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
 
       int calls = pb.getCalls();
       assertTrue(calls <= previousCalls);
@@ -143,7 +144,7 @@ public class HighamHall54IntegratorTest
     FirstOrderIntegrator integ = new HighamHall54Integrator(minStep, maxStep,
                                                             scalAbsoluteTolerance,
                                                             scalRelativeTolerance);
-    TestProblemHandler handler = new TestProblemHandler(pb);
+    TestProblemHandler handler = new TestProblemHandler(pb, integ);
     integ.setStepHandler(handler);
     SwitchingFunction[] functions = pb.getSwitchingFunctions();
     for (int l = 0; l < functions.length; ++l) {
@@ -154,7 +155,8 @@ public class HighamHall54IntegratorTest
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
-    assertTrue(handler.getMaximalError() < 1.0e-7);
+    assertTrue(handler.getMaximalValueError() < 1.0e-7);
+    assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
     assertEquals(12.0, handler.getLastTime(), 1.0e-8 * maxStep);
 
   }
