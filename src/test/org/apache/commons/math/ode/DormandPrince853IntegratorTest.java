@@ -142,7 +142,7 @@ public class DormandPrince853IntegratorTest
     SwitchingFunction[] functions = pb.getSwitchingFunctions();
     for (int l = 0; l < functions.length; ++l) {
       integ.addSwitchingFunction(functions[l],
-                                 Double.POSITIVE_INFINITY, 1.0e-8 * maxStep);
+                                 Double.POSITIVE_INFINITY, 1.0e-8 * maxStep, 1000);
     }
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
@@ -227,7 +227,7 @@ public class DormandPrince853IntegratorTest
     final StepProblem stepProblem = new StepProblem(0.0, 1.0, 2.0);
     FirstOrderIntegrator integ =
       new DormandPrince853Integrator(0.1, 10, 1.0e-12, 0.0);
-    integ.addSwitchingFunction(stepProblem, 1.0, 1.0e-12);
+    integ.addSwitchingFunction(stepProblem, 1.0, 1.0e-12, 1000);
     double[] y = { Double.NaN };
     integ.integrate(stepProblem, 0.0, new double[] { 0.0 }, 10.0, y);
     assertEquals(8.0, y[0], 1.0e-12);

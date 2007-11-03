@@ -58,10 +58,13 @@ public interface FirstOrderIntegrator {
    * function checks (this interval prevents missing sign changes in
    * case the integration steps becomes very large)
    * @param convergence convergence threshold in the event time search
+   * @param maxIterationCount upper limit of the iteration count in
+   * the event time search
    */
   public void addSwitchingFunction(SwitchingFunction function,
                                    double maxCheckInterval,
-                                   double convergence);
+                                   double convergence,
+                                   int maxIterationCount);
 
   /** Integrate the differential equations up to the given time.
    * <p>This method solves an Initial Value Problem (IVP).</p>

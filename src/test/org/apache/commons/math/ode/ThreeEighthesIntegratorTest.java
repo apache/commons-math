@@ -66,7 +66,7 @@ public class ThreeEighthesIntegratorTest
         SwitchingFunction[] functions = pb.getSwitchingFunctions();
         for (int l = 0; l < functions.length; ++l) {
           integ.addSwitchingFunction(functions[l],
-                                     Double.POSITIVE_INFINITY, 1.0e-6 * step);
+                                     Double.POSITIVE_INFINITY, 1.0e-6 * step, 1000);
         }
         integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                         pb.getFinalTime(), new double[pb.getDimension()]);

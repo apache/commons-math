@@ -151,11 +151,14 @@ public abstract class AdaptiveStepsizeIntegrator
    * function checks (this interval prevents missing sign changes in
    * case the integration steps becomes very large)
    * @param convergence convergence threshold in the event time search
+   * @param maxIterationCount upper limit of the iteration count in
+   * the event time search
    */
   public void addSwitchingFunction(SwitchingFunction function,
                                    double maxCheckInterval,
-                                   double convergence) {
-    switchesHandler.add(function, maxCheckInterval, convergence);
+                                   double convergence,
+                                   int maxIterationCount) {
+    switchesHandler.add(function, maxCheckInterval, convergence, maxIterationCount);
   }
 
   /** Perform some sanity checks on the integration parameters.

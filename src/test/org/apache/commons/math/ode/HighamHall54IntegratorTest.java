@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.ode;
 
+import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.HighamHall54Integrator;
@@ -149,7 +151,7 @@ public class HighamHall54IntegratorTest
     SwitchingFunction[] functions = pb.getSwitchingFunctions();
     for (int l = 0; l < functions.length; ++l) {
       integ.addSwitchingFunction(functions[l],
-                                 Double.POSITIVE_INFINITY, 1.0e-8 * maxStep);
+                                 Double.POSITIVE_INFINITY, 1.0e-8 * maxStep, 1000);
     }
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
@@ -160,6 +162,94 @@ public class HighamHall54IntegratorTest
     assertEquals(12.0, handler.getLastTime(), 1.0e-8 * maxStep);
 
   }
+
+  public void testSwitchingFunctionsError()
+    throws DerivativeException, IntegratorException {
+
+      final TestProblem1 pb = new TestProblem1();
+      double minStep = 0;
+      double maxStep = pb.getFinalTime() - pb.getInitialTime();
+      double scalAbsoluteTolerance = 1.0e-8;
+      double scalRelativeTolerance = 0.01 * scalAbsoluteTolerance;
+
+      FirstOrderIntegrator integ =
+          new HighamHall54Integrator(minStep, maxStep,
+                                     scalAbsoluteTolerance, scalRelativeTolerance);
+      TestProblemHandler handler = new TestProblemHandler(pb, integ);
+      integ.setStepHandler(handler);
+
+      integ.addSwitchingFunction(new SwitchingFunction() {
+        public int eventOccurred(double t, double[] y) {
+          return SwitchingFunction.CONTINUE;
+        }
+        public double g(double t, double[] y) throws FunctionEvaluationException {
+          double middle = (pb.getInitialTime() + pb.getFinalTime()) / 2;
+          double offset = t - middle;
+          if (offset > 0) {
+            throw new FunctionEvaluationException(t);
+          }
+          return offset;
+        }
+        public void resetState(double t, double[] y) {
+        }
+        private static final long serialVersionUID = 935652725339916361L;
+      }, Double.POSITIVE_INFINITY, 1.0e-8 * maxStep, 1000);
+
+      try {
+        integ.integrate(pb,
+                        pb.getInitialTime(), pb.getInitialState(),
+                        pb.getFinalTime(), new double[pb.getDimension()]);
+        fail("an exception should have been thrown");
+      } catch (IntegratorException ie) {
+        // expected behavior
+      } catch (Exception e) {
+        fail("wrong exception type caught");
+      }
+
+  }
+
+  public void testSwitchingFunctionsNoConvergence()
+  throws DerivativeException, IntegratorException {
+
+    final TestProblem1 pb = new TestProblem1();
+    double minStep = 0;
+    double maxStep = pb.getFinalTime() - pb.getInitialTime();
+    double scalAbsoluteTolerance = 1.0e-8;
+    double scalRelativeTolerance = 0.01 * scalAbsoluteTolerance;
+
+    FirstOrderIntegrator integ =
+        new HighamHall54Integrator(minStep, maxStep,
+                                   scalAbsoluteTolerance, scalRelativeTolerance);
+    TestProblemHandler handler = new TestProblemHandler(pb, integ);
+    integ.setStepHandler(handler);
+
+    integ.addSwitchingFunction(new SwitchingFunction() {
+      public int eventOccurred(double t, double[] y) {
+        return SwitchingFunction.CONTINUE;
+      }
+      public double g(double t, double[] y) {
+        double middle = (pb.getInitialTime() + pb.getFinalTime()) / 2;
+        double offset = t - middle;
+        return (offset > 0) ? (offset + 0.5) : (offset - 0.5);
+      }
+      public void resetState(double t, double[] y) {
+      }
+      private static final long serialVersionUID = 935652725339916361L;
+    }, Double.POSITIVE_INFINITY, 1.0e-8 * maxStep, 3);
+
+    try {
+      integ.integrate(pb,
+                      pb.getInitialTime(), pb.getInitialState(),
+                      pb.getFinalTime(), new double[pb.getDimension()]);
+      fail("an exception should have been thrown");
+    } catch (IntegratorException ie) {
+       assertTrue(ie.getCause() != null);
+       assertTrue(ie.getCause() instanceof ConvergenceException);
+    } catch (Exception e) {
+      fail("wrong exception type caught");
+    }
+
+}
 
   public void testSanityChecks() {
     try {

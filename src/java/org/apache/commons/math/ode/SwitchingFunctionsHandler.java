@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.ode;
 
+import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.ode.DerivativeException;
 
 import java.util.ArrayList;
@@ -48,10 +50,13 @@ public class SwitchingFunctionsHandler {
    * function checks (this interval prevents missing sign changes in
    * case the integration steps becomes very large)
    * @param convergence convergence threshold in the event time search
+   * @param maxIterationCount upper limit of the iteration count in
+   * the event time search
    */
-  public void add(SwitchingFunction function,
-                  double maxCheckInterval, double convergence) {
-    functions.add(new SwitchState(function, maxCheckInterval, convergence));
+  public void add(SwitchingFunction function, double maxCheckInterval,
+                  double convergence, int maxIterationCount) {
+    functions.add(new SwitchState(function, maxCheckInterval,
+                                  convergence, maxIterationCount));
   }
 
   /** Check if the handler does not have any condition.
@@ -67,8 +72,12 @@ public class SwitchingFunctionsHandler {
    * @return true if at least one switching function triggers an event
    * before the end of the proposed step (this implies the step should
    * be rejected)
+   * @exception DerivativeException if the interpolator fails to
+   * compute the function somewhere within the step
+   * @exception IntegratorException if an event cannot be located
    */
-  public boolean evaluateStep(StepInterpolator interpolator) {
+  public boolean evaluateStep(StepInterpolator interpolator)
+    throws DerivativeException, IntegratorException {
 
     try {
 
@@ -118,8 +127,10 @@ public class SwitchingFunctionsHandler {
 
       return first != null;
 
-    } catch (DerivativeException e) {
-      throw new RuntimeException("unexpected exception: " + e.getMessage());
+    } catch (FunctionEvaluationException fee) {
+      throw new IntegratorException(fee);
+    } catch (ConvergenceException ce) {
+      throw new IntegratorException(ce);
     }
 
   }
@@ -140,10 +151,17 @@ public class SwitchingFunctionsHandler {
    * end of the step
    * @param y array containing the current value of the state vector
    * at the end of the step
+   * @exception IntegratorException if the value of one of the
+   * switching functions cannot be evaluated
    */
-  public void stepAccepted(double t, double[] y) {
-    for (Iterator iter = functions.iterator(); iter.hasNext();) {
-      ((SwitchState) iter.next()).stepAccepted(t, y);
+  public void stepAccepted(double t, double[] y)
+    throws IntegratorException {
+    try {
+      for (Iterator iter = functions.iterator(); iter.hasNext();) {
+        ((SwitchState) iter.next()).stepAccepted(t, y);
+      }
+    } catch (FunctionEvaluationException fee) {
+      throw new IntegratorException(fee);
     }
   }
 

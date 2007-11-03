@@ -189,7 +189,7 @@ public class DormandPrince54IntegratorTest
     SwitchingFunction[] functions = pb.getSwitchingFunctions();
     for (int l = 0; l < functions.length; ++l) {
       integ.addSwitchingFunction(functions[l],
-                                 Double.POSITIVE_INFINITY, 1.0e-8 * maxStep);
+                                 Double.POSITIVE_INFINITY, 1.0e-8 * maxStep, 1000);
     }
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),

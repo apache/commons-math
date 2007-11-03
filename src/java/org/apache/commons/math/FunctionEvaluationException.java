@@ -17,7 +17,7 @@
 package org.apache.commons.math;
 
 /**
- * Exeption thrown when an error occurs evaluating a function.
+ * Exception thrown when an error occurs evaluating a function.
  * <p>
  * Maintains an <code>argument</code> property holding the input value that
  * caused the function evaluation to fail.

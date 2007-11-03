@@ -19,6 +19,8 @@ package org.apache.commons.math.ode;
 
 import java.io.Serializable;
 
+import org.apache.commons.math.FunctionEvaluationException;
+
 /** This interface represents a switching function.
  *
  * <p>A switching function allows to handle discrete events in
@@ -91,8 +93,10 @@ public interface SwitchingFunction extends Serializable {
    * @param t current value of the independent <i>time</i> variable
    * @param y array containing the current value of the state vector
    * @return value of the g function
+   * @exception FunctionEvaluationException if the value of the function
+   * cannot be evaluated
    */
-  public double g(double t, double[] y);
+  public double g(double t, double[] y) throws FunctionEvaluationException;
 
   /** Handle an event and choose what to do next.
 

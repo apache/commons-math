@@ -291,11 +291,14 @@ public class GraggBulirschStoerIntegrator
    * function checks (this interval prevents missing sign changes in
    * case the integration steps becomes very large)
    * @param convergence convergence threshold in the event time search
+   * @param maxIterationCount upper limit of the iteration count in
+   * the event time search
    */
   public void addSwitchingFunction(SwitchingFunction function,
                                    double maxCheckInterval,
-                                   double convergence) {
-    super.addSwitchingFunction(function, maxCheckInterval, convergence);
+                                   double convergence,
+                                   int maxIterationCount) {
+    super.addSwitchingFunction(function, maxCheckInterval, convergence, maxIterationCount);
     denseOutput = (handler.requiresDenseOutput()
                    || (! switchesHandler.isEmpty()));
 

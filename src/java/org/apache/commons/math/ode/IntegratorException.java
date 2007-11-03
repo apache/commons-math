@@ -36,6 +36,14 @@ public class IntegratorException
     super(specifier, parts);
   }
 
-  private static final long serialVersionUID = -1390328069787882608L;
+  /**
+   * Create an exception with a given root cause.
+   * @param cause  the exception or error that caused this exception to be thrown
+   */
+  public IntegratorException(Throwable cause) {
+    super(cause);
+  }
+
+  private static final long serialVersionUID = -1215318282266670558L;
 
 }

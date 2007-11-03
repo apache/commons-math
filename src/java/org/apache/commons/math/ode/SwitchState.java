@@ -42,7 +42,7 @@ import org.apache.commons.math.analysis.UnivariateRealSolver;
 class SwitchState implements Serializable {
 
   /** Serializable version identifier. */
-  private static final long serialVersionUID = 3256541562455482289L;
+  private static final long serialVersionUID = -7307007422156119622L;
 
   /** Switching function. */
   private SwitchingFunction function;
@@ -52,6 +52,9 @@ class SwitchState implements Serializable {
 
   /** Convergence threshold for event localisation. */
   private double convergence;
+
+  /** Upper limit in the iteration count for event localisation. */
+  private int maxIterationCount;
 
   /** Time at the beginning of the step. */
   private double t0;
@@ -85,12 +88,15 @@ class SwitchState implements Serializable {
    * function checks (this interval prevents missing sign changes in
    * case the integration steps becomes very large)
    * @param convergence convergence threshold in the event time search
+   * @param maxIterationCount upper limit of the iteration count in
+   * the event time search
    */
-  public SwitchState(SwitchingFunction function,
-                     double maxCheckInterval, double convergence) {
-    this.function         = function;
-    this.maxCheckInterval = maxCheckInterval;
-    this.convergence      = Math.abs(convergence);
+  public SwitchState(SwitchingFunction function, double maxCheckInterval,
+                     double convergence, int maxIterationCount) {
+    this.function          = function;
+    this.maxCheckInterval  = maxCheckInterval;
+    this.convergence       = Math.abs(convergence);
+    this.maxIterationCount = maxIterationCount;
 
     // some dummy values ...
     t0                = Double.NaN;
@@ -109,8 +115,11 @@ class SwitchState implements Serializable {
    * beginning of the step
    * @param y0 array containing the current value of the state vector
    * at the beginning of the step
+   * @exception FunctionEvaluationException if the switching function
+   * value cannot be evaluated at the beginning of the step
    */
-  public void reinitializeBegin(double t0, double[] y0) {
+  public void reinitializeBegin(double t0, double[] y0)
+    throws FunctionEvaluationException {
     this.t0 = t0;
     g0 = function.g(t0, y0);
     g0Positive = (g0 >= 0);
@@ -121,8 +130,14 @@ class SwitchState implements Serializable {
    * @return true if the switching function triggers an event before
    * the end of the proposed step (this implies the step should be
    * rejected)
+   * @exception DerivativeException if the interpolator fails to
+   * compute the function somewhere within the step
+   * @exception FunctionEvaluationException if the switching function
+   * cannot be evaluated
+   * @exception ConvergenceException if an event cannot be located
    */
-  public boolean evaluateStep(final StepInterpolator interpolator) {
+  public boolean evaluateStep(final StepInterpolator interpolator)
+    throws DerivativeException, FunctionEvaluationException, ConvergenceException {
 
     try {
 
@@ -147,36 +162,32 @@ class SwitchState implements Serializable {
           // variation direction, with respect to the integration direction
           increasing = (gb >= ga);
 
-          try {
-              UnivariateRealSolver solver = new BrentSolver(new UnivariateRealFunction() {
-                  public double value(double t) throws FunctionEvaluationException {
-                      try {
-                          interpolator.setInterpolatedTime(t);
-                          return function.g(t, interpolator.getInterpolatedState());
-                      } catch (DerivativeException e) {
-                          throw new FunctionEvaluationException(t, e);
-                      }
+          UnivariateRealSolver solver = new BrentSolver(new UnivariateRealFunction() {
+              public double value(double t) throws FunctionEvaluationException {
+                  try {
+                      interpolator.setInterpolatedTime(t);
+                      return function.g(t, interpolator.getInterpolatedState());
+                  } catch (DerivativeException e) {
+                      throw new FunctionEvaluationException(t, e);
                   }
-              });
-              solver.setAbsoluteAccuracy(convergence);
-              solver.setMaximalIterationCount(1000);
-              double root = solver.solve(ta, tb);
-              if (Double.isNaN(previousEventTime) || (Math.abs(previousEventTime - root) > convergence)) {
-                  pendingEventTime = root;
-                  if (pendingEvent && (Math.abs(t1 - pendingEventTime) <= convergence)) {
-                      // we were already waiting for this event which was
-                      // found during a previous call for a step that was
-                      // rejected, this step must now be accepted since it
-                      // properly ends exactly at the event occurrence
-                      return false;
-                  }
-                  // either we were not waiting for the event or it has
-                  // moved in such a way the step cannot be accepted
-                  pendingEvent = true;
-                  return true;
               }
-          } catch (ConvergenceException ce) {
-              throw new RuntimeException("internal error");
+          });
+          solver.setAbsoluteAccuracy(convergence);
+          solver.setMaximalIterationCount(maxIterationCount);
+          double root = solver.solve(ta, tb);
+          if (Double.isNaN(previousEventTime) || (Math.abs(previousEventTime - root) > convergence)) {
+              pendingEventTime = root;
+              if (pendingEvent && (Math.abs(t1 - pendingEventTime) <= convergence)) {
+                  // we were already waiting for this event which was
+                  // found during a previous call for a step that was
+                  // rejected, this step must now be accepted since it
+                  // properly ends exactly at the event occurrence
+                  return false;
+              }
+              // either we were not waiting for the event or it has
+              // moved in such a way the step cannot be accepted
+              pendingEvent = true;
+              return true;
           }
 
         } else {
@@ -192,10 +203,12 @@ class SwitchState implements Serializable {
       pendingEventTime = Double.NaN;
       return false;
 
-    } catch (DerivativeException e) {
-      throw new RuntimeException("unexpected exception: " + e.getMessage());
     } catch (FunctionEvaluationException e) {
-      throw new RuntimeException("unexpected exception: " + e.getMessage());
+     Throwable cause = e.getCause();
+      if ((cause != null) && (cause instanceof DerivativeException)) {
+        throw (DerivativeException) cause;
+      }
+      throw e;
     }
 
   }
@@ -214,8 +227,11 @@ class SwitchState implements Serializable {
    * end of the step
    * @param y array containing the current value of the state vector
    * at the end of the step
+   * @exception FunctionEvaluationException if the value of the switching
+   * function cannot be evaluated
    */
-  public void stepAccepted(double t, double[] y) {
+  public void stepAccepted(double t, double[] y)
+    throws FunctionEvaluationException {
 
     t0 = t;
     g0 = function.g(t, y);
