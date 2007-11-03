@@ -850,17 +850,18 @@ public class GraggBulirschStoerIntegrator
       if (! reject) {
 
         // store end of step state
-        stepStart += stepSize;
+        double nextStep = stepStart + stepSize;
         System.arraycopy(y1, 0, y, 0, y0.length);
 
-        switchesHandler.stepAccepted(stepStart, y);
+        switchesHandler.stepAccepted(nextStep, y);
         if (switchesHandler.stop()) {
           lastStep = true;
         }
 
         // provide the step data to the step handler
-        interpolator.storeTime(stepStart);
+        interpolator.storeTime(nextStep);
         handler.handleStep(interpolator, lastStep);
+        stepStart = nextStep;
 
         if (switchesHandler.reset(stepStart, y) && ! lastStep) {
           // some switching function has triggered changes that

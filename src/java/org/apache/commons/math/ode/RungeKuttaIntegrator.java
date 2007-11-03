@@ -219,9 +219,9 @@ public abstract class RungeKuttaIntegrator
       }
 
       // the step has been accepted
-      stepStart += stepSize;
+      double nextStep = stepStart + stepSize;
       System.arraycopy(yTmp, 0, y, 0, y0.length);
-      switchesHandler.stepAccepted(stepStart, y);
+      switchesHandler.stepAccepted(nextStep, y);
       if (switchesHandler.stop()) {
         lastStep = true;
       } else {
@@ -229,8 +229,9 @@ public abstract class RungeKuttaIntegrator
       }
 
       // provide the step data to the step handler
-      interpolator.storeTime(stepStart);
+      interpolator.storeTime(nextStep);
       handler.handleStep(interpolator, lastStep);
+      stepStart = nextStep;
 
       if (switchesHandler.reset(stepStart, y) && ! lastStep) {
         // some switching function has triggered changes that
@@ -256,7 +257,7 @@ public abstract class RungeKuttaIntegrator
     return stepStart;
   }
 
-  public double getCurrentStepsize() {
+  public double getCurrentSignedStepsize() {
     return stepSize;
   }
 

@@ -332,7 +332,7 @@ public abstract class AdaptiveStepsizeIntegrator
     return stepStart;
   }
 
-  public double getCurrentStepsize() {
+  public double getCurrentSignedStepsize() {
     return stepSize;
   }
 

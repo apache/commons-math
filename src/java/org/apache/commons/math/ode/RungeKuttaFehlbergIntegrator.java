@@ -274,18 +274,19 @@ public abstract class RungeKuttaFehlbergIntegrator
       }
 
       // the step has been accepted
-      stepStart += stepSize;
+      double nextStep = stepStart + stepSize;
       System.arraycopy(yTmp, 0, y, 0, y0.length);
-      switchesHandler.stepAccepted(stepStart, y);
+      switchesHandler.stepAccepted(nextStep, y);
       if (switchesHandler.stop()) {
         lastStep = true;
       } else {
-        lastStep = forward ? (stepStart >= t) : (stepStart <= t);
+        lastStep = forward ? (nextStep >= t) : (nextStep <= t);
       }
 
       // provide the step data to the step handler
-      interpolator.storeTime(stepStart);
+      interpolator.storeTime(nextStep);
       handler.handleStep(interpolator, lastStep);
+      stepStart = nextStep;
 
       if (fsal) {
         // save the last evaluation for the next step

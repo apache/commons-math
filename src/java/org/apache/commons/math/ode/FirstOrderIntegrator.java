@@ -67,7 +67,7 @@ public interface FirstOrderIntegrator {
    * <p>This method solves an Initial Value Problem (IVP).</p>
    * <p>Since this method stores some internal state variables made
    * available in its public interface during integration ({@link
-   * #getCurrentStepsize()}), it is <em>not</em> thread-safe.</p>
+   * #getCurrentSignedStepsize()}), it is <em>not</em> thread-safe.</p>
    * @param equations differential equations to integrate
    * @param t0 initial time
    * @param y0 initial value of the state vector at t0
@@ -95,15 +95,15 @@ public interface FirstOrderIntegrator {
    */
   public double getCurrentStepStart();
 
-  /** Get the current value of the integration stepsize.
+  /** Get the current signed value of the integration stepsize.
    * <p>This method can be called during integration (typically by
    * the object implementing the {@link FirstOrderDifferentialEquations
-   * differential equations} problem) if the value of the current stepsize
+   * differential equations} problem) if the signed value of the current stepsize
    * that is tried is needed.</p>
    * <p>The result is undefined if the method is called outside of
    * calls to {@link #integrate}</p>
-   * @return current value of the stepsize
+   * @return current signed value of the stepsize
    */
-  public double getCurrentStepsize();
+  public double getCurrentSignedStepsize();
 
 }
