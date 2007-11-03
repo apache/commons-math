@@ -47,12 +47,6 @@ public abstract class DescriptiveStatisticsTest extends TestCase {
         super(name);
     }
     
-    public static Test suite() {
-        TestSuite suite = new TestSuite(DescriptiveStatisticsTest.class);
-        suite.setName("Descriptive Statistics Tests");
-        return suite;
-    }
-    
     protected abstract DescriptiveStatistics createDescriptiveStatistics();
     
     public void setUp() {  
