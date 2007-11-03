@@ -34,16 +34,6 @@ package org.apache.commons.math.ode;
  * </pre>
  * </p>
 
- * <p>Some methods are qualified as <i>fsal</i> (first same as last)
- * methods. This means the last evaluation of the derivatives in one
- * step is the same as the first in the next step. Then, this
- * evaluation can be reused from one step to the next one and the cost
- * of such a method is really s-1 evaluations despite the method still
- * has s stages. This behaviour is true only for successful steps, if
- * the step is rejected after the error estimation phase, no
- * evaluation is saved. For an <i>fsal</i> method, we have cs = 1 and
- * asi = bi for all i.</p>
-
  * @see EulerIntegrator
  * @see ClassicalRungeKuttaIntegrator
  * @see GillIntegrator
@@ -59,18 +49,15 @@ public abstract class RungeKuttaIntegrator
   /** Simple constructor.
    * Build a Runge-Kutta integrator with the given
    * step. The default step handler does nothing.
-   * @param fsal indicate that the method is an <i>fsal</i>
    * @param c time steps from Butcher array (without the first zero)
    * @param a internal weights from Butcher array (without the first empty row)
    * @param b external weights for the high order method from Butcher array
    * @param prototype prototype of the step interpolator to use
    * @param step integration step
    */
-  protected RungeKuttaIntegrator(boolean fsal,
-                                 double[] c, double[][] a, double[] b,
+  protected RungeKuttaIntegrator(double[] c, double[][] a, double[] b,
                                  RungeKuttaStepInterpolator prototype,
                                  double step) {
-    this.fsal       = fsal;
     this.c          = c;
     this.a          = a;
     this.b          = b;
@@ -182,7 +169,6 @@ public abstract class RungeKuttaIntegrator
 
     // recompute the step
     long    nbStep    = Math.max(1l, Math.abs(Math.round((t - t0) / step)));
-    boolean firstTime = true;
     boolean lastStep  = false;
     stepStart = t0;
     stepSize  = (t - t0) / nbStep;
@@ -194,11 +180,8 @@ public abstract class RungeKuttaIntegrator
       boolean needUpdate = false;
       for (boolean loop = true; loop;) {
 
-        if (firstTime || !fsal) {
-          // first stage
-          equations.computeDerivatives(stepStart, y, yDotK[0]);
-          firstTime = false;
-        }
+        // first stage
+        equations.computeDerivatives(stepStart, y, yDotK[0]);
 
         // next stages
         for (int k = 1; k < stages; ++k) {
@@ -249,11 +232,6 @@ public abstract class RungeKuttaIntegrator
       interpolator.storeTime(stepStart);
       handler.handleStep(interpolator, lastStep);
 
-      if (fsal) {
-        // save the last evaluation for the next step
-        System.arraycopy(yDotK[stages - 1], 0, yDotK[0], 0, y0.length);
-      }
-
       if (switchesHandler.reset(stepStart, y) && ! lastStep) {
         // some switching function has triggered changes that
         // invalidate the derivatives, we need to recompute them
@@ -287,9 +265,6 @@ public abstract class RungeKuttaIntegrator
     stepStart = Double.NaN;
     stepSize  = Double.NaN;
   }
-
-  /** Indicator for <i>fsal</i> methods. */
-  private boolean fsal;
 
   /** Time steps from Butcher array (without the first zero). */
   private double[] c;

@@ -68,7 +68,7 @@ public class ClassicalRungeKuttaIntegrator
    * @param step integration step
    */
   public ClassicalRungeKuttaIntegrator(double step) {
-    super(false, c, a, b, new ClassicalRungeKuttaStepInterpolator(), step);
+    super(c, a, b, new ClassicalRungeKuttaStepInterpolator(), step);
   }
 
   /** Get the name of the method.

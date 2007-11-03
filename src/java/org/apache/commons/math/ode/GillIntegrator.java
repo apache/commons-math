@@ -68,7 +68,7 @@ public class GillIntegrator
    * @param step integration step
    */
   public GillIntegrator(double step) {
-    super(false, c, a, b, new GillStepInterpolator(), step);
+    super(c, a, b, new GillStepInterpolator(), step);
   }
 
   /** Get the name of the method.

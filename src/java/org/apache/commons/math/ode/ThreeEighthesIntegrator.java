@@ -66,7 +66,7 @@ public class ThreeEighthesIntegrator
    * @param step integration step
    */
   public ThreeEighthesIntegrator(double step) {
-    super(false, c, a, b, new ThreeEighthesStepInterpolator(), step);
+    super(c, a, b, new ThreeEighthesStepInterpolator(), step);
   }
 
   /** Get the name of the method.

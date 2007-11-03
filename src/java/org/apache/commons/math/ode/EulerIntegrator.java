@@ -66,7 +66,7 @@ public class EulerIntegrator
    * @param step integration step
    */
   public EulerIntegrator(double step) {
-    super(false, c, a, b, new EulerStepInterpolator(), step);
+    super(c, a, b, new EulerStepInterpolator(), step);
   }
 
   /** Get the name of the method.

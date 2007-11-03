@@ -61,7 +61,7 @@ public class MidpointIntegrator
    * @param step integration step
    */
   public MidpointIntegrator(double step) {
-    super(false, c, a, b, new MidpointStepInterpolator(), step);
+    super(c, a, b, new MidpointStepInterpolator(), step);
   }
 
   /** Get the name of the method.
