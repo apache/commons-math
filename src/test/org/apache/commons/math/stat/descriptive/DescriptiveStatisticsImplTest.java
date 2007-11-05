@@ -21,7 +21,7 @@ import junit.framework.TestSuite;
  * @version $Revision$ $Date: 2007-08-16 15:36:33 -0500 (Thu, 16 Aug
  *          2007) $
  */
-public final class DescriptiveStatisticsImplTest extends DescriptiveStatisticsTest {
+public final class DescriptiveStatisticsImplTest extends DescriptiveStatisticsAbstractTest {
 
     public DescriptiveStatisticsImplTest(String name) {
         super(name);

@@ -29,7 +29,7 @@ import org.apache.commons.math.random.RandomDataImpl;
  *
  * @version $Revision$ $Date$
  */
-public abstract class DescriptiveStatisticsTest extends TestCase {
+public abstract class DescriptiveStatisticsAbstractTest extends TestCase {
     private double var = 0.666666666666666666667;
     private double max = 3;
     private double mean = 2;
@@ -43,7 +43,7 @@ public abstract class DescriptiveStatisticsTest extends TestCase {
     private double tolerance = 10E-15;
     private float two = 2;
     
-    public DescriptiveStatisticsTest(String name) {
+    public DescriptiveStatisticsAbstractTest(String name) {
         super(name);
     }
     
