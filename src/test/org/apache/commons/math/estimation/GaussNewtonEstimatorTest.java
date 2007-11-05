@@ -445,21 +445,39 @@ public class GaussNewtonEstimatorTest
 
   }
 
+  public void testMaxIterations() {
+      Circle circle = new Circle(98.680, 47.345);
+      circle.addPoint( 30.0,  68.0);
+      circle.addPoint( 50.0,  -6.0);
+      circle.addPoint(110.0, -20.0);
+      circle.addPoint( 35.0,  15.0);
+      circle.addPoint( 45.0,  97.0);
+      try {
+        GaussNewtonEstimator estimator = new GaussNewtonEstimator(4, 1.0e-14, 1.0e-14);
+        estimator.estimate(circle);
+        fail("an exception should have been caught");
+      } catch (EstimationException ee) {
+        // expected behavior
+      } catch (Exception e) {
+        fail("wrong exception type caught");
+      }
+    }
+
   public void testCircleFitting() throws EstimationException {
-    Circle circle = new Circle(98.680, 47.345);
-    circle.addPoint( 30.0,  68.0);
-    circle.addPoint( 50.0,  -6.0);
-    circle.addPoint(110.0, -20.0);
-    circle.addPoint( 35.0,  15.0);
-    circle.addPoint( 45.0,  97.0);
-    GaussNewtonEstimator estimator = new GaussNewtonEstimator(100, 1.0e-10, 1.0e-10);
-    estimator.estimate(circle);
-    double rms = estimator.getRMS(circle);
-    assertEquals(1.768262623567235,  Math.sqrt(circle.getM()) * rms,  1.0e-10);
-    assertEquals(69.96016176931406, circle.getRadius(), 1.0e-10);
-    assertEquals(96.07590211815305, circle.getX(),      1.0e-10);
-    assertEquals(48.13516790438953, circle.getY(),      1.0e-10);
-  }
+      Circle circle = new Circle(98.680, 47.345);
+      circle.addPoint( 30.0,  68.0);
+      circle.addPoint( 50.0,  -6.0);
+      circle.addPoint(110.0, -20.0);
+      circle.addPoint( 35.0,  15.0);
+      circle.addPoint( 45.0,  97.0);
+      GaussNewtonEstimator estimator = new GaussNewtonEstimator(100, 1.0e-10, 1.0e-10);
+      estimator.estimate(circle);
+      double rms = estimator.getRMS(circle);
+      assertEquals(1.768262623567235,  Math.sqrt(circle.getM()) * rms,  1.0e-10);
+      assertEquals(69.96016176931406, circle.getRadius(), 1.0e-10);
+      assertEquals(96.07590211815305, circle.getX(),      1.0e-10);
+      assertEquals(48.13516790438953, circle.getY(),      1.0e-10);
+    }
 
   public void testCircleFittingBadInit() throws EstimationException {
     Circle circle = new Circle(-12, -12);

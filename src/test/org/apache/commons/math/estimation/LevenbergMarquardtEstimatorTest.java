@@ -446,23 +446,55 @@ public class LevenbergMarquardtEstimatorTest
 
   }
 
-  public void testCircleFitting() throws EstimationException {
-    Circle circle = new Circle(98.680, 47.345);
-    circle.addPoint( 30.0,  68.0);
-    circle.addPoint( 50.0,  -6.0);
-    circle.addPoint(110.0, -20.0);
-    circle.addPoint( 35.0,  15.0);
-    circle.addPoint( 45.0,  97.0);
-    LevenbergMarquardtEstimator estimator = new LevenbergMarquardtEstimator();
-    estimator.estimate(circle);
-    assertTrue(estimator.getCostEvaluations() < 10);
-    assertTrue(estimator.getJacobianEvaluations() < 10);
-    double rms = estimator.getRMS(circle);
-    assertEquals(1.768262623567235,  Math.sqrt(circle.getM()) * rms,  1.0e-10);
-    assertEquals(69.96016176931406, circle.getRadius(), 1.0e-10);
-    assertEquals(96.07590211815305, circle.getX(),      1.0e-10);
-    assertEquals(48.13516790438953, circle.getY(),      1.0e-10);
+  public void testControlParameters() throws EstimationException {
+      Circle circle = new Circle(98.680, 47.345);
+      circle.addPoint( 30.0,  68.0);
+      circle.addPoint( 50.0,  -6.0);
+      circle.addPoint(110.0, -20.0);
+      circle.addPoint( 35.0,  15.0);
+      circle.addPoint( 45.0,  97.0);
+      checkEstimate(circle, 100.0, 1000, 1.0e-10, 1.0e-10, 1.0e-10, false);
+      checkEstimate(circle, 1.0e-12, 10, 1.0e-20, 1.0e-20, 1.0e-20, true);
   }
+
+  private void checkEstimate(EstimationProblem problem,
+                             double initialStepBoundFactor, int maxCostEval,
+                             double costRelativeTolerance, double parRelativeTolerance,
+                             double orthoTolerance, boolean shouldFail) {
+      try {
+        LevenbergMarquardtEstimator estimator = new LevenbergMarquardtEstimator();
+        estimator.setInitialStepBoundFactor(initialStepBoundFactor);
+        estimator.setMaxCostEval(maxCostEval);
+        estimator.setCostRelativeTolerance(costRelativeTolerance);
+        estimator.setParRelativeTolerance(parRelativeTolerance);
+        estimator.setOrthoTolerance(orthoTolerance);
+        estimator.estimate(problem);
+        assertTrue(! shouldFail);
+      } catch (EstimationException ee) {
+          System.out.println(ee.getClass().getName() + " " + ee.getMessage());
+        assertTrue(shouldFail);
+      } catch (Exception e) {
+        fail("wrong exception type caught");
+      }
+    }
+
+  public void testCircleFitting() throws EstimationException {
+      Circle circle = new Circle(98.680, 47.345);
+      circle.addPoint( 30.0,  68.0);
+      circle.addPoint( 50.0,  -6.0);
+      circle.addPoint(110.0, -20.0);
+      circle.addPoint( 35.0,  15.0);
+      circle.addPoint( 45.0,  97.0);
+      LevenbergMarquardtEstimator estimator = new LevenbergMarquardtEstimator();
+      estimator.estimate(circle);
+      assertTrue(estimator.getCostEvaluations() < 10);
+      assertTrue(estimator.getJacobianEvaluations() < 10);
+      double rms = estimator.getRMS(circle);
+      assertEquals(1.768262623567235,  Math.sqrt(circle.getM()) * rms,  1.0e-10);
+      assertEquals(69.96016176931406, circle.getRadius(), 1.0e-10);
+      assertEquals(96.07590211815305, circle.getX(),      1.0e-10);
+      assertEquals(48.13516790438953, circle.getY(),      1.0e-10);
+    }
 
   public void testCircleFittingBadInit() throws EstimationException {
     Circle circle = new Circle(-12, -12);
