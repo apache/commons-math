@@ -26,11 +26,24 @@ import junit.framework.TestCase;
  */
 public class MaxIterationsExceededExceptionTest extends TestCase {
     
-    public void testConstructor(){
+    public void testSimpleConstructor(){
         MaxIterationsExceededException ex = new MaxIterationsExceededException(1000000);
         assertNull(ex.getCause());
         assertNotNull(ex.getMessage());
         assertTrue(ex.getMessage().indexOf("1,000,000") > 0);
+        assertEquals(1000000, ex.getMaxIterations());
+        assertFalse(ex.getMessage().equals(ex.getMessage(Locale.FRENCH)));
+    }
+
+    public void testComplexConstructor(){
+        MaxIterationsExceededException ex =
+            new MaxIterationsExceededException(1000000,
+                "Continued fraction convergents failed to converge for value {0}",
+                new Object[] { new Double(1234567) });
+        assertNull(ex.getCause());
+        assertNotNull(ex.getMessage());
+        assertTrue(ex.getMessage().indexOf("1,000,000") < 0);
+        assertTrue(ex.getMessage().indexOf("1,234,567") > 0);
         assertEquals(1000000, ex.getMaxIterations());
         assertFalse(ex.getMessage().equals(ex.getMessage(Locale.FRENCH)));
     }

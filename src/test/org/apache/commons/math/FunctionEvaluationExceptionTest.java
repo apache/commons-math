@@ -64,4 +64,12 @@ public class FunctionEvaluationExceptionTest extends TestCase {
         assertFalse(ex.getMessage().equals(ex.getMessage(Locale.FRENCH)));
     }
 
+    public void testConstructorArgumentCause(){
+        String inMsg = "inner message";
+        Exception cause = new Exception(inMsg);
+        FunctionEvaluationException ex = new FunctionEvaluationException(0.0, cause);
+        assertEquals(cause, ex.getCause());
+        assertTrue(ex.getMessage().equals(ex.getMessage(Locale.FRENCH)));
+    }
+
 }
