@@ -18,7 +18,7 @@
 package org.apache.commons.math.ode;
 
 /**
- * This class implements the common part of all embedde Runge-Kutta
+ * This class implements the common part of all embedded Runge-Kutta
  * integrators for Ordinary Differential Equations.
 
  * <p>These methods are embedded explicit Runge-Kutta methods with two
