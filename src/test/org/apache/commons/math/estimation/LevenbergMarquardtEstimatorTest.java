@@ -453,8 +453,11 @@ public class LevenbergMarquardtEstimatorTest
       circle.addPoint(110.0, -20.0);
       circle.addPoint( 35.0,  15.0);
       circle.addPoint( 45.0,  97.0);
-      checkEstimate(circle, 100.0, 1000, 1.0e-10, 1.0e-10, 1.0e-10, false);
-      checkEstimate(circle, 1.0e-12, 10, 1.0e-20, 1.0e-20, 1.0e-20, true);
+      checkEstimate(circle, 0.1, 10, 1.0e-14, 1.0e-16, 1.0e-10, false);
+      checkEstimate(circle, 0.1, 10, 1.0e-15, 1.0e-17, 1.0e-10, true);
+      checkEstimate(circle, 0.1,  5, 1.0e-15, 1.0e-16, 1.0e-10, true);
+      circle.addPoint(300, -300);
+      checkEstimate(circle, 0.1, 20, 1.0e-18, 1.0e-16, 1.0e-10, true);
   }
 
   private void checkEstimate(EstimationProblem problem,
@@ -471,7 +474,6 @@ public class LevenbergMarquardtEstimatorTest
         estimator.estimate(problem);
         assertTrue(! shouldFail);
       } catch (EstimationException ee) {
-          System.out.println(ee.getClass().getName() + " " + ee.getMessage());
         assertTrue(shouldFail);
       } catch (Exception e) {
         fail("wrong exception type caught");

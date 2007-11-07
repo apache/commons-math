@@ -417,8 +417,11 @@ public class GaussNewtonEstimatorTest
     GaussNewtonEstimator estimator = new GaussNewtonEstimator(100, 1.0e-6, 1.0e-6);
     estimator.estimate(problem);
     assertEquals(0, estimator.getRMS(problem), 1.0e-10);
-    assertEquals(2.0, p[0].getEstimate(), 1.0e-10);
-    assertEquals(1.0, p[1].getEstimate(), 1.0e-10);
+    EstimatedParameter[] all = problem.getAllParameters();
+    for (int i = 0; i < all.length; ++i) {
+        assertEquals(all[i].getName().equals("p0") ? 2.0 : 1.0,
+                     all[i].getEstimate(), 1.0e-10);
+    }
 
   }
 
