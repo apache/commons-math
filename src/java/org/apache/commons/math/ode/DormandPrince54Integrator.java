@@ -21,7 +21,7 @@ package org.apache.commons.math.ode;
  * This class implements the 5(4) Dormand-Prince integrator for Ordinary
  * Differential Equations.
 
- * <p>This integrator is an embedded Runge-Kutta-Fehlberg integrator
+ * <p>This integrator is an embedded Runge-Kutta integrator
  * of order 5(4) used in local extrapolation mode (i.e. the solution
  * is computed using the high order formula) with stepsize control
  * (and automatic step initialization) and continuous output. This
@@ -44,15 +44,15 @@ package org.apache.commons.math.ode;
  */
 
 public class DormandPrince54Integrator
-  extends RungeKuttaFehlbergIntegrator {
+  extends EmbeddedRungeKuttaIntegrator {
 
   private static final String methodName = "Dormand-Prince 5(4)";
 
-  private static final double[] c = {
+  private static final double[] staticC = {
     1.0/5.0, 3.0/10.0, 4.0/5.0, 8.0/9.0, 1.0, 1.0
   };
 
-  private static final double[][] a = {
+  private static final double[][] staticA = {
     {1.0/5.0},
     {3.0/40.0, 9.0/40.0},
     {44.0/45.0, -56.0/15.0, 32.0/9.0},
@@ -61,7 +61,7 @@ public class DormandPrince54Integrator
     {35.0/384.0, 0.0, 500.0/1113.0, 125.0/192.0, -2187.0/6784.0, 11.0/84.0}
   };
 
-  private static final double[] b = {
+  private static final double[] staticB = {
     35.0/384.0, 0.0, 500.0/1113.0, 125.0/192.0, -2187.0/6784.0, 11.0/84.0, 0.0
   };
 
@@ -84,7 +84,7 @@ public class DormandPrince54Integrator
   public DormandPrince54Integrator(double minStep, double maxStep,
                                    double scalAbsoluteTolerance,
                                    double scalRelativeTolerance) {
-    super(true, c, a, b, new DormandPrince54StepInterpolator(),
+    super(true, staticC, staticA, staticB, new DormandPrince54StepInterpolator(),
           minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
   }
 
@@ -100,7 +100,7 @@ public class DormandPrince54Integrator
   public DormandPrince54Integrator(double minStep, double maxStep,
                                    double[] vecAbsoluteTolerance,
                                    double[] vecRelativeTolerance) {
-    super(true, c, a, b, new DormandPrince54StepInterpolator(),
+    super(true, staticC, staticA, staticB, new DormandPrince54StepInterpolator(),
           minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
   }
 

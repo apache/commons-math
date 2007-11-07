@@ -21,7 +21,7 @@ package org.apache.commons.math.ode;
  * This class implements the 8(5,3) Dormand-Prince integrator for Ordinary
  * Differential Equations.
 
- * <p>This integrator is an embedded Runge-Kutta-Fehlberg integrator
+ * <p>This integrator is an embedded Runge-Kutta integrator
  * of order 8(5,3) used in local extrapolation mode (i.e. the solution
  * is computed using the high order formula) with stepsize control
  * (and automatic step initialization) and continuous output. This
@@ -52,19 +52,19 @@ package org.apache.commons.math.ode;
  */
 
 public class DormandPrince853Integrator
-  extends RungeKuttaFehlbergIntegrator {
+  extends EmbeddedRungeKuttaIntegrator {
 
   private static final String methodName = "Dormand-Prince 8 (5, 3)";
 
   private static final double sqrt6 = Math.sqrt(6.0);
 
-  private static final double[] c = {
+  private static final double[] staticC = {
     (12.0 - 2.0 * sqrt6) / 135.0, (6.0 - sqrt6) / 45.0, (6.0 - sqrt6) / 30.0,
     (6.0 + sqrt6) / 30.0, 1.0/3.0, 1.0/4.0, 4.0/13.0, 127.0/195.0, 3.0/5.0,
     6.0/7.0, 1.0, 1.0
   };
 
-  private static final double[][] a = {
+  private static final double[][] staticA = {
 
     // k2
     {(12.0 - 2.0 * sqrt6) / 135.0},
@@ -130,7 +130,7 @@ public class DormandPrince853Integrator
 
   };
 
-  private static final double[] b = {
+  private static final double[] staticB = {
       104257.0/1920240.0,
       0.0,
       0.0,
@@ -176,7 +176,7 @@ public class DormandPrince853Integrator
   public DormandPrince853Integrator(double minStep, double maxStep,
                                     double scalAbsoluteTolerance,
                                     double scalRelativeTolerance) {
-    super(true, c, a, b,
+    super(true, staticC, staticA, staticB,
           new DormandPrince853StepInterpolator(),
           minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
   }
@@ -193,7 +193,7 @@ public class DormandPrince853Integrator
   public DormandPrince853Integrator(double minStep, double maxStep,
                                     double[] vecAbsoluteTolerance,
                                     double[] vecRelativeTolerance) {
-    super(true, c, a, b,
+    super(true, staticC, staticA, staticB,
           new DormandPrince853StepInterpolator(),
           minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
   }

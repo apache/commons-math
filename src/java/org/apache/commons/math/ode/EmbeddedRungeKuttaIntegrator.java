@@ -18,7 +18,7 @@
 package org.apache.commons.math.ode;
 
 /**
- * This class implements the common part of all Runge-Kutta-Fehlberg
+ * This class implements the common part of all embedde Runge-Kutta
  * integrators for Ordinary Differential Equations.
 
  * <p>These methods are embedded explicit Runge-Kutta methods with two
@@ -50,11 +50,11 @@ package org.apache.commons.math.ode;
  * evaluation is saved. For an <i>fsal</i> method, we have cs = 1 and
  * asi = bi for all i.</p>
 
- * @version $Id: RungeKuttaFehlbergIntegrator.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id: EmbeddedRungeKuttaIntegrator.java 1705 2006-09-17 19:57:39Z luc $
 
  */
 
-public abstract class RungeKuttaFehlbergIntegrator
+public abstract class EmbeddedRungeKuttaIntegrator
   extends AdaptiveStepsizeIntegrator {
 
   /** Build a Runge-Kutta integrator with the given Butcher array.
@@ -70,7 +70,7 @@ public abstract class RungeKuttaFehlbergIntegrator
    * @param scalAbsoluteTolerance allowed absolute error
    * @param scalRelativeTolerance allowed relative error
    */
-  protected RungeKuttaFehlbergIntegrator(boolean fsal,
+  protected EmbeddedRungeKuttaIntegrator(boolean fsal,
                                          double[] c, double[][] a, double[] b,
                                          RungeKuttaStepInterpolator prototype,
                                          double minStep, double maxStep,
@@ -107,7 +107,7 @@ public abstract class RungeKuttaFehlbergIntegrator
    * @param vecAbsoluteTolerance allowed absolute error
    * @param vecRelativeTolerance allowed relative error
    */
-  protected RungeKuttaFehlbergIntegrator(boolean fsal,
+  protected EmbeddedRungeKuttaIntegrator(boolean fsal,
                                          double[] c, double[][] a, double[] b,
                                          RungeKuttaStepInterpolator prototype,
                                          double   minStep, double maxStep,

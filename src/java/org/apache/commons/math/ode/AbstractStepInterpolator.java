@@ -70,7 +70,7 @@ public abstract class AbstractStepInterpolator
    * instance in order to initialize the internal arrays. This
    * constructor is used only in order to delay the initialization in
    * some cases. As an example, the {@link
-   * RungeKuttaFehlbergIntegrator} uses the prototyping design pattern
+   * EmbeddedRungeKuttaIntegrator} uses the prototyping design pattern
    * to create the step interpolators by cloning an uninitialized
    * model and latter initializing the copy.
    */
@@ -296,7 +296,7 @@ public abstract class AbstractStepInterpolator
   /**
    * Finalize the step.
 
-   * <p>Some Runge-Kutta-Fehlberg integrators need fewer functions
+   * <p>Some embedded Runge-Kutta integrators need fewer functions
    * evaluations than their counterpart step interpolators. These
    * interpolators should perform the last evaluations they need by
    * themselves only if they need them. This method triggers these

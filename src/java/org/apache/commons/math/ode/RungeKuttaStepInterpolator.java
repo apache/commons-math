@@ -22,11 +22,10 @@ import java.io.ObjectOutput;
 import java.io.IOException;
 
 /** This class represents an interpolator over the last step during an
- * ODE integration for Runge-Kutta and Runge-Kutta-Fehlberg
- * integrators.
+ * ODE integration for Runge-Kutta and embedded Runge-Kutta integrators.
  *
  * @see RungeKuttaIntegrator
- * @see RungeKuttaFehlbergIntegrator
+ * @see EmbeddedRungeKuttaIntegrator
  *
  * @version $Id: RungeKuttaStepInterpolator.java 1705 2006-09-17 19:57:39Z luc $
  *
@@ -41,7 +40,7 @@ abstract class RungeKuttaStepInterpolator
    * instance in order to initialize the internal arrays. This
    * constructor is used only in order to delay the initialization in
    * some cases. The {@link RungeKuttaIntegrator} and {@link
-   * RungeKuttaFehlbergIntegrator} classes uses the prototyping design
+   * EmbeddedRungeKuttaIntegrator} classes uses the prototyping design
    * pattern to create the step interpolators by cloning an
    * uninitialized model and latter initializing the copy.
    */
@@ -97,7 +96,7 @@ abstract class RungeKuttaStepInterpolator
    * than their counterpart step interpolators. So the interpolator
    * should perform the last evaluations they need by themselves. The
    * {@link RungeKuttaIntegrator RungeKuttaIntegrator} and {@link
-   * RungeKuttaFehlbergIntegrator RungeKuttaFehlbergIntegrator}
+   * EmbeddedRungeKuttaIntegrator EmbeddedRungeKuttaIntegrator}
    * abstract classes call this method in order to let the step
    * interpolator perform the evaluations it needs. These evaluations
    * will be performed during the call to <code>doFinalize</code> if

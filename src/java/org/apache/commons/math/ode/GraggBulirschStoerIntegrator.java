@@ -31,7 +31,7 @@ package org.apache.commons.math.ode;
  * integration, in order to minimize computation cost. It is
  * particularly well suited when a very high precision is needed. The
  * limit where this method becomes more efficient than high-order
- * Runge-Kutta-Fehlberg methods like {@link DormandPrince853Integrator
+ * embedded Runge-Kutta methods like {@link DormandPrince853Integrator
  * Dormand-Prince 8(5,3)} depends on the problem. Results given in the
  * Hairer, Norsett and Wanner book show for example that this limit
  * occurs for accuracy around 1e-6 when integrating Saltzam-Lorenz

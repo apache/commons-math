@@ -35,7 +35,7 @@ class DormandPrince54StepInterpolator
    * {@link #reinitialize} method should be called before using the
    * instance in order to initialize the internal arrays. This
    * constructor is used only in order to delay the initialization in
-   * some cases. The {@link RungeKuttaFehlbergIntegrator} uses the
+   * some cases. The {@link EmbeddedRungeKuttaIntegrator} uses the
    * prototyping design pattern to create the step interpolators by
    * cloning an uninitialized model and latter initializing the copy.
    */

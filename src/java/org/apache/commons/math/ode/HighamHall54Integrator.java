@@ -21,7 +21,7 @@ package org.apache.commons.math.ode;
  * This class implements the 5(4) Higham and Hall integrator for
  * Ordinary Differential Equations.
 
- * <p>This integrator is an embedded Runge-Kutta-Fehlberg integrator
+ * <p>This integrator is an embedded Runge-Kutta integrator
  * of order 5(4) used in local extrapolation mode (i.e. the solution
  * is computed using the high order formula) with stepsize control
  * (and automatic step initialization) and continuous output. This
@@ -32,15 +32,15 @@ package org.apache.commons.math.ode;
  */
 
 public class HighamHall54Integrator
-  extends RungeKuttaFehlbergIntegrator {
+  extends EmbeddedRungeKuttaIntegrator {
 
   private static final String methodName = "Higham-Hall 5(4)";
 
-  private static final double[] c = {
+  private static final double[] staticC = {
     2.0/9.0, 1.0/3.0, 1.0/2.0, 3.0/5.0, 1.0, 1.0
   };
 
-  private static final double[][] a = {
+  private static final double[][] staticA = {
     {2.0/9.0},
     {1.0/12.0, 1.0/4.0},
     {1.0/8.0, 0.0, 3.0/8.0},
@@ -49,11 +49,11 @@ public class HighamHall54Integrator
     {1.0/12.0, 0.0, 27.0/32.0, -4.0/3.0, 125.0/96.0, 5.0/48.0}
   };
 
-  private static final double[] b = {
+  private static final double[] staticB = {
     1.0/12.0, 0.0, 27.0/32.0, -4.0/3.0, 125.0/96.0, 5.0/48.0, 0.0
   };
 
-  private static final double[] e = {
+  private static final double[] staticE = {
     -1.0/20.0, 0.0, 81.0/160.0, -6.0/5.0, 25.0/32.0, 1.0/16.0, -1.0/10.0
   };
 
@@ -69,7 +69,7 @@ public class HighamHall54Integrator
   public HighamHall54Integrator(double minStep, double maxStep,
                                 double scalAbsoluteTolerance,
                                 double scalRelativeTolerance) {
-    super(false, c, a, b, new HighamHall54StepInterpolator(),
+    super(false, staticC, staticA, staticB, new HighamHall54StepInterpolator(),
           minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
   }
 
@@ -85,7 +85,7 @@ public class HighamHall54Integrator
   public HighamHall54Integrator(double minStep, double maxStep,
                                 double[] vecAbsoluteTolerance,
                                 double[] vecRelativeTolerance) {
-    super(false, c, a, b, new HighamHall54StepInterpolator(),
+    super(false, staticC, staticA, staticB, new HighamHall54StepInterpolator(),
           minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
   }
 
@@ -117,9 +117,9 @@ public class HighamHall54Integrator
     double error = 0;
 
     for (int j = 0; j < y0.length; ++j) {
-      double errSum = e[0] * yDotK[0][j];
-      for (int l = 1; l < e.length; ++l) {
-        errSum += e[l] * yDotK[l][j];
+      double errSum = staticE[0] * yDotK[0][j];
+      for (int l = 1; l < staticE.length; ++l) {
+        errSum += staticE[l] * yDotK[l][j];
       }
 
       double yScale = Math.max(Math.abs(y0[j]), Math.abs(y1[j]));

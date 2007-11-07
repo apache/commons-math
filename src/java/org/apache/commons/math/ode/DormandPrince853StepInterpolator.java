@@ -39,7 +39,7 @@ class DormandPrince853StepInterpolator
    * {@link #reinitialize} method should be called before using the
    * instance in order to initialize the internal arrays. This
    * constructor is used only in order to delay the initialization in
-   * some cases. The {@link RungeKuttaFehlbergIntegrator} uses the
+   * some cases. The {@link EmbeddedRungeKuttaIntegrator} uses the
    * prototyping design pattern to create the step interpolators by
    * cloning an uninitialized model and latter initializing the copy.
    */
@@ -95,11 +95,11 @@ class DormandPrince853StepInterpolator
   }
 
   /** Reinitialize the instance
-   * Some Runge-Kutta-Fehlberg integrators need fewer functions
+   * Some embedded Runge-Kutta integrators need fewer functions
    * evaluations than their counterpart step interpolators. So the
    * interpolator should perform the last evaluations they need by
-   * themselves. The {@link RungeKuttaFehlbergIntegrator
-   * RungeKuttaFehlbergIntegrator} abstract class calls this method in
+   * themselves. The {@link EmbeddedRungeKuttaIntegrator
+   * EmbeddedRungeKuttaIntegrator} abstract class calls this method in
    * order to let the step interpolator perform the evaluations it
    * needs. These evaluations will be performed during the call to
    * <code>doFinalize</code> if any, i.e. only if the step handler

@@ -143,7 +143,7 @@ public class DormandPrince54IntegratorTest
       double scalAbsoluteTolerance = Math.pow(10.0, i);
       double scalRelativeTolerance = 0.01 * scalAbsoluteTolerance;
 
-      RungeKuttaFehlbergIntegrator integ =
+      EmbeddedRungeKuttaIntegrator integ =
           new DormandPrince54Integrator(minStep, maxStep,
                                         scalAbsoluteTolerance, scalRelativeTolerance);
       TestProblemHandler handler = new TestProblemHandler(pb, integ);
