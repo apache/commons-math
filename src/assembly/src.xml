@@ -37,6 +37,11 @@
         <include>build.properties.sample</include>
         <include>checkstyle.xml</include>
         <include>RELEASE-NOTES*</include>
+        <include>license-header.txt</include>
+        <include>PROPOSAL.html</include>
+        <include>release-notes.jsl</include>
+        <include>test-jar.xml</include>
+        <include>testOnly.sh</include>
       </includes>
     </fileSet>
     <fileSet>
