@@ -60,14 +60,10 @@ public class ComplexUtils {
      * @param z the value whose inverse cosine is to be returned
      * @return the inverse cosine of <code>z</code>
      * @throws NullPointerException if <code>z</code> is null
+     * @deprecated use Complex.acos()
      */
     public static Complex acos(Complex z) {
-        if (z.isNaN()) {
-            return Complex.NaN;
-        }
-
-        return Complex.I.negate().multiply(log(z.add(
-            Complex.I.multiply(sqrt1z(z)))));       
+        return z.acos();
     }
     
     /**
@@ -84,14 +80,10 @@ public class ComplexUtils {
      * @param z the value whose inverse sine is to be returned.
      * @return the inverse sine of <code>z</code>.
      * @throws NullPointerException if <code>z</code> is null
+     * @deprecated use Complex.asin()
      */
     public static Complex asin(Complex z) {
-        if (z.isNaN()) {
-            return Complex.NaN;
-        }
-
-        return Complex.I.negate().multiply(log(sqrt1z(z).add(
-            Complex.I.multiply(z))));       
+        return z.asin();
     }
     
     /**
@@ -108,15 +100,10 @@ public class ComplexUtils {
      * @param z the value whose inverse tangent is to be returned
      * @return the inverse tangent of <code>z</code>
      * @throws NullPointerException if <code>z</code> is null
+     * @deprecated use Complex.atan()
      */
     public static Complex atan(Complex z) {
-        if (z.isNaN()) {
-            return Complex.NaN;
-        }
-        
-        return Complex.I.multiply(
-            log(Complex.I.add(z).divide(Complex.I.subtract(z))))
-            .divide(new Complex(2.0, 0.0));
+        return z.atan();
     }
     
     /**
@@ -145,17 +132,10 @@ public class ComplexUtils {
      * @param z the value whose cosine is to be returned
      * @return the cosine of <code>z</code>
      * @throws NullPointerException if <code>z</code> is null
+     * @deprecated use Complex.cos()
      */
     public static Complex cos(Complex z) {
-        if (z.isNaN()) {
-            return Complex.NaN;
-        }
-        
-        double a = z.getReal();
-        double b = z.getImaginary();
-        
-        return new Complex(Math.cos(a) * MathUtils.cosh(b),
-            -Math.sin(a) * MathUtils.sinh(b));
+        return z.cos();
     }
     
     /**
@@ -184,17 +164,10 @@ public class ComplexUtils {
      * 
      * @param z the value whose hyperbolic cosine is to be returned.
      * @return the hyperbolic cosine of <code>z</code>.
+     * @deprecated use Complex.cosh()
      */
     public static Complex cosh(Complex z) {
-        if (z.isNaN()) {
-            return Complex.NaN;
-        }
-        
-        double a = z.getReal();
-        double b = z.getImaginary();
-        
-        return new Complex(MathUtils.cosh(a) * Math.cos(b),
-            MathUtils.sinh(a) * Math.sin(b));
+        return z.cosh();
     }
     
     /**
@@ -224,15 +197,10 @@ public class ComplexUtils {
      * 
      * @param z the value
      * @return <i>e</i><sup><code>z</code></sup>
+     * @deprecated use Complex.exp()
      */
     public static Complex exp(Complex z) {
-        if (z.isNaN()) {
-            return Complex.NaN;
-        }
-        
-        double b = z.getImaginary();
-        double expA = Math.exp(z.getReal());
-        return new Complex(expA *  Math.cos(b), expA * Math.sin(b));
+        return z.exp();
     }
     
     /**
@@ -264,14 +232,10 @@ public class ComplexUtils {
      * 
      * @param z the value.
      * @return ln <code>z</code>.
+     * @deprecated use Complex.log()
      */
     public static Complex log(Complex z) {
-        if (z.isNaN()) {
-            return Complex.NaN;
-        }
-
-        return new Complex(Math.log(z.abs()),
-            Math.atan2(z.getImaginary(), z.getReal()));        
+        return z.log();
     }
     
     /**
@@ -323,9 +287,10 @@ public class ComplexUtils {
      * @param x the exponent.
      * @return <code>y</code><sup><code>x</code></sup>
      * @throws NullPointerException if either x or y is null
+     * @deprecated use Complex.pow(x)
      */
     public static Complex pow(Complex y, Complex x) {
-        return exp(x.multiply(log(y)));
+        return y.pow(x);
     }
     
     /**
@@ -355,17 +320,10 @@ public class ComplexUtils {
      * 
      * @param z the value whose sine is to be returned.
      * @return the sine of <code>z</code>.
+     * @deprecated use Complex.sin()
      */
     public static Complex sin(Complex z) {
-        if (z.isNaN()) {
-            return Complex.NaN;
-        }
-        
-        double a = z.getReal();
-        double b = z.getImaginary();
-        
-        return new Complex(Math.sin(a) * MathUtils.cosh(b),
-            Math.cos(a) * MathUtils.sinh(b));
+        return z.sin();
     }
     
     /**
@@ -393,17 +351,10 @@ public class ComplexUtils {
      * @param z the value whose hyperbolic sine is to be returned
      * @return the hyperbolic sine of <code>z</code>
      * @throws NullPointerException if <code>z</code> is null
+     * @deprecated use Complex.sinh()
      */
     public static Complex sinh(Complex z) {
-        if (z.isNaN()) {
-            return Complex.NaN;
-        }
-        
-        double a = z.getReal();
-        double b = z.getImaginary();
-        
-        return new Complex(MathUtils.sinh(a) * Math.cos(b),
-            MathUtils.cosh(a) * Math.sin(b));
+        return z.sinh();
     }
     
     /**
@@ -439,25 +390,10 @@ public class ComplexUtils {
      * @param z the value whose square root is to be returned
      * @return the square root of <code>z</code>
      * @throws NullPointerException if <code>z</code> is null
+     * @deprecated use Complex.sqrt()
      */
     public static Complex sqrt(Complex z) {
-        if (z.isNaN()) {
-            return Complex.NaN;
-        }
-        
-        double a = z.getReal();
-        double b = z.getImaginary();
-        if (a == 0.0 && b == 0.0) {
-            return new Complex(0.0, 0.0);
-        }
-        
-        double t = Math.sqrt((Math.abs(a) + z.abs()) / 2.0);
-        if (a >= 0.0) {
-            return new Complex(t, b / (2.0 * t));
-        } else {
-            return new Complex(Math.abs(b) / (2.0 * t),
-                MathUtils.indicator(b) * t);
-        }
+        return z.sqrt();
     }
     
     /**
@@ -478,9 +414,10 @@ public class ComplexUtils {
      * @param z the value
      * @return the square root of 1 - <code>z</code><sup>2</sup>
      * @throws NullPointerException if <code>z</code> is null
+     * @deprecated use Complex.sqrt1z()
      */
     public static Complex sqrt1z(Complex z) {
-        return sqrt(Complex.ONE.subtract(z.multiply(z)));
+        return z.sqrt1z();
     }
     
     /**
@@ -509,17 +446,10 @@ public class ComplexUtils {
      * @param z the value whose tangent is to be returned
      * @return the tangent of <code>z</code>
      * @throws NullPointerException if <code>z</code> is null
+     * @deprecated use Complex.tan()
      */
     public static Complex tan(Complex z) {
-        if (z.isNaN()) {
-            return Complex.NaN;
-        }
-        
-        double a2 = 2.0 * z.getReal();
-        double b2 = 2.0 * z.getImaginary();
-        double d = Math.cos(a2) + MathUtils.cosh(b2);
-        
-        return new Complex(Math.sin(a2) / d, MathUtils.sinh(b2) / d);
+        return z.tan();
     }
     
     /**
@@ -548,16 +478,9 @@ public class ComplexUtils {
      * @param z the value whose hyperbolic tangent is to be returned
      * @return the hyperbolic tangent of <code>z</code>
      * @throws NullPointerException if <code>z</code> is null
+     * @deprecated use Complex.tanh()
      */
     public static Complex tanh(Complex z) {
-        if (z.isNaN()) {
-            return Complex.NaN;
-        }
-        
-        double a2 = 2.0 * z.getReal();
-        double b2 = 2.0 * z.getImaginary();
-        double d = MathUtils.cosh(a2) + Math.cos(b2);
-        
-        return new Complex(MathUtils.sinh(a2) / d, Math.sin(b2) / d);
+        return z.tanh();
     }
 }

@@ -40,6 +40,10 @@ Commons Math Release Notes</title>
   </properties>
   <body>
     <release version="1.2-SNAPSHOT" date="TBD">
+      <action dev="psteitz" type="update" issue="MATH-171" due-to="Niall Pemberton">
+        Merged most functions from ComplexUtils into Complex class, added
+        static factory method to Complex.
+      </action>
       <action dev="luc" type="fix">
         Fixed numerous warnings in test code.
       </action>
