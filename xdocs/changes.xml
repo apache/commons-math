@@ -40,10 +40,6 @@ Commons Math Release Notes</title>
   </properties>
   <body>
     <release version="1.2-SNAPSHOT" date="TBD">
-      <action dev="psteitz" type="update" issue="MATH-171" due-to="Niall Pemberton">
-        Merged most functions from ComplexUtils into Complex class, added
-        static factory method to Complex.
-      </action>
       <action dev="luc" type="fix">
         Fixed numerous warnings in test code.
       </action>
@@ -105,6 +101,10 @@ Commons Math Release Notes</title>
       <action dev="brentworden" type="update" issue="MATH-154" due-to="Remi Arntzen">
         Added addAndCheck, mulAndCheck, and subAndCheck MathUtils methods for
         long integer arguments.
+      </action>
+      <action dev="psteitz" type="update" issue="MATH-171" due-to="Niall Pemberton">
+        Merged most functions from ComplexUtils into Complex class, added
+        static factory method to Complex.
       </action>
     </release>
     <release version="1.1" date="2005-12-17"  
