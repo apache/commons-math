@@ -19,7 +19,6 @@ package org.apache.commons.math.ode;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.ode.DerivativeException;
 
 import java.util.ArrayList;
 import java.util.Iterator;
