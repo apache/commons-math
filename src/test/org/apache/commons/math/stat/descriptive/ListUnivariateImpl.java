@@ -42,9 +42,6 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
 
     /** Number Transformer maps Objects to Number for us. */
     protected NumberTransformer transformer;
-    
-    /** hold the window size **/
-    protected int windowSize = DescriptiveStatistics.INFINITE_WINDOW;
 
     /**
      * No argument Constructor

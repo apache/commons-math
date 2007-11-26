@@ -25,9 +25,11 @@ import org.apache.commons.math.random.RandomData;
 import org.apache.commons.math.random.RandomDataImpl;
 
 /**
- * Test cases for the {@link Univariate} class.
+ * Test cases for the DescriptiveStatistics implementations.
  *
  * @version $Revision$ $Date$
+ * @deprecated should be moved down into DescriptiveStatisticsTest
+ *   when DescriptiveStatisticsImpl is removed in 2.0
  */
 public abstract class DescriptiveStatisticsAbstractTest extends TestCase {
     private double var = 0.666666666666666666667;

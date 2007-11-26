@@ -30,27 +30,80 @@ import org.apache.commons.math.stat.descriptive.rank.Min;
 import org.apache.commons.math.stat.descriptive.rank.Percentile;
 import org.apache.commons.math.stat.descriptive.summary.Sum;
 import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
+import org.apache.commons.math.util.ResizableDoubleArray;
 
 
 /**
- * Abstract factory class for univariate statistical summaries.
+ * Maintains a dataset of values of a single variable and computes descriptive
+ * statistics based on stored data. The {@link #getWindowSize() windowSize}
+ * property sets a limit on the number of values that can be stored in the 
+ * dataset.  The default value, INFINITE_WINDOW, puts no limit on the size of
+ * the dataset.  This value should be used with caution, as the backing store
+ * will grow without bound in this case.  For very large datasets, 
+ * {@link SummaryStatistics}, which does not store the dataset, should be used
+ * instead of this class. If <code>windowSize</code> is not INFINITE_WINDOW and
+ * more values are added than can be stored in the dataset, new values are
+ * added in a "rolling" manner, with new values replacing the "oldest" values 
+ * in the dataset.
+ * 
+ * Note: this class is not threadsafe.  Use 
+ * {@link SynchronizedDescriptiveStatistics} if concurrent access from multiple
+ * threads is required.
  *
  * @version $Revision$ $Date$
  */
-public abstract class DescriptiveStatistics implements StatisticalSummary, Serializable {
+public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     
     /** Serialization UID */
     private static final long serialVersionUID = 5188298269533339922L;
+    
+    /** hold the window size **/
+    protected int windowSize = INFINITE_WINDOW;
+    
+    /** 
+     *  Stored data values
+     */
+    protected ResizableDoubleArray eDA = new ResizableDoubleArray();
+    
+    // Cached implementation instances 
+    // Can be reset by setters
+    private UnivariateStatistic meanImpl = null;
+    private UnivariateStatistic geometricMeanImpl = null;
+    private UnivariateStatistic kurtosisImpl = null;
+    private UnivariateStatistic maxImpl = null;
+    private UnivariateStatistic minImpl = null;
+    private UnivariateStatistic percentileImpl = null;
+    private UnivariateStatistic skewnessImpl = null;
+    private UnivariateStatistic varianceImpl = null;
+    private UnivariateStatistic sumsqImpl = null;
+    private UnivariateStatistic sumImpl = null;
+    
+    /**
+     * Construct a DescriptiveStatistics instance with an infinite window
+     */
+    public DescriptiveStatistics() {
+    }
+    
+    /**
+     * Construct a DescriptiveStatistics instance with the specified window
+     * 
+     * @param window the window size.
+     */
+    public DescriptiveStatistics(int window) {
+        super();
+        setWindowSize(window);
+    }
     
     /**
      * Create an instance of a <code>DescriptiveStatistics</code>
      * @param cls the type of <code>DescriptiveStatistics</code> object to
      *        create. 
-     * @return a new factory. 
+     * @return a new instance. 
      * @throws InstantiationException is thrown if the object can not be
      *            created.
      * @throws IllegalAccessException is thrown if the type's default
      *            constructor is not accessible.
+     * @deprecated to be removed in commons-math 2.0
      */
     public static DescriptiveStatistics newInstance(Class cls) throws InstantiationException, IllegalAccessException {
         return (DescriptiveStatistics)cls.newInstance();
@@ -58,7 +111,8 @@ public abstract class DescriptiveStatistics implements StatisticalSummary, Seria
     
     /**
      * Create an instance of a <code>DescriptiveStatistics</code>
-     * @return a new factory. 
+     * @return a new DescriptiveStatistics instance. 
+     * @deprecated to be removed in commons-math 2.0
      */
     public static DescriptiveStatistics newInstance() {
         DescriptiveStatistics factory = null;
@@ -82,10 +136,24 @@ public abstract class DescriptiveStatistics implements StatisticalSummary, Seria
     public static final int INFINITE_WINDOW = -1;
 
     /**
-     * Adds the value to the set of numbers
+     * Adds the value to the dataset. If the dataset is at the maximum size
+     * (i.e., the number of stored elements equals the currently configured
+     * windowSize), the first (oldest) element in the dataset is discarded
+     * to make room for the new value.
+     * 
      * @param v the value to be added 
      */
-    public abstract void addValue(double v);
+    public void addValue(double v) {
+        if (windowSize != INFINITE_WINDOW) {
+            if (getN() == windowSize) {
+                eDA.addElementRolling(v);
+            } else if (getN() < windowSize) {
+                eDA.addElement(v);
+            }
+        } else {
+            eDA.addElement(v);
+        }
+    }
 
     /** 
      * Returns the <a href="http://www.xycoon.com/arithmetic_mean.htm">
@@ -93,7 +161,7 @@ public abstract class DescriptiveStatistics implements StatisticalSummary, Seria
      * @return The mean or Double.NaN if no values have been added.
      */
     public double getMean() {
-        return apply(new Mean());
+        return apply(getMeanImpl());
     }
 
     /** 
@@ -103,7 +171,7 @@ public abstract class DescriptiveStatistics implements StatisticalSummary, Seria
      * or if the productof the available values is less than or equal to 0.
      */
     public double getGeometricMean() {
-        return apply(new GeometricMean());
+        return apply(getGeometricMeanImpl());
     }
 
     /** 
@@ -112,7 +180,7 @@ public abstract class DescriptiveStatistics implements StatisticalSummary, Seria
      * or 0.0 for a single value set.  
      */
     public double getVariance() {
-        return apply(new Variance());
+        return apply(getVarianceImpl());
     }
 
     /** 
@@ -134,12 +202,12 @@ public abstract class DescriptiveStatistics implements StatisticalSummary, Seria
 
     /**
      * Returns the skewness of the available values. Skewness is a 
-     * measure of the assymetry of a given distribution.
+     * measure of the asymmetry of a given distribution.
      * @return The skewness, Double.NaN if no values have been added 
      * or 0.0 for a value set &lt;=2. 
      */
     public double getSkewness() {
-        return apply(new Skewness());
+        return apply(getSkewnessImpl());
     }
 
     /**
@@ -149,7 +217,7 @@ public abstract class DescriptiveStatistics implements StatisticalSummary, Seria
      * for a value set &lt;=3. 
      */
     public double getKurtosis() {
-        return apply(new Kurtosis());
+        return apply(getKurtosisImpl());
     }
 
     /** 
@@ -157,7 +225,7 @@ public abstract class DescriptiveStatistics implements StatisticalSummary, Seria
      * @return The max or Double.NaN if no values have been added.
      */
     public double getMax() {
-        return apply(new Max());
+        return apply(getMaxImpl());
     }
 
     /** 
@@ -165,21 +233,23 @@ public abstract class DescriptiveStatistics implements StatisticalSummary, Seria
     * @return The min or Double.NaN if no values have been added.
     */
     public double getMin() {
-        return apply(new Min());
+        return apply(getMinImpl());
     }
 
     /** 
      * Returns the number of available values
      * @return The number of available values
      */
-    public abstract long getN();
+    public long getN() {
+        return eDA.getNumElements();
+    }
 
     /**
      * Returns the sum of the values that have been added to Univariate.
      * @return The sum or Double.NaN if no values have been added
      */
     public double getSum() {
-        return apply(new Sum());
+        return apply(getSumImpl());
     }
 
     /**
@@ -188,32 +258,52 @@ public abstract class DescriptiveStatistics implements StatisticalSummary, Seria
      * values have been added.
      */
     public double getSumsq() {
-        return apply(new SumOfSquares());
+        return apply(getSumsqImpl());
     }
 
     /** 
      * Resets all statistics and storage
      */
-    public abstract void clear();
+    public void clear() {
+        eDA.clear();
+    }
+
 
     /**
-     * Univariate has the ability to return only measures for the
-     * last N elements added to the set of values.
+     * Returns the maximum number of values that can be stored in the
+     * dataset, or INFINITE_WINDOW (-1) if there is no limit.
+     * 
      * @return The current window size or -1 if its Infinite.
      */
-
-    public abstract int getWindowSize();
+    public int getWindowSize() {
+        return windowSize;
+    }
 
     /**
      * WindowSize controls the number of values which contribute 
-     * to the values returned by Univariate.  For example, if 
+     * to the reported statistics.  For example, if 
      * windowSize is set to 3 and the values {1,2,3,4,5} 
      * have been added <strong> in that order</strong> 
      * then the <i>available values</i> are {3,4,5} and all
      * reported statistics will be based on these values
      * @param windowSize sets the size of the window.
      */
-    public abstract void setWindowSize(int windowSize);
+    public void setWindowSize(int windowSize) {
+        if (windowSize < 1) {
+            if (windowSize != INFINITE_WINDOW) {
+                throw new IllegalArgumentException("window size must be positive.");
+            }
+        }
+        
+        this.windowSize = windowSize;
+
+        // We need to check to see if we need to discard elements
+        // from the front of the array.  If the windowSize is less than 
+        // the current number of elements.
+        if (windowSize != INFINITE_WINDOW && windowSize < eDA.getNumElements()) {
+            eDA.discardFrontElements(eDA.getNumElements() - windowSize);
+        }
+    }
     
     /**
      * Returns the current set of values in an array of double primitives.  
@@ -224,7 +314,12 @@ public abstract class DescriptiveStatistics implements StatisticalSummary, Seria
      * @return returns the current set of numbers in the order in which they 
      *         were added to this set
      */
-    public abstract double[] getValues();
+    public double[] getValues() {
+        double[] copiedArray = new double[eDA.getNumElements()];
+        System.arraycopy(eDA.getElements(), 0, copiedArray,
+            0, eDA.getNumElements());
+        return copiedArray;
+    }
 
     /**
      * Returns the current set of values in an array of double primitives,  
@@ -245,7 +340,9 @@ public abstract class DescriptiveStatistics implements StatisticalSummary, Seria
      * @param index The Index of the element
      * @return return the element at the specified index
      */
-    public abstract double getElement(int index);
+    public double getElement(int index) {
+        return eDA.getElement(index);
+    }
 
     /**
      * Returns an estimate for the pth percentile of the stored values. 
@@ -294,6 +391,180 @@ public abstract class DescriptiveStatistics implements StatisticalSummary, Seria
      * @param stat the statistic to apply
      * @return the computed value of the statistic.
      */
-    public abstract double apply(UnivariateStatistic stat);
+    public double apply(UnivariateStatistic stat) {
+        return stat.evaluate(eDA.getValues(), eDA.start(), eDA.getNumElements());
+    }
 
+    // Implementation getters and setter
+    
+    /**
+     * @return the meanImpl
+     */
+    public UnivariateStatistic getMeanImpl() {
+        if (meanImpl == null) {
+            meanImpl = new Mean();
+        }
+        return meanImpl;
+    }
+
+    /**
+     * @param meanImpl the meanImpl to set
+     */
+    public void setMeanImpl(UnivariateStatistic meanImpl) {
+        this.meanImpl = meanImpl;
+    }
+
+    /**
+     * @return the geometricMeanImpl
+     */
+    public UnivariateStatistic getGeometricMeanImpl() {
+        if (geometricMeanImpl == null) {
+            geometricMeanImpl = new GeometricMean();
+        }
+        return geometricMeanImpl;
+    }
+
+    /**
+     * @param geometricMeanImpl the geometricMeanImpl to set
+     */
+    public void setGeometricMeanImpl(UnivariateStatistic geometricMeanImpl) {
+        this.geometricMeanImpl = geometricMeanImpl;
+    }
+
+    /**
+     * @return the kurtosisImpl
+     */
+    public UnivariateStatistic getKurtosisImpl() {
+        if (kurtosisImpl == null) {
+            kurtosisImpl = new Kurtosis();
+        }
+        return kurtosisImpl;
+    }
+
+    /**
+     * @param kurtosisImpl the kurtosisImpl to set
+     */
+    public void setKurtosisImpl(UnivariateStatistic kurtosisImpl) {
+        this.kurtosisImpl = kurtosisImpl;
+    }
+
+    /**
+     * @return the maxImpl
+     */
+    public UnivariateStatistic getMaxImpl() {
+        if (maxImpl == null) {
+            maxImpl = new Max();
+        }
+        return maxImpl;
+    }
+
+    /**
+     * @param maxImpl the maxImpl to set
+     */
+    public void setMaxImpl(UnivariateStatistic maxImpl) {
+        this.maxImpl = maxImpl;
+    }
+
+    /**
+     * @return the minImpl
+     */
+    public UnivariateStatistic getMinImpl() {
+        if (minImpl == null) {
+            minImpl =  new Min();
+        }
+        return minImpl;
+    }
+
+    /**
+     * @param minImpl the minImpl to set
+     */
+    public void setMinImpl(UnivariateStatistic minImpl) {
+        this.minImpl = minImpl;
+    }
+
+    /**
+     * @return the percentileImpl
+     */
+    public UnivariateStatistic getPercentileImpl() {
+        if (percentileImpl == null) {
+            percentileImpl = new Percentile();
+        }
+        return percentileImpl;
+    }
+
+    /**
+     * @param percentileImpl the percentileImpl to set
+     */
+    public void setPercentileImpl(UnivariateStatistic percentileImpl) {
+        this.percentileImpl = percentileImpl;
+    }
+
+    /**
+     * @return the skewnessImpl
+     */
+    public UnivariateStatistic getSkewnessImpl() {
+        if (skewnessImpl == null) {
+            skewnessImpl = new Skewness();
+        }
+        return skewnessImpl;
+    }
+
+    /**
+     * @param skewnessImpl the skewnessImpl to set
+     */
+    public void setSkewnessImpl(UnivariateStatistic skewnessImpl) {
+        this.skewnessImpl = skewnessImpl;
+    }
+
+    /**
+     * @return the varianceImpl
+     */
+    public UnivariateStatistic getVarianceImpl() {
+        if (varianceImpl == null) {
+            varianceImpl =  new Variance();
+        }
+        return varianceImpl;
+    }
+
+    /**
+     * @param varianceImpl the varianceImpl to set
+     */
+    public void setVarianceImpl(UnivariateStatistic varianceImpl) {
+        this.varianceImpl = varianceImpl;
+    }
+
+    /**
+     * @return the sumsqImpl
+     */
+    public UnivariateStatistic getSumsqImpl() {
+        if (sumsqImpl == null) {
+            sumsqImpl = new SumOfSquares();
+        }
+        return sumsqImpl;
+    }
+
+    /**
+     * @param sumsqImpl the sumsqImpl to set
+     */
+    public void setSumsqImpl(UnivariateStatistic sumsqImpl) {
+        this.sumsqImpl = sumsqImpl;
+    }
+
+    /**
+     * @return the sumImpl
+     */
+    public UnivariateStatistic getSumImpl() {
+        if (sumImpl == null) {
+            sumImpl = new Sum();
+        }
+        return sumImpl;
+    }
+
+    /**
+     * @param sumImpl the sumImpl to set
+     */
+    public void setSumImpl(UnivariateStatistic sumImpl) {
+        this.sumImpl = sumImpl;
+    }
+    
 }

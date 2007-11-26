@@ -106,6 +106,12 @@ Commons Math Release Notes</title>
         Merged most functions from ComplexUtils into Complex class, added
         static factory method to Complex.
       </action>
+      <action dev="psteitz" type="update">
+        Deprecated abstract factory methods and made DescriptiveStatistics a
+        concrete class. Pushed implementations up from DescriptiveStatisticsImpl
+        and deprecated this class. Made implementations of statistics
+        configurable via setters.
+      </action>    
     </release>
     <release version="1.1" date="2005-12-17"  
  description="This is a maintenance release containing bug fixes and enhancements.

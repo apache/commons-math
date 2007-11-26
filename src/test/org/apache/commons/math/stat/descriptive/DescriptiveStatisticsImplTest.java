@@ -17,7 +17,8 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 /**
- * Test cases for the {@link Univariate} class.
+ * Test cases for the DescriptiveStatisticsImpl class.
+ * @deprecated - to be removed in 2.0 with DescriptiveStatisticsImpl
  * @version $Revision$ $Date: 2007-08-16 15:36:33 -0500 (Thu, 16 Aug
  *          2007) $
  */
