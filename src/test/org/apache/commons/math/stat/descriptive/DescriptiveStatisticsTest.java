@@ -16,6 +16,8 @@ package org.apache.commons.math.stat.descriptive;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.apache.commons.math.stat.descriptive.rank.Percentile;
+
 /**
  * Test cases for the DescriptiveStatistics class.
  * When DescriptiveStatisticsImpl is removed, this class should replace
@@ -50,6 +52,32 @@ public final class DescriptiveStatisticsTest extends DescriptiveStatisticsAbstra
         assertEquals(42, stats.getMean(), 1E-10);
     }
     
+    public void testPercentileSetter() throws Exception {
+        DescriptiveStatistics stats = new DescriptiveStatistics();
+        stats.addValue(1);
+        stats.addValue(2);
+        stats.addValue(3);
+        assertEquals(2, stats.getPercentile(50.0), 1E-10);
+        
+        // Inject wrapped Percentile impl
+        stats.setPercentileImpl(new goodPercentile());
+        assertEquals(2, stats.getPercentile(50.0), 1E-10);
+        
+        // Try "new math" impl
+        stats.setPercentileImpl(new subPercentile());
+        assertEquals(10.0, stats.getPercentile(10.0), 1E-10);
+        
+        // Try to set bad impl
+        try {
+            stats.setPercentileImpl(new badPercentile()); 
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+    }
+    
+    // Test UnivariateStatistics impls for setter injection tests
+    
     /**
      * A new way to compute the mean 
      */
@@ -60,7 +88,48 @@ public final class DescriptiveStatisticsTest extends DescriptiveStatisticsAbstra
 
         public double evaluate(double[] values) {
             return 42;
+        }  
+    }
+    
+    /**
+     * Test percentile implementation - wraps a Percentile
+     */
+    class goodPercentile implements UnivariateStatistic {
+        Percentile percentile = new Percentile();
+        public void setQuantile(double quantile) {
+            percentile.setQuantile(quantile);
         }
-        
+        public double evaluate(double[] values, int begin, int length) {
+            return percentile.evaluate(values, begin, length);
+        }
+        public double evaluate(double[] values) {
+            return evaluate(values);
+        }  
+    }
+    
+    /**
+     * Test percentile subclass - another "new math" impl
+     * Always returns currently set quantile
+     */
+    class subPercentile extends Percentile {
+        public double evaluate(double[] values, int begin, int length) {
+            return getQuantile();
+        }
+        public double evaluate(double[] values) {
+            return getQuantile();
+        }  
+    }
+    
+    /**
+     * "Bad" test percentile implementation - no setQuantile
+     */
+    class badPercentile implements UnivariateStatistic {
+        Percentile percentile = new Percentile();
+        public double evaluate(double[] values, int begin, int length) {
+            return percentile.evaluate(values, begin, length);
+        }
+        public double evaluate(double[] values) {
+            return evaluate(values);
+        }  
     }
 }

@@ -18,18 +18,19 @@ package org.apache.commons.math.stat.descriptive;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.util.ResizableDoubleArray;
-
 /**
  * Default implementation of
  * {@link org.apache.commons.math.stat.descriptive.DescriptiveStatistics}.
+ * 
+ * @deprectated to be removed in commons-math 2.0.  
+ * Use {@link DescriptiveStatisitics}
  *
  * @version $Revision$ $Date$
  */
 public class DescriptiveStatisticsImpl extends DescriptiveStatistics implements Serializable {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = -1868088725461221010L;
+    private static final long serialVersionUID = -6467796944112488424L;
 
     /**
      * Construct a DescriptiveStatisticsImpl with infinite window

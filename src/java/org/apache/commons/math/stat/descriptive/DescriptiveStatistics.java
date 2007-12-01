@@ -55,7 +55,7 @@ import org.apache.commons.math.util.ResizableDoubleArray;
 public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     
     /** Serialization UID */
-    private static final long serialVersionUID = 5188298269533339922L;
+    private static final long serialVersionUID = -2734185686570407433L;
     
     /** hold the window size **/
     protected int windowSize = INFINITE_WINDOW;
@@ -64,19 +64,18 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      *  Stored data values
      */
     protected ResizableDoubleArray eDA = new ResizableDoubleArray();
-    
-    // Cached implementation instances 
-    // Can be reset by setters
-    private UnivariateStatistic meanImpl = null;
-    private UnivariateStatistic geometricMeanImpl = null;
-    private UnivariateStatistic kurtosisImpl = null;
-    private UnivariateStatistic maxImpl = null;
-    private UnivariateStatistic minImpl = null;
-    private UnivariateStatistic percentileImpl = null;
-    private UnivariateStatistic skewnessImpl = null;
-    private UnivariateStatistic varianceImpl = null;
-    private UnivariateStatistic sumsqImpl = null;
-    private UnivariateStatistic sumImpl = null;
+  
+    // UnivariateStatistic stats implementations - can be reset by setters
+    private UnivariateStatistic meanImpl = new Mean();
+    private UnivariateStatistic geometricMeanImpl = new GeometricMean();
+    private UnivariateStatistic kurtosisImpl = new Kurtosis();
+    private UnivariateStatistic maxImpl = new Max();
+    private UnivariateStatistic minImpl = new Min();
+    private UnivariateStatistic percentileImpl = new Percentile();
+    private UnivariateStatistic skewnessImpl = new Skewness();
+    private UnivariateStatistic varianceImpl = new Variance();
+    private UnivariateStatistic sumsqImpl = new SumOfSquares();
+    private UnivariateStatistic sumImpl = new Sum();
     
     /**
      * Construct a DescriptiveStatistics instance with an infinite window
@@ -128,10 +127,9 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     }
     
     /**
-     * This constant signals that a Univariate implementation
-     * takes into account the contributions of an infinite number of
-     * elements.  In other words, if getWindow returns this
-     * constant, there is, in effect, no "window".
+     * Represents an infinite window size.  When the {@link #getWindowSize()}
+     * returns this value, there is no limit to the number of data values
+     * that can be stored in the dataset.
      */
     public static final int INFINITE_WINDOW = -1;
 
@@ -161,7 +159,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      * @return The mean or Double.NaN if no values have been added.
      */
     public double getMean() {
-        return apply(getMeanImpl());
+        return apply(meanImpl);
     }
 
     /** 
@@ -171,7 +169,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      * or if the productof the available values is less than or equal to 0.
      */
     public double getGeometricMean() {
-        return apply(getGeometricMeanImpl());
+        return apply(geometricMeanImpl);
     }
 
     /** 
@@ -180,7 +178,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      * or 0.0 for a single value set.  
      */
     public double getVariance() {
-        return apply(getVarianceImpl());
+        return apply(varianceImpl);
     }
 
     /** 
@@ -207,7 +205,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      * or 0.0 for a value set &lt;=2. 
      */
     public double getSkewness() {
-        return apply(getSkewnessImpl());
+        return apply(skewnessImpl);
     }
 
     /**
@@ -217,7 +215,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      * for a value set &lt;=3. 
      */
     public double getKurtosis() {
-        return apply(getKurtosisImpl());
+        return apply(kurtosisImpl);
     }
 
     /** 
@@ -225,7 +223,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      * @return The max or Double.NaN if no values have been added.
      */
     public double getMax() {
-        return apply(getMaxImpl());
+        return apply(maxImpl);
     }
 
     /** 
@@ -233,7 +231,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     * @return The min or Double.NaN if no values have been added.
     */
     public double getMin() {
-        return apply(getMinImpl());
+        return apply(minImpl);
     }
 
     /** 
@@ -249,7 +247,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      * @return The sum or Double.NaN if no values have been added
      */
     public double getSum() {
-        return apply(getSumImpl());
+        return apply(sumImpl);
     }
 
     /**
@@ -258,7 +256,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      * values have been added.
      */
     public double getSumsq() {
-        return apply(getSumsqImpl());
+        return apply(sumsqImpl);
     }
 
     /** 
@@ -359,10 +357,24 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      * 
      * @param p the requested percentile (scaled from 0 - 100)
      * @return An estimate for the pth percentile of the stored data 
+     * @throws IllegalStateException if percentile implementation has been
+     *  overridden and the supplied implementation does not support setQuantile
      * values
      */
     public double getPercentile(double p) {
-        return apply(new Percentile(p));
+        if (percentileImpl instanceof Percentile) {
+            ((Percentile) percentileImpl).setQuantile(p);
+        } else {
+            try {
+                percentileImpl.getClass().getMethod("setQuantile", 
+                        new Class[] {Double.TYPE}).invoke(percentileImpl,
+                                new Object[] {new Double(p)});
+            } catch (Exception ex) { // Should never happen, guarded by setter
+                throw new IllegalStateException(
+                "Percentile implementation does not support setQuantile");
+            }
+        }
+        return apply(percentileImpl);
     }
     
     /**
@@ -400,171 +412,159 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     /**
      * @return the meanImpl
      */
-    public UnivariateStatistic getMeanImpl() {
-        if (meanImpl == null) {
-            meanImpl = new Mean();
-        }
+    public synchronized UnivariateStatistic getMeanImpl() {
         return meanImpl;
     }
 
     /**
      * @param meanImpl the meanImpl to set
      */
-    public void setMeanImpl(UnivariateStatistic meanImpl) {
+    public synchronized void setMeanImpl(UnivariateStatistic meanImpl) {
         this.meanImpl = meanImpl;
     }
 
     /**
      * @return the geometricMeanImpl
      */
-    public UnivariateStatistic getGeometricMeanImpl() {
-        if (geometricMeanImpl == null) {
-            geometricMeanImpl = new GeometricMean();
-        }
+    public synchronized UnivariateStatistic getGeometricMeanImpl() {
         return geometricMeanImpl;
     }
 
     /**
      * @param geometricMeanImpl the geometricMeanImpl to set
      */
-    public void setGeometricMeanImpl(UnivariateStatistic geometricMeanImpl) {
+    public synchronized void setGeometricMeanImpl(
+            UnivariateStatistic geometricMeanImpl) {
         this.geometricMeanImpl = geometricMeanImpl;
     }
 
     /**
      * @return the kurtosisImpl
      */
-    public UnivariateStatistic getKurtosisImpl() {
-        if (kurtosisImpl == null) {
-            kurtosisImpl = new Kurtosis();
-        }
+    public synchronized UnivariateStatistic getKurtosisImpl() {
         return kurtosisImpl;
     }
 
     /**
      * @param kurtosisImpl the kurtosisImpl to set
      */
-    public void setKurtosisImpl(UnivariateStatistic kurtosisImpl) {
+    public synchronized void setKurtosisImpl(UnivariateStatistic kurtosisImpl) {
         this.kurtosisImpl = kurtosisImpl;
     }
 
     /**
      * @return the maxImpl
      */
-    public UnivariateStatistic getMaxImpl() {
-        if (maxImpl == null) {
-            maxImpl = new Max();
-        }
+    public synchronized UnivariateStatistic getMaxImpl() {
         return maxImpl;
     }
 
     /**
      * @param maxImpl the maxImpl to set
      */
-    public void setMaxImpl(UnivariateStatistic maxImpl) {
+    public synchronized void setMaxImpl(UnivariateStatistic maxImpl) {
         this.maxImpl = maxImpl;
     }
 
     /**
      * @return the minImpl
      */
-    public UnivariateStatistic getMinImpl() {
-        if (minImpl == null) {
-            minImpl =  new Min();
-        }
+    public synchronized UnivariateStatistic getMinImpl() {
         return minImpl;
     }
 
     /**
      * @param minImpl the minImpl to set
      */
-    public void setMinImpl(UnivariateStatistic minImpl) {
+    public synchronized void setMinImpl(UnivariateStatistic minImpl) {
         this.minImpl = minImpl;
     }
 
     /**
      * @return the percentileImpl
      */
-    public UnivariateStatistic getPercentileImpl() {
-        if (percentileImpl == null) {
-            percentileImpl = new Percentile();
-        }
+    public synchronized UnivariateStatistic getPercentileImpl() {
         return percentileImpl;
     }
 
     /**
+     * Sets the implementation to be used by {@link #getPercentile(double)}.
+     * The supplied <code>UnivariateStatistic</code> must provide a
+     * <code>setQuantile(double)</code> method; otherwise 
+     * <code>IllegalArgumentException</code> is thrown.
+     * 
      * @param percentileImpl the percentileImpl to set
+     * @throws IllegalArgumentException if the supplied implementation does not
+     *  provide a <code>setQuantile</code> method
      */
-    public void setPercentileImpl(UnivariateStatistic percentileImpl) {
+    public synchronized void setPercentileImpl(
+            UnivariateStatistic percentileImpl) {
+        try {
+            percentileImpl.getClass().getMethod("setQuantile", 
+                    new Class[] {Double.TYPE}).invoke(percentileImpl,
+                            new Object[] {new Double(50.0d)});
+        } catch (Exception ex) { 
+            throw new IllegalArgumentException(
+                    "Percentile implementation does not support setQuantile");
+        }
         this.percentileImpl = percentileImpl;
     }
 
     /**
      * @return the skewnessImpl
      */
-    public UnivariateStatistic getSkewnessImpl() {
-        if (skewnessImpl == null) {
-            skewnessImpl = new Skewness();
-        }
+    public synchronized UnivariateStatistic getSkewnessImpl() {
         return skewnessImpl;
     }
 
     /**
      * @param skewnessImpl the skewnessImpl to set
      */
-    public void setSkewnessImpl(UnivariateStatistic skewnessImpl) {
+    public synchronized void setSkewnessImpl(
+            UnivariateStatistic skewnessImpl) {
         this.skewnessImpl = skewnessImpl;
     }
 
     /**
      * @return the varianceImpl
      */
-    public UnivariateStatistic getVarianceImpl() {
-        if (varianceImpl == null) {
-            varianceImpl =  new Variance();
-        }
+    public synchronized UnivariateStatistic getVarianceImpl() {
         return varianceImpl;
     }
 
     /**
      * @param varianceImpl the varianceImpl to set
      */
-    public void setVarianceImpl(UnivariateStatistic varianceImpl) {
+    public synchronized void setVarianceImpl(
+            UnivariateStatistic varianceImpl) {
         this.varianceImpl = varianceImpl;
     }
 
     /**
      * @return the sumsqImpl
      */
-    public UnivariateStatistic getSumsqImpl() {
-        if (sumsqImpl == null) {
-            sumsqImpl = new SumOfSquares();
-        }
+    public synchronized UnivariateStatistic getSumsqImpl() {
         return sumsqImpl;
     }
 
     /**
      * @param sumsqImpl the sumsqImpl to set
      */
-    public void setSumsqImpl(UnivariateStatistic sumsqImpl) {
+    public synchronized void setSumsqImpl(UnivariateStatistic sumsqImpl) {
         this.sumsqImpl = sumsqImpl;
     }
 
     /**
      * @return the sumImpl
      */
-    public UnivariateStatistic getSumImpl() {
-        if (sumImpl == null) {
-            sumImpl = new Sum();
-        }
+    public synchronized UnivariateStatistic getSumImpl() {
         return sumImpl;
     }
 
     /**
      * @param sumImpl the sumImpl to set
      */
-    public void setSumImpl(UnivariateStatistic sumImpl) {
+    public synchronized void setSumImpl(UnivariateStatistic sumImpl) {
         this.sumImpl = sumImpl;
-    }
-    
+    }   
 }
