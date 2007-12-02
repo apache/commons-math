@@ -29,7 +29,7 @@ package org.apache.commons.math.stat.descriptive;
  * @since 1.2
  * @version $Revision$ $Date$
  */
-public class SynchronizedDescriptiveStatistics extends DescriptiveStatisticsImpl {
+public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
 
     /** Serialization UID */
     private static final long serialVersionUID = 1L;
