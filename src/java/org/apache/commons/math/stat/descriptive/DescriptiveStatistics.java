@@ -46,9 +46,9 @@ import org.apache.commons.math.util.ResizableDoubleArray;
  * added in a "rolling" manner, with new values replacing the "oldest" values 
  * in the dataset.
  * 
- * Note: this class is not threadsafe.  Use 
+ * <p>Note: this class is not threadsafe.  Use 
  * {@link SynchronizedDescriptiveStatistics} if concurrent access from multiple
- * threads is required.
+ * threads is required.</p>
  *
  * @version $Revision$ $Date$
  */
