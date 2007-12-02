@@ -76,7 +76,7 @@ a browser instance and then entering
 
 at an R prompt. Poking about in the test case files and the online docs should 
 bring you up to speed fairly quickly.  Here are some basic things to get 
-you started. I should note at this point that I by no means an expert R 
+you started. I should note at this point that I am by no means an expert R 
 programmer, so some things may not be implemented in the the nicest way. 
 Comments / suggestions for improvement are welcome!
 
