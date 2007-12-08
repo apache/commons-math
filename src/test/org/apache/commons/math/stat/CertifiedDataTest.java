@@ -61,57 +61,59 @@ public class CertifiedDataTest extends TestCase  {
     }
 
     /**
-     * Test StorelessDescriptiveStatistics
+     * Test SummaryStatistics - implementations that do not store the data
+     * and use single pass algorithms to compute statistics
     */
-    public void testUnivariateImpl() throws Exception {
+    public void testSummaryStatistics() throws Exception {
         SummaryStatistics u = SummaryStatistics.newInstance(SummaryStatisticsImpl.class);
         loadStats("data/PiDigits.txt", u);
-        assertEquals("PiDigits: std", std, u.getStandardDeviation(), .0000000000001);
-        assertEquals("PiDigits: mean", mean, u.getMean(), .0000000000001);  
+        assertEquals("PiDigits: std", std, u.getStandardDeviation(), 1E-13);
+        assertEquals("PiDigits: mean", mean, u.getMean(), 1E-13);  
 
         loadStats("data/Mavro.txt", u);
-        assertEquals("Mavro: std", std, u.getStandardDeviation(), .00000000000001);
-        assertEquals("Mavro: mean", mean, u.getMean(), .00000000000001);
+        assertEquals("Mavro: std", std, u.getStandardDeviation(), 1E-14);
+        assertEquals("Mavro: mean", mean, u.getMean(), 1E-14);
         
-        //loadStats("data/Michelso.txt");
-        //assertEquals("Michelso: std", std, u.getStandardDeviation(), .00000000000001);
-        //assertEquals("Michelso: mean", mean, u.getMean(), .00000000000001);   
+        loadStats("data/Michelso.txt", u);
+        assertEquals("Michelso: std", std, u.getStandardDeviation(), 1E-13);
+        assertEquals("Michelso: mean", mean, u.getMean(), 1E-13);   
                                         
         loadStats("data/NumAcc1.txt", u);
-        assertEquals("NumAcc1: std", std, u.getStandardDeviation(), .00000000000001);
-        assertEquals("NumAcc1: mean", mean, u.getMean(), .00000000000001);
+        assertEquals("NumAcc1: std", std, u.getStandardDeviation(), 1E-14);
+        assertEquals("NumAcc1: mean", mean, u.getMean(), 1E-14);
         
-        //loadStats("data/NumAcc2.txt");
-        //assertEquals("NumAcc2: std", std, u.getStandardDeviation(), .000000001);
-        //assertEquals("NumAcc2: mean", mean, u.getMean(), .00000000000001);
+        loadStats("data/NumAcc2.txt", u);
+        assertEquals("NumAcc2: std", std, u.getStandardDeviation(), 1E-14);
+        assertEquals("NumAcc2: mean", mean, u.getMean(), 1E-14);
     }
 
     /**
-     * Test StorelessDescriptiveStatistics
+     * Test DescriptiveStatistics - implementations that store full array of
+     * values and execute multi-pass algorithms
      */
-    public void testStoredUnivariateImpl() throws Exception {
+    public void testDescriptiveStatistics() throws Exception {
 
         DescriptiveStatistics u = DescriptiveStatistics.newInstance();
         
         loadStats("data/PiDigits.txt", u);
-        assertEquals("PiDigits: std", std, u.getStandardDeviation(), .0000000000001);
-        assertEquals("PiDigits: mean", mean, u.getMean(), .0000000000001);
+        assertEquals("PiDigits: std", std, u.getStandardDeviation(), 1E-14);
+        assertEquals("PiDigits: mean", mean, u.getMean(), 1E-14);
         
         loadStats("data/Mavro.txt", u);
-        assertEquals("Mavro: std", std, u.getStandardDeviation(), .00000000000001);
-        assertEquals("Mavro: mean", mean, u.getMean(), .00000000000001);        
+        assertEquals("Mavro: std", std, u.getStandardDeviation(), 1E-14);
+        assertEquals("Mavro: mean", mean, u.getMean(), 1E-14);        
         
-        //loadStats("data/Michelso.txt");
-        //assertEquals("Michelso: std", std, u.getStandardDeviation(), .00000000000001);
-        //assertEquals("Michelso: mean", mean, u.getMean(), .00000000000001);   
+        loadStats("data/Michelso.txt", u);
+        assertEquals("Michelso: std", std, u.getStandardDeviation(), 1E-14);
+        assertEquals("Michelso: mean", mean, u.getMean(), 1E-14);   
 
         loadStats("data/NumAcc1.txt", u);
-        assertEquals("NumAcc1: std", std, u.getStandardDeviation(), .00000000000001);
-        assertEquals("NumAcc1: mean", mean, u.getMean(), .00000000000001);
+        assertEquals("NumAcc1: std", std, u.getStandardDeviation(), 1E-14);
+        assertEquals("NumAcc1: mean", mean, u.getMean(), 1E-14);
         
-        //loadStats("data/NumAcc2.txt");
-        //assertEquals("NumAcc2: std", std, u.getStandardDeviation(), .000000001);
-        //assertEquals("NumAcc2: mean", mean, u.getMean(), .00000000000001);
+        loadStats("data/NumAcc2.txt", u);
+        assertEquals("NumAcc2: std", std, u.getStandardDeviation(), 1E-14);
+        assertEquals("NumAcc2: mean", mean, u.getMean(), 1E-14);
     }
 
     /**

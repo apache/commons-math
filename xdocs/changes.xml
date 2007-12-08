@@ -111,7 +111,12 @@ Commons Math Release Notes</title>
         and SummaryStatistics concrete classes. Pushed implementations up
         from DescriptiveStatisticsImpl, SummaryStatisticsImpl. Made
         implementations of statistics configurable via setters.
-      </action>    
+      </action>
+      <action dev="psteitz" type="fix" issue="MATH-174">
+        Changed Mean.evaluate() to use a two-pass algorithm, improving accuracy
+        by exploiting the the fact that this method has access to the full
+        array of data values.
+      </action>     
     </release>
     <release version="1.1" date="2005-12-17"  
  description="This is a maintenance release containing bug fixes and enhancements.

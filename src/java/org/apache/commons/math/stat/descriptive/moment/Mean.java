@@ -22,24 +22,32 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
 import org.apache.commons.math.stat.descriptive.summary.Sum;
 
 /**
- * Returns the arithmetic mean of the available values. Uses the definitional 
- * formula:
+ * <p>Computes the arithmetic mean of a set of values. Uses the definitional 
+ * formula:</p>
  * <p>
  * mean = sum(x_i) / n
- * <p>
- * where <code>n</code> is the number of observations.
- * <p>
- * The value of the statistic is computed using the following recursive
- * updating algorithm:
- * <p>
+ * </p>
+ * <p>where <code>n</code> is the number of observations.
+ * </p>
+ * <p>When {@link #increment(double)} is used to add data incrementally from a
+ * stream of (unstored) values, the value of the statistic that 
+ * {@link #getResult()} returns is computed using the following recursive
+ * updating algorithm: </p>
  * <ol>
  * <li>Initialize <code>m = </code> the first value</li>
  * <li>For each additional value, update using <br>
  *   <code>m = m + (new value - m) / (number of observations)</code></li>
  * </ol>
+ * <p> If {@link #evaluate(double[])} is used to compute the mean of an array
+ * of stored values, a two-pass, corrected algorithm is used, starting with
+ * the definitional formula computed using the array of stored values and then
+ * correcting this by adding the mean deviation of the data values from the
+ * arithmetic mean. See, e.g. "Comparison of Several Algorithms for Computing
+ * Sample Means and Variances," Robert F. Ling, Journal of the American
+ * Statistical Association, Vol. 69, No. 348 (Dec., 1974), pp. 859-866. </p>
  * <p>
  *  Returns <code>Double.NaN</code> if the dataset is empty.
- * <p>
+ * </p>
  * <strong>Note that this implementation is not synchronized.</strong> If 
  * multiple threads access an instance of this class concurrently, and at least
  * one of the threads invokes the <code>increment()</code> or 
@@ -131,7 +139,17 @@ public class Mean extends AbstractStorelessUnivariateStatistic
     public double evaluate(final double[] values,final int begin, final int length) {
         if (test(values, begin, length)) {
             Sum sum = new Sum();
-            return sum.evaluate(values, begin, length) / ((double) length);
+            double sampleSize = (double) length;
+            
+            // Compute initial estimate using definitional formula
+            double xbar = sum.evaluate(values, begin, length) / sampleSize;
+            
+            // Compute correction factor in second pass
+            double correction = 0;
+            for (int i = begin; i < begin + length; i++) {
+                correction += (values[i] - xbar);
+            }
+            return xbar + (correction/sampleSize);
         }
         return Double.NaN;
     }
