@@ -23,7 +23,7 @@ import junit.framework.TestSuite;
 
 import org.apache.commons.math.TestUtils;
 /**
- * Test cases for the {@link DescriptiveStatistics} class.
+ * Test cases for the {@link SummaryStatisticsImpl} class.
  *
  * @version $Revision$ $Date$
  */
