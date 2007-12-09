@@ -17,6 +17,7 @@
 package org.apache.commons.math.stat.descriptive;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 import org.apache.commons.discovery.tools.DiscoverClass;
@@ -369,9 +370,15 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
                 percentileImpl.getClass().getMethod("setQuantile", 
                         new Class[] {Double.TYPE}).invoke(percentileImpl,
                                 new Object[] {new Double(p)});
-            } catch (Exception ex) { // Should never happen, guarded by setter
-                throw new IllegalStateException(
-                "Percentile implementation does not support setQuantile");
+            } catch (NoSuchMethodException e1) { // Setter guard should prevent
+                throw new IllegalArgumentException(
+                   "Percentile implementation does not support setQuantile");
+            } catch (IllegalAccessException e2) {
+                throw new IllegalArgumentException(
+                    "IllegalAccessException setting quantile"); 
+            } catch (InvocationTargetException e3) {
+                throw new IllegalArgumentException(
+                    "Error setting quantile" + e3.toString()); 
             }
         }
         return apply(percentileImpl);
@@ -503,9 +510,15 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
             percentileImpl.getClass().getMethod("setQuantile", 
                     new Class[] {Double.TYPE}).invoke(percentileImpl,
                             new Object[] {new Double(50.0d)});
-        } catch (Exception ex) { 
+        } catch (NoSuchMethodException e1) { 
             throw new IllegalArgumentException(
                     "Percentile implementation does not support setQuantile");
+        } catch (IllegalAccessException e2) {
+            throw new IllegalArgumentException(
+                "IllegalAccessException setting quantile"); 
+        } catch (InvocationTargetException e3) {
+            throw new IllegalArgumentException(
+                "Error setting quantile" + e3.toString()); 
         }
         this.percentileImpl = percentileImpl;
     }
