@@ -23,7 +23,7 @@ import java.io.Serializable;
  * {@link org.apache.commons.math.stat.descriptive.DescriptiveStatistics}.
  * 
  * @deprecated to be removed in commons-math 2.0.  
- * Use {@link DescriptiveStatisitics}
+ * Use {@link DescriptiveStatistics}
  *
  * @version $Revision$ $Date$
  */
