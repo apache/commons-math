@@ -21,7 +21,6 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.stat.descriptive.moment.Mean;
 /**
  * Test cases for the {@link SummaryStatistics} class.
@@ -31,22 +30,20 @@ import org.apache.commons.math.stat.descriptive.moment.Mean;
  * @version $Revision: 566833 $ $Date: 2007-08-16 13:36:33 -0700 (Thu, 16 Aug 2007) $
  */
 
-public final class SummaryStatisticsTest extends TestCase {
-    
-    protected SummaryStatistics u = null;
-    
+public final class SummaryStatisticsTest extends SummaryStatisticsAbstractTest {
+
     public SummaryStatisticsTest(String name) {
         super(name);
-    }
-    
-    public void setUp() {  
-        u = new SummaryStatistics();
     }
     
     public static Test suite() {
         TestSuite suite = new TestSuite(SummaryStatisticsTest.class);
         suite.setName("SummaryStatistics tests");
         return suite;
+    }
+
+    protected SummaryStatistics createSummaryStatistics() {
+        return new SummaryStatistics();
     }
     
     public void testSetterInjection() throws Exception {
