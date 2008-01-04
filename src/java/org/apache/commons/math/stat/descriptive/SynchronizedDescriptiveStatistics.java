@@ -19,10 +19,10 @@ package org.apache.commons.math.stat.descriptive;
 /**
  * Implementation of
  * {@link org.apache.commons.math.stat.descriptive.DescriptiveStatistics} that
- * is safe to use in a mulithreaded environment.  Multiple threads can safely
+ * is safe to use in a multithreaded environment.  Multiple threads can safely
  * operate on a single instance without causing runtime exceptions due to race
  * conditions.  In effect, this implementation makes modification and access
- * methods atomic operations for a signle instance.  That is to say, as one
+ * methods atomic operations for a single instance.  That is to say, as one
  * thread is computing a statistic from the instance, no other thread can modify
  * the instance nor compute another statistic. 
  *
