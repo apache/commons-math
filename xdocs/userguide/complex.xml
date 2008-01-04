@@ -79,18 +79,21 @@ Complex answer = lhs.add(rhs);       // add two complex numbers
       </subsection>
       <subsection name="7.3 Complex Transcendental Functions" href="function">
         <p>
-          <a href="../apidocs/org/apache/commons/math/complex/ComplexUtils.html">
-          org.apache.commons.math.complex.ComplexUtils</a> provides
+          <a href="../apidocs/org/apache/commons/math/complex/Complex.html">
+          org.apache.commons.math.complex.Complex</a> also provides
           implementations of serveral transcendental functions involving complex
-          number arguments.  These operations provide the means to compute the
-          log, sine, tangent and, other complex values similar to the real
-          number functions found in <code>java.lang.Math</code>:
-          <source>Complex first = new Complex(1.0, 3.0);
+          number arguments.  Prior to version 1.2, these functions were provided
+          by <a href="../apidocs/org/apache/commons/math/complex/ComplexUtils.html">
+          org.apache.commons.math.complex.ComplexUtils</a> in a way similar to the real
+          number functions found in <code>java.lang.Math</code>, but this has been
+          deprecated.  These operations provide the means to compute the log, sine,
+          tangent, and other complex values :
+          <source>Complex first  = new Complex(1.0, 3.0);
 Complex second = new Complex(2.0, 5.0);
 
-Complex answer = ComplexMath.log(first);          // natural logarithm.
-        answer = ComplexMath.cos(first);          // cosine
-        answer = ComplexMath.pow(first, second);  // first raised to the power of second</source>
+Complex answer = first.log();        // natural logarithm.
+        answer = first.cos();        // cosine
+        answer = first.pow(second);  // first raised to the power of second</source>
         </p>
       </subsection>
       <subsection name="7.4 Complex Formatting and Parsing" href="formatting">
