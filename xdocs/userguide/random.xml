@@ -117,7 +117,7 @@
     For the non-secure methods, starting with the same seed always produces the
     same sequence of values.  Secure sequences started with the same seeds will
     diverge. When a new <code>RandomDataImpl</code> is created, the underlying
-    random number generators are <strong>not</strong> intialized.  The first
+    random number generators are <strong>not</strong> initialized.  The first
     call to a data generation method, or to a  <code>reSeed()</code> method
     initializes the appropriate generator.  If you do not explicitly seed the
     generator, it is by default seeded with the current time in milliseconds.
@@ -176,15 +176,15 @@ for (int i = 0; i &lt; 1000; i++) {
     however, generating them is much more difficult. The <a
     href="../apidocs/org/apache/commons/math/random/CorrelatedRandomVectorGenerator.html">
     org.apache.commons.math.CorrelatedRandomVectorGenerator</a> class
-    provides this service. In this case, the user must set a complete covariance matrix
-    instead of a simple standard deviations vector, this matrix gather both the variance
+    provides this service. In this case, the user must set up a complete covariance matrix
+    instead of a simple standard deviations vector. This matrix gathers both the variance
     and the correlation information of the probability law.
     </p>
     <p>
     The main use for correlated random vector generation is for Monte-Carlo
     simulation of physical problems with several variables, for example to
     generate error vectors to be added to a nominal vector. A particularly
-    interesting case is when the generated vector should be drawn from a <a
+    common case is when the generated vector should be drawn from a <a
     href="http://en.wikipedia.org/wiki/Multivariate_normal_distribution">
     Multivariate Normal Distribution</a>.
     </p>
@@ -226,7 +226,7 @@ for (int i = 0; i &lt; 1000; i++) {
     To select a random sample of objects in a collection, you can use the
     <code>nextSample</code> method in the <code>RandomData</code> interface.
     Specifically,  if <code>c</code> is a collection containing at least 
-    <code>k</code> objects, and <code>ranomData</code> is a 
+    <code>k</code> objects, and <code>randomData</code> is a 
     <code>RandomData</code> instance <code>randomData.nextSample(c, k)</code>
     will return an <code>object[]</code> array of length <code>k</code>
     consisting of elements randomly selected from the collection.  If 
