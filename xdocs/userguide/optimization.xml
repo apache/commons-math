@@ -54,7 +54,7 @@
           (<a href="http://cm.bell-labs.com/cm/cs/doc/96/4-02.ps.gz">Direct
           Search Methods: Once Scorned, Now Respectable</a>), they are used
           when either the computation of the derivative is impossible (noisy
-          functions, unpredictable dicontinuities) or difficult (complexity,
+          functions, unpredictable discontinuities) or difficult (complexity,
           computation cost). In the first cases, rather than an optimum, a
           <em>not too bad</em> point is desired. In the latter cases, an
           optimum is desired but cannot be reasonably found. In all cases
@@ -69,7 +69,7 @@
         <p>
           The instances can be built either in single-start or in
           multi-start mode. Multi-start is a traditional way to try to avoid
-          beeing trapped in a local minimum and miss the global minimum of a
+          being trapped in a local minimum and miss the global minimum of a
           function. It can also be used to verify the convergence of an
           algorithm. In multi-start mode, the <code>minimizes</code>method
           returns the best minimum found after all starts, and the <code>etMinima</code>
