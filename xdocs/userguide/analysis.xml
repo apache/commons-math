@@ -31,7 +31,7 @@
           implementations for real-valued functions of one real variable.
         </p>
         <p>
-          Possible future additions may include numerical differentation, 
+          Possible future additions may include numerical differentiation, 
           integration and optimization.
         </p>
       </subsection>
@@ -129,7 +129,7 @@ double c = solver.solve(1.0, 5.0);</source>
         </p>
         <p>
           The <code>SecantSolver</code> uses a variant of the well known secant
-          algorithm.  It may be a bit faster  than the Brent solver for a class
+          algorithm.  It may be a bit faster than the Brent solver for a class
           of well-behaved functions.
         </p>
         <p>
@@ -160,7 +160,7 @@ double c = solver.solve(1.0, 5.0);</source>
                 The Absolute Accuracy is (estimated) maximal difference between
                 the computed root and the true root of the function.  This is
                 what most people think of as "accuracy" intuitively.  The default
-                value is choosen as a sane value for most real world problems,
+                value is chosen as a sane value for most real world problems,
                 for roots in the range from -100 to +100.  For accurate
                 computation of roots near zero, in the range form -0.0001 to
                  +0.0001, the value may be decreased.  For computing roots
@@ -182,7 +182,7 @@ double c = solver.solve(1.0, 5.0);</source>
                 absolute values of the numbers. This accuracy measurement is
                 better suited for numerical calculations with computers, due to
                 the way floating point numbers are represented.  The default
-                value is choosen so that algorithms will get a result even for
+                value is chosen so that algorithms will get a result even for
                 roots with large absolute values, even while it may be
                 impossible to reach the given absolute accuracy.
               </td>
@@ -250,10 +250,10 @@ double x=0.5;
 double y=function.evaluate(x);
 System.out println("f("+x+")="+y);</source>
         <p>
-          A natural cubic spline is a function consisting of a polynominal of
+          A natural cubic spline is a function consisting of a polynomial of
           third degree for each subinterval determined by the x-coordinates of the
           interpolated points.  A function interpolating <code>N</code>
-          value pairs consists of <code>N-1</code> polynominals. The function
+          value pairs consists of <code>N-1</code> polynomials. The function
           is continuous, smooth and can be differentiated twice.  The second
           derivative is continuous but not smooth.  The x values passed to the
           interpolator must be ordered in ascending order.  It is not valid to
