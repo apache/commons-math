@@ -201,10 +201,15 @@ public class ComplexTest extends TestCase {
         Complex w = z.multiply(infOne);
         assertEquals(w.real, inf, 0);
         assertEquals(w.imaginary, inf, 0);
+
+        // [MATH-164]
+        assertTrue(new Complex( 1,0).multiply(infInf).equals(Complex.INF));
+        assertTrue(new Complex(-1,0).multiply(infInf).equals(Complex.INF));
+        assertTrue(new Complex( 1,0).multiply(negInfZero).equals(Complex.INF));
         
         w = oneInf.multiply(oneNegInf);
         assertEquals(w.real, inf, 0);
-        assertTrue(Double.isNaN(w.imaginary));
+        assertEquals(w.imaginary, inf, 0);
         
         w = negInfNegInf.multiply(oneNaN);
         assertTrue(Double.isNaN(w.real));

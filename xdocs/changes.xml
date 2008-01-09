@@ -121,6 +121,9 @@ Commons Math Release Notes</title>
         Added check and rescaling of expected counts to sum to sum of expected
         counts if necessary in ChiSquare test.
       </action>     
+      <action dev="luc" type="fix" issue="MATH-164">
+        Handle multiplication of Complex numbers with infinite parts specially.
+      </action>     
     </release>
     <release version="1.1" date="2005-12-17"  
  description="This is a maintenance release containing bug fixes and enhancements.

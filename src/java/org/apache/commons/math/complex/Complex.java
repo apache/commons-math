@@ -48,6 +48,9 @@ public class Complex implements Serializable  {
     /** A complex number representing "NaN + NaNi" */
     public static final Complex NaN = new Complex(Double.NaN, Double.NaN);
 
+    /** A complex number representing "+INF + INFi" */
+    public static final Complex INF = new Complex(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+
     /** A complex number representing "1.0 + 0.0i" */    
     public static final Complex ONE = new Complex(1.0, 0.0);
     
@@ -324,22 +327,25 @@ public class Complex implements Serializable  {
     /**
      * Return the product of this complex number and the given complex number.
      * <p>
-     * Implements the definitional formula:
+     * Implements preliminary checks for NaN and infinity followed by
+     * the definitional formula:
      * <pre><code>
      * (a + bi)(c + di) = (ac - bd) + (ad + bc)i
      * </code></pre>
+     * </p>
      * <p>
      * Returns {@link #NaN} if either this or <code>rhs</code> has one or more
      * NaN parts.
+     * </p>
+     * Returns {@link #INF} if neither this nor <code>rhs</code> has one or more
+     * NaN parts and if either this or <code>rhs</code> has one or more
+     * infinite parts (same result is returned regardless of the sign of the
+     * components).
+     * </p>
      * <p>
-     * Returns NaN or infinite values in components of the result per the
-     * definitional formula and and the rules for {@link java.lang.Double}
-     * arithmetic.  Examples:
-     * <pre><code>
-     *  (1 + i) (INF + i)  =  INF + INFi
-     *  (1 + INFi) (1 - INFi) = INF + NaNi
-     *  (-INF + -INFi)(1 + NaNi) = NaN + NaNi
-     *  </code></pre>
+     * Returns finite values in components of the result per the
+     * definitional formula in all remaining cases.
+     *  </p>
      * 
      * @param rhs the other complex number
      * @return the complex number product
@@ -348,6 +354,11 @@ public class Complex implements Serializable  {
     public Complex multiply(Complex rhs) {
         if (isNaN() || rhs.isNaN()) {
             return NaN;
+        }
+        if (Double.isInfinite(real) || Double.isInfinite(imaginary) ||
+            Double.isInfinite(rhs.real)|| Double.isInfinite(rhs.imaginary)) {
+            // we don't use Complex.isInfinite() to avoid testing for NaN again
+            return INF;
         }
         return createComplex(real * rhs.real - imaginary * rhs.imaginary,
                 real * rhs.imaginary + imaginary * rhs.real);
