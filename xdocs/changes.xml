@@ -116,6 +116,10 @@ Commons Math Release Notes</title>
         Changed Mean.evaluate() to use a two-pass algorithm, improving accuracy
         by exploiting the the fact that this method has access to the full
         array of data values.
+      </action>
+      <action dev="psteitz" type="fix" issue="MATH-175" due-to="Carl Anderson">
+        Added check and rescaling of expected counts to sum to sum of expected
+        counts if necessary in ChiSquare test.
       </action>     
     </release>
     <release version="1.1" date="2005-12-17"  

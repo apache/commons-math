@@ -50,6 +50,11 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
         setDistribution(x);
     }
      /**
+     * {@inheritDoc}
+     * <p><strong>Note: </strong>This implementation rescales the 
+     * <code>expected</code> array if necessary to ensure that the sum of the
+     * expected and observed counts are equal.</p>
+     * 
      * @param observed array of observed frequency counts
      * @param expected array of expected frequency counts
      * @return chi-square test statistic
@@ -58,8 +63,6 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
      */
     public double chiSquare(double[] expected, long[] observed)
         throws IllegalArgumentException {
-        double sumSq = 0.0d;
-        double dev = 0.0d;
         if ((expected.length < 2) || (expected.length != observed.length)) {
             throw new IllegalArgumentException(
                     "observed, expected array lengths incorrect");
@@ -68,14 +71,38 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
             throw new IllegalArgumentException(
                 "observed counts must be non-negative and expected counts must be postive");
         }
+        double sumExpected = 0d;
+        double sumObserved = 0d;
         for (int i = 0; i < observed.length; i++) {
-            dev = ((double) observed[i] - expected[i]);
-            sumSq += dev * dev / expected[i];
+            sumExpected += expected[i];
+            sumObserved += observed[i];
+        }
+        double ratio = 1.0d;
+        boolean rescale = false;
+        if (Math.abs(sumExpected - sumObserved) > 10E-6) {
+            ratio = sumObserved / sumExpected;
+            rescale = true;
+        }
+        double sumSq = 0.0d;
+        double dev = 0.0d;
+        for (int i = 0; i < observed.length; i++) {
+            if (rescale) {
+                dev = ((double) observed[i] - ratio * expected[i]);
+                sumSq += dev * dev / (ratio * expected[i]);
+            } else {
+                dev = ((double) observed[i] - expected[i]);
+                sumSq += dev * dev / expected[i];
+            }
         }
         return sumSq;
     }
 
     /**
+     * {@inheritDoc}
+     * <p><strong>Note: </strong>This implementation rescales the 
+     * <code>expected</code> array if necessary to ensure that the sum of the
+     * expected and observed counts are equal.</p>
+     * 
      * @param observed array of observed frequency counts
      * @param expected array of exptected frequency counts
      * @return p-value
@@ -90,6 +117,11 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
     }
 
     /**
+     * {@inheritDoc}
+     * <p><strong>Note: </strong>This implementation rescales the 
+     * <code>expected</code> array if necessary to ensure that the sum of the
+     * expected and observed counts are equal.</p>
+     * 
      * @param observed array of observed frequency counts
      * @param expected array of exptected frequency counts
      * @param alpha significance level of the test

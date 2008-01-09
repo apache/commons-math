@@ -57,10 +57,10 @@ public class ChiSquareTestTest extends TestCase {
         
         long[] observed1 = { 500, 623, 72, 70, 31 };
         double[] expected1 = { 485, 541, 82, 61, 37 };
-        assertEquals( "chi-square test statistic", 16.4131070362, testStatistic.chiSquare(expected1, observed1), 1E-10);
-        assertEquals("chi-square p-value", 0.002512096, testStatistic.chiSquareTest(expected1, observed1), 1E-9);
-        assertTrue("chi-square test reject", testStatistic.chiSquareTest(expected1, observed1, 0.003));
-        assertTrue("chi-square test accept", !testStatistic.chiSquareTest(expected1, observed1, 0.002));
+        assertEquals( "chi-square test statistic", 9.023307936427388, testStatistic.chiSquare(expected1, observed1), 1E-10);
+        assertEquals("chi-square p-value", 0.06051952647453607, testStatistic.chiSquareTest(expected1, observed1), 1E-9);
+        assertTrue("chi-square test reject", testStatistic.chiSquareTest(expected1, observed1, 0.08));
+        assertTrue("chi-square test accept", !testStatistic.chiSquareTest(expected1, observed1, 0.05));
 
         try {
             testStatistic.chiSquareTest(expected1, observed1, 95);
@@ -181,7 +181,7 @@ public class ChiSquareTestTest extends TestCase {
         double cst = csti.chiSquareTest(exp, obs); 
         assertEquals("chi-square p-value", 0.0, cst, 1E-3);
         assertEquals( "chi-square test statistic", 
-                3624883.342907764, testStatistic.chiSquare(exp, obs), 1E-9);
+                114875.90421929007, testStatistic.chiSquare(exp, obs), 1E-9);
     }
     
     /** Contingency table containing zeros - PR # 32531 */
