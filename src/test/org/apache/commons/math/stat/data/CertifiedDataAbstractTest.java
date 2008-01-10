@@ -44,8 +44,8 @@ public abstract class CertifiedDataAbstractTest extends TestCase {
     private Map certifiedValues;
     
     protected void setUp() throws Exception {
-        descriptives = DescriptiveStatistics.newInstance();
-        summaries = SummaryStatistics.newInstance();
+        descriptives = new DescriptiveStatistics();
+        summaries = new SummaryStatistics();
         certifiedValues = new HashMap();
         
         loadData();
