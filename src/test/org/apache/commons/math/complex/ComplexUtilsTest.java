@@ -48,7 +48,8 @@ public class ComplexUtilsTest extends TestCase {
     private Complex infZero = new Complex(inf, 0);
     private Complex zeroInf = new Complex(0, inf);
     private Complex negInfZero = new Complex(negInf, 0);
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testAcos() {
         Complex z = new Complex(3, 4);
         Complex expected = new Complex(0.936812, -2.30551);
@@ -56,7 +57,8 @@ public class ComplexUtilsTest extends TestCase {
         TestUtils.assertEquals(new Complex(Math.acos(0), 0), 
                 ComplexUtils.acos(Complex.ZERO), 1.0e-12);
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testAcosInf() {
         TestUtils.assertSame(Complex.NaN, ComplexUtils.acos(oneInf));
         TestUtils.assertSame(Complex.NaN, ComplexUtils.acos(oneNegInf));
@@ -67,11 +69,13 @@ public class ComplexUtilsTest extends TestCase {
         TestUtils.assertSame(Complex.NaN, ComplexUtils.acos(negInfInf));
         TestUtils.assertSame(Complex.NaN, ComplexUtils.acos(negInfNegInf));
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testAcosNaN() {
         assertTrue(ComplexUtils.acos(Complex.NaN).isNaN());
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testAcosNull() {
         try {
             ComplexUtils.acos(null); 
@@ -80,17 +84,20 @@ public class ComplexUtilsTest extends TestCase {
             // expected
         }
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testAsin() {
         Complex z = new Complex(3, 4);
         Complex expected = new Complex(0.633984, 2.30551);
         TestUtils.assertEquals(expected, ComplexUtils.asin(z), 1.0e-5);
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testAsinNaN() {
         assertTrue(ComplexUtils.asin(Complex.NaN).isNaN());
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testAsinInf() {
         TestUtils.assertSame(Complex.NaN, ComplexUtils.asin(oneInf));
         TestUtils.assertSame(Complex.NaN, ComplexUtils.asin(oneNegInf));
@@ -101,7 +108,8 @@ public class ComplexUtilsTest extends TestCase {
         TestUtils.assertSame(Complex.NaN, ComplexUtils.asin(negInfInf));
         TestUtils.assertSame(Complex.NaN, ComplexUtils.asin(negInfNegInf));
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testAsinNull() {
         try {
             ComplexUtils.asin(null); 
@@ -110,13 +118,15 @@ public class ComplexUtilsTest extends TestCase {
             // expected
         }
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testAtan() {
         Complex z = new Complex(3, 4);
         Complex expected = new Complex(1.44831, 0.158997);
         TestUtils.assertEquals(expected, ComplexUtils.atan(z), 1.0e-5);
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testAtanInf() {
         TestUtils.assertSame(Complex.NaN, ComplexUtils.atan(oneInf));
         TestUtils.assertSame(Complex.NaN, ComplexUtils.atan(oneNegInf));
@@ -127,12 +137,14 @@ public class ComplexUtilsTest extends TestCase {
         TestUtils.assertSame(Complex.NaN, ComplexUtils.atan(negInfInf));
         TestUtils.assertSame(Complex.NaN, ComplexUtils.atan(negInfNegInf));
     } 
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testAtanNaN() {
         assertTrue(ComplexUtils.atan(Complex.NaN).isNaN());
         assertTrue(ComplexUtils.atan(Complex.I).isNaN());
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testAtanNull() {
         try {
             ComplexUtils.atan(null); 
@@ -141,17 +153,20 @@ public class ComplexUtilsTest extends TestCase {
             // expected
         }
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testCos() {
         Complex z = new Complex(3, 4);
         Complex expected = new Complex(-27.03495, -3.851153);
         TestUtils.assertEquals(expected, ComplexUtils.cos(z), 1.0e-5);
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testCosNaN() {
         assertTrue(ComplexUtils.cos(Complex.NaN).isNaN());
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testCosInf() {
         TestUtils.assertSame(infNegInf, ComplexUtils.cos(oneInf));
         TestUtils.assertSame(infInf, ComplexUtils.cos(oneNegInf));
@@ -162,7 +177,8 @@ public class ComplexUtilsTest extends TestCase {
         TestUtils.assertSame(Complex.NaN, ComplexUtils.cos(negInfInf));
         TestUtils.assertSame(Complex.NaN, ComplexUtils.cos(negInfNegInf));
     } 
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testCosNull() {
         try {
             ComplexUtils.cos(null); 
@@ -171,17 +187,20 @@ public class ComplexUtilsTest extends TestCase {
             // expected
         }
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testCosh() {
         Complex z = new Complex(3, 4);
         Complex expected = new Complex(-6.58066, -7.58155);
         TestUtils.assertEquals(expected, ComplexUtils.cosh(z), 1.0e-5);
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testCoshNaN() {
         assertTrue(ComplexUtils.cosh(Complex.NaN).isNaN());
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testCoshInf() {  
         TestUtils.assertSame(Complex.NaN, ComplexUtils.cosh(oneInf));
         TestUtils.assertSame(Complex.NaN, ComplexUtils.cosh(oneNegInf));
@@ -192,7 +211,8 @@ public class ComplexUtilsTest extends TestCase {
         TestUtils.assertSame(Complex.NaN, ComplexUtils.cosh(negInfInf));
         TestUtils.assertSame(Complex.NaN, ComplexUtils.cosh(negInfNegInf));
     } 
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testCoshNull() {
         try {
             ComplexUtils.cosh(null); 
@@ -201,7 +221,8 @@ public class ComplexUtilsTest extends TestCase {
             // expected
         }
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testExp() {
         Complex z = new Complex(3, 4);
         Complex expected = new Complex(-13.12878, -15.20078);
@@ -212,11 +233,13 @@ public class ComplexUtilsTest extends TestCase {
         TestUtils.assertEquals(Complex.ONE.negate(), 
                 ComplexUtils.exp(iPi), 10e-12);
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testExpNaN() {
         assertTrue(ComplexUtils.exp(Complex.NaN).isNaN());
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testExpInf() {
         TestUtils.assertSame(Complex.NaN, ComplexUtils.exp(oneInf));
         TestUtils.assertSame(Complex.NaN, ComplexUtils.exp(oneNegInf));
@@ -227,7 +250,8 @@ public class ComplexUtilsTest extends TestCase {
         TestUtils.assertSame(Complex.NaN, ComplexUtils.exp(negInfInf));
         TestUtils.assertSame(Complex.NaN, ComplexUtils.exp(negInfNegInf));
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testExpNull() {
         try {
             ComplexUtils.exp(null); 
@@ -236,17 +260,20 @@ public class ComplexUtilsTest extends TestCase {
             // expected
         }
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testLog() {
         Complex z = new Complex(3, 4);
         Complex expected = new Complex(1.60944, 0.927295);
         TestUtils.assertEquals(expected, ComplexUtils.log(z), 1.0e-5);
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testLogNaN() {
         assertTrue(ComplexUtils.log(Complex.NaN).isNaN());
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testLogInf() {
         TestUtils.assertEquals(new Complex(inf, pi / 2),
                 ComplexUtils.log(oneInf), 10e-12);
@@ -264,11 +291,13 @@ public class ComplexUtilsTest extends TestCase {
         TestUtils.assertEquals(new Complex(inf, - 3d * pi / 4),
                 ComplexUtils.log(negInfNegInf), 10e-12);
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testLogZero() {
         TestUtils.assertSame(negInfZero, ComplexUtils.log(Complex.ZERO));
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testlogNull() {
         try {
             ComplexUtils.log(null); 
@@ -306,7 +335,8 @@ public class ComplexUtilsTest extends TestCase {
           }
         }   
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     protected Complex altPolar(double r, double theta) {
         return ComplexUtils.exp(Complex.I.multiply
                 (new Complex(theta, 0))).multiply(new Complex(r, 0));
@@ -341,24 +371,28 @@ public class ComplexUtilsTest extends TestCase {
         TestUtils.assertSame(negInfInf, ComplexUtils.polar2Complex(inf, 3*pi/4));
         TestUtils.assertSame(negInfNegInf, ComplexUtils.polar2Complex(inf, 5*pi/4));
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testPow() {
         Complex x = new Complex(3, 4);
         Complex y = new Complex(5, 6);
         Complex expected = new Complex(-1.860893, 11.83677);
         TestUtils.assertEquals(expected, ComplexUtils.pow(x, y), 1.0e-5);
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testPowNaNBase() {
         Complex x = new Complex(3, 4);
         assertTrue(ComplexUtils.pow(Complex.NaN, x).isNaN());
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testPowNaNExponent() {
         Complex x = new Complex(3, 4);
         assertTrue(ComplexUtils.pow(x, Complex.NaN).isNaN());
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
    public void testPowInf() {
        TestUtils.assertSame(Complex.NaN,ComplexUtils.pow(Complex.ONE, oneInf));
        TestUtils.assertSame(Complex.NaN,ComplexUtils.pow(Complex.ONE, oneNegInf));
@@ -383,7 +417,8 @@ public class ComplexUtilsTest extends TestCase {
        TestUtils.assertSame(Complex.NaN,ComplexUtils.pow(infNegInf, negInfNegInf));
        TestUtils.assertSame(Complex.NaN,ComplexUtils.pow(infNegInf, infInf));   
    }
-   
+
+   /** @deprecated to be removed in 2.0 */
    public void testPowZero() {
        TestUtils.assertSame(Complex.NaN, 
                ComplexUtils.pow(Complex.ZERO, Complex.ONE));
@@ -398,7 +433,8 @@ public class ComplexUtilsTest extends TestCase {
        TestUtils.assertEquals(Complex.ONE,
                ComplexUtils.pow(new Complex(-1, 3), Complex.ZERO), 10e-12);
    }
-    
+
+   /** @deprecated to be removed in 2.0 */
     public void testpowNull() {
         try {
             ComplexUtils.pow(null, Complex.ONE); 
@@ -413,13 +449,15 @@ public class ComplexUtilsTest extends TestCase {
             // expected
         }
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testSin() {
         Complex z = new Complex(3, 4);
         Complex expected = new Complex(3.853738, -27.01681);
         TestUtils.assertEquals(expected, ComplexUtils.sin(z), 1.0e-5);
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testSinInf() {
         TestUtils.assertSame(infInf, ComplexUtils.sin(oneInf));
         TestUtils.assertSame(infNegInf, ComplexUtils.sin(oneNegInf));
@@ -430,11 +468,13 @@ public class ComplexUtilsTest extends TestCase {
         TestUtils.assertSame(Complex.NaN, ComplexUtils.sin(negInfInf));
         TestUtils.assertSame(Complex.NaN, ComplexUtils.sin(negInfNegInf));
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testSinNaN() {
         assertTrue(ComplexUtils.sin(Complex.NaN).isNaN());
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testSinNull() {
         try {
             ComplexUtils.sin(null); 
@@ -443,17 +483,20 @@ public class ComplexUtilsTest extends TestCase {
             // expected
         }
     }
-     
+
+    /** @deprecated to be removed in 2.0 */
     public void testSinh() {
         Complex z = new Complex(3, 4);
         Complex expected = new Complex(-6.54812, -7.61923);
         TestUtils.assertEquals(expected, ComplexUtils.sinh(z), 1.0e-5);
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testSinhNaN() {
         assertTrue(ComplexUtils.sinh(Complex.NaN).isNaN());
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testSinhInf() {
         TestUtils.assertSame(Complex.NaN, ComplexUtils.sinh(oneInf));
         TestUtils.assertSame(Complex.NaN, ComplexUtils.sinh(oneNegInf));
@@ -464,7 +507,8 @@ public class ComplexUtilsTest extends TestCase {
         TestUtils.assertSame(Complex.NaN, ComplexUtils.sinh(negInfInf));
         TestUtils.assertSame(Complex.NaN, ComplexUtils.sinh(negInfNegInf));
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testsinhNull() {
         try {
             ComplexUtils.sinh(null); 
@@ -473,37 +517,43 @@ public class ComplexUtilsTest extends TestCase {
             // expected
         }
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testSqrtRealPositive() {
         Complex z = new Complex(3, 4);
         Complex expected = new Complex(2, 1);
         TestUtils.assertEquals(expected, ComplexUtils.sqrt(z), 1.0e-5);
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testSqrtRealZero() {
         Complex z = new Complex(0.0, 4);
         Complex expected = new Complex(1.41421, 1.41421);
         TestUtils.assertEquals(expected, ComplexUtils.sqrt(z), 1.0e-5);
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testSqrtRealNegative() {
         Complex z = new Complex(-3.0, 4);
         Complex expected = new Complex(1, 2);
         TestUtils.assertEquals(expected, ComplexUtils.sqrt(z), 1.0e-5);
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testSqrtImaginaryZero() {
         Complex z = new Complex(-3.0, 0.0);
         Complex expected = new Complex(0.0, 1.73205);
         TestUtils.assertEquals(expected, ComplexUtils.sqrt(z), 1.0e-5);
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testSqrtImaginaryNegative() {
         Complex z = new Complex(-3.0, -4.0);
         Complex expected = new Complex(1.0, -2.0);
         TestUtils.assertEquals(expected, ComplexUtils.sqrt(z), 1.0e-5);
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testSqrtPolar() {
         double r = 1;
         for (int i = 0; i < 5; i++) {
@@ -517,11 +567,13 @@ public class ComplexUtilsTest extends TestCase {
             }
         }       
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testSqrtNaN() {
         assertTrue(ComplexUtils.sqrt(Complex.NaN).isNaN());
     }
-      
+
+    /** @deprecated to be removed in 2.0 */
     public void testSqrtInf() {
         TestUtils.assertSame(infNaN, ComplexUtils.sqrt(oneInf));
         TestUtils.assertSame(infNaN, ComplexUtils.sqrt(oneNegInf));
@@ -532,7 +584,8 @@ public class ComplexUtilsTest extends TestCase {
         TestUtils.assertSame(nanInf, ComplexUtils.sqrt(negInfInf));
         TestUtils.assertSame(nanNegInf, ComplexUtils.sqrt(negInfNegInf));
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testSqrtNull() {
         try {
             ComplexUtils.sqrt(null); 
@@ -542,16 +595,19 @@ public class ComplexUtilsTest extends TestCase {
         }
     }
 
+    /** @deprecated to be removed in 2.0 */
     public void testSqrt1z() {
         Complex z = new Complex(3, 4);
         Complex expected = new Complex(4.08033, -2.94094);
         TestUtils.assertEquals(expected, ComplexUtils.sqrt1z(z), 1.0e-5);
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testSqrt1zNaN() {
         assertTrue(ComplexUtils.sqrt1z(Complex.NaN).isNaN());
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testSqrt1zNull() {
         try {
             ComplexUtils.sqrt1z(null); 
@@ -560,17 +616,20 @@ public class ComplexUtilsTest extends TestCase {
             // expected
         }
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testTan() {
         Complex z = new Complex(3, 4);
         Complex expected = new Complex(-0.000187346, 0.999356);
         TestUtils.assertEquals(expected, ComplexUtils.tan(z), 1.0e-5);
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testTanNaN() {
         assertTrue(ComplexUtils.tan(Complex.NaN).isNaN());
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testTanInf() {
         TestUtils.assertSame(zeroNaN, ComplexUtils.tan(oneInf));
         TestUtils.assertSame(zeroNaN, ComplexUtils.tan(oneNegInf));
@@ -581,12 +640,14 @@ public class ComplexUtilsTest extends TestCase {
         TestUtils.assertSame(Complex.NaN, ComplexUtils.tan(negInfInf));
         TestUtils.assertSame(Complex.NaN, ComplexUtils.tan(negInfNegInf));
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
    public void testTanCritical() {
         TestUtils.assertSame(infNaN, ComplexUtils.tan(new Complex(pi/2, 0)));
         TestUtils.assertSame(negInfNaN, ComplexUtils.tan(new Complex(-pi/2, 0)));
     }
-    
+
+   /** @deprecated to be removed in 2.0 */
     public void testTanNull() {
         try {
             ComplexUtils.tan(null); 
@@ -595,17 +656,20 @@ public class ComplexUtilsTest extends TestCase {
             // expected
         }
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testTanh() {
         Complex z = new Complex(3, 4);
         Complex expected = new Complex(1.00071, 0.00490826);
         TestUtils.assertEquals(expected, ComplexUtils.tanh(z), 1.0e-5);
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testTanhNaN() {
         assertTrue(ComplexUtils.tanh(Complex.NaN).isNaN());
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testTanhInf() {
         TestUtils.assertSame(Complex.NaN, ComplexUtils.tanh(oneInf));
         TestUtils.assertSame(Complex.NaN, ComplexUtils.tanh(oneNegInf));
@@ -616,11 +680,13 @@ public class ComplexUtilsTest extends TestCase {
         TestUtils.assertSame(Complex.NaN, ComplexUtils.tanh(negInfInf));
         TestUtils.assertSame(Complex.NaN, ComplexUtils.tanh(negInfNegInf));
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testTanhCritical() {
         TestUtils.assertSame(nanInf, ComplexUtils.tanh(new Complex(0, pi/2)));
     }
-    
+
+    /** @deprecated to be removed in 2.0 */
     public void testTanhNull() {
         try {
             ComplexUtils.tanh(null); 
