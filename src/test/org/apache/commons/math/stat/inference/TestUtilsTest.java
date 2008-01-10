@@ -194,14 +194,14 @@ public class TestUtilsTest extends TestCase {
     
     private double[] tooShortObs = { 1.0 };
     private double[] emptyObs = {};
-    private SummaryStatistics emptyStats = SummaryStatistics.newInstance();  
+    private SummaryStatistics emptyStats = new SummaryStatistics();  
 
     public void testOneSampleT() throws Exception {
         double[] observed =
             {93.0, 103.0, 95.0, 101.0, 91.0, 105.0, 96.0, 94.0, 101.0,  88.0, 98.0, 94.0, 101.0, 92.0, 95.0 };
         double mu = 100.0;
         SummaryStatistics sampleStats = null;
-        sampleStats = SummaryStatistics.newInstance();
+        sampleStats = new SummaryStatistics();
         for (int i = 0; i < observed.length; i++) {
             sampleStats.addValue(observed[i]);
         }
@@ -248,7 +248,7 @@ public class TestUtilsTest extends TestCase {
             TestUtils.t(mu, tooShortObs);
             fail("insufficient data to compute t statistic, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
-            // exptected
+            // expected
         }
         try {
             TestUtils.tTest(mu, tooShortObs);
@@ -261,20 +261,20 @@ public class TestUtilsTest extends TestCase {
             TestUtils.t(mu, (SummaryStatistics) null);
             fail("insufficient data to compute t statistic, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
-            // exptected
+            // expected
         }
         try {
             TestUtils.tTest(mu, (SummaryStatistics) null);
             fail("insufficient data to perform t test, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
-            // exptected
+            // expected
         }  
     }
     
     public void testOneSampleTTest() throws Exception {
         double[] oneSidedP =
             {2d, 0d, 6d, 6d, 3d, 3d, 2d, 3d, -6d, 6d, 6d, 6d, 3d, 0d, 1d, 1d, 0d, 2d, 3d, 3d };
-        SummaryStatistics oneSidedPStats = SummaryStatistics.newInstance();    
+        SummaryStatistics oneSidedPStats = new SummaryStatistics();    
         for (int i = 0; i < oneSidedP.length; i++) {
             oneSidedPStats.addValue(oneSidedP[i]);
         }
@@ -296,7 +296,7 @@ public class TestUtilsTest extends TestCase {
             TestUtils.tTest(0d, oneSidedP, 95);
             fail("alpha out of range, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
-            // exptected
+            // expected
         }  
         
         try {
@@ -311,11 +311,11 @@ public class TestUtilsTest extends TestCase {
     public void testTwoSampleTHeterscedastic() throws Exception {
         double[] sample1 = { 7d, -4d, 18d, 17d, -3d, -5d, 1d, 10d, 11d, -2d };
         double[] sample2 = { -1d, 12d, -1d, -3d, 3d, -5d, 5d, 2d, -11d, -1d, -3d };
-        SummaryStatistics sampleStats1 = SummaryStatistics.newInstance();  
+        SummaryStatistics sampleStats1 = new SummaryStatistics();  
         for (int i = 0; i < sample1.length; i++) {
             sampleStats1.addValue(sample1[i]);
         }
-        SummaryStatistics sampleStats2 = SummaryStatistics.newInstance();    
+        SummaryStatistics sampleStats2 = new SummaryStatistics();    
         for (int i = 0; i < sample2.length; i++) {
             sampleStats2.addValue(sample2[i]);
         }
@@ -397,11 +397,11 @@ public class TestUtilsTest extends TestCase {
     public void testTwoSampleTHomoscedastic() throws Exception {
         double[] sample1 ={2, 4, 6, 8, 10, 97};
         double[] sample2 = {4, 6, 8, 10, 16};
-        SummaryStatistics sampleStats1 = SummaryStatistics.newInstance();  
+        SummaryStatistics sampleStats1 = new SummaryStatistics();  
         for (int i = 0; i < sample1.length; i++) {
             sampleStats1.addValue(sample1[i]);
         }
-        SummaryStatistics sampleStats2 = SummaryStatistics.newInstance();    
+        SummaryStatistics sampleStats2 = new SummaryStatistics();    
         for (int i = 0; i < sample2.length; i++) {
             sampleStats2.addValue(sample2[i]);
         }
