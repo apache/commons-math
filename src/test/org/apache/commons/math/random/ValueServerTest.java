@@ -65,7 +65,7 @@ public final class ValueServerTest extends RetryTestCase {
         vs.computeDistribution();
         assertTrue("empirical distribution property", 
             vs.getEmpiricalDistribution() != null);
-        SummaryStatistics stats = SummaryStatistics.newInstance();
+        SummaryStatistics stats = new SummaryStatistics();
         for (int i = 1; i < 1000; i++) {
             next = vs.getNext();
             stats.addValue(next);
@@ -76,7 +76,7 @@ public final class ValueServerTest extends RetryTestCase {
             tolerance);
         
         vs.computeDistribution(500);
-        stats = SummaryStatistics.newInstance();
+        stats = new SummaryStatistics();
         for (int i = 1; i < 1000; i++) {
             next = vs.getNext();
             stats.addValue(next);

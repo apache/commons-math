@@ -381,7 +381,7 @@ public class RandomDataTest extends RetryTestCase {
         } catch (IllegalArgumentException ex) {
             ;
         }
-        SummaryStatistics u = SummaryStatistics.newInstance();
+        SummaryStatistics u = new SummaryStatistics();
         for (int i = 0; i<largeSampleSize; i++) {
             u.addValue(randomData.nextGaussian(0,1));
         }

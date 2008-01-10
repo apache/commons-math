@@ -200,7 +200,7 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
     
     private void tstGen(double tolerance)throws Exception {
         empiricalDistribution.load(url);   
-        SummaryStatistics stats = SummaryStatistics.newInstance();
+        SummaryStatistics stats = new SummaryStatistics();
         for (int i = 1; i < 1000; i++) {
             stats.addValue(empiricalDistribution.getNextValue());
         }
@@ -211,7 +211,7 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
 
     private void tstDoubleGen(double tolerance)throws Exception {
         empiricalDistribution2.load(dataArray);   
-        SummaryStatistics stats = SummaryStatistics.newInstance();
+        SummaryStatistics stats = new SummaryStatistics();
         for (int i = 1; i < 1000; i++) {
             stats.addValue(empiricalDistribution2.getNextValue());
         }
