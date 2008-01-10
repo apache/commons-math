@@ -266,7 +266,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         public void computeStats() throws IOException {
             String str = null;
             double val = 0.0;
-            sampleStats = SummaryStatistics.newInstance();
+            sampleStats = new SummaryStatistics();
             while ((str = inputStream.readLine()) != null) {
                 val = new Double(str).doubleValue();
                 sampleStats.addValue(val);
@@ -299,7 +299,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
          * @throws IOException if an IO error occurs
          */
         public void computeStats() throws IOException {
-            sampleStats = SummaryStatistics.newInstance();
+            sampleStats = new SummaryStatistics();
             for (int i = 0; i < inputArray.length; i++) {
                 sampleStats.addValue(inputArray[i]);
             }
@@ -345,7 +345,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
             binStats.clear();
         }
         for (int i = 0; i < binCount; i++) {
-            SummaryStatistics stats = SummaryStatistics.newInstance();
+            SummaryStatistics stats = new SummaryStatistics();
             binStats.add(i,stats);
         }
 
