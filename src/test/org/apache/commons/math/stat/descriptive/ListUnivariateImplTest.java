@@ -100,7 +100,7 @@ public final class ListUnivariateImplTest extends TestCase {
     }
     
     public void testSkewAndKurtosis() {
-        DescriptiveStatistics u = DescriptiveStatistics.newInstance();
+        DescriptiveStatistics u = new DescriptiveStatistics();
         
         double[] testArray = { 12.5, 12, 11.8, 14.2, 14.9, 14.5, 21, 8.2, 10.3, 11.3, 14.1,
                                              9.9, 12.2, 12, 12.1, 11, 19.8, 11, 10, 8.8, 9, 12.3 };
@@ -140,15 +140,7 @@ public final class ListUnivariateImplTest extends TestCase {
     /** test stats */
     public void testSerialization() {
         
-        DescriptiveStatistics u = null;
-        
-        try {
-            u = DescriptiveStatistics.newInstance(ListUnivariateImpl.class);
-        } catch (InstantiationException e) {
-            fail(e.getMessage());
-        } catch (IllegalAccessException e) {
-            fail(e.getMessage());
-        }
+        DescriptiveStatistics u = new ListUnivariateImpl();
         
         assertEquals("total count",0,u.getN(),tolerance);
         u.addValue(one);
