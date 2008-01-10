@@ -20,7 +20,6 @@ import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.complex.Complex;
-import org.apache.commons.math.complex.ComplexUtils;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/LaguerresMethod.html">
@@ -307,8 +306,9 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
             H = G2.subtract(d2v.divide(pv));
             delta = N1.multiply((N.multiply(H)).subtract(G2));
             // choose a denominator larger in magnitude
-            Complex dplus = G.add(ComplexUtils.sqrt(delta));
-            Complex dminus = G.subtract(ComplexUtils.sqrt(delta));
+            Complex deltaSqrt = delta.sqrt();
+            Complex dplus = G.add(deltaSqrt);
+            Complex dminus = G.subtract(deltaSqrt);
             denominator = dplus.abs() > dminus.abs() ? dplus : dminus;
             // Perturb z if denominator is zero, for instance,
             // p(x) = x^3 + 1, z = 0.
