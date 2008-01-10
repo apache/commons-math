@@ -104,7 +104,7 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
      * expected and observed counts are equal.</p>
      * 
      * @param observed array of observed frequency counts
-     * @param expected array of exptected frequency counts
+     * @param expected array of expected frequency counts
      * @return p-value
      * @throws IllegalArgumentException if preconditions are not met
      * @throws MathException if an error occurs computing the p-value
@@ -123,7 +123,7 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
      * expected and observed counts are equal.</p>
      * 
      * @param observed array of observed frequency counts
-     * @param expected array of exptected frequency counts
+     * @param expected array of expected frequency counts
      * @param alpha significance level of the test
      * @return true iff null hypothesis can be rejected with confidence
      * 1 - alpha

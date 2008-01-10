@@ -36,7 +36,7 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
     
     /**
      * Holds a reference to a list - GENERICs are going to make
-     * out lives easier here as we could only accept List<Number>
+     * our lives easier here as we could only accept List<Number>
      */
     protected List list;
 

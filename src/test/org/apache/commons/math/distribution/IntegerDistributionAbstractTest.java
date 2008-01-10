@@ -133,7 +133,7 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
     //-------------------- Verification methods -------------------------------
     
     /**
-     * Verifies that probability density calculations match exptected values
+     * Verifies that probability density calculations match expected values
      * using current test instance data
      */
     protected void verifyDensities() throws Exception {
@@ -145,7 +145,7 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
     }
     
     /**
-     * Verifies that cumulative probability density calculations match exptected values
+     * Verifies that cumulative probability density calculations match expected values
      * using current test instance data
      */   
     protected void verifyCumulativeProbabilities() throws Exception {
@@ -157,7 +157,7 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
     }
     
     /**
-     * Verifies that inverse cumulative probability density calculations match exptected values
+     * Verifies that inverse cumulative probability density calculations match expected values
      * using current test instance data
      */
     protected void verifyInverseCumulativeProbabilities() throws Exception {
@@ -171,7 +171,7 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
     //------------------------ Default test cases -----------------------------
 
     /**
-     * Verifies that probability density calculations match exptected values
+     * Verifies that probability density calculations match expected values
      * using default test instance data
      */
     public void testDensities() throws Exception {
@@ -179,7 +179,7 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
     }
     
     /**
-     * Verifies that cumulative probability density calculations match exptected values
+     * Verifies that cumulative probability density calculations match expected values
      * using default test instance data
      */
     public void testCumulativeProbabilities() throws Exception {
@@ -187,7 +187,7 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
     }
     
     /**
-     * Verifies that inverse cumulative probability density calculations match exptected values
+     * Verifies that inverse cumulative probability density calculations match expected values
      * using default test instance data
      */
     public void testInverseCumulativeProbabilities() throws Exception {
