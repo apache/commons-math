@@ -24,7 +24,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
-import org.apache.commons.math.stat.descriptive.SummaryStatisticsImpl;
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 
 /**
@@ -65,7 +64,7 @@ public class CertifiedDataTest extends TestCase  {
      * and use single pass algorithms to compute statistics
     */
     public void testSummaryStatistics() throws Exception {
-        SummaryStatistics u = SummaryStatistics.newInstance(SummaryStatisticsImpl.class);
+        SummaryStatistics u = new SummaryStatistics();
         loadStats("data/PiDigits.txt", u);
         assertEquals("PiDigits: std", std, u.getStandardDeviation(), 1E-13);
         assertEquals("PiDigits: mean", mean, u.getMean(), 1E-13);  
@@ -93,7 +92,7 @@ public class CertifiedDataTest extends TestCase  {
      */
     public void testDescriptiveStatistics() throws Exception {
 
-        DescriptiveStatistics u = DescriptiveStatistics.newInstance();
+        DescriptiveStatistics u = new DescriptiveStatistics();
         
         loadStats("data/PiDigits.txt", u);
         assertEquals("PiDigits: std", std, u.getStandardDeviation(), 1E-14);
