@@ -46,6 +46,7 @@ public final class SummaryStatisticsTest extends SummaryStatisticsAbstractTest {
     }
     
     public void testSetterInjection() throws Exception {
+        SummaryStatistics u = createSummaryStatistics();
         u.setMeanImpl(new sumMean());
         u.addValue(1);
         u.addValue(3);
@@ -59,6 +60,7 @@ public final class SummaryStatisticsTest extends SummaryStatisticsAbstractTest {
     }
     
     public void testSetterIllegalState() throws Exception {
+        SummaryStatistics u = createSummaryStatistics();
         u.addValue(1);
         u.addValue(3);
         try {

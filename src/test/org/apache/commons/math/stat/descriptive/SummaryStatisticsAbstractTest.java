@@ -43,20 +43,15 @@ public abstract class SummaryStatisticsAbstractTest extends TestCase {
     private double max = 3;
     private double tolerance = 10E-15;
 
-    protected SummaryStatistics u = null;
-
     public SummaryStatisticsAbstractTest(String name) {
         super(name);
     }
 
     protected abstract SummaryStatistics createSummaryStatistics();
 
-    public void setUp() {
-        u = createSummaryStatistics();
-    }
-
     /** test stats */
     public void testStats() {
+        SummaryStatistics u = createSummaryStatistics();
         assertEquals("total count",0,u.getN(),tolerance);
         u.addValue(one);
         u.addValue(twoF);
@@ -75,6 +70,7 @@ public abstract class SummaryStatisticsAbstractTest extends TestCase {
     }     
 
     public void testN0andN1Conditions() throws Exception {
+        SummaryStatistics u = createSummaryStatistics();
         assertTrue("Mean of n = 0 set should be NaN", 
                 Double.isNaN( u.getMean() ) );
         assertTrue("Standard Deviation of n = 0 set should be NaN", 
@@ -102,7 +98,8 @@ public abstract class SummaryStatisticsAbstractTest extends TestCase {
 
     }
 
-    public void testProductAndGeometricMean() throws Exception {            
+    public void testProductAndGeometricMean() throws Exception {
+        SummaryStatistics u = createSummaryStatistics();
         u.addValue( 1.0 );
         u.addValue( 2.0 );
         u.addValue( 3.0 );
@@ -113,6 +110,7 @@ public abstract class SummaryStatisticsAbstractTest extends TestCase {
     }
 
     public void testNaNContracts() {
+        SummaryStatistics u = createSummaryStatistics();
         assertTrue("mean not NaN",Double.isNaN(u.getMean())); 
         assertTrue("min not NaN",Double.isNaN(u.getMin())); 
         assertTrue("std dev not NaN",Double.isNaN(u.getStandardDeviation())); 
@@ -139,26 +137,28 @@ public abstract class SummaryStatisticsAbstractTest extends TestCase {
         //FiXME: test all other NaN contract specs
     }
 
-    public void testGetSummary() {  
+    public void testGetSummary() {
+        SummaryStatistics u = createSummaryStatistics();
         StatisticalSummary summary = u.getSummary();
-        verifySummary(summary);
+        verifySummary(u, summary);
         u.addValue(1d);
         summary = u.getSummary();
-        verifySummary(summary);
+        verifySummary(u, summary);
         u.addValue(2d);
         summary = u.getSummary();
-        verifySummary(summary);
+        verifySummary(u, summary);
         u.addValue(2d);
         summary = u.getSummary();
-        verifySummary(summary);     
+        verifySummary(u, summary);     
     }
 
     public void testSerialization() {
+        SummaryStatistics u = createSummaryStatistics();
         // Empty test
         TestUtils.checkSerializedEquality(u);
         SummaryStatistics s = (SummaryStatistics) TestUtils.serializeAndRecover(u);
         StatisticalSummary summary = s.getSummary();
-        verifySummary(summary);
+        verifySummary(u, summary);
 
         // Add some data
         u.addValue(2d);
@@ -171,11 +171,12 @@ public abstract class SummaryStatisticsAbstractTest extends TestCase {
         TestUtils.checkSerializedEquality(u);
         s = (SummaryStatistics) TestUtils.serializeAndRecover(u);
         summary = s.getSummary();
-        verifySummary(summary);
+        verifySummary(u, summary);
 
     }
 
     public void testEqualsAndHashCode() {
+        SummaryStatistics u = createSummaryStatistics();
         SummaryStatistics t = null;
         int emptyHash = u.hashCode();
         assertTrue("reflexive", u.equals(u));
@@ -215,7 +216,7 @@ public abstract class SummaryStatisticsAbstractTest extends TestCase {
         assertEquals("empty hash code", emptyHash, u.hashCode());
     }
 
-    private void verifySummary(StatisticalSummary s) {
+    private void verifySummary(SummaryStatistics u, StatisticalSummary s) {
         assertEquals("N",s.getN(),u.getN());
         TestUtils.assertEquals("sum",s.getSum(),u.getSum(),tolerance);
         TestUtils.assertEquals("var",s.getVariance(),u.getVariance(),tolerance);
