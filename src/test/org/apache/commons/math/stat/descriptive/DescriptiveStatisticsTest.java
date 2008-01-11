@@ -118,6 +118,7 @@ public final class DescriptiveStatisticsTest extends DescriptiveStatisticsAbstra
         public double evaluate(double[] values) {
             return getQuantile();
         }  
+        private static final long serialVersionUID = 8040701391045914979L;
     }
     
     /**
