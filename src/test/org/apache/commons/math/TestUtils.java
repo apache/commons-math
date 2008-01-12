@@ -17,9 +17,8 @@
 
 package org.apache.commons.math;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -100,55 +99,28 @@ public class TestUtils {
     }
     
     /**
-     * Serializes an object to a temp file and then recovers the object from the file.
+     * Serializes an object to a bytes array and then recovers the object from the bytes array.
      * Returns the deserialized object.
      * 
      * @param o  object to serialize and recover
-     * @return  the recovered, deseriailized object
+     * @return  the recovered, deserialized object
      */
-    public static Object serializeAndRecover(Object o){
-        
-        Object result = null;
-        File tmp = null;
-        FileOutputStream fo = null;
-        FileInputStream fi = null;
-        
+    public static Object serializeAndRecover(Object o) {
         try {
             // serialize the Object
-            tmp = File.createTempFile("test",".ser");
-            fo = new FileOutputStream(tmp);
-            ObjectOutputStream so = new ObjectOutputStream(fo);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream so = new ObjectOutputStream(bos);
             so.writeObject(o);
-            so.flush();
-            fo.close();
 
             // deserialize the Object
-            fi = new FileInputStream(tmp);
-            ObjectInputStream si = new ObjectInputStream(fi);  
-            result = si.readObject();
-        } catch (Exception ex) {
-            
-        } finally {
-            if (fo != null) {
-                try {
-                    fo.close();
-                } catch (IOException ex) {
-                }
-            }
-
-            if (fi != null) {
-                try {
-                    fi.close();
-                } catch (IOException ex) {
-                }
-            }
+            ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+            ObjectInputStream si = new ObjectInputStream(bis);
+            return si.readObject();
+        } catch (IOException ioe) {
+            return null;
+        } catch (ClassNotFoundException cnfe) {
+            return null;
         }
-           
-        if (tmp != null) {
-            tmp.delete();
-        }
-        
-        return result;
     }
     
     /**
