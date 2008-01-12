@@ -81,7 +81,9 @@ public final class DescriptiveStatisticsTest extends DescriptiveStatisticsAbstra
     /**
      * A new way to compute the mean 
      */
-    class deepMean implements UnivariateStatistic {
+    static class deepMean implements UnivariateStatistic {
+        private static final long serialVersionUID = 9108665370122541953L;
+
         public double evaluate(double[] values, int begin, int length) {
             return 42;
         }
@@ -94,8 +96,9 @@ public final class DescriptiveStatisticsTest extends DescriptiveStatisticsAbstra
     /**
      * Test percentile implementation - wraps a Percentile
      */
-    class goodPercentile implements UnivariateStatistic {
-        Percentile percentile = new Percentile();
+    static class goodPercentile implements UnivariateStatistic {
+        private static final long serialVersionUID = 801005145532790795L;
+        private Percentile percentile = new Percentile();
         public void setQuantile(double quantile) {
             percentile.setQuantile(quantile);
         }
@@ -103,7 +106,7 @@ public final class DescriptiveStatisticsTest extends DescriptiveStatisticsAbstra
             return percentile.evaluate(values, begin, length);
         }
         public double evaluate(double[] values) {
-            return evaluate(values);
+            return percentile.evaluate(values);
         }  
     }
     
@@ -111,7 +114,7 @@ public final class DescriptiveStatisticsTest extends DescriptiveStatisticsAbstra
      * Test percentile subclass - another "new math" impl
      * Always returns currently set quantile
      */
-    class subPercentile extends Percentile {
+    static class subPercentile extends Percentile {
         public double evaluate(double[] values, int begin, int length) {
             return getQuantile();
         }
@@ -124,13 +127,14 @@ public final class DescriptiveStatisticsTest extends DescriptiveStatisticsAbstra
     /**
      * "Bad" test percentile implementation - no setQuantile
      */
-    class badPercentile implements UnivariateStatistic {
-        Percentile percentile = new Percentile();
+    static class badPercentile implements UnivariateStatistic {
+        private static final long serialVersionUID = -707437653388052183L;
+        private Percentile percentile = new Percentile();
         public double evaluate(double[] values, int begin, int length) {
             return percentile.evaluate(values, begin, length);
         }
         public double evaluate(double[] values) {
-            return evaluate(values);
+            return percentile.evaluate(values);
         }  
     }
 }

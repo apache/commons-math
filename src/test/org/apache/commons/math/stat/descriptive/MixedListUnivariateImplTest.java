@@ -52,18 +52,9 @@ public final class MixedListUnivariateImplTest extends TestCase {
         super(name);
         transformers = new TransformerMap();
 
-        transformers.putTransformer(Foo.class, new NumberTransformer() {
-            public double transform(Object o) {
-                return Double.parseDouble(((Foo) o).heresFoo());
-            }
-        });
+        transformers.putTransformer(Foo.class, new FooTransformer());
 
-        transformers.putTransformer(Bar.class, new NumberTransformer() {
-            public double transform(Object o) {
-                return Double.parseDouble(((Bar) o).heresBar());
-            }
-
-        });
+        transformers.putTransformer(Bar.class, new BarTransformer());
 
     }
 
@@ -196,9 +187,24 @@ public final class MixedListUnivariateImplTest extends TestCase {
         }
     }
 
+    public static final class FooTransformer implements NumberTransformer {
+        private static final long serialVersionUID = -4252248129291326127L;
+        public double transform(Object o) {
+            return Double.parseDouble(((Foo) o).heresFoo());
+        }
+    }
+
     public static final class Bar {
         public String heresBar() {
             return "12.0";
         }
     }
+
+    public static final class BarTransformer implements NumberTransformer {
+        private static final long serialVersionUID = -1768345377764262043L;
+        public double transform(Object o) {
+            return Double.parseDouble(((Bar) o).heresBar());
+        }
+    }
+
 }

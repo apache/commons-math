@@ -75,7 +75,8 @@ public final class SummaryStatisticsTest extends SummaryStatisticsAbstractTest {
      * Bogus mean implementation to test setter injection.
      * Returns the sum instead of the mean.
      */
-    class sumMean implements StorelessUnivariateStatistic {   
+    static class sumMean implements StorelessUnivariateStatistic {   
+        private static final long serialVersionUID = 6492471391340853423L;
         private double sum = 0;
         private long n = 0;
         public double evaluate(double[] values, int begin, int length) {
