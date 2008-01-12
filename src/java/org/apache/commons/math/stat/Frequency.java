@@ -435,7 +435,9 @@ public class Frequency implements Serializable {
      * A Comparator that compares comparable objects using the
      * natural order.  Copied from Commons Collections ComparableComparator.
      */
-    private static class NaturalComparator implements Comparator {
+    private static class NaturalComparator implements Comparator, Serializable {
+        private static final long serialVersionUID = -3852193713161395148L;
+
         /**
          * Compare the two {@link Comparable Comparable} arguments.
          * This method is equivalent to:
