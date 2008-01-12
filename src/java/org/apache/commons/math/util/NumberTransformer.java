@@ -16,13 +16,15 @@
  */
 package org.apache.commons.math.util;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.MathException;
 
 /**
  * Subclasses implementing this interface can transform Objects to doubles.
  * @version $Revision$ $Date$
  */
-public interface NumberTransformer {
+public interface NumberTransformer extends Serializable {
     
     /**
      * Implementing this interface provides a facility to transform
