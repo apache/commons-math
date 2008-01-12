@@ -774,16 +774,16 @@ public final class RealMatrixImplTest extends TestCase {
     }
       
     
-    /** Useful for debugging */
-    private void dumpMatrix(RealMatrix m) {
-          for (int i = 0; i < m.getRowDimension(); i++) {
-              String os = "";
-              for (int j = 0; j < m.getColumnDimension(); j++) {
-                  os += m.getEntry(i, j) + " ";
-              }
-              System.out.println(os);
-          }
-    }
+//    /** Useful for debugging */
+//    private void dumpMatrix(RealMatrix m) {
+//          for (int i = 0; i < m.getRowDimension(); i++) {
+//              String os = "";
+//              for (int j = 0; j < m.getColumnDimension(); j++) {
+//                  os += m.getEntry(i, j) + " ";
+//              }
+//              System.out.println(os);
+//          }
+//    }
         
 }
 
