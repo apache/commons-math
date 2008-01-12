@@ -59,7 +59,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      */
     private BigDecimal lu[][] = null;
     
-    /** Permutation associated with LU decompostion */
+    /** Permutation associated with LU decomposition */
     private int[] permutation = null;
     
     /** Parity of the permutation associated with the LU decomposition */
