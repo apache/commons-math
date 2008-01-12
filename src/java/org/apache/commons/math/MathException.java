@@ -150,7 +150,7 @@ public class MathException extends Exception {
     public MathException(String pattern, Object[] arguments) {
       super(buildMessage(pattern, arguments, Locale.US));
       this.pattern   = pattern;
-      this.arguments = arguments;
+      this.arguments = (Object[]) arguments.clone();
       this.rootCause = null;
     }
 
@@ -196,7 +196,7 @@ public class MathException extends Exception {
     public MathException(String pattern, Object[] arguments, Throwable rootCause) {
       super(buildMessage(pattern, arguments, Locale.US));
       this.pattern   = pattern;
-      this.arguments = arguments;
+      this.arguments = (Object[]) arguments.clone();
       this.rootCause = rootCause;
     }
 
@@ -213,7 +213,7 @@ public class MathException extends Exception {
      * @return the arguments used to build the message of this throwable
      */
     public Object[] getArguments() {
-        return arguments;
+        return (Object[]) arguments.clone();
     }
 
     /** Gets the message in a specified locale.
