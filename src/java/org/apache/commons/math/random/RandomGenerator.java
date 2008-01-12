@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.random;
 
+import java.io.Serializable;
+
 /**
  * Interface extracted from <code>java.util.Random</code>.  This interface is
  * implemented by {@link AbstractRandomGenerator}.  
@@ -23,7 +25,7 @@ package org.apache.commons.math.random;
  * @since 1.1
  * @version $Revision:$ $Date$
  */
-public interface RandomGenerator {
+public interface RandomGenerator extends Serializable {
     
     /**
      * Sets the seed of the underyling random number generator using a 

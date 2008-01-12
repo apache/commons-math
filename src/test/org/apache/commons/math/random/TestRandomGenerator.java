@@ -25,6 +25,8 @@ import java.util.Random;
  * @version $Revision:$ $Date$
  */
 public class TestRandomGenerator extends AbstractRandomGenerator {
+
+    private static final long serialVersionUID = -9161426374178114548L;
     private Random random = new Random();
     
     public void setSeed(long seed) {
