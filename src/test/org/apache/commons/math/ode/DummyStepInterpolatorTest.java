@@ -103,12 +103,7 @@ public class DummyStepInterpolatorTest
          IOException, ClassNotFoundException {
 
     double[] y = { 0.0, 1.0, -2.0 };
-    DummyStepInterpolator interpolator = new DummyStepInterpolator(y, true) {
-      protected void doFinalize()
-        throws DerivativeException {
-          throw new DerivativeException(null);
-      }
-    };
+    AbstractStepInterpolator interpolator = new BadStepInterpolator(y, true);
     interpolator.storeTime(0);
     interpolator.shift();
     interpolator.storeTime(1);
@@ -126,6 +121,20 @@ public class DummyStepInterpolatorTest
     }
 
   }
+
+  private static class BadStepInterpolator extends DummyStepInterpolator {
+      public BadStepInterpolator() {
+          super();
+      }
+      public BadStepInterpolator(double[] y, boolean forward) {
+          super(y, forward);
+      }
+      protected void doFinalize()
+      throws DerivativeException {
+          throw new DerivativeException(null);
+      }
+  };
+
 
   public void testSerializationError()
   throws DerivativeException, IntegratorException,
