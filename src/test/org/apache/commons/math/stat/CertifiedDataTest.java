@@ -137,7 +137,7 @@ public class CertifiedDataTest extends TestCase  {
         BufferedReader in =
             new BufferedReader(
                     new InputStreamReader(
-                            getClass().getResourceAsStream(resource)));
+                            CertifiedDataTest.class.getResourceAsStream(resource)));
         
         String line = null;
         
