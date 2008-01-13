@@ -20,6 +20,7 @@ package org.apache.commons.math.stat.data;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.HashMap;
@@ -113,30 +114,48 @@ public abstract class CertifiedDataAbstractTest extends TestCase {
     
     public void testCertifiedValues() {
         Iterator iter = certifiedValues.keySet().iterator();
+
         while (iter.hasNext()) {
             String name = iter.next().toString();
             Double expectedValue = (Double)certifiedValues.get(name);
-            try {
-                Double summariesValue = (Double)this.getProperty(summaries, name);
+
+            Double summariesValue = getProperty(summaries, name);
+            if (summariesValue != null) {
                 TestUtils.assertEquals("summary value for " + name + " is incorrect.",
-                        summariesValue.doubleValue(), expectedValue.doubleValue(), getMaximumAbsoluteError());
-            } catch (Exception ex) {
+                                       summariesValue.doubleValue(), expectedValue.doubleValue(),
+                                       getMaximumAbsoluteError());
             }
-            
-            try {
-                Double descriptivesValue = (Double)this.getProperty(descriptives, name);
+
+            Double descriptivesValue = getProperty(descriptives, name);
+            if (descriptivesValue != null) {
                 TestUtils.assertEquals("descriptive value for " + name + " is incorrect.",
-                        descriptivesValue.doubleValue(), expectedValue.doubleValue(), getMaximumAbsoluteError());
-            } catch (Exception ex) {
+                                       descriptivesValue.doubleValue(), expectedValue.doubleValue(),
+                                       getMaximumAbsoluteError());
             }
         }
     }
     
     
-    protected Object getProperty(Object bean, String name) throws Exception{
-        // Get the value of prop
-        String prop = "get" + name.substring(0,1).toUpperCase() + name.substring(1); 
-        Method meth = bean.getClass().getMethod(prop, new Class[0]);
-        return meth.invoke(bean, new Object[0]);
+    protected Double getProperty(Object bean, String name) {
+        try {
+            // Get the value of prop
+            String prop = "get" + name.substring(0,1).toUpperCase() + name.substring(1); 
+            Method meth = bean.getClass().getMethod(prop, new Class[0]);
+            Object property = meth.invoke(bean, new Object[0]);
+            if (meth.getReturnType().equals(Double.TYPE)) {
+                return (Double) property;
+            } else if (meth.getReturnType().equals(Long.TYPE)) {
+                return new Double(((Long) property).doubleValue());
+            } else {
+                fail("wrong type: " + meth.getReturnType().getName());
+            }
+        } catch (NoSuchMethodException nsme) {
+            // ignored
+        } catch (InvocationTargetException ite) {
+            fail(ite.getMessage());
+        } catch (IllegalAccessException iae) {
+            fail(iae.getMessage());
+        }
+        return null;
     }
 }
