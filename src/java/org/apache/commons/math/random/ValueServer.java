@@ -145,7 +145,7 @@ public class ValueServer {
      * readable by *this at runtime.
      * <p>
      * This method must be called before using <code>getNext()</code>
-     * with <code>mode = DISGEST_MODE</code>
+     * with <code>mode = DIGEST_MODE</code>
      *
      * @throws IOException if an I/O error occurs reading the input file
      */
@@ -162,7 +162,7 @@ public class ValueServer {
      * readable by *this at runtime.
      * <p>
      * This method must be called before using <code>getNext()</code>
-     * with <code>mode = DISGEST_MODE</code>
+     * with <code>mode = DIGEST_MODE</code>
      *
      * @param binCount the number of bins used in computing the empirical
      * distribution
