@@ -51,9 +51,6 @@ public class DummyStepHandler
    * @return the only instance
    */
   public static DummyStepHandler getInstance() {
-    if (instance == null) {
-      instance = new DummyStepHandler();
-    }
     return instance;
   }
 
@@ -88,7 +85,7 @@ public class DummyStepHandler
   }
 
   /** The only instance. */
-  private static DummyStepHandler instance = null;
+  private static DummyStepHandler instance = new DummyStepHandler();
 
   private static final long serialVersionUID = 2731635121223090252L;
 
