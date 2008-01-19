@@ -110,6 +110,14 @@ public class LevenbergMarquardtEstimatorTest
     LevenbergMarquardtEstimator estimator = new LevenbergMarquardtEstimator();
     estimator.estimate(problem);
     assertEquals(0, estimator.getRMS(problem), 1.0e-10);
+    try {
+        estimator.guessParametersErrors(problem);
+        fail("an exception should have been thrown");
+    } catch (EstimationException ee) {
+        // expected behavior
+    } catch (Exception e) {
+        fail("wrong exception caught");
+    }
     assertEquals(1.5,
                  problem.getUnboundParameters()[0].getEstimate(),
                  1.0e-10);
@@ -267,7 +275,15 @@ public class LevenbergMarquardtEstimatorTest
     estimator.estimate(problem);
     assertTrue(estimator.getRMS(problem) < initialCost);
     assertTrue(Math.sqrt(m.length) * estimator.getRMS(problem) > 0.6);
-    double dJ0 = 2 * (m[0].getResidual() * m[0].getPartial(p[0])
+    try {
+        estimator.getCovariances(problem);
+        fail("an exception should have been thrown");
+    } catch (EstimationException ee) {
+        // expected behavior
+    } catch (Exception e) {
+        fail("wrong exception caught");
+    }
+   double dJ0 = 2 * (m[0].getResidual() * m[0].getPartial(p[0])
                     + m[1].getResidual() * m[1].getPartial(p[0])
                     + m[2].getResidual() * m[2].getPartial(p[0]));
     double dJ1 = 2 * (m[0].getResidual() * m[0].getPartial(p[1])
@@ -496,7 +512,34 @@ public class LevenbergMarquardtEstimatorTest
       assertEquals(69.96016176931406, circle.getRadius(), 1.0e-10);
       assertEquals(96.07590211815305, circle.getX(),      1.0e-10);
       assertEquals(48.13516790438953, circle.getY(),      1.0e-10);
-    }
+      double[][] cov = estimator.getCovariances(circle);
+      assertEquals(1.839, cov[0][0], 0.001);
+      assertEquals(0.731, cov[0][1], 0.001);
+      assertEquals(cov[0][1], cov[1][0], 1.0e-14);
+      assertEquals(0.786, cov[1][1], 0.001);
+      double[] errors = estimator.guessParametersErrors(circle);
+      assertEquals(1.384, errors[0], 0.001);
+      assertEquals(0.905, errors[1], 0.001);
+  
+      // add perfect measurements and check errors are reduced
+      double cx = circle.getX();
+      double cy = circle.getY();
+      double  r = circle.getRadius();
+      for (double d= 0; d < 2 * Math.PI; d += 0.01) {
+          circle.addPoint(cx + r * Math.cos(d), cy + r * Math.sin(d));
+      }
+      estimator = new LevenbergMarquardtEstimator();
+      estimator.estimate(circle);
+      cov = estimator.getCovariances(circle);
+      assertEquals(0.004, cov[0][0], 0.001);
+      assertEquals(6.40e-7, cov[0][1], 1.0e-9);
+      assertEquals(cov[0][1], cov[1][0], 1.0e-14);
+      assertEquals(0.003, cov[1][1], 0.001);
+      errors = estimator.guessParametersErrors(circle);
+      assertEquals(0.004, errors[0], 0.001);
+      assertEquals(0.004, errors[1], 0.001);
+
+  }
 
   public void testCircleFittingBadInit() throws EstimationException {
     Circle circle = new Circle(-12, -12);

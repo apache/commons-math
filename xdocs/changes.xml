@@ -124,6 +124,9 @@ Commons Math Release Notes</title>
       <action dev="luc" type="fix" issue="MATH-164">
         Handle multiplication of Complex numbers with infinite parts specially.
       </action>     
+      <action dev="luc" type="update" issue="MATH-176" due-to="Kazuhiro Koshino">
+        Add errors guessing to least-squares estimators.
+      </action>     
     </release>
     <release version="1.1" date="2005-12-17"  
  description="This is a maintenance release containing bug fixes and enhancements.

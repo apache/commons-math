@@ -19,6 +19,7 @@ package org.apache.commons.math.estimation;
 import java.io.Serializable;
 import java.util.Arrays;
 
+
 /** 
  * This class solves a least squares problem.
  *
@@ -92,7 +93,7 @@ import java.util.Arrays;
  * @author Kenneth E. Hillstrom (original fortran)
  * @author Jorge J. More (original fortran)
  */
-public class LevenbergMarquardtEstimator implements Serializable, Estimator {
+public class LevenbergMarquardtEstimator extends AbstractEstimator implements Serializable {
 
   /** 
    * Build an estimator for least squares problems.
@@ -107,12 +108,16 @@ public class LevenbergMarquardtEstimator implements Serializable, Estimator {
    * </p>
    */
   public LevenbergMarquardtEstimator() {
+
+    // set up the superclass with a default  max cost evaluations setting
+    setMaxCostEval(1000);
+
     // default values for the tuning parameters
     setInitialStepBoundFactor(100.0);
-    setMaxCostEval(1000);
     setCostRelativeTolerance(1.0e-10);
     setParRelativeTolerance(1.0e-10);
     setOrthoTolerance(1.0e-10);
+
   }
 
   /** 
@@ -126,16 +131,6 @@ public class LevenbergMarquardtEstimator implements Serializable, Estimator {
    */
   public void setInitialStepBoundFactor(double initialStepBoundFactor) {
     this.initialStepBoundFactor = initialStepBoundFactor;
-  }
-
-  /** 
-   * Set the maximal number of cost evaluations.
-   * 
-   * @param maxCostEval maximal number of cost evaluations
-   * @see #estimate
-  */
-  public void setMaxCostEval(int maxCostEval) {
-    this.maxCostEval = maxCostEval;
   }
 
   /** 
@@ -171,75 +166,6 @@ public class LevenbergMarquardtEstimator implements Serializable, Estimator {
   }
 
   /** 
-   * Get the number of cost evaluations.
-   * 
-   * @return number of cost evaluations
-   * */
-  public int getCostEvaluations() {
-    return costEvaluations;
-  }
-
-  /** 
-   * Get the number of jacobian evaluations.
-   * 
-   * @return number of jacobian evaluations
-   * */
-  public int getJacobianEvaluations() {
-    return jacobianEvaluations;
-  }
-
-  /** 
-   * Update the jacobian matrix.
-   */
-  private void updateJacobian() {
-    ++jacobianEvaluations;
-    Arrays.fill(jacobian, 0);
-    for (int i = 0, index = 0; i < rows; i++) {
-      WeightedMeasurement wm = measurements[i];
-      double factor = -Math.sqrt(wm.getWeight());
-      for (int j = 0; j < cols; ++j) {
-        jacobian[index++] = factor * wm.getPartial(parameters[j]);
-      }
-    }
-  }
-
-  /** 
-   * Update the residuals array and cost function value.
-   */
-  private void updateResidualsAndCost() {
-    ++costEvaluations;
-    cost = 0;
-    for (int i = 0, index = 0; i < rows; i++, index += cols) {
-      WeightedMeasurement wm = measurements[i];
-      double residual = wm.getResidual();
-      residuals[i] = Math.sqrt(wm.getWeight()) * residual;
-      cost += wm.getWeight() * residual * residual;
-    }
-    cost = Math.sqrt(cost);
-  }
-
-  /** 
-   * Get the Root Mean Square value.
-   * Get the Root Mean Square value, i.e. the root of the arithmetic
-   * mean of the square of all weighted residuals. This is related to the
-   * criterion that is minimized by the estimator as follows: if
-   * <em>c</em> if the criterion, and <em>n</em> is the number of
-   * measurements, then the RMS is <em>sqrt (c/n)</em>.
-   * 
-   * @param problem estimation problem
-   * @return RMS value
-   */
-  public double getRMS(EstimationProblem problem) {
-    WeightedMeasurement[] wm = problem.getMeasurements();
-    double criterion = 0;
-    for (int i = 0; i < wm.length; ++i) {
-      double residual = wm[i].getResidual();
-      criterion += wm[i].getWeight() * residual * residual;
-    }
-    return Math.sqrt(criterion / wm.length);
-  }
-
-  /** 
    * Solve an estimation problem using the Levenberg-Marquardt algorithm.
    * <p>The algorithm used is a modified Levenberg-Marquardt one, based
    * on the MINPACK <a href="http://www.netlib.org/minpack/lmder.f">lmder</a>
@@ -263,7 +189,6 @@ public class LevenbergMarquardtEstimator implements Serializable, Estimator {
    * reached with the specified algorithm settings or if there are more variables
    * than equations
    * @see #setInitialStepBoundFactor
-   * @see #setMaxCostEval
    * @see #setCostRelativeTolerance
    * @see #setParRelativeTolerance
    * @see #setOrthoTolerance
@@ -271,21 +196,15 @@ public class LevenbergMarquardtEstimator implements Serializable, Estimator {
   public void estimate(EstimationProblem problem)
     throws EstimationException {
 
-    // retrieve the equations and the parameters
-    measurements = problem.getMeasurements();
-    parameters   = problem.getUnboundParameters();
+    initializeEstimate(problem);
 
     // arrays shared with the other private methods
-    rows        = measurements.length;
-    cols        = parameters.length;
     solvedCols  = Math.min(rows, cols);
-    jacobian    = new double[rows * cols];
     diagR       = new double[cols];
     jacNorm     = new double[cols];
     beta        = new double[cols];
     permutation = new int[cols];
     lmDir       = new double[cols];
-    residuals   = new double[rows];
 
     // local variables
     double   delta   = 0, xNorm = 0;
@@ -300,11 +219,9 @@ public class LevenbergMarquardtEstimator implements Serializable, Estimator {
     updateResidualsAndCost();
     
     // outer loop
-    lmPar               = 0;
-    costEvaluations     = 0;
-    jacobianEvaluations = 0;
+    lmPar = 0;
     boolean firstIteration = true;
-    while (costEvaluations < maxCostEval) {
+    while (true) {
 
       // compute the Q.R. decomposition of the jacobian matrix
       updateJacobian();
@@ -477,41 +394,27 @@ public class LevenbergMarquardtEstimator implements Serializable, Estimator {
 
         // tests for termination and stringent tolerances
         // (2.2204e-16 is the machine epsilon for IEEE754)
-        if (costEvaluations >= maxCostEval) {
-          break;
-        }
         if ((Math.abs(actRed) <= 2.2204e-16)
             && (preRed <= 2.2204e-16)
             && (ratio <= 2.0)) {
           throw new EstimationException("cost relative tolerance is too small ({0}),"
                                       + " no further reduction in the"
                                       + " sum of squares is possible",
-                                        new String[] {
-                                          Double.toString(costRelativeTolerance)
-                                        });
+                                        new Object[] { new Double(costRelativeTolerance) });
         } else if (delta <= 2.2204e-16 * xNorm) {
           throw new EstimationException("parameters relative tolerance is too small"
                                       + " ({0}), no further improvement in"
                                       + " the approximate solution is possible",
-                                        new String[] {
-                                          Double.toString(parRelativeTolerance)
-                                        });
+                                        new Object[] { new Double(parRelativeTolerance) });
         } else if (maxCosine <= 2.2204e-16)  {
           throw new EstimationException("orthogonality tolerance is too small ({0}),"
                                       + " solution is orthogonal to the jacobian",
-                                        new String[] {
-                                          Double.toString(orthoTolerance)
-                                        });
+                                        new Object[] { new Double(orthoTolerance) });
         }
 
       }
 
     }
-
-    throw new EstimationException("maximal number of evaluations exceeded ({0})",
-                                  new String[] {
-                                    Integer.toString(maxCostEval)
-                                  });
 
   }
 
@@ -919,28 +822,8 @@ public class LevenbergMarquardtEstimator implements Serializable, Estimator {
     }
   }
 
-  /** Array of measurements. */
-  private WeightedMeasurement[] measurements;
-
-  /** Array of parameters. */
-  private EstimatedParameter[] parameters;
-
-  /** 
-   * Jacobian matrix.
-   * <p>Depending on the computation phase, this matrix is either in
-   * canonical form (just after the calls to updateJacobian) or in
-   * Q.R. decomposed form (after calls to qrDecomposition)</p>
-   */
-  private double[] jacobian;
-
-  /** Number of columns of the jacobian matrix. */
-  private int cols;
-
   /** Number of solved variables. */
   private int solvedCols;
-
-  /** Number of rows of the jacobian matrix. */
-  private int rows;
 
   /** Diagonal elements of the R matrix in the Q.R. decomposition. */
   private double[] diagR;
@@ -963,27 +846,8 @@ public class LevenbergMarquardtEstimator implements Serializable, Estimator {
   /** Parameters evolution direction associated with lmPar. */
   private double[] lmDir;
 
-  /** Residuals array.
-   * <p>Depending on the computation phase, this array is either in
-   * canonical form (just after the calls to updateResiduals) or in
-   * premultiplied by Qt form (just after calls to qTy)</p>
-   */
-  private double[] residuals;
-
-  /** Cost value (square root of the sum of the residuals). */
-  private double cost;
-
   /** Positive input variable used in determining the initial step bound. */
   private double initialStepBoundFactor;
-
-  /** Maximal number of cost evaluations. */
-  private int maxCostEval;
-
-  /** Number of cost evaluations. */
-  private int costEvaluations;
-
-  /** Number of jacobian evaluations. */
-  private int jacobianEvaluations;
 
   /** Desired relative error in the sum of squares. */
   private double costRelativeTolerance;
@@ -995,6 +859,6 @@ public class LevenbergMarquardtEstimator implements Serializable, Estimator {
    * and the columns of the jacobian. */
   private double orthoTolerance;
 
-  private static final long serialVersionUID = 5387476316105068340L;
+  private static final long serialVersionUID = -5705952631533171019L;
 
 }

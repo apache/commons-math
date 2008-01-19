@@ -87,9 +87,17 @@ public class MessagesResources_fr
     { "Conversion Exception in Transformation: {0}",
       "Exception de conversion dans une transformation : {0}" },
 
+    // org.apache.commons.math.estimation.AbstractEstimator
+    { "maximal number of evaluations exceeded ({0})",
+      "nombre maximal d''\u00e9valuations d\u00e9pass\u00e9 ({0})" },
+    { "unable to compute covariances: singular problem",
+      "impossible de calculer les covariances : probl\u00e8me singulier"},
+    { "no degrees of freedom ({0} measurements, {1} parameters)",
+      "aucun degr\u00e9 de libert\u00e9 ({0} mesures, {1} param\u00e8tres)" },
+
     // org.apache.commons.math.estimation.GaussNewtonEstimator
-    { "unable to converge in {0} iterations",
-      "pas de convergence apr\u00e8s {0} it\u00e9rations" },
+    { "unable to solve: singular problem",
+      "r\u00e9solution impossible : probl\u00e8me singulier" },
 
     // org.apache.commons.math.estimation.LevenbergMarquardtEstimator
     { "cost relative tolerance is too small ({0}), no further reduction in the sum of squares is possible",
@@ -98,8 +106,6 @@ public class MessagesResources_fr
       "trop petite tol\u00e9rance relative sur les param\u00e8tres ({0}), aucune am\u00e9lioration de la solution approximative n''est possible" },
     { "orthogonality tolerance is too small ({0}), solution is orthogonal to the jacobian",
       "trop petite tol\u00e9rance sur l''orthogonalit\u00e9 ({0}), la solution est orthogonale \u00e0 la jacobienne" },
-    { "maximal number of evaluations exceeded ({0})",
-      "nombre maximal d''\u00e9valuations d\u00e9pass\u00e9 ({0})" },
 
     // org.apache.commons.math.geometry.CardanEulerSingularityException
     { "Cardan angles singularity",

@@ -60,10 +60,31 @@ public interface Estimator {
    * criterion that is minimized by the estimator as follows: if
    * <em>c</em> is the criterion, and <em>n</em> is the number of
    * measurements, then the RMS is <em>sqrt (c/n)</em>.
+   * @see #guessParametersErrors(EstimationProblem)
    * 
    * @param problem estimation problem
    * @return RMS value
    */
   public double getRMS(EstimationProblem problem);
- 
+
+  /**
+   * Get the covariance matrix of estimated parameters.
+   * @param problem estimation problem
+   * @return covariance matrix
+   * @exception EstimationException if the covariance matrix
+   * cannot be computed (singular problem)
+   */
+  public double[][] getCovariances(EstimationProblem problem)
+    throws EstimationException;
+
+  /**
+   * Guess the errors in estimated parameters.
+   * @see #getRMS(EstimationProblem)
+   * @param problem estimation problem
+   * @return errors in estimated parameters
+     * @exception EstimationException if the error cannot be guessed
+   */
+  public double[] guessParametersErrors(EstimationProblem problem)
+    throws EstimationException;
+
 }

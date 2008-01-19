@@ -30,7 +30,7 @@ public class EstimationException
 extends MathException {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -7414806622114810487L;
+    private static final long serialVersionUID = -573038581493881337L;
 
     /** 
      * Simple constructor.
@@ -38,17 +38,8 @@ extends MathException {
      * @param specifier format specifier (to be translated)
      * @param parts to insert in the format (no translation)
      */
-    public EstimationException(String specifier, String[] parts) {
+    public EstimationException(String specifier, Object[] parts) {
         super(specifier, parts);
-    }
-
-    /** 
-     * Simple constructor.
-     * Build an exception from a cause
-     * @param cause cause of this exception
-     */
-    public EstimationException(Throwable cause) {
-        super(cause);
     }
 
 }
