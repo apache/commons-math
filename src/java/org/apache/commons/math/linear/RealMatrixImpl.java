@@ -24,10 +24,10 @@ import org.apache.commons.math.util.MathUtils;
 /**
  * Implementation of RealMatrix using a double[][] array to store entries and
  * <a href="http://www.math.gatech.edu/~bourbaki/math2601/Web-notes/2num.pdf">
- * LU decompostion</a> to support linear system
+ * LU decomposition</a> to support linear system
  * solution and inverse.
  * <p>
- * The LU decompostion is performed as needed, to support the following operations: <ul>
+ * The LU decomposition is performed as needed, to support the following operations: <ul>
  * <li>solve</li>
  * <li>isSingular</li>
  * <li>getDeterminant</li>
@@ -756,11 +756,11 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     /**
      * Computes a new
      * <a href="http://www.math.gatech.edu/~bourbaki/math2601/Web-notes/2num.pdf">
-     * LU decompostion</a> for this matrix, storing the result for use by other methods.
+     * LU decomposition</a> for this matrix, storing the result for use by other methods.
      * <p>
      * <strong>Implementation Note</strong>:<br>
      * Uses <a href="http://www.damtp.cam.ac.uk/user/fdl/people/sd/lectures/nummeth98/linear.htm">
-     * Crout's algortithm</a>, with partial pivoting.
+     * Crout's algorithm</a>, with partial pivoting.
      * <p>
      * <strong>Usage Note</strong>:<br>
      * This method should rarely be invoked directly. Its only use is
@@ -1011,7 +1011,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      * Verifies that the input array is rectangular and non-empty
      *
      * @param in data to copy in
-     * @throws IllegalArgumentException if input array is emtpy or not
+     * @throws IllegalArgumentException if input array is empty or not
      *    rectangular
      * @throws NullPointerException if input array is null
      */
