@@ -515,6 +515,8 @@ public abstract class DirectSearchOptimizer {
     }
 
     /** Compute the next simplex of the algorithm.
+     * @exception CostException if the function cannot be evaluated at
+     * some point
      */
     protected abstract void iterateSimplex()
     throws CostException;
