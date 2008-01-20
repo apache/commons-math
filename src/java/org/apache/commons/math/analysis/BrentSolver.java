@@ -153,7 +153,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
      * for the root
      * @param x2 bracket point (must be set to x0 if no bracket point is
      * known, this will force starting with linear interpolation)
-     * @param y3 function value at the bracket point.
+     * @param y2 function value at the bracket point.
      * @return the value where the function is zero
      * @throws MaxIterationsExceededException if the maximum iteration count
      * is exceeded
