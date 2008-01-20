@@ -36,7 +36,7 @@ import org.apache.commons.math.analysis.UnivariateRealSolver;
  * step (and hence the step should be reduced to ensure the event
  * occurs at a bound rather than inside the step).</p>
  *
- * @version $Id: SwitchState.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Revision$ $Date$
  *
  */
 class SwitchState implements Serializable {

@@ -67,7 +67,7 @@ import java.io.IOException;
 
  * @see GraggBulirschStoerIntegrator
 
- * @version $Id: GraggBulirschStoerStepInterpolator.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Revision$ $Date$
  * @author E. Hairer and G. Wanner (fortran version)
 
  */

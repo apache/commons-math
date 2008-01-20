@@ -29,7 +29,7 @@ package org.apache.commons.math.ode;
  * @see StepHandler
  * @see SwitchingFunction
 
- * @version $Id: FirstOrderIntegrator.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Revision$ $Date$
 
  */
 

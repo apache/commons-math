@@ -19,7 +19,7 @@ package org.apache.commons.math.optimization;
 
 /** This class holds a point and its associated cost.
  * <p>This is a simple immutable container.</p>
- * @version $Id: PointCostPair.java 1709 2006-12-03 21:16:50Z luc $
+ * @version $Revision$ $Date$
  * @see CostFunction
  */
 public class PointCostPair {

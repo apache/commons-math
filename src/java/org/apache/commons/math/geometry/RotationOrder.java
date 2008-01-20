@@ -26,7 +26,7 @@ package org.apache.commons.math.geometry;
  * the {@link Rotation#Rotation(RotationOrder,double,double,double)}
  * constructor or the {@link Rotation#getAngles} method.
 
- * @version $Id: RotationOrder.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Revision$ $Date$
 
  */
 public final class RotationOrder {

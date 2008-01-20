@@ -21,7 +21,7 @@ import java.io.Serializable;
 
 /** This class implements vectors in a three-dimensional space.
  * <p>Instance of this class are guaranteed to be immutable.</p>
- * @version $Id: Vector3D.java 1716 2006-12-13 22:56:35Z luc $
+ * @version $Revision$ $Date$
  */
 
 public class Vector3D

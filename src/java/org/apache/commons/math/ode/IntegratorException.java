@@ -22,7 +22,7 @@ import org.apache.commons.math.MathException;
 /**
  * This exception is made available to users to report
  * the error conditions that are triggered during integration
- * @version $Id: IntegratorException.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Revision$ $Date$
  */
 public class IntegratorException
   extends MathException {

@@ -69,7 +69,7 @@ import org.apache.commons.math.stat.descriptive.moment.VectorialMean;
  * performed by the derived classes according to the implemented
  * algorithms.</p>
 
- * @version $Id: DirectSearchOptimizer.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Revision$ $Date$
  * @see CostFunction
  * @see NelderMead
  * @see MultiDirectional

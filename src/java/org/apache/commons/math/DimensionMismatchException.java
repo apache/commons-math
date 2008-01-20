@@ -18,7 +18,7 @@ package org.apache.commons.math;
 
 /**
  * Error thrown when two dimensions differ.
- * @version $Revision:$ $Date$
+ * @version $Revision$ $Date$
  */
 public class DimensionMismatchException extends MathException {
     

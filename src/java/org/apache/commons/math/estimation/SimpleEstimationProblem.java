@@ -34,6 +34,9 @@ import java.util.Iterator;
  * {@link WeightedMeasurement WeightedMeasurement} for each measurement
  * type. The instances of the internal classes would have access to the
  * various parameters and their current estimate.</p>
+
+ * @version $Revision$ $Date$
+
  */
 public class SimpleEstimationProblem implements EstimationProblem {
 

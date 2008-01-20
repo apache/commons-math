@@ -19,7 +19,7 @@ package org.apache.commons.math.optimization;
 
 /** This class implements the Nelder-Mead direct search method.
 
- * @version $Id: NelderMead.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Revision$ $Date$
  * @see MultiDirectional
  */
 public class NelderMead

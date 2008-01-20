@@ -44,7 +44,7 @@ import org.apache.commons.math.FunctionEvaluationException;
  * error (this feature is available on all integrators, including
  * fixed step ones).</p>
  *
- * @version $Id: SwitchingFunction.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Revision$ $Date$
  *
  */
 

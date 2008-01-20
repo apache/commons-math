@@ -27,7 +27,7 @@ import java.io.IOException;
  *
  * @see DormandPrince853Integrator
  *
- * @version $Id: DormandPrince853StepInterpolator.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Revision$ $Date$
  *
  */
 

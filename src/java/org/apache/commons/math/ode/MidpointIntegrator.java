@@ -35,7 +35,7 @@ package org.apache.commons.math.ode;
  * @see ClassicalRungeKuttaIntegrator
  * @see GillIntegrator
 
- * @version $Id: MidpointIntegrator.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Revision$ $Date$
 
  */
 

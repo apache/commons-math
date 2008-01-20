@@ -19,7 +19,7 @@ package org.apache.commons.math.optimization;
 
 /** This class implements the multi-directional direct search method.
 
- * @version $Id: MultiDirectional.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Revision$ $Date$
  * @see NelderMead
  */
 public class MultiDirectional

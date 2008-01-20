@@ -50,7 +50,7 @@ package org.apache.commons.math.ode;
  * evaluation is saved. For an <i>fsal</i> method, we have cs = 1 and
  * asi = bi for all i.</p>
 
- * @version $Id: EmbeddedRungeKuttaIntegrator.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Revision$ $Date$
 
  */
 

@@ -39,7 +39,7 @@ package org.apache.commons.math.ode;
  *  volume 6, no 1, 1980, pp. 19-26
  * </pre></p>
 
- * @version $Id: DormandPrince54Integrator.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Revision$ $Date$
 
  */
 

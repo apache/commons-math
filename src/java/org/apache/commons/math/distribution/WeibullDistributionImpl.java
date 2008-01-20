@@ -24,7 +24,7 @@ import java.io.Serializable;
  * {@link org.apache.commons.math.distribution.WeibullDistribution}.
  *
  * @since 1.1
- * @version $Revision: 1.13 $ $Date: 2004-07-24 16:41:37 -0500 (Sat, 24 Jul 2004) $
+ * @version $Revision$ $Date$
  */
 public class WeibullDistributionImpl extends AbstractContinuousDistribution
         implements WeibullDistribution, Serializable {

@@ -23,7 +23,7 @@ import org.apache.commons.math.MathException;
  * <p>Two samples tests are used when the distribution is unknown <i>a priori</i>
  * but provided by one sample. We compare the second sample against the first.</p>
  *
- * @version $Revision: 553603 $ $Date: 2007-07-05 20:34:45 +0200 (jeu, 05 jui 2007) $ 
+ * @version $Revision$ $Date$ 
  */
 public interface UnknownDistributionChiSquareTest extends ChiSquareTest {
      

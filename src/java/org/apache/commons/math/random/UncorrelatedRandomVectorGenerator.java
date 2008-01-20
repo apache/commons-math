@@ -24,7 +24,7 @@ import java.util.Arrays;
  * components. Components of generated vectors follow (independent) Gaussian
  * distributions, with parameters supplied in the constructor.
  * 
- * @version $Revision$
+ * @version $Revision$ $Date$
  */
 
 public class UncorrelatedRandomVectorGenerator

@@ -47,7 +47,7 @@ package org.apache.commons.math.ode;
  * <i>Solving Ordinary Differential Equations</i> (Springer-Verlag,
  * ISBN 3-540-56670-8).</p>
 
- * @version $Id: DormandPrince853Integrator.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Revision$ $Date$
 
  */
 

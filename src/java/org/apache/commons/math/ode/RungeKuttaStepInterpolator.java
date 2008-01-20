@@ -27,7 +27,7 @@ import java.io.IOException;
  * @see RungeKuttaIntegrator
  * @see EmbeddedRungeKuttaIntegrator
  *
- * @version $Id: RungeKuttaStepInterpolator.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Revision$ $Date$
  *
  */
 

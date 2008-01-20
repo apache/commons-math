@@ -34,7 +34,7 @@ package org.apache.commons.math.ode;
  * @see SecondOrderIntegrator
  * @see StepInterpolator
 
- * @version $Id: StepHandler.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Revision$ $Date$
 
  */
 

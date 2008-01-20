@@ -18,7 +18,7 @@ package org.apache.commons.math;
 
 /**
  * Exeption thrown when a sample contains several entries at the same abscissa.
- * @version $Revision:$
+ * @version $Revision$ $Date$
  */
 public class DuplicateSampleAbscissaException extends MathException  {
     

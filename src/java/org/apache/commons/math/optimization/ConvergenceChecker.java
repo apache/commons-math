@@ -25,7 +25,7 @@ package org.apache.commons.math.optimization;
  * to allow the optimization algorithm to stop its search according to
  * the problem at hand.</p>
 
- * @version $Id: ConvergenceChecker.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Revision$ $Date$
 
  */
 

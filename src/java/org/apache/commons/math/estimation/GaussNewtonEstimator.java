@@ -30,7 +30,7 @@ import org.apache.commons.math.linear.RealMatrixImpl;
  * squares criterion on the measurement residuals. It uses a
  * Gauss-Newton algorithm.</p>
  *
- * @version $Id: GaussNewtonEstimator.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Revision$ $Date$
  *
  */
 

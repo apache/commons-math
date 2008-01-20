@@ -80,7 +80,7 @@ import java.io.Serializable;
 
  * <p>Rotations are guaranteed to be immutable objects.</p>
 
- * @version $Id: Rotation.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Revision$ $Date$
  * @see Vector3D
  * @see RotationOrder
 

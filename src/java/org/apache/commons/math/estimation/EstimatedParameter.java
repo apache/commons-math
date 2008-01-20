@@ -27,7 +27,7 @@ import java.io.Serializable;
  * solvers should adjust the value of unbounds parameters until they
  * satisfy convergence criterions specific to each solver.</p>
  *
- * @version $Id: EstimatedParameter.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Revision$ $Date$
  *
  */
 

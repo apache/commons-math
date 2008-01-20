@@ -20,7 +20,7 @@ package org.apache.commons.math;
 import java.util.ListResourceBundle;
 
 /** French localization message resources for the commons-math library.
- * @version $Revision:$
+ * @version $Revision$ $Date$
  */
 public class MessagesResources_fr
   extends ListResourceBundle {

@@ -35,7 +35,7 @@ package org.apache.commons.math.distribution;
  * </ul>
  * </p>
  *
- * @version $Revision:$
+ * @version $Revision$ $Date$
  * @since 1.2
  */
 public interface PascalDistribution extends IntegerDistribution {

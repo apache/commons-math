@@ -92,6 +92,9 @@ import java.util.Arrays;
  * @author Burton S. Garbow (original fortran)
  * @author Kenneth E. Hillstrom (original fortran)
  * @author Jorge J. More (original fortran)
+
+ * @version $Revision$ $Date$
+
  */
 public class LevenbergMarquardtEstimator extends AbstractEstimator implements Serializable {
 

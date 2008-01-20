@@ -41,7 +41,7 @@ package org.apache.commons.math.ode;
  * otherwise the step is rejected and a new attempt is made with a new
  * stepsize.</p>
 
- * @version $Id: AdaptiveStepsizeIntegrator.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Revision$ $Date$
 
  */
 

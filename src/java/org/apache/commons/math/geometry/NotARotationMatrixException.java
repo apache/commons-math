@@ -22,7 +22,7 @@ import org.apache.commons.math.MathException;
 /** This class represents exceptions thrown while building rotations
  * from matrices.
 
- * @version $Id: NotARotationMatrixException.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Revision$ $Date$
 
  */
 

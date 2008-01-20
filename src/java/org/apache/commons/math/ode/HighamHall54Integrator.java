@@ -27,7 +27,7 @@ package org.apache.commons.math.ode;
  * (and automatic step initialization) and continuous output. This
  * method uses 7 functions evaluations per step.</p>
 
- * @version $Id: HighamHall54Integrator.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Revision$ $Date$
 
  */
 

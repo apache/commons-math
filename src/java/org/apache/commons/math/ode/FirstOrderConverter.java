@@ -50,7 +50,7 @@ package org.apache.commons.math.ode;
  * @see FirstOrderDifferentialEquations
  * @see SecondOrderDifferentialEquations
 
- * @version $Id: FirstOrderConverter.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Revision$ $Date$
 
  */
 
