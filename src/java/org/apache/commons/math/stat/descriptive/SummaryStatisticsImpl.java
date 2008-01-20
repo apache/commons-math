@@ -35,7 +35,8 @@ public class SummaryStatisticsImpl extends SummaryStatistics implements Serializ
     public SummaryStatisticsImpl() {
         super();
     }
-    
+
+    /** Resets all statistics and storage. */
     public void clear() {
         super.clear();
     }

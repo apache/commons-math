@@ -42,16 +42,20 @@ package org.apache.commons.math.ode;
 public class MidpointIntegrator
   extends RungeKuttaIntegrator {
 
+  /** Integrator method name. */
   private static final String methodName = "midpoint";
 
+  /** Time steps Butcher array. */
   private static final double[] c = {
     1.0 / 2.0
   };
 
+  /** Internal weights Butcher array. */
   private static final double[][] a = {
     { 1.0 / 2.0 }
   };
 
+  /** Propagation weights Butcher array. */
   private static final double[] b = {
     0.0, 1.0
   };

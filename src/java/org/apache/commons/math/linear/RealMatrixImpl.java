@@ -846,8 +846,8 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     }
 
     /**
-     *
-     * @see java.lang.Object#toString()
+     * Get a string representation for this matrix.
+     * @return a string representation for this matrix
      */
     public String toString() {
         StringBuffer res = new StringBuffer();

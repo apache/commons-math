@@ -17,6 +17,11 @@
 
 package org.apache.commons.math;
 
+/**
+ * Error thrown when a method is called with an out of bounds argument.
+ *
+ * @version $Revision$ $Date$
+ */
 public class ArgumentOutsideDomainException extends FunctionEvaluationException {
 
     /** Serializable version identifier. */

@@ -1095,8 +1095,8 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     }
     
     /**
-     * 
-     * @see Object#toString()
+     * Get a string representation for this matrix.
+     * @return a string representation for this matrix
      */
     public String toString() {
         StringBuffer res = new StringBuffer();

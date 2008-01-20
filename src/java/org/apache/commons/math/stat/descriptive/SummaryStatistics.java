@@ -128,14 +128,28 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
     /** variance of values that have been added */
     protected Variance variance = new Variance();
     
-    //  Statistics implementations - can be reset by setters 
+    /** Sum statistic implementation - can be reset by setter. */
     private StorelessUnivariateStatistic sumImpl = sum;
+    
+    /** Sum of squares statistic implementation - can be reset by setter. */
     private StorelessUnivariateStatistic sumsqImpl = sumsq;
+    
+    /** Minimum statistic implementation - can be reset by setter. */
     private StorelessUnivariateStatistic minImpl = min;
+    
+    /** Maximum statistic implementation - can be reset by setter. */
     private StorelessUnivariateStatistic maxImpl = max;
+    
+    /** Sum of log statistic implementation - can be reset by setter. */
     private StorelessUnivariateStatistic sumLogImpl = sumLog;
+    
+    /** Geometric mean statistic implementation - can be reset by setter. */
     private StorelessUnivariateStatistic geoMeanImpl = geoMean;
+    
+    /** Mean statistic implementation - can be reset by setter. */
     private StorelessUnivariateStatistic meanImpl = mean;
+    
+    /** Variance statistic implementation - can be reset by setter. */
     private StorelessUnivariateStatistic varianceImpl = variance;
 
     /**

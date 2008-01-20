@@ -104,6 +104,7 @@ class ClassicalRungeKuttaStepInterpolator
 
   }
 
+  /** Serializable version identifier */
   private static final long serialVersionUID = -6576285612589783992L;
 
 }

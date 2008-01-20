@@ -34,12 +34,15 @@ package org.apache.commons.math.ode;
 public class HighamHall54Integrator
   extends EmbeddedRungeKuttaIntegrator {
 
+  /** Integrator method name. */
   private static final String methodName = "Higham-Hall 5(4)";
 
+  /** Time steps Butcher array. */
   private static final double[] staticC = {
     2.0/9.0, 1.0/3.0, 1.0/2.0, 3.0/5.0, 1.0, 1.0
   };
 
+  /** Internal weights Butcher array. */
   private static final double[][] staticA = {
     {2.0/9.0},
     {1.0/12.0, 1.0/4.0},
@@ -49,10 +52,12 @@ public class HighamHall54Integrator
     {1.0/12.0, 0.0, 27.0/32.0, -4.0/3.0, 125.0/96.0, 5.0/48.0}
   };
 
+  /** Propagation weights Butcher array. */
   private static final double[] staticB = {
     1.0/12.0, 0.0, 27.0/32.0, -4.0/3.0, 125.0/96.0, 5.0/48.0, 0.0
   };
 
+  /** Error weights Butcher array. */
   private static final double[] staticE = {
     -1.0/20.0, 0.0, 81.0/160.0, -6.0/5.0, 25.0/32.0, 1.0/16.0, -1.0/10.0
   };

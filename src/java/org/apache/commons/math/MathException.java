@@ -54,6 +54,7 @@ public class MathException extends Exception {
         JDK_SUPPORTS_NESTED = flag;
     }
 
+    /** Cache for resources bundle. */
     private static ResourceBundle cachedResources = null;
  
     /**

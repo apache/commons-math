@@ -22,6 +22,13 @@ import java.util.Arrays;
 import org.apache.commons.math.linear.InvalidMatrixException;
 import org.apache.commons.math.linear.RealMatrixImpl;
 
+/**
+ * Base class for implementing estimators.
+ * <p>This base class handles the boilerplates methods associated to thresholds
+ * settings, jacobian and error estimation.</p>
+ * @version $Revision$ $Date$
+ *
+ */
 public abstract class AbstractEstimator implements Estimator {
 
     /**
@@ -227,6 +234,20 @@ public abstract class AbstractEstimator implements Estimator {
 
     }
 
+    /** 
+     * Solve an estimation problem.
+     *
+     * <p>The method should set the parameters of the problem to several
+     * trial values until it reaches convergence. If this method returns
+     * normally (i.e. without throwing an exception), then the best
+     * estimate of the parameters can be retrieved from the problem
+     * itself, through the {@link EstimationProblem#getAllParameters
+     * EstimationProblem.getAllParameters} method.</p>
+     *
+     * @param problem estimation problem to solve
+     * @exception EstimationException if the problem cannot be solved
+     *
+     */
     public abstract void estimate(EstimationProblem problem)
     throws EstimationException;
 

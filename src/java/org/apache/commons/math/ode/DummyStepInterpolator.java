@@ -92,12 +92,20 @@ public class DummyStepInterpolator
       System.arraycopy(currentState, 0, interpolatedState, 0, currentState.length);
   }
     
+  /** Write the instance to an output channel.
+   * @param out output channel
+   * @exception IOException if the instance cannot be written
+   */
   public void writeExternal(ObjectOutput out)
     throws IOException {
     // save the state of the base class
     writeBaseExternal(out);
   }
 
+  /** Read the instance from an input channel.
+   * @param in input channel
+   * @exception IOException if the instance cannot be read
+   */
   public void readExternal(ObjectInput in)
     throws IOException {
 
@@ -113,6 +121,7 @@ public class DummyStepInterpolator
 
   }
 
+  /** Serializable version identifier */
   private static final long serialVersionUID = 1708010296707839488L;
 
 }

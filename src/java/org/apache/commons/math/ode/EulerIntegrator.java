@@ -49,14 +49,18 @@ package org.apache.commons.math.ode;
 public class EulerIntegrator
   extends RungeKuttaIntegrator {
 
+  /** Integrator method name. */
   private static final String methodName = "Euler";
 
+  /** Time steps Butcher array. */
   private static final double[] c = {
   };
 
+  /** Internal weights Butcher array. */
   private static final double[][] a = {
   };
 
+  /** Propagation weights Butcher array. */
   private static final double[] b = {
     1.0
   };

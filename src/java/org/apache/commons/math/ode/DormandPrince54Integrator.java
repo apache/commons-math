@@ -46,12 +46,15 @@ package org.apache.commons.math.ode;
 public class DormandPrince54Integrator
   extends EmbeddedRungeKuttaIntegrator {
 
+  /** Integrator method name. */
   private static final String methodName = "Dormand-Prince 5(4)";
 
+  /** Time steps Butcher array. */
   private static final double[] staticC = {
     1.0/5.0, 3.0/10.0, 4.0/5.0, 8.0/9.0, 1.0, 1.0
   };
 
+  /** Internal weights Butcher array. */
   private static final double[][] staticA = {
     {1.0/5.0},
     {3.0/40.0, 9.0/40.0},
@@ -61,15 +64,29 @@ public class DormandPrince54Integrator
     {35.0/384.0, 0.0, 500.0/1113.0, 125.0/192.0, -2187.0/6784.0, 11.0/84.0}
   };
 
+  /** Propagation weights Butcher array. */
   private static final double[] staticB = {
     35.0/384.0, 0.0, 500.0/1113.0, 125.0/192.0, -2187.0/6784.0, 11.0/84.0, 0.0
   };
 
+  /** Error array, element 1. */
   private static final double e1 =     71.0 / 57600.0;
+
+  // element 2 is zero, so it is neither stored nor used
+
+  /** Error array, element 3. */
   private static final double e3 =    -71.0 / 16695.0;
+
+  /** Error array, element 4. */
   private static final double e4 =     71.0 / 1920.0;
+
+  /** Error array, element 5. */
   private static final double e5 = -17253.0 / 339200.0;
+
+  /** Error array, element 6. */
   private static final double e6 =     22.0 / 525.0;
+
+  /** Error array, element 7. */
   private static final double e7 =     -1.0 / 40.0;
 
   /** Simple constructor.

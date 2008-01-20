@@ -111,6 +111,7 @@ class GillStepInterpolator
   /** Second Gill coefficient. */
   private static final double tPq = 2 + Math.sqrt(2.0);
 
+  /** Serializable version identifier */
   private static final long serialVersionUID = -107804074496313322L;
 
 }

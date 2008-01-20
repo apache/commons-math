@@ -105,6 +105,7 @@ class ThreeEighthesStepInterpolator
 
   }
 
+  /** Serializable version identifier */
   private static final long serialVersionUID = -3345024435978721931L;
 
 }

@@ -154,8 +154,13 @@ public abstract class WeightedMeasurement implements Serializable {
     return ignored;
   }
 
+  /** Measurement weight. */
   private final double  weight;
+
+  /** Value of the measurements. */
   private final double  measuredValue;
+
+  /** Ignore measurement indicator. */
   private       boolean ignored;
 
 }

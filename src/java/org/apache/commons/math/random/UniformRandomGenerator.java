@@ -24,7 +24,7 @@ package org.apache.commons.math.random;
  * deviation equal to 1. Generated values fall in the range
  * [-&#x0221A;3, +&#x0221A;3].</p>
  * 
- * @version $Revision:$ $Date$
+ * @version $Revision$ $Date$
  */
 
 public class UniformRandomGenerator implements NormalizedRandomGenerator {
@@ -48,6 +48,7 @@ public class UniformRandomGenerator implements NormalizedRandomGenerator {
     /** Underlying generator. */
     private RandomGenerator generator;
 
+    /** Square root of three. */
     private static final double SQRT3 = Math.sqrt(3.0);
 
 }

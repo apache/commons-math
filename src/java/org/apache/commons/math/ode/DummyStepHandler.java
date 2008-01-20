@@ -87,6 +87,7 @@ public class DummyStepHandler
   /** The only instance. */
   private static DummyStepHandler instance = new DummyStepHandler();
 
+  /** Serializable version identifier */
   private static final long serialVersionUID = 2731635121223090252L;
 
 }

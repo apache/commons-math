@@ -19,6 +19,12 @@ package org.apache.commons.math.fraction;
 
 import org.apache.commons.math.MaxIterationsExceededException;
 
+/**
+ * Error thrown when a double value cannot be converted to a fraction
+ * in the allowed number of iterations.
+ *
+ * @version $Revision$ $Date$
+ */
 public class FractionConversionException extends MaxIterationsExceededException {
 
     /** Serializable version identifier. */

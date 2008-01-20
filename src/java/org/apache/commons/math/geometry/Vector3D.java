@@ -354,6 +354,7 @@ public class Vector3D
   /** Height. */
   private final double z;
 
+  /** Serializable version identifier */
   private static final long serialVersionUID = 7318440192750283659L;
 
 }

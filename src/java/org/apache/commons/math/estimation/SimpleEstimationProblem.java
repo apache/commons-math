@@ -48,10 +48,18 @@ public class SimpleEstimationProblem implements EstimationProblem {
         measurements = new ArrayList();
     }
 
+    /** 
+     * Get all the parameters of the problem.
+     * @return parameters
+     */
     public EstimatedParameter[] getAllParameters() {
         return (EstimatedParameter[]) parameters.toArray(new EstimatedParameter[parameters.size()]);
     }
 
+    /** 
+     * Get the unbound parameters of the problem.
+     * @return unbound parameters
+     */
     public EstimatedParameter[] getUnboundParameters() {
 
         // filter the unbound parameters
@@ -68,10 +76,17 @@ public class SimpleEstimationProblem implements EstimationProblem {
         
     }
 
+    /** 
+     * Get the measurements of an estimation problem.
+     * @return measurements
+     */
     public WeightedMeasurement[] getMeasurements() {
         return (WeightedMeasurement[]) measurements.toArray(new WeightedMeasurement[measurements.size()]);
     }
 
+    /** Add a parameter to the problem.
+     * @param p parameter to add
+     */
     protected void addParameter(EstimatedParameter p) {
         parameters.add(p);
     }

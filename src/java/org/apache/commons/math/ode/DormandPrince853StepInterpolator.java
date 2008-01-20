@@ -310,62 +310,143 @@ class DormandPrince853StepInterpolator
   /** Initialization indicator for the interpolation vectors. */
   private boolean vectorsInitialized;
 
-  // external weights of the integrator,
-  // note that b_02 through b_05 are null
-  private static double b_01 =         104257.0 / 1920240.0;
-  private static double b_06 =        3399327.0 / 763840.0;
-  private static double b_07 =       66578432.0 / 35198415.0;
-  private static double b_08 =    -1674902723.0 / 288716400.0;
-  private static double b_09 = 54980371265625.0 / 176692375811392.0;
-  private static double b_10 =        -734375.0 / 4826304.0;
-  private static double b_11 =      171414593.0 / 851261400.0;
-  private static double b_12 =         137909.0 / 3084480.0;
+  /** Propagation weights, element 1. */
+  private static final double b_01 =         104257.0 / 1920240.0;
 
-  // k14 for interpolation only
-  private static double c14    = 1.0 / 10.0;
+  // elements 2 to 5 are zero, so they are neither stored nor used
 
-  private static double k14_01 =       13481885573.0 / 240030000000.0      - b_01;
-  private static double k14_06 =                 0.0                       - b_06;
-  private static double k14_07 =      139418837528.0 / 549975234375.0      - b_07;
-  private static double k14_08 =   -11108320068443.0 / 45111937500000.0    - b_08;
-  private static double k14_09 = -1769651421925959.0 / 14249385146080000.0 - b_09;
-  private static double k14_10 =          57799439.0 / 377055000.0         - b_10;
-  private static double k14_11 =      793322643029.0 / 96734250000000.0    - b_11;
-  private static double k14_12 =        1458939311.0 / 192780000000.0      - b_12;
-  private static double k14_13 =             -4149.0 / 500000.0;
+  /** Propagation weights, element 6. */
+  private static final double b_06 =        3399327.0 / 763840.0;
 
-  // k15 for interpolation only
-  private static double c15    = 1.0 / 5.0;
+  /** Propagation weights, element 7. */
+  private static final double b_07 =       66578432.0 / 35198415.0;
 
-  private static double k15_01 =     1595561272731.0 / 50120273500000.0    - b_01;
-  private static double k15_06 =      975183916491.0 / 34457688031250.0    - b_06;
-  private static double k15_07 =    38492013932672.0 / 718912673015625.0   - b_07;
-  private static double k15_08 = -1114881286517557.0 / 20298710767500000.0 - b_08;
-  private static double k15_09 =                 0.0                       - b_09;
-  private static double k15_10 =                 0.0                       - b_10;
-  private static double k15_11 =    -2538710946863.0 / 23431227861250000.0 - b_11;
-  private static double k15_12 =        8824659001.0 / 23066716781250.0    - b_12;
-  private static double k15_13 =      -11518334563.0 / 33831184612500.0;
-  private static double k15_14 =        1912306948.0 / 13532473845.0;
+  /** Propagation weights, element 8. */
+  private static final double b_08 =    -1674902723.0 / 288716400.0;
 
-  // k16 for interpolation only
-  private static double c16    = 7.0 / 9.0;
+  /** Propagation weights, element 9. */
+  private static final double b_09 = 54980371265625.0 / 176692375811392.0;
 
-  private static double k16_01 =      -13613986967.0 / 31741908048.0       - b_01;
-  private static double k16_06 =       -4755612631.0 / 1012344804.0        - b_06;
-  private static double k16_07 =    42939257944576.0 / 5588559685701.0     - b_07;
-  private static double k16_08 =    77881972900277.0 / 19140370552944.0    - b_08;
-  private static double k16_09 =    22719829234375.0 / 63689648654052.0    - b_09;
-  private static double k16_10 =                 0.0                       - b_10;
-  private static double k16_11 =                 0.0                       - b_11;
-  private static double k16_12 =                 0.0                       - b_12;
-  private static double k16_13 =       -1199007803.0 / 857031517296.0;
-  private static double k16_14 =      157882067000.0 / 53564469831.0;
-  private static double k16_15 =     -290468882375.0 / 31741908048.0;
+  /** Propagation weights, element 10. */
+  private static final double b_10 =        -734375.0 / 4826304.0;
 
-  // interpolation weights
-  // (beware that only the non-null values are in the table)
-  private static double[][] d = {
+  /** Propagation weights, element 11. */
+  private static final double b_11 =      171414593.0 / 851261400.0;
+
+  /** Propagation weights, element 12. */
+  private static final double b_12 =         137909.0 / 3084480.0;
+
+  /** Time step for stage 14 (interpolation only). */
+  private static final double c14    = 1.0 / 10.0;
+
+  /** Internal weights for stage 14, element 1. */
+  private static final double k14_01 =       13481885573.0 / 240030000000.0      - b_01;
+
+  // elements 2 to 5 are zero, so they are neither stored nor used
+
+  /** Internal weights for stage 14, element 6. */
+  private static final double k14_06 =                 0.0                       - b_06;
+
+  /** Internal weights for stage 14, element 7. */
+  private static final double k14_07 =      139418837528.0 / 549975234375.0      - b_07;
+
+  /** Internal weights for stage 14, element 8. */
+  private static final double k14_08 =   -11108320068443.0 / 45111937500000.0    - b_08;
+
+  /** Internal weights for stage 14, element 9. */
+  private static final double k14_09 = -1769651421925959.0 / 14249385146080000.0 - b_09;
+
+  /** Internal weights for stage 14, element 10. */
+  private static final double k14_10 =          57799439.0 / 377055000.0         - b_10;
+
+  /** Internal weights for stage 14, element 11. */
+  private static final double k14_11 =      793322643029.0 / 96734250000000.0    - b_11;
+
+  /** Internal weights for stage 14, element 12. */
+  private static final double k14_12 =        1458939311.0 / 192780000000.0      - b_12;
+
+  /** Internal weights for stage 14, element 13. */
+  private static final double k14_13 =             -4149.0 / 500000.0;
+
+  /** Time step for stage 15 (interpolation only). */
+  private static final double c15    = 1.0 / 5.0;
+
+
+  /** Internal weights for stage 15, element 1. */
+  private static final double k15_01 =     1595561272731.0 / 50120273500000.0    - b_01;
+
+  // elements 2 to 5 are zero, so they are neither stored nor used
+
+  /** Internal weights for stage 15, element 6. */
+  private static final double k15_06 =      975183916491.0 / 34457688031250.0    - b_06;
+
+  /** Internal weights for stage 15, element 7. */
+  private static final double k15_07 =    38492013932672.0 / 718912673015625.0   - b_07;
+
+  /** Internal weights for stage 15, element 8. */
+  private static final double k15_08 = -1114881286517557.0 / 20298710767500000.0 - b_08;
+
+  /** Internal weights for stage 15, element 9. */
+  private static final double k15_09 =                 0.0                       - b_09;
+
+  /** Internal weights for stage 15, element 10. */
+  private static final double k15_10 =                 0.0                       - b_10;
+
+  /** Internal weights for stage 15, element 11. */
+  private static final double k15_11 =    -2538710946863.0 / 23431227861250000.0 - b_11;
+
+  /** Internal weights for stage 15, element 12. */
+  private static final double k15_12 =        8824659001.0 / 23066716781250.0    - b_12;
+
+  /** Internal weights for stage 15, element 13. */
+  private static final double k15_13 =      -11518334563.0 / 33831184612500.0;
+
+  /** Internal weights for stage 15, element 14. */
+  private static final double k15_14 =        1912306948.0 / 13532473845.0;
+
+  /** Time step for stage 16 (interpolation only). */
+  private static final double c16    = 7.0 / 9.0;
+
+
+  /** Internal weights for stage 16, element 1. */
+  private static final double k16_01 =      -13613986967.0 / 31741908048.0       - b_01;
+
+  // elements 2 to 5 are zero, so they are neither stored nor used
+
+  /** Internal weights for stage 16, element 6. */
+  private static final double k16_06 =       -4755612631.0 / 1012344804.0        - b_06;
+
+  /** Internal weights for stage 16, element 7. */
+  private static final double k16_07 =    42939257944576.0 / 5588559685701.0     - b_07;
+
+  /** Internal weights for stage 16, element 8. */
+  private static final double k16_08 =    77881972900277.0 / 19140370552944.0    - b_08;
+
+  /** Internal weights for stage 16, element 9. */
+  private static final double k16_09 =    22719829234375.0 / 63689648654052.0    - b_09;
+
+  /** Internal weights for stage 16, element 10. */
+  private static final double k16_10 =                 0.0                       - b_10;
+
+  /** Internal weights for stage 16, element 11. */
+  private static final double k16_11 =                 0.0                       - b_11;
+
+  /** Internal weights for stage 16, element 12. */
+  private static final double k16_12 =                 0.0                       - b_12;
+
+  /** Internal weights for stage 16, element 13. */
+  private static final double k16_13 =       -1199007803.0 / 857031517296.0;
+
+  /** Internal weights for stage 16, element 14. */
+  private static final double k16_14 =      157882067000.0 / 53564469831.0;
+
+  /** Internal weights for stage 16, element 15. */
+  private static final double k16_15 =     -290468882375.0 / 31741908048.0;
+
+  /** Interpolation weights.
+   * (beware that only the non-null values are in the table)
+   */
+  private static final double[][] d = {
 
     {        -17751989329.0 / 2106076560.0,               4272954039.0 / 7539864640.0,
             -118476319744.0 / 38604839385.0,            755123450731.0 / 316657731600.0,
@@ -397,6 +478,7 @@ class DormandPrince853StepInterpolator
 
   };
 
+  /** Serializable version identifier */
   private static final long serialVersionUID = 7152276390558450974L;
 
 }

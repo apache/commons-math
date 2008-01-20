@@ -859,6 +859,7 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
    * and the columns of the jacobian. */
   private double orthoTolerance;
 
+  /** Serializable version identifier */
   private static final long serialVersionUID = -5705952631533171019L;
 
 }

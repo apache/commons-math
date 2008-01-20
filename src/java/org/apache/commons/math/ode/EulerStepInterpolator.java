@@ -89,6 +89,7 @@ class EulerStepInterpolator
 
   }
 
+  /** Serializable version identifier */
   private static final long serialVersionUID = -7179861704951334960L;
 
 }

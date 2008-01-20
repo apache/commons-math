@@ -45,22 +45,24 @@ package org.apache.commons.math.ode;
 public class GillIntegrator
   extends RungeKuttaIntegrator {
 
+  /** Integrator method name. */
   private static final String methodName = "Gill";
 
-  private static final double sqrt2 = Math.sqrt(2.0);
-
+  /** Time steps Butcher array. */
   private static final double[] c = {
     1.0 / 2.0, 1.0 / 2.0, 1.0
   };
 
+  /** Internal weights Butcher array. */
   private static final double[][] a = {
     { 1.0 / 2.0 },
-    { (sqrt2 - 1.0) / 2.0, (2.0 - sqrt2) / 2.0 },
-    { 0.0, -sqrt2 / 2.0, (2.0 + sqrt2) / 2.0 }
+    { (Math.sqrt(2.0) - 1.0) / 2.0, (2.0 - Math.sqrt(2.0)) / 2.0 },
+    { 0.0, -Math.sqrt(2.0) / 2.0, (2.0 + Math.sqrt(2.0)) / 2.0 }
   };
 
+  /** Propagation weights Butcher array. */
   private static final double[] b = {
-    1.0 / 6.0, (2.0 - sqrt2) / 6.0, (2.0 + sqrt2) / 6.0, 1.0 / 6.0
+    1.0 / 6.0, (2.0 - Math.sqrt(2.0)) / 6.0, (2.0 + Math.sqrt(2.0)) / 6.0, 1.0 / 6.0
   };
 
   /** Simple constructor.

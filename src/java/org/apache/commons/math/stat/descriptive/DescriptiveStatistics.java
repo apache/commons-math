@@ -66,16 +66,34 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      */
     protected ResizableDoubleArray eDA = new ResizableDoubleArray();
   
-    // UnivariateStatistic stats implementations - can be reset by setters
+    /** Mean statistic implementation - can be reset by setter. */
     private UnivariateStatistic meanImpl = new Mean();
+    
+    /** Geometric mean statistic implementation - can be reset by setter. */
     private UnivariateStatistic geometricMeanImpl = new GeometricMean();
+    
+    /** Kurtosis statistic implementation - can be reset by setter. */
     private UnivariateStatistic kurtosisImpl = new Kurtosis();
+    
+    /** Maximum statistic implementation - can be reset by setter. */
     private UnivariateStatistic maxImpl = new Max();
+    
+    /** Minimum statistic implementation - can be reset by setter. */
     private UnivariateStatistic minImpl = new Min();
+    
+    /** Percentile statistic implementation - can be reset by setter. */
     private UnivariateStatistic percentileImpl = new Percentile();
+    
+    /** Skewness statistic implementation - can be reset by setter. */
     private UnivariateStatistic skewnessImpl = new Skewness();
+    
+    /** Variance statistic implementation - can be reset by setter. */
     private UnivariateStatistic varianceImpl = new Variance();
+    
+    /** Sum of squares statistic implementation - can be reset by setter. */
     private UnivariateStatistic sumsqImpl = new SumOfSquares();
+    
+    /** Sum statistic implementation - can be reset by setter. */
     private UnivariateStatistic sumImpl = new Sum();
     
     /**

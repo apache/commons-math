@@ -88,6 +88,7 @@ class HighamHall54StepInterpolator
 
   }
 
+  /** Serializable version identifier */
   private static final long serialVersionUID = -3583240427587318654L;
 
 }

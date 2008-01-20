@@ -19,6 +19,12 @@ package org.apache.commons.math;
 
 import org.apache.commons.math.ConvergenceException;
 
+/**
+ * Error thrown when a numerical computation exceeds its allowed
+ * number of iterations.
+ *
+ * @version $Revision$ $Date$
+ */
 public class MaxIterationsExceededException extends ConvergenceException {
 
     /** Serializable version identifier. */

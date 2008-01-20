@@ -1028,6 +1028,7 @@ public class Rotation implements Serializable {
   /** Third coordinate of the vectorial part of the quaternion. */
   private final double q3;
 
+  /** Serializable version identifier */
   private static final long serialVersionUID = 5127795878493115119L;
 
 }

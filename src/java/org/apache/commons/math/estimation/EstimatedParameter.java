@@ -117,6 +117,7 @@ public class EstimatedParameter
    */
   private   boolean bound;
 
+  /** Serializable version identifier */
   private static final long serialVersionUID = -555440800213416949L;
 
 }

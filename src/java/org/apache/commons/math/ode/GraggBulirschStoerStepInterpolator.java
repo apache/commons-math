@@ -393,6 +393,7 @@ class GraggBulirschStoerStepInterpolator
 
   }
 
+  /** Serializable version identifier */
   private static final long serialVersionUID = 7320613236731409847L;
 
 }

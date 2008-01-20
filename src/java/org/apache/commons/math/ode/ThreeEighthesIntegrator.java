@@ -45,18 +45,22 @@ package org.apache.commons.math.ode;
 public class ThreeEighthesIntegrator
   extends RungeKuttaIntegrator {
 
+  /** Integrator method name. */
   private static final String methodName = "3/8";
 
+  /** Time steps Butcher array. */
   private static final double[] c = {
     1.0 / 3.0, 2.0 / 3.0, 1.0
   };
 
+  /** Internal weights Butcher array. */
   private static final double[][] a = {
     {  1.0 / 3.0 },
     { -1.0 / 3.0, 1.0 },
     {  1.0, -1.0, 1.0 }
   };
 
+  /** Propagation weights Butcher array. */
   private static final double[] b = {
     1.0 / 8.0, 3.0 / 8.0, 3.0 / 8.0, 1.0 / 8.0
   };

@@ -69,10 +69,22 @@ public class FirstOrderConverter
       zDDot          = new double[dimension];
   }
 
+  /** Get the dimension of the problem.
+   * <p>The dimension of the first order problem is twice the
+   * dimension of the underlying second order problem.</p>
+   * @return dimension of the problem
+   */
   public int getDimension() {
     return 2 * dimension;
   }
 
+  /** Get the current time derivative of the state vector.
+   * @param t current value of the independent <I>time</I> variable
+   * @param y array containing the current value of the state vector
+   * @param yDot placeholder array where to put the time derivative of the state vector
+   * @throws DerivativeException this exception is propagated to the caller if the
+   * underlying user function triggers one
+   */
   public void computeDerivatives(double t, double[] y, double[] yDot)
   throws DerivativeException {
 

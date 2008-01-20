@@ -44,6 +44,7 @@ public class IntegratorException
     super(cause);
   }
 
+  /** Serializable version identifier */
   private static final long serialVersionUID = -1215318282266670558L;
 
 }

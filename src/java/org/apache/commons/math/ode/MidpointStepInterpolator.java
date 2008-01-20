@@ -95,6 +95,7 @@ class MidpointStepInterpolator
 
   }
 
+  /** Serializable version identifier */
   private static final long serialVersionUID = -865524111506042509L;
 
 }

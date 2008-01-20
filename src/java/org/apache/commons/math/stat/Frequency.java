@@ -436,6 +436,8 @@ public class Frequency implements Serializable {
      * natural order.  Copied from Commons Collections ComparableComparator.
      */
     private class NaturalComparator implements Comparator, Serializable {
+
+        /** Serializable version identifier */
         private static final long serialVersionUID = -3852193713161395148L;
 
         /**

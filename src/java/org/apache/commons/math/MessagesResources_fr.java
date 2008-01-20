@@ -30,10 +30,14 @@ public class MessagesResources_fr
   public MessagesResources_fr() {
   }
 
+  /** Get the non-translated/translated messages arrays from this resource bundle.
+   * @return non-translated/translated messages arrays
+   */
   public Object[][] getContents() {
     return (Object[][]) contents.clone();
   }
 
+  /** Non-translated/translated messages arrays. */
   static final Object[][] contents = {
 
     // org.apache.commons.math.FunctionEvaluationException

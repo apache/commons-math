@@ -38,6 +38,7 @@ public class NotARotationMatrixException
     super(specifier, parts);
   }
 
+  /** Serializable version identifier */
   private static final long serialVersionUID = 5647178478658937642L;
 
 }

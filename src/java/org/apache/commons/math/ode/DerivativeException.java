@@ -44,6 +44,7 @@ public class DerivativeException
     super(cause);
   }
 
+  /** Serializable version identifier */
   private static final long serialVersionUID = -4100440615830558122L;
 
 }

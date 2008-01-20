@@ -46,18 +46,22 @@ package org.apache.commons.math.ode;
 public class ClassicalRungeKuttaIntegrator
   extends RungeKuttaIntegrator {
 
+  /** Integrator method name. */
   private static final String methodName = "classical Runge-Kutta";
 
+  /** Time steps Butcher array. */
   private static final double[] c = {
     1.0 / 2.0, 1.0 / 2.0, 1.0
   };
 
+  /** Internal weights Butcher array. */
   private static final double[][] a = {
     { 1.0 / 2.0 },
     { 0.0, 1.0 / 2.0 },
     { 0.0, 0.0, 1.0 }
   };
 
+  /** Propagation weights Butcher array. */
   private static final double[] b = {
     1.0 / 6.0, 1.0 / 3.0, 1.0 / 3.0, 1.0 / 6.0
   };

@@ -132,6 +132,9 @@ public class TransformerMap implements NumberTransformer, Serializable {
      * Attempts to transform the Object against the map of
      * NumberTransformers. Otherwise it returns Double.NaN.
      * 
+     * @param o the Object to be transformed.
+     * @return the double value of the Object.
+     * @throws MathException if the Object can not be transformed into a Double. 
      * @see org.apache.commons.math.util.NumberTransformer#transform(java.lang.Object)
      */
     public double transform(Object o) throws MathException {

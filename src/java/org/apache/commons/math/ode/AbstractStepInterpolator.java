@@ -354,9 +354,17 @@ public abstract class AbstractStepInterpolator
     throws DerivativeException {
   }
 
+  /** Write the instance to an output channel.
+   * @param out output channel
+   * @exception IOException if the instance cannot be written
+   */
   public abstract void writeExternal(ObjectOutput out)
     throws IOException;
 
+  /** Read the instance from an input channel.
+   * @param in input channel
+   * @exception IOException if the instance cannot be read
+   */
   public abstract void readExternal(ObjectInput in)
     throws IOException;
 

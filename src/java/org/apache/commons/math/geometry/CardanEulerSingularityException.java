@@ -25,7 +25,6 @@ import org.apache.commons.math.MathException;
  * @version $Revision$ $Date$
 
  */
-
 public class CardanEulerSingularityException
   extends MathException {
 
@@ -38,6 +37,7 @@ public class CardanEulerSingularityException
     super(isCardan ? "Cardan angles singularity" : "Euler angles singularity", new Object[0]);
   }
 
+  /** Serializable version identifier */
   private static final long serialVersionUID = -1360952845582206770L;
 
 }

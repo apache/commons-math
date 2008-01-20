@@ -32,7 +32,8 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
 
     /** Serializable version identifier */
     private static final long serialVersionUID = -3349935121172596109L;
-    
+
+    /** Distribution used to compute normal approximation. */
     private NormalDistribution normal;
     
     /**

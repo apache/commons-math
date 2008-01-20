@@ -170,9 +170,13 @@ public class GaussNewtonEstimator extends AbstractEstimator implements Serializa
 
     }
 
+    /** Threshold for cost steady state detection. */
     private double steadyStateThreshold;
+
+    /** Threshold for cost convergence. */
     private double convergence;
 
-    private static final long serialVersionUID = 5485001826076289109L;
+    /** Serializable version identifier */
+     private static final long serialVersionUID = 5485001826076289109L;
 
 }

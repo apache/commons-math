@@ -172,20 +172,44 @@ class DormandPrince54StepInterpolator
   /** Initialization indicator for the interpolation vectors. */
   private boolean vectorsInitialized;
 
-  // last row of the Butcher-array internal weights, note that a71 is null
+  /** Last row of the Butcher-array internal weights, element 0. */
   private static final double a70 =    35.0 /  384.0;
+
+  // element 1 is zero, so it is neither stored nor used
+
+  /** Last row of the Butcher-array internal weights, element 2. */
   private static final double a72 =   500.0 / 1113.0;
+
+  /** Last row of the Butcher-array internal weights, element 3. */
   private static final double a73 =   125.0 /  192.0;
+
+  /** Last row of the Butcher-array internal weights, element 4. */
   private static final double a74 = -2187.0 / 6784.0;
+
+  /** Last row of the Butcher-array internal weights, element 5. */
   private static final double a75 =    11.0 /   84.0;
 
-  // dense output of Shampine (1986), note that d1 is null
+  /** Shampine (1986) Dense output, element 0. */
   private static final double d0 =  -12715105075.0 /  11282082432.0;
+
+  // element 1 is zero, so it is neither stored nor used
+
+  /** Shampine (1986) Dense output, element 2. */
   private static final double d2 =   87487479700.0 /  32700410799.0;
+
+  /** Shampine (1986) Dense output, element 3. */
   private static final double d3 =  -10690763975.0 /   1880347072.0;
+
+  /** Shampine (1986) Dense output, element 4. */
   private static final double d4 =  701980252875.0 / 199316789632.0;
+
+  /** Shampine (1986) Dense output, element 5. */
   private static final double d5 =   -1453857185.0 /    822651844.0;
+
+  /** Shampine (1986) Dense output, element 6. */
   private static final double d6 =      69997945.0 /     29380423.0;
 
+  /** Serializable version identifier */
   private static final long serialVersionUID = 4104157279605906956L;
+
 }
