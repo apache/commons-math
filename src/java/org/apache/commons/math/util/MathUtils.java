@@ -532,7 +532,7 @@ public final class MathUtils {
      * @return the value of the logarithm - the number y such that base^y = x.
      */ 
     public static double log(double base, double x) {
-    	return Math.log(x)/Math.log(base);
+        return Math.log(x)/Math.log(base);
     }
 
     /**

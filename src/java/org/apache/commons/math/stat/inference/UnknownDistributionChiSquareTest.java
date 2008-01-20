@@ -61,7 +61,7 @@ public interface UnknownDistributionChiSquareTest extends ChiSquareTest {
      * @throws IllegalArgumentException if preconditions are not met
      */
     double chiSquareDataSetsComparison(long[] observed1, long[] observed2)
-    	throws IllegalArgumentException;
+        throws IllegalArgumentException;
 
     /**
      * <p>Returns the <i>observed significance level</i>, or <a href=
@@ -100,7 +100,7 @@ public interface UnknownDistributionChiSquareTest extends ChiSquareTest {
      * @throws MathException if an error occurs computing the p-value
      */
     double chiSquareTestDataSetsComparison(long[] observed1, long[] observed2)
-    	throws IllegalArgumentException, MathException;
+      throws IllegalArgumentException, MathException;
 
     /**
      * <p>Performs a Chi-Square two sample test comparing two binned data
@@ -138,6 +138,6 @@ public interface UnknownDistributionChiSquareTest extends ChiSquareTest {
      * @throws MathException if an error occurs performing the test
      */
     boolean chiSquareTestDataSetsComparison(long[] observed1, long[] observed2, double alpha)
-    	throws IllegalArgumentException, MathException;
+      throws IllegalArgumentException, MathException;
 
 }
