@@ -32,7 +32,7 @@ public class IntegratorException
    * @param specifier format specifier (to be translated)
    * @param parts to insert in the format (no translation)
    */
-  public IntegratorException(String specifier, String[] parts) {
+  public IntegratorException(String specifier, Object[] parts) {
     super(specifier, parts);
   }
 

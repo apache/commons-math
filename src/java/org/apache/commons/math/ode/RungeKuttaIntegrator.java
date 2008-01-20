@@ -117,26 +117,24 @@ public abstract class RungeKuttaIntegrator
                             double t0, double[] y0, double t, double[] y)
     throws IntegratorException {
     if (equations.getDimension() != y0.length) {
-      throw new IntegratorException("dimensions mismatch: ODE problem has dimension {0},"
-                                    + " initial state vector has dimension {1}",
-                                    new String[] {
-                                      Integer.toString(equations.getDimension()),
-                                      Integer.toString(y0.length)
+      throw new IntegratorException("dimensions mismatch: ODE problem has dimension {0}," +
+                                    " initial state vector has dimension {1}",
+                                    new Object[] {
+                                      new Integer(equations.getDimension()),
+                                      new Integer(y0.length)
                                     });
     }
     if (equations.getDimension() != y.length) {
-        throw new IntegratorException("dimensions mismatch: ODE problem has dimension {0},"
-                                      + " final state vector has dimension {1}",
-                                      new String[] {
-                                        Integer.toString(equations.getDimension()),
-                                        Integer.toString(y.length)
+        throw new IntegratorException("dimensions mismatch: ODE problem has dimension {0}," +
+                                      " final state vector has dimension {1}",
+                                      new Object[] {
+                                        new Integer(equations.getDimension()),
+                                        new Integer(y.length)
                                       });
       }
     if (Math.abs(t - t0) <= 1.0e-12 * Math.max(Math.abs(t0), Math.abs(t))) {
       throw new IntegratorException("too small integration interval: length = {0}",
-                                    new String[] {
-                                      Double.toString(Math.abs(t - t0))
-                                    });
+                                    new Object[] { new Double(Math.abs(t - t0)) });
     }      
   }
 

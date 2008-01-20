@@ -173,42 +173,40 @@ public abstract class AdaptiveStepsizeIntegrator
                               double t0, double[] y0, double t, double[] y)
     throws IntegratorException {
       if (equations.getDimension() != y0.length) {
-          throw new IntegratorException("dimensions mismatch: ODE problem has dimension {0},"
-                                        + " initial state vector has dimension {1}",
-                                        new String[] {
-                                          Integer.toString(equations.getDimension()),
-                                          Integer.toString(y0.length)
+          throw new IntegratorException("dimensions mismatch: ODE problem has dimension {0}," +
+                                        " initial state vector has dimension {1}",
+                                        new Object[] {
+                                          new Integer(equations.getDimension()),
+                                          new Integer(y0.length)
                                         });
       }
       if (equations.getDimension() != y.length) {
-          throw new IntegratorException("dimensions mismatch: ODE problem has dimension {0},"
-                                        + " final state vector has dimension {1}",
-                                        new String[] {
-                                          Integer.toString(equations.getDimension()),
-                                          Integer.toString(y.length)
+          throw new IntegratorException("dimensions mismatch: ODE problem has dimension {0}," +
+                                        " final state vector has dimension {1}",
+                                        new Object[] {
+                                          new Integer(equations.getDimension()),
+                                          new Integer(y.length)
                                         });
       }
       if ((vecAbsoluteTolerance != null) && (vecAbsoluteTolerance.length != y0.length)) {
-          throw new IntegratorException("dimensions mismatch: state vector has dimension {0},"
-                                        + " absolute tolerance vector has dimension {1}",
-                                        new String[] {
-                                          Integer.toString(y0.length),
-                                          Integer.toString(vecAbsoluteTolerance.length)
+          throw new IntegratorException("dimensions mismatch: state vector has dimension {0}," +
+                                        " absolute tolerance vector has dimension {1}",
+                                        new Object[] {
+                                          new Integer(y0.length),
+                                          new Integer(vecAbsoluteTolerance.length)
                                         });
       }
       if ((vecRelativeTolerance != null) && (vecRelativeTolerance.length != y0.length)) {
-          throw new IntegratorException("dimensions mismatch: state vector has dimension {0},"
-                                        + " relative tolerance vector has dimension {1}",
-                                        new String[] {
-                                          Integer.toString(y0.length),
-                                          Integer.toString(vecRelativeTolerance.length)
+          throw new IntegratorException("dimensions mismatch: state vector has dimension {0}," +
+                                        " relative tolerance vector has dimension {1}",
+                                        new Object[] {
+                                          new Integer(y0.length),
+                                          new Integer(vecRelativeTolerance.length)
                                         });
       }
       if (Math.abs(t - t0) <= 1.0e-12 * Math.max(Math.abs(t0), Math.abs(t))) {
         throw new IntegratorException("too small integration interval: length = {0}",
-                                      new String[] {
-                                        Double.toString(Math.abs(t - t0))
-                                      });
+                                      new Object[] { new Double(Math.abs(t - t0)) });
       }
       
   }
@@ -250,8 +248,8 @@ public abstract class AdaptiveStepsizeIntegrator
       yDotOnScale2 += ratio * ratio;
     }
 
-    double h = ((yOnScale2 < 1.0e-10) || (yDotOnScale2 < 1.0e-10))
-      ? 1.0e-6 : (0.01 * Math.sqrt(yOnScale2 / yDotOnScale2));
+    double h = ((yOnScale2 < 1.0e-10) || (yDotOnScale2 < 1.0e-10)) ?
+               1.0e-6 : (0.01 * Math.sqrt(yOnScale2 / yDotOnScale2));
     if (! forward) {
       h = -h;
     }
@@ -273,9 +271,9 @@ public abstract class AdaptiveStepsizeIntegrator
     // step size is computed such that
     // h^order * max (||y'/tol||, ||y''/tol||) = 0.01
     double maxInv2 = Math.max(Math.sqrt(yDotOnScale2), yDDotOnScale);
-    double h1 = (maxInv2 < 1.0e-15)
-      ? Math.max(1.0e-6, 0.001 * Math.abs(h))
-      : Math.pow(0.01 / maxInv2, 1.0 / order);
+    double h1 = (maxInv2 < 1.0e-15) ?
+                Math.max(1.0e-6, 0.001 * Math.abs(h)) :
+                Math.pow(0.01 / maxInv2, 1.0 / order);
     h = Math.min(100.0 * Math.abs(h), h1);
     h = Math.max(h, 1.0e-12 * Math.abs(t0));  // avoids cancellation when computing t1 - t0
     if (h < getMinStep()) {
@@ -307,11 +305,11 @@ public abstract class AdaptiveStepsizeIntegrator
       if (acceptSmall) {
         h = (h < 0) ? -minStep : minStep;
       } else {
-        throw new IntegratorException("minimal step size ({0}) reached,"
-                                      + " integration needs {1}",
-                                      new String[] {
-                                        Double.toString(minStep),
-                                        Double.toString(Math.abs(h))
+        throw new IntegratorException("minimal step size ({0}) reached," +
+                                      " integration needs {1}",
+                                      new Object[] {
+                                        new Double(minStep),
+                                        new Double(Math.abs(h))
                                       });
       }
     }
