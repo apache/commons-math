@@ -102,7 +102,7 @@ public abstract class DirectSearchOptimizer {
      * @return the point/cost pairs giving the minimal cost
      * @exception CostException if the cost function throws one during
      * the search
-     * @exception NoConvergenceException if none of the starts did
+     * @exception ConvergenceException if none of the starts did
      * converge (it is not thrown if at least one start did converge)
      */
     public PointCostPair minimizes(CostFunction f, int maxEvaluations,
@@ -144,7 +144,7 @@ public abstract class DirectSearchOptimizer {
      * @return the point/cost pairs giving the minimal cost
      * @exception CostException if the cost function throws one during
      * the search
-     * @exception NoConvergenceException if none of the starts did
+     * @exception ConvergenceException if none of the starts did
      * converge (it is not thrown if at least one start did converge)
      */
     public PointCostPair minimizes(CostFunction f, int maxEvaluations,
