@@ -110,9 +110,9 @@ public class NelderMeadTest
 
     assertTrue(count > 700);
     assertTrue(count < 800);
-    assertEquals(0.0, optimum.cost, 5.0e-5);
-    assertEquals(1.0, optimum.point[0], 0.01);
-    assertEquals(1.0, optimum.point[1], 0.01);
+    assertEquals(0.0, optimum.getCost(), 5.0e-5);
+    assertEquals(1.0, optimum.getPoint()[0], 0.01);
+    assertEquals(1.0, optimum.getPoint()[1], 0.01);
 
     PointCostPair[] minima = nm.getMinima();
     assertEquals(10, minima.length);
@@ -125,7 +125,7 @@ public class NelderMeadTest
             }
         } else {
             if (i > 0) {
-                assertTrue(minima[i-1].cost <= minima[i].cost);
+                assertTrue(minima[i-1].getCost() <= minima[i].getCost());
             }
         }
     }
@@ -138,10 +138,10 @@ public class NelderMeadTest
                                               new UniformRandomGenerator(rg));
     optimum =
         nm.minimizes(rosenbrock, 100, new ValueChecker(1.0e-3), rvg);
-    assertEquals(0.0, optimum.cost, 2.0e-4);
+    assertEquals(0.0, optimum.getCost(), 2.0e-4);
     optimum =
         nm.minimizes(rosenbrock, 100, new ValueChecker(1.0e-3), rvg, 3);
-    assertEquals(0.0, optimum.cost, 3.0e-5);
+    assertEquals(0.0, optimum.getCost(), 3.0e-5);
 
   }
 
@@ -168,11 +168,11 @@ public class NelderMeadTest
                    new double[] {  4.0,  0.0, 1.0, 2.0 },
                    1, 1642738l);
     assertTrue(count < 150);
-    assertEquals(0.0, optimum.cost, 6.0e-4);
-    assertEquals(0.0, optimum.point[0], 0.07);
-    assertEquals(0.0, optimum.point[1], 0.07);
-    assertEquals(0.0, optimum.point[2], 0.07);
-    assertEquals(0.0, optimum.point[3], 0.07);
+    assertEquals(0.0, optimum.getCost(), 6.0e-4);
+    assertEquals(0.0, optimum.getPoint()[0], 0.07);
+    assertEquals(0.0, optimum.getPoint()[1], 0.07);
+    assertEquals(0.0, optimum.getPoint()[2], 0.07);
+    assertEquals(0.0, optimum.getPoint()[3], 0.07);
 
   }
 
@@ -185,7 +185,7 @@ public class NelderMeadTest
     public boolean converged(PointCostPair[] simplex) {
       PointCostPair smallest = simplex[0];
       PointCostPair largest  = simplex[simplex.length - 1];
-      return (largest.cost - smallest.cost) < threshold;
+      return (largest.getCost() - smallest.getCost()) < threshold;
     }
 
     private double threshold;

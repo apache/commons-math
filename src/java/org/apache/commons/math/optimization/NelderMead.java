@@ -62,16 +62,16 @@ public class NelderMead
     int n = simplex.length - 1;
 
     // interesting costs
-    double   smallest      = simplex[0].cost;
-    double   secondLargest = simplex[n-1].cost;
-    double   largest       = simplex[n].cost;
-    double[] xLargest      = simplex[n].point;
+    double   smallest      = simplex[0].getCost();
+    double   secondLargest = simplex[n-1].getCost();
+    double   largest       = simplex[n].getCost();
+    double[] xLargest      = simplex[n].getPoint();
 
     // compute the centroid of the best vertices
     // (dismissing the worst point at index n)
     double[] centroid = new double[n];
     for (int i = 0; i < n; ++i) {
-      double[] x = simplex[i].point;
+      double[] x = simplex[i].getPoint();
       for (int j = 0; j < n; ++j) {
         centroid[j] += x[j];
       }
@@ -145,9 +145,9 @@ public class NelderMead
       }
 
       // perform a shrink
-      double[] xSmallest = simplex[0].point;
+      double[] xSmallest = simplex[0].getPoint();
       for (int i = 1; i < simplex.length; ++i) {
-        double[] x = simplex[i].point;
+        double[] x = simplex[i].getPoint();
         for (int j = 0; j < n; ++j) {
           x[j] = xSmallest[j] + sigma * (x[j] - xSmallest[j]);
         }

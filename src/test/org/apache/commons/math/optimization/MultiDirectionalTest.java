@@ -89,7 +89,7 @@ public class MultiDirectionalTest
                                        });
 
     assertTrue(count > 60);
-    assertTrue(optimum.cost > 0.01);
+    assertTrue(optimum.getCost() > 0.01);
 
   }
 
@@ -114,7 +114,7 @@ public class MultiDirectionalTest
                                        new double[] {  3.0, -1.0, 0.0, 1.0 },
                                        new double[] {  4.0,  0.0, 1.0, 2.0 });
     assertTrue(count > 850);
-    assertTrue(optimum.cost > 0.015);
+    assertTrue(optimum.getCost() > 0.015);
 
   }
 
@@ -127,7 +127,7 @@ public class MultiDirectionalTest
     public boolean converged(PointCostPair[] simplex) {
       PointCostPair smallest = simplex[0];
       PointCostPair largest  = simplex[simplex.length - 1];
-      return (largest.cost - smallest.cost) < threshold;
+      return (largest.getCost() - smallest.getCost()) < threshold;
     }
 
     private double threshold;

@@ -33,10 +33,24 @@ public class PointCostPair {
     this.cost = cost;
   }
 
+  /** Get the point.
+   * @return the stored point
+   */
+  public double[] getPoint() {
+      return point;
+  }
+
+  /** Get the cost.
+   * @return the stored cost
+   */
+  public double getCost() {
+      return cost;
+  }
+
   /** Point coordinates. */
-  public final double[] point;
+  private final double[] point;
 
   /** Cost associated to the point. */
-  public final double cost;
+  private final double cost;
 
 }
