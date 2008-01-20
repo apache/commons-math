@@ -186,6 +186,7 @@ public abstract class AbstractStepInterpolator
     * step has been finalized. It must perform a deep copy
     * to have an new instance completely independent for the
     * original instance.
+    * @return a copy of the finalized instance
     */
    protected abstract StepInterpolator doCopy();
 

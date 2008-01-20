@@ -78,6 +78,7 @@ class DormandPrince54StepInterpolator
   }
 
   /** Really copy the finalized instance.
+   * @return a copy of the finalized instance
    */
   protected StepInterpolator doCopy() {
     return new DormandPrince54StepInterpolator(this);

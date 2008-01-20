@@ -196,6 +196,8 @@ public class PolynomialFunctionNewtonForm implements UnivariateRealFunction,
      * The centers must be distinct for interpolation purposes, but not
      * for general use. Thus it is not verified here.
      * 
+     * @param a the coefficients in Newton form formula
+     * @param c the centers
      * @throws IllegalArgumentException if not valid
      * @see DividedDifferenceInterpolator#computeDividedDifference(double[],
      * double[])

@@ -86,6 +86,8 @@ public class DividedDifferenceInterpolator implements UnivariateRealInterpolator
      * </pre><p>
      * The computational complexity is O(N^2).
      *
+     * @param x the interpolating points array
+     * @param y the interpolating values array
      * @return a fresh copy of the divided difference array
      * @throws DuplicateSampleAbscissaException if any abscissas coincide
      */

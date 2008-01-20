@@ -284,6 +284,7 @@ public class Vector3D
    * other.</p>
    * @param v1 first vector
    * @param v2 second vector
+   * @return angular separation between v1 and v2
    * @exception ArithmeticException if either vector has a null norm
    */
   public static double angle(Vector3D v1, Vector3D v2) {

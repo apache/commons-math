@@ -71,6 +71,7 @@ public class DummyStepInterpolator
   }
 
   /** Really copy the finalized instance.
+   * @return a copy of the finalized instance
    */
   protected StepInterpolator doCopy() {
     return new DummyStepInterpolator(this);

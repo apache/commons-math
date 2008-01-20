@@ -89,6 +89,7 @@ class DormandPrince853StepInterpolator
   }
 
   /** Really copy the finalized instance.
+   * @return a copy of the finalized instance
    */
   protected StepInterpolator doCopy() {
     return new DormandPrince853StepInterpolator(this);

@@ -381,7 +381,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     /***
      * Sets the rounding mode for decimal divisions.
      * @see BigDecimal
-     * @param roundingMode
+     * @param roundingMode rounding mode for decimal divisions
      */
     public void setRoundingMode(int roundingMode) {
         this.roundingMode = roundingMode;
@@ -400,7 +400,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     /***
      * Sets the scale for division operations.
      * @see BigDecimal
-     * @param scale
+     * @param scale scale for division operations
      */
     public void setScale(int scale) {
         this.scale = scale;

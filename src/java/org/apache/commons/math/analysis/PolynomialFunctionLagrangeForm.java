@@ -276,6 +276,8 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction,
      * The interpolating points must be distinct. However it is not
      * verified here, it is checked in evaluate() and computeCoefficients().
      * 
+     * @param x the interpolating points array
+     * @param y the interpolating values array
      * @throws IllegalArgumentException if not valid
      * @see #evaluate(double[], double[], double)
      * @see #computeCoefficients()
