@@ -104,8 +104,7 @@ public class GraggBulirschStoerIntegrator
                                       double scalAbsoluteTolerance,
                                       double scalRelativeTolerance) {
     super(minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
-    denseOutput = (handler.requiresDenseOutput()
-                   || (! switchesHandler.isEmpty()));
+    denseOutput = (handler.requiresDenseOutput() || (! switchesHandler.isEmpty()));
     setStabilityCheck(true, -1, -1, -1);
     setStepsizeControl(-1, -1, -1, -1);
     setOrderControl(-1, -1, -1);
@@ -127,8 +126,7 @@ public class GraggBulirschStoerIntegrator
                                       double[] vecAbsoluteTolerance,
                                       double[] vecRelativeTolerance) {
     super(minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
-    denseOutput = (handler.requiresDenseOutput()
-                   || (! switchesHandler.isEmpty()));
+    denseOutput = (handler.requiresDenseOutput() || (! switchesHandler.isEmpty()));
     setStabilityCheck(true, -1, -1, -1);
     setStepsizeControl(-1, -1, -1, -1);
     setOrderControl(-1, -1, -1);
@@ -277,8 +275,7 @@ public class GraggBulirschStoerIntegrator
   public void setStepHandler (StepHandler handler) {
 
     super.setStepHandler(handler);
-    denseOutput = (handler.requiresDenseOutput()
-                   || (! switchesHandler.isEmpty()));
+    denseOutput = (handler.requiresDenseOutput() || (! switchesHandler.isEmpty()));
 
     // reinitialize the arrays
     initializeArrays();
@@ -299,8 +296,7 @@ public class GraggBulirschStoerIntegrator
                                    double convergence,
                                    int maxIterationCount) {
     super.addSwitchingFunction(function, maxCheckInterval, convergence, maxIterationCount);
-    denseOutput = (handler.requiresDenseOutput()
-                   || (! switchesHandler.isEmpty()));
+    denseOutput = (handler.requiresDenseOutput() || (! switchesHandler.isEmpty()));
 
     // reinitialize the arrays
     initializeArrays();
@@ -495,8 +491,8 @@ public class GraggBulirschStoerIntegrator
     for (int j = 1; j < k; ++j) {
       for (int i = 0; i < last.length; ++i) {
         // Aitken-Neville's recursive formula
-        diag[k-j-1][i] = diag[k-j][i]
-                       + coeff[k+offset][j-1] * (diag[k-j][i] - diag[k-j-1][i]);
+        diag[k-j-1][i] = diag[k-j][i] +
+                         coeff[k+offset][j-1] * (diag[k-j][i] - diag[k-j-1][i]);
       }
     }
 
@@ -563,11 +559,9 @@ public class GraggBulirschStoerIntegrator
     rescale(y, y, scale);
 
     // initial order selection
-    double log10R = Math.log(Math.max(1.0e-10,
-                                      (vecRelativeTolerance == null)
-                                      ? scalRelativeTolerance
-                                      : vecRelativeTolerance[0]))
-                  / Math.log(10.0);
+    double tol =
+        (vecRelativeTolerance == null) ? scalRelativeTolerance : vecRelativeTolerance[0];
+    double log10R = Math.log(Math.max(1.0e-10, tol)) / Math.log(10.0);
     int targetIter = Math.max(1,
                               Math.min(sequence.length - 2,
                                        (int) Math.floor(0.5 - 0.6 * log10R)));
@@ -625,8 +619,8 @@ public class GraggBulirschStoerIntegrator
       stepSize = hNew;
 
       // step adjustment near bounds
-      if ((forward && (stepStart + stepSize > t))
-          || ((! forward) && (stepStart + stepSize < t))) {
+      if ((forward && (stepStart + stepSize > t)) ||
+          ((! forward) && (stepStart + stepSize < t))) {
         stepSize = t - stepStart;
       }
       double nextT = stepStart + stepSize;
@@ -698,17 +692,17 @@ public class GraggBulirschStoerIntegrator
                     // estimate if there is a chance convergence will
                     // be reached on next iteration, using the
                     // asymptotic evolution of error
-                    double ratio = ((double) sequence [k] * sequence[k+1])
-                                 / (sequence[0] * sequence[0]);
+                    double ratio = ((double) sequence [k] * sequence[k+1]) /
+                                   (sequence[0] * sequence[0]);
                     if (error > ratio * ratio) {
                       // we don't expect to converge on next iteration
                       // we reject the step immediately and reduce order
                       reject = true;
                       loop   = false;
                       targetIter = k;
-                      if ((targetIter > 1)
-                          && (costPerTimeUnit[targetIter-1]
-                              < orderControl1 * costPerTimeUnit[targetIter])) {
+                      if ((targetIter > 1) &&
+                          (costPerTimeUnit[targetIter-1] <
+                           orderControl1 * costPerTimeUnit[targetIter])) {
                         --targetIter;
                       }
                       hNew = optimalStep[targetIter];
@@ -731,9 +725,9 @@ public class GraggBulirschStoerIntegrator
                     // we reject the step immediately
                     reject = true;
                     loop = false;
-                    if ((targetIter > 1)
-                        && (costPerTimeUnit[targetIter-1]
-                            < orderControl1 * costPerTimeUnit[targetIter])) {
+                    if ((targetIter > 1) &&
+                        (costPerTimeUnit[targetIter-1] <
+                         orderControl1 * costPerTimeUnit[targetIter])) {
                       --targetIter;
                     }
                     hNew = optimalStep[targetIter];
@@ -744,9 +738,9 @@ public class GraggBulirschStoerIntegrator
               case 1 :
                 if (error > 1.0) {
                   reject = true;
-                  if ((targetIter > 1)
-                      && (costPerTimeUnit[targetIter-1]
-                          < orderControl1 * costPerTimeUnit[targetIter])) {
+                  if ((targetIter > 1) &&
+                      (costPerTimeUnit[targetIter-1] <
+                       orderControl1 * costPerTimeUnit[targetIter])) {
                     --targetIter;
                   }
                   hNew = optimalStep[targetIter];
@@ -887,8 +881,8 @@ public class GraggBulirschStoerIntegrator
           }
         } else {
           optimalIter = k - 1;
-          if ((k > 2)
-              && (costPerTimeUnit[k-2] < orderControl1 * costPerTimeUnit[k-1])) {
+          if ((k > 2) &&
+              (costPerTimeUnit[k-2] < orderControl1 * costPerTimeUnit[k-1])) {
             optimalIter = k - 2;
           }
           if (costPerTimeUnit[k] < orderControl2 * costPerTimeUnit[optimalIter]) {
@@ -906,14 +900,14 @@ public class GraggBulirschStoerIntegrator
           if (optimalIter <= k) {
             hNew = optimalStep[optimalIter];
           } else {
-            if ((k < targetIter)
-                && (costPerTimeUnit[k] < orderControl2 * costPerTimeUnit[k-1])) {
-              hNew = filterStep(optimalStep[k]
-                                * costPerStep[optimalIter+1] / costPerStep[k],
+            if ((k < targetIter) &&
+                (costPerTimeUnit[k] < orderControl2 * costPerTimeUnit[k-1])) {
+              hNew = filterStep(optimalStep[k] *
+                                costPerStep[optimalIter+1] / costPerStep[k],
                                 false);
             } else {
-              hNew = filterStep(optimalStep[k]
-                                * costPerStep[optimalIter] / costPerStep[k],
+              hNew = filterStep(optimalStep[k] *
+                                costPerStep[optimalIter] / costPerStep[k],
                                 false);
             }
           }

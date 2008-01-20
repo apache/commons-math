@@ -95,10 +95,10 @@ class ClassicalRungeKuttaStepInterpolator
     double coeff4    = s * ((-fourTheta - 1) * theta - 1);
 
     for (int i = 0; i < interpolatedState.length; ++i) {
-      interpolatedState[i] = currentState[i]
-                            + coeff1  * yDotK[0][i]
-                            + coeff23 * (yDotK[1][i] + yDotK[2][i])
-                            + coeff4  * yDotK[3][i];
+      interpolatedState[i] = currentState[i] +
+                             coeff1  * yDotK[0][i] +
+                             coeff23 * (yDotK[1][i] + yDotK[2][i]) +
+                             coeff4  * yDotK[3][i];
      }
 
   }

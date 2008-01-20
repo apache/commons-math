@@ -220,8 +220,8 @@ public abstract class EmbeddedRungeKuttaIntegrator
         stepSize = hNew;
 
         // step adjustment near bounds
-        if ((forward && (stepStart + stepSize > t))
-            || ((! forward) && (stepStart + stepSize < t))) {
+        if ((forward && (stepStart + stepSize > t)) ||
+            ((! forward) && (stepStart + stepSize < t))) {
           stepSize = t - stepStart;
         }
 

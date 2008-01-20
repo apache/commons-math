@@ -274,9 +274,8 @@ class GraggBulirschStoerStepInterpolator
             for (int j = 4; j <= mu; ++j) {
               double fac1 = 0.5 * j * (j - 1);
               double fac2 = 2 * fac1 * (j - 2) * (j - 3);
-              polynoms[j+4][i] = 16 * (yMidDots[j][i]
-                                       + fac1 * polynoms[j+2][i]
-                                       - fac2 * polynoms[j][i]);
+              polynoms[j+4][i] =
+                  16 * (yMidDots[j][i] + fac1 * polynoms[j+2][i] - fac2 * polynoms[j][i]);
             }
 
           }
@@ -324,10 +323,10 @@ class GraggBulirschStoerStepInterpolator
     t4 = t4 * t4;
 
     for (int i = 0; i < dimension; ++i) {
-      interpolatedState[i] = polynoms[0][i]
-        + theta * (polynoms[1][i]
-                   + oneMinusTheta * (polynoms[2][i] * theta
-                                      + polynoms[3][i] * oneMinusTheta));
+      interpolatedState[i] = polynoms[0][i] +
+        theta * (polynoms[1][i] +
+                 oneMinusTheta * (polynoms[2][i] * theta +
+                                  polynoms[3][i] * oneMinusTheta));
 
       if (currentDegree > 3) {
         double c = polynoms[currentDegree][i];

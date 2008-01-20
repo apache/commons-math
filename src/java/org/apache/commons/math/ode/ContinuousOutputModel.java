@@ -286,10 +286,10 @@ public class ContinuousOutputModel
           double dt1 = time - tMax;
           double dt2 = time - tMed;
           double dt3 = time - tMin;
-          double iLagrange = (  (dt2 * dt3 * d23) * iMax
-                              - (dt1 * dt3 * d13) * iMed
-                              + (dt1 * dt2 * d12) * iMin)
-                           / (d12 * d23 * d13);
+          double iLagrange = ((dt2 * dt3 * d23) * iMax -
+                              (dt1 * dt3 * d13) * iMed +
+                              (dt1 * dt2 * d12) * iMin) /
+                             (d12 * d23 * d13);
           index = (int) Math.rint(iLagrange);
         }
 
@@ -306,8 +306,8 @@ public class ContinuousOutputModel
 
       // now the table slice is very small, we perform an iterative search
       index = iMin;
-      while ((index <= iMax)
-             && (locatePoint(time, (StepInterpolator) steps.get(index)) > 0)) {
+      while ((index <= iMax) &&
+             (locatePoint(time, (StepInterpolator) steps.get(index)) > 0)) {
         ++index;
       }
 
@@ -316,8 +316,8 @@ public class ContinuousOutputModel
       si.setInterpolatedTime(time);
 
     } catch (DerivativeException de) {
-      throw new RuntimeException("unexpected DerivativeException caught: "
-                                 + de.getMessage());
+      throw new RuntimeException("unexpected DerivativeException caught: " +
+                                 de.getMessage());
     }
 
   }

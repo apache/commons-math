@@ -123,9 +123,9 @@ public class HighamHall54Integrator
       }
 
       double yScale = Math.max(Math.abs(y0[j]), Math.abs(y1[j]));
-      double tol = (vecAbsoluteTolerance == null)
-        ? (scalAbsoluteTolerance + scalRelativeTolerance * yScale)
-        : (vecAbsoluteTolerance[j] + vecRelativeTolerance[j] * yScale);
+      double tol = (vecAbsoluteTolerance == null) ?
+                   (scalAbsoluteTolerance + scalRelativeTolerance * yScale) :
+                   (vecAbsoluteTolerance[j] + vecRelativeTolerance[j] * yScale);
       double ratio  = h * errSum / tol;
       error += ratio * ratio;
 

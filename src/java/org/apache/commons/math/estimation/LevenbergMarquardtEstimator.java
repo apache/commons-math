@@ -257,8 +257,7 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
         xNorm = Math.sqrt(xNorm);
         
         // initialize the step bound delta
-        delta = (xNorm == 0)
-              ? initialStepBoundFactor : (initialStepBoundFactor * xNorm);
+        delta = (xNorm == 0) ? initialStepBoundFactor : (initialStepBoundFactor * xNorm);
  
       }
 
@@ -388,30 +387,28 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
         }
    
         // tests for convergence.
-        if (((Math.abs(actRed) <= costRelativeTolerance)
-            && (preRed <= costRelativeTolerance)
-            && (ratio <= 2.0))
-            || (delta <= parRelativeTolerance * xNorm)) {
+        if (((Math.abs(actRed) <= costRelativeTolerance) &&
+             (preRed <= costRelativeTolerance) &&
+             (ratio <= 2.0)) ||
+             (delta <= parRelativeTolerance * xNorm)) {
           return;
         }
 
         // tests for termination and stringent tolerances
         // (2.2204e-16 is the machine epsilon for IEEE754)
-        if ((Math.abs(actRed) <= 2.2204e-16)
-            && (preRed <= 2.2204e-16)
-            && (ratio <= 2.0)) {
-          throw new EstimationException("cost relative tolerance is too small ({0}),"
-                                      + " no further reduction in the"
-                                      + " sum of squares is possible",
+        if ((Math.abs(actRed) <= 2.2204e-16) && (preRed <= 2.2204e-16) && (ratio <= 2.0)) {
+          throw new EstimationException("cost relative tolerance is too small ({0})," +
+                                        " no further reduction in the" +
+                                        " sum of squares is possible",
                                         new Object[] { new Double(costRelativeTolerance) });
         } else if (delta <= 2.2204e-16 * xNorm) {
-          throw new EstimationException("parameters relative tolerance is too small"
-                                      + " ({0}), no further improvement in"
-                                      + " the approximate solution is possible",
+          throw new EstimationException("parameters relative tolerance is too small" +
+                                        " ({0}), no further improvement in" +
+                                        " the approximate solution is possible",
                                         new Object[] { new Double(parRelativeTolerance) });
         } else if (maxCosine <= 2.2204e-16)  {
-          throw new EstimationException("orthogonality tolerance is too small ({0}),"
-                                      + " solution is orthogonal to the jacobian",
+          throw new EstimationException("orthogonality tolerance is too small ({0})," +
+                                        " solution is orthogonal to the jacobian",
                                         new Object[] { new Double(orthoTolerance) });
         }
 
@@ -553,8 +550,8 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
 
       // if the function is small enough, accept the current value
       // of lmPar, also test for the exceptional cases where parl is zero
-      if ((Math.abs(fp) <= 0.1 * delta)
-          || ((parl == 0) && (fp <= previousFP) && (previousFP < 0))) {
+      if ((Math.abs(fp) <= 0.1 * delta) ||
+          ((parl == 0) && (fp <= previousFP) && (previousFP < 0))) {
         return;
       }
  

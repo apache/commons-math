@@ -172,18 +172,18 @@ class DormandPrince853StepInterpolator
 
       // compute the interpolation vectors for this time step
       for (int i = 0; i < interpolatedState.length; ++i) {
-        v[0][i] = h * (b_01 * yDotK[0][i]  + b_06 * yDotK[5][i] + b_07 * yDotK[6][i]
-                     + b_08 * yDotK[7][i]  + b_09 * yDotK[8][i] + b_10 * yDotK[9][i]
-                     + b_11 * yDotK[10][i] + b_12 * yDotK[11][i]);
+        v[0][i] = h * (b_01 * yDotK[0][i]  + b_06 * yDotK[5][i] + b_07 * yDotK[6][i] +
+                       b_08 * yDotK[7][i]  + b_09 * yDotK[8][i] + b_10 * yDotK[9][i] +
+                       b_11 * yDotK[10][i] + b_12 * yDotK[11][i]);
         v[1][i] = h * yDotK[0][i] - v[0][i];
         v[2][i] = v[0][i] - v[1][i] - h * yDotK[12][i];
         for (int k = 0; k < d.length; ++k) {
-          v[k+3][i] = h * (d[k][0] * yDotK[0][i]  + d[k][1] * yDotK[5][i]  + d[k][2] * yDotK[6][i]
-                         + d[k][3] * yDotK[7][i]  + d[k][4] * yDotK[8][i]  + d[k][5] * yDotK[9][i]
-                         + d[k][6] * yDotK[10][i] + d[k][7] * yDotK[11][i] + d[k][8] * yDotK[12][i]
-                         + d[k][9]  * yDotKLast[0][i]
-                         + d[k][10] * yDotKLast[1][i]
-                         + d[k][11] * yDotKLast[2][i]);
+          v[k+3][i] = h * (d[k][0] * yDotK[0][i]  + d[k][1] * yDotK[5][i]  + d[k][2] * yDotK[6][i] +
+                           d[k][3] * yDotK[7][i]  + d[k][4] * yDotK[8][i]  + d[k][5] * yDotK[9][i] +
+                           d[k][6] * yDotK[10][i] + d[k][7] * yDotK[11][i] + d[k][8] * yDotK[12][i] +
+                           d[k][9]  * yDotKLast[0][i] +
+                           d[k][10] * yDotKLast[1][i] +
+                           d[k][11] * yDotKLast[2][i]);
         }
       }
 
@@ -194,14 +194,10 @@ class DormandPrince853StepInterpolator
     double eta = oneMinusThetaH / h;
 
     for (int i = 0; i < interpolatedState.length; ++i) {
-      interpolatedState[i] = currentState[i]
-                           -   eta * (v[0][i]
-                           - theta * (v[1][i]
-                           + theta * (v[2][i]
-                           +   eta * (v[3][i]
-                           + theta * (v[4][i]
-                           +   eta * (v[5][i]
-                           + theta * (v[6][i])))))));
+      interpolatedState[i] =
+          currentState[i] - eta * (v[0][i] - theta * (v[1][i] +
+                  theta * (v[2][i] + eta * (v[3][i] + theta * (v[4][i] +
+                          eta * (v[5][i] + theta * (v[6][i])))))));
     }
 
   }
@@ -225,29 +221,29 @@ class DormandPrince853StepInterpolator
 
     // k14
     for (int j = 0; j < currentState.length; ++j) {
-      s = k14_01 * yDotK[0][j]  + k14_06 * yDotK[5][j]  + k14_07 * yDotK[6][j]
-        + k14_08 * yDotK[7][j]  + k14_09 * yDotK[8][j]  + k14_10 * yDotK[9][j]
-        + k14_11 * yDotK[10][j] + k14_12 * yDotK[11][j] + k14_13 * yDotK[12][j];
+      s = k14_01 * yDotK[0][j]  + k14_06 * yDotK[5][j]  + k14_07 * yDotK[6][j] +
+          k14_08 * yDotK[7][j]  + k14_09 * yDotK[8][j]  + k14_10 * yDotK[9][j] +
+          k14_11 * yDotK[10][j] + k14_12 * yDotK[11][j] + k14_13 * yDotK[12][j];
       yTmp[j] = currentState[j] + h * s;
     }
     equations.computeDerivatives(previousTime + c14 * h, yTmp, yDotKLast[0]);
 
     // k15
     for (int j = 0; j < currentState.length; ++j) {
-     s = k15_01 * yDotK[0][j]  + k15_06 * yDotK[5][j]  + k15_07 * yDotK[6][j]
-       + k15_08 * yDotK[7][j]  + k15_09 * yDotK[8][j]  + k15_10 * yDotK[9][j]
-       + k15_11 * yDotK[10][j] + k15_12 * yDotK[11][j] + k15_13 * yDotK[12][j]
-       + k15_14 * yDotKLast[0][j];
+     s = k15_01 * yDotK[0][j]  + k15_06 * yDotK[5][j]  + k15_07 * yDotK[6][j] +
+         k15_08 * yDotK[7][j]  + k15_09 * yDotK[8][j]  + k15_10 * yDotK[9][j] +
+         k15_11 * yDotK[10][j] + k15_12 * yDotK[11][j] + k15_13 * yDotK[12][j] +
+         k15_14 * yDotKLast[0][j];
      yTmp[j] = currentState[j] + h * s;
     }
     equations.computeDerivatives(previousTime + c15 * h, yTmp, yDotKLast[1]);
 
     // k16
     for (int j = 0; j < currentState.length; ++j) {
-      s = k16_01 * yDotK[0][j]  + k16_06 * yDotK[5][j]  + k16_07 * yDotK[6][j]
-        + k16_08 * yDotK[7][j]  + k16_09 * yDotK[8][j]  + k16_10 * yDotK[9][j]
-        + k16_11 * yDotK[10][j] + k16_12 * yDotK[11][j] + k16_13 * yDotK[12][j]
-        + k16_14 * yDotKLast[0][j] +  k16_15 * yDotKLast[1][j];
+      s = k16_01 * yDotK[0][j]  + k16_06 * yDotK[5][j]  + k16_07 * yDotK[6][j] +
+          k16_08 * yDotK[7][j]  + k16_09 * yDotK[8][j]  + k16_10 * yDotK[9][j] +
+          k16_11 * yDotK[10][j] + k16_12 * yDotK[11][j] + k16_13 * yDotK[12][j] +
+          k16_14 * yDotKLast[0][j] +  k16_15 * yDotKLast[1][j];
       yTmp[j] = currentState[j] + h * s;
     }
     equations.computeDerivatives(previousTime + c16 * h, yTmp, yDotKLast[2]);

@@ -88,8 +88,8 @@ class MidpointStepInterpolator
     double coeff2 = oneMinusThetaH * (1.0 + theta);
 
     for (int i = 0; i < interpolatedState.length; ++i) {
-      interpolatedState[i] = currentState[i]
-                           + coeff1 * yDotK[0][i] - coeff2 * yDotK[1][i];
+      interpolatedState[i] = currentState[i] +
+                             coeff1 * yDotK[0][i] - coeff2 * yDotK[1][i];
     }
 
   }

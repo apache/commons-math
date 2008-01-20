@@ -135,12 +135,12 @@ class DormandPrince54StepInterpolator
 
       // we need to compute the interpolation vectors for this time step
       for (int i = 0; i < interpolatedState.length; ++i) {
-        v1[i] = h * (a70 * yDotK[0][i] + a72 * yDotK[2][i] + a73 * yDotK[3][i]
-                     + a74 * yDotK[4][i] + a75 * yDotK[5][i]);
+        v1[i] = h * (a70 * yDotK[0][i] + a72 * yDotK[2][i] + a73 * yDotK[3][i] +
+                     a74 * yDotK[4][i] + a75 * yDotK[5][i]);
         v2[i] = h * yDotK[0][i] - v1[i];
         v3[i] = v1[i] - v2[i] - h * yDotK[6][i];
-        v4[i] = h * (d0 * yDotK[0][i] + d2 * yDotK[2][i] + d3 * yDotK[3][i]
-                     + d4 * yDotK[4][i] + d5 * yDotK[5][i] + d6 * yDotK[6][i]);
+        v4[i] = h * (d0 * yDotK[0][i] + d2 * yDotK[2][i] + d3 * yDotK[3][i] +
+                     d4 * yDotK[4][i] + d5 * yDotK[5][i] + d6 * yDotK[6][i]);
       }
 
       vectorsInitialized = true;
@@ -150,11 +150,8 @@ class DormandPrince54StepInterpolator
     // interpolate
     double eta = oneMinusThetaH / h;
     for (int i = 0; i < interpolatedState.length; ++i) {
-      interpolatedState[i] = currentState[i]
-                           - eta * (v1[i]
-                                    - theta * (v2[i]
-                                               + theta * (v3[i]
-                                                          + eta * v4[i])));
+      interpolatedState[i] = currentState[i] -
+          eta * (v1[i] - theta * (v2[i] + theta * (v3[i] + eta * v4[i])));
     }
 
   }

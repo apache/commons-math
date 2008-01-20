@@ -132,14 +132,14 @@ public class DormandPrince54Integrator
     double error = 0;
 
     for (int j = 0; j < y0.length; ++j) {
-      double errSum = e1 * yDotK[0][j] +  e3 * yDotK[2][j]
-                    + e4 * yDotK[3][j] +  e5 * yDotK[4][j]
-                    + e6 * yDotK[5][j] +  e7 * yDotK[6][j];
+      double errSum = e1 * yDotK[0][j] +  e3 * yDotK[2][j] +
+                      e4 * yDotK[3][j] +  e5 * yDotK[4][j] +
+                      e6 * yDotK[5][j] +  e7 * yDotK[6][j];
 
       double yScale = Math.max(Math.abs(y0[j]), Math.abs(y1[j]));
-      double tol = (vecAbsoluteTolerance == null)
-        ? (scalAbsoluteTolerance + scalRelativeTolerance * yScale)
-        : (vecAbsoluteTolerance[j] + vecRelativeTolerance[j] * yScale);
+      double tol = (vecAbsoluteTolerance == null) ?
+                   (scalAbsoluteTolerance + scalRelativeTolerance * yScale) :
+                   (vecAbsoluteTolerance[j] + vecRelativeTolerance[j] * yScale);
       double ratio  = h * errSum / tol;
       error += ratio * ratio;
 

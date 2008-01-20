@@ -226,19 +226,19 @@ public class DormandPrince853Integrator
     double error2 = 0;
 
     for (int j = 0; j < y0.length; ++j) {
-      double errSum1 = e1_01 * yDotK[0][j]  + e1_06 * yDotK[5][j]
-                     + e1_07 * yDotK[6][j]  + e1_08 * yDotK[7][j]
-                     + e1_09 * yDotK[8][j]  + e1_10 * yDotK[9][j]
-                     + e1_11 * yDotK[10][j] + e1_12 * yDotK[11][j];
-      double errSum2 = e2_01 * yDotK[0][j]  + e2_06 * yDotK[5][j]
-                     + e2_07 * yDotK[6][j]  + e2_08 * yDotK[7][j]
-                     + e2_09 * yDotK[8][j]  + e2_10 * yDotK[9][j]
-                     + e2_11 * yDotK[10][j] + e2_12 * yDotK[11][j];
+      double errSum1 = e1_01 * yDotK[0][j]  + e1_06 * yDotK[5][j] +
+                       e1_07 * yDotK[6][j]  + e1_08 * yDotK[7][j] +
+                       e1_09 * yDotK[8][j]  + e1_10 * yDotK[9][j] +
+                       e1_11 * yDotK[10][j] + e1_12 * yDotK[11][j];
+      double errSum2 = e2_01 * yDotK[0][j]  + e2_06 * yDotK[5][j] +
+                       e2_07 * yDotK[6][j]  + e2_08 * yDotK[7][j] +
+                       e2_09 * yDotK[8][j]  + e2_10 * yDotK[9][j] +
+                       e2_11 * yDotK[10][j] + e2_12 * yDotK[11][j];
 
       double yScale = Math.max(Math.abs(y0[j]), Math.abs(y1[j]));
-      double tol = (vecAbsoluteTolerance == null)
-        ? (scalAbsoluteTolerance + scalRelativeTolerance * yScale)
-        : (vecAbsoluteTolerance[j] + vecRelativeTolerance[j] * yScale);
+      double tol = (vecAbsoluteTolerance == null) ?
+                   (scalAbsoluteTolerance + scalRelativeTolerance * yScale) :
+                   (vecAbsoluteTolerance[j] + vecRelativeTolerance[j] * yScale);
       double ratio1  = errSum1 / tol;
       error1        += ratio1 * ratio1;
       double ratio2  = errSum2 / tol;

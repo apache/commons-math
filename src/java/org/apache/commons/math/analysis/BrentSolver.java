@@ -65,9 +65,9 @@ public class BrentSolver extends UnivariateRealSolverImpl {
         throws MaxIterationsExceededException, FunctionEvaluationException {
 
         if (((initial - min) * (max -initial)) < 0) {
-            throw new IllegalArgumentException("Initial guess is not in search"
-                    + " interval." + "  Initial: " + initial
-                    +  "  Endpoints: [" + min + "," + max + "]");
+            throw new IllegalArgumentException("Initial guess is not in search" +
+                      " interval." + "  Initial: " + initial +
+                      "  Endpoints: [" + min + "," + max + "]");
         }
 
         // return the initial guess if it is good enough

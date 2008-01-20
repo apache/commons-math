@@ -97,9 +97,9 @@ class GillStepInterpolator
     double coeff4    = s * (1 + theta * (1 + fourTheta));
 
     for (int i = 0; i < interpolatedState.length; ++i) {
-      interpolatedState[i] = currentState[i]
-                            - coeff1 * yDotK[0][i] - coeff2 * yDotK[1][i]
-                            - coeff3 * yDotK[2][i] - coeff4 * yDotK[3][i];
+      interpolatedState[i] = currentState[i] -
+                             coeff1 * yDotK[0][i] - coeff2 * yDotK[1][i] -
+                             coeff3 * yDotK[2][i] - coeff4 * yDotK[3][i];
      }
 
   }

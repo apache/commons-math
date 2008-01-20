@@ -192,10 +192,10 @@ public class Rotation implements Serializable {
     throws NotARotationMatrixException {
 
     // dimension check
-    if ((m.length != 3) || (m[0].length != 3)
-        || (m[1].length != 3) || (m[2].length != 3)) {
-      throw new NotARotationMatrixException("a {0}x{1} matrix"
-                                            + " cannot be a rotation matrix",
+    if ((m.length != 3) || (m[0].length != 3) ||
+        (m[1].length != 3) || (m[2].length != 3)) {
+      throw new NotARotationMatrixException("a {0}x{1} matrix" +
+                                            " cannot be a rotation matrix",
                                             new String[] {
                                               Integer.toString(m.length),
                                               Integer.toString(m[0].length)
@@ -206,12 +206,12 @@ public class Rotation implements Serializable {
     double[][] ort = orthogonalizeMatrix(m, threshold);
 
     // check the sign of the determinant
-    double det = ort[0][0] * (ort[1][1] * ort[2][2] - ort[2][1] * ort[1][2])
-               - ort[1][0] * (ort[0][1] * ort[2][2] - ort[2][1] * ort[0][2])
-               + ort[2][0] * (ort[0][1] * ort[1][2] - ort[1][1] * ort[0][2]);
+    double det = ort[0][0] * (ort[1][1] * ort[2][2] - ort[2][1] * ort[1][2]) -
+                 ort[1][0] * (ort[0][1] * ort[2][2] - ort[2][1] * ort[0][2]) +
+                 ort[2][0] * (ort[0][1] * ort[1][2] - ort[1][1] * ort[0][2]);
     if (det < 0.0) {
-      throw new NotARotationMatrixException("the closest orthogonal matrix"
-                                            + " has a negative determinant {0}",
+      throw new NotARotationMatrixException("the closest orthogonal matrix" +
+                                            " has a negative determinant {0}",
                                             new String[] {
                                               Double.toString(det)
                                             });
@@ -337,9 +337,9 @@ public class Rotation implements Serializable {
   Vector3D k = new Vector3D(dy1 * dz2 - dz1 * dy2,
                             dz1 * dx2 - dx1 * dz2,
                             dx1 * dy2 - dy1 * dx2);
-  double c = k.getX() * (u1y * u2z - u1z * u2y)
-           + k.getY() * (u1z * u2x - u1x * u2z)
-           + k.getZ() * (u1x * u2y - u1y * u2x);
+  double c = k.getX() * (u1y * u2z - u1z * u2y) +
+             k.getY() * (u1z * u2x - u1x * u2z) +
+             k.getZ() * (u1x * u2y - u1y * u2x);
 
   if (c == 0) {
     // the (q1, q2, q3) vector is in the (u1, u2) plane
@@ -359,9 +359,9 @@ public class Rotation implements Serializable {
     k = new Vector3D(dy1 * dz3 - dz1 * dy3,
                      dz1 * dx3 - dx1 * dz3,
                      dx1 * dy3 - dy1 * dx3);
-    c = k.getX() * (u1y * u3z - u1z * u3y)
-      + k.getY() * (u1z * u3x - u1x * u3z)
-      + k.getZ() * (u1x * u3y - u1y * u3x);
+    c = k.getX() * (u1y * u3z - u1z * u3y) +
+        k.getY() * (u1z * u3x - u1x * u3z) +
+        k.getZ() * (u1x * u3y - u1y * u3x);
 
     if (c == 0) {
       // the (q1, q2, q3) vector is aligned with u1:
@@ -369,9 +369,9 @@ public class Rotation implements Serializable {
       k = new Vector3D(dy2 * dz3 - dz2 * dy3,
                        dz2 * dx3 - dx2 * dz3,
                        dx2 * dy3 - dy2 * dx3);
-      c = k.getX() * (u2y * u3z - u2z * u3y)
-        + k.getY() * (u2z * u3x - u2x * u3z)
-        + k.getZ() * (u2x * u3y - u2y * u3x);
+      c = k.getX() * (u2y * u3z - u2z * u3y) +
+          k.getY() * (u2z * u3x - u2x * u3z) +
+          k.getZ() * (u2x * u3y - u2y * u3x);
 
       if (c == 0) {
         // the (q1, q2, q3) vector is aligned with everything
@@ -986,9 +986,9 @@ public class Rotation implements Serializable {
       double corr22 = o2[2] - m2[2];
 
       // Frobenius norm of the correction
-      fn1 = corr00 * corr00 + corr01 * corr01 + corr02 * corr02
-          + corr10 * corr10 + corr11 * corr11 + corr12 * corr12
-          + corr20 * corr20 + corr21 * corr21 + corr22 * corr22;
+      fn1 = corr00 * corr00 + corr01 * corr01 + corr02 * corr02 +
+            corr10 * corr10 + corr11 * corr11 + corr12 * corr12 +
+            corr20 * corr20 + corr21 * corr21 + corr22 * corr22;
 
       // convergence test
       if (Math.abs(fn1 - fn) <= threshold)
@@ -1009,8 +1009,8 @@ public class Rotation implements Serializable {
     }
 
     // the algorithm did not converge after 10 iterations
-    throw new NotARotationMatrixException("unable to orthogonalize matrix"
-                                          + " in {0} iterations",
+    throw new NotARotationMatrixException("unable to orthogonalize matrix" +
+                                          " in {0} iterations",
                                           new String[] {
                                             Integer.toString(i - 1)
                                           });

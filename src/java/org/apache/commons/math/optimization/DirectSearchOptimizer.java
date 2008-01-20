@@ -504,11 +504,11 @@ public abstract class DirectSearchOptimizer {
 
         // return the found point given the lowest cost
         if (minima[0] == null) {
-            throw new ConvergenceException("none of the {0} start points"
-                    + " lead to convergence",
-                    new String[] {
-                            Integer.toString(starts)
-                    });
+            throw new ConvergenceException("none of the {0} start points" +
+                                           " lead to convergence",
+                                           new Object[] {
+                                             Integer.toString(starts)
+                                           });
         }
         return minima[0];
 

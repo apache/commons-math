@@ -124,25 +124,25 @@ public class MessagesResources_fr
     // org.apache.commons.math.ode.AdaptiveStepsizeIntegrator
     { "minimal step size ({0}) reached, integration needs {1}",
       "pas minimal ({0}) atteint, l''int\u00e9gration n\u00e9cessite {1}" },
-    { "dimensions mismatch: state vector has dimension {0},"
-    + " absolute tolerance vector has dimension {1}",
-      "incompatibilit\u00e9 de dimensions entre le vecteur d''\u00e9tat ({0}),"
-    + " et le vecteur de tol\u00e9rance absolue ({1})" },
-    { "dimensions mismatch: state vector has dimension {0},"
-    + " relative tolerance vector has dimension {1}",
-      "incompatibilit\u00e9 de dimensions entre le vecteur d''\u00e9tat ({0}),"
-    + " et le vecteur de tol\u00e9rance relative ({1})" },
+    { "dimensions mismatch: state vector has dimension {0}," +
+      " absolute tolerance vector has dimension {1}",
+      "incompatibilit\u00e9 de dimensions entre le vecteur d''\u00e9tat ({0})," +
+      " et le vecteur de tol\u00e9rance absolue ({1})" },
+    { "dimensions mismatch: state vector has dimension {0}," +
+      " relative tolerance vector has dimension {1}",
+      "incompatibilit\u00e9 de dimensions entre le vecteur d''\u00e9tat ({0})," +
+      " et le vecteur de tol\u00e9rance relative ({1})" },
 
     // org.apache.commons.math.ode.AdaptiveStepsizeIntegrator,
     // org.apache.commons.math.ode.RungeKuttaIntegrator
-    { "dimensions mismatch: ODE problem has dimension {0},"
-    + " initial state vector has dimension {1}",
-      "incompatibilit\u00e9 de dimensions entre le probl\u00e8me ODE ({0}),"
-    + " et le vecteur d''\u00e9tat initial ({1})" },
-    { "dimensions mismatch: ODE problem has dimension {0},"
-    + " final state vector has dimension {1}",
-      "incompatibilit\u00e9 de dimensions entre le probl\u00e8me ODE ({0}),"
-    + " et le vecteur d''\u00e9tat final ({1})" },
+    { "dimensions mismatch: ODE problem has dimension {0}," +
+      " initial state vector has dimension {1}",
+      "incompatibilit\u00e9 de dimensions entre le probl\u00e8me ODE ({0})," +
+      " et le vecteur d''\u00e9tat initial ({1})" },
+    { "dimensions mismatch: ODE problem has dimension {0}," +
+      " final state vector has dimension {1}",
+      "incompatibilit\u00e9 de dimensions entre le probl\u00e8me ODE ({0})," +
+      " et le vecteur d''\u00e9tat final ({1})" },
     { "too small integration interval: length = {0}",
       "intervalle d''int\u00e9gration trop petit : {0}" },
 

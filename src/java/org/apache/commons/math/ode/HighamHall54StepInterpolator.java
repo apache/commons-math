@@ -80,9 +80,9 @@ class HighamHall54StepInterpolator
     double b5 = h * (-5.0/48.0 + theta2 * (-5.0/16.0 + theta * 5.0/12.0));
 
     for (int i = 0; i < interpolatedState.length; ++i) {
-      interpolatedState[i] = currentState[i]
-                           + b0 * yDotK[0][i] + b2 * yDotK[2][i] + b3 * yDotK[3][i]
-                           + b4 * yDotK[4][i] + b5 * yDotK[5][i];
+      interpolatedState[i] = currentState[i] +
+                             b0 * yDotK[0][i] + b2 * yDotK[2][i] + b3 * yDotK[3][i] +
+                             b4 * yDotK[4][i] + b5 * yDotK[5][i];
     }
 
   }

@@ -274,8 +274,8 @@ class SwitchState implements Serializable {
     pendingEvent      = false;
     pendingEventTime  = Double.NaN;
 
-    return (nextAction == SwitchingFunction.RESET_STATE)
-        || (nextAction == SwitchingFunction.RESET_DERIVATIVES);
+    return (nextAction == SwitchingFunction.RESET_STATE) ||
+           (nextAction == SwitchingFunction.RESET_DERIVATIVES);
 
   }
 

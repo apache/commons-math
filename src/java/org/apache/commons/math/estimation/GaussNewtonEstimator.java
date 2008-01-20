@@ -164,9 +164,9 @@ public class GaussNewtonEstimator extends AbstractEstimator implements Serializa
             previous = cost;
             updateResidualsAndCost();
 
-        } while ((getCostEvaluations() < 2)
-                || (Math.abs(previous - cost) > (cost * steadyStateThreshold)
-                        && (Math.abs(cost) > convergence)));
+        } while ((getCostEvaluations() < 2) ||
+                 (Math.abs(previous - cost) > (cost * steadyStateThreshold) &&
+                  (Math.abs(cost) > convergence)));
 
     }
 

@@ -146,10 +146,10 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
         if (x < 0) {
             ret = 0.0;
         } else {
-            ret = MathUtils.binomialCoefficientDouble(x
-                + getNumberOfSuccesses() - 1, getNumberOfSuccesses() - 1)
-                * Math.pow(getProbabilityOfSuccess(), getNumberOfSuccesses())
-                * Math.pow(1.0 - getProbabilityOfSuccess(), x);
+            ret = MathUtils.binomialCoefficientDouble(x +
+                  getNumberOfSuccesses() - 1, getNumberOfSuccesses() - 1) *
+                  Math.pow(getProbabilityOfSuccess(), getNumberOfSuccesses()) *
+                  Math.pow(1.0 - getProbabilityOfSuccess(), x);
         }
         return ret;
     }
