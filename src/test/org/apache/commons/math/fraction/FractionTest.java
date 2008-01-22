@@ -63,7 +63,64 @@ public class FractionTest extends TestCase {
             fail(ex.getMessage());
         }
     }
-    
+
+    public void testGoldenRatio() {
+        try {
+            // the golden ratio is notoriously a difficult number for continuous fraction
+            new Fraction((1 + Math.sqrt(5)) / 2, 1.0e-12, 25);
+            fail("an exception should have been thrown");
+        } catch (ConvergenceException ce) {
+            // expected behavior
+        } catch (Exception e) {
+            fail("wrong exception caught");
+        }
+    }
+
+    // MATH-179
+    public void testDoubleConstructor() throws ConvergenceException  {
+        assertFraction(1, 2, new Fraction((double)1 / (double)2));
+        assertFraction(1, 3, new Fraction((double)1 / (double)3));
+        assertFraction(2, 3, new Fraction((double)2 / (double)3));
+        assertFraction(1, 4, new Fraction((double)1 / (double)4));
+        assertFraction(3, 4, new Fraction((double)3 / (double)4));
+        assertFraction(1, 5, new Fraction((double)1 / (double)5));
+        assertFraction(2, 5, new Fraction((double)2 / (double)5));
+        assertFraction(3, 5, new Fraction((double)3 / (double)5));
+        assertFraction(4, 5, new Fraction((double)4 / (double)5));
+        assertFraction(1, 6, new Fraction((double)1 / (double)6));
+        assertFraction(5, 6, new Fraction((double)5 / (double)6));
+        assertFraction(1, 7, new Fraction((double)1 / (double)7));
+        assertFraction(2, 7, new Fraction((double)2 / (double)7));
+        assertFraction(3, 7, new Fraction((double)3 / (double)7));
+        assertFraction(4, 7, new Fraction((double)4 / (double)7));
+        assertFraction(5, 7, new Fraction((double)5 / (double)7));
+        assertFraction(6, 7, new Fraction((double)6 / (double)7));
+        assertFraction(1, 8, new Fraction((double)1 / (double)8));
+        assertFraction(3, 8, new Fraction((double)3 / (double)8));
+        assertFraction(5, 8, new Fraction((double)5 / (double)8));
+        assertFraction(7, 8, new Fraction((double)7 / (double)8));
+        assertFraction(1, 9, new Fraction((double)1 / (double)9));
+        assertFraction(2, 9, new Fraction((double)2 / (double)9));
+        assertFraction(4, 9, new Fraction((double)4 / (double)9));
+        assertFraction(5, 9, new Fraction((double)5 / (double)9));
+        assertFraction(7, 9, new Fraction((double)7 / (double)9));
+        assertFraction(8, 9, new Fraction((double)8 / (double)9));
+        assertFraction(1, 10, new Fraction((double)1 / (double)10));
+        assertFraction(3, 10, new Fraction((double)3 / (double)10));
+        assertFraction(7, 10, new Fraction((double)7 / (double)10));
+        assertFraction(9, 10, new Fraction((double)9 / (double)10));
+        assertFraction(1, 11, new Fraction((double)1 / (double)11));
+        assertFraction(2, 11, new Fraction((double)2 / (double)11));
+        assertFraction(3, 11, new Fraction((double)3 / (double)11));
+        assertFraction(4, 11, new Fraction((double)4 / (double)11));
+        assertFraction(5, 11, new Fraction((double)5 / (double)11));
+        assertFraction(6, 11, new Fraction((double)6 / (double)11));
+        assertFraction(7, 11, new Fraction((double)7 / (double)11));
+        assertFraction(8, 11, new Fraction((double)8 / (double)11));
+        assertFraction(9, 11, new Fraction((double)9 / (double)11));
+        assertFraction(10, 11, new Fraction((double)10 / (double)11));
+    }
+
     public void testCompareTo() {
         Fraction first = new Fraction(1, 2);
         Fraction second = new Fraction(1, 3);
