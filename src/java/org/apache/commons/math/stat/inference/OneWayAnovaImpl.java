@@ -132,9 +132,9 @@ public class OneWayAnovaImpl implements OneWayAnova  {
             double[] array;
             try {
                 array = (double[])iterator.next();
-            } catch (Exception ex) {
+            } catch (ClassCastException ex) {
                 throw new IllegalArgumentException(
-                        "ANOVA: categoryData contains non-double[] elements.", ex);
+                        "ANOVA: categoryData contains non-double[] elements.");
             }
             if (array.length <= 1) {
                 throw new IllegalArgumentException(
