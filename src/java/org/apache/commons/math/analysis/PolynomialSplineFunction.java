@@ -31,14 +31,16 @@ import org.apache.commons.math.ArgumentOutsideDomainException;
  * have been computed to match the values of another function at the knot
  * points.  The value consistency constraints are not currently enforced by 
  * <code>PolynomialSplineFunction</code> itself, but are assumed to hold among
- * the polynomials and knot points passed to the constructor.
+ * the polynomials and knot points passed to the constructor.</p>
  * <p>
  * N.B.:  The polynomials in the <code>polynomials</code> property must be
- * centered on the knot points to compute the spline function values.  See below.
+ * centered on the knot points to compute the spline function values.  
+ * See below.</p>
  * <p>
  * The domain of the polynomial spline function is 
  * <code>[smallest knot, largest knot]</code>.  Attempts to evaluate the
  * function at values outside of this range generate IllegalArgumentExceptions.
+ * </p>
  * <p>
  * The value of the polynomial spline function for an argument <code>x</code>
  * is computed as follows:
@@ -49,7 +51,7 @@ import org.apache.commons.math.ArgumentOutsideDomainException;
  * is thrown.</li>
  * <li> Let <code>j</code> be the index of the largest knot point that is less
  * than or equal to <code>x</code>.  The value returned is <br>
- * <code>polynomials[j](x - knot[j])</code></li></ol>
+ * <code>polynomials[j](x - knot[j])</code></li></ol></p>
  *
  * @version $Revision$ $Date$
  */
@@ -83,7 +85,7 @@ public class PolynomialSplineFunction
      * and interpolating polynomials.
      * <p>
      * The constructor copies both arrays and assigns the copies to the knots
-     * and polynomials properties, respectively.
+     * and polynomials properties, respectively.</p>
      * 
      * @param knots spline segment interval delimiters
      * @param polynomials polynomial functions that make up the spline
@@ -118,10 +120,10 @@ public class PolynomialSplineFunction
      * Compute the value for the function.
      * <p>
      * Throws FunctionEvaluationException if v is outside of the domain of the
-     * function.  The domain is [smallest knot, largest knot].
+     * function.  The domain is [smallest knot, largest knot].</p>
      * <p>
      * See {@link PolynomialSplineFunction} for details on the algorithm for
-     * computing the value of the function.
+     * computing the value of the function.</p>
      * 
      * @param v the point for which the function value should be computed
      * @return the value
@@ -181,7 +183,7 @@ public class PolynomialSplineFunction
      * Returns a copy of the interpolating polynomials array.
      * <p>
      * Returns a fresh copy of the array. Changes made to the copy will
-     * not affect the polynomials property.
+     * not affect the polynomials property.</p>
      * 
      * @return the interpolating polynomials
      */
@@ -195,7 +197,7 @@ public class PolynomialSplineFunction
      * Returns an array copy of the knot points.
      * <p>
      * Returns a fresh copy of the array. Changes made to the copy
-     * will not affect the knots property.
+     * will not affect the knots property.</p>
      * 
      * @return the knot points
      */

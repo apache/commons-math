@@ -27,7 +27,7 @@ import org.apache.commons.math.FunctionEvaluationException;
  * The formula of polynomial in Newton form is
  *     p(x) = a[0] + a[1](x-c[0]) + a[2](x-c[0])(x-c[1]) + ... +
  *            a[n](x-c[0])(x-c[1])...(x-c[n-1])
- * Note that the length of a[] is one more than the length of c[]
+ * Note that the length of a[] is one more than the length of c[]</p>
  *
  * @version $Revision$ $Date$
  */
@@ -61,7 +61,7 @@ public class PolynomialFunctionNewtonForm implements UnivariateRealFunction,
      * centers are important in that if c[] shuffle, then values of a[] would
      * completely change, not just a permutation of old a[].
      * <p>
-     * The constructor makes copy of the input arrays and assigns them.
+     * The constructor makes copy of the input arrays and assigns them.</p>
      * 
      * @param a the coefficients in Newton form formula
      * @param c the centers
@@ -102,7 +102,7 @@ public class PolynomialFunctionNewtonForm implements UnivariateRealFunction,
     /**
      * Returns a copy of coefficients in Newton form formula.
      * <p>
-     * Changes made to the returned copy will not affect the polynomial.
+     * Changes made to the returned copy will not affect the polynomial.</p>
      * 
      * @return a fresh copy of coefficients in Newton form formula
      */
@@ -115,7 +115,7 @@ public class PolynomialFunctionNewtonForm implements UnivariateRealFunction,
     /**
      * Returns a copy of the centers array.
      * <p>
-     * Changes made to the returned copy will not affect the polynomial.
+     * Changes made to the returned copy will not affect the polynomial.</p>
      * 
      * @return a fresh copy of the centers array
      */
@@ -128,7 +128,7 @@ public class PolynomialFunctionNewtonForm implements UnivariateRealFunction,
     /**
      * Returns a copy of the coefficients array.
      * <p>
-     * Changes made to the returned copy will not affect the polynomial.
+     * Changes made to the returned copy will not affect the polynomial.</p>
      * 
      * @return a fresh copy of the coefficients array
      */
@@ -194,7 +194,7 @@ public class PolynomialFunctionNewtonForm implements UnivariateRealFunction,
      * Verifies that the input arrays are valid.
      * <p>
      * The centers must be distinct for interpolation purposes, but not
-     * for general use. Thus it is not verified here.
+     * for general use. Thus it is not verified here.</p>
      * 
      * @param a the coefficients in Newton form formula
      * @param c the centers

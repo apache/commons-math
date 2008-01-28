@@ -40,9 +40,9 @@ import org.apache.commons.math.stat.descriptive.StatisticalSummary;
  * <li>generating random values from the distribution</li>
  * </ul>
  * Applications can use <code>EmpiricalDistribution</code> implementations to
- * build grouped frequnecy histograms representing the input data or to
+ * build grouped frequency histograms representing the input data or to
  * generate random values "like" those in the input file -- i.e., the values
- * generated will follow the distribution of the values in the file.
+ * generated will follow the distribution of the values in the file.</p>
  * 
  * @version $Revision$ $Date$
  */

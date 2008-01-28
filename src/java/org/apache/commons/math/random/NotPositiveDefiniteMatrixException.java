@@ -19,9 +19,12 @@ package org.apache.commons.math.random;
 
 import org.apache.commons.math.MathException;
 
-/** This class represents exceptions thrown by the correlated random
+/** 
+ * This class represents exceptions thrown by the correlated random
  * vector generator.
- * @version $Revision:$ $Date$
+ * 
+ * @since 1.2
+ * @version $Revision$ $Date$
  */
 
 public class NotPositiveDefiniteMatrixException extends MathException {

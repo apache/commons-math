@@ -21,22 +21,24 @@ package org.apache.commons.math.analysis;
  * <p>
  * The {@link #interpolate(double[], double[])} method returns a {@link PolynomialSplineFunction}
  * consisting of n cubic polynomials, defined over the subintervals determined by the x values,  
- * x[0] < x[i] ... < x[n].  The x values are referred to as "knot points."
+ * x[0] < x[i] ... < x[n].  The x values are referred to as "knot points."</p>
  * <p>
  * The value of the PolynomialSplineFunction at a point x that is greater than or equal to the smallest
  * knot point and strictly less than the largest knot point is computed by finding the subinterval to which
  * x belongs and computing the value of the corresponding polynomial at <code>x - x[i] </code> where
  * <code>i</code> is the index of the subinterval.  See {@link PolynomialSplineFunction} for more details.
+ * </p>
  * <p>
  * The interpolating polynomials satisfy: <ol>
  * <li>The value of the PolynomialSplineFunction at each of the input x values equals the 
  *  corresponding y value.</li>
  * <li>Adjacent polynomials are equal through two derivatives at the knot points (i.e., adjacent polynomials 
  *  "match up" at the knot points, as do their first and second derivatives).</li>
- * </ol>
+ * </ol></p>
  * <p>
  * The cubic spline interpolation algorithm implemented is as described in R.L. Burden, J.D. Faires, 
  * <u>Numerical Analysis</u>, 4th Ed., 1989, PWS-Kent, ISBN 0-53491-585-X, pp 126-131.
+ * </p>
  *
  * @version $Revision$ $Date$
  *

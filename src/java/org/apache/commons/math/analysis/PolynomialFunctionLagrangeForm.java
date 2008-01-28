@@ -28,7 +28,7 @@ import org.apache.commons.math.FunctionEvaluationException;
  * Analysis</b>, ISBN 038795452X, chapter 2.
  * <p>
  * The approximated function should be smooth enough for Lagrange polynomial
- * to work well. Otherwise, consider using splines instead.
+ * to work well. Otherwise, consider using splines instead.</p>
  *
  * @version $Revision$ $Date$
  */
@@ -59,7 +59,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction,
      * Construct a Lagrange polynomial with the given abscissas and function
      * values. The order of interpolating points are not important.
      * <p>
-     * The constructor makes copy of the input arrays and assigns them.
+     * The constructor makes copy of the input arrays and assigns them.</p>
      * 
      * @param x interpolating points
      * @param y function values at interpolating points
@@ -104,7 +104,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction,
     /**
      * Returns a copy of the interpolating points array.
      * <p>
-     * Changes made to the returned copy will not affect the polynomial.
+     * Changes made to the returned copy will not affect the polynomial.</p>
      * 
      * @return a fresh copy of the interpolating points array
      */
@@ -117,7 +117,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction,
     /**
      * Returns a copy of the interpolating values array.
      * <p>
-     * Changes made to the returned copy will not affect the polynomial.
+     * Changes made to the returned copy will not affect the polynomial.</p>
      * 
      * @return a fresh copy of the interpolating values array
      */
@@ -130,7 +130,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction,
     /**
      * Returns a copy of the coefficients array.
      * <p>
-     * Changes made to the returned copy will not affect the polynomial.
+     * Changes made to the returned copy will not affect the polynomial.</p>
      * 
      * @return a fresh copy of the coefficients array
      */
@@ -149,7 +149,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction,
      * Neville's Algorithm</a>. It takes O(N^2) time.
      * <p>
      * This function is made public static so that users can call it directly
-     * without instantiating PolynomialFunctionLagrangeForm object.
+     * without instantiating PolynomialFunctionLagrangeForm object.</p>
      *
      * @param x the interpolating points array
      * @param y the interpolating values array
@@ -216,7 +216,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction,
      * interpolation data. It takes O(N^2) time.
      * <p>
      * Note this computation can be ill-conditioned. Use with caution
-     * and only when it is necessary.
+     * and only when it is necessary.</p>
      *
      * @throws ArithmeticException if any abscissas coincide
      */
@@ -274,7 +274,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction,
      * Verifies that the interpolation arrays are valid.
      * <p>
      * The interpolating points must be distinct. However it is not
-     * verified here, it is checked in evaluate() and computeCoefficients().
+     * verified here, it is checked in evaluate() and computeCoefficients().</p>
      * 
      * @param x the interpolating points array
      * @param y the interpolating values array

@@ -32,9 +32,9 @@ import org.apache.commons.math.MaxIterationsExceededException;
  * the unrestricted secant algorithm. However, this implementation should in
  * general outperform the 
  * <a href="http://mathworld.wolfram.com/MethodofFalsePosition.html">
- * regula falsi method.</a>
+ * regula falsi method.</a></p>
  * <p>
- * The function is assumed to be continuous but not necessarily smooth.
+ * The function is assumed to be continuous but not necessarily smooth.</p>
  *  
  * @version $Revision$ $Date$
  */

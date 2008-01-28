@@ -28,11 +28,11 @@ import org.apache.commons.math.util.MathUtils;
  * infinite values according to the rules for {@link java.lang.Double}
  * arithmetic, applying definitional formulas and returning <code>NaN</code> or
  * infinite values in real or imaginary parts as these arise in computation. 
- * See individual method javadocs for details.
+ * See individual method javadocs for details.</p>
  * <p>
  * {@link #equals} identifies all values with <code>NaN</code> in either real 
  * or imaginary part - e.g., <pre>
- * <code>1 + NaNi  == NaN + i == NaN + NaNi.</code></pre>
+ * <code>1 + NaNi  == NaN + i == NaN + NaNi.</code></pre></p>
  *
  * @author Apache Software Foundation
  * @version $Revision$ $Date$
@@ -81,7 +81,7 @@ public class Complex implements Serializable  {
      * Returns <code>NaN</code> if either real or imaginary part is
      * <code>NaN</code> and <code>Double.POSITIVE_INFINITY</code> if
      * neither part is <code>NaN</code>, but at least one part takes an infinite
-     * value.
+     * value.</p>
      *
      * @return the absolute value
      */
@@ -115,12 +115,12 @@ public class Complex implements Serializable  {
      * Uses the definitional formula 
      * <pre>
      * (a + bi) + (c + di) = (a+c) + (b+d)i
-     * </pre>
+     * </pre></p>
      * <p>
      * If either this or <code>rhs</code> has a NaN value in either part,
      * {@link #NaN} is returned; otherwise Inifinite and NaN values are
      * returned in the parts of the result according to the rules for
-     * {@link java.lang.Double} arithmetic. 
+     * {@link java.lang.Double} arithmetic.</p> 
      *
      * @param rhs the other complex number
      * @return the complex number sum
@@ -136,12 +136,12 @@ public class Complex implements Serializable  {
      * "A + Bi" is "A - Bi". 
      * <p>
      * {@link #NaN} is returned if either the real or imaginary
-     * part of this Complex number equals <code>Double.NaN</code>.
+     * part of this Complex number equals <code>Double.NaN</code>.</p>
      * <p>
      * If the imaginary part is infinite, and the real part is not NaN, 
      * the returned value has infinite imaginary part of the opposite
      * sign - e.g. the conjugate of <code>1 + POSITIVE_INFINITY i</code>
-     * is <code>1 - NEGATIVE_INFINITY i</code>
+     * is <code>1 - NEGATIVE_INFINITY i</code></p>
      *
      * @return the conjugate of this Complex object
      */
@@ -164,7 +164,7 @@ public class Complex implements Serializable  {
      * but uses 
      * <a href="http://doi.acm.org/10.1145/1039813.1039814">
      * prescaling of operands</a> to limit the effects of overflows and
-     * underflows in the computation.
+     * underflows in the computation.</p>
      * <p>
      * Infinite and NaN values are handled / returned according to the
      * following rules, applied in the order presented:
@@ -181,7 +181,7 @@ public class Complex implements Serializable  {
      * <li>If this is infinite and <code>rhs</code> is finite, NaN values are
      * returned in the parts of the result if the {@link java.lang.Double}
      * rules applied to the definitional formula force NaN results.</li>
-     * </ul>
+     * </ul></p>
      * 
      * @param rhs the other complex number
      * @return the complex number quotient
@@ -226,12 +226,12 @@ public class Complex implements Serializable  {
      * <p>
      * If both the real and imaginary parts of two Complex numbers
      * are exactly the same, and neither is <code>Double.NaN</code>, the two
-     * Complex objects are considered to be equal. 
+     * Complex objects are considered to be equal.</p>
      * <p>
      * All <code>NaN</code> values are considered to be equal - i.e, if either
      * (or both) real and imaginary parts of the complex number are equal
      * to <code>Double.NaN</code>, the complex number is equal to 
-     * <code>Complex.NaN</code>.
+     * <code>Complex.NaN</code>.</p>
      *
      * @param other Object to test for equality to this
      * @return true if two Complex objects are equal, false if
@@ -269,7 +269,7 @@ public class Complex implements Serializable  {
     /**
      * Get a hashCode for the complex number.
      * <p>
-     * All NaN values have the same hash code.
+     * All NaN values have the same hash code.</p>
      * 
      * @return a hash code value for this object
      */
@@ -368,7 +368,7 @@ public class Complex implements Serializable  {
      * Return the additive inverse of this complex number.
      * <p>
      * Returns <code>Complex.NaN</code> if either real or imaginary
-     * part of this Complex number equals <code>Double.NaN</code>.
+     * part of this Complex number equals <code>Double.NaN</code>.</p>
      *
      * @return the negation of this complex number
      */
@@ -387,12 +387,12 @@ public class Complex implements Serializable  {
      * Uses the definitional formula 
      * <pre>
      * (a + bi) - (c + di) = (a-c) + (b-d)i
-     * </pre>
+     * </pre></p>
      * <p>
      * If either this or <code>rhs</code> has a NaN value in either part,
      * {@link #NaN} is returned; otherwise inifinite and NaN values are
      * returned in the parts of the result according to the rules for
-     * {@link java.lang.Double} arithmetic. 
+     * {@link java.lang.Double} arithmetic. </p>
      * 
      * @param rhs the other complex number
      * @return the complex number difference
@@ -413,10 +413,10 @@ public class Complex implements Serializable  {
      * inverse cosine</a> of this complex number.
      * <p>
      * Implements the formula: <pre>
-     * <code> acos(z) = -i (log(z + i (sqrt(1 - z<sup>2</sup>))))</code></pre>
+     * <code> acos(z) = -i (log(z + i (sqrt(1 - z<sup>2</sup>))))</code></pre></p>
      * <p>
      * Returns {@link Complex#NaN} if either real or imaginary part of the 
-     * input argument is <code>NaN</code> or infinite.
+     * input argument is <code>NaN</code> or infinite.</p>
      * 
      * @return the inverse cosine of this complex number
      * @since 1.2
@@ -436,10 +436,10 @@ public class Complex implements Serializable  {
      * inverse sine</a> of this complex number.
      * <p>
      * Implements the formula: <pre>
-     * <code> asin(z) = -i (log(sqrt(1 - z<sup>2</sup>) + iz)) </code></pre>
+     * <code> asin(z) = -i (log(sqrt(1 - z<sup>2</sup>) + iz)) </code></pre></p>
      * <p>
      * Returns {@link Complex#NaN} if either real or imaginary part of the 
-     * input argument is <code>NaN</code> or infinite.
+     * input argument is <code>NaN</code> or infinite.</p>
      * 
      * @return the inverse sine of this complex number.
      * @since 1.2
@@ -459,10 +459,10 @@ public class Complex implements Serializable  {
      * inverse tangent</a> of this complex number.
      * <p>
      * Implements the formula: <pre>
-     * <code> atan(z) = (i/2) log((i + z)/(i - z)) </code></pre>
+     * <code> atan(z) = (i/2) log((i + z)/(i - z)) </code></pre></p>
      * <p>
      * Returns {@link Complex#NaN} if either real or imaginary part of the 
-     * input argument is <code>NaN</code> or infinite. 
+     * input argument is <code>NaN</code> or infinite.</p>
      * 
      * @return the inverse tangent of this complex number
      * @since 1.2
@@ -486,10 +486,10 @@ public class Complex implements Serializable  {
      * <code> cos(a + bi) = cos(a)cosh(b) - sin(a)sinh(b)i</code></pre>
      * where the (real) functions on the right-hand side are
      * {@link java.lang.Math#sin}, {@link java.lang.Math#cos}, 
-     * {@link MathUtils#cosh} and {@link MathUtils#sinh}.
+     * {@link MathUtils#cosh} and {@link MathUtils#sinh}.</p>
      * <p>
      * Returns {@link Complex#NaN} if either real or imaginary part of the 
-     * input argument is <code>NaN</code>.
+     * input argument is <code>NaN</code>.</p>
      * <p>
      * Infinite values in real or imaginary parts of the input may result in
      * infinite or NaN values returned in parts of the result.<pre>
@@ -497,7 +497,7 @@ public class Complex implements Serializable  {
      * <code>
      * cos(1 &plusmn; INFINITY i) = 1 &#x2213; INFINITY i
      * cos(&plusmn;INFINITY + i) = NaN + NaN i
-     * cos(&plusmn;INFINITY &plusmn; INFINITY i) = NaN + NaN i</code></pre>
+     * cos(&plusmn;INFINITY &plusmn; INFINITY i) = NaN + NaN i</code></pre></p>
      * 
      * @return the cosine of this complex number
      * @since 1.2
@@ -520,10 +520,10 @@ public class Complex implements Serializable  {
      * <code> cosh(a + bi) = cosh(a)cos(b) + sinh(a)sin(b)i</code></pre>
      * where the (real) functions on the right-hand side are
      * {@link java.lang.Math#sin}, {@link java.lang.Math#cos}, 
-     * {@link MathUtils#cosh} and {@link MathUtils#sinh}.
+     * {@link MathUtils#cosh} and {@link MathUtils#sinh}.</p>
      * <p>
      * Returns {@link Complex#NaN} if either real or imaginary part of the 
-     * input argument is <code>NaN</code>.
+     * input argument is <code>NaN</code>.</p>
      * <p>
      * Infinite values in real or imaginary parts of the input may result in
      * infinite or NaN values returned in parts of the result.<pre>
@@ -531,7 +531,7 @@ public class Complex implements Serializable  {
      * <code>
      * cosh(1 &plusmn; INFINITY i) = NaN + NaN i
      * cosh(&plusmn;INFINITY + i) = INFINITY &plusmn; INFINITY i
-     * cosh(&plusmn;INFINITY &plusmn; INFINITY i) = NaN + NaN i</code></pre>
+     * cosh(&plusmn;INFINITY &plusmn; INFINITY i) = NaN + NaN i</code></pre></p>
      * 
      * @return the hyperbolic cosine of this complex number.
      * @since 1.2
@@ -554,10 +554,10 @@ public class Complex implements Serializable  {
      * <code> exp(a + bi) = exp(a)cos(b) + exp(a)sin(b)i</code></pre>
      * where the (real) functions on the right-hand side are
      * {@link java.lang.Math#exp}, {@link java.lang.Math#cos}, and
-     * {@link java.lang.Math#sin}.
+     * {@link java.lang.Math#sin}.</p>
      * <p>
      * Returns {@link Complex#NaN} if either real or imaginary part of the 
-     * input argument is <code>NaN</code>.
+     * input argument is <code>NaN</code>.</p>
      * <p>
      * Infinite values in real or imaginary parts of the input may result in
      * infinite or NaN values returned in parts of the result.<pre>
@@ -566,7 +566,7 @@ public class Complex implements Serializable  {
      * exp(1 &plusmn; INFINITY i) = NaN + NaN i
      * exp(INFINITY + i) = INFINITY + INFINITY i
      * exp(-INFINITY + i) = 0 + 0i
-     * exp(&plusmn;INFINITY &plusmn; INFINITY i) = NaN + NaN i</code></pre>
+     * exp(&plusmn;INFINITY &plusmn; INFINITY i) = NaN + NaN i</code></pre></p>
      * 
      * @return <i>e</i><sup><code>this</code></sup>
      * @since 1.2
@@ -589,10 +589,10 @@ public class Complex implements Serializable  {
      * <code> log(a + bi) = ln(|a + bi|) + arg(a + bi)i</code></pre>
      * where ln on the right hand side is {@link java.lang.Math#log},
      * <code>|a + bi|</code> is the modulus, {@link Complex#abs},  and
-     * <code>arg(a + bi) = {@link java.lang.Math#atan2}(b, a)</code>
+     * <code>arg(a + bi) = {@link java.lang.Math#atan2}(b, a)</code></p>
      * <p>
      * Returns {@link Complex#NaN} if either real or imaginary part of the 
-     * input argument is <code>NaN</code>.
+     * input argument is <code>NaN</code>.</p>
      * <p>
      * Infinite (or critical) values in real or imaginary parts of the input may
      * result in infinite or NaN values returned in parts of the result.<pre>
@@ -604,7 +604,7 @@ public class Complex implements Serializable  {
      * log(INFINITY &plusmn; INFINITY i) = INFINITY &plusmn; (&pi;/4)i
      * log(-INFINITY &plusmn; INFINITY i) = INFINITY &plusmn; (3&pi;/4)i
      * log(0 + 0i) = -INFINITY + 0i
-     * </code></pre>
+     * </code></pre></p>
      * 
      * @return ln of this complex number.
      * @since 1.2
@@ -624,11 +624,11 @@ public class Complex implements Serializable  {
      * Implements the formula: <pre>
      * <code> y<sup>x</sup> = exp(x&middot;log(y))</code></pre> 
      * where <code>exp</code> and <code>log</code> are {@link #exp} and
-     * {@link #log}, respectively.
+     * {@link #log}, respectively.</p>
      * <p>
      * Returns {@link Complex#NaN} if either real or imaginary part of the 
      * input argument is <code>NaN</code> or infinite, or if <code>y</code>
-     * equals {@link Complex#ZERO}.
+     * equals {@link Complex#ZERO}.</p>
      * 
      * @param x the exponent.
      * @return <code>this</code><sup><code>x</code></sup>
@@ -652,10 +652,10 @@ public class Complex implements Serializable  {
      * <code> sin(a + bi) = sin(a)cosh(b) - cos(a)sinh(b)i</code></pre>
      * where the (real) functions on the right-hand side are
      * {@link java.lang.Math#sin}, {@link java.lang.Math#cos}, 
-     * {@link MathUtils#cosh} and {@link MathUtils#sinh}.
+     * {@link MathUtils#cosh} and {@link MathUtils#sinh}.</p>
      * <p>
      * Returns {@link Complex#NaN} if either real or imaginary part of the 
-     * input argument is <code>NaN</code>.
+     * input argument is <code>NaN</code>.</p>
      * <p>
      * Infinite values in real or imaginary parts of the input may result in
      * infinite or NaN values returned in parts of the result.<pre>
@@ -663,7 +663,7 @@ public class Complex implements Serializable  {
      * <code>
      * sin(1 &plusmn; INFINITY i) = 1 &plusmn; INFINITY i
      * sin(&plusmn;INFINITY + i) = NaN + NaN i
-     * sin(&plusmn;INFINITY &plusmn; INFINITY i) = NaN + NaN i</code></pre>
+     * sin(&plusmn;INFINITY &plusmn; INFINITY i) = NaN + NaN i</code></pre></p>
      * 
      * @return the sine of this complex number.
      * @since 1.2
@@ -686,10 +686,10 @@ public class Complex implements Serializable  {
      * <code> sinh(a + bi) = sinh(a)cos(b)) + cosh(a)sin(b)i</code></pre>
      * where the (real) functions on the right-hand side are
      * {@link java.lang.Math#sin}, {@link java.lang.Math#cos}, 
-     * {@link MathUtils#cosh} and {@link MathUtils#sinh}.
+     * {@link MathUtils#cosh} and {@link MathUtils#sinh}.</p>
      * <p>
      * Returns {@link Complex#NaN} if either real or imaginary part of the 
-     * input argument is <code>NaN</code>.
+     * input argument is <code>NaN</code>.</p>
      * <p>
      * Infinite values in real or imaginary parts of the input may result in
      * infinite or NaN values returned in parts of the result.<pre>
@@ -697,7 +697,7 @@ public class Complex implements Serializable  {
      * <code>
      * sinh(1 &plusmn; INFINITY i) = NaN + NaN i
      * sinh(&plusmn;INFINITY + i) = &plusmn; INFINITY + INFINITY i
-     * sinh(&plusmn;INFINITY &plusmn; INFINITY i) = NaN + NaN i</code></pre
+     * sinh(&plusmn;INFINITY &plusmn; INFINITY i) = NaN + NaN i</code></pre></p>
      * 
      * @return the hyperbolic sine of this complex number
      * @since 1.2
@@ -725,10 +725,10 @@ public class Complex implements Serializable  {
      * <li><code>|a| = {@link Math#abs}(a)</code></li>
      * <li><code>|a + bi| = {@link Complex#abs}(a + bi) </code></li>
      * <li><code>sign(b) =  {@link MathUtils#indicator}(b) </code>
-     * </ul>
+     * </ul></p>
      * <p>
      * Returns {@link Complex#NaN} if either real or imaginary part of the 
-     * input argument is <code>NaN</code>.
+     * input argument is <code>NaN</code>.</p>
      * <p>
      * Infinite values in real or imaginary parts of the input may result in
      * infinite or NaN values returned in parts of the result.<pre>
@@ -739,7 +739,7 @@ public class Complex implements Serializable  {
      * sqrt(-INFINITY + i) = 0 + INFINITY i
      * sqrt(INFINITY &plusmn; INFINITY i) = INFINITY + NaN i
      * sqrt(-INFINITY &plusmn; INFINITY i) = NaN &plusmn; INFINITY i
-     * </code></pre>
+     * </code></pre></p>
      * 
      * @return the square root of this complex number
      * @since 1.2
@@ -769,13 +769,13 @@ public class Complex implements Serializable  {
      * number.
      * <p>
      * Computes the result directly as 
-     * <code>sqrt(Complex.ONE.subtract(z.multiply(z)))</code>.
+     * <code>sqrt(Complex.ONE.subtract(z.multiply(z)))</code>.</p>
      * <p>
      * Returns {@link Complex#NaN} if either real or imaginary part of the 
-     * input argument is <code>NaN</code>.
+     * input argument is <code>NaN</code>.</p>
      * <p>
      * Infinite values in real or imaginary parts of the input may result in
-     * infinite or NaN values returned in parts of the result. 
+     * infinite or NaN values returned in parts of the result.</p>
      * 
      * @return the square root of 1 - <code>this</code><sup>2</sup>
      * @since 1.2
@@ -793,10 +793,10 @@ public class Complex implements Serializable  {
      * <code>tan(a + bi) = sin(2a)/(cos(2a)+cosh(2b)) + [sinh(2b)/(cos(2a)+cosh(2b))]i</code></pre>
      * where the (real) functions on the right-hand side are
      * {@link java.lang.Math#sin}, {@link java.lang.Math#cos}, 
-     * {@link MathUtils#cosh} and {@link MathUtils#sinh}.
+     * {@link MathUtils#cosh} and {@link MathUtils#sinh}.</p>
      * <p>
      * Returns {@link Complex#NaN} if either real or imaginary part of the 
-     * input argument is <code>NaN</code>.
+     * input argument is <code>NaN</code>.</p>
      * <p>
      * Infinite (or critical) values in real or imaginary parts of the input may
      * result in infinite or NaN values returned in parts of the result.<pre>
@@ -805,7 +805,7 @@ public class Complex implements Serializable  {
      * tan(1 &plusmn; INFINITY i) = 0 + NaN i
      * tan(&plusmn;INFINITY + i) = NaN + NaN i
      * tan(&plusmn;INFINITY &plusmn; INFINITY i) = NaN + NaN i
-     * tan(&plusmn;&pi;/2 + 0 i) = &plusmn;INFINITY + NaN i</code></pre>
+     * tan(&plusmn;&pi;/2 + 0 i) = &plusmn;INFINITY + NaN i</code></pre></p>
      * 
      * @return the tangent of this complex number
      * @since 1.2
@@ -831,10 +831,10 @@ public class Complex implements Serializable  {
      * <code>tan(a + bi) = sinh(2a)/(cosh(2a)+cos(2b)) + [sin(2b)/(cosh(2a)+cos(2b))]i</code></pre>
      * where the (real) functions on the right-hand side are
      * {@link java.lang.Math#sin}, {@link java.lang.Math#cos}, 
-     * {@link MathUtils#cosh} and {@link MathUtils#sinh}.
+     * {@link MathUtils#cosh} and {@link MathUtils#sinh}.</p>
      * <p>
      * Returns {@link Complex#NaN} if either real or imaginary part of the 
-     * input argument is <code>NaN</code>.
+     * input argument is <code>NaN</code>.</p>
      * <p>
      * Infinite values in real or imaginary parts of the input may result in
      * infinite or NaN values returned in parts of the result.<pre>
@@ -843,7 +843,7 @@ public class Complex implements Serializable  {
      * tanh(1 &plusmn; INFINITY i) = NaN + NaN i
      * tanh(&plusmn;INFINITY + i) = NaN + 0 i
      * tanh(&plusmn;INFINITY &plusmn; INFINITY i) = NaN + NaN i
-     * tanh(0 + (&pi;/2)i) = NaN + INFINITY i</code></pre>
+     * tanh(0 + (&pi;/2)i) = NaN + INFINITY i</code></pre></p>
      *
      * @return the hyperbolic tangent of this complex number
      * @since 1.2

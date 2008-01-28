@@ -26,7 +26,7 @@ import org.apache.commons.math.MathException;
  * chapter 2.
  * <p>
  * The actual code of Neville's evalution is in PolynomialFunctionLagrangeForm,
- * this class provides an easy-to-use interface to it.
+ * this class provides an easy-to-use interface to it.</p>
  *
  * @version $Revision$ $Date$
  */

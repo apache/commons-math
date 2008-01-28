@@ -23,7 +23,7 @@ import org.apache.commons.math.MaxIterationsExceededException;
  * Implements the <a href="http://mathworld.wolfram.com/Bisection.html">
  * bisection algorithm</a> for finding zeros of univariate real functions. 
  * <p>
- * The function should be continuous but not necessarily smooth.
+ * The function should be continuous but not necessarily smooth.</p>
  * 
  * @version $Revision$ $Date$
  */

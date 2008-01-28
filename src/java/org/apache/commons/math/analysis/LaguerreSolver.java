@@ -28,7 +28,7 @@ import org.apache.commons.math.complex.Complex;
  * ISBN 048641454X, chapter 8.
  * <p>
  * Laguerre's method is global in the sense that it can start with any initial
- * approximation and be able to solve all roots from that point.
+ * approximation and be able to solve all roots from that point.</p>
  *
  * @version $Revision$ $Date$
  */
@@ -69,7 +69,7 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
     /**
      * Find a real root in the given interval with initial value.
      * <p>
-     * Requires bracketing condition.
+     * Requires bracketing condition.</p>
      * 
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
@@ -105,7 +105,7 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
      * Complex) may not be a real zero inside [min, max]. For example,
      * p(x) = x^3 + 1, min = -2, max = 2, initial = 0. We can either try
      * another initial value, or, as we did here, call solveAll() to obtain
-     * all roots and pick up the one that we're looking for.
+     * all roots and pick up the one that we're looking for.</p>
      *
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval

@@ -24,7 +24,7 @@ import org.apache.commons.math.MaxIterationsExceededException;
  * Implements the <a href="http://mathworld.wolfram.com/BrentsMethod.html">
  * Brent algorithm</a> for  finding zeros of real univariate functions.
  * <p>
- * The function should be continuous but not necessarily smooth.
+ * The function should be continuous but not necessarily smooth.</p>
  *  
  * @version $Revision$ $Date$
  */
@@ -111,7 +111,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
      * <p>
      * Requires that the values of the function at the endpoints have opposite
      * signs. An <code>IllegalArgumentException</code> is thrown if this is not
-     * the case.
+     * the case.</p>
      * 
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.

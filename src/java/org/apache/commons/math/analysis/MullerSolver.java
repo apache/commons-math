@@ -28,7 +28,7 @@ import org.apache.commons.math.util.MathUtils;
  * <p>
  * Muller's method applies to both real and complex functions, but here we
  * restrict ourselves to real functions. Methods solve() and solve2() find
- * real zeros, using different ways to bypass complex arithmetics.
+ * real zeros, using different ways to bypass complex arithmetics.</p>
  *
  * @version $Revision$ $Date$
  */
@@ -49,7 +49,7 @@ public class MullerSolver extends UnivariateRealSolverImpl {
     /**
      * Find a real root in the given interval with initial value.
      * <p>
-     * Requires bracketing condition.
+     * Requires bracketing condition.</p>
      * 
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
@@ -84,14 +84,14 @@ public class MullerSolver extends UnivariateRealSolverImpl {
      * Original Muller's method would have function evaluation at complex point.
      * Since our f(x) is real, we have to find ways to avoid that. Bracketing
      * condition is one way to go: by requiring bracketing in every iteration,
-     * the newly computed approximation is guaranteed to be real.
+     * the newly computed approximation is guaranteed to be real.</p>
      * <p>
      * Normally Muller's method converges quadratically in the vicinity of a
      * zero, however it may be very slow in regions far away from zeros. For
      * example, f(x) = exp(x) - 1, min = -50, max = 100. In such case we use
-     * bisection as a safety backup if it performs very poorly.
+     * bisection as a safety backup if it performs very poorly.</p>
      * <p>
-     * The formulas here use divided differences directly.
+     * The formulas here use divided differences directly.</p>
      * 
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
@@ -188,14 +188,14 @@ public class MullerSolver extends UnivariateRealSolverImpl {
      * Except for the initial [min, max], solve2() does not require bracketing
      * condition, e.g. f(x0), f(x1), f(x2) can have the same sign. If complex
      * number arises in the computation, we simply use its modulus as real
-     * approximation.
+     * approximation.</p>
      * <p>
      * Because the interval may not be bracketing, bisection alternative is
      * not applicable here. However in practice our treatment usually works
      * well, especially near real zeros where the imaginary part of complex
-     * approximation is often negligible.
+     * approximation is often negligible.</p>
      * <p>
-     * The formulas here do not use divided differences directly.
+     * The formulas here do not use divided differences directly.</p>
      * 
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval

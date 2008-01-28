@@ -36,10 +36,10 @@ import java.util.Collection;
  * <p>
  * Supports reseeding the underlying pseudo-random number generator (PRNG). 
  * The <code>SecurityProvider</code> and <code>Algorithm</code>
- * used by the <code>SecureRandom</code> instance can also be reset.
+ * used by the <code>SecureRandom</code> instance can also be reset.</p>
  * <p>
  * For details on the default PRNGs, see {@link java.util.Random} and
- * {@link java.security.SecureRandom}. 
+ * {@link java.security.SecureRandom}.</p>
  * <p>
  * <strong>Usage Notes</strong>: <ul>
  * <li>
@@ -75,7 +75,7 @@ import java.util.Collection;
  * identical).</li>
  * <li>
  * This implementation is not synchronized.
- * </ul>
+ * </ul></p>
  *
  * @version $Revision$ $Date$
  */
@@ -109,12 +109,14 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
+     * {@inheritDoc}<p>
      * <strong>Algorithm Description:</strong> hex strings are generated
      * using a 2-step process. <ol>
      * <li>
      * len/2+1 binary bytes are generated using the underlying Random</li>
      * <li>
-     * Each binary byte is translated into 2 hex digits</li></ol>
+     * Each binary byte is translated into 2 hex digits</li></ol></p>
+     * 
      * @param len the desired string length.
      * @return the random string.
      */
@@ -190,6 +192,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
      /**
+     * {@inheritDoc}<p>
      * <strong>Algorithm Description:</strong> hex strings are generated in
      * 40-byte segments using a 3-step process. <ol>
      * <li>
@@ -199,6 +202,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * SHA-1 hash is applied to yield a 20-byte binary digest.</li>
      * <li>
      * Each byte of the binary digest is converted to 2 hex digits.</li></ol>
+     * </p>
      *
      * @param len the length of the generated string
      * @return the random string
@@ -288,17 +292,16 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
-     * Generates a random long value from the Poisson distribution with the
-     * given mean.
+     * {@inheritDoc}
      * <p>
      * <strong>Algorithm Description</strong>:
      * Uses simulation of a Poisson process using Uniform deviates, as
      * described
      * <a href="http://irmi.epfl.ch/cmos/Pmmi/interactive/rng7.htm">
-     * here.</a>
+     * here.</a></p>
      * <p>
      * The Poisson process (and hence value returned) is bounded by 
-     * 1000 * mean.
+     * 1000 * mean.</p>
      * 
      * @param mean mean of the Poisson distribution.
      * @return the random Poisson value.
@@ -348,7 +351,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * <strong>Algorithm Description</strong>:  Uses the
      * <a href="http://www.jesus.ox.ac.uk/~clifford/a5/chap1/node5.html">
      * Inversion Method</a> to generate exponentially distributed random values
-     * from uniform deviates.
+     * from uniform deviates.</p>
      * 
      * @param mean the mean of the distribution
      * @return the random Exponential value
@@ -367,11 +370,12 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
+     * {@inheritDoc}<p>
      * <strong>Algorithm Description</strong>: scales the output of
      * Random.nextDouble(), but rejects 0 values (i.e., will generate another
      * random double if Random.nextDouble() returns 0).
      * This is necessary to provide a symmetric output interval
-     * (both endpoints excluded).
+     * (both endpoints excluded).</p>
      * 
      * @param lower the lower bound.
      * @param upper the upper bound.
@@ -397,7 +401,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * Returns the RandomGenerator used to generate non-secure
      * random data.
      * <p>
-     * Creates and initializes a default generator if null.
+     * Creates and initializes a default generator if null.</p>
      *
      * @return the Random used to generate random data
      * @since 1.1
@@ -413,7 +417,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     /**
      * Returns the SecureRandom used to generate secure random data.
      * <p>
-     * Creates and initializes if null.
+     * Creates and initializes if null.</p>
      *
      * @return the SecureRandom used to generate secure random data
      */
@@ -428,7 +432,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     /**
      * Reseeds the random number generator with the supplied seed.
      * <p>
-     * Will create and initialize if null.
+     * Will create and initialize if null.</p>
      *
      * @param seed the seed value to use
      */
@@ -443,7 +447,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * Reseeds the secure random number generator with the current time
      * in milliseconds.
      * <p>
-     * Will create and initialize if null.
+     * Will create and initialize if null.</p>
      */
     public void reSeedSecure() {
         if (secRand == null) {
@@ -455,7 +459,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     /**
      * Reseeds the secure random number generator with the supplied seed.
      * <p>
-     * Will create and initialize if null.
+     * Will create and initialize if null.</p>
      *
      * @param seed the seed value to use
      */

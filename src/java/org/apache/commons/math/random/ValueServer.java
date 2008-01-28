@@ -26,7 +26,7 @@ import java.net.MalformedURLException;
  * Generates values for use in simulation applications.
  * <p>
  * How values are generated is determined by the <code>mode</code>
- * property.
+ * property.</p>
  * <p>
  * Supported <code>mode</code> values are: <ul>
  * <li> DIGEST_MODE -- uses an empirical distribution </li>
@@ -38,7 +38,7 @@ import java.net.MalformedURLException;
  * <li> GAUSSIAN_MODE -- generates Gaussian distributed random values with
  *                       mean = <code>mu</code> and
  *                       standard deviation = <code>sigma</code></li>
- * <li> CONSTANT_MODE -- returns <code>mu</code> every time.</li></ul>
+ * <li> CONSTANT_MODE -- returns <code>mu</code> every time.</li></ul></p>
  *
  * @version $Revision$ $Date$
  *
@@ -142,10 +142,10 @@ public class ValueServer {
      * in <code>valuesFileURL</code>, using the default number of bins.
      * <p>
      * <code>valuesFileURL</code> must exist and be
-     * readable by *this at runtime.
+     * readable by *this at runtime.</p>
      * <p>
      * This method must be called before using <code>getNext()</code>
-     * with <code>mode = DIGEST_MODE</code>
+     * with <code>mode = DIGEST_MODE</code></p>
      *
      * @throws IOException if an I/O error occurs reading the input file
      */
@@ -158,11 +158,11 @@ public class ValueServer {
      * Computes the empirical distribution using values from the file
      * in <code>valuesFileURL</code> and <code>binCount</code> bins.
      * <p>
-     * <code>valuesFileURL</code> must exist and be
-     * readable by *this at runtime.
+     * <code>valuesFileURL</code> must exist and be readable by this process
+     * at runtime.</p>
      * <p>
      * This method must be called before using <code>getNext()</code>
-     * with <code>mode = DIGEST_MODE</code>
+     * with <code>mode = DIGEST_MODE</code></p>
      *
      * @param binCount the number of bins used in computing the empirical
      * distribution
@@ -287,7 +287,7 @@ public class ValueServer {
      * <strong>Preconditions</strong>: <ul>
      * <li>Before this method is called, <code>computeDistribution()</code>
      * must have completed successfully; otherwise an
-     * <code>IllegalStateException</code> will be thrown</li></ul>
+     * <code>IllegalStateException</code> will be thrown</li></ul></p>
      *
      * @return next random value from the empirical distribution digest
      */

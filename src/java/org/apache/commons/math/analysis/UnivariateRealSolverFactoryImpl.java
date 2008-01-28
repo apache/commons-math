@@ -20,7 +20,7 @@ package org.apache.commons.math.analysis;
  * A concrete {@link  UnivariateRealSolverFactory}.  This is the default solver factory
  * used by commons-math.
  * <p>
- * The default solver returned by this factory is a {@link BrentSolver}.
+ * The default solver returned by this factory is a {@link BrentSolver}.</p>
  *
  * @version $Revision$ $Date$
  */

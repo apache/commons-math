@@ -27,7 +27,7 @@ import org.apache.commons.math.MaxIterationsExceededException;
  * <p>
  * Romberg integration employs k successvie refinements of the trapezoid
  * rule to remove error terms less than order O(N^(-2k)). Simpson's rule
- * is a special case of k = 2.
+ * is a special case of k = 2.</p>
  *  
  * @version $Revision$ $Date$
  */

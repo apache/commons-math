@@ -28,7 +28,7 @@ import org.apache.commons.math.DuplicateSampleAbscissaException;
  * ISBN 038795452X, chapter 2.
  * <p>
  * The actual code of Neville's evalution is in PolynomialFunctionLagrangeForm,
- * this class provides an easy-to-use interface to it.
+ * this class provides an easy-to-use interface to it.</p>
  *
  * @version $Revision$ $Date$
  */
@@ -64,7 +64,7 @@ public class DividedDifferenceInterpolator implements UnivariateRealInterpolator
          *        f[x0,x1,...,x[n-1]](x-x0)(x-x1)...(x-x[n-2])
          * Therefore, a[k] = f[x0,x1,...,xk], c[k] = x[k].
          * <p>
-         * Note x[], y[], a[] have the same length but c[]'s size is one less.
+         * Note x[], y[], a[] have the same length but c[]'s size is one less.</p>
          */
         c = new double[x.length-1];
         for (int i = 0; i < c.length; i++) {
@@ -83,8 +83,9 @@ public class DividedDifferenceInterpolator implements UnivariateRealInterpolator
      * The divided difference array is defined recursively by <pre>
      * f[x0] = f(x0)
      * f[x0,x1,...,xk] = (f(x1,...,xk) - f(x0,...,x[k-1])) / (xk - x0)
-     * </pre><p>
-     * The computational complexity is O(N^2).
+     * </pre></p>
+     * <p>
+     * The computational complexity is O(N^2).</p>
      *
      * @param x the interpolating points array
      * @param y the interpolating values array

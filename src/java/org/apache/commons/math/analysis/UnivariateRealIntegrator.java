@@ -31,10 +31,10 @@ public interface UnivariateRealIntegrator {
      * <p>
      * Usually a high iteration count indicates convergence problem. However,
      * the "reasonable value" varies widely for different cases.  Users are
-     * advised to use the default value.
+     * advised to use the default value.</p>
      * <p>
      * A <code>ConvergenceException</code> will be thrown if this number
-     * is exceeded.
+     * is exceeded.</p>
      *  
      * @param count maximum number of iterations
      */
@@ -50,7 +50,7 @@ public interface UnivariateRealIntegrator {
     /**
      * Reset the upper limit for the number of iterations to the default.
      * <p>
-     * The default value is supplied by the implementation.
+     * The default value is supplied by the implementation.</p>
      * 
      * @see #setMaximalIterationCount(int)
      */
@@ -61,10 +61,10 @@ public interface UnivariateRealIntegrator {
      * <p>
      * Minimal iteration is needed to avoid false early convergence, e.g.
      * the sample points happen to be zeroes of the function. Users can
-     * use the default value or choose one that they see as appropriate.
+     * use the default value or choose one that they see as appropriate.</p>
      * <p>
      * A <code>ConvergenceException</code> will be thrown if this number
-     * is not met.
+     * is not met.</p>
      *
      * @param count minimum number of iterations
      */
@@ -80,7 +80,7 @@ public interface UnivariateRealIntegrator {
     /**
      * Reset the lower limit for the number of iterations to the default.
      * <p>
-     * The default value is supplied by the implementation.
+     * The default value is supplied by the implementation.</p>
      * 
      * @see #setMinimalIterationCount(int)
      */
@@ -89,7 +89,7 @@ public interface UnivariateRealIntegrator {
     /**
      * Set the relative accuracy.
      * <p>
-     * This is used to stop iterations.
+     * This is used to stop iterations.</p>
      * 
      * @param accuracy the relative accuracy
      * @throws IllegalArgumentException if the accuracy can't be achieved
@@ -107,7 +107,7 @@ public interface UnivariateRealIntegrator {
     /**
      * Reset the relative accuracy to the default.
      * <p>
-     * The default value is provided by the implementation.
+     * The default value is provided by the implementation.</p>
      *
      * @see #setRelativeAccuracy(double)
      */
@@ -145,7 +145,7 @@ public interface UnivariateRealIntegrator {
      * help track down performance problems: if the iteration count
      * is notoriously high, check whether the function is evaluated
      * properly, and whether another integrator is more amenable to the
-     * problem.
+     * problem.</p>
      * 
      * @return the last iteration count
      * @throws IllegalStateException if there is no result available, either

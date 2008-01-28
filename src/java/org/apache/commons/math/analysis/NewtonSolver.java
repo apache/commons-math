@@ -25,7 +25,7 @@ import org.apache.commons.math.MaxIterationsExceededException;
  * Implements <a href="http://mathworld.wolfram.com/NewtonsMethod.html">
  * Newton's Method</a> for finding zeros of real univariate functions. 
  * <p> 
- * The function should be continuous but not necessarily smooth.
+ * The function should be continuous but not necessarily smooth.</p>
  *
  * @version $Revision$ $Date$
  */

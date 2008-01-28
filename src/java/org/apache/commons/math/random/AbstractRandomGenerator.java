@@ -25,7 +25,7 @@ package org.apache.commons.math.random;
  * Concrete implementations <strong>must</strong> override
  * this method and <strong>should</strong> provide better / more
  * performant implementations of the other methods if the underlying PRNG
- * supplies them.
+ * supplies them.</p>
  *
  * @since 1.1
  * @version $Revision$ $Date$
@@ -66,7 +66,7 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
      * <p>
      * Implementations that do not override the default implementation of 
      * <code>nextGaussian</code> should include a call to {@link #clear} in the
-     * implementation of this method.
+     * implementation of this method.</p>
      *
      * @param seed the seed value
      */
@@ -78,7 +78,7 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
      * the length of the byte array.
      * <p>
      * The default implementation fills the array with bytes extracted from
-     * random integers generated using {@link #nextInt}.
+     * random integers generated using {@link #nextInt}.</p>
      * 
      * @param bytes the non-null byte array in which to put the 
      * random bytes
@@ -108,7 +108,7 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
      * The default implementation provided here returns 
      * <pre>
      * <code>(int) (nextDouble() * Integer.MAX_VALUE)</code>
-     * </pre>
+     * </pre></p>
      *
      * @return the next pseudorandom, uniformly distributed <code>int</code>
      *  value from this random number generator's sequence
@@ -125,7 +125,7 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
      * The default implementation returns 
      * <pre>
      * <code>(int) (nextDouble() * n</code>
-     * </pre>
+     * </pre></p>
      *
      * @param n the bound on the random number to be returned.  Must be
      * positive.
@@ -150,7 +150,7 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
      * The default implementation returns 
      * <pre>
      * <code>(long) (nextDouble() * Long.MAX_VALUE)</code>
-     * </pre>
+     * </pre></p>
      *
      * @return  the next pseudorandom, uniformly distributed <code>long</code>
      *value from this random number generator's sequence
@@ -167,7 +167,7 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
      * The default implementation returns 
      * <pre>
      * <code>nextDouble() <= 0.5</code>
-     * </pre>
+     * </pre></p>
      * 
      * @return  the next pseudorandom, uniformly distributed
      * <code>boolean</code> value from this random number generator's
@@ -185,7 +185,7 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
      * The default implementation returns 
      * <pre>
      * <code>(float) nextDouble() </code>
-     * </pre>
+     * </pre></p>
      *
      * @return  the next pseudorandom, uniformly distributed <code>float</code>
      * value between <code>0.0</code> and <code>1.0</code> from this
@@ -201,7 +201,7 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
      * <code>1.0</code> from this random number generator's sequence.  
      * <p>
      * This method provides the underlying source of random data used by the
-     * other methods.   
+     * other methods.</p>   
      *
      * @return  the next pseudorandom, uniformly distributed 
      *  <code>double</code> value between <code>0.0</code> and
@@ -216,13 +216,13 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
      * <p>
      * The default implementation uses the <em>Polar Method</em>
      * due to G.E.P. Box, M.E. Muller and G. Marsaglia, as described in 
-     * D. Knuth, <u>The Art of Computer Programming</u>, 3.4.1C.
+     * D. Knuth, <u>The Art of Computer Programming</u>, 3.4.1C.</p>
      * <p>
      * The algorithm generates a pair of independent random values.  One of
      * these is cached for reuse, so the full algorithm is not executed on each
      * activation.  Implementations that do not override this method should
      * make sure to call {@link #clear} to clear the cached value in the 
-     * implementation of {@link #setSeed(long)}.
+     * implementation of {@link #setSeed(long)}.</p>
      * 
      * @return  the next pseudorandom, Gaussian ("normally") distributed
      * <code>double</code> value with mean <code>0.0</code> and

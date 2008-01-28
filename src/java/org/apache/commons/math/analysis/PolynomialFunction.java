@@ -22,7 +22,7 @@ import java.io.Serializable;
  * Immutable representation of a real polynomial function with real coefficients.
  * <p>
  * <a href="http://mathworld.wolfram.com/HornersMethod.html">Horner's Method</a>
- *  is used to evaluate the function.   
+ *  is used to evaluate the function.</p>
  *
  * @version $Revision$ $Date$
  */
@@ -45,7 +45,7 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
      * is the length of the array minus 1. 
      * <p>
      * The constructor makes a copy of the input array and assigns the copy to
-     *  the coefficients property.
+     * the coefficients property.</p>
      * 
      * @param c polynominal coefficients
      * @throws NullPointerException if c is null
@@ -65,7 +65,8 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
      * <p>
      *  The value returned is <br>
      *   <code>coefficients[n] * x^n + ... + coefficients[1] * x  + coefficients[0]</code>
-     *
+     * </p>
+     * 
      * @param x the argument for which the function value should be computed
      * @return the value of the polynomial at the given point
      * @see UnivariateRealFunction#value(double)
@@ -88,7 +89,7 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
      * Returns a copy of the coefficients array.
      * <p>
      * Changes made to the returned copy will not affect the coefficients of
-     * the polynomial.
+     * the polynomial.</p>
      * 
      * @return  a fresh copy of the coefficients array
      */

@@ -27,9 +27,9 @@ import java.util.ResourceBundle;
 /**
 * Base class for commons-math checked exceptions.
 * <p>
-* Supports nesting, emulating JDK 1.4 behavior if necessary.  
+* Supports nesting, emulating JDK 1.4 behavior if necessary.</p>
 * <p>
-* Adapted from {@link org.apache.commons.collections.FunctorException}.
+* Adapted from {@link org.apache.commons.collections.FunctorException}.</p>
 * 
 * @version $Revision$ $Date$
 */

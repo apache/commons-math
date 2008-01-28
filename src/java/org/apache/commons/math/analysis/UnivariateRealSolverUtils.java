@@ -99,7 +99,7 @@ public class UnivariateRealSolverUtils {
      * -- ConvergenceException </li>
      * <li> <code> Integer.MAX_VALUE</code> iterations elapse 
      * -- ConvergenceException </li>
-     * </ul>
+     * </ul></p>
      * <p>
      * <strong>Note: </strong> this method can take 
      * <code>Integer.MAX_VALUE</code> iterations to throw a 
@@ -107,7 +107,7 @@ public class UnivariateRealSolverUtils {
      * is a root between <code>lowerBound</code> and <code>upperBound</code>
      * near <code>initial,</code> it is better to use 
      * {@link #bracket(UnivariateRealFunction, double, double, double, int)}, 
-     * explicitly specifying the maximum number of iterations.
+     * explicitly specifying the maximum number of iterations.</p>
      *
      * @param function the function
      * @param initial initial midpoint of interval being expanded to
@@ -146,7 +146,7 @@ public class UnivariateRealSolverUtils {
      * <li> <code> a = lower </code> and <code> b = upper</code> 
      * -- ConvergenceException </li>
      * <li> <code> maximumIterations</code> iterations elapse 
-     * -- ConvergenceException </li></ul>
+     * -- ConvergenceException </li></ul></p>
      * 
      * @param function the function
      * @param initial initial midpoint of interval being expanded to

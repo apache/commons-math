@@ -27,7 +27,7 @@ import org.apache.commons.math.util.MathUtils;
  * of a real continuous function </i>, IEEE Transactions on Circuits and
  * Systems, 26 (1979), 979 - 980.
  * <p>
- * The function should be continuous but not necessarily smooth.
+ * The function should be continuous but not necessarily smooth.</p>
  *  
  * @version $Revision$ $Date$
  */
@@ -48,7 +48,7 @@ public class RiddersSolver extends UnivariateRealSolverImpl {
     /**
      * Find a root in the given interval with initial value.
      * <p>
-     * Requires bracketing condition.
+     * Requires bracketing condition.</p>
      * 
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
@@ -79,7 +79,7 @@ public class RiddersSolver extends UnivariateRealSolverImpl {
     /**
      * Find a root in the given interval.
      * <p>
-     * Requires bracketing condition.
+     * Requires bracketing condition.</p>
      * 
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval

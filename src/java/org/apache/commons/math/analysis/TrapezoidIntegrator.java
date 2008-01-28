@@ -25,7 +25,7 @@ import org.apache.commons.math.MaxIterationsExceededException;
  * reference, see <b>Introduction to Numerical Analysis</b>, ISBN 038795452X,
  * chapter 3.
  * <p>
- * The function should be integrable.
+ * The function should be integrable.</p>
  *  
  * @version $Revision$ $Date$
  */
@@ -53,7 +53,7 @@ public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
      * <p>
      * The interval is divided equally into 2^n sections rather than an
      * arbitrary m sections because this configuration can best utilize the
-     * alrealy computed values.
+     * alrealy computed values.</p>
      *
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval

@@ -23,7 +23,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 /**
  * Interface for (univariate real) rootfinding algorithms.
  * <p>
- * Implementations will search for only one zero in the given interval.
+ * Implementations will search for only one zero in the given interval.</p>
  *  
  * @version $Revision$ $Date$
  */
@@ -34,10 +34,10 @@ public interface UnivariateRealSolver {
      * <p>
      * Usually a high iteration count indicates convergence problems. However,
      * the "reasonable value" varies widely for different solvers.  Users are
-     * advised to use the default value supplied by the solver.
+     * advised to use the default value supplied by the solver.</p>
      * <p>
      * A <code>ConvergenceException</code> will be thrown if this number
-     * is exceeded.
+     * is exceeded.</p>
      *  
      * @param count maximum number of iterations
      */
@@ -53,7 +53,7 @@ public interface UnivariateRealSolver {
     /**
      * Reset the upper limit for the number of iterations to the default.
      * <p>
-     * The default value is supplied by the solver implementation.
+     * The default value is supplied by the solver implementation.</p>
      * 
      * @see #setMaximalIterationCount(int)
      */
@@ -65,10 +65,10 @@ public interface UnivariateRealSolver {
      * The default is usually choosen so that roots in the interval
      * -10..-0.1 and +0.1..+10 can be found with a reasonable accuracy. If the
      * expected absolute value of your roots is of much smaller magnitude, set
-     * this to a smaller value.
+     * this to a smaller value.</p>
      * <p>
      * Solvers are advised to do a plausibility check with the relative
-     * accuracy, but clients should not rely on this.
+     * accuracy, but clients should not rely on this.</p>
      *  
      * @param accuracy the accuracy.
      * @throws IllegalArgumentException if the accuracy can't be achieved by
@@ -86,7 +86,7 @@ public interface UnivariateRealSolver {
     /**
      * Reset the absolute accuracy to the default.
      * <p>
-     * The default value is provided by the solver implementation.
+     * The default value is provided by the solver implementation.</p>
      */
     void resetAbsoluteAccuracy();
 
@@ -94,11 +94,11 @@ public interface UnivariateRealSolver {
      * Set the relative accuracy.
      * <p>
      * This is used to stop iterations if the absolute accuracy can't be
-     * achieved due to large values or short mantissa length.
+     * achieved due to large values or short mantissa length.</p>
      * <p>
      * If this should be the primary criterion for convergence rather then a
      * safety measure, set the absolute accuracy to a ridiculously small value,
-     * like 1E-1000.
+     * like 1E-1000.</p>
      * 
      * @param accuracy the relative accuracy.
      * @throws IllegalArgumentException if the accuracy can't be achieved by
@@ -122,10 +122,10 @@ public interface UnivariateRealSolver {
      * Set the function value accuracy.
      * <p>
      * This is used to determine when an evaluated function value or some other
-     * value which is used as divisor is zero.
+     * value which is used as divisor is zero.</p>
      * <p>
      * This is a safety guard and it shouldn't be necessary to change this in
-     * general.
+     * general.</p>
      * 
      * @param accuracy the accuracy.
      * @throws IllegalArgumentException if the accuracy can't be achieved by
@@ -196,7 +196,7 @@ public interface UnivariateRealSolver {
      * help track down performance problems: if the iteration count
      * is notoriously high, check whether the function is evaluated
      * properly, and whether another solver is more amenable to the
-     * problem.
+     * problem.</p>
      * 
      * @return the last iteration count.
      * @throws IllegalStateException if there is no result available, either

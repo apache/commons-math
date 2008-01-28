@@ -242,10 +242,10 @@ public class ComplexUtils {
      * Creates a complex number from the given polar representation.
      * <p>
      * The value returned is <code>r&middot;e<sup>i&middot;theta</sup></code>,
-     * computed as <code>r&middot;cos(theta) + r&middot;sin(theta)i</code>
+     * computed as <code>r&middot;cos(theta) + r&middot;sin(theta)i</code></p>
      * <p>
      * If either <code>r</code> or <code>theta</code> is NaN, or 
-     * <code>theta</code> is infinite, {@link Complex#NaN} is returned.
+     * <code>theta</code> is infinite, {@link Complex#NaN} is returned.</p>
      * <p>
      * If <code>r</code> is infinite and <code>theta</code> is finite, 
      * infinite or NaN values may be returned in parts of the result, following
@@ -255,7 +255,7 @@ public class ComplexUtils {
      * polar2Complex(INFINITY, &pi;/4) = INFINITY + INFINITY i
      * polar2Complex(INFINITY, 0) = INFINITY + NaN i
      * polar2Complex(INFINITY, -&pi;/4) = INFINITY - INFINITY i
-     * polar2Complex(INFINITY, 5&pi;/4) = -INFINITY - INFINITY i </code></pre>
+     * polar2Complex(INFINITY, 5&pi;/4) = -INFINITY - INFINITY i </code></pre></p>
      * 
      * @param r the modulus of the complex number to create
      * @param theta  the argument of the complex number to create

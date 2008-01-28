@@ -28,10 +28,10 @@ import org.apache.commons.discovery.tools.DiscoverClass;
  * <li>Secant method</li>
  * </ul>
  * Concrete factories extending this class also specify a default solver, instances of which
- * are returned by <code>newDefaultSolver()</code>.
+ * are returned by <code>newDefaultSolver()</code>.</p>
  * <p>
  * Common usage:<pre>
- * SolverFactory factory = UnivariateRealSolverFactory.newInstance();
+ * SolverFactory factory = UnivariateRealSolverFactory.newInstance();</p>
  *
  * // create a Brent solver to use with a UnivariateRealFunction f
  * BrentSolver solver = factory.newBrentSolver(f);

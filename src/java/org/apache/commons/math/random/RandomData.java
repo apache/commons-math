@@ -29,12 +29,12 @@ public interface RandomData {
      * <p>
      * The generated string will be random, but not cryptographically
      * secure. To generate cryptographically secure strings, use
-     * <code>nextSecureHexString</code>
+     * <code>nextSecureHexString</code></p>
      * <p>
      * <strong>Preconditions</strong>:<ul>
      * <li><code>len > 0</code> (otherwise an IllegalArgumentException
      *     is thrown.)</li>
-     * </ul>
+     * </ul></p>
      *
      * @param len the length of the string to be generated
      * @return random string of hex characters of length <code>len</code>
@@ -47,12 +47,12 @@ public interface RandomData {
      * <p>
      * The generated integer will be random, but not cryptographically secure.
      * To generate cryptographically secure integer sequences, use
-     * <code>nextSecureInt</code>.
+     * <code>nextSecureInt</code>.</p>
      * <p>
      * <strong>Preconditions</strong>:<ul>
      * <li><code>lower < upper</code> (otherwise an IllegalArgumentException
      *     is thrown.)</li>
-     * </ul>
+     * </ul></p>
      *
      * @param lower lower bound for generated integer
      * @param upper upper bound for generated integer
@@ -68,12 +68,12 @@ public interface RandomData {
      * The generated long integer values will be random, but not
      * cryptographically secure.
      * To generate cryptographically secure sequences of longs, use
-     * <code>nextSecureLong</code>
+     * <code>nextSecureLong</code></p>
      * <p>
      * <strong>Preconditions</strong>:<ul>
      * <li><code>lower < upper</code> (otherwise an IllegalArgumentException
      *     is thrown.)</li>
-     * </ul>
+     * </ul></p>
      *
      * @param lower lower bound for generated integer
      * @param upper upper bound for generated integer
@@ -87,12 +87,12 @@ public interface RandomData {
      * sequence.
      * <p>
      * If cryptographic security is not required,
-     * use <code>nextHexString()</code>.
+     * use <code>nextHexString()</code>.</p>
      * <p>
      * <strong>Preconditions</strong>:<ul>
      * <li><code>len > 0</code> (otherwise an IllegalArgumentException
      *     is thrown.)</li>
-     * </ul>
+     * </ul></p>
      * @param len length of return string
      * @return the random hex string
      */
@@ -105,16 +105,16 @@ public interface RandomData {
      * <p>
      * Sequences of integers generated using this method will be
      * cryptographically secure. If cryptographic security is not required,
-     * <code>nextInt</code> should be used instead of this method.
+     * <code>nextInt</code> should be used instead of this method.</p>
      * <p>
      * <strong>Definition</strong>:
      * <a href="http://en.wikipedia.org/wiki/Cryptographically_secure_pseudo-random_number_generator">
-     * Secure Random Sequence</a>
+     * Secure Random Sequence</a></p>
      * <p>
      * <strong>Preconditions</strong>:<ul>
      * <li><code>lower < upper</code> (otherwise an IllegalArgumentException
      *     is thrown.)</li>
-     * </ul>
+     * </ul></p>
      *
      * @param lower lower bound for generated integer
      * @param upper upper bound for generated integer
@@ -125,19 +125,20 @@ public interface RandomData {
 
     /**
      * Generates a random long integer between <code>lower</code>
-     * and <code>upper</code> (endpoints included).<p>
+     * and <code>upper</code> (endpoints included).
+     * <p>
      * Sequences of long values generated using this method will be
      * cryptographically secure. If cryptographic security is not required,
-     * <code>nextLong</code> should be used instead of this method.
+     * <code>nextLong</code> should be used instead of this method.</p>
      * <p>
      * <strong>Definition</strong>:
      * <a href="http://en.wikipedia.org/wiki/Cryptographically_secure_pseudo-random_number_generator">
-     * Secure Random Sequence</a>
+     * Secure Random Sequence</a></p>
      * <p>
      * <strong>Preconditions</strong>:<ul>
      * <li><code>lower < upper</code> (otherwise an IllegalArgumentException
      *     is thrown.)</li>
-     * </ul>
+     * </ul></p>
      *
      * @param lower lower bound for generated integer
      * @param upper upper bound for generated integer
@@ -152,12 +153,12 @@ public interface RandomData {
      * <p>
      * <strong>Definition</strong>:
      * <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda366j.htm">
-     * Poisson Distribution</a>
+     * Poisson Distribution</a></p>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The specified mean <i>must</i> be positive (otherwise an
      *     IllegalArgumentException is thrown.)</li>
-     * </ul>
+     * </ul></p>
      * @param mean Mean of the distribution
      * @return poisson deviate with the specified mean
      */
@@ -170,12 +171,12 @@ public interface RandomData {
      * <p>
      * <strong>Definition</strong>:
      * <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda3661.htm">
-     * Normal Distribution</a>
+     * Normal Distribution</a></p>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li><code>sigma > 0</code> (otherwise an IllegalArgumentException
      *     is thrown.)</li>
-     * </ul>
+     * </ul></p>
      * @param mu Mean of the distribution
      * @param sigma Standard deviation of the distribution
      * @return random value from Gaussian distribution with mean = mu,
@@ -189,12 +190,12 @@ public interface RandomData {
      * <p>
      * <strong>Definition</strong>:
      * <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda3667.htm">
-     * Exponential Distribution</a>
+     * Exponential Distribution</a></p>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li><code>mu >= 0</code> (otherwise an IllegalArgumentException
      *     is thrown.)</li>
-     * </ul>
+     * </ul></p>
      * @param mean Mean of the distribution
      * @return random value from exponential distribution
      */
@@ -209,12 +210,12 @@ public interface RandomData {
      * Uniform Distribution</a> <code>lower</code> and
      * <code>upper - lower</code> are the
      * <a href = "http://www.itl.nist.gov/div898/handbook/eda/section3/eda364.htm">
-     * location and scale parameters</a>, respectively.
+     * location and scale parameters</a>, respectively.</p>
      * <p>
      * <strong>Preconditions</strong>:<ul>
      * <li><code>lower < upper</code> (otherwise an IllegalArgumentException
      *     is thrown.)</li>
-     * </ul>
+     * </ul></p>
      *
      * @param lower lower endpoint of the interval of support
      * @param upper upper endpoint of the interval of support
@@ -229,14 +230,14 @@ public interface RandomData {
      * 0 through n-1</code> (inclusive).
      * <p>
      * Generated arrays represent permutations
-     * of <code>n</code> taken <code>k</code> at a time.
+     * of <code>n</code> taken <code>k</code> at a time.</p>
      * <p>
      * <strong>Preconditions:</strong><ul>
      * <li> <code>k <= n</code></li>
      * <li> <code>n > 0</code> </li>
      * </ul>
      * If the preconditions are not met, an IllegalArgumentException is
-     * thrown.
+     * thrown.</p>
      *
      * @param n domain of the permutation
      * @param k size of the permutation
@@ -254,14 +255,14 @@ public interface RandomData {
      * c</code> are distinct, the resulting object array represents a
      * <a href="http://rkb.home.cern.ch/rkb/AN16pp/node250.html#SECTION0002500000000000000000">
      * Simple Random Sample</a> of size
-     * <code>k</code> from the elements of <code>c</code>.
+     * <code>k</code> from the elements of <code>c</code>.</p>
      * <p>
      * <strong>Preconditions:</strong><ul>
      * <li> k must be less than or equal to the size of c </li>
      * <li> c must not be empty </li>
      * </ul>
      * If the preconditions are not met, an IllegalArgumentException is
-     * thrown.
+     * thrown.</p>
      *
      * @param c collection to be sampled
      * @param k size of the sample
