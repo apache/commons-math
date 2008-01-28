@@ -90,9 +90,7 @@ public abstract class AbstractEstimator implements Estimator {
 
         if (++costEvaluations > maxCostEval) {
             throw new EstimationException("maximal number of evaluations exceeded ({0})",
-                    new String[] {
-                    Integer.toString(maxCostEval)
-            });
+                                          new Object[] { new Integer(maxCostEval) });
         }
 
         cost = 0;
