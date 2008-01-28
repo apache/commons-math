@@ -121,6 +121,38 @@ public class FractionTest extends TestCase {
         assertFraction(10, 11, new Fraction((double)10 / (double)11));
     }
 
+    // MATH-181
+    public void testDigitLimitConstructor() throws ConvergenceException  {
+        assertFraction(2, 5, new Fraction(0.4, 1));
+        assertFraction(2, 5, new Fraction(0.4, 2));
+        assertFraction(2, 5, new Fraction(0.4, 3));
+
+        assertFraction(3, 5,      new Fraction(0.6152, 1));
+        assertFraction(8, 13,     new Fraction(0.6152, 2));
+        assertFraction(510, 829,  new Fraction(0.6152, 3));
+        assertFraction(769, 1250, new Fraction(0.6152, 4));
+
+        try {
+            new Fraction(0.6152, 15);
+            fail("an exception should have been thrown");
+        } catch (IllegalArgumentException iae) {
+            // expected behavior
+        } catch (Exception e) {
+            fail("wrong exception caught");
+        }
+    }
+
+    public void testEpsilonLimitConstructor() throws ConvergenceException  {
+        assertFraction(2, 5, new Fraction(0.4, 1.0e-5, 100));
+
+        assertFraction(3, 5,      new Fraction(0.6152, 0.02, 100));
+        assertFraction(8, 13,     new Fraction(0.6152, 1.0e-3, 100));
+        assertFraction(251, 408,  new Fraction(0.6152, 1.0e-4, 100));
+        assertFraction(251, 408,  new Fraction(0.6152, 1.0e-5, 100));
+        assertFraction(510, 829,  new Fraction(0.6152, 1.0e-6, 100));
+        assertFraction(769, 1250, new Fraction(0.6152, 1.0e-7, 100));
+    }
+
     public void testCompareTo() {
         Fraction first = new Fraction(1, 2);
         Fraction second = new Fraction(1, 3);

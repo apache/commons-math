@@ -32,10 +32,23 @@ public class Fraction extends Number implements Comparable {
 
     /** A fraction representing "0 / 1". */
     public static final Fraction ZERO = new Fraction(0, 1);
+
+    /**
+     * The maximal number of denominator digits that can be requested for double to fraction
+     * conversion.
+     * <p>
+     * When <code>d</code> digits are requested, an integer threshold is
+     * initialized with the value 10<sup>d</sup>. Therefore, <code>d</code>
+     * cannot be larger than this constant. Since the java language uses 32 bits
+     * signed integers, the value for this constant is 9.
+     * </p>
+     * 
+     * @see #Fraction(double,int)
+     */
+    public static final int MAX_DENOMINATOR_DIGITS = 9;
     
     /** Serializable version identifier */
-    private static final long serialVersionUID = 6222990762865980424L;
-
+    private static final long serialVersionUID = 5463066929751300926L;
     
     /** The denominator. */
     private int denominator;
@@ -54,7 +67,7 @@ public class Fraction extends Number implements Comparable {
     }
 
     /**
-     * Create a fraction given the double value.
+     * Create a fraction given the double value and maximum error allowed.
      * <p>
      * References:
      * <ul>
@@ -70,6 +83,82 @@ public class Fraction extends Number implements Comparable {
      *         converge.
      */
     public Fraction(double value, double epsilon, int maxIterations)
+        throws FractionConversionException
+    {
+        this(value, epsilon, Integer.MAX_VALUE, maxIterations);
+    }
+
+    /**
+     * Convert a number of denominator digits to a denominator max value.
+     * @param denominatorDigits The maximum number of denominator digits.
+     * @return the maximal value for denominator
+     * @throws IllegalArgumentException if more than {@link #MAX_DENOMINATOR_DIGITS}
+     *         are requested
+     */
+    private static int maxDenominator(int denominatorDigits)
+        throws IllegalArgumentException
+    {
+        if (denominatorDigits > MAX_DENOMINATOR_DIGITS) {
+            throw new IllegalArgumentException("too many digits requested");
+        }
+        return (int)Math.pow(10, denominatorDigits);
+    }
+
+    /**
+     * Create a fraction given the double value and maximum number of
+     * denominator digits.
+     * <p>
+     * References:
+     * <ul>
+     * <li><a href="http://mathworld.wolfram.com/ContinuedFraction.html">
+     * Continued Fraction</a> equations (11) and (22)-(26)</li>
+     * </ul>
+     * </p>
+     * @param value the double value to convert to a fraction.
+     * @param denominatorDigits The maximum number of denominator digits.
+     * @throws FractionConversionException if the continued fraction failed to
+     *         converge
+     * @throws IllegalArgumentException if more than {@link #MAX_DENOMINATOR_DIGITS}
+     *         are requested
+     */
+    public Fraction(double value, int denominatorDigits)
+        throws FractionConversionException, IllegalArgumentException
+    {
+       this(value, 0, maxDenominator(denominatorDigits), 100);
+    }
+
+    /**
+     * Create a fraction given the double value and either the maximum error
+     * allowed or the maximum number of denominator digits.
+     * <p>
+     *
+     * NOTE: This constructor is called with EITHER
+     *   - a valid epsilon value and the maxDenominator set to Integer.MAX_VALUE
+     *     (that way the maxDenominator has no effect).
+     * OR
+     *   - a valid maxDenominator value and the epsilon value set to zero
+     *     (that way epsilon only has effect if there is an exact match before
+     *     the maxDenominator value is reached).
+     * <p>
+     *
+     * It has been done this way so that the same code can be (re)used for both
+     * scenarios. However this could be confusing to users if it were part of
+     * the public API and this constructor should therefore remain PRIVATE.
+     * </p>
+     *
+     * See JIRA issue ticket MATH-181 for more details:
+     *
+     *     https://issues.apache.org/jira/browse/MATH-181
+     *
+     * @param value the double value to convert to a fraction.
+     * @param epsilon maximum error allowed.  The resulting fraction is within
+     *        <code>epsilon</code> of <code>value</code>, in absolute terms.
+     * @param maxDenominator maximum denominator value allowed.
+     * @param maxIterations maximum number of convergents
+     * @throws FractionConversionException if the continued fraction failed to
+     *         converge.
+     */
+    private Fraction(double value, double epsilon, int maxDenominator, int maxIterations)
         throws FractionConversionException
     {
         double r0 = value;
@@ -101,7 +190,7 @@ public class Fraction extends Number implements Comparable {
             q2 = (a1 * q1) + q0;
             
             double convergent = (double)p2 / (double)q2;
-            if (n < maxIterations && Math.abs(convergent - value) > epsilon) {
+            if (n < maxIterations && Math.abs(convergent - value) > epsilon && q2 < maxDenominator) {
                 p0 = p1;
                 p1 = p2;
                 q0 = q1;
@@ -117,8 +206,13 @@ public class Fraction extends Number implements Comparable {
             throw new FractionConversionException(value, maxIterations);
         }
         
-        this.numerator = p2;
-        this.denominator = q2;
+        if (q2 < maxDenominator) {
+            this.numerator = p2;
+            this.denominator = q2;
+        } else {
+            this.numerator = p1;
+            this.denominator = q1;
+        }
         reduce();
     }
     
