@@ -33,20 +33,6 @@ public class Fraction extends Number implements Comparable {
     /** A fraction representing "0 / 1". */
     public static final Fraction ZERO = new Fraction(0, 1);
 
-    /**
-     * The maximal number of denominator digits that can be requested for double to fraction
-     * conversion.
-     * <p>
-     * When <code>d</code> digits are requested, an integer threshold is
-     * initialized with the value 10<sup>d</sup>. Therefore, <code>d</code>
-     * cannot be larger than this constant. Since the java language uses 32 bits
-     * signed integers, the value for this constant is 9.
-     * </p>
-     * 
-     * @see #Fraction(double,int)
-     */
-    public static final int MAX_DENOMINATOR_DIGITS = 9;
-    
     /** Serializable version identifier */
     private static final long serialVersionUID = 5463066929751300926L;
     
@@ -89,22 +75,6 @@ public class Fraction extends Number implements Comparable {
     }
 
     /**
-     * Convert a number of denominator digits to a denominator max value.
-     * @param denominatorDigits The maximum number of denominator digits.
-     * @return the maximal value for denominator
-     * @throws IllegalArgumentException if more than {@link #MAX_DENOMINATOR_DIGITS}
-     *         are requested
-     */
-    private static int maxDenominator(int denominatorDigits)
-        throws IllegalArgumentException
-    {
-        if (denominatorDigits > MAX_DENOMINATOR_DIGITS) {
-            throw new IllegalArgumentException("too many digits requested");
-        }
-        return (int)Math.pow(10, denominatorDigits);
-    }
-
-    /**
      * Create a fraction given the double value and maximum number of
      * denominator digits.
      * <p>
@@ -115,16 +85,14 @@ public class Fraction extends Number implements Comparable {
      * </ul>
      * </p>
      * @param value the double value to convert to a fraction.
-     * @param denominatorDigits The maximum number of denominator digits.
+     * @param maxDenominator The maximum allowed value for denominator
      * @throws FractionConversionException if the continued fraction failed to
      *         converge
-     * @throws IllegalArgumentException if more than {@link #MAX_DENOMINATOR_DIGITS}
-     *         are requested
      */
-    public Fraction(double value, int denominatorDigits)
-        throws FractionConversionException, IllegalArgumentException
+    public Fraction(double value, int maxDenominator)
+        throws FractionConversionException
     {
-       this(value, 0, maxDenominator(denominatorDigits), 100);
+       this(value, 0, maxDenominator, 100);
     }
 
     /**

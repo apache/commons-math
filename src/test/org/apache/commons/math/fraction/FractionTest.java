@@ -123,23 +123,14 @@ public class FractionTest extends TestCase {
 
     // MATH-181
     public void testDigitLimitConstructor() throws ConvergenceException  {
-        assertFraction(2, 5, new Fraction(0.4, 1));
-        assertFraction(2, 5, new Fraction(0.4, 2));
-        assertFraction(2, 5, new Fraction(0.4, 3));
+        assertFraction(2, 5, new Fraction(0.4,   9));
+        assertFraction(2, 5, new Fraction(0.4,  99));
+        assertFraction(2, 5, new Fraction(0.4, 999));
 
-        assertFraction(3, 5,      new Fraction(0.6152, 1));
-        assertFraction(8, 13,     new Fraction(0.6152, 2));
-        assertFraction(510, 829,  new Fraction(0.6152, 3));
-        assertFraction(769, 1250, new Fraction(0.6152, 4));
-
-        try {
-            new Fraction(0.6152, 15);
-            fail("an exception should have been thrown");
-        } catch (IllegalArgumentException iae) {
-            // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
-        }
+        assertFraction(3, 5,      new Fraction(0.6152,    9));
+        assertFraction(8, 13,     new Fraction(0.6152,   99));
+        assertFraction(510, 829,  new Fraction(0.6152,  999));
+        assertFraction(769, 1250, new Fraction(0.6152, 9999));
     }
 
     public void testEpsilonLimitConstructor() throws ConvergenceException  {
