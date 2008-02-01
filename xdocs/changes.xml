@@ -127,12 +127,15 @@ Commons Math Release Notes</title>
       <action dev="luc" type="update" issue="MATH-176" due-to="Kazuhiro Koshino">
         Add errors guessing to least-squares estimators.
       </action>     
-       <action dev="luc" type="update" issue="MATH-179" due-to="Niall Pemberton">
+      <action dev="luc" type="update" issue="MATH-179" due-to="Niall Pemberton">
         Add tests for Fraction constructor using double parameter.
       </action> 
       <action dev="psteitz" type="update" issue="MATH-173" due-to="Bob MacCallum">
         Added one-way ANOVA implementation.
       </action>    
+      <action dev="luc" type="update" issue="MATH-181" due-to="Niall Pemberton">
+        Add Fraction constructor using max denominator value.
+      </action> 
     </release>
     <release version="1.1" date="2005-12-17"  
  description="This is a maintenance release containing bug fixes and enhancements.
