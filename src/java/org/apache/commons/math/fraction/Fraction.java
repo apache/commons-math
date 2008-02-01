@@ -76,7 +76,7 @@ public class Fraction extends Number implements Comparable {
 
     /**
      * Create a fraction given the double value and maximum number of
-     * denominator digits.
+     * denominator.
      * <p>
      * References:
      * <ul>
