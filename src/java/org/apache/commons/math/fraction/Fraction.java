@@ -34,7 +34,7 @@ public class Fraction extends Number implements Comparable {
     public static final Fraction ZERO = new Fraction(0, 1);
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = 5463066929751300926L;
+    private static final long serialVersionUID = -8958519416450949235L;
     
     /** The denominator. */
     private int denominator;
@@ -128,33 +128,40 @@ public class Fraction extends Number implements Comparable {
     private Fraction(double value, double epsilon, int maxDenominator, int maxIterations)
         throws FractionConversionException
     {
+        long overflow = Integer.MAX_VALUE;
         double r0 = value;
-        int a0 = (int)Math.floor(r0);
+        long a0 = (long)Math.floor(r0);
+        if (a0 > overflow) {
+            throw new FractionConversionException(value, a0, 1l);
+        }
 
         // check for (almost) integer arguments, which should not go
         // to iterations.
         if (Math.abs(a0 - value) < epsilon) {
-            this.numerator = a0;
+            this.numerator = (int) a0;
             this.denominator = 1;
             return;
         }
-        
-        int p0 = 1;
-        int q0 = 0;
-        int p1 = a0;
-        int q1 = 1;
 
-        int p2 = 0;
-        int q2 = 1;
+       long p0 = 1;
+        long q0 = 0;
+        long p1 = a0;
+        long q1 = 1;
+
+        long p2 = 0;
+        long q2 = 1;
 
         int n = 0;
         boolean stop = false;
         do {
             ++n;
             double r1 = 1.0 / (r0 - a0);
-            int a1 = (int)Math.floor(r1);
+            long a1 = (long)Math.floor(r1);
             p2 = (a1 * p1) + p0;
             q2 = (a1 * q1) + q0;
+            if ((p2 > overflow) || (q2 > overflow)) {
+                throw new FractionConversionException(value, p2, q2);
+            }
             
             double convergent = (double)p2 / (double)q2;
             if (n < maxIterations && Math.abs(convergent - value) > epsilon && q2 < maxDenominator) {
@@ -174,11 +181,11 @@ public class Fraction extends Number implements Comparable {
         }
         
         if (q2 < maxDenominator) {
-            this.numerator = p2;
-            this.denominator = q2;
+            this.numerator = (int) p2;
+            this.denominator = (int) q2;
         } else {
-            this.numerator = p1;
-            this.denominator = q1;
+            this.numerator = (int) p1;
+            this.denominator = (int) q1;
         }
 
     }

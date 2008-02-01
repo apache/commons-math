@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.fraction;
 
-import org.apache.commons.math.MaxIterationsExceededException;
+import org.apache.commons.math.ConvergenceException;
 
 /**
  * Error thrown when a double value cannot be converted to a fraction
@@ -25,10 +25,10 @@ import org.apache.commons.math.MaxIterationsExceededException;
  *
  * @version $Revision$ $Date$
  */
-public class FractionConversionException extends MaxIterationsExceededException {
+public class FractionConversionException extends ConvergenceException {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 4588659344016668813L;
+    private static final long serialVersionUID = -4661812640132576263L;
 
     /**
      * Constructs an exception with specified formatted detail message.
@@ -37,9 +37,20 @@ public class FractionConversionException extends MaxIterationsExceededException 
      * @param maxIterations maximal number of iterations allowed
      */
     public FractionConversionException(double value, int maxIterations) {
-        super(maxIterations,
-              "Unable to convert {0} to fraction after {1} iterations",
+        super("Unable to convert {0} to fraction after {1} iterations",
               new Object[] { new Double(value), new Integer(maxIterations) });
+    }
+
+    /**
+     * Constructs an exception with specified formatted detail message.
+     * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * @param value double value to convert
+     * @param p current numerator 
+     * @param q current denominator
+     */
+    public FractionConversionException(double value, long p, long q) {
+        super("Overflow trying to convert {0} to fraction ({1}/{2})",
+              new Object[] { new Double(value), new Long(p), new Long(q) });
     }
 
 }

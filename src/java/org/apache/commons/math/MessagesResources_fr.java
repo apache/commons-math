@@ -71,6 +71,8 @@ public class MessagesResources_fr
     // org.apache.commons.math.fraction.FractionConversionException
     { "Unable to convert {0} to fraction after {1} iterations",
       "Impossible de convertir {0} en fraction apr\u00e8s {1} it\u00e9rations" },
+    { "Overflow trying to convert {0} to fraction ({1}/{2})",
+      "D\u00e9passement de capacit\u00e9 lors de la conversion de {0} en fraction ({1}/{2})" },
 
     // org.apache.commons.math.analysis.UnivariateRealSolverUtils
     { "Number of iterations={0}, maximum iterations={1}, initial={2}, lower bound={3}, upper bound={4}," +

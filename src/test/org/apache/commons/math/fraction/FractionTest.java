@@ -133,6 +133,22 @@ public class FractionTest extends TestCase {
         assertFraction(769, 1250, new Fraction(0.6152, 9999));
     }
 
+    public void testIntegerOverflow() {
+        checkIntegerOverflow(0.75000000001455192);
+        checkIntegerOverflow(1.0e10);
+    }
+
+    private void checkIntegerOverflow(double a) {
+        try {
+            new Fraction(a, 1.0e-12, 1000);
+            fail("an exception should have been thrown");
+        } catch (ConvergenceException ce) {
+            // expected behavior
+        } catch (Exception e) {
+            fail("wrong exception caught");
+        }
+    }
+
     public void testEpsilonLimitConstructor() throws ConvergenceException  {
         assertFraction(2, 5, new Fraction(0.4, 1.0e-5, 100));
 
