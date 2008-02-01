@@ -136,7 +136,7 @@ Commons Math Release Notes</title>
       <action dev="luc" type="update" issue="MATH-181" due-to="Niall Pemberton">
         Add Fraction constructor using max denominator value.
       </action> 
-      <action dev="luc" type="fix" issue="MATH-18x">
+      <action dev="luc" type="fix" issue="MATH-182">
         Add integer overflow checks in Fraction constructor using double parameter.
       </action>     
     </release>
