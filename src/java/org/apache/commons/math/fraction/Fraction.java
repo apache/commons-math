@@ -213,7 +213,7 @@ public class Fraction extends Number implements Comparable {
             this.numerator = p1;
             this.denominator = q1;
         }
-        reduce();
+
     }
     
     /**
