@@ -42,6 +42,7 @@
         <include>release-notes.jsl</include>
         <include>test-jar.xml</include>
         <include>testOnly.sh</include>
+        <include>findbugs-exclude-filter.xml</include>
       </includes>
     </fileSet>
     <fileSet>

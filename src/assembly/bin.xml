@@ -22,7 +22,7 @@
     <format>tar.gz</format>
     <format>zip</format>
   </formats>
-  <includeSiteDirectory>true</includeSiteDirectory>
+  <includeSiteDirectory>false</includeSiteDirectory>
   <fileSets>
     <fileSet>
       <includes>
@@ -37,6 +37,15 @@
       <includes>
         <include>*.jar</include>
       </includes>
+    </fileSet>
+    <fileSet>
+      <directory>target/site</directory>
+      <outputDirectory>docs</outputDirectory>
+      <excludes>
+        <exclude>**/customsorttypes.js</exclude>
+        <exclude>**/sortabletable.js</exclude>
+        <exclude>**/stringbuilder.js</exclude>
+      </excludes>
     </fileSet>
   </fileSets>
 </assembly>
