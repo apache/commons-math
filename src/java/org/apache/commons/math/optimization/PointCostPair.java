@@ -25,7 +25,8 @@ package org.apache.commons.math.optimization;
 public class PointCostPair {
 
   /** Build a point/cost pair.
-   * @param point point coordinates
+   * @param point point coordinates (the built instance will store
+   * a copy of the array, not the array passed as argument)
    * @param cost point cost
    */
   public PointCostPair(double[] point, double cost) {
@@ -34,10 +35,10 @@ public class PointCostPair {
   }
 
   /** Get the point.
-   * @return the stored point
+   * @return a copy of the stored point
    */
   public double[] getPoint() {
-      return point;
+      return (double[]) point.clone();
   }
 
   /** Get the cost.
