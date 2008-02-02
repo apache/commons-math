@@ -18,6 +18,8 @@ package org.apache.commons.math.random;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
+
+import java.io.EOFException;
 import java.net.URL;
 
 import org.apache.commons.math.RetryTestCase;
@@ -98,7 +100,35 @@ public final class ValueServerTest extends RetryTestCase {
             fail("Expecting IllegalStateException");
         } catch (IllegalStateException ex) {;}
     }
-    
+
+    public void testEmptyReplayFile() {
+        try {
+            URL url = getClass().getResource("emptyFile.txt");
+            vs.setMode(ValueServer.REPLAY_MODE);
+            vs.setValuesFileURL(url);
+            vs.getNext();
+            fail("an exception should have been thrown");
+        } catch (EOFException eof) {
+            // expected behavior
+        } catch (Exception e) {
+            fail("wrong exception caught");
+        }
+    }
+
+    public void testEmptyDigestFile() {
+        try {
+            URL url = getClass().getResource("emptyFile.txt");
+            vs.setMode(ValueServer.DIGEST_MODE);
+            vs.setValuesFileURL(url);
+            vs.computeDistribution();
+            fail("an exception should have been thrown");
+        } catch (EOFException eof) {
+            // expected behavior
+        } catch (Exception e) {
+            fail("wrong exception caught");
+        }
+    }
+
     /**
      * Test ValueServer REPLAY_MODE using values in testData file.<br> 
      * Check that the values 1,2,1001,1002 match data file values 1 and 2.

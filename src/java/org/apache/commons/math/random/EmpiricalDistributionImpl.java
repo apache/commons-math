@@ -17,6 +17,7 @@
 
 package org.apache.commons.math.random;
 
+import java.io.EOFException;
 import java.io.Serializable;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -130,6 +131,9 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
                 da.computeStats();
             } catch (Exception e) {
                 throw new IOException(e.getMessage());
+            }
+            if (sampleStats.getN() == 0) {
+                throw new EOFException("URL " + url + " contains no data");
             }
             in = new BufferedReader(new InputStreamReader(url.openStream()));
             fillBinStats(in);

@@ -139,6 +139,10 @@ Commons Math Release Notes</title>
       <action dev="luc" type="fix" issue="MATH-182">
         Add integer overflow checks in Fraction constructor using double parameter.
       </action>     
+      <action dev="luc" type="fix" issue="MATH-185">
+        Throw EOFException when using empty files with ValueServer in replay and
+        digest modes.
+      </action>     
     </release>
     <release version="1.1" date="2005-12-17"  
  description="This is a maintenance release containing bug fixes and enhancements.

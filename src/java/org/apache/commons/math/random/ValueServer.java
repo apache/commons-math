@@ -17,6 +17,7 @@
 
 package org.apache.commons.math.random;
 import java.io.BufferedReader;
+import java.io.EOFException;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.net.URL;
@@ -308,7 +309,9 @@ public class ValueServer {
      * replay file open.</p>
      * <p>
      * The <code>valuesFileURL</code> will be closed and reopened to wrap around
-     * from EOF to BOF if EOF is encountered.</p>
+     * from EOF to BOF if EOF is encountered. EOFException (which is a kind of
+     * IOException) may still be thrown if the <code>valuesFileURL</code> is
+     * empty.</p>
      *
      * @return next value from the replay file
      * @throws IOException if there is a problem reading from the file
@@ -321,9 +324,12 @@ public class ValueServer {
             resetReplayFile();
         }
         if ((str = filePointer.readLine()) == null) {
+            // we have probably reached end of file, wrap around from EOF to BOF
             closeReplayFile();
             resetReplayFile();
-            str = filePointer.readLine();
+            if ((str = filePointer.readLine()) == null) {
+                throw new EOFException("URL " + valuesFileURL + " contains no data");
+            }
         }
         return Double.valueOf(str).doubleValue();
     }
