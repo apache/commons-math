@@ -202,6 +202,9 @@ public class BrentSolver extends UnivariateRealSolverImpl {
                 double r3 = y1 / y0;
                 double p;
                 double p1;
+                // the equality test (x0 == x2) is intentional,
+                // it is part of the original Brent's method,
+                // it should NOT be replaced by proximity test
                 if (x0 == x2) {
                     // Linear interpolation.
                     p = dx * r3;

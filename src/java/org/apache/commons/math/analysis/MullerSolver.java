@@ -153,6 +153,8 @@ public class MullerSolver extends UnivariateRealSolverImpl {
 
             // Bisect if convergence is too slow. Bisection would waste
             // our calculation of x, hopefully it won't happen often.
+            // the real number equality test x == x1 is intentional and
+            // completes the proximity tests above it
             boolean bisect = (x < x1 && (x1 - x0) > 0.95 * (x2 - x0)) ||
                              (x > x1 && (x2 - x1) > 0.95 * (x2 - x0)) ||
                              (x == x1);
@@ -244,7 +246,8 @@ public class MullerSolver extends UnivariateRealSolverImpl {
             }
             if (denominator != 0) {
                 x = x2 - 2.0 * C * (x2 - x1) / denominator;
-                // perturb x if it coincides with x1 or x2
+                // perturb x if it exactly coincides with x1 or x2
+                // the equality tests here are intentional
                 while (x == x1 || x == x2) {
                     x += absoluteAccuracy;
                 }

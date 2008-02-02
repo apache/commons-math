@@ -784,6 +784,7 @@ public final class MathUtils {
             } else if (fraction < 0.5) {
                 unscaled = Math.floor(unscaled);
             } else {
+                // The following equality test is intentional and needed for rounding purposes
                 if (Math.floor(unscaled) / 2.0 == Math.floor(Math
                     .floor(unscaled) / 2.0)) { // even
                     unscaled = Math.floor(unscaled);
