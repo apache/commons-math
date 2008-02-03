@@ -623,8 +623,10 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      */
     protected void setInitialCapacity(int initialCapacity) {
         if (initialCapacity > 0) {
-            this.initialCapacity = initialCapacity;
-        } else {
+            synchronized(this) {
+                this.initialCapacity = initialCapacity;
+            }
+            } else {
             String msg =
                 "The initial capacity supplied: " + initialCapacity +
                 "must be a positive integer";
