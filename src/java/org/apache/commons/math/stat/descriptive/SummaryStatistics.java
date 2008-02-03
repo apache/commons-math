@@ -385,7 +385,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * 
      * @return the StorelessUnivariateStatistic implementing the sum
      */
-    public synchronized StorelessUnivariateStatistic getSumImpl() {
+    public StorelessUnivariateStatistic getSumImpl() {
         return sumImpl;
     }
 
@@ -400,7 +400,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * @throws IllegalStateException if data has already been added
      *  (i.e if n > 0)
      */
-    public synchronized void setSumImpl(StorelessUnivariateStatistic sumImpl) {
+    public void setSumImpl(StorelessUnivariateStatistic sumImpl) {
         checkEmpty();
         this.sumImpl = sumImpl;
     }
@@ -410,7 +410,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * 
      * @return the StorelessUnivariateStatistic implementing the sum of squares
      */
-    public synchronized StorelessUnivariateStatistic getSumsqImpl() {
+    public StorelessUnivariateStatistic getSumsqImpl() {
         return sumsqImpl;
     }
 
@@ -425,7 +425,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * @throws IllegalStateException if data has already been added
      *  (i.e if n > 0)
      */
-    public synchronized void setSumsqImpl(
+    public void setSumsqImpl(
             StorelessUnivariateStatistic sumsqImpl) {
         checkEmpty();
         this.sumsqImpl = sumsqImpl;
@@ -436,7 +436,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * 
      * @return the StorelessUnivariateStatistic implementing the minimum
      */
-    public synchronized StorelessUnivariateStatistic getMinImpl() {
+    public StorelessUnivariateStatistic getMinImpl() {
         return minImpl;
     }
 
@@ -451,7 +451,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * @throws IllegalStateException if data has already been added
      *  (i.e if n > 0)
      */
-    public synchronized void setMinImpl(StorelessUnivariateStatistic minImpl) {
+    public void setMinImpl(StorelessUnivariateStatistic minImpl) {
         checkEmpty();
         this.minImpl = minImpl;
     }
@@ -461,7 +461,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * 
      * @return the StorelessUnivariateStatistic implementing the maximum
      */
-    public synchronized StorelessUnivariateStatistic getMaxImpl() {
+    public StorelessUnivariateStatistic getMaxImpl() {
         return maxImpl;
     }
 
@@ -476,7 +476,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * @throws IllegalStateException if data has already been added
      *  (i.e if n > 0)
      */
-    public synchronized void setMaxImpl(StorelessUnivariateStatistic maxImpl) {
+    public void setMaxImpl(StorelessUnivariateStatistic maxImpl) {
         checkEmpty();
         this.maxImpl = maxImpl;
     }
@@ -486,7 +486,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * 
      * @return the StorelessUnivariateStatistic implementing the log sum
      */
-    public synchronized StorelessUnivariateStatistic getSumLogImpl() {
+    public StorelessUnivariateStatistic getSumLogImpl() {
         return sumLogImpl;
     }
 
@@ -501,7 +501,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * @throws IllegalStateException if data has already been added 
      *  (i.e if n > 0)
      */
-    public synchronized void setSumLogImpl(
+    public void setSumLogImpl(
             StorelessUnivariateStatistic sumLogImpl) {
         checkEmpty();
         this.sumLogImpl = sumLogImpl;
@@ -512,7 +512,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * 
      * @return the StorelessUnivariateStatistic implementing the geometric mean
      */
-    public synchronized StorelessUnivariateStatistic getGeoMeanImpl() {
+    public StorelessUnivariateStatistic getGeoMeanImpl() {
         return geoMeanImpl;
     }
 
@@ -527,7 +527,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * @throws IllegalStateException if data has already been added
      *  (i.e if n > 0)
      */
-    public synchronized void setGeoMeanImpl(
+    public void setGeoMeanImpl(
             StorelessUnivariateStatistic geoMeanImpl) {
         checkEmpty();
         this.geoMeanImpl = geoMeanImpl;
@@ -538,7 +538,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * 
      * @return the StorelessUnivariateStatistic implementing the mean
      */
-    public synchronized StorelessUnivariateStatistic getMeanImpl() {
+    public StorelessUnivariateStatistic getMeanImpl() {
         return meanImpl;
     }
 
@@ -553,7 +553,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * @throws IllegalStateException if data has already been added
      *  (i.e if n > 0)
      */
-    public synchronized void setMeanImpl(
+    public void setMeanImpl(
             StorelessUnivariateStatistic meanImpl) {
         checkEmpty();
         this.meanImpl = meanImpl;
@@ -564,7 +564,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * 
      * @return the StorelessUnivariateStatistic implementing the variance
      */
-    public synchronized StorelessUnivariateStatistic getVarianceImpl() {
+    public StorelessUnivariateStatistic getVarianceImpl() {
         return varianceImpl;
     }
 
@@ -579,7 +579,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * @throws IllegalStateException if data has already been added
      *  (i.e if n > 0)
      */
-    public synchronized void setVarianceImpl(
+    public void setVarianceImpl(
             StorelessUnivariateStatistic varianceImpl) {
         checkEmpty();
         this.varianceImpl = varianceImpl;

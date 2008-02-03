@@ -146,4 +146,116 @@ public class SynchronizedSummaryStatistics extends SummaryStatistics {
         return super.hashCode();
     }
 
+    /**
+     * @see org.apache.commons.math.stat.descriptive.SummaryStatistics#getSumImpl()
+     */
+    public synchronized StorelessUnivariateStatistic getSumImpl() {
+        return super.getSumImpl();
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.descriptive.SummaryStatistics#setSumImpl(StorelessUnivariateStatistic)
+     */
+    public synchronized void setSumImpl(StorelessUnivariateStatistic sumImpl) {
+        super.setSumImpl(sumImpl);
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.descriptive.SummaryStatistics#getSumsqImpl()
+     */
+    public synchronized StorelessUnivariateStatistic getSumsqImpl() {
+        return super.getSumsqImpl();
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.descriptive.SummaryStatistics#setSumsqImpl(StorelessUnivariateStatistic)
+     */
+    public synchronized void setSumsqImpl(StorelessUnivariateStatistic sumsqImpl) {
+        super.setSumsqImpl(sumsqImpl);
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.descriptive.SummaryStatistics#getMinImpl()
+     */
+    public synchronized StorelessUnivariateStatistic getMinImpl() {
+        return super.getMinImpl();
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.descriptive.SummaryStatistics#setMinImpl(StorelessUnivariateStatistic)
+     */
+    public synchronized void setMinImpl(StorelessUnivariateStatistic minImpl) {
+        super.setMinImpl(minImpl);
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.descriptive.SummaryStatistics#getMaxImpl()
+     */
+    public synchronized StorelessUnivariateStatistic getMaxImpl() {
+        return super.getMaxImpl();
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.descriptive.SummaryStatistics#setMaxImpl(StorelessUnivariateStatistic)
+     */
+    public synchronized void setMaxImpl(StorelessUnivariateStatistic maxImpl) {
+        super.setMaxImpl(maxImpl);
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.descriptive.SummaryStatistics#getSumLogImpl()
+     */
+    public synchronized StorelessUnivariateStatistic getSumLogImpl() {
+        return super.getSumLogImpl();
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.descriptive.SummaryStatistics#setSumLogImpl(StorelessUnivariateStatistic)
+     */
+    public synchronized void setSumLogImpl(StorelessUnivariateStatistic sumLogImpl) {
+        super.setSumLogImpl(sumLogImpl);
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.descriptive.SummaryStatistics#getGeoMeanImpl()
+     */
+    public synchronized StorelessUnivariateStatistic getGeoMeanImpl() {
+        return super.getGeoMeanImpl();
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.descriptive.SummaryStatistics#setGeoMeanImpl(StorelessUnivariateStatistic)
+     */
+    public synchronized void setGeoMeanImpl(StorelessUnivariateStatistic geoMeanImpl) {
+        super.setGeoMeanImpl(geoMeanImpl);
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.descriptive.SummaryStatistics#getMeanImpl()
+     */
+    public synchronized StorelessUnivariateStatistic getMeanImpl() {
+        return super.getMeanImpl();
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.descriptive.SummaryStatistics#setMeanImpl(StorelessUnivariateStatistic)
+     */
+    public synchronized void setMeanImpl(StorelessUnivariateStatistic meanImpl) {
+        super.setMeanImpl(meanImpl);
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.descriptive.SummaryStatistics#getVarianceImpl()
+     */
+    public synchronized StorelessUnivariateStatistic getVarianceImpl() {
+        return super.getVarianceImpl();
+    }
+
+    /**
+     * @see org.apache.commons.math.stat.descriptive.SummaryStatistics#setVarianceImpl(StorelessUnivariateStatistic)
+     */
+    public synchronized void setVarianceImpl(StorelessUnivariateStatistic varianceImpl) {
+        super.setVarianceImpl(varianceImpl);
+    }
+    
 }
