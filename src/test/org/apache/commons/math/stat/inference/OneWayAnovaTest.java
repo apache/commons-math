@@ -78,7 +78,7 @@ public class OneWayAnovaTest extends TestCase {
         wrongContents.add(classC);
         wrongContents.add(wrongArray);
         try {
-            double bad = testStatistic.anovaFValue(wrongContents);
+            testStatistic.anovaFValue(wrongContents);
             fail("non double[] hash value for key classX, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
@@ -88,7 +88,7 @@ public class OneWayAnovaTest extends TestCase {
         emptyContents.add(emptyArray);
         emptyContents.add(classC);
         try {
-            double bad = testStatistic.anovaFValue(emptyContents);
+            testStatistic.anovaFValue(emptyContents);
             fail("empty array for key classX, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
@@ -97,7 +97,7 @@ public class OneWayAnovaTest extends TestCase {
         List tooFew = new ArrayList();
         tooFew.add(classA);
         try {
-            double bad = testStatistic.anovaFValue(tooFew);
+            testStatistic.anovaFValue(tooFew);
             fail("less than two classes, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
