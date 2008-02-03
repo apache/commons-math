@@ -197,10 +197,10 @@ public abstract class SummaryStatisticsAbstractTest extends TestCase {
         assertTrue("different n's should make hashcodes different", 
                 u.hashCode() != t.hashCode());
 
-        //Add data in different order to t, should not affect identity or hashcode
+        //Add data in same order to t
         t.addValue(2d);
-        t.addValue(3d);
         t.addValue(1d);
+        t.addValue(3d);
         t.addValue(4d);
         assertTrue("summaries based on same data should be equal", t.equals(u));
         assertTrue("summaries based on same data should be equal", u.equals(t));
