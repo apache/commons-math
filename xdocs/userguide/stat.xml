@@ -29,7 +29,7 @@
         <p>
           The statistics package provides frameworks and implementations for
           basic Descriptive statistics, frequency distributions, bivariate regression,
-          and t- and chi-square test statistics.
+          and t-, chi-square and ANOVA test statistics.
         </p>
         <p>
          <a href="#1.2 Descriptive statistics">Descriptive statistics</a><br></br>
@@ -399,30 +399,36 @@ System.out.println(regression.getSlopeStdErr());
           <a href="../apidocs/org/apache/commons/math/stat/inference/">
           org.apache.commons.math.stat.inference</a> package provide
           <a href="http://www.itl.nist.gov/div898/handbook/prc/section2/prc22.htm">
-          Student's t</a> and
+          Student's t</a>,
           <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda35f.htm">
-          Chi-Square</a> test statistics as well as
+          Chi-Square</a> and 
+          <a href="http://www.itl.nist.gov/div898/handbook/prc/section4/prc43.htm">
+          One-Way ANOVA</a> test statistics as well as
           <a href="http://www.cas.lancs.ac.uk/glossary_v1.1/hyptest.html#pvalue">
-          p-values</a> associated with <code>t-</code> and
-          <code>Chi-Square</code> tests.  The interfaces are
+          p-values</a> associated with <code>t-</code>,
+          <code>Chi-Square</code> and <code>One-Way ANOVA</code> tests.  The
+          interfaces are
           <a href="../apidocs/org/apache/commons/math/stat/inference/TTest.html">
-          TTest</a> and
+          TTest</a>,
           <a href="../apidocs/org/apache/commons/math/stat/inference/ChiSquareTest.html">
-          ChiSquareTest</a>, with
-          provided implementations
+          ChiSquareTest</a>, and
+          <a href="../apidocs/org/apache/commons/math/stat/inference/OneWayAnova.html">
+          OneWayAnova</a> with provided implementations
           <a href="../apidocs/org/apache/commons/math/stat/inference/TTestImpl.html">
-          TTestImpl</a> and
+          TTestImpl</a>,
           <a href="../apidocs/org/apache/commons/math/stat/inference/ChiSquareTestImpl.html">
-          ChiSquareTestImpl</a>.
-          Abstract and default factories are provided, with configuration
-          optional using commons-discovery to specify the concrete factory.  The
+          ChiSquareTestImpl</a> and
+          <a href="../apidocs/org/apache/commons/math/stat/inference/OneWayAnovaImpl.html">
+          OneWayAnovaImpl</a>, respectively.
+          The
           <a href="../apidocs/org/apache/commons/math/stat/inference/TestUtils.html">
           TestUtils</a> class provides static methods to get test instances or
           to compute test statistics directly.  The examples below all use the
           static methods in <code>TestUtils</code> to execute tests.  To get
           test object instances, either use e.g.,
-          <code>TestUtils.getTTest()</code> or use the factory directly, e.g.,
-          <code>TestFactory.newInstance().createChiSquareTest()</code>.
+          <code>TestUtils.getTTest()</code> or use the implementation constructors
+          directly, e.g.,
+          <code>new TTestImpl()</code>.
         </p>
         <p>
           <strong>Implementation Notes</strong>
@@ -448,8 +454,8 @@ System.out.println(regression.getSlopeStdErr());
           assumptions of the parametric t-test procedure, as discussed
           <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">
           here</a></li>
-          <li>p-values returned by both t- and chi-square tests are exact, based
-           on numerical approximations to the t- and chi-square distributions in the
+          <li>p-values returned by t-, chi-square and Anova tests are exact, based
+           on numerical approximations to the t-, chi-square and F distributions in the
            <code>distributions</code> package. </li>
            <li>p-values returned by t-tests are for two-sided tests and the boolean-valued
            methods supporting fixed significance level tests assume that the hypotheses
@@ -512,6 +518,7 @@ TestUtils.tTest(mu, observed, alpha);
           To test, for example at the 95% level of confidence, use
           <code>alpha = 0.05</code>
           </dd>
+          <br></br>
           <dt><strong>Two-Sample t-tests</strong></dt>
           <br></br>
           <dd><strong>Example 1:</strong> Paired test evaluating
@@ -584,7 +591,8 @@ TestUtils.tTest(sample1, sample2, .05);
            replace "t" at the beginning of the method name with "homoscedasticT"
            </p>
            </dd>
-          <dt>Computing <code>chi-square</code> test statistics</dt>
+           <br></br>
+          <dt><strong>Chi-square tests</strong></dt>
           <br></br>
           <dd>To compute a chi-square statistic measuring the agreement between a
           <code>long[]</code> array of observed counts and a <code>double[]</code>
@@ -644,7 +652,41 @@ TestUtils.chiSquareTest(counts, alpha);
           The boolean value returned will be <code>true</code> iff the null
           hypothesis can be rejected with confidence <code>1 - alpha</code>.
           </dd>
-          </dl>
+          <br></br>
+          <dt><strong><One-Way Anova tests</strong></dt>
+          <br></br>
+          <dd>To conduct a One-Way Analysis of Variance (ANOVA) to evaluate the
+          null hypothesis that the means of a collection of univariate datasets
+          are the same, start by loading the datasets into a collection, e.g.
+          <source>
+double[] classA =
+   {93.0, 103.0, 95.0, 101.0, 91.0, 105.0, 96.0, 94.0, 101.0 };
+double[] classB =
+   {99.0, 92.0, 102.0, 100.0, 102.0, 89.0 };
+double[] classC =
+   {110.0, 115.0, 111.0, 117.0, 128.0, 117.0 };
+List classes = new ArrayList();
+classes.add(classA);
+classes.add(classB);
+classes.add(classC);
+          </source>
+          Then you can compute ANOVA F- or p-values associated with the
+          null hypothesis that the class means are all the same
+          using a <code>OneWayAnova</code> instance or <code>TestUtils</code>
+          methods:
+          <source>
+double fStatistic = TestUtils.oneWayAnovaFValue(classes); // F-value
+double pValue = TestUtils.oneWayAnovaPValue(classes);     // P-value
+          </source>
+          To test perform a One-Way Anova test with signficance level set at 0.01
+          (so the test will, assuming assumptions are met, reject the null
+          hypothesis incorrectly only about one in 100 times), use
+          <source>
+TestUtils.oneWayAnovaTest(classes, 0.01); // returns a boolean
+                                          // true means reject null hypothesis
+          </source>
+          </dd>
+        </dl>
         </p>
       </subsection>
     </section>

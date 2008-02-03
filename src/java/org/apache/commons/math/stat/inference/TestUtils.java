@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math.stat.inference;
 
+import java.util.Collection;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.stat.descriptive.StatisticalSummary;
 
@@ -44,6 +45,10 @@ public class TestUtils  {
     /** Singleton ChiSquareTest instance using default implementation. */
     private static UnknownDistributionChiSquareTest unknownDistributionChiSquareTest = 
         new ChiSquareTestImpl();
+    
+    /** Singleton OneWayAnova instance using default implementation. */
+    private static OneWayAnova oneWayAnova =
+        new OneWayAnovaImpl();
     
     /**
      * Set the (singleton) TTest instance.
@@ -101,6 +106,27 @@ public class TestUtils  {
     public static UnknownDistributionChiSquareTest getUnknownDistributionChiSquareTest() {
         return unknownDistributionChiSquareTest;
     }
+    
+    /**
+     * Set the (singleton) OneWayAnova instance
+     * 
+     * @param oneWayAnova the new instance to use
+     * @since 1.2
+     */
+    public static void setOneWayAnova(OneWayAnova oneWayAnova) {
+        TestUtils.oneWayAnova = oneWayAnova;
+    }
+    
+    /**
+     * Return a (singleton) OneWayAnova instance.  Does not create a new instance.
+     * 
+     * @return a OneWayAnova instance
+     * @since 1.2
+     */
+    public static OneWayAnova getOneWayAnova() {
+        return oneWayAnova;
+    }
+    
     
     /**
      * @see org.apache.commons.math.stat.inference.TTest#homoscedasticT(double[], double[])
@@ -321,6 +347,8 @@ public class TestUtils  {
 
     /**
      * @see org.apache.commons.math.stat.inference.UnknownDistributionChiSquareTest#chiSquareDataSetsComparison(long[], long[])
+     *
+     * @since 1.2
      */
     public static double chiSquareDataSetsComparison(long[] observed1, long[] observed2)
         throws IllegalArgumentException {
@@ -329,6 +357,8 @@ public class TestUtils  {
 
     /**
      * @see org.apache.commons.math.stat.inference.UnknownDistributionChiSquareTest#chiSquareTestDataSetsComparison(long[], long[])
+     *
+     * @since 1.2
      */
     public static double chiSquareTestDataSetsComparison(long[] observed1, long[] observed2)
         throws IllegalArgumentException, MathException {
@@ -338,12 +368,43 @@ public class TestUtils  {
 
     /**
      * @see org.apache.commons.math.stat.inference.UnknownDistributionChiSquareTest#chiSquareTestDataSetsComparison(long[], long[], double)
+     *
+     * @since 1.2
      */
     public static boolean chiSquareTestDataSetsComparison(long[] observed1, long[] observed2,
         double alpha)
         throws IllegalArgumentException, MathException {
         return unknownDistributionChiSquareTest.chiSquareTestDataSetsComparison(observed1, observed2, alpha);
     }
-
+    
+    /**
+     * @see org.apache.commons.math.stat.inference.OneWayAnova#anovaFValue(Collection)
+     *
+     * @since 1.2
+     */
+    public static double oneWayAnovaFValue(Collection categoryData)
+    throws IllegalArgumentException, MathException {
+        return oneWayAnova.anovaFValue(categoryData);
+    }
+    
+    /**
+     * @see org.apache.commons.math.stat.inference.OneWayAnova#anovaPValue(Collection)
+     * 
+     * @since 1.2
+     */
+    public static double oneWayAnovaPValue(Collection categoryData)
+    throws IllegalArgumentException, MathException {
+        return oneWayAnova.anovaPValue(categoryData);
+    }
+    
+    /**
+     * @see org.apache.commons.math.stat.inference.OneWayAnova#anovaTest(Collection,double)
+     *
+     * @since 1.2
+     */
+    public static boolean oneWayAnovaTest(Collection categoryData, double alpha)
+    throws IllegalArgumentException, MathException {
+        return oneWayAnova.anovaTest(categoryData, alpha);
+    }
 
 }

@@ -16,6 +16,9 @@
  */
 package org.apache.commons.math.stat.inference;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -440,4 +443,26 @@ public class TestUtilsTest extends TestCase {
         assertFalse(TestUtils.pairedTTest(sample1, sample3, .001));
         assertTrue(TestUtils.pairedTTest(sample1, sample3, .002));    
     }
+    
+    private double[] classA =
+      {93.0, 103.0, 95.0, 101.0};
+    private double[] classB =
+      {99.0, 92.0, 102.0, 100.0, 102.0};
+    private double[] classC =
+      {110.0, 115.0, 111.0, 117.0, 128.0};
+    
+    private List classes = new ArrayList();
+    private OneWayAnova oneWayAnova = new OneWayAnovaImpl();
+    
+    public void testOneWayAnovaUtils() throws Exception {
+        classes.add(classA);
+        classes.add(classB);
+        classes.add(classC);
+        assertEquals(oneWayAnova.anovaFValue(classes), 
+                TestUtils.oneWayAnovaFValue(classes), 10E-12);
+        assertEquals(oneWayAnova.anovaPValue(classes), 
+                TestUtils.oneWayAnovaPValue(classes), 10E-12);
+        assertEquals(oneWayAnova.anovaTest(classes, 0.01), 
+                TestUtils.oneWayAnovaTest(classes, 0.01));   
+    } 
 }
