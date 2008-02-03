@@ -23,17 +23,17 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
 /**
  * Computes the skewness of the available values.
  * <p>
- * We use the following (unbiased) formula to define skewness:
+ * We use the following (unbiased) formula to define skewness:</p>
  * <p>
- * skewness = [n / (n -1) (n - 2)] sum[(x_i - mean)^3] / std^3
+ * skewness = [n / (n -1) (n - 2)] sum[(x_i - mean)^3] / std^3 </p>
  * <p>
  * where n is the number of values, mean is the {@link Mean} and std is the 
- * {@link StandardDeviation}
+ * {@link StandardDeviation} </p>
  * <p>
  * <strong>Note that this implementation is not synchronized.</strong> If 
  * multiple threads access an instance of this class concurrently, and at least
  * one of the threads invokes the <code>increment()</code> or 
- * <code>clear()</code> method, it must be synchronized externally.
+ * <code>clear()</code> method, it must be synchronized externally. </p>
  * 
  * @version $Revision$ $Date$
  */
@@ -49,7 +49,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
      * Determines whether or not this statistic can be incremented or cleared.
      * <p>
      * Statistics based on (constructed from) external moments cannot
-     * be incremented or cleared.
+     * be incremented or cleared.</p>
     */
     protected boolean incMoment;
 
@@ -82,7 +82,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
     /**
      * Returns the value of the statistic based on the values that have been added.
      * <p>
-     * See {@link Skewness} for the definition used in the computation.
+     * See {@link Skewness} for the definition used in the computation.</p>
      * 
      * @return the skewness of the available values.
      */
@@ -121,9 +121,9 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
      * Returns the Skewness of the entries in the specifed portion of the
      * input array.
      * <p>
-     * See {@link Skewness} for the definition used in the computation.
+     * See {@link Skewness} for the definition used in the computation.</p>
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * 
      * @param values the input array
      * @param begin the index of the first array element to include

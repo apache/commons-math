@@ -21,20 +21,20 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
 /**
  * Computes the Kurtosis of the available values.
  * <p>
- * We use the following (unbiased) formula to define kurtosis:
+ * We use the following (unbiased) formula to define kurtosis:</p>
  *  <p>
  *  kurtosis = { [n(n+1) / (n -1)(n - 2)(n-3)] sum[(x_i - mean)^4] / std^4 } - [3(n-1)^2 / (n-2)(n-3)]
- *  <p>
+ *  </p><p>
  *  where n is the number of values, mean is the {@link Mean} and std is the
- * {@link StandardDeviation}
+ * {@link StandardDeviation}</p>
  * <p>
  *  Note that this statistic is undefined for n < 4.  <code>Double.Nan</code>
- *  is returned when there is not sufficient data to compute the statistic.
+ *  is returned when there is not sufficient data to compute the statistic.</p>
  * <p>
  * <strong>Note that this implementation is not synchronized.</strong> If 
  * multiple threads access an instance of this class concurrently, and at least
  * one of the threads invokes the <code>increment()</code> or 
- * <code>clear()</code> method, it must be synchronized externally.
+ * <code>clear()</code> method, it must be synchronized externally.</p>
  * 
  * @version $Revision$ $Date$
  */
@@ -50,7 +50,7 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  {
      * Determines whether or not this statistic can be incremented or cleared.
      * <p>
      * Statistics based on (constructed from) external moments cannot
-     * be incremented or cleared.
+     * be incremented or cleared.</p>
     */
     protected boolean incMoment;
 
@@ -129,9 +129,9 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  {
      * Returns the kurtosis of the entries in the specified portion of the
      * input array.  
      * <p>
-     * See {@link Kurtosis} for details on the computing algorithm.
+     * See {@link Kurtosis} for details on the computing algorithm.</p>
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * 
      * @param values the input array
      * @param begin index of the first array element to include

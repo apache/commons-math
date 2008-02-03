@@ -28,11 +28,11 @@ import org.apache.commons.math.MathException;
  * <b>Fast Fourier Transforms</b>, ISBN 0849371635, chapter 3.
  * <p>
  * FCT is its own inverse, up to a multiplier depending on conventions.
- * The equations are listed in the comments of the corresponding methods.
+ * The equations are listed in the comments of the corresponding methods.</p>
  * <p>
  * Different from FFT and FST, FCT requires the length of data set to be
  * power of 2 plus one. Users should especially pay attention to the
- * function transformation on how this affects the sampling.
+ * function transformation on how this affects the sampling.</p>
  *
  * @version $Revision$ $Date$
  */
@@ -53,7 +53,8 @@ public class FastCosineTransformer implements Serializable {
      * <p>
      * The formula is $ F_n = (1/2) [f_0 + (-1)^n f_N] +
      *                        \Sigma_{k=0}^{N-1} f_k \cos(\pi nk/N) $
-     *
+     * </p>
+     * 
      * @param f the real data array to be transformed
      * @return the real transformed array
      * @throws MathException if any math-related errors occur
@@ -70,7 +71,8 @@ public class FastCosineTransformer implements Serializable {
      * <p>
      * The formula is $ F_n = (1/2) [f_0 + (-1)^n f_N] +
      *                        \Sigma_{k=0}^{N-1} f_k \cos(\pi nk/N) $
-     *
+     * </p>
+     * 
      * @param f the function to be sampled and transformed
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
@@ -92,7 +94,8 @@ public class FastCosineTransformer implements Serializable {
      * <p>
      * The formula is $ F_n = \sqrt{1/2N} [f_0 + (-1)^n f_N] +
      *                        \sqrt{2/N} \Sigma_{k=0}^{N-1} f_k \cos(\pi nk/N) $
-     *
+     * </p>
+     * 
      * @param f the real data array to be transformed
      * @return the real transformed array
      * @throws MathException if any math-related errors occur
@@ -111,6 +114,8 @@ public class FastCosineTransformer implements Serializable {
      * The formula is $ F_n = \sqrt{1/2N} [f_0 + (-1)^n f_N] +
      *                        \sqrt{2/N} \Sigma_{k=0}^{N-1} f_k \cos(\pi nk/N) $
      *
+     * </p>
+     * 
      * @param f the function to be sampled and transformed
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
@@ -133,7 +138,8 @@ public class FastCosineTransformer implements Serializable {
      * <p>
      * The formula is $ f_k = (1/N) [F_0 + (-1)^k F_N] +
      *                        (2/N) \Sigma_{n=0}^{N-1} F_n \cos(\pi nk/N) $
-     *
+     * </p>
+     * 
      * @param f the real data array to be inversely transformed
      * @return the real inversely transformed array
      * @throws MathException if any math-related errors occur
@@ -151,7 +157,8 @@ public class FastCosineTransformer implements Serializable {
      * <p>
      * The formula is $ f_k = (1/N) [F_0 + (-1)^k F_N] +
      *                        (2/N) \Sigma_{n=0}^{N-1} F_n \cos(\pi nk/N) $
-     *
+     * </p>
+     * 
      * @param f the function to be sampled and inversely transformed
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
@@ -174,7 +181,8 @@ public class FastCosineTransformer implements Serializable {
      * <p>
      * The formula is $ f_k = \sqrt{1/2N} [F_0 + (-1)^k F_N] +
      *                        \sqrt{2/N} \Sigma_{n=0}^{N-1} F_n \cos(\pi nk/N) $
-     *
+     * </p>
+     * 
      * @param f the real data array to be inversely transformed
      * @return the real inversely transformed array
      * @throws MathException if any math-related errors occur
@@ -191,7 +199,8 @@ public class FastCosineTransformer implements Serializable {
      * <p>
      * The formula is $ f_k = \sqrt{1/2N} [F_0 + (-1)^k F_N] +
      *                        \sqrt{2/N} \Sigma_{n=0}^{N-1} F_n \cos(\pi nk/N) $
-     *
+     * </p>
+     * 
      * @param f the function to be sampled and inversely transformed
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval

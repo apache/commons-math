@@ -82,7 +82,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
      * For this distribution, X, this method returns the critical point x, such
      * that P(X &lt; x) = <code>p</code>.
      * <p>
-     * Returns 0 for p=0 and <code>Double.POSITIVE_INFINITY</code> for p=1.
+     * Returns 0 for p=0 and <code>Double.POSITIVE_INFINITY</code> for p=1.</p>
      *
      * @param p the desired probability
      * @return x, such that P(X &lt; x) = <code>p</code>

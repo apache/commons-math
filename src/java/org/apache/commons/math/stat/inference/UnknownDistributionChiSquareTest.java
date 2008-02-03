@@ -40,7 +40,7 @@ public interface UnknownDistributionChiSquareTest extends ChiSquareTest {
      * <br/><code>K = &sqrt;[&sum(observed2 / &sum;(observed1)]</code>
      * </p>
      * <p>This statistic can be used to perform a Chi-Square test evaluating the null hypothesis that
-     * both observed counts follow the same distribution.
+     * both observed counts follow the same distribution.</p>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>Observed counts must be non-negative.
@@ -51,9 +51,9 @@ public interface UnknownDistributionChiSquareTest extends ChiSquareTest {
      * </li>
      * <li>The arrays <code>observed1</code> and <code>observed2</code> must have the same length and
      * their common length must be at least 2.
-     * </li></ul><p>
+     * </li></ul></p><p>
      * If any of the preconditions are not met, an
-     * <code>IllegalArgumentException</code> is thrown.
+     * <code>IllegalArgumentException</code> is thrown.</p>
      *
      * @param observed1 array of observed frequency counts of the first data set
      * @param observed2 array of observed frequency counts of the second data set
@@ -91,7 +91,7 @@ public interface UnknownDistributionChiSquareTest extends ChiSquareTest {
      * their common length must be at least 2.
      * </li></ul><p>
      * If any of the preconditions are not met, an
-     * <code>IllegalArgumentException</code> is thrown.
+     * <code>IllegalArgumentException</code> is thrown.</p>
      *
      * @param observed1 array of observed frequency counts of the first data set
      * @param observed2 array of observed frequency counts of the second data set
@@ -127,7 +127,7 @@ public interface UnknownDistributionChiSquareTest extends ChiSquareTest {
      * <li> <code> 0 < alpha < 0.5 </code>
      * </li></ul><p>
      * If any of the preconditions are not met, an
-     * <code>IllegalArgumentException</code> is thrown.
+     * <code>IllegalArgumentException</code> is thrown.</p>
      *
      * @param observed1 array of observed frequency counts of the first data set
      * @param observed2 array of observed frequency counts of the second data set

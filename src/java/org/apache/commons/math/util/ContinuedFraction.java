@@ -119,7 +119,7 @@ public abstract class ContinuedFraction implements Serializable {
      * The recurrence relationship defined in those equations can result in
      * very large intermediate results which can result in numerical overflow.
      * As a means to combat these overflow conditions, the intermediate results
-     * are scaled whenever they threaten to become numerically unstable.
+     * are scaled whenever they threaten to become numerically unstable.</p>
      *   
      * @param x the evaluation point.
      * @param epsilon maximum error allowed.

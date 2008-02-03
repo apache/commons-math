@@ -106,7 +106,7 @@ public class Fraction extends Number implements Comparable {
      *   - a valid maxDenominator value and the epsilon value set to zero
      *     (that way epsilon only has effect if there is an exact match before
      *     the maxDenominator value is reached).
-     * <p>
+     * </p><p>
      *
      * It has been done this way so that the same code can be (re)used for both
      * scenarios. However this could be confusing to users if it were part of

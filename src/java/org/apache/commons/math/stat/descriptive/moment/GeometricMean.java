@@ -24,7 +24,7 @@ import org.apache.commons.math.stat.descriptive.summary.SumOfLogs;
  * geometric mean </a> of the available values.
  * <p>
  * Uses a {@link SumOfLogs} instance to compute sum of logs and returns
- * <code> exp( 1/n  (sum of logs) ).</code>  Therefore,
+ * <code> exp( 1/n  (sum of logs) ).</code>  Therefore, </p>
  * <ul>
  * <li>If any of values are < 0, the result is <code>NaN.</code></li>
  * <li>If all values are non-negative and less than 
@@ -33,12 +33,12 @@ import org.apache.commons.math.stat.descriptive.summary.SumOfLogs;
  * <li>If both <code>Double.POSITIVE_INFINITY</code> and 
  * <code>Double.NEGATIVE_INFINITY</code> are among the values, the result is
  * <code>NaN.</code></li>
- * </ul>
+ * </ul> </p>
  * <p>
  * <strong>Note that this implementation is not synchronized.</strong> If 
  * multiple threads access an instance of this class concurrently, and at least
  * one of the threads invokes the <code>increment()</code> or 
- * <code>clear()</code> method, it must be synchronized externally.
+ * <code>clear()</code> method, it must be synchronized externally.</p>
  * 
  *
  * @version $Revision$ $Date$
@@ -87,9 +87,9 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic {
      * Returns the geometric mean of the entries in the specified portion
      * of the input array.
      * <p>
-     * See {@link GeometricMean} for details on the computing algorithm.
+     * See {@link GeometricMean} for details on the computing algorithm.</p>
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * 
      * @param values input array containing the values
      * @param begin first array element to include

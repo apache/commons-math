@@ -22,12 +22,12 @@ import java.io.Serializable;
  * Computes a statistic related to the Fourth Central Moment.  Specifically,
  * what is computed is the sum of 
  * <p>
- * (x_i - xbar) ^ 4,
+ * (x_i - xbar) ^ 4, </p>
  * <p>
  * where the x_i are the 
- * sample observations and xbar is the sample mean.
+ * sample observations and xbar is the sample mean. </p>
  * <p>
- * The following recursive updating formula is used:
+ * The following recursive updating formula is used: </p>
  * <p>
  * Let <ul>
  * <li> dev = (current obs - previous mean) </li>
@@ -35,18 +35,18 @@ import java.io.Serializable;
  * <li> m2 = previous value of {@link ThirdMoment} </li>
  * <li> n = number of observations (including current obs) </li>
  * </ul>
- * Then
+ * Then </p>
  * <p>
  * new value = old value - 4 * (dev/n) * m3 + 6 * (dev/n)^2 * m2 + <br>
- * [n^2 - 3 * (n-1)] * dev^4 * (n-1) / n^3
+ * [n^2 - 3 * (n-1)] * dev^4 * (n-1) / n^3 </p>
  * <p>
  * Returns <code>Double.NaN</code> if no data values have been added and
- * returns <code>0</code> if there is just one value in the data set.
+ * returns <code>0</code> if there is just one value in the data set. </p>
  * <p>
  * <strong>Note that this implementation is not synchronized.</strong> If 
  * multiple threads access an instance of this class concurrently, and at least
  * one of the threads invokes the <code>increment()</code> or 
- * <code>clear()</code> method, it must be synchronized externally.
+ * <code>clear()</code> method, it must be synchronized externally. </p>
  * 
  * @version $Revision$ $Date$
  */

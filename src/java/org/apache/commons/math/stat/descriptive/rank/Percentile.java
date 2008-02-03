@@ -41,7 +41,7 @@ import org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic;
  * <code>floor(pos)</code> in the array and let <code>upper</code> be the
  * next element in the array.  Return <code>lower + d * (upper - lower)</code>
  * </li>
- * </ol>
+ * </ol></p>
  * <p>
  * To compute percentiles, the data must be (totally) ordered.  Input arrays
  * are copied and then sorted using  {@link java.util.Arrays#sort(double[])}.
@@ -50,16 +50,16 @@ import org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic;
  * <code>Double.NaN</code> larger than any other value (including 
  * <code>Double.POSITIVE_INFINITY</code>).  Therefore, for example, the median
  * (50th percentile) of  
- * <code>{0, 1, 2, 3, 4, Double.NaN}</code> evaluates to <code>2.5.</code>  
+ * <code>{0, 1, 2, 3, 4, Double.NaN}</code> evaluates to <code>2.5.</code></p>
  * <p>
  * Since percentile estimation usually involves interpolation between array 
  * elements, arrays containing  <code>NaN</code> or infinite values will often
- * result in <code>NaN<code> or infinite values returned.
+ * result in <code>NaN<code> or infinite values returned.</p>
  * <p>
  * <strong>Note that this implementation is not synchronized.</strong> If 
  * multiple threads access an instance of this class concurrently, and at least
  * one of the threads invokes the <code>increment()</code> or 
- * <code>clear()</code> method, it must be synchronized externally.
+ * <code>clear()</code> method, it must be synchronized externally.</p>
  * 
  * @version $Revision$ $Date$
  */
@@ -95,7 +95,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * in the <code>values</code> array.
      * <p>
      * Calls to this method do not modify the internal <code>quantile</code>
-     * state of this statistic.
+     * state of this statistic.</p>
      * <p>
      * <ul>
      * <li>Returns <code>Double.NaN</code> if <code>values</code> has length 
@@ -105,10 +105,10 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * <li>Throws <code>IllegalArgumentException</code> if <code>values</code>
      * is null or p is not a valid quantile value (p must be greater than 0
      * and less than or equal to 100) </li>
-     * </ul>
+     * </ul></p>
      * <p>
      * See {@link Percentile} for a description of the percentile estimation
-     * algorithm used.
+     * algorithm used.</p>
      * 
      * @param values input array of values
      * @param p the percentile value to compute
@@ -133,10 +133,10 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * <li>Throws <code>IllegalArgumentException</code> if <code>values</code>
      * is null,  or <code>start</code> or <code>length</code> 
      * is invalid</li>
-     * </ul>
+     * </ul></p>
      * <p>
      * See {@link Percentile} for a description of the percentile estimation
-     * algorithm used.
+     * algorithm used.</p>
      * 
      * @param values the input array
      * @param start index of the first array element to include
@@ -156,7 +156,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * values.
      * <p>
      * Calls to this method do not modify the internal <code>quantile</code>
-     * state of this statistic.
+     * state of this statistic.</p>
      * <p>
      * <ul>
      * <li>Returns <code>Double.NaN</code> if <code>length = 0</code></li>
@@ -166,10 +166,10 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      *  is null , <code>begin</code> or <code>length</code> is invalid, or 
      * <code>p</code> is not a valid quantile value (p must be greater than 0
      * and less than or equal to 100)</li>
-     * </ul>
+     * </ul></p>
      * <p>
-      * See {@link Percentile} for a description of the percentile estimation
-      * algorithm used.
+     * See {@link Percentile} for a description of the percentile estimation
+     * algorithm used.</p>
      * 
      * @param values array of input values
      * @param p  the percentile to compute

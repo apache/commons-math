@@ -33,7 +33,7 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
  * <strong>Note that this implementation is not synchronized.</strong> If 
  * multiple threads access an instance of this class concurrently, and at least
  * one of the threads invokes the <code>increment()</code> or 
- * <code>clear()</code> method, it must be synchronized externally.
+ * <code>clear()</code> method, it must be synchronized externally.</p>
  * 
  * @version $Revision$ $Date$
  */
@@ -124,11 +124,11 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      * Returns the Standard Deviation of the entries in the input array, or 
      * <code>Double.NaN</code> if the array is empty.
      * <p>
-     * Returns 0 for a single-value (i.e. length = 1) sample.
+     * Returns 0 for a single-value (i.e. length = 1) sample.</p>
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * <p>
-     * Does not change the internal state of the statistic.
+     * Does not change the internal state of the statistic.</p>
      * 
      * @param values the input array
      * @return the standard deviation of the values or Double.NaN if length = 0
@@ -143,11 +143,11 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      * the input array, or <code>Double.NaN</code> if the designated subarray
      * is empty.
      * <p>
-     * Returns 0 for a single-value (i.e. length = 1) sample.
+     * Returns 0 for a single-value (i.e. length = 1) sample. </p>
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * <p>
-     * Does not change the internal state of the statistic.
+     * Does not change the internal state of the statistic.</p>
      * 
      * @param values the input array
      * @param begin index of the first array element to include
@@ -165,16 +165,16 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      * the input array, using the precomputed mean value.  Returns
      * <code>Double.NaN</code> if the designated subarray is empty.
      * <p>
-     * Returns 0 for a single-value (i.e. length = 1) sample.
+     * Returns 0 for a single-value (i.e. length = 1) sample.</p>
      * <p>
      * The formula used assumes that the supplied mean value is the arithmetic
      * mean of the sample data, not a known population parameter.  This method
      * is supplied only to save computation when the mean has already been
-     * computed.
+     * computed.</p>
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * <p>
-     * Does not change the internal state of the statistic.
+     * Does not change the internal state of the statistic.</p>
      * 
      * @param values the input array
      * @param mean the precomputed mean value
@@ -194,16 +194,16 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      * the precomputed mean value.  Returns
      * <code>Double.NaN</code> if the designated subarray is empty.
      * <p>
-     * Returns 0 for a single-value (i.e. length = 1) sample.
+     * Returns 0 for a single-value (i.e. length = 1) sample.</p>
      * <p>
      * The formula used assumes that the supplied mean value is the arithmetic
      * mean of the sample data, not a known population parameter.  This method
      * is supplied only to save computation when the mean has already been
-     * computed.
+     * computed.</p>
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * <p>
-     * Does not change the internal state of the statistic.
+     * Does not change the internal state of the statistic.</p>
      * 
      * @param values the input array
      * @param mean the precomputed mean value

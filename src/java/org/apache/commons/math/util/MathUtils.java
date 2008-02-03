@@ -145,7 +145,7 @@ public final class MathUtils {
      * <code>Long.MAX_VALUE</code> an <code>ArithMeticException
      *      </code> is
      * thrown.</li>
-     * </ul>
+     * </ul></p>
      * 
      * @param n the size of the set
      * @param k the size of the subsets to be counted
@@ -193,7 +193,7 @@ public final class MathUtils {
      * largest value of <code>n</code> for which all coefficients are <
      * Double.MAX_VALUE is 1029. If the computed value exceeds Double.MAX_VALUE,
      * Double.POSITIVE_INFINITY is returned</li>
-     * </ul>
+     * </ul></p>
      * 
      * @param n the size of the set
      * @param k the size of the subsets to be counted
@@ -215,7 +215,7 @@ public final class MathUtils {
      * <ul>
      * <li> <code>0 <= k <= n </code> (otherwise
      * <code>IllegalArgumentException</code> is thrown)</li>
-     * </ul>
+     * </ul></p>
      * 
      * @param n the size of the set
      * @param k the size of the subsets to be counted
@@ -340,7 +340,7 @@ public final class MathUtils {
      * <ul>
      * <li> <code>n >= 0</code> (otherwise
      * <code>IllegalArgumentException</code> is thrown)</li>
-     * </ul>
+     * </ul></p>
      * 
      * @param n argument
      * @return <code>n!</code>
@@ -615,9 +615,9 @@ public final class MathUtils {
      * If <code>direction</code> is greater than or equal to<code>d</code>,
      * the smallest machine representable number strictly greater than
      * <code>d</code> is returned; otherwise the largest representable number
-     * strictly less than <code>d</code> is returned.
+     * strictly less than <code>d</code> is returned.</p>
      * <p>
-     * If <code>d</code> is NaN or Infinite, it is returned unchanged.
+     * If <code>d</code> is NaN or Infinite, it is returned unchanged.</p>
      * 
      * @param d base number
      * @param direction (the only important thing is whether
@@ -823,7 +823,7 @@ public final class MathUtils {
      * for byte value <code>x</code>.
      * <p>
      * For a byte value x, this method returns (byte)(+1) if x > 0, (byte)(0) if
-     * x = 0, and (byte)(-1) if x < 0.
+     * x = 0, and (byte)(-1) if x < 0.</p>
      * 
      * @param x the value, a byte
      * @return (byte)(+1), (byte)(0), or (byte)(-1), depending on the sign of x
@@ -839,7 +839,7 @@ public final class MathUtils {
      * For a double value <code>x</code>, this method returns
      * <code>+1.0</code> if <code>x > 0</code>, <code>0.0</code> if
      * <code>x = 0.0</code>, and <code>-1.0</code> if <code>x < 0</code>.
-     * Returns <code>NaN</code> if <code>x</code> is <code>NaN</code>.
+     * Returns <code>NaN</code> if <code>x</code> is <code>NaN</code>.</p>
      * 
      * @param x the value, a double
      * @return +1.0, 0.0, or -1.0, depending on the sign of x
@@ -857,7 +857,7 @@ public final class MathUtils {
      * <p>
      * For a float value x, this method returns +1.0F if x > 0, 0.0F if x =
      * 0.0F, and -1.0F if x < 0. Returns <code>NaN</code> if <code>x</code>
-     * is <code>NaN</code>.
+     * is <code>NaN</code>.</p>
      * 
      * @param x the value, a float
      * @return +1.0F, 0.0F, or -1.0F, depending on the sign of x
@@ -874,7 +874,7 @@ public final class MathUtils {
      * for int value <code>x</code>.
      * <p>
      * For an int value x, this method returns +1 if x > 0, 0 if x = 0, and -1
-     * if x < 0.
+     * if x < 0.</p>
      * 
      * @param x the value, an int
      * @return +1, 0, or -1, depending on the sign of x
@@ -888,7 +888,7 @@ public final class MathUtils {
      * for long value <code>x</code>.
      * <p>
      * For a long value x, this method returns +1L if x > 0, 0L if x = 0, and
-     * -1L if x < 0.
+     * -1L if x < 0.</p>
      * 
      * @param x the value, a long
      * @return +1L, 0L, or -1L, depending on the sign of x
@@ -902,7 +902,7 @@ public final class MathUtils {
      * for short value <code>x</code>.
      * <p>
      * For a short value x, this method returns (short)(+1) if x > 0, (short)(0)
-     * if x = 0, and (short)(-1) if x < 0.
+     * if x = 0, and (short)(-1) if x < 0.</p>
      * 
      * @param x the value, a short
      * @return (short)(+1), (short)(0), or (short)(-1), depending on the sign of

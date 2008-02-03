@@ -28,12 +28,12 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
  * (i.e. <code>NaN</code> values have no impact on the value of the statistic).</li>
  * <li>If any of the values equals <code>Double.NEGATIVE_INFINITY</code>, 
  * the result is <code>Double.NEGATIVE_INFINITY.</code></li>
- * </ul> 
+ * </ul></p>
  * <p>
  * <strong>Note that this implementation is not synchronized.</strong> If 
  * multiple threads access an instance of this class concurrently, and at least
  * one of the threads invokes the <code>increment()</code> or 
- * <code>clear()</code> method, it must be synchronized externally.
+ * <code>clear()</code> method, it must be synchronized externally.</p>
  * 
  * @version $Revision$ $Date$
  */
@@ -94,14 +94,14 @@ public class Min extends AbstractStorelessUnivariateStatistic implements Seriali
      * is empty.
      * <p>
      * Throws <code>IllegalArgumentException</code> if the array is null or
-     * the array index parameters are not valid.
+     * the array index parameters are not valid.</p>
      * <p>
      * <ul>
      * <li>The result is <code>NaN</code> iff all values are <code>NaN</code> 
      * (i.e. <code>NaN</code> values have no impact on the value of the statistic).</li>
      * <li>If any of the values equals <code>Double.NEGATIVE_INFINITY</code>, 
      * the result is <code>Double.NEGATIVE_INFINITY.</code></li>
-     * </ul> 
+     * </ul> </p>
      * 
      * @param values the input array
      * @param begin index of the first array element to include

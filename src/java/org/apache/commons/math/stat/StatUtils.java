@@ -77,7 +77,7 @@ public final class StatUtils {
      * <code>Double.NaN</code> if the array is empty.
      * <p>
      * Throws <code>IllegalArgumentException</code> if the input array
-     * is null.
+     * is null.</p>
      * 
      * @param values  array of values to sum
      * @return the sum of the values or <code>Double.NaN</code> if the array
@@ -93,7 +93,7 @@ public final class StatUtils {
      * the input array, or <code>Double.NaN</code> if the designated subarray
      * is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * 
      * @param values the input array
      * @param begin index of the first array element to include
@@ -111,7 +111,7 @@ public final class StatUtils {
      * Returns the sum of the squares of the entries in the input array, or 
      * <code>Double.NaN</code> if the array is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * 
      * @param values  input array
      * @return the sum of the squared values or <code>Double.NaN</code> if the
@@ -127,7 +127,7 @@ public final class StatUtils {
      * the input array, or <code>Double.NaN</code> if the designated subarray
      * is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * 
      * @param values the input array
      * @param begin index of the first array element to include
@@ -145,7 +145,7 @@ public final class StatUtils {
      * Returns the product of the entries in the input array, or 
      * <code>Double.NaN</code> if the array is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * 
      * @param values the input array
      * @return the product of the values or Double.NaN if the array is empty
@@ -160,7 +160,7 @@ public final class StatUtils {
      * the input array, or <code>Double.NaN</code> if the designated subarray
      * is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * 
      * @param values the input array
      * @param begin index of the first array element to include
@@ -178,9 +178,10 @@ public final class StatUtils {
      * Returns the sum of the natural logs of the entries in the input array, or 
      * <code>Double.NaN</code> if the array is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * <p>
      * See {@link org.apache.commons.math.stat.descriptive.summary.SumOfLogs}.
+     * </p>
      * 
      * @param values the input array
      * @return the sum of the natural logs of the values or Double.NaN if 
@@ -196,9 +197,10 @@ public final class StatUtils {
      * the input array, or <code>Double.NaN</code> if the designated subarray
      * is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * <p>
-      * See {@link org.apache.commons.math.stat.descriptive.summary.SumOfLogs}.
+     * See {@link org.apache.commons.math.stat.descriptive.summary.SumOfLogs}.
+     * </p>
      * 
      * @param values the input array
      * @param begin index of the first array element to include
@@ -217,10 +219,10 @@ public final class StatUtils {
      * Returns the arithmetic mean of the entries in the input array, or 
      * <code>Double.NaN</code> if the array is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * <p>
      * See {@link org.apache.commons.math.stat.descriptive.moment.Mean} for
-     * details on the computing algorithm.
+     * details on the computing algorithm.</p>
      * 
      * @param values the input array
      * @return the mean of the values or Double.NaN if the array is empty
@@ -235,10 +237,10 @@ public final class StatUtils {
      * the input array, or <code>Double.NaN</code> if the designated subarray
      * is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * <p>
      * See {@link org.apache.commons.math.stat.descriptive.moment.Mean} for
-     * details on the computing algorithm.
+     * details on the computing algorithm.</p>
      * 
      * @param values the input array
      * @param begin index of the first array element to include
@@ -256,10 +258,10 @@ public final class StatUtils {
      * Returns the geometric mean of the entries in the input array, or 
      * <code>Double.NaN</code> if the array is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * <p>
      * See {@link org.apache.commons.math.stat.descriptive.moment.GeometricMean}
-     * for details on the computing algorithm.
+     * for details on the computing algorithm.</p>
      * 
      * @param values the input array
      * @return the geometric mean of the values or Double.NaN if the array is empty
@@ -274,10 +276,10 @@ public final class StatUtils {
      * the input array, or <code>Double.NaN</code> if the designated subarray
      * is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * <p>
      * See {@link org.apache.commons.math.stat.descriptive.moment.GeometricMean}
-     * for details on the computing algorithm.
+     * for details on the computing algorithm.</p>
      * 
      * @param values the input array
      * @param begin index of the first array element to include
@@ -297,11 +299,11 @@ public final class StatUtils {
      * <code>Double.NaN</code> if the array is empty.
      * <p>
      * See {@link org.apache.commons.math.stat.descriptive.moment.Variance} for
-     * details on the computing algorithm.
+     * details on the computing algorithm.</p>
      * <p>
-     * Returns 0 for a single-value (i.e. length = 1) sample.
+     * Returns 0 for a single-value (i.e. length = 1) sample.</p>
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * 
      * @param values the input array
      * @return the variance of the values or Double.NaN if the array is empty
@@ -317,12 +319,12 @@ public final class StatUtils {
      * is empty.
      * <p>
      * See {@link org.apache.commons.math.stat.descriptive.moment.Variance} for
-     * details on the computing algorithm.
+     * details on the computing algorithm.</p>
      * <p>
-     * Returns 0 for a single-value (i.e. length = 1) sample.
+     * Returns 0 for a single-value (i.e. length = 1) sample.</p>
      * <p>
      * Throws <code>IllegalArgumentException</code> if the array is null or the
-     * array index parameters are not valid.
+     * array index parameters are not valid.</p>
      * 
      * @param values the input array
      * @param begin index of the first array element to include
@@ -342,17 +344,17 @@ public final class StatUtils {
      * <code>Double.NaN</code> if the designated subarray is empty.
      * <p>
      * See {@link org.apache.commons.math.stat.descriptive.moment.Variance} for
-     * details on the computing algorithm.
+     * details on the computing algorithm.</p>
      * <p>
      * The formula used assumes that the supplied mean value is the arithmetic
      * mean of the sample data, not a known population parameter.  This method
      * is supplied only to save computation when the mean has already been
-     * computed.
+     * computed.</p>
      * <p>
-     * Returns 0 for a single-value (i.e. length = 1) sample.
+     * Returns 0 for a single-value (i.e. length = 1) sample.</p>
      * <p>
      * Throws <code>IllegalArgumentException</code> if the array is null or the
-     * array index parameters are not valid.
+     * array index parameters are not valid.</p>
      * 
      * @param values the input array
      * @param mean the precomputed mean value
@@ -373,16 +375,16 @@ public final class StatUtils {
      * is empty.  
      * <p>
      * See {@link org.apache.commons.math.stat.descriptive.moment.Variance} for
-     * details on the computing algorithm.   
+     * details on the computing algorithm.</p>  
      * <p>
      * The formula used assumes that the supplied mean value is the arithmetic
      * mean of the sample data, not a known population parameter.  This method
      * is supplied only to save computation when the mean has already been
-     * computed.
+     * computed.</p>
      * <p>
-     * Returns 0 for a single-value (i.e. length = 1) sample.
+     * Returns 0 for a single-value (i.e. length = 1) sample.</p>
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * 
      * @param values the input array
      * @param mean the precomputed mean value
@@ -397,14 +399,14 @@ public final class StatUtils {
      * Returns the maximum of the entries in the input array, or 
      * <code>Double.NaN</code> if the array is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * <p>
      * <ul>
      * <li>The result is <code>NaN</code> iff all values are <code>NaN</code> 
      * (i.e. <code>NaN</code> values have no impact on the value of the statistic).</li>
      * <li>If any of the values equals <code>Double.POSITIVE_INFINITY</code>, 
      * the result is <code>Double.POSITIVE_INFINITY.</code></li>
-     * </ul>
+     * </ul></p>
      * 
      * @param values the input array
      * @return the maximum of the values or Double.NaN if the array is empty
@@ -420,14 +422,14 @@ public final class StatUtils {
      * is empty.
      * <p>
      * Throws <code>IllegalArgumentException</code> if the array is null or
-     * the array index parameters are not valid.
+     * the array index parameters are not valid.</p>
      * <p>
      * <ul>
      * <li>The result is <code>NaN</code> iff all values are <code>NaN</code> 
      * (i.e. <code>NaN</code> values have no impact on the value of the statistic).</li>
      * <li>If any of the values equals <code>Double.POSITIVE_INFINITY</code>, 
      * the result is <code>Double.POSITIVE_INFINITY.</code></li>
-     * </ul>
+     * </ul></p>
      * 
      * @param values the input array
      * @param begin index of the first array element to include
@@ -445,14 +447,14 @@ public final class StatUtils {
      * Returns the minimum of the entries in the input array, or 
      * <code>Double.NaN</code> if the array is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * <p>
      * <ul>
      * <li>The result is <code>NaN</code> iff all values are <code>NaN</code> 
      * (i.e. <code>NaN</code> values have no impact on the value of the statistic).</li>
      * <li>If any of the values equals <code>Double.NEGATIVE_INFINITY</code>, 
      * the result is <code>Double.NEGATIVE_INFINITY.</code></li>
-     * </ul> 
+     * </ul> </p>
      * 
      * @param values the input array
      * @return the minimum of the values or Double.NaN if the array is empty
@@ -468,14 +470,14 @@ public final class StatUtils {
      * is empty.
      * <p>
      * Throws <code>IllegalArgumentException</code> if the array is null or
-     * the array index parameters are not valid.
+     * the array index parameters are not valid.</p>
      * <p>
      * <ul>
      * <li>The result is <code>NaN</code> iff all values are <code>NaN</code> 
      * (i.e. <code>NaN</code> values have no impact on the value of the statistic).</li>
      * <li>If any of the values equals <code>Double.NEGATIVE_INFINITY</code>, 
      * the result is <code>Double.NEGATIVE_INFINITY.</code></li>
-     * </ul> 
+     * </ul></p>
      * 
      * @param values the input array
      * @param begin index of the first array element to include
@@ -495,16 +497,16 @@ public final class StatUtils {
      * <p>
      * <ul>
      * <li>Returns <code>Double.NaN</code> if <code>values</code> has length 
-     * <code>0</code></li>
+     * <code>0</code></li></p>
      * <li>Returns (for any value of <code>p</code>) <code>values[0]</code>
      *  if <code>values</code> has length <code>1</code></li>
      * <li>Throws <code>IllegalArgumentException</code> if <code>values</code>
      * is null  or p is not a valid quantile value (p must be greater than 0
      * and less than or equal to 100)</li>
-     * </ul>
+     * </ul></p>
      * <p>
      * See {@link org.apache.commons.math.stat.descriptive.rank.Percentile} for
-     * a description of the percentile estimation algorithm used.
+     * a description of the percentile estimation algorithm used.</p>
      * 
      * @param values input array of values
      * @param p the percentile value to compute
@@ -530,10 +532,10 @@ public final class StatUtils {
      *  is null , <code>begin</code> or <code>length</code> is invalid, or 
      * <code>p</code> is not a valid quantile value (p must be greater than 0
      * and less than or equal to 100)</li>
-     * </ul>
+     * </ul></p>
      * <p>
       * See {@link org.apache.commons.math.stat.descriptive.rank.Percentile} for
-      * a description of the percentile estimation algorithm used.
+      * a description of the percentile estimation algorithm used.</p>
      * 
      * @param values array of input values
      * @param p  the percentile to compute

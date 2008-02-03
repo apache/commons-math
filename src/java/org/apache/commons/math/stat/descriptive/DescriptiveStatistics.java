@@ -366,13 +366,13 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      * <p>
      * The implementation provided here follows the first estimation procedure presented
      * <a href="http://www.itl.nist.gov/div898/handbook/prc/section2/prc252.htm">here.</a>
-     * <p>
+     * </p><p>
      * <strong>Preconditions</strong>:<ul>
      * <li><code>0 &lt; p &lt; 100</code> (otherwise an 
      * <code>IllegalArgumentException</code> is thrown)</li>
      * <li>at least one value must be stored (returns <code>Double.NaN
      *     </code> otherwise)</li>
-     * </ul>
+     * </ul></p>
      * 
      * @param p the requested percentile (scaled from 0 - 100)
      * @return An estimate for the pth percentile of the stored data 

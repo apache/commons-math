@@ -23,7 +23,7 @@ import java.io.Serializable;
  * <p>
  * Includes "stateless" <code>evaluate</code> methods that take
  * <code>double[]</code> arrays as input and return the value of the statistic
- * applied to the input values.
+ * applied to the input values.</p>
  * 
  * @version $Revision$ $Date$
  */

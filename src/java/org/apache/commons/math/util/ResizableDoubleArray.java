@@ -66,7 +66,6 @@ import java.io.Serializable;
  * properties enforce this requirement, throwing IllegalArgumentException if it
  * is violated.
  * </p>
- * <p>
  * @version $Revision$ $Date$
  */
 public class ResizableDoubleArray implements DoubleArray, Serializable {
@@ -395,6 +394,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * the new array size will be <code>internalArray.length * expansionFactor.</code>
      * If <code>expansionMode</code> is set to ADDITIVE_MODE,  the length
      * after expansion will be <code>internalArray.length + expansionFactor</code>
+     * </p>
      */
     protected synchronized void expand() {
 

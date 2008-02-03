@@ -28,11 +28,11 @@ import org.apache.commons.math.MathException;
  * <b>Fast Fourier Transforms</b>, ISBN 0849371635, chapter 3.
  * <p>
  * FST is its own inverse, up to a multiplier depending on conventions.
- * The equations are listed in the comments of the corresponding methods.
+ * The equations are listed in the comments of the corresponding methods.</p>
  * <p>
  * Similar to FFT, we also require the length of data set to be power of 2.
  * In addition, the first element must be 0 and it's enforced in function
- * transformation after sampling.
+ * transformation after sampling.</p>
  *
  * @version $Revision$ $Date$
  */
@@ -52,7 +52,8 @@ public class FastSineTransformer implements Serializable {
      * Transform the given real data set.
      * <p>
      * The formula is $ F_n = \Sigma_{k=0}^{N-1} f_k \sin(\pi nk/N) $
-     *
+     * </p>
+     * 
      * @param f the real data array to be transformed
      * @return the real transformed array
      * @throws MathException if any math-related errors occur
@@ -68,7 +69,8 @@ public class FastSineTransformer implements Serializable {
      * Transform the given real function, sampled on the given interval.
      * <p>
      * The formula is $ F_n = \Sigma_{k=0}^{N-1} f_k \sin(\pi nk/N) $
-     *
+     * </p>
+     * 
      * @param f the function to be sampled and transformed
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
@@ -90,7 +92,8 @@ public class FastSineTransformer implements Serializable {
      * Transform the given real data set.
      * <p>
      * The formula is $ F_n = \sqrt{2/N} \Sigma_{k=0}^{N-1} f_k \sin(\pi nk/N) $
-     *
+     * </p>
+     * 
      * @param f the real data array to be transformed
      * @return the real transformed array
      * @throws MathException if any math-related errors occur
@@ -107,7 +110,8 @@ public class FastSineTransformer implements Serializable {
      * Transform the given real function, sampled on the given interval.
      * <p>
      * The formula is $ F_n = \sqrt{2/N} \Sigma_{k=0}^{N-1} f_k \sin(\pi nk/N) $
-     *
+     * </p>
+     * 
      * @param f the function to be sampled and transformed
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
@@ -130,7 +134,8 @@ public class FastSineTransformer implements Serializable {
      * Inversely transform the given real data set.
      * <p>
      * The formula is $ f_k = (2/N) \Sigma_{n=0}^{N-1} F_n \sin(\pi nk/N) $
-     *
+     * </p>
+     * 
      * @param f the real data array to be inversely transformed
      * @return the real inversely transformed array
      * @throws MathException if any math-related errors occur
@@ -147,7 +152,8 @@ public class FastSineTransformer implements Serializable {
      * Inversely transform the given real function, sampled on the given interval.
      * <p>
      * The formula is $ f_k = (2/N) \Sigma_{n=0}^{N-1} F_n \sin(\pi nk/N) $
-     *
+     * </p>
+     * 
      * @param f the function to be sampled and inversely transformed
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
@@ -170,7 +176,8 @@ public class FastSineTransformer implements Serializable {
      * Inversely transform the given real data set.
      * <p>
      * The formula is $ f_k = \sqrt{2/N} \Sigma_{n=0}^{N-1} F_n \sin(\pi nk/N) $
-     *
+     * </p>
+     * 
      * @param f the real data array to be inversely transformed
      * @return the real inversely transformed array
      * @throws MathException if any math-related errors occur
@@ -186,7 +193,8 @@ public class FastSineTransformer implements Serializable {
      * Inversely transform the given real function, sampled on the given interval.
      * <p>
      * The formula is $ f_k = \sqrt{2/N} \Sigma_{n=0}^{N-1} F_n \sin(\pi nk/N) $
-     *
+     * </p>
+     * 
      * @param f the function to be sampled and inversely transformed
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval

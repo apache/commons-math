@@ -72,7 +72,7 @@ public interface IntegerDistribution extends DiscreteDistribution {
      * P(X &le; M) =1, then <code>M</code> is returned by 
      * <code>inverseCumulativeProbability(1).</code>
      * If there is no such value, <code>M, Integer.MAX_VALUE</code> is 
-     * returned.</li></ul>
+     * returned.</li></ul></p>
      * 
      * @param p the cumulative probability.
      * @return the largest x such that P(X &le; x) <= p

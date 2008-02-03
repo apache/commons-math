@@ -32,12 +32,12 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
  * <li>If both <code>Double.POSITIVE_INFINITY</code> and 
  * <code>Double.NEGATIVE_INFINITY</code> are among the values, the result is
  * <code>NaN.</code></li>
- * </ul>
+ * </ul></p>
  * <p>
  * <strong>Note that this implementation is not synchronized.</strong> If 
  * multiple threads access an instance of this class concurrently, and at least
  * one of the threads invokes the <code>increment()</code> or 
- * <code>clear()</code> method, it must be synchronized externally.
+ * <code>clear()</code> method, it must be synchronized externally.</p>
  * 
  * @version $Revision$ $Date$
  */
@@ -101,9 +101,9 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements S
      * the input array, or <code>Double.NaN</code> if the designated subarray
      * is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * <p>
-     * See {@link SumOfLogs}.
+     * See {@link SumOfLogs}.</p>
      * 
      * @param values the input array
      * @param begin index of the first array element to include

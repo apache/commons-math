@@ -24,10 +24,10 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
  * Computes the variance of the available values.  By default, the unbiased
  * "sample variance" definitional formula is used: 
  * <p>
- * variance = sum((x_i - mean)^2) / (n - 1)
+ * variance = sum((x_i - mean)^2) / (n - 1) </p>
  * <p>
  * where mean is the {@link Mean} and <code>n</code> is the number
- * of sample observations.  
+ * of sample observations.</p>
  * <p>
  * The definitional formula does not have good numerical properties, so
  * this implementation does not compute the statistic using the definitional
@@ -46,13 +46,14 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
  * <code>incrementAll</code> and then executing <code>getResult</code> will
  * sometimes give a different, less accurate, result than executing 
  * <code>evaluate</code> with the full array of values. The former approach
- * should only be used when the full array of values is not available.
+ * should only be used when the full array of values is not available.</p>
  * <p>
  * The "population variance"  ( sum((x_i - mean)^2) / n ) can also
  * be computed using this statistic.  The <code>isBiasCorrected</code>
  * property determines whether the "population" or "sample" value is
  * returned by the <code>evaluate</code> and <code>getResult</code> methods.
  * To compute population variances, set this property to <code>false.</code>
+ * </p>
  * <p>
  * <strong>Note that this implementation is not synchronized.</strong> If 
  * multiple threads access an instance of this class concurrently, and at least
@@ -182,13 +183,13 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * Returns the variance of the entries in the input array, or 
      * <code>Double.NaN</code> if the array is empty.
      * <p>
-     * See {@link Variance} for details on the computing algorithm.
+     * See {@link Variance} for details on the computing algorithm.</p>
      * <p>
-     * Returns 0 for a single-value (i.e. length = 1) sample.
+     * Returns 0 for a single-value (i.e. length = 1) sample.</p>
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * <p>
-     * Does not change the internal state of the statistic.
+     * Does not change the internal state of the statistic.</p>
      * 
      * @param values the input array
      * @return the variance of the values or Double.NaN if length = 0
@@ -206,13 +207,13 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * the input array, or <code>Double.NaN</code> if the designated subarray
      * is empty.
      * <p>
-     * See {@link Variance} for details on the computing algorithm.
+     * See {@link Variance} for details on the computing algorithm.</p>
      * <p>
-     * Returns 0 for a single-value (i.e. length = 1) sample.
+     * Returns 0 for a single-value (i.e. length = 1) sample.</p>
      * <p>
-     * Does not change the internal state of the statistic.
+     * Does not change the internal state of the statistic.</p>
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * 
      * @param values the input array
      * @param begin index of the first array element to include
@@ -243,18 +244,18 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * the input array, using the precomputed mean value.  Returns 
      * <code>Double.NaN</code> if the designated subarray is empty.
      * <p>
-     * See {@link Variance} for details on the computing algorithm.
+     * See {@link Variance} for details on the computing algorithm.</p>
      * <p>
      * The formula used assumes that the supplied mean value is the arithmetic
      * mean of the sample data, not a known population parameter.  This method
      * is supplied only to save computation when the mean has already been
-     * computed.
+     * computed.</p>
      * <p>
-     * Returns 0 for a single-value (i.e. length = 1) sample.
+     * Returns 0 for a single-value (i.e. length = 1) sample.</p>
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * <p>
-     * Does not change the internal state of the statistic.
+     * Does not change the internal state of the statistic.</p>
      * 
      * @param values the input array
      * @param mean the precomputed mean value
@@ -297,20 +298,20 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * precomputed mean value.  Returns <code>Double.NaN</code> if the array
      * is empty.
      * <p>
-     * See {@link Variance} for details on the computing algorithm.
+     * See {@link Variance} for details on the computing algorithm.</p>
      * <p>
      * If <code>isBiasCorrected</code> is <code>true</code> the formula used
      * assumes that the supplied mean value is the arithmetic mean of the
      * sample data, not a known population parameter.  If the mean is a known
      * population parameter, or if the "population" version of the variance is
      * desired, set <code>isBiasCorrected</code> to <code>false</code> before
-     * invoking this method.
+     * invoking this method.</p>
      * <p>
-     * Returns 0 for a single-value (i.e. length = 1) sample.
+     * Returns 0 for a single-value (i.e. length = 1) sample.</p>
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * <p>
-     * Does not change the internal state of the statistic.
+     * Does not change the internal state of the statistic.</p>
      * 
      * @param values the input array
      * @param mean the precomputed mean value

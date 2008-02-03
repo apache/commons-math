@@ -42,9 +42,9 @@ public abstract class AbstractDistribution
      * For a random variable X whose values are distributed according
      * to this distribution, this method returns P(x0 &le; X &le; x1).
      * <p>
-     * The default implementation uses the identity
+     * The default implementation uses the identity</p>
      * <p>
-     * P(x0 &le; X &le; x1) = P(X &le; x1) - P(X &le; x0)
+     * P(x0 &le; X &le; x1) = P(X &le; x1) - P(X &le; x0) </p>
      * 
      * @param x0 the (inclusive) lower bound
      * @param x1 the (inclusive) upper bound

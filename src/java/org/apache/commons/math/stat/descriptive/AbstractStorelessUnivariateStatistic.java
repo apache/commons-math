@@ -24,9 +24,9 @@ import java.io.Serializable;
  * Abstract implementation of the {@link StorelessUnivariateStatistic} interface.
  * <p>
  * Provides default <code>evaluate()</code> and <code>incrementAll(double[])<code>
- * implementations. 
+ * implementations.</p>
  * <p>
- * <strong>Note that these implementations are not synchronized.</strong>
+ * <strong>Note that these implementations are not synchronized.</strong></p>
  *
  * @version $Revision$ $Date$
  */
@@ -44,13 +44,13 @@ public abstract class AbstractStorelessUnivariateStatistic
      * <p>
      * Note that this implementation changes the internal state of the
      * statistic.  Its side effects are the same as invoking {@link #clear} and
-     * then {@link #incrementAll(double[])}.
+     * then {@link #incrementAll(double[])}.</p>
      * <p>
      * Implementations may override this method with a more efficient and
      * possibly more accurate implementation that works directly with the
-     * input array.
+     * input array.</p>
      * <p>
-     * If the array is null, an IllegalArgumentException is thrown.
+     * If the array is null, an IllegalArgumentException is thrown.</p>
      * 
      * @see org.apache.commons.math.stat.descriptive.UnivariateStatistic#evaluate(double[])
      */
@@ -68,14 +68,14 @@ public abstract class AbstractStorelessUnivariateStatistic
      * <p>
      * Note that this implementation changes the internal state of the
      * statistic.  Its side effects are the same as invoking {@link #clear} and
-     * then {@link #incrementAll(double[], int, int)}.
+     * then {@link #incrementAll(double[], int, int)}.</p>
      * <p>
      * Implementations may override this method with a more efficient and
      * possibly more accurate implementation that works directly with the
-     * input array.
+     * input array.</p>
      * <p>
      * If the array is null or the index parameters are not valid, an 
-     * IllegalArgumentException is thrown.
+     * IllegalArgumentException is thrown.</p>
      * 
      * @see org.apache.commons.math.stat.descriptive.UnivariateStatistic#evaluate(double[], int, int)
      */
@@ -106,7 +106,7 @@ public abstract class AbstractStorelessUnivariateStatistic
      * This default implementation just calls {@link #increment} in a loop over
      * the input array.   
      * <p>
-     * Throws IllegalArgumentException if the input values array is null.
+     * Throws IllegalArgumentException if the input values array is null.</p>
      * 
      * @param values values to add
      * @throws IllegalArgumentException if values is null
@@ -123,7 +123,7 @@ public abstract class AbstractStorelessUnivariateStatistic
      * This default implementation just calls {@link #increment} in a loop over
      * the specified portion of the input array.
      * <p>
-     * Throws IllegalArgumentException if the input values array is null.
+     * Throws IllegalArgumentException if the input values array is null.</p>
      * 
      * @param values  array holding values to add
      * @param begin   index of the first array element to add

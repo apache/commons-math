@@ -27,7 +27,7 @@ import org.apache.commons.math.stat.descriptive.StatisticalSummary;
  * Implements t-test statistics defined in the {@link TTest} interface.
  * <p>
  * Uses commons-math {@link org.apache.commons.math.distribution.TDistribution}
- * implementation to estimate exact p-values.
+ * implementation to estimate exact p-values.</p>
  *
  * @version $Revision$ $Date$
  */
@@ -65,7 +65,7 @@ public class TTestImpl implements TTest  {
      * <strong>Preconditions</strong>: <ul>
      * <li>The input arrays must have the same length and their common length
      * must be at least 2.
-     * </li></ul>
+     * </li></ul></p>
      *
      * @param sample1 array of sample data values
      * @param sample2 array of sample data values
@@ -95,23 +95,23 @@ public class TTestImpl implements TTest  {
      * at which one can reject the null hypothesis that the mean of the paired
      * differences is 0 in favor of the two-sided alternative that the mean paired 
      * difference is not equal to 0. For a one-sided test, divide the returned 
-     * value by 2.
+     * value by 2.</p>
      * <p>
      * This test is equivalent to a one-sample t-test computed using
      * {@link #tTest(double, double[])} with <code>mu = 0</code> and the sample
      * array consisting of the signed differences between corresponding elements of 
-     * <code>sample1</code> and <code>sample2.</code>
+     * <code>sample1</code> and <code>sample2.</code></p>
      * <p>
      * <strong>Usage Note:</strong><br>
      * The validity of the p-value depends on the assumptions of the parametric
      * t-test procedure, as discussed 
      * <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">
-     * here</a>
+     * here</a></p>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The input array lengths must be the same and their common length must
      * be at least 2.
-     * </li></ul>
+     * </li></ul></p>
      *
      * @param sample1 array of sample data values
      * @param sample2 array of sample data values
@@ -136,20 +136,20 @@ public class TTestImpl implements TTest  {
      * <p>
      * Returns <code>true</code> iff the null hypothesis can be rejected with 
      * confidence <code>1 - alpha</code>.  To perform a 1-sided test, use 
-     * <code>alpha * 2</code>
+     * <code>alpha * 2</code></p>
      * <p>
      * <strong>Usage Note:</strong><br>
      * The validity of the test depends on the assumptions of the parametric
      * t-test procedure, as discussed 
      * <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">
-     * here</a>
+     * here</a></p>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The input array lengths must be the same and their common length 
      * must be at least 2.
      * </li>
      * <li> <code> 0 < alpha < 0.5 </code>
-     * </li></ul>
+     * </li></ul></p>
      *
      * @param sample1 array of sample data values
      * @param sample2 array of sample data values
@@ -172,10 +172,10 @@ public class TTestImpl implements TTest  {
      * t statistic </a> given observed values and a comparison constant.
      * <p>
      * This statistic can be used to perform a one sample t-test for the mean.
-     * <p>
+     * </p><p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The observed array length must be at least 2.
-     * </li></ul>
+     * </li></ul></p>
      *
      * @param mu comparison constant
      * @param observed array of values
@@ -197,10 +197,10 @@ public class TTestImpl implements TTest  {
      * <code>sampleStats</code> to <code>mu</code>.
      * <p>
      * This statistic can be used to perform a one sample t-test for the mean.
-     * <p>
+     * </p><p>
      * <strong>Preconditions</strong>: <ul>
      * <li><code>observed.getN() > = 2</code>.
-     * </li></ul>
+     * </li></ul></p>
      *
      * @param mu comparison constant
      * @param sampleStats DescriptiveStatistics holding sample summary statitstics
@@ -222,27 +222,27 @@ public class TTestImpl implements TTest  {
      * equal variances hypothesis, use {@link #t(double[], double[])}.
      * <p>
      * This statistic can be used to perform a (homoscedastic) two-sample
-     * t-test to compare sample means.   
+     * t-test to compare sample means.</p>
      * <p>
-     * The t-statisitc is
+     * The t-statisitc is</p>
      * <p>
      * &nbsp;&nbsp;<code>  t = (m1 - m2) / (sqrt(1/n1 +1/n2) sqrt(var))</code>
-     * <p>
+     * </p><p>
      * where <strong><code>n1</code></strong> is the size of first sample; 
      * <strong><code> n2</code></strong> is the size of second sample; 
      * <strong><code> m1</code></strong> is the mean of first sample;  
      * <strong><code> m2</code></strong> is the mean of second sample</li>
      * </ul>
      * and <strong><code>var</code></strong> is the pooled variance estimate:
-     * <p>
+     * </p><p>
      * <code>var = sqrt(((n1 - 1)var1 + (n2 - 1)var2) / ((n1-1) + (n2-1)))</code>
-     * <p> 
+     * </p><p> 
      * with <strong><code>var1<code></strong> the variance of the first sample and
      * <strong><code>var2</code></strong> the variance of the second sample.
-     * <p>
+     * </p><p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The observed array lengths must both be at least 2.
-     * </li></ul>
+     * </li></ul></p>
      *
      * @param sample1 array of sample data values
      * @param sample2 array of sample data values
@@ -266,22 +266,22 @@ public class TTestImpl implements TTest  {
      * variances, use {@link #homoscedasticT(double[], double[])}.
      * <p>
      * This statistic can be used to perform a two-sample t-test to compare
-     * sample means.
+     * sample means.</p>
      * <p>
-     * The t-statisitc is
+     * The t-statisitc is</p>
      * <p>
      * &nbsp;&nbsp; <code>  t = (m1 - m2) / sqrt(var1/n1 + var2/n2)</code>
-     * <p>
+     * </p><p>
      *  where <strong><code>n1</code></strong> is the size of the first sample
      * <strong><code> n2</code></strong> is the size of the second sample; 
      * <strong><code> m1</code></strong> is the mean of the first sample;  
      * <strong><code> m2</code></strong> is the mean of the second sample;
      * <strong><code> var1</code></strong> is the variance of the first sample;
      * <strong><code> var2</code></strong> is the variance of the second sample;  
-     * <p>
+     * </p><p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The observed array lengths must both be at least 2.
-     * </li></ul>
+     * </li></ul></p>
      *
      * @param sample1 array of sample data values
      * @param sample2 array of sample data values
@@ -307,23 +307,23 @@ public class TTestImpl implements TTest  {
      * compute a t-statistic under the equal variances assumption.
      * <p>
      * This statistic can be used to perform a two-sample t-test to compare
-     * sample means.
+     * sample means.</p>
      * <p>
-      * The returned  t-statisitc is
+      * The returned  t-statisitc is</p>
      * <p>
      * &nbsp;&nbsp; <code>  t = (m1 - m2) / sqrt(var1/n1 + var2/n2)</code>
-     * <p>
+     * </p><p>
      * where <strong><code>n1</code></strong> is the size of the first sample; 
      * <strong><code> n2</code></strong> is the size of the second sample; 
      * <strong><code> m1</code></strong> is the mean of the first sample;  
      * <strong><code> m2</code></strong> is the mean of the second sample
      * <strong><code> var1</code></strong> is the variance of the first sample;  
      * <strong><code> var2</code></strong> is the variance of the second sample
-     * <p>
+     * </p><p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The datasets described by the two Univariates must each contain
      * at least 2 observations.
-     * </li></ul>
+     * </li></ul></p>
      *
      * @param sampleStats1 StatisticalSummary describing data from the first sample
      * @param sampleStats2 StatisticalSummary describing data from the second sample
@@ -351,27 +351,27 @@ public class TTestImpl implements TTest  {
      * {@link #t(StatisticalSummary, StatisticalSummary)}.
      * <p>
      * This statistic can be used to perform a (homoscedastic) two-sample
-     * t-test to compare sample means.
+     * t-test to compare sample means.</p>
      * <p>
-     * The t-statisitc returned is
+     * The t-statisitc returned is</p>
      * <p>
      * &nbsp;&nbsp;<code>  t = (m1 - m2) / (sqrt(1/n1 +1/n2) sqrt(var))</code>
-     * <p>
+     * </p><p>
      * where <strong><code>n1</code></strong> is the size of first sample; 
      * <strong><code> n2</code></strong> is the size of second sample; 
      * <strong><code> m1</code></strong> is the mean of first sample;  
      * <strong><code> m2</code></strong> is the mean of second sample
      * and <strong><code>var</code></strong> is the pooled variance estimate:
-     * <p>
+     * </p><p>
      * <code>var = sqrt(((n1 - 1)var1 + (n2 - 1)var2) / ((n1-1) + (n2-1)))</code>
      * <p> 
      * with <strong><code>var1<code></strong> the variance of the first sample and
      * <strong><code>var2</code></strong> the variance of the second sample.
-     * <p>
+     * </p><p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The datasets described by the two Univariates must each contain
      * at least 2 observations.
-     * </li></ul>
+     * </li></ul></p>
      *
      * @param sampleStats1 StatisticalSummary describing data from the first sample
      * @param sampleStats2 StatisticalSummary describing data from the second sample
@@ -400,16 +400,16 @@ public class TTestImpl implements TTest  {
      * at which one can reject the null hypothesis that the mean equals 
      * <code>mu</code> in favor of the two-sided alternative that the mean
      * is different from <code>mu</code>. For a one-sided test, divide the 
-     * returned value by 2.
+     * returned value by 2.</p>
      * <p>
      * <strong>Usage Note:</strong><br>
      * The validity of the test depends on the assumptions of the parametric
      * t-test procedure, as discussed 
      * <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">here</a>
-     * <p>
+     * </p><p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The observed array length must be at least 2.
-     * </li></ul>
+     * </li></ul></p>
      *
      * @param mu constant value to compare sample mean against
      * @param sample array of sample data values
@@ -434,7 +434,7 @@ public class TTestImpl implements TTest  {
      * Returns <code>true</code> iff the null hypothesis can be 
      * rejected with confidence <code>1 - alpha</code>.  To 
      * perform a 1-sided test, use <code>alpha * 2</code>
-     * <p>
+     * </p><p>
      * <strong>Examples:</strong><br><ol>
      * <li>To test the (2-sided) hypothesis <code>sample mean = mu </code> at
      * the 95% level, use <br><code>tTest(mu, sample, 0.05) </code>
@@ -443,16 +443,16 @@ public class TTestImpl implements TTest  {
      * at the 99% level, first verify that the measured sample mean is less 
      * than <code>mu</code> and then use 
      * <br><code>tTest(mu, sample, 0.02) </code>
-     * </li></ol>
+     * </li></ol></p>
      * <p>
      * <strong>Usage Note:</strong><br>
      * The validity of the test depends on the assumptions of the one-sample 
      * parametric t-test procedure, as discussed 
      * <a href="http://www.basic.nwu.edu/statguidefiles/sg_glos.html#one-sample">here</a>
-     * <p>
+     * </p><p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The observed array length must be at least 2.
-     * </li></ul>
+     * </li></ul></p>
      *
      * @param mu constant value to compare sample mean against
      * @param sample array of sample data values
@@ -479,17 +479,17 @@ public class TTestImpl implements TTest  {
      * at which one can reject the null hypothesis that the mean equals 
      * <code>mu</code> in favor of the two-sided alternative that the mean
      * is different from <code>mu</code>. For a one-sided test, divide the 
-     * returned value by 2.
+     * returned value by 2.</p>
      * <p>
      * <strong>Usage Note:</strong><br>
      * The validity of the test depends on the assumptions of the parametric
      * t-test procedure, as discussed 
      * <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">
-     * here</a>
+     * here</a></p>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The sample must contain at least 2 observations.
-     * </li></ul>
+     * </li></ul></p>
      *
      * @param mu constant value to compare sample mean against
      * @param sampleStats StatisticalSummary describing sample data
@@ -514,7 +514,7 @@ public class TTestImpl implements TTest  {
      * <p>
      * Returns <code>true</code> iff the null hypothesis can be rejected with
      * confidence <code>1 - alpha</code>.  To  perform a 1-sided test, use
-     * <code>alpha * 2.</code>
+     * <code>alpha * 2.</code></p>
      * <p>
      * <strong>Examples:</strong><br><ol>
      * <li>To test the (2-sided) hypothesis <code>sample mean = mu </code> at
@@ -524,16 +524,16 @@ public class TTestImpl implements TTest  {
      * at the 99% level, first verify that the measured sample mean is less 
      * than <code>mu</code> and then use 
      * <br><code>tTest(mu, sampleStats, 0.02) </code>
-     * </li></ol>
+     * </li></ol></p>
      * <p>
      * <strong>Usage Note:</strong><br>
      * The validity of the test depends on the assumptions of the one-sample 
      * parametric t-test procedure, as discussed 
      * <a href="http://www.basic.nwu.edu/statguidefiles/sg_glos.html#one-sample">here</a>
-     * <p>
+     * </p><p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The sample must include at least 2 observations.
-     * </li></ul>
+     * </li></ul></p>
      *
      * @param mu constant value to compare sample mean against
      * @param sampleStats StatisticalSummary describing sample data values
@@ -559,7 +559,7 @@ public class TTestImpl implements TTest  {
      * The number returned is the smallest significance level
      * at which one can reject the null hypothesis that the two means are
      * equal in favor of the two-sided alternative that they are different. 
-     * For a one-sided test, divide the returned value by 2.
+     * For a one-sided test, divide the returned value by 2.</p>
      * <p>
      * The test does not assume that the underlying popuation variances are
      * equal  and it uses approximated degrees of freedom computed from the 
@@ -569,17 +569,17 @@ public class TTestImpl implements TTest  {
      * as described 
      * <a href="http://www.itl.nist.gov/div898/handbook/prc/section3/prc31.htm">
      * here.</a>  To perform the test under the assumption of equal subpopulation
-     * variances, use {@link #homoscedasticTTest(double[], double[])}. 
+     * variances, use {@link #homoscedasticTTest(double[], double[])}.</p>
      * <p>
      * <strong>Usage Note:</strong><br>
      * The validity of the p-value depends on the assumptions of the parametric
      * t-test procedure, as discussed 
      * <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">
-     * here</a>
+     * here</a></p>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The observed array lengths must both be at least 2.
-     * </li></ul>
+     * </li></ul></p>
      *
      * @param sample1 array of sample data values
      * @param sample2 array of sample data values
@@ -609,21 +609,21 @@ public class TTestImpl implements TTest  {
      * The number returned is the smallest significance level
      * at which one can reject the null hypothesis that the two means are
      * equal in favor of the two-sided alternative that they are different. 
-     * For a one-sided test, divide the returned value by 2.
+     * For a one-sided test, divide the returned value by 2.</p>
      * <p>
      * A pooled variance estimate is used to compute the t-statistic.  See
      * {@link #homoscedasticT(double[], double[])}. The sum of the sample sizes
-     * minus 2 is used as the degrees of freedom.
+     * minus 2 is used as the degrees of freedom.</p>
      * <p>
      * <strong>Usage Note:</strong><br>
      * The validity of the p-value depends on the assumptions of the parametric
      * t-test procedure, as discussed 
      * <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">
-     * here</a>
+     * here</a></p>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The observed array lengths must both be at least 2.
-     * </li></ul>
+     * </li></ul></p>
      *
      * @param sample1 array of sample data values
      * @param sample2 array of sample data values
@@ -656,12 +656,12 @@ public class TTestImpl implements TTest  {
      * <p>
      * Returns <code>true</code> iff the null hypothesis that the means are
      * equal can be rejected with confidence <code>1 - alpha</code>.  To 
-     * perform a 1-sided test, use <code>alpha / 2</code>
+     * perform a 1-sided test, use <code>alpha / 2</code></p>
      * <p>
      * See {@link #t(double[], double[])} for the formula used to compute the
      * t-statistic.  Degrees of freedom are approximated using the
      * <a href="http://www.itl.nist.gov/div898/handbook/prc/section3/prc31.htm">
-     * Welch-Satterthwaite approximation.</a>
+     * Welch-Satterthwaite approximation.</a></p>
       
      * <p>
      * <strong>Examples:</strong><br><ol>
@@ -673,19 +673,19 @@ public class TTestImpl implements TTest  {
      * the 99% level, first verify that the measured  mean of <code>sample 1</code>
      * is less than the mean of <code>sample 2</code> and then use 
      * <br><code>tTest(sample1, sample2, 0.02) </code>
-     * </li></ol>
+     * </li></ol></p>
      * <p>
      * <strong>Usage Note:</strong><br>
      * The validity of the test depends on the assumptions of the parametric
      * t-test procedure, as discussed 
      * <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">
-     * here</a>
+     * here</a></p>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The observed array lengths must both be at least 2.
      * </li>
      * <li> <code> 0 < alpha < 0.5 </code>
-     * </li></ul>
+     * </li></ul></p>
      *
      * @param sample1 array of sample data values
      * @param sample2 array of sample data values
@@ -718,11 +718,11 @@ public class TTestImpl implements TTest  {
      * equal can be rejected with confidence <code>1 - alpha</code>.  To 
      * perform a 1-sided test, use <code>alpha * 2.</code>  To perform the test
      * without the assumption of equal subpopulation variances, use 
-     * {@link #tTest(double[], double[], double)}.
+     * {@link #tTest(double[], double[], double)}.</p>
      * <p>
      * A pooled variance estimate is used to compute the t-statistic. See
      * {@link #t(double[], double[])} for the formula. The sum of the sample
-     * sizes minus 2 is used as the degrees of freedom.
+     * sizes minus 2 is used as the degrees of freedom.</p>
      * <p>
      * <strong>Examples:</strong><br><ol>
      * <li>To test the (2-sided) hypothesis <code>mean 1 = mean 2 </code> at
@@ -733,19 +733,19 @@ public class TTestImpl implements TTest  {
      * <code>sample 1</code> is less than the mean of <code>sample 2</code>
      * and then use
      * <br><code>tTest(sample1, sample2, 0.02) </code>
-     * </li></ol>
+     * </li></ol></p>
      * <p>
      * <strong>Usage Note:</strong><br>
      * The validity of the test depends on the assumptions of the parametric
      * t-test procedure, as discussed 
      * <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">
-     * here</a>
+     * here</a></p>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The observed array lengths must both be at least 2.
      * </li>
      * <li> <code> 0 < alpha < 0.5 </code>
-     * </li></ul>
+     * </li></ul></p>
      *
      * @param sample1 array of sample data values
      * @param sample2 array of sample data values
@@ -773,24 +773,24 @@ public class TTestImpl implements TTest  {
      * The number returned is the smallest significance level
      * at which one can reject the null hypothesis that the two means are
      * equal in favor of the two-sided alternative that they are different. 
-     * For a one-sided test, divide the returned value by 2.
+     * For a one-sided test, divide the returned value by 2.</p>
      * <p>
      * The test does not assume that the underlying popuation variances are
      * equal  and it uses approximated degrees of freedom computed from the 
      * sample data to compute the p-value.   To perform the test assuming
      * equal variances, use 
-     * {@link #homoscedasticTTest(StatisticalSummary, StatisticalSummary)}.
+     * {@link #homoscedasticTTest(StatisticalSummary, StatisticalSummary)}.</p>
      * <p>
      * <strong>Usage Note:</strong><br>
      * The validity of the p-value depends on the assumptions of the parametric
      * t-test procedure, as discussed 
      * <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">
-     * here</a>
+     * here</a></p>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The datasets described by the two Univariates must each contain
      * at least 2 observations.
-     * </li></ul>
+     * </li></ul></p>
      *
      * @param sampleStats1  StatisticalSummary describing data from the first sample
      * @param sampleStats2  StatisticalSummary describing data from the second sample
@@ -820,21 +820,21 @@ public class TTestImpl implements TTest  {
      * The number returned is the smallest significance level
      * at which one can reject the null hypothesis that the two means are
      * equal in favor of the two-sided alternative that they are different. 
-     * For a one-sided test, divide the returned value by 2.
+     * For a one-sided test, divide the returned value by 2.</p>
      * <p>
      * See {@link #homoscedasticT(double[], double[])} for the formula used to
      * compute the t-statistic. The sum of the  sample sizes minus 2 is used as
-     * the degrees of freedom.
+     * the degrees of freedom.</p>
      * <p>
      * <strong>Usage Note:</strong><br>
      * The validity of the p-value depends on the assumptions of the parametric
      * t-test procedure, as discussed 
      * <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">here</a>
-     * <p>
+     * </p><p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The datasets described by the two Univariates must each contain
      * at least 2 observations.
-     * </li></ul>
+     * </li></ul></p>
      *
      * @param sampleStats1  StatisticalSummary describing data from the first sample
      * @param sampleStats2  StatisticalSummary describing data from the second sample
@@ -868,12 +868,12 @@ public class TTestImpl implements TTest  {
      * <p>
      * Returns <code>true</code> iff the null hypothesis that the means are
      * equal can be rejected with confidence <code>1 - alpha</code>.  To 
-     * perform a 1-sided test, use <code>alpha * 2</code>
+     * perform a 1-sided test, use <code>alpha * 2</code></p>
      * <p>
      * See {@link #t(double[], double[])} for the formula used to compute the
      * t-statistic.  Degrees of freedom are approximated using the
      * <a href="http://www.itl.nist.gov/div898/handbook/prc/section3/prc31.htm">
-     * Welch-Satterthwaite approximation.</a>
+     * Welch-Satterthwaite approximation.</a></p>
      * <p>
      * <strong>Examples:</strong><br><ol>
      * <li>To test the (2-sided) hypothesis <code>mean 1 = mean 2 </code> at
@@ -885,20 +885,20 @@ public class TTestImpl implements TTest  {
      * <code>sample 1</code> is less than  the mean of <code>sample 2</code>
      * and then use 
      * <br><code>tTest(sampleStats1, sampleStats2, 0.02) </code>
-     * </li></ol>
+     * </li></ol></p>
      * <p>
      * <strong>Usage Note:</strong><br>
      * The validity of the test depends on the assumptions of the parametric
      * t-test procedure, as discussed 
      * <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">
-     * here</a>
+     * here</a></p>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The datasets described by the two Univariates must each contain
      * at least 2 observations.
      * </li>
      * <li> <code> 0 < alpha < 0.5 </code>
-     * </li></ul>
+     * </li></ul></p>
      *
      * @param sampleStats1 StatisticalSummary describing sample data values
      * @param sampleStats2 StatisticalSummary describing sample data values
@@ -959,7 +959,7 @@ public class TTestImpl implements TTest  {
     /**
      * Computes t test statistic for 2-sample t-test.
      * <p>
-     * Does not assume that subpopulation variances are equal.
+     * Does not assume that subpopulation variances are equal.</p>
      * 
      * @param m1 first sample mean
      * @param m2 second sample mean
@@ -1013,7 +1013,7 @@ public class TTestImpl implements TTest  {
      * Computes p-value for 2-sided, 2-sample t-test.
      * <p>
      * Does not assume subpopulation variances are equal. Degrees of freedom
-     * are estimated from the data.
+     * are estimated from the data.</p>
      * 
      * @param m1 first sample mean
      * @param m2 second sample mean
@@ -1038,7 +1038,7 @@ public class TTestImpl implements TTest  {
      * Computes p-value for 2-sided, 2-sample t-test, under the assumption
      * of equal subpopulation variances.
      * <p>
-     * The sum of the sample sizes minus 2 is used as degrees of freedom.
+     * The sum of the sample sizes minus 2 is used as degrees of freedom.</p>
      * 
      * @param m1 first sample mean
      * @param m2 second sample mean

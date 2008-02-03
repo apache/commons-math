@@ -68,7 +68,7 @@ public class Mean extends AbstractStorelessUnivariateStatistic
      * Determines whether or not this statistic can be incremented or cleared.
      * <p>
      * Statistics based on (constructed from) external moments cannot
-     * be incremented or cleared.
+     * be incremented or cleared.</p>
      */
     protected boolean incMoment;
 
@@ -125,9 +125,9 @@ public class Mean extends AbstractStorelessUnivariateStatistic
      * the input array, or <code>Double.NaN</code> if the designated subarray
      * is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * <p>
-     * See {@link Mean} for details on the computing algorithm.
+     * See {@link Mean} for details on the computing algorithm.</p>
      * 
      * @param values the input array
      * @param begin index of the first array element to include

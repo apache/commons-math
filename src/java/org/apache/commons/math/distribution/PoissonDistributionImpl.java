@@ -135,7 +135,7 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
      * distribution is used to approximate the Poisson distribution.
      * <p>
      * The computation uses "half-correction" -- evaluating the normal
-     * distribution function at <code>x + 0.5</code>
+     * distribution function at <code>x + 0.5</code></p>
      * 
      * @param x the upper bound, inclusive
      * @return the distribution function value calculated using a normal approximation

@@ -21,7 +21,7 @@ package org.apache.commons.math.distribution;
  * Normal (Gauss) Distribution.
  *
  * <p>
- * References:<p>
+ * References:</p><p>
  * <ul>
  * <li><a href="http://mathworld.wolfram.com/NormalDistribution.html">
  * Normal Distribution</a></li>

@@ -87,7 +87,7 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
      * that P(X &lt; x) = <code>p</code>.
      * <p>
      * Returns <code>Double.NEGATIVE_INFINITY</code> for p=0 and 
-     * <code>Double.POSITIVE_INFINITY</code> for p=1.
+     * <code>Double.POSITIVE_INFINITY</code> for p=1.</p>
      *
      * @param p the desired probability
      * @return x, such that P(X &lt; x) = <code>p</code>

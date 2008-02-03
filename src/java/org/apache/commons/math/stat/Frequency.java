@@ -27,14 +27,14 @@ import java.util.TreeMap;
  * <p>
  * Accepts int, long, char or Object values.  New values added must be 
  * comparable to those that have been added, otherwise the add method will 
- * throw an IllegalArgumentException.  
+ * throw an IllegalArgumentException.</p>
  * <p>
  * Integer values (int, long, Integer, Long) are not distinguished by type -- 
  * i.e. <code>addValue(new Long(2)), addValue(2), addValue(2l)</code> all have
- * the same effect (similarly for arguments to <code>getCount,</code> etc.).
+ * the same effect (similarly for arguments to <code>getCount,</code> etc.).</p>
  * <p>
  * The values are ordered using the default (natural order), unless a  
- * <code>Comparator</code> is supplied in the constructor.
+ * <code>Comparator</code> is supplied in the constructor.</p>
  *
  * @version $Revision$ $Date$
  */
@@ -157,7 +157,7 @@ public class Frequency implements Serializable {
      * <p>
      * If added values are itegral (i.e., integers, longs, Integers, or Longs), 
      * they are converted to Longs when they are added, so the objects returned
-     * by the Iterator will in this case be Longs.
+     * by the Iterator will in this case be Longs.</p>
      * 
      * @return values Iterator
      */
@@ -239,7 +239,7 @@ public class Frequency implements Serializable {
       * Returns the percentage of values that are equal to v
      * (as a proportion between 0 and 1).
      * <p>
-     * Returns <code>Double.NaN</code> if no values have been added.
+     * Returns <code>Double.NaN</code> if no values have been added.</p>
      * 
      * @param v the value to lookup
      * @return the proportion of values equal to v
@@ -252,7 +252,7 @@ public class Frequency implements Serializable {
     }
     
     /**
-      * Returns the percentage of values that are equal to v
+     * Returns the percentage of values that are equal to v
      * (as a proportion between 0 and 1).
      * 
      * @param v the value to lookup
@@ -263,7 +263,7 @@ public class Frequency implements Serializable {
     }
     
     /**
-      * Returns the percentage of values that are equal to v
+     * Returns the percentage of values that are equal to v
      * (as a proportion between 0 and 1).
      * 
      * @param v the value to lookup
@@ -289,7 +289,7 @@ public class Frequency implements Serializable {
     /**
      * Returns the cumulative frequency of values less than or equal to v.
      * <p>
-     * Returns 0 if v is not comparable to the values set.
+     * Returns 0 if v is not comparable to the values set.</p>
      * 
      * @param v the value to lookup.
      * @return the proportion of values equal to v
@@ -339,7 +339,7 @@ public class Frequency implements Serializable {
      /**
      * Returns the cumulative frequency of values less than or equal to v.
      * <p>
-     * Returns 0 if v is not comparable to the values set.
+     * Returns 0 if v is not comparable to the values set.</p>
      * 
      * @param v the value to lookup
      * @return the proportion of values equal to v
@@ -351,7 +351,7 @@ public class Frequency implements Serializable {
      /**
      * Returns the cumulative frequency of values less than or equal to v.
      * <p>
-     * Returns 0 if v is not comparable to the values set.
+     * Returns 0 if v is not comparable to the values set.</p>
      * 
      * @param v the value to lookup
      * @return the proportion of values equal to v
@@ -363,7 +363,7 @@ public class Frequency implements Serializable {
     /**
      * Returns the cumulative frequency of values less than or equal to v.
      * <p>
-     * Returns 0 if v is not comparable to the values set.
+     * Returns 0 if v is not comparable to the values set.</p>
      * 
      * @param v the value to lookup
      * @return the proportion of values equal to v
@@ -374,13 +374,13 @@ public class Frequency implements Serializable {
     
     //----------------------------------------------------------------------------------------------
     
-     /**
+    /**
      * Returns the cumulative percentage of values less than or equal to v
      * (as a proportion between 0 and 1).
      * <p>
      * Returns <code>Double.NaN</code> if no values have been added.
      * Returns 0 if at least one value has been added, but v is not comparable
-     * to the values set.
+     * to the values set.</p>
      * 
      * @param v the value to lookup
      * @return the proportion of values less than or equal to v
@@ -396,7 +396,7 @@ public class Frequency implements Serializable {
      * Returns the cumulative percentage of values less than or equal to v
      * (as a proportion between 0 and 1).
      * <p>
-     * Returns 0 if v is not comparable to the values set.
+     * Returns 0 if v is not comparable to the values set.</p>
      * 
      * @param v the value to lookup
      * @return the proportion of values less than or equal to v
@@ -409,7 +409,7 @@ public class Frequency implements Serializable {
      * Returns the cumulative percentage of values less than or equal to v
      * (as a proportion between 0 and 1).
      * <p>
-     * Returns 0 if v is not comparable to the values set.
+     * Returns 0 if v is not comparable to the values set.</p>
      * 
      * @param v the value to lookup
      * @return the proportion of values less than or equal to v
@@ -422,7 +422,7 @@ public class Frequency implements Serializable {
      * Returns the cumulative percentage of values less than or equal to v
      * (as a proportion between 0 and 1).
      * <p>
-     * Returns 0 if v is not comparable to the values set.
+     * Returns 0 if v is not comparable to the values set.</p>
      * 
      * @param v the value to lookup
      * @return the proportion of values less than or equal to v

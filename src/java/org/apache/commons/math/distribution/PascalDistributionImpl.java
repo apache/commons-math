@@ -159,7 +159,7 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
      * P(X &le; x) &le; <code>p</code>.
      * <p>
      * Returns <code>-1</code> for p=0 and <code>Integer.MAX_VALUE</code>
-     * for p=1.
+     * for p=1.</p>
      * @param p the desired probability
      * @return the largest x such that P(X &le; x) <= p
      * @throws MathException if the inverse cumulative probability can not be

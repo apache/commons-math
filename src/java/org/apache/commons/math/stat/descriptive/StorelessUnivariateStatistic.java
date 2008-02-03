@@ -21,8 +21,9 @@ package org.apache.commons.math.stat.descriptive;
  * {@link #increment} and {@link #incrementAll(double[])} methods for adding
  * values and updating internal state.  
  * <p>
- * This interface is designed to be used for calculating statistics that can be computed in 
- * one pass through the data without storing the full array of sample values.
+ * This interface is designed to be used for calculating statistics that can be
+ * computed in one pass through the data without storing the full array of
+ * sample values.</p>
  *
  * @version $Revision$ $Date$
  */

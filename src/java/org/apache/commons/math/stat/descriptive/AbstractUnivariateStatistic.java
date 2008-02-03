@@ -24,10 +24,10 @@ import java.io.Serializable;
  * <p>
  * Provides a default implementation of <code>evaluate(double[]),</code> 
  * delegating to <code>evaluate(double[], int, int)</code> in the natural way.
+ * </p>
  * <p>
  * Also includes a <code>test</code> method that performs generic parameter
- * validation for the <code>evaluate</code> methods.
- * <p>
+ * validation for the <code>evaluate</code> methods.</p>
  * 
  * @version $Revision$ $Date$
  */
@@ -61,7 +61,7 @@ public abstract class AbstractUnivariateStatistic
      * or the indices are invalid</li>
      * <li>returns <code>false</li> if the array is non-null, but 
      * <code>length</code> is 0.
-     * </ul>
+     * </ul></p>
      *
      * @param values the input array
      * @param begin index of the first array element to include

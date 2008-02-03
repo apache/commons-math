@@ -33,7 +33,7 @@ public interface ChiSquareTest {
      * frequency counts. 
      * <p>
      * This statistic can be used to perform a Chi-Square test evaluating the null hypothesis that
-     *  the observed counts follow the expected distribution.
+     *  the observed counts follow the expected distribution.</p>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>Expected counts must all be positive.  
@@ -42,9 +42,9 @@ public interface ChiSquareTest {
      * </li>
      * <li>The observed and expected arrays must have the same length and
      * their common length must be at least 2.  
-     * </li></ul><p>
+     * </li></ul></p><p>
      * If any of the preconditions are not met, an 
-     * <code>IllegalArgumentException</code> is thrown.
+     * <code>IllegalArgumentException</code> is thrown.</p>
      *
      * @param observed array of observed frequency counts
      * @param expected array of expected frequency counts
@@ -64,7 +64,7 @@ public interface ChiSquareTest {
      * <p>
      * The number returned is the smallest significance level at which one can reject 
      * the null hypothesis that the observed counts conform to the frequency distribution 
-     * described by the expected counts. 
+     * described by the expected counts.</p>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>Expected counts must all be positive.  
@@ -73,9 +73,9 @@ public interface ChiSquareTest {
      * </li>
      * <li>The observed and expected arrays must have the same length and
      * their common length must be at least 2.  
-     * </li></ul><p>
+     * </li></ul></p><p>
      * If any of the preconditions are not met, an 
-     * <code>IllegalArgumentException</code> is thrown.
+     * <code>IllegalArgumentException</code> is thrown.</p>
      *
      * @param observed array of observed frequency counts
      * @param expected array of expected frequency counts
@@ -95,8 +95,8 @@ public interface ChiSquareTest {
      * <p>
      * <strong>Example:</strong><br>
      * To test the hypothesis that <code>observed</code> follows 
-     * <code>expected</code> at the 99% level, use <p>
-     * <code>chiSquareTest(expected, observed, 0.01) </code>
+     * <code>expected</code> at the 99% level, use </p><p>
+     * <code>chiSquareTest(expected, observed, 0.01) </code></p>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>Expected counts must all be positive.  
@@ -106,9 +106,9 @@ public interface ChiSquareTest {
      * <li>The observed and expected arrays must have the same length and
      * their common length must be at least 2.  
      * <li> <code> 0 < alpha < 0.5 </code>
-     * </li></ul><p>
+     * </li></ul></p><p>
      * If any of the preconditions are not met, an 
-     * <code>IllegalArgumentException</code> is thrown.
+     * <code>IllegalArgumentException</code> is thrown.</p>
      *
      * @param observed array of observed frequency counts
      * @param expected array of expected frequency counts
@@ -127,19 +127,21 @@ public interface ChiSquareTest {
      *  chi-square test of independence</a> based on the input <code>counts</code>
      *  array, viewed as a two-way table.  
      * <p>
-     * The rows of the 2-way table are <code>count[0], ... , count[count.length - 1] </code>
+     * The rows of the 2-way table are 
+     * <code>count[0], ... , count[count.length - 1] </code></p>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>All counts must be >= 0.  
      * </li>
-     * <li>The count array must be rectangular (i.e. all count[i] subarrays must have the same length). 
+     * <li>The count array must be rectangular (i.e. all count[i] subarrays
+     *  must have the same length). 
      * </li>
-     * <li>The 2-way table represented by <code>counts</code> must have at least 2 columns and
-     *        at least 2 rows.
+     * <li>The 2-way table represented by <code>counts</code> must have at
+     *  least 2 columns and at least 2 rows.
      * </li>
-     * </li></ul><p>
+     * </li></ul></p><p>
      * If any of the preconditions are not met, an 
-     * <code>IllegalArgumentException</code> is thrown.
+     * <code>IllegalArgumentException</code> is thrown.</p>
      *
      * @param counts array representation of 2-way table
      * @return chiSquare statistic
@@ -156,7 +158,8 @@ public interface ChiSquareTest {
      * chi-square test of independence</a> based on the input <code>counts</code>
      * array, viewed as a two-way table.  
      * <p>
-     * The rows of the 2-way table are <code>count[0], ... , count[count.length - 1] </code>
+     * The rows of the 2-way table are 
+     * <code>count[0], ... , count[count.length - 1] </code></p>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>All counts must be >= 0.  
@@ -166,9 +169,9 @@ public interface ChiSquareTest {
      * <li>The 2-way table represented by <code>counts</code> must have at least 2 columns and
      *        at least 2 rows.
      * </li>
-     * </li></ul><p>
+     * </li></ul></p><p>
      * If any of the preconditions are not met, an 
-     * <code>IllegalArgumentException</code> is thrown.
+     * <code>IllegalArgumentException</code> is thrown.</p>
      *
      * @param counts array representation of 2-way table
      * @return p-value
@@ -185,12 +188,14 @@ public interface ChiSquareTest {
      * with significance level <code>alpha</code>.  Returns true iff the null hypothesis can be rejected
      * with 100 * (1 - alpha) percent confidence.
      * <p>
-     * The rows of the 2-way table are <code>count[0], ... , count[count.length - 1] </code>
+     * The rows of the 2-way table are 
+     * <code>count[0], ... , count[count.length - 1] </code></p>
      * <p>
      * <strong>Example:</strong><br>
-     * To test the null hypothesis that the counts in <code>count[0], ... , count[count.length - 1] </code>
-     *  all correspond to the same underlying probability distribution at the 99% level, use <p>
-     * <code>chiSquareTest(counts, 0.01) </code>
+     * To test the null hypothesis that the counts in
+     * <code>count[0], ... , count[count.length - 1] </code>
+     *  all correspond to the same underlying probability distribution at the 99% level, use </p><p>
+     * <code>chiSquareTest(counts, 0.01) </code></p>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>All counts must be >= 0.  
@@ -200,9 +205,9 @@ public interface ChiSquareTest {
      * <li>The 2-way table represented by <code>counts</code> must have at least 2 columns and
      *        at least 2 rows.
      * </li>
-     * </li></ul><p>
+     * </li></ul></p><p>
      * If any of the preconditions are not met, an 
-     * <code>IllegalArgumentException</code> is thrown.
+     * <code>IllegalArgumentException</code> is thrown.</p>
      *
      * @param counts array representation of 2-way table
      * @param alpha significance level of the test

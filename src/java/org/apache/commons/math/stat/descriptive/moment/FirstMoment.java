@@ -23,25 +23,25 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
 /**
  * Computes the first moment (arithmetic mean).  Uses the definitional formula:
  * <p>
- * mean = sum(x_i) / n
+ * mean = sum(x_i) / n </p>
  * <p>
- * where <code>n</code> is the number of observations.
+ * where <code>n</code> is the number of observations. </p>
  * <p>
  * To limit numeric errors, the value of the statistic is computed using the
- * following recursive updating algorithm:
+ * following recursive updating algorithm: </p>
  * <p>
  * <ol>
  * <li>Initialize <code>m = </code> the first value</li>
  * <li>For each additional value, update using <br>
  *   <code>m = m + (new value - m) / (number of observations)</code></li>
- * </ol>
+ * </ol></p>
  * <p>
- *  Returns <code>Double.NaN</code> if the dataset is empty.
+ *  Returns <code>Double.NaN</code> if the dataset is empty.</p>
  * <p>
  * <strong>Note that this implementation is not synchronized.</strong> If 
  * multiple threads access an instance of this class concurrently, and at least
  * one of the threads invokes the <code>increment()</code> or 
- * <code>clear()</code> method, it must be synchronized externally.
+ * <code>clear()</code> method, it must be synchronized externally.</p>
  *
  * @version $Revision$ $Date$
  */

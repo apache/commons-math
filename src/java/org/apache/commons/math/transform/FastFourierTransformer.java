@@ -29,13 +29,13 @@ import org.apache.commons.math.MathException;
  * <p>
  * There are several conventions for the definition of FFT and inverse FFT,
  * mainly on different coefficient and exponent. Here the equations are listed
- * in the comments of the corresponding methods.
+ * in the comments of the corresponding methods.</p>
  * <p>
  * We require the length of data set to be power of 2, this greatly simplifies
  * and speeds up the code. Users can pad the data with zeros to meet this
  * requirement. There are other flavors of FFT, for reference, see S. Winograd,
  * <i>On computing the discrete Fourier transform</i>, Mathematics of Computation,
- * 32 (1978), 175 - 199.
+ * 32 (1978), 175 - 199.</p>
  *
  * @version $Revision$ $Date$
  */
@@ -64,7 +64,8 @@ public class FastFourierTransformer implements Serializable {
      * Transform the given real data set.
      * <p>
      * The formula is $ y_n = \Sigma_{k=0}^{N-1} e^{-2 \pi i nk/N} x_k $
-     *
+     * </p>
+     * 
      * @param f the real data array to be transformed
      * @return the complex transformed array
      * @throws MathException if any math-related errors occur
@@ -80,7 +81,8 @@ public class FastFourierTransformer implements Serializable {
      * Transform the given real function, sampled on the given interval.
      * <p>
      * The formula is $ y_n = \Sigma_{k=0}^{N-1} e^{-2 \pi i nk/N} x_k $
-     *
+     * </p>
+     * 
      * @param f the function to be sampled and transformed
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
@@ -101,7 +103,8 @@ public class FastFourierTransformer implements Serializable {
      * Transform the given complex data set.
      * <p>
      * The formula is $ y_n = \Sigma_{k=0}^{N-1} e^{-2 \pi i nk/N} x_k $
-     *
+     * </p>
+     * 
      * @param f the complex data array to be transformed
      * @return the complex transformed array
      * @throws MathException if any math-related errors occur
@@ -118,7 +121,8 @@ public class FastFourierTransformer implements Serializable {
      * Transform the given real data set.
      * <p>
      * The formula is $y_n = (1/\sqrt{N}) \Sigma_{k=0}^{N-1} e^{-2 \pi i nk/N} x_k$
-     *
+     * </p>
+     * 
      * @param f the real data array to be transformed
      * @return the complex transformed array
      * @throws MathException if any math-related errors occur
@@ -135,7 +139,8 @@ public class FastFourierTransformer implements Serializable {
      * Transform the given real function, sampled on the given interval.
      * <p>
      * The formula is $y_n = (1/\sqrt{N}) \Sigma_{k=0}^{N-1} e^{-2 \pi i nk/N} x_k$
-     *
+     * </p>
+     * 
      * @param f the function to be sampled and transformed
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
@@ -157,7 +162,8 @@ public class FastFourierTransformer implements Serializable {
      * Transform the given complex data set.
      * <p>
      * The formula is $y_n = (1/\sqrt{N}) \Sigma_{k=0}^{N-1} e^{-2 \pi i nk/N} x_k$
-     *
+     * </p>
+     * 
      * @param f the complex data array to be transformed
      * @return the complex transformed array
      * @throws MathException if any math-related errors occur
@@ -175,7 +181,8 @@ public class FastFourierTransformer implements Serializable {
      * Inversely transform the given real data set.
      * <p>
      * The formula is $ x_k = (1/N) \Sigma_{n=0}^{N-1} e^{2 \pi i nk/N} y_n $
-     *
+     * </p>
+     * 
      * @param f the real data array to be inversely transformed
      * @return the complex inversely transformed array
      * @throws MathException if any math-related errors occur
@@ -192,7 +199,8 @@ public class FastFourierTransformer implements Serializable {
      * Inversely transform the given real function, sampled on the given interval.
      * <p>
      * The formula is $ x_k = (1/N) \Sigma_{n=0}^{N-1} e^{2 \pi i nk/N} y_n $
-     *
+     * </p>
+     * 
      * @param f the function to be sampled and inversely transformed
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
@@ -214,7 +222,8 @@ public class FastFourierTransformer implements Serializable {
      * Inversely transform the given complex data set.
      * <p>
      * The formula is $ x_k = (1/N) \Sigma_{n=0}^{N-1} e^{2 \pi i nk/N} y_n $
-     *
+     * </p>
+     * 
      * @param f the complex data array to be inversely transformed
      * @return the complex inversely transformed array
      * @throws MathException if any math-related errors occur
@@ -232,7 +241,8 @@ public class FastFourierTransformer implements Serializable {
      * Inversely transform the given real data set.
      * <p>
      * The formula is $x_k = (1/\sqrt{N}) \Sigma_{n=0}^{N-1} e^{2 \pi i nk/N} y_n$
-     *
+     * </p>
+     * 
      * @param f the real data array to be inversely transformed
      * @return the complex inversely transformed array
      * @throws MathException if any math-related errors occur
@@ -249,7 +259,8 @@ public class FastFourierTransformer implements Serializable {
      * Inversely transform the given real function, sampled on the given interval.
      * <p>
      * The formula is $x_k = (1/\sqrt{N}) \Sigma_{n=0}^{N-1} e^{2 \pi i nk/N} y_n$
-     *
+     * </p>
+     * 
      * @param f the function to be sampled and inversely transformed
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
@@ -271,7 +282,8 @@ public class FastFourierTransformer implements Serializable {
      * Inversely transform the given complex data set.
      * <p>
      * The formula is $x_k = (1/\sqrt{N}) \Sigma_{n=0}^{N-1} e^{2 \pi i nk/N} y_n$
-     *
+     * </p>
+     * 
      * @param f the complex data array to be inversely transformed
      * @return the complex inversely transformed array
      * @throws MathException if any math-related errors occur
@@ -401,7 +413,7 @@ public class FastFourierTransformer implements Serializable {
      * <p>
      * The computed omega[] = { 1, w, w^2, ... w^(n-1) } where
      * w = exp(-2 \pi i / n), i = sqrt(-1). Note n is positive for
-     * forward transform and negative for inverse transform.
+     * forward transform and negative for inverse transform. </p>
      * 
      * @param n the integer passed in
      * @throws IllegalArgumentException if n = 0
@@ -440,7 +452,7 @@ public class FastFourierTransformer implements Serializable {
      * The interval is divided equally into N sections and sample points
      * are taken from min to max-(max-min)/N. Usually f(x) is periodic
      * such that f(min) = f(max) (note max is not sampled), but we don't
-     * require that.
+     * require that.</p>
      *
      * @param f the function to be sampled
      * @param min the lower bound for the interval

@@ -31,7 +31,7 @@ import org.apache.commons.math.util.MathUtils;
  * <li>solve</li>
  * <li>isSingular</li>
  * <li>getDeterminant</li>
- * <li>inverse</li> </ul>
+ * <li>inverse</li> </ul></p>
  * <p>
  * <strong>Usage notes</strong>:<br>
  * <ul><li>
@@ -45,6 +45,7 @@ import org.apache.commons.math.util.MathUtils;
  * As specified in the {@link RealMatrix} interface, matrix element indexing
  * is 0-based -- e.g., <code>getEntry(0, 0)</code>
  * returns the element in the first row, first column of the matrix.</li></ul>
+ * </p>
  *
  * @version $Revision$ $Date$
  */
@@ -97,7 +98,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      * Create a new RealMatrix using the input array as the underlying
      * data array.
      * <p>
-     * The input array is copied, not referenced.
+     * The input array is copied, not referenced.</p>
      *
      * @param d data for new matrix
      * @throws IllegalArgumentException if <code>data</code> is not rectangular
@@ -114,7 +115,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      * data for the unique column of the <code>v.length x 1</code> matrix
      * created.
      * <p>
-     * The input array is copied, not referenced.
+     * The input array is copied, not referenced.</p>
      *
      * @param v column vector holding data for new matrix
      */
@@ -258,7 +259,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     /**
      * Returns matrix entries as a two-dimensional array.
      * <p>
-     * Makes a fresh copy of the underlying data.
+     * Makes a fresh copy of the underlying data.</p>
      *
      * @return    2-dimensional array of entries
      */
@@ -269,7 +270,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     /**
      * Returns a reference to the underlying data array.
      * <p>
-     * Does not make a fresh copy of the underlying data.
+     * Does not make a fresh copy of the underlying data.</p>
      *
      * @return 2-dimensional array of entries
      */
@@ -372,7 +373,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      * 1  2  3  4
      * 5  3  4  8
      * 9  5  6  2
-     * </pre>
+     * </pre></p>
      * 
      * @param subMatrix  array containing the submatrix replacement data
      * @param row  row coordinate of the top, left element to be replaced
@@ -464,7 +465,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      * Returns the entries in row number <code>row</code> as an array.
      * <p>
      * Row indices start at 0.  A <code>MatrixIndexException</code> is thrown
-     * unless <code>0 <= row < rowDimension.</code>
+     * unless <code>0 <= row < rowDimension.</code></p>
      *
      * @param row the row to be fetched
      * @return array of entries in the row
@@ -484,7 +485,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      * Returns the entries in column number <code>col</code> as an array.
      * <p>
      * Column indices start at 0.  A <code>MatrixIndexException</code> is thrown
-     * unless <code>0 <= column < columnDimension.</code>
+     * unless <code>0 <= column < columnDimension.</code></p>
      *
      * @param col the column to be fetched
      * @return array of entries in the column
@@ -510,7 +511,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      * <li><code>0 <= row < rowDimension</code></li>
      * <li><code> 0 <= column < columnDimension</code></li>
      * </ul>
-     * otherwise a <code>MatrixIndexException</code> is thrown.
+     * otherwise a <code>MatrixIndexException</code> is thrown.</p>
      * 
      * @param row  row location of entry to be fetched
      * @param column  column location of entry to be fetched
@@ -760,14 +761,14 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      * <p>
      * <strong>Implementation Note</strong>:<br>
      * Uses <a href="http://www.damtp.cam.ac.uk/user/fdl/people/sd/lectures/nummeth98/linear.htm">
-     * Crout's algorithm</a>, with partial pivoting.
+     * Crout's algorithm</a>, with partial pivoting.</p>
      * <p>
      * <strong>Usage Note</strong>:<br>
      * This method should rarely be invoked directly. Its only use is
      * to force recomputation of the LU decomposition when changes have been
      * made to the underlying data using direct array references. Changes
      * made using setXxx methods will trigger recomputation when needed
-     * automatically.
+     * automatically.</p>
      *
      * @throws InvalidMatrixException if the matrix is non-square or singular.
      */
@@ -946,7 +947,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      * The matrix returned is a compact representation of the LU decomposition.
      * Elements below the main diagonal correspond to entries of the "L" matrix;
      * elements on and above the main diagonal correspond to entries of the "U"
-     * matrix.
+     * matrix.</p>
      * <p>
      * Example: <pre>
      *
@@ -958,7 +959,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      *
      * The L and U matrices satisfy the matrix equation LU = permuteRows(this), <br>
      *  where permuteRows reorders the rows of the matrix to follow the order determined
-     *  by the <a href=#getPermutation()>permutation</a> property.
+     *  by the <a href=#getPermutation()>permutation</a> property.</p>
      *
      * @return LU decomposition matrix
      * @throws InvalidMatrixException if the matrix is non-square or singular.
@@ -976,9 +977,9 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      * <p>
      * Example:
      * permutation = [1, 2, 0] means current 2nd row is first, current third row is second
-     * and current first row is last.
+     * and current first row is last.</p>
      * <p>
-     * Returns a fresh copy of the array.
+     * Returns a fresh copy of the array.</p>
      *
      * @return the permutation
      */
@@ -1008,7 +1009,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     /**
      * Replaces data with a fresh copy of the input array.
      * <p>
-     * Verifies that the input array is rectangular and non-empty
+     * Verifies that the input array is rectangular and non-empty.</p>
      *
      * @param in data to copy in
      * @throws IllegalArgumentException if input array is empty or not

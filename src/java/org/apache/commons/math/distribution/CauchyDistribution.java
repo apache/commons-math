@@ -21,7 +21,7 @@ package org.apache.commons.math.distribution;
  * Cauchy Distribution.
  *
  * <p>
- * References:<p>
+ * References:
  * <ul>
  * <li><a href="http://mathworld.wolfram.com/CauchyDistribution.html">
  * Cauchy Distribution</a></li>

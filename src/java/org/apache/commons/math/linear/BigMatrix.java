@@ -24,7 +24,7 @@ import java.math.BigDecimal;
  * BigDecimal representations for the entries.
  * <p>
  * Matrix element indexing is 0-based -- e.g., <code>getEntry(0, 0)</code>
- * returns the element in the first row, first column of the matrix.
+ * returns the element in the first row, first column of the matrix.</p>
  *
  * @version $Revision$ $Date$
  */
@@ -170,7 +170,7 @@ public interface BigMatrix {
      * Returns the entries in row number <code>row</code> as an array.
      * <p>
      * Row indices start at 0.  A <code>MatrixIndexException</code> is thrown
-     * unless <code>0 <= row < rowDimension.</code>
+     * unless <code>0 <= row < rowDimension.</code></p>
      *
      * @param row the row to be fetched
      * @return array of entries in the row
@@ -183,7 +183,7 @@ public interface BigMatrix {
      * of double values.
      * <p>
      * Row indices start at 0.  A <code>MatrixIndexException</code> is thrown
-     * unless <code>0 <= row < rowDimension.</code>
+     * unless <code>0 <= row < rowDimension.</code></p>
      *
      * @param row the row to be fetched
      * @return array of entries in the row
@@ -195,7 +195,7 @@ public interface BigMatrix {
      * Returns the entries in column number <code>col</code> as an array.
      * <p>
      * Column indices start at 0.  A <code>MatrixIndexException</code> is thrown
-     * unless <code>0 <= column < columnDimension.</code>
+     * unless <code>0 <= column < columnDimension.</code></p>
      *
      * @param col the column to be fetched
      * @return array of entries in the column
@@ -208,7 +208,7 @@ public interface BigMatrix {
      * of double values.
      * <p>
      * Column indices start at 0.  A <code>MatrixIndexException</code> is thrown
-     * unless <code>0 <= column < columnDimension.</code>
+     * unless <code>0 <= column < columnDimension.</code></p>
      *
      * @param col the column to be fetched
      * @return array of entries in the column
@@ -224,7 +224,7 @@ public interface BigMatrix {
      * <li><code>0 <= row < rowDimension</code></li>
      * <li><code> 0 <= column < columnDimension</code></li>
      * </ul>
-     * otherwise a <code>MatrixIndexException</code> is thrown.
+     * otherwise a <code>MatrixIndexException</code> is thrown.</p>
      *
      * @param row  row location of entry to be fetched  
      * @param column  column location of entry to be fetched
@@ -241,7 +241,7 @@ public interface BigMatrix {
      * <li><code>0 <= row < rowDimension</code></li>
      * <li><code> 0 <= column < columnDimension</code></li>
      * </ul>
-     * otherwise a <code>MatrixIndexException</code> is thrown.
+     * otherwise a <code>MatrixIndexException</code> is thrown.</p>
      *
      * @param row  row location of entry to be fetched
      * @param column  column location of entry to be fetched

@@ -24,12 +24,12 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
  * Returns the sum of the squares of the available values.
  * <p>
  * If there are no values in the dataset, or any of the values are 
- * <code>NaN</code>, then <code>NaN</code> is returned.  
+ * <code>NaN</code>, then <code>NaN</code> is returned.</p>
  * <p>
  * <strong>Note that this implementation is not synchronized.</strong> If 
  * multiple threads access an instance of this class concurrently, and at least
  * one of the threads invokes the <code>increment()</code> or 
- * <code>clear()</code> method, it must be synchronized externally.
+ * <code>clear()</code> method, it must be synchronized externally.</p>
  * 
  * @version $Revision$ $Date$
  */
@@ -93,7 +93,7 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
      * the input array, or <code>Double.NaN</code> if the designated subarray
      * is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * 
      * @param values the input array
      * @param begin index of the first array element to include

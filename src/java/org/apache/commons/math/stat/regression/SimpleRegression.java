@@ -26,15 +26,15 @@ import org.apache.commons.math.distribution.TDistributionImpl;
  * Estimates an ordinary least squares regression model
  * with one independent variable.
  * <p>
- * <code> y = intercept + slope * x  </code>
+ * <code> y = intercept + slope * x  </code></p>
  * <p>
  * Standard errors for <code>intercept</code> and <code>slope</code> are 
- * available as well as ANOVA, r-square and Pearson's r statistics.
+ * available as well as ANOVA, r-square and Pearson's r statistics.</p>
  * <p>
  * Observations (x,y pairs) can be added to the model one at a time or they 
  * can be provided in a 2-dimensional array.  The observations are not stored
  * in memory, so there is no limit to the number of observations that can be
- * added to the model. 
+ * added to the model.</p> 
  * <p>
  * <strong>Usage Notes</strong>: <ul>
  * <li> When there are fewer than two observations in the model, or when
@@ -48,7 +48,7 @@ import org.apache.commons.math.distribution.TDistributionImpl;
  * and get updated statistics without using a new instance.  There is no 
  * "compute" method that updates all statistics.  Each of the getters performs
  * the necessary computations to return the requested statistic.</li>
- * </ul>
+ * </ul></p>
  *
  * @version $Revision$ $Date$
  */
@@ -111,7 +111,7 @@ public class SimpleRegression implements Serializable {
      * "Algorithms for Computing the Sample Variance: Analysis and
      * Recommendations", Chan, T.F., Golub, G.H., and LeVeque, R.J. 
      * 1983, American Statistician, vol. 37, pp. 242-247, referenced in
-     * Weisberg, S. "Applied Linear Regression". 2nd Ed. 1985
+     * Weisberg, S. "Applied Linear Regression". 2nd Ed. 1985.</p>
      *
      *
      * @param x independent variable value
@@ -144,14 +144,14 @@ public class SimpleRegression implements Serializable {
      * <code>data</code>.
      * <p>
      * <code>(data[0][0],data[0][1])</code> will be the first observation, then
-     * <code>(data[1][0],data[1][1])</code>, etc. 
+     * <code>(data[1][0],data[1][1])</code>, etc.</p>
      * <p> 
      * This method does not replace data that has already been added.  The
      * observations represented by <code>data</code> are added to the existing
-     * dataset.
+     * dataset.</p>
      * <p> 
      * To replace all data, use <code>clear()</code> before adding the new 
-     * data.
+     * data.</p>
      * 
      * @param data array of observations to be added
      */
@@ -187,14 +187,14 @@ public class SimpleRegression implements Serializable {
      * supplied <code>x</code> value,  based on the data that has been
      * added to the model when this method is activated.
      * <p>
-     * <code> predict(x) = intercept + slope * x </code>
+     * <code> predict(x) = intercept + slope * x </code></p>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>At least two observations (with at least two different x values)
      * must have been added before invoking this method. If this method is 
      * invoked before a model can be estimated, <code>Double,NaN</code> is
      * returned.
-     * </li></ul>
+     * </li></ul></p>
      *
      * @param x input <code>x</code> value
      * @return predicted <code>y</code> value
@@ -209,14 +209,14 @@ public class SimpleRegression implements Serializable {
      * <p>
      * The least squares estimate of the intercept is computed using the 
      * <a href="http://www.xycoon.com/estimation4.htm">normal equations</a>.
-     * The intercept is sometimes denoted b0. 
+     * The intercept is sometimes denoted b0.</p>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>At least two observations (with at least two different x values)
      * must have been added before invoking this method. If this method is 
      * invoked before a model can be estimated, <code>Double,NaN</code> is
      * returned.
-     * </li></ul>
+     * </li></ul></p>
      *
      * @return the intercept of the regression line
      */
@@ -229,14 +229,14 @@ public class SimpleRegression implements Serializable {
     * <p>
     * The least squares estimate of the slope is computed using the 
     * <a href="http://www.xycoon.com/estimation4.htm">normal equations</a>.
-    * The slope is sometimes denoted b1. 
+    * The slope is sometimes denoted b1.</p>
     * <p>
     * <strong>Preconditions</strong>: <ul>
     * <li>At least two observations (with at least two different x values)
     * must have been added before invoking this method. If this method is 
     * invoked before a model can be estimated, <code>Double.NaN</code> is
     * returned.
-    * </li></ul>
+    * </li></ul></p>
     *
     * @return the slope of the regression line
     */
@@ -255,27 +255,27 @@ public class SimpleRegression implements Serializable {
      * sum of squared errors</a> (SSE) associated with the regression 
      * model.
      * <p>
-     * The sum is computed using the computational formula
+     * The sum is computed using the computational formula</p>
      * <p>
-     * <code>SSE = SYY - (SXY * SXY / SXX)</code>
+     * <code>SSE = SYY - (SXY * SXY / SXX)</code></p>
      * <p>
      * where <code>SYY</code> is the sum of the squared deviations of the y
      * values about their mean, <code>SXX</code> is similarly defined and
      * <code>SXY</code> is the sum of the products of x and y mean deviations.
-     * <p>
+     * </p><p>
      * The sums are accumulated using the updating algorithm referenced in 
-     * {@link #addData}.  
+     * {@link #addData}.</p>
      * <p>
      * The return value is constrained to be non-negative - i.e., if due to 
      * rounding errors the computational formula returns a negative result, 
-     * 0 is returned.
+     * 0 is returned.</p>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>At least two observations (with at least two different x values)
      * must have been added before invoking this method. If this method is 
      * invoked before a model can be estimated, <code>Double,NaN</code> is
      * returned.
-     * </li></ul>
+     * </li></ul></p>
      *
      * @return sum of squared errors associated with the regression model
      */
@@ -287,9 +287,9 @@ public class SimpleRegression implements Serializable {
      * Returns the sum of squared deviations of the y values about their mean.
      * <p>
      * This is defined as SSTO 
-     * <a href="http://www.xycoon.com/SumOfSquares.htm">here</a>.
+     * <a href="http://www.xycoon.com/SumOfSquares.htm">here</a>.</p>
      * <p>
-     * If <code>n < 2</code>, this returns <code>Double.NaN</code>.
+     * If <code>n < 2</code>, this returns <code>Double.NaN</code>.</p>
      *
      * @return sum of squared deviations of y values
      */
@@ -305,14 +305,14 @@ public class SimpleRegression implements Serializable {
      * their mean (which equals the mean of y).
      * <p>
      * This is usually abbreviated SSR or SSM.  It is defined as SSM 
-     * <a href="http://www.xycoon.com/SumOfSquares.htm">here</a>
+     * <a href="http://www.xycoon.com/SumOfSquares.htm">here</a></p>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>At least two observations (with at least two different x values)
      * must have been added before invoking this method. If this method is 
      * invoked before a model can be estimated, <code>Double.NaN</code> is
      * returned.
-     * </li></ul>
+     * </li></ul></p>
      *
      * @return sum of squared deviations of predicted y values
      */
@@ -326,7 +326,7 @@ public class SimpleRegression implements Serializable {
      * <p>
      * If there are fewer than <strong>three</strong> data pairs in the model,
      * or if there is no variation in <code>x</code>, this returns 
-     * <code>Double.NaN</code>.
+     * <code>Double.NaN</code>.</p>
      *
      * @return sum of squared deviations of y values
      */
@@ -347,7 +347,7 @@ public class SimpleRegression implements Serializable {
      * must have been added before invoking this method. If this method is 
      * invoked before a model can be estimated, <code>Double,NaN</code> is
      * returned.
-     * </li></ul>
+     * </li></ul></p>
      *
      * @return Pearson's r
      */
@@ -370,7 +370,7 @@ public class SimpleRegression implements Serializable {
      * must have been added before invoking this method. If this method is 
      * invoked before a model can be estimated, <code>Double,NaN</code> is
      * returned.
-     * </li></ul>
+     * </li></ul></p>
      *
      * @return r-square
      */
@@ -386,7 +386,7 @@ public class SimpleRegression implements Serializable {
      * <p>
      * If there are fewer that <strong>three</strong> observations in the 
      * model, or if there is no variation in x, this returns 
-     * <code>Double.NaN</code>.
+     * <code>Double.NaN</code>.</p>
      *
      * @return standard error associated with intercept estimate
      */
@@ -402,7 +402,8 @@ public class SimpleRegression implements Serializable {
      * <p>
      * If there are fewer that <strong>three</strong> data pairs in the model,
      * or if there is no variation in x, this returns <code>Double.NaN</code>.
-     *
+     * </p>
+     * 
      * @return standard error associated with slope estimate
      */
     public double getSlopeStdErr() {
@@ -413,23 +414,22 @@ public class SimpleRegression implements Serializable {
      * Returns the half-width of a 95% confidence interval for the slope
      * estimate.
      * <p>
-     * The 95% confidence interval is 
+     * The 95% confidence interval is</p>
      * <p>
      * <code>(getSlope() - getSlopeConfidenceInterval(), 
-     * getSlope() + getSlopeConfidenceInterval())</code>
+     * getSlope() + getSlopeConfidenceInterval())</code></p>
      * <p>
      * If there are fewer that <strong>three</strong> observations in the 
      * model, or if there is no variation in x, this returns 
-     * <code>Double.NaN</code>.
+     * <code>Double.NaN</code>.</p>
      * <p>
      * <strong>Usage Note</strong>:<br>
      * The validity of this statistic depends on the assumption that the 
      * observations included in the model are drawn from a
      * <a href="http://mathworld.wolfram.com/BivariateNormalDistribution.html">
-     * Bivariate Normal Distribution</a>.
+     * Bivariate Normal Distribution</a>.</p>
      *
      * @return half-width of 95% confidence interval for the slope estimate
-     * 
      * @throws MathException if the confidence interval can not be computed.
      */
     public double getSlopeConfidenceInterval() throws MathException {
@@ -440,28 +440,28 @@ public class SimpleRegression implements Serializable {
      * Returns the half-width of a (100-100*alpha)% confidence interval for 
      * the slope estimate.
      * <p>
-     * The (100-100*alpha)% confidence interval is 
+     * The (100-100*alpha)% confidence interval is </p>
      * <p>
      * <code>(getSlope() - getSlopeConfidenceInterval(), 
-     * getSlope() + getSlopeConfidenceInterval())</code>
+     * getSlope() + getSlopeConfidenceInterval())</code></p>
      * <p>
      * To request, for example, a 99% confidence interval, use 
-     * <code>alpha = .01</code>
+     * <code>alpha = .01</code></p>
      * <p>
      * <strong>Usage Note</strong>:<br>
      * The validity of this statistic depends on the assumption that the 
      * observations included in the model are drawn from a
      * <a href="http://mathworld.wolfram.com/BivariateNormalDistribution.html">
-     * Bivariate Normal Distribution</a>.
+     * Bivariate Normal Distribution</a>.</p>
      * <p>
      * <strong> Preconditions:</strong><ul>
      * <li>If there are fewer that <strong>three</strong> observations in the 
      * model, or if there is no variation in x, this returns 
-     * <code>Double.NaN</code>. 
+     * <code>Double.NaN</code>.
      * </li>
      * <li><code>(0 < alpha < 1)</code>; otherwise an 
      * <code>IllegalArgumentException</code> is thrown.
-     * </li></ul>    
+     * </li></ul></p> 
      *
      * @param alpha the desired significance level 
      * @return half-width of 95% confidence interval for the slope estimate
@@ -483,16 +483,16 @@ public class SimpleRegression implements Serializable {
      * such that the slope confidence interval with significance level
      * equal to <code>alpha</code> does not include <code>0</code>.
      * On regression output, this is often denoted <code>Prob(|t| > 0)</code>
-     * <p>
+     * </p><p>
      * <strong>Usage Note</strong>:<br>
      * The validity of this statistic depends on the assumption that the 
      * observations included in the model are drawn from a
      * <a href="http://mathworld.wolfram.com/BivariateNormalDistribution.html">
-     * Bivariate Normal Distribution</a>.
+     * Bivariate Normal Distribution</a>.</p>
      * <p>
      * If there are fewer that <strong>three</strong> observations in the 
      * model, or if there is no variation in x, this returns 
-     * <code>Double.NaN</code>.
+     * <code>Double.NaN</code>.</p>
      *
      * @return significance level for slope/correlation
      * @throws MathException if the significance level can not be computed.
@@ -507,7 +507,7 @@ public class SimpleRegression implements Serializable {
     /**
     * Returns the intercept of the estimated regression line, given the slope.
     * <p>
-    * Will return <code>NaN</code> if slope is <code>NaN</code>.
+    * Will return <code>NaN</code> if slope is <code>NaN</code>.</p>
     *
     * @param slope current slope
     * @return the intercept of the regression line
