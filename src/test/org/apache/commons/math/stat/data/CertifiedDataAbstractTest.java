@@ -92,9 +92,6 @@ public abstract class CertifiedDataAbstractTest extends TestCase {
         }
     }
 
-    /**
-     * @return
-     */
     protected abstract String getResourceName();
 
     protected double getMaximumAbsoluteError() {

@@ -26,7 +26,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * Test cases for the {@link Univariate} class.
+ * Test cases for the {@link ListUnivariateImpl} class.
  *
  * @version $Revision$ $Date$
  */
