@@ -653,7 +653,7 @@ TestUtils.chiSquareTest(counts, alpha);
           hypothesis can be rejected with confidence <code>1 - alpha</code>.
           </dd>
           <br></br>
-          <dt><strong><One-Way Anova tests</strong></dt>
+          <dt><strong>One-Way Anova tests</strong></dt>
           <br></br>
           <dd>To conduct a One-Way Analysis of Variance (ANOVA) to evaluate the
           null hypothesis that the means of a collection of univariate datasets
