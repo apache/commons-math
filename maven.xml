@@ -38,10 +38,8 @@
       <fileset file='${basedir}/RELEASE-NOTES.txt'/>
       <fileset file='${basedir}/release-notes.jsl'/>
     </copy>
-    <copy todir="${maven.dist.src.assembly.dir}/xdocs">
-        <fileset dir="./xdocs"/>
-    </copy>
     <delete dir="${maven.dist.src.assembly.dir}/src/experimental" />
+    <delete dir="${maven.dist.src.assembly.dir}/src/mantissa" />
     <move todir="${maven.dist.src.assembly.dir}-src">
       <fileset dir="${maven.dist.src.assembly.dir}"/>
     </move>
@@ -60,7 +58,16 @@
  -->
  
  <!-- Limit maven resources included in site generation -->
-  <postGoal name="xdoc:copy-resources">  
+  <postGoal name="xdoc:copy-resources">
+    <copy todir="${maven.docs.dest}/images">
+      <fileset file='${maven.docs.src}/../resources/images/**'/>
+    </copy>
+    <copy todir="${maven.docs.dest}/style">
+      <fileset file='${maven.docs.src}/../resources/style/**'/>
+    </copy>
+    <copy todir="${maven.docs.dest}/userguide">
+      <fileset file='${maven.docs.src}/../resources/userguide/**'/>
+    </copy>
     <delete includeEmptyDirs="true">
       <fileset dir="${maven.docs.dest}" 
         includes="${maven.xdoc.copy.excludes},${maven.xdoc.copy.excludes.classic}"/>
