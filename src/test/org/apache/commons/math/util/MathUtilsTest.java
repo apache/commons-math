@@ -209,6 +209,27 @@ public final class MathUtilsTest extends TestCase {
         }
     }
 
+    public void testArrayEquals() {
+        assertFalse(MathUtils.equals(new double[] { 1d }, null));
+        assertFalse(MathUtils.equals(null, new double[] { 1d }));
+        assertTrue(MathUtils.equals((double[]) null, (double[]) null));
+
+        assertFalse(MathUtils.equals(new double[] { 1d }, new double[0]));
+        assertTrue(MathUtils.equals(new double[] { 1d }, new double[] { 1d }));
+        assertTrue(MathUtils.equals(new double[] {
+                                      Double.NaN, Double.POSITIVE_INFINITY,
+                                      Double.NEGATIVE_INFINITY, 1d, 0d
+                                    }, new double[] {
+                                      Double.NaN, Double.POSITIVE_INFINITY,
+                                      Double.NEGATIVE_INFINITY, 1d, 0d
+                                    }));
+        assertFalse(MathUtils.equals(new double[] { Double.POSITIVE_INFINITY },
+                                     new double[] { Double.NEGATIVE_INFINITY }));
+        assertFalse(MathUtils.equals(new double[] { 1d },
+                                     new double[] { MathUtils.nextAfter(1d, 2d) }));
+
+    }
+
     public void testFactorial() {
         for (int i = 1; i < 10; i++) {
             assertEquals(i + "! ", factorial(i), MathUtils.factorial(i));
@@ -293,6 +314,22 @@ public final class MathUtilsTest extends TestCase {
                 }
             }
         }
+    }
+
+    public void testArrayHash() {
+        assertEquals(0, MathUtils.hash((double[]) null));
+        assertEquals(MathUtils.hash(new double[] {
+                                      Double.NaN, Double.POSITIVE_INFINITY,
+                                      Double.NEGATIVE_INFINITY, 1d, 0d
+                                    }),
+                     MathUtils.hash(new double[] {
+                                      Double.NaN, Double.POSITIVE_INFINITY,
+                                      Double.NEGATIVE_INFINITY, 1d, 0d
+                                    }));
+        assertFalse(MathUtils.hash(new double[] { 1d }) ==
+                    MathUtils.hash(new double[] { MathUtils.nextAfter(1d, 2d) }));
+        assertFalse(MathUtils.hash(new double[] { 1d }) ==
+                    MathUtils.hash(new double[] { 1d, 1d }));
     }
 
     public void testIndicatorByte() {

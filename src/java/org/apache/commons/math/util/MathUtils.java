@@ -276,6 +276,30 @@ public final class MathUtils {
     }
 
     /**
+     * Returns true iff both arguments aren null or have same dimensions
+     * and all their elements are {@link #equals(double,double) equals}
+     * 
+     * @param x first array
+     * @param y second array
+     * @return true if the values are both null or have same dimension
+     * and equal elements
+     */
+    public static boolean equals(double[] x, double[] y) {
+        if ((x == null) || (y == null)) {
+            return !((x == null) ^ (y == null));
+        }
+        if (x.length != y.length) {
+            return false;
+        }
+        for (int i = 0; i < x.length; ++i) {
+            if (!equals(x[i], y[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Returns n!. Shorthand for <code>n</code> <a
      * href="http://mathworld.wolfram.com/Factorial.html"> Factorial</a>, the
      * product of the numbers <code>1,...,n</code>.
@@ -430,6 +454,23 @@ public final class MathUtils {
     public static int hash(double value) {
         long bits = Double.doubleToLongBits(value);
         return (int)(bits ^ (bits >>> 32));
+    }
+
+    /**
+     * Returns an integer hash code representing the given double array value.
+     * 
+     * @param value the value to be hashed (may be null)
+     * @return the hash code
+     */
+    public static int hash(double[] value) {
+        if (value == null) {
+            return 0;
+        }
+        int result = value.length;
+        for (int i = 0; i < value.length; ++i) {
+            result = result * 31 + hash(value[i]);
+        }
+        return result;
     }
 
     /**

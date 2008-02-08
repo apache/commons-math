@@ -143,6 +143,9 @@ Commons Math Release Notes</title>
         Throw EOFException when using empty files with ValueServer in replay and
         digest modes.
       </action>     
+      <action dev="luc" type="update" >
+        Added a equals and hash methods in MathUtils to check for double arrays
+      </action> 
     </release>
     <release version="1.1" date="2005-12-17"  
  description="This is a maintenance release containing bug fixes and enhancements.
