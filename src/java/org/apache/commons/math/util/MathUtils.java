@@ -279,7 +279,7 @@ public final class MathUtils {
     }
 
     /**
-     * Returns true iff both arguments aren null or have same dimensions
+     * Returns true iff both arguments are null or have same dimensions
      * and all their elements are {@link #equals(double,double) equals}
      * 
      * @param x first array
