@@ -53,7 +53,7 @@ public class FDistributionImpl
     }
     
     /**
-     * For this disbution, X, this method returns P(X &lt; x).
+     * For this distribution, X, this method returns P(X &lt; x).
      * 
      * The implementation of this method is based on:
      * <ul>
