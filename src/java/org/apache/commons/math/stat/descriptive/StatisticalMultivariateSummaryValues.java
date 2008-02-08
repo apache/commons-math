@@ -83,15 +83,15 @@ public class StatisticalMultivariateSummaryValues
                                                 double[] sum, double[] sumSq, double[] sumLog) {
         super();
         this.k = k;
-        this.mean = mean;
+        this.mean = (double[]) mean.clone();
         this.covariance = covariance;
-        this.stdev = stdev;
+        this.stdev = (double[]) stdev.clone();
         this.n = n;
-        this.max = max;
-        this.min = min;
-        this.sum = sum;
-        this.sumSq = sumSq;
-        this.sumLog = sumLog;
+        this.max = (double[]) max.clone();
+        this.min = (double[]) min.clone();
+        this.sum = (double[]) sum.clone();
+        this.sumSq = (double[]) sumSq.clone();
+        this.sumLog = (double[]) sumLog.clone();
     }
 
     /** 
@@ -106,21 +106,21 @@ public class StatisticalMultivariateSummaryValues
      * @return Returns the max.
      */
     public double[] getMax() {
-        return max;
+        return (double[]) max.clone();
     }
 
     /**
      * @return Returns the mean.
      */
     public double[] getMean() {
-        return mean;
+        return (double[]) mean.clone();
     }
 
     /**
      * @return Returns the min.
      */
     public double[] getMin() {
-        return min;
+        return (double[]) min.clone();
     }
 
     /**
@@ -134,28 +134,28 @@ public class StatisticalMultivariateSummaryValues
      * @return Returns the sum.
      */
     public double[] getSum() {
-        return sum;
+        return (double[]) sum.clone();
     }
     
     /**
      * @return Returns the sum of the squares.
      */
     public double[] getSumSq() {
-        return sumSq;
+        return (double[]) sumSq.clone();
     }
     
     /**
      * @return Returns the sum of the logarithms.
      */
     public double[] getSumLog() {
-        return sumLog;
+        return (double[]) sumLog.clone();
     }
     
     /**
      * @return Returns the standard deviation (roots of the diagonal elements)
      */
     public double[] getStandardDeviation() {
-        return stdev; 
+        return (double[]) stdev.clone(); 
     }
 
     /**

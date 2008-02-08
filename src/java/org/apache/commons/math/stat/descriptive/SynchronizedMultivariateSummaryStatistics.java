@@ -178,7 +178,8 @@ public class SynchronizedMultivariateSummaryStatistics
     /**
      * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#setSumImpl(StorelessUnivariateStatistic[])
      */
-    public synchronized void setSumImpl(StorelessUnivariateStatistic[] sumImpl) {
+    public synchronized void setSumImpl(StorelessUnivariateStatistic[] sumImpl)
+      throws DimensionMismatchException {
         super.setSumImpl(sumImpl);
     }
 
@@ -192,7 +193,8 @@ public class SynchronizedMultivariateSummaryStatistics
     /**
      * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#setSumsqImpl(StorelessUnivariateStatistic[])
      */
-    public synchronized void setSumsqImpl(StorelessUnivariateStatistic[] sumsqImpl) {
+    public synchronized void setSumsqImpl(StorelessUnivariateStatistic[] sumsqImpl)
+      throws DimensionMismatchException {
         super.setSumsqImpl(sumsqImpl);
     }
 
@@ -206,7 +208,8 @@ public class SynchronizedMultivariateSummaryStatistics
     /**
      * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#setMinImpl(StorelessUnivariateStatistic[])
      */
-    public synchronized void setMinImpl(StorelessUnivariateStatistic[] minImpl) {
+    public synchronized void setMinImpl(StorelessUnivariateStatistic[] minImpl)
+      throws DimensionMismatchException {
         super.setMinImpl(minImpl);
     }
 
@@ -220,7 +223,8 @@ public class SynchronizedMultivariateSummaryStatistics
     /**
      * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#setMaxImpl(StorelessUnivariateStatistic[])
      */
-    public synchronized void setMaxImpl(StorelessUnivariateStatistic[] maxImpl) {
+    public synchronized void setMaxImpl(StorelessUnivariateStatistic[] maxImpl)
+      throws DimensionMismatchException {
         super.setMaxImpl(maxImpl);
     }
 
@@ -234,7 +238,8 @@ public class SynchronizedMultivariateSummaryStatistics
     /**
      * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#setSumLogImpl(StorelessUnivariateStatistic[])
      */
-    public synchronized void setSumLogImpl(StorelessUnivariateStatistic[] sumLogImpl) {
+    public synchronized void setSumLogImpl(StorelessUnivariateStatistic[] sumLogImpl)
+      throws DimensionMismatchException {
         super.setSumLogImpl(sumLogImpl);
     }
 
@@ -248,7 +253,8 @@ public class SynchronizedMultivariateSummaryStatistics
     /**
      * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#setGeoMeanImpl(StorelessUnivariateStatistic[])
      */
-    public synchronized void setGeoMeanImpl(StorelessUnivariateStatistic[] geoMeanImpl) {
+    public synchronized void setGeoMeanImpl(StorelessUnivariateStatistic[] geoMeanImpl)
+      throws DimensionMismatchException {
         super.setGeoMeanImpl(geoMeanImpl);
     }
 
@@ -262,7 +268,8 @@ public class SynchronizedMultivariateSummaryStatistics
     /**
      * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#setMeanImpl(StorelessUnivariateStatistic[])
      */
-    public synchronized void setMeanImpl(StorelessUnivariateStatistic[] meanImpl) {
+    public synchronized void setMeanImpl(StorelessUnivariateStatistic[] meanImpl)
+      throws DimensionMismatchException {
         super.setMeanImpl(meanImpl);
     }
 
