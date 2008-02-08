@@ -95,7 +95,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
     /**
      * Constructs a Variance based on an external second moment.
      * 
-     * @param m2 the SecondMoment (Thrid or Fourth moments work
+     * @param m2 the SecondMoment (Third or Fourth moments work
      * here as well.)
      */
     public Variance(final SecondMoment m2) {
@@ -122,7 +122,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * 
      * @param isBiasCorrected  setting for bias correction - true means
      * bias will be corrected
-     * @param m2 the SecondMoment (Thrid or Fourth moments work
+     * @param m2 the SecondMoment (Third or Fourth moments work
      * here as well.)
      */
     public Variance(boolean isBiasCorrected, SecondMoment m2) {
