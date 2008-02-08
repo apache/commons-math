@@ -245,7 +245,7 @@ public abstract class DirectSearchOptimizer {
 
             // compute the statistical properties of the simplex points
             VectorialMean meanStat = new VectorialMean(vertices[0].length);
-            VectorialCovariance covStat = new VectorialCovariance(vertices[0].length);
+            VectorialCovariance covStat = new VectorialCovariance(vertices[0].length, true);
             for (int i = 0; i < vertices.length; ++i) {
                 meanStat.increment(vertices[i]);
                 covStat.increment(vertices[i]);

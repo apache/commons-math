@@ -150,6 +150,10 @@ Commons Math Release Notes</title>
         Added an angle normalization method in MathUtils to force angles in some
         user-defined interval
       </action> 
+      <action dev="luc" type="update" >
+        Added vectorial covariance computation (either sample or population
+        covariance)
+      </action>
     </release>
     <release version="1.1" date="2005-12-17"  
  description="This is a maintenance release containing bug fixes and enhancements.

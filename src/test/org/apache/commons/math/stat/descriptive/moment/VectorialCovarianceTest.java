@@ -34,7 +34,7 @@ extends TestCase {
 
     public void testMismatch() {
         try {
-            new VectorialCovariance(8).increment(new double[5]);
+            new VectorialCovariance(8, true).increment(new double[5]);
             fail("an exception should have been thrown");
         } catch (DimensionMismatchException dme) {
             assertEquals(5, dme.getDimension1());
@@ -45,7 +45,7 @@ extends TestCase {
     }
 
     public void testSimplistic() throws DimensionMismatchException {
-        VectorialCovariance stat = new VectorialCovariance(2);
+        VectorialCovariance stat = new VectorialCovariance(2, true);
         stat.increment(new double[] {-1.0,  1.0});
         stat.increment(new double[] { 1.0, -1.0});
         RealMatrix c = stat.getResult();
@@ -56,7 +56,7 @@ extends TestCase {
 
     public void testBasicStats() throws DimensionMismatchException {
 
-        VectorialCovariance stat = new VectorialCovariance(points[0].length);
+        VectorialCovariance stat = new VectorialCovariance(points[0].length, true);
         for (int i = 0; i < points.length; ++i) {
             stat.increment(points[i]);
         }

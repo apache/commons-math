@@ -17,6 +17,7 @@
 package org.apache.commons.math.stat.descriptive.moment;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 import org.apache.commons.math.DimensionMismatchException;
 import org.apache.commons.math.linear.RealMatrix;
@@ -37,16 +38,22 @@ public class VectorialCovariance implements Serializable {
     /** Sums of products for each component. */
     private double[] productsSums;
 
+    /** Indicator for bias correction. */
+    private boolean isBiasCorrected;
+
     /** Number of vectors in the sample. */
     private long n;
 
     /** Constructs a VectorialMean.
      * @param dimension vectors dimension
+     * @param isBiasCorrected if true, computed the unbiased sample covariance,
+     * otherwise computes the biased population covariance
      */
-    public VectorialCovariance(int dimension) {
+    public VectorialCovariance(int dimension, boolean isBiasCorrected) {
         sums         = new double[dimension];
         productsSums = new double[dimension * (dimension + 1) / 2];
         n            = 0;
+        this.isBiasCorrected = isBiasCorrected;
     }
 
     /**
@@ -79,7 +86,7 @@ public class VectorialCovariance implements Serializable {
 
         if (n > 1) {
             double[][] resultData = result.getDataRef();
-            double c = 1.0 / (n * (n - 1));
+            double c = 1.0 / (n * (isBiasCorrected ? (n - 1) : n));
             int k = 0;
             for (int i = 0; i < dimension; ++i) {
                 for (int j = 0; j <= i; ++j) {
@@ -100,6 +107,15 @@ public class VectorialCovariance implements Serializable {
      */
     public long getN() {
         return n;
+    }
+
+    /**
+     * Clears the internal state of the Statistic
+     */
+    public void clear() {
+        n = 0;
+        Arrays.fill(sums, 0.0);
+        Arrays.fill(productsSums, 0.0);
     }
 
 }

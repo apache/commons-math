@@ -37,7 +37,7 @@ extends TestCase {
     public void testMeanAndCorrelation() throws DimensionMismatchException {
 
         VectorialMean meanStat = new VectorialMean(mean.length);
-        VectorialCovariance covStat = new VectorialCovariance(mean.length);
+        VectorialCovariance covStat = new VectorialCovariance(mean.length, true);
         for (int i = 0; i < 10000; ++i) {
             double[] v = generator.nextVector();
             meanStat.increment(v);
