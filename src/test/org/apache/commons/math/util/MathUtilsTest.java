@@ -20,6 +20,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 
 /**
  * Test cases for the MathUtils class.
@@ -519,6 +520,20 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(-Double.MIN_VALUE, MathUtils.nextAfter(0, -1), 0);
         assertEquals(0, MathUtils.nextAfter(Double.MIN_VALUE, -1), 0);
         assertEquals(0, MathUtils.nextAfter(-Double.MIN_VALUE, 1), 0);
+    }
+
+    public void testNormalizeAngle() {
+        SummaryStatistics stat = new SummaryStatistics();
+        for (double a = -15.0; a <= 15.0; a += 0.1) {
+            for (double b = -15.0; b <= 15.0; b += 0.2) {
+                double c = MathUtils.normalizeAngle(a, b);
+                assertTrue((b - Math.PI) <= c);
+                assertTrue(c <= (b + Math.PI));
+                double twoK = Math.rint((a - c) / Math.PI);
+                stat.addValue(c - a + twoK * Math.PI);
+                assertEquals(c, a - twoK * Math.PI, 1.0e-14);
+            }
+        }
     }
 
     public void testRoundDouble() {
