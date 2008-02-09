@@ -39,7 +39,14 @@ The <action> type attribute can be add,update,fix,remove.
 Commons Math Release Notes</title>
   </properties>
   <body>
-    <release version="1.2-SNAPSHOT" date="TBD">
+    <release version="1.2-SNAPSHOT" date="TBD"
+    description="This release combines bug fixes and new features. Most notable
+    among the new features are the estimation, optimization, geometry and ode
+    packages added from the Mantissa library. Implementations of fast Fourier
+    transform and QR decomposition have also been added, along with
+    enhancements and extensions to packages included in Commons Math 1.1. This
+    release is source and binary compatible with earlier versions of
+    Commons Math.">
       <action dev="luc" type="fix">
         Fixed numerous warnings in test code.
       </action>
@@ -48,17 +55,17 @@ Commons Math Release Notes</title>
         improving speed.
       </action>
       <action dev="luc" type="add">
-        Added the estimation optimization, geometry and ode package from the
+        Added the estimation, optimization, geometry and ode packages from the
         Mantissa library.
       </action>
       <action dev="brentworden" type="fix" issue="MATH-18" due-to="Phil Steitz">
         Made ComplexFormat format double values with a provided NumberFormat
         instance instead of using the real part format for all values.
       </action>
-      <action dev="psteitz" type="update" issue="MATH-120" due-to="Todd C. Parnell">
+      <action dev="psteitz" type="add" issue="MATH-120" due-to="Todd C. Parnell">
         Added Pascal distribution implementation.
       </action>
-      <action dev="psteitz" type="update" issue="MATH-148" due-to="Joni Salonen">
+      <action dev="psteitz" type="add" issue="MATH-148" due-to="Joni Salonen">
         Added QR Decomposition.
       </action>
       <action dev="psteitz" type="fix" issue="MATH-60" due-to="Nhung Nnguyen">
@@ -71,7 +78,7 @@ Commons Math Release Notes</title>
         not return incorrect results for numbers with bad IEEE754 
         representations.
       </action>
-      <action dev="psteitz" type="update" issue="MATH-140" due-to="Xiaogang Zhang">
+      <action dev="psteitz" type="add" issue="MATH-140" due-to="Xiaogang Zhang">
         Added Fast Fourier Transform implementation.
       </action>
       <action dev="psteitz" type="fix" issue="MATH-85" due-to="Mark Osborn, Luc Maisonobe">
@@ -130,7 +137,7 @@ Commons Math Release Notes</title>
       <action dev="luc" type="update" issue="MATH-179" due-to="Niall Pemberton">
         Add tests for Fraction constructor using double parameter.
       </action> 
-      <action dev="psteitz" type="update" issue="MATH-173" due-to="Bob MacCallum">
+      <action dev="psteitz" type="add" issue="MATH-173" due-to="Bob MacCallum">
         Added one-way ANOVA implementation.
       </action>    
       <action dev="luc" type="update" issue="MATH-181" due-to="Niall Pemberton">
@@ -146,15 +153,15 @@ Commons Math Release Notes</title>
       <action dev="luc" type="update" >
         Added a equals and hash methods in MathUtils to check for double arrays
       </action> 
-      <action dev="luc" type="update" >
+      <action dev="luc" type="add" >
         Added an angle normalization method in MathUtils to force angles in some
         user-defined interval
       </action> 
-      <action dev="luc" type="update" >
+      <action dev="luc" type="add" >
         Added vectorial covariance computation (either sample or population
         covariance)
       </action>
-      <action dev="luc" type="update" >
+      <action dev="luc" type="add" >
         Added multivariate summary statistics
       </action>
     </release>
