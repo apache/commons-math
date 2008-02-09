@@ -162,7 +162,11 @@ Commons Math Release Notes</title>
         covariance)
       </action>
       <action dev="luc" type="add" >
-        Added multivariate summary statistics
+        Added multivariate summary statistics.
+      </action>
+      <action dev="psteitz" type="update" issue="MATH-191">
+        Added getSumOfLogs method to SummaryStatistics and made SumOfLogs
+        instance used by GeometricMean configurable.
       </action>
     </release>
     <release version="1.1" date="2005-12-17"  

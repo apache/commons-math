@@ -17,6 +17,7 @@
 package org.apache.commons.math.stat.descriptive.moment;
 
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic;
 import org.apache.commons.math.stat.descriptive.summary.SumOfLogs;
 
 /**
@@ -49,13 +50,20 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic {
     private static final long serialVersionUID = -8178734905303459453L;  
     
     /** Wrapped SumOfLogs instance */
-    private SumOfLogs sumOfLogs;
+    private StorelessUnivariateStatistic sumOfLogs;
 
     /**
      * Create a GeometricMean instance
      */
     public GeometricMean() {
         sumOfLogs = new SumOfLogs();
+    }
+    
+    /**
+     * Create a GeometricMean instance using the given SumOfLogs instance
+     */
+    public GeometricMean(SumOfLogs sumOfLogs) {
+        this.sumOfLogs = sumOfLogs;
     }
     
     /**
@@ -110,6 +118,42 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic {
      */
     public long getN() {
         return sumOfLogs.getN();
+    }
+    
+    /**
+     * <p>Sets the implementation for the sum of logs.</p>
+     * <p>This method must be activated before any data has been added - i.e.,
+     * before {@link #addValue(double) addValue} has been used to add data; 
+     * otherwise an IllegalStateException will be thrown.</p>
+     * 
+     * @param sumLogImpl the StorelessUnivariateStatistic instance to use
+     * for computing the log sum
+     * @throws IllegalStateException if data has already been added 
+     *  (i.e if n > 0)
+     */
+    public void setSumLogImpl(
+            StorelessUnivariateStatistic sumLogImpl) {
+        checkEmpty();
+        this.sumOfLogs = sumLogImpl;
+    }
+    
+    /**
+     * Returns the currently configured sum of logs implementation
+     * 
+     * @return the StorelessUnivariateStatistic implementing the log sum
+     */
+    public StorelessUnivariateStatistic getSumLogImpl() {
+        return sumOfLogs;
+    }
+    
+    /**
+     * Throws IllegalStateException if n > 0.
+     */
+    private void checkEmpty() {
+        if (getN() > 0) {
+            throw new IllegalStateException(
+                "Implementation must be configured before values are added.");
+        }
     }
 
 }

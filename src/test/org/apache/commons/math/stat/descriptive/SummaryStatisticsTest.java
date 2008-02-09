@@ -21,6 +21,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.apache.commons.math.stat.descriptive.moment.Mean;
+import org.apache.commons.math.stat.descriptive.summary.Sum;
 /**
  * Test cases for the {@link SummaryStatistics} class.
  * When SummaryStatisticsImpl is removed in math 2.0, test cases from
@@ -47,10 +48,13 @@ public final class SummaryStatisticsTest extends SummaryStatisticsAbstractTest {
     
     public void testSetterInjection() throws Exception {
         SummaryStatistics u = createSummaryStatistics();
-        u.setMeanImpl(new sumMean());
+        u.setMeanImpl(new Sum());
+        u.setSumLogImpl(new Sum());
         u.addValue(1);
         u.addValue(3);
         assertEquals(4, u.getMean(), 1E-14);
+        assertEquals(4, u.getSumOfLogs(), 1E-14);
+        assertEquals(Math.exp(2), u.getGeometricMean(), 1E-14);
         u.clear();
         u.addValue(1);
         u.addValue(2);
@@ -64,44 +68,10 @@ public final class SummaryStatisticsTest extends SummaryStatisticsAbstractTest {
         u.addValue(1);
         u.addValue(3);
         try {
-            u.setMeanImpl(new sumMean());
+            u.setMeanImpl(new Sum());
             fail("Expecting IllegalStateException");
         } catch (IllegalStateException ex) {
             // expected
         }
     }
-    
-    /**
-     * Bogus mean implementation to test setter injection.
-     * Returns the sum instead of the mean.
-     */
-    static class sumMean implements StorelessUnivariateStatistic {   
-        private static final long serialVersionUID = 6492471391340853423L;
-        private double sum = 0;
-        private long n = 0;
-        public double evaluate(double[] values, int begin, int length) {
-            return 0;
-        }
-        public double evaluate(double[] values) {
-            return 0;
-        }
-        public void clear() {
-          sum = 0; 
-          n = 0;
-        }
-        public long getN() {
-            return n;
-        }
-        public double getResult() {
-            return sum;
-        }
-        public void increment(double d) {
-            sum += d;
-            n++;
-        }
-        public void incrementAll(double[] values, int start, int length) {
-        }
-        public void incrementAll(double[] values) {
-        }   
-    }  
 }

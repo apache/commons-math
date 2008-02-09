@@ -120,7 +120,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
     protected SumOfLogs sumLog = new SumOfLogs();
 
     /** geoMean of values that have been added */
-    protected GeometricMean geoMean = new GeometricMean();
+    protected GeometricMean geoMean = new GeometricMean(sumLog);
 
     /** mean of values that have been added */
     protected Mean mean = new Mean();
@@ -174,15 +174,17 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
         minImpl.increment(value);
         maxImpl.increment(value);
         sumLogImpl.increment(value);
-        geoMean.increment(value);
         secondMoment.increment(value);
-        // If mean or variance have been overridden,
-        // need to increment these, since they don't have secondMoment
+        // If mean, variance or geomean have been overridden,
+        // need to increment these
         if (!(meanImpl instanceof Mean)) {
                 meanImpl.increment(value);
         }
         if (!(varianceImpl instanceof Variance)) {
             varianceImpl.increment(value);
+        }
+        if (!(geoMeanImpl instanceof GeometricMean)) {
+            geoMeanImpl.increment(value);
         }
         n++;
     }
@@ -297,6 +299,17 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
     }
     
     /**
+     * Returns the sum of the logs of the values that have been added.
+     * <p>
+     *  Double.NaN is returned if no values have been added.</p>
+     *
+     * @return the sum of logs  
+     */
+    public double getSumOfLogs() {
+        return sumLogImpl.getResult();
+    }
+    
+    /**
      * Generates a text report displaying
      * summary statistics from values that
      * have been added.
@@ -313,6 +326,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
         outBuffer.append("variance: " + getVariance() + "\n");
         outBuffer.append("sum of squares: " + getSumsq() + "\n");
         outBuffer.append("standard deviation: " + getStandardDeviation() + "\n");
+        outBuffer.append("sum of logs: " + getSumOfLogs() + "\n");
         return outBuffer.toString();
     }
 
@@ -505,6 +519,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
             StorelessUnivariateStatistic sumLogImpl) {
         checkEmpty();
         this.sumLogImpl = sumLogImpl;
+        geoMean.setSumLogImpl(sumLogImpl);
     }
 
     /**
