@@ -23,11 +23,13 @@
 
 <!--
  Customized version of maven annnouncement plugin style sheet to create
- release notes for commons-math.  Customizations are:
+ release notes for commons-dbcp.  Customizations are:
+ *
  * Add a title
  * Display the description attribute in the release at the beginning
  * Add a heading to the project description and move the URL to follow
  * Get rid of "have fun" sig-like thingy
+ * Add blank lines between issues and otherwise clean up formatting
 -->
     
 <jsl:stylesheet
@@ -46,52 +48,60 @@
     <x:set var="description" select="string(@description)"/>
     <j:if test="${versionVariable.equals(version)}">
       <j:whitespace trim="false">
-Jakarta Commons Math Version ${version} 
-         RELEASE NOTES
+                        Apache Commons Math Version ${version} 
+                                   RELEASE NOTES
 
       </j:whitespace>
 
       <j:useBean var="formatter" class="org.apache.maven.announcement.Formatter"/>
 
-      <j:set var="header" trim="false" value="${description}"/>
+      <j:set var="header" trim="true" value="${description}"/>
 
 <j:forEach var="line" items="${formatter.format(header,78)}">
-<j:whitespace trim="false">${line}
-</j:whitespace>
+<j:whitespace trim="false">
+${line}</j:whitespace>
 </j:forEach>
-For more information on Jakarta Commons Math, see
+
+For more information on Apache Commons Math, see
 ${pom.url}
       <j:whitespace trim="false">
-Changes in this version include:</j:whitespace>
+      
+                             SUMMARY OF CHANGES</j:whitespace>
 
       <x:set var="actions" select="action[@type='add']" sort="@type" />
         <j:if test="${!empty(actions)}">
 <j:whitespace trim="false">
 
-  New Features:
+ADDITIONS
 </j:whitespace>
         <j:forEach var="action" items="${actions}">
           <x:set var="item" select="."/><jsl:applyTemplates select="$action"/>
+          <j:whitespace trim="false">
+          </j:whitespace>
         </j:forEach>
       </j:if>
       <x:set var="actions" select="action[@type='fix']" sort="@type" />
         <j:if test="${!empty(actions)}">
 <j:whitespace trim="false">
 
-  Fixed bugs:
+BUG FIXES
 </j:whitespace>
         <j:forEach var="action" items="${actions}">
           <x:set var="item" select="."/><jsl:applyTemplates select="$action"/>
+          <j:whitespace trim="false">
+          </j:whitespace>
         </j:forEach>
       </j:if>
       <x:set var="actions" select="action[@type='update']" sort="@type" />
         <j:if test="${!empty(actions)}">
 <j:whitespace trim="false">
 
-  Changes:
+UPDATES
 </j:whitespace>
         <j:forEach var="action" items="${actions}">
           <x:set var="item" select="."/><jsl:applyTemplates select="$action"/>
+          <j:whitespace trim="false">
+          </j:whitespace>
         </j:forEach>
       </j:if>
       <x:set var="actions" select="action[@type='remove']" sort="@type" />
@@ -104,27 +114,7 @@ Changes in this version include:</j:whitespace>
           <x:set var="item" select="."/><jsl:applyTemplates select="$action"/>
         </j:forEach>
       </j:if>
-
-      <!-- Nasty hack to detect a plugin until pom.type exists -->
-      <u:available file="${basedir}/plugin.jelly">
-        <j:whitespace trim="false"> 
-
-To automatically install the plugin, type the following on a single line:
-
-maven plugin:download 
-  -DgroupId=${pom.groupId} 
-  -DartifactId=${pom.artifactId}
-  -Dversion=${versionVariable}
-
-For a manual installation, you can download the plugin here:
-${distributionUrl}/${pom.artifactId}-${versionVariable}.jar
-        </j:whitespace>
-      </u:available>
-      <j:whitespace trim="false"> 
-
-      </j:whitespace>
     </j:if>
-
   </jsl:template>
   
   <jsl:template match="action" trim="true">
@@ -135,8 +125,8 @@ ${distributionUrl}/${pom.artifactId}-${versionVariable}.jar
     <j:set var="dueto"><x:expr select="@due-to"/></j:set>
         
     <j:set var="text" trim="true">
+      <j:if test="${issue != ''}"><j:whitespace>${issue}.</j:whitespace></j:if>
       ${body}
-      <j:if test="${issue != ''}"><j:whitespace> Issue: ${issue}.</j:whitespace></j:if>
       <j:if test="${dueto != ''}"><j:whitespace> Thanks to ${dueto}.</j:whitespace></j:if>
     </j:set>
         
@@ -144,7 +134,7 @@ ${distributionUrl}/${pom.artifactId}-${versionVariable}.jar
       <j:choose>
         <j:when test="${counter.length() == '0'}">
           <j:whitespace trim="false">
-o ${line}</j:whitespace>
+* ${line}</j:whitespace>
         </j:when>
         <j:otherwise>
           <j:whitespace trim="false">
