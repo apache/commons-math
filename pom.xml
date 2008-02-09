@@ -332,7 +332,7 @@ org.apache.commons.math.util;version=${project.version}
         <artifactId>maven-changes-plugin</artifactId>
         <version>2.0-beta-2</version>
         <configuration>
-          <xmlPath>${basedir}/xdocs/changes.xml</xmlPath>
+          <xmlPath>${basedir}/src/site/xdoc/changes.xml</xmlPath>
           <issueLinkTemplate>%URL%/%ISSUE%</issueLinkTemplate>
         </configuration>
         <reportSets>
