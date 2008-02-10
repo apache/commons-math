@@ -30,10 +30,12 @@ public interface StatisticalMultivariateSummary {
      * @return The dimension of the data
      */
     public int getDimension();
-    /** 
-     * Returns the <a href="http://www.xycoon.com/arithmetic_mean.htm">
-     * arithmetic mean </a> of the available values 
-     * @return The mean or null if no values have been added.
+    /**
+     * Returns an array whose ith entry is the mean of the
+     * ith entries of the arrays that have been added using 
+     * {@link #addValue(double[])}
+     * 
+     * @return the array of component means
      */
     public abstract double[] getMean();
     /** 
@@ -42,21 +44,29 @@ public interface StatisticalMultivariateSummary {
      * or a zeroed matrix for a single value set.  
      */
     public abstract RealMatrix getCovariance();
-    /** 
-     * Returns the standard deviation of the available values.
-     * @return The standard deviation, null if no values have been added 
-     * or a zeroed array for a single value set. 
+    /**
+     * Returns an array whose ith entry is the standard deviation of the
+     * ith entries of the arrays that have been added using 
+     * {@link #addValue(double[])}
+     * 
+     * @return the array of component standard deviations
      */
     public abstract double[] getStandardDeviation();
-    /** 
-     * Returns the maximum of the available values
-     * @return The max or null if no values have been added.
+    /**
+     * Returns an array whose ith entry is the maximum of the
+     * ith entries of the arrays that have been added using 
+     * {@link #addValue(double[])}
+     * 
+     * @return the array of component maxima
      */
     public abstract double[] getMax();
-    /** 
-    * Returns the minimum of the available values
-    * @return The min or null if no values have been added.
-    */
+    /**
+     * Returns an array whose ith entry is the minimum of the
+     * ith entries of the arrays that have been added using 
+     * {@link #addValue(double[])}
+     * 
+     * @return the array of component minima
+     */
     public abstract double[] getMin();
     /** 
      * Returns the number of available values
@@ -64,18 +74,35 @@ public interface StatisticalMultivariateSummary {
      */
     public abstract long getN();
     /**
-     * Returns the sum of the values that have been added.
-     * @return The sum or null if no values have been added
+     * Returns an array whose ith entry is the geometric mean of the
+     * ith entries of the arrays that have been added using 
+     * {@link #addValue(double[])}
+     * 
+     * @return the array of component geometric means
+     */
+    public double[] getGeometricMean();
+    /**
+     * Returns an array whose ith entry is the sum of the
+     * ith entries of the arrays that have been added using 
+     * {@link #addValue(double[])}
+     * 
+     * @return the array of component sums
      */
     public abstract double[] getSum();
     /**
-     * Returns the sum of the squares of the values that have been added.
-     * @return The sum or null if no values have been added
+     * Returns an array whose ith entry is the sum of squares of the
+     * ith entries of the arrays that have been added using 
+     * {@link #addValue(double[])}
+     * 
+     * @return the array of component sums of squares
      */
     public abstract double[] getSumSq();
     /**
-     * Returns the sum of the logarithms of the values that have been added.
-     * @return The sum or null if no values have been added
+     * Returns an array whose ith entry is the sum of logs of the
+     * ith entries of the arrays that have been added using 
+     * {@link #addValue(double[])}
+     * 
+     * @return the array of component log sums
      */
     public abstract double[] getSumLog();
 }
