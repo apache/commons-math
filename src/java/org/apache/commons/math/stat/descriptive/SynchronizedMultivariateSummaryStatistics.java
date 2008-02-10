@@ -49,13 +49,6 @@ public class SynchronizedMultivariateSummaryStatistics
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#getSummary()
-     */
-    public synchronized StatisticalMultivariateSummary getSummary() {
-        return super.getSummary();
-    }
-    
-    /**
      * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#addValue(double[])
      */
     public synchronized void addValue(double[] value)

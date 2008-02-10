@@ -134,19 +134,6 @@ public class MultivariateSummaryStatistics
     private VectorialCovariance covarianceImpl;
 
     /**
-     * Return a {@link StatisticalMultivariateSummary} instance reporting current
-     * statistics.
-     * 
-     * @return Current values of statistics 
-     */
-    public StatisticalMultivariateSummary getSummary() {
-        return new StatisticalMultivariateSummaryValues(getDimension(), getMean(),
-                    getCovariance(), getStandardDeviation(),
-                    getN(), getMax(), getMin(),
-                    getSum(), getSumSq(), getSumLog());
-    }
-    
-    /**
      * Add an n-tuple to the data
      * 
      * @param value  the n-tuple to add
@@ -268,7 +255,7 @@ public class MultivariateSummaryStatistics
     /**
      * Returns the covariance matrix of the values that have been added.
      *
-     * @return the variance 
+     * @return the covariance matrix 
      */
     public RealMatrix getCovariance() {
         return covarianceImpl.getResult();
