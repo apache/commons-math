@@ -23,13 +23,7 @@
 
 <!--
  Customized version of maven annnouncement plugin style sheet to create
- release notes for commons-dbcp.  Customizations are:
- *
- * Add a title
- * Display the description attribute in the release at the beginning
- * Add a heading to the project description and move the URL to follow
- * Get rid of "have fun" sig-like thingy
- * Add blank lines between issues and otherwise clean up formatting
+ release notes for commons-math. 
 -->
     
 <jsl:stylesheet
