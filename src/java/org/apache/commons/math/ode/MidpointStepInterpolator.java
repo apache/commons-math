@@ -20,23 +20,22 @@ package org.apache.commons.math.ode;
 /**
  * This class implements a step interpolator for second order
  * Runge-Kutta integrator.
-
+ *
  * <p>This interpolator allow to compute dense output inside the last
  * step computed. The interpolation equation is consistent with the
  * integration scheme :
-
+ *
  * <pre>
  *   y(t_n + theta h) = y (t_n + h) + (1-theta) h [theta y'_1 - (1+theta) y'_2]
  * </pre>
-
+ *
  * where theta belongs to [0 ; 1] and where y'_1 and y'_2 are the two
  * evaluations of the derivatives already computed during the
  * step.</p>
-
+ *
  * @see MidpointIntegrator
-
  * @version $Revision$ $Date$
-
+ * @since 1.2
  */
 
 class MidpointStepInterpolator

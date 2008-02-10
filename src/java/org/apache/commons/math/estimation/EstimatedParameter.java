@@ -28,6 +28,7 @@ import java.io.Serializable;
  * satisfy convergence criterions specific to each solver.</p>
  *
  * @version $Revision$ $Date$
+ * @since 1.2
  *
  */
 

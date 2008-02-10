@@ -20,7 +20,7 @@ package org.apache.commons.math.ode;
 /**
  * This class implements the common part of all fixed step Runge-Kutta
  * integrators for Ordinary Differential Equations.
-
+ *
  * <p>These methods are explicit Runge-Kutta methods, their Butcher
  * arrays are as follows :
  * <pre>
@@ -33,14 +33,13 @@ package org.apache.commons.math.ode;
  *       |  b1   b2  ...   bs-1  bs
  * </pre>
  * </p>
-
+ *
  * @see EulerIntegrator
  * @see ClassicalRungeKuttaIntegrator
  * @see GillIntegrator
  * @see MidpointIntegrator
-
  * @version $Revision$ $Date$
-
+ * @since 1.2
  */
 
 public abstract class RungeKuttaIntegrator

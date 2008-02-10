@@ -30,6 +30,7 @@ import org.apache.commons.math.MaxIterationsExceededException;
  * is a special case of k = 2.</p>
  *  
  * @version $Revision$ $Date$
+ * @since 1.2
  */
 public class RombergIntegrator extends UnivariateRealIntegratorImpl {
 

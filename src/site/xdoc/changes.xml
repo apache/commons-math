@@ -43,10 +43,10 @@ Commons Math Release Notes</title>
     description="This release combines bug fixes and new features. Most notable
     among the new features are the estimation, optimization, geometry and ode
     packages added from the Mantissa library. Implementations of fast Fourier
-    transform and QR decomposition have also been added, along with
-    enhancements and extensions to packages included in Commons Math 1.1. This
-    release is source and binary compatible with earlier versions of
-    Commons Math.">
+    transform, QR decomposition and several numerical integration algorithms
+    have also been added, along with enhancements and extensions to packages
+    included in Commons Math 1.1. This release is source and binary compatible
+    with earlier versions of Commons Math.">
       <action dev="luc" type="fix">
         Fixed numerous warnings in test code.
       </action>

@@ -32,14 +32,13 @@ package org.apache.commons.math.ode;
  *       |   1/6    (2-q)/6 (2+q)/6  1/6
  * </pre>
  * where q = sqrt(2)</p>
-
+ *
  * @see EulerIntegrator
  * @see ClassicalRungeKuttaIntegrator
  * @see MidpointIntegrator
  * @see ThreeEighthesIntegrator
-
  * @version $Revision$ $Date$
-
+ * @since 1.2
  */
 
 public class GillIntegrator

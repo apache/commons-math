@@ -20,7 +20,7 @@ package org.apache.commons.math.ode;
 /**
  * This class implements the common part of all embedded Runge-Kutta
  * integrators for Ordinary Differential Equations.
-
+ *
  * <p>These methods are embedded explicit Runge-Kutta methods with two
  * sets of coefficients allowing to estimate the error, their Butcher
  * arrays are as follows :
@@ -35,11 +35,11 @@ package org.apache.commons.math.ode;
  *       |  b'1  b'2 ...   b's-1 b's
  * </pre>
  * </p>
-
+ *
  * <p>In fact, we rather use the array defined by ej = bj - b'j to
  * compute directly the error rather than computing two estimates and
  * then comparing them.</p>
-
+ *
  * <p>Some methods are qualified as <i>fsal</i> (first same as last)
  * methods. This means the last evaluation of the derivatives in one
  * step is the same as the first in the next step. Then, this
@@ -49,9 +49,9 @@ package org.apache.commons.math.ode;
  * the step is rejected after the error estimation phase, no
  * evaluation is saved. For an <i>fsal</i> method, we have cs = 1 and
  * asi = bi for all i.</p>
-
+ *
  * @version $Revision$ $Date$
-
+ * @since 1.2
  */
 
 public abstract class EmbeddedRungeKuttaIntegrator

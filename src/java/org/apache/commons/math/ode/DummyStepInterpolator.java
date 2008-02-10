@@ -32,7 +32,7 @@ import java.io.IOException;
  * @see StepHandler
  *
  * @version $Revision$ $Date$
- *
+ * @since 1.2
  */
 
 public class DummyStepInterpolator

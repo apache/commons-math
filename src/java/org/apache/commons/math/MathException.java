@@ -191,8 +191,9 @@ public class MathException extends Exception {
      * Message formatting is delegated to {@link java.text.MessageFormat}.
      * @param pattern format specifier
      * @param arguments format arguments
-     * @param rootCause  the exception or error that caused this exception
-     *                   to be thrown.
+     * @param rootCause the exception or error that caused this exception
+     * to be thrown.
+     * @since 1.2
      */
     public MathException(String pattern, Object[] arguments, Throwable rootCause) {
       super(buildMessage(pattern, arguments, Locale.US));
@@ -204,6 +205,7 @@ public class MathException extends Exception {
     /** Gets the pattern used to build the message of this throwable.
      *
      * @return the pattern used to build the message of this throwable
+     * @since 1.2
      */
     public String getPattern() {
         return pattern;
@@ -212,6 +214,7 @@ public class MathException extends Exception {
     /** Gets the arguments used to build the message of this throwable.
      *
      * @return the arguments used to build the message of this throwable
+     * @since 1.2
      */
     public Object[] getArguments() {
         return (Object[]) arguments.clone();
@@ -222,6 +225,7 @@ public class MathException extends Exception {
      * @param locale Locale in which the message should be translated
      * 
      * @return localized message
+     * @since 1.2
      */
     public String getMessage(Locale locale) {
         return (pattern == null) ? null : buildMessage(pattern, arguments, locale);

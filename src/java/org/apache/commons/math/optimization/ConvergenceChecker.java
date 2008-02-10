@@ -19,14 +19,14 @@ package org.apache.commons.math.optimization;
 
 /** This interface specifies how to check if a {@link
  * DirectSearchOptimizer direct search method} has converged.
-
+ *
  * <p>Deciding if convergence has been reached is a problem-dependent
  * issue. The user should provide a class implementing this interface
  * to allow the optimization algorithm to stop its search according to
  * the problem at hand.</p>
-
+ *
  * @version $Revision$ $Date$
-
+ * @since 1.2
  */
 
 public interface ConvergenceChecker {

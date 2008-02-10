@@ -19,9 +19,11 @@ package org.apache.commons.math.geometry;
 
 import java.io.Serializable;
 
-/** This class implements vectors in a three-dimensional space.
+/** 
+ * This class implements vectors in a three-dimensional space.
  * <p>Instance of this class are guaranteed to be immutable.</p>
  * @version $Revision$ $Date$
+ * @since 1.2
  */
 
 public class Vector3D

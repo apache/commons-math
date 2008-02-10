@@ -24,6 +24,7 @@ import org.apache.commons.math.MathException;
  * the error conditions that are trigegred while computing
  * the differential equations.
  * @version $Revision$ $Date$
+ * @since 1.2
  */
 public class DerivativeException
   extends MathException {

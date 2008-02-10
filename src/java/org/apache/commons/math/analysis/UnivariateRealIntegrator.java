@@ -23,6 +23,7 @@ import org.apache.commons.math.FunctionEvaluationException;
  * Interface for univariate real integration algorithms.
  *  
  * @version $Revision$ $Date$
+ * @since 1.2
  */
 public interface UnivariateRealIntegrator {
 

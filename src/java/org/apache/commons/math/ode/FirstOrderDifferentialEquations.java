@@ -41,7 +41,7 @@ package org.apache.commons.math.ode;
  * @see SecondOrderDifferentialEquations
  *
  * @version $Revision$ $Date$
- *
+ * @since 1.2
  */
 
 public interface FirstOrderDifferentialEquations {

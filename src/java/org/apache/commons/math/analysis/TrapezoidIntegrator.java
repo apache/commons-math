@@ -28,6 +28,7 @@ import org.apache.commons.math.MaxIterationsExceededException;
  * The function should be integrable.</p>
  *  
  * @version $Revision$ $Date$
+ * @since 1.2
  */
 public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
 

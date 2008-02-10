@@ -30,6 +30,7 @@ import org.apache.commons.math.FunctionEvaluationException;
  * Note that the length of a[] is one more than the length of c[]</p>
  *
  * @version $Revision$ $Date$
+ * @since 1.2
  */
 public class PolynomialFunctionNewtonForm implements UnivariateRealFunction,
     Serializable {

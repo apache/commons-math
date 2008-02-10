@@ -21,7 +21,7 @@ import java.io.Serializable;
 
 /**
  * This class implements rotations in a three-dimensional space.
-
+ *
  * <p>Rotations can be represented by several different mathematical
  * entities (matrices, axe and angle, Cardan or Euler angles,
  * quaternions). This class presents an higher level abstraction, more
@@ -59,14 +59,14 @@ import java.io.Serializable;
  * need to transform the observing direction in the topocentric frame into the
  * observing direction in inertial frame taking into account the observatory
  * location and the Earth rotation.</p>
-
+ *
  * <p>These examples show that a rotation is what the user wants it to be, so this
  * class does not push the user towards one specific definition and hence does not
  * provide methods like <code>projectVectorIntoDestinationFrame</code> or
  * <code>computeTransformedDirection</code>. It provides simpler and more generic
  * methods: {@link #applyTo(Vector3D) applyTo(Vector3D)} and {@link
  * #applyInverseTo(Vector3D) applyInverseTo(Vector3D)}.</p>
-
+ *
  * <p>Since a rotation is basically a vectorial operator, several rotations can be
  * composed together and the composite operation <code>r = r<sub>1</sub> o
  * r<sub>2</sub></code> (which means that for each vector <code>u</code>,
@@ -77,13 +77,13 @@ import java.io.Serializable;
  * we get is <code>r = r<sub>1</sub> o r<sub>2</sub></code>. For this purpose, the
  * class provides the methods: {@link #applyTo(Rotation) applyTo(Rotation)} and
  * {@link #applyInverseTo(Rotation) applyInverseTo(Rotation)}.</p>
-
+ *
  * <p>Rotations are guaranteed to be immutable objects.</p>
-
+ *
  * @version $Revision$ $Date$
  * @see Vector3D
  * @see RotationOrder
-
+ * @since 1.2
  */
 
 public class Rotation implements Serializable {

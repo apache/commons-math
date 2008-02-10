@@ -19,11 +19,11 @@ package org.apache.commons.math.ode;
 
 /** This class converts second order differential equations to first
  * order ones.
-
+ *
  * <p>This class is a wrapper around a {@link
  * SecondOrderDifferentialEquations} which allow to use a {@link
  * FirstOrderIntegrator} to integrate it.</p>
-
+ *
  * <p>The transformation is done by changing the n dimension state
  * vector to a 2n dimension vector, where the first n components are
  * the initial state variables and the n last components are their
@@ -31,7 +31,7 @@ package org.apache.commons.math.ode;
  * vector then really contains both the first and second time
  * derivative of the initial state vector, which can be handled by the
  * underlying second order equations set.</p>
-
+ *
  * <p>One should be aware that the data is duplicated during the
  * transformation process and that for each call to {@link
  * #computeDerivatives computeDerivatives}, this wrapper does copy 4n
@@ -45,13 +45,12 @@ package org.apache.commons.math.ode;
  * avoid this duplication is to perform the transformation at the
  * problem level, i.e. to implement the problem as a first order one
  * and then avoid using this class.</p>
-
+ *
  * @see FirstOrderIntegrator
  * @see FirstOrderDifferentialEquations
  * @see SecondOrderDifferentialEquations
-
  * @version $Revision$ $Date$
-
+ * @since 1.2
  */
 
 public class FirstOrderConverter

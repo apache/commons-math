@@ -32,9 +32,8 @@ import java.io.Externalizable;
  * @see FirstOrderIntegrator
  * @see SecondOrderIntegrator
  * @see StepHandler
- *
  * @version $Revision$ $Date$
- *
+ * @since 1.2
  */
 
 public interface StepInterpolator

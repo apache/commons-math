@@ -25,16 +25,15 @@ import java.io.Serializable;
  * <p>This class is provided as a convenience for users who are only
  * interested in the final state of an integration and not in the
  * intermediate steps. Its handleStep method does nothing.</p>
-
+ *
  * <p>Since this class has no internal state, it is implemented using
  * the Singleton design pattern. This means that only one instance is
  * ever created, which can be retrieved using the getInstance
  * method. This explains why there is no public constructor.</p>
-
+ *
  * @see StepHandler
-
  * @version $Revision$ $Date$
-
+ * @since 1.2
  */
 
 public class DummyStepHandler

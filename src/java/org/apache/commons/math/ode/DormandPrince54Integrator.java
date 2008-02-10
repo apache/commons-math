@@ -29,7 +29,7 @@ package org.apache.commons.math.ode;
  * is an <i>fsal</i>, the last evaluation of one step is the same as
  * the first evaluation of the next step and hence can be avoided. So
  * the cost is really 6 functions evaluations per step.</p>
-
+ *
  * <p>This method has been published (whithout the continuous output
  * that was added by Shampine in 1986) in the following article :
  * <pre>
@@ -38,9 +38,9 @@ package org.apache.commons.math.ode;
  *  Journal of Computational and Applied Mathematics
  *  volume 6, no 1, 1980, pp. 19-26
  * </pre></p>
-
+ *
  * @version $Revision$ $Date$
-
+ * @since 1.2
  */
 
 public class DormandPrince54Integrator

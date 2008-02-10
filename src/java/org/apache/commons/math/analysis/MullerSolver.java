@@ -31,6 +31,7 @@ import org.apache.commons.math.util.MathUtils;
  * real zeros, using different ways to bypass complex arithmetics.</p>
  *
  * @version $Revision$ $Date$
+ * @since 1.2
  */
 public class MullerSolver extends UnivariateRealSolverImpl {
 

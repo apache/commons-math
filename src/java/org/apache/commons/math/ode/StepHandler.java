@@ -20,7 +20,7 @@ package org.apache.commons.math.ode;
 /**
  * This interface represents a handler that should be called after
  * each successful step.
-
+ *
  * <p>The ODE integrators compute the evolution of the state vector at
  * some grid points that depend on their own internal algorithm. Once
  * they have found a new grid point (possibly after having computed
@@ -29,13 +29,12 @@ package org.apache.commons.math.ode;
  * typically either ignore the intermediate steps and wait for the
  * last one, store the points in an ephemeris, or forward them to
  * specialized processing or output methods.</p>
-
+ *
  * @see FirstOrderIntegrator
  * @see SecondOrderIntegrator
  * @see StepInterpolator
-
  * @version $Revision$ $Date$
-
+ * @since 1.2
  */
 
 public interface StepHandler {

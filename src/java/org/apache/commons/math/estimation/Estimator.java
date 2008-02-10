@@ -31,6 +31,7 @@ package org.apache.commons.math.estimation;
  * @see EstimationProblem
  *
  * @version $Revision$ $Date$
+ * @since 1.2
  *
  */
 

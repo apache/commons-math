@@ -20,7 +20,7 @@ package org.apache.commons.math.ode;
 /**
  * This class implements a step interpolator for the classical fourth
  * order Runge-Kutta integrator.
-
+ *
  * <p>This interpolator allows to compute dense output inside the last
  * step computed. The interpolation equation is consistent with the
  * integration scheme :
@@ -32,15 +32,14 @@ package org.apache.commons.math.ode;
  *                                          -(4 theta^2 +   theta + 1) y'_4
  *                                        ]
  * </pre>
-
+ *
  * where theta belongs to [0 ; 1] and where y'_1 to y'_4 are the four
  * evaluations of the derivatives already computed during the
  * step.</p>
-
+ *
  * @see ClassicalRungeKuttaIntegrator
-
  * @version $Revision$ $Date$
-
+ * @since 1.2
  */
 
 class ClassicalRungeKuttaStepInterpolator

@@ -34,7 +34,6 @@ import org.apache.commons.math.util.MathUtils;
  * or imaginary part - e.g., <pre>
  * <code>1 + NaNi  == NaN + i == NaN + NaNi.</code></pre></p>
  *
- * @author Apache Software Foundation
  * @version $Revision$ $Date$
  */
 public class Complex implements Serializable  {

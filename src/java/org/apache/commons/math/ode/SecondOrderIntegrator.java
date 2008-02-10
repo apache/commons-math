@@ -19,16 +19,15 @@ package org.apache.commons.math.ode;
 
 /** This interface represents a second order integrator for
  * differential equations.
-
+ *
  * <p>The classes which are devoted to solve second order differential
  * equations should implement this interface. The problems which can
  * be handled should implement the {@link
  * SecondOrderDifferentialEquations} interface.</p>
-
+ *
  * @see SecondOrderDifferentialEquations
-
  * @version $Revision$ $Date$
-
+ * @since 1.2
  */
 
 public interface SecondOrderIntegrator {

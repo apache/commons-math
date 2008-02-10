@@ -29,6 +29,7 @@ import org.apache.commons.math.MaxIterationsExceededException;
  * calculate the Simpson's rule of alternating 2/3 and 4/3.</p>
  *  
  * @version $Revision$ $Date$
+ * @since 1.2
  */
 public class SimpsonIntegrator extends UnivariateRealIntegratorImpl {
 

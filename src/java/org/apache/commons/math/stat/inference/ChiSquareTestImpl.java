@@ -210,6 +210,7 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
      * @param observed2 array of observed frequency counts of the second data set
      * @return chi-square test statistic
      * @throws IllegalArgumentException if preconditions are not met
+     * @since 1.2
      */
     public double chiSquareDataSetsComparison(long[] observed1, long[] observed2)
         throws IllegalArgumentException {
@@ -272,6 +273,7 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
      * @return p-value
      * @throws IllegalArgumentException if preconditions are not met
      * @throws MathException if an error occurs computing the p-value
+     * @since 1.2
      */
     public double chiSquareTestDataSetsComparison(long[] observed1, long[] observed2)
         throws IllegalArgumentException, MathException {
@@ -288,6 +290,7 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
      * 1 - alpha
      * @throws IllegalArgumentException if preconditions are not met
      * @throws MathException if an error occurs performing the test
+     * @since 1.2
      */
     public boolean chiSquareTestDataSetsComparison(long[] observed1, long[] observed2,
             double alpha) throws IllegalArgumentException, MathException {

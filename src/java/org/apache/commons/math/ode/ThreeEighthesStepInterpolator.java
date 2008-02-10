@@ -20,11 +20,11 @@ package org.apache.commons.math.ode;
 /**
  * This class implements a step interpolator for the 3/8 fourth
  * order Runge-Kutta integrator.
-
+ *
  * <p>This interpolator allows to compute dense output inside the last
  * step computed. The interpolation equation is consistent with the
  * integration scheme :
-
+ *
  * <pre>
  *   y(t_n + theta h) = y (t_n + h)
  *                    - (1 - theta) (h/8) [ (1 - 7 theta + 8 theta^2) y'_1
@@ -33,15 +33,14 @@ package org.apache.commons.math.ode;
  *                                      +   (1 +   theta + 4 theta^2) y'_4
  *                                        ]
  * </pre>
-
+ *
  * where theta belongs to [0 ; 1] and where y'_1 to y'_4 are the four
  * evaluations of the derivatives already computed during the
  * step.</p>
-
+ *
  * @see ThreeEighthesIntegrator
-
  * @version $Revision$ $Date$
-
+ * @since 1.2
  */
 
 class ThreeEighthesStepInterpolator

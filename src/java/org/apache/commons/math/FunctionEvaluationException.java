@@ -63,6 +63,7 @@ public class FunctionEvaluationException extends MathException  {
      * @param argument  the failing function argument 
      * @param pattern format specifier
      * @param arguments format arguments
+     * @since 1.2
      */
     public FunctionEvaluationException(double argument,
                                        String pattern, Object[] arguments) {
@@ -89,6 +90,7 @@ public class FunctionEvaluationException extends MathException  {
      * Message formatting is delegated to {@link java.text.MessageFormat}.
      * @param argument  the failing function argument 
      * @param cause  the exception or error that caused this exception to be thrown
+     * @since 1.2
      */
     public FunctionEvaluationException(double argument, Throwable cause) {
         super(cause);
@@ -102,6 +104,7 @@ public class FunctionEvaluationException extends MathException  {
      * @param pattern format specifier
      * @param arguments format arguments
      * @param cause  the exception or error that caused this exception to be thrown
+     * @since 1.2
      */
     public FunctionEvaluationException(double argument,
                                        String pattern, Object[] arguments,

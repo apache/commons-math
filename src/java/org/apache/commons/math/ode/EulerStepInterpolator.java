@@ -19,22 +19,21 @@ package org.apache.commons.math.ode;
 
 /**
  * This class implements a linear interpolator for step.
-
+ *
  * <p>This interpolator allow to compute dense output inside the last
  * step computed. The interpolation equation is consistent with the
  * integration scheme :
-
+ *
  * <pre>
  *   y(t_n + theta h) = y (t_n + h) - (1-theta) h y'
  * </pre>
-
+ *
  * where theta belongs to [0 ; 1] and where y' is the evaluation of
  * the derivatives already computed during the step.</p>
-
+ *
  * @see EulerIntegrator
-
  * @version $Revision$ $Date$
-
+ * @since 1.2
  */
 
 class EulerStepInterpolator

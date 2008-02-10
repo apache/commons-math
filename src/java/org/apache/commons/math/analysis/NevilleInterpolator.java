@@ -29,6 +29,7 @@ import org.apache.commons.math.MathException;
  * this class provides an easy-to-use interface to it.</p>
  *
  * @version $Revision$ $Date$
+ * @since 1.2
  */
 public class NevilleInterpolator implements UnivariateRealInterpolator,
     Serializable {
