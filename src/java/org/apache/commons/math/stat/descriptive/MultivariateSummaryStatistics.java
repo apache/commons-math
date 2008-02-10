@@ -32,12 +32,12 @@ import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
 import org.apache.commons.math.util.MathUtils;
 
 /**
- * <p>Computes summary statistics for a stream of data values added using the 
- * {@link #addValue(double[]) addValue} method. The data values are not stored in
- * memory, so this class can be used to compute statistics for very large
- * data streams.</p>
+ * <p>Computes summary statistics for a stream of n-tuples added using the 
+ * {@link #addValue(double[]) addValue} method. The data values are not stored
+ * in memory, so this class can be used to compute statistics for very large
+ * n-tuple streams.</p>
  * 
- * <p>The {@link StorelessUnivariateStatistic} array instances used to maintain
+ * <p>The {@link StorelessUnivariateStatistic} instances used to maintain
  * summary state and compute statistics are configurable via setters.
  * For example, the default implementation for the mean can be overridden by
  * calling {@link #setMeanImpl(StorelessUnivariateStatistic[])}. Actual
@@ -45,6 +45,17 @@ import org.apache.commons.math.util.MathUtils;
  * {@link StorelessUnivariateStatistic} interface and configuration must be
  * completed before <code>addValue</code> is called. No configuration is
  * necessary to use the default, commons-math provided implementations.</p>
+ * 
+ * <p>To compute statistics for a stream of n-tuples, construct a
+ * MultivariateStatistics instance with dimension n and then use 
+ * {{@link #addValue(double[])} to add n-tuples. The <code>getXxx</code>
+ * methods where Xxx is a statistic return an array of <code>double</code>
+ * values, where for <code>i = 0,...,n-1</code> the ith array element is the
+ * value of the given statistic for data range consisting of the ith element of
+ * each of the input n-tuples.  For example, if <code>addValue</code> is called
+ * with actual parameters {0, 1, 2}, then {3, 4, 5} and finally {6, 7, 8},
+ * <code>getSum</code> will return a three-element array with values
+ * {0+3+6, 1+4+7, 2+5+8}</p>
  * 
  * <p>Note: This class is not thread-safe. Use 
  * {@link SynchronizedMultivariateSummaryStatistics} if concurrent access from multiple
@@ -130,16 +141,16 @@ public class MultivariateSummaryStatistics
      */
     public StatisticalMultivariateSummary getSummary() {
         return new StatisticalMultivariateSummaryValues(getDimension(), getMean(),
-                                                        getCovariance(), getStandardDeviation(),
-                                                        getN(), getMax(), getMin(),
-                                                        getSum(), getSumSq(), getSumLog());
+                    getCovariance(), getStandardDeviation(),
+                    getN(), getMax(), getMin(),
+                    getSum(), getSumSq(), getSumLog());
     }
     
     /**
-     * Add a value to the data
+     * Add an n-tuple to the data
      * 
-     * @param value  the value to add
-     * @throws DimensionMismatchException if the value dimension
+     * @param value  the n-tuple to add
+     * @throws DimensionMismatchException if the length of the array
      * does not match the one used at construction
      */
     public void addValue(double[] value)
@@ -189,52 +200,55 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Returns the sum of the values that have been added
-     * @return The sum or <code>Double.NaN</code> if no values have been added
+     * Returns an array whose ith entry is the sum of the
+     * ith entries of the arrays that have been added using 
+     * {@link #addValue(double[])}
+     * 
+     * @return the array of component sums
      */
     public double[] getSum() {
         return getResults(sumImpl);
     }
 
     /**
-     * Returns the sum of the squares of the values that have been added.
-     * <p>
-     *  Double.NaN is returned if no values have been added.</p>
+     * Returns an array whose ith entry is the sum of squares of the
+     * ith entries of the arrays that have been added using 
+     * {@link #addValue(double[])}
      * 
-     * @return The sum of squares
+     * @return the array of component sums of squares
      */
     public double[] getSumSq() {
         return getResults(sumSqImpl);
     }
 
     /**
-     * Returns the sum of the logarithms of the values that have been added.
-     * <p>
-     *  Double.NaN is returned if no values have been added.</p>
+     * Returns an array whose ith entry is the sum of logs of the
+     * ith entries of the arrays that have been added using 
+     * {@link #addValue(double[])}
      * 
-     * @return The sum of logarithms
+     * @return the array of component log sums
      */
     public double[] getSumLog() {
         return getResults(sumLogImpl);
     }
 
     /**
-     * Returns the mean of the values that have been added.
-     * <p>
-     *  Double.NaN is returned if no values have been added.</p>
+     * Returns an array whose ith entry is the mean of the
+     * ith entries of the arrays that have been added using 
+     * {@link #addValue(double[])}
      * 
-     * @return the mean
+     * @return the array of component means
      */
     public double[] getMean() {
         return getResults(meanImpl);
     }
 
     /**
-     * Returns the standard deviation of the values that have been added.
-     * <p>
-     *  Double.NaN is returned if no values have been added.</p>
+     * Returns an array whose ith entry is the standard deviation of the
+     * ith entries of the arrays that have been added using 
+     * {@link #addValue(double[])}
      * 
-     * @return the standard deviation
+     * @return the array of component standard deviations
      */
     public double[] getStandardDeviation() {
         double[] stdDev = new double[k];
@@ -252,9 +266,7 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Returns the covariance of the values that have been added.
-     * <p>
-     *  Double.NaN is returned if no values have been added.</p>
+     * Returns the covariance matrix of the values that have been added.
      *
      * @return the variance 
      */
@@ -263,33 +275,33 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Returns the maximum of the values that have been added.
-     * <p>
-     *  Double.NaN is returned if no values have been added.</p>
-     *
-     * @return the maximum  
+     * Returns an array whose ith entry is the maximum of the
+     * ith entries of the arrays that have been added using 
+     * {@link #addValue(double[])}
+     * 
+     * @return the array of component maxima
      */
     public double[] getMax() {
         return getResults(maxImpl);
     }
 
     /**
-     * Returns the minimum of the values that have been added.
-     * <p>
-     *  Double.NaN is returned if no values have been added.</p>
-     *
-     * @return the minimum  
+     * Returns an array whose ith entry is the minimum of the
+     * ith entries of the arrays that have been added using 
+     * {@link #addValue(double[])}
+     * 
+     * @return the array of component minima
      */
     public double[] getMin() {
         return getResults(minImpl);
     }
 
     /**
-     * Returns the geometric mean of the values that have been added.
-     * <p>
-     *  Double.NaN is returned if no values have been added.</p>
-     *
-     * @return the geometric mean  
+     * Returns an array whose ith entry is the geometric mean of the
+     * ith entries of the arrays that have been added using 
+     * {@link #addValue(double[])}
+     * 
+     * @return the array of component geometric means
      */
     public double[] getGeometricMean() {
         return getResults(geoMeanImpl);
