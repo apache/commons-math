@@ -97,10 +97,15 @@
            "window" consisting of the most recently added values.
         </p>
         <p>
-           <code>SummaryStatisics</code> does not store the input data values
+           <code>SummaryStatistics</code> does not store the input data values
            in memory, so the statistics included in this aggregate are limited to those
            that can be computed in one pass through the data without access to
            the full array of values.
+        </p>
+        <p>
+           <code>MultivariateSummaryStatistics</code> is similar to <code>SummaryStatistics</code>
+           but handles n-tuple values instead of scalar values. It can also compute the
+           full covariance matrix for the input data.
         </p>
         <p>
           <table>
