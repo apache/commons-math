@@ -190,28 +190,12 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
 
     }
 
-    public void testGetSummary() throws DimensionMismatchException {
-        MultivariateSummaryStatistics u = new MultivariateSummaryStatistics(2, true);
-        StatisticalMultivariateSummary summary = u.getSummary();
-        verifySummary(u, summary);
-        u.addValue(new double[] { 1, 2 });
-        summary = u.getSummary();
-        verifySummary(u, summary);
-        u.addValue(new double[] { 2, 5 });
-        summary = u.getSummary();
-        verifySummary(u, summary);
-        u.addValue(new double[] { 2, 2 });
-        summary = u.getSummary();
-        verifySummary(u, summary);     
-    }
-
     public void testSerialization() throws DimensionMismatchException {
         MultivariateSummaryStatistics u = new MultivariateSummaryStatistics(2, true);
         // Empty test
         TestUtils.checkSerializedEquality(u);
         MultivariateSummaryStatistics s = (MultivariateSummaryStatistics) TestUtils.serializeAndRecover(u);
-        StatisticalMultivariateSummary summary = s.getSummary();
-        verifySummary(u, summary);
+        assertEquals(u, s);
 
         // Add some data
         u.addValue(new double[] { 2d, 1d });
@@ -223,8 +207,7 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
         // Test again
         TestUtils.checkSerializedEquality(u);
         s = (MultivariateSummaryStatistics) TestUtils.serializeAndRecover(u);
-        summary = s.getSummary();
-        verifySummary(u, summary);
+        assertEquals(u, s);
 
     }
 
@@ -267,28 +250,6 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
         assertTrue(u.equals(t));
         assertEquals(emptyHash, t.hashCode());
         assertEquals(emptyHash, u.hashCode());
-    }
-
-    private void verifySummary(MultivariateSummaryStatistics u, StatisticalMultivariateSummary s) {
-        assertEquals(s.getN(), u.getN());
-        for (int i = 0; i < u.getDimension(); ++i) {
-            checkValue(s.getSum()[i], u.getSum()[i], 1.0e-10);
-            checkValue(s.getStandardDeviation()[i], u.getStandardDeviation()[i], 1.0e-10);
-            checkValue(s.getMean()[i], u.getMean()[i], 1.0e-10);
-            checkValue(s.getMin()[i], u.getMin()[i], 1.0e-10);
-            checkValue(s.getMax()[i], u.getMax()[i], 1.0e-10);
-            checkValue(s.getSumSq()[i], u.getSumSq()[i], 1.0e-10);
-            checkValue(s.getSumLog()[i], u.getSumLog()[i], 1.0e-10);
-            checkValue(s.getMax()[i], u.getMax()[i], 1.0e-10);
-        }
-    }
-
-    private void checkValue(double expected, double actual, double tolerance) {
-        if (Double.isNaN(expected)) {
-            assertTrue(Double.isNaN(actual));
-        } else {
-            assertEquals(expected, actual, tolerance);
-        }
     }
 
 }
