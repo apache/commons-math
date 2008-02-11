@@ -56,10 +56,16 @@ public class Complex implements Serializable  {
     /** A complex number representing "0.0 + 0.0i" */    
     public static final Complex ZERO = new Complex(0.0, 0.0);
     
-    /** The imaginary part */
+    /** 
+     * The imaginary part 
+     * @deprecated to be made final and private in 2.0
+     */
     protected double imaginary;
     
-    /** The real part */
+    /** 
+     * The real part 
+     * @deprecated to be made final and private in 2.0
+     */
     protected double real;
     
     /**

@@ -172,6 +172,12 @@ Commons Math Release Notes</title>
         Fixed AbstractIntegerDistribution cumulativeProbablility(-,-)
         to correctly handle double arguments.
       </action>
+      <action dev="psteitz" type="update" issue="MATH-188" due-to="Sebastian Bazley">
+        Made numerator and denominator final in Fraction and
+        deprecated protected real and imaginary parts fields in Complex,
+        making Fraction immutable and preparing Complex to become fully
+        immutable in 2.0.
+      </action>
     </release>
     <release version="1.1" date="2005-12-17"  
  description="This is a maintenance release containing bug fixes and enhancements.

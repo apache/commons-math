@@ -37,10 +37,10 @@ public class Fraction extends Number implements Comparable {
     private static final long serialVersionUID = -8958519416450949235L;
     
     /** The denominator. */
-    private int denominator;
+    private final int denominator;
     
     /** The numerator. */
-    private int numerator;
+    private final int numerator;
 
     /**
      * Create a fraction given the double value.
@@ -210,9 +210,20 @@ public class Fraction extends Number implements Comparable {
             num = -num;
             den = -den;
         }
+        // reduce numerator and denominator by greatest common denominator.
+        int d = MathUtils.gcd(num, den);
+        if (d > 1) {
+            num /= d;
+            den /= d;
+        }
+        
+        // move sign to numerator.
+        if (den < 0) {
+            num *= -1;
+            den *= -1;
+        }
         this.numerator = num;
         this.denominator = den;
-        reduce();
     }
     
     /**
@@ -530,24 +541,5 @@ public class Fraction extends Number implements Comparable {
         numerator /= gcd;
         denominator /= gcd;
         return new Fraction(numerator, denominator);
-    }
-    
-    /**
-     * Reduce this fraction to lowest terms.  This is accomplished by dividing
-     * both numerator and denominator by their greatest common divisor.
-     */
-    private void reduce() {
-        // reduce numerator and denominator by greatest common denominator.
-        int d = MathUtils.gcd(numerator, denominator);
-        if (d > 1) {
-            numerator /= d;
-            denominator /= d;
-        }
-
-        // move sign to numerator.
-        if (denominator < 0) {
-            numerator *= -1;
-            denominator *= -1;
-        }
     }
 }
