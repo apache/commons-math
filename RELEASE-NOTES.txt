@@ -1,0 +1,153 @@
+
+                        Apache Commons Math Version 1.2-RC1 
+                                   RELEASE NOTES
+
+      
+This release combines bug fixes and new features. Most notable among the new 
+features are the estimation, optimization, geometry and ode packages added 
+from the Mantissa library. Implementations of fast Fourier transform, QR 
+decomposition and several numerical integration algorithms have also been 
+added, along with enhancements and extensions to packages included in Commons 
+Math 1.1. This release is source and binary compatible with earlier versions 
+of Commons Math. 
+
+For more information on Apache Commons Math, see
+http://commons.apache.org/math/
+      
+      
+                             SUMMARY OF CHANGES
+
+ADDITIONS
+
+* Added the estimation, optimization, geometry and ode packages from the 
+  Mantissa library. 
+          
+* MATH-120. Added Pascal distribution implementation. Thanks to Todd C. 
+  Parnell. 
+          
+* MATH-148. Added QR Decomposition. Thanks to Joni Salonen. 
+          
+* MATH-140. Added Fast Fourier Transform implementation. Thanks to Xiaogang 
+  Zhang. 
+          
+* MATH-173. Added one-way ANOVA implementation. Thanks to Bob MacCallum. 
+          
+* Added an angle normalization method in MathUtils to force angles in some 
+  user-defined interval 
+          
+* Added vectorial covariance computation (either sample or population 
+  covariance) 
+          
+* Added multivariate summary statistics. 
+          
+
+BUG FIXES
+
+* Fixed numerous warnings in test code. 
+          
+* MATH-156. Use the initial guess provided by the user in 
+  BrentSolver.solve(), thus improving speed. Thanks to Tyler Ward. 
+          
+* MATH-18. Made ComplexFormat format double values with a provided 
+  NumberFormat instance instead of using the real part format for all values. 
+  Thanks to Phil Steitz. 
+          
+* MATH-60. Modified ProperFractionFormat to reject embedded minus signs. 
+  Thanks to Nhung Nnguyen. 
+          
+* MATH-151. Added a nextAfter method in MathUtils to return the next 
+  machine-representable number in a specified direction from a given floating 
+  point number. Used this to ensure that MathUtils.round does not return 
+  incorrect results for numbers with bad IEEE754 representations. Thanks to 
+  Luc Maisonobe. 
+          
+* MATH-85. Modified getSumSquaredErrors method in SimpleRegression to always 
+  return a non-negative result. Thanks to Mark Osborn, Luc Maisonobe. 
+          
+* MATH-153. Corrected nextInt and nextLong to handle wide value ranges. 
+  Thanks to Remi Arntzen. 
+          
+* MATH-166. Increased default precision of Gamma and Beta functions. Thanks 
+  to Lukas Theussl. 
+          
+* MATH-167. Modified NormalDistributionImpl.cumulativeProbablity to catch 
+  MaxIterationsExceededException and return 0 or 1, resp. if the argument is 
+  more than 20 standard deviations from the mean. 
+          
+* MATH-174. Changed Mean.evaluate() to use a two-pass algorithm, improving 
+  accuracy by exploiting the the fact that this method has access to the full 
+  array of data values. 
+          
+* MATH-175. Added check and rescaling of expected counts to sum to sum of 
+  expected counts if necessary in ChiSquare test. Thanks to Carl Anderson. 
+          
+* MATH-164. Handle multiplication of Complex numbers with infinite parts 
+  specially. 
+          
+* MATH-182. Add integer overflow checks in Fraction constructor using double 
+  parameter. 
+          
+* MATH-185. Throw EOFException when using empty files with ValueServer in 
+  replay and digest modes. 
+          
+* MATH-184. Fixed AbstractIntegerDistribution cumulativeProbablility(-,-) to 
+  correctly handle double arguments. Thanks to Yegor Bryukhov. 
+          
+
+UPDATES
+
+* MATH-158. Added log function to MathUtils. Thanks to Hasan Diwan. 
+          
+* MATH-160. Added two sample (binned comparison) ChiSquare test. Thanks to 
+  Matthias Hummel. 
+          
+* MATH-170. Added SynchronizedDescriptiveStatistics class. Thanks to David J. 
+  M. Karlsen. 
+          
+* MATH-154. Added addAndCheck, mulAndCheck, and subAndCheck MathUtils methods 
+  for long integer arguments. Thanks to Remi Arntzen. 
+          
+* MATH-171. Merged most functions from ComplexUtils into Complex class, added 
+  static factory method to Complex. Thanks to Niall Pemberton. 
+          
+* Deprecated abstract factory methods and made DescriptiveStatistics and and 
+  SummaryStatistics concrete classes. Pushed implementations up from 
+  DescriptiveStatisticsImpl, SummaryStatisticsImpl. Made implementations of 
+  statistics configurable via setters. 
+          
+* MATH-176. Add errors guessing to least-squares estimators. Thanks to 
+  Kazuhiro Koshino. 
+          
+* MATH-179. Add tests for Fraction constructor using double parameter. Thanks 
+  to Niall Pemberton. 
+          
+* MATH-181. Add Fraction constructor using max denominator value. Thanks to 
+  Niall Pemberton. 
+          
+* Added a equals and hash methods in MathUtils to check for double arrays 
+          
+* MATH-191. Added getSumOfLogs method to SummaryStatistics and made SumOfLogs 
+  instance used by GeometricMean configurable. 
+          
+* MATH-188. Made numerator and denominator final in Fraction and deprecated 
+  protected real and imaginary parts fields in Complex, making Fraction 
+  immutable and preparing Complex to become fully immutable in 2.0. Thanks to 
+  Sebastian Bazley. 
+          
+DEPRECATIONS SUMMARY
+
+* The abstract factory pattern used to enable pluggable implementations in the
+  statistics, analysis and distributions packages has been deprecated and
+  replaced by setter injection.  
+  
+* Non-localized exception messages and associated constructors have been
+  deprecated and replaced by localized versions.
+  
+* Most methods from the ComplexUtils class have been deprecated, with
+  implementations moved to the Complex class.
+  
+See "clirr-report.html" included in the binary distribution for a detailed list
+of API changes. The "errors" reported at the top of the report are due to
+protected fields being moved to superclasses.  These fields are still available,
+so there is no backward compatibility issue.
+

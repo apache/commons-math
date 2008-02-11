@@ -37,19 +37,16 @@
         <include>build.properties.sample</include>
         <include>checkstyle.xml</include>
         <include>RELEASE-NOTES*</include>
-        <include>license-header.txt</include>
-        <include>PROPOSAL.html</include>
         <include>release-notes.jsl</include>
-        <include>test-jar.xml</include>
-        <include>testOnly.sh</include>
         <include>findbugs-exclude-filter.xml</include>
       </includes>
     </fileSet>
     <fileSet>
       <directory>src</directory>
-    </fileSet>
-    <fileSet>
-      <directory>xdocs</directory>
+      <excludes>
+        <exclude>**/mantissa/**</exclude>
+        <exclude>**/experimental/**</exclude>
+      </excludes>
     </fileSet>
   </fileSets>
 </assembly>
