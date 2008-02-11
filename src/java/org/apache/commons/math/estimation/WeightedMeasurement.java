@@ -45,6 +45,7 @@ import java.io.Serializable;
  * @see EstimationProblem
  *
  * @version $Revision$ $Date$
+ * @since 1.2
  *
  */
 

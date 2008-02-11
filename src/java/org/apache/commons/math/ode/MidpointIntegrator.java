@@ -20,7 +20,7 @@ package org.apache.commons.math.ode;
 /**
  * This class implements a second order Runge-Kutta integrator for
  * Ordinary Differential Equations.
-
+ *
  * <p>This method is an explicit Runge-Kutta method, its Butcher-array
  * is the following one :
  * <pre>
@@ -30,13 +30,13 @@ package org.apache.commons.math.ode;
  *       |  0    1
  * </pre>
  * </p>
-
+ *
  * @see EulerIntegrator
  * @see ClassicalRungeKuttaIntegrator
  * @see GillIntegrator
-
+ *
  * @version $Revision$ $Date$
-
+ * @since 1.2
  */
 
 public class MidpointIntegrator

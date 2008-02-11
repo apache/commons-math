@@ -20,7 +20,7 @@ package org.apache.commons.math.ode;
 /**
  * This abstract class holds the common part of all adaptive
  * stepsize integrators for Ordinary Differential Equations.
-
+ *
  * <p>These algorithms perform integration with stepsize control, which
  * means the user does not specify the integration step but rather a
  * tolerance on error. The error threshold is computed as
@@ -31,18 +31,19 @@ package org.apache.commons.math.ode;
  * state vector and relTol_i is the relative tolerance for the same
  * component. The user can also use only two scalar values absTol and
  * relTol which will be used for all components.</p>
-
+ *
  * <p>If the estimated error for ym+1 is such that
  * <pre>
  * sqrt((sum (errEst_i / threshold_i)^2 ) / n) < 1
  * </pre>
-
+ *
  * (where n is the state vector dimension) then the step is accepted,
  * otherwise the step is rejected and a new attempt is made with a new
  * stepsize.</p>
-
+ *
  * @version $Revision$ $Date$
-
+ * @since 1.2
+ *
  */
 
 public abstract class AdaptiveStepsizeIntegrator

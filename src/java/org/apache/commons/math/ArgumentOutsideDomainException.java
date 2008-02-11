@@ -20,6 +20,7 @@ package org.apache.commons.math;
 /**
  * Error thrown when a method is called with an out of bounds argument.
  *
+ * @since 1.2
  * @version $Revision$ $Date$
  */
 public class ArgumentOutsideDomainException extends FunctionEvaluationException {

@@ -35,6 +35,7 @@ import org.apache.commons.math.MathException;
  * function transformation on how this affects the sampling.</p>
  *
  * @version $Revision$ $Date$
+ * @since 1.2
  */
 public class FastCosineTransformer implements Serializable {
 

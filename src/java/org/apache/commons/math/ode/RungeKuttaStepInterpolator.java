@@ -28,7 +28,7 @@ import java.io.IOException;
  * @see EmbeddedRungeKuttaIntegrator
  *
  * @version $Revision$ $Date$
- *
+ * @since 1.2
  */
 
 abstract class RungeKuttaStepInterpolator

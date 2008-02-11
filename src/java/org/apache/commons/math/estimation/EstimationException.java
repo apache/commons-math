@@ -23,6 +23,7 @@ import org.apache.commons.math.MathException;
  * This class represents exceptions thrown by the estimation solvers.
  *
  * @version $Revision$ $Date$
+ * @since 1.2
  *
  */
 

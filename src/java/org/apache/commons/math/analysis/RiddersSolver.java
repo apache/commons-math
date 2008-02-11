@@ -30,6 +30,7 @@ import org.apache.commons.math.util.MathUtils;
  * The function should be continuous but not necessarily smooth.</p>
  *  
  * @version $Revision$ $Date$
+ * @since 1.2
  */
 public class RiddersSolver extends UnivariateRealSolverImpl {
 

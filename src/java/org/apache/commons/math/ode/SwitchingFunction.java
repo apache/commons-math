@@ -45,7 +45,7 @@ import org.apache.commons.math.FunctionEvaluationException;
  * fixed step ones).</p>
  *
  * @version $Revision$ $Date$
- *
+ * @since 1.2
  */
 
 public interface SwitchingFunction extends Serializable {

@@ -39,14 +39,14 @@ The <action> type attribute can be add,update,fix,remove.
 Commons Math Release Notes</title>
   </properties>
   <body>
-    <release version="1.2-SNAPSHOT" date="TBD"
+    <release version="1.2-RC1" date="TBD"
     description="This release combines bug fixes and new features. Most notable
     among the new features are the estimation, optimization, geometry and ode
     packages added from the Mantissa library. Implementations of fast Fourier
-    transform and QR decomposition have also been added, along with
-    enhancements and extensions to packages included in Commons Math 1.1. This
-    release is source and binary compatible with earlier versions of
-    Commons Math.">
+    transform, QR decomposition and several numerical integration algorithms
+    have also been added, along with enhancements and extensions to packages
+    included in Commons Math 1.1. This release is source and binary compatible
+    with earlier versions of Commons Math.">
       <action dev="luc" type="fix">
         Fixed numerous warnings in test code.
       </action>
@@ -167,6 +167,16 @@ Commons Math Release Notes</title>
       <action dev="psteitz" type="update" issue="MATH-191">
         Added getSumOfLogs method to SummaryStatistics and made SumOfLogs
         instance used by GeometricMean configurable.
+      </action>
+      <action dev="psteitz" type="fix" issue="MATH-184" due-to="Yegor Bryukhov">
+        Fixed AbstractIntegerDistribution cumulativeProbablility(-,-)
+        to correctly handle double arguments.
+      </action>
+      <action dev="psteitz" type="update" issue="MATH-188" due-to="Sebastian Bazley">
+        Made numerator and denominator final in Fraction and
+        deprecated protected real and imaginary parts fields in Complex,
+        making Fraction immutable and preparing Complex to become fully
+        immutable in 2.0.
       </action>
     </release>
     <release version="1.1" date="2005-12-17"  

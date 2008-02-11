@@ -24,13 +24,12 @@ package org.apache.commons.math.ode;
  * equations should implement this interface. The problems which can
  * be handled should implement the {@link
  * FirstOrderDifferentialEquations} interface.</p>
-
+ *
  * @see FirstOrderDifferentialEquations
  * @see StepHandler
  * @see SwitchingFunction
-
  * @version $Revision$ $Date$
-
+ * @since 1.2
  */
 
 public interface FirstOrderIntegrator {

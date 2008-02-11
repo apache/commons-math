@@ -23,6 +23,7 @@ import org.apache.commons.math.MathException;
  * This exception is made available to users to report
  * the error conditions that are triggered during integration
  * @version $Revision$ $Date$
+ * @since 1.2
  */
 public class IntegratorException
   extends MathException {

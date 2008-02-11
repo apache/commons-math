@@ -17,13 +17,16 @@
 
 package org.apache.commons.math.optimization;
 
-/** This interface represents a cost function to be minimized.
+/** 
+ * This interface represents a cost function to be minimized.
  * @version $Revision$ $Date$
+ * @since 1.2
  */
 public interface CostFunction {
 
 
-  /** Compute the cost associated to the given parameters array.
+  /** 
+   * Compute the cost associated to the given parameters array.
    * @param x parameters array
    * @return cost associated to the parameters array
    * @exception CostException if no cost can be computed for the parameters

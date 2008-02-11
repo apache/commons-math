@@ -20,14 +20,14 @@ package org.apache.commons.math.geometry;
 /**
  * This class is a utility representing a rotation order specification
  * for Cardan or Euler angles specification.
-
+ *
  * This class cannot be instanciated by the user. He can only use one
  * of the twelve predefined supported orders as an argument to either
  * the {@link Rotation#Rotation(RotationOrder,double,double,double)}
  * constructor or the {@link Rotation#getAngles} method.
-
+ *
  * @version $Revision$ $Date$
-
+ * @since 1.2
  */
 public final class RotationOrder {
 

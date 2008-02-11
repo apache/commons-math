@@ -21,7 +21,7 @@ package org.apache.commons.math.ode;
  * This class implements the classical fourth order Runge-Kutta
  * integrator for Ordinary Differential Equations (it is the most
  * often used Runge-Kutta method).
-
+ *
  * <p>This method is an explicit Runge-Kutta method, its Butcher-array
  * is the following one :
  * <pre>
@@ -33,14 +33,13 @@ package org.apache.commons.math.ode;
  *       | 1/6  1/3  1/3  1/6
  * </pre>
  * </p>
-
+ *
  * @see EulerIntegrator
  * @see GillIntegrator
  * @see MidpointIntegrator
  * @see ThreeEighthesIntegrator
-
  * @version $Revision$ $Date$
-
+ * @since 1.2
  */
 
 public class ClassicalRungeKuttaIntegrator

@@ -25,7 +25,7 @@ import java.io.Serializable;
  * This class stores all information provided by an ODE integrator
  * during the integration process and build a continuous model of the
  * solution from this.
-
+ *
  * <p>This class act as a step handler from the integrator point of
  * view. It is called iteratively during the integration process and
  * stores a copy of all steps information in a sorted collection for
@@ -36,14 +36,14 @@ import java.io.Serializable;
  * integration to be over before attempting to call {@link
  * #setInterpolatedTime setInterpolatedTime} because some internal
  * variables are set only once the last step has been handled.</p>
-
+ *
  * <p>This is useful for example if the main loop of the user
  * application should remain independent from the integration process
  * or if one needs to mimic the behaviour of an analytical model
  * despite a numerical model is used (i.e. one needs the ability to
  * get the model value at any time or to navigate through the
  * data).</p>
-
+ *
  * <p>If problem modelization is done with several separate
  * integration phases for contiguous intervals, the same
  * ContinuousOutputModel can be used as step handler for all
@@ -57,7 +57,7 @@ import java.io.Serializable;
  * output model handles the steps of all integration phases, the user
  * do not need to bother when the maneuver begins or ends, he has all
  * the data available in a transparent manner.</p>
-
+ *
  * <p>An important feature of this class is that it implements the
  * <code>Serializable</code> interface. This means that the result of
  * an integration can be serialized and reused later (if stored into a
@@ -65,18 +65,17 @@ import java.io.Serializable;
  * sent to another application). Only the result of the integration is
  * stored, there is no reference to the integrated problem by
  * itself.</p>
-
+ *
  * <p>One should be aware that the amount of data stored in a
  * ContinuousOutputModel instance can be important if the state vector
  * is large, if the integration interval is long or if the steps are
  * small (which can result from small tolerance settings in {@link
  * AdaptiveStepsizeIntegrator adaptive step size integrators}).</p>
-
+ *
  * @see StepHandler
  * @see StepInterpolator
-
  * @version $Revision$ $Date$
-
+ * @since 1.2
  */
 
 public class ContinuousOutputModel

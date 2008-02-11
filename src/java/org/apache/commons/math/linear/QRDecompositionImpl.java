@@ -23,13 +23,13 @@ package org.apache.commons.math.linear;
  * orthogonal (Q<sup>T</sup>Q = I), and R is upper triangular. If A is
  * m&times;n, Q is m&times;m and R m&times;n. 
  * <p>
- * Implemented using Householder reflectors.
- *
+ * Implemented using Householder reflectors.</p>
  *
  * @see <a href="http://mathworld.wolfram.com/QRDecomposition.html">MathWorld</a>
  * @see <a href="http://en.wikipedia.org/wiki/QR_decomposition">Wikipedia</a>
  * 
  * @version $Revision$ $Date$
+ * @since 1.2
  */
 public class QRDecompositionImpl implements QRDecomposition {
 

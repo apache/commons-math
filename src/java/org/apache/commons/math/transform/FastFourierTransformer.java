@@ -38,6 +38,7 @@ import org.apache.commons.math.MathException;
  * 32 (1978), 175 - 199.</p>
  *
  * @version $Revision$ $Date$
+ * @since 1.2
  */
 public class FastFourierTransformer implements Serializable {
 

@@ -22,6 +22,7 @@ import java.io.Serializable;
  * Provide a default implementation for several generic functions.
  *  
  * @version $Revision$ $Date$
+ * @since 1.2
  */
 public abstract class UnivariateRealIntegratorImpl implements
     UnivariateRealIntegrator, Serializable {

@@ -27,9 +27,8 @@ import java.util.Iterator;
  * functions} during integration.
  *
  * @see SwitchingFunction
- *
  * @version $Revision$ $Date$
- *
+ * @since 1.2
  */
 
 public class SwitchingFunctionsHandler {

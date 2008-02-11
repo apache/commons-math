@@ -37,7 +37,7 @@ import org.apache.commons.math.analysis.UnivariateRealSolver;
  * occurs at a bound rather than inside the step).</p>
  *
  * @version $Revision$ $Date$
- *
+ * @since 1.2
  */
 class SwitchState implements Serializable {
 

@@ -17,10 +17,12 @@
 
 package org.apache.commons.math.optimization;
 
-/** This class implements the Nelder-Mead direct search method.
-
+/** 
+ * This class implements the Nelder-Mead direct search method.
+ *
  * @version $Revision$ $Date$
  * @see MultiDirectional
+ * @since 1.2
  */
 public class NelderMead
   extends DirectSearchOptimizer {

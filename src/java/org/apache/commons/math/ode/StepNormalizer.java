@@ -25,7 +25,7 @@ package org.apache.commons.math.ode;
  * integrators which cannot guaranty their integration steps will
  * remain constant and therefore only accept general step
  * handlers.</p>
-
+ *
  * <p>The stepsize used is selected at construction time. The {@link
  * FixedStepHandler#handleStep handleStep} method of the underlying
  * {@link FixedStepHandler} object is called at the beginning time of
@@ -34,16 +34,15 @@ package org.apache.commons.math.ode;
  * last point handled will be the endpoint of the integration tend, if
  * not, the last point will belong to the interval [tend - h ;
  * tend].</p>
-
+ *
  * <p>There is no constraint on the integrator, it can use any
  * timestep it needs (time steps longer or shorter than the fixed time
  * step and non-integer ratios are all allowed).</p>
-
+ *
  * @see StepHandler
  * @see FixedStepHandler
-
  * @version $Revision$ $Date$
-
+ * @since 1.2
  */
 
 public class StepNormalizer

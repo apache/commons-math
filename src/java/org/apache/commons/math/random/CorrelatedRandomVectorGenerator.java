@@ -53,9 +53,9 @@ import org.apache.commons.math.linear.RealMatrixImpl;
  * uncorrelated random vector that is needed to compute the component
  * of the correlated vector. This class handles this situation
  * automatically.</p>
-
- * @version $Revision:$ $Date$
-
+ *
+ * @version $Revision$ $Date$
+ * @since 1.2
  */
 
 public class CorrelatedRandomVectorGenerator

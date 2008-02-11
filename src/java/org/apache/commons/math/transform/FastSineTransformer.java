@@ -35,6 +35,7 @@ import org.apache.commons.math.MathException;
  * transformation after sampling.</p>
  *
  * @version $Revision$ $Date$
+ * @since 1.2
  */
 public class FastSineTransformer implements Serializable {
 

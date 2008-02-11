@@ -24,6 +24,7 @@ import org.apache.commons.math.ConvergenceException;
  * in the allowed number of iterations.
  *
  * @version $Revision$ $Date$
+ * @since 1.2
  */
 public class FractionConversionException extends ConvergenceException {
 

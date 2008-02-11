@@ -31,6 +31,7 @@ import org.apache.commons.math.FunctionEvaluationException;
  * to work well. Otherwise, consider using splines instead.</p>
  *
  * @version $Revision$ $Date$
+ * @since 1.2
  */
 public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction,
     Serializable {

@@ -31,6 +31,7 @@ import org.apache.commons.math.linear.RealMatrixImpl;
  * Gauss-Newton algorithm.</p>
  *
  * @version $Revision$ $Date$
+ * @since 1.2
  *
  */
 

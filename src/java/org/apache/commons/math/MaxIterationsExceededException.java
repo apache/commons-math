@@ -24,6 +24,7 @@ import org.apache.commons.math.ConvergenceException;
  * number of iterations.
  *
  * @version $Revision$ $Date$
+ * @since 1.2
  */
 public class MaxIterationsExceededException extends ConvergenceException {
 

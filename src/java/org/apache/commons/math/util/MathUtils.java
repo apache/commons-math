@@ -286,6 +286,7 @@ public final class MathUtils {
      * @param y second array
      * @return true if the values are both null or have same dimension
      * and equal elements
+     * @since 1.2
      */
     public static boolean equals(double[] x, double[] y) {
         if ((x == null) || (y == null)) {
@@ -464,6 +465,7 @@ public final class MathUtils {
      * 
      * @param value the value to be hashed (may be null)
      * @return the hash code
+     * @since 1.2
      */
     public static int hash(double[] value) {
         if (value == null) {
@@ -574,6 +576,7 @@ public final class MathUtils {
      * @param base the base of the logarithm, must be greater than 0
      * @param x argument, must be greater than 0
      * @return the value of the logarithm - the number y such that base^y = x.
+     * @since 1.2
      */ 
     public static double log(double base, double x) {
         return Math.log(x)/Math.log(base);
@@ -667,6 +670,7 @@ public final class MathUtils {
      * @param direction (the only important thing is whether
      * direction is greater or smaller than d)
      * @return the next machine representable number in the specified direction
+     * @since 1.2
      */
     public static double nextAfter(double d, double direction) {
 
@@ -725,6 +729,7 @@ public final class MathUtils {
      * @param a angle to normalize
      * @param center center of the desired 2&pi; interval for the result
      * @return a-2k&pi; with integer k and center-&pi; &lt;= a-2k&pi; &lt;= center+&pi;
+     * @since 1.2
      */
      public static double normalizeAngle(double a, double center) {
          return a - TWO_PI * Math.floor((a + Math.PI - center) / TWO_PI);

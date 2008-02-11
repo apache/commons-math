@@ -29,12 +29,11 @@ package org.apache.commons.math.ode;
  * {@link StepNormalizer} object is called according to the integrator
  * internal algorithms and it calls objects implementing this
  * interface as necessary at fixed time steps.</p>
-
+ *
  * @see StepHandler
  * @see StepNormalizer
-
  * @version $Revision$ $Date$
-
+ * @since 1.2
  */
 
 public interface FixedStepHandler {

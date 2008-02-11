@@ -31,6 +31,7 @@ import org.apache.commons.math.complex.Complex;
  * approximation and be able to solve all roots from that point.</p>
  *
  * @version $Revision$ $Date$
+ * @since 1.2
  */
 public class LaguerreSolver extends UnivariateRealSolverImpl {
 

@@ -20,15 +20,15 @@ package org.apache.commons.math.ode;
 /**
  * This class implements the 5(4) Higham and Hall integrator for
  * Ordinary Differential Equations.
-
+ *
  * <p>This integrator is an embedded Runge-Kutta integrator
  * of order 5(4) used in local extrapolation mode (i.e. the solution
  * is computed using the high order formula) with stepsize control
  * (and automatic step initialization) and continuous output. This
  * method uses 7 functions evaluations per step.</p>
-
+ *
  * @version $Revision$ $Date$
-
+ * @since 1.2
  */
 
 public class HighamHall54Integrator

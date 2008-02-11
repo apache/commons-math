@@ -19,18 +19,22 @@ package org.apache.commons.math;
 
 import java.util.ListResourceBundle;
 
-/** French localization message resources for the commons-math library.
+/** 
+ * French localization message resources for the commons-math library.
  * @version $Revision$ $Date$
+ * @since 1.2
  */
 public class MessagesResources_fr
   extends ListResourceBundle {
 
-  /** Simple constructor.
+  /** 
+   * Simple constructor.
    */
   public MessagesResources_fr() {
   }
 
-  /** Get the non-translated/translated messages arrays from this resource bundle.
+  /** 
+   * Get the non-translated/translated messages arrays from this resource bundle.
    * @return non-translated/translated messages arrays
    */
   public Object[][] getContents() {

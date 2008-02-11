@@ -27,7 +27,7 @@ import java.math.BigDecimal;
 public class MatrixUtils {
 
     /**
-     * Default constructor.  Package scope to prevent unwanted instantiation. 
+     * Default constructor.
      */
     public MatrixUtils() {
         super();

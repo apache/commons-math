@@ -108,7 +108,26 @@ UPDATES
           <x:set var="item" select="."/><jsl:applyTemplates select="$action"/>
         </j:forEach>
       </j:if>
-    </j:if>
+<j:whitespace trim="false">
+DEPRECATIONS SUMMARY
+
+* The abstract factory pattern used to enable pluggable implementations in the
+  statistics, analysis and distributions packages has been deprecated and
+  replaced by setter injection.  
+  
+* Non-localized exception messages and associated constructors have been
+  deprecated and replaced by localized versions.
+  
+* Most methods from the ComplexUtils class have been deprecated, with
+  implementations moved to the Complex class.
+  
+See "clirr-report.html" included in the binary distribution for a detailed list
+of API changes. The "errors" reported at the top of the report are due to
+protected fields being moved to superclasses.  These fields are still available,
+so there is no backward compatibility issue.
+
+</j:whitespace>
+     </j:if>
   </jsl:template>
   
   <jsl:template match="action" trim="true">
@@ -140,7 +159,5 @@ UPDATES
   </jsl:template>
 
   <jsl:template match="@*"/>
-
   <jsl:template match="text()"/>
-
 </jsl:stylesheet>

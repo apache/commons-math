@@ -36,6 +36,7 @@ import java.util.Iterator;
  * various parameters and their current estimate.</p>
 
  * @version $Revision$ $Date$
+ * @since 1.2
 
  */
 public class SimpleEstimationProblem implements EstimationProblem {

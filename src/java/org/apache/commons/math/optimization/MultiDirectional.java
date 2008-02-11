@@ -17,10 +17,12 @@
 
 package org.apache.commons.math.optimization;
 
-/** This class implements the multi-directional direct search method.
-
+/** 
+ * This class implements the multi-directional direct search method.
+ *
  * @version $Revision$ $Date$
  * @see NelderMead
+ * @since 1.2
  */
 public class MultiDirectional
   extends DirectSearchOptimizer {

@@ -33,9 +33,10 @@ import org.apache.commons.math.random.UniformRandomGenerator;
 import org.apache.commons.math.stat.descriptive.moment.VectorialCovariance;
 import org.apache.commons.math.stat.descriptive.moment.VectorialMean;
 
-/** This class implements simplex-based direct search optimization
+/** 
+ * This class implements simplex-based direct search optimization
  * algorithms.
-
+ *
  * <p>Direct search methods only use cost function values, they don't
  * need derivatives and don't either try to compute approximation of
  * the derivatives. According to a 1996 paper by Margaret H. Wright
@@ -47,12 +48,12 @@ import org.apache.commons.math.stat.descriptive.moment.VectorialMean;
  * <em>not too bad</em> point is desired. In the latter cases, an
  * optimum is desired but cannot be reasonably found. In all cases
  * direct search methods can be useful.</p>
-
+ *
  * <p>Simplex-based direct search methods are based on comparison of
  * the cost function values at the vertices of a simplex (which is a
  * set of n+1 points in dimension n) that is updated by the algorithms
  * steps.</p>
-
+ *
  * <p>Minimization can be attempted either in single-start or in
  * multi-start mode. Multi-start is a traditional way to try to avoid
  * being trapped in a local minimum and miss the global minimum of a
@@ -63,16 +64,17 @@ import org.apache.commons.math.stat.descriptive.moment.VectorialMean;
  * minima from all starts (including the one already provided by the
  * {@link #minimizes(CostFunction, int, ConvergenceChecker, double[],
  * double[]) minimizes} method).</p>
-
+ *
  * <p>This class is the base class performing the boilerplate simplex
  * initialization and handling. The simplex update by itself is
  * performed by the derived classes according to the implemented
  * algorithms.</p>
-
- * @version $Revision$ $Date$
+ *
  * @see CostFunction
  * @see NelderMead
  * @see MultiDirectional
+ * @version $Revision$ $Date$
+ * @since 1.2
  */
 public abstract class DirectSearchOptimizer {
 

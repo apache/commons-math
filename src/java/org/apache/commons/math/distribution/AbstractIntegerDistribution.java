@@ -62,6 +62,34 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
     
     /**
      * For a random variable X whose values are distributed according
+     * to this distribution, this method returns P(x0 &le; X &le; x1).
+     * 
+     * @param x0 the (inclusive) lower bound
+     * @param x1 the (inclusive) upper bound
+     * @return the probability that a random variable with this distribution
+     * will take a value between <code>x0</code> and <code>x1</code>,
+     * including the endpoints.
+     * @throws MathException if the cumulative probability can not be
+     * computed due to convergence or other numerical errors.
+     * @throws IllegalArgumentException if <code>x0 > x1</code>
+     */
+    public double cumulativeProbability(double x0, double x1)
+        throws MathException {
+        if (x0 > x1) {
+            throw new IllegalArgumentException
+            ("lower endpoint must be less than or equal to upper endpoint");
+        }
+        if (Math.floor(x0) < x0) {
+            return cumulativeProbability(((int) Math.floor(x0)) + 1,
+               (int) Math.floor(x1)); // don't want to count mass below x0
+        } else { // x0 is mathematical integer, so use as is
+            return cumulativeProbability((int) Math.floor(x0),
+                (int) Math.floor(x1)); 
+        }
+    }
+    
+    /**
+     * For a random variable X whose values are distributed according
      * to this distribution, this method returns P(X &le; x).  In other words,
      * this method represents the probability distribution function, or PDF,
      * for this distribution.

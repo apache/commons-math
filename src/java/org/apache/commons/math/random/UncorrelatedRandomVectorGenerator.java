@@ -25,6 +25,7 @@ import java.util.Arrays;
  * distributions, with parameters supplied in the constructor.
  * 
  * @version $Revision$ $Date$
+ * @since 1.2
  */
 
 public class UncorrelatedRandomVectorGenerator

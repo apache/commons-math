@@ -24,7 +24,7 @@ package org.apache.commons.math.ode;
  * @see HighamHall54Integrator
  *
  * @version $Revision$ $Date$
- *
+ * @since 1.2
  */
 
 class HighamHall54StepInterpolator

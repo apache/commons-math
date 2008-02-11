@@ -19,10 +19,11 @@ package org.apache.commons.math.optimization;
 
 import org.apache.commons.math.MathException;
 
-/** This class represents exceptions thrown by cost functions.
-
+/** 
+ * This class represents exceptions thrown by cost functions.
+ *
  * @version $Revision$ $Date$
-
+ * @since 1.2
  */
 
 public class CostException

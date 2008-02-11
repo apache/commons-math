@@ -20,12 +20,12 @@ package org.apache.commons.math.ode;
 /**
  * This class implements a Gragg-Bulirsch-Stoer integrator for
  * Ordinary Differential Equations.
-
+ *
  * <p>The Gragg-Bulirsch-Stoer algorithm is one of the most efficient
  * ones currently available for smooth problems. It uses Richardson
  * extrapolation to estimate what would be the solution if the step
  * size could be decreased down to zero.</p>
-
+ *
  * <p>
  * This method changes both the step size and the order during
  * integration, in order to minimize computation cost. It is
@@ -41,7 +41,7 @@ package org.apache.commons.math.ode;
  * bodies (pleiades problem, involving quasi-collisions for which
  * <i>automatic step size control is essential</i>).
  * </p>
-
+ *
  * <p>
  * This implementation is basically a reimplementation in Java of the
  * <a
@@ -51,10 +51,10 @@ package org.apache.commons.math.ode;
  * href="http://www.unige.ch/~hairer/prog/licence.txt">here</a>, for
  * convenience, it is reproduced below.</p>
  * </p>
-
+ *
  * <table border="0" width="80%" cellpadding="10" align="center" bgcolor="#E0E0E0">
  * <tr><td>Copyright (c) 2004, Ernst Hairer</td></tr>
-
+ *
  * <tr><td>Redistribution and use in source and binary forms, with or
  * without modification, are permitted provided that the following
  * conditions are met:
@@ -65,7 +65,7 @@ package org.apache.commons.math.ode;
  *      notice, this list of conditions and the following disclaimer in the
  *      documentation and/or other materials provided with the distribution.</li>
  * </ul></td></tr>
-
+ *
  * <tr><td><strong>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
  * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING,
  * BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
@@ -78,10 +78,10 @@ package org.apache.commons.math.ode;
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</strong></td></tr>
  * </table>
-
+ *
  * @author E. Hairer and G. Wanner (fortran version)
  * @version $Revision$ $Date$
-
+ * @since 1.2
  */
 
 public class GraggBulirschStoerIntegrator
