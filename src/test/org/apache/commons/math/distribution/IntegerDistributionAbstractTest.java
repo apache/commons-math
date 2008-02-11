@@ -156,6 +156,7 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
         }           
     }
     
+    
     /**
      * Verifies that inverse cumulative probability density calculations match expected values
      * using current test instance data
@@ -184,6 +185,55 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
      */
     public void testCumulativeProbabilities() throws Exception {
         verifyCumulativeProbabilities();      
+    }
+    
+    /**
+     * Verifies that floating point arguments are correctly handled by
+     * cumulativeProbablility(-,-)
+     * JIRA: MATH-184
+     */
+    public void testFloatingPointArguments() throws Exception {
+        for (int i = 0; i < cumulativeTestPoints.length; i++) {
+            double arg = (double) cumulativeTestPoints[i];
+            assertEquals(
+                    "Incorrect cumulative probability value returned for " +
+                    cumulativeTestPoints[i],
+                    cumulativeTestValues[i], 
+                    distribution.cumulativeProbability(arg), tolerance);
+            if (i < cumulativeTestPoints.length - 1) {
+                double arg2 = (double) cumulativeTestPoints[i + 1];
+                assertEquals("Inconsistent probability for discrete range " +
+                        "[ " + arg + "," + arg2 + " ]",
+                   distribution.cumulativeProbability(
+                           cumulativeTestPoints[i],
+                           cumulativeTestPoints[i + 1]),
+                   distribution.cumulativeProbability(arg, arg2), tolerance);
+                arg = arg - Math.random();
+                arg2 = arg2 + Math.random();
+                assertEquals("Inconsistent probability for discrete range " +
+                        "[ " + arg + "," + arg2 + " ]",
+                   distribution.cumulativeProbability(
+                           cumulativeTestPoints[i],
+                           cumulativeTestPoints[i + 1]),
+                   distribution.cumulativeProbability(arg, arg2), tolerance);
+            }
+        } 
+        int one = 1;
+        int ten = 10;
+        int two = 2;
+        double oned = (double) one;
+        double twod = (double) two;
+        double tend = (double) ten;
+        assertEquals(distribution.cumulativeProbability(one, two), 
+                distribution.cumulativeProbability(oned, twod), tolerance);
+        assertEquals(distribution.cumulativeProbability(one, two), 
+                distribution.cumulativeProbability(oned - tolerance,
+                        twod + 0.9), tolerance);
+        assertEquals(distribution.cumulativeProbability(two, ten), 
+                distribution.cumulativeProbability(twod, tend), tolerance);
+        assertEquals(distribution.cumulativeProbability(two, ten), 
+                distribution.cumulativeProbability(twod - tolerance,
+                        tend + 0.9), tolerance);
     }
     
     /**
