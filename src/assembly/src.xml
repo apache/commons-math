@@ -39,6 +39,7 @@
         <include>RELEASE-NOTES*</include>
         <include>release-notes.jsl</include>
         <include>findbugs-exclude-filter.xml</include>
+        <include>license-header.txt</include>
       </includes>
     </fileSet>
     <fileSet>
