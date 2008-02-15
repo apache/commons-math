@@ -98,7 +98,7 @@ public class RotationTest
     Vector3D u = new Vector3D(3, 2, 1);
     Vector3D v = new Vector3D(-4, 2, 2);
     Rotation r = new Rotation(u, v);
-    checkVector(r.applyTo(u.multiply(v.getNorm())), v.multiply(u.getNorm()));
+    checkVector(r.applyTo(u.scalarMultiply(v.getNorm())), v.scalarMultiply(u.getNorm()));
 
     checkAngle(new Rotation(u, u.negate()).getAngle(), Math.PI);
 

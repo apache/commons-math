@@ -84,10 +84,10 @@ public class Vector3DTest
 
   public void testScalarProduct() {
     Vector3D v = new Vector3D(1, 2, 3);
-    v = v.multiply(3);
+    v = v.scalarMultiply(3);
     checkVector(v, 3, 6, 9);
 
-    checkVector(v.multiply(0.5), 1.5, 3, 4.5);
+    checkVector(v.scalarMultiply(0.5), 1.5, 3, 4.5);
 
   }
 
@@ -125,7 +125,7 @@ public class Vector3DTest
 
     Vector3D  k = v1.normalize();
     Vector3D  i = k.orthogonal();
-    Vector3D v2 = k.multiply(Math.cos(1.2)).add(i.multiply(Math.sin(1.2)));
+    Vector3D v2 = k.scalarMultiply(Math.cos(1.2)).add(i.scalarMultiply(Math.sin(1.2)));
 
     assertTrue(Math.abs(Vector3D.angle(v1, v2) - 1.2) < 1.0e-12);
 

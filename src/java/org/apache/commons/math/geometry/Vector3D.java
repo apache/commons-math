@@ -232,16 +232,16 @@ public class Vector3D
     return new Vector3D(x - factor * v.x, y - factor * v.y, z - factor * v.z);
   }
 
-  /** Normalize the instance.
+  /** Get a normalized vector aligned with the instance.
    * @return a new normalized vector
-   * @exception ArithmeticException if the norm is null
+   * @exception ArithmeticException if the norm is zero
    */
   public Vector3D normalize() {
     double s = getNorm();
     if (s == 0) {
-      throw new ArithmeticException("null norm");
+      throw new ArithmeticException("cannot normalize a zero norm vector");
     }
-    return multiply(1 / s);
+    return scalarMultiply(1 / s);
   }
 
   /** Get a vector orthogonal to the instance.
@@ -323,7 +323,7 @@ public class Vector3D
    * @param a scalar
    * @return a new vector
    */
-  public Vector3D multiply(double a) {
+  public Vector3D scalarMultiply(double a) {
     return new Vector3D(a * x, a * y, a * z);
   }
 
@@ -357,6 +357,7 @@ public class Vector3D
   private final double z;
 
   /** Serializable version identifier */
-  private static final long serialVersionUID = 7318440192750283659L;
+  private static final long serialVersionUID = -5721105387745193385L;
+
 
 }
