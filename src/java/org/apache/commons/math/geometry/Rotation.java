@@ -196,7 +196,7 @@ public class Rotation implements Serializable {
         (m[1].length != 3) || (m[2].length != 3)) {
       throw new NotARotationMatrixException("a {0}x{1} matrix" +
                                             " cannot be a rotation matrix",
-                                            new String[] {
+                                            new Object[] {
                                               Integer.toString(m.length),
                                               Integer.toString(m[0].length)
                                             });
@@ -212,7 +212,7 @@ public class Rotation implements Serializable {
     if (det < 0.0) {
       throw new NotARotationMatrixException("the closest orthogonal matrix" +
                                             " has a negative determinant {0}",
-                                            new String[] {
+                                            new Object[] {
                                               Double.toString(det)
                                             });
     }
@@ -1012,7 +1012,7 @@ public class Rotation implements Serializable {
     // the algorithm did not converge after 10 iterations
     throw new NotARotationMatrixException("unable to orthogonalize matrix" +
                                           " in {0} iterations",
-                                          new String[] {
+                                          new Object[] {
                                             Integer.toString(i - 1)
                                           });
   }
