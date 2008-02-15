@@ -44,7 +44,7 @@ public abstract class AbstractEstimator implements Estimator {
      * @param maxCostEval maximal number of cost evaluations allowed
      * @see #estimate
      */
-    public void setMaxCostEval(int maxCostEval) {
+    public final void setMaxCostEval(int maxCostEval) {
         this.maxCostEval = maxCostEval;
     }
 
@@ -53,7 +53,7 @@ public abstract class AbstractEstimator implements Estimator {
      * 
      * @return number of cost evaluations
      * */
-    public int getCostEvaluations() {
+    public final int getCostEvaluations() {
         return costEvaluations;
     }
 
@@ -62,7 +62,7 @@ public abstract class AbstractEstimator implements Estimator {
      * 
      * @return number of jacobian evaluations
      * */
-    public int getJacobianEvaluations() {
+    public final int getJacobianEvaluations() {
         return jacobianEvaluations;
     }
 
@@ -70,7 +70,7 @@ public abstract class AbstractEstimator implements Estimator {
      * Update the jacobian matrix.
      */
     protected void updateJacobian() {
-        ++jacobianEvaluations;
+        incrementJacobianEvaluationsCounter();
         Arrays.fill(jacobian, 0);
         for (int i = 0, index = 0; i < rows; i++) {
             WeightedMeasurement wm = measurements[i];
@@ -79,6 +79,13 @@ public abstract class AbstractEstimator implements Estimator {
                 jacobian[index++] = factor * wm.getPartial(parameters[j]);
             }
         }
+    }
+
+    /**
+     * Increment the jacobian evaluations counter.
+     */
+    protected final void incrementJacobianEvaluationsCounter() {
+      ++jacobianEvaluations;
     }
 
     /** 
@@ -283,12 +290,12 @@ public abstract class AbstractEstimator implements Estimator {
     protected double cost;
 
     /** Maximal allowed number of cost evaluations. */
-    protected int maxCostEval;
+    private int maxCostEval;
 
     /** Number of cost evaluations. */
-    protected int costEvaluations;
+    private int costEvaluations;
 
     /** Number of jacobian evaluations. */
-    protected int jacobianEvaluations;
+    private int jacobianEvaluations;
 
 }

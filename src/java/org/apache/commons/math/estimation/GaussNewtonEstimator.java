@@ -116,7 +116,7 @@ public class GaussNewtonEstimator extends AbstractEstimator implements Serializa
         do {
 
             // build the linear problem
-            ++jacobianEvaluations;
+            incrementJacobianEvaluationsCounter();
             RealMatrix b = new RealMatrixImpl(parameters.length, 1);
             RealMatrix a = new RealMatrixImpl(parameters.length, parameters.length);
             for (int i = 0; i < measurements.length; ++i) {
