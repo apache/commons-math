@@ -105,7 +105,8 @@ public class RotationTest
     try {
         new Rotation(u, new Vector3D());
         fail("an exception should have been thrown");
-      } catch (ArithmeticException e) {
+      } catch (IllegalArgumentException e) {
+        // expected behavior
       } catch (Exception e) {
         fail("unexpected exception");
     }
@@ -145,8 +146,9 @@ public class RotationTest
     try {
         new Rotation(u1, u2, new Vector3D(), v2);
         fail("an exception should have been thrown");
-      } catch (ArithmeticException e) {
-      } catch (Exception e) {
+    } catch (IllegalArgumentException e) {
+      // expected behavior
+    } catch (Exception e) {
         fail("unexpected exception");
     }
 

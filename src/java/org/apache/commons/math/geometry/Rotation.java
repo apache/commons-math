@@ -139,13 +139,13 @@ public class Rotation implements Serializable {
    * +j.</p>
    * @param axis axis around which to rotate
    * @param angle rotation angle.
-   * @exception ArithmeticException if the axis norm is null
+   * @exception ArithmeticException if the axis norm is zero
    */
   public Rotation(Vector3D axis, double angle) {
 
     double norm = axis.getNorm();
     if (norm == 0) {
-      throw new ArithmeticException("null norm");
+      throw new ArithmeticException("zero norm for rotation axis");
     }
 
     double halfAngle = -0.5 * angle;
@@ -221,7 +221,7 @@ public class Rotation implements Serializable {
     // from the matrix. They all involve computing one element from
     // the diagonal of the matrix, and computing the three other ones
     // using a formula involving a division by the first element,
-    // which unfortunately can be null. Since the norm of the
+    // which unfortunately can be zero. Since the norm of the
     // quaternion is 1, we know at least one element has an absolute
     // value greater or equal to 0.5, so it is always possible to
     // select the right formula and avoid division by zero and even
@@ -284,6 +284,7 @@ public class Rotation implements Serializable {
    * @param u2 second vector of the origin pair
    * @param v1 desired image of u1 by the rotation
    * @param v2 desired image of u2 by the rotation
+   * @exception IllegalArgumentException if the norm of one of the vectors is zero
    */
   public Rotation(Vector3D u1, Vector3D u2, Vector3D v1, Vector3D v2) {
 
@@ -293,7 +294,7 @@ public class Rotation implements Serializable {
   double v1v1 = Vector3D.dotProduct(v1, v1);
   double v2v2 = Vector3D.dotProduct(v2, v2);
   if ((u1u1 == 0) || (u2u2 == 0) || (v1v1 == 0) || (v2v2 == 0)) {
-    throw new ArithmeticException("null norm");
+    throw new IllegalArgumentException("zero norm for rotation defining vector");
   }
 
   double u1x = u1.getX();
@@ -418,13 +419,13 @@ public class Rotation implements Serializable {
 
    * @param u origin vector
    * @param v desired image of u by the rotation
-   * @exception ArithmeticException if the norm of one of the vectors is null
+   * @exception IllegalArgumentException if the norm of one of the vectors is zero
    */
   public Rotation(Vector3D u, Vector3D v) {
 
     double normProduct = u.getNorm() * v.getNorm();
     if (normProduct == 0) {
-      throw new ArithmeticException("null norm");
+      throw new IllegalArgumentException("zero norm for rotation defining vector");
     }
 
     double dot = Vector3D.dotProduct(u, v);
@@ -1029,6 +1030,6 @@ public class Rotation implements Serializable {
   private final double q3;
 
   /** Serializable version identifier */
-  private static final long serialVersionUID = 5127795878493115119L;
+  private static final long serialVersionUID = 8225864499430109352L;
 
 }
