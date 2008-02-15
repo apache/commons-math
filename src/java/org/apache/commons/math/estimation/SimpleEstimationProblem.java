@@ -19,6 +19,7 @@ package org.apache.commons.math.estimation;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Simple implementation of the {@link EstimationProblem
@@ -64,7 +65,7 @@ public class SimpleEstimationProblem implements EstimationProblem {
     public EstimatedParameter[] getUnboundParameters() {
 
         // filter the unbound parameters
-        ArrayList unbound = new ArrayList(parameters.size());
+        List unbound = new ArrayList(parameters.size());
         for (Iterator iterator = parameters.iterator(); iterator.hasNext();) {
             EstimatedParameter p = (EstimatedParameter) iterator.next();
             if (! p.isBound()) {
@@ -101,9 +102,9 @@ public class SimpleEstimationProblem implements EstimationProblem {
     }
 
     /** Estimated parameters. */
-    private ArrayList parameters;
+    private final List parameters;
 
     /** Measurements. */
-    private ArrayList measurements;
+    private final List measurements;
 
 }
