@@ -53,8 +53,8 @@ public class NelderMeadTest
             }
       };
       try {
-          new NelderMead(0.9, 1.9, 0.4, 0.6).minimizes(wrong, 10, new ValueChecker(1.0e-3),
-                                                       new double[] { -0.5 }, new double[] { 0.5 });
+          new NelderMead(0.9, 1.9, 0.4, 0.6).minimize(wrong, 10, new ValueChecker(1.0e-3),
+                                                      new double[] { -0.5 }, new double[] { 0.5 });
           fail("an exception should have been thrown");
       } catch (CostException ce) {
           // expected behavior
@@ -63,8 +63,8 @@ public class NelderMeadTest
           fail("wrong exception caught: " + e.getMessage());
       } 
       try {
-          new NelderMead(0.9, 1.9, 0.4, 0.6).minimizes(wrong, 10, new ValueChecker(1.0e-3),
-                                                       new double[] { 0.5 }, new double[] { 1.5 });
+          new NelderMead(0.9, 1.9, 0.4, 0.6).minimize(wrong, 10, new ValueChecker(1.0e-3),
+                                                      new double[] { 0.5 }, new double[] { 1.5 });
           fail("an exception should have been thrown");
       } catch (CostException ce) {
           // expected behavior
@@ -90,10 +90,10 @@ public class NelderMeadTest
     count = 0;
     NelderMead nm = new NelderMead();
     try {
-      nm.minimizes(rosenbrock, 100, new ValueChecker(1.0e-3),
-                   new double[][] {
-                     { -1.2, 1.0 }, { 3.5, -2.3 }, { 0.4, 1.5 }
-                   }, 1, 5384353l);
+      nm.minimize(rosenbrock, 100, new ValueChecker(1.0e-3),
+                  new double[][] {
+                    { -1.2, 1.0 }, { 3.5, -2.3 }, { 0.4, 1.5 }
+                  }, 1, 5384353l);
       fail("an exception should have been thrown");
     } catch (ConvergenceException ce) {
         // expected behavior
@@ -103,10 +103,10 @@ public class NelderMeadTest
 
     count = 0;
     PointCostPair optimum =
-        nm.minimizes(rosenbrock, 100, new ValueChecker(1.0e-3),
-                     new double[][] {
-                       { -1.2, 1.0 }, { 0.9, 1.2 }, { 3.5, -2.3 }
-                     }, 10, 1642738l);
+        nm.minimize(rosenbrock, 100, new ValueChecker(1.0e-3),
+                    new double[][] {
+                      { -1.2, 1.0 }, { 0.9, 1.2 }, { 3.5, -2.3 }
+                    }, 10, 1642738l);
 
     assertTrue(count > 700);
     assertTrue(count < 800);
@@ -137,10 +137,10 @@ public class NelderMeadTest
                                               new double[] { 0.2, 0.2 },
                                               new UniformRandomGenerator(rg));
     optimum =
-        nm.minimizes(rosenbrock, 100, new ValueChecker(1.0e-3), rvg);
+        nm.minimize(rosenbrock, 100, new ValueChecker(1.0e-3), rvg);
     assertEquals(0.0, optimum.getCost(), 2.0e-4);
     optimum =
-        nm.minimizes(rosenbrock, 100, new ValueChecker(1.0e-3), rvg, 3);
+        nm.minimize(rosenbrock, 100, new ValueChecker(1.0e-3), rvg, 3);
     assertEquals(0.0, optimum.getCost(), 3.0e-5);
 
   }
@@ -163,10 +163,10 @@ public class NelderMeadTest
     count = 0;
     NelderMead nm = new NelderMead();
     PointCostPair optimum =
-      nm.minimizes(powell, 200, new ValueChecker(1.0e-3),
-                   new double[] {  3.0, -1.0, 0.0, 1.0 },
-                   new double[] {  4.0,  0.0, 1.0, 2.0 },
-                   1, 1642738l);
+      nm.minimize(powell, 200, new ValueChecker(1.0e-3),
+                  new double[] {  3.0, -1.0, 0.0, 1.0 },
+                  new double[] {  4.0,  0.0, 1.0, 2.0 },
+                  1, 1642738l);
     assertTrue(count < 150);
     assertEquals(0.0, optimum.getCost(), 6.0e-4);
     assertEquals(0.0, optimum.getPoint()[0], 0.07);

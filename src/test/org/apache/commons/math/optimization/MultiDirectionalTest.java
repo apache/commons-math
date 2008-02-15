@@ -47,8 +47,8 @@ public class MultiDirectionalTest
             }
       };
       try {
-          new MultiDirectional(1.9, 0.4).minimizes(wrong, 10, new ValueChecker(1.0e-3),
-                                           new double[] { -0.5 }, new double[] { 0.5 });
+          new MultiDirectional(1.9, 0.4).minimize(wrong, 10, new ValueChecker(1.0e-3),
+                                                  new double[] { -0.5 }, new double[] { 0.5 });
           fail("an exception should have been thrown");
       } catch (CostException ce) {
           // expected behavior
@@ -57,8 +57,8 @@ public class MultiDirectionalTest
           fail("wrong exception caught: " + e.getMessage());
       } 
       try {
-          new MultiDirectional(1.9, 0.4).minimizes(wrong, 10, new ValueChecker(1.0e-3),
-                                           new double[] { 0.5 }, new double[] { 1.5 });
+          new MultiDirectional(1.9, 0.4).minimize(wrong, 10, new ValueChecker(1.0e-3),
+                                                  new double[] { 0.5 }, new double[] { 1.5 });
           fail("an exception should have been thrown");
       } catch (CostException ce) {
           // expected behavior
@@ -83,10 +83,10 @@ public class MultiDirectionalTest
 
     count = 0;
     PointCostPair optimum =
-      new MultiDirectional().minimizes(rosenbrock, 100, new ValueChecker(1.0e-3),
-                                       new double[][] {
-                                         { -1.2,  1.0 }, { 0.9, 1.2 } , {  3.5, -2.3 }
-                                       });
+      new MultiDirectional().minimize(rosenbrock, 100, new ValueChecker(1.0e-3),
+                                      new double[][] {
+                                        { -1.2,  1.0 }, { 0.9, 1.2 } , {  3.5, -2.3 }
+                                      });
 
     assertTrue(count > 60);
     assertTrue(optimum.getCost() > 0.01);
@@ -110,9 +110,9 @@ public class MultiDirectionalTest
 
     count = 0;
     PointCostPair optimum =
-      new MultiDirectional().minimizes(powell, 1000, new ValueChecker(1.0e-3),
-                                       new double[] {  3.0, -1.0, 0.0, 1.0 },
-                                       new double[] {  4.0,  0.0, 1.0, 2.0 });
+      new MultiDirectional().minimize(powell, 1000, new ValueChecker(1.0e-3),
+                                      new double[] {  3.0, -1.0, 0.0, 1.0 },
+                                      new double[] {  4.0,  0.0, 1.0, 2.0 });
     assertTrue(count > 850);
     assertTrue(optimum.getCost() > 0.015);
 

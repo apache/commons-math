@@ -58,12 +58,12 @@ import org.apache.commons.math.stat.descriptive.moment.VectorialMean;
  * multi-start mode. Multi-start is a traditional way to try to avoid
  * being trapped in a local minimum and miss the global minimum of a
  * function. It can also be used to verify the convergence of an
- * algorithm. The various multi-start-enabled <code>minimizes</code>
+ * algorithm. The various multi-start-enabled <code>minimize</code>
  * methods return the best minimum found after all starts, and the
  * {@link #getMinima getMinima} method can be used to retrieve all
  * minima from all starts (including the one already provided by the
- * {@link #minimizes(CostFunction, int, ConvergenceChecker, double[],
- * double[]) minimizes} method).</p>
+ * {@link #minimize(CostFunction, int, ConvergenceChecker, double[],
+ * double[]) minimize} method).</p>
  *
  * <p>This class is the base class performing the boilerplate simplex
  * initialization and handling. The simplex update by itself is
@@ -107,9 +107,9 @@ public abstract class DirectSearchOptimizer {
      * @exception ConvergenceException if none of the starts did
      * converge (it is not thrown if at least one start did converge)
      */
-    public PointCostPair minimizes(CostFunction f, int maxEvaluations,
-                                   ConvergenceChecker checker,
-                                   double[] vertexA, double[] vertexB)
+    public PointCostPair minimize(CostFunction f, int maxEvaluations,
+                                  ConvergenceChecker checker,
+                                  double[] vertexA, double[] vertexB)
     throws CostException, ConvergenceException {
 
         // set up optimizer
@@ -117,7 +117,7 @@ public abstract class DirectSearchOptimizer {
         setSingleStart();
 
         // compute minimum
-        return minimizes(f, maxEvaluations, checker);
+        return minimize(f, maxEvaluations, checker);
 
     }
 
@@ -149,10 +149,10 @@ public abstract class DirectSearchOptimizer {
      * @exception ConvergenceException if none of the starts did
      * converge (it is not thrown if at least one start did converge)
      */
-    public PointCostPair minimizes(CostFunction f, int maxEvaluations,
-                                   ConvergenceChecker checker,
-                                   double[] vertexA, double[] vertexB,
-                                   int starts, long seed)
+    public PointCostPair minimize(CostFunction f, int maxEvaluations,
+                                  ConvergenceChecker checker,
+                                  double[] vertexA, double[] vertexB,
+                                  int starts, long seed)
     throws CostException, ConvergenceException {
 
         // set up the simplex traveling around the box
@@ -176,7 +176,7 @@ public abstract class DirectSearchOptimizer {
         setMultiStart(starts, rvg);
 
         // compute minimum
-        return minimizes(f, maxEvaluations, checker);
+        return minimize(f, maxEvaluations, checker);
 
     }
 
@@ -197,9 +197,9 @@ public abstract class DirectSearchOptimizer {
      * @exception ConvergenceException if none of the starts did
      * converge (it is not thrown if at least one start did converge)
      */
-    public PointCostPair minimizes(CostFunction f, int maxEvaluations,
-                                   ConvergenceChecker checker,
-                                   double[][] vertices)
+    public PointCostPair minimize(CostFunction f, int maxEvaluations,
+                                  ConvergenceChecker checker,
+                                  double[][] vertices)
     throws CostException, ConvergenceException {
 
         // set up optimizer
@@ -207,7 +207,7 @@ public abstract class DirectSearchOptimizer {
         setSingleStart();
 
         // compute minimum
-        return minimizes(f, maxEvaluations, checker);
+        return minimize(f, maxEvaluations, checker);
 
     }
 
@@ -234,10 +234,10 @@ public abstract class DirectSearchOptimizer {
      * @exception ConvergenceException if none of the starts did
      * converge (it is not thrown if at least one start did converge)
      */
-    public PointCostPair minimizes(CostFunction f, int maxEvaluations,
-                                   ConvergenceChecker checker,
-                                   double[][] vertices,
-                                   int starts, long seed)
+    public PointCostPair minimize(CostFunction f, int maxEvaluations,
+                                  ConvergenceChecker checker,
+                                  double[][] vertices,
+                                  int starts, long seed)
     throws NotPositiveDefiniteMatrixException,
     CostException, ConvergenceException {
 
@@ -265,7 +265,7 @@ public abstract class DirectSearchOptimizer {
             setMultiStart(starts, rvg);
 
             // compute minimum
-            return minimizes(f, maxEvaluations, checker);
+            return minimize(f, maxEvaluations, checker);
 
         } catch (DimensionMismatchException dme) {
             // this should not happen
@@ -291,9 +291,9 @@ public abstract class DirectSearchOptimizer {
      * @exception ConvergenceException if none of the starts did
      * converge (it is not thrown if at least one start did converge)
      */
-    public PointCostPair minimizes(CostFunction f, int maxEvaluations,
-                                   ConvergenceChecker checker,
-                                   RandomVectorGenerator generator)
+    public PointCostPair minimize(CostFunction f, int maxEvaluations,
+                                  ConvergenceChecker checker,
+                                  RandomVectorGenerator generator)
     throws CostException, ConvergenceException {
 
         // set up optimizer
@@ -301,7 +301,7 @@ public abstract class DirectSearchOptimizer {
         setSingleStart();
 
         // compute minimum
-        return minimizes(f, maxEvaluations, checker);
+        return minimize(f, maxEvaluations, checker);
 
     }
 
@@ -325,10 +325,10 @@ public abstract class DirectSearchOptimizer {
      * @exception ConvergenceException if none of the starts did
      * converge (it is not thrown if at least one start did converge)
      */
-    public PointCostPair minimizes(CostFunction f, int maxEvaluations,
-                                   ConvergenceChecker checker,
-                                   RandomVectorGenerator generator,
-                                   int starts)
+    public PointCostPair minimize(CostFunction f, int maxEvaluations,
+                                  ConvergenceChecker checker,
+                                  RandomVectorGenerator generator,
+                                  int starts)
     throws CostException, ConvergenceException {
 
         // set up optimizer
@@ -336,7 +336,7 @@ public abstract class DirectSearchOptimizer {
         setMultiStart(starts, generator);
 
         // compute minimum
-        return minimizes(f, maxEvaluations, checker);
+        return minimize(f, maxEvaluations, checker);
 
     }
 
@@ -426,27 +426,27 @@ public abstract class DirectSearchOptimizer {
     }
 
     /** Get all the minima found during the last call to {@link
-     * #minimizes(CostFunction, int, ConvergenceChecker, double[], double[])
-     * minimizes}.
+     * #minimize(CostFunction, int, ConvergenceChecker, double[], double[])
+     * minimize}.
      * <p>The optimizer stores all the minima found during a set of
      * restarts when multi-start mode is enabled. The {@link
-     * #minimizes(CostFunction, int, ConvergenceChecker, double[], double[])
-     * minimizes} method returns the best point only. This method
+     * #minimize(CostFunction, int, ConvergenceChecker, double[], double[])
+     * minimize} method returns the best point only. This method
      * returns all the points found at the end of each starts, including
-     * the best one already returned by the {@link #minimizes(CostFunction,
-     * int, ConvergenceChecker, double[], double[]) minimizes} method.
+     * the best one already returned by the {@link #minimize(CostFunction,
+     * int, ConvergenceChecker, double[], double[]) minimize} method.
      * The array as one element for each start as specified in the constructor
      * (it has one element only if optimizer has been set up for single-start).</p>
      * <p>The array containing the minima is ordered with the results
      * from the runs that did converge first, sorted from lowest to
      * highest minimum cost, and null elements corresponding to the runs
      * that did not converge (all elements will be null if the {@link
-     * #minimizes(CostFunction, int, ConvergenceChecker, double[], double[])
-     * minimizes} method did throw a {@link ConvergenceException
+     * #minimize(CostFunction, int, ConvergenceChecker, double[], double[])
+     * minimize} method did throw a {@link ConvergenceException
      * ConvergenceException}).</p>
      * @return array containing the minima, or null if {@link
-     * #minimizes(CostFunction, int, ConvergenceChecker, double[], double[])
-     * minimizes} has not been called
+     * #minimize(CostFunction, int, ConvergenceChecker, double[], double[])
+     * minimize} has not been called
      */
     public PointCostPair[] getMinima() {
         return (PointCostPair[]) minima.clone();
@@ -466,7 +466,7 @@ public abstract class DirectSearchOptimizer {
      * @exception ConvergenceException if none of the starts did
      * converge (it is not thrown if at least one start did converge)
      */
-    private PointCostPair minimizes(CostFunction f, int maxEvaluations,
+    private PointCostPair minimize(CostFunction f, int maxEvaluations,
                                     ConvergenceChecker checker)
     throws CostException, ConvergenceException {
 
