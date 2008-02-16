@@ -49,7 +49,7 @@ public class SynchronizedMultivariateSummaryStatistics
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#addValue(double[])
+     * @see org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics#addValue(double[])
      */
     public synchronized void addValue(double[] value)
       throws DimensionMismatchException {
@@ -57,119 +57,119 @@ public class SynchronizedMultivariateSummaryStatistics
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#getDimension()
+     * @see org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics#getDimension()
      */
     public synchronized int getDimension() {
         return super.getDimension();
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#getN()
+     * @see org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics#getN()
      */
     public synchronized long getN() {
         return super.getN();
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#getSum()
+     * @see org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics#getSum()
      */
     public synchronized double[] getSum() {
         return super.getSum();
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#getSummSq()
+     * @see org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics#getSumSq()
      */
     public synchronized double[] getSumSq() {
         return super.getSumSq();
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#getSumLog()
+     * @see org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics#getSumLog()
      */
     public synchronized double[] getSumLog() {
         return super.getSumLog();
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#getMean()
+     * @see org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics#getMean()
      */
     public synchronized double[] getMean() {
         return super.getMean();
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#getStandardDeviation()
+     * @see org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics#getStandardDeviation()
      */
     public synchronized double[] getStandardDeviation() {
         return super.getStandardDeviation();
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#getCovariance()
+     * @see org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics#getCovariance()
      */
     public synchronized RealMatrix getCovariance() {
         return super.getCovariance();
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#getMax()
+     * @see org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics#getMax()
      */
     public synchronized double[] getMax() {
         return super.getMax();
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#getMin()
+     * @see org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics#getMin()
      */
     public synchronized double[] getMin() {
         return super.getMin();
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#getGeometricMean()
+     * @see org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics#getGeometricMean()
      */
     public synchronized double[] getGeometricMean() {
         return super.getGeometricMean();
     }
     
     /**
-     * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#toString()
+     * @see org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics#toString()
      */
     public synchronized String toString() {
         return super.toString();
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#clear()
+     * @see org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics#clear()
      */
     public synchronized void clear() {
         super.clear();
     }
     
     /**
-     * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#equals()
+     * @see org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics#equals(Object)
      */
     public synchronized boolean equals(Object object) {
         return super.equals(object);
     }
     
     /**
-     * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#hashCode()
+     * @see org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics#hashCode()
      */
     public synchronized int hashCode() {
         return super.hashCode();
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#getSumImpl()
+     * @see org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics#getSumImpl()
      */
     public synchronized StorelessUnivariateStatistic[] getSumImpl() {
         return super.getSumImpl();
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#setSumImpl(StorelessUnivariateStatistic[])
+     * @see org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics#setSumImpl(StorelessUnivariateStatistic[])
      */
     public synchronized void setSumImpl(StorelessUnivariateStatistic[] sumImpl)
       throws DimensionMismatchException {
@@ -177,14 +177,14 @@ public class SynchronizedMultivariateSummaryStatistics
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#getSumsqImpl()
+     * @see org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics#getSumsqImpl()
      */
     public synchronized StorelessUnivariateStatistic[] getSumsqImpl() {
         return super.getSumsqImpl();
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#setSumsqImpl(StorelessUnivariateStatistic[])
+     * @see org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics#setSumsqImpl(StorelessUnivariateStatistic[])
      */
     public synchronized void setSumsqImpl(StorelessUnivariateStatistic[] sumsqImpl)
       throws DimensionMismatchException {
@@ -192,14 +192,14 @@ public class SynchronizedMultivariateSummaryStatistics
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#getMinImpl()
+     * @see org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics#getMinImpl()
      */
     public synchronized StorelessUnivariateStatistic[] getMinImpl() {
         return super.getMinImpl();
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#setMinImpl(StorelessUnivariateStatistic[])
+     * @see org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics#setMinImpl(StorelessUnivariateStatistic[])
      */
     public synchronized void setMinImpl(StorelessUnivariateStatistic[] minImpl)
       throws DimensionMismatchException {
@@ -207,14 +207,14 @@ public class SynchronizedMultivariateSummaryStatistics
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#getMaxImpl()
+     * @see org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics#getMaxImpl()
      */
     public synchronized StorelessUnivariateStatistic[] getMaxImpl() {
         return super.getMaxImpl();
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#setMaxImpl(StorelessUnivariateStatistic[])
+     * @see org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics#setMaxImpl(StorelessUnivariateStatistic[])
      */
     public synchronized void setMaxImpl(StorelessUnivariateStatistic[] maxImpl)
       throws DimensionMismatchException {
@@ -222,14 +222,14 @@ public class SynchronizedMultivariateSummaryStatistics
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#getSumLogImpl()
+     * @see org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics#getSumLogImpl()
      */
     public synchronized StorelessUnivariateStatistic[] getSumLogImpl() {
         return super.getSumLogImpl();
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#setSumLogImpl(StorelessUnivariateStatistic[])
+     * @see org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics#setSumLogImpl(StorelessUnivariateStatistic[])
      */
     public synchronized void setSumLogImpl(StorelessUnivariateStatistic[] sumLogImpl)
       throws DimensionMismatchException {
@@ -237,14 +237,14 @@ public class SynchronizedMultivariateSummaryStatistics
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#getGeoMeanImpl()
+     * @see org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics#getGeoMeanImpl()
      */
     public synchronized StorelessUnivariateStatistic[] getGeoMeanImpl() {
         return super.getGeoMeanImpl();
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#setGeoMeanImpl(StorelessUnivariateStatistic[])
+     * @see org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics#setGeoMeanImpl(StorelessUnivariateStatistic[])
      */
     public synchronized void setGeoMeanImpl(StorelessUnivariateStatistic[] geoMeanImpl)
       throws DimensionMismatchException {
@@ -252,14 +252,14 @@ public class SynchronizedMultivariateSummaryStatistics
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#getMeanImpl()
+     * @see org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics#getMeanImpl()
      */
     public synchronized StorelessUnivariateStatistic[] getMeanImpl() {
         return super.getMeanImpl();
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.MultivariateSummary#setMeanImpl(StorelessUnivariateStatistic[])
+     * @see org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics#setMeanImpl(StorelessUnivariateStatistic[])
      */
     public synchronized void setMeanImpl(StorelessUnivariateStatistic[] meanImpl)
       throws DimensionMismatchException {
