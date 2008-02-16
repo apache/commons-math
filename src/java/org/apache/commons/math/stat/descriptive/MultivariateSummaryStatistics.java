@@ -48,10 +48,10 @@ import org.apache.commons.math.util.MathUtils;
  * 
  * <p>To compute statistics for a stream of n-tuples, construct a
  * MultivariateStatistics instance with dimension n and then use 
- * {{@link #addValue(double[])} to add n-tuples. The <code>getXxx</code>
+ * {@link #addValue(double[])} to add n-tuples. The <code>getXxx</code>
  * methods where Xxx is a statistic return an array of <code>double</code>
- * values, where for <code>i = 0,...,n-1</code> the ith array element is the
- * value of the given statistic for data range consisting of the ith element of
+ * values, where for <code>i = 0,...,n-1</code> the i<sup>th</sup> array element is the
+ * value of the given statistic for data range consisting of the i<sup>th</sup> element of
  * each of the input n-tuples.  For example, if <code>addValue</code> is called
  * with actual parameters {0, 1, 2}, then {3, 4, 5} and finally {6, 7, 8},
  * <code>getSum</code> will return a three-element array with values
@@ -187,8 +187,8 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Returns an array whose ith entry is the sum of the
-     * ith entries of the arrays that have been added using 
+     * Returns an array whose i<sup>th</sup> entry is the sum of the
+     * i<sup>th</sup> entries of the arrays that have been added using 
      * {@link #addValue(double[])}
      * 
      * @return the array of component sums
@@ -198,8 +198,8 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Returns an array whose ith entry is the sum of squares of the
-     * ith entries of the arrays that have been added using 
+     * Returns an array whose i<sup>th</sup> entry is the sum of squares of the
+     * i<sup>th</sup> entries of the arrays that have been added using 
      * {@link #addValue(double[])}
      * 
      * @return the array of component sums of squares
@@ -209,8 +209,8 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Returns an array whose ith entry is the sum of logs of the
-     * ith entries of the arrays that have been added using 
+     * Returns an array whose i<sup>th</sup> entry is the sum of logs of the
+     * i<sup>th</sup> entries of the arrays that have been added using 
      * {@link #addValue(double[])}
      * 
      * @return the array of component log sums
@@ -220,8 +220,8 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Returns an array whose ith entry is the mean of the
-     * ith entries of the arrays that have been added using 
+     * Returns an array whose i<sup>th</sup> entry is the mean of the
+     * i<sup>th</sup> entries of the arrays that have been added using 
      * {@link #addValue(double[])}
      * 
      * @return the array of component means
@@ -231,8 +231,8 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Returns an array whose ith entry is the standard deviation of the
-     * ith entries of the arrays that have been added using 
+     * Returns an array whose i<sup>th</sup> entry is the standard deviation of the
+     * i<sup>th</sup> entries of the arrays that have been added using 
      * {@link #addValue(double[])}
      * 
      * @return the array of component standard deviations
@@ -262,8 +262,8 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Returns an array whose ith entry is the maximum of the
-     * ith entries of the arrays that have been added using 
+     * Returns an array whose i<sup>th</sup> entry is the maximum of the
+     * i<sup>th</sup> entries of the arrays that have been added using 
      * {@link #addValue(double[])}
      * 
      * @return the array of component maxima
@@ -273,8 +273,8 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Returns an array whose ith entry is the minimum of the
-     * ith entries of the arrays that have been added using 
+     * Returns an array whose i<sup>th</sup> entry is the minimum of the
+     * i<sup>th</sup> entries of the arrays that have been added using 
      * {@link #addValue(double[])}
      * 
      * @return the array of component minima
@@ -284,8 +284,8 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Returns an array whose ith entry is the geometric mean of the
-     * ith entries of the arrays that have been added using 
+     * Returns an array whose i<sup>th</sup> entry is the geometric mean of the
+     * i<sup>th</sup> entries of the arrays that have been added using 
      * {@link #addValue(double[])}
      * 
      * @return the array of component geometric means
