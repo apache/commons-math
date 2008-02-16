@@ -31,39 +31,39 @@ public interface StatisticalMultivariateSummary {
      */
     public int getDimension();
     /**
-     * Returns an array whose ith entry is the mean of the
-     * ith entries of the arrays that have been added using 
-     * {@link #addValue(double[])}
+     * Returns an array whose i<sup>th</sup> entry is the
+     * mean of the i<sup>th</sup> entries of the arrays
+     * that correspond to each multivariate sample
      * 
      * @return the array of component means
      */
     public abstract double[] getMean();
     /** 
      * Returns the covariance of the available values.
-     * @return The covariance, null if no values have been added 
-     * or a zeroed matrix for a single value set.  
+     * @return The covariance, null if no multivariate sample
+     * have been added or a zeroed matrix for a single value set.  
      */
     public abstract RealMatrix getCovariance();
     /**
-     * Returns an array whose ith entry is the standard deviation of the
-     * ith entries of the arrays that have been added using 
-     * {@link #addValue(double[])}
+     * Returns an array whose i<sup>th</sup> entry is the
+     * standard deviation of the i<sup>th</sup> entries of the arrays
+     * that correspond to each multivariate sample
      * 
      * @return the array of component standard deviations
      */
     public abstract double[] getStandardDeviation();
     /**
-     * Returns an array whose ith entry is the maximum of the
-     * ith entries of the arrays that have been added using 
-     * {@link #addValue(double[])}
+     * Returns an array whose i<sup>th</sup> entry is the
+     * maximum of the i<sup>th</sup> entries of the arrays
+     * that correspond to each multivariate sample
      * 
      * @return the array of component maxima
      */
     public abstract double[] getMax();
     /**
-     * Returns an array whose ith entry is the minimum of the
-     * ith entries of the arrays that have been added using 
-     * {@link #addValue(double[])}
+     * Returns an array whose i<sup>th</sup> entry is the
+     * minimum of the i<sup>th</sup> entries of the arrays
+     * that correspond to each multivariate sample
      * 
      * @return the array of component minima
      */
@@ -74,33 +74,33 @@ public interface StatisticalMultivariateSummary {
      */
     public abstract long getN();
     /**
-     * Returns an array whose ith entry is the geometric mean of the
-     * ith entries of the arrays that have been added using 
-     * {@link #addValue(double[])}
+     * Returns an array whose i<sup>th</sup> entry is the
+     * geometric mean of the i<sup>th</sup> entries of the arrays
+     * that correspond to each multivariate sample
      * 
      * @return the array of component geometric means
      */
     public double[] getGeometricMean();
     /**
-     * Returns an array whose ith entry is the sum of the
-     * ith entries of the arrays that have been added using 
-     * {@link #addValue(double[])}
+     * Returns an array whose i<sup>th</sup> entry is the
+     * sum of the i<sup>th</sup> entries of the arrays
+     * that correspond to each multivariate sample
      * 
      * @return the array of component sums
      */
     public abstract double[] getSum();
     /**
-     * Returns an array whose ith entry is the sum of squares of the
-     * ith entries of the arrays that have been added using 
-     * {@link #addValue(double[])}
+     * Returns an array whose i<sup>th</sup> entry is the
+     * sum of squares of the i<sup>th</sup> entries of the arrays
+     * that correspond to each multivariate sample
      * 
      * @return the array of component sums of squares
      */
     public abstract double[] getSumSq();
     /**
-     * Returns an array whose ith entry is the sum of logs of the
-     * ith entries of the arrays that have been added using 
-     * {@link #addValue(double[])}
+     * Returns an array whose i<sup>th</sup> entry is the
+     * sum of logs of the i<sup>th</sup> entries of the arrays
+     * that correspond to each multivariate sample
      * 
      * @return the array of component log sums
      */
