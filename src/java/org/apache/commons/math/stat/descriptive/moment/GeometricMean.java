@@ -123,7 +123,7 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic {
     /**
      * <p>Sets the implementation for the sum of logs.</p>
      * <p>This method must be activated before any data has been added - i.e.,
-     * before {@link #addValue(double) addValue} has been used to add data; 
+     * before {@link #increment(double) increment} has been used to add data; 
      * otherwise an IllegalStateException will be thrown.</p>
      * 
      * @param sumLogImpl the StorelessUnivariateStatistic instance to use
