@@ -21,8 +21,6 @@
 #  set the maven.compile.executable property to the full path to javac in your
 #  local jdk 1.3 installation.
 #  
-#  Note: Release 1.1 of commons math was built using jdk 1.3.1_16 with this
-#  setup.
 ###############################################################################
 
 maven.dist.crlf.filter=**/*.txt
