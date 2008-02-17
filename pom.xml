@@ -270,7 +270,8 @@ org.apache.commons.math.stat.regression;version=${project.version},
 org.apache.commons.math.transform;version=${project.version},
 org.apache.commons.math.util;version=${project.version}
                 </Import-Package>
-                <Built-By>psteitz</Built-By>
+                <!-- blank by default, use -DbuiltBy on command line -->
+                <Built-By>${builtBy}</Built-By>
               </manifestEntries>
             </archive>
           </configuration>
