@@ -23,7 +23,7 @@ import java.io.Serializable;
  * implemented by {@link AbstractRandomGenerator}.  
  *
  * @since 1.1
- * @version $Revision:$ $Date$
+ * @version $Revision$ $Date$
  */
 public interface RandomGenerator extends Serializable {
     

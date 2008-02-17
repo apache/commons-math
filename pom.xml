@@ -27,7 +27,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>commons-math</groupId>
   <artifactId>commons-math</artifactId>
-  <version>1.2-RC1</version>
+  <version>1.2-RC2</version>
   <name>Commons Math</name>
 
   <inceptionYear>2003</inceptionYear>
