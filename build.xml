@@ -26,7 +26,7 @@
   </property>
   <property name="javadocdir" value="${basedir}/dist/docs/api">
   </property>
-  <property name="final.name" value="commons-math-1.2-SNAPSHOT">
+  <property name="final.name" value="commons-math-1.2">
   </property>
   <property name="proxy.host" value="">
   </property>
@@ -83,6 +83,8 @@
       <fileset dir="${basedir}/.">
         <include name="NOTICE.txt">
         </include>
+      	<include name="LICENSE.txt">
+      	</include>
       </fileset>
     </copy>
   </target>
