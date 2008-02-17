@@ -121,10 +121,18 @@ DEPRECATIONS SUMMARY
 * Most methods from the ComplexUtils class have been deprecated, with
   implementations moved to the Complex class.
   
-See "clirr-report.html" included in the binary distribution for a detailed list
-of API changes. The "errors" reported at the top of the report are due to
-protected fields being moved to superclasses.  These fields are still available,
-so there is no backward compatibility issue.
+See "clirr-report.html" included in the docs directory of the binary
+distribution for a detailed list of API changes. The "errors" reported at the
+top of the report are due to protected fields being moved to superclasses.
+These fields are still available, so there is no backward compatibility issue.
+
+BUILDING COMMONS MATH
+
+Commons math can be built from the source distribution using Maven 1, Maven 2,
+or Ant, launching any one of these from the top-level directory of the unpacked
+zip or tarball. For detailed build instructions and information about how to
+contribute to Commons Math, see "developers.html" in the docs directory of the
+binary distribution.
 
 </j:whitespace>
      </j:if>
