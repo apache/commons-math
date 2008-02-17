@@ -213,7 +213,6 @@
         configuration. No hard compile or runtime dependency.
        </comment>
       </properties>
-      <optional>true</optional>
      </dependency>
      <dependency>
       <groupId>commons-discovery</groupId>
@@ -226,7 +225,6 @@
         factory configuration. No hard compile or runtime dependency.
        </comment>
       </properties>
-      <optional>true</optional>
      </dependency>
      <dependency>
       <groupId>maven-plugins</groupId>
