@@ -1,5 +1,5 @@
 
-                        Apache Commons Math Version 1.2-RC2 
+                        Apache Commons Math Version 1.2 
                                    RELEASE NOTES
 
       
