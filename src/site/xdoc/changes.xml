@@ -39,7 +39,7 @@ The <action> type attribute can be add,update,fix,remove.
 Commons Math Release Notes</title>
   </properties>
   <body>
-    <release version="1.2" date="2007-02-22"
+    <release version="1.2" date="2008-02-23"
     description="This release combines bug fixes and new features. Most notable
     among the new features are the estimation, optimization, geometry and ode
     packages added from the Mantissa library. Implementations of fast Fourier
