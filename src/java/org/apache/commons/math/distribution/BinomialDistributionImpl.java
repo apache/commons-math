@@ -142,7 +142,7 @@ public class BinomialDistributionImpl
     }
 
     /**
-     * For this disbution, X, this method returns P(X = x).
+     * For this distribution, X, this method returns P(X = x).
      * 
      * @param x the value at which the PMF is evaluated.
      * @return PMF for this distribution. 

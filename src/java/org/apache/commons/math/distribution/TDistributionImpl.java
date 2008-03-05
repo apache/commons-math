@@ -66,7 +66,7 @@ public class TDistributionImpl
     }
 
     /**
-     * For this disbution, X, this method returns P(X &lt; <code>x</code>).
+     * For this distribution, X, this method returns P(X &lt; <code>x</code>).
      * @param x the value at which the CDF is evaluated.
      * @return CDF evaluted at <code>x</code>. 
      * @throws MathException if the cumulative probability can not be

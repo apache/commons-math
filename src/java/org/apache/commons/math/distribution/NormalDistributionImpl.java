@@ -98,7 +98,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
-     * For this disbution, X, this method returns P(X &lt; <code>x</code>).
+     * For this distribution, X, this method returns P(X &lt; <code>x</code>).
      * @param x the value at which the CDF is evaluated.
      * @return CDF evaluted at <code>x</code>. 
      * @throws MathException if the algorithm fails to converge; unless

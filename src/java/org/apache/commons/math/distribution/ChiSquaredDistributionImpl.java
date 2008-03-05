@@ -72,7 +72,7 @@ public class ChiSquaredDistributionImpl
     }
         
     /**
-     * For this disbution, X, this method returns P(X &lt; x).
+     * For this distribution, X, this method returns P(X &lt; x).
      * @param x the value at which the CDF is evaluated.
      * @return CDF for this distribution. 
      * @throws MathException if the cumulative probability can not be

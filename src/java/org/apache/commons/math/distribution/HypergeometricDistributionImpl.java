@@ -67,7 +67,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     }
 
     /**
-     * For this disbution, X, this method returns P(X &le; x).
+     * For this distribution, X, this method returns P(X &le; x).
      * @param x the value at which the PDF is evaluated.
      * @return PDF for this distribution. 
      */
@@ -178,7 +178,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     }
 
     /**
-     * For this disbution, X, this method returns P(X = x).
+     * For this distribution, X, this method returns P(X = x).
      * 
      * @param x the value at which the PMF is evaluated.
      * @return PMF for this distribution. 
@@ -201,7 +201,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     }
     
     /**
-     * For the disbution, X, defined by the given hypergeometric distribution
+     * For the distribution, X, defined by the given hypergeometric distribution
      * parameters, this method returns P(X = x).
      * 
      * @param n the population size.
@@ -256,7 +256,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     }
 
     /**
-     * For this disbution, X, this method returns P(X &ge; x).
+     * For this distribution, X, this method returns P(X &ge; x).
      * @param x the value at which the CDF is evaluated.
      * @return upper tail CDF for this distribution.
      * @since 1.1
@@ -281,7 +281,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     }
     
     /**
-     * For this disbution, X, this method returns P(x0 &le; X &le; x1).  This
+     * For this distribution, X, this method returns P(x0 &le; X &le; x1).  This
      * probability is computed by summing the point probabilities for the values
      * x0, x0 + 1, x0 + 2, ..., x1, in the order directed by dx. 
      * @param x0 the inclusive, lower bound
