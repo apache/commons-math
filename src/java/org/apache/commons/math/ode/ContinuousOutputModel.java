@@ -19,6 +19,7 @@ package org.apache.commons.math.ode;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.io.Serializable;
 
 /**
@@ -368,7 +369,7 @@ public class ContinuousOutputModel
   private int index;
 
   /** Steps table. */
-  private ArrayList steps;
+  private List steps;
 
   /** Serializable version identifier */
   private static final long serialVersionUID = 2259286184268533249L;

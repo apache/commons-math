@@ -101,9 +101,9 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      * The input array is copied, not referenced.</p>
      *
      * @param d data for new matrix
-     * @throws IllegalArgumentException if <code>data</code> is not rectangular
+     * @throws IllegalArgumentException if <code>d</code> is not rectangular
      *  (not all rows have the same length) or empty
-     * @throws NullPointerException if <code>data</code> is null
+     * @throws NullPointerException if <code>d</code> is null
      */
     public RealMatrixImpl(double[][] d) {
         this.copyIn(d);
@@ -164,7 +164,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      *
      * @param m    matrix to be subtracted
      * @return     this + m
-     * @throws  IllegalArgumentException if m is not the same size as *this
+     * @throws  IllegalArgumentException if m is not the same size as this
      */
     public RealMatrix subtract(RealMatrix m) throws IllegalArgumentException {
         if (this.getColumnDimension() != m.getColumnDimension() ||

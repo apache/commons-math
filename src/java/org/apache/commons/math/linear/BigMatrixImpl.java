@@ -104,7 +104,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     }
     
     /**
-     * Create a new BigMatrix using the <code>data</code> as the underlying
+     * Create a new BigMatrix using <code>d</code> as the underlying
      * data array.
      * <p>
      * The input array is copied, not referenced.</p>
@@ -120,7 +120,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     }
     
     /**
-     * Create a new BigMatrix using the <code>data</code> as the underlying
+     * Create a new BigMatrix using <code>d</code> as the underlying
      * data array.
      * <p>
      * The input array is copied, not referenced.</p>
@@ -153,7 +153,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     
     /**
      * Create a new BigMatrix using the values represented by the strings in 
-     * <code>data</code> as the underlying data array.
+     * <code>d</code> as the underlying data array.
      *
      * @param d data for new matrix
      * @throws IllegalArgumentException if <code>d</code> is not rectangular

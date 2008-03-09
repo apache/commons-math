@@ -64,7 +64,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
     private static final long serialVersionUID = -6773236347582113490L;
 
     /** List of SummaryStatistics objects characterizing the bins */
-    private ArrayList binStats = null;
+    private List binStats = null;
 
     /** Sample statistics */
     private SummaryStatistics sampleStats = null;
@@ -447,8 +447,8 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
     }
 
     /**
-     * Returns an ArrayList of {@link SummaryStatistics} instances containing
-     * statistics describing the values in each of the bins.  The ArrayList is
+     * Returns a List of {@link SummaryStatistics} instances containing
+     * statistics describing the values in each of the bins.  The list is
      * indexed on the bin number.
      * 
      * @return List of bin statistics.

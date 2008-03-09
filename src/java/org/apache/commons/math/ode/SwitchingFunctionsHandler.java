@@ -22,6 +22,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /** This class handles several {@link SwitchingFunction switching
  * functions} during integration.
@@ -194,7 +195,7 @@ public class SwitchingFunctionsHandler {
   }
 
   /** Switching functions. */
-  private ArrayList functions;
+  private List functions;
 
   /** First active switching function. */
   private SwitchState first;

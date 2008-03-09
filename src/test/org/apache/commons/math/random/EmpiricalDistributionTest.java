@@ -185,7 +185,40 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
         dist2 = (EmpiricalDistribution) TestUtils.serializeAndRecover(empiricalDistribution2);
         verifySame(empiricalDistribution2, dist2);
     }
-    
+
+    public void testLoadNullDoubleArray() {
+        EmpiricalDistribution dist = new EmpiricalDistributionImpl();
+        try {
+            dist.load((double[]) null);
+            fail("load((double[]) null) expected RuntimeException");
+        }
+        catch (RuntimeException e) {
+            // expected
+        }
+    }
+
+    public void testLoadNullURL() throws Exception {
+        EmpiricalDistribution dist = new EmpiricalDistributionImpl();
+        try {
+            dist.load((URL) null);
+            fail("load((URL) null) expected NullPointerException");
+        }
+        catch (NullPointerException e) {
+            // expected
+        }
+    }
+
+    public void testLoadNullFile() throws Exception {
+        EmpiricalDistribution dist = new EmpiricalDistributionImpl();
+        try {
+            dist.load((File) null);
+            fail("load((File) null) expected NullPointerException");
+        }
+        catch (NullPointerException e) {
+            // expected
+        }
+    }
+
     private void verifySame(EmpiricalDistribution d1, EmpiricalDistribution d2) {
         assertEquals(d1.isLoaded(), d2.isLoaded());
         assertEquals(d1.getBinCount(), d2.getBinCount());
