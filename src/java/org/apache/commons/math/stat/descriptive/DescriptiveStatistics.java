@@ -411,15 +411,17 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      */
     public String toString() {
         StringBuffer outBuffer = new StringBuffer();
-        outBuffer.append("DescriptiveStatistics:\n");
-        outBuffer.append("n: " + getN() + "\n");
-        outBuffer.append("min: " + getMin() + "\n");
-        outBuffer.append("max: " + getMax() + "\n");
-        outBuffer.append("mean: " + getMean() + "\n");
-        outBuffer.append("std dev: " + getStandardDeviation() + "\n");
-        outBuffer.append("median: " + getPercentile(50) + "\n");
-        outBuffer.append("skewness: " + getSkewness() + "\n");
-        outBuffer.append("kurtosis: " + getKurtosis() + "\n");
+        String endl = "\n";
+        outBuffer.append("DescriptiveStatistics:").append(endl);
+        outBuffer.append("n: ").append(getN()).append(endl);
+        outBuffer.append("min: ").append(getMin()).append(endl);
+        outBuffer.append("max: ").append(getMax()).append(endl);
+        outBuffer.append("mean: ").append(getMean()).append(endl);
+        outBuffer.append("std dev: ").append(getStandardDeviation())
+            .append(endl);
+        outBuffer.append("median: ").append(getPercentile(50)).append(endl);
+        outBuffer.append("skewness: ").append(getSkewness()).append(endl);
+        outBuffer.append("kurtosis: ").append(getKurtosis()).append(endl);
         return outBuffer.toString();
     }
     
