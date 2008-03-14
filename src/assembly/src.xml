@@ -22,7 +22,7 @@
     <format>zip</format>
   </formats>
   <baseDirectory>
-     ${artifactId}-${version}-src
+     ${project.artifactId}-${project.version}-src
   </baseDirectory>
   <fileSets>
     <fileSet>
