@@ -374,7 +374,9 @@ public class ComplexFormat extends Format implements Serializable {
         int n = getImaginaryCharacter().length();
         startIndex = pos.getIndex();
         int endIndex = startIndex + n;
-        if (source.substring(startIndex, endIndex).compareTo(
+        if ((startIndex >= source.length()) ||
+            (endIndex > source.length()) ||
+            source.substring(startIndex, endIndex).compareTo(
             getImaginaryCharacter()) != 0) {
             // set index back to initial, error index should be the start index
             // character examined.

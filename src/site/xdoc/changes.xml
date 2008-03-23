@@ -44,6 +44,9 @@ Commons Math Release Notes</title>
       <action dev="brentworden" type="fix" issue="MATH-193" due-to="Michael Heuer and Sebb">
         Javadoc and style fixes.
       </action>
+      <action dev="luc" type="fix" issue="MATH-198" due-to="Frederick Salardi">
+        added an error detection for missing imaginary character while parsing complex string
+      </action>
     </release>
     <release version="1.2" date="2008-02-24"
     description="This release combines bug fixes and new features. Most notable

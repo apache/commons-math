@@ -19,6 +19,7 @@ package org.apache.commons.math.complex;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.util.Locale;
 
 import junit.framework.TestCase;
@@ -347,5 +348,11 @@ public abstract class ComplexFormatAbstractTest extends TestCase {
         } catch (IllegalArgumentException ex) {
             // success
         }
+    }
+
+    public void testForgottenImaginaryCharacter() {
+        ParsePosition pos = new ParsePosition(0);
+        assertNull(new ComplexFormat().parse("1 + 1", pos));
+        assertEquals(5, pos.getErrorIndex());
     }
 }
