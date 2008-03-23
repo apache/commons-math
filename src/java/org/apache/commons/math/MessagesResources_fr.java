@@ -116,6 +116,8 @@ public class MessagesResources_fr
       "trop petite tol\u00e9rance relative sur les param\u00e8tres ({0}), aucune am\u00e9lioration de la solution approximative n''est possible" },
     { "orthogonality tolerance is too small ({0}), solution is orthogonal to the jacobian",
       "trop petite tol\u00e9rance sur l''orthogonalit\u00e9 ({0}), la solution est orthogonale \u00e0 la jacobienne" },
+    { "unable to perform Q.R decomposition on the {0}x{1} jacobian matrix",
+      "impossible de calculer la factorisation Q.R de la matrice jacobienne {0}x{1}" },
 
     // org.apache.commons.math.geometry.CardanEulerSingularityException
     { "Cardan angles singularity",
