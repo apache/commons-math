@@ -47,6 +47,10 @@ Commons Math Release Notes</title>
       <action dev="luc" type="fix" issue="MATH-198" due-to="Frederick Salardi">
         added an error detection for missing imaginary character while parsing complex string
       </action>
+      <action dev="luc" type="fix" issue="MATH-199" due-to="Mick">
+        detect numerical problems in Q.R decomposition for Levenberg-Marquardt estimator
+        and report them appropriately
+      </action>
     </release>
     <release version="1.2" date="2008-02-24"
     description="This release combines bug fixes and new features. Most notable

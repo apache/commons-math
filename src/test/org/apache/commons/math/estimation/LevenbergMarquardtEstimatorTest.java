@@ -20,6 +20,7 @@ package org.apache.commons.math.estimation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Set;
 
 import org.apache.commons.math.estimation.EstimatedParameter;
@@ -587,6 +588,22 @@ public class LevenbergMarquardtEstimatorTest
     assertEquals( 0.20750021499570379,  circle.getY(),      1.0e-8);
   }
 
+  public void testMath199() {
+      try {
+          QuadraticProblem problem = new QuadraticProblem();
+          problem.addPoint (0, -3.182591015485607, 0.0);
+          problem.addPoint (1, -2.5581184967730577, 4.4E-323);
+          problem.addPoint (2, -2.1488478161387325, 1.0);
+          problem.addPoint (3, -1.9122489313410047, 4.4E-323);
+          problem.addPoint (4, 1.7785661310051026, 0.0);
+          new LevenbergMarquardtEstimator().estimate(problem);
+          fail("an exception should have been thrown");
+      } catch (EstimationException ee) {
+          // expected behavior
+      }
+
+  }
+
   private static class LinearProblem implements EstimationProblem {
 
     public LinearProblem(LinearMeasurement[] measurements) {
@@ -758,6 +775,71 @@ public class LevenbergMarquardtEstimatorTest
     private EstimatedParameter cy;
     private ArrayList points;
 
+  }
+  public class QuadraticProblem extends SimpleEstimationProblem {
+
+      private EstimatedParameter a;
+      private EstimatedParameter b;
+      private EstimatedParameter c;
+
+      public QuadraticProblem() {
+          a = new EstimatedParameter("a", 0.0);
+          b = new EstimatedParameter("b", 0.0);
+          c = new EstimatedParameter("c", 0.0);
+          addParameter(a);
+          addParameter(b);
+          addParameter(c);
+      }
+
+      public void addPoint(double x, double y, double w) {
+          addMeasurement(new LocalMeasurement(x, y, w));
+      }
+
+      public double getA() {
+          return a.getEstimate();
+      }
+
+      public double getB() {
+          return b.getEstimate();
+      }
+
+      public double getC() {
+          return c.getEstimate();
+      }
+
+      public double theoreticalValue(double x) {
+          return ( (a.getEstimate() * x + b.getEstimate() ) * x + c.getEstimate());
+      }
+
+      private double partial(double x, EstimatedParameter parameter) {
+          if (parameter == a) {
+              return x * x;
+          } else if (parameter == b) {
+              return x;
+          } else {
+              return 1.0;
+          }
+      }
+
+      private class LocalMeasurement extends WeightedMeasurement {
+
+         private final double x;
+
+          // constructor
+          public LocalMeasurement(double x, double y, double w) {
+              super(w, y);
+              this.x = x;
+          }
+
+          public double getTheoreticalValue() {
+              return theoreticalValue(x);
+          }
+
+          public double getPartial(EstimatedParameter parameter) {
+              return partial(x, parameter);
+          }
+
+      }
   }
 
   public static Test suite() {

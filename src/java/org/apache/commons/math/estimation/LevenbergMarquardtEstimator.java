@@ -733,8 +733,9 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
    * are performed in non-increasing columns norms order thanks to columns
    * pivoting. The diagonal elements of the R matrix are therefore also in
    * non-increasing absolute values order.</p>
+   * @exception EstimationException if the decomposition cannot be performed
    */
-  private void qrDecomposition() {
+  private void qrDecomposition() throws EstimationException {
 
     // initializations
     for (int k = 0; k < cols; ++k) {
@@ -759,6 +760,10 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
         for (int index = iDiag; index < jacobian.length; index += cols) {
           double aki = jacobian[index];
           norm2 += aki * aki;
+        }
+        if (Double.isInfinite(norm2) || Double.isNaN(norm2)) {
+            throw new EstimationException("unable to perform Q.R decomposition on the {0}x{1} jacobian matrix",
+                                          new Object[] { new Integer(rows), new Integer(cols) });
         }
         if (norm2 > ak2) {
           nextColumn = i;
