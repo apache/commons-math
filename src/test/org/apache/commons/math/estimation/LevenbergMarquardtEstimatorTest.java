@@ -20,7 +20,6 @@ package org.apache.commons.math.estimation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.Set;
 
 import org.apache.commons.math.estimation.EstimatedParameter;
@@ -823,7 +822,8 @@ public class LevenbergMarquardtEstimatorTest
 
       private class LocalMeasurement extends WeightedMeasurement {
 
-         private final double x;
+        private static final long serialVersionUID = 1555043155023729130L;
+        private final double x;
 
           // constructor
           public LocalMeasurement(double x, double y, double w) {
