@@ -51,6 +51,11 @@ Commons Math Release Notes</title>
         detect numerical problems in Q.R decomposition for Levenberg-Marquardt estimator
         and report them appropriately
       </action>
+      <action dev="luc" type="fix" issue="MATH-200" due-to="Plamen Petrov">
+        fixed several crashes in getCovariances() and guessParametersErrors() in
+        AbstractEstimator when some parameters are bound. The methods now explicitly
+        give result only about unbound parameters.
+      </action>
     </release>
     <release version="1.2" date="2008-02-24"
     description="This release combines bug fixes and new features. Most notable
