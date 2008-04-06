@@ -45,16 +45,19 @@ Commons Math Release Notes</title>
         Javadoc and style fixes.
       </action>
       <action dev="luc" type="fix" issue="MATH-198" due-to="Frederick Salardi">
-        added an error detection for missing imaginary character while parsing complex string
+        Added an error detection for missing imaginary character while parsing complex string
       </action>
       <action dev="luc" type="fix" issue="MATH-199" due-to="Mick">
-        detect numerical problems in Q.R decomposition for Levenberg-Marquardt estimator
+        Detect numerical problems in Q.R decomposition for Levenberg-Marquardt estimator
         and report them appropriately
       </action>
       <action dev="luc" type="fix" issue="MATH-200" due-to="Plamen Petrov">
-        fixed several crashes in getCovariances() and guessParametersErrors() in
+        Fixed several crashes in getCovariances() and guessParametersErrors() in
         AbstractEstimator when some parameters are bound. The methods now explicitly
         give result only about unbound parameters.
+      </action>
+      <action dev="brentworden" type="fix" issue="MATH-201" due-to="Peter Wyngaard">
+        Fixed truncation error in t-test classes for large t values.
       </action>
     </release>
     <release version="1.2" date="2008-02-24"

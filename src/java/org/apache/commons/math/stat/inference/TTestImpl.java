@@ -1006,7 +1006,7 @@ public class TTestImpl implements TTest  {
     throws MathException {
         double t = Math.abs(t(m, mu, v, n));
         distribution.setDegreesOfFreedom(n - 1);
-        return 1.0 - distribution.cumulativeProbability(-t, t);
+        return 2.0 * distribution.cumulativeProbability(-t);
     }
 
     /**
@@ -1031,7 +1031,7 @@ public class TTestImpl implements TTest  {
         double degreesOfFreedom = 0;
         degreesOfFreedom = df(v1, v2, n1, n2);
         distribution.setDegreesOfFreedom(degreesOfFreedom);
-        return 1.0 - distribution.cumulativeProbability(-t, t);
+        return 2.0 * distribution.cumulativeProbability(-t);
     }
     
     /**
@@ -1055,7 +1055,7 @@ public class TTestImpl implements TTest  {
         double t = Math.abs(homoscedasticT(m1, m2, v1, v2, n1, n2));
         double degreesOfFreedom = (double) (n1 + n2 - 2);
         distribution.setDegreesOfFreedom(degreesOfFreedom);
-        return 1.0 - distribution.cumulativeProbability(-t, t);
+        return 2.0 * distribution.cumulativeProbability(-t);
     }
     
     /**
