@@ -39,8 +39,17 @@ The <action> type attribute can be add,update,fix,remove.
 Commons Math Release Notes</title>
   </properties>
   <body>
-    <release version="1.3-SNAPSHOT" date="TBD"
-    description="TBD">
+    <release version="2.0" date="TBD" description="TBD">
+      <action dev="luc" type="update" >
+        Removed deprecated features. This includes the following changes. Factory-based
+        instantiation replaced by setter injection in 1.2 in several classes have been
+        removed. Protected fields in matrices implementations have been declared final
+        and private. Identity factory methods moved to MatrixUtils class have been
+        removed. Complex utilities methods that have been superseded by Complex instance
+        methods have been removed.
+      </action>
+    </release>
+    <release version="1.3-SNAPSHOT" date="TBD" description="TBD">
       <action dev="brentworden" type="fix" issue="MATH-193" due-to="Michael Heuer and Sebb">
         Javadoc and style fixes.
       </action>
