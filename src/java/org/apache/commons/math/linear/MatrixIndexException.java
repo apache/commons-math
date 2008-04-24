@@ -25,15 +25,7 @@ package org.apache.commons.math.linear;
 public class MatrixIndexException extends RuntimeException {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = -1341109412864309526L;
-
-    /**
-     * Default constructor.
-     * @deprecated as of 1.2 replaced by #MatrixIndexException(String)
-     */
-    public MatrixIndexException() {
-        this(null);
-    }
+    private static final long serialVersionUID = 3728473373420246054L;
 
     /**
      * Construct an exception with the given message and root cause.

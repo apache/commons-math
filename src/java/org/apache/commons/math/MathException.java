@@ -36,7 +36,7 @@ import java.util.ResourceBundle;
 public class MathException extends Exception {
     
     /** Serializable version identifier */
-    private static final long serialVersionUID = -8602234299177097102L;
+    private static final long serialVersionUID = 1428666635974829194L;
 
     /**
      * Does JDK support nested exceptions?
@@ -129,20 +129,6 @@ public class MathException extends Exception {
     
     /**
      * Constructs a new <code>MathException</code> with specified
-     * detail message.
-     *
-     * @param msg  the error message.
-     * @deprecated as of 1.2, replaced by {@link #MathException(String, Object[])}
-     */
-    public MathException(String msg) {
-        super(msg);
-        this.pattern   = msg;
-        this.arguments = new Object[0];
-        this.rootCause = null;
-    }
-
-    /**
-     * Constructs a new <code>MathException</code> with specified
      * formatted detail message.
      * Message formatting is delegated to {@link java.text.MessageFormat}.
      * @param pattern format specifier
@@ -169,22 +155,6 @@ public class MathException extends Exception {
         this.rootCause = rootCause;
     }
     
-    /**
-     * Constructs a new <code>MathException</code> with specified
-     * detail message and nested <code>Throwable</code> root cause.
-     *
-     * @param msg  the error message.
-     * @param rootCause  the exception or error that caused this exception
-     *                   to be thrown.
-     * @deprecated as of 1.2, replaced by {@link #MathException(String, Object[], Throwable)}
-     */
-    public MathException(String msg, Throwable rootCause) {
-        super(msg);
-        this.pattern   = msg;
-        this.arguments = new Object[0];
-        this.rootCause = rootCause;
-    }
-
     /**
      * Constructs a new <code>MathException</code> with specified
      * formatted detail message and nested <code>Throwable</code> root cause.
