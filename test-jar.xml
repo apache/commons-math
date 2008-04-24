@@ -95,7 +95,7 @@
     ==========================================================================
   </echo>
   </target>
-  <target name="compile-tests" if="Junit.present" depends="junit-present,get-deps">
+  <target name="compile-tests" if="Junit.present" depends="junit-present">
     <mkdir dir="${testclassesdir}"/>
     <javac destdir="${testclassesdir}" deprecation="true" debug="true"
             optimize="false" excludes="**/package.html">
@@ -110,17 +110,6 @@
       <fileset dir="src/test">
         <include name="**/*.xml"/>
         <include name="**/*.txt"/>
-      </fileset>
-    </copy>
-  </target>
-  <target name="get-deps" unless="noget" depends="init">
-    <get dest="${libdir}/commons-logging-1.0.3.jar" usetimestamp="true" ignoreerrors="true" 
-              src="http://www.ibiblio.org/maven/commons-logging/jars/commons-logging-1.0.3.jar"/>
-    <get dest="${libdir}/commons-discovery-0.2.jar" usetimestamp="true" ignoreerrors="true" 
-              src="http://www.ibiblio.org/maven/commons-discovery/jars/commons-discovery-0.2.jar"/>
-    <copy todir="${libdir}">
-      <fileset dir="${jardir}">
-        <include name="*.jar"/>
       </fileset>
     </copy>
   </target>

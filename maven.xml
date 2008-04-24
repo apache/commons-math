@@ -51,12 +51,6 @@
   </preGoal>
 -->
 
-<!-- Uncomment to include compile time dependent jars (discovery, logging)
-  <preGoal name="dist:build-bin">
-    <deploy:copy-deps todir="${maven.build.dir}/${maven.final.name}/bin/${maven.final.name}" />
-  </preGoal>
- -->
- 
  <!-- Limit maven resources included in site generation -->
   <postGoal name="xdoc:copy-resources">
     <copy todir="${maven.docs.dest}/images">

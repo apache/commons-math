@@ -35,11 +35,6 @@ package org.apache.commons.math.analysis;
  * BrentSolver solver = factory.newBrentSolver(f);
  * </pre>
  *
- * <a href="http://commons.apache.org/discovery/">Apache Commons Discovery</a>
- * is used to determine the concrete factory returned by 
- * <code>UnivariateRealSolverFactory.newInstance().</code>  The default is
- * {@link UnivariateRealSolverFactoryImpl}.
- *
  * @version $Revision$ $Date$
  */
 public abstract class UnivariateRealSolverFactory {

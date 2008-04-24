@@ -203,30 +203,6 @@
   </contributors>
   <dependencies>
      <dependency>
-      <groupId>commons-logging</groupId>
-      <artifactId>commons-logging</artifactId>
-       <version>1.0.4</version>
-       <url>http://commons.apache.org/logging</url>
-       <properties>
-       <comment>
-        Only required when commons-discovery is used for class factory
-        configuration. No hard compile or runtime dependency.
-       </comment>
-      </properties>
-     </dependency>
-     <dependency>
-      <groupId>commons-discovery</groupId>
-      <artifactId>commons-discovery</artifactId>
-      <version>0.2</version>
-      <url>http://commons.apache.org/discovery</url>
-      <properties>
-       <comment>
-        Only required when commons-discovery is used for class
-        factory configuration. No hard compile or runtime dependency.
-       </comment>
-      </properties>
-     </dependency>
-     <dependency>
       <groupId>maven-plugins</groupId>
       <artifactId>maven-cobertura-plugin</artifactId>
       <version>1.1.1</version>
