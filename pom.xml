@@ -156,35 +156,7 @@
       <version>3.8.2</version>
       <scope>test</scope>
     </dependency>
-     <dependency>
-      <groupId>commons-logging</groupId>
-      <artifactId>commons-logging</artifactId>
-       <version>1.0.4</version>
-       <!--
-       <properties>
-       <comment>
-        Only required when commons-discovery is used for class factory
-        configuration. No hard compile or runtime dependency.
-       </comment>
-      </properties>
-      -->
-      <optional>true</optional>
-     </dependency>
-     <dependency>
-      <groupId>commons-discovery</groupId>
-      <artifactId>commons-discovery</artifactId>
-      <version>0.2</version>
-      <!--
-      <properties>
-       <comment>
-        Only required when commons-discovery is used for class
-        factory configuration. No hard compile or runtime dependency.
-       </comment>
-      </properties>
-      -->
-      <optional>true</optional>
-     </dependency>
-   </dependencies>
+  </dependencies>
 
   <properties>
     <commons.componentid>math</commons.componentid>
