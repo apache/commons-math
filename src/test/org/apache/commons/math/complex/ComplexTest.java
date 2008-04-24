@@ -100,19 +100,19 @@ public class ComplexTest extends TestCase {
         assertTrue(z.isNaN());
         z = new Complex(1, nan);
         Complex w = x.add(z);
-        assertEquals(w.real, 4.0, 0);
-        assertTrue(Double.isNaN(w.imaginary));
+        assertEquals(w.getReal(), 4.0, 0);
+        assertTrue(Double.isNaN(w.getImaginary()));
     }
     
     public void testAddInfinite() {
         Complex x = new Complex(1, 1);
         Complex z = new Complex(inf, 0);
         Complex w = x.add(z);
-        assertEquals(w.imaginary, 1, 0);
-        assertEquals(inf, w.real, 0);
+        assertEquals(w.getImaginary(), 1, 0);
+        assertEquals(inf, w.getReal(), 0);
         
         x = new Complex(neginf, 0);
-        assertTrue(Double.isNaN(x.add(z).real));
+        assertTrue(Double.isNaN(x.add(z).getReal()));
     }
     
     public void testConjugate() {
@@ -129,9 +129,9 @@ public class ComplexTest extends TestCase {
     
     public void testConjugateInfiinite() {
         Complex z = new Complex(0, inf);
-        assertEquals(neginf, z.conjugate().imaginary, 0);
+        assertEquals(neginf, z.conjugate().getImaginary(), 0);
         z = new Complex(0, neginf);
-        assertEquals(inf, z.conjugate().imaginary, 0);
+        assertEquals(inf, z.conjugate().getImaginary(), 0);
     }
     
     public void testDivide() {
@@ -148,18 +148,18 @@ public class ComplexTest extends TestCase {
         assertTrue(x.divide(w).equals(Complex.ZERO));
         
         Complex z = w.divide(x);
-        assertTrue(Double.isNaN(z.real));
-        assertEquals(inf, z.imaginary, 0);
+        assertTrue(Double.isNaN(z.getReal()));
+        assertEquals(inf, z.getImaginary(), 0);
         
         w = new Complex(inf, inf);
         z = w.divide(x);
-        assertTrue(Double.isNaN(z.imaginary));
-        assertEquals(inf, z.real, 0);
+        assertTrue(Double.isNaN(z.getImaginary()));
+        assertEquals(inf, z.getReal(), 0);
         
         w = new Complex(1, inf);
         z = w.divide(w);
-        assertTrue(Double.isNaN(z.real));
-        assertTrue(Double.isNaN(z.imaginary));
+        assertTrue(Double.isNaN(z.getReal()));
+        assertTrue(Double.isNaN(z.getImaginary()));
     }
     
     public void testDivideNaN() {
@@ -170,16 +170,16 @@ public class ComplexTest extends TestCase {
     
     public void testDivideNaNInf() {  
        Complex z = oneInf.divide(Complex.ONE);
-       assertTrue(Double.isNaN(z.real));
-       assertEquals(inf, z.imaginary, 0);
+       assertTrue(Double.isNaN(z.getReal()));
+       assertEquals(inf, z.getImaginary(), 0);
        
        z = negInfNegInf.divide(oneNaN);
-       assertTrue(Double.isNaN(z.real));
-       assertTrue(Double.isNaN(z.imaginary));
+       assertTrue(Double.isNaN(z.getReal()));
+       assertTrue(Double.isNaN(z.getImaginary()));
        
        z = negInfInf.divide(Complex.ONE);
-       assertTrue(Double.isNaN(z.real));
-       assertTrue(Double.isNaN(z.imaginary));
+       assertTrue(Double.isNaN(z.getReal()));
+       assertTrue(Double.isNaN(z.getImaginary()));
     }
     
     public void testMultiply() {
@@ -199,8 +199,8 @@ public class ComplexTest extends TestCase {
     public void testMultiplyNaNInf() {
         Complex z = new Complex(1,1);
         Complex w = z.multiply(infOne);
-        assertEquals(w.real, inf, 0);
-        assertEquals(w.imaginary, inf, 0);
+        assertEquals(w.getReal(), inf, 0);
+        assertEquals(w.getImaginary(), inf, 0);
 
         // [MATH-164]
         assertTrue(new Complex( 1,0).multiply(infInf).equals(Complex.INF));
@@ -208,12 +208,12 @@ public class ComplexTest extends TestCase {
         assertTrue(new Complex( 1,0).multiply(negInfZero).equals(Complex.INF));
         
         w = oneInf.multiply(oneNegInf);
-        assertEquals(w.real, inf, 0);
-        assertEquals(w.imaginary, inf, 0);
+        assertEquals(w.getReal(), inf, 0);
+        assertEquals(w.getImaginary(), inf, 0);
         
         w = negInfNegInf.multiply(oneNaN);
-        assertTrue(Double.isNaN(w.real));
-        assertTrue(Double.isNaN(w.imaginary));  
+        assertTrue(Double.isNaN(w.getReal()));
+        assertTrue(Double.isNaN(w.getImaginary()));  
     }
     
     public void testNegate() {
