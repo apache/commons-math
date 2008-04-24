@@ -25,7 +25,7 @@ import junit.framework.TestSuite;
  * @version $Revision$ $Date$
  */
 
-public final class SummaryStatisticsImplTest extends SummaryStatisticsAbstractTest {
+public final class SummaryStatisticsImplTest extends SummaryStatisticsTest {
 
     public SummaryStatisticsImplTest(String name) {
         super(name);

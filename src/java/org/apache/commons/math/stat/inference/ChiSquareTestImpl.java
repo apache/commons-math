@@ -19,7 +19,6 @@ package org.apache.commons.math.stat.inference;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.distribution.ChiSquaredDistribution;
 import org.apache.commons.math.distribution.ChiSquaredDistributionImpl;
-import org.apache.commons.math.distribution.DistributionFactory;
 
 /**
  * Implements Chi-Square test statistics defined in the
@@ -327,16 +326,6 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
             throw new IllegalArgumentException("All entries in input 2-way table must be non-negative");
         }
         
-    }
-    
-    //---------------------  Protected methods ---------------------------------
-    /**
-     * Gets a DistributionFactory to use in creating ChiSquaredDistribution instances.
-     * @deprecated inject ChiSquaredDistribution instances directly instead of
-     *             using a factory.
-     */
-    protected DistributionFactory getDistributionFactory() {
-        return DistributionFactory.newInstance();
     }
     
     //---------------------  Private array methods -- should find a utility home for these

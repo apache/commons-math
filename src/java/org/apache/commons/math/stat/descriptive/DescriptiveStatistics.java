@@ -20,7 +20,6 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
-import org.apache.commons.discovery.tools.DiscoverClass;
 import org.apache.commons.math.stat.descriptive.moment.GeometricMean;
 import org.apache.commons.math.stat.descriptive.moment.Kurtosis;
 import org.apache.commons.math.stat.descriptive.moment.Mean;
@@ -56,8 +55,8 @@ import org.apache.commons.math.util.ResizableDoubleArray;
 public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     
     /** Serialization UID */
-    private static final long serialVersionUID = -2734185686570407433L;
-    
+    private static final long serialVersionUID = 4133067267405273064L;
+
     /** hold the window size **/
     protected int windowSize = INFINITE_WINDOW;
     
@@ -110,39 +109,6 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     public DescriptiveStatistics(int window) {
         super();
         setWindowSize(window);
-    }
-    
-    /**
-     * Create an instance of a <code>DescriptiveStatistics</code>
-     * @param cls the type of <code>DescriptiveStatistics</code> object to
-     *        create. 
-     * @return a new instance. 
-     * @throws InstantiationException is thrown if the object can not be
-     *            created.
-     * @throws IllegalAccessException is thrown if the type's default
-     *            constructor is not accessible.
-     * @deprecated to be removed in commons-math 2.0
-     */
-    public static DescriptiveStatistics newInstance(Class cls) throws InstantiationException, IllegalAccessException {
-        return (DescriptiveStatistics)cls.newInstance();
-    }
-    
-    /**
-     * Create an instance of a <code>DescriptiveStatistics</code>
-     * @return a new DescriptiveStatistics instance. 
-     * @deprecated to be removed in commons-math 2.0
-     */
-    public static DescriptiveStatistics newInstance() {
-        DescriptiveStatistics factory = null;
-        try {
-            DiscoverClass dc = new DiscoverClass();
-            factory = (DescriptiveStatistics) dc.newInstance(
-                DescriptiveStatistics.class,
-                "org.apache.commons.math.stat.descriptive.DescriptiveStatisticsImpl");
-        } catch(Throwable t) {
-            return new DescriptiveStatisticsImpl();
-        }
-        return factory;
     }
     
     /**

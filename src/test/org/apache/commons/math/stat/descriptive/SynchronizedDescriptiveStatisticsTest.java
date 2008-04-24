@@ -21,7 +21,7 @@ import junit.framework.TestSuite;
  * @version $Revision$ $Date: 2007-08-16 15:36:33 -0500 (Thu, 16 Aug
  *          2007) $
  */
-public final class SynchronizedDescriptiveStatisticsTest extends DescriptiveStatisticsAbstractTest {
+public final class SynchronizedDescriptiveStatisticsTest extends DescriptiveStatisticsTest {
 
     public SynchronizedDescriptiveStatisticsTest(String name) {
         super(name);

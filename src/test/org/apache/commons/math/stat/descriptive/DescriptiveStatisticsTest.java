@@ -14,19 +14,18 @@
 package org.apache.commons.math.stat.descriptive;
 
 import junit.framework.Test;
+import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.apache.commons.math.stat.descriptive.rank.Percentile;
 
 /**
  * Test cases for the DescriptiveStatistics class.
- * When DescriptiveStatisticsImpl is removed, this class should replace
- * DescriptiveStatisticsAbstractTest
  * 
  * @version $Revision: 592121 $ $Date: 2007-08-16 15:36:33 -0500 (Thu, 16 Aug
  *          2007) $
  */
-public final class DescriptiveStatisticsTest extends DescriptiveStatisticsAbstractTest {
+public class DescriptiveStatisticsTest extends TestCase {
 
     public DescriptiveStatisticsTest(String name) {
         super(name);

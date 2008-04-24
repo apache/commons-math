@@ -15,7 +15,6 @@ package org.apache.commons.math.stat.descriptive;
 
 import java.io.Serializable;
 
-import org.apache.commons.discovery.tools.DiscoverClass;
 import org.apache.commons.math.stat.descriptive.moment.GeometricMean;
 import org.apache.commons.math.stat.descriptive.moment.Mean;
 import org.apache.commons.math.stat.descriptive.moment.SecondMoment;
@@ -55,37 +54,7 @@ import org.apache.commons.math.util.MathUtils;
 public class SummaryStatistics implements StatisticalSummary, Serializable {
 
     /** Serialization UID */
-    private static final long serialVersionUID = -3346512372447011854L;
-
-    /**
-     * Create an instance of a <code>SummaryStatistics</code>
-     * @param cls the type of <code>SummaryStatistics</code> object to create.
-     * @return a new instance.
-     * @deprecated to be removed in commons-math 2.0
-     * @throws InstantiationException is thrown if the object can not be
-     *         created.
-     * @throws IllegalAccessException is thrown if the type's default
-     *         constructor is not accessible.
-     */
-    public static SummaryStatistics newInstance(Class cls) throws InstantiationException, IllegalAccessException {
-        return (SummaryStatistics)cls.newInstance();
-    }
-
-    /**
-     * Create an instance of a <code>SummaryStatistics</code>
-     * @return a new SummaryStatistics instance.
-     * @deprecated to be removed in commons-math 2.0
-     */
-    public static SummaryStatistics newInstance() {
-        SummaryStatistics instance = null;
-        try {
-            DiscoverClass dc = new DiscoverClass();
-            instance = (SummaryStatistics)dc.newInstance(SummaryStatistics.class, "org.apache.commons.math.stat.descriptive.SummaryStatisticsImpl");
-        } catch (Throwable t) {
-            return new SummaryStatisticsImpl();
-        }
-        return instance;
-    }
+    private static final long serialVersionUID = -2021321786743555871L;
 
     /**
      * Construct a SummaryStatistics instance
