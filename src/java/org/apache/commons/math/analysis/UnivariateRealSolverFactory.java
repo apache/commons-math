@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.analysis;
 
-import org.apache.commons.discovery.tools.DiscoverClass;
-
 /**
  * Abstract factory class used to create {@link UnivariateRealSolver} instances.
  * <p>
@@ -56,16 +54,7 @@ public abstract class UnivariateRealSolverFactory {
      * @return a new factory.
      */
     public static UnivariateRealSolverFactory newInstance() {
-        UnivariateRealSolverFactory factory = null;
-        try {
-            DiscoverClass dc = new DiscoverClass();
-            factory = (UnivariateRealSolverFactory) dc.newInstance(
-                UnivariateRealSolverFactory.class,
-                "org.apache.commons.math.analysis.UnivariateRealSolverFactoryImpl");
-        } catch(Throwable t) {
-            return new UnivariateRealSolverFactoryImpl();
-        }
-        return factory;
+        return new UnivariateRealSolverFactoryImpl();
     }
     
     /**
