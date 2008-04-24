@@ -69,7 +69,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     private int parity = 1;
 
     /** Bound to determine effective singularity in LU decomposition */
-    protected static double TOO_SMALL = 10E-12;
+    private static final double TOO_SMALL = 10E-12;
 
     /**
      * Creates a matrix with no data

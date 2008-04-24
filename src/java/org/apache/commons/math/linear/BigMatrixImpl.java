@@ -73,7 +73,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     private int scale = 64;
     
     /** Bound to determine effective singularity in LU decomposition */
-    protected static BigDecimal TOO_SMALL = new BigDecimal(10E-12);
+    private static final BigDecimal TOO_SMALL = new BigDecimal(10E-12);
     
     /** BigDecimal 0 */
     static final BigDecimal ZERO = new BigDecimal(0);
