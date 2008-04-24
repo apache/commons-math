@@ -40,6 +40,10 @@ Commons Math Release Notes</title>
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="luc" type="add" issue="MATH-202">
+        Added the getSwitchingFunctions and clearSwitchingFunctions to the
+        FirstOrderIntegrator interface and all its implementations
+      </action>
       <action dev="luc" type="update" >
         Removed deprecated features. This includes the following changes. Factory-based
         instantiation replaced by setter injection in 1.2 in several classes have been

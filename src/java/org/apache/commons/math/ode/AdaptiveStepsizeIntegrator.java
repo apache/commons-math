@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.ode;
 
+import java.util.Collection;
+
 /**
  * This abstract class holds the common part of all adaptive
  * stepsize integrators for Ordinary Differential Equations.
@@ -154,12 +156,31 @@ public abstract class AdaptiveStepsizeIntegrator
    * @param convergence convergence threshold in the event time search
    * @param maxIterationCount upper limit of the iteration count in
    * the event time search
+   * @see #getSwitchingFunctions()
+   * @see #clearSwitchingFunctions()
    */
   public void addSwitchingFunction(SwitchingFunction function,
                                    double maxCheckInterval,
                                    double convergence,
                                    int maxIterationCount) {
     switchesHandler.add(function, maxCheckInterval, convergence, maxIterationCount);
+  }
+
+  /** Get all the switching functions that have been added to the integrator.
+   * @return an unmodifiable collection of the added switching functions
+   * @see #add(SwitchingFunction, double, double, int)
+   * @see #clearSwitchingFunctions()
+   */
+  public Collection getSwitchingFunctions() {
+      return switchesHandler.getSwitchingFunctions();
+  }
+
+  /** Remove all the switching functions that have been added to the integrator.
+   * @see #add(SwitchingFunction, double, double, int)
+   * @see #getSwitchingFunctions()
+   */
+  public void clearSwitchingFunctions() {
+      switchesHandler.clearSwitchingFunctions();
   }
 
   /** Perform some sanity checks on the integration parameters.

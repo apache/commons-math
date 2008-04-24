@@ -191,6 +191,7 @@ public class DormandPrince54IntegratorTest
       integ.addSwitchingFunction(functions[l],
                                  Double.POSITIVE_INFINITY, 1.0e-8 * maxStep, 1000);
     }
+    assertEquals(functions.length, integ.getSwitchingFunctions().size());
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
@@ -198,6 +199,8 @@ public class DormandPrince54IntegratorTest
     assertTrue(handler.getMaximalValueError() < 5.0e-6);
     assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
     assertEquals(12.0, handler.getLastTime(), 1.0e-8 * maxStep);
+    integ.clearSwitchingFunctions();
+    assertEquals(0, integ.getSwitchingFunctions().size());
 
   }
 

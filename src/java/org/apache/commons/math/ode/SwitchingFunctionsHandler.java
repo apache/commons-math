@@ -21,6 +21,8 @@ import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -51,11 +53,30 @@ public class SwitchingFunctionsHandler {
    * @param convergence convergence threshold in the event time search
    * @param maxIterationCount upper limit of the iteration count in
    * the event time search
+   * @see #getSwitchingFunctions()
+   * @see #clearSwitchingFunctions()
    */
   public void add(SwitchingFunction function, double maxCheckInterval,
                   double convergence, int maxIterationCount) {
     functions.add(new SwitchState(function, maxCheckInterval,
                                   convergence, maxIterationCount));
+  }
+
+  /** Get all the switching functions that have been added to the handler.
+   * @return an unmodifiable collection of the added switching functions
+   * @see #add(SwitchingFunction, double, double, int)
+   * @see #clearSwitchingFunctions()
+   */
+  public Collection getSwitchingFunctions() {
+      return Collections.unmodifiableCollection(functions);
+  }
+
+  /** Remove all the switching functions that have been added to the handler.
+   * @see #add(SwitchingFunction, double, double, int)
+   * @see #getSwitchingFunctions()
+   */
+  public void clearSwitchingFunctions() {
+      functions.clear();
   }
 
   /** Check if the handler does not have any condition.

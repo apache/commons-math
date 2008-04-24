@@ -88,6 +88,7 @@ public class ClassicalRungeKuttaIntegratorTest
           integ.addSwitchingFunction(functions[l],
                                      Double.POSITIVE_INFINITY, 1.0e-6 * step, 1000);
         }
+        assertEquals(functions.length, integ.getSwitchingFunctions().size());
         integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                         pb.getFinalTime(), new double[pb.getDimension()]);
 
@@ -97,6 +98,8 @@ public class ClassicalRungeKuttaIntegratorTest
         }
         previousError = error;
         assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
+        integ.clearSwitchingFunctions();
+        assertEquals(0, integ.getSwitchingFunctions().size());
       }
 
     }

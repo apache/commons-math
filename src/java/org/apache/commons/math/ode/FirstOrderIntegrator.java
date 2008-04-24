@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.ode;
 
+import java.util.Collection;
+
 /** This interface represents a first order integrator for
  * differential equations.
 
@@ -59,11 +61,26 @@ public interface FirstOrderIntegrator {
    * @param convergence convergence threshold in the event time search
    * @param maxIterationCount upper limit of the iteration count in
    * the event time search
+   * @see #getSwitchingFunctions()
+   * @see #clearSwitchingFunctions()
    */
   public void addSwitchingFunction(SwitchingFunction function,
                                    double maxCheckInterval,
                                    double convergence,
                                    int maxIterationCount);
+
+  /** Get all the switching functions that have been added to the integrator.
+   * @return an unmodifiable collection of the added switching functions
+   * @see #add(SwitchingFunction, double, double, int)
+   * @see #clearSwitchingFunctions()
+   */
+  public Collection getSwitchingFunctions();
+
+  /** Remove all the switching functions that have been added to the integrator.
+   * @see #add(SwitchingFunction, double, double, int)
+   * @see #getSwitchingFunctions()
+   */
+  public void clearSwitchingFunctions();
 
   /** Integrate the differential equations up to the given time.
    * <p>This method solves an Initial Value Problem (IVP).</p>
