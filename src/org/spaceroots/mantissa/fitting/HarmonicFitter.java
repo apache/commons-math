@@ -73,65 +73,6 @@ public class HarmonicFitter
     firstGuessNeeded = false;
   }
 
-  /**
-   * Simple constructor.
-   * @param maxIterations maximum number of iterations allowed
-   * @param convergence criterion threshold below which we do not need
-   * to improve the criterion anymore
-   * @param steadyStateThreshold steady state detection threshold, the
-   * problem has reached a steady state (read converged) if
-   * <code>Math.abs (Jn - Jn-1) < Jn * convergence</code>, where
-   * <code>Jn</code> and <code>Jn-1</code> are the current and
-   * preceding criterion value (square sum of the weighted residuals
-   * of considered measurements).
-   * @param epsilon threshold under which the matrix of the linearized
-   * problem is considered singular (see {@link
-   * org.spaceroots.mantissa.linalg.SquareMatrix#solve(
-   * org.spaceroots.mantissa.linalg.Matrix,double) SquareMatrix.solve}).
-   * @deprecated replaced by {@link #HarmonicFitter(Estimator)}
-   * as of version 7.0
-   */
-  public HarmonicFitter(int maxIterations, double convergence,
-                        double steadyStateThreshold, double epsilon) {
-    this(new GaussNewtonEstimator(maxIterations, convergence,
-                                   steadyStateThreshold, epsilon));
-  }
-
-  /**
-   * Simple constructor.
-
-   * <p>This constructor can be used when a first estimate of the
-   * coefficients is already known.</p>
-
-   * @param coefficients first estimate of the coefficients.
-   * A reference to this array is hold by the newly created
-   * object. Its elements will be adjusted during the fitting process
-   * and they will be set to the adjusted coefficients at the end.
-   * @param maxIterations maximum number of iterations allowed
-   * @param convergence criterion threshold below which we do not need
-   * to improve the criterion anymore
-   * @param steadyStateThreshold steady state detection threshold, the
-   * problem has reached a steady state (read converged) if
-   * <code>Math.abs (Jn - Jn-1) < Jn * convergence</code>, where
-   * <code>Jn</code> and <code>Jn-1</code> are the current and
-   * preceding criterion value (square sum of the weighted residuals
-   * of considered measurements).
-   * @param epsilon threshold under which the matrix of the linearized
-   * problem is considered singular (see {@link
-   * org.spaceroots.mantissa.linalg.SquareMatrix#solve(
-   * org.spaceroots.mantissa.linalg.Matrix,double) SquareMatrix.solve}).
-
-   * @deprecated replaced by {@link #HarmonicFitter(EstimatedParameter[],
-   * Estimator)} as of version 7.0
-   */
-  public HarmonicFitter(EstimatedParameter[] coefficients,
-                        int maxIterations, double convergence,
-                        double steadyStateThreshold, double epsilon) {
-    this(coefficients,
-          new GaussNewtonEstimator(maxIterations, convergence,
-                                   steadyStateThreshold, epsilon));
-  }
-
   public double[] fit()
     throws EstimationException {
     if (firstGuessNeeded) {
