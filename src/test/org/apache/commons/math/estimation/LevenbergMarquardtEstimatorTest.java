@@ -775,7 +775,8 @@ public class LevenbergMarquardtEstimatorTest
     private ArrayList points;
 
   }
-  public class QuadraticProblem extends SimpleEstimationProblem {
+
+  private static class QuadraticProblem extends SimpleEstimationProblem {
 
       private EstimatedParameter a;
       private EstimatedParameter b;
