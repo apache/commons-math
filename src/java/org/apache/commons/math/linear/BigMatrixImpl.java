@@ -1174,18 +1174,6 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     //------------------------ Protected methods
     
     /**
-     * Returns <code>dimension x dimension</code> identity matrix.
-     *
-     * @param dimension dimension of identity matrix to generate
-     * @return identity matrix
-     * @throws IllegalArgumentException if dimension is not positive
-     * @deprecated  use {@link MatrixUtils#createBigIdentityMatrix}
-     */
-    protected BigMatrix getIdentity(int dimension) {
-        return MatrixUtils.createBigIdentityMatrix(dimension);
-    }
-    
-    /**
      *  Returns the LU decomposition as a BigMatrix.
      *  Returns a fresh copy of the cached LU matrix if this has been computed; 
      *  otherwise the composition is computed and cached for use by other methods.   
