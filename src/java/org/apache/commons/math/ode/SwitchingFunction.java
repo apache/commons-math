@@ -19,8 +19,6 @@ package org.apache.commons.math.ode;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.FunctionEvaluationException;
-
 /** This interface represents a switching function.
  *
  * <p>A switching function allows to handle discrete events in
@@ -93,10 +91,9 @@ public interface SwitchingFunction extends Serializable {
    * @param t current value of the independent <i>time</i> variable
    * @param y array containing the current value of the state vector
    * @return value of the g function
-   * @exception FunctionEvaluationException if the value of the function
-   * cannot be evaluated
+   * @exception SwitchException if the switching function cannot be evaluated
    */
-  public double g(double t, double[] y) throws FunctionEvaluationException;
+  public double g(double t, double[] y) throws SwitchException;
 
   /** Handle an event and choose what to do next.
 
@@ -131,8 +128,9 @@ public interface SwitchingFunction extends Serializable {
    * @return indication of what the integrator should do next, this
    * value must be one of {@link #STOP}, {@link #RESET_STATE},
    * {@link #RESET_DERIVATIVES} or {@link #CONTINUE}
+   * @exception SwitchException if the event occurrence triggers an error
    */
-  public int eventOccurred(double t, double[] y);
+  public int eventOccurred(double t, double[] y) throws SwitchException;
   
   /** Reset the state prior to continue the integration.
 
@@ -148,7 +146,8 @@ public interface SwitchingFunction extends Serializable {
    * @param t current value of the independent <i>time</i> variable
    * @param y array containing the current value of the state vector
    * the new state should be put in the same array
+   * @exception SwitchException if the state cannot be reseted
    */
-  public void resetState(double t, double[] y);
+  public void resetState(double t, double[] y) throws SwitchException;
 
 }

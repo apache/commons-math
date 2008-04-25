@@ -17,14 +17,13 @@
 
 package org.apache.commons.math.ode;
 
-import org.apache.commons.math.ConvergenceException;
-import org.apache.commons.math.FunctionEvaluationException;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+
+import org.apache.commons.math.ConvergenceException;
 
 /** This class handles several {@link SwitchingFunction switching
  * functions} during integration.
@@ -147,8 +146,8 @@ public class SwitchingFunctionsHandler {
 
       return first != null;
 
-    } catch (FunctionEvaluationException fee) {
-      throw new IntegratorException(fee);
+    } catch (SwitchException se) {
+      throw new IntegratorException(se);
     } catch (ConvergenceException ce) {
       throw new IntegratorException(ce);
     }
@@ -180,8 +179,8 @@ public class SwitchingFunctionsHandler {
       for (Iterator iter = functions.iterator(); iter.hasNext();) {
         ((SwitchState) iter.next()).stepAccepted(t, y);
       }
-    } catch (FunctionEvaluationException fee) {
-      throw new IntegratorException(fee);
+    } catch (SwitchException se) {
+      throw new IntegratorException(se);
     }
   }
 
@@ -204,15 +203,21 @@ public class SwitchingFunctionsHandler {
    * @param y array were to put the desired state vector at the beginning
    * of the next step
    * @return true if the integrator should reset the derivatives too
+   * @exception IntegratorException if one of the switching functions
+   * that should reset the state fails to do it
    */
-  public boolean reset(double t, double[] y) {
-    boolean resetDerivatives = false;
-    for (Iterator iter = functions.iterator(); iter.hasNext();) {
-      if (((SwitchState) iter.next()).reset(t, y)) {
-        resetDerivatives = true;
+  public boolean reset(double t, double[] y) throws IntegratorException {
+      try {
+          boolean resetDerivatives = false;
+          for (Iterator iter = functions.iterator(); iter.hasNext();) {
+              if (((SwitchState) iter.next()).reset(t, y)) {
+                  resetDerivatives = true;
+              }
+          }
+          return resetDerivatives;
+      } catch (SwitchException se) {
+          throw new IntegratorException(se);
       }
-    }
-    return resetDerivatives;
   }
 
   /** Switching functions. */

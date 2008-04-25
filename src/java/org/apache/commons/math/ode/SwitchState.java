@@ -42,7 +42,7 @@ import org.apache.commons.math.analysis.UnivariateRealSolver;
 class SwitchState implements Serializable {
 
   /** Serializable version identifier. */
-  private static final long serialVersionUID = -7307007422156119622L;
+    private static final long serialVersionUID = -7307007422156119622L;
 
   /** Switching function. */
   private SwitchingFunction function;
@@ -50,10 +50,10 @@ class SwitchState implements Serializable {
   /** Maximal time interval between switching function checks. */
   private double maxCheckInterval;
 
-  /** Convergence threshold for event localisation. */
+  /** Convergence threshold for event localization. */
   private double convergence;
 
-  /** Upper limit in the iteration count for event localisation. */
+  /** Upper limit in the iteration count for event localization. */
   private int maxIterationCount;
 
   /** Time at the beginning of the step. */
@@ -115,11 +115,11 @@ class SwitchState implements Serializable {
    * beginning of the step
    * @param y0 array containing the current value of the state vector
    * at the beginning of the step
-   * @exception FunctionEvaluationException if the switching function
+   * @exception SwitchException if the switching function
    * value cannot be evaluated at the beginning of the step
    */
   public void reinitializeBegin(double t0, double[] y0)
-    throws FunctionEvaluationException {
+    throws SwitchException {
     this.t0 = t0;
     g0 = function.g(t0, y0);
     g0Positive = (g0 >= 0);
@@ -132,12 +132,12 @@ class SwitchState implements Serializable {
    * rejected)
    * @exception DerivativeException if the interpolator fails to
    * compute the function somewhere within the step
-   * @exception FunctionEvaluationException if the switching function
+   * @exception SwitchException if the switching function
    * cannot be evaluated
    * @exception ConvergenceException if an event cannot be located
    */
   public boolean evaluateStep(final StepInterpolator interpolator)
-    throws DerivativeException, FunctionEvaluationException, ConvergenceException {
+    throws DerivativeException, SwitchException, ConvergenceException {
 
     try {
 
@@ -168,6 +168,8 @@ class SwitchState implements Serializable {
                       interpolator.setInterpolatedTime(t);
                       return function.g(t, interpolator.getInterpolatedState());
                   } catch (DerivativeException e) {
+                      throw new FunctionEvaluationException(t, e);
+                  } catch (SwitchException e) {
                       throw new FunctionEvaluationException(t, e);
                   }
               }
@@ -205,10 +207,12 @@ class SwitchState implements Serializable {
 
     } catch (FunctionEvaluationException e) {
      Throwable cause = e.getCause();
-      if ((cause != null) && (cause instanceof DerivativeException)) {
-        throw (DerivativeException) cause;
-      }
-      throw e;
+     if ((cause != null) && (cause instanceof DerivativeException)) {
+         throw (DerivativeException) cause;
+     } else if ((cause != null) && (cause instanceof SwitchException)) {
+         throw (SwitchException) cause;
+     }
+     throw new SwitchException(e);
     }
 
   }
@@ -227,11 +231,10 @@ class SwitchState implements Serializable {
    * end of the step
    * @param y array containing the current value of the state vector
    * at the end of the step
-   * @exception FunctionEvaluationException if the value of the switching
+   * @exception SwitchException if the value of the switching
    * function cannot be evaluated
    */
-  public void stepAccepted(double t, double[] y)
-    throws FunctionEvaluationException {
+  public void stepAccepted(double t, double[] y) throws SwitchException {
 
     t0 = t;
     g0 = function.g(t, y);
@@ -261,8 +264,10 @@ class SwitchState implements Serializable {
    * @param y array were to put the desired state vector at the beginning
    * of the next step
    * @return true if the integrator should reset the derivatives too
+   * @exception SwitchException if the state cannot be reseted by the switching
+   * function
    */
-  public boolean reset(double t, double[] y) {
+  public boolean reset(double t, double[] y) throws SwitchException {
 
     if (! pendingEvent) {
       return false;

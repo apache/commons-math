@@ -17,17 +17,11 @@
 
 package org.apache.commons.math.ode;
 
-import org.apache.commons.math.ConvergenceException;
-import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.ode.DerivativeException;
-import org.apache.commons.math.ode.FirstOrderIntegrator;
-import org.apache.commons.math.ode.HighamHall54Integrator;
-import org.apache.commons.math.ode.IntegratorException;
-import org.apache.commons.math.ode.StepHandler;
-import org.apache.commons.math.ode.StepInterpolator;
-import org.apache.commons.math.ode.SwitchingFunction;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
-import junit.framework.*;
+import org.apache.commons.math.ConvergenceException;
 
 public class HighamHall54IntegratorTest
   extends TestCase {
@@ -185,11 +179,12 @@ public class HighamHall54IntegratorTest
         public int eventOccurred(double t, double[] y) {
           return SwitchingFunction.CONTINUE;
         }
-        public double g(double t, double[] y) throws FunctionEvaluationException {
+        public double g(double t, double[] y) throws SwitchException {
           double middle = (pb.getInitialTime() + pb.getFinalTime()) / 2;
           double offset = t - middle;
           if (offset > 0) {
-            throw new FunctionEvaluationException(t);
+            throw new SwitchException("Evaluation failed for argument = {0}",
+                                      new Object[] { new Double(t) });
           }
           return offset;
         }

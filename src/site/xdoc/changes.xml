@@ -35,11 +35,16 @@ The <action> type attribute can be add,update,fix,remove.
 
 <document>
   <properties>
-    <title>
-Commons Math Release Notes</title>
+    <title>Commons Math Release Notes</title>
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="luc" type="add" >
+        Switching functions can now throw dedicated SwitchException from all their
+        method. At upper call level, the various ODE integrators handle these new
+        exceptions and wrap them into IntegratorException instances, hence the
+        integrators methods signature did not change.
+      </action>
       <action dev="luc" type="add" issue="MATH-202">
         Added the getSwitchingFunctions and clearSwitchingFunctions to the
         FirstOrderIntegrator interface and all its implementations
