@@ -41,6 +41,9 @@ Commons Math Release Notes</title>
   <body>
     <release version="1.3-SNAPSHOT" date="TBD"
     description="TBD">
+      <action dev="luc" type="fix" issue="MATH-205" due-to="Roman Werpachowski">
+        Fixed formula in fast cosine transformer javadoc comments.
+      </action>
       <action dev="brentworden" type="fix" issue="MATH-193" due-to="Michael Heuer and Sebb">
         Javadoc and style fixes.
       </action>

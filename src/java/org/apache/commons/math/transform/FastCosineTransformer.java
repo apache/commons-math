@@ -53,7 +53,7 @@ public class FastCosineTransformer implements Serializable {
      * Transform the given real data set.
      * <p>
      * The formula is $ F_n = (1/2) [f_0 + (-1)^n f_N] +
-     *                        \Sigma_{k=0}^{N-1} f_k \cos(\pi nk/N) $
+     *                        \Sigma_{k=1}^{N-1} f_k \cos(\pi nk/N) $
      * </p>
      * 
      * @param f the real data array to be transformed
@@ -71,7 +71,7 @@ public class FastCosineTransformer implements Serializable {
      * Transform the given real function, sampled on the given interval.
      * <p>
      * The formula is $ F_n = (1/2) [f_0 + (-1)^n f_N] +
-     *                        \Sigma_{k=0}^{N-1} f_k \cos(\pi nk/N) $
+     *                        \Sigma_{k=1}^{N-1} f_k \cos(\pi nk/N) $
      * </p>
      * 
      * @param f the function to be sampled and transformed
@@ -94,7 +94,7 @@ public class FastCosineTransformer implements Serializable {
      * Transform the given real data set.
      * <p>
      * The formula is $ F_n = \sqrt{1/2N} [f_0 + (-1)^n f_N] +
-     *                        \sqrt{2/N} \Sigma_{k=0}^{N-1} f_k \cos(\pi nk/N) $
+     *                        \sqrt{2/N} \Sigma_{k=1}^{N-1} f_k \cos(\pi nk/N) $
      * </p>
      * 
      * @param f the real data array to be transformed
@@ -113,7 +113,7 @@ public class FastCosineTransformer implements Serializable {
      * Transform the given real function, sampled on the given interval.
      * <p>
      * The formula is $ F_n = \sqrt{1/2N} [f_0 + (-1)^n f_N] +
-     *                        \sqrt{2/N} \Sigma_{k=0}^{N-1} f_k \cos(\pi nk/N) $
+     *                        \sqrt{2/N} \Sigma_{k=1}^{N-1} f_k \cos(\pi nk/N) $
      *
      * </p>
      * 
@@ -138,7 +138,7 @@ public class FastCosineTransformer implements Serializable {
      * Inversely transform the given real data set.
      * <p>
      * The formula is $ f_k = (1/N) [F_0 + (-1)^k F_N] +
-     *                        (2/N) \Sigma_{n=0}^{N-1} F_n \cos(\pi nk/N) $
+     *                        (2/N) \Sigma_{n=1}^{N-1} F_n \cos(\pi nk/N) $
      * </p>
      * 
      * @param f the real data array to be inversely transformed
@@ -157,7 +157,7 @@ public class FastCosineTransformer implements Serializable {
      * Inversely transform the given real function, sampled on the given interval.
      * <p>
      * The formula is $ f_k = (1/N) [F_0 + (-1)^k F_N] +
-     *                        (2/N) \Sigma_{n=0}^{N-1} F_n \cos(\pi nk/N) $
+     *                        (2/N) \Sigma_{n=1}^{N-1} F_n \cos(\pi nk/N) $
      * </p>
      * 
      * @param f the function to be sampled and inversely transformed
@@ -181,7 +181,7 @@ public class FastCosineTransformer implements Serializable {
      * Inversely transform the given real data set.
      * <p>
      * The formula is $ f_k = \sqrt{1/2N} [F_0 + (-1)^k F_N] +
-     *                        \sqrt{2/N} \Sigma_{n=0}^{N-1} F_n \cos(\pi nk/N) $
+     *                        \sqrt{2/N} \Sigma_{n=1}^{N-1} F_n \cos(\pi nk/N) $
      * </p>
      * 
      * @param f the real data array to be inversely transformed
@@ -199,7 +199,7 @@ public class FastCosineTransformer implements Serializable {
      * Inversely transform the given real function, sampled on the given interval.
      * <p>
      * The formula is $ f_k = \sqrt{1/2N} [F_0 + (-1)^k F_N] +
-     *                        \sqrt{2/N} \Sigma_{n=0}^{N-1} F_n \cos(\pi nk/N) $
+     *                        \sqrt{2/N} \Sigma_{n=1}^{N-1} F_n \cos(\pi nk/N) $
      * </p>
      * 
      * @param f the function to be sampled and inversely transformed
