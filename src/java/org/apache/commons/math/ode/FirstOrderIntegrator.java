@@ -71,13 +71,13 @@ public interface FirstOrderIntegrator {
 
   /** Get all the switching functions that have been added to the integrator.
    * @return an unmodifiable collection of the added switching functions
-   * @see #add(SwitchingFunction, double, double, int)
+   * @see #addSwitchingFunction(SwitchingFunction, double, double, int)
    * @see #clearSwitchingFunctions()
    */
   public Collection getSwitchingFunctions();
 
   /** Remove all the switching functions that have been added to the integrator.
-   * @see #add(SwitchingFunction, double, double, int)
+   * @see #addSwitchingFunction(SwitchingFunction, double, double, int)
    * @see #getSwitchingFunctions()
    */
   public void clearSwitchingFunctions();
