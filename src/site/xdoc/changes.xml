@@ -39,6 +39,9 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="luc" type="add" issue="MATH-203" due-to="Mauro Talevi">
+        Added Mauro's patch to support multiple regression.
+      </action>
       <action dev="luc" type="update" >
         Starting with version 2.0 of the library, the minimal version of the Java
         platform required to compile and use commons-math is Java 5. This version
