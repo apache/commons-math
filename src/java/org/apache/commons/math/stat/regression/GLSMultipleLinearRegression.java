@@ -36,12 +36,17 @@ import org.apache.commons.math.linear.RealMatrixImpl;
  * <pre>
  * Var(b)=(X' Omega^-1 X)^-1
  * </pre>
+ * @version $Revision$ $Date$
+ * @since 2.0
  */
 public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegression {
     
+    /** Covariance matrix. */
     private RealMatrix Omega;
-    
 
+    /**
+     * {@inheritDoc}
+     */
     public void addData(double[] y, double[][] x, double[][] covariance) {
         addYSampleData(y);
         addXSampleData(x);
@@ -61,7 +66,8 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * Calculates beta by GLS.
      * <pre>
      *  b=(X' Omega^-1 X)^-1X'Omega^-1 y
-     * </pre> 
+     * </pre>
+     * @return beta
      */
     protected RealMatrix calculateBeta() {
         RealMatrix OI = Omega.inverse();

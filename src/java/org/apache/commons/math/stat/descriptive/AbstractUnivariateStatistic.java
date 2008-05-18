@@ -38,7 +38,7 @@ public abstract class AbstractUnivariateStatistic
     private static final long serialVersionUID = -8007759382851708045L;
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.UnivariateStatistic#evaluate(double[])
+     * {@inheritDoc}
      */
     public double evaluate(final double[] values) {
         test(values, 0, 0);
@@ -46,7 +46,7 @@ public abstract class AbstractUnivariateStatistic
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.UnivariateStatistic#evaluate(double[], int, int)
+     * {@inheritDoc}
      */
     public abstract double evaluate(final double[] values, final int begin, final int length);
 

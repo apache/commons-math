@@ -1,15 +1,18 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements. See the NOTICE file distributed with this
- * work for additional information regarding copyright ownership. The ASF
- * licenses this file to You under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law
- * or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.apache.commons.math.stat.descriptive;
 
@@ -48,8 +51,7 @@ import org.apache.commons.math.util.MathUtils;
  * {@link SynchronizedSummaryStatistics} if concurrent access from multiple
  * threads is required.
  * </p>
- * @version $Revision$ $Date: 2008-02-10 13:28:59 -0600 (Sun, 10 Feb
- *          2008) $
+ * @version $Revision$ $Date$
  */
 public class SummaryStatistics implements StatisticalSummary, Serializable {
 
@@ -330,9 +332,14 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
             return false;
         }
         SummaryStatistics stat = (SummaryStatistics)object;
-        return (MathUtils.equals(stat.getGeometricMean(), this.getGeometricMean()) && MathUtils.equals(stat.getMax(), this.getMax())
-            && MathUtils.equals(stat.getMean(), this.getMean()) && MathUtils.equals(stat.getMin(), this.getMin()) && MathUtils.equals(stat.getN(), this.getN())
-            && MathUtils.equals(stat.getSum(), this.getSum()) && MathUtils.equals(stat.getSumsq(), this.getSumsq()) && MathUtils.equals(stat.getVariance(),
+        return (MathUtils.equals(stat.getGeometricMean(), this.getGeometricMean()) &&
+                MathUtils.equals(stat.getMax(), this.getMax()) &&
+                MathUtils.equals(stat.getMean(), this.getMean()) &&
+                MathUtils.equals(stat.getMin(), this.getMin()) &&
+                MathUtils.equals(stat.getN(), this.getN()) &&
+                MathUtils.equals(stat.getSum(), this.getSum()) &&
+                MathUtils.equals(stat.getSumsq(), this.getSumsq()) &&
+                MathUtils.equals(stat.getVariance(),
             this.getVariance()));
     }
 

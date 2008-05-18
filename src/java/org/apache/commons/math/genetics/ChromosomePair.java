@@ -18,6 +18,7 @@ package org.apache.commons.math.genetics;
 
 /**
  * A pair of {@link Chromosome} objects.
+ * @version $Revision$ $Date$
  */
 public class ChromosomePair {
     /** the first chromosome in the pair. */

@@ -93,28 +93,28 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#increment(double)
+     * {@inheritDoc}
      */
     public void increment(final double d) {
         variance.increment(d);
     }
     
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getN()
+     * {@inheritDoc}
      */
     public long getN() {
         return variance.getN();
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getResult()
+     * {@inheritDoc}
      */
     public double getResult() {
         return Math.sqrt(variance.getResult());
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#clear()
+     * {@inheritDoc}
      */
     public void clear() {
         variance.clear();

@@ -67,7 +67,7 @@ public class FourthMoment extends ThirdMoment implements Serializable{
     }
     
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#increment(double)
+     * {@inheritDoc}
      */
     public void increment(final double d) {
         if (n < 1) {
@@ -89,14 +89,14 @@ public class FourthMoment extends ThirdMoment implements Serializable{
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getResult()
+     * {@inheritDoc}
      */
     public double getResult() {
         return m4;
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#clear()
+     * {@inheritDoc}
      */
     public void clear() {
         super.clear();

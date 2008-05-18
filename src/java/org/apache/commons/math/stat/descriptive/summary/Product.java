@@ -55,7 +55,7 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
     }
     
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#increment(double)
+     * {@inheritDoc}
      */
     public void increment(final double d) {
         if (n == 0) {
@@ -67,21 +67,21 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getResult()
+     * {@inheritDoc}
      */
     public double getResult() {
         return value;
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getN()
+     * {@inheritDoc}
      */
     public long getN() {
         return n;
     }
     
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#clear()
+     * {@inheritDoc}
      */
     public void clear() {
         value = Double.NaN;

@@ -73,7 +73,7 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  {
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#increment(double)
+     * {@inheritDoc}
      */
     public void increment(final double d) {
         if (incMoment) {
@@ -85,7 +85,7 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  {
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getResult()
+     * {@inheritDoc}
      */
     public double getResult() {
         double kurtosis = Double.NaN;
@@ -105,7 +105,7 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  {
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#clear()
+     * {@inheritDoc}
      */
     public void clear() {
         if (incMoment) {
@@ -117,7 +117,7 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  {
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getN()
+     * {@inheritDoc}
      */
     public long getN() {
         return moment.getN();

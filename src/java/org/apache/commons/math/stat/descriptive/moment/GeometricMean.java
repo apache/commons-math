@@ -61,20 +61,21 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic {
     
     /**
      * Create a GeometricMean instance using the given SumOfLogs instance
+     * @param sumOfLogs sum of logs instance to use for computation
      */
     public GeometricMean(SumOfLogs sumOfLogs) {
         this.sumOfLogs = sumOfLogs;
     }
     
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#increment(double)
+     * {@inheritDoc}
      */
     public void increment(final double d) {
         sumOfLogs.increment(d);
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getResult()
+     * {@inheritDoc}
      */
     public double getResult() {
         if (sumOfLogs.getN() > 0) {
@@ -85,7 +86,7 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic {
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#clear()
+     * {@inheritDoc}
      */
     public void clear() {
         sumOfLogs.clear();
@@ -114,7 +115,7 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic {
     }
     
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getN()
+     * {@inheritDoc}
      */
     public long getN() {
         return sumOfLogs.getN();

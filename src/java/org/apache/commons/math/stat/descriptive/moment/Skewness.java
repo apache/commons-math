@@ -71,7 +71,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#increment(double)
+     * {@inheritDoc}
      */
     public void increment(final double d) {
         if (incMoment) {
@@ -102,14 +102,14 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getN()
+     * {@inheritDoc}
      */
     public long getN() {
         return moment.getN();
     }
     
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#clear()
+     * {@inheritDoc}
      */
     public void clear() {
         if (incMoment) {

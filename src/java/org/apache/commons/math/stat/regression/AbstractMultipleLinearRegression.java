@@ -21,11 +21,16 @@ import org.apache.commons.math.linear.RealMatrixImpl;
 
 /**
  * Abstract base class for implementations of MultipleLinearRegression.
+ * @version $Revision$ $Date$
+ * @since 2.0
  */
 public abstract class AbstractMultipleLinearRegression implements
         MultipleLinearRegression {
 
+    /** X sample data. */
     protected RealMatrix X;
+
+    /** Y sample data. */
     protected RealMatrix Y;
 
     /**
@@ -46,37 +51,52 @@ public abstract class AbstractMultipleLinearRegression implements
         this.X = new RealMatrixImpl(x);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public double[] estimateRegressionParameters(){
         RealMatrix b = calculateBeta();
         return b.getColumn(0);
     }    
     
+    /**
+     * {@inheritDoc}
+     */
     public double[] estimateResiduals(){
         RealMatrix b = calculateBeta();
         RealMatrix e = Y.subtract(X.multiply(b));
         return e.getColumn(0);
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
     public double[][] estimateRegressionParametersVariance() {
         return calculateBetaVariance().getData();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public double estimateRegressandVariance() {
         return calculateYVariance();
     }
     
     /**
      * Calculates the beta of multiple linear regression in matrix notation.
+     * @return beta
      */
     protected abstract RealMatrix calculateBeta();    
     
     /**
      * Calculates the beta variance of multiple linear regression in matrix notation.
+     * @return beta variance
      */
     protected abstract RealMatrix calculateBetaVariance();
     
     /**
      * Calculates the Y variance of multiple linear regression.
+     * @return Y variance
      */
     protected abstract double calculateYVariance();
 

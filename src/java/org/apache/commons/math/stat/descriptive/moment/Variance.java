@@ -147,7 +147,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getResult()
+     * {@inheritDoc}
      */
     public double getResult() {
             if (moment.n == 0) {
@@ -164,14 +164,14 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getN()
+     * {@inheritDoc}
      */
     public long getN() {
         return moment.getN();
     }
     
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#clear()
+     * {@inheritDoc}
      */
     public void clear() {
         if (incMoment) {

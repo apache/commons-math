@@ -35,10 +35,14 @@ import org.apache.commons.math.linear.RealMatrix;
  * <pre>
  * Var(b)=MSE*(X'X)^-1, MSE=u'u/(n-k)
  * </pre>
+ * @version $Revision$ $Date$
+ * @since 2.0
  */
 public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegression {
-    
 
+    /**
+     * {@inheritDoc}
+     */
     public void addData(double[] y, double[][] x, double[][] covariance) {
         addYSampleData(y);
         addXSampleData(x);
@@ -49,6 +53,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * <pre>
      * b=(X'X)^-1X'y
      * </pre> 
+     * @return beta
      */
     protected RealMatrix calculateBeta() {
         RealMatrix XTX = X.transpose().multiply(X);

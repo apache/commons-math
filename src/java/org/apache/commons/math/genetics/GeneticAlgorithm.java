@@ -19,6 +19,7 @@ package org.apache.commons.math.genetics;
 /**
  * Implementation of a genetic algorithm. All factors that govern the operation
  * of the algorithm can be configured for a specific problem.
+ * @version $Revision$ $Date$
  */
 public class GeneticAlgorithm {
     /** the crossover policy used by the algorithm. */

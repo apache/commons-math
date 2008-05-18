@@ -81,7 +81,7 @@ public class FirstMoment extends AbstractStorelessUnivariateStatistic
     }
     
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#increment(double)
+     * {@inheritDoc}
      */
     public void increment(final double d) {
         if (n == 0) {
@@ -95,7 +95,7 @@ public class FirstMoment extends AbstractStorelessUnivariateStatistic
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#clear()
+     * {@inheritDoc}
      */
     public void clear() {
         m1 = Double.NaN;
@@ -105,14 +105,14 @@ public class FirstMoment extends AbstractStorelessUnivariateStatistic
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getResult()
+     * {@inheritDoc}
      */
     public double getResult() {
         return m1;
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getN()
+     * {@inheritDoc}
      */
     public long getN() {
         return n;

@@ -50,7 +50,7 @@ public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.DescriptiveStatistics#addValue(double)
+     * {@inheritDoc}
      */
     public synchronized void addValue(double v) {
         super.addValue(v);
@@ -66,21 +66,21 @@ public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.DescriptiveStatistics#clear()
+     * {@inheritDoc}
      */
     public synchronized void clear() {
         super.clear();
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.DescriptiveStatistics#getElement(int)
+     * {@inheritDoc}
      */
     public synchronized double getElement(int index) {
         return super.getElement(index);
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.DescriptiveStatistics#getN()
+     * {@inheritDoc}
      */
     public synchronized long getN() {
         return super.getN();
@@ -96,7 +96,7 @@ public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.DescriptiveStatistics#getValues()
+     * {@inheritDoc}
      */
     public synchronized double[] getValues() {
         return super.getValues();
@@ -111,7 +111,7 @@ public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.DescriptiveStatistics#setWindowSize(int)
+     * {@inheritDoc}
      */
     public synchronized void setWindowSize(int windowSize) {
         super.setWindowSize(windowSize);

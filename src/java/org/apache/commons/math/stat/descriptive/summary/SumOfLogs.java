@@ -63,7 +63,7 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements S
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#increment(double)
+     * {@inheritDoc}
      */
     public void increment(final double d) {
         value += Math.log(d);
@@ -71,7 +71,7 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements S
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getResult()
+     * {@inheritDoc}
      */
     public double getResult() {
         if (n > 0) {
@@ -82,14 +82,14 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements S
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getN()
+     * {@inheritDoc}
      */
     public long getN() {
         return n;
     }
     
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#clear()
+     * {@inheritDoc}
      */
     public void clear() {
         value = 0d;
