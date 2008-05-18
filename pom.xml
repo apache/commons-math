@@ -22,7 +22,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>9</version>
+    <version>10</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>commons-math</groupId>
@@ -153,7 +153,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.2</version>
+      <version>4.4</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -164,6 +164,8 @@
     <commons.binary.suffix></commons.binary.suffix>
     <commons.jira.id>MATH</commons.jira.id>
     <commons.jira.pid>12310485</commons.jira.pid>
+    <maven.compile.source>1.5</maven.compile.source>
+    <maven.compile.target>1.5</maven.compile.target>
   </properties> 
 
   <build>
@@ -281,6 +283,8 @@
           <rulesets>
             <ruleset>checkstyle.xml</ruleset>
           </rulesets>
+          <linkXref>true</linkXref>
+          <targetJdk>1.5</targetJdk>
         </configuration>
       </plugin>
       <plugin>
