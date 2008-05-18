@@ -25,7 +25,7 @@ import org.apache.commons.math.util.MathUtils;
  * @since 1.1
  * @version $Revision$ $Date$
  */
-public class Fraction extends Number implements Comparable {
+public class Fraction extends Number implements Comparable<Fraction> {
 
     /** A fraction representing "1 / 1". */
     public static final Fraction ONE = new Fraction(1, 1);
@@ -34,7 +34,7 @@ public class Fraction extends Number implements Comparable {
     public static final Fraction ZERO = new Fraction(0, 1);
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = -8958519416450949235L;
+    private static final long serialVersionUID = -5731055832688548463L;
     
     /** The denominator. */
     private final int denominator;
@@ -246,13 +246,12 @@ public class Fraction extends Number implements Comparable {
      * @return -1 if this is less than <tt>object</tt>, +1 if this is greater
      *         than <tt>object</tt>, 0 if they are equal.
      */
-    public int compareTo(Object object) {
+    public int compareTo(Fraction object) {
         int ret = 0;
         
         if (this != object) { 
-            Fraction other = (Fraction)object;
             double first = doubleValue();
-            double second = other.doubleValue();
+            double second = object.doubleValue();
             
             if (first < second) {
                 ret = -1;

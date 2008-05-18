@@ -61,10 +61,10 @@ import org.apache.commons.math.stat.descriptive.StatisticalSummary;
 public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistribution {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = -6773236347582113490L;
+    private static final long serialVersionUID = 5729073523949762654L;
 
     /** List of SummaryStatistics objects characterizing the bins */
-    private List binStats = null;
+    private List<SummaryStatistics> binStats = null;
 
     /** Sample statistics */
     private SummaryStatistics sampleStats = null;
@@ -85,7 +85,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
      * Creates a new EmpiricalDistribution with the default bin count.
      */
     public EmpiricalDistributionImpl() {
-        binStats = new ArrayList();
+        binStats = new ArrayList<SummaryStatistics>();
     }
 
     /**
@@ -95,7 +95,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
      */
     public EmpiricalDistributionImpl(int binCount) {
         this.binCount = binCount;
-        binStats = new ArrayList();
+        binStats = new ArrayList<SummaryStatistics>();
     }
 
      /**
@@ -254,8 +254,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
             double val = 0.0d;
             while ((str = inputStream.readLine()) != null) {
                 val = Double.parseDouble(str);
-                SummaryStatistics stats =
-                    (SummaryStatistics) binStats.get(findBin(min, val, delta));
+                SummaryStatistics stats = binStats.get(findBin(min, val, delta));
                 stats.addValue(val);
             }
 
@@ -319,8 +318,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
             throws IOException {
             for (int i = 0; i < inputArray.length; i++) {
                 SummaryStatistics stats =
-                    (SummaryStatistics) binStats.get(
-                            findBin(min, inputArray[i], delta));
+                    binStats.get(findBin(min, inputArray[i], delta));
                 stats.addValue(inputArray[i]);
             }
         }
@@ -369,12 +367,10 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         // Assign upperBounds based on bin counts
         upperBounds = new double[binCount];
         upperBounds[0] =
-        ((double)((SummaryStatistics)binStats.get(0)).getN())/
-        (double)sampleStats.getN();
+        ((double) binStats.get(0).getN()) / (double) sampleStats.getN();
         for (int i = 1; i < binCount-1; i++) {
             upperBounds[i] = upperBounds[i-1] +
-            ((double)((SummaryStatistics)binStats.get(i)).getN())/
-            (double)sampleStats.getN();
+            ((double) binStats.get(i).getN()) / (double) sampleStats.getN();
         }
         upperBounds[binCount-1] = 1.0d;
     }
@@ -411,7 +407,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         // Use this to select the bin and generate a Gaussian within the bin
         for (int i = 0; i < binCount; i++) {
            if (x <= upperBounds[i]) {
-               SummaryStatistics stats = (SummaryStatistics)binStats.get(i);
+               SummaryStatistics stats = binStats.get(i);
                if (stats.getN() > 0) {
                    if (stats.getStandardDeviation() > 0) {  // more than one obs
                         return randomData.nextGaussian
@@ -453,7 +449,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
      * 
      * @return List of bin statistics.
      */
-    public List getBinStats() {
+    public List<SummaryStatistics> getBinStats() {
         return binStats;
     }
 

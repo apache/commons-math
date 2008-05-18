@@ -16,16 +16,15 @@
  */
 package org.apache.commons.math.random;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 import org.apache.commons.math.RetryTestCase;
 import org.apache.commons.math.TestUtils;
@@ -58,7 +57,7 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
                 new BufferedReader(new InputStreamReader(
                         url.openStream()));
         String str = null;
-        ArrayList list = new ArrayList();
+        ArrayList<Double> list = new ArrayList<Double>();
         while ((str = in.readLine()) != null) {
             list.add(Double.valueOf(str));
         }
@@ -67,8 +66,8 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
         
         dataArray = new double[list.size()];
         int i = 0;
-        for (Iterator iter = list.iterator(); iter.hasNext();) {
-            dataArray[i] = ((Double)iter.next()).doubleValue();
+        for (Double data : list) {
+            dataArray[i] = data.doubleValue();
             i++;
         }                 
     }

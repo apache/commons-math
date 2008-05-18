@@ -486,14 +486,14 @@ public class RandomDataTest extends RetryTestCase {
        long[] observed = {0,0,0,0,0,0,0,0,0,0};
        double[] expected = {100,100,100,100,100,100,100,100,100,100};
        
-       HashSet cPop = new HashSet();  //{0,1,2,3,4}
+       HashSet<Object> cPop = new HashSet<Object>();  //{0,1,2,3,4}
        for (int i = 0; i < 5; i++) {
            cPop.add(Integer.toString(i));
        }
        
        Object[] sets = new Object[10]; // 2-sets from 5
        for (int i = 0; i < 10; i ++) {
-           HashSet hs = new HashSet();
+           HashSet<Object> hs = new HashSet<Object>();
            hs.add(c[i][0]);
            hs.add(c[i][1]);
            sets[i] = hs;
@@ -511,7 +511,7 @@ public class RandomDataTest extends RetryTestCase {
             testStatistic.chiSquare(expected,observed) < 27.88);  
        
        // Make sure sample of size = size of collection returns same collection
-       HashSet hs = new HashSet();
+       HashSet<Object> hs = new HashSet<Object>();
        hs.add("one");
        Object[] one = randomData.nextSample(hs,1);
        String oneString = (String) one[0];
@@ -529,18 +529,19 @@ public class RandomDataTest extends RetryTestCase {
        
        // Make sure we fail for empty collection
        try {
-           hs = new HashSet();
+           hs = new HashSet<Object>();
            one = randomData.nextSample(hs,0);
            fail("n = k = 0, expecting IllegalArgumentException");
        } catch (IllegalArgumentException ex) {
            ;
        }
     }
-    
+
+    @SuppressWarnings("unchecked")
     private int findSample(Object[] u, Object[] samp) {
         for (int i = 0; i < u.length; i++) {
-            HashSet set = (HashSet) u[i];
-            HashSet sampSet = new HashSet();
+            HashSet<Object> set = (HashSet<Object>) u[i];
+            HashSet<Object> sampSet = new HashSet<Object>();
             for (int j = 0; j < samp.length; j++) {
                 sampSet.add(samp[j]);
             }

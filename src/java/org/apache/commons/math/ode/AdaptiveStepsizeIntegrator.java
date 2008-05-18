@@ -163,7 +163,7 @@ public abstract class AdaptiveStepsizeIntegrator
                                    double maxCheckInterval,
                                    double convergence,
                                    int maxIterationCount) {
-    switchesHandler.add(function, maxCheckInterval, convergence, maxIterationCount);
+    switchesHandler.addSwitchingFunction(function, maxCheckInterval, convergence, maxIterationCount);
   }
 
   /** Get all the switching functions that have been added to the integrator.
@@ -171,7 +171,7 @@ public abstract class AdaptiveStepsizeIntegrator
    * @see #addSwitchingFunction(SwitchingFunction, double, double, int)
    * @see #clearSwitchingFunctions()
    */
-  public Collection getSwitchingFunctions() {
+  public Collection<SwitchState> getSwitchingFunctions() {
       return switchesHandler.getSwitchingFunctions();
   }
 

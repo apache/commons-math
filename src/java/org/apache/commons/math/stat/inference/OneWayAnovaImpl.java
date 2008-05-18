@@ -16,15 +16,13 @@
  */
 package org.apache.commons.math.stat.inference;
 
-import org.apache.commons.math.MathException;
-import org.apache.commons.math.stat.descriptive.summary.Sum;
-import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
+import java.util.Collection;
 
+import org.apache.commons.math.MathException;
 import org.apache.commons.math.distribution.FDistribution;
 import org.apache.commons.math.distribution.FDistributionImpl;
-
-import java.util.Collection;
-import java.util.Iterator;
+import org.apache.commons.math.stat.descriptive.summary.Sum;
+import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
 
 
 /**
@@ -65,7 +63,7 @@ public class OneWayAnovaImpl implements OneWayAnova  {
      * are as defined <a href="http://faculty.vassar.edu/lowry/ch13pt1.html">
      * here</a></p>
      */
-    public double anovaFValue(Collection categoryData)
+    public double anovaFValue(Collection<double[]> categoryData)
         throws IllegalArgumentException, MathException {
         AnovaStats a = anovaStats(categoryData);
         return a.F;
@@ -81,7 +79,7 @@ public class OneWayAnovaImpl implements OneWayAnova  {
      * where <code>F</code> is the F value and <code>cumulativeProbability</code>
      * is the commons-math implementation of the F distribution.</p>
      */
-    public double anovaPValue(Collection categoryData)
+    public double anovaPValue(Collection<double[]> categoryData)
         throws IllegalArgumentException, MathException {
         AnovaStats a = anovaStats(categoryData);
         FDistribution fdist = new FDistributionImpl(a.dfbg, a.dfwg);
@@ -99,7 +97,7 @@ public class OneWayAnovaImpl implements OneWayAnova  {
      * is the commons-math implementation of the F distribution.</p>
      * <p>True is returned iff the estimated p-value is less than alpha.</p>
      */
-    public boolean anovaTest(Collection categoryData, double alpha)
+    public boolean anovaTest(Collection<double[]> categoryData, double alpha)
         throws IllegalArgumentException, MathException {
         if ((alpha <= 0) || (alpha > 0.5)) {
             throw new IllegalArgumentException("bad significance level: " + alpha);
@@ -118,7 +116,7 @@ public class OneWayAnovaImpl implements OneWayAnova  {
      * preconditions specified in the interface definition
      * @throws MathException if an error occurs computing the Anova stats
      */
-    private AnovaStats anovaStats(Collection categoryData)
+    private AnovaStats anovaStats(Collection<double[]> categoryData)
         throws IllegalArgumentException, MathException {
 
         // check if we have enough categories
@@ -128,14 +126,7 @@ public class OneWayAnovaImpl implements OneWayAnova  {
         }
         
         // check if each category has enough data and all is double[]
-        for (Iterator iterator = categoryData.iterator(); iterator.hasNext();) {
-            double[] array;
-            try {
-                array = (double[])iterator.next();
-            } catch (ClassCastException ex) {
-                throw new IllegalArgumentException(
-                        "ANOVA: categoryData contains non-double[] elements.");
-            }
+        for (double[] array : categoryData) {
             if (array.length <= 1) {
                 throw new IllegalArgumentException(
                         "ANOVA: one element of categoryData has fewer than 2 values.");
@@ -148,8 +139,7 @@ public class OneWayAnovaImpl implements OneWayAnova  {
         SumOfSquares totsumsq = new SumOfSquares();
         int totnum = 0;
         
-        for (Iterator iterator = categoryData.iterator(); iterator.hasNext();) {
-            double[] data = (double[])iterator.next();
+        for (double[] data : categoryData) {
 
             Sum sum = new Sum();
             SumOfSquares sumsq = new SumOfSquares();

@@ -74,7 +74,7 @@ public interface FirstOrderIntegrator {
    * @see #addSwitchingFunction(SwitchingFunction, double, double, int)
    * @see #clearSwitchingFunctions()
    */
-  public Collection getSwitchingFunctions();
+  public Collection<SwitchState> getSwitchingFunctions();
 
   /** Remove all the switching functions that have been added to the integrator.
    * @see #addSwitchingFunction(SwitchingFunction, double, double, int)

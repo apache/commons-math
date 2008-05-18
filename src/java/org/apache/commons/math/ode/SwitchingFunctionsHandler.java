@@ -20,7 +20,6 @@ package org.apache.commons.math.ode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.math.ConvergenceException;
@@ -39,7 +38,7 @@ public class SwitchingFunctionsHandler {
    * Create an empty handler
    */
   public SwitchingFunctionsHandler() {
-    functions   = new ArrayList();
+    functions   = new ArrayList<SwitchState>();
     first       = null;
     initialized = false;
   }
@@ -55,23 +54,23 @@ public class SwitchingFunctionsHandler {
    * @see #getSwitchingFunctions()
    * @see #clearSwitchingFunctions()
    */
-  public void add(SwitchingFunction function, double maxCheckInterval,
-                  double convergence, int maxIterationCount) {
+  public void addSwitchingFunction(SwitchingFunction function, double maxCheckInterval,
+                                   double convergence, int maxIterationCount) {
     functions.add(new SwitchState(function, maxCheckInterval,
                                   convergence, maxIterationCount));
   }
 
   /** Get all the switching functions that have been added to the handler.
    * @return an unmodifiable collection of the added switching functions
-   * @see #add(SwitchingFunction, double, double, int)
+   * @see #addSwitchingFunction(SwitchingFunction, double, double, int)
    * @see #clearSwitchingFunctions()
    */
-  public Collection getSwitchingFunctions() {
+  public Collection<SwitchState> getSwitchingFunctions() {
       return Collections.unmodifiableCollection(functions);
   }
 
   /** Remove all the switching functions that have been added to the handler.
-   * @see #add(SwitchingFunction, double, double, int)
+   * @see #addSwitchingFunction(SwitchingFunction, double, double, int)
    * @see #getSwitchingFunctions()
    */
   public void clearSwitchingFunctions() {
@@ -114,8 +113,8 @@ public class SwitchingFunctionsHandler {
         double t0 = interpolator.getPreviousTime();
         interpolator.setInterpolatedTime(t0);
         double [] y = interpolator.getInterpolatedState();
-        for (Iterator iter = functions.iterator(); iter.hasNext();) {
-          ((SwitchState) iter.next()).reinitializeBegin(t0, y);
+        for (SwitchState state : functions) {
+          state.reinitializeBegin(t0, y);
         }
 
         initialized = true;
@@ -123,9 +122,8 @@ public class SwitchingFunctionsHandler {
       }
 
       // check events occurrence
-      for (Iterator iter = functions.iterator(); iter.hasNext();) {
+      for (SwitchState state : functions) {
 
-        SwitchState state = (SwitchState) iter.next();
         if (state.evaluateStep(interpolator)) {
           if (first == null) {
             first = state;
@@ -176,8 +174,8 @@ public class SwitchingFunctionsHandler {
   public void stepAccepted(double t, double[] y)
     throws IntegratorException {
     try {
-      for (Iterator iter = functions.iterator(); iter.hasNext();) {
-        ((SwitchState) iter.next()).stepAccepted(t, y);
+      for (SwitchState state : functions) {
+        state.stepAccepted(t, y);
       }
     } catch (SwitchException se) {
       throw new IntegratorException(se);
@@ -189,8 +187,8 @@ public class SwitchingFunctionsHandler {
    * @return true if the integration should be stopped
    */
   public boolean stop() {
-    for (Iterator iter = functions.iterator(); iter.hasNext();) {
-      if (((SwitchState) iter.next()).stop()) {
+    for (SwitchState state : functions) {
+      if (state.stop()) {
         return true;
       }
     }
@@ -209,8 +207,8 @@ public class SwitchingFunctionsHandler {
   public boolean reset(double t, double[] y) throws IntegratorException {
       try {
           boolean resetDerivatives = false;
-          for (Iterator iter = functions.iterator(); iter.hasNext();) {
-              if (((SwitchState) iter.next()).reset(t, y)) {
+          for (SwitchState state : functions) {
+              if (state.reset(t, y)) {
                   resetDerivatives = true;
               }
           }
@@ -221,7 +219,7 @@ public class SwitchingFunctionsHandler {
   }
 
   /** Switching functions. */
-  private List functions;
+  private List<SwitchState> functions;
 
   /** First active switching function. */
   private SwitchState first;

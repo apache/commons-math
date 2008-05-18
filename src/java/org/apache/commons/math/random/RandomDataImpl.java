@@ -545,7 +545,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param k sample size.
      * @return the random sample.
      */
-    public Object[] nextSample(Collection c, int k) {
+    public Object[] nextSample(Collection<?> c, int k) {
         int len = c.size();
         if (k > len) {
             throw new IllegalArgumentException

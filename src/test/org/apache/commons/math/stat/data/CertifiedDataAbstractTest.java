@@ -24,14 +24,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
+
+import junit.framework.TestCase;
 
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
-
-import junit.framework.TestCase;
 
 /**
  * @version $Revision$ $Date$
@@ -42,12 +41,12 @@ public abstract class CertifiedDataAbstractTest extends TestCase {
     
     private SummaryStatistics summaries;
     
-    private Map certifiedValues;
+    private Map<String, Double> certifiedValues;
     
     protected void setUp() throws Exception {
         descriptives = new DescriptiveStatistics();
         summaries = new SummaryStatistics();
-        certifiedValues = new HashMap();
+        certifiedValues = new HashMap<String, Double>();
         
         loadData();
     }
@@ -110,10 +109,7 @@ public abstract class CertifiedDataAbstractTest extends TestCase {
     }
     
     public void testCertifiedValues() {
-        Iterator iter = certifiedValues.keySet().iterator();
-
-        while (iter.hasNext()) {
-            String name = iter.next().toString();
+        for (String name : certifiedValues.keySet()) {
             Double expectedValue = (Double)certifiedValues.get(name);
 
             Double summariesValue = getProperty(summaries, name);

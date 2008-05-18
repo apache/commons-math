@@ -18,17 +18,11 @@
 package org.apache.commons.math.estimation;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.HashSet;
 
-import org.apache.commons.math.estimation.EstimatedParameter;
-import org.apache.commons.math.estimation.EstimationException;
-import org.apache.commons.math.estimation.EstimationProblem;
-import org.apache.commons.math.estimation.LevenbergMarquardtEstimator;
-import org.apache.commons.math.estimation.WeightedMeasurement;
-
-import junit.framework.*;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * <p>Some of the unit tests are re-implementations of the MINPACK <a
@@ -618,14 +612,13 @@ public class LevenbergMarquardtEstimatorTest
     }
 
     public EstimatedParameter[] getAllParameters() {
-      HashMap map = new HashMap();
+      HashSet<EstimatedParameter> set = new HashSet<EstimatedParameter>();
       for (int i = 0; i < measurements.length; ++i) {
         EstimatedParameter[] parameters = measurements[i].getParameters();
         for (int j = 0; j < parameters.length; ++j) {
-          map.put(parameters[j], null);
+          set.add(parameters[j]);
         }
       }
-      Set set = map.keySet();
       return (EstimatedParameter[]) set.toArray(new EstimatedParameter[set.size()]);
     }
   
@@ -674,7 +667,7 @@ public class LevenbergMarquardtEstimatorTest
     public Circle(double cx, double cy) {
       this.cx = new EstimatedParameter("cx", cx);
       this.cy = new EstimatedParameter("cy", cy);
-      points  = new ArrayList();
+      points  = new ArrayList<PointModel>();
     }
 
     public void addPoint(double px, double py) {
@@ -699,24 +692,24 @@ public class LevenbergMarquardtEstimatorTest
 
     public double getPartialRadiusX() {
       double dRdX = 0;
-      for (Iterator iterator = points.iterator(); iterator.hasNext();) {
-        dRdX += ((PointModel) iterator.next()).getPartialDiX();
+      for (PointModel point : points) {
+        dRdX += point.getPartialDiX();
       }
       return dRdX / points.size();
     }
 
     public double getPartialRadiusY() {
       double dRdY = 0;
-      for (Iterator iterator = points.iterator(); iterator.hasNext();) {
-        dRdY += ((PointModel) iterator.next()).getPartialDiY();
+      for (PointModel point : points) {
+        dRdY += point.getPartialDiY();
       }
       return dRdY / points.size();
     }
 
    public double getRadius() {
       double r = 0;
-      for (Iterator iterator = points.iterator(); iterator.hasNext();) {
-        r += ((PointModel) iterator.next()).getCenterDistance();
+      for (PointModel point : points) {
+        r += point.getCenterDistance();
       }
       return r / points.size();
     }
@@ -772,7 +765,7 @@ public class LevenbergMarquardtEstimatorTest
 
     private EstimatedParameter cx;
     private EstimatedParameter cy;
-    private ArrayList points;
+    private ArrayList<PointModel> points;
 
   }
 
