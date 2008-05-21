@@ -44,6 +44,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * {@inheritDoc}
      */
     public void addData(double[] y, double[][] x, double[][] covariance) {
+        validateSampleData(x, y);
         addYSampleData(y);
         addXSampleData(x);
     }

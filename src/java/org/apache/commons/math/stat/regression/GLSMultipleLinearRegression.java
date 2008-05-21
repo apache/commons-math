@@ -48,8 +48,10 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * {@inheritDoc}
      */
     public void addData(double[] y, double[][] x, double[][] covariance) {
+        validateSampleData(x, y);
         addYSampleData(y);
         addXSampleData(x);
+        validateCovarianceData(x, covariance);
         addCovarianceData(covariance);
     }
 

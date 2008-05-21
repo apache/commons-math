@@ -25,7 +25,7 @@ import org.junit.Test;
 
 public abstract class AbstractMultipleLinearRegressionTest {
 
-    private MultipleLinearRegression regression;
+    protected MultipleLinearRegression regression;
 
     @Before
     public void setUp(){
@@ -61,5 +61,23 @@ public abstract class AbstractMultipleLinearRegressionTest {
         double variance = regression.estimateRegressandVariance();
         assertTrue(variance > 0.0);
     }   
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void cannotAddXSampleData() {
+        regression.addData(new double[]{}, null, null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void cannotAddNullYSampleData() {
+        regression.addData(null, new double[][]{}, null);
+    }
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void cannotAddSampleDataWithSizeMismatch() {
+        double[] y = new double[]{1.0, 2.0};
+        double[][] x = new double[1][];
+        x[0] = new double[]{1.0, 0};
+        regression.addData(y, x, null);
+    }
 
 }

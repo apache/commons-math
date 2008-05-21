@@ -37,8 +37,9 @@ public interface MultipleLinearRegression {
      * 
      * @param y the [n,1] array representing the y sample
      * @param x the [n,k] array representing x sample
-     * @param covariance the [n,n] array representing the covariance matrix or <code>null</code> if not appropriate for the
+     * @param covariance the [n,n] array representing the covariance matrix or <code>null</code> if not required for the
      *          specific implementation
+     * @throws IllegalArgumentException if required data arrays are <code>null</code> or their dimensions are not appropriate
      */
     void addData(double[] y, double[][] x, double[][] covariance);
 
@@ -62,7 +63,7 @@ public interface MultipleLinearRegression {
      * @return The [n,1] array representing the residuals
      */
     double[] estimateResiduals();
-    
+
     /**
      * Returns the variance of the regressand, ie Var(y).
      * 

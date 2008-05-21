@@ -17,6 +17,7 @@
 package org.apache.commons.math.stat.regression;
 
 import org.junit.Before;
+import org.junit.Test;
 
 public class GLSMultipleLinearRegressionTest extends AbstractMultipleLinearRegressionTest {
 
@@ -44,6 +45,36 @@ public class GLSMultipleLinearRegressionTest extends AbstractMultipleLinearRegre
         super.setUp();
     }
    
+
+    @Test(expected=IllegalArgumentException.class)
+    public void cannotAddNullCovarianceData() {
+        regression.addData(new double[]{}, new double[][]{}, null);
+    }
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void cannotAddCovarianceDataWithSampleSizeMismatch() {
+        double[] y = new double[]{1.0, 2.0};
+        double[][] x = new double[2][];
+        x[0] = new double[]{1.0, 0};
+        x[1] = new double[]{0, 1.0};
+        double[][] omega = new double[1][];
+        omega[0] = new double[]{1.0, 0};
+        regression.addData(y, x, omega);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void cannotAddCovarianceDataThatIsNotSquare() {
+        double[] y = new double[]{1.0, 2.0};
+        double[][] x = new double[2][];
+        x[0] = new double[]{1.0, 0};
+        x[1] = new double[]{0, 1.0};
+        double[][] omega = new double[3][];
+        omega[0] = new double[]{1.0, 0};
+        omega[1] = new double[]{0, 1.0};
+        omega[2] = new double[]{0, 2.0};
+        regression.addData(y, x, omega);
+    }
+
     protected MultipleLinearRegression createRegression() {
         MultipleLinearRegression regression = new GLSMultipleLinearRegression();
         regression.addData(y, x, omega);
@@ -57,5 +88,5 @@ public class GLSMultipleLinearRegressionTest extends AbstractMultipleLinearRegre
     protected int getSampleSize() {
         return y.length;
     }
-    
+        
 }
