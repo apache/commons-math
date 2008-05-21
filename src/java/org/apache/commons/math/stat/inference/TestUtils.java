@@ -128,6 +128,8 @@ public class TestUtils  {
     }
     
     
+    // CHECKSTYLE: stop JavadocMethodCheck
+
     /**
      * @see org.apache.commons.math.stat.inference.TTest#homoscedasticT(double[], double[])
      */
@@ -406,5 +408,7 @@ public class TestUtils  {
     throws IllegalArgumentException, MathException {
         return oneWayAnova.anovaTest(categoryData, alpha);
     }
+
+    // CHECKSTYLE: resume JavadocMethodCheck
 
 }
