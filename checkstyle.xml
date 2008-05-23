@@ -27,8 +27,7 @@
    
     <!-- Verify that EVERY source file has the appropriate license -->
     <module name="Header">
-      <property name="headerFile" value="${basedir}/LICENSE-header.txt"/>
-      <property name="ignoreLines" value="2"/>
+      <property name="headerFile" value="${checkstyle.header.file}"/>
     </module>
 
     <!-- Operator must be at end of wrapped line -->
