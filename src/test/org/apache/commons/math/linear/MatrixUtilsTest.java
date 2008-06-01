@@ -65,6 +65,10 @@ public final class MatrixUtilsTest extends TestCase {
     public void testCreateRealMatrix() {
         assertEquals(new RealMatrixImpl(testData), 
                 MatrixUtils.createRealMatrix(testData));
+        assertEquals(new RealMatrixImpl(testData, false), 
+                MatrixUtils.createRealMatrix(testData, true));
+        assertEquals(new RealMatrixImpl(testData, true), 
+                MatrixUtils.createRealMatrix(testData, false));
         try {
             MatrixUtils.createRealMatrix(new double[][] {{1}, {1,2}});  // ragged
             fail("Expecting IllegalArgumentException");
@@ -88,6 +92,10 @@ public final class MatrixUtilsTest extends TestCase {
     public void testCreateBigMatrix() {
         assertEquals(new BigMatrixImpl(testData), 
                 MatrixUtils.createBigMatrix(testData));
+        assertEquals(new BigMatrixImpl(BigMatrixImplTest.asBigDecimal(testData), true), 
+                MatrixUtils.createBigMatrix(BigMatrixImplTest.asBigDecimal(testData), false));
+        assertEquals(new BigMatrixImpl(BigMatrixImplTest.asBigDecimal(testData), false), 
+                MatrixUtils.createBigMatrix(BigMatrixImplTest.asBigDecimal(testData), true));
         assertEquals(new BigMatrixImpl(bigColMatrix), 
                 MatrixUtils.createBigMatrix(bigColMatrix));
         assertEquals(new BigMatrixImpl(stringColMatrix), 

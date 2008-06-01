@@ -156,9 +156,12 @@ public final class BigMatrixImplTest extends TestCase {
     
     /** test copy functions */
     public void testCopyFunctions() {
-        BigMatrixImpl m = new BigMatrixImpl(testData);
-        BigMatrixImpl m2 = new BigMatrixImpl(m.getData());
-        assertEquals(m2,m);
+        BigMatrixImpl m1 = new BigMatrixImpl(testData);
+        BigMatrixImpl m2 = new BigMatrixImpl(m1.getData());
+        assertEquals(m2,m1);
+        BigMatrixImpl m3 = new BigMatrixImpl(testData);
+        BigMatrixImpl m4 = new BigMatrixImpl(m3.getData(), false);
+        assertEquals(m4,m3);
     }
     
     /** test constructors */
@@ -166,9 +169,13 @@ public final class BigMatrixImplTest extends TestCase {
         BigMatrix m1 = new BigMatrixImpl(testData);
         BigMatrix m2 = new BigMatrixImpl(testDataString);
         BigMatrix m3 = new BigMatrixImpl(asBigDecimal(testData));
+        BigMatrix m4 = new BigMatrixImpl(asBigDecimal(testData), true);
+        BigMatrix m5 = new BigMatrixImpl(asBigDecimal(testData), false);
         assertClose("double, string", m1, m2, Double.MIN_VALUE);
         assertClose("double, BigDecimal", m1, m3, Double.MIN_VALUE);
         assertClose("string, BigDecimal", m2, m3, Double.MIN_VALUE);
+        assertClose("double, BigDecimal/true", m1, m4, Double.MIN_VALUE);
+        assertClose("double, BigDecimal/false", m1, m5, Double.MIN_VALUE);
         try {
             new BigMatrixImpl(new String[][] {{"0", "hello", "1"}});
             fail("Expecting NumberFormatException");
@@ -212,7 +219,7 @@ public final class BigMatrixImplTest extends TestCase {
     public void testAdd() {
         BigMatrixImpl m = new BigMatrixImpl(testData);
         BigMatrixImpl mInv = new BigMatrixImpl(testDataInv);
-        BigMatrixImpl mPlusMInv = (BigMatrixImpl)m.add(mInv);
+        BigMatrix mPlusMInv = m.add(mInv);
         double[][] sumEntries = asDouble(mPlusMInv.getData());
         for (int row = 0; row < m.getRowDimension(); row++) {
             for (int col = 0; col < m.getColumnDimension(); col++) {

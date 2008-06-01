@@ -116,16 +116,19 @@ public final class RealMatrixImplTest extends TestCase {
     
     /** test copy functions */
     public void testCopyFunctions() {
-        RealMatrixImpl m = new RealMatrixImpl(testData);
-        RealMatrixImpl m2 = new RealMatrixImpl(m.getData());
-        assertEquals(m2,m);
+        RealMatrixImpl m1 = new RealMatrixImpl(testData);
+        RealMatrixImpl m2 = new RealMatrixImpl(m1.getData());
+        assertEquals(m2,m1);
+        RealMatrixImpl m3 = new RealMatrixImpl(testData);
+        RealMatrixImpl m4 = new RealMatrixImpl(m3.getData(), false);
+        assertEquals(m4,m3);
     }           
     
     /** test add */
     public void testAdd() {
         RealMatrixImpl m = new RealMatrixImpl(testData);
         RealMatrixImpl mInv = new RealMatrixImpl(testDataInv);
-        RealMatrixImpl mPlusMInv = (RealMatrixImpl)m.add(mInv);
+        RealMatrix mPlusMInv = m.add(mInv);
         double[][] sumEntries = mPlusMInv.getData();
         for (int row = 0; row < m.getRowDimension(); row++) {
             for (int col = 0; col < m.getColumnDimension(); col++) {
