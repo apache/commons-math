@@ -55,18 +55,18 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     private static final long serialVersionUID = -4828886979278117018L;
 
     /** Entries of the matrix */
-    private double data[][] = null;
+    protected double data[][] = null;
 
     /** Entries of cached LU decomposition.
      *  All updates to data (other than luDecompose()) *must* set this to null
      */
-    private double lu[][] = null;
+    protected double lu[][] = null;
 
     /** Permutation associated with LU decomposition */
-    private int[] permutation = null;
+    protected int[] permutation = null;
 
     /** Parity of the permutation associated with the LU decomposition */
-    private int parity = 1;
+    protected int parity = 1;
 
     /** Bound to determine effective singularity in LU decomposition */
     private static final double TOO_SMALL = 10E-12;

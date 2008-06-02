@@ -53,18 +53,18 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     private static final long serialVersionUID = -1011428905656140431L;
     
     /** Entries of the matrix */
-    private BigDecimal data[][] = null;
+    protected BigDecimal data[][] = null;
     
     /** Entries of cached LU decomposition.
      *  All updates to data (other than luDecompose()) *must* set this to null
      */
-    private BigDecimal lu[][] = null;
+    protected BigDecimal lu[][] = null;
     
     /** Permutation associated with LU decomposition */
-    private int[] permutation = null;
+    protected int[] permutation = null;
     
     /** Parity of the permutation associated with the LU decomposition */
-    private int parity = 1;
+    protected int parity = 1;
     
     /** Rounding mode for divisions **/
     private int roundingMode = BigDecimal.ROUND_HALF_UP;
