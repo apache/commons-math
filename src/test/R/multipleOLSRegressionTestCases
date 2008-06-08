@@ -1,0 +1,133 @@
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+#------------------------------------------------------------------------------
+# R source file to validate OLS multiple regression tests in
+# org.apache.commons.math.stat.regression.OLSMultipleLinearRegressionTest
+#
+# To run the test, install R, put this file and testFunctions
+# into the same directory, launch R from this directory and then enter
+# source("<name-of-this-file>")
+#
+#------------------------------------------------------------------------------
+tol <- 1E-8                       # error tolerance for tests
+#------------------------------------------------------------------------------
+# Function definitions
+
+source("testFunctions")           # utility test functions
+options(digits=16)	          # override number of digits displayed
+
+# function to verify OLS computations
+
+verifyRegression <- function(model, expectedBeta, expectedResiduals,
+  expectedErrors, modelName) {
+    betaHat <- as.vector(coefficients(model))
+    residuals <- as.vector(residuals(model))
+    errors <-  as.vector(as.matrix(coefficients(summary(model)))[,2])
+    output <- c("Parameter test dataset = ", modelName)
+    if (assertEquals(expectedBeta,betaHat,tol,"Parameters")) {
+        displayPadded(output, SUCCEEDED, WIDTH)
+    } else {
+        displayPadded(output, FAILED, WIDTH)
+    }  
+    output <- c("Residuals test dataset = ", modelName)
+    if (assertEquals(expectedResiduals,residuals,tol,"Residuals")) {
+        displayPadded(output, SUCCEEDED, WIDTH)
+    } else {
+        displayPadded(output, FAILED, WIDTH)
+    }    
+    output <- c("Errors test dataset = ", modelName)
+    if (assertEquals(expectedErrors,errors,tol,"Errors")) {
+        displayPadded(output, SUCCEEDED, WIDTH)
+    } else {
+        displayPadded(output, FAILED, WIDTH)
+    }           
+}
+
+#--------------------------------------------------------------------------
+cat("Multiple regression OLS test cases\n")
+
+# Perfect fit
+x1 <- c(0,2,0,0,0,0)
+x2 <- c(0,0,3,0,0,0)
+x3 <- c(0,0,0,4,0,0)
+x4 <- c(0,0,0,0,5,0)
+x5 <- c(0,0,0,0,0,6)
+y <- c(11, 12, 13, 14, 15, 16)
+model <- lm(y ~ x1 + x2 + x3 + x4 + x5)
+expectedBeta <- c(11.0,0.5,0.666666666666667,0.75,0.8,0.8333333333333333)
+expectedResiduals <- c(0,0,0,0,0,0)
+expectedErrors <- c(NaN,NaN,NaN,NaN,NaN,NaN)
+verifyRegression(model, expectedBeta, expectedResiduals, expectedErrors,
+ "perfect fit") 
+
+# Longly
+#
+# Data Source: J. Longley (1967) "An Appraisal of Least Squares Programs for the
+# Electronic Computer from the Point of View of the User", 
+# Journal of the American Statistical Association, 
+# vol. 62. September, pp. 819-841.
+#
+# Certified values (and data) are from NIST:
+# http://www.itl.nist.gov/div898/strd/lls/data/LINKS/DATA/Longley.dat
+#
+design <- matrix(c(60323,83.0,234289,2356,1590,107608,1947,
+                    61122,88.5,259426,2325,1456,108632,1948,
+                    60171,88.2,258054,3682,1616,109773,1949,
+                    61187,89.5,284599,3351,1650,110929,1950,
+                    63221,96.2,328975,2099,3099,112075,1951,
+                    63639,98.1,346999,1932,3594,113270,1952,
+                    64989,99.0,365385,1870,3547,115094,1953,
+                    63761,100.0,363112,3578,3350,116219,1954,
+                    66019,101.2,397469,2904,3048,117388,1955,
+                    67857,104.6,419180,2822,2857,118734,1956,
+                    68169,108.4,442769,2936,2798,120445,1957,
+                    66513,110.8,444546,4681,2637,121950,1958,
+                    68655,112.6,482704,3813,2552,123366,1959,
+                    69564,114.2,502601,3931,2514,125368,1960,
+                    69331,115.7,518173,4806,2572,127852,1961,
+                    70551,116.9,554894,4007,2827,130081,1962),
+                    nrow = 16, ncol = 7, byrow = TRUE)
+y <- design[,1]
+x1 <- design[,2]
+x2 <- design[,3]
+x3 <- design[,4]
+x4 <- design[,5]
+x5 <- design[,6]
+x6 <- design[,7]
+model <- lm(y ~ x1 + x2 + x3 + x4 + x5 + x6)
+
+estimates <- matrix(c(-3482258.63459582,890420.383607373,
+                       15.0618722713733,84.9149257747669,
+                      -0.358191792925910E-01,0.334910077722432E-01,
+                      -2.02022980381683,0.488399681651699,
+                      -1.03322686717359,0.214274163161675,
+                      -0.511041056535807E-01,0.226073200069370,
+                       1829.15146461355,455.478499142212),
+                       nrow = 7, ncol = 2, byrow = TRUE)
+
+expectedBeta <- estimates[,1]
+expectedErrors <- estimates[,2]
+expectedResiduals <- c( 267.340029759711,-94.0139423988359,46.28716775752924,
+ -410.114621930906,309.7145907602313,-249.3112153297231,-164.0489563956039,
+ -13.18035686637081,14.30477260005235,455.394094551857,-17.26892711483297,
+ -39.0550425226967,-155.5499735953195,-85.6713080421283,341.9315139607727,
+ -206.7578251937366)
+
+verifyRegression(model, expectedBeta, expectedResiduals, expectedErrors,
+ "Longly") 
+
+
+displayDashes(WIDTH)
