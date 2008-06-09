@@ -39,6 +39,17 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="luc" type="add">
+        Added several convenience methods for Vector3D and Rotation.
+      </action>
+      <action dev="luc" type="update">
+        Replaced public no argument constructors with IDENTITY or ZERO
+        static instances for immutable classes Vector3D and Rotation.
+      </action>
+      <action dev="luc" type="fix">
+        Fixed inconsistencies in the naming scheme for static fields in
+        Vector3D and Rotation with respect to the overall library.
+      </action>
       <action dev="luc" type="update" >
         Greatly improved RealMatrixImpl and BigMatrixImpl performances,
         both in terms of speed and in terms of temporary memory footprint.

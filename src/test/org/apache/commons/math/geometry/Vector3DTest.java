@@ -32,17 +32,17 @@ public class Vector3DTest
       double r = Math.sqrt(2) /2;
       checkVector(new Vector3D(2, new Vector3D(Math.PI / 3, -Math.PI / 4)),
                   r, r * Math.sqrt(3), -2 * r);
-      checkVector(new Vector3D(2, Vector3D.plusI,
-                              -3, Vector3D.minusK),
+      checkVector(new Vector3D(2, Vector3D.PLUS_I,
+                              -3, Vector3D.MINUS_K),
                   2, 0, 3);
-      checkVector(new Vector3D(2, Vector3D.plusI,
-                               5, Vector3D.plusJ,
-                              -3, Vector3D.minusK),
+      checkVector(new Vector3D(2, Vector3D.PLUS_I,
+                               5, Vector3D.PLUS_J,
+                              -3, Vector3D.MINUS_K),
                   2, 5, 3);
-      checkVector(new Vector3D(2, Vector3D.plusI,
-                               5, Vector3D.plusJ,
-                               5, Vector3D.minusJ,
-                               -3, Vector3D.minusK),
+      checkVector(new Vector3D(2, Vector3D.PLUS_I,
+                               5, Vector3D.PLUS_J,
+                               5, Vector3D.MINUS_J,
+                               -3, Vector3D.MINUS_K),
                   2, 0, 3);
   }
 
@@ -54,7 +54,7 @@ public class Vector3DTest
   }
   
   public void testNorm() {
-    assertTrue(Math.abs(new Vector3D().getNorm()) < 1.0e-12);
+    assertTrue(Math.abs(Vector3D.ZERO.getNorm()) < 1.0e-12);
     assertTrue(Math.abs(new Vector3D(1, 2, 3).getNorm() - Math.sqrt(14))
                < 1.0e-12);
   }
@@ -107,12 +107,12 @@ public class Vector3DTest
 
   public void testAngular() {
 
-    assertEquals(0,           Vector3D.plusI.getAlpha(), 1.0e-10);
-    assertEquals(0,           Vector3D.plusI.getDelta(), 1.0e-10);
-    assertEquals(Math.PI / 2, Vector3D.plusJ.getAlpha(), 1.0e-10);
-    assertEquals(0,           Vector3D.plusJ.getDelta(), 1.0e-10);
-    assertEquals(0,           Vector3D.plusK.getAlpha(), 1.0e-10);
-    assertEquals(Math.PI / 2, Vector3D.plusK.getDelta(), 1.0e-10);
+    assertEquals(0,           Vector3D.PLUS_I.getAlpha(), 1.0e-10);
+    assertEquals(0,           Vector3D.PLUS_I.getDelta(), 1.0e-10);
+    assertEquals(Math.PI / 2, Vector3D.PLUS_J.getAlpha(), 1.0e-10);
+    assertEquals(0,           Vector3D.PLUS_J.getDelta(), 1.0e-10);
+    assertEquals(0,           Vector3D.PLUS_K.getAlpha(), 1.0e-10);
+    assertEquals(Math.PI / 2, Vector3D.PLUS_K.getDelta(), 1.0e-10);
 
     Vector3D u = new Vector3D(-1, 1, -1);
     assertEquals(3 * Math.PI /4, u.getAlpha(), 1.0e-10);
@@ -134,7 +134,7 @@ public class Vector3DTest
   public void testNormalize() {
     assertEquals(1.0, new Vector3D(5, -4, 2).normalize().getNorm(), 1.0e-12);
     try {
-        new Vector3D().normalize();
+        Vector3D.ZERO.normalize();
         fail("an exception should have been thrown");
     } catch (ArithmeticException ae) {
         // expected behavior
@@ -171,7 +171,7 @@ public class Vector3DTest
                   Vector3D.angle(new Vector3D(1, 2, 3), new Vector3D(-2, -4, -6.000001)),
                   1.0e-12);
      try {
-         Vector3D.angle(new Vector3D(), Vector3D.plusI);
+         Vector3D.angle(Vector3D.ZERO, Vector3D.PLUS_I);
          fail("an exception should have been thrown");
      } catch (ArithmeticException ae) {
          // expected behavior
