@@ -134,7 +134,7 @@ public class BeanListUnivariateImpl extends ListUnivariateImpl implements Serial
 	    } catch (Exception ex) {              // InstantiationException, IllegalAccessException
 	        throw new RuntimeException(ex);   // should never happen
 	    }
-		dynaBean.set(propertyName, new Double(v));
+		dynaBean.set(propertyName, Double.valueOf(v));
 		addObject(dynaBean);
 	}
 
