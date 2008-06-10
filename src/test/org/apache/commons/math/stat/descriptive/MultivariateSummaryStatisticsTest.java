@@ -217,7 +217,7 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
         int emptyHash = u.hashCode();
         assertTrue(u.equals(u));
         assertFalse(u.equals(t));
-        assertFalse(u.equals(new Double(0)));
+        assertFalse(u.equals(Double.valueOf(0)));
         t = new MultivariateSummaryStatistics(2, true);
         assertTrue(t.equals(u));
         assertTrue(u.equals(t));

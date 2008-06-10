@@ -78,7 +78,7 @@ public abstract class CertifiedDataAbstractTest extends TestCase {
                         // certified value
                         String name = line.substring(0, n).trim();
                         String valueString = line.substring(n + 1).trim();
-                        Double value = new Double(valueString);
+                        Double value = Double.valueOf(valueString);
                         certifiedValues.put(name, value);
                     }
                 }
@@ -138,7 +138,7 @@ public abstract class CertifiedDataAbstractTest extends TestCase {
             if (meth.getReturnType().equals(Double.TYPE)) {
                 return (Double) property;
             } else if (meth.getReturnType().equals(Long.TYPE)) {
-                return new Double(((Long) property).doubleValue());
+                return Double.valueOf(((Long) property).doubleValue());
             } else {
                 fail("wrong type: " + meth.getReturnType().getName());
             }

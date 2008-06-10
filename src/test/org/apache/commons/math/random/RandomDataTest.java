@@ -202,7 +202,7 @@ public class RandomDataTest extends RetryTestCase {
                         f.getCount(3) + f.getCount(4) + f.getCount(5);
         long sumFreq = f.getSumFreq();
         double cumPct = 
-            new Double(cumFreq).doubleValue()/new Double(sumFreq).doubleValue();
+            Double.valueOf(cumFreq).doubleValue()/Double.valueOf(sumFreq).doubleValue();
         assertEquals("cum Poisson(4)",cumPct,0.7851,0.2);
         try {
             randomData.nextPoisson(-1);

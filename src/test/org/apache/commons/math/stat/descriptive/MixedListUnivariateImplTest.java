@@ -123,22 +123,22 @@ public final class MixedListUnivariateImplTest extends TestCase {
             new ListUnivariateImpl(new ArrayList<Object>(), transformers);
 
         u.addObject("12.5");
-        u.addObject(new Integer(12));
+        u.addObject(Integer.valueOf(12));
         u.addObject("11.8");
         u.addObject("14.2");
         u.addObject(new Foo());
         u.addObject("14.5");
-        u.addObject(new Long(21));
+        u.addObject(Long.valueOf(21));
         u.addObject("8.2");
         u.addObject("10.3");
         u.addObject("11.3");
-        u.addObject(new Float(14.1));
+        u.addObject(Float.valueOf(14.1f));
         u.addObject("9.9");
         u.addObject("12.2");
         u.addObject(new Bar());
         u.addObject("12.1");
         u.addObject("11");
-        u.addObject(new Double(19.8));
+        u.addObject(Double.valueOf(19.8));
         u.addObject("11");
         u.addObject("10");
         u.addObject("8.8");

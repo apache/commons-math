@@ -36,7 +36,7 @@ public class FunctionEvaluationExceptionTest extends TestCase {
     
     public void testConstructorPatternArguments(){
         String pattern = "Evaluation failed for argument = {0}";
-        Object[] arguments = { new Double(0.0) };
+        Object[] arguments = { Double.valueOf(0.0) };
         FunctionEvaluationException ex = new FunctionEvaluationException(0.0, pattern, arguments);
         assertNull(ex.getCause());
         assertEquals(pattern, ex.getPattern());
@@ -50,7 +50,7 @@ public class FunctionEvaluationExceptionTest extends TestCase {
 
     public void testConstructorPatternArgumentsCause(){
         String pattern = "Evaluation failed for argument = {0}";
-        Object[] arguments = { new Double(0.0) };
+        Object[] arguments = { Double.valueOf(0.0) };
         String inMsg = "inner message";
         Exception cause = new Exception(inMsg);
         FunctionEvaluationException ex = new FunctionEvaluationException(0.0, pattern, arguments, cause);

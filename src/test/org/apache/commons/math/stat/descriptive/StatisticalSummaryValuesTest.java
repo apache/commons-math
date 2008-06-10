@@ -56,7 +56,7 @@ public final class StatisticalSummaryValuesTest extends TestCase {
         StatisticalSummaryValues t = null;
         assertTrue("reflexive", u.equals(u));
         assertFalse("non-null compared to null", u.equals(t));
-        assertFalse("wrong type", u.equals(new Double(0)));
+        assertFalse("wrong type", u.equals(Double.valueOf(0)));
         t = new StatisticalSummaryValues(1, 2, 3, 4, 5, 6);
         assertTrue("instances with same data should be equal", t.equals(u));
         assertEquals("hash code", u.hashCode(), t.hashCode());

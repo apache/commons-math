@@ -818,7 +818,7 @@ public abstract class Polynomial implements Serializable {
       System.arraycopy((a.length < p.a.length) ? p.a : a,
                        lowLength, newA, lowLength, highLength - lowLength);
 
-      return new Double(newA);
+      return Double.valueOf(newA);
 
     }
 
@@ -845,7 +845,7 @@ public abstract class Polynomial implements Serializable {
         System.arraycopy(a, lowLength, newA, lowLength, highLength - lowLength);
       }
 
-      return new Double(newA);
+      return Double.valueOf(newA);
 
     }
 
@@ -857,7 +857,7 @@ public abstract class Polynomial implements Serializable {
       for (int i = 0; i < a.length; ++i) {
         newA[i] = -a[i];
       }
-      return new Double(newA);
+      return Double.valueOf(newA);
     }
 
     /** Multiply the instance by a polynomial.
@@ -877,7 +877,7 @@ public abstract class Polynomial implements Serializable {
         }
       }
 
-      return new Double(newA);
+      return Double.valueOf(newA);
 
     }
 
@@ -904,14 +904,14 @@ public abstract class Polynomial implements Serializable {
     public Polynomial multiply(double r) {
 
       if (r == 0) {
-        return new Double(new double[] { 0.0 });
+        return Double.valueOf(new double[] { 0.0 });
       }
 
       double[] newA = new double[a.length];
       for (int i = 0; i < a.length; ++i) {
         newA[i] = a[i] * r;
       }
-      return new Double(newA);
+      return Double.valueOf(newA);
 
     }
 
@@ -934,13 +934,13 @@ public abstract class Polynomial implements Serializable {
      */
     public Polynomial getDerivative() {
       if (a.length == 1) {
-        return new Double();
+        return Double.valueOf();
       }
       double[] newA = new double[a.length - 1];
       for (int i = 1; i < a.length; ++i) {
         newA[i - 1] = a[i] * i;
       }
-      return new Double(newA);
+      return Double.valueOf(newA);
     }
 
     /** Returns a string representation of the polynomial.

@@ -137,7 +137,7 @@ public class RandomDataImpl implements RandomData, Serializable {
 
         //Convert each byte to 2 hex digits
         for (int i = 0; i < randomBytes.length; i++) {
-            Integer c = new Integer(randomBytes[i]);
+            Integer c = Integer.valueOf(randomBytes[i]);
 
             /* Add 128 to byte value to make interval 0-255 before
              * doing hex conversion.
@@ -236,7 +236,7 @@ public class RandomDataImpl implements RandomData, Serializable {
 
             //Loop over the hash, converting each byte to 2 hex digits
             for (int i = 0; i < hash.length; i++) {
-                Integer c = new Integer(hash[i]);
+                Integer c = Integer.valueOf(hash[i]);
 
                 /* Add 128 to byte value to make interval 0-255
                  * This guarantees <= 2 hex digits from toHexString()

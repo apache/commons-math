@@ -143,7 +143,7 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
      * @see org.apache.commons.math.stat.descriptive.DescriptiveStatistics#addValue(double)
      */
     public void addValue(double v) {
-        list.add(new Double(v));
+        list.add(Double.valueOf(v));
     }
     
     /**

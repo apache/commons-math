@@ -92,7 +92,7 @@ public final class ListUnivariateImplTest extends TestCase {
         assertTrue("Standard Deviation of n = 0 set should be NaN", Double.isNaN( u.getStandardDeviation() ) );
         assertTrue("Variance of n = 0 set should be NaN", Double.isNaN(u.getVariance() ) );
 
-        list.add( new Double(one));
+        list.add( Double.valueOf(one));
 
         assertTrue( "Mean of n = 1 set should be value of single item n1", u.getMean() == one);
         assertTrue( "StdDev of n = 1 set should be zero, instead it is: " + u.getStandardDeviation(), u.getStandardDeviation() == 0);

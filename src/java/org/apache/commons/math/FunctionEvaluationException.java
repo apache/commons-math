@@ -40,7 +40,7 @@ public class FunctionEvaluationException extends MathException  {
      */
     public FunctionEvaluationException(double argument) {
         super("Evaluation failed for argument = {0}",
-              new Object[] { new Double(argument) });
+              new Object[] { Double.valueOf(argument) });
         this.argument = argument;
     }
     

@@ -184,7 +184,7 @@ public class HighamHall54IntegratorTest
           double offset = t - middle;
           if (offset > 0) {
             throw new SwitchException("Evaluation failed for argument = {0}",
-                                      new Object[] { new Double(t) });
+                                      new Object[] { Double.valueOf(t) });
           }
           return offset;
         }

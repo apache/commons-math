@@ -35,7 +35,7 @@ public class MathConfigurationExceptionTest extends TestCase {
     
     public void testConstructorPatternArguments(){
         String pattern = "a {0}x{1} matrix cannot be a rotation matrix";
-        Object[] arguments = { new Integer(6), new Integer(4) };
+        Object[] arguments = { Integer.valueOf(6), Integer.valueOf(4) };
         MathConfigurationException ex = new MathConfigurationException(pattern, arguments);
         assertNull(ex.getCause());
         assertEquals(pattern, ex.getPattern());
@@ -56,7 +56,7 @@ public class MathConfigurationExceptionTest extends TestCase {
 
     public void testConstructorPatternArgumentsCause(){
         String pattern = "a {0}x{1} matrix cannot be a rotation matrix";
-        Object[] arguments = { new Integer(6), new Integer(4) };
+        Object[] arguments = { Integer.valueOf(6), Integer.valueOf(4) };
         String inMsg = "inner message";
         Exception cause = new Exception(inMsg);
         MathConfigurationException ex = new MathConfigurationException(pattern, arguments, cause);

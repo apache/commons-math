@@ -450,7 +450,7 @@ public class ComplexFormat extends Format implements Serializable {
         int endIndex = startIndex + n;
         if (endIndex < source.length()) {
             if (source.substring(startIndex, endIndex).compareTo(sb.toString()) == 0) {
-                ret = new Double(value);
+                ret = Double.valueOf(value);
                 pos.setIndex(endIndex);
             }
         }

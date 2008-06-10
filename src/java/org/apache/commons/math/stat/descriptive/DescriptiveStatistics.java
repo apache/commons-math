@@ -353,7 +353,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
             try {
                 percentileImpl.getClass().getMethod("setQuantile", 
                         new Class[] {Double.TYPE}).invoke(percentileImpl,
-                                new Object[] {new Double(p)});
+                                new Object[] {Double.valueOf(p)});
             } catch (NoSuchMethodException e1) { // Setter guard should prevent
                 throw new IllegalArgumentException(
                    "Percentile implementation does not support setQuantile");
@@ -534,7 +534,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
         try {
             percentileImpl.getClass().getMethod("setQuantile", 
                     new Class[] {Double.TYPE}).invoke(percentileImpl,
-                            new Object[] {new Double(50.0d)});
+                            new Object[] {Double.valueOf(50.0d)});
         } catch (NoSuchMethodException e1) { 
             throw new IllegalArgumentException(
                     "Percentile implementation does not support setQuantile");

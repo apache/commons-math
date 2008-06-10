@@ -198,37 +198,37 @@ public abstract class AdaptiveStepsizeIntegrator
           throw new IntegratorException("dimensions mismatch: ODE problem has dimension {0}," +
                                         " initial state vector has dimension {1}",
                                         new Object[] {
-                                          new Integer(equations.getDimension()),
-                                          new Integer(y0.length)
+                                          Integer.valueOf(equations.getDimension()),
+                                          Integer.valueOf(y0.length)
                                         });
       }
       if (equations.getDimension() != y.length) {
           throw new IntegratorException("dimensions mismatch: ODE problem has dimension {0}," +
                                         " final state vector has dimension {1}",
                                         new Object[] {
-                                          new Integer(equations.getDimension()),
-                                          new Integer(y.length)
+                                          Integer.valueOf(equations.getDimension()),
+                                          Integer.valueOf(y.length)
                                         });
       }
       if ((vecAbsoluteTolerance != null) && (vecAbsoluteTolerance.length != y0.length)) {
           throw new IntegratorException("dimensions mismatch: state vector has dimension {0}," +
                                         " absolute tolerance vector has dimension {1}",
                                         new Object[] {
-                                          new Integer(y0.length),
-                                          new Integer(vecAbsoluteTolerance.length)
+                                          Integer.valueOf(y0.length),
+                                          Integer.valueOf(vecAbsoluteTolerance.length)
                                         });
       }
       if ((vecRelativeTolerance != null) && (vecRelativeTolerance.length != y0.length)) {
           throw new IntegratorException("dimensions mismatch: state vector has dimension {0}," +
                                         " relative tolerance vector has dimension {1}",
                                         new Object[] {
-                                          new Integer(y0.length),
-                                          new Integer(vecRelativeTolerance.length)
+                                          Integer.valueOf(y0.length),
+                                          Integer.valueOf(vecRelativeTolerance.length)
                                         });
       }
       if (Math.abs(t - t0) <= 1.0e-12 * Math.max(Math.abs(t0), Math.abs(t))) {
         throw new IntegratorException("too small integration interval: length = {0}",
-                                      new Object[] { new Double(Math.abs(t - t0)) });
+                                      new Object[] { Double.valueOf(Math.abs(t - t0)) });
       }
       
   }
@@ -330,8 +330,8 @@ public abstract class AdaptiveStepsizeIntegrator
         throw new IntegratorException("minimal step size ({0}) reached," +
                                       " integration needs {1}",
                                       new Object[] {
-                                        new Double(minStep),
-                                        new Double(Math.abs(h))
+                                        Double.valueOf(minStep),
+                                        Double.valueOf(Math.abs(h))
                                       });
       }
     }

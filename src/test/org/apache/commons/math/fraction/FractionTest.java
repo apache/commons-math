@@ -515,7 +515,7 @@ public class FractionTest extends TestCase {
         Fraction nullFraction = null;
         assertTrue( zero.equals(zero));
         assertFalse(zero.equals(nullFraction));
-        assertFalse(zero.equals(new Double(0)));
+        assertFalse(zero.equals(Double.valueOf(0)));
         Fraction zero2 = new Fraction(0,2);
         assertTrue(zero.equals(zero2));
         assertEquals(zero.hashCode(), zero2.hashCode());

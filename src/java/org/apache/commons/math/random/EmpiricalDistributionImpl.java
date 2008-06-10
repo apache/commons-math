@@ -271,7 +271,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
             double val = 0.0;
             sampleStats = new SummaryStatistics();
             while ((str = inputStream.readLine()) != null) {
-                val = new Double(str).doubleValue();
+                val = Double.valueOf(str).doubleValue();
                 sampleStats.addValue(val);
             }
             inputStream.close();
@@ -334,7 +334,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         // Load array of bin upper bounds -- evenly spaced from min - max
         double min = sampleStats.getMin();
         double max = sampleStats.getMax();
-        double delta = (max - min)/(new Double(binCount)).doubleValue();
+        double delta = (max - min)/(Double.valueOf(binCount)).doubleValue();
         double[] binUpperBounds = new double[binCount];
         binUpperBounds[0] = min + delta;
         for (int i = 1; i< binCount - 1; i++) {

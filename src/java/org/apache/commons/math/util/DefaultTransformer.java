@@ -52,7 +52,7 @@ public class DefaultTransformer implements NumberTransformer, Serializable {
         }
             
         try {
-            return new Double(o.toString()).doubleValue();
+            return Double.valueOf(o.toString()).doubleValue();
         } catch (Exception e) {
             throw new MathException("Conversion Exception in Transformation: {0}",
                                     new Object[] { e.getMessage() }, e);

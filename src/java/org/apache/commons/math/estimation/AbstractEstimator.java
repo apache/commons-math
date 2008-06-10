@@ -98,7 +98,7 @@ public abstract class AbstractEstimator implements Estimator {
 
         if (++costEvaluations > maxCostEval) {
             throw new EstimationException("maximal number of evaluations exceeded ({0})",
-                                          new Object[] { new Integer(maxCostEval) });
+                                          new Object[] { Integer.valueOf(maxCostEval) });
         }
 
         cost = 0;
@@ -202,7 +202,7 @@ public abstract class AbstractEstimator implements Estimator {
         int p = problem.getUnboundParameters().length;
         if (m <= p) {
             throw new EstimationException("no degrees of freedom ({0} measurements, {1} parameters)",
-                                          new Object[] { new Integer(m), new Integer(p)});
+                                          new Object[] { Integer.valueOf(m), Integer.valueOf(p)});
         }
         double[] errors = new double[problem.getUnboundParameters().length];
         final double c = Math.sqrt(getChiSquare(problem) / (m - p));

@@ -30,7 +30,7 @@ import java.util.TreeMap;
  * throw an IllegalArgumentException.</p>
  * <p>
  * Integer values (int, long, Integer, Long) are not distinguished by type -- 
- * i.e. <code>addValue(new Long(2)), addValue(2), addValue(2l)</code> all have
+ * i.e. <code>addValue(Long.valueOf(2)), addValue(2), addValue(2l)</code> all have
  * the same effect (similarly for arguments to <code>getCount,</code> etc.).</p>
  * <p>
  * The values are ordered using the default (natural order), unless a  
@@ -96,14 +96,14 @@ public class Frequency implements Serializable {
     public void addValue(Object v) {
         Object obj = v;
         if (v instanceof Integer) {
-           obj = new Long(((Integer) v).longValue());
+           obj = Long.valueOf(((Integer) v).longValue());
         }
         try {
             Long count = (Long) freqTable.get(obj);
             if (count == null) {
-                freqTable.put(obj, new Long(1));
+                freqTable.put(obj, Long.valueOf(1));
             } else {
-                freqTable.put(obj, new Long(count.longValue() + 1));
+                freqTable.put(obj, Long.valueOf(count.longValue() + 1));
             }
         } catch (ClassCastException ex) {   
             //TreeMap will throw ClassCastException if v is not comparable
@@ -117,7 +117,7 @@ public class Frequency implements Serializable {
      * @param v the value to add.
      */
     public void addValue(int v) {
-        addValue(new Long(v));
+        addValue(Long.valueOf(v));
     }
     
     /**
@@ -126,7 +126,7 @@ public class Frequency implements Serializable {
      * @param v the value to add.
      */
     public void addValue(Integer v) {
-        addValue(new Long(v.longValue()));
+        addValue(Long.valueOf(v.longValue()));
     }
 
     /**
@@ -135,7 +135,7 @@ public class Frequency implements Serializable {
      * @param v the value to add.
      */
     public void addValue(long v) {
-        addValue(new Long(v));
+        addValue(Long.valueOf(v));
     }
     
     /**
@@ -210,7 +210,7 @@ public class Frequency implements Serializable {
      * @return the frequency of v.
      */
     public long getCount(int v) {
-        return getCount(new Long(v));
+        return getCount(Long.valueOf(v));
     }
     
     /**
@@ -220,7 +220,7 @@ public class Frequency implements Serializable {
      * @return the frequency of v.
      */
     public long getCount(long v) {
-        return getCount(new Long(v));
+        return getCount(Long.valueOf(v));
     }
     
     /**
@@ -259,7 +259,7 @@ public class Frequency implements Serializable {
      * @return the proportion of values equal to v
      */
     public double getPct(int v) {
-        return getPct(new Long(v));       
+        return getPct(Long.valueOf(v));       
     }
     
     /**
@@ -270,7 +270,7 @@ public class Frequency implements Serializable {
      * @return the proportion of values equal to v
      */
     public double getPct(long v) {
-        return getPct(new Long(v));         
+        return getPct(Long.valueOf(v));         
     }
     
     /**
@@ -345,7 +345,7 @@ public class Frequency implements Serializable {
      * @return the proportion of values equal to v
      */
     public long getCumFreq(int v) {
-        return getCumFreq(new Long(v));       
+        return getCumFreq(Long.valueOf(v));       
     }
     
      /**
@@ -357,7 +357,7 @@ public class Frequency implements Serializable {
      * @return the proportion of values equal to v
      */
     public long getCumFreq(long v) {
-        return getCumFreq(new Long(v));         
+        return getCumFreq(Long.valueOf(v));         
     }
     
     /**
@@ -402,7 +402,7 @@ public class Frequency implements Serializable {
      * @return the proportion of values less than or equal to v
      */
     public double getCumPct(int v) {
-        return getCumPct(new Long(v));       
+        return getCumPct(Long.valueOf(v));       
     }
     
     /**
@@ -415,7 +415,7 @@ public class Frequency implements Serializable {
      * @return the proportion of values less than or equal to v
      */
     public double getCumPct(long v) {
-        return getCumPct(new Long(v));         
+        return getCumPct(Long.valueOf(v));         
     }
     
     /**

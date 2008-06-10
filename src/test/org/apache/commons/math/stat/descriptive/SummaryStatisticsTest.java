@@ -192,7 +192,7 @@ public class SummaryStatisticsTest extends TestCase {
         int emptyHash = u.hashCode();
         assertTrue("reflexive", u.equals(u));
         assertFalse("non-null compared to null", u.equals(t));
-        assertFalse("wrong type", u.equals(new Double(0)));
+        assertFalse("wrong type", u.equals(Double.valueOf(0)));
         t = createSummaryStatistics();
         assertTrue("empty instances should be equal", t.equals(u));
         assertTrue("empty instances should be equal", u.equals(t));
