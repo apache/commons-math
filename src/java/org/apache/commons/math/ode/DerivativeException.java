@@ -21,7 +21,7 @@ import org.apache.commons.math.MathException;
 
 /**
  * This exception is made available to users to report
- * the error conditions that are trigegred while computing
+ * the error conditions that are triggered while computing
  * the differential equations.
  * @version $Revision$ $Date$
  * @since 1.2
@@ -34,7 +34,7 @@ public class DerivativeException
    * @param specifier format specifier (to be translated)
    * @param parts to insert in the format (no translation)
    */
-  public DerivativeException(String specifier, String[] parts) {
+  public DerivativeException(String specifier, Object[] parts) {
     super(specifier, parts);
   }
 
