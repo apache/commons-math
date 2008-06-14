@@ -100,16 +100,11 @@ public class OLSMultipleLinearRegressionTest extends AbstractMultipleLinearRegre
         };
         
         // Transform to Y and X required by interface
-        double[] y = new double[16];
-        double[][] x = new double[16][7];
-        int pointer = 0;
-        for (int i = 0; i < 16; i++) {
-            y[i] = design[pointer++];
-            x[i][0] = 1.0d;
-            for (int j = 1; j < 7; j++) {
-                x[i][j] = design[pointer++];
-            }
-        }
+        int nobs = 16;
+        int nvars = 6;
+        double[] y = new double[nobs];
+        double[][] x = new double[nobs][nvars + 1];
+        loadModelData(design, y, x, nobs, nvars);
         
         // Estimate the model
         MultipleLinearRegression model = new OLSMultipleLinearRegression();
@@ -136,7 +131,104 @@ public class OLSMultipleLinearRegressionTest extends AbstractMultipleLinearRegre
         
         // Check standard errors from NIST
         double[][] errors = model.estimateRegressionParametersVariance();
-        //TODO:  translate this into std error vector and check
-        
+        //TODO:  translate this into std error vector and check  
+    }
+    
+    /**
+     * Test R Swiss fertility dataset against R.
+     * Data Source: R datasets package
+     */
+    @Test
+    public void testSwissFertility() {
+        double[] design = new double[] {
+            80.2,17.0,15,12,9.96,
+            83.1,45.1,6,9,84.84,
+            92.5,39.7,5,5,93.40,
+            85.8,36.5,12,7,33.77,
+            76.9,43.5,17,15,5.16,
+            76.1,35.3,9,7,90.57,
+            83.8,70.2,16,7,92.85,
+            92.4,67.8,14,8,97.16,
+            82.4,53.3,12,7,97.67,
+            82.9,45.2,16,13,91.38,
+            87.1,64.5,14,6,98.61,
+            64.1,62.0,21,12,8.52,
+            66.9,67.5,14,7,2.27,
+            68.9,60.7,19,12,4.43,
+            61.7,69.3,22,5,2.82,
+            68.3,72.6,18,2,24.20,
+            71.7,34.0,17,8,3.30,
+            55.7,19.4,26,28,12.11,
+            54.3,15.2,31,20,2.15,
+            65.1,73.0,19,9,2.84,
+            65.5,59.8,22,10,5.23,
+            65.0,55.1,14,3,4.52,
+            56.6,50.9,22,12,15.14,
+            57.4,54.1,20,6,4.20,
+            72.5,71.2,12,1,2.40,
+            74.2,58.1,14,8,5.23,
+            72.0,63.5,6,3,2.56,
+            60.5,60.8,16,10,7.72,
+            58.3,26.8,25,19,18.46,
+            65.4,49.5,15,8,6.10,
+            75.5,85.9,3,2,99.71,
+            69.3,84.9,7,6,99.68,
+            77.3,89.7,5,2,100.00,
+            70.5,78.2,12,6,98.96,
+            79.4,64.9,7,3,98.22,
+            65.0,75.9,9,9,99.06,
+            92.2,84.6,3,3,99.46,
+            79.3,63.1,13,13,96.83,
+            70.4,38.4,26,12,5.62,
+            65.7,7.7,29,11,13.79,
+            72.7,16.7,22,13,11.22,
+            64.4,17.6,35,32,16.92,
+            77.6,37.6,15,7,4.97,
+            67.6,18.7,25,7,8.65,
+            35.0,1.2,37,53,42.34,
+            44.7,46.6,16,29,50.43,
+            42.8,27.7,22,29,58.33
+        };
+
+        // Transform to Y and X required by interface
+        int nobs = 47;
+        int nvars = 4;
+        double[] y = new double[nobs];
+        double[][] x = new double[nobs][nvars + 1];
+        loadModelData(design, y, x, nobs, nvars);
+
+        // Estimate the model
+        MultipleLinearRegression model = new OLSMultipleLinearRegression();
+        model.addData(y, x, null);
+
+        // Check expected beta values from R
+        double[] betaHat = model.estimateRegressionParameters();
+        TestUtils.assertEquals(betaHat, 
+                new double[]{91.05542390271397,
+                -0.22064551045715,
+                -0.26058239824328,
+                -0.96161238456030,
+                 0.12441843147162}, 1E-12);
+
+        // Check expected residuals from R
+        double[] residuals = model.estimateResiduals();
+        TestUtils.assertEquals(residuals, new double[]{
+                7.1044267859730512,1.6580347433531366,
+                4.6944952770029644,8.4548022690166160,13.6547432343186212,
+               -9.3586864458500774,7.5822446330520386,15.5568995563859289,
+                0.8113090736598980,7.1186762732484308,7.4251378771228724,
+                2.6761316873234109,0.8351584810309354,7.1769991119615177,
+               -3.8746753206299553,-3.1337779476387251,-0.1412575244091504,
+                1.1186809170469780,-6.3588097346816594,3.4039270429434074,
+                2.3374058329820175,-7.9272368576900503,-7.8361010968497959,
+               -11.2597369269357070,0.9445333697827101,6.6544245101380328,
+               -0.9146136301118665,-4.3152449403848570,-4.3536932047009183,
+               -3.8907885169304661,-6.3027643926302188,-7.8308982189289091,
+               -3.1792280015332750,-6.7167298771158226,-4.8469946718041754,
+               -10.6335664353633685,11.1031134362036958,6.0084032641811733,
+                5.4326230830188482,-7.2375578629692230,2.1671550814448222,
+                15.0147574652763112,4.8625103516321015,-7.1597256413907706,
+                -0.4515205619767598,-10.2916870903837587,-15.7812984571900063},
+                1E-12);  
     }
 }
