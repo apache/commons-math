@@ -58,6 +58,7 @@ assertEquals <- function(expected, observed, tol, message) {
         cat("FAILURE: ",message,"\n")
         cat("EXPECTED: ",expected,"\n")
         cat("OBSERVED: ",observed,"\n")
+        cat("DIFF: ",observed - expected,"\n")
         cat("TOLERANCE: ",tol,"\n")
     }  
     return(!failed)
