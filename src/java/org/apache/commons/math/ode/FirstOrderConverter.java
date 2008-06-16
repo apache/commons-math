@@ -56,6 +56,9 @@ package org.apache.commons.math.ode;
 public class FirstOrderConverter
   implements FirstOrderDifferentialEquations {
 
+  /** Serializable version identifier. */
+  private static final long serialVersionUID = -8233657110042144146L;
+
   /** Simple constructor.
    * Build a converter around a second order equations set.
    * @param equations second order equations set to convert

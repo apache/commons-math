@@ -44,6 +44,9 @@ package org.apache.commons.math.ode;
 public class GillIntegrator
   extends RungeKuttaIntegrator {
 
+  /** Serializable version identifier. */
+  private static final long serialVersionUID = -3270987073897562791L;
+
   /** Integrator method name. */
   private static final String methodName = "Gill";
 

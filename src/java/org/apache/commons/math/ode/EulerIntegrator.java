@@ -48,6 +48,9 @@ package org.apache.commons.math.ode;
 public class EulerIntegrator
   extends RungeKuttaIntegrator {
 
+  /** Serializable version identifier. */
+  private static final long serialVersionUID = -3378479003330094013L;
+
   /** Integrator method name. */
   private static final String methodName = "Euler";
 

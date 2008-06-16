@@ -42,6 +42,9 @@ package org.apache.commons.math.ode;
 public class MidpointIntegrator
   extends RungeKuttaIntegrator {
 
+  /** Serializable version identifier. */
+  private static final long serialVersionUID = 1871083451154005310L;
+
   /** Integrator method name. */
   private static final String methodName = "midpoint";
 

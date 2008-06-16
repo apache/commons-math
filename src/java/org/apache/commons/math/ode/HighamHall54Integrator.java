@@ -34,6 +34,9 @@ package org.apache.commons.math.ode;
 public class HighamHall54Integrator
   extends EmbeddedRungeKuttaIntegrator {
 
+  /** Serializable version identifier. */
+  private static final long serialVersionUID = -1499486749907617454L;
+
   /** Integrator method name. */
   private static final String methodName = "Higham-Hall 5(4)";
 

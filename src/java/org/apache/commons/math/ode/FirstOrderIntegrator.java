@@ -17,6 +17,7 @@
 
 package org.apache.commons.math.ode;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 /** This interface represents a first order integrator for
@@ -34,7 +35,7 @@ import java.util.Collection;
  * @since 1.2
  */
 
-public interface FirstOrderIntegrator {
+public interface FirstOrderIntegrator extends Serializable {
 
   /** Get the name of the method.
    * @return name of the method

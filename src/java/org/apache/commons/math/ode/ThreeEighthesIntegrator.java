@@ -44,6 +44,9 @@ package org.apache.commons.math.ode;
 public class ThreeEighthesIntegrator
   extends RungeKuttaIntegrator {
 
+  /** Serializable version identifier. */
+  private static final long serialVersionUID = -5738562635641912717L;
+
   /** Integrator method name. */
   private static final String methodName = "3/8";
 

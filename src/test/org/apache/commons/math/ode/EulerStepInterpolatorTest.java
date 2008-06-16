@@ -162,6 +162,7 @@ public class EulerStepInterpolatorTest
 
   private static class DummyEquations
     implements FirstOrderDifferentialEquations {
+    private static final long serialVersionUID = 291437140744677100L;
     public int getDimension() {
       return 0;
     }

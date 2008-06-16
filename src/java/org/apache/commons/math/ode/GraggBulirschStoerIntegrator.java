@@ -87,6 +87,9 @@ package org.apache.commons.math.ode;
 public class GraggBulirschStoerIntegrator
   extends AdaptiveStepsizeIntegrator {
 
+  /** Serializable version identifier. */
+  private static final long serialVersionUID = -1263159462413447366L;
+
   /** Integrator method name. */
   private static final String methodName = "Gragg-Bulirsch-Stoer";
 

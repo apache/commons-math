@@ -37,6 +37,9 @@ import org.apache.commons.math.ode.SwitchingFunction;
 class TestProblem4
   extends TestProblemAbstract {
 
+  /** Serializable version identifier. */
+  private static final long serialVersionUID = -5910438521889015745L;
+
   /** Time offset. */
   private double a;
 

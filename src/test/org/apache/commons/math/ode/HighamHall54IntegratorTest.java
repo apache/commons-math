@@ -36,7 +36,8 @@ public class HighamHall54IntegratorTest
           new HighamHall54Integrator(0.0, 1.0, 1.0e-10, 1.0e-10);
       FirstOrderDifferentialEquations equations =
           new FirstOrderDifferentialEquations() {
-          public void computeDerivatives(double t, double[] y, double[] dot)
+            private static final long serialVersionUID = -1157081786301178032L;
+            public void computeDerivatives(double t, double[] y, double[] dot)
             throws DerivativeException {
             if (t < -0.5) {
                 throw new DerivativeException("{0}", new String[] { "oops" });

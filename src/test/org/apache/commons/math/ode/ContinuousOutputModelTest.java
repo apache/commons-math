@@ -82,15 +82,16 @@ public class ContinuousOutputModelTest
       // theoretical solution: y[0] = cos(t), y[1] = sin(t)
       FirstOrderDifferentialEquations problem =
           new FirstOrderDifferentialEquations() {
-          public void computeDerivatives(double t, double[] y, double[] dot)
-          throws DerivativeException {
-              dot[0] = -y[1];
-              dot[1] =  y[0];
-          }
-          public int getDimension() {
-              return 2;
-          }
-      };
+              private static final long serialVersionUID = 2472449657345878299L;
+              public void computeDerivatives(double t, double[] y, double[] dot)
+                  throws DerivativeException {
+                  dot[0] = -y[1];
+                  dot[1] =  y[0];
+              }
+              public int getDimension() {
+                  return 2;
+              }
+          };
 
       // integrate backward from &pi; to 0;
       ContinuousOutputModel cm1 = new ContinuousOutputModel();

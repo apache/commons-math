@@ -54,6 +54,9 @@ package org.apache.commons.math.ode;
 public class DormandPrince853Integrator
   extends EmbeddedRungeKuttaIntegrator {
 
+  /** Serializable version identifier. */
+  private static final long serialVersionUID = 6175337145090754336L;
+
   /** Integrator method name. */
   private static final String methodName = "Dormand-Prince 8 (5, 3)";
 

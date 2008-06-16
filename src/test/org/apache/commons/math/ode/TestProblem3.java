@@ -37,6 +37,9 @@ package org.apache.commons.math.ode;
 class TestProblem3
   extends TestProblemAbstract {
 
+  /** Serializable version identifier. */
+  private static final long serialVersionUID = 8567328542728919999L;
+
   /** Eccentricity */
   double e;
 

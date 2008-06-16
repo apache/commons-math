@@ -39,6 +39,11 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="luc" type="update">
+        The FirstOrderDifferentialEquations and FirstOrderIntegrator
+        interfaces now extends Serializable, allowing integrators and
+        problems to be embedded into users Serializable classes.
+      </action>
       <action dev="luc" type="add">
         Added several convenience methods for Vector3D and Rotation.
       </action>

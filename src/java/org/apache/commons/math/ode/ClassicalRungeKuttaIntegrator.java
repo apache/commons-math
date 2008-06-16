@@ -45,6 +45,9 @@ package org.apache.commons.math.ode;
 public class ClassicalRungeKuttaIntegrator
   extends RungeKuttaIntegrator {
 
+  /** Serializable version identifier. */
+  private static final long serialVersionUID = -8987762131146169612L;
+
   /** Integrator method name. */
   private static final String methodName = "classical Runge-Kutta";
 
