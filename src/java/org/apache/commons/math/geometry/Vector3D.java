@@ -50,7 +50,7 @@ public class Vector3D
   /** Opposite of the third canonical vector (coordinates: 0, 0, -1).  */
   public static final Vector3D MINUS_K = new Vector3D(0, 0, -1);
 
-  /** Serializable version identifier */
+  /** Serializable version identifier. */
   private static final long serialVersionUID = -6155041477622120793L;
 
   /** Abscissa. */
