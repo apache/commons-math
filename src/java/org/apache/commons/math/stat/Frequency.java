@@ -144,7 +144,7 @@ public class Frequency implements Serializable {
      * @param v the value to add.
      */
     public void addValue(char v) {
-        addValue(new Character(v));
+        addValue(Character.valueOf(v));
     }
     
     /** Clears the frequency table */
@@ -230,7 +230,7 @@ public class Frequency implements Serializable {
      * @return the frequency of v.
      */
     public long getCount(char v) {
-        return getCount(new Character(v));
+        return getCount(Character.valueOf(v));
     }
     
     //-------------------------------------------------------------
@@ -281,7 +281,7 @@ public class Frequency implements Serializable {
      * @return the proportion of values equal to v
      */
     public double getPct(char v) {
-        return getPct(new Character(v));         
+        return getPct(Character.valueOf(v));         
     }
     
     //-----------------------------------------------------------------------------------------
@@ -369,7 +369,7 @@ public class Frequency implements Serializable {
      * @return the proportion of values equal to v
      */
     public long getCumFreq(char v) {
-        return getCumFreq(new Character(v));         
+        return getCumFreq(Character.valueOf(v));         
     }
     
     //----------------------------------------------------------------------------------------------
@@ -428,7 +428,7 @@ public class Frequency implements Serializable {
      * @return the proportion of values less than or equal to v
      */
     public double getCumPct(char v) {
-        return getCumPct(new Character(v));         
+        return getCumPct(Character.valueOf(v));         
     }
     
     /**
