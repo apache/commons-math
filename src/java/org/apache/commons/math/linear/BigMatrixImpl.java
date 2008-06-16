@@ -133,7 +133,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      * @throws IllegalArgumentException if <code>d</code> is not rectangular
      *  (not all rows have the same length) or empty
      * @throws NullPointerException if <code>d</code> is null
-     * @see #BigMatrix(BigDecimal[][])
+     * @see #BigMatrixImpl(BigDecimal[][])
      */
     public BigMatrixImpl(BigDecimal[][] d, boolean copyArray) {
         if (copyArray) {
