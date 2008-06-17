@@ -988,7 +988,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         }
         final int nRows = this.getRowDimension();
         final int nCols = this.getColumnDimension();
-        final BigDecimal[] out = new BigDecimal[v.length];
+        final BigDecimal[] out = new BigDecimal[nRows];
         for (int row = 0; row < nRows; row++) {
             BigDecimal sum = ZERO;
             for (int i = 0; i < nCols; i++) {

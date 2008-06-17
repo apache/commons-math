@@ -776,7 +776,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
         if (v.length != nCols) {
             throw new IllegalArgumentException("vector has wrong length");
         }
-        final double[] out = new double[v.length];
+        final double[] out = new double[nRows];
         for (int row = 0; row < nRows; row++) {
             final double[] dataRow = data[row];
             double sum = 0;

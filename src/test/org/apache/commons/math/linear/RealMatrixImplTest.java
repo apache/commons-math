@@ -342,6 +342,18 @@ public final class RealMatrixImplTest extends TestCase {
             ;
         }      
     }
+
+    /** test issue MATH-209 */
+    public void testMath209() {
+        RealMatrix a = new RealMatrixImpl(new double[][] {
+                { 1, 2 }, { 3, 4 }, { 5, 6 }
+        }, false);
+        double[] b = a.operate(new double[] { 1, 1 });
+        assertEquals(a.getRowDimension(), b.length);
+        assertEquals( 3.0, b[0], 1.0e-12);
+        assertEquals( 7.0, b[1], 1.0e-12);
+        assertEquals(11.0, b[2], 1.0e-12);
+    }
     
     /** test transpose */
     public void testTranspose() {

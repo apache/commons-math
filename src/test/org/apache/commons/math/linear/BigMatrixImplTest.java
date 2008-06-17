@@ -435,6 +435,20 @@ public final class BigMatrixImplTest extends TestCase {
             ;
         }      
     }
+
+    /** test issue MATH-209 */
+    public void testMath209() {
+        BigMatrix a = new BigMatrixImpl(new BigDecimal[][] {
+                { new BigDecimal(1), new BigDecimal(2) },
+                { new BigDecimal(3), new BigDecimal(4) },
+                { new BigDecimal(5), new BigDecimal(6) }
+        }, false);
+        BigDecimal[] b = a.operate(new BigDecimal[] { new BigDecimal(1), new BigDecimal(1) });
+        assertEquals(a.getRowDimension(), b.length);
+        assertEquals( 3.0, b[0].doubleValue(), 1.0e-12);
+        assertEquals( 7.0, b[1].doubleValue(), 1.0e-12);
+        assertEquals(11.0, b[2].doubleValue(), 1.0e-12);
+    }
     
     /** test transpose */
     public void testTranspose() {
