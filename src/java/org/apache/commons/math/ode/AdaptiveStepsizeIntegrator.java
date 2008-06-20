@@ -171,7 +171,7 @@ public abstract class AdaptiveStepsizeIntegrator
    * @see #addSwitchingFunction(SwitchingFunction, double, double, int)
    * @see #clearSwitchingFunctions()
    */
-  public Collection<SwitchState> getSwitchingFunctions() {
+  public Collection<SwitchingFunction> getSwitchingFunctions() {
       return switchesHandler.getSwitchingFunctions();
   }
 

@@ -110,6 +110,13 @@ class SwitchState implements Serializable {
 
   }
 
+  /** Get the underlying switching function.
+   * @return underlying switching function
+   */
+  public SwitchingFunction getSwitchingFunction() {
+      return function;
+  }
+
   /** Reinitialize the beginning of the step.
    * @param t0 value of the independent <i>time</i> variable at the
    * beginning of the step

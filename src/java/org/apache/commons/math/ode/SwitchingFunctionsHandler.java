@@ -65,8 +65,12 @@ public class SwitchingFunctionsHandler {
    * @see #addSwitchingFunction(SwitchingFunction, double, double, int)
    * @see #clearSwitchingFunctions()
    */
-  public Collection<SwitchState> getSwitchingFunctions() {
-      return Collections.unmodifiableCollection(functions);
+  public Collection<SwitchingFunction> getSwitchingFunctions() {
+      List<SwitchingFunction> list = new ArrayList<SwitchingFunction>();
+      for (SwitchState state : functions) {
+          list.add(state.getSwitchingFunction());
+      }
+      return Collections.unmodifiableCollection(list);
   }
 
   /** Remove all the switching functions that have been added to the handler.

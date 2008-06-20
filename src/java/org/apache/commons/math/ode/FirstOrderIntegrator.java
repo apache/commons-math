@@ -75,7 +75,7 @@ public interface FirstOrderIntegrator extends Serializable {
    * @see #addSwitchingFunction(SwitchingFunction, double, double, int)
    * @see #clearSwitchingFunctions()
    */
-  public Collection<SwitchState> getSwitchingFunctions();
+  public Collection<SwitchingFunction> getSwitchingFunctions();
 
   /** Remove all the switching functions that have been added to the integrator.
    * @see #addSwitchingFunction(SwitchingFunction, double, double, int)
