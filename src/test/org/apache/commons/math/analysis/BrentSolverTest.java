@@ -31,7 +31,7 @@ import junit.framework.TestSuite;
  * default absolute accuracy of 10E-8 for sinus and the quintic function around
  * zero, and 5..10 iterations for the other zeros.
  * 
- * @version $Revision$ $Date$ 
+ * @version $Revision:670469 $ $Date:2008-06-23 10:01:38 +0200 (lun., 23 juin 2008) $ 
  */
 public final class BrentSolverTest extends TestCase {
 
@@ -266,6 +266,18 @@ public final class BrentSolverTest extends TestCase {
         assertEquals(result, 1.0, 1E-6);
         result = UnivariateRealSolverUtils.solve(f, 0.85, 5);
         assertEquals(result, 1.0, 1E-6);
+    }
+    
+    public void testRootEndpoints() throws Exception {
+        UnivariateRealFunction f = new SinFunction();
+        UnivariateRealSolver solver = new BrentSolver(f);
+        
+        // endpoint is root
+        double result = solver.solve(Math.PI, 4);
+        assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
+
+        result = solver.solve(3, Math.PI);
+        assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
     }
     
     public void testBadEndpoints() throws Exception {

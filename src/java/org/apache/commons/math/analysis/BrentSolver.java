@@ -26,7 +26,7 @@ import org.apache.commons.math.MaxIterationsExceededException;
  * <p>
  * The function should be continuous but not necessarily smooth.</p>
  *  
- * @version $Revision$ $Date$
+ * @version $Revision:670469 $ $Date:2008-06-23 10:01:38 +0200 (lun., 23 juin 2008) $
  */
 public class BrentSolver extends UnivariateRealSolverImpl {
     
@@ -128,20 +128,41 @@ public class BrentSolver extends UnivariateRealSolverImpl {
         clearResult();
         verifyInterval(min, max);
         
+        double ret = Double.NaN;
+        
         double yMin = f.value(min);
         double yMax = f.value(max);
         
         // Verify bracketing
-        if (yMin * yMax >= 0) {
-            throw new IllegalArgumentException
-            ("Function values at endpoints do not have different signs." +
-                    "  Endpoints: [" + min + "," + max + "]" + 
-                    "  Values: [" + yMin + "," + yMax + "]");       
+        double sign = yMin * yMax;
+        if (sign > 0) {
+            // check if either value is close to a zero
+            if (Math.abs(yMin) <= functionValueAccuracy) {
+                setResult(min, 0);
+                ret = min;
+            } else if (Math.abs(yMax) <= functionValueAccuracy) {
+                setResult(max, 0);
+                ret = max;
+            } else {
+                // neither value is close to zero and min and max do not bracket root.
+                throw new IllegalArgumentException
+                ("Function values at endpoints do not have different signs." +
+                        "  Endpoints: [" + min + "," + max + "]" + 
+                        "  Values: [" + yMin + "," + yMax + "]");
+            }
+        } else if (sign < 0){
+            // solve using only the first endpoint as initial guess
+            ret = solve(min, yMin, max, yMax, min, yMin);
+        } else {
+            // either min or max is a root
+            if (yMin == 0.0) {
+                ret = min;
+            } else {
+                ret = max;
+            }
         }
 
-        // solve using only the first endpoint as initial guess
-        return solve(min, yMin, max, yMax, min, yMin);
-
+        return ret;
     }
         
     /**
