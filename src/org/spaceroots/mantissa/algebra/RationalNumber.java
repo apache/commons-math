@@ -24,7 +24,7 @@ import java.math.BigInteger;
  * This class implements reduced rational numbers.
  * <p>Instances of this class are immutable.</p>
 
- * @version $Id: RationalNumber.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
 
  */

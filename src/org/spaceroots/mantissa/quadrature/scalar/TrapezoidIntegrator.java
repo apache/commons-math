@@ -26,7 +26,7 @@ import org.spaceroots.mantissa.functions.scalar.SampledFunctionIterator;
  * <p>A trapezoid integrator is a very simple one that assumes the
  * function is linear over the integration step.</p>
 
- * @version $Id: TrapezoidIntegrator.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
 
  */

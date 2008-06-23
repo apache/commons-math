@@ -25,7 +25,7 @@ package org.spaceroots.mantissa.roots;
  * to allow the root-finding algorithm to stop its search according to
  * the problem at hand.
 
- * @version $Id: ConvergenceChecker.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
 
  */

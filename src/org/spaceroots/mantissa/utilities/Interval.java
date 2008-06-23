@@ -27,7 +27,7 @@ package org.spaceroots.mantissa.utilities;
 
  * @see IntervalsList
  * @author Luc Maisonobe
- * @version $Id: Interval.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  */
 public class Interval {
 

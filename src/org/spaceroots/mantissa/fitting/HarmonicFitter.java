@@ -35,7 +35,7 @@ import org.spaceroots.mantissa.functions.FunctionException;
  * <p>This class <emph>is by no means optimized</emph>, neither versus
  * space nor versus time performance.</p>
 
- * @version $Id: HarmonicFitter.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
 
  */

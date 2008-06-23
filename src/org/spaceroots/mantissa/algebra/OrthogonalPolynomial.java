@@ -30,7 +30,7 @@ package org.spaceroots.mantissa.algebra;
  * a<sub>4,k</sub> are simple expressions which either are
  * constants or depend on k.</p>
 
- * @version $Id: OrthogonalPolynomial.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
 
  */

@@ -33,7 +33,7 @@ import org.spaceroots.mantissa.functions.FunctionException;
  * boundary points, which means it can be undefined at these
  * points.</p>
 
- * @version $Id: GaussLegendreIntegrator.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
 
  */

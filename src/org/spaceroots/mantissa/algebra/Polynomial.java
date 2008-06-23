@@ -36,7 +36,7 @@ import java.util.Arrays;
 
  * <p>Instances of this class are immutable.</p>
 
- * @version $Id: Polynomial.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
 
 */
