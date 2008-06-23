@@ -34,14 +34,14 @@ public class DerivativeException
    * @param specifier format specifier (to be translated)
    * @param parts to insert in the format (no translation)
    */
-  public DerivativeException(String specifier, Object[] parts) {
+  public DerivativeException(final String specifier, final Object[] parts) {
     super(specifier, parts);
   }
 
   /** Build an instance from an underlying cause.
    * @param cause cause for the exception
    */
-  public DerivativeException(Throwable cause) {
+  public DerivativeException(final Throwable cause) {
     super(cause);
   }
 

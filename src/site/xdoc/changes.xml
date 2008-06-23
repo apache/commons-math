@@ -39,6 +39,10 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="luc" type="update">
+        Clarified the ODE package by breaking in into several sub-packages and renaming
+        classes (SwitchingFunctions/EventHandler, SwitchingFunctionsHandler/CombinedEventsManager)
+      </action>
       <action dev="luc" type="fix" issue="MATH-210" >
         Changed return type for FirstOrderIntegrator.getSwitchingFunctions()
         to a collection of SwitchingFunction instances. This better suits the

@@ -19,6 +19,11 @@ package org.apache.commons.math.ode;
 
 import java.util.Collection;
 
+import org.apache.commons.math.ode.events.EventHandler;
+import org.apache.commons.math.ode.events.CombinedEventsManager;
+import org.apache.commons.math.ode.sampling.DummyStepHandler;
+import org.apache.commons.math.ode.sampling.StepHandler;
+
 /**
  * This abstract class holds the common part of all adaptive
  * stepsize integrators for Ordinary Differential Equations.
@@ -60,9 +65,9 @@ public abstract class AdaptiveStepsizeIntegrator
    * @param scalAbsoluteTolerance allowed absolute error
    * @param scalRelativeTolerance allowed relative error
    */
-  public AdaptiveStepsizeIntegrator(double minStep, double maxStep,
-                                    double scalAbsoluteTolerance,
-                                    double scalRelativeTolerance) {
+  public AdaptiveStepsizeIntegrator(final double minStep, final double maxStep,
+                                    final double scalAbsoluteTolerance,
+                                    final double scalRelativeTolerance) {
 
     this.minStep     = minStep;
     this.maxStep     = maxStep;
@@ -76,7 +81,7 @@ public abstract class AdaptiveStepsizeIntegrator
     // set the default step handler
     handler = DummyStepHandler.getInstance();
 
-    switchesHandler = new SwitchingFunctionsHandler();
+    eventsHandlersManager = new CombinedEventsManager();
 
     resetInternalState();
 
@@ -91,9 +96,9 @@ public abstract class AdaptiveStepsizeIntegrator
    * @param vecAbsoluteTolerance allowed absolute error
    * @param vecRelativeTolerance allowed relative error
    */
-  public AdaptiveStepsizeIntegrator(double minStep, double maxStep,
-                                    double[] vecAbsoluteTolerance,
-                                    double[] vecRelativeTolerance) {
+  public AdaptiveStepsizeIntegrator(final double minStep, final double maxStep,
+                                    final double[] vecAbsoluteTolerance,
+                                    final double[] vecRelativeTolerance) {
 
     this.minStep     = minStep;
     this.maxStep     = maxStep;
@@ -107,7 +112,7 @@ public abstract class AdaptiveStepsizeIntegrator
     // set the default step handler
     handler = DummyStepHandler.getInstance();
 
-    switchesHandler = new SwitchingFunctionsHandler();
+    eventsHandlersManager = new CombinedEventsManager();
 
     resetInternalState();
 
@@ -124,7 +129,7 @@ public abstract class AdaptiveStepsizeIntegrator
    * outside of the min/max step interval will lead the integrator to
    * ignore the value and compute the initial step size by itself)
    */
-  public void setInitialStepSize(double initialStepSize) {
+  public void setInitialStepSize(final double initialStepSize) {
     if ((initialStepSize < minStep) || (initialStepSize > maxStep)) {
       initialStep = -1.0;
     } else {
@@ -132,55 +137,32 @@ public abstract class AdaptiveStepsizeIntegrator
     }
   }
 
-  /** Set the step handler for this integrator.
-   * The handler will be called by the integrator for each accepted
-   * step.
-   * @param handler handler for the accepted steps
-   */
-  public void setStepHandler (StepHandler handler) {
+  /** {@inheritDoc} */
+  public void setStepHandler (final StepHandler handler) {
     this.handler = handler;
   }
 
-  /** Get the step handler for this integrator.
-   * @return the step handler for this integrator
-   */
+  /** {@inheritDoc} */
   public StepHandler getStepHandler() {
     return handler;
   }
 
-  /** Add a switching function to the integrator.
-   * @param function switching function
-   * @param maxCheckInterval maximal time interval between switching
-   * function checks (this interval prevents missing sign changes in
-   * case the integration steps becomes very large)
-   * @param convergence convergence threshold in the event time search
-   * @param maxIterationCount upper limit of the iteration count in
-   * the event time search
-   * @see #getSwitchingFunctions()
-   * @see #clearSwitchingFunctions()
-   */
-  public void addSwitchingFunction(SwitchingFunction function,
-                                   double maxCheckInterval,
-                                   double convergence,
-                                   int maxIterationCount) {
-    switchesHandler.addSwitchingFunction(function, maxCheckInterval, convergence, maxIterationCount);
+  /** {@inheritDoc} */
+  public void addEventHandler(final EventHandler function,
+                              final double maxCheckInterval,
+                              final double convergence,
+                              final int maxIterationCount) {
+    eventsHandlersManager.addEventHandler(function, maxCheckInterval, convergence, maxIterationCount);
   }
 
-  /** Get all the switching functions that have been added to the integrator.
-   * @return an unmodifiable collection of the added switching functions
-   * @see #addSwitchingFunction(SwitchingFunction, double, double, int)
-   * @see #clearSwitchingFunctions()
-   */
-  public Collection<SwitchingFunction> getSwitchingFunctions() {
-      return switchesHandler.getSwitchingFunctions();
+  /** {@inheritDoc} */
+  public Collection<EventHandler> getEventsHandlers() {
+      return eventsHandlersManager.getEventsHandlers();
   }
 
-  /** Remove all the switching functions that have been added to the integrator.
-   * @see #addSwitchingFunction(SwitchingFunction, double, double, int)
-   * @see #getSwitchingFunctions()
-   */
-  public void clearSwitchingFunctions() {
-      switchesHandler.clearSwitchingFunctions();
+  /** {@inheritDoc} */
+  public void clearEventsHandlers() {
+      eventsHandlersManager.clearEventsHandlers();
   }
 
   /** Perform some sanity checks on the integration parameters.
@@ -191,9 +173,9 @@ public abstract class AdaptiveStepsizeIntegrator
    * @param y placeholder where to put the state vector
    * @exception IntegratorException if some inconsistency is detected
    */
-  protected void sanityChecks(FirstOrderDifferentialEquations equations,
-                              double t0, double[] y0, double t, double[] y)
-    throws IntegratorException {
+  protected void sanityChecks(final FirstOrderDifferentialEquations equations,
+                              final double t0, final double[] y0, final double t, final double[] y)
+      throws IntegratorException {
       if (equations.getDimension() != y0.length) {
           throw new IntegratorException("dimensions mismatch: ODE problem has dimension {0}," +
                                         " initial state vector has dimension {1}",
@@ -247,11 +229,11 @@ public abstract class AdaptiveStepsizeIntegrator
    * @exception DerivativeException this exception is propagated to
    * the caller if the underlying user function triggers one
    */
-  public double initializeStep(FirstOrderDifferentialEquations equations,
-                               boolean forward, int order, double[] scale,
-                               double t0, double[] y0, double[] yDot0,
-                               double[] y1, double[] yDot1)
-    throws DerivativeException {
+  public double initializeStep(final FirstOrderDifferentialEquations equations,
+                               final boolean forward, final int order, final double[] scale,
+                               final double t0, final double[] y0, final double[] yDot0,
+                               final double[] y1, final double[] yDot1)
+      throws DerivativeException {
 
     if (initialStep > 0) {
       // use the user provided value
@@ -292,10 +274,10 @@ public abstract class AdaptiveStepsizeIntegrator
 
     // step size is computed such that
     // h^order * max (||y'/tol||, ||y''/tol||) = 0.01
-    double maxInv2 = Math.max(Math.sqrt(yDotOnScale2), yDDotOnScale);
-    double h1 = (maxInv2 < 1.0e-15) ?
-                Math.max(1.0e-6, 0.001 * Math.abs(h)) :
-                Math.pow(0.01 / maxInv2, 1.0 / order);
+    final double maxInv2 = Math.max(Math.sqrt(yDotOnScale2), yDDotOnScale);
+    final double h1 = (maxInv2 < 1.0e-15) ?
+                      Math.max(1.0e-6, 0.001 * Math.abs(h)) :
+                      Math.pow(0.01 / maxInv2, 1.0 / order);
     h = Math.min(100.0 * Math.abs(h), h1);
     h = Math.max(h, 1.0e-12 * Math.abs(t0));  // avoids cancellation when computing t1 - t0
     if (h < getMinStep()) {
@@ -320,75 +302,45 @@ public abstract class AdaptiveStepsizeIntegrator
    * @return a bounded integration step (h if no bound is reach, or a bounded value)
    * @exception IntegratorException if the step is too small and acceptSmall is false
    */
-  protected double filterStep(double h, boolean acceptSmall)
+  protected double filterStep(final double h, final boolean acceptSmall)
     throws IntegratorException {
 
-    if (Math.abs(h) < minStep) {
-      if (acceptSmall) {
-        h = (h < 0) ? -minStep : minStep;
-      } else {
-        throw new IntegratorException("minimal step size ({0}) reached," +
-                                      " integration needs {1}",
-                                      new Object[] {
-                                        Double.valueOf(minStep),
-                                        Double.valueOf(Math.abs(h))
-                                      });
+      double filteredH = h;
+      if (Math.abs(h) < minStep) {
+          if (acceptSmall) {
+              filteredH = (filteredH < 0) ? -minStep : minStep;
+          } else {
+              throw new IntegratorException("minimal step size ({0}) reached," +
+                                            " integration needs {1}",
+                                            new Object[] {
+                                                Double.valueOf(minStep),
+                                                Double.valueOf(Math.abs(h))
+                                            });
+          }
       }
-    }
 
-    if (h > maxStep) {
-      h = maxStep;
-    } else if (h < -maxStep) {
-      h = -maxStep;
-    }
+      if (filteredH > maxStep) {
+          filteredH = maxStep;
+      } else if (h < -maxStep) {
+          filteredH = -maxStep;
+      }
 
-    return h;
+      return filteredH;
 
   }
 
-  /** Integrate the differential equations up to the given time.
-   * <p>This method solves an Initial Value Problem (IVP).</p>
-   * <p>Since this method stores some internal state variables made
-   * available in its public interface during integration ({@link
-   * #getCurrentSignedStepsize()}), it is <em>not</em> thread-safe.</p>
-   * @param equations differential equations to integrate
-   * @param t0 initial time
-   * @param y0 initial value of the state vector at t0
-   * @param t target time for the integration
-   * (can be set to a value smaller than <code>t0</code> for backward integration)
-   * @param y placeholder where to put the state vector at each successful
-   *  step (and hence at the end of integration), can be the same object as y0
-   * @throws IntegratorException if the integrator cannot perform integration
-   * @throws DerivativeException this exception is propagated to the caller if
-   * the underlying user function triggers one
-   */
+  /** {@inheritDoc} */
   public abstract void integrate (FirstOrderDifferentialEquations equations,
                                   double t0, double[] y0,
                                   double t, double[] y)
     throws DerivativeException, IntegratorException;
 
-  /** Get the current value of the step start time t<sub>i</sub>.
-   * <p>This method can be called during integration (typically by
-   * the object implementing the {@link FirstOrderDifferentialEquations
-   * differential equations} problem) if the value of the current step that
-   * is attempted is needed.</p>
-   * <p>The result is undefined if the method is called outside of
-   * calls to {@link #integrate}</p>
-   * @return current value of the step start time t<sub>i</sub>
-   */
+  /** {@inheritDoc} */
   public double getCurrentStepStart() {
     return stepStart;
   }
 
-  /** Get the current signed value of the integration stepsize.
-   * <p>This method can be called during integration (typically by
-   * the object implementing the {@link FirstOrderDifferentialEquations
-   * differential equations} problem) if the signed value of the current stepsize
-   * that is tried is needed.</p>
-   * <p>The result is undefined if the method is called outside of
-   * calls to {@link #integrate}</p>
-   * @return current signed value of the stepsize
-   */
+  /** {@inheritDoc} */
   public double getCurrentSignedStepsize() {
     return stepSize;
   }
@@ -437,8 +389,8 @@ public abstract class AdaptiveStepsizeIntegrator
   /** Step handler. */
   protected StepHandler handler;
 
-  /** Switching functions handler. */
-  protected SwitchingFunctionsHandler switchesHandler;
+  /** Events handlers manager. */
+  protected CombinedEventsManager eventsHandlersManager;
 
   /** Current step start time. */
   protected double stepStart;

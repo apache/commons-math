@@ -22,7 +22,7 @@ package org.spaceroots.mantissa.linalg;
  * <p>This class is the basic implementation of matrices to use when
  * nothing special is known about the structure of the matrix.</p>
 
- * @version $Id: GeneralMatrix.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
 
  */

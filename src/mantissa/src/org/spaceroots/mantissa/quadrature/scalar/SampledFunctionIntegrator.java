@@ -29,7 +29,7 @@ import org.spaceroots.mantissa.functions.FunctionException;
  * @see org.spaceroots.mantissa.functions.scalar.SampledFunctionIterator
  * @see ComputableFunctionIntegrator
 
- * @version $Id: SampledFunctionIntegrator.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
 
  */

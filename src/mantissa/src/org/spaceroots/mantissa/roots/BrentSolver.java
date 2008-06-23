@@ -27,7 +27,7 @@ import org.spaceroots.mantissa.functions.FunctionException;
  * implementation found at netlib (<a
  * href="http://www.netlib.org/fmm/zeroin.f">zeroin.f</a>).
 
- * @version $Id: BrentSolver.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
 
  */

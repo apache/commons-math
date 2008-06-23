@@ -33,7 +33,7 @@ public class IntegratorException
    * @param specifier format specifier (to be translated)
    * @param parts to insert in the format (no translation)
    */
-  public IntegratorException(String specifier, Object[] parts) {
+  public IntegratorException(final String specifier, final Object[] parts) {
     super(specifier, parts);
   }
 
@@ -41,7 +41,7 @@ public class IntegratorException
    * Create an exception with a given root cause.
    * @param cause  the exception or error that caused this exception to be thrown
    */
-  public IntegratorException(Throwable cause) {
+  public IntegratorException(final Throwable cause) {
     super(cause);
   }
 

@@ -25,7 +25,7 @@ package org.spaceroots.mantissa.linalg;
  * <p>This is a utility class, no instance of this class should be
  * built, so the constructor is explicitly made private.</p>
 
- * @version $Id: MatrixFactory.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
 
  */

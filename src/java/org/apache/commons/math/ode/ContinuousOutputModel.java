@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.Serializable;
 
+import org.apache.commons.math.ode.sampling.StepHandler;
+import org.apache.commons.math.ode.sampling.StepInterpolator;
+
 /**
  * This class stores all information provided by an ODE integrator
  * during the integration process and build a continuous model of the
@@ -97,7 +100,7 @@ public class ContinuousOutputModel
    * compatible with the instance (dimension of the state vector,
    * propagation direction, hole between the dates)
    */
-  public void append(ContinuousOutputModel model)
+  public void append(final ContinuousOutputModel model)
     throws DerivativeException {
 
     if (model.steps.size() == 0) {
@@ -117,11 +120,11 @@ public class ContinuousOutputModel
         throw new IllegalArgumentException("propagation direction mismatch");
       }
 
-      StepInterpolator lastInterpolator = (StepInterpolator) steps.get(index);
-      double current  = lastInterpolator.getCurrentTime();
-      double previous = lastInterpolator.getPreviousTime();
-      double step = current - previous;
-      double gap = model.getInitialTime() - current;
+      final StepInterpolator lastInterpolator = (StepInterpolator) steps.get(index);
+      final double current  = lastInterpolator.getCurrentTime();
+      final double previous = lastInterpolator.getPreviousTime();
+      final double step = current - previous;
+      final double gap = model.getInitialTime() - current;
       if (Math.abs(gap) > 1.0e-3 * Math.abs(step)) {
         throw new IllegalArgumentException("hole between time ranges");
       }
@@ -167,7 +170,7 @@ public class ContinuousOutputModel
    * @throws DerivativeException this exception is propagated to the
    * caller if the underlying user function triggers one
    */
-  public void handleStep(StepInterpolator interpolator, boolean isLast)
+  public void handleStep(final StepInterpolator interpolator, final boolean isLast)
     throws DerivativeException {
 
     if (steps.size() == 0) {
@@ -222,16 +225,16 @@ public class ContinuousOutputModel
    * near the interval endpoints.</p>
    * @param time time of the interpolated point
    */
-  public void setInterpolatedTime(double time) {
+  public void setInterpolatedTime(final double time) {
 
     try {
       // initialize the search with the complete steps table
       int iMin = 0;
-      StepInterpolator sMin = steps.get(iMin);
+      final StepInterpolator sMin = steps.get(iMin);
       double tMin = 0.5 * (sMin.getPreviousTime() + sMin.getCurrentTime());
 
       int iMax = steps.size() - 1;
-      StepInterpolator sMax = steps.get(iMax);
+      final StepInterpolator sMax = steps.get(iMax);
       double tMax = 0.5 * (sMax.getPreviousTime() + sMax.getCurrentTime());
 
       // handle points outside of the integration interval
@@ -251,8 +254,8 @@ public class ContinuousOutputModel
       while (iMax - iMin > 5) {
 
         // use the last estimated index as the splitting index
-        StepInterpolator si = steps.get(index);
-        int location = locatePoint(time, si);
+        final StepInterpolator si = steps.get(index);
+        final int location = locatePoint(time, si);
         if (location < 0) {
           iMax = index;
           tMax = 0.5 * (si.getPreviousTime() + si.getCurrentTime());
@@ -266,9 +269,9 @@ public class ContinuousOutputModel
         }
 
         // compute a new estimate of the index in the reduced table slice
-        int iMed = (iMin + iMax) / 2;
-        StepInterpolator sMed = steps.get(iMed);
-        double tMed = 0.5 * (sMed.getPreviousTime() + sMed.getCurrentTime());
+        final int iMed = (iMin + iMax) / 2;
+        final StepInterpolator sMed = steps.get(iMed);
+        final double tMed = 0.5 * (sMed.getPreviousTime() + sMed.getCurrentTime());
 
         if ((Math.abs(tMed - tMin) < 1e-6) || (Math.abs(tMax - tMed) < 1e-6)) {
           // too close to the bounds, we estimate using a simple dichotomy
@@ -277,22 +280,22 @@ public class ContinuousOutputModel
           // estimate the index using a reverse quadratic polynom
           // (reverse means we have i = P(t), thus allowing to simply
           // compute index = P(time) rather than solving a quadratic equation)
-          double d12 = tMax - tMed;
-          double d23 = tMed - tMin;
-          double d13 = tMax - tMin;
-          double dt1 = time - tMax;
-          double dt2 = time - tMed;
-          double dt3 = time - tMin;
-          double iLagrange = ((dt2 * dt3 * d23) * iMax -
-                              (dt1 * dt3 * d13) * iMed +
-                              (dt1 * dt2 * d12) * iMin) /
-                             (d12 * d23 * d13);
+          final double d12 = tMax - tMed;
+          final double d23 = tMed - tMin;
+          final double d13 = tMax - tMin;
+          final double dt1 = time - tMax;
+          final double dt2 = time - tMed;
+          final double dt3 = time - tMin;
+          final double iLagrange = ((dt2 * dt3 * d23) * iMax -
+                                    (dt1 * dt3 * d13) * iMed +
+                                    (dt1 * dt2 * d12) * iMin) /
+                                   (d12 * d23 * d13);
           index = (int) Math.rint(iLagrange);
         }
 
         // force the next size reduction to be at least one tenth
-        int low  = Math.max(iMin + 1, (9 * iMin + iMax) / 10);
-        int high = Math.min(iMax - 1, (iMin + 9 * iMax) / 10);
+        final int low  = Math.max(iMin + 1, (9 * iMin + iMax) / 10);
+        final int high = Math.min(iMax - 1, (iMin + 9 * iMax) / 10);
         if (index < low) {
           index = low;
         } else if (index > high) {
@@ -331,7 +334,7 @@ public class ContinuousOutputModel
    * the interval, and +1 if it is after the interval, according to
    * the interval direction
    */
-  private int locatePoint(double time, StepInterpolator interval) {
+  private int locatePoint(final double time, final StepInterpolator interval) {
     if (forward) {
       if (time < interval.getPreviousTime()) {
         return -1;

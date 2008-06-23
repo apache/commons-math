@@ -54,7 +54,7 @@ package org.spaceroots.mantissa.utilities;
 
  * @see ArrayMapper
  *
- * @version $Id: ArraySliceMappable.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
  *
  */

@@ -43,7 +43,7 @@ import org.spaceroots.mantissa.functions.FunctionException;
 
  * @see ComputableFunction
 
- * @version $Id: ComputableFunctionSampler.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
 
  */

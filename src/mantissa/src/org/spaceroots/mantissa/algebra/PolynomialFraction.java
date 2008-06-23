@@ -25,7 +25,7 @@ import java.math.BigInteger;
  * rational coefficients.
  * <p>Instances of this class are immutable.</p>
 
- * @version $Id: PolynomialFraction.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
 
  */

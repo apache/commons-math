@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.ode;
 
+import org.apache.commons.math.ode.sampling.StepHandler;
+
 /** This interface represents a second order integrator for
  * differential equations.
  *

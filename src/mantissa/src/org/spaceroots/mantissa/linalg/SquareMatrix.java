@@ -23,7 +23,7 @@ package org.spaceroots.mantissa.linalg;
  * implementations. It extends the {@link Matrix} class with methods
  * specific to square matrices.</p>
 
- * @version $Id: SquareMatrix.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
 
  */

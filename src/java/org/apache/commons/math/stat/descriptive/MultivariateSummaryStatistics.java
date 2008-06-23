@@ -62,7 +62,7 @@ import org.apache.commons.math.util.MathUtils;
  * threads is required.</p>
  *
  * @since 1.2
- * @version $Revision: 618097 $ $Date: 2008-02-03 22:39:08 +0100 (dim., 03 févr. 2008) $
+ * @version $Revision$ $Date$
  */
 public class MultivariateSummaryStatistics
   implements StatisticalMultivariateSummary, Serializable {

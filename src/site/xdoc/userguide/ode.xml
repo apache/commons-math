@@ -40,23 +40,18 @@
           All integrators provide dense output. This means that besides computing the state vector
           at discrete times, they also provide a cheap mean to get the state between the time steps.
           They do so through classes extending the
-          <a href="../apidocs/org/apache/commons/math/ode/StepInterpolator.html">StepInterpolator</a>
+          <a href="../apidocs/org/apache/commons/math/ode/sampling/StepInterpolator.html">StepInterpolator</a>
           abstract class, which are made available to the user at the end of each step.
         </p>
         <p>
-          All integrators handle multiple switching functions. This means that the integrator can be
-          driven by discrete events (occurring when the signs of user-supplied
-          <a href="../apidocs/org/apache/commons/math/ode/SwitchingFunction.html">switching functions</a>
-          change). The steps are shortened as needed to ensure the events occur at step boundaries (even
-          if the integrator is a fixed-step integrator). When the events are triggered, integration can
+          All integrators handle multiple discrete events detection based on switching
+          functions. This means that the integrator can be driven by user specified discrete events
+          (occurring when the sign of user-supplied <i>switching function</i> changes). The steps are
+          shortened as needed to ensure the events occur at step boundaries (even if the integrator
+          is a fixed-step integrator). When the events are triggered, integration can
           be stopped (this is called a G-stop facility), the state vector can be changed, or integration
           can simply go on. The latter case is useful to handle discontinuities in the differential
-          equations gracefully and get accurate dense output even close to the discontinuity. The events
-          are detected when the functions signs are different at the beginning and end of the current step,
-          or at several equidistant points inside the step if its length becomes larger than the maximal
-          checking interval specified for the given switching function. This time interval should be set
-          appropriately to avoid missing some switching function sign changes (it is possible to set it
-          to <code>Double.POSITIVE_INFINITY</code> if the sign changes cannot be missed).
+          equations gracefully and get accurate dense output even close to the discontinuity.
         </p>
         <p>
           The user should describe his problem in his own classes which should implement the
@@ -70,10 +65,10 @@
           simple use: the state vector at the end of the integration process is copied in the y array of the
           <code>FirstOrderIntegrator.integrate</code> method. The second one should be used when more in-depth
           information is needed throughout the integration process. The user can register an object implementing
-          the <a href="../apidocs/org/apache/commons/math/ode/StepHandler.html">StepHandler</a> interface or a
-          <a href="../apidocs/org/apache/commons/math/ode/StepNormalizer.html">StepNormalizer</a> object wrapping
+          the <a href="../apidocs/org/apache/commons/math/ode/sampling/StepHandler.html">StepHandler</a> interface or a
+          <a href="../apidocs/org/apache/commons/math/ode/sampling/StepNormalizer.html">StepNormalizer</a> object wrapping
           a user-specified object implementing the
-          <a href="../apidocs/org/apache/commons/math/ode/FixedStepHandler.html">FixedStepHandler</a> interface
+          <a href="../apidocs/org/apache/commons/math/ode/sampling/FixedStepHandler.html">FixedStepHandler</a> interface
           into the integrator before calling the <code>FirstOrderIntegrator.integrate</code> method. The user object
           will be called appropriately during the integration process, allowing the user to process intermediate
           results. The default step handler does nothing.
@@ -88,11 +83,11 @@
           Only the result of the integration is stored, there is no reference to the integrated problem by itself.
         </p>
         <p>
-          Other default implementations of the <a href="../apidocs/org/apache/commons/math/ode/StepHandler.html">StepHandler</a>
+          Other default implementations of the <a href="../apidocs/org/apache/commons/math/ode/sampling/StepHandler.html">StepHandler</a>
           interface are available for general needs
-          (<a href="../apidocs/org/apache/commons/math/ode/DummyStepHandler.html">DummyStepHandler</a>,
-          <a href="../apidocs/org/apache/commons/math/ode/StepNormalizer.html">StepNormalizer</a>) and custom
-          implementations can be developped for specific needs. As an example, if an application is to be
+          (<a href="../apidocs/org/apache/commons/math/ode/sampling/DummyStepHandler.html">DummyStepHandler</a>,
+          <a href="../apidocs/org/apache/commons/math/ode/sampling/StepNormalizer.html">StepNormalizer</a>) and custom
+          implementations can be developed for specific needs. As an example, if an application is to be
           completely driven by the integration process, then most of the application code will be run inside a
           step handler specific to this application.
         </p>
@@ -102,15 +97,86 @@
           with respect to a specified accuracy (these integrators extend the
           <a href="../apidocs/org/apache/commons/math/ode/AdaptiveStepsizeIntegrator.html">AdaptiveStepsizeIntegrator</a>
           abstract class). In this case, the step handler which is called after each successful step shows up
-          the variable stepsize. The <a href="../apidocs/org/apache/commons/math/ode/StepNormalizer.html">StepNormalizer</a>
+          the variable stepsize. The <a href="../apidocs/org/apache/commons/math/ode/sampling/StepNormalizer.html">StepNormalizer</a>
           class can be used to convert the variable stepsize into a fixed stepsize that can be handled by classes
-          implementing the <a href="../apidocs/org/apache/commons/math/ode/FixedStepHandler.html">FixedStepHandler</a>
+          implementing the <a href="../apidocs/org/apache/commons/math/ode/sampling/FixedStepHandler.html">FixedStepHandler</a>
           interface. Adaptive stepsize integrators can automatically compute the initial stepsize by themselves,
           however the user can specify it if he prefers to retain full control over the integration or if the
           automatic guess is wrong.
         </p>
       </subsection>
-      <subsection name="14.2 ODE Problems" href="problems">
+      <subsection name="14.2 Discrete Events Handling" href="events">
+        <p>
+          Discrete events detection is based on switching functions. The user provides
+          a simple <a href="../apidocs/org/apache/commons/math/ode/events/EventHandler.html">g(t, y)</a>
+          function depending on the current time and state. The integrator will monitor
+          the value of the function throughout integration range and will trigger the
+          event when its sign changes. The magnitude of the value is almost irrelevant,
+          it should however be continuous (but not necessarily smooth) for the sake of
+          root finding. The steps are shortened as needed to ensure the events occur
+          at step boundaries (even if the integrator is a fixed-step integrator).
+        </p>
+
+        <p>
+          When an event is triggered, several different options are available:
+        </p>
+        <ul>
+          <li>integration can be stopped (this is called a G-stop facility),</li>
+          <li>the state vector or the derivatives can be changed,</li>
+          <li>or integration can simply go on.</li>
+        </ul>
+
+        <p>
+          The first case, G-stop, is the most common one. A typical use case is when an
+          ODE must be solved up to some target state is reached, with a known value of
+          the state but an unknown occurrence time. As an example, if we want to monitor
+          a chemical reaction up to some predefined concentration for the first substance,
+          we can use the following switching function setting:
+        </p>
+        <source>
+public double g(double t, double[] y) {
+  return y[0] - targetConcentration;
+}
+
+public int eventOccurred(double t, double[] y) {
+  return STOP;
+}
+       </source>
+
+       <p>
+         The second case, change state vector or derivatives is encountered when dealing
+         with discontinuous dynamical models. A typical case would be the motion of a
+         spacecraft when thrusters are fired for orbital maneuvers. The acceleration is
+         smooth as long as no maneuver are performed, depending only on gravity, drag,
+         third body attraction, radiation pressure. Firing a thruster introduces a
+         discontinuity that must be handled appropriately by the integrator. In such a case,
+         we would use a switching function setting similar to this:
+       </p>
+       <source>
+public double g(double t, double[] y) {
+  return (t - tManeuverStart) * (t - tManeuverStop);
+}
+
+public int eventOccurred(double t, double[] y) {
+  return RESET_DERIVATIVES;
+}
+        </source>
+
+        <p>
+          The third case is useful mainly for monitoring purposes, a simple example is:
+        </p>
+        <source>
+public double g(double t, double[] y) {
+  return y[0] - y[1];
+}
+
+public int eventOccurred(double t, double[] y) {
+  logger.log("y0(t) and y1(t) curves cross at t = " + t);
+  return CONTINUE;
+}
+        </source>
+      </subsection>
+      <subsection name="14.3 ODE Problems" href="problems">
         <p>
           First order ODE problems are defined by implementing the
           <a href="../apidocs/org/apache/commons/math/ode/FirstOrderDifferentialEquations.html">FirstOrderDifferentialEquations</a>
@@ -130,29 +196,29 @@
           that implement it are allowed to handle them as they want.
         </p>
       </subsection>
-      <subsection name="14.3 Integrators" href="integrators">
+      <subsection name="14.4 Integrators" href="integrators">
         <p>
-          The tables below show the various integrators available.
+          The tables below show the various integrators available for non-stiff problems.
         </p>
         <p>
           <table border="1" align="center">
           <tr BGCOLOR="#CCCCFF"><td colspan="2"><font size="+2">Fixed Step Integrators</font></td></tr>
           <tr BGCOLOR="#EEEEFF"><font size="+1"><td>Name</td><td>Order</td></font></tr>
-          <tr><td><a href="../apidocs/org/apache/commons/math/ode/EulerIntegrator.html">Euler</a></td><td>1</td></tr>
-          <tr><td><a href="../apidocs/org/apache/commons/math/ode/MidpointIntegrator.html">Midpoint</a></td><td>2</td></tr>
-          <tr><td><a href="../apidocs/org/apache/commons/math/ode/ClassicalRungeKuttaIntegrator.html">Classical Runge-Kutta</a></td><td>4</td></tr>
-          <tr><td><a href="../apidocs/org/apache/commons/math/ode/GillIntegrator.html">Gill</a></td><td>4</td></tr>
-          <tr><td><a href="../apidocs/org/apache/commons/math/ode/ThreeEighthesIntegrator.html">3/8</a></td><td>4</td></tr>
+          <tr><td><a href="../apidocs/org/apache/commons/math/ode/nonstiff/EulerIntegrator.html">Euler</a></td><td>1</td></tr>
+          <tr><td><a href="../apidocs/org/apache/commons/math/ode/nonstiff/MidpointIntegrator.html">Midpoint</a></td><td>2</td></tr>
+          <tr><td><a href="../apidocs/org/apache/commons/math/ode/nonstiff/ClassicalRungeKuttaIntegrator.html">Classical Runge-Kutta</a></td><td>4</td></tr>
+          <tr><td><a href="../apidocs/org/apache/commons/math/ode/nonstiff/GillIntegrator.html">Gill</a></td><td>4</td></tr>
+          <tr><td><a href="../apidocs/org/apache/commons/math/ode/nonstiff/ThreeEighthesIntegrator.html">3/8</a></td><td>4</td></tr>
           </table>
         </p>
         <p>
           <table border="1" align="center">
           <tr BGCOLOR="#CCCCFF"><td colspan="3"><font size="+2">Adaptive Stepsize Integrators</font></td></tr>
           <tr BGCOLOR="#EEEEFF"><font size="+1"><td>Name</td><td>Integration Order</td><td>Error Estimation Order</td></font></tr>
-          <tr><td><a href="../apidocs/org/apache/commons/math/ode/HighamHall54Integrator.html">Higham and Hall</a></td><td>5</td><td>4</td></tr>
-          <tr><td><a href="../apidocs/org/apache/commons/math/ode/DormandPrince54Integrator.html">Dormand-Prince 5(4)</a></td><td>5</td><td>4</td></tr>
-          <tr><td><a href="../apidocs/org/apache/commons/math/ode/DormandPrince853Integrator.html">Dormand-Prince 8(5,3)</a></td><td>8</td><td>5 and 3</td></tr>
-          <tr><td><a href="../apidocs/org/apache/commons/math/ode/GraggBulirschStoerIntegrator.html">Gragg-Bulirsch-Stoer</a>	variable (up to 18 by default)</td><td>variable</td></tr>
+          <tr><td><a href="../apidocs/org/apache/commons/math/ode/nonstiff/HighamHall54Integrator.html">Higham and Hall</a></td><td>5</td><td>4</td></tr>
+          <tr><td><a href="../apidocs/org/apache/commons/math/ode/nonstiff/DormandPrince54Integrator.html">Dormand-Prince 5(4)</a></td><td>5</td><td>4</td></tr>
+          <tr><td><a href="../apidocs/org/apache/commons/math/ode/nonstiff/DormandPrince853Integrator.html">Dormand-Prince 8(5,3)</a></td><td>8</td><td>5 and 3</td></tr>
+          <tr><td><a href="../apidocs/org/apache/commons/math/ode/nonstiff/GraggBulirschStoerIntegrator.html">Gragg-Bulirsch-Stoer</a>	variable (up to 18 by default)</td><td>variable</td></tr>
           </table>
         </p>
       </subsection>

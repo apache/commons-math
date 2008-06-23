@@ -33,7 +33,7 @@ import org.spaceroots.mantissa.functions.vectorial.VectorialValuedPair;
  * @see F2FP2Iterator
  * @see HarmonicCoefficientsGuesser
 
- * @version $Id: FFPIterator.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
 
  */

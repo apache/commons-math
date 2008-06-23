@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 import java.util.Locale;
 
 /**
- * @version $Revision: 480442 $ $Date: 2006-11-29 08:21:22 +0100 (mer., 29 nov. 2006) $
+ * @version $Revision$ $Date$
  */
 public class ConvergenceExceptionTest extends TestCase {
 

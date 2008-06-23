@@ -32,7 +32,7 @@ import org.spaceroots.mantissa.estimation.GaussNewtonEstimator;
 
  * @see PolynomialCoefficient
 
- * @version $Id: PolynomialFitter.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
 
  */

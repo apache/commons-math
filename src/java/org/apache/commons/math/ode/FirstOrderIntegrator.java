@@ -20,6 +20,9 @@ package org.apache.commons.math.ode;
 import java.io.Serializable;
 import java.util.Collection;
 
+import org.apache.commons.math.ode.events.EventHandler;
+import org.apache.commons.math.ode.sampling.StepHandler;
+
 /** This interface represents a first order integrator for
  * differential equations.
 
@@ -30,7 +33,7 @@ import java.util.Collection;
  *
  * @see FirstOrderDifferentialEquations
  * @see StepHandler
- * @see SwitchingFunction
+ * @see EventHandler
  * @version $Revision$ $Date$
  * @since 1.2
  */
@@ -54,34 +57,32 @@ public interface FirstOrderIntegrator extends Serializable {
    */
   public StepHandler getStepHandler();
 
-  /** Add a switching function to the integrator.
-   * @param function switching function
+  /** Add an event handler to the integrator.
+   * @param handler event handler
    * @param maxCheckInterval maximal time interval between switching
    * function checks (this interval prevents missing sign changes in
    * case the integration steps becomes very large)
    * @param convergence convergence threshold in the event time search
    * @param maxIterationCount upper limit of the iteration count in
    * the event time search
-   * @see #getSwitchingFunctions()
-   * @see #clearSwitchingFunctions()
+   * @see #getEventsHandlers()
+   * @see #clearEventsHandlers()
    */
-  public void addSwitchingFunction(SwitchingFunction function,
-                                   double maxCheckInterval,
-                                   double convergence,
-                                   int maxIterationCount);
+  public void addEventHandler(EventHandler handler, double maxCheckInterval,
+                              double convergence, int maxIterationCount);
 
-  /** Get all the switching functions that have been added to the integrator.
-   * @return an unmodifiable collection of the added switching functions
-   * @see #addSwitchingFunction(SwitchingFunction, double, double, int)
-   * @see #clearSwitchingFunctions()
+  /** Get all the events handlers that have been added to the integrator.
+   * @return an unmodifiable collection of the added events handlers
+   * @see #addEventHandler(EventHandler, double, double, int)
+   * @see #clearEventsHandlers()
    */
-  public Collection<SwitchingFunction> getSwitchingFunctions();
+  public Collection<EventHandler> getEventsHandlers();
 
-  /** Remove all the switching functions that have been added to the integrator.
-   * @see #addSwitchingFunction(SwitchingFunction, double, double, int)
-   * @see #getSwitchingFunctions()
+  /** Remove all the events handlers that have been added to the integrator.
+   * @see #addEventHandler(EventHandler, double, double, int)
+   * @see #getEventsHandlers()
    */
-  public void clearSwitchingFunctions();
+  public void clearEventsHandlers();
 
   /** Integrate the differential equations up to the given time.
    * <p>This method solves an Initial Value Problem (IVP).</p>

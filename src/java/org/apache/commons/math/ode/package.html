@@ -17,7 +17,9 @@
   -->
     <!-- $Revision$ -->
 <body>
+<p>
 This package provides classes to solve Ordinary Differential Equations problems.
+</p>
 
 <p>
 This package solves Initial Value Problems of the form
@@ -38,25 +40,15 @@ each step.
 </p>
 
 <p>
-All integrators handle multiple switching functions. This means that
-the integrator can be driven by discrete events (occurring when the
-signs of user-supplied {@link
-org.apache.commons.math.ode.SwitchingFunction switching functions}
-change). The steps are shortened as needed to ensure the events occur
+All integrators handle multiple discrete events detection based on switching
+functions. This means that the integrator can be driven by user specified
+discrete events. The steps are shortened as needed to ensure the events occur
 at step boundaries (even if the integrator is a fixed-step
 integrator). When the events are triggered, integration can be stopped
 (this is called a G-stop facility), the state vector can be changed,
 or integration can simply go on. The latter case is useful to handle
 discontinuities in the differential equations gracefully and get
-accurate dense output even close to the discontinuity. The events are
-detected when the functions signs are different at the beginning and
-end of the current step, or at several equidistant points inside the
-step if its length becomes larger than the maximal checking interval
-specified for the given switching function. This time interval should
-be set appropriately to avoid missing some switching function sign
-changes (it is possible to set it to
-<code>Double.POSITIVE_INFINITY</code> if the sign changes cannot be
-missed).
+accurate dense output even close to the discontinuity.
 </p>
 
 <p>

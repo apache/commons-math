@@ -63,7 +63,7 @@ public class FirstOrderConverter
    * Build a converter around a second order equations set.
    * @param equations second order equations set to convert
    */
-  public FirstOrderConverter (SecondOrderDifferentialEquations equations) {
+  public FirstOrderConverter (final SecondOrderDifferentialEquations equations) {
       this.equations = equations;
       dimension      = equations.getDimension();
       z              = new double[dimension];
@@ -87,8 +87,8 @@ public class FirstOrderConverter
    * @throws DerivativeException this exception is propagated to the caller if the
    * underlying user function triggers one
    */
-  public void computeDerivatives(double t, double[] y, double[] yDot)
-  throws DerivativeException {
+  public void computeDerivatives(final double t, final double[] y, final double[] yDot)
+      throws DerivativeException {
 
     // split the state vector in two
     System.arraycopy(y, 0,         z,    0, dimension);

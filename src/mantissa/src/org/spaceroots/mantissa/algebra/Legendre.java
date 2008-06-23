@@ -28,7 +28,7 @@ package org.spaceroots.mantissa.algebra;
  *  (k+1) P<sub>k+1</sub>(X) = (2k+1) X P<sub>k</sub>(X) - k P<sub>k-1</sub>(X)
  * </pre></p>
 
- * @version $Id: Legendre.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
 
  */

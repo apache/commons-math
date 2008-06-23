@@ -22,7 +22,7 @@ import org.apache.commons.math.stat.descriptive.rank.Percentile;
 /**
  * Test cases for the DescriptiveStatistics class.
  * 
- * @version $Revision: 592121 $ $Date: 2007-08-16 15:36:33 -0500 (Thu, 16 Aug
+ * @version $Revision$ $Date: 2007-08-16 15:36:33 -0500 (Thu, 16 Aug
  *          2007) $
  */
 public class DescriptiveStatisticsTest extends TestCase {

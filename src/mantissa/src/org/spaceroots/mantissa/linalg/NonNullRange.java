@@ -47,7 +47,7 @@ import java.io.Serializable;
  * coincidence. Therefore, the range (in row/columns count)
  * corresponding to third row will span from 0 to 2, not from 1 to 2.</p>
 
- * @version $Id: NonNullRange.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
 
  */
