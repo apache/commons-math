@@ -66,9 +66,11 @@ public class EulerIntegratorTest
           integ.addEventHandler(functions[l],
                                      Double.POSITIVE_INFINITY, 1.0e-6 * step, 1000);
         }
-        integ.integrate(pb,
-                        pb.getInitialTime(), pb.getInitialState(),
-                        pb.getFinalTime(), new double[pb.getDimension()]);
+        double stopTime = integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
+                                          pb.getFinalTime(), new double[pb.getDimension()]);
+        if (functions.length == 0) {
+            assertEquals(pb.getFinalTime(), stopTime, 1.0e-10);
+        }
 
         double error = handler.getMaximalValueError();
         if (i > 4) {

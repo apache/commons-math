@@ -77,8 +77,7 @@ public class ClassicalRungeKuttaIntegratorTest
       for (int i = 4; i < 10; ++i) {
 
         TestProblemAbstract pb = (TestProblemAbstract) problems[k].clone();
-        double step = (pb.getFinalTime() - pb.getInitialTime())
-          * Math.pow(2.0, -i);
+        double step = (pb.getFinalTime() - pb.getInitialTime()) * Math.pow(2.0, -i);
 
         FirstOrderIntegrator integ = new ClassicalRungeKuttaIntegrator(step);
         TestProblemHandler handler = new TestProblemHandler(pb, integ);
@@ -89,8 +88,11 @@ public class ClassicalRungeKuttaIntegratorTest
                                      Double.POSITIVE_INFINITY, 1.0e-6 * step, 1000);
         }
         assertEquals(functions.length, integ.getEventsHandlers().size());
-        integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
-                        pb.getFinalTime(), new double[pb.getDimension()]);
+        double stopTime = integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
+                                          pb.getFinalTime(), new double[pb.getDimension()]);
+        if (functions.length == 0) {
+            assertEquals(pb.getFinalTime(), stopTime, 1.0e-10);
+        }
 
         double error = handler.getMaximalValueError();
         if (i > 4) {

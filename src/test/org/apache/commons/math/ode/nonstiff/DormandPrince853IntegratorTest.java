@@ -191,9 +191,10 @@ public class DormandPrince853IntegratorTest
                                                                scalAbsoluteTolerance,
                                                                scalRelativeTolerance);
     integ.setStepHandler(new VariableHandler());
-    integ.integrate(pb,
-                    pb.getInitialTime(), pb.getInitialState(),
-                    pb.getFinalTime(), new double[pb.getDimension()]);
+    double stopTime = integ.integrate(pb,
+                                      pb.getInitialTime(), pb.getInitialState(),
+                                      pb.getFinalTime(), new double[pb.getDimension()]);
+    assertEquals(pb.getFinalTime(), stopTime, 1.0e-10);
     assertEquals("Dormand-Prince 8 (5, 3)", integ.getName());
   }
 

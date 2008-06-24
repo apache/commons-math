@@ -96,13 +96,15 @@ public interface FirstOrderIntegrator extends Serializable {
    * (can be set to a value smaller than <code>t0</code> for backward integration)
    * @param y placeholder where to put the state vector at each successful
    *  step (and hence at the end of integration), can be the same object as y0
+   * @return stop time, will be the same as target time if integration reached its
+   * target, but may be different if some {@link EventHandler} stops it at some point.
    * @throws IntegratorException if the integrator cannot perform integration
    * @throws DerivativeException this exception is propagated to the caller if
    * the underlying user function triggers one
    */
-  public void integrate (FirstOrderDifferentialEquations equations,
-                         double t0, double[] y0,
-                         double t, double[] y)
+  public double integrate (FirstOrderDifferentialEquations equations,
+                           double t0, double[] y0,
+                           double t, double[] y)
     throws DerivativeException, IntegratorException;
 
   /** Get the current value of the step start time t<sub>i</sub>.

@@ -241,9 +241,9 @@ public class DormandPrince54IntegratorTest
                                                                scalAbsoluteTolerance,
                                                                scalRelativeTolerance);
     integ.setStepHandler(new VariableHandler());
-    integ.integrate(pb,
-                    pb.getInitialTime(), pb.getInitialState(),
-                    pb.getFinalTime(), new double[pb.getDimension()]);
+    double stopTime = integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
+                                      pb.getFinalTime(), new double[pb.getDimension()]);
+    assertEquals(pb.getFinalTime(), stopTime, 1.0e-10);
   }
 
   private static class KeplerHandler implements StepHandler {

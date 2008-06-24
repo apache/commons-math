@@ -508,8 +508,8 @@ public class GraggBulirschStoerIntegrator
   }
 
   /** {@inheritDoc} */
-  public void integrate(final FirstOrderDifferentialEquations equations,
-                        final double t0, final double[] y0, final double t, final double[] y)
+  public double integrate(final FirstOrderDifferentialEquations equations,
+                          final double t0, final double[] y0, final double t, final double[] y)
   throws DerivativeException, IntegratorException {
 
     sanityChecks(equations, t0, y0, t, y);
@@ -940,6 +940,8 @@ public class GraggBulirschStoerIntegrator
       }
 
     }
+
+    return stepStart;
 
   }
 
