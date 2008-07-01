@@ -55,10 +55,10 @@ public class DormandPrince853Integrator
   extends EmbeddedRungeKuttaIntegrator {
 
   /** Serializable version identifier. */
-  private static final long serialVersionUID = 6175337145090754336L;
+  private static final long serialVersionUID = -8627142100635188441L;
 
   /** Integrator method name. */
-  private static final String methodName = "Dormand-Prince 8 (5, 3)";
+  private static final String METHOD_NAME = "Dormand-Prince 8 (5, 3)";
 
   /** Time steps Butcher array. */
   private static final double[] staticC = {
@@ -216,7 +216,7 @@ public class DormandPrince853Integrator
   public DormandPrince853Integrator(final double minStep, final double maxStep,
                                     final double scalAbsoluteTolerance,
                                     final double scalRelativeTolerance) {
-    super(true, staticC, staticA, staticB,
+    super(METHOD_NAME, true, staticC, staticA, staticB,
           new DormandPrince853StepInterpolator(),
           minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
   }
@@ -233,14 +233,9 @@ public class DormandPrince853Integrator
   public DormandPrince853Integrator(final double minStep, final double maxStep,
                                     final double[] vecAbsoluteTolerance,
                                     final double[] vecRelativeTolerance) {
-    super(true, staticC, staticA, staticB,
+    super(METHOD_NAME, true, staticC, staticA, staticB,
           new DormandPrince853StepInterpolator(),
           minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
-  }
-
-  /** {@inheritDoc} */
-  public String getName() {
-    return methodName;
   }
 
   /** {@inheritDoc} */

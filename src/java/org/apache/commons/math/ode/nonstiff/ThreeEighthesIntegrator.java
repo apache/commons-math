@@ -45,10 +45,7 @@ public class ThreeEighthesIntegrator
   extends RungeKuttaIntegrator {
 
   /** Serializable version identifier. */
-  private static final long serialVersionUID = -5738562635641912717L;
-
-  /** Integrator method name. */
-  private static final String methodName = "3/8";
+  private static final long serialVersionUID = -2480984691453028021L;
 
   /** Time steps Butcher array. */
   private static final double[] c = {
@@ -72,12 +69,7 @@ public class ThreeEighthesIntegrator
    * @param step integration step
    */
   public ThreeEighthesIntegrator(final double step) {
-    super(c, a, b, new ThreeEighthesStepInterpolator(), step);
-  }
-
-  /** {@inheritDoc} */
-  public String getName() {
-    return methodName;
+    super("3/8", c, a, b, new ThreeEighthesStepInterpolator(), step);
   }
 
 }

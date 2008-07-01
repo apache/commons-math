@@ -15,14 +15,12 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.ode;
+package org.apache.commons.math.ode.nonstiff;
 
-import java.util.Collection;
-
-import org.apache.commons.math.ode.events.EventHandler;
-import org.apache.commons.math.ode.events.CombinedEventsManager;
-import org.apache.commons.math.ode.sampling.DummyStepHandler;
-import org.apache.commons.math.ode.sampling.StepHandler;
+import org.apache.commons.math.ode.AbstractIntegrator;
+import org.apache.commons.math.ode.DerivativeException;
+import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
+import org.apache.commons.math.ode.IntegratorException;
 
 /**
  * This abstract class holds the common part of all adaptive
@@ -54,10 +52,11 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  */
 
 public abstract class AdaptiveStepsizeIntegrator
-  implements FirstOrderIntegrator {
+  extends AbstractIntegrator {
 
   /** Build an integrator with the given stepsize bounds.
    * The default step handler does nothing.
+   * @param name name of the method
    * @param minStep minimal step (must be positive even for backward
    * integration), the last step can be smaller than this
    * @param maxStep maximal step (must be positive even for backward
@@ -65,9 +64,12 @@ public abstract class AdaptiveStepsizeIntegrator
    * @param scalAbsoluteTolerance allowed absolute error
    * @param scalRelativeTolerance allowed relative error
    */
-  public AdaptiveStepsizeIntegrator(final double minStep, final double maxStep,
+  public AdaptiveStepsizeIntegrator(final String name,
+                                    final double minStep, final double maxStep,
                                     final double scalAbsoluteTolerance,
                                     final double scalRelativeTolerance) {
+
+    super(name);
 
     this.minStep     = minStep;
     this.maxStep     = maxStep;
@@ -78,17 +80,13 @@ public abstract class AdaptiveStepsizeIntegrator
     this.vecAbsoluteTolerance  = null;
     this.vecRelativeTolerance  = null;
 
-    // set the default step handler
-    handler = DummyStepHandler.getInstance();
-
-    eventsHandlersManager = new CombinedEventsManager();
-
     resetInternalState();
 
   }
 
   /** Build an integrator with the given stepsize bounds.
    * The default step handler does nothing.
+   * @param name name of the method
    * @param minStep minimal step (must be positive even for backward
    * integration), the last step can be smaller than this
    * @param maxStep maximal step (must be positive even for backward
@@ -96,9 +94,12 @@ public abstract class AdaptiveStepsizeIntegrator
    * @param vecAbsoluteTolerance allowed absolute error
    * @param vecRelativeTolerance allowed relative error
    */
-  public AdaptiveStepsizeIntegrator(final double minStep, final double maxStep,
+  public AdaptiveStepsizeIntegrator(final String name,
+                                    final double minStep, final double maxStep,
                                     final double[] vecAbsoluteTolerance,
                                     final double[] vecRelativeTolerance) {
+
+    super(name);
 
     this.minStep     = minStep;
     this.maxStep     = maxStep;
@@ -108,11 +109,6 @@ public abstract class AdaptiveStepsizeIntegrator
     this.scalRelativeTolerance = 0;
     this.vecAbsoluteTolerance  = vecAbsoluteTolerance;
     this.vecRelativeTolerance  = vecRelativeTolerance;
-
-    // set the default step handler
-    handler = DummyStepHandler.getInstance();
-
-    eventsHandlersManager = new CombinedEventsManager();
 
     resetInternalState();
 
@@ -135,34 +131,6 @@ public abstract class AdaptiveStepsizeIntegrator
     } else {
       initialStep = initialStepSize;
     }
-  }
-
-  /** {@inheritDoc} */
-  public void setStepHandler (final StepHandler handler) {
-    this.handler = handler;
-  }
-
-  /** {@inheritDoc} */
-  public StepHandler getStepHandler() {
-    return handler;
-  }
-
-  /** {@inheritDoc} */
-  public void addEventHandler(final EventHandler function,
-                              final double maxCheckInterval,
-                              final double convergence,
-                              final int maxIterationCount) {
-    eventsHandlersManager.addEventHandler(function, maxCheckInterval, convergence, maxIterationCount);
-  }
-
-  /** {@inheritDoc} */
-  public Collection<EventHandler> getEventsHandlers() {
-      return eventsHandlersManager.getEventsHandlers();
-  }
-
-  /** {@inheritDoc} */
-  public void clearEventsHandlers() {
-      eventsHandlersManager.clearEventsHandlers();
   }
 
   /** Perform some sanity checks on the integration parameters.
@@ -340,11 +308,6 @@ public abstract class AdaptiveStepsizeIntegrator
     return stepStart;
   }
 
-  /** {@inheritDoc} */
-  public double getCurrentSignedStepsize() {
-    return stepSize;
-  }
-
   /** Reset internal state to dummy values. */
   protected void resetInternalState() {
     stepStart = Double.NaN;
@@ -385,17 +348,5 @@ public abstract class AdaptiveStepsizeIntegrator
 
   /** Allowed relative vectorial error. */
   protected double[] vecRelativeTolerance;
-
-  /** Step handler. */
-  protected StepHandler handler;
-
-  /** Events handlers manager. */
-  protected CombinedEventsManager eventsHandlersManager;
-
-  /** Current step start time. */
-  protected double stepStart;
-
-  /** Current stepsize. */
-  protected double stepSize;
 
 }

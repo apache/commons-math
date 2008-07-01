@@ -35,10 +35,10 @@ public class HighamHall54Integrator
   extends EmbeddedRungeKuttaIntegrator {
 
   /** Serializable version identifier. */
-  private static final long serialVersionUID = -1499486749907617454L;
+  private static final long serialVersionUID = 1462328766749870097L;
 
   /** Integrator method name. */
-  private static final String methodName = "Higham-Hall 5(4)";
+  private static final String METHOD_NAME = "Higham-Hall 5(4)";
 
   /** Time steps Butcher array. */
   private static final double[] staticC = {
@@ -77,7 +77,7 @@ public class HighamHall54Integrator
   public HighamHall54Integrator(final double minStep, final double maxStep,
                                 final double scalAbsoluteTolerance,
                                 final double scalRelativeTolerance) {
-    super(false, staticC, staticA, staticB, new HighamHall54StepInterpolator(),
+    super(METHOD_NAME, false, staticC, staticA, staticB, new HighamHall54StepInterpolator(),
           minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
   }
 
@@ -93,13 +93,8 @@ public class HighamHall54Integrator
   public HighamHall54Integrator(final double minStep, final double maxStep,
                                 final double[] vecAbsoluteTolerance,
                                 final double[] vecRelativeTolerance) {
-    super(false, staticC, staticA, staticB, new HighamHall54StepInterpolator(),
+    super(METHOD_NAME, false, staticC, staticA, staticB, new HighamHall54StepInterpolator(),
           minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
-  }
-
-  /** {@inheritDoc} */
-  public String getName() {
-    return methodName;
   }
 
   /** {@inheritDoc} */

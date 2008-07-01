@@ -46,10 +46,7 @@ public class ClassicalRungeKuttaIntegrator
   extends RungeKuttaIntegrator {
 
   /** Serializable version identifier. */
-  private static final long serialVersionUID = -8987762131146169612L;
-
-  /** Integrator method name. */
-  private static final String methodName = "classical Runge-Kutta";
+    private static final long serialVersionUID = 3710070023793519840L;
 
   /** Time steps Butcher array. */
   private static final double[] c = {
@@ -74,12 +71,8 @@ public class ClassicalRungeKuttaIntegrator
    * @param step integration step
    */
   public ClassicalRungeKuttaIntegrator(final double step) {
-    super(c, a, b, new ClassicalRungeKuttaStepInterpolator(), step);
-  }
-
-  /** {@inheritDoc} */
-  public String getName() {
-    return methodName;
+    super("classical Runge-Kutta", c, a, b,
+          new ClassicalRungeKuttaStepInterpolator(), step);
   }
 
 }

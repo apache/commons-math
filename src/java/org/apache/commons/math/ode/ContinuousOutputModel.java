@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.Serializable;
 
+import org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 

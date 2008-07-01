@@ -17,18 +17,13 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import java.util.Collection;
 
+import org.apache.commons.math.ode.AbstractIntegrator;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
-import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.IntegratorException;
-import org.apache.commons.math.ode.events.EventHandler;
-import org.apache.commons.math.ode.events.CombinedEventsManager;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
-import org.apache.commons.math.ode.sampling.DummyStepHandler;
 import org.apache.commons.math.ode.sampling.DummyStepInterpolator;
-import org.apache.commons.math.ode.sampling.StepHandler;
 
 /**
  * This class implements the common part of all fixed step Runge-Kutta
@@ -55,60 +50,28 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  * @since 1.2
  */
 
-public abstract class RungeKuttaIntegrator
-  implements FirstOrderIntegrator {
+public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
 
   /** Simple constructor.
    * Build a Runge-Kutta integrator with the given
    * step. The default step handler does nothing.
+   * @param name name of the method
    * @param c time steps from Butcher array (without the first zero)
    * @param a internal weights from Butcher array (without the first empty row)
    * @param b propagation weights for the high order method from Butcher array
    * @param prototype prototype of the step interpolator to use
    * @param step integration step
    */
-  protected RungeKuttaIntegrator(final double[] c, final double[][] a, final double[] b,
+  protected RungeKuttaIntegrator(final String name,
+                                 final double[] c, final double[][] a, final double[] b,
                                  final RungeKuttaStepInterpolator prototype,
                                  final double step) {
+    super(name);
     this.c          = c;
     this.a          = a;
     this.b          = b;
     this.prototype  = prototype;
     this.step       = step;
-    handler         = DummyStepHandler.getInstance();
-    eventsHandlersManager = new CombinedEventsManager();
-    resetInternalState();
-  }
-
-  /** {@inheritDoc} */
-  public abstract String getName();
-
-  /** {@inheritDoc} */
-  public void setStepHandler (final StepHandler handler) {
-    this.handler = handler;
-  }
-
-  /** {@inheritDoc} */
-  public StepHandler getStepHandler() {
-    return handler;
-  }
-
-  /** {@inheritDoc} */
-  public void addEventHandler(final EventHandler function,
-                              final double maxCheckInterval,
-                              final double convergence,
-                              final int maxIterationCount) {
-    eventsHandlersManager.addEventHandler(function, maxCheckInterval, convergence, maxIterationCount);
-  }
-
-  /** {@inheritDoc} */
-  public Collection<EventHandler> getEventsHandlers() {
-      return eventsHandlersManager.getEventsHandlers();
-  }
-
-  /** {@inheritDoc} */
-  public void clearEventsHandlers() {
-      eventsHandlersManager.clearEventsHandlers();
   }
 
   /** Perform some sanity checks on the integration parameters.
@@ -258,25 +221,10 @@ public abstract class RungeKuttaIntegrator
     }
 
     final double stopTime = stepStart;
-    resetInternalState();
-    return stopTime;
-
-  }
-
-  /** {@inheritDoc} */
-  public double getCurrentStepStart() {
-    return stepStart;
-  }
-
-  /** {@inheritDoc} */
-  public double getCurrentSignedStepsize() {
-    return stepSize;
-  }
-
-  /** Reset internal state to dummy values. */
-  private void resetInternalState() {
     stepStart = Double.NaN;
     stepSize  = Double.NaN;
+    return stopTime;
+
   }
 
   /** Time steps from Butcher array (without the first zero). */
@@ -293,17 +241,5 @@ public abstract class RungeKuttaIntegrator
                                          
   /** Integration step. */
   private double step;
-
-  /** Step handler. */
-  private StepHandler handler;
-
-  /** Events handlers manager. */
-  protected CombinedEventsManager eventsHandlersManager;
-
-  /** Current step start time. */
-  private double stepStart;
-
-  /** Current stepsize. */
-  private double stepSize;
 
 }

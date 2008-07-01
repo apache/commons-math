@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import org.apache.commons.math.ode.AdaptiveStepsizeIntegrator;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.IntegratorException;
@@ -97,10 +96,10 @@ public class GraggBulirschStoerIntegrator
   extends AdaptiveStepsizeIntegrator {
 
   /** Serializable version identifier. */
-  private static final long serialVersionUID = -1263159462413447366L;
+  private static final long serialVersionUID = 7364884082146325264L;
 
   /** Integrator method name. */
-  private static final String methodName = "Gragg-Bulirsch-Stoer";
+  private static final String METHOD_NAME = "Gragg-Bulirsch-Stoer";
 
   /** Simple constructor.
    * Build a Gragg-Bulirsch-Stoer integrator with the given step
@@ -116,7 +115,8 @@ public class GraggBulirschStoerIntegrator
   public GraggBulirschStoerIntegrator(final double minStep, final double maxStep,
                                       final double scalAbsoluteTolerance,
                                       final double scalRelativeTolerance) {
-    super(minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
+    super(METHOD_NAME, minStep, maxStep,
+          scalAbsoluteTolerance, scalRelativeTolerance);
     denseOutput = (handler.requiresDenseOutput() || (! eventsHandlersManager.isEmpty()));
     setStabilityCheck(true, -1, -1, -1);
     setStepsizeControl(-1, -1, -1, -1);
@@ -138,7 +138,8 @@ public class GraggBulirschStoerIntegrator
   public GraggBulirschStoerIntegrator(final double minStep, final double maxStep,
                                       final double[] vecAbsoluteTolerance,
                                       final double[] vecRelativeTolerance) {
-    super(minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
+    super(METHOD_NAME, minStep, maxStep,
+          vecAbsoluteTolerance, vecRelativeTolerance);
     denseOutput = (handler.requiresDenseOutput() || (! eventsHandlersManager.isEmpty()));
     setStabilityCheck(true, -1, -1, -1);
     setStepsizeControl(-1, -1, -1, -1);
@@ -373,11 +374,6 @@ public class GraggBulirschStoerIntegrator
       this.mudif = mudif;
     }
 
-  }
-
-  /** {@inheritDoc} */
-  public String getName() {
-    return methodName;
   }
 
   /** Update scaling array.

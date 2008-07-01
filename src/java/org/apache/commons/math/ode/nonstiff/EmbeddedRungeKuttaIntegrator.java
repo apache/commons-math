@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import org.apache.commons.math.ode.AdaptiveStepsizeIntegrator;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.IntegratorException;
@@ -65,6 +64,7 @@ public abstract class EmbeddedRungeKuttaIntegrator
   extends AdaptiveStepsizeIntegrator {
 
   /** Build a Runge-Kutta integrator with the given Butcher array.
+   * @param name name of the method
    * @param fsal indicate that the method is an <i>fsal</i>
    * @param c time steps from Butcher array (without the first zero)
    * @param a internal weights from Butcher array (without the first empty row)
@@ -77,14 +77,14 @@ public abstract class EmbeddedRungeKuttaIntegrator
    * @param scalAbsoluteTolerance allowed absolute error
    * @param scalRelativeTolerance allowed relative error
    */
-  protected EmbeddedRungeKuttaIntegrator(final boolean fsal,
+  protected EmbeddedRungeKuttaIntegrator(final String name, final boolean fsal,
                                          final double[] c, final double[][] a, final double[] b,
                                          final RungeKuttaStepInterpolator prototype,
                                          final double minStep, final double maxStep,
                                          final double scalAbsoluteTolerance,
                                          final double scalRelativeTolerance) {
 
-    super(minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
+    super(name, minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
 
     this.fsal      = fsal;
     this.c         = c;
@@ -102,6 +102,7 @@ public abstract class EmbeddedRungeKuttaIntegrator
   }
 
   /** Build a Runge-Kutta integrator with the given Butcher array.
+   * @param name name of the method
    * @param fsal indicate that the method is an <i>fsal</i>
    * @param c time steps from Butcher array (without the first zero)
    * @param a internal weights from Butcher array (without the first empty row)
@@ -114,14 +115,14 @@ public abstract class EmbeddedRungeKuttaIntegrator
    * @param vecAbsoluteTolerance allowed absolute error
    * @param vecRelativeTolerance allowed relative error
    */
-  protected EmbeddedRungeKuttaIntegrator(final boolean fsal,
+  protected EmbeddedRungeKuttaIntegrator(final String name, final boolean fsal,
                                          final double[] c, final double[][] a, final double[] b,
                                          final RungeKuttaStepInterpolator prototype,
                                          final double   minStep, final double maxStep,
                                          final double[] vecAbsoluteTolerance,
                                          final double[] vecRelativeTolerance) {
 
-    super(minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
+    super(name, minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
 
     this.fsal      = fsal;
     this.c         = c;
@@ -137,9 +138,6 @@ public abstract class EmbeddedRungeKuttaIntegrator
     setMaxGrowth(10.0);
 
   }
-
-  /** {@inheritDoc} */
-  public abstract String getName();
 
   /** Get the order of the method.
    * @return order of the method

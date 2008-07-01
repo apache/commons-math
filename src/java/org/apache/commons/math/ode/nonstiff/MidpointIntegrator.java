@@ -43,10 +43,7 @@ public class MidpointIntegrator
   extends RungeKuttaIntegrator {
 
   /** Serializable version identifier. */
-  private static final long serialVersionUID = 1871083451154005310L;
-
-  /** Integrator method name. */
-  private static final String methodName = "midpoint";
+  private static final long serialVersionUID = -7690774342890000483L;
 
   /** Time steps Butcher array. */
   private static final double[] c = {
@@ -68,12 +65,7 @@ public class MidpointIntegrator
    * @param step integration step
    */
   public MidpointIntegrator(final double step) {
-    super(c, a, b, new MidpointStepInterpolator(), step);
-  }
-
-  /** {@inheritDoc} */
-  public String getName() {
-    return methodName;
+    super("midpoint", c, a, b, new MidpointStepInterpolator(), step);
   }
 
 }

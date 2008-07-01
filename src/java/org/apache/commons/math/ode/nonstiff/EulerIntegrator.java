@@ -49,10 +49,7 @@ public class EulerIntegrator
   extends RungeKuttaIntegrator {
 
   /** Serializable version identifier. */
-  private static final long serialVersionUID = -3378479003330094013L;
-
-  /** Integrator method name. */
-  private static final String methodName = "Euler";
+  private static final long serialVersionUID = 1828811360890387657L;
 
   /** Time steps Butcher array. */
   private static final double[] c = {
@@ -72,12 +69,7 @@ public class EulerIntegrator
    * @param step integration step
    */
   public EulerIntegrator(final double step) {
-    super(c, a, b, new EulerStepInterpolator(), step);
-  }
-
-  /** {@inheritDoc} */
-  public String getName() {
-    return methodName;
+    super("Euler", c, a, b, new EulerStepInterpolator(), step);
   }
 
 }

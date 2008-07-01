@@ -47,10 +47,10 @@ public class DormandPrince54Integrator
   extends EmbeddedRungeKuttaIntegrator {
 
   /** Serializable version identifier. */
-  private static final long serialVersionUID = -5346655668732043826L;
+  private static final long serialVersionUID = -7932553613600031791L;
 
   /** Integrator method name. */
-  private static final String methodName = "Dormand-Prince 5(4)";
+  private static final String METHOD_NAME = "Dormand-Prince 5(4)";
 
   /** Time steps Butcher array. */
   private static final double[] staticC = {
@@ -104,7 +104,7 @@ public class DormandPrince54Integrator
   public DormandPrince54Integrator(final double minStep, final double maxStep,
                                    final double scalAbsoluteTolerance,
                                    final double scalRelativeTolerance) {
-    super(true, staticC, staticA, staticB, new DormandPrince54StepInterpolator(),
+    super(METHOD_NAME, true, staticC, staticA, staticB, new DormandPrince54StepInterpolator(),
           minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
   }
 
@@ -120,13 +120,8 @@ public class DormandPrince54Integrator
   public DormandPrince54Integrator(final double minStep, final double maxStep,
                                    final double[] vecAbsoluteTolerance,
                                    final double[] vecRelativeTolerance) {
-    super(true, staticC, staticA, staticB, new DormandPrince54StepInterpolator(),
+    super(METHOD_NAME, true, staticC, staticA, staticB, new DormandPrince54StepInterpolator(),
           minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
-  }
-
-  /** {@inheritDoc} */
-  public String getName() {
-    return methodName;
   }
 
   /** {@inheritDoc} */

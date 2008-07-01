@@ -45,10 +45,7 @@ public class GillIntegrator
   extends RungeKuttaIntegrator {
 
   /** Serializable version identifier. */
-  private static final long serialVersionUID = -3270987073897562791L;
-
-  /** Integrator method name. */
-  private static final String methodName = "Gill";
+  private static final long serialVersionUID = 5566682259665027132L;
 
   /** Time steps Butcher array. */
   private static final double[] c = {
@@ -72,12 +69,7 @@ public class GillIntegrator
    * @param step integration step
    */
   public GillIntegrator(final double step) {
-    super(c, a, b, new GillStepInterpolator(), step);
-  }
-
-  /** {@inheritDoc} */
-  public String getName() {
-    return methodName;
+    super("Gill", c, a, b, new GillStepInterpolator(), step);
   }
 
 }
