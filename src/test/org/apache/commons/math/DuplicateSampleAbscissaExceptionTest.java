@@ -22,7 +22,7 @@ import java.util.Locale;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision:$
+ * @version $Revision$ $Date$
  */
 public class DuplicateSampleAbscissaExceptionTest extends TestCase {
     
