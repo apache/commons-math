@@ -101,4 +101,44 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
         return stepSize;
     }
 
+    /** Perform some sanity checks on the integration parameters.
+     * @param equations differential equations set
+     * @param t0 start time
+     * @param y0 state vector at t0
+     * @param t target time for the integration
+     * @param y placeholder where to put the state vector
+     * @exception IntegratorException if some inconsistency is detected
+     */
+    protected void sanityChecks(final FirstOrderDifferentialEquations equations,
+                                final double t0, final double[] y0,
+                                final double t, final double[] y)
+        throws IntegratorException {
+
+        if (equations.getDimension() != y0.length) {
+            throw new IntegratorException("dimensions mismatch: ODE problem has dimension {0}," +
+                                          " initial state vector has dimension {1}",
+                                          new Object[] {
+                                              Integer.valueOf(equations.getDimension()),
+                                              Integer.valueOf(y0.length)
+                                          });
+        }
+
+        if (equations.getDimension() != y.length) {
+            throw new IntegratorException("dimensions mismatch: ODE problem has dimension {0}," +
+                                          " final state vector has dimension {1}",
+                                          new Object[] {
+                                              Integer.valueOf(equations.getDimension()),
+                                              Integer.valueOf(y.length)
+                                          });
+        }
+
+        if (Math.abs(t - t0) <= 1.0e-12 * Math.max(Math.abs(t0), Math.abs(t))) {
+            throw new IntegratorException("too small integration interval: length = {0}",
+                                          new Object[] {
+                                              Double.valueOf(Math.abs(t - t0))
+                                          });
+        }
+
+    }
+
 }
