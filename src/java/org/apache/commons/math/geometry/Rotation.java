@@ -462,10 +462,10 @@ public class Rotation implements Serializable {
   /** Build a rotation from three Cardan or Euler elementary rotations.
 
    * <p>Cardan rotations are three successive rotations around the
-   * canonical axes X, Y and Z, each axis beeing used once. There are
+   * canonical axes X, Y and Z, each axis being used once. There are
    * 6 such sets of rotations (XYZ, XZY, YXZ, YZX, ZXY and ZYX). Euler
    * rotations are three successive rotations around the canonical
-   * axes X, Y and Z, the first and last rotations beeing around the
+   * axes X, Y and Z, the first and last rotations being around the
    * same axis. There are 6 such sets of rotations (XYX, XZX, YXY,
    * YZY, ZXZ and ZYZ), the most popular one being ZXZ.</p>
    * <p>Beware that many people routinely use the term Euler angles even
