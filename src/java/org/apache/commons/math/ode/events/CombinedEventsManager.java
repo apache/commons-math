@@ -73,13 +73,14 @@ public class CombinedEventsManager implements Serializable {
     public void addEventHandler(final EventHandler handler, final double maxCheckInterval,
                                 final double convergence, final int maxIterationCount) {
         states.add(new EventState(handler, maxCheckInterval,
-                                   convergence, maxIterationCount));
+                                  convergence, maxIterationCount));
     }
 
     /** Get all the events handlers that have been added to the manager.
      * @return an unmodifiable collection of the added event handlers
      * @see #addEventHandler(EventHandler, double, double, int)
      * @see #clearEventsHandlers()
+     * @see #getEventStates()
      */
     public Collection<EventHandler> getEventsHandlers() {
         final List<EventHandler> list = new ArrayList<EventHandler>();
@@ -95,6 +96,14 @@ public class CombinedEventsManager implements Serializable {
      */
     public void clearEventsHandlers() {
         states.clear();
+    }
+
+    /** Get all the events state wrapping the handlers that have been added to the manager.
+     * @return a collection of the events states
+     * @see #getEventHandlers()
+     */
+    public Collection<EventState> getEventsStates() {
+        return states;
     }
 
     /** Check if the manager does not manage any event handlers.

@@ -41,10 +41,10 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
  * @version $Revision$ $Date$
  * @since 1.2
  */
-class EventState implements Serializable {
+public class EventState implements Serializable {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -7307007422156119622L;
+    private static final long serialVersionUID = -216176055159247559L;
 
     /** Event handler. */
     private final EventHandler handler;
@@ -117,6 +117,27 @@ class EventState implements Serializable {
      */
     public EventHandler getEventHandler() {
         return handler;
+    }
+
+    /** Get the maximal time interval between events handler checks.
+     * @return maximal time interval between events handler checks
+     */
+    public double getMaxCheckInterval() {
+        return maxCheckInterval;
+    }
+
+    /** Get the convergence threshold for event localization.
+     * @return convergence threshold for event localization
+     */
+    public double getConvergence() {
+        return convergence;
+    }
+
+    /** Get the upper limit in the iteration count for event localization.
+     * @return upper limit in the iteration count for event localization
+     */
+    public int getMaxIterationCount() {
+        return maxIterationCount;
     }
 
     /** Reinitialize the beginning of the step.
