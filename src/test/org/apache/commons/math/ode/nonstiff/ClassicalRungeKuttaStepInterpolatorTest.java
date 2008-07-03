@@ -32,7 +32,7 @@ import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.IntegratorException;
 
 public class ClassicalRungeKuttaStepInterpolatorTest
-  extends AbstractStepInterpolatorTest {
+  extends StepInterpolatorAbstractTest {
 
   public ClassicalRungeKuttaStepInterpolatorTest(String name) {
     super(name);

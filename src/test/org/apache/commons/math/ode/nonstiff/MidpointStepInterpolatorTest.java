@@ -32,7 +32,7 @@ import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.IntegratorException;
 
 public class MidpointStepInterpolatorTest
-  extends AbstractStepInterpolatorTest {
+  extends StepInterpolatorAbstractTest {
 
   public MidpointStepInterpolatorTest(String name) {
     super(name);

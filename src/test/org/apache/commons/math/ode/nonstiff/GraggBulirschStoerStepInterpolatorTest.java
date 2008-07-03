@@ -33,7 +33,7 @@ import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 
 public class GraggBulirschStoerStepInterpolatorTest
-  extends AbstractStepInterpolatorTest {
+  extends StepInterpolatorAbstractTest {
 
   public GraggBulirschStoerStepInterpolatorTest(String name) {
     super(name);

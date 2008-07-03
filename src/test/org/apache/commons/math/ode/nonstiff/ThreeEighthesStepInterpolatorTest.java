@@ -32,7 +32,7 @@ import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.IntegratorException;
 
 public class ThreeEighthesStepInterpolatorTest
-  extends AbstractStepInterpolatorTest {
+  extends StepInterpolatorAbstractTest {
 
   public ThreeEighthesStepInterpolatorTest(String name) {
     super(name);

@@ -33,7 +33,7 @@ import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 
 public class DormandPrince54StepInterpolatorTest
-  extends AbstractStepInterpolatorTest {
+  extends StepInterpolatorAbstractTest {
 
   public DormandPrince54StepInterpolatorTest(String name) {
     super(name);

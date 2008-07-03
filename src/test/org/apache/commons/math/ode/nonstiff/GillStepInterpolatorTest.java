@@ -31,7 +31,7 @@ import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.nonstiff.GillIntegrator;
 
 public class GillStepInterpolatorTest
-  extends AbstractStepInterpolatorTest {
+  extends StepInterpolatorAbstractTest {
 
   public GillStepInterpolatorTest(String name) {
     super(name);

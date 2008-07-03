@@ -24,9 +24,9 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
 
 import junit.framework.TestCase;
 
-public class AbstractStepInterpolatorTest extends TestCase {
+public class StepInterpolatorAbstractTest extends TestCase {
 
-    protected AbstractStepInterpolatorTest(String name) {
+    protected StepInterpolatorAbstractTest(String name) {
         super(name);
     }
 

@@ -33,7 +33,7 @@ import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 
 public class HighamHall54StepInterpolatorTest
-  extends AbstractStepInterpolatorTest {
+  extends StepInterpolatorAbstractTest {
 
   public HighamHall54StepInterpolatorTest(String name) {
     super(name);
