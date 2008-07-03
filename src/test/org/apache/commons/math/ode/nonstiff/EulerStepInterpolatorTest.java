@@ -17,23 +17,23 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import junit.framework.*;
-import java.util.Random;
-import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Random;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 import org.apache.commons.math.ode.ContinuousOutputModel;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.IntegratorException;
-import org.apache.commons.math.ode.nonstiff.EulerIntegrator;
-import org.apache.commons.math.ode.nonstiff.EulerStepInterpolator;
 
 public class EulerStepInterpolatorTest
-  extends TestCase {
+  extends AbstractStepInterpolatorTest {
 
   public EulerStepInterpolatorTest(String name) {
     super(name);
@@ -93,7 +93,7 @@ public class EulerStepInterpolatorTest
   }
 
   public void testInterpolationInside()
-    throws DerivativeException {
+  throws DerivativeException {
 
     double[]   y    =   { 1.0, 3.0, -4.0 };
     double[][] yDot = { { 1.0, 2.0, -2.0 } };
@@ -115,6 +115,14 @@ public class EulerStepInterpolatorTest
     assertTrue(Math.abs(result[1] - 2.0) < 1.0e-10);
     assertTrue(Math.abs(result[2] + 3.0) < 1.0e-10);
 
+  }
+
+  public void testDerivativesConsistency()
+  throws DerivativeException, IntegratorException {
+    TestProblem3 pb = new TestProblem3();
+    double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.001;
+    EulerIntegrator integ = new EulerIntegrator(step);
+    checkDerivativesConsistency(integ, pb, 1.0e-10);
   }
 
   public void testSerialization()

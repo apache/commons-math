@@ -44,7 +44,7 @@ abstract class RungeKuttaStepInterpolator
    * instance in order to initialize the internal arrays. This
    * constructor is used only in order to delay the initialization in
    * some cases. The {@link RungeKuttaIntegrator} and {@link
-   * EmbeddedRungeKuttaIntegrator} classes uses the prototyping design
+   * EmbeddedRungeKuttaIntegrator} classes use the prototyping design
    * pattern to create the step interpolators by cloning an
    * uninitialized model and latter initializing the copy.
    */
@@ -173,7 +173,7 @@ abstract class RungeKuttaStepInterpolator
   /** Slopes at the intermediate points */
   protected double[][] yDotK;
 
-  /** Reference to the differential equations beeing integrated. */
+  /** Reference to the differential equations being integrated. */
   protected FirstOrderDifferentialEquations equations;
 
 }

@@ -144,32 +144,53 @@ class DormandPrince853StepInterpolator
 
       // compute the interpolation vectors for this time step
       for (int i = 0; i < interpolatedState.length; ++i) {
-        v[0][i] = h * (b_01 * yDotK[0][i]  + b_06 * yDotK[5][i] + b_07 * yDotK[6][i] +
-                       b_08 * yDotK[7][i]  + b_09 * yDotK[8][i] + b_10 * yDotK[9][i] +
-                       b_11 * yDotK[10][i] + b_12 * yDotK[11][i]);
-        v[1][i] = h * yDotK[0][i] - v[0][i];
-        v[2][i] = v[0][i] - v[1][i] - h * yDotK[12][i];
-        for (int k = 0; k < d.length; ++k) {
-          v[k+3][i] = h * (d[k][0] * yDotK[0][i]  + d[k][1] * yDotK[5][i]  + d[k][2] * yDotK[6][i] +
-                           d[k][3] * yDotK[7][i]  + d[k][4] * yDotK[8][i]  + d[k][5] * yDotK[9][i] +
-                           d[k][6] * yDotK[10][i] + d[k][7] * yDotK[11][i] + d[k][8] * yDotK[12][i] +
-                           d[k][9]  * yDotKLast[0][i] +
-                           d[k][10] * yDotKLast[1][i] +
-                           d[k][11] * yDotKLast[2][i]);
-        }
+          final double yDot1  = yDotK[0][i];
+          final double yDot6  = yDotK[5][i];
+          final double yDot7  = yDotK[6][i];
+          final double yDot8  = yDotK[7][i];
+          final double yDot9  = yDotK[8][i];
+          final double yDot10 = yDotK[9][i];
+          final double yDot11 = yDotK[10][i];
+          final double yDot12 = yDotK[11][i];
+          final double yDot13 = yDotK[12][i];
+          final double yDot14 = yDotKLast[0][i];
+          final double yDot15 = yDotKLast[1][i];
+          final double yDot16 = yDotKLast[2][i];
+          v[0][i] = h * (b_01 * yDot1  + b_06 * yDot6 + b_07 * yDot7 +
+                         b_08 * yDot8  + b_09 * yDot9 + b_10 * yDot10 +
+                         b_11 * yDot11 + b_12 * yDot12);
+          v[1][i] = h * yDot1 - v[0][i];
+          v[2][i] = v[0][i] - v[1][i] - h * yDotK[12][i];
+          for (int k = 0; k < d.length; ++k) {
+              v[k+3][i] = h * (d[k][0] * yDot1  + d[k][1]  * yDot6  + d[k][2]  * yDot7  +
+                               d[k][3] * yDot8  + d[k][4]  * yDot9  + d[k][5]  * yDot10 +
+                               d[k][6] * yDot11 + d[k][7]  * yDot12 + d[k][8]  * yDot13 +
+                               d[k][9] * yDot14 + d[k][10] * yDot15 + d[k][11] * yDot16);
+          }
       }
 
       vectorsInitialized = true;
 
     }
 
-    final double eta = oneMinusThetaH / h;
+    final double eta      = oneMinusThetaH / h;
+    final double twoTheta = 2 * theta;
+    final double theta2   = theta * theta;
+    final double dot1 = 1 - twoTheta;
+    final double dot2 = theta * (2 - 3 * theta);
+    final double dot3 = twoTheta * (1 + theta * (twoTheta -3));
+    final double dot4 = theta2 * (3 + theta * (5 * theta - 8));
+    final double dot5 = theta2 * (3 + theta * (-12 + theta * (15 - 6 * theta)));
+    final double dot6 = theta2 * theta * (4 + theta * (-15 + theta * (18 - 7 * theta)));
 
     for (int i = 0; i < interpolatedState.length; ++i) {
       interpolatedState[i] =
           currentState[i] - eta * (v[0][i] - theta * (v[1][i] +
                   theta * (v[2][i] + eta * (v[3][i] + theta * (v[4][i] +
                           eta * (v[5][i] + theta * (v[6][i])))))));
+      interpolatedDerivatives[i] = 
+          (v[0][i] + dot1 * v[1][i] + dot2 * v[2][i] + dot3 * v[3][i] +
+                     dot4 * v[4][i] + dot5 * v[5][i] + dot6 * v[6][i]) / h;
     }
 
   }

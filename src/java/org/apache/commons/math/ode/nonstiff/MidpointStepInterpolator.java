@@ -25,7 +25,7 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
  * This class implements a step interpolator for second order
  * Runge-Kutta integrator.
  *
- * <p>This interpolator allow to compute dense output inside the last
+ * <p>This interpolator computes dense output inside the last
  * step computed. The interpolation equation is consistent with the
  * integration scheme :
  *
@@ -77,12 +77,16 @@ class MidpointStepInterpolator
                                           final double oneMinusThetaH)
     throws DerivativeException {
 
-    final double coeff1 = oneMinusThetaH * theta;
-    final double coeff2 = oneMinusThetaH * (1.0 + theta);
+    final double coeff1    = oneMinusThetaH * theta;
+    final double coeff2    = oneMinusThetaH * (1.0 + theta);
+    final double coeffDot2 = 2 * theta;
+    final double coeffDot1 = 1 - coeffDot2;
 
     for (int i = 0; i < interpolatedState.length; ++i) {
-      interpolatedState[i] = currentState[i] +
-                             coeff1 * yDotK[0][i] - coeff2 * yDotK[1][i];
+      final double yDot1 = yDotK[0][i];
+      final double yDot2 = yDotK[1][i];
+      interpolatedState[i] = currentState[i] + coeff1 * yDot1 - coeff2 * yDot2;
+      interpolatedDerivatives[i] = coeffDot1 * yDot1 + coeffDot2 * yDot2;
     }
 
   }

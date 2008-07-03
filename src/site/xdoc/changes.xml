@@ -39,6 +39,14 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="luc" type="add">
+        All step interpolators for ODE integrators now provide interpolation for
+        both the state and its time derivatives. The interpolated derivatives are
+        the exact derivatives of the interpolated state, thus preserving consistency.
+        The general step handlers hence do not need to call the derivation function
+        anymore. The fixed step handlers also get the time derivative of the state
+        as an additional argument along with the state when they are called.
+      </action>
       <action dev="luc" type="fix" issue="MATH-213" >
         Changed return type for FirstOrderIntegrator.integrate() to double
         in order to retrieve exact stop time. This allows to handle properly

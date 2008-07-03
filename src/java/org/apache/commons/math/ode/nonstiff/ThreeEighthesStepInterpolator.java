@@ -88,11 +88,21 @@ class ThreeEighthesStepInterpolator
       final double coeff2     = 3 * s * (1 + theta - fourTheta2);
       final double coeff3     = 3 * s * (1 + theta);
       final double coeff4     = s * (1 + theta + fourTheta2);
+      final double coeffDot3  = 0.75 * theta;
+      final double coeffDot1  = coeffDot3 * (4 * theta - 5) + 1;
+      final double coeffDot2  = coeffDot3 * (5 - 6 * theta);
+      final double coeffDot4  = coeffDot3 * (2 * theta - 1);
 
       for (int i = 0; i < interpolatedState.length; ++i) {
-          interpolatedState[i] = currentState[i] -
-          coeff1 * yDotK[0][i] - coeff2 * yDotK[1][i] -
-          coeff3 * yDotK[2][i] - coeff4 * yDotK[3][i];
+          final double yDot1 = yDotK[0][i];
+          final double yDot2 = yDotK[1][i];
+          final double yDot3 = yDotK[2][i];
+          final double yDot4 = yDotK[3][i];
+          interpolatedState[i] =
+              currentState[i] - coeff1 * yDot1 - coeff2 * yDot2 - coeff3 * yDot3 - coeff4 * yDot4;
+          interpolatedDerivatives[i] =
+              coeffDot1 * yDot1 + coeffDot2 * yDot2 + coeffDot3 * yDot3 + coeffDot4 * yDot4;
+
       }
 
   }

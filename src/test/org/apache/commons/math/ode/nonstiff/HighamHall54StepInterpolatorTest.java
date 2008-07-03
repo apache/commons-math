@@ -33,10 +33,23 @@ import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 
 public class HighamHall54StepInterpolatorTest
-  extends TestCase {
+  extends AbstractStepInterpolatorTest {
 
   public HighamHall54StepInterpolatorTest(String name) {
     super(name);
+  }
+
+  public void testDerivativesConsistency()
+  throws DerivativeException, IntegratorException {
+    TestProblem3 pb = new TestProblem3(0.1);
+    double minStep = 0;
+    double maxStep = pb.getFinalTime() - pb.getInitialTime();
+    double scalAbsoluteTolerance = 1.0e-8;
+    double scalRelativeTolerance = scalAbsoluteTolerance;
+    HighamHall54Integrator integ = new HighamHall54Integrator(minStep, maxStep,
+                                                              scalAbsoluteTolerance,
+                                                              scalRelativeTolerance);
+    checkDerivativesConsistency(integ, pb, 1.0e-10);
   }
 
   public void testSerialization()

@@ -17,24 +17,33 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import junit.framework.*;
-import java.util.Random;
-import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Random;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 import org.apache.commons.math.ode.ContinuousOutputModel;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.IntegratorException;
-import org.apache.commons.math.ode.nonstiff.ThreeEighthesIntegrator;
 
 public class ThreeEighthesStepInterpolatorTest
-  extends TestCase {
+  extends AbstractStepInterpolatorTest {
 
   public ThreeEighthesStepInterpolatorTest(String name) {
     super(name);
+  }
+
+  public void testDerivativesConsistency()
+  throws DerivativeException, IntegratorException {
+    TestProblem3 pb = new TestProblem3();
+    double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.001;
+    ThreeEighthesIntegrator integ = new ThreeEighthesIntegrator(step);
+    checkDerivativesConsistency(integ, pb, 1.0e-10);
   }
 
   public void testSerialization()

@@ -82,9 +82,23 @@ public interface StepInterpolator
 
   /**
    * Get the state vector of the interpolated point.
+   * <p>The returned vector is a reference to a reused array, so
+   * it should not be modified and it should be copied if it needs
+   * to be preserved across several calls.</p>
    * @return state vector at time {@link #getInterpolatedTime}
+   * @see #getInterpolatedDerivatives()
    */
   public double[] getInterpolatedState();
+
+  /**
+   * Get the derivatives of the state vector of the interpolated point.
+   * <p>The returned vector is a reference to a reused array, so
+   * it should not be modified and it should be copied if it needs
+   * to be preserved across several calls.</p>
+   * @return derivatives of the state vector at time {@link #getInterpolatedTime}
+   * @see #getInterpolatedState()
+   */
+  public double[] getInterpolatedDerivatives();
 
   /** Check if the natural integration direction is forward.
    * <p>This method provides the integration direction as specified by

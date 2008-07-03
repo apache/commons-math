@@ -50,7 +50,7 @@ import org.apache.commons.math.ode.DerivativeException;
 public class StepNormalizer implements StepHandler {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -973517244031912577L;
+    private static final long serialVersionUID = -789699939659144654L;
 
     /** Fixed time step. */
     private double h;
@@ -63,6 +63,9 @@ public class StepNormalizer implements StepHandler {
 
     /** Last State vector. */
     private double[] lastState;
+
+    /** Last Derivatives vector. */
+    private double[] lastDerivatives;
 
     /** Integration direction indicator. */
     private boolean forward;
@@ -92,9 +95,10 @@ public class StepNormalizer implements StepHandler {
      * handled.
      */
     public void reset() {
-        lastTime  = Double.NaN;
-        lastState = null;
-        forward   = true;
+        lastTime        = Double.NaN;
+        lastState       = null;
+        lastDerivatives = null;
+        forward         = true;
     }
 
     /**
@@ -117,9 +121,8 @@ public class StepNormalizer implements StepHandler {
 
             lastTime = interpolator.getPreviousTime();
             interpolator.setInterpolatedTime(lastTime);
-
-            final double[] state = interpolator.getInterpolatedState();
-            lastState = (double[]) state.clone();
+            lastState = interpolator.getInterpolatedState().clone();
+            lastDerivatives = interpolator.getInterpolatedDerivatives().clone();
 
             // take the integration direction into account
             forward = (interpolator.getCurrentTime() >= lastTime);
@@ -134,13 +137,15 @@ public class StepNormalizer implements StepHandler {
         while (nextInStep) {
 
             // output the stored previous step
-            handler.handleStep(lastTime, lastState, false);
+            handler.handleStep(lastTime, lastState, lastDerivatives, false);
 
             // store the next step
             lastTime = nextTime;
             interpolator.setInterpolatedTime(lastTime);
             System.arraycopy(interpolator.getInterpolatedState(), 0,
                              lastState, 0, lastState.length);
+            System.arraycopy(interpolator.getInterpolatedDerivatives(), 0,
+                             lastDerivatives, 0, lastDerivatives.length);
 
             nextTime  += h;
             nextInStep = forward ^ (nextTime > interpolator.getCurrentTime());
@@ -150,7 +155,7 @@ public class StepNormalizer implements StepHandler {
         if (isLast) {
             // there will be no more steps,
             // the stored one should be flagged as being the last
-            handler.handleStep(lastTime, lastState, true);
+            handler.handleStep(lastTime, lastState, lastDerivatives, true);
         }
 
     }

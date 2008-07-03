@@ -83,17 +83,24 @@ class ClassicalRungeKuttaStepInterpolator
                                             final double oneMinusThetaH)
         throws DerivativeException {
 
-        final double fourTheta = 4 * theta;
-        final double s         = oneMinusThetaH / 6.0;
-        final double coeff1    = s * ((-fourTheta + 5) * theta - 1);
-        final double coeff23   = s * (( fourTheta - 2) * theta - 2);
-        final double coeff4    = s * ((-fourTheta - 1) * theta - 1);
-
+        final double fourTheta      = 4 * theta;
+        final double oneMinusTheta  = 1 - theta;
+        final double oneMinus2Theta = 1 - 2 * theta;
+        final double s             = oneMinusThetaH / 6.0;
+        final double coeff1        = s * ((-fourTheta + 5) * theta - 1);
+        final double coeff23       = s * (( fourTheta - 2) * theta - 2);
+        final double coeff4        = s * ((-fourTheta - 1) * theta - 1);
+        final double coeffDot1     = oneMinusTheta * oneMinus2Theta;
+        final double coeffDot23    = 2 * theta * oneMinusTheta;
+        final double coeffDot4     = -theta * oneMinus2Theta;
         for (int i = 0; i < interpolatedState.length; ++i) {
-            interpolatedState[i] = currentState[i] +
-            coeff1  * yDotK[0][i] +
-            coeff23 * (yDotK[1][i] + yDotK[2][i]) +
-            coeff4  * yDotK[3][i];
+            final double yDot1  = yDotK[0][i];
+            final double yDot23 = yDotK[1][i] + yDotK[2][i];
+            final double yDot4  = yDotK[3][i];
+            interpolatedState[i] =
+                currentState[i] + coeff1  * yDot1 + coeff23 * yDot23 + coeff4  * yDot4;
+            interpolatedDerivatives[i] =
+                coeffDot1 * yDot1 + coeffDot23 * yDot23 + coeffDot4 * yDot4;
         }
 
     }

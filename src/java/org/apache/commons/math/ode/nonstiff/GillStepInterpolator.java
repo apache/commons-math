@@ -80,19 +80,31 @@ class GillStepInterpolator
                                           final double oneMinusThetaH)
     throws DerivativeException {
 
+    final double twoTheta  = 2 * theta;
     final double fourTheta = 4 * theta;
     final double s         = oneMinusThetaH / 6.0;
-    final double soMt      = s * (1 - theta);
-    final double c23       = soMt * (1 + 2 * theta);
+    final double oMt       = 1 - theta;
+    final double soMt      = s * oMt;
+    final double c23       = soMt * (1 + twoTheta);
     final double coeff1    = soMt * (1 - fourTheta);
     final double coeff2    = c23  * tMq;
     final double coeff3    = c23  * tPq;
     final double coeff4    = s * (1 + theta * (1 + fourTheta));
+    final double coeffDot1 = theta * (twoTheta - 3) + 1;
+    final double cDot23    = theta * oMt;
+    final double coeffDot2 = cDot23  * tMq;
+    final double coeffDot3 = cDot23  * tPq;
+    final double coeffDot4 = theta * (twoTheta - 1);
 
     for (int i = 0; i < interpolatedState.length; ++i) {
-      interpolatedState[i] = currentState[i] -
-                             coeff1 * yDotK[0][i] - coeff2 * yDotK[1][i] -
-                             coeff3 * yDotK[2][i] - coeff4 * yDotK[3][i];
+        final double yDot1 = yDotK[0][i];
+        final double yDot2 = yDotK[1][i];
+        final double yDot3 = yDotK[2][i];
+        final double yDot4 = yDotK[3][i];
+        interpolatedState[i] =
+            currentState[i] - coeff1 * yDot1 - coeff2 * yDot2 - coeff3 * yDot3 - coeff4 * yDot4;
+        interpolatedDerivatives[i] =
+            coeffDot1 * yDot1 + coeffDot2 * yDot2 + coeffDot3 * yDot3 + coeffDot4 * yDot4;
      }
 
   }

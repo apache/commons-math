@@ -45,6 +45,7 @@ public class StepNormalizerTest
                                          private boolean firstCall = true;
                                          public void handleStep(double t,
                                                                 double[] y,
+                                                                double[] yDot,
                                                                 boolean isLast) {
                                            if (firstCall) {
                                              checkValue(t, pb.getInitialTime());
@@ -70,6 +71,7 @@ public class StepNormalizerTest
                                        new FixedStepHandler() {
                                          public void handleStep(double t,
                                                                 double[] y,
+                                                                double[] yDot,
                                                                 boolean isLast) {
                                            if (isLast) {
                                              setLastSeen(true);

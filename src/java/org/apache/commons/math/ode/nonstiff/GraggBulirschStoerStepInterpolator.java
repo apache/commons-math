@@ -312,22 +312,34 @@ class GraggBulirschStoerStepInterpolator
 
     final double oneMinusTheta = 1.0 - theta;
     final double theta05       = theta - 0.5;
-    double t4                  = theta * oneMinusTheta;
-    t4 = t4 * t4;
+    final double tOmT          = theta * oneMinusTheta;
+    final double t4            = tOmT * tOmT;
+    final double t4Dot         = 2 * tOmT * (1 - 2 * theta);
+    final double dot1          = 1.0 / h;
+    final double dot2          = theta * (2 - 3 * theta) / h;
+    final double dot3          = ((3 * theta - 4) * theta + 1) / h;
 
     for (int i = 0; i < dimension; ++i) {
-      interpolatedState[i] = polynoms[0][i] +
-        theta * (polynoms[1][i] +
-                 oneMinusTheta * (polynoms[2][i] * theta +
-                                  polynoms[3][i] * oneMinusTheta));
 
-      if (currentDegree > 3) {
-        double c = polynoms[currentDegree][i];
-        for (int j = currentDegree - 1; j > 3; --j) {
-          c = polynoms[j][i] + c * theta05 / (j - 3);
+        final double p0 = polynoms[0][i];
+        final double p1 = polynoms[1][i];
+        final double p2 = polynoms[2][i];
+        final double p3 = polynoms[3][i];
+        interpolatedState[i] = p0 + theta * (p1 + oneMinusTheta * (p2 * theta + p3 * oneMinusTheta));
+        interpolatedDerivatives[i] = dot1 * p1 + dot2 * p2 + dot3 * p3;
+
+        if (currentDegree > 3) {
+            double cDot = 0;
+            double c = polynoms[currentDegree][i];
+            for (int j = currentDegree - 1; j > 3; --j) {
+                final double d = 1.0 / (j - 3);
+                cDot = d * (theta05 * cDot + c);
+                c = polynoms[j][i] + c * d * theta05;
+            }
+            interpolatedState[i]       += t4 * c;
+            interpolatedDerivatives[i] += (t4 * cDot + t4Dot * c) / h;
         }
-        interpolatedState[i] += t4 * c;
-      }
+
     }
 
   }

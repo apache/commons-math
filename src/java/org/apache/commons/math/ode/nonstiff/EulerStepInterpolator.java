@@ -24,7 +24,7 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
 /**
  * This class implements a linear interpolator for step.
  *
- * <p>This interpolator allow to compute dense output inside the last
+ * <p>This interpolator computes dense output inside the last
  * step computed. The interpolation equation is consistent with the
  * integration scheme :
  *
@@ -42,6 +42,9 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
 
 class EulerStepInterpolator
   extends RungeKuttaStepInterpolator {
+
+  /** Serializable version identifier */
+  private static final long serialVersionUID = -7179861704951334960L;
 
   /** Simple constructor.
    * This constructor builds an instance that is not usable yet, the
@@ -78,10 +81,8 @@ class EulerStepInterpolator
     for (int i = 0; i < interpolatedState.length; ++i) {
       interpolatedState[i] = currentState[i] - oneMinusThetaH * yDotK[0][i];
     }
+    System.arraycopy(yDotK[0], 0, interpolatedDerivatives, 0, interpolatedDerivatives.length);
 
   }
-
-  /** Serializable version identifier */
-  private static final long serialVersionUID = -7179861704951334960L;
 
 }

@@ -64,6 +64,9 @@ public abstract class AbstractStepInterpolator
   /** interpolated state */
   protected double[] interpolatedState;
 
+  /** interpolated derivatives */
+  protected double[] interpolatedDerivatives;
+
   /** indicate if the step has been finalized or not. */
   private boolean finalized;
 
@@ -81,14 +84,15 @@ public abstract class AbstractStepInterpolator
    * model and latter initializing the copy.
    */
   protected AbstractStepInterpolator() {
-    previousTime      = Double.NaN;
-    currentTime       = Double.NaN;
-    h                 = Double.NaN;
-    interpolatedTime  = Double.NaN;
-    currentState      = null;
-    interpolatedState = null;
-    finalized         = false;
-    this.forward      = true;
+    previousTime            = Double.NaN;
+    currentTime             = Double.NaN;
+    h                       = Double.NaN;
+    interpolatedTime        = Double.NaN;
+    currentState            = null;
+    interpolatedState       = null;
+    interpolatedDerivatives = null;
+    finalized               = false;
+    this.forward            = true;
   }
 
   /** Simple constructor.
@@ -103,8 +107,9 @@ public abstract class AbstractStepInterpolator
     h                 = Double.NaN;
     interpolatedTime  = Double.NaN;
 
-    currentState      = y;
-    interpolatedState = new double[y.length];
+    currentState            = y;
+    interpolatedState       = new double[y.length];
+    interpolatedDerivatives = new double[y.length];
 
     finalized         = false;
     this.forward      = forward;
@@ -136,11 +141,13 @@ public abstract class AbstractStepInterpolator
     interpolatedTime  = interpolator.interpolatedTime;
 
     if (interpolator.currentState != null) {
-      currentState      = (double[]) interpolator.currentState.clone();
-      interpolatedState = (double[]) interpolator.interpolatedState.clone();
+      currentState            = (double[]) interpolator.currentState.clone();
+      interpolatedState       = (double[]) interpolator.interpolatedState.clone();
+      interpolatedDerivatives = (double[]) interpolator.interpolatedDerivatives.clone();
     } else {
-      currentState      = null;
-      interpolatedState = null;
+      currentState            = null;
+      interpolatedState       = null;
+      interpolatedDerivatives = null;
     }
 
     finalized = interpolator.finalized;
@@ -160,23 +167,16 @@ public abstract class AbstractStepInterpolator
     h                 = Double.NaN;
     interpolatedTime  = Double.NaN;
 
-    currentState      = y;
-    interpolatedState = new double[y.length];
+    currentState            = y;
+    interpolatedState       = new double[y.length];
+    interpolatedDerivatives = new double[y.length];
 
     finalized         = false;
     this.forward      = forward;
 
   }
 
-  /** Copy the instance.
-   * <p>The copied instance is guaranteed to be independent from the
-   * original one. Both can be used with different settings for
-   * interpolated time without any side effect.</p>
-   * @return a deep copy of the instance, which can be used independently.
-   * @throws DerivativeException if this call induces an automatic
-   * step finalization that throws one
-   * @see #setInterpolatedTime(double)
-   */
+  /** {@inheritDoc} */
    public StepInterpolator copy() throws DerivativeException {
 
      // finalize the step before performing copy
@@ -220,44 +220,22 @@ public abstract class AbstractStepInterpolator
 
   }
 
-  /**
-   * Get the previous grid point time.
-   * @return previous grid point time
-   */
+  /** {@inheritDoc} */
   public double getPreviousTime() {
     return previousTime;
   }
     
-  /**
-   * Get the current grid point time.
-   * @return current grid point time
-   */
+  /** {@inheritDoc} */
   public double getCurrentTime() {
     return currentTime;
   }
     
-  /**
-   * Get the time of the interpolated point.
-   * If {@link #setInterpolatedTime} has not been called, it returns
-   * the current grid point time.
-   * @return interpolation point time
-   */
+  /** {@inheritDoc} */
   public double getInterpolatedTime() {
     return interpolatedTime;
   }
     
-  /**
-   * Set the time of the interpolated point.
-   * <p>Setting the time outside of the current step is now allowed
-   * (it was not allowed up to version 5.4 of Mantissa), but should be
-   * used with care since the accuracy of the interpolator will
-   * probably be very poor far from this step. This allowance has been
-   * added to simplify implementation of search algorithms near the
-   * step endpoints.</p>
-   * @param time time of the interpolated point
-   * @throws DerivativeException if this call induces an automatic
-   * step finalization that throws one
-   */
+  /** {@inheritDoc} */
   public void setInterpolatedTime(final double time)
       throws DerivativeException {
       interpolatedTime = time;
@@ -265,14 +243,7 @@ public abstract class AbstractStepInterpolator
       computeInterpolatedState((h - oneMinusThetaH) / h, oneMinusThetaH);
   }
 
-  /** Check if the natural integration direction is forward.
-   * <p>This method provides the integration direction as specified by the
-   * integrator itself, it avoid some nasty problems in degenerated
-   * cases like null steps due to cancellation at step initialization,
-   * step control or discrete events triggering.</p>
-   * @return true if the integration variable (time) increases during
-   * integration
-   */
+  /** {@inheritDoc} */
   public boolean isForward() {
     return forward;
   }
@@ -291,14 +262,15 @@ public abstract class AbstractStepInterpolator
                                                    double oneMinusThetaH)
     throws DerivativeException;
     
-  /**
-   * Get the state vector of the interpolated point.
-   * @return state vector at time {@link #getInterpolatedTime}
-   */
+  /** {@inheritDoc} */
   public double[] getInterpolatedState() {
-    return (double[]) interpolatedState.clone();
+    return interpolatedState;
   }
 
+  /** {@inheritDoc} */
+  public double[] getInterpolatedDerivatives() {
+    return interpolatedDerivatives;
+  }
 
   /**
    * Finalize the step.
@@ -360,17 +332,11 @@ public abstract class AbstractStepInterpolator
     throws DerivativeException {
   }
 
-  /** Write the instance to an output channel.
-   * @param out output channel
-   * @exception IOException if the instance cannot be written
-   */
+  /** {@inheritDoc} */
   public abstract void writeExternal(ObjectOutput out)
     throws IOException;
 
-  /** Read the instance from an input channel.
-   * @param in input channel
-   * @exception IOException if the instance cannot be read
-   */
+  /** {@inheritDoc} */
   public abstract void readExternal(ObjectInput in)
     throws IOException;
 
@@ -431,8 +397,9 @@ public abstract class AbstractStepInterpolator
     }
 
     // we do NOT handle the interpolated time and state here
-    interpolatedTime  = Double.NaN;
-    interpolatedState = new double[dimension];
+    interpolatedTime        = Double.NaN;
+    interpolatedState       = new double[dimension];
+    interpolatedDerivatives = new double[dimension];
 
     finalized = true;
 

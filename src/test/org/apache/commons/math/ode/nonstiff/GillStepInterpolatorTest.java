@@ -31,10 +31,18 @@ import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.nonstiff.GillIntegrator;
 
 public class GillStepInterpolatorTest
-  extends TestCase {
+  extends AbstractStepInterpolatorTest {
 
   public GillStepInterpolatorTest(String name) {
     super(name);
+  }
+
+  public void testDerivativesConsistency()
+  throws DerivativeException, IntegratorException {
+    TestProblem3 pb = new TestProblem3();
+    double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.001;
+    GillIntegrator integ = new GillIntegrator(step);
+    checkDerivativesConsistency(integ, pb, 1.0e-10);
   }
 
   public void testSerialization()

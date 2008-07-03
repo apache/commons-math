@@ -33,10 +33,24 @@ import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 
 public class GraggBulirschStoerStepInterpolatorTest
-  extends TestCase {
+  extends AbstractStepInterpolatorTest {
 
   public GraggBulirschStoerStepInterpolatorTest(String name) {
     super(name);
+  }
+
+  public void testDerivativesConsistency()
+  throws DerivativeException, IntegratorException {
+    TestProblem3 pb = new TestProblem3(0.9);
+    double minStep   = 0;
+    double maxStep   = pb.getFinalTime() - pb.getInitialTime();
+    double absTolerance = 1.0e-8;
+    double relTolerance = 1.0e-8;
+
+    GraggBulirschStoerIntegrator integ =
+      new GraggBulirschStoerIntegrator(minStep, maxStep,
+                                       absTolerance, relTolerance);
+    checkDerivativesConsistency(integ, pb, 1.0e-8);
   }
 
   public void testSerialization()

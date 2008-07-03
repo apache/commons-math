@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.ode.sampling;
 
+import org.apache.commons.math.ode.DerivativeException;
+
 /**
  * This interface represents a handler that should be called after
  * each successful fixed step.
@@ -41,15 +43,21 @@ public interface FixedStepHandler {
   /**
    * Handle the last accepted step
    * @param t time of the current step
-
    * @param y state vector at t. For efficiency purposes, the {@link
-   * StepNormalizer} class reuse the same array on each call, so if
+   * StepNormalizer} class reuses the same array on each call, so if
    * the instance wants to keep it across all calls (for example to
    * provide at the end of the integration a complete array of all
    * steps), it should build a local copy store this copy.
-
+   * @param yDot derivatives of the state vector state vector at t.
+   * For efficiency purposes, the {@link StepNormalizer} class reuses
+   * the same array on each call, so if
+   * the instance wants to keep it across all calls (for example to
+   * provide at the end of the integration a complete array of all
+   * steps), it should build a local copy store this copy.
    * @param isLast true if the step is the last one
+   * @throws DerivativeException if some error condition is encountered
    */
-  public void handleStep(double t, double[] y, boolean isLast);
-    
+  public void handleStep(double t, double[] y, double[] yDot, boolean isLast)
+      throws DerivativeException;
+
 }
