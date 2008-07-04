@@ -80,7 +80,7 @@ public class CombinedEventsManager implements Serializable {
      * @return an unmodifiable collection of the added event handlers
      * @see #addEventHandler(EventHandler, double, double, int)
      * @see #clearEventsHandlers()
-     * @see #getEventStates()
+     * @see #getEventsStates()
      */
     public Collection<EventHandler> getEventsHandlers() {
         final List<EventHandler> list = new ArrayList<EventHandler>();
@@ -100,7 +100,7 @@ public class CombinedEventsManager implements Serializable {
 
     /** Get all the events state wrapping the handlers that have been added to the manager.
      * @return a collection of the events states
-     * @see #getEventHandlers()
+     * @see #getEventsHandlers()
      */
     public Collection<EventState> getEventsStates() {
         return states;
