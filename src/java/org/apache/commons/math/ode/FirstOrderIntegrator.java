@@ -17,9 +17,6 @@
 
 package org.apache.commons.math.ode;
 
-import java.io.Serializable;
-import java.util.Collection;
-
 import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.ode.sampling.StepHandler;
 
@@ -38,64 +35,7 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  * @since 1.2
  */
 
-public interface FirstOrderIntegrator extends Serializable {
-
-  /** Get the name of the method.
-   * @return name of the method
-   */
-  public String getName();
-
-  /** Add a step handler to this integrator.
-   * <p>The handler will be called by the integrator for each accepted
-   * step.</p>
-   * @param handler handler for the accepted steps
-   * @see #getStepHandlers()
-   * @see #clearStepHandlers()
-   * @since 2.0
-   */
-  public void addStepHandler (StepHandler handler);
-
-  /** Get all the step handlers that have been added to the integrator.
-   * @return an unmodifiable collection of the added events handlers
-   * @see #addStepHandler(StepHandler)
-   * @see #clearStepHandlers()
-   * @since 2.0
-   */
-  public Collection<StepHandler> getStepHandlers();
-
-  /** Remove all the step handlers that have been added to the integrator.
-   * @see #addStepHandler(StepHandler)
-   * @see #getStepHandlers()
-   * @since 2.0
-   */
-  public void clearStepHandlers();
-
-  /** Add an event handler to the integrator.
-   * @param handler event handler
-   * @param maxCheckInterval maximal time interval between switching
-   * function checks (this interval prevents missing sign changes in
-   * case the integration steps becomes very large)
-   * @param convergence convergence threshold in the event time search
-   * @param maxIterationCount upper limit of the iteration count in
-   * the event time search
-   * @see #getEventHandlers()
-   * @see #clearEventHandlers()
-   */
-  public void addEventHandler(EventHandler handler, double maxCheckInterval,
-                              double convergence, int maxIterationCount);
-
-  /** Get all the event handlers that have been added to the integrator.
-   * @return an unmodifiable collection of the added events handlers
-   * @see #addEventHandler(EventHandler, double, double, int)
-   * @see #clearEventHandlers()
-   */
-  public Collection<EventHandler> getEventHandlers();
-
-  /** Remove all the event handlers that have been added to the integrator.
-   * @see #addEventHandler(EventHandler, double, double, int)
-   * @see #getEventHandlers()
-   */
-  public void clearEventHandlers();
+public interface FirstOrderIntegrator extends ODEIntegrator {
 
   /** Integrate the differential equations up to the given time.
    * <p>This method solves an Initial Value Problem (IVP).</p>
@@ -119,27 +59,5 @@ public interface FirstOrderIntegrator extends Serializable {
                            double t0, double[] y0,
                            double t, double[] y)
     throws DerivativeException, IntegratorException;
-
-  /** Get the current value of the step start time t<sub>i</sub>.
-   * <p>This method can be called during integration (typically by
-   * the object implementing the {@link FirstOrderDifferentialEquations
-   * differential equations} problem) if the value of the current step that
-   * is attempted is needed.</p>
-   * <p>The result is undefined if the method is called outside of
-   * calls to {@link #integrate}</p>
-   * @return current value of the step start time t<sub>i</sub>
-   */
-  public double getCurrentStepStart();
-
-  /** Get the current signed value of the integration stepsize.
-   * <p>This method can be called during integration (typically by
-   * the object implementing the {@link FirstOrderDifferentialEquations
-   * differential equations} problem) if the signed value of the current stepsize
-   * that is tried is needed.</p>
-   * <p>The result is undefined if the method is called outside of
-   * calls to {@link #integrate}</p>
-   * @return current signed value of the stepsize
-   */
-  public double getCurrentSignedStepsize();
 
 }
