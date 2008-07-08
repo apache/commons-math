@@ -27,7 +27,7 @@ In addition to computing the evolution of the state vector at some grid points, 
 ODE integrators also build up interpolation models of this evolution <em>inside</em> the
 last computed step. If users are interested in these interpolators, they can register a
 {@link org.apache.commons.math.ode.sampling.StepHandler StepHandler} instance using the
-{@link org.apache.commons.math.ode.FirstOrderIntegrator#setStepHandler setStepHandler}
+{@link org.apache.commons.math.ode.FirstOrderIntegrator#addStepHandler addStepHandler}
 method which is supported by all integrators. The integrator will call this instance
 at the end of each accepted step and provide it the interpolator. The user can do
 whatever he wants with this interpolator, which computes both the state and its
