@@ -41,11 +41,11 @@ public class ContinuousOutputModelTest
 
   public void testBoundaries()
     throws DerivativeException, IntegratorException {
-    integ.setStepHandler(new ContinuousOutputModel());
+    integ.addStepHandler(new ContinuousOutputModel());
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
-    ContinuousOutputModel cm = (ContinuousOutputModel) integ.getStepHandler();
+    ContinuousOutputModel cm = (ContinuousOutputModel) integ.getStepHandlers().iterator().next();
     cm.setInterpolatedTime(2.0 * pb.getInitialTime() - pb.getFinalTime());
     cm.setInterpolatedTime(2.0 * pb.getFinalTime() - pb.getInitialTime());
     cm.setInterpolatedTime(0.5 * (pb.getFinalTime() + pb.getInitialTime()));
@@ -55,7 +55,7 @@ public class ContinuousOutputModelTest
     throws DerivativeException, IntegratorException {
 
     ContinuousOutputModel cm = new ContinuousOutputModel();
-    integ.setStepHandler(cm);
+    integ.addStepHandler(cm);
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
@@ -101,7 +101,7 @@ public class ContinuousOutputModelTest
       ContinuousOutputModel cm1 = new ContinuousOutputModel();
       FirstOrderIntegrator integ1 =
           new DormandPrince853Integrator(0, 1.0, 1.0e-8, 1.0e-8);
-      integ1.setStepHandler(cm1);
+      integ1.addStepHandler(cm1);
       integ1.integrate(problem, Math.PI, new double[] { -1.0, 0.0 },
                        0, new double[2]);
 
@@ -109,7 +109,7 @@ public class ContinuousOutputModelTest
       ContinuousOutputModel cm2 = new ContinuousOutputModel();
       FirstOrderIntegrator integ2 =
           new DormandPrince853Integrator(0, 0.1, 1.0e-12, 1.0e-12);
-      integ2.setStepHandler(cm2);
+      integ2.addStepHandler(cm2);
       integ2.integrate(problem, 2.0 * Math.PI, new double[] { 1.0, 0.0 },
                        Math.PI, new double[2]);
 

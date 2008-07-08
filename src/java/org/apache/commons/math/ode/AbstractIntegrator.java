@@ -17,11 +17,12 @@
 
 package org.apache.commons.math.ode;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 import org.apache.commons.math.ode.events.CombinedEventsManager;
 import org.apache.commons.math.ode.events.EventHandler;
-import org.apache.commons.math.ode.sampling.DummyStepHandler;
 import org.apache.commons.math.ode.sampling.StepHandler;
 
 /**
@@ -35,7 +36,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
     private final String name;
 
     /** Step handler. */
-    protected StepHandler handler;
+    protected Collection<StepHandler> stepHandlers;
 
     /** Current step start time. */
     protected double stepStart;
@@ -51,7 +52,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
      */
     public AbstractIntegrator(final String name) {
         this.name = name;
-        handler = DummyStepHandler.getInstance();
+        stepHandlers = new ArrayList<StepHandler>();
         stepStart = Double.NaN;
         stepSize  = Double.NaN;
         eventsHandlersManager = new CombinedEventsManager();
@@ -63,13 +64,18 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
     }
 
     /** {@inheritDoc} */
-    public void setStepHandler(final StepHandler handler) {
-        this.handler = handler;
+    public void addStepHandler(final StepHandler handler) {
+        stepHandlers.add(handler);
     }
 
     /** {@inheritDoc} */
-    public StepHandler getStepHandler() {
-        return handler;
+    public Collection<StepHandler> getStepHandlers() {
+        return Collections.unmodifiableCollection(stepHandlers);
+    }
+
+    /** {@inheritDoc} */
+    public void clearStepHandlers() {
+        stepHandlers.clear();
     }
 
     /** {@inheritDoc} */
@@ -82,13 +88,25 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
     }
 
     /** {@inheritDoc} */
-    public Collection<EventHandler> getEventsHandlers() {
+    public Collection<EventHandler> getEventHandlers() {
         return eventsHandlersManager.getEventsHandlers();
     }
 
     /** {@inheritDoc} */
-    public void clearEventsHandlers() {
+    public void clearEventHandlers() {
         eventsHandlersManager.clearEventsHandlers();
+    }
+
+    /** Check if one of the step handlers requires dense output.
+     * @return true if one of the step handlers requires dense output
+     */
+    protected boolean requiresDenseOutput() {
+        for (StepHandler handler : stepHandlers) {
+            if (handler.requiresDenseOutput()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /** {@inheritDoc} */

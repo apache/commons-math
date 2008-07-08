@@ -45,17 +45,30 @@ public interface FirstOrderIntegrator extends Serializable {
    */
   public String getName();
 
-  /** Set the step handler for this integrator.
-   * The handler will be called by the integrator for each accepted
-   * step.
+  /** Add a step handler to this integrator.
+   * <p>The handler will be called by the integrator for each accepted
+   * step.</p>
    * @param handler handler for the accepted steps
+   * @see #getStepHandlers()
+   * @see #clearStepHandlers()
+   * @since 2.0
    */
-  public void setStepHandler (StepHandler handler);
+  public void addStepHandler (StepHandler handler);
 
-  /** Get the step handler for this integrator.
-   * @return the step handler for this integrator
+  /** Get all the step handlers that have been added to the integrator.
+   * @return an unmodifiable collection of the added events handlers
+   * @see #addStepHandler(StepHandler)
+   * @see #clearStepHandlers()
+   * @since 2.0
    */
-  public StepHandler getStepHandler();
+  public Collection<StepHandler> getStepHandlers();
+
+  /** Remove all the step handlers that have been added to the integrator.
+   * @see #addStepHandler(StepHandler)
+   * @see #getStepHandlers()
+   * @since 2.0
+   */
+  public void clearStepHandlers();
 
   /** Add an event handler to the integrator.
    * @param handler event handler
@@ -65,24 +78,24 @@ public interface FirstOrderIntegrator extends Serializable {
    * @param convergence convergence threshold in the event time search
    * @param maxIterationCount upper limit of the iteration count in
    * the event time search
-   * @see #getEventsHandlers()
-   * @see #clearEventsHandlers()
+   * @see #getEventHandlers()
+   * @see #clearEventHandlers()
    */
   public void addEventHandler(EventHandler handler, double maxCheckInterval,
                               double convergence, int maxIterationCount);
 
-  /** Get all the events handlers that have been added to the integrator.
+  /** Get all the event handlers that have been added to the integrator.
    * @return an unmodifiable collection of the added events handlers
    * @see #addEventHandler(EventHandler, double, double, int)
-   * @see #clearEventsHandlers()
+   * @see #clearEventHandlers()
    */
-  public Collection<EventHandler> getEventsHandlers();
+  public Collection<EventHandler> getEventHandlers();
 
-  /** Remove all the events handlers that have been added to the integrator.
+  /** Remove all the event handlers that have been added to the integrator.
    * @see #addEventHandler(EventHandler, double, double, int)
-   * @see #getEventsHandlers()
+   * @see #getEventHandlers()
    */
-  public void clearEventsHandlers();
+  public void clearEventHandlers();
 
   /** Integrate the differential equations up to the given time.
    * <p>This method solves an Initial Value Problem (IVP).</p>

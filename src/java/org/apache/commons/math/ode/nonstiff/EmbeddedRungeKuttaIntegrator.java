@@ -22,6 +22,7 @@ import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math.ode.sampling.DummyStepInterpolator;
+import org.apache.commons.math.ode.sampling.StepHandler;
 
 /**
  * This class implements the common part of all embedded Runge-Kutta
@@ -180,7 +181,7 @@ public abstract class EmbeddedRungeKuttaIntegrator
 
     // set up an interpolator sharing the integrator arrays
     AbstractStepInterpolator interpolator;
-    if (handler.requiresDenseOutput() || (! eventsHandlersManager.isEmpty())) {
+    if (requiresDenseOutput() || (! eventsHandlersManager.isEmpty())) {
       final RungeKuttaStepInterpolator rki = (RungeKuttaStepInterpolator) prototype.copy();
       rki.reinitialize(equations, yTmp, yDotK, forward);
       interpolator = rki;
@@ -193,7 +194,9 @@ public abstract class EmbeddedRungeKuttaIntegrator
     double  hNew      = 0;
     boolean firstTime = true;
     boolean lastStep;
-    handler.reset();
+    for (StepHandler handler : stepHandlers) {
+        handler.reset();
+    }
     do {
 
       interpolator.shift();
@@ -289,7 +292,9 @@ public abstract class EmbeddedRungeKuttaIntegrator
 
       // provide the step data to the step handler
       interpolator.storeTime(nextStep);
-      handler.handleStep(interpolator, lastStep);
+      for (StepHandler handler : stepHandlers) {
+          handler.handleStep(interpolator, lastStep);
+      }
       stepStart = nextStep;
 
       if (fsal) {

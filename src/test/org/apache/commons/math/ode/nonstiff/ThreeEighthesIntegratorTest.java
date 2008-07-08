@@ -62,7 +62,7 @@ public class ThreeEighthesIntegratorTest
 
         FirstOrderIntegrator integ = new ThreeEighthesIntegrator(step);
         TestProblemHandler handler = new TestProblemHandler(pb, integ);
-        integ.setStepHandler(handler);
+        integ.addStepHandler(handler);
         EventHandler[] functions = pb.getEventsHandlers();
         for (int l = 0; l < functions.length; ++l) {
           integ.addEventHandler(functions[l],
@@ -95,7 +95,7 @@ public class ThreeEighthesIntegratorTest
 
     FirstOrderIntegrator integ = new ThreeEighthesIntegrator(step);
     TestProblemHandler handler = new TestProblemHandler(pb, integ);
-    integ.setStepHandler(handler);
+    integ.addStepHandler(handler);
     integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
@@ -114,7 +114,7 @@ public class ThreeEighthesIntegratorTest
 
     FirstOrderIntegrator integ = new ThreeEighthesIntegrator(step);
     TestProblemHandler handler = new TestProblemHandler(pb, integ);
-    integ.setStepHandler(handler);
+    integ.addStepHandler(handler);
     integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
@@ -131,7 +131,7 @@ public class ThreeEighthesIntegratorTest
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.0003;
 
     FirstOrderIntegrator integ = new ThreeEighthesIntegrator(step);
-    integ.setStepHandler(new KeplerHandler(pb));
+    integ.addStepHandler(new KeplerHandler(pb));
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);

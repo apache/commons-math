@@ -40,7 +40,7 @@ public class StepNormalizerTest
     throws DerivativeException, IntegratorException {
     double range = pb.getFinalTime() - pb.getInitialTime();
     setLastSeen(false);
-    integ.setStepHandler(new StepNormalizer(range / 10.0,
+    integ.addStepHandler(new StepNormalizer(range / 10.0,
                                        new FixedStepHandler() {
                                          private boolean firstCall = true;
                                          public void handleStep(double t,
@@ -67,7 +67,7 @@ public class StepNormalizerTest
     throws DerivativeException, IntegratorException {
     final double range = pb.getFinalTime() - pb.getInitialTime();
     setLastSeen(false);
-    integ.setStepHandler(new StepNormalizer(range / 10.5,
+    integ.addStepHandler(new StepNormalizer(range / 10.5,
                                        new FixedStepHandler() {
                                          public void handleStep(double t,
                                                                 double[] y,

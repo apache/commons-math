@@ -60,7 +60,7 @@ public class EulerIntegratorTest
 
         FirstOrderIntegrator integ = new EulerIntegrator(step);
         TestProblemHandler handler = new TestProblemHandler(pb, integ);
-        integ.setStepHandler(handler);
+        integ.addStepHandler(handler);
         EventHandler[] functions = pb.getEventsHandlers();
         for (int l = 0; l < functions.length; ++l) {
           integ.addEventHandler(functions[l],
@@ -93,7 +93,7 @@ public class EulerIntegratorTest
 
     FirstOrderIntegrator integ = new EulerIntegrator(step);
     TestProblemHandler handler = new TestProblemHandler(pb, integ);
-    integ.setStepHandler(handler);
+    integ.addStepHandler(handler);
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
@@ -113,7 +113,7 @@ public class EulerIntegratorTest
 
     FirstOrderIntegrator integ = new EulerIntegrator(step);
     TestProblemHandler handler = new TestProblemHandler(pb, integ);
-    integ.setStepHandler(handler);
+    integ.addStepHandler(handler);
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);

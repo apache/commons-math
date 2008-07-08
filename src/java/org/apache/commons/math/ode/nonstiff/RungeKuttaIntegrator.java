@@ -24,6 +24,7 @@ import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math.ode.sampling.DummyStepInterpolator;
+import org.apache.commons.math.ode.sampling.StepHandler;
 
 /**
  * This class implements the common part of all fixed step Runge-Kutta
@@ -96,7 +97,7 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
 
     // set up an interpolator sharing the integrator arrays
     AbstractStepInterpolator interpolator;
-    if (handler.requiresDenseOutput() || (! eventsHandlersManager.isEmpty())) {
+    if (requiresDenseOutput() || (! eventsHandlersManager.isEmpty())) {
       final RungeKuttaStepInterpolator rki = (RungeKuttaStepInterpolator) prototype.copy();
       rki.reinitialize(equations, yTmp, yDotK, forward);
       interpolator = rki;
@@ -110,7 +111,9 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
     boolean lastStep  = false;
     stepStart = t0;
     stepSize  = (t - t0) / nbStep;
-    handler.reset();
+    for (StepHandler handler : stepHandlers) {
+        handler.reset();
+    }
     for (long i = 0; ! lastStep; ++i) {
 
       interpolator.shift();
@@ -168,7 +171,9 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
 
       // provide the step data to the step handler
       interpolator.storeTime(nextStep);
-      handler.handleStep(interpolator, lastStep);
+      for (StepHandler handler : stepHandlers) {
+          handler.handleStep(interpolator, lastStep);
+      }
       stepStart = nextStep;
 
       if (eventsHandlersManager.reset(stepStart, y) && ! lastStep) {

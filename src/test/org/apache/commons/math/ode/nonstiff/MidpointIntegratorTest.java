@@ -59,7 +59,7 @@ public class MidpointIntegratorTest
           * Math.pow(2.0, -i);
         FirstOrderIntegrator integ = new MidpointIntegrator(step);
         TestProblemHandler handler = new TestProblemHandler(pb, integ);
-        integ.setStepHandler(handler);
+        integ.addStepHandler(handler);
         EventHandler[] functions = pb.getEventsHandlers();
         for (int l = 0; l < functions.length; ++l) {
           integ.addEventHandler(functions[l],
@@ -93,7 +93,7 @@ public class MidpointIntegratorTest
 
     FirstOrderIntegrator integ = new MidpointIntegrator(step);
     TestProblemHandler handler = new TestProblemHandler(pb, integ);
-    integ.setStepHandler(handler);
+    integ.addStepHandler(handler);
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
@@ -113,7 +113,7 @@ public class MidpointIntegratorTest
 
     FirstOrderIntegrator integ = new MidpointIntegrator(step);
     TestProblemHandler handler = new TestProblemHandler(pb, integ);
-    integ.setStepHandler(handler);
+    integ.addStepHandler(handler);
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);

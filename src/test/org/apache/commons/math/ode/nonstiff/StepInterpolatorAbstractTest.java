@@ -34,7 +34,7 @@ public class StepInterpolatorAbstractTest extends TestCase {
                                                final TestProblemAbstract problem,
                                                final double threshold)
         throws DerivativeException, IntegratorException {
-        integrator.setStepHandler(new StepHandler() {
+        integrator.addStepHandler(new StepHandler() {
 
             private static final long serialVersionUID = 2462564234755682953L;
 

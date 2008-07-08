@@ -78,7 +78,7 @@ public class GraggBulirschStoerIntegratorTest
         new GraggBulirschStoerIntegrator(minStep, maxStep,
                                          vecAbsoluteTolerance, vecRelativeTolerance);
       TestProblemHandler handler = new TestProblemHandler(pb, integ);
-      integ.setStepHandler(handler);
+      integ.addStepHandler(handler);
       integ.integrate(pb,
                       pb.getInitialTime(), pb.getInitialState(),
                       pb.getFinalTime(), new double[pb.getDimension()]);
@@ -105,7 +105,7 @@ public class GraggBulirschStoerIntegratorTest
         new GraggBulirschStoerIntegrator(minStep, maxStep,
                                          absTolerance, relTolerance);
       TestProblemHandler handler = new TestProblemHandler(pb, integ);
-      integ.setStepHandler(handler);
+      integ.addStepHandler(handler);
       integ.integrate(pb,
                       pb.getInitialTime(), pb.getInitialState(),
                       pb.getFinalTime(), new double[pb.getDimension()]);
@@ -158,7 +158,7 @@ public class GraggBulirschStoerIntegratorTest
   private double getMaxError(FirstOrderIntegrator integrator, TestProblemAbstract pb)
     throws DerivativeException, IntegratorException {
       TestProblemHandler handler = new TestProblemHandler(pb, integrator);
-      integrator.setStepHandler(handler);
+      integrator.addStepHandler(handler);
       integrator.integrate(pb,
                            pb.getInitialTime(), pb.getInitialState(),
                            pb.getFinalTime(), new double[pb.getDimension()]);
@@ -178,13 +178,13 @@ public class GraggBulirschStoerIntegratorTest
                                                                   scalAbsoluteTolerance,
                                                                   scalRelativeTolerance);
     TestProblemHandler handler = new TestProblemHandler(pb, integ);
-    integ.setStepHandler(handler);
+    integ.addStepHandler(handler);
     EventHandler[] functions = pb.getEventsHandlers();
     for (int l = 0; l < functions.length; ++l) {
       integ.addEventHandler(functions[l],
                                  Double.POSITIVE_INFINITY, 1.0e-8 * maxStep, 1000);
     }
-    assertEquals(functions.length, integ.getEventsHandlers().size());
+    assertEquals(functions.length, integ.getEventHandlers().size());
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
@@ -192,8 +192,8 @@ public class GraggBulirschStoerIntegratorTest
     assertTrue(handler.getMaximalValueError() < 5.0e-8);
     assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
     assertEquals(12.0, handler.getLastTime(), 1.0e-8 * maxStep);
-    integ.clearEventsHandlers();
-    assertEquals(0, integ.getEventsHandlers().size());
+    integ.clearEventHandlers();
+    assertEquals(0, integ.getEventHandlers().size());
 
   }
 
@@ -209,7 +209,7 @@ public class GraggBulirschStoerIntegratorTest
     FirstOrderIntegrator integ =
       new GraggBulirschStoerIntegrator(minStep, maxStep,
                                        absTolerance, relTolerance);
-    integ.setStepHandler(new KeplerStepHandler(pb));
+    integ.addStepHandler(new KeplerStepHandler(pb));
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
@@ -229,7 +229,7 @@ public class GraggBulirschStoerIntegratorTest
     FirstOrderIntegrator integ =
       new GraggBulirschStoerIntegrator(minStep, maxStep,
                                        absTolerance, relTolerance);
-    integ.setStepHandler(new VariableStepHandler());
+    integ.addStepHandler(new VariableStepHandler());
     double stopTime = integ.integrate(pb,
                                       pb.getInitialTime(), pb.getInitialState(),
                                       pb.getFinalTime(), new double[pb.getDimension()]);

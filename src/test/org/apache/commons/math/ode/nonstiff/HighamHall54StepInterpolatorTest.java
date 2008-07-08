@@ -64,14 +64,16 @@ public class HighamHall54StepInterpolatorTest
     HighamHall54Integrator integ = new HighamHall54Integrator(minStep, maxStep,
                                                               scalAbsoluteTolerance,
                                                               scalRelativeTolerance);
-    integ.setStepHandler(new ContinuousOutputModel());
+    integ.addStepHandler(new ContinuousOutputModel());
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
     ByteArrayOutputStream bos = new ByteArrayOutputStream();
     ObjectOutputStream    oos = new ObjectOutputStream(bos);
-    oos.writeObject(integ.getStepHandler());
+    for (StepHandler handler : integ.getStepHandlers()) {
+        oos.writeObject(handler);
+    }
 
     assertTrue(bos.size () > 158000);
     assertTrue(bos.size () < 159000);
@@ -110,7 +112,7 @@ public class HighamHall54StepInterpolatorTest
     HighamHall54Integrator integ = new HighamHall54Integrator(minStep, maxStep,
                                                               scalAbsoluteTolerance,
                                                               scalRelativeTolerance);
-    integ.setStepHandler(new StepHandler() {
+    integ.addStepHandler(new StepHandler() {
         private static final long serialVersionUID = 9111679755950880352L;
         public void handleStep(StepInterpolator interpolator, boolean isLast)
         throws DerivativeException {

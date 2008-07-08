@@ -29,6 +29,7 @@ import org.apache.commons.math.ode.ContinuousOutputModel;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.nonstiff.GillIntegrator;
+import org.apache.commons.math.ode.sampling.StepHandler;
 
 public class GillStepInterpolatorTest
   extends StepInterpolatorAbstractTest {
@@ -52,14 +53,16 @@ public class GillStepInterpolatorTest
     TestProblem3 pb = new TestProblem3(0.9);
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.0003;
     GillIntegrator integ = new GillIntegrator(step);
-    integ.setStepHandler(new ContinuousOutputModel());
+    integ.addStepHandler(new ContinuousOutputModel());
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
     ByteArrayOutputStream bos = new ByteArrayOutputStream();
     ObjectOutputStream    oos = new ObjectOutputStream(bos);
-    oos.writeObject(integ.getStepHandler());
+    for (StepHandler handler : integ.getStepHandlers()) {
+        oos.writeObject(handler);
+    }
 
     assertTrue(bos.size () > 700000);
     assertTrue(bos.size () < 701000);

@@ -117,7 +117,7 @@ public class GraggBulirschStoerIntegrator
                                       final double scalRelativeTolerance) {
     super(METHOD_NAME, minStep, maxStep,
           scalAbsoluteTolerance, scalRelativeTolerance);
-    denseOutput = (handler.requiresDenseOutput() || (! eventsHandlersManager.isEmpty()));
+    denseOutput = requiresDenseOutput() || (! eventsHandlersManager.isEmpty());
     setStabilityCheck(true, -1, -1, -1);
     setStepsizeControl(-1, -1, -1, -1);
     setOrderControl(-1, -1, -1);
@@ -140,7 +140,7 @@ public class GraggBulirschStoerIntegrator
                                       final double[] vecRelativeTolerance) {
     super(METHOD_NAME, minStep, maxStep,
           vecAbsoluteTolerance, vecRelativeTolerance);
-    denseOutput = (handler.requiresDenseOutput() || (! eventsHandlersManager.isEmpty()));
+    denseOutput = requiresDenseOutput() || (! eventsHandlersManager.isEmpty());
     setStabilityCheck(true, -1, -1, -1);
     setStepsizeControl(-1, -1, -1, -1);
     setOrderControl(-1, -1, -1);
@@ -281,15 +281,11 @@ public class GraggBulirschStoerIntegrator
 
   }
 
-  /** Set the step handler for this integrator.
-   * The handler will be called by the integrator for each accepted
-   * step.
-   * @param handler handler for the accepted steps
-   */
-  public void setStepHandler (final StepHandler handler) {
+  /** {@inheritDoc} */
+  public void addStepHandler (final StepHandler handler) {
 
-    super.setStepHandler(handler);
-    denseOutput = (handler.requiresDenseOutput() || (! eventsHandlersManager.isEmpty()));
+    super.addStepHandler(handler);
+    denseOutput = requiresDenseOutput() || (! eventsHandlersManager.isEmpty());
 
     // reinitialize the arrays
     initializeArrays();
@@ -302,7 +298,7 @@ public class GraggBulirschStoerIntegrator
                               final double convergence,
                               final int maxIterationCount) {
     super.addEventHandler(function, maxCheckInterval, convergence, maxIterationCount);
-    denseOutput = (handler.requiresDenseOutput() || (! eventsHandlersManager.isEmpty()));
+    denseOutput = requiresDenseOutput() || (! eventsHandlersManager.isEmpty());
 
     // reinitialize the arrays
     initializeArrays();
@@ -585,7 +581,9 @@ public class GraggBulirschStoerIntegrator
     boolean newStep          = true;
     boolean lastStep         = false;
     boolean firstStepAlreadyComputed = false;
-    handler.reset();
+    for (StepHandler handler : stepHandlers) {
+        handler.reset();
+    }
     costPerTimeUnit[0] = 0;
     while (! lastStep) {
 
@@ -858,7 +856,9 @@ public class GraggBulirschStoerIntegrator
 
         // provide the step data to the step handler
         interpolator.storeTime(nextStep);
-        handler.handleStep(interpolator, lastStep);
+        for (StepHandler handler : stepHandlers) {
+            handler.handleStep(interpolator, lastStep);
+        }
         stepStart = nextStep;
 
         if (eventsHandlersManager.reset(stepStart, y) && ! lastStep) {

@@ -39,6 +39,13 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="luc" type="update">
+        The ODE integrators now support several step handlers at once, instead of just one.
+        This is more consistent with event handlers management.
+        The setStepHandler method has therefore been replaced by addStephandler, the
+        getStepHandler method has been replaced by getStepHandlers which returns a Collection
+        and a clearStepHandlers method has been added.
+      </action>
       <action dev="luc" type="add">
         All step interpolators for ODE integrators now provide interpolation for
         both the state and its time derivatives. The interpolated derivatives are

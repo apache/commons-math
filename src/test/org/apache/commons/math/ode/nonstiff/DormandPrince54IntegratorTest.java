@@ -64,7 +64,7 @@ public class DormandPrince54IntegratorTest
                                                                  vecAbsoluteTolerance,
                                                                  vecRelativeTolerance);
       TestProblemHandler handler = new TestProblemHandler(pb, integ);
-      integ.setStepHandler(handler);
+      integ.addStepHandler(handler);
       integ.integrate(pb,
                       pb.getInitialTime(), pb.getInitialState(),
                       pb.getFinalTime(), new double[pb.getDimension()]);
@@ -91,7 +91,7 @@ public class DormandPrince54IntegratorTest
                                     scalRelativeTolerance);
 
     DP54SmallLastHandler handler = new DP54SmallLastHandler(minStep);
-    integ.setStepHandler(handler);
+    integ.addStepHandler(handler);
     integ.setInitialStepSize(1.7);
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
@@ -152,7 +152,7 @@ public class DormandPrince54IntegratorTest
       integ.setSafety(0.8);
       integ.setMaxGrowth(5.0);
       integ.setMinReduction(0.3);
-      integ.setStepHandler(handler);
+      integ.addStepHandler(handler);
       integ.integrate(pb,
                       pb.getInitialTime(), pb.getInitialState(),
                       pb.getFinalTime(), new double[pb.getDimension()]);
@@ -187,13 +187,13 @@ public class DormandPrince54IntegratorTest
                                                                scalAbsoluteTolerance,
                                                                scalRelativeTolerance);
     TestProblemHandler handler = new TestProblemHandler(pb, integ);
-    integ.setStepHandler(handler);
+    integ.addStepHandler(handler);
     EventHandler[] functions = pb.getEventsHandlers();
     for (int l = 0; l < functions.length; ++l) {
       integ.addEventHandler(functions[l],
                                  Double.POSITIVE_INFINITY, 1.0e-8 * maxStep, 1000);
     }
-    assertEquals(functions.length, integ.getEventsHandlers().size());
+    assertEquals(functions.length, integ.getEventHandlers().size());
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
@@ -201,8 +201,8 @@ public class DormandPrince54IntegratorTest
     assertTrue(handler.getMaximalValueError() < 5.0e-6);
     assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
     assertEquals(12.0, handler.getLastTime(), 1.0e-8 * maxStep);
-    integ.clearEventsHandlers();
-    assertEquals(0, integ.getEventsHandlers().size());
+    integ.clearEventHandlers();
+    assertEquals(0, integ.getEventHandlers().size());
 
   }
 
@@ -218,7 +218,7 @@ public class DormandPrince54IntegratorTest
     FirstOrderIntegrator integ = new DormandPrince54Integrator(minStep, maxStep,
                                                                scalAbsoluteTolerance,
                                                                scalRelativeTolerance);
-    integ.setStepHandler(new KeplerHandler(pb));
+    integ.addStepHandler(new KeplerHandler(pb));
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
@@ -239,7 +239,7 @@ public class DormandPrince54IntegratorTest
     FirstOrderIntegrator integ = new DormandPrince54Integrator(minStep, maxStep,
                                                                scalAbsoluteTolerance,
                                                                scalRelativeTolerance);
-    integ.setStepHandler(new VariableHandler());
+    integ.addStepHandler(new VariableHandler());
     double stopTime = integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                                       pb.getFinalTime(), new double[pb.getDimension()]);
     assertEquals(pb.getFinalTime(), stopTime, 1.0e-10);

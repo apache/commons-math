@@ -64,14 +64,16 @@ public class DormandPrince853StepInterpolatorTest
     DormandPrince853Integrator integ = new DormandPrince853Integrator(minStep, maxStep,
                                                                       scalAbsoluteTolerance,
                                                                       scalRelativeTolerance);
-    integ.setStepHandler(new ContinuousOutputModel());
+    integ.addStepHandler(new ContinuousOutputModel());
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
     ByteArrayOutputStream bos = new ByteArrayOutputStream();
     ObjectOutputStream    oos = new ObjectOutputStream(bos);
-    oos.writeObject(integ.getStepHandler());
+    for (StepHandler handler : integ.getStepHandlers()) {
+        oos.writeObject(handler);
+    }
 
     assertTrue(bos.size () > 86000);
     assertTrue(bos.size () < 87000);
@@ -110,7 +112,7 @@ public class DormandPrince853StepInterpolatorTest
     DormandPrince853Integrator integ = new DormandPrince853Integrator(minStep, maxStep,
                                                                       scalAbsoluteTolerance,
                                                                       scalRelativeTolerance);
-    integ.setStepHandler(new StepHandler() {
+    integ.addStepHandler(new StepHandler() {
         private static final long serialVersionUID = 2209212559670665268L;
         public void handleStep(StepInterpolator interpolator, boolean isLast)
         throws DerivativeException {

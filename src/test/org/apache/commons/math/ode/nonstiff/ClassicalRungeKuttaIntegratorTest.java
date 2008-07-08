@@ -81,13 +81,13 @@ public class ClassicalRungeKuttaIntegratorTest
 
         FirstOrderIntegrator integ = new ClassicalRungeKuttaIntegrator(step);
         TestProblemHandler handler = new TestProblemHandler(pb, integ);
-        integ.setStepHandler(handler);
+        integ.addStepHandler(handler);
         EventHandler[] functions = pb.getEventsHandlers();
         for (int l = 0; l < functions.length; ++l) {
           integ.addEventHandler(functions[l],
                                      Double.POSITIVE_INFINITY, 1.0e-6 * step, 1000);
         }
-        assertEquals(functions.length, integ.getEventsHandlers().size());
+        assertEquals(functions.length, integ.getEventHandlers().size());
         double stopTime = integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                                           pb.getFinalTime(), new double[pb.getDimension()]);
         if (functions.length == 0) {
@@ -100,8 +100,8 @@ public class ClassicalRungeKuttaIntegratorTest
         }
         previousError = error;
         assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
-        integ.clearEventsHandlers();
-        assertEquals(0, integ.getEventsHandlers().size());
+        integ.clearEventHandlers();
+        assertEquals(0, integ.getEventHandlers().size());
       }
 
     }
@@ -116,7 +116,7 @@ public class ClassicalRungeKuttaIntegratorTest
 
     FirstOrderIntegrator integ = new ClassicalRungeKuttaIntegrator(step);
     TestProblemHandler handler = new TestProblemHandler(pb, integ);
-    integ.setStepHandler(handler);
+    integ.addStepHandler(handler);
     integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
@@ -134,7 +134,7 @@ public class ClassicalRungeKuttaIntegratorTest
 
     FirstOrderIntegrator integ = new ClassicalRungeKuttaIntegrator(step);
     TestProblemHandler handler = new TestProblemHandler(pb, integ);
-    integ.setStepHandler(handler);
+    integ.addStepHandler(handler);
     integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
@@ -151,7 +151,7 @@ public class ClassicalRungeKuttaIntegratorTest
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.0003;
 
     FirstOrderIntegrator integ = new ClassicalRungeKuttaIntegrator(step);
-    integ.setStepHandler(new KeplerHandler(pb));
+    integ.addStepHandler(new KeplerHandler(pb));
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
