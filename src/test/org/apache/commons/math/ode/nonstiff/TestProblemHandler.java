@@ -18,7 +18,7 @@
 package org.apache.commons.math.ode.nonstiff;
 
 import org.apache.commons.math.ode.DerivativeException;
-import org.apache.commons.math.ode.FirstOrderIntegrator;
+import org.apache.commons.math.ode.ODEIntegrator;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 
@@ -30,9 +30,9 @@ class TestProblemHandler
   implements StepHandler {
 
   /** Serializable version identifier. */
-    private static final long serialVersionUID = 3589490480549900461L;
+  private static final long serialVersionUID = 3589490480549900461L;
 
-/** Associated problem. */
+  /** Associated problem. */
   private TestProblemAbstract problem;
 
   /** Maximal errors encountered during the integration. */
@@ -46,7 +46,7 @@ class TestProblemHandler
   private double lastTime;
 
   /** ODE solver used. */
-  private FirstOrderIntegrator integrator;
+  private ODEIntegrator integrator;
 
   /** Expected start for step. */
   private double expectedStepStart;
@@ -56,7 +56,7 @@ class TestProblemHandler
    * @param problem problem for which steps should be handled
    * @param integrator ODE solver used
    */
-  public TestProblemHandler(TestProblemAbstract problem, FirstOrderIntegrator integrator) {
+  public TestProblemHandler(TestProblemAbstract problem, ODEIntegrator integrator) {
     this.problem = problem;
     this.integrator = integrator;
     reset();
