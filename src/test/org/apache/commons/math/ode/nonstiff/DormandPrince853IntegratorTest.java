@@ -174,7 +174,7 @@ public class DormandPrince853IntegratorTest
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
-    assertTrue(pb.getCalls() < 2900);
+    assertTrue(pb.getCalls() < 3300);
 
   }
 
