@@ -20,6 +20,7 @@ package org.apache.commons.math.ode.nonstiff;
 import junit.framework.*;
 
 import org.apache.commons.math.ode.DerivativeException;
+import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.events.EventHandler;
@@ -179,6 +180,36 @@ public class GillIntegratorTest
     }
     private double maxError;
     private TestProblem3 pb;
+  }
+
+  public void testStepSize()
+    throws DerivativeException, IntegratorException {
+      final double step = 1.23456;
+      FirstOrderIntegrator integ = new GillIntegrator(step);
+      integ.addStepHandler(new StepHandler() {
+          private static final long serialVersionUID = 0L;
+          public void handleStep(StepInterpolator interpolator, boolean isLast) {
+              if (! isLast) {
+                  assertEquals(step,
+                               interpolator.getCurrentTime() - interpolator.getPreviousTime(),
+                               1.0e-12);
+              }
+          }
+          public boolean requiresDenseOutput() {
+              return false;
+          }
+          public void reset() {
+          }          
+      });
+      integ.integrate(new FirstOrderDifferentialEquations() {
+          private static final long serialVersionUID = 0L;
+          public void computeDerivatives(double t, double[] y, double[] dot) {
+              dot[0] = 1.0;
+          }
+          public int getDimension() {
+              return 1;
+          }
+      }, 0.0, new double[] { 0.0 }, 5.0, new double[1]);
   }
 
   public static Test suite() {

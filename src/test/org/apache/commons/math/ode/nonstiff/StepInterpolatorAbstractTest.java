@@ -48,6 +48,10 @@ public class StepInterpolatorAbstractTest extends TestCase {
                 final double h = 0.001 * (interpolator.getCurrentTime() - interpolator.getPreviousTime());
                 final double t = interpolator.getCurrentTime() - 300 * h;
 
+                if (Math.abs(h) < 10 * Math.ulp(t)) {
+                    return;
+                }
+
                 interpolator.setInterpolatedTime(t - 4 * h);
                 final double[] yM4h = interpolator.getInterpolatedState().clone();
                 interpolator.setInterpolatedTime(t - 3 * h);
@@ -73,6 +77,9 @@ public class StepInterpolatorAbstractTest extends TestCase {
                                                32 * (yP3h[i] - yM3h[i]) +
                                              -168 * (yP2h[i] - yM2h[i]) +
                                               672 * (yP1h[i] - yM1h[i])) / (840 * h);
+                    if (Math.abs(approYDot - yDot[i]) >= threshold) {
+                        System.out.println("gotcha!");
+                    }
                     assertEquals(approYDot, yDot[i], threshold);
                 }
 

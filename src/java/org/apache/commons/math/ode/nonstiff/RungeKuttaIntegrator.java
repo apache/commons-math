@@ -22,6 +22,7 @@ import org.apache.commons.math.ode.AbstractIntegrator;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.IntegratorException;
+import org.apache.commons.math.ode.events.CombinedEventsManager;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math.ode.sampling.DummyStepInterpolator;
 import org.apache.commons.math.ode.sampling.StepHandler;
@@ -106,19 +107,20 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
     }
     interpolator.storeTime(t0);
 
-    // recompute the step
-    long    nbStep    = Math.max(1l, Math.abs(Math.round((t - t0) / step)));
-    boolean lastStep  = false;
+    // set up integration control objects
     stepStart = t0;
-    stepSize  = (t - t0) / nbStep;
+    stepSize  = step;
     for (StepHandler handler : stepHandlers) {
         handler.reset();
     }
-    for (long i = 0; ! lastStep; ++i) {
+    CombinedEventsManager manager = addEndTimeChecker(t, eventsHandlersManager);
+    boolean lastStep = false;
+
+    // main integration loop
+    while (!lastStep) {
 
       interpolator.shift();
 
-      boolean needUpdate = false;
       for (boolean loop = true; loop;) {
 
         // first stage
@@ -148,11 +150,10 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
           yTmp[j] = y[j] + stepSize * sum;
         }
 
-        // Discrete events handling
+        // discrete events handling
         interpolator.storeTime(stepStart + stepSize);
-        if (eventsHandlersManager.evaluateStep(interpolator)) {
-          needUpdate = true;
-          stepSize = eventsHandlersManager.getEventTime() - stepStart;
+        if (manager.evaluateStep(interpolator)) {
+          stepSize = manager.getEventTime() - stepStart;
         } else {
           loop = false;
         }
@@ -162,12 +163,8 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
       // the step has been accepted
       final double nextStep = stepStart + stepSize;
       System.arraycopy(yTmp, 0, y, 0, y0.length);
-      eventsHandlersManager.stepAccepted(nextStep, y);
-      if (eventsHandlersManager.stop()) {
-        lastStep = true;
-      } else {
-        lastStep = (i == (nbStep - 1));
-      }
+      manager.stepAccepted(nextStep, y);
+      lastStep = manager.stop();
 
       // provide the step data to the step handler
       interpolator.storeTime(nextStep);
@@ -176,19 +173,14 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
       }
       stepStart = nextStep;
 
-      if (eventsHandlersManager.reset(stepStart, y) && ! lastStep) {
+      if (manager.reset(stepStart, y) && ! lastStep) {
         // some events handler has triggered changes that
         // invalidate the derivatives, we need to recompute them
         equations.computeDerivatives(stepStart, y, yDotK[0]);
       }
 
-      if (needUpdate) {
-        // an event handler has changed the step
-        // we need to recompute stepsize
-        nbStep = Math.max(1l, Math.abs(Math.round((t - stepStart) / step)));
-        stepSize = (t - stepStart) / nbStep;
-        i = -1;
-      }
+      // make sure step size is set to default before next step
+      stepSize = step;
 
     }
 

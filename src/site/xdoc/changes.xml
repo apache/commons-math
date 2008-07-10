@@ -39,6 +39,10 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-214" >
+        Replaced size adjustment of all steps of fixed steps Runge-Kutta integrators by
+        a truncation of the last step only.
+      </action>
       <action dev="luc" type="update">
         The ODE integrators now support several step handlers at once, instead of just one.
         This is more consistent with event handlers management.
