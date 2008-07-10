@@ -229,7 +229,7 @@ class GraggBulirschStoerStepInterpolator
 
 
   /** Compute the interpolation coefficients for dense output.
-   * @param mu degree of the interpolation polynom
+   * @param mu degree of the interpolation polynomial
    * @param h current step
    */
   public void computeCoefficients(final int mu, final double h) {
@@ -340,6 +340,12 @@ class GraggBulirschStoerStepInterpolator
             interpolatedDerivatives[i] += (t4 * cDot + t4Dot * c) / h;
         }
 
+    }
+
+    if (h == 0) {
+        // in this degenerated case, the previous computation leads to NaN for derivatives
+        // we fix this by using the derivatives at midpoint
+        System.arraycopy(yMidDots[1], 0, interpolatedDerivatives, 0, dimension);
     }
 
   }
