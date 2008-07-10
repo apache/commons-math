@@ -23,6 +23,7 @@ import java.util.Collections;
 
 import org.apache.commons.math.ode.events.CombinedEventsManager;
 import org.apache.commons.math.ode.events.EventHandler;
+import org.apache.commons.math.ode.events.EventState;
 import org.apache.commons.math.ode.sampling.StepHandler;
 
 /**
@@ -157,6 +158,61 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
                                           });
         }
 
+    }
+
+    /** Add an event handler for end time checking.
+     * <p>This method can be used to simplify handling of integration end time.
+     * It leverages the nominal stop condition with the exceptional stop
+     * conditions.</p>
+     * @param endTime desired end time
+     * @param manager manager containing the user-defined handlers
+     * @return a new manager containing all the user-defined handlers plus a
+     * dedicated manager triggering a stop event at entTime
+     */
+    protected CombinedEventsManager addEndTimeChecker(final double endTime,
+                                                      final CombinedEventsManager manager) {
+        CombinedEventsManager newManager = new CombinedEventsManager();
+        for (final EventState state : manager.getEventsStates()) {
+            newManager.addEventHandler(state.getEventHandler(),
+                                       state.getMaxCheckInterval(),
+                                       state.getConvergence(),
+                                       state.getMaxIterationCount());
+        }
+        newManager.addEventHandler(new EndTimeChecker(endTime),
+                                   Double.POSITIVE_INFINITY, Math.ulp(endTime), 10);
+        return newManager;
+    }
+
+    /** Specialized event handler to stop integration. */
+    private static class EndTimeChecker implements EventHandler {
+
+        /** Serializable version identifier. */
+        private static final long serialVersionUID = -5211782540446301964L;
+
+        /** DEsiredt end time. */
+        private final double endTime;
+
+        /** Build an instance.
+         * @param endTime desired time
+         */
+        public EndTimeChecker(final double endTime) {
+            this.endTime = endTime;
+        }
+
+        /** {@inheritDoc} */
+        public int eventOccurred(double t, double[] y) {
+            return STOP;
+        }
+
+        /** {@inheritDoc} */
+        public double g(double t, double[] y) {
+            return t - endTime;
+        }
+
+        /** {@inheritDoc} */
+        public void resetState(double t, double[] y) {
+        }
+        
     }
 
 }
