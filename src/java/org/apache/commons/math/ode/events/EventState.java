@@ -206,7 +206,7 @@ public class EventState implements Serializable {
                     });
                     solver.setAbsoluteAccuracy(convergence);
                     solver.setMaximalIterationCount(maxIterationCount);
-                    final double root = solver.solve(ta, tb);
+                    final double root = (ta <= tb) ? solver.solve(ta, tb) : solver.solve(tb, ta);
                     if (Double.isNaN(previousEventTime) ||
                         (Math.abs(previousEventTime - root) > convergence)) {
                         pendingEventTime = root;
