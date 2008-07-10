@@ -20,6 +20,7 @@ package org.apache.commons.math.ode.nonstiff;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.IntegratorException;
+import org.apache.commons.math.ode.events.CombinedEventsManager;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math.ode.sampling.DummyStepInterpolator;
 import org.apache.commons.math.ode.sampling.StepHandler;
@@ -190,14 +191,18 @@ public abstract class EmbeddedRungeKuttaIntegrator
     }
     interpolator.storeTime(t0);
 
-    stepStart  = t0;
+    // set up integration control objects
+    stepStart         = t0;
     double  hNew      = 0;
     boolean firstTime = true;
-    boolean lastStep;
     for (StepHandler handler : stepHandlers) {
         handler.reset();
     }
-    do {
+    CombinedEventsManager manager = addEndTimeChecker(t, eventsHandlersManager);
+    boolean lastStep = false;
+
+    // main integration loop
+    while (!lastStep) {
 
       interpolator.shift();
 
@@ -225,12 +230,6 @@ public abstract class EmbeddedRungeKuttaIntegrator
         }
 
         stepSize = hNew;
-
-        // step adjustment near bounds
-        if ((forward && (stepStart + stepSize > t)) ||
-            ((! forward) && (stepStart + stepSize < t))) {
-          stepSize = t - stepStart;
-        }
 
         // next stages
         for (int k = 1; k < stages; ++k) {
@@ -260,11 +259,11 @@ public abstract class EmbeddedRungeKuttaIntegrator
         error = estimateError(yDotK, y, yTmp, stepSize);
         if (error <= 1.0) {
 
-          // Discrete events handling
+          // discrete events handling
           interpolator.storeTime(stepStart + stepSize);
-          if (eventsHandlersManager.evaluateStep(interpolator)) {
+          if (manager.evaluateStep(interpolator)) {
             // reject the step to match exactly the next switch time
-            hNew = eventsHandlersManager.getEventTime() - stepStart;
+            hNew = manager.getEventTime() - stepStart;
           } else {
             // accept the step
             loop = false;
@@ -283,12 +282,8 @@ public abstract class EmbeddedRungeKuttaIntegrator
       // the step has been accepted
       final double nextStep = stepStart + stepSize;
       System.arraycopy(yTmp, 0, y, 0, y0.length);
-      eventsHandlersManager.stepAccepted(nextStep, y);
-      if (eventsHandlersManager.stop()) {
-        lastStep = true;
-      } else {
-        lastStep = forward ? (nextStep >= t) : (nextStep <= t);
-      }
+      manager.stepAccepted(nextStep, y);
+      lastStep = manager.stop();
 
       // provide the step data to the step handler
       interpolator.storeTime(nextStep);
@@ -302,7 +297,7 @@ public abstract class EmbeddedRungeKuttaIntegrator
         System.arraycopy(yDotK[stages - 1], 0, yDotK[0], 0, y0.length);
       }
 
-      if (eventsHandlersManager.reset(stepStart, y) && ! lastStep) {
+      if (manager.reset(stepStart, y) && ! lastStep) {
         // some event handler has triggered changes that
         // invalidate the derivatives, we need to recompute them
         equations.computeDerivatives(stepStart, y, yDotK[0]);
@@ -319,7 +314,7 @@ public abstract class EmbeddedRungeKuttaIntegrator
         hNew = filterStep(scaledH, nextIsLast);
       }
 
-    } while (! lastStep);
+    }
 
     final double stopTime = stepStart;
     resetInternalState();
