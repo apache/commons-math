@@ -40,13 +40,10 @@ import org.apache.commons.math.linear.RealMatrix;
  */
 public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegression {
 
-    /**
-     * {@inheritDoc}
-     */
-    public void addData(double[] y, double[][] x, double[][] covariance) {
+    public void newSampleData(double[] y, double[][] x) {
         validateSampleData(x, y);
-        addYSampleData(y);
-        addXSampleData(x);
+        newYSampleData(y);
+        newXSampleData(x);
     }
     
     /**

@@ -33,17 +33,6 @@ package org.apache.commons.math.stat.regression;
 public interface MultipleLinearRegression {
 
     /**
-     * Adds sample and covariance data.
-     * 
-     * @param y the [n,1] array representing the y sample
-     * @param x the [n,k] array representing x sample
-     * @param covariance the [n,n] array representing the covariance matrix or <code>null</code> if not required for the
-     *          specific implementation
-     * @throws IllegalArgumentException if required data arrays are <code>null</code> or their dimensions are not appropriate
-     */
-    void addData(double[] y, double[][] x, double[][] covariance);
-
-    /**
      * Estimates the regression parameters b.
      * 
      * @return The [k,1] array representing b

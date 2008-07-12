@@ -45,10 +45,27 @@ public class GLSMultipleLinearRegressionTest extends AbstractMultipleLinearRegre
         super.setUp();
     }
    
+    @Test(expected=IllegalArgumentException.class)
+    public void cannotAddXSampleData() {
+        createRegression().newSampleData(new double[]{}, null, null);
+    }
 
     @Test(expected=IllegalArgumentException.class)
+    public void cannotAddNullYSampleData() {
+        createRegression().newSampleData(null, new double[][]{}, null);
+    }
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void cannotAddSampleDataWithSizeMismatch() {
+        double[] y = new double[]{1.0, 2.0};
+        double[][] x = new double[1][];
+        x[0] = new double[]{1.0, 0};
+        createRegression().newSampleData(y, x, null);
+    }
+    
+    @Test(expected=IllegalArgumentException.class)
     public void cannotAddNullCovarianceData() {
-        regression.addData(new double[]{}, new double[][]{}, null);
+        createRegression().newSampleData(new double[]{}, new double[][]{}, null);
     }
     
     @Test(expected=IllegalArgumentException.class)
@@ -59,7 +76,7 @@ public class GLSMultipleLinearRegressionTest extends AbstractMultipleLinearRegre
         x[1] = new double[]{0, 1.0};
         double[][] omega = new double[1][];
         omega[0] = new double[]{1.0, 0};
-        regression.addData(y, x, omega);
+        createRegression().newSampleData(y, x, omega);
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -72,12 +89,12 @@ public class GLSMultipleLinearRegressionTest extends AbstractMultipleLinearRegre
         omega[0] = new double[]{1.0, 0};
         omega[1] = new double[]{0, 1.0};
         omega[2] = new double[]{0, 2.0};
-        regression.addData(y, x, omega);
+        createRegression().newSampleData(y, x, omega);
     }
 
-    protected MultipleLinearRegression createRegression() {
-        MultipleLinearRegression regression = new GLSMultipleLinearRegression();
-        regression.addData(y, x, omega);
+    protected GLSMultipleLinearRegression createRegression() {
+        GLSMultipleLinearRegression regression = new GLSMultipleLinearRegression();
+        regression.newSampleData(y, x, omega);
         return regression;
     }
 

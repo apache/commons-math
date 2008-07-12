@@ -61,45 +61,5 @@ public abstract class AbstractMultipleLinearRegressionTest {
         double variance = regression.estimateRegressandVariance();
         assertTrue(variance > 0.0);
     }   
-    
-    @Test(expected=IllegalArgumentException.class)
-    public void cannotAddXSampleData() {
-        regression.addData(new double[]{}, null, null);
-    }
-
-    @Test(expected=IllegalArgumentException.class)
-    public void cannotAddNullYSampleData() {
-        regression.addData(null, new double[][]{}, null);
-    }
-    
-    @Test(expected=IllegalArgumentException.class)
-    public void cannotAddSampleDataWithSizeMismatch() {
-        double[] y = new double[]{1.0, 2.0};
-        double[][] x = new double[1][];
-        x[0] = new double[]{1.0, 0};
-        regression.addData(y, x, null);
-    }
-    
-    /**
-     * Loads model Y[] and X[][] arrays from a flat array of data.
-     * Assumes that rows are concatenated with y values first in each row.
-     * 
-     * @param data input data array
-     * @param y vector of y values to be filled
-     * @param x matrix of x values to be filled
-     * @param nobs number of observations (rows)
-     * @param nvars number of independent variables (columnns, not counting y)
-     */
-    protected void loadModelData(double[] data, double[] y, double[][] x, int nobs, int nvars) {
-        int pointer = 0;
-        for (int i = 0; i < nobs; i++) {
-            y[i] = data[pointer++];
-            x[i][0] = 1.0d;
-            for (int j = 1; j < nvars + 1; j++) {
-                x[i][j] = data[pointer++];
-            }
-        }
-        
-    }
 
 }

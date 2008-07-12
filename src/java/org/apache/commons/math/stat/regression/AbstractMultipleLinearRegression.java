@@ -34,20 +34,43 @@ public abstract class AbstractMultipleLinearRegression implements
     protected RealMatrix Y;
 
     /**
-     * Adds y sample data.
+     * Loads model x and y sample data from a flat array of data, overriding any previous sample.
+     * Assumes that rows are concatenated with y values first in each row.
+     * 
+     * @param data input data array
+     * @param nobs number of observations (rows)
+     * @param nvars number of independent variables (columnns, not counting y)
+     */
+    public void newSampleData(double[] data, int nobs, int nvars) {
+        double[] y = new double[nobs];
+        double[][] x = new double[nobs][nvars + 1];
+        int pointer = 0;
+        for (int i = 0; i < nobs; i++) {
+            y[i] = data[pointer++];
+            x[i][0] = 1.0d;
+            for (int j = 1; j < nvars + 1; j++) {
+                x[i][j] = data[pointer++];
+            }
+        }
+        this.X = new RealMatrixImpl(x);
+        this.Y = new RealMatrixImpl(y);
+    }
+    
+    /**
+     * Loads new y sample data, overriding any previous sample
      * 
      * @param y the [n,1] array representing the y sample
      */
-    protected void addYSampleData(double[] y) {
+    protected void newYSampleData(double[] y) {
         this.Y = new RealMatrixImpl(y);
     }
 
     /**
-     * Adds x sample data.
+     * Loads new x sample data, overriding any previous sample
      * 
      * @param x the [n,k] array representing the x sample
      */
-    protected void addXSampleData(double[][] x) {
+    protected void newXSampleData(double[][] x) {
         this.X = new RealMatrixImpl(x);
     }
 

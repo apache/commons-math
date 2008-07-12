@@ -44,15 +44,12 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
     /** Covariance matrix. */
     private RealMatrix Omega;
 
-    /**
-     * {@inheritDoc}
-     */
-    public void addData(double[] y, double[][] x, double[][] covariance) {
+    public void newSampleData(double[] y, double[][] x, double[][] covariance) {
         validateSampleData(x, y);
-        addYSampleData(y);
-        addXSampleData(x);
+        newYSampleData(y);
+        newXSampleData(x);
         validateCovarianceData(x, covariance);
-        addCovarianceData(covariance);
+        newCovarianceData(covariance);
     }
 
     /**
@@ -60,7 +57,7 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * 
      * @param omega the [n,n] array representing the covariance
      */
-    protected void addCovarianceData(double[][] omega){
+    protected void newCovarianceData(double[][] omega){
         this.Omega = new RealMatrixImpl(omega);
     }
     

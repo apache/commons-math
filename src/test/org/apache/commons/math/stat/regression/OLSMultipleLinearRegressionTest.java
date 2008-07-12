@@ -38,9 +38,9 @@ public class OLSMultipleLinearRegressionTest extends AbstractMultipleLinearRegre
         super.setUp();
     }
 
-    protected MultipleLinearRegression createRegression() {
-        MultipleLinearRegression regression = new OLSMultipleLinearRegression();
-        regression.addData(y, x, null);
+    protected OLSMultipleLinearRegression createRegression() {
+        OLSMultipleLinearRegression regression = new OLSMultipleLinearRegression();
+        regression.newSampleData(y, x);
         return regression;
     }
 
@@ -50,6 +50,24 @@ public class OLSMultipleLinearRegressionTest extends AbstractMultipleLinearRegre
 
     protected int getSampleSize() {
         return y.length;
+    }
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void cannotAddXSampleData() {
+        createRegression().newSampleData(new double[]{}, null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void cannotAddNullYSampleData() {
+        createRegression().newSampleData(null, new double[][]{});
+    }
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void cannotAddSampleDataWithSizeMismatch() {
+        double[] y = new double[]{1.0, 2.0};
+        double[][] x = new double[1][];
+        x[0] = new double[]{1.0, 0};
+        createRegression().newSampleData(y, x);
     }
     
     @Test
@@ -102,13 +120,10 @@ public class OLSMultipleLinearRegressionTest extends AbstractMultipleLinearRegre
         // Transform to Y and X required by interface
         int nobs = 16;
         int nvars = 6;
-        double[] y = new double[nobs];
-        double[][] x = new double[nobs][nvars + 1];
-        loadModelData(design, y, x, nobs, nvars);
         
         // Estimate the model
-        MultipleLinearRegression model = new OLSMultipleLinearRegression();
-        model.addData(y, x, null);
+        OLSMultipleLinearRegression model = new OLSMultipleLinearRegression();
+        model.newSampleData(design, nobs, nvars);
         
         // Check expected beta values from NIST
         double[] betaHat = model.estimateRegressionParameters();
@@ -193,13 +208,10 @@ public class OLSMultipleLinearRegressionTest extends AbstractMultipleLinearRegre
         // Transform to Y and X required by interface
         int nobs = 47;
         int nvars = 4;
-        double[] y = new double[nobs];
-        double[][] x = new double[nobs][nvars + 1];
-        loadModelData(design, y, x, nobs, nvars);
 
         // Estimate the model
-        MultipleLinearRegression model = new OLSMultipleLinearRegression();
-        model.addData(y, x, null);
+        OLSMultipleLinearRegression model = new OLSMultipleLinearRegression();
+        model.newSampleData(design, nobs, nvars);
 
         // Check expected beta values from R
         double[] betaHat = model.estimateRegressionParameters();
