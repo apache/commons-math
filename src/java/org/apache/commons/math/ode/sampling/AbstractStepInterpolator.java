@@ -240,7 +240,8 @@ public abstract class AbstractStepInterpolator
       throws DerivativeException {
       interpolatedTime = time;
       final double oneMinusThetaH = currentTime - interpolatedTime;
-      computeInterpolatedState((h - oneMinusThetaH) / h, oneMinusThetaH);
+      final double theta = (h == 0) ? 0 : (h - oneMinusThetaH) / h;
+      computeInterpolatedState(theta, oneMinusThetaH);
   }
 
   /** {@inheritDoc} */
