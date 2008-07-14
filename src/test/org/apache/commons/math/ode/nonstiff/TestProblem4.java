@@ -113,6 +113,7 @@ public class TestProblem4
     }
   
     public void resetState(double t, double[] y) {
+      y[0] = -y[0];
       y[1] = -y[1];
     }
 
