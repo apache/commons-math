@@ -274,7 +274,7 @@ public abstract class EmbeddedRungeKuttaIntegrator
           final double factor =
               Math.min(maxGrowth,
                        Math.max(minReduction, safety * Math.pow(error, exp)));
-          hNew = filterStep(stepSize * factor, false);
+          hNew = filterStep(stepSize * factor, forward, false);
         }
 
       }
@@ -304,6 +304,11 @@ public abstract class EmbeddedRungeKuttaIntegrator
       }
 
       if (! lastStep) {
+        // in some rare cases we may get here with stepSize = 0, for example
+        // when an event occurs at integration start, reducing the first step
+        // to zero; we have to reset the step to some safe non zero value
+          stepSize = filterStep(stepSize, forward, true);
+
         // stepsize control for next step
         final double factor = Math.min(maxGrowth,
                                        Math.max(minReduction,
@@ -311,7 +316,7 @@ public abstract class EmbeddedRungeKuttaIntegrator
         final double  scaledH    = stepSize * factor;
         final double  nextT      = stepStart + scaledH;
         final boolean nextIsLast = forward ? (nextT >= t) : (nextT <= t);
-        hNew = filterStep(scaledH, nextIsLast);
+        hNew = filterStep(scaledH, forward, nextIsLast);
       }
 
     }

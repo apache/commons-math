@@ -249,19 +249,20 @@ public abstract class AdaptiveStepsizeIntegrator
 
   /** Filter the integration step.
    * @param h signed step
+   * @param forward forward integration indicator
    * @param acceptSmall if true, steps smaller than the minimal value
    * are silently increased up to this value, if false such small
    * steps generate an exception
    * @return a bounded integration step (h if no bound is reach, or a bounded value)
    * @exception IntegratorException if the step is too small and acceptSmall is false
    */
-  protected double filterStep(final double h, final boolean acceptSmall)
+  protected double filterStep(final double h, final boolean forward, final boolean acceptSmall)
     throws IntegratorException {
 
       double filteredH = h;
       if (Math.abs(h) < minStep) {
           if (acceptSmall) {
-              filteredH = (filteredH < 0) ? -minStep : minStep;
+              filteredH = forward ? minStep : -minStep;
           } else {
               throw new IntegratorException("minimal step size ({0}) reached," +
                                             " integration needs {1}",
@@ -274,7 +275,7 @@ public abstract class AdaptiveStepsizeIntegrator
 
       if (filteredH > maxStep) {
           filteredH = maxStep;
-      } else if (h < -maxStep) {
+      } else if (filteredH < -maxStep) {
           filteredH = -maxStep;
       }
 

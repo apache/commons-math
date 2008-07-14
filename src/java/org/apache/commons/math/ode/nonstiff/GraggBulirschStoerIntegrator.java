@@ -638,7 +638,7 @@ public class GraggBulirschStoerIntegrator
                        yTmp)) {
 
           // the stability check failed, we reduce the global step
-          hNew   = Math.abs(filterStep(stepSize * stabilityReduction, false));
+          hNew   = Math.abs(filterStep(stepSize * stabilityReduction, forward, false));
           reject = true;
           loop   = false;
 
@@ -662,7 +662,7 @@ public class GraggBulirschStoerIntegrator
 
             if ((error > 1.0e15) || ((k > 1) && (error > maxError))) {
               // error is too big, we reduce the global step
-              hNew   = Math.abs(filterStep(stepSize * stabilityReduction, false));
+              hNew   = Math.abs(filterStep(stepSize * stabilityReduction, forward, false));
               reject = true;
               loop   = false;
             } else {
@@ -674,7 +674,7 @@ public class GraggBulirschStoerIntegrator
               double fac = stepControl2 / Math.pow(error / stepControl1, exp);
               final double pow = Math.pow(stepControl3, exp);
               fac = Math.max(pow / stepControl4, Math.min(1 / pow, fac));
-              optimalStep[k]     = Math.abs(filterStep(stepSize * fac, true));
+              optimalStep[k]     = Math.abs(filterStep(stepSize * fac, forward, true));
               costPerTimeUnit[k] = costPerStep[k] / optimalStep[k];
 
               // check convergence
@@ -903,13 +903,11 @@ public class GraggBulirschStoerIntegrator
           } else {
             if ((k < targetIter) &&
                 (costPerTimeUnit[k] < orderControl2 * costPerTimeUnit[k-1])) {
-              hNew = filterStep(optimalStep[k] *
-                                costPerStep[optimalIter+1] / costPerStep[k],
-                                false);
+              hNew = filterStep(optimalStep[k] * costPerStep[optimalIter+1] / costPerStep[k],
+                               forward, false);
             } else {
-              hNew = filterStep(optimalStep[k] *
-                                costPerStep[optimalIter] / costPerStep[k],
-                                false);
+              hNew = filterStep(optimalStep[k] * costPerStep[optimalIter] / costPerStep[k],
+                                forward, false);
             }
           }
 
