@@ -70,7 +70,7 @@ class TestProblemHandler
     maxValueError = 0;
     maxTimeError  = 0;
     lastError     = 0;
-    expectedStepStart = problem.getInitialTime();
+    expectedStepStart = Double.NaN;
   }
 
   public void handleStep(StepInterpolator interpolator,
@@ -78,8 +78,14 @@ class TestProblemHandler
     throws DerivativeException {
 
     double start = integrator.getCurrentStepStart();
-    maxTimeError = Math.max(maxTimeError, Math.abs(start - expectedStepStart));
-    expectedStepStart = start + integrator.getCurrentSignedStepsize();
+    if (Math.abs((start - problem.getInitialTime()) / integrator.getCurrentSignedStepsize()) > 0.001) {
+        // multistep integrators do not handle the first steps themselves
+        // so we have to make sure the integrator we look at has really started its work
+        if (!Double.isNaN(expectedStepStart)) {
+            maxTimeError = Math.max(maxTimeError, Math.abs(start - expectedStepStart));
+        }
+        expectedStepStart = start + integrator.getCurrentSignedStepsize();
+    }
 
     double pT = interpolator.getPreviousTime();
     double cT = interpolator.getCurrentTime();
