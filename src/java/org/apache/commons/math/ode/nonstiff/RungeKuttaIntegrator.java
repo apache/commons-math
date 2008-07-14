@@ -113,7 +113,7 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
     for (StepHandler handler : stepHandlers) {
         handler.reset();
     }
-    CombinedEventsManager manager = addEndTimeChecker(t, eventsHandlersManager);
+    CombinedEventsManager manager = addEndTimeChecker(t0, t, eventsHandlersManager);
     boolean lastStep = false;
 
     // main integration loop

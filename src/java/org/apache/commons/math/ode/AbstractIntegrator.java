@@ -164,12 +164,14 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
      * <p>This method can be used to simplify handling of integration end time.
      * It leverages the nominal stop condition with the exceptional stop
      * conditions.</p>
+     * @param startTime integration start time
      * @param endTime desired end time
      * @param manager manager containing the user-defined handlers
      * @return a new manager containing all the user-defined handlers plus a
      * dedicated manager triggering a stop event at entTime
      */
-    protected CombinedEventsManager addEndTimeChecker(final double endTime,
+    protected CombinedEventsManager addEndTimeChecker(final double startTime,
+                                                      final double endTime,
                                                       final CombinedEventsManager manager) {
         CombinedEventsManager newManager = new CombinedEventsManager();
         for (final EventState state : manager.getEventsStates()) {
@@ -179,7 +181,9 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
                                        state.getMaxIterationCount());
         }
         newManager.addEventHandler(new EndTimeChecker(endTime),
-                                   Double.POSITIVE_INFINITY, Math.ulp(endTime), 10);
+                                   Double.POSITIVE_INFINITY,
+                                   Math.ulp(Math.max(Math.abs(startTime), Math.abs(endTime))),
+                                   100);
         return newManager;
     }
 

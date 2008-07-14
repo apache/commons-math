@@ -198,7 +198,7 @@ public abstract class EmbeddedRungeKuttaIntegrator
     for (StepHandler handler : stepHandlers) {
         handler.reset();
     }
-    CombinedEventsManager manager = addEndTimeChecker(t, eventsHandlersManager);
+    CombinedEventsManager manager = addEndTimeChecker(t0, t, eventsHandlersManager);
     boolean lastStep = false;
 
     // main integration loop
