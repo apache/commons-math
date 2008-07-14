@@ -177,7 +177,7 @@ public class EventState implements Serializable {
 
             double ta = t0;
             double ga = g0;
-            double tb = t0 + ((t1 > t0) ? convergence : -convergence);
+            double tb = t0 + (interpolator.isForward() ? convergence : -convergence);
             for (int i = 0; i < n; ++i) {
 
                 // evaluate handler value at the end of the substep
@@ -207,7 +207,11 @@ public class EventState implements Serializable {
                     solver.setAbsoluteAccuracy(convergence);
                     solver.setMaximalIterationCount(maxIterationCount);
                     final double root = (ta <= tb) ? solver.solve(ta, tb) : solver.solve(tb, ta);
-                    if (Double.isNaN(previousEventTime) ||
+                    if (Math.abs(root - ta) <= convergence) {
+                        // we have found (again ?) a past event, we simply ignore it
+                        ta = tb;
+                        ga = gb;
+                    } else if (Double.isNaN(previousEventTime) ||
                         (Math.abs(previousEventTime - root) > convergence)) {
                         pendingEventTime = root;
                         if (pendingEvent && (Math.abs(t1 - pendingEventTime) <= convergence)) {
@@ -313,7 +317,7 @@ public class EventState implements Serializable {
         pendingEventTime  = Double.NaN;
 
         return (nextAction == EventHandler.RESET_STATE) ||
-        (nextAction == EventHandler.RESET_DERIVATIVES);
+               (nextAction == EventHandler.RESET_DERIVATIVES);
 
     }
 
