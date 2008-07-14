@@ -42,7 +42,8 @@ public class StepNormalizerTest
     setLastSeen(false);
     integ.addStepHandler(new StepNormalizer(range / 10.0,
                                        new FixedStepHandler() {
-                                         private boolean firstCall = true;
+                                        private static final long serialVersionUID = 1650337364641626444L;
+                                        private boolean firstCall = true;
                                          public void handleStep(double t,
                                                                 double[] y,
                                                                 double[] yDot,
@@ -69,7 +70,8 @@ public class StepNormalizerTest
     setLastSeen(false);
     integ.addStepHandler(new StepNormalizer(range / 10.5,
                                        new FixedStepHandler() {
-                                         public void handleStep(double t,
+                                        private static final long serialVersionUID = 2228457391561277298L;
+                                        public void handleStep(double t,
                                                                 double[] y,
                                                                 double[] yDot,
                                                                 boolean isLast) {
