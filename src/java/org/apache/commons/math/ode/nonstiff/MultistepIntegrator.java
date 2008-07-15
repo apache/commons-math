@@ -287,7 +287,7 @@ public abstract class MultistepIntegrator extends AbstractIntegrator {
         private double[] finalState;
 
         /** Build a new instance.
-         * @param number of steps to store
+         * @param n number of steps to store
          */
         public StoringStepHandler(final int n) {
             this.n = n;

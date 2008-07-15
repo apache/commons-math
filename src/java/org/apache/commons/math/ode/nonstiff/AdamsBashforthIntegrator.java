@@ -225,15 +225,17 @@ public class AdamsBashforthIntegrator extends MultistepIntegrator {
     }
 
     /** Compute the backward differences coefficients array.
-     * <p>This is quite similar to the Pascal triangle, except for a
-     * (-1)<sup>i</sup> sign. We use a straightforward approach here,
-     * since we don't expect this to be run too many times with too
-     * high k. It is based on the recurrence relations:</p>
+     * <p>This is quite similar to the Pascal triangle containing the
+     * binomial coefficiens, except for an additional (-1)<sup>i</sup> sign.
+     * We use a straightforward approach here, since we don't expect this to
+     * be run too many times with too high k. It is based on the recurrence
+     * relations:</p>
      * <pre>
      *   &nabla;<sup>0</sup> f<sub>n</sub> = f<sub>n</sub>
      *   &nabla;<sup>i+1</sup> f<sub>n</sub> = &nabla;<sup>i</sup>f<sub>n</sub> - &nabla;<sup>i</sup>f<sub>n-1</sub>
      * </pre>
      * @param order order of the integration method
+     * @return the coefficients array for backward differences
      */
     static int[][] computeBackwardDifferencesArray(final int order) {
 

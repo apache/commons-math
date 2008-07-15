@@ -120,6 +120,7 @@ class AdamsMoultonStepInterpolator extends MultistepStepInterpolator {
     /** Truncate a step.
      * <p>Truncating a step is necessary when an event is triggered
      * before the nominal end of the step.</p>
+     * @param truncatedEndTime end time of truncated step
      */
     void truncateStep(final double truncatedEndTime) {
         currentTime = truncatedEndTime;

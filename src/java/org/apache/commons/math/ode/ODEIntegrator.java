@@ -23,6 +23,14 @@ import java.util.Collection;
 import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.ode.sampling.StepHandler;
 
+/**
+ * This interface defines the common parts shared by integrators
+ * for first and second order differential equations.
+ * @see FirstOrderIntegrator
+ * @see SecondOrderIntegrator
+ * @version $Revision$ $Date$
+ * @since 2.0
+ */
 public interface ODEIntegrator extends Serializable {
 
     /** Get the name of the method.
