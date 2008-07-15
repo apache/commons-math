@@ -43,9 +43,6 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  *   <li>...</li>
  * </ul>
  *
- * <p>The coefficients are computed (and cached) as needed, so their are no
- * theoretical limitations to the number of steps</p>
- *
  * <p>A k-steps Adams-Moulton method is of order k+1. There is no limit to the
  * value of k.</p>
  *
