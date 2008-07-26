@@ -22,11 +22,13 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.Locale;
 
+import org.apache.commons.math.util.CompositeFormat;
+
 import junit.framework.TestCase;
 
 public abstract class ComplexFormatAbstractTest extends TestCase {
  
-    ComplexFormat complexFormat = null;
+    CompositeFormat complexFormat = null;
     ComplexFormat complexFormatJ = null;
 
     protected abstract Locale getLocale();
@@ -333,7 +335,7 @@ public abstract class ComplexFormatAbstractTest extends TestCase {
     }
     
     public void testFormatNumber() {
-        ComplexFormat cf = ComplexFormat.getInstance(getLocale());
+        CompositeFormat cf = ComplexFormat.getInstance(getLocale());
         Double pi = Double.valueOf(Math.PI);
         String text = cf.format(pi);
         assertEquals("3" + getDecimalCharacter() + "14", text);
@@ -341,7 +343,7 @@ public abstract class ComplexFormatAbstractTest extends TestCase {
     
     public void testFormatObject() {
         try {
-            ComplexFormat cf = new ComplexFormat();
+            CompositeFormat cf = new ComplexFormat();
             Object object = new Object();
             cf.format(object);
             fail();
