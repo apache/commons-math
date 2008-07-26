@@ -94,7 +94,7 @@ The <action> type attribute can be add,update,fix,remove.
         handlers to be embedded into users Serializable classes.
       </action>
       <action dev="luc" type="add">
-        Added several convenience methods for Vector3D and Rotation.
+        Added several convenience methods and constants for Vector3D and Rotation.
       </action>
       <action dev="luc" type="update">
         Replaced public no argument constructors with IDENTITY or ZERO

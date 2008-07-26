@@ -19,6 +19,8 @@ package org.apache.commons.math.geometry;
 
 import java.io.Serializable;
 
+import org.apache.commons.math.util.MathUtils;
+
 /** 
  * This class implements vectors in a three-dimensional space.
  * <p>Instance of this class are guaranteed to be immutable.</p>
@@ -50,8 +52,23 @@ public class Vector3D
   /** Opposite of the third canonical vector (coordinates: 0, 0, -1).  */
   public static final Vector3D MINUS_K = new Vector3D(0, 0, -1);
 
+  /** A vector with all coordinates set to NaN. */
+  public static final Vector3D NaN = new Vector3D(Double.NaN, Double.NaN, Double.NaN);
+
+  /** A vector with all coordinates set to positive infinity. */
+  public static final Vector3D POSITIVE_INFINITY =
+      new Vector3D(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+
+  /** A vector with all coordinates set to negative infinity. */
+  public static final Vector3D NEGATIVE_INFINITY =
+      new Vector3D(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
+
+  /** Default format. */
+  private static final Vector3DFormat DEFAULT_FORMAT =
+      Vector3DFormat.getInstance();
+
   /** Serializable version identifier. */
-  private static final long serialVersionUID = -6155041477622120793L;
+  private static final long serialVersionUID = 5133268763396045979L;
 
   /** Abscissa. */
   private final double x;
@@ -337,6 +354,84 @@ public class Vector3D
     return new Vector3D(a * x, a * y, a * z);
   }
 
+  /**
+   * Returns true if any coordinate of this vector is NaN; false otherwise
+   * @return  true if any coordinate of this vector is NaN; false otherwise
+   */
+  public boolean isNaN() {
+      return Double.isNaN(x) || Double.isNaN(y) || Double.isNaN(z);        
+  }
+  
+  /**
+   * Returns true if any coordinate of this vector is infinite and none are NaN;
+   * false otherwise
+   * @return  true if any coordinate of this vector is infinite and none are NaN;
+   * false otherwise
+   */
+  public boolean isInfinite() {
+      return !isNaN() && (Double.isInfinite(x) || Double.isInfinite(y) || Double.isInfinite(z));        
+  }
+  
+  /**
+   * Test for the equality of two 3D vectors.
+   * <p>
+   * If all coordinates of two 3D vectors are exactly the same, and none are
+   * <code>Double.NaN</code>, the two 3D vectors are considered to be equal.
+   * </p>
+   * <p>
+   * All <code>NaN</code> values are considered to be equal - i.e, if either
+   * (or all) coordinates of the 3D vector are equal to <code>Double.NaN</code>,
+   * the complex number is equal to 
+   * <code>Complex.NaN</code>.</p>
+   *
+   * @param other Object to test for equality to this
+   * @return true if two 3D vector objects are equal, false if
+   *         object is null, not an instance of Vector3D, or
+   *         not equal to this Vector3D instance
+   * 
+   */
+  public boolean equals(Object other) {
+
+    if (this == other) { 
+      return true;
+    }
+
+    if (other == null) {
+      return false;
+    }
+
+    try {
+
+        Vector3D rhs = (Vector3D)other;
+      if (rhs.isNaN()) {
+          return this.isNaN();
+      }
+
+      return (Double.doubleToRawLongBits(x) == Double.doubleToRawLongBits(rhs.x)) &&
+             (Double.doubleToRawLongBits(y) == Double.doubleToRawLongBits(rhs.y)) &&
+             (Double.doubleToRawLongBits(z) == Double.doubleToRawLongBits(rhs.z)); 
+
+    } catch (ClassCastException ex) {
+        // ignore exception
+        return false;
+    }
+
+  }
+  
+  /**
+   * Get a hashCode for the 3D vector.
+   * <p>
+   * All NaN values have the same hash code.</p>
+   * 
+   * @return a hash code value for this object
+   */
+  public int hashCode() {
+      if (isNaN()) {
+          return 8;
+      }
+      return 31 * (23 * MathUtils.hash(x) +  19 * MathUtils.hash(y) +  MathUtils.hash(z));
+  }
+
   /** Compute the dot-product of two vectors.
    * @param v1 first vector
    * @param v2 second vector
@@ -385,6 +480,13 @@ public class Vector3D
     final double dy = v2.y - v1.y;
     final double dz = v2.z - v1.z;
     return dx * dx + dy * dy + dz * dz;
+  }
+
+  /** Get a string representation of this vector.
+   * @return a string representation of this vector
+   */
+  public String toString() {
+      return DEFAULT_FORMAT.format(this);
   }
 
 }
