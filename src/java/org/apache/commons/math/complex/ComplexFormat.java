@@ -216,7 +216,7 @@ public class ComplexFormat extends CompositeFormat {
      * Returns the default complex format for the current locale.
      * @return the default complex format.
      */
-    public static CompositeFormat getInstance() {
+    public static ComplexFormat getInstance() {
         return getInstance(Locale.getDefault());
     }
     
