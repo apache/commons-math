@@ -27,7 +27,7 @@ import org.apache.commons.math.util.CompositeFormat;
 
 /**
  * Formats a 3D vector in components list format "{x; y; z}".
- * <p>The prefix and suffix "{" and "}" and the separator ", " can be replaced by
+ * <p>The prefix and suffix "{" and "}" and the separator "; " can be replaced by
  * any user-defined strings. The number format for components can be configured.</p>
  * <p>White space is ignored at parse time, even if it is in the prefix, suffix
  * or separator specifications. So even if the default separator does include a space
