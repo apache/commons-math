@@ -115,7 +115,7 @@
 
 <subsection name="0.5 Dependencies" href="dependencies">
     <p>
-    Commons Math requires JDK 1.3+ and has no runtime dependencies.
+    Commons Math requires JDK 1.5+ and has no runtime dependencies.
     </p>
 </subsection>
 
