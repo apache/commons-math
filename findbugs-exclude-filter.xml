@@ -82,6 +82,11 @@
     <Method name="getValues" params="" returns="double[]" />
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
+  <Match>
+    <Class name="org.apache.commons.math.linear.RealVectorImpl"/>
+    <Method name="getDataRef" params="" returns="double[]" />
+    <Bug pattern="EI_EXPOSE_REP" />
+  </Match>
 
   <!-- The following cases are intentional unit tests for null parameters -->
   <Match>

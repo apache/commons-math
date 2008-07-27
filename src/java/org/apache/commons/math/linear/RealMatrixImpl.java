@@ -52,7 +52,7 @@ import org.apache.commons.math.util.MathUtils;
 public class RealMatrixImpl implements RealMatrix, Serializable {
     
     /** Serializable version identifier */
-    private static final long serialVersionUID = -4828886979278117018L;
+    private static final long serialVersionUID = 4970229902484487012L;
 
     /** Entries of the matrix */
     protected double data[][] = null;
@@ -600,7 +600,17 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
         return new RealMatrixImpl(out, false);
     }
 
-     /**
+    /** {@inheritDoc} */
+    public RealVector getColumnVector(int column) throws MatrixIndexException {
+        return new RealVectorImpl(getColumn(column), false);
+    }
+
+    /** {@inheritDoc} */
+    public RealVector getRowVector(int row) throws MatrixIndexException {
+        return new RealVectorImpl(getRow(row), false);
+    }
+
+    /**
      * Returns the entries in row number <code>row</code> as an array.
      * <p>
      * Row indices start at 0.  A <code>MatrixIndexException</code> is thrown
@@ -788,6 +798,40 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
         return out;
     }
 
+    /** {@inheritDoc} */
+    public RealVector operate(RealVector v) throws IllegalArgumentException {
+        try {
+            return operate((RealVectorImpl) v);
+        } catch (ClassCastException cce) {
+            final int nRows = this.getRowDimension();
+            final int nCols = this.getColumnDimension();
+            if (v.getDimension() != nCols) {
+                throw new IllegalArgumentException("vector has wrong length");
+            }
+            final double[] out = new double[nRows];
+            for (int row = 0; row < nRows; row++) {
+                final double[] dataRow = data[row];
+                double sum = 0;
+                for (int i = 0; i < nCols; i++) {
+                    sum += dataRow[i] * v.getEntry(i);
+                }
+                out[row] = sum;
+            }
+            return new RealVectorImpl(out, false);
+        }
+    }
+
+    /**
+     * Returns the result of multiplying this by the vector <code>v</code>.
+     *
+     * @param v the vector to operate on
+     * @return this*v
+     * @throws IllegalArgumentException if columnDimension != v.size()
+     */
+    public RealVectorImpl operate(RealVectorImpl v) throws IllegalArgumentException {
+        return new RealVectorImpl(operate(v.getDataRef()), false);
+    }
+
     /**
      * @param v vector to premultiply by
      * @throws IllegalArgumentException if rowDimension != v.length
@@ -810,6 +854,39 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
         return out;
     }
 
+    /** {@inheritDoc} */
+    public RealVector preMultiply(RealVector v) throws IllegalArgumentException {
+        try {
+            return preMultiply((RealVectorImpl) v);
+        } catch (ClassCastException cce) {
+            final int nRows = this.getRowDimension();
+            if (v.getDimension() != nRows) {
+                throw new IllegalArgumentException("vector has wrong length");
+            }
+            final int nCols = this.getColumnDimension();
+            final double[] out = new double[nCols];
+            for (int col = 0; col < nCols; col++) {
+                double sum = 0;
+                for (int i = 0; i < nRows; i++) {
+                    sum += data[i][col] * v.getEntry(i);
+                }
+                out[col] = sum;
+            }
+            return new RealVectorImpl(out, false);
+        }
+    }
+
+    /**
+     * Returns the (row) vector result of premultiplying this by the vector <code>v</code>.
+     *
+     * @param v the row vector to premultiply by
+     * @return v*this
+     * @throws IllegalArgumentException if rowDimension != v.size()
+     */
+    RealVectorImpl preMultiply(RealVectorImpl v) throws IllegalArgumentException {
+        return new RealVectorImpl(preMultiply(v.getDataRef()), false);
+    }
+
     /**
      * Returns a matrix of (column) solution vectors for linear systems with
      * coefficient matrix = this and constant vectors = columns of
@@ -822,17 +899,105 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      * @throws InvalidMatrixException if this matrix is not square or is singular
      */
     public double[] solve(double[] b) throws IllegalArgumentException, InvalidMatrixException {
+
         final int nRows = this.getRowDimension();
+        final int nCol  = this.getColumnDimension();
+
         if (b.length != nRows) {
             throw new IllegalArgumentException("constant vector has wrong length");
         }
-        final RealMatrix bMatrix = new RealMatrixImpl(b);
-        final double[][] solution = ((RealMatrixImpl) (solve(bMatrix))).getDataRef();
-        final double[] out = new double[nRows];
-        for (int row = 0; row < nRows; row++) {
-            out[row] = solution[row][0];
+        if (!isSquare()) {
+            throw new InvalidMatrixException("coefficient matrix is not square");
         }
-        return out;
+        if (isSingular()) { // side effect: compute LU decomp
+            throw new InvalidMatrixException("Matrix is singular.");
+        }
+
+        final double[] bp = new double[nRows];
+
+        // Apply permutations to b
+        for (int row = 0; row < nRows; row++) {
+            bp[row] = b[permutation[row]];
+        }
+
+        // Solve LY = b
+        for (int col = 0; col < nCol; col++) {
+            for (int i = col + 1; i < nCol; i++) {
+                bp[i] -= bp[col] * lu[i][col];
+            }
+        }
+
+        // Solve UX = Y
+        for (int col = nCol - 1; col >= 0; col--) {
+            bp[col] /= lu[col][col];
+            for (int i = 0; i < col; i++) {
+                bp[i] -= bp[col] * lu[i][col];
+            }
+        }
+
+        return bp;
+
+    }
+
+    /** {@inheritDoc} */
+    public RealVector solve(RealVector b)
+        throws IllegalArgumentException, InvalidMatrixException {
+        try {
+            return solve((RealVectorImpl) b);
+        } catch (ClassCastException cce) {
+
+            final int nRows = this.getRowDimension();
+            final int nCol  = this.getColumnDimension();
+
+            if (b.getDimension() != nRows) {
+                throw new IllegalArgumentException("constant vector has wrong length");
+            }
+            if (!isSquare()) {
+                throw new InvalidMatrixException("coefficient matrix is not square");
+            }
+            if (isSingular()) { // side effect: compute LU decomp
+                throw new InvalidMatrixException("Matrix is singular.");
+            }
+
+            final double[] bp = new double[nRows];
+
+            // Apply permutations to b
+            for (int row = 0; row < nRows; row++) {
+                bp[row] = b.getEntry(permutation[row]);
+            }
+
+            // Solve LY = b
+            for (int col = 0; col < nCol; col++) {
+                for (int i = col + 1; i < nCol; i++) {
+                    bp[i] -= bp[col] * lu[i][col];
+                }
+            }
+
+            // Solve UX = Y
+            for (int col = nCol - 1; col >= 0; col--) {
+                bp[col] /= lu[col][col];
+                for (int i = 0; i < col; i++) {
+                    bp[i] -= bp[col] * lu[i][col];
+                }
+            }
+
+            return new RealVectorImpl(bp, false);
+
+        }
+    }
+
+    /**
+     * Returns the solution vector for a linear system with coefficient
+     * matrix = this and constant vector = <code>b</code>.
+     *
+     * @param b  constant vector
+     * @return vector of solution values to AX = b, where A is *this
+     * @throws IllegalArgumentException if this.rowDimension != b.length
+     * @throws InvalidMatrixException if this matrix is not square or is singular
+     */
+    RealVectorImpl solve(RealVectorImpl b)
+        throws IllegalArgumentException, InvalidMatrixException {
+        return new RealVectorImpl(solve(b.getDataRef()), false);
     }
 
     /**
@@ -865,18 +1030,20 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
         final double[][] bp = new double[nRowB][nColB];
         for (int row = 0; row < nRowB; row++) {
             final double[] bpRow = bp[row];
+            final int pRow = permutation[row];
             for (int col = 0; col < nColB; col++) {
-                bpRow[col] = b.getEntry(permutation[row], col);
+                bpRow[col] = b.getEntry(pRow, col);
             }
         }
 
         // Solve LY = b
         for (int col = 0; col < nCol; col++) {
+            final double[] bpCol = bp[col];
             for (int i = col + 1; i < nCol; i++) {
                 final double[] bpI = bp[i];
-                final double[] luI = lu[i];
+                final double luICol = lu[i][col];
                 for (int j = 0; j < nColB; j++) {
-                    bpI[j] -= bp[col][j] * luI[col];
+                    bpI[j] -= bpCol[j] * luICol;
                 }
             }
         }
@@ -890,9 +1057,9 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
             }
             for (int i = 0; i < col; i++) {
                 final double[] bpI = bp[i];
-                final double[] luI = lu[i];
+                final double luICol = lu[i][col];
                 for (int j = 0; j < nColB; j++) {
-                    bpI[j] -= bp[col][j] * luI[col];
+                    bpI[j] -= bpCol[j] * luICol;
                 }
             }
         }

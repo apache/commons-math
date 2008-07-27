@@ -148,6 +148,26 @@ public interface RealMatrix {
     * @throws MatrixIndexException if the specified column index is invalid
     */
    RealMatrix getColumnMatrix(int column) throws MatrixIndexException;
+
+   /**
+    * Returns the entries in row number <code>row</code>
+    * as a vector.  Row indices start at 0.
+    *
+    * @param row the row to be fetched
+    * @return row vector
+    * @throws MatrixIndexException if the specified row index is invalid
+    */
+   RealVector getRowVector(int row) throws MatrixIndexException;
+   
+   /**
+    * Returns the entries in column number <code>column</code>
+    * as a column vector.  Column indices start at 0.
+    *
+    * @param column the column to be fetched
+    * @return column vector
+    * @throws MatrixIndexException if the specified column index is invalid
+    */
+   RealVector getColumnVector(int column) throws MatrixIndexException;
     
     /**
      * Returns the entries in row number <code>row</code> as an array.
@@ -256,6 +276,15 @@ public interface RealMatrix {
     double[] operate(double[] v) throws IllegalArgumentException;
 
     /**
+     * Returns the result of multiplying this by the vector <code>v</code>.
+     *
+     * @param v the vector to operate on
+     * @return this*v
+     * @throws IllegalArgumentException if columnDimension != v.size()
+     */
+    RealVector operate(RealVector v) throws IllegalArgumentException;
+
+    /**
      * Returns the (row) vector result of premultiplying this by the vector <code>v</code>.
      *
      * @param v the row vector to premultiply by
@@ -263,6 +292,15 @@ public interface RealMatrix {
      * @throws IllegalArgumentException if rowDimension != v.size()
      */
     double[] preMultiply(double[] v) throws IllegalArgumentException;
+
+    /**
+     * Returns the (row) vector result of premultiplying this by the vector <code>v</code>.
+     *
+     * @param v the row vector to premultiply by
+     * @return v*this
+     * @throws IllegalArgumentException if rowDimension != v.size()
+     */
+    RealVector preMultiply(RealVector v) throws IllegalArgumentException;
 
     /**
      * Returns the solution vector for a linear system with coefficient
@@ -276,6 +314,17 @@ public interface RealMatrix {
     double[] solve(double[] b) throws IllegalArgumentException, InvalidMatrixException;
 
     /**
+     * Returns the solution vector for a linear system with coefficient
+     * matrix = this and constant vector = <code>b</code>.
+     *
+     * @param b  constant vector
+     * @return vector of solution values to AX = b, where A is *this
+     * @throws IllegalArgumentException if this.rowDimension != b.length
+     * @throws InvalidMatrixException if this matrix is not square or is singular
+     */
+    RealVector solve(RealVector b) throws IllegalArgumentException, InvalidMatrixException;
+
+    /**
      * Returns a matrix of (column) solution vectors for linear systems with
      * coefficient matrix = this and constant vectors = columns of
      * <code>b</code>.
@@ -287,5 +336,5 @@ public interface RealMatrix {
      * @throws InvalidMatrixException if this matrix is not square or is singular
      */
     RealMatrix solve(RealMatrix b) throws IllegalArgumentException, InvalidMatrixException;
-}
 
+}

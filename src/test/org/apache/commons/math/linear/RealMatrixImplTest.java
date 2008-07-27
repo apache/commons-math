@@ -253,8 +253,10 @@ public final class RealMatrixImplTest extends TestCase {
         RealMatrixImpl m = new RealMatrixImpl(testData);
         RealMatrix mInv = new RealMatrixImpl(testDataInv);
         // being a bit slothful here -- actually testing that X = A^-1 * B
-        assertClose("inverse-operate",mInv.operate(testVector),
-            m.solve(testVector),normTolerance);
+        assertClose("inverse-operate", mInv.operate(testVector),
+                    m.solve(testVector), normTolerance);
+        assertClose("inverse-operate", mInv.operate(testVector),
+                    m.solve(new RealVectorImpl(testVector)).getData(), normTolerance);
         try {
             m.solve(testVector2);
             fail("expecting IllegalArgumentException");
@@ -332,8 +334,10 @@ public final class RealMatrixImplTest extends TestCase {
     /** test operate */
     public void testOperate() {
         RealMatrix m = new RealMatrixImpl(id);
-        double[] x = m.operate(testVector);
-        assertClose("identity operate",testVector,x,entryTolerance);
+        assertClose("identity operate", testVector,
+                    m.operate(testVector), entryTolerance);
+        assertClose("identity operate", testVector,
+                    m.operate(new RealVectorImpl(testVector)).getData(), entryTolerance);
         m = new RealMatrixImpl(bigSingular);
         try {
             m.operate(testVector);
@@ -368,7 +372,10 @@ public final class RealMatrixImplTest extends TestCase {
     /** test preMultiply by vector */
     public void testPremultiplyVector() {
         RealMatrix m = new RealMatrixImpl(testData);
-        assertClose("premultiply",m.preMultiply(testVector),preMultTest,normTolerance);
+        assertClose("premultiply", m.preMultiply(testVector),
+                    preMultTest, normTolerance);
+        assertClose("premultiply", m.preMultiply(new RealVectorImpl(testVector).getData()),
+                    preMultTest, normTolerance);
         m = new RealMatrixImpl(bigSingular);
         try {
             m.preMultiply(testVector);
@@ -606,6 +613,54 @@ public final class RealMatrixImplTest extends TestCase {
         } catch (MatrixIndexException ex) {
             // expected
         }
+    }
+
+    public void testGetRowVector() {
+        RealMatrix m = new RealMatrixImpl(subTestData);
+        RealVector mRow0 = new RealVectorImpl(subRow0[0]);
+        RealVector mRow3 = new RealVectorImpl(subRow3[0]);
+        assertEquals("Row0", mRow0, m.getRowVector(0));
+        assertEquals("Row3", mRow3, m.getRowVector(3));
+        try {
+            m.getRowVector(-1);
+            fail("Expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
+            // expected
+        }
+        try {
+            m.getRowVector(4);
+            fail("Expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
+            // expected
+        }
+   }
+    
+    public void testGetColumnVector() {
+        RealMatrix m = new RealMatrixImpl(subTestData);
+        RealVector mColumn1 = columnToVector(subColumn1);
+        RealVector mColumn3 = columnToVector(subColumn3);
+        assertEquals("Column1", mColumn1, m.getColumnVector(1));
+        assertEquals("Column3", mColumn3, m.getColumnVector(3));
+        try {
+            m.getColumnVector(-1);
+            fail("Expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
+            // expected
+        }
+        try {
+            m.getColumnVector(4);
+            fail("Expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
+            // expected
+        }
+    }
+
+    private RealVector columnToVector(double[][] column) {
+        double[] data = new double[column.length];
+        for (int i = 0; i < data.length; ++i) {
+            data[i] = column[i][0];
+        }
+        return new RealVectorImpl(data, false);
     }
     
     public void testEqualsAndHashCode() {

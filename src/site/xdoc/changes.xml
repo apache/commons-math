@@ -39,6 +39,12 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="luc" type="add" due-to="Andreas Rieger">
+        Support for one dimensional vectors has been added to the linear algebra
+        package with a RealVector interface, a RealVectorImpl default implementation
+        using a single double array to store elements and a RealVectorFormat for
+        input/output.
+      </action>
       <action dev="psteitz" type="update" issue="MATH-217">
         Changed OLS regression implementation added in MATH-203 to use
         QR decomposition to solve the normal equations.
