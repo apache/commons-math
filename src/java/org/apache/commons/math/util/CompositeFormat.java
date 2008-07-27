@@ -32,8 +32,8 @@ public abstract class CompositeFormat extends Format {
 
     /**
      * Create a default number format.  The default number format is based on
-     * {@link NumberFormat#getInstance()} with the only customizing is the
-     * maximum number of fraction digits, which is set to 2.  
+     * {@link NumberFormat#getInstance()} with the only customizing that the
+     * maximum number of fraction digits is set to 2.  
      * @return the default number format.
      */
     protected static NumberFormat getDefaultNumberFormat() {
@@ -43,7 +43,7 @@ public abstract class CompositeFormat extends Format {
     /**
      * Create a default number format.  The default number format is based on
      * {@link NumberFormat#getInstance(java.util.Locale)} with the only
-     * customizing is the maximum number of fraction digits, which is set to 2.  
+     * customizing that the maximum number of fraction digits is set to 2.  
      * @param locale the specific locale used by the format.
      * @return the default number format specific to the given locale.
      */
@@ -95,7 +95,7 @@ public abstract class CompositeFormat extends Format {
     }
 
     /**
-     * Parses <code>source</code> for a special double values.  These values
+     * Parses <code>source</code> for special double values.  These values
      * include Double.NaN, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY.
      *
      * @param source the string to parse
