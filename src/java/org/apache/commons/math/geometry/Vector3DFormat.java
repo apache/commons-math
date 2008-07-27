@@ -123,7 +123,7 @@ public class Vector3DFormat extends CompositeFormat {
     /**
      * Get the set of locales for which 3D vectors formats are available.
      * <p>This is the same set as the {@link NumberFormat} set.</p>
-     * @return available complex format locales.
+     * @return available 3D vector format locales.
      */
     public static Locale[] getAvailableLocales() {
         return NumberFormat.getAvailableLocales();
@@ -162,17 +162,17 @@ public class Vector3DFormat extends CompositeFormat {
     }
 
     /**
-     * Returns the default complex format for the current locale.
-     * @return the default complex format.
+     * Returns the default 3D vector format for the current locale.
+     * @return the default 3D vector format.
      */
     public static Vector3DFormat getInstance() {
         return getInstance(Locale.getDefault());
     }
 
     /**
-     * Returns the default complex format for the given locale.
+     * Returns the default 3D vector format for the given locale.
      * @param locale the specific locale used by the format.
-     * @return the complex format specific to the given locale.
+     * @return the 3D vector format specific to the given locale.
      */
     public static Vector3DFormat getInstance(final Locale locale) {
         return new Vector3DFormat(getDefaultNumberFormat(locale));
