@@ -379,9 +379,10 @@ public class Vector3D
    * <code>Double.NaN</code>, the two 3D vectors are considered to be equal.
    * </p>
    * <p>
-   * All <code>NaN</code> values are considered to be equal - i.e, if either
-   * (or all) coordinates of the 3D vector are equal to <code>Double.NaN</code>,
-   * the 3D vector is equal to {@link #NaN}.
+   * <code>NaN</code> coordinates are considered to affect globally the vector
+   * and be equals to each other - i.e, if either (or all) coordinates of the
+   * 3D vector are equal to <code>Double.NaN</code>, the 3D vector is equal to
+   * {@link #NaN}.
    * </p>
    *
    * @param other Object to test for equality to this
