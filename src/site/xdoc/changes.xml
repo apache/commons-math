@@ -39,6 +39,10 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="psteitz" type="update" issue="MATH-217">
+        Changed OLS regression implementation added in MATH-203 to use
+        QR decomposition to solve the normal equations.
+      </action>
       <action dev="luc" type="add">
         New ODE integrators have been added: the explicit Adams-Bashforth and implicit
         Adams-Moulton multistep methods. These methods support customizable starter

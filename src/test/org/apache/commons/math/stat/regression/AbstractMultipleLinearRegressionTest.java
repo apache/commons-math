@@ -58,8 +58,10 @@ public abstract class AbstractMultipleLinearRegressionTest {
 
     @Test
     public void canEstimateRegressandVariance(){
-        double variance = regression.estimateRegressandVariance();
-        assertTrue(variance > 0.0);
+        if (getSampleSize() > getNumberOfRegressors()) {
+            double variance = regression.estimateRegressandVariance();
+            assertTrue(variance > 0.0);
+        }
     }   
 
 }

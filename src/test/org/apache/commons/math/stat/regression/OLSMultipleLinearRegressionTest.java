@@ -18,7 +18,10 @@ package org.apache.commons.math.stat.regression;
 
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.linear.RealMatrixImpl;
 
 public class OLSMultipleLinearRegressionTest extends AbstractMultipleLinearRegressionTest {
 
@@ -131,7 +134,7 @@ public class OLSMultipleLinearRegressionTest extends AbstractMultipleLinearRegre
           new double[]{-3482258.63459582, 15.0618722713733,
                 -0.358191792925910E-01,-2.02022980381683,
                 -1.03322686717359,-0.511041056535807E-01,
-                 1829.15146461355}, 1E-1); // <- UGH! need better accuracy!
+                 1829.15146461355}, 1E-8); // 
         
         // Check expected residuals from R
         double[] residuals = model.estimateResiduals();
@@ -142,7 +145,7 @@ public class OLSMultipleLinearRegressionTest extends AbstractMultipleLinearRegre
                  455.394094551857,-17.26892711483297,-39.0550425226967,
                 -155.5499735953195,-85.6713080421283,341.9315139607727,
                 -206.7578251937366},
-                      1E-2); // <- UGH again! need better accuracy!
+                      1E-8);
         
         // Check standard errors from NIST
         double[][] errors = model.estimateRegressionParametersVariance();
