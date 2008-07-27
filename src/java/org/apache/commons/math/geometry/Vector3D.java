@@ -381,8 +381,8 @@ public class Vector3D
    * <p>
    * All <code>NaN</code> values are considered to be equal - i.e, if either
    * (or all) coordinates of the 3D vector are equal to <code>Double.NaN</code>,
-   * the complex number is equal to 
-   * <code>Complex.NaN</code>.</p>
+   * the 3D vector is equal to {@link #NaN}.
+   * </p>
    *
    * @param other Object to test for equality to this
    * @return true if two 3D vector objects are equal, false if
