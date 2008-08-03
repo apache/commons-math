@@ -148,6 +148,18 @@ public class MatrixUtils {
     }
     
     /**
+     * Creates a {@link RealVector} using the data from the input array. 
+     * 
+     * @param data the input data
+     * @return a data.length RealVector
+     * @throws IllegalArgumentException if <code>data</code> is empty
+     * @throws NullPointerException if <code>data</code>is null
+     */
+    public static RealVector createRealVector(double[] data) {
+        return new RealVectorImpl(data, true);
+    }
+    
+    /**
      * Creates a row {@link RealMatrix} using the data from the input
      * array. 
      * 
