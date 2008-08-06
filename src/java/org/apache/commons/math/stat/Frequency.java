@@ -155,7 +155,7 @@ public class Frequency implements Serializable {
     /**
      * Returns an Iterator over the set of values that have been added.
      * <p>
-     * If added values are itegral (i.e., integers, longs, Integers, or Longs), 
+     * If added values are integral (i.e., integers, longs, Integers, or Longs), 
      * they are converted to Longs when they are added, so the objects returned
      * by the Iterator will in this case be Longs.</p>
      * 
