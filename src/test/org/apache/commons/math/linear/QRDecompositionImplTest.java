@@ -146,6 +146,13 @@ public class QRDecompositionImplTest extends TestCase {
                 assertEquals("R lower triangle", R.getEntry(i, j), 0,
                         entryTolerance);
 
+        matrix = new RealMatrixImpl(testData3x3Singular, false);
+        R = new QRDecompositionImpl(matrix).getR();
+        for (int i = 0; i < R.getRowDimension(); i++)
+            for (int j = 0; j < i; j++)
+                assertEquals("R lower triangle", R.getEntry(i, j), 0,
+                        entryTolerance);
+
         matrix = new RealMatrixImpl(testData3x4, false);
         R = new QRDecompositionImpl(matrix).getR();
         for (int i = 0; i < R.getRowDimension(); i++)
@@ -160,4 +167,186 @@ public class QRDecompositionImplTest extends TestCase {
                 assertEquals("R lower triangle", R.getEntry(i, j), 0,
                         entryTolerance);
     }
+
+    /** test that H is trapezoidal */
+    public void testHTrapezoidal() {
+        RealMatrixImpl matrix = new RealMatrixImpl(testData3x3NonSingular, false);
+        RealMatrix H = new QRDecompositionImpl(matrix).getH();
+        for (int i = 0; i < H.getRowDimension(); i++)
+            for (int j = i + 1; j < H.getColumnDimension(); j++)
+                assertEquals(H.getEntry(i, j), 0, entryTolerance);
+
+        matrix = new RealMatrixImpl(testData3x3Singular, false);
+        H = new QRDecompositionImpl(matrix).getH();
+        for (int i = 0; i < H.getRowDimension(); i++)
+            for (int j = i + 1; j < H.getColumnDimension(); j++)
+                assertEquals(H.getEntry(i, j), 0, entryTolerance);
+
+        matrix = new RealMatrixImpl(testData3x4, false);
+        H = new QRDecompositionImpl(matrix).getH();
+        for (int i = 0; i < H.getRowDimension(); i++)
+            for (int j = i + 1; j < H.getColumnDimension(); j++)
+                assertEquals(H.getEntry(i, j), 0, entryTolerance);
+
+        matrix = new RealMatrixImpl(testData4x3, false);
+        H = new QRDecompositionImpl(matrix).getH();
+        for (int i = 0; i < H.getRowDimension(); i++)
+            for (int j = i + 1; j < H.getColumnDimension(); j++)
+                assertEquals(H.getEntry(i, j), 0, entryTolerance);
+
+    }
+
+    /** test rank */
+    public void testRank() {
+        QRDecomposition qr =
+            new QRDecompositionImpl(new RealMatrixImpl(testData3x3NonSingular, false));
+        assertTrue(qr.isFullRank());
+
+        qr = new QRDecompositionImpl(new RealMatrixImpl(testData3x3Singular, false));
+        assertFalse(qr.isFullRank());
+
+        qr = new QRDecompositionImpl(new RealMatrixImpl(testData3x4, false));
+        assertFalse(qr.isFullRank());
+
+        qr = new QRDecompositionImpl(new RealMatrixImpl(testData4x3, false));
+        assertTrue(qr.isFullRank());
+
+    }
+
+    /** test solve dimension errors */
+    public void testSolveDimensionErrors() {
+        QRDecomposition qr =
+            new QRDecompositionImpl(new RealMatrixImpl(testData3x3NonSingular, false));
+        RealMatrix b = new RealMatrixImpl(new double[2][2]);
+        try {
+            qr.solve(b);
+            fail("an exception should have been thrown");
+        } catch (IllegalArgumentException iae) {
+            // expected behavior
+        } catch (Exception e) {
+            fail("wrong exception caught");
+        }
+        try {
+            qr.solve(b.getColumn(0));
+            fail("an exception should have been thrown");
+        } catch (IllegalArgumentException iae) {
+            // expected behavior
+        } catch (Exception e) {
+            fail("wrong exception caught");
+        }
+        try {
+            qr.solve(b.getColumnVector(0));
+            fail("an exception should have been thrown");
+        } catch (IllegalArgumentException iae) {
+            // expected behavior
+        } catch (Exception e) {
+            fail("wrong exception caught");
+        }
+    }
+
+    /** test solve rank errors */
+    public void testSolveRankErrors() {
+        QRDecomposition qr =
+            new QRDecompositionImpl(new RealMatrixImpl(testData3x3Singular, false));
+        RealMatrix b = new RealMatrixImpl(new double[3][2]);
+        try {
+            qr.solve(b);
+            fail("an exception should have been thrown");
+        } catch (InvalidMatrixException iae) {
+            // expected behavior
+        } catch (Exception e) {
+            fail("wrong exception caught");
+        }
+        try {
+            qr.solve(b.getColumn(0));
+            fail("an exception should have been thrown");
+        } catch (InvalidMatrixException iae) {
+            // expected behavior
+        } catch (Exception e) {
+            fail("wrong exception caught");
+        }
+        try {
+            qr.solve(b.getColumnVector(0));
+            fail("an exception should have been thrown");
+        } catch (InvalidMatrixException iae) {
+            // expected behavior
+        } catch (Exception e) {
+            fail("wrong exception caught");
+        }
+    }
+
+    /** test solve */
+    public void testSolve() {
+        QRDecomposition qr =
+            new QRDecompositionImpl(new RealMatrixImpl(testData3x3NonSingular, false));
+        RealMatrix b = new RealMatrixImpl(new double[][] {
+                { -102, 12250 }, { 544, 24500 }, { 167, -36750 }
+        });
+        RealMatrix xRef = new RealMatrixImpl(new double[][] {
+                { 1, 2515 }, { 2, 422 }, { -3, 898 }
+        });
+
+        // using RealMatrix
+        assertEquals(0, qr.solve(b).subtract(xRef).getNorm(), 1.0e-13);
+
+        // using double[]
+        for (int i = 0; i < b.getColumnDimension(); ++i) {
+            assertEquals(0,
+                         new RealVectorImpl(qr.solve(b.getColumn(i))).subtract(xRef.getColumnVector(i)).getNorm(),
+                         1.0e-13);
+        }
+
+        // using RealVectorImpl
+        for (int i = 0; i < b.getColumnDimension(); ++i) {
+            assertEquals(0,
+                         qr.solve(b.getColumnVector(i)).subtract(xRef.getColumnVector(i)).getNorm(),
+                         1.0e-13);
+        }
+
+        // using RealVector with an alternate implementation
+        for (int i = 0; i < b.getColumnDimension(); ++i) {
+            RealVectorImplTest.RealVectorTestImpl v =
+                new RealVectorImplTest.RealVectorTestImpl(b.getColumn(i));
+            assertEquals(0,
+                         qr.solve(v).subtract(xRef.getColumnVector(i)).getNorm(),
+                         1.0e-13);
+        }
+
+    }
+
+    /** test matrices values */
+    public void testMatricesValues() {
+        QRDecomposition qr =
+            new QRDecompositionImpl(new RealMatrixImpl(testData3x3NonSingular, false));
+        RealMatrix qRef = new RealMatrixImpl(new double[][] {
+                { -12.0 / 14.0,   69.0 / 175.0,  -58.0 / 175.0 },
+                {  -6.0 / 14.0, -158.0 / 175.0,    6.0 / 175.0 },
+                {   4.0 / 14.0,  -30.0 / 175.0, -165.0 / 175.0 }
+        });
+        RealMatrix rRef = new RealMatrixImpl(new double[][] {
+                { -14.0,  -21.0, 14.0 },
+                {   0.0, -175.0, 70.0 },
+                {   0.0,    0.0, 35.0 }
+        });
+        RealMatrix hRef = new RealMatrixImpl(new double[][] {
+                { 26.0 / 14.0, 0.0, 0.0 },
+                {  6.0 / 14.0, 648.0 / 325.0, 0.0 },
+                { -4.0 / 14.0,  36.0 / 325.0, 2.0 }
+        });
+
+        // check values against known references
+        RealMatrix q = qr.getQ();
+        assertEquals(0, q.subtract(qRef).getNorm(), 1.0e-13);
+        RealMatrix r = qr.getR();
+        assertEquals(0, r.subtract(rRef).getNorm(), 1.0e-13);
+        RealMatrix h = qr.getH();
+        assertEquals(0, h.subtract(hRef).getNorm(), 1.0e-13);
+
+        // check the same cached instance is returned the second time
+        assertTrue(q == qr.getQ());
+        assertTrue(r == qr.getR());
+        assertTrue(h == qr.getH());
+        
+    }
+
 }

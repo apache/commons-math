@@ -20,25 +20,43 @@ package org.apache.commons.math.linear;
 /**
  * An interface to classes that implement a algorithm to calculate the 
  * QR-decomposition of a real matrix.
+ * <p>This interface is similar to the class with similar name from the now defunct
+ * <a href="http://math.nist.gov/javanumerics/jama/">JAMA</a> library.</p>
  *   
  * @see <a href="http://mathworld.wolfram.com/QRDecomposition.html">MathWorld</a>
  * @see <a href="http://en.wikipedia.org/wiki/QR_decomposition">Wikipedia</a>
  * @version $Revision$ $Date$
  * @since 1.2
  */
-public interface QRDecomposition {
+public interface QRDecomposition extends DecompositionSolver {
 
     /**
      * Returns the matrix R of the decomposition. 
-     * 
+     * <p>R is an upper-triangular matrix</p>
      * @return the R matrix
      */
-    public abstract RealMatrix getR();
+    RealMatrix getR();
 
     /**
      * Returns the matrix Q of the decomposition.
-     * 
+     * <p>Q is an orthogonal matrix</p>
      * @return the Q matrix
      */
-    public abstract RealMatrix getQ();
+    RealMatrix getQ();
+
+    /**
+     * Returns the Householder reflector vectors.
+     * <p>H is a lower trapezoidal matrix whose columns represent
+     * each successive Householder reflector vector. This matrix is used
+     * to compute Q.</p>
+     * @return a matrix containing the Householder reflector vectors
+     */
+    RealMatrix getH();
+
+    /**
+     * Check if the decomposed matrix is full rank.
+     * @return true if the decomposed matrix is full rank
+     */
+    boolean isFullRank();
+
 }

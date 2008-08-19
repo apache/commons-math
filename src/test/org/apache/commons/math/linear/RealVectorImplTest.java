@@ -44,7 +44,7 @@ public class RealVectorImplTest extends TestCase {
 
     // Testclass to test the RealVector interface 
     // only with enough content to support the test
-    public class RealVectorTestImpl implements RealVector, Serializable {
+    public static class RealVectorTestImpl implements RealVector, Serializable {
 
         /** Serializable version identifier. */
         private static final long serialVersionUID = 8731816072271374422L;
@@ -309,7 +309,7 @@ public class RealVectorImplTest extends TestCase {
         }
 
         public double[] getData() {
-            throw unsupported();
+            return data.clone();
         }
 
         public double dotProduct(RealVector v) throws IllegalArgumentException {
