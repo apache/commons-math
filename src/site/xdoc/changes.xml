@@ -39,6 +39,11 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="luc" type="add" issue="MATH-219" due-to="Andrew Berry">
+        Added removeData methods for the SimpleRegression class. This allows
+        to support regression calculations across a sliding window of (time-based)
+        observations without having to recalculate for the entire window every time.
+      </action>
       <action dev="luc" type="add" due-to="Andreas Rieger">
         Support for one dimensional vectors has been added to the linear algebra
         package with a RealVector interface, a RealVectorImpl default implementation

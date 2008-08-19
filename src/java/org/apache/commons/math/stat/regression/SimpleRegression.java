@@ -139,6 +139,39 @@ public class SimpleRegression implements Serializable {
         }
     }
 
+    
+    /**
+     * Removes the observation (x,y) from the regression data set.
+     * <p>
+     * Mirrors the addData method.  This method permits the use of 
+     * SimpleRegression instances in streaming mode where the regression 
+     * is applied to a sliding "window" of observations, however the caller is 
+     * responsible for maintaining the set of observations in the window.</p>
+     * 
+     * The method has no effect if there are no points of data (i.e. n=0)
+     *
+     * @param x independent variable value
+     * @param y dependent variable value
+     */
+    public void removeData(double x, double y) {
+        if (n > 0) {
+            double dx = x - xbar;
+            double dy = y - ybar;
+            sumXX -= dx * dx * (double) n / (double) (n - 1.0);
+            sumYY -= dy * dy * (double) n / (double) (n - 1.0);
+            sumXY -= dx * dy * (double) n / (double) (n - 1.0);
+            xbar -= dx / (double) (n - 1.0);
+            ybar -= dy / (double) (n - 1.0);
+            sumX -= x;
+            sumY -= y;
+            n--;
+            
+            if (n > 2) {
+                distribution.setDegreesOfFreedom(n - 2);
+            } 
+        }
+    }
+
     /**
      * Adds the observations represented by the elements in 
      * <code>data</code>.
@@ -158,6 +191,26 @@ public class SimpleRegression implements Serializable {
     public void addData(double[][] data) {
         for (int i = 0; i < data.length; i++) {
             addData(data[i][0], data[i][1]);
+        }
+    }
+
+
+    /**
+     * Removes observations represented by the elements in <code>data</code>.
+      * <p> 
+     * If the array is larger than the current n, only the first n elements are 
+     * processed.  This method permits the use of SimpleRegression instances in 
+     * streaming mode where the regression is applied to a sliding "window" of 
+     * observations, however the caller is responsible for maintaining the set 
+     * of observations in the window.</p>
+     * <p> 
+     * To remove all data, use <code>clear()</code>.</p>
+     * 
+     * @param data array of observations to be removed
+     */
+    public void removeData(double[][] data) {
+        for (int i = 0; i < data.length && n > 0; i++) {
+            removeData(data[i][0], data[i][1]);
         }
     }
 
