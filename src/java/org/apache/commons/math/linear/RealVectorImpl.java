@@ -1266,8 +1266,7 @@ public class RealVectorImpl implements RealVector, Serializable {
           }
 
           for (int i = 0; i < data.length; ++i) {
-              if (Double.doubleToRawLongBits(data[i]) !=
-                  Double.doubleToRawLongBits(rhs.getEntry(i))) {
+              if (data[i] != rhs.getEntry(i)) {
                   return false;
               }
           }

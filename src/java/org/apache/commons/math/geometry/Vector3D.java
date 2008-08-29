@@ -403,14 +403,12 @@ public class Vector3D
 
     try {
 
-        Vector3D rhs = (Vector3D)other;
+      final Vector3D rhs = (Vector3D)other;
       if (rhs.isNaN()) {
           return this.isNaN();
       }
 
-      return (Double.doubleToRawLongBits(x) == Double.doubleToRawLongBits(rhs.x)) &&
-             (Double.doubleToRawLongBits(y) == Double.doubleToRawLongBits(rhs.y)) &&
-             (Double.doubleToRawLongBits(z) == Double.doubleToRawLongBits(rhs.z)); 
+      return (x == rhs.x) && (y == rhs.y) && (z == rhs.z); 
 
     } catch (ClassCastException ex) {
         // ignore exception
