@@ -690,4 +690,10 @@ public class ComplexTest extends TestCase {
     public void testTanhCritical() {
         TestUtils.assertSame(nanInf, new Complex(0, pi/2).tanh());
     }
+
+    /** test issue MATH-221 */
+    public void testMath221() {
+        assertEquals(new Complex(0,-1), new Complex(0,1).multiply(new Complex(-1,0)));
+    }
+
 }
