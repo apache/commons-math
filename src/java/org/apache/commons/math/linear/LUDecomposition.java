@@ -24,10 +24,14 @@ package org.apache.commons.math.linear;
  * such that P&times;A = L&times;U. P is a rows permutation matrix that is used
  * to rearrange the rows of A before so that it can be decomposed. L is a lower
  * triangular matrix with unit diagonal terms and U is an upper triangular matrix.</p>
- * <p>This interface is similar to the class with similar name from the now defunct
+ * <p>This interface is based on the class with similar name from the now defunct
  * <a href="http://math.nist.gov/javanumerics/jama/">JAMA</a> library, with the
- * exception of the <code>det</code> method which has been renamed as {@link
- * #getDeterminant() getDeterminant}.</p>
+ * following changes:</p>
+ * <ul>
+ *   <li>several signatures have been added for the <code>solve</code> methods (in the superinterface),</code>
+ *   <li>a <code>decompose</code> method has been added (in the superinterface),</code>
+ *   <li>the <code>det</code> method has been renamed as {@link #getDeterminant() getDeterminant}.</li>
+ * </ul>
  *   
  * @see <a href="http://mathworld.wolfram.com/LUDecomposition.html">MathWorld</a>
  * @see <a href="http://en.wikipedia.org/wiki/LU_decomposition">Wikipedia</a>
@@ -37,18 +41,37 @@ package org.apache.commons.math.linear;
 public interface LUDecomposition extends DecompositionSolver {
 
     /**
+     * Computes a new
+     * <a href="http://www.math.gatech.edu/~bourbaki/math2601/Web-notes/2num.pdf">
+     * LU decomposition</a> for this matrix, storing the result for use by other methods.
+     * <p>
+     * <strong>Implementation Note</strong>:<br>
+     * Uses <a href="http://www.damtp.cam.ac.uk/user/fdl/people/sd/lectures/nummeth98/linear.htm">
+     * Crout's algorithm</a>, with partial pivoting.</p>
+     * @param matrix The matrix to decompose.
+     * @param singularityThreshold threshold (based on partial row norm)
+     * under which a matrix is considered singular
+     * @exception InvalidMatrixException if matrix is not square
+     */
+    void decompose(RealMatrix matrix, double singularityThreshold);
+
+    /**
      * Returns the matrix L of the decomposition. 
      * <p>L is an lower-triangular matrix</p>
      * @return the L matrix (or null if decomposed matrix is singular)
+     * @exception IllegalStateException if {@link
+     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
      */
-    RealMatrix getL();
+    RealMatrix getL() throws IllegalStateException;
 
     /**
      * Returns the matrix U of the decomposition. 
      * <p>U is an upper-triangular matrix</p>
      * @return the U matrix (or null if decomposed matrix is singular)
+     * @exception IllegalStateException if {@link
+     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
      */
-    RealMatrix getU();
+    RealMatrix getU() throws IllegalStateException;
 
     /**
      * Returns the P rows permutation matrix.
@@ -57,29 +80,37 @@ public interface LUDecomposition extends DecompositionSolver {
      * <p>The positions of the 1 elements are given by the {@link #getPivot()
      * pivot permutation vector}.</p>
      * @return the P rows permutation matrix (or null if decomposed matrix is singular)
+     * @exception IllegalStateException if {@link
+     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
      * @see #getPivot()
      */
-    RealMatrix getP();
+    RealMatrix getP() throws IllegalStateException;
 
     /**
      * Returns the pivot permutation vector.
      * @return the pivot permutation vector
+     * @exception IllegalStateException if {@link
+     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
      * @see #getPermutation()
      */
-    int[] getPivot();
+    int[] getPivot() throws IllegalStateException;
 
     /**
      * Check if the decomposed matrix is non-singular.
      * @return true if the decomposed matrix is non-singular
+     * @exception IllegalStateException if {@link
+     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
      * @see #getDeterminant()
      */
-    boolean isNonSingular();
+    boolean isNonSingular() throws IllegalStateException;
 
     /**
      * Return the determinant of the matrix
      * @return determinant of the matrix
+     * @exception IllegalStateException if {@link
+     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
      * @see #isNonSingular()
      */
-    double getDeterminant();
+    double getDeterminant() throws IllegalStateException;
 
 }

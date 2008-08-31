@@ -349,4 +349,16 @@ public class QRDecompositionImplTest extends TestCase {
         
     }
 
+    /** test no call to decompose */
+    public void testNoDecompose() {
+        try {
+            new QRDecompositionImpl().isFullRank();
+            fail("an exception should have been caught");
+        } catch (IllegalStateException ise) {
+            // expected behavior
+        } catch (Exception e) {
+            fail("wrong exception caught");
+        }
+    }
+
 }

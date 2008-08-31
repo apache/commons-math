@@ -22,48 +22,68 @@ import java.io.Serializable;
 /**
  * A base interface to decomposition algorithms that can solve A &times; X = B.
  * <p>This interface is the common base of decomposition algorithms like
- * {@link QRDecomposition} or {@link LUDecomposition}. All these algorithms
- * decompose an A matrix has a product of several specific matrices from
- * which they can solve A &times; X = B.</p>
- * <p>Depending on the solver, the solution is either an exact linear solution
- * or a least squares solution. When an exact linear solution exist, both the
- * linear and the least squares solution are equal. When no exact linear solution
- * exist, a least square solution gives an X which such that A &times; X is the
- * closest possible to B.</p>
+ * {@link QRDecomposition}, {@link LUDecomposition} or {@link
+ * SingularValueDecomposition}. All these algorithms decompose an A matrix has a
+ * product of several specific matrices from which they can solve A &times; X = B
+ * in least squares sense: they find X such that ||A &times; X - B|| is minimal.</p>
+ * <p>Some solvers like {@link LUDecomposition} can only find the solution for
+ * square matrices and when the solution is an exact linear solution, i.e. when
+ * ||A &times; X - B|| is exactly 0. Other solvers can also find solutions
+ * with non-square matrix A and with non-null minimal norm. If an exact linear
+ * solution exists it is also the minimal norm solution.</p>
  *   
  * @version $Revision$ $Date$
  * @since 2.0
  */
 public interface DecompositionSolver extends Serializable {
 
+    /**
+     * Decompose a matrix.
+     * @param matrix
+     * @exception InvalidMatrixException if matrix does not fulfill
+     * the decomposition requirements (for example non-square matrix
+     * for {@link LUDecomposition})
+     */
+    void decompose(RealMatrix matrix)
+      throws InvalidMatrixException;
+
     /** Solve the linear equation A &times; X = B.
-     * <p>The A matrix is implicit here. It is </p>
+     * <p>The A matrix is implicit here. It <strong>must</strong> have
+     * already been provided by a previous call to {@link #decompose(RealMatrix)}.</p>
      * @param b right-hand side of the equation A &times; X = B
      * @return a vector X that minimizes the two norm of A &times; X - B
-     * @throws IllegalArgumentException if matrices dimensions don't match
-     * @throws InvalidMatrixException if decomposed matrix is singular
+     * @exception IllegalStateException if {@link #decompose(RealMatrix) decompose}
+     * has not been called
+     * @exception IllegalArgumentException if matrices dimensions don't match
+     * @exception InvalidMatrixException if decomposed matrix is singular
      */
     double[] solve(double[] b)
-      throws IllegalArgumentException, InvalidMatrixException;
+      throws IllegalStateException, IllegalArgumentException, InvalidMatrixException;
 
     /** Solve the linear equation A &times; X = B.
-     * <p>The A matrix is implicit here. It is </p>
+     * <p>The A matrix is implicit here. It <strong>must</strong> have
+     * already been provided by a previous call to {@link #decompose(RealMatrix)}.</p>
      * @param b right-hand side of the equation A &times; X = B
      * @return a vector X that minimizes the two norm of A &times; X - B
-     * @throws IllegalArgumentException if matrices dimensions don't match
-     * @throws InvalidMatrixException if decomposed matrix is singular
+     * @exception IllegalStateException if {@link #decompose(RealMatrix) decompose}
+     * has not been called
+     * @exception IllegalArgumentException if matrices dimensions don't match
+     * @exception InvalidMatrixException if decomposed matrix is singular
      */
     RealVector solve(RealVector b)
-      throws IllegalArgumentException, InvalidMatrixException;
+      throws IllegalStateException, IllegalArgumentException, InvalidMatrixException;
 
     /** Solve the linear equation A &times; X = B.
-     * <p>The A matrix is implicit here. It is </p>
+     * <p>The A matrix is implicit here. It <strong>must</strong> have
+     * already been provided by a previous call to {@link #decompose(RealMatrix)}.</p>
      * @param b right-hand side of the equation A &times; X = B
      * @return a matrix X that minimizes the two norm of A &times; X - B
-     * @throws IllegalArgumentException if matrices dimensions don't match
-     * @throws InvalidMatrixException if decomposed matrix is singular
+     * @exception IllegalStateException if {@link #decompose(RealMatrix) decompose}
+     * has not been called
+     * @exception IllegalArgumentException if matrices dimensions don't match
+     * @exception InvalidMatrixException if decomposed matrix is singular
      */
     RealMatrix solve(RealMatrix b)
-      throws IllegalArgumentException, InvalidMatrixException;
+      throws IllegalStateException, IllegalArgumentException, InvalidMatrixException;
 
 }

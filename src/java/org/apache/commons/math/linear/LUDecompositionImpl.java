@@ -32,19 +32,13 @@ package org.apache.commons.math.linear;
 public class LUDecompositionImpl implements LUDecomposition {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -1606789599960880183L;
-
-    /** Bound to determine effective singularity in LU decomposition */
-    private final double singularityThreshold;
-
-    /** Size of the matrix. */
-    private final int m;
+    private static final long serialVersionUID = -9052751605297201067L;
 
     /** Entries of LU decomposition. */
-    private final double lu[][];
+    private double lu[][];
 
     /** Pivot permutation associated with LU decomposition */
-    private final int[] pivot;
+    private int[] pivot;
 
     /** Parity of the permutation associated with the LU decomposition */
     private int parity;
@@ -65,19 +59,35 @@ public class LUDecompositionImpl implements LUDecomposition {
     private static final double DEFAULT_TOO_SMALL = 10E-12;
 
     /**
+     * Build a new instance.
+     * <p>Note that either {@link #decompose(RealMatrix)} or
+     * {@link #decompose(RealMatrix, double)} <strong>must</strong> be called
+     * before any of the {@link #getP()}, {@link #getPivot()}, {@link #getL()},
+     * {@link #getU()}, {@link #getDeterminant()}, {@link #isNonSingular()},
+     * {@link #solve(double[])}, {@link #solve(RealMatrix)}, {@link #solve(RealVector)}
+     * or {@link #solve(RealVectorImpl)} methods can be called.</p>
+     * @see #decompose(RealMatrix)
+     * @see #decompose(RealMatrix, double)
+     */
+    public LUDecompositionImpl() {
+    }
+
+    /**
      * Calculates the LU-decomposition of the given matrix. 
-     * 
+     * <p>Calling this constructor is equivalent to first call the no-arguments
+     * constructor and then call {@link #decompose(RealMatrix)}.</p>
      * @param matrix The matrix to decompose.
      * @exception InvalidMatrixException if matrix is not square
      */
     public LUDecompositionImpl(RealMatrix matrix)
         throws InvalidMatrixException {
-        this(matrix, DEFAULT_TOO_SMALL);
+        decompose(matrix);
     }
 
     /**
      * Calculates the LU-decomposition of the given matrix. 
-     * 
+     * <p>Calling this constructor is equivalent to first call the no-arguments
+     * constructor and then call {@link #decompose(RealMatrix, double)}.</p>
      * @param matrix The matrix to decompose.
      * @param singularityThreshold threshold (based on partial row norm)
      * under which a matrix is considered singular
@@ -85,243 +95,27 @@ public class LUDecompositionImpl implements LUDecomposition {
      */
     public LUDecompositionImpl(RealMatrix matrix, double singularityThreshold)
         throws InvalidMatrixException {
+        decompose(matrix, singularityThreshold);
+    }
+
+    /** {@inheritDoc} */
+    public void decompose(RealMatrix matrix)
+        throws InvalidMatrixException {
+        decompose(matrix, DEFAULT_TOO_SMALL);
+    }
+
+    /** {@inheritDoc} */
+    public void decompose(RealMatrix matrix, double singularityThreshold)
+        throws InvalidMatrixException {
         if (!matrix.isSquare()) {
             throw new InvalidMatrixException("LU decomposition requires that the matrix be square.");
         }
-        this.singularityThreshold = singularityThreshold;
-        m = matrix.getColumnDimension();
+        final int m = matrix.getColumnDimension();
         lu = matrix.getData();
         pivot = new int[m];
         cachedL = null;
         cachedU = null;
         cachedP = null;
-
-        // perform decomposition
-        luDecompose();
-
-    }
-
-    /** {@inheritDoc} */
-    public RealMatrix getL() {
-        if ((cachedL == null) && !singular) {
-            final double[][] lData = new double[m][m];
-            for (int i = 0; i < m; ++i) {
-                System.arraycopy(lu[i], 0, lData[i], 0, i);
-                lData[i][i] = 1.0;
-            }
-            cachedL = new RealMatrixImpl(lData, false);
-        }
-        return cachedL;
-    }
-
-    /** {@inheritDoc} */
-    public RealMatrix getU() {
-        if ((cachedU == null) && !singular) {
-            final double[][] uData = new double[m][m];
-            for (int i = 0; i < m; ++i) {
-                System.arraycopy(lu[i], i, uData[i], i, m - i);
-            }
-            cachedU = new RealMatrixImpl(uData, false);
-        }
-        return cachedU;
-    }
-
-    /** {@inheritDoc} */
-    public RealMatrix getP() {
-        if ((cachedP == null) && !singular) {
-            final double[][] pData = new double[m][m];
-            for (int i = 0; i < m; ++i) {
-                pData[i][pivot[i]] = 1.0;
-            }
-            cachedP = new RealMatrixImpl(pData, false);
-        }
-        return cachedP;
-    }
-
-    /** {@inheritDoc} */
-    public int[] getPivot() {
-        return pivot.clone();
-    }
-
-    /** {@inheritDoc} */
-    public boolean isNonSingular() {
-        return !singular;
-    }
-
-    /** {@inheritDoc} */
-    public double getDeterminant() {
-        if (singular) {
-            return 0;
-        } else {
-            double determinant = parity;
-            for (int i = 0; i < m; i++) {
-                determinant *= lu[i][i];
-            }
-            return determinant;
-        }
-    }
-
-    /** {@inheritDoc} */
-    public double[] solve(double[] b)
-        throws IllegalArgumentException, InvalidMatrixException {
-
-        if (b.length != m) {
-            throw new IllegalArgumentException("constant vector has wrong length");
-        }
-        if (singular) {
-            throw new InvalidMatrixException("Matrix is singular.");
-        }
-
-        final double[] bp = new double[m];
-
-        // Apply permutations to b
-        for (int row = 0; row < m; row++) {
-            bp[row] = b[pivot[row]];
-        }
-
-        // Solve LY = b
-        for (int col = 0; col < m; col++) {
-            for (int i = col + 1; i < m; i++) {
-                bp[i] -= bp[col] * lu[i][col];
-            }
-        }
-
-        // Solve UX = Y
-        for (int col = m - 1; col >= 0; col--) {
-            bp[col] /= lu[col][col];
-            for (int i = 0; i < col; i++) {
-                bp[i] -= bp[col] * lu[i][col];
-            }
-        }
-
-        return bp;
-
-    }
-
-    /** {@inheritDoc} */
-    public RealVector solve(RealVector b)
-        throws IllegalArgumentException, InvalidMatrixException {
-        try {
-            return solve((RealVectorImpl) b);
-        } catch (ClassCastException cce) {
-
-            if (b.getDimension() != m) {
-                throw new IllegalArgumentException("constant vector has wrong length");
-            }
-            if (singular) {
-                throw new InvalidMatrixException("Matrix is singular.");
-            }
-
-            final double[] bp = new double[m];
-
-            // Apply permutations to b
-            for (int row = 0; row < m; row++) {
-                bp[row] = b.getEntry(pivot[row]);
-            }
-
-            // Solve LY = b
-            for (int col = 0; col < m; col++) {
-                for (int i = col + 1; i < m; i++) {
-                    bp[i] -= bp[col] * lu[i][col];
-                }
-            }
-
-            // Solve UX = Y
-            for (int col = m - 1; col >= 0; col--) {
-                bp[col] /= lu[col][col];
-                for (int i = 0; i < col; i++) {
-                    bp[i] -= bp[col] * lu[i][col];
-                }
-            }
-
-            return new RealVectorImpl(bp, false);
-
-        }
-    }
-
-    /** Solve the linear equation A &times; X = B.
-     * <p>The A matrix is implicit here. It is </p>
-     * @param b right-hand side of the equation A &times; X = B
-     * @return a vector X such that A &times; X = B
-     * @throws IllegalArgumentException if matrices dimensions don't match
-     * @throws InvalidMatrixException if decomposed matrix is singular
-     */
-    public RealVectorImpl solve(RealVectorImpl b)
-        throws IllegalArgumentException, InvalidMatrixException {
-        return new RealVectorImpl(solve(b.getDataRef()), false);
-    }
-
-    /** {@inheritDoc} */
-    public RealMatrix solve(RealMatrix b)
-        throws IllegalArgumentException, InvalidMatrixException {
-        if (b.getRowDimension() != m) {
-            throw new IllegalArgumentException("Incorrect row dimension");
-        }
-        if (singular) {
-            throw new InvalidMatrixException("Matrix is singular.");
-        }
-
-        final int nColB = b.getColumnDimension();
-
-        // Apply permutations to b
-        final double[][] bp = new double[m][nColB];
-        for (int row = 0; row < m; row++) {
-            final double[] bpRow = bp[row];
-            final int pRow = pivot[row];
-            for (int col = 0; col < nColB; col++) {
-                bpRow[col] = b.getEntry(pRow, col);
-            }
-        }
-
-        // Solve LY = b
-        for (int col = 0; col < m; col++) {
-            final double[] bpCol = bp[col];
-            for (int i = col + 1; i < m; i++) {
-                final double[] bpI = bp[i];
-                final double luICol = lu[i][col];
-                for (int j = 0; j < nColB; j++) {
-                    bpI[j] -= bpCol[j] * luICol;
-                }
-            }
-        }
-
-        // Solve UX = Y
-        for (int col = m - 1; col >= 0; col--) {
-            final double[] bpCol = bp[col];
-            final double luDiag = lu[col][col];
-            for (int j = 0; j < nColB; j++) {
-                bpCol[j] /= luDiag;
-            }
-            for (int i = 0; i < col; i++) {
-                final double[] bpI = bp[i];
-                final double luICol = lu[i][col];
-                for (int j = 0; j < nColB; j++) {
-                    bpI[j] -= bpCol[j] * luICol;
-                }
-            }
-        }
-
-        return new RealMatrixImpl(bp, false);
-
-    }
-
-    /**
-     * Computes a new
-     * <a href="http://www.math.gatech.edu/~bourbaki/math2601/Web-notes/2num.pdf">
-     * LU decomposition</a> for this matrix, storing the result for use by other methods.
-     * <p>
-     * <strong>Implementation Note</strong>:<br>
-     * Uses <a href="http://www.damtp.cam.ac.uk/user/fdl/people/sd/lectures/nummeth98/linear.htm">
-     * Crout's algorithm</a>, with partial pivoting.</p>
-     * <p>
-     * <strong>Usage Note</strong>:<br>
-     * This method should rarely be invoked directly. Its only use is
-     * to force recomputation of the LU decomposition when changes have been
-     * made to the underlying data using direct array references. Changes
-     * made using setXxx methods will trigger recomputation when needed
-     * automatically.</p>
-     */
-    private void luDecompose() {
 
         // Initialize permutation array and parity
         for (int row = 0; row < m; row++) {
@@ -388,6 +182,247 @@ public class LUDecompositionImpl implements LUDecomposition {
             for (int row = col + 1; row < m; row++) {
                 lu[row][col] /= luDiag;
             }
+        }
+
+    }
+
+    /** {@inheritDoc} */
+    public RealMatrix getL()
+        throws IllegalStateException {
+        checkDecomposed();
+        if ((cachedL == null) && !singular) {
+            final int m = pivot.length;
+            final double[][] lData = new double[m][m];
+            for (int i = 0; i < m; ++i) {
+                System.arraycopy(lu[i], 0, lData[i], 0, i);
+                lData[i][i] = 1.0;
+            }
+            cachedL = new RealMatrixImpl(lData, false);
+        }
+        return cachedL;
+    }
+
+    /** {@inheritDoc} */
+    public RealMatrix getU()
+        throws IllegalStateException {
+        checkDecomposed();
+        if ((cachedU == null) && !singular) {
+            final int m = pivot.length;
+            final double[][] uData = new double[m][m];
+            for (int i = 0; i < m; ++i) {
+                System.arraycopy(lu[i], i, uData[i], i, m - i);
+            }
+            cachedU = new RealMatrixImpl(uData, false);
+        }
+        return cachedU;
+    }
+
+    /** {@inheritDoc} */
+    public RealMatrix getP()
+        throws IllegalStateException {
+        checkDecomposed();
+        if ((cachedP == null) && !singular) {
+            final int m = pivot.length;
+            final double[][] pData = new double[m][m];
+            for (int i = 0; i < m; ++i) {
+                pData[i][pivot[i]] = 1.0;
+            }
+            cachedP = new RealMatrixImpl(pData, false);
+        }
+        return cachedP;
+    }
+
+    /** {@inheritDoc} */
+    public int[] getPivot()
+        throws IllegalStateException {
+        checkDecomposed();
+        return pivot.clone();
+    }
+
+    /** {@inheritDoc} */
+    public boolean isNonSingular()
+        throws IllegalStateException {
+        checkDecomposed();
+        return !singular;
+    }
+
+    /** {@inheritDoc} */
+    public double getDeterminant()
+        throws IllegalStateException {
+        checkDecomposed();
+        if (singular) {
+            return 0;
+        } else {
+            final int m = pivot.length;
+            double determinant = parity;
+            for (int i = 0; i < m; i++) {
+                determinant *= lu[i][i];
+            }
+            return determinant;
+        }
+    }
+
+    /** {@inheritDoc} */
+    public double[] solve(double[] b)
+        throws IllegalStateException, IllegalArgumentException, InvalidMatrixException {
+
+        checkDecomposed();
+        final int m = pivot.length;
+        if (b.length != m) {
+            throw new IllegalArgumentException("constant vector has wrong length");
+        }
+        if (singular) {
+            throw new InvalidMatrixException("Matrix is singular.");
+        }
+
+        final double[] bp = new double[m];
+
+        // Apply permutations to b
+        for (int row = 0; row < m; row++) {
+            bp[row] = b[pivot[row]];
+        }
+
+        // Solve LY = b
+        for (int col = 0; col < m; col++) {
+            for (int i = col + 1; i < m; i++) {
+                bp[i] -= bp[col] * lu[i][col];
+            }
+        }
+
+        // Solve UX = Y
+        for (int col = m - 1; col >= 0; col--) {
+            bp[col] /= lu[col][col];
+            for (int i = 0; i < col; i++) {
+                bp[i] -= bp[col] * lu[i][col];
+            }
+        }
+
+        return bp;
+
+    }
+
+    /** {@inheritDoc} */
+    public RealVector solve(RealVector b)
+        throws IllegalStateException, IllegalArgumentException, InvalidMatrixException {
+        try {
+            return solve((RealVectorImpl) b);
+        } catch (ClassCastException cce) {
+
+            checkDecomposed();
+            final int m = pivot.length;
+            if (b.getDimension() != m) {
+                throw new IllegalArgumentException("constant vector has wrong length");
+            }
+            if (singular) {
+                throw new InvalidMatrixException("Matrix is singular.");
+            }
+
+            final double[] bp = new double[m];
+
+            // Apply permutations to b
+            for (int row = 0; row < m; row++) {
+                bp[row] = b.getEntry(pivot[row]);
+            }
+
+            // Solve LY = b
+            for (int col = 0; col < m; col++) {
+                for (int i = col + 1; i < m; i++) {
+                    bp[i] -= bp[col] * lu[i][col];
+                }
+            }
+
+            // Solve UX = Y
+            for (int col = m - 1; col >= 0; col--) {
+                bp[col] /= lu[col][col];
+                for (int i = 0; i < col; i++) {
+                    bp[i] -= bp[col] * lu[i][col];
+                }
+            }
+
+            return new RealVectorImpl(bp, false);
+
+        }
+    }
+
+    /** Solve the linear equation A &times; X = B.
+     * <p>The A matrix is implicit here. It is </p>
+     * @param b right-hand side of the equation A &times; X = B
+     * @return a vector X such that A &times; X = B
+     * @throws IllegalArgumentException if matrices dimensions don't match
+     * @throws InvalidMatrixException if decomposed matrix is singular
+     */
+    public RealVectorImpl solve(RealVectorImpl b)
+        throws IllegalStateException, IllegalArgumentException, InvalidMatrixException {
+        return new RealVectorImpl(solve(b.getDataRef()), false);
+    }
+
+    /** {@inheritDoc} */
+    public RealMatrix solve(RealMatrix b)
+        throws IllegalStateException, IllegalArgumentException, InvalidMatrixException {
+
+        checkDecomposed();
+        final int m = pivot.length;
+        if (b.getRowDimension() != m) {
+            throw new IllegalArgumentException("Incorrect row dimension");
+        }
+        if (singular) {
+            throw new InvalidMatrixException("Matrix is singular.");
+        }
+
+        final int nColB = b.getColumnDimension();
+
+        // Apply permutations to b
+        final double[][] bp = new double[m][nColB];
+        for (int row = 0; row < m; row++) {
+            final double[] bpRow = bp[row];
+            final int pRow = pivot[row];
+            for (int col = 0; col < nColB; col++) {
+                bpRow[col] = b.getEntry(pRow, col);
+            }
+        }
+
+        // Solve LY = b
+        for (int col = 0; col < m; col++) {
+            final double[] bpCol = bp[col];
+            for (int i = col + 1; i < m; i++) {
+                final double[] bpI = bp[i];
+                final double luICol = lu[i][col];
+                for (int j = 0; j < nColB; j++) {
+                    bpI[j] -= bpCol[j] * luICol;
+                }
+            }
+        }
+
+        // Solve UX = Y
+        for (int col = m - 1; col >= 0; col--) {
+            final double[] bpCol = bp[col];
+            final double luDiag = lu[col][col];
+            for (int j = 0; j < nColB; j++) {
+                bpCol[j] /= luDiag;
+            }
+            for (int i = 0; i < col; i++) {
+                final double[] bpI = bp[i];
+                final double luICol = lu[i][col];
+                for (int j = 0; j < nColB; j++) {
+                    bpI[j] -= bpCol[j] * luICol;
+                }
+            }
+        }
+
+        return new RealMatrixImpl(bp, false);
+
+    }
+
+    /**
+     * Check if either {@link #decompose(RealMatrix)} or {@link
+     * #decompose(RealMatrix, double) has been called.
+     * @exception IllegalStateException if {@link #decompose(RealMatrix) decompose}
+     * has not been called
+     */
+    private void checkDecomposed()
+        throws IllegalStateException {
+        if (lu == null) {
+            throw new IllegalStateException("no matrix have been decomposed yet");
         }
     }
 

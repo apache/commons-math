@@ -88,6 +88,29 @@ public class LUDecompositionImplTest extends TestCase {
         }
     }
 
+    /** test no call to decompose */
+    public void testNoDecompose() {
+        try {
+            new LUDecompositionImpl().getPivot();
+            fail("an exception should have been caught");
+        } catch (IllegalStateException ise) {
+            // expected behavior
+        } catch (Exception e) {
+            fail("wrong exception caught");
+        }
+    }
+
+    /** test threshold impact */
+    public void testThreshold() {
+        final RealMatrix matrix = new RealMatrixImpl(new double[][] {
+                                                       { 1.0, 2.0, 3.0},
+                                                       { 2.0, 5.0, 3.0},
+                                                       { 4.000001, 9.0, 9.0}
+                                                     }, false);
+        assertFalse(new LUDecompositionImpl(matrix, 1.0e-5).isNonSingular());
+        assertTrue(new LUDecompositionImpl(matrix, 1.0e-10).isNonSingular());
+    }
+
     /** test PA = LU */
     public void testPAEqualLU() {
         RealMatrix matrix = new RealMatrixImpl(testData, false);

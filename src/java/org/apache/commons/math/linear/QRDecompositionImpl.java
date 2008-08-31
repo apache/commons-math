@@ -34,7 +34,7 @@ package org.apache.commons.math.linear;
 public class QRDecompositionImpl implements QRDecomposition {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 3965943878043764074L;
+    private static final long serialVersionUID = 7125583145349720380L;
 
     /**
      * A packed representation of the QR decomposition. The elements above the 
@@ -42,12 +42,10 @@ public class QRDecompositionImpl implements QRDecomposition {
      * are the Householder reflector vectors of which an explicit form of Q can
      * be calculated. 
      */
-    private final double[][] qr;
+    private double[][] qr;
 
-    /**
-     * The diagonal elements of R.
-     */
-    private final double[] rDiag;
+    /** The diagonal elements of R. */
+    private double[] rDiag;
 
     /** Cached value of Q. */
     private RealMatrix cachedQ;
@@ -59,24 +57,33 @@ public class QRDecompositionImpl implements QRDecomposition {
     private RealMatrix cachedH;
 
     /**
-     * The row dimension of the given matrix. The size of Q will be m x m, the 
-     * size of R will be m x n. 
+     * Build a new instance.
+     * <p>Note that {@link #decompose(RealMatrix)} <strong>must</strong> be called
+     * before any of the {@link #getQ()}, {@link #getR()}, {@link #getH()},
+     * {@link #isFullRank()}, {@link #solve(double[])}, {@link #solve(RealMatrix)},
+     * {@link #solve(RealVector)} or {@link #solve(RealVectorImpl)} methods can be
+     * called.</p>
+     * @see #decompose(RealMatrix)
      */
-    private final int m;
+    public QRDecompositionImpl() {
+    }
 
     /**
-     * The column dimension of the given matrix. The size of R will be m x n. 
-     */
-    private final int n;
-
-    /**
-     * Calculates the QR decomposition of the given matrix. 
-     * 
+     * Calculates the QR-decomposition of the given matrix. 
+     * <p>Calling this constructor is equivalent to first call the no-arguments
+     * constructor and then call {@link #decompose(RealMatrix)}.</p>
      * @param matrix The matrix to decompose.
+     * @exception InvalidMatrixException if matrix is not square
      */
-    public QRDecompositionImpl(RealMatrix matrix) {
-        m = matrix.getRowDimension();
-        n = matrix.getColumnDimension();
+    public QRDecompositionImpl(RealMatrix matrix)
+        throws InvalidMatrixException {
+        decompose(matrix);
+    }
+
+    /** {@inheritDoc} */
+    public void decompose(RealMatrix matrix) {
+        final int m = matrix.getRowDimension();
+        final int n = matrix.getColumnDimension();
         qr = matrix.getData();
         rDiag = new double[n];
         cachedQ = null;
@@ -147,11 +154,16 @@ public class QRDecompositionImpl implements QRDecomposition {
     }
 
     /** {@inheritDoc} */
-    public RealMatrix getR() {
+    public RealMatrix getR()
+        throws IllegalStateException {
 
         if (cachedR == null) {
 
+            checkDecomposed();
+
             // R is supposed to be m x n
+            final int m = qr.length;
+            final int n = qr[0].length;
             double[][] r = new double[m][n];
 
             // copy the diagonal from rDiag and the upper triangle of qr
@@ -172,11 +184,16 @@ public class QRDecompositionImpl implements QRDecomposition {
     }
 
     /** {@inheritDoc} */
-    public RealMatrix getQ() {
+    public RealMatrix getQ()
+        throws IllegalStateException {
 
         if (cachedQ == null) {
 
+            checkDecomposed();
+
             // Q is supposed to be m x m
+            final int m = qr.length;
+            final int n = qr[0].length;
             double[][] Q = new double[m][m];
 
             /* 
@@ -216,9 +233,15 @@ public class QRDecompositionImpl implements QRDecomposition {
     }
 
     /** {@inheritDoc} */
-    public RealMatrix getH() {
+    public RealMatrix getH()
+        throws IllegalStateException {
+
         if (cachedH == null) {
 
+            checkDecomposed();
+
+            final int m = qr.length;
+            final int n = qr[0].length;
             double[][] hData = new double[m][n];
             for (int i = 0; i < m; ++i) {
                 for (int j = 0; j < Math.min(i + 1, n); ++j) {
@@ -237,64 +260,74 @@ public class QRDecompositionImpl implements QRDecomposition {
     }
 
     /** {@inheritDoc} */
-    public boolean isFullRank() {
+    public boolean isFullRank()
+        throws IllegalStateException {
+
+        checkDecomposed();
+
         for (double diag : rDiag) {
             if (diag == 0) {
                 return false;
             }
         }
         return true;
+
     }
 
     /** {@inheritDoc} */
     public double[] solve(double[] b)
-        throws IllegalArgumentException, InvalidMatrixException {
+        throws IllegalStateException, IllegalArgumentException, InvalidMatrixException {
  
-            if (b.length != m) {
-                throw new IllegalArgumentException("Incorrect row dimension");
+        checkDecomposed();
+
+        final int m = qr.length;
+        final int n = qr[0].length;
+        if (b.length != m) {
+            throw new IllegalArgumentException("Incorrect row dimension");
+        }
+        if (!isFullRank()) {
+            throw new InvalidMatrixException("Matrix is rank-deficient");
+        }
+
+        final double[] x = new double[n];
+        final double[] y = b.clone();
+
+        // apply Householder transforms to solve Q.y = b
+        for (int minor = 0; minor < Math.min(m, n); minor++) {
+
+            double dotProduct = 0;
+            for (int row = minor; row < m; row++) {
+                dotProduct += y[row] * qr[row][minor];
             }
-            if (!isFullRank()) {
-                throw new InvalidMatrixException("Matrix is rank-deficient");
-            }
+            dotProduct /= rDiag[minor] * qr[minor][minor];
 
-            final double[] x = new double[n];
-            final double[] y = b.clone();
-
-            // apply Householder transforms to solve Q.y = b
-            for (int minor = 0; minor < Math.min(m, n); minor++) {
-
-                double dotProduct = 0;
-                for (int row = minor; row < m; row++) {
-                    dotProduct += y[row] * qr[row][minor];
-                }
-                dotProduct /= rDiag[minor] * qr[minor][minor];
-
-                for (int row = minor; row < m; row++) {
-                    y[row] += dotProduct * qr[row][minor];
-                }
-
-            }
-
-            // solve triangular system R.x = y
-            for (int row = n - 1; row >= 0; --row) {
-                y[row] /= rDiag[row];
-                final double yRow = y[row];
-                x[row] = yRow;
-                for (int i = 0; i < row; i++) {
-                    y[i] -= yRow * qr[i][row];
-                }
+            for (int row = minor; row < m; row++) {
+                y[row] += dotProduct * qr[row][minor];
             }
 
-            return x;
+        }
+
+        // solve triangular system R.x = y
+        for (int row = n - 1; row >= 0; --row) {
+            y[row] /= rDiag[row];
+            final double yRow = y[row];
+            x[row] = yRow;
+            for (int i = 0; i < row; i++) {
+                y[i] -= yRow * qr[i][row];
+            }
+        }
+
+        return x;
 
     }
 
     /** {@inheritDoc} */
     public RealVector solve(RealVector b)
-        throws IllegalArgumentException, InvalidMatrixException {
+        throws IllegalStateException, IllegalArgumentException, InvalidMatrixException {
         try {
             return solve((RealVectorImpl) b);
         } catch (ClassCastException cce) {
+            checkDecomposed();
             return new RealVectorImpl(solve(b.getData()), false);
         }
     }
@@ -303,18 +336,24 @@ public class QRDecompositionImpl implements QRDecomposition {
      * <p>The A matrix is implicit here. It is </p>
      * @param b right-hand side of the equation A &times; X = B
      * @return a vector X that minimizes the two norm of A &times; X - B
+     * @exception IllegalStateException if {@link #decompose(RealMatrix) decompose}
+     * has not been called
      * @throws IllegalArgumentException if matrices dimensions don't match
      * @throws InvalidMatrixException if decomposed matrix is singular
      */
     public RealVectorImpl solve(RealVectorImpl b)
-        throws IllegalArgumentException, InvalidMatrixException {
+        throws IllegalStateException, IllegalArgumentException, InvalidMatrixException {
         return new RealVectorImpl(solve(b.getDataRef()), false);
     }
 
     /** {@inheritDoc} */
     public RealMatrix solve(RealMatrix b)
-        throws IllegalArgumentException, InvalidMatrixException {
+        throws IllegalStateException, IllegalArgumentException, InvalidMatrixException {
 
+        checkDecomposed();
+
+        final int m = qr.length;
+        final int n = qr[0].length;
         if (b.getRowDimension() != m) {
             throw new IllegalArgumentException("Incorrect row dimension");
         }
@@ -362,6 +401,18 @@ public class QRDecompositionImpl implements QRDecomposition {
 
         return new RealMatrixImpl(xData, false);
 
+    }
+
+    /**
+     * Check if {@link #decompose(RealMatrix)} has been called.
+     * @exception IllegalStateException if {@link #decompose(RealMatrix) decompose}
+     * has not been called
+     */
+    private void checkDecomposed()
+        throws IllegalStateException {
+        if (qr == null) {
+            throw new IllegalStateException("no matrix have been decomposed yet");
+        }
     }
 
 }
