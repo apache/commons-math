@@ -73,10 +73,8 @@ public class QRDecompositionImpl implements QRDecomposition {
      * <p>Calling this constructor is equivalent to first call the no-arguments
      * constructor and then call {@link #decompose(RealMatrix)}.</p>
      * @param matrix The matrix to decompose.
-     * @exception InvalidMatrixException if matrix is not square
      */
-    public QRDecompositionImpl(RealMatrix matrix)
-        throws InvalidMatrixException {
+    public QRDecompositionImpl(RealMatrix matrix) {
         decompose(matrix);
     }
 
