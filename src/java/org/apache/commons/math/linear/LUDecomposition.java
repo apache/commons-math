@@ -18,7 +18,7 @@
 package org.apache.commons.math.linear;
 
 /**
- * An interface to classes that implement a algorithm to calculate the 
+ * An interface to classes that implement an algorithm to calculate the 
  * LU-decomposition of a real matrix.
  * <p>The LU-decomposition of matrix A is a set of three matrices: P, L and U
  * such that P&times;A = L&times;U. P is a rows permutation matrix that is used
