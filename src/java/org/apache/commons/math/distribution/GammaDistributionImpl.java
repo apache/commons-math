@@ -141,7 +141,18 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     public double getBeta() {
         return beta;
     }
-    
+
+    /**
+     * Return the probability density for a particular point.
+     *
+     * @param x The point at which the density should be computed.
+     * @return The pdf at point x.
+     */
+    public double density(Double x) {
+        if (x < 0) return 0;
+        return Math.pow(x / getBeta(), getAlpha() - 1) / getBeta() * Math.exp(-x / getBeta()) / Math.exp(Gamma.logGamma(getAlpha()));
+    }
+
     /**
      * Access the domain value lower bound, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by

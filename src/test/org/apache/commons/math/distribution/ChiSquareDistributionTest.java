@@ -99,6 +99,25 @@ public class ChiSquareDistributionTest extends ContinuousDistributionAbstractTes
         } catch (IllegalArgumentException ex) {
             // expected
         }
-    } 
-    
+    }
+
+    public void testDensity() {
+        double[] x = new double[]{-0.1, 1e-6, 0.5, 1, 2, 5};
+        //R 2.5: print(dchisq(x, df=1), digits=10)
+        checkDensity(1, x, new double[]{0.00000000000, 398.94208093034, 0.43939128947, 0.24197072452, 0.10377687436, 0.01464498256});
+        //R 2.5: print(dchisq(x, df=0.1), digits=10)
+        checkDensity(0.1, x, new double[]{0.000000000e+00, 2.486453997e+04, 7.464238732e-02, 3.009077718e-02, 9.447299159e-03, 8.827199396e-04});
+        //R 2.5: print(dchisq(x, df=2), digits=10)
+        checkDensity(2, x, new double[]{0.00000000000, 0.49999975000, 0.38940039154, 0.30326532986, 0.18393972059, 0.04104249931});
+        //R 2.5: print(dchisq(x, df=10), digits=10)
+        checkDensity(10, x, new double[]{0.000000000e+00, 1.302082682e-27, 6.337896998e-05, 7.897534632e-04, 7.664155024e-03, 6.680094289e-02});
+    }
+
+    private void checkDensity(double df, double[] x, double[] expected) {
+        ChiSquaredDistribution d = new ChiSquaredDistributionImpl(df);
+        for (int i = 0; i < x.length; i++) {
+            assertEquals(expected[i], d.density(x[i]), 1e-5);
+        }
+    }
+
 }

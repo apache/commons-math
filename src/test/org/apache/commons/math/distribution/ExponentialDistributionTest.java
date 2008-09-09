@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.distribution;
 
+import org.apache.commons.math.MathException;
+
 /**
  * Test cases for ExponentialDistribution.
  * Extends ContinuousDistributionAbstractTest.  See class javadoc for
@@ -70,6 +72,23 @@ public class ExponentialDistributionTest extends ContinuousDistributionAbstractT
     public void testCumulativeProbability2() throws Exception {
         double actual = getDistribution().cumulativeProbability(0.25, 0.75);
         assertEquals(0.0905214, actual, 10e-4);
+    }
+
+    public void testDensity() throws MathException {
+        ExponentialDistribution d1 = new ExponentialDistributionImpl(1);
+        assertEquals(0.0, d1.density(-1e-9));
+        assertEquals(1.0, d1.density(0.0));
+        assertEquals(0.0, d1.density(1000.0));
+        assertEquals(Math.exp(-1), d1.density(1.0));
+        assertEquals(Math.exp(-2), d1.density(2.0));
+
+        ExponentialDistribution d2 = new ExponentialDistributionImpl(3);
+        assertEquals(1/3.0, d2.density(0.0));
+        // computed using  print(dexp(1, rate=1/3), digits=10) in R 2.5
+        assertEquals(0.2388437702, d2.density(1.0), 1e-8);
+
+        // computed using  print(dexp(2, rate=1/3), digits=10) in R 2.5
+        assertEquals(0.1711390397, d2.density(2.0), 1e-8);
     }
     
     public void testMeanAccessors() {

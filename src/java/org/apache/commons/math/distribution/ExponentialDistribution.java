@@ -29,7 +29,7 @@ package org.apache.commons.math.distribution;
  *
  * @version $Revision$ $Date$
  */
-public interface ExponentialDistribution extends ContinuousDistribution {
+public interface ExponentialDistribution extends ContinuousDistribution, HasDensity<Double> {
     /**
      * Modify the mean.
      * @param mean the new mean.
@@ -41,4 +41,11 @@ public interface ExponentialDistribution extends ContinuousDistribution {
      * @return the mean.
      */
     double getMean();
+
+    /**
+     * Return the probability density for a particular point.
+     * @param x  The point at which the density should be computed.
+     * @return  The pdf at point x.
+     */
+    double density(Double x);
 }

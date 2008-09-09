@@ -14,38 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.commons.math.distribution;
 
+import org.apache.commons.math.MathException;
+
 /**
- * The Chi-Squared Distribution.
- *
- * <p>
- * References:
- * <ul>
- * <li><a href="http://mathworld.wolfram.com/Chi-SquaredDistribution.html">
- * Chi-Squared Distribution</a></li>
- * </ul>
- * </p>
- *
+ * Interface that signals that a distribution can compute the probability density function
+ * for a particular point.
  * @version $Revision$ $Date$
  */
-public interface ChiSquaredDistribution extends ContinuousDistribution, HasDensity<Double> {
-    /**
-     * Modify the degrees of freedom.
-     * @param degreesOfFreedom the new degrees of freedom.
-     */
-    void setDegreesOfFreedom(double degreesOfFreedom);
-    
-    /**
-     * Access the degrees of freedom.
-     * @return the degrees of freedom.
-     */
-    double getDegreesOfFreedom();
+public interface HasDensity<P> {
 
     /**
-     * Return the probability density for a particular point.
-     * @param x  The point at which the density should be computed.
-     * @return  The pdf at point x.
+     * Compute the probability density function.
+     * @param x point for which the probability density is requested
+     * @return probability density at point x
+     * @throws MathException if probability density cannot be computed at specifed point
      */
-    double density(Double x);
+    double density(P x) throws MathException;
+
 }

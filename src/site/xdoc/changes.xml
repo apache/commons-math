@@ -39,6 +39,10 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="luc" type="add" issue="MATH-222" due-to="Ted Dunning">
+        Added probability density functions computation for distributions for which
+        it is feasible.
+      </action>
       <action dev="luc" type="fix" issue="MATH-221" due-to="Dieter Roth">
         Changed the Complex.equals() method so that it considers +0 and -0 are equal,
         as required by IEEE-754 standard.
