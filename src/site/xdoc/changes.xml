@@ -40,6 +40,9 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
     <release version="2.0" date="TBD" description="TBD">
       <action dev="luc" type="add" issue="MATH-222" due-to="Ted Dunning">
+        Added beta distribution.
+      </action>
+      <action dev="luc" type="add" issue="MATH-222" due-to="Ted Dunning">
         Added probability density functions computation for distributions for which
         it is feasible.
       </action>
