@@ -246,7 +246,7 @@ public class AdamsMoultonIntegrator extends MultistepIntegrator {
 
     }
 
-    /** Get the coefficients of the prdictor phase of the method.
+    /** Get the coefficients of the predictor phase of the method.
      * <p>The coefficients are the c<sub>i</sub> terms in the following formula:</p>
      * <pre>
      *   y<sub>n+1</sub> = y<sub>n</sub> + h &times; &sum;<sub>i=0</sub><sup>i=k-1</sup> c<sub>i</sub>f<sub>n-i</sub></li>
