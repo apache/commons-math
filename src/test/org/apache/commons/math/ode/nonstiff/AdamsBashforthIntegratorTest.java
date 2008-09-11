@@ -198,7 +198,25 @@ public class AdamsBashforthIntegratorTest
     assertEquals(0, handler.getMaximalTimeError(), 1.0e-14);
 
   }
-  
+
+  public void testBackward()
+      throws DerivativeException, IntegratorException {
+
+      TestProblem5 pb = new TestProblem5();
+      double step = Math.abs(pb.getFinalTime() - pb.getInitialTime()) * 0.001;
+
+      FirstOrderIntegrator integ = new AdamsBashforthIntegrator(5, step);
+      TestProblemHandler handler = new TestProblemHandler(pb, integ);
+      integ.addStepHandler(handler);
+      integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
+                      pb.getFinalTime(), new double[pb.getDimension()]);
+
+      assertTrue(handler.getLastError() < 8.0e-11);
+      assertTrue(handler.getMaximalValueError() < 8.0e-11);
+      assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
+      assertEquals("Adams-Bashforth", integ.getName());
+  }
+
   public static Test suite() {
     return new TestSuite(AdamsBashforthIntegratorTest.class);
   }

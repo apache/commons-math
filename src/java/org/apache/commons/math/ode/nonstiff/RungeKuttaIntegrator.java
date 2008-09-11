@@ -73,7 +73,7 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
     this.a          = a;
     this.b          = b;
     this.prototype  = prototype;
-    this.step       = step;
+    this.step       = Math.abs(step);
   }
 
   /** {@inheritDoc} */
@@ -109,7 +109,7 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
 
     // set up integration control objects
     stepStart = t0;
-    stepSize  = step;
+    stepSize  = forward ? step : -step;
     for (StepHandler handler : stepHandlers) {
         handler.reset();
     }
@@ -180,7 +180,7 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
       }
 
       // make sure step size is set to default before next step
-      stepSize = step;
+      stepSize = forward ? step : -step;
 
     }
 

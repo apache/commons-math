@@ -107,7 +107,7 @@ public class AdamsMoultonIntegrator extends MultistepIntegrator {
             correctorCoeffs[i] = fCorrector.doubleValue();
         }
 
-        this.step = step;
+        this.step = Math.abs(step);
 
     }
 
@@ -132,7 +132,7 @@ public class AdamsMoultonIntegrator extends MultistepIntegrator {
 
         // set up integration control objects
         stepStart = t0;
-        stepSize  = step;
+        stepSize  = forward ? step : -step;
         for (StepHandler handler : stepHandlers) {
             handler.reset();
         }

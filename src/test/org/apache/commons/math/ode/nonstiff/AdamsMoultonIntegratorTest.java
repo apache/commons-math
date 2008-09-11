@@ -209,6 +209,24 @@ public class AdamsMoultonIntegratorTest
 
     }
 
+    public void testBackward()
+        throws DerivativeException, IntegratorException {
+
+        TestProblem5 pb = new TestProblem5();
+        double step = Math.abs(pb.getFinalTime() - pb.getInitialTime()) * 0.001;
+
+        FirstOrderIntegrator integ = new AdamsMoultonIntegrator(5, step);
+        TestProblemHandler handler = new TestProblemHandler(pb, integ);
+        integ.addStepHandler(handler);
+        integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
+                        pb.getFinalTime(), new double[pb.getDimension()]);
+
+        assertTrue(handler.getLastError() < 5.0e-10);
+        assertTrue(handler.getMaximalValueError() < 7.0e-10);
+        assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
+        assertEquals("Adams-Moulton", integ.getName());
+    }
+
     public static Test suite() {
         return new TestSuite(AdamsMoultonIntegratorTest.class);
     }

@@ -90,6 +90,29 @@ public class GraggBulirschStoerIntegratorTest
 
   }
 
+  public void testBackward()
+      throws DerivativeException, IntegratorException {
+
+      TestProblem5 pb = new TestProblem5();
+      double minStep = 0;
+      double maxStep = pb.getFinalTime() - pb.getInitialTime();
+      double scalAbsoluteTolerance = 1.0e-8;
+      double scalRelativeTolerance = 0.01 * scalAbsoluteTolerance;
+
+      FirstOrderIntegrator integ = new GraggBulirschStoerIntegrator(minStep, maxStep,
+                                                                    scalAbsoluteTolerance,
+                                                                    scalRelativeTolerance);
+      TestProblemHandler handler = new TestProblemHandler(pb, integ);
+      integ.addStepHandler(handler);
+      integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
+                      pb.getFinalTime(), new double[pb.getDimension()]);
+
+      assertTrue(handler.getLastError() < 9.0e-10);
+      assertTrue(handler.getMaximalValueError() < 9.0e-10);
+      assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
+      assertEquals("Gragg-Bulirsch-Stoer", integ.getName());
+  }
+
   public void testIncreasingTolerance()
     throws DerivativeException, IntegratorException {
 

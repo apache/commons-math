@@ -127,6 +127,24 @@ public class EulerIntegratorTest
 
   }
 
+  public void testBackward()
+      throws DerivativeException, IntegratorException {
+
+      TestProblem5 pb = new TestProblem5();
+      double step = Math.abs(pb.getFinalTime() - pb.getInitialTime()) * 0.001;
+
+      FirstOrderIntegrator integ = new EulerIntegrator(step);
+      TestProblemHandler handler = new TestProblemHandler(pb, integ);
+      integ.addStepHandler(handler);
+      integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
+                      pb.getFinalTime(), new double[pb.getDimension()]);
+
+      assertTrue(handler.getLastError() < 0.45);
+      assertTrue(handler.getMaximalValueError() < 0.45);
+      assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
+      assertEquals("Euler", integ.getName());
+  }
+
   public void testStepSize()
     throws DerivativeException, IntegratorException {
       final double step = 1.23456;

@@ -71,8 +71,8 @@ public abstract class AdaptiveStepsizeIntegrator
 
     super(name);
 
-    this.minStep     = minStep;
-    this.maxStep     = maxStep;
+    this.minStep     = Math.abs(minStep);
+    this.maxStep     = Math.abs(maxStep);
     this.initialStep = -1.0;
 
     this.scalAbsoluteTolerance = scalAbsoluteTolerance;

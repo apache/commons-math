@@ -127,6 +127,24 @@ public class MidpointIntegratorTest
 
   }
 
+  public void testBackward()
+      throws DerivativeException, IntegratorException {
+
+      TestProblem5 pb = new TestProblem5();
+      double step = Math.abs(pb.getFinalTime() - pb.getInitialTime()) * 0.001;
+
+      FirstOrderIntegrator integ = new MidpointIntegrator(step);
+      TestProblemHandler handler = new TestProblemHandler(pb, integ);
+      integ.addStepHandler(handler);
+      integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
+                      pb.getFinalTime(), new double[pb.getDimension()]);
+
+      assertTrue(handler.getLastError() < 6.0e-4);
+      assertTrue(handler.getMaximalValueError() < 6.0e-4);
+      assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
+      assertEquals("midpoint", integ.getName());
+  }
+
   public void testStepSize()
     throws DerivativeException, IntegratorException {
       final double step = 1.23456;

@@ -138,6 +138,29 @@ public class HighamHall54IntegratorTest
 
   }
 
+  public void testBackward()
+      throws DerivativeException, IntegratorException {
+
+      TestProblem5 pb = new TestProblem5();
+      double minStep = 0;
+      double maxStep = pb.getFinalTime() - pb.getInitialTime();
+      double scalAbsoluteTolerance = 1.0e-8;
+      double scalRelativeTolerance = 0.01 * scalAbsoluteTolerance;
+
+      FirstOrderIntegrator integ = new HighamHall54Integrator(minStep, maxStep,
+                                                              scalAbsoluteTolerance,
+                                                              scalRelativeTolerance);
+      TestProblemHandler handler = new TestProblemHandler(pb, integ);
+      integ.addStepHandler(handler);
+      integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
+                      pb.getFinalTime(), new double[pb.getDimension()]);
+
+      assertTrue(handler.getLastError() < 5.0e-7);
+      assertTrue(handler.getMaximalValueError() < 5.0e-7);
+      assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
+      assertEquals("Higham-Hall 5(4)", integ.getName());
+  }
+
   public void testEvents()
     throws DerivativeException, IntegratorException {
 
