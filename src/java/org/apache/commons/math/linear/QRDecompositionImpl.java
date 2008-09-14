@@ -18,31 +18,33 @@
 package org.apache.commons.math.linear;
 
 /**
- * Calculates the QR-decomposition of a matrix. In the QR-decomposition of
- * a matrix A consists of two matrices Q and R that satisfy: A = QR, Q is
- * orthogonal (Q<sup>T</sup>Q = I), and R is upper triangular. If A is
- * m&times;n, Q is m&times;m and R m&times;n. 
- * <p>
- * Implemented using Householder reflectors.</p>
+ * Calculates the QR-decomposition of a matrix.
+ * <p>The QR-decomposition of a matrix A consists of two matrices Q and R
+ * that satisfy: A = QR, Q is orthogonal (Q<sup>T</sup>Q = I), and R is
+ * upper triangular. If A is m&times;n, Q is m&times;m and R m&times;n.</p>
+ * <p>This class compute the decomposition using Householder reflectors.</p>
+ * <p>For efficiency purposes, the decomposition in packed form is transposed.
+ * This allows inner loop to iterate inside rows, which is much more cache-efficient
+ * in Java.</p>
  *
  * @see <a href="http://mathworld.wolfram.com/QRDecomposition.html">MathWorld</a>
  * @see <a href="http://en.wikipedia.org/wiki/QR_decomposition">Wikipedia</a>
- * 
+ *
  * @version $Revision$ $Date$
  * @since 1.2
  */
 public class QRDecompositionImpl implements QRDecomposition {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 7125583145349720380L;
+    private static final long serialVersionUID = 7560093145655650408L;
 
     /**
-     * A packed representation of the QR decomposition. The elements above the 
-     * diagonal are the elements of R, and the columns of the lower triangle 
-     * are the Householder reflector vectors of which an explicit form of Q can
-     * be calculated. 
+     * A packed TRANSPOSED representation of the QR decomposition.
+     * <p>The elements BELOW the diagonal are the elements of the UPPER triangular
+     * matrix R, and the rows ABOVE the diagonal are the Householder reflector vectors
+     * from which an explicit form of Q can be recomputed if desired.</p>
      */
-    private double[][] qr;
+    private double[][] qrt;
 
     /** The diagonal elements of R. */
     private double[] rDiag;
@@ -80,9 +82,10 @@ public class QRDecompositionImpl implements QRDecomposition {
 
     /** {@inheritDoc} */
     public void decompose(RealMatrix matrix) {
+
         final int m = matrix.getRowDimension();
         final int n = matrix.getColumnDimension();
-        qr = matrix.getData();
+        qrt = matrix.transpose().getData();
         rDiag = new double[n];
         cachedQ = null;
         cachedR = null;
@@ -94,6 +97,9 @@ public class QRDecompositionImpl implements QRDecomposition {
          * A(minor,minor) of A:
          */
         for (int minor = 0; minor < Math.min(m, n); minor++) {
+
+            final double[] qrtMinor = qrt[minor];
+
             /*
              * Let x be the first column of the minor, and a^2 = |x|^2.
              * x will be in the positions qr[minor][minor] through qr[m][minor].
@@ -103,10 +109,10 @@ public class QRDecompositionImpl implements QRDecomposition {
              */
             double xNormSqr = 0;
             for (int row = minor; row < m; row++) {
-                final double c = qr[row][minor];
+                final double c = qrtMinor[row];
                 xNormSqr += c * c;
             }
-            final double a = (qr[minor][minor] > 0) ? -Math.sqrt(xNormSqr) : Math.sqrt(xNormSqr);
+            final double a = (qrtMinor[minor] > 0) ? -Math.sqrt(xNormSqr) : Math.sqrt(xNormSqr);
             rDiag[minor] = a;
 
             if (a != 0.0) {
@@ -119,7 +125,7 @@ public class QRDecompositionImpl implements QRDecomposition {
                  * Here <x, e> is now qr[minor][minor].
                  * v = x-ae is stored in the column at qr:
                  */
-                qr[minor][minor] -= a; // now |v|^2 = -2a*(qr[minor][minor])
+                qrtMinor[minor] -= a; // now |v|^2 = -2a*(qr[minor][minor])
 
                 /*
                  * Transform the rest of the columns of the minor:
@@ -128,23 +134,22 @@ public class QRDecompositionImpl implements QRDecomposition {
                  * Hx = (I-2vv'/|v|^2)x = x-2vv'x/|v|^2 = x - 2<x,v>/|v|^2 v.
                  * Therefore the transformation is easily calculated by
                  * subtracting the column vector (2<x,v>/|v|^2)v from x.
-                 * 
+                 *
                  * Let 2<x,v>/|v|^2 = alpha. From above we have
                  * |v|^2 = -2a*(qr[minor][minor]), so
                  * alpha = -<x,v>/(a*qr[minor][minor])
                  */
-                for (int col = minor + 1; col < n; col++) {
+                for (int col = minor+1; col < n; col++) {
+                    final double[] qrtCol = qrt[col];
                     double alpha = 0;
                     for (int row = minor; row < m; row++) {
-                        final double[] qrRow = qr[row];
-                        alpha -= qrRow[col] * qrRow[minor];
+                        alpha -= qrtCol[row] * qrtMinor[row];
                     }
-                    alpha /= a * qr[minor][minor];
+                    alpha /= a * qrtMinor[minor];
 
                     // Subtract the column vector alpha*v from x.
                     for (int row = minor; row < m; row++) {
-                        final double[] qrRow = qr[row];
-                        qrRow[col] -= alpha * qrRow[minor];
+                        qrtCol[row] -= alpha * qrtMinor[row];
                     }
                 }
             }
@@ -160,15 +165,17 @@ public class QRDecompositionImpl implements QRDecomposition {
             checkDecomposed();
 
             // R is supposed to be m x n
-            final int m = qr.length;
-            final int n = qr[0].length;
+            final int n = qrt.length;
+            final int m = qrt[0].length;
             double[][] r = new double[m][n];
 
             // copy the diagonal from rDiag and the upper triangle of qr
-            for (int row = Math.min(m,n)-1; row >= 0; row--) {
-                final double[] rRow = r[row];
+            for (int row = Math.min(m, n) - 1; row >= 0; row--) {
+                double[] rRow = r[row];
                 rRow[row] = rDiag[row];
-                System.arraycopy(qr[row], row + 1, rRow, row + 1, n - row - 1);
+                for (int col = row + 1; col < n; col++) {
+                    rRow[col] = qrt[col][row];
+                }
             }
 
             // cache the matrix for subsequent calls
@@ -190,38 +197,39 @@ public class QRDecompositionImpl implements QRDecomposition {
             checkDecomposed();
 
             // Q is supposed to be m x m
-            final int m = qr.length;
-            final int n = qr[0].length;
-            double[][] Q = new double[m][m];
+            final int n = qrt.length;
+            final int m = qrt[0].length;
+            double[][] q = new double[m][m];
 
             /* 
              * Q = Q1 Q2 ... Q_m, so Q is formed by first constructing Q_m and then 
              * applying the Householder transformations Q_(m-1),Q_(m-2),...,Q1 in 
              * succession to the result 
              */ 
-            for (int minor = m-1; minor >= Math.min(m,n); minor--) {
-                Q[minor][minor]=1;
+            for (int minor = m - 1; minor >= Math.min(m, n); minor--) {
+                q[minor][minor]=1;
             }
 
             for (int minor = Math.min(m,n)-1; minor >= 0; minor--){
-                Q[minor][minor] = 1;
-                if (qr[minor][minor] != 0.0) {
+                final double[] qrtMinor = qrt[minor];
+                q[minor][minor] = 1;
+                if (qrtMinor[minor] != 0.0) {
                     for (int col = minor; col < m; col++) {
                         double alpha = 0;
                         for (int row = minor; row < m; row++) {
-                            alpha -= Q[row][col] * qr[row][minor];
+                            alpha -= q[row][col] * qrtMinor[row];
                         }
-                        alpha /= rDiag[minor]*qr[minor][minor];
+                        alpha /= rDiag[minor] * qrtMinor[minor];
 
                         for (int row = minor; row < m; row++) {
-                            Q[row][col] -= alpha*qr[row][minor];
+                            q[row][col] -= alpha * qrtMinor[row];
                         }
                     }
                 }
             }
 
             // cache the matrix for subsequent calls
-            cachedQ = new RealMatrixImpl(Q, false);
+            cachedQ = new RealMatrixImpl(q, false);
 
         }
 
@@ -238,12 +246,13 @@ public class QRDecompositionImpl implements QRDecomposition {
 
             checkDecomposed();
 
-            final int m = qr.length;
-            final int n = qr[0].length;
+            final int n = qrt.length;
+            final int m = qrt[0].length;
             double[][] hData = new double[m][n];
             for (int i = 0; i < m; ++i) {
+                final double[] hDataI = hData[i];
                 for (int j = 0; j < Math.min(i + 1, n); ++j) {
-                    hData[i][j] = qr[i][j] / -rDiag[j];
+                    hDataI[j] = qrt[j][i] / -rDiag[j];
                 }
             }
 
@@ -278,8 +287,8 @@ public class QRDecompositionImpl implements QRDecomposition {
  
         checkDecomposed();
 
-        final int m = qr.length;
-        final int n = qr[0].length;
+        final int n = qrt.length;
+        final int m = qrt[0].length;
         if (b.length != m) {
             throw new IllegalArgumentException("Incorrect row dimension");
         }
@@ -293,14 +302,15 @@ public class QRDecompositionImpl implements QRDecomposition {
         // apply Householder transforms to solve Q.y = b
         for (int minor = 0; minor < Math.min(m, n); minor++) {
 
+            final double[] qrtMinor = qrt[minor];
             double dotProduct = 0;
             for (int row = minor; row < m; row++) {
-                dotProduct += y[row] * qr[row][minor];
+                dotProduct += y[row] * qrtMinor[row];
             }
-            dotProduct /= rDiag[minor] * qr[minor][minor];
+            dotProduct /= rDiag[minor] * qrtMinor[minor];
 
             for (int row = minor; row < m; row++) {
-                y[row] += dotProduct * qr[row][minor];
+                y[row] += dotProduct * qrtMinor[row];
             }
 
         }
@@ -308,10 +318,11 @@ public class QRDecompositionImpl implements QRDecomposition {
         // solve triangular system R.x = y
         for (int row = n - 1; row >= 0; --row) {
             y[row] /= rDiag[row];
-            final double yRow = y[row];
+            final double yRow   = y[row];
+            final double[] qrtRow = qrt[row];
             x[row] = yRow;
             for (int i = 0; i < row; i++) {
-                y[i] -= yRow * qr[i][row];
+                y[i] -= yRow * qrtRow[i];
             }
         }
 
@@ -350,8 +361,8 @@ public class QRDecompositionImpl implements QRDecomposition {
 
         checkDecomposed();
 
-        final int m = qr.length;
-        final int n = qr[0].length;
+        final int n = qrt.length;
+        final int m = qrt[0].length;
         if (b.getRowDimension() != m) {
             throw new IllegalArgumentException("Incorrect row dimension");
         }
@@ -373,14 +384,15 @@ public class QRDecompositionImpl implements QRDecomposition {
             // apply Householder transforms to solve Q.y = b
             for (int minor = 0; minor < Math.min(m, n); minor++) {
 
+                final double[] qrtMinor = qrt[minor];
                 double dotProduct = 0;
                 for (int row = minor; row < m; row++) {
-                    dotProduct += y[row] * qr[row][minor];
+                    dotProduct += y[row] * qrtMinor[row];
                 }
-                dotProduct /= rDiag[minor] * qr[minor][minor];
+                dotProduct /= rDiag[minor] * qrtMinor[minor];
 
                 for (int row = minor; row < m; row++) {
-                    y[row] += dotProduct * qr[row][minor];
+                    y[row] += dotProduct * qrtMinor[row];
                 }
 
             }
@@ -389,9 +401,10 @@ public class QRDecompositionImpl implements QRDecomposition {
             for (int row = n - 1; row >= 0; --row) {
                 y[row] /= rDiag[row];
                 final double yRow = y[row];
+                final double[] qrtRow = qrt[row];
                 xData[row][k] = yRow;
                 for (int i = 0; i < row; i++) {
-                   y[i] -= yRow * qr[i][row];
+                   y[i] -= yRow * qrtRow[i];
                 }
              }
 
@@ -408,7 +421,7 @@ public class QRDecompositionImpl implements QRDecomposition {
      */
     private void checkDecomposed()
         throws IllegalStateException {
-        if (qr == null) {
+        if (qrt == null) {
             throw new IllegalStateException("no matrix have been decomposed yet");
         }
     }
