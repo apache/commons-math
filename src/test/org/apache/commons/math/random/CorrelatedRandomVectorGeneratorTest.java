@@ -39,6 +39,29 @@ extends TestCase {
         assertEquals(3, generator.getRank());
     }
 
+    public void testMath226()
+        throws DimensionMismatchException, NotPositiveDefiniteMatrixException {
+        double[] mean = { 1, 1, 10, 1 };
+        double[][] cov = {
+                { 1, 3, 2, 6 },
+                { 3, 13, 16, 2 },
+                { 2, 16, 38, -1 },
+                { 6, 2, -1, 197 }
+        };
+        RealMatrix covRM = new RealMatrixImpl(cov, false);
+        JDKRandomGenerator jg = new JDKRandomGenerator();
+        jg.setSeed(5322145245211l);
+        NormalizedRandomGenerator rg = new GaussianRandomGenerator(jg);
+        CorrelatedRandomVectorGenerator sg =
+            new CorrelatedRandomVectorGenerator(mean, covRM, 0.00001, rg);
+
+        for (int i = 0; i < 10; i++) {
+            double[] generated = sg.nextVector();
+            assertTrue(Math.abs(generated[0] - 1) > 0.1);
+        }
+
+    }
+
     public void testRootMatrix() {
         RealMatrix b = generator.getRootMatrix();
         RealMatrix bbt = b.multiply(b.transpose());
