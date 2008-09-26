@@ -65,6 +65,9 @@ Commons Math Release Notes</title>
       <action dev="brentworden" type="fix" issue="MATH-204" due-to="Mick">
         Added root checks for the endpoints.
       </action>
+      <action dev="brentworden" type="fix" issue="MATH-227" due-to="Joerg Henning">
+        Fixed F distribution inverse CDF computation for small denominator degrees of freedom.
+      </action>
     </release>
     <release version="1.2" date="2008-02-24"
     description="This release combines bug fixes and new features. Most notable
