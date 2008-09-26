@@ -141,8 +141,13 @@ public class FDistributionImpl
      * @return initial domain value
      */
     protected double getInitialDomain(double p) {
-        return getDenominatorDegreesOfFreedom() /
-            (getDenominatorDegreesOfFreedom() - 2.0);
+        double ret = 1.0;
+        double d = getDenominatorDegreesOfFreedom();
+        if (d > 2.0) {
+            // use mean
+            ret = d / (d - 2.0);
+        }
+        return ret;
     }
     
     /**
