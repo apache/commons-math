@@ -19,6 +19,7 @@ package org.apache.commons.math.genetics;
 /**
  * Implementation of a genetic algorithm. All factors that govern the operation
  * of the algorithm can be configured for a specific problem.
+ * 
  * @version $Revision$ $Date$
  */
 public class GeneticAlgorithm {
@@ -99,7 +100,24 @@ public class GeneticAlgorithm {
     }
 
     /**
-     * Evolve the given population into the next generation.
+     * <p>Evolve the given population into the next generation.</p>
+     * <p><ol>
+     *    <li>Get nextGeneration polulation to fill from <code>current</code>
+     *        generation, using its nextGeneration method</li>
+     *    <li>Loop until new generation is filled:</li>
+     *    <ul><li>Apply configured SelectionPolicy to select a pair of parents
+     *            from <code>current</code></li>
+     *        <li>With probability = {@link #getCrossoverRate()}, apply
+     *            configured {@link CrossoverPolicy} to parents</li>
+     *        <li>With probability = {@link #getMutationRate()}, apply
+     *            configured {@link MutationPolicy} to each parent</li>
+     *        <li>Add resulting chromosomes individually to nextGeneration,
+     *            space permitting</li>
+     *    </ul>
+     *    <li>Return nextGeneration</li>
+     *    </ol>
+     * </p>
+     * 
      * 
      * @param current the current population.
      * @return the population for the next generation.
@@ -112,23 +130,29 @@ public class GeneticAlgorithm {
             // select parent chromosomes
             ChromosomePair pair = getSelectionPolicy().select(current);
 
-            // apply crossover policy to create two offspring
+            // crossover?
             if (Math.random() < getCrossoverRate()) {
+                // apply crossover policy to create two offspring
                 pair = getCrossoverPolicy().crossover(pair.getFirst(),
                         pair.getSecond());
             }
 
-            // apply mutation policy to first offspring
+            // mutation?
             if (Math.random() < getMutationRate()) {
-                nextGeneration.addChromosome(getMutationPolicy().mutate(
-                        pair.getFirst()));
+                // apply mutation policy to the chromosomes
+                pair = new ChromosomePair(
+                              getMutationPolicy().mutate(pair.getFirst()),
+                              getMutationPolicy().mutate(pair.getSecond())
+                           );
+            }
 
-                if (nextGeneration.getPopulationSize() < nextGeneration
-                        .getPopulationLimit()) {
-                    // apply mutation policy to second offspring
-                    nextGeneration.addChromosome(getMutationPolicy().mutate(
-                            pair.getSecond()));
-                }
+            // add the first chromosome to the population
+            nextGeneration.addChromosome(pair.getFirst());
+            // is there still a place for the second chromosome?
+            if (nextGeneration.getPopulationSize() < nextGeneration
+                    .getPopulationLimit()) {
+                // add the second chromosome to the population
+                nextGeneration.addChromosome(pair.getSecond());
             }
         }
 
