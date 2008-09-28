@@ -222,14 +222,18 @@ public interface RealMatrix {
      *
      * @return inverse matrix
      * @throws InvalidMatrixException if  this is not invertible
+     * @deprecated as of release 2.0, replaced by {@link DecompositionSolver#getInverse()}
      */
+    @Deprecated
     RealMatrix inverse() throws InvalidMatrixException;
 
     /**
      * Returns the determinant of this matrix.
      *
      * @return determinant
+     * @deprecated as of release 2.0, replaced by {@link LUDecomposition#getDeterminant()}
      */
+    @Deprecated
     double getDeterminant();
 
     /**
@@ -241,7 +245,10 @@ public interface RealMatrix {
     /**
      * Is this a singular matrix?
      * @return true if the matrix is singular
+     * @deprecated as of release 2.0, replaced by the boolean negation of
+     * {@link DecompositionSolver#isNonSingular()}
      */
+    @Deprecated
     boolean isSingular();
 
     /**
@@ -310,19 +317,10 @@ public interface RealMatrix {
      * @return vector of solution values to AX = b, where A is *this
      * @throws IllegalArgumentException if this.rowDimension != b.length
      * @throws InvalidMatrixException if this matrix is not square or is singular
+     * @deprecated as of release 2.0, replaced by {@link DecompositionSolver#solve(double[])}
      */
+    @Deprecated
     double[] solve(double[] b) throws IllegalArgumentException, InvalidMatrixException;
-
-    /**
-     * Returns the solution vector for a linear system with coefficient
-     * matrix = this and constant vector = <code>b</code>.
-     *
-     * @param b  constant vector
-     * @return vector of solution values to AX = b, where A is *this
-     * @throws IllegalArgumentException if this.rowDimension != b.length
-     * @throws InvalidMatrixException if this matrix is not square or is singular
-     */
-    RealVector solve(RealVector b) throws IllegalArgumentException, InvalidMatrixException;
 
     /**
      * Returns a matrix of (column) solution vectors for linear systems with
@@ -334,7 +332,9 @@ public interface RealMatrix {
      * @return matrix of solution vectors
      * @throws IllegalArgumentException if this.rowDimension != row dimension
      * @throws InvalidMatrixException if this matrix is not square or is singular
+     * @deprecated as of release 2.0, replaced by {@link DecompositionSolver#solve(RealMatrix)}
      */
+    @Deprecated
     RealMatrix solve(RealMatrix b) throws IllegalArgumentException, InvalidMatrixException;
 
 }
