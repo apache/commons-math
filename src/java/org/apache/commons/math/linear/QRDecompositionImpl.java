@@ -205,7 +205,7 @@ public class QRDecompositionImpl implements QRDecomposition {
     public RealMatrix getQT()
         throws IllegalStateException {
 
-            if (cachedQ == null) {
+            if (cachedQT == null) {
 
             checkDecomposed();
 
