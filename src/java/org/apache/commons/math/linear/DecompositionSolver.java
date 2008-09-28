@@ -45,7 +45,7 @@ public interface DecompositionSolver extends Serializable {
      * for {@link LUDecomposition})
      */
     void decompose(RealMatrix matrix)
-      throws InvalidMatrixException;
+        throws InvalidMatrixException;
 
     /** Solve the linear equation A &times; X = B.
      * <p>The A matrix is implicit here. It <strong>must</strong> have
@@ -58,7 +58,7 @@ public interface DecompositionSolver extends Serializable {
      * @exception InvalidMatrixException if decomposed matrix is singular
      */
     double[] solve(double[] b)
-      throws IllegalStateException, IllegalArgumentException, InvalidMatrixException;
+        throws IllegalStateException, IllegalArgumentException, InvalidMatrixException;
 
     /** Solve the linear equation A &times; X = B.
      * <p>The A matrix is implicit here. It <strong>must</strong> have
@@ -71,7 +71,7 @@ public interface DecompositionSolver extends Serializable {
      * @exception InvalidMatrixException if decomposed matrix is singular
      */
     RealVector solve(RealVector b)
-      throws IllegalStateException, IllegalArgumentException, InvalidMatrixException;
+        throws IllegalStateException, IllegalArgumentException, InvalidMatrixException;
 
     /** Solve the linear equation A &times; X = B.
      * <p>The A matrix is implicit here. It <strong>must</strong> have
@@ -84,6 +84,23 @@ public interface DecompositionSolver extends Serializable {
      * @exception InvalidMatrixException if decomposed matrix is singular
      */
     RealMatrix solve(RealMatrix b)
-      throws IllegalStateException, IllegalArgumentException, InvalidMatrixException;
+        throws IllegalStateException, IllegalArgumentException, InvalidMatrixException;
+
+    /**
+     * Check if the decomposed matrix is non-singular.
+     * @return true if the decomposed matrix is non-singular
+     * @exception IllegalStateException if {@link
+     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
+     */
+    boolean isNonSingular() throws IllegalStateException;
+
+    /** Get the inverse of the decomposed matrix.
+     * @return inverse matrix
+     * @exception IllegalStateException if {@link #decompose(RealMatrix) decompose}
+     * has not been called
+     * @throws InvalidMatrixException if decomposed matrix is singular
+     */
+    RealMatrix getInverse()
+        throws IllegalStateException, InvalidMatrixException;
 
 }

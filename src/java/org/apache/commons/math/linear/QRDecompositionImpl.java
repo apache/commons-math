@@ -36,7 +36,7 @@ package org.apache.commons.math.linear;
 public class QRDecompositionImpl implements QRDecomposition {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 7560093145655650408L;
+    private static final long serialVersionUID = -5179446891802932307L;
 
     /**
      * A packed TRANSPOSED representation of the QR decomposition.
@@ -267,7 +267,7 @@ public class QRDecompositionImpl implements QRDecomposition {
     }
 
     /** {@inheritDoc} */
-    public boolean isFullRank()
+    public boolean isNonSingular()
         throws IllegalStateException {
 
         checkDecomposed();
@@ -292,7 +292,7 @@ public class QRDecompositionImpl implements QRDecomposition {
         if (b.length != m) {
             throw new IllegalArgumentException("Incorrect row dimension");
         }
-        if (!isFullRank()) {
+        if (!isNonSingular()) {
             throw new InvalidMatrixException("Matrix is rank-deficient");
         }
 
@@ -366,7 +366,7 @@ public class QRDecompositionImpl implements QRDecomposition {
         if (b.getRowDimension() != m) {
             throw new IllegalArgumentException("Incorrect row dimension");
         }
-        if (!isFullRank()) {
+        if (!isNonSingular()) {
             throw new InvalidMatrixException("Matrix is rank-deficient");
         }
 
@@ -412,6 +412,13 @@ public class QRDecompositionImpl implements QRDecomposition {
 
         return new RealMatrixImpl(xData, false);
 
+    }
+
+    /** {@inheritDoc} */
+    public RealMatrix getInverse()
+        throws IllegalStateException, InvalidMatrixException {
+        checkDecomposed();
+        return solve(MatrixUtils.createRealIdentityMatrix(rDiag.length));
     }
 
     /**

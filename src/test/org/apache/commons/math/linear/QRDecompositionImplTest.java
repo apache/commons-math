@@ -200,16 +200,16 @@ public class QRDecompositionImplTest extends TestCase {
     public void testRank() {
         QRDecomposition qr =
             new QRDecompositionImpl(new RealMatrixImpl(testData3x3NonSingular, false));
-        assertTrue(qr.isFullRank());
+        assertTrue(qr.isNonSingular());
 
         qr = new QRDecompositionImpl(new RealMatrixImpl(testData3x3Singular, false));
-        assertFalse(qr.isFullRank());
+        assertFalse(qr.isNonSingular());
 
         qr = new QRDecompositionImpl(new RealMatrixImpl(testData3x4, false));
-        assertFalse(qr.isFullRank());
+        assertFalse(qr.isNonSingular());
 
         qr = new QRDecompositionImpl(new RealMatrixImpl(testData4x3, false));
-        assertTrue(qr.isFullRank());
+        assertTrue(qr.isNonSingular());
 
     }
 
@@ -352,7 +352,7 @@ public class QRDecompositionImplTest extends TestCase {
     /** test no call to decompose */
     public void testNoDecompose() {
         try {
-            new QRDecompositionImpl().isFullRank();
+            new QRDecompositionImpl().isNonSingular();
             fail("an exception should have been caught");
         } catch (IllegalStateException ise) {
             // expected behavior

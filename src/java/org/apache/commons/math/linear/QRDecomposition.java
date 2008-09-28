@@ -24,8 +24,12 @@ package org.apache.commons.math.linear;
  * <a href="http://math.nist.gov/javanumerics/jama/">JAMA</a> library, with the
  * following changes:</p>
  * <ul>
- *   <li>several signatures have been added for the <code>solve</code> methods (in the superinterface),</code>
- *   <li>a <code>decompose</code> method has been added (in the superinterface),</code>
+ *   <li>several signatures have been added for the <code>solve</code> methods
+ *   (in the superinterface),</li>
+ *   <li>a {@link DecompositionSolver#decompose(RealMatrix) decompose} method
+ *   has been added (in the superinterface),</li>
+ *   <li>the <code>isFullRank</code> method has been replaced by the {@link
+ *   DecompositionSolver#isNonSingular() isNonSingular} method in the superinterface.</li>
  * </ul>
  *   
  * @see <a href="http://mathworld.wolfram.com/QRDecomposition.html">MathWorld</a>
@@ -63,13 +67,5 @@ public interface QRDecomposition extends DecompositionSolver {
      * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
      */
     RealMatrix getH() throws IllegalStateException;
-
-    /**
-     * Check if the decomposed matrix is full rank.
-     * @return true if the decomposed matrix is full rank
-     * @exception IllegalStateException if {@link
-     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
-     */
-    boolean isFullRank() throws IllegalStateException;
 
 }

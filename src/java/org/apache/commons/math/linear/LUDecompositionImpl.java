@@ -32,7 +32,7 @@ package org.apache.commons.math.linear;
 public class LUDecompositionImpl implements LUDecomposition {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -9052751605297201067L;
+    private static final long serialVersionUID = 3446121671437672843L;
 
     /** Entries of LU decomposition. */
     private double lu[][];
@@ -108,7 +108,7 @@ public class LUDecompositionImpl implements LUDecomposition {
     public void decompose(RealMatrix matrix, double singularityThreshold)
         throws InvalidMatrixException {
         if (!matrix.isSquare()) {
-            throw new InvalidMatrixException("LU decomposition requires that the matrix be square.");
+            throw new InvalidMatrixException("LU decomposition requires that the matrix be square");
         }
         final int m = matrix.getColumnDimension();
         lu = matrix.getData();
@@ -411,6 +411,13 @@ public class LUDecompositionImpl implements LUDecomposition {
 
         return new RealMatrixImpl(bp, false);
 
+    }
+
+    /** {@inheritDoc} */
+    public RealMatrix getInverse()
+        throws IllegalStateException, InvalidMatrixException {
+        checkDecomposed();
+        return solve(MatrixUtils.createRealIdentityMatrix(pivot.length));
     }
 
     /**

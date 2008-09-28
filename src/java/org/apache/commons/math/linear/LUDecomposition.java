@@ -96,15 +96,6 @@ public interface LUDecomposition extends DecompositionSolver {
     int[] getPivot() throws IllegalStateException;
 
     /**
-     * Check if the decomposed matrix is non-singular.
-     * @return true if the decomposed matrix is non-singular
-     * @exception IllegalStateException if {@link
-     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
-     * @see #getDeterminant()
-     */
-    boolean isNonSingular() throws IllegalStateException;
-
-    /**
      * Return the determinant of the matrix
      * @return determinant of the matrix
      * @exception IllegalStateException if {@link
