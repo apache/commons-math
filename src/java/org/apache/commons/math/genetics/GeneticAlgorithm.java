@@ -110,8 +110,8 @@ public class GeneticAlgorithm {
      *        <li>With probability = {@link #getCrossoverRate()}, apply
      *            configured {@link CrossoverPolicy} to parents</li>
      *        <li>With probability = {@link #getMutationRate()}, apply
-     *            configured {@link MutationPolicy} to each parent</li>
-     *        <li>Add resulting chromosomes individually to nextGeneration,
+     *            configured {@link MutationPolicy} to each of the offspring</li>
+     *        <li>Add offspring individually to nextGeneration,
      *            space permitting</li>
      *    </ul>
      *    <li>Return nextGeneration</li>
