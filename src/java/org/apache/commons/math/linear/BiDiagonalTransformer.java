@@ -59,10 +59,9 @@ class BiDiagonalTransformer implements Serializable {
 
     /**
      * Build the transformation to bi-diagonal shape of a matrix. 
-     * @param matrix The matrix to transform.
+     * @param matrix the matrix to transform.
      */
-    public BiDiagonalTransformer(RealMatrix matrix)
-        throws InvalidMatrixException {
+    public BiDiagonalTransformer(RealMatrix matrix) {
 
         final int m = matrix.getRowDimension();
         final int n = matrix.getColumnDimension();
@@ -148,12 +147,15 @@ class BiDiagonalTransformer implements Serializable {
             final int n = householderVectors[0].length;
             double[][] bData = new double[m][n];
             for (int i = 0; i < main.length; ++i) {
-                bData[i][i] = main[i];
-                if (i < main.length - 1) {
-                    if (m < n) {
-                        bData[i + 1][i] = secondary[i];
-                    } else {
-                        bData[i][i + 1] = secondary[i];
+                double[] bDataI = bData[i];
+                bDataI[i] = main[i];
+                if (m < n) {
+                    if (i > 0) {
+                        bDataI[i - 1] = secondary[i - 1];
+                    }
+                } else {
+                    if (i < main.length - 1) {
+                        bDataI[i + 1] = secondary[i];
                     }
                 }
             }
@@ -276,45 +278,45 @@ class BiDiagonalTransformer implements Serializable {
                 final double c = householderVectors[i][k];
                 xNormSqr += c * c;
             }
-            final double a = (householderVectors[k][k] > 0) ? -Math.sqrt(xNormSqr) : Math.sqrt(xNormSqr);
+            final double[] hK = householderVectors[k];
+            final double a = (hK[k] > 0) ? -Math.sqrt(xNormSqr) : Math.sqrt(xNormSqr);
             main[k] = a;
             if (a != 0.0) {
-                householderVectors[k][k] -= a;
+                hK[k] -= a;
                 for (int j = k + 1; j < n; ++j) {
                     double alpha = 0;
                     for (int i = k; i < m; ++i) {
-                        final double[] uvI = householderVectors[i];
-                        alpha -= uvI[j] * uvI[k];
+                        final double[] hI = householderVectors[i];
+                        alpha -= hI[j] * hI[k];
                     }
                     alpha /= a * householderVectors[k][k];
                     for (int i = k; i < m; ++i) {
-                        final double[] uvI = householderVectors[i];
-                        uvI[j] -= alpha * uvI[k];
+                        final double[] hI = householderVectors[i];
+                        hI[j] -= alpha * hI[k];
                     }
                 }
             }
 
             if (k < n - 1) {
                 //zero-out a row
-                final double[] uvK = householderVectors[k];
                 xNormSqr = 0;
                 for (int j = k + 1; j < n; ++j) {
-                    final double c = uvK[j];
+                    final double c = hK[j];
                     xNormSqr += c * c;
                 }
-                final double b = (uvK[k + 1] > 0) ? -Math.sqrt(xNormSqr) : Math.sqrt(xNormSqr);
+                final double b = (hK[k + 1] > 0) ? -Math.sqrt(xNormSqr) : Math.sqrt(xNormSqr);
                 secondary[k] = b;
                 if (b != 0.0) {
-                    uvK[k + 1] -= b;
+                    hK[k + 1] -= b;
                     for (int i = k + 1; i < m; ++i) {
-                        final double[] uvI = householderVectors[i];
+                        final double[] hI = householderVectors[i];
                         double beta = 0;
                         for (int j = k + 1; j < n; ++j) {
-                            beta -= uvI[j] * uvK[j];
+                            beta -= hI[j] * hK[j];
                         }
-                        beta /= b * uvK[k + 1];
+                        beta /= b * hK[k + 1];
                         for (int j = k + 1; j < n; ++j) {
-                            uvI[j] -= beta * uvK[j];
+                            hI[j] -= beta * hK[j];
                         }
                     }
                 }
@@ -335,50 +337,51 @@ class BiDiagonalTransformer implements Serializable {
         for (int k = 0; k < m; k++) {
 
             //zero-out a row
-            final double[] uvK = householderVectors[k];
+            final double[] hK = householderVectors[k];
             double xNormSqr = 0;
             for (int j = k; j < n; ++j) {
-                final double c = uvK[j];
+                final double c = hK[j];
                 xNormSqr += c * c;
             }
-            final double a = (uvK[k] > 0) ? -Math.sqrt(xNormSqr) : Math.sqrt(xNormSqr);
+            final double a = (hK[k] > 0) ? -Math.sqrt(xNormSqr) : Math.sqrt(xNormSqr);
             main[k] = a;
             if (a != 0.0) {
-                uvK[k] -= a;
+                hK[k] -= a;
                 for (int i = k + 1; i < m; ++i) {
-                    final double[] uvI = householderVectors[i];
+                    final double[] hI = householderVectors[i];
                     double alpha = 0;
                     for (int j = k; j < n; ++j) {
-                        alpha -= uvI[j] * uvK[j];
+                        alpha -= hI[j] * hK[j];
                     }
                     alpha /= a * householderVectors[k][k];
                     for (int j = k; j < n; ++j) {
-                        uvI[j] -= alpha * uvK[j];
+                        hI[j] -= alpha * hK[j];
                     }
                 }
             }
 
             if (k < m - 1) {
                 //zero-out a column
+                final double[] hKp1 = householderVectors[k + 1];
                 xNormSqr = 0;
                 for (int i = k + 1; i < m; ++i) {
                     final double c = householderVectors[i][k];
                     xNormSqr += c * c;
                 }
-                final double b = (householderVectors[k + 1][k] > 0) ? -Math.sqrt(xNormSqr) : Math.sqrt(xNormSqr);
+                final double b = (hKp1[k] > 0) ? -Math.sqrt(xNormSqr) : Math.sqrt(xNormSqr);
                 secondary[k] = b;
                 if (b != 0.0) {
-                    householderVectors[k + 1][k] -= b;
+                    hKp1[k] -= b;
                     for (int j = k + 1; j < n; ++j) {
                         double beta = 0;
                         for (int i = k + 1; i < m; ++i) {
-                            final double[] uvI = householderVectors[i];
-                            beta -= uvI[j] * uvI[k];
+                            final double[] hI = householderVectors[i];
+                            beta -= hI[j] * hI[k];
                         }
-                        beta /= b * householderVectors[k + 1][k];
+                        beta /= b * hKp1[k];
                         for (int i = k + 1; i < m; ++i) {
-                            final double[] uvI = householderVectors[i];
-                            uvI[j] -= beta * uvI[k];
+                            final double[] hI = householderVectors[i];
+                            hI[j] -= beta * hI[k];
                         }
                     }
                 }
