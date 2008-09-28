@@ -109,31 +109,31 @@ public class QRDecompositionImplTest extends TestCase {
     /** test the orthogonality of Q */
     public void testQOrthogonal() {
         RealMatrix matrix = new RealMatrixImpl(testData3x3NonSingular, false);
-        matrix = new QRDecompositionImpl(matrix).getQ();
+        RealMatrix q  = new QRDecompositionImpl(matrix).getQ();
+        RealMatrix qT = new QRDecompositionImpl(matrix).getQT();
         RealMatrix eye = MatrixUtils.createRealIdentityMatrix(3);
-        double norm = matrix.transpose().multiply(matrix).subtract(eye)
-                .getNorm();
+        double norm = qT.multiply(q).subtract(eye).getNorm();
         assertEquals("3x3 nonsingular Q'Q = I", 0, norm, normTolerance);
 
         matrix = new RealMatrixImpl(testData3x3Singular, false);
-        matrix = new QRDecompositionImpl(matrix).getQ();
+        q  = new QRDecompositionImpl(matrix).getQ();
+        qT = new QRDecompositionImpl(matrix).getQT();
         eye = MatrixUtils.createRealIdentityMatrix(3);
-        norm = matrix.transpose().multiply(matrix).subtract(eye)
-                .getNorm();
+        norm = qT.multiply(q).subtract(eye).getNorm();
         assertEquals("3x3 singular Q'Q = I", 0, norm, normTolerance);
 
         matrix = new RealMatrixImpl(testData3x4, false);
-        matrix = new QRDecompositionImpl(matrix).getQ();
+        q  = new QRDecompositionImpl(matrix).getQ();
+        qT = new QRDecompositionImpl(matrix).getQT();
         eye = MatrixUtils.createRealIdentityMatrix(3);
-        norm = matrix.transpose().multiply(matrix).subtract(eye)
-                .getNorm();
+        norm = qT.multiply(q).subtract(eye).getNorm();
         assertEquals("3x4 Q'Q = I", 0, norm, normTolerance);
 
         matrix = new RealMatrixImpl(testData4x3, false);
-        matrix = new QRDecompositionImpl(matrix).getQ();
+        q  = new QRDecompositionImpl(matrix).getQ();
+        qT = new QRDecompositionImpl(matrix).getQT();
         eye = MatrixUtils.createRealIdentityMatrix(4);
-        norm = matrix.transpose().multiply(matrix).subtract(eye)
-                .getNorm();
+        norm = qT.multiply(q).subtract(eye).getNorm();
         assertEquals("4x3 Q'Q = I", 0, norm, normTolerance);
     }
 
@@ -337,6 +337,8 @@ public class QRDecompositionImplTest extends TestCase {
         // check values against known references
         RealMatrix q = qr.getQ();
         assertEquals(0, q.subtract(qRef).getNorm(), 1.0e-13);
+        RealMatrix qT = qr.getQT();
+        assertEquals(0, qT.subtract(qRef.transpose()).getNorm(), 1.0e-13);
         RealMatrix r = qr.getR();
         assertEquals(0, r.subtract(rRef).getNorm(), 1.0e-13);
         RealMatrix h = qr.getH();

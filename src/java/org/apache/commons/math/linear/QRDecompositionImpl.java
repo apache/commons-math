@@ -52,6 +52,9 @@ public class QRDecompositionImpl implements QRDecomposition {
     /** Cached value of Q. */
     private RealMatrix cachedQ;
 
+    /** Cached value of QT. */
+    private RealMatrix cachedQT;
+
     /** Cached value of R. */
     private RealMatrix cachedR;
 
@@ -87,9 +90,10 @@ public class QRDecompositionImpl implements QRDecomposition {
         final int n = matrix.getColumnDimension();
         qrt = matrix.transpose().getData();
         rDiag = new double[n];
-        cachedQ = null;
-        cachedR = null;
-        cachedH = null;
+        cachedQ  = null;
+        cachedQT = null;
+        cachedR  = null;
+        cachedH  = null;
 
         /*
          * The QR decomposition of a matrix A is calculated using Householder
@@ -191,15 +195,24 @@ public class QRDecompositionImpl implements QRDecomposition {
     /** {@inheritDoc} */
     public RealMatrix getQ()
         throws IllegalStateException {
-
         if (cachedQ == null) {
+            cachedQ = getQT().transpose();
+        }
+        return cachedQ;
+    }
+
+    /** {@inheritDoc} */
+    public RealMatrix getQT()
+        throws IllegalStateException {
+
+            if (cachedQ == null) {
 
             checkDecomposed();
 
-            // Q is supposed to be m x m
+            // QT is supposed to be m x m
             final int n = qrt.length;
             final int m = qrt[0].length;
-            double[][] q = new double[m][m];
+            double[][] qT = new double[m][m];
 
             /* 
              * Q = Q1 Q2 ... Q_m, so Q is formed by first constructing Q_m and then 
@@ -207,34 +220,35 @@ public class QRDecompositionImpl implements QRDecomposition {
              * succession to the result 
              */ 
             for (int minor = m - 1; minor >= Math.min(m, n); minor--) {
-                q[minor][minor]=1;
+                qT[minor][minor]=1;
             }
 
             for (int minor = Math.min(m,n)-1; minor >= 0; minor--){
                 final double[] qrtMinor = qrt[minor];
-                q[minor][minor] = 1;
+                qT[minor][minor] = 1;
                 if (qrtMinor[minor] != 0.0) {
                     for (int col = minor; col < m; col++) {
+                        final double[] qTCol = qT[col];
                         double alpha = 0;
                         for (int row = minor; row < m; row++) {
-                            alpha -= q[row][col] * qrtMinor[row];
+                            alpha -= qTCol[row] * qrtMinor[row];
                         }
                         alpha /= rDiag[minor] * qrtMinor[minor];
 
                         for (int row = minor; row < m; row++) {
-                            q[row][col] -= alpha * qrtMinor[row];
+                            qTCol[row] -= alpha * qrtMinor[row];
                         }
                     }
                 }
             }
 
             // cache the matrix for subsequent calls
-            cachedQ = new RealMatrixImpl(q, false);
+            cachedQT = new RealMatrixImpl(qT, false);
 
         }
 
         // return the cached matrix
-        return cachedQ;
+        return cachedQT;
 
     }
 

@@ -58,6 +58,15 @@ public interface QRDecomposition extends DecompositionSolver {
     RealMatrix getQ() throws IllegalStateException;
 
     /**
+     * Returns the transpose of the matrix Q of the decomposition.
+     * <p>Q is an orthogonal matrix</p>
+     * @return the Q matrix
+     * @exception IllegalStateException if {@link
+     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
+     */
+    RealMatrix getQT() throws IllegalStateException;
+
+    /**
      * Returns the Householder reflector vectors.
      * <p>H is a lower trapezoidal matrix whose columns represent
      * each successive Householder reflector vector. This matrix is used
