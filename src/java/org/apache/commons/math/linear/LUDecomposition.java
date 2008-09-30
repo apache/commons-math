@@ -28,8 +28,14 @@ package org.apache.commons.math.linear;
  * <a href="http://math.nist.gov/javanumerics/jama/">JAMA</a> library, with the
  * following changes:</p>
  * <ul>
- *   <li>several signatures have been added for the <code>solve</code> methods (in the superinterface),</code>
- *   <li>a <code>decompose</code> method has been added (in the superinterface),</code>
+ *   <li>several signatures have been added for the <code>solve</code> methods
+ *   (in the superinterface),</li>
+ *   <li>a {@link DecompositionSolver#decompose(RealMatrix) decompose(RealMatrix)}
+ *   method has been added (in the superinterface),</li>
+ *   <li>a {@link DecompositionSolver#isNonSingular() isNonSingular} method has
+ *   been added (in the superinterface),</li>
+ *   <li>a {@link DecompositionSolver#getInverse() getInverse} method has been
+ *   added (in the superinterface),</li>
  *   <li>the <code>det</code> method has been renamed as {@link #getDeterminant() getDeterminant}.</li>
  * </ul>
  *   

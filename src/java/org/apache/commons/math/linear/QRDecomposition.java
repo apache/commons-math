@@ -26,8 +26,10 @@ package org.apache.commons.math.linear;
  * <ul>
  *   <li>several signatures have been added for the <code>solve</code> methods
  *   (in the superinterface),</li>
- *   <li>a {@link DecompositionSolver#decompose(RealMatrix) decompose} method
- *   has been added (in the superinterface),</li>
+ *   <li>a {@link DecompositionSolver#decompose(RealMatrix) decompose(RealMatrix)}
+ *   method has been added (in the superinterface),</li>
+ *   <li>a {@link DecompositionSolver#getInverse() getInverse} method has been
+ *   added (in the superinterface),</li>
  *   <li>the <code>isFullRank</code> method has been replaced by the {@link
  *   DecompositionSolver#isNonSingular() isNonSingular} method in the superinterface.</li>
  * </ul>
