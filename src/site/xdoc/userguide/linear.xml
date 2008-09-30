@@ -68,7 +68,7 @@ System.out.println(p.getRowDimension()); // 2
 System.out.println(p.getRowDimension()); // 2
 
 // Invert p
-RealMatrix pInverse = p.inverse();
+RealMatrix pInverse = new LUDecompositionImpl(p).inverse();
          </source>
         </p>
       </subsection>
@@ -109,10 +109,11 @@ double[][] coefficientsData = {{2, 3, -2}, {-1, 7, 6}, {4, -3, -5}};
 RealMatrix coefficients = new RealMatrixImpl(coefficientsData);
           </source>
           Next create a <code>double[]</code> array to represent the constant
-          vector and use <code>solve(double[])</code> to solve the system
+          vector and use <code>solve(double[])</code> from the default implementation
+          of <code>LUDecomposition</code> to solve the system
           <source>
 double[] constants = {1, -2, 1};
-double[] solution = coefficients.solve(constants);
+double[] solution = new LUDecompositionImpl(coefficients).solve(constants);
           </source>
           The <code>solution</code> array will contain values for x 
           (<code>solution[0]</code>), y (<code>solution[1]</code>), 
