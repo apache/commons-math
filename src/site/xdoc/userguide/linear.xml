@@ -40,7 +40,7 @@
           RealMatrix</a> interface represents a matrix with real numbers as 
           entries.  The following basic matrix operations are supported:
           <ul>
-          <li>Matrix addition, subtraction, mutiplication</li>
+          <li>Matrix addition, subtraction, multiplication</li>
           <li>Scalar addition and multiplication</li>
           <li>Inverse and transpose</li>
           <li>Determinants and singularity testing</li>
