@@ -114,9 +114,15 @@ class TriDiagonalTransformer implements Serializable {
                 final double inv = 1.0 / (secondary[k - 1] * hK[k]);
                 qtData[k][k] = 1;
                 if (hK[k] != 0.0) {
-                    for (int j = k; j < m; ++j) {
+                    final double[] qtK = qtData[k];
+                    double beta = 1.0 / secondary[k - 1];
+                    qtK[k] = 1 + beta * hK[k];
+                    for (int i = k + 1; i < m; ++i) {
+                        qtK[i] = beta * hK[i];
+                    }
+                    for (int j = k + 1; j < m; ++j) {
                         final double[] qtJ = qtData[j];
-                        double beta = 0;
+                        beta = 0;
                         for (int i = k; i < m; ++i) {
                             beta += qtJ[i] * hK[i];
                         }
