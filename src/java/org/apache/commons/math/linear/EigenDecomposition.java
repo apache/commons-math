@@ -35,7 +35,11 @@ package org.apache.commons.math.linear;
  *   been added (in the superinterface),</li>
  *   <li>a {@link DecompositionSolver#getInverse() getInverse} method has been
  *   added (in the superinterface),</li>
- *   <li>a {@link #getVt() getVt} method has been added,</li>
+ *   <li>a {@link #getVT() getVt} method has been added,</li>
+ *   <li>a {@link #getEigenvalue(int) getEigenvalue} method to pick up a single
+ *   eigenvalue has been added,</li>
+ *   <li>a {@link #getEigenvector(int) getEigenvector} method to pick up a single
+ *   eigenvector has been added,</li>
  *   <li>the <code>getRealEigenvalues</code> method has been renamed as {@link
  *   #getEigenValues() getEigenValues},</li>
  *   <li>the <code>getImagEigenvalues</code> method has been removed</li>
@@ -76,15 +80,43 @@ public interface EigenDecomposition extends DecompositionSolver {
      * @exception IllegalStateException if {@link
      * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
      */
-    RealMatrix getVt() throws IllegalStateException;
+    RealMatrix getVT() throws IllegalStateException;
 
     /**
-     * Returns the eigenvalues of the original matrix.
-     * @return eigenvalues of the original matrix
+     * Returns a copy of the eigenvalues of the original matrix.
+     * @return a copy of the eigenvalues of the original matrix
      * @exception IllegalStateException if {@link
      * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
      * @see #getD()
      */
-    double[] getEigenValues() throws IllegalStateException;
+    double[] getEigenvalues() throws IllegalStateException;
+
+    /**
+     * Returns the i<sup>th</sup> eigenvalue of the original matrix.
+     * @return i<sup>th</sup> eigenvalue of the original matrix
+     * @exception IllegalStateException if {@link
+     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
+     * @exception ArrayIndexOutOfBoundsException if i is not
+     * @see #getD()
+     */
+    double getEigenvalue(int i) throws IllegalStateException;
+
+    /**
+     * Returns a copy of the i<sup>th</sup> eigenvector of the original matrix.
+     * @return copy of the i<sup>th</sup> eigenvector of the original matrix
+     * @exception IllegalStateException if {@link
+     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
+     * @see #getD()
+     */
+    RealVector getEigenvector(int i) throws IllegalStateException;
+
+    /**
+     * Return the determinant of the matrix
+     * @return determinant of the matrix
+     * @exception IllegalStateException if {@link
+     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
+     * @see #isNonSingular()
+     */
+    double getDeterminant() throws IllegalStateException;
 
 }
