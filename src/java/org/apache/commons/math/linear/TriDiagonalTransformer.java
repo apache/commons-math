@@ -21,16 +21,17 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 /**
- * Class transforming a symmetrical matrix to tri-diagonal shape.
+ * Class transforming a symmetrical matrix to tridiagonal shape.
  * <p>A symmetrical m &times; m matrix A can be written as the product of three matrices:
  * A = Q &times; T &times; Q<sup>T</sup> with Q an orthogonal matrix and T a symmetrical
- * tri-diagonal matrix. Both Q and T are m &times; m matrices.</p>
- * <p>Transformation to tri-diagonal shape is often not a goal by itself, but it is
+ * tridiagonal matrix. Both Q and T are m &times; m matrices.</p>
+ * <p>This implementation only uses the upper part of the matrix, the part below the
+ * diagonal is not accessed at all.</p>
+ * <p>Transformation to tridiagonal shape is often not a goal by itself, but it is
  * an intermediate step in more general decomposition algorithms like {@link
- * EigenValuesDecomposition Eigen Values Decomposition}. This class is therefore
- * intended for internal use by the library and is not public. As a consequence of
- * this explicitly limited scope, many methods directly returns references to
- * internal arrays, not copies.</p>
+ * EigenDecomposition eigen decomposition}. This class is therefore intended for internal
+ * use by the library and is not public. As a consequence of this explicitly limited scope,
+ * many methods directly returns references to internal arrays, not copies.</p>
  * @version $Revision$ $Date$
  * @since 2.0
  */
@@ -58,7 +59,7 @@ class TriDiagonalTransformer implements Serializable {
     private RealMatrix cachedT;
 
     /**
-     * Build the transformation to tri-diagonal shape of a symmetrical matrix.
+     * Build the transformation to tridiagonal shape of a symmetrical matrix.
      * <p>The specified matrix is assumed to be symmetrical without any check.
      * Only the upper triangular part of the matrix is used.</p>
      * @param matrix the symmetrical matrix to transform.
@@ -67,7 +68,7 @@ class TriDiagonalTransformer implements Serializable {
     public TriDiagonalTransformer(RealMatrix matrix)
         throws InvalidMatrixException {
         if (!matrix.isSquare()) {
-            throw new InvalidMatrixException("transformation to tri-diagonal requires that the matrix be square");
+            throw new InvalidMatrixException("transformation to tridiagonal requires that the matrix be square");
         }
 
         final int m = matrix.getRowDimension();
@@ -140,7 +141,7 @@ class TriDiagonalTransformer implements Serializable {
     }
 
     /**
-     * Returns the tri-diagonal matrix T of the transform. 
+     * Returns the tridiagonal matrix T of the transform. 
      * @return the T matrix
      */
     public RealMatrix getT() {
@@ -201,7 +202,7 @@ class TriDiagonalTransformer implements Serializable {
     }
 
     /**
-     * Transform original matrix to tri-diagonal form.
+     * Transform original matrix to tridiagonal form.
      * <p>Transformation is done using Householder transforms.</p>
      */
     private void transform() {
