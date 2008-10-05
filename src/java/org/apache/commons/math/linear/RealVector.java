@@ -57,12 +57,30 @@ public interface RealVector {
         throws IllegalArgumentException;
 
     /**
+     * Compute the sum of this and v.
+     * @param v vector to be added
+     * @return this + v
+     * @throws IllegalArgumentException if v is not the same size as this
+     */
+    RealVector add(double[] v)
+        throws IllegalArgumentException;
+
+    /**
      * Compute this minus v.
      * @param v vector to be subtracted
      * @return this + v
      * @throws IllegalArgumentException if v is not the same size as this
      */
     RealVector subtract(RealVector v)
+        throws IllegalArgumentException;
+
+    /**
+     * Compute this minus v.
+     * @param v vector to be subtracted
+     * @return this + v
+     * @throws IllegalArgumentException if v is not the same size as this
+     */
+    RealVector subtract(double[] v)
         throws IllegalArgumentException;
 
     /**
@@ -449,12 +467,30 @@ public interface RealVector {
         throws IllegalArgumentException;
 
     /**
+     * Element-by-element multiplication.
+     * @param v vector by which instance elements must be multiplied
+     * @return a vector containing this[i] * v[i] for all i
+     * @throws IllegalArgumentException if v is not the same size as this
+     */
+    public RealVector ebeMultiply(double[] v)
+        throws IllegalArgumentException;
+
+    /**
      * Element-by-element division.
      * @param v vector by which instance elements must be divided
      * @return a vector containing this[i] / v[i] for all i
      * @throws IllegalArgumentException if v is not the same size as this
      */
     public RealVector ebeDivide(RealVector v)
+        throws IllegalArgumentException;
+
+    /**
+     * Element-by-element division.
+     * @param v vector by which instance elements must be divided
+     * @return a vector containing this[i] / v[i] for all i
+     * @throws IllegalArgumentException if v is not the same size as this
+     */
+    public RealVector ebeDivide(double[] v)
         throws IllegalArgumentException;
 
     /**
@@ -470,6 +506,15 @@ public interface RealVector {
      * @exception IllegalArgumentException if v is not the same size as this
      */
     double dotProduct(RealVector v)
+        throws IllegalArgumentException;
+
+    /**
+     * Compute the dot product.
+     * @param v vector with which dot product should be computed
+     * @return the scalar dot product between instance and v
+     * @exception IllegalArgumentException if v is not the same size as this
+     */
+    double dotProduct(double[] v)
         throws IllegalArgumentException;
 
     /**
@@ -522,6 +567,21 @@ public interface RealVector {
 
     /**
      * Distance between two vectors.
+     * <p>This method computes the distance consistent with the
+     * L<sub>2</sub> norm, i.e. the square root of the sum of
+     * elements differences, or euclidian distance.</p>
+     * @param v vector to which distance is requested
+     * @return distance between two vectors.
+     * @exception IllegalArgumentException if v is not the same size as this
+     * @see #getL1Distance(double[])
+     * @see #getLInfDistance(double[])
+     * @see #getNorm()
+     */
+    double getDistance(double[] v)
+        throws IllegalArgumentException;
+
+    /**
+     * Distance between two vectors.
      * <p>This method computes the distance consistent with
      * L<sub>1</sub> norm, i.e. the sum of the absolute values of
      * elements differences.</p>
@@ -538,6 +598,21 @@ public interface RealVector {
     /**
      * Distance between two vectors.
      * <p>This method computes the distance consistent with
+     * L<sub>1</sub> norm, i.e. the sum of the absolute values of
+     * elements differences.</p>
+     * @param v vector to which distance is requested
+     * @return distance between two vectors.
+     * @exception IllegalArgumentException if v is not the same size as this
+     * @see #getDistance(double[])
+     * @see #getLInfDistance(double[])
+     * @see #getL1Norm()
+     */
+    double getL1Distance(double[] v)
+        throws IllegalArgumentException;
+
+    /**
+     * Distance between two vectors.
+     * <p>This method computes the distance consistent with
      * L<sub>&infty;</sub> norm, i.e. the max of the absolute values of
      * elements differences.</p>
      * @param v vector to which distance is requested
@@ -548,6 +623,21 @@ public interface RealVector {
      * @see #getLInfNorm()
      */
     double getLInfDistance(RealVector v)
+        throws IllegalArgumentException;
+
+    /**
+     * Distance between two vectors.
+     * <p>This method computes the distance consistent with
+     * L<sub>&infty;</sub> norm, i.e. the max of the absolute values of
+     * elements differences.</p>
+     * @param v vector to which distance is requested
+     * @return distance between two vectors.
+     * @exception IllegalArgumentException if v is not the same size as this
+     * @see #getDistance(double[])
+     * @see #getL1Distance(double[])
+     * @see #getLInfNorm()
+     */
+    double getLInfDistance(double[] v)
         throws IllegalArgumentException;
 
     /** Creates a unit vector pointing in the direction of this vector.
@@ -571,6 +661,14 @@ public interface RealVector {
     RealVector projection(RealVector v)
         throws IllegalArgumentException;
 
+    /** Find the orthogonal projection of this vector onto another vector.
+     * @param v vector onto which instance must be projected
+     * @return projection of the instance onto v
+     * @throws IllegalArgumentException if v is not the same size as this
+     */
+    RealVector projection(double[] v)
+        throws IllegalArgumentException;
+
     /**
      * Compute the outer product.
      * @param v vector with which outer product should be computed
@@ -578,6 +676,15 @@ public interface RealVector {
      * @exception IllegalArgumentException if v is not the same size as this
      */
     RealMatrix outerProduct(RealVector v)
+        throws IllegalArgumentException;
+
+    /**
+     * Compute the outer product.
+     * @param v vector with which outer product should be computed
+     * @return the square matrix outer product between instance and v
+     * @exception IllegalArgumentException if v is not the same size as this
+     */
+    RealMatrix outerProduct(double[] v)
         throws IllegalArgumentException;
 
     /**
@@ -649,6 +756,16 @@ public interface RealVector {
      * inconsistent with vector size
      */
     void set(int index, RealVector v)
+        throws MatrixIndexException;
+
+    /**
+     * Set a set of consecutive elements.
+     * @param index index of first element to be set.
+     * @param v vector containing the values to set.
+     * @exception MatrixIndexException if the index is
+     * inconsistent with vector size
+     */
+    void set(int index, double[] v)
         throws MatrixIndexException;
 
     /**

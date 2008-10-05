@@ -47,7 +47,7 @@ public class RealVectorImplTest extends TestCase {
     public static class RealVectorTestImpl implements RealVector, Serializable {
 
         /** Serializable version identifier. */
-        private static final long serialVersionUID = 8731816072271374422L;
+        private static final long serialVersionUID = 4715341047369582908L;
 
         /** Entries of the vector. */
         protected double data[];
@@ -68,7 +68,15 @@ public class RealVectorImplTest extends TestCase {
             throw unsupported();
         }
 
+        public RealVector add(double[] v) throws IllegalArgumentException {
+            throw unsupported();
+        }
+
         public RealVector subtract(RealVector v) throws IllegalArgumentException {
+            throw unsupported();
+        }
+
+        public RealVector subtract(double[] v) throws IllegalArgumentException {
             throw unsupported();
         }
 
@@ -304,7 +312,15 @@ public class RealVectorImplTest extends TestCase {
             throw unsupported();
         }
 
+        public RealVector ebeMultiply(double[] v) throws IllegalArgumentException {
+            throw unsupported();
+        }
+
         public RealVector ebeDivide(RealVector v) throws IllegalArgumentException {
+            throw unsupported();
+        }
+
+        public RealVector ebeDivide(double[] v) throws IllegalArgumentException {
             throw unsupported();
         }
 
@@ -313,11 +329,17 @@ public class RealVectorImplTest extends TestCase {
         }
 
         public double dotProduct(RealVector v) throws IllegalArgumentException {
-
-            //	checkVectorDimensions(v);
             double dot = 0;
             for (int i = 0; i < data.length; i++) {
                 dot += data[i] * v.getEntry(i);
+            }
+            return dot;
+        }
+
+        public double dotProduct(double[] v) throws IllegalArgumentException {
+            double dot = 0;
+            for (int i = 0; i < data.length; i++) {
+                dot += data[i] * v[i];
             }
             return dot;
         }
@@ -338,11 +360,23 @@ public class RealVectorImplTest extends TestCase {
             throw unsupported();
         }
 
+        public double getDistance(double[] v) throws IllegalArgumentException {
+            throw unsupported();
+        }
+
         public double getL1Distance(RealVector v) throws IllegalArgumentException {
             throw unsupported();
         }
 
+        public double getL1Distance(double[] v) throws IllegalArgumentException {
+            throw unsupported();
+        }
+
         public double getLInfDistance(RealVector v) throws IllegalArgumentException {
+            throw unsupported();
+        }
+
+        public double getLInfDistance(double[] v) throws IllegalArgumentException {
             throw unsupported();
         }
 
@@ -358,7 +392,15 @@ public class RealVectorImplTest extends TestCase {
             throw unsupported();
         }
 
+        public RealVector projection(double[] v) throws IllegalArgumentException {
+            throw unsupported();
+        }
+
         public RealMatrix outerProduct(RealVector v) throws IllegalArgumentException {
+            throw unsupported();
+        }
+
+        public RealMatrix outerProduct(double[] v) throws IllegalArgumentException {
             throw unsupported();
         }
 
@@ -391,6 +433,10 @@ public class RealVectorImplTest extends TestCase {
         }
 
         public void set(int index, RealVector v) throws MatrixIndexException {
+            throw unsupported();
+        }
+
+        public void set(int index, double[] v) throws MatrixIndexException {
             throw unsupported();
         }
 
