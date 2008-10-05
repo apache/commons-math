@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.linear;
 
+import java.util.Arrays;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -63,6 +65,26 @@ public class TriDiagonalTransformerTest extends TestCase {
         RealMatrix qT = transformer.getQT();
         RealMatrix t  = transformer.getT();
         double norm = q.multiply(t).multiply(qT).subtract(matrix).getNorm();
+        assertEquals(0, norm, 4.0e-15);
+    }
+
+    public void testNoAccessBelowDiagonal() {
+        checkNoAccessBelowDiagonal(testSquare5);
+        checkNoAccessBelowDiagonal(testSquare3);
+    }
+
+    private void checkNoAccessBelowDiagonal(double[][] data) {
+        double[][] modifiedData = new double[data.length][];
+        for (int i = 0; i < data.length; ++i) {
+            modifiedData[i] = data[i].clone();
+            Arrays.fill(modifiedData[i], 0, i, Double.NaN);
+        }
+        RealMatrix matrix = new RealMatrixImpl(modifiedData, false);
+        TriDiagonalTransformer transformer = new TriDiagonalTransformer(matrix);
+        RealMatrix q  = transformer.getQ();
+        RealMatrix qT = transformer.getQT();
+        RealMatrix t  = transformer.getT();
+        double norm = q.multiply(t).multiply(qT).subtract(new RealMatrixImpl(data, false)).getNorm();
         assertEquals(0, norm, 4.0e-15);
     }
 
