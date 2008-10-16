@@ -51,7 +51,10 @@ import java.io.Serializable;
 
 public abstract class WeightedMeasurement implements Serializable {
 
-  /** 
+    /** Serializable version identifier. */
+    private static final long serialVersionUID = 4360046376796901941L;
+
+    /** 
    * Simple constructor.
    * Build a measurement with the given parameters, and set its ignore
    * flag to false.

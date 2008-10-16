@@ -46,6 +46,9 @@ import org.apache.commons.math.ode.sampling.StepNormalizer;
  */
 public abstract class MultistepIntegrator extends AbstractIntegrator {
 
+    /** Serializable version identifier. */
+    private static final long serialVersionUID = -1705864253238417163L;
+
     /** Starter integrator. */
     private FirstOrderIntegrator starter;
 

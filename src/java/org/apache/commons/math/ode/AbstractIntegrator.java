@@ -33,6 +33,9 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  */
 public abstract class AbstractIntegrator implements FirstOrderIntegrator {
 
+    /** Serializable version identifier. */
+    private static final long serialVersionUID = 5771479854166853494L;
+
     /** Name of the method. */
     private final String name;
 

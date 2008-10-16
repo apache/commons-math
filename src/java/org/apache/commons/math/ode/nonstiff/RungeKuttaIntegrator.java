@@ -54,6 +54,9 @@ import org.apache.commons.math.ode.sampling.StepHandler;
 
 public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
 
+  /** Serializable version identifier. */
+  private static final long serialVersionUID = -5346558921715095559L;
+
   /** Simple constructor.
    * Build a Runge-Kutta integrator with the given
    * step. The default step handler does nothing.

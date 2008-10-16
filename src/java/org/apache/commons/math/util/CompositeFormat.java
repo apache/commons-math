@@ -30,6 +30,9 @@ import java.util.Locale;
  */
 public abstract class CompositeFormat extends Format {
 
+    /** Serializable version identifier. */
+    private static final long serialVersionUID = 5358685519349262494L;
+
     /**
      * Create a default number format.  The default number format is based on
      * {@link NumberFormat#getInstance()} with the only customizing that the

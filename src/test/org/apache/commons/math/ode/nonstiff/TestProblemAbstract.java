@@ -27,6 +27,9 @@ import org.apache.commons.math.ode.events.EventHandler;
 public abstract class TestProblemAbstract
   implements FirstOrderDifferentialEquations, Cloneable {
 
+  /** Serializable version identifier. */
+  private static final long serialVersionUID = -8521928974502839379L;
+
   /** Dimension of the problem. */
   protected int n;
 

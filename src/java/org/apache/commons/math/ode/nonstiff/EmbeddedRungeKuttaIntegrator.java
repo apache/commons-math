@@ -65,6 +65,9 @@ import org.apache.commons.math.ode.sampling.StepHandler;
 public abstract class EmbeddedRungeKuttaIntegrator
   extends AdaptiveStepsizeIntegrator {
 
+  /** Serializable version identifier. */
+  private static final long serialVersionUID = -8436701741819010959L;
+
   /** Build a Runge-Kutta integrator with the given Butcher array.
    * @param name name of the method
    * @param fsal indicate that the method is an <i>fsal</i>
