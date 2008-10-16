@@ -40,7 +40,7 @@ public interface DecompositionSolver extends Serializable {
 
     /**
      * Decompose a matrix.
-     * @param matrix
+     * @param matrix matrix to decompose
      * @exception InvalidMatrixException if matrix does not fulfill
      * the decomposition requirements (for example non-square matrix
      * for {@link LUDecomposition})

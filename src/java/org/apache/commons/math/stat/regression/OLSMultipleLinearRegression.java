@@ -58,7 +58,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
     /** Cached QR decomposition of X matrix */
     private QRDecomposition qr = null;
 
-    /*
+    /**
      * {@inheritDoc}
      * 
      * Computes and caches QR decomposition of the X matrix.

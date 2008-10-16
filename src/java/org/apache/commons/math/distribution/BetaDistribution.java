@@ -21,7 +21,9 @@ import org.apache.commons.math.MathException;
 /**
  * Computes the cumulative, inverse cumulative and density functions for the beta distribuiton.
  *
- * See http://en.wikipedia.org/wiki/Beta_distribution
+ * @see <a href="http://en.wikipedia.org/wiki/Beta_distribution">Beta_distribution</a>
+ * @version $Revision$ $Date$
+ * @since 2.0
  */
 public interface BetaDistribution extends ContinuousDistribution, HasDensity<Double> {
     /**
@@ -52,6 +54,7 @@ public interface BetaDistribution extends ContinuousDistribution, HasDensity<Dou
       * Return the probability density for a particular point.
       * @param x  The point at which the density should be computed.
       * @return  The pdf at point x.
+      * @exception MathException if probability density cannot be computed
       */
      double density(Double x) throws MathException;
 

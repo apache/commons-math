@@ -93,6 +93,7 @@ public interface EigenDecomposition extends DecompositionSolver {
 
     /**
      * Returns the i<sup>th</sup> eigenvalue of the original matrix.
+     * @param i index of the eigenvalue (counting from 0)
      * @return i<sup>th</sup> eigenvalue of the original matrix
      * @exception IllegalStateException if {@link
      * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
@@ -103,6 +104,7 @@ public interface EigenDecomposition extends DecompositionSolver {
 
     /**
      * Returns a copy of the i<sup>th</sup> eigenvector of the original matrix.
+     * @param i index of the eigenvector (counting from 0)
      * @return copy of the i<sup>th</sup> eigenvector of the original matrix
      * @exception IllegalStateException if {@link
      * DecompositionSolver#decompose(RealMatrix) decompose} has not been called

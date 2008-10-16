@@ -35,12 +35,14 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     /** Serializable version identifier */
     private static final long serialVersionUID = 8589540077390120676L;
 
+    /** &sqrt;(2 &pi;) */
+    private static final double SQRT2PI = Math.sqrt(2 * Math.PI);
+
     /** The mean of this distribution. */
     private double mean = 0;
     
     /** The standard deviation of this distribution. */
     private double standardDeviation = 1;
-    private static final double SQRT2PI = Math.sqrt(2 * Math.PI);
 
     /**
      * Create a normal distribution using the given mean and standard deviation.

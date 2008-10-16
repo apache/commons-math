@@ -48,6 +48,11 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
     /** Inverse of covariance matrix. */
     private RealMatrix OmegaInverse;
 
+    /** Replace sample data, overriding any previous sample.
+     * @param y y values of the sample
+     * @param x x values of the sample
+     * @param covariance array representing the covariance matrix
+     */
     public void newSampleData(double[] y, double[][] x, double[][] covariance) {
         validateSampleData(x, y);
         newYSampleData(y);

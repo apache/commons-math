@@ -29,6 +29,8 @@ import org.apache.commons.math.special.Beta;
  * Beta distribution</a></li>
  * </ul>
  * </p>
+ * @version $Revision$ $Date$
+ * @since 2.0
  */
 public class BetaDistributionImpl
     extends AbstractContinuousDistribution implements BetaDistribution {
@@ -58,40 +60,24 @@ public class BetaDistributionImpl
         z = Double.NaN;
     }
 
-    /**
-     * Modify the shape parameter, alpha.
-     *
-     * @param alpha the new shape parameter.
-     */
+    /** {@inheritDoc} */
     public void setAlpha(double alpha) {
         this.alpha = alpha;
         z = Double.NaN;
     }
 
-    /**
-     * Access the shape parameter, alpha
-     *
-     * @return alpha.
-     */
+    /** {@inheritDoc} */
     public double getAlpha() {
         return alpha;
     }
 
-    /**
-     * Modify the shape parameter, beta.
-     *
-     * @param beta the new scale parameter.
-     */
+    /** {@inheritDoc} */
     public void setBeta(double beta) {
         this.beta = beta;
         z = Double.NaN;
     }
 
-    /**
-     * Access the shape parameter, beta
-     *
-     * @return beta.
-     */
+    /** {@inheritDoc} */
     public double getBeta() {
         return beta;
     }
@@ -105,12 +91,7 @@ public class BetaDistributionImpl
         }
     }
 
-    /**
-     * Return the probability density for a particular point.
-     *
-     * @param x The point at which the density should be computed.
-     * @return The pdf at point x.
-     */
+    /** {@inheritDoc} */
     public double density(Double x) throws MathException {
         recomputeZ();
         if (x < 0 || x > 1) {
@@ -132,15 +113,7 @@ public class BetaDistributionImpl
         }
     }
 
-    /**
-     * For this distribution, X, this method returns x such that P(X &lt; x) = p.
-     *
-     * @param p the cumulative probability.
-     * @return x.
-     * @throws org.apache.commons.math.MathException
-     *          if the inverse cumulative probability can not be
-     *          computed due to convergence or other numerical errors.
-     */
+    /** {@inheritDoc} */
     public double inverseCumulativeProbability(double p) throws MathException {
         if (p == 0) {
             return 0;
@@ -151,57 +124,22 @@ public class BetaDistributionImpl
         }
     }
 
-    /**
-     * Access the initial domain value, based on <code>p</code>, used to
-     * bracket a CDF root.  This method is used by
-     * {@link #inverseCumulativeProbability(double)} to find critical values.
-     *
-     * @param p the desired probability for the critical value
-     * @return initial domain value
-     */
+    /** {@inheritDoc} */
     protected double getInitialDomain(double p) {
         return p;
     }
 
-    /**
-     * Access the domain value lower bound, based on <code>p</code>, used to
-     * bracket a CDF root.  This method is used by
-     * {@link #inverseCumulativeProbability(double)} to find critical values.
-     *
-     * @param p the desired probability for the critical value
-     * @return domain value lower bound, i.e.
-     *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code>
-     */
+    /** {@inheritDoc} */
     protected double getDomainLowerBound(double p) {
         return 0;
     }
 
-    /**
-     * Access the domain value upper bound, based on <code>p</code>, used to
-     * bracket a CDF root.  This method is used by
-     * {@link #inverseCumulativeProbability(double)} to find critical values.
-     *
-     * @param p the desired probability for the critical value
-     * @return domain value upper bound, i.e.
-     *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code>
-     */
+    /** {@inheritDoc} */
     protected double getDomainUpperBound(double p) {
         return 1;
     }
 
-    /**
-     * For a random variable X whose values are distributed according
-     * to this distribution, this method returns P(X &le; x).  In other words,
-     * this method represents the  (cumulative) distribution function, or
-     * CDF, for this distribution.
-     *
-     * @param x the value at which the distribution function is evaluated.
-     * @return the probability that a random variable with this
-     *         distribution takes a value less than or equal to <code>x</code>
-     * @throws org.apache.commons.math.MathException
-     *          if the cumulative probability can not be
-     *          computed due to convergence or other numerical errors.
-     */
+    /** {@inheritDoc} */
     public double cumulativeProbability(double x) throws MathException {
         if (x <= 0) {
             return 0;
@@ -212,20 +150,7 @@ public class BetaDistributionImpl
         }
     }
 
-    /**
-     * For a random variable X whose values are distributed according
-     * to this distribution, this method returns P(x0 &le; X &le; x1).
-     *
-     * @param x0 the (inclusive) lower bound
-     * @param x1 the (inclusive) upper bound
-     * @return the probability that a random variable with this distribution
-     *         will take a value between <code>x0</code> and <code>x1</code>,
-     *         including the endpoints
-     * @throws org.apache.commons.math.MathException
-     *                                  if the cumulative probability can not be
-     *                                  computed due to convergence or other numerical errors.
-     * @throws IllegalArgumentException if <code>x0 > x1</code>
-     */
+    /** {@inheritDoc} */
     public double cumulativeProbability(double x0, double x1) throws MathException {
         return cumulativeProbability(x1) - cumulativeProbability(x0);
     }

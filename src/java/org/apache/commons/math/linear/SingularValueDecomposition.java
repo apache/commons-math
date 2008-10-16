@@ -56,7 +56,7 @@ public interface SingularValueDecomposition extends DecompositionSolver {
 
     /**
      * Decompose a matrix to find its largest singular values.
-     * @param matrix
+     * @param matrix matrix to decompose
      * @param maxSingularValues maximal number of singular values to compute
      * @exception InvalidMatrixException (wrapping a {@link ConvergenceException}
      * if algorithm fails to converge

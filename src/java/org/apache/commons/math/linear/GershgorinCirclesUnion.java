@@ -75,13 +75,18 @@ class GershgorinCirclesUnion implements Comparable<GershgorinCirclesUnion> {
      * either circles union. It is mainly intended for circles unions
      * that {@link #intersects(GershgorinCirclesUnion) intersect}
      * each other beforehand.</p>
+     * @param other Gershgorin circles union to swallow
      */
     public void swallow(final GershgorinCirclesUnion other) {
         low  = Math.min(low,  other.low);
         high = Math.max(high, other.high);
     }
 
-    /** Comparator class for sorting intervals. */
+    /** Compare another Gershgorin circles union in interval start order.
+     * @param other Gershgorin circles union to compare to instance
+     * @return a negative, zero or positive value depending on the other
+     * union starting before, at same location or after instance
+     */
     public int compareTo(GershgorinCirclesUnion other) {
         return Double.compare(low, other.low);
     }

@@ -22,6 +22,8 @@ import org.apache.commons.math.MathException;
 /**
  * Interface that signals that a distribution can compute the probability density function
  * for a particular point.
+ * @param <P> the type of the point at which density is to be computed, this
+ * may be for example <code>Double</code>
  * @version $Revision$ $Date$
  */
 public interface HasDensity<P> {
