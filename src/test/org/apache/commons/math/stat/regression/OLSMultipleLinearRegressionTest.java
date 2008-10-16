@@ -16,12 +16,9 @@
  */
 package org.apache.commons.math.stat.regression;
 
+import org.apache.commons.math.TestUtils;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import org.apache.commons.math.TestUtils;
-import org.apache.commons.math.linear.RealMatrixImpl;
 
 public class OLSMultipleLinearRegressionTest extends AbstractMultipleLinearRegressionTest {
 
