@@ -521,6 +521,16 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(0, MathUtils.nextAfter(-Double.MIN_VALUE, 1), 0);
     }
 
+    public void testScalb() {
+        assertEquals( 0.0, MathUtils.scalb(0.0, 5), 1.0e-15);
+        assertEquals(32.0, MathUtils.scalb(1.0, 5), 1.0e-15);
+        assertEquals(1.0 / 32.0, MathUtils.scalb(1.0,  -5), 1.0e-15);
+        assertEquals(Math.PI, MathUtils.scalb(Math.PI, 0), 1.0e-15);
+        assertTrue(Double.isInfinite(MathUtils.scalb(Double.POSITIVE_INFINITY, 1)));
+        assertTrue(Double.isInfinite(MathUtils.scalb(Double.NEGATIVE_INFINITY, 1)));
+        assertTrue(Double.isNaN(MathUtils.scalb(Double.NaN, 1)));
+    }
+
     public void testNormalizeAngle() {
         for (double a = -15.0; a <= 15.0; a += 0.1) {
             for (double b = -15.0; b <= 15.0; b += 0.2) {

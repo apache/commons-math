@@ -713,6 +713,33 @@ public final class MathUtils {
     }
 
     /**
+     * Scale a number by 2<sup>scaleFactor</sup>.
+     * <p>If <code>d</code> is 0 or NaN or Infinite, it is returned unchanged.</p>
+     * 
+     * @param d base number
+     * @param scaleFactor power of two by which d sould be multiplied
+     * @return d &times; 2<sup>scaleFactor</sup>
+     * @since 2.0
+     */
+    public static double scalb(final double d, final int scaleFactor) {
+
+        // handling of some important special cases
+        if ((d == 0) || Double.isNaN(d) || Double.isInfinite(d)) {
+            return d;
+        }
+
+        // split the double in raw components
+        final long bits     = Double.doubleToLongBits(d);
+        final long exponent = bits & 0x7ff0000000000000L;
+        final long rest     = bits & 0x800fffffffffffffL;
+
+        // shift the exponent
+        final long newBits = rest | (exponent + (((long) scaleFactor) << 52));
+        return Double.longBitsToDouble(newBits);
+
+    }
+
+    /**
      * Normalize an angle in a 2&pi wide interval around a center value.
      * <p>This method has three main uses:</p>
      * <ul>
