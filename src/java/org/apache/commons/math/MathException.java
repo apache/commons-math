@@ -68,11 +68,6 @@ public class MathException extends Exception {
     private final Object[] arguments;
 
     /**
-     * Root cause of the exception
-     */
-    private final Throwable rootCause;
-    
-    /**
      * Translate a string to a given locale.
      * @param s string to translate
      * @param locale locale into which to translate the string
@@ -110,10 +105,7 @@ public class MathException extends Exception {
      * @return a message string
      */
     private static String buildMessage(String pattern, Object[] arguments, Locale locale) {
-        // do it the hard way, for Java 1.3. compatibility
-        MessageFormat mf = new MessageFormat(translate(pattern, locale));
-        mf.setLocale(locale);
-        return mf.format(arguments);        
+        return new MessageFormat(translate(pattern, locale), locale).format(arguments);        
     }
 
     /**
@@ -124,7 +116,6 @@ public class MathException extends Exception {
         super();
         this.pattern   = null;
         this.arguments = new Object[0];
-        this.rootCause = null;
     }
     
     /**
@@ -138,7 +129,6 @@ public class MathException extends Exception {
       super(buildMessage(pattern, arguments, Locale.US));
       this.pattern   = pattern;
       this.arguments = (Object[]) arguments.clone();
-      this.rootCause = null;
     }
 
     /**
@@ -149,10 +139,9 @@ public class MathException extends Exception {
      *                   to be thrown.
      */
     public MathException(Throwable rootCause) {
-        super((rootCause == null ? null : rootCause.getMessage()));
+        super(rootCause);
         this.pattern   = getMessage();
         this.arguments = new Object[0];
-        this.rootCause = rootCause;
     }
     
     /**
@@ -166,10 +155,9 @@ public class MathException extends Exception {
      * @since 1.2
      */
     public MathException(String pattern, Object[] arguments, Throwable rootCause) {
-      super(buildMessage(pattern, arguments, Locale.US));
+      super(buildMessage(pattern, arguments, Locale.US), rootCause);
       this.pattern   = pattern;
       this.arguments = (Object[]) arguments.clone();
-      this.rootCause = rootCause;
     }
 
     /** Gets the pattern used to build the message of this throwable.
@@ -201,15 +189,11 @@ public class MathException extends Exception {
         return (pattern == null) ? null : buildMessage(pattern, arguments, locale);
     }
 
-    /**
-     * Gets the cause of this throwable.
-     * 
-     * @return  the cause of this throwable, or <code>null</code>
-     */
-    public Throwable getCause() {
-        return rootCause;
+    /** {@inheritDoc} */
+    public String getLocalizedMessage() {
+        return getMessage(Locale.getDefault());
     }
-    
+
     /**
      * Prints the stack trace of this exception to the standard error stream.
      */
@@ -231,19 +215,4 @@ public class MathException extends Exception {
         }
     }
     
-    /**
-     * Prints the stack trace of this exception to the specified writer.
-     *
-     * @param out  the <code>PrintWriter</code> to use for output
-     */
-    public void printStackTrace(PrintWriter out) {
-        synchronized (out) {
-            super.printStackTrace(out);
-            if (rootCause != null && JDK_SUPPORTS_NESTED == false) {
-                out.print("Caused by: ");
-                rootCause.printStackTrace(out);
-            }
-        }
-    }
-
 }
