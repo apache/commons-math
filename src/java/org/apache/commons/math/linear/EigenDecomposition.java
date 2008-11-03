@@ -22,8 +22,7 @@ package org.apache.commons.math.linear;
  * eigen decomposition of a real symmetric matrix.
  * <p>The eigen decomposition of matrix A is a set of two matrices:
  * V and D such that A = V &times; D &times; V<sup>T</sup>.
- * Let A be an m &times; n matrix, then V is an m &times; m orthogonal matrix
- * and D is a m &times; n diagonal matrix.</p>
+ * A, V and D are all m &times; m matrices.</p>
  * <p>This interface is similar in spirit to the <code>EigenvalueDecomposition</code>
  * class from the now defunct <a href="http://math.nist.gov/javanumerics/jama/">JAMA</a>
  * library, with the following changes:</p>
