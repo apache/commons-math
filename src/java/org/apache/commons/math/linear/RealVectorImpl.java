@@ -1187,14 +1187,14 @@ public class RealVectorImpl implements RealVector, Serializable {
 
     /** {@inheritDoc} */
     public RealVector get(int index, int n) {
+        RealVectorImpl out = new RealVectorImpl(n);
         try {
-            RealVectorImpl out = new RealVectorImpl(n);
             System.arraycopy(data, index, out.data, 0, n);
-
-            return out;
         } catch (IndexOutOfBoundsException e) {
-            throw new MatrixIndexException(e.getMessage());
+            checkIndex(index);
+            checkIndex(index + n - 1);
         }
+        return out;
     }
 
     /** {@inheritDoc} */
@@ -1202,7 +1202,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         try {
             data[index] = value;
         } catch (IndexOutOfBoundsException e) {
-            throw new MatrixIndexException(e.getMessage());
+            checkIndex(index);
         }
     }
 
@@ -1217,7 +1217,8 @@ public class RealVectorImpl implements RealVector, Serializable {
                 }
             }
         } catch (IndexOutOfBoundsException e) {
-            throw new MatrixIndexException(e.getMessage());
+            checkIndex(index);
+            checkIndex(index + v.getDimension() - 1);
         }
     }
 
@@ -1226,7 +1227,8 @@ public class RealVectorImpl implements RealVector, Serializable {
         try {
             System.arraycopy(v, 0, data, index, v.length);
         } catch (IndexOutOfBoundsException e) {
-            throw new MatrixIndexException(e.getMessage());
+            checkIndex(index);
+            checkIndex(index + v.length - 1);
         }
     }
 
@@ -1383,6 +1385,19 @@ public class RealVectorImpl implements RealVector, Serializable {
             return 9;
         }
         return MathUtils.hash(data);
+    }
+
+    /**
+     * Check if an index is valid.
+     * @param index index to check
+     * @exception MatrixIndexException if index is not valid
+     */
+    private void checkIndex(final int index)
+        throws MatrixIndexException {
+        if (index < 0 || index >= getDimension()) {
+            throw new MatrixIndexException("index {0} out of allowed range [{1}, {2}]",
+                                           new Object[] { index, 0, getDimension() - 1});
+        }
     }
 
 }

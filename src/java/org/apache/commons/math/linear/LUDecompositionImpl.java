@@ -108,7 +108,7 @@ public class LUDecompositionImpl implements LUDecomposition {
     public void decompose(RealMatrix matrix, double singularityThreshold)
         throws InvalidMatrixException {
         if (!matrix.isSquare()) {
-            throw new InvalidMatrixException("LU decomposition requires that the matrix be square");
+            throw new NonSquareMatrixException(matrix.getRowDimension(), matrix.getColumnDimension());
         }
         final int m = matrix.getColumnDimension();
         lu = matrix.getData();
@@ -272,7 +272,7 @@ public class LUDecompositionImpl implements LUDecomposition {
             throw new IllegalArgumentException("constant vector has wrong length");
         }
         if (singular) {
-            throw new InvalidMatrixException("Matrix is singular.");
+            throw new SingularMatrixException();
         }
 
         final double[] bp = new double[m];
@@ -314,7 +314,7 @@ public class LUDecompositionImpl implements LUDecomposition {
                 throw new IllegalArgumentException("constant vector has wrong length");
             }
             if (singular) {
-                throw new InvalidMatrixException("Matrix is singular.");
+                throw new SingularMatrixException();
             }
 
             final double[] bp = new double[m];
@@ -368,7 +368,7 @@ public class LUDecompositionImpl implements LUDecomposition {
             throw new IllegalArgumentException("Incorrect row dimension");
         }
         if (singular) {
-            throw new InvalidMatrixException("Matrix is singular.");
+            throw new SingularMatrixException();
         }
 
         final int nColB = b.getColumnDimension();

@@ -68,7 +68,7 @@ class TriDiagonalTransformer implements Serializable {
     public TriDiagonalTransformer(RealMatrix matrix)
         throws InvalidMatrixException {
         if (!matrix.isSquare()) {
-            throw new InvalidMatrixException("transformation to tridiagonal requires that the matrix be square");
+            throw new NonSquareMatrixException(matrix.getRowDimension(), matrix.getColumnDimension());
         }
 
         final int m = matrix.getRowDimension();

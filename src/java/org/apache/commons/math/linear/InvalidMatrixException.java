@@ -17,30 +17,37 @@
 
 package org.apache.commons.math.linear;
 
+import org.apache.commons.math.MathRuntimeException;
+
 /**
  * Thrown when a system attempts an operation on a matrix, and
  * that matrix does not satisfy the preconditions for the
  * aforementioned operation.
  * @version $Revision$ $Date$
  */
-public class InvalidMatrixException extends RuntimeException {
+public class InvalidMatrixException extends MathRuntimeException {
 
-    /** Serializable version identifier */
-    private static final long serialVersionUID = 5318837237354354107L;
+    /** Serializable version identifier. */
+    private static final long serialVersionUID = 1135533765052675495L;
 
     /**
-     * Default constructor.
+     * Construct an exception with the given message.
+     * @param pattern format specifier
+     * @param arguments format arguments
+     * @since 2.0
      */
-    public InvalidMatrixException() {
-        this(null);
+    public InvalidMatrixException(final String pattern, final Object[] arguments) {
+        super(pattern, arguments);
     }
 
     /**
      * Construct an exception with the given message.
-     * @param message descriptive error message.
+     * @param cause the exception or error that caused this exception
+     * to be thrown.
+     * @since 2.0
      */
-    public InvalidMatrixException(String message) {
-        super(message);
+    public InvalidMatrixException(final Throwable cause) {
+        super(cause);
     }
 
 }

@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,19 +17,21 @@
 
 package org.apache.commons.math.linear;
 
-import junit.framework.TestCase;
-
 /**
+ * Thrown when a matrix is singular.
  * @version $Revision$ $Date$
+ * @since 2.0
  */
-public class MatrixIndexExceptionTest extends TestCase {
-    
+public class SingularMatrixException extends InvalidMatrixException {
+
+    /** Serializable version identifier. */
+    private static final long serialVersionUID = -7379143356784298432L;
+
     /**
-     * 
+     * Construct an exception with a default message.
      */
-    public void testConstructorMessage(){
-        String msg = "message";
-        MatrixIndexException ex = new MatrixIndexException(msg, new Object[0]);
-        assertEquals(msg, ex.getMessage());
+    public SingularMatrixException() {
+        super("matrix is singular", new Object[0]);
     }
+
 }

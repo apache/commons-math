@@ -382,12 +382,21 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     public RealMatrix getSubMatrix(int startRow, int endRow,
                                    int startColumn, int endColumn)
         throws MatrixIndexException {
-        if (startRow < 0 || startRow > endRow || endRow > data.length ||
-             startColumn < 0 || startColumn > endColumn ||
-             endColumn > data[0].length) {
-            throw new MatrixIndexException(
-                    "invalid row or column index selection");
+
+        checkRowIndex(startRow);
+        checkRowIndex(endRow);
+        if (startRow > endRow) {
+            throw new MatrixIndexException("initial row {0} after final row {1}",
+                                           new Object[] { startRow, endRow });
         }
+
+        checkColumnIndex(startColumn);
+        checkColumnIndex(endColumn);
+        if (startColumn > endColumn) {
+            throw new MatrixIndexException("initial column {0} after final column {1}",
+                                           new Object[] { startColumn, endColumn });
+        }
+
         final double[][] subMatrixData =
             new double[endRow - startRow + 1][endColumn - startColumn + 1];
         for (int i = startRow; i <= endRow; i++) {
@@ -401,10 +410,14 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     /** {@inheritDoc} */
     public RealMatrix getSubMatrix(int[] selectedRows, int[] selectedColumns)
         throws MatrixIndexException {
+
         if (selectedRows.length * selectedColumns.length == 0) {
-            throw new MatrixIndexException(
-                    "selected row and column index arrays must be non-empty");
+            if (selectedRows.length == 0) {
+                throw new MatrixIndexException("empty selected row index array", new Object[0]);
+            }
+            throw new MatrixIndexException("empty selected column index array", new Object[0]);
         }
+
         final double[][] subMatrixData =
             new double[selectedRows.length][selectedColumns.length];
         try  {
@@ -416,7 +429,14 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
                 }
             }
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new MatrixIndexException("matrix dimension mismatch");
+            // we redo the loop with checks enabled
+            // in order to generate an appropriate message
+            for (final int row : selectedRows) {
+                checkRowIndex(row);
+            }
+            for (final int column : selectedColumns) {
+                checkColumnIndex(column);
+            }
         }
         return new RealMatrixImpl(subMatrixData, false);
     } 
@@ -450,47 +470,47 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      */
     public void setSubMatrix(double[][] subMatrix, int row, int column) 
         throws MatrixIndexException {
-        if ((row < 0) || (column < 0)){
-            throw new MatrixIndexException
-                ("invalid row or column index selection");          
-        }
+
         final int nRows = subMatrix.length;
         if (nRows == 0) {
-            throw new IllegalArgumentException(
-            "Matrix must have at least one row."); 
+            throw new IllegalArgumentException("Matrix must have at least one row."); 
         }
+
         final int nCols = subMatrix[0].length;
         if (nCols == 0) {
-            throw new IllegalArgumentException(
-            "Matrix must have at least one column."); 
+            throw new IllegalArgumentException("Matrix must have at least one column."); 
         }
+
         for (int r = 1; r < nRows; r++) {
             if (subMatrix[r].length != nCols) {
-                throw new IllegalArgumentException(
-                "All input rows must have the same length.");
+                throw new IllegalArgumentException("All input rows must have the same length.");
             }
-        }       
+        }
+
         if (data == null) {
-            if ((row > 0)||(column > 0)) throw new MatrixIndexException
-                ("matrix must be initialized to perfom this method");
+            if ((row > 0) || (column > 0)) {
+                throw new IllegalStateException("matrix must be initialized to perform this method");
+            }
             data = new double[nRows][nCols];
             System.arraycopy(subMatrix, 0, data, 0, subMatrix.length);          
-        }   
-        if (((nRows + row) > this.getRowDimension()) ||
-            (nCols + column > this.getColumnDimension()))
-            throw new MatrixIndexException(
-                    "invalid row or column index selection");                   
+        } else {
+            checkRowIndex(row);
+            checkColumnIndex(column);
+            checkRowIndex(nRows + row - 1);
+            checkColumnIndex(nCols + column - 1);
+        }
+
         for (int i = 0; i < nRows; i++) {
             System.arraycopy(subMatrix[i], 0, data[row + i], column, nCols);
         } 
+
         lu = null;
+
     }
 
     /** {@inheritDoc} */
     public RealMatrix getRowMatrix(int row) throws MatrixIndexException {
-        if ( !isValidCoordinate( row, 0)) {
-            throw new MatrixIndexException("illegal row argument");
-        }
+        checkRowIndex(row);
         final int ncols = this.getColumnDimension();
         final double[][] out = new double[1][ncols]; 
         System.arraycopy(data[row], 0, out[0], 0, ncols);
@@ -499,9 +519,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     
     /** {@inheritDoc} */
     public RealMatrix getColumnMatrix(int column) throws MatrixIndexException {
-        if ( !isValidCoordinate( 0, column)) {
-            throw new MatrixIndexException("illegal column argument");
-        }
+        checkColumnIndex(column);
         final int nRows = this.getRowDimension();
         final double[][] out = new double[nRows][1]; 
         for (int row = 0; row < nRows; row++) {
@@ -522,9 +540,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
 
     /** {@inheritDoc} */
     public double[] getRow(int row) throws MatrixIndexException {
-        if ( !isValidCoordinate( row, 0 ) ) {
-            throw new MatrixIndexException("illegal row argument");
-        }
+        checkRowIndex(row);
         final int ncols = this.getColumnDimension();
         final double[] out = new double[ncols];
         System.arraycopy(data[row], 0, out, 0, ncols);
@@ -533,9 +549,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
 
     /** {@inheritDoc} */
     public double[] getColumn(int col) throws MatrixIndexException {
-        if ( !isValidCoordinate(0, col) ) {
-            throw new MatrixIndexException("illegal column argument");
-        }
+        checkColumnIndex(col);
         final int nRows = this.getRowDimension();
         final double[] out = new double[nRows];
         for (int row = 0; row < nRows; row++) {
@@ -550,7 +564,11 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
         try {
             return data[row][column];
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new MatrixIndexException("matrix entry does not exist");
+            throw new MatrixIndexException("no entry at indices ({0}, {1}) in a {2}x{3} matrix",
+                                           new Object[] {
+                                               row, column,
+                                               getRowDimension(), getColumnDimension()
+                                           });
         }
     }
 
@@ -876,20 +894,32 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      * @throws NullPointerException if input array is null
      */
     private void copyIn(double[][] in) {
-        setSubMatrix(in,0,0);
+        setSubMatrix(in, 0, 0);
     }
 
     /**
-     * Tests a given coordinate as being valid or invalid
-     *
-     * @param row the row index.
-     * @param col the column index.
-     * @return true if the coordinate is with the current dimensions
+     * Check if a row index is valid.
+     * @param row row index to check
+     * @exception MatrixIndexException if index is not valid
      */
-    private boolean isValidCoordinate(int row, int col) {
-        final int nRows = getRowDimension();
-        final int nCols = getColumnDimension();
-        return !(row < 0 || row > nRows - 1 || col < 0 || col > nCols -1);
+    private void checkRowIndex(final int row) {
+        if (row < 0 || row >= getRowDimension()) {
+            throw new MatrixIndexException("row index {0} out of allowed range [{1}, {2}]",
+                                           new Object[] { row, 0, getRowDimension() - 1});
+        }
+    }
+
+    /**
+     * Check if a column index is valid.
+     * @param column column index to check
+     * @exception MatrixIndexException if index is not valid
+     */
+    private void checkColumnIndex(final int column)
+        throws MatrixIndexException {
+        if (column < 0 || column >= getColumnDimension()) {
+            throw new MatrixIndexException("column index {0} out of allowed range [{1}, {2}]",
+                                           new Object[] { column, 0, getColumnDimension() - 1});
+        }
     }
 
 }

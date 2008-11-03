@@ -307,7 +307,7 @@ public class QRDecompositionImpl implements QRDecomposition {
             throw new IllegalArgumentException("Incorrect row dimension");
         }
         if (!isNonSingular()) {
-            throw new InvalidMatrixException("Matrix is rank-deficient");
+            throw new RankDeficientMatrixException();
         }
 
         final double[] x = new double[n];
@@ -381,7 +381,7 @@ public class QRDecompositionImpl implements QRDecomposition {
             throw new IllegalArgumentException("Incorrect row dimension");
         }
         if (!isNonSingular()) {
-            throw new InvalidMatrixException("Matrix is rank-deficient");
+            throw new RankDeficientMatrixException();
         }
 
         final int cols = b.getColumnDimension();

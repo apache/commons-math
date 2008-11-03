@@ -133,7 +133,7 @@ public class MessagesResources_fr
     { "unable to orthogonalize matrix in {0} iterations",
       "impossible de rendre la matrice orthogonale en {0} it\u00e9rations" },
 
-    // org.apache.commons.math.ode.AdaptiveStepsizeIntegrator
+    // org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator
     { "minimal step size ({0}) reached, integration needs {1}",
       "pas minimal ({0}) atteint, l''int\u00e9gration n\u00e9cessite {1}" },
     { "dimensions mismatch: state vector has dimension {0}," +
@@ -145,8 +145,8 @@ public class MessagesResources_fr
       "incompatibilit\u00e9 de dimensions entre le vecteur d''\u00e9tat ({0})," +
       " et le vecteur de tol\u00e9rance relative ({1})" },
 
-    // org.apache.commons.math.ode.AdaptiveStepsizeIntegrator,
-    // org.apache.commons.math.ode.RungeKuttaIntegrator
+    // org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator,
+    // org.apache.commons.math.ode.nonstiff.RungeKuttaIntegrator
     { "dimensions mismatch: ODE problem has dimension {0}," +
       " initial state vector has dimension {1}",
       "incompatibilit\u00e9 de dimensions entre le probl\u00e8me ODE ({0})," +
@@ -158,9 +158,55 @@ public class MessagesResources_fr
     { "too small integration interval: length = {0}",
       "intervalle d''int\u00e9gration trop petit : {0}" },
 
+    // org.apache.commons.math.ode.ContinuousOutputModel
+    // org.apache.commons.math.optimization.DirectSearchOptimizer
+    { "unexpected exception caught",
+      "exception inattendue lev\u00e9e" },
+
     // org.apache.commons.math.optimization.DirectSearchOptimizer
     { "none of the {0} start points lead to convergence",
-      "aucun des {0} points de d\u00e9part n''aboutit \u00e0 une convergence"  }
+      "aucun des {0} points de d\u00e9part n''aboutit \u00e0 une convergence"  },
+
+    // org.apache.commons.math.random.EmpiricalDistributionImpl
+    { "no bin selected",
+      "aucun compartiment s\u00e9lectionn\u00e9" },
+
+    // org.apache.commons.math.linear.EigenDecompositionImpl
+    { "negative element on decomposed tridiagonal of {0}x{1} matrix",
+      "\u00e9l\u00e9ment n\u00e9gatif dans la d\u00e9composition tri-diagonale d''une matrice {0}x{1}" },
+
+    // org.apache.commons.math.linear.NonSquareMatrixException
+    { "a {0}x{1} matrix was provided instead of a square matrix",
+      "une matrice {0}x{1} a \u00e9t\u00e9 fournie \u00e0 la place d''une matrice carr\u00e9e" },
+
+    // org.apache.commons.math.linear.SingularMatrixException
+    { "matrix is singular",
+      "matrice singuli\u00e8re" },
+
+    // org.apache.commons.math.linear.RankDeficientMatrixException
+    { "matrix is rank-deficient",
+      "le rang de la matrice est inf\u00e9rieur \u00e0 sa dimension" },
+
+    // org.apache.commons.math.linear.RealVectorImpl
+    { "index {0} out of allowed range [{1}, {2}]",
+      "index {0} hors de la plage autoris\u00e9e [{1}, {2}]" },
+
+    // org.apache.commons.math.linear.BigMatrixImpl
+    // org.apache.commons.math.linear.RealMatrixImpl
+    { "row index {0} out of allowed range [{1}, {2}]",
+      "index de ligne {0} hors de la plage autoris\u00e9e [{1}, {2}]" },
+    { "column index {0} out of allowed range [{1}, {2}]",
+      "index de colonne {0} hors de la plage autoris\u00e9e [{1}, {2}]" },
+    { "no entry at indices ({0}, {1}) in a {2}x{3} matrix",
+      "pas d''entr\u00e9e aux indices ({0}, {1}) dans une matrice {2}x{3}" },
+    { "initial row {0} after final row {1}",
+      "ligne initiale {0} apr\u00e8s la ligne finale {1}" },
+    { "initial column {0} after final column {1}",
+      "colonne initiale {0} apr\u00e8s la colonne finale {1}" },
+    { "empty selected row index array",
+      "tableau des indices de lignes s\u00e9lectionn\u00e9es vide" },
+    { "empty selected column index array",
+      "tableau des indices de colonnes s\u00e9lectionn\u00e9es vide" }
 
   };
 
