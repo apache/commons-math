@@ -17,19 +17,20 @@
 
 package org.apache.commons.math.random;
 
-import java.io.EOFException;
-import java.io.Serializable;
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.EOFException;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.stat.descriptive.StatisticalSummary;
+import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 
 /**
  * Implements <code>EmpiricalDistribution</code> interface.  This implementation
@@ -110,7 +111,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
             da.computeStats();
             fillBinStats(in);
         } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+            throw new MathRuntimeException(e);
         }
         loaded = true;
 
@@ -418,7 +419,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
                }
            }
         }
-        throw new RuntimeException("No bin selected");
+        throw new MathRuntimeException("no bin selected", new Object[0]);
     }
 
     /**

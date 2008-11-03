@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.util;
 
+import org.apache.commons.math.MathRuntimeException;
+
 /**
  * @version $Revision$ $Date$
  */
@@ -57,7 +59,7 @@ public class TestBean {
      * 
      */
     public Double getZ() {
-        throw new RuntimeException();
+        throw new MathRuntimeException();
     }
 
     /**

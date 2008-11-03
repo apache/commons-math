@@ -22,6 +22,7 @@ import java.util.Comparator;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.DimensionMismatchException;
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.random.CorrelatedRandomVectorGenerator;
 import org.apache.commons.math.random.JDKRandomGenerator;
@@ -269,7 +270,7 @@ public abstract class DirectSearchOptimizer {
 
         } catch (DimensionMismatchException dme) {
             // this should not happen
-            throw new RuntimeException("internal error");
+            throw new MathRuntimeException("unexpected exception caught", new Object[0], dme);
         }
 
     }

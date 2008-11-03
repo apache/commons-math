@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.Serializable;
 
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
@@ -314,8 +315,7 @@ public class ContinuousOutputModel
       steps.get(index).setInterpolatedTime(time);
 
     } catch (DerivativeException de) {
-      throw new RuntimeException("unexpected DerivativeException caught: " +
-                                 de.getMessage());
+      throw new MathRuntimeException("unexpected exception caught", new Object[0], de);
     }
 
   }

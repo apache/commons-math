@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.RetryTestCase;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
@@ -141,7 +142,11 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
             empiricalDistribution.getNextValue();
             empiricalDistribution2.getNextValue();
             fail("Expecting IllegalStateException");
-        } catch (IllegalStateException ex) {;}
+        } catch (IllegalStateException ex) {
+            // expected
+        } catch (Exception e) {
+            fail("wrong exception caught");
+        }
     }
     
     /**
@@ -190,9 +195,10 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
         try {
             dist.load((double[]) null);
             fail("load((double[]) null) expected RuntimeException");
-        }
-        catch (RuntimeException e) {
+        } catch (MathRuntimeException e) {
             // expected
+        } catch (Exception e) {
+            fail("wrong exception caught");
         }
     }
 
@@ -201,9 +207,10 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
         try {
             dist.load((URL) null);
             fail("load((URL) null) expected NullPointerException");
-        }
-        catch (NullPointerException e) {
+        } catch (NullPointerException e) {
             // expected
+        } catch (Exception e) {
+            fail("wrong exception caught");
         }
     }
 
@@ -212,9 +219,10 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
         try {
             dist.load((File) null);
             fail("load((File) null) expected NullPointerException");
-        }
-        catch (NullPointerException e) {
+        } catch (NullPointerException e) {
             // expected
+        } catch (Exception e) {
+            fail("wrong exception caught");
         }
     }
 
