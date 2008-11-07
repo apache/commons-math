@@ -16,9 +16,11 @@
  */
 package org.apache.commons.math;
 
+import java.io.EOFException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.text.MessageFormat;
+import java.text.ParseException;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -32,7 +34,7 @@ import java.util.ResourceBundle;
 public class MathRuntimeException extends RuntimeException {
     
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -2880601850253924272L;
+    private static final long serialVersionUID = 8560172512507661982L;
 
     /** Cache for resources bundle. */
     private static ResourceBundle cachedResources = null;
@@ -86,19 +88,9 @@ public class MathRuntimeException extends RuntimeException {
      */
     private static String buildMessage(final String pattern, final Object[] arguments,
                                        final Locale locale) {
-        return new MessageFormat(translate(pattern, locale), locale).format(arguments);        
+        return (pattern == null) ? "" : new MessageFormat(translate(pattern, locale), locale).format(arguments);        
     }
 
-    /**
-     * Constructs a new <code>MathRuntimeException</code> with no
-     * detail message.
-     */
-    public MathRuntimeException() {
-        super();
-        this.pattern   = null;
-        this.arguments = new Object[0];
-    }
-    
     /**
      * Constructs a new <code>MathRuntimeException</code> with specified
      * formatted detail message.
@@ -109,7 +101,7 @@ public class MathRuntimeException extends RuntimeException {
     public MathRuntimeException(final String pattern, final Object[] arguments) {
       super(buildMessage(pattern, arguments, Locale.US));
       this.pattern   = pattern;
-      this.arguments = (Object[]) arguments.clone();
+      this.arguments = (arguments == null) ? new Object[0] : arguments.clone();
     }
 
     /**
@@ -138,7 +130,7 @@ public class MathRuntimeException extends RuntimeException {
                                 final Throwable rootCause) {
       super(buildMessage(pattern, arguments, Locale.US), rootCause);
       this.pattern   = pattern;
-      this.arguments = (Object[]) arguments.clone();
+      this.arguments = (arguments == null) ? new Object[0] : arguments.clone();
     }
 
     /** Gets the pattern used to build the message of this throwable.
@@ -154,7 +146,7 @@ public class MathRuntimeException extends RuntimeException {
      * @return the arguments used to build the message of this throwable
      */
     public Object[] getArguments() {
-        return (Object[]) arguments.clone();
+        return arguments.clone();
     }
 
     /** Gets the message in a specified locale.
@@ -164,7 +156,7 @@ public class MathRuntimeException extends RuntimeException {
      * @return localized message
      */
     public String getMessage(final Locale locale) {
-        return (pattern == null) ? null : buildMessage(pattern, arguments, locale);
+        return buildMessage(pattern, arguments, locale);
     }
 
     /** {@inheritDoc} */
@@ -192,5 +184,134 @@ public class MathRuntimeException extends RuntimeException {
             pw.flush();
         }
     }
-    
+
+    /**
+     * Constructs a new <code>ArithmeticException</code> with specified formatted detail message.
+     * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * @param pattern format specifier
+     * @param arguments format arguments
+     */
+    public static ArithmeticException createArithmeticException(final String pattern,
+                                                                final Object[] arguments) {
+        return new ArithmeticException(buildMessage(pattern, arguments, Locale.US)) {
+
+            /** Serializable version identifier. */
+            private static final long serialVersionUID = 7705628723242533939L;
+
+            /** {@inheritDoc} */
+            public String getLocalizedMessage() {
+                return buildMessage(pattern, arguments, Locale.getDefault());
+            }
+
+        };
+    }
+
+    /**
+     * Constructs a new <code>ArrayIndexOutOfBoundsException</code> with specified formatted detail message.
+     * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * @param pattern format specifier
+     * @param arguments format arguments
+     */
+    public static ArrayIndexOutOfBoundsException createArrayIndexOutOfBoundsException(final String pattern,
+                                                                                      final Object[] arguments) {
+        return new ArrayIndexOutOfBoundsException(buildMessage(pattern, arguments, Locale.US)) {
+
+            /** Serializable version identifier. */
+            private static final long serialVersionUID = 8077627622976962141L;
+
+            /** {@inheritDoc} */
+            public String getLocalizedMessage() {
+                return buildMessage(pattern, arguments, Locale.getDefault());
+            }
+
+        };
+    }
+
+    /**
+     * Constructs a new <code>EOFException</code> with specified formatted detail message.
+     * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * @param pattern format specifier
+     * @param arguments format arguments
+     */
+    public static EOFException createEOFException(final String pattern,
+                                                  final Object[] arguments) {
+        return new EOFException(buildMessage(pattern, arguments, Locale.US)) {
+
+            /** Serializable version identifier. */
+            private static final long serialVersionUID = 279461544586092584L;
+
+            /** {@inheritDoc} */
+            public String getLocalizedMessage() {
+                return buildMessage(pattern, arguments, Locale.getDefault());
+            }
+
+        };
+    }
+
+    /**
+     * Constructs a new <code>IllegalArgumentException</code> with specified formatted detail message.
+     * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * @param pattern format specifier
+     * @param arguments format arguments
+     */
+    public static IllegalArgumentException createIllegalArgumentException(final String pattern,
+                                                                          final Object[] arguments) {
+        return new IllegalArgumentException(buildMessage(pattern, arguments, Locale.US)) {
+
+            /** Serializable version identifier. */
+            private static final long serialVersionUID = -7537852425838457684L;
+
+            /** {@inheritDoc} */
+            public String getLocalizedMessage() {
+                return buildMessage(pattern, arguments, Locale.getDefault());
+            }
+
+        };
+    }
+
+    /**
+     * Constructs a new <code>IllegalStateException</code> with specified formatted detail message.
+     * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * @param pattern format specifier
+     * @param arguments format arguments
+     */
+    public static IllegalStateException createIllegalStateException(final String pattern,
+                                                                    final Object[] arguments) {
+        return new IllegalStateException(buildMessage(pattern, arguments, Locale.US)) {
+
+            /** Serializable version identifier. */
+            private static final long serialVersionUID = 5173599768297434381L;
+
+            /** {@inheritDoc} */
+            public String getLocalizedMessage() {
+                return buildMessage(pattern, arguments, Locale.getDefault());
+            }
+
+        };
+    }
+
+    /**
+     * Constructs a new <code>ParseException</code> with specified
+     * formatted detail message.
+     * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * @param pattern format specifier
+     * @param arguments format arguments
+     * @param offset offset at which error occurred
+     */
+    public static ParseException createParseException(final String pattern,
+                                                      final Object[] arguments,
+                                                      final int offset) {
+        return new ParseException(buildMessage(pattern, arguments, Locale.US), offset) {
+
+            /** Serializable version identifier. */
+            private static final long serialVersionUID = -1103502177342465975L;
+
+            /** {@inheritDoc} */
+            public String getLocalizedMessage() {
+                return buildMessage(pattern, arguments, Locale.getDefault());
+            }
+
+        };
+    }
+
 }
