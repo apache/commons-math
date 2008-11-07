@@ -99,7 +99,7 @@ public class MathException extends Exception {
     public MathException() {
         super();
         this.pattern   = null;
-        this.arguments = null;
+        this.arguments = new Object[0];
     }
     
     /**
