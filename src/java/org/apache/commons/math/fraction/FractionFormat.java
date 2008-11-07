@@ -26,6 +26,7 @@ import java.text.ParsePosition;
 import java.util.Locale;
 
 import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.MathRuntimeException;
 
 /**
  * Formats a Fraction number in proper format or improper format.  The number
@@ -244,8 +245,9 @@ public class FractionFormat extends Format implements Serializable {
         ParsePosition parsePosition = new ParsePosition(0);
         Fraction result = parse(source, parsePosition);
         if (parsePosition.getIndex() == 0) {
-            throw new ParseException("Unparseable fraction number: \"" +
-                source + "\"", parsePosition.getErrorIndex());
+            throw MathRuntimeException.createParseException("unparseable fraction number: \"{0}\"",
+                                                            new Object[] { source },
+                                                            parsePosition.getErrorIndex());
         }
         return result;
     }

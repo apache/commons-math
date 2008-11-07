@@ -270,7 +270,7 @@ public abstract class DirectSearchOptimizer {
 
         } catch (DimensionMismatchException dme) {
             // this should not happen
-            throw new MathRuntimeException("unexpected exception caught", new Object[0], dme);
+            throw new MathRuntimeException("unexpected exception caught", null, dme);
         }
 
     }

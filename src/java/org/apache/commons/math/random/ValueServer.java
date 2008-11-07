@@ -17,11 +17,12 @@
 
 package org.apache.commons.math.random;
 import java.io.BufferedReader;
-import java.io.EOFException;
-import java.io.InputStreamReader;
 import java.io.IOException;
-import java.net.URL;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.apache.commons.math.MathRuntimeException;
 
 /**
  * Generates values for use in simulation applications.
@@ -328,7 +329,8 @@ public class ValueServer {
             closeReplayFile();
             resetReplayFile();
             if ((str = filePointer.readLine()) == null) {
-                throw new EOFException("URL " + valuesFileURL + " contains no data");
+                throw MathRuntimeException.createEOFException("URL {0} contains no data",
+                                                              new Object[] { valuesFileURL });
             }
         }
         return Double.valueOf(str).doubleValue();

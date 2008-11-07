@@ -206,7 +206,61 @@ public class MessagesResources_fr
     { "empty selected row index array",
       "tableau des indices de lignes s\u00e9lectionn\u00e9es vide" },
     { "empty selected column index array",
-      "tableau des indices de colonnes s\u00e9lectionn\u00e9es vide" }
+      "tableau des indices de colonnes s\u00e9lectionn\u00e9es vide" },
+
+   // org.apache.commons.math.random.EmpiricalDistributionImpl
+   // org.apache.commons.math.random.ValueServer
+   { "URL {0} contains no data",
+     "l''adresse {0} ne contient aucune donn\u00e9e" },
+
+   // org.apache.commons.math.complex.ComplexFormat
+   { "unparseable complex number: \"{0}\"",
+     "\u00e9chec d''analyse du nombre complexe \"{0}\"" },
+
+   // org.apache.commons.math.fraction.FractionFormat
+   { "unparseable fraction number: \"{0}\"",
+     "\u00e9chec d''analyse du nombre rationnel \"{0}\"" },
+
+   // org.apache.commons.math.geometry.Vector3DFormat
+   { "unparseable 3D vector: \"{0}\"",
+     "\u00e9chec d''analyse du vecteur de dimension 3 \"{0}\"" },
+
+   // org.apache.commons.math.linear.RealVectorFormat
+   { "unparseable real vector: \"{0}\"",
+     "\u00e9chec d''analyse du vecteur r\u00e9el \"{0}\"" },
+
+   // org.apache.commons.math.util.ResizableDoubleArray
+   { "the index specified: {0} is larger than the current maximal index {1}",
+     "l''index sp\u00e9cifi\u00e9 ({0}) d\u00e9passe l''index maximal courant ({1})" },
+   { "elements cannot be retrieved from a negative array index {0}",
+     "impossible d''extraire un \u00e9l\u00e9ment \u00e0 un index n\u00e9gatif ({0})" },
+   { "cannot set an element at a negative index {0}",
+     "impossible de mettre un \u00e9l\u00e9ment \u00e0 un index n\u00e9gatif ({0})" },
+
+   // org.apache.commons.math.analysis.PolynomialFunctionLagrangeForm
+   { "identical abscissas x[{0}] == x[{1}] == {2} cause division by zero",
+     "division par z\u00e9ro caus\u00e9e par les abscisses identiques x[{0}] == x[{1}] == {2}" },
+
+   // org.apache.commons.math.fraction.Fraction
+   { "zero denominator in fraction {0}/{1}",
+     "d\u00e9nominateur null dans le nombre rationnel {0}/{1}" },
+   { "overflow in fraction {0}/{1}, cannot negate",
+     "d\u00e9passement de capacit\u00e9 pour la fraction {0}/{1}, son signe ne peut \u00eatre chang\u00e9" },
+   { "overflow, numerator too large after multiply: {0}",
+     "d\u00e9passement de capacit\u00e9 pour le num\u00e9rateur apr\u00e8s multiplication : {0}" },
+   { "the fraction to divide by must not be zero: {0}/{1}",
+     "division par un nombre rationnel nul : {0}/{1}" },
+
+   // org.apache.commons.math.geometry.Rotation
+   { "zero norm for rotation axis",
+     "norme nulle pour un axe de rotation" },
+
+   // org.apache.commons.math.geometry.Vector3D
+    // org.apache.commons.math.linear.RealVectorImpl
+   { "cannot normalize a zero norm vector",
+     "impossible de normer un vecteur de norme nulle" },
+   { "zero norm",
+     "norme nulle" }
 
   };
 

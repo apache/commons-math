@@ -315,7 +315,7 @@ public class ContinuousOutputModel
       steps.get(index).setInterpolatedTime(time);
 
     } catch (DerivativeException de) {
-      throw new MathRuntimeException("unexpected exception caught", new Object[0], de);
+      throw new MathRuntimeException("unexpected exception caught", null, de);
     }
 
   }

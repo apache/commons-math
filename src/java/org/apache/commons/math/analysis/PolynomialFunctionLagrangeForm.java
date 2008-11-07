@@ -20,6 +20,7 @@ import java.io.Serializable;
 
 import org.apache.commons.math.DuplicateSampleAbscissaException;
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MathRuntimeException;
 
 /**
  * Implements the representation of a real polynomial function in
@@ -253,8 +254,14 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction,
             }
             if (d == 0.0) {
                 // This happens only when two abscissas are identical.
-                throw new ArithmeticException
-                    ("Identical abscissas cause division by zero.");
+                for (int k = 0; k < n; ++k) {
+                    if ((i != k) && (x[i] == x[k])) {
+                        throw MathRuntimeException.createArithmeticException("identical abscissas x[{0}] == x[{1}] == {2} cause division by zero",
+                                                                             new Object[] {
+                                                                                 i, k, x[i]
+                                                                             });
+                    }
+                }
             }
             t = y[i] / d;
             // Lagrange polynomial is the sum of n terms, each of which is a

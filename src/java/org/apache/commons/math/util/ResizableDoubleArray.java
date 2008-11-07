@@ -18,6 +18,8 @@ package org.apache.commons.math.util;
 
 import java.io.Serializable;
 
+import org.apache.commons.math.MathRuntimeException;
+
 /**
  * <p>
  * A variable length {@link DoubleArray} implementation that automatically 
@@ -454,16 +456,13 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      */
     public synchronized double getElement(int index) {
         if (index >= numElements) {
-            String msg =
-                "The index specified: " + index +
-                " is larger than the current number of elements";
-            throw new ArrayIndexOutOfBoundsException(msg);
+            throw MathRuntimeException.createArrayIndexOutOfBoundsException("the index specified: {0} is larger than the current maximal index {1}",
+                                                                            new Object[] { index, numElements - 1 });
         } else if (index >= 0) {
             return internalArray[startIndex + index];
         } else {
-            String msg =
-                "Elements cannot be retrieved from a negative array index";
-            throw new ArrayIndexOutOfBoundsException(msg);
+            throw MathRuntimeException.createArrayIndexOutOfBoundsException("elements cannot be retrieved from a negative array index {0}",
+                                                                            new Object[] { index });
         }
     }
     
@@ -570,8 +569,8 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      */
     public synchronized void setElement(int index, double value) {
         if (index < 0) {
-            String msg = "Cannot set an element at a negative index";
-            throw new ArrayIndexOutOfBoundsException(msg);
+            throw MathRuntimeException.createArrayIndexOutOfBoundsException("cannot set an element at a negative index {0}",
+                                                                            new Object[] { index });
         }
         if (index + 1 > numElements) {
             numElements = index + 1;

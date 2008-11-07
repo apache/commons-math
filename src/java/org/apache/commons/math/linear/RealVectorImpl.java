@@ -19,6 +19,7 @@ package org.apache.commons.math.linear;
 import java.io.Serializable;
 import java.util.Arrays;
 
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -1068,7 +1069,7 @@ public class RealVectorImpl implements RealVector, Serializable {
     public RealVector unitVector() throws ArithmeticException {
         final double norm = getNorm();
         if (norm == 0) {
-            throw new ArithmeticException("null norm");
+            throw MathRuntimeException.createArithmeticException("zero norm", null);
         }
         return mapDivide(getNorm());
     }
@@ -1077,7 +1078,8 @@ public class RealVectorImpl implements RealVector, Serializable {
     public void unitize() throws ArithmeticException {
         final double norm = getNorm();
         if (norm == 0) {
-            throw new ArithmeticException("null norm");
+            throw MathRuntimeException.createArithmeticException("cannot normalize a zero norm vector",
+                                                                 null);
         }
         for (int i = 0; i < data.length; i++) {
             data[i] /= norm;

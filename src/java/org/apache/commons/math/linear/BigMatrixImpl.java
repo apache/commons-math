@@ -622,9 +622,9 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
 
         if (selectedRows.length * selectedColumns.length == 0) {
             if (selectedRows.length == 0) {
-                throw new MatrixIndexException("empty selected row index array", new Object[0]);
+                throw new MatrixIndexException("empty selected row index array", null);
             }
-            throw new MatrixIndexException("empty selected column index array", new Object[0]);
+            throw new MatrixIndexException("empty selected column index array", null);
         }
 
         final BigDecimal[][] subMatrixData =

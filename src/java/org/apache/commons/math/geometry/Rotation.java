@@ -19,6 +19,8 @@ package org.apache.commons.math.geometry;
 
 import java.io.Serializable;
 
+import org.apache.commons.math.MathRuntimeException;
+
 /**
  * This class implements rotations in a three-dimensional space.
  *
@@ -154,7 +156,8 @@ public class Rotation implements Serializable {
 
     double norm = axis.getNorm();
     if (norm == 0) {
-      throw new ArithmeticException("zero norm for rotation axis");
+      throw MathRuntimeException.createArithmeticException("zero norm for rotation axis",
+                                                           null);
     }
 
     double halfAngle = -0.5 * angle;

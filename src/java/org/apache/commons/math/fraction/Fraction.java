@@ -17,6 +17,8 @@
 package org.apache.commons.math.fraction;
 
 import java.math.BigInteger;
+
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -200,12 +202,13 @@ public class Fraction extends Number implements Comparable<Fraction> {
     public Fraction(int num, int den) {
         super();
         if (den == 0) {
-            throw new ArithmeticException("The denominator must not be zero");
+            throw MathRuntimeException.createArithmeticException("zero denominator in fraction {0}/{1}",
+                                                                 new Object[] { num, den});
         }
         if (den < 0) {
-            if (num == Integer.MIN_VALUE ||
-                    den == Integer.MIN_VALUE) {
-                throw new ArithmeticException("overflow: can't negate");
+            if (num == Integer.MIN_VALUE || den == Integer.MIN_VALUE) {
+                throw MathRuntimeException.createArithmeticException("overflow in fraction {0}/{1}, cannot negate",
+                                                                     new Object[] { num, den});
             }
             num = -num;
             den = -den;
@@ -361,7 +364,8 @@ public class Fraction extends Number implements Comparable<Fraction> {
      */
     public Fraction negate() {
         if (numerator==Integer.MIN_VALUE) {
-            throw new ArithmeticException("overflow: too large to negate");
+            throw MathRuntimeException.createArithmeticException("overflow in fraction {0}/{1}, cannot negate",
+                                                                 new Object[] { numerator, denominator});
         }
         return new Fraction(-numerator, denominator);
     }
@@ -451,8 +455,8 @@ public class Fraction extends Number implements Comparable<Fraction> {
         // result is (t/d2) / (u'/d1)(v'/d2)
         BigInteger w = t.divide(BigInteger.valueOf(d2));
         if (w.bitLength() > 31) {
-            throw new ArithmeticException
-            ("overflow: numerator too large after multiply");
+            throw MathRuntimeException.createArithmeticException("overflow, numerator too large after multiply: {0}",
+                                                                 new Object[] { w });
         }
         return new Fraction (w.intValue(), 
                 MathUtils.mulAndCheck(denominator/d1, 
@@ -500,7 +504,8 @@ public class Fraction extends Number implements Comparable<Fraction> {
             throw new IllegalArgumentException("The fraction must not be null");
         }
         if (fraction.numerator == 0) {
-            throw new ArithmeticException("The fraction to divide by must not be zero");
+            throw MathRuntimeException.createArithmeticException("the fraction to divide by must not be zero: {0}/{1}",
+                                                                 new Object[] { fraction.numerator, fraction.denominator });
         }
         return multiply(fraction.reciprocal());
     }
@@ -518,7 +523,8 @@ public class Fraction extends Number implements Comparable<Fraction> {
      */
     public static Fraction getReducedFraction(int numerator, int denominator) {
         if (denominator == 0) {
-            throw new ArithmeticException("The denominator must not be zero");
+            throw MathRuntimeException.createArithmeticException("zero denominator in fraction {0}/{1}",
+                                                                 new Object[] { numerator, denominator});
         }
         if (numerator==0) {
             return ZERO; // normalize zero.
@@ -530,7 +536,8 @@ public class Fraction extends Number implements Comparable<Fraction> {
         if (denominator < 0) {
             if (numerator==Integer.MIN_VALUE ||
                     denominator==Integer.MIN_VALUE) {
-                throw new ArithmeticException("overflow: can't negate");
+                throw MathRuntimeException.createArithmeticException("overflow in fraction {0}/{1}, cannot negate",
+                                                                     new Object[] { numerator, denominator});
             }
             numerator = -numerator;
             denominator = -denominator;

@@ -18,7 +18,6 @@
 package org.apache.commons.math.random;
 
 import java.io.BufferedReader;
-import java.io.EOFException;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -130,11 +129,18 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
             DataAdapter da = new StreamDataAdapter(in);
             try {
                 da.computeStats();
+            } catch (IOException ioe) {
+                // don't wrap exceptions which are already IOException
+                throw ioe;
+            } catch (RuntimeException rte) {
+                // don't wrap RuntimeExceptions
+                throw rte;
             } catch (Exception e) {
                 throw new IOException(e.getMessage());
             }
             if (sampleStats.getN() == 0) {
-                throw new EOFException("URL " + url + " contains no data");
+                throw MathRuntimeException.createEOFException("URL {0} contains no data",
+                                                              new Object[] { url });
             }
             in = new BufferedReader(new InputStreamReader(url.openStream()));
             fillBinStats(in);
@@ -162,6 +168,12 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
             DataAdapter da = new StreamDataAdapter(in);
             try {
                 da.computeStats();
+            } catch (IOException ioe) {
+                // don't wrap exceptions which are already IOException
+                throw ioe;
+            } catch (RuntimeException rte) {
+                // don't wrap RuntimeExceptions
+                throw rte;
             } catch (Exception e) {
                 throw new IOException(e.getMessage());
             }
@@ -357,12 +369,14 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         DataAdapter da = aFactory.getAdapter(in);
         try {
             da.computeBinStats(min, delta);
+        } catch (IOException ioe) {
+            // don't wrap exceptions which are already IOException
+            throw ioe;
+        } catch (RuntimeException rte) {
+            // don't wrap RuntimeExceptions
+            throw rte;
         } catch (Exception e) {
-            if(e instanceof RuntimeException){
-                throw new RuntimeException(e.getMessage());
-            }else{
-                throw new IOException(e.getMessage());
-            }
+            throw new IOException(e.getMessage());
         }
 
         // Assign upperBounds based on bin counts
@@ -419,7 +433,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
                }
            }
         }
-        throw new MathRuntimeException("no bin selected", new Object[0]);
+        throw new MathRuntimeException("no bin selected", null);
     }
 
     /**

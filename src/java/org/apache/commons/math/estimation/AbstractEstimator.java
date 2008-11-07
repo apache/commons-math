@@ -182,7 +182,7 @@ public abstract class AbstractEstimator implements Estimator {
             return ((RealMatrixImpl) new RealMatrixImpl(jTj, false).inverse()).getDataRef();
         } catch (InvalidMatrixException ime) {
             throw new EstimationException("unable to compute covariances: singular problem",
-                                          new Object[0]);
+                                          null);
         }
 
     }
