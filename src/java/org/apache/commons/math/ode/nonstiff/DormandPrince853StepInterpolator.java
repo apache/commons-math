@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
@@ -250,7 +251,7 @@ class DormandPrince853StepInterpolator
       // save the local attributes
       finalizeStep();
     } catch (DerivativeException e) {
-      throw new IOException(e.getMessage());
+      throw MathRuntimeException.createIOException(e);
     }
     out.writeInt(currentState.length);
     for (int i = 0; i < currentState.length; ++i) {

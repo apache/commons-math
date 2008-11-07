@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 
@@ -157,7 +158,7 @@ abstract class MultistepStepInterpolator
             // we can now set the interpolated time and state
             setInterpolatedTime(t);
         } catch (DerivativeException e) {
-            throw new IOException(e.getMessage());
+            throw MathRuntimeException.createIOException(e);
         }
 
     }

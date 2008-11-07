@@ -21,6 +21,7 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.io.IOException;
 
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.SecondOrderIntegrator;
@@ -369,7 +370,7 @@ public abstract class AbstractStepInterpolator
     try {
       finalizeStep();
     } catch (DerivativeException e) {
-      throw new IOException(e.getMessage());
+      throw MathRuntimeException.createIOException(e);
     }
 
   }

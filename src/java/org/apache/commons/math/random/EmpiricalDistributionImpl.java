@@ -136,7 +136,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
                 // don't wrap RuntimeExceptions
                 throw rte;
             } catch (Exception e) {
-                throw new IOException(e.getMessage());
+                throw MathRuntimeException.createIOException(e);
             }
             if (sampleStats.getN() == 0) {
                 throw MathRuntimeException.createEOFException("URL {0} contains no data",
@@ -175,7 +175,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
                 // don't wrap RuntimeExceptions
                 throw rte;
             } catch (Exception e) {
-                throw new IOException(e.getMessage());
+                throw MathRuntimeException.createIOException(e);
             }
             in = new BufferedReader(new FileReader(file));
             fillBinStats(in);
@@ -376,7 +376,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
             // don't wrap RuntimeExceptions
             throw rte;
         } catch (Exception e) {
-            throw new IOException(e.getMessage());
+            throw MathRuntimeException.createIOException(e);
         }
 
         // Assign upperBounds based on bin counts

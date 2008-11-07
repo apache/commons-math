@@ -120,7 +120,7 @@ public class DummyStepInterpolatorTest
         fail("an exception should have been thrown");
     } catch (IOException ioe) {
         // expected behavior
-        assertNull(ioe.getMessage());
+        assertEquals(0, ioe.getMessage().length());
     } catch (Exception e) {
         fail("wrong exception caught");
     }
@@ -166,7 +166,7 @@ public class DummyStepInterpolatorTest
         fail("an exception should have been thrown");
     } catch (IOException ioe) {
         // expected behavior
-        assertNull(ioe.getMessage());
+        assertEquals(0, ioe.getMessage().length());
     } catch (Exception e) {
         fail("wrong exception caught");
     }

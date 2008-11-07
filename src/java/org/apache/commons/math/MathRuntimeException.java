@@ -17,6 +17,7 @@
 package org.apache.commons.math;
 
 import java.io.EOFException;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.text.MessageFormat;
@@ -246,6 +247,22 @@ public class MathRuntimeException extends RuntimeException {
             }
 
         };
+    }
+
+    /**
+     * Constructs a new <code>IOException</code> with specified nested
+     * <code>Throwable</code> root cause.
+     * <p>This factory method allows chaining of other exceptions within an
+     * <code>IOException</code> even for Java 5. The constructor for
+     * <code>IOException</code> with a cause parameter was introduced only
+     * with Java 6.</p>
+     * @param rootCause the exception or error that caused this exception
+     * to be thrown.
+     */
+    public static IOException createIOException(final Throwable rootCause) {
+        IOException ioe = new IOException(rootCause.getLocalizedMessage());
+        ioe.initCause(rootCause);
+        return ioe;
     }
 
     /**
