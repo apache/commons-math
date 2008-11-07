@@ -30,7 +30,7 @@ public class MathConfigurationExceptionTest extends TestCase {
         MathConfigurationException ex = new MathConfigurationException();
         assertNull(ex.getCause());
         assertNull(ex.getMessage());
-        assertNull(ex.getMessage(Locale.FRENCH));
+        assertEquals(0, ex.getMessage(Locale.FRENCH).length());
     }
     
     public void testConstructorPatternArguments(){

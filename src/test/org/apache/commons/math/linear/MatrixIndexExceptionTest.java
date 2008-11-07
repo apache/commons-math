@@ -29,7 +29,7 @@ public class MatrixIndexExceptionTest extends TestCase {
      */
     public void testConstructorMessage(){
         String msg = "message";
-        MatrixIndexException ex = new MatrixIndexException(msg, new Object[0]);
+        MatrixIndexException ex = new MatrixIndexException(msg, null);
         assertEquals(msg, ex.getMessage());
     }
 }

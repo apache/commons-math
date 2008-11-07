@@ -31,7 +31,7 @@ public class RankDeficientMatrixException extends InvalidMatrixException {
      * Construct an exception with a default message.
      */
     public RankDeficientMatrixException() {
-        super("matrix is rank-deficient", new Object[0]);
+        super("matrix is rank-deficient", null);
     }
 
 }

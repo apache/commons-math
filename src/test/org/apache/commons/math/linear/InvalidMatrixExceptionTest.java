@@ -29,7 +29,7 @@ public class InvalidMatrixExceptionTest extends TestCase {
      */
     public void testConstructorMessage(){
         String msg = "message";
-        InvalidMatrixException ex = new InvalidMatrixException(msg, new Object[0]);
+        InvalidMatrixException ex = new InvalidMatrixException(msg, null);
         assertEquals(msg, ex.getMessage());
     }
 }

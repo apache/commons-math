@@ -36,7 +36,7 @@ public class NotPositiveDefiniteMatrixException extends MathException {
      * build an exception with a default message.
      */
     public NotPositiveDefiniteMatrixException() {
-        super("not positive definite matrix", new Object[0]);
+        super("not positive definite matrix", null);
     }
 
 }

@@ -31,7 +31,7 @@ public class ConvergenceException extends MathException {
      * Default constructor.
      */
     public ConvergenceException() {
-        super("Convergence failed", new Object[0]);
+        super("Convergence failed", null);
     }
     
     /**

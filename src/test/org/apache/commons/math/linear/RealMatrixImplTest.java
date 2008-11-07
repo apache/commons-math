@@ -659,7 +659,7 @@ public final class RealMatrixImplTest extends TestCase {
         if (!lu.isSquare() || lowerData.length != lowerData[0].length || upperData.length != upperData[0].length ||
                 lowerData.length != upperData.length
                 || lowerData.length != lu.getRowDimension()) {
-            throw new InvalidMatrixException("incorrect dimensions", new Object[0]);
+            throw new InvalidMatrixException("incorrect dimensions", null);
         }    
         int n = lu.getRowDimension();
         for (int i = 0; i < n; i++) {
