@@ -35,24 +35,8 @@ import java.util.ResourceBundle;
 */
 public class MathException extends Exception {
     
-    /** Serializable version identifier */
-    private static final long serialVersionUID = 1428666635974829194L;
-
-    /**
-     * Does JDK support nested exceptions?
-     */
-    private static final boolean JDK_SUPPORTS_NESTED;
-    
-    static {
-        boolean flag = false;
-        try {
-            Throwable.class.getDeclaredMethod("getCause", new Class[0]);
-            flag = true;
-        } catch (NoSuchMethodException ex) {
-            flag = false;
-        }
-        JDK_SUPPORTS_NESTED = flag;
-    }
+    /** Serializable version identifier. */
+    private static final long serialVersionUID = 5924076008552401454L;
 
     /** Cache for resources bundle. */
     private static ResourceBundle cachedResources = null;
@@ -105,7 +89,7 @@ public class MathException extends Exception {
      * @return a message string
      */
     private static String buildMessage(String pattern, Object[] arguments, Locale locale) {
-        return new MessageFormat(translate(pattern, locale), locale).format(arguments);        
+        return (pattern == null) ? "" : new MessageFormat(translate(pattern, locale), locale).format(arguments);        
     }
 
     /**
@@ -115,7 +99,7 @@ public class MathException extends Exception {
     public MathException() {
         super();
         this.pattern   = null;
-        this.arguments = new Object[0];
+        this.arguments = null;
     }
     
     /**
@@ -128,7 +112,7 @@ public class MathException extends Exception {
     public MathException(String pattern, Object[] arguments) {
       super(buildMessage(pattern, arguments, Locale.US));
       this.pattern   = pattern;
-      this.arguments = (Object[]) arguments.clone();
+      this.arguments = (arguments == null) ? new Object[0] : arguments.clone();
     }
 
     /**
@@ -157,7 +141,7 @@ public class MathException extends Exception {
     public MathException(String pattern, Object[] arguments, Throwable rootCause) {
       super(buildMessage(pattern, arguments, Locale.US), rootCause);
       this.pattern   = pattern;
-      this.arguments = (Object[]) arguments.clone();
+      this.arguments = (arguments == null) ? new Object[0] : arguments.clone();
     }
 
     /** Gets the pattern used to build the message of this throwable.
@@ -175,7 +159,7 @@ public class MathException extends Exception {
      * @since 1.2
      */
     public Object[] getArguments() {
-        return (Object[]) arguments.clone();
+        return arguments.clone();
     }
 
     /** Gets the message in a specified locale.
@@ -186,7 +170,7 @@ public class MathException extends Exception {
      * @since 1.2
      */
     public String getMessage(Locale locale) {
-        return (pattern == null) ? null : buildMessage(pattern, arguments, locale);
+        return buildMessage(pattern, arguments, locale);
     }
 
     /** {@inheritDoc} */
@@ -214,5 +198,5 @@ public class MathException extends Exception {
             pw.flush();
         }
     }
-    
+
 }
