@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 import org.apache.commons.math.DimensionMismatchException;
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.stat.descriptive.moment.GeometricMean;
 import org.apache.commons.math.stat.descriptive.moment.Mean;
@@ -609,8 +610,8 @@ public class MultivariateSummaryStatistics
      */
     private void checkEmpty() {
         if (n > 0) {
-            throw new IllegalStateException(
-                "Implementations must be configured before values are added.");
+            throw MathRuntimeException.createIllegalStateException("{0} values have been added before statistic is configured",
+                                                                   new Object[] { n });
         }
     }
 

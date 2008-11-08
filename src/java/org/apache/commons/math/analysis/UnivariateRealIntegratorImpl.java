@@ -18,6 +18,8 @@ package org.apache.commons.math.analysis;
 
 import java.io.Serializable;
 
+import org.apache.commons.math.MathRuntimeException;
+
 /**
  * Provide a default implementation for several generic functions.
  *  
@@ -99,7 +101,7 @@ public abstract class UnivariateRealIntegratorImpl implements
         if (resultComputed) {
             return result;
         } else {
-            throw new IllegalStateException("No result available.");
+            throw MathRuntimeException.createIllegalStateException("no result available", null);
         }
     }
 
@@ -113,7 +115,7 @@ public abstract class UnivariateRealIntegratorImpl implements
         if (resultComputed) {
             return iterationCount;
         } else {
-            throw new IllegalStateException("No result available.");
+            throw MathRuntimeException.createIllegalStateException("no result available", null);
         }
     }
 

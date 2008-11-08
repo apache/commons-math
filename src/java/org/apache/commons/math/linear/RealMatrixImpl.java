@@ -18,6 +18,8 @@
 package org.apache.commons.math.linear;
 
 import java.io.Serializable;
+
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.util.MathUtils;
 
 
@@ -488,8 +490,13 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
         }
 
         if (data == null) {
-            if ((row > 0) || (column > 0)) {
-                throw new IllegalStateException("matrix must be initialized to perform this method");
+            if (row > 0) {
+                throw MathRuntimeException.createIllegalStateException("first {0} rows are not initialized yet",
+                                                                       new Object[] { row });
+            }
+            if (column > 0) {
+                throw MathRuntimeException.createIllegalStateException("first {0} columns are not initialized yet",
+                                                                       new Object[] { column });
             }
             data = new double[nRows][nCols];
             System.arraycopy(subMatrix, 0, data, 0, subMatrix.length);          

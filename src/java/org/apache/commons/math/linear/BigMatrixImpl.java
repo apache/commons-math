@@ -19,6 +19,8 @@ package org.apache.commons.math.linear;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import org.apache.commons.math.MathRuntimeException;
+
 /**
  * Implementation of {@link BigMatrix} using a BigDecimal[][] array to store entries
  * and <a href="http://www.math.gatech.edu/~bourbaki/math2601/Web-notes/2num.pdf">
@@ -697,8 +699,13 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         }
 
         if (data == null) {
-            if ((row > 0) || (column > 0)) {
-                throw new IllegalStateException("matrix must be initialized to perform this method");
+            if (row > 0) {
+                throw MathRuntimeException.createIllegalStateException("first {0} rows are not initialized yet",
+                                                                       new Object[] { row });
+            }
+            if (column > 0) {
+                throw MathRuntimeException.createIllegalStateException("first {0} columns are not initialized yet",
+                                                                       new Object[] { column });
             }
             data = new BigDecimal[nRows][nCols];
             System.arraycopy(subMatrix, 0, data, 0, subMatrix.length);          

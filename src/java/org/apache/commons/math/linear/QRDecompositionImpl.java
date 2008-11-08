@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.linear;
 
+import org.apache.commons.math.MathRuntimeException;
+
 /**
  * Calculates the QR-decomposition of a matrix.
  * <p>The QR-decomposition of a matrix A consists of two matrices Q and R
@@ -443,7 +445,7 @@ public class QRDecompositionImpl implements QRDecomposition {
     private void checkDecomposed()
         throws IllegalStateException {
         if (qrt == null) {
-            throw new IllegalStateException("no matrix have been decomposed yet");
+            throw MathRuntimeException.createIllegalStateException("no matrix have been decomposed yet", null);
         }
     }
 

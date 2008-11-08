@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math.stat.descriptive.moment;
 
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
 
 /**
@@ -79,8 +80,9 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  {
         if (incMoment) {
             moment.increment(d);
         }  else  {
-            throw new IllegalStateException
-            ("Statistics constructed from external moments cannot be incremented");
+            throw MathRuntimeException.createIllegalStateException("statistics constructed from external " +
+                                                                   "moments cannot be incremented",
+                                                                   null);
         }
     }
 
@@ -111,8 +113,9 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  {
         if (incMoment) {
             moment.clear();
         } else  {
-            throw new IllegalStateException
-                ("Statistics constructed from external moments cannot be cleared");
+            throw MathRuntimeException.createIllegalStateException("statistics constructed from external " +
+                                                                   "moments cannot be cleared",
+                                                                   null);
         }
     }
 

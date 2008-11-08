@@ -174,6 +174,8 @@ public class MessagesResources_fr
     // org.apache.commons.math.linear.EigenDecompositionImpl
     { "negative element on decomposed tridiagonal of {0}x{1} matrix",
       "\u00e9l\u00e9ment n\u00e9gatif dans la d\u00e9composition tri-diagonale d''une matrice {0}x{1}" },
+    { "internal error: please file a bug report at https://issues.apache.org/jira/browse/MATH",
+      "erreur interne : veuillez enregistrer un rapport de bogue sur https://issues.apache.org/jira/browse/MATH" },
 
     // org.apache.commons.math.linear.NonSquareMatrixException
     { "a {0}x{1} matrix was provided instead of a square matrix",
@@ -256,11 +258,51 @@ public class MessagesResources_fr
      "norme nulle pour un axe de rotation" },
 
    // org.apache.commons.math.geometry.Vector3D
-    // org.apache.commons.math.linear.RealVectorImpl
+   // org.apache.commons.math.linear.RealVectorImpl
    { "cannot normalize a zero norm vector",
      "impossible de normer un vecteur de norme nulle" },
    { "zero norm",
-     "norme nulle" }
+     "norme nulle" },
+
+   // org.apache.commons.math.analysis.UnivariateRealIntegratorImpl
+   // org.apache.commons.math.analysis.UnivariateRealSolverImpl
+   { "no result available",
+     "aucun r\u00e9sultat n''est disponible" },
+
+   // org.apache.commons.math.linear.BigMatrixImpl
+   { "first {0} rows are not initialized yet",
+     "les {0} premi\u00e8res lignes ne sont pas encore initialis\u00e9es" },
+   { "first {0} columns are not initialized yet",
+     "les {0} premi\u00e8res colonnes ne sont pas encore initialis\u00e9es" },
+
+   // org.apache.commons.math.linear.EigenDecompositionImpl
+   // org.apache.commons.math.linear.LUDecompositionImpl
+   // org.apache.commons.math.linear.QRDecompositionImpl
+   // org.apache.commons.math.linear.SingularValueDecompositionImpl
+   { "no matrix have been decomposed yet",
+     "aucune matrice n''a encore \u00e9t\u00e9 d\u00e9compos\u00e9e" },
+
+   // org.apache.commons.math.random.EmpiricalDistributionImpl
+   { "distribution not loaded",
+     "aucune distribution n''a \u00e9t\u00e9 charg\u00e9e" },
+
+   // org.apache.commons.math.random.ValueServer
+   { "unknown mode {0}, known modes: {1} ({2}), {3} ({4}), {5} ({6}), {7} ({8}), {9} ({10}) and {11} ({12})",
+     "mode {0} inconnu, modes connus : {1} ({2}), {3} ({4}), {5} ({6}), {7} ({8}), {9} ({10}) et {11} ({12})" },
+   { "digest not initialized",
+     "mod\u00e8le empirique non initialis\u00e9" },
+
+   // org.apache.commons.math.stat.descriptive.moment.GeometricMean
+   // org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics
+   // org.apache.commons.math.stat.descriptive.SummaryStatistics
+   { "{0} values have been added before statistic is configured",
+     "{0} valeurs ont \u00e9t\u00e9 ajout\u00e9es avant que la statistique ne soit configur\u00e9e" },
+
+   // org.apache.commons.math.stat.descriptive.moment.Kurtosis
+   { "statistics constructed from external moments cannot be incremented",
+     "les statistiques bas\u00e9es sur des moments externes ne peuvent pas \u00eatre incr\u00e9ment\u00e9es" },
+   { "statistics constructed from external moments cannot be cleared",
+     "les statistiques bas\u00e9es sur des moments externes ne peuvent pas \u00eatre remises \u00e0 z\u00e9ro" }
 
   };
 

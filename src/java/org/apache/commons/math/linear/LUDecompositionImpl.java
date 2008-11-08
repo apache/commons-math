@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.linear;
 
+import org.apache.commons.math.MathRuntimeException;
+
 /**
  * Calculates the LUP-decomposition of a square matrix.
  * <p>The LUP-decomposition of a matrix A consists of three matrices
@@ -431,7 +433,7 @@ public class LUDecompositionImpl implements LUDecomposition {
     private void checkDecomposed()
         throws IllegalStateException {
         if (lu == null) {
-            throw new IllegalStateException("no matrix have been decomposed yet");
+            throw MathRuntimeException.createIllegalStateException("no matrix have been decomposed yet", null);
         }
     }
 

@@ -413,7 +413,8 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
     public double getNextValue() throws IllegalStateException {
 
         if (!loaded) {
-            throw new IllegalStateException("distribution not loaded");
+            throw MathRuntimeException.createIllegalStateException("distribution not loaded",
+                                                                   null);
         }
 
         // Start with a uniformly distributed random number in (0,1)
