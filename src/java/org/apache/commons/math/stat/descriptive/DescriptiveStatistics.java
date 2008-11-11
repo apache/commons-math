@@ -138,6 +138,24 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
         }
     }
 
+    /**
+     * Removes the most recent value from the dataset.
+     */
+    public void removeMostRecentValue() {
+        eDA.discardMostRecentElements(1);
+    }
+
+    /**
+     * Replaces the most recently stored value with the given value.
+     * There must be at least one element stored to call this method.
+     * 
+     * @param v the value to replace the most recent stored value
+     * @return replaced value
+     */
+    public double replaceMostRecentValue(double v) {
+        return eDA.substituteMostRecentElement(v);
+    }
+
     /** 
      * Returns the <a href="http://www.xycoon.com/arithmetic_mean.htm">
      * arithmetic mean </a> of the available values 

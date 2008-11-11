@@ -39,6 +39,9 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="luc" type="add" issue="MATH-229" due-to="Cyril Briquet">
+        Added a removal feature for observations in descriptive statistics.
+      </action>
       <action dev="luc" type="add" >
         Added a scalb method in MathUtils. This method is similar to the method
         with same name added in java.lang.Math as of Java 6.

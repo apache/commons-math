@@ -172,10 +172,10 @@ public class MessagesResources_fr
       "aucun compartiment s\u00e9lectionn\u00e9" },
 
     // org.apache.commons.math.linear.EigenDecompositionImpl
+    { "cannot solve degree {0} equation",
+      "impossible de r\u00e9soudre une \u00e9quation de degr\u00e9 {0}" },
     { "negative element on decomposed tridiagonal of {0}x{1} matrix",
       "\u00e9l\u00e9ment n\u00e9gatif dans la d\u00e9composition tri-diagonale d''une matrice {0}x{1}" },
-    { "internal error: please file a bug report at https://issues.apache.org/jira/browse/MATH",
-      "erreur interne : veuillez enregistrer un rapport de bogue sur https://issues.apache.org/jira/browse/MATH" },
 
     // org.apache.commons.math.linear.NonSquareMatrixException
     { "a {0}x{1} matrix was provided instead of a square matrix",
@@ -238,6 +238,8 @@ public class MessagesResources_fr
      "impossible d''extraire un \u00e9l\u00e9ment \u00e0 un index n\u00e9gatif ({0})" },
    { "cannot set an element at a negative index {0}",
      "impossible de mettre un \u00e9l\u00e9ment \u00e0 un index n\u00e9gatif ({0})" },
+   { "cannot substitute an element from an empty array",
+     "impossible de substituer un \u00e9l\u00e9ment dans un tableau vide" },
 
    // org.apache.commons.math.analysis.PolynomialFunctionLagrangeForm
    { "identical abscissas x[{0}] == x[{1}] == {2} cause division by zero",

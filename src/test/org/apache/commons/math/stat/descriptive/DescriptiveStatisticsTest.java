@@ -18,6 +18,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.apache.commons.math.stat.descriptive.rank.Percentile;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * Test cases for the DescriptiveStatistics class.
@@ -73,6 +74,35 @@ public class DescriptiveStatisticsTest extends TestCase {
         } catch (IllegalArgumentException ex) {
             // expected
         }
+    }
+    public void testRemoval() {
+
+        final DescriptiveStatistics dstat = new DescriptiveStatistics();
+
+        checkremoval(dstat, 1, 6.0, 0.0, Double.NaN);
+        checkremoval(dstat, 3, 5.0, 3.0, 4.5);
+        checkremoval(dstat, 6, 3.5, 2.5, 3.0);
+        checkremoval(dstat, 9, 3.5, 2.5, 3.0);
+        checkremoval(dstat, DescriptiveStatistics.INFINITE_WINDOW, 3.5, 2.5, 3.0);
+
+    }
+
+    public void checkremoval(DescriptiveStatistics dstat, int wsize,
+                             double mean1, double mean2, double mean3) {
+
+        dstat.setWindowSize(wsize);
+        dstat.clear();
+
+        for (int i = 1 ; i <= 6 ; ++i) {
+            dstat.addValue(i);
+        }
+
+        assertTrue(MathUtils.equals(mean1, dstat.getMean()));
+        dstat.replaceMostRecentValue(0);
+        assertTrue(MathUtils.equals(mean2, dstat.getMean()));
+        dstat.removeMostRecentValue();
+        assertTrue(MathUtils.equals(mean3, dstat.getMean()));
+
     }
     
     // Test UnivariateStatistics impls for setter injection tests

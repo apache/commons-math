@@ -313,18 +313,71 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         
         ((ResizableDoubleArray)da).discardFrontElements(5);
         assertEquals( "Number of elements should be 6", 6, da.getNumElements());
+
+        da.addElement(2.0);
+        da.addElement(2.0);
+        da.addElement(2.0);
+        da.addElement(2.0);
+        assertEquals( "Number of elements should be 10", 10, da.getNumElements());
+
+        ((ResizableDoubleArray)da).discardMostRecentElements(2);
+        assertEquals( "Number of elements should be 8", 8, da.getNumElements());
         
         try {
             ((ResizableDoubleArray)da).discardFrontElements(-1);
             fail( "Trying to discard a negative number of element is not allowed");
         } catch( Exception e ){
         }
-        
+
+        try {
+            ((ResizableDoubleArray)da).discardMostRecentElements(-1);
+            fail( "Trying to discard a negative number of element is not allowed");
+        } catch( Exception e ){
+        }
+
         try {
             ((ResizableDoubleArray)da).discardFrontElements( 10000 );
             fail( "You can't discard more elements than the array contains");
         } catch( Exception e ){
         }
+
+        try {
+            ((ResizableDoubleArray)da).discardMostRecentElements( 10000 );
+            fail( "You can't discard more elements than the array contains");
+        } catch( Exception e ){
+        }
+
+    }
+
+    public void testSubstitute() {
+    
+        da.addElement(2.0);
+        da.addElement(2.0);
+        da.addElement(2.0);
+        da.addElement(2.0);
+        da.addElement(2.0);
+        da.addElement(2.0);
+        da.addElement(2.0);
+        da.addElement(2.0);
+        da.addElement(2.0);
+        da.addElement(2.0);
+        da.addElement(2.0);
+        assertEquals( "Number of elements should be 11", 11, da.getNumElements());
+        
+        ((ResizableDoubleArray)da).substituteMostRecentElement(24);
+
+        assertEquals( "Number of elements should be 11", 11, da.getNumElements());
+
+        try {
+            ((ResizableDoubleArray)da).discardMostRecentElements(10);
+        } catch( Exception e ){
+            fail( "Trying to discard a negative number of element is not allowed");
+        }
+
+        ((ResizableDoubleArray)da).substituteMostRecentElement(24);
+
+        assertEquals( "Number of elements should be 1", 1, da.getNumElements());
+
     }
     
     public void testMutators() {

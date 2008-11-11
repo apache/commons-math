@@ -295,6 +295,19 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
         return discarded;
     }
 
+    public synchronized double substituteMostRecentElement(double value) {
+        if (numElements < 1) {
+        	throw MathRuntimeException.createArrayIndexOutOfBoundsException("cannot substitute an element from an empty array",
+        	                                                                null);
+        }
+
+        double discarded = internalArray[startIndex + (numElements - 1)];
+
+    	internalArray[startIndex + (numElements - 1)] = value;
+
+    	return discarded;
+    }
+
     /**
      * Checks the expansion factor and the contraction criteria and throws an 
      * IllegalArgumentException if the contractionCriteria is less than the 
@@ -372,6 +385,46 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @throws IllegalArgumentException if i is greater than numElements.
      */
     public synchronized void discardFrontElements(int i) {
+
+    	discardExtremeElements(i,true);
+    	
+    }
+
+    /**
+     * Discards the <code>i<code> last elements of the array.  For example,
+     * if the array contains the elements 1,2,3,4, invoking 
+     * <code>discardMostRecentElements(2)</code> will cause the last two elements 
+     * to be discarded, leaving 1,2 in the array.  Throws illegalArgumentException
+     * if i exceeds numElements.
+     * 
+     * @param i  the number of elements to discard from the end of the array
+     * @throws IllegalArgumentException if i is greater than numElements.
+     */
+    public synchronized void discardMostRecentElements(int i) {
+
+    	discardExtremeElements(i,false);
+    	
+    }
+
+    /**
+     * Discards the <code>i<code> first or last elements of the array,
+     * depending on the value of <code>front</code>.
+     * For example, if the array contains the elements 1,2,3,4, invoking 
+     * <code>discardExtremeElements(2,false)</code> will cause the last two elements 
+     * to be discarded, leaving 1,2 in the array.
+     * For example, if the array contains the elements 1,2,3,4, invoking 
+     * <code>discardExtremeElements(2,true)</code> will cause the first two elements 
+     * to be discarded, leaving 3,4 in the array.
+     * Throws illegalArgumentException
+     * if i exceeds numElements.
+     * 
+     * @param i  the number of elements to discard from the front/end of the array
+     * @param front true if elements are to be discarded from the front
+     * of the array, false if elements are to be discarded from the end
+     * of the array 
+     * @throws IllegalArgumentException if i is greater than numElements.
+     */
+    private synchronized void discardExtremeElements(int i,boolean front) {
         if (i > numElements) {
             String msg = "Cannot discard more elements than are" +
             "contained in this array.";
@@ -382,7 +435,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
         } else {
             // "Subtract" this number of discarded from numElements 
             numElements -= i;
-            startIndex += i;
+            if (front) startIndex += i;
         }
         if (shouldContract()) {
             contract();
