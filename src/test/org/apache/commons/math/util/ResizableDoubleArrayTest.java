@@ -106,6 +106,14 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
             // expected
         }
         
+        // Copy constructor
+        testDa = new ResizableDoubleArray(2, 2.0f, 3.0f, 
+                ResizableDoubleArray.ADDITIVE_MODE);
+        testDa.addElement(2.0);
+        testDa.addElement(3.2);
+        ResizableDoubleArray copyDa = new ResizableDoubleArray(testDa);
+        assertEquals(copyDa, testDa);
+        assertEquals(testDa, copyDa);   
     }
     
     
@@ -402,4 +410,93 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
             // expected
         }
     }
+    
+    public void testEqualsAndHashCode() throws Exception {
+        
+        // Wrong type
+        ResizableDoubleArray first = new ResizableDoubleArray();
+        Double other = new Double(2);
+        assertFalse(first.equals(other));
+        
+        // Null
+        other = null;
+        assertFalse(first.equals(other));
+        
+        // Reflexive
+        assertTrue(first.equals(first));
+        
+        // Argumentless constructor
+        ResizableDoubleArray second = new ResizableDoubleArray();
+        verifyEquality(first, second);
+        
+        // Equals iff same data, same properties
+        ResizableDoubleArray third = new ResizableDoubleArray(3, 2.0f, 2.0f);
+        verifyInequality(third, first);
+        ResizableDoubleArray fourth = new ResizableDoubleArray(3, 2.0f, 2.0f);
+        ResizableDoubleArray fifth = new ResizableDoubleArray(2, 2.0f, 2.0f);
+        verifyEquality(third, fourth);
+        verifyInequality(third, fifth);
+        third.addElement(4.1);
+        third.addElement(4.2);
+        third.addElement(4.3);
+        fourth.addElement(4.1);
+        fourth.addElement(4.2);
+        fourth.addElement(4.3);
+        verifyEquality(third, fourth);
+        
+        // expand
+        fourth.addElement(4.4);
+        verifyInequality(third, fourth);
+        third.addElement(4.4);
+        verifyEquality(third, fourth);
+        fourth.addElement(4.4);
+        verifyInequality(third, fourth);
+        third.addElement(4.4);
+        verifyEquality(third, fourth);
+        fourth.addElementRolling(4.5);
+        third.addElementRolling(4.5);
+        verifyEquality(third, fourth);
+        
+        // discard
+        third.discardFrontElements(1);
+        verifyInequality(third, fourth);
+        fourth.discardFrontElements(1);
+        verifyEquality(third, fourth);
+        
+        // discard recent
+        third.discardMostRecentElements(2);
+        fourth.discardMostRecentElements(2);
+        verifyEquality(third, fourth);
+        
+        // wrong order
+        third.addElement(18);
+        fourth.addElement(17);
+        third.addElement(17);
+        fourth.addElement(18);
+        verifyInequality(third, fourth);
+        
+        // copy
+        ResizableDoubleArray.copy(fourth, fifth);
+        verifyEquality(fourth, fifth);
+        
+        // Copy constructor
+        verifyEquality(fourth, new ResizableDoubleArray(fourth));
+        
+        // Instance copy
+        verifyEquality(fourth, fourth.copy());   
+             
+    }
+    
+    private void verifyEquality(ResizableDoubleArray a, ResizableDoubleArray b) {
+        assertTrue(b.equals(a));
+        assertTrue(a.equals(b));
+        assertEquals(a.hashCode(), b.hashCode());    
+    }
+    
+    private void verifyInequality(ResizableDoubleArray a, ResizableDoubleArray b) {
+        assertFalse(b.equals(a));
+        assertFalse(a.equals(b));
+        assertFalse(a.hashCode() == b.hashCode());
+    }
+    
 }
