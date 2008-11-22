@@ -18,6 +18,7 @@
 package org.apache.commons.math.util;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 /**
  * Some useful additions to the built-in functions in {@link Math}.
@@ -465,26 +466,18 @@ public final class MathUtils {
      * @return the hash code
      */
     public static int hash(double value) {
-        long bits = Double.doubleToLongBits(value);
-        return (int)(bits ^ (bits >>> 32));
+        return new Double(value).hashCode();
     }
 
     /**
-     * Returns an integer hash code representing the given double array value.
+     * Returns an integer hash code representing the given double array.
      * 
      * @param value the value to be hashed (may be null)
      * @return the hash code
      * @since 1.2
      */
     public static int hash(double[] value) {
-        if (value == null) {
-            return 0;
-        }
-        int result = value.length;
-        for (int i = 0; i < value.length; ++i) {
-            result = result * 31 + hash(value[i]);
-        }
-        return result;
+        return Arrays.hashCode(value);
     }
 
     /**
