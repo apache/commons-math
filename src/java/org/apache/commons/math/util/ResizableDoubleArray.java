@@ -252,6 +252,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * is thrown.
      * 
      * @param original
+     * @since 2.0
      */
     public ResizableDoubleArray(ResizableDoubleArray original) {
         copy(original, this);
@@ -308,6 +309,15 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
         return discarded;
     }
        
+    /**
+     * Substitutes <code>value</code> for the most recently added value.
+     * Returns the value that has been replaced. If the array is empty (i.e. 
+     * if {@link #numElements} is zero), a MathRuntimeException is thrown.
+     * 
+     * @param value new value to substitute for the most recently added value
+     * @return value that has been replaced in the array
+     * @since 2.0
+     */
     public synchronized double substituteMostRecentElement(double value) {
         if (numElements < 1) {
             throw MathRuntimeException.createArrayIndexOutOfBoundsException(
@@ -397,6 +407,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * 
      * @param i  the number of elements to discard from the front of the array
      * @throws IllegalArgumentException if i is greater than numElements.
+     * @since 2.0
      */
     public synchronized void discardFrontElements(int i) {
 
@@ -413,6 +424,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * 
      * @param i  the number of elements to discard from the end of the array
      * @throws IllegalArgumentException if i is greater than numElements.
+     * @since 2.0
      */
     public synchronized void discardMostRecentElements(int i) {
 
@@ -437,6 +449,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * of the array, false if elements are to be discarded from the end
      * of the array 
      * @throws IllegalArgumentException if i is greater than numElements.
+     * @since 2.0
      */
     private synchronized void discardExtremeElements(int i,boolean front) {
         if (i > numElements) {
@@ -765,6 +778,10 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * <p>Neither source nor dest may be null; otherwise a NullPointerException
      * is thrown</p>
      * 
+     * @param source ResizableDoubleArray to copy
+     * @param dest ResizableArray to replace with a copy of the source array
+     * @since 2.0
+     * 
      */
     public static void copy(ResizableDoubleArray source, ResizableDoubleArray dest) {
        synchronized(source) {
@@ -788,6 +805,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * 
      * @return a new ResizableDoubleArray with the same data and configuration
      * properties as this
+     * @since 2.0
      */
     public synchronized ResizableDoubleArray copy() {
         ResizableDoubleArray result = new ResizableDoubleArray();
@@ -802,7 +820,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @param object object to be compared for equality with this
      * @return true iff object is a ResizableDoubleArray with the same data and
      * properties as this
-     *
+     * @since 2.0
      */
     public boolean equals(Object object) {
         if (object == this ) {
@@ -830,6 +848,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * Returns a hash code consistent with equals.
      * 
      * @return hash code representing this ResizableDoubleArray
+     * @since 2.0
      */
     public int hashCode() {
         int[] hashData = new int[7];
