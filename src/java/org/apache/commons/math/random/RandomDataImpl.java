@@ -504,13 +504,27 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
-     * Uses a 2-cycle permutation shuffle to generate a random permutation.
-     * The shuffling process is described
+     * Generates an integer array of length <code>k</code> whose entries
+     * are selected randomly, without repetition, from the integers
+     * <code>0 through n-1</code> (inclusive).
+     * <p>
+     * Generated arrays represent permutations
+     * of <code>n</code> taken <code>k</code> at a time.</p>
+     * <p>
+     * <strong>Preconditions:</strong><ul>
+     * <li> <code>k <= n</code></li>
+     * <li> <code>n > 0</code> </li>
+     * </ul>
+     * If the preconditions are not met, an IllegalArgumentException is
+     * thrown.</p>
+     * <p>
+     * Uses a 2-cycle permutation shuffle. The shuffling process is described
      * <a href="http://www.maths.abdn.ac.uk/~igc/tch/mx4002/notes/node83.html">
-     * here</a>.
-     * @param n the population size.
-     * @param k the number to choose.
-     * @return the random permutation.
+     * here</a>.</p>
+     * 
+     * @param n domain of the permutation (must be positive)
+     * @param k size of the permutation (must satisfy 0 < k <= n).
+     * @return the random permutation as an int array
      */
     public int[] nextPermutation(int n, int k) {
         if (k > n) {
