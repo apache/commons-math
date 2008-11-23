@@ -48,6 +48,15 @@ public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
     public SynchronizedDescriptiveStatistics(int window) {
         super(window);
     }
+    
+    /**
+     * A copy constructor. Creates a deep-copy of the {@code original}.
+     * 
+     * @param original the {@code SynchronizedDescriptiveStatistics} instance to copy
+     */
+    public SynchronizedDescriptiveStatistics(SynchronizedDescriptiveStatistics original) {
+        copy(original, this);
+    }
 
     /**
      * {@inheritDoc}
@@ -126,5 +135,36 @@ public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
      */
     public synchronized String toString() {
         return super.toString();
+    }
+    
+    /**
+     * Returns a copy of this SynchronizedDescriptiveStatistics instance with the
+     * same internal state.
+     * 
+     * @return a copy of this
+     */
+    public synchronized SynchronizedDescriptiveStatistics copy() {
+        SynchronizedDescriptiveStatistics result = 
+            new SynchronizedDescriptiveStatistics();
+        copy(this, result);
+        return result; 
+    }
+     
+    /**
+     * Copies source to dest.
+     * <p>Neither source nor dest can be null.</p>
+     * <p>Acquires synchronization lock on source, then dest before copying.</p>
+     * 
+     * @param source SynchronizedDescriptiveStatistics to copy
+     * @param dest SynchronizedDescriptiveStatistics to copy to
+     * @throws NullPointerException if either source or dest is null
+     */
+    public static void copy(SynchronizedDescriptiveStatistics source,
+            SynchronizedDescriptiveStatistics dest) {
+        synchronized (source) {
+            synchronized (dest) {
+                DescriptiveStatistics.copy(source, dest);
+            }
+        }
     }
 }

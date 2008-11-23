@@ -59,6 +59,17 @@ public class SecondMoment extends FirstMoment implements Serializable {
     }
     
     /**
+     * Copy constructor, creates a new {@code SecondMoment} identical
+     * to the {@code original}
+     * 
+     * @param original the {@code SecondMoment} instance to copy
+     */
+    public SecondMoment(SecondMoment original) {
+        super(original);
+        this.m2 = original.m2;
+    }
+    
+    /**
      * {@inheritDoc}
      */
     public void increment(final double d) {
@@ -82,6 +93,28 @@ public class SecondMoment extends FirstMoment implements Serializable {
      */
     public double getResult() {
         return m2;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public SecondMoment copy() {
+        SecondMoment result = new SecondMoment();
+        copy(this, result);
+        return result; 
+    }
+    
+    /**
+     * Copies source to dest.
+     * <p>Neither source nor dest can be null.</p>
+     * 
+     * @param source SecondMoment to copy
+     * @param dest SecondMoment to copy to
+     * @throws NullPointerException if either source or dest is null
+     */
+    public static void copy(SecondMoment source, SecondMoment dest) {
+        FirstMoment.copy(source, dest);
+        dest.m2 = source.m2;
     }
 
 }

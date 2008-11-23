@@ -17,7 +17,6 @@
 package org.apache.commons.math.stat.descriptive.moment;
 
 import java.io.Serializable;
-
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
 
 /**
@@ -81,6 +80,17 @@ public class FirstMoment extends AbstractStorelessUnivariateStatistic
     }
     
     /**
+     * Copy constructor, creates a new {@code FirstMoment} identical
+     * to the {@code original}
+     * 
+     * @param original the {@code FirstMoment} instance to copy
+     */
+     public FirstMoment(FirstMoment original) {
+         super();
+         copy(original, this);
+     }
+    
+    /**
      * {@inheritDoc}
      */
     public void increment(final double d) {
@@ -116,5 +126,29 @@ public class FirstMoment extends AbstractStorelessUnivariateStatistic
      */
     public long getN() {
         return n;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public FirstMoment copy() {
+        FirstMoment result = new FirstMoment();
+        copy(this, result);
+        return result; 
+    }
+     
+    /**
+     * Copies source to dest.
+     * <p>Neither source nor dest can be null.</p>
+     * 
+     * @param source FirstMoment to copy
+     * @param dest FirstMoment to copy to
+     * @throws NullPointerException if either source or dest is null
+     */
+    public static void copy(FirstMoment source, FirstMoment dest) {
+        dest.n = source.n;
+        dest.m1 = source.m1;
+        dest.dev = source.dev;
+        dest.nDev = dest.nDev;
     }
 }

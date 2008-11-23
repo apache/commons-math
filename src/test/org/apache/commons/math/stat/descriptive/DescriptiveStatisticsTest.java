@@ -37,10 +37,6 @@ public class DescriptiveStatisticsTest extends TestCase {
         suite.setName("DescriptiveStatistics Tests");
         return suite;
     }
-
-    protected DescriptiveStatistics createDescriptiveStatistics() {
-        return new DescriptiveStatistics();
-    }
     
     public void testSetterInjection() throws Exception {
         DescriptiveStatistics stats = new DescriptiveStatistics();
@@ -120,6 +116,9 @@ public class DescriptiveStatisticsTest extends TestCase {
         public double evaluate(double[] values) {
             return 42;
         }  
+        public UnivariateStatistic copy() {
+            return new deepMean();
+        }
     }
     
     /**
@@ -137,6 +136,11 @@ public class DescriptiveStatisticsTest extends TestCase {
         public double evaluate(double[] values) {
             return percentile.evaluate(values);
         }  
+        public UnivariateStatistic copy() {
+            goodPercentile result = new goodPercentile();
+            result.setQuantile(percentile.getQuantile());
+            return result;
+        }
     }
     
     /**
@@ -151,6 +155,10 @@ public class DescriptiveStatisticsTest extends TestCase {
             return getQuantile();
         }  
         private static final long serialVersionUID = 8040701391045914979L;
+        public Percentile copy() {
+            subPercentile result = new subPercentile();
+            return result;
+        }
     }
     
     /**
@@ -164,6 +172,29 @@ public class DescriptiveStatisticsTest extends TestCase {
         }
         public double evaluate(double[] values) {
             return percentile.evaluate(values);
-        }  
+        }
+        public UnivariateStatistic copy() {
+            return new badPercentile();
+        }
+    }
+    
+    private void checkSameResults(DescriptiveStatistics first,
+            DescriptiveStatistics second) throws Exception {
+        assertEquals(first.getGeometricMean(), second.getGeometricMean(), 0);
+        assertEquals(first.getKurtosis(), second.getKurtosis(), 0);
+        assertEquals(first.getMax(), second.getMax(), 0);
+        assertEquals(first.getMean(), second.getMean(), 0);
+        assertEquals(first.getMin(), second.getMin(), 0);
+        assertEquals(first.getN(), second.getN(), 0);
+        assertEquals(first.getPercentile(10), second.getPercentile(10), 0);
+        assertEquals(first.getSkewness(), second.getSkewness(), 0);
+        assertEquals(first.getStandardDeviation(),
+                second.getStandardDeviation(), 0);
+        assertEquals(first.getSum(), second.getSum(), 0);
+        assertEquals(first.getSumsq(), second.getSumsq(), 0);
+        assertEquals(first.getVariance(), second.getVariance(), 0);
+        assertEquals(first.eDA, second.eDA);
+        assertEquals(first.getWindowSize(), second.getWindowSize());
+        
     }
 }

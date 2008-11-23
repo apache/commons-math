@@ -91,6 +91,16 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
     }
 
     /**
+     * Copy constructor, creates a new {@code Percentile} identical
+     * to the {@code original}
+     * 
+     * @param original the {@code Percentile} instance to copy
+     */
+    public Percentile(Percentile original) {
+        copy(original, this);
+    }        
+    
+    /**
      * Returns an estimate of the <code>p</code>th percentile of the values
      * in the <code>values</code> array.
      * <p>
@@ -236,6 +246,27 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
             throw new IllegalArgumentException("Illegal quantile value: " + p);
         }
         quantile = p;
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    public Percentile copy() {
+        Percentile result = new Percentile();
+        copy(this, result);
+        return result;
+    }
+    
+    /**
+     * Copies source to dest.
+     * <p>Neither source nor dest can be null.</p>
+     * 
+     * @param source Percentile to copy
+     * @param dest Percentile to copy to
+     * @throws NullPointerException if either source or dest is null
+     */
+    public static void copy(Percentile source, Percentile dest) {
+        dest.quantile = source.quantile;
     }
 
 }

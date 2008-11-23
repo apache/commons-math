@@ -55,6 +55,16 @@ public class Max extends AbstractStorelessUnivariateStatistic {
     }
     
     /**
+     * Copy constructor, creates a new {@code Max} identical
+     * to the {@code original}
+     * 
+     * @param original the {@code Max} instance to copy
+     */
+    public Max(Max original) {
+        copy(original, this);
+    }
+    
+    /**
      * {@inheritDoc}
      */
     public void increment(final double d) {
@@ -119,5 +129,27 @@ public class Max extends AbstractStorelessUnivariateStatistic {
             }
         }
         return max;
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    public Max copy() {
+        Max result = new Max();
+        copy(this, result);
+        return result;
+    }
+    
+    /**
+     * Copies source to dest.
+     * <p>Neither source nor dest can be null.</p>
+     * 
+     * @param source Max to copy
+     * @param dest Max to copy to
+     * @throws NullPointerException if either source or dest is null
+     */
+    public static void copy(Max source, Max dest) {
+        dest.n = source.n;
+        dest.value = source.value;
     }
 }

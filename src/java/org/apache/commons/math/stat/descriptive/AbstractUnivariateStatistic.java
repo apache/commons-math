@@ -49,6 +49,11 @@ public abstract class AbstractUnivariateStatistic
      * {@inheritDoc}
      */
     public abstract double evaluate(final double[] values, final int begin, final int length);
+    
+    /**
+     * {@inheritDoc}
+     */
+    public abstract UnivariateStatistic copy();
 
     /**
      * This method is used by <code>evaluate(double[], int, int)</code> methods

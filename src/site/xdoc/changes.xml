@@ -39,6 +39,12 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="psteitz" type="add" issue="MATH-212" due-to="Jason C. HandUber">
+        Added support for copying statistics. Changes to stats classes 
+        include copy constructor, static copy(-,-) and instance copy()
+        methods. Added copy() to UnivariateStatistic and StorelessUnivariateStatistic
+        interfaces. 
+      </action>
       <action dev="luc" type="add" issue="MATH-229" due-to="Cyril Briquet">
         Added a removal feature for observations in descriptive statistics.
       </action>

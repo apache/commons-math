@@ -67,6 +67,17 @@ public class FourthMoment extends ThirdMoment implements Serializable{
     }
     
     /**
+     * Copy constructor, creates a new {@code FourthMoment} identical
+     * to the {@code original}
+     * 
+     * @param original the {@code FourthMoment} instance to copy
+     */
+     public FourthMoment(FourthMoment original) {
+         super();
+         copy(original, this);
+     }
+    
+    /**
      * {@inheritDoc}
      */
     public void increment(final double d) {
@@ -102,5 +113,26 @@ public class FourthMoment extends ThirdMoment implements Serializable{
         super.clear();
         m4 = Double.NaN;
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
+    public FourthMoment copy() {
+        FourthMoment result = new FourthMoment();
+        copy(this, result);
+        return result;
+    }
+    
+    /**
+     * Copies source to dest.
+     * <p>Neither source nor dest can be null.</p>
+     * 
+     * @param source FourthMoment to copy
+     * @param dest FourthMoment to copy to
+     * @throws NullPointerException if either source or dest is null
+     */
+    public static void copy(FourthMoment source, FourthMoment dest) {
+        ThirdMoment.copy(source, dest);
+        dest.m4 = source.m4;
+    }  
 }

@@ -39,23 +39,32 @@ public abstract class StorelessUnivariateStatisticAbstractTest
     /**Expected value for  the testArray defined in UnivariateStatisticAbstractTest */
     public abstract double expectedValue();
     
-    /** Verify that calling increment() in a loop over testArray results in correct state */
+    /** 
+     *  Verifies that increment() and incrementAll work properly. 
+     */
     public void testIncrementation() throws Exception {
 
         StorelessUnivariateStatistic statistic =
             (StorelessUnivariateStatistic) getUnivariateStatistic();
-
-        statistic.clear();
-
+        
+        // Add testArray one value at a time and check result
         for (int i = 0; i < testArray.length; i++) {
             statistic.increment(testArray[i]);
         }
-
+        
         assertEquals(expectedValue(), statistic.getResult(), getTolerance());
         assertEquals(testArray.length, statistic.getN());
 
         statistic.clear();
-
+        
+        // Add testArray all at once and check again
+        statistic.incrementAll(testArray);
+        assertEquals(expectedValue(), statistic.getResult(), getTolerance());
+        assertEquals(testArray.length, statistic.getN());
+        
+        statistic.clear();
+        
+        // Cleared
         assertTrue(Double.isNaN(statistic.getResult()));
         assertEquals(0, statistic.getN());
 
@@ -158,5 +167,37 @@ public abstract class StorelessUnivariateStatisticAbstractTest
             TestUtils.assertEquals(stat.getResult(), stat.evaluate(smallSamples[i]), getTolerance());
         }
     }
-
+    
+    /**
+     * Verifies that copied statistics remain equal to originals when
+     * incremented the same way.
+     *
+     */
+    public void testCopyConsistency() {
+        
+        StorelessUnivariateStatistic master =
+            (StorelessUnivariateStatistic) getUnivariateStatistic();
+        
+        StorelessUnivariateStatistic replica = null;
+        
+        // Randomly select a portion of testArray to load first
+        long index = Math.round((Math.random()) * (double) testArray.length);
+        
+        // Put first half in master and copy master to replica
+        master.incrementAll(testArray, 0, (int) index);
+        replica = (StorelessUnivariateStatistic) master.copy();
+        
+        // Check same
+        assertTrue(replica.equals(master));
+        assertTrue(master.equals(replica));
+        
+        // Now add second part to both and check again
+        master.incrementAll(testArray, 
+                (int) index, (int) (testArray.length - index));
+        replica.incrementAll(testArray, 
+                (int) index, (int) (testArray.length - index));
+        assertTrue(replica.equals(master));
+        assertTrue(master.equals(replica));
+    }
+    
 }

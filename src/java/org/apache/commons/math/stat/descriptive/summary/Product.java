@@ -55,6 +55,16 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
     }
     
     /**
+     * Copy constructor, creates a new {@code Product} identical
+     * to the {@code original}
+     * 
+     * @param original the {@code Product} instance to copy
+     */
+    public Product(Product original) {
+        copy(original, this);
+    }
+    
+    /**
      * {@inheritDoc}
      */
     public void increment(final double d) {
@@ -111,6 +121,28 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
             }
         }
         return product;
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    public Product copy() {
+        Product result = new Product();
+        copy(this, result);
+        return result;
+    }
+    
+    /**
+     * Copies source to dest.
+     * <p>Neither source nor dest can be null.</p>
+     * 
+     * @param source Product to copy
+     * @param dest Product to copy to
+     * @throws NullPointerException if either source or dest is null
+     */
+    public static void copy(Product source, Product dest) {
+        dest.n = source.n;
+        dest.value = source.value;
     }
 
 }

@@ -64,6 +64,16 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
     }
     
     /**
+     * Copy constructor, creates a new {@code StandardDeviation} identical
+     * to the {@code original}
+     * 
+     * @param original the {@code StandardDeviation} instance to copy
+     */
+    public StandardDeviation(StandardDeviation original) {
+        copy(original, this);
+    }
+    
+    /**
      * Contructs a StandardDeviation with the specified value for the
      * <code>isBiasCorrected</code> property.  If this property is set to 
      * <code>true</code>, the {@link Variance} used in computing results will
@@ -227,4 +237,27 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
     public void setBiasCorrected(boolean isBiasCorrected) {
         variance.setBiasCorrected(isBiasCorrected);
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public StandardDeviation copy() {
+        StandardDeviation result = new StandardDeviation();
+        copy(this, result);
+        return result;
+    }
+    
+    
+    /**
+     * Copies source to dest.
+     * <p>Neither source nor dest can be null.</p>
+     * 
+     * @param source StandardDeviation to copy
+     * @param dest StandardDeviation to copy to
+     * @throws NullPointerException if either source or dest is null
+     */
+    public static void copy(StandardDeviation source, StandardDeviation dest) {
+        dest.variance = (Variance) source.variance.copy();
+    }
+    
 }

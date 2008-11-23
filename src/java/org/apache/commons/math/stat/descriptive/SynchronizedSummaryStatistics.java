@@ -40,6 +40,15 @@ public class SynchronizedSummaryStatistics extends SummaryStatistics {
     public SynchronizedSummaryStatistics() {
         super();
     }
+    
+    /**
+     * A copy constructor. Creates a deep-copy of the {@code original}.
+     * 
+     * @param original the {@code SynchronizedSummaryStatistics} instance to copy
+     */
+    public SynchronizedSummaryStatistics(SynchronizedSummaryStatistics original) {
+        copy(original, this);
+    }
 
     /**
      * {@inheritDoc}
@@ -256,6 +265,37 @@ public class SynchronizedSummaryStatistics extends SummaryStatistics {
      */
     public synchronized void setVarianceImpl(StorelessUnivariateStatistic varianceImpl) {
         super.setVarianceImpl(varianceImpl);
+    }
+    
+    /**
+     * Returns a copy of this SynchronizedSummaryStatistics instance with the
+     * same internal state.
+     * 
+     * @return a copy of this
+     */
+    public synchronized SynchronizedSummaryStatistics copy() {
+        SynchronizedSummaryStatistics result = 
+            new SynchronizedSummaryStatistics();
+        copy(this, result);
+        return result; 
+    }
+     
+    /**
+     * Copies source to dest.
+     * <p>Neither source nor dest can be null.</p>
+     * <p>Acquires synchronization lock on source, then dest before copying.</p>
+     * 
+     * @param source SynchronizedSummaryStatistics to copy
+     * @param dest SynchronizedSummaryStatistics to copy to
+     * @throws NullPointerException if either source or dest is null
+     */
+    public static void copy(SynchronizedSummaryStatistics source,
+            SynchronizedSummaryStatistics dest) {
+        synchronized (source) {
+            synchronized (dest) {
+                SummaryStatistics.copy(source, dest);
+            }
+        }
     }
     
 }

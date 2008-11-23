@@ -75,5 +75,12 @@ public interface StorelessUnivariateStatistic extends UnivariateStatistic {
      * Clears the internal state of the Statistic
      */
     void clear();
+    
+    /**
+     * Returns a copy of the statistic with the same internal state.
+     * 
+     * @return a copy of the statistic
+     */
+    StorelessUnivariateStatistic copy();
 
 }

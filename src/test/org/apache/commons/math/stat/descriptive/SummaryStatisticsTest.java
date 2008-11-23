@@ -226,6 +226,45 @@ public class SummaryStatisticsTest extends TestCase {
         assertEquals("empty hash code", emptyHash, t.hashCode());
         assertEquals("empty hash code", emptyHash, u.hashCode());
     }
+    
+    public void testCopy() throws Exception {
+        SummaryStatistics u = createSummaryStatistics();
+        u.addValue(2d);
+        u.addValue(1d);
+        u.addValue(3d);
+        u.addValue(4d);
+        SummaryStatistics v = new SummaryStatistics(u);
+        assertEquals(u, v);
+        assertEquals(v, u);
+        assertTrue(v.geoMean == v.getGeoMeanImpl());
+        assertTrue(v.mean == v.getMeanImpl());
+        assertTrue(v.min == v.getMinImpl());
+        assertTrue(v.max == v.getMaxImpl());
+        assertTrue(v.sum == v.getSumImpl());
+        assertTrue(v.sumsq == v.getSumsqImpl());
+        assertTrue(v.sumLog == v.getSumLogImpl());
+        assertTrue(v.variance == v.getVarianceImpl());
+        
+        // Make sure both behave the same with additional values added
+        u.addValue(7d);
+        u.addValue(9d);
+        u.addValue(11d);
+        u.addValue(23d);
+        v.addValue(7d);
+        v.addValue(9d);
+        v.addValue(11d);
+        v.addValue(23d);
+        assertEquals(u, v);
+        assertEquals(v, u);
+        
+        // Check implementation pointers are preserved
+        u.clear();
+        u.setSumImpl(new Sum());
+        SummaryStatistics.copy(u,v);
+        assertEquals(u.sum, v.sum);
+        assertEquals(u.getSumImpl(), v.getSumImpl());
+        
+    }
 
     private void verifySummary(SummaryStatistics u, StatisticalSummary s) {
         assertEquals("N",s.getN(),u.getN());

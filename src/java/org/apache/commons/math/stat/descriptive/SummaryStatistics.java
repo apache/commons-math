@@ -65,6 +65,15 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
     public SummaryStatistics() {
     }
 
+    /**
+     * A copy constructor. Creates a deep-copy of the {@code original}.
+     * 
+     * @param original the {@code SummaryStatistics} instance to copy
+     */
+    public SummaryStatistics(SummaryStatistics original) {
+        copy(original, this);
+    }
+
     /** count of values that have been added */
     protected long n = 0;
 
@@ -125,7 +134,8 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * @return Current values of statistics
      */
     public StatisticalSummary getSummary() {
-        return new StatisticalSummaryValues(getMean(), getVariance(), getN(), getMax(), getMin(), getSum());
+        return new StatisticalSummaryValues(getMean(), getVariance(), getN(), 
+                getMax(), getMin(), getSum());
     }
 
     /**
@@ -604,5 +614,84 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
                                                                    new Object[] { n });
         }
     }
-
+    
+    /**
+     * Returns a copy of this SummaryStatistics instance with the same internal state.
+     * 
+     * @return a copy of this
+     */
+    public SummaryStatistics copy() {
+        SummaryStatistics result = new SummaryStatistics();
+        copy(this, result);
+        return result; 
+    }
+     
+    /**
+     * Copies source to dest.
+     * <p>Neither source nor dest can be null.</p>
+     * 
+     * @param source SummaryStatistics to copy
+     * @param dest SummaryStatistics to copy to
+     * @throws NullPointerException if either source or dest is null
+     */
+    public static void copy(SummaryStatistics source, SummaryStatistics dest) {
+        dest.maxImpl = source.maxImpl.copy();
+        dest.meanImpl = source.meanImpl.copy();
+        dest.minImpl = source.minImpl.copy();
+        dest.sumImpl = source.sumImpl.copy();
+        dest.varianceImpl = source.varianceImpl.copy();
+        dest.sumLogImpl = source.sumLogImpl.copy();
+        dest.sumsqImpl = source.sumsqImpl.copy();
+        if (source.getGeoMeanImpl() instanceof GeometricMean) {
+            // Keep geoMeanImpl, sumLogImpl in synch
+            dest.geoMeanImpl = new GeometricMean((SumOfLogs) dest.sumLogImpl);
+        } else {
+            dest.geoMeanImpl = source.geoMeanImpl.copy();
+        }
+        SecondMoment.copy(source.secondMoment, dest.secondMoment);
+        dest.n = source.n;
+        
+        // Make sure that if stat == statImpl in source, same
+        // holds in dest; otherwise copy stat
+        if (source.geoMean == source.geoMeanImpl) {
+            dest.geoMean = (GeometricMean) dest.geoMeanImpl;
+        } else {
+            GeometricMean.copy(source.geoMean, dest.geoMean);
+        } 
+        if (source.max == source.maxImpl) {
+            dest.max = (Max) dest.maxImpl;
+        } else {
+            Max.copy(source.max, dest.max);
+        } 
+        if (source.mean == source.meanImpl) {
+            dest.mean = (Mean) dest.meanImpl;
+        } else {
+            Mean.copy(source.mean, dest.mean);
+        } 
+        if (source.min == source.minImpl) {
+            dest.min = (Min) dest.minImpl;
+        } else {
+            Min.copy(source.min, dest.min);
+        } 
+        if (source.sum == source.sumImpl) {
+            dest.sum = (Sum) dest.sumImpl;
+        } else {
+            Sum.copy(source.sum, dest.sum);
+        } 
+        if (source.variance == source.varianceImpl) {
+            dest.variance = (Variance) dest.varianceImpl;
+        } else {
+            Variance.copy(source.variance, dest.variance);
+        } 
+        if (source.sumLog == source.sumLogImpl) {
+            dest.sumLog = (SumOfLogs) dest.sumLogImpl;
+        } else {
+            SumOfLogs.copy(source.sumLog, dest.sumLog);
+        } 
+        if (source.sumsq == source.sumsqImpl) {
+            dest.sumsq = (SumOfSquares) dest.sumsqImpl;
+        } else {
+            SumOfSquares.copy(source.sumsq, dest.sumsq);
+        } 
+    }
 }

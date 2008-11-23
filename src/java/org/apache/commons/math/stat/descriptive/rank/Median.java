@@ -41,5 +41,15 @@ public class Median extends Percentile implements Serializable {
     public Median() {
         super(50.0);
     }
+    
+    /**
+     * Copy constructor, creates a new {@code Median} identical
+     * to the {@code original}
+     * 
+     * @param original the {@code Median} instance to copy
+     */
+    public Median(Median original) {
+        super(original);
+    }        
 
 }

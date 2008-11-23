@@ -113,6 +113,9 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
         }
         public void incrementAll(double[] values) {
         }   
+        public StorelessUnivariateStatistic copy() {
+            return new sumMean();
+        }
     }
 
     public void testDimension() {

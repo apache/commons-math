@@ -61,6 +61,26 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic {
     }
     
     /**
+     * Copy constructor, creates a new {@code GeometricMean} identical
+     * to the {@code original}
+     * 
+     * @param original the {@code GeometricMean} instance to copy
+     */
+    public GeometricMean(GeometricMean original) {
+        super();
+        copy(original, this);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public GeometricMean copy() {
+        GeometricMean result = new GeometricMean();
+        copy(this, result);
+        return result;
+    }
+    
+    /**
      * Create a GeometricMean instance using the given SumOfLogs instance
      * @param sumOfLogs sum of logs instance to use for computation
      */
@@ -147,6 +167,19 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic {
     public StorelessUnivariateStatistic getSumLogImpl() {
         return sumOfLogs;
     }
+    
+    /**
+     * Copies source to dest.
+     * <p>Neither source nor dest can be null.</p>
+     * 
+     * @param source GeometricMean to copy
+     * @param dest GeometricMean to copy to
+     * @throws NullPointerException if either source or dest is null
+     */
+    public static void copy(GeometricMean source, GeometricMean dest) {
+        dest.sumOfLogs = (SumOfLogs) source.sumOfLogs.copy();
+    }
+    
     
     /**
      * Throws IllegalStateException if n > 0.

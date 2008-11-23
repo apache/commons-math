@@ -132,6 +132,16 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
     }
    
     /**
+     * Copy constructor, creates a new {@code Variance} identical
+     * to the {@code original}
+     * 
+     * @param original the {@code Variance} instance to copy
+     */
+    public Variance(Variance original) {
+        copy(original, this);
+    }           
+    
+    /**
      * {@inheritDoc}  
      * <p>If all values are available, it is more accurate to use 
      * {@link #evaluate(double[])} rather than adding values one at a time
@@ -334,6 +344,30 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      */
     public void setBiasCorrected(boolean isBiasCorrected) {
         this.isBiasCorrected = isBiasCorrected;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public Variance copy() {
+        Variance result = new Variance();
+        copy(this, result);
+        return result;
+    }
+    
+    
+    /**
+     * Copies source to dest.
+     * <p>Neither source nor dest can be null.</p>
+     * 
+     * @param source Variance to copy
+     * @param dest Variance to copy to
+     * @throws NullPointerException if either source or dest is null
+     */
+    public static void copy(Variance source, Variance dest) {
+        dest.moment = (SecondMoment) source.moment.copy();
+        dest.isBiasCorrected = source.isBiasCorrected;
+        dest.incMoment = source.incMoment;
     }
 
 }

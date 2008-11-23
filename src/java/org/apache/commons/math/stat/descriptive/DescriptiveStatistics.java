@@ -112,6 +112,16 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     }
     
     /**
+     * Copy constructor.  Construct a new DescriptiveStatistics instance that
+     * is a copy of original.
+     * 
+     * @param original DescriptiveStatistics instance to copy
+     */
+    public DescriptiveStatistics(DescriptiveStatistics original) {
+        copy(original, this);
+    }
+    
+    /**
      * Represents an infinite window size.  When the {@link #getWindowSize()}
      * returns this value, there is no limit to the number of data values
      * that can be stored in the dataset.
@@ -169,7 +179,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      * Returns the <a href="http://www.xycoon.com/geometric_mean.htm">
      * geometric mean </a> of the available values
      * @return The geometricMean, Double.NaN if no values have been added, 
-     * or if the productof the available values is less than or equal to 0.
+     * or if the product of the available values is less than or equal to 0.
      */
     public double getGeometricMean() {
         return apply(geometricMeanImpl);
@@ -650,5 +660,42 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      */
     public synchronized void setSumImpl(UnivariateStatistic sumImpl) {
         this.sumImpl = sumImpl;
-    }   
+    }  
+    
+    /**
+     * Returns a copy of this DescriptiveStatistics instance with the same internal state.
+     * 
+     * @return a copy of this
+     */
+    public DescriptiveStatistics copy() {
+        DescriptiveStatistics result = new DescriptiveStatistics();
+        copy(this, result);
+        return result; 
+    }
+     
+    /**
+     * Copies source to dest.
+     * <p>Neither source nor dest can be null.</p>
+     * 
+     * @param source DescriptiveStatistics to copy
+     * @param dest DescriptiveStatistics to copy to
+     * @throws NullPointerException if either source or dest is null
+     */
+    public static void copy(DescriptiveStatistics source, DescriptiveStatistics dest) {
+        // Copy data and window size
+        dest.eDA = source.eDA.copy();
+        dest.windowSize = source.windowSize;
+        
+        // Copy implementations
+        dest.maxImpl = source.maxImpl.copy();
+        dest.meanImpl = source.meanImpl.copy();
+        dest.minImpl = source.minImpl.copy();
+        dest.sumImpl = source.sumImpl.copy();
+        dest.varianceImpl = source.varianceImpl.copy();
+        dest.sumsqImpl = source.sumsqImpl.copy();
+        dest.geometricMeanImpl = source.geometricMeanImpl.copy();
+        dest.kurtosisImpl = source.kurtosisImpl;
+        dest.skewnessImpl = source.skewnessImpl;
+        dest.percentileImpl = source.percentileImpl;
+    }
 }

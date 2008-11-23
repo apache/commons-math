@@ -19,6 +19,7 @@ package org.apache.commons.math.stat.descriptive.moment;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
 
+
 /**
  * Computes the Kurtosis of the available values.
  * <p>
@@ -71,6 +72,16 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  {
     public Kurtosis(final FourthMoment m4) {
         incMoment = false;
         this.moment = m4;
+    }
+    
+    /**
+     * Copy constructor, creates a new {@code Kurtosis} identical
+     * to the {@code original}
+     * 
+     * @param original the {@code Kurtosis} instance to copy
+     */
+    public Kurtosis(Kurtosis original) {
+        copy(original, this);
     }
 
     /**
@@ -176,6 +187,28 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  {
             kurt = (coefficientOne * accum3) - termTwo;
         }       
         return kurt;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public Kurtosis copy() {
+        Kurtosis result = new Kurtosis();
+        copy(this, result);
+        return result;
+    }
+    
+    /**
+     * Copies source to dest.
+     * <p>Neither source nor dest can be null.</p>
+     * 
+     * @param source Kurtosis to copy
+     * @param dest Kurtosis to copy to
+     * @throws NullPointerException if either source or dest is null
+     */
+    public static void copy(Kurtosis source, Kurtosis dest) {
+        dest.moment = (FourthMoment) source.moment.copy();
+        dest.incMoment = source.incMoment;
     }
 
 }
