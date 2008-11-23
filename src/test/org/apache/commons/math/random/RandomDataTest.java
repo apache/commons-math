@@ -589,7 +589,16 @@ public class RandomDataTest extends RetryTestCase {
                 fail("permutation k = n = 0, expecting IllegalArgumentException");
             } catch (IllegalArgumentException ex) {
                 ;
-            }               
+            }  
+            
+            // Make sure we fail for k < n < 0
+            try {
+                perm = randomData.nextPermutation(-1,-3);
+                fail("permutation k < n < 0, expecting IllegalArgumentException");
+            } catch (IllegalArgumentException ex) {
+                ;
+            }  
+            
         }       
     }
     
