@@ -19,6 +19,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.apache.commons.math.random.RandomDataImpl;
 import org.apache.commons.math.TestUtils;
 
 /**
@@ -330,6 +331,35 @@ public final class MathUtilsTest extends TestCase {
                     MathUtils.hash(new double[] { MathUtils.nextAfter(1d, 2d) }));
         assertFalse(MathUtils.hash(new double[] { 1d }) ==
                     MathUtils.hash(new double[] { 1d, 1d }));
+    }
+    
+    /**
+     * Make sure that permuted arrays do not hash to the same value.
+     */
+    public void testPermutedArrayHash() {
+        double[] original = new double[10];
+        double[] permuted = new double[10];
+        RandomDataImpl random = new RandomDataImpl();
+        
+        // Generate 10 distinct random values
+        for (int i = 0; i < 10; i++) {
+            original[i] = random.nextUniform((double)i + 0.5, (double)i + 0.75);
+        }
+        
+        // Generate a random permutation, making sure it is not the identity
+        boolean isIdentity = true;
+        do {
+            int[] permutation = random.nextPermutation(10, 10);
+            for (int i = 0; i < 10; i++) {
+                if (i != permutation[i]) {
+                    isIdentity = false;
+                }
+                permuted[i] = original[permutation[i]];
+            }
+        } while (isIdentity);
+        
+        // Verify that permuted array has different hash
+        assertFalse(MathUtils.hash(original) == MathUtils.hash(permuted));
     }
 
     public void testIndicatorByte() {
