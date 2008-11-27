@@ -76,6 +76,11 @@ The <action> type attribute can be add,update,fix,remove.
         Changed the Complex.equals() method so that it considers +0 and -0 are equal,
         as required by IEEE-754 standard.
       </action>
+      <action dev="luc" type="add" issue="MATH-220">
+        Added JAMA-like interfaces for eigen/singular problems. The implementation
+        of eigen-decomposition is based on the very quick dqd/dqds algorithms and some
+        parts of the MRRR algorithm. This leads to very fast and accurate solutions.
+      </action>
       <action dev="luc" type="add" issue="MATH-220" >
         Added JAMA-like interfaces for decomposition algorithms. These interfaces
         decompose a matrix as a product of several other matrices with predefined

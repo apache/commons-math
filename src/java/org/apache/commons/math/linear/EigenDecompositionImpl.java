@@ -20,28 +20,118 @@ package org.apache.commons.math.linear;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.MaxIterationsExceededException;
+import org.apache.commons.math.util.MathUtils;
 
 /**
- * Calculates the eigen decomposition of a matrix.
- * <p>The eigen decomposition of matrix A is a set of two matrices:
- * V and D such that A = V &times; D &times; V<sup>T</sup>.
- * Let A be an m &times; n matrix, then V is an m &times; m orthogonal matrix
- * and D is a m &times; n diagonal matrix.</p>
+ * Calculates the eigen decomposition of a <strong>symmetric</strong> matrix.
+ * <p>The eigen decomposition of symmetric matrix A is a set of two matrices:
+ * V and D such that A = V D V<sup>T</sup>. A, V and D are all m &times; m
+ * matrices.</p>
+ * <p>This implementation only uses the upper part of the matrix, the part below the
+ * diagonal is not accessed at all.</p>
+ * <p>Eigenvalues are computed as soon as the matrix is decomposed, but eigenvectors
+ * are computed only when required, i.e. only when one of the {@link #getEigenvector(int)},
+ * {@link #getV()}, {@link #getVT()}, {@link #getInverse()}, {@link #solve(double[])},
+ * {@link #solve(RealMatrix)}, {@link #solve(RealVector)} or {@link #solve(RealVectorImpl)}
+ * methods is called.</p>
  * <p>This implementation is based on Inderjit Singh Dhillon thesis
  * <a href="http://www.cs.utexas.edu/users/inderjit/public_papers/thesis.pdf">A
  * New O(n<sup>2</sup>) Algorithm for the Symmetric Tridiagonal Eigenvalue/Eigenvector
- * Problem</a>.</p>
+ * Problem</a>, on Beresford N. Parlett and Osni A. Marques paper <a
+ * href="http://www.netlib.org/lapack/lawnspdf/lawn155.pdf">An Implementation of the
+ * dqds Algorithm (Positive Case)</a> and on the corresponding LAPACK routines (DLARRE,
+ * DLASQ2, DLAZQ3, DLAZQ4, DLASQ5 and DLASQ6).</p>
+ * @author Beresford Parlett, University of California, Berkeley, USA (fortran version)
+ * @author Jim Demmel, University of California, Berkeley, USA (fortran version)
+ * @author Inderjit Dhillon, University of Texas, Austin, USA(fortran version)
+ * @author Osni Marques, LBNL/NERSC, USA (fortran version)
+ * @author Christof Voemel, University of California, Berkeley, USA(fortran version)
  * @version $Revision$ $Date$
  * @since 2.0
  */
 public class EigenDecompositionImpl implements EigenDecomposition {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -8550254713195393577L;
+    private static final long serialVersionUID = -4976315828448620858L;
+
+    /** Tolerance. */
+    private static final double TOLERANCE = 100 * MathUtils.EPSILON;
+
+    /** Squared tolerance. */
+    private static final double TOLERANCE_2 = TOLERANCE * TOLERANCE;
+
+    /** Split tolerance. */
+    private double splitTolerance;
+
+    /** Main diagonal of the tridiagonal matrix. */
+    private double[] main;
+
+    /** Secondary diagonal of the tridiagonal matrix. */
+    private double[] secondary;
+
+    /** Squared secondary diagonal of the tridiagonal matrix. */
+    private double[] squaredSecondary;
+
+    /** Orthogonal matrix of tridiagonal transformation. */
+    private RealMatrix orthoTridiag;
+
+    /** Lower bound of spectra. */
+    private double lowerSpectra;
+
+    /** Upper bound of spectra. */
+    private double upperSpectra;
+
+    /** Minimum pivot in the Sturm sequence. */
+    private double minPivot;
+
+    /** Current shift. */
+    private double sigma;
+
+    /** Low part of the current shift. */
+    private double sigmaLow;
+
+    /** Shift increment to apply. */
+    private double tau;
+
+    /** Work array for all decomposition algorithms. */
+    private double[] work;
+
+    /** Shift within qd array for ping-pong implementation. */
+    private int pingPong;
+
+    /** Max value of diagonal elements in current segment. */
+    private double qMax;
+
+    /** Min value of off-diagonal elements in current segment. */
+    private double eMin;
+
+    /** Type of the last dqds shift. */
+    private int    tType;
+
+    /** Minimal value on current state of the diagonal. */
+    private double dMin;
+
+    /** Minimal value on current state of the diagonal, excluding last element. */
+    private double dMin1;
+
+    /** Minimal value on current state of the diagonal, excluding last two elements. */
+    private double dMin2;
+
+    /** Last value on current state of the diagonal. */
+    private double dN;
+
+    /** Last but one value on current state of the diagonal. */
+    private double dN1;
+
+    /** Last but two on current state of the diagonal. */
+    private double dN2;
+
+    /** Shift ratio with respect to dMin used when tType == 6. */
+    private double g;
 
     /** Eigenvalues. */
     private double[] eigenvalues;
@@ -68,86 +158,65 @@ public class EigenDecompositionImpl implements EigenDecomposition {
      * @see #decompose(RealMatrix)
      */
     public EigenDecompositionImpl() {
+        setRelativeAccuracySplitTolerance(MathUtils.SAFE_MIN);
     }
 
     /**
-     * Calculates the eigen decomposition of the given matrix. 
+     * Calculates the eigen decomposition of the given symmetric matrix. 
      * <p>Calling this constructor is equivalent to first call the no-arguments
      * constructor and then call {@link #decompose(RealMatrix)}.</p>
-     * @param matrix The matrix to decompose.
+     * <p>The specified matrix is assumed to be symmetrical without any check.
+     * Only the upper triangular part of the matrix is used.</p>
+     * @param matrix The <strong>symmetric</strong> matrix to decompose.
      * @exception InvalidMatrixException (wrapping a {@link ConvergenceException}
      * if algorithm fails to converge
      */
-    public EigenDecompositionImpl(RealMatrix matrix)
+    public EigenDecompositionImpl(final RealMatrix matrix)
         throws InvalidMatrixException {
+        setRelativeAccuracySplitTolerance(MathUtils.SAFE_MIN);
         decompose(matrix);
     }
 
-    /** {@inheritDoc} */
-    public void decompose(RealMatrix matrix)
+    /**
+     * Set split tolerance based on absolute off-diagonal elements.
+     * @param tolerance tolerance to set
+     */
+    public void setAbsoluteSplitTolerance(final double tolerance) {
+        splitTolerance = -Math.abs(tolerance);
+    }
+
+    /**
+     * Set split tolerance preserving relative accuracy.
+     * @param tolerance tolerance to set
+     */
+    public void setRelativeAccuracySplitTolerance(final double tolerance) {
+        splitTolerance = Math.abs(tolerance);
+    }
+
+    /**
+     * Decompose a <strong>symmetric</strong> matrix.
+     * <p>The specified matrix is assumed to be symmetrical without any check.
+     * Only the upper triangular part of the matrix is used.</p>
+     * @param matrix symmetric matrix to decompose
+     * @exception InvalidMatrixException if matrix cannot be diagonalized
+     */
+    public void decompose(final RealMatrix matrix)
         throws InvalidMatrixException {
 
         cachedV  = null;
         cachedD  = null;
         cachedVt = null;
+        work     = new double[6 * matrix.getRowDimension()];
 
-        // transform the matrix to tridiagonal
-        TriDiagonalTransformer transformer = new TriDiagonalTransformer(matrix);
-        final double[] main      = transformer.getMainDiagonalRef();
-        final double[] secondary = transformer.getSecondaryDiagonalRef();
-        final int m = main.length;
+        // compute tridiagonal representation of the initial matrix
+        transformToTridiagonal(matrix);
+        computeGershgorinCircles();
 
-        // pre-compute the square of the secondary diagonal
-        double[] squaredSecondary = new double[secondary.length];
-        for (int i = 0; i < squaredSecondary.length; ++i) {
-            final double s = secondary[i];
-            squaredSecondary[i] = s * s;
-        }
+        // find all the eigenvalues
+        findEigenvalues();
 
-        // compute the eigenvalues bounds
-        List<GershgorinCirclesUnion> bounds =
-            getEigenvaluesBounds(main, secondary);
-
-        // TODO this implementation is not finished yet
-        // the MRRR algorithm is NOT implemented, Gershgorin circles are
-        // merged together when they could be separated, we only perform blindly
-        // the basic steps, we search all eigenvalues with an arbitrary
-        // threshold, we use twisted factorization afterwards with no
-        // heuristic to speed up the selection of the twist index ...
-        // The decomposition does work in its current state and seems reasonably
-        // efficient when eigenvalues are separated. However, it is expected to
-        // fail in difficult cases and its performances can obviously be improved
-        // for now, it is slower than JAMA for dimensions below 100 and faster
-        // for dimensions above 100. The speed gain with respect to JAMA increase
-        // regularly with dimension
-
-        // find eigenvalues using bisection
-        eigenvalues = new double[m];
-        final double low  = bounds.get(0).getLow();
-        final double high = bounds.get(bounds.size() - 1).getHigh();
-        final double threshold =
-            1.0e-15 * Math.max(Math.abs(low), Math.abs(high));
-        findEigenvalues(main, squaredSecondary, low, high, threshold, 0, m);
-
-        // find eigenvectors
-        eigenvectors = new RealVectorImpl[m];
-        final double[] eigenvector = new double[m];
-        final double[] lp          = new double[m - 1];
-        final double[] dp          = new double[m];
-        final double[] um          = new double[m - 1];
-        final double[] dm          = new double[m];
-        final double[] gamma       = new double[m];
-        for (int i = 0; i < m; ++i) {
-
-            // find the eigenvector of the tridiagonal matrix
-            findEigenvector(eigenvalues[i], eigenvector,
-                            main, secondary, lp, dp, um, dm, gamma);
-
-            // find the eigenvector of the original matrix
-            eigenvectors[i] =
-                new RealVectorImpl(transformer.getQ().operate(eigenvector), true);
-
-        }
+        // we will search for eigenvectors only if required
+        eigenvectors = null;
 
     }
 
@@ -192,6 +261,9 @@ public class EigenDecompositionImpl implements EigenDecomposition {
         if (cachedVt == null) {
 
             checkDecomposed();
+            if (eigenvectors == null) {
+                findEigenVectors();
+            }
 
             final double[][] vtData = new double[eigenvectors.length][];
             for (int k = 0; k < eigenvectors.length; ++k) {
@@ -226,6 +298,9 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     public RealVector getEigenvector(final int i)
         throws InvalidMatrixException, ArrayIndexOutOfBoundsException {
         checkDecomposed();
+        if (eigenvectors == null) {
+            findEigenVectors();
+        }
         return eigenvectors[i].copy();
     }
 
@@ -249,6 +324,10 @@ public class EigenDecompositionImpl implements EigenDecomposition {
         final int m = eigenvalues.length;
         if (b.length != m) {
             throw new IllegalArgumentException("constant vector has wrong length");
+        }
+
+        if (eigenvectors == null) {
+            findEigenVectors();
         }
 
         final double[] bp = new double[m];
@@ -279,6 +358,10 @@ public class EigenDecompositionImpl implements EigenDecomposition {
                 throw new IllegalArgumentException("constant vector has wrong length");
             }
 
+            if (eigenvectors == null) {
+                findEigenVectors();
+            }
+
             final double[] bp = new double[m];
             for (int i = 0; i < m; ++i) {
                 final RealVectorImpl v = eigenvectors[i];
@@ -294,8 +377,10 @@ public class EigenDecompositionImpl implements EigenDecomposition {
         }
     }
 
-    /** Solve the linear equation A &times; X = B.
-     * <p>The A matrix is implicit here. It is </p>
+    /**
+     * Solve the linear equation A &times; X = B.
+     * <p>The A matrix is implicit here. It <strong>must</strong> have
+     * already been provided by a previous call to {@link #decompose(RealMatrix)}.</p>
      * @param b right-hand side of the equation A &times; X = B
      * @return a vector X such that A &times; X = B
      * @throws IllegalArgumentException if matrices dimensions don't match
@@ -315,6 +400,10 @@ public class EigenDecompositionImpl implements EigenDecomposition {
         final int m = eigenvalues.length;
         if (b.getRowDimension() != m) {
             throw new IllegalArgumentException("Incorrect row dimension");
+        }
+
+        if (eigenvectors == null) {
+            findEigenVectors();
         }
 
         final int nColB = b.getColumnDimension();
@@ -345,6 +434,10 @@ public class EigenDecompositionImpl implements EigenDecomposition {
         final int m = eigenvalues.length;
         final double[][] invData = new double[m][m];
 
+        if (eigenvectors == null) {
+            findEigenVectors();
+        }
+
         for (int i = 0; i < m; ++i) {
             final double[] invI = invData[i];
             for (int j = 0; j < m; ++j) {
@@ -371,97 +464,402 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     }
 
     /**
-     * Compute a set of possible bounding intervals for eigenvalues
-     * of a symmetric tridiagonal matrix.
-     * <p>The intervals are computed by applying the Gershgorin circle theorem.</p>
-     * @param main main diagonal
-     * @param secondary secondary diagonal of the tridiagonal matrix
-     * @return a collection of disjoint intervals where eigenvalues must lie,
-     * sorted in increasing order
+     * Transform matrix to tridiagonal.
+     * @param matrix matrix to transform
      */
-    private List<GershgorinCirclesUnion> getEigenvaluesBounds(final double[] main,
-                                                              final double[] secondary) {
+    private void transformToTridiagonal(final RealMatrix matrix) {
 
-        final SortedSet<GershgorinCirclesUnion> rawCircles =
-            new TreeSet<GershgorinCirclesUnion>();
-        final int m = main.length;
+        // transform the matrix to tridiagonal
+        TriDiagonalTransformer transformer = new TriDiagonalTransformer(matrix);
+        main      = transformer.getMainDiagonalRef();
+        secondary = transformer.getSecondaryDiagonalRef();
 
-        // compute all the Gershgorin circles independently
-        rawCircles.add(new GershgorinCirclesUnion(main[0],
-                                                  Math.abs(secondary[0])));
-        for (int i = 1; i < m - 1; ++i) {
-            rawCircles.add(new GershgorinCirclesUnion(main[i],
-                                                      Math.abs(secondary[i - 1]) +
-                                                      Math.abs(secondary[i])));
+        // pre-compute some elements
+        squaredSecondary = new double[secondary.length];
+        for (int i = 0; i < squaredSecondary.length; ++i) {
+            final double s = secondary[i];
+            squaredSecondary[i] = s * s;
         }
-        rawCircles.add(new GershgorinCirclesUnion(main[m - 1],
-                                                  Math.abs(secondary[m - 2])));
 
-        // combine intersecting circles
-        final ArrayList<GershgorinCirclesUnion> combined =
-            new ArrayList<GershgorinCirclesUnion>();
-        GershgorinCirclesUnion current = null;
-        for (GershgorinCirclesUnion rawCircle : rawCircles) {
-            if (current == null) {
-                current = rawCircle;
-            } else if (current.intersects(rawCircle)) {
-                current.swallow(rawCircle);
-            } else {
-                combined.add(current);
-                current = rawCircle;
-            }
-        }
-        if (current != null) {
-            combined.add(current);
-        }
-        
-        return combined;
+        orthoTridiag = transformer.getQ();
 
     }
 
-    /** Find eigenvalues in an interval.
-     * @param main main diagonal of the tridiagonal matrix
-     * @param squaredSecondary squared secondary diagonal of the tridiagonal matrix
-     * @param low lower bound of the search interval
-     * @param high higher bound of the search interval
-     * @param threshold convergence threshold
-     * @param iStart index of the first eigenvalue to find
-     * @param iEnd index one unit past the last eigenvalue to find
+    /**
+     * Compute the Gershgorin circles for all rows.
      */
-    private void findEigenvalues(final double[] main, final double[] squaredSecondary,
-                                 final double low, final double high, final double threshold,
-                                 final int iStart, final int iEnd) {
+    private void computeGershgorinCircles() {
 
-        // use a simple loop to handle tail-recursion cases
-        double currentLow   = low;
-        double currentHigh  = high;
-        int    currentStart = iStart;
-        while (true) {
+        final int m     = main.length;
+        final int lowerStart = 4 * m;
+        final int upperStart = 5 * m;
+        lowerSpectra = Double.POSITIVE_INFINITY;
+        upperSpectra = Double.NEGATIVE_INFINITY;
+        double eMax = 0;
 
-            final double middle = 0.5 * (currentLow + currentHigh);
+        double eCurrent = 0;
+        for (int i = 0; i < m - 1; ++i) {
 
-            if (currentHigh - currentLow < threshold) {
-                // we have found an elementary interval containing one or more eigenvalues
-                Arrays.fill(eigenvalues, currentStart, iEnd, middle);
-                return;
+            final double dCurrent = main[i];
+            final double ePrevious = eCurrent;
+            eCurrent = Math.abs(secondary[i]);
+            eMax = Math.max(eMax, eCurrent);
+            final double radius = ePrevious + eCurrent;
+
+            final double lower = dCurrent - radius;
+            work[lowerStart + i] = lower;
+            lowerSpectra = Math.min(lowerSpectra, lower);
+
+            final double upper = dCurrent + radius;
+            work[upperStart + i] = upper;
+            upperSpectra = Math.max(upperSpectra, upper);
+            
+        }
+
+        final double dCurrent = main[m - 1];
+        work[lowerStart + m - 1] = dCurrent - eCurrent;
+        work[upperStart + m - 1] = dCurrent + eCurrent;
+        minPivot = MathUtils.SAFE_MIN * Math.max(1.0, eMax * eMax);
+
+    }
+
+    /**
+     * Find the eigenvalues.
+     * @exception InvalidMatrixException if a block cannot be diagonalized
+     */
+    private void findEigenvalues()
+        throws InvalidMatrixException {
+
+        // compute splitting points
+        List<Integer> splitIndices = computeSplits();
+
+        // find eigenvalues in each block
+        eigenvalues = new double[main.length];
+        int begin = 0;
+        for (final int end : splitIndices) {
+            final int n = end - begin;
+            switch (n) {
+
+            case 1:
+                // apply dedicated method for dimension 1
+                process1RowBlock(begin);
+                break;
+
+            case 2:
+                // apply dedicated method for dimension 2
+                process2RowsBlock(begin);
+                break;
+
+            case 3:
+                // apply dedicated method for dimension 3
+                process3RowsBlock(begin);
+                break;
+
+            default:
+
+                // choose an initial shift for LDL<sup>T</sup> decomposition
+                final double[] range       = eigenvaluesRange(begin, n);
+                final double oneFourth     = 0.25 * (3 * range[0] + range[1]);
+                final int oneFourthCount   = countEigenValues(oneFourth, begin, n);
+                final double threeFourth   = 0.25 * (range[0] + 3 * range[1]);
+                final int threeFourthCount = countEigenValues(threeFourth, begin, n);
+                final boolean chooseLeft   = (oneFourthCount - 1) >= (n - threeFourthCount);
+                final double lambda        = chooseLeft ? range[0] : range[1];
+
+                tau = (range[1] - range[0]) * MathUtils.EPSILON * n + 2 * minPivot;
+
+                // decompose T&lambda;I as LDL<sup>T</sup>
+                ldlTDecomposition(lambda, begin, n);
+
+                // apply general dqd/dqds method
+                processGeneralBlock(n);
+
+                // extract eigenvalues
+                if (chooseLeft) {
+                    for (int i = 0; i < n; ++i) {
+                        eigenvalues[begin + i] = lambda + work[4 * i];
+                    }
+                } else {
+                    for (int i = 0; i < n; ++i) {
+                        eigenvalues[begin + i] = lambda - work[4 * i];
+                    }                    
+                }
+
             }
+            begin = end;
+        }
 
-            // compute the number of eigenvalues below the middle interval point
-            final int iMiddle = countEigenValues(main, squaredSecondary, middle);
-            if (iMiddle == currentStart) {
-                // all eigenvalues are in the upper half of the search interval
-                // update the interval and iterate
-                currentLow = middle;
-            } else if (iMiddle == iEnd) {
-                // all eigenvalues are in the lower half of the search interval
-                // update the interval and iterate
-                currentHigh = middle;                
-            } else {
-                // split the interval and search eigenvalues in both sub-intervals
-                findEigenvalues(main, squaredSecondary, currentLow, middle, threshold,
-                                currentStart, iMiddle);
-                currentLow   = middle;
-                currentStart = iMiddle;
+        // sort the eigenvalues in decreasing order
+        Arrays.sort(eigenvalues);
+        for (int i = 0, j = eigenvalues.length - 1; i < j; ++i, --j) {
+            final double tmp = eigenvalues[i];
+            eigenvalues[i] = eigenvalues[j];
+            eigenvalues[j] = tmp;
+        }
+
+    }
+
+    /**
+     * Compute splitting points.
+     * @return list of indices after matrix can be split
+     */
+    private List<Integer> computeSplits() {
+
+        final List<Integer> list = new ArrayList<Integer>();
+
+        if (splitTolerance < 0) {
+            // splitting based on absolute off-diagonal value
+            final double max = Math.abs(splitTolerance) * (upperSpectra - lowerSpectra);
+            for (int i = 0; i < secondary.length; ++i) {
+                if (Math.abs(secondary[i]) <= max) {
+                    list.add(i + 1);
+                    secondary[i] = 0;
+                    squaredSecondary[i] = 0;
+                }
+            }
+        } else {
+            // splitting preserving relative accuracy
+            double absDCurrent = Math.abs(0);
+            for (int i = 0; i < secondary.length; ++i) {
+                final double absDPrevious = absDCurrent;
+                absDCurrent = Math.abs(i + 1);
+                final double max = splitTolerance * Math.sqrt(absDPrevious * absDCurrent);
+                if (Math.abs(secondary[i]) <= max) {
+                    list.add(i + 1);
+                    secondary[i] = 0;
+                    squaredSecondary[i] = 0;
+                }
+            }            
+        }
+
+        list.add(secondary.length + 1);
+        return list;
+
+    }
+
+    /**
+     * Find eigenvalue in a block with 1 row.
+     * <p>In low dimensions, we simply solve the characteristic polynomial.</p>
+     * @param index index of the first row of the block
+     */
+    private void process1RowBlock(final int index) {
+        eigenvalues[index] = main[index];
+    }
+
+    /**
+     * Find eigenvalues in a block with 2 rows.
+     * <p>In low dimensions, we simply solve the characteristic polynomial.</p>
+     * @param index index of the first row of the block
+     * @exception InvalidMatrixException if characteristic polynomial cannot be solved
+     */
+    private void process2RowsBlock(final int index)
+        throws InvalidMatrixException {
+
+        // the characteristic polynomial is
+        // X^2 - (q0 + q1) X + q0 q1 - e1^2
+        final double q0   = main[index];
+        final double q1   = main[index + 1];
+        final double e12  = squaredSecondary[index];
+
+        final double s     = q0 + q1;
+        final double p     = q0 * q1 - e12;
+        final double delta = s * s - 4 * p;
+        if (delta < 0) {
+            throw new InvalidMatrixException("cannot solve degree {0} equation", new Object[] { 2 });
+        }
+
+        final double largestRoot = 0.5 * (s + Math.sqrt(delta));
+        eigenvalues[index]     = largestRoot;
+        eigenvalues[index + 1] = p / largestRoot;
+
+    }
+
+    /**
+     * Find eigenvalues in a block with 3 rows.
+     * <p>In low dimensions, we simply solve the characteristic polynomial.</p>
+     * @param index index of the first row of the block
+     * @exception InvalidMatrixException if diagonal elements are not positive
+     */
+    private void process3RowsBlock(final int index)
+        throws InvalidMatrixException {
+
+        // the characteristic polynomial is
+        // X^3 - (q0 + q1 + q2) X^2 + (q0 q1 + q0 q2 + q1 q2 - e1^2 - e2^2) X + q0 e2^2 + q2 e1^2 - q0 q1 q2
+        final double q0       = main[index];
+        final double q1       = main[index + 1];
+        final double q2       = main[index + 2];
+        final double e12      = squaredSecondary[index];
+        final double q1q2Me22 = q1 * q2 - squaredSecondary[index + 1];
+
+        // compute coefficients of the cubic equation as: x^3 + b x^2 + c x + d = 0
+        final double b        = -(q0 + q1 + q2);
+        final double c        = q0 * q1 + q0 * q2 + q1q2Me22 - e12;
+        final double d        = q2 * e12 - q0 * q1q2Me22;
+
+        // solve cubic equation
+        final double b2       = b * b;
+        final double q        = (3 * c - b2) / 9;
+        final double r        = ((9 * c - 2 * b2) * b - 27 * d) / 54;
+        final double delta    = q * q * q + r * r;
+        if (delta >= 0) {
+            // in fact, there are solutions to the equation, but in the context
+            // of symmetric eigenvalues problem, there should be three distinct
+            // real roots, so we throw an error if this condition is not met
+            throw new InvalidMatrixException("cannot solve degree {0} equation", new Object[] { 3 });           
+        }
+        final double sqrtMq = Math.sqrt(-q);
+        final double theta  = Math.acos(r / (-q * sqrtMq));
+        final double alpha  = 2 * sqrtMq;
+        final double beta   = b / 3;
+
+        double z0 = alpha * Math.cos(theta / 3) - beta;
+        double z1 = alpha * Math.cos((theta + 2 * Math.PI) / 3) - beta;
+        double z2 = alpha * Math.cos((theta + 4 * Math.PI) / 3) - beta;
+        if (z0 < z1) {
+            final double t = z0;
+            z0 = z1;
+            z1 = t;
+        }
+        if (z1 < z2) {
+            final double t = z1;
+            z1 = z2;
+            z2 = t;
+        }
+        if (z0 < z1) {
+            final double t = z0;
+            z0 = z1;
+            z1 = t;
+        }
+        eigenvalues[index]     = z0;
+        eigenvalues[index + 1] = z1;
+        eigenvalues[index + 2] = z2;
+
+    }
+
+    /**
+     * Find eigenvalues using dqd/dqds algorithms.
+     * <p>This implementation is based on Beresford N. Parlett
+     * and Osni A. Marques paper <a
+     * href="http://www.netlib.org/lapack/lawnspdf/lawn155.pdf">An
+     * Implementation of the dqds Algorithm (Positive Case)</a> and on the
+     * corresponding LAPACK routine DLASQ2.</p>
+     * @param n number of rows of the block
+     * @exception InvalidMatrixException if block cannot be diagonalized
+     * after 30 * n iterations
+     */
+    private void processGeneralBlock(final int n)
+        throws InvalidMatrixException {
+
+        // check decomposed matrix data range
+        final int fourN1  = 4 * (n - 1);
+        double sumDiag    = 0;
+        double sumOffDiag = 0;
+//        qMax = Double.NEGATIVE_INFINITY;
+//        eMin = Double.POSITIVE_INFINITY;
+        for (int i = 0; i < n - 1; ++i) {
+            final int fourI = 4 * i;
+            final double qi = work[fourI];
+            final double ei = work[fourI + 2];
+//            qMax = Math.max(qMax, qi);
+//            eMin = Math.min(eMin, ei);
+            sumDiag    += qi;
+            sumOffDiag += ei;
+        }
+        final double qi = work[fourN1];
+//        qMax = Math.max(qMax, qi);
+        sumDiag += qi;
+
+        if (sumOffDiag == 0) {
+            // matrix is already diagonal
+            return;
+        }
+
+        // initial checks for splits (see Parlett & Marques section 3.3)
+        flipIfWarranted(n, 2);
+
+        // two iterations with Li's test for initial splits
+        initialSplits(n);
+
+        // initialize parameters used by goodStep
+        tType = 0;
+        dMin1 = 0;
+        dMin2 = 0;
+        dN    = 0;
+        dN1   = 0;
+        dN2   = 0;
+        tau   = 0;
+
+        // process split segments
+        int i0 = 0;
+        int n0 = n;
+        while (n0 > 0) {
+
+            // retrieve shift that was temporarily stored as a negative off-diagonal element
+            sigma    = (n0 == n) ? 0 : -work[4 * n0 - 2];
+            sigmaLow = 0;
+
+            // find start of a new split segment to process
+            double eMin = (i0 == n0) ? 0 : work[4 * n0 - 6];
+            double eMax = 0;
+            double qMax = work[4 * n0 - 4];
+            double qMin = qMax;
+            i0 = 0;
+            for (int i = 4 * (n0 - 2); i >= 0; i -= 4) {
+                if (work[i + 2] <= 0) {
+                    i0 = 1 + i / 4;
+                    break;
+                }
+                if (qMin >= 4 * eMax) {
+                    qMin = Math.min(qMin, work[i + 4]);
+                    eMax = Math.max(eMax, work[i + 2]);
+                }
+                qMax = Math.max(qMax, work[i] + work[i + 2]);
+                eMin = Math.min(eMin, work[i + 2]);
+            }
+            work[4 * n0 - 2] = eMin;
+
+            // lower bound of Gershgorin disk
+            dMin = -Math.max(0, qMin - 2 * Math.sqrt(qMin * eMax));
+
+            pingPong = 0;
+            int maxIter = 30 * (n0 - i0);
+            for (int k = 0; i0 < n0; ++k) {
+                if (k >= maxIter) {
+                    throw new InvalidMatrixException(new MaxIterationsExceededException(maxIter));
+                }
+
+                // perform one step
+                n0 = goodStep(i0, n0);
+                pingPong = 1 - pingPong;
+
+                // check for new splits after "ping" steps
+                // when the last elements of qd array are very small
+                if ((pingPong == 0) && (n0 - i0 > 3) &&
+                    (work[4 * n0 - 1] <= TOLERANCE_2 * qMax) &&
+                    (work[4 * n0 - 2] <= TOLERANCE_2 * sigma)) {
+                    int split = i0 - 1;
+                    qMax = work[4 * i0];
+                    eMin = work[4 * i0 + 2];
+                    double previousEMin = work[4 * i0 + 3];
+                    for (int i = 4 * i0; i < 4 * n0 - 11; i += 4) {
+                        if ((work[i + 3] <= TOLERANCE_2 * work[i]) &&
+                            (work[i + 2] <= TOLERANCE_2 * sigma)) {
+                            // insert a split here
+                            work[i + 2]  = -sigma;
+                            split        = i / 4;
+                            qMax         = 0;
+                            eMin         = work[i + 6];
+                            previousEMin = work[i + 7];
+                        } else {
+                            qMax         = Math.max(qMax, work[i + 4]);
+                            eMin         = Math.min(eMin, work[i + 2]);
+                            previousEMin = Math.min(previousEMin, work[i + 3]);
+                        }
+                    }
+                    work[4 * n0 - 2] = eMin;
+                    work[4 * n0 - 1] = previousEMin;
+                    i0 = split + 1;
+                }
             }
 
         }
@@ -469,18 +867,315 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     }
 
     /**
-     * Count the number of eigenvalues below a point.
-     * @param main main diagonal of the tridiagonal matrix
-     * @param squaredSecondary squared secondary diagonal of the tridiagonal matrix
-     * @param mu value below which we must count the number of eigenvalues
-     * @return number of eigenvalues smaller than mu
+     * Perform two iterations with Li's tests for initial splits.
+     * @param n number of rows of the matrix to process
      */
-    private int countEigenValues(final double[] main, final double[] squaredSecondary,
-                                 final double mu) {
-        double ratio = main[0] - mu;
+    private void initialSplits(final int n) {
+
+        pingPong = 0;
+        for (int k = 0; k < 2; ++k) {
+
+            // apply Li's reverse test
+            double d = work[4 * (n - 1) + pingPong];
+            for (int i = 4 * (n - 2) + pingPong; i >= 0; i -= 4) {
+                if (work[i + 2] <= TOLERANCE_2 * d) {
+                    work[i + 2] = -0.0;
+                    d = work[i];
+                } else {
+                    d *= work[i] / (d + work[i + 2]);
+                }
+            }
+
+            // apply dqd plus Li's forward test.
+//            eMin = work[4 + pingPong];
+            d = work[pingPong];
+            for (int i = 2 + pingPong; i < 4 * n - 2; i += 4) {
+                final int j = i - 2 * pingPong - 1;
+                work[j] = d + work[i];
+                if (work[i] <= TOLERANCE_2 * d) {
+                    work[i]     = -0.0;
+                    work[j]     = d;
+                    work[j + 2] = 0.0;
+                    d = work[i + 2];
+                } else if ((MathUtils.SAFE_MIN * work[i + 2] < work[j]) &&
+                           (MathUtils.SAFE_MIN * work[j] < work[i + 2])) {
+                    final double tmp = work[i + 2] / work[j];
+                    work[j + 2] = work[i] * tmp;
+                    d *= tmp;
+                } else {
+                    work[j + 2] = work[i + 2] * (work[i] / work[j]);
+                    d *= work[i + 2] / work[j];
+               }
+//               eMin = Math.min(eMin, work[j + 2]);
+            }
+            work[4 * n - 3 - pingPong] = d;
+
+//            // find qMax
+//            qMax = Double.NEGATIVE_INFINITY;
+//            for (int i = 1 - pingPong; i < 4 * n; i += 4) {
+//                qMax = Math.max(qMax, work[i]);
+//            }
+
+            // from ping to pong
+            pingPong = 1 - pingPong;
+
+        }
+
+    }
+
+    /**
+     * Perform one "good" dqd/dqds step.
+     * <p>This implementation is based on Beresford N. Parlett
+     * and Osni A. Marques paper <a
+     * href="http://www.netlib.org/lapack/lawnspdf/lawn155.pdf">An
+     * Implementation of the dqds Algorithm (Positive Case)</a> and on the
+     * corresponding LAPACK routine DLAZQ3.</p>
+     * @param start start index
+     * @param end end index
+     * @return new end (maybe deflated)
+     */
+    private int goodStep(final int start, final int end) {
+
+        g = 0.0;
+
+        // step 1: accepting eigenvalues
+        int deflatedEnd = end;
+        for (boolean deflating = true; deflating;) {
+
+            if (start >= deflatedEnd) {
+                // the array has been completely deflated
+                return deflatedEnd;
+            }
+
+            final int k = 4 * deflatedEnd + pingPong - 1;
+
+            if ((start == deflatedEnd - 1) ||
+                ((start != deflatedEnd - 2) &&
+                 ((work[k - 5] <= TOLERANCE_2 * (sigma + work[k - 3])) ||
+                  (work[k - 2 * pingPong - 4] <= TOLERANCE_2 * work[k - 7])))) {
+
+                // one eigenvalue found, deflate array
+                work[4 * deflatedEnd - 4] = sigma + work[4 * deflatedEnd - 4 + pingPong];
+                deflatedEnd -= 1;
+
+            } else if ((start == deflatedEnd - 2) ||
+                (work[k - 9] <= TOLERANCE_2 * sigma) ||
+                (work[k - 2 * pingPong - 8] <= TOLERANCE_2 * work[k - 11])) {
+
+                // two eigenvalues found, deflate array
+                if (work[k - 3] > work[k - 7]) {
+                    final double tmp = work[k - 3];
+                    work[k - 3] = work[k - 7];
+                    work[k - 7] = tmp;
+                }
+
+                if (work[k - 5] > TOLERANCE_2 * work[k - 3]) {
+                    double t = 0.5 * ((work[k - 7] - work[k - 3]) + work[k - 5]);
+                    double s = work[k - 3] * (work[k - 5] / t);
+                    if (s <= t) {
+                        s = work[k - 3] * work[k - 5] / (t * (1 + Math.sqrt(1 + s / t)));
+                    } else {
+                        s = work[k - 3] * work[k - 5] / (t + Math.sqrt(t * (t + s)));                      
+                    }
+                    t = work[k - 7] + (s + work[k - 5]);
+                    work[k - 3] *= work[k - 7] / t;
+                    work[k - 7]  = t;
+                }
+                work[4 * deflatedEnd - 8] = sigma + work[k - 7];
+                work[4 * deflatedEnd - 4] = sigma + work[k - 3];
+                deflatedEnd -= 2;
+            } else {
+
+                // no more eigenvalues found, we need to iterate
+                deflating = false;
+
+            }
+
+        }
+
+        final int l = 4 * deflatedEnd + pingPong - 1;
+
+        // step 2: flip array if needed
+        if ((dMin <= 0) || (deflatedEnd < end)) {
+            if (flipIfWarranted(deflatedEnd, 1)) {
+                dMin2 = Math.min(dMin2, work[l - 1]);
+                work[l - 1] =
+                    Math.min(work[l - 1],
+                             Math.min(work[3 + pingPong], work[7 + pingPong]));
+                work[l - 2 * pingPong] =
+                    Math.min(work[l - 2 * pingPong],
+                             Math.min(work[6 + pingPong], work[6 + pingPong]));
+                qMax  = Math.max(qMax, Math.max(work[3 + pingPong], work[7 + pingPong]));
+                dMin  = -0.0;
+            }
+        }
+
+        if ((dMin < 0) ||
+            (MathUtils.SAFE_MIN * qMax < Math.min(work[l - 1],
+                                                  Math.min(work[l - 9],
+                                                           dMin2 + work[l - 2 * pingPong])))) {
+            // step 3: choose a shift
+            computeShiftIncrement(start, deflatedEnd, end - deflatedEnd);
+
+            // step 4a: dqds
+            for (boolean loop = true; loop;) {
+
+                // perform one dqds step with the chosen shift
+                dqds(start, deflatedEnd);
+
+                // check result of the dqds step
+                if ((dMin >= 0) && (dMin1 > 0)) {
+                    // the shift was good
+                    updateSigma(tau);
+                    return deflatedEnd;
+                } else if ((dMin < 0.0) &&
+                           (dMin1 > 0.0) &&
+                           (work[4 * deflatedEnd - 5 - pingPong] < TOLERANCE * (sigma + dN1)) &&
+                           (Math.abs(dN) < TOLERANCE * sigma)) {
+                   // convergence hidden by negative DN.
+                    work[4 * deflatedEnd - 3 - pingPong] = 0.0;
+                    dMin = 0.0;
+                    updateSigma(tau);
+                    return deflatedEnd;
+                } else if (dMin < 0.0) {
+                    // tau too big. Select new tau and try again.
+                    if (tType < -22) {
+                        // failed twice. Play it safe.
+                        tau = 0.0;
+                    } else if (dMin1 > 0.0) {
+                        // late failure. Gives excellent shift.
+                        tau = (tau + dMin) * (1.0 - 2.0 * MathUtils.EPSILON);
+                        tType -= 11;
+                    } else {
+                        // early failure. Divide by 4.
+                        tau *= 0.25;
+                        tType -= 12;
+                    }
+                } else if (Double.isNaN(dMin)) {
+                    tau = 0.0;
+                } else {
+                    // possible underflow. Play it safe.
+                    loop = false;
+                }
+            }
+
+        }
+
+        // perform a dqd step (i.e. no shift)
+        dqd(start, deflatedEnd);
+
+        return deflatedEnd;
+
+    }
+
+    /**
+     * Flip qd array if warranted.
+     * @param n number of rows in the block
+     * @param step within the array (1 for flipping all elements, 2 for flipping
+     * only every other element)
+     * @return true if qd array was flipped
+     */
+    private boolean flipIfWarranted(final int n, final int step) {
+        if (1.5 * work[pingPong] < work[4 * (n - 1) + pingPong]) {
+            // flip array
+            for (int i = 0, j = 4 * n - 1; i < j; i += 4, j -= 4) {
+                for (int k = 0; k < 4; k += step) {
+                    final double tmp = work[i + k];
+                    work[i + k] = work[j - k];
+                    work[j - k] = tmp;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Compute an interval containing all eigenvalues of a block.
+     * @param index index of the first row of the block
+     * @param n number of rows of the block
+     * @return an interval containing the eigenvalues
+     */
+    private double[] eigenvaluesRange(final int index, final int n) {
+
+        // find the bounds of the spectra of the local block
+        final int lowerStart = 4 * main.length;
+        final int upperStart = 5 * main.length;
+        double lower = Double.POSITIVE_INFINITY;
+        double upper = Double.NEGATIVE_INFINITY;
+        for (int i = 0; i < n; ++i) {
+            lower = Math.min(lower, work[lowerStart + index +i]);
+            upper = Math.max(upper, work[upperStart + index +i]);
+        }
+
+        // set thresholds
+        final double tNorm = Math.max(Math.abs(lower), Math.abs(upper));
+        final double relativeTolerance = Math.sqrt(MathUtils.EPSILON);
+        final double absoluteTolerance = 4 * minPivot;
+        final int maxIter =
+            2 + (int) ((Math.log(tNorm + minPivot) - Math.log(minPivot)) / Math.log(2.0));
+        final double margin = 2 * (tNorm * MathUtils.EPSILON * n + 2 * minPivot);
+
+        // search lower eigenvalue
+        double left  = lower - margin;
+        double right = upper + margin;
+        for (int i = 0; i < maxIter; ++i) {
+
+            final double range = right - left;
+            if ((range < absoluteTolerance) ||
+                (range < relativeTolerance * Math.max(Math.abs(left), Math.abs(right)))) {
+                // search has converged
+                break;
+            }
+
+            final double middle = 0.5 * (left + right);
+            if (countEigenValues(middle, index, n) >= 1) {
+                right = middle;
+            } else {
+                left = middle;
+            }
+
+        }
+        lower = Math.max(lower, left - 100 * MathUtils.EPSILON * Math.abs(left));
+
+        // search upper eigenvalue
+        left  = lower - margin;
+        right = upper + margin;
+        for (int i = 0; i < maxIter; ++i) {
+
+            final double range = right - left;
+            if ((range < absoluteTolerance) ||
+                (range < relativeTolerance * Math.max(Math.abs(left), Math.abs(right)))) {
+                // search has converged
+                break;
+            }
+
+            final double middle = 0.5 * (left + right);
+            if (countEigenValues(middle, index, n) >= n) {
+                right = middle;
+            } else {
+                left = middle;
+            }
+
+        }
+        upper = Math.min(upper, right + 100 * MathUtils.EPSILON * Math.abs(right));
+
+        return new double[] { lower, upper };
+
+    }
+
+    /**
+     * Count the number of eigenvalues below a point.
+     * @param t value below which we must count the number of eigenvalues
+     * @param index index of the first row of the block
+     * @param n number of rows of the block
+     * @return number of eigenvalues smaller than t
+     */
+    private int countEigenValues(final double t, final int index, final int n) {
+        double ratio = main[index] - t;
         int count = (ratio > 0) ? 0 : 1;
-        for (int i = 1; i < main.length; ++i) {
-            ratio = main[i] - squaredSecondary[i - 1] / ratio - mu;
+        for (int i = 1; i < n; ++i) {
+            ratio = main[index + i] - squaredSecondary[index + i - 1] / ratio - t;
             if (ratio <= 0) {
                 ++count;
             }
@@ -489,114 +1184,510 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     }
 
     /**
-     * Decompose the shifted tridiagonal matrix A - lambda I as L<sub>+</sub>
-     * &times; D<sub>+</sub> &times; U<sub>+</sub>.
-     * <p>A shifted symmetric tridiagonal matrix can be decomposed as
-     * L<sub>+</sub> &times; D<sub>+</sub> &times; U<sub>+</sub> where L<sub>+</sub>
-     * is a lower bi-diagonal matrix with unit diagonal, D<sub>+</sub> is a diagonal
-     * matrix and U<sub>+</sub> is the transpose of L<sub>+</sub>. The '+' indice
-     * comes from Dhillon's notation since decomposition is done in
-     * increasing rows order).</p>
-     * @param main main diagonal of the tridiagonal matrix
-     * @param secondary secondary diagonal of the tridiagonal matrix
-     * @param lambda shift to apply to the matrix before decomposing it
-     * @param r index at which factorization should stop (if r is
-     * <code>main.length</code>, complete factorization is performed)
-     * @param lp placeholder where to put the (r-1) first off-diagonal
-     * elements of the L<sub>+</sub> matrix
-     * @param dp placeholder where to put the r first diagonal elements
-     * of the D<sub>+</sub> matrix
+     * Decompose the shifted tridiagonal matrix T-&lambda;I as LDL<sup>T</sup>.
+     * <p>A shifted symmetric tridiagonal matrix T can be decomposed as
+     * LDL<sup>T</sup> where L is a lower bidiagonal matrix with unit diagonal
+     * and D is a diagonal matrix. This method is an implementation of
+     * algorithm 4.4.7 from Dhillon's thesis.</p>
+     * @param lambda shift to add to the matrix before decomposing it
+     * to ensure it is positive definite
+     * @param index index of the first row of the block
+     * @param n number of rows of the block
      */
-    private void lduDecomposition(final double[] main, final double[] secondary,
-                                  final double lambda, final int r,
-                                  final double[] lp, final double[] dp) {
-        double di = main[0] - lambda;
-        dp[0] = di;
-        for (int i = 1; i < r; ++i) {
-            final double eiM1 = secondary[i - 1];
+    private void ldlTDecomposition(final double lambda, final int index, final int n) {
+        double di = main[index] - lambda;
+        work[0] = Math.abs(di);
+        for (int i = 1; i < n; ++i) {
+            final int    fourI = 4 * i;
+            final double eiM1  = secondary[index + i - 1];
             final double ratio = eiM1 / di;
-            di = main[i] - lambda - eiM1 * ratio;
-            lp[i - 1] = ratio;
-            dp[i] = di;
+            work[fourI - 2] = ratio * ratio * Math.abs(di);
+            di = (main[index + i] - lambda) - eiM1 * ratio;
+            work[fourI] = Math.abs(di);
         }
     }
 
     /**
-     * Decompose the shifted tridiagonal matrix A - lambda I as U<sub>-</sub>
-     * &times; D<sub>-</sub> &times; L<sub>-</sub>.
-     * <p>A shifted symmetric tridiagonal matrix can be decomposed as
-     * U<sub>-</sub> &times; D<sub>-</sub> &times; L<sub>-</sub> where U<sub>-</sub>
-     * is an upper bi-diagonal matrix with unit diagonal, D<sub>-</sub> is a diagonal
-     * matrix and L<sub>-</sub> is the transpose of U<sub>-</sub>. The '-' indice
-     * comes from Dhillon's notation since decomposition is done in
-     * decreasing rows order).</p>
-     * @param main main diagonal of the tridiagonal matrix
-     * @param secondary secondary diagonal of the tridiagonal matrix
-     * @param lambda shift to apply to the matrix before decomposing it
-     * @param r index at which factorization should stop (if r is 0, complete
-     * factorization is performed)
-     * @param um placeholder where to put the m-(r-1) last off-diagonal elements
-     * of the U<sub>-</sub> matrix, where m is the size of the original matrix
-     * @param dm placeholder where to put the m-r last diagonal elements
-     * of the D<sub>-</sub> matrix, where m is the size of the original matrix
+     * Perform a dqds step, using current shift increment.
+     * <p>This implementation is a translation of the LAPACK routine DLASQ5.</p>
+     * @param start start index
+     * @param end end index
      */
-    private void udlDecomposition(final double[] main, final double[] secondary,
-                                  final double lambda, final int r,
-                                  final double[] um, final double[] dm) {
-        final int mM1 = main.length - 1;
-        double di = main[mM1] - lambda;
-        dm[mM1] = di;
-        for (int i = mM1 - 1; i >= r; --i) {
-            final double ei = secondary[i];
-            final double ratio = ei / di;
-            di = main[i] - lambda - ei * ratio;
-            um[i] = ratio;
-            dm[i] = di;
+    private void dqds(final int start, final int end) {
+
+        eMin = work[4 * start + pingPong + 4];
+        double d = work[4 * start + pingPong] - tau;
+        dMin = d;
+        dMin1 = -work[4 * start + pingPong];
+
+        if (pingPong == 0) {
+            for (int j4 = 4 * start + 3; j4 <= 4 * (end - 3); j4 += 4) {
+                work[j4 - 2] = d + work[j4 - 1];
+                final double tmp = work[j4 + 1] / work[j4 - 2];
+                d = d * tmp - tau;
+                dMin = Math.min(dMin, d);
+                work[j4] = work[j4 - 1] * tmp;
+                eMin = Math.min(work[j4], eMin);
+            }
+        } else {
+            for (int j4 = 4 * start + 3; j4 <= 4 * (end - 3); j4 += 4) {
+                work[j4 - 3] = d + work[j4];
+                final double tmp = work[j4 + 2] / work[j4 - 3];
+                d = d * tmp - tau;
+                dMin = Math.min(dMin, d);
+                work[j4 - 1] = work[j4] * tmp;
+                eMin = Math.min(work[j4 - 1], eMin);
+            }
+        }
+
+        // unroll last two steps.
+        dN2 = d;
+        dMin2 = dMin;
+        int j4 = 4 * (end - 2) - pingPong - 1;
+        int j4p2 = j4 + 2 * pingPong - 1;
+        work[j4 - 2] = dN2 + work[j4p2];
+        work[j4] = work[j4p2 + 2] * (work[j4p2] / work[j4 - 2]);
+        dN1 = work[j4p2 + 2] * (dN2 / work[j4 - 2]) - tau;
+        dMin = Math.min(dMin, dN1);
+
+        dMin1 = dMin;
+        j4 = j4 + 4;
+        j4p2 = j4 + 2 * pingPong - 1;
+        work[j4 - 2] = dN1 + work[j4p2];
+        work[j4] = work[j4p2 + 2] * (work[j4p2] / work[j4 - 2]);
+        dN = work[j4p2 + 2] * (dN1 / work[j4 - 2]) - tau;
+        dMin = Math.min(dMin, dN);
+
+        work[j4 + 2] = dN;
+        work[4 * end - pingPong - 1] = eMin;
+
+    }
+
+
+    /**
+     * Perform a dqd step.
+     * <p>This implementation is a translation of the LAPACK routine DLASQ6.</p>
+     * @param start start index
+     * @param end end index
+     */
+    private void dqd(final int start, final int end) {
+
+        eMin = work[4 * start + pingPong + 4];
+        double d = work[4 * start + pingPong];
+        dMin = d;
+
+        if (pingPong == 0) {
+            for (int j4 = 4 * start + 3; j4 < 4 * (end - 3); j4 += 4) {
+                work[j4 - 2] = d + work[j4 - 1];
+                if (work[j4 - 2] == 0.0) {
+                    work[j4] = 0.0;
+                    d = work[j4 + 1];
+                    dMin = d;
+                    eMin = 0.0;
+                } else if ((MathUtils.SAFE_MIN * work[j4 + 1] < work[j4 - 2]) &&
+                           (MathUtils.SAFE_MIN * work[j4 - 2] < work[j4 + 1])) {
+                    final double tmp = work[j4 + 1] / work[j4 - 2];
+                    work[j4] = work[j4 - 1] * tmp;
+                    d *= tmp;
+                } else {
+                    work[j4] = work[j4 + 1] * (work[j4 - 1] / work[j4 - 2]);
+                    d *= work[j4 + 1] / work[j4 - 2];
+                }
+                dMin = Math.min(dMin, d);
+                eMin = Math.min(eMin, work[j4]);
+            }
+        } else {
+            for (int j4 = 4 * start + 3; j4 < 4 * (end - 3); j4 += 4) {
+                work[j4 - 3] = d + work[j4];
+                if (work[j4 - 3] == 0.0) {
+                    work[j4 - 1] = 0.0;
+                    d = work[j4 + 2];
+                    dMin = d;
+                    eMin = 0.0;
+                } else if ((MathUtils.SAFE_MIN * work[j4 + 2] < work[j4 - 3]) &&
+                           (MathUtils.SAFE_MIN * work[j4 - 3] < work[j4 + 2])) {
+                    final double tmp = work[j4 + 2] / work[j4 - 3];
+                    work[j4 - 1] = work[j4] * tmp;
+                    d *= tmp;
+                } else {
+                    work[j4 - 1] = work[j4 + 2] * (work[j4] / work[j4 - 3]);
+                    d *= work[j4 + 2] / work[j4 - 3];
+                }
+                dMin = Math.min(dMin, d);
+                eMin = Math.min(eMin, work[j4 - 1]);
+            }
+        }
+
+        // Unroll last two steps
+        dN2   = d;
+        dMin2 = dMin;
+        int j4 = 4 * (end - 2) - pingPong - 1;
+        int j4p2 = j4 + 2 * pingPong - 1;
+        work[j4 - 2] = dN2 + work[j4p2];
+        if (work[j4 - 2] == 0.0) {
+            work[j4] = 0.0;
+            dN1  = work[j4p2 + 2];
+            dMin = dN1;
+            eMin = 0.0;
+        } else if ((MathUtils.SAFE_MIN * work[j4p2 + 2] < work[j4 - 2]) &&
+                   (MathUtils.SAFE_MIN * work[j4 - 2] < work[j4p2 + 2])) {
+            final double tmp = work[j4p2 + 2] / work[j4 - 2];
+            work[j4] = work[j4p2] * tmp;
+            dN1 = dN2 * tmp;
+        } else {
+            work[j4] = work[j4p2 + 2] * (work[j4p2] / work[j4 - 2]);
+            dN1 = work[j4p2 + 2] * (dN2 / work[j4 - 2]);
+        }
+        dMin = Math.min(dMin, dN1);
+
+        dMin1 = dMin;
+        j4 = j4 + 4;
+        j4p2 = j4 + 2 * pingPong - 1;
+        work[j4 - 2] = dN1 + work[j4p2];
+        if (work[j4 - 2] == 0.0) {
+            work[j4] = 0.0;
+            dN   = work[j4p2 + 2];
+            dMin = dN;
+            eMin = 0.0;
+        } else if ((MathUtils.SAFE_MIN * work[j4p2 + 2] < work[j4 - 2]) &&
+                   (MathUtils.SAFE_MIN * work[j4 - 2] < work[j4p2 + 2])) {
+            final double tmp = work[j4p2 + 2] / work[j4 - 2];
+            work[j4] = work[j4p2] * tmp;
+            dN = dN1 * tmp;
+        } else {
+            work[j4] = work[j4p2 + 2] * (work[j4p2] / work[j4 - 2]);
+            dN = work[j4p2 + 2] * (dN1 / work[j4 - 2]);
+        }
+        dMin = Math.min(dMin, dN);
+
+        work[j4 + 2] = dN;
+        work[4 * end - pingPong - 1] = eMin;
+
+    }
+
+    /**
+     * Compute the shift increment as an estimate of the smallest eigenvalue.
+     * <p>This implementation is a translation of the LAPACK routine DLAZQ4.</p>
+     * @param start start index
+     * @param end end index
+     * @param deflated number of eigenvalues just deflated
+     */
+    private void computeShiftIncrement(final int start, final int end, final int deflated) {
+
+        final double cnst1 = 0.563;
+        final double cnst2 = 1.010;
+        final double cnst3 = 1.05;
+
+        // a negative dMin forces the shift to take that absolute value
+        // tType records the type of shift.
+        if (dMin <= 0.0) {
+            tau = -dMin;
+            tType = -1;
+            return;
+        }
+
+        int nn = 4 * end + pingPong - 1;
+        switch (deflated) {
+
+        case 0 : // no eigenvalues deflated. 
+            if (dMin == dN || dMin == dN1) {
+
+                double b1 = Math.sqrt(work[nn - 3]) * Math.sqrt(work[nn - 5]);
+                double b2 = Math.sqrt(work[nn - 7]) * Math.sqrt(work[nn - 9]);
+                double a2 = work[nn - 7] + work[nn - 5];
+
+                if (dMin == dN && dMin1 == dN1) {
+                    // cases 2 and 3. 
+                    final double gap2 = dMin2 - a2 - dMin2 * 0.25;
+                    final double gap1 = a2 - dN - ((gap2 > 0.0 && gap2 > b2) ? (b2 / gap2) * b2 : (b1 + b2));
+                    if (gap1 > 0.0 && gap1 > b1) {
+                        tau   = Math.max(dN - (b1 / gap1) * b1, 0.5 * dMin);
+                        tType = -2;
+                    } else {
+                        double s = 0.0;
+                        if (dN > b1) {
+                            s = dN - b1;
+                        }
+                        if (a2 > (b1 + b2)) {
+                            s = Math.min(s, a2 - (b1 + b2));
+                        }
+                        tau   = Math.max(s, 0.333 * dMin);
+                        tType = -3;
+                    }
+                } else {
+                    // case 4.
+                    tType = -4;
+                    double s = 0.25 * dMin;
+                    double gam;
+                    int np;
+                    if (dMin == dN) {
+                        gam = dN;
+                        a2 = 0.0;
+                        if (work[nn - 5]  >  work[nn - 7]) {
+                            return;
+                        }
+                        b2 = work[nn - 5] / work[nn - 7];
+                        np = nn - 9;
+                    } else {
+                        np = nn - 2 * pingPong;
+                        b2 = work[np - 2];
+                        gam = dN1;
+                        if (work[np - 4]  >  work[np - 2]) {
+                            return;
+                        }
+                        a2 = work[np - 4] / work[np - 2];
+                        if (work[nn - 9]  >  work[nn - 11]) {
+                            return;
+                        }
+                        b2 = work[nn - 9] / work[nn - 11];
+                        np = nn - 13;
+                    }
+
+                    // approximate contribution to norm squared from i < nn-1.
+                    a2 = a2 + b2;
+                    for (int i4 = np; i4 >= 4 * start - 1 + pingPong; i4 -= 4) {
+                        if(b2 == 0.0) {
+                            break;
+                        }
+                        b1 = b2;
+                        if (work[i4]  >  work[i4 - 2]) {
+                            return;
+                        }
+                        b2 = b2 * (work[i4] / work[i4 - 2]);
+                        a2 = a2 + b2;
+                        if (100 * Math.max(b2, b1) < a2 || cnst1 < a2) {
+                            break;
+                        }
+                    }
+                    a2 = cnst3 * a2;
+
+                    // rayleigh quotient residual bound.
+                    if (a2 < cnst1) {
+                        s = gam * (1 - Math.sqrt(a2)) / (1 + a2);
+                    }
+                    tau = s;
+
+                }
+            } else if (dMin == dN2) {
+
+                // case 5.
+                tType = -5;
+                double s = 0.25 * dMin;
+
+                // compute contribution to norm squared from i > nn-2.
+                final int np = nn - 2 * pingPong;
+                double b1 = work[np - 2];
+                double b2 = work[np - 6];
+                final double gam = dN2;
+                if (work[np - 8] > b2 || work[np - 4] > b1) {
+                    return;
+                }
+                double a2 = (work[np - 8] / b2) * (1 + work[np - 4] / b1);
+
+                // approximate contribution to norm squared from i < nn-2.
+                if (end - start > 2) {
+                    b2 = work[nn - 13] / work[nn - 15];
+                    a2 = a2 + b2;
+                    for (int i4 = nn - 17; i4 >= 4 * start - 1 + pingPong; i4 -= 4) {
+                        if (b2 == 0.0) {
+                            break;
+                        }
+                        b1 = b2;
+                        if (work[i4]  >  work[i4 - 2]) {
+                            return;
+                        }
+                        b2 = b2 * (work[i4] / work[i4 - 2]);
+                        a2 = a2 + b2;
+                        if (100 * Math.max(b2, b1) < a2 || cnst1 < a2)  {
+                            break;
+                        }
+                    }
+                    a2 = cnst3 * a2;
+                }
+
+                if (a2 < cnst1) {
+                    tau = gam * (1 - Math.sqrt(a2)) / (1 + a2);
+                } else {
+                    tau = s;
+                }
+
+            } else {
+
+                // case 6, no information to guide us.
+                if (tType == -6) {
+                    g += 0.333 * (1 - g);
+                } else if (tType == -18) {
+                    g = 0.25 * 0.333;
+                } else {
+                    g = 0.25;
+                }
+                tau   = g * dMin;
+                tType = -6;
+
+            }
+            break;
+
+        case 1 : // one eigenvalue just deflated. use dMin1, dN1 for dMin and dN.
+            if (dMin1 == dN1 && dMin2 == dN2) { 
+
+                // cases 7 and 8.
+                tType = -7;
+                double s = 0.333 * dMin1;
+                if (work[nn - 5] > work[nn - 7]) {
+                    return;
+                }
+                double b1 = work[nn - 5] / work[nn - 7];
+                double b2 = b1;
+                if (b2 != 0.0) {
+                    for (int i4 = 4 * end - 9 + pingPong; i4 >= 4 * start - 1 + pingPong; i4 -= 4) {
+                        final double oldB1 = b1;
+                        if (work[i4] > work[i4 - 2]) {
+                            return;
+                        }
+                        b1 = b1 * (work[i4] / work[i4 - 2]);
+                        b2 = b2 + b1;
+                        if (100 * Math.max(b1, oldB1) < b2) {
+                            break;
+                        }
+                    }
+                }
+                b2 = Math.sqrt(cnst3 * b2);
+                final double a2 = dMin1 / (1 + b2 * b2);
+                final double gap2 = 0.5 * dMin2 - a2;
+                if (gap2 > 0.0 && gap2 > b2 * a2) {
+                    tau = Math.max(s, a2 * (1 - cnst2 * a2 * (b2 / gap2) * b2));
+                } else {
+                    tau = Math.max(s, a2 * (1 - cnst2 * b2));
+                    tType = -8;
+                }
+            } else {
+
+                // case 9.
+                tau = 0.25 * dMin1;
+                if (dMin1 == dN1) {
+                    tau = 0.5 * dMin1;
+                }
+                tType = -9;
+            }
+            break;
+
+        case 2 : // two eigenvalues deflated. use dMin2, dN2 for dMin and dN.
+
+            // cases 10 and 11.
+            if (dMin2 == dN2 && 2 * work[nn - 5] < work[nn - 7]) { 
+                tType = -10;
+                final double s = 0.333 * dMin2;
+                if (work[nn - 5] > work[nn - 7]) {
+                    return;
+                }
+                double b1 = work[nn - 5] / work[nn - 7];
+                double b2 = b1;
+                if (b2 != 0.0){
+                    for (int i4 = 4 * end - 9 + pingPong; i4 >= 4 * start - 1 + pingPong; i4 -= 4) {
+                        if (work[i4] > work[i4 - 2]) {
+                            return;
+                        }
+                        b1 *= work[i4] / work[i4 - 2];
+                        b2 += b1;
+                        if (100 * b1 < b2) {
+                            break;
+                        }
+                    }
+                }
+                b2 = Math.sqrt(cnst3 * b2);
+                final double a2 = dMin2 / (1 + b2 * b2);
+                final double gap2 = work[nn - 7] + work[nn - 9] -
+                Math.sqrt(work[nn - 11]) * Math.sqrt(work[nn - 9]) - a2;
+                if (gap2 > 0.0 && gap2 > b2 * a2) {
+                    tau = Math.max(s, a2 * (1 - cnst2 * a2 * (b2 / gap2) * b2));
+                } else {
+                    tau = Math.max(s, a2 * (1 - cnst2 * b2));
+                }
+            } else {
+                tau   = 0.25 * dMin2;
+                tType = -11;
+            }
+            break;
+
+        default : // case 12, more than two eigenvalues deflated. no information.
+            tau   = 0.0;
+            tType = -12;
+        }
+
+    }
+
+    /**
+     * Update sigma.
+     * @param tau shift to apply to sigma
+     */
+    private void updateSigma(final double tau) {
+        // BEWARE: do NOT attempt to simplify the following statements
+        // the expressions below take care to accumulate the part of sigma
+        // that does not fit within a double variable into sigmaLow
+        if (tau < sigma) {
+            sigmaLow += tau;
+            final double t = sigma + sigmaLow;
+            sigmaLow -= t - sigma;
+            sigma = t;
+        } else {
+            final double t = sigma + tau;
+            sigmaLow += sigma - (t - tau);
+            sigma = t;
         }
     }
 
     /**
-     * Find an eigenvector corresponding to an eigenvalue.
+     * Find eigenvectors.
+     */
+    private void findEigenVectors() {
+
+        final int m = main.length;
+        eigenvectors = new RealVectorImpl[m];
+
+        // perform an initial non-shifted LDLt decomposition
+        final double[] d = new double[m];
+        final double[] l = new double[m - 1];
+        double di = main[0];
+        d[0] = di;
+        for (int i = 1; i < m; ++i) {
+            final double eiM1  = secondary[i - 1];
+            final double ratio = eiM1 / di;
+            di       = main[i] - eiM1 * ratio;
+            l[i - 1] = ratio;
+            d[i]     = di;
+        }
+
+        // compute eigenvectors
+        for (int i = 0; i < m; ++i) {
+            eigenvectors[i] = findEigenvector(eigenvalues[i], d, l);
+        }
+
+    }
+
+    /**
+     * Find an eigenvector corresponding to an eigenvalue, using bidiagonals.
+     * <p>This method corresponds to algorithm X from Dhillon's thesis.</p>
+     * 
      * @param eigenvalue eigenvalue for which eigenvector is desired
-     * @param eigenvector placeholder where to put the eigenvector
-     * @param main main diagonal of the tridiagonal matrix
-     * @param secondary secondary diagonal of the tridiagonal matrix
-     * @param lp placeholder where to put the off-diagonal elements of the
-     * L<sub>+</sub> matrix
-     * @param dp placeholder where to put the diagonal elements of the
-     * D<sub>+</sub> matrix
-     * @param um placeholder where to put the off-diagonal elements of the
-     * U<sub>-</sub> matrix
-     * @param dm placeholder where to put the diagonal elements of the
-     * D<sub>-</sub> matrix
-     * @param gamma placeholder where to put the twist elements for all
-     * possible twist indices
+     * @param d diagonal elements of the initial non-shifted D matrix
+     * @param l off-diagonal elements of the initial non-shifted L matrix
+     * @return an eigenvector
      */
-    private void findEigenvector(final double eigenvalue, final double[] eigenvector,
-                                 final double[] main, final double[] secondary,
-                                 final double[] lp, final double[] dp,
-                                 final double[] um, final double[] dm,
-                                 final double[] gamma) {
+    private RealVectorImpl findEigenvector(final double eigenvalue,
+                                           final double[] d, final double[] l) {
 
-        // compute the LDU and UDL decomposition of the
+        // compute the LDLt and UDUt decompositions of the
         // perfectly shifted tridiagonal matrix
         final int m = main.length;
-        lduDecomposition(main, secondary, eigenvalue, m, lp, dp);
-        udlDecomposition(main, secondary, eigenvalue, 0, um, dm);
+        stationaryQuotientDifferenceWithShift(d, l, eigenvalue);
+        progressiveQuotientDifferenceWithShift(d, l, eigenvalue);
 
         // select the twist index leading to
         // the least diagonal element in the twisted factorization
-        int r = 0;
-        double g = dp[0] + dm[0] + eigenvalue - main[0];
-        gamma[0] = g;
-        double minG = Math.abs(g);
-        for (int i = 1; i < m; ++i) {
-            if (i < m - 1) {
-                g *= dm[i + 1] / dp[i];
-            } else {
-                g = dp[m - 1] + dm[m - 1] + eigenvalue - main[m - 1];
-            }
-            gamma[i] = g;
+        int r = m - 1;
+        double minG = Math.abs(work[6 * r] + work[6 * r + 3] + eigenvalue);
+        for (int i = 0, sixI = 0; i < m - 1; ++i, sixI += 6) {
+            final double g = work[sixI] + d[i] * work[sixI + 9] / work[sixI + 10];
             final double absG = Math.abs(g);
             if (absG < minG) {
                 r = i;
@@ -606,17 +1697,18 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 
         // solve the singular system by ignoring the equation
         // at twist index and propagating upwards and downwards
+        double[] eigenvector = new double[m];
         double n2 = 1;
         eigenvector[r] = 1;
         double z = 1;
         for (int i = r - 1; i >= 0; --i) {
-            z *= -lp[i];
+            z *= -work[6 * i + 2];
             eigenvector[i] = z;
             n2 += z * z;
         }
         z = 1;
         for (int i = r + 1; i < m; ++i) {
-            z *= -um[i-1];
+            z *= -work[6 * i - 1];
             eigenvector[i] = z;
             n2 += z * z;
         }
@@ -627,6 +1719,60 @@ public class EigenDecompositionImpl implements EigenDecomposition {
             eigenvector[i] *= inv;
         }
 
+        return new RealVectorImpl(orthoTridiag.operate(eigenvector), true);
+
+    }
+
+    /**
+     * Decompose matrix LDL<sup>T</sup> - &lambda; I as
+     * L<sub>+</sub>D<sub>+</sub>L<sub>+</sub><sup>T</sup>.
+     * <p>This method corresponds to algorithm 4.4.3 (dstqds) from Dhillon's thesis.</p>
+     * @param d diagonal elements of D,
+     * @param l off-diagonal elements of L
+     * @param lambda shift to apply
+     */
+    private void stationaryQuotientDifferenceWithShift(final double[] d, final double[] l,
+                                                       final double lambda) {
+        final int nM1 = d.length - 1;
+        double si = -lambda;
+        for (int i = 0, sixI = 0; i < nM1; ++i, sixI += 6) {
+            final double di   = d[i];
+            final double li   = l[i];
+            final double diP1 = di + si;
+            final double liP1 = li * di / diP1;
+            work[sixI]        = si;
+            work[sixI + 1]    = diP1;
+            work[sixI + 2]    = liP1;
+            si = li * liP1 * si - lambda;
+        }
+        work[6 * nM1 + 1] = d[nM1] + si;
+        work[6 * nM1]     = si;
+    }
+
+    /**
+     * Decompose matrix LDL<sup>T</sup> - &lambda; I as
+     * U<sub>-</sub>D<sub>-</sub>U<sub>-</sub><sup>T</sup>.
+     * <p>This method corresponds to algorithm 4.4.5 (dqds) from Dhillon's thesis.</p>
+     * @param d diagonal elements of D
+     * @param l off-diagonal elements of L
+     * @param lambda shift to apply
+     */
+    private void progressiveQuotientDifferenceWithShift(final double[] d, final double[] l,
+                                                        final double lambda) {
+        final int nM1 = d.length - 1;
+        double pi = d[nM1] - lambda;
+        for (int i = nM1 - 1, sixI = 6 * i; i >= 0; --i, sixI -= 6) {
+            final double di   = d[i];
+            final double li   = l[i];
+            final double diP1 = di * li * li + pi;
+            final double t    = di / diP1;
+            work[sixI +  9]   = pi;
+            work[sixI + 10]   = diP1;
+            work[sixI +  5]   = li * t;
+            pi = pi * t - lambda;
+        }
+        work[3] = pi;
+        work[4] = pi;
     }
 
     /**
@@ -637,7 +1783,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     private void checkDecomposed()
         throws IllegalStateException {
         if (eigenvalues == null) {
-            throw new IllegalStateException("no matrix have been decomposed yet");
+            throw MathRuntimeException.createIllegalStateException("no matrix have been decomposed yet", null);
         }
     }
 
@@ -645,13 +1791,13 @@ public class EigenDecompositionImpl implements EigenDecomposition {
      * Check if decomposed matrix is non singular.
      * @exception IllegalStateException if {@link #decompose(RealMatrix) decompose}
      * has not been called
-     * @exception InvalidMatrixException if decomposed matrix is singular
+     * @exception SingularMatrixException if decomposed matrix is singular
      */
     private void checkNonSingular()
-        throws IllegalStateException, InvalidMatrixException {
+        throws IllegalStateException, SingularMatrixException {
         checkDecomposed();
         if (!isNonSingular()) {
-            throw new IllegalStateException("matrix is singular");
+            throw new SingularMatrixException();
         }
     }
 

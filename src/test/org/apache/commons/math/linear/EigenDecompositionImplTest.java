@@ -17,6 +17,7 @@
 
 package org.apache.commons.math.linear;
 
+import java.util.Arrays;
 import java.util.Random;
 
 import junit.framework.Test;
@@ -28,8 +29,6 @@ public class EigenDecompositionImplTest extends TestCase {
     private double[] refValues;
     private RealMatrix matrix;
 
-    private static final double normTolerance = 1.e-10;
-
     public EigenDecompositionImplTest(String name) {
         super(name);
     }
@@ -38,6 +37,69 @@ public class EigenDecompositionImplTest extends TestCase {
         TestSuite suite = new TestSuite(EigenDecompositionImplTest.class);
         suite.setName("EigenDecompositionImpl Tests");
         return suite;
+    }
+
+    public void testDimension1() {
+        RealMatrix matrix =
+            new RealMatrixImpl(new double[][] {
+                                   { 1.5 }
+                               }, false);
+        EigenDecomposition ed = new EigenDecompositionImpl(matrix);
+        assertEquals(1.5, ed.getEigenvalue(0), 1.0e-15);
+    }
+
+    public void testDimension2() {
+        RealMatrix matrix =
+            new RealMatrixImpl(new double[][] {
+                                   {       59.0, 12.0 },
+                                   { Double.NaN, 66.0 }
+                               }, false);
+        EigenDecomposition ed = new EigenDecompositionImpl(matrix);
+        assertEquals(75.0, ed.getEigenvalue(0), 1.0e-15);
+        assertEquals(50.0, ed.getEigenvalue(1), 1.0e-15);
+    }
+
+    public void testDimension3() {
+        RealMatrix matrix =
+            new RealMatrixImpl(new double[][] {
+                                   {    39632.0,    -4824.0, -16560.0 },
+                                   { Double.NaN,     8693.0,   7920.0 },
+                                   { Double.NaN, Double.NaN,  17300.0 }
+                               }, false);
+        EigenDecomposition ed = new EigenDecompositionImpl(matrix);
+        assertEquals(50000.0, ed.getEigenvalue(0), 3.0e-11);
+        assertEquals(12500.0, ed.getEigenvalue(1), 3.0e-11);
+        assertEquals( 3125.0, ed.getEigenvalue(2), 3.0e-11);
+    }
+
+    public void testDimension4WithSplit() {
+        RealMatrix matrix =
+            new RealMatrixImpl(new double[][] {
+                                   {      0.784,     -0.288,       0.000,  0.000 },
+                                   { Double.NaN,      0.616,       0.000,  0.000 },
+                                   { Double.NaN, Double.NaN,       0.164, -0.048 },
+                                   { Double.NaN, Double.NaN,  Double.NaN,  0.136 }
+                               }, false);
+        EigenDecomposition ed = new EigenDecompositionImpl(matrix);
+        assertEquals(1.0, ed.getEigenvalue(0), 1.0e-15);
+        assertEquals(0.4, ed.getEigenvalue(1), 1.0e-15);
+        assertEquals(0.2, ed.getEigenvalue(2), 1.0e-15);
+        assertEquals(0.1, ed.getEigenvalue(3), 1.0e-15);
+    }
+
+    public void testDimension4WithoutSplit() {
+        RealMatrix matrix =
+            new RealMatrixImpl(new double[][] {
+                                   {  0.5608, -0.2016,  0.1152, -0.2976 },
+                                   { -0.2016,  0.4432, -0.2304,  0.1152 },
+                                   {  0.1152, -0.2304,  0.3088, -0.1344 },
+                                   { -0.2976,  0.1152, -0.1344,  0.3872 }
+                               }, false);
+        EigenDecomposition ed = new EigenDecompositionImpl(matrix);
+        assertEquals(1.0, ed.getEigenvalue(0), 1.0e-15);
+        assertEquals(0.4, ed.getEigenvalue(1), 1.0e-15);
+        assertEquals(0.2, ed.getEigenvalue(2), 1.0e-15);
+        assertEquals(0.1, ed.getEigenvalue(3), 1.0e-15);
     }
 
     /** test dimensions */
@@ -58,7 +120,23 @@ public class EigenDecompositionImplTest extends TestCase {
         double[] eigenValues = ed.getEigenvalues();
         assertEquals(refValues.length, eigenValues.length);
         for (int i = 0; i < refValues.length; ++i) {
-            assertEquals(refValues[i], eigenValues[eigenValues.length - 1 - i], 3.0e-15);
+            assertEquals(refValues[i], eigenValues[i], 3.0e-15);
+        }
+    }
+
+    /** test eigenvalues for a big matrix. */
+    public void testBigMatrix() {
+        Random r = new Random(17748333525117l);
+        double[] bigValues = new double[200];
+        for (int i = 0; i < bigValues.length; ++i) {
+            bigValues[i] = 2 * r.nextDouble() - 1;
+        }
+        Arrays.sort(bigValues);
+        EigenDecomposition ed = new EigenDecompositionImpl(createTestMatrix(r, bigValues));
+        double[] eigenValues = ed.getEigenvalues();
+        assertEquals(bigValues.length, eigenValues.length);
+        for (int i = 0; i < bigValues.length; ++i) {
+            assertEquals(bigValues[bigValues.length - i - 1], eigenValues[i], 2.0e-14);
         }
     }
 
@@ -80,7 +158,7 @@ public class EigenDecompositionImplTest extends TestCase {
         RealMatrix d  = ed.getD();
         RealMatrix vT = ed.getVT();
         double norm = v.multiply(d).multiply(vT).subtract(matrix).getNorm();
-        assertEquals(0, norm, normTolerance);
+        assertEquals(0, norm, 6.0e-13);
     }
 
     /** test that V is orthogonal */
@@ -88,7 +166,7 @@ public class EigenDecompositionImplTest extends TestCase {
         RealMatrix v = new EigenDecompositionImpl(matrix).getV();
         RealMatrix vTv = v.transpose().multiply(v);
         RealMatrix id  = MatrixUtils.createRealIdentityMatrix(vTv.getRowDimension());
-        assertEquals(0, vTv.subtract(id).getNorm(), normTolerance);
+        assertEquals(0, vTv.subtract(id).getNorm(), 2.0e-13);
     }
 
     /** test solve dimension errors */
@@ -151,7 +229,7 @@ public class EigenDecompositionImplTest extends TestCase {
         });
 
         // using RealMatrix
-        assertEquals(0, ed.solve(b).subtract(xRef).getNorm(), normTolerance);
+        assertEquals(0, ed.solve(b).subtract(xRef).getNorm(), 2.0e-12);
 
         // using double[]
         for (int i = 0; i < b.getColumnDimension(); ++i) {
@@ -191,26 +269,60 @@ public class EigenDecompositionImplTest extends TestCase {
     }
 
     private RealMatrix createTestMatrix(final Random r, final double[] eigenValues) {
-        final RealMatrix v = createOrthogonalMatrix(r, eigenValues.length);
-        final RealMatrix d = createDiagonalMatrix(eigenValues, eigenValues.length);
+        final int n = eigenValues.length;
+        final RealMatrix v = createOrthogonalMatrix(r, n);
+        final RealMatrix d = createDiagonalMatrix(eigenValues, n, n);
         return v.multiply(d).multiply(v.transpose());
     }
 
-    private RealMatrix createOrthogonalMatrix(final Random r, final int size) {
+    public static RealMatrix createOrthogonalMatrix(final Random r, final int size) {
+
         final double[][] data = new double[size][size];
+
         for (int i = 0; i < size; ++i) {
-            for (int j = 0; j < size; ++j) {
-                data[i][j] = 2 * r.nextDouble() - 1;
-            }
+            final double[] dataI = data[i];
+            double norm2 = 0;
+            do {
+
+                // generate randomly row I
+                for (int j = 0; j < size; ++j) {
+                    dataI[j] = 2 * r.nextDouble() - 1;
+                }
+
+                // project the row in the subspace orthogonal to previous rows
+                for (int k = 0; k < i; ++k) {
+                    final double[] dataK = data[k];
+                    double dotProduct = 0;
+                    for (int j = 0; j < size; ++j) {
+                        dotProduct += dataI[j] * dataK[j];
+                    }
+                    for (int j = 0; j < size; ++j) {
+                        dataI[j] -= dotProduct * dataK[j];
+                    }
+                }
+
+                // normalize the row
+                norm2 = 0;
+                for (final double dataIJ : dataI) {
+                    norm2 += dataIJ * dataIJ;
+                }
+                final double inv = 1.0 / Math.sqrt(norm2);
+                for (int j = 0; j < size; ++j) {
+                    dataI[j] *= inv;
+                }
+
+            } while (norm2 * size < 0.01);
         }
-        final RealMatrix m = new RealMatrixImpl(data, false);
-        return new QRDecompositionImpl(m).getQ();
+
+        return new RealMatrixImpl(data, false);
+
     }
 
-    private RealMatrix createDiagonalMatrix(final double[] data, final int rows) {
-        final double[][] dData = new double[rows][rows];
-        for (int i = 0; i < data.length; ++i) {
-            dData[i][i] = data[i];
+    public static RealMatrix createDiagonalMatrix(final double[] diagonal,
+                                                  final int rows, final int columns) {
+        final double[][] dData = new double[rows][columns];
+        for (int i = 0; i < Math.min(rows, columns); ++i) {
+            dData[i][i] = diagonal[i];
         }
         return new RealMatrixImpl(dData, false);
     }
