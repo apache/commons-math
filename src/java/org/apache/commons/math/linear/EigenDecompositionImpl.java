@@ -1445,7 +1445,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 
                     // approximate contribution to norm squared from i < nn-1.
                     a2 = a2 + b2;
-                    for (int i4 = np; i4 >= 4 * start - 1 + pingPong; i4 -= 4) {
+                    for (int i4 = np; i4 >= 4 * start + 2 + pingPong; i4 -= 4) {
                         if(b2 == 0.0) {
                             break;
                         }
@@ -1488,7 +1488,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
                 if (end - start > 2) {
                     b2 = work[nn - 13] / work[nn - 15];
                     a2 = a2 + b2;
-                    for (int i4 = nn - 17; i4 >= 4 * start - 1 + pingPong; i4 -= 4) {
+                    for (int i4 = nn - 17; i4 >= 4 * start + 2 + pingPong; i4 -= 4) {
                         if (b2 == 0.0) {
                             break;
                         }
@@ -1539,7 +1539,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
                 double b1 = work[nn - 5] / work[nn - 7];
                 double b2 = b1;
                 if (b2 != 0.0) {
-                    for (int i4 = 4 * end - 9 + pingPong; i4 >= 4 * start - 1 + pingPong; i4 -= 4) {
+                    for (int i4 = 4 * end - 10 + pingPong; i4 >= 4 * start + 2 + pingPong; i4 -= 4) {
                         final double oldB1 = b1;
                         if (work[i4] > work[i4 - 2]) {
                             return;
@@ -1583,7 +1583,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
                 double b1 = work[nn - 5] / work[nn - 7];
                 double b2 = b1;
                 if (b2 != 0.0){
-                    for (int i4 = 4 * end - 9 + pingPong; i4 >= 4 * start - 1 + pingPong; i4 -= 4) {
+                    for (int i4 = 4 * end - 9 + pingPong; i4 >= 4 * start + 2 + pingPong; i4 -= 4) {
                         if (work[i4] > work[i4 - 2]) {
                             return;
                         }
