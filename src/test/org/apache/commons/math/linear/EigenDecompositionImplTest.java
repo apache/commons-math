@@ -255,6 +255,107 @@ public class EigenDecompositionImplTest extends TestCase {
         }
 
     }
+    
+    /**
+     * Matrix with eigenvalues {8, -1, -1}
+     */
+    public void testRepeatedEigenvalue() {
+        RealMatrix repeated = new RealMatrixImpl(new double[][] {
+                {3,  2,  4},
+                {2,  0,  2},
+                {4,  2,  3}
+        }); 
+        EigenDecomposition ed = new EigenDecompositionImpl(repeated);
+        checkEigenValues((new double[] {8, -1, -1}), ed, 1E-12);
+        checkEigenVector((new double[] {2, 1, 2}), ed, 1E-12);
+    }
+    
+    /**
+     * Matrix with eigenvalues {2, 0, 12}
+     */
+    public void testDistinctEigenvalues() {
+        RealMatrix distinct = new RealMatrixImpl(new double[][] {
+                {3, 1, -4},  
+                {1, 3, -4}, 
+                {-4, -4, 8}
+        });
+        EigenDecomposition ed = new EigenDecompositionImpl(distinct);
+        checkEigenValues((new double[] {2, 0, 12}), ed, 1E-12);
+        checkEigenVector((new double[] {1, -1, 0}), ed, 1E-12);
+        checkEigenVector((new double[] {1, 1, 1}), ed, 1E-12);
+        checkEigenVector((new double[] {-1, -1, 2}), ed, 1E-12);
+    }
+    
+    /**
+     * Verifies that the given EigenDecomposition has eigenvalues equivalent to
+     * the targetValues, ignoring the order of the values and allowing
+     * values to differ by tolerance.
+     */
+    protected void checkEigenValues(double[] targetValues,
+            EigenDecomposition ed, double tolerance) {
+        double[] observed = ed.getEigenvalues();
+        for (int i = 0; i < observed.length; i++) {
+            assertTrue(isIncludedValue(observed[i], targetValues, tolerance));
+            assertTrue(isIncludedValue(targetValues[i], observed, tolerance));
+        }
+    }
+    
+    /**
+     * Returns true iff there is an entry within tolerance of value in
+     * searchArray.
+     */
+    private boolean isIncludedValue(double value, double[] searchArray,
+            double tolerance) {
+       boolean found = false;
+       int i = 0;
+       while (!found && i < searchArray.length) {
+           if (Math.abs(value - searchArray[i]) < tolerance) {
+               found = true;
+           }
+           i++;
+       }
+       return found;
+    }
+    
+    /**
+     * Returns true iff eigenVector is a scalar multiple of one of the columns
+     * of ed.getV().  Does not try linear combinations - i.e., should only be
+     * used to find vectors in one-dimensional eigenspaces.
+     */
+    protected void checkEigenVector(double[] eigenVector,
+            EigenDecomposition ed, double tolerance) {
+        assertTrue(isIncludedColumn(eigenVector, ed.getV(), tolerance));
+    }
+    
+    /**
+     * Returns true iff there is a column that is a scalar multiple of column
+     * in searchMatrix (modulo tolerance)
+     */
+    private boolean isIncludedColumn(double[] column, RealMatrix searchMatrix,
+            double tolerance) {
+        boolean found = false;
+        int i = 0;
+        while (!found && i < searchMatrix.getColumnDimension()) {
+            double multiplier = 1d;
+            boolean matching = true;
+            int j = 0;
+            while (matching && j < searchMatrix.getRowDimension()) {
+                double colEntry = searchMatrix.getEntry(j, i);
+                // Use the first entry where both are non-zero as scalar
+                if (multiplier == 1d && Math.abs(colEntry) > 1E-14
+                        && Math.abs(column[j]) > 1e-14) {
+                    multiplier = colEntry / column[j];
+                } 
+                if (Math.abs(column[j] * multiplier - colEntry) > tolerance) {
+                    matching = false;
+                }
+                j++;
+            }
+            found = matching;
+            i++;
+        }
+        return found;
+    }
 
     public void setUp() {
         refValues = new double[] {
