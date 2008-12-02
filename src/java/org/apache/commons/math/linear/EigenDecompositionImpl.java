@@ -31,8 +31,8 @@ import org.apache.commons.math.util.MathUtils;
  * <p>The eigen decomposition of symmetric matrix A is a set of two matrices:
  * V and D such that A = V D V<sup>T</sup>. A, V and D are all m &times; m
  * matrices.</p>
- * <p>This implementation only uses the upper part of the matrix, the part below the
- * diagonal is not accessed at all.</p>
+ * <p>When called with a {@link RealMatrix} argument, this implementation only uses
+ * the upper part of the matrix, the part below the diagonal is not accessed at all.</p>
  * <p>Eigenvalues are computed as soon as the matrix is decomposed, but eigenvectors
  * are computed only when required, i.e. only when one of the {@link #getEigenvector(int)},
  * {@link #getV()}, {@link #getVT()}, {@link #getInverse()}, {@link #solve(double[])},
@@ -178,6 +178,21 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     }
 
     /**
+     * Calculates the eigen decomposition of the given tridiagonal symmetric matrix. 
+     * <p>Calling this constructor is equivalent to first call the no-arguments
+     * constructor and then call {@link #decompose(double[], double[])}.</p>
+     * @param main the main diagonal of the matrix
+     * @param secondary the secondary diagonal of the matrix
+     * @exception InvalidMatrixException (wrapping a {@link ConvergenceException}
+     * if algorithm fails to converge
+     */
+    public EigenDecompositionImpl(final double[] main, double[] secondary)
+        throws InvalidMatrixException {
+        setRelativeAccuracySplitTolerance(MathUtils.SAFE_MIN);
+        decompose(main, secondary);
+    }
+
+    /**
      * Set split tolerance based on absolute off-diagonal elements.
      * @param tolerance tolerance to set
      */
@@ -202,14 +217,47 @@ public class EigenDecompositionImpl implements EigenDecomposition {
      */
     public void decompose(final RealMatrix matrix)
         throws InvalidMatrixException {
+        transformToTridiagonal(matrix);
+        decompose();
+    }
+
+    /**
+     * Decompose a tridiagonal symmetric matrix. 
+     * @param main the main diagonal of the matrix
+     * @param secondary the secondary diagonal of the matrix
+     * @exception InvalidMatrixException (wrapping a {@link ConvergenceException}
+     * if algorithm fails to converge
+     */
+    public void decompose(final double[] main, final double[] secondary) {
+
+        this.main      = main;
+        this.secondary = secondary;
+        orthoTridiag   = null;
+
+        // pre-compute some elements
+        squaredSecondary = new double[secondary.length];
+        for (int i = 0; i < squaredSecondary.length; ++i) {
+            final double s = secondary[i];
+            squaredSecondary[i] = s * s;
+        }
+
+        decompose();
+
+    }
+
+    /**
+     * Decompose a tridiagonal symmetric matrix. 
+     * @exception InvalidMatrixException (wrapping a {@link ConvergenceException}
+     * if algorithm fails to converge
+     */
+    private void decompose() {
 
         cachedV  = null;
         cachedD  = null;
         cachedVt = null;
-        work     = new double[6 * matrix.getRowDimension()];
+        work     = new double[6 * main.length];
 
-        // compute tridiagonal representation of the initial matrix
-        transformToTridiagonal(matrix);
+        // compute the Gershgorin circles
         computeGershgorinCircles();
 
         // find all the eigenvalues
@@ -1706,7 +1754,9 @@ public class EigenDecompositionImpl implements EigenDecomposition {
             eigenvector[i] *= inv;
         }
 
-        return new RealVectorImpl(orthoTridiag.operate(eigenvector), true);
+        return (orthoTridiag == null) ?
+               new RealVectorImpl(eigenvector, false) :
+               new RealVectorImpl(orthoTridiag.operate(eigenvector), false);
 
     }
 

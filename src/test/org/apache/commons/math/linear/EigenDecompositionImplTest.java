@@ -119,6 +119,31 @@ public class EigenDecompositionImplTest extends TestCase {
         assertEquals(0.1, ed.getEigenvalue(3), 1.0e-15);
     }
 
+    /** test a matrix already in tridiagonal form. */
+    public void testTridiagonal() {
+        Random r = new Random(4366663527842l);
+        double[] ref = new double[30];
+        for (int i = 0; i < ref.length; ++i) {
+            if (i < 5) {
+                ref[i] = 2 * r.nextDouble() - 1;
+            } else {
+                ref[i] = 0.0001 * r.nextDouble() + 6;                
+            }
+        }
+        Arrays.sort(ref);
+        TriDiagonalTransformer t =
+            new TriDiagonalTransformer(createTestMatrix(r, ref));
+        EigenDecomposition ed =
+            new EigenDecompositionImpl(t.getMainDiagonalRef(),
+                                       t.getSecondaryDiagonalRef());
+        double[] eigenValues = ed.getEigenvalues();
+        assertEquals(ref.length, eigenValues.length);
+        for (int i = 0; i < ref.length; ++i) {
+            assertEquals(ref[ref.length - i - 1], eigenValues[i], 2.0e-14);
+        }
+        
+    }
+
     /** test dimensions */
     public void testDimensions() {
         final int m = matrix.getRowDimension();
