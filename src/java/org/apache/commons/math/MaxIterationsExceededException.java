@@ -41,7 +41,7 @@ public class MaxIterationsExceededException extends ConvergenceException {
      */
     public MaxIterationsExceededException(int maxIterations) {
         super("Maximal number of iterations ({0}) exceeded",
-              new Object[] { new Integer(maxIterations) });
+              new Object[] { Integer.valueOf(maxIterations) });
         this.maxIterations = maxIterations;
     }
 

@@ -35,12 +35,175 @@ The <action> type attribute can be add,update,fix,remove.
 
 <document>
   <properties>
-    <title>
-Commons Math Release Notes</title>
+    <title>Commons Math Release Notes</title>
   </properties>
   <body>
-    <release version="1.3-SNAPSHOT" date="TBD"
-    description="TBD">
+    <release version="2.0" date="TBD" description="TBD">
+      <action dev="psteitz" type="add" issue="MATH-212" due-to="Jason C. HandUber">
+        Added support for copying statistics. Changes to stats classes 
+        include copy constructor, static copy(-,-) and instance copy()
+        methods. Added copy() to UnivariateStatistic and StorelessUnivariateStatistic
+        interfaces. 
+      </action>
+      <action dev="luc" type="add" issue="MATH-229" due-to="Cyril Briquet">
+        Added a removal feature for observations in descriptive statistics.
+      </action>
+      <action dev="luc" type="add" >
+        Added a scalb method in MathUtils. This method is similar to the method
+        with same name added in java.lang.Math as of Java 6.
+      </action>
+      <action dev="brentworden" type="fix" issue="MATH-227" due-to="Joerg Henning">
+        Fixed F distribution inverse CDF computation for small denominator degrees of freedom.
+      </action>
+      <action dev="luc" type="fix" issue="MATH-226" due-to="Stuart Siegel">
+        Fixed an error in CorrelatedRandomVectorGenerator leading to a component of
+        the generated vector being constant.
+      </action>
+      <action dev="luc" type="fix" issue="MATH-223" due-to="John Mulcahy">
+        Greatly improved QR-decomposition speed using transposed matrices internally.
+      </action>
+      <action dev="luc" type="fix" due-to="Pascal Parraud">
+        Fixed an infinite loop encountered in some backward integration cases for ODE solvers.
+      </action>
+      <action dev="luc" type="add" issue="MATH-222" due-to="Ted Dunning">
+        Added beta distribution.
+      </action>
+      <action dev="luc" type="add" issue="MATH-222" due-to="Ted Dunning">
+        Added probability density functions computation for distributions for which
+        it is feasible.
+      </action>
+      <action dev="luc" type="fix" issue="MATH-221" due-to="Dieter Roth">
+        Changed the Complex.equals() method so that it considers +0 and -0 are equal,
+        as required by IEEE-754 standard.
+      </action>
+      <action dev="luc" type="add" issue="MATH-220">
+        Added JAMA-like interfaces for eigen/singular problems. The implementation
+        of eigen-decomposition is based on the very quick dqd/dqds algorithms and some
+        parts of the MRRR algorithm. This leads to very fast and accurate solutions.
+      </action>
+      <action dev="luc" type="add" issue="MATH-220" >
+        Added JAMA-like interfaces for decomposition algorithms. These interfaces
+        decompose a matrix as a product of several other matrices with predefined
+        properties and shapes depending on the algorithm. These algorithms allow to
+        solve the equation A * X = B, either for an exact linear solution
+        (LU-decomposition) or an exact or least-squares solution (QR-decomposition).
+      </action>
+      <action dev="luc" type="add" issue="MATH-219" due-to="Andrew Berry">
+        Added removeData methods for the SimpleRegression class. This allows
+        to support regression calculations across a sliding window of (time-based)
+        observations without having to recalculate for the entire window every time.
+      </action>
+      <action dev="luc" type="add" due-to="Andreas Rieger">
+        Support for one dimensional vectors has been added to the linear algebra
+        package with a RealVector interface, a RealVectorImpl default implementation
+        using a single double array to store elements and a RealVectorFormat for
+        input/output.
+      </action>
+      <action dev="psteitz" type="update" issue="MATH-217">
+        Changed OLS regression implementation added in MATH-203 to use
+        QR decomposition to solve the normal equations.
+      </action>
+      <action dev="luc" type="add">
+        New ODE integrators have been added: the explicit Adams-Bashforth and implicit
+        Adams-Moulton multistep methods. These methods support customizable starter
+        integrators and support discrete events even during the start phase.
+        All these methods provide the same rich features has the existing ones:
+        continuous output, step handlers, discrete events, G-stop ...
+      </action>
+      <action dev="luc" type="fix" issue="MATH-214" >
+        Replaced size adjustment of all steps of fixed steps Runge-Kutta integrators by
+        a truncation of the last step only.
+      </action>
+      <action dev="luc" type="update">
+        The ODE integrators now support several step handlers at once, instead of just one.
+        This is more consistent with event handlers management.
+        The setStepHandler method has therefore been replaced by addStephandler, the
+        getStepHandler method has been replaced by getStepHandlers which returns a Collection
+        and a clearStepHandlers method has been added.
+      </action>
+      <action dev="luc" type="add">
+        All step interpolators for ODE integrators now provide interpolation for
+        both the state and its time derivatives. The interpolated derivatives are
+        the exact derivatives of the interpolated state, thus preserving consistency.
+        The general step handlers hence do not need to call the derivation function
+        anymore. The fixed step handlers also get the time derivative of the state
+        as an additional argument along with the state when they are called.
+      </action>
+      <action dev="luc" type="fix" issue="MATH-213" >
+        Changed return type for FirstOrderIntegrator.integrate() to double
+        in order to retrieve exact stop time. This allows to handle properly
+        integration interruption due to an EventHandler instance asking to
+        stop the integration when its associated event is triggered. The state
+        was already set to the current state at interruption time, but it was
+        difficult to get the corresponding time (it involved setting a step
+        handler monitoring the last step specially).
+      </action>
+      <action dev="luc" type="update">
+        Clarified the ODE package by breaking in into several sub-packages and renaming
+        classes (SwitchingFunctions/EventHandler, SwitchingFunctionsHandler/CombinedEventsManager)
+      </action>
+      <action dev="luc" type="fix" issue="MATH-210" >
+        Changed return type for FirstOrderIntegrator.getSwitchingFunctions()
+        to a collection of SwitchingFunction instances. This better suits the
+        intended use of the method and fixes a visibility error since the
+        previous return type referenced the package private SwitchState class.
+      </action>
+      <action dev="luc" type="fix" issue="MATH-209" due-to="Thomas Chust">
+        Fixed dimension error on output vector for the operate method
+        in RealMatrixImpl and BigMatrixImpl classes.
+      </action>
+      <action dev="luc" type="update">
+        The FirstOrderDifferentialEquations, FirstOrderIntegrator and FixedStepHandler
+        interfaces now extends Serializable, allowing integrators, problems and
+        handlers to be embedded into users Serializable classes.
+      </action>
+      <action dev="luc" type="add">
+        Added several convenience methods and constants for Vector3D and Rotation.
+      </action>
+      <action dev="luc" type="update">
+        Replaced public no argument constructors with IDENTITY or ZERO
+        static instances for immutable classes Vector3D and Rotation.
+      </action>
+      <action dev="luc" type="fix">
+        Fixed inconsistencies in the naming scheme for static fields in
+        Vector3D and Rotation with respect to the overall library.
+      </action>
+      <action dev="luc" type="update" >
+        Greatly improved RealMatrixImpl and BigMatrixImpl performances,
+        both in terms of speed and in terms of temporary memory footprint.
+      </action>
+      <action dev="luc" type="add" issue="MATH-203" due-to="Mauro Talevi">
+        Added Mauro's patch to support multiple regression.
+      </action>
+      <action dev="luc" type="update" >
+        Starting with version 2.0 of the library, the minimal version of the Java
+        platform required to compile and use commons-math is Java 5. This version
+        is widely deployed now on many systems. It brings new important features
+        for specific mathematical developments, for example new functions (log10,
+        cbrt, ulp, signum, cosh, sinh, tanh, hypot, expm1, log1p), autoboxing,
+        MathContext or RoundingMode. It also brings important features for general
+        development, for example enums, generics or annotations.
+      </action>
+      <action dev="luc" type="add" >
+        Switching functions can now throw dedicated SwitchException from all their
+        method. At upper call level, the various ODE integrators handle these new
+        exceptions and wrap them into IntegratorException instances, hence the
+        integrators methods signature did not change.
+      </action>
+      <action dev="luc" type="add" issue="MATH-202">
+        Added the getSwitchingFunctions and clearSwitchingFunctions to the
+        FirstOrderIntegrator interface and all its implementations
+      </action>
+      <action dev="luc" type="update" >
+        Removed deprecated features. This includes the following changes. Factory-based
+        instantiation replaced by setter injection in 1.2 in several classes have been
+        removed. Protected fields in matrices implementations have been declared final
+        and private. Identity factory methods moved to MatrixUtils class have been
+        removed. Complex utilities methods that have been superseded by Complex instance
+        methods have been removed.
+      </action>
+    </release>
+    <release version="1.3-SNAPSHOT" date="TBD" description="TBD">
       <action dev="luc" type="fix" issue="MATH-205" due-to="Roman Werpachowski">
         Fixed formula in fast cosine transformer javadoc comments.
       </action>
@@ -64,9 +227,6 @@ Commons Math Release Notes</title>
       </action>
       <action dev="brentworden" type="fix" issue="MATH-204" due-to="Mick">
         Added root checks for the endpoints.
-      </action>
-      <action dev="brentworden" type="fix" issue="MATH-227" due-to="Joerg Henning">
-        Fixed F distribution inverse CDF computation for small denominator degrees of freedom.
       </action>
     </release>
     <release version="1.2" date="2008-02-24"

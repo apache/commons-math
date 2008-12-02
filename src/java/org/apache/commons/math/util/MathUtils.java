@@ -18,12 +18,22 @@
 package org.apache.commons.math.util;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 /**
  * Some useful additions to the built-in functions in {@link Math}.
  * @version $Revision$ $Date$
  */
 public final class MathUtils {
+
+    /** Smallest positive number such that 1 - EPSILON is not numerically equal to 1. */
+    public static final double EPSILON = 0x1.0p-53;
+
+    /** Safe minimum, such that 1 / SAFE_MIN does not overflow.
+     * <p>In IEEE 754 arithmetic, this is also the smallest normalized
+     * number 2<sup>-1022</sup>.</p>
+     */
+    public static final double SAFE_MIN = 0x1.0p-1022;
 
     /** -1.0 cast as a byte. */
     private static final byte  NB = (byte)-1;
@@ -456,26 +466,18 @@ public final class MathUtils {
      * @return the hash code
      */
     public static int hash(double value) {
-        long bits = Double.doubleToLongBits(value);
-        return (int)(bits ^ (bits >>> 32));
+        return new Double(value).hashCode();
     }
 
     /**
-     * Returns an integer hash code representing the given double array value.
+     * Returns an integer hash code representing the given double array.
      * 
      * @param value the value to be hashed (may be null)
      * @return the hash code
      * @since 1.2
      */
     public static int hash(double[] value) {
-        if (value == null) {
-            return 0;
-        }
-        int result = value.length;
-        for (int i = 0; i < value.length; ++i) {
-            result = result * 31 + hash(value[i]);
-        }
-        return result;
+        return Arrays.hashCode(value);
     }
 
     /**
@@ -709,6 +711,33 @@ public final class MathUtils {
                                         exponent | (mantissa - 1));
                 }
         }
+
+    }
+
+    /**
+     * Scale a number by 2<sup>scaleFactor</sup>.
+     * <p>If <code>d</code> is 0 or NaN or Infinite, it is returned unchanged.</p>
+     * 
+     * @param d base number
+     * @param scaleFactor power of two by which d sould be multiplied
+     * @return d &times; 2<sup>scaleFactor</sup>
+     * @since 2.0
+     */
+    public static double scalb(final double d, final int scaleFactor) {
+
+        // handling of some important special cases
+        if ((d == 0) || Double.isNaN(d) || Double.isInfinite(d)) {
+            return d;
+        }
+
+        // split the double in raw components
+        final long bits     = Double.doubleToLongBits(d);
+        final long exponent = bits & 0x7ff0000000000000L;
+        final long rest     = bits & 0x800fffffffffffffL;
+
+        // shift the exponent
+        final long newBits = rest | (exponent + (((long) scaleFactor) << 52));
+        return Double.longBitsToDouble(newBits);
 
     }
 

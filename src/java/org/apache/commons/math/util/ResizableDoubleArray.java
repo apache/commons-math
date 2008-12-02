@@ -17,6 +17,9 @@
 package org.apache.commons.math.util;
 
 import java.io.Serializable;
+import java.util.Arrays;
+
+import org.apache.commons.math.MathRuntimeException;
 
 /**
  * <p>
@@ -241,6 +244,19 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
         setExpansionMode(expansionMode);
         internalArray = new double[initialCapacity];
     }
+    
+    /**
+     * Copy constructor.  Creates a new ResizableDoubleArray that is a deep,
+     * fresh copy of the original. Needs to acquire synchronization lock
+     * on original.  Original may not be null; otherwise a NullPointerException
+     * is thrown.
+     * 
+     * @param original
+     * @since 2.0
+     */
+    public ResizableDoubleArray(ResizableDoubleArray original) {
+        copy(original, this);
+    }
 
     /**
      * Adds an element to the end of this expandable array.
@@ -292,14 +308,37 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
         }
         return discarded;
     }
+       
+    /**
+     * Substitutes <code>value</code> for the most recently added value.
+     * Returns the value that has been replaced. If the array is empty (i.e. 
+     * if {@link #numElements} is zero), a MathRuntimeException is thrown.
+     * 
+     * @param value new value to substitute for the most recently added value
+     * @return value that has been replaced in the array
+     * @since 2.0
+     */
+    public synchronized double substituteMostRecentElement(double value) {
+        if (numElements < 1) {
+            throw MathRuntimeException.createArrayIndexOutOfBoundsException(
+                    "cannot substitute an element from an empty array", null);
+        }
 
+        double discarded = internalArray[startIndex + (numElements - 1)];
+
+        internalArray[startIndex + (numElements - 1)] = value;
+
+        return discarded;
+    }
+
+    
     /**
      * Checks the expansion factor and the contraction criteria and throws an 
      * IllegalArgumentException if the contractionCriteria is less than the 
      * expansionCriteria
      * 
      * @param expansionFactor factor to be checked
-     * @param contractionCritera critera to be checked
+     * @param contractionCritera criteria to be checked
      * @throws IllegalArgumentException if the contractionCriteria is less than
      *         the expansionCriteria.
      */
@@ -368,8 +407,51 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * 
      * @param i  the number of elements to discard from the front of the array
      * @throws IllegalArgumentException if i is greater than numElements.
+     * @since 2.0
      */
     public synchronized void discardFrontElements(int i) {
+
+        discardExtremeElements(i,true);
+        
+    }
+
+    /**
+     * Discards the <code>i<code> last elements of the array.  For example,
+     * if the array contains the elements 1,2,3,4, invoking 
+     * <code>discardMostRecentElements(2)</code> will cause the last two elements 
+     * to be discarded, leaving 1,2 in the array.  Throws illegalArgumentException
+     * if i exceeds numElements.
+     * 
+     * @param i  the number of elements to discard from the end of the array
+     * @throws IllegalArgumentException if i is greater than numElements.
+     * @since 2.0
+     */
+    public synchronized void discardMostRecentElements(int i) {
+
+        discardExtremeElements(i,false);
+        
+    }
+    
+    /**
+     * Discards the <code>i<code> first or last elements of the array,
+     * depending on the value of <code>front</code>.
+     * For example, if the array contains the elements 1,2,3,4, invoking 
+     * <code>discardExtremeElements(2,false)</code> will cause the last two elements 
+     * to be discarded, leaving 1,2 in the array.
+     * For example, if the array contains the elements 1,2,3,4, invoking 
+     * <code>discardExtremeElements(2,true)</code> will cause the first two elements 
+     * to be discarded, leaving 3,4 in the array.
+     * Throws illegalArgumentException
+     * if i exceeds numElements.
+     * 
+     * @param i  the number of elements to discard from the front/end of the array
+     * @param front true if elements are to be discarded from the front
+     * of the array, false if elements are to be discarded from the end
+     * of the array 
+     * @throws IllegalArgumentException if i is greater than numElements.
+     * @since 2.0
+     */
+    private synchronized void discardExtremeElements(int i,boolean front) {
         if (i > numElements) {
             String msg = "Cannot discard more elements than are" +
             "contained in this array.";
@@ -380,7 +462,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
         } else {
             // "Subtract" this number of discarded from numElements 
             numElements -= i;
-            startIndex += i;
+            if (front) startIndex += i;
         }
         if (shouldContract()) {
             contract();
@@ -398,7 +480,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      */
     protected synchronized void expand() {
 
-        // notice the use of Math.ceil(), this gaurantees that we will always 
+        // notice the use of Math.ceil(), this guarantees that we will always 
         // have an array of at least currentSize + 1.   Assume that the 
         // current initial capacity is 1 and the expansion factor
         // is 1.000000000000000001.  The newly calculated size will be 
@@ -454,16 +536,13 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      */
     public synchronized double getElement(int index) {
         if (index >= numElements) {
-            String msg =
-                "The index specified: " + index +
-                " is larger than the current number of elements";
-            throw new ArrayIndexOutOfBoundsException(msg);
+            throw MathRuntimeException.createArrayIndexOutOfBoundsException("the index specified: {0} is larger than the current maximal index {1}",
+                                                                            new Object[] { index, numElements - 1 });
         } else if (index >= 0) {
             return internalArray[startIndex + index];
         } else {
-            String msg =
-                "Elements cannot be retrieved from a negative array index";
-            throw new ArrayIndexOutOfBoundsException(msg);
+            throw MathRuntimeException.createArrayIndexOutOfBoundsException("elements cannot be retrieved from a negative array index {0}",
+                                                                            new Object[] { index });
         }
     }
     
@@ -482,7 +561,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     }
     
     /**
-     * The expansion factor controls the size of a new aray when an array 
+     * The expansion factor controls the size of a new array when an array 
      * needs to be expanded.  The <code>expansionMode</code>
      * determines whether the size of the array is multiplied by the 
      * <code>expansionFactor</code> (MULTIPLICATIVE_MODE) or if 
@@ -570,8 +649,8 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      */
     public synchronized void setElement(int index, double value) {
         if (index < 0) {
-            String msg = "Cannot set an element at a negative index";
-            throw new ArrayIndexOutOfBoundsException(msg);
+            throw MathRuntimeException.createArrayIndexOutOfBoundsException("cannot set an element at a negative index {0}",
+                                                                            new Object[] { index });
         }
         if (index + 1 > numElements) {
             numElements = index + 1;
@@ -652,7 +731,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
         }
 
         // Test the new num elements, check to see if the array needs to be 
-        // expanded to accomodate this new number of elements
+        // expanded to accommodate this new number of elements
         if ((startIndex + i) > internalArray.length) {
             expandTo(startIndex + i);
         }
@@ -687,5 +766,100 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     public synchronized int start() {
         return startIndex;
     }
-
+    
+    /**
+     * <p>Copies source to dest, copying the underlying data, so dest is
+     * a new, independent copy of source.  Does not contract before
+     * the copy.</p>
+     * 
+     * <p>Obtains synchronization locks on both source and dest
+     * (in that order) before performing the copy.</p>
+     * 
+     * <p>Neither source nor dest may be null; otherwise a NullPointerException
+     * is thrown</p>
+     * 
+     * @param source ResizableDoubleArray to copy
+     * @param dest ResizableArray to replace with a copy of the source array
+     * @since 2.0
+     * 
+     */
+    public static void copy(ResizableDoubleArray source, ResizableDoubleArray dest) {
+       synchronized(source) {
+           synchronized(dest) {
+               dest.initialCapacity = source.initialCapacity;
+               dest.contractionCriteria = source.contractionCriteria;
+               dest.expansionFactor = source.expansionFactor;
+               dest.expansionMode = source.expansionMode;
+               dest.internalArray = new double[source.internalArray.length];
+               System.arraycopy(source.internalArray, 0, dest.internalArray,
+                       0, dest.internalArray.length);
+               dest.numElements = source.numElements;
+               dest.startIndex = source.startIndex;
+           }
+       }
+    }
+    
+    /**
+     * Returns a copy of the ResizableDoubleArray.  Does not contract before
+     * the copy, so the returned object is an exact copy of this.
+     * 
+     * @return a new ResizableDoubleArray with the same data and configuration
+     * properties as this
+     * @since 2.0
+     */
+    public synchronized ResizableDoubleArray copy() {
+        ResizableDoubleArray result = new ResizableDoubleArray();
+        copy(this, result);
+        return result;
+    }
+    
+    /**
+     * Returns true iff object is a ResizableDoubleArray with the same properties
+     * as this and an identical internal storage array.
+     * 
+     * @param object object to be compared for equality with this
+     * @return true iff object is a ResizableDoubleArray with the same data and
+     * properties as this
+     * @since 2.0
+     */
+    public boolean equals(Object object) {
+        if (object == this ) {
+            return true;
+        }
+       if (object instanceof ResizableDoubleArray == false) {
+            return false;
+        }
+       boolean result = true;
+       ResizableDoubleArray other = (ResizableDoubleArray) object;
+       result = result && (other.initialCapacity == initialCapacity);
+       result = result && (other.contractionCriteria == contractionCriteria);
+       result = result && (other.expansionFactor == expansionFactor);
+       result = result && (other.expansionMode == expansionMode);
+       result = result && (other.numElements == numElements);
+       result = result && (other.startIndex == startIndex);
+       if (!result) { 
+           return false;
+       } else {
+           return Arrays.equals(internalArray, other.internalArray);
+       }
+    }
+    
+    /**
+     * Returns a hash code consistent with equals.
+     * 
+     * @return hash code representing this ResizableDoubleArray
+     * @since 2.0
+     */
+    public int hashCode() {
+        int[] hashData = new int[7];
+        hashData[0] = Arrays.hashCode(internalArray);
+        hashData[1] = new Float(expansionFactor).hashCode();
+        hashData[2] = new Float(contractionCriteria).hashCode();
+        hashData[3] = initialCapacity;
+        hashData[4] = expansionMode;
+        hashData[5] = numElements;
+        hashData[6] = startIndex;
+        return Arrays.hashCode(hashData);
+    }
+         
 }

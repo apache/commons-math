@@ -116,16 +116,19 @@ public final class RealMatrixImplTest extends TestCase {
     
     /** test copy functions */
     public void testCopyFunctions() {
-        RealMatrixImpl m = new RealMatrixImpl(testData);
-        RealMatrixImpl m2 = new RealMatrixImpl(m.getData());
-        assertEquals(m2,m);
+        RealMatrixImpl m1 = new RealMatrixImpl(testData);
+        RealMatrixImpl m2 = new RealMatrixImpl(m1.getData());
+        assertEquals(m2,m1);
+        RealMatrixImpl m3 = new RealMatrixImpl(testData);
+        RealMatrixImpl m4 = new RealMatrixImpl(m3.getData(), false);
+        assertEquals(m4,m3);
     }           
     
     /** test add */
     public void testAdd() {
         RealMatrixImpl m = new RealMatrixImpl(testData);
         RealMatrixImpl mInv = new RealMatrixImpl(testDataInv);
-        RealMatrixImpl mPlusMInv = (RealMatrixImpl)m.add(mInv);
+        RealMatrix mPlusMInv = m.add(mInv);
         double[][] sumEntries = mPlusMInv.getData();
         for (int row = 0; row < m.getRowDimension(); row++) {
             for (int col = 0; col < m.getColumnDimension(); col++) {
@@ -207,105 +210,6 @@ public final class RealMatrixImplTest extends TestCase {
        assertClose("m3*m4=m5", m3.multiply(m4), m5, entryTolerance);
    }  
         
-    /** test isSingular */
-    public void testIsSingular() {
-        RealMatrixImpl m = new RealMatrixImpl(singular);
-        assertTrue("singular",m.isSingular());
-        m = new RealMatrixImpl(bigSingular);
-        assertTrue("big singular",m.isSingular());
-        m = new RealMatrixImpl(id);
-        assertTrue("identity nonsingular",!m.isSingular());
-        m = new RealMatrixImpl(testData);
-        assertTrue("testData nonsingular",!m.isSingular());
-    }
-        
-    /** test inverse */
-    public void testInverse() {
-        RealMatrixImpl m = new RealMatrixImpl(testData);
-        RealMatrix mInv = new RealMatrixImpl(testDataInv);
-        assertClose("inverse",mInv,m.inverse(),normTolerance);
-        assertClose("inverse^2",m,m.inverse().inverse(),10E-12);
-        
-        // Not square
-        m = new RealMatrixImpl(testData2);
-        try {
-            m.inverse();
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ex) {
-            // expected
-        }
-        
-        // Singular
-        m = new RealMatrixImpl(singular);
-        try {
-            m.inverse();
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ex) {
-            // expected
-        }
-    }
-    
-    /** test solve */
-    public void testSolve() {
-        RealMatrixImpl m = new RealMatrixImpl(testData);
-        RealMatrix mInv = new RealMatrixImpl(testDataInv);
-        // being a bit slothful here -- actually testing that X = A^-1 * B
-        assertClose("inverse-operate",mInv.operate(testVector),
-            m.solve(testVector),normTolerance);
-        try {
-            m.solve(testVector2);
-            fail("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
-            ;
-        }       
-        RealMatrix bs = new RealMatrixImpl(bigSingular);
-        try {
-            bs.solve(bs);
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ex) {
-            ;
-        }
-        try {
-            m.solve(bs);
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
-            ;
-        }
-        try {
-            new RealMatrixImpl(testData2).solve(bs);
-            fail("Expecting illegalArgumentException");
-        } catch (IllegalArgumentException ex) {
-            ;
-        } 
-        try {
-            (new RealMatrixImpl(testData2)).luDecompose();
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ex) {
-            ;
-        }  
-    }
-    
-    /** test determinant */
-    public void testDeterminant() {       
-        RealMatrix m = new RealMatrixImpl(bigSingular);
-        assertEquals("singular determinant",0,m.getDeterminant(),0);
-        m = new RealMatrixImpl(detData);
-        assertEquals("nonsingular test",-3d,m.getDeterminant(),normTolerance);
-        
-        // Examples verified against R (version 1.8.1, Red Hat Linux 9)
-        m = new RealMatrixImpl(detData2);
-        assertEquals("nonsingular R test 1",-2d,m.getDeterminant(),normTolerance);
-        m = new RealMatrixImpl(testData);
-        assertEquals("nonsingular  R test 2",-1d,m.getDeterminant(),normTolerance);
-
-        try {
-            new RealMatrixImpl(testData2).getDeterminant();
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ex) {
-            ;
-        }      
-    }
-    
     /** test trace */
     public void testTrace() {
         RealMatrix m = new RealMatrixImpl(id);
@@ -329,8 +233,10 @@ public final class RealMatrixImplTest extends TestCase {
     /** test operate */
     public void testOperate() {
         RealMatrix m = new RealMatrixImpl(id);
-        double[] x = m.operate(testVector);
-        assertClose("identity operate",testVector,x,entryTolerance);
+        assertClose("identity operate", testVector,
+                    m.operate(testVector), entryTolerance);
+        assertClose("identity operate", testVector,
+                    m.operate(new RealVectorImpl(testVector)).getData(), entryTolerance);
         m = new RealMatrixImpl(bigSingular);
         try {
             m.operate(testVector);
@@ -339,12 +245,25 @@ public final class RealMatrixImplTest extends TestCase {
             ;
         }      
     }
+
+    /** test issue MATH-209 */
+    public void testMath209() {
+        RealMatrix a = new RealMatrixImpl(new double[][] {
+                { 1, 2 }, { 3, 4 }, { 5, 6 }
+        }, false);
+        double[] b = a.operate(new double[] { 1, 1 });
+        assertEquals(a.getRowDimension(), b.length);
+        assertEquals( 3.0, b[0], 1.0e-12);
+        assertEquals( 7.0, b[1], 1.0e-12);
+        assertEquals(11.0, b[2], 1.0e-12);
+    }
     
     /** test transpose */
     public void testTranspose() {
         RealMatrix m = new RealMatrixImpl(testData); 
-        assertClose("inverse-transpose",m.inverse().transpose(),
-            m.transpose().inverse(),normTolerance);
+        RealMatrix mIT = new LUDecompositionImpl(m).getInverse().transpose();
+        RealMatrix mTI = new LUDecompositionImpl(m.transpose()).getInverse();
+        assertClose("inverse-transpose", mIT, mTI, normTolerance);
         m = new RealMatrixImpl(testData2);
         RealMatrix mt = new RealMatrixImpl(testData2T);
         assertClose("transpose",mt,m.transpose(),normTolerance);
@@ -353,7 +272,10 @@ public final class RealMatrixImplTest extends TestCase {
     /** test preMultiply by vector */
     public void testPremultiplyVector() {
         RealMatrix m = new RealMatrixImpl(testData);
-        assertClose("premultiply",m.preMultiply(testVector),preMultTest,normTolerance);
+        assertClose("premultiply", m.preMultiply(testVector),
+                    preMultTest, normTolerance);
+        assertClose("premultiply", m.preMultiply(new RealVectorImpl(testVector).getData()),
+                    preMultTest, normTolerance);
         m = new RealMatrixImpl(bigSingular);
         try {
             m.preMultiply(testVector);
@@ -417,42 +339,6 @@ public final class RealMatrixImplTest extends TestCase {
         }
     }
         
-    public void testLUDecomposition() throws Exception {
-        RealMatrixImpl m = new RealMatrixImpl(testData);
-        RealMatrix lu = m.getLUMatrix();
-        assertClose("LU decomposition", lu, (RealMatrix) new RealMatrixImpl(testDataLU), normTolerance);
-        verifyDecomposition(m, lu);
-        // access LU decomposition on same object to verify caching.
-        lu = m.getLUMatrix();
-        assertClose("LU decomposition", lu, (RealMatrix) new RealMatrixImpl(testDataLU), normTolerance);
-        verifyDecomposition(m, lu);
-
-        m = new RealMatrixImpl(luData);
-        lu = m.getLUMatrix();
-        assertClose("LU decomposition", lu, (RealMatrix) new RealMatrixImpl(luDataLUDecomposition), normTolerance);
-        verifyDecomposition(m, lu);
-        m = new RealMatrixImpl(testDataMinus);
-        lu = m.getLUMatrix();
-        verifyDecomposition(m, lu);
-        m = new RealMatrixImpl(id);
-        lu = m.getLUMatrix();
-        verifyDecomposition(m, lu);
-        try {
-            m = new RealMatrixImpl(bigSingular); // singular
-            lu = m.getLUMatrix();
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ex) {
-            // expected
-        }
-        try {
-            m = new RealMatrixImpl(testData2);  // not square
-            lu = m.getLUMatrix();
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ex) {
-            // expected
-        }
-    }
-    
     /** test examples in user guide */
     public void testExamples() {
         // Create a real matrix with two rows and three columns
@@ -466,7 +352,7 @@ public final class RealMatrixImplTest extends TestCase {
         assertEquals(2, p.getRowDimension());
         assertEquals(2, p.getColumnDimension());
         // Invert p
-        RealMatrix pInverse = p.inverse(); 
+        RealMatrix pInverse = new LUDecompositionImpl(p).getInverse(); 
         assertEquals(2, pInverse.getRowDimension());
         assertEquals(2, pInverse.getColumnDimension());
         
@@ -474,7 +360,7 @@ public final class RealMatrixImplTest extends TestCase {
         double[][] coefficientsData = {{2, 3, -2}, {-1, 7, 6}, {4, -3, -5}};
         RealMatrix coefficients = new RealMatrixImpl(coefficientsData);
         double[] constants = {1, -2, 1};
-        double[] solution = coefficients.solve(constants);
+        double[] solution = new LUDecompositionImpl(coefficients).solve(constants);
         assertEquals(2 * solution[0] + 3 * solution[1] -2 * solution[2], constants[0], 1E-12);
         assertEquals(-1 * solution[0] + 7 * solution[1] + 6 * solution[2], constants[1], 1E-12);
         assertEquals(4 * solution[0] - 3 * solution[1] -5 * solution[2], constants[2], 1E-12);   
@@ -592,6 +478,54 @@ public final class RealMatrixImplTest extends TestCase {
             // expected
         }
     }
+
+    public void testGetRowVector() {
+        RealMatrix m = new RealMatrixImpl(subTestData);
+        RealVector mRow0 = new RealVectorImpl(subRow0[0]);
+        RealVector mRow3 = new RealVectorImpl(subRow3[0]);
+        assertEquals("Row0", mRow0, m.getRowVector(0));
+        assertEquals("Row3", mRow3, m.getRowVector(3));
+        try {
+            m.getRowVector(-1);
+            fail("Expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
+            // expected
+        }
+        try {
+            m.getRowVector(4);
+            fail("Expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
+            // expected
+        }
+   }
+    
+    public void testGetColumnVector() {
+        RealMatrix m = new RealMatrixImpl(subTestData);
+        RealVector mColumn1 = columnToVector(subColumn1);
+        RealVector mColumn3 = columnToVector(subColumn3);
+        assertEquals("Column1", mColumn1, m.getColumnVector(1));
+        assertEquals("Column3", mColumn3, m.getColumnVector(3));
+        try {
+            m.getColumnVector(-1);
+            fail("Expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
+            // expected
+        }
+        try {
+            m.getColumnVector(4);
+            fail("Expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
+            // expected
+        }
+    }
+
+    private RealVector columnToVector(double[][] column) {
+        double[] data = new double[column.length];
+        for (int i = 0; i < data.length; ++i) {
+            data[i] = column[i][0];
+        }
+        return new RealVectorImpl(data, false);
+    }
     
     public void testEqualsAndHashCode() {
         RealMatrixImpl m = new RealMatrixImpl(testData);
@@ -671,14 +605,14 @@ public final class RealMatrixImplTest extends TestCase {
         RealMatrixImpl m2 = new RealMatrixImpl();
         try {
             m2.setSubMatrix(testData,0,1);
-            fail("expecting MatrixIndexException");
-        } catch (MatrixIndexException e) {
+            fail("expecting IllegalStateException");
+        } catch (IllegalStateException e) {
             // expected
         }
         try {
             m2.setSubMatrix(testData,1,0);
-            fail("expecting MatrixIndexException");
-        } catch (MatrixIndexException e) {
+            fail("expecting IllegalStateException");
+        } catch (IllegalStateException e) {
             // expected
         }
         
@@ -725,7 +659,7 @@ public final class RealMatrixImplTest extends TestCase {
         if (!lu.isSquare() || lowerData.length != lowerData[0].length || upperData.length != upperData[0].length ||
                 lowerData.length != upperData.length
                 || lowerData.length != lu.getRowDimension()) {
-            throw new InvalidMatrixException("incorrect dimensions");
+            throw new InvalidMatrixException("incorrect dimensions", null);
         }    
         int n = lu.getRowDimension();
         for (int i = 0; i < n; i++) {
@@ -759,20 +693,6 @@ public final class RealMatrixImplTest extends TestCase {
         }
         return new RealMatrixImpl(out);
     }
-    
-    /** Extracts l and u matrices from lu and verifies that matrix = l times u modulo permutation */
-    protected void verifyDecomposition(RealMatrix matrix, RealMatrix lu) throws Exception{
-        int n = matrix.getRowDimension();
-        double[][] lowerData = new double[n][n];
-        double[][] upperData = new double[n][n];
-        splitLU(lu, lowerData, upperData);
-        RealMatrix lower =new RealMatrixImpl(lowerData);
-        RealMatrix upper = new RealMatrixImpl(upperData);
-        int[] permutation = ((RealMatrixImpl) matrix).getPermutation();
-        RealMatrix permuted = permuteRows(matrix, permutation);
-        assertClose("lu decomposition does not work", permuted, lower.multiply(upper), normTolerance);
-    }
-      
     
 //    /** Useful for debugging */
 //    private void dumpMatrix(RealMatrix m) {

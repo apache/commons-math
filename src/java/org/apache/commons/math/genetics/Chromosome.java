@@ -18,6 +18,7 @@ package org.apache.commons.math.genetics;
 
 /**
  * Individual in a population. Chromosomes are compared based on their fitness.
+ * @version $Revision$ $Date$
  */
 public interface Chromosome {
     /**

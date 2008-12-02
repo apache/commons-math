@@ -45,7 +45,7 @@ public class VectorialCovariance implements Serializable {
     /** Number of vectors in the sample. */
     private long n;
 
-    /** Constructs a VectorialMean.
+    /** Constructs a VectorialCovariance.
      * @param dimension vectors dimension
      * @param isBiasCorrected if true, computed the unbiased sample covariance,
      * otherwise computes the biased population covariance

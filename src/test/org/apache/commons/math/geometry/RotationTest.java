@@ -22,6 +22,7 @@ import org.apache.commons.math.geometry.NotARotationMatrixException;
 import org.apache.commons.math.geometry.Rotation;
 import org.apache.commons.math.geometry.RotationOrder;
 import org.apache.commons.math.geometry.Vector3D;
+import org.apache.commons.math.util.MathUtils;
 
 import junit.framework.*;
 
@@ -34,22 +35,22 @@ public class RotationTest
 
   public void testIdentity() {
 
-    Rotation r = new Rotation();
-    checkVector(r.applyTo(Vector3D.plusI), Vector3D.plusI);
-    checkVector(r.applyTo(Vector3D.plusJ), Vector3D.plusJ);
-    checkVector(r.applyTo(Vector3D.plusK), Vector3D.plusK);
+    Rotation r = Rotation.IDENTITY;
+    checkVector(r.applyTo(Vector3D.PLUS_I), Vector3D.PLUS_I);
+    checkVector(r.applyTo(Vector3D.PLUS_J), Vector3D.PLUS_J);
+    checkVector(r.applyTo(Vector3D.PLUS_K), Vector3D.PLUS_K);
     checkAngle(r.getAngle(), 0);
 
     r = new Rotation(-1, 0, 0, 0, false);
-    checkVector(r.applyTo(Vector3D.plusI), Vector3D.plusI);
-    checkVector(r.applyTo(Vector3D.plusJ), Vector3D.plusJ);
-    checkVector(r.applyTo(Vector3D.plusK), Vector3D.plusK);
+    checkVector(r.applyTo(Vector3D.PLUS_I), Vector3D.PLUS_I);
+    checkVector(r.applyTo(Vector3D.PLUS_J), Vector3D.PLUS_J);
+    checkVector(r.applyTo(Vector3D.PLUS_K), Vector3D.PLUS_K);
     checkAngle(r.getAngle(), 0);
 
     r = new Rotation(42, 0, 0, 0, true);
-    checkVector(r.applyTo(Vector3D.plusI), Vector3D.plusI);
-    checkVector(r.applyTo(Vector3D.plusJ), Vector3D.plusJ);
-    checkVector(r.applyTo(Vector3D.plusK), Vector3D.plusK);
+    checkVector(r.applyTo(Vector3D.PLUS_I), Vector3D.PLUS_I);
+    checkVector(r.applyTo(Vector3D.PLUS_J), Vector3D.PLUS_J);
+    checkVector(r.applyTo(Vector3D.PLUS_K), Vector3D.PLUS_K);
     checkAngle(r.getAngle(), 0);
 
   }
@@ -57,9 +58,9 @@ public class RotationTest
   public void testAxisAngle() {
 
     Rotation r = new Rotation(new Vector3D(10, 10, 10), 2 * Math.PI / 3);
-    checkVector(r.applyTo(Vector3D.plusI), Vector3D.plusJ);
-    checkVector(r.applyTo(Vector3D.plusJ), Vector3D.plusK);
-    checkVector(r.applyTo(Vector3D.plusK), Vector3D.plusI);
+    checkVector(r.applyTo(Vector3D.PLUS_I), Vector3D.PLUS_J);
+    checkVector(r.applyTo(Vector3D.PLUS_J), Vector3D.PLUS_K);
+    checkVector(r.applyTo(Vector3D.PLUS_K), Vector3D.PLUS_I);
     double s = 1 / Math.sqrt(3);
     checkVector(r.getAxis(), new Vector3D(s, s, s));
     checkAngle(r.getAngle(), 2 * Math.PI / 3);
@@ -72,15 +73,15 @@ public class RotationTest
       fail("unexpected exception");
     }
 
-    r = new Rotation(Vector3D.plusK, 1.5 * Math.PI);
+    r = new Rotation(Vector3D.PLUS_K, 1.5 * Math.PI);
     checkVector(r.getAxis(), new Vector3D(0, 0, -1));
     checkAngle(r.getAngle(), 0.5 * Math.PI);
 
-    r = new Rotation(Vector3D.plusJ, Math.PI);
-    checkVector(r.getAxis(), Vector3D.plusJ);
+    r = new Rotation(Vector3D.PLUS_J, Math.PI);
+    checkVector(r.getAxis(), Vector3D.PLUS_J);
     checkAngle(r.getAngle(), Math.PI);
 
-    checkVector(new Rotation().getAxis(), Vector3D.plusI);
+    checkVector(Rotation.IDENTITY.getAxis(), Vector3D.PLUS_I);
 
   }
 
@@ -103,7 +104,7 @@ public class RotationTest
     checkAngle(new Rotation(u, u.negate()).getAngle(), Math.PI);
 
     try {
-        new Rotation(u, new Vector3D());
+        new Rotation(u, Vector3D.ZERO);
         fail("an exception should have been thrown");
       } catch (IllegalArgumentException e) {
         // expected behavior
@@ -120,20 +121,20 @@ public class RotationTest
     Vector3D v1 = new Vector3D(0, 0, 2);
     Vector3D v2 = new Vector3D(-2, 0, 2);
     Rotation r = new Rotation(u1, u2, v1, v2);
-    checkVector(r.applyTo(Vector3D.plusI), Vector3D.plusK);
-    checkVector(r.applyTo(Vector3D.plusJ), Vector3D.minusI);
+    checkVector(r.applyTo(Vector3D.PLUS_I), Vector3D.PLUS_K);
+    checkVector(r.applyTo(Vector3D.PLUS_J), Vector3D.MINUS_I);
 
     r = new Rotation(u1, u2, u1.negate(), u2.negate());
     Vector3D axis = r.getAxis();
-    if (Vector3D.dotProduct(axis, Vector3D.plusK) > 0) {
-      checkVector(axis, Vector3D.plusK);
+    if (Vector3D.dotProduct(axis, Vector3D.PLUS_K) > 0) {
+      checkVector(axis, Vector3D.PLUS_K);
     } else {
-      checkVector(axis, Vector3D.minusK);
+      checkVector(axis, Vector3D.MINUS_K);
     }
     checkAngle(r.getAngle(), Math.PI);
 
     double sqrt = Math.sqrt(2) / 2;
-    r = new Rotation(Vector3D.plusI,  Vector3D.plusJ,
+    r = new Rotation(Vector3D.PLUS_I,  Vector3D.PLUS_J,
                      new Vector3D(0.5, 0.5,  sqrt),
                      new Vector3D(0.5, 0.5, -sqrt));
     checkRotation(r, sqrt, 0.5, 0.5, 0);
@@ -144,7 +145,7 @@ public class RotationTest
     checkRotation(new Rotation(u1, u2, u1, u2), 1, 0, 0, 0);
 
     try {
-        new Rotation(u1, u2, new Vector3D(), v2);
+        new Rotation(u1, u2, Vector3D.ZERO, v2);
         fail("an exception should have been thrown");
     } catch (IllegalArgumentException e) {
       // expected behavior
@@ -224,9 +225,9 @@ public class RotationTest
                       { 0.0, 0.0, 1.0 },
                       { 1.0, 0.0, 0.0 } };
     Rotation r = new Rotation(m1, 1.0e-7);
-    checkVector(r.applyTo(Vector3D.plusI), Vector3D.plusK);
-    checkVector(r.applyTo(Vector3D.plusJ), Vector3D.plusI);
-    checkVector(r.applyTo(Vector3D.plusK), Vector3D.plusJ);
+    checkVector(r.applyTo(Vector3D.PLUS_I), Vector3D.PLUS_K);
+    checkVector(r.applyTo(Vector3D.PLUS_J), Vector3D.PLUS_I);
+    checkVector(r.applyTo(Vector3D.PLUS_K), Vector3D.PLUS_J);
 
     double[][] m2 = { { 0.83203, -0.55012, -0.07139 },
                       { 0.48293,  0.78164, -0.39474 },
@@ -277,11 +278,11 @@ public class RotationTest
       }
     }
 
-    checkVector(r.applyTo(Vector3D.plusI),
+    checkVector(r.applyTo(Vector3D.PLUS_I),
                 new Vector3D(m3[0][0], m3[1][0], m3[2][0]));
-    checkVector(r.applyTo(Vector3D.plusJ),
+    checkVector(r.applyTo(Vector3D.PLUS_J),
                 new Vector3D(m3[0][1], m3[1][1], m3[2][1]));
-    checkVector(r.applyTo(Vector3D.plusK),
+    checkVector(r.applyTo(Vector3D.PLUS_K),
                 new Vector3D(m3[0][2], m3[1][2], m3[2][2]));
 
     double[][] m4 = { { 1.0,  0.0,  0.0 },
@@ -463,7 +464,7 @@ public class RotationTest
       }
     }
 
-    r = new Rotation();
+    r = Rotation.IDENTITY;
     for (double lambda = 0; lambda < 6.2; lambda += 0.2) {
       for (double phi = -1.55; phi < 1.55; phi += 0.2) {
           Vector3D u = new Vector3D(Math.cos(lambda) * Math.cos(phi),
@@ -474,7 +475,7 @@ public class RotationTest
       }
     }
 
-    r = new Rotation(Vector3D.plusK, Math.PI);
+    r = new Rotation(Vector3D.PLUS_K, Math.PI);
     for (double lambda = 0; lambda < 6.2; lambda += 0.2) {
       for (double phi = -1.55; phi < 1.55; phi += 0.2) {
           Vector3D u = new Vector3D(Math.cos(lambda) * Math.cos(phi),
@@ -492,13 +493,11 @@ public class RotationTest
   }
 
   private void checkAngle(double a1, double a2) {
-    a2 -= 2 * Math.PI * Math.floor((a2 + Math.PI - a1) / (2 * Math.PI));
-    assertTrue(Math.abs(a1 - a2) < 1.0e-10);
+    assertEquals(a1, MathUtils.normalizeAngle(a2, a1), 1.0e-10);
   }
 
   private void checkRotation(Rotation r, double q0, double q1, double q2, double q3) {
-    Rotation reference = new Rotation(q0, q1, q2, q3, false);
-    assertEquals(0, r.applyInverseTo(reference).getAngle(), 1.0e-12);
+    assertEquals(0, Rotation.distance(r, new Rotation(q0, q1, q2, q3, false)), 1.0e-12);
   }
 
   public static Test suite() {

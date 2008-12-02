@@ -253,7 +253,7 @@ implements RandomVectorGenerator {
         // build the root matrix
         root = new RealMatrixImpl(order, rank);
         for (int i = 0; i < order; ++i) {
-            System.arraycopy(b[i], 0, root.getDataRef()[swap[i]], 0, rank);
+            System.arraycopy(b[i], 0, root.getDataRef()[index[i]], 0, rank);
         }
 
     }

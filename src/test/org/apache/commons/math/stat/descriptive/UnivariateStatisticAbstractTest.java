@@ -72,4 +72,13 @@ public abstract class UnivariateStatisticAbstractTest extends TestCase {
             getTolerance());
     }
     
+    public void testCopy() throws Exception {
+        UnivariateStatistic original = getUnivariateStatistic();
+        UnivariateStatistic copy = original.copy();
+        assertEquals(
+                expectedValue(),
+                copy.evaluate(testArray),
+                getTolerance());
+    }
+    
 }

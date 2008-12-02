@@ -22,7 +22,7 @@ import java.util.Random;
 /**
  * Test cases for the RandomAdaptor class
  *
- * @version $Revision:$ $Date$
+ * @version $Revision$ $Date$
  */
 
 public class RandomAdaptorTest extends RandomDataTest {

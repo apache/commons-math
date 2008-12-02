@@ -148,6 +148,26 @@ public interface RealMatrix {
     * @throws MatrixIndexException if the specified column index is invalid
     */
    RealMatrix getColumnMatrix(int column) throws MatrixIndexException;
+
+   /**
+    * Returns the entries in row number <code>row</code>
+    * as a vector.  Row indices start at 0.
+    *
+    * @param row the row to be fetched
+    * @return row vector
+    * @throws MatrixIndexException if the specified row index is invalid
+    */
+   RealVector getRowVector(int row) throws MatrixIndexException;
+   
+   /**
+    * Returns the entries in column number <code>column</code>
+    * as a column vector.  Column indices start at 0.
+    *
+    * @param column the column to be fetched
+    * @return column vector
+    * @throws MatrixIndexException if the specified column index is invalid
+    */
+   RealVector getColumnVector(int column) throws MatrixIndexException;
     
     /**
      * Returns the entries in row number <code>row</code> as an array.
@@ -202,14 +222,18 @@ public interface RealMatrix {
      *
      * @return inverse matrix
      * @throws InvalidMatrixException if  this is not invertible
+     * @deprecated as of release 2.0, replaced by {@link DecompositionSolver#getInverse()}
      */
+    @Deprecated
     RealMatrix inverse() throws InvalidMatrixException;
 
     /**
      * Returns the determinant of this matrix.
      *
      * @return determinant
+     * @deprecated as of release 2.0, replaced by {@link LUDecomposition#getDeterminant()}
      */
+    @Deprecated
     double getDeterminant();
 
     /**
@@ -221,7 +245,10 @@ public interface RealMatrix {
     /**
      * Is this a singular matrix?
      * @return true if the matrix is singular
+     * @deprecated as of release 2.0, replaced by the boolean negation of
+     * {@link DecompositionSolver#isNonSingular()}
      */
+    @Deprecated
     boolean isSingular();
 
     /**
@@ -256,6 +283,15 @@ public interface RealMatrix {
     double[] operate(double[] v) throws IllegalArgumentException;
 
     /**
+     * Returns the result of multiplying this by the vector <code>v</code>.
+     *
+     * @param v the vector to operate on
+     * @return this*v
+     * @throws IllegalArgumentException if columnDimension != v.size()
+     */
+    RealVector operate(RealVector v) throws IllegalArgumentException;
+
+    /**
      * Returns the (row) vector result of premultiplying this by the vector <code>v</code>.
      *
      * @param v the row vector to premultiply by
@@ -265,6 +301,15 @@ public interface RealMatrix {
     double[] preMultiply(double[] v) throws IllegalArgumentException;
 
     /**
+     * Returns the (row) vector result of premultiplying this by the vector <code>v</code>.
+     *
+     * @param v the row vector to premultiply by
+     * @return v*this
+     * @throws IllegalArgumentException if rowDimension != v.size()
+     */
+    RealVector preMultiply(RealVector v) throws IllegalArgumentException;
+
+    /**
      * Returns the solution vector for a linear system with coefficient
      * matrix = this and constant vector = <code>b</code>.
      *
@@ -272,7 +317,9 @@ public interface RealMatrix {
      * @return vector of solution values to AX = b, where A is *this
      * @throws IllegalArgumentException if this.rowDimension != b.length
      * @throws InvalidMatrixException if this matrix is not square or is singular
+     * @deprecated as of release 2.0, replaced by {@link DecompositionSolver#solve(double[])}
      */
+    @Deprecated
     double[] solve(double[] b) throws IllegalArgumentException, InvalidMatrixException;
 
     /**
@@ -285,7 +332,9 @@ public interface RealMatrix {
      * @return matrix of solution vectors
      * @throws IllegalArgumentException if this.rowDimension != row dimension
      * @throws InvalidMatrixException if this matrix is not square or is singular
+     * @deprecated as of release 2.0, replaced by {@link DecompositionSolver#solve(RealMatrix)}
      */
+    @Deprecated
     RealMatrix solve(RealMatrix b) throws IllegalArgumentException, InvalidMatrixException;
-}
 
+}

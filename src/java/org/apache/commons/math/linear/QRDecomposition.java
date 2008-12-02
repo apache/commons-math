@@ -18,27 +18,65 @@
 package org.apache.commons.math.linear;
 
 /**
- * An interface to classes that implement a algorithm to calculate the 
+ * An interface to classes that implement an algorithm to calculate the 
  * QR-decomposition of a real matrix.
+ * <p>This interface is based on the class with similar name from the now defunct
+ * <a href="http://math.nist.gov/javanumerics/jama/">JAMA</a> library, with the
+ * following changes:</p>
+ * <ul>
+ *   <li>several signatures have been added for the <code>solve</code> methods
+ *   (in the superinterface),</li>
+ *   <li>a {@link DecompositionSolver#decompose(RealMatrix) decompose(RealMatrix)}
+ *   method has been added (in the superinterface),</li>
+ *   <li>a {@link DecompositionSolver#getInverse() getInverse} method has been
+ *   added (in the superinterface),</li>
+ *   <li>the <code>isFullRank</code> method has been replaced by the {@link
+ *   DecompositionSolver#isNonSingular() isNonSingular} method in the superinterface.</li>
+ * </ul>
  *   
  * @see <a href="http://mathworld.wolfram.com/QRDecomposition.html">MathWorld</a>
  * @see <a href="http://en.wikipedia.org/wiki/QR_decomposition">Wikipedia</a>
  * @version $Revision$ $Date$
  * @since 1.2
  */
-public interface QRDecomposition {
+public interface QRDecomposition extends DecompositionSolver {
 
     /**
      * Returns the matrix R of the decomposition. 
-     * 
+     * <p>R is an upper-triangular matrix</p>
      * @return the R matrix
+     * @exception IllegalStateException if {@link
+     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
      */
-    public abstract RealMatrix getR();
+    RealMatrix getR() throws IllegalStateException;
 
     /**
      * Returns the matrix Q of the decomposition.
-     * 
+     * <p>Q is an orthogonal matrix</p>
      * @return the Q matrix
+     * @exception IllegalStateException if {@link
+     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
      */
-    public abstract RealMatrix getQ();
+    RealMatrix getQ() throws IllegalStateException;
+
+    /**
+     * Returns the transpose of the matrix Q of the decomposition.
+     * <p>Q is an orthogonal matrix</p>
+     * @return the Q matrix
+     * @exception IllegalStateException if {@link
+     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
+     */
+    RealMatrix getQT() throws IllegalStateException;
+
+    /**
+     * Returns the Householder reflector vectors.
+     * <p>H is a lower trapezoidal matrix whose columns represent
+     * each successive Householder reflector vector. This matrix is used
+     * to compute Q.</p>
+     * @return a matrix containing the Householder reflector vectors
+     * @exception IllegalStateException if {@link
+     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
+     */
+    RealMatrix getH() throws IllegalStateException;
+
 }

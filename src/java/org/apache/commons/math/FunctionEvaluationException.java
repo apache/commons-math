@@ -27,7 +27,7 @@ package org.apache.commons.math;
 public class FunctionEvaluationException extends MathException  {
     
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -7619974756160279127L;
+    private static final long serialVersionUID = -2193260774031645876L;
 
     /** Argument causing function evaluation failure */
     private double argument = Double.NaN;
@@ -40,23 +40,10 @@ public class FunctionEvaluationException extends MathException  {
      */
     public FunctionEvaluationException(double argument) {
         super("Evaluation failed for argument = {0}",
-              new Object[] { new Double(argument) });
+              new Object[] { Double.valueOf(argument) });
         this.argument = argument;
     }
     
-    /**
-     * Construct an exception using the given argument and message
-     * text.
-     * 
-     * @param argument  the failing function argument 
-     * @param message  the exception message text
-     * @deprecated as of 1.2, replaced by {@link #FunctionEvaluationException(double, String, Object[])}
-     */
-    public FunctionEvaluationException(double argument, String message) {
-        super(message);
-        this.argument = argument;
-    }
-
     /**
      * Constructs an exception with specified formatted detail message.
      * Message formatting is delegated to {@link java.text.MessageFormat}.
@@ -68,20 +55,6 @@ public class FunctionEvaluationException extends MathException  {
     public FunctionEvaluationException(double argument,
                                        String pattern, Object[] arguments) {
         super(pattern, arguments);
-        this.argument = argument;
-    }
-
-    /**
-     * Construct an exception with the given argument, message and root cause.
-     * 
-     * @param argument  the failing function argument 
-     * @param message descriptive error message
-     * @param cause root cause.
-     * @deprecated as of 1.2, replaced by {@link #FunctionEvaluationException(double, String, Object[], Throwable)}
-     */
-    public FunctionEvaluationException(double argument,
-                                       String message, Throwable cause) {
-        super(message, cause);
         this.argument = argument;
     }
 

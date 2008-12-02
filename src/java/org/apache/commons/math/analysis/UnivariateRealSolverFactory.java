@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.analysis;
 
-import org.apache.commons.discovery.tools.DiscoverClass;
-
 /**
  * Abstract factory class used to create {@link UnivariateRealSolver} instances.
  * <p>
@@ -37,11 +35,6 @@ import org.apache.commons.discovery.tools.DiscoverClass;
  * BrentSolver solver = factory.newBrentSolver(f);
  * </pre>
  *
- * <a href="http://commons.apache.org/discovery/">Apache Commons Discovery</a>
- * is used to determine the concrete factory returned by 
- * <code>UnivariateRealSolverFactory.newInstance().</code>  The default is
- * {@link UnivariateRealSolverFactoryImpl}.
- *
  * @version $Revision$ $Date$
  */
 public abstract class UnivariateRealSolverFactory {
@@ -56,16 +49,7 @@ public abstract class UnivariateRealSolverFactory {
      * @return a new factory.
      */
     public static UnivariateRealSolverFactory newInstance() {
-        UnivariateRealSolverFactory factory = null;
-        try {
-            DiscoverClass dc = new DiscoverClass();
-            factory = (UnivariateRealSolverFactory) dc.newInstance(
-                UnivariateRealSolverFactory.class,
-                "org.apache.commons.math.analysis.UnivariateRealSolverFactoryImpl");
-        } catch(Throwable t) {
-            return new UnivariateRealSolverFactoryImpl();
-        }
-        return factory;
+        return new UnivariateRealSolverFactoryImpl();
     }
     
     /**

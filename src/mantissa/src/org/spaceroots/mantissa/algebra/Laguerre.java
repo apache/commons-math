@@ -28,7 +28,7 @@ package org.spaceroots.mantissa.algebra;
  *  (k+1) L<sub>k+1</sub>(X) = (2k + 1 - X) L<sub>k</sub>(X) - k L<sub>k-1</sub>(X)
  * </pre></p>
 
- * @version $Id: Laguerre.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
 
  */

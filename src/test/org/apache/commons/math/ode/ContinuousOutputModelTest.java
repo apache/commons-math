@@ -22,9 +22,13 @@ import java.util.Random;
 
 import org.apache.commons.math.ode.ContinuousOutputModel;
 import org.apache.commons.math.ode.DerivativeException;
-import org.apache.commons.math.ode.DormandPrince54Integrator;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.IntegratorException;
+import org.apache.commons.math.ode.nonstiff.DormandPrince54Integrator;
+import org.apache.commons.math.ode.nonstiff.DormandPrince853Integrator;
+import org.apache.commons.math.ode.nonstiff.TestProblem3;
+import org.apache.commons.math.ode.sampling.DummyStepInterpolator;
+import org.apache.commons.math.ode.sampling.StepInterpolator;
 
 public class ContinuousOutputModelTest
   extends TestCase {
@@ -37,11 +41,11 @@ public class ContinuousOutputModelTest
 
   public void testBoundaries()
     throws DerivativeException, IntegratorException {
-    integ.setStepHandler(new ContinuousOutputModel());
+    integ.addStepHandler(new ContinuousOutputModel());
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
-    ContinuousOutputModel cm = (ContinuousOutputModel) integ.getStepHandler();
+    ContinuousOutputModel cm = (ContinuousOutputModel) integ.getStepHandlers().iterator().next();
     cm.setInterpolatedTime(2.0 * pb.getInitialTime() - pb.getFinalTime());
     cm.setInterpolatedTime(2.0 * pb.getFinalTime() - pb.getInitialTime());
     cm.setInterpolatedTime(0.5 * (pb.getFinalTime() + pb.getInitialTime()));
@@ -51,7 +55,7 @@ public class ContinuousOutputModelTest
     throws DerivativeException, IntegratorException {
 
     ContinuousOutputModel cm = new ContinuousOutputModel();
-    integ.setStepHandler(cm);
+    integ.addStepHandler(cm);
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
@@ -82,21 +86,22 @@ public class ContinuousOutputModelTest
       // theoretical solution: y[0] = cos(t), y[1] = sin(t)
       FirstOrderDifferentialEquations problem =
           new FirstOrderDifferentialEquations() {
-          public void computeDerivatives(double t, double[] y, double[] dot)
-          throws DerivativeException {
-              dot[0] = -y[1];
-              dot[1] =  y[0];
-          }
-          public int getDimension() {
-              return 2;
-          }
-      };
+              private static final long serialVersionUID = 2472449657345878299L;
+              public void computeDerivatives(double t, double[] y, double[] dot)
+                  throws DerivativeException {
+                  dot[0] = -y[1];
+                  dot[1] =  y[0];
+              }
+              public int getDimension() {
+                  return 2;
+              }
+          };
 
       // integrate backward from &pi; to 0;
       ContinuousOutputModel cm1 = new ContinuousOutputModel();
       FirstOrderIntegrator integ1 =
           new DormandPrince853Integrator(0, 1.0, 1.0e-8, 1.0e-8);
-      integ1.setStepHandler(cm1);
+      integ1.addStepHandler(cm1);
       integ1.integrate(problem, Math.PI, new double[] { -1.0, 0.0 },
                        0, new double[2]);
 
@@ -104,7 +109,7 @@ public class ContinuousOutputModelTest
       ContinuousOutputModel cm2 = new ContinuousOutputModel();
       FirstOrderIntegrator integ2 =
           new DormandPrince853Integrator(0, 0.1, 1.0e-12, 1.0e-12);
-      integ2.setStepHandler(cm2);
+      integ2.addStepHandler(cm2);
       integ2.integrate(problem, 2.0 * Math.PI, new double[] { 1.0, 0.0 },
                        Math.PI, new double[2]);
 

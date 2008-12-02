@@ -115,18 +115,34 @@
 
 <subsection name="0.5 Dependencies" href="dependencies">
     <p>
-    Commons Math requires JDK 1.3+ and has no runtime dependencies.  Commons
-    Discovery is used to enable pluggable implementations in the 
-    <code>distributions, analysis</code> and <code>stat</code> packages; but
-    default implementations are used if the commons-discovery and 
-    commons-logging (a dependency of commons-discovery) jars are not present in
-    the classpath.  To compile the sources, the following versions of these
-    components are required:
-    <ul>
-    <li>commons-discovery 0.2 </li>
-    <li>commons-logging 1.0.3 </li>
-    </ul>
+    Commons Math requires JDK 1.5+ and has no runtime dependencies.
     </p>
+</subsection>
+
+<subsection name="0.6 License" href="license">
+    <p>
+    Commons Math is distributed under the terms of the Apache License, Version 2.0:
+    <a href="http://www.apache.org/licenses/LICENSE-2.0"/>.
+    </p>
+
+    <p>
+    This product includes software developed by the University of Chicago, as Operator
+    of Argonne National Laboratory. This corresponds to software translated from the lmder,
+    lmpar and qrsolv Fortran routines from the Minpack package and distributed under the
+    following disclaimer: <a href="http://www.netlib.org/minpack/disclaimer"/>.
+    </p>
+
+    <p>
+    This product includes software translated from the odex Fortran routine developed by
+    E. Hairer and G. Wanner and distributed under the following license:
+    <a href="http://www.unige.ch/~hairer/prog/licence.txt"/>.
+    </p>
+
+    <p>
+    This product includes software translated from some LAPACK Fortran routines and
+    distributed under the following license: <a href="http://www.netlib.org/lapack/LICENSE"/>.
+    </p>
+
 </subsection>
 
 </section>

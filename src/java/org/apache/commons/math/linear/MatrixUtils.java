@@ -18,6 +18,7 @@
 package org.apache.commons.math.linear;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 /**
  * A collection of static methods that operate on or return matrices.
@@ -41,12 +42,33 @@ public class MatrixUtils {
      * @return  RealMatrix containing the values of the array
      * @throws IllegalArgumentException if <code>data</code> is not rectangular
      *  (not all rows have the same length) or empty
-     * @throws NullPointerException if data is null
+     * @throws NullPointerException if <code>data</code> is null
+     * @see #createRealMatrix(double[][], boolean)
      */
     public static RealMatrix createRealMatrix(double[][] data) {
         return new RealMatrixImpl(data);
     }
-    
+
+    /**
+     * Returns a {@link RealMatrix} whose entries are the the values in the
+     * the input array.
+     * <p>If an array is built specially in order to be embedded in a
+     * RealMatrix and not used directly, the <code>copyArray</code> may be
+     * set to <code>false</code. This will prevent the copying and improve
+     * performance as no new array will be built and no data will be copied.</p>
+     * @param data data for new matrix
+     * @param copyArray if true, the input array will be copied, otherwise
+     * it will be referenced
+     * @return  RealMatrix containing the values of the array
+     * @throws IllegalArgumentException if <code>data</code> is not rectangular
+     *  (not all rows have the same length) or empty
+     * @throws NullPointerException if <code>data</code> is null
+     * @see #createRealMatrix(double[][])
+     */
+    public static RealMatrix createRealMatrix(double[][] data, boolean copyArray) {
+        return new RealMatrixImpl(data, copyArray);
+    }
+
     /**
      * Returns <code>dimension x dimension</code> identity matrix.
      *
@@ -56,14 +78,11 @@ public class MatrixUtils {
      * @since 1.1
      */
     public static RealMatrix createRealIdentityMatrix(int dimension) {
-        RealMatrixImpl out = new RealMatrixImpl(dimension, dimension);
-        double[][] d = out.getDataRef();
+        double[][] d = new double[dimension][dimension];
         for (int row = 0; row < dimension; row++) {
-            for (int col = 0; col < dimension; col++) {
-                d[row][col] = row == col ? 1d : 0d;
-            }
+            d[row][row] = 1d;
         }
-        return out;
+        return new RealMatrixImpl(d, false);
     }
     
     /**
@@ -93,7 +112,27 @@ public class MatrixUtils {
     public static BigMatrix createBigMatrix(BigDecimal[][] data) {
         return new BigMatrixImpl(data);
     }
-    
+
+    /**
+     * Returns a {@link BigMatrix} whose entries are the the values in the
+     * the input array.
+     * <p>If an array is built specially in order to be embedded in a
+     * BigMatrix and not used directly, the <code>copyArray</code> may be
+     * set to <code>false</code. This will prevent the copying and improve
+     * performance as no new array will be built and no data will be copied.</p>
+     * @param data data for new matrix
+     * @param copyArray if true, the input array will be copied, otherwise
+     * it will be referenced
+     * @return  BigMatrix containing the values of the array
+     * @throws IllegalArgumentException if <code>data</code> is not rectangular
+     *  (not all rows have the same length) or empty
+     * @throws NullPointerException if <code>data</code> is null
+     * @see #createRealMatrix(double[][])
+     */
+    public static BigMatrix createBigMatrix(BigDecimal[][] data, boolean copyArray) {
+        return new BigMatrixImpl(data, copyArray);
+    }
+
     /**
      * Returns a {@link BigMatrix} whose entries are the the values in the
      * the input array.  The input array is copied, not referenced.
@@ -109,6 +148,18 @@ public class MatrixUtils {
     }
     
     /**
+     * Creates a {@link RealVector} using the data from the input array. 
+     * 
+     * @param data the input data
+     * @return a data.length RealVector
+     * @throws IllegalArgumentException if <code>data</code> is empty
+     * @throws NullPointerException if <code>data</code>is null
+     */
+    public static RealVector createRealVector(double[] data) {
+        return new RealVectorImpl(data, true);
+    }
+    
+    /**
      * Creates a row {@link RealMatrix} using the data from the input
      * array. 
      * 
@@ -118,10 +169,10 @@ public class MatrixUtils {
      * @throws NullPointerException if <code>rowData</code>is null
      */
     public static RealMatrix createRowRealMatrix(double[] rowData) {
-        int nCols = rowData.length;
-        double[][] data = new double[1][nCols];
+        final int nCols = rowData.length;
+        final double[][] data = new double[1][nCols];
         System.arraycopy(rowData, 0, data[0], 0, nCols);
-        return new RealMatrixImpl(data);
+        return new RealMatrixImpl(data, false);
     }
     
     /**
@@ -134,10 +185,12 @@ public class MatrixUtils {
      * @throws NullPointerException if <code>rowData</code>is null
      */
     public static BigMatrix createRowBigMatrix(double[] rowData) {
-        int nCols = rowData.length;
-        double[][] data = new double[1][nCols];
-        System.arraycopy(rowData, 0, data[0], 0, nCols);
-        return new BigMatrixImpl(data);
+        final int nCols = rowData.length;
+        final BigDecimal[][] data = new BigDecimal[1][nCols];
+        for (int i = 0; i < nCols; ++i) {
+            data[0][i] = new BigDecimal(rowData[i]);
+        }
+        return new BigMatrixImpl(data, false);
     }
     
     /**
@@ -150,10 +203,10 @@ public class MatrixUtils {
      * @throws NullPointerException if <code>rowData</code>is null
      */
     public static BigMatrix createRowBigMatrix(BigDecimal[] rowData) {
-        int nCols = rowData.length;
-        BigDecimal[][] data = new BigDecimal[1][nCols];
+        final int nCols = rowData.length;
+        final BigDecimal[][] data = new BigDecimal[1][nCols];
         System.arraycopy(rowData, 0, data[0], 0, nCols);
-        return new BigMatrixImpl(data);
+        return new BigMatrixImpl(data, false);
     }
     
     /**
@@ -166,10 +219,12 @@ public class MatrixUtils {
      * @throws NullPointerException if <code>rowData</code>is null
      */
     public static BigMatrix createRowBigMatrix(String[] rowData) {
-        int nCols = rowData.length;
-        String[][] data = new String[1][nCols];
-        System.arraycopy(rowData, 0, data[0], 0, nCols);
-        return new BigMatrixImpl(data);
+        final int nCols = rowData.length;
+        final BigDecimal[][] data = new BigDecimal[1][nCols];
+        for (int i = 0; i < nCols; ++i) {
+            data[0][i] = new BigDecimal(rowData[i]);
+        }
+        return new BigMatrixImpl(data, false);
     }
     
     /**
@@ -182,12 +237,12 @@ public class MatrixUtils {
      * @throws NullPointerException if <code>columnData</code>is null
      */
     public static RealMatrix createColumnRealMatrix(double[] columnData) {
-        int nRows = columnData.length;
-        double[][] data = new double[nRows][1];
+        final int nRows = columnData.length;
+        final double[][] data = new double[nRows][1];
         for (int row = 0; row < nRows; row++) {
             data[row][0] = columnData[row];
         }
-        return new RealMatrixImpl(data);
+        return new RealMatrixImpl(data, false);
     }
     
     /**
@@ -200,12 +255,12 @@ public class MatrixUtils {
      * @throws NullPointerException if <code>columnData</code>is null
      */
     public static BigMatrix createColumnBigMatrix(double[] columnData) {
-        int nRows = columnData.length;
-        double[][] data = new double[nRows][1];
+        final int nRows = columnData.length;
+        final BigDecimal[][] data = new BigDecimal[nRows][1];
         for (int row = 0; row < nRows; row++) {
-            data[row][0] = columnData[row];
+            data[row][0] = new BigDecimal(columnData[row]);
         }
-        return new BigMatrixImpl(data);
+        return new BigMatrixImpl(data, false);
     }
     
     /**
@@ -218,12 +273,12 @@ public class MatrixUtils {
      * @throws NullPointerException if <code>columnData</code>is null
      */
     public static BigMatrix createColumnBigMatrix(BigDecimal[] columnData) {
-        int nRows = columnData.length;
-        BigDecimal[][] data = new BigDecimal[nRows][1];
+        final int nRows = columnData.length;
+        final BigDecimal[][] data = new BigDecimal[nRows][1];
         for (int row = 0; row < nRows; row++) {
             data[row][0] = columnData[row];
         }
-        return new BigMatrixImpl(data);
+        return new BigMatrixImpl(data, false);
     }
     
     /**
@@ -237,11 +292,11 @@ public class MatrixUtils {
      */
     public static BigMatrix createColumnBigMatrix(String[] columnData) {
         int nRows = columnData.length;
-        String[][] data = new String[nRows][1];
+        final BigDecimal[][] data = new BigDecimal[nRows][1];
         for (int row = 0; row < nRows; row++) {
-            data[row][0] = columnData[row];
+            data[row][0] = new BigDecimal(columnData[row]);
         }
-        return new BigMatrixImpl(data);
+        return new BigMatrixImpl(data, false);
     }
     
     /**
@@ -253,14 +308,13 @@ public class MatrixUtils {
      * @since 1.1
      */
     public static BigMatrix createBigIdentityMatrix(int dimension) {
-        BigMatrixImpl out = new BigMatrixImpl(dimension, dimension);
-        BigDecimal[][] d = out.getDataRef();
+        final BigDecimal[][] d = new BigDecimal[dimension][dimension];
         for (int row = 0; row < dimension; row++) {
-            for (int col = 0; col < dimension; col++) {
-                d[row][col] = row == col ? BigMatrixImpl.ONE : BigMatrixImpl.ZERO;
-            }
+            final BigDecimal[] dRow = d[row];
+            Arrays.fill(dRow, BigMatrixImpl.ZERO);
+            dRow[row] = BigMatrixImpl.ONE;
         }
-        return out;
+        return new BigMatrixImpl(d, false);
     }
     
 }

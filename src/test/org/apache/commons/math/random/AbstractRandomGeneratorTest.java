@@ -24,7 +24,7 @@ import org.apache.commons.math.stat.Frequency;
 /**
  * Test cases for the AbstractRandomGenerator class
  *
- * @version $Revision:$ $Date$
+ * @version $Revision$ $Date$
  */
 
 public class AbstractRandomGeneratorTest extends RandomDataTest {

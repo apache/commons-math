@@ -19,6 +19,9 @@ package org.apache.commons.math.geometry;
 
 import java.io.Serializable;
 
+import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.MathUtils;
+
 /** 
  * This class implements vectors in a three-dimensional space.
  * <p>Instance of this class are guaranteed to be immutable.</p>
@@ -29,35 +32,53 @@ import java.io.Serializable;
 public class Vector3D
   implements Serializable {
 
+  /** Null vector (coordinates: 0, 0, 0). */
+  public static final Vector3D ZERO   = new Vector3D(0, 0, 0);
+
   /** First canonical vector (coordinates: 1, 0, 0). */
-  public static final Vector3D plusI = new Vector3D(1, 0, 0);
+  public static final Vector3D PLUS_I = new Vector3D(1, 0, 0);
 
   /** Opposite of the first canonical vector (coordinates: -1, 0, 0). */
-  public static final Vector3D minusI = new Vector3D(-1, 0, 0);
+  public static final Vector3D MINUS_I = new Vector3D(-1, 0, 0);
 
   /** Second canonical vector (coordinates: 0, 1, 0). */
-  public static final Vector3D plusJ = new Vector3D(0, 1, 0);
+  public static final Vector3D PLUS_J = new Vector3D(0, 1, 0);
 
   /** Opposite of the second canonical vector (coordinates: 0, -1, 0). */
-  public static final Vector3D minusJ = new Vector3D(0, -1, 0);
+  public static final Vector3D MINUS_J = new Vector3D(0, -1, 0);
 
   /** Third canonical vector (coordinates: 0, 0, 1). */
-  public static final Vector3D plusK = new Vector3D(0, 0, 1);
+  public static final Vector3D PLUS_K = new Vector3D(0, 0, 1);
 
   /** Opposite of the third canonical vector (coordinates: 0, 0, -1).  */
-  public static final Vector3D minusK = new Vector3D(0, 0, -1);
+  public static final Vector3D MINUS_K = new Vector3D(0, 0, -1);
 
-  /** Null vector (coordinates: 0, 0, 0). */
-  public static final Vector3D zero   = new Vector3D(0, 0, 0);
+  /** A vector with all coordinates set to NaN. */
+  public static final Vector3D NaN = new Vector3D(Double.NaN, Double.NaN, Double.NaN);
 
-  /** Simple constructor.
-   * Build a null vector.
-   */
-  public Vector3D() {
-    x = 0;
-    y = 0;
-    z = 0;
-  }
+  /** A vector with all coordinates set to positive infinity. */
+  public static final Vector3D POSITIVE_INFINITY =
+      new Vector3D(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+
+  /** A vector with all coordinates set to negative infinity. */
+  public static final Vector3D NEGATIVE_INFINITY =
+      new Vector3D(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
+
+  /** Default format. */
+  private static final Vector3DFormat DEFAULT_FORMAT =
+      Vector3DFormat.getInstance();
+
+  /** Serializable version identifier. */
+  private static final long serialVersionUID = 5133268763396045979L;
+
+  /** Abscissa. */
+  private final double x;
+
+  /** Ordinate. */
+  private final double y;
+
+  /** Height. */
+  private final double z;
 
   /** Simple constructor.
    * Build a vector from its coordinates
@@ -182,6 +203,13 @@ public class Vector3D
     return Math.sqrt (x * x + y * y + z * z);
   }
 
+  /** Get the square of the norm for the vector.
+   * @return square of the euclidian norm for the vector
+   */
+  public double getNormSq() {
+    return x * x + y * y + z * z;
+  }
+
   /** Get the azimuth of the vector.
    * @return azimuth (&alpha;) of the vector, between -&pi; and +&pi;
    * @see #Vector3D(double, double)
@@ -239,7 +267,8 @@ public class Vector3D
   public Vector3D normalize() {
     double s = getNorm();
     if (s == 0) {
-      throw new ArithmeticException("cannot normalize a zero norm vector");
+      throw MathRuntimeException.createArithmeticException("cannot normalize a zero norm vector",
+                                                           null);
     }
     return scalarMultiply(1 / s);
   }
@@ -263,7 +292,7 @@ public class Vector3D
 
     double threshold = 0.6 * getNorm();
     if (threshold == 0) {
-      throw new ArithmeticException("null norm");
+      throw MathRuntimeException.createArithmeticException("zero norm", null);
     }
 
     if ((x >= -threshold) && (x <= threshold)) {
@@ -293,7 +322,7 @@ public class Vector3D
 
     double normProduct = v1.getNorm() * v2.getNorm();
     if (normProduct == 0) {
-      throw new ArithmeticException("null norm");
+      throw MathRuntimeException.createArithmeticException("zero norm", null);
     }
 
     double dot = dotProduct(v1, v2);
@@ -327,6 +356,83 @@ public class Vector3D
     return new Vector3D(a * x, a * y, a * z);
   }
 
+  /**
+   * Returns true if any coordinate of this vector is NaN; false otherwise
+   * @return  true if any coordinate of this vector is NaN; false otherwise
+   */
+  public boolean isNaN() {
+      return Double.isNaN(x) || Double.isNaN(y) || Double.isNaN(z);        
+  }
+  
+  /**
+   * Returns true if any coordinate of this vector is infinite and none are NaN;
+   * false otherwise
+   * @return  true if any coordinate of this vector is infinite and none are NaN;
+   * false otherwise
+   */
+  public boolean isInfinite() {
+      return !isNaN() && (Double.isInfinite(x) || Double.isInfinite(y) || Double.isInfinite(z));        
+  }
+  
+  /**
+   * Test for the equality of two 3D vectors.
+   * <p>
+   * If all coordinates of two 3D vectors are exactly the same, and none are
+   * <code>Double.NaN</code>, the two 3D vectors are considered to be equal.
+   * </p>
+   * <p>
+   * <code>NaN</code> coordinates are considered to affect globally the vector
+   * and be equals to each other - i.e, if either (or all) coordinates of the
+   * 3D vector are equal to <code>Double.NaN</code>, the 3D vector is equal to
+   * {@link #NaN}.
+   * </p>
+   *
+   * @param other Object to test for equality to this
+   * @return true if two 3D vector objects are equal, false if
+   *         object is null, not an instance of Vector3D, or
+   *         not equal to this Vector3D instance
+   * 
+   */
+  public boolean equals(Object other) {
+
+    if (this == other) { 
+      return true;
+    }
+
+    if (other == null) {
+      return false;
+    }
+
+    try {
+
+      final Vector3D rhs = (Vector3D)other;
+      if (rhs.isNaN()) {
+          return this.isNaN();
+      }
+
+      return (x == rhs.x) && (y == rhs.y) && (z == rhs.z); 
+
+    } catch (ClassCastException ex) {
+        // ignore exception
+        return false;
+    }
+
+  }
+  
+  /**
+   * Get a hashCode for the 3D vector.
+   * <p>
+   * All NaN values have the same hash code.</p>
+   * 
+   * @return a hash code value for this object
+   */
+  public int hashCode() {
+      if (isNaN()) {
+          return 8;
+      }
+      return 31 * (23 * MathUtils.hash(x) +  19 * MathUtils.hash(y) +  MathUtils.hash(z));
+  }
+
   /** Compute the dot-product of two vectors.
    * @param v1 first vector
    * @param v2 second vector
@@ -347,17 +453,41 @@ public class Vector3D
                         v1.x * v2.y - v1.y * v2.x);
   }
 
-  /** Abscissa. */
-  private final double x;
+  /** Compute the distance between two vectors.
+   * <p>Calling this method is equivalent to calling:
+   * <code>v1.subtract(v2).getNorm()</code> except that no intermediate
+   * vector is built</p>
+   * @param v1 first vector
+   * @param v2 second vector
+   * @return the distance between v1 and v2
+   */
+  public static double distance(Vector3D v1, Vector3D v2) {
+    final double dx = v2.x - v1.x;
+    final double dy = v2.y - v1.y;
+    final double dz = v2.z - v1.z;
+    return Math.sqrt(dx * dx + dy * dy + dz * dz);
+  }
 
-  /** Ordinate. */
-  private final double y;
+  /** Compute the square of the distance between two vectors.
+   * <p>Calling this method is equivalent to calling:
+   * <code>v1.subtract(v2).getNormSq()</code> except that no intermediate
+   * vector is built</p>
+   * @param v1 first vector
+   * @param v2 second vector
+   * @return the square of the distance between v1 and v2
+   */
+  public static double distanceSq(Vector3D v1, Vector3D v2) {
+    final double dx = v2.x - v1.x;
+    final double dy = v2.y - v1.y;
+    final double dz = v2.z - v1.z;
+    return dx * dx + dy * dy + dz * dz;
+  }
 
-  /** Height. */
-  private final double z;
-
-  /** Serializable version identifier */
-  private static final long serialVersionUID = -5721105387745193385L;
-
+  /** Get a string representation of this vector.
+   * @return a string representation of this vector
+   */
+  public String toString() {
+      return DEFAULT_FORMAT.format(this);
+  }
 
 }

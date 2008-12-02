@@ -18,6 +18,7 @@ package org.apache.commons.math.genetics;
 
 /**
  * A collection of chromosomes that facilitates generational evolution.
+ * @version $Revision$ $Date$
  */
 public interface Population {
     /**

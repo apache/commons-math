@@ -20,8 +20,11 @@ package org.apache.commons.math.estimation;
 import java.io.Serializable;
 
 import org.apache.commons.math.linear.InvalidMatrixException;
+import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealMatrixImpl;
+import org.apache.commons.math.linear.RealVector;
+import org.apache.commons.math.linear.RealVectorImpl;
 
 /** 
  * This class implements a solver for estimation problems.
@@ -106,8 +109,8 @@ public class GaussNewtonEstimator extends AbstractEstimator implements Serializa
 
         // work matrices
         double[] grad             = new double[parameters.length];
-        RealMatrixImpl bDecrement = new RealMatrixImpl(parameters.length, 1);
-        double[][] bDecrementData = bDecrement.getDataRef();
+        RealVectorImpl bDecrement = new RealVectorImpl(parameters.length);
+        double[] bDecrementData   = bDecrement.getDataRef();
         RealMatrixImpl wGradGradT = new RealMatrixImpl(parameters.length, parameters.length);
         double[][] wggData        = wGradGradT.getDataRef();
 
@@ -117,7 +120,7 @@ public class GaussNewtonEstimator extends AbstractEstimator implements Serializa
 
             // build the linear problem
             incrementJacobianEvaluationsCounter();
-            RealMatrix b = new RealMatrixImpl(parameters.length, 1);
+            RealVector b = new RealVectorImpl(parameters.length);
             RealMatrix a = new RealMatrixImpl(parameters.length, parameters.length);
             for (int i = 0; i < measurements.length; ++i) {
                 if (! measurements [i].isIgnored()) {
@@ -128,7 +131,7 @@ public class GaussNewtonEstimator extends AbstractEstimator implements Serializa
                     // compute the normal equation
                     for (int j = 0; j < parameters.length; ++j) {
                         grad[j] = measurements[i].getPartial(parameters[j]);
-                        bDecrementData[j][0] = weight * residual * grad[j];
+                        bDecrementData[j] = weight * residual * grad[j];
                     }
 
                     // build the contribution matrix for measurement i
@@ -150,15 +153,15 @@ public class GaussNewtonEstimator extends AbstractEstimator implements Serializa
             try {
 
                 // solve the linearized least squares problem
-                RealMatrix dX = a.solve(b);
+                RealVector dX = new LUDecompositionImpl(a).solve(b);
 
                 // update the estimated parameters
                 for (int i = 0; i < parameters.length; ++i) {
-                    parameters[i].setEstimate(parameters[i].getEstimate() + dX.getEntry(i, 0));
+                    parameters[i].setEstimate(parameters[i].getEstimate() + dX.getEntry(i));
                 }
 
             } catch(InvalidMatrixException e) {
-                throw new EstimationException("unable to solve: singular problem", new Object[0]);
+                throw new EstimationException("unable to solve: singular problem", null);
             }
 
 

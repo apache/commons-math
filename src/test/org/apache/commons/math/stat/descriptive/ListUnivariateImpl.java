@@ -38,7 +38,7 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
      * Holds a reference to a list - GENERICs are going to make
      * our lives easier here as we could only accept List<Number>
      */
-    protected List list;
+    protected List<Object> list;
 
     /** Number Transformer maps Objects to Number for us. */
     protected NumberTransformer transformer;
@@ -47,14 +47,14 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
      * No argument Constructor
      */
     public ListUnivariateImpl(){
-        this(new ArrayList());
+        this(new ArrayList<Object>());
     }
     
     /**
      * Construct a ListUnivariate with a specific List.
      * @param list The list that will back this DescriptiveStatistics
      */
-    public ListUnivariateImpl(List list) {
+    public ListUnivariateImpl(List<Object> list) {
         this(list, new DefaultTransformer());
     }
     
@@ -63,7 +63,7 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
      * @param list The list that will back this DescriptiveStatistics
      * @param transformer the number transformer used to convert the list items.
      */
-    public ListUnivariateImpl(List list, NumberTransformer transformer) {
+    public ListUnivariateImpl(List<Object> list, NumberTransformer transformer) {
         super();
         this.list = list;
         this.transformer = transformer;
@@ -143,7 +143,7 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
      * @see org.apache.commons.math.stat.descriptive.DescriptiveStatistics#addValue(double)
      */
     public void addValue(double v) {
-        list.add(new Double(v));
+        list.add(Double.valueOf(v));
     }
     
     /**

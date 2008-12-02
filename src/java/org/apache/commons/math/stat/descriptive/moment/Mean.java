@@ -87,9 +87,19 @@ public class Mean extends AbstractStorelessUnivariateStatistic
         this.moment = m1;
         incMoment = false;
     }
+    
+    /**
+     * Copy constructor, creates a new {@code Mean} identical
+     * to the {@code original}
+     * 
+     * @param original the {@code Mean} instance to copy
+     */
+    public Mean(Mean original) {
+        copy(original, this);
+    }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#increment(double)
+     * {@inheritDoc}
      */
     public void increment(final double d) {
         if (incMoment) {
@@ -98,7 +108,7 @@ public class Mean extends AbstractStorelessUnivariateStatistic
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#clear()
+     * {@inheritDoc}
      */
     public void clear() {
         if (incMoment) {
@@ -107,14 +117,14 @@ public class Mean extends AbstractStorelessUnivariateStatistic
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getResult()
+     * {@inheritDoc}
      */
     public double getResult() {
         return moment.m1;
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getN()
+     * {@inheritDoc}
      */
     public long getN() {
         return moment.getN();
@@ -152,5 +162,28 @@ public class Mean extends AbstractStorelessUnivariateStatistic
             return xbar + (correction/sampleSize);
         }
         return Double.NaN;
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    public Mean copy() {
+        Mean result = new Mean();
+        copy(this, result);
+        return result;
+    }
+    
+    
+    /**
+     * Copies source to dest.
+     * <p>Neither source nor dest can be null.</p>
+     * 
+     * @param source Mean to copy
+     * @param dest Mean to copy to
+     * @throws NullPointerException if either source or dest is null
+     */
+    public static void copy(Mean source, Mean dest) {
+        dest.incMoment = source.incMoment;
+        dest.moment = (FirstMoment) source.moment.copy();
     }
 }

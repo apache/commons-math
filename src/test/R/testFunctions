@@ -30,19 +30,38 @@ options(digits=12)             # display 12 digits throughout
 # Tests to see if <expected> and <observed> are within <tol> of
 # one another in the sup norm.
 #
-# Returns 1 if no pair of corresponding entries differs by more than abs;
+# Returns 1 if no pair of corresponding non-NULL, non-NaN, non-na entries
+# differs by more than abs and NULLs, NaNs, na's correspond;
 # otherwise displays <message> and returns 0.
 # Works for both vectors and scalar values.
 #
 assertEquals <- function(expected, observed, tol, message) {
-    if(any(abs(expected - observed) > tol)) {
+    failed <- 0
+    if (any(is.na(observed) != is.na(expected))) {
+        failed <- 1
+    }
+    if (any(is.null(observed) != is.null(expected))) {
+        failed <- 1
+    }
+    if (any(is.nan(expected) != is.nan(observed))) {
+        failed <- 1
+    }
+    if (any(is.na(expected) != is.na(observed))) {
+        failed <- 1
+    }
+    if (!failed) {
+        if(any(abs(observed - expected) > tol, na.rm = TRUE)) {
+            failed <- 1
+        }
+    }
+    if (failed) {
         cat("FAILURE: ",message,"\n")
         cat("EXPECTED: ",expected,"\n")
         cat("OBSERVED: ",observed,"\n")
-        return(0)
-    } else {
-        return(1)
-    }
+        cat("DIFF: ",observed - expected,"\n")
+        cat("TOLERANCE: ",tol,"\n")
+    }  
+    return(!failed)
 }
 #------------------------------------------------------------------------------
 # Display functions

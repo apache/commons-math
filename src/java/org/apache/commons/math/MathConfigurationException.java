@@ -25,7 +25,8 @@ import java.io.Serializable;
 public class MathConfigurationException extends MathException implements Serializable{
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = -4056541384141349722L;
+    private static final long serialVersionUID = 5261476508226103366L;
+
     /**
      * Default constructor.
      */
@@ -33,15 +34,6 @@ public class MathConfigurationException extends MathException implements Seriali
         super();
     }
     
-    /**
-     * Construct an exception with the given message.
-     * @param message descriptive error message
-     * @deprecated as of 1.2, replaced by {@link #MathConfigurationException(String, Object[])}
-     */
-    public MathConfigurationException(String message) {
-        super(message);
-    }
-
     /**
      * Constructs an exception with specified formatted detail message.
      * Message formatting is delegated to {@link java.text.MessageFormat}.
@@ -51,16 +43,6 @@ public class MathConfigurationException extends MathException implements Seriali
      */
     public MathConfigurationException(String pattern, Object[] arguments) {
         super(pattern, arguments);
-    }
-
-    /**
-     * Construct an exception with the given message and root cause.
-     * @param message descriptive error message
-     * @param cause  the exception or error that caused this exception to be thrown
-     * @deprecated as of 1.2, replaced by {@link #MathConfigurationException(String, Object[], Throwable)}
-     */
-    public MathConfigurationException(String message, Throwable cause) {
-        super(message, cause);
     }
 
     /**

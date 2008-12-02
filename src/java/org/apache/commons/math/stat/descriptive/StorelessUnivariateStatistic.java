@@ -38,7 +38,7 @@ public interface StorelessUnivariateStatistic extends UnivariateStatistic {
     /**
      * Updates the internal state of the statistic to reflect addition of
      * all values in the values array.  Does not clear the statistic first --
-     * i.e., the values are added <strong>incrementally</stong> to the dataset.
+     * i.e., the values are added <strong>incrementally</strong> to the dataset.
      * 
      * @param values  array holding the new values to add
      * @throws IllegalArgumentException if the array is null
@@ -49,7 +49,7 @@ public interface StorelessUnivariateStatistic extends UnivariateStatistic {
      * Updates the internal state of the statistic to reflect addition of
      * the values in the designated portion of the values array.  Does not
      * clear the statistic first -- i.e., the values are added 
-     * <strong>incrementally</stong> to the dataset.
+     * <strong>incrementally</strong> to the dataset.
      * 
      * @param values  array holding the new values to add
      * @param start  the array index of the first value to add
@@ -75,5 +75,12 @@ public interface StorelessUnivariateStatistic extends UnivariateStatistic {
      * Clears the internal state of the Statistic
      */
     void clear();
+    
+    /**
+     * Returns a copy of the statistic with the same internal state.
+     * 
+     * @return a copy of the statistic
+     */
+    StorelessUnivariateStatistic copy();
 
 }

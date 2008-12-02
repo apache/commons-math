@@ -128,6 +128,8 @@ public class TestUtils  {
     }
     
     
+    // CHECKSTYLE: stop JavadocMethodCheck
+
     /**
      * @see org.apache.commons.math.stat.inference.TTest#homoscedasticT(double[], double[])
      */
@@ -382,7 +384,7 @@ public class TestUtils  {
      *
      * @since 1.2
      */
-    public static double oneWayAnovaFValue(Collection categoryData)
+    public static double oneWayAnovaFValue(Collection<double[]> categoryData)
     throws IllegalArgumentException, MathException {
         return oneWayAnova.anovaFValue(categoryData);
     }
@@ -392,7 +394,7 @@ public class TestUtils  {
      * 
      * @since 1.2
      */
-    public static double oneWayAnovaPValue(Collection categoryData)
+    public static double oneWayAnovaPValue(Collection<double[]> categoryData)
     throws IllegalArgumentException, MathException {
         return oneWayAnova.anovaPValue(categoryData);
     }
@@ -402,9 +404,11 @@ public class TestUtils  {
      *
      * @since 1.2
      */
-    public static boolean oneWayAnovaTest(Collection categoryData, double alpha)
+    public static boolean oneWayAnovaTest(Collection<double[]> categoryData, double alpha)
     throws IllegalArgumentException, MathException {
         return oneWayAnova.anovaTest(categoryData, alpha);
     }
+
+    // CHECKSTYLE: resume JavadocMethodCheck
 
 }

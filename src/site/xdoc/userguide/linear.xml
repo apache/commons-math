@@ -30,7 +30,8 @@
       <subsection name="3.1 Overview" href="overview">
         <p>
            Currently, numerical linear algebra support in commons-math is 
-           limited to basic operations on real matrices and solving linear systems.
+           limited to basic operations on real matrices and vectors and
+           solving linear systems.
         </p>
       </subsection>
       <subsection name="3.2 Real matrices" href="real_matrices">
@@ -39,7 +40,7 @@
           RealMatrix</a> interface represents a matrix with real numbers as 
           entries.  The following basic matrix operations are supported:
           <ul>
-          <li>Matrix addition, subtraction, mutiplication</li>
+          <li>Matrix addition, subtraction, multiplication</li>
           <li>Scalar addition and multiplication</li>
           <li>Inverse and transpose</li>
           <li>Determinants and singularity testing</li>
@@ -63,44 +64,83 @@ RealMatrix n = new RealMatrixImpl(matrixData2);
 
 // Now multiply m by n
 RealMatrix p = m.multiply(n);
-System.out.println(p.getRowDimension()); // 2
-System.out.println(p.getRowDimension()); // 2
+System.out.println(p.getRowDimension());    // 2
+System.out.println(p.getColumnDimension()); // 2
 
 // Invert p
-RealMatrix pInverse = p.inverse();
+RealMatrix pInverse = new LUDecompositionImpl(p).inverse();
          </source>
-        </p>         
+        </p>
       </subsection>
-      <subsection name="3.3 Solving linear systems" href="solve">
+      <subsection name="3.3 Real vectors" href="real_vectors">
         <p>
-          The <code>solve()</code> methods of the <code>RealMatrix</code> interface
-          support solving linear systems of equations.  In each case, the 
-          <code>RealMatrix</code> represents the coefficient matrix of the system.
-          For example, to solve the linear system
+          The <a href="../apidocs/org/apache/commons/math/linear/RealVector.html">
+          RealVector</a> interface represents a vector with real numbers as 
+          entries.  The following basic matrix operations are supported:
+          <ul>
+          <li>Vector addition, subtraction</li>
+          <li>Element by element multiplication, division</li>
+          <li>Scalar addition, subtraction, multiplication, division and power</li>
+          <li>Mapping of mathematical functions (cos, sin ...)</li>
+          <li>Dot product, outer product</li>
+          <li>Distance and norm according to norms L1, L2 and Linf</li>
+          </ul>
+        </p>
+        <p>
+          The <a href="../apidocs/org/apache/commons/math/linear/RealVectorFormat.html">
+          RealVectorFormat</a> class handles input/output of vectors in a customizable
+          textual format.
+        </p>
+      </subsection>
+      <subsection name="3.4 Solving linear systems" href="solve">
+        <p>
+          The <code>solve()</code> methods of the <code>DecompositionSolver</code> interface
+          support solving linear systems of equations of the form AX=B, either in linear sense
+          or in least square sense. In each case, the <code>RealMatrix</code> represents the
+          coefficient matrix of the system. For example, to solve the linear system
           <pre>
            2x + 3y - 2z = 1
            -x + 7y + 6x = -2
            4x - 3y - 5z = 1
           </pre>
-          Start by creating a RealMatrix to store the coefficients
+          Start by creating a RealMatrix to store the coefficients matrix A
           <source>
-double[][] coefficientsData = {{2, 3, -2}, {-1, 7, 6}, {4, -3, -5}};
-RealMatrix coefficients = new RealMatrixImpl(coefficientsData);
+RealMatrix coefficients =
+    new RealMatrixImpl(new double[][] { { 2, 3, -2 }, { -1, 7, 6 }, { 4, -3, -5 } },
+                       false);
           </source>
-          Next create a <code>double[]</code> array to represent the constant
-          vector and use <code>solve(double[])</code> to solve the system
+          Next create a <code>RealVector</code> array to represent the constant
+          vector B and use <code>solve(RealVector)</code> from one of the implementations
+          of the <code>DecompositionSolver</code> interface, for example
+          <code>LUDecompositionImpl</code> to solve the system
           <source>
-double[] constants = {1, -2, 1};
-double[] solution = coefficients.solve(constants);
+RealVector constants = new RealVectorImpl(new double[] { 1, -2, 1 }, false);
+RealVector solution = new LUDecompositionImpl(coefficients).solve(constants);
           </source>
-          The <code>solution</code> array will contain values for x 
-          (<code>solution[0]</code>), y (<code>solution[1]</code>), 
-          and z (<code>solution[2]</code>) that solve the system.
+          The <code>solution</code> vector will contain values for x
+          (<code>solution.getEntry(0)</code>), y (<code>solution.getEntry(1)</code>), 
+          and z (<code>solution.getEntry(2)</code>) that solve the system.
         </p>
         <p>
-          If the coefficient matrix is not square or singular, an 
+          The linear system AX=B is solved in least squares sense: the value returned
+          for X is such that the residual AX-B has minimal norm. If an exact solution
+          exist (i.e. if for some X the residual AX-B is exactly 0), then this exact
+          solution is also the solution in least square sense. Some solvers like
+          <code>LUDecomposition</code> can only find the solution for
+          square matrices and when the solution is an exact linear solution. Other solvers
+          like <code>QRDecomposition</code> are more versatile and can also find solutions
+          with non-square matrix A or when no exact solution exist (i.e. when the minimal
+          value for AX-B norm is non-null).
+        </p>
+        <p>
+          If the coefficient matrix is singular or doesn't fulfill the requirements of
+          the solver, an 
           <a href="../apidocs/org/apache/commons/math/linear/InvalidMatrixException.html">
-          InvalidMatrixException</a> is thrown.
+          InvalidMatrixException</a> or an <code>IllegalArgumentException</code> is thrown.
+        </p>
+        <p>
+          It is possible to use a simple array of double instead of a <code>RealVector</code>.
+          In this case, the solution will be provided also as an array of double.
         </p>
         <p>
           It is possible to solve multiple systems with the same coefficient matrix 
@@ -108,6 +148,20 @@ double[] solution = coefficients.solve(constants);
           to the constant vectors for the systems to be solved and use 
           <code>solve(RealMatrix),</code> which returns a matrix with column
           vectors representing the solutions.
+        </p>
+      </subsection>
+      <subsection name="3.5 Eigenvalues/eigenvectors and singular values/singular vectors" href="eigen">
+        <p>
+          The <code>getEigenvalue()</code>, <code>getEigenvalues()</code>, <code>getEigenVector()</code>,
+          <code>getV()</code>, <code>getD()</code> and <code>getVT()</code> methods of the
+          <code>EigenDecomposition</code> interface support solving eigenproblems of the form
+          AX = lambda X where lambda is a real scalar.
+        </p>
+        <p>The <code>getSingularValues()</code>, <code>getU()</code>, <code>getS()</code> and
+        <code>getV()</code> methods of the <code>SingularValueDecomposition</code> interface
+        allow to solve singular values problems of the form AXi = lambda Yi where lambda is a
+        real scalar, and where the Xi and Yi vectors form orthogonal bases of their respective
+        vector spaces (which may have different dimensions).
         </p>
       </subsection>
     </section>

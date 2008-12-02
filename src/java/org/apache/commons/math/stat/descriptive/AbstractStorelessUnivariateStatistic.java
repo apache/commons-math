@@ -51,7 +51,8 @@ public abstract class AbstractStorelessUnivariateStatistic
      * input array.</p>
      * <p>
      * If the array is null, an IllegalArgumentException is thrown.</p>
-     * 
+     * @param values input array
+     * @return the value of the statistic applied to the input array
      * @see org.apache.commons.math.stat.descriptive.UnivariateStatistic#evaluate(double[])
      */
     public double evaluate(final double[] values) {
@@ -76,7 +77,10 @@ public abstract class AbstractStorelessUnivariateStatistic
      * <p>
      * If the array is null or the index parameters are not valid, an 
      * IllegalArgumentException is thrown.</p>
-     * 
+     * @param values the input array
+     * @param begin the index of the first element to include
+     * @param length the number of elements to include
+     * @return the value of the statistic applied to the included array entries
      * @see org.apache.commons.math.stat.descriptive.UnivariateStatistic#evaluate(double[], int, int)
      */
     public double evaluate(final double[] values, final int begin, final int length) {
@@ -88,17 +92,17 @@ public abstract class AbstractStorelessUnivariateStatistic
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#clear()
+     * {@inheritDoc}
      */
     public abstract void clear();
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getResult()
+     * {@inheritDoc}
      */
     public abstract double getResult();
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#increment(double)
+     * {@inheritDoc}
      */
     public abstract void increment(final double d);
     

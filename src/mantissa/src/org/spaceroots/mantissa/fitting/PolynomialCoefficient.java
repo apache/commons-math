@@ -25,7 +25,7 @@ import org.spaceroots.mantissa.estimation.EstimatedParameter;
 
  * @see PolynomialFitter
 
- * @version $Id: PolynomialCoefficient.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
 
  */

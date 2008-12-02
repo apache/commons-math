@@ -61,9 +61,19 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements S
        value = 0d;
        n = 0;
     }
+    
+    /**
+     * Copy constructor, creates a new {@code SumOfLogs} identical
+     * to the {@code original}
+     * 
+     * @param original the {@code SumOfLogs} instance to copy
+     */
+    public SumOfLogs(SumOfLogs original) {
+        copy(original, this);
+    }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#increment(double)
+     * {@inheritDoc}
      */
     public void increment(final double d) {
         value += Math.log(d);
@@ -71,7 +81,7 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements S
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getResult()
+     * {@inheritDoc}
      */
     public double getResult() {
         if (n > 0) {
@@ -82,14 +92,14 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements S
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getN()
+     * {@inheritDoc}
      */
     public long getN() {
         return n;
     }
     
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#clear()
+     * {@inheritDoc}
      */
     public void clear() {
         value = 0d;
@@ -122,5 +132,27 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements S
             }
         }
         return sumLog;
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    public SumOfLogs copy() {
+        SumOfLogs result = new SumOfLogs();
+        copy(this, result);
+        return result;
+    }
+    
+    /**
+     * Copies source to dest.
+     * <p>Neither source nor dest can be null.</p>
+     * 
+     * @param source SumOfLogs to copy
+     * @param dest SumOfLogs to copy to
+     * @throws NullPointerException if either source or dest is null
+     */
+    public static void copy(SumOfLogs source, SumOfLogs dest) {
+        dest.n = source.n;
+        dest.value = source.value;
     }
 }

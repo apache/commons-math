@@ -22,6 +22,7 @@ import java.util.Comparator;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.DimensionMismatchException;
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.random.CorrelatedRandomVectorGenerator;
 import org.apache.commons.math.random.JDKRandomGenerator;
@@ -269,7 +270,7 @@ public abstract class DirectSearchOptimizer {
 
         } catch (DimensionMismatchException dme) {
             // this should not happen
-            throw new RuntimeException("internal error");
+            throw new MathRuntimeException("unexpected exception caught", null, dme);
         }
 
     }
@@ -571,16 +572,15 @@ public abstract class DirectSearchOptimizer {
     }
 
     /** Comparator for {@link PointCostPair PointCostPair} objects. */
-    private static Comparator pointCostPairComparator = new Comparator() {
-        public int compare(Object o1, Object o2) {
+    private static Comparator<PointCostPair> pointCostPairComparator =
+        new Comparator<PointCostPair>() {
+        public int compare(PointCostPair o1, PointCostPair o2) {
             if (o1 == null) {
                 return (o2 == null) ? 0 : +1;
             } else if (o2 == null) {
                 return -1;
             }
-            double cost1 = ((PointCostPair) o1).getCost();
-            double cost2 = ((PointCostPair) o2).getCost();
-            return (cost1 < cost2) ? -1 : ((o1 == o2) ? 0 : +1);
+            return (o1.getCost() < o2.getCost()) ? -1 : ((o1 == o2) ? 0 : +1);
         }
     };
 

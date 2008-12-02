@@ -23,6 +23,7 @@ import java.net.URL;
 import java.util.List;
 
 import org.apache.commons.math.stat.descriptive.StatisticalSummary;
+import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 
 /**
  * Represents an <a href="http://random.mat.sbg.ac.at/~ste/dipl/node11.html">
@@ -118,7 +119,7 @@ public interface EmpiricalDistribution {
      * 
      * @return List of bin statistics
      */
-    List getBinStats();
+    List<SummaryStatistics> getBinStats();
 
     /**
      * Returns the array of upper bounds for the bins.  Bins are: <br/>

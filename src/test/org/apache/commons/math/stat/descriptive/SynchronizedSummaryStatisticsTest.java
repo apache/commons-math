@@ -18,10 +18,10 @@ import junit.framework.TestSuite;
 
 /**
  * Test cases for the {@link SynchronizedSummaryStatisticsTest} class.
- * @version $Revision: 592121 $ $Date: 2007-08-16 15:36:33 -0500 (Thu, 16 Aug
+ * @version $Revision$ $Date: 2007-08-16 15:36:33 -0500 (Thu, 16 Aug
  *          2007) $
  */
-public final class SynchronizedSummaryStatisticsTest extends SummaryStatisticsAbstractTest {
+public final class SynchronizedSummaryStatisticsTest extends SummaryStatisticsTest {
 
     public SynchronizedSummaryStatisticsTest(String name) {
         super(name);

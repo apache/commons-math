@@ -57,7 +57,17 @@ public class Min extends AbstractStorelessUnivariateStatistic implements Seriali
     }
     
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#increment(double)
+     * Copy constructor, creates a new {@code Min} identical
+     * to the {@code original}
+     * 
+     * @param original the {@code Min} instance to copy
+     */
+    public Min(Min original) {
+        copy(original, this);
+    }
+    
+    /**
+     * {@inheritDoc}
      */
     public void increment(final double d) {
         if (d < value || Double.isNaN(value)) {
@@ -67,7 +77,7 @@ public class Min extends AbstractStorelessUnivariateStatistic implements Seriali
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#clear()
+     * {@inheritDoc}
      */
     public void clear() {
         value = Double.NaN;
@@ -75,14 +85,14 @@ public class Min extends AbstractStorelessUnivariateStatistic implements Seriali
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getResult()
+     * {@inheritDoc}
      */
     public double getResult() {
         return value;
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getN()
+     * {@inheritDoc}
      */
     public long getN() {
         return n;
@@ -121,5 +131,27 @@ public class Min extends AbstractStorelessUnivariateStatistic implements Seriali
             }
         }
         return min;
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    public Min copy() {
+        Min result = new Min();
+        copy(this, result);
+        return result;
+    }
+    
+    /**
+     * Copies source to dest.
+     * <p>Neither source nor dest can be null.</p>
+     * 
+     * @param source Min to copy
+     * @param dest Min to copy to
+     * @throws NullPointerException if either source or dest is null
+     */
+    public static void copy(Min source, Min dest) {
+        dest.n = source.n;
+        dest.value = source.value;
     }
 }

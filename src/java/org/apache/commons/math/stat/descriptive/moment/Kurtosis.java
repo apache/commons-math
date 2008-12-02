@@ -16,7 +16,9 @@
  */
 package org.apache.commons.math.stat.descriptive.moment;
 
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
+
 
 /**
  * Computes the Kurtosis of the available values.
@@ -71,21 +73,32 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  {
         incMoment = false;
         this.moment = m4;
     }
+    
+    /**
+     * Copy constructor, creates a new {@code Kurtosis} identical
+     * to the {@code original}
+     * 
+     * @param original the {@code Kurtosis} instance to copy
+     */
+    public Kurtosis(Kurtosis original) {
+        copy(original, this);
+    }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#increment(double)
+     * {@inheritDoc}
      */
     public void increment(final double d) {
         if (incMoment) {
             moment.increment(d);
         }  else  {
-            throw new IllegalStateException
-            ("Statistics constructed from external moments cannot be incremented");
+            throw MathRuntimeException.createIllegalStateException("statistics constructed from external " +
+                                                                   "moments cannot be incremented",
+                                                                   null);
         }
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getResult()
+     * {@inheritDoc}
      */
     public double getResult() {
         double kurtosis = Double.NaN;
@@ -105,19 +118,20 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  {
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#clear()
+     * {@inheritDoc}
      */
     public void clear() {
         if (incMoment) {
             moment.clear();
         } else  {
-            throw new IllegalStateException
-                ("Statistics constructed from external moments cannot be cleared");
+            throw MathRuntimeException.createIllegalStateException("statistics constructed from external " +
+                                                                   "moments cannot be cleared",
+                                                                   null);
         }
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getN()
+     * {@inheritDoc}
      */
     public long getN() {
         return moment.getN();
@@ -173,6 +187,28 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  {
             kurt = (coefficientOne * accum3) - termTwo;
         }       
         return kurt;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public Kurtosis copy() {
+        Kurtosis result = new Kurtosis();
+        copy(this, result);
+        return result;
+    }
+    
+    /**
+     * Copies source to dest.
+     * <p>Neither source nor dest can be null.</p>
+     * 
+     * @param source Kurtosis to copy
+     * @param dest Kurtosis to copy to
+     * @throws NullPointerException if either source or dest is null
+     */
+    public static void copy(Kurtosis source, Kurtosis dest) {
+        dest.moment = (FourthMoment) source.moment.copy();
+        dest.incMoment = source.incMoment;
     }
 
 }

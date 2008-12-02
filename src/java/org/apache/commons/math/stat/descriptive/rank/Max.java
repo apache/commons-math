@@ -55,7 +55,17 @@ public class Max extends AbstractStorelessUnivariateStatistic {
     }
     
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#increment(double)
+     * Copy constructor, creates a new {@code Max} identical
+     * to the {@code original}
+     * 
+     * @param original the {@code Max} instance to copy
+     */
+    public Max(Max original) {
+        copy(original, this);
+    }
+    
+    /**
+     * {@inheritDoc}
      */
     public void increment(final double d) {
         if (d > value || Double.isNaN(value)) {
@@ -65,7 +75,7 @@ public class Max extends AbstractStorelessUnivariateStatistic {
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#clear()
+     * {@inheritDoc}
      */
     public void clear() {
         value = Double.NaN;
@@ -73,14 +83,14 @@ public class Max extends AbstractStorelessUnivariateStatistic {
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getResult()
+     * {@inheritDoc}
      */
     public double getResult() {
         return value;
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getN()
+     * {@inheritDoc}
      */
     public long getN() {
         return n;
@@ -119,5 +129,27 @@ public class Max extends AbstractStorelessUnivariateStatistic {
             }
         }
         return max;
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    public Max copy() {
+        Max result = new Max();
+        copy(this, result);
+        return result;
+    }
+    
+    /**
+     * Copies source to dest.
+     * <p>Neither source nor dest can be null.</p>
+     * 
+     * @param source Max to copy
+     * @param dest Max to copy to
+     * @throws NullPointerException if either source or dest is null
+     */
+    public static void copy(Max source, Max dest) {
+        dest.n = source.n;
+        dest.value = source.value;
     }
 }

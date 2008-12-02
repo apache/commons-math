@@ -35,24 +35,8 @@ import java.util.ResourceBundle;
 */
 public class MathException extends Exception {
     
-    /** Serializable version identifier */
-    private static final long serialVersionUID = -8602234299177097102L;
-
-    /**
-     * Does JDK support nested exceptions?
-     */
-    private static final boolean JDK_SUPPORTS_NESTED;
-    
-    static {
-        boolean flag = false;
-        try {
-            Throwable.class.getDeclaredMethod("getCause", new Class[0]);
-            flag = true;
-        } catch (NoSuchMethodException ex) {
-            flag = false;
-        }
-        JDK_SUPPORTS_NESTED = flag;
-    }
+    /** Serializable version identifier. */
+    private static final long serialVersionUID = 5924076008552401454L;
 
     /** Cache for resources bundle. */
     private static ResourceBundle cachedResources = null;
@@ -67,11 +51,6 @@ public class MathException extends Exception {
      */
     private final Object[] arguments;
 
-    /**
-     * Root cause of the exception
-     */
-    private final Throwable rootCause;
-    
     /**
      * Translate a string to a given locale.
      * @param s string to translate
@@ -110,10 +89,7 @@ public class MathException extends Exception {
      * @return a message string
      */
     private static String buildMessage(String pattern, Object[] arguments, Locale locale) {
-        // do it the hard way, for Java 1.3. compatibility
-        MessageFormat mf = new MessageFormat(translate(pattern, locale));
-        mf.setLocale(locale);
-        return mf.format(arguments);        
+        return (pattern == null) ? "" : new MessageFormat(translate(pattern, locale), locale).format(arguments);        
     }
 
     /**
@@ -124,23 +100,8 @@ public class MathException extends Exception {
         super();
         this.pattern   = null;
         this.arguments = new Object[0];
-        this.rootCause = null;
     }
     
-    /**
-     * Constructs a new <code>MathException</code> with specified
-     * detail message.
-     *
-     * @param msg  the error message.
-     * @deprecated as of 1.2, replaced by {@link #MathException(String, Object[])}
-     */
-    public MathException(String msg) {
-        super(msg);
-        this.pattern   = msg;
-        this.arguments = new Object[0];
-        this.rootCause = null;
-    }
-
     /**
      * Constructs a new <code>MathException</code> with specified
      * formatted detail message.
@@ -151,8 +112,7 @@ public class MathException extends Exception {
     public MathException(String pattern, Object[] arguments) {
       super(buildMessage(pattern, arguments, Locale.US));
       this.pattern   = pattern;
-      this.arguments = (Object[]) arguments.clone();
-      this.rootCause = null;
+      this.arguments = (arguments == null) ? new Object[0] : arguments.clone();
     }
 
     /**
@@ -163,28 +123,11 @@ public class MathException extends Exception {
      *                   to be thrown.
      */
     public MathException(Throwable rootCause) {
-        super((rootCause == null ? null : rootCause.getMessage()));
+        super(rootCause);
         this.pattern   = getMessage();
         this.arguments = new Object[0];
-        this.rootCause = rootCause;
     }
     
-    /**
-     * Constructs a new <code>MathException</code> with specified
-     * detail message and nested <code>Throwable</code> root cause.
-     *
-     * @param msg  the error message.
-     * @param rootCause  the exception or error that caused this exception
-     *                   to be thrown.
-     * @deprecated as of 1.2, replaced by {@link #MathException(String, Object[], Throwable)}
-     */
-    public MathException(String msg, Throwable rootCause) {
-        super(msg);
-        this.pattern   = msg;
-        this.arguments = new Object[0];
-        this.rootCause = rootCause;
-    }
-
     /**
      * Constructs a new <code>MathException</code> with specified
      * formatted detail message and nested <code>Throwable</code> root cause.
@@ -196,10 +139,9 @@ public class MathException extends Exception {
      * @since 1.2
      */
     public MathException(String pattern, Object[] arguments, Throwable rootCause) {
-      super(buildMessage(pattern, arguments, Locale.US));
+      super(buildMessage(pattern, arguments, Locale.US), rootCause);
       this.pattern   = pattern;
-      this.arguments = (Object[]) arguments.clone();
-      this.rootCause = rootCause;
+      this.arguments = (arguments == null) ? new Object[0] : arguments.clone();
     }
 
     /** Gets the pattern used to build the message of this throwable.
@@ -217,7 +159,7 @@ public class MathException extends Exception {
      * @since 1.2
      */
     public Object[] getArguments() {
-        return (Object[]) arguments.clone();
+        return arguments.clone();
     }
 
     /** Gets the message in a specified locale.
@@ -228,18 +170,14 @@ public class MathException extends Exception {
      * @since 1.2
      */
     public String getMessage(Locale locale) {
-        return (pattern == null) ? null : buildMessage(pattern, arguments, locale);
+        return buildMessage(pattern, arguments, locale);
     }
 
-    /**
-     * Gets the cause of this throwable.
-     * 
-     * @return  the cause of this throwable, or <code>null</code>
-     */
-    public Throwable getCause() {
-        return rootCause;
+    /** {@inheritDoc} */
+    public String getLocalizedMessage() {
+        return getMessage(Locale.getDefault());
     }
-    
+
     /**
      * Prints the stack trace of this exception to the standard error stream.
      */
@@ -258,21 +196,6 @@ public class MathException extends Exception {
             printStackTrace(pw);
             // Flush the PrintWriter before it's GC'ed.
             pw.flush();
-        }
-    }
-    
-    /**
-     * Prints the stack trace of this exception to the specified writer.
-     *
-     * @param out  the <code>PrintWriter</code> to use for output
-     */
-    public void printStackTrace(PrintWriter out) {
-        synchronized (out) {
-            super.printStackTrace(out);
-            if (rootCause != null && JDK_SUPPORTS_NESTED == false) {
-                out.print("Caused by: ");
-                rootCause.printStackTrace(out);
-            }
         }
     }
 

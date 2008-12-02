@@ -31,7 +31,7 @@ public class ConvergenceException extends MathException {
      * Default constructor.
      */
     public ConvergenceException() {
-        super("Convergence failed", new Object[0]);
+        super("Convergence failed", null);
     }
     
     /**
@@ -65,30 +65,4 @@ public class ConvergenceException extends MathException {
         super(pattern, arguments, cause);
     }
     
-    /**
-     * Constructs a new <code>ConvergenceException</code> with specified
-     * detail message and nested <code>Throwable</code> root cause.
-     *
-     * @param msg  the error message.
-     * @param rootCause  the exception or error that caused this exception
-     * to be thrown.
-     * @deprecated as of 1.2, replaced by 
-     * {@link #ConvergenceException(String, Object[], Throwable)}
-     */
-    public ConvergenceException(String msg, Throwable rootCause) {
-        super(msg, rootCause);
-    }
-    
-    /**
-     * Constructs a new <code>ConvergenceException</code> with specified
-     * detail message.
-     *
-     * @param msg  the error message.
-     * @deprecated as of 1.2, replaced by 
-     * {@link #ConvergenceException(String, Object[])}
-     */
-    public ConvergenceException(String msg) {
-        super(msg);
-    }
-
 }

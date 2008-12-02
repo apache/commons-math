@@ -22,7 +22,7 @@ import java.util.Locale;
 import junit.framework.TestCase;
 
 /**
- * @version $Revision:$
+ * @version $Revision$ $Date$
  */
 public class MaxIterationsExceededExceptionTest extends TestCase {
     
@@ -39,7 +39,7 @@ public class MaxIterationsExceededExceptionTest extends TestCase {
         MaxIterationsExceededException ex =
             new MaxIterationsExceededException(1000000,
                 "Continued fraction convergents failed to converge for value {0}",
-                new Object[] { new Double(1234567) });
+                new Object[] { Double.valueOf(1234567) });
         assertNull(ex.getCause());
         assertNotNull(ex.getMessage());
         assertTrue(ex.getMessage().indexOf("1,000,000") < 0);

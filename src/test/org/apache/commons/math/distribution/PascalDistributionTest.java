@@ -21,7 +21,7 @@ package org.apache.commons.math.distribution;
  * Extends IntegerDistributionAbstractTest.  See class javadoc for
  * IntegerDistributionAbstractTest for details.
  * 
- * @version $Revision:$ $Date:$
+ * @version $Revision$ $Date$
  */
 public class PascalDistributionTest extends IntegerDistributionAbstractTest {
     

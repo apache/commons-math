@@ -48,9 +48,18 @@ public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
     public SynchronizedDescriptiveStatistics(int window) {
         super(window);
     }
+    
+    /**
+     * A copy constructor. Creates a deep-copy of the {@code original}.
+     * 
+     * @param original the {@code SynchronizedDescriptiveStatistics} instance to copy
+     */
+    public SynchronizedDescriptiveStatistics(SynchronizedDescriptiveStatistics original) {
+        copy(original, this);
+    }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.DescriptiveStatistics#addValue(double)
+     * {@inheritDoc}
      */
     public synchronized void addValue(double v) {
         super.addValue(v);
@@ -66,21 +75,21 @@ public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.DescriptiveStatistics#clear()
+     * {@inheritDoc}
      */
     public synchronized void clear() {
         super.clear();
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.DescriptiveStatistics#getElement(int)
+     * {@inheritDoc}
      */
     public synchronized double getElement(int index) {
         return super.getElement(index);
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.DescriptiveStatistics#getN()
+     * {@inheritDoc}
      */
     public synchronized long getN() {
         return super.getN();
@@ -96,7 +105,7 @@ public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.DescriptiveStatistics#getValues()
+     * {@inheritDoc}
      */
     public synchronized double[] getValues() {
         return super.getValues();
@@ -111,7 +120,7 @@ public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.DescriptiveStatistics#setWindowSize(int)
+     * {@inheritDoc}
      */
     public synchronized void setWindowSize(int windowSize) {
         super.setWindowSize(windowSize);
@@ -126,5 +135,36 @@ public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
      */
     public synchronized String toString() {
         return super.toString();
+    }
+    
+    /**
+     * Returns a copy of this SynchronizedDescriptiveStatistics instance with the
+     * same internal state.
+     * 
+     * @return a copy of this
+     */
+    public synchronized SynchronizedDescriptiveStatistics copy() {
+        SynchronizedDescriptiveStatistics result = 
+            new SynchronizedDescriptiveStatistics();
+        copy(this, result);
+        return result; 
+    }
+     
+    /**
+     * Copies source to dest.
+     * <p>Neither source nor dest can be null.</p>
+     * <p>Acquires synchronization lock on source, then dest before copying.</p>
+     * 
+     * @param source SynchronizedDescriptiveStatistics to copy
+     * @param dest SynchronizedDescriptiveStatistics to copy to
+     * @throws NullPointerException if either source or dest is null
+     */
+    public static void copy(SynchronizedDescriptiveStatistics source,
+            SynchronizedDescriptiveStatistics dest) {
+        synchronized (source) {
+            synchronized (dest) {
+                DescriptiveStatistics.copy(source, dest);
+            }
+        }
     }
 }

@@ -1,21 +1,24 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements. See the NOTICE file distributed with this
- * work for additional information regarding copyright ownership. The ASF
- * licenses this file to You under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law
- * or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.apache.commons.math.stat.descriptive;
 
 import java.io.Serializable;
 
-import org.apache.commons.discovery.tools.DiscoverClass;
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.stat.descriptive.moment.GeometricMean;
 import org.apache.commons.math.stat.descriptive.moment.Mean;
 import org.apache.commons.math.stat.descriptive.moment.SecondMoment;
@@ -49,48 +52,26 @@ import org.apache.commons.math.util.MathUtils;
  * {@link SynchronizedSummaryStatistics} if concurrent access from multiple
  * threads is required.
  * </p>
- * @version $Revision$ $Date: 2008-02-10 13:28:59 -0600 (Sun, 10 Feb
- *          2008) $
+ * @version $Revision$ $Date$
  */
 public class SummaryStatistics implements StatisticalSummary, Serializable {
 
     /** Serialization UID */
-    private static final long serialVersionUID = -3346512372447011854L;
-
-    /**
-     * Create an instance of a <code>SummaryStatistics</code>
-     * @param cls the type of <code>SummaryStatistics</code> object to create.
-     * @return a new instance.
-     * @deprecated to be removed in commons-math 2.0
-     * @throws InstantiationException is thrown if the object can not be
-     *         created.
-     * @throws IllegalAccessException is thrown if the type's default
-     *         constructor is not accessible.
-     */
-    public static SummaryStatistics newInstance(Class cls) throws InstantiationException, IllegalAccessException {
-        return (SummaryStatistics)cls.newInstance();
-    }
-
-    /**
-     * Create an instance of a <code>SummaryStatistics</code>
-     * @return a new SummaryStatistics instance.
-     * @deprecated to be removed in commons-math 2.0
-     */
-    public static SummaryStatistics newInstance() {
-        SummaryStatistics instance = null;
-        try {
-            DiscoverClass dc = new DiscoverClass();
-            instance = (SummaryStatistics)dc.newInstance(SummaryStatistics.class, "org.apache.commons.math.stat.descriptive.SummaryStatisticsImpl");
-        } catch (Throwable t) {
-            return new SummaryStatisticsImpl();
-        }
-        return instance;
-    }
+    private static final long serialVersionUID = -2021321786743555871L;
 
     /**
      * Construct a SummaryStatistics instance
      */
     public SummaryStatistics() {
+    }
+
+    /**
+     * A copy constructor. Creates a deep-copy of the {@code original}.
+     * 
+     * @param original the {@code SummaryStatistics} instance to copy
+     */
+    public SummaryStatistics(SummaryStatistics original) {
+        copy(original, this);
     }
 
     /** count of values that have been added */
@@ -153,7 +134,8 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * @return Current values of statistics
      */
     public StatisticalSummary getSummary() {
-        return new StatisticalSummaryValues(getMean(), getVariance(), getN(), getMax(), getMin(), getSum());
+        return new StatisticalSummaryValues(getMean(), getVariance(), getN(), 
+                getMax(), getMin(), getSum());
     }
 
     /**
@@ -361,9 +343,14 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
             return false;
         }
         SummaryStatistics stat = (SummaryStatistics)object;
-        return (MathUtils.equals(stat.getGeometricMean(), this.getGeometricMean()) && MathUtils.equals(stat.getMax(), this.getMax())
-            && MathUtils.equals(stat.getMean(), this.getMean()) && MathUtils.equals(stat.getMin(), this.getMin()) && MathUtils.equals(stat.getN(), this.getN())
-            && MathUtils.equals(stat.getSum(), this.getSum()) && MathUtils.equals(stat.getSumsq(), this.getSumsq()) && MathUtils.equals(stat.getVariance(),
+        return (MathUtils.equals(stat.getGeometricMean(), this.getGeometricMean()) &&
+                MathUtils.equals(stat.getMax(), this.getMax()) &&
+                MathUtils.equals(stat.getMean(), this.getMean()) &&
+                MathUtils.equals(stat.getMin(), this.getMin()) &&
+                MathUtils.equals(stat.getN(), this.getN()) &&
+                MathUtils.equals(stat.getSum(), this.getSum()) &&
+                MathUtils.equals(stat.getSumsq(), this.getSumsq()) &&
+                MathUtils.equals(stat.getVariance(),
             this.getVariance()));
     }
 
@@ -623,8 +610,88 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      */
     private void checkEmpty() {
         if (n > 0) {
-            throw new IllegalStateException("Implementations must be configured before values are added.");
+            throw MathRuntimeException.createIllegalStateException("{0} values have been added before statistic is configured",
+                                                                   new Object[] { n });
         }
     }
-
+    
+    /**
+     * Returns a copy of this SummaryStatistics instance with the same internal state.
+     * 
+     * @return a copy of this
+     */
+    public SummaryStatistics copy() {
+        SummaryStatistics result = new SummaryStatistics();
+        copy(this, result);
+        return result; 
+    }
+     
+    /**
+     * Copies source to dest.
+     * <p>Neither source nor dest can be null.</p>
+     * 
+     * @param source SummaryStatistics to copy
+     * @param dest SummaryStatistics to copy to
+     * @throws NullPointerException if either source or dest is null
+     */
+    public static void copy(SummaryStatistics source, SummaryStatistics dest) {
+        dest.maxImpl = source.maxImpl.copy();
+        dest.meanImpl = source.meanImpl.copy();
+        dest.minImpl = source.minImpl.copy();
+        dest.sumImpl = source.sumImpl.copy();
+        dest.varianceImpl = source.varianceImpl.copy();
+        dest.sumLogImpl = source.sumLogImpl.copy();
+        dest.sumsqImpl = source.sumsqImpl.copy();
+        if (source.getGeoMeanImpl() instanceof GeometricMean) {
+            // Keep geoMeanImpl, sumLogImpl in synch
+            dest.geoMeanImpl = new GeometricMean((SumOfLogs) dest.sumLogImpl);
+        } else {
+            dest.geoMeanImpl = source.geoMeanImpl.copy();
+        }
+        SecondMoment.copy(source.secondMoment, dest.secondMoment);
+        dest.n = source.n;
+        
+        // Make sure that if stat == statImpl in source, same
+        // holds in dest; otherwise copy stat
+        if (source.geoMean == source.geoMeanImpl) {
+            dest.geoMean = (GeometricMean) dest.geoMeanImpl;
+        } else {
+            GeometricMean.copy(source.geoMean, dest.geoMean);
+        } 
+        if (source.max == source.maxImpl) {
+            dest.max = (Max) dest.maxImpl;
+        } else {
+            Max.copy(source.max, dest.max);
+        } 
+        if (source.mean == source.meanImpl) {
+            dest.mean = (Mean) dest.meanImpl;
+        } else {
+            Mean.copy(source.mean, dest.mean);
+        } 
+        if (source.min == source.minImpl) {
+            dest.min = (Min) dest.minImpl;
+        } else {
+            Min.copy(source.min, dest.min);
+        } 
+        if (source.sum == source.sumImpl) {
+            dest.sum = (Sum) dest.sumImpl;
+        } else {
+            Sum.copy(source.sum, dest.sum);
+        } 
+        if (source.variance == source.varianceImpl) {
+            dest.variance = (Variance) dest.varianceImpl;
+        } else {
+            Variance.copy(source.variance, dest.variance);
+        } 
+        if (source.sumLog == source.sumLogImpl) {
+            dest.sumLog = (SumOfLogs) dest.sumLogImpl;
+        } else {
+            SumOfLogs.copy(source.sumLog, dest.sumLog);
+        } 
+        if (source.sumsq == source.sumsqImpl) {
+            dest.sumsq = (SumOfSquares) dest.sumsqImpl;
+        } else {
+            SumOfSquares.copy(source.sumsq, dest.sumsq);
+        } 
+    }
 }

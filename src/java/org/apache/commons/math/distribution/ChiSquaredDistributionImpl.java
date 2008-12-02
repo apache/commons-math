@@ -70,7 +70,17 @@ public class ChiSquaredDistributionImpl
     public double getDegreesOfFreedom() {
         return getGamma().getAlpha() * 2.0;
     }
-        
+
+    /**
+     * Return the probability density for a particular point.
+     *
+     * @param x The point at which the density should be computed.
+     * @return The pdf at point x.
+     */
+    public double density(Double x) {
+        return gamma.density(x);
+    }
+
     /**
      * For this distribution, X, this method returns P(X &lt; x).
      * @param x the value at which the CDF is evaluated.

@@ -35,7 +35,7 @@ public class CardanEulerSingularityException
    * if false it is related to EulerAngles
    */
   public CardanEulerSingularityException(boolean isCardan) {
-    super(isCardan ? "Cardan angles singularity" : "Euler angles singularity", new Object[0]);
+    super(isCardan ? "Cardan angles singularity" : "Euler angles singularity", null);
   }
 
   /** Serializable version identifier */

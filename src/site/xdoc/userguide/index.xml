@@ -58,7 +58,8 @@
                 <ul>
                 <li><a href="linear.html#3.1 Overview">3.1 Overview</a></li>
                 <li><a href="linear.html#3.2 Real matrices">3.2 Real matrices</a></li>
-                <li><a href="linear.html#3.3 Solving linear systems">3.3 Solving linear systems</a></li> 
+                <li><a href="linear.html#3.3 Real vectors">3.3 Real vectors</a></li>
+                <li><a href="linear.html#3.4 Solving linear systems">3.4 Solving linear systems</a></li> 
                 </ul></li>             
             <li><a href="analysis.html">4. Numerical Analysis</a>
                 <ul>
@@ -122,8 +123,9 @@
         <li><a href="ode.html">14. Ordinary Differential Equations Integration</a>
                 <ul>
                 <li><a href="ode.html#14.1 Overview">14.1 Overview</a></li>
-                <li><a href="ode.html#14.2 ODE Problems">14.2 ODE Problems</a></li>
-                <li><a href="ode.html#14.3 Integrators">14.3 Integrators</a></li>
+                <li><a href="ode.html#14.2 Discrete Events Handling">14.2 Discrete Events Handling</a></li>
+                <li><a href="ode.html#14.3 ODE Problems">14.3 ODE Problems</a></li>
+                <li><a href="ode.html#14.4 Integrators">14.4 Integrators</a></li>
                 </ul></li>                                 
         </ul>
       </section>

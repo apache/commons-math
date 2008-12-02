@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math.stat.descriptive.moment;
 
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic;
 import org.apache.commons.math.stat.descriptive.summary.SumOfLogs;
@@ -60,21 +61,42 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic {
     }
     
     /**
+     * Copy constructor, creates a new {@code GeometricMean} identical
+     * to the {@code original}
+     * 
+     * @param original the {@code GeometricMean} instance to copy
+     */
+    public GeometricMean(GeometricMean original) {
+        super();
+        copy(original, this);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public GeometricMean copy() {
+        GeometricMean result = new GeometricMean();
+        copy(this, result);
+        return result;
+    }
+    
+    /**
      * Create a GeometricMean instance using the given SumOfLogs instance
+     * @param sumOfLogs sum of logs instance to use for computation
      */
     public GeometricMean(SumOfLogs sumOfLogs) {
         this.sumOfLogs = sumOfLogs;
     }
     
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#increment(double)
+     * {@inheritDoc}
      */
     public void increment(final double d) {
         sumOfLogs.increment(d);
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getResult()
+     * {@inheritDoc}
      */
     public double getResult() {
         if (sumOfLogs.getN() > 0) {
@@ -85,7 +107,7 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic {
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#clear()
+     * {@inheritDoc}
      */
     public void clear() {
         sumOfLogs.clear();
@@ -114,7 +136,7 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic {
     }
     
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getN()
+     * {@inheritDoc}
      */
     public long getN() {
         return sumOfLogs.getN();
@@ -147,12 +169,25 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic {
     }
     
     /**
+     * Copies source to dest.
+     * <p>Neither source nor dest can be null.</p>
+     * 
+     * @param source GeometricMean to copy
+     * @param dest GeometricMean to copy to
+     * @throws NullPointerException if either source or dest is null
+     */
+    public static void copy(GeometricMean source, GeometricMean dest) {
+        dest.sumOfLogs = (SumOfLogs) source.sumOfLogs.copy();
+    }
+    
+    
+    /**
      * Throws IllegalStateException if n > 0.
      */
     private void checkEmpty() {
         if (getN() > 0) {
-            throw new IllegalStateException(
-                "Implementation must be configured before values are added.");
+            throw MathRuntimeException.createIllegalStateException("{0} values have been added before statistic is configured",
+                                                                   new Object[] { getN() });
         }
     }
 

@@ -33,7 +33,6 @@ public class OneWayAnovaTest extends TestCase {
 
     protected OneWayAnova testStatistic = new OneWayAnovaImpl();
     
-    private char[] wrongArray = { 'a', 'b', 'c' };
     private double[] emptyArray = {};
 
     private double[] classA =
@@ -58,7 +57,7 @@ public class OneWayAnovaTest extends TestCase {
 
     public void testAnovaFValue() throws Exception {
         // Target comparison values computed using R version 2.6.0 (Linux version)
-        List threeClasses = new ArrayList();
+        List<double[]> threeClasses = new ArrayList<double[]>();
         threeClasses.add(classA);
         threeClasses.add(classB);
         threeClasses.add(classC);
@@ -66,25 +65,14 @@ public class OneWayAnovaTest extends TestCase {
         assertEquals("ANOVA F-value",  24.67361709460624,
                  testStatistic.anovaFValue(threeClasses), 1E-12);
 
-        List twoClasses = new ArrayList();
+        List<double[]> twoClasses = new ArrayList<double[]>();
         twoClasses.add(classA);
         twoClasses.add(classB);
         
         assertEquals("ANOVA F-value",  0.0150579150579,
                  testStatistic.anovaFValue(twoClasses), 1E-12);
 
-        // now try some input hashes which should fail
-        List wrongContents = new ArrayList();
-        wrongContents.add(classC);
-        wrongContents.add(wrongArray);
-        try {
-            testStatistic.anovaFValue(wrongContents);
-            fail("non double[] hash value for key classX, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
-            // expected
-        }  
-
-        List emptyContents = new ArrayList();
+        List<double[]> emptyContents = new ArrayList<double[]>();
         emptyContents.add(emptyArray);
         emptyContents.add(classC);
         try {
@@ -94,7 +82,7 @@ public class OneWayAnovaTest extends TestCase {
             // expected
         }  
 
-        List tooFew = new ArrayList();
+        List<double[]> tooFew = new ArrayList<double[]>();
         tooFew.add(classA);
         try {
             testStatistic.anovaFValue(tooFew);
@@ -107,7 +95,7 @@ public class OneWayAnovaTest extends TestCase {
 
     public void testAnovaPValue() throws Exception {
         // Target comparison values computed using R version 2.6.0 (Linux version)
-        List threeClasses = new ArrayList();
+        List<double[]> threeClasses = new ArrayList<double[]>();
         threeClasses.add(classA);
         threeClasses.add(classB);
         threeClasses.add(classC);
@@ -115,7 +103,7 @@ public class OneWayAnovaTest extends TestCase {
         assertEquals("ANOVA P-value", 6.959446E-06,
                  testStatistic.anovaPValue(threeClasses), 1E-12);
 
-        List twoClasses = new ArrayList();
+        List<double[]> twoClasses = new ArrayList<double[]>();
         twoClasses.add(classA);
         twoClasses.add(classB);
         
@@ -126,14 +114,14 @@ public class OneWayAnovaTest extends TestCase {
 
     public void testAnovaTest() throws Exception {
         // Target comparison values computed using R version 2.3.1 (Linux version)
-        List threeClasses = new ArrayList();
+        List<double[]> threeClasses = new ArrayList<double[]>();
         threeClasses.add(classA);
         threeClasses.add(classB);
         threeClasses.add(classC);
 
         assertTrue("ANOVA Test P<0.01", testStatistic.anovaTest(threeClasses, 0.01));
 
-        List twoClasses = new ArrayList();
+        List<double[]> twoClasses = new ArrayList<double[]>();
         twoClasses.add(classA);
         twoClasses.add(classB);
         

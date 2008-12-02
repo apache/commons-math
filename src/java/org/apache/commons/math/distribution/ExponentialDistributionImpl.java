@@ -64,6 +64,19 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
+     * Return the probability density for a particular point.
+     *
+     * @param x The point at which the density should be computed.
+     * @return The pdf at point x.
+     */
+    public double density(Double x) {
+        if (x < 0) {
+            return 0;
+        }
+        return Math.exp(-x / getMean()) / getMean();
+    }
+
+    /**
      * For this distribution, X, this method returns P(X &lt; x).
      * 
      * The implementation of this method is based on:
@@ -157,6 +170,8 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
      */
     protected double getInitialDomain(double p) {
         // TODO: try to improve on this estimate
+        // TODO: what should really happen here is not derive from AbstractContinuousDistribution
+        // TODO: because the inverse cumulative distribution is simple.
         // Exponential is skewed to the left, therefore, P(X < &mu;) > .5
         if (p < .5) {
             // use 1/2 mean

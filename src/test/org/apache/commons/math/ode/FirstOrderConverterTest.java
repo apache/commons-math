@@ -17,11 +17,11 @@
 
 package org.apache.commons.math.ode;
 
-import org.apache.commons.math.ode.ClassicalRungeKuttaIntegrator;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderConverter;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.SecondOrderDifferentialEquations;
+import org.apache.commons.math.ode.nonstiff.ClassicalRungeKuttaIntegrator;
 
 import junit.framework.*;
 

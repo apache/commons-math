@@ -28,7 +28,7 @@ import org.apache.commons.math.stat.descriptive.moment.Mean;
 /**
  * Test cases for the {@link MultivariateSummaryStatistics} class.
  *
- * @version $Revision: 566833 $ $Date: 2007-08-16 13:36:33 -0700 (Thu, 16 Aug 2007) $
+ * @version $Revision$ $Date$
  */
 
 public class MultivariateSummaryStatisticsTest extends TestCase {
@@ -113,6 +113,9 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
         }
         public void incrementAll(double[] values) {
         }   
+        public StorelessUnivariateStatistic copy() {
+            return new sumMean();
+        }
     }
 
     public void testDimension() {
@@ -217,7 +220,7 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
         int emptyHash = u.hashCode();
         assertTrue(u.equals(u));
         assertFalse(u.equals(t));
-        assertFalse(u.equals(new Double(0)));
+        assertFalse(u.equals(Double.valueOf(0)));
         t = new MultivariateSummaryStatistics(2, true);
         assertTrue(t.equals(u));
         assertTrue(u.equals(t));

@@ -268,5 +268,5 @@ public interface RandomData {
      * @param k size of the sample
      * @return random sample of k elements from c
      */
-    Object[] nextSample(Collection c, int k);
+    Object[] nextSample(Collection<?> c, int k);
 }

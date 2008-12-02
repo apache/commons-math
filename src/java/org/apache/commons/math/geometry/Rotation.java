@@ -19,6 +19,8 @@ package org.apache.commons.math.geometry;
 
 import java.io.Serializable;
 
+import org.apache.commons.math.MathRuntimeException;
+
 /**
  * This class implements rotations in a three-dimensional space.
  *
@@ -88,14 +90,23 @@ import java.io.Serializable;
 
 public class Rotation implements Serializable {
 
-  /** Build the identity rotation.
-   */
-  public Rotation() {
-    q0 = 1;
-    q1 = 0;
-    q2 = 0;
-    q3 = 0;
-  }
+  /** Identity rotation. */
+  public static final Rotation IDENTITY = new Rotation(1.0, 0.0, 0.0, 0.0, false);
+
+  /** Serializable version identifier */
+  private static final long serialVersionUID = -2153622329907944313L;
+
+  /** Scalar coordinate of the quaternion. */
+  private final double q0;
+
+  /** First coordinate of the vectorial part of the quaternion. */
+  private final double q1;
+
+  /** Second coordinate of the vectorial part of the quaternion. */
+  private final double q2;
+
+  /** Third coordinate of the vectorial part of the quaternion. */
+  private final double q3;
 
   /** Build a rotation from the quaternion coordinates.
    * <p>A rotation can be built from a <em>normalized</em> quaternion,
@@ -145,7 +156,8 @@ public class Rotation implements Serializable {
 
     double norm = axis.getNorm();
     if (norm == 0) {
-      throw new ArithmeticException("zero norm for rotation axis");
+      throw MathRuntimeException.createArithmeticException("zero norm for rotation axis",
+                                                           null);
     }
 
     double halfAngle = -0.5 * angle;
@@ -453,10 +465,10 @@ public class Rotation implements Serializable {
   /** Build a rotation from three Cardan or Euler elementary rotations.
 
    * <p>Cardan rotations are three successive rotations around the
-   * canonical axes X, Y and Z, each axis beeing used once. There are
+   * canonical axes X, Y and Z, each axis being used once. There are
    * 6 such sets of rotations (XYZ, XZY, YXZ, YZX, ZXY and ZYX). Euler
    * rotations are three successive rotations around the canonical
-   * axes X, Y and Z, the first and last rotations beeing around the
+   * axes X, Y and Z, the first and last rotations being around the
    * same axis. There are 6 such sets of rotations (XYX, XZX, YXY,
    * YZY, ZXZ and ZYZ), the most popular one being ZXZ.</p>
    * <p>Beware that many people routinely use the term Euler angles even
@@ -592,8 +604,8 @@ public class Rotation implements Serializable {
       // (-r) (Vector3D.plusI) coordinates are :
       // cos (psi) cos (theta), -sin (psi) cos (theta), sin (theta)
       // and we can choose to have theta in the interval [-PI/2 ; +PI/2]
-      Vector3D v1 = applyTo(Vector3D.plusK);
-      Vector3D v2 = applyInverseTo(Vector3D.plusI);
+      Vector3D v1 = applyTo(Vector3D.PLUS_K);
+      Vector3D v2 = applyInverseTo(Vector3D.PLUS_I);
       if  ((v2.getZ() < -0.9999999999) || (v2.getZ() > 0.9999999999)) {
         throw new CardanEulerSingularityException(true);
       }
@@ -610,8 +622,8 @@ public class Rotation implements Serializable {
       // (-r) (Vector3D.plusI) coordinates are :
       // cos (theta) cos (psi), -sin (psi), sin (theta) cos (psi)
       // and we can choose to have psi in the interval [-PI/2 ; +PI/2]
-      Vector3D v1 = applyTo(Vector3D.plusJ);
-      Vector3D v2 = applyInverseTo(Vector3D.plusI);
+      Vector3D v1 = applyTo(Vector3D.PLUS_J);
+      Vector3D v2 = applyInverseTo(Vector3D.PLUS_I);
       if ((v2.getY() < -0.9999999999) || (v2.getY() > 0.9999999999)) {
         throw new CardanEulerSingularityException(true);
       }
@@ -628,8 +640,8 @@ public class Rotation implements Serializable {
       // (-r) (Vector3D.plusJ) coordinates are :
       // sin (psi) cos (phi), cos (psi) cos (phi), -sin (phi)
       // and we can choose to have phi in the interval [-PI/2 ; +PI/2]
-      Vector3D v1 = applyTo(Vector3D.plusK);
-      Vector3D v2 = applyInverseTo(Vector3D.plusJ);
+      Vector3D v1 = applyTo(Vector3D.PLUS_K);
+      Vector3D v2 = applyInverseTo(Vector3D.PLUS_J);
       if ((v2.getZ() < -0.9999999999) || (v2.getZ() > 0.9999999999)) {
         throw new CardanEulerSingularityException(true);
       }
@@ -646,8 +658,8 @@ public class Rotation implements Serializable {
       // (-r) (Vector3D.plusJ) coordinates are :
       // sin (psi), cos (phi) cos (psi), -sin (phi) cos (psi)
       // and we can choose to have psi in the interval [-PI/2 ; +PI/2]
-      Vector3D v1 = applyTo(Vector3D.plusI);
-      Vector3D v2 = applyInverseTo(Vector3D.plusJ);
+      Vector3D v1 = applyTo(Vector3D.PLUS_I);
+      Vector3D v2 = applyInverseTo(Vector3D.PLUS_J);
       if ((v2.getX() < -0.9999999999) || (v2.getX() > 0.9999999999)) {
         throw new CardanEulerSingularityException(true);
       }
@@ -664,8 +676,8 @@ public class Rotation implements Serializable {
       // (-r) (Vector3D.plusK) coordinates are :
       // -sin (theta) cos (phi), sin (phi), cos (theta) cos (phi)
       // and we can choose to have phi in the interval [-PI/2 ; +PI/2]
-      Vector3D v1 = applyTo(Vector3D.plusJ);
-      Vector3D v2 = applyInverseTo(Vector3D.plusK);
+      Vector3D v1 = applyTo(Vector3D.PLUS_J);
+      Vector3D v2 = applyInverseTo(Vector3D.PLUS_K);
       if ((v2.getY() < -0.9999999999) || (v2.getY() > 0.9999999999)) {
         throw new CardanEulerSingularityException(true);
       }
@@ -682,8 +694,8 @@ public class Rotation implements Serializable {
       // (-r) (Vector3D.plusK) coordinates are :
       // -sin (theta), sin (phi) cos (theta), cos (phi) cos (theta)
       // and we can choose to have theta in the interval [-PI/2 ; +PI/2]
-      Vector3D v1 = applyTo(Vector3D.plusI);
-      Vector3D v2 = applyInverseTo(Vector3D.plusK);
+      Vector3D v1 = applyTo(Vector3D.PLUS_I);
+      Vector3D v2 = applyInverseTo(Vector3D.PLUS_K);
       if ((v2.getX() < -0.9999999999) || (v2.getX() > 0.9999999999)) {
         throw new CardanEulerSingularityException(true);
       }
@@ -700,8 +712,8 @@ public class Rotation implements Serializable {
       // (-r) (Vector3D.plusI) coordinates are :
       // cos (theta), sin (theta) sin (phi2), sin (theta) cos (phi2)
       // and we can choose to have theta in the interval [0 ; PI]
-      Vector3D v1 = applyTo(Vector3D.plusI);
-      Vector3D v2 = applyInverseTo(Vector3D.plusI);
+      Vector3D v1 = applyTo(Vector3D.PLUS_I);
+      Vector3D v2 = applyInverseTo(Vector3D.PLUS_I);
       if ((v2.getX() < -0.9999999999) || (v2.getX() > 0.9999999999)) {
         throw new CardanEulerSingularityException(false);
       }
@@ -718,8 +730,8 @@ public class Rotation implements Serializable {
       // (-r) (Vector3D.plusI) coordinates are :
       // cos (psi), -sin (psi) cos (phi2), sin (psi) sin (phi2)
       // and we can choose to have psi in the interval [0 ; PI]
-      Vector3D v1 = applyTo(Vector3D.plusI);
-      Vector3D v2 = applyInverseTo(Vector3D.plusI);
+      Vector3D v1 = applyTo(Vector3D.PLUS_I);
+      Vector3D v2 = applyInverseTo(Vector3D.PLUS_I);
       if ((v2.getX() < -0.9999999999) || (v2.getX() > 0.9999999999)) {
         throw new CardanEulerSingularityException(false);
       }
@@ -736,8 +748,8 @@ public class Rotation implements Serializable {
       // (-r) (Vector3D.plusJ) coordinates are :
       // sin (phi) sin (theta2), cos (phi), -sin (phi) cos (theta2)
       // and we can choose to have phi in the interval [0 ; PI]
-      Vector3D v1 = applyTo(Vector3D.plusJ);
-      Vector3D v2 = applyInverseTo(Vector3D.plusJ);
+      Vector3D v1 = applyTo(Vector3D.PLUS_J);
+      Vector3D v2 = applyInverseTo(Vector3D.PLUS_J);
       if ((v2.getY() < -0.9999999999) || (v2.getY() > 0.9999999999)) {
         throw new CardanEulerSingularityException(false);
       }
@@ -754,8 +766,8 @@ public class Rotation implements Serializable {
       // (-r) (Vector3D.plusJ) coordinates are :
       // sin (psi) cos (theta2), cos (psi), sin (psi) sin (theta2)
       // and we can choose to have psi in the interval [0 ; PI]
-      Vector3D v1 = applyTo(Vector3D.plusJ);
-      Vector3D v2 = applyInverseTo(Vector3D.plusJ);
+      Vector3D v1 = applyTo(Vector3D.PLUS_J);
+      Vector3D v2 = applyInverseTo(Vector3D.PLUS_J);
       if ((v2.getY() < -0.9999999999) || (v2.getY() > 0.9999999999)) {
         throw new CardanEulerSingularityException(false);
       }
@@ -772,8 +784,8 @@ public class Rotation implements Serializable {
       // (-r) (Vector3D.plusK) coordinates are :
       // sin (phi) sin (psi2), sin (phi) cos (psi2), cos (phi)
       // and we can choose to have phi in the interval [0 ; PI]
-      Vector3D v1 = applyTo(Vector3D.plusK);
-      Vector3D v2 = applyInverseTo(Vector3D.plusK);
+      Vector3D v1 = applyTo(Vector3D.PLUS_K);
+      Vector3D v2 = applyInverseTo(Vector3D.PLUS_K);
       if ((v2.getZ() < -0.9999999999) || (v2.getZ() > 0.9999999999)) {
         throw new CardanEulerSingularityException(false);
       }
@@ -790,8 +802,8 @@ public class Rotation implements Serializable {
       // (-r) (Vector3D.plusK) coordinates are :
       // -sin (theta) cos (psi2), sin (theta) sin (psi2), cos (theta)
       // and we can choose to have theta in the interval [0 ; PI]
-      Vector3D v1 = applyTo(Vector3D.plusK);
-      Vector3D v2 = applyInverseTo(Vector3D.plusK);
+      Vector3D v1 = applyTo(Vector3D.PLUS_K);
+      Vector3D v2 = applyInverseTo(Vector3D.PLUS_K);
       if ((v2.getZ() < -0.9999999999) || (v2.getZ() > 0.9999999999)) {
         throw new CardanEulerSingularityException(false);
       }
@@ -1017,19 +1029,32 @@ public class Rotation implements Serializable {
                                           });
   }
 
-  /** Scalar coordinate of the quaternion. */
-  private final double q0;
-
-  /** First coordinate of the vectorial part of the quaternion. */
-  private final double q1;
-
-  /** Second coordinate of the vectorial part of the quaternion. */
-  private final double q2;
-
-  /** Third coordinate of the vectorial part of the quaternion. */
-  private final double q3;
-
-  /** Serializable version identifier */
-  private static final long serialVersionUID = 8225864499430109352L;
+  /** Compute the <i>distance</i> between two rotations.
+   * <p>The <i>distance</i> is intended here as a way to check if two
+   * rotations are almost similar (i.e. they transform vectors the same way)
+   * or very different. It is mathematically defined as the angle of
+   * the rotation r that prepended to one of the rotations gives the other
+   * one:</p>
+   * <pre>
+   *        r<sub>1</sub>(r) = r<sub>2</sub>
+   * </pre>
+   * <p>This distance is an angle between 0 and &pi;. Its value is the smallest
+   * possible upper bound of the angle in radians between r<sub>1</sub>(v)
+   * and r<sub>2</sub>(v) for all possible vectors v. This upper bound is
+   * reached for some v. The distance is equal to 0 if and only if the two
+   * rotations are identical.</p>
+   * <p>Comparing two rotations should always be done using this value rather
+   * than for example comparing the components of the quaternions. It is much
+   * more stable, and has a geometric meaning. Also comparing quaternions
+   * components is error prone since for example quaternions (0.36, 0.48, -0.48, -0.64)
+   * and (-0.36, -0.48, 0.48, 0.64) represent exactly the same rotation despite
+   * their components are different (they are exact opposites).</p>
+   * @param r1 first rotation
+   * @param r2 second rotation
+   * @return <i>distance</i> between r1 and r2
+   */
+  public static double distance(Rotation r1, Rotation r2) {
+      return r1.applyInverseTo(r2).getAngle();
+  }
 
 }

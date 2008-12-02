@@ -66,9 +66,21 @@
 	<module name="IllegalInstantiation">
       <property name="classes" value="java.lang.Boolean, java.lang.String"/>
     </module>
+
+    <!-- Required for SuppressionCommentFilter below -->
+    <module name="FileContentsHolder"/>
+
   </module>
   
   <!-- Require package javadoc -->
   <module name="PackageHtml"/>
+
+  <!-- Setup special comments to suppress specific checks from source files -->
+  <module name="SuppressionCommentFilter">
+    <property name="offCommentFormat" value="CHECKSTYLE\: stop JavadocMethodCheck"/>
+    <property name="onCommentFormat"  value="CHECKSTYLE\: resume JavadocMethodCheck"/>
+    <property name="checkFormat"      value="JavadocMethodCheck"/>
+  </module>
+
 </module>
 

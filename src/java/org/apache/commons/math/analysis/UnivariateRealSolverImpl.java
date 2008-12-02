@@ -20,6 +20,7 @@ package org.apache.commons.math.analysis;
 import java.io.Serializable;
 
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MathRuntimeException;
 
 /**
  * Provide a default implementation for several functions useful to generic
@@ -111,7 +112,7 @@ public abstract class UnivariateRealSolverImpl implements UnivariateRealSolver,
         if (resultComputed) {
             return result;
         } else {
-            throw new IllegalStateException("No result available");
+            throw MathRuntimeException.createIllegalStateException("no result available", null);
         }
     }
 
@@ -126,7 +127,7 @@ public abstract class UnivariateRealSolverImpl implements UnivariateRealSolver,
         if (resultComputed) {
             return iterationCount;
         } else {
-            throw new IllegalStateException("No result available");
+            throw MathRuntimeException.createIllegalStateException("no result available", null);
         }
     }
 

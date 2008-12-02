@@ -119,4 +119,5 @@ public class FDistributionTest extends ContinuousDistributionAbstractTest {
         x = fd.inverseCumulativeProbability(p);
         assertEquals(0.975, x, 1.0e-5);
     }
+
 }

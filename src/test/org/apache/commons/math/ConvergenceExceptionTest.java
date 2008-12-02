@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 import java.util.Locale;
 
 /**
- * @version $Revision: 480442 $ $Date: 2006-11-29 08:21:22 +0100 (mer., 29 nov. 2006) $
+ * @version $Revision$ $Date$
  */
 public class ConvergenceExceptionTest extends TestCase {
 
@@ -36,7 +36,7 @@ public class ConvergenceExceptionTest extends TestCase {
     
     public void testConstructorPatternArguments(){
         String pattern = "a {0}x{1} matrix cannot be a rotation matrix";
-        Object[] arguments = { new Integer(6), new Integer(4) };
+        Object[] arguments = { Integer.valueOf(6), Integer.valueOf(4) };
         ConvergenceException ex = new ConvergenceException(pattern, arguments);
         assertNull(ex.getCause());
         assertEquals(pattern, ex.getPattern());
@@ -57,7 +57,7 @@ public class ConvergenceExceptionTest extends TestCase {
 
     public void testConstructorPatternArgumentsCause(){
         String pattern = "a {0}x{1} matrix cannot be a rotation matrix";
-        Object[] arguments = { new Integer(6), new Integer(4) };
+        Object[] arguments = { Integer.valueOf(6), Integer.valueOf(4) };
         String inMsg = "inner message";
         Exception cause = new Exception(inMsg);
         ConvergenceException ex = new ConvergenceException(pattern, arguments, cause);

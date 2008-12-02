@@ -55,7 +55,17 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
     }
     
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#increment(double)
+     * Copy constructor, creates a new {@code SumOfSquares} identical
+     * to the {@code original}
+     * 
+     * @param original the {@code SumOfSquares} instance to copy
+     */
+    public SumOfSquares(SumOfSquares original) {
+        copy(original, this);
+    }
+    
+    /**
+     * {@inheritDoc}
      */
     public void increment(final double d) {
         if (n == 0) {
@@ -67,21 +77,21 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getResult()
+     * {@inheritDoc}
      */
     public double getResult() {
         return value;
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getN()
+     * {@inheritDoc}
      */
     public long getN() {
         return n;
     }
     
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#clear()
+     * {@inheritDoc}
      */
     public void clear() {
         value = Double.NaN;
@@ -111,6 +121,28 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
             }
         }
         return sumSq;
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    public SumOfSquares copy() {
+        SumOfSquares result = new SumOfSquares();
+        copy(this, result);
+        return result;
+    }
+    
+    /**
+     * Copies source to dest.
+     * <p>Neither source nor dest can be null.</p>
+     * 
+     * @param source SumOfSquares to copy
+     * @param dest SumOfSquares to copy to
+     * @throws NullPointerException if either source or dest is null
+     */
+    public static void copy(SumOfSquares source, SumOfSquares dest) {
+        dest.n = source.n;
+        dest.value = source.value;
     }
 
 }

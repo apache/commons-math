@@ -50,7 +50,7 @@ public interface OneWayAnova {
      * @throws MathException if the statistic can not be computed do to a
      *         convergence or other numerical error.
      */
-    public double anovaFValue(Collection categoryData)
+    public double anovaFValue(Collection<double[]> categoryData)
         throws IllegalArgumentException, MathException;
 
     /**
@@ -71,7 +71,7 @@ public interface OneWayAnova {
      * @throws MathException if the statistic can not be computed do to a
      *         convergence or other numerical error.
      */
-    public double anovaPValue(Collection categoryData)
+    public double anovaPValue(Collection<double[]> categoryData)
         throws IllegalArgumentException, MathException;
 
     /**
@@ -96,7 +96,7 @@ public interface OneWayAnova {
      * @throws MathException if the statistic can not be computed do to a
      *         convergence or other numerical error.
     */
-    public boolean anovaTest(Collection categoryData, double alpha)
+    public boolean anovaTest(Collection<double[]> categoryData, double alpha)
         throws IllegalArgumentException, MathException;
 
 }

@@ -98,7 +98,7 @@ public abstract class AbstractEstimator implements Estimator {
 
         if (++costEvaluations > maxCostEval) {
             throw new EstimationException("maximal number of evaluations exceeded ({0})",
-                                          new Object[] { new Integer(maxCostEval) });
+                                          new Object[] { Integer.valueOf(maxCostEval) });
         }
 
         cost = 0;
@@ -179,10 +179,10 @@ public abstract class AbstractEstimator implements Estimator {
 
         try {
             // compute the covariances matrix
-            return new RealMatrixImpl(jTj).inverse().getData();
+            return ((RealMatrixImpl) new RealMatrixImpl(jTj, false).inverse()).getDataRef();
         } catch (InvalidMatrixException ime) {
             throw new EstimationException("unable to compute covariances: singular problem",
-                                          new Object[0]);
+                                          null);
         }
 
     }
@@ -202,7 +202,7 @@ public abstract class AbstractEstimator implements Estimator {
         int p = problem.getUnboundParameters().length;
         if (m <= p) {
             throw new EstimationException("no degrees of freedom ({0} measurements, {1} parameters)",
-                                          new Object[] { new Integer(m), new Integer(p)});
+                                          new Object[] { Integer.valueOf(m), Integer.valueOf(p)});
         }
         double[] errors = new double[problem.getUnboundParameters().length];
         final double c = Math.sqrt(getChiSquare(problem) / (m - p));

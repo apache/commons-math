@@ -24,14 +24,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
+
+import junit.framework.TestCase;
 
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
-
-import junit.framework.TestCase;
 
 /**
  * @version $Revision$ $Date$
@@ -42,12 +41,12 @@ public abstract class CertifiedDataAbstractTest extends TestCase {
     
     private SummaryStatistics summaries;
     
-    private Map certifiedValues;
+    private Map<String, Double> certifiedValues;
     
     protected void setUp() throws Exception {
         descriptives = new DescriptiveStatistics();
         summaries = new SummaryStatistics();
-        certifiedValues = new HashMap();
+        certifiedValues = new HashMap<String, Double>();
         
         loadData();
     }
@@ -79,7 +78,7 @@ public abstract class CertifiedDataAbstractTest extends TestCase {
                         // certified value
                         String name = line.substring(0, n).trim();
                         String valueString = line.substring(n + 1).trim();
-                        Double value = new Double(valueString);
+                        Double value = Double.valueOf(valueString);
                         certifiedValues.put(name, value);
                     }
                 }
@@ -110,10 +109,7 @@ public abstract class CertifiedDataAbstractTest extends TestCase {
     }
     
     public void testCertifiedValues() {
-        Iterator iter = certifiedValues.keySet().iterator();
-
-        while (iter.hasNext()) {
-            String name = iter.next().toString();
+        for (String name : certifiedValues.keySet()) {
             Double expectedValue = (Double)certifiedValues.get(name);
 
             Double summariesValue = getProperty(summaries, name);
@@ -142,7 +138,7 @@ public abstract class CertifiedDataAbstractTest extends TestCase {
             if (meth.getReturnType().equals(Double.TYPE)) {
                 return (Double) property;
             } else if (meth.getReturnType().equals(Long.TYPE)) {
-                return new Double(((Long) property).doubleValue());
+                return Double.valueOf(((Long) property).doubleValue());
             } else {
                 fail("wrong type: " + meth.getReturnType().getName());
             }

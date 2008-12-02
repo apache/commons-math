@@ -17,28 +17,29 @@
 
 package org.apache.commons.math.complex;
 
-import java.io.Serializable;
 import java.text.FieldPosition;
-import java.text.Format;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.Locale;
 
+import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.CompositeFormat;
+
 /**
  * Formats a Complex number in cartesian format "Re(c) + Im(c)i".  'i' can
- * be replaced with 'j', and the number format for both real and imaginary parts
- * can be configured.
+ * be replaced with 'j' (or anything else), and the number format for both real
+ * and imaginary parts can be configured.
  *
  * @author Apache Software Foundation
  * @version $Revision$ $Date$
  */
-public class ComplexFormat extends Format implements Serializable {
+public class ComplexFormat extends CompositeFormat {
     
     /** Serializable version identifier */
-    private static final long serialVersionUID = -6337346779577272306L;
-    
-    /** The default imaginary character. */
+    private static final long serialVersionUID = -3343698360149467646L;
+
+     /** The default imaginary character. */
     private static final String DEFAULT_IMAGINARY_CHARACTER = "i";
     
     /** The notation used to signify the imaginary part of the complex number. */
@@ -73,8 +74,7 @@ public class ComplexFormat extends Format implements Serializable {
      * @param realFormat the custom format for the real part.
      * @param imaginaryFormat the custom format for the imaginary part.
      */
-    public ComplexFormat(NumberFormat realFormat,
-            NumberFormat imaginaryFormat) {
+    public ComplexFormat(NumberFormat realFormat, NumberFormat imaginaryFormat) {
         this(DEFAULT_IMAGINARY_CHARACTER, realFormat, imaginaryFormat);
     }
     
@@ -114,14 +114,23 @@ public class ComplexFormat extends Format implements Serializable {
     }
 
     /**
-     * This static method calls formatComplex() on a default instance of
+     * Get the set of locales for which complex formats are available.
+     * <p>This is the same set as the {@link NumberFormat} set.</p> 
+     * @return available complex format locales.
+     */
+    public static Locale[] getAvailableLocales() {
+        return NumberFormat.getAvailableLocales();
+    }
+
+    /**
+     * This static method calls {@link #format(Object)} on a default instance of
      * ComplexFormat.
      *
      * @param c Complex object to format
      * @return A formatted number in the form "Re(c) + Im(c)i"
      */
-    public static String formatComplex( Complex c ) {
-        return getInstance().format( c );
+    public static String formatComplex(Complex c) {
+        return getInstance().format(c);
     }
     
     /**
@@ -182,74 +191,12 @@ public class ComplexFormat extends Format implements Serializable {
             ret = format( new Complex(((Number)obj).doubleValue(), 0.0),
                 toAppendTo, pos);
         } else { 
-            throw new IllegalArgumentException(
-                "Cannot format given Object as a Date");
+            throw new IllegalArgumentException("Cannot format given Object as a Complex");
         }
         
         return ret;
     }
 
-    /**
-     * Formats a double value to produce a string.  In general, the value is
-     * formatted using the formatting rules of <code>format</code>.  There are
-     * three exceptions to this:
-     * <ol>
-     * <li>NaN is formatted as '(NaN)'</li>
-     * <li>Positive infinity is formatted as '(Infinity)'</li>
-     * <li>Negative infinity is formatted as '(-Infinity)'</li>
-     * </ol>
-     *
-     * @param value the double to format.
-     * @param format the format used.
-     * @param toAppendTo where the text is to be appended
-     * @param pos On input: an alignment field, if desired. On output: the
-     *            offsets of the alignment field
-     * @return the value passed in as toAppendTo.
-     */
-    private StringBuffer formatDouble(double value, NumberFormat format,
-            StringBuffer toAppendTo, FieldPosition pos) {
-        if( Double.isNaN(value) || Double.isInfinite(value) ) {
-            toAppendTo.append('(');
-            toAppendTo.append(value);
-            toAppendTo.append(')');
-        } else {
-            format.format(value, toAppendTo, pos);
-        }
-        return toAppendTo;
-    }
-    
-    /**
-     * Get the set of locales for which complex formats are available.  This
-     * is the same set as the {@link NumberFormat} set. 
-     * @return available complex format locales.
-     */
-    public static Locale[] getAvailableLocales() {
-        return NumberFormat.getAvailableLocales();
-    }
-    
-    /**
-     * Create a default number format.  The default number format is based on
-     * {@link NumberFormat#getInstance()} with the only customizing is the
-     * maximum number of fraction digits, which is set to 2.  
-     * @return the default number format.
-     */
-    private static NumberFormat getDefaultNumberFormat() {
-        return getDefaultNumberFormat(Locale.getDefault());
-    }
-    
-    /**
-     * Create a default number format.  The default number format is based on
-     * {@link NumberFormat#getInstance(java.util.Locale)} with the only
-     * customizing is the maximum number of fraction digits, which is set to 2.  
-     * @param locale the specific locale used by the format.
-     * @return the default number format specific to the given locale.
-     */
-    private static NumberFormat getDefaultNumberFormat(Locale locale) {
-        NumberFormat nf = NumberFormat.getInstance(locale);
-        nf.setMaximumFractionDigits(2);
-        return nf;
-    }
-    
     /**
      * Access the imaginaryCharacter.
      * @return the imaginaryCharacter.
@@ -304,8 +251,9 @@ public class ComplexFormat extends Format implements Serializable {
         ParsePosition parsePosition = new ParsePosition(0);
         Complex result = parse(source, parsePosition);
         if (parsePosition.getIndex() == 0) {
-            throw new ParseException("Unparseable complex number: \"" + source +
-                "\"", parsePosition.getErrorIndex());
+            throw MathRuntimeException.createParseException("unparseable complex number: \"{0}\"",
+                                                            new Object[] { source },
+                                                            parsePosition.getErrorIndex());
         }
         return result;
     }
@@ -328,7 +276,6 @@ public class ComplexFormat extends Format implements Serializable {
         if (re == null) {
             // invalid real number
             // set index back to initial, error index should already be set
-            // character examined.
             pos.setIndex(initialIndex);
             return null;
         }
@@ -365,129 +312,19 @@ public class ComplexFormat extends Format implements Serializable {
         if (im == null) {
             // invalid imaginary number
             // set index back to initial, error index should already be set
-            // character examined.
             pos.setIndex(initialIndex);
             return null;
         }
 
         // parse imaginary character
-        int n = getImaginaryCharacter().length();
-        startIndex = pos.getIndex();
-        int endIndex = startIndex + n;
-        if ((startIndex >= source.length()) ||
-            (endIndex > source.length()) ||
-            source.substring(startIndex, endIndex).compareTo(
-            getImaginaryCharacter()) != 0) {
-            // set index back to initial, error index should be the start index
-            // character examined.
-            pos.setIndex(initialIndex);
-            pos.setErrorIndex(startIndex);
+        if (!parseFixedstring(source, getImaginaryCharacter(), pos)) {
             return null;
         }
-        pos.setIndex(endIndex);
 
         return new Complex(re.doubleValue(), im.doubleValue() * sign);
+
     }
      
-    /**
-     * Parses <code>source</code> until a non-whitespace character is found.
-     *
-     * @param source the string to parse
-     * @param pos input/ouput parsing parameter.  On output, <code>pos</code>
-     *        holds the index of the next non-whitespace character.
-     */
-    private void parseAndIgnoreWhitespace(String source, ParsePosition pos) {
-        parseNextCharacter(source, pos);
-        pos.setIndex(pos.getIndex() - 1);
-    }
-
-    /**
-     * Parses <code>source</code> until a non-whitespace character is found.
-     *
-     * @param source the string to parse
-     * @param pos input/ouput parsing parameter.
-     * @return the first non-whitespace character.
-     */
-    private char parseNextCharacter(String source, ParsePosition pos) {
-         int index = pos.getIndex();
-         int n = source.length();
-         char ret = 0;
-
-         if (index < n) {
-             char c;
-             do {
-                 c = source.charAt(index++);
-             } while (Character.isWhitespace(c) && index < n);
-             pos.setIndex(index);
-         
-             if (index < n) {
-                 ret = c;
-             }
-         }
-         
-         return ret;
-    }
-    
-    /**
-     * Parses <code>source</code> for a special double values.  These values
-     * include Double.NaN, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY.
-     *
-     * @param source the string to parse
-     * @param value the special value to parse.
-     * @param pos input/ouput parsing parameter.
-     * @return the special number.
-     */
-    private Number parseNumber(String source, double value, ParsePosition pos) {
-        Number ret = null;
-        
-        StringBuffer sb = new StringBuffer();
-        sb.append('(');
-        sb.append(value);
-        sb.append(')');
-        
-        int n = sb.length();
-        int startIndex = pos.getIndex();
-        int endIndex = startIndex + n;
-        if (endIndex < source.length()) {
-            if (source.substring(startIndex, endIndex).compareTo(sb.toString()) == 0) {
-                ret = new Double(value);
-                pos.setIndex(endIndex);
-            }
-        }
-        
-        return ret;
-    }
-    
-    /**
-     * Parses <code>source</code> for a number.  This method can parse normal,
-     * numeric values as well as special values.  These special values include
-     * Double.NaN, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY.
-     *
-     * @param source the string to parse
-     * @param format the number format used to parse normal, numeric values.
-     * @param pos input/ouput parsing parameter.
-     * @return the parsed number.
-     */
-    private Number parseNumber(String source, NumberFormat format, ParsePosition pos) {
-        int startIndex = pos.getIndex();
-        Number number = format.parse(source, pos);
-        int endIndex = pos.getIndex();
-        
-        // check for error parsing number
-        if (startIndex == endIndex) {
-            // try parsing special numbers
-            double[] special = {Double.NaN, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY};
-            for (int i = 0; i < special.length; ++i) {
-                number = parseNumber(source, special[i], pos);
-                if (number != null) {
-                    break;
-                }
-            }
-        }
-        
-        return number;
-    }
-
     /**
      * Parses a string to produce a object.
      *
@@ -499,6 +336,7 @@ public class ComplexFormat extends Format implements Serializable {
     public Object parseObject(String source, ParsePosition pos) {
         return parse(source, pos);
     }
+
     /**
      * Modify the imaginaryCharacter.
      * @param imaginaryCharacter The new imaginaryCharacter value.
@@ -540,4 +378,5 @@ public class ComplexFormat extends Format implements Serializable {
         }
         this.realFormat = realFormat;
     }
+
 }

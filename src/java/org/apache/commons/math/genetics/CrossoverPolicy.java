@@ -19,6 +19,7 @@ package org.apache.commons.math.genetics;
 /**
  * Policy used to create a pair of new chromosomes by performing a crossover
  * operation on a source pair of chromosomes.
+ * @version $Revision$ $Date$
  */
 public interface CrossoverPolicy {
     /**

@@ -127,7 +127,7 @@ import org.spaceroots.mantissa.estimation.EstimationException;
  * estimations, these operations run in O(n) time, where n is the
  * number of measurements.</p>
 
- * @version $Id: HarmonicCoefficientsGuesser.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
 
  */

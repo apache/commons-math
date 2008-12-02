@@ -58,15 +58,13 @@ public class Complex implements Serializable  {
     
     /** 
      * The imaginary part 
-     * @deprecated to be made final and private in 2.0
      */
-    protected double imaginary;
+    private final double imaginary;
     
     /** 
      * The real part 
-     * @deprecated to be made final and private in 2.0
      */
-    protected double real;
+    private final double real;
     
     /**
      * Create a complex number given the real and imaginary parts.
@@ -257,10 +255,7 @@ public class Complex implements Serializable  {
                 if (rhs.isNaN()) {
                     ret = this.isNaN();
                 } else {
-                ret = (Double.doubleToRawLongBits(real) ==
-                        Double.doubleToRawLongBits(rhs.getReal())) &&
-                    (Double.doubleToRawLongBits(imaginary) ==
-                        Double.doubleToRawLongBits(rhs.getImaginary())); 
+                    ret = (real == rhs.real) && (imaginary == rhs.imaginary); 
                 }
             } catch (ClassCastException ex) {
                 // ignore exception

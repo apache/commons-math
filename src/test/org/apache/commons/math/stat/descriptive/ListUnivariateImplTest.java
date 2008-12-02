@@ -62,7 +62,7 @@ public final class ListUnivariateImplTest extends TestCase {
     
     /** test stats */
     public void testStats() {
-        List externalList = new ArrayList();
+        List<Object> externalList = new ArrayList<Object>();
         
         DescriptiveStatistics u = new ListUnivariateImpl( externalList ); 
 
@@ -84,7 +84,7 @@ public final class ListUnivariateImplTest extends TestCase {
     }     
     
     public void testN0andN1Conditions() throws Exception {
-        List list = new ArrayList();
+        List<Object> list = new ArrayList<Object>();
         
         DescriptiveStatistics u = new ListUnivariateImpl( list );
                 
@@ -92,7 +92,7 @@ public final class ListUnivariateImplTest extends TestCase {
         assertTrue("Standard Deviation of n = 0 set should be NaN", Double.isNaN( u.getStandardDeviation() ) );
         assertTrue("Variance of n = 0 set should be NaN", Double.isNaN(u.getVariance() ) );
 
-        list.add( new Double(one));
+        list.add( Double.valueOf(one));
 
         assertTrue( "Mean of n = 1 set should be value of single item n1", u.getMean() == one);
         assertTrue( "StdDev of n = 1 set should be zero, instead it is: " + u.getStandardDeviation(), u.getStandardDeviation() == 0);
@@ -115,7 +115,7 @@ public final class ListUnivariateImplTest extends TestCase {
     }
 
     public void testProductAndGeometricMean() throws Exception {
-        ListUnivariateImpl u = new ListUnivariateImpl(new ArrayList());
+        ListUnivariateImpl u = new ListUnivariateImpl(new ArrayList<Object>());
         u.setWindowSize(10);
                 
         u.addValue( 1.0 );

@@ -69,9 +69,19 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
         incMoment = false;
         this.moment = m3;
     }
+     
+    /**
+     * Copy constructor, creates a new {@code Skewness} identical
+     * to the {@code original}
+     * 
+     * @param original the {@code Skewness} instance to copy
+     */
+    public Skewness(Skewness original) {
+        copy(original, this);
+    }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#increment(double)
+     * {@inheritDoc}
      */
     public void increment(final double d) {
         if (incMoment) {
@@ -102,14 +112,14 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getN()
+     * {@inheritDoc}
      */
     public long getN() {
         return moment.getN();
     }
     
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#clear()
+     * {@inheritDoc}
      */
     public void clear() {
         if (incMoment) {
@@ -169,5 +179,27 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
             skew = (n0 / ((n0 - 1) * (n0 - 2))) * accum3;
         }
         return skew;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public Skewness copy() {
+        Skewness result = new Skewness();
+        copy(this, result);
+        return result;
+    }
+    
+    /**
+     * Copies source to dest.
+     * <p>Neither source nor dest can be null.</p>
+     * 
+     * @param source Skewness to copy
+     * @param dest Skewness to copy to
+     * @throws NullPointerException if either source or dest is null
+     */
+    public static void copy(Skewness source, Skewness dest) {
+        dest.moment = new ThirdMoment((ThirdMoment) source.moment.copy());
+        dest.incMoment = source.incMoment;
     }
 }

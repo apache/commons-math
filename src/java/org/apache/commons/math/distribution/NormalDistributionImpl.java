@@ -35,12 +35,15 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     /** Serializable version identifier */
     private static final long serialVersionUID = 8589540077390120676L;
 
+    /** &sqrt;(2 &pi;) */
+    private static final double SQRT2PI = Math.sqrt(2 * Math.PI);
+
     /** The mean of this distribution. */
     private double mean = 0;
     
     /** The standard deviation of this distribution. */
     private double standardDeviation = 1;
-    
+
     /**
      * Create a normal distribution using the given mean and standard deviation.
      * @param mean mean for this distribution
@@ -95,6 +98,17 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
                 "Standard deviation must be positive.");
         }       
         standardDeviation = sd;
+    }
+
+    /**
+     * Return the probability density for a particular point.
+     *
+     * @param x The point at which the density should be computed.
+     * @return The pdf at point x.
+     */
+    public double density(Double x) {
+        double x0 = x - getMean();
+        return Math.exp(-x0 * x0 / (2 * getStandardDeviation() * getStandardDeviation())) / (getStandardDeviation() * SQRT2PI);
     }
 
     /**

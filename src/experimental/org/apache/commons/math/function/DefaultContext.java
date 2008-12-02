@@ -145,19 +145,19 @@ public class DefaultContext implements EvaluationContext {
         }
                 
         DefaultValue(double d) {
-            value = new Double(d);
+            value = Double.valueOf(d);
         }
 
         DefaultValue(float f) {
-            value = new Float(f);
+            value = Float.valueOf(f);
         }
 
         DefaultValue(int i) {
-            value = new Integer(i);
+            value = Integer.valueOf(i);
         }
 
         DefaultValue(long l) {
-            value = new Long(l);
+            value = Long.valueOf(l);
         }
         
         /* (non-Javadoc)

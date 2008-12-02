@@ -133,7 +133,7 @@ public class MessagesResources_fr
     { "unable to orthogonalize matrix in {0} iterations",
       "impossible de rendre la matrice orthogonale en {0} it\u00e9rations" },
 
-    // org.apache.commons.math.ode.AdaptiveStepsizeIntegrator
+    // org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator
     { "minimal step size ({0}) reached, integration needs {1}",
       "pas minimal ({0}) atteint, l''int\u00e9gration n\u00e9cessite {1}" },
     { "dimensions mismatch: state vector has dimension {0}," +
@@ -145,8 +145,8 @@ public class MessagesResources_fr
       "incompatibilit\u00e9 de dimensions entre le vecteur d''\u00e9tat ({0})," +
       " et le vecteur de tol\u00e9rance relative ({1})" },
 
-    // org.apache.commons.math.ode.AdaptiveStepsizeIntegrator,
-    // org.apache.commons.math.ode.RungeKuttaIntegrator
+    // org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator,
+    // org.apache.commons.math.ode.nonstiff.RungeKuttaIntegrator
     { "dimensions mismatch: ODE problem has dimension {0}," +
       " initial state vector has dimension {1}",
       "incompatibilit\u00e9 de dimensions entre le probl\u00e8me ODE ({0})," +
@@ -158,9 +158,153 @@ public class MessagesResources_fr
     { "too small integration interval: length = {0}",
       "intervalle d''int\u00e9gration trop petit : {0}" },
 
+    // org.apache.commons.math.ode.ContinuousOutputModel
+    // org.apache.commons.math.optimization.DirectSearchOptimizer
+    { "unexpected exception caught",
+      "exception inattendue lev\u00e9e" },
+
     // org.apache.commons.math.optimization.DirectSearchOptimizer
     { "none of the {0} start points lead to convergence",
-      "aucun des {0} points de d\u00e9part n''aboutit \u00e0 une convergence"  }
+      "aucun des {0} points de d\u00e9part n''aboutit \u00e0 une convergence"  },
+
+    // org.apache.commons.math.random.EmpiricalDistributionImpl
+    { "no bin selected",
+      "aucun compartiment s\u00e9lectionn\u00e9" },
+
+    // org.apache.commons.math.linear.EigenDecompositionImpl
+    { "cannot solve degree {0} equation",
+      "impossible de r\u00e9soudre une \u00e9quation de degr\u00e9 {0}" },
+    { "negative element on decomposed tridiagonal of {0}x{1} matrix",
+      "\u00e9l\u00e9ment n\u00e9gatif dans la d\u00e9composition tri-diagonale d''une matrice {0}x{1}" },
+
+    // org.apache.commons.math.linear.NonSquareMatrixException
+    { "a {0}x{1} matrix was provided instead of a square matrix",
+      "une matrice {0}x{1} a \u00e9t\u00e9 fournie \u00e0 la place d''une matrice carr\u00e9e" },
+
+    // org.apache.commons.math.linear.SingularMatrixException
+    { "matrix is singular",
+      "matrice singuli\u00e8re" },
+
+    // org.apache.commons.math.linear.RankDeficientMatrixException
+    { "matrix is rank-deficient",
+      "le rang de la matrice est inf\u00e9rieur \u00e0 sa dimension" },
+
+    // org.apache.commons.math.linear.RealVectorImpl
+    { "index {0} out of allowed range [{1}, {2}]",
+      "index {0} hors de la plage autoris\u00e9e [{1}, {2}]" },
+
+    // org.apache.commons.math.linear.BigMatrixImpl
+    // org.apache.commons.math.linear.RealMatrixImpl
+    { "row index {0} out of allowed range [{1}, {2}]",
+      "index de ligne {0} hors de la plage autoris\u00e9e [{1}, {2}]" },
+    { "column index {0} out of allowed range [{1}, {2}]",
+      "index de colonne {0} hors de la plage autoris\u00e9e [{1}, {2}]" },
+    { "no entry at indices ({0}, {1}) in a {2}x{3} matrix",
+      "pas d''entr\u00e9e aux indices ({0}, {1}) dans une matrice {2}x{3}" },
+    { "initial row {0} after final row {1}",
+      "ligne initiale {0} apr\u00e8s la ligne finale {1}" },
+    { "initial column {0} after final column {1}",
+      "colonne initiale {0} apr\u00e8s la colonne finale {1}" },
+    { "empty selected row index array",
+      "tableau des indices de lignes s\u00e9lectionn\u00e9es vide" },
+    { "empty selected column index array",
+      "tableau des indices de colonnes s\u00e9lectionn\u00e9es vide" },
+
+   // org.apache.commons.math.random.EmpiricalDistributionImpl
+   // org.apache.commons.math.random.ValueServer
+   { "URL {0} contains no data",
+     "l''adresse {0} ne contient aucune donn\u00e9e" },
+
+   // org.apache.commons.math.complex.ComplexFormat
+   { "unparseable complex number: \"{0}\"",
+     "\u00e9chec d''analyse du nombre complexe \"{0}\"" },
+
+   // org.apache.commons.math.fraction.FractionFormat
+   { "unparseable fraction number: \"{0}\"",
+     "\u00e9chec d''analyse du nombre rationnel \"{0}\"" },
+
+   // org.apache.commons.math.geometry.Vector3DFormat
+   { "unparseable 3D vector: \"{0}\"",
+     "\u00e9chec d''analyse du vecteur de dimension 3 \"{0}\"" },
+
+   // org.apache.commons.math.linear.RealVectorFormat
+   { "unparseable real vector: \"{0}\"",
+     "\u00e9chec d''analyse du vecteur r\u00e9el \"{0}\"" },
+
+   // org.apache.commons.math.util.ResizableDoubleArray
+   { "the index specified: {0} is larger than the current maximal index {1}",
+     "l''index sp\u00e9cifi\u00e9 ({0}) d\u00e9passe l''index maximal courant ({1})" },
+   { "elements cannot be retrieved from a negative array index {0}",
+     "impossible d''extraire un \u00e9l\u00e9ment \u00e0 un index n\u00e9gatif ({0})" },
+   { "cannot set an element at a negative index {0}",
+     "impossible de mettre un \u00e9l\u00e9ment \u00e0 un index n\u00e9gatif ({0})" },
+   { "cannot substitute an element from an empty array",
+     "impossible de substituer un \u00e9l\u00e9ment dans un tableau vide" },
+
+   // org.apache.commons.math.analysis.PolynomialFunctionLagrangeForm
+   { "identical abscissas x[{0}] == x[{1}] == {2} cause division by zero",
+     "division par z\u00e9ro caus\u00e9e par les abscisses identiques x[{0}] == x[{1}] == {2}" },
+
+   // org.apache.commons.math.fraction.Fraction
+   { "zero denominator in fraction {0}/{1}",
+     "d\u00e9nominateur null dans le nombre rationnel {0}/{1}" },
+   { "overflow in fraction {0}/{1}, cannot negate",
+     "d\u00e9passement de capacit\u00e9 pour la fraction {0}/{1}, son signe ne peut \u00eatre chang\u00e9" },
+   { "overflow, numerator too large after multiply: {0}",
+     "d\u00e9passement de capacit\u00e9 pour le num\u00e9rateur apr\u00e8s multiplication : {0}" },
+   { "the fraction to divide by must not be zero: {0}/{1}",
+     "division par un nombre rationnel nul : {0}/{1}" },
+
+   // org.apache.commons.math.geometry.Rotation
+   { "zero norm for rotation axis",
+     "norme nulle pour un axe de rotation" },
+
+   // org.apache.commons.math.geometry.Vector3D
+   // org.apache.commons.math.linear.RealVectorImpl
+   { "cannot normalize a zero norm vector",
+     "impossible de normer un vecteur de norme nulle" },
+   { "zero norm",
+     "norme nulle" },
+
+   // org.apache.commons.math.analysis.UnivariateRealIntegratorImpl
+   // org.apache.commons.math.analysis.UnivariateRealSolverImpl
+   { "no result available",
+     "aucun r\u00e9sultat n''est disponible" },
+
+   // org.apache.commons.math.linear.BigMatrixImpl
+   { "first {0} rows are not initialized yet",
+     "les {0} premi\u00e8res lignes ne sont pas encore initialis\u00e9es" },
+   { "first {0} columns are not initialized yet",
+     "les {0} premi\u00e8res colonnes ne sont pas encore initialis\u00e9es" },
+
+   // org.apache.commons.math.linear.EigenDecompositionImpl
+   // org.apache.commons.math.linear.LUDecompositionImpl
+   // org.apache.commons.math.linear.QRDecompositionImpl
+   // org.apache.commons.math.linear.SingularValueDecompositionImpl
+   { "no matrix have been decomposed yet",
+     "aucune matrice n''a encore \u00e9t\u00e9 d\u00e9compos\u00e9e" },
+
+   // org.apache.commons.math.random.EmpiricalDistributionImpl
+   { "distribution not loaded",
+     "aucune distribution n''a \u00e9t\u00e9 charg\u00e9e" },
+
+   // org.apache.commons.math.random.ValueServer
+   { "unknown mode {0}, known modes: {1} ({2}), {3} ({4}), {5} ({6}), {7} ({8}), {9} ({10}) and {11} ({12})",
+     "mode {0} inconnu, modes connus : {1} ({2}), {3} ({4}), {5} ({6}), {7} ({8}), {9} ({10}) et {11} ({12})" },
+   { "digest not initialized",
+     "mod\u00e8le empirique non initialis\u00e9" },
+
+   // org.apache.commons.math.stat.descriptive.moment.GeometricMean
+   // org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics
+   // org.apache.commons.math.stat.descriptive.SummaryStatistics
+   { "{0} values have been added before statistic is configured",
+     "{0} valeurs ont \u00e9t\u00e9 ajout\u00e9es avant que la statistique ne soit configur\u00e9e" },
+
+   // org.apache.commons.math.stat.descriptive.moment.Kurtosis
+   { "statistics constructed from external moments cannot be incremented",
+     "les statistiques bas\u00e9es sur des moments externes ne peuvent pas \u00eatre incr\u00e9ment\u00e9es" },
+   { "statistics constructed from external moments cannot be cleared",
+     "les statistiques bas\u00e9es sur des moments externes ne peuvent pas \u00eatre remises \u00e0 z\u00e9ro" }
 
   };
 

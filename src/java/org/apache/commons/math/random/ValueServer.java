@@ -17,11 +17,12 @@
 
 package org.apache.commons.math.random;
 import java.io.BufferedReader;
-import java.io.EOFException;
-import java.io.InputStreamReader;
 import java.io.IOException;
-import java.net.URL;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.apache.commons.math.MathRuntimeException;
 
 /**
  * Generates values for use in simulation applications.
@@ -105,8 +106,18 @@ public class ValueServer {
             case EXPONENTIAL_MODE: return getNextExponential();
             case GAUSSIAN_MODE: return getNextGaussian();
             case CONSTANT_MODE: return mu;
-            default: throw new IllegalStateException
-                       ("Bad mode: " + mode);
+            default: throw MathRuntimeException.createIllegalStateException("unknown mode {0}, known modes: " +
+                                                                            "{1} ({2}), {3} ({4}), {5} ({6}), " +
+                                                                            "{7} ({8}), {9} ({10}) and {11} ({12})",
+                                                                            new Object[] {
+                                                                                mode,
+                                                                                "DIGEST_MODE",      DIGEST_MODE,
+                                                                                "REPLAY_MODE",      REPLAY_MODE,
+                                                                                "UNIFORM_MODE",     UNIFORM_MODE,
+                                                                                "EXPONENTIAL_MODE", EXPONENTIAL_MODE,
+                                                                                "GAUSSIAN_MODE",    GAUSSIAN_MODE,
+                                                                                "CONSTANT_MODE",    CONSTANT_MODE
+                                                                            });
         }
     }
 
@@ -295,7 +306,7 @@ public class ValueServer {
     private double getNextDigest() {
         if ((empiricalDistribution == null) ||
             (empiricalDistribution.getBinStats().size() == 0)) {
-            throw new IllegalStateException("Digest not initialized");
+            throw MathRuntimeException.createIllegalStateException("digest not initialized", null);
         }
         return empiricalDistribution.getNextValue();
     }
@@ -328,7 +339,8 @@ public class ValueServer {
             closeReplayFile();
             resetReplayFile();
             if ((str = filePointer.readLine()) == null) {
-                throw new EOFException("URL " + valuesFileURL + " contains no data");
+                throw MathRuntimeException.createEOFException("URL {0} contains no data",
+                                                              new Object[] { valuesFileURL });
             }
         }
         return Double.valueOf(str).doubleValue();

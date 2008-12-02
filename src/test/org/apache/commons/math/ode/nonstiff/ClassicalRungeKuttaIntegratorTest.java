@@ -1,0 +1,247 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.apache.commons.math.ode.nonstiff;
+
+import junit.framework.*;
+
+import org.apache.commons.math.ode.DerivativeException;
+import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
+import org.apache.commons.math.ode.FirstOrderIntegrator;
+import org.apache.commons.math.ode.IntegratorException;
+import org.apache.commons.math.ode.events.EventHandler;
+import org.apache.commons.math.ode.nonstiff.ClassicalRungeKuttaIntegrator;
+import org.apache.commons.math.ode.sampling.StepHandler;
+import org.apache.commons.math.ode.sampling.StepInterpolator;
+
+public class ClassicalRungeKuttaIntegratorTest
+  extends TestCase {
+
+  public ClassicalRungeKuttaIntegratorTest(String name) {
+    super(name);
+  }
+
+  public void testSanityChecks() {
+    try  {
+      TestProblem1 pb = new TestProblem1();
+      new ClassicalRungeKuttaIntegrator(0.01).integrate(pb,
+                                                        0.0, new double[pb.getDimension()+10],
+                                                        1.0, new double[pb.getDimension()]);
+        fail("an exception should have been thrown");
+    } catch(DerivativeException de) {
+      fail("wrong exception caught");
+    } catch(IntegratorException ie) {
+    }
+    try  {
+        TestProblem1 pb = new TestProblem1();
+        new ClassicalRungeKuttaIntegrator(0.01).integrate(pb,
+                                                          0.0, new double[pb.getDimension()],
+                                                          1.0, new double[pb.getDimension()+10]);
+          fail("an exception should have been thrown");
+      } catch(DerivativeException de) {
+        fail("wrong exception caught");
+      } catch(IntegratorException ie) {
+      }
+    try  {
+      TestProblem1 pb = new TestProblem1();
+      new ClassicalRungeKuttaIntegrator(0.01).integrate(pb,
+                                                        0.0, new double[pb.getDimension()],
+                                                        0.0, new double[pb.getDimension()]);
+        fail("an exception should have been thrown");
+    } catch(DerivativeException de) {
+      fail("wrong exception caught");
+    } catch(IntegratorException ie) {
+    }
+  }
+  
+  public void testDecreasingSteps()
+    throws DerivativeException, IntegratorException  {
+      
+    TestProblemAbstract[] problems = TestProblemFactory.getProblems();
+    for (int k = 0; k < problems.length; ++k) {
+
+      double previousError = Double.NaN;
+      for (int i = 4; i < 10; ++i) {
+
+        TestProblemAbstract pb = (TestProblemAbstract) problems[k].clone();
+        double step = (pb.getFinalTime() - pb.getInitialTime()) * Math.pow(2.0, -i);
+
+        FirstOrderIntegrator integ = new ClassicalRungeKuttaIntegrator(step);
+        TestProblemHandler handler = new TestProblemHandler(pb, integ);
+        integ.addStepHandler(handler);
+        EventHandler[] functions = pb.getEventsHandlers();
+        for (int l = 0; l < functions.length; ++l) {
+          integ.addEventHandler(functions[l],
+                                     Double.POSITIVE_INFINITY, 1.0e-6 * step, 1000);
+        }
+        assertEquals(functions.length, integ.getEventHandlers().size());
+        double stopTime = integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
+                                          pb.getFinalTime(), new double[pb.getDimension()]);
+        if (functions.length == 0) {
+            assertEquals(pb.getFinalTime(), stopTime, 1.0e-10);
+        }
+
+        double error = handler.getMaximalValueError();
+        if (i > 4) {
+          assertTrue(error < Math.abs(previousError));
+        }
+        previousError = error;
+        assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
+        integ.clearEventHandlers();
+        assertEquals(0, integ.getEventHandlers().size());
+      }
+
+    }
+
+  }
+
+  public void testSmallStep()
+    throws DerivativeException, IntegratorException {
+
+    TestProblem1 pb = new TestProblem1();
+    double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.001;
+
+    FirstOrderIntegrator integ = new ClassicalRungeKuttaIntegrator(step);
+    TestProblemHandler handler = new TestProblemHandler(pb, integ);
+    integ.addStepHandler(handler);
+    integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
+                    pb.getFinalTime(), new double[pb.getDimension()]);
+
+    assertTrue(handler.getLastError() < 2.0e-13);
+    assertTrue(handler.getMaximalValueError() < 4.0e-12);
+    assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
+    assertEquals("classical Runge-Kutta", integ.getName());
+  }
+
+  public void testBigStep()
+    throws DerivativeException, IntegratorException {
+
+    TestProblem1 pb = new TestProblem1();
+    double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.2;
+
+    FirstOrderIntegrator integ = new ClassicalRungeKuttaIntegrator(step);
+    TestProblemHandler handler = new TestProblemHandler(pb, integ);
+    integ.addStepHandler(handler);
+    integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
+                    pb.getFinalTime(), new double[pb.getDimension()]);
+
+    assertTrue(handler.getLastError() > 0.0004);
+    assertTrue(handler.getMaximalValueError() > 0.005);
+    assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
+
+  }
+
+  public void testBackward()
+    throws DerivativeException, IntegratorException {
+
+    TestProblem5 pb = new TestProblem5();
+    double step = Math.abs(pb.getFinalTime() - pb.getInitialTime()) * 0.001;
+
+    FirstOrderIntegrator integ = new ClassicalRungeKuttaIntegrator(step);
+    TestProblemHandler handler = new TestProblemHandler(pb, integ);
+    integ.addStepHandler(handler);
+    integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
+                    pb.getFinalTime(), new double[pb.getDimension()]);
+
+    assertTrue(handler.getLastError() < 5.0e-10);
+    assertTrue(handler.getMaximalValueError() < 7.0e-10);
+    assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
+    assertEquals("classical Runge-Kutta", integ.getName());
+  }
+
+  public void testKepler()
+    throws DerivativeException, IntegratorException {
+
+    final TestProblem3 pb  = new TestProblem3(0.9);
+    double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.0003;
+
+    FirstOrderIntegrator integ = new ClassicalRungeKuttaIntegrator(step);
+    integ.addStepHandler(new KeplerHandler(pb));
+    integ.integrate(pb,
+                    pb.getInitialTime(), pb.getInitialState(),
+                    pb.getFinalTime(), new double[pb.getDimension()]);
+  }
+
+  private static class KeplerHandler implements StepHandler {
+    private static final long serialVersionUID = 7510061424396717277L;
+    public KeplerHandler(TestProblem3 pb) {
+      this.pb = pb;
+      reset();
+    }
+    public boolean requiresDenseOutput() {
+      return false;
+    }
+    public void reset() {
+      maxError = 0;
+    }
+    public void handleStep(StepInterpolator interpolator,
+                           boolean isLast) {
+
+      double[] interpolatedY = interpolator.getInterpolatedState ();
+      double[] theoreticalY  = pb.computeTheoreticalState(interpolator.getCurrentTime());
+      double dx = interpolatedY[0] - theoreticalY[0];
+      double dy = interpolatedY[1] - theoreticalY[1];
+      double error = dx * dx + dy * dy;
+      if (error > maxError) {
+        maxError = error;
+      }
+      if (isLast) {
+        // even with more than 1000 evaluations per period,
+        // RK4 is not able to integrate such an eccentric
+        // orbit with a good accuracy
+        assertTrue(maxError > 0.005);
+      }
+    }
+    private double maxError = 0;
+    private TestProblem3 pb;
+  }
+
+  public void testStepSize()
+    throws DerivativeException, IntegratorException {
+      final double step = 1.23456;
+      FirstOrderIntegrator integ = new ClassicalRungeKuttaIntegrator(step);
+      integ.addStepHandler(new StepHandler() {
+          private static final long serialVersionUID = 0L;
+          public void handleStep(StepInterpolator interpolator, boolean isLast) {
+              if (! isLast) {
+                  assertEquals(step,
+                               interpolator.getCurrentTime() - interpolator.getPreviousTime(),
+                               1.0e-12);
+              }
+          }
+          public boolean requiresDenseOutput() {
+              return false;
+          }
+          public void reset() {
+          }          
+      });
+      integ.integrate(new FirstOrderDifferentialEquations() {
+          private static final long serialVersionUID = 0L;
+          public void computeDerivatives(double t, double[] y, double[] dot) {
+              dot[0] = 1.0;
+          }
+          public int getDimension() {
+              return 1;
+          }
+      }, 0.0, new double[] { 0.0 }, 5.0, new double[1]);
+  }
+
+  public static Test suite() {
+    return new TestSuite(ClassicalRungeKuttaIntegratorTest.class);
+  }
+
+}

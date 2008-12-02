@@ -17,30 +17,25 @@
 
 package org.apache.commons.math.linear;
 
+import org.apache.commons.math.MathRuntimeException;
+
 /**
- * Thrown when an operation addresses a matrix coordinate (row,col)
+ * Thrown when an operation addresses a matrix coordinate (row, col)
  * which is outside of the dimensions of a matrix.
  * @version $Revision$ $Date$
  */
-public class MatrixIndexException extends RuntimeException {
+public class MatrixIndexException extends MathRuntimeException {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = -1341109412864309526L;
+    private static final long serialVersionUID = -2382324504109300625L;
 
     /**
-     * Default constructor.
-     * @deprecated as of 1.2 replaced by #MatrixIndexException(String)
+     * Constructs a new instance with specified formatted detail message.
+     * @param pattern format specifier
+     * @param arguments format arguments
      */
-    public MatrixIndexException() {
-        this(null);
-    }
-
-    /**
-     * Construct an exception with the given message and root cause.
-     * @param message descriptive error message.
-     */
-    public MatrixIndexException(String message) {
-        super(message);
+    public MatrixIndexException(final String pattern, final Object[] arguments) {
+      super(pattern, arguments);
     }
 
 }

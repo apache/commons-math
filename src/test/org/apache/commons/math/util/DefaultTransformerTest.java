@@ -31,7 +31,7 @@ public class DefaultTransformerTest extends TestCase {
      */
     public void testTransformDouble() throws Exception {
         double expected = 1.0;
-        Double input = new Double(expected);
+        Double input = Double.valueOf(expected);
         DefaultTransformer t = new DefaultTransformer();
         assertEquals(expected, t.transform(input), 1.0e-4);
     }
@@ -54,7 +54,7 @@ public class DefaultTransformerTest extends TestCase {
      */
     public void testTransformInteger() throws Exception {
         double expected = 1.0;
-        Integer input = new Integer(1);
+        Integer input = Integer.valueOf(1);
         DefaultTransformer t = new DefaultTransformer();
         assertEquals(expected, t.transform(input), 1.0e-4);
     }        

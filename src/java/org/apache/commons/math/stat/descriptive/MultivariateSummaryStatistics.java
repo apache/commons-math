@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 import org.apache.commons.math.DimensionMismatchException;
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.stat.descriptive.moment.GeometricMean;
 import org.apache.commons.math.stat.descriptive.moment.Mean;
@@ -62,7 +63,7 @@ import org.apache.commons.math.util.MathUtils;
  * threads is required.</p>
  *
  * @since 1.2
- * @version $Revision: 618097 $ $Date: 2008-02-03 22:39:08 +0100 (dim., 03 févr. 2008) $
+ * @version $Revision$ $Date$
  */
 public class MultivariateSummaryStatistics
   implements StatisticalMultivariateSummary, Serializable {
@@ -609,8 +610,8 @@ public class MultivariateSummaryStatistics
      */
     private void checkEmpty() {
         if (n > 0) {
-            throw new IllegalStateException(
-                "Implementations must be configured before values are added.");
+            throw MathRuntimeException.createIllegalStateException("{0} values have been added before statistic is configured",
+                                                                   new Object[] { n });
         }
     }
 

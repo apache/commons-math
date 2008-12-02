@@ -55,7 +55,17 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
     }
     
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#increment(double)
+     * Copy constructor, creates a new {@code Sum} identical
+     * to the {@code original}
+     * 
+     * @param original the {@code Sum} instance to copy
+     */
+    public Sum(Sum original) {
+        copy(original, this);
+    }
+    
+    /**
+     * {@inheritDoc}
      */
     public void increment(final double d) {
         if (n == 0) {
@@ -67,21 +77,21 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getResult()
+     * {@inheritDoc}
      */
     public double getResult() {
         return value;
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getN()
+     * {@inheritDoc}
      */
     public long getN() {
         return n;
     }
     
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#clear()
+     * {@inheritDoc}
      */
     public void clear() {
         value = Double.NaN;
@@ -111,6 +121,28 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
             }
         }
         return sum;
+    }
+    
+    /*
+     * {@inheritDoc}
+     */
+    public Sum copy() {
+        Sum result = new Sum();
+        copy(this, result);
+        return result;
+    }
+    
+    /**
+     * Copies source to dest.
+     * <p>Neither source nor dest can be null.</p>
+     * 
+     * @param source Sum to copy
+     * @param dest Sum to copy to
+     * @throws NullPointerException if either source or dest is null
+     */
+    public static void copy(Sum source, Sum dest) {
+        dest.n = source.n;
+        dest.value = source.value;
     }
 
 }

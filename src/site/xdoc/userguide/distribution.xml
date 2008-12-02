@@ -40,35 +40,6 @@
           computation of inverse PDF and inverse CDF values.
         </p>
         <p>
-          In order to use the distribution framework, first a distribution object must
-          be created. It is encouraged that all distribution object creation occurs via
-          the <code>org.apache.commons.math.distribution.DistributionFactory</code>
-          class. <code>DistributionFactory</code> is a simple factory used to create all
-          of the distribution objects supported by Commons-Math. The typical usage of 
-          <code>DistributionFactory</code> to create a distribution object would be:
-        </p>
-        <source>DistributionFactory factory = DistributionFactory.newInstance();
-BinomialDistribution binomial = factory.createBinomialDistribution(10, .75);</source>
-        <p>
-          The distributions that can be instantiated via the <code>DistributionFactory</code>
-          are detailed below:
-          <table>
-            <tr><th>Distribution</th><th>Factory Method</th><th>Parameters</th></tr>
-            <tr><td>Binomial</td><td>createBinomialDistribution</td><td><div>Number of trials</div><div>Probability of success</div></td></tr>
-            <tr><td>Cauchy</td><td>createCauchyDistribution</td><td><div>Median</div><div>Scale</div></td></tr>
-            <tr><td>Chi-Squared</td><td>createChiSquaredDistribution</td><td><div>Degrees of freedom</div></td></tr>
-            <tr><td>Exponential</td><td>createExponentialDistribution</td><td><div>Mean</div></td></tr>
-            <tr><td>F</td><td>createFDistribution</td><td><div>Numerator degrees of freedom</div><div>Denominator degrees of freedom</div></td></tr>
-            <tr><td>Gamma</td><td>createGammaDistribution</td><td><div>Alpha</div><div>Beta</div></td></tr>
-            <tr><td>Hypergeometric</td><td>createHypergeometricDistribution</td><td><div>Population size</div><div>Number of successes in population</div><div>Sample size</div></td></tr>
-            <tr><td>Normal (Gaussian)</td><td>createNormalDistribution</td><td><div>Mean</div><div>Standard Deviation</div></td></tr>
-            <tr><td>Poisson</td><td>createPoissonDistribution</td><td><div>Mean</div></td></tr>
-            <tr><td>t</td><td>createTDistribution</td><td><div>Degrees of freedom</div></td></tr>
-            <tr><td>Weibull</td><td>createWeibullDistribution</td><td><div>Shape</div><div>Scale</div><div>Location</div></td></tr>
-            <tr><td>Pascal</td><td>createPascalDistribution</td><td><div>numberOfSuccesses</div><div>probabilityOfSuccess</div></td></tr>
-          </table>
-        </p>
-        <p>
           Using a distribution object, PDF and CDF probabilities are easily computed
           using the <code>cumulativeProbability</code> methods.  For a distribution <code>X</code>,
           and a domain value, <code>x</code>,  <code>cumulativeProbability</code> computes

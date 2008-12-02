@@ -32,6 +32,9 @@ package org.apache.commons.math.random;
  */
 public abstract class AbstractRandomGenerator implements RandomGenerator {
     
+    /** Serializable version identifier. */
+    private static final long serialVersionUID = 7026539017027693474L;
+
     /** 
      * Cached random normal value.  The default implementation for 
      * {@link #nextGaussian} generates pairs of values and this field caches the

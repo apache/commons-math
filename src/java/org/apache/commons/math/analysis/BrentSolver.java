@@ -26,7 +26,7 @@ import org.apache.commons.math.MaxIterationsExceededException;
  * <p>
  * The function should be continuous but not necessarily smooth.</p>
  *  
- * @version $Revision$ $Date$
+ * @version $Revision:670469 $ $Date:2008-06-23 10:01:38 +0200 (lun., 23 juin 2008) $
  */
 public class BrentSolver extends UnivariateRealSolverImpl {
     

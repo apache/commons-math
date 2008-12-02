@@ -14,19 +14,19 @@
 package org.apache.commons.math.stat.descriptive;
 
 import junit.framework.Test;
+import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.apache.commons.math.stat.descriptive.rank.Percentile;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * Test cases for the DescriptiveStatistics class.
- * When DescriptiveStatisticsImpl is removed, this class should replace
- * DescriptiveStatisticsAbstractTest
  * 
- * @version $Revision: 592121 $ $Date: 2007-08-16 15:36:33 -0500 (Thu, 16 Aug
+ * @version $Revision$ $Date: 2007-08-16 15:36:33 -0500 (Thu, 16 Aug
  *          2007) $
  */
-public final class DescriptiveStatisticsTest extends DescriptiveStatisticsAbstractTest {
+public class DescriptiveStatisticsTest extends TestCase {
 
     public DescriptiveStatisticsTest(String name) {
         super(name);
@@ -36,10 +36,6 @@ public final class DescriptiveStatisticsTest extends DescriptiveStatisticsAbstra
         TestSuite suite = new TestSuite(DescriptiveStatisticsTest.class);
         suite.setName("DescriptiveStatistics Tests");
         return suite;
-    }
-
-    protected DescriptiveStatistics createDescriptiveStatistics() {
-        return new DescriptiveStatistics();
     }
     
     public void testSetterInjection() throws Exception {
@@ -75,6 +71,35 @@ public final class DescriptiveStatisticsTest extends DescriptiveStatisticsAbstra
             // expected
         }
     }
+    public void testRemoval() {
+
+        final DescriptiveStatistics dstat = new DescriptiveStatistics();
+
+        checkremoval(dstat, 1, 6.0, 0.0, Double.NaN);
+        checkremoval(dstat, 3, 5.0, 3.0, 4.5);
+        checkremoval(dstat, 6, 3.5, 2.5, 3.0);
+        checkremoval(dstat, 9, 3.5, 2.5, 3.0);
+        checkremoval(dstat, DescriptiveStatistics.INFINITE_WINDOW, 3.5, 2.5, 3.0);
+
+    }
+
+    public void checkremoval(DescriptiveStatistics dstat, int wsize,
+                             double mean1, double mean2, double mean3) {
+
+        dstat.setWindowSize(wsize);
+        dstat.clear();
+
+        for (int i = 1 ; i <= 6 ; ++i) {
+            dstat.addValue(i);
+        }
+
+        assertTrue(MathUtils.equals(mean1, dstat.getMean()));
+        dstat.replaceMostRecentValue(0);
+        assertTrue(MathUtils.equals(mean2, dstat.getMean()));
+        dstat.removeMostRecentValue();
+        assertTrue(MathUtils.equals(mean3, dstat.getMean()));
+
+    }
     
     // Test UnivariateStatistics impls for setter injection tests
     
@@ -91,6 +116,9 @@ public final class DescriptiveStatisticsTest extends DescriptiveStatisticsAbstra
         public double evaluate(double[] values) {
             return 42;
         }  
+        public UnivariateStatistic copy() {
+            return new deepMean();
+        }
     }
     
     /**
@@ -108,6 +136,11 @@ public final class DescriptiveStatisticsTest extends DescriptiveStatisticsAbstra
         public double evaluate(double[] values) {
             return percentile.evaluate(values);
         }  
+        public UnivariateStatistic copy() {
+            goodPercentile result = new goodPercentile();
+            result.setQuantile(percentile.getQuantile());
+            return result;
+        }
     }
     
     /**
@@ -122,6 +155,10 @@ public final class DescriptiveStatisticsTest extends DescriptiveStatisticsAbstra
             return getQuantile();
         }  
         private static final long serialVersionUID = 8040701391045914979L;
+        public Percentile copy() {
+            subPercentile result = new subPercentile();
+            return result;
+        }
     }
     
     /**
@@ -135,6 +172,29 @@ public final class DescriptiveStatisticsTest extends DescriptiveStatisticsAbstra
         }
         public double evaluate(double[] values) {
             return percentile.evaluate(values);
-        }  
+        }
+        public UnivariateStatistic copy() {
+            return new badPercentile();
+        }
+    }
+    
+    private void checkSameResults(DescriptiveStatistics first,
+            DescriptiveStatistics second) throws Exception {
+        assertEquals(first.getGeometricMean(), second.getGeometricMean(), 0);
+        assertEquals(first.getKurtosis(), second.getKurtosis(), 0);
+        assertEquals(first.getMax(), second.getMax(), 0);
+        assertEquals(first.getMean(), second.getMean(), 0);
+        assertEquals(first.getMin(), second.getMin(), 0);
+        assertEquals(first.getN(), second.getN(), 0);
+        assertEquals(first.getPercentile(10), second.getPercentile(10), 0);
+        assertEquals(first.getSkewness(), second.getSkewness(), 0);
+        assertEquals(first.getStandardDeviation(),
+                second.getStandardDeviation(), 0);
+        assertEquals(first.getSum(), second.getSum(), 0);
+        assertEquals(first.getSumsq(), second.getSumsq(), 0);
+        assertEquals(first.getVariance(), second.getVariance(), 0);
+        assertEquals(first.eDA, second.eDA);
+        assertEquals(first.getWindowSize(), second.getWindowSize());
+        
     }
 }

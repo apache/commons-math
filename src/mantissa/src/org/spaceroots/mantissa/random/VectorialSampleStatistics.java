@@ -20,7 +20,7 @@ package org.spaceroots.mantissa.random;
 import org.spaceroots.mantissa.linalg.SymetricalMatrix;
 
 /** This class compute basic statistics on a scalar sample.
- * @version $Id: VectorialSampleStatistics.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
  */
 public class VectorialSampleStatistics {

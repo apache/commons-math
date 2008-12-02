@@ -18,7 +18,7 @@
 package org.spaceroots.mantissa.random;
 
 /** This class compute basic statistics on a scalar sample.
- * @version $Id: ScalarSampleStatistics.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
  */
 public class ScalarSampleStatistics {

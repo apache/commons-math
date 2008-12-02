@@ -60,21 +60,21 @@ public final class BeanListUnivariateImplTest extends TestCase {
         patientList = new ArrayList();
 
         // Create and add patient bean 1
-        VitalStats vs1 = new VitalStats( new Double(120.0), 
-                                         new Double(96.4) );
-        Patient p1 = new Patient( vs1, new Integer( 35 ) );
+        VitalStats vs1 = new VitalStats( Double.valueOf(120.0), 
+                                         Double.valueOf(96.4) );
+        Patient p1 = new Patient( vs1, Integer.valueOf( 35 ) );
         patientList.add( p1 );
 
         // Create and add patient bean 2
-        VitalStats vs2 = new VitalStats( new Double(70.0), 
-                                         new Double(97.4) );
-        Patient p2 = new Patient( vs2, new Integer( 23 ) );
+        VitalStats vs2 = new VitalStats( Double.valueOf(70.0), 
+                                         Double.valueOf(97.4) );
+        Patient p2 = new Patient( vs2, Integer.valueOf( 23 ) );
         patientList.add( p2 );
 
         // Create and add patient bean 3
-        VitalStats vs3 = new VitalStats( new Double(90.0), 
-                                         new Double(98.6) );
-        Patient p3 = new Patient( vs3, new Integer( 42 ) );
+        VitalStats vs3 = new VitalStats( Double.valueOf(90.0), 
+                                         Double.valueOf(98.6) );
+        Patient p3 = new Patient( vs3, Integer.valueOf( 42 ) );
         patientList.add( p3 );
     }
     

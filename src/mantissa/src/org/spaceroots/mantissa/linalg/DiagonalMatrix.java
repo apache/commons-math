@@ -19,7 +19,7 @@ package org.spaceroots.mantissa.linalg;
 
 /** This class implements diagonal matrices of linear algebra.
 
- * @version $Id: DiagonalMatrix.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
 
  */

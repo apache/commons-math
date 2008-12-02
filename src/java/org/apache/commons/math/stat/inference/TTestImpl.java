@@ -17,7 +17,6 @@
 package org.apache.commons.math.stat.inference;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.distribution.DistributionFactory;
 import org.apache.commons.math.distribution.TDistribution;
 import org.apache.commons.math.distribution.TDistributionImpl;
 import org.apache.commons.math.stat.StatUtils;
@@ -919,15 +918,6 @@ public class TTestImpl implements TTest  {
     
     //----------------------------------------------- Protected methods 
 
-    /**
-     * Gets a DistributionFactory to use in creating TDistribution instances.
-     * @return a distribution factory.
-     * @deprecated inject TDistribution directly instead of using a factory.
-     */
-    protected DistributionFactory getDistributionFactory() {
-        return DistributionFactory.newInstance();
-    }
-    
     /**
      * Computes approximate degrees of freedom for 2-sample t-test.
      * 

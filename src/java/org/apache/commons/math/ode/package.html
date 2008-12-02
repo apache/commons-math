@@ -17,7 +17,9 @@
   -->
     <!-- $Revision$ -->
 <body>
+<p>
 This package provides classes to solve Ordinary Differential Equations problems.
+</p>
 
 <p>
 This package solves Initial Value Problems of the form
@@ -32,31 +34,21 @@ All integrators provide dense output. This means that besides
 computing the state vector at discrete times, they also provide a
 cheap mean to get the state between the time steps. They do so through
 classes extending the {@link
-org.apache.commons.math.ode.StepInterpolator StepInterpolator}
+org.apache.commons.math.ode.sampling.StepInterpolator StepInterpolator}
 abstract class, which are made available to the user at the end of
 each step.
 </p>
 
 <p>
-All integrators handle multiple switching functions. This means that
-the integrator can be driven by discrete events (occurring when the
-signs of user-supplied {@link
-org.apache.commons.math.ode.SwitchingFunction switching functions}
-change). The steps are shortened as needed to ensure the events occur
+All integrators handle multiple discrete events detection based on switching
+functions. This means that the integrator can be driven by user specified
+discrete events. The steps are shortened as needed to ensure the events occur
 at step boundaries (even if the integrator is a fixed-step
 integrator). When the events are triggered, integration can be stopped
 (this is called a G-stop facility), the state vector can be changed,
 or integration can simply go on. The latter case is useful to handle
 discontinuities in the differential equations gracefully and get
-accurate dense output even close to the discontinuity. The events are
-detected when the functions signs are different at the beginning and
-end of the current step, or at several equidistant points inside the
-step if its length becomes larger than the maximal checking interval
-specified for the given switching function. This time interval should
-be set appropriately to avoid missing some switching function sign
-changes (it is possible to set it to
-<code>Double.POSITIVE_INFINITY</code> if the sign changes cannot be
-missed).
+accurate dense output even close to the discontinuity.
 </p>
 
 <p>
@@ -77,10 +69,10 @@ the integration process is copied in the <code>y</code> array of the
 FirstOrderIntegrator.integrate} method. The second one should be used
 when more in-depth information is needed throughout the integration
 process. The user can register an object implementing the {@link
-org.apache.commons.math.ode.StepHandler StepHandler} interface or a
-{@link org.apache.commons.math.ode.StepNormalizer StepNormalizer}
+org.apache.commons.math.ode.sampling.StepHandler StepHandler} interface or a
+{@link org.apache.commons.math.ode.sampling.StepNormalizer StepNormalizer}
 object wrapping a user-specified object implementing the {@link
-org.apache.commons.math.ode.FixedStepHandler FixedStepHandler}
+org.apache.commons.math.ode.sampling.FixedStepHandler FixedStepHandler}
 interface into the integrator before calling the {@link
 org.apache.commons.math.ode.FirstOrderIntegrator#integrate
 FirstOrderIntegrator.integrate} method. The user object will be called
@@ -104,11 +96,11 @@ integrated problem by itself.
 
 <p>
 Other default implementations of the {@link
-org.apache.commons.math.ode.StepHandler StepHandler} interface are
+org.apache.commons.math.ode.sampling.StepHandler StepHandler} interface are
 available for general needs ({@link
-org.apache.commons.math.ode.DummyStepHandler DummyStepHandler}, {@link
-org.apache.commons.math.ode.StepNormalizer StepNormalizer}) and custom
-implementations can be developped for specific needs. As an example,
+org.apache.commons.math.ode.sampling.DummyStepHandler DummyStepHandler}, {@link
+org.apache.commons.math.ode.sampling.StepNormalizer StepNormalizer}) and custom
+implementations can be developed for specific needs. As an example,
 if an application is to be completely driven by the integration
 process, then most of the application code will be run inside a step
 handler specific to this application.
@@ -119,14 +111,14 @@ Some integrators (the simple ones) use fixed steps that are set at
 creation time. The more efficient integrators use variable steps that
 are handled internally in order to control the integration error with
 respect to a specified accuracy (these integrators extend the {@link
-org.apache.commons.math.ode.AdaptiveStepsizeIntegrator
+org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator
 AdaptiveStepsizeIntegrator} abstract class). In this case, the step
 handler which is called after each successful step shows up the
 variable stepsize. The {@link
-org.apache.commons.math.ode.StepNormalizer StepNormalizer} class can
+org.apache.commons.math.ode.sampling.StepNormalizer StepNormalizer} class can
 be used to convert the variable stepsize into a fixed stepsize that
 can be handled by classes implementing the {@link
-org.apache.commons.math.ode.FixedStepHandler FixedStepHandler}
+org.apache.commons.math.ode.sampling.FixedStepHandler FixedStepHandler}
 interface. Adaptive stepsize integrators can automatically compute the
 initial stepsize by themselves, however the user can specify it if he
 prefers to retain full control over the integration or if the
@@ -137,21 +129,21 @@ automatic guess is wrong.
 <table border="1" align="center">
 <tr BGCOLOR="#CCCCFF"><td colspan=2><font size="+2">Fixed Step Integrators</font></td></tr>
 <tr BGCOLOR="#EEEEFF"><font size="+1"><td>Name</td><td>Order</td></font></tr>
-<tr><td>{@link org.apache.commons.math.ode.EulerIntegrator Euler}</td><td>1</td></tr>
-<tr><td>{@link org.apache.commons.math.ode.MidpointIntegrator Midpoint}</td><td>2</td></tr>
-<tr><td>{@link org.apache.commons.math.ode.ClassicalRungeKuttaIntegrator Classical Runge-Kutta}</td><td>4</td></tr>
-<tr><td>{@link org.apache.commons.math.ode.GillIntegrator Gill}</td><td>4</td></tr>
-<tr><td>{@link org.apache.commons.math.ode.ThreeEighthesIntegrator 3/8}</td><td>4</td></tr>
+<tr><td>{@link org.apache.commons.math.ode.nonstiff.EulerIntegrator Euler}</td><td>1</td></tr>
+<tr><td>{@link org.apache.commons.math.ode.nonstiff.MidpointIntegrator Midpoint}</td><td>2</td></tr>
+<tr><td>{@link org.apache.commons.math.ode.nonstiff.ClassicalRungeKuttaIntegrator Classical Runge-Kutta}</td><td>4</td></tr>
+<tr><td>{@link org.apache.commons.math.ode.nonstiff.GillIntegrator Gill}</td><td>4</td></tr>
+<tr><td>{@link org.apache.commons.math.ode.nonstiff.ThreeEighthesIntegrator 3/8}</td><td>4</td></tr>
 </table>
 </p>
 
 <table border="1" align="center">
 <tr BGCOLOR="#CCCCFF"><td colspan=3><font size="+2">Adaptive Stepsize Integrators</font></td></tr>
 <tr BGCOLOR="#EEEEFF"><font size="+1"><td>Name</td><td>Integration Order</td><td>Error Estimation Order</td></font></tr>
-<tr><td>{@link org.apache.commons.math.ode.HighamHall54Integrator Higham and Hall}</td><td>5</td><td>4</td></tr>
-<tr><td>{@link org.apache.commons.math.ode.DormandPrince54Integrator Dormand-Prince 5(4)}</td><td>5</td><td>4</td></tr>
-<tr><td>{@link org.apache.commons.math.ode.DormandPrince853Integrator Dormand-Prince 8(5,3)}</td><td>8</td><td>5 and 3</td></tr>
-<tr><td>{@link org.apache.commons.math.ode.GraggBulirschStoerIntegrator Gragg-Bulirsch-Stoer}</td><td>variable (up to 18 by default)</td><td>variable</td></tr>
+<tr><td>{@link org.apache.commons.math.ode.nonstiff.HighamHall54Integrator Higham and Hall}</td><td>5</td><td>4</td></tr>
+<tr><td>{@link org.apache.commons.math.ode.nonstiff.DormandPrince54Integrator Dormand-Prince 5(4)}</td><td>5</td><td>4</td></tr>
+<tr><td>{@link org.apache.commons.math.ode.nonstiff.DormandPrince853Integrator Dormand-Prince 8(5,3)}</td><td>8</td><td>5 and 3</td></tr>
+<tr><td>{@link org.apache.commons.math.ode.nonstiff.GraggBulirschStoerIntegrator Gragg-Bulirsch-Stoer}</td><td>variable (up to 18 by default)</td><td>variable</td></tr>
 </table>
 </p>
 

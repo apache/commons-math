@@ -35,7 +35,7 @@ import java.io.Serializable;
  * specific shape to the general algorithms implemented by this
  * abstract class.</p>
 
- * @version $Id: Matrix.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
 
  */

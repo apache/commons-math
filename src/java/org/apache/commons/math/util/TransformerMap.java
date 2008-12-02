@@ -34,8 +34,8 @@ import org.apache.commons.math.MathException;
 public class TransformerMap implements NumberTransformer, Serializable {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = -942772950698439883L;
-    
+    private static final long serialVersionUID = 4605318041528645258L;
+
     /**
      * A default Number Transformer for Numbers and numeric Strings.
      */
@@ -44,13 +44,13 @@ public class TransformerMap implements NumberTransformer, Serializable {
     /**
      * The internal Map.
      */
-    private Map map = null;
+    private Map<Class<?>, NumberTransformer> map = null;
 
     /**
-     * 
+     * Build a map containing only the default transformer.
      */
     public TransformerMap() {
-        map = new HashMap();
+        map = new HashMap<Class<?>, NumberTransformer>();
         defaultTransformer = new DefaultTransformer();
     }
 
@@ -59,7 +59,7 @@ public class TransformerMap implements NumberTransformer, Serializable {
      * @param key Class to check
      * @return true|false
      */
-    public boolean containsClass(Class key) {
+    public boolean containsClass(Class<?> key) {
         return map.containsKey(key);
     }
 
@@ -78,7 +78,7 @@ public class TransformerMap implements NumberTransformer, Serializable {
      * @param key The Class of the object
      * @return the mapped NumberTransformer or null.
      */
-    public NumberTransformer getTransformer(Class key) {
+    public NumberTransformer getTransformer(Class<?> key) {
         return (NumberTransformer) map.get(key);
     }
 
@@ -90,7 +90,7 @@ public class TransformerMap implements NumberTransformer, Serializable {
      * @param transformer The NumberTransformer
      * @return the replaced transformer if one is present
      */
-    public Object putTransformer(Class key, NumberTransformer transformer) {
+    public NumberTransformer putTransformer(Class<?> key, NumberTransformer transformer) {
         return map.put(key, transformer);
     }
 
@@ -100,7 +100,7 @@ public class TransformerMap implements NumberTransformer, Serializable {
      * @return the removed transformer if one is present or
      * null if none was present.
      */
-    public Object removeTransformer(Class key) {
+    public NumberTransformer removeTransformer(Class<?> key) {
         return map.remove(key);
     }
 
@@ -115,7 +115,7 @@ public class TransformerMap implements NumberTransformer, Serializable {
      * Returns the Set of Classes used as keys in the map.
      * @return Set of Classes
      */
-    public Set classes() {
+    public Set<Class<?>> classes() {
         return map.keySet();
     }
 
@@ -124,7 +124,7 @@ public class TransformerMap implements NumberTransformer, Serializable {
      * in the map.
      * @return Set of NumberTransformers
      */
-    public Collection transformers() {
+    public Collection<NumberTransformer> transformers() {
         return map.values();
     }
 

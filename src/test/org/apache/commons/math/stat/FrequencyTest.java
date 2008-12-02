@@ -71,7 +71,7 @@ public final class FrequencyTest extends TestCase {
         assertEquals("zero cumulative frequency", 0, f.getCumFreq(0));
         assertEquals("one cumulative frequency", 3,  f.getCumFreq(1));
         assertEquals("two cumulative frequency", 4,  f.getCumFreq(2));
-        assertEquals("Integer argument cum freq",4, f.getCumFreq(new Integer(2)));
+        assertEquals("Integer argument cum freq",4, f.getCumFreq(Integer.valueOf(2)));
         assertEquals("five cumulative frequency", 4,  f.getCumFreq(5));
         assertEquals("foo cumulative frequency", 0,  f.getCumFreq("foo"));
         
@@ -92,14 +92,14 @@ public final class FrequencyTest extends TestCase {
         f = null;
         Frequency f = new Frequency();
         f.addValue(1);
-        f.addValue(new Integer(1));
-        f.addValue(new Long(1));
+        f.addValue(Integer.valueOf(1));
+        f.addValue(Long.valueOf(1));
         f.addValue(2);
-        f.addValue(new Integer(-1));
+        f.addValue(Integer.valueOf(-1));
         assertEquals("1 count", 3, f.getCount(1));
-        assertEquals("1 count", 3, f.getCount(new Integer(1)));
+        assertEquals("1 count", 3, f.getCount(Integer.valueOf(1)));
         assertEquals("0 cum pct", 0.2, f.getCumPct(0), tolerance);
-        assertEquals("1 pct", 0.6, f.getPct(new Integer(1)), tolerance);
+        assertEquals("1 pct", 0.6, f.getPct(Integer.valueOf(1)), tolerance);
         assertEquals("-2 cum pct", 0, f.getCumPct(-2), tolerance);
         assertEquals("10 cum pct", 1, f.getCumPct(10), tolerance);   
         
@@ -141,13 +141,13 @@ public final class FrequencyTest extends TestCase {
         f.addValue(3);
         f.addValue(threeI);
         assertEquals("one pct",0.25,f.getPct(1),tolerance);
-        assertEquals("two pct",0.25,f.getPct(new Long(2)),tolerance);
+        assertEquals("two pct",0.25,f.getPct(Long.valueOf(2)),tolerance);
         assertEquals("three pct",0.5,f.getPct(threeL),tolerance);
         assertEquals("five pct",0,f.getPct(5),tolerance);
         assertEquals("foo pct",0,f.getPct("foo"),tolerance);
         assertEquals("one cum pct",0.25,f.getCumPct(1),tolerance);
-        assertEquals("two cum pct",0.50,f.getCumPct(new Long(2)),tolerance);
-        assertEquals("Integer argument",0.50,f.getCumPct(new Integer(2)),tolerance);
+        assertEquals("two cum pct",0.50,f.getCumPct(Long.valueOf(2)),tolerance);
+        assertEquals("Integer argument",0.50,f.getCumPct(Integer.valueOf(2)),tolerance);
         assertEquals("three cum pct",1.0,f.getCumPct(threeL),tolerance);
         assertEquals("five cum pct",1.0,f.getCumPct(5),tolerance);
         assertEquals("zero cum pct",0.0,f.getCumPct(0),tolerance);
@@ -177,13 +177,13 @@ public final class FrequencyTest extends TestCase {
     public void testEmptyTable() {
         assertEquals("freq sum, empty table", 0, f.getSumFreq());
         assertEquals("count, empty table", 0, f.getCount(0));
-        assertEquals("count, empty table",0, f.getCount(new Integer(0)));
+        assertEquals("count, empty table",0, f.getCount(Integer.valueOf(0)));
         assertEquals("cum freq, empty table", 0, f.getCumFreq(0));
         assertEquals("cum freq, empty table", 0, f.getCumFreq("x"));
         assertTrue("pct, empty table", Double.isNaN(f.getPct(0)));
-        assertTrue("pct, empty table", Double.isNaN(f.getPct(new Integer(0))));
+        assertTrue("pct, empty table", Double.isNaN(f.getPct(Integer.valueOf(0))));
         assertTrue("cum pct, empty table", Double.isNaN(f.getCumPct(0)));
-        assertTrue("cum pct, empty table", Double.isNaN(f.getCumPct(new Integer(0))));   
+        assertTrue("cum pct, empty table", Double.isNaN(f.getCumPct(Integer.valueOf(0))));   
     }
     
     /**
@@ -217,18 +217,18 @@ public final class FrequencyTest extends TestCase {
     }
     public void testIntegerValues() {
         Object obj1 = null;
-        obj1 = new Integer(1);
-        Integer int1 = new Integer(1);
+        obj1 = Integer.valueOf(1);
+        Integer int1 = Integer.valueOf(1);
         f.addValue(obj1);
         f.addValue(int1);
         f.addValue(2);
-        f.addValue(new Long(2));
+        f.addValue(Long.valueOf(2));
         assertEquals("Integer 1 count", 2, f.getCount(1));
-        assertEquals("Integer 1 count", 2, f.getCount(new Integer(1)));
-        assertEquals("Integer 1 count", 2, f.getCount(new Long(1)));
+        assertEquals("Integer 1 count", 2, f.getCount(Integer.valueOf(1)));
+        assertEquals("Integer 1 count", 2, f.getCount(Long.valueOf(1)));
         assertEquals("Integer 1 cumPct", 0.5, f.getCumPct(1), tolerance);
-        assertEquals("Integer 1 cumPct", 0.5, f.getCumPct(new Long(1)), tolerance);
-        assertEquals("Integer 1 cumPct", 0.5, f.getCumPct(new Integer(1)), tolerance);
+        assertEquals("Integer 1 cumPct", 0.5, f.getCumPct(Long.valueOf(1)), tolerance);
+        assertEquals("Integer 1 cumPct", 0.5, f.getCumPct(Integer.valueOf(1)), tolerance);
         Iterator it = f.valuesIterator();
         while (it.hasNext()) {
             assertTrue(it.next() instanceof Long);

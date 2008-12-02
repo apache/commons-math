@@ -63,6 +63,15 @@ public final class SimpleRegressionTest extends TestCase {
     };
     
     /*
+     * Points to remove in the remove tests
+     */
+    private double[][] removeSingle = {infData[1]};
+    private double[][] removeMultiple = { infData[1], infData[2] };
+    private double removeX = infData[0][0];
+    private double removeY = infData[0][1];
+    
+            
+    /*
      * Data with bad linear fit
      */
     private double[][] infData2 = { { 1, 1 }, {2, 0 }, {3, 5 }, {4, 2 },
@@ -275,4 +284,90 @@ public final class SimpleRegressionTest extends TestCase {
         }
         assertTrue(reg.getSumSquaredErrors() >= 0.0);
     } 
+    
+    // Test remove X,Y (single observation)
+    public void testRemoveXY() throws Exception {
+        // Create regression with inference data then remove to test
+        SimpleRegression regression = new SimpleRegression();
+        regression.addData(infData);
+        regression.removeData(removeX, removeY);
+        regression.addData(removeX, removeY);
+        // Use the inference assertions to make sure that everything worked
+        assertEquals("slope std err", 0.011448491,
+                regression.getSlopeStdErr(), 1E-10);
+        assertEquals("std err intercept", 0.286036932,
+                regression.getInterceptStdErr(),1E-8);
+        assertEquals("significance", 4.596e-07,
+                regression.getSignificance(),1E-8);    
+        assertEquals("slope conf interval half-width", 0.0270713794287, 
+                regression.getSlopeConfidenceInterval(),1E-8);
+     }
+    
+    
+    // Test remove single observation in array
+    public void testRemoveSingle() throws Exception {
+        // Create regression with inference data then remove to test
+        SimpleRegression regression = new SimpleRegression();
+        regression.addData(infData);
+        regression.removeData(removeSingle);
+        regression.addData(removeSingle);
+        // Use the inference assertions to make sure that everything worked
+        assertEquals("slope std err", 0.011448491,
+                regression.getSlopeStdErr(), 1E-10);
+        assertEquals("std err intercept", 0.286036932,
+                regression.getInterceptStdErr(),1E-8);
+        assertEquals("significance", 4.596e-07,
+                regression.getSignificance(),1E-8);    
+        assertEquals("slope conf interval half-width", 0.0270713794287, 
+                regression.getSlopeConfidenceInterval(),1E-8);
+     }
+    
+    // Test remove multiple observations
+    public void testRemoveMultiple() throws Exception {
+        // Create regression with inference data then remove to test
+        SimpleRegression regression = new SimpleRegression();
+        regression.addData(infData);
+        regression.removeData(removeMultiple);
+        regression.addData(removeMultiple);
+        // Use the inference assertions to make sure that everything worked
+        assertEquals("slope std err", 0.011448491,
+                regression.getSlopeStdErr(), 1E-10);
+        assertEquals("std err intercept", 0.286036932,
+                regression.getInterceptStdErr(),1E-8);
+        assertEquals("significance", 4.596e-07,
+                regression.getSignificance(),1E-8);    
+        assertEquals("slope conf interval half-width", 0.0270713794287, 
+                regression.getSlopeConfidenceInterval(),1E-8);
+     }
+    
+    // Remove observation when empty
+    public void testRemoveObsFromEmpty() {
+        SimpleRegression regression = new SimpleRegression();
+        regression.removeData(removeX, removeY);
+        assertEquals(regression.getN(), 0);
+    }
+    
+    // Remove single observation to empty
+    public void testRemoveObsFromSingle() {
+        SimpleRegression regression = new SimpleRegression();
+        regression.addData(removeX, removeY);
+        regression.removeData(removeX, removeY);
+        assertEquals(regression.getN(), 0);
+    }
+    
+    // Remove multiple observations to empty
+    public void testRemoveMultipleToEmpty() {
+        SimpleRegression regression = new SimpleRegression();
+        regression.addData(removeMultiple);
+        regression.removeData(removeMultiple);
+        assertEquals(regression.getN(), 0);
+    }
+    
+    // Remove multiple observations past empty (i.e. size of array > n)
+    public void testRemoveMultiplePastEmpty() {
+        SimpleRegression regression = new SimpleRegression();
+        regression.addData(removeX, removeY);
+        regression.removeData(removeMultiple);
+        assertEquals(regression.getN(), 0);
+    }
 }

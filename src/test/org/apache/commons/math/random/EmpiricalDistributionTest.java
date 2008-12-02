@@ -16,17 +16,17 @@
  */
 package org.apache.commons.math.random;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.RetryTestCase;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
@@ -58,7 +58,7 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
                 new BufferedReader(new InputStreamReader(
                         url.openStream()));
         String str = null;
-        ArrayList list = new ArrayList();
+        ArrayList<Double> list = new ArrayList<Double>();
         while ((str = in.readLine()) != null) {
             list.add(Double.valueOf(str));
         }
@@ -67,8 +67,8 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
         
         dataArray = new double[list.size()];
         int i = 0;
-        for (Iterator iter = list.iterator(); iter.hasNext();) {
-            dataArray[i] = ((Double)iter.next()).doubleValue();
+        for (Double data : list) {
+            dataArray[i] = data.doubleValue();
             i++;
         }                 
     }
@@ -142,7 +142,11 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
             empiricalDistribution.getNextValue();
             empiricalDistribution2.getNextValue();
             fail("Expecting IllegalStateException");
-        } catch (IllegalStateException ex) {;}
+        } catch (IllegalStateException ex) {
+            // expected
+        } catch (Exception e) {
+            fail("wrong exception caught");
+        }
     }
     
     /**
@@ -191,9 +195,10 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
         try {
             dist.load((double[]) null);
             fail("load((double[]) null) expected RuntimeException");
-        }
-        catch (RuntimeException e) {
+        } catch (MathRuntimeException e) {
             // expected
+        } catch (Exception e) {
+            fail("wrong exception caught");
         }
     }
 
@@ -202,9 +207,10 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
         try {
             dist.load((URL) null);
             fail("load((URL) null) expected NullPointerException");
-        }
-        catch (NullPointerException e) {
+        } catch (NullPointerException e) {
             // expected
+        } catch (Exception e) {
+            fail("wrong exception caught");
         }
     }
 
@@ -213,9 +219,10 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
         try {
             dist.load((File) null);
             fail("load((File) null) expected NullPointerException");
-        }
-        catch (NullPointerException e) {
+        } catch (NullPointerException e) {
             // expected
+        } catch (Exception e) {
+            fail("wrong exception caught");
         }
     }
 

@@ -21,7 +21,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 /**
  * Wrapper class for counting functions calls.
  *
- * @version $Revision: 480442 $ $Date: 2006-11-29 08:21:22 +0100 (mer., 29 nov. 2006) $ 
+ * @version $Revision$ $Date$ 
  */
 public class MonitoredFunction implements UnivariateRealFunction {
 

@@ -33,12 +33,12 @@ public class MathExceptionTest extends TestCase {
         MathException ex = new MathException();
         assertNull(ex.getCause());
         assertNull(ex.getMessage());
-        assertNull(ex.getMessage(Locale.FRENCH));
+        assertEquals(0, ex.getMessage(Locale.FRENCH).length());
     }
     
     public void testConstructorPatternArguments(){
         String pattern = "a {0}x{1} matrix cannot be a rotation matrix";
-        Object[] arguments = { new Integer(6), new Integer(4) };
+        Object[] arguments = { Integer.valueOf(6), Integer.valueOf(4) };
         MathException ex = new MathException(pattern, arguments);
         assertNull(ex.getCause());
         assertEquals(pattern, ex.getPattern());
@@ -59,7 +59,7 @@ public class MathExceptionTest extends TestCase {
 
     public void testConstructorPatternArgumentsCause(){
         String pattern = "a {0}x{1} matrix cannot be a rotation matrix";
-        Object[] arguments = { new Integer(6), new Integer(4) };
+        Object[] arguments = { Integer.valueOf(6), Integer.valueOf(4) };
         String inMsg = "inner message";
         Exception cause = new Exception(inMsg);
         MathException ex = new MathException(pattern, arguments, cause);
@@ -79,8 +79,8 @@ public class MathExceptionTest extends TestCase {
     public void testPrintStackTrace() {
         String outMsg = "outer message";
         String inMsg = "inner message";
-        MathException cause = new MathConfigurationException(inMsg, new Object[0]);
-        MathException ex = new MathException(outMsg, new Object[0], cause);
+        MathException cause = new MathConfigurationException(inMsg, null);
+        MathException ex = new MathException(outMsg, null, cause);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);
         ex.printStackTrace(ps);
@@ -104,8 +104,8 @@ public class MathExceptionTest extends TestCase {
     public void testSerialization() {
         String outMsg = "outer message";
         String inMsg = "inner message";
-        MathException cause = new MathConfigurationException(inMsg, new Object[0]);
-        MathException ex = new MathException(outMsg, new Object[0], cause);
+        MathException cause = new MathConfigurationException(inMsg, null);
+        MathException ex = new MathException(outMsg, null, cause);
         MathException image = (MathException) TestUtils.serializeAndRecover(ex);
         
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

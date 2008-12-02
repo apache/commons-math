@@ -120,7 +120,22 @@ public class NormalDistributionTest extends ContinuousDistributionAbstractTest  
             // Expected
         }
     }
-    
+
+    public void testDensity() {
+        double [] x = new double[]{-2, -1, 0, 1, 2};
+        // R 2.5: print(dnorm(c(-2,-1,0,1,2)), digits=10)
+        checkDensity(0, 1, x, new double[]{0.05399096651, 0.24197072452, 0.39894228040, 0.24197072452, 0.05399096651});
+        // R 2.5: print(dnorm(c(-2,-1,0,1,2), mean=1.1), digits=10) 
+        checkDensity(1.1, 1, x, new double[]{0.003266819056,0.043983595980,0.217852177033,0.396952547477,0.266085249899});
+    }
+
+    private void checkDensity(double mean, double sd, double[] x, double[] expected) {
+        NormalDistribution d = new NormalDistributionImpl(mean, sd);
+        for (int i = 0; i < x.length; i++) {
+            assertEquals(expected[i], d.density(x[i]), 1e-9);
+        }
+    }
+
     /**
      * Check to make sure top-coding of extreme values works correctly.
      * Verifies fix for JIRA MATH-167

@@ -45,16 +45,21 @@
         <p>
           Numerous constructors are available to create vectors. In addition to the
           straightforward cartesian coordinates constructor, a constructor using
-          azimuthal coodinates can build normalized vectors and linear constructors
+          azimuthal coordinates can build normalized vectors and linear constructors
           from one, two, three or four base vectors are also available. Constants have
-          been defined for the most commons vectors (plus and minus canonical axes and
-          null vector).
+          been defined for the most commons vectors (plus and minus canonical axes,
+          null vector, and special vectors with infinite or NaN coordinates).
         </p>
         <p>
           The generic vectorial space operations are available including dot product,
           normalization, orthogonal vector finding and angular separation computation
           which have a specific meaning in 3D. The 3D geometry specific cross product
           is of course also implemented.
+        </p>
+        <p>
+          <a href="../apidocs/org/apache/commons/math/geometry/Vector3DFormat.html">
+          org.apache.commons.math.geometry.Vector3DFormat</a> is a specialized format
+          for formatting output or parsing input with text representation of 3D vectors.
         </p>
       </subsection>
       <subsection name="11.3 Rotations" href="rotations">
@@ -91,7 +96,7 @@
           these vectors may vary as well as the semantics of the rotation.
         </p>
         <p>
-          For example in an spacecraft attitude simulation tool, users will
+          For example in a spacecraft attitude simulation tool, users will
           often consider the vectors are fixed (say the Earth direction for
           example) and the rotation transforms the coordinates coordinates of
           this vector in inertial frame into the coordinates of the same vector

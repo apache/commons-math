@@ -28,7 +28,7 @@ package org.spaceroots.mantissa.algebra;
  *  T<sub>k+1</sub>(X) = 2X T<sub>k</sub>(X) - T<sub>k-1</sub>(X)
  * </pre></p>
 
- * @version $Id: Chebyshev.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
 
  */

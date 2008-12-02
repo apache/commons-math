@@ -23,7 +23,7 @@ import java.util.Random;
  * {@link RandomGenerator}.   
  *
  * @since 1.1
- * @version $Revision:$ $Date$
+ * @version $Revision$ $Date$
  */
 public class RandomAdaptor extends Random implements RandomGenerator {
     

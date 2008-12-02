@@ -21,7 +21,7 @@ import org.spaceroots.mantissa.MantissaException;
 
 /** This class represents exceptions thrown by scalar functions.
 
- * @version $Id: FunctionException.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
 
  */

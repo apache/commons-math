@@ -50,9 +50,27 @@
 
   <!-- the following expositions of internal representation are intentional and documented -->
   <Match>
+    <Class name="org.apache.commons.math.ode.sampling.AbstractStepInterpolator"/>
+    <Or>
+      <Method name="getInterpolatedState" params="" returns="double[]" />
+      <Method name="getInterpolatedDerivatives" params="" returns="double[]" />
+    </Or>
+    <Bug pattern="EI_EXPOSE_REP" />
+  </Match>
+  <Match>
+    <Class name="org.apache.commons.math.linear.BigMatrixImpl"/>
+    <Method name="&lt;init>" params="java.math.BigDecimal[][],boolean" returns="void" />
+    <Bug pattern="EI_EXPOSE_REP2" />
+  </Match>
+  <Match>
     <Class name="org.apache.commons.math.linear.BigMatrixImpl"/>
     <Method name="getDataRef" params="" returns="java.math.BigDecimal[][]" />
     <Bug pattern="EI_EXPOSE_REP" />
+  </Match>
+  <Match>
+    <Class name="org.apache.commons.math.linear.RealMatrixImpl"/>
+    <Method name="&lt;init>" params="double[][],boolean" returns="void" />
+    <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
   <Match>
     <Class name="org.apache.commons.math.linear.RealMatrixImpl"/>
@@ -62,6 +80,11 @@
   <Match>
     <Class name="org.apache.commons.math.util.ResizableDoubleArray"/>
     <Method name="getValues" params="" returns="double[]" />
+    <Bug pattern="EI_EXPOSE_REP" />
+  </Match>
+  <Match>
+    <Class name="org.apache.commons.math.linear.RealVectorImpl"/>
+    <Method name="getDataRef" params="" returns="double[]" />
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
 

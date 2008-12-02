@@ -18,6 +18,7 @@ package org.apache.commons.math.stat.descriptive.moment;
 
 import java.io.Serializable;
 
+
 /**
  * Computes a statistic related to the Third Central Moment.  Specifically,
  * what is computed is the sum of cubed deviations from the sample mean.
@@ -66,9 +67,19 @@ public class ThirdMoment extends SecondMoment implements Serializable {
         m3 = Double.NaN;
         nDevSq = Double.NaN;
     }
+    
+    /**
+     * Copy constructor, creates a new {@code ThirdMoment} identical
+     * to the {@code original}
+     * 
+     * @param original the {@code ThirdMoment} instance to copy
+     */
+    public ThirdMoment(ThirdMoment original) {
+        copy(original, this);
+    }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#increment(double)
+     * {@inheritDoc}
      */
     public void increment(final double d) {
         if (n < 1) {
@@ -83,19 +94,42 @@ public class ThirdMoment extends SecondMoment implements Serializable {
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#getResult()
+     * {@inheritDoc}
      */
     public double getResult() {
         return m3;
     }
 
     /**
-     * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#clear()
+     * {@inheritDoc}
      */
     public void clear() {
         super.clear();
         m3 = Double.NaN;
         nDevSq = Double.NaN;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public ThirdMoment copy() {
+        ThirdMoment result = new ThirdMoment();
+        copy(this, result);
+        return result; 
+    }
+    
+    /**
+     * Copies source to dest.
+     * <p>Neither source nor dest can be null.</p>
+     * 
+     * @param source ThirdMoment to copy
+     * @param dest ThirdMoment to copy to
+     * @throws NullPointerException if either source or dest is null
+     */
+    public static void copy(ThirdMoment source, ThirdMoment dest) {
+        SecondMoment.copy(source, dest);
+        dest.m3 = source.m3;
+        dest.nDevSq = source.nDevSq;
     }
 
 }
