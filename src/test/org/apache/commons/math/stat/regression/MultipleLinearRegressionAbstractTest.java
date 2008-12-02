@@ -23,7 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-public abstract class AbstractMultipleLinearRegressionTest {
+public abstract class MultipleLinearRegressionAbstractTest {
 
     protected MultipleLinearRegression regression;
 

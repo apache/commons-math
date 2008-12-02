@@ -20,7 +20,7 @@ import org.apache.commons.math.TestUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-public class OLSMultipleLinearRegressionTest extends AbstractMultipleLinearRegressionTest {
+public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbstractTest {
 
     private double[] y;
     private double[][] x;

@@ -19,7 +19,7 @@ package org.apache.commons.math.stat.regression;
 import org.junit.Before;
 import org.junit.Test;
 
-public class GLSMultipleLinearRegressionTest extends AbstractMultipleLinearRegressionTest {
+public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbstractTest {
 
     private double[] y;
     private double[][] x;
