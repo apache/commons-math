@@ -754,19 +754,14 @@ public class EigenDecompositionImpl implements EigenDecomposition {
         final int fourN1  = 4 * (n - 1);
         double sumDiag    = 0;
         double sumOffDiag = 0;
-//        qMax = Double.NEGATIVE_INFINITY;
-//        eMin = Double.POSITIVE_INFINITY;
         for (int i = 0; i < n - 1; ++i) {
             final int fourI = 4 * i;
             final double qi = work[fourI];
             final double ei = work[fourI + 2];
-//            qMax = Math.max(qMax, qi);
-//            eMin = Math.min(eMin, ei);
             sumDiag    += qi;
             sumOffDiag += ei;
         }
         final double qi = work[fourN1];
-//        qMax = Math.max(qMax, qi);
         sumDiag += qi;
 
         if (sumOffDiag == 0) {
@@ -844,7 +839,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
                     for (int i = 4 * i0; i < 4 * n0 - 11; i += 4) {
                         if ((work[i + 3] <= TOLERANCE_2 * work[i]) &&
                             (work[i + 2] <= TOLERANCE_2 * sigma)) {
-                            // insert a split here
+                            // insert a split
                             work[i + 2]  = -sigma;
                             split        = i / 4;
                             qMax         = 0;
@@ -887,7 +882,6 @@ public class EigenDecompositionImpl implements EigenDecomposition {
             }
 
             // apply dqd plus Li's forward test.
-//            eMin = work[4 + pingPong];
             d = work[pingPong];
             for (int i = 2 + pingPong; i < 4 * n - 2; i += 4) {
                 final int j = i - 2 * pingPong - 1;
@@ -906,15 +900,8 @@ public class EigenDecompositionImpl implements EigenDecomposition {
                     work[j + 2] = work[i + 2] * (work[i] / work[j]);
                     d *= work[i + 2] / work[j];
                }
-//               eMin = Math.min(eMin, work[j + 2]);
             }
             work[4 * n - 3 - pingPong] = d;
-
-//            // find qMax
-//            qMax = Double.NEGATIVE_INFINITY;
-//            for (int i = 1 - pingPong; i < 4 * n; i += 4) {
-//                qMax = Math.max(qMax, work[i]);
-//            }
 
             // from ping to pong
             pingPong = 1 - pingPong;
