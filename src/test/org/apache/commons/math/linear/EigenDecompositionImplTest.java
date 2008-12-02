@@ -87,6 +87,23 @@ public class EigenDecompositionImplTest extends TestCase {
         assertEquals(0.1, ed.getEigenvalue(3), 1.0e-15);
     }
 
+    public void testAbsoluteSplit() {
+        RealMatrix matrix =
+            new RealMatrixImpl(new double[][] {
+                                   {      0.784,     -0.288,       0.000,  0.000 },
+                                   { Double.NaN,      0.616,       0.000,  0.000 },
+                                   { Double.NaN, Double.NaN,       0.164, -0.048 },
+                                   { Double.NaN, Double.NaN,  Double.NaN,  0.136 }
+                               }, false);
+        EigenDecompositionImpl ed = new EigenDecompositionImpl();
+        ed.setAbsoluteSplitTolerance(1.0e-13);
+        ed.decompose(matrix);
+        assertEquals(1.0, ed.getEigenvalue(0), 1.0e-15);
+        assertEquals(0.4, ed.getEigenvalue(1), 1.0e-15);
+        assertEquals(0.2, ed.getEigenvalue(2), 1.0e-15);
+        assertEquals(0.1, ed.getEigenvalue(3), 1.0e-15);
+    }
+
     public void testDimension4WithoutSplit() {
         RealMatrix matrix =
             new RealMatrixImpl(new double[][] {
@@ -167,6 +184,46 @@ public class EigenDecompositionImplTest extends TestCase {
         RealMatrix vTv = v.transpose().multiply(v);
         RealMatrix id  = MatrixUtils.createRealIdentityMatrix(vTv.getRowDimension());
         assertEquals(0, vTv.subtract(id).getNorm(), 2.0e-13);
+    }
+
+    /** test non invertible matrix */
+    public void testNonInvertible() {
+        Random r = new Random(9994100315209l);
+        EigenDecomposition ed =
+            new EigenDecompositionImpl(createTestMatrix(r, new double[] { 1.0, 0.0, -1.0, -2.0, -3.0 }));
+        assertFalse(ed.isNonSingular());
+        try {
+            ed.getInverse();
+            fail("an exception should have been thrown");
+        } catch (InvalidMatrixException ime) {
+            // expected behavior
+        } catch (Exception e) {
+            fail("wrong exception caught");
+        }
+    }
+
+    /** test invertible matrix */
+    public void testInvertible() {
+        Random r = new Random(9994100315209l);
+        RealMatrix m =
+            createTestMatrix(r, new double[] { 1.0, 0.5, -1.0, -2.0, -3.0 });
+        EigenDecomposition ed = new EigenDecompositionImpl(m);
+        assertTrue(ed.isNonSingular());
+        RealMatrix inverse = ed.getInverse();
+        RealMatrix error =
+            m.multiply(inverse).subtract(MatrixUtils.createRealIdentityMatrix(m.getRowDimension()));
+        assertEquals(0, error.getNorm(), 4.0e-15);
+    }
+
+    /** test diagonal matrix */
+    public void testDiagonal() {
+        double[] diagonal = new double[] { -3.0, -2.0, 2.0, 5.0 };
+        EigenDecomposition ed =
+            new EigenDecompositionImpl(createDiagonalMatrix(diagonal, diagonal.length, diagonal.length));
+        assertEquals(diagonal[0], ed.getEigenvalue(3), 2.0e-15);
+        assertEquals(diagonal[1], ed.getEigenvalue(2), 2.0e-15);
+        assertEquals(diagonal[2], ed.getEigenvalue(1), 2.0e-15);
+        assertEquals(diagonal[3], ed.getEigenvalue(0), 2.0e-15);
     }
 
     /** test solve dimension errors */
