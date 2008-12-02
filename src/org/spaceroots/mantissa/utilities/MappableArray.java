@@ -21,7 +21,7 @@ package org.spaceroots.mantissa.utilities;
  * Wrapper class around an array in order to have it implement the
  * {@link ArraySliceMappable} interface.
 
- * @version $Id: MappableArray.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
 
  */

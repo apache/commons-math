@@ -31,7 +31,7 @@ import org.spaceroots.mantissa.functions.ExhaustedSampleException;
 
  * @see EnhancedSimpsonIntegrator
 
- * @version $Id: EnhancedSimpsonIntegratorSampler.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
 
  */

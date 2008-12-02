@@ -32,7 +32,7 @@ import java.util.MissingResourceException;
  * standard exceptions are thrown rather than the mantissa specific
  * ones.</p>
 
- * @version $Id: MantissaException.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
 
  */

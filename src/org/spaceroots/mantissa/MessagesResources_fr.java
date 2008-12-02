@@ -20,7 +20,7 @@ package org.spaceroots.mantissa;
 import java.util.ListResourceBundle;
 
 /** This class gather the message resources for the mantissa library.
- * @version $Id: MessagesResources_fr.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
  */
 public class MessagesResources_fr

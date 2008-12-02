@@ -35,7 +35,7 @@ import org.spaceroots.mantissa.functions.vectorial.SampledFunctionIterator;
 
  * @see TrapezoidIntegrator
 
- * @version $Id: RiemannIntegrator.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
 
  */

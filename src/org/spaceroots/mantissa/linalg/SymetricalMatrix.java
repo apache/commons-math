@@ -19,7 +19,7 @@ package org.spaceroots.mantissa.linalg;
 
 /** This class implements symetrical matrices of linear algebra.
 
- * @version $Id: SymetricalMatrix.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
 
  */

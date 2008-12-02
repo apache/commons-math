@@ -29,7 +29,7 @@ import org.spaceroots.mantissa.functions.vectorial.SampledFunctionIterator;
  * points. If it is used on a regular sample, it behaves exactly as a
  * traditional Simpson integrator.</p>
 
- * @version $Id: EnhancedSimpsonIntegrator.java 1705 2006-09-17 19:57:39Z luc $
+ * @version $Id$
  * @author L. Maisonobe
 
  */
