@@ -594,6 +594,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     }
 
     /** {@inheritDoc} */
+    @Deprecated
     public RealMatrix inverse() throws InvalidMatrixException {
         if (lu == null) {
             lu = new LUDecompositionImpl(this);
