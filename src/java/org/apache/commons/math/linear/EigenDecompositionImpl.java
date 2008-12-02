@@ -76,8 +76,8 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     /** Squared secondary diagonal of the tridiagonal matrix. */
     private double[] squaredSecondary;
 
-    /** Orthogonal matrix of tridiagonal transformation. */
-    private RealMatrix orthoTridiag;
+    /** Transformer to tridiagonal (may be null if matrix is already tridiagonal). */
+    private TriDiagonalTransformer transformer;
 
     /** Lower bound of spectra. */
     private double lowerSpectra;
@@ -232,7 +232,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 
         this.main      = main;
         this.secondary = secondary;
-        orthoTridiag   = null;
+        transformer    = null;
 
         // pre-compute some elements
         squaredSecondary = new double[secondary.length];
@@ -518,7 +518,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     private void transformToTridiagonal(final RealMatrix matrix) {
 
         // transform the matrix to tridiagonal
-        TriDiagonalTransformer transformer = new TriDiagonalTransformer(matrix);
+        transformer = new TriDiagonalTransformer(matrix);
         main      = transformer.getMainDiagonalRef();
         secondary = transformer.getSecondaryDiagonalRef();
 
@@ -528,8 +528,6 @@ public class EigenDecompositionImpl implements EigenDecomposition {
             final double s = secondary[i];
             squaredSecondary[i] = s * s;
         }
-
-        orthoTridiag = transformer.getQ();
 
     }
 
@@ -1754,9 +1752,9 @@ public class EigenDecompositionImpl implements EigenDecomposition {
             eigenvector[i] *= inv;
         }
 
-        return (orthoTridiag == null) ?
+        return (transformer == null) ?
                new RealVectorImpl(eigenvector, false) :
-               new RealVectorImpl(orthoTridiag.operate(eigenvector), false);
+               new RealVectorImpl(transformer.getQ().operate(eigenvector), false);
 
     }
 
