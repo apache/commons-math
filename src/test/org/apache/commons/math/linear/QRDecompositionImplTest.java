@@ -198,28 +198,28 @@ public class QRDecompositionImplTest extends TestCase {
 
     /** test rank */
     public void testRank() {
-        QRDecomposition qr =
-            new QRDecompositionImpl(new RealMatrixImpl(testData3x3NonSingular, false));
-        assertTrue(qr.isNonSingular());
+        DecompositionSolver ds =
+            new DecompositionSolver(new RealMatrixImpl(testData3x3NonSingular, false));
+        assertTrue(ds.isNonSingular(ds.qrDecompose()));
 
-        qr = new QRDecompositionImpl(new RealMatrixImpl(testData3x3Singular, false));
-        assertFalse(qr.isNonSingular());
+        ds = new DecompositionSolver(new RealMatrixImpl(testData3x3Singular, false));
+        assertFalse(ds.isNonSingular(ds.qrDecompose()));
 
-        qr = new QRDecompositionImpl(new RealMatrixImpl(testData3x4, false));
-        assertFalse(qr.isNonSingular());
+        ds = new DecompositionSolver(new RealMatrixImpl(testData3x4, false));
+        assertTrue(ds.isNonSingular(ds.qrDecompose()));
 
-        qr = new QRDecompositionImpl(new RealMatrixImpl(testData4x3, false));
-        assertTrue(qr.isNonSingular());
+        ds = new DecompositionSolver(new RealMatrixImpl(testData4x3, false));
+        assertTrue(ds.isNonSingular(ds.qrDecompose()));
 
     }
 
     /** test solve dimension errors */
     public void testSolveDimensionErrors() {
-        QRDecomposition qr =
-            new QRDecompositionImpl(new RealMatrixImpl(testData3x3NonSingular, false));
+        DecompositionSolver solver =
+            new DecompositionSolver(new RealMatrixImpl(testData3x3NonSingular, false));
         RealMatrix b = new RealMatrixImpl(new double[2][2]);
         try {
-            qr.solve(b);
+            solver.solve(b, solver.qrDecompose());
             fail("an exception should have been thrown");
         } catch (IllegalArgumentException iae) {
             // expected behavior
@@ -227,7 +227,7 @@ public class QRDecompositionImplTest extends TestCase {
             fail("wrong exception caught");
         }
         try {
-            qr.solve(b.getColumn(0));
+            solver.solve(b.getColumn(0), solver.qrDecompose());
             fail("an exception should have been thrown");
         } catch (IllegalArgumentException iae) {
             // expected behavior
@@ -235,7 +235,7 @@ public class QRDecompositionImplTest extends TestCase {
             fail("wrong exception caught");
         }
         try {
-            qr.solve(b.getColumnVector(0));
+            solver.solve(b.getColumnVector(0), solver.qrDecompose());
             fail("an exception should have been thrown");
         } catch (IllegalArgumentException iae) {
             // expected behavior
@@ -246,11 +246,11 @@ public class QRDecompositionImplTest extends TestCase {
 
     /** test solve rank errors */
     public void testSolveRankErrors() {
-        QRDecomposition qr =
-            new QRDecompositionImpl(new RealMatrixImpl(testData3x3Singular, false));
+        DecompositionSolver solver =
+            new DecompositionSolver(new RealMatrixImpl(testData3x3Singular, false));
         RealMatrix b = new RealMatrixImpl(new double[3][2]);
         try {
-            qr.solve(b);
+            solver.solve(b, solver.qrDecompose());
             fail("an exception should have been thrown");
         } catch (InvalidMatrixException iae) {
             // expected behavior
@@ -258,7 +258,7 @@ public class QRDecompositionImplTest extends TestCase {
             fail("wrong exception caught");
         }
         try {
-            qr.solve(b.getColumn(0));
+            solver.solve(b.getColumn(0), solver.qrDecompose());
             fail("an exception should have been thrown");
         } catch (InvalidMatrixException iae) {
             // expected behavior
@@ -266,7 +266,7 @@ public class QRDecompositionImplTest extends TestCase {
             fail("wrong exception caught");
         }
         try {
-            qr.solve(b.getColumnVector(0));
+            solver.solve(b.getColumnVector(0), solver.qrDecompose());
             fail("an exception should have been thrown");
         } catch (InvalidMatrixException iae) {
             // expected behavior
@@ -277,8 +277,9 @@ public class QRDecompositionImplTest extends TestCase {
 
     /** test solve */
     public void testSolve() {
-        QRDecomposition qr =
-            new QRDecompositionImpl(new RealMatrixImpl(testData3x3NonSingular, false));
+        DecompositionSolver ds =
+            new DecompositionSolver(new RealMatrixImpl(testData3x3NonSingular, false));
+        QRDecomposition qr = ds.qrDecompose();
         RealMatrix b = new RealMatrixImpl(new double[][] {
                 { -102, 12250 }, { 544, 24500 }, { 167, -36750 }
         });
@@ -287,19 +288,19 @@ public class QRDecompositionImplTest extends TestCase {
         });
 
         // using RealMatrix
-        assertEquals(0, qr.solve(b).subtract(xRef).getNorm(), 1.0e-13);
+        assertEquals(0, ds.solve(b, qr).subtract(xRef).getNorm(), 1.0e-13);
 
         // using double[]
         for (int i = 0; i < b.getColumnDimension(); ++i) {
             assertEquals(0,
-                         new RealVectorImpl(qr.solve(b.getColumn(i))).subtract(xRef.getColumnVector(i)).getNorm(),
+                         new RealVectorImpl(ds.solve(b.getColumn(i), qr)).subtract(xRef.getColumnVector(i)).getNorm(),
                          1.0e-13);
         }
 
         // using RealVectorImpl
         for (int i = 0; i < b.getColumnDimension(); ++i) {
             assertEquals(0,
-                         qr.solve(b.getColumnVector(i)).subtract(xRef.getColumnVector(i)).getNorm(),
+                         ds.solve(b.getColumnVector(i), qr).subtract(xRef.getColumnVector(i)).getNorm(),
                          1.0e-13);
         }
 
@@ -308,7 +309,7 @@ public class QRDecompositionImplTest extends TestCase {
             RealVectorImplTest.RealVectorTestImpl v =
                 new RealVectorImplTest.RealVectorTestImpl(b.getColumn(i));
             assertEquals(0,
-                         qr.solve(v).subtract(xRef.getColumnVector(i)).getNorm(),
+                         ds.solve(v, qr).subtract(xRef.getColumnVector(i)).getNorm(),
                          1.0e-13);
         }
 
@@ -316,8 +317,9 @@ public class QRDecompositionImplTest extends TestCase {
 
     /** test matrices values */
     public void testMatricesValues() {
-        QRDecomposition qr =
-            new QRDecompositionImpl(new RealMatrixImpl(testData3x3NonSingular, false));
+        DecompositionSolver ds =
+            new DecompositionSolver(new RealMatrixImpl(testData3x3NonSingular, false));
+        QRDecomposition qr = ds.qrDecompose();
         RealMatrix qRef = new RealMatrixImpl(new double[][] {
                 { -12.0 / 14.0,   69.0 / 175.0,  -58.0 / 175.0 },
                 {  -6.0 / 14.0, -158.0 / 175.0,    6.0 / 175.0 },
@@ -349,18 +351,6 @@ public class QRDecompositionImplTest extends TestCase {
         assertTrue(r == qr.getR());
         assertTrue(h == qr.getH());
         
-    }
-
-    /** test no call to decompose */
-    public void testNoDecompose() {
-        try {
-            new QRDecompositionImpl().isNonSingular();
-            fail("an exception should have been caught");
-        } catch (IllegalStateException ise) {
-            // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
-        }
     }
 
 }

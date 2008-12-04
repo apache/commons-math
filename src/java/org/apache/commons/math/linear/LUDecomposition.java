@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.linear;
 
+import java.io.Serializable;
+
 /**
  * An interface to classes that implement an algorithm to calculate the 
  * LU-decomposition of a real matrix.
@@ -44,7 +46,7 @@ package org.apache.commons.math.linear;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public interface LUDecomposition extends DecompositionSolver {
+public interface LUDecomposition extends Serializable {
 
     /**
      * Computes a new
@@ -102,12 +104,15 @@ public interface LUDecomposition extends DecompositionSolver {
     int[] getPivot() throws IllegalStateException;
 
     /**
-     * Return the determinant of the matrix
-     * @return determinant of the matrix
-     * @exception IllegalStateException if {@link
-     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
-     * @see #isNonSingular()
+     * Get permutation parity.
+     * @return true if there was an even number of permutations
      */
-    double getDeterminant() throws IllegalStateException;
+    boolean evenPermutation();
+
+    /**
+     * Get the singularity indicator.
+     * @return singularity indicator
+     */
+    public boolean isSingular();
 
 }

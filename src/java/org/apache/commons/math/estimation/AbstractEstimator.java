@@ -19,7 +19,9 @@ package org.apache.commons.math.estimation;
 
 import java.util.Arrays;
 
+import org.apache.commons.math.linear.DecompositionSolver;
 import org.apache.commons.math.linear.InvalidMatrixException;
+import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealMatrixImpl;
 
 /**
@@ -179,7 +181,9 @@ public abstract class AbstractEstimator implements Estimator {
 
         try {
             // compute the covariances matrix
-            return ((RealMatrixImpl) new RealMatrixImpl(jTj, false).inverse()).getDataRef();
+            DecompositionSolver solver = new DecompositionSolver(new RealMatrixImpl(jTj, false));
+            RealMatrix inverse = solver.getInverse(solver.luDecompose());
+            return ((RealMatrixImpl) inverse).getDataRef();
         } catch (InvalidMatrixException ime) {
             throw new EstimationException("unable to compute covariances: singular problem",
                                           null);

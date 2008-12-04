@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.linear;
 
+import java.io.Serializable;
+
 
 /**
  * An interface to classes that implement an algorithm to calculate the 
@@ -49,7 +51,7 @@ package org.apache.commons.math.linear;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public interface SingularValueDecomposition extends DecompositionSolver {
+public interface SingularValueDecomposition extends Serializable {
 
     /**
      * Returns the matrix U of the decomposition. 

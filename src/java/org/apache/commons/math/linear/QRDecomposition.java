@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.linear;
 
+import java.io.Serializable;
+
 /**
  * An interface to classes that implement an algorithm to calculate the 
  * QR-decomposition of a real matrix.
@@ -39,7 +41,7 @@ package org.apache.commons.math.linear;
  * @version $Revision$ $Date$
  * @since 1.2
  */
-public interface QRDecomposition extends DecompositionSolver {
+public interface QRDecomposition extends Serializable {
 
     /**
      * Returns the matrix R of the decomposition. 

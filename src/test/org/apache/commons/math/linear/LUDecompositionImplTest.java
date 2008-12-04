@@ -88,18 +88,6 @@ public class LUDecompositionImplTest extends TestCase {
         }
     }
 
-    /** test no call to decompose */
-    public void testNoDecompose() {
-        try {
-            new LUDecompositionImpl().getPivot();
-            fail("an exception should have been caught");
-        } catch (IllegalStateException ise) {
-            // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
-        }
-    }
-
     /** test threshold impact */
     public void testThreshold() {
         final RealMatrix matrix = new RealMatrixImpl(new double[][] {
@@ -107,8 +95,9 @@ public class LUDecompositionImplTest extends TestCase {
                                                        { 2.0, 5.0, 3.0},
                                                        { 4.000001, 9.0, 9.0}
                                                      }, false);
-        assertFalse(new LUDecompositionImpl(matrix, 1.0e-5).isNonSingular());
-        assertTrue(new LUDecompositionImpl(matrix, 1.0e-10).isNonSingular());
+        DecompositionSolver solver = new DecompositionSolver(matrix);
+        assertFalse(solver.isNonSingular(solver.luDecompose(1.0e-5)));
+        assertTrue(solver.isNonSingular(solver.luDecompose(1.0e-10)));
     }
 
     /** test PA = LU */
@@ -139,14 +128,14 @@ public class LUDecompositionImplTest extends TestCase {
 
         matrix = new RealMatrixImpl(singular, false);
         lu = new LUDecompositionImpl(matrix);
-        assertFalse(lu.isNonSingular());
+        assertTrue(lu.isSingular());
         assertNull(lu.getL());
         assertNull(lu.getU());
         assertNull(lu.getP());
 
         matrix = new RealMatrixImpl(bigSingular, false);
         lu = new LUDecompositionImpl(matrix);
-        assertFalse(lu.isNonSingular());
+        assertTrue(lu.isSingular());
         assertNull(lu.getL());
         assertNull(lu.getU());
         assertNull(lu.getP());
@@ -230,20 +219,20 @@ public class LUDecompositionImplTest extends TestCase {
     public void testSingular() {
         LUDecomposition lu =
             new LUDecompositionImpl(new RealMatrixImpl(testData, false));
-        assertTrue(lu.isNonSingular());
+        assertFalse(lu.isSingular());
         lu = new LUDecompositionImpl(new RealMatrixImpl(singular, false));
-        assertFalse(lu.isNonSingular());
+        assertTrue(lu.isSingular());
         lu = new LUDecompositionImpl(new RealMatrixImpl(bigSingular, false));
-        assertFalse(lu.isNonSingular());
+        assertTrue(lu.isSingular());
     }
 
     /** test solve dimension errors */
     public void testSolveDimensionErrors() {
-        LUDecomposition lu =
-            new LUDecompositionImpl(new RealMatrixImpl(testData, false));
+        DecompositionSolver solver =
+            new DecompositionSolver(new RealMatrixImpl(testData, false));
         RealMatrix b = new RealMatrixImpl(new double[2][2]);
         try {
-            lu.solve(b);
+            solver.solve(b, solver.luDecompose());
             fail("an exception should have been thrown");
         } catch (IllegalArgumentException iae) {
             // expected behavior
@@ -251,7 +240,7 @@ public class LUDecompositionImplTest extends TestCase {
             fail("wrong exception caught");
         }
         try {
-            lu.solve(b.getColumn(0));
+            solver.solve(b.getColumn(0), solver.luDecompose());
             fail("an exception should have been thrown");
         } catch (IllegalArgumentException iae) {
             // expected behavior
@@ -259,7 +248,8 @@ public class LUDecompositionImplTest extends TestCase {
             fail("wrong exception caught");
         }
         try {
-            lu.solve(new RealVectorImplTest.RealVectorTestImpl(b.getColumn(0)));
+            solver.solve(new RealVectorImplTest.RealVectorTestImpl(b.getColumn(0)),
+                         solver.luDecompose());
             fail("an exception should have been thrown");
         } catch (IllegalArgumentException iae) {
             // expected behavior
@@ -270,11 +260,11 @@ public class LUDecompositionImplTest extends TestCase {
 
     /** test solve singularity errors */
     public void testSolveSingularityErrors() {
-        LUDecomposition lu =
-            new LUDecompositionImpl(new RealMatrixImpl(singular, false));
+        DecompositionSolver solver =
+            new DecompositionSolver(new RealMatrixImpl(singular, false));
         RealMatrix b = new RealMatrixImpl(new double[2][2]);
         try {
-            lu.solve(b);
+            solver.solve(b, solver.luDecompose());
             fail("an exception should have been thrown");
         } catch (InvalidMatrixException ime) {
             // expected behavior
@@ -282,7 +272,7 @@ public class LUDecompositionImplTest extends TestCase {
             fail("wrong exception caught");
         }
         try {
-            lu.solve(b.getColumn(0));
+            solver.solve(b.getColumn(0), solver.luDecompose());
             fail("an exception should have been thrown");
         } catch (InvalidMatrixException ime) {
             // expected behavior
@@ -290,7 +280,7 @@ public class LUDecompositionImplTest extends TestCase {
             fail("wrong exception caught");
         }
         try {
-            lu.solve(b.getColumnVector(0));
+            solver.solve(b.getColumnVector(0), solver.luDecompose());
             fail("an exception should have been thrown");
         } catch (InvalidMatrixException ime) {
             // expected behavior
@@ -298,7 +288,8 @@ public class LUDecompositionImplTest extends TestCase {
             fail("wrong exception caught");
         }
         try {
-            lu.solve(new RealVectorImplTest.RealVectorTestImpl(b.getColumn(0)));
+            solver.solve(new RealVectorImplTest.RealVectorTestImpl(b.getColumn(0)),
+                         solver.luDecompose());
             fail("an exception should have been thrown");
         } catch (InvalidMatrixException ime) {
             // expected behavior
@@ -309,8 +300,9 @@ public class LUDecompositionImplTest extends TestCase {
 
     /** test solve */
     public void testSolve() {
-        LUDecomposition lu =
-            new LUDecompositionImpl(new RealMatrixImpl(testData, false));
+        DecompositionSolver solver =
+            new DecompositionSolver(new RealMatrixImpl(testData, false));
+        LUDecomposition lu = solver.luDecompose();
         RealMatrix b = new RealMatrixImpl(new double[][] {
                 { 1, 0 }, { 2, -5 }, { 3, 1 }
         });
@@ -319,19 +311,19 @@ public class LUDecompositionImplTest extends TestCase {
         });
 
         // using RealMatrix
-        assertEquals(0, lu.solve(b).subtract(xRef).getNorm(), 1.0e-13);
+        assertEquals(0, solver.solve(b, lu).subtract(xRef).getNorm(), 1.0e-13);
 
         // using double[]
         for (int i = 0; i < b.getColumnDimension(); ++i) {
             assertEquals(0,
-                         new RealVectorImpl(lu.solve(b.getColumn(i))).subtract(xRef.getColumnVector(i)).getNorm(),
+                         new RealVectorImpl(solver.solve(b.getColumn(i), lu)).subtract(xRef.getColumnVector(i)).getNorm(),
                          1.0e-13);
         }
 
         // using RealVectorImpl
         for (int i = 0; i < b.getColumnDimension(); ++i) {
             assertEquals(0,
-                         lu.solve(b.getColumnVector(i)).subtract(xRef.getColumnVector(i)).getNorm(),
+                         solver.solve(b.getColumnVector(i), lu).subtract(xRef.getColumnVector(i)).getNorm(),
                          1.0e-13);
         }
 
@@ -340,7 +332,7 @@ public class LUDecompositionImplTest extends TestCase {
             RealVectorImplTest.RealVectorTestImpl v =
                 new RealVectorImplTest.RealVectorTestImpl(b.getColumn(i));
             assertEquals(0,
-                         lu.solve(v).subtract(xRef.getColumnVector(i)).getNorm(),
+                         solver.solve(v, lu).subtract(xRef.getColumnVector(i)).getNorm(),
                          1.0e-13);
         }
 
@@ -428,18 +420,15 @@ public class LUDecompositionImplTest extends TestCase {
 
     /** test determinant */
     public void testDeterminant() {
-        assertEquals(-1,
-                     new LUDecompositionImpl(new RealMatrixImpl(testData, false)).getDeterminant(),
-                     1.0e-15);
-        assertEquals(-10,
-                     new LUDecompositionImpl(new RealMatrixImpl(luData, false)).getDeterminant(),
-                     1.0e-14);
-        assertEquals(0,
-                     new LUDecompositionImpl(new RealMatrixImpl(singular, false)).getDeterminant(),
-                     1.0e-17);
-        assertEquals(0,
-                     new LUDecompositionImpl(new RealMatrixImpl(bigSingular, false)).getDeterminant(),
-                     1.0e-17);
+        assertEquals( -1, getDeterminant(new RealMatrixImpl(testData, false)), 1.0e-15);
+        assertEquals(-10, getDeterminant(new RealMatrixImpl(luData, false)), 1.0e-14);
+        assertEquals(  0, getDeterminant(new RealMatrixImpl(singular, false)), 1.0e-17);
+        assertEquals(  0, getDeterminant(new RealMatrixImpl(bigSingular, false)), 1.0e-10);
+    }
+
+    private double getDeterminant(RealMatrix m) {
+        DecompositionSolver ds = new DecompositionSolver(m);
+        return ds.getDeterminant(ds.luDecompose());
     }
 
 }

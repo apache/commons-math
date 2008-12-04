@@ -18,7 +18,7 @@
 package org.apache.commons.math.linear;
 
 import org.apache.commons.math.ConvergenceException;
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * Calculates the Singular Value Decomposition of a matrix.
@@ -34,7 +34,7 @@ import org.apache.commons.math.MathRuntimeException;
 public class SingularValueDecompositionImpl implements SingularValueDecomposition {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -2357152028714378552L;
+    private static final long serialVersionUID = -238768772547767847L;
 
     /** Number of rows of the initial matrix. */
     private int m;
@@ -79,19 +79,6 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
     private RealMatrix cachedVt;
 
     /**
-     * Build a new instance.
-     * <p>Note that {@link #decompose(RealMatrix)} <strong>must</strong> be called
-     * before any of the {@link #getU()}, {@link #getS()}, {@link #getV()},
-     * {@link #getSingularValues()}, {@link #getNorm()}, {@link #getConditionNumber()},
-     * {@link #getRank()}, {@link #solve(double[])}, {@link #solve(RealMatrix)},
-     * {@link #solve(RealVector)} or {@link #solve(RealVectorImpl)} methods can be
-     * called.</p>
-     * @see #decompose(RealMatrix)
-     */
-    public SingularValueDecompositionImpl() {
-    }
-
-    /**
      * Calculates the Singular Value Decomposition of the given matrix. 
      * <p>Calling this constructor is equivalent to first call the no-arguments
      * constructor and then call {@link #decompose(RealMatrix)}.</p>
@@ -101,11 +88,6 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
      */
     public SingularValueDecompositionImpl(RealMatrix matrix)
         throws InvalidMatrixException {
-        decompose(matrix);
-    }
-
-    /** {@inheritDoc} */
-    public void decompose(final RealMatrix matrix) {
 
         m = matrix.getRowDimension();
         n = matrix.getColumnDimension();
@@ -133,7 +115,9 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
         }
 
         // compute singular values
-        eigenDecomposition = new EigenDecompositionImpl(mainTridiagonal, secondaryTridiagonal);
+        eigenDecomposition =
+            new EigenDecompositionImpl(mainTridiagonal, secondaryTridiagonal,
+                                       MathUtils.SAFE_MIN);
         singularValues = eigenDecomposition.getEigenvalues();
         for (int i = 0; i < singularValues.length; ++i) {
             singularValues[i] = Math.sqrt(singularValues[i]);
@@ -146,8 +130,6 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
         throws InvalidMatrixException {
 
         if (cachedU == null) {
-
-            checkDecomposed();
 
             if (m >= n) {
                 // the tridiagonal matrix is Bt.B, where B is upper bidiagonal
@@ -207,8 +189,6 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
 
         if (cachedS == null) {
 
-            checkDecomposed();
-
             final int p = singularValues.length;
             final double[][] sData = new double[p][p];
             for (int i = 0; i < p; ++i) {
@@ -225,7 +205,6 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
     /** {@inheritDoc} */
     public double[] getSingularValues()
         throws InvalidMatrixException {
-        checkDecomposed();
         return singularValues.clone();
     }
 
@@ -234,8 +213,6 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
         throws InvalidMatrixException {
 
         if (cachedV == null) {
-
-            checkDecomposed();
 
             if (m >= n) {
                 // the tridiagonal matrix is Bt.B, where B is upper bidiagonal
@@ -292,22 +269,18 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
     /** {@inheritDoc} */
     public double getNorm()
         throws InvalidMatrixException {
-        checkDecomposed();
         return singularValues[0];
     }
 
     /** {@inheritDoc} */
     public double getConditionNumber()
         throws InvalidMatrixException {
-        checkDecomposed();
         return singularValues[0] / singularValues[singularValues.length - 1];
     }
 
     /** {@inheritDoc} */
     public int getRank()
         throws IllegalStateException {
-
-        checkDecomposed();
 
         final double threshold = Math.max(m, n) * Math.ulp(singularValues[0]);
 
@@ -318,118 +291,6 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
         }
         return 0;
 
-    }
-
-    /** {@inheritDoc} */
-    public boolean isNonSingular()
-        throws IllegalStateException {
-        return getRank() == singularValues.length;
-    }
-
-    /** {@inheritDoc} */
-    public double[] solve(final double[] b)
-        throws IllegalArgumentException, InvalidMatrixException {
-
-        checkDecomposed();
-
-        if (b.length != m) {
-            throw new IllegalArgumentException("constant vector has wrong length");
-        }
-
-        final double[] w = getUT().operate(b);
-        for (int i = 0; i < singularValues.length; ++i) {
-            final double si = singularValues[i];
-            if (si == 0) {
-                throw new SingularMatrixException();
-            }
-            w[i] /= si;
-        }
-        return getV().operate(w);
-
-    }
-
-    /** {@inheritDoc} */
-    public RealVector solve(final RealVector b)
-        throws IllegalArgumentException, InvalidMatrixException {
-        try {
-            return solve((RealVectorImpl) b);
-        } catch (ClassCastException cce) {
-
-            checkDecomposed();
-
-            if (b.getDimension() != m) {
-                throw new IllegalArgumentException("constant vector has wrong length");
-            }
-
-            final RealVector w = getUT().operate(b);
-            for (int i = 0; i < singularValues.length; ++i) {
-                final double si = singularValues[i];
-                if (si == 0) {
-                    throw new SingularMatrixException();
-                }
-                w.set(i, w.getEntry(i) / si);
-            }
-            return getV().operate(w);
-
-        }
-    }
-
-    /** Solve the linear equation A &times; X = B.
-     * <p>The A matrix is implicit here. It is </p>
-     * @param b right-hand side of the equation A &times; X = B
-     * @return a vector X such that A &times; X = B
-     * @throws IllegalArgumentException if matrices dimensions don't match
-     * @throws InvalidMatrixException if decomposed matrix is singular
-     */
-    public RealVectorImpl solve(final RealVectorImpl b)
-        throws IllegalArgumentException, InvalidMatrixException {
-        return new RealVectorImpl(solve(b.getDataRef()), false);
-    }
-
-    /** {@inheritDoc} */
-    public RealMatrix solve(final RealMatrix b)
-        throws IllegalArgumentException, InvalidMatrixException {
-
-        checkDecomposed();
-
-        if (b.getRowDimension() != m) {
-            throw new IllegalArgumentException("Incorrect row dimension");
-        }
-
-        final RealMatrixImpl w = (RealMatrixImpl) getUT().multiply(b);
-        final double[][] wData = w.getDataRef();
-        for (int i = 0; i < singularValues.length; ++i) {
-            final double si  = singularValues[i];
-            if (si == 0) {
-                throw new SingularMatrixException();
-            }
-            final double inv = 1.0 / si;
-            final double[] wi = wData[i];
-            for (int j = 0; j < b.getColumnDimension(); ++j) {
-                wi[j] *= inv;
-            }
-        }
-        return getV().multiply(w);
-
-    }
-
-    /** {@inheritDoc} */
-    public RealMatrix getInverse()
-        throws IllegalStateException, InvalidMatrixException {
-        checkDecomposed();
-        return solve(MatrixUtils.createRealIdentityMatrix(singularValues.length));
-    }
-
-    /**
-     * Check if {@link #decompose(RealMatrix)} has been called.
-     * @exception IllegalStateException if {@link #decompose(RealMatrix) decompose}
-     * has not been called
-     */
-    private void checkDecomposed()
-        throws IllegalStateException {
-        if (singularValues == null) {
-            throw MathRuntimeException.createIllegalStateException("no matrix have been decomposed yet", null);
-        }
     }
 
 }

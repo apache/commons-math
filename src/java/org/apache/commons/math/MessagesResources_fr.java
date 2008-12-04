@@ -183,10 +183,6 @@ public class MessagesResources_fr
     { "matrix is singular",
       "matrice singuli\u00e8re" },
 
-    // org.apache.commons.math.linear.RankDeficientMatrixException
-    { "matrix is rank-deficient",
-      "le rang de la matrice est inf\u00e9rieur \u00e0 sa dimension" },
-
     // org.apache.commons.math.linear.RealVectorImpl
     { "index {0} out of allowed range [{1}, {2}]",
       "index {0} hors de la plage autoris\u00e9e [{1}, {2}]" },

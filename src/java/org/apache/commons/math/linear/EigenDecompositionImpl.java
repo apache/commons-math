@@ -22,7 +22,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.math.ConvergenceException;
-import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.util.MathUtils;
 
@@ -56,7 +55,7 @@ import org.apache.commons.math.util.MathUtils;
 public class EigenDecompositionImpl implements EigenDecomposition {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -4976315828448620858L;
+    private static final long serialVersionUID = 3125911889630623276L;
 
     /** Tolerance. */
     private static final double TOLERANCE = 100 * MathUtils.EPSILON;
@@ -149,32 +148,24 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     private RealMatrix cachedVt;
 
     /**
-     * Build a new instance.
-     * <p>Note that {@link #decompose(RealMatrix)} <strong>must</strong> be called
-     * before any of the {@link #getV()}, {@link #getD()}, {@link #getVT()},
-     * {@link #getEignevalues()}, {@link #solve(double[])}, {@link #solve(RealMatrix)},
-     * {@link #solve(RealVector)} or {@link #solve(RealVectorImpl)} methods can be
-     * called.</p>
-     * @see #decompose(RealMatrix)
-     */
-    public EigenDecompositionImpl() {
-        setRelativeAccuracySplitTolerance(MathUtils.SAFE_MIN);
-    }
-
-    /**
      * Calculates the eigen decomposition of the given symmetric matrix. 
      * <p>Calling this constructor is equivalent to first call the no-arguments
      * constructor and then call {@link #decompose(RealMatrix)}.</p>
      * <p>The specified matrix is assumed to be symmetrical without any check.
      * Only the upper triangular part of the matrix is used.</p>
      * @param matrix The <strong>symmetric</strong> matrix to decompose.
+     * @param splitTolerance tolerance on the off-diagonal elements relative to the
+     * geometric mean to split the tridiagonal matrix (a suggested value is
+     * {@link MathUtils#SAFE_MIN})
      * @exception InvalidMatrixException (wrapping a {@link ConvergenceException}
      * if algorithm fails to converge
      */
-    public EigenDecompositionImpl(final RealMatrix matrix)
+    public EigenDecompositionImpl(final RealMatrix matrix,
+                                  final double splitTolerance)
         throws InvalidMatrixException {
-        setRelativeAccuracySplitTolerance(MathUtils.SAFE_MIN);
-        decompose(matrix);
+        this.splitTolerance = splitTolerance;
+        transformToTridiagonal(matrix);
+        decompose();
     }
 
     /**
@@ -183,52 +174,15 @@ public class EigenDecompositionImpl implements EigenDecomposition {
      * constructor and then call {@link #decompose(double[], double[])}.</p>
      * @param main the main diagonal of the matrix
      * @param secondary the secondary diagonal of the matrix
+     * @param splitTolerance tolerance on the off-diagonal elements relative to the
+     * geometric mean to split the tridiagonal matrix (a suggested value is
+     * {@link MathUtils#SAFE_MIN})
      * @exception InvalidMatrixException (wrapping a {@link ConvergenceException}
      * if algorithm fails to converge
      */
-    public EigenDecompositionImpl(final double[] main, double[] secondary)
+    public EigenDecompositionImpl(final double[] main, double[] secondary,
+            final double splitTolerance)
         throws InvalidMatrixException {
-        setRelativeAccuracySplitTolerance(MathUtils.SAFE_MIN);
-        decompose(main, secondary);
-    }
-
-    /**
-     * Set split tolerance based on absolute off-diagonal elements.
-     * @param tolerance tolerance to set
-     */
-    public void setAbsoluteSplitTolerance(final double tolerance) {
-        splitTolerance = -Math.abs(tolerance);
-    }
-
-    /**
-     * Set split tolerance preserving relative accuracy.
-     * @param tolerance tolerance to set
-     */
-    public void setRelativeAccuracySplitTolerance(final double tolerance) {
-        splitTolerance = Math.abs(tolerance);
-    }
-
-    /**
-     * Decompose a <strong>symmetric</strong> matrix.
-     * <p>The specified matrix is assumed to be symmetrical without any check.
-     * Only the upper triangular part of the matrix is used.</p>
-     * @param matrix symmetric matrix to decompose
-     * @exception InvalidMatrixException if matrix cannot be diagonalized
-     */
-    public void decompose(final RealMatrix matrix)
-        throws InvalidMatrixException {
-        transformToTridiagonal(matrix);
-        decompose();
-    }
-
-    /**
-     * Decompose a tridiagonal symmetric matrix. 
-     * @param main the main diagonal of the matrix
-     * @param secondary the secondary diagonal of the matrix
-     * @exception InvalidMatrixException (wrapping a {@link ConvergenceException}
-     * if algorithm fails to converge
-     */
-    public void decompose(final double[] main, final double[] secondary) {
 
         this.main      = main;
         this.secondary = secondary;
@@ -241,6 +195,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
             squaredSecondary[i] = s * s;
         }
 
+        this.splitTolerance = splitTolerance;
         decompose();
 
     }
@@ -287,8 +242,6 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 
         if (cachedD == null) {
 
-            checkDecomposed();
-
             final int m = eigenvalues.length;
             final double[][] sData = new double[m][m];
             for (int i = 0; i < m; ++i) {
@@ -308,7 +261,6 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 
         if (cachedVt == null) {
 
-            checkDecomposed();
             if (eigenvectors == null) {
                 findEigenVectors();
             }
@@ -331,184 +283,22 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     /** {@inheritDoc} */
     public double[] getEigenvalues()
         throws InvalidMatrixException {
-        checkDecomposed();
         return eigenvalues.clone();
     }
 
     /** {@inheritDoc} */
     public double getEigenvalue(final int i)
         throws InvalidMatrixException, ArrayIndexOutOfBoundsException {
-        checkDecomposed();
         return eigenvalues[i];
     }
 
     /** {@inheritDoc} */
     public RealVector getEigenvector(final int i)
         throws InvalidMatrixException, ArrayIndexOutOfBoundsException {
-        checkDecomposed();
         if (eigenvectors == null) {
             findEigenVectors();
         }
         return eigenvectors[i].copy();
-    }
-
-    /** {@inheritDoc} */
-    public boolean isNonSingular()
-        throws IllegalStateException {
-        for (double lambda : eigenvalues) {
-            if (lambda == 0) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /** {@inheritDoc} */
-    public double[] solve(final double[] b)
-        throws IllegalArgumentException, InvalidMatrixException {
-
-        checkNonSingular();
-
-        final int m = eigenvalues.length;
-        if (b.length != m) {
-            throw new IllegalArgumentException("constant vector has wrong length");
-        }
-
-        if (eigenvectors == null) {
-            findEigenVectors();
-        }
-
-        final double[] bp = new double[m];
-        for (int i = 0; i < m; ++i) {
-            final RealVectorImpl v = eigenvectors[i];
-            final double s = v.dotProduct(b) / eigenvalues[i];
-            final double[] vData = v.getDataRef();
-            for (int j = 0; j < m; ++j) {
-                bp[j] += s * vData[j];
-            }
-        }
-
-        return bp;
-
-    }
-
-    /** {@inheritDoc} */
-    public RealVector solve(final RealVector b)
-        throws IllegalArgumentException, InvalidMatrixException {
-        try {
-            return solve((RealVectorImpl) b);
-        } catch (ClassCastException cce) {
-
-            checkNonSingular();
-
-            final int m = eigenvalues.length;
-            if (b.getDimension() != m) {
-                throw new IllegalArgumentException("constant vector has wrong length");
-            }
-
-            if (eigenvectors == null) {
-                findEigenVectors();
-            }
-
-            final double[] bp = new double[m];
-            for (int i = 0; i < m; ++i) {
-                final RealVectorImpl v = eigenvectors[i];
-                final double s = v.dotProduct(b) / eigenvalues[i];
-                final double[] vData = v.getDataRef();
-                for (int j = 0; j < m; ++j) {
-                    bp[j] += s * vData[j];
-                }
-            }
-
-            return new RealVectorImpl(bp, false);
-
-        }
-    }
-
-    /**
-     * Solve the linear equation A &times; X = B.
-     * <p>The A matrix is implicit here. It <strong>must</strong> have
-     * already been provided by a previous call to {@link #decompose(RealMatrix)}.</p>
-     * @param b right-hand side of the equation A &times; X = B
-     * @return a vector X such that A &times; X = B
-     * @throws IllegalArgumentException if matrices dimensions don't match
-     * @throws InvalidMatrixException if decomposed matrix is singular
-     */
-    public RealVectorImpl solve(final RealVectorImpl b)
-        throws IllegalArgumentException, InvalidMatrixException {
-        return new RealVectorImpl(solve(b.getDataRef()), false);
-    }
-
-    /** {@inheritDoc} */
-    public RealMatrix solve(final RealMatrix b)
-        throws IllegalArgumentException, InvalidMatrixException {
-
-        checkNonSingular();
-
-        final int m = eigenvalues.length;
-        if (b.getRowDimension() != m) {
-            throw new IllegalArgumentException("Incorrect row dimension");
-        }
-
-        if (eigenvectors == null) {
-            findEigenVectors();
-        }
-
-        final int nColB = b.getColumnDimension();
-        final double[][] bp = new double[m][nColB];
-        for (int k = 0; k < nColB; ++k) {
-            for (int i = 0; i < m; ++i) {
-                final double[] vData = eigenvectors[i].getDataRef();
-                double s = 0;
-                for (int j = 0; j < m; ++j) {
-                    s += vData[j] * b.getEntry(j, k);
-                }
-                s /= eigenvalues[i];
-                for (int j = 0; j < m; ++j) {
-                    bp[j][k] += s * vData[j];
-                }
-            }
-        }
-
-        return new RealMatrixImpl(bp, false);
-
-    }
-
-    /** {@inheritDoc} */
-    public RealMatrix getInverse()
-        throws IllegalStateException, InvalidMatrixException {
-
-        checkNonSingular();
-        final int m = eigenvalues.length;
-        final double[][] invData = new double[m][m];
-
-        if (eigenvectors == null) {
-            findEigenVectors();
-        }
-
-        for (int i = 0; i < m; ++i) {
-            final double[] invI = invData[i];
-            for (int j = 0; j < m; ++j) {
-                double invIJ = 0;
-                for (int k = 0; k < m; ++k) {
-                    final double[] vK = eigenvectors[k].getDataRef();
-                    invIJ += vK[i] * vK[j] / eigenvalues[k];
-                }
-                invI[j] = invIJ;
-            }
-        }
-        return new RealMatrixImpl(invData, false);
-
-    }
-
-    /** {@inheritDoc} */
-    public double getDeterminant()
-        throws IllegalStateException {
-        double determinant = 1;
-        for (double lambda : eigenvalues) {
-            determinant *= lambda;
-        }
-        return determinant;
     }
 
     /**
@@ -653,29 +443,17 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 
         final List<Integer> list = new ArrayList<Integer>();
 
-        if (splitTolerance < 0) {
-            // splitting based on absolute off-diagonal value
-            final double max = Math.abs(splitTolerance) * (upperSpectra - lowerSpectra);
-            for (int i = 0; i < secondary.length; ++i) {
-                if (Math.abs(secondary[i]) <= max) {
-                    list.add(i + 1);
-                    secondary[i] = 0;
-                    squaredSecondary[i] = 0;
-                }
+        // splitting preserving relative accuracy
+        double absDCurrent = Math.abs(main[0]);
+        for (int i = 0; i < secondary.length; ++i) {
+            final double absDPrevious = absDCurrent;
+            absDCurrent = Math.abs(main[i + 1]);
+            final double max = splitTolerance * Math.sqrt(absDPrevious * absDCurrent);
+            if (Math.abs(secondary[i]) <= max) {
+                list.add(i + 1);
+                secondary[i] = 0;
+                squaredSecondary[i] = 0;
             }
-        } else {
-            // splitting preserving relative accuracy
-            double absDCurrent = Math.abs(0);
-            for (int i = 0; i < secondary.length; ++i) {
-                final double absDPrevious = absDCurrent;
-                absDCurrent = Math.abs(i + 1);
-                final double max = splitTolerance * Math.sqrt(absDPrevious * absDCurrent);
-                if (Math.abs(secondary[i]) <= max) {
-                    list.add(i + 1);
-                    secondary[i] = 0;
-                    squaredSecondary[i] = 0;
-                }
-            }            
         }
 
         list.add(secondary.length + 1);
@@ -1808,32 +1586,6 @@ public class EigenDecompositionImpl implements EigenDecomposition {
         }
         work[3] = pi;
         work[4] = pi;
-    }
-
-    /**
-     * Check if decomposition has been performed.
-     * @exception IllegalStateException if {@link #decompose(RealMatrix) decompose}
-     * has not been called
-     */
-    private void checkDecomposed()
-        throws IllegalStateException {
-        if (eigenvalues == null) {
-            throw MathRuntimeException.createIllegalStateException("no matrix have been decomposed yet", null);
-        }
-    }
-
-    /**
-     * Check if decomposed matrix is non singular.
-     * @exception IllegalStateException if {@link #decompose(RealMatrix) decompose}
-     * has not been called
-     * @exception SingularMatrixException if decomposed matrix is singular
-     */
-    private void checkNonSingular()
-        throws IllegalStateException, SingularMatrixException {
-        checkDecomposed();
-        if (!isNonSingular()) {
-            throw new SingularMatrixException();
-        }
     }
 
 }
