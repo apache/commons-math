@@ -174,8 +174,6 @@ public class MessagesResources_fr
     // org.apache.commons.math.linear.EigenDecompositionImpl
     { "cannot solve degree {0} equation",
       "impossible de r\u00e9soudre une \u00e9quation de degr\u00e9 {0}" },
-    { "negative element on decomposed tridiagonal of {0}x{1} matrix",
-      "\u00e9l\u00e9ment n\u00e9gatif dans la d\u00e9composition tri-diagonale d''une matrice {0}x{1}" },
 
     // org.apache.commons.math.linear.NonSquareMatrixException
     { "a {0}x{1} matrix was provided instead of a square matrix",
@@ -209,6 +207,12 @@ public class MessagesResources_fr
       "tableau des indices de lignes s\u00e9lectionn\u00e9es vide" },
     { "empty selected column index array",
       "tableau des indices de colonnes s\u00e9lectionn\u00e9es vide" },
+    { "{0}x{1} and {2}x{3} matrices are not multiplication compatible",
+      "les dimensions {0}x{1} et {2}x{3} sont incompatibles pour la multiplication matricielle" },
+    { "{0}x{1} and {2}x{3} matrices are not addition compatible",
+      "les dimensions {0}x{1} et {2}x{3} sont incompatibles pour l'addition matricielle" },
+    { "{0}x{1} and {2}x{3} matrices are not subtraction compatible",
+      "les dimensions {0}x{1} et {2}x{3} sont incompatibles pour la soustraction matricielle" },
 
    // org.apache.commons.math.random.EmpiricalDistributionImpl
    // org.apache.commons.math.random.ValueServer

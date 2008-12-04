@@ -174,7 +174,12 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
             final int rowCount    = getRowDimension();
             final int columnCount = getColumnDimension();
             if (columnCount != m.getColumnDimension() || rowCount != m.getRowDimension()) {
-                throw new IllegalArgumentException("matrix dimension mismatch");
+                throw MathRuntimeException.createIllegalArgumentException("{0}x{1} and {2}x{3} matrices are not" +
+                                                                          " addition compatible",
+                                                                          new Object[] {
+                                                                              getRowDimension(), getColumnDimension(),
+                                                                              m.getRowDimension(), m.getColumnDimension()
+                                                                          });
             }
             final double[][] outData = new double[rowCount][columnCount];
             for (int row = 0; row < rowCount; row++) {
@@ -199,7 +204,12 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
         final int rowCount    = getRowDimension();
         final int columnCount = getColumnDimension();
         if (columnCount != m.getColumnDimension() || rowCount != m.getRowDimension()) {
-            throw new IllegalArgumentException("matrix dimension mismatch");
+            throw MathRuntimeException.createIllegalArgumentException("{0}x{1} and {2}x{3} matrices are not" +
+                                                                      " addition compatible",
+                                                                      new Object[] {
+                                                                          getRowDimension(), getColumnDimension(),
+                                                                          m.getRowDimension(), m.getColumnDimension()
+                                                                      });
         }
         final double[][] outData = new double[rowCount][columnCount];
         for (int row = 0; row < rowCount; row++) {
@@ -221,7 +231,12 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
             final int rowCount    = getRowDimension();
             final int columnCount = getColumnDimension();
             if (columnCount != m.getColumnDimension() || rowCount != m.getRowDimension()) {
-                throw new IllegalArgumentException("matrix dimension mismatch");
+                throw MathRuntimeException.createIllegalArgumentException("{0}x{1} and {2}x{3} matrices are not" +
+                                                                          " subtraction compatible",
+                                                                          new Object[] {
+                                                                              getRowDimension(), getColumnDimension(),
+                                                                              m.getRowDimension(), m.getColumnDimension()
+                                                                          });
             }
             final double[][] outData = new double[rowCount][columnCount];
             for (int row = 0; row < rowCount; row++) {
@@ -246,7 +261,12 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
         final int rowCount    = getRowDimension();
         final int columnCount = getColumnDimension();
         if (columnCount != m.getColumnDimension() || rowCount != m.getRowDimension()) {
-            throw new IllegalArgumentException("matrix dimension mismatch");
+            throw MathRuntimeException.createIllegalArgumentException("{0}x{1} and {2}x{3} matrices are not" +
+                                                                      " subtraction compatible",
+                                                                      new Object[] {
+                                                                          getRowDimension(), getColumnDimension(),
+                                                                          m.getRowDimension(), m.getColumnDimension()
+                                                                      });
         }
         final double[][] outData = new double[rowCount][columnCount];
         for (int row = 0; row < rowCount; row++) {
@@ -296,7 +316,12 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
             return multiply((RealMatrixImpl) m);
         } catch (ClassCastException cce) {
             if (this.getColumnDimension() != m.getRowDimension()) {
-                throw new IllegalArgumentException("Matrices are not multiplication compatible.");
+                throw MathRuntimeException.createIllegalArgumentException("{0}x{1} and {2}x{3} matrices are not" +
+                                                                          " multiplication compatible",
+                                                                          new Object[] {
+                                                                              getRowDimension(), getColumnDimension(),
+                                                                              m.getRowDimension(), m.getColumnDimension()
+                                                                          });
             }
             final int nRows = this.getRowDimension();
             final int nCols = m.getColumnDimension();
@@ -326,7 +351,12 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      */
     public RealMatrixImpl multiply(RealMatrixImpl m) throws IllegalArgumentException {
         if (this.getColumnDimension() != m.getRowDimension()) {
-            throw new IllegalArgumentException("Matrices are not multiplication compatible.");
+            throw MathRuntimeException.createIllegalArgumentException("{0}x{1} and {2}x{3} matrices are not" +
+                                                                      " multiplication compatible",
+                                                                      new Object[] {
+                                                                          getRowDimension(), getColumnDimension(),
+                                                                          m.getRowDimension(), m.getColumnDimension()
+                                                                      });
         }
         final int nRows = this.getRowDimension();
         final int nCols = m.getColumnDimension();
