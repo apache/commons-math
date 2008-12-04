@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.linear;
 
-import org.apache.commons.math.ConvergenceException;
 
 /**
  * An interface to classes that implement an algorithm to calculate the 
@@ -34,8 +33,6 @@ import org.apache.commons.math.ConvergenceException;
  *   <li><code>solve</code> methods have been added (in the superinterface),</li>
  *   <li>a {@link DecompositionSolver#decompose(RealMatrix) decompose(RealMatrix)}
  *   method has been added (in the superinterface),</li>
- *   <li>a {@link #decompose(RealMatrix, int) decompose(RealMatrix), int)} method
- *   has been added,</li>
  *   <li>a {@link DecompositionSolver#isNonSingular() isNonSingular} method has
  *   been added (in the superinterface),</li>
  *   <li>a {@link DecompositionSolver#getInverse() getInverse} method has been
@@ -55,41 +52,42 @@ import org.apache.commons.math.ConvergenceException;
 public interface SingularValueDecomposition extends DecompositionSolver {
 
     /**
-     * Decompose a matrix to find its largest singular values.
-     * @param matrix matrix to decompose
-     * @param maxSingularValues maximal number of singular values to compute
-     * @exception InvalidMatrixException (wrapping a {@link ConvergenceException}
-     * if algorithm fails to converge
-     */
-    void decompose(RealMatrix matrix, int maxSingularValues)
-      throws InvalidMatrixException;
-
-    /**
      * Returns the matrix U of the decomposition. 
      * <p>U is an orthogonal matrix, i.e. its transpose is also its inverse.</p>
      * @return the U matrix
-     * @exception IllegalStateException if neither {@link
-     * DecompositionSolver#decompose(RealMatrix) decompose} nor {@link
-     * #decompose(RealMatrix, int)} have not been called
+     * @exception IllegalStateException if {@link
+     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
+     * @see #getUT()
      */
     RealMatrix getU() throws IllegalStateException;
 
     /**
+     * Returns the transpose of the matrix U of the decomposition. 
+     * <p>U is an orthogonal matrix, i.e. its transpose is also its inverse.</p>
+     * @return the U matrix (or null if decomposed matrix is singular)
+     * @exception IllegalStateException if {@link
+     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
+     * @see #getU()
+     */
+    RealMatrix getUT() throws IllegalStateException;
+
+    /**
      * Returns the diagonal matrix &Sigma; of the decomposition. 
-     * <p>&Sigma; is a diagonal matrix.</p>
+     * <p>&Sigma; is a diagonal matrix. The singular values are provided in
+     * non-increasing order, for compatibility with Jama.</p>
      * @return the &Sigma; matrix
-     * @exception IllegalStateException if neither {@link
-     * DecompositionSolver#decompose(RealMatrix) decompose} nor {@link
-     * #decompose(RealMatrix, int)} have not been called
+     * @exception IllegalStateException if {@link
+     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
      */
     RealMatrix getS() throws IllegalStateException;
 
     /**
-     * Returns the diagonal elements of the matrix &Sigma; of the decomposition. 
+     * Returns the diagonal elements of the matrix &Sigma; of the decomposition.
+     * <p>The singular values are provided in non-increasing order, for
+     * compatibility with Jama.</p>
      * @return the diagonal elements of the &Sigma; matrix
-     * @exception IllegalStateException if neither {@link
-     * DecompositionSolver#decompose(RealMatrix) decompose} nor {@link
-     * #decompose(RealMatrix, int)} have not been called
+     * @exception IllegalStateException if {@link
+     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
      */
     double[] getSingularValues() throws IllegalStateException;
 
@@ -97,11 +95,21 @@ public interface SingularValueDecomposition extends DecompositionSolver {
      * Returns the matrix V of the decomposition. 
      * <p>V is an orthogonal matrix, i.e. its transpose is also its inverse.</p>
      * @return the V matrix (or null if decomposed matrix is singular)
-     * @exception IllegalStateException if neither {@link
-     * DecompositionSolver#decompose(RealMatrix) decompose} nor {@link
-     * #decompose(RealMatrix, int)} have not been called
+     * @exception IllegalStateException if {@link
+     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
+     * @see #getVT()
      */
     RealMatrix getV() throws IllegalStateException;
+
+    /**
+     * Returns the transpose of the matrix V of the decomposition. 
+     * <p>V is an orthogonal matrix, i.e. its transpose is also its inverse.</p>
+     * @return the V matrix (or null if decomposed matrix is singular)
+     * @exception IllegalStateException if {@link
+     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
+     * @see #getV()
+     */
+    RealMatrix getVT() throws IllegalStateException;
 
     /**
      * Returns the L<sub>2</sub> norm of the matrix.
@@ -109,18 +117,16 @@ public interface SingularValueDecomposition extends DecompositionSolver {
      * |u|<sub>2</sub>), where |.|<sub>2</sub> denotes the vectorial 2-norm
      * (i.e. the traditional euclidian norm).</p>
      * @return norm
-     * @exception IllegalStateException if neither {@link
-     * DecompositionSolver#decompose(RealMatrix) decompose} nor {@link
-     * #decompose(RealMatrix, int)} have not been called
+     * @exception IllegalStateException if {@link
+     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
      */
     double getNorm() throws IllegalStateException;
 
     /**
      * Return the condition number of the matrix.
      * @return condition number of the matrix
-     * @exception IllegalStateException if neither {@link
-     * DecompositionSolver#decompose(RealMatrix) decompose} nor {@link
-     * #decompose(RealMatrix, int)} have not been called
+     * @exception IllegalStateException if {@link
+     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
      */
     double getConditionNumber() throws IllegalStateException;
 
@@ -131,9 +137,8 @@ public interface SingularValueDecomposition extends DecompositionSolver {
      * terms is max(m,n) &times; ulp(s<sub>1</sub>) where ulp(s<sub>1</sub>)
      * is the least significant bit of the largest singular value.</p>
      * @return effective numerical matrix rank
-     * @exception IllegalStateException if neither {@link
-     * DecompositionSolver#decompose(RealMatrix) decompose} nor {@link
-     * #decompose(RealMatrix, int)} have not been called
+     * @exception IllegalStateException if {@link
+     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
      */
     int getRank() throws IllegalStateException;
 
