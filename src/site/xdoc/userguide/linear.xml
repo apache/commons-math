@@ -42,9 +42,7 @@
           <ul>
           <li>Matrix addition, subtraction, multiplication</li>
           <li>Scalar addition and multiplication</li>
-          <li>Inverse and transpose</li>
-          <li>Determinants and singularity testing</li>
-          <li>LU decomposition</li>
+          <li>transpose</li>
           <li>Norm and Trace</li>
           <li>Operation on a vector</li>
           </ul>   
@@ -67,8 +65,9 @@ RealMatrix p = m.multiply(n);
 System.out.println(p.getRowDimension());    // 2
 System.out.println(p.getColumnDimension()); // 2
 
-// Invert p
-RealMatrix pInverse = new LUDecompositionImpl(p).inverse();
+// Invert p, using LU decomposition
+DecompositionSolver solver = new DecompositionSolver(p);
+RealMatrix pInverse = solver.inverse(solver.luDecompose());
          </source>
         </p>
       </subsection>
@@ -94,7 +93,7 @@ RealMatrix pInverse = new LUDecompositionImpl(p).inverse();
       </subsection>
       <subsection name="3.4 Solving linear systems" href="solve">
         <p>
-          The <code>solve()</code> methods of the <code>DecompositionSolver</code> interface
+          The <code>solve()</code> methods of the <code>DecompositionSolver</code> class
           support solving linear systems of equations of the form AX=B, either in linear sense
           or in least square sense. In each case, the <code>RealMatrix</code> represents the
           coefficient matrix of the system. For example, to solve the linear system
@@ -103,19 +102,20 @@ RealMatrix pInverse = new LUDecompositionImpl(p).inverse();
            -x + 7y + 6x = -2
            4x - 3y - 5z = 1
           </pre>
-          Start by creating a RealMatrix to store the coefficients matrix A
+          Start by creating a RealMatrix to store the coefficients matrix A and provide it
+          to a solver
           <source>
 RealMatrix coefficients =
     new RealMatrixImpl(new double[][] { { 2, 3, -2 }, { -1, 7, 6 }, { 4, -3, -5 } },
                        false);
+DecompositionSolver solver = new DecompositionSolver(coefficients);
           </source>
           Next create a <code>RealVector</code> array to represent the constant
-          vector B and use <code>solve(RealVector)</code> from one of the implementations
-          of the <code>DecompositionSolver</code> interface, for example
-          <code>LUDecompositionImpl</code> to solve the system
+          vector B, select one of the decomposition algorithms (LU, QR ...) and use
+          <code>solve(vector, decomposition)</code> to solve the system
           <source>
 RealVector constants = new RealVectorImpl(new double[] { 1, -2, 1 }, false);
-RealVector solution = new LUDecompositionImpl(coefficients).solve(constants);
+RealVector solution = solver.solve(constants, solver.luDecomposition());
           </source>
           The <code>solution</code> vector will contain values for x
           (<code>solution.getEntry(0)</code>), y (<code>solution.getEntry(1)</code>), 
@@ -146,7 +146,7 @@ RealVector solution = new LUDecompositionImpl(coefficients).solve(constants);
           It is possible to solve multiple systems with the same coefficient matrix 
           in one method call.  To do this, create a matrix whose column vectors correspond 
           to the constant vectors for the systems to be solved and use 
-          <code>solve(RealMatrix),</code> which returns a matrix with column
+          <code>solve(matrix, decomposition),</code> which returns a matrix with column
           vectors representing the solutions.
         </p>
       </subsection>
