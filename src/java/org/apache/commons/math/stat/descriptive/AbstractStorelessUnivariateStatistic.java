@@ -94,6 +94,11 @@ public abstract class AbstractStorelessUnivariateStatistic
     /**
      * {@inheritDoc}
      */
+    public abstract StorelessUnivariateStatistic copy();
+
+    /**
+     * {@inheritDoc}
+     */
     public abstract void clear();
 
     /**
