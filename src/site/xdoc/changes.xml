@@ -202,8 +202,6 @@ The <action> type attribute can be add,update,fix,remove.
         removed. Complex utilities methods that have been superseded by Complex instance
         methods have been removed.
       </action>
-    </release>
-    <release version="1.3-SNAPSHOT" date="TBD" description="TBD">
       <action dev="luc" type="fix" issue="MATH-205" due-to="Roman Werpachowski">
         Fixed formula in fast cosine transformer javadoc comments.
       </action>
