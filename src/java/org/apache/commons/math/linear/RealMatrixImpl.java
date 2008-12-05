@@ -54,20 +54,15 @@ import org.apache.commons.math.util.MathUtils;
 public class RealMatrixImpl implements RealMatrix, Serializable {
     
     /** Serializable version identifier */
-    private static final long serialVersionUID = 4970229902484487012L;
+    private static final long serialVersionUID = -391443069570048115L;
 
     /** Entries of the matrix */
     protected double data[][];
 
-    /** Cached decomposition solver.
+    /** Cached LU solver.
      * @deprecated as of release 2.0, since all methods using this are deprecated
      */
-    private DecompositionSolver ds;
-
-    /** Cached LU decomposition.
-     * @deprecated as of release 2.0, since all methods using this are deprecated
-     */
-    private LUDecomposition lu;
+    private LUSolver lu;
 
     /**
      * Creates a matrix with no data
@@ -89,7 +84,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
                     "row and column dimensions must be postive");
         }
         data = new double[rowDimension][columnDimension];
-        ds = null;
+        lu = null;
     }
 
     /**
@@ -107,7 +102,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      */
     public RealMatrixImpl(double[][] d) {
         copyIn(d);
-        ds = null;
+        lu = null;
     }
 
     /**
@@ -147,7 +142,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
             }       
             data = d;
         }
-        ds = null;
+        lu = null;
     }
 
     /**
@@ -546,7 +541,7 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
             System.arraycopy(subMatrix[i], 0, data[row + i], column, nCols);
         } 
 
-        ds = null;
+        lu = null;
 
     }
 
@@ -631,21 +626,19 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     /** {@inheritDoc} */
     @Deprecated
     public RealMatrix inverse() throws InvalidMatrixException {
-        if (ds == null) {
-            ds = new DecompositionSolver(this);
-            lu = ds.luDecompose(MathUtils.SAFE_MIN);
+        if (lu == null) {
+            lu = new LUSolver(new LUDecompositionImpl(this, MathUtils.SAFE_MIN));
         }
-        return ds.getInverse(lu);
+        return lu.getInverse();
     }
 
     /** {@inheritDoc} */
     @Deprecated
     public double getDeterminant() throws InvalidMatrixException {
-        if (ds == null) {
-            ds = new DecompositionSolver(this);
-            lu = ds.luDecompose(MathUtils.SAFE_MIN);
+        if (lu == null) {
+            lu = new LUSolver(new LUDecompositionImpl(this, MathUtils.SAFE_MIN));
         }
-        return ds.getDeterminant(lu);
+        return lu.getDeterminant();
     }
 
     /** {@inheritDoc} */
@@ -656,11 +649,10 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     /** {@inheritDoc} */
     @Deprecated
     public boolean isSingular() {
-        if (ds == null) {
-            ds = new DecompositionSolver(this);
-            lu = ds.luDecompose(MathUtils.SAFE_MIN);
-        }
-        return !ds.isNonSingular(lu);
+        if (lu == null) {
+            lu = new LUSolver(new LUDecompositionImpl(this, MathUtils.SAFE_MIN));
+       }
+        return !lu.isNonSingular();
     }
 
     /** {@inheritDoc} */
@@ -792,21 +784,19 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
     /** {@inheritDoc} */
     @Deprecated
     public double[] solve(double[] b) throws IllegalArgumentException, InvalidMatrixException {
-        if (ds == null) {
-            ds = new DecompositionSolver(this);
-            lu = ds.luDecompose(MathUtils.SAFE_MIN);
+        if (lu == null) {
+            lu = new LUSolver(new LUDecompositionImpl(this, MathUtils.SAFE_MIN));
         }
-        return ds.solve(b, lu);
+        return lu.solve(b);
     }
 
     /** {@inheritDoc} */
     @Deprecated
     public RealMatrix solve(RealMatrix b) throws IllegalArgumentException, InvalidMatrixException  {
-        if (ds == null) {
-            ds = new DecompositionSolver(this);
-            lu = ds.luDecompose(MathUtils.SAFE_MIN);
+        if (lu == null) {
+            lu = new LUSolver(new LUDecompositionImpl(this, MathUtils.SAFE_MIN));
         }
-        return ds.solve(b, lu);
+        return lu.solve(b);
     }
 
     /**
@@ -830,9 +820,8 @@ public class RealMatrixImpl implements RealMatrix, Serializable {
      */
     @Deprecated
     public void luDecompose() throws InvalidMatrixException {
-        if (ds == null) {
-            ds = new DecompositionSolver(this);
-            lu = ds.luDecompose(MathUtils.SAFE_MIN);
+        if (lu == null) {
+            lu = new LUSolver(new LUDecompositionImpl(this, MathUtils.SAFE_MIN));
         }
     }
 

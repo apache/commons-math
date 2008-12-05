@@ -16,7 +16,8 @@
  */
 package org.apache.commons.math.stat.regression;
 
-import org.apache.commons.math.linear.DecompositionSolver;
+import org.apache.commons.math.linear.LUDecompositionImpl;
+import org.apache.commons.math.linear.LUSolver;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealMatrixImpl;
 
@@ -78,8 +79,7 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      */
     protected RealMatrix getOmegaInverse() {
         if (OmegaInverse == null) {
-            DecompositionSolver solver = new DecompositionSolver(Omega);
-            OmegaInverse = solver.getInverse(solver.luDecompose());
+            OmegaInverse = new LUSolver(new LUDecompositionImpl(Omega)).getInverse();
         }
         return OmegaInverse;
     }
@@ -95,8 +95,8 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
         RealMatrix OI = getOmegaInverse();
         RealMatrix XT = X.transpose();
         RealMatrix XTOIX = XT.multiply(OI).multiply(X);
-        DecompositionSolver solver = new DecompositionSolver(XTOIX);
-        return solver.getInverse(solver.luDecompose()).multiply(XT).multiply(OI).multiply(Y);
+        RealMatrix inverse = new LUSolver(new LUDecompositionImpl(XTOIX)).getInverse();
+        return inverse.multiply(XT).multiply(OI).multiply(Y);
     }
 
     /**
@@ -109,8 +109,7 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
     protected RealMatrix calculateBetaVariance() {
         RealMatrix OI = getOmegaInverse();
         RealMatrix XTOIX = X.transpose().multiply(OI).multiply(X);
-        DecompositionSolver solver = new DecompositionSolver(XTOIX);
-        return solver.getInverse(solver.luDecompose());
+        return new LUSolver(new LUDecompositionImpl(XTOIX)).getInverse();
     }
 
     /**

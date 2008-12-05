@@ -16,8 +16,8 @@
  */
 package org.apache.commons.math.stat.regression;
 
-import org.apache.commons.math.linear.DecompositionSolver;
 import org.apache.commons.math.linear.LUDecompositionImpl;
+import org.apache.commons.math.linear.LUSolver;
 import org.apache.commons.math.linear.QRDecomposition;
 import org.apache.commons.math.linear.QRDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
@@ -109,8 +109,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      */
     protected RealMatrix calculateBetaVariance() {
         RealMatrix XTX = X.transpose().multiply(X);
-        DecompositionSolver solver = new DecompositionSolver(XTX);
-        return solver.getInverse(solver.luDecompose());
+        return new LUSolver(new LUDecompositionImpl(XTX)).getInverse();
     }
     
 

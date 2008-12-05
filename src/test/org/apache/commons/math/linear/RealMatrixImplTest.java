@@ -261,10 +261,8 @@ public final class RealMatrixImplTest extends TestCase {
     /** test transpose */
     public void testTranspose() {
         RealMatrix m = new RealMatrixImpl(testData); 
-        DecompositionSolver ds1 = new DecompositionSolver(m);
-        RealMatrix mIT = ds1.getInverse(ds1.luDecompose()).transpose();
-        DecompositionSolver ds2 = new DecompositionSolver(m.transpose());
-        RealMatrix mTI = ds2.getInverse(ds2.luDecompose());
+        RealMatrix mIT = new LUSolver(new LUDecompositionImpl(m)).getInverse().transpose();
+        RealMatrix mTI = new LUSolver(new LUDecompositionImpl(m.transpose())).getInverse();
         assertClose("inverse-transpose", mIT, mTI, normTolerance);
         m = new RealMatrixImpl(testData2);
         RealMatrix mt = new RealMatrixImpl(testData2T);
@@ -354,8 +352,7 @@ public final class RealMatrixImplTest extends TestCase {
         assertEquals(2, p.getRowDimension());
         assertEquals(2, p.getColumnDimension());
         // Invert p
-        DecompositionSolver ds1 = new DecompositionSolver(p);
-        RealMatrix pInverse = ds1.getInverse(ds1.luDecompose()); 
+        RealMatrix pInverse = new LUSolver(new LUDecompositionImpl(p)).getInverse(); 
         assertEquals(2, pInverse.getRowDimension());
         assertEquals(2, pInverse.getColumnDimension());
         
@@ -363,8 +360,7 @@ public final class RealMatrixImplTest extends TestCase {
         double[][] coefficientsData = {{2, 3, -2}, {-1, 7, 6}, {4, -3, -5}};
         RealMatrix coefficients = new RealMatrixImpl(coefficientsData);
         double[] constants = {1, -2, 1};
-        DecompositionSolver ds2 = new DecompositionSolver(coefficients);
-        double[] solution = ds2.solve(constants, ds2.luDecompose());
+        double[] solution = new LUSolver(new LUDecompositionImpl(coefficients)).solve(constants);
         assertEquals(2 * solution[0] + 3 * solution[1] -2 * solution[2], constants[0], 1E-12);
         assertEquals(-1 * solution[0] + 7 * solution[1] + 6 * solution[2], constants[1], 1E-12);
         assertEquals(4 * solution[0] - 3 * solution[1] -5 * solution[2], constants[2], 1E-12);   

@@ -66,8 +66,7 @@ System.out.println(p.getRowDimension());    // 2
 System.out.println(p.getColumnDimension()); // 2
 
 // Invert p, using LU decomposition
-DecompositionSolver solver = new DecompositionSolver(p);
-RealMatrix pInverse = solver.inverse(solver.luDecompose());
+RealMatrix pInverse = new LUSolver(new LUDecompositionImpl(p))).getInverse();
          </source>
         </p>
       </subsection>
@@ -93,7 +92,7 @@ RealMatrix pInverse = solver.inverse(solver.luDecompose());
       </subsection>
       <subsection name="3.4 Solving linear systems" href="solve">
         <p>
-          The <code>solve()</code> methods of the <code>DecompositionSolver</code> class
+          The <code>solve()</code> methods of the <code>DecompositionSolver</code> interface
           support solving linear systems of equations of the form AX=B, either in linear sense
           or in least square sense. In each case, the <code>RealMatrix</code> represents the
           coefficient matrix of the system. For example, to solve the linear system
@@ -108,14 +107,13 @@ RealMatrix pInverse = solver.inverse(solver.luDecompose());
 RealMatrix coefficients =
     new RealMatrixImpl(new double[][] { { 2, 3, -2 }, { -1, 7, 6 }, { 4, -3, -5 } },
                        false);
-DecompositionSolver solver = new DecompositionSolver(coefficients);
+LUSolver solver = new LUSolver(new LUDecompositionImpl(coefficients));
           </source>
           Next create a <code>RealVector</code> array to represent the constant
-          vector B, select one of the decomposition algorithms (LU, QR ...) and use
-          <code>solve(vector, decomposition)</code> to solve the system
+          vector B and use <code>solve(RealVector)</code> to solve the system
           <source>
 RealVector constants = new RealVectorImpl(new double[] { 1, -2, 1 }, false);
-RealVector solution = solver.solve(constants, solver.luDecomposition());
+RealVector solution = solver.solve(constants);
           </source>
           The <code>solution</code> vector will contain values for x
           (<code>solution.getEntry(0)</code>), y (<code>solution.getEntry(1)</code>), 
@@ -126,11 +124,10 @@ RealVector solution = solver.solve(constants, solver.luDecomposition());
           for X is such that the residual AX-B has minimal norm. If an exact solution
           exist (i.e. if for some X the residual AX-B is exactly 0), then this exact
           solution is also the solution in least square sense. Some solvers like
-          <code>LUDecomposition</code> can only find the solution for
-          square matrices and when the solution is an exact linear solution. Other solvers
-          like <code>QRDecomposition</code> are more versatile and can also find solutions
-          with non-square matrix A or when no exact solution exist (i.e. when the minimal
-          value for AX-B norm is non-null).
+          <code>LUSolver</code> can only find the solution for square matrices and when
+          the solution is an exact linear solution. Other solvers like <code>QRDecomposition</code>
+          are more versatile and can also find solutions with non-square matrix A or when
+          no exact solution exist (i.e. when the minimal value for AX-B norm is non-null).
         </p>
         <p>
           If the coefficient matrix is singular or doesn't fulfill the requirements of
@@ -145,12 +142,15 @@ RealVector solution = solver.solve(constants, solver.luDecomposition());
         <p>
           It is possible to solve multiple systems with the same coefficient matrix 
           in one method call.  To do this, create a matrix whose column vectors correspond 
-          to the constant vectors for the systems to be solved and use 
-          <code>solve(matrix, decomposition),</code> which returns a matrix with column
-          vectors representing the solutions.
+          to the constant vectors for the systems to be solved and use <code>solve(RealMatrix),</code>
+          which returns a matrix with column vectors representing the solutions.
         </p>
       </subsection>
       <subsection name="3.5 Eigenvalues/eigenvectors and singular values/singular vectors" href="eigen">
+        <p>
+          Decomposition algorithms may be used for themselves and not only for linear system solving.
+          This is of prime interest with eigen decomposition and singular value decomposition.
+        </p>
         <p>
           The <code>getEigenvalue()</code>, <code>getEigenvalues()</code>, <code>getEigenVector()</code>,
           <code>getV()</code>, <code>getD()</code> and <code>getVT()</code> methods of the

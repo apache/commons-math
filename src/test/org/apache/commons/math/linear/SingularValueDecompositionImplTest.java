@@ -129,122 +129,6 @@ public class SingularValueDecompositionImplTest extends TestCase {
         assertEquals(0, mTm.subtract(id).getNorm(), normTolerance);
     }
 
-    /** test solve dimension errors */
-    public void testSolveDimensionErrors() {
-        DecompositionSolver ds =
-            new DecompositionSolver(new RealMatrixImpl(testSquare, false));
-        SingularValueDecomposition svd = ds.singularDecompose();
-        RealMatrix b = new RealMatrixImpl(new double[3][2]);
-        try {
-            ds.solve(b, svd);
-            fail("an exception should have been thrown");
-        } catch (IllegalArgumentException iae) {
-            // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
-        }
-        try {
-            ds.solve(b.getColumn(0), svd);
-            fail("an exception should have been thrown");
-        } catch (IllegalArgumentException iae) {
-            // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
-        }
-        try {
-            ds.solve(new RealVectorImplTest.RealVectorTestImpl(b.getColumn(0)), svd);
-            fail("an exception should have been thrown");
-        } catch (IllegalArgumentException iae) {
-            // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
-        }
-    }
-
-    /** test solve singularity errors */
-    public void testSolveSingularityErrors() {
-        DecompositionSolver ds =
-            new DecompositionSolver(new RealMatrixImpl(new double[][] {
-                                                           { 1.0, 0.0 },
-                                                           { 0.0, 0.0 }
-                                                       }, false));
-        SingularValueDecomposition svd = ds.singularDecompose();
-        RealMatrix b = new RealMatrixImpl(new double[2][2]);
-        try {
-            ds.solve(b, svd);
-            fail("an exception should have been thrown");
-        } catch (InvalidMatrixException ime) {
-            // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
-        }
-        try {
-            ds.solve(b.getColumn(0), svd);
-            fail("an exception should have been thrown");
-        } catch (InvalidMatrixException ime) {
-            // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
-        }
-        try {
-            ds.solve(b.getColumnVector(0), svd);
-            fail("an exception should have been thrown");
-        } catch (InvalidMatrixException ime) {
-            // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
-        }
-        try {
-            ds.solve(new RealVectorImplTest.RealVectorTestImpl(b.getColumn(0)), svd);
-            fail("an exception should have been thrown");
-        } catch (InvalidMatrixException ime) {
-            // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
-        }
-    }
-
-    /** test solve */
-    public void testSolve() {
-        DecompositionSolver ds =
-            new DecompositionSolver(new RealMatrixImpl(testSquare, false));
-        SingularValueDecomposition svd = ds.singularDecompose();
-        RealMatrix b = new RealMatrixImpl(new double[][] {
-                { 1, 2, 3 }, { 0, -5, 1 }
-        });
-        RealMatrix xRef = new RealMatrixImpl(new double[][] {
-                { -8.0 / 25.0, -263.0 / 75.0, -29.0 / 75.0 },
-                { 19.0 / 25.0,   78.0 / 25.0,  49.0 / 25.0 }
-        });
-
-        // using RealMatrix
-        assertEquals(0, ds.solve(b, svd).subtract(xRef).getNorm(), normTolerance);
-
-        // using double[]
-        for (int i = 0; i < b.getColumnDimension(); ++i) {
-            assertEquals(0,
-                         new RealVectorImpl(ds.solve(b.getColumn(i), svd)).subtract(xRef.getColumnVector(i)).getNorm(),
-                         1.0e-13);
-        }
-
-        // using RealMatrixImpl
-        for (int i = 0; i < b.getColumnDimension(); ++i) {
-            assertEquals(0,
-                         ds.solve(b.getColumnVector(i), svd).subtract(xRef.getColumnVector(i)).getNorm(),
-                         1.0e-13);
-        }
-
-        // using RealMatrix with an alternate implementation
-        for (int i = 0; i < b.getColumnDimension(); ++i) {
-            RealVectorImplTest.RealVectorTestImpl v =
-                new RealVectorImplTest.RealVectorTestImpl(b.getColumn(i));
-            assertEquals(0,
-                         ds.solve(v, svd).subtract(xRef.getColumnVector(i)).getNorm(),
-                         1.0e-13);
-        }
-
-    }
-
     /** test matrices values */
     public void testMatricesValues1() {
        SingularValueDecomposition svd =
@@ -299,7 +183,7 @@ public class SingularValueDecompositionImplTest extends TestCase {
 
         // check values against known references
         SingularValueDecomposition svd =
-            new DecompositionSolver(new RealMatrixImpl(testNonSquare, false)).singularDecompose();
+            new SingularValueDecompositionImpl(new RealMatrixImpl(testNonSquare, false));
         RealMatrix u = svd.getU();
         assertEquals(0, u.subtract(uRef).getNorm(), normTolerance);
         RealMatrix s = svd.getS();

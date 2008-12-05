@@ -19,8 +19,9 @@ package org.apache.commons.math.estimation;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.linear.DecompositionSolver;
 import org.apache.commons.math.linear.InvalidMatrixException;
+import org.apache.commons.math.linear.LUDecompositionImpl;
+import org.apache.commons.math.linear.LUSolver;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealMatrixImpl;
 import org.apache.commons.math.linear.RealVector;
@@ -153,8 +154,7 @@ public class GaussNewtonEstimator extends AbstractEstimator implements Serializa
             try {
 
                 // solve the linearized least squares problem
-                DecompositionSolver solver = new DecompositionSolver(a);
-                RealVector dX = solver.solve(b, solver.luDecompose());
+                RealVector dX = new LUSolver(new LUDecompositionImpl(a)).solve(b);
 
                 // update the estimated parameters
                 for (int i = 0; i < parameters.length; ++i) {
