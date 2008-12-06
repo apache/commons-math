@@ -304,7 +304,13 @@ public class MessagesResources_fr
    { "statistics constructed from external moments cannot be incremented",
      "les statistiques bas\u00e9es sur des moments externes ne peuvent pas \u00eatre incr\u00e9ment\u00e9es" },
    { "statistics constructed from external moments cannot be cleared",
-     "les statistiques bas\u00e9es sur des moments externes ne peuvent pas \u00eatre remises \u00e0 z\u00e9ro" }
+     "les statistiques bas\u00e9es sur des moments externes ne peuvent pas \u00eatre remises \u00e0 z\u00e9ro" },
+
+   // org.apache.commons.math.distribution.ZipfDistributionImpl
+   { "invalid number of elements {0} (must be positive)",
+     "nombre d''\u00e9l\u00e9ments {0} invalide (doit \u00eatre positif)" },
+   { "invalid exponent {0} (must be positive)",
+     "exposant {0} invalide (doit \u00eatre positif)" }
 
   };
 
