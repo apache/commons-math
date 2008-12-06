@@ -107,7 +107,6 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      * @param window the window size.
      */
     public DescriptiveStatistics(int window) {
-        super();
         setWindowSize(window);
     }
     
@@ -326,10 +325,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      *         were added to this set
      */
     public double[] getValues() {
-        double[] copiedArray = new double[eDA.getNumElements()];
-        System.arraycopy(eDA.getElements(), 0, copiedArray,
-            0, eDA.getNumElements());
-        return copiedArray;
+        return eDA.getElements();
     }
 
     /**
