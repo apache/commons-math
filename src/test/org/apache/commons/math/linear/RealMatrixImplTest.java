@@ -159,6 +159,14 @@ public final class RealMatrixImplTest extends TestCase {
         assertEquals("testData2 norm",7d,m2.getNorm(),entryTolerance);
     }
     
+    /** test Frobenius norm */
+    public void testFrobeniusNorm() {
+        RealMatrixImpl m = new RealMatrixImpl(testData);
+        RealMatrixImpl m2 = new RealMatrixImpl(testData2);
+        assertEquals("testData Frobenius norm", Math.sqrt(117.0), m.getFrobeniusNorm(), entryTolerance);
+        assertEquals("testData2 Frobenius norm", Math.sqrt(52.0), m2.getFrobeniusNorm(), entryTolerance);
+    }
+    
      /** test m-n = m + -n */
     public void testPlusMinus() {
         RealMatrixImpl m = new RealMatrixImpl(testData);

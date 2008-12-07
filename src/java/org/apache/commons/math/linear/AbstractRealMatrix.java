@@ -217,6 +217,20 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
     }
     
     /** {@inheritDoc} */
+    public double getFrobeniusNorm() {
+        final int rowCount    = getRowDimension();
+        final int columnCount = getColumnDimension();
+        double sum2 = 0;
+        for (int col = 0; col < columnCount; ++col) {
+            for (int row = 0; row < rowCount; ++row) {
+                final double mij = getEntry(row, col);
+                sum2 += mij * mij;
+            }
+        }
+        return Math.sqrt(sum2);
+    }
+    
+    /** {@inheritDoc} */
     public RealMatrix getSubMatrix(final int startRow, final int endRow,
                                    final int startColumn, final int endColumn)
         throws MatrixIndexException {

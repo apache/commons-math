@@ -114,6 +114,14 @@ public interface RealMatrix {
     double getNorm();
     
     /**
+     * Returns the <a href="http://mathworld.wolfram.com/FrobeniusNorm.html">
+     * Frobenius norm</a> of the matrix.
+     *
+     * @return norm
+     */
+    double getFrobeniusNorm();
+    
+    /**
      * Gets a submatrix. Rows and columns are indicated
      * counting from 0 to n-1.
      *
