@@ -465,6 +465,26 @@ public final class RealMatrixImplTest extends TestCase {
         }
     }
     
+    public void testSetRowMatrix() {
+        RealMatrix m = new RealMatrixImpl(subTestData);
+        RealMatrix mRow3 = new RealMatrixImpl(subRow3);
+        assertNotSame(mRow3, m.getRowMatrix(0));
+        m.setRowMatrix(0, mRow3);
+        assertEquals(mRow3, m.getRowMatrix(0));
+        try {
+            m.setRowMatrix(-1, mRow3);
+            fail("Expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
+            // expected
+        }
+        try {
+            m.setRowMatrix(0, m);
+            fail("Expecting InvalidMatrixException");
+        } catch (InvalidMatrixException ex) {
+            // expected
+        }
+    }
+    
     public void testGetColumnMatrix() {
         RealMatrix m = new RealMatrixImpl(subTestData);
         RealMatrix mColumn1 = new RealMatrixImpl(subColumn1);
@@ -487,6 +507,26 @@ public final class RealMatrixImplTest extends TestCase {
         }
     }
 
+    public void testSetColumnMatrix() {
+        RealMatrix m = new RealMatrixImpl(subTestData);
+        RealMatrix mColumn3 = new RealMatrixImpl(subColumn3);
+        assertNotSame(mColumn3, m.getColumnMatrix(1));
+        m.setColumnMatrix(1, mColumn3);
+        assertEquals(mColumn3, m.getColumnMatrix(1));
+        try {
+            m.setColumnMatrix(-1, mColumn3);
+            fail("Expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
+            // expected
+        }
+        try {
+            m.setColumnMatrix(0, m);
+            fail("Expecting InvalidMatrixException");
+        } catch (InvalidMatrixException ex) {
+            // expected
+        }
+    }
+
     public void testGetRowVector() {
         RealMatrix m = new RealMatrixImpl(subTestData);
         RealVector mRow0 = new RealVectorImpl(subRow0[0]);
@@ -505,7 +545,27 @@ public final class RealMatrixImplTest extends TestCase {
         } catch (MatrixIndexException ex) {
             // expected
         }
-   }
+    }
+
+    public void testSetRowVector() {
+        RealMatrix m = new RealMatrixImpl(subTestData);
+        RealVector mRow3 = new RealVectorImpl(subRow3[0]);
+        assertNotSame(mRow3, m.getRowMatrix(0));
+        m.setRowVector(0, mRow3);
+        assertEquals(mRow3, m.getRowVector(0));
+        try {
+            m.setRowVector(-1, mRow3);
+            fail("Expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
+            // expected
+        }
+        try {
+            m.setRowVector(0, new RealVectorImpl(5));
+            fail("Expecting InvalidMatrixException");
+        } catch (InvalidMatrixException ex) {
+            // expected
+        }
+    }
     
     public void testGetColumnVector() {
         RealMatrix m = new RealMatrixImpl(subTestData);
@@ -527,12 +587,124 @@ public final class RealMatrixImplTest extends TestCase {
         }
     }
 
+    public void testSetColumnVector() {
+        RealMatrix m = new RealMatrixImpl(subTestData);
+        RealVector mColumn3 = columnToVector(subColumn3);
+        assertNotSame(mColumn3, m.getColumnVector(1));
+        m.setColumnVector(1, mColumn3);
+        assertEquals(mColumn3, m.getColumnVector(1));
+        try {
+            m.setColumnVector(-1, mColumn3);
+            fail("Expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
+            // expected
+        }
+        try {
+            m.setColumnVector(0, new RealVectorImpl(5));
+            fail("Expecting InvalidMatrixException");
+        } catch (InvalidMatrixException ex) {
+            // expected
+        }
+    }
+
     private RealVector columnToVector(double[][] column) {
         double[] data = new double[column.length];
         for (int i = 0; i < data.length; ++i) {
             data[i] = column[i][0];
         }
         return new RealVectorImpl(data, false);
+    }
+
+    public void testGetRow() {
+        RealMatrix m = new RealMatrixImpl(subTestData);
+        checkArrays(subRow0[0], m.getRow(0));
+        checkArrays(subRow3[0], m.getRow(3));
+        try {
+            m.getRow(-1);
+            fail("Expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
+            // expected
+        }
+        try {
+            m.getRow(4);
+            fail("Expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
+            // expected
+        }
+    }
+
+    public void testSetRow() {
+        RealMatrix m = new RealMatrixImpl(subTestData);
+        assertTrue(subRow3[0][0] != m.getRow(0)[0]);
+        m.setRow(0, subRow3[0]);
+        checkArrays(subRow3[0], m.getRow(0));
+        try {
+            m.setRow(-1, subRow3[0]);
+            fail("Expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
+            // expected
+        }
+        try {
+            m.setRow(0, new double[5]);
+            fail("Expecting InvalidMatrixException");
+        } catch (InvalidMatrixException ex) {
+            // expected
+        }
+    }
+    
+    public void testGetColumn() {
+        RealMatrix m = new RealMatrixImpl(subTestData);
+        double[] mColumn1 = columnToArray(subColumn1);
+        double[] mColumn3 = columnToArray(subColumn3);
+        checkArrays(mColumn1, m.getColumn(1));
+        checkArrays(mColumn3, m.getColumn(3));
+        try {
+            m.getColumn(-1);
+            fail("Expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
+            // expected
+        }
+        try {
+            m.getColumn(4);
+            fail("Expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
+            // expected
+        }
+    }
+
+    public void testSetColumn() {
+        RealMatrix m = new RealMatrixImpl(subTestData);
+        double[] mColumn3 = columnToArray(subColumn3);
+        assertTrue(mColumn3[0] != m.getColumn(1)[0]);
+        m.setColumn(1, mColumn3);
+        checkArrays(mColumn3, m.getColumn(1));
+        try {
+            m.setColumn(-1, mColumn3);
+            fail("Expecting MatrixIndexException");
+        } catch (MatrixIndexException ex) {
+            // expected
+        }
+        try {
+            m.setColumn(0, new double[5]);
+            fail("Expecting InvalidMatrixException");
+        } catch (InvalidMatrixException ex) {
+            // expected
+        }
+    }
+
+    private double[] columnToArray(double[][] column) {
+        double[] data = new double[column.length];
+        for (int i = 0; i < data.length; ++i) {
+            data[i] = column[i][0];
+        }
+        return data;
+    }
+
+    private void checkArrays(double[] expected, double[] actual) {
+        assertEquals(expected.length, actual.length);
+        for (int i = 0; i < expected.length; ++i) {
+            assertEquals(expected[i], actual[i]);            
+        }
     }
     
     public void testEqualsAndHashCode() {

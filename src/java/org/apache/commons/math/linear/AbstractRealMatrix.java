@@ -346,6 +346,27 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
     }
     
     /** {@inheritDoc} */
+    public void setRowMatrix(final int row, final RealMatrix matrix)
+        throws MatrixIndexException, InvalidMatrixException {
+
+        checkRowIndex(row);
+        final int nCols = getColumnDimension();
+        if ((matrix.getRowDimension() != 1) ||
+            (matrix.getColumnDimension() != nCols)) {
+            throw new InvalidMatrixException("dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                                             new Object[] {
+                                                 matrix.getRowDimension(),
+                                                 matrix.getColumnDimension(),
+                                                 1, nCols
+                                             });
+        }
+        for (int i = 0; i < nCols; ++i) {
+            setEntry(row, i, matrix.getEntry(0, i));
+        }
+
+    }
+    
+    /** {@inheritDoc} */
     public RealMatrix getColumnMatrix(final int column)
         throws MatrixIndexException {
 
@@ -361,17 +382,76 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
     }
 
     /** {@inheritDoc} */
-    public RealVector getColumnVector(final int column)
-        throws MatrixIndexException {
-        return new RealVectorImpl(getColumn(column), false);
-    }
+    public void setColumnMatrix(final int column, final RealMatrix matrix)
+        throws MatrixIndexException, InvalidMatrixException {
 
+        checkColumnIndex(column);
+        final int nRows = getRowDimension();
+        if ((matrix.getRowDimension() != nRows) ||
+            (matrix.getColumnDimension() != 1)) {
+            throw new InvalidMatrixException("dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                                             new Object[] {
+                                                 matrix.getRowDimension(),
+                                                 matrix.getColumnDimension(),
+                                                 nRows, 1
+                                             });
+        }
+        for (int i = 0; i < nRows; ++i) {
+            setEntry(i, column, matrix.getEntry(i, 0));
+        }
+
+    }
+    
     /** {@inheritDoc} */
     public RealVector getRowVector(final int row)
         throws MatrixIndexException {
         return new RealVectorImpl(getRow(row), false);
     }
 
+    /** {@inheritDoc} */
+    public void setRowVector(final int row, final RealVector vector)
+        throws MatrixIndexException, InvalidMatrixException {
+
+        checkRowIndex(row);
+        final int nCols = getColumnDimension();
+        if (vector.getDimension() != nCols) {
+            throw new InvalidMatrixException("dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                                             new Object[] {
+                                                 1, vector.getDimension(),
+                                                 1, nCols
+                                             });
+        }
+        for (int i = 0; i < nCols; ++i) {
+            setEntry(row, i, vector.getEntry(i));
+        }
+
+    }
+    
+    /** {@inheritDoc} */
+    public RealVector getColumnVector(final int column)
+        throws MatrixIndexException {
+        return new RealVectorImpl(getColumn(column), false);
+    }
+
+    /** {@inheritDoc} */
+    public void setColumnVector(final int column, final RealVector vector)
+        throws MatrixIndexException, InvalidMatrixException {
+
+        checkColumnIndex(column);
+        final int nRows = getRowDimension();
+        if (vector.getDimension() != nRows) {
+            throw new InvalidMatrixException("dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                                             new Object[] {
+                                                 vector.getDimension(), 1,
+                                                 nRows, 1
+                                             });
+        }
+        for (int i = 0; i < nRows; ++i) {
+            setEntry(i, column, vector.getEntry(i));
+        }
+
+    }
+    
     /** {@inheritDoc} */
     public double[] getRow(final int row)
         throws MatrixIndexException {
@@ -388,6 +468,25 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
     }
 
     /** {@inheritDoc} */
+    public void setRow(final int row, final double[] array)
+        throws MatrixIndexException, InvalidMatrixException {
+
+        checkRowIndex(row);
+        final int nCols = getColumnDimension();
+        if (array.length != nCols) {
+            throw new InvalidMatrixException("dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                                             new Object[] {
+                                                 1, array.length,
+                                                 1, nCols
+                                             });
+        }
+        for (int i = 0; i < nCols; ++i) {
+            setEntry(row, i, array[i]);
+        }
+
+    }
+    
+    /** {@inheritDoc} */
     public double[] getColumn(final int column)
         throws MatrixIndexException {
 
@@ -402,6 +501,25 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
 
     }
 
+    /** {@inheritDoc} */
+    public void setColumn(final int column, final double[] array)
+        throws MatrixIndexException, InvalidMatrixException {
+
+        checkColumnIndex(column);
+        final int nRows = getRowDimension();
+        if (array.length != nRows) {
+            throw new InvalidMatrixException("dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                                             new Object[] {
+                                                 array.length, 1,
+                                                 nRows, 1
+                                             });
+        }
+        for (int i = 0; i < nRows; ++i) {
+            setEntry(i, column, array[i]);
+        }
+
+    }
+    
     /** {@inheritDoc} */
     public abstract double getEntry(int row, int column)
         throws MatrixIndexException;

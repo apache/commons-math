@@ -194,6 +194,8 @@ public class MessagesResources_fr
       "nombre de colonnes invalide : {0} (doit \u00eatre positif)" },
     { "vector length mismatch: got {0} but expected {1}",
       "taille de vecteur invalide : {0} au lieu de {1} attendue" },
+    { "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+      "dimensions incoh\u00e9rentes : {0}x{1} \u00e0 la place de {2}x{3}" },
 
     // org.apache.commons.math.linear.BigMatrixImpl
     // org.apache.commons.math.linear.RealMatrixImpl

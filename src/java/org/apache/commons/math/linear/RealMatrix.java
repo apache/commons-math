@@ -190,6 +190,20 @@ public interface RealMatrix {
    RealMatrix getRowMatrix(int row) throws MatrixIndexException;
    
    /**
+    * Sets the entries in row number <code>row</code>
+    * as a row matrix.  Row indices start at 0.
+    *
+    * @param row the row to be set
+    * @param matrix row matrix (must have one row and the same number of columns
+    * as the instance)
+    * @throws MatrixIndexException if the specified row index is invalid
+    * @throws InvalidMatrixException if the matrix dimensions do not match one
+    * instance row
+    */
+   void setRowMatrix(int row, RealMatrix matrix)
+       throws MatrixIndexException, InvalidMatrixException;
+   
+   /**
     * Returns the entries in column number <code>column</code>
     * as a column matrix.  Column indices start at 0.
     *
@@ -200,6 +214,20 @@ public interface RealMatrix {
    RealMatrix getColumnMatrix(int column) throws MatrixIndexException;
 
    /**
+    * Sets the entries in column number <code>column</code>
+    * as a column matrix.  Column indices start at 0.
+    *
+    * @param column the column to be set
+    * @param matrix column matrix (must have one column and the same number of rows
+    * as the instance)
+    * @throws MatrixIndexException if the specified column index is invalid
+    * @throws InvalidMatrixException if the matrix dimensions do not match one
+    * instance column
+    */
+   void setColumnMatrix(int column, RealMatrix matrix)
+       throws MatrixIndexException, InvalidMatrixException;
+   
+   /**
     * Returns the entries in row number <code>row</code>
     * as a vector.  Row indices start at 0.
     *
@@ -208,6 +236,20 @@ public interface RealMatrix {
     * @throws MatrixIndexException if the specified row index is invalid
     */
    RealVector getRowVector(int row) throws MatrixIndexException;
+
+   /**
+    * Sets the entries in row number <code>row</code>
+    * as a row matrix.  Row indices start at 0.
+    *
+    * @param row the row to be set
+    * @param vector row vector (must have the same number of columns
+    * as the instance)
+    * @throws MatrixIndexException if the specified row index is invalid
+    * @throws InvalidMatrixException if the vector dimension does not match one
+    * instance row
+    */
+   void setRowVector(int row, RealVector vector)
+       throws MatrixIndexException, InvalidMatrixException;
    
    /**
     * Returns the entries in column number <code>column</code>
@@ -218,7 +260,20 @@ public interface RealMatrix {
     * @throws MatrixIndexException if the specified column index is invalid
     */
    RealVector getColumnVector(int column) throws MatrixIndexException;
-    
+
+   /**
+    * Sets the entries in column number <code>column</code>
+    * as a column matrix.  Column indices start at 0.
+    *
+    * @param column the column to be set
+    * @param vector column vector (must have the same number of rows as the instance)
+    * @throws MatrixIndexException if the specified column index is invalid
+    * @throws InvalidMatrixException if the vector dimension does not match one
+    * instance column
+    */
+   void setColumnVector(int column, RealVector vector)
+       throws MatrixIndexException, InvalidMatrixException;
+   
     /**
      * Returns the entries in row number <code>row</code> as an array.
      * <p>
@@ -232,6 +287,19 @@ public interface RealMatrix {
     double[] getRow(int row) throws MatrixIndexException;
 
     /**
+     * Sets the entries in row number <code>row</code>
+     * as a row matrix.  Row indices start at 0.
+     *
+     * @param row the row to be set
+     * @param array row matrix (must have the same number of columns as the instance)
+     * @throws MatrixIndexException if the specified row index is invalid
+     * @throws InvalidMatrixException if the array size does not match one
+     * instance row
+     */
+    void setRow(int row, double[] array)
+        throws MatrixIndexException, InvalidMatrixException;
+    
+    /**
      * Returns the entries in column number <code>col</code> as an array.
      * <p>
      * Column indices start at 0.  A <code>MatrixIndexException</code> is thrown
@@ -243,6 +311,19 @@ public interface RealMatrix {
      */
     double[] getColumn(int column) throws MatrixIndexException;
 
+    /**
+     * Sets the entries in column number <code>column</code>
+     * as a column matrix.  Column indices start at 0.
+     *
+     * @param column the column to be set
+     * @param array column array (must have the same number of rows as the instance)
+     * @throws MatrixIndexException if the specified column index is invalid
+     * @throws InvalidMatrixException if the array size does not match one
+     * instance column
+     */
+    void setColumn(int column, double[] array)
+        throws MatrixIndexException, InvalidMatrixException;
+    
     /**
      * Returns the entry in the specified row and column.
      * <p>
