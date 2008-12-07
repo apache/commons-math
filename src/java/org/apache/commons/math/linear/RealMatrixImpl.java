@@ -321,9 +321,26 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
                 throw MathRuntimeException.createIllegalStateException("first {0} columns are not initialized yet",
                                                                        new Object[] { column });
             }
-            data = new double[subMatrix.length][subMatrix[0].length];
+            final int nRows = subMatrix.length;
+            if (nRows == 0) {
+                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row",
+                                                                          null); 
+            }
+
+            final int nCols = subMatrix[0].length;
+            if (nCols == 0) {
+                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column",
+                                                                          null); 
+            }
+            data = new double[subMatrix.length][nCols];
             for (int i = 0; i < data.length; ++i) {
-                System.arraycopy(subMatrix[i], 0, data[i], 0, subMatrix[i].length);
+                if (subMatrix[i].length != nCols) {
+                    throw MathRuntimeException.createIllegalArgumentException("some rows have length {0} while others have length {1}",
+                                                                              new Object[] {
+                                                                                  nCols, subMatrix[i].length
+                                                                              }); 
+                }
+                System.arraycopy(subMatrix[i], 0, data[i + row], column, nCols);
             }
         } else {
             super.setSubMatrix(subMatrix, row, column);
