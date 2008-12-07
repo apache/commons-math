@@ -301,17 +301,22 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
 
         final int nRows = subMatrix.length;
         if (nRows == 0) {
-            throw new IllegalArgumentException("Matrix must have at least one row."); 
+            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row",
+                                                                      null); 
         }
 
         final int nCols = subMatrix[0].length;
         if (nCols == 0) {
-            throw new IllegalArgumentException("Matrix must have at least one column."); 
+            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column",
+                                                                      null); 
         }
 
         for (int r = 1; r < nRows; ++r) {
             if (subMatrix[r].length != nCols) {
-                throw new IllegalArgumentException("All input rows must have the same length.");
+                throw MathRuntimeException.createIllegalArgumentException("some rows have length {0} while others have length {1}",
+                                                                          new Object[] {
+                                                                              nCols, subMatrix[r].length
+                                                                          }); 
             }
         }
 
