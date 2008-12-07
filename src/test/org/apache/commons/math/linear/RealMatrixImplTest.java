@@ -217,8 +217,8 @@ public final class RealMatrixImplTest extends TestCase {
         m = new RealMatrixImpl(testData2);
         try {
             m.getTrace();
-            fail("Expecting illegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting NonSquareMatrixException");
+        } catch (NonSquareMatrixException ex) {
             ;
         }      
     }

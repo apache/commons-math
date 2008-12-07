@@ -26,6 +26,18 @@ package org.apache.commons.math.linear;
  * @version $Revision$ $Date$
  */
 public interface RealMatrix {
+
+    /**
+     * Create a new RealMatrix of the same type as the instance with the supplied
+     * row and column dimensions.
+     *
+     * @param rowDimension  the number of rows in the new matrix
+     * @param columnDimension  the number of columns in the new matrix
+     * @throws IllegalArgumentException if row or column dimension is not positive
+     * @since 2.0
+     */
+    RealMatrix createMatrix(final int rowDimension, final int columnDimension);
+
     /**
      * Returns a (deep) copy of this.
      *
@@ -128,7 +140,37 @@ public interface RealMatrix {
     */
    RealMatrix getSubMatrix(int[] selectedRows, int[] selectedColumns)
    throws MatrixIndexException;
-   
+
+   /**
+    * Replace the submatrix starting at <code>row, column</code> using data in
+    * the input <code>subMatrix</code> array. Indexes are 0-based.
+    * <p> 
+    * Example:<br>
+    * Starting with <pre>
+    * 1  2  3  4
+    * 5  6  7  8
+    * 9  0  1  2
+    * </pre>
+    * and <code>subMatrix = {{3, 4} {5,6}}</code>, invoking 
+    * <code>setSubMatrix(subMatrix,1,1))</code> will result in <pre>
+    * 1  2  3  4
+    * 5  3  4  8
+    * 9  5  6  2
+    * </pre></p>
+    * 
+    * @param subMatrix  array containing the submatrix replacement data
+    * @param row  row coordinate of the top, left element to be replaced
+    * @param column  column coordinate of the top, left element to be replaced
+    * @throws MatrixIndexException  if subMatrix does not fit into this 
+    *    matrix from element in (row, column) 
+    * @throws IllegalArgumentException if <code>subMatrix</code> is not rectangular
+    *  (not all rows have the same length) or empty
+    * @throws NullPointerException if <code>subMatrix</code> is null
+    * @since 2.0
+    */
+   void setSubMatrix(double[][] subMatrix, int row, int column) 
+       throws MatrixIndexException;
+
    /**
     * Returns the entries in row number <code>row</code>
     * as a row matrix.  Row indices start at 0.
@@ -187,11 +229,11 @@ public interface RealMatrix {
      * Column indices start at 0.  A <code>MatrixIndexException</code> is thrown
      * unless <code>0 <= column < columnDimension.</code></p>
      *
-     * @param col the column to be fetched
+     * @param column the column to be fetched
      * @return array of entries in the column
      * @throws MatrixIndexException if the specified column index is not valid
      */
-    double[] getColumn(int col) throws MatrixIndexException;
+    double[] getColumn(int column) throws MatrixIndexException;
 
     /**
      * Returns the entry in the specified row and column.
@@ -209,6 +251,24 @@ public interface RealMatrix {
      * @throws MatrixIndexException if the row or column index is not valid
      */
     double getEntry(int row, int column) throws MatrixIndexException;
+
+    /**
+     * Set the entry in the specified row and column.
+     * <p>
+     * Row and column indices start at 0 and must satisfy 
+     * <ul>
+     * <li><code>0 <= row < rowDimension</code></li>
+     * <li><code> 0 <= column < columnDimension</code></li>
+     * </ul>
+     * otherwise a <code>MatrixIndexException</code> is thrown.</p>
+     * 
+     * @param row  row location of entry to be set
+     * @param column  column location of entry to be set
+     * @param value matrix entry to be set in row,column
+     * @throws MatrixIndexException if the row or column index is not valid
+     * @since 2.0
+     */
+    void setEntry(int row, int column, double value) throws MatrixIndexException;
 
     /**
      * Returns the transpose of this matrix.
@@ -270,8 +330,9 @@ public interface RealMatrix {
      * trace</a> of the matrix (the sum of the elements on the main diagonal).
      *
      * @return trace
+     * @throws NonSquareMatrixException if the matrix is not square
      */
-    double getTrace();
+    double getTrace() throws NonSquareMatrixException;
 
     /**
      * Returns the result of multiplying this by the vector <code>v</code>.

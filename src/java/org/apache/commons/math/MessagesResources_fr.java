@@ -187,8 +187,22 @@ public class MessagesResources_fr
     { "index {0} out of allowed range [{1}, {2}]",
       "index {0} hors de la plage autoris\u00e9e [{1}, {2}]" },
 
+    // org.apache.commons.math.linear.AbstractRealMatrix
+    { "invalid row dimension: {0} (must be positive)",
+      "nombre de lignes invalide : {0} (doit \u00eatre positif)" },
+    { "invalid column dimension: {0} (must be positive)",
+      "nombre de colonnes invalide : {0} (doit \u00eatre positif)" },
+    { "vector length mismatch: got {0} but expected {1}",
+      "taille de vecteur invalide : {0} au lieu de {1} attendue" },
+
     // org.apache.commons.math.linear.BigMatrixImpl
     // org.apache.commons.math.linear.RealMatrixImpl
+    { "matrix must have at least one row",
+      "une matrice doit comporter au moins une ligne" },
+    { "matrix must have at least one column",
+      "une matrice doit comporter au moins une colonne" },
+    { "some rows have length {0} while others have length {1}",
+      "certaines ligne ont une longueur de {0} alors que d''autres ont une longueur de {1}" },
     { "row index {0} out of allowed range [{1}, {2}]",
       "index de ligne {0} hors de la plage autoris\u00e9e [{1}, {2}]" },
     { "column index {0} out of allowed range [{1}, {2}]",
@@ -276,13 +290,6 @@ public class MessagesResources_fr
      "les {0} premi\u00e8res lignes ne sont pas encore initialis\u00e9es" },
    { "first {0} columns are not initialized yet",
      "les {0} premi\u00e8res colonnes ne sont pas encore initialis\u00e9es" },
-
-   // org.apache.commons.math.linear.EigenDecompositionImpl
-   // org.apache.commons.math.linear.LUDecompositionImpl
-   // org.apache.commons.math.linear.QRDecompositionImpl
-   // org.apache.commons.math.linear.SingularValueDecompositionImpl
-   { "no matrix have been decomposed yet",
-     "aucune matrice n''a encore \u00e9t\u00e9 d\u00e9compos\u00e9e" },
 
    // org.apache.commons.math.random.EmpiricalDistributionImpl
    { "distribution not loaded",
