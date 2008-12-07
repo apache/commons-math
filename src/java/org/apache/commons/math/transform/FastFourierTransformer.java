@@ -16,12 +16,12 @@
  */
 package org.apache.commons.math.transform;
 
-import java.lang.reflect.Array;
 import java.io.Serializable;
-import java.util.Arrays;
-import org.apache.commons.math.analysis.*;
-import org.apache.commons.math.complex.*;
+import java.lang.reflect.Array;
+
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.complex.Complex;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/FastFourierTransform.html">
@@ -569,8 +569,9 @@ public class FastFourierTransformer implements Serializable {
      * Performs a multi-dimensional Fourier transform on a given
      * array, using {@link #inversetransform2(Complex[])} and
      * {@link #transform2(Complex[])} in a row-column implementation
-     * in any number of dimensions with Θ(N×log(N)) complexity with
-     * N=n_1×n_2×n_3×⋯×n_d, n_x=number of elements in dimension x,
+     * in any number of dimensions with O(N&times;log(N)) complexity with
+     * N=n<sub>1</sub>&times;n<sub>2</sub>&times;n<sub>3</sub>&times;...&times;n<sub>d</sub>,
+     * n<sub>x</sub>=number of elements in dimension x,
      * and d=total number of dimensions.
      *
      * @param forward inverseTransform2 is preformed if this is false
