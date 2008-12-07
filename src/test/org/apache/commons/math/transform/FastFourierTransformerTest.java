@@ -77,7 +77,39 @@ public final class FastFourierTransformerTest extends TestCase {
             assertEquals(y2[i].getImaginary(), result[i].getImaginary(), tolerance);
         }
     }
-
+    
+    public void test2DData() throws MathException {
+        FastFourierTransformer transformer = new FastFourierTransformer();
+        double tolerance = 1E-12;
+        Complex[][] input = new Complex[][] {new Complex[] {new Complex(1, 0),
+                                                            new Complex(2, 0)},
+                                             new Complex[] {new Complex(3, 1),
+                                                            new Complex(4, 2)}};
+        Complex[][] goodOutput = new Complex[][] {new Complex[] {new Complex(5,
+                1.5), new Complex(-1, -.5)}, new Complex[] {new Complex(-2,
+                -1.5), new Complex(0, .5)}};
+        Complex[][] output = (Complex[][])transformer.mdfft(input, true);
+        Complex[][] output2 = (Complex[][])transformer.mdfft(output, false);
+        
+        assertEquals(input.length, output.length);
+        assertEquals(input.length, output2.length);
+        assertEquals(input[0].length, output[0].length);
+        assertEquals(input[0].length, output2[0].length);
+        assertEquals(input[1].length, output[1].length);
+        assertEquals(input[1].length, output2[1].length);
+        
+        for (int i = 0; i < input.length; i++) {
+            for (int j = 0; j < input[0].length; j++) {
+                assertEquals(input[i][j].getImaginary(), output2[i][j].getImaginary(),
+                             tolerance);
+                assertEquals(input[i][j].getReal(), output2[i][j].getReal(), tolerance);
+                assertEquals(goodOutput[i][j].getImaginary(), output[i][j].getImaginary(),
+                             tolerance);
+                assertEquals(goodOutput[i][j].getReal(), output[i][j].getReal(), tolerance);
+            }
+        }
+    }
+    
     /**
      * Test of transformer for the sine function.
      */

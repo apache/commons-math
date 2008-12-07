@@ -16,7 +16,9 @@
  */
 package org.apache.commons.math.transform;
 
+import java.lang.reflect.Array;
 import java.io.Serializable;
+import java.util.Arrays;
 import org.apache.commons.math.analysis.*;
 import org.apache.commons.math.complex.*;
 import org.apache.commons.math.MathException;
@@ -561,5 +563,190 @@ public class FastFourierTransformer implements Serializable {
                 ("Endpoints do not specify an interval: [" + lower +
                 ", " + upper + "]");
         }       
+    }
+    
+    /**
+     * Performs a multi-dimensional Fourier transform on a given
+     * array, using {@link #inversetransform2(Complex[])} and
+     * {@link #transform2(Complex[])} in a row-column implementation
+     * in any number of dimensions with Θ(N×log(N)) complexity with
+     * N=n_1×n_2×n_3×⋯×n_d, n_x=number of elements in dimension x,
+     * and d=total number of dimensions.
+     *
+     * @param forward inverseTransform2 is preformed if this is false
+     * @param mdca Multi-Dimensional Complex Array id est Complex[][][][]
+     * @throws MathException if any dimension is not a power of two
+     */
+    public Object mdfft(Object mdca, boolean forward) throws MathException {
+        MultiDimensionalComplexMatrix mdcm = (MultiDimensionalComplexMatrix)
+                new MultiDimensionalComplexMatrix(mdca).clone();
+        int[] dimensionSize = mdcm.getDimensionSizes();
+        //cycle through each dimension
+        for (int i = 0; i < dimensionSize.length; i++) {
+            mdfft(mdcm, forward, i, new int[0]);
+        }
+        return mdcm.getArray();
+    }
+    
+    private void mdfft(MultiDimensionalComplexMatrix mdcm, boolean forward,
+                         int d, int[] subVector) throws MathException {
+        int[] dimensionSize = mdcm.getDimensionSizes();
+        //if done
+        if (subVector.length == dimensionSize.length) {
+            Complex[] temp = new Complex[dimensionSize[d]];
+            for (int i = 0; i < dimensionSize[d]; i++) {
+                //fft along dimension d
+                subVector[d] = i;
+                temp[i] = mdcm.get(subVector);
+            }
+            
+            if (forward)
+                temp = transform2(temp);
+            else
+                temp = inversetransform2(temp);
+            
+            for (int i = 0; i < dimensionSize[d]; i++) {
+                subVector[d] = i;
+                mdcm.set(temp[i], subVector);
+            }
+        } else {
+            int[] vector = new int[subVector.length + 1];
+            System.arraycopy(subVector, 0, vector, 0, subVector.length);
+            if (subVector.length == d) {
+                //value is not important once the recursion is done.
+                //then an fft will be applied along the dimension d.
+                vector[d] = 0;
+                mdfft(mdcm, forward, d, vector);
+            } else {
+                for (int i = 0; i < dimensionSize[subVector.length]; i++) {
+                    vector[subVector.length] = i;
+                    //further split along the next dimension
+                    mdfft(mdcm, forward, d, vector);
+                }
+            }
+        }
+        return;
+    }
+
+    /*
+     * not designed for synchronized access
+     * may eventually be replaced by jsr-83 of the java community process
+     * http://jcp.org/en/jsr/detail?id=83
+     * may require additional exception throws for other basic requirements.
+     */
+    private class MultiDimensionalComplexMatrix implements Serializable,
+                                                           Cloneable {
+        private static final long serialVersionUID =  0x564FCD47EBA8169BL;
+        
+        protected int[] dimensionSize = new int[1];
+        protected Object multiDimensionalComplexArray;
+        
+        public MultiDimensionalComplexMatrix(Object
+                                             multiDimensionalComplexArray) {
+            this.multiDimensionalComplexArray = multiDimensionalComplexArray;
+            int numOfDimensions = 0;
+            
+            Object lastDimension = multiDimensionalComplexArray;
+            while(lastDimension instanceof Object[]) {
+                numOfDimensions++;
+                //manually implement variable size int[]
+                if (dimensionSize.length < numOfDimensions) {
+                    int[] newDimensionSize = new int[(int) Math.ceil(
+                            dimensionSize.length*1.6)];
+                    System.arraycopy(dimensionSize, 0, newDimensionSize, 0,
+                                     dimensionSize.length);
+                    dimensionSize = newDimensionSize;
+                }
+                dimensionSize[numOfDimensions - 1] = ((Object[])
+                                                      lastDimension).length;
+                lastDimension = ((Object[]) lastDimension)[0];
+            }
+            if (dimensionSize.length > numOfDimensions) {
+                int[] newDimensionSize = new int[numOfDimensions];
+                System.arraycopy(dimensionSize, 0, newDimensionSize, 0,
+                                 numOfDimensions);
+                dimensionSize = newDimensionSize;
+            }
+        }
+        
+        public Complex get(int... vector) {
+            if ((vector == null && dimensionSize.length > 1) ||
+                    vector.length != dimensionSize.length) {
+                throw new IllegalArgumentException("Number of dimensions must "
+                                                   + "match");
+            }
+            
+            Object lastDimension = multiDimensionalComplexArray;
+            
+            for (int i = 0; i < dimensionSize.length; i++) {
+                lastDimension = ((Object[]) lastDimension)[vector[i]];
+            }
+            return (Complex) lastDimension;
+        }
+        
+        public Complex set(Complex magnitude, int... vector) {
+            if ((vector == null && dimensionSize.length > 1) ||
+                    vector.length != dimensionSize.length) {
+                throw new IllegalArgumentException("Number of dimensions must "
+                                                   + "match");
+            }
+            
+            Object lastDimension = multiDimensionalComplexArray;
+            
+            for (int i = 0; i < dimensionSize.length - 1; i++) {
+                lastDimension = ((Object[]) lastDimension)[vector[i]];
+            }
+            
+            Complex lastValue = (Complex) ((Object[])
+                    lastDimension)[vector[dimensionSize.length - 1]];
+            ((Object[]) lastDimension)[vector[dimensionSize.length - 1]] =
+                    magnitude;
+            return lastValue;
+        }
+        
+        public int[] getDimensionSizes() {
+            return dimensionSize.clone();
+        }
+        
+        public Object getArray() {
+            return multiDimensionalComplexArray;
+        }
+        
+        @Override
+        public Object clone() {
+            MultiDimensionalComplexMatrix mdcm =
+                    new MultiDimensionalComplexMatrix(Array.newInstance(
+                    Complex.class, dimensionSize));
+            clone(mdcm);
+            return mdcm;
+        }
+        
+        /*
+         * Copy contents of current array into mdcm.
+         */
+        private void clone(MultiDimensionalComplexMatrix mdcm) {
+            int[] vector = new int[dimensionSize.length];
+            int size = 1;
+            for (int i = 0; i < dimensionSize.length; i++) {
+                size *= dimensionSize[i];
+            }
+            int[][] vectorList = new int[size][dimensionSize.length];
+            for (int[] nextVector: vectorList) {
+                System.arraycopy(vector, 0, nextVector, 0,
+                                 dimensionSize.length);
+                for (int i = 0; i < dimensionSize.length; i++) {
+                    vector[i]++;
+                    if (vector[i] < dimensionSize[i]) {
+                        break;
+                    } else {
+                        vector[i] = 0;
+                    }
+                }
+            }
+            
+            for (int[] nextVector: vectorList) {
+                mdcm.set(get(nextVector), nextVector);
+            }
+        }
     }
 }
