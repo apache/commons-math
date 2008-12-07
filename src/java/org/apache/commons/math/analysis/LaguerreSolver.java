@@ -18,6 +18,7 @@ package org.apache.commons.math.analysis;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.complex.Complex;
 
@@ -38,7 +39,10 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
     /** serializable version identifier */
     private static final long serialVersionUID = -3775334783473775723L;
 
-    /** polynomial function to solve */
+    /** polynomial function to solve.
+     * @deprecated as of 2.0 the function is not stored anymore in the instance
+     */
+    @Deprecated
     private PolynomialFunction p;
 
     /**
@@ -46,25 +50,52 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
      *
      * @param f function to solve
      * @throws IllegalArgumentException if function is not polynomial
+     * @deprecated as of 2.0 the function to solve is passed as an argument
+     * to the {@link #solve(UnivariateRealFunction, double, double)} or
+     * {@link UnivariateRealSolverImpl#solve(UnivariateRealFunction, double, double, double)}
+     * method.
      */
+    @Deprecated
     public LaguerreSolver(UnivariateRealFunction f) throws
         IllegalArgumentException {
-
         super(f, 100, 1E-6);
         if (f instanceof PolynomialFunction) {
-            p = (PolynomialFunction)f;
+            p = (PolynomialFunction) f;
         } else {
-            throw new IllegalArgumentException("Function is not polynomial.");
+            throw MathRuntimeException.createIllegalArgumentException("function is not polynomial", null);
         }
+    }
+
+    /**
+     * Construct a solver.
+     */
+    public LaguerreSolver() {
+        super(100, 1E-6);
     }
 
     /**
      * Returns a copy of the polynomial function.
      * 
      * @return a fresh copy of the polynomial function
+     * @deprecated as of 2.0 the function is not stored anymore within the instance.
      */
+    @Deprecated
     public PolynomialFunction getPolynomialFunction() {
         return new PolynomialFunction(p.getCoefficients());
+    }
+
+    /** {@inheritDoc} */
+    @Deprecated
+    public double solve(final double min, final double max)
+        throws ConvergenceException, FunctionEvaluationException {
+        return solve(p, min, max);
+    }
+
+    /** {@inheritDoc} */
+    @Deprecated
+    public double solve(final double min, final double max, final double initial)
+        throws ConvergenceException, FunctionEvaluationException {
+        return solve(p, min, max, initial);
     }
 
     /**
@@ -72,6 +103,7 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
      * <p>
      * Requires bracketing condition.</p>
      * 
+     * @param f function to solve (must be polynomial)
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
      * @param initial the start value to use
@@ -82,21 +114,23 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
      * function
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double solve(double min, double max, double initial) throws
-        ConvergenceException, FunctionEvaluationException {
+    public double solve(final UnivariateRealFunction f,
+                        final double min, final double max, final double initial)
+        throws ConvergenceException, FunctionEvaluationException {
 
         // check for zeros before verifying bracketing
-        if (p.value(min) == 0.0) { return min; }
-        if (p.value(max) == 0.0) { return max; }
-        if (p.value(initial) == 0.0) { return initial; }
+        if (f.value(min) == 0.0) { return min; }
+        if (f.value(max) == 0.0) { return max; }
+        if (f.value(initial) == 0.0) { return initial; }
 
-        verifyBracketing(min, max, p);
+        verifyBracketing(min, max, f);
         verifySequence(min, initial, max);
-        if (isBracketing(min, initial, p)) {
-            return solve(min, initial);
+        if (isBracketing(min, initial, f)) {
+            return solve(f, min, initial);
         } else {
-            return solve(initial, max);
+            return solve(f, initial, max);
         }
+
     }
 
     /**
@@ -108,6 +142,7 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
      * another initial value, or, as we did here, call solveAll() to obtain
      * all roots and pick up the one that we're looking for.</p>
      *
+     * @param f the function to solve
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
      * @return the point at which the function value is zero
@@ -117,15 +152,21 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
      * function 
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double solve(double min, double max) throws ConvergenceException, 
-        FunctionEvaluationException {
+    public double solve(final UnivariateRealFunction f,
+                        final double min, final double max)
+        throws ConvergenceException, FunctionEvaluationException {
+
+        // check function type
+        if (!(f instanceof PolynomialFunction)) {
+            throw MathRuntimeException.createIllegalArgumentException("function is not polynomial", null);
+        }
 
         // check for zeros before verifying bracketing
-        if (p.value(min) == 0.0) { return min; }
-        if (p.value(max) == 0.0) { return max; }
-        verifyBracketing(min, max, p);
+        if (f.value(min) == 0.0) { return min; }
+        if (f.value(max) == 0.0) { return max; }
+        verifyBracketing(min, max, f);
 
-        double coefficients[] = p.getCoefficients();
+        double coefficients[] = ((PolynomialFunction) f).getCoefficients();
         Complex c[] = new Complex[coefficients.length];
         for (int i = 0; i < coefficients.length; i++) {
             c[i] = new Complex(coefficients[i], 0.0);

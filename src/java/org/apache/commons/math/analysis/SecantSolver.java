@@ -18,6 +18,7 @@ package org.apache.commons.math.analysis;
 
 import java.io.Serializable;
 
+import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MaxIterationsExceededException;
 
@@ -41,19 +42,46 @@ import org.apache.commons.math.MaxIterationsExceededException;
 public class SecantSolver extends UnivariateRealSolverImpl implements Serializable {
     
     /** Serializable version identifier */
-    private static final long serialVersionUID = 1984971194738974867L;
+    private static final long serialVersionUID = 2477470651270304246L;
 
     /**
      * Construct a solver for the given function.
      * @param f function to solve.
+     * @deprecated as of 2.0 the function to solve is passed as an argument
+     * to the {@link #solve(UnivariateRealFunction, double, double)} or
+     * {@link UnivariateRealSolverImpl#solve(UnivariateRealFunction, double, double, double)}
+     * method.
      */
+    @Deprecated
     public SecantSolver(UnivariateRealFunction f) {
         super(f, 100, 1E-6);
     }
 
     /**
+     * Construct a solver.
+     */
+    public SecantSolver() {
+        super(100, 1E-6);
+    }
+
+    /** {@inheritDoc} */
+    @Deprecated
+    public double solve(final double min, final double max)
+        throws ConvergenceException, FunctionEvaluationException {
+        return solve(f, min, max);
+    }
+
+    /** {@inheritDoc} */
+    @Deprecated
+    public double solve(final double min, final double max, final double initial)
+        throws ConvergenceException, FunctionEvaluationException {
+        return solve(f, min, max, initial);
+    }
+
+    /**
      * Find a zero in the given interval.
      * 
+     * @param f the function to solve
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
      * @param initial the start value to use (ignored)
@@ -64,14 +92,15 @@ public class SecantSolver extends UnivariateRealSolverImpl implements Serializab
      * @throws IllegalArgumentException if min is not less than max or the
      * signs of the values of the function at the endpoints are not opposites
      */
-    public double solve(double min, double max, double initial)
+    public double solve(final UnivariateRealFunction f,
+                        final double min, final double max, final double initial)
         throws MaxIterationsExceededException, FunctionEvaluationException {
-            
-        return solve(min, max);
+        return solve(f, min, max);
     }
     
     /**
      * Find a zero in the given interval.
+     * @param f the function to solve
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
      * @return the value where the function is zero
@@ -81,8 +110,9 @@ public class SecantSolver extends UnivariateRealSolverImpl implements Serializab
      * @throws IllegalArgumentException if min is not less than max or the
      * signs of the values of the function at the endpoints are not opposites
      */
-    public double solve(double min, double max) throws MaxIterationsExceededException, 
-        FunctionEvaluationException {
+    public double solve(final UnivariateRealFunction f,
+                        final double min, final double max)
+        throws MaxIterationsExceededException, FunctionEvaluationException {
         
         clearResult();
         verifyInterval(min, max);

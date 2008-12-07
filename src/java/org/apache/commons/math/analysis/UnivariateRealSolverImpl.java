@@ -68,7 +68,12 @@ public abstract class UnivariateRealSolverImpl implements UnivariateRealSolver,
     /** The last iteration count. */
     protected int iterationCount;
 
-    /** The function to solve. */
+    /** The function to solve.
+     * @deprecated as of 2.0 the function to solve is passed as an argument
+     * to the {@link #solve(UnivariateRealFunction, double, double)} or
+     * {@link UnivariateRealSolverImpl#solve(UnivariateRealFunction, double, double, double)}
+     * method. */
+    @Deprecated
     protected UnivariateRealFunction f;
 
     /**
@@ -79,19 +84,43 @@ public abstract class UnivariateRealSolverImpl implements UnivariateRealSolver,
      * @param defaultMaximalIterationCount maximum number of iterations
      * @throws IllegalArgumentException if f is null or the 
      * defaultAbsoluteAccuracy is not valid
+     * @deprecated as of 2.0 the function to solve is passed as an argument
+     * to the {@link #solve(UnivariateRealFunction, double, double)} or
+     * {@link UnivariateRealSolverImpl#solve(UnivariateRealFunction, double, double, double)}
+     * method.
      */
+    @Deprecated
     protected UnivariateRealSolverImpl(
         UnivariateRealFunction f,
         int defaultMaximalIterationCount,
         double defaultAbsoluteAccuracy) {
         
-        super();
-        
         if (f == null) {
-            throw new IllegalArgumentException("function can not be null.");
+            throw MathRuntimeException.createIllegalArgumentException("function to solve cannot be null",
+                                                                      null);
         }
-        
         this.f = f;
+
+        this.defaultAbsoluteAccuracy = defaultAbsoluteAccuracy;
+        this.defaultRelativeAccuracy = 1E-14;
+        this.defaultFunctionValueAccuracy = 1E-15;
+        this.absoluteAccuracy = defaultAbsoluteAccuracy;
+        this.relativeAccuracy = defaultRelativeAccuracy;
+        this.functionValueAccuracy = defaultFunctionValueAccuracy;
+        this.defaultMaximalIterationCount = defaultMaximalIterationCount;
+        this.maximalIterationCount = defaultMaximalIterationCount;
+    }
+
+    /**
+     * Construct a solver with given iteration count and accuracy.
+     * 
+     * @param defaultAbsoluteAccuracy maximum absolute error
+     * @param defaultMaximalIterationCount maximum number of iterations
+     * @throws IllegalArgumentException if f is null or the 
+     * defaultAbsoluteAccuracy is not valid
+     */
+    protected UnivariateRealSolverImpl(int defaultMaximalIterationCount,
+                                       double defaultAbsoluteAccuracy) {
         this.defaultAbsoluteAccuracy = defaultAbsoluteAccuracy;
         this.defaultRelativeAccuracy = 1E-14;
         this.defaultFunctionValueAccuracy = 1E-15;

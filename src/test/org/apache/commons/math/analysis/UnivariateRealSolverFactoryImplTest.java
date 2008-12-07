@@ -28,8 +28,6 @@ public class UnivariateRealSolverFactoryImplTest extends TestCase {
     /** solver factory */
     private UnivariateRealSolverFactory factory;
     
-    /** function */
-    private DifferentiableUnivariateRealFunction function;
     /**
      * @throws java.lang.Exception
      * @see junit.framework.TestCase#tearDown()
@@ -37,7 +35,6 @@ public class UnivariateRealSolverFactoryImplTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         factory = new UnivariateRealSolverFactoryImpl();
-        function = new SinFunction();
     }
     
     /**
@@ -46,67 +43,31 @@ public class UnivariateRealSolverFactoryImplTest extends TestCase {
      */
     protected void tearDown() throws Exception {
         factory = null;
-        function = null;
         super.tearDown();
     }
 
-    public void testNewBisectionSolverNull() {
-        try {
-            factory.newBisectionSolver(null);
-            fail();
-        } catch(IllegalArgumentException ex) {
-            // success
-        }
-    }
-
     public void testNewBisectionSolverValid() {
-        UnivariateRealSolver solver = factory.newBisectionSolver(function);
+        UnivariateRealSolver solver = factory.newBisectionSolver();
         assertNotNull(solver);
         assertTrue(solver instanceof BisectionSolver);
     }
 
-    public void testNewNewtonSolverNull() {
-        try {
-            factory.newNewtonSolver(null);
-            fail();
-        } catch(IllegalArgumentException ex) {
-            // success
-        }
-    }
-
     public void testNewNewtonSolverValid() {
-        UnivariateRealSolver solver = factory.newNewtonSolver(function);
+        UnivariateRealSolver solver = factory.newNewtonSolver();
         assertNotNull(solver);
         assertTrue(solver instanceof NewtonSolver);
     }
 
-    public void testNewBrentSolverNull() {
-        try {
-            factory.newBrentSolver(null);
-            fail();
-        } catch(IllegalArgumentException ex) {
-            // success
-        }
-    }
-
     public void testNewBrentSolverValid() {
-        UnivariateRealSolver solver = factory.newBrentSolver(function);
+        UnivariateRealSolver solver = factory.newBrentSolver();
         assertNotNull(solver);
         assertTrue(solver instanceof BrentSolver);
     }
 
-    public void testNewSecantSolverNull() {
-        try {
-            factory.newSecantSolver(null);
-            fail();
-        } catch(IllegalArgumentException ex) {
-            // success
-        }
-    }
-
     public void testNewSecantSolverValid() {
-        UnivariateRealSolver solver = factory.newSecantSolver(function);
+        UnivariateRealSolver solver = factory.newSecantSolver();
         assertNotNull(solver);
         assertTrue(solver instanceof SecantSolver);
     }
+
 }

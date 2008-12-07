@@ -31,15 +31,41 @@ import org.apache.commons.math.MaxIterationsExceededException;
 public class BrentSolver extends UnivariateRealSolverImpl {
     
     /** Serializable version identifier */
-    private static final long serialVersionUID = -2136672307739067002L;
+    private static final long serialVersionUID = 7694577816772532779L;
 
     /**
      * Construct a solver for the given function.
      * 
      * @param f function to solve.
+     * @deprecated as of 2.0 the function to solve is passed as an argument
+     * to the {@link #solve(UnivariateRealFunction, double, double)} or
+     * {@link UnivariateRealSolverImpl#solve(UnivariateRealFunction, double, double, double)}
+     * method.
      */
+    @Deprecated
     public BrentSolver(UnivariateRealFunction f) {
         super(f, 100, 1E-6);
+    }
+
+    /**
+     * Construct a solver.
+     */
+    public BrentSolver() {
+        super(100, 1E-6);
+    }
+
+    /** {@inheritDoc} */
+    @Deprecated
+    public double solve(double min, double max)
+        throws MaxIterationsExceededException, FunctionEvaluationException {
+        return solve(f, min, max);
+    }
+
+    /** {@inheritDoc} */
+    @Deprecated
+    public double solve(double min, double max, double initial)
+        throws MaxIterationsExceededException, FunctionEvaluationException {
+        return solve(f, min, max, initial);
     }
 
     /**
@@ -49,6 +75,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
      * allowed to have endpoints with the same sign if the initial point has
      * opposite sign function-wise).</p>
      * 
+     * @param f function to solve.
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
      * @param initial the start value to use (must be set to min if no
@@ -61,7 +88,8 @@ public class BrentSolver extends UnivariateRealSolverImpl {
      * @throws IllegalArgumentException if initial is not between min and max
      * (even if it <em>is</em> a root)
      */
-    public double solve(double min, double max, double initial)
+    public double solve(final UnivariateRealFunction f,
+                        final double min, final double max, final double initial)
         throws MaxIterationsExceededException, FunctionEvaluationException {
 
         if (((initial - min) * (max -initial)) < 0) {
@@ -86,7 +114,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
 
         // reduce interval if min and initial bracket the root
         if (yInitial * yMin < 0) {
-            return solve(min, yMin, initial, yInitial, min, yMin);
+            return solve(f, min, yMin, initial, yInitial, min, yMin);
         }
 
         // return the second endpoint if it is good enough
@@ -98,11 +126,11 @@ public class BrentSolver extends UnivariateRealSolverImpl {
 
         // reduce interval if initial and max bracket the root
         if (yInitial * yMax < 0) {
-            return solve(initial, yInitial, max, yMax, initial, yInitial);
+            return solve(f, initial, yInitial, max, yMax, initial, yInitial);
         }
 
         // full Brent algorithm starting with provided initial guess
-        return solve(min, yMin, max, yMax, initial, yInitial);
+        return solve(f, min, yMin, max, yMax, initial, yInitial);
 
     }
     
@@ -122,7 +150,9 @@ public class BrentSolver extends UnivariateRealSolverImpl {
      * @throws IllegalArgumentException if min is not less than max or the
      * signs of the values of the function at the endpoints are not opposites
      */
-    public double solve(double min, double max) throws MaxIterationsExceededException, 
+    public double solve(final UnivariateRealFunction f,
+                        final double min, final double max)
+        throws MaxIterationsExceededException, 
         FunctionEvaluationException {
         
         clearResult();
@@ -152,7 +182,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
             }
         } else if (sign < 0){
             // solve using only the first endpoint as initial guess
-            ret = solve(min, yMin, max, yMax, min, yMin);
+            ret = solve(f, min, yMin, max, yMax, min, yMin);
         } else {
             // either min or max is a root
             if (yMin == 0.0) {
@@ -167,6 +197,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
         
     /**
      * Find a zero starting search according to the three provided points.
+     * @param f the function to solve
      * @param x0 old approximation for the root
      * @param y0 function value at the approximation for the root
      * @param x1 last calculated approximation for the root
@@ -181,7 +212,8 @@ public class BrentSolver extends UnivariateRealSolverImpl {
      * @throws FunctionEvaluationException if an error occurs evaluating
      * the function 
      */
-    private double solve(double x0, double y0,
+    private double solve(final UnivariateRealFunction f,
+                         double x0, double y0,
                          double x1, double y1,
                          double x2, double y2)
     throws MaxIterationsExceededException, FunctionEvaluationException {

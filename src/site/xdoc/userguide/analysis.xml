@@ -50,6 +50,12 @@
           Newton's Method</a></li>
           <li><a href="../apidocs/org/apache/commons/math/analysis/SecantSolver.html">
           Secant Method</a></li>
+          <li><a href="../apidocs/org/apache/commons/math/analysis/MullerSolver.html">
+          Muller's Method</a></li>
+          <li><a href="../apidocs/org/apache/commons/math/analysis/LaguerreSolver.html">
+          Laguerre's Method</a></li>
+          <li><a href="../apidocs/org/apache/commons/math/analysis/RidderSolver.html">
+          Ridder's Method</a></li>
           </ul>      
         </p>
         <p>
@@ -83,9 +89,8 @@
           used to create all of the solver objects supported by Commons-Math.  
           The typical usage of <code>UnivariateRealSolverFactory</code>
           to create a solver object would be:</p>
-        <source>UnivariateRealFunction function = // some user defined function object
-UnivariateRealSolverFactory factory = UnivariateRealSolverFactory.newInstance();
-UnivariateRealSolver solver = factory.newDefaultSolver(function);</source>
+        <source>UnivariateRealSolverFactory factory = UnivariateRealSolverFactory.newInstance();
+UnivariateRealSolver solver = factory.newDefaultSolver();</source>
         <p>
           The solvers that can be instantiated via the 
           <code>UnivariateRealSolverFactory</code> are detailed below:
@@ -95,6 +100,9 @@ UnivariateRealSolver solver = factory.newDefaultSolver(function);</source>
             <tr><td>Brent</td><td>newBrentSolver</td><td><div>Root must be bracketted.</div><div>Super-linear, guaranteed convergence</div></td></tr>
             <tr><td>Newton</td><td>newNewtonSolver</td><td><div>Uses single value for initialization.</div><div>Super-linear, non-guaranteed convergence</div><div>Function must be differentiable</div></td></tr>
             <tr><td>Secant</td><td>newSecantSolver</td><td><div>Root must be bracketted.</div><div>Super-linear, non-guaranteed convergence</div></td></tr>
+            <tr><td>Muller</td><td>newMullerSolver</td><td><div>Root must be bracketted.</div><div>We restrict ourselves to real valued functions, not complex ones</div></td></tr>
+            <tr><td>Laguerre</td><td>newLaguerreSolver</td><td><div>Root must be bracketted.</div><div>Function must be a polynomial</div></td></tr>
+            <tr><td>Ridder</td><td>newRidderSolver</td><td><div>Root must be bracketted.</div><div></div></td></tr>
           </table>
         </p>
         <p>
@@ -111,8 +119,8 @@ UnivariateRealSolver solver = factory.newDefaultSolver(function);</source>
         </p>
         <source>UnivariateRealFunction function = // some user defined function object
 UnivariateRealSolverFactory factory = UnivariateRealSolverFactory.newInstance();
-UnivariateRealSolver solver = factory.newBisectionSolver(function);
-double c = solver.solve(1.0, 5.0);</source>
+UnivariateRealSolver solver = factory.newBisectionSolver();
+double c = solver.solve(function, 1.0, 5.0);</source>
         <p>
           The <code>BrentSolve</code> uses the Brent-Dekker algorithm which is
           fast and robust.  This algorithm is recommended for most users and  the 

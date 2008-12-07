@@ -196,15 +196,15 @@ public class MessagesResources_fr
       "taille de vecteur invalide : {0} au lieu de {1} attendue" },
     { "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
       "dimensions incoh\u00e9rentes : {0}x{1} \u00e0 la place de {2}x{3}" },
-
-    // org.apache.commons.math.linear.BigMatrixImpl
-    // org.apache.commons.math.linear.RealMatrixImpl
     { "matrix must have at least one row",
       "une matrice doit comporter au moins une ligne" },
     { "matrix must have at least one column",
       "une matrice doit comporter au moins une colonne" },
     { "some rows have length {0} while others have length {1}",
       "certaines ligne ont une longueur de {0} alors que d''autres ont une longueur de {1}" },
+
+    // org.apache.commons.math.linear.BigMatrixImpl
+    // org.apache.commons.math.linear.RealMatrixImpl
     { "row index {0} out of allowed range [{1}, {2}]",
       "index de ligne {0} hors de la plage autoris\u00e9e [{1}, {2}]" },
     { "column index {0} out of allowed range [{1}, {2}]",
@@ -260,6 +260,18 @@ public class MessagesResources_fr
    // org.apache.commons.math.analysis.PolynomialFunctionLagrangeForm
    { "identical abscissas x[{0}] == x[{1}] == {2} cause division by zero",
      "division par z\u00e9ro caus\u00e9e par les abscisses identiques x[{0}] == x[{1}] == {2}" },
+
+   // org.apache.commons.math.analysis.UnivariateRealSolverImpl
+   { "function to solve cannot be null",
+     "la fonction \u00e0 r\u00e9soudre ne peux pas \u00eatre nulle" },
+
+   // org.apache.commons.math.analysis.LaguerreSolver
+   { "function is not polynomial",
+     "la fonction n''est pas p\u00f4lynomiale" },
+
+   // org.apache.commons.math.analysis.NewtonSolver
+   { "function is not differentiable",
+     "la fonction n''est pas diff\u00e9rentiable" },
 
    // org.apache.commons.math.fraction.Fraction
    { "zero denominator in fraction {0}/{1}",

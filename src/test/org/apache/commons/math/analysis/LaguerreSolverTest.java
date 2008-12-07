@@ -34,9 +34,10 @@ import junit.framework.TestCase;
 public final class LaguerreSolverTest extends TestCase {
 
     /**
-     * Test of solver for the linear function.
+     * Test deprecated APIs.
      */
-    public void testLinearFunction() throws MathException {
+    @Deprecated
+    public void testDeprecated() throws MathException {
         double min, max, expected, result, tolerance;
 
         // p(x) = 4x - 1
@@ -52,6 +53,24 @@ public final class LaguerreSolverTest extends TestCase {
     }
 
     /**
+     * Test of solver for the linear function.
+     */
+    public void testLinearFunction() throws MathException {
+        double min, max, expected, result, tolerance;
+
+        // p(x) = 4x - 1
+        double coefficients[] = { -1.0, 4.0 };
+        PolynomialFunction f = new PolynomialFunction(coefficients);
+        UnivariateRealSolver solver = new LaguerreSolver();
+
+        min = 0.0; max = 1.0; expected = 0.25;
+        tolerance = Math.max(solver.getAbsoluteAccuracy(),
+                    Math.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(f, min, max);
+        assertEquals(expected, result, tolerance);
+    }
+
+    /**
      * Test of solver for the quadratic function.
      */
     public void testQuadraticFunction() throws MathException {
@@ -60,18 +79,18 @@ public final class LaguerreSolverTest extends TestCase {
         // p(x) = 2x^2 + 5x - 3 = (x+3)(2x-1)
         double coefficients[] = { -3.0, 5.0, 2.0 };
         PolynomialFunction f = new PolynomialFunction(coefficients);
-        UnivariateRealSolver solver = new LaguerreSolver(f);
+        UnivariateRealSolver solver = new LaguerreSolver();
 
         min = 0.0; max = 2.0; expected = 0.5;
         tolerance = Math.max(solver.getAbsoluteAccuracy(),
                     Math.abs(expected * solver.getRelativeAccuracy()));
-        result = solver.solve(min, max);
+        result = solver.solve(f, min, max);
         assertEquals(expected, result, tolerance);
 
         min = -4.0; max = -1.0; expected = -3.0;
         tolerance = Math.max(solver.getAbsoluteAccuracy(),
                     Math.abs(expected * solver.getRelativeAccuracy()));
-        result = solver.solve(min, max);
+        result = solver.solve(f, min, max);
         assertEquals(expected, result, tolerance);
     }
 
@@ -84,24 +103,24 @@ public final class LaguerreSolverTest extends TestCase {
         // p(x) = x^5 - x^4 - 12x^3 + x^2 - x - 12 = (x+1)(x+3)(x-4)(x^2-x+1)
         double coefficients[] = { -12.0, -1.0, 1.0, -12.0, -1.0, 1.0 };
         PolynomialFunction f = new PolynomialFunction(coefficients);
-        UnivariateRealSolver solver = new LaguerreSolver(f);
+        UnivariateRealSolver solver = new LaguerreSolver();
 
         min = -2.0; max = 2.0; expected = -1.0;
         tolerance = Math.max(solver.getAbsoluteAccuracy(),
                     Math.abs(expected * solver.getRelativeAccuracy()));
-        result = solver.solve(min, max);
+        result = solver.solve(f, min, max);
         assertEquals(expected, result, tolerance);
 
         min = -5.0; max = -2.5; expected = -3.0;
         tolerance = Math.max(solver.getAbsoluteAccuracy(),
                     Math.abs(expected * solver.getRelativeAccuracy()));
-        result = solver.solve(min, max);
+        result = solver.solve(f, min, max);
         assertEquals(expected, result, tolerance);
 
         min = 3.0; max = 6.0; expected = 4.0;
         tolerance = Math.max(solver.getAbsoluteAccuracy(),
                     Math.abs(expected * solver.getRelativeAccuracy()));
-        result = solver.solve(min, max);
+        result = solver.solve(f, min, max);
         assertEquals(expected, result, tolerance);
     }
 
@@ -114,8 +133,7 @@ public final class LaguerreSolverTest extends TestCase {
 
         // p(x) = x^5 + 4x^3 + x^2 + 4 = (x+1)(x^2-x+1)(x^2+4)
         double coefficients[] = { 4.0, 0.0, 1.0, 4.0, 0.0, 1.0 };
-        PolynomialFunction f = new PolynomialFunction(coefficients);
-        LaguerreSolver solver = new LaguerreSolver(f);
+        LaguerreSolver solver = new LaguerreSolver();
         result = solver.solveAll(coefficients, initial);
 
         expected = new Complex(0.0, -2.0);
@@ -150,26 +168,25 @@ public final class LaguerreSolverTest extends TestCase {
     public void testParameters() throws Exception {
         double coefficients[] = { -3.0, 5.0, 2.0 };
         PolynomialFunction f = new PolynomialFunction(coefficients);
-        UnivariateRealSolver solver = new LaguerreSolver(f);
+        UnivariateRealSolver solver = new LaguerreSolver();
 
         try {
             // bad interval
-            solver.solve(1, -1);
+            solver.solve(f, 1, -1);
             fail("Expecting IllegalArgumentException - bad interval");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         try {
             // no bracketing
-            solver.solve(2, 3);
+            solver.solve(f, 2, 3);
             fail("Expecting IllegalArgumentException - no bracketing");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         try {
             // bad function
-            UnivariateRealFunction f2 = new SinFunction();
-            new LaguerreSolver(f2);
+            solver.solve(new SinFunction(), -1, 1);
             fail("Expecting IllegalArgumentException - bad function");
         } catch (IllegalArgumentException ex) {
             // expected

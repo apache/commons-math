@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math.analysis;
 
+import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.util.MathUtils;
@@ -35,15 +36,41 @@ import org.apache.commons.math.util.MathUtils;
 public class RiddersSolver extends UnivariateRealSolverImpl {
 
     /** serializable version identifier */
-    private static final long serialVersionUID = -4703139035737911735L;
+    private static final long serialVersionUID = -1556464494585337088L;
 
     /**
      * Construct a solver for the given function.
      * 
      * @param f function to solve
+     * @deprecated as of 2.0 the function to solve is passed as an argument
+     * to the {@link #solve(UnivariateRealFunction, double, double)} or
+     * {@link UnivariateRealSolverImpl#solve(UnivariateRealFunction, double, double, double)}
+     * method.
      */
+    @Deprecated
     public RiddersSolver(UnivariateRealFunction f) {
         super(f, 100, 1E-6);
+    }
+
+    /**
+     * Construct a solver.
+     */
+    public RiddersSolver() {
+        super(100, 1E-6);
+    }
+
+    /** {@inheritDoc} */
+    @Deprecated
+    public double solve(final double min, final double max)
+        throws ConvergenceException, FunctionEvaluationException {
+        return solve(f, min, max);
+    }
+
+    /** {@inheritDoc} */
+    @Deprecated
+    public double solve(final double min, final double max, final double initial)
+        throws ConvergenceException, FunctionEvaluationException {
+        return solve(f, min, max, initial);
     }
 
     /**
@@ -51,6 +78,7 @@ public class RiddersSolver extends UnivariateRealSolverImpl {
      * <p>
      * Requires bracketing condition.</p>
      * 
+     * @param f the function to solve
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
      * @param initial the start value to use
@@ -60,8 +88,9 @@ public class RiddersSolver extends UnivariateRealSolverImpl {
      * function
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double solve(double min, double max, double initial) throws
-        MaxIterationsExceededException, FunctionEvaluationException {
+    public double solve(final UnivariateRealFunction f,
+                        final double min, final double max, final double initial)
+        throws MaxIterationsExceededException, FunctionEvaluationException {
 
         // check for zeros before verifying bracketing
         if (f.value(min) == 0.0) { return min; }
@@ -71,9 +100,9 @@ public class RiddersSolver extends UnivariateRealSolverImpl {
         verifyBracketing(min, max, f);
         verifySequence(min, initial, max);
         if (isBracketing(min, initial, f)) {
-            return solve(min, initial);
+            return solve(f, min, initial);
         } else {
-            return solve(initial, max);
+            return solve(f, initial, max);
         }
     }
 
@@ -82,6 +111,7 @@ public class RiddersSolver extends UnivariateRealSolverImpl {
      * <p>
      * Requires bracketing condition.</p>
      * 
+     * @param f the function to solve
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
      * @return the point at which the function value is zero
@@ -90,8 +120,9 @@ public class RiddersSolver extends UnivariateRealSolverImpl {
      * function 
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double solve(double min, double max) throws MaxIterationsExceededException, 
-        FunctionEvaluationException {
+    public double solve(final UnivariateRealFunction f,
+                        final double min, final double max)
+        throws MaxIterationsExceededException, FunctionEvaluationException {
 
         // [x1, x2] is the bracketing interval in each iteration
         // x3 is the midpoint of [x1, x2]

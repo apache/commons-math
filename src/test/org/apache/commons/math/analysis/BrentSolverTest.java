@@ -45,7 +45,8 @@ public final class BrentSolverTest extends TestCase {
         return suite;
     }
 
-    public void testSinZero() throws MathException {
+    @Deprecated
+    public void testDeprecated() throws MathException {
         // The sinus function is behaved well around the root at #pi. The second
         // order derivative is zero, which means linar approximating methods will
         // still converge quadratically. 
@@ -82,7 +83,44 @@ public final class BrentSolverTest extends TestCase {
         assertEquals(result, solver.getResult(), 0);
     }
 
-    public void testQuinticZero() throws MathException {
+    public void testSinZero() throws MathException {
+        // The sinus function is behaved well around the root at #pi. The second
+        // order derivative is zero, which means linar approximating methods will
+        // still converge quadratically. 
+        UnivariateRealFunction f = new SinFunction();
+        double result;
+        UnivariateRealSolver solver = new BrentSolver();
+        // Somewhat benign interval. The function is monotone.
+        result = solver.solve(f, 3, 4);
+        //System.out.println(
+        //    "Root: " + result + " Iterations: " + solver.getIterationCount());
+        assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
+        // 4 iterations on i586 JDK 1.4.1.
+        assertTrue(solver.getIterationCount() <= 5);
+        // Larger and somewhat less benign interval. The function is grows first.
+        result = solver.solve(f, 1, 4);
+        //System.out.println(
+        //    "Root: " + result + " Iterations: " + solver.getIterationCount());
+        assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
+        // 5 iterations on i586 JDK 1.4.1.
+        assertTrue(solver.getIterationCount() <= 6);
+        solver = new SecantSolver();
+        result = solver.solve(f, 3, 4);
+        //System.out.println(
+        //    "Root: " + result + " Iterations: " + solver.getIterationCount());
+        assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
+        // 4 iterations on i586 JDK 1.4.1.
+        assertTrue(solver.getIterationCount() <= 5);
+        result = solver.solve(f, 1, 4);
+        //System.out.println(
+        //    "Root: " + result + " Iterations: " + solver.getIterationCount());
+        assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
+        // 5 iterations on i586 JDK 1.4.1.
+        assertTrue(solver.getIterationCount() <= 6);
+        assertEquals(result, solver.getResult(), 0);
+    }
+
+   public void testQuinticZero() throws MathException {
         // The quintic function has zeros at 0, +-0.5 and +-1.
         // Around the root of 0 the function is well behaved, with a second derivative
         // of zero a 0.
@@ -93,45 +131,45 @@ public final class BrentSolverTest extends TestCase {
         UnivariateRealFunction f = new QuinticFunction();
         double result;
         // Brent-Dekker solver.
-        UnivariateRealSolver solver = new BrentSolver(f);
+        UnivariateRealSolver solver = new BrentSolver();
         // Symmetric bracket around 0. Test whether solvers can handle hitting
         // the root in the first iteration.
-        result = solver.solve(-0.2, 0.2);
+        result = solver.solve(f, -0.2, 0.2);
         //System.out.println(
         //    "Root: " + result + " Iterations: " + solver.getIterationCount());
         assertEquals(result, 0, solver.getAbsoluteAccuracy());
         assertTrue(solver.getIterationCount() <= 2);
         // 1 iterations on i586 JDK 1.4.1.
         // Asymmetric bracket around 0, just for fun. Contains extremum.
-        result = solver.solve(-0.1, 0.3);
+        result = solver.solve(f, -0.1, 0.3);
         //System.out.println(
         //    "Root: " + result + " Iterations: " + solver.getIterationCount());
         assertEquals(result, 0, solver.getAbsoluteAccuracy());
         // 5 iterations on i586 JDK 1.4.1.
         assertTrue(solver.getIterationCount() <= 6);
         // Large bracket around 0. Contains two extrema.
-        result = solver.solve(-0.3, 0.45);
+        result = solver.solve(f, -0.3, 0.45);
         //System.out.println(
         //    "Root: " + result + " Iterations: " + solver.getIterationCount());
         assertEquals(result, 0, solver.getAbsoluteAccuracy());
         // 6 iterations on i586 JDK 1.4.1.
         assertTrue(solver.getIterationCount() <= 7);
         // Benign bracket around 0.5, function is monotonous.
-        result = solver.solve(0.3, 0.7);
+        result = solver.solve(f, 0.3, 0.7);
         //System.out.println(
         //    "Root: " + result + " Iterations: " + solver.getIterationCount());
         assertEquals(result, 0.5, solver.getAbsoluteAccuracy());
         // 6 iterations on i586 JDK 1.4.1.
         assertTrue(solver.getIterationCount() <= 7);
         // Less benign bracket around 0.5, contains one extremum.
-        result = solver.solve(0.2, 0.6);
+        result = solver.solve(f, 0.2, 0.6);
         //System.out.println(
         //    "Root: " + result + " Iterations: " + solver.getIterationCount());
         assertEquals(result, 0.5, solver.getAbsoluteAccuracy());
         // 6 iterations on i586 JDK 1.4.1.
         assertTrue(solver.getIterationCount() <= 7);
         // Large, less benign bracket around 0.5, contains both extrema.
-        result = solver.solve(0.05, 0.95);
+        result = solver.solve(f, 0.05, 0.95);
         //System.out.println(
         //    "Root: " + result + " Iterations: " + solver.getIterationCount());
         assertEquals(result, 0.5, solver.getAbsoluteAccuracy());
@@ -139,91 +177,91 @@ public final class BrentSolverTest extends TestCase {
         assertTrue(solver.getIterationCount() <= 9);
         // Relatively benign bracket around 1, function is monotonous. Fast growth for x>1
         // is still a problem.
-        result = solver.solve(0.85, 1.25);
+        result = solver.solve(f, 0.85, 1.25);
         //System.out.println(
         //    "Root: " + result + " Iterations: " + solver.getIterationCount());
         assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
         // 8 iterations on i586 JDK 1.4.1.
         assertTrue(solver.getIterationCount() <= 9);
         // Less benign bracket around 1 with extremum.
-        result = solver.solve(0.8, 1.2);
+        result = solver.solve(f, 0.8, 1.2);
         //System.out.println(
         //    "Root: " + result + " Iterations: " + solver.getIterationCount());
         assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
         // 8 iterations on i586 JDK 1.4.1.
         assertTrue(solver.getIterationCount() <= 9);
         // Large bracket around 1. Monotonous.
-        result = solver.solve(0.85, 1.75);
+        result = solver.solve(f, 0.85, 1.75);
         //System.out.println(
         //    "Root: " + result + " Iterations: " + solver.getIterationCount());
         assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
         // 10 iterations on i586 JDK 1.4.1.
         assertTrue(solver.getIterationCount() <= 11);
         // Large bracket around 1. Interval contains extremum.
-        result = solver.solve(0.55, 1.45);
+        result = solver.solve(f, 0.55, 1.45);
         //System.out.println(
         //    "Root: " + result + " Iterations: " + solver.getIterationCount());
         assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
         // 7 iterations on i586 JDK 1.4.1.
         assertTrue(solver.getIterationCount() <= 8);
         // Very large bracket around 1 for testing fast growth behaviour.
-        result = solver.solve(0.85, 5);
+        result = solver.solve(f, 0.85, 5);
         //System.out.println(
        //     "Root: " + result + " Iterations: " + solver.getIterationCount());
         assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
         // 12 iterations on i586 JDK 1.4.1.
         assertTrue(solver.getIterationCount() <= 13);
         // Secant solver.
-        solver = new SecantSolver(f);
-        result = solver.solve(-0.2, 0.2);
+        solver = new SecantSolver();
+        result = solver.solve(f, -0.2, 0.2);
         //System.out.println(
         //    "Root: " + result + " Iterations: " + solver.getIterationCount());
         assertEquals(result, 0, solver.getAbsoluteAccuracy());
         // 1 iterations on i586 JDK 1.4.1.
         assertTrue(solver.getIterationCount() <= 2);
-        result = solver.solve(-0.1, 0.3);
+        result = solver.solve(f, -0.1, 0.3);
         //System.out.println(
         //    "Root: " + result + " Iterations: " + solver.getIterationCount());
         assertEquals(result, 0, solver.getAbsoluteAccuracy());
         // 5 iterations on i586 JDK 1.4.1.
         assertTrue(solver.getIterationCount() <= 6);
-        result = solver.solve(-0.3, 0.45);
+        result = solver.solve(f, -0.3, 0.45);
         //System.out.println(
         //    "Root: " + result + " Iterations: " + solver.getIterationCount());
         assertEquals(result, 0, solver.getAbsoluteAccuracy());
         // 6 iterations on i586 JDK 1.4.1.
         assertTrue(solver.getIterationCount() <= 7);
-        result = solver.solve(0.3, 0.7);
+        result = solver.solve(f, 0.3, 0.7);
         //System.out.println(
         //    "Root: " + result + " Iterations: " + solver.getIterationCount());
         assertEquals(result, 0.5, solver.getAbsoluteAccuracy());
         // 7 iterations on i586 JDK 1.4.1.
         assertTrue(solver.getIterationCount() <= 8);
-        result = solver.solve(0.2, 0.6);
+        result = solver.solve(f, 0.2, 0.6);
         //System.out.println(
         //    "Root: " + result + " Iterations: " + solver.getIterationCount());
         assertEquals(result, 0.5, solver.getAbsoluteAccuracy());
         // 6 iterations on i586 JDK 1.4.1.
         assertTrue(solver.getIterationCount() <= 7);
-        result = solver.solve(0.05, 0.95);
+        result = solver.solve(f, 0.05, 0.95);
         //System.out.println(
         //    "Root: " + result + " Iterations: " + solver.getIterationCount());
         assertEquals(result, 0.5, solver.getAbsoluteAccuracy());
         // 8 iterations on i586 JDK 1.4.1.
         assertTrue(solver.getIterationCount() <= 9);
-        result = solver.solve(0.85, 1.25);
+        result = solver.solve(f, 0.85, 1.25);
         //System.out.println(
         //    "Root: " + result + " Iterations: " + solver.getIterationCount());
         assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
         // 10 iterations on i586 JDK 1.4.1.
         assertTrue(solver.getIterationCount() <= 11);
-        result = solver.solve(0.8, 1.2);
+        result = solver.solve(f, 0.8, 1.2);
         //System.out.println(
         //    "Root: " + result + " Iterations: " + solver.getIterationCount());
         assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
         // 8 iterations on i586 JDK 1.4.1.
         assertTrue(solver.getIterationCount() <= 9);
-        result = solver.solve(0.85, 1.75);
+        result = solver.solve(f, 0.85, 1.75);
         //System.out.println(
         //    "Root: " + result + " Iterations: " + solver.getIterationCount());
         assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
@@ -231,13 +269,13 @@ public final class BrentSolverTest extends TestCase {
         assertTrue(solver.getIterationCount() <= 15);
         // The followig is especially slow because the solver first has to reduce
         // the bracket to exclude the extremum. After that, convergence is rapide.
-        result = solver.solve(0.55, 1.45);
+        result = solver.solve(f, 0.55, 1.45);
         //System.out.println(
         //    "Root: " + result + " Iterations: " + solver.getIterationCount());
         assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
         // 7 iterations on i586 JDK 1.4.1.
         assertTrue(solver.getIterationCount() <= 8);
-        result = solver.solve(0.85, 5);
+        result = solver.solve(f, 0.85, 5);
         //System.out.println(
         //    "Root: " + result + " Iterations: " + solver.getIterationCount());
         assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
@@ -270,27 +308,27 @@ public final class BrentSolverTest extends TestCase {
     
     public void testRootEndpoints() throws Exception {
         UnivariateRealFunction f = new SinFunction();
-        UnivariateRealSolver solver = new BrentSolver(f);
+        UnivariateRealSolver solver = new BrentSolver();
         
         // endpoint is root
-        double result = solver.solve(Math.PI, 4);
+        double result = solver.solve(f, Math.PI, 4);
         assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
 
-        result = solver.solve(3, Math.PI);
+        result = solver.solve(f, 3, Math.PI);
         assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
     }
     
     public void testBadEndpoints() throws Exception {
         UnivariateRealFunction f = new SinFunction();
-        UnivariateRealSolver solver = new BrentSolver(f);
+        UnivariateRealSolver solver = new BrentSolver();
         try {  // bad interval
-            solver.solve(1, -1);
+            solver.solve(f, 1, -1);
             fail("Expecting IllegalArgumentException - bad interval");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         try {  // no bracket
-            solver.solve(1, 1.5);
+            solver.solve(f, 1, 1.5);
             fail("Expecting IllegalArgumentException - non-bracketing");
         } catch (IllegalArgumentException ex) {
             // expected
@@ -300,18 +338,18 @@ public final class BrentSolverTest extends TestCase {
     public void testInitialGuess() throws MathException {
 
         MonitoredFunction f = new MonitoredFunction(new QuinticFunction());
-        UnivariateRealSolver solver = new BrentSolver(f);
+        UnivariateRealSolver solver = new BrentSolver();
         double result;
 
         // no guess
-        result = solver.solve(0.6, 7.0);
+        result = solver.solve(f, 0.6, 7.0);
         assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
         int referenceCallsCount = f.getCallsCount();
         assertTrue(referenceCallsCount >= 13);
  
         // invalid guess (it *is* a root, but outside of the range)
         try {
-          result = solver.solve(0.6, 7.0, 0.0);
+          result = solver.solve(f, 0.6, 7.0, 0.0);
           fail("an IllegalArgumentException was expected");
         } catch (IllegalArgumentException iae) {
             // expected behaviour
@@ -321,19 +359,19 @@ public final class BrentSolverTest extends TestCase {
  
         // bad guess
         f.setCallsCount(0);
-        result = solver.solve(0.6, 7.0, 0.61);
+        result = solver.solve(f, 0.6, 7.0, 0.61);
         assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
         assertTrue(f.getCallsCount() > referenceCallsCount);
  
         // good guess
         f.setCallsCount(0);
-        result = solver.solve(0.6, 7.0, 0.999999);
+        result = solver.solve(f, 0.6, 7.0, 0.999999);
         assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
         assertTrue(f.getCallsCount() < referenceCallsCount);
 
         // perfect guess
         f.setCallsCount(0);
-        result = solver.solve(0.6, 7.0, 1.0);
+        result = solver.solve(f, 0.6, 7.0, 1.0);
         assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
         assertEquals(0, solver.getIterationCount());
         assertEquals(1, f.getCallsCount());

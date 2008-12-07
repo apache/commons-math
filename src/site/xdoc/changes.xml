@@ -39,6 +39,11 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="luc" type="update" issue="MATH-218" >
+        The root solvers now take the function to solve as a parameter to
+        the solve methods, thus allowing to reuse the same solver for different
+        functions.
+      </action>
       <action dev="luc" type="add" issue="MATH-234" >
         Added setter methods for rows and columns in matrices.
       </action>

@@ -52,7 +52,7 @@ public class UnivariateRealSolverUtils {
     public static double solve(UnivariateRealFunction f, double x0, double x1)
     throws ConvergenceException, FunctionEvaluationException {
         setup(f);
-        return factory.newDefaultSolver(f).solve(x0, x1);
+        return factory.newDefaultSolver().solve(f, x0, x1);
     }
 
     /**
@@ -76,9 +76,9 @@ public class UnivariateRealSolverUtils {
             FunctionEvaluationException {    
        
         setup(f);
-        UnivariateRealSolver solver = factory.newDefaultSolver(f);
+        UnivariateRealSolver solver = factory.newDefaultSolver();
         solver.setAbsoluteAccuracy(absoluteAccuracy);
-        return solver.solve(x0, x1);
+        return solver.solve(f, x0, x1);
     }
 
     /**

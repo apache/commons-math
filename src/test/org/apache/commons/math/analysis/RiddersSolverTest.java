@@ -33,9 +33,10 @@ import junit.framework.TestCase;
 public final class RiddersSolverTest extends TestCase {
 
     /**
-     * Test of solver for the sine function.
+     * Test the deprecated APIs.
      */
-    public void testSinFunction() throws MathException {
+    @Deprecated
+    public void testDeprecated() throws MathException {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealSolver solver = new RiddersSolver(f);
         double min, max, expected, result, tolerance;
@@ -54,29 +55,50 @@ public final class RiddersSolverTest extends TestCase {
     }
 
     /**
+     * Test of solver for the sine function.
+     */
+    public void testSinFunction() throws MathException {
+        UnivariateRealFunction f = new SinFunction();
+        UnivariateRealSolver solver = new RiddersSolver();
+        double min, max, expected, result, tolerance;
+
+        min = 3.0; max = 4.0; expected = Math.PI;
+        tolerance = Math.max(solver.getAbsoluteAccuracy(),
+                    Math.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(f, min, max);
+        assertEquals(expected, result, tolerance);
+
+        min = -1.0; max = 1.5; expected = 0.0;
+        tolerance = Math.max(solver.getAbsoluteAccuracy(),
+                    Math.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(f, min, max);
+        assertEquals(expected, result, tolerance);
+    }
+
+    /**
      * Test of solver for the quintic function.
      */
     public void testQuinticFunction() throws MathException {
         UnivariateRealFunction f = new QuinticFunction();
-        UnivariateRealSolver solver = new RiddersSolver(f);
+        UnivariateRealSolver solver = new RiddersSolver();
         double min, max, expected, result, tolerance;
 
         min = -0.4; max = 0.2; expected = 0.0;
         tolerance = Math.max(solver.getAbsoluteAccuracy(),
                     Math.abs(expected * solver.getRelativeAccuracy()));
-        result = solver.solve(min, max);
+        result = solver.solve(f, min, max);
         assertEquals(expected, result, tolerance);
 
         min = 0.75; max = 1.5; expected = 1.0;
         tolerance = Math.max(solver.getAbsoluteAccuracy(),
                     Math.abs(expected * solver.getRelativeAccuracy()));
-        result = solver.solve(min, max);
+        result = solver.solve(f, min, max);
         assertEquals(expected, result, tolerance);
 
         min = -0.9; max = -0.2; expected = -0.5;
         tolerance = Math.max(solver.getAbsoluteAccuracy(),
                     Math.abs(expected * solver.getRelativeAccuracy()));
-        result = solver.solve(min, max);
+        result = solver.solve(f, min, max);
         assertEquals(expected, result, tolerance);
     }
 
@@ -85,25 +107,25 @@ public final class RiddersSolverTest extends TestCase {
      */
     public void testExpm1Function() throws MathException {
         UnivariateRealFunction f = new Expm1Function();
-        UnivariateRealSolver solver = new RiddersSolver(f);
+        UnivariateRealSolver solver = new RiddersSolver();
         double min, max, expected, result, tolerance;
 
         min = -1.0; max = 2.0; expected = 0.0;
         tolerance = Math.max(solver.getAbsoluteAccuracy(),
                     Math.abs(expected * solver.getRelativeAccuracy()));
-        result = solver.solve(min, max);
+        result = solver.solve(f, min, max);
         assertEquals(expected, result, tolerance);
 
         min = -20.0; max = 10.0; expected = 0.0;
         tolerance = Math.max(solver.getAbsoluteAccuracy(),
                     Math.abs(expected * solver.getRelativeAccuracy()));
-        result = solver.solve(min, max);
+        result = solver.solve(f, min, max);
         assertEquals(expected, result, tolerance);
 
         min = -50.0; max = 100.0; expected = 0.0;
         tolerance = Math.max(solver.getAbsoluteAccuracy(),
                     Math.abs(expected * solver.getRelativeAccuracy()));
-        result = solver.solve(min, max);
+        result = solver.solve(f, min, max);
         assertEquals(expected, result, tolerance);
     }
 
@@ -112,18 +134,18 @@ public final class RiddersSolverTest extends TestCase {
      */
     public void testParameters() throws Exception {
         UnivariateRealFunction f = new SinFunction();
-        UnivariateRealSolver solver = new RiddersSolver(f);
+        UnivariateRealSolver solver = new RiddersSolver();
 
         try {
             // bad interval
-            solver.solve(1, -1);
+            solver.solve(f, 1, -1);
             fail("Expecting IllegalArgumentException - bad interval");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         try {
             // no bracketing
-            solver.solve(2, 3);
+            solver.solve(f, 2, 3);
             fail("Expecting IllegalArgumentException - no bracketing");
         } catch (IllegalArgumentException ex) {
             // expected

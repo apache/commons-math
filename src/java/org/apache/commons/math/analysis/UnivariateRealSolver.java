@@ -158,8 +158,31 @@ public interface UnivariateRealSolver {
      * function
      * @throws IllegalArgumentException if min > max or the endpoints do not
      * satisfy the requirements specified by the solver
+     * @deprecated replaced by {@link #solve(UnivariateRealFunction, double, double)
+     * since 2.0
      */
+    @Deprecated
     double solve(double min, double max) throws ConvergenceException, 
+        FunctionEvaluationException;
+
+    /**
+     * Solve for a zero root in the given interval.
+     * A solver may require that the interval brackets a single zero root.
+     * 
+     * @param f the function to solve.
+     * @param min the lower bound for the interval.
+     * @param max the upper bound for the interval.
+     * @return a value where the function is zero
+     * @throws ConvergenceException if the maximum iteration count is exceeded
+     * or the solver detects convergence problems otherwise.
+     * @throws FunctionEvaluationException if an error occurs evaluating the
+     * function
+     * @throws IllegalArgumentException if min > max or the endpoints do not
+     * satisfy the requirements specified by the solver
+     * @since 2.0
+     */
+    double solve(UnivariateRealFunction f, double min, double max)
+        throws ConvergenceException, 
         FunctionEvaluationException;
 
     /**
@@ -176,8 +199,31 @@ public interface UnivariateRealSolver {
      * function
      * @throws IllegalArgumentException if min > max or the arguments do not
      * satisfy the requirements specified by the solver
+     * @deprecated replaced by {@link #solve(UnivariateRealFunction, double, double, double)
+     * since 2.0
      */
+    @Deprecated
     double solve(double min, double max, double startValue)
+        throws ConvergenceException, FunctionEvaluationException;
+
+    /**
+     * Solve for a zero in the given interval, start at startValue.
+     * A solver may require that the interval brackets a single zero root.
+     * 
+     * @param f the function to solve.
+     * @param min the lower bound for the interval.
+     * @param max the upper bound for the interval.
+     * @param startValue the start value to use
+     * @return a value where the function is zero
+     * @throws ConvergenceException if the maximum iteration count is exceeded
+     * or the solver detects convergence problems otherwise.
+     * @throws FunctionEvaluationException if an error occurs evaluating the
+     * function
+     * @throws IllegalArgumentException if min > max or the arguments do not
+     * satisfy the requirements specified by the solver
+     * @since 2.0
+     */
+    double solve(UnivariateRealFunction f, double min, double max, double startValue)
         throws ConvergenceException, FunctionEvaluationException;
 
     /**

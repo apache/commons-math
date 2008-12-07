@@ -31,8 +31,8 @@ package org.apache.commons.math.analysis;
  * Common usage:<pre>
  * SolverFactory factory = UnivariateRealSolverFactory.newInstance();</p>
  *
- * // create a Brent solver to use with a UnivariateRealFunction f
- * BrentSolver solver = factory.newBrentSolver(f);
+ * // create a Brent solver to use
+ * BrentSolver solver = factory.newBrentSolver();
  * </pre>
  *
  * @version $Revision$ $Date$
@@ -53,47 +53,38 @@ public abstract class UnivariateRealSolverFactory {
     }
     
     /**
-     * Create a new {@link UnivariateRealSolver} for the given function.  The
+     * Create a new {@link UnivariateRealSolver}.  The
      * actual solver returned is determined by the underlying factory.
-     * @param f the function.
      * @return the new solver.
      */
-    public abstract UnivariateRealSolver newDefaultSolver(
-        UnivariateRealFunction f);
+    public abstract UnivariateRealSolver newDefaultSolver();
     
     /**
-     * Create a new {@link UnivariateRealSolver} for the given function.  The
+     * Create a new {@link UnivariateRealSolver}.  The
      * solver is an implementation of the bisection method.
-     * @param f the function.
      * @return the new solver.
      */
-    public abstract UnivariateRealSolver newBisectionSolver(
-        UnivariateRealFunction f);
+    public abstract UnivariateRealSolver newBisectionSolver();
     
     /**
-     * Create a new {@link UnivariateRealSolver} for the given function.  The
+     * Create a new {@link UnivariateRealSolver}.  The
      * solver is an implementation of the Brent method.
-     * @param f the function.
      * @return the new solver.
      */
-    public abstract UnivariateRealSolver newBrentSolver(
-        UnivariateRealFunction f);
+    public abstract UnivariateRealSolver newBrentSolver();
     
     /**
-     * Create a new {@link UnivariateRealSolver} for the given function.  The
+     * Create a new {@link UnivariateRealSolver}.  The
      * solver is an implementation of Newton's Method.
-     * @param f the function.
      * @return the new solver.
      */
-    public abstract UnivariateRealSolver newNewtonSolver(
-        DifferentiableUnivariateRealFunction f);
+    public abstract UnivariateRealSolver newNewtonSolver();
     
     /**
-     * Create a new {@link UnivariateRealSolver} for the given function.  The
+     * Create a new {@link UnivariateRealSolver}.  The
      * solver is an implementation of the secant method.
-     * @param f the function.
      * @return the new solver.
      */
-    public abstract UnivariateRealSolver newSecantSolver(
-        UnivariateRealFunction f);
+    public abstract UnivariateRealSolver newSecantSolver();
+
 }

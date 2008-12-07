@@ -32,58 +32,28 @@ public class UnivariateRealSolverFactoryImpl extends UnivariateRealSolverFactory
     public UnivariateRealSolverFactoryImpl() {
     }
 
-    /**
-     * Create a new {@link UnivariateRealSolver} for the given function.  The
-     * actual solver returned is determined by the underlying factory.
-     * 
-     * This factory returns a {@link BrentSolver} instance.
-     *
-     * @param f the function.
-     * @return the new solver.
-     */
-    public UnivariateRealSolver newDefaultSolver(UnivariateRealFunction f) {
-        return newBrentSolver(f);
+    /** {@inheritDoc} */
+    public UnivariateRealSolver newDefaultSolver() {
+        return newBrentSolver();
     }
     
-    /**
-     * Create a new {@link UnivariateRealSolver} for the given function.  The
-     * solver is an implementation of the bisection method.
-     * @param f the function.
-     * @return the new solver.
-     */
-    public UnivariateRealSolver newBisectionSolver(UnivariateRealFunction f) {
-        return new BisectionSolver(f);
+    /** {@inheritDoc} */
+    public UnivariateRealSolver newBisectionSolver() {
+        return new BisectionSolver();
     }
 
-    /**
-     * Create a new {@link UnivariateRealSolver} for the given function.  The
-     * solver is an implementation of the Brent method.
-     * @param f the function.
-     * @return the new solver.
-     */
-    public UnivariateRealSolver newBrentSolver(UnivariateRealFunction f) {
-        return new BrentSolver(f);
+    /** {@inheritDoc} */
+    public UnivariateRealSolver newBrentSolver() {
+        return new BrentSolver();
     }
     
-    /**
-     * Create a new {@link UnivariateRealSolver} for the given function.  The
-     * solver is an implementation of Newton's Method.
-     * @param f the function.
-     * @return the new solver.
-     */
-    public UnivariateRealSolver newNewtonSolver(
-        DifferentiableUnivariateRealFunction f) {
-        
-        return new NewtonSolver(f);
+    /** {@inheritDoc} */
+    public UnivariateRealSolver newNewtonSolver() {
+        return new NewtonSolver();
     }
     
-    /**
-     * Create a new {@link UnivariateRealSolver} for the given function.  The
-     * solver is an implementation of the secant method.
-     * @param f the function.
-     * @return the new solver.
-     */
-    public UnivariateRealSolver newSecantSolver(UnivariateRealFunction f) {
-        return new SecantSolver(f);
+    /** {@inheritDoc} */
+    public UnivariateRealSolver newSecantSolver() {
+        return new SecantSolver();
     }
 }

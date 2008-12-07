@@ -30,49 +30,54 @@ import org.apache.commons.math.MaxIterationsExceededException;
 public class BisectionSolver extends UnivariateRealSolverImpl {
     
     /** Serializable version identifier */
-    private static final long serialVersionUID = 4963578633786538912L;
+    private static final long serialVersionUID = 5227509383222989438L;
 
     /**
      * Construct a solver for the given function.
      * 
      * @param f function to solve.
+     * @deprecated as of 2.0 the function to solve is passed as an argument
+     * to the {@link #solve(UnivariateRealFunction, double, double)} or
+     * {@link UnivariateRealSolverImpl#solve(UnivariateRealFunction, double, double, double)}
+     * method.
      */
+    @Deprecated
     public BisectionSolver(UnivariateRealFunction f) {
         super(f, 100, 1E-6);
     }
 
     /**
-     * Find a zero in the given interval.
+     * Construct a solver.
      * 
-     * @param min the lower bound for the interval.
-     * @param max the upper bound for the interval.
-     * @param initial the start value to use (ignored).
-     * @return the value where the function is zero
-     * @throws MaxIterationsExceededException the maximum iteration count is exceeded 
-     * @throws FunctionEvaluationException if an error occurs evaluating
-     *  the function
-     * @throws IllegalArgumentException if min is not less than max
      */
+    public BisectionSolver() {
+        super(100, 1E-6);
+    }
+
+    /** {@inheritDoc} */
+    @Deprecated
     public double solve(double min, double max, double initial)
         throws MaxIterationsExceededException, FunctionEvaluationException {
-          
-        return solve(min, max);
+        return solve(f, min, max);
     }
     
-    /**
-     * Find a zero root in the given interval.
-     * 
-     * @param min the lower bound for the interval
-     * @param max the upper bound for the interval
-     * @return the value where the function is zero
-     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded.
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function
-     * @throws IllegalArgumentException if min is not less than max
-     */
-    public double solve(double min, double max) throws MaxIterationsExceededException,
-        FunctionEvaluationException {
-        
+    /** {@inheritDoc} */
+    @Deprecated
+    public double solve(double min, double max)
+        throws MaxIterationsExceededException, FunctionEvaluationException {
+        return solve(f, min, max);
+    }
+
+    /** {@inheritDoc} */
+    public double solve(final UnivariateRealFunction f, double min, double max, double initial)
+        throws MaxIterationsExceededException, FunctionEvaluationException {
+        return solve(min, max);
+    }
+
+    /** {@inheritDoc} */
+    public double solve(final UnivariateRealFunction f, double min, double max)
+        throws MaxIterationsExceededException, FunctionEvaluationException {
+            
         clearResult();
         verifyInterval(min,max);
         double m;

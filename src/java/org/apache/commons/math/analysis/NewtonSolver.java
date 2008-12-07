@@ -17,8 +17,8 @@
 
 package org.apache.commons.math.analysis;
 
-import java.io.IOException;
-import org.apache.commons.math.FunctionEvaluationException; 
+import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
 
 /**
@@ -32,18 +32,41 @@ import org.apache.commons.math.MaxIterationsExceededException;
 public class NewtonSolver extends UnivariateRealSolverImpl {
     
     /** Serializable version identifier */
-    private static final long serialVersionUID = 2067325783137941016L;
+    private static final long serialVersionUID = 7579593514004764309L;
 
-    /** The first derivative of the target function. */
-    private transient UnivariateRealFunction derivative;
-    
     /**
      * Construct a solver for the given function.
      * @param f function to solve.
+     * @deprecated as of 2.0 the function to solve is passed as an argument
+     * to the {@link #solve(UnivariateRealFunction, double, double)} or
+     * {@link UnivariateRealSolverImpl#solve(UnivariateRealFunction, double, double, double)}
+     * method.
      */
+    @Deprecated
     public NewtonSolver(DifferentiableUnivariateRealFunction f) {
         super(f, 100, 1E-6);
-        derivative = f.derivative();
+    }
+
+    /**
+     * Construct a solver.
+     */
+    public NewtonSolver() {
+        super(100, 1E-6);
+    }
+
+    /** {@inheritDoc} */
+    @Deprecated
+    public double solve(final double min, final double max)
+        throws MaxIterationsExceededException, 
+        FunctionEvaluationException  {
+        return solve(f, min, max);
+    }
+
+    /** {@inheritDoc} */
+    @Deprecated
+    public double solve(final double min, final double max, final double startValue)
+        throws MaxIterationsExceededException, FunctionEvaluationException  {
+        return solve(f, min, max, startValue);
     }
 
     /**
@@ -57,9 +80,10 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
      * function or derivative
      * @throws IllegalArgumentException if min is not less than max
      */
-    public double solve(double min, double max) throws MaxIterationsExceededException, 
-        FunctionEvaluationException  {
-        return solve(min, max, UnivariateRealSolverUtils.midpoint(min, max));
+    public double solve(final UnivariateRealFunction f,
+                        final double min, final double max)
+        throws MaxIterationsExceededException, FunctionEvaluationException  {
+        return solve(f, min, max, UnivariateRealSolverUtils.midpoint(min, max));
     }
 
     /**
@@ -72,43 +96,41 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded 
      * @throws FunctionEvaluationException if an error occurs evaluating the
      * function or derivative
-     * @throws IllegalArgumentException if startValue is not between min and max
+     * @throws IllegalArgumentException if startValue is not between min and max or
+     * if function is not a {@link DifferentiableUnivariateRealFunction} instance
      */
-    public double solve(double min, double max, double startValue)
+    public double solve(final UnivariateRealFunction f,
+                        final double min, final double max, final double startValue)
         throws MaxIterationsExceededException, FunctionEvaluationException {
-        
-        clearResult();
-        verifySequence(min, startValue, max);
 
-        double x0 = startValue;
-        double x1;
-        
-        int i = 0;
-        while (i < maximalIterationCount) {
-            x1 = x0 - (f.value(x0) / derivative.value(x0));
-            if (Math.abs(x1 - x0) <= absoluteAccuracy) {
-                
-                setResult(x1, i);
-                return x1;
+        try {
+
+            final UnivariateRealFunction derivative =
+                ((DifferentiableUnivariateRealFunction) f).derivative();
+            clearResult();
+            verifySequence(min, startValue, max);
+
+            double x0 = startValue;
+            double x1;
+
+            int i = 0;
+            while (i < maximalIterationCount) {
+
+                x1 = x0 - (f.value(x0) / derivative.value(x0));
+                if (Math.abs(x1 - x0) <= absoluteAccuracy) {
+                    setResult(x1, i);
+                    return x1;
+                }
+
+                x0 = x1;
+                ++i;
             }
-            
-            x0 = x1;
-            ++i;
+
+            throw new MaxIterationsExceededException(maximalIterationCount);
+        } catch (ClassCastException cce) {
+            throw MathRuntimeException.createIllegalArgumentException("function is not differentiable",
+                                                                      null);
         }
-        
-        throw new MaxIterationsExceededException(maximalIterationCount);
     }
     
-    /**
-     * Custom deserialization to initialize transient deriviate field.
-     * 
-     * @param in serialized object input stream
-     * @throws IOException if IO error occurs 
-     * @throws ClassNotFoundException if instantiation error occurs
-     */
-    private void readObject(java.io.ObjectInputStream in)
-    throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
-        derivative = ((DifferentiableUnivariateRealFunction) f).derivative();
-    }    
 }
