@@ -421,7 +421,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      * @return the computed value of the statistic.
      */
     public double apply(UnivariateStatistic stat) {
-        return stat.evaluate(eDA.getValues(), eDA.start(), eDA.getNumElements());
+        return stat.evaluate(eDA.getInternalValues(), eDA.start(), eDA.getNumElements());
     }
 
     // Implementation getters and setter
