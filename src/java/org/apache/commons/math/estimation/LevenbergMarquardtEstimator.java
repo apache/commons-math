@@ -27,8 +27,7 @@ import java.util.Arrays;
  * (i.e. systems having more variables than equations). Over-determined systems
  * are solved by ignoring the variables which have the smallest impact according
  * to their jacobian column norm. Only the rank of the matrix and some loop bounds
- * are changed to implement this. This feature has undergone only basic testing
- * for now and should still be considered experimental.</p>
+ * are changed to implement this.</p>
  *
  * <p>The resolution engine is a simple translation of the MINPACK <a
  * href="http://www.netlib.org/minpack/lmder.f">lmder</a> routine with minor
