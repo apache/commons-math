@@ -228,15 +228,17 @@ public class OpenIntToDoubleHashMapTest extends TestCase {
         OpenIntToDoubleHashMap.Iterator iterator = map.iterator();
         for (int i = 0; i < map.size(); ++i) {
             assertTrue(iterator.hasNext());
-            OpenIntToDoubleHashMap.Entry entry = iterator.next();
-            int key = entry.key();
+            iterator.advance();
+            int key = iterator.key();
             assertTrue(map.containsKey(key));
             assertEquals(javaMap.get(key), map.get(key), 0);
+            assertEquals(javaMap.get(key), iterator.value(), 0);
             assertTrue(javaMap.containsKey(key));
         }
         assertFalse(iterator.hasNext());
         try {
-            iterator.next();
+            iterator.advance();
+            fail("an exception should have been thrown");
         } catch (NoSuchElementException nsee) {
             // expected
         }
@@ -247,7 +249,8 @@ public class OpenIntToDoubleHashMapTest extends TestCase {
         OpenIntToDoubleHashMap.Iterator iterator = map.iterator();
         map.put(3, 3);
         try {
-            iterator.next();
+            iterator.advance();
+            fail("an exception should have been thrown");
         } catch (ConcurrentModificationException cme) {
             // expected
         }

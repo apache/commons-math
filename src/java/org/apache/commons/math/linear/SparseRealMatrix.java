@@ -104,10 +104,10 @@ public class SparseRealMatrix extends AbstractRealMatrix {
 
         final RealMatrix out = new SparseRealMatrix(this);
         for (OpenIntToDoubleHashMap.Iterator iterator = m.entries.iterator(); iterator.hasNext();) {
-            final OpenIntToDoubleHashMap.Entry entry = iterator.next();
-            final int row = entry.key() / columnDimension;
-            final int col = entry.key() - row * columnDimension;
-            out.setEntry(row, col, getEntry(row, col) + entry.value());
+            iterator.advance();
+            final int row = iterator.key() / columnDimension;
+            final int col = iterator.key() - row * columnDimension;
+            out.setEntry(row, col, getEntry(row, col) + iterator.value());
         }
 
         return out;
@@ -138,10 +138,10 @@ public class SparseRealMatrix extends AbstractRealMatrix {
 
         final RealMatrix out = new SparseRealMatrix(this);
         for (OpenIntToDoubleHashMap.Iterator iterator = m.entries.iterator(); iterator.hasNext();) {
-            final OpenIntToDoubleHashMap.Entry entry = iterator.next();
-            final int row = entry.key() / columnDimension;
-            final int col = entry.key() - row * columnDimension;
-            out.setEntry(row, col, getEntry(row, col) - entry.value());
+            iterator.advance();
+            final int row = iterator.key() / columnDimension;
+            final int col = iterator.key() - row * columnDimension;
+            out.setEntry(row, col, getEntry(row, col) - iterator.value());
         }
 
         return out;

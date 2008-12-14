@@ -456,16 +456,28 @@ public class OpenIntToDoubleHashMap implements Serializable {
         /** Reference modification count. */
         final int referenceCount;
 
+        /** Index of curent element. */
+        private int current;
+
         /** Index of next element. */
-        private int index;
+        private int next;
 
         /**
          * Simple constructor.
          */
         private Iterator() {
+
+            // preserve the modification count of the map to detect concurrent modifications later
             referenceCount = count;
-            index = -1;
-            goToNext();
+
+            // initialize current index
+            next = -1;
+            try {
+                advance();
+            } catch (NoSuchElementException nsee) {
+                // ignored
+            }
+
         }
 
         /**
@@ -473,81 +485,73 @@ public class OpenIntToDoubleHashMap implements Serializable {
          * @return true if there is a next element
          */
         public boolean hasNext() {
-            return index >= 0;
+            return next >= 0;
         }
 
         /**
-         * Get the next entry.
-         * @return next entry
+         * Get the key of current entry.
+         * @return key of current entry
          * @exception ConcurrentModificationException if the map is modified during iteration
          * @exception NoSuchElementException if there is no element left in the map
          */
-        public Entry next()
+        public int key()
             throws ConcurrentModificationException, NoSuchElementException {
             if (referenceCount != count) {
                 throw MathRuntimeException.createConcurrentModificationException("map has been modified while iterating",
                                                                                  null);
             }
-            if (index < 0) {
+            if (current < 0) {
                 throw MathRuntimeException.createNoSuchElementException("iterator exhausted", null);
             }
-            final Entry entry = new Entry(keys[index], values[index]);
-            goToNext();
-            return entry;
+            return keys[current];
         }
 
         /**
-         * Find next index.
+         * Get the value of current entry.
+         * @return value of current entry
+         * @exception ConcurrentModificationException if the map is modified during iteration
+         * @exception NoSuchElementException if there is no element left in the map
          */
-        private void goToNext() {
+        public double value()
+            throws ConcurrentModificationException, NoSuchElementException {
+            if (referenceCount != count) {
+                throw MathRuntimeException.createConcurrentModificationException("map has been modified while iterating",
+                                                                                 null);
+            }
+            if (current < 0) {
+                throw MathRuntimeException.createNoSuchElementException("iterator exhausted", null);
+            }
+            return values[current];
+        }
+
+        /**
+         * Advance iterator one step further.
+         * @exception ConcurrentModificationException if the map is modified during iteration
+         * @exception NoSuchElementException if there is no element left in the map
+         */
+        public void advance()
+            throws ConcurrentModificationException, NoSuchElementException {
+
+            if (referenceCount != count) {
+                throw MathRuntimeException.createConcurrentModificationException("map has been modified while iterating",
+                                                                                 null);
+            }
+
+            // advance on step
+            current = next;
+
+            // prepare next step
             try {
-                while (states[++index] != FULL) {
+                while (states[++next] != FULL) {
                     // nothing to do
                 }
             } catch (ArrayIndexOutOfBoundsException e) {
-                index = -1;
+                next = -2;
+                if (current < 0) {
+                    throw MathRuntimeException.createNoSuchElementException("iterator exhausted", null);
+                }
             }
-        }
 
-    }
-
-    /** Entry class for the map.
-     * <p>Entry elements are built on the fly only during iteration,
-     * copying values. So changes in the map are <strong>not</strong>
-     * reflected on already built entries.</p>
-     */
-    public static class Entry {
-
-        /** Key. */
-        private final int key;
-
-        /** Value. */
-        private final double value;
-
-        /**
-         * Simple constructor.
-         * @param key entry key
-         * @param value entry value
-         */
-        private Entry(final int key, final double value) {
-            this.key   = key;
-            this.value = value;
-        }
-
-        /**
-         * Get the key.
-         * @return entry key
-         */
-        public int key() {
-            return key;
-        }
-
-        /**
-         * Get the value.
-         * @return entry value
-         */
-        public double value() {
-            return value;
         }
 
     }
