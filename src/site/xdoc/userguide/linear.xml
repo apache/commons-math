@@ -29,9 +29,10 @@
     <section name="3 Linear Algebra">
       <subsection name="3.1 Overview" href="overview">
         <p>
-           Currently, numerical linear algebra support in commons-math is 
-           limited to basic operations on real matrices and vectors and
-           solving linear systems.
+           Linear algebra support in commons-math provides operations on real matrices
+           (both dense and sparse matrices are supported) and vectors. It features basic
+           operations (addition, subtraction ...) and decomposition algorithms that can
+           be used to solve linear systems either in exact sense and in least squares sense.
         </p>
       </subsection>
       <subsection name="3.2 Real matrices" href="real_matrices">
@@ -68,6 +69,13 @@ System.out.println(p.getColumnDimension()); // 2
 // Invert p, using LU decomposition
 RealMatrix pInverse = new LUSolver(new LUDecompositionImpl(p))).getInverse();
          </source>
+        </p>
+        <p>
+        The two main implementations of the interface are <a
+        href="../apidocs/org/apache/commons/math/linear/RealMatrixImpl.html">
+        RealMatrixImpl</a> for dense matrices and <a
+        href="../apidocs/org/apache/commons/math/linear/SparseRealMatrix.html">
+        SparseRealMatrix</a> for sparse matrices.
         </p>
       </subsection>
       <subsection name="3.3 Real vectors" href="real_vectors">

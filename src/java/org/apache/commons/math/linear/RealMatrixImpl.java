@@ -185,16 +185,12 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
      */
     public RealMatrixImpl add(final RealMatrixImpl m)
         throws IllegalArgumentException {
+
+        // safety check
+        checkAdditionCompatible(m);
+
         final int rowCount    = getRowDimension();
         final int columnCount = getColumnDimension();
-        if (columnCount != m.getColumnDimension() || rowCount != m.getRowDimension()) {
-            throw MathRuntimeException.createIllegalArgumentException("{0}x{1} and {2}x{3} matrices are not" +
-                                                                      " addition compatible",
-                                                                      new Object[] {
-                                                                          getRowDimension(), getColumnDimension(),
-                                                                          m.getRowDimension(), m.getColumnDimension()
-                                                                      });
-        }
         final double[][] outData = new double[rowCount][columnCount];
         for (int row = 0; row < rowCount; row++) {
             final double[] dataRow    = data[row];
@@ -202,9 +198,11 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
             final double[] outDataRow = outData[row];
             for (int col = 0; col < columnCount; col++) {
                 outDataRow[col] = dataRow[col] + mRow[col];
-            }  
+            }
         }
+
         return new RealMatrixImpl(outData, false);
+
     }
 
     /** {@inheritDoc} */
@@ -226,16 +224,12 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
      */
     public RealMatrixImpl subtract(final RealMatrixImpl m)
         throws IllegalArgumentException {
+
+        // safety check
+        checkSubtractionCompatible(m);
+
         final int rowCount    = getRowDimension();
         final int columnCount = getColumnDimension();
-        if (columnCount != m.getColumnDimension() || rowCount != m.getRowDimension()) {
-            throw MathRuntimeException.createIllegalArgumentException("{0}x{1} and {2}x{3} matrices are not" +
-                                                                      " subtraction compatible",
-                                                                      new Object[] {
-                                                                          getRowDimension(), getColumnDimension(),
-                                                                          m.getRowDimension(), m.getColumnDimension()
-                                                                      });
-        }
         final double[][] outData = new double[rowCount][columnCount];
         for (int row = 0; row < rowCount; row++) {
             final double[] dataRow    = data[row];
@@ -243,9 +237,11 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
             final double[] outDataRow = outData[row];
             for (int col = 0; col < columnCount; col++) {
                 outDataRow[col] = dataRow[col] - mRow[col];
-            }  
+            }
         }
+
         return new RealMatrixImpl(outData, false);
+
     }
 
     /** {@inheritDoc} */
@@ -267,14 +263,10 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
      */
     public RealMatrixImpl multiply(final RealMatrixImpl m)
         throws IllegalArgumentException {
-        if (this.getColumnDimension() != m.getRowDimension()) {
-            throw MathRuntimeException.createIllegalArgumentException("{0}x{1} and {2}x{3} matrices are not" +
-                                                                      " multiplication compatible",
-                                                                      new Object[] {
-                                                                          getRowDimension(), getColumnDimension(),
-                                                                          m.getRowDimension(), m.getColumnDimension()
-                                                                      });
-        }
+
+        // safety check
+        checkMultiplicationCompatible(m);
+
         final int nRows = this.getRowDimension();
         final int nCols = m.getColumnDimension();
         final int nSum = this.getColumnDimension();
@@ -289,8 +281,10 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
                 }
                 outDataRow[col] = sum;
             }
-        }            
+        }
+
         return new RealMatrixImpl(outData, false);
+
     }
 
     /** {@inheritDoc} */

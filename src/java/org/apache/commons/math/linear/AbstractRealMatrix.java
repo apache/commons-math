@@ -78,19 +78,12 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
 
     /** {@inheritDoc} */
     public RealMatrix add(RealMatrix m) throws IllegalArgumentException {
+
+        // safety check
+        checkAdditionCompatible(m);
+
         final int rowCount    = getRowDimension();
         final int columnCount = getColumnDimension();
-        if (columnCount != m.getColumnDimension() || rowCount != m.getRowDimension()) {
-            throw MathRuntimeException.createIllegalArgumentException("{0}x{1} and {2}x{3} matrices are not" +
-                                                                      " addition compatible",
-                                                                      new Object[] {
-                                                                          getRowDimension(),
-                                                                          getColumnDimension(),
-                                                                          m.getRowDimension(),
-                                                                          m.getColumnDimension()
-                                                                      });
-        }
-
         final RealMatrix out = createMatrix(rowCount, columnCount);
         for (int row = 0; row < rowCount; ++row) {
             for (int col = 0; col < columnCount; ++col) {
@@ -104,19 +97,12 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
 
     /** {@inheritDoc} */
     public RealMatrix subtract(final RealMatrix m) throws IllegalArgumentException {
+
+        // safety check
+        checkSubtractionCompatible(m);
+
         final int rowCount    = getRowDimension();
         final int columnCount = getColumnDimension();
-        if (columnCount != m.getColumnDimension() || rowCount != m.getRowDimension()) {
-            throw MathRuntimeException.createIllegalArgumentException("{0}x{1} and {2}x{3} matrices are not" +
-                                                                      " subtraction compatible",
-                                                                      new Object[] {
-                                                                          getRowDimension(),
-                                                                          getColumnDimension(),
-                                                                          m.getRowDimension(),
-                                                                          m.getColumnDimension()
-                                                                      });
-        }
-
         final RealMatrix out = createMatrix(rowCount, columnCount);
         for (int row = 0; row < rowCount; ++row) {
             for (int col = 0; col < columnCount; ++col) {
@@ -163,20 +149,13 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
     /** {@inheritDoc} */
     public RealMatrix multiply(final RealMatrix m)
         throws IllegalArgumentException {
-        if (getColumnDimension() != m.getRowDimension()) {
-            throw MathRuntimeException.createIllegalArgumentException("{0}x{1} and {2}x{3} matrices are not" +
-                                                                      " multiplication compatible",
-                                                                      new Object[] {
-                                                                          getRowDimension(),
-                                                                          getColumnDimension(),
-                                                                          m.getRowDimension(),
-                                                                          m.getColumnDimension()
-                                                                      });
-        }
+
+        // safety check
+        checkMultiplicationCompatible(m);
 
         final int nRows = getRowDimension();
         final int nCols = m.getColumnDimension();
-        final int nSum = getColumnDimension();
+        final int nSum  = getColumnDimension();
         final RealMatrix out = createMatrix(nRows, nCols);
         for (int row = 0; row < nRows; ++row) {
             for (int col = 0; col < nCols; ++col) {
@@ -199,7 +178,20 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
     }
 
     /** {@inheritDoc} */
-    public abstract double[][] getData();
+    public double[][] getData() {
+
+        final double[][] data = new double[getRowDimension()][getColumnDimension()];
+
+        for (int i = 0; i < data.length; ++i) {
+            final double[] dataI = data[i];
+            for (int j = 0; j < dataI.length; ++j) {
+                dataI[j] = getEntry(i, j);
+            }
+        }
+
+        return data;
+
+    }
 
     /** {@inheritDoc} */
     public double getNorm() {
@@ -767,7 +759,9 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
         final int nRows = getRowDimension();
         final int nCols = getColumnDimension();
         final StringBuffer res = new StringBuffer();
-        res.append("RealMatrixImpl{");
+        String fullClassName = getClass().getName();
+        String shortClassName = fullClassName.substring(fullClassName.lastIndexOf('.') + 1);
+        res.append(shortClassName).append("{");
 
         for (int i = 0; i < nRows; ++i) {
             if (i > 0) {
@@ -844,7 +838,7 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
      * @param row row index to check
      * @exception MatrixIndexException if index is not valid
      */
-    private void checkRowIndex(final int row) {
+    protected void checkRowIndex(final int row) {
         if (row < 0 || row >= getRowDimension()) {
             throw new MatrixIndexException("row index {0} out of allowed range [{1}, {2}]",
                                            new Object[] { row, 0, getRowDimension() - 1});
@@ -856,11 +850,67 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
      * @param column column index to check
      * @exception MatrixIndexException if index is not valid
      */
-    private void checkColumnIndex(final int column)
+    protected void checkColumnIndex(final int column)
         throws MatrixIndexException {
         if (column < 0 || column >= getColumnDimension()) {
             throw new MatrixIndexException("column index {0} out of allowed range [{1}, {2}]",
                                            new Object[] { column, 0, getColumnDimension() - 1});
+        }
+    }
+
+    /**
+     * Check if a matrix is addition compatible with the instance
+     * @param m matrix to check
+     * @exception IllegalArgumentException if matrix is not addition compatible with instance
+     */
+    protected void checkAdditionCompatible(final RealMatrix m) {
+        if ((getRowDimension()    != m.getRowDimension()) ||
+            (getColumnDimension() != m.getColumnDimension())) {
+            throw MathRuntimeException.createIllegalArgumentException("{0}x{1} and {2}x{3} matrices are not" +
+                                                                      " addition compatible",
+                                                                      new Object[] {
+                                                                          getRowDimension(),
+                                                                          getColumnDimension(),
+                                                                          m.getRowDimension(),
+                                                                          m.getColumnDimension()
+                                                                      });
+        }
+    }
+
+    /**
+     * Check if a matrix is subtraction compatible with the instance
+     * @param m matrix to check
+     * @exception IllegalArgumentException if matrix is not subtraction compatible with instance
+     */
+    protected void checkSubtractionCompatible(final RealMatrix m) {
+        if ((getRowDimension()    != m.getRowDimension()) ||
+            (getColumnDimension() != m.getColumnDimension())) {
+            throw MathRuntimeException.createIllegalArgumentException("{0}x{1} and {2}x{3} matrices are not" +
+                                                                      " subtraction compatible",
+                                                                      new Object[] {
+                                                                          getRowDimension(),
+                                                                          getColumnDimension(),
+                                                                          m.getRowDimension(),
+                                                                          m.getColumnDimension()
+                                                                      });
+        }
+    }
+
+    /**
+     * Check if a matrix is multiplication compatible with the instance
+     * @param m matrix to check
+     * @exception IllegalArgumentException if matrix is not multiplication compatible with instance
+     */
+    protected void checkMultiplicationCompatible(final RealMatrix m) {
+        if (getColumnDimension() != m.getRowDimension()) {
+            throw MathRuntimeException.createIllegalArgumentException("{0}x{1} and {2}x{3} matrices are not" +
+                                                                      " multiplication compatible",
+                                                                      new Object[] {
+                                                                          getRowDimension(),
+                                                                          getColumnDimension(),
+                                                                          m.getRowDimension(),
+                                                                          m.getColumnDimension()
+                                                                      });
         }
     }
 
