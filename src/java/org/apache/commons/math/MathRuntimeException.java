@@ -22,8 +22,10 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.text.MessageFormat;
 import java.text.ParseException;
+import java.util.ConcurrentModificationException;
 import java.util.Locale;
 import java.util.MissingResourceException;
+import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
 
 /**
@@ -35,7 +37,7 @@ import java.util.ResourceBundle;
 public class MathRuntimeException extends RuntimeException {
     
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 8560172512507661982L;
+    private static final long serialVersionUID = -143052521750625264L;
 
     /** Cache for resources bundle. */
     private static ResourceBundle cachedResources = null;
@@ -298,6 +300,48 @@ public class MathRuntimeException extends RuntimeException {
 
             /** Serializable version identifier. */
             private static final long serialVersionUID = 5173599768297434381L;
+
+            /** {@inheritDoc} */
+            public String getLocalizedMessage() {
+                return buildMessage(pattern, arguments, Locale.getDefault());
+            }
+
+        };
+    }
+
+    /**
+     * Constructs a new <code>ConcurrentModificationException</code> with specified formatted detail message.
+     * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * @param pattern format specifier
+     * @param arguments format arguments
+     */
+    public static ConcurrentModificationException createConcurrentModificationException(final String pattern,
+                                                                                        final Object[] arguments) {
+        return new ConcurrentModificationException(buildMessage(pattern, arguments, Locale.US)) {
+
+            /** Serializable version identifier. */
+            private static final long serialVersionUID = 6134247282754009421L;
+
+            /** {@inheritDoc} */
+            public String getLocalizedMessage() {
+                return buildMessage(pattern, arguments, Locale.getDefault());
+            }
+
+        };
+    }
+
+    /**
+     * Constructs a new <code>NoSuchElementException</code> with specified formatted detail message.
+     * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * @param pattern format specifier
+     * @param arguments format arguments
+     */
+    public static NoSuchElementException createNoSuchElementException(final String pattern,
+                                                                      final Object[] arguments) {
+        return new NoSuchElementException(buildMessage(pattern, arguments, Locale.US)) {
+
+            /** Serializable version identifier. */
+            private static final long serialVersionUID = 7304273322489425799L;
 
             /** {@inheritDoc} */
             public String getLocalizedMessage() {

@@ -39,6 +39,10 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="luc" type="add" due-to="Ismael Juma">
+        Added an int/double hash map (OpenIntToDoubleHashMap) with much smaller
+        memory overhead than standard java.util.Map (open addressing and no boxing).
+      </action>
       <action dev="luc" type="add" issue="MATH-152" due-to="Remi Arntzen">
         Added support for multi-dimensional Fourier transform.
       </action>

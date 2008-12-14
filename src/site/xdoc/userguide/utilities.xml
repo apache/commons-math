@@ -72,7 +72,18 @@
     </p>
 </subsection>
 
-<subsection name="6.3 Continued Fractions" href="continued_fractions">
+<subsection name="6.3 int/double hash map" href="int_double_hash_map">
+    <p>
+    The <a href="../apidocs/org/apache/commons/math/util/OpenIntToDoubleHashMap.html">
+    org.apache.commons.math.util.OpenIntToDoubleHashMap</a> class provides a specialized
+    hash map implementation for int/double. This implementation has a much smaller memory
+    overhead than standard <code>java.util.HashMap</code> class. It uses open addressing
+    and primitive arrays, which greatly reduces the number of intermediate objects and
+    improve data locality.
+    </p>
+</subsection>
+
+<subsection name="6.4 Continued Fractions" href="continued_fractions">
   <p>
     The <a href="../apidocs/org/apache/commons/math/util/ContinuedFraction.html">
     org.apache.commons.math.util.ContinuedFraction</a> class provides a generic
@@ -140,7 +151,7 @@
   </p>
 </subsection>
 
-<subsection name="6.4 binomial coefficients, factorials and other common math functions" href="math_utils">
+<subsection name="6.5 binomial coefficients, factorials and other common math functions" href="math_utils">
     <p>
     A collection of reusable math functions is provided in the
     <a href="../apidocs/org/apache/commons/math/util/MathUtils.html">MathUtils</a>

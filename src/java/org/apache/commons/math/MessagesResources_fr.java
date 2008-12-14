@@ -202,6 +202,12 @@ public class MessagesResources_fr
       "une matrice doit comporter au moins une colonne" },
     { "some rows have length {0} while others have length {1}",
       "certaines ligne ont une longueur de {0} alors que d''autres ont une longueur de {1}" },
+    { "{0}x{1} and {2}x{3} matrices are not addition compatible",
+      "les dimensions {0}x{1} et {2}x{3} sont incompatibles pour l'addition matricielle" },
+    { "{0}x{1} and {2}x{3} matrices are not subtraction compatible",
+      "les dimensions {0}x{1} et {2}x{3} sont incompatibles pour la soustraction matricielle" },
+    { "{0}x{1} and {2}x{3} matrices are not multiplication compatible",
+      "les dimensions {0}x{1} et {2}x{3} sont incompatibles pour la multiplication matricielle" },
 
     // org.apache.commons.math.linear.BigMatrixImpl
     // org.apache.commons.math.linear.RealMatrixImpl
@@ -219,12 +225,6 @@ public class MessagesResources_fr
       "tableau des indices de lignes s\u00e9lectionn\u00e9es vide" },
     { "empty selected column index array",
       "tableau des indices de colonnes s\u00e9lectionn\u00e9es vide" },
-    { "{0}x{1} and {2}x{3} matrices are not multiplication compatible",
-      "les dimensions {0}x{1} et {2}x{3} sont incompatibles pour la multiplication matricielle" },
-    { "{0}x{1} and {2}x{3} matrices are not addition compatible",
-      "les dimensions {0}x{1} et {2}x{3} sont incompatibles pour l'addition matricielle" },
-    { "{0}x{1} and {2}x{3} matrices are not subtraction compatible",
-      "les dimensions {0}x{1} et {2}x{3} sont incompatibles pour la soustraction matricielle" },
 
    // org.apache.commons.math.random.EmpiricalDistributionImpl
    // org.apache.commons.math.random.ValueServer
@@ -331,7 +331,13 @@ public class MessagesResources_fr
    { "invalid number of elements {0} (must be positive)",
      "nombre d''\u00e9l\u00e9ments {0} invalide (doit \u00eatre positif)" },
    { "invalid exponent {0} (must be positive)",
-     "exposant {0} invalide (doit \u00eatre positif)" }
+     "exposant {0} invalide (doit \u00eatre positif)" },
+
+   // org.apache.commons.math.util.OpenIntToDoubleHashMap
+   { "map has been modified while iterating",
+     "la table d''adressage a \u00e9t\u00e9 modifi\u00e9e pendant l''it\u00e9ration" },
+   { "iterator exhausted",
+     "it\u00e9ration achev\u00e9e" }
 
   };
 
