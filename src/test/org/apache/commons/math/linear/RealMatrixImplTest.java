@@ -746,14 +746,6 @@ public final class RealMatrixImplTest extends TestCase {
             (new double[][] {{3.0,4.0,5.0},{4.0,7.0,5.0},{3.0,2.0,10.0}});
         assertEquals(expected, m);   
         
-        // javadoc example
-        RealMatrixImpl matrix = (RealMatrixImpl) MatrixUtils.createRealMatrix
-            (new double[][] {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 0, 1 , 2}});
-        matrix.setSubMatrix(new double[][] {{3, 4}, {5, 6}}, 1, 1);
-        expected = MatrixUtils.createRealMatrix
-            (new double[][] {{1, 2, 3, 4}, {5, 3, 4, 8}, {9, 5 ,6, 2}});
-        assertEquals(expected, matrix);   
-        
         // dimension overflow
         try {  
             m.setSubMatrix(testData,1,1);

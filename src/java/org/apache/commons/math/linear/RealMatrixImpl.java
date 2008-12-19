@@ -371,6 +371,34 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
     }
 
     /** {@inheritDoc} */
+    public void addToEntry(final int row, final int column, final double increment)
+        throws MatrixIndexException {
+        try {
+            data[row][column] += increment;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new MatrixIndexException("no entry at indices ({0}, {1}) in a {2}x{3} matrix",
+                                           new Object[] {
+                                               row, column,
+                                               getRowDimension(), getColumnDimension()
+                                           });
+        }      
+    }
+
+    /** {@inheritDoc} */
+    public void multiplyEntry(final int row, final int column, final double factor)
+        throws MatrixIndexException {
+        try {
+            data[row][column] *= factor;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new MatrixIndexException("no entry at indices ({0}, {1}) in a {2}x{3} matrix",
+                                           new Object[] {
+                                               row, column,
+                                               getRowDimension(), getColumnDimension()
+                                           });
+        }      
+    }
+
+    /** {@inheritDoc} */
     public int getRowDimension() {
         return (data == null) ? 0 : data.length;
     }

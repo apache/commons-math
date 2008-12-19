@@ -227,19 +227,7 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
                                    final int startColumn, final int endColumn)
         throws MatrixIndexException {
 
-        checkRowIndex(startRow);
-        checkRowIndex(endRow);
-        if (startRow > endRow) {
-            throw new MatrixIndexException("initial row {0} after final row {1}",
-                                           new Object[] { startRow, endRow });
-        }
-
-        checkColumnIndex(startColumn);
-        checkColumnIndex(endColumn);
-        if (startColumn > endColumn) {
-            throw new MatrixIndexException("initial column {0} after final column {1}",
-                                           new Object[] { startColumn, endColumn });
-        }
+        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
 
         final RealMatrix subMatrix =
             createMatrix(endRow - startRow + 1, endColumn - startColumn + 1);
@@ -257,29 +245,13 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
     public RealMatrix getSubMatrix(int[] selectedRows, int[] selectedColumns)
         throws MatrixIndexException {
 
-        if (selectedRows.length * selectedColumns.length == 0) {
-            if (selectedRows.length == 0) {
-                throw new MatrixIndexException("empty selected row index array", null);
-            }
-            throw new MatrixIndexException("empty selected column index array", null);
-        }
+        checkSubMatrixIndex(selectedRows, selectedColumns);
 
         final RealMatrix subMatrix =
             createMatrix(selectedRows.length, selectedColumns.length);
-        try  {
-            for (int i = 0; i < selectedRows.length; i++) {
-                for (int j = 0; j < selectedColumns.length; j++) {
-                    subMatrix.setEntry(i, j, getEntry(selectedRows[i], selectedColumns[j]));
-                }
-            }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            // we redo the loop with checks enabled
-            // in order to generate an appropriate message
-            for (final int row : selectedRows) {
-                checkRowIndex(row);
-            }
-            for (final int column : selectedColumns) {
-                checkColumnIndex(column);
+        for (int i = 0; i < selectedRows.length; i++) {
+            for (int j = 0; j < selectedColumns.length; j++) {
+                subMatrix.setEntry(i, j, getEntry(selectedRows[i], selectedColumns[j]));
             }
         }
 
@@ -523,6 +495,14 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
 
     /** {@inheritDoc} */
     public abstract void setEntry(int row, int column, double value)
+        throws MatrixIndexException;
+
+    /** {@inheritDoc} */
+    public abstract void addToEntry(int row, int column, double increment)
+        throws MatrixIndexException;
+
+    /** {@inheritDoc} */
+    public abstract void multiplyEntry(int row, int column, double factor)
         throws MatrixIndexException;
 
     /** {@inheritDoc} */
@@ -855,6 +835,59 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
         if (column < 0 || column >= getColumnDimension()) {
             throw new MatrixIndexException("column index {0} out of allowed range [{1}, {2}]",
                                            new Object[] { column, 0, getColumnDimension() - 1});
+        }
+    }
+
+    /**
+     * Check if submatrix ranges indices are valid.
+     * Rows and columns are indicated counting from 0 to n-1.
+     *
+     * @param startRow Initial row index
+     * @param endRow Final row index
+     * @param startColumn Initial column index
+     * @param endColumn Final column index
+     * @exception MatrixIndexException  if the indices are not valid
+     */
+    protected void checkSubMatrixIndex(final int startRow, final int endRow,
+                                       final int startColumn, final int endColumn) {
+        checkRowIndex(startRow);
+        checkRowIndex(endRow);
+        if (startRow > endRow) {
+            throw new MatrixIndexException("initial row {0} after final row {1}",
+                                           new Object[] { startRow, endRow });
+        }
+
+        checkColumnIndex(startColumn);
+        checkColumnIndex(endColumn);
+        if (startColumn > endColumn) {
+            throw new MatrixIndexException("initial column {0} after final column {1}",
+                                           new Object[] { startColumn, endColumn });
+        }
+
+    
+    }
+
+    /**
+     * Check if submatrix ranges indices are valid.
+     * Rows and columns are indicated counting from 0 to n-1.
+     *
+     * @param selectedRows Array of row indices.
+     * @param selectedColumns Array of column indices.
+     * @exception MatrixIndexException if row or column selections are not valid
+     */
+    protected void checkSubMatrixIndex(final int[] selectedRows, final int[] selectedColumns) {
+        if (selectedRows.length * selectedColumns.length == 0) {
+            if (selectedRows.length == 0) {
+                throw new MatrixIndexException("empty selected row index array", null);
+            }
+            throw new MatrixIndexException("empty selected column index array", null);
+        }
+
+        for (final int row : selectedRows) {
+            checkRowIndex(row);
+        }
+        for (final int column : selectedColumns) {
+            checkColumnIndex(column);
         }
     }
 

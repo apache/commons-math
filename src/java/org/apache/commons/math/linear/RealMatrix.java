@@ -360,6 +360,42 @@ public interface RealMatrix {
     void setEntry(int row, int column, double value) throws MatrixIndexException;
 
     /**
+     * Change an entry in the specified row and column.
+     * <p>
+     * Row and column indices start at 0 and must satisfy 
+     * <ul>
+     * <li><code>0 <= row < rowDimension</code></li>
+     * <li><code> 0 <= column < columnDimension</code></li>
+     * </ul>
+     * otherwise a <code>MatrixIndexException</code> is thrown.</p>
+     * 
+     * @param row  row location of entry to be set
+     * @param column  column location of entry to be set
+     * @param increment value to add to the current matrix entry in row,column
+     * @throws MatrixIndexException if the row or column index is not valid
+     * @since 2.0
+     */
+    void addToEntry(int row, int column, double increment) throws MatrixIndexException;
+
+    /**
+     * Change an entry in the specified row and column.
+     * <p>
+     * Row and column indices start at 0 and must satisfy 
+     * <ul>
+     * <li><code>0 <= row < rowDimension</code></li>
+     * <li><code> 0 <= column < columnDimension</code></li>
+     * </ul>
+     * otherwise a <code>MatrixIndexException</code> is thrown.</p>
+     * 
+     * @param row  row location of entry to be set
+     * @param column  column location of entry to be set
+     * @param factor multiplication factor for the current matrix entry in row,column
+     * @throws MatrixIndexException if the row or column index is not valid
+     * @since 2.0
+     */
+    void multiplyEntry(int row, int column, double factor) throws MatrixIndexException;
+
+    /**
      * Returns the transpose of this matrix.
      *
      * @return transpose matrix
