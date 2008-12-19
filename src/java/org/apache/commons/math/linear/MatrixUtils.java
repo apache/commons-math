@@ -35,6 +35,18 @@ public class MatrixUtils {
     }
     
     /**
+     * Returns a {@link RealMatrix} with specified dimensions.
+     * <p>The matrix elements are all set to 0.0.</p>
+     * @param rows number of rows of the matrix
+     * @param columns number of columns of the matrix
+     * @return  RealMatrix with specified dimensions
+     * @see #createRealMatrix(double[][])
+     */
+    public static RealMatrix createRealMatrix(final int rows, final int columns) {
+        return new DenseRealMatrix(rows, columns);
+    }
+
+    /**
      * Returns a {@link RealMatrix} whose entries are the the values in the
      * the input array.  The input array is copied, not referenced.
      * 
@@ -43,30 +55,10 @@ public class MatrixUtils {
      * @throws IllegalArgumentException if <code>data</code> is not rectangular
      *  (not all rows have the same length) or empty
      * @throws NullPointerException if <code>data</code> is null
-     * @see #createRealMatrix(double[][], boolean)
+     * @see #createRealMatrix(int, int)
      */
     public static RealMatrix createRealMatrix(double[][] data) {
-        return new RealMatrixImpl(data);
-    }
-
-    /**
-     * Returns a {@link RealMatrix} whose entries are the the values in the
-     * the input array.
-     * <p>If an array is built specially in order to be embedded in a
-     * RealMatrix and not used directly, the <code>copyArray</code> may be
-     * set to <code>false</code. This will prevent the copying and improve
-     * performance as no new array will be built and no data will be copied.</p>
-     * @param data data for new matrix
-     * @param copyArray if true, the input array will be copied, otherwise
-     * it will be referenced
-     * @return  RealMatrix containing the values of the array
-     * @throws IllegalArgumentException if <code>data</code> is not rectangular
-     *  (not all rows have the same length) or empty
-     * @throws NullPointerException if <code>data</code> is null
-     * @see #createRealMatrix(double[][])
-     */
-    public static RealMatrix createRealMatrix(double[][] data, boolean copyArray) {
-        return new RealMatrixImpl(data, copyArray);
+        return new DenseRealMatrix(data);
     }
 
     /**
@@ -78,11 +70,27 @@ public class MatrixUtils {
      * @since 1.1
      */
     public static RealMatrix createRealIdentityMatrix(int dimension) {
-        double[][] d = new double[dimension][dimension];
-        for (int row = 0; row < dimension; row++) {
-            d[row][row] = 1d;
+        final RealMatrix m = createRealMatrix(dimension, dimension);
+        for (int i = 0; i < dimension; ++i) {
+            m.setEntry(i, i, 1.0);
         }
-        return new RealMatrixImpl(d, false);
+        return m;
+    }
+    
+    /**
+     * Returns a diagonal matrix with specified elements.
+     *
+     * @param diagonal diagonal elements of the matrix (the array elements
+     * will be copied)
+     * @return diagonal matrix
+     * @since 2.0
+     */
+    public static RealMatrix createRealDiagonalMatrix(final double[] diagonal) {
+        final RealMatrix m = createRealMatrix(diagonal.length, diagonal.length);
+        for (int i = 0; i < diagonal.length; ++i) {
+            m.setEntry(i, i, diagonal[i]);
+        }
+        return m;
     }
     
     /**
@@ -170,9 +178,11 @@ public class MatrixUtils {
      */
     public static RealMatrix createRowRealMatrix(double[] rowData) {
         final int nCols = rowData.length;
-        final double[][] data = new double[1][nCols];
-        System.arraycopy(rowData, 0, data[0], 0, nCols);
-        return new RealMatrixImpl(data, false);
+        final RealMatrix m = createRealMatrix(1, nCols);
+        for (int i = 0; i < nCols; ++i) {
+            m.setEntry(0, i, rowData[i]);
+        }
+        return m;
     }
     
     /**
@@ -238,11 +248,11 @@ public class MatrixUtils {
      */
     public static RealMatrix createColumnRealMatrix(double[] columnData) {
         final int nRows = columnData.length;
-        final double[][] data = new double[nRows][1];
-        for (int row = 0; row < nRows; row++) {
-            data[row][0] = columnData[row];
+        final RealMatrix m = createRealMatrix(nRows, 1);
+        for (int i = 0; i < nRows; ++i) {
+            m.setEntry(i, 0, columnData[i]);
         }
-        return new RealMatrixImpl(data, false);
+        return m;
     }
     
     /**
