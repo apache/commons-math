@@ -73,7 +73,7 @@ public class EigenSolverTest extends TestCase {
     /** test solve dimension errors */
     public void testSolveDimensionErrors() {
         EigenSolver es = new EigenSolver(new EigenDecompositionImpl(matrix, MathUtils.SAFE_MIN));
-        RealMatrix b = new RealMatrixImpl(new double[2][2]);
+        RealMatrix b = MatrixUtils.createRealMatrix(new double[2][2]);
         try {
             es.solve(b);
             fail("an exception should have been thrown");
@@ -102,7 +102,7 @@ public class EigenSolverTest extends TestCase {
 
     /** test solve */
     public void testSolve() {
-        RealMatrix m = new RealMatrixImpl(new double[][] {
+        RealMatrix m = MatrixUtils.createRealMatrix(new double[][] {
                 { 91,  5, 29, 32, 40, 14 },
                 {  5, 34, -1,  0,  2, -1 },
                 { 29, -1, 12,  9, 21,  8 },
@@ -112,7 +112,7 @@ public class EigenSolverTest extends TestCase {
         });
         EigenSolver  es = new EigenSolver(new EigenDecompositionImpl(m, MathUtils.SAFE_MIN));
         assertEquals(184041, es.getDeterminant(), 2.0e-8);
-        RealMatrix b = new RealMatrixImpl(new double[][] {
+        RealMatrix b = MatrixUtils.createRealMatrix(new double[][] {
                 { 1561, 269, 188 },
                 {   69, -21,  70 },
                 {  739, 108,  63 },
@@ -120,7 +120,7 @@ public class EigenSolverTest extends TestCase {
                 { 1624, 194, 107 },
                 {  796,  69,  36 }
         });
-        RealMatrix xRef = new RealMatrixImpl(new double[][] {
+        RealMatrix xRef = MatrixUtils.createRealMatrix(new double[][] {
                 { 1,   2, 1 },
                 { 2,  -1, 2 },
                 { 4,   2, 3 },

@@ -157,7 +157,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                     iData[i] = new double[n];
                 }
                 cachedU =
-                    transformer.getU().multiply(new RealMatrixImpl(iData, false));
+                    transformer.getU().multiply(MatrixUtils.createRealMatrix(iData));
             } else {
                 // the tridiagonal matrix is B.Bt, where B is lower bidiagonal
                 cachedU = transformer.getU().multiply(eigenDecomposition.getV());
@@ -189,14 +189,8 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
 
         if (cachedS == null) {
 
-            final int p = singularValues.length;
-            final double[][] sData = new double[p][p];
-            for (int i = 0; i < p; ++i) {
-                sData[i][i] = singularValues[i];
-            }
-
             // cache the matrix for subsequent calls
-            cachedS = new RealMatrixImpl(sData, false);
+            cachedS = MatrixUtils.createRealDiagonalMatrix(singularValues);
 
         }
         return cachedS;
@@ -243,7 +237,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                     iData[i] = new double[m];
                 }
                 cachedV =
-                    transformer.getV().multiply(new RealMatrixImpl(iData, false));
+                    transformer.getV().multiply(MatrixUtils.createRealMatrix(iData));
             }
 
         }

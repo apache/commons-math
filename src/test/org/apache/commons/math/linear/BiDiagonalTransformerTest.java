@@ -40,9 +40,9 @@ public class BiDiagonalTransformerTest extends TestCase {
     }
 
     public void testDimensions() {
-        checkdimensions(new RealMatrixImpl(testSquare, false));
-        checkdimensions(new RealMatrixImpl(testNonSquare, false));
-        checkdimensions(new RealMatrixImpl(testNonSquare, false).transpose());
+        checkdimensions(MatrixUtils.createRealMatrix(testSquare));
+        checkdimensions(MatrixUtils.createRealMatrix(testNonSquare));
+        checkdimensions(MatrixUtils.createRealMatrix(testNonSquare).transpose());
     }
 
     private void checkdimensions(RealMatrix matrix) {
@@ -59,9 +59,9 @@ public class BiDiagonalTransformerTest extends TestCase {
     }
 
     public void testAEqualUSVt() {
-        checkAEqualUSVt(new RealMatrixImpl(testSquare, false));
-        checkAEqualUSVt(new RealMatrixImpl(testNonSquare, false));
-        checkAEqualUSVt(new RealMatrixImpl(testNonSquare, false).transpose());
+        checkAEqualUSVt(MatrixUtils.createRealMatrix(testSquare));
+        checkAEqualUSVt(MatrixUtils.createRealMatrix(testNonSquare));
+        checkAEqualUSVt(MatrixUtils.createRealMatrix(testNonSquare).transpose());
     }
 
     private void checkAEqualUSVt(RealMatrix matrix) {
@@ -74,15 +74,15 @@ public class BiDiagonalTransformerTest extends TestCase {
     }
 
     public void testUOrthogonal() {
-        checkOrthogonal(new BiDiagonalTransformer(new RealMatrixImpl(testSquare, false)).getU());
-        checkOrthogonal(new BiDiagonalTransformer(new RealMatrixImpl(testNonSquare, false)).getU());
-        checkOrthogonal(new BiDiagonalTransformer(new RealMatrixImpl(testNonSquare, false).transpose()).getU());
+        checkOrthogonal(new BiDiagonalTransformer(MatrixUtils.createRealMatrix(testSquare)).getU());
+        checkOrthogonal(new BiDiagonalTransformer(MatrixUtils.createRealMatrix(testNonSquare)).getU());
+        checkOrthogonal(new BiDiagonalTransformer(MatrixUtils.createRealMatrix(testNonSquare).transpose()).getU());
     }
 
     public void testVOrthogonal() {
-        checkOrthogonal(new BiDiagonalTransformer(new RealMatrixImpl(testSquare, false)).getV());
-        checkOrthogonal(new BiDiagonalTransformer(new RealMatrixImpl(testNonSquare, false)).getV());
-        checkOrthogonal(new BiDiagonalTransformer(new RealMatrixImpl(testNonSquare, false).transpose()).getV());
+        checkOrthogonal(new BiDiagonalTransformer(MatrixUtils.createRealMatrix(testSquare)).getV());
+        checkOrthogonal(new BiDiagonalTransformer(MatrixUtils.createRealMatrix(testNonSquare)).getV());
+        checkOrthogonal(new BiDiagonalTransformer(MatrixUtils.createRealMatrix(testNonSquare).transpose()).getV());
     }
 
     private void checkOrthogonal(RealMatrix m) {
@@ -92,9 +92,9 @@ public class BiDiagonalTransformerTest extends TestCase {
     }
 
     public void testBBiDiagonal() {
-        checkBiDiagonal(new BiDiagonalTransformer(new RealMatrixImpl(testSquare, false)).getB());
-        checkBiDiagonal(new BiDiagonalTransformer(new RealMatrixImpl(testNonSquare, false)).getB());
-        checkBiDiagonal(new BiDiagonalTransformer(new RealMatrixImpl(testNonSquare, false).transpose()).getB());
+        checkBiDiagonal(new BiDiagonalTransformer(MatrixUtils.createRealMatrix(testSquare)).getB());
+        checkBiDiagonal(new BiDiagonalTransformer(MatrixUtils.createRealMatrix(testNonSquare)).getB());
+        checkBiDiagonal(new BiDiagonalTransformer(MatrixUtils.createRealMatrix(testNonSquare).transpose()).getB());
     }
 
     private void checkBiDiagonal(RealMatrix m) {
@@ -117,17 +117,17 @@ public class BiDiagonalTransformerTest extends TestCase {
 
     public void testMatricesValues() {
        BiDiagonalTransformer transformer =
-            new BiDiagonalTransformer(new RealMatrixImpl(testSquare, false));
+            new BiDiagonalTransformer(MatrixUtils.createRealMatrix(testSquare));
        final double s17 = Math.sqrt(17.0);
-        RealMatrix uRef = new RealMatrixImpl(new double[][] {
+        RealMatrix uRef = MatrixUtils.createRealMatrix(new double[][] {
                 {  -8 / (5 * s17), 19 / (5 * s17) },
                 { -19 / (5 * s17), -8 / (5 * s17) }
         });
-        RealMatrix bRef = new RealMatrixImpl(new double[][] {
+        RealMatrix bRef = MatrixUtils.createRealMatrix(new double[][] {
                 { -3 * s17 / 5, 32 * s17 / 85 },
                 {      0.0,     -5 * s17 / 17 }
         });
-        RealMatrix vRef = new RealMatrixImpl(new double[][] {
+        RealMatrix vRef = MatrixUtils.createRealMatrix(new double[][] {
                 { 1.0,  0.0 },
                 { 0.0, -1.0 }
         });
@@ -148,9 +148,9 @@ public class BiDiagonalTransformerTest extends TestCase {
     }
 
     public void testUpperOrLower() {
-        assertTrue(new BiDiagonalTransformer(new RealMatrixImpl(testSquare, false)).isUpperBiDiagonal());
-        assertTrue(new BiDiagonalTransformer(new RealMatrixImpl(testNonSquare, false)).isUpperBiDiagonal());
-        assertFalse(new BiDiagonalTransformer(new RealMatrixImpl(testNonSquare, false).transpose()).isUpperBiDiagonal());
+        assertTrue(new BiDiagonalTransformer(MatrixUtils.createRealMatrix(testSquare)).isUpperBiDiagonal());
+        assertTrue(new BiDiagonalTransformer(MatrixUtils.createRealMatrix(testNonSquare)).isUpperBiDiagonal());
+        assertFalse(new BiDiagonalTransformer(MatrixUtils.createRealMatrix(testNonSquare).transpose()).isUpperBiDiagonal());
     }
 
     public static Test suite() {

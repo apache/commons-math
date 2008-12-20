@@ -57,11 +57,11 @@ public class LUSolverTest extends TestCase {
 
     /** test threshold impact */
     public void testThreshold() {
-        final RealMatrix matrix = new RealMatrixImpl(new double[][] {
+        final RealMatrix matrix = MatrixUtils.createRealMatrix(new double[][] {
                                                        { 1.0, 2.0, 3.0},
                                                        { 2.0, 5.0, 3.0},
                                                        { 4.000001, 9.0, 9.0}
-                                                     }, false);
+                                                     });
         assertFalse(new LUSolver(new LUDecompositionImpl(matrix, 1.0e-5)).isNonSingular());
         assertTrue(new LUSolver(new LUDecompositionImpl(matrix, 1.0e-10)).isNonSingular());
     }
@@ -69,19 +69,19 @@ public class LUSolverTest extends TestCase {
     /** test singular */
     public void testSingular() {
         LUSolver lu =
-            new LUSolver(new LUDecompositionImpl(new RealMatrixImpl(testData, false)));
+            new LUSolver(new LUDecompositionImpl(MatrixUtils.createRealMatrix(testData)));
         assertTrue(lu.isNonSingular());
-        lu = new LUSolver(new LUDecompositionImpl(new RealMatrixImpl(singular, false)));
+        lu = new LUSolver(new LUDecompositionImpl(MatrixUtils.createRealMatrix(singular)));
         assertFalse(lu.isNonSingular());
-        lu = new LUSolver(new LUDecompositionImpl(new RealMatrixImpl(bigSingular, false)));
+        lu = new LUSolver(new LUDecompositionImpl(MatrixUtils.createRealMatrix(bigSingular)));
         assertFalse(lu.isNonSingular());
     }
 
     /** test solve dimension errors */
     public void testSolveDimensionErrors() {
         LUSolver solver =
-            new LUSolver(new LUDecompositionImpl(new RealMatrixImpl(testData, false)));
-        RealMatrix b = new RealMatrixImpl(new double[2][2]);
+            new LUSolver(new LUDecompositionImpl(MatrixUtils.createRealMatrix(testData)));
+        RealMatrix b = MatrixUtils.createRealMatrix(new double[2][2]);
         try {
             solver.solve(b);
             fail("an exception should have been thrown");
@@ -111,8 +111,8 @@ public class LUSolverTest extends TestCase {
     /** test solve singularity errors */
     public void testSolveSingularityErrors() {
         LUSolver solver =
-            new LUSolver(new LUDecompositionImpl(new RealMatrixImpl(singular, false)));
-        RealMatrix b = new RealMatrixImpl(new double[2][2]);
+            new LUSolver(new LUDecompositionImpl(MatrixUtils.createRealMatrix(singular)));
+        RealMatrix b = MatrixUtils.createRealMatrix(new double[2][2]);
         try {
             solver.solve(b);
             fail("an exception should have been thrown");
@@ -150,11 +150,11 @@ public class LUSolverTest extends TestCase {
     /** test solve */
     public void testSolve() {
         LUSolver solver =
-            new LUSolver(new LUDecompositionImpl(new RealMatrixImpl(testData, false)));
-        RealMatrix b = new RealMatrixImpl(new double[][] {
+            new LUSolver(new LUDecompositionImpl(MatrixUtils.createRealMatrix(testData)));
+        RealMatrix b = MatrixUtils.createRealMatrix(new double[][] {
                 { 1, 0 }, { 2, -5 }, { 3, 1 }
         });
-        RealMatrix xRef = new RealMatrixImpl(new double[][] {
+        RealMatrix xRef = MatrixUtils.createRealMatrix(new double[][] {
                 { 19, -71 }, { -6, 22 }, { -2, 9 }
         });
 
@@ -188,10 +188,10 @@ public class LUSolverTest extends TestCase {
 
     /** test determinant */
     public void testDeterminant() {
-        assertEquals( -1, getDeterminant(new RealMatrixImpl(testData, false)), 1.0e-15);
-        assertEquals(-10, getDeterminant(new RealMatrixImpl(luData, false)), 1.0e-14);
-        assertEquals(  0, getDeterminant(new RealMatrixImpl(singular, false)), 1.0e-17);
-        assertEquals(  0, getDeterminant(new RealMatrixImpl(bigSingular, false)), 1.0e-10);
+        assertEquals( -1, getDeterminant(MatrixUtils.createRealMatrix(testData)), 1.0e-15);
+        assertEquals(-10, getDeterminant(MatrixUtils.createRealMatrix(luData)), 1.0e-14);
+        assertEquals(  0, getDeterminant(MatrixUtils.createRealMatrix(singular)), 1.0e-17);
+        assertEquals(  0, getDeterminant(MatrixUtils.createRealMatrix(bigSingular)), 1.0e-10);
     }
 
     private double getDeterminant(RealMatrix m) {

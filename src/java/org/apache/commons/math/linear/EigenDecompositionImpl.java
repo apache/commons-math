@@ -228,7 +228,17 @@ public class EigenDecompositionImpl implements EigenDecomposition {
         throws InvalidMatrixException {
 
         if (cachedV == null) {
-            cachedV = getVT().transpose();
+
+            if (eigenvectors == null) {
+                findEigenVectors();
+            }
+
+            final int m = eigenvectors.length;
+            cachedV = MatrixUtils.createRealMatrix(m, m);
+            for (int k = 0; k < m; ++k) {
+                cachedV.setColumnVector(k, eigenvectors[k]);
+            }
+
         }
 
         // return the cached matrix
@@ -239,18 +249,9 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     /** {@inheritDoc} */
     public RealMatrix getD()
         throws InvalidMatrixException {
-
         if (cachedD == null) {
-
-            final int m = eigenvalues.length;
-            final double[][] sData = new double[m][m];
-            for (int i = 0; i < m; ++i) {
-                sData[i][i] = eigenvalues[i];
-            }
-
             // cache the matrix for subsequent calls
-            cachedD = new RealMatrixImpl(sData, false);
-
+            cachedD = MatrixUtils.createRealDiagonalMatrix(eigenvalues);
         }
         return cachedD;
     }
@@ -265,13 +266,11 @@ public class EigenDecompositionImpl implements EigenDecomposition {
                 findEigenVectors();
             }
 
-            final double[][] vtData = new double[eigenvectors.length][];
-            for (int k = 0; k < eigenvectors.length; ++k) {
-                vtData[k] = eigenvectors[k].getData();
+            final int m = eigenvectors.length;
+            cachedVt = MatrixUtils.createRealMatrix(m, m);
+            for (int k = 0; k < m; ++k) {
+                cachedVt.setRowVector(k, eigenvectors[k]);
             }
-
-            // cache the matrix for subsequent calls
-            cachedVt = new RealMatrixImpl(vtData, false);
 
         }
 

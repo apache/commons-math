@@ -56,16 +56,16 @@ public class QRSolverTest extends TestCase {
     /** test rank */
     public void testRank() {
         QRSolver solver =
-            new QRSolver(new QRDecompositionImpl(new RealMatrixImpl(testData3x3NonSingular, false)));
+            new QRSolver(new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData3x3NonSingular)));
         assertTrue(solver.isNonSingular());
 
-        solver = new QRSolver(new QRDecompositionImpl(new RealMatrixImpl(testData3x3Singular, false)));
+        solver = new QRSolver(new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData3x3Singular)));
         assertFalse(solver.isNonSingular());
 
-        solver = new QRSolver(new QRDecompositionImpl(new RealMatrixImpl(testData3x4, false)));
+        solver = new QRSolver(new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData3x4)));
         assertTrue(solver.isNonSingular());
 
-        solver = new QRSolver(new QRDecompositionImpl(new RealMatrixImpl(testData4x3, false)));
+        solver = new QRSolver(new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData4x3)));
         assertTrue(solver.isNonSingular());
 
     }
@@ -73,8 +73,8 @@ public class QRSolverTest extends TestCase {
     /** test solve dimension errors */
     public void testSolveDimensionErrors() {
         QRSolver solver =
-            new QRSolver(new QRDecompositionImpl(new RealMatrixImpl(testData3x3NonSingular, false)));
-        RealMatrix b = new RealMatrixImpl(new double[2][2]);
+            new QRSolver(new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData3x3NonSingular)));
+        RealMatrix b = MatrixUtils.createRealMatrix(new double[2][2]);
         try {
             solver.solve(b);
             fail("an exception should have been thrown");
@@ -104,8 +104,8 @@ public class QRSolverTest extends TestCase {
     /** test solve rank errors */
     public void testSolveRankErrors() {
         QRSolver solver =
-            new QRSolver(new QRDecompositionImpl(new RealMatrixImpl(testData3x3Singular, false)));
-        RealMatrix b = new RealMatrixImpl(new double[3][2]);
+            new QRSolver(new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData3x3Singular)));
+        RealMatrix b = MatrixUtils.createRealMatrix(new double[3][2]);
         try {
             solver.solve(b);
             fail("an exception should have been thrown");
@@ -135,11 +135,11 @@ public class QRSolverTest extends TestCase {
     /** test solve */
     public void testSolve() {
         QRSolver solver =
-            new QRSolver(new QRDecompositionImpl(new RealMatrixImpl(testData3x3NonSingular, false)));
-        RealMatrix b = new RealMatrixImpl(new double[][] {
+            new QRSolver(new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData3x3NonSingular)));
+        RealMatrix b = MatrixUtils.createRealMatrix(new double[][] {
                 { -102, 12250 }, { 544, 24500 }, { 167, -36750 }
         });
-        RealMatrix xRef = new RealMatrixImpl(new double[][] {
+        RealMatrix xRef = MatrixUtils.createRealMatrix(new double[][] {
                 { 1, 2515 }, { 2, 422 }, { -3, 898 }
         });
 

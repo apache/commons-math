@@ -16,8 +16,10 @@
  */
 package org.apache.commons.math.stat.regression;
 
+import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.RealMatrixImpl;
+import org.apache.commons.math.linear.RealVector;
+import org.apache.commons.math.linear.RealVectorImpl;
 
 /**
  * Abstract base class for implementations of MultipleLinearRegression.
@@ -31,7 +33,7 @@ public abstract class AbstractMultipleLinearRegression implements
     protected RealMatrix X;
 
     /** Y sample data. */
-    protected RealMatrix Y;
+    protected RealVector Y;
 
     /**
      * Loads model x and y sample data from a flat array of data, overriding any previous sample.
@@ -52,8 +54,8 @@ public abstract class AbstractMultipleLinearRegression implements
                 x[i][j] = data[pointer++];
             }
         }
-        this.X = new RealMatrixImpl(x);
-        this.Y = new RealMatrixImpl(y);
+        this.X = MatrixUtils.createRealMatrix(x);
+        this.Y = new RealVectorImpl(y);
     }
     
     /**
@@ -62,7 +64,7 @@ public abstract class AbstractMultipleLinearRegression implements
      * @param y the [n,1] array representing the y sample
      */
     protected void newYSampleData(double[] y) {
-        this.Y = new RealMatrixImpl(y);
+        this.Y = new RealVectorImpl(y);
     }
 
     /**
@@ -71,7 +73,7 @@ public abstract class AbstractMultipleLinearRegression implements
      * @param x the [n,k] array representing the x sample
      */
     protected void newXSampleData(double[][] x) {
-        this.X = new RealMatrixImpl(x);
+        this.X = MatrixUtils.createRealMatrix(x);
     }
 
     /**
@@ -120,17 +122,14 @@ public abstract class AbstractMultipleLinearRegression implements
      * {@inheritDoc}
      */
     public double[] estimateRegressionParameters() {
-        RealMatrix b = calculateBeta();
-        return b.getColumn(0);
+        return calculateBeta().getData();
     }
 
     /**
      * {@inheritDoc}
      */
     public double[] estimateResiduals() {
-        RealMatrix b = calculateBeta();
-        RealMatrix e = Y.subtract(X.multiply(b));
-        return e.getColumn(0);
+        return Y.subtract(X.operate(calculateBeta())).getData();
     }
 
     /**
@@ -152,7 +151,7 @@ public abstract class AbstractMultipleLinearRegression implements
      * 
      * @return beta
      */
-    protected abstract RealMatrix calculateBeta();
+    protected abstract RealVector calculateBeta();
 
     /**
      * Calculates the beta variance of multiple linear regression in matrix
@@ -179,9 +178,8 @@ public abstract class AbstractMultipleLinearRegression implements
      * 
      * @return The residuals [n,1] matrix
      */
-    protected RealMatrix calculateResiduals() {
-        RealMatrix b = calculateBeta();
-        return Y.subtract(X.multiply(b));
+    protected RealVector calculateResiduals() {
+        return Y.subtract(X.operate(calculateBeta()));
     }
 
 }

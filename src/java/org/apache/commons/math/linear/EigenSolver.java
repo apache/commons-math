@@ -147,7 +147,7 @@ public class EigenSolver implements DecompositionSolver {
             }
         }
 
-        return new RealMatrixImpl(bp, false);
+        return MatrixUtils.createRealMatrix(bp);
 
     }
 
@@ -203,7 +203,7 @@ public class EigenSolver implements DecompositionSolver {
                 invI[j] = invIJ;
             }
         }
-        return new RealMatrixImpl(invData, false);
+        return MatrixUtils.createRealMatrix(invData);
 
     }
 

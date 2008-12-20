@@ -153,19 +153,15 @@ public class QRDecompositionImpl implements QRDecomposition {
             // R is supposed to be m x n
             final int n = qrt.length;
             final int m = qrt[0].length;
-            double[][] r = new double[m][n];
+            cachedR = MatrixUtils.createRealMatrix(m, n);
 
             // copy the diagonal from rDiag and the upper triangle of qr
             for (int row = Math.min(m, n) - 1; row >= 0; row--) {
-                double[] rRow = r[row];
-                rRow[row] = rDiag[row];
+                cachedR.setEntry(row, row, rDiag[row]);
                 for (int col = row + 1; col < n; col++) {
-                    rRow[col] = qrt[col][row];
+                    cachedR.setEntry(row, col, qrt[col][row]);
                 }
             }
-
-            // cache the matrix for subsequent calls
-            cachedR = new RealMatrixImpl(r, false);
 
         }
 
@@ -192,7 +188,7 @@ public class QRDecompositionImpl implements QRDecomposition {
             // QT is supposed to be m x m
             final int n = qrt.length;
             final int m = qrt[0].length;
-            double[][] qT = new double[m][m];
+            cachedQT = MatrixUtils.createRealMatrix(m, m);
 
             /* 
              * Q = Q1 Q2 ... Q_m, so Q is formed by first constructing Q_m and then 
@@ -200,30 +196,26 @@ public class QRDecompositionImpl implements QRDecomposition {
              * succession to the result 
              */ 
             for (int minor = m - 1; minor >= Math.min(m, n); minor--) {
-                qT[minor][minor]=1;
+                cachedQT.setEntry(minor, minor, 1.0);
             }
 
-            for (int minor = Math.min(m,n)-1; minor >= 0; minor--){
+            for (int minor = Math.min(m, n)-1; minor >= 0; minor--){
                 final double[] qrtMinor = qrt[minor];
-                qT[minor][minor] = 1;
+                cachedQT.setEntry(minor, minor, 1.0);
                 if (qrtMinor[minor] != 0.0) {
                     for (int col = minor; col < m; col++) {
-                        final double[] qTCol = qT[col];
                         double alpha = 0;
                         for (int row = minor; row < m; row++) {
-                            alpha -= qTCol[row] * qrtMinor[row];
+                            alpha -= cachedQT.getEntry(col, row) * qrtMinor[row];
                         }
                         alpha /= rDiag[minor] * qrtMinor[minor];
 
                         for (int row = minor; row < m; row++) {
-                            qTCol[row] -= alpha * qrtMinor[row];
+                            cachedQT.addToEntry(col, row, -alpha * qrtMinor[row]);
                         }
                     }
                 }
             }
-
-            // cache the matrix for subsequent calls
-            cachedQT = new RealMatrixImpl(qT, false);
 
         }
 
@@ -240,16 +232,12 @@ public class QRDecompositionImpl implements QRDecomposition {
 
             final int n = qrt.length;
             final int m = qrt[0].length;
-            double[][] hData = new double[m][n];
+            cachedH = MatrixUtils.createRealMatrix(m, n);
             for (int i = 0; i < m; ++i) {
-                final double[] hDataI = hData[i];
                 for (int j = 0; j < Math.min(i + 1, n); ++j) {
-                    hDataI[j] = qrt[j][i] / -rDiag[j];
+                    cachedH.setEntry(i, j, qrt[j][i] / -rDiag[j]);
                 }
             }
-
-            // cache the matrix for subsequent calls
-            cachedH = new RealMatrixImpl(hData, false);
 
         }
 

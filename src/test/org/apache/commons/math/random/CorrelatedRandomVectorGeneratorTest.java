@@ -17,13 +17,15 @@
 
 package org.apache.commons.math.random;
 
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
 import org.apache.commons.math.DimensionMismatchException;
+import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.RealMatrixImpl;
 import org.apache.commons.math.stat.descriptive.moment.VectorialCovariance;
 import org.apache.commons.math.stat.descriptive.moment.VectorialMean;
-
-import junit.framework.*;
 
 public class CorrelatedRandomVectorGeneratorTest
 extends TestCase {
@@ -48,7 +50,7 @@ extends TestCase {
                 { 2, 16, 38, -1 },
                 { 6, 2, -1, 197 }
         };
-        RealMatrix covRM = new RealMatrixImpl(cov, false);
+        RealMatrix covRM = MatrixUtils.createRealMatrix(cov);
         JDKRandomGenerator jg = new JDKRandomGenerator();
         jg.setSeed(5322145245211l);
         NormalizedRandomGenerator rg = new GaussianRandomGenerator(jg);
@@ -99,24 +101,21 @@ extends TestCase {
         try {
             mean = new double[] { 0.0, 1.0, -3.0, 2.3};
 
-            RealMatrixImpl b = new RealMatrixImpl(4, 3);
-            double[][] bData = b.getDataRef();
+            RealMatrix b = MatrixUtils.createRealMatrix(4, 3);
             int counter = 0;
-            for (int i = 0; i < bData.length; ++i) {
-                double[] bi = bData[i];
+            for (int i = 0; i < b.getRowDimension(); ++i) {
                 for (int j = 0; j < b.getColumnDimension(); ++j) {
-                    bi[j] = 1.0 + 0.1 * ++counter;
+                    b.setEntry(i, j, 1.0 + 0.1 * ++counter);
                 }
             }
             RealMatrix bbt = b.multiply(b.transpose());
-            covariance = new RealMatrixImpl(mean.length, mean.length);
-            double[][] covData = covariance.getDataRef();
+            covariance = MatrixUtils.createRealMatrix(mean.length, mean.length);
             for (int i = 0; i < covariance.getRowDimension(); ++i) {
-                covData[i][i] = bbt.getEntry(i, i);
+                covariance.setEntry(i, i, bbt.getEntry(i, i));
                 for (int j = 0; j < covariance.getColumnDimension(); ++j) {
                     double s = bbt.getEntry(i, j);
-                    covData[i][j] = s;
-                    covData[j][i] = s;
+                    covariance.setEntry(i, j, s);
+                    covariance.setEntry(j, i, s);
                 }
             }
 
@@ -145,7 +144,7 @@ extends TestCase {
     }
 
     private double[] mean;
-    private RealMatrixImpl covariance;
+    private RealMatrix covariance;
     private CorrelatedRandomVectorGenerator generator;
 
 }

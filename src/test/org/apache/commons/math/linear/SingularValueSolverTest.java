@@ -43,8 +43,8 @@ public class SingularValueSolverTest extends TestCase {
     /** test solve dimension errors */
     public void testSolveDimensionErrors() {
         SingularValueSolver solver =
-            new SingularValueSolver(new SingularValueDecompositionImpl(new RealMatrixImpl(testSquare, false)));
-        RealMatrix b = new RealMatrixImpl(new double[3][2]);
+            new SingularValueSolver(new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testSquare)));
+        RealMatrix b = MatrixUtils.createRealMatrix(new double[3][2]);
         try {
             solver.solve(b);
             fail("an exception should have been thrown");
@@ -74,12 +74,12 @@ public class SingularValueSolverTest extends TestCase {
     /** test solve singularity errors */
     public void testSolveSingularityErrors() {
         RealMatrix m =
-            new RealMatrixImpl(new double[][] {
+            MatrixUtils.createRealMatrix(new double[][] {
                                    { 1.0, 0.0 },
                                    { 0.0, 0.0 }
-                               }, false);
+                               });
         SingularValueSolver solver = new SingularValueSolver(new SingularValueDecompositionImpl(m));
-        RealMatrix b = new RealMatrixImpl(new double[2][2]);
+        RealMatrix b = MatrixUtils.createRealMatrix(new double[2][2]);
         try {
             solver.solve(b);
             fail("an exception should have been thrown");
@@ -117,11 +117,11 @@ public class SingularValueSolverTest extends TestCase {
     /** test solve */
     public void testSolve() {
         SingularValueSolver solver =
-            new SingularValueSolver(new SingularValueDecompositionImpl(new RealMatrixImpl(testSquare, false)));
-        RealMatrix b = new RealMatrixImpl(new double[][] {
+            new SingularValueSolver(new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testSquare)));
+        RealMatrix b = MatrixUtils.createRealMatrix(new double[][] {
                 { 1, 2, 3 }, { 0, -5, 1 }
         });
-        RealMatrix xRef = new RealMatrixImpl(new double[][] {
+        RealMatrix xRef = MatrixUtils.createRealMatrix(new double[][] {
                 { -8.0 / 25.0, -263.0 / 75.0, -29.0 / 75.0 },
                 { 19.0 / 25.0,   78.0 / 25.0,  49.0 / 25.0 }
         });
@@ -157,7 +157,7 @@ public class SingularValueSolverTest extends TestCase {
     /** test condition number */
     public void testConditionNumber() {
         SingularValueDecompositionImpl svd =
-            new SingularValueDecompositionImpl(new RealMatrixImpl(testSquare, false));
+            new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testSquare));
         assertEquals(3.0, svd.getConditionNumber(), 1.0e-15);
     }
 

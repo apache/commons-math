@@ -136,7 +136,7 @@ public class QRSolver implements DecompositionSolver {
             }
         }
 
-        return new RealMatrixImpl(xData, false);
+        return MatrixUtils.createRealMatrix(xData);
 
     }
 

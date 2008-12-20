@@ -178,12 +178,14 @@ public class LUDecompositionImpl implements LUDecomposition {
         throws IllegalStateException {
         if ((cachedL == null) && !singular) {
             final int m = pivot.length;
-            final double[][] lData = new double[m][m];
+            cachedL = MatrixUtils.createRealMatrix(m, m);
             for (int i = 0; i < m; ++i) {
-                System.arraycopy(lu[i], 0, lData[i], 0, i);
-                lData[i][i] = 1.0;
+                final double[] luI = lu[i];
+                for (int j = 0; j < i; ++j) {
+                    cachedL.setEntry(i, j, luI[j]);
+                }
+                cachedL.setEntry(i, i, 1.0);
             }
-            cachedL = new RealMatrixImpl(lData, false);
         }
         return cachedL;
     }
@@ -193,11 +195,13 @@ public class LUDecompositionImpl implements LUDecomposition {
         throws IllegalStateException {
         if ((cachedU == null) && !singular) {
             final int m = pivot.length;
-            final double[][] uData = new double[m][m];
+            cachedU = MatrixUtils.createRealMatrix(m, m);
             for (int i = 0; i < m; ++i) {
-                System.arraycopy(lu[i], i, uData[i], i, m - i);
+                final double[] luI = lu[i];
+                for (int j = i; j < m; ++j) {
+                    cachedU.setEntry(i, j, luI[j]);
+                }
             }
-            cachedU = new RealMatrixImpl(uData, false);
         }
         return cachedU;
     }
@@ -207,11 +211,10 @@ public class LUDecompositionImpl implements LUDecomposition {
         throws IllegalStateException {
         if ((cachedP == null) && !singular) {
             final int m = pivot.length;
-            final double[][] pData = new double[m][m];
+            cachedP = MatrixUtils.createRealMatrix(m, m);
             for (int i = 0; i < m; ++i) {
-                pData[i][pivot[i]] = 1.0;
+                cachedP.setEntry(i, pivot[i], 1.0);
             }
-            cachedP = new RealMatrixImpl(pData, false);
         }
         return cachedP;
     }

@@ -22,8 +22,8 @@ import java.io.Serializable;
 import org.apache.commons.math.linear.InvalidMatrixException;
 import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.LUSolver;
+import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.RealMatrixImpl;
 import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.linear.RealVectorImpl;
 
@@ -112,8 +112,7 @@ public class GaussNewtonEstimator extends AbstractEstimator implements Serializa
         double[] grad             = new double[parameters.length];
         RealVectorImpl bDecrement = new RealVectorImpl(parameters.length);
         double[] bDecrementData   = bDecrement.getDataRef();
-        RealMatrixImpl wGradGradT = new RealMatrixImpl(parameters.length, parameters.length);
-        double[][] wggData        = wGradGradT.getDataRef();
+        RealMatrix wGradGradT     = MatrixUtils.createRealMatrix(parameters.length, parameters.length);
 
         // iterate until convergence is reached
         double previous = Double.POSITIVE_INFINITY;
@@ -122,7 +121,7 @@ public class GaussNewtonEstimator extends AbstractEstimator implements Serializa
             // build the linear problem
             incrementJacobianEvaluationsCounter();
             RealVector b = new RealVectorImpl(parameters.length);
-            RealMatrix a = new RealMatrixImpl(parameters.length, parameters.length);
+            RealMatrix a = MatrixUtils.createRealMatrix(parameters.length, parameters.length);
             for (int i = 0; i < measurements.length; ++i) {
                 if (! measurements [i].isIgnored()) {
 
@@ -137,10 +136,9 @@ public class GaussNewtonEstimator extends AbstractEstimator implements Serializa
 
                     // build the contribution matrix for measurement i
                     for (int k = 0; k < parameters.length; ++k) {
-                        double[] wggRow = wggData[k];
                         double gk = grad[k];
                         for (int l = 0; l < parameters.length; ++l) {
-                            wggRow[l] =  weight * gk * grad[l];
+                            wGradGradT.setEntry(k, l, weight * gk * grad[l]);
                         }
                     }
 

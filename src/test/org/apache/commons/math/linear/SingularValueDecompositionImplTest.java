@@ -79,7 +79,7 @@ public class SingularValueDecompositionImplTest extends TestCase {
 
     /** test dimensions */
     public void testDimensions() {
-        RealMatrixImpl matrix = new RealMatrixImpl(testSquare, false);
+        RealMatrix matrix = MatrixUtils.createRealMatrix(testSquare);
         final int m = matrix.getRowDimension();
         final int n = matrix.getColumnDimension();
         SingularValueDecomposition svd = new SingularValueDecompositionImpl(matrix);
@@ -94,9 +94,9 @@ public class SingularValueDecompositionImplTest extends TestCase {
 
     /** test A = USVt */
     public void testAEqualUSVt() {
-        checkAEqualUSVt(new RealMatrixImpl(testSquare, false));
-        checkAEqualUSVt(new RealMatrixImpl(testNonSquare, false));
-        checkAEqualUSVt(new RealMatrixImpl(testNonSquare, false).transpose());
+        checkAEqualUSVt(MatrixUtils.createRealMatrix(testSquare));
+        checkAEqualUSVt(MatrixUtils.createRealMatrix(testNonSquare));
+        checkAEqualUSVt(MatrixUtils.createRealMatrix(testNonSquare).transpose());
     }
 
     public void checkAEqualUSVt(final RealMatrix matrix) {
@@ -111,16 +111,16 @@ public class SingularValueDecompositionImplTest extends TestCase {
 
     /** test that U is orthogonal */
     public void testUOrthogonal() {
-        checkOrthogonal(new SingularValueDecompositionImpl(new RealMatrixImpl(testSquare, false)).getU());
-        checkOrthogonal(new SingularValueDecompositionImpl(new RealMatrixImpl(testNonSquare, false)).getU());
-        checkOrthogonal(new SingularValueDecompositionImpl(new RealMatrixImpl(testNonSquare, false).transpose()).getU());
+        checkOrthogonal(new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testSquare)).getU());
+        checkOrthogonal(new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testNonSquare)).getU());
+        checkOrthogonal(new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testNonSquare).transpose()).getU());
     }
 
     /** test that V is orthogonal */
     public void testVOrthogonal() {
-        checkOrthogonal(new SingularValueDecompositionImpl(new RealMatrixImpl(testSquare, false)).getV());
-        checkOrthogonal(new SingularValueDecompositionImpl(new RealMatrixImpl(testNonSquare, false)).getV());
-        checkOrthogonal(new SingularValueDecompositionImpl(new RealMatrixImpl(testNonSquare, false).transpose()).getV());
+        checkOrthogonal(new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testSquare)).getV());
+        checkOrthogonal(new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testNonSquare)).getV());
+        checkOrthogonal(new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testNonSquare).transpose()).getV());
     }
 
     public void checkOrthogonal(final RealMatrix m) {
@@ -132,16 +132,16 @@ public class SingularValueDecompositionImplTest extends TestCase {
     /** test matrices values */
     public void testMatricesValues1() {
        SingularValueDecomposition svd =
-            new SingularValueDecompositionImpl(new RealMatrixImpl(testSquare, false));
-        RealMatrix uRef = new RealMatrixImpl(new double[][] {
+            new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testSquare));
+        RealMatrix uRef = MatrixUtils.createRealMatrix(new double[][] {
                 { 3.0 / 5.0, -4.0 / 5.0 },
                 { 4.0 / 5.0,  3.0 / 5.0 }
         });
-        RealMatrix sRef = new RealMatrixImpl(new double[][] {
+        RealMatrix sRef = MatrixUtils.createRealMatrix(new double[][] {
                 { 3.0, 0.0 },
                 { 0.0, 1.0 }
         });
-        RealMatrix vRef = new RealMatrixImpl(new double[][] {
+        RealMatrix vRef = MatrixUtils.createRealMatrix(new double[][] {
                 { 4.0 / 5.0,  3.0 / 5.0 },
                 { 3.0 / 5.0, -4.0 / 5.0 }
         });
@@ -164,18 +164,18 @@ public class SingularValueDecompositionImplTest extends TestCase {
     /** test matrices values */
     public void testMatricesValues2() {
 
-        RealMatrix uRef = new RealMatrixImpl(new double[][] {
+        RealMatrix uRef = MatrixUtils.createRealMatrix(new double[][] {
             {  0.0 / 5.0,  3.0 / 5.0,  0.0 / 5.0 },
             { -4.0 / 5.0,  0.0 / 5.0, -3.0 / 5.0 },
             {  0.0 / 5.0,  4.0 / 5.0,  0.0 / 5.0 },
             { -3.0 / 5.0,  0.0 / 5.0,  4.0 / 5.0 }
         });
-        RealMatrix sRef = new RealMatrixImpl(new double[][] {
+        RealMatrix sRef = MatrixUtils.createRealMatrix(new double[][] {
             { 4.0, 0.0, 0.0 },
             { 0.0, 3.0, 0.0 },
             { 0.0, 0.0, 2.0 }
         });
-        RealMatrix vRef = new RealMatrixImpl(new double[][] {
+        RealMatrix vRef = MatrixUtils.createRealMatrix(new double[][] {
             {  80.0 / 125.0,  -60.0 / 125.0, 75.0 / 125.0 },
             {  24.0 / 125.0,  107.0 / 125.0, 60.0 / 125.0 },
             { -93.0 / 125.0,  -24.0 / 125.0, 80.0 / 125.0 }
@@ -183,7 +183,7 @@ public class SingularValueDecompositionImplTest extends TestCase {
 
         // check values against known references
         SingularValueDecomposition svd =
-            new SingularValueDecompositionImpl(new RealMatrixImpl(testNonSquare, false));
+            new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testNonSquare));
         RealMatrix u = svd.getU();
         assertEquals(0, u.subtract(uRef).getNorm(), normTolerance);
         RealMatrix s = svd.getS();
@@ -201,7 +201,7 @@ public class SingularValueDecompositionImplTest extends TestCase {
     /** test condition number */
     public void testConditionNumber() {
         SingularValueDecompositionImpl svd =
-            new SingularValueDecompositionImpl(new RealMatrixImpl(testSquare, false));
+            new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testSquare));
         assertEquals(3.0, svd.getConditionNumber(), 1.0e-15);
     }
 

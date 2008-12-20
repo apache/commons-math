@@ -22,8 +22,8 @@ import java.util.Arrays;
 import org.apache.commons.math.linear.InvalidMatrixException;
 import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.LUSolver;
+import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.RealMatrixImpl;
 
 /**
  * Base class for implementing estimators.
@@ -183,8 +183,8 @@ public abstract class AbstractEstimator implements Estimator {
         try {
             // compute the covariances matrix
             RealMatrix inverse =
-                new LUSolver(new LUDecompositionImpl(new RealMatrixImpl(jTj, false))).getInverse();
-            return ((RealMatrixImpl) inverse).getDataRef();
+                new LUSolver(new LUDecompositionImpl(MatrixUtils.createRealMatrix(jTj))).getInverse();
+            return inverse.getData();
         } catch (InvalidMatrixException ime) {
             throw new EstimationException("unable to compute covariances: singular problem",
                                           null);

@@ -98,6 +98,7 @@ public class NelderMeadTest
     } catch (ConvergenceException ce) {
         // expected behavior
     } catch (Exception e) {
+        e.printStackTrace(System.err);
         fail("wrong exception caught: " + e.getMessage());
     }
 

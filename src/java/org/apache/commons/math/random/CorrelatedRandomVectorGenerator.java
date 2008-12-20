@@ -18,8 +18,8 @@
 package org.apache.commons.math.random;
 
 import org.apache.commons.math.DimensionMismatchException;
+import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.RealMatrixImpl;
 
 /** 
  * A {@link RandomVectorGenerator} that generates vectors with with 
@@ -251,9 +251,11 @@ implements RandomVectorGenerator {
         }
 
         // build the root matrix
-        root = new RealMatrixImpl(order, rank);
+        root = MatrixUtils.createRealMatrix(order, rank);
         for (int i = 0; i < order; ++i) {
-            System.arraycopy(b[i], 0, root.getDataRef()[index[i]], 0, rank);
+            for (int j = 0; j < rank; ++j) {
+                root.setEntry(index[i], j, b[i][j]);
+            }
         }
 
     }
@@ -286,7 +288,7 @@ implements RandomVectorGenerator {
     private double[] mean;
 
     /** Permutated Cholesky root of the covariance matrix. */
-    private RealMatrixImpl root;
+    private RealMatrix root;
 
     /** Rank of the covariance matrix. */
     private int rank;

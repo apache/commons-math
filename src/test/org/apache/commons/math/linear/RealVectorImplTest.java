@@ -1060,7 +1060,7 @@ public class RealVectorImplTest extends TestCase {
         double dot_2 =  v1.dotProduct(v2_t);
         assertEquals("compare val ",32d, dot_2);
 
-        RealMatrixImpl m_outerProduct = v1.outerProduct(v2);
+        RealMatrix m_outerProduct = v1.outerProduct(v2);
         assertEquals("compare val ",4d, m_outerProduct.getEntry(0,0));
 
         RealMatrix m_outerProduct_2 = v1.outerProduct(v2_t);

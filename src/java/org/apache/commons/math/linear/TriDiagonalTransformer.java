@@ -106,38 +106,33 @@ class TriDiagonalTransformer implements Serializable {
         if (cachedQt == null) {
 
             final int m = householderVectors.length;
-            final double[][] qtData  = new double[m][m];
+            cachedQt = MatrixUtils.createRealMatrix(m, m);
 
             // build up first part of the matrix by applying Householder transforms
             for (int k = m - 1; k >= 1; --k) {
                 final double[] hK = householderVectors[k - 1];
                 final double inv = 1.0 / (secondary[k - 1] * hK[k]);
-                qtData[k][k] = 1;
+                cachedQt.setEntry(k, k, 1);
                 if (hK[k] != 0.0) {
-                    final double[] qtK = qtData[k];
                     double beta = 1.0 / secondary[k - 1];
-                    qtK[k] = 1 + beta * hK[k];
+                    cachedQt.setEntry(k, k, 1 + beta * hK[k]);
                     for (int i = k + 1; i < m; ++i) {
-                        qtK[i] = beta * hK[i];
+                        cachedQt.setEntry(k, i, beta * hK[i]);
                     }
                     for (int j = k + 1; j < m; ++j) {
-                        final double[] qtJ = qtData[j];
                         beta = 0;
                         for (int i = k + 1; i < m; ++i) {
-                            beta += qtJ[i] * hK[i];
+                            beta += cachedQt.getEntry(j, i) * hK[i];
                         }
                         beta *= inv;
-                        qtJ[k] = beta * hK[k];
+                        cachedQt.setEntry(j, k, beta * hK[k]);
                         for (int i = k + 1; i < m; ++i) {
-                            qtJ[i] += beta * hK[i];
+                            cachedQt.addToEntry(j, i, beta * hK[i]);
                         }
                     }
                 }
             }
-            qtData[0][0] = 1;
-
-            // cache the matrix for subsequent calls
-            cachedQt = new RealMatrixImpl(qtData, false);
+            cachedQt.setEntry(0, 0, 1);
 
         }
 
@@ -155,20 +150,16 @@ class TriDiagonalTransformer implements Serializable {
         if (cachedT == null) {
 
             final int m = main.length;
-            double[][] tData = new double[m][m];
+            cachedT = MatrixUtils.createRealMatrix(m, m);
             for (int i = 0; i < m; ++i) {
-                double[] tDataI = tData[i];
-                tDataI[i] = main[i];
+                cachedT.setEntry(i, i, main[i]);
                 if (i > 0) {
-                    tDataI[i - 1] = secondary[i - 1];
+                    cachedT.setEntry(i, i - 1, secondary[i - 1]);
                 }
                 if (i < main.length - 1) {
-                    tDataI[i + 1] = secondary[i];
+                    cachedT.setEntry(i, i + 1, secondary[i]);
                 }
             }
-
-            // cache the matrix for subsequent calls
-            cachedT = new RealMatrixImpl(tData, false);
 
         }
 

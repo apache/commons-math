@@ -66,7 +66,7 @@ public class LUDecompositionImplTest extends TestCase {
 
     /** test dimensions */
     public void testDimensions() {
-        RealMatrixImpl matrix = new RealMatrixImpl(testData, false);
+        RealMatrix matrix = MatrixUtils.createRealMatrix(testData);
         LUDecomposition LU = new LUDecompositionImpl(matrix);
         assertEquals(testData.length, LU.getL().getRowDimension());
         assertEquals(testData.length, LU.getL().getColumnDimension());
@@ -80,7 +80,7 @@ public class LUDecompositionImplTest extends TestCase {
     /** test non-square matrix */
     public void testNonSquare() {
         try {
-            new LUDecompositionImpl(new RealMatrixImpl(new double[3][2], false));
+            new LUDecompositionImpl(MatrixUtils.createRealMatrix(new double[3][2]));
         } catch (InvalidMatrixException ime) {
             // expected behavior
         } catch (Exception e) {
@@ -90,7 +90,7 @@ public class LUDecompositionImplTest extends TestCase {
 
     /** test PA = LU */
     public void testPAEqualLU() {
-        RealMatrix matrix = new RealMatrixImpl(testData, false);
+        RealMatrix matrix = MatrixUtils.createRealMatrix(testData);
         LUDecomposition lu = new LUDecompositionImpl(matrix);
         RealMatrix l = lu.getL();
         RealMatrix u = lu.getU();
@@ -98,7 +98,7 @@ public class LUDecompositionImplTest extends TestCase {
         double norm = l.multiply(u).subtract(p.multiply(matrix)).getNorm();
         assertEquals(0, norm, normTolerance);
 
-        matrix = new RealMatrixImpl(testDataMinus, false);
+        matrix = MatrixUtils.createRealMatrix(testDataMinus);
         lu = new LUDecompositionImpl(matrix);
         l = lu.getL();
         u = lu.getU();
@@ -114,14 +114,14 @@ public class LUDecompositionImplTest extends TestCase {
         norm = l.multiply(u).subtract(p.multiply(matrix)).getNorm();
         assertEquals(0, norm, normTolerance);
 
-        matrix = new RealMatrixImpl(singular, false);
+        matrix = MatrixUtils.createRealMatrix(singular);
         lu = new LUDecompositionImpl(matrix);
         assertTrue(lu.isSingular());
         assertNull(lu.getL());
         assertNull(lu.getU());
         assertNull(lu.getP());
 
-        matrix = new RealMatrixImpl(bigSingular, false);
+        matrix = MatrixUtils.createRealMatrix(bigSingular);
         lu = new LUDecompositionImpl(matrix);
         assertTrue(lu.isSingular());
         assertNull(lu.getL());
@@ -132,7 +132,7 @@ public class LUDecompositionImplTest extends TestCase {
 
     /** test that L is lower triangular with unit diagonal */
     public void testLLowerTriangular() {
-        RealMatrixImpl matrix = new RealMatrixImpl(testData, false);
+        RealMatrix matrix = MatrixUtils.createRealMatrix(testData);
         RealMatrix l = new LUDecompositionImpl(matrix).getL();
         for (int i = 0; i < l.getRowDimension(); i++) {
             assertEquals(l.getEntry(i, i), 1, entryTolerance);
@@ -144,7 +144,7 @@ public class LUDecompositionImplTest extends TestCase {
 
     /** test that U is upper triangular */
     public void testUUpperTriangular() {
-        RealMatrixImpl matrix = new RealMatrixImpl(testData, false);
+        RealMatrix matrix = MatrixUtils.createRealMatrix(testData);
         RealMatrix u = new LUDecompositionImpl(matrix).getU();
         for (int i = 0; i < u.getRowDimension(); i++) {
             for (int j = 0; j < i; j++) {
@@ -155,7 +155,7 @@ public class LUDecompositionImplTest extends TestCase {
 
     /** test that P is a permutation matrix */
     public void testPPermutation() {
-        RealMatrixImpl matrix = new RealMatrixImpl(testData, false);
+        RealMatrix matrix = MatrixUtils.createRealMatrix(testData);
         RealMatrix p   = new LUDecompositionImpl(matrix).getP();
 
         RealMatrix ppT = p.multiply(p.transpose());
@@ -206,29 +206,29 @@ public class LUDecompositionImplTest extends TestCase {
     /** test singular */
     public void testSingular() {
         LUDecomposition lu =
-            new LUDecompositionImpl(new RealMatrixImpl(testData, false));
+            new LUDecompositionImpl(MatrixUtils.createRealMatrix(testData));
         assertFalse(lu.isSingular());
-        lu = new LUDecompositionImpl(new RealMatrixImpl(singular, false));
+        lu = new LUDecompositionImpl(MatrixUtils.createRealMatrix(singular));
         assertTrue(lu.isSingular());
-        lu = new LUDecompositionImpl(new RealMatrixImpl(bigSingular, false));
+        lu = new LUDecompositionImpl(MatrixUtils.createRealMatrix(bigSingular));
         assertTrue(lu.isSingular());
     }
 
     /** test matrices values */
     public void testMatricesValues1() {
        LUDecomposition lu =
-            new LUDecompositionImpl(new RealMatrixImpl(testData, false));
-        RealMatrix lRef = new RealMatrixImpl(new double[][] {
+            new LUDecompositionImpl(MatrixUtils.createRealMatrix(testData));
+        RealMatrix lRef = MatrixUtils.createRealMatrix(new double[][] {
                 { 1.0, 0.0, 0.0 },
                 { 0.5, 1.0, 0.0 },
                 { 0.5, 0.2, 1.0 }
         });
-        RealMatrix uRef = new RealMatrixImpl(new double[][] {
+        RealMatrix uRef = MatrixUtils.createRealMatrix(new double[][] {
                 { 2.0,  5.0, 3.0 },
                 { 0.0, -2.5, 6.5 },
                 { 0.0,  0.0, 0.2 }
         });
-        RealMatrix pRef = new RealMatrixImpl(new double[][] {
+        RealMatrix pRef = MatrixUtils.createRealMatrix(new double[][] {
                 { 0.0, 1.0, 0.0 },
                 { 0.0, 0.0, 1.0 },
                 { 1.0, 0.0, 0.0 }
@@ -257,18 +257,18 @@ public class LUDecompositionImplTest extends TestCase {
     /** test matrices values */
     public void testMatricesValues2() {
        LUDecomposition lu =
-            new LUDecompositionImpl(new RealMatrixImpl(luData, false));
-        RealMatrix lRef = new RealMatrixImpl(new double[][] {
+            new LUDecompositionImpl(MatrixUtils.createRealMatrix(luData));
+        RealMatrix lRef = MatrixUtils.createRealMatrix(new double[][] {
                 {    1.0,    0.0, 0.0 },
                 {    0.0,    1.0, 0.0 },
                 { 1.0 / 3.0, 0.0, 1.0 }
         });
-        RealMatrix uRef = new RealMatrixImpl(new double[][] {
+        RealMatrix uRef = MatrixUtils.createRealMatrix(new double[][] {
                 { 6.0, 9.0,    8.0    },
                 { 0.0, 5.0,    7.0    },
                 { 0.0, 0.0, 1.0 / 3.0 }
         });
-        RealMatrix pRef = new RealMatrixImpl(new double[][] {
+        RealMatrix pRef = MatrixUtils.createRealMatrix(new double[][] {
                 { 0.0, 0.0, 1.0 },
                 { 0.0, 1.0, 0.0 },
                 { 1.0, 0.0, 0.0 }

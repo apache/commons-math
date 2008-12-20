@@ -201,7 +201,7 @@ public class LUSolver implements DecompositionSolver {
             }
         }
 
-        return new RealMatrixImpl(bp, false);
+        return MatrixUtils.createRealMatrix(bp);
 
     }
 

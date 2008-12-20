@@ -59,21 +59,21 @@ public class QRDecompositionImplTest extends TestCase {
 
     /** test dimensions */
     public void testDimensions() {
-        RealMatrixImpl matrix = new RealMatrixImpl(testData3x3NonSingular, false);
+        RealMatrix matrix = MatrixUtils.createRealMatrix(testData3x3NonSingular);
         QRDecomposition qr = new QRDecompositionImpl(matrix);
         assertEquals("3x3 Q size", qr.getQ().getRowDimension(), 3);
         assertEquals("3x3 Q size", qr.getQ().getColumnDimension(), 3);
         assertEquals("3x3 R size", qr.getR().getRowDimension(), 3);
         assertEquals("3x3 R size", qr.getR().getColumnDimension(), 3);
 
-        matrix = new RealMatrixImpl(testData4x3, false);
+        matrix = MatrixUtils.createRealMatrix(testData4x3);
         qr = new QRDecompositionImpl(matrix);
         assertEquals("4x3 Q size", qr.getQ().getRowDimension(), 4);
         assertEquals("4x3 Q size", qr.getQ().getColumnDimension(), 4);
         assertEquals("4x3 R size", qr.getR().getRowDimension(), 4);
         assertEquals("4x3 R size", qr.getR().getColumnDimension(), 3);
 
-        matrix = new RealMatrixImpl(testData3x4, false);
+        matrix = MatrixUtils.createRealMatrix(testData3x4);
         qr = new QRDecompositionImpl(matrix);
         assertEquals("3x4 Q size", qr.getQ().getRowDimension(), 3);
         assertEquals("3x4 Q size", qr.getQ().getColumnDimension(), 3);
@@ -83,24 +83,24 @@ public class QRDecompositionImplTest extends TestCase {
 
     /** test A = QR */
     public void testAEqualQR() {
-        RealMatrix A = new RealMatrixImpl(testData3x3NonSingular, false);
+        RealMatrix A = MatrixUtils.createRealMatrix(testData3x3NonSingular);
         QRDecomposition qr = new QRDecompositionImpl(A);
         RealMatrix Q = qr.getQ();
         RealMatrix R = qr.getR();
         double norm = Q.multiply(R).subtract(A).getNorm();
         assertEquals("3x3 nonsingular A = QR", 0, norm, normTolerance);
 
-        RealMatrix matrix = new RealMatrixImpl(testData3x3Singular, false);
+        RealMatrix matrix = MatrixUtils.createRealMatrix(testData3x3Singular);
         qr = new QRDecompositionImpl(matrix);
         norm = qr.getQ().multiply(qr.getR()).subtract(matrix).getNorm();
         assertEquals("3x3 singular A = QR", 0, norm, normTolerance);
 
-        matrix = new RealMatrixImpl(testData3x4, false);
+        matrix = MatrixUtils.createRealMatrix(testData3x4);
         qr = new QRDecompositionImpl(matrix);
         norm = qr.getQ().multiply(qr.getR()).subtract(matrix).getNorm();
         assertEquals("3x4 A = QR", 0, norm, normTolerance);
 
-        matrix = new RealMatrixImpl(testData4x3, false);
+        matrix = MatrixUtils.createRealMatrix(testData4x3);
         qr = new QRDecompositionImpl(matrix);
         norm = qr.getQ().multiply(qr.getR()).subtract(matrix).getNorm();
         assertEquals("4x3 A = QR", 0, norm, normTolerance);
@@ -108,28 +108,28 @@ public class QRDecompositionImplTest extends TestCase {
 
     /** test the orthogonality of Q */
     public void testQOrthogonal() {
-        RealMatrix matrix = new RealMatrixImpl(testData3x3NonSingular, false);
+        RealMatrix matrix = MatrixUtils.createRealMatrix(testData3x3NonSingular);
         RealMatrix q  = new QRDecompositionImpl(matrix).getQ();
         RealMatrix qT = new QRDecompositionImpl(matrix).getQT();
         RealMatrix eye = MatrixUtils.createRealIdentityMatrix(3);
         double norm = qT.multiply(q).subtract(eye).getNorm();
         assertEquals("3x3 nonsingular Q'Q = I", 0, norm, normTolerance);
 
-        matrix = new RealMatrixImpl(testData3x3Singular, false);
+        matrix = MatrixUtils.createRealMatrix(testData3x3Singular);
         q  = new QRDecompositionImpl(matrix).getQ();
         qT = new QRDecompositionImpl(matrix).getQT();
         eye = MatrixUtils.createRealIdentityMatrix(3);
         norm = qT.multiply(q).subtract(eye).getNorm();
         assertEquals("3x3 singular Q'Q = I", 0, norm, normTolerance);
 
-        matrix = new RealMatrixImpl(testData3x4, false);
+        matrix = MatrixUtils.createRealMatrix(testData3x4);
         q  = new QRDecompositionImpl(matrix).getQ();
         qT = new QRDecompositionImpl(matrix).getQT();
         eye = MatrixUtils.createRealIdentityMatrix(3);
         norm = qT.multiply(q).subtract(eye).getNorm();
         assertEquals("3x4 Q'Q = I", 0, norm, normTolerance);
 
-        matrix = new RealMatrixImpl(testData4x3, false);
+        matrix = MatrixUtils.createRealMatrix(testData4x3);
         q  = new QRDecompositionImpl(matrix).getQ();
         qT = new QRDecompositionImpl(matrix).getQT();
         eye = MatrixUtils.createRealIdentityMatrix(4);
@@ -139,28 +139,28 @@ public class QRDecompositionImplTest extends TestCase {
 
     /** test that R is upper triangular */
     public void testRUpperTriangular() {
-        RealMatrixImpl matrix = new RealMatrixImpl(testData3x3NonSingular, false);
+        RealMatrix matrix = MatrixUtils.createRealMatrix(testData3x3NonSingular);
         RealMatrix R = new QRDecompositionImpl(matrix).getR();
         for (int i = 0; i < R.getRowDimension(); i++)
             for (int j = 0; j < i; j++)
                 assertEquals("R lower triangle", R.getEntry(i, j), 0,
                         entryTolerance);
 
-        matrix = new RealMatrixImpl(testData3x3Singular, false);
+        matrix = MatrixUtils.createRealMatrix(testData3x3Singular);
         R = new QRDecompositionImpl(matrix).getR();
         for (int i = 0; i < R.getRowDimension(); i++)
             for (int j = 0; j < i; j++)
                 assertEquals("R lower triangle", R.getEntry(i, j), 0,
                         entryTolerance);
 
-        matrix = new RealMatrixImpl(testData3x4, false);
+        matrix = MatrixUtils.createRealMatrix(testData3x4);
         R = new QRDecompositionImpl(matrix).getR();
         for (int i = 0; i < R.getRowDimension(); i++)
             for (int j = 0; j < i; j++)
                 assertEquals("R lower triangle", R.getEntry(i, j), 0,
                         entryTolerance);
 
-        matrix = new RealMatrixImpl(testData4x3, false);
+        matrix = MatrixUtils.createRealMatrix(testData4x3);
         R = new QRDecompositionImpl(matrix).getR();
         for (int i = 0; i < R.getRowDimension(); i++)
             for (int j = 0; j < i; j++)
@@ -170,25 +170,25 @@ public class QRDecompositionImplTest extends TestCase {
 
     /** test that H is trapezoidal */
     public void testHTrapezoidal() {
-        RealMatrixImpl matrix = new RealMatrixImpl(testData3x3NonSingular, false);
+        RealMatrix matrix = MatrixUtils.createRealMatrix(testData3x3NonSingular);
         RealMatrix H = new QRDecompositionImpl(matrix).getH();
         for (int i = 0; i < H.getRowDimension(); i++)
             for (int j = i + 1; j < H.getColumnDimension(); j++)
                 assertEquals(H.getEntry(i, j), 0, entryTolerance);
 
-        matrix = new RealMatrixImpl(testData3x3Singular, false);
+        matrix = MatrixUtils.createRealMatrix(testData3x3Singular);
         H = new QRDecompositionImpl(matrix).getH();
         for (int i = 0; i < H.getRowDimension(); i++)
             for (int j = i + 1; j < H.getColumnDimension(); j++)
                 assertEquals(H.getEntry(i, j), 0, entryTolerance);
 
-        matrix = new RealMatrixImpl(testData3x4, false);
+        matrix = MatrixUtils.createRealMatrix(testData3x4);
         H = new QRDecompositionImpl(matrix).getH();
         for (int i = 0; i < H.getRowDimension(); i++)
             for (int j = i + 1; j < H.getColumnDimension(); j++)
                 assertEquals(H.getEntry(i, j), 0, entryTolerance);
 
-        matrix = new RealMatrixImpl(testData4x3, false);
+        matrix = MatrixUtils.createRealMatrix(testData4x3);
         H = new QRDecompositionImpl(matrix).getH();
         for (int i = 0; i < H.getRowDimension(); i++)
             for (int j = i + 1; j < H.getColumnDimension(); j++)
@@ -199,18 +199,18 @@ public class QRDecompositionImplTest extends TestCase {
     /** test matrices values */
     public void testMatricesValues() {
         QRDecomposition qr =
-            new QRDecompositionImpl(new RealMatrixImpl(testData3x3NonSingular, false));
-        RealMatrix qRef = new RealMatrixImpl(new double[][] {
+            new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData3x3NonSingular));
+        RealMatrix qRef = MatrixUtils.createRealMatrix(new double[][] {
                 { -12.0 / 14.0,   69.0 / 175.0,  -58.0 / 175.0 },
                 {  -6.0 / 14.0, -158.0 / 175.0,    6.0 / 175.0 },
                 {   4.0 / 14.0,  -30.0 / 175.0, -165.0 / 175.0 }
         });
-        RealMatrix rRef = new RealMatrixImpl(new double[][] {
+        RealMatrix rRef = MatrixUtils.createRealMatrix(new double[][] {
                 { -14.0,  -21.0, 14.0 },
                 {   0.0, -175.0, 70.0 },
                 {   0.0,    0.0, 35.0 }
         });
-        RealMatrix hRef = new RealMatrixImpl(new double[][] {
+        RealMatrix hRef = MatrixUtils.createRealMatrix(new double[][] {
                 { 26.0 / 14.0, 0.0, 0.0 },
                 {  6.0 / 14.0, 648.0 / 325.0, 0.0 },
                 { -4.0 / 14.0,  36.0 / 325.0, 2.0 }

@@ -115,17 +115,15 @@ public class SingularValueSolver implements DecompositionSolver {
             throw new IllegalArgumentException("Incorrect row dimension");
         }
 
-        final RealMatrixImpl w = (RealMatrixImpl) decomposition.getUT().multiply(b);
-        final double[][] wData = w.getDataRef();
+        final RealMatrix w = decomposition.getUT().multiply(b);
         for (int i = 0; i < singularValues.length; ++i) {
             final double si  = singularValues[i];
             if (si == 0) {
                 throw new SingularMatrixException();
             }
             final double inv = 1.0 / si;
-            final double[] wi = wData[i];
             for (int j = 0; j < b.getColumnDimension(); ++j) {
-                wi[j] *= inv;
+                w.multiplyEntry(i, j, inv);
             }
         }
         return decomposition.getV().multiply(w);

@@ -175,6 +175,36 @@ public class SparseRealMatrix extends AbstractRealMatrix {
         }
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public void addToEntry(int row, int column, double increment)
+            throws MatrixIndexException {
+        checkRowIndex(row);
+        checkColumnIndex(column);
+        final int key = computeKey(row, column);
+        final double value = entries.get(key) + increment;
+        if (value == 0.0) {
+            entries.remove(key);
+        } else {
+            entries.put(key, value);
+        }
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void multiplyEntry(int row, int column, double factor)
+            throws MatrixIndexException {
+        checkRowIndex(row);
+        checkColumnIndex(column);
+        final int key = computeKey(row, column);
+        final double value = entries.get(key) * factor;
+        if (value == 0.0) {
+            entries.remove(key);
+        } else {
+            entries.put(key, value);
+        }
+    }
+
     /**
      * Compute the key to access a matrix element
      * @param row row index of the matrix element

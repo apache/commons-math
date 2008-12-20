@@ -20,8 +20,8 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 import org.apache.commons.math.DimensionMismatchException;
+import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.RealMatrixImpl;
 
 /**
  * Returns the covariance matrix of the available vectors.
@@ -83,17 +83,16 @@ public class VectorialCovariance implements Serializable {
     public RealMatrix getResult() {
 
         int dimension = sums.length;
-        RealMatrixImpl result = new RealMatrixImpl(dimension, dimension);
+        RealMatrix result = MatrixUtils.createRealMatrix(dimension, dimension);
 
         if (n > 1) {
-            double[][] resultData = result.getDataRef();
             double c = 1.0 / (n * (isBiasCorrected ? (n - 1) : n));
             int k = 0;
             for (int i = 0; i < dimension; ++i) {
                 for (int j = 0; j <= i; ++j) {
                     double e = c * (n * productsSums[k++] - sums[i] * sums[j]);
-                    resultData[i][j] = e;
-                    resultData[j][i] = e;
+                    result.setEntry(i, j, e);
+                    result.setEntry(j, i, e);
                 }
             }
         }

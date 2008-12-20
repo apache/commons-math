@@ -1112,27 +1112,15 @@ public class RealVectorImpl implements RealVector, Serializable {
             return outerProduct((RealVectorImpl) v);
         } catch (ClassCastException cce) {
             checkVectorDimensions(v);
-            double[][] out = new double[data.length][data.length];
+            final int m = data.length;
+            final RealMatrix out = MatrixUtils.createRealMatrix(m, m);
             for (int i = 0; i < data.length; i++) {
                 for (int j = 0; j < data.length; j++) {
-                    out[i][j] = data[i] * v.getEntry(j);
+                    out.setEntry(i, j, data[i] * v.getEntry(j));
                 }
             }
-            return new RealMatrixImpl(out);
+            return out;
         }
-    }
-
-    /** {@inheritDoc} */
-    public RealMatrix outerProduct(double[] v)
-        throws IllegalArgumentException {
-        checkVectorDimensions(v.length);
-        double[][] out = new double[data.length][data.length];
-        for (int i = 0; i < data.length; i++) {
-            for (int j = 0; j < data.length; j++) {
-                out[i][j] = data[i] * v[j];
-            }
-        }
-        return new RealMatrixImpl(out);
     }
 
     /**
@@ -1141,9 +1129,23 @@ public class RealVectorImpl implements RealVector, Serializable {
      * @return the square matrix outer product between instance and v
      * @exception IllegalArgumentException if v is not the same size as this
      */
-    public RealMatrixImpl outerProduct(RealVectorImpl v)
+    public RealMatrix outerProduct(RealVectorImpl v)
         throws IllegalArgumentException {
-        return (RealMatrixImpl) outerProduct(v.data);
+        return outerProduct(v.data);
+    }
+
+    /** {@inheritDoc} */
+    public RealMatrix outerProduct(double[] v)
+        throws IllegalArgumentException {
+        checkVectorDimensions(v.length);
+        final int m = data.length;
+        final RealMatrix out = MatrixUtils.createRealMatrix(m, m);
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data.length; j++) {
+                out.setEntry(i, j, data[i] * v[j]);
+            }
+        }
+        return out;
     }
 
     /** {@inheritDoc} */

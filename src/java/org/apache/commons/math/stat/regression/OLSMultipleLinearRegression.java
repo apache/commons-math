@@ -16,12 +16,14 @@
  */
 package org.apache.commons.math.stat.regression;
 
+import org.apache.commons.math.linear.DenseRealMatrix;
 import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.LUSolver;
 import org.apache.commons.math.linear.QRDecomposition;
 import org.apache.commons.math.linear.QRDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.RealMatrixImpl;
+import org.apache.commons.math.linear.RealVector;
+import org.apache.commons.math.linear.RealVectorImpl;
 
 /**
  * <p>Implements ordinary least squares (OLS) to estimate the parameters of a 
@@ -86,7 +88,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * @param x the [n,k] array representing the x sample
      */
     protected void newXSampleData(double[][] x) {
-        this.X = new RealMatrixImpl(x);
+        this.X = new DenseRealMatrix(x);
         qr = new QRDecompositionImpl(X);
     }
     
@@ -95,9 +97,8 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * 
      * @return beta
      */
-    protected RealMatrix calculateBeta() {
-        return solveUpperTriangular((RealMatrixImpl) qr.getR(),
-                (RealMatrixImpl) qr.getQ().transpose().multiply(Y));
+    protected RealVector calculateBeta() {
+        return solveUpperTriangular(qr.getR(), qr.getQ().transpose().operate(Y));
     }
 
     /**
@@ -121,9 +122,9 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * @return The Y variance
      */
     protected double calculateYVariance() {
-        RealMatrix u = calculateResiduals();
-        RealMatrix sse = u.transpose().multiply(u);
-        return sse.getTrace()/(X.getRowDimension()-X.getColumnDimension());
+        final RealVector u = calculateResiduals();
+        final double sse = u.dotProduct(u);
+        return sse / (X.getRowDimension() - X.getColumnDimension());
     }
     
     /** TODO:  Find a home for the following methods in the linear package */   
@@ -143,32 +144,25 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * 
      * @param coefficients upper-triangular coefficients matrix
      * @param constants column RHS constants matrix
-     * @return solution matrix as a column matrix
+     * @return solution matrix as a vector
      * 
      */
-    private static RealMatrix solveUpperTriangular(RealMatrixImpl coefficients,
-            RealMatrixImpl constants) {
+    private static RealVector solveUpperTriangular(RealMatrix coefficients, RealVector constants) {
         if (!isUpperTriangular(coefficients, 1E-12)) {
             throw new IllegalArgumentException(
                    "Coefficients is not upper-triangular");
         }
-        if (constants.getColumnDimension() != 1) {
-            throw new IllegalArgumentException(
-                    "Constants not a column matrix.");
-        }
         int length = coefficients.getColumnDimension();
-        double[][] cons = constants.getDataRef();
-        double[][] coef = coefficients.getDataRef();
         double x[] = new double[length];
         for (int i = 0; i < length; i++) {
             int index = length - 1 - i;
             double sum = 0;
             for (int j = index + 1; j < length; j++) {
-                sum += coef[index][j] * x[j];
+                sum += coefficients.getEntry(index, j) * x[j];
             }
-            x[index] = (cons[index][0] - sum) / coef[index][index];
+            x[index] = (constants.getEntry(index) - sum) / coefficients.getEntry(index, index);
         } 
-        return new RealMatrixImpl(x);
+        return new RealVectorImpl(x);
     }
     
     /**
@@ -183,14 +177,13 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * @return true if m is upper-triangular; false otherwise
      * @throws NullPointerException if m is null
      */
-    private static boolean isUpperTriangular(RealMatrixImpl m, double epsilon) {
-        double[][] data = m.getDataRef();
+    private static boolean isUpperTriangular(RealMatrix m, double epsilon) {
         int nCols = m.getColumnDimension();
         int nRows = m.getRowDimension();
         for (int r = 0; r < nRows; r++) {
             int bound = Math.min(r, nCols);
             for (int c = 0; c < bound; c++) {
-                if (Math.abs(data[r][c]) > epsilon) {
+                if (Math.abs(m.getEntry(r, c)) > epsilon) {
                     return false;
                 }
             }
