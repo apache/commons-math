@@ -16,14 +16,12 @@
  */
 package org.apache.commons.math.stat.regression;
 
-import org.apache.commons.math.linear.DenseRealMatrix;
 import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.LUSolver;
 import org.apache.commons.math.linear.QRDecomposition;
 import org.apache.commons.math.linear.QRDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.RealVector;
-import org.apache.commons.math.linear.RealVectorImpl;
+import org.apache.commons.math.linear.RealMatrixImpl;
 
 /**
  * <p>Implements ordinary least squares (OLS) to estimate the parameters of a 
@@ -88,7 +86,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * @param x the [n,k] array representing the x sample
      */
     protected void newXSampleData(double[][] x) {
-        this.X = new DenseRealMatrix(x);
+        this.X = new RealMatrixImpl(x);
         qr = new QRDecompositionImpl(X);
     }
     
@@ -97,8 +95,8 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * 
      * @return beta
      */
-    protected RealVector calculateBeta() {
-        return solveUpperTriangular(qr.getR(), qr.getQ().transpose().operate(Y));
+    protected RealMatrix calculateBeta() {
+        return solveUpperTriangular(qr.getR(), qr.getQ().transpose().multiply(Y));
     }
 
     /**
@@ -122,9 +120,9 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * @return The Y variance
      */
     protected double calculateYVariance() {
-        final RealVector u = calculateResiduals();
-        final double sse = u.dotProduct(u);
-        return sse / (X.getRowDimension() - X.getColumnDimension());
+        RealMatrix u = calculateResiduals();
+        RealMatrix sse = u.transpose().multiply(u);
+        return sse.getTrace()/(X.getRowDimension()-X.getColumnDimension());
     }
     
     /** TODO:  Find a home for the following methods in the linear package */   
@@ -144,13 +142,18 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * 
      * @param coefficients upper-triangular coefficients matrix
      * @param constants column RHS constants matrix
-     * @return solution matrix as a vector
+     * @return solution matrix as a column matrix
      * 
      */
-    private static RealVector solveUpperTriangular(RealMatrix coefficients, RealVector constants) {
+    private static RealMatrix solveUpperTriangular(RealMatrix coefficients,
+            RealMatrix constants) {
         if (!isUpperTriangular(coefficients, 1E-12)) {
             throw new IllegalArgumentException(
                    "Coefficients is not upper-triangular");
+        }
+        if (constants.getColumnDimension() != 1) {
+            throw new IllegalArgumentException(
+                    "Constants not a column matrix.");
         }
         int length = coefficients.getColumnDimension();
         double x[] = new double[length];
@@ -160,9 +163,9 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
             for (int j = index + 1; j < length; j++) {
                 sum += coefficients.getEntry(index, j) * x[j];
             }
-            x[index] = (constants.getEntry(index) - sum) / coefficients.getEntry(index, index);
+            x[index] = (constants.getEntry(index, 0) - sum) / coefficients.getEntry(index, index);
         } 
-        return new RealVectorImpl(x);
+        return new RealMatrixImpl(x);
     }
     
     /**

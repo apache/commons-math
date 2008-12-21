@@ -18,9 +18,8 @@ package org.apache.commons.math.stat.regression;
 
 import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.LUSolver;
-import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.RealVector;
+import org.apache.commons.math.linear.RealMatrixImpl;
 
 
 /**
@@ -69,7 +68,7 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * @param omega the [n,n] array representing the covariance
      */
     protected void newCovarianceData(double[][] omega){
-        this.Omega = MatrixUtils.createRealMatrix(omega);
+        this.Omega = new RealMatrixImpl(omega);
         this.OmegaInverse = null;
     }
 
@@ -92,12 +91,12 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * </pre>
      * @return beta
      */
-    protected RealVector calculateBeta() {
+    protected RealMatrix calculateBeta() {
         RealMatrix OI = getOmegaInverse();
         RealMatrix XT = X.transpose();
         RealMatrix XTOIX = XT.multiply(OI).multiply(X);
         RealMatrix inverse = new LUSolver(new LUDecompositionImpl(XTOIX)).getInverse();
-        return inverse.multiply(XT).multiply(OI).operate(Y);
+        return inverse.multiply(XT).multiply(OI).multiply(Y);
     }
 
     /**
@@ -121,9 +120,9 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * @return The Y variance
      */
     protected double calculateYVariance() {
-        final RealVector u = calculateResiduals();
-        final double sse =  u.dotProduct(getOmegaInverse().operate(u));
-        return sse / (X.getRowDimension() - X.getColumnDimension());
+        RealMatrix u = calculateResiduals();
+        RealMatrix sse =  u.transpose().multiply(getOmegaInverse()).multiply(u);
+        return sse.getTrace()/(X.getRowDimension()-X.getColumnDimension());
     }
     
 }

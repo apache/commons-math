@@ -63,7 +63,7 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         createRegression().newSampleData(y, x, null);
     }
     
-    @Test(expected=ArrayIndexOutOfBoundsException.class)
+    @Test(expected=IllegalArgumentException.class)
     public void cannotAddNullCovarianceData() {
         createRegression().newSampleData(new double[]{}, new double[][]{}, null);
     }
