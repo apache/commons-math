@@ -32,13 +32,6 @@ import java.io.Serializable;
  * <a href="http://math.nist.gov/javanumerics/jama/">JAMA</a> library, with the
  * following changes:</p>
  * <ul>
- *   <li><code>solve</code> methods have been added (in the superinterface),</li>
- *   <li>a {@link DecompositionSolver#decompose(RealMatrix) decompose(RealMatrix)}
- *   method has been added (in the superinterface),</li>
- *   <li>a {@link DecompositionSolver#isNonSingular() isNonSingular} method has
- *   been added (in the superinterface),</li>
- *   <li>a {@link DecompositionSolver#getInverse() getInverse} method has been
- *   added (in the superinterface),</li>
  *   <li>the <code>norm2</code> method which has been renamed as {@link #getNorm()
  *   getNorm},</li>
  *   <li>the <code>cond</code> method which has been renamed as {@link
@@ -57,61 +50,49 @@ public interface SingularValueDecomposition extends Serializable {
      * Returns the matrix U of the decomposition. 
      * <p>U is an orthogonal matrix, i.e. its transpose is also its inverse.</p>
      * @return the U matrix
-     * @exception IllegalStateException if {@link
-     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
      * @see #getUT()
      */
-    RealMatrix getU() throws IllegalStateException;
+    RealMatrix getU();
 
     /**
      * Returns the transpose of the matrix U of the decomposition. 
      * <p>U is an orthogonal matrix, i.e. its transpose is also its inverse.</p>
      * @return the U matrix (or null if decomposed matrix is singular)
-     * @exception IllegalStateException if {@link
-     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
      * @see #getU()
      */
-    RealMatrix getUT() throws IllegalStateException;
+    RealMatrix getUT();
 
     /**
      * Returns the diagonal matrix &Sigma; of the decomposition. 
      * <p>&Sigma; is a diagonal matrix. The singular values are provided in
      * non-increasing order, for compatibility with Jama.</p>
      * @return the &Sigma; matrix
-     * @exception IllegalStateException if {@link
-     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
      */
-    RealMatrix getS() throws IllegalStateException;
+    RealMatrix getS();
 
     /**
      * Returns the diagonal elements of the matrix &Sigma; of the decomposition.
      * <p>The singular values are provided in non-increasing order, for
      * compatibility with Jama.</p>
      * @return the diagonal elements of the &Sigma; matrix
-     * @exception IllegalStateException if {@link
-     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
      */
-    double[] getSingularValues() throws IllegalStateException;
+    double[] getSingularValues();
 
     /**
      * Returns the matrix V of the decomposition. 
      * <p>V is an orthogonal matrix, i.e. its transpose is also its inverse.</p>
      * @return the V matrix (or null if decomposed matrix is singular)
-     * @exception IllegalStateException if {@link
-     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
      * @see #getVT()
      */
-    RealMatrix getV() throws IllegalStateException;
+    RealMatrix getV();
 
     /**
      * Returns the transpose of the matrix V of the decomposition. 
      * <p>V is an orthogonal matrix, i.e. its transpose is also its inverse.</p>
      * @return the V matrix (or null if decomposed matrix is singular)
-     * @exception IllegalStateException if {@link
-     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
      * @see #getV()
      */
-    RealMatrix getVT() throws IllegalStateException;
+    RealMatrix getVT();
 
     /**
      * Returns the L<sub>2</sub> norm of the matrix.
@@ -119,18 +100,14 @@ public interface SingularValueDecomposition extends Serializable {
      * |u|<sub>2</sub>), where |.|<sub>2</sub> denotes the vectorial 2-norm
      * (i.e. the traditional euclidian norm).</p>
      * @return norm
-     * @exception IllegalStateException if {@link
-     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
      */
-    double getNorm() throws IllegalStateException;
+    double getNorm();
 
     /**
      * Return the condition number of the matrix.
      * @return condition number of the matrix
-     * @exception IllegalStateException if {@link
-     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
      */
-    double getConditionNumber() throws IllegalStateException;
+    double getConditionNumber();
 
     /**
      * Return the effective numerical matrix rank.
@@ -139,9 +116,7 @@ public interface SingularValueDecomposition extends Serializable {
      * terms is max(m,n) &times; ulp(s<sub>1</sub>) where ulp(s<sub>1</sub>)
      * is the least significant bit of the largest singular value.</p>
      * @return effective numerical matrix rank
-     * @exception IllegalStateException if {@link
-     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
      */
-    int getRank() throws IllegalStateException;
+    int getRank();
 
 }

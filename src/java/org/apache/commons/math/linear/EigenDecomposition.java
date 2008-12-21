@@ -29,13 +29,6 @@ import java.io.Serializable;
  * class from the now defunct <a href="http://math.nist.gov/javanumerics/jama/">JAMA</a>
  * library, with the following changes:</p>
  * <ul>
- *   <li><code>solve</code> methods have been added (in the superinterface),</li>
- *   <li>a {@link DecompositionSolver#decompose(RealMatrix) decompose(RealMatrix)}
- *   method has been added (in the superinterface),</li>
- *   <li>a {@link DecompositionSolver#isNonSingular() isNonSingular} method has
- *   been added (in the superinterface),</li>
- *   <li>a {@link DecompositionSolver#getInverse() getInverse} method has been
- *   added (in the superinterface),</li>
  *   <li>a {@link #getVT() getVt} method has been added,</li>
  *   <li>a {@link #getEigenvalue(int) getEigenvalue} method to pick up a single
  *   eigenvalue has been added,</li>

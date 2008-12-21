@@ -26,14 +26,7 @@ import java.io.Serializable;
  * <a href="http://math.nist.gov/javanumerics/jama/">JAMA</a> library, with the
  * following changes:</p>
  * <ul>
- *   <li>several signatures have been added for the <code>solve</code> methods
- *   (in the superinterface),</li>
- *   <li>a {@link DecompositionSolver#decompose(RealMatrix) decompose(RealMatrix)}
- *   method has been added (in the superinterface),</li>
- *   <li>a {@link DecompositionSolver#getInverse() getInverse} method has been
- *   added (in the superinterface),</li>
- *   <li>the <code>isFullRank</code> method has been replaced by the {@link
- *   DecompositionSolver#isNonSingular() isNonSingular} method in the superinterface.</li>
+ *   <li>a {@link #getSolver() getSolver} method has been added.</li>
  * </ul>
  *   
  * @see <a href="http://mathworld.wolfram.com/QRDecomposition.html">MathWorld</a>
@@ -47,8 +40,6 @@ public interface QRDecomposition extends Serializable {
      * Returns the matrix R of the decomposition. 
      * <p>R is an upper-triangular matrix</p>
      * @return the R matrix
-     * @exception IllegalStateException if {@link
-     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
      */
     RealMatrix getR() throws IllegalStateException;
 
@@ -56,19 +47,15 @@ public interface QRDecomposition extends Serializable {
      * Returns the matrix Q of the decomposition.
      * <p>Q is an orthogonal matrix</p>
      * @return the Q matrix
-     * @exception IllegalStateException if {@link
-     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
      */
-    RealMatrix getQ() throws IllegalStateException;
+    RealMatrix getQ();
 
     /**
      * Returns the transpose of the matrix Q of the decomposition.
      * <p>Q is an orthogonal matrix</p>
      * @return the Q matrix
-     * @exception IllegalStateException if {@link
-     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
      */
-    RealMatrix getQT() throws IllegalStateException;
+    RealMatrix getQT();
 
     /**
      * Returns the Householder reflector vectors.
@@ -76,10 +63,8 @@ public interface QRDecomposition extends Serializable {
      * each successive Householder reflector vector. This matrix is used
      * to compute Q.</p>
      * @return a matrix containing the Householder reflector vectors
-     * @exception IllegalStateException if {@link
-     * DecompositionSolver#decompose(RealMatrix) decompose} has not been called
      */
-    RealMatrix getH() throws IllegalStateException;
+    RealMatrix getH();
 
     /**
      * Get a solver for A &times; X = B.
