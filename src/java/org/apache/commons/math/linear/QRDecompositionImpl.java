@@ -145,8 +145,7 @@ public class QRDecompositionImpl implements QRDecomposition {
     }
 
     /** {@inheritDoc} */
-    public RealMatrix getR()
-        throws IllegalStateException {
+    public RealMatrix getR() {
 
         if (cachedR == null) {
 
