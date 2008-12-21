@@ -81,4 +81,10 @@ public interface QRDecomposition extends Serializable {
      */
     RealMatrix getH() throws IllegalStateException;
 
+    /**
+     * Get a solver for A &times; X = B.
+     * @return a solver
+     */
+    DecompositionSolver getSolver();
+
 }

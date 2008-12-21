@@ -63,7 +63,7 @@ public class QRSolverTest extends TestCase {
         assertFalse(solver.isNonSingular());
 
         solver = new QRSolver(new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData3x4)));
-        assertTrue(solver.isNonSingular());
+        assertFalse(solver.isNonSingular());
 
         solver = new QRSolver(new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData4x3)));
         assertTrue(solver.isNonSingular());

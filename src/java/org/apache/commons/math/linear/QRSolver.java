@@ -30,17 +30,17 @@ package org.apache.commons.math.linear;
 public class QRSolver implements DecompositionSolver {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -579465076068393818L;
+    private static final long serialVersionUID = -446230688570372107L;
 
     /** Underlying decomposition. */
-    private final QRDecomposition decomposition;
+    private final DecompositionSolver solver;
 
     /**
      * Simple constructor.
      * @param decomposition decomposition to use
      */
     public QRSolver(final QRDecomposition decomposition) {
-        this.decomposition = decomposition;
+        this.solver = decomposition.getSolver();
     }
 
     /** Solve the linear equation A &times; X = B in least square sense.
@@ -53,31 +53,7 @@ public class QRSolver implements DecompositionSolver {
      */
     public double[] solve(final double[] b)
         throws IllegalArgumentException, InvalidMatrixException {
-
-        if (decomposition.getR().getRowDimension() != b.length) {
-            throw new IllegalArgumentException("constant vector has wrong length");            
-        }
-        if (!isNonSingular()) {
-            throw new SingularMatrixException();
-        }
-
-        // solve Q.y = b, using the fact Q is orthogonal
-        final double[] y = decomposition.getQT().operate(b);
-
-        // solve triangular system R.x = y
-        final RealMatrix r = decomposition.getR();
-        final double[] x = new double[r.getColumnDimension()];
-        System.arraycopy(y, 0, x, 0, r.getRowDimension());
-        for (int i = r.getRowDimension() - 1; i >= 0; --i) {
-            x[i] /= r.getEntry(i, i);
-            final double lastX = x[i];
-            for (int j = i - 1; j >= 0; --j) {
-                x[j] -= lastX * r.getEntry(j, i);
-            }
-        }
-
-        return x;
-
+        return solver.solve(b);
     }
 
     /** Solve the linear equation A &times; X = B in least square sense.
@@ -90,7 +66,7 @@ public class QRSolver implements DecompositionSolver {
      */
     public RealVector solve(final RealVector b)
         throws IllegalArgumentException, InvalidMatrixException {
-        return new RealVectorImpl(solve(b.getData()), false);
+        return solver.solve(b);
     }
 
     /** Solve the linear equation A &times; X = B in least square sense.
@@ -103,41 +79,7 @@ public class QRSolver implements DecompositionSolver {
      */
     public RealMatrix solve(final RealMatrix b)
         throws IllegalArgumentException, InvalidMatrixException {
-
-        if (decomposition.getR().getRowDimension() != b.getRowDimension()) {
-            throw new IllegalArgumentException("Incorrect row dimension");            
-        }
-        if (!isNonSingular()) {
-            throw new SingularMatrixException();
-        }
-
-        // solve Q.y = b, using the fact Q is orthogonal
-        final RealMatrix y = decomposition.getQT().multiply(b);
-
-        // solve triangular system R.x = y
-        final RealMatrix r = decomposition.getR();
-        final double[][] xData =
-            new double[r.getColumnDimension()][b.getColumnDimension()];
-        for (int i = 0; i < r.getRowDimension(); ++i) {
-            final double[] xi = xData[i];
-            for (int k = 0; k < xi.length; ++k) {
-                xi[k] = y.getEntry(i, k);
-            }
-        }
-        for (int i = r.getRowDimension() - 1; i >= 0; --i) {
-            final double rii = r.getEntry(i, i);
-            final double[] xi = xData[i];
-            for (int k = 0; k < xi.length; ++k) {
-                xi[k] /= rii;
-                final double lastX = xi[k];
-                for (int j = i - 1; j >= 0; --j) {
-                    xData[j][k] -= lastX * r.getEntry(j, i);
-                }
-            }
-        }
-
-        return MatrixUtils.createRealMatrix(xData);
-
+        return solver.solve(b);
     }
 
     /**
@@ -145,14 +87,7 @@ public class QRSolver implements DecompositionSolver {
      * @return true if the decomposed matrix is non-singular
      */
     public boolean isNonSingular() {
-        final RealMatrix r = decomposition.getR();
-        final int p = Math.min(r.getRowDimension(), r.getColumnDimension());
-        for (int i = 0; i < p; ++i) {
-            if (r.getEntry(i, i) == 0) {
-                return false;
-            }
-        }
-        return true;
+        return solver.isNonSingular();
     }
 
     /** Get the pseudo-inverse of the decomposed matrix.
@@ -161,9 +96,7 @@ public class QRSolver implements DecompositionSolver {
      */
     public RealMatrix getInverse()
         throws InvalidMatrixException {
-        final RealMatrix r = decomposition.getR();
-        final int p = Math.min(r.getRowDimension(), r.getColumnDimension());
-        return solve(MatrixUtils.createRealIdentityMatrix(p));
+        return solver.getInverse();
     }
 
 }
