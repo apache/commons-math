@@ -262,10 +262,10 @@ public class QRDecompositionImpl implements QRDecomposition {
          * matrix R, and the rows ABOVE the diagonal are the Householder reflector vectors
          * from which an explicit form of Q can be recomputed if desired.</p>
          */
-        private double[][] qrt;
+        private final double[][] qrt;
 
         /** The diagonal elements of R. */
-        private double[] rDiag;
+        private final double[] rDiag;
 
         /**
          * Build a solver from decomposed matrix.
