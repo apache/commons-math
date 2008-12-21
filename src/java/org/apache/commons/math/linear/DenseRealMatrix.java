@@ -41,10 +41,10 @@ import org.apache.commons.math.MathRuntimeException;
 public class DenseRealMatrix extends AbstractRealMatrix implements Serializable {
     
     /** Serializable version identifier */
-    private static final long serialVersionUID = 5536250491728216579L;
+    private static final long serialVersionUID = 4991895511313664478L;
 
     /** Block size. */
-    private static final int BLOCK_SIZE = 32;
+    private static final int BLOCK_SIZE = 52;
 
     /** Blocks of matrix entries. */
     private final double blocks[][];
@@ -396,7 +396,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
      * @throws     IllegalArgumentException
      *             if columnDimension(this) != rowDimension(m)
      */
-    DenseRealMatrix multiply(DenseRealMatrix m) throws IllegalArgumentException {
+    public DenseRealMatrix multiply(DenseRealMatrix m) throws IllegalArgumentException {
 
         // safety check
         checkMultiplicationCompatible(m);
@@ -412,6 +412,9 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
             for (int jBlock = 0; jBlock < out.blockColumns; ++jBlock) {
                 final int jWidth = out.blockWidth(jBlock);
+                final int jWidth2 = jWidth  + jWidth;
+                final int jWidth3 = jWidth2 + jWidth;
+                final int jWidth4 = jWidth3 + jWidth;
 
                 // select current block
                 final double[] outBlock = out.blocks[blockIndex];
@@ -426,8 +429,19 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                         final int lEnd   = lStart + kWidth;
                         for (int nStart = 0; nStart < jWidth; ++nStart) {
                             double sum = 0;
-                            for (int l = lStart, n = nStart; l < lEnd; ++l, n += jWidth) {
-                                sum += tBlock[l] * mBlock[n];
+                            int l = lStart;
+                            int n = nStart;
+                            while (l < lEnd - 3) {
+                                sum += tBlock[l] * mBlock[n] +
+                                       tBlock[l + 1] * mBlock[n + jWidth] +
+                                       tBlock[l + 2] * mBlock[n + jWidth2] +
+                                       tBlock[l + 3] * mBlock[n + jWidth3];
+                                l += 4;
+                                n += jWidth4;
+                            }
+                            while (l < lEnd) {
+                                sum += tBlock[l++] * mBlock[n];
+                                n += jWidth;
                             }
                             outBlock[k++] += sum;
                         }
@@ -772,8 +786,17 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                 final int      qEnd   = Math.min(qStart + BLOCK_SIZE, columns);
                 for (int p = pStart, k = 0; p < pEnd; ++p) {
                     double sum = 0;
-                    for (int q = qStart; q < qEnd; ++q) {
-                        sum += block[k++] * v[q];
+                    int q = qStart;
+                    while (q < qEnd - 3) {
+                        sum += block[k]     * v[q]     +
+                               block[k + 1] * v[q + 1] +
+                               block[k + 2] * v[q + 2] +
+                               block[k + 3] * v[q + 3];
+                        ++k;
+                        ++q;
+                    }
+                    while (q < qEnd) {
+                        sum += block[k++] * v[q++];
                     }
                     out[p] += sum;
                 }
