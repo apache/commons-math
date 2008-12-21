@@ -366,7 +366,8 @@ public class EigenDecompositionImplTest extends TestCase {
             } while (norm2 * size < 0.01);
         }
 
-        return MatrixUtils.createRealMatrix(data);
+        //return MatrixUtils.createRealMatrix(data);
+        return new RealMatrixImpl(data, false);
 
     }
 
