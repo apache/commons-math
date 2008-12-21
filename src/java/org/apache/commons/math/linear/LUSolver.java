@@ -29,17 +29,21 @@ package org.apache.commons.math.linear;
 public class LUSolver implements DecompositionSolver {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -8775006035077527661L;
+    private static final long serialVersionUID = -369589527412301256L;
 
-    /** Underlying decomposition. */
-    private final LUDecomposition decomposition;
+    /** Underlying solver. */
+    private final DecompositionSolver solver;
+
+    /** Determinant. */
+    private final double determinant;
 
     /**
      * Simple constructor.
      * @param decomposition decomposition to use
      */
     public LUSolver(final LUDecomposition decomposition) {
-        this.decomposition = decomposition;
+        this.solver      = decomposition.getSolver();
+        this.determinant = decomposition.getDeterminant();
     }
 
     /** Solve the linear equation A &times; X = B for square matrices A.
@@ -52,42 +56,7 @@ public class LUSolver implements DecompositionSolver {
      */
     public double[] solve(final double[] b)
         throws IllegalArgumentException, InvalidMatrixException {
-
-        final int[] pivot = decomposition.getPivot();
-        final int m = pivot.length;
-        if (b.length != m) {
-            throw new IllegalArgumentException("constant vector has wrong length");
-        }
-        if (decomposition.isSingular()) {
-            throw new SingularMatrixException();
-        }
-
-        final double[] bp = new double[m];
-
-        // Apply permutations to b
-        for (int row = 0; row < m; row++) {
-            bp[row] = b[pivot[row]];
-        }
-
-        // Solve LY = b
-        final RealMatrix l = decomposition.getL();
-        for (int col = 0; col < m; col++) {
-            for (int i = col + 1; i < m; i++) {
-                bp[i] -= bp[col] * l.getEntry(i, col);
-            }
-        }
-
-        // Solve UX = Y
-        final RealMatrix u = decomposition.getU();
-        for (int col = m - 1; col >= 0; col--) {
-            bp[col] /= u.getEntry(col, col);
-            for (int i = 0; i < col; i++) {
-                bp[i] -= bp[col] * u.getEntry(i, col);
-            }
-        }
-
-        return bp;
-
+        return solver.solve(b);
     }
 
 
@@ -101,42 +70,7 @@ public class LUSolver implements DecompositionSolver {
      */
     public RealVector solve(final RealVector b)
         throws IllegalArgumentException, InvalidMatrixException {
-
-        final int[] pivot = decomposition.getPivot();
-        final int m = pivot.length;
-        if (b.getDimension() != m) {
-            throw new IllegalArgumentException("constant vector has wrong length");
-        }
-        if (decomposition.isSingular()) {
-            throw new SingularMatrixException();
-        }
-
-        final double[] bp = new double[m];
-
-        // Apply permutations to b
-        for (int row = 0; row < m; row++) {
-            bp[row] = b.getEntry(pivot[row]);
-        }
-
-        // Solve LY = b
-        final RealMatrix l = decomposition.getL();
-        for (int col = 0; col < m; col++) {
-            for (int i = col + 1; i < m; i++) {
-                bp[i] -= bp[col] * l.getEntry(i, col);
-            }
-        }
-
-        // Solve UX = Y
-        final RealMatrix u = decomposition.getU();
-        for (int col = m - 1; col >= 0; col--) {
-            bp[col] /= u.getEntry(col, col);
-            for (int i = 0; i < col; i++) {
-                bp[i] -= bp[col] * u.getEntry(i, col);
-            }
-        }
-
-        return new RealVectorImpl(bp, false);
-  
+        return solver.solve(b);
     }
 
     /** Solve the linear equation A &times; X = B for square matrices A.
@@ -149,79 +83,7 @@ public class LUSolver implements DecompositionSolver {
      */
     public RealMatrix solve(final RealMatrix b)
         throws IllegalArgumentException, InvalidMatrixException {
-
-        final int[] pivot = decomposition.getPivot();
-        final int m = pivot.length;
-        if (b.getRowDimension() != m) {
-            throw new IllegalArgumentException("Incorrect row dimension");
-        }
-        if (decomposition.isSingular()) {
-            throw new SingularMatrixException();
-        }
-
-        final int nColB = b.getColumnDimension();
-
-        // Apply permutations to b
-        final double[][] bp = new double[m][nColB];
-        for (int row = 0; row < m; row++) {
-            final double[] bpRow = bp[row];
-            final int pRow = pivot[row];
-            for (int col = 0; col < nColB; col++) {
-                bpRow[col] = b.getEntry(pRow, col);
-            }
-        }
-
-        // Solve LY = b
-        final RealMatrix l = decomposition.getL();
-        for (int col = 0; col < m; col++) {
-            final double[] bpCol = bp[col];
-            for (int i = col + 1; i < m; i++) {
-                final double[] bpI = bp[i];
-                final double luICol = l.getEntry(i, col);
-                for (int j = 0; j < nColB; j++) {
-                    bpI[j] -= bpCol[j] * luICol;
-                }
-            }
-        }
-
-        // Solve UX = Y
-        final RealMatrix u = decomposition.getU();
-        for (int col = m - 1; col >= 0; col--) {
-            final double[] bpCol = bp[col];
-            final double luDiag = u.getEntry(col, col);
-            for (int j = 0; j < nColB; j++) {
-                bpCol[j] /= luDiag;
-            }
-            for (int i = 0; i < col; i++) {
-                final double[] bpI = bp[i];
-                final double luICol = u.getEntry(i, col);
-                for (int j = 0; j < nColB; j++) {
-                    bpI[j] -= bpCol[j] * luICol;
-                }
-            }
-        }
-
-        return MatrixUtils.createRealMatrix(bp);
-
-    }
-
-    /**
-     * Return the determinant of the matrix
-     * @return determinant of the matrix
-     * @see #isNonSingular()
-     */
-    public double getDeterminant() {
-        if (decomposition.isSingular()) {
-            return 0;
-        } else {
-            final int m = decomposition.getPivot().length;
-            final RealMatrix u = decomposition.getU();
-            double determinant = decomposition.evenPermutation() ? 1 : -1;
-            for (int i = 0; i < m; i++) {
-                determinant *= u.getEntry(i, i);
-            }
-            return determinant;
-        }
+        return solver.solve(b);
     }
 
     /**
@@ -229,7 +91,7 @@ public class LUSolver implements DecompositionSolver {
      * @return true if the decomposed matrix is non-singular
      */
     public boolean isNonSingular() {
-        return !decomposition.isSingular();
+        return solver.isNonSingular();
     }
 
     /** Get the inverse of the decomposed matrix.
@@ -238,8 +100,15 @@ public class LUSolver implements DecompositionSolver {
      */
     public RealMatrix getInverse()
         throws InvalidMatrixException {
-        final int m = decomposition.getPivot().length;
-        return solve(MatrixUtils.createRealIdentityMatrix(m));
+        return solver.getInverse();
+    }
+
+    /**
+     * Return the determinant of the matrix
+     * @return determinant of the matrix
+     */
+    public double getDeterminant() {
+        return determinant;
     }
 
 }

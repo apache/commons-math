@@ -67,7 +67,7 @@ System.out.println(p.getRowDimension());    // 2
 System.out.println(p.getColumnDimension()); // 2
 
 // Invert p, using LU decomposition
-RealMatrix pInverse = new LUSolver(new LUDecompositionImpl(p))).getInverse();
+RealMatrix pInverse = new LUDecompositionImpl(p).getSolver().getInverse();
          </source>
         </p>
         <p>
@@ -115,7 +115,7 @@ RealMatrix pInverse = new LUSolver(new LUDecompositionImpl(p))).getInverse();
 RealMatrix coefficients =
     new RealMatrixImpl(new double[][] { { 2, 3, -2 }, { -1, 7, 6 }, { 4, -3, -5 } },
                        false);
-LUSolver solver = new LUSolver(new LUDecompositionImpl(coefficients));
+DecompositionSolver solver = new LUDecompositionImpl(coefficients).getSolver();
           </source>
           Next create a <code>RealVector</code> array to represent the constant
           vector B and use <code>solve(RealVector)</code> to solve the system
@@ -132,8 +132,9 @@ RealVector solution = solver.solve(constants);
           for X is such that the residual AX-B has minimal norm. If an exact solution
           exist (i.e. if for some X the residual AX-B is exactly 0), then this exact
           solution is also the solution in least square sense. Some solvers like
-          <code>LUSolver</code> can only find the solution for square matrices and when
-          the solution is an exact linear solution. Other solvers like <code>QRDecomposition</code>
+          the one obtained from <code>LUDecomposition</code> can only find the solution
+          for square matrices and when the solution is an exact linear solution. Other
+          solvers like the one obtained from <code>QRDecomposition</code>
           are more versatile and can also find solutions with non-square matrix A or when
           no exact solution exist (i.e. when the minimal value for AX-B norm is non-null).
         </p>
