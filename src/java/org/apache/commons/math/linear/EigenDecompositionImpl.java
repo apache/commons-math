@@ -55,7 +55,7 @@ import org.apache.commons.math.util.MathUtils;
 public class EigenDecompositionImpl implements EigenDecomposition {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 3125911889630623276L;
+    private static final long serialVersionUID = 1625101476333719659L;
 
     /** Tolerance. */
     private static final double TOLERANCE = 100 * MathUtils.EPSILON;
@@ -298,6 +298,202 @@ public class EigenDecompositionImpl implements EigenDecomposition {
             findEigenVectors();
         }
         return eigenvectors[i].copy();
+    }
+
+    /**
+     * Return the determinant of the matrix
+     * @return determinant of the matrix
+     * @see #isNonSingular()
+     */
+    public double getDeterminant() {
+        double determinant = 1;
+        for (double lambda : eigenvalues) {
+            determinant *= lambda;
+        }
+        return determinant;
+    }
+
+    /** {@inheritDoc} */
+    public DecompositionSolver getSolver() {
+        if (eigenvectors == null) {
+            findEigenVectors();
+        }
+        return new Solver(eigenvalues, eigenvectors);
+    }
+
+    /** Specialized solver. */
+    private static class Solver implements DecompositionSolver {
+
+        /** Serializable version identifier. */
+        private static final long serialVersionUID = -8965845906036558410L;
+
+        /** Eigenvalues. */
+        private final double[] eigenvalues;
+
+        /** Eigenvectors. */
+        private final RealVectorImpl[] eigenvectors;
+
+        /**
+         * Build a solver from decomposed matrix.
+         * @param eigenvalues eigenvalues
+         * @param eigenvectors eigenvectors
+         */
+        private Solver(final double[] eigenvalues, final RealVectorImpl[] eigenvectors) {
+            this.eigenvalues  = eigenvalues;
+            this.eigenvectors = eigenvectors; 
+        }
+
+        /** Solve the linear equation A &times; X = B for symmetric matrices A.
+         * <p>This method only find exact linear solutions, i.e. solutions for
+         * which ||A &times; X - B|| is exactly 0.</p>
+         * @param b right-hand side of the equation A &times; X = B
+         * @return a vector X that minimizes the two norm of A &times; X - B
+         * @exception IllegalArgumentException if matrices dimensions don't match
+         * @exception InvalidMatrixException if decomposed matrix is singular
+         */
+        public double[] solve(final double[] b)
+            throws IllegalArgumentException, InvalidMatrixException {
+
+            if (!isNonSingular()) {
+                throw new SingularMatrixException();
+            }
+
+            final int m = eigenvalues.length;
+            if (b.length != m) {
+                throw new IllegalArgumentException("constant vector has wrong length");
+            }
+
+            final double[] bp = new double[m];
+            for (int i = 0; i < m; ++i) {
+                final RealVectorImpl v = eigenvectors[i];
+                final double[] vData = v.getDataRef();
+                final double s = v.dotProduct(b) / eigenvalues[i];
+                for (int j = 0; j < m; ++j) {
+                    bp[j] += s * vData[j];
+                }
+            }
+
+            return bp;
+
+        }
+
+        /** Solve the linear equation A &times; X = B for symmetric matrices A.
+         * <p>This method only find exact linear solutions, i.e. solutions for
+         * which ||A &times; X - B|| is exactly 0.</p>
+         * @param b right-hand side of the equation A &times; X = B
+         * @return a vector X that minimizes the two norm of A &times; X - B
+         * @exception IllegalArgumentException if matrices dimensions don't match
+         * @exception InvalidMatrixException if decomposed matrix is singular
+         */
+        public RealVector solve(final RealVector b)
+            throws IllegalArgumentException, InvalidMatrixException {
+
+            if (!isNonSingular()) {
+                throw new SingularMatrixException();
+            }
+
+            final int m = eigenvalues.length;
+            if (b.getDimension() != m) {
+                throw new IllegalArgumentException("constant vector has wrong length");
+            }
+
+            final double[] bp = new double[m];
+            for (int i = 0; i < m; ++i) {
+                final RealVectorImpl v = eigenvectors[i];
+                final double[] vData = v.getDataRef();
+                final double s = v.dotProduct(b) / eigenvalues[i];
+                for (int j = 0; j < m; ++j) {
+                    bp[j] += s * vData[j];
+                }
+            }
+
+            return new RealVectorImpl(bp, false);
+
+        }
+
+        /** Solve the linear equation A &times; X = B for symmetric matrices A.
+         * <p>This method only find exact linear solutions, i.e. solutions for
+         * which ||A &times; X - B|| is exactly 0.</p>
+         * @param b right-hand side of the equation A &times; X = B
+         * @return a matrix X that minimizes the two norm of A &times; X - B
+         * @exception IllegalArgumentException if matrices dimensions don't match
+         * @exception InvalidMatrixException if decomposed matrix is singular
+         */
+        public RealMatrix solve(final RealMatrix b)
+            throws IllegalArgumentException, InvalidMatrixException {
+
+            if (!isNonSingular()) {
+                throw new SingularMatrixException();
+            }
+
+            final int m = eigenvalues.length;
+            if (b.getRowDimension() != m) {
+                throw new IllegalArgumentException("Incorrect row dimension");
+            }
+
+            final int nColB = b.getColumnDimension();
+            final double[][] bp = new double[m][nColB];
+            for (int k = 0; k < nColB; ++k) {
+                for (int i = 0; i < m; ++i) {
+                    final RealVectorImpl v = eigenvectors[i];
+                    final double[] vData = v.getDataRef();
+                    double s = 0;
+                    for (int j = 0; j < m; ++j) {
+                        s += v.getEntry(j) * b.getEntry(j, k);
+                    }
+                    s /= eigenvalues[i];
+                    for (int j = 0; j < m; ++j) {
+                        bp[j][k] += s * vData[j];
+                    }
+                }
+            }
+
+            return MatrixUtils.createRealMatrix(bp);
+
+        }
+
+        /**
+         * Check if the decomposed matrix is non-singular.
+         * @return true if the decomposed matrix is non-singular
+         */
+        public boolean isNonSingular() {
+            for (double lambda : eigenvalues) {
+                if (lambda == 0) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /** Get the inverse of the decomposed matrix.
+         * @return inverse matrix
+         * @throws InvalidMatrixException if decomposed matrix is singular
+         */
+        public RealMatrix getInverse()
+            throws InvalidMatrixException {
+
+            if (!isNonSingular()) {
+                throw new SingularMatrixException();
+            }
+
+            final int m = eigenvalues.length;
+            final double[][] invData = new double[m][m];
+
+            for (int i = 0; i < m; ++i) {
+                final double[] invI = invData[i];
+                for (int j = 0; j < m; ++j) {
+                    double invIJ = 0;
+                    for (int k = 0; k < m; ++k) {
+                        final double[] vK = eigenvectors[k].getDataRef();
+                        invIJ += vK[i] * vK[j] / eigenvalues[k];
+                    }
+                    invI[j] = invIJ;
+                }
+            }
+            return MatrixUtils.createRealMatrix(invData);
+
+        }
+
     }
 
     /**

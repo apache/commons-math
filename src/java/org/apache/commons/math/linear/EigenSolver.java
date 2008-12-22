@@ -29,17 +29,21 @@ package org.apache.commons.math.linear;
 public class EigenSolver implements DecompositionSolver {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 4339008311386325953L;
+    private static final long serialVersionUID = -74798755223915020L;
 
-    /** Underlying decomposition. */
-    private final EigenDecomposition decomposition;
+    /** Underlying solver. */
+    private final DecompositionSolver solver;
+
+    /** Determinant. */
+    private final double determinant;
 
     /**
      * Simple constructor.
      * @param decomposition decomposition to use
      */
     public EigenSolver(final EigenDecomposition decomposition) {
-        this.decomposition = decomposition;
+        this.solver      = decomposition.getSolver();
+        this.determinant = decomposition.getDeterminant();
     }
 
     /** Solve the linear equation A &times; X = B for symmetric matrices A.
@@ -52,28 +56,7 @@ public class EigenSolver implements DecompositionSolver {
      */
     public double[] solve(final double[] b)
         throws IllegalArgumentException, InvalidMatrixException {
-
-        if (!isNonSingular()) {
-            throw new SingularMatrixException();
-        }
-
-        final double[] eigenvalues = decomposition.getEigenvalues();
-        final int m = eigenvalues.length;
-        if (b.length != m) {
-            throw new IllegalArgumentException("constant vector has wrong length");
-        }
-
-        final double[] bp = new double[m];
-        for (int i = 0; i < m; ++i) {
-            final RealVector v = decomposition.getEigenvector(i);
-            final double s = v.dotProduct(b) / eigenvalues[i];
-            for (int j = 0; j < m; ++j) {
-                bp[j] += s * v.getEntry(j);
-            }
-        }
-
-        return bp;
-
+        return solver.solve(b);
     }
 
     /** Solve the linear equation A &times; X = B for symmetric matrices A.
@@ -86,28 +69,7 @@ public class EigenSolver implements DecompositionSolver {
      */
     public RealVector solve(final RealVector b)
         throws IllegalArgumentException, InvalidMatrixException {
-
-        if (!isNonSingular()) {
-            throw new SingularMatrixException();
-        }
-
-        final double[] eigenvalues = decomposition.getEigenvalues();
-        final int m = eigenvalues.length;
-        if (b.getDimension() != m) {
-            throw new IllegalArgumentException("constant vector has wrong length");
-        }
-
-        final double[] bp = new double[m];
-        for (int i = 0; i < m; ++i) {
-            final RealVector v = decomposition.getEigenvector(i);
-            final double s = v.dotProduct(b) / eigenvalues[i];
-            for (int j = 0; j < m; ++j) {
-                bp[j] += s * v.getEntry(j);
-            }
-        }
-
-        return new RealVectorImpl(bp, false);
-
+        return solver.solve(b);
     }
 
     /** Solve the linear equation A &times; X = B for symmetric matrices A.
@@ -120,35 +82,7 @@ public class EigenSolver implements DecompositionSolver {
      */
     public RealMatrix solve(final RealMatrix b)
         throws IllegalArgumentException, InvalidMatrixException {
-
-        if (!isNonSingular()) {
-            throw new SingularMatrixException();
-        }
-
-        final double[] eigenvalues = decomposition.getEigenvalues();
-        final int m = eigenvalues.length;
-        if (b.getRowDimension() != m) {
-            throw new IllegalArgumentException("Incorrect row dimension");
-        }
-
-        final int nColB = b.getColumnDimension();
-        final double[][] bp = new double[m][nColB];
-        for (int k = 0; k < nColB; ++k) {
-            for (int i = 0; i < m; ++i) {
-                final RealVector v = decomposition.getEigenvector(i);
-                double s = 0;
-                for (int j = 0; j < m; ++j) {
-                    s += v.getEntry(j) * b.getEntry(j, k);
-                }
-                s /= eigenvalues[i];
-                for (int j = 0; j < m; ++j) {
-                    bp[j][k] += s * v.getEntry(j);
-                }
-            }
-        }
-
-        return MatrixUtils.createRealMatrix(bp);
-
+        return solver.solve(b);
     }
 
     /**
@@ -157,10 +91,6 @@ public class EigenSolver implements DecompositionSolver {
      * @see #isNonSingular()
      */
     public double getDeterminant() {
-        double determinant = 1;
-        for (double lambda : decomposition.getEigenvalues()) {
-            determinant *= lambda;
-        }
         return determinant;
     }
 
@@ -169,12 +99,7 @@ public class EigenSolver implements DecompositionSolver {
      * @return true if the decomposed matrix is non-singular
      */
     public boolean isNonSingular() {
-        for (double lambda : decomposition.getEigenvalues()) {
-            if (lambda == 0) {
-                return false;
-            }
-        }
-        return true;
+        return solver.isNonSingular();
     }
 
     /** Get the inverse of the decomposed matrix.
@@ -183,28 +108,7 @@ public class EigenSolver implements DecompositionSolver {
      */
     public RealMatrix getInverse()
         throws InvalidMatrixException {
-
-        if (!isNonSingular()) {
-            throw new SingularMatrixException();
-        }
-
-        final double[] eigenvalues = decomposition.getEigenvalues();
-        final int m = eigenvalues.length;
-        final double[][] invData = new double[m][m];
-
-        for (int i = 0; i < m; ++i) {
-            final double[] invI = invData[i];
-            for (int j = 0; j < m; ++j) {
-                double invIJ = 0;
-                for (int k = 0; k < m; ++k) {
-                    final RealVector vK = decomposition.getEigenvector(k);
-                    invIJ += vK.getEntry(i) * vK.getEntry(j) / eigenvalues[k];
-                }
-                invI[j] = invIJ;
-            }
-        }
-        return MatrixUtils.createRealMatrix(invData);
-
+        return solver.getInverse();
     }
 
 }

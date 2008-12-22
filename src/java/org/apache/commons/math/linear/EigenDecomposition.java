@@ -37,6 +37,8 @@ import java.io.Serializable;
  *   <li>the <code>getRealEigenvalues</code> method has been renamed as {@link
  *   #getEigenValues() getEigenValues},</li>
  *   <li>the <code>getImagEigenvalues</code> method has been removed</li>
+ *   <li>a {@link #getDeterminant() getDeterminant} method has been added.</li>
+ *   <li>a {@link #getSolver() getSolver} method has been added.</li>
  * </ul>
  * @see <a href="http://mathworld.wolfram.com/EigenDecomposition.html">MathWorld</a>
  * @see <a href="http://en.wikipedia.org/wiki/Eigendecomposition_of_a_matrix">Wikipedia</a>
@@ -92,5 +94,17 @@ public interface EigenDecomposition extends Serializable {
      * @see #getD()
      */
     RealVector getEigenvector(int i);
+
+    /**
+     * Return the determinant of the matrix
+     * @return determinant of the matrix
+     */
+    double getDeterminant();
+
+    /**
+     * Get a solver for A &times; X = B.
+     * @return a solver
+     */
+    DecompositionSolver getSolver();
 
 }
