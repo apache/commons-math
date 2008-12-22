@@ -34,7 +34,7 @@ import org.apache.commons.math.util.MathUtils;
 public class SingularValueDecompositionImpl implements SingularValueDecomposition {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -238768772547767847L;
+    private static final long serialVersionUID = -3532767302235568872L;
 
     /** Number of rows of the initial matrix. */
     private int m;
@@ -284,6 +284,154 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
            }
         }
         return 0;
+
+    }
+
+    /** {@inheritDoc} */
+    public DecompositionSolver getSolver() {
+        return new Solver(singularValues, getUT(), getV(),
+                          getRank() == singularValues.length);
+    }
+
+    /** Specialized solver. */
+    private static class Solver implements DecompositionSolver {
+
+        /** Serializable version identifier. */
+        private static final long serialVersionUID = -1959408026708904378L;
+
+        /** Singular values. */
+        private final double[] singularValues;
+
+        /** U<sup>T</sup> matrix of the decomposition. */
+        private final RealMatrix uT;
+
+        /** V matrix of the decomposition. */
+        private final RealMatrix v;
+
+        /** Singularity indicator. */
+        private boolean nonSingular;
+
+        /**
+         * Build a solver from decomposed matrix.
+         * @param singularValues singularValues
+         * @param uT U<sup>T</sup> matrix of the decomposition
+         * @param v V matrix of the decomposition
+         * @param nonSingular singularity indicator
+         */
+        private Solver(final double[] singularValues, final RealMatrix uT, final RealMatrix v,
+                       final boolean nonSingular) {
+            this.singularValues = singularValues;
+            this.uT             = uT;
+            this.v              = v;
+            this.nonSingular    = nonSingular;
+        }
+
+        /** Solve the linear equation A &times; X = B in least square sense.
+         * <p>The m&times;n matrix A may not be square, the solution X is
+         * such that ||A &times; X - B|| is minimal.</p>
+         * @param b right-hand side of the equation A &times; X = B
+         * @return a vector X that minimizes the two norm of A &times; X - B
+         * @exception IllegalArgumentException if matrices dimensions don't match
+         * @exception InvalidMatrixException if decomposed matrix is singular
+         */
+        public double[] solve(final double[] b)
+            throws IllegalArgumentException, InvalidMatrixException {
+
+            if (b.length != singularValues.length) {
+                throw new IllegalArgumentException("constant vector has wrong length");
+            }
+
+            final double[] w = uT.operate(b);
+            for (int i = 0; i < singularValues.length; ++i) {
+                final double si = singularValues[i];
+                if (si == 0) {
+                    throw new SingularMatrixException();
+                }
+                w[i] /= si;
+            }
+            return v.operate(w);
+
+        }
+
+        /** Solve the linear equation A &times; X = B in least square sense.
+         * <p>The m&times;n matrix A may not be square, the solution X is
+         * such that ||A &times; X - B|| is minimal.</p>
+         * @param b right-hand side of the equation A &times; X = B
+         * @return a vector X that minimizes the two norm of A &times; X - B
+         * @exception IllegalArgumentException if matrices dimensions don't match
+         * @exception InvalidMatrixException if decomposed matrix is singular
+         */
+        public RealVector solve(final RealVector b)
+            throws IllegalArgumentException, InvalidMatrixException {
+
+            if (b.getDimension() != singularValues.length) {
+                throw new IllegalArgumentException("constant vector has wrong length");
+            }
+
+            final RealVector w = uT.operate(b);
+            for (int i = 0; i < singularValues.length; ++i) {
+                final double si = singularValues[i];
+                if (si == 0) {
+                    throw new SingularMatrixException();
+                }
+                w.set(i, w.getEntry(i) / si);
+            }
+            return v.operate(w);
+
+        }
+
+        /** Solve the linear equation A &times; X = B in least square sense.
+         * <p>The m&times;n matrix A may not be square, the solution X is
+         * such that ||A &times; X - B|| is minimal.</p>
+         * @param b right-hand side of the equation A &times; X = B
+         * @return a matrix X that minimizes the two norm of A &times; X - B
+         * @exception IllegalArgumentException if matrices dimensions don't match
+         * @exception InvalidMatrixException if decomposed matrix is singular
+         */
+        public RealMatrix solve(final RealMatrix b)
+            throws IllegalArgumentException, InvalidMatrixException {
+
+            if (b.getRowDimension() != singularValues.length) {
+                throw new IllegalArgumentException("Incorrect row dimension");
+            }
+
+            final RealMatrix w = uT.multiply(b);
+            for (int i = 0; i < singularValues.length; ++i) {
+                final double si  = singularValues[i];
+                if (si == 0) {
+                    throw new SingularMatrixException();
+                }
+                final double inv = 1.0 / si;
+                for (int j = 0; j < b.getColumnDimension(); ++j) {
+                    w.multiplyEntry(i, j, inv);
+                }
+            }
+            return v.multiply(w);
+
+        }
+
+        /**
+         * Check if the decomposed matrix is non-singular.
+         * @return true if the decomposed matrix is non-singular
+         */
+        public boolean isNonSingular() {
+            return nonSingular;
+        }
+
+        /** Get the pseudo-inverse of the decomposed matrix.
+         * @return inverse matrix
+         * @throws InvalidMatrixException if decomposed matrix is singular
+         */
+        public RealMatrix getInverse()
+            throws InvalidMatrixException {
+
+            if (!isNonSingular()) {
+                throw new SingularMatrixException();
+            }
+
+            return solve(MatrixUtils.createRealIdentityMatrix(singularValues.length));
+
+        }
 
     }
 

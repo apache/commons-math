@@ -30,17 +30,17 @@ package org.apache.commons.math.linear;
 public class SingularValueSolver implements DecompositionSolver {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -33167987924870528L;
+    private static final long serialVersionUID = 4388219358640335388L;
 
-    /** Underlying decomposition. */
-    private final SingularValueDecomposition decomposition;
+    /** Underlying solver. */
+    private final DecompositionSolver solver;
 
     /**
      * Simple constructor.
      * @param decomposition decomposition to use
      */
     public SingularValueSolver(final SingularValueDecomposition decomposition) {
-        this.decomposition = decomposition;
+        this.solver = decomposition.getSolver();
     }
 
     /** Solve the linear equation A &times; X = B in least square sense.
@@ -53,22 +53,7 @@ public class SingularValueSolver implements DecompositionSolver {
      */
     public double[] solve(final double[] b)
         throws IllegalArgumentException, InvalidMatrixException {
-
-        final double[] singularValues = decomposition.getSingularValues();
-        if (b.length != singularValues.length) {
-            throw new IllegalArgumentException("constant vector has wrong length");
-        }
-
-        final double[] w = decomposition.getUT().operate(b);
-        for (int i = 0; i < singularValues.length; ++i) {
-            final double si = singularValues[i];
-            if (si == 0) {
-                throw new SingularMatrixException();
-            }
-            w[i] /= si;
-        }
-        return decomposition.getV().operate(w);
-
+        return solver.solve(b);
     }
 
     /** Solve the linear equation A &times; X = B in least square sense.
@@ -81,22 +66,7 @@ public class SingularValueSolver implements DecompositionSolver {
      */
     public RealVector solve(final RealVector b)
         throws IllegalArgumentException, InvalidMatrixException {
-
-        final double[] singularValues = decomposition.getSingularValues();
-        if (b.getDimension() != singularValues.length) {
-            throw new IllegalArgumentException("constant vector has wrong length");
-        }
-
-        final RealVector w = decomposition.getUT().operate(b);
-        for (int i = 0; i < singularValues.length; ++i) {
-            final double si = singularValues[i];
-            if (si == 0) {
-                throw new SingularMatrixException();
-            }
-            w.set(i, w.getEntry(i) / si);
-        }
-        return decomposition.getV().operate(w);
-
+        return solver.solve(b);
     }
 
     /** Solve the linear equation A &times; X = B in least square sense.
@@ -109,25 +79,7 @@ public class SingularValueSolver implements DecompositionSolver {
      */
     public RealMatrix solve(final RealMatrix b)
         throws IllegalArgumentException, InvalidMatrixException {
-
-        final double[] singularValues = decomposition.getSingularValues();
-        if (b.getRowDimension() != singularValues.length) {
-            throw new IllegalArgumentException("Incorrect row dimension");
-        }
-
-        final RealMatrix w = decomposition.getUT().multiply(b);
-        for (int i = 0; i < singularValues.length; ++i) {
-            final double si  = singularValues[i];
-            if (si == 0) {
-                throw new SingularMatrixException();
-            }
-            final double inv = 1.0 / si;
-            for (int j = 0; j < b.getColumnDimension(); ++j) {
-                w.multiplyEntry(i, j, inv);
-            }
-        }
-        return decomposition.getV().multiply(w);
-
+        return solver.solve(b);
     }
 
     /**
@@ -135,7 +87,7 @@ public class SingularValueSolver implements DecompositionSolver {
      * @return true if the decomposed matrix is non-singular
      */
     public boolean isNonSingular() {
-        return decomposition.getRank() == decomposition.getSingularValues().length;
+        return solver.isNonSingular();
     }
 
     /** Get the pseudo-inverse of the decomposed matrix.
@@ -144,13 +96,7 @@ public class SingularValueSolver implements DecompositionSolver {
      */
     public RealMatrix getInverse()
         throws InvalidMatrixException {
-
-        if (!isNonSingular()) {
-            throw new SingularMatrixException();
-        }
-
-        return solve(MatrixUtils.createRealIdentityMatrix(decomposition.getSingularValues().length));
-
+        return solver.getInverse();
     }
 
 }

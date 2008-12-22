@@ -38,6 +38,7 @@ import java.io.Serializable;
  *   #getConditionNumber() getConditionNumber},</li>
  *   <li>the <code>rank</code> method which has been renamed as {@link #getRank()
  *   getRank}</li>
+ *   <li>a {@link #getSolver() getSolver} method has been added.</li>
  * </ul>
  * @see <a href="http://mathworld.wolfram.com/SingularValueDecomposition.html">MathWorld</a>
  * @see <a href="http://en.wikipedia.org/wiki/Singular_value_decomposition">Wikipedia</a>
@@ -118,5 +119,11 @@ public interface SingularValueDecomposition extends Serializable {
      * @return effective numerical matrix rank
      */
     int getRank();
+
+    /**
+     * Get a solver for A &times; X = B.
+     * @return a solver
+     */
+    DecompositionSolver getSolver();
 
 }
