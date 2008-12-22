@@ -792,8 +792,8 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                                block[k + 1] * v[q + 1] +
                                block[k + 2] * v[q + 2] +
                                block[k + 3] * v[q + 3];
-                        ++k;
-                        ++q;
+                        k += 4;
+                        q += 4;
                     }
                     while (q < qEnd) {
                         sum += block[k++] * v[q++];
