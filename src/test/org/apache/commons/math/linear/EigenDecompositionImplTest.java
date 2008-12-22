@@ -174,7 +174,6 @@ public class EigenDecompositionImplTest extends TestCase {
             double lambda = ed.getEigenvalue(i);
             RealVector v  = ed.getEigenvector(i);
             RealVector mV = matrix.operate(v);
-            System.out.println(lambda + " " + v + " " + mV);
             assertEquals(0, mV.subtract(v.mapMultiplyToSelf(lambda)).getNorm(), 1.0e-13);
         }
     }
