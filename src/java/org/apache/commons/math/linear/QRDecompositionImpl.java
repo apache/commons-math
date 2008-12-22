@@ -250,6 +250,7 @@ public class QRDecompositionImpl implements QRDecomposition {
         return new Solver(qrt, rDiag);
     }
 
+    /** Specialized solver. */
     private static class Solver implements DecompositionSolver {
 
         /** Serializable version identifier. */

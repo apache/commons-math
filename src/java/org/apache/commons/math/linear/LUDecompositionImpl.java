@@ -239,6 +239,7 @@ public class LUDecompositionImpl implements LUDecomposition {
         return new Solver(lu, pivot, singular);
     }
 
+    /** Specialized solver. */
     private static class Solver implements DecompositionSolver {
 
         /** Serializable version identifier. */
