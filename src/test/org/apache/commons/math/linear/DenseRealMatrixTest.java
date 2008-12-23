@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math.linear;
 
+import java.util.Arrays;
 import java.util.Random;
 
 import junit.framework.Test;
@@ -332,6 +333,32 @@ public final class DenseRealMatrixTest extends TestCase {
         }      
     }
 
+    public void testOperateLarge() {
+        int p = (7 * DenseRealMatrix.BLOCK_SIZE) / 2;
+        int q = (5 * DenseRealMatrix.BLOCK_SIZE) / 2;
+        int r =  3 * DenseRealMatrix.BLOCK_SIZE;
+        Random random = new Random(111007463902334l);
+        RealMatrix m1 = createRandomMatrix(random, p, q);
+        RealMatrix m2 = createRandomMatrix(random, q, r);
+        RealMatrix m1m2 = m1.multiply(m2);
+        for (int i = 0; i < r; ++i) {
+            checkArrays(m1m2.getColumn(i), m1.operate(m2.getColumn(i)));
+        }
+    }
+
+    public void testOperatePremultiplyLarge() {
+        int p = (7 * DenseRealMatrix.BLOCK_SIZE) / 2;
+        int q = (5 * DenseRealMatrix.BLOCK_SIZE) / 2;
+        int r =  3 * DenseRealMatrix.BLOCK_SIZE;
+        Random random = new Random(111007463902334l);
+        RealMatrix m1 = createRandomMatrix(random, p, q);
+        RealMatrix m2 = createRandomMatrix(random, q, r);
+        RealMatrix m1m2 = m1.multiply(m2);
+        for (int i = 0; i < p; ++i) {
+            checkArrays(m1m2.getRow(i), m2.preMultiply(m1.getRow(i)));
+        }
+    }
+
     /** test issue MATH-209 */
     public void testMath209() {
         RealMatrix a = new DenseRealMatrix(new double[][] {
@@ -507,14 +534,31 @@ public final class DenseRealMatrixTest extends TestCase {
         }
     }
     
+    public void testGetSetMatrixLarge() {
+        int n = 3 * DenseRealMatrix.BLOCK_SIZE;
+        RealMatrix m = new DenseRealMatrix(n, n);
+        RealMatrix sub = new DenseRealMatrix(n - 4, n - 4).scalarAdd(1);
+
+        m.setSubMatrix(sub.getData(), 2, 2);
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if ((i < 2) || (i > n - 3) || (j < 2) || (j > n - 3)) {
+                    assertEquals(0.0, m.getEntry(i, j), 0.0);
+                } else {
+                    assertEquals(1.0, m.getEntry(i, j), 0.0);
+                }
+            }
+        }
+        assertEquals(sub, m.getSubMatrix(2, n - 3, 2, n - 3));
+
+    }
+    
     public void testGetRowMatrix() {
-        RealMatrix m = new DenseRealMatrix(subTestData);
+        RealMatrix m     = new DenseRealMatrix(subTestData);
         RealMatrix mRow0 = new DenseRealMatrix(subRow0);
         RealMatrix mRow3 = new DenseRealMatrix(subRow3);
-        assertEquals("Row0", mRow0, 
-                m.getRowMatrix(0));
-        assertEquals("Row3", mRow3, 
-                m.getRowMatrix(3));
+        assertEquals("Row0", mRow0, m.getRowMatrix(0));
+        assertEquals("Row3", mRow3, m.getRowMatrix(3));
         try {
             m.getRowMatrix(-1);
             fail("Expecting MatrixIndexException");
@@ -528,7 +572,7 @@ public final class DenseRealMatrixTest extends TestCase {
             // expected
         }
     }
-    
+
     public void testSetRowMatrix() {
         RealMatrix m = new DenseRealMatrix(subTestData);
         RealMatrix mRow3 = new DenseRealMatrix(subRow3);
@@ -547,6 +591,25 @@ public final class DenseRealMatrixTest extends TestCase {
         } catch (InvalidMatrixException ex) {
             // expected
         }
+    }
+    
+    public void testGetSetRowMatrixLarge() {
+        int n = 3 * DenseRealMatrix.BLOCK_SIZE;
+        RealMatrix m = new DenseRealMatrix(n, n);
+        RealMatrix sub = new DenseRealMatrix(1, n).scalarAdd(1);
+
+        m.setRowMatrix(2, sub);
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i != 2) {
+                    assertEquals(0.0, m.getEntry(i, j), 0.0);
+                } else {
+                    assertEquals(1.0, m.getEntry(i, j), 0.0);
+                }
+            }
+        }
+        assertEquals(sub, m.getRowMatrix(2));
+
     }
     
     public void testGetColumnMatrix() {
@@ -589,6 +652,25 @@ public final class DenseRealMatrixTest extends TestCase {
         }
     }
 
+    public void testGetSetColumnMatrixLarge() {
+        int n = 3 * DenseRealMatrix.BLOCK_SIZE;
+        RealMatrix m = new DenseRealMatrix(n, n);
+        RealMatrix sub = new DenseRealMatrix(n, 1).scalarAdd(1);
+
+        m.setColumnMatrix(2, sub);
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (j != 2) {
+                    assertEquals(0.0, m.getEntry(i, j), 0.0);
+                } else {
+                    assertEquals(1.0, m.getEntry(i, j), 0.0);
+                }
+            }
+        }
+        assertEquals(sub, m.getColumnMatrix(2));
+
+    }
+    
     public void testGetRowVector() {
         RealMatrix m = new DenseRealMatrix(subTestData);
         RealVector mRow0 = new RealVectorImpl(subRow0[0]);
@@ -627,6 +709,25 @@ public final class DenseRealMatrixTest extends TestCase {
         } catch (InvalidMatrixException ex) {
             // expected
         }
+    }
+
+    public void testGetSetRowVectorLarge() {
+        int n = 3 * DenseRealMatrix.BLOCK_SIZE;
+        RealMatrix m = new DenseRealMatrix(n, n);
+        RealVector sub = new RealVectorImpl(n, 1.0);
+
+        m.setRowVector(2, sub);
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i != 2) {
+                    assertEquals(0.0, m.getEntry(i, j), 0.0);
+                } else {
+                    assertEquals(1.0, m.getEntry(i, j), 0.0);
+                }
+            }
+        }
+        assertEquals(sub, m.getRowVector(2));
+
     }
     
     public void testGetColumnVector() {
@@ -669,6 +770,25 @@ public final class DenseRealMatrixTest extends TestCase {
         }
     }
 
+    public void testGetSetColumnVectorLarge() {
+        int n = 3 * DenseRealMatrix.BLOCK_SIZE;
+        RealMatrix m = new DenseRealMatrix(n, n);
+        RealVector sub = new RealVectorImpl(n, 1.0);
+
+        m.setColumnVector(2, sub);
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (j != 2) {
+                    assertEquals(0.0, m.getEntry(i, j), 0.0);
+                } else {
+                    assertEquals(1.0, m.getEntry(i, j), 0.0);
+                }
+            }
+        }
+        assertEquals(sub, m.getColumnVector(2));
+
+    }
+    
     private RealVector columnToVector(double[][] column) {
         double[] data = new double[column.length];
         for (int i = 0; i < data.length; ++i) {
@@ -713,6 +833,26 @@ public final class DenseRealMatrixTest extends TestCase {
             // expected
         }
     }
+
+    public void testGetSetRowLarge() {
+        int n = 3 * DenseRealMatrix.BLOCK_SIZE;
+        RealMatrix m = new DenseRealMatrix(n, n);
+        double[] sub = new double[n];
+        Arrays.fill(sub, 1.0);
+
+        m.setRow(2, sub);
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i != 2) {
+                    assertEquals(0.0, m.getEntry(i, j), 0.0);
+                } else {
+                    assertEquals(1.0, m.getEntry(i, j), 0.0);
+                }
+            }
+        }
+        checkArrays(sub, m.getRow(2));
+
+    }
     
     public void testGetColumn() {
         RealMatrix m = new DenseRealMatrix(subTestData);
@@ -754,6 +894,26 @@ public final class DenseRealMatrixTest extends TestCase {
         }
     }
 
+    public void testGetSetColumnLarge() {
+        int n = 3 * DenseRealMatrix.BLOCK_SIZE;
+        RealMatrix m = new DenseRealMatrix(n, n);
+        double[] sub = new double[n];
+        Arrays.fill(sub, 1.0);
+
+        m.setColumn(2, sub);
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (j != 2) {
+                    assertEquals(0.0, m.getEntry(i, j), 0.0);
+                } else {
+                    assertEquals(1.0, m.getEntry(i, j), 0.0);
+                }
+            }
+        }
+        checkArrays(sub, m.getColumn(2));
+
+    }
+    
     private double[] columnToArray(double[][] column) {
         double[] data = new double[column.length];
         for (int i = 0; i < data.length; ++i) {
