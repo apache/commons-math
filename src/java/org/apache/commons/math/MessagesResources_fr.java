@@ -174,6 +174,8 @@ public class MessagesResources_fr
     // org.apache.commons.math.linear.EigenDecompositionImpl
     { "cannot solve degree {0} equation",
       "impossible de r\u00e9soudre une \u00e9quation de degr\u00e9 {0}" },
+    { "eigen decomposition of assymetric matrices not supported yet",
+      "la d\u00e9composition en valeurs/vecteurs propres de matrices non sym\u00e9triques n''est pas encore disponible" },
 
     // org.apache.commons.math.linear.NonSquareMatrixException
     { "a {0}x{1} matrix was provided instead of a square matrix",
