@@ -239,7 +239,7 @@ public interface RealMatrix {
 
    /**
     * Sets the entries in row number <code>row</code>
-    * as a row matrix.  Row indices start at 0.
+    * as a vector.  Row indices start at 0.
     *
     * @param row the row to be set
     * @param vector row vector (must have the same number of columns
@@ -253,7 +253,7 @@ public interface RealMatrix {
    
    /**
     * Returns the entries in column number <code>column</code>
-    * as a column vector.  Column indices start at 0.
+    * as a vector.  Column indices start at 0.
     *
     * @param column the column to be fetched
     * @return column vector
@@ -263,7 +263,7 @@ public interface RealMatrix {
 
    /**
     * Sets the entries in column number <code>column</code>
-    * as a column matrix.  Column indices start at 0.
+    * as a vector.  Column indices start at 0.
     *
     * @param column the column to be set
     * @param vector column vector (must have the same number of rows as the instance)
