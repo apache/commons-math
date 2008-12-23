@@ -118,7 +118,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
         eigenDecomposition =
             new EigenDecompositionImpl(mainTridiagonal, secondaryTridiagonal,
                                        MathUtils.SAFE_MIN);
-        singularValues = eigenDecomposition.getEigenvalues();
+        singularValues = eigenDecomposition.getRealEigenvalues();
         for (int i = 0; i < singularValues.length; ++i) {
             singularValues[i] = Math.sqrt(singularValues[i]);
         }

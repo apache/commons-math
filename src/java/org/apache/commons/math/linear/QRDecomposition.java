@@ -26,7 +26,10 @@ import java.io.Serializable;
  * <a href="http://math.nist.gov/javanumerics/jama/">JAMA</a> library, with the
  * following changes:</p>
  * <ul>
- *   <li>a {@link #getSolver() getSolver} method has been added.</li>
+ *   <li>a {@link #getQT() getQT} method has been added,</li>
+ *   <li>the <code>solve</code> and <code>isFullRank</code> methods have been replaced
+ *   by a {@link #getSolver() getSolver} method and the equivalent methods provided by
+ *   the returned {@link DecompositionSolver}.</li>
  * </ul>
  *   
  * @see <a href="http://mathworld.wolfram.com/QRDecomposition.html">MathWorld</a>
@@ -67,7 +70,7 @@ public interface QRDecomposition extends Serializable {
     RealMatrix getH();
 
     /**
-     * Get a solver for A &times; X = B.
+     * Get a solver for finding the A &times; X = B solution in least square sense.
      * @return a solver
      */
     DecompositionSolver getSolver();

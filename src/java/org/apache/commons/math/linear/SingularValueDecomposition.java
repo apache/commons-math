@@ -37,7 +37,9 @@ import java.io.Serializable;
  *   <li>the <code>cond</code> method which has been renamed as {@link
  *   #getConditionNumber() getConditionNumber},</li>
  *   <li>the <code>rank</code> method which has been renamed as {@link #getRank()
- *   getRank}</li>
+ *   getRank},</li>
+ *   <li>a {@link #getUT() getUT} method has been added,</li>
+ *   <li>a {@link #getVT() getVT} method has been added,</li>
  *   <li>a {@link #getSolver() getSolver} method has been added.</li>
  * </ul>
  * @see <a href="http://mathworld.wolfram.com/SingularValueDecomposition.html">MathWorld</a>
@@ -121,7 +123,7 @@ public interface SingularValueDecomposition extends Serializable {
     int getRank();
 
     /**
-     * Get a solver for A &times; X = B.
+     * Get a solver for finding the A &times; X = B solution in least square sense.
      * @return a solver
      */
     DecompositionSolver getSolver();
