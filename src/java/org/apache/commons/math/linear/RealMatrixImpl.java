@@ -414,7 +414,11 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
         final int nRows = this.getRowDimension();
         final int nCols = this.getColumnDimension();
         if (v.length != nCols) {
-            throw new IllegalArgumentException("vector has wrong length");
+            throw MathRuntimeException.createIllegalArgumentException("vector length mismatch:" +
+                                                                      " got {0} but expected {1}",
+                                                                      new Object[] {
+                                                                          v.length, nCols
+                                                                      });
         }
         final double[] out = new double[nRows];
         for (int row = 0; row < nRows; row++) {
@@ -429,25 +433,30 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
     }
 
     /** {@inheritDoc} */
-    public RealVector operate(final RealVector v)
+    public double[] preMultiply(final double[] v)
         throws IllegalArgumentException {
-        try {
-            return operate((RealVectorImpl) v);
-        } catch (ClassCastException cce) {
-            return super.operate(v);
-        }
-    }
 
-    /**
-     * Returns the result of multiplying this by the vector <code>v</code>.
-     *
-     * @param v the vector to operate on
-     * @return this*v
-     * @throws IllegalArgumentException if columnDimension != v.size()
-     */
-    public RealVectorImpl operate(final RealVectorImpl v)
-        throws IllegalArgumentException {
-        return new RealVectorImpl(operate(v.getDataRef()), false);
+        final int nRows = getRowDimension();
+        final int nCols = getColumnDimension();
+        if (v.length != nRows) {
+            throw MathRuntimeException.createIllegalArgumentException("vector length mismatch:" +
+                                                                      " got {0} but expected {1}",
+                                                                      new Object[] {
+                                                                          v.length, nRows
+                                                                      });
+        }
+
+        final double[] out = new double[nCols];
+        for (int col = 0; col < nCols; ++col) {
+            double sum = 0;
+            for (int i = 0; i < nRows; ++i) {
+                sum += data[i][col] * v[i];
+            }
+            out[col] = sum;
+        }
+
+        return out;
+
     }
 
     /**
