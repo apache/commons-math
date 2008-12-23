@@ -29,8 +29,14 @@ import java.io.Serializable;
  * <p>This interface is based on the class with similar name from the now defunct
  * <a href="http://math.nist.gov/javanumerics/jama/">JAMA</a> library.</p>
  * <ul>
- *   <li>a {@link #getSolver() getSolver} method has been added.</li>
- *   <li>the <code>det</code> method has been renamed as {@link #getDeterminant() getDeterminant}.</li>
+ *   <li>a {@link #getP() getP} method has been added,</li>
+ *   <li>the <code>det</code> method has been renamed as {@link #getDeterminant()
+ *   getDeterminant},</li>
+ *   <li>the <code>getDoublePivot</code> method has been removed (but the int based
+ *   {@link #getPivot() getPivot} method has been kept),</li>
+ *   <li>the <code>solve</code> and <code>isNonSingular</code> methods have been replaced
+ *   by a {@link #getSolver() getSolver} method and the equivalent methods provided by
+ *   the returned {@link DecompositionSolver}.</li>
  * </ul>
  *   
  * @see <a href="http://mathworld.wolfram.com/LUDecomposition.html">MathWorld</a>
@@ -73,25 +79,13 @@ public interface LUDecomposition extends Serializable {
     int[] getPivot();
 
     /**
-     * Get permutation parity.
-     * @return true if there was an even number of permutations
-     */
-    boolean evenPermutation();
-
-    /**
-     * Get the singularity indicator.
-     * @return singularity indicator
-     */
-    boolean isSingular();
-
-    /**
      * Return the determinant of the matrix
      * @return determinant of the matrix
      */
     double getDeterminant();
 
     /**
-     * Get a solver for A &times; X = B.
+     * Get a solver for finding the A &times; X = B solution in exact linear sense.
      * @return a solver
      */
     DecompositionSolver getSolver();

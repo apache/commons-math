@@ -116,14 +116,14 @@ public class LUDecompositionImplTest extends TestCase {
 
         matrix = MatrixUtils.createRealMatrix(singular);
         lu = new LUDecompositionImpl(matrix);
-        assertTrue(lu.isSingular());
+        assertFalse(lu.getSolver().isNonSingular());
         assertNull(lu.getL());
         assertNull(lu.getU());
         assertNull(lu.getP());
 
         matrix = MatrixUtils.createRealMatrix(bigSingular);
         lu = new LUDecompositionImpl(matrix);
-        assertTrue(lu.isSingular());
+        assertFalse(lu.getSolver().isNonSingular());
         assertNull(lu.getL());
         assertNull(lu.getU());
         assertNull(lu.getP());
@@ -207,11 +207,11 @@ public class LUDecompositionImplTest extends TestCase {
     public void testSingular() {
         LUDecomposition lu =
             new LUDecompositionImpl(MatrixUtils.createRealMatrix(testData));
-        assertFalse(lu.isSingular());
+        assertTrue(lu.getSolver().isNonSingular());
         lu = new LUDecompositionImpl(MatrixUtils.createRealMatrix(singular));
-        assertTrue(lu.isSingular());
+        assertFalse(lu.getSolver().isNonSingular());
         lu = new LUDecompositionImpl(MatrixUtils.createRealMatrix(bigSingular));
-        assertTrue(lu.isSingular());
+        assertFalse(lu.getSolver().isNonSingular());
     }
 
     /** test matrices values */

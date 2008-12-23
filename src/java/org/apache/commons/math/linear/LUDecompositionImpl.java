@@ -225,16 +225,6 @@ public class LUDecompositionImpl implements LUDecomposition {
     }
 
     /** {@inheritDoc} */
-    public boolean isSingular() {
-        return singular;
-    }
-
-    /** {@inheritDoc} */
-    public boolean evenPermutation() {
-        return even;
-    }
-
-    /** {@inheritDoc} */
     public DecompositionSolver getSolver() {
         return new Solver(lu, pivot, singular);
     }
