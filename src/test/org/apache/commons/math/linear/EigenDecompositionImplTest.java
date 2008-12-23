@@ -45,46 +45,46 @@ public class EigenDecompositionImplTest extends TestCase {
         RealMatrix matrix =
             MatrixUtils.createRealMatrix(new double[][] { { 1.5 } });
         EigenDecomposition ed = new EigenDecompositionImpl(matrix, MathUtils.SAFE_MIN);
-        assertEquals(1.5, ed.getEigenvalue(0), 1.0e-15);
+        assertEquals(1.5, ed.getRealEigenvalue(0), 1.0e-15);
     }
 
     public void testDimension2() {
         RealMatrix matrix =
             MatrixUtils.createRealMatrix(new double[][] {
-                    {       59.0, 12.0 },
-                    { Double.NaN, 66.0 }
+                    { 59.0, 12.0 },
+                    { 12.0, 66.0 }
             });
         EigenDecomposition ed = new EigenDecompositionImpl(matrix, MathUtils.SAFE_MIN);
-        assertEquals(75.0, ed.getEigenvalue(0), 1.0e-15);
-        assertEquals(50.0, ed.getEigenvalue(1), 1.0e-15);
+        assertEquals(75.0, ed.getRealEigenvalue(0), 1.0e-15);
+        assertEquals(50.0, ed.getRealEigenvalue(1), 1.0e-15);
     }
 
     public void testDimension3() {
         RealMatrix matrix =
             MatrixUtils.createRealMatrix(new double[][] {
-                                   {    39632.0,    -4824.0, -16560.0 },
-                                   { Double.NaN,     8693.0,   7920.0 },
-                                   { Double.NaN, Double.NaN,  17300.0 }
+                                   {  39632.0, -4824.0, -16560.0 },
+                                   {  -4824.0,  8693.0,   7920.0 },
+                                   { -16560.0,  7920.0,  17300.0 }
                                });
         EigenDecomposition ed = new EigenDecompositionImpl(matrix, MathUtils.SAFE_MIN);
-        assertEquals(50000.0, ed.getEigenvalue(0), 3.0e-11);
-        assertEquals(12500.0, ed.getEigenvalue(1), 3.0e-11);
-        assertEquals( 3125.0, ed.getEigenvalue(2), 3.0e-11);
+        assertEquals(50000.0, ed.getRealEigenvalue(0), 3.0e-11);
+        assertEquals(12500.0, ed.getRealEigenvalue(1), 3.0e-11);
+        assertEquals( 3125.0, ed.getRealEigenvalue(2), 3.0e-11);
     }
 
     public void testDimension4WithSplit() {
         RealMatrix matrix =
             MatrixUtils.createRealMatrix(new double[][] {
-                                   {      0.784,     -0.288,       0.000,  0.000 },
-                                   { Double.NaN,      0.616,       0.000,  0.000 },
-                                   { Double.NaN, Double.NaN,       0.164, -0.048 },
-                                   { Double.NaN, Double.NaN,  Double.NaN,  0.136 }
+                                   {  0.784, -0.288,  0.000,  0.000 },
+                                   { -0.288,  0.616,  0.000,  0.000 },
+                                   {  0.000,  0.000,  0.164, -0.048 },
+                                   {  0.000,  0.000, -0.048,  0.136 }
                                });
         EigenDecomposition ed = new EigenDecompositionImpl(matrix, MathUtils.SAFE_MIN);
-        assertEquals(1.0, ed.getEigenvalue(0), 1.0e-15);
-        assertEquals(0.4, ed.getEigenvalue(1), 1.0e-15);
-        assertEquals(0.2, ed.getEigenvalue(2), 1.0e-15);
-        assertEquals(0.1, ed.getEigenvalue(3), 1.0e-15);
+        assertEquals(1.0, ed.getRealEigenvalue(0), 1.0e-15);
+        assertEquals(0.4, ed.getRealEigenvalue(1), 1.0e-15);
+        assertEquals(0.2, ed.getRealEigenvalue(2), 1.0e-15);
+        assertEquals(0.1, ed.getRealEigenvalue(3), 1.0e-15);
     }
 
     public void testDimension4WithoutSplit() {
@@ -96,10 +96,10 @@ public class EigenDecompositionImplTest extends TestCase {
                                    { -0.2976,  0.1152, -0.1344,  0.3872 }
                                });
         EigenDecomposition ed = new EigenDecompositionImpl(matrix, MathUtils.SAFE_MIN);
-        assertEquals(1.0, ed.getEigenvalue(0), 1.0e-15);
-        assertEquals(0.4, ed.getEigenvalue(1), 1.0e-15);
-        assertEquals(0.2, ed.getEigenvalue(2), 1.0e-15);
-        assertEquals(0.1, ed.getEigenvalue(3), 1.0e-15);
+        assertEquals(1.0, ed.getRealEigenvalue(0), 1.0e-15);
+        assertEquals(0.4, ed.getRealEigenvalue(1), 1.0e-15);
+        assertEquals(0.2, ed.getRealEigenvalue(2), 1.0e-15);
+        assertEquals(0.1, ed.getRealEigenvalue(3), 1.0e-15);
     }
 
     /** test a matrix already in tridiagonal form. */
@@ -120,7 +120,7 @@ public class EigenDecompositionImplTest extends TestCase {
             new EigenDecompositionImpl(t.getMainDiagonalRef(),
                                        t.getSecondaryDiagonalRef(),
                                        MathUtils.SAFE_MIN);
-        double[] eigenValues = ed.getEigenvalues();
+        double[] eigenValues = ed.getRealEigenvalues();
         assertEquals(ref.length, eigenValues.length);
         for (int i = 0; i < ref.length; ++i) {
             assertEquals(ref[ref.length - i - 1], eigenValues[i], 2.0e-14);
@@ -143,7 +143,7 @@ public class EigenDecompositionImplTest extends TestCase {
     /** test eigenvalues */
     public void testEigenvalues() {
         EigenDecomposition ed = new EigenDecompositionImpl(matrix, MathUtils.SAFE_MIN);
-        double[] eigenValues = ed.getEigenvalues();
+        double[] eigenValues = ed.getRealEigenvalues();
         assertEquals(refValues.length, eigenValues.length);
         for (int i = 0; i < refValues.length; ++i) {
             assertEquals(refValues[i], eigenValues[i], 3.0e-15);
@@ -160,7 +160,7 @@ public class EigenDecompositionImplTest extends TestCase {
         Arrays.sort(bigValues);
         EigenDecomposition ed =
             new EigenDecompositionImpl(createTestMatrix(r, bigValues), MathUtils.SAFE_MIN);
-        double[] eigenValues = ed.getEigenvalues();
+        double[] eigenValues = ed.getRealEigenvalues();
         assertEquals(bigValues.length, eigenValues.length);
         for (int i = 0; i < bigValues.length; ++i) {
             assertEquals(bigValues[bigValues.length - i - 1], eigenValues[i], 2.0e-14);
@@ -171,7 +171,7 @@ public class EigenDecompositionImplTest extends TestCase {
     public void testEigenvectors() {
         EigenDecomposition ed = new EigenDecompositionImpl(matrix, MathUtils.SAFE_MIN);
         for (int i = 0; i < matrix.getRowDimension(); ++i) {
-            double lambda = ed.getEigenvalue(i);
+            double lambda = ed.getRealEigenvalue(i);
             RealVector v  = ed.getEigenvector(i);
             RealVector mV = matrix.operate(v);
             assertEquals(0, mV.subtract(v.mapMultiplyToSelf(lambda)).getNorm(), 1.0e-13);
@@ -201,10 +201,10 @@ public class EigenDecompositionImplTest extends TestCase {
         double[] diagonal = new double[] { -3.0, -2.0, 2.0, 5.0 };
         RealMatrix m = createDiagonalMatrix(diagonal, diagonal.length, diagonal.length);
         EigenDecomposition ed = new EigenDecompositionImpl(m, MathUtils.SAFE_MIN);
-        assertEquals(diagonal[0], ed.getEigenvalue(3), 2.0e-15);
-        assertEquals(diagonal[1], ed.getEigenvalue(2), 2.0e-15);
-        assertEquals(diagonal[2], ed.getEigenvalue(1), 2.0e-15);
-        assertEquals(diagonal[3], ed.getEigenvalue(0), 2.0e-15);
+        assertEquals(diagonal[0], ed.getRealEigenvalue(3), 2.0e-15);
+        assertEquals(diagonal[1], ed.getRealEigenvalue(2), 2.0e-15);
+        assertEquals(diagonal[2], ed.getRealEigenvalue(1), 2.0e-15);
+        assertEquals(diagonal[3], ed.getRealEigenvalue(0), 2.0e-15);
     }
 
     /**
@@ -244,7 +244,7 @@ public class EigenDecompositionImplTest extends TestCase {
      */
     protected void checkEigenValues(double[] targetValues,
             EigenDecomposition ed, double tolerance) {
-        double[] observed = ed.getEigenvalues();
+        double[] observed = ed.getRealEigenvalues();
         for (int i = 0; i < observed.length; i++) {
             assertTrue(isIncludedValue(observed[i], targetValues, tolerance));
             assertTrue(isIncludedValue(targetValues[i], observed, tolerance));

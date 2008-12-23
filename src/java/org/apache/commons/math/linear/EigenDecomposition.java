@@ -21,7 +21,7 @@ import java.io.Serializable;
 
 /**
  * An interface to classes that implement an algorithm to calculate the 
- * eigen decomposition of a real symmetric matrix.
+ * eigen decomposition of a real matrix.
  * <p>The eigen decomposition of matrix A is a set of two matrices:
  * V and D such that A = V &times; D &times; V<sup>T</sup>.
  * A, V and D are all m &times; m matrices.</p>
@@ -30,13 +30,10 @@ import java.io.Serializable;
  * library, with the following changes:</p>
  * <ul>
  *   <li>a {@link #getVT() getVt} method has been added,</li>
- *   <li>a {@link #getEigenvalue(int) getEigenvalue} method to pick up a single
- *   eigenvalue has been added,</li>
+ *   <li>two {@link #getRealEigenvalue(int) getRealEigenvalue} and {@link #getImagEigenvalue(int)
+ *   getImagEigenvalue} methods to pick up a single eigenvalue have been added,</li>
  *   <li>a {@link #getEigenvector(int) getEigenvector} method to pick up a single
  *   eigenvector has been added,</li>
- *   <li>the <code>getRealEigenvalues</code> method has been renamed as {@link
- *   #getEigenValues() getEigenValues},</li>
- *   <li>the <code>getImagEigenvalues</code> method has been removed</li>
  *   <li>a {@link #getDeterminant() getDeterminant} method has been added.</li>
  *   <li>a {@link #getSolver() getSolver} method has been added.</li>
  * </ul>
@@ -56,9 +53,10 @@ public interface EigenDecomposition extends Serializable {
     RealMatrix getV();
 
     /**
-     * Returns the diagonal matrix D of the decomposition. 
-     * <p>D is a diagonal matrix.</p>
-     * <p>The values on the diagonal are the eigenvalues of the original matrix.</p>
+     * Returns the block diagonal matrix D of the decomposition. 
+     * <p>D is a block diagonal matrix.</p>
+     * <p>Real eigenvalues are on the diagonal while complex values are on
+     * 2x2 blocks { {real +imaginary}, {-imaginary, real} }.</p>
      * @return the D matrix
      * @see #getEigenValues()
      */
@@ -73,19 +71,42 @@ public interface EigenDecomposition extends Serializable {
     RealMatrix getVT();
 
     /**
-     * Returns a copy of the eigenvalues of the original matrix.
-     * @return a copy of the eigenvalues of the original matrix
+     * Returns a copy of the real parts of the eigenvalues of the original matrix.
+     * @return a copy of the real parts of the eigenvalues of the original matrix
      * @see #getD()
+     * @see #getRealEigenvalue(int)
+     * @see #getImagEigenvalues()
      */
-    double[] getEigenvalues();
+    double[] getRealEigenvalues();
 
     /**
-     * Returns the i<sup>th</sup> eigenvalue of the original matrix.
+     * Returns the real part of the i<sup>th</sup> eigenvalue of the original matrix.
      * @param i index of the eigenvalue (counting from 0)
-     * @return i<sup>th</sup> eigenvalue of the original matrix
+     * @return real part of the i<sup>th</sup> eigenvalue of the original matrix
      * @see #getD()
+     * @see #getRealEigenvalues()
+     * @see #getImagEigenvalue(int)
      */
-    double getEigenvalue(int i);
+    double getRealEigenvalue(int i);
+
+    /**
+     * Returns a copy of the imaginary parts of the eigenvalues of the original matrix.
+     * @return a copy of the imaginary parts of the eigenvalues of the original matrix
+     * @see #getD()
+     * @see #getImagEigenvalue(int)
+     * @see #getRealEigenvalues()
+     */
+    double[] getImagEigenvalues();
+
+    /**
+     * Returns the imaginary part of the i<sup>th</sup> eigenvalue of the original matrix.
+     * @param i index of the eigenvalue (counting from 0)
+     * @return imaginary part of the i<sup>th</sup> eigenvalue of the original matrix
+     * @see #getD()
+     * @see #getImagEigenvalues()
+     * @see #getRealEigenvalue(int)
+     */
+    double getImagEigenvalue(int i);
 
     /**
      * Returns a copy of the i<sup>th</sup> eigenvector of the original matrix.
@@ -102,7 +123,7 @@ public interface EigenDecomposition extends Serializable {
     double getDeterminant();
 
     /**
-     * Get a solver for A &times; X = B.
+     * Get a solver for finding the A &times; X = B solution in exact linear sense.
      * @return a solver
      */
     DecompositionSolver getSolver();

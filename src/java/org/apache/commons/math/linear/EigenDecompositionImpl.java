@@ -27,9 +27,13 @@ import org.apache.commons.math.util.MathUtils;
 
 /**
  * Calculates the eigen decomposition of a <strong>symmetric</strong> matrix.
- * <p>The eigen decomposition of symmetric matrix A is a set of two matrices:
+ * <p>The eigen decomposition of matrix A is a set of two matrices:
  * V and D such that A = V D V<sup>T</sup>. A, V and D are all m &times; m
  * matrices.</p>
+ * <p>As of 2.0, this class supports only <strong>symmetric</strong> matrices,
+ * and hence computes only real realEigenvalues. This implies the D matrix returned by
+ * {@link #getD()} is always diagonal and the imaginary values returned {@link
+ * #getImagEigenvalue(int)} and {@link #getImagEigenvalues()} are always null.</p>
  * <p>When called with a {@link RealMatrix} argument, this implementation only uses
  * the upper part of the matrix, the part below the diagonal is not accessed at all.</p>
  * <p>Eigenvalues are computed as soon as the matrix is decomposed, but eigenvectors
@@ -132,8 +136,11 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     /** Shift ratio with respect to dMin used when tType == 6. */
     private double g;
 
-    /** Eigenvalues. */
-    private double[] eigenvalues;
+    /** Real part of the realEigenvalues. */
+    private double[] realEigenvalues;
+
+    /** Imaginary part of the realEigenvalues. */
+    private double[] imagEigenvalues;
 
     /** Eigenvectors. */
     private RealVectorImpl[] eigenvectors;
@@ -163,9 +170,16 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     public EigenDecompositionImpl(final RealMatrix matrix,
                                   final double splitTolerance)
         throws InvalidMatrixException {
-        this.splitTolerance = splitTolerance;
-        transformToTridiagonal(matrix);
-        decompose();
+        if (isSymmetric(matrix)) {
+            this.splitTolerance = splitTolerance;
+            transformToTridiagonal(matrix);
+            decompose();
+        } else {
+            // as of 2.0, non-symmetric matrices (i.e. complex eigenvalues) are NOT supported
+            // see issue https://issues.apache.org/jira/browse/MATH-235
+            throw new InvalidMatrixException("eigen decomposition of assymetric matrices not supported yet",
+                                             null);
+        }
     }
 
     /**
@@ -201,6 +215,27 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     }
 
     /**
+     * Check if a matrix is symmetric.
+     * @param matrix matrix to check
+     * @return true if matrix is symmetric
+     */
+    private boolean isSymmetric(final RealMatrix matrix) {
+        final int rows    = matrix.getRowDimension();
+        final int columns = matrix.getColumnDimension();
+        final double eps  = 10 * rows * columns * MathUtils.EPSILON;
+        for (int i = 0; i < rows; ++i) {
+            for (int j = i + 1; j < columns; ++j) {
+                final double mij = matrix.getEntry(i, j);
+                final double mji = matrix.getEntry(j, i);
+                if (Math.abs(mij - mji) > (Math.max(Math.abs(mij), Math.abs(mji)) * eps)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
      * Decompose a tridiagonal symmetric matrix. 
      * @exception InvalidMatrixException (wrapping a {@link ConvergenceException}
      * if algorithm fails to converge
@@ -215,7 +250,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
         // compute the Gershgorin circles
         computeGershgorinCircles();
 
-        // find all the eigenvalues
+        // find all the realEigenvalues
         findEigenvalues();
 
         // we will search for eigenvectors only if required
@@ -251,7 +286,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
         throws InvalidMatrixException {
         if (cachedD == null) {
             // cache the matrix for subsequent calls
-            cachedD = MatrixUtils.createRealDiagonalMatrix(eigenvalues);
+            cachedD = MatrixUtils.createRealDiagonalMatrix(realEigenvalues);
         }
         return cachedD;
     }
@@ -280,15 +315,27 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     }
 
     /** {@inheritDoc} */
-    public double[] getEigenvalues()
+    public double[] getRealEigenvalues()
         throws InvalidMatrixException {
-        return eigenvalues.clone();
+        return realEigenvalues.clone();
     }
 
     /** {@inheritDoc} */
-    public double getEigenvalue(final int i)
+    public double getRealEigenvalue(final int i)
         throws InvalidMatrixException, ArrayIndexOutOfBoundsException {
-        return eigenvalues[i];
+        return realEigenvalues[i];
+    }
+
+    /** {@inheritDoc} */
+    public double[] getImagEigenvalues()
+        throws InvalidMatrixException {
+        return imagEigenvalues.clone();
+    }
+
+    /** {@inheritDoc} */
+    public double getImagEigenvalue(final int i)
+        throws InvalidMatrixException, ArrayIndexOutOfBoundsException {
+        return imagEigenvalues[i];
     }
 
     /** {@inheritDoc} */
@@ -307,7 +354,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
      */
     public double getDeterminant() {
         double determinant = 1;
-        for (double lambda : eigenvalues) {
+        for (double lambda : realEigenvalues) {
             determinant *= lambda;
         }
         return determinant;
@@ -318,7 +365,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
         if (eigenvectors == null) {
             findEigenVectors();
         }
-        return new Solver(eigenvalues, eigenvectors);
+        return new Solver(realEigenvalues, eigenvectors);
     }
 
     /** Specialized solver. */
@@ -335,7 +382,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 
         /**
          * Build a solver from decomposed matrix.
-         * @param eigenvalues eigenvalues
+         * @param realEigenvalues realEigenvalues
          * @param eigenvectors eigenvectors
          */
         private Solver(final double[] eigenvalues, final RealVectorImpl[] eigenvectors) {
@@ -555,7 +602,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     }
 
     /**
-     * Find the eigenvalues.
+     * Find the realEigenvalues.
      * @exception InvalidMatrixException if a block cannot be diagonalized
      */
     private void findEigenvalues()
@@ -564,8 +611,9 @@ public class EigenDecompositionImpl implements EigenDecomposition {
         // compute splitting points
         List<Integer> splitIndices = computeSplits();
 
-        // find eigenvalues in each block
-        eigenvalues = new double[main.length];
+        // find realEigenvalues in each block
+        realEigenvalues = new double[main.length];
+        imagEigenvalues = new double[main.length];
         int begin = 0;
         for (final int end : splitIndices) {
             final int n = end - begin;
@@ -605,14 +653,14 @@ public class EigenDecompositionImpl implements EigenDecomposition {
                 // apply general dqd/dqds method
                 processGeneralBlock(n);
 
-                // extract eigenvalues
+                // extract realEigenvalues
                 if (chooseLeft) {
                     for (int i = 0; i < n; ++i) {
-                        eigenvalues[begin + i] = lambda + work[4 * i];
+                        realEigenvalues[begin + i] = lambda + work[4 * i];
                     }
                 } else {
                     for (int i = 0; i < n; ++i) {
-                        eigenvalues[begin + i] = lambda - work[4 * i];
+                        realEigenvalues[begin + i] = lambda - work[4 * i];
                     }                    
                 }
 
@@ -620,12 +668,12 @@ public class EigenDecompositionImpl implements EigenDecomposition {
             begin = end;
         }
 
-        // sort the eigenvalues in decreasing order
-        Arrays.sort(eigenvalues);
-        for (int i = 0, j = eigenvalues.length - 1; i < j; ++i, --j) {
-            final double tmp = eigenvalues[i];
-            eigenvalues[i] = eigenvalues[j];
-            eigenvalues[j] = tmp;
+        // sort the realEigenvalues in decreasing order
+        Arrays.sort(realEigenvalues);
+        for (int i = 0, j = realEigenvalues.length - 1; i < j; ++i, --j) {
+            final double tmp = realEigenvalues[i];
+            realEigenvalues[i] = realEigenvalues[j];
+            realEigenvalues[j] = tmp;
         }
 
     }
@@ -662,11 +710,11 @@ public class EigenDecompositionImpl implements EigenDecomposition {
      * @param index index of the first row of the block
      */
     private void process1RowBlock(final int index) {
-        eigenvalues[index] = main[index];
+        realEigenvalues[index] = main[index];
     }
 
     /**
-     * Find eigenvalues in a block with 2 rows.
+     * Find realEigenvalues in a block with 2 rows.
      * <p>In low dimensions, we simply solve the characteristic polynomial.</p>
      * @param index index of the first row of the block
      * @exception InvalidMatrixException if characteristic polynomial cannot be solved
@@ -688,13 +736,13 @@ public class EigenDecompositionImpl implements EigenDecomposition {
         }
 
         final double largestRoot = 0.5 * (s + Math.sqrt(delta));
-        eigenvalues[index]     = largestRoot;
-        eigenvalues[index + 1] = p / largestRoot;
+        realEigenvalues[index]     = largestRoot;
+        realEigenvalues[index + 1] = p / largestRoot;
 
     }
 
     /**
-     * Find eigenvalues in a block with 3 rows.
+     * Find realEigenvalues in a block with 3 rows.
      * <p>In low dimensions, we simply solve the characteristic polynomial.</p>
      * @param index index of the first row of the block
      * @exception InvalidMatrixException if diagonal elements are not positive
@@ -722,7 +770,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
         final double delta    = q * q * q + r * r;
         if (delta >= 0) {
             // in fact, there are solutions to the equation, but in the context
-            // of symmetric eigenvalues problem, there should be three distinct
+            // of symmetric realEigenvalues problem, there should be three distinct
             // real roots, so we throw an error if this condition is not met
             throw new InvalidMatrixException("cannot solve degree {0} equation", new Object[] { 3 });           
         }
@@ -749,14 +797,14 @@ public class EigenDecompositionImpl implements EigenDecomposition {
             z0 = z1;
             z1 = t;
         }
-        eigenvalues[index]     = z0;
-        eigenvalues[index + 1] = z1;
-        eigenvalues[index + 2] = z2;
+        realEigenvalues[index]     = z0;
+        realEigenvalues[index + 1] = z1;
+        realEigenvalues[index + 2] = z2;
 
     }
 
     /**
-     * Find eigenvalues using dqd/dqds algorithms.
+     * Find realEigenvalues using dqd/dqds algorithms.
      * <p>This implementation is based on Beresford N. Parlett
      * and Osni A. Marques paper <a
      * href="http://www.netlib.org/lapack/lawnspdf/lawn155.pdf">An
@@ -944,7 +992,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 
         g = 0.0;
 
-        // step 1: accepting eigenvalues
+        // step 1: accepting realEigenvalues
         int deflatedEnd = end;
         for (boolean deflating = true; deflating;) {
 
@@ -968,7 +1016,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
                 (work[k - 9] <= TOLERANCE_2 * sigma) ||
                 (work[k - 2 * pingPong - 8] <= TOLERANCE_2 * work[k - 11])) {
 
-                // two eigenvalues found, deflate array
+                // two realEigenvalues found, deflate array
                 if (work[k - 3] > work[k - 7]) {
                     final double tmp = work[k - 3];
                     work[k - 3] = work[k - 7];
@@ -992,7 +1040,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
                 deflatedEnd -= 2;
             } else {
 
-                // no more eigenvalues found, we need to iterate
+                // no more realEigenvalues found, we need to iterate
                 deflating = false;
 
             }
@@ -1097,10 +1145,10 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     }
 
     /**
-     * Compute an interval containing all eigenvalues of a block.
+     * Compute an interval containing all realEigenvalues of a block.
      * @param index index of the first row of the block
      * @param n number of rows of the block
-     * @return an interval containing the eigenvalues
+     * @return an interval containing the realEigenvalues
      */
     private double[] eigenvaluesRange(final int index, final int n) {
 
@@ -1171,11 +1219,11 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     }
 
     /**
-     * Count the number of eigenvalues below a point.
-     * @param t value below which we must count the number of eigenvalues
+     * Count the number of realEigenvalues below a point.
+     * @param t value below which we must count the number of realEigenvalues
      * @param index index of the first row of the block
      * @param n number of rows of the block
-     * @return number of eigenvalues smaller than t
+     * @return number of realEigenvalues smaller than t
      */
     private int countEigenValues(final double t, final int index, final int n) {
         double ratio = main[index] - t;
@@ -1376,7 +1424,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
      * <p>This implementation is a translation of the LAPACK routine DLAZQ4.</p>
      * @param start start index
      * @param end end index
-     * @param deflated number of eigenvalues just deflated
+     * @param deflated number of realEigenvalues just deflated
      */
     private void computeShiftIncrement(final int start, final int end, final int deflated) {
 
@@ -1395,7 +1443,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
         int nn = 4 * end + pingPong - 1;
         switch (deflated) {
 
-        case 0 : // no eigenvalues deflated. 
+        case 0 : // no realEigenvalues deflated. 
             if (dMin == dN || dMin == dN1) {
 
                 double b1 = Math.sqrt(work[nn - 3]) * Math.sqrt(work[nn - 5]);
@@ -1577,7 +1625,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
             }
             break;
 
-        case 2 : // two eigenvalues deflated. use dMin2, dN2 for dMin and dN.
+        case 2 : // two realEigenvalues deflated. use dMin2, dN2 for dMin and dN.
 
             // cases 10 and 11.
             if (dMin2 == dN2 && 2 * work[nn - 5] < work[nn - 7]) { 
@@ -1615,7 +1663,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
             }
             break;
 
-        default : // case 12, more than two eigenvalues deflated. no information.
+        default : // case 12, more than two realEigenvalues deflated. no information.
             tau   = 0.0;
             tType = -12;
         }
@@ -1665,7 +1713,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 
         // compute eigenvectors
         for (int i = 0; i < m; ++i) {
-            eigenvectors[i] = findEigenvector(eigenvalues[i], d, l);
+            eigenvectors[i] = findEigenvector(realEigenvalues[i], d, l);
         }
 
     }
