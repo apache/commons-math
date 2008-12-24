@@ -23,7 +23,6 @@ import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.BrentSolver;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.analysis.UnivariateRealSolver;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 
@@ -192,7 +191,7 @@ public class EventState implements Serializable {
                     // variation direction, with respect to the integration direction
                     increasing = (gb >= ga);
 
-                    final UnivariateRealSolver solver = new BrentSolver(new UnivariateRealFunction() {
+                    final UnivariateRealFunction f = new UnivariateRealFunction() {
                         public double value(final double t) throws FunctionEvaluationException {
                             try {
                                 interpolator.setInterpolatedTime(t);
@@ -203,10 +202,11 @@ public class EventState implements Serializable {
                                 throw new FunctionEvaluationException(t, e);
                             }
                         }
-                    });
+                    };
+                    final BrentSolver solver = new BrentSolver();
                     solver.setAbsoluteAccuracy(convergence);
                     solver.setMaximalIterationCount(maxIterationCount);
-                    final double root = (ta <= tb) ? solver.solve(ta, tb) : solver.solve(tb, ta);
+                    final double root = (ta <= tb) ? solver.solve(f, ta, tb) : solver.solve(f, tb, ta);
                     if (Math.abs(root - ta) <= convergence) {
                         // we have found (again ?) a past event, we simply ignore it
                         ta = tb;
