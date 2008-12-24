@@ -178,23 +178,4 @@ public class DescriptiveStatisticsTest extends TestCase {
         }
     }
     
-    private void checkSameResults(DescriptiveStatistics first,
-            DescriptiveStatistics second) throws Exception {
-        assertEquals(first.getGeometricMean(), second.getGeometricMean(), 0);
-        assertEquals(first.getKurtosis(), second.getKurtosis(), 0);
-        assertEquals(first.getMax(), second.getMax(), 0);
-        assertEquals(first.getMean(), second.getMean(), 0);
-        assertEquals(first.getMin(), second.getMin(), 0);
-        assertEquals(first.getN(), second.getN(), 0);
-        assertEquals(first.getPercentile(10), second.getPercentile(10), 0);
-        assertEquals(first.getSkewness(), second.getSkewness(), 0);
-        assertEquals(first.getStandardDeviation(),
-                second.getStandardDeviation(), 0);
-        assertEquals(first.getSum(), second.getSum(), 0);
-        assertEquals(first.getSumsq(), second.getSumsq(), 0);
-        assertEquals(first.getVariance(), second.getVariance(), 0);
-        assertEquals(first.eDA, second.eDA);
-        assertEquals(first.getWindowSize(), second.getWindowSize());
-        
-    }
 }
