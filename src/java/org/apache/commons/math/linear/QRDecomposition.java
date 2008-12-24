@@ -44,7 +44,7 @@ public interface QRDecomposition extends Serializable {
      * <p>R is an upper-triangular matrix</p>
      * @return the R matrix
      */
-    RealMatrix getR() throws IllegalStateException;
+    RealMatrix getR();
 
     /**
      * Returns the matrix Q of the decomposition.

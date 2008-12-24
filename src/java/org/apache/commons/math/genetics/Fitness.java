@@ -16,5 +16,10 @@
  */
 package org.apache.commons.math.genetics;
 
-public interface Fitness extends Comparable {
+/**
+ * Interface used to compare chromosomes.
+ * @version $Revision$ $Date$
+ * @since 2.0
+ */
+public interface Fitness extends Comparable<Fitness> {
 }

@@ -186,8 +186,8 @@ public class EigenDecompositionImpl implements EigenDecomposition {
      * Calculates the eigen decomposition of the given tridiagonal symmetric matrix. 
      * <p>Calling this constructor is equivalent to first call the no-arguments
      * constructor and then call {@link #decompose(double[], double[])}.</p>
-     * @param main the main diagonal of the matrix
-     * @param secondary the secondary diagonal of the matrix
+     * @param main the main diagonal of the matrix (will be copied)
+     * @param secondary the secondary diagonal of the matrix (will be copied)
      * @param splitTolerance tolerance on the off-diagonal elements relative to the
      * geometric mean to split the tridiagonal matrix (a suggested value is
      * {@link MathUtils#SAFE_MIN})
@@ -198,8 +198,8 @@ public class EigenDecompositionImpl implements EigenDecomposition {
             final double splitTolerance)
         throws InvalidMatrixException {
 
-        this.main      = main;
-        this.secondary = secondary;
+        this.main      = main.clone();
+        this.secondary = secondary.clone();
         transformer    = null;
 
         // pre-compute some elements
@@ -365,7 +365,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
         if (eigenvectors == null) {
             findEigenVectors();
         }
-        return new Solver(realEigenvalues, eigenvectors);
+        return new Solver(realEigenvalues, imagEigenvalues, eigenvectors);
     }
 
     /** Specialized solver. */
@@ -374,20 +374,26 @@ public class EigenDecompositionImpl implements EigenDecomposition {
         /** Serializable version identifier. */
         private static final long serialVersionUID = -8965845906036558410L;
 
-        /** Eigenvalues. */
-        private final double[] eigenvalues;
+        /** Real part of the realEigenvalues. */
+        private double[] realEigenvalues;
+
+        /** Imaginary part of the realEigenvalues. */
+        private double[] imagEigenvalues;
 
         /** Eigenvectors. */
         private final RealVectorImpl[] eigenvectors;
 
         /**
          * Build a solver from decomposed matrix.
-         * @param realEigenvalues realEigenvalues
+         * @param realEigenvalues real parts of the eigenvalues
+         * @param imagEigenvalues imaginary parts of the eigenvalues
          * @param eigenvectors eigenvectors
          */
-        private Solver(final double[] eigenvalues, final RealVectorImpl[] eigenvectors) {
-            this.eigenvalues  = eigenvalues;
-            this.eigenvectors = eigenvectors; 
+        private Solver(final double[] realEigenvalues, final double[] imagEigenvalues,
+                       final RealVectorImpl[] eigenvectors) {
+            this.realEigenvalues = realEigenvalues;
+            this.imagEigenvalues = imagEigenvalues;
+            this.eigenvectors    = eigenvectors; 
         }
 
         /** Solve the linear equation A &times; X = B for symmetric matrices A.
@@ -405,7 +411,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
                 throw new SingularMatrixException();
             }
 
-            final int m = eigenvalues.length;
+            final int m = realEigenvalues.length;
             if (b.length != m) {
                 throw new IllegalArgumentException("constant vector has wrong length");
             }
@@ -414,7 +420,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
             for (int i = 0; i < m; ++i) {
                 final RealVectorImpl v = eigenvectors[i];
                 final double[] vData = v.getDataRef();
-                final double s = v.dotProduct(b) / eigenvalues[i];
+                final double s = v.dotProduct(b) / realEigenvalues[i];
                 for (int j = 0; j < m; ++j) {
                     bp[j] += s * vData[j];
                 }
@@ -439,7 +445,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
                 throw new SingularMatrixException();
             }
 
-            final int m = eigenvalues.length;
+            final int m = realEigenvalues.length;
             if (b.getDimension() != m) {
                 throw new IllegalArgumentException("constant vector has wrong length");
             }
@@ -448,7 +454,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
             for (int i = 0; i < m; ++i) {
                 final RealVectorImpl v = eigenvectors[i];
                 final double[] vData = v.getDataRef();
-                final double s = v.dotProduct(b) / eigenvalues[i];
+                final double s = v.dotProduct(b) / realEigenvalues[i];
                 for (int j = 0; j < m; ++j) {
                     bp[j] += s * vData[j];
                 }
@@ -473,7 +479,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
                 throw new SingularMatrixException();
             }
 
-            final int m = eigenvalues.length;
+            final int m = realEigenvalues.length;
             if (b.getRowDimension() != m) {
                 throw new IllegalArgumentException("Incorrect row dimension");
             }
@@ -488,7 +494,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
                     for (int j = 0; j < m; ++j) {
                         s += v.getEntry(j) * b.getEntry(j, k);
                     }
-                    s /= eigenvalues[i];
+                    s /= realEigenvalues[i];
                     for (int j = 0; j < m; ++j) {
                         bp[j][k] += s * vData[j];
                     }
@@ -504,8 +510,8 @@ public class EigenDecompositionImpl implements EigenDecomposition {
          * @return true if the decomposed matrix is non-singular
          */
         public boolean isNonSingular() {
-            for (double lambda : eigenvalues) {
-                if (lambda == 0) {
+            for (int i = 0; i < realEigenvalues.length; ++i) {
+                if ((realEigenvalues[i] == 0) && (imagEigenvalues[i] == 0)) {
                     return false;
                 }
             }
@@ -523,7 +529,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
                 throw new SingularMatrixException();
             }
 
-            final int m = eigenvalues.length;
+            final int m = realEigenvalues.length;
             final double[][] invData = new double[m][m];
 
             for (int i = 0; i < m; ++i) {
@@ -532,7 +538,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
                     double invIJ = 0;
                     for (int k = 0; k < m; ++k) {
                         final double[] vK = eigenvectors[k].getDataRef();
-                        invIJ += vK[i] * vK[j] / eigenvalues[k];
+                        invIJ += vK[i] * vK[j] / realEigenvalues[k];
                     }
                     invI[j] = invIJ;
                 }
@@ -818,18 +824,12 @@ public class EigenDecompositionImpl implements EigenDecomposition {
         throws InvalidMatrixException {
 
         // check decomposed matrix data range
-        final int fourN1  = 4 * (n - 1);
-        double sumDiag    = 0;
         double sumOffDiag = 0;
         for (int i = 0; i < n - 1; ++i) {
             final int fourI = 4 * i;
-            final double qi = work[fourI];
             final double ei = work[fourI + 2];
-            sumDiag    += qi;
             sumOffDiag += ei;
         }
-        final double qi = work[fourN1];
-        sumDiag += qi;
 
         if (sumOffDiag == 0) {
             // matrix is already diagonal

@@ -133,7 +133,7 @@ public class Min extends AbstractStorelessUnivariateStatistic implements Seriali
         return min;
     }
     
-    /*
+    /**
      * {@inheritDoc}
      */
     public Min copy() {

@@ -134,7 +134,7 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements S
         return sumLog;
     }
     
-    /*
+    /**
      * {@inheritDoc}
      */
     public SumOfLogs copy() {

@@ -52,10 +52,10 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
     private double[] secondaryBidiagonal;
 
     /** Main diagonal of the tridiagonal matrix. */
-    double[] mainTridiagonal;
+    private double[] mainTridiagonal;
 
     /** Secondary diagonal of the tridiagonal matrix. */
-    double[] secondaryTridiagonal;
+    private double[] secondaryTridiagonal;
 
     /** Eigen decomposition of the tridiagonal matrix. */
     private EigenDecomposition eigenDecomposition;

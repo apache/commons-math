@@ -44,7 +44,7 @@ import org.apache.commons.math.complex.Complex;
  */
 public class FastFourierTransformer implements Serializable {
 
-    /** serializable version identifier */
+    /** Serializable version identifier. */
     static final long serialVersionUID = 5138259215438106000L;
 
     /** array of the roots of unity */
@@ -566,16 +566,17 @@ public class FastFourierTransformer implements Serializable {
     }
     
     /**
-     * Performs a multi-dimensional Fourier transform on a given
-     * array, using {@link #inversetransform2(Complex[])} and
+     * Performs a multi-dimensional Fourier transform on a given array.
+     * Use {@link #inversetransform2(Complex[])} and
      * {@link #transform2(Complex[])} in a row-column implementation
      * in any number of dimensions with O(N&times;log(N)) complexity with
      * N=n<sub>1</sub>&times;n<sub>2</sub>&times;n<sub>3</sub>&times;...&times;n<sub>d</sub>,
      * n<sub>x</sub>=number of elements in dimension x,
      * and d=total number of dimensions.
      *
-     * @param forward inverseTransform2 is preformed if this is false
      * @param mdca Multi-Dimensional Complex Array id est Complex[][][][]
+     * @param forward inverseTransform2 is preformed if this is false
+     * @return transform of mdca as a Multi-Dimensional Complex Array id est Complex[][][][]
      * @throws MathException if any dimension is not a power of two
      */
     public Object mdfft(Object mdca, boolean forward) throws MathException {
@@ -589,6 +590,15 @@ public class FastFourierTransformer implements Serializable {
         return mdcm.getArray();
     }
     
+    /**
+     * Performs one dimension of a multi-dimensional Fourier transform.
+     *
+     * @param mdcm input matrix
+     * @param forward inverseTransform2 is preformed if this is false
+     * @param d index of the dimension to process
+     * @param subVector recursion subvector
+     * @throws MathException if any dimension is not a power of two
+     */
     private void mdfft(MultiDimensionalComplexMatrix mdcm, boolean forward,
                          int d, int[] subVector) throws MathException {
         int[] dimensionSize = mdcm.getDimensionSizes();
@@ -629,19 +639,28 @@ public class FastFourierTransformer implements Serializable {
         return;
     }
 
-    /*
-     * not designed for synchronized access
+    /**
+     * Complex matrix implementation.
+     * Not designed for synchronized access
      * may eventually be replaced by jsr-83 of the java community process
      * http://jcp.org/en/jsr/detail?id=83
      * may require additional exception throws for other basic requirements.
      */
     private class MultiDimensionalComplexMatrix implements Serializable,
                                                            Cloneable {
+
+        /** Serializable version identifier. */
         private static final long serialVersionUID =  0x564FCD47EBA8169BL;
-        
+
+        /** Size in all dimensions. */
         protected int[] dimensionSize = new int[1];
+
+        /** Storage array. */
         protected Object multiDimensionalComplexArray;
-        
+
+        /** Simple constructor.
+         * @param multiDimensionalComplexArray array containing the matrix elements
+         */
         public MultiDimensionalComplexMatrix(Object
                                              multiDimensionalComplexArray) {
             this.multiDimensionalComplexArray = multiDimensionalComplexArray;
@@ -669,12 +688,16 @@ public class FastFourierTransformer implements Serializable {
                 dimensionSize = newDimensionSize;
             }
         }
-        
+
+        /**
+         * Get a matrix element.
+         * @param vector indices of the element
+         * @return matrix element
+         */
         public Complex get(int... vector) {
             if ((vector == null && dimensionSize.length > 1) ||
-                    vector.length != dimensionSize.length) {
-                throw new IllegalArgumentException("Number of dimensions must "
-                                                   + "match");
+                (vector != null && vector.length != dimensionSize.length)) {
+                throw new IllegalArgumentException("Number of dimensions must match");
             }
             
             Object lastDimension = multiDimensionalComplexArray;
@@ -685,11 +708,16 @@ public class FastFourierTransformer implements Serializable {
             return (Complex) lastDimension;
         }
         
+        /**
+         * Set a matrix element.
+         * @param magnitude magnitude of the element
+         * @param vector indices of the element
+         * @return the previous value
+         */
         public Complex set(Complex magnitude, int... vector) {
             if ((vector == null && dimensionSize.length > 1) ||
-                    vector.length != dimensionSize.length) {
-                throw new IllegalArgumentException("Number of dimensions must "
-                                                   + "match");
+                (vector != null && vector.length != dimensionSize.length)) {
+                throw new IllegalArgumentException("Number of dimensions must match");
             }
             
             Object lastDimension = multiDimensionalComplexArray;
@@ -704,15 +732,24 @@ public class FastFourierTransformer implements Serializable {
                     magnitude;
             return lastValue;
         }
-        
+
+        /**
+         * Get the size in all dimensions.
+         * @return size in all dimensions
+         */
         public int[] getDimensionSizes() {
             return dimensionSize.clone();
         }
-        
+
+        /**
+         * Get the underlying storage array
+         * @return underlying storage array
+         */
         public Object getArray() {
             return multiDimensionalComplexArray;
         }
-        
+
+        /** {@inheritDoc} */
         @Override
         public Object clone() {
             MultiDimensionalComplexMatrix mdcm =
@@ -722,8 +759,9 @@ public class FastFourierTransformer implements Serializable {
             return mdcm;
         }
         
-        /*
+        /**
          * Copy contents of current array into mdcm.
+         * @param mdcm array where to copy data
          */
         private void clone(MultiDimensionalComplexMatrix mdcm) {
             int[] vector = new int[dimensionSize.length];

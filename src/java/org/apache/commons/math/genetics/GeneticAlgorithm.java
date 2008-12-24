@@ -102,7 +102,7 @@ public class GeneticAlgorithm {
     /**
      * <p>Evolve the given population into the next generation.</p>
      * <p><ol>
-     *    <li>Get nextGeneration polulation to fill from <code>current</code>
+     *    <li>Get nextGeneration population to fill from <code>current</code>
      *        generation, using its nextGeneration method</li>
      *    <li>Loop until new generation is filled:</li>
      *    <ul><li>Apply configured SelectionPolicy to select a pair of parents

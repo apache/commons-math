@@ -264,6 +264,7 @@ public class MullerSolver extends UnivariateRealSolverImpl {
      * <p>
      * The formulas here do not use divided differences directly.</p>
      * 
+     * @param f the function to solve
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
      * @return the point at which the function value is zero

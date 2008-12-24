@@ -72,6 +72,7 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
     /**
      * Find a zero near the midpoint of <code>min</code> and <code>max</code>.
      * 
+     * @param f the function to solve
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
      * @return the value where the function is zero
@@ -89,6 +90,7 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
     /**
      * Find a zero near the value <code>startValue</code>.
      * 
+     * @param f the function to solve
      * @param min the lower bound for the interval (ignored).
      * @param max the upper bound for the interval (ignored).
      * @param startValue the start value to use.

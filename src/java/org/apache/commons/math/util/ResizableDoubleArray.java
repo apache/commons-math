@@ -251,7 +251,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * on original.  Original may not be null; otherwise a NullPointerException
      * is thrown.
      * 
-     * @param original
+     * @param original array to copy
      * @since 2.0
      */
     public ResizableDoubleArray(ResizableDoubleArray original) {
@@ -846,18 +846,22 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
        if (object instanceof ResizableDoubleArray == false) {
             return false;
         }
-       boolean result = true;
-       ResizableDoubleArray other = (ResizableDoubleArray) object;
-       result = result && (other.initialCapacity == initialCapacity);
-       result = result && (other.contractionCriteria == contractionCriteria);
-       result = result && (other.expansionFactor == expansionFactor);
-       result = result && (other.expansionMode == expansionMode);
-       result = result && (other.numElements == numElements);
-       result = result && (other.startIndex == startIndex);
-       if (!result) { 
-           return false;
-       } else {
-           return Arrays.equals(internalArray, other.internalArray);
+       synchronized(this) {
+           synchronized(object) {
+               boolean result = true;
+               ResizableDoubleArray other = (ResizableDoubleArray) object;
+               result = result && (other.initialCapacity == initialCapacity);
+               result = result && (other.contractionCriteria == contractionCriteria);
+               result = result && (other.expansionFactor == expansionFactor);
+               result = result && (other.expansionMode == expansionMode);
+               result = result && (other.numElements == numElements);
+               result = result && (other.startIndex == startIndex);
+               if (!result) { 
+                   return false;
+               } else {
+                   return Arrays.equals(internalArray, other.internalArray);
+               }
+           }
        }
     }
     

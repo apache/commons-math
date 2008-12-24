@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,9 +28,14 @@ import org.apache.commons.math.MathRuntimeException;
  */
 public class ZipfDistributionImpl extends AbstractIntegerDistribution 
     implements ZipfDistribution, Serializable {
+
+    /** Serializable version identifier. */
     private static final long serialVersionUID = -140627372283420404L;
 
+    /** Number of elements. */
     private int numberOfElements;
+
+    /** Exponent parameter of the distribution. */
     private double exponent;
 
     /**
@@ -38,8 +43,8 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
      * exponent. Both values must be positive; otherwise an 
      * <code>IllegalArgumentException</code> is thrown.
      * 
-     * @param n the number of elements
-     * @param s the exponent
+     * @param numberOfElements the number of elements
+     * @param exponent the exponent
      * @exception IllegalArgumentException if n &le; 0 or s &le; 0.0
      */
     public ZipfDistributionImpl(final int numberOfElements, final double exponent)

@@ -193,6 +193,7 @@ public class MathRuntimeException extends RuntimeException {
      * Message formatting is delegated to {@link java.text.MessageFormat}.
      * @param pattern format specifier
      * @param arguments format arguments
+     * @return built exception
      */
     public static ArithmeticException createArithmeticException(final String pattern,
                                                                 final Object[] arguments) {
@@ -214,6 +215,7 @@ public class MathRuntimeException extends RuntimeException {
      * Message formatting is delegated to {@link java.text.MessageFormat}.
      * @param pattern format specifier
      * @param arguments format arguments
+     * @return built exception
      */
     public static ArrayIndexOutOfBoundsException createArrayIndexOutOfBoundsException(final String pattern,
                                                                                       final Object[] arguments) {
@@ -235,6 +237,7 @@ public class MathRuntimeException extends RuntimeException {
      * Message formatting is delegated to {@link java.text.MessageFormat}.
      * @param pattern format specifier
      * @param arguments format arguments
+     * @return built exception
      */
     public static EOFException createEOFException(final String pattern,
                                                   final Object[] arguments) {
@@ -260,6 +263,7 @@ public class MathRuntimeException extends RuntimeException {
      * with Java 6.</p>
      * @param rootCause the exception or error that caused this exception
      * to be thrown.
+     * @return built exception
      */
     public static IOException createIOException(final Throwable rootCause) {
         IOException ioe = new IOException(rootCause.getLocalizedMessage());
@@ -272,6 +276,7 @@ public class MathRuntimeException extends RuntimeException {
      * Message formatting is delegated to {@link java.text.MessageFormat}.
      * @param pattern format specifier
      * @param arguments format arguments
+     * @return built exception
      */
     public static IllegalArgumentException createIllegalArgumentException(final String pattern,
                                                                           final Object[] arguments) {
@@ -293,6 +298,7 @@ public class MathRuntimeException extends RuntimeException {
      * Message formatting is delegated to {@link java.text.MessageFormat}.
      * @param pattern format specifier
      * @param arguments format arguments
+     * @return built exception
      */
     public static IllegalStateException createIllegalStateException(final String pattern,
                                                                     final Object[] arguments) {
@@ -314,6 +320,7 @@ public class MathRuntimeException extends RuntimeException {
      * Message formatting is delegated to {@link java.text.MessageFormat}.
      * @param pattern format specifier
      * @param arguments format arguments
+     * @return built exception
      */
     public static ConcurrentModificationException createConcurrentModificationException(final String pattern,
                                                                                         final Object[] arguments) {
@@ -335,6 +342,7 @@ public class MathRuntimeException extends RuntimeException {
      * Message formatting is delegated to {@link java.text.MessageFormat}.
      * @param pattern format specifier
      * @param arguments format arguments
+     * @return built exception
      */
     public static NoSuchElementException createNoSuchElementException(final String pattern,
                                                                       final Object[] arguments) {
@@ -358,6 +366,7 @@ public class MathRuntimeException extends RuntimeException {
      * @param pattern format specifier
      * @param arguments format arguments
      * @param offset offset at which error occurred
+     * @return built exception
      */
     public static ParseException createParseException(final String pattern,
                                                       final Object[] arguments,

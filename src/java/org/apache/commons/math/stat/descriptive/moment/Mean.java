@@ -164,7 +164,7 @@ public class Mean extends AbstractStorelessUnivariateStatistic
         return Double.NaN;
     }
     
-    /*
+    /**
      * {@inheritDoc}
      */
     public Mean copy() {

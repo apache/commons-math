@@ -248,7 +248,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
         quantile = p;
     }
     
-    /*
+    /**
      * {@inheritDoc}
      */
     public Percentile copy() {

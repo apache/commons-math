@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.linear;
 
+import java.io.Serializable;
+
 /**
  * Interface defining a real-valued matrix with basic algebraic operations.
  * <p>
@@ -25,7 +27,7 @@ package org.apache.commons.math.linear;
  * 
  * @version $Revision$ $Date$
  */
-public interface RealMatrix {
+public interface RealMatrix extends Serializable {
 
     /**
      * Create a new RealMatrix of the same type as the instance with the supplied
@@ -33,6 +35,7 @@ public interface RealMatrix {
      *
      * @param rowDimension  the number of rows in the new matrix
      * @param columnDimension  the number of columns in the new matrix
+     * @return a new matrix of the same type as the instance
      * @throws IllegalArgumentException if row or column dimension is not positive
      * @since 2.0
      */

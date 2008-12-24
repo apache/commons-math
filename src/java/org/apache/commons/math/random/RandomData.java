@@ -16,13 +16,14 @@
  */
 
 package org.apache.commons.math.random;
+import java.io.Serializable;
 import java.util.Collection;
 
 /**
  * Random data generation utilities.
  * @version $Revision$ $Date$
  */
-public interface RandomData {
+public interface RandomData extends Serializable {
     /**
      * Generates a random string of hex characters of length
      * <code>len</code>.

@@ -131,7 +131,7 @@ public class Max extends AbstractStorelessUnivariateStatistic {
         return max;
     }
     
-    /*
+    /**
      * {@inheritDoc}
      */
     public Max copy() {

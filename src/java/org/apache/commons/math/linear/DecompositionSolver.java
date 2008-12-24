@@ -76,7 +76,6 @@ public interface DecompositionSolver extends Serializable {
     boolean isNonSingular();
 
     /** Get the inverse (or pseudo-inverse) of the decomposed matrix.
-     * @param decomposition decomposition of the matrix A
      * @return inverse matrix
      * @throws InvalidMatrixException if decomposed matrix is singular
      */

@@ -123,7 +123,7 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
         return sum;
     }
     
-    /*
+    /**
      * {@inheritDoc}
      */
     public Sum copy() {

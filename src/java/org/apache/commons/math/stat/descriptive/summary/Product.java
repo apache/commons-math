@@ -123,7 +123,7 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
         return product;
     }
     
-    /*
+    /**
      * {@inheritDoc}
      */
     public Product copy() {

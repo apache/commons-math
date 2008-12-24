@@ -141,6 +141,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
      * signs. An <code>IllegalArgumentException</code> is thrown if this is not
      * the case.</p>
      * 
+     * @param f the function to solve
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
      * @return the value where the function is zero

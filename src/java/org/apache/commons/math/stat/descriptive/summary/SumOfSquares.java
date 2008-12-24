@@ -123,7 +123,7 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
         return sumSq;
     }
     
-    /*
+    /**
      * {@inheritDoc}
      */
     public SumOfSquares copy() {
