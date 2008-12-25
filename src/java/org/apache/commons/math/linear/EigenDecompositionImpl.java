@@ -158,8 +158,6 @@ public class EigenDecompositionImpl implements EigenDecomposition {
      * Calculates the eigen decomposition of the given symmetric matrix. 
      * <p>Calling this constructor is equivalent to first call the no-arguments
      * constructor and then call {@link #decompose(RealMatrix)}.</p>
-     * <p>The specified matrix is assumed to be symmetrical without any check.
-     * Only the upper triangular part of the matrix is used.</p>
      * @param matrix The <strong>symmetric</strong> matrix to decompose.
      * @param splitTolerance tolerance on the off-diagonal elements relative to the
      * geometric mean to split the tridiagonal matrix (a suggested value is
