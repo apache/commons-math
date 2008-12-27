@@ -39,6 +39,12 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="luc" type="add" >
+        Added method to walk matrix entries with or without changing them in the
+        visitor design pattern sense. Two different orders can be used, row by row
+        of following internal storage. Internal order should be preferred when no
+        specific order is needed, because it will be more cache efficient.
+      </action>
       <action dev="luc" type="add" issue="MATH-215" due-to="Bernhard Grünewaldt">
         Added Fast Hadamard Transform.
       </action>

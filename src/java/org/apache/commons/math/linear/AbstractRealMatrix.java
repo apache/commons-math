@@ -691,6 +691,90 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
     }
 
     /** {@inheritDoc} */
+    public void walkInRowOrder(final RealMatrixChangingVisitor visitor)
+        throws MatrixVisitorException {
+        final int rows    = getRowDimension();
+        final int columns = getColumnDimension();
+        for (int row = 0; row < rows; ++row) {
+            for (int column = 0; column < columns; ++column) {
+                final double oldValue = getEntry(row, column);
+                final double newValue = visitor.visit(row, column, oldValue);
+                setEntry(row, column, newValue);
+            }
+        }
+        lu = null;
+    }
+
+    /** {@inheritDoc} */
+    public void walkInRowOrder(final RealMatrixPreservingVisitor visitor)
+        throws MatrixVisitorException {
+        final int rows    = getRowDimension();
+        final int columns = getColumnDimension();
+        for (int row = 0; row < rows; ++row) {
+            for (int column = 0; column < columns; ++column) {
+                visitor.visit(row, column, getEntry(row, column));
+            }
+        }
+    }
+
+    /** {@inheritDoc} */
+    public void walkInRowOrder(final RealMatrixChangingVisitor visitor,
+                               final int startRow, final int endRow,
+                               final int startColumn, final int endColumn)
+        throws MatrixIndexException, MatrixVisitorException {
+        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
+        for (int row = startRow; row <= endRow; ++row) {
+            for (int column = startColumn; column <= endColumn; ++column) {
+                final double oldValue = getEntry(row, column);
+                final double newValue = visitor.visit(row, column, oldValue);
+                setEntry(row, column, newValue);
+            }
+        }
+        lu = null;
+    }
+
+    /** {@inheritDoc} */
+    public void walkInRowOrder(final RealMatrixPreservingVisitor visitor,
+                               final int startRow, final int endRow,
+                               final int startColumn, final int endColumn)
+        throws MatrixIndexException, MatrixVisitorException {
+        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
+        for (int row = startRow; row <= endRow; ++row) {
+            for (int column = startColumn; column <= endColumn; ++column) {
+                visitor.visit(row, column, getEntry(row, column));
+            }
+        }
+    }
+
+    /** {@inheritDoc} */
+    public void walkInInternalOrder(final RealMatrixChangingVisitor visitor)
+        throws MatrixVisitorException {
+        walkInRowOrder(visitor);
+    }
+
+    /** {@inheritDoc} */
+    public void walkInInternalOrder(final RealMatrixPreservingVisitor visitor)
+        throws MatrixVisitorException {
+        walkInRowOrder(visitor);
+    }
+
+    /** {@inheritDoc} */
+    public void walkInInternalOrder(final RealMatrixChangingVisitor visitor,
+                                    final int startRow, final int endRow,
+                                    final int startColumn, final int endColumn)
+        throws MatrixIndexException, MatrixVisitorException {
+        walkInRowOrder(visitor, startRow, endRow, startColumn, endColumn);
+    }
+
+    /** {@inheritDoc} */
+    public void walkInInternalOrder(final RealMatrixPreservingVisitor visitor,
+                                    final int startRow, final int endRow,
+                                    final int startColumn, final int endColumn)
+        throws MatrixIndexException, MatrixVisitorException {
+        walkInRowOrder(visitor, startRow, endRow, startColumn, endColumn);
+    }
+
+    /** {@inheritDoc} */
     @Deprecated
     public double[] solve(final double[] b)
         throws IllegalArgumentException, InvalidMatrixException {

@@ -459,6 +459,60 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
 
     }
 
+    /** {@inheritDoc} */
+    public void walkInRowOrder(final RealMatrixChangingVisitor visitor)
+        throws MatrixVisitorException {
+        final int rows    = getRowDimension();
+        final int columns = getColumnDimension();
+        for (int i = 0; i < rows; ++i) {
+            final double[] rowI = data[i];
+            for (int j = 0; j < columns; ++j) {
+                rowI[j] = visitor.visit(i, j, rowI[j]);
+            }
+        }
+    }
+
+    /** {@inheritDoc} */
+    public void walkInRowOrder(final RealMatrixPreservingVisitor visitor)
+        throws MatrixVisitorException {
+        final int rows    = getRowDimension();
+        final int columns = getColumnDimension();
+        for (int i = 0; i < rows; ++i) {
+            final double[] rowI = data[i];
+            for (int j = 0; j < columns; ++j) {
+                visitor.visit(i, j, rowI[j]);
+            }
+        }
+    }
+
+    /** {@inheritDoc} */
+    public void walkInRowOrder(final RealMatrixChangingVisitor visitor,
+                               final int startRow, final int endRow,
+                               final int startColumn, final int endColumn)
+        throws MatrixIndexException, MatrixVisitorException {
+        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
+        for (int i = startRow; i <= endRow; ++i) {
+            final double[] rowI = data[i];
+            for (int j = startColumn; j <= endColumn; ++j) {
+                rowI[j] = visitor.visit(i, j, rowI[j]);
+            }
+        }
+    }
+
+    /** {@inheritDoc} */
+    public void walkInRowOrder(final RealMatrixPreservingVisitor visitor,
+                               final int startRow, final int endRow,
+                               final int startColumn, final int endColumn)
+        throws MatrixIndexException, MatrixVisitorException {
+        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
+        for (int i = startRow; i <= endRow; ++i) {
+            final double[] rowI = data[i];
+            for (int j = startColumn; j <= endColumn; ++j) {
+                visitor.visit(i, j, rowI[j]);
+            }
+        }
+    }
+
     /**
      * Returns a fresh copy of the underlying data array.
      *

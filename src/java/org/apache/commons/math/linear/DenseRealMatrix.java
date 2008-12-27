@@ -23,12 +23,35 @@ import java.util.Arrays;
 import org.apache.commons.math.MathRuntimeException;
 
 /**
- * Implementation of RealMatrix using a flat arrays to store square blocks of the matrix.
+ * Cache-friendly implementation of RealMatrix using a flat arrays to store
+ * square blocks of the matrix.
  * <p>
- * This implementation is cache-friendly. Square blocks are stored as small arrays and allow
- * efficient traversal of data both in row major direction and columns major direction. This
- * greatly increases performances for algorithms that use crossed directions loops like
- * multiplication or transposition.
+ * This implementation is specially designed to be cache-friendly. Square blocks are
+ * stored as small arrays and allow efficient traversal of data both in row major direction
+ * and columns major direction, one block at a time. This greatly increases performances
+ * for algorithms that use crossed directions loops like multiplication or transposition.
+ * </p>
+ * <p>
+ * The size of square blocks is a static parameter. It may be tuned according to the cache
+ * size of the target computer processor. As a rule of thumbs, it should be the largest
+ * value that allows three blocks to be simultaneously cached (this is necessary for example
+ * for matrix multiplication). The default value is to use 52x52 blocks which is well suited
+ * for processors with 64k L1 cache (one block holds 2704 values or 21632 bytes). This value
+ * could be lowered to 36x36 for processors with 32k L1 cache.
+ * </p>
+ * <p>
+ * The regular blocks represent {@link #BLOCK_SIZE} x {@link #BLOCK_SIZE} squares. Blocks
+ * at right hand side and bottom side which may be smaller to fit matrix dimensions. The square
+ * blocks are flattened in row major order in single dimension arrays which are therefore
+ * {@link #BLOCK_SIZE}<sup>2</sup> elements long for regular blocks. The blocks are themselves
+ * organized in row major order.
+ * </p>
+ * <p>
+ * As an example, for a block size of 52x52, a 100x60 matrix would be stored in 4 blocks.
+ * Block 0 would be a double[2704] array holding the upper left 52x52 square, block 1 would be
+ * a double[416] array holding the upper right 52x8 rectangle, block 2 would be a double[2496]
+ * array holding the lower left 48x52 rectangle and block 3 would be a double[384] array
+ * holding the lower right 48x8 rectangle.
  * </p>
  * <p>
  * The layout complexity overhead versus simple mapping of matrices to java
@@ -1258,6 +1281,184 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
         return out;
 
+    }
+
+    /** {@inheritDoc} */
+    public void walkInRowOrder(final RealMatrixChangingVisitor visitor)
+        throws MatrixVisitorException {
+        for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
+            final int pStart = iBlock * BLOCK_SIZE;
+            final int pEnd   = Math.min(pStart + BLOCK_SIZE, rows);
+            for (int p = pStart; p < pEnd; ++p) {
+                for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
+                    final int jWidth = blockWidth(jBlock);
+                    final int qStart = jBlock * BLOCK_SIZE;
+                    final int qEnd   = Math.min(qStart + BLOCK_SIZE, columns);
+                    final double[] block = blocks[iBlock * blockColumns + jBlock];
+                    for (int q = qStart, k = (p - pStart) * jWidth; q < qEnd; ++q, ++k) {
+                        block[k] = visitor.visit(p, q, block[k]);
+                    }
+                }
+             }
+        }
+    }
+
+    /** {@inheritDoc} */
+    public void walkInRowOrder(final RealMatrixPreservingVisitor visitor)
+        throws MatrixVisitorException {
+        for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
+            final int pStart = iBlock * BLOCK_SIZE;
+            final int pEnd   = Math.min(pStart + BLOCK_SIZE, rows);
+            for (int p = pStart; p < pEnd; ++p) {
+                for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
+                    final int jWidth = blockWidth(jBlock);
+                    final int qStart = jBlock * BLOCK_SIZE;
+                    final int qEnd   = Math.min(qStart + BLOCK_SIZE, columns);
+                    final double[] block = blocks[iBlock * blockColumns + jBlock];
+                    for (int q = qStart, k = (p - pStart) * jWidth; q < qEnd; ++q, ++k) {
+                        visitor.visit(p, q, block[k]);
+                    }
+                }
+             }
+        }
+    }
+
+    /** {@inheritDoc} */
+    public void walkInRowOrder(final RealMatrixChangingVisitor visitor,
+                               final int startRow, final int endRow,
+                               final int startColumn, final int endColumn)
+        throws MatrixIndexException, MatrixVisitorException {
+        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
+        for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
+            final int p0     = iBlock * BLOCK_SIZE;
+            final int pStart = Math.max(startRow, p0);
+            final int pEnd   = Math.min((iBlock + 1) * BLOCK_SIZE, 1 + endRow);
+            for (int p = pStart; p < pEnd; ++p) {
+                for (int jBlock = startColumn / BLOCK_SIZE; jBlock < 1 + endColumn / BLOCK_SIZE; ++jBlock) {
+                    final int jWidth = blockWidth(jBlock);
+                    final int q0     = jBlock * BLOCK_SIZE;
+                    final int qStart = Math.max(startColumn, q0);
+                    final int qEnd   = Math.min((jBlock + 1) * BLOCK_SIZE, 1 + endColumn);
+                    final double[] block = blocks[iBlock * blockColumns + jBlock];
+                    for (int q = qStart, k = (p - p0) * jWidth + qStart - q0; q < qEnd; ++q, ++k) {
+                        block[k] = visitor.visit(p, q, block[k]);
+                    }
+                }
+             }
+        }
+    }
+
+    /** {@inheritDoc} */
+    public void walkInRowOrder(final RealMatrixPreservingVisitor visitor,
+                               final int startRow, final int endRow,
+                               final int startColumn, final int endColumn)
+        throws MatrixIndexException, MatrixVisitorException {
+        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
+        for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
+            final int p0     = iBlock * BLOCK_SIZE;
+            final int pStart = Math.max(startRow, p0);
+            final int pEnd   = Math.min((iBlock + 1) * BLOCK_SIZE, 1 + endRow);
+            for (int p = pStart; p < pEnd; ++p) {
+                for (int jBlock = startColumn / BLOCK_SIZE; jBlock < 1 + endColumn / BLOCK_SIZE; ++jBlock) {
+                    final int jWidth = blockWidth(jBlock);
+                    final int q0     = jBlock * BLOCK_SIZE;
+                    final int qStart = Math.max(startColumn, q0);
+                    final int qEnd   = Math.min((jBlock + 1) * BLOCK_SIZE, 1 + endColumn);
+                    final double[] block = blocks[iBlock * blockColumns + jBlock];
+                    for (int q = qStart, k = (p - p0) * jWidth + qStart - q0; q < qEnd; ++q, ++k) {
+                        visitor.visit(p, q, block[k]);
+                    }
+                }
+             }
+        }
+    }
+
+    /** {@inheritDoc} */
+    public void walkInInternalOrder(final RealMatrixChangingVisitor visitor)
+        throws MatrixVisitorException {
+        for (int iBlock = 0, blockIndex = 0; iBlock < blockRows; ++iBlock) {
+            final int pStart = iBlock * BLOCK_SIZE;
+            final int pEnd   = Math.min(pStart + BLOCK_SIZE, rows);
+            for (int jBlock = 0; jBlock < blockColumns; ++jBlock, ++blockIndex) {
+                final int qStart = jBlock * BLOCK_SIZE;
+                final int qEnd   = Math.min(qStart + BLOCK_SIZE, columns);
+                final double[] block = blocks[blockIndex];
+                for (int p = pStart, k = 0; p < pEnd; ++p) {
+                    for (int q = qStart; q < qEnd; ++q, ++k) {
+                        block[k] = visitor.visit(p, q, block[k]);
+                    }
+                }
+            }
+        }
+    }
+
+    /** {@inheritDoc} */
+    public void walkInInternalOrder(final RealMatrixPreservingVisitor visitor)
+        throws MatrixVisitorException {
+        for (int iBlock = 0, blockIndex = 0; iBlock < blockRows; ++iBlock) {
+            final int pStart = iBlock * BLOCK_SIZE;
+            final int pEnd   = Math.min(pStart + BLOCK_SIZE, rows);
+            for (int jBlock = 0; jBlock < blockColumns; ++jBlock, ++blockIndex) {
+                final int qStart = jBlock * BLOCK_SIZE;
+                final int qEnd   = Math.min(qStart + BLOCK_SIZE, columns);
+                final double[] block = blocks[blockIndex];
+                for (int p = pStart, k = 0; p < pEnd; ++p) {
+                    for (int q = qStart; q < qEnd; ++q, ++k) {
+                        visitor.visit(p, q, block[k]);
+                    }
+                }
+            }
+        }
+    }
+
+    /** {@inheritDoc} */
+    public void walkInInternalOrder(final RealMatrixChangingVisitor visitor,
+                                    final int startRow, final int endRow,
+                                    final int startColumn, final int endColumn)
+        throws MatrixIndexException, MatrixVisitorException {
+        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
+        for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
+            final int p0     = iBlock * BLOCK_SIZE;
+            final int pStart = Math.max(startRow, p0);
+            final int pEnd   = Math.min((iBlock + 1) * BLOCK_SIZE, 1 + endRow);
+            for (int jBlock = startColumn / BLOCK_SIZE; jBlock < 1 + endColumn / BLOCK_SIZE; ++jBlock) {
+                final int jWidth = blockWidth(jBlock);
+                final int q0     = jBlock * BLOCK_SIZE;
+                final int qStart = Math.max(startColumn, q0);
+                final int qEnd   = Math.min((jBlock + 1) * BLOCK_SIZE, 1 + endColumn);
+                final double[] block = blocks[iBlock * blockColumns + jBlock];
+                for (int p = pStart; p < pEnd; ++p) {
+                    for (int q = qStart, k = (p - p0) * jWidth + qStart - q0; q < qEnd; ++q, ++k) {
+                        block[k] = visitor.visit(p, q, block[k]);
+                    }
+                }
+            }
+        }
+    }
+
+    /** {@inheritDoc} */
+    public void walkInInternalOrder(final RealMatrixPreservingVisitor visitor,
+                                    final int startRow, final int endRow,
+                                    final int startColumn, final int endColumn)
+        throws MatrixIndexException, MatrixVisitorException {
+        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
+        for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
+            final int p0     = iBlock * BLOCK_SIZE;
+            final int pStart = Math.max(startRow, p0);
+            final int pEnd   = Math.min((iBlock + 1) * BLOCK_SIZE, 1 + endRow);
+            for (int jBlock = startColumn / BLOCK_SIZE; jBlock < 1 + endColumn / BLOCK_SIZE; ++jBlock) {
+                final int jWidth = blockWidth(jBlock);
+                final int q0     = jBlock * BLOCK_SIZE;
+                final int qStart = Math.max(startColumn, q0);
+                final int qEnd   = Math.min((jBlock + 1) * BLOCK_SIZE, 1 + endColumn);
+                final double[] block = blocks[iBlock * blockColumns + jBlock];
+                for (int p = pStart; p < pEnd; ++p) {
+                    for (int q = qStart, k = (p - p0) * jWidth + qStart - q0; q < qEnd; ++q, ++k) {
+                        visitor.visit(p, q, block[k]);
+                    }
+                }
+            }
+        }
     }
 
     /**

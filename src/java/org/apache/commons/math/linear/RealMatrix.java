@@ -129,9 +129,9 @@ public interface RealMatrix extends Serializable {
      * counting from 0 to n-1.
      *
      * @param startRow Initial row index
-     * @param endRow Final row index
+     * @param endRow Final row index (inclusive)
      * @param startColumn Initial column index
-     * @param endColumn Final column index
+     * @param endColumn Final column index (inclusive)
      * @return The subMatrix containing the data of the
      *         specified rows and columns
      * @exception MatrixIndexException  if the indices are not valid
@@ -497,6 +497,163 @@ public interface RealMatrix extends Serializable {
      * @throws IllegalArgumentException if rowDimension != v.size()
      */
     RealVector preMultiply(RealVector v) throws IllegalArgumentException;
+
+    /**
+     * Visit (and possibly change) all matrix entries in row order.
+     * @param visitor visitor used to process all matrix entries
+     * @exception  MatrixVisitorException if the visitor cannot process an entry
+     * @see #walkInRowOrder(RealMatrixPreservingVisitor)
+     * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInRowOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @see #walkInInternalOrder(RealMatrixChangingVisitor)
+     * @see #walkInInternalOrder(RealMatrixPreservingVisitor)
+     * @see #walkInInternalOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInInternalOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     */
+    void walkInRowOrder(RealMatrixChangingVisitor visitor) throws MatrixVisitorException;
+
+    /**
+     * Visit (but don't change) all matrix entries in row order.
+     * @param visitor visitor used to process all matrix entries
+     * @exception  MatrixVisitorException if the visitor cannot process an entry
+     * @see #walkInRowOrder(RealMatrixChangingVisitor)
+     * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInRowOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @see #walkInInternalOrder(RealMatrixChangingVisitor)
+     * @see #walkInInternalOrder(RealMatrixPreservingVisitor)
+     * @see #walkInInternalOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInInternalOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     */
+    void walkInRowOrder(RealMatrixPreservingVisitor visitor) throws MatrixVisitorException;
+
+    /**
+     * Visit (and possibly change) all matrix entries in row order.
+     * @param visitor visitor used to process all matrix entries
+     * @param startRow Initial row index
+     * @param endRow Final row index (inclusive)
+     * @param startColumn Initial column index
+     * @param endColumn Final column index
+     * @exception  MatrixVisitorException if the visitor cannot process an entry
+     * @exception MatrixIndexException  if the indices are not valid
+     * @see #walkInRowOrder(RealMatrixChangingVisitor)
+     * @see #walkInRowOrder(RealMatrixPreservingVisitor)
+     * @see #walkInRowOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @see #walkInInternalOrder(RealMatrixChangingVisitor)
+     * @see #walkInInternalOrder(RealMatrixPreservingVisitor)
+     * @see #walkInInternalOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInInternalOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     */
+    void walkInRowOrder(RealMatrixChangingVisitor visitor,
+                        int startRow, int endRow, int startColumn, int endColumn)
+        throws MatrixIndexException, MatrixVisitorException;
+
+    /**
+     * Visit (but don't change) all matrix entries in row order.
+     * @param visitor visitor used to process all matrix entries
+     * @param startRow Initial row index
+     * @param endRow Final row index (inclusive)
+     * @param startColumn Initial column index
+     * @param endColumn Final column index
+     * @exception  MatrixVisitorException if the visitor cannot process an entry
+     * @exception MatrixIndexException  if the indices are not valid
+     * @see #walkInRowOrder(RealMatrixChangingVisitor)
+     * @see #walkInRowOrder(RealMatrixPreservingVisitor)
+     * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInInternalOrder(RealMatrixChangingVisitor)
+     * @see #walkInInternalOrder(RealMatrixPreservingVisitor)
+     * @see #walkInInternalOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInInternalOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     */
+    void walkInRowOrder(RealMatrixPreservingVisitor visitor,
+                        int startRow, int endRow, int startColumn, int endColumn)
+        throws MatrixIndexException, MatrixVisitorException;
+
+    /**
+     * Visit (and possibly change) all matrix entries in row order.
+     * <p>The matrix internal order depends on the exact matrix class. It may be
+     * different from traditional row order, but is generally faster. If there is no need
+     * for an explicit walk order, this method should be preferred to the {@link
+     * #walkInRowOrder(RealMatrixChangingVisitor)} one.</p>
+     * @param visitor visitor used to process all matrix entries
+     * @exception  MatrixVisitorException if the visitor cannot process an entry
+     * @see #walkInRowOrder(RealMatrixChangingVisitor)
+     * @see #walkInRowOrder(RealMatrixPreservingVisitor)
+     * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInRowOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @see #walkInInternalOrder(RealMatrixPreservingVisitor)
+     * @see #walkInInternalOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInInternalOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     */
+    void walkInInternalOrder(RealMatrixChangingVisitor visitor) throws MatrixVisitorException;
+
+    /**
+     * Visit (but don't change) all matrix entries in row order.
+     * <p>The matrix internal order depends on the exact matrix class. It may be
+     * different from traditional row order, but is generally faster. If there is no need
+     * for an explicit walk order, this method should be preferred to the {@link
+     * #walkInRowOrder(RealMatrixPreservingVisitor)} one.</p>
+     * @param visitor visitor used to process all matrix entries
+     * @exception  MatrixVisitorException if the visitor cannot process an entry
+     * @see #walkInRowOrder(RealMatrixChangingVisitor)
+     * @see #walkInRowOrder(RealMatrixPreservingVisitor)
+     * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInRowOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @see #walkInInternalOrder(RealMatrixChangingVisitor)
+     * @see #walkInInternalOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInInternalOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     */
+    void walkInInternalOrder(RealMatrixPreservingVisitor visitor) throws MatrixVisitorException;
+
+    /**
+     * Visit (and possibly change) all matrix entries in row order.
+     * <p>The matrix internal order depends on the exact matrix class. It may be
+     * different from traditional row order, but is generally faster. If there is no need
+     * for an explicit walk order, this method should be preferred to the {@link
+     * #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)} one.</p>
+     * @param visitor visitor used to process all matrix entries
+     * @param startRow Initial row index
+     * @param endRow Final row index (inclusive)
+     * @param startColumn Initial column index
+     * @param endColumn Final column index (inclusive)
+     * @exception  MatrixVisitorException if the visitor cannot process an entry
+     * @exception MatrixIndexException  if the indices are not valid
+     * @see #walkInRowOrder(RealMatrixChangingVisitor)
+     * @see #walkInRowOrder(RealMatrixPreservingVisitor)
+     * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInRowOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @see #walkInInternalOrder(RealMatrixChangingVisitor)
+     * @see #walkInInternalOrder(RealMatrixPreservingVisitor)
+     * @see #walkInInternalOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     */
+    void walkInInternalOrder(RealMatrixChangingVisitor visitor,
+                             int startRow, int endRow, int startColumn, int endColumn)
+        throws MatrixIndexException, MatrixVisitorException;
+
+    /**
+     * Visit (but don't change) all matrix entries in row order.
+     * Visit (and possibly change) all matrix entries in row order.
+     * <p>The matrix internal order depends on the exact matrix class. It may be
+     * different from traditional row order, but is generally faster. If there is no need
+     * for an explicit walk order, this method should be preferred to the {@link
+     * #walkInRowOrder(RealMatrixPreservingVisitor, int, int, int, int)} one.</p>
+     * @param visitor visitor used to process all matrix entries
+     * @param startRow Initial row index
+     * @param endRow Final row index (inclusive)
+     * @param startColumn Initial column index
+     * @param endColumn Final column index (inclusive)
+     * @exception  MatrixVisitorException if the visitor cannot process an entry
+     * @exception MatrixIndexException  if the indices are not valid
+     * @see #walkInRowOrder(RealMatrixChangingVisitor)
+     * @see #walkInRowOrder(RealMatrixPreservingVisitor)
+     * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInRowOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @see #walkInInternalOrder(RealMatrixChangingVisitor)
+     * @see #walkInInternalOrder(RealMatrixPreservingVisitor)
+     * @see #walkInInternalOrder(RealMatrixChangingVisitor, int, int, int, int)
+     */
+    void walkInInternalOrder(RealMatrixPreservingVisitor visitor,
+                             int startRow, int endRow, int startColumn, int endColumn)
+        throws MatrixIndexException, MatrixVisitorException;
 
     /**
      * Returns the solution vector for a linear system with coefficient
