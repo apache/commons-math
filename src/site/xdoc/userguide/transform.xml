@@ -34,6 +34,7 @@
            <li><code>FastFourierTransformer</code> (produces <code>Complex</code> results)</li>
            <li><code>FastCosineTransformer</code> (produces real results)</li>
            <li><code>FastSineTransformer</code> (produces real results)</li>
+           <li><code>FastHadamardTransformer</code> (produces real results)</li>
          </ul>
       </p>
      </section>

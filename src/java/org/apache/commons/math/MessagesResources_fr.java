@@ -339,6 +339,10 @@ public class MessagesResources_fr
    { "invalid exponent {0} (must be positive)",
      "exposant {0} invalide (doit \u00eatre positif)" },
 
+   // org.apache.commons.math.transform.FastHadamardTransformer
+   { "{0} is not a power of 2",
+     "{0} n''est pas une puissance de 2" },
+
    // org.apache.commons.math.util.OpenIntToDoubleHashMap
    { "map has been modified while iterating",
      "la table d''adressage a \u00e9t\u00e9 modifi\u00e9e pendant l''it\u00e9ration" },
