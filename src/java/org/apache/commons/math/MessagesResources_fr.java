@@ -233,6 +233,10 @@ public class MessagesResources_fr
    { "URL {0} contains no data",
      "l''adresse {0} ne contient aucune donn\u00e9e" },
 
+   // org.apache.commons.math.complex.Complex
+   { "cannot compute nth root for null or negative n: {0}",
+     "impossible de calculer la racine ni\u00e8me pour n n\u00e9gatif ou nul : {0}" },
+
    // org.apache.commons.math.complex.ComplexFormat
    { "unparseable complex number: \"{0}\"",
      "\u00e9chec d''analyse du nombre complexe \"{0}\"" },

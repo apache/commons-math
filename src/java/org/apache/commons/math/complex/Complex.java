@@ -18,6 +18,10 @@
 package org.apache.commons.math.complex;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -858,6 +862,55 @@ public class Complex implements Serializable  {
         double d = MathUtils.cosh(real2) + Math.cos(imaginary2);
         
         return createComplex(MathUtils.sinh(real2) / d, Math.sin(imaginary2) / d);
+    }
+    
+    
+    
+    /**
+     * Compute the angle phi of this complex number.
+     * @return the angle phi of this complex number
+     */
+    public double getPhi() {
+        return Math.atan2(getImaginary(), getReal());
+    }
+    
+    /**
+     * Compute the n-th root of this complex number.
+     * <p>
+     * For a given n it implements the formula: <pre>
+     * <code> z_k = pow( abs , 1.0/n ) * (cos(phi + k * 2&pi;) + i * (sin(phi + k * 2&pi;)</code></pre></p>
+     * with <i><code>k=0, 1, ..., n-1</code></i> and <i><code>pow(abs, 1.0 / n)</code></i> is the nth root of the absolute-value.
+     * <p>
+     * 
+     * @param n degree of root
+     * @return Collection<Complex> all nth roots of this complex number as a Collection
+     * @throws IllegalArgumentException if parameter n is negative
+     * @since 2.0
+     */
+    public Collection<Complex> nthRoot(int n) throws IllegalArgumentException {
+
+        if (n <= 0) {
+            throw MathRuntimeException.createIllegalArgumentException("cannot compute nth root for null or negative n: {0}",
+                    new Object[] { n });
+        }
+
+        Collection<Complex> result = new ArrayList<Complex>();
+
+        // nth root of abs
+        final double nthRootOfAbs = Math.pow(abs(), 1.0 / n);
+
+        // Compute nth roots of complex number with k = 0, 1, ... n-1
+        final double phi = getPhi();
+        for (int k = 0; k < n ; k++) {
+            // inner part
+            final double innerPart     = (phi + k * 2 * Math.PI) / n;
+            final double realPart      = nthRootOfAbs *  Math.cos(innerPart);
+            final double imaginaryPart = nthRootOfAbs *  Math.sin(innerPart);
+            result.add(createComplex(realPart, imaginaryPart));
+        }
+
+        return result;
+
     }
 
     /**

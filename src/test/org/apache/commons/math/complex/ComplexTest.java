@@ -695,5 +695,154 @@ public class ComplexTest extends TestCase {
     public void testMath221() {
         assertEquals(new Complex(0,-1), new Complex(0,1).multiply(new Complex(-1,0)));
     }
+    
+    /** 
+     * Test: computing <b>third roots</b> of z.
+     * <pre>
+     * <code>
+     * <b>z = -2 + 2 * i</b>
+     *   => z_0 =  1      +          i
+     *   => z_1 = -1.3660 + 0.3660 * i
+     *   => z_2 =  0.3660 - 1.3660 * i
+     * </code>
+     * </pre>
+     */
+    public void testNthRoot_normal_thirdRoot() {
+        // The complex number we want to compute all third-roots for.
+        Complex z = new Complex(-2,2);
+        // The List holding all third roots
+        Complex[] thirdRootsOfZ = z.nthRoot(3).toArray(new Complex[0]);
+        // Returned Collection must not be empty!
+        assertEquals(3, thirdRootsOfZ.length);
+        // test z_0
+        assertEquals(1.0,                  thirdRootsOfZ[0].getReal(),      1.0e-5); 
+        assertEquals(1.0,                  thirdRootsOfZ[0].getImaginary(), 1.0e-5);
+        // test z_1
+        assertEquals(-1.3660254037844386,  thirdRootsOfZ[1].getReal(),      1.0e-5);
+        assertEquals(0.36602540378443843,  thirdRootsOfZ[1].getImaginary(), 1.0e-5);
+        // test z_2
+        assertEquals(0.366025403784439,    thirdRootsOfZ[2].getReal(),      1.0e-5);
+        assertEquals(-1.3660254037844384,  thirdRootsOfZ[2].getImaginary(), 1.0e-5);
+    }
+
+
+    /** 
+     * Test: computing <b>fourth roots</b> of z.
+     * <pre>
+     * <code>
+     * <b>z = 5 - 2 * i</b>
+     *   => z_0 =  1.5164 - 0.1446 * i
+     *   => z_1 =  0.1446 + 1.5164 * i
+     *   => z_2 = -1.5164 + 0.1446 * i
+     *   => z_3 = -1.5164 - 0.1446 * i
+     * </code>
+     * </pre>
+     */
+    public void testNthRoot_normal_fourthRoot() {
+        // The complex number we want to compute all third-roots for.
+        Complex z = new Complex(5,-2);
+        // The List holding all fourth roots
+        Complex[] fourthRootsOfZ = z.nthRoot(4).toArray(new Complex[0]);
+        // Returned Collection must not be empty!
+        assertEquals(4, fourthRootsOfZ.length);
+        // test z_0
+        assertEquals(1.5164629308487783,     fourthRootsOfZ[0].getReal(),      1.0e-5); 
+        assertEquals(-0.14469266210702247,   fourthRootsOfZ[0].getImaginary(), 1.0e-5);
+        // test z_1
+        assertEquals(0.14469266210702256,    fourthRootsOfZ[1].getReal(),      1.0e-5);
+        assertEquals(1.5164629308487783,     fourthRootsOfZ[1].getImaginary(), 1.0e-5);
+        // test z_2
+        assertEquals(-1.5164629308487783,    fourthRootsOfZ[2].getReal(),      1.0e-5);
+        assertEquals(0.14469266210702267,    fourthRootsOfZ[2].getImaginary(), 1.0e-5);
+        // test z_3
+        assertEquals(-0.14469266210702275,   fourthRootsOfZ[3].getReal(),      1.0e-5);
+        assertEquals(-1.5164629308487783,    fourthRootsOfZ[3].getImaginary(), 1.0e-5);
+    }
+
+    /** 
+     * Test: computing <b>third roots</b> of z.
+     * <pre>
+     * <code>
+     * <b>z = 8</b>
+     *   => z_0 =  2
+     *   => z_1 = -1 + 1.73205 * i
+     *   => z_2 = -1 - 1.73205 * i
+     * </code>
+     * </pre>
+     */
+    public void testNthRoot_cornercase_thirdRoot_imaginaryPartEmpty() {
+        // The number 8 has three third roots. One we all already know is the number 2.
+        // But there are two more complex roots.
+        Complex z = new Complex(8,0);
+        // The List holding all third roots
+        Complex[] thirdRootsOfZ = z.nthRoot(3).toArray(new Complex[0]);
+        // Returned Collection must not be empty!
+        assertEquals(3, thirdRootsOfZ.length);
+        // test z_0
+        assertEquals(2.0,                thirdRootsOfZ[0].getReal(),      1.0e-5); 
+        assertEquals(0.0,                thirdRootsOfZ[0].getImaginary(), 1.0e-5);
+        // test z_1
+        assertEquals(-1.0,               thirdRootsOfZ[1].getReal(),      1.0e-5);
+        assertEquals(1.7320508075688774, thirdRootsOfZ[1].getImaginary(), 1.0e-5);
+        // test z_2
+        assertEquals(-1.0,               thirdRootsOfZ[2].getReal(),      1.0e-5);
+        assertEquals(-1.732050807568877, thirdRootsOfZ[2].getImaginary(), 1.0e-5);
+    }
+
+
+    /** 
+     * Test: computing <b>third roots</b> of z with real part 0.
+     * <pre>
+     * <code>
+     * <b>z = 2 * i</b>
+     *   => z_0 =  1.0911 + 0.6299 * i
+     *   => z_1 = -1.0911 + 0.6299 * i
+     *   => z_2 = -2.3144 - 1.2599 * i
+     * </code>
+     * </pre>
+     */
+    public void testNthRoot_cornercase_thirdRoot_realPartEmpty() {
+        // complex number with only imaginary part
+        Complex z = new Complex(0,2);
+        // The List holding all third roots
+        Complex[] thirdRootsOfZ = z.nthRoot(3).toArray(new Complex[0]);
+        // Returned Collection must not be empty!
+        assertEquals(3, thirdRootsOfZ.length);
+        // test z_0
+        assertEquals(1.0911236359717216,      thirdRootsOfZ[0].getReal(),      1.0e-5); 
+        assertEquals(0.6299605249474365,      thirdRootsOfZ[0].getImaginary(), 1.0e-5);
+        // test z_1
+        assertEquals(-1.0911236359717216,     thirdRootsOfZ[1].getReal(),      1.0e-5);
+        assertEquals(0.6299605249474365,      thirdRootsOfZ[1].getImaginary(), 1.0e-5);
+        // test z_2
+        assertEquals(-2.3144374213981936E-16, thirdRootsOfZ[2].getReal(),      1.0e-5);
+        assertEquals(-1.2599210498948732,     thirdRootsOfZ[2].getImaginary(), 1.0e-5);
+    }
+
+    /**
+     * Test cornercases with NaN and Infinity.
+     */
+    public void testNthRoot_cornercase_NAN_Inf() {
+        // third root of z = 1 + NaN * i
+        for (Complex c : oneNaN.nthRoot(3)) {
+            // both parts should be nan
+            assertEquals(nan, c.getReal());
+            assertEquals(nan, c.getImaginary());
+        }
+        // third root of z = inf + NaN * i
+        for (Complex c : infNaN.nthRoot(3)) {
+            // both parts should be nan
+            assertEquals(nan, c.getReal());
+            assertEquals(nan, c.getImaginary());
+        }
+        // third root of z = neginf + 1 * i
+        Complex[] zInfOne = negInfOne.nthRoot(2).toArray(new Complex[0]);
+        // first root
+        assertEquals(inf, zInfOne[0].getReal());
+        assertEquals(inf, zInfOne[0].getImaginary());
+        // second root
+        assertEquals(neginf, zInfOne[1].getReal());
+        assertEquals(neginf, zInfOne[1].getImaginary());
+    }
 
 }
