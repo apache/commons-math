@@ -90,7 +90,7 @@ public class FastCosineTransformer implements RealTransformer {
     /**
      * Transform the given real data set.
      * <p>
-     * The formula is F<sub>n</sub> = \sqrt{1/2N} [f<sub>0</sub> + (-1)<sup>n</sup> f<sub>N</sub>] +
+     * The formula is F<sub>n</sub> = &radic;(1/2N) [f<sub>0</sub> + (-1)<sup>n</sup> f<sub>N</sub>] +
      *                        &radic;(2/N) &sum;<sub>k=1</sub><sup>N-1</sup> f<sub>k</sub> cos(&pi; nk/N)
      * </p>
      * 
@@ -107,7 +107,7 @@ public class FastCosineTransformer implements RealTransformer {
     /**
      * Transform the given real function, sampled on the given interval.
      * <p>
-     * The formula is F<sub>n</sub> = \sqrt{1/2N} [f<sub>0</sub> + (-1)<sup>n</sup> f<sub>N</sub>] +
+     * The formula is F<sub>n</sub> = &radic;(1/2N) [f<sub>0</sub> + (-1)<sup>n</sup> f<sub>N</sub>] +
      *                        &radic;(2/N) &sum;<sub>k=1</sub><sup>N-1</sup> f<sub>k</sub> cos(&pi; nk/N)
      *
      * </p>

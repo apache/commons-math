@@ -52,7 +52,7 @@ public class FastSineTransformer implements RealTransformer {
     /**
      * Transform the given real data set.
      * <p>
-     * The formula is $ F_n = \Sigma_{k=0}^{N-1} f_k \sin(\pi nk/N) $
+     * The formula is F<sub>n</sub> = &sum;<sub>k=0</sub><sup>N-1</sup> f<sub>k</sub> sin(&pi; nk/N)
      * </p>
      * 
      * @param f the real data array to be transformed
@@ -67,7 +67,7 @@ public class FastSineTransformer implements RealTransformer {
     /**
      * Transform the given real function, sampled on the given interval.
      * <p>
-     * The formula is $ F_n = \Sigma_{k=0}^{N-1} f_k \sin(\pi nk/N) $
+     * The formula is F<sub>n</sub> = &sum;<sub>k=0</sub><sup>N-1</sup> f<sub>k</sub> sin(&pi; nk/N)
      * </p>
      * 
      * @param f the function to be sampled and transformed
@@ -91,7 +91,7 @@ public class FastSineTransformer implements RealTransformer {
     /**
      * Transform the given real data set.
      * <p>
-     * The formula is $ F_n = \sqrt{2/N} \Sigma_{k=0}^{N-1} f_k \sin(\pi nk/N) $
+     * The formula is F<sub>n</sub> = &radic;(2/N) &sum;<sub>k=0</sub><sup>N-1</sup> f<sub>k</sub> sin(&pi; nk/N)
      * </p>
      * 
      * @param f the real data array to be transformed
@@ -107,7 +107,7 @@ public class FastSineTransformer implements RealTransformer {
     /**
      * Transform the given real function, sampled on the given interval.
      * <p>
-     * The formula is $ F_n = \sqrt{2/N} \Sigma_{k=0}^{N-1} f_k \sin(\pi nk/N) $
+     * The formula is F<sub>n</sub> = &radic;(2/N) &sum;<sub>k=0</sub><sup>N-1</sup> f<sub>k</sub> sin(&pi; nk/N)
      * </p>
      * 
      * @param f the function to be sampled and transformed
@@ -132,7 +132,7 @@ public class FastSineTransformer implements RealTransformer {
     /**
      * Inversely transform the given real data set.
      * <p>
-     * The formula is $ f_k = (2/N) \Sigma_{n=0}^{N-1} F_n \sin(\pi nk/N) $
+     * The formula is f<sub>k</sub> = (2/N) &sum;<sub>n=0</sub><sup>N-1</sup> F<sub>n</sub> sin(&pi; nk/N)
      * </p>
      * 
      * @param f the real data array to be inversely transformed
@@ -148,7 +148,7 @@ public class FastSineTransformer implements RealTransformer {
     /**
      * Inversely transform the given real function, sampled on the given interval.
      * <p>
-     * The formula is $ f_k = (2/N) \Sigma_{n=0}^{N-1} F_n \sin(\pi nk/N) $
+     * The formula is f<sub>k</sub> = (2/N) &sum;<sub>n=0</sub><sup>N-1</sup> F<sub>n</sub> sin(&pi; nk/N)
      * </p>
      * 
      * @param f the function to be sampled and inversely transformed
@@ -172,7 +172,7 @@ public class FastSineTransformer implements RealTransformer {
     /**
      * Inversely transform the given real data set.
      * <p>
-     * The formula is $ f_k = \sqrt{2/N} \Sigma_{n=0}^{N-1} F_n \sin(\pi nk/N) $
+     * The formula is f<sub>k</sub> = &radic;(2/N) &sum;<sub>n=0</sub><sup>N-1</sup> F<sub>n</sub> sin(&pi; nk/N)
      * </p>
      * 
      * @param f the real data array to be inversely transformed
@@ -187,7 +187,7 @@ public class FastSineTransformer implements RealTransformer {
     /**
      * Inversely transform the given real function, sampled on the given interval.
      * <p>
-     * The formula is $ f_k = \sqrt{2/N} \Sigma_{n=0}^{N-1} F_n \sin(\pi nk/N) $
+     * The formula is f<sub>k</sub> = &radic;(2/N) &sum;<sub>n=0</sub><sup>N-1</sup> F<sub>n</sub> sin(&pi; nk/N)
      * </p>
      * 
      * @param f the function to be sampled and inversely transformed
