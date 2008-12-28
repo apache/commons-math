@@ -343,6 +343,26 @@ public class MessagesResources_fr
    { "{0} is not a power of 2",
      "{0} n''est pas une puissance de 2" },
 
+   // org.apache.commons.math.transform.FastFourierTransformer
+   { "cannot compute 0-th root of unity, indefinite result",
+     "impossible de calculer la racine z\u00e9roi\u00e8me de l''unit\u00e9, r\u00e9sultat ind\u00e9fini" },
+   { "number of sample is not positive: {0}",
+     "le nombre d''\u00e9chantillons n''est pas positif : {0}" },
+   { "{0} is not a power of 2, consider padding for fix",
+     "{0} n''est pas une puissance de 2, ajoutez des \u00e9l\u00e9ments pour corriger" },
+   { "endpoints do not specify an interval: [{0}, {1}]",
+     "les extr\u00e9mit\u00e9s ne constituent pas un intervalle : [{0}, {1}]" },
+   { "some dimensions don't math: {0} != {1}",
+     "certaines dimensions sont incoh\u00e9rentes : {0} != {1}" },
+
+   // org.apache.commons.math.transform.FastCosineTransformer
+   { "{0} is not a power of 2 plus one",
+     "{0} n''est pas une puissance de 2 plus un" },
+
+   // org.apache.commons.math.transform.FastSineTransformer
+   { "first element is not 0: {0}",
+     "le premier \u00e9l\u00e9ment n''est pas nul : {0}" },
+
    // org.apache.commons.math.util.OpenIntToDoubleHashMap
    { "map has been modified while iterating",
      "la table d''adressage a \u00e9t\u00e9 modifi\u00e9e pendant l''it\u00e9ration" },

@@ -16,9 +16,9 @@
  */
 package org.apache.commons.math.transform;
 
-import java.io.Serializable;
-
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
 
 /**
  * Implements the <a href="http://www.archive.chipcenter.com/dsp/DSP000517F1.html">Fast Hadamard Transform</a> (FHT).
@@ -26,22 +26,35 @@ import org.apache.commons.math.MathRuntimeException;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class FastHadamardTransformer implements Serializable {
+public class FastHadamardTransformer implements RealTransformer {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 5044269102877526860L;
+    private static final long serialVersionUID = -710169279109099264L;
 
-    /**
-     * Wrapper method for fht() for double vectors
-     *  
-     * @param x input vector
-     * @return y output vector
-     * @throws IllegalArgumentException
-     */
-    public double[] transform(double x[]) throws IllegalArgumentException {
-        return fht(x);
+    /** {@inheritDoc} */
+    public double[] transform(double f[]) throws IllegalArgumentException {
+        return fht(f);
     }
 
+    /** {@inheritDoc} */
+    public double[] transform(UnivariateRealFunction f,
+                              double min, double max, int n)
+        throws FunctionEvaluationException, IllegalArgumentException {
+        return fht(FastFourierTransformer.sample(f, min, max, n));
+    }
+
+    /** {@inheritDoc} */
+    public double[] inversetransform(double f[])
+    throws IllegalArgumentException {
+        return fht(f);
+    }
+
+    /** {@inheritDoc} */
+    public double[] inversetransform(UnivariateRealFunction f,
+                                     double min, double max, int n)
+        throws FunctionEvaluationException, IllegalArgumentException {
+        return fht(FastFourierTransformer.sample(f, min, max, n));
+    }
 
     /**
      * The FHT (Fast Hadamard Transformation) which uses only subtraction and addition.
@@ -123,16 +136,11 @@ public class FastHadamardTransformer implements Serializable {
     protected double[] fht(double x[]) throws IllegalArgumentException {
 
         // n is the row count of the input vector x
-        int n = x.length;
+        final int n     = x.length;
+        final int halfN = n / 2;
 
         // n has to be of the form n = 2^p !!
-        int p    = 0;
-        int twoP = 1;
-        while (twoP < n) {
-            ++p;
-            twoP *= 2;
-        }
-        if (n != twoP) {
+        if (!FastFourierTransformer.isPowerOf2(n)) {
             throw MathRuntimeException.createIllegalArgumentException("{0} is not a power of 2",
                                                                       new Object[] { n });
         }
@@ -143,7 +151,7 @@ public class FastHadamardTransformer implements Serializable {
         double[] yCurrent  = x.clone();
 
         // iterate from left to right (column)
-        for (int j = 0; j < p; j++) {
+        for (int j = 1; j < n; j <<= 1) {
 
             // switch columns
             final double[] yTmp = yCurrent;
@@ -151,16 +159,17 @@ public class FastHadamardTransformer implements Serializable {
             yPrevious = yTmp;
 
             // iterate from top to bottom (row)
-            for (int i = 0; i < n; i++) { 
-                if (i < n / 2) {
-                    // D<sub>top</sub>
-                    // The top part works with addition
-                    yCurrent[i] = yPrevious[i*2] + yPrevious[i*2 +1];
-                } else {
-                    // D<sub>bottom</sub>   
-                    // The bottom part works with subtraction
-                    yCurrent[i] = yPrevious[(i-n/2)*2] - yPrevious[(i-n/2)*2 +1];
-                }
+            for (int i = 0; i < halfN; ++i) { 
+                // D<sub>top</sub>
+                // The top part works with addition
+                final int twoI = 2 * i;
+                yCurrent[i] = yPrevious[twoI] + yPrevious[twoI + 1];
+            }
+            for (int i = halfN; i < n; ++i) { 
+                // D<sub>bottom</sub>   
+                // The bottom part works with subtraction
+                final int twoI = 2 * i;
+                yCurrent[i] = yPrevious[twoI - n] - yPrevious[twoI - n + 1];
             }
         }
 

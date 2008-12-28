@@ -16,10 +16,10 @@
  */
 package org.apache.commons.math.transform;
 
-import java.io.Serializable;
-import org.apache.commons.math.analysis.*;
-import org.apache.commons.math.complex.*;
-import org.apache.commons.math.MathException;
+import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.complex.Complex;
 
 /**
  * Implements the <a href="http://documents.wolfram.com/v5/Add-onsLinks/
@@ -37,10 +37,10 @@ import org.apache.commons.math.MathException;
  * @version $Revision:670469 $ $Date:2008-06-23 10:01:38 +0200 (lun., 23 juin 2008) $
  * @since 1.2
  */
-public class FastCosineTransformer implements Serializable {
+public class FastCosineTransformer implements RealTransformer {
 
     /** serializable version identifier */
-    static final long serialVersionUID = -7673941545134707766L;
+    private static final long serialVersionUID = -831323620109865380L;
 
     /**
      * Construct a default transformer.
@@ -52,26 +52,23 @@ public class FastCosineTransformer implements Serializable {
     /**
      * Transform the given real data set.
      * <p>
-     * The formula is $ F_n = (1/2) [f_0 + (-1)^n f_N] +
-     *                        \Sigma_{k=1}^{N-1} f_k \cos(\pi nk/N) $
+     * The formula is F<sub>n</sub> = (1/2) [f<sub>0</sub> + (-1)<sup>n</sup> f<sub>N</sub>] +
+     *                        &sum;<sub>k=1</sub><sup>N-1</sup> f<sub>k</sub> cos(&pi; nk/N)
      * </p>
      * 
      * @param f the real data array to be transformed
      * @return the real transformed array
-     * @throws MathException if any math-related errors occur
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double[] transform(double f[]) throws MathException,
-        IllegalArgumentException {
-
+    public double[] transform(double f[]) throws IllegalArgumentException {
         return fct(f);
     }
 
     /**
      * Transform the given real function, sampled on the given interval.
      * <p>
-     * The formula is $ F_n = (1/2) [f_0 + (-1)^n f_N] +
-     *                        \Sigma_{k=1}^{N-1} f_k \cos(\pi nk/N) $
+     * The formula is F<sub>n</sub> = (1/2) [f<sub>0</sub> + (-1)<sup>n</sup> f<sub>N</sub>] +
+     *                        &sum;<sub>k=1</sub><sup>N-1</sup> f<sub>k</sub> cos(&pi; nk/N)
      * </p>
      * 
      * @param f the function to be sampled and transformed
@@ -79,13 +76,13 @@ public class FastCosineTransformer implements Serializable {
      * @param max the upper bound for the interval
      * @param n the number of sample points
      * @return the real transformed array
-     * @throws MathException if any math-related errors occur
+     * @throws FunctionEvaluationException if function cannot be evaluated
+     * at some point
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double[] transform(
-        UnivariateRealFunction f, double min, double max, int n)
-        throws MathException, IllegalArgumentException {
-
+    public double[] transform(UnivariateRealFunction f,
+                              double min, double max, int n)
+        throws FunctionEvaluationException, IllegalArgumentException {
         double data[] = FastFourierTransformer.sample(f, min, max, n);
         return fct(data);
     }
@@ -93,17 +90,15 @@ public class FastCosineTransformer implements Serializable {
     /**
      * Transform the given real data set.
      * <p>
-     * The formula is $ F_n = \sqrt{1/2N} [f_0 + (-1)^n f_N] +
-     *                        \sqrt{2/N} \Sigma_{k=1}^{N-1} f_k \cos(\pi nk/N) $
+     * The formula is F<sub>n</sub> = \sqrt{1/2N} [f<sub>0</sub> + (-1)<sup>n</sup> f<sub>N</sub>] +
+     *                        &radic;(2/N) &sum;<sub>k=1</sub><sup>N-1</sup> f<sub>k</sub> cos(&pi; nk/N)
      * </p>
      * 
      * @param f the real data array to be transformed
      * @return the real transformed array
-     * @throws MathException if any math-related errors occur
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double[] transform2(double f[]) throws MathException,
-        IllegalArgumentException {
+    public double[] transform2(double f[]) throws IllegalArgumentException {
 
         double scaling_coefficient = Math.sqrt(2.0 / (f.length-1));
         return FastFourierTransformer.scaleArray(fct(f), scaling_coefficient);
@@ -112,8 +107,8 @@ public class FastCosineTransformer implements Serializable {
     /**
      * Transform the given real function, sampled on the given interval.
      * <p>
-     * The formula is $ F_n = \sqrt{1/2N} [f_0 + (-1)^n f_N] +
-     *                        \sqrt{2/N} \Sigma_{k=1}^{N-1} f_k \cos(\pi nk/N) $
+     * The formula is F<sub>n</sub> = \sqrt{1/2N} [f<sub>0</sub> + (-1)<sup>n</sup> f<sub>N</sub>] +
+     *                        &radic;(2/N) &sum;<sub>k=1</sub><sup>N-1</sup> f<sub>k</sub> cos(&pi; nk/N)
      *
      * </p>
      * 
@@ -122,12 +117,13 @@ public class FastCosineTransformer implements Serializable {
      * @param max the upper bound for the interval
      * @param n the number of sample points
      * @return the real transformed array
-     * @throws MathException if any math-related errors occur
+     * @throws FunctionEvaluationException if function cannot be evaluated
+     * at some point
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double[] transform2(
-        UnivariateRealFunction f, double min, double max, int n)
-        throws MathException, IllegalArgumentException {
+    public double[] transform2(UnivariateRealFunction f,
+                               double min, double max, int n)
+        throws FunctionEvaluationException, IllegalArgumentException {
 
         double data[] = FastFourierTransformer.sample(f, min, max, n);
         double scaling_coefficient = Math.sqrt(2.0 / (n-1));
@@ -137,17 +133,15 @@ public class FastCosineTransformer implements Serializable {
     /**
      * Inversely transform the given real data set.
      * <p>
-     * The formula is $ f_k = (1/N) [F_0 + (-1)^k F_N] +
-     *                        (2/N) \Sigma_{n=1}^{N-1} F_n \cos(\pi nk/N) $
+     * The formula is f<sub>k</sub> = (1/N) [F<sub>0</sub> + (-1)<sup>k</sup> F<sub>N</sub>] +
+     *                        (2/N) &sum;<sub>n=1</sub><sup>N-1</sup> F<sub>n</sub> cos(&pi; nk/N)
      * </p>
      * 
      * @param f the real data array to be inversely transformed
      * @return the real inversely transformed array
-     * @throws MathException if any math-related errors occur
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double[] inversetransform(double f[]) throws MathException,
-        IllegalArgumentException {
+    public double[] inversetransform(double f[]) throws IllegalArgumentException {
 
         double scaling_coefficient = 2.0 / (f.length - 1);
         return FastFourierTransformer.scaleArray(fct(f), scaling_coefficient);
@@ -156,8 +150,8 @@ public class FastCosineTransformer implements Serializable {
     /**
      * Inversely transform the given real function, sampled on the given interval.
      * <p>
-     * The formula is $ f_k = (1/N) [F_0 + (-1)^k F_N] +
-     *                        (2/N) \Sigma_{n=1}^{N-1} F_n \cos(\pi nk/N) $
+     * The formula is f<sub>k</sub> = (1/N) [F<sub>0</sub> + (-1)<sup>k</sup> F<sub>N</sub>] +
+     *                        (2/N) &sum;<sub>n=1</sub><sup>N-1</sup> F<sub>n</sub> cos(&pi; nk/N)
      * </p>
      * 
      * @param f the function to be sampled and inversely transformed
@@ -165,12 +159,13 @@ public class FastCosineTransformer implements Serializable {
      * @param max the upper bound for the interval
      * @param n the number of sample points
      * @return the real inversely transformed array
-     * @throws MathException if any math-related errors occur
+     * @throws FunctionEvaluationException if function cannot be evaluated
+     * at some point
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double[] inversetransform(
-        UnivariateRealFunction f, double min, double max, int n)
-        throws MathException, IllegalArgumentException {
+    public double[] inversetransform(UnivariateRealFunction f,
+                                     double min, double max, int n)
+        throws FunctionEvaluationException, IllegalArgumentException {
 
         double data[] = FastFourierTransformer.sample(f, min, max, n);
         double scaling_coefficient = 2.0 / (n - 1);
@@ -180,26 +175,23 @@ public class FastCosineTransformer implements Serializable {
     /**
      * Inversely transform the given real data set.
      * <p>
-     * The formula is $ f_k = \sqrt{1/2N} [F_0 + (-1)^k F_N] +
-     *                        \sqrt{2/N} \Sigma_{n=1}^{N-1} F_n \cos(\pi nk/N) $
+     * The formula is f<sub>k</sub> = &radic;(1/2N) [F<sub>0</sub> + (-1)<sup>k</sup> F<sub>N</sub>] +
+     *                        &radic;(2/N) &sum;<sub>n=1</sub><sup>N-1</sup> F<sub>n</sub> cos(&pi; nk/N)
      * </p>
      * 
      * @param f the real data array to be inversely transformed
      * @return the real inversely transformed array
-     * @throws MathException if any math-related errors occur
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double[] inversetransform2(double f[]) throws MathException,
-        IllegalArgumentException {
-
+    public double[] inversetransform2(double f[]) throws IllegalArgumentException {
         return transform2(f);
     }
 
     /**
      * Inversely transform the given real function, sampled on the given interval.
      * <p>
-     * The formula is $ f_k = \sqrt{1/2N} [F_0 + (-1)^k F_N] +
-     *                        \sqrt{2/N} \Sigma_{n=1}^{N-1} F_n \cos(\pi nk/N) $
+     * The formula is f<sub>k</sub> = &radic;(1/2N) [F<sub>0</sub> + (-1)<sup>k</sup> F<sub>N</sub>] +
+     *                        &radic;(2/N) &sum;<sub>n=1</sub><sup>N-1</sup> F<sub>n</sub> cos(&pi; nk/N)
      * </p>
      * 
      * @param f the function to be sampled and inversely transformed
@@ -207,12 +199,13 @@ public class FastCosineTransformer implements Serializable {
      * @param max the upper bound for the interval
      * @param n the number of sample points
      * @return the real inversely transformed array
-     * @throws MathException if any math-related errors occur
+     * @throws FunctionEvaluationException if function cannot be evaluated
+     * at some point
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double[] inversetransform2(
-        UnivariateRealFunction f, double min, double max, int n)
-        throws MathException, IllegalArgumentException {
+    public double[] inversetransform2(UnivariateRealFunction f,
+                                      double min, double max, int n)
+        throws FunctionEvaluationException, IllegalArgumentException {
 
         return transform2(f, min, max, n);
     }
@@ -222,18 +215,17 @@ public class FastCosineTransformer implements Serializable {
      *
      * @param f the real data array to be transformed
      * @return the real transformed array
-     * @throws MathException if any math-related errors occur
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    protected double[] fct(double f[]) throws MathException,
-        IllegalArgumentException {
+    protected double[] fct(double f[])
+        throws IllegalArgumentException {
 
         double A, B, C, F1, x[], F[] = new double[f.length];
 
         int N = f.length - 1;
         if (!FastFourierTransformer.isPowerOf2(N)) {
-            throw new IllegalArgumentException
-                ("Number of samples not power of 2 plus one: " + f.length);
+            throw MathRuntimeException.createIllegalArgumentException("{0} is not a power of 2 plus one",
+                                                                      new Object[] { f.length });
         }
         if (N == 1) {       // trivial case
             F[0] = 0.5 * (f[0] + f[1]);

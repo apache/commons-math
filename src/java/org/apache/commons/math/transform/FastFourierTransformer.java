@@ -19,7 +19,8 @@ package org.apache.commons.math.transform;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 
-import org.apache.commons.math.MathException;
+import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.complex.Complex;
 
@@ -71,12 +72,10 @@ public class FastFourierTransformer implements Serializable {
      * 
      * @param f the real data array to be transformed
      * @return the complex transformed array
-     * @throws MathException if any math-related errors occur
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public Complex[] transform(double f[]) throws MathException,
-        IllegalArgumentException {
-
+    public Complex[] transform(double f[])
+        throws IllegalArgumentException {
         return fft(f, false);
     }
 
@@ -91,13 +90,13 @@ public class FastFourierTransformer implements Serializable {
      * @param max the upper bound for the interval
      * @param n the number of sample points
      * @return the complex transformed array
-     * @throws MathException if any math-related errors occur
+     * @throws FunctionEvaluationException if function cannot be evaluated
+     * at some point
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public Complex[] transform(
-        UnivariateRealFunction f, double min, double max, int n)
-        throws MathException, IllegalArgumentException {
-
+    public Complex[] transform(UnivariateRealFunction f,
+                               double min, double max, int n)
+        throws FunctionEvaluationException, IllegalArgumentException {
         double data[] = sample(f, min, max, n);
         return fft(data, false);
     }
@@ -110,12 +109,10 @@ public class FastFourierTransformer implements Serializable {
      * 
      * @param f the complex data array to be transformed
      * @return the complex transformed array
-     * @throws MathException if any math-related errors occur
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public Complex[] transform(Complex f[]) throws MathException,
-        IllegalArgumentException {
-
+    public Complex[] transform(Complex f[])
+        throws IllegalArgumentException {
         computeOmega(f.length);
         return fft(f);
     }
@@ -128,11 +125,10 @@ public class FastFourierTransformer implements Serializable {
      * 
      * @param f the real data array to be transformed
      * @return the complex transformed array
-     * @throws MathException if any math-related errors occur
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public Complex[] transform2(double f[]) throws MathException,
-        IllegalArgumentException {
+    public Complex[] transform2(double f[])
+        throws IllegalArgumentException {
 
         double scaling_coefficient = 1.0 / Math.sqrt(f.length);
         return scaleArray(fft(f, false), scaling_coefficient);
@@ -149,12 +145,13 @@ public class FastFourierTransformer implements Serializable {
      * @param max the upper bound for the interval
      * @param n the number of sample points
      * @return the complex transformed array
-     * @throws MathException if any math-related errors occur
+     * @throws FunctionEvaluationException if function cannot be evaluated
+     * at some point
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public Complex[] transform2(
-        UnivariateRealFunction f, double min, double max, int n)
-        throws MathException, IllegalArgumentException {
+    public Complex[] transform2(UnivariateRealFunction f,
+                                double min, double max, int n)
+        throws FunctionEvaluationException, IllegalArgumentException {
 
         double data[] = sample(f, min, max, n);
         double scaling_coefficient = 1.0 / Math.sqrt(n);
@@ -169,11 +166,10 @@ public class FastFourierTransformer implements Serializable {
      * 
      * @param f the complex data array to be transformed
      * @return the complex transformed array
-     * @throws MathException if any math-related errors occur
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public Complex[] transform2(Complex f[]) throws MathException,
-        IllegalArgumentException {
+    public Complex[] transform2(Complex f[])
+        throws IllegalArgumentException {
 
         computeOmega(f.length);
         double scaling_coefficient = 1.0 / Math.sqrt(f.length);
@@ -188,11 +184,10 @@ public class FastFourierTransformer implements Serializable {
      * 
      * @param f the real data array to be inversely transformed
      * @return the complex inversely transformed array
-     * @throws MathException if any math-related errors occur
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public Complex[] inversetransform(double f[]) throws MathException,
-        IllegalArgumentException {
+    public Complex[] inversetransform(double f[])
+        throws IllegalArgumentException {
 
         double scaling_coefficient = 1.0 / f.length;
         return scaleArray(fft(f, true), scaling_coefficient);
@@ -209,12 +204,13 @@ public class FastFourierTransformer implements Serializable {
      * @param max the upper bound for the interval
      * @param n the number of sample points
      * @return the complex inversely transformed array
-     * @throws MathException if any math-related errors occur
+     * @throws FunctionEvaluationException if function cannot be evaluated
+     * at some point
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public Complex[] inversetransform(
-        UnivariateRealFunction f, double min, double max, int n)
-        throws MathException, IllegalArgumentException {
+    public Complex[] inversetransform(UnivariateRealFunction f,
+                                      double min, double max, int n)
+        throws FunctionEvaluationException, IllegalArgumentException {
 
         double data[] = sample(f, min, max, n);
         double scaling_coefficient = 1.0 / n;
@@ -229,11 +225,10 @@ public class FastFourierTransformer implements Serializable {
      * 
      * @param f the complex data array to be inversely transformed
      * @return the complex inversely transformed array
-     * @throws MathException if any math-related errors occur
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public Complex[] inversetransform(Complex f[]) throws MathException,
-        IllegalArgumentException {
+    public Complex[] inversetransform(Complex f[])
+        throws IllegalArgumentException {
 
         computeOmega(-f.length);    // pass negative argument
         double scaling_coefficient = 1.0 / f.length;
@@ -248,11 +243,10 @@ public class FastFourierTransformer implements Serializable {
      * 
      * @param f the real data array to be inversely transformed
      * @return the complex inversely transformed array
-     * @throws MathException if any math-related errors occur
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public Complex[] inversetransform2(double f[]) throws MathException,
-        IllegalArgumentException {
+    public Complex[] inversetransform2(double f[])
+        throws IllegalArgumentException {
 
         double scaling_coefficient = 1.0 / Math.sqrt(f.length);
         return scaleArray(fft(f, true), scaling_coefficient);
@@ -269,12 +263,13 @@ public class FastFourierTransformer implements Serializable {
      * @param max the upper bound for the interval
      * @param n the number of sample points
      * @return the complex inversely transformed array
-     * @throws MathException if any math-related errors occur
+     * @throws FunctionEvaluationException if function cannot be evaluated
+     * at some point
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public Complex[] inversetransform2(
-        UnivariateRealFunction f, double min, double max, int n)
-        throws MathException, IllegalArgumentException {
+    public Complex[] inversetransform2(UnivariateRealFunction f,
+                                       double min, double max, int n)
+        throws FunctionEvaluationException, IllegalArgumentException {
 
         double data[] = sample(f, min, max, n);
         double scaling_coefficient = 1.0 / Math.sqrt(n);
@@ -289,11 +284,10 @@ public class FastFourierTransformer implements Serializable {
      * 
      * @param f the complex data array to be inversely transformed
      * @return the complex inversely transformed array
-     * @throws MathException if any math-related errors occur
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public Complex[] inversetransform2(Complex f[]) throws MathException,
-        IllegalArgumentException {
+    public Complex[] inversetransform2(Complex f[])
+        throws IllegalArgumentException {
 
         computeOmega(-f.length);    // pass negative argument
         double scaling_coefficient = 1.0 / Math.sqrt(f.length);
@@ -306,11 +300,10 @@ public class FastFourierTransformer implements Serializable {
      * @param f the real data array to be transformed
      * @param isInverse the indicator of forward or inverse transform
      * @return the complex transformed array
-     * @throws MathException if any math-related errors occur
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    protected Complex[] fft(double f[], boolean isInverse) throws
-        MathException, IllegalArgumentException {
+    protected Complex[] fft(double f[], boolean isInverse)
+        throws IllegalArgumentException {
 
         verifyDataSet(f);
         Complex F[] = new Complex[f.length];
@@ -350,11 +343,10 @@ public class FastFourierTransformer implements Serializable {
      *
      * @param data the complex data array to be transformed
      * @return the complex transformed array
-     * @throws MathException if any math-related errors occur
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    protected Complex[] fft(Complex data[]) throws MathException,
-        IllegalArgumentException {
+    protected Complex[] fft(Complex data[])
+        throws IllegalArgumentException {
 
         int i, j, k, m, N = data.length;
         Complex A, B, C, D, E, F, z, f[] = new Complex[N];
@@ -421,10 +413,11 @@ public class FastFourierTransformer implements Serializable {
      * @param n the integer passed in
      * @throws IllegalArgumentException if n = 0
      */
-    protected void computeOmega(int n) throws IllegalArgumentException {
+    protected void computeOmega(int n)
+        throws IllegalArgumentException {
         if (n == 0) {
-            throw new IllegalArgumentException
-                ("Cannot compute 0-th root of unity, indefinite result.");
+            throw MathRuntimeException.createIllegalArgumentException("cannot compute 0-th root of unity, indefinite result",
+                                                                      null);
         }
         // avoid repetitive calculations
         if (n == omegaCount) { return; }
@@ -462,15 +455,17 @@ public class FastFourierTransformer implements Serializable {
      * @param max the upper bound for the interval
      * @param n the number of sample points
      * @return the samples array
-     * @throws MathException if any math-related errors occur
+     * @throws FunctionEvaluationException if function cannot be evaluated
+     * at some point
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public static double[] sample(
-        UnivariateRealFunction f, double min, double max, int n)
-        throws MathException, IllegalArgumentException {
+    public static double[] sample(UnivariateRealFunction f,
+                                  double min, double max, int n)
+        throws FunctionEvaluationException, IllegalArgumentException {
 
         if (n <= 0) {
-            throw new IllegalArgumentException("Number of samples not positive.");
+            throw MathRuntimeException.createIllegalArgumentException("number of sample is not positive: {0}",
+                                                                      new Object[] { n });
         }
         verifyInterval(min, max);
 
@@ -530,8 +525,8 @@ public class FastFourierTransformer implements Serializable {
      */
     public static void verifyDataSet(double d[]) throws IllegalArgumentException {
         if (!isPowerOf2(d.length)) {
-            throw new IllegalArgumentException
-                ("Number of samples not power of 2, consider padding for fix.");
+            throw MathRuntimeException.createIllegalArgumentException("{0} is not a power of 2, consider padding for fix",
+                                                                      new Object[] { d.length });
         }       
     }
 
@@ -543,8 +538,8 @@ public class FastFourierTransformer implements Serializable {
      */
     public static void verifyDataSet(Object o[]) throws IllegalArgumentException {
         if (!isPowerOf2(o.length)) {
-            throw new IllegalArgumentException
-                ("Number of samples not power of 2, consider padding for fix.");
+            throw MathRuntimeException.createIllegalArgumentException("{0} is not a power of 2, consider padding for fix",
+                                                                      new Object[] { o.length });
         }       
     }
 
@@ -555,13 +550,12 @@ public class FastFourierTransformer implements Serializable {
      * @param upper upper endpoint
      * @throws IllegalArgumentException if not interval
      */
-    public static void verifyInterval(double lower, double upper) throws
-        IllegalArgumentException {
+    public static void verifyInterval(double lower, double upper)
+        throws IllegalArgumentException {
 
         if (lower >= upper) {
-            throw new IllegalArgumentException
-                ("Endpoints do not specify an interval: [" + lower +
-                ", " + upper + "]");
+            throw MathRuntimeException.createIllegalArgumentException("endpoints do not specify an interval: [{0}, {1}]",
+                                                                     new Object[] { lower, upper });
         }       
     }
     
@@ -577,9 +571,10 @@ public class FastFourierTransformer implements Serializable {
      * @param mdca Multi-Dimensional Complex Array id est Complex[][][][]
      * @param forward inverseTransform2 is preformed if this is false
      * @return transform of mdca as a Multi-Dimensional Complex Array id est Complex[][][][]
-     * @throws MathException if any dimension is not a power of two
+     * @throws IllegalArgumentException if any dimension is not a power of two
      */
-    public Object mdfft(Object mdca, boolean forward) throws MathException {
+    public Object mdfft(Object mdca, boolean forward)
+        throws IllegalArgumentException {
         MultiDimensionalComplexMatrix mdcm = (MultiDimensionalComplexMatrix)
                 new MultiDimensionalComplexMatrix(mdca).clone();
         int[] dimensionSize = mdcm.getDimensionSizes();
@@ -597,10 +592,11 @@ public class FastFourierTransformer implements Serializable {
      * @param forward inverseTransform2 is preformed if this is false
      * @param d index of the dimension to process
      * @param subVector recursion subvector
-     * @throws MathException if any dimension is not a power of two
+     * @throws IllegalArgumentException if any dimension is not a power of two
      */
     private void mdfft(MultiDimensionalComplexMatrix mdcm, boolean forward,
-                         int d, int[] subVector) throws MathException {
+                       int d, int[] subVector)
+        throws IllegalArgumentException {
         int[] dimensionSize = mdcm.getDimensionSizes();
         //if done
         if (subVector.length == dimensionSize.length) {
@@ -646,8 +642,8 @@ public class FastFourierTransformer implements Serializable {
      * http://jcp.org/en/jsr/detail?id=83
      * may require additional exception throws for other basic requirements.
      */
-    private class MultiDimensionalComplexMatrix implements Serializable,
-                                                           Cloneable {
+    private class MultiDimensionalComplexMatrix
+        implements Serializable, Cloneable {
 
         /** Serializable version identifier. */
         private static final long serialVersionUID =  0x564FCD47EBA8169BL;
@@ -693,11 +689,20 @@ public class FastFourierTransformer implements Serializable {
          * Get a matrix element.
          * @param vector indices of the element
          * @return matrix element
+         * @exception IllegalArgumentException if dimensions do not match
          */
-        public Complex get(int... vector) {
-            if ((vector == null && dimensionSize.length > 1) ||
-                (vector != null && vector.length != dimensionSize.length)) {
-                throw new IllegalArgumentException("Number of dimensions must match");
+        public Complex get(int... vector)
+            throws IllegalArgumentException {
+            if (vector == null && dimensionSize.length > 1) {
+                throw MathRuntimeException.createIllegalArgumentException("some dimensions don't math: {0} != {1}",
+                                                                          new Object[] { 0, dimensionSize.length });
+            }
+            if (vector != null && vector.length != dimensionSize.length) {
+                throw MathRuntimeException.createIllegalArgumentException("some dimensions don't math: {0} != {1}",
+                                                                          new Object[] {
+                                                                              vector.length,
+                                                                              dimensionSize.length
+                                                                          });
             }
             
             Object lastDimension = multiDimensionalComplexArray;
@@ -713,11 +718,20 @@ public class FastFourierTransformer implements Serializable {
          * @param magnitude magnitude of the element
          * @param vector indices of the element
          * @return the previous value
+         * @exception IllegalArgumentException if dimensions do not match
          */
-        public Complex set(Complex magnitude, int... vector) {
-            if ((vector == null && dimensionSize.length > 1) ||
-                (vector != null && vector.length != dimensionSize.length)) {
-                throw new IllegalArgumentException("Number of dimensions must match");
+        public Complex set(Complex magnitude, int... vector)
+            throws IllegalArgumentException {
+            if (vector == null && dimensionSize.length > 1) {
+                throw MathRuntimeException.createIllegalArgumentException("some dimensions don't math: {0} != {1}",
+                                                                          new Object[] { 0, dimensionSize.length });
+            }
+            if (vector != null && vector.length != dimensionSize.length) {
+                throw MathRuntimeException.createIllegalArgumentException("some dimensions don't math: {0} != {1}",
+                                                                          new Object[] {
+                                                                              vector.length,
+                                                                              dimensionSize.length
+                                                                          });
             }
             
             Object lastDimension = multiDimensionalComplexArray;
