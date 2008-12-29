@@ -152,7 +152,7 @@ public class FastHadamardTransformer implements RealTransformer {
      * 
      * @param x input vector
      * @return y output vector
-     * @exception IllegalArgumentException if input array is not a poer of 2
+     * @exception IllegalArgumentException if input array is not a power of 2
      */
     protected double[] fht(double x[]) throws IllegalArgumentException {
 
@@ -202,7 +202,7 @@ public class FastHadamardTransformer implements RealTransformer {
      * The FHT (Fast Hadamard Transformation) which uses only subtraction and addition.
      * @param x input vector
      * @return y output vector
-     * @exception IllegalArgumentException if input array is not a poer of 2
+     * @exception IllegalArgumentException if input array is not a power of 2
      */
     protected int[] fht(int x[]) throws IllegalArgumentException {
 
