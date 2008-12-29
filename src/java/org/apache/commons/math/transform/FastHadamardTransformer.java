@@ -23,16 +23,22 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 /**
  * Implements the <a href="http://www.archive.chipcenter.com/dsp/DSP000517F1.html">Fast Hadamard Transform</a> (FHT).
  * Transformation of an input vector x to the output vector y.
+ * <p>In addition to transformation of real vectors, the Hadamard transform can
+ * transform integer vectors into integer vectors. However, this integer transform
+ * cannot be inverted directly. Due to a scaling factor it may lead to rational results.
+ * As an example, the inverse transform of integer vector (0, 1, 0, 1) is rational
+ * vector (1/2, -1/2, 0, 0).</p>
  * @version $Revision$ $Date$
  * @since 2.0
  */
 public class FastHadamardTransformer implements RealTransformer {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -710169279109099264L;
+    private static final long serialVersionUID = -720498949613305350L;
 
     /** {@inheritDoc} */
-    public double[] transform(double f[]) throws IllegalArgumentException {
+    public double[] transform(double f[])
+        throws IllegalArgumentException {
         return fht(f);
     }
 
@@ -46,14 +52,29 @@ public class FastHadamardTransformer implements RealTransformer {
     /** {@inheritDoc} */
     public double[] inversetransform(double f[])
     throws IllegalArgumentException {
-        return fht(f);
-    }
+        return FastFourierTransformer.scaleArray(fht(f), 1.0 / f.length);
+   }
 
     /** {@inheritDoc} */
     public double[] inversetransform(UnivariateRealFunction f,
                                      double min, double max, int n)
         throws FunctionEvaluationException, IllegalArgumentException {
-        return fht(FastFourierTransformer.sample(f, min, max, n));
+        final double[] unscaled =
+            fht(FastFourierTransformer.sample(f, min, max, n));
+        return FastFourierTransformer.scaleArray(unscaled, 1.0 / n);
+    }
+
+    /**
+     * Transform the given real data set.
+     * <p>The integer transform cannot be inverted directly, due to a scaling
+     * factor it may lead to double results.</p>
+     * @param f the integer data array to be transformed (signal)
+     * @return the integer transformed array (spectrum)
+     * @throws IllegalArgumentException if any parameters are invalid
+     */
+    public int[] transform(int f[])
+        throws IllegalArgumentException {
+        return fht(f);
     }
 
     /**
@@ -131,7 +152,7 @@ public class FastHadamardTransformer implements RealTransformer {
      * 
      * @param x input vector
      * @return y output vector
-     * @throws IllegalArgumentException
+     * @exception IllegalArgumentException if input array is not a poer of 2
      */
     protected double[] fht(double x[]) throws IllegalArgumentException {
 
@@ -177,4 +198,55 @@ public class FastHadamardTransformer implements RealTransformer {
         return yCurrent;
 
     }
+    /**
+     * The FHT (Fast Hadamard Transformation) which uses only subtraction and addition.
+     * @param x input vector
+     * @return y output vector
+     * @exception IllegalArgumentException if input array is not a poer of 2
+     */
+    protected int[] fht(int x[]) throws IllegalArgumentException {
+
+        // n is the row count of the input vector x
+        final int n     = x.length;
+        final int halfN = n / 2;
+
+        // n has to be of the form n = 2^p !!
+        if (!FastFourierTransformer.isPowerOf2(n)) {
+            throw MathRuntimeException.createIllegalArgumentException("{0} is not a power of 2",
+                                                                      new Object[] { n });
+        }
+
+        // Instead of creating a matrix with p+1 columns and n rows
+        // we will use two single dimension arrays which we will use in an alternating way.
+        int[] yPrevious = new int[n];
+        int[] yCurrent  = x.clone();
+
+        // iterate from left to right (column)
+        for (int j = 1; j < n; j <<= 1) {
+
+            // switch columns
+            final int[] yTmp = yCurrent;
+            yCurrent  = yPrevious;
+            yPrevious = yTmp;
+
+            // iterate from top to bottom (row)
+            for (int i = 0; i < halfN; ++i) { 
+                // D<sub>top</sub>
+                // The top part works with addition
+                final int twoI = 2 * i;
+                yCurrent[i] = yPrevious[twoI] + yPrevious[twoI + 1];
+            }
+            for (int i = halfN; i < n; ++i) { 
+                // D<sub>bottom</sub>   
+                // The bottom part works with subtraction
+                final int twoI = 2 * i;
+                yCurrent[i] = yPrevious[twoI - n] - yPrevious[twoI - n + 1];
+            }
+        }
+
+        // return the last computed output vector y
+        return yCurrent;
+
+    }
+
 }

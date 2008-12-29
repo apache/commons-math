@@ -28,16 +28,28 @@ public final class FastHadamardTransformerTest extends TestCase {
      * Test of transformer for the a 8-point FHT (means n=8)
      */
     public void test8Points() {
-        checkTransform(new double[] { 1.0, 4.0, -2.0, 3.0, 0.0, 1.0, 4.0, -1.0 },
-                       new double[] { 10.0, -4.0, 2.0, -4.0, 2.0, -12.0, 6.0, 8.0 });
+        checkAllTransforms(new int[] { 1, 4, -2, 3, 0, 1, 4, -1 },
+                       new int[] { 10, -4, 2, -4, 2, -12, 6, 8 });
     }
 
     /**
      * Test of transformer for the a 4-points FHT (means n=4)
      */
     public void test4Points() {
-        checkTransform(new double[] { 1.0, 2.0, 3.0, 4.0 },
-                       new double[] { 10.0, -2.0, -4.0, 0.0 });
+        checkAllTransforms(new int[] { 1, 2, 3, 4 },
+                           new int[] { 10, -2, -4, 0 });
+    }
+
+    /**
+     * Test the inverse transform of an integer vector is not always an integer vector
+     */
+    public void testNoIntInverse() {
+        FastHadamardTransformer transformer = new FastHadamardTransformer();
+        double[] x = transformer.inversetransform(new double[] { 0, 1, 0, 1});
+        assertEquals( 0.5, x[0], 0);
+        assertEquals(-0.5, x[1], 0);
+        assertEquals( 0.0, x[2], 0);
+        assertEquals( 0.0, x[3], 0);
     }
 
     /**
@@ -52,17 +64,56 @@ public final class FastHadamardTransformerTest extends TestCase {
         }
     }
 
-    private void checkTransform(double[]x, double[] y) {
+    private void checkAllTransforms(int[]x, int[] y) {
+        checkDoubleTransform(x, y);
+        checkInverseDoubleTransform(x, y);
+        checkIntTransform(x, y);
+    }
+
+    private void checkDoubleTransform(int[]x, int[] y) {
         // Initiate the transformer
         FastHadamardTransformer transformer = new FastHadamardTransformer();
 
-        // transform input vector x to output vector
-        double result[] = transformer.transform(x);
-
-        for (int i=0;i<result.length;i++) {
-            // compare computed results to precomputed results
-            assertEquals(y[i], result[i]);
+        // check double transform
+        double[] dX = new double[x.length];
+        for (int i = 0; i < dX.length; ++i) {
+            dX[i] = (double) x[i];
         }
+        double dResult[] = transformer.transform(dX);
+        for (int i = 0; i < dResult.length; i++) {
+            // compare computed results to precomputed results
+            assertEquals((double) y[i], dResult[i]);
+        }
+    }
+
+    private void checkIntTransform(int[]x, int[] y) {
+        // Initiate the transformer
+        FastHadamardTransformer transformer = new FastHadamardTransformer();
+
+        // check integer transform
+        int iResult[] = transformer.transform(x);
+        for (int i = 0; i < iResult.length; i++) {
+            // compare computed results to precomputed results
+            assertEquals(y[i], iResult[i]);
+        }
+
+    }
+    
+    private void checkInverseDoubleTransform(int[]x, int[] y) {
+        // Initiate the transformer
+        FastHadamardTransformer transformer = new FastHadamardTransformer();
+
+        // check double transform
+        double[] dY = new double[y.length];
+        for (int i = 0; i < dY.length; ++i) {
+            dY[i] = (double) y[i];
+        }
+        double dResult[] = transformer.inversetransform(dY);
+        for (int i = 0; i < dResult.length; i++) {
+            // compare computed results to precomputed results
+            assertEquals((double) x[i], dResult[i]);
+        }
+
     }
     
 }
