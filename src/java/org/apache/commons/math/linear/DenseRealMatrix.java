@@ -103,56 +103,152 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
         blockRows    = (rows    + BLOCK_SIZE - 1) / BLOCK_SIZE;
         blockColumns = (columns + BLOCK_SIZE - 1) / BLOCK_SIZE;
 
-        // number of lines in smaller blocks at the bottom side of the matrix
-        final int lastLines = rows - (blockRows - 1) * BLOCK_SIZE;
-
-        // number of columns in smaller blocks at the right side of the matrix
-        final int lastColumns = columns - (blockColumns - 1) * BLOCK_SIZE;
-
         // allocate storage blocks, taking care of smaller ones at right and bottom
-        blocks       = new double[blockRows * blockColumns][];
+        blocks = new double[blockRows * blockColumns][];
         int blockIndex = 0;
-        for (int iBlock = 0; iBlock < (blockRows - 1); ++iBlock) {
-            for (int jBlock = 0; jBlock < (blockColumns - 1); ++jBlock) {
-                blocks[blockIndex++] = new double[BLOCK_SIZE * BLOCK_SIZE];
+        for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
+            final int iHeight = blockHeight(iBlock);
+            for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
+                blocks[blockIndex++] = new double[iHeight * blockWidth(jBlock)];
             }
-            blocks[blockIndex++] = new double[BLOCK_SIZE * lastColumns];
         }
-        for (int jBlock = 0; jBlock < (blockColumns - 1); ++jBlock) {
-            blocks[blockIndex++] = new double[lastLines * BLOCK_SIZE];
-        }
-        blocks[blockIndex++] = new double[lastLines * lastColumns];
 
     }
 
     /**
-     * Create a new RealMatrix using the input array as the underlying
-     * data array.
-     * <p>The input array is copied (and data rearranged), it is not referenced.</p>
+     * Create a new dense matrix copying entries from raw layout data.
+     * <p>The input array <em>must</em> already be in raw layout.</p>
+     * <p>Calling this constructor is equivalent to call:
+     * <pre>matrix = new DenseRealMatrix(rawData.length, rawData[0].length,
+     *                                   toBlocksLayout(rawData), false);</pre>
+     * </p>
+     * @param rawData data for new matrix, in raw layout
      *
-     * @param d data for new matrix
-     * @throws IllegalArgumentException if <code>d</code> is not rectangular
-     *  (not all rows have the same length)
+     * @exception IllegalArgumentException if <code>blockData</code> shape is
+     * inconsistent with block layout
+     * @see #DenseRealMatrix(int, int, double[][], boolean)
      */
-    public DenseRealMatrix(final double[][] d)
+    public DenseRealMatrix(final double[][] rawData)
+        throws IllegalArgumentException {
+        this(rawData.length, rawData[0].length, toBlocksLayout(rawData), false);
+    }
+
+    /**
+     * Create a new dense matrix copying entries from block layout data.
+     * <p>The input array <em>must</em> already be in blocks layout.</p>
+     * @param rows  the number of rows in the new matrix
+     * @param columns  the number of columns in the new matrix
+     * @param blockData data for new matrix
+     * @param copyArray if true, the input array will be copied, otherwise
+     * it will be referenced
+     *
+     * @exception IllegalArgumentException if <code>blockData</code> shape is
+     * inconsistent with block layout
+     * @see #toBlocksLayout(double[][])
+     * @see #DenseRealMatrix(double[][])
+     */
+    public DenseRealMatrix(final int rows, final int columns,
+                           final double[][] blockData, final boolean copyArray)
         throws IllegalArgumentException {
 
-        // build empty instance
-        this(d.length, d[0].length);
+        super(rows, columns);
+        this.rows    = rows;
+        this.columns = columns;
 
-        // fill in instance
-        for (int i = 0; i < d.length; ++i) {
-            final double[] rowI = d[i];
-            if (rowI.length != columns) {
-                throw MathRuntimeException.createIllegalArgumentException("some rows have length {0} while others have length {1}",
-                                                                          new Object[] {
-                                                                              columns, rowI.length
-                                                                          }); 
-            }
-            for (int j = 0; j < rowI.length; ++j) {
-                setEntry(i, j, rowI[j]);
+        // number of blocks
+        blockRows    = (rows    + BLOCK_SIZE - 1) / BLOCK_SIZE;
+        blockColumns = (columns + BLOCK_SIZE - 1) / BLOCK_SIZE;
+
+        if (copyArray) {
+            // allocate storage blocks, taking care of smaller ones at right and bottom
+            blocks = new double[blockRows * blockColumns][];
+        } else {
+            // reference existing array
+            blocks = blockData;
+        }
+
+        int index = 0;
+        for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
+            final int iHeight = blockHeight(iBlock);
+            for (int jBlock = 0; jBlock < blockColumns; ++jBlock, ++index) {
+                if (blockData[index].length != iHeight * blockWidth(jBlock)) {
+                    throw MathRuntimeException.createIllegalArgumentException("wrong array shape (block length = {0}, expected {1})",
+                                                                              new Object[] {
+                                                                                  blockData[index].length,
+                                                                                  iHeight * blockWidth(jBlock)
+                                                                              });
+                }
+                if (copyArray) {
+                    blocks[index] = blockData[index].clone();
+                }
             }
         }
+
+    }
+
+    /**
+     * Convert a data array from raw layout to blocks layout.
+     * <p>
+     * Raw layout is the straightforward layout where element at row i and
+     * column j is in array element <code>rawData[i][j]</code>. Blocks layout
+     * is the layout used in {@link DenseRealMatrix} instances, where the matrix
+     * is split in square blocks (except at right and bottom side where blocks may
+     * be rectangular to fit matrix size) and each block is stored in a flattened
+     * one-dimensional array.
+     * </p>
+     * <p>
+     * This method creates an array in blocks layout from an input array in raw layout.
+     * It can be used to provide the array argument of the {@link
+     * DenseRealMatrix#DenseRealMatrix(int, int, double[][], boolean)} constructor.
+     * </p>
+     * @param rawData data array in raw layout
+     * @return a new data array containing the same entries but in blocks layout
+     * @exception IllegalArgumentException if <code>rawData</code> is not rectangular
+     *  (not all rows have the same length)
+     * @see #DenseRealMatrix(int, int, double[][], boolean)
+     */
+    public static double[][] toBlocksLayout(final double[][] rawData)
+        throws IllegalArgumentException {
+
+        final int rows         = rawData.length;
+        final int columns      = rawData[0].length;
+        final int blockRows    = (rows    + BLOCK_SIZE - 1) / BLOCK_SIZE;
+        final int blockColumns = (columns + BLOCK_SIZE - 1) / BLOCK_SIZE;
+
+        // safety checks
+        for (int i = 0; i < rawData.length; ++i) {
+            final int length = rawData[i].length;
+            if (length != columns) {
+                throw MathRuntimeException.createIllegalArgumentException(
+                        "some rows have length {0} while others have length {1}",
+                        new Object[] { columns, length }); 
+            }
+        }
+
+        // convert array
+        final double[][] blocks = new double[blockRows * blockColumns][];
+        for (int iBlock = 0, blockIndex = 0; iBlock < blockRows; ++iBlock) {
+            final int pStart  = iBlock * BLOCK_SIZE;
+            final int pEnd    = Math.min(pStart + BLOCK_SIZE, rows);
+            final int iHeight = pEnd - pStart;
+            for (int jBlock = 0; jBlock < blockColumns; ++jBlock, ++blockIndex) {
+                final int qStart = jBlock * BLOCK_SIZE;
+                final int qEnd   = Math.min(qStart + BLOCK_SIZE, columns);
+                final int jWidth = qEnd - qStart;
+
+                // allocate new block
+                final double[] block = new double[iHeight * jWidth];
+                blocks[blockIndex] = block;
+
+                // copy data
+                for (int p = pStart, index = 0; p < pEnd; ++p, index += jWidth) {
+                    System.arraycopy(rawData[p], qStart, block, index, jWidth);
+                }
+
+            }
+        }
+
+        return blocks;
 
     }
 
