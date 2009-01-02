@@ -500,34 +500,57 @@ public interface RealMatrix extends Serializable {
 
     /**
      * Visit (and possibly change) all matrix entries in row order.
+     * <p>Row order starts at upper left and iterating through all elements
+     * of a row from left to right before going to the leftmost element
+     * of the next row.</p>
      * @param visitor visitor used to process all matrix entries
      * @exception  MatrixVisitorException if the visitor cannot process an entry
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
      * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor, int, int, int, int)
-     * @see #walkInInternalOrder(RealMatrixChangingVisitor)
-     * @see #walkInInternalOrder(RealMatrixPreservingVisitor)
-     * @see #walkInInternalOrder(RealMatrixChangingVisitor, int, int, int, int)
-     * @see #walkInInternalOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @see #walkInColumnOrder(RealMatrixChangingVisitor)
+     * @see #walkInColumnOrder(RealMatrixPreservingVisitor)
+     * @see #walkInColumnOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInColumnOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @see #walkInOptimizedOrder(RealMatrixChangingVisitor)
+     * @see #walkInOptimizedOrder(RealMatrixPreservingVisitor)
+     * @see #walkInOptimizedOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInOptimizedOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @return the value returned by {@link RealMatrixChangingVisitor#end()} at the end
+     * of the walk
      */
-    void walkInRowOrder(RealMatrixChangingVisitor visitor) throws MatrixVisitorException;
+    double walkInRowOrder(RealMatrixChangingVisitor visitor)
+        throws MatrixVisitorException;
 
     /**
      * Visit (but don't change) all matrix entries in row order.
+     * <p>Row order starts at upper left and iterating through all elements
+     * of a row from left to right before going to the leftmost element
+     * of the next row.</p>
      * @param visitor visitor used to process all matrix entries
      * @exception  MatrixVisitorException if the visitor cannot process an entry
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor, int, int, int, int)
-     * @see #walkInInternalOrder(RealMatrixChangingVisitor)
-     * @see #walkInInternalOrder(RealMatrixPreservingVisitor)
-     * @see #walkInInternalOrder(RealMatrixChangingVisitor, int, int, int, int)
-     * @see #walkInInternalOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @see #walkInColumnOrder(RealMatrixChangingVisitor)
+     * @see #walkInColumnOrder(RealMatrixPreservingVisitor)
+     * @see #walkInColumnOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInColumnOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @see #walkInOptimizedOrder(RealMatrixChangingVisitor)
+     * @see #walkInOptimizedOrder(RealMatrixPreservingVisitor)
+     * @see #walkInOptimizedOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInOptimizedOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @return the value returned by {@link RealMatrixPreservingVisitor#end()} at the end
+     * of the walk
      */
-    void walkInRowOrder(RealMatrixPreservingVisitor visitor) throws MatrixVisitorException;
+    double walkInRowOrder(RealMatrixPreservingVisitor visitor)
+        throws MatrixVisitorException;
 
     /**
-     * Visit (and possibly change) all matrix entries in row order.
+     * Visit (and possibly change) some matrix entries in row order.
+     * <p>Row order starts at upper left and iterating through all elements
+     * of a row from left to right before going to the leftmost element
+     * of the next row.</p>
      * @param visitor visitor used to process all matrix entries
      * @param startRow Initial row index
      * @param endRow Final row index (inclusive)
@@ -538,17 +561,26 @@ public interface RealMatrix extends Serializable {
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor, int, int, int, int)
-     * @see #walkInInternalOrder(RealMatrixChangingVisitor)
-     * @see #walkInInternalOrder(RealMatrixPreservingVisitor)
-     * @see #walkInInternalOrder(RealMatrixChangingVisitor, int, int, int, int)
-     * @see #walkInInternalOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @see #walkInColumnOrder(RealMatrixChangingVisitor)
+     * @see #walkInColumnOrder(RealMatrixPreservingVisitor)
+     * @see #walkInColumnOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInColumnOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @see #walkInOptimizedOrder(RealMatrixChangingVisitor)
+     * @see #walkInOptimizedOrder(RealMatrixPreservingVisitor)
+     * @see #walkInOptimizedOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInOptimizedOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @return the value returned by {@link RealMatrixChangingVisitor#end()} at the end
+     * of the walk
      */
-    void walkInRowOrder(RealMatrixChangingVisitor visitor,
-                        int startRow, int endRow, int startColumn, int endColumn)
+    double walkInRowOrder(RealMatrixChangingVisitor visitor,
+                          int startRow, int endRow, int startColumn, int endColumn)
         throws MatrixIndexException, MatrixVisitorException;
 
     /**
-     * Visit (but don't change) all matrix entries in row order.
+     * Visit (but don't change) some matrix entries in row order.
+     * <p>Row order starts at upper left and iterating through all elements
+     * of a row from left to right before going to the leftmost element
+     * of the next row.</p>
      * @param visitor visitor used to process all matrix entries
      * @param startRow Initial row index
      * @param endRow Final row index (inclusive)
@@ -559,57 +591,179 @@ public interface RealMatrix extends Serializable {
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
      * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
-     * @see #walkInInternalOrder(RealMatrixChangingVisitor)
-     * @see #walkInInternalOrder(RealMatrixPreservingVisitor)
-     * @see #walkInInternalOrder(RealMatrixChangingVisitor, int, int, int, int)
-     * @see #walkInInternalOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @see #walkInColumnOrder(RealMatrixChangingVisitor)
+     * @see #walkInColumnOrder(RealMatrixPreservingVisitor)
+     * @see #walkInColumnOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInColumnOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @see #walkInOptimizedOrder(RealMatrixChangingVisitor)
+     * @see #walkInOptimizedOrder(RealMatrixPreservingVisitor)
+     * @see #walkInOptimizedOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInOptimizedOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @return the value returned by {@link RealMatrixPreservingVisitor#end()} at the end
+     * of the walk
      */
-    void walkInRowOrder(RealMatrixPreservingVisitor visitor,
-                        int startRow, int endRow, int startColumn, int endColumn)
+    double walkInRowOrder(RealMatrixPreservingVisitor visitor,
+                          int startRow, int endRow, int startColumn, int endColumn)
         throws MatrixIndexException, MatrixVisitorException;
 
     /**
-     * Visit (and possibly change) all matrix entries in row order.
-     * <p>The matrix internal order depends on the exact matrix class. It may be
-     * different from traditional row order, but is generally faster. If there is no need
-     * for an explicit walk order, this method should be preferred to the {@link
-     * #walkInRowOrder(RealMatrixChangingVisitor)} one.</p>
+     * Visit (and possibly change) all matrix entries in column order.
+     * <p>Column order starts at upper left and iterating through all elements
+     * of a column from top to bottom before going to the topmost element
+     * of the next column.</p>
      * @param visitor visitor used to process all matrix entries
      * @exception  MatrixVisitorException if the visitor cannot process an entry
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
      * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor, int, int, int, int)
-     * @see #walkInInternalOrder(RealMatrixPreservingVisitor)
-     * @see #walkInInternalOrder(RealMatrixChangingVisitor, int, int, int, int)
-     * @see #walkInInternalOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @see #walkInColumnOrder(RealMatrixPreservingVisitor)
+     * @see #walkInColumnOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInColumnOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @see #walkInOptimizedOrder(RealMatrixChangingVisitor)
+     * @see #walkInOptimizedOrder(RealMatrixPreservingVisitor)
+     * @see #walkInOptimizedOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInOptimizedOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @return the value returned by {@link RealMatrixChangingVisitor#end()} at the end
+     * of the walk
      */
-    void walkInInternalOrder(RealMatrixChangingVisitor visitor) throws MatrixVisitorException;
+    double walkInColumnOrder(RealMatrixChangingVisitor visitor)
+        throws MatrixVisitorException;
 
     /**
-     * Visit (but don't change) all matrix entries in row order.
-     * <p>The matrix internal order depends on the exact matrix class. It may be
-     * different from traditional row order, but is generally faster. If there is no need
-     * for an explicit walk order, this method should be preferred to the {@link
-     * #walkInRowOrder(RealMatrixPreservingVisitor)} one.</p>
+     * Visit (but don't change) all matrix entries in column order.
+     * <p>Column order starts at upper left and iterating through all elements
+     * of a column from top to bottom before going to the topmost element
+     * of the next column.</p>
      * @param visitor visitor used to process all matrix entries
      * @exception  MatrixVisitorException if the visitor cannot process an entry
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
      * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor, int, int, int, int)
-     * @see #walkInInternalOrder(RealMatrixChangingVisitor)
-     * @see #walkInInternalOrder(RealMatrixChangingVisitor, int, int, int, int)
-     * @see #walkInInternalOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @see #walkInColumnOrder(RealMatrixChangingVisitor)
+     * @see #walkInColumnOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInColumnOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @see #walkInOptimizedOrder(RealMatrixChangingVisitor)
+     * @see #walkInOptimizedOrder(RealMatrixPreservingVisitor)
+     * @see #walkInOptimizedOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInOptimizedOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @return the value returned by {@link RealMatrixPreservingVisitor#end()} at the end
+     * of the walk
      */
-    void walkInInternalOrder(RealMatrixPreservingVisitor visitor) throws MatrixVisitorException;
+    double walkInColumnOrder(RealMatrixPreservingVisitor visitor)
+        throws MatrixVisitorException;
 
     /**
-     * Visit (and possibly change) all matrix entries in row order.
-     * <p>The matrix internal order depends on the exact matrix class. It may be
-     * different from traditional row order, but is generally faster. If there is no need
-     * for an explicit walk order, this method should be preferred to the {@link
-     * #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)} one.</p>
+     * Visit (and possibly change) some matrix entries in column order.
+     * <p>Column order starts at upper left and iterating through all elements
+     * of a column from top to bottom before going to the topmost element
+     * of the next column.</p>
+     * @param visitor visitor used to process all matrix entries
+     * @param startRow Initial row index
+     * @param endRow Final row index (inclusive)
+     * @param startColumn Initial column index
+     * @param endColumn Final column index
+     * @exception  MatrixVisitorException if the visitor cannot process an entry
+     * @exception MatrixIndexException  if the indices are not valid
+     * @see #walkInRowOrder(RealMatrixChangingVisitor)
+     * @see #walkInRowOrder(RealMatrixPreservingVisitor)
+     * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInRowOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @see #walkInColumnOrder(RealMatrixChangingVisitor)
+     * @see #walkInColumnOrder(RealMatrixPreservingVisitor)
+     * @see #walkInColumnOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @see #walkInOptimizedOrder(RealMatrixChangingVisitor)
+     * @see #walkInOptimizedOrder(RealMatrixPreservingVisitor)
+     * @see #walkInOptimizedOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInOptimizedOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @return the value returned by {@link RealMatrixChangingVisitor#end()} at the end
+     * of the walk
+     */
+    double walkInColumnOrder(RealMatrixChangingVisitor visitor,
+                             int startRow, int endRow, int startColumn, int endColumn)
+        throws MatrixIndexException, MatrixVisitorException;
+
+    /**
+     * Visit (but don't change) some matrix entries in column order.
+     * <p>Column order starts at upper left and iterating through all elements
+     * of a column from top to bottom before going to the topmost element
+     * of the next column.</p>
+     * @param visitor visitor used to process all matrix entries
+     * @param startRow Initial row index
+     * @param endRow Final row index (inclusive)
+     * @param startColumn Initial column index
+     * @param endColumn Final column index
+     * @exception  MatrixVisitorException if the visitor cannot process an entry
+     * @exception MatrixIndexException  if the indices are not valid
+     * @see #walkInRowOrder(RealMatrixChangingVisitor)
+     * @see #walkInRowOrder(RealMatrixPreservingVisitor)
+     * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInRowOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @see #walkInColumnOrder(RealMatrixChangingVisitor)
+     * @see #walkInColumnOrder(RealMatrixPreservingVisitor)
+     * @see #walkInColumnOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInOptimizedOrder(RealMatrixChangingVisitor)
+     * @see #walkInOptimizedOrder(RealMatrixPreservingVisitor)
+     * @see #walkInOptimizedOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInOptimizedOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @return the value returned by {@link RealMatrixPreservingVisitor#end()} at the end
+     * of the walk
+     */
+    double walkInColumnOrder(RealMatrixPreservingVisitor visitor,
+                             int startRow, int endRow, int startColumn, int endColumn)
+        throws MatrixIndexException, MatrixVisitorException;
+
+    /**
+     * Visit (and possibly change) all matrix entries using the fastest possible order.
+     * <p>The fastest walking order depends on the exact matrix class. It may be
+     * different from traditional row or column orders.</p>
+     * @param visitor visitor used to process all matrix entries
+     * @exception  MatrixVisitorException if the visitor cannot process an entry
+     * @see #walkInRowOrder(RealMatrixChangingVisitor)
+     * @see #walkInRowOrder(RealMatrixPreservingVisitor)
+     * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInRowOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @see #walkInColumnOrder(RealMatrixChangingVisitor)
+     * @see #walkInColumnOrder(RealMatrixPreservingVisitor)
+     * @see #walkInColumnOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInColumnOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @see #walkInOptimizedOrder(RealMatrixPreservingVisitor)
+     * @see #walkInOptimizedOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInOptimizedOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @return the value returned by {@link RealMatrixChangingVisitor#end()} at the end
+     * of the walk
+     */
+    double walkInOptimizedOrder(RealMatrixChangingVisitor visitor)
+        throws MatrixVisitorException;
+
+    /**
+     * Visit (but don't change) all matrix entries using the fastest possible order.
+     * <p>The fastest walking order depends on the exact matrix class. It may be
+     * different from traditional row or column orders.</p>
+     * @param visitor visitor used to process all matrix entries
+     * @exception  MatrixVisitorException if the visitor cannot process an entry
+     * @see #walkInRowOrder(RealMatrixChangingVisitor)
+     * @see #walkInRowOrder(RealMatrixPreservingVisitor)
+     * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInRowOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @see #walkInColumnOrder(RealMatrixChangingVisitor)
+     * @see #walkInColumnOrder(RealMatrixPreservingVisitor)
+     * @see #walkInColumnOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInColumnOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @see #walkInOptimizedOrder(RealMatrixChangingVisitor)
+     * @see #walkInOptimizedOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInOptimizedOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @return the value returned by {@link RealMatrixPreservingVisitor#end()} at the end
+     * of the walk
+     */
+    double walkInOptimizedOrder(RealMatrixPreservingVisitor visitor)
+        throws MatrixVisitorException;
+
+    /**
+     * Visit (and possibly change) some matrix entries using the fastest possible order.
+     * <p>The fastest walking order depends on the exact matrix class. It may be
+     * different from traditional row or column orders.</p>
      * @param visitor visitor used to process all matrix entries
      * @param startRow Initial row index
      * @param endRow Final row index (inclusive)
@@ -621,21 +775,24 @@ public interface RealMatrix extends Serializable {
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
      * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor, int, int, int, int)
-     * @see #walkInInternalOrder(RealMatrixChangingVisitor)
-     * @see #walkInInternalOrder(RealMatrixPreservingVisitor)
-     * @see #walkInInternalOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @see #walkInColumnOrder(RealMatrixChangingVisitor)
+     * @see #walkInColumnOrder(RealMatrixPreservingVisitor)
+     * @see #walkInColumnOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInColumnOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @see #walkInOptimizedOrder(RealMatrixChangingVisitor)
+     * @see #walkInOptimizedOrder(RealMatrixPreservingVisitor)
+     * @see #walkInOptimizedOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @return the value returned by {@link RealMatrixChangingVisitor#end()} at the end
+     * of the walk
      */
-    void walkInInternalOrder(RealMatrixChangingVisitor visitor,
-                             int startRow, int endRow, int startColumn, int endColumn)
+    double walkInOptimizedOrder(RealMatrixChangingVisitor visitor,
+                                int startRow, int endRow, int startColumn, int endColumn)
         throws MatrixIndexException, MatrixVisitorException;
 
     /**
-     * Visit (but don't change) all matrix entries in row order.
-     * Visit (and possibly change) all matrix entries in row order.
-     * <p>The matrix internal order depends on the exact matrix class. It may be
-     * different from traditional row order, but is generally faster. If there is no need
-     * for an explicit walk order, this method should be preferred to the {@link
-     * #walkInRowOrder(RealMatrixPreservingVisitor, int, int, int, int)} one.</p>
+     * Visit (but don't change) some matrix entries using the fastest possible order.
+     * <p>The fastest walking order depends on the exact matrix class. It may be
+     * different from traditional row or column orders.</p>
      * @param visitor visitor used to process all matrix entries
      * @param startRow Initial row index
      * @param endRow Final row index (inclusive)
@@ -647,12 +804,18 @@ public interface RealMatrix extends Serializable {
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
      * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor, int, int, int, int)
-     * @see #walkInInternalOrder(RealMatrixChangingVisitor)
-     * @see #walkInInternalOrder(RealMatrixPreservingVisitor)
-     * @see #walkInInternalOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInColumnOrder(RealMatrixChangingVisitor)
+     * @see #walkInColumnOrder(RealMatrixPreservingVisitor)
+     * @see #walkInColumnOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @see #walkInColumnOrder(RealMatrixPreservingVisitor, int, int, int, int)
+     * @see #walkInOptimizedOrder(RealMatrixChangingVisitor)
+     * @see #walkInOptimizedOrder(RealMatrixPreservingVisitor)
+     * @see #walkInOptimizedOrder(RealMatrixChangingVisitor, int, int, int, int)
+     * @return the value returned by {@link RealMatrixPreservingVisitor#end()} at the end
+     * of the walk
      */
-    void walkInInternalOrder(RealMatrixPreservingVisitor visitor,
-                             int startRow, int endRow, int startColumn, int endColumn)
+    double walkInOptimizedOrder(RealMatrixPreservingVisitor visitor,
+                                int startRow, int endRow, int startColumn, int endColumn)
         throws MatrixIndexException, MatrixVisitorException;
 
     /**

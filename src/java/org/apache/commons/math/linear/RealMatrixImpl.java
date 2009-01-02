@@ -460,57 +460,129 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
     }
 
     /** {@inheritDoc} */
-    public void walkInRowOrder(final RealMatrixChangingVisitor visitor)
+    public double walkInRowOrder(final RealMatrixChangingVisitor visitor)
         throws MatrixVisitorException {
         final int rows    = getRowDimension();
         final int columns = getColumnDimension();
+        visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
         for (int i = 0; i < rows; ++i) {
             final double[] rowI = data[i];
             for (int j = 0; j < columns; ++j) {
                 rowI[j] = visitor.visit(i, j, rowI[j]);
             }
         }
+        return visitor.end();
     }
 
     /** {@inheritDoc} */
-    public void walkInRowOrder(final RealMatrixPreservingVisitor visitor)
+    public double walkInRowOrder(final RealMatrixPreservingVisitor visitor)
         throws MatrixVisitorException {
         final int rows    = getRowDimension();
         final int columns = getColumnDimension();
+        visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
         for (int i = 0; i < rows; ++i) {
             final double[] rowI = data[i];
             for (int j = 0; j < columns; ++j) {
                 visitor.visit(i, j, rowI[j]);
             }
         }
+        return visitor.end();
     }
 
     /** {@inheritDoc} */
-    public void walkInRowOrder(final RealMatrixChangingVisitor visitor,
-                               final int startRow, final int endRow,
-                               final int startColumn, final int endColumn)
+    public double walkInRowOrder(final RealMatrixChangingVisitor visitor,
+                                 final int startRow, final int endRow,
+                                 final int startColumn, final int endColumn)
         throws MatrixIndexException, MatrixVisitorException {
         checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
+        visitor.start(getRowDimension(), getColumnDimension(),
+                      startRow, endRow, startColumn, endColumn);
         for (int i = startRow; i <= endRow; ++i) {
             final double[] rowI = data[i];
             for (int j = startColumn; j <= endColumn; ++j) {
                 rowI[j] = visitor.visit(i, j, rowI[j]);
             }
         }
+        return visitor.end();
     }
 
     /** {@inheritDoc} */
-    public void walkInRowOrder(final RealMatrixPreservingVisitor visitor,
-                               final int startRow, final int endRow,
-                               final int startColumn, final int endColumn)
+    public double walkInRowOrder(final RealMatrixPreservingVisitor visitor,
+                                 final int startRow, final int endRow,
+                                 final int startColumn, final int endColumn)
         throws MatrixIndexException, MatrixVisitorException {
         checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
+        visitor.start(getRowDimension(), getColumnDimension(),
+                      startRow, endRow, startColumn, endColumn);
         for (int i = startRow; i <= endRow; ++i) {
             final double[] rowI = data[i];
             for (int j = startColumn; j <= endColumn; ++j) {
                 visitor.visit(i, j, rowI[j]);
             }
         }
+        return visitor.end();
+    }
+
+    /** {@inheritDoc} */
+    public double walkInColumnOrder(final RealMatrixChangingVisitor visitor)
+        throws MatrixVisitorException {
+        final int rows    = getRowDimension();
+        final int columns = getColumnDimension();
+        visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
+        for (int j = 0; j < columns; ++j) {
+            for (int i = 0; i < rows; ++i) {
+                final double[] rowI = data[i];
+                rowI[j] = visitor.visit(i, j, rowI[j]);
+            }
+        }
+        return visitor.end();
+    }
+
+    /** {@inheritDoc} */
+    public double walkInColumnOrder(final RealMatrixPreservingVisitor visitor)
+        throws MatrixVisitorException {
+        final int rows    = getRowDimension();
+        final int columns = getColumnDimension();
+        visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
+        for (int j = 0; j < columns; ++j) {
+            for (int i = 0; i < rows; ++i) {
+                visitor.visit(i, j, data[i][j]);
+            }
+        }
+        return visitor.end();
+    }
+
+    /** {@inheritDoc} */
+    public double walkInColumnOrder(final RealMatrixChangingVisitor visitor,
+                                    final int startRow, final int endRow,
+                                    final int startColumn, final int endColumn)
+        throws MatrixIndexException, MatrixVisitorException {
+        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
+        visitor.start(getRowDimension(), getColumnDimension(),
+                      startRow, endRow, startColumn, endColumn);
+        for (int j = startColumn; j <= endColumn; ++j) {
+            for (int i = startRow; i <= endRow; ++i) {
+                final double[] rowI = data[i];
+                rowI[j] = visitor.visit(i, j, rowI[j]);
+            }
+        }
+        return visitor.end();
+    }
+
+    /** {@inheritDoc} */
+    public double walkInColumnOrder(final RealMatrixPreservingVisitor visitor,
+                                    final int startRow, final int endRow,
+                                    final int startColumn, final int endColumn)
+        throws MatrixIndexException, MatrixVisitorException {
+        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
+        visitor.start(getRowDimension(), getColumnDimension(),
+                      startRow, endRow, startColumn, endColumn);
+        for (int j = startColumn; j <= endColumn; ++j) {
+            for (int i = startRow; i <= endRow; ++i) {
+                visitor.visit(i, j, data[i][j]);
+            }
+        }
+        return visitor.end();
     }
 
     /**

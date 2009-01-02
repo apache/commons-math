@@ -374,8 +374,8 @@ public final class DenseRealMatrixTest extends TestCase {
     /** test transpose */
     public void testTranspose() {
         RealMatrix m = new DenseRealMatrix(testData); 
-        RealMatrix mIT = new LUSolver(new LUDecompositionImpl(m)).getInverse().transpose();
-        RealMatrix mTI = new LUSolver(new LUDecompositionImpl(m.transpose())).getInverse();
+        RealMatrix mIT = new LUDecompositionImpl(m).getSolver().getInverse().transpose();
+        RealMatrix mTI = new LUDecompositionImpl(m.transpose()).getSolver().getInverse();
         assertClose(mIT, mTI, normTolerance);
         m = new DenseRealMatrix(testData2);
         RealMatrix mt = new DenseRealMatrix(testData2T);
@@ -1027,13 +1027,13 @@ public final class DenseRealMatrixTest extends TestCase {
         RealMatrix m = new DenseRealMatrix(rows, columns);
         m.walkInRowOrder(new SetVisitor());
         GetVisitor getVisitor = new GetVisitor();
-        m.walkInInternalOrder(getVisitor);
+        m.walkInOptimizedOrder(getVisitor);
         assertEquals(rows * columns, getVisitor.getCount());
 
         m = new DenseRealMatrix(rows, columns);
         m.walkInRowOrder(new SetVisitor(), 1, rows - 2, 1, columns - 2);
         getVisitor = new GetVisitor();
-        m.walkInInternalOrder(getVisitor, 1, rows - 2, 1, columns - 2);
+        m.walkInOptimizedOrder(getVisitor, 1, rows - 2, 1, columns - 2);
         assertEquals((rows - 2) * (columns - 2), getVisitor.getCount());
         for (int i = 0; i < rows; ++i) {
             assertEquals(0.0, m.getEntry(i, 0), 0);                    
@@ -1044,17 +1044,56 @@ public final class DenseRealMatrixTest extends TestCase {
             assertEquals(0.0, m.getEntry(rows - 1, j), 0);
         }
 
+        m = new DenseRealMatrix(rows, columns);
+        m.walkInColumnOrder(new SetVisitor());
+        getVisitor = new GetVisitor();
+        m.walkInOptimizedOrder(getVisitor);
+        assertEquals(rows * columns, getVisitor.getCount());
 
         m = new DenseRealMatrix(rows, columns);
-        m.walkInInternalOrder(new SetVisitor());
+        m.walkInColumnOrder(new SetVisitor(), 1, rows - 2, 1, columns - 2);
+        getVisitor = new GetVisitor();
+        m.walkInOptimizedOrder(getVisitor, 1, rows - 2, 1, columns - 2);
+        assertEquals((rows - 2) * (columns - 2), getVisitor.getCount());
+        for (int i = 0; i < rows; ++i) {
+            assertEquals(0.0, m.getEntry(i, 0), 0);                    
+            assertEquals(0.0, m.getEntry(i, columns - 1), 0);
+        }
+        for (int j = 0; j < columns; ++j) {
+            assertEquals(0.0, m.getEntry(0, j), 0);                    
+            assertEquals(0.0, m.getEntry(rows - 1, j), 0);
+        }
+
+        m = new DenseRealMatrix(rows, columns);
+        m.walkInOptimizedOrder(new SetVisitor());
         getVisitor = new GetVisitor();
         m.walkInRowOrder(getVisitor);
         assertEquals(rows * columns, getVisitor.getCount());
 
         m = new DenseRealMatrix(rows, columns);
-        m.walkInInternalOrder(new SetVisitor(), 1, rows - 2, 1, columns - 2);
+        m.walkInOptimizedOrder(new SetVisitor(), 1, rows - 2, 1, columns - 2);
         getVisitor = new GetVisitor();
         m.walkInRowOrder(getVisitor, 1, rows - 2, 1, columns - 2);
+        assertEquals((rows - 2) * (columns - 2), getVisitor.getCount());
+        for (int i = 0; i < rows; ++i) {
+            assertEquals(0.0, m.getEntry(i, 0), 0);                    
+            assertEquals(0.0, m.getEntry(i, columns - 1), 0);
+        }
+        for (int j = 0; j < columns; ++j) {
+            assertEquals(0.0, m.getEntry(0, j), 0);                    
+            assertEquals(0.0, m.getEntry(rows - 1, j), 0);
+        }
+
+        m = new DenseRealMatrix(rows, columns);
+        m.walkInOptimizedOrder(new SetVisitor());
+        getVisitor = new GetVisitor();
+        m.walkInColumnOrder(getVisitor);
+        assertEquals(rows * columns, getVisitor.getCount());
+
+        m = new DenseRealMatrix(rows, columns);
+        m.walkInOptimizedOrder(new SetVisitor(), 1, rows - 2, 1, columns - 2);
+        getVisitor = new GetVisitor();
+        m.walkInColumnOrder(getVisitor, 1, rows - 2, 1, columns - 2);
         assertEquals((rows - 2) * (columns - 2), getVisitor.getCount());
         for (int i = 0; i < rows; ++i) {
             assertEquals(0.0, m.getEntry(i, 0), 0);                    
@@ -1069,20 +1108,32 @@ public final class DenseRealMatrixTest extends TestCase {
     
     private static class SetVisitor implements RealMatrixChangingVisitor {
         private static final long serialVersionUID = -5724808764099124932L;
+        public void start(int rows, int columns, int startRow, int endRow,
+                int startColumn, int endColumn) {
+        }
         public double visit(int i, int j, double value) {
             return i + j / 1024.0;
+        }
+        public double end() {
+            return 0;
         }
     }
 
     private static class GetVisitor implements RealMatrixPreservingVisitor {
         private static final long serialVersionUID = 1299771253908695242L;
         int count = 0;
+        public void start(int rows, int columns, int startRow, int endRow,
+                int startColumn, int endColumn) {
+        }
         public void visit(int i, int j, double value) {
             ++count;
             assertEquals(i + j / 1024.0, value, 0.0);
         }
         public int getCount() {
             return count;
+        }
+        public double end() {
+            return 0;
         }
     };
 

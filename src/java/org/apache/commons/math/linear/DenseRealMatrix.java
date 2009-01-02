@@ -1284,8 +1284,9 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
-    public void walkInRowOrder(final RealMatrixChangingVisitor visitor)
+    public double walkInRowOrder(final RealMatrixChangingVisitor visitor)
         throws MatrixVisitorException {
+        visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int pStart = iBlock * BLOCK_SIZE;
             final int pEnd   = Math.min(pStart + BLOCK_SIZE, rows);
@@ -1301,11 +1302,13 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                 }
              }
         }
+        return visitor.end();
     }
 
     /** {@inheritDoc} */
-    public void walkInRowOrder(final RealMatrixPreservingVisitor visitor)
+    public double walkInRowOrder(final RealMatrixPreservingVisitor visitor)
         throws MatrixVisitorException {
+        visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int pStart = iBlock * BLOCK_SIZE;
             final int pEnd   = Math.min(pStart + BLOCK_SIZE, rows);
@@ -1321,14 +1324,16 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                 }
              }
         }
+        return visitor.end();
     }
 
     /** {@inheritDoc} */
-    public void walkInRowOrder(final RealMatrixChangingVisitor visitor,
-                               final int startRow, final int endRow,
-                               final int startColumn, final int endColumn)
+    public double walkInRowOrder(final RealMatrixChangingVisitor visitor,
+                                 final int startRow, final int endRow,
+                                 final int startColumn, final int endColumn)
         throws MatrixIndexException, MatrixVisitorException {
         checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
+        visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
         for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
             final int p0     = iBlock * BLOCK_SIZE;
             final int pStart = Math.max(startRow, p0);
@@ -1346,14 +1351,16 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                 }
              }
         }
+        return visitor.end();
     }
 
     /** {@inheritDoc} */
-    public void walkInRowOrder(final RealMatrixPreservingVisitor visitor,
-                               final int startRow, final int endRow,
-                               final int startColumn, final int endColumn)
+    public double walkInRowOrder(final RealMatrixPreservingVisitor visitor,
+                                 final int startRow, final int endRow,
+                                 final int startColumn, final int endColumn)
         throws MatrixIndexException, MatrixVisitorException {
         checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
+        visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
         for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
             final int p0     = iBlock * BLOCK_SIZE;
             final int pStart = Math.max(startRow, p0);
@@ -1371,11 +1378,13 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                 }
              }
         }
+        return visitor.end();
     }
 
     /** {@inheritDoc} */
-    public void walkInInternalOrder(final RealMatrixChangingVisitor visitor)
+    public double walkInOptimizedOrder(final RealMatrixChangingVisitor visitor)
         throws MatrixVisitorException {
+        visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
         for (int iBlock = 0, blockIndex = 0; iBlock < blockRows; ++iBlock) {
             final int pStart = iBlock * BLOCK_SIZE;
             final int pEnd   = Math.min(pStart + BLOCK_SIZE, rows);
@@ -1390,11 +1399,13 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                 }
             }
         }
+        return visitor.end();
     }
 
     /** {@inheritDoc} */
-    public void walkInInternalOrder(final RealMatrixPreservingVisitor visitor)
+    public double walkInOptimizedOrder(final RealMatrixPreservingVisitor visitor)
         throws MatrixVisitorException {
+        visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
         for (int iBlock = 0, blockIndex = 0; iBlock < blockRows; ++iBlock) {
             final int pStart = iBlock * BLOCK_SIZE;
             final int pEnd   = Math.min(pStart + BLOCK_SIZE, rows);
@@ -1409,14 +1420,16 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                 }
             }
         }
+        return visitor.end();
     }
 
     /** {@inheritDoc} */
-    public void walkInInternalOrder(final RealMatrixChangingVisitor visitor,
-                                    final int startRow, final int endRow,
-                                    final int startColumn, final int endColumn)
+    public double walkInOptimizedOrder(final RealMatrixChangingVisitor visitor,
+                                       final int startRow, final int endRow,
+                                       final int startColumn, final int endColumn)
         throws MatrixIndexException, MatrixVisitorException {
         checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
+        visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
         for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
             final int p0     = iBlock * BLOCK_SIZE;
             final int pStart = Math.max(startRow, p0);
@@ -1434,14 +1447,16 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                 }
             }
         }
+        return visitor.end();
     }
 
     /** {@inheritDoc} */
-    public void walkInInternalOrder(final RealMatrixPreservingVisitor visitor,
-                                    final int startRow, final int endRow,
-                                    final int startColumn, final int endColumn)
+    public double walkInOptimizedOrder(final RealMatrixPreservingVisitor visitor,
+                                       final int startRow, final int endRow,
+                                       final int startColumn, final int endColumn)
         throws MatrixIndexException, MatrixVisitorException {
         checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
+        visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
         for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
             final int p0     = iBlock * BLOCK_SIZE;
             final int pStart = Math.max(startRow, p0);
@@ -1459,6 +1474,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                 }
             }
         }
+        return visitor.end();
     }
 
     /**

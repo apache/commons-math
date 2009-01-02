@@ -32,7 +32,7 @@ import org.apache.commons.math.util.MathUtils;
  */
 public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
     
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = -3665653040524315561L;
 
     /** Cached LU solver.
@@ -195,31 +195,74 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
 
     /** {@inheritDoc} */
     public double getNorm() {
-        final int rowCount    = getRowDimension();
-        final int columnCount = getColumnDimension();
-        double maxColSum = 0;
-        for (int col = 0; col < columnCount; ++col) {
-            double sum = 0;
-            for (int row = 0; row < rowCount; ++row) {
-                sum += Math.abs(getEntry(row, col));
+        return walkInColumnOrder(new RealMatrixPreservingVisitor() {
+
+            /** Serializable version identifier */
+            private static final long serialVersionUID = -2452270856202894168L;
+
+            /** Last row index. */
+            private double endRow;
+
+            /** Sum of absolute values on one column. */
+            private double columnSum;
+
+            /** Maximal sum across all columns. */
+            private double maxColSum;
+
+            /** {@inheritDoc} */
+            public void start(final int rows, final int columns,
+                              final int startRow, final int endRow,
+                              final int startColumn, final int endColumn) {
+                this.endRow = endRow;
+                columnSum   = 0;
+                maxColSum   = 0;
             }
-            maxColSum = Math.max(maxColSum, sum);
-        }
-        return maxColSum;
+
+            /** {@inheritDoc} */
+            public void visit(final int row, final int column, final double value) {
+                columnSum += Math.abs(value);
+                if (row == endRow) {
+                    maxColSum = Math.max(maxColSum, columnSum);
+                    columnSum = 0;
+                }
+            }
+
+            /** {@inheritDoc} */
+            public double end() {
+                return maxColSum;
+            }
+
+        });
     }
     
     /** {@inheritDoc} */
     public double getFrobeniusNorm() {
-        final int rowCount    = getRowDimension();
-        final int columnCount = getColumnDimension();
-        double sum2 = 0;
-        for (int col = 0; col < columnCount; ++col) {
-            for (int row = 0; row < rowCount; ++row) {
-                final double mij = getEntry(row, col);
-                sum2 += mij * mij;
+        return walkInOptimizedOrder(new RealMatrixPreservingVisitor() {
+
+            /** Serializable version identifier */
+            private static final long serialVersionUID = -6065411033772300640L;
+
+            /** Sum of squared entries. */
+            private double sum;
+
+            /** {@inheritDoc} */
+            public void start(final int rows, final int columns,
+                              final int startRow, final int endRow,
+                              final int startColumn, final int endColumn) {
+                sum = 0;
             }
-        }
-        return Math.sqrt(sum2);
+
+            /** {@inheritDoc} */
+            public void visit(final int row, final int column, final double value) {
+                sum += value * value;
+            }
+
+            /** {@inheritDoc} */
+            public double end() {
+                return Math.sqrt(sum);
+            }
+
+        });
     }
     
     /** {@inheritDoc} */
@@ -511,11 +554,28 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
         final int nRows = getRowDimension();
         final int nCols = getColumnDimension();
         final RealMatrix out = createMatrix(nCols, nRows);
-        for (int row = 0; row < nRows; ++row) {
-            for (int col = 0; col < nCols; ++col) {
-                out.setEntry(col, row, getEntry(row, col));
+        walkInOptimizedOrder(new RealMatrixPreservingVisitor() {
+
+            /** Serializable version identifier */
+            private static final long serialVersionUID = 3807296710038754174L;
+
+            /** {@inheritDoc} */
+            public void start(final int rows, final int columns,
+                              final int startRow, final int endRow,
+                              final int startColumn, final int endColumn) {
             }
-        }
+
+            /** {@inheritDoc} */
+            public void visit(final int row, final int column, final double value) {
+                out.setEntry(column, row, value);
+            }
+
+            /** {@inheritDoc} */
+            public double end() {
+                return 0;
+            }
+
+        });
 
         return out;
 
@@ -691,10 +751,11 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
     }
 
     /** {@inheritDoc} */
-    public void walkInRowOrder(final RealMatrixChangingVisitor visitor)
+    public double walkInRowOrder(final RealMatrixChangingVisitor visitor)
         throws MatrixVisitorException {
         final int rows    = getRowDimension();
         final int columns = getColumnDimension();
+        visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
         for (int row = 0; row < rows; ++row) {
             for (int column = 0; column < columns; ++column) {
                 final double oldValue = getEntry(row, column);
@@ -703,26 +764,31 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
             }
         }
         lu = null;
+        return visitor.end();
     }
 
     /** {@inheritDoc} */
-    public void walkInRowOrder(final RealMatrixPreservingVisitor visitor)
+    public double walkInRowOrder(final RealMatrixPreservingVisitor visitor)
         throws MatrixVisitorException {
         final int rows    = getRowDimension();
         final int columns = getColumnDimension();
+        visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
         for (int row = 0; row < rows; ++row) {
             for (int column = 0; column < columns; ++column) {
                 visitor.visit(row, column, getEntry(row, column));
             }
         }
+        return visitor.end();
     }
 
     /** {@inheritDoc} */
-    public void walkInRowOrder(final RealMatrixChangingVisitor visitor,
-                               final int startRow, final int endRow,
-                               final int startColumn, final int endColumn)
+    public double walkInRowOrder(final RealMatrixChangingVisitor visitor,
+                                 final int startRow, final int endRow,
+                                 final int startColumn, final int endColumn)
         throws MatrixIndexException, MatrixVisitorException {
         checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
+        visitor.start(getRowDimension(), getColumnDimension(),
+                      startRow, endRow, startColumn, endColumn);
         for (int row = startRow; row <= endRow; ++row) {
             for (int column = startColumn; column <= endColumn; ++column) {
                 final double oldValue = getEntry(row, column);
@@ -731,47 +797,116 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
             }
         }
         lu = null;
+        return visitor.end();
     }
 
     /** {@inheritDoc} */
-    public void walkInRowOrder(final RealMatrixPreservingVisitor visitor,
-                               final int startRow, final int endRow,
-                               final int startColumn, final int endColumn)
+    public double walkInRowOrder(final RealMatrixPreservingVisitor visitor,
+                                 final int startRow, final int endRow,
+                                 final int startColumn, final int endColumn)
         throws MatrixIndexException, MatrixVisitorException {
         checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
+        visitor.start(getRowDimension(), getColumnDimension(),
+                      startRow, endRow, startColumn, endColumn);
         for (int row = startRow; row <= endRow; ++row) {
             for (int column = startColumn; column <= endColumn; ++column) {
                 visitor.visit(row, column, getEntry(row, column));
             }
         }
+        return visitor.end();
     }
 
-    /** {@inheritDoc} */
-    public void walkInInternalOrder(final RealMatrixChangingVisitor visitor)
+    public double walkInColumnOrder(final RealMatrixChangingVisitor visitor)
         throws MatrixVisitorException {
-        walkInRowOrder(visitor);
+        final int rows    = getRowDimension();
+        final int columns = getColumnDimension();
+        visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
+        for (int column = 0; column < columns; ++column) {
+            for (int row = 0; row < rows; ++row) {
+                final double oldValue = getEntry(row, column);
+                final double newValue = visitor.visit(row, column, oldValue);
+                setEntry(row, column, newValue);
+            }
+        }
+        lu = null;
+        return visitor.end();
     }
 
     /** {@inheritDoc} */
-    public void walkInInternalOrder(final RealMatrixPreservingVisitor visitor)
+    public double walkInColumnOrder(final RealMatrixPreservingVisitor visitor)
         throws MatrixVisitorException {
-        walkInRowOrder(visitor);
+        final int rows    = getRowDimension();
+        final int columns = getColumnDimension();
+        visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
+        for (int column = 0; column < columns; ++column) {
+            for (int row = 0; row < rows; ++row) {
+                visitor.visit(row, column, getEntry(row, column));
+            }
+        }
+        return visitor.end();
     }
 
     /** {@inheritDoc} */
-    public void walkInInternalOrder(final RealMatrixChangingVisitor visitor,
+    public double walkInColumnOrder(final RealMatrixChangingVisitor visitor,
                                     final int startRow, final int endRow,
                                     final int startColumn, final int endColumn)
-        throws MatrixIndexException, MatrixVisitorException {
-        walkInRowOrder(visitor, startRow, endRow, startColumn, endColumn);
+    throws MatrixIndexException, MatrixVisitorException {
+        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
+        visitor.start(getRowDimension(), getColumnDimension(),
+                      startRow, endRow, startColumn, endColumn);
+        for (int column = startColumn; column <= endColumn; ++column) {
+            for (int row = startRow; row <= endRow; ++row) {
+                final double oldValue = getEntry(row, column);
+                final double newValue = visitor.visit(row, column, oldValue);
+                setEntry(row, column, newValue);
+            }
+        }
+        lu = null;
+        return visitor.end();
     }
 
     /** {@inheritDoc} */
-    public void walkInInternalOrder(final RealMatrixPreservingVisitor visitor,
+    public double walkInColumnOrder(final RealMatrixPreservingVisitor visitor,
                                     final int startRow, final int endRow,
                                     final int startColumn, final int endColumn)
+    throws MatrixIndexException, MatrixVisitorException {
+        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
+        visitor.start(getRowDimension(), getColumnDimension(),
+                      startRow, endRow, startColumn, endColumn);
+        for (int column = startColumn; column <= endColumn; ++column) {
+            for (int row = startRow; row <= endRow; ++row) {
+                visitor.visit(row, column, getEntry(row, column));
+            }
+        }
+        return visitor.end();
+    }
+
+    /** {@inheritDoc} */
+    public double walkInOptimizedOrder(final RealMatrixChangingVisitor visitor)
+        throws MatrixVisitorException {
+        return walkInRowOrder(visitor);
+    }
+
+    /** {@inheritDoc} */
+    public double walkInOptimizedOrder(final RealMatrixPreservingVisitor visitor)
+        throws MatrixVisitorException {
+        return walkInRowOrder(visitor);
+    }
+
+    /** {@inheritDoc} */
+    public double walkInOptimizedOrder(final RealMatrixChangingVisitor visitor,
+                                       final int startRow, final int endRow,
+                                       final int startColumn, final int endColumn)
         throws MatrixIndexException, MatrixVisitorException {
-        walkInRowOrder(visitor, startRow, endRow, startColumn, endColumn);
+        return walkInRowOrder(visitor, startRow, endRow, startColumn, endColumn);
+    }
+
+    /** {@inheritDoc} */
+    public double walkInOptimizedOrder(final RealMatrixPreservingVisitor visitor,
+                                       final int startRow, final int endRow,
+                                       final int startColumn, final int endColumn)
+        throws MatrixIndexException, MatrixVisitorException {
+        return walkInRowOrder(visitor, startRow, endRow, startColumn, endColumn);
     }
 
     /** {@inheritDoc} */
