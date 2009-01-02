@@ -124,14 +124,14 @@ public class OpenIntToDoubleHashMapTest extends TestCase {
         OpenIntToDoubleHashMap map = createFromJavaMap();
         
         for (Map.Entry<Integer, Double> mapEntry : generated.entrySet())
-            assertEquals(0.0, map.get(mapEntry.getKey()));
+            assertTrue(Double.isNaN(map.get(mapEntry.getKey())));
     }
 
     public void testGetFromEmpty() {
         OpenIntToDoubleHashMap map = new OpenIntToDoubleHashMap();
-        assertEquals(0.0, map.get(5));
-        assertEquals(0.0, map.get(0));
-        assertEquals(0.0, map.get(50));
+        assertTrue(Double.isNaN(map.get(5)));
+        assertTrue(Double.isNaN(map.get(0)));
+        assertTrue(Double.isNaN(map.get(50)));
     }
 
     public void testRemove() {
@@ -141,7 +141,7 @@ public class OpenIntToDoubleHashMapTest extends TestCase {
         for (Map.Entry<Integer, Double> mapEntry : javaMap.entrySet()) {
             map.remove(mapEntry.getKey());
             assertEquals(--mapSize, map.size());
-            assertEquals(0.0, map.get(mapEntry.getKey()));
+            assertTrue(Double.isNaN(map.get(mapEntry.getKey())));
         }
 
         /* Ensure that put and get still work correctly after removals */
@@ -158,7 +158,7 @@ public class OpenIntToDoubleHashMapTest extends TestCase {
             keysInMap.remove(mapEntry.getKey());
             map.remove(mapEntry.getKey());
             assertEquals(--mapSize, map.size());
-            assertEquals(0.0, map.get(mapEntry.getKey()));
+            assertTrue(Double.isNaN(map.get(mapEntry.getKey())));
             if (count++ > 5)
                 break;
         }
@@ -169,7 +169,7 @@ public class OpenIntToDoubleHashMapTest extends TestCase {
 
     public void testRemoveFromEmpty() {
         OpenIntToDoubleHashMap map = new OpenIntToDoubleHashMap();
-        assertEquals(0.0, map.remove(50));
+        assertTrue(Double.isNaN(map.remove(50)));
     }
 
     public void testRemoveAbsent() {
@@ -181,7 +181,7 @@ public class OpenIntToDoubleHashMapTest extends TestCase {
         for (Map.Entry<Integer, Double> mapEntry : generated.entrySet()) {
             map.remove(mapEntry.getKey());
             assertEquals(mapSize, map.size());
-            assertEquals(0.0, map.get(mapEntry.getKey()));
+            assertTrue(Double.isNaN(map.get(mapEntry.getKey())));
         }
     }
 

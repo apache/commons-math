@@ -48,7 +48,7 @@ public class SparseRealMatrix extends AbstractRealMatrix {
         super(rowDimension, columnDimension);
         this.rowDimension = rowDimension;
         this.columnDimension = columnDimension;
-        this.entries = new OpenIntToDoubleHashMap();
+        this.entries = new OpenIntToDoubleHashMap(0.0);
     }
   
     /**

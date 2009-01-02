@@ -73,6 +73,9 @@ public class OpenIntToDoubleHashMap implements Serializable {
     /** States table. */
     private byte[] states;
 
+    /** Return value for missing entries. */
+    private final double missingEntries;
+
     /** Current size of the map. */
     private int size;
 
@@ -83,21 +86,40 @@ public class OpenIntToDoubleHashMap implements Serializable {
     private transient int count;
 
     /**
-     * Build an empty map with default size.
+     * Build an empty map with default size and using NaN for missing entries.
      */
     public OpenIntToDoubleHashMap() {
-        this(DEFAULT_EXPECTED_SIZE);
+        this(DEFAULT_EXPECTED_SIZE, Double.NaN);
+    }
+
+    /**
+     * Build an empty map with default size
+     * @param missingEntries value to return when a missing entry is fetched
+     */
+    public OpenIntToDoubleHashMap(final double missingEntries) {
+        this(DEFAULT_EXPECTED_SIZE, missingEntries);
+    }
+
+    /**
+     * Build an empty map with specified size and using NaN for missing entries.
+     * @param expectedSize expected number of elements in the map
+     */
+    public OpenIntToDoubleHashMap(final int expectedSize) {
+        this(expectedSize, Double.NaN);
     }
 
     /**
      * Build an empty map with specified size.
      * @param expectedSize expected number of elements in the map
+     * @param missingEntries value to return when a missing entry is fetched
      */
-    public OpenIntToDoubleHashMap(final int expectedSize) {
+    public OpenIntToDoubleHashMap(final int expectedSize,
+                                  final double missingEntries) {
         final int capacity = computeCapacity(expectedSize);
         keys   = new int[capacity];
         values = new double[capacity];
         states = new byte[capacity];
+        this.missingEntries = missingEntries;
         mask   = capacity - 1;
     }
 
@@ -113,6 +135,7 @@ public class OpenIntToDoubleHashMap implements Serializable {
         System.arraycopy(source.values, 0, values, 0, length);
         states = new byte[length];
         System.arraycopy(source.states, 0, states, 0, length);
+        missingEntries = source.missingEntries;
         size  = source.size;
         mask  = source.mask;
         count = source.count;
@@ -158,7 +181,7 @@ public class OpenIntToDoubleHashMap implements Serializable {
         }
 
         if (states[index] == FREE) {
-            return 0.0;
+            return missingEntries;
         }
 
         for (int perturb = perturb(hash), j = index; states[index] != FREE; perturb >>= PERTURB_SHIFT) {
@@ -169,7 +192,7 @@ public class OpenIntToDoubleHashMap implements Serializable {
             }
         }
 
-        return 0.0;
+        return missingEntries;
 
     }
 
@@ -329,7 +352,7 @@ public class OpenIntToDoubleHashMap implements Serializable {
         }
 
         if (states[index] == FREE) {
-            return 0.0;
+            return missingEntries;
         }
 
         for (int perturb = perturb(hash), j = index; states[index] != FREE; perturb >>= PERTURB_SHIFT) {
@@ -340,7 +363,7 @@ public class OpenIntToDoubleHashMap implements Serializable {
             }
         }
 
-        return 0.0;
+        return missingEntries;
 
     }
 
@@ -364,7 +387,7 @@ public class OpenIntToDoubleHashMap implements Serializable {
         keys[index]   = 0;
         states[index] = REMOVED;
         final double previous = values[index];
-        values[index] = 0;
+        values[index] = missingEntries;
         --size;
         ++count;
         return previous;
@@ -378,7 +401,7 @@ public class OpenIntToDoubleHashMap implements Serializable {
      */
     public double put(final int key, final double value) {
         int index = findInsertionIndex(key);
-        double previous = 0.0;
+        double previous = missingEntries;
         boolean newMapping = true;
         if (index < 0) {
             index = changeIndexSign(index);
