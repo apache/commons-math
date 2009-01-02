@@ -104,14 +104,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
         blockColumns = (columns + BLOCK_SIZE - 1) / BLOCK_SIZE;
 
         // allocate storage blocks, taking care of smaller ones at right and bottom
-        blocks = new double[blockRows * blockColumns][];
-        int blockIndex = 0;
-        for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
-            final int iHeight = blockHeight(iBlock);
-            for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
-                blocks[blockIndex++] = new double[iHeight * blockWidth(jBlock)];
-            }
-        }
+        blocks = createBlocksLayout(rows, columns);
 
     }
 
@@ -144,6 +137,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
      *
      * @exception IllegalArgumentException if <code>blockData</code> shape is
      * inconsistent with block layout
+     * @see #createBlocksLayout(int, int)
      * @see #toBlocksLayout(double[][])
      * @see #DenseRealMatrix(double[][])
      */
@@ -205,6 +199,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
      * @return a new data array containing the same entries but in blocks layout
      * @exception IllegalArgumentException if <code>rawData</code> is not rectangular
      *  (not all rows have the same length)
+     * @see #createBlocksLayout(int, int)
      * @see #DenseRealMatrix(int, int, double[][], boolean)
      */
     public static double[][] toBlocksLayout(final double[][] rawData)
@@ -245,6 +240,41 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                     System.arraycopy(rawData[p], qStart, block, index, jWidth);
                 }
 
+            }
+        }
+
+        return blocks;
+
+    }
+
+    /**
+     * Create a data array in blocks layout.
+     * <p>
+     * This method can be used to create the array argument of the {@link
+     * DenseRealMatrix#DenseRealMatrix(int, int, double[][], boolean)} constructor.
+     * </p>
+     * @param rows  the number of rows in the new matrix
+     * @param columns  the number of columns in the new matrix
+     * @return a new data array in blocks layout
+     * @see #toBlocksLayout(double[][])
+     * @see #DenseRealMatrix(int, int, double[][], boolean)
+     */
+    public static double[][] createBlocksLayout(final int rows, final int columns)
+        throws IllegalArgumentException {
+
+        final int blockRows    = (rows    + BLOCK_SIZE - 1) / BLOCK_SIZE;
+        final int blockColumns = (columns + BLOCK_SIZE - 1) / BLOCK_SIZE;
+
+        final double[][] blocks = new double[blockRows * blockColumns][];
+        for (int iBlock = 0, blockIndex = 0; iBlock < blockRows; ++iBlock) {
+            final int pStart  = iBlock * BLOCK_SIZE;
+            final int pEnd    = Math.min(pStart + BLOCK_SIZE, rows);
+            final int iHeight = pEnd - pStart;
+            for (int jBlock = 0; jBlock < blockColumns; ++jBlock, ++blockIndex) {
+                final int qStart = jBlock * BLOCK_SIZE;
+                final int qEnd   = Math.min(qStart + BLOCK_SIZE, columns);
+                final int jWidth = qEnd - qStart;
+                blocks[blockIndex] = new double[iHeight * jWidth];
             }
         }
 
