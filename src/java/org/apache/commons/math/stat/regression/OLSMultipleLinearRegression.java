@@ -108,7 +108,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      */
     protected RealMatrix calculateBetaVariance() {
         RealMatrix XTX = X.transpose().multiply(X);
-        return new LUSolver(new LUDecompositionImpl(XTX)).getInverse();
+        return new LUDecompositionImpl(XTX).getSolver().getInverse();
     }
     
 

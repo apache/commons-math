@@ -79,7 +79,7 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      */
     protected RealMatrix getOmegaInverse() {
         if (OmegaInverse == null) {
-            OmegaInverse = new LUSolver(new LUDecompositionImpl(Omega)).getInverse();
+            OmegaInverse = new LUDecompositionImpl(Omega).getSolver().getInverse();
         }
         return OmegaInverse;
     }
@@ -95,7 +95,7 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
         RealMatrix OI = getOmegaInverse();
         RealMatrix XT = X.transpose();
         RealMatrix XTOIX = XT.multiply(OI).multiply(X);
-        RealMatrix inverse = new LUSolver(new LUDecompositionImpl(XTOIX)).getInverse();
+        RealMatrix inverse = new LUDecompositionImpl(XTOIX).getSolver().getInverse();
         return inverse.multiply(XT).multiply(OI).multiply(Y);
     }
 
