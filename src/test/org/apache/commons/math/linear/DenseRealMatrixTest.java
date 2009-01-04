@@ -476,64 +476,57 @@ public final class DenseRealMatrixTest extends TestCase {
     }
     
     // test submatrix accessors
-    public void testSubMatrix() {
-        RealMatrix m = new DenseRealMatrix(subTestData);
-        RealMatrix mRows23Cols00 = new DenseRealMatrix(subRows23Cols00);
-        RealMatrix mRows00Cols33 = new DenseRealMatrix(subRows00Cols33);
-        RealMatrix mRows01Cols23 = new DenseRealMatrix(subRows01Cols23);
-        RealMatrix mRows02Cols13 = new DenseRealMatrix(subRows02Cols13);
-        RealMatrix mRows03Cols12 = new DenseRealMatrix(subRows03Cols12);
-        RealMatrix mRows03Cols123 = new DenseRealMatrix(subRows03Cols123);
-        RealMatrix mRows20Cols123 = new DenseRealMatrix(subRows20Cols123);
-        RealMatrix mRows31Cols31 = new DenseRealMatrix(subRows31Cols31);
-        assertEquals(mRows23Cols00, m.getSubMatrix(2 , 3 , 0, 0));
-        assertEquals(mRows00Cols33, m.getSubMatrix(0 , 0 , 3, 3));
-        assertEquals(mRows01Cols23, m.getSubMatrix(0 , 1 , 2, 3));   
-        assertEquals(mRows02Cols13, m.getSubMatrix(new int[] {0,2}, new int[] {1,3}));  
-        assertEquals(mRows03Cols12, m.getSubMatrix(new int[] {0,3}, new int[] {1,2}));  
-        assertEquals(mRows03Cols123, m.getSubMatrix(new int[] {0,3}, new int[] {1,2,3})); 
-        assertEquals(mRows20Cols123, m.getSubMatrix(new int[] {2,0}, new int[] {1,2,3})); 
-        assertEquals(mRows31Cols31, m.getSubMatrix(new int[] {3,1}, new int[] {3,1})); 
-        assertEquals(mRows31Cols31, m.getSubMatrix(new int[] {3,1}, new int[] {3,1})); 
-        
+    public void testGetSubMatrix() {
+        RealMatrix m = new RealMatrixImpl(subTestData);
+        checkGetSubMatrix(m, subRows23Cols00,  2 , 3 , 0, 0, false);
+        checkGetSubMatrix(m, subRows00Cols33,  0 , 0 , 3, 3, false);
+        checkGetSubMatrix(m, subRows01Cols23,  0 , 1 , 2, 3, false);   
+        checkGetSubMatrix(m, subRows02Cols13,  new int[] { 0, 2 }, new int[] { 1, 3 },    false);  
+        checkGetSubMatrix(m, subRows03Cols12,  new int[] { 0, 3 }, new int[] { 1, 2 },    false);  
+        checkGetSubMatrix(m, subRows03Cols123, new int[] { 0, 3 }, new int[] { 1, 2, 3 }, false); 
+        checkGetSubMatrix(m, subRows20Cols123, new int[] { 2, 0 }, new int[] { 1, 2, 3 }, false); 
+        checkGetSubMatrix(m, subRows31Cols31,  new int[] { 3, 1 }, new int[] { 3, 1 },    false); 
+        checkGetSubMatrix(m, subRows31Cols31,  new int[] { 3, 1 }, new int[] { 3, 1 },    false); 
+        checkGetSubMatrix(m, null,  1, 0, 2, 4, true);
+        checkGetSubMatrix(m, null, -1, 1, 2, 2, true);
+        checkGetSubMatrix(m, null,  1, 0, 2, 2, true);
+        checkGetSubMatrix(m, null,  1, 0, 2, 4, true);
+        checkGetSubMatrix(m, null, new int[] {},    new int[] { 0 }, true);
+        checkGetSubMatrix(m, null, new int[] { 0 }, new int[] { 4 }, true);
+    }
+
+    private void checkGetSubMatrix(RealMatrix m, double[][] reference,
+                                   int startRow, int endRow, int startColumn, int endColumn,
+                                   boolean mustFail) {
         try {
-            m.getSubMatrix(1,0,2,4);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
-            // expected
-        }
-        try {
-            m.getSubMatrix(-1,1,2,2);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
-            // expected
-        }
-        try {
-            m.getSubMatrix(1,0,2,2);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
-            // expected
-        }
-        try {
-            m.getSubMatrix(1,0,2,4);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
-            // expected
-        }
-        try {
-            m.getSubMatrix(new int[] {}, new int[] {0});
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
-            // expected
-        }
-        try {
-            m.getSubMatrix(new int[] {0}, new int[] {4});
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
-            // expected
+            RealMatrix sub = m.getSubMatrix(startRow, endRow, startColumn, endColumn);
+            assertEquals(new RealMatrixImpl(reference), sub);
+            if (mustFail) {
+                fail("Expecting MatrixIndexException");
+            }
+        } catch (MatrixIndexException e) {
+            if (!mustFail) {
+                throw e;
+            }
         }
     }
     
+    private void checkGetSubMatrix(RealMatrix m, double[][] reference,
+                                   int[] selectedRows, int[] selectedColumns,
+                                   boolean mustFail) {
+        try {
+            RealMatrix sub = m.getSubMatrix(selectedRows, selectedColumns);
+            assertEquals(new RealMatrixImpl(reference), sub);
+            if (mustFail) {
+                fail("Expecting MatrixIndexException");
+            }
+        } catch (MatrixIndexException e) {
+            if (!mustFail) {
+                throw e;
+            }
+        }
+    }
+
     public void testGetSetMatrixLarge() {
         int n = 3 * DenseRealMatrix.BLOCK_SIZE;
         RealMatrix m = new DenseRealMatrix(n, n);
@@ -552,7 +545,65 @@ public final class DenseRealMatrixTest extends TestCase {
         assertEquals(sub, m.getSubMatrix(2, n - 3, 2, n - 3));
 
     }
+
+    public void testCopySubMatrix() {
+        RealMatrix m = new RealMatrixImpl(subTestData);
+        checkCopy(m, subRows23Cols00,  2 , 3 , 0, 0, false);
+        checkCopy(m, subRows00Cols33,  0 , 0 , 3, 3, false);
+        checkCopy(m, subRows01Cols23,  0 , 1 , 2, 3, false);   
+        checkCopy(m, subRows02Cols13,  new int[] { 0, 2 }, new int[] { 1, 3 },    false);  
+        checkCopy(m, subRows03Cols12,  new int[] { 0, 3 }, new int[] { 1, 2 },    false);  
+        checkCopy(m, subRows03Cols123, new int[] { 0, 3 }, new int[] { 1, 2, 3 }, false); 
+        checkCopy(m, subRows20Cols123, new int[] { 2, 0 }, new int[] { 1, 2, 3 }, false); 
+        checkCopy(m, subRows31Cols31,  new int[] { 3, 1 }, new int[] { 3, 1 },    false); 
+        checkCopy(m, subRows31Cols31,  new int[] { 3, 1 }, new int[] { 3, 1 },    false); 
+        
+        checkCopy(m, null,  1, 0, 2, 4, true);
+        checkCopy(m, null, -1, 1, 2, 2, true);
+        checkCopy(m, null,  1, 0, 2, 2, true);
+        checkCopy(m, null,  1, 0, 2, 4, true);
+        checkCopy(m, null, new int[] {},    new int[] { 0 }, true);
+        checkCopy(m, null, new int[] { 0 }, new int[] { 4 }, true);
+    }
+
+    private void checkCopy(RealMatrix m, double[][] reference,
+                           int startRow, int endRow, int startColumn, int endColumn,
+                           boolean mustFail) {
+        try {
+            double[][] sub = (reference == null) ?
+                             new double[1][1] :
+                             new double[reference.length][reference[0].length];
+            m.copySubMatrix(startRow, endRow, startColumn, endColumn, sub);
+            assertEquals(new RealMatrixImpl(reference), new RealMatrixImpl(sub));
+            if (mustFail) {
+                fail("Expecting MatrixIndexException");
+            }
+        } catch (MatrixIndexException e) {
+            if (!mustFail) {
+                throw e;
+            }
+        }
+    }
     
+    private void checkCopy(RealMatrix m, double[][] reference,
+                           int[] selectedRows, int[] selectedColumns,
+                           boolean mustFail) {
+        try {
+            double[][] sub = (reference == null) ?
+                    new double[1][1] :
+                    new double[reference.length][reference[0].length];
+            m.copySubMatrix(selectedRows, selectedColumns, sub);
+            assertEquals(new RealMatrixImpl(reference), new RealMatrixImpl(sub));
+            if (mustFail) {
+                fail("Expecting MatrixIndexException");
+            }
+        } catch (MatrixIndexException e) {
+            if (!mustFail) {
+                throw e;
+            }
+        }
+    }
+
     public void testGetRowMatrix() {
         RealMatrix m     = new DenseRealMatrix(subTestData);
         RealMatrix mRow0 = new DenseRealMatrix(subRow0);
@@ -1106,34 +1157,22 @@ public final class DenseRealMatrixTest extends TestCase {
 
     }
     
-    private static class SetVisitor implements RealMatrixChangingVisitor {
-        private static final long serialVersionUID = -5724808764099124932L;
-        public void start(int rows, int columns, int startRow, int endRow,
-                int startColumn, int endColumn) {
-        }
+    private static class SetVisitor extends DefaultRealMatrixChangingVisitor {
+        private static final long serialVersionUID = 1773444180892369386L;
         public double visit(int i, int j, double value) {
             return i + j / 1024.0;
         }
-        public double end() {
-            return 0;
-        }
     }
 
-    private static class GetVisitor implements RealMatrixPreservingVisitor {
-        private static final long serialVersionUID = 1299771253908695242L;
-        int count = 0;
-        public void start(int rows, int columns, int startRow, int endRow,
-                int startColumn, int endColumn) {
-        }
+    private static class GetVisitor extends DefaultRealMatrixPreservingVisitor {
+        private static final long serialVersionUID = -7745543227178932689L;
+        private int count = 0;
         public void visit(int i, int j, double value) {
             ++count;
             assertEquals(i + j / 1024.0, value, 0.0);
         }
         public int getCount() {
             return count;
-        }
-        public double end() {
-            return 0;
         }
     };
 
