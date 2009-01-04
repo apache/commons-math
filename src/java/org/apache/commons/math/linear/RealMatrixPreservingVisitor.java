@@ -22,6 +22,7 @@ import java.io.Serializable;
 /**
  * Interface defining a visitor for matrix entries.
  * 
+ * @see DefaultRealMatrixPreservingVisitor
  * @version $Revision$ $Date$
  * @since 2.0
  */
