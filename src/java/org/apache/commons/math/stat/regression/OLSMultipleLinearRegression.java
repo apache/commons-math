@@ -27,27 +27,27 @@ import org.apache.commons.math.linear.RealMatrixImpl;
  * multiple linear regression model.</p>
  * 
  * <p>OLS assumes the covariance matrix of the error to be diagonal and with
- * equal variance.
- * <pre>
- * u ~ N(0, sigma^2*I)
- * </pre></p>
+ * equal variance.</p>
+ * <p>
+ * u ~ N(0, &sigma;<sup>2</sup>I)
+ * </p>
  * 
  * <p>The regression coefficients, b, satisfy the normal equations:
- * <pre>
- * X^T X b = X^T y
- * </pre></p>
+ * <p>
+ * X<sup>T</sup> X b = X<sup>T</sup> y
+ * </p>
  * 
  * <p>To solve the normal equations, this implementation uses QR decomposition
  * of the X matrix. (See {@link QRDecompositionImpl} for details on the
  * decomposition algorithm.)
- * <pre>
- * X^T X b = X^T y
- * (QR)^T (QR) b = (QR)^T y
- * R^T (Q^T Q) R b = R^T Q^T y
- * R^T R b = R^T Q^T y
- * (R^T)^{-1} R^T R b = (R^T)^{-1} R^T Q^T y
- * R b = Q^T y
- * </pre>
+ * </p>
+ * <p>X<sup>T</sup>X b = X<sup>T</sup> y <br/>
+ * (QR)<sup>T</sup> (QR) b = (QR)<sup>T</sup>y <br/>
+ * R<sup>T</sup> (Q<sup>T</sup>Q) R b = R<sup>T</sup> Q<sup>T</sup> y <br/>
+ * R<sup>T</sup> R b = R<sup>T</sup> Q<sup>T</sup> y <br/>
+ * (R<sup>T</sup>)<sup>-1</sup> R<sup>T</sup> R b = (R<sup>T</sup>)<sup>-1</sup> R<sup>T</sup> Q<sup>T</sup> y <br/>
+ * R b = Q<sup>T</sup> y
+ * </p>
  * Given Q and R, the last equation is solved by back-subsitution.</p>
  * 
  * @version $Revision$ $Date$
@@ -83,13 +83,14 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * <p>Compute the "hat" matrix.
      * </p>
      * <p>The hat matrix is defined in terms of the design matrix X
-     *  by X(X^TX)^-1X^T
-     * <p>
+     *  by X(X<sup>T</sup>X)<sup>-1</sup>X<sup>T</sup>
+     * </p>
      * <p>The implementation here uses the QR decomposition to compute the
-     * hat matrix as QIpQ^T where Ip is the p-dimensional identity matrix
-     * augmented by 0's.  This computational formula is from "The Hat Matrix
-     * in Regression and ANOVA", David C. Hoaglin and Roy E. Welsch, 
-     * The American Statistician, Vol. 32, No. 1 (Feb., 1978), pp. 17-22.
+     * hat matrix as Q I<sub>p</sub>Q<sup>T</sup> where I<sub>p</sub> is the
+     * p-dimensional identity matrix augmented by 0's.  This computational
+     * formula is from "The Hat Matrix in Regression and ANOVA",
+     * David C. Hoaglin and Roy E. Welsch, 
+     * <i>The American Statistician</i>, Vol. 32, No. 1 (Feb., 1978), pp. 17-22.
      * 
      * @return the hat matrix
      */
@@ -134,10 +135,11 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
     }
 
     /**
-     * Calculates the variance on the beta by OLS.
-     * <pre>
-     *  Var(b)=(X'X)^-1
-     * </pre>
+     * <p>Calculates the variance on the beta by OLS.
+     * </p>
+     * <p>Var(b) = (X<sup>T</sup>X)<sup>-1</sup>
+     * </p>
+     * 
      * @return The beta variance
      */
     protected RealMatrix calculateBetaVariance() {
@@ -147,10 +149,10 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
     
 
     /**
-     * Calculates the variance on the Y by OLS.
-     * <pre>
-     *  Var(y)=Tr(u'u)/(n-k)
-     * </pre>
+     * <p>Calculates the variance on the Y by OLS.
+     * </p>
+     * <p> Var(y) = Tr(u<sup>T</sup>u)/(n - k)
+     * </p>
      * @return The Y variance
      */
     protected double calculateYVariance() {
