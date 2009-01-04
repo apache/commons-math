@@ -259,8 +259,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
      * @see #toBlocksLayout(double[][])
      * @see #DenseRealMatrix(int, int, double[][], boolean)
      */
-    public static double[][] createBlocksLayout(final int rows, final int columns)
-        throws IllegalArgumentException {
+    public static double[][] createBlocksLayout(final int rows, final int columns) {
 
         final int blockRows    = (rows    + BLOCK_SIZE - 1) / BLOCK_SIZE;
         final int blockColumns = (columns + BLOCK_SIZE - 1) / BLOCK_SIZE;
