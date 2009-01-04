@@ -203,13 +203,17 @@ public class MessagesResources_fr
     { "matrix must have at least one column",
       "une matrice doit comporter au moins une colonne" },
     { "some rows have length {0} while others have length {1}",
-      "certaines ligne ont une longueur de {0} alors que d''autres ont une longueur de {1}" },
+      "certaines lignes ont une longueur de {0} alors que d''autres ont une longueur de {1}" },
     { "{0}x{1} and {2}x{3} matrices are not addition compatible",
       "les dimensions {0}x{1} et {2}x{3} sont incompatibles pour l'addition matricielle" },
     { "{0}x{1} and {2}x{3} matrices are not subtraction compatible",
       "les dimensions {0}x{1} et {2}x{3} sont incompatibles pour la soustraction matricielle" },
     { "{0}x{1} and {2}x{3} matrices are not multiplication compatible",
       "les dimensions {0}x{1} et {2}x{3} sont incompatibles pour la multiplication matricielle" },
+
+    // org.apache.commons.math.linear.DenseRealMatrix
+    { "wrong array shape (block length = {0}, expected {1})",
+      "forme de tableau erron\u00e9e (bloc de longueur {0} au lieu des {1} attendus)" },
 
     // org.apache.commons.math.linear.BigMatrixImpl
     // org.apache.commons.math.linear.RealMatrixImpl
