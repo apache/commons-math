@@ -139,6 +139,20 @@ public abstract class AbstractMultipleLinearRegression implements
     public double[][] estimateRegressionParametersVariance() {
         return calculateBetaVariance().getData();
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public double[] estimateRegressionParametersStandardErrors() {
+        double[][] betaVariance = estimateRegressionParametersVariance();
+        double sigma = calculateYVariance();
+        int length = betaVariance[0].length;
+        double[] result = new double[length];
+        for (int i = 0; i < length; i++) {
+            result[i] = Math.sqrt(sigma * betaVariance[i][i]);
+        }
+        return result;
+    }
 
     /**
      * {@inheritDoc}

@@ -59,5 +59,12 @@ public interface MultipleLinearRegression {
      * @return The double representing the variance of y
      */
     double estimateRegressandVariance();
+    
+    /**
+     * Returns the standard errors of the regression parameters.
+     * 
+     * @return standard errors of estimated regression parameters
+     */
+     double[] estimateRegressionParametersStandardErrors();
 
 }

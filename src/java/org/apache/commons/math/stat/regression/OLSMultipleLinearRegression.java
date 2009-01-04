@@ -143,6 +143,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * @return The beta variance
      */
     protected RealMatrix calculateBetaVariance() {
+        //TODO:  find a way to use QR decomp to avoid inverting XX' here
         RealMatrix XTX = X.transpose().multiply(X);
         return new LUDecompositionImpl(XTX).getSolver().getInverse();
     }

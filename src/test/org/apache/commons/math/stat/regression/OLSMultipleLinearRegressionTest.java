@@ -149,8 +149,17 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
                       1E-8);
         
         // Check standard errors from NIST
-        double[][] errors = model.estimateRegressionParametersVariance();
-        //TODO:  translate this into std error vector and check  
+        double[] errors = model.estimateRegressionParametersStandardErrors();
+        TestUtils.assertEquals(new double[] {890420.383607373,
+                       84.9149257747669,
+                       0.334910077722432E-01,
+                       0.488399681651699,
+                       0.214274163161675,
+                       0.226073200069370,
+                       455.478499142212}, errors, 1E-2); // Ugh..
+        // Bad accuracy is in intercept std error estimate.  Could be due to
+        // Current impl inverting XX' to get standard errors.
+        
     }
     
     /**
@@ -245,7 +254,15 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
                 5.4326230830188482,-7.2375578629692230,2.1671550814448222,
                 15.0147574652763112,4.8625103516321015,-7.1597256413907706,
                 -0.4515205619767598,-10.2916870903837587,-15.7812984571900063},
-                1E-12);  
+                1E-12); 
+        
+        // Check standard errors from R
+        double[] errors = model.estimateRegressionParametersStandardErrors();
+        TestUtils.assertEquals(new double[] {6.94881329475087,
+                0.07360008972340,
+                0.27410957467466,
+                0.19454551679325,
+                0.03726654773803}, errors, 1E-10); 
     }
     
     /**
