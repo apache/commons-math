@@ -700,7 +700,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                 final int      outIndex = iBlock * out.blockColumns + jBlock;
                 final double[] outBlock = out.blocks[outIndex];
                 final int      index    = pBlock * blockColumns + qBlock;
-                final int      width    = blockWidth(index);
+                final int      width    = blockWidth(qBlock);
 
                 final int heightExcess = iHeight + rowsShift - BLOCK_SIZE;
                 final int widthExcess  = jWidth + columnsShift - BLOCK_SIZE;
@@ -708,7 +708,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                     // the submatrix block spans on two blocks rows from the original matrix
                     if (widthExcess > 0) {
                         // the submatrix block spans on two blocks columns from the original matrix
-                        final int width2 = blockWidth(index + 1);
+                        final int width2 = blockWidth(qBlock + 1);
                         copyBlockPart(blocks[index], width,
                                       rowsShift, BLOCK_SIZE,
                                       columnsShift, BLOCK_SIZE,
@@ -740,7 +740,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                     // the submatrix block spans on one block row from the original matrix
                     if (widthExcess > 0) {
                         // the submatrix block spans on two blocks columns from the original matrix
-                        final int width2 = blockWidth(index + 1);
+                        final int width2 = blockWidth(qBlock + 1);
                         copyBlockPart(blocks[index], width,
                                       rowsShift, iHeight + rowsShift,
                                       columnsShift, BLOCK_SIZE,
