@@ -17,7 +17,6 @@
 package org.apache.commons.math.stat.regression;
 
 import org.apache.commons.math.linear.LUDecompositionImpl;
-import org.apache.commons.math.linear.LUSolver;
 import org.apache.commons.math.linear.QRDecomposition;
 import org.apache.commons.math.linear.QRDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
@@ -80,6 +79,41 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
         qr = new QRDecompositionImpl(X);
     }
     
+    /**
+     * <p>Compute the "hat" matrix.
+     * </p>
+     * <p>The hat matrix is defined in terms of the design matrix X
+     *  by X(X^TX)^-1X^T
+     * <p>
+     * <p>The implementation here uses the QR decomposition to compute the
+     * hat matrix as QIpQ^T where Ip is the p-dimensional identity matrix
+     * augmented by 0's.  This computational formula is from "The Hat Matrix
+     * in Regression and ANOVA", David C. Hoaglin and Roy E. Welsch, 
+     * The American Statistician, Vol. 32, No. 1 (Feb., 1978), pp. 17-22.
+     * 
+     * @return the hat matrix
+     */
+    public RealMatrix calculateHat() {
+        // Create augmented identity matrix
+        RealMatrix Q = qr.getQ();
+        final int p = qr.getR().getColumnDimension();
+        final int n = Q.getColumnDimension();
+        RealMatrixImpl augI = new RealMatrixImpl(n, n);
+        double[][] augIData = augI.getDataRef();
+        for (int i = 0; i < n; i++) {
+            for (int j =0; j < n; j++) {
+                if (i == j && i < p) {
+                    augIData[i][j] = 1d;
+                } else {
+                    augIData[i][j] = 0d;
+                }
+            }
+        }
+        
+        // Compute and return Hat matrix
+        return Q.multiply(augI).multiply(Q.transpose());
+    }
+   
     /**
      * Loads new x sample data, overriding any previous sample
      * 
