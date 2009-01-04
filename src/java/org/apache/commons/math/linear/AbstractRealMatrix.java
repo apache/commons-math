@@ -285,22 +285,104 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
     }
 
     /** {@inheritDoc} */
-    public RealMatrix getSubMatrix(int[] selectedRows, int[] selectedColumns)
+    public RealMatrix getSubMatrix(final int[] selectedRows, final int[] selectedColumns)
         throws MatrixIndexException {
 
+        // safety checks
         checkSubMatrixIndex(selectedRows, selectedColumns);
 
+        // copy entries
         final RealMatrix subMatrix =
             createMatrix(selectedRows.length, selectedColumns.length);
-        for (int i = 0; i < selectedRows.length; i++) {
-            for (int j = 0; j < selectedColumns.length; j++) {
-                subMatrix.setEntry(i, j, getEntry(selectedRows[i], selectedColumns[j]));
+        subMatrix.walkInOptimizedOrder(new DefaultRealMatrixChangingVisitor() {
+
+            /** Serializable version identifier. */
+            private static final long serialVersionUID = 4572851009041214720L;
+
+            /** {@inheritDoc} */
+            public double visit(final int row, final int column, final double value) {
+                return getEntry(selectedRows[row], selectedColumns[column]);
             }
-        }
+
+        });
 
         return subMatrix;
 
     } 
+
+    /** {@inheritDoc} */
+    public void copySubMatrix(final int startRow, final int endRow,
+                              final int startColumn, final int endColumn,
+                              final double[][] destination)
+        throws MatrixIndexException, IllegalArgumentException {
+
+        // safety checks
+        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
+        final int rowsCount    = endRow + 1 - startRow;
+        final int columnsCount = endColumn + 1 - startColumn;
+        if ((destination.length < rowsCount) || (destination[0].length < columnsCount)) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                    new Object[] {
+                        destination.length, destination[0].length,
+                        rowsCount, columnsCount
+                    });
+        }
+
+        // copy entries
+        walkInOptimizedOrder(new DefaultRealMatrixPreservingVisitor() {
+
+            /** Serializable version identifier. */
+            private static final long serialVersionUID = -6302162622577015104L;
+
+            /** Initial row index. */
+            private int startRow;
+
+            /** Initial column index. */
+            private int startColumn;
+
+            /** {@inheritDoc} */
+            public void start(final int rows, final int columns,
+                              final int startRow, final int endRow,
+                              final int startColumn, final int endColumn) {
+                this.startRow    = startRow;
+                this.startColumn = startColumn;
+            }
+
+            /** {@inheritDoc} */
+            public void visit(final int row, final int column, final double value) {
+                destination[row - startRow][column - startColumn] = value;
+            }
+
+        }, startRow, endRow, startColumn, endColumn);
+
+    }
+
+    /** {@inheritDoc} */
+    public void copySubMatrix(int[] selectedRows, int[] selectedColumns, double[][] destination)
+        throws MatrixIndexException, IllegalArgumentException {
+
+        // safety checks
+        checkSubMatrixIndex(selectedRows, selectedColumns);
+        if ((destination.length < selectedRows.length) ||
+            (destination[0].length < selectedColumns.length)) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                    new Object[] {
+                        destination.length, destination[0].length,
+                        selectedRows.length, selectedColumns.length
+                    });
+        }
+
+        // copy entries
+        for (int i = 0; i < selectedRows.length; i++) {
+            final double[] destinationI = destination[i];
+            for (int j = 0; j < selectedColumns.length; j++) {
+                destinationI[j] = getEntry(selectedRows[i], selectedColumns[j]);
+            }
+        }
+
+    }
 
     /** {@inheritDoc} */
     public void setSubMatrix(final double[][] subMatrix, final int row, final int column) 
@@ -554,25 +636,14 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
         final int nRows = getRowDimension();
         final int nCols = getColumnDimension();
         final RealMatrix out = createMatrix(nCols, nRows);
-        walkInOptimizedOrder(new RealMatrixPreservingVisitor() {
+        walkInOptimizedOrder(new DefaultRealMatrixPreservingVisitor() {
 
-            /** Serializable version identifier */
-            private static final long serialVersionUID = 3807296710038754174L;
-
-            /** {@inheritDoc} */
-            public void start(final int rows, final int columns,
-                              final int startRow, final int endRow,
-                              final int startColumn, final int endColumn) {
-            }
+            /** Serializable version identifier. */
+            private static final long serialVersionUID = 2482589609486637597L;
 
             /** {@inheritDoc} */
             public void visit(final int row, final int column, final double value) {
                 out.setEntry(column, row, value);
-            }
-
-            /** {@inheritDoc} */
-            public double end() {
-                return 0;
             }
 
         });

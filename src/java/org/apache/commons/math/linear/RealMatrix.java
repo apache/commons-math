@@ -136,8 +136,8 @@ public interface RealMatrix extends Serializable {
      *         specified rows and columns
      * @exception MatrixIndexException  if the indices are not valid
      */
-   RealMatrix getSubMatrix(int startRow, int endRow, int startColumn,
-            int endColumn) throws MatrixIndexException;
+   RealMatrix getSubMatrix(int startRow, int endRow, int startColumn, int endColumn)
+       throws MatrixIndexException;
    
    /**
     * Gets a submatrix. Rows and columns are indicated
@@ -150,8 +150,39 @@ public interface RealMatrix extends Serializable {
     * @exception MatrixIndexException if row or column selections are not valid
     */
    RealMatrix getSubMatrix(int[] selectedRows, int[] selectedColumns)
-   throws MatrixIndexException;
+       throws MatrixIndexException;
 
+   /**
+    * Copy a submatrix. Rows and columns are indicated
+    * counting from 0 to n-1.
+    *
+    * @param startRow Initial row index
+    * @param endRow Final row index (inclusive)
+    * @param startColumn Initial column index
+    * @param endColumn Final column index (inclusive)
+    * @param destination The arrays where the submatrix data should be copied
+    * (if larger than rows/columns counts, only the upper-left part will be used)
+    * @exception MatrixIndexException if the indices are not valid
+    * @exception IllegalArgumentException if the destination array is too small
+    */
+  void copySubMatrix(int startRow, int endRow, int startColumn, int endColumn,
+                     double[][] destination)
+      throws MatrixIndexException, IllegalArgumentException;
+  
+  /**
+   * Copy a submatrix. Rows and columns are indicated
+   * counting from 0 to n-1.
+   *
+    * @param selectedRows Array of row indices.
+    * @param selectedColumns Array of column indices.
+   * @param destination The arrays where the submatrix data should be copied
+   * (if larger than rows/columns counts, only the upper-left part will be used)
+   * @exception MatrixIndexException if the indices are not valid
+   * @exception IllegalArgumentException if the destination array is too small
+   */
+  void copySubMatrix(int[] selectedRows, int[] selectedColumns, double[][] destination)
+      throws MatrixIndexException, IllegalArgumentException;
+ 
    /**
     * Replace the submatrix starting at <code>row, column</code> using data in
     * the input <code>subMatrix</code> array. Indexes are 0-based.
