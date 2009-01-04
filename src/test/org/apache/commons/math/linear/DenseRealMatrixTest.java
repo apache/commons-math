@@ -477,7 +477,7 @@ public final class DenseRealMatrixTest extends TestCase {
     
     // test submatrix accessors
     public void testGetSubMatrix() {
-        RealMatrix m = new RealMatrixImpl(subTestData);
+        RealMatrix m = new DenseRealMatrix(subTestData);
         checkGetSubMatrix(m, subRows23Cols00,  2 , 3 , 0, 0, false);
         checkGetSubMatrix(m, subRows00Cols33,  0 , 0 , 3, 3, false);
         checkGetSubMatrix(m, subRows01Cols23,  0 , 1 , 2, 3, false);   
@@ -500,7 +500,7 @@ public final class DenseRealMatrixTest extends TestCase {
                                    boolean mustFail) {
         try {
             RealMatrix sub = m.getSubMatrix(startRow, endRow, startColumn, endColumn);
-            assertEquals(new RealMatrixImpl(reference), sub);
+            assertEquals(new DenseRealMatrix(reference), sub);
             if (mustFail) {
                 fail("Expecting MatrixIndexException");
             }
@@ -516,7 +516,7 @@ public final class DenseRealMatrixTest extends TestCase {
                                    boolean mustFail) {
         try {
             RealMatrix sub = m.getSubMatrix(selectedRows, selectedColumns);
-            assertEquals(new RealMatrixImpl(reference), sub);
+            assertEquals(new DenseRealMatrix(reference), sub);
             if (mustFail) {
                 fail("Expecting MatrixIndexException");
             }
@@ -547,7 +547,7 @@ public final class DenseRealMatrixTest extends TestCase {
     }
 
     public void testCopySubMatrix() {
-        RealMatrix m = new RealMatrixImpl(subTestData);
+        RealMatrix m = new DenseRealMatrix(subTestData);
         checkCopy(m, subRows23Cols00,  2 , 3 , 0, 0, false);
         checkCopy(m, subRows00Cols33,  0 , 0 , 3, 3, false);
         checkCopy(m, subRows01Cols23,  0 , 1 , 2, 3, false);   
@@ -574,7 +574,7 @@ public final class DenseRealMatrixTest extends TestCase {
                              new double[1][1] :
                              new double[reference.length][reference[0].length];
             m.copySubMatrix(startRow, endRow, startColumn, endColumn, sub);
-            assertEquals(new RealMatrixImpl(reference), new RealMatrixImpl(sub));
+            assertEquals(new DenseRealMatrix(reference), new DenseRealMatrix(sub));
             if (mustFail) {
                 fail("Expecting MatrixIndexException");
             }
@@ -593,7 +593,7 @@ public final class DenseRealMatrixTest extends TestCase {
                     new double[1][1] :
                     new double[reference.length][reference[0].length];
             m.copySubMatrix(selectedRows, selectedColumns, sub);
-            assertEquals(new RealMatrixImpl(reference), new RealMatrixImpl(sub));
+            assertEquals(new DenseRealMatrix(reference), new DenseRealMatrix(sub));
             if (mustFail) {
                 fail("Expecting MatrixIndexException");
             }
