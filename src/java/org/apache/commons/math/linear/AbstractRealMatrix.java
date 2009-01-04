@@ -884,6 +884,7 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
         return visitor.end();
     }
 
+    /** {@inheritDoc} */
     public double walkInColumnOrder(final RealMatrixChangingVisitor visitor)
         throws MatrixVisitorException {
         final int rows    = getRowDimension();
