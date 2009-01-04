@@ -1032,13 +1032,12 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
         throws MatrixIndexException {
 
         checkRowIndex(row);
-        final RealVectorImpl out = new RealVectorImpl(columns);
+        final double[] outData = new double[columns];
 
         // perform copy block-wise, to ensure good cache behavior
         final int iBlock  = row / BLOCK_SIZE;
         final int iRow    = row - iBlock * BLOCK_SIZE;
         int outIndex      = 0;
-        double[] outData  = out.getDataRef();
         for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
             final int jWidth     = blockWidth(jBlock);
             final double[] block = blocks[iBlock * blockColumns + jBlock];
@@ -1046,7 +1045,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
             outIndex += jWidth;
         }
 
-        return out;
+        return new RealVectorImpl(outData, false);
 
     }
 
@@ -1065,14 +1064,13 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
         throws MatrixIndexException {
 
         checkColumnIndex(column);
-        final RealVectorImpl out = new RealVectorImpl(rows);
+        final double[] outData = new double[rows];
 
         // perform copy block-wise, to ensure good cache behavior
         final int jBlock  = column / BLOCK_SIZE;
         final int jColumn = column - jBlock * BLOCK_SIZE;
         final int jWidth  = blockWidth(jBlock);
         int outIndex      = 0;
-        double[] outData = out.getDataRef();
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int iHeight = blockHeight(iBlock);
             final double[] block = blocks[iBlock * blockColumns + jBlock];
@@ -1081,7 +1079,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
             }
         }
 
-        return out;
+        return new RealVectorImpl(outData, false);
 
     }
 
