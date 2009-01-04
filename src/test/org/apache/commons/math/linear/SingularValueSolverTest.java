@@ -42,8 +42,8 @@ public class SingularValueSolverTest extends TestCase {
 
     /** test solve dimension errors */
     public void testSolveDimensionErrors() {
-        SingularValueSolver solver =
-            new SingularValueSolver(new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testSquare)));
+        DecompositionSolver solver =
+            new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testSquare)).getSolver();
         RealMatrix b = MatrixUtils.createRealMatrix(new double[3][2]);
         try {
             solver.solve(b);
@@ -78,7 +78,7 @@ public class SingularValueSolverTest extends TestCase {
                                    { 1.0, 0.0 },
                                    { 0.0, 0.0 }
                                });
-        SingularValueSolver solver = new SingularValueSolver(new SingularValueDecompositionImpl(m));
+        DecompositionSolver solver = new SingularValueDecompositionImpl(m).getSolver();
         RealMatrix b = MatrixUtils.createRealMatrix(new double[2][2]);
         try {
             solver.solve(b);
@@ -116,8 +116,8 @@ public class SingularValueSolverTest extends TestCase {
 
     /** test solve */
     public void testSolve() {
-        SingularValueSolver solver =
-            new SingularValueSolver(new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testSquare)));
+        DecompositionSolver solver =
+            new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testSquare)).getSolver();
         RealMatrix b = MatrixUtils.createRealMatrix(new double[][] {
                 { 1, 2, 3 }, { 0, -5, 1 }
         });

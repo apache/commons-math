@@ -38,7 +38,7 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
     /** Cached LU solver.
      * @deprecated as of release 2.0, since all methods using this are deprecated
      */
-    private LUSolver lu;
+    private DecompositionSolver lu;
 
     /**
      * Creates a matrix with no data
@@ -657,7 +657,7 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
     public RealMatrix inverse()
         throws InvalidMatrixException {
         if (lu == null) {
-            lu = new LUSolver(new LUDecompositionImpl(this, MathUtils.SAFE_MIN));
+            lu = new LUDecompositionImpl(this, MathUtils.SAFE_MIN).getSolver();
         }
         return lu.getInverse();
     }
@@ -666,10 +666,7 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
     @Deprecated
     public double getDeterminant()
         throws InvalidMatrixException {
-        if (lu == null) {
-            lu = new LUSolver(new LUDecompositionImpl(this, MathUtils.SAFE_MIN));
-        }
-        return lu.getDeterminant();
+        return new LUDecompositionImpl(this, MathUtils.SAFE_MIN).getDeterminant();
     }
 
     /** {@inheritDoc} */
@@ -681,7 +678,7 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
     @Deprecated
     public boolean isSingular() {
         if (lu == null) {
-            lu = new LUSolver(new LUDecompositionImpl(this, MathUtils.SAFE_MIN));
+            lu = new LUDecompositionImpl(this, MathUtils.SAFE_MIN).getSolver();
        }
         return !lu.isNonSingular();
     }
@@ -985,7 +982,7 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
     public double[] solve(final double[] b)
         throws IllegalArgumentException, InvalidMatrixException {
         if (lu == null) {
-            lu = new LUSolver(new LUDecompositionImpl(this, MathUtils.SAFE_MIN));
+            lu = new LUDecompositionImpl(this, MathUtils.SAFE_MIN).getSolver();
         }
         return lu.solve(b);
     }
@@ -995,7 +992,7 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
     public RealMatrix solve(final RealMatrix b)
         throws IllegalArgumentException, InvalidMatrixException  {
         if (lu == null) {
-            lu = new LUSolver(new LUDecompositionImpl(this, MathUtils.SAFE_MIN));
+            lu = new LUDecompositionImpl(this, MathUtils.SAFE_MIN).getSolver();
         }
         return lu.solve(b);
     }
@@ -1023,7 +1020,7 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
     public void luDecompose()
         throws InvalidMatrixException {
         if (lu == null) {
-            lu = new LUSolver(new LUDecompositionImpl(this, MathUtils.SAFE_MIN));
+            lu = new LUDecompositionImpl(this, MathUtils.SAFE_MIN).getSolver();
         }
     }
 

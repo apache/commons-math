@@ -17,7 +17,6 @@
 package org.apache.commons.math.stat.regression;
 
 import org.apache.commons.math.linear.LUDecompositionImpl;
-import org.apache.commons.math.linear.LUSolver;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealMatrixImpl;
 
@@ -109,7 +108,7 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
     protected RealMatrix calculateBetaVariance() {
         RealMatrix OI = getOmegaInverse();
         RealMatrix XTOIX = X.transpose().multiply(OI).multiply(X);
-        return new LUSolver(new LUDecompositionImpl(XTOIX)).getInverse();
+        return new LUDecompositionImpl(XTOIX).getSolver().getInverse();
     }
 
     /**

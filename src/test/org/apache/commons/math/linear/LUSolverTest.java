@@ -62,25 +62,25 @@ public class LUSolverTest extends TestCase {
                                                        { 2.0, 5.0, 3.0},
                                                        { 4.000001, 9.0, 9.0}
                                                      });
-        assertFalse(new LUSolver(new LUDecompositionImpl(matrix, 1.0e-5)).isNonSingular());
-        assertTrue(new LUSolver(new LUDecompositionImpl(matrix, 1.0e-10)).isNonSingular());
+        assertFalse(new LUDecompositionImpl(matrix, 1.0e-5).getSolver().isNonSingular());
+        assertTrue(new LUDecompositionImpl(matrix, 1.0e-10).getSolver().isNonSingular());
     }
 
     /** test singular */
     public void testSingular() {
-        LUSolver lu =
-            new LUSolver(new LUDecompositionImpl(MatrixUtils.createRealMatrix(testData)));
-        assertTrue(lu.isNonSingular());
-        lu = new LUSolver(new LUDecompositionImpl(MatrixUtils.createRealMatrix(singular)));
-        assertFalse(lu.isNonSingular());
-        lu = new LUSolver(new LUDecompositionImpl(MatrixUtils.createRealMatrix(bigSingular)));
-        assertFalse(lu.isNonSingular());
+        DecompositionSolver solver =
+            new LUDecompositionImpl(MatrixUtils.createRealMatrix(testData)).getSolver();
+        assertTrue(solver.isNonSingular());
+        solver = new LUDecompositionImpl(MatrixUtils.createRealMatrix(singular)).getSolver();
+        assertFalse(solver.isNonSingular());
+        solver = new LUDecompositionImpl(MatrixUtils.createRealMatrix(bigSingular)).getSolver();
+        assertFalse(solver.isNonSingular());
     }
 
     /** test solve dimension errors */
     public void testSolveDimensionErrors() {
-        LUSolver solver =
-            new LUSolver(new LUDecompositionImpl(MatrixUtils.createRealMatrix(testData)));
+        DecompositionSolver solver =
+            new LUDecompositionImpl(MatrixUtils.createRealMatrix(testData)).getSolver();
         RealMatrix b = MatrixUtils.createRealMatrix(new double[2][2]);
         try {
             solver.solve(b);
@@ -110,8 +110,8 @@ public class LUSolverTest extends TestCase {
 
     /** test solve singularity errors */
     public void testSolveSingularityErrors() {
-        LUSolver solver =
-            new LUSolver(new LUDecompositionImpl(MatrixUtils.createRealMatrix(singular)));
+        DecompositionSolver solver =
+            new LUDecompositionImpl(MatrixUtils.createRealMatrix(singular)).getSolver();
         RealMatrix b = MatrixUtils.createRealMatrix(new double[2][2]);
         try {
             solver.solve(b);
@@ -149,8 +149,8 @@ public class LUSolverTest extends TestCase {
 
     /** test solve */
     public void testSolve() {
-        LUSolver solver =
-            new LUSolver(new LUDecompositionImpl(MatrixUtils.createRealMatrix(testData)));
+        DecompositionSolver solver =
+            new LUDecompositionImpl(MatrixUtils.createRealMatrix(testData)).getSolver();
         RealMatrix b = MatrixUtils.createRealMatrix(new double[][] {
                 { 1, 0 }, { 2, -5 }, { 3, 1 }
         });
@@ -195,7 +195,7 @@ public class LUSolverTest extends TestCase {
     }
 
     private double getDeterminant(RealMatrix m) {
-        return new LUSolver(new LUDecompositionImpl(m)).getDeterminant();
+        return new LUDecompositionImpl(m).getDeterminant();
     }
 
 }

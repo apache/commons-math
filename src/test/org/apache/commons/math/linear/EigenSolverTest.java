@@ -45,7 +45,7 @@ public class EigenSolverTest extends TestCase {
         Random r = new Random(9994100315209l);
         RealMatrix m =
             EigenDecompositionImplTest.createTestMatrix(r, new double[] { 1.0, 0.0, -1.0, -2.0, -3.0 });
-        EigenSolver es = new EigenSolver(new EigenDecompositionImpl(m, MathUtils.SAFE_MIN));
+        DecompositionSolver es = new EigenDecompositionImpl(m, MathUtils.SAFE_MIN).getSolver();
         assertFalse(es.isNonSingular());
         try {
             es.getInverse();
@@ -62,7 +62,7 @@ public class EigenSolverTest extends TestCase {
         Random r = new Random(9994100315209l);
         RealMatrix m =
             EigenDecompositionImplTest.createTestMatrix(r, new double[] { 1.0, 0.5, -1.0, -2.0, -3.0 });
-        EigenSolver es = new EigenSolver(new EigenDecompositionImpl(m, MathUtils.SAFE_MIN));
+        DecompositionSolver es = new EigenDecompositionImpl(m, MathUtils.SAFE_MIN).getSolver();
         assertTrue(es.isNonSingular());
         RealMatrix inverse = es.getInverse();
         RealMatrix error =
@@ -72,7 +72,7 @@ public class EigenSolverTest extends TestCase {
 
     /** test solve dimension errors */
     public void testSolveDimensionErrors() {
-        EigenSolver es = new EigenSolver(new EigenDecompositionImpl(matrix, MathUtils.SAFE_MIN));
+        DecompositionSolver es = new EigenDecompositionImpl(matrix, MathUtils.SAFE_MIN).getSolver();
         RealMatrix b = MatrixUtils.createRealMatrix(new double[2][2]);
         try {
             es.solve(b);
@@ -110,8 +110,7 @@ public class EigenSolverTest extends TestCase {
                 { 40,  2, 21,  9, 51, 19 },
                 { 14, -1,  8,  0, 19, 14 }
         });
-        EigenSolver  es = new EigenSolver(new EigenDecompositionImpl(m, MathUtils.SAFE_MIN));
-        assertEquals(184041, es.getDeterminant(), 2.0e-8);
+        DecompositionSolver es = new EigenDecompositionImpl(m, MathUtils.SAFE_MIN).getSolver();
         RealMatrix b = MatrixUtils.createRealMatrix(new double[][] {
                 { 1561, 269, 188 },
                 {   69, -21,  70 },

@@ -460,7 +460,7 @@ public final class DenseRealMatrixTest extends TestCase {
         assertEquals(2, p.getRowDimension());
         assertEquals(2, p.getColumnDimension());
         // Invert p
-        RealMatrix pInverse = new LUSolver(new LUDecompositionImpl(p)).getInverse(); 
+        RealMatrix pInverse = new LUDecompositionImpl(p).getSolver().getInverse(); 
         assertEquals(2, pInverse.getRowDimension());
         assertEquals(2, pInverse.getColumnDimension());
         
@@ -468,7 +468,7 @@ public final class DenseRealMatrixTest extends TestCase {
         double[][] coefficientsData = {{2, 3, -2}, {-1, 7, 6}, {4, -3, -5}};
         RealMatrix coefficients = new DenseRealMatrix(coefficientsData);
         double[] constants = {1, -2, 1};
-        double[] solution = new LUSolver(new LUDecompositionImpl(coefficients)).solve(constants);
+        double[] solution = new LUDecompositionImpl(coefficients).getSolver().solve(constants);
         assertEquals(2 * solution[0] + 3 * solution[1] -2 * solution[2], constants[0], 1E-12);
         assertEquals(-1 * solution[0] + 7 * solution[1] + 6 * solution[2], constants[1], 1E-12);
         assertEquals(4 * solution[0] - 3 * solution[1] -5 * solution[2], constants[2], 1E-12);   
