@@ -17,31 +17,37 @@
 
 package org.apache.commons.math.linear;
 
+import java.util.Random;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 public class QRSolverTest extends TestCase {
     double[][] testData3x3NonSingular = { 
-            { 12, -51, 4 }, 
-            { 6, 167, -68 },
-            { -4, 24, -41 }, };
+            { 12, -51,   4 }, 
+            {  6, 167, -68 },
+            { -4,  24, -41 }
+    };
 
     double[][] testData3x3Singular = { 
-            { 1, 4, 7, }, 
-            { 2, 5, 8, },
-            { 3, 6, 9, }, };
+            { 1, 2,  2 }, 
+            { 2, 4,  6 },
+            { 4, 8, 12 }
+    };
 
     double[][] testData3x4 = { 
-            { 12, -51, 4, 1 }, 
-            { 6, 167, -68, 2 },
-            { -4, 24, -41, 3 }, };
+            { 12, -51,   4, 1 }, 
+            {  6, 167, -68, 2 },
+            { -4,  24, -41, 3 }
+    };
 
     double[][] testData4x3 = { 
-            { 12, -51, 4, }, 
-            { 6, 167, -68, },
-            { -4, 24, -41, }, 
-            { -5, 34, 7, }, };
+            { 12, -51,   4 }, 
+            {  6, 167, -68 },
+            { -4,  24, -41 }, 
+            { -5,  34,   7 }
+    };
 
     public QRSolverTest(String name) {
         super(name);
@@ -55,25 +61,25 @@ public class QRSolverTest extends TestCase {
 
     /** test rank */
     public void testRank() {
-        QRSolver solver =
-            new QRSolver(new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData3x3NonSingular)));
+        DecompositionSolver solver =
+            new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData3x3NonSingular)).getSolver();
         assertTrue(solver.isNonSingular());
 
-        solver = new QRSolver(new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData3x3Singular)));
+        solver = new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData3x3Singular)).getSolver();
         assertFalse(solver.isNonSingular());
 
-        solver = new QRSolver(new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData3x4)));
-        assertFalse(solver.isNonSingular());
+        solver = new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData3x4)).getSolver();
+        assertTrue(solver.isNonSingular());
 
-        solver = new QRSolver(new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData4x3)));
+        solver = new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData4x3)).getSolver();
         assertTrue(solver.isNonSingular());
 
     }
 
     /** test solve dimension errors */
     public void testSolveDimensionErrors() {
-        QRSolver solver =
-            new QRSolver(new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData3x3NonSingular)));
+        DecompositionSolver solver =
+            new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData3x3NonSingular)).getSolver();
         RealMatrix b = MatrixUtils.createRealMatrix(new double[2][2]);
         try {
             solver.solve(b);
@@ -103,8 +109,8 @@ public class QRSolverTest extends TestCase {
 
     /** test solve rank errors */
     public void testSolveRankErrors() {
-        QRSolver solver =
-            new QRSolver(new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData3x3Singular)));
+        DecompositionSolver solver =
+            new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData3x3Singular)).getSolver();
         RealMatrix b = MatrixUtils.createRealMatrix(new double[3][2]);
         try {
             solver.solve(b);
@@ -134,8 +140,9 @@ public class QRSolverTest extends TestCase {
 
     /** test solve */
     public void testSolve() {
-        QRSolver solver =
-            new QRSolver(new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData3x3NonSingular)));
+        QRDecomposition decomposition =
+            new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData3x3NonSingular));
+        DecompositionSolver solver = decomposition.getSolver();
         RealMatrix b = MatrixUtils.createRealMatrix(new double[][] {
                 { -102, 12250 }, { 544, 24500 }, { 167, -36750 }
         });
@@ -144,31 +151,82 @@ public class QRSolverTest extends TestCase {
         });
 
         // using RealMatrix
-        assertEquals(0, solver.solve(b).subtract(xRef).getNorm(), 1.0e-13);
+        assertEquals(0, solver.solve(b).subtract(xRef).getNorm(), 2.0e-16 * xRef.getNorm());
 
         // using double[]
         for (int i = 0; i < b.getColumnDimension(); ++i) {
-            assertEquals(0,
-                         new RealVectorImpl(solver.solve(b.getColumn(i))).subtract(xRef.getColumnVector(i)).getNorm(),
-                         1.0e-13);
+            final double[] x = solver.solve(b.getColumn(i));
+            final double error = new RealVectorImpl(x).subtract(xRef.getColumnVector(i)).getNorm();
+            assertEquals(0, error, 3.0e-16 * xRef.getColumnVector(i).getNorm());
         }
 
         // using RealVectorImpl
         for (int i = 0; i < b.getColumnDimension(); ++i) {
-            assertEquals(0,
-                         solver.solve(b.getColumnVector(i)).subtract(xRef.getColumnVector(i)).getNorm(),
-                         1.0e-13);
+            final RealVector x = solver.solve(b.getColumnVector(i));
+            final double error = x.subtract(xRef.getColumnVector(i)).getNorm();
+            assertEquals(0, error, 3.0e-16 * xRef.getColumnVector(i).getNorm());
         }
 
         // using RealVector with an alternate implementation
         for (int i = 0; i < b.getColumnDimension(); ++i) {
             RealVectorImplTest.RealVectorTestImpl v =
                 new RealVectorImplTest.RealVectorTestImpl(b.getColumn(i));
-            assertEquals(0,
-                         solver.solve(v).subtract(xRef.getColumnVector(i)).getNorm(),
-                         1.0e-13);
+            final RealVector x = solver.solve(v);
+            final double error = x.subtract(xRef.getColumnVector(i)).getNorm();
+            assertEquals(0, error, 3.0e-16 * xRef.getColumnVector(i).getNorm());
         }
 
     }
 
+    public void testOverdetermined() {
+        final Random r    = new Random(5559252868205245l);
+        int          p    = (7 * DenseRealMatrix.BLOCK_SIZE) / 4;
+        int          q    = (5 * DenseRealMatrix.BLOCK_SIZE) / 4;
+        RealMatrix   a    = createTestMatrix(r, p, q);
+        RealMatrix   xRef = createTestMatrix(r, q, DenseRealMatrix.BLOCK_SIZE + 3);
+
+        // build a perturbed system: A.X + noise = B
+        RealMatrix b = a.multiply(xRef);
+        final double noise = 0.001;
+        b.walkInOptimizedOrder(new DefaultRealMatrixChangingVisitor() {
+            private static final long serialVersionUID = 3533849820776962636L;
+            public double visit(int row, int column, double value) {
+                return value * (1.0 + noise * (2 * r.nextDouble() - 1));
+            }
+        });
+
+        // despite perturbation, the least square solution should be pretty good
+        RealMatrix x = new QRDecompositionImpl(a).getSolver().solve(b);
+        assertEquals(0, x.subtract(xRef).getNorm(), 0.01 * noise * p * q);
+
+    }
+
+    public void testUnderdetermined() {
+        final Random r    = new Random(42185006424567123l);
+        int          p    = (5 * DenseRealMatrix.BLOCK_SIZE) / 4;
+        int          q    = (7 * DenseRealMatrix.BLOCK_SIZE) / 4;
+        RealMatrix   a    = createTestMatrix(r, p, q);
+        RealMatrix   xRef = createTestMatrix(r, q, DenseRealMatrix.BLOCK_SIZE + 3);
+        RealMatrix   b    = a.multiply(xRef);
+        RealMatrix   x = new QRDecompositionImpl(a).getSolver().solve(b);
+
+        // too many equations, the system cannot be solved at all
+        assertTrue(x.subtract(xRef).getNorm() / (p * q) > 0.01);
+
+        // the last unknown should have been set to 0
+        assertEquals(0.0, x.getSubMatrix(p, q - 1, 0, x.getColumnDimension() - 1).getNorm());
+
+    }
+
+    private RealMatrix createTestMatrix(final Random r, final int rows, final int columns) {
+        RealMatrix m = MatrixUtils.createRealMatrix(rows, columns);
+        m.walkInOptimizedOrder(new DefaultRealMatrixChangingVisitor(){
+            private static final long serialVersionUID = -556118291433400034L;
+            public double visit(int row, int column, double value)
+                throws MatrixVisitorException {
+                return 2.0 * r.nextDouble() - 1.0;
+            }
+        });
+        return m;
+    }
 }
