@@ -27,14 +27,14 @@
   <!--  which already know about limited precision of the double numbers -->
   <Match>
     <Class name="org.apache.commons.math.analysis.BrentSolver" />
-    <Method name="solve" params="UnivariateRealFunction,double,double,double,double,double,double" returns="double" />
+    <Method name="solve" params="org.apache.commons.math.analysis.UnivariateRealFunction,double,double,double,double,double,double" returns="double" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
   <Match>
     <Class name="org.apache.commons.math.analysis.MullerSolver" />
     <Or>
-      <Method name="solve"  params="UnivariateRealFunction,double,double" returns="double" />
-      <Method name="solve2" params="UnivariateRealFunction,double,double" returns="double" />
+      <Method name="solve"  params="org.apache.commons.math.analysis.UnivariateRealFunction,double,double" returns="double" />
+      <Method name="solve2" params="org.apache.commons.math.analysis.UnivariateRealFunction,double,double" returns="double" />
     </Or>
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
