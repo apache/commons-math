@@ -139,13 +139,17 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * </p>
      * <p>Var(b) = (X<sup>T</sup>X)<sup>-1</sup>
      * </p>
+     * <p>Uses QR decomposition to reduce (X<sup>T</sup>X)<sup>-1</sup>
+     * to (R<sup>T</sup>R)<sup>-1</sup>, with only the top p rows of
+     * R included, where p = the length of the beta vector.</p> 
      * 
      * @return The beta variance
      */
     protected RealMatrix calculateBetaVariance() {
-        //TODO:  find a way to use QR decomp to avoid inverting XX' here
-        RealMatrix XTX = X.transpose().multiply(X);
-        return new LUDecompositionImpl(XTX).getSolver().getInverse();
+        int p = X.getColumnDimension();
+        RealMatrix Raug = qr.getR().getSubMatrix(0, p - 1 , 0, p - 1);
+        RealMatrix Rinv = new LUDecompositionImpl(Raug).getSolver().getInverse();
+        return Rinv.multiply(Rinv.transpose());
     }
     
 

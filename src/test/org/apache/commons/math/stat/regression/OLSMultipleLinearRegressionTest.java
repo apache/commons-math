@@ -156,10 +156,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
                        0.488399681651699,
                        0.214274163161675,
                        0.226073200069370,
-                       455.478499142212}, errors, 1E-2); // Ugh..
-        // Bad accuracy is in intercept std error estimate.  Could be due to
-        // Current impl inverting XX' to get standard errors.
-        
+                       455.478499142212}, errors, 1E-6); 
     }
     
     /**
