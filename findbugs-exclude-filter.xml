@@ -78,8 +78,16 @@
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
+    <Class name="org.apache.commons.math.linear.DenseRealMatrix"/>
+    <Method name="&lt;init>" params="int,int,double[][],boolean" returns="void" />
+    <Bug pattern="EI_EXPOSE_REP2" />
+  </Match>
+  <Match>
     <Class name="org.apache.commons.math.util.ResizableDoubleArray"/>
-    <Method name="getInternalValues" params="" returns="double[]" />
+    <Or>
+      <Method name="getValues"         params="" returns="double[]" />
+      <Method name="getInternalValues" params="" returns="double[]" />
+    </Or>
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
