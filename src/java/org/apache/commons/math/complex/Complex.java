@@ -19,7 +19,7 @@ package org.apache.commons.math.complex;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.util.MathUtils;
@@ -867,50 +867,76 @@ public class Complex implements Serializable  {
     
     
     /**
-     * Compute the angle phi of this complex number.
-     * @return the angle phi of this complex number
+     * <p>Compute the argument of this complex number.
+     * </p>
+     * <p>The argument is the angle phi between the positive real axis and the point
+     * representing this number in the complex plane. The value returned is between -PI (not inclusive) 
+     * and PI (inclusive), with negative values returned for numbers with negative imaginary parts.
+     * </p>
+     * <p>If either real or imaginary part (or both) is NaN, NaN is returned.  Infinite parts are handled
+     * as java.Math.atan2 handles them, essentially treating finite parts as zero in the presence of
+     * an infinite coordinate and returning a multiple of pi/4 depending on the signs of the infinite
+     * parts.  See the javadoc for java.Math.atan2 for full details.</p>
+     * 
+     * @return the argument of this complex number
      */
-    public double getPhi() {
+    public double getArgument() {
         return Math.atan2(getImaginary(), getReal());
     }
     
     /**
-     * Compute the n-th root of this complex number.
-     * <p>
-     * For a given n it implements the formula: <pre>
-     * <code> z_k = pow( abs , 1.0/n ) * (cos(phi + k * 2&pi;) + i * (sin(phi + k * 2&pi;)</code></pre></p>
-     * with <i><code>k=0, 1, ..., n-1</code></i> and <i><code>pow(abs, 1.0 / n)</code></i> is the nth root of the absolute-value.
-     * <p>
+     * <p>Computes the n-th roots of this complex number.
+     * </p>
+     * <p>The nth roots are defined by the formula: <pre>
+     * <code> z<sub>k</sub> = abs<sup> 1/n</sup> (cos(phi + 2&pi;k/n) + i (sin(phi + 2&pi;k/n))</code></pre>
+     * for <i><code>k=0, 1, ..., n-1</code></i>, where <code>abs</code> and <code>phi</code> are
+     * respectively the {@link #abs() modulus} and {@link #getArgument() argument} of this complex number.
+     * </p>
+     * <p>If one or both parts of this complex number is NaN, a list with just one element,
+     *  {@link #NaN} is returned.</p>
+     * <p>if neither part is NaN, but at least one part is infinite, the result is a one-element
+     * list containing {@link #INF}.</p>
      * 
      * @param n degree of root
-     * @return Collection<Complex> all nth roots of this complex number as a Collection
-     * @throws IllegalArgumentException if parameter n is negative
+     * @return List<Complex> all nth roots of this complex number
+     * @throws IllegalArgumentException if parameter n is less than or equal to 0
      * @since 2.0
      */
-    public Collection<Complex> nthRoot(int n) throws IllegalArgumentException {
+    public List<Complex> nthRoot(int n) throws IllegalArgumentException {
 
         if (n <= 0) {
             throw MathRuntimeException.createIllegalArgumentException("cannot compute nth root for null or negative n: {0}",
                     new Object[] { n });
         }
+        
+        List<Complex> result = new ArrayList<Complex>();
+        
+        if (isNaN()) {
+            result.add(Complex.NaN);
+            return result;
+        }
+        
+        if (isInfinite()) {
+            result.add(Complex.INF);
+            return result;
+        }
 
-        Collection<Complex> result = new ArrayList<Complex>();
-
-        // nth root of abs
+        // nth root of abs -- faster / more accurate to use a solver here?
         final double nthRootOfAbs = Math.pow(abs(), 1.0 / n);
 
         // Compute nth roots of complex number with k = 0, 1, ... n-1
-        final double phi = getPhi();
+        final double nthPhi = getArgument()/n;
+        final double slice = 2 * Math.PI / n;
+        double innerPart = nthPhi;
         for (int k = 0; k < n ; k++) {
             // inner part
-            final double innerPart     = (phi + k * 2 * Math.PI) / n;
             final double realPart      = nthRootOfAbs *  Math.cos(innerPart);
             final double imaginaryPart = nthRootOfAbs *  Math.sin(innerPart);
             result.add(createComplex(realPart, imaginaryPart));
+            innerPart += slice;
         }
 
         return result;
-
     }
 
     /**

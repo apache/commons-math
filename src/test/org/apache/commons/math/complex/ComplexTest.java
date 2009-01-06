@@ -19,6 +19,8 @@ package org.apache.commons.math.complex;
 
 import org.apache.commons.math.TestUtils;
 
+import java.util.List;
+
 import junit.framework.TestCase;
 
 /**
@@ -801,7 +803,7 @@ public class ComplexTest extends TestCase {
      * </code>
      * </pre>
      */
-    public void testNthRoot_cornercase_thirdRoot_realPartEmpty() {
+    public void testNthRoot_cornercase_thirdRoot_realPartZero() {
         // complex number with only imaginary part
         Complex z = new Complex(0,2);
         // The List holding all third roots
@@ -823,26 +825,82 @@ public class ComplexTest extends TestCase {
      * Test cornercases with NaN and Infinity.
      */
     public void testNthRoot_cornercase_NAN_Inf() {
-        // third root of z = 1 + NaN * i
-        for (Complex c : oneNaN.nthRoot(3)) {
-            // both parts should be nan
-            assertEquals(nan, c.getReal());
-            assertEquals(nan, c.getImaginary());
-        }
-        // third root of z = inf + NaN * i
-        for (Complex c : infNaN.nthRoot(3)) {
-            // both parts should be nan
-            assertEquals(nan, c.getReal());
-            assertEquals(nan, c.getImaginary());
-        }
-        // third root of z = neginf + 1 * i
-        Complex[] zInfOne = negInfOne.nthRoot(2).toArray(new Complex[0]);
-        // first root
-        assertEquals(inf, zInfOne[0].getReal());
-        assertEquals(inf, zInfOne[0].getImaginary());
-        // second root
-        assertEquals(neginf, zInfOne[1].getReal());
-        assertEquals(neginf, zInfOne[1].getImaginary());
+        // NaN + finite -> NaN
+        List<Complex> roots = oneNaN.nthRoot(3);
+        assertEquals(1,roots.size());
+        assertEquals(Complex.NaN, roots.get(0));
+        
+        roots = nanZero.nthRoot(3);
+        assertEquals(1,roots.size());
+        assertEquals(Complex.NaN, roots.get(0));
+        
+        // NaN + infinite -> NaN
+        roots = nanInf.nthRoot(3);
+        assertEquals(1,roots.size());
+        assertEquals(Complex.NaN, roots.get(0));
+        
+        // finite + infinite -> Inf
+        roots = oneInf.nthRoot(3);
+        assertEquals(1,roots.size());
+        assertEquals(Complex.INF, roots.get(0));
+        
+        // infinite + infinite -> Inf
+        roots = negInfInf.nthRoot(3);
+        assertEquals(1,roots.size());
+        assertEquals(Complex.INF, roots.get(0));
+    }
+    
+    /**
+     * Test standard values
+     */
+    public void testGetArgument() {
+        Complex z = new Complex(1, 0);
+        assertEquals(0.0, z.getArgument(), 1.0e-12);
+        
+        z = new Complex(1, 1);
+        assertEquals(Math.PI/4, z.getArgument(), 1.0e-12);
+        
+        z = new Complex(0, 1);
+        assertEquals(Math.PI/2, z.getArgument(), 1.0e-12);
+        
+        z = new Complex(-1, 1);
+        assertEquals(3 * Math.PI/4, z.getArgument(), 1.0e-12);
+        
+        z = new Complex(-1, 0);
+        assertEquals(Math.PI, z.getArgument(), 1.0e-12);
+        
+        z = new Complex(-1, -1);
+        assertEquals(-3 * Math.PI/4, z.getArgument(), 1.0e-12);
+        
+        z = new Complex(0, -1);
+        assertEquals(-Math.PI/2, z.getArgument(), 1.0e-12);
+        
+        z = new Complex(1, -1);
+        assertEquals(-Math.PI/4, z.getArgument(), 1.0e-12);
+        
+    }
+    
+    /**
+     * Verify atan2-style handling of infinite parts
+     */
+    public void testGetArgumentInf() {
+        assertEquals(Math.PI/4, infInf.getArgument(), 1.0e-12);
+        assertEquals(Math.PI/2, oneInf.getArgument(), 1.0e-12);
+        assertEquals(0.0, infOne.getArgument(), 1.0e-12);
+        assertEquals(Math.PI/2, zeroInf.getArgument(), 1.0e-12);
+        assertEquals(0.0, infZero.getArgument(), 1.0e-12);
+        assertEquals(Math.PI, negInfOne.getArgument(), 1.0e-12);
+        assertEquals(-3.0*Math.PI/4, negInfNegInf.getArgument(), 1.0e-12);  
+        assertEquals(-Math.PI/2, oneNegInf.getArgument(), 1.0e-12);        
+    }
+    
+    /**
+     * Verify that either part NaN results in NaN
+     */
+    public void testGetArgumentNaN() {
+        assertEquals(nan, nanZero.getArgument());
+        assertEquals(nan, zeroNaN.getArgument());
+        assertEquals(nan, Complex.NaN.getArgument());  
     }
 
 }
