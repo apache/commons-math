@@ -291,6 +291,9 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(1, MathUtils.gcd(-a, c));
         assertEquals(1, MathUtils.gcd(a, -c));
         assertEquals(1, MathUtils.gcd(-a, -c));
+
+        assertEquals(3 * (1<<15), MathUtils.gcd(3 * (1<<20), 9 * (1<<15)));
+
     }
 
     public void testHash() {
