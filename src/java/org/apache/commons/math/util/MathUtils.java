@@ -155,8 +155,7 @@ public final class MathUtils {
      * <li> The result is small enough to fit into a <code>long</code>. The
      * largest value of <code>n</code> for which all coefficients are
      * <code> < Long.MAX_VALUE</code> is 66. If the computed value exceeds
-     * <code>Long.MAX_VALUE</code> an <code>ArithMeticException
-     *      </code> is
+     * <code>Long.MAX_VALUE</code> an <code>ArithMeticException</code> is
      * thrown.</li>
      * </ul></p>
      * 
