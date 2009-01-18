@@ -17,6 +17,7 @@
 package org.apache.commons.math.analysis.solvers;
 
 import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.ConvergingAlgorithm;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 
@@ -28,96 +29,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  *  
  * @version $Revision: 724191 $ $Date: 2008-12-07 21:24:10 +0100 (Sun, 07 Dec 2008) $
  */
-public interface UnivariateRealSolver {
-
-    /**
-     * Set the upper limit for the number of iterations.
-     * <p>
-     * Usually a high iteration count indicates convergence problems. However,
-     * the "reasonable value" varies widely for different solvers.  Users are
-     * advised to use the default value supplied by the solver.</p>
-     * <p>
-     * A <code>ConvergenceException</code> will be thrown if this number
-     * is exceeded.</p>
-     *  
-     * @param count maximum number of iterations
-     */
-    void setMaximalIterationCount(int count);
-
-    /**
-     * Get the upper limit for the number of iterations.
-     * 
-     * @return the actual upper limit
-     */
-    int getMaximalIterationCount();
-
-    /**
-     * Reset the upper limit for the number of iterations to the default.
-     * <p>
-     * The default value is supplied by the solver implementation.</p>
-     * 
-     * @see #setMaximalIterationCount(int)
-     */
-    void resetMaximalIterationCount();
-
-    /**
-     * Set the absolute accuracy.
-     * <p>
-     * The default is usually choosen so that roots in the interval
-     * -10..-0.1 and +0.1..+10 can be found with a reasonable accuracy. If the
-     * expected absolute value of your roots is of much smaller magnitude, set
-     * this to a smaller value.</p>
-     * <p>
-     * Solvers are advised to do a plausibility check with the relative
-     * accuracy, but clients should not rely on this.</p>
-     *  
-     * @param accuracy the accuracy.
-     * @throws IllegalArgumentException if the accuracy can't be achieved by
-     * the solver or is otherwise deemed unreasonable. 
-     */
-    void setAbsoluteAccuracy(double accuracy);
-
-    /**
-     * Get the actual absolute accuracy.
-     * 
-     * @return the accuracy
-     */
-    double getAbsoluteAccuracy();
-
-    /**
-     * Reset the absolute accuracy to the default.
-     * <p>
-     * The default value is provided by the solver implementation.</p>
-     */
-    void resetAbsoluteAccuracy();
-
-    /**
-     * Set the relative accuracy.
-     * <p>
-     * This is used to stop iterations if the absolute accuracy can't be
-     * achieved due to large values or short mantissa length.</p>
-     * <p>
-     * If this should be the primary criterion for convergence rather then a
-     * safety measure, set the absolute accuracy to a ridiculously small value,
-     * like 1E-1000.</p>
-     * 
-     * @param accuracy the relative accuracy.
-     * @throws IllegalArgumentException if the accuracy can't be achieved by
-     *  the solver or is otherwise deemed unreasonable. 
-     */
-    void setRelativeAccuracy(double accuracy);
-
-    /**
-     * Get the actual relative accuracy.
-     * @return the accuracy
-     */
-    double getRelativeAccuracy();
-
-    /**
-     * Reset the relative accuracy to the default.
-     * The default value is provided by the solver implementation.
-     */
-    void resetRelativeAccuracy();
+public interface UnivariateRealSolver extends ConvergingAlgorithm {
 
     /**
      * Set the function value accuracy.
@@ -244,19 +156,4 @@ public interface UnivariateRealSolver {
      * because no result was yet computed or the last attempt failed.
      */
     double getFunctionValue();
-
-    /**
-     * Get the number of iterations in the last run of the solver.
-     * <p>
-     * This is mainly meant for testing purposes. It may occasionally
-     * help track down performance problems: if the iteration count
-     * is notoriously high, check whether the function is evaluated
-     * properly, and whether another solver is more amenable to the
-     * problem.</p>
-     * 
-     * @return the last iteration count.
-     * @throws IllegalStateException if there is no result available, either
-     * because no result was yet computed or the last attempt failed.
-     */
-    int getIterationCount();
 }

@@ -18,6 +18,7 @@ package org.apache.commons.math.analysis.solvers;
 
 
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 
@@ -93,11 +94,8 @@ public class BrentSolver extends UnivariateRealSolverImpl {
                         final double min, final double max, final double initial)
         throws MaxIterationsExceededException, FunctionEvaluationException {
 
-        if (((initial - min) * (max -initial)) < 0) {
-            throw new IllegalArgumentException("Initial guess is not in search" +
-                      " interval." + "  Initial: " + initial +
-                      "  Endpoints: [" + min + "," + max + "]");
-        }
+        clearResult();
+        verifySequence(min, initial, max);
 
         // return the initial guess if it is good enough
         double yInitial = f.value(initial);
@@ -177,10 +175,10 @@ public class BrentSolver extends UnivariateRealSolverImpl {
                 ret = max;
             } else {
                 // neither value is close to zero and min and max do not bracket root.
-                throw new IllegalArgumentException
-                ("Function values at endpoints do not have different signs." +
-                        "  Endpoints: [" + min + "," + max + "]" + 
-                        "  Values: [" + yMin + "," + yMax + "]");
+                throw MathRuntimeException.createIllegalArgumentException(
+                        "function values at endpoints do not have different signs.  " +
+                        "Endpoints: [{0}, {1}], Values: [{2}, {3}]",
+                        new Object[] { min, max, yMin, yMax });       
             }
         } else if (sign < 0){
             // solve using only the first endpoint as initial guess

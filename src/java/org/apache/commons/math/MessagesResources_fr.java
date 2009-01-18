@@ -78,7 +78,7 @@ public class MessagesResources_fr
     { "Overflow trying to convert {0} to fraction ({1}/{2})",
       "D\u00e9passement de capacit\u00e9 lors de la conversion de {0} en fraction ({1}/{2})" },
 
-    // org.apache.commons.math.analysis.UnivariateRealSolverUtils
+    // org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils
     { "Number of iterations={0}, maximum iterations={1}, initial={2}, lower bound={3}, upper bound={4}," +
           " final a value={5}, final b value={6}, f(a)={7}, f(b)={8}",
       "Nombre d''it\u00e9rations = {0}, it\u00e9rations maximum = {1}, valeur initiale = {2}," +
@@ -267,19 +267,31 @@ public class MessagesResources_fr
    { "cannot substitute an element from an empty array",
      "impossible de substituer un \u00e9l\u00e9ment dans un tableau vide" },
 
-   // org.apache.commons.math.analysis.PolynomialFunctionLagrangeForm
+   // org.apache.commons.math.analysis.polynomials.PolynomialFunctionLagrangeForm
    { "identical abscissas x[{0}] == x[{1}] == {2} cause division by zero",
      "division par z\u00e9ro caus\u00e9e par les abscisses identiques x[{0}] == x[{1}] == {2}" },
 
-   // org.apache.commons.math.analysis.UnivariateRealSolverImpl
+   // org.apache.commons.math.analysis.solvers.UnivariateRealSolverImpl
    { "function to solve cannot be null",
      "la fonction \u00e0 r\u00e9soudre ne peux pas \u00eatre nulle" },
+   { "invalid interval, initial value parameters:  lower={0}, initial={1}, upper={2}",
+     "param\u00e8tres de l''intervalle initial invalides : borne inf = {0}, valeur initiale = {1}, borne sup = {2}" },
 
-   // org.apache.commons.math.analysis.LaguerreSolver
+   // org.apache.commons.math.analysis.solvers.UnivariateRealSolverImpl
+   // org.apache.commons.math.analysis.solvers.BrentSolver
+   { "function values at endpoints do not have different signs.  Endpoints: [{0}, {1}], Values: [{2}, {3}]",
+     "les valeurs de la fonction aux bornes n''ont pas des signes diff\u00e9rents. Bornes : [{0}, {1}], valeurs : [{2}, {3}]" },
+
+   // org.apache.commons.math.analysis.solvers.UnivariateRealSolverImpl
+   // org.apache.commons.math.transform.FastFourierTransformer
+   { "endpoints do not specify an interval: [{0}, {1}]",
+     "les extr\u00e9mit\u00e9s ne constituent pas un intervalle : [{0}, {1}]" },
+
+   // org.apache.commons.math.analysis.solvers.LaguerreSolver
    { "function is not polynomial",
      "la fonction n''est pas p\u00f4lynomiale" },
 
-   // org.apache.commons.math.analysis.NewtonSolver
+   // org.apache.commons.math.analysis.solvers.NewtonSolver
    { "function is not differentiable",
      "la fonction n''est pas diff\u00e9rentiable" },
 
@@ -304,8 +316,7 @@ public class MessagesResources_fr
    { "zero norm",
      "norme nulle" },
 
-   // org.apache.commons.math.analysis.UnivariateRealIntegratorImpl
-   // org.apache.commons.math.analysis.UnivariateRealSolverImpl
+   // org.apache.commons.math.ConvergingAlgorithmImpl
    { "no result available",
      "aucun r\u00e9sultat n''est disponible" },
 
@@ -354,8 +365,6 @@ public class MessagesResources_fr
      "le nombre d''\u00e9chantillons n''est pas positif : {0}" },
    { "{0} is not a power of 2, consider padding for fix",
      "{0} n''est pas une puissance de 2, ajoutez des \u00e9l\u00e9ments pour corriger" },
-   { "endpoints do not specify an interval: [{0}, {1}]",
-     "les extr\u00e9mit\u00e9s ne constituent pas un intervalle : [{0}, {1}]" },
    { "some dimensions don't math: {0} != {1}",
      "certaines dimensions sont incoh\u00e9rentes : {0} != {1}" },
 
