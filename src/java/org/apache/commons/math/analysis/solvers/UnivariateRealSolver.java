@@ -117,7 +117,7 @@ public interface UnivariateRealSolver extends ConvergingAlgorithm {
      */
     @Deprecated
     double solve(double min, double max, double startValue)
-        throws ConvergenceException, FunctionEvaluationException;
+        throws ConvergenceException, FunctionEvaluationException, IllegalArgumentException;
 
     /**
      * Solve for a zero in the given interval, start at startValue.
@@ -137,7 +137,7 @@ public interface UnivariateRealSolver extends ConvergingAlgorithm {
      * @since 2.0
      */
     double solve(UnivariateRealFunction f, double min, double max, double startValue)
-        throws ConvergenceException, FunctionEvaluationException;
+        throws ConvergenceException, FunctionEvaluationException, IllegalArgumentException;
 
     /**
      * Get the result of the last run of the solver.

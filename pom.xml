@@ -224,11 +224,10 @@
             </descriptors>
           </configuration>
         </plugin>
-        <!--
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>cobertura-maven-plugin</artifactId>
-          <version>2.0</version>
+          <version>2.2</version>
           <executions>
             <execution>
               <goals>
@@ -237,7 +236,6 @@
             </execution>
           </executions>
         </plugin>
-        -->
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>clirr-maven-plugin</artifactId>
@@ -264,13 +262,11 @@
           <excludeFilterFile>${basedir}/findbugs-exclude-filter.xml</excludeFilterFile>
        </configuration>
       </plugin>
-      <!--
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>cobertura-maven-plugin</artifactId>
-        <version>2.0</version>
+        <version>2.2</version>
       </plugin>
-      -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-changes-plugin</artifactId>

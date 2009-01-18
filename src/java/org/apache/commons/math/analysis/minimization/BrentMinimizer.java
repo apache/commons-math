@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.analysis.minimization;
 
-import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
@@ -56,7 +55,7 @@ public class BrentMinimizer extends UnivariateRealMinimizerImpl {
      * @param max the upper bound for the interval.
      * @param startValue this parameter is <em>not</em> used at all
      * @return a value where the function is minimum
-     * @throws ConvergenceException if the maximum iteration count is exceeded
+     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
      * or the minimizer detects convergence problems otherwise.
      * @throws FunctionEvaluationException if an error occurs evaluating the
      * function
@@ -75,7 +74,7 @@ public class BrentMinimizer extends UnivariateRealMinimizerImpl {
         throws MaxIterationsExceededException, 
         FunctionEvaluationException {
         clearResult();
-        return localmin(min, max, relativeAccuracy, absoluteAccuracy, f);
+        return localMin(min, max, relativeAccuracy, absoluteAccuracy, f);
     }
     
     /**
@@ -101,7 +100,7 @@ public class BrentMinimizer extends UnivariateRealMinimizerImpl {
      * @throws FunctionEvaluationException if an error occurs evaluating
      * the function. 
      */
-    private double localmin(double a, double b, final double eps,
+    private double localMin(double a, double b, final double eps,
                             final double t, final UnivariateRealFunction f)
         throws MaxIterationsExceededException, FunctionEvaluationException {
         double x = a + c * (b - a);

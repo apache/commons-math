@@ -722,9 +722,12 @@ public class FastFourierTransformer implements Serializable {
          */
         public Complex set(Complex magnitude, int... vector)
             throws IllegalArgumentException {
-            if (vector == null && dimensionSize.length > 1) {
-                throw MathRuntimeException.createIllegalArgumentException("some dimensions don't math: {0} != {1}",
-                                                                          new Object[] { 0, dimensionSize.length });
+            if (vector == null) {
+                if (dimensionSize.length > 1) {
+                    throw MathRuntimeException.createIllegalArgumentException("some dimensions don't math: {0} != {1}",
+                                                                              new Object[] { 0, dimensionSize.length });
+                }
+                return null;
             }
             if (vector != null && vector.length != dimensionSize.length) {
                 throw MathRuntimeException.createIllegalArgumentException("some dimensions don't math: {0} != {1}",
@@ -733,17 +736,15 @@ public class FastFourierTransformer implements Serializable {
                                                                               dimensionSize.length
                                                                           });
             }
-            
-            Object lastDimension = multiDimensionalComplexArray;
-            
+
+            Object[] lastDimension = (Object[]) multiDimensionalComplexArray;
             for (int i = 0; i < dimensionSize.length - 1; i++) {
-                lastDimension = ((Object[]) lastDimension)[vector[i]];
+                lastDimension = (Object[]) lastDimension[vector[i]];
             }
-            
-            Complex lastValue = (Complex) ((Object[])
-                    lastDimension)[vector[dimensionSize.length - 1]];
-            ((Object[]) lastDimension)[vector[dimensionSize.length - 1]] =
-                    magnitude;
+
+            Complex lastValue = (Complex) lastDimension[vector[dimensionSize.length - 1]];
+            lastDimension[vector[dimensionSize.length - 1]] = magnitude;
+
             return lastValue;
         }
 

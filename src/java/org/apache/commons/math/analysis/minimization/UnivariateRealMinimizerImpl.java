@@ -33,12 +33,6 @@ public abstract class UnivariateRealMinimizerImpl
     /** Serializable version identifier. */
     private static final long serialVersionUID = 4543031162377070699L;
 
-//    /** Maximum error of function. */
-//    protected double functionValueAccuracy;
-//
-//    /** Default maximum error of function. */
-//    protected double defaultFunctionValueAccuracy;
-
     /** Indicates where a root has been computed. */
     protected boolean resultComputed = false;
 
@@ -59,13 +53,12 @@ public abstract class UnivariateRealMinimizerImpl
     protected UnivariateRealMinimizerImpl(int defaultMaximalIterationCount,
                                           double defaultAbsoluteAccuracy) {
         super(defaultMaximalIterationCount, defaultAbsoluteAccuracy);
-//        this.functionValueAccuracy = defaultFunctionValueAccuracy;
     }
 
     /** Check if a result has been computed.
      * @exception IllegalStateException if no result has been computed
      */
-    protected void checkResultComputed() throws IllegalArgumentException {
+    protected void checkResultComputed() throws IllegalStateException {
         if (!resultComputed) {
             throw MathRuntimeException.createIllegalStateException("no result available", null);
         }
@@ -83,21 +76,6 @@ public abstract class UnivariateRealMinimizerImpl
         return functionValue;
     }
 
-//    /** {@inheritDoc} */
-//    public void setFunctionValueAccuracy(double accuracy) {
-//        functionValueAccuracy = accuracy;
-//    }
-//
-//    /** {@inheritDoc} */
-//    public double getFunctionValueAccuracy() {
-//        return functionValueAccuracy;
-//    }
-//
-//    /** {@inheritDoc} */
-//    public void resetFunctionValueAccuracy() {
-//        functionValueAccuracy = defaultFunctionValueAccuracy;
-//    }
-    
     /**
      * Convenience function for implementations.
      * 

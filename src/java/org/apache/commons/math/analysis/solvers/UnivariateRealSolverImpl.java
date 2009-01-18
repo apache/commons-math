@@ -102,7 +102,7 @@ public abstract class UnivariateRealSolverImpl
     /** Check if a result has been computed.
      * @exception IllegalStateException if no result has been computed
      */
-    protected void checkResultComputed() throws IllegalArgumentException {
+    protected void checkResultComputed() throws IllegalStateException {
         if (!resultComputed) {
             throw MathRuntimeException.createIllegalStateException("no result available", null);
         }

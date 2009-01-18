@@ -30,107 +30,108 @@
         <ul>
             <li><a href="overview.html">0. Overview</a>
             <ul>
-              <li><a href="overview.html#0.1 About the User Guide">0.1 About the User Guide</a></li>
-              <li><a href="overview.html#0.2 What&amp;apos;s in commons-math">0.2 What's in commons-math</a></li>
-              <li><a href="overview.html#0.3 How commons-math is organized">0.3 How commons-math is organized</a></li>
-              <li><a href="overview.html#0.4 How interface contracts are specified in commons-math javadoc">0.4 How interface contracts are specified in commons-math javadoc</a></li>
-              <li><a href="overview.html#0.5 Dependencies">0.5 Dependencies</a></li>
+              <li><a href="overview.html#a0.1_About_the_User_Guide">0.1 About the User Guide</a></li>
+              <li><a href="overview.html#a0.2_Whats_in_commons-math">0.2 What's in commons-math</a></li>
+              <li><a href="overview.html#a0.3_How_commons-math_is_organized">0.3 How commons-math is organized</a></li>
+              <li><a href="overview.html#a0.4_How_interface_contracts_are_specified_in_commons-math_javadoc">0.4 How interface contracts are specified in commons-math javadoc</a></li>
+              <li><a href="overview.html#a0.5_Dependencies">0.5 Dependencies</a></li>
             </ul></li>
 
            <li><a href="stat.html">1. Statistics</a>
                 <ul>
-                <li><a href="stat.html#1.1 Overview">1.1 Overview</a></li>
-                <li><a href="stat.html#1.2 Descriptive statistics">1.2 Descriptive statistics</a></li>
-                <li><a href="stat.html#1.3 Frequency distributions">1.3 Frequency distributions</a></li>
-                <li><a href="stat.html#1.4 Simple regression">1.4 Simple regression</a></li>
-                <li><a href="stat.html#1.5 Statistical tests">1.5 Statistical tests</a></li>
+                <li><a href="stat.html#a1.1_Overview">1.1 Overview</a></li>
+                <li><a href="stat.html#a1.2_Descriptive_statistics">1.2 Descriptive statistics</a></li>
+                <li><a href="stat.html#a1.3_Frequency_distributions">1.3 Frequency distributions</a></li>
+                <li><a href="stat.html#a1.4_Simple_regression">1.4 Simple regression</a></li>
+                <li><a href="stat.html#a1.5_Statistical_tests">1.5 Statistical tests</a></li>
                 </ul></li>
             <li><a href="random.html">2. Data Generation</a>
                 <ul>
-                <li><a href="random.html#2.1 Overview">2.1 Overview</a></li>
-                <li><a href="random.html#2.2 Random numbers">2.2 Random numbers</a></li>
-                <li><a href="random.html#2.3 Random Strings">2.3 Random Strings</a></li>
-                <li><a href="random.html#2.4 Random permutations, combinations, sampling">2.4 Random permutations, combinations, sampling</a></li>
-                <li><a href="random.html#2.5 Generating data 'like' an input file">2.5 Generating data 'like' an input file</a></li>
-                <li><a href="random.html#2.6 PRNG Pluggability">2.6 PRNG Pluggability</a></li>
+                <li><a href="random.html#a2.1_Overview">2.1 Overview</a></li>
+                <li><a href="random.html#a2.2_Random_numbers">2.2 Random numbers</a></li>
+                <li><a href="random.html#a2.3_Random_Vectors">2.3 Random Vectors</a></li>
+                <li><a href="random.html#a2.4_Random_Strings">2.4 Random Strings</a></li>
+                <li><a href="random.html#a2.5_Random_permutations_combinations_sampling">2.5 Random permutations, combinations, sampling</a></li>
+                <li><a href="random.html#a2.6_Generating_data_like_an_input_file">2.6 Generating data 'like' an input file</a></li>
+                <li><a href="random.html#a2.7_PRNG_Pluggability">2.7 PRNG Pluggability</a></li>
                 </ul></li>
             <li><a href="linear.html">3. Linear Algebra</a>
                 <ul>
-                <li><a href="linear.html#3.1 Overview">3.1 Overview</a></li>
-                <li><a href="linear.html#3.2 Real matrices">3.2 Real matrices</a></li>
-                <li><a href="linear.html#3.3 Real vectors">3.3 Real vectors</a></li>
-                <li><a href="linear.html#3.4 Solving linear systems">3.4 Solving linear systems</a></li> 
-                <li><a href="linear.html#3.5 Eigenvalues/eigenvectors and singular values/singular vectors">3.5 Eigenvalues/eigenvectors and singular values/singular vectors</a></li>
+                <li><a href="linear.html#a3.1_Overview">3.1 Overview</a></li>
+                <li><a href="linear.html#a3.2_Real_matrices">3.2 Real matrices</a></li>
+                <li><a href="linear.html#a3.3_Real_vectors">3.3 Real vectors</a></li>
+                <li><a href="linear.html#a3.4_Solving_linear_systems">3.4 Solving linear systems</a></li> 
+                <li><a href="linear.html#a3.5_Eigenvalueseigenvectors_and_singular_valuessingular_vectors">3.5 Eigenvalues/eigenvectors and singular values/singular vectors</a></li>
                 </ul></li>             
             <li><a href="analysis.html">4. Numerical Analysis</a>
                 <ul>
-                <li><a href="analysis.html#4.1 Overview">4.1 Overview</a></li>
-                <li><a href="analysis.html#4.2 Root-finding">4.2 Root-finding</a></li>                
-                <li><a href="analysis.html#4.3 Minimization">4.3 Minimization</a></li>
-                <li><a href="analysis.html#4.4 Interpolation">4.4 Interpolation</a></li>
-                <li><a href="analysis.html#4.5 Integration">4.5 Integration</a></li>
-                <li><a href="analysis.html#4.6 Polynomials">4.6 Polynomials</a></li>
+                <li><a href="analysis.html#a4.1_Overview">4.1 Overview</a></li>
+                <li><a href="analysis.html#a4.2_Root-finding">4.2 Root-finding</a></li>                
+                <li><a href="analysis.html#a4.3_Minimization">4.3 Minimization</a></li>
+                <li><a href="analysis.html#a4.4_Interpolation">4.4 Interpolation</a></li>
+                <li><a href="analysis.html#a4.5_Integration">4.5 Integration</a></li>
+                <li><a href="analysis.html#a4.6_Polynomials">4.6 Polynomials</a></li>
                 </ul></li>     
             <li><a href="special.html">5. Special Functions</a>
                 <ul>
-                <li><a href="special.html#5.1 Overview">5.1 Overview</a></li>
-                <li><a href="special.html#5.2 Erf functions">5.2 Erf functions</a></li>
-                <li><a href="special.html#5.3 Gamma functions">5.3 Gamma functions</a></li>
-                <li><a href="special.html#5.4 Beta funtions">5.4 Beta funtions</a></li>
+                <li><a href="special.html#a5.1_Overview">5.1 Overview</a></li>
+                <li><a href="special.html#a5.2_Erf_functions">5.2 Erf functions</a></li>
+                <li><a href="special.html#a5.3_Gamma_functions">5.3 Gamma functions</a></li>
+                <li><a href="special.html#a5.4_Beta_funtions">5.4 Beta funtions</a></li>
                 </ul></li>   
         <li><a href="utilities.html">6. Utilities</a>
                 <ul>
-                <li><a href="utilities.html#6.1 Overview">6.1 Overview</a></li>
-                <li><a href="utilities.html#6.2 Double array utilities">6.2 Double array utilities</a></li>
-                <li><a href="utilities.html#6.3 int/double hash map">6.3 int/double hash map</a></li>
-                <li><a href="utilities.html#6.4 Continued Fractions">6.4 Continued Fractions</a></li>
-                <li><a href="utilities.html#6.5 binomial coefficients, factorials and other common math functions">6.5 binomial coefficients, factorials and other common math functions</a></li>
+                <li><a href="utilities.html#a6.1_Overview">6.1 Overview</a></li>
+                <li><a href="utilities.html#a6.2_Double_array_utilities">6.2 Double array utilities</a></li>
+                <li><a href="utilities.html#a6.3_intdouble_hash_map">6.3 int/double hash map</a></li>
+                <li><a href="utilities.html#a6.4_Continued_Fractions">6.4 Continued Fractions</a></li>
+                <li><a href="utilities.html#a6.5_binomial_coefficients,_factorials_and_other_common_math_functions">6.5 binomial coefficients, factorials and other common math functions</a></li>
                 </ul></li>                                 
         <li><a href="complex.html">7. Complex Numbers</a>
                 <ul>
-                <li><a href="complex.html#7.1 Overview">7.1 Overview</a></li>
-                <li><a href="complex.html#7.2 Complex Numbers">7.2 Complex Numbers</a></li>
-                <li><a href="complex.html#7.3 Complex Transcendental Functions">7.3 Complex Transcendental Functions</a></li>
-                <li><a href="complex.html#7.4 Complex Formatting and Parsing">7.4 Complex Formatting and Parsing</a></li>
+                <li><a href="complex.html#a7.1_Overview">7.1 Overview</a></li>
+                <li><a href="complex.html#a7.2_Complex_Numbers">7.2 Complex Numbers</a></li>
+                <li><a href="complex.html#a7.3_Complex_Transcendental_Functions">7.3 Complex Transcendental Functions</a></li>
+                <li><a href="complex.html#a7.4_Complex_Formatting_and_Parsing">7.4 Complex Formatting and Parsing</a></li>
                 </ul></li>                                 
         <li><a href="distribution.html">8. Probability Distributions</a>
                 <ul>
-                <li><a href="distribution.html#8.1 Overview">8.1 Overview</a></li>
-                <li><a href="distribution.html#8.2 Distribution Framework">8.2 Distribution Framework</a></li>
-                <li><a href="distribution.html#8.3 User Defined Distributions">8.3 User Defined Distributions</a></li>
+                <li><a href="distribution.html#a8.1_Overview">8.1 Overview</a></li>
+                <li><a href="distribution.html#a8.2_Distribution_Framework">8.2 Distribution Framework</a></li>
+                <li><a href="distribution.html#a8.3_User_Defined_Distributions">8.3 User Defined Distributions</a></li>
                 </ul></li>                                 
         <li><a href="fraction.html">9. Fractions</a>
                 <ul>
-                <li><a href="fraction.html#9.1 Overview">9.1 Overview</a></li>
-                <li><a href="fraction.html#9.2 Fraction Numbers">9.2 Fraction Numbers</a></li>
-                <li><a href="fraction.html#9.3 Fraction Formatting and Parsing">9.3 Fraction Formatting and Parsing</a></li>
+                <li><a href="fraction.html#a9.1_Overview">9.1 Overview</a></li>
+                <li><a href="fraction.html#a9.2_Fraction_Numbers">9.2 Fraction Numbers</a></li>
+                <li><a href="fraction.html#a9.3_Fraction_Formatting_and_Parsing">9.3 Fraction Formatting and Parsing</a></li>
                 </ul></li>                                 
         <li><a href="transform.html">10. Transform methods</a></li>                                 
         <li><a href="geometry.html">11. Geometry</a>
                 <ul>
-                <li><a href="geometry.html#11.1 Overview">11.1 Overview</a></li>
-                <li><a href="geometry.html#11.2 Vectors">11.2 Vectors</a></li>
-                <li><a href="geometry.html#11.3 Rotations">11.3 Rotations</a></li>
+                <li><a href="geometry.html#a11.1_Overview">11.1 Overview</a></li>
+                <li><a href="geometry.html#a11.2_Vectors">11.2 Vectors</a></li>
+                <li><a href="geometry.html#a11.3_Rotations">11.3 Rotations</a></li>
                 </ul></li>                                 
         <li><a href="estimation.html">12. Parametric Estimation</a>
                 <ul>
-                <li><a href="estimation.html#12.1 Overview">12.1 Overview</a></li>
-                <li><a href="estimation.html#12.2 Models">12.2 Models</a></li>
-                <li><a href="estimation.html#12.3 Parameters">12.3 Parameters</a></li>
-                <li><a href="estimation.html#12.4 Measurements">12.4 Measurements</a></li>
-                <li><a href="estimation.html#12.5 Solvers">12.5 Solvers</a></li>
+                <li><a href="estimation.html#a12.1_Overview">12.1 Overview</a></li>
+                <li><a href="estimation.html#a12.2_Models">12.2 Models</a></li>
+                <li><a href="estimation.html#a12.3_Parameters">12.3 Parameters</a></li>
+                <li><a href="estimation.html#a12.4_Measurements">12.4 Measurements</a></li>
+                <li><a href="estimation.html#a12.5_Solvers">12.5 Solvers</a></li>
                 </ul></li>                                 
         <li><a href="optimization.html">13. Optimization</a>
                 <ul>
-                <li><a href="optimization.html#13.1 Overview">13.1 Overview</a></li>
-                <li><a href="optimization.html#13.2 Direct Methods">13.2 Direct Methods</a></li>
+                <li><a href="optimization.html#a13.1_Overview">13.1 Overview</a></li>
+                <li><a href="optimization.html#a13.2_Direct_Methods">13.2 Direct Methods</a></li>
                 </ul></li>                                 
         <li><a href="ode.html">14. Ordinary Differential Equations Integration</a>
                 <ul>
-                <li><a href="ode.html#14.1 Overview">14.1 Overview</a></li>
-                <li><a href="ode.html#14.2 Discrete Events Handling">14.2 Discrete Events Handling</a></li>
-                <li><a href="ode.html#14.3 ODE Problems">14.3 ODE Problems</a></li>
-                <li><a href="ode.html#14.4 Integrators">14.4 Integrators</a></li>
+                <li><a href="ode.html#a14.1_Overview">14.1 Overview</a></li>
+                <li><a href="ode.html#a14.2_Discrete_Events_Handling">14.2 Discrete Events Handling</a></li>
+                <li><a href="ode.html#a14.3_ODE_Problems">14.3 ODE Problems</a></li>
+                <li><a href="ode.html#a14.4_Integrators">14.4 Integrators</a></li>
                 </ul></li>                                 
         </ul>
       </section>

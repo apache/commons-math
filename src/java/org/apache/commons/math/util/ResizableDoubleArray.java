@@ -873,13 +873,15 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      */
     public int hashCode() {
         int[] hashData = new int[7];
-        hashData[0] = Arrays.hashCode(internalArray);
-        hashData[1] = new Float(expansionFactor).hashCode();
-        hashData[2] = new Float(contractionCriteria).hashCode();
-        hashData[3] = initialCapacity;
-        hashData[4] = expansionMode;
-        hashData[5] = numElements;
-        hashData[6] = startIndex;
+        hashData[0] = new Float(expansionFactor).hashCode();
+        hashData[1] = new Float(contractionCriteria).hashCode();
+        hashData[2] = expansionMode;
+        synchronized(this) {
+            hashData[3] = Arrays.hashCode(internalArray);
+            hashData[4] = initialCapacity;
+            hashData[5] = numElements;
+            hashData[6] = startIndex;
+        }
         return Arrays.hashCode(hashData);
     }
          
