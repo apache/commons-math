@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-package org.apache.commons.math.analysis;
+package org.apache.commons.math.analysis.solvers;
 
 import junit.framework.TestCase;
 

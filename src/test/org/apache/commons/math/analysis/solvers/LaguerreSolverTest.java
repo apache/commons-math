@@ -14,10 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.analysis;
+package org.apache.commons.math.analysis.solvers;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.analysis.SinFunction;
+import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math.complex.Complex;
 import junit.framework.TestCase;
 

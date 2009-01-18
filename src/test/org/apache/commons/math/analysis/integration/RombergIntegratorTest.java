@@ -14,27 +14,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.analysis;
+package org.apache.commons.math.analysis.integration;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.analysis.QuinticFunction;
+import org.apache.commons.math.analysis.SinFunction;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
+
 import junit.framework.TestCase;
 
 /**
- * Testcase for trapezoid integrator.
+ * Testcase for Romberg integrator.
  * <p>
- * Test runs show that for a default relative accuracy of 1E-6, it
- * generally takes 10 to 15 iterations for the integral to converge.
+ * Romberg algorithm is very fast for good behavior integrand. Test runs
+ * show that for a default relative accuracy of 1E-6, it generally takes
+ * takes less than 5 iterations for the integral to converge.
  * 
  * @version $Revision$ $Date$ 
  */
-public final class TrapezoidIntegratorTest extends TestCase {
+public final class RombergIntegratorTest extends TestCase {
 
     /**
      * Test of integrator for the sine function.
      */
     public void testSinFunction() throws MathException {
         UnivariateRealFunction f = new SinFunction();
-        UnivariateRealIntegrator integrator = new TrapezoidIntegrator(f);
+        UnivariateRealIntegrator integrator = new RombergIntegrator(f);
         double min, max, expected, result, tolerance;
 
         min = 0; max = Math.PI; expected = 2;
@@ -53,7 +58,7 @@ public final class TrapezoidIntegratorTest extends TestCase {
      */
     public void testQuinticFunction() throws MathException {
         UnivariateRealFunction f = new QuinticFunction();
-        UnivariateRealIntegrator integrator = new TrapezoidIntegrator(f);
+        UnivariateRealIntegrator integrator = new RombergIntegrator(f);
         double min, max, expected, result, tolerance;
 
         min = 0; max = 1; expected = -1.0/48;
@@ -77,7 +82,7 @@ public final class TrapezoidIntegratorTest extends TestCase {
      */
     public void testParameters() throws Exception {
         UnivariateRealFunction f = new SinFunction();
-        UnivariateRealIntegrator integrator = new TrapezoidIntegrator(f);
+        UnivariateRealIntegrator integrator = new RombergIntegrator(f);
 
         try {
             // bad interval
@@ -98,7 +103,7 @@ public final class TrapezoidIntegratorTest extends TestCase {
         try {
             // bad iteration limits
             integrator.setMinimalIterationCount(10);
-            integrator.setMaximalIterationCount(99);
+            integrator.setMaximalIterationCount(50);
             integrator.integrate(-1, 1);
             fail("Expecting IllegalArgumentException - bad iteration limits");
         } catch (IllegalArgumentException ex) {

@@ -15,10 +15,12 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.analysis;
+package org.apache.commons.math.analysis.solvers;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.analysis.SinFunction;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
 
 import junit.framework.TestCase;
 
