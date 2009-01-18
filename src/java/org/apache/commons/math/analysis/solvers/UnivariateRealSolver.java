@@ -27,7 +27,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * <p>
  * Implementations will search for only one zero in the given interval.</p>
  *  
- * @version $Revision: 724191 $ $Date: 2008-12-07 21:24:10 +0100 (Sun, 07 Dec 2008) $
+ * @version $Revision$ $Date$
  */
 public interface UnivariateRealSolver extends ConvergingAlgorithm {
 

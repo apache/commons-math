@@ -35,7 +35,7 @@ package org.apache.commons.math.analysis.solvers;
  * BrentSolver solver = factory.newBrentSolver();
  * </pre>
  *
- * @version $Revision: 724191 $ $Date: 2008-12-07 21:24:10 +0100 (dim., 07 déc. 2008) $
+ * @version $Revision$ $Date$
  */
 public abstract class UnivariateRealSolverFactory {
     /**

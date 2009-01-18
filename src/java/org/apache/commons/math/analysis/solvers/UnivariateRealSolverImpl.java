@@ -26,7 +26,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * Provide a default implementation for several functions useful to generic
  * solvers.
  *  
- * @version $Revision: 724191 $ $Date: 2008-12-07 21:24:10 +0100 (Sun, 07 Dec 2008) $
+ * @version $Revision$ $Date$
  */
 public abstract class UnivariateRealSolverImpl
     extends ConvergingAlgorithmImpl implements UnivariateRealSolver {

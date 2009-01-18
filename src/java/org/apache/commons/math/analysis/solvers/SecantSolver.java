@@ -38,7 +38,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * <p>
  * The function is assumed to be continuous but not necessarily smooth.</p>
  *  
- * @version $Revision: 724191 $ $Date: 2008-12-07 21:24:10 +0100 (dim., 07 déc. 2008) $
+ * @version $Revision$ $Date$
  */
 public class SecantSolver extends UnivariateRealSolverImpl implements Serializable {
     

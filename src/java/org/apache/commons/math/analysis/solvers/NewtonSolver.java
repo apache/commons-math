@@ -29,7 +29,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * <p> 
  * The function should be continuous but not necessarily smooth.</p>
  *
- * @version $Revision: 729291 $ $Date: 2008-12-24 11:47:53 +0100 (mer., 24 déc. 2008) $
+ * @version $Revision$ $Date$
  */
 public class NewtonSolver extends UnivariateRealSolverImpl {
     
