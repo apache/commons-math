@@ -30,33 +30,6 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  */
 public interface UnivariateRealMinimizer extends ConvergingAlgorithm {
 
-//    /**
-//     * Set the function value accuracy.
-//     * <p>
-//     * This is used to determine when an evaluated function value or some other
-//     * value which is used as divisor is zero.</p>
-//     * <p>
-//     * This is a safety guard and it shouldn't be necessary to change this in
-//     * general.</p>
-//     * 
-//     * @param accuracy the accuracy.
-//     * @throws IllegalArgumentException if the accuracy can't be achieved by
-//     * the minimizer or is otherwise deemed unreasonable. 
-//     */
-//    void setFunctionValueAccuracy(double accuracy);
-//
-//    /**
-//     * Get the actual function value accuracy.
-//     * @return the accuracy
-//     */
-//    double getFunctionValueAccuracy();
-//
-//    /**
-//     * Reset the actual function accuracy to the default.
-//     * The default value is provided by the minimizer implementation.
-//     */
-//    void resetFunctionValueAccuracy();
-
     /**
      * Find a minimum in the given interval.
      * <p>
