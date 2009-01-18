@@ -17,6 +17,7 @@
 package org.apache.commons.math.analysis.integration;
 
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 
@@ -46,18 +47,7 @@ public class SimpsonIntegrator extends UnivariateRealIntegratorImpl {
         super(f, 64);
     }
 
-    /**
-     * Integrate the function in the given interval.
-     * 
-     * @param min the lower bound for the interval
-     * @param max the upper bound for the interval
-     * @return the value of integral
-     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
-     * or the integrator detects convergence problems otherwise
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function
-     * @throws IllegalArgumentException if any parameters are invalid
-     */
+    /** {@inheritDoc} */
     public double integrate(double min, double max) throws MaxIterationsExceededException,
         FunctionEvaluationException, IllegalArgumentException {
         
@@ -81,7 +71,10 @@ public class SimpsonIntegrator extends UnivariateRealIntegratorImpl {
             t = qtrap.stage(min, max, i);
             s = (4 * t - oldt) / 3.0;
             if (i >= minimalIterationCount) {
-                if (Math.abs(s - olds) <= Math.abs(relativeAccuracy * olds)) {
+                final double delta = Math.abs(s - olds);
+                final double rLimit =
+                    relativeAccuracy * (Math.abs(olds) + Math.abs(s)) * 0.5; 
+                if ((delta <= rLimit) || (delta <= absoluteAccuracy)) {
                     setResult(s, i);
                     return result;
                 }
@@ -93,18 +86,14 @@ public class SimpsonIntegrator extends UnivariateRealIntegratorImpl {
         throw new MaxIterationsExceededException(maximalIterationCount);
     }
 
-    /**
-     * Verifies that the iteration limits are valid and within the range.
-     * 
-     * @throws IllegalArgumentException if not
-     */
+    /** {@inheritDoc} */
     protected void verifyIterationCount() throws IllegalArgumentException {
         super.verifyIterationCount();
         // at most 64 bisection refinements
         if (maximalIterationCount > 64) {
-            throw new IllegalArgumentException
-                ("Iteration upper limit out of [0, 64] range: " +
-                maximalIterationCount);
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "invalid iteration limits: min={0}, max={1}",
+                    new Object[] { 0, 64 });
         }
     }
 }

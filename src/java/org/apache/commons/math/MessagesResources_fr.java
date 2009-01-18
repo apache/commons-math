@@ -283,6 +283,7 @@ public class MessagesResources_fr
      "les valeurs de la fonction aux bornes n''ont pas des signes diff\u00e9rents. Bornes : [{0}, {1}], valeurs : [{2}, {3}]" },
 
    // org.apache.commons.math.analysis.solvers.UnivariateRealSolverImpl
+   // org.apache.commons.math.analysis.integration.UnivariateRealIntegratorImpl
    // org.apache.commons.math.transform.FastFourierTransformer
    { "endpoints do not specify an interval: [{0}, {1}]",
      "les extr\u00e9mit\u00e9s ne constituent pas un intervalle : [{0}, {1}]" },
@@ -294,6 +295,10 @@ public class MessagesResources_fr
    // org.apache.commons.math.analysis.solvers.NewtonSolver
    { "function is not differentiable",
      "la fonction n''est pas diff\u00e9rentiable" },
+
+   // org.apache.commons.math.analysis.integration.UnivariateRealIntegratorImpl
+   { "invalid iteration limits: min={0}, max={1}",
+     "limites d''it\u00e9rations invalides : min = {0}, max = {1}" },
 
    // org.apache.commons.math.fraction.Fraction
    { "zero denominator in fraction {0}/{1}",

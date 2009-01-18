@@ -16,8 +16,7 @@
  */
 package org.apache.commons.math.analysis.integration;
 
-import java.io.Serializable;
-
+import org.apache.commons.math.ConvergingAlgorithmImpl;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 
@@ -27,26 +26,14 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * @version $Revision$ $Date$
  * @since 1.2
  */
-public abstract class UnivariateRealIntegratorImpl implements
-    UnivariateRealIntegrator, Serializable {
+public abstract class UnivariateRealIntegratorImpl
+    extends ConvergingAlgorithmImpl implements UnivariateRealIntegrator {
 
-    /** serializable version identifier */
-    static final long serialVersionUID = -3365294665201465048L;
-
-    /** maximum relative error */
-    protected double relativeAccuracy;
-
-    /** maximum number of iterations */
-    protected int maximalIterationCount;
+    /** Serializable version identifier. */
+    private static final long serialVersionUID = 6248808456637441533L;
 
     /** minimum number of iterations */
     protected int minimalIterationCount;
-
-    /** default maximum relative error */
-    protected double defaultRelativeAccuracy;
-
-    /** default maximum number of iterations */
-    protected int defaultMaximalIterationCount;
 
     /** default minimum number of iterations */
     protected int defaultMinimalIterationCount;
@@ -56,9 +43,6 @@ public abstract class UnivariateRealIntegratorImpl implements
 
     /** the last computed integral */
     protected double result;
-
-    /** the last iteration count */
-    protected int iterationCount;
 
     /** the integrand function */
     protected UnivariateRealFunction f;
@@ -71,21 +55,18 @@ public abstract class UnivariateRealIntegratorImpl implements
      * @throws IllegalArgumentException if f is null or the iteration
      * limits are not valid
      */
-    protected UnivariateRealIntegratorImpl(
-        UnivariateRealFunction f,
-        int defaultMaximalIterationCount) throws IllegalArgumentException {
-        
+    protected UnivariateRealIntegratorImpl(final UnivariateRealFunction f,
+                                           final int defaultMaximalIterationCount)
+        throws IllegalArgumentException {
+        super(defaultMaximalIterationCount, 1.0e-15);
         if (f == null) {
             throw new IllegalArgumentException("Function can not be null.");
         }
 
         this.f = f;
-        // parameters that may depend on algorithm
-        this.defaultMaximalIterationCount = defaultMaximalIterationCount;
-        this.maximalIterationCount = defaultMaximalIterationCount;
+
         // parameters that are problem specific
-        this.defaultRelativeAccuracy = 1E-6;
-        this.relativeAccuracy = defaultRelativeAccuracy;
+        setRelativeAccuracy(1.0e-6);
         this.defaultMinimalIterationCount = 3;
         this.minimalIterationCount = defaultMinimalIterationCount;
         
@@ -107,20 +88,6 @@ public abstract class UnivariateRealIntegratorImpl implements
     }
 
     /**
-     * Access the last iteration count.
-     * 
-     * @return the last iteration count
-     * @throws IllegalStateException if no integral has been computed
-     */
-    public int getIterationCount() throws IllegalStateException {
-        if (resultComputed) {
-            return iterationCount;
-        } else {
-            throw MathRuntimeException.createIllegalStateException("no result available", null);
-        }
-    }
-
-    /**
      * Convenience function for implementations.
      * 
      * @param result the result to set
@@ -136,96 +103,23 @@ public abstract class UnivariateRealIntegratorImpl implements
      * Convenience function for implementations.
      */
     protected final void clearResult() {
+        this.iterationCount = 0;
         this.resultComputed = false;
     }
 
-    /**
-     * Set the upper limit for the number of iterations.
-     * 
-     * @param count maximum number of iterations
-     */
-    public void setMaximalIterationCount(int count) {
-        maximalIterationCount = count;
-    }
-
-    /**
-     * Get the upper limit for the number of iterations.
-     * 
-     * @return the actual upper limit
-     */
-    public int getMaximalIterationCount() {
-        return maximalIterationCount;
-    }
-
-    /**
-     * Reset the upper limit for the number of iterations to the default.
-     */
-    public void resetMaximalIterationCount() {
-        maximalIterationCount = defaultMaximalIterationCount;
-    }
-
-    /**
-     * Set the lower limit for the number of iterations.
-     * 
-     * @param count minimum number of iterations
-     */
+    /** {@inheritDoc} */
     public void setMinimalIterationCount(int count) {
         minimalIterationCount = count;
     }
 
-    /**
-     * Get the lower limit for the number of iterations.
-     * 
-     * @return the actual lower limit
-     */
+    /** {@inheritDoc} */
     public int getMinimalIterationCount() {
         return minimalIterationCount;
     }
 
-    /**
-     * Reset the lower limit for the number of iterations to the default.
-     */
+    /** {@inheritDoc} */
     public void resetMinimalIterationCount() {
         minimalIterationCount = defaultMinimalIterationCount;
-    }
-
-    /**
-     * Set the relative accuracy.
-     * 
-     * @param accuracy the relative accuracy
-     * @throws IllegalArgumentException if the accuracy can't be achieved by
-     * the integrator or is otherwise deemed unreasonable
-     */
-    public void setRelativeAccuracy(double accuracy) {
-        relativeAccuracy = accuracy;
-    }
-
-    /**
-     * Get the actual relative accuracy.
-     *
-     * @return the accuracy
-     */
-    public double getRelativeAccuracy() {
-        return relativeAccuracy;
-    }
-
-    /**
-     * Reset the relative accuracy to the default.
-     */
-    public void resetRelativeAccuracy() {
-        relativeAccuracy = defaultRelativeAccuracy;
-    }
-
-    /**
-     * Returns true if the arguments form a (strictly) increasing sequence
-     * 
-     * @param start first number
-     * @param mid second number
-     * @param end third number
-     * @return true if the arguments form an increasing sequence
-     */
-    protected boolean isSequence(double start, double mid, double end) {
-        return (start < mid) && (mid < end);
     }
 
     /**
@@ -238,9 +132,9 @@ public abstract class UnivariateRealIntegratorImpl implements
     protected void verifyInterval(double lower, double upper) throws
         IllegalArgumentException {
         if (lower >= upper) {
-            throw new IllegalArgumentException
-                ("Endpoints do not specify an interval: [" + lower +
-                ", " + upper + "]");
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "endpoints do not specify an interval: [{0}, {1}]",
+                    new Object[] { lower, upper });
         }       
     }
 
@@ -250,10 +144,10 @@ public abstract class UnivariateRealIntegratorImpl implements
      * @throws IllegalArgumentException if not valid
      */
     protected void verifyIterationCount() throws IllegalArgumentException {
-        if (!isSequence(0, minimalIterationCount, maximalIterationCount+1)) {
-            throw new IllegalArgumentException
-                ("Invalid iteration limits: min=" + minimalIterationCount +
-                " max=" + maximalIterationCount);
+        if ((minimalIterationCount <= 0) || (maximalIterationCount <= minimalIterationCount)) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "invalid iteration limits: min={0}, max={1}",
+                    new Object[] { minimalIterationCount, maximalIterationCount });
         }       
     }
 }

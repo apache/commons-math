@@ -17,6 +17,7 @@
 package org.apache.commons.math.analysis.integration;
 
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 
@@ -26,7 +27,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * reference, see <b>Introduction to Numerical Analysis</b>, ISBN 038795452X,
  * chapter 3.
  * <p>
- * Romberg integration employs k successvie refinements of the trapezoid
+ * Romberg integration employs k successive refinements of the trapezoid
  * rule to remove error terms less than order O(N^(-2k)). Simpson's rule
  * is a special case of k = 2.</p>
  *  
@@ -47,23 +48,12 @@ public class RombergIntegrator extends UnivariateRealIntegratorImpl {
         super(f, 32);
     }
 
-    /**
-     * Integrate the function in the given interval.
-     * 
-     * @param min the lower bound for the interval
-     * @param max the upper bound for the interval
-     * @return the value of integral
-     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
-     * or the integrator detects convergence problems otherwise
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function
-     * @throws IllegalArgumentException if any parameters are invalid
-     */
-    public double integrate(double min, double max) throws MaxIterationsExceededException,
+    /** {@inheritDoc} */
+   public double integrate(double min, double max) throws MaxIterationsExceededException,
         FunctionEvaluationException, IllegalArgumentException {
         
         int i = 1, j, m = maximalIterationCount + 1;
-        // Array strcture here can be improved for better space
+        // Array structure here can be improved for better space
         // efficiency because only the lower triangle is used.
         double r, t[][] = new double[m][m], s, olds;
 
@@ -83,7 +73,10 @@ public class RombergIntegrator extends UnivariateRealIntegratorImpl {
             }
             s = t[i][i];
             if (i >= minimalIterationCount) {
-                if (Math.abs(s - olds) <= Math.abs(relativeAccuracy * olds)) {
+                final double delta = Math.abs(s - olds);
+                final double rLimit =
+                    relativeAccuracy * (Math.abs(olds) + Math.abs(s)) * 0.5; 
+                if ((delta <= rLimit) || (delta <= absoluteAccuracy)) {
                     setResult(s, i);
                     return result;
                 }
@@ -94,18 +87,14 @@ public class RombergIntegrator extends UnivariateRealIntegratorImpl {
         throw new MaxIterationsExceededException(maximalIterationCount);
     }
 
-    /**
-     * Verifies that the iteration limits are valid and within the range.
-     * 
-     * @throws IllegalArgumentException if not
-     */
+    /** {@inheritDoc} */
     protected void verifyIterationCount() throws IllegalArgumentException {
         super.verifyIterationCount();
         // at most 32 bisection refinements due to higher order divider
         if (maximalIterationCount > 32) {
-            throw new IllegalArgumentException
-                ("Iteration upper limit out of [0, 32] range: " +
-                maximalIterationCount);
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "invalid iteration limits: min={0}, max={1}",
+                    new Object[] { 0, 32 });
         }
     }
 }

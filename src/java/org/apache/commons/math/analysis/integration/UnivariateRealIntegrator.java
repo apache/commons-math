@@ -17,6 +17,7 @@
 package org.apache.commons.math.analysis.integration;
 
 import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.ConvergingAlgorithm;
 import org.apache.commons.math.FunctionEvaluationException;
 
 /**
@@ -25,39 +26,9 @@ import org.apache.commons.math.FunctionEvaluationException;
  * @version $Revision$ $Date$
  * @since 1.2
  */
-public interface UnivariateRealIntegrator {
+public interface UnivariateRealIntegrator extends ConvergingAlgorithm {
 
-    /**
-     * Set the upper limit for the number of iterations.
-     * <p>
-     * Usually a high iteration count indicates convergence problem. However,
-     * the "reasonable value" varies widely for different cases.  Users are
-     * advised to use the default value.</p>
-     * <p>
-     * A <code>ConvergenceException</code> will be thrown if this number
-     * is exceeded.</p>
-     *  
-     * @param count maximum number of iterations
-     */
-    void setMaximalIterationCount(int count);
-
-    /**
-     * Get the upper limit for the number of iterations.
-     * 
-     * @return the actual upper limit
-     */
-    int getMaximalIterationCount();
-
-    /**
-     * Reset the upper limit for the number of iterations to the default.
-     * <p>
-     * The default value is supplied by the implementation.</p>
-     * 
-     * @see #setMaximalIterationCount(int)
-     */
-    void resetMaximalIterationCount();
-
-    /**
+   /**
      * Set the lower limit for the number of iterations.
      * <p>
      * Minimal iteration is needed to avoid false early convergence, e.g.
@@ -88,33 +59,6 @@ public interface UnivariateRealIntegrator {
     void resetMinimalIterationCount();
 
     /**
-     * Set the relative accuracy.
-     * <p>
-     * This is used to stop iterations.</p>
-     * 
-     * @param accuracy the relative accuracy
-     * @throws IllegalArgumentException if the accuracy can't be achieved
-     * or is otherwise deemed unreasonable
-     */
-    void setRelativeAccuracy(double accuracy);
-
-    /**
-     * Get the actual relative accuracy.
-     *
-     * @return the accuracy
-     */
-    double getRelativeAccuracy();
-
-    /**
-     * Reset the relative accuracy to the default.
-     * <p>
-     * The default value is provided by the implementation.</p>
-     *
-     * @see #setRelativeAccuracy(double)
-     */
-    void resetRelativeAccuracy();
-
-    /**
      * Integrate the function in the given interval.
      * 
      * @param min the lower bound for the interval
@@ -139,18 +83,4 @@ public interface UnivariateRealIntegrator {
      */
     double getResult() throws IllegalStateException;
 
-    /**
-     * Get the number of iterations in the last run of the integrator.
-     * <p>
-     * This is mainly meant for testing purposes. It may occasionally
-     * help track down performance problems: if the iteration count
-     * is notoriously high, check whether the function is evaluated
-     * properly, and whether another integrator is more amenable to the
-     * problem.</p>
-     * 
-     * @return the last iteration count
-     * @throws IllegalStateException if there is no result available, either
-     * because no result was yet computed or the last attempt failed
-     */
-    int getIterationCount() throws IllegalStateException;
 }
