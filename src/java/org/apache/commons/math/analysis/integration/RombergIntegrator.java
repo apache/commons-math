@@ -14,76 +14,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.analysis;
+package org.apache.commons.math.analysis.integration;
 
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MaxIterationsExceededException;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
 
 /**
- * Implements the <a href="http://mathworld.wolfram.com/TrapezoidalRule.html">
- * Trapezoidal Rule</a> for integration of real univariate functions. For
+ * Implements the <a href="http://mathworld.wolfram.com/RombergIntegration.html">
+ * Romberg Algorithm</a> for integration of real univariate functions. For
  * reference, see <b>Introduction to Numerical Analysis</b>, ISBN 038795452X,
  * chapter 3.
  * <p>
- * The function should be integrable.</p>
+ * Romberg integration employs k successvie refinements of the trapezoid
+ * rule to remove error terms less than order O(N^(-2k)). Simpson's rule
+ * is a special case of k = 2.</p>
  *  
  * @version $Revision$ $Date$
  * @since 1.2
  */
-public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
+public class RombergIntegrator extends UnivariateRealIntegratorImpl {
 
     /** serializable version identifier */
-    private static final long serialVersionUID = 4978222553983172543L;
-
-    /** intermediate result */
-    private double s;
+    private static final long serialVersionUID = -1058849527738180243L;
 
     /**
      * Construct an integrator for the given function.
      * 
      * @param f function to integrate
      */
-    public TrapezoidIntegrator(UnivariateRealFunction f) {
-        super(f, 64);
-    }
-
-    /**
-     * Compute the n-th stage integral of trapezoid rule. This function
-     * should only be called by API <code>integrate()</code> in the package.
-     * To save time it does not verify arguments - caller does.
-     * <p>
-     * The interval is divided equally into 2^n sections rather than an
-     * arbitrary m sections because this configuration can best utilize the
-     * alrealy computed values.</p>
-     *
-     * @param min the lower bound for the interval
-     * @param max the upper bound for the interval
-     * @param n the stage of 1/2 refinement, n = 0 is no refinement
-     * @return the value of n-th stage integral
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function
-     */
-    double stage(double min, double max, int n) throws
-        FunctionEvaluationException {
-        
-        long i, np;
-        double x, spacing, sum = 0;
-        
-        if (n == 0) {
-            s = 0.5 * (max - min) * (f.value(min) + f.value(max));
-            return s;
-        } else {
-            np = 1L << (n-1);           // number of new points in this stage
-            spacing = (max - min) / np; // spacing between adjacent new points
-            x = min + 0.5 * spacing;    // the first new point
-            for (i = 0; i < np; i++) {
-                sum += f.value(x);
-                x += spacing;
-            }
-            // add the new sum to previously calculated result
-            s = 0.5 * (s + sum * spacing);
-            return s;
-        }
+    public RombergIntegrator(UnivariateRealFunction f) {
+        super(f, 32);
     }
 
     /**
@@ -101,23 +62,33 @@ public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
     public double integrate(double min, double max) throws MaxIterationsExceededException,
         FunctionEvaluationException, IllegalArgumentException {
         
-        int i = 1;
-        double t, oldt;
-        
+        int i = 1, j, m = maximalIterationCount + 1;
+        // Array strcture here can be improved for better space
+        // efficiency because only the lower triangle is used.
+        double r, t[][] = new double[m][m], s, olds;
+
         clearResult();
         verifyInterval(min, max);
         verifyIterationCount();
 
-        oldt = stage(min, max, 0);
+        TrapezoidIntegrator qtrap = new TrapezoidIntegrator(this.f);
+        t[0][0] = qtrap.stage(min, max, 0);
+        olds = t[0][0];
         while (i <= maximalIterationCount) {
-            t = stage(min, max, i);
+            t[i][0] = qtrap.stage(min, max, i);
+            for (j = 1; j <= i; j++) {
+                // Richardson extrapolation coefficient
+                r = (1L << (2 * j)) -1;
+                t[i][j] = t[i][j-1] + (t[i][j-1] - t[i-1][j-1]) / r;
+            }
+            s = t[i][i];
             if (i >= minimalIterationCount) {
-                if (Math.abs(t - oldt) <= Math.abs(relativeAccuracy * oldt)) {
-                    setResult(t, i);
+                if (Math.abs(s - olds) <= Math.abs(relativeAccuracy * olds)) {
+                    setResult(s, i);
                     return result;
                 }
             }
-            oldt = t;
+            olds = s;
             i++;
         }
         throw new MaxIterationsExceededException(maximalIterationCount);
@@ -130,10 +101,10 @@ public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
      */
     protected void verifyIterationCount() throws IllegalArgumentException {
         super.verifyIterationCount();
-        // at most 64 bisection refinements
-        if (maximalIterationCount > 64) {
+        // at most 32 bisection refinements due to higher order divider
+        if (maximalIterationCount > 32) {
             throw new IllegalArgumentException
-                ("Iteration upper limit out of [0, 64] range: " +
+                ("Iteration upper limit out of [0, 32] range: " +
                 maximalIterationCount);
         }
     }

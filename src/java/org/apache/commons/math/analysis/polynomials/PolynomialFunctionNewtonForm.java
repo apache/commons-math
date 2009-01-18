@@ -14,10 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.analysis;
+package org.apache.commons.math.analysis.polynomials;
 
 import java.io.Serializable;
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.interpolation.DividedDifferenceInterpolator;
 
 /**
  * Implements the representation of a real polynomial function in
@@ -68,8 +70,8 @@ public class PolynomialFunctionNewtonForm implements UnivariateRealFunction,
      * @param c the centers
      * @throws IllegalArgumentException if input arrays are not valid
      */
-    PolynomialFunctionNewtonForm(double a[], double c[]) throws
-        IllegalArgumentException {
+    public PolynomialFunctionNewtonForm(double a[], double c[])
+        throws IllegalArgumentException {
 
         verifyInputArray(a, c);
         this.a = new double[a.length];

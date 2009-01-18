@@ -14,9 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.analysis;
+package org.apache.commons.math.analysis.polynomials;
 
 import java.io.Serializable;
+
+import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
 
 /**
  * Immutable representation of a real polynomial function with real coefficients.

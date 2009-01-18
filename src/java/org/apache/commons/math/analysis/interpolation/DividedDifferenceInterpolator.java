@@ -14,11 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.analysis;
+package org.apache.commons.math.analysis.interpolation;
 
 import java.io.Serializable;
 
 import org.apache.commons.math.DuplicateSampleAbscissaException;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.polynomials.PolynomialFunctionLagrangeForm;
+import org.apache.commons.math.analysis.polynomials.PolynomialFunctionNewtonForm;
 
 /**
  * Implements the <a href="

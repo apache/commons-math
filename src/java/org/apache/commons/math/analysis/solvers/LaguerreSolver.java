@@ -14,12 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.analysis;
+package org.apache.commons.math.analysis.solvers;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math.complex.Complex;
 
 /**
@@ -31,7 +33,7 @@ import org.apache.commons.math.complex.Complex;
  * Laguerre's method is global in the sense that it can start with any initial
  * approximation and be able to solve all roots from that point.</p>
  *
- * @version $Revision$ $Date$
+ * @version $Revision: 724191 $ $Date: 2008-12-07 21:24:10 +0100 (dim., 07 déc. 2008) $
  * @since 1.2
  */
 public class LaguerreSolver extends UnivariateRealSolverImpl {

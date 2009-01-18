@@ -26,12 +26,12 @@
   <!--  the following equality tests are part of the reference algorithms -->
   <!--  which already know about limited precision of the double numbers -->
   <Match>
-    <Class name="org.apache.commons.math.analysis.BrentSolver" />
+    <Class name="org.apache.commons.math.analysis.solvers.BrentSolver" />
     <Method name="solve" params="org.apache.commons.math.analysis.UnivariateRealFunction,double,double,double,double,double,double" returns="double" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math.analysis.MullerSolver" />
+    <Class name="org.apache.commons.math.analysis.solvers.MullerSolver" />
     <Or>
       <Method name="solve"  params="org.apache.commons.math.analysis.UnivariateRealFunction,double,double" returns="double" />
       <Method name="solve2" params="org.apache.commons.math.analysis.UnivariateRealFunction,double,double" returns="double" />

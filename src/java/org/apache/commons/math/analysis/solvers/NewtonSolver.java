@@ -15,11 +15,13 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.analysis;
+package org.apache.commons.math.analysis.solvers;
 
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
+import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
 
 /**
  * Implements <a href="http://mathworld.wolfram.com/NewtonsMethod.html">
@@ -27,7 +29,7 @@ import org.apache.commons.math.MaxIterationsExceededException;
  * <p> 
  * The function should be continuous but not necessarily smooth.</p>
  *
- * @version $Revision$ $Date$
+ * @version $Revision: 729291 $ $Date: 2008-12-24 11:47:53 +0100 (mer., 24 déc. 2008) $
  */
 public class NewtonSolver extends UnivariateRealSolverImpl {
     

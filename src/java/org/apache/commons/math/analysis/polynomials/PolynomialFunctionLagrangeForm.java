@@ -14,13 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.analysis;
+package org.apache.commons.math.analysis.polynomials;
 
 import java.io.Serializable;
 
 import org.apache.commons.math.DuplicateSampleAbscissaException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
 
 /**
  * Implements the representation of a real polynomial function in
@@ -67,8 +68,8 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction,
      * @param y function values at interpolating points
      * @throws IllegalArgumentException if input arrays are not valid
      */
-    PolynomialFunctionLagrangeForm(double x[], double y[]) throws
-        IllegalArgumentException {
+    public PolynomialFunctionLagrangeForm(double x[], double y[])
+        throws IllegalArgumentException {
 
         verifyInterpolationArray(x, y);
         this.x = new double[x.length];
@@ -290,7 +291,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction,
      * @see #evaluate(double[], double[], double)
      * @see #computeCoefficients()
      */
-    protected static void verifyInterpolationArray(double x[], double y[]) throws
+    public static void verifyInterpolationArray(double x[], double y[]) throws
         IllegalArgumentException {
 
         if (x.length < 2 || y.length < 2) {

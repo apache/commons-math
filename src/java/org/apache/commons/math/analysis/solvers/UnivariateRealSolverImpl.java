@@ -15,18 +15,19 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.analysis;
+package org.apache.commons.math.analysis.solvers;
 
 import java.io.Serializable;
 
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
 
 /**
  * Provide a default implementation for several functions useful to generic
  * solvers.
  *  
- * @version $Revision$ $Date$
+ * @version $Revision: 724191 $ $Date: 2008-12-07 21:24:10 +0100 (Sun, 07 Dec 2008) $
  */
 public abstract class UnivariateRealSolverImpl implements UnivariateRealSolver,
     Serializable {
@@ -63,6 +64,9 @@ public abstract class UnivariateRealSolverImpl implements UnivariateRealSolver,
 
     /** The last computed root. */
     protected double result;
+
+    /** Value of the function at the last computed result. */
+    protected double functionValue;
 
     // Mainly for test framework.
     /** The last iteration count. */
@@ -146,6 +150,20 @@ public abstract class UnivariateRealSolverImpl implements UnivariateRealSolver,
     }
 
     /**
+     * Access the value of the function at the last computed result.
+     * 
+     * @return the function value at the last result.
+     * @throws IllegalStateException if no value has been computed.
+     */
+    public double getFunctionValue() {
+        if (resultComputed) {
+            return functionValue;
+        } else {
+            throw MathRuntimeException.createIllegalStateException("no result available", null);
+        }
+    }
+
+    /**
      * Access the last iteration count.
      * 
      * @return the last iteration count
@@ -168,6 +186,20 @@ public abstract class UnivariateRealSolverImpl implements UnivariateRealSolver,
      */
     protected final void setResult(double result, int iterationCount) {
         this.result = result;
+        this.iterationCount = iterationCount;
+        this.resultComputed = true;
+    }
+
+    /**
+     * Convenience function for implementations.
+     * 
+     * @param x the result to set
+     * @param fx the result to set
+     * @param iterationCount the iteration count to set
+     */
+    protected final void setResult(double x, double fx, int iterationCount) {
+        this.result = x;
+        this.functionValue = fx;
         this.iterationCount = iterationCount;
         this.resultComputed = true;
     }

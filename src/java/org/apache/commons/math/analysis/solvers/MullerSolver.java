@@ -14,11 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.analysis;
+package org.apache.commons.math.analysis.solvers;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MaxIterationsExceededException;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -31,7 +32,7 @@ import org.apache.commons.math.util.MathUtils;
  * restrict ourselves to real functions. Methods solve() and solve2() find
  * real zeros, using different ways to bypass complex arithmetics.</p>
  *
- * @version $Revision$ $Date$
+ * @version $Revision: 729291 $ $Date: 2008-12-24 11:47:53 +0100 (mer., 24 déc. 2008) $
  * @since 1.2
  */
 public class MullerSolver extends UnivariateRealSolverImpl {

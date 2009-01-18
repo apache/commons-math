@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.analysis;
+package org.apache.commons.math.analysis.solvers;
 
 /**
  * A concrete {@link  UnivariateRealSolverFactory}.  This is the default solver factory
@@ -22,7 +22,7 @@ package org.apache.commons.math.analysis;
  * <p>
  * The default solver returned by this factory is a {@link BrentSolver}.</p>
  *
- * @version $Revision$ $Date$
+ * @version $Revision: 724191 $ $Date: 2008-12-07 21:24:10 +0100 (dim., 07 déc. 2008) $
  */
 public class UnivariateRealSolverFactoryImpl extends UnivariateRealSolverFactory {
         

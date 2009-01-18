@@ -14,9 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.analysis;
+package org.apache.commons.math.analysis.interpolation;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
 
 /**
  * Interface representing a univariate real interpolating function.

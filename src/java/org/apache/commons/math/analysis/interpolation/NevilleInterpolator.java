@@ -14,10 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.analysis;
+package org.apache.commons.math.analysis.interpolation;
 
 import java.io.Serializable;
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.polynomials.PolynomialFunctionLagrangeForm;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/NevillesAlgorithm.html">

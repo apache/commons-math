@@ -27,34 +27,36 @@
     <section name="4 Numerical Analysis">
       <subsection name="4.1 Overview" href="overview">
         <p>
-         The analysis package provides numerical root-finding and interpolation
-          implementations for real-valued functions of one real variable.
+         The analysis package is the parent package for algorithms dealing with
+         real-valued functions of one real variable. It contains dedicated sub-packages
+         providing numerical root-finding, integration, and interpolation. It also
+         contains a polynomials sub-package that considers polynomials with real
+         coefficients as differentiable real functions.
         </p>
         <p>
-          Possible future additions may include numerical differentiation, 
-          integration and optimization.
+          Possible future additions may include numerical differentiation.
         </p>
       </subsection>
       <subsection name="4.2 Root-finding" href="rootfinding">
         <p>
-          A <a href="../apidocs/org/apache/commons/math/analysis/UnivariateRealSolver.html">
-          org.apache.commons.math.analysis.UnivariateRealSolver.</a>
-          provides the means to find roots of univariate real-valued functions.
+          A <a href="../apidocs/org/apache/commons/math/analysis/solvers/UnivariateRealSolver.html">
+          org.apache.commons.math.analysis.solvers.UnivariateRealSolver.</a>
+          provides the means to find roots of <a href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">univariate real-valued functions</a>.
           A root is the value where the function takes the value 0.  Commons-Math
           includes implementations of the following root-finding algorithms: <ul>
-          <li><a href="../apidocs/org/apache/commons/math/analysis/BisectionSolver.html">
+          <li><a href="../apidocs/org/apache/commons/math/analysis/solvers/BisectionSolver.html">
           Bisection</a></li>
-          <li><a href="../apidocs/org/apache/commons/math/analysis/BrentSolver.html">
+          <li><a href="../apidocs/org/apache/commons/math/analysis/solvers/BrentSolver.html">
           Brent-Dekker</a></li>
-          <li><a href="../apidocs/org/apache/commons/math/analysis/NewtonSolver.html">
+          <li><a href="../apidocs/org/apache/commons/math/analysis/solvers/NewtonSolver.html">
           Newton's Method</a></li>
-          <li><a href="../apidocs/org/apache/commons/math/analysis/SecantSolver.html">
+          <li><a href="../apidocs/org/apache/commons/math/analysis/solvers/SecantSolver.html">
           Secant Method</a></li>
-          <li><a href="../apidocs/org/apache/commons/math/analysis/MullerSolver.html">
+          <li><a href="../apidocs/org/apache/commons/math/analysis/solvers/MullerSolver.html">
           Muller's Method</a></li>
-          <li><a href="../apidocs/org/apache/commons/math/analysis/LaguerreSolver.html">
+          <li><a href="../apidocs/org/apache/commons/math/analysis/solvers/LaguerreSolver.html">
           Laguerre's Method</a></li>
-          <li><a href="../apidocs/org/apache/commons/math/analysis/RidderSolver.html">
+          <li><a href="../apidocs/org/apache/commons/math/analysis/solvers/RidderSolver.html">
           Ridder's Method</a></li>
           </ul>      
         </p>
@@ -84,7 +86,7 @@
         <p>
           In order to use the root-finding features, first a solver object must
           be created.  It is encouraged that all solver object creation occurs
-          via the <code>org.apache.commons.math.analysis.UnivariateRealSolverFactory</code>
+          via the <code>org.apache.commons.math.analysis.solvers.UnivariateRealSolverFactory</code>
           class.  <code>UnivariateRealSolverFactory</code> is a simple factory
           used to create all of the solver objects supported by Commons-Math.  
           The typical usage of <code>UnivariateRealSolverFactory</code>
@@ -237,26 +239,31 @@ double c = solver.solve(function, 1.0, 5.0);</source>
       </subsection>
       <subsection name="4.3 Interpolation" href="interpolation">
         <p>
-          A <a href="../apidocs/org/apache/commons/math/analysis/UnivariateRealInterpolator.html">
-          org.apache.commons.math.analysis.UnivariateRealInterpolator</a>
+          A <a href="../apidocs/org/apache/commons/math/analysis/interpolation/UnivariateRealInterpolator.html">
+          org.apache.commons.math.analysis.interpolation.UnivariateRealInterpolator</a>
           is used to find a univariate real-valued function <code>f</code> which
           for a given set of ordered pairs 
           (<code>x<sub>i</sub></code>,<code>y<sub>i</sub></code>) yields
-          <code>f(x<sub>i</sub>)=y<sub>i</sub></code> to the best accuracy possible.
-          Currently, only an interpolator for generating natural cubic splines is available.  There is
-          no interpolator factory, mainly because the interpolation algorithm is more determined
-          by the kind of the interpolated function rather than the set of points to interpolate.
+          <code>f(x<sub>i</sub>)=y<sub>i</sub></code> to the best accuracy possible. The result
+          is provided as an object implementing the <a
+          href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">
+          org.apache.commons.math.analysis.UnivariateRealFunction</a> interface. It can therefore
+          be evaluated at any point, including point not belonging to the original set.
+          Currently, only an interpolator for generating natural cubic splines and a polynomial
+          interpolator are available.  There is no interpolator factory, mainly because the
+          interpolation algorithm is more determined by the kind of the interpolated function
+          rather than the set of points to interpolate.
           There aren't currently any accuracy controls either, as interpolation
           accuracy is in general determined by the algorithm. 
         </p>
         <p>Typical usage:</p>
-        <source>double x[]={ 0.0, 1.0, 2.0 };
-double y[]={ 1.0, -1.0, 2.0);
-UnivariateRealInterpolator interpolator = SplineInterpolator();
-UnivariateRealFunction function = interpolator.interpolate();
-double x=0.5;
-double y=function.evaluate(x);
-System.out println("f("+x+")="+y);</source>
+        <source>double x[] = { 0.0, 1.0, 2.0 };
+double y[] = { 1.0, -1.0, 2.0);
+UnivariateRealInterpolator interpolator = new SplineInterpolator();
+UnivariateRealFunction function = interpolator.interpolate(x, y);
+double interpolationX = 0.5;
+double interpolatedY = function.evaluate(x);
+System.out println("f(" + interpolationX + ") = " + interpolatedY);</source>
         <p>
           A natural cubic spline is a function consisting of a polynomial of
           third degree for each subinterval determined by the x-coordinates of the
@@ -267,6 +274,40 @@ System.out println("f("+x+")="+y);</source>
           interpolator must be ordered in ascending order.  It is not valid to
           evaluate the function for values outside the range 
           <code>x<sub>0</sub></code>..<code>x<sub>N</sub></code>. 
+        </p>
+        <p>
+          The polynomial function returned by the Neville's algorithm is a single
+          polynomial guaranteed to pass exactly through the interpolation points.
+          The degree of the polynomial is the number of points minus 1 (i.e. the
+          interpolation polynomial for a three points set will be a quadratic
+          polynomial). Despite the fact the interpolating polynomials is a perfect
+          approximation of a function at interpolation points, it may be a loose
+          approximation between the points. Due to <a
+          href="http://en.wikipedia.org/wiki/Runge's_phenomenon">Runge's phenomenom</a>
+          the error can get worse as the degree of the polynomial increases, so
+          adding more points does not always lead to a better interpolation.
+        </p>
+      </subsection>
+      <subsection name="4.4 Integration" href="integration">
+        <p>
+          A <a href="../apidocs/org/apache/commons/math/analysis/integration/UnivariateRealIntegrator.html">
+          org.apache.commons.math.analysis.integration.UnivariateRealIntegrator.</a>
+          provides the means to numerically integrate <a href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">univariate real-valued functions</a>.
+          Commons-Math includes implementations of the following integration algorithms: <ul>
+          <li><a href="../apidocs/org/apache/commons/math/analysis/integration/RombergIntegrator.html">
+          Romberg's method</a></li>
+          <li><a href="../apidocs/org/apache/commons/math/analysis/integration/SimpsonIntegrator.html">
+          Simpson's</a></li>
+          <li><a href="../apidocs/org/apache/commons/math/analysis/integration/TrapezoidIntegrator.html">
+          trapezoid method</a></li>
+          </ul>      
+        </p>
+      </subsection>
+      <subsection name="4.5 Polynomials" href="polynomials">
+        <p>
+          The <a href="../apidocs/org/apache/commons/math/analysis/polynomials/package.html">
+          org.apache.commons.math.analysis.polynomials</a> package provides real coefficients
+          polynomials.
         </p>
       </subsection>
     </section>

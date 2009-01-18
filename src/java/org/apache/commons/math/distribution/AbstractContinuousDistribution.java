@@ -22,7 +22,7 @@ import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.analysis.UnivariateRealSolverUtils;
+import org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils;
 
 /**
  * Base class for continuous distributions.  Default implementations are

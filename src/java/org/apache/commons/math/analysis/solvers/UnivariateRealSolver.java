@@ -14,10 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.analysis;
+package org.apache.commons.math.analysis.solvers;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
 
 
 /**
@@ -25,7 +26,7 @@ import org.apache.commons.math.FunctionEvaluationException;
  * <p>
  * Implementations will search for only one zero in the given interval.</p>
  *  
- * @version $Revision$ $Date$
+ * @version $Revision: 724191 $ $Date: 2008-12-07 21:24:10 +0100 (Sun, 07 Dec 2008) $
  */
 public interface UnivariateRealSolver {
 
@@ -234,6 +235,15 @@ public interface UnivariateRealSolver {
      * because no result was yet computed or the last attempt failed.
      */
     double getResult();
+
+    /**
+     * Get the result of the last run of the solver.
+     * 
+     * @return the value of the function at the last result.
+     * @throws IllegalStateException if there is no result available, either
+     * because no result was yet computed or the last attempt failed.
+     */
+    double getFunctionValue();
 
     /**
      * Get the number of iterations in the last run of the solver.

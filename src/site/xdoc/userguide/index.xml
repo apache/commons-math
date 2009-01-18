@@ -60,12 +60,15 @@
                 <li><a href="linear.html#3.2 Real matrices">3.2 Real matrices</a></li>
                 <li><a href="linear.html#3.3 Real vectors">3.3 Real vectors</a></li>
                 <li><a href="linear.html#3.4 Solving linear systems">3.4 Solving linear systems</a></li> 
+                <li><a href="linear.html#3.5 Eigenvalues/eigenvectors and singular values/singular vectors">3.5 Eigenvalues/eigenvectors and singular values/singular vectors</a></li>
                 </ul></li>             
             <li><a href="analysis.html">4. Numerical Analysis</a>
                 <ul>
                 <li><a href="analysis.html#4.1 Overview">4.1 Overview</a></li>
                 <li><a href="analysis.html#4.2 Root-finding">4.2 Root-finding</a></li>                
                 <li><a href="analysis.html#4.3 Interpolation">4.3 Interpolation</a></li>
+                <li><a href="analysis.html#4.4 Integration">4.4 Integration</a></li>
+                <li><a href="analysis.html#4.5 Polynomials">4.5 Polynomials</a></li>
                 </ul></li>     
             <li><a href="special.html">5. Special Functions</a>
                 <ul>
@@ -78,8 +81,9 @@
                 <ul>
                 <li><a href="utilities.html#6.1 Overview">6.1 Overview</a></li>
                 <li><a href="utilities.html#6.2 Double array utilities">6.2 Double array utilities</a></li>
-                <li><a href="utilities.html#6.3 Continued Fractions">6.3 Continued Fractions</a></li>
-                <li><a href="utilities.html#6.4 binomial coefficients, factorials and other common math functions">6.4 binomial coefficients, factorials and other common math functions</a></li>
+                <li><a href="utilities.html#6.3 int/double hash map">6.3 int/double hash map</a></li>
+                <li><a href="utilities.html#6.4 Continued Fractions">6.4 Continued Fractions</a></li>
+                <li><a href="utilities.html#6.5 binomial coefficients, factorials and other common math functions">6.5 binomial coefficients, factorials and other common math functions</a></li>
                 </ul></li>                                 
         <li><a href="complex.html">7. Complex Numbers</a>
                 <ul>

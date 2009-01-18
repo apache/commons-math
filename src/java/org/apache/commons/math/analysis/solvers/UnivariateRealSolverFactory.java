@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.analysis;
+package org.apache.commons.math.analysis.solvers;
 
 /**
  * Abstract factory class used to create {@link UnivariateRealSolver} instances.
@@ -35,7 +35,7 @@ package org.apache.commons.math.analysis;
  * BrentSolver solver = factory.newBrentSolver();
  * </pre>
  *
- * @version $Revision$ $Date$
+ * @version $Revision: 724191 $ $Date: 2008-12-07 21:24:10 +0100 (dim., 07 déc. 2008) $
  */
 public abstract class UnivariateRealSolverFactory {
     /**
