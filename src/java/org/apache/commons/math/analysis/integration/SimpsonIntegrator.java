@@ -35,21 +35,39 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  */
 public class SimpsonIntegrator extends UnivariateRealIntegratorImpl {
 
-    /** serializable version identifier */
-    private static final long serialVersionUID = 3405465123320678216L;
+    /** Serializable version identifier. */
+    private static final long serialVersionUID = 2535890386567281329L;
 
     /**
      * Construct an integrator for the given function.
      * 
      * @param f function to integrate
+     * @deprecated as of 2.0 the integrand function is passed as an argument
+     * to the {@link #integrate(UnivariateRealFunction, double, double)}method.
      */
+    @Deprecated
     public SimpsonIntegrator(UnivariateRealFunction f) {
         super(f, 64);
     }
 
+    /**
+     * Construct an integrator.
+     */
+    public SimpsonIntegrator() {
+        super(64);
+    }
+
     /** {@inheritDoc} */
-    public double integrate(double min, double max) throws MaxIterationsExceededException,
-        FunctionEvaluationException, IllegalArgumentException {
+    @Deprecated
+    public double integrate(final double min, final double max)
+        throws MaxIterationsExceededException, FunctionEvaluationException, IllegalArgumentException {
+        return integrate(f, min, max);
+    }
+
+    /** {@inheritDoc} */
+    public double integrate(final UnivariateRealFunction f,
+                            final double min, final double max)
+        throws MaxIterationsExceededException, FunctionEvaluationException, IllegalArgumentException {
         
         int i = 1;
         double s, olds, t, oldt;
@@ -58,17 +76,17 @@ public class SimpsonIntegrator extends UnivariateRealIntegratorImpl {
         verifyInterval(min, max);
         verifyIterationCount();
 
-        TrapezoidIntegrator qtrap = new TrapezoidIntegrator(this.f);
+        TrapezoidIntegrator qtrap = new TrapezoidIntegrator();
         if (minimalIterationCount == 1) {
-            s = (4 * qtrap.stage(min, max, 1) - qtrap.stage(min, max, 0)) / 3.0;
+            s = (4 * qtrap.stage(f, min, max, 1) - qtrap.stage(f, min, max, 0)) / 3.0;
             setResult(s, 1);
             return result;
         }
         // Simpson's rule requires at least two trapezoid stages.
         olds = 0;
-        oldt = qtrap.stage(min, max, 0);
+        oldt = qtrap.stage(f, min, max, 0);
         while (i <= maximalIterationCount) {
-            t = qtrap.stage(min, max, i);
+            t = qtrap.stage(f, min, max, i);
             s = (4 * t - oldt) / 3.0;
             if (i >= minimalIterationCount) {
                 final double delta = Math.abs(s - olds);

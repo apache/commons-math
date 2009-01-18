@@ -36,21 +36,39 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  */
 public class RombergIntegrator extends UnivariateRealIntegratorImpl {
 
-    /** serializable version identifier */
-    private static final long serialVersionUID = -1058849527738180243L;
+    /** Serializable version identifier. */
+    private static final long serialVersionUID = 4616482344304576900L;
 
     /**
      * Construct an integrator for the given function.
      * 
      * @param f function to integrate
+     * @deprecated as of 2.0 the integrand function is passed as an argument
+     * to the {@link #integrate(UnivariateRealFunction, double, double)}method.
      */
+    @Deprecated
     public RombergIntegrator(UnivariateRealFunction f) {
         super(f, 32);
     }
 
+    /**
+     * Construct an integrator.
+     */
+    public RombergIntegrator() {
+        super(32);
+    }
+
     /** {@inheritDoc} */
-   public double integrate(double min, double max) throws MaxIterationsExceededException,
-        FunctionEvaluationException, IllegalArgumentException {
+    @Deprecated
+    public double integrate(final double min, final double max)
+        throws MaxIterationsExceededException, FunctionEvaluationException, IllegalArgumentException {
+        return integrate(f, min, max);
+    }
+
+    /** {@inheritDoc} */
+    public double integrate(final UnivariateRealFunction f,
+                            final double min, final double max)
+        throws MaxIterationsExceededException, FunctionEvaluationException, IllegalArgumentException {
         
         int i = 1, j, m = maximalIterationCount + 1;
         // Array structure here can be improved for better space
@@ -61,11 +79,11 @@ public class RombergIntegrator extends UnivariateRealIntegratorImpl {
         verifyInterval(min, max);
         verifyIterationCount();
 
-        TrapezoidIntegrator qtrap = new TrapezoidIntegrator(this.f);
-        t[0][0] = qtrap.stage(min, max, 0);
+        TrapezoidIntegrator qtrap = new TrapezoidIntegrator();
+        t[0][0] = qtrap.stage(f, min, max, 0);
         olds = t[0][0];
         while (i <= maximalIterationCount) {
-            t[i][0] = qtrap.stage(min, max, i);
+            t[i][0] = qtrap.stage(f, min, max, i);
             for (j = 1; j <= i; j++) {
                 // Richardson extrapolation coefficient
                 r = (1L << (2 * j)) -1;

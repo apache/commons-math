@@ -44,7 +44,10 @@ public abstract class UnivariateRealIntegratorImpl
     /** the last computed integral */
     protected double result;
 
-    /** the integrand function */
+    /** The integrand functione.
+     * @deprecated as of 2.0 the integrand function is passed as an argument
+     * to the {@link #integrate(UnivariateRealFunction, double, double)}method. */
+    @Deprecated
     protected UnivariateRealFunction f;
 
     /**
@@ -54,7 +57,10 @@ public abstract class UnivariateRealIntegratorImpl
      * @param defaultMaximalIterationCount maximum number of iterations
      * @throws IllegalArgumentException if f is null or the iteration
      * limits are not valid
+     * @deprecated as of 2.0 the integrand function is passed as an argument
+     * to the {@link #integrate(UnivariateRealFunction, double, double)}method.
      */
+    @Deprecated
     protected UnivariateRealIntegratorImpl(final UnivariateRealFunction f,
                                            final int defaultMaximalIterationCount)
         throws IllegalArgumentException {
@@ -64,6 +70,25 @@ public abstract class UnivariateRealIntegratorImpl
         }
 
         this.f = f;
+
+        // parameters that are problem specific
+        setRelativeAccuracy(1.0e-6);
+        this.defaultMinimalIterationCount = 3;
+        this.minimalIterationCount = defaultMinimalIterationCount;
+        
+        verifyIterationCount();
+    }
+
+    /**
+     * Construct an integrator with given iteration count and accuracy.
+     * 
+     * @param defaultMaximalIterationCount maximum number of iterations
+     * @throws IllegalArgumentException if f is null or the iteration
+     * limits are not valid
+     */
+    protected UnivariateRealIntegratorImpl(final int defaultMaximalIterationCount)
+        throws IllegalArgumentException {
+        super(defaultMaximalIterationCount, 1.0e-15);
 
         // parameters that are problem specific
         setRelativeAccuracy(1.0e-6);

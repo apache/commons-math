@@ -34,19 +34,29 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  */
 public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
 
-    /** serializable version identifier */
-    private static final long serialVersionUID = 4978222553983172543L;
+    /** Serializable version identifier. */
+    private static final long serialVersionUID = 6963842845860399200L;
 
-    /** intermediate result */
+    /** Intermediate result. */
     private double s;
 
     /**
      * Construct an integrator for the given function.
      * 
      * @param f function to integrate
+     * @deprecated as of 2.0 the integrand function is passed as an argument
+     * to the {@link #integrate(UnivariateRealFunction, double, double)}method.
      */
+    @Deprecated
     public TrapezoidIntegrator(UnivariateRealFunction f) {
         super(f, 64);
+    }
+
+    /**
+     * Construct an integrator.
+     */
+    public TrapezoidIntegrator() {
+        super(64);
     }
 
     /**
@@ -58,6 +68,7 @@ public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
      * arbitrary m sections because this configuration can best utilize the
      * alrealy computed values.</p>
      *
+     * @param f the integrand function
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
      * @param n the stage of 1/2 refinement, n = 0 is no refinement
@@ -65,8 +76,9 @@ public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
      * @throws FunctionEvaluationException if an error occurs evaluating the
      * function
      */
-    double stage(double min, double max, int n) throws
-        FunctionEvaluationException {
+    double stage(final UnivariateRealFunction f,
+                 final double min, final double max, final int n)
+        throws FunctionEvaluationException {
         
         long i, np;
         double x, spacing, sum = 0;
@@ -89,8 +101,16 @@ public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
     }
 
     /** {@inheritDoc} */
-    public double integrate(double min, double max) throws MaxIterationsExceededException,
-        FunctionEvaluationException, IllegalArgumentException {
+    @Deprecated
+    public double integrate(final double min, final double max)
+        throws MaxIterationsExceededException, FunctionEvaluationException, IllegalArgumentException {
+        return integrate(f, min, max);
+    }
+
+    /** {@inheritDoc} */
+    public double integrate(final UnivariateRealFunction f,
+                            final double min, final double max)
+        throws MaxIterationsExceededException, FunctionEvaluationException, IllegalArgumentException {
         
         int i = 1;
         double t, oldt;
@@ -99,9 +119,9 @@ public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
         verifyInterval(min, max);
         verifyIterationCount();
 
-        oldt = stage(min, max, 0);
+        oldt = stage(f, min, max, 0);
         while (i <= maximalIterationCount) {
-            t = stage(min, max, i);
+            t = stage(f, min, max, i);
             if (i >= minimalIterationCount) {
                 final double delta = Math.abs(t - oldt);
                 final double rLimit =

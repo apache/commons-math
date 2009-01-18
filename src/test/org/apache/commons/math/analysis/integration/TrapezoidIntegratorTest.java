@@ -38,17 +38,17 @@ public final class TrapezoidIntegratorTest extends TestCase {
      */
     public void testSinFunction() throws MathException {
         UnivariateRealFunction f = new SinFunction();
-        UnivariateRealIntegrator integrator = new TrapezoidIntegrator(f);
+        UnivariateRealIntegrator integrator = new TrapezoidIntegrator();
         double min, max, expected, result, tolerance;
 
         min = 0; max = Math.PI; expected = 2;
         tolerance = Math.abs(expected * integrator.getRelativeAccuracy());
-        result = integrator.integrate(min, max);
+        result = integrator.integrate(f, min, max);
         assertEquals(expected, result, tolerance);
 
         min = -Math.PI/3; max = 0; expected = -0.5;
         tolerance = Math.abs(expected * integrator.getRelativeAccuracy());
-        result = integrator.integrate(min, max);
+        result = integrator.integrate(f, min, max);
         assertEquals(expected, result, tolerance);
     }
 
@@ -57,22 +57,22 @@ public final class TrapezoidIntegratorTest extends TestCase {
      */
     public void testQuinticFunction() throws MathException {
         UnivariateRealFunction f = new QuinticFunction();
-        UnivariateRealIntegrator integrator = new TrapezoidIntegrator(f);
+        UnivariateRealIntegrator integrator = new TrapezoidIntegrator();
         double min, max, expected, result, tolerance;
 
         min = 0; max = 1; expected = -1.0/48;
         tolerance = Math.abs(expected * integrator.getRelativeAccuracy());
-        result = integrator.integrate(min, max);
+        result = integrator.integrate(f, min, max);
         assertEquals(expected, result, tolerance);
 
         min = 0; max = 0.5; expected = 11.0/768;
         tolerance = Math.abs(expected * integrator.getRelativeAccuracy());
-        result = integrator.integrate(min, max);
+        result = integrator.integrate(f, min, max);
         assertEquals(expected, result, tolerance);
 
         min = -1; max = 4; expected = 2048/3.0 - 78 + 1.0/48;
         tolerance = Math.abs(expected * integrator.getRelativeAccuracy());
-        result = integrator.integrate(min, max);
+        result = integrator.integrate(f, min, max);
         assertEquals(expected, result, tolerance);
     }
 
@@ -81,11 +81,11 @@ public final class TrapezoidIntegratorTest extends TestCase {
      */
     public void testParameters() throws Exception {
         UnivariateRealFunction f = new SinFunction();
-        UnivariateRealIntegrator integrator = new TrapezoidIntegrator(f);
+        UnivariateRealIntegrator integrator = new TrapezoidIntegrator();
 
         try {
             // bad interval
-            integrator.integrate(1, -1);
+            integrator.integrate(f, 1, -1);
             fail("Expecting IllegalArgumentException - bad interval");
         } catch (IllegalArgumentException ex) {
             // expected
@@ -94,7 +94,7 @@ public final class TrapezoidIntegratorTest extends TestCase {
             // bad iteration limits
             integrator.setMinimalIterationCount(5);
             integrator.setMaximalIterationCount(4);
-            integrator.integrate(-1, 1);
+            integrator.integrate(f, -1, 1);
             fail("Expecting IllegalArgumentException - bad iteration limits");
         } catch (IllegalArgumentException ex) {
             // expected
@@ -103,7 +103,7 @@ public final class TrapezoidIntegratorTest extends TestCase {
             // bad iteration limits
             integrator.setMinimalIterationCount(10);
             integrator.setMaximalIterationCount(99);
-            integrator.integrate(-1, 1);
+            integrator.integrate(f, -1, 1);
             fail("Expecting IllegalArgumentException - bad iteration limits");
         } catch (IllegalArgumentException ex) {
             // expected
