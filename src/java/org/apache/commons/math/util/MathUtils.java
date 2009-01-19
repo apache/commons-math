@@ -311,6 +311,13 @@ public final class MathUtils {
         }
         return true;
     }
+    
+    /** All long-representable factorials */
+    private static final long[] factorials = new long[] 
+       {1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800, 39916800,
+        479001600, 6227020800l, 87178291200l, 1307674368000l, 20922789888000l,
+        355687428096000l, 6402373705728000l, 121645100408832000l,
+        2432902008176640000l};
 
     /**
      * Returns n!. Shorthand for <code>n</code> <a
@@ -335,12 +342,14 @@ public final class MathUtils {
      * @throws IllegalArgumentException if n < 0
      */
     public static long factorial(final int n) {
-        long result = Math.round(factorialDouble(n));
-        if (result == Long.MAX_VALUE) {
-            throw new ArithmeticException(
-                "result too large to represent in a long integer");
+        if (n < 0) {
+            throw new IllegalArgumentException("must have n >= 0 for n!");
         }
-        return result;
+        if (n > 20) {
+            throw new ArithmeticException(
+                    "factorial value is too large to fit in a long");
+        }
+        return factorials[n];
     }
 
     /**
@@ -367,6 +376,9 @@ public final class MathUtils {
         if (n < 0) {
             throw new IllegalArgumentException("must have n >= 0 for n!");
         }
+        if (n < 21) {
+            return factorial(n);
+        }
         return Math.floor(Math.exp(factorialLog(n)) + 0.5);
     }
 
@@ -386,6 +398,9 @@ public final class MathUtils {
     public static double factorialLog(final int n) {
         if (n < 0) {
             throw new IllegalArgumentException("must have n > 0 for n!");
+        }
+        if (n < 21) {
+            return Math.log(factorial(n));
         }
         double logSum = 0;
         for (int i = 2; i <= n; i++) {

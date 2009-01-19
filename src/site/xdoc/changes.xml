@@ -39,6 +39,9 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="psteitz" type="fix" issue="MATH-240" due-to="Christian Semrau">
+        Fixed error in factorial computation for 17 <= n <= 20.
+      </action>
       <action dev="luc" type="update" >
         Integration algorithms now can have both relative and absolute
         accuracy settings.
@@ -49,7 +52,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="luc" type="update" >
         The analysis package has been reorganized with several sub-packages.
       </action>
-      <action dev="luc" type="fix" issue="MATH-238" due-to="Chritian Semrau">
+      <action dev="luc" type="fix" issue="MATH-238" due-to="Christian Semrau">
         Fixed an error in gcd computation for large values.
       </action>
       <action dev="luc" type="add" >

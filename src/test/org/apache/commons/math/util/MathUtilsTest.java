@@ -232,11 +232,12 @@ public final class MathUtilsTest extends TestCase {
     }
 
     public void testFactorial() {
-        for (int i = 1; i < 10; i++) {
+        for (int i = 1; i < 21; i++) {
             assertEquals(i + "! ", factorial(i), MathUtils.factorial(i));
             assertEquals(i + "! ", (double)factorial(i), MathUtils.factorialDouble(i), Double.MIN_VALUE);
             assertEquals(i + "! ", Math.log((double)factorial(i)), MathUtils.factorialLog(i), 10E-12);
         }
+        
         assertEquals("0", 1, MathUtils.factorial(0));
         assertEquals("0", 1.0d, MathUtils.factorialDouble(0), 1E-14);
         assertEquals("0", 0.0d, MathUtils.factorialLog(0), 1E-14);
