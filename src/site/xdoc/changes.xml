@@ -39,6 +39,9 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="psteitz" type="fix" issue="MATH-241" due-to="Christian Semrau">
+        Fixed error in binomial coefficient computation.
+      </action>
       <action dev="luc" type="add" >
         Added a Legendre-Gauss integrator.
       </action>

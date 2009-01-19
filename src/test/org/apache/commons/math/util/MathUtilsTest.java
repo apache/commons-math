@@ -14,6 +14,10 @@
 package org.apache.commons.math.util;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -39,17 +43,37 @@ public final class MathUtilsTest extends TestCase {
         return suite;
     }
 
+    /** cached binomial coefficients */
+    private static List<Map<Integer, Long>> binomialCache = new ArrayList<Map<Integer, Long>>();
+
     /**
-     * Exact recursive implementation to test against
+     * Exact (caching) recursive implementation to test against
      */
-    private long binomialCoefficient(int n, int k) {
+    private long binomialCoefficient(int n, int k) throws ArithmeticException {
+        if (binomialCache.size() > n) {
+            Long cachedResult = binomialCache.get(n).get(new Integer(k));
+            if (cachedResult != null) {
+                return cachedResult.longValue();
+            }
+        }
+        long result = -1;
         if ((n == k) || (k == 0)) {
-            return 1;
+            result = 1;
+        } else if ((k == 1) || (k == n - 1)) {
+            result = n;
+        } else {
+            result = MathUtils.addAndCheck(binomialCoefficient(n - 1, k - 1),
+                binomialCoefficient(n - 1, k));
         }
-        if ((k == 1) || (k == n - 1)) {
-            return n;
+        if (result == -1) {
+            throw new ArithmeticException(
+                "error computing binomial coefficient");
         }
-        return binomialCoefficient(n - 1, k - 1) + binomialCoefficient(n - 1, k);
+        for (int i = binomialCache.size(); i < n + 1; i++) {
+            binomialCache.add(new HashMap<Integer, Long>());
+        }
+        binomialCache.get(n).put(new Integer(k), new Long(result));
+        return result;
     }
 
     /**
@@ -141,12 +165,63 @@ public final class MathUtilsTest extends TestCase {
             }
         }
 
-        /*
-         * Takes a long time for recursion to unwind, but succeeds and yields
-         * exact value = 2,333,606,220
-         * assertEquals(MathUtils.binomialCoefficient(34,17),
-         * binomialCoefficient(34,17));
-         */
+        assertEquals(binomialCoefficient(34, 17), MathUtils
+            .binomialCoefficient(34, 17));
+    }
+
+    /**
+     * Tests correctness for large n and sharpness of upper bound in API doc
+     * JIRA: MATH-241
+     */
+    public void testBinomialCoefficientLarge() throws Exception {
+        // This tests all legal and illegal values for n <= 200.
+        for (int n = 0; n <= 200; n++) {
+            for (int k = 0; k <= n; k++) {
+                long ourResult = -1;
+                long exactResult = -1;
+                boolean shouldThrow = false;
+                boolean didThrow = false;
+                try {
+                    ourResult = MathUtils.binomialCoefficient(n, k);
+                } catch (ArithmeticException ex) {
+                    didThrow = true;
+                }
+                try {
+                    exactResult = binomialCoefficient(n, k);
+                } catch (ArithmeticException ex) {
+                    shouldThrow = true;
+                }
+                assertEquals(n+","+k, shouldThrow, didThrow);
+                assertEquals(n+","+k, exactResult, ourResult);
+                assertTrue(n+","+k, (n > 66 || !didThrow));
+            }
+        }
+
+        long ourResult = MathUtils.binomialCoefficient(300, 3);
+        long exactResult = binomialCoefficient(300, 3);
+        assertEquals(exactResult, ourResult);
+
+        ourResult = MathUtils.binomialCoefficient(700, 697);
+        exactResult = binomialCoefficient(700, 697);
+        assertEquals(exactResult, ourResult);
+
+        // This one should throw
+        try {
+            MathUtils.binomialCoefficient(700, 300);
+            fail("Expecting ArithmeticException");
+        } catch (ArithmeticException ex) {
+            // Expected
+        }
+
+        // Larger values cannot be computed directly by our
+        // test implementation because of stack limitations,
+        // so we make little jumps to fill the cache.
+        for (int i = 2000; i <= 10000; i += 2000) {
+            ourResult = MathUtils.binomialCoefficient(i, 3);
+            exactResult = binomialCoefficient(i, 3);
+            assertEquals(exactResult, ourResult);
+        }
+
     }
 
     public void testBinomialCoefficientFail() {
@@ -171,13 +246,20 @@ public final class MathUtilsTest extends TestCase {
             ;
         }
         try {
+            MathUtils.binomialCoefficient(67, 30);
+            fail("expecting ArithmeticException");
+        } catch (ArithmeticException ex) {
+            ;
+        }
+        try {
             MathUtils.binomialCoefficient(67, 34);
             fail("expecting ArithmeticException");
         } catch (ArithmeticException ex) {
             ;
         }
         double x = MathUtils.binomialCoefficientDouble(1030, 515);
-        assertTrue("expecting infinite binomial coefficient", Double.isInfinite(x));
+        assertTrue("expecting infinite binomial coefficient", Double
+            .isInfinite(x));
     }
 
     public void testCosh() {
