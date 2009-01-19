@@ -109,7 +109,7 @@ public final class MathUtils {
     private static long addAndCheck(long a, long b, String msg) {
         long ret;
         if (a > b) {
-            // use symmetry to reduce boundry cases
+            // use symmetry to reduce boundary cases
             ret = addAndCheck(b, a, msg);
         } else {
             // assert a <= b
@@ -123,7 +123,7 @@ public final class MathUtils {
                         throw new ArithmeticException(msg);
                     }
                 } else {
-                    // oppisite sign addition is always safe
+                    // opposite sign addition is always safe
                     ret = a + b;
                 }
             } else {
@@ -630,7 +630,7 @@ public final class MathUtils {
         long ret;
         String msg = "overflow: multiply";
         if (a > b) {
-            // use symmetry to reduce boundry cases
+            // use symmetry to reduce boundary cases
             ret = mulAndCheck(b, a);
         } else {
             if (a < 0) {
