@@ -300,6 +300,12 @@ public class MessagesResources_fr
    { "invalid iteration limits: min={0}, max={1}",
      "limites d''it\u00e9rations invalides : min = {0}, max = {1}" },
 
+   // org.apache.commons.math.analysis.integration.LegendreGaussIntegrator
+   { "{0} points Legendre-Gauss integrator not supported," +
+     " number of points must be in the {1}-{2} range",
+     "int\u00e9grateur de Legendre-Gauss non support\u00e9 en {0} points, " +
+     "le nombre de points doit \u00eatre entre {1} et {2}" },
+
    // org.apache.commons.math.fraction.Fraction
    { "zero denominator in fraction {0}/{1}",
      "d\u00e9nominateur null dans le nombre rationnel {0}/{1}" },

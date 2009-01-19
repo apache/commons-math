@@ -312,6 +312,8 @@ System.out println("f(" + interpolationX + ") = " + interpolatedY);</source>
           Simpson's</a></li>
           <li><a href="../apidocs/org/apache/commons/math/analysis/integration/TrapezoidIntegrator.html">
           trapezoid method</a></li>
+          <li><a href="../apidocs/org/apache/commons/math/analysis/integration/LegendreGaussIntegrator.html">
+          Legendre-Gauss method</a></li>
           </ul>      
         </p>
       </subsection>
