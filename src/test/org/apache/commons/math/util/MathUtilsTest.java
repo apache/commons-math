@@ -62,6 +62,13 @@ public final class MathUtilsTest extends TestCase {
         } else if ((k == 1) || (k == n - 1)) {
             result = n;
         } else {
+            // Reduce stack depth for larger values of n
+            if (k < n - 100) {
+                binomialCoefficient(n - 100, k);
+            }
+            if (k > 100) {
+                binomialCoefficient(n - 100, k - 100);
+            }
             result = MathUtils.addAndCheck(binomialCoefficient(n - 1, k - 1),
                 binomialCoefficient(n - 1, k));
         }
@@ -119,6 +126,8 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(min, MathUtils.addAndCheck(0L, min));
         assertEquals(1, MathUtils.addAndCheck(-1L, 2L));
         assertEquals(1, MathUtils.addAndCheck(2L, -1L));
+        assertEquals(-3, MathUtils.addAndCheck(-2L, -1L));
+        assertEquals(min, MathUtils.addAndCheck(min + 1, -1L));
         testAddAndCheckLongFailure(max, 1L);
         testAddAndCheckLongFailure(min, -1L);
         testAddAndCheckLongFailure(1L, max);
@@ -165,8 +174,17 @@ public final class MathUtilsTest extends TestCase {
             }
         }
 
-        assertEquals(binomialCoefficient(34, 17), MathUtils
-            .binomialCoefficient(34, 17));
+        int[] n = { 34, 66, 100, 1500, 1500 };
+        int[] k = { 17, 33, 10, 1500 - 4, 4 };
+        for (int i = 0; i < n.length; i++) {
+            long expected = binomialCoefficient(n[i], k[i]);
+            assertEquals(n[i] + " choose " + k[i], expected,
+                MathUtils.binomialCoefficient(n[i], k[i]));
+            assertEquals(n[i] + " choose " + k[i], (double) expected,
+                MathUtils.binomialCoefficientDouble(n[i], k[i]), 0.0);
+            assertEquals("log(" + n[i] + " choose " + k[i] + ")", Math.log(expected),
+                MathUtils.binomialCoefficientLog(n[i], k[i]), 0.0);
+        }
     }
 
     /**
@@ -191,9 +209,16 @@ public final class MathUtilsTest extends TestCase {
                 } catch (ArithmeticException ex) {
                     shouldThrow = true;
                 }
-                assertEquals(n+","+k, shouldThrow, didThrow);
-                assertEquals(n+","+k, exactResult, ourResult);
-                assertTrue(n+","+k, (n > 66 || !didThrow));
+                assertEquals(n + " choose " + k, exactResult, ourResult);
+                assertEquals(n + " choose " + k, shouldThrow, didThrow);
+                assertTrue(n + " choose " + k, (n > 66 || !didThrow));
+
+                if (!shouldThrow && exactResult > 1) {
+                    assertEquals(n + " choose " + k, 1.,
+                        MathUtils.binomialCoefficientDouble(n, k) / exactResult, 1e-10);
+                    assertEquals(n + " choose " + k, 1,
+                        MathUtils.binomialCoefficientLog(n, k) / Math.log(exactResult), 1e-10);
+                }
             }
         }
 
@@ -213,14 +238,12 @@ public final class MathUtilsTest extends TestCase {
             // Expected
         }
 
-        // Larger values cannot be computed directly by our
-        // test implementation because of stack limitations,
-        // so we make little jumps to fill the cache.
-        for (int i = 2000; i <= 10000; i += 2000) {
-            ourResult = MathUtils.binomialCoefficient(i, 3);
-            exactResult = binomialCoefficient(i, 3);
-            assertEquals(exactResult, ourResult);
-        }
+        int n = 10000;
+        ourResult = MathUtils.binomialCoefficient(n, 3);
+        exactResult = binomialCoefficient(n, 3);
+        assertEquals(exactResult, ourResult);
+        assertEquals(1, MathUtils.binomialCoefficientDouble(n, 3) / exactResult, 1e-10);
+        assertEquals(1, MathUtils.binomialCoefficientLog(n, 3) / Math.log(exactResult), 1e-10);
 
     }
 
@@ -245,6 +268,26 @@ public final class MathUtilsTest extends TestCase {
         } catch (IllegalArgumentException ex) {
             ;
         }
+
+        try {
+            MathUtils.binomialCoefficient(-1, -2);
+            fail("expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            ;
+        }
+        try {
+            MathUtils.binomialCoefficientDouble(-1, -2);
+            fail("expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            ;
+        }
+        try {
+            MathUtils.binomialCoefficientLog(-1, -2);
+            fail("expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            ;
+        }
+
         try {
             MathUtils.binomialCoefficient(67, 30);
             fail("expecting ArithmeticException");
@@ -377,6 +420,14 @@ public final class MathUtilsTest extends TestCase {
 
         assertEquals(3 * (1<<15), MathUtils.gcd(3 * (1<<20), 9 * (1<<15)));
 
+        assertEquals(Integer.MAX_VALUE, MathUtils.gcd(Integer.MAX_VALUE, 0));
+        // abs(Integer.MIN_VALUE) == Integer.MIN_VALUE
+        assertEquals(Integer.MIN_VALUE, MathUtils.gcd(Integer.MIN_VALUE, 0));
+        try {
+            MathUtils.gcd(Integer.MIN_VALUE, Integer.MIN_VALUE);
+        } catch (ArithmeticException expected) {
+            //
+        }
     }
 
     public void testHash() {
@@ -459,6 +510,7 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(1.0, MathUtils.indicator(2.0), delta);
         assertEquals(1.0, MathUtils.indicator(0.0), delta);
         assertEquals(-1.0, MathUtils.indicator(-2.0), delta);
+        assertEquals(Double.NaN, MathUtils.indicator(Double.NaN));
     }
 
     public void testIndicatorFloat() {
@@ -545,6 +597,8 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(min, MathUtils.mulAndCheck(1L, min));
         assertEquals(0L, MathUtils.mulAndCheck(0L, max));
         assertEquals(0L, MathUtils.mulAndCheck(0L, min));
+        assertEquals(1L, MathUtils.mulAndCheck(-1L, -1L));
+        assertEquals(min, MathUtils.mulAndCheck(min / 2, 2));
         testMulAndCheckLongFailure(max, 2L);
         testMulAndCheckLongFailure(2L, max);
         testMulAndCheckLongFailure(min, 2L);
@@ -864,35 +918,43 @@ public final class MathUtilsTest extends TestCase {
     }
 
     public void testSignByte() {
-        assertEquals((byte)1, MathUtils.indicator((byte)2));
-        assertEquals((byte)(-1), MathUtils.indicator((byte)(-2)));
+        assertEquals((byte) 1, MathUtils.sign((byte) 2));
+        assertEquals((byte) 0, MathUtils.sign((byte) 0));
+        assertEquals((byte) (-1), MathUtils.sign((byte) (-2)));
     }
 
     public void testSignDouble() {
         double delta = 0.0;
-        assertEquals(1.0, MathUtils.indicator(2.0), delta);
-        assertEquals(-1.0, MathUtils.indicator(-2.0), delta);
+        assertEquals(1.0, MathUtils.sign(2.0), delta);
+        assertEquals(0.0, MathUtils.sign(0.0), delta);
+        assertEquals(-1.0, MathUtils.sign(-2.0), delta);
+        assertEquals(-0. / 0., MathUtils.sign(Double.NaN), delta);
     }
 
     public void testSignFloat() {
         float delta = 0.0F;
-        assertEquals(1.0F, MathUtils.indicator(2.0F), delta);
-        assertEquals(-1.0F, MathUtils.indicator(-2.0F), delta);
+        assertEquals(1.0F, MathUtils.sign(2.0F), delta);
+        assertEquals(0.0F, MathUtils.sign(0.0F), delta);
+        assertEquals(-1.0F, MathUtils.sign(-2.0F), delta);
+        assertEquals(Float.NaN, MathUtils.sign(Float.NaN), delta);
     }
 
     public void testSignInt() {
-        assertEquals((int)1, MathUtils.indicator((int)(2)));
-        assertEquals((int)(-1), MathUtils.indicator((int)(-2)));
+        assertEquals((int) 1, MathUtils.sign((int) 2));
+        assertEquals((int) 0, MathUtils.sign((int) 0));
+        assertEquals((int) (-1), MathUtils.sign((int) (-2)));
     }
 
     public void testSignLong() {
-        assertEquals(1L, MathUtils.indicator(2L));
-        assertEquals(-1L, MathUtils.indicator(-2L));
+        assertEquals(1L, MathUtils.sign(2L));
+        assertEquals(0L, MathUtils.sign(0L));
+        assertEquals(-1L, MathUtils.sign(-2L));
     }
 
     public void testSignShort() {
-        assertEquals((short)1, MathUtils.indicator((short)2));
-        assertEquals((short)(-1), MathUtils.indicator((short)(-2)));
+        assertEquals((short) 1, MathUtils.sign((short) 2));
+        assertEquals((short) 0, MathUtils.sign((short) 0));
+        assertEquals((short) (-1), MathUtils.sign((short) (-2)));
     }
 
     public void testSinh() {
@@ -909,6 +971,8 @@ public final class MathUtilsTest extends TestCase {
         int big = Integer.MAX_VALUE;
         int bigNeg = Integer.MIN_VALUE;
         assertEquals(big, MathUtils.subAndCheck(big, 0));
+        assertEquals(bigNeg + 1, MathUtils.subAndCheck(bigNeg, -1));
+        assertEquals(-1, MathUtils.subAndCheck(bigNeg, -big));
         try {
             MathUtils.subAndCheck(big, -1);
             fail("Expecting ArithmeticException");
@@ -937,6 +1001,10 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(max, MathUtils.subAndCheck(max, 0));
         assertEquals(min, MathUtils.subAndCheck(min, 0));
         assertEquals(-max, MathUtils.subAndCheck(0, max));
+        assertEquals(min + 1, MathUtils.subAndCheck(min, -1));
+        // min == -1-max
+        assertEquals(-1, MathUtils.subAndCheck(-max - 1, -max));
+        assertEquals(max, MathUtils.subAndCheck(-1, -1 - max));
         testSubAndCheckLongFailure(0L, min);
         testSubAndCheckLongFailure(max, -1L);
         testSubAndCheckLongFailure(min, 1L);

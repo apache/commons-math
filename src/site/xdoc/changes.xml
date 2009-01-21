@@ -38,7 +38,10 @@ The <action> type attribute can be add,update,fix,remove.
     <title>Commons Math Release Notes</title>
   </properties>
   <body>
-    <release version="2.0" date="TBD" description="TBD">
+    <release version="2.0" date="TBD" description="TBD">   
+      <action dev="psteitz" type="update" issue="MATH-242" due-to="Christian Semrau">
+        Forced symmetry in binomialCoefficientLog and added test cases for MathUtils.
+      </action>
       <action dev="psteitz" type="fix" issue="MATH-241" due-to="Christian Semrau">
         Fixed error in binomial coefficient computation.
       </action>

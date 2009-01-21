@@ -322,20 +322,24 @@ public final class MathUtils {
         if (n < 1030) { 
             return Math.log(binomialCoefficientDouble(n, k));
         } 
-        
+
+        if (k > n / 2) {
+            return binomialCoefficientLog(n, n - k);
+        }
+
         /*
          * Sum logs for values that could overflow
          */
         double logSum = 0;
 
-        // n!/k!
-        for (int i = k + 1; i <= n; i++) {
-            logSum += Math.log((double)i);
+        // n!/(n-k)!
+        for (int i = n - k + 1; i <= n; i++) {
+            logSum += Math.log((double) i);
         }
 
-        // divide by (n-k)!
-        for (int i = 2; i <= n - k; i++) {
-            logSum -= Math.log((double)i);
+        // divide by k!
+        for (int i = 2; i <= k; i++) {
+            logSum -= Math.log((double) i);
         }
 
         return logSum;      
