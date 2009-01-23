@@ -81,6 +81,7 @@ public interface UnivariateRealIntegrator extends ConvergingAlgorithm {
     /**
      * Integrate the function in the given interval.
      * 
+     * @param f the integrand function
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
      * @return the value of integral
