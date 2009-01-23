@@ -52,7 +52,6 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  * provided by the {@link AdamsBashforthIntegrator AdamsBashforthIntegrator} class.</p>
  *
  * @see AdamsBashforthIntegrator
- * @see BDFIntegrator
  * @version $Revision$ $Date$
  * @since 2.0
  */

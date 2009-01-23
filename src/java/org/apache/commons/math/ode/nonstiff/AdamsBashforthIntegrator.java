@@ -52,7 +52,6 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  * provided by the {@link AdamsMoultonIntegrator AdamsMoultonIntegrator} class.</p>
  *
  * @see AdamsMoultonIntegrator
- * @see BDFIntegrator
  * @version $Revision$ $Date$
  * @since 2.0
  */

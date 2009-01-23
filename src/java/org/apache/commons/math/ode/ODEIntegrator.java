@@ -98,7 +98,7 @@ public interface ODEIntegrator extends Serializable {
      * differential equations} problem) if the value of the current step that
      * is attempted is needed.</p>
      * <p>The result is undefined if the method is called outside of
-     * calls to {@link #integrate}</p>
+     * calls to <code>integrate</code>.</p>
      * @return current value of the step start time t<sub>i</sub>
      */
     double getCurrentStepStart();
@@ -109,7 +109,7 @@ public interface ODEIntegrator extends Serializable {
      * differential equations} problem) if the signed value of the current stepsize
      * that is tried is needed.</p>
      * <p>The result is undefined if the method is called outside of
-     * calls to {@link #integrate}</p>
+     * calls to <code>integrate</code>.</p>
      * @return current signed value of the stepsize
      */
     double getCurrentSignedStepsize();

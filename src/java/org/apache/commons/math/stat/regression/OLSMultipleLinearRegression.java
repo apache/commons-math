@@ -59,9 +59,13 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
     private QRDecomposition qr = null;
 
     /**
-     * {@inheritDoc}
+     * Loads model x and y sample data, overriding any previous sample.
      * 
      * Computes and caches QR decomposition of the X matrix.
+     * @param y the [n,1] array representing the y sample
+     * @param x the [n,k] array representing the x sample
+     * @throws IllegalArgumentException if the x and y array data are not
+     *             compatible for the regression
      */
     public void newSampleData(double[] y, double[][] x) {
         validateSampleData(x, y);

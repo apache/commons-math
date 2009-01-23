@@ -58,7 +58,8 @@ public interface EigenDecomposition extends Serializable {
      * <p>Real eigenvalues are on the diagonal while complex values are on
      * 2x2 blocks { {real +imaginary}, {-imaginary, real} }.</p>
      * @return the D matrix
-     * @see #getEigenValues()
+     * @see #getRealEigenvalues()
+     * @see #getImagEigenvalues()
      */
     RealMatrix getD();
 

@@ -40,7 +40,6 @@ import org.apache.commons.math.ode.sampling.StepNormalizer;
  *
  * @see AdamsBashforthIntegrator
  * @see AdamsMoultonIntegrator
- * @see BDFIntegrator
  * @version $Revision$ $Date$
  * @since 2.0
  */

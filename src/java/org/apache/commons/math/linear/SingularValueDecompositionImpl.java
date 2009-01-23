@@ -80,8 +80,6 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
 
     /**
      * Calculates the Singular Value Decomposition of the given matrix. 
-     * <p>Calling this constructor is equivalent to first call the no-arguments
-     * constructor and then call {@link #decompose(RealMatrix)}.</p>
      * @param matrix The matrix to decompose.
      * @exception InvalidMatrixException (wrapping a {@link ConvergenceException}
      * if algorithm fails to converge

@@ -68,8 +68,6 @@ public class QRDecompositionImpl implements QRDecomposition {
 
     /**
      * Calculates the QR-decomposition of the given matrix. 
-     * <p>Calling this constructor is equivalent to first call the no-arguments
-     * constructor and then call {@link #decompose(RealMatrix)}.</p>
      * @param matrix The matrix to decompose.
      */
     public QRDecompositionImpl(RealMatrix matrix) {

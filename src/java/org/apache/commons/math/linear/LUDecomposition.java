@@ -74,7 +74,7 @@ public interface LUDecomposition extends Serializable {
     /**
      * Returns the pivot permutation vector.
      * @return the pivot permutation vector
-     * @see #getPermutation()
+     * @see #getP()
      */
     int[] getPivot();
 

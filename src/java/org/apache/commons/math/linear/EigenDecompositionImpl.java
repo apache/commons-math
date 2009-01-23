@@ -38,9 +38,7 @@ import org.apache.commons.math.util.MathUtils;
  * the upper part of the matrix, the part below the diagonal is not accessed at all.</p>
  * <p>Eigenvalues are computed as soon as the matrix is decomposed, but eigenvectors
  * are computed only when required, i.e. only when one of the {@link #getEigenvector(int)},
- * {@link #getV()}, {@link #getVT()}, {@link #getInverse()}, {@link #solve(double[])},
- * {@link #solve(RealMatrix)}, {@link #solve(RealVector)} or {@link #solve(RealVectorImpl)}
- * methods is called.</p>
+ * {@link #getV()}, {@link #getVT()}, {@link #getSolver()} methods is called.</p>
  * <p>This implementation is based on Inderjit Singh Dhillon thesis
  * <a href="http://www.cs.utexas.edu/users/inderjit/public_papers/thesis.pdf">A
  * New O(n<sup>2</sup>) Algorithm for the Symmetric Tridiagonal Eigenvalue/Eigenvector
@@ -156,8 +154,6 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 
     /**
      * Calculates the eigen decomposition of the given symmetric matrix. 
-     * <p>Calling this constructor is equivalent to first call the no-arguments
-     * constructor and then call {@link #decompose(RealMatrix)}.</p>
      * @param matrix The <strong>symmetric</strong> matrix to decompose.
      * @param splitTolerance tolerance on the off-diagonal elements relative to the
      * geometric mean to split the tridiagonal matrix (a suggested value is
@@ -182,8 +178,6 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 
     /**
      * Calculates the eigen decomposition of the given tridiagonal symmetric matrix. 
-     * <p>Calling this constructor is equivalent to first call the no-arguments
-     * constructor and then call {@link #decompose(double[], double[])}.</p>
      * @param main the main diagonal of the matrix (will be copied)
      * @param secondary the secondary diagonal of the matrix (will be copied)
      * @param splitTolerance tolerance on the off-diagonal elements relative to the
@@ -348,7 +342,6 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     /**
      * Return the determinant of the matrix
      * @return determinant of the matrix
-     * @see #isNonSingular()
      */
     public double getDeterminant() {
         double determinant = 1;

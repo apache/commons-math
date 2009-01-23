@@ -71,7 +71,7 @@ public interface UnivariateRealSolver extends ConvergingAlgorithm {
      * function
      * @throws IllegalArgumentException if min > max or the endpoints do not
      * satisfy the requirements specified by the solver
-     * @deprecated replaced by {@link #solve(UnivariateRealFunction, double, double)
+     * @deprecated replaced by {@link #solve(UnivariateRealFunction, double, double)}
      * since 2.0
      */
     @Deprecated
@@ -112,7 +112,7 @@ public interface UnivariateRealSolver extends ConvergingAlgorithm {
      * function
      * @throws IllegalArgumentException if min > max or the arguments do not
      * satisfy the requirements specified by the solver
-     * @deprecated replaced by {@link #solve(UnivariateRealFunction, double, double, double)
+     * @deprecated replaced by {@link #solve(UnivariateRealFunction, double, double, double)}
      * since 2.0
      */
     @Deprecated

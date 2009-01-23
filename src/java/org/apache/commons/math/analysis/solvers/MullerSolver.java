@@ -240,7 +240,7 @@ public class MullerSolver extends UnivariateRealSolverImpl {
      * @throws FunctionEvaluationException if an error occurs evaluating the
      * function 
      * @throws IllegalArgumentException if any parameters are invalid
-     * @deprecated replaced by {@link #solve2(UnivariateRealFunction, double, double)
+     * @deprecated replaced by {@link #solve2(UnivariateRealFunction, double, double)}
      * since 2.0
      */
     @Deprecated
