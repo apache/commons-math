@@ -309,7 +309,7 @@ System.out println("f(" + interpolationX + ") = " + interpolatedY);</source>
           <li><a href="../apidocs/org/apache/commons/math/analysis/integration/RombergIntegrator.html">
           Romberg's method</a></li>
           <li><a href="../apidocs/org/apache/commons/math/analysis/integration/SimpsonIntegrator.html">
-          Simpson's</a></li>
+          Simpson's method</a></li>
           <li><a href="../apidocs/org/apache/commons/math/analysis/integration/TrapezoidIntegrator.html">
           trapezoid method</a></li>
           <li><a href="../apidocs/org/apache/commons/math/analysis/integration/LegendreGaussIntegrator.html">
