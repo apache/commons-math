@@ -49,7 +49,7 @@ The <action> type attribute can be add,update,fix,remove.
         Added a Legendre-Gauss integrator.
       </action>
       <action dev="psteitz" type="fix" issue="MATH-240" due-to="Christian Semrau">
-        Fixed error in factorial computation for 17 <= n <= 20.
+        Fixed error in factorial computation for 17 &lt;= n &lt;= 20.
       </action>
       <action dev="luc" type="update" >
         Integration algorithms now can have both relative and absolute
