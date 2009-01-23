@@ -38,11 +38,9 @@
   </issueManagement>
 
   <scm>
-    <!-- WARNING! -->
-    <!-- this should be set back to trunk when the branch will be merged back -->
-    <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/math/branches/MATH_2_0</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/math/branches/MATH_2_0</developerConnection>
-    <url>http://svn.apache.org/viewvc/commons/proper/math/branches/MATH_2_0</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/math/trunk</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/math/trunk</developerConnection>
+    <url>http://svn.apache.org/viewvc/commons/proper/math/trunk</url>
   </scm>
   
   <distributionManagement>
