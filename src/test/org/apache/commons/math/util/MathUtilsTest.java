@@ -928,7 +928,7 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(1.0, MathUtils.sign(2.0), delta);
         assertEquals(0.0, MathUtils.sign(0.0), delta);
         assertEquals(-1.0, MathUtils.sign(-2.0), delta);
-        assertEquals(-0. / 0., MathUtils.sign(Double.NaN), delta);
+        TestUtils.assertSame(-0. / 0., MathUtils.sign(Double.NaN));
     }
 
     public void testSignFloat() {
@@ -936,7 +936,7 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(1.0F, MathUtils.sign(2.0F), delta);
         assertEquals(0.0F, MathUtils.sign(0.0F), delta);
         assertEquals(-1.0F, MathUtils.sign(-2.0F), delta);
-        assertEquals(Float.NaN, MathUtils.sign(Float.NaN), delta);
+        TestUtils.assertSame(Float.NaN, MathUtils.sign(Float.NaN));
     }
 
     public void testSignInt() {
