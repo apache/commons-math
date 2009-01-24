@@ -345,19 +345,17 @@ public class LUDecompositionImpl implements LUDecomposition {
          * <p>The A matrix is implicit here. It is </p>
          * @param b right-hand side of the equation A &times; X = B
          * @return a vector X such that A &times; X = B
-         * @exception IllegalStateException if {@link #decompose(RealMatrix) decompose}
-         * has not been called
          * @exception IllegalArgumentException if matrices dimensions don't match
          * @exception InvalidMatrixException if decomposed matrix is singular
          */
         public RealVectorImpl solve(RealVectorImpl b)
-        throws IllegalStateException, IllegalArgumentException, InvalidMatrixException {
+        throws IllegalArgumentException, InvalidMatrixException {
             return new RealVectorImpl(solve(b.getDataRef()), false);
         }
 
         /** {@inheritDoc} */
         public RealMatrix solve(RealMatrix b)
-        throws IllegalStateException, IllegalArgumentException, InvalidMatrixException {
+        throws IllegalArgumentException, InvalidMatrixException {
 
             final int m = pivot.length;
             if (b.getRowDimension() != m) {
