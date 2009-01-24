@@ -14,13 +14,13 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project name="Commons IO" default="jar" basedir=".">
+<project name="Commons Math" default="jar" basedir=".">
 
 
 <!--
         "Math" component of the Apache Commons Project
-        $Id:$
-        $Revision:$ $Date:$
+        $Id$
+        $Revision$ $Date$
 -->
 
 
