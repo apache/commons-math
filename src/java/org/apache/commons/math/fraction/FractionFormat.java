@@ -19,7 +19,6 @@ package org.apache.commons.math.fraction;
 
 import java.io.Serializable;
 import java.text.FieldPosition;
-import java.text.Format;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
@@ -36,7 +35,7 @@ import org.apache.commons.math.MathRuntimeException;
  * @since 1.1
  * @version $Revision$ $Date$
  */
-public class FractionFormat extends Format implements Serializable {
+public class FractionFormat extends NumberFormat implements Serializable {
     
     /** Serializable version identifier */
     private static final long serialVersionUID = -6337346779577272306L;
@@ -183,7 +182,7 @@ public class FractionFormat extends Format implements Serializable {
     }
     
     /**
-     * Formats a object to produce a string.  <code>obj</code> must be either a 
+     * Formats an object and appends the result to a StringBuffer. <code>obj</code> must be either a 
      * {@link Fraction} object or a {@link Number} object.  Any other type of
      * object will result in an {@link IllegalArgumentException} being thrown.
      *
@@ -310,17 +309,6 @@ public class FractionFormat extends Format implements Serializable {
 
         return new Fraction(num.intValue(), den.intValue());
     }
-
-    /**
-     * Parses a string to produce a object.
-     * @param source the string to parse
-     * @param pos input/ouput parsing parameter.
-     * @return the parsed object.
-     * @see java.text.Format#parseObject(java.lang.String, java.text.ParsePosition)
-     */
-    public Object parseObject(String source, ParsePosition pos) {
-        return parse(source, pos);
-    }
     
     /**
      * Modify the denominator format.
@@ -387,5 +375,35 @@ public class FractionFormat extends Format implements Serializable {
          }
          
          return ret;
+    }
+
+    /**
+     * Formats a double value as a fraction and appends the result to a StringBuffer. 
+     *
+     * @param value the double value to format
+     * @param buffer StringBuffer to append to
+     * @param position On input: an alignment field, if desired. On output: the
+     *            offsets of the alignment field
+     * @return a reference to the appended buffer
+     * @see {@link #format(Object, StringBuffer, FieldPosition)}
+     */
+    public StringBuffer format(double value, StringBuffer buffer,
+            FieldPosition position) {
+        return format(Double.valueOf(value), buffer, position);
+    }
+
+    
+    /**
+     * Formats a long value as a fraction and appends the result to a StringBuffer. 
+     *
+     * @param value the long value to format
+     * @param buffer StringBuffer to append to
+     * @param position On input: an alignment field, if desired. On output: the
+     *            offsets of the alignment field
+     * @return a reference to the appended buffer
+     * @see {@link #format(Object, StringBuffer, FieldPosition)}
+     */
+    public StringBuffer format(long value, StringBuffer buffer, FieldPosition position) {
+        return format(Long.valueOf(value), buffer, position);
     }
 }

@@ -289,4 +289,12 @@ public class FractionFormatTest extends TestCase {
         assertEquals(nf, format.getWholeFormat());
         format.setWholeFormat(old);
     }
+    
+    public void testLongFormat() {
+        assertEquals("10 / 1", improperFormat.format(10l));
+    }
+    
+    public void testDoubleFormat() {
+        assertEquals("355 / 113", improperFormat.format(Math.PI));
+    }
 }
