@@ -20,6 +20,11 @@
     <release>
       <revision>
         <name>commons-math</name>
+        <created>2008-02-24</created>
+        <version>1.2</version>
+      </revision>
+      <revision>
+        <name>commons-math</name>
         <created>2005-12-19</created>
         <version>1.1</version>
       </revision>
