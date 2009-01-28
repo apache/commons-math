@@ -340,6 +340,7 @@ public class OpenIntToDoubleHashMap implements Serializable {
         return size;
     }
 
+    
     /**
      * Remove the value associated with a key.
      * @param key key to which the value is associated
@@ -418,9 +419,8 @@ public class OpenIntToDoubleHashMap implements Serializable {
             if (shouldGrowTable()) {
                 growTable();
             }
+            ++count;
         }
-
-        ++count;
         return previous;
 
     }
