@@ -92,6 +92,11 @@
       <id>brentworden</id>
       <email>brentworden at apache dot org</email>
     </developer>
+    <developer>
+      <name>Bill Barker</name>
+      <id>billbarker</id>
+      <email>billbarker at apache dot org</email>
+    </developer>
   </developers>
   <contributors>
     <contributor>
