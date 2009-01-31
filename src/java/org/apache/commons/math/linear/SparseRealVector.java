@@ -35,9 +35,9 @@ public class SparseRealVector implements RealVector {
      * Build a 0-length vector.
      * <p>Zero-length vectors may be used to initialized construction of vectors
      * by data gathering. We start with zero-length and use either the {@link
-     * #SparseRealVector(SparseRealVecotr, int)} constructor
+     * #SparseRealVector(SparseRealVector, int)} constructor
      * or one of the <code>append</code> method ({@link #append(double)}, {@link
-     * #append(double[])}, {@link #append(RealVectorImpl)}) to gather data
+     * #append(double[])}, {@link #append(RealVector)}) to gather data
      * into this vector.</p>
      */
     public SparseRealVector() {
