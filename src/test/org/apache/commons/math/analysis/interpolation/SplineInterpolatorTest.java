@@ -63,9 +63,9 @@ public class SplineInterpolatorTest extends TestCase {
         
         // Verify coefficients using analytical values
         PolynomialFunction polynomials[] = ((PolynomialSplineFunction) f).getPolynomials();
-        double target[] = {y[0], 1d, 0d, 0d};
+        double target[] = {y[0], 1d};
         TestUtils.assertEquals(polynomials[0].getCoefficients(), target, coefficientTolerance);
-        target = new double[]{y[1], 1d, 0d, 0d};
+        target = new double[]{y[1], 1d};
         TestUtils.assertEquals(polynomials[1].getCoefficients(), target, coefficientTolerance);
         
         // Check interpolation
@@ -84,11 +84,11 @@ public class SplineInterpolatorTest extends TestCase {
         
         // Verify coefficients using analytical values
         PolynomialFunction polynomials[] = ((PolynomialSplineFunction) f).getPolynomials();
-        double target[] = {y[0], 1d, 0d, 0d};
+        double target[] = {y[0], 1d};
         TestUtils.assertEquals(polynomials[0].getCoefficients(), target, coefficientTolerance);
-        target = new double[]{y[1], 1d, 0d, 0d};
+        target = new double[]{y[1], 1d};
         TestUtils.assertEquals(polynomials[1].getCoefficients(), target, coefficientTolerance);
-        target = new double[]{y[2], 1d, 0d, 0d};
+        target = new double[]{y[2], 1d};
         TestUtils.assertEquals(polynomials[2].getCoefficients(), target, coefficientTolerance);
         
         // Check interpolation
