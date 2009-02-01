@@ -29,15 +29,21 @@ import org.apache.commons.math.util.MathUtils;
  */
 public class Fraction extends Number implements Comparable<Fraction> {
 
+    /** A fraction representing "2 / 1". */
+    public static final Fraction TWO = new Fraction(2, 1);
+
     /** A fraction representing "1 / 1". */
     public static final Fraction ONE = new Fraction(1, 1);
 
     /** A fraction representing "0 / 1". */
     public static final Fraction ZERO = new Fraction(0, 1);
 
+    /** A fraction representing "-1 / 1". */
+    public static final Fraction MINUS_ONE = new Fraction(-1, 1);
+
     /** Serializable version identifier */
-    private static final long serialVersionUID = -5731055832688548463L;
-    
+    private static final long serialVersionUID = 3071409609509774764L;
+
     /** The denominator. */
     private final int denominator;
     
@@ -145,7 +151,7 @@ public class Fraction extends Number implements Comparable<Fraction> {
             return;
         }
 
-       long p0 = 1;
+        long p0 = 1;
         long q0 = 0;
         long p1 = a0;
         long q1 = 1;
@@ -197,7 +203,7 @@ public class Fraction extends Number implements Comparable<Fraction> {
      * reduced to lowest terms.
      * @param num the numerator.
      * @param den the denominator.
-     * @throws ArithmeticException if the denomiator is <code>zero</code>
+     * @throws ArithmeticException if the denominator is <code>zero</code>
      */
     public Fraction(int num, int den) {
         super();

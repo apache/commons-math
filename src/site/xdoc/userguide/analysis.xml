@@ -319,9 +319,19 @@ System.out println("f(" + interpolationX + ") = " + interpolatedY);</source>
       </subsection>
       <subsection name="4.6 Polynomials" href="polynomials">
         <p>
-          The <a href="../apidocs/org/apache/commons/math/analysis/polynomials/package.html">
+          The <a href="../apidocs/org/apache/commons/math/analysis/polynomials/package-summary.html">
           org.apache.commons.math.analysis.polynomials</a> package provides real coefficients
           polynomials.
+        </p>
+        <p>
+          The <a href="../apidocs/org/apache/commons/math/analysis/polynomials/PolynomialFunction.html">
+          org.apache.commons.math.analysis.polynomials.PolynomialFunction</a> class is the most general
+          one, using traditional coefficients arrays. The <a
+          href="../apidocs/org/apache/commons/math/analysis/polynomials/PolynomialsUtils.html">
+          org.apache.commons.math.analysis.polynomials.PolynomialsUtils</a> utility class provides static
+          factory methods to build Chebyshev, Hermite, Lagrange and Legendre polynomials. Beware that due
+          to overflows in the coefficients computations, these factory methods can only build low degrees
+          polynomials yet.
         </p>
       </subsection>
     </section>

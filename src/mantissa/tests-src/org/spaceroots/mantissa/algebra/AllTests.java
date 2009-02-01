@@ -28,10 +28,6 @@ public class AllTests {
     suite.addTest(RationalNumberTest.suite());
     suite.addTest(PolynomialRationalTest.suite());
     suite.addTest(PolynomialDoubleTest.suite());
-    suite.addTest(ChebyshevTest.suite());
-    suite.addTest(HermiteTest.suite());
-    suite.addTest(LegendreTest.suite());
-    suite.addTest(LaguerreTest.suite());
     suite.addTest(PolynomialFractionTest.suite());
 
     return suite; 
