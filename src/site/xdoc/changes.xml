@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <!--
    Licensed to the Apache Software Foundation (ASF) under one or more
   contributor license agreements.  See the NOTICE file distributed with
@@ -293,6 +293,9 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action dev="brentworden" type="fix" issue="MATH-204" due-to="Mick">
         Added root checks for the endpoints.
+      </action>
+      <action dev="billbarker" type="add">
+         Added a SparseRealVector class that implements a sparse vector for the RealVector interface.
       </action>
     </release>
     <release version="1.2" date="2008-02-24"

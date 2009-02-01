@@ -46,7 +46,7 @@ public class SparseRealVector implements RealVector {
     }
 
     /**
-     * Construct a (size)-length vector of zeros.
+     * Construct a (dimension)-length vector of zeros.
      * @param dimension size of the vector
      */
     public SparseRealVector(int dimension) {
@@ -54,6 +54,17 @@ public class SparseRealVector implements RealVector {
         entries = new OpenIntToDoubleHashMap(0.0);
     }
 
+    /**
+     * Construct a (dimension)-length vector of zeros, specifying zero tolerance
+     * @param dimension Size of the vector
+     * @param epsilon The tolerance for having a value considered zero
+     */
+    public SparseRealVector(int dimension, double epsilon){
+        virtualSize = dimension;
+        entries = new OpenIntToDoubleHashMap(0.0);
+        this.epsilon = epsilon;
+    }
+    
     /**
      * Resize the vector, for use with append
      * @param v The original vector
@@ -67,7 +78,7 @@ public class SparseRealVector implements RealVector {
     /**
      * For advanced use, when you know the sparseness 
      * @param dimension The size of the vector
-     * @param expectedSize The excpected number of non-zer entries
+     * @param expectedSize The excpected number of non-zero entries
      */
     public SparseRealVector(int dimension, int expectedSize) {
         entries = new OpenIntToDoubleHashMap(expectedSize, 0.0);
@@ -75,8 +86,20 @@ public class SparseRealVector implements RealVector {
     }
 
     /**
+     * For advanced use, when you know the sparseness and want to specify zero tolerance
+     * @param dimension The size of the vector
+     * @param expectedSize The expected number of non-zero entries
+     * @param epsilon The tolerance for having a value considered zero
+     */
+    public SparseRealVector(int dimension, int expectedSize, double epsilon){
+        virtualSize = dimension;
+        entries = new OpenIntToDoubleHashMap(expectedSize, 0.0);
+        this.epsilon = epsilon;
+    }
+    
+    /**
      * Create from a double array.
-     * only non-zero entries will be stored
+     * Only non-zero entries will be stored
      * @param values The set of values to create from
      */
     public SparseRealVector(double[] values) {
@@ -84,6 +107,18 @@ public class SparseRealVector implements RealVector {
         fromDoubleArray(values);
     }
 
+    /**
+     * Create from a double array, specifying zero tolerance.
+     * Only non-zero entries will be stored
+     * @param values The set of values to create from
+     * @param epsilon The tolerance for having a value considered zero 
+     */
+    public SparseRealVector(double [] values, double epsilon){
+        virtualSize = values.length;
+        this.epsilon = epsilon;
+        fromDoubleArray(values);
+    }
+    
     /**
      * Create from a Double array.
      * Only non-zero entries will be stored
@@ -93,7 +128,23 @@ public class SparseRealVector implements RealVector {
         virtualSize = values.length;
         double[] vals = new double[values.length];
         for(int i=0; i < values.length; i++){
-            vals[i] = values[i];
+            vals[i] = values[i].doubleValue();
+        }
+        fromDoubleArray(vals);
+    }
+    
+    /**
+     * Create from a Double array.
+     * Only non-zero entries will be stored
+     * @param values The set of values to create from
+     * @param epsilon The tolerance for having a value considered zero
+     */
+    public SparseRealVector(Double [] values, double epsilon){
+        virtualSize = values.length;
+        this.epsilon = epsilon;
+        double[] vals = new double[values.length];
+        for(int i=0; i < values.length; i++){
+            vals[i] = values[i].doubleValue();
         }
         fromDoubleArray(vals);
     }
@@ -140,15 +191,7 @@ public class SparseRealVector implements RealVector {
         return entries;
     }
 
-    /**
-     * Determine if this index value is zero
-     * @param key The index to text
-     * @return <code>true</code> if this index is missing from the map, <code>false</code> otherwise
-     */
-    protected boolean isZero(int key) {
-        return !entries.containsKey(key);
-    }
-
+    
     /**
      * Determine if this value is zero
      * @param value The value to test
@@ -1047,7 +1090,7 @@ public class SparseRealVector implements RealVector {
         checkIndex(index);
         if (!isZero(value)) {
             entries.put(index, value);
-        } else if (!isZero(index)) {
+        } else if (entries.containsKey(index)) {
             entries.remove(index);
         }
     }
