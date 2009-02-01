@@ -160,4 +160,80 @@ public final class PolynomialFunctionTest extends TestCase {
 
     }
 
+    public void testString() {
+        PolynomialFunction p = new PolynomialFunction(new double[] { -5.0, 3.0, 1.0 });
+        checkPolynomial(p, "-5.0 + 3.0 x + x^2");
+        checkPolynomial(new PolynomialFunction(new double[] { 0.0, -2.0, 3.0 }),
+                        "-2.0 x + 3.0 x^2");
+        checkPolynomial(new PolynomialFunction(new double[] { 1.0, -2.0, 3.0 }),
+                      "1.0 - 2.0 x + 3.0 x^2");
+        checkPolynomial(new PolynomialFunction(new double[] { 0.0,  2.0, 3.0 }),
+                       "2.0 x + 3.0 x^2");
+        checkPolynomial(new PolynomialFunction(new double[] { 1.0,  2.0, 3.0 }),
+                     "1.0 + 2.0 x + 3.0 x^2");
+        checkPolynomial(new PolynomialFunction(new double[] { 1.0,  0.0, 3.0 }),
+                     "1.0 + 3.0 x^2");
+        checkPolynomial(new PolynomialFunction(new double[] { 0.0 }),
+                     "0");
+    }
+
+    public void testAddition() {
+
+        PolynomialFunction p1 = new PolynomialFunction(new double[] { -2.0, 1.0 });
+        PolynomialFunction p2 = new PolynomialFunction(new double[] { 2.0, -1.0, 0.0 });
+        checkNullPolynomial(p1.add(p2));
+
+        p2 = p1.add(p1);
+        checkPolynomial(p2, "-4.0 + 2.0 x");
+
+        p1 = new PolynomialFunction(new double[] { 1.0, -4.0, 2.0 });
+        p2 = new PolynomialFunction(new double[] { -1.0, 3.0, -2.0 });
+        p1 = p1.add(p2);
+        assertEquals(1, p1.degree());
+        checkPolynomial(p1, "-x");
+
+    }
+
+    public void testSubtraction() {
+
+        PolynomialFunction p1 = new PolynomialFunction(new double[] { -2.0, 1.0 });
+        checkNullPolynomial(p1.subtract(p1));
+
+        PolynomialFunction p2 = new PolynomialFunction(new double[] { -2.0, 6.0 });
+        p2 = p2.subtract(p1);
+        checkPolynomial(p2, "5.0 x");
+
+        p1 = new PolynomialFunction(new double[] { 1.0, -4.0, 2.0 });
+        p2 = new PolynomialFunction(new double[] { -1.0, 3.0, 2.0 });
+        p1 = p1.subtract(p2);
+        assertEquals(1, p1.degree());
+        checkPolynomial(p1, "2.0 - 7.0 x");
+
+    }
+
+    public void testMultiplication() {
+
+        PolynomialFunction p1 = new PolynomialFunction(new double[] { -3.0, 2.0 });
+        PolynomialFunction p2 = new PolynomialFunction(new double[] { 3.0, 2.0, 1.0 });
+        checkPolynomial(p1.multiply(p2), "-9.0 + x^2 + 2.0 x^3");
+
+        p1 = new PolynomialFunction(new double[] { 0.0, 1.0 });
+        p2 = p1;
+        for (int i = 2; i < 10; ++i) {
+            p2 = p2.multiply(p1);
+            checkPolynomial(p2, "x^" + i);
+        }
+
+    }
+
+    public void checkPolynomial(PolynomialFunction p, String reference) {
+        assertEquals(reference, p.toString());
+    }
+
+    private void checkNullPolynomial(PolynomialFunction p) {
+        for (double coefficient : p.getCoefficients()) {
+            assertEquals(0.0, coefficient, 1.0e-15);
+        }
+    }
+
 }

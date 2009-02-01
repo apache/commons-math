@@ -32,25 +32,26 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 public class PolynomialFunction implements DifferentiableUnivariateRealFunction, Serializable {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = 3322454535052136809L;
-    
+    private static final long serialVersionUID = -7726511984200295583L;
+
     /**
      * The coefficients of the polynomial, ordered by degree -- i.e.,  
      * coefficients[0] is the constant term and coefficients[n] is the 
      * coefficient of x^n where n is the degree of the polynomial.
      */
-    private double coefficients[];
+    private final double coefficients[];
 
     /**
      * Construct a polynomial with the given coefficients.  The first element
      * of the coefficients array is the constant term.  Higher degree
      * coefficients follow in sequence.  The degree of the resulting polynomial
-     * is the length of the array minus 1. 
+     * is the index of the last non-null element of the array, or 0 if all elements
+     * are null. 
      * <p>
      * The constructor makes a copy of the input array and assigns the copy to
      * the coefficients property.</p>
      * 
-     * @param c polynominal coefficients
+     * @param c polynomial coefficients
      * @throws NullPointerException if c is null
      * @throws IllegalArgumentException if c is empty
      */
@@ -59,8 +60,12 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
         if (c.length < 1) {
             throw new IllegalArgumentException("Polynomial coefficient array must have postive length.");
         }
-        this.coefficients = new double[c.length];
-        System.arraycopy(c, 0, this.coefficients, 0, c.length);
+        int l = c.length;
+        while ((l > 1) && (c[l - 1] == 0)) {
+            --l;
+        }
+        this.coefficients = new double[l];
+        System.arraycopy(c, 0, this.coefficients, 0, l);
     }
 
     /**
@@ -97,9 +102,7 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
      * @return  a fresh copy of the coefficients array
      */
     public double[] getCoefficients() {
-        double[] out = new double[coefficients.length];
-        System.arraycopy(coefficients,0, out, 0, coefficients.length);
-        return out;
+        return coefficients.clone();
     }
     
     /**
@@ -123,7 +126,96 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
         }
         return result;
     }
-    
+
+    /**
+     * Add a polynomial to the instance.
+     * @param p polynomial to add
+     * @return a new polynomial which is the sum of the instance and p
+     */
+    public PolynomialFunction add(final PolynomialFunction p) {
+
+        // identify the lowest degree polynomial
+        final int lowLength  = Math.min(coefficients.length, p.coefficients.length);
+        final int highLength = Math.max(coefficients.length, p.coefficients.length);
+
+        // build the coefficients array
+        double[] newCoefficients = new double[highLength];
+        for (int i = 0; i < lowLength; ++i) {
+            newCoefficients[i] = coefficients[i] + p.coefficients[i];
+        }
+        System.arraycopy((coefficients.length < p.coefficients.length) ?
+                         p.coefficients : coefficients,
+                         lowLength,
+                         newCoefficients, lowLength,
+                         highLength - lowLength);
+
+        return new PolynomialFunction(newCoefficients);
+
+    }
+
+    /**
+     * Subtract a polynomial from the instance.
+     * @param p polynomial to subtract
+     * @return a new polynomial which is the difference the instance minus p
+     */
+    public PolynomialFunction subtract(final PolynomialFunction p) {
+
+        // identify the lowest degree polynomial
+        int lowLength  = Math.min(coefficients.length, p.coefficients.length);
+        int highLength = Math.max(coefficients.length, p.coefficients.length);
+
+        // build the coefficients array
+        double[] newCoefficients = new double[highLength];
+        for (int i = 0; i < lowLength; ++i) {
+            newCoefficients[i] = coefficients[i] - p.coefficients[i];
+        }
+        if (coefficients.length < p.coefficients.length) {
+            for (int i = lowLength; i < highLength; ++i) {
+                newCoefficients[i] = -p.coefficients[i];
+            }
+        } else {
+            System.arraycopy(coefficients, lowLength, newCoefficients, lowLength,
+                             highLength - lowLength);
+        }
+
+        return new PolynomialFunction(newCoefficients);
+
+    }
+
+    /**
+     * Negate the instance.
+     * @return a new polynomial
+     */
+    public PolynomialFunction negate() {
+        double[] newCoefficients = new double[coefficients.length];
+        for (int i = 0; i < coefficients.length; ++i) {
+            newCoefficients[i] = -coefficients[i];
+        }
+        return new PolynomialFunction(newCoefficients);
+    }
+
+    /**
+     * Multiply the instance by a polynomial.
+     * @param p polynomial to multiply by
+     * @return a new polynomial
+     */
+    public PolynomialFunction multiply(final PolynomialFunction p) {
+
+        double[] newCoefficients = new double[coefficients.length + p.coefficients.length - 1];
+
+        for (int i = 0; i < newCoefficients.length; ++i) {
+            newCoefficients[i] = 0.0;
+            for (int j = Math.max(0, i + 1 - p.coefficients.length);
+                 j < Math.min(coefficients.length, i + 1);
+                 ++j) {
+                newCoefficients[i] += coefficients[j] * p.coefficients[i-j];
+            }
+        }
+
+        return new PolynomialFunction(newCoefficients);
+
+    }
+
     /**
      * Returns the coefficients of the derivative of the polynomial with the given coefficients.
      * 
@@ -164,5 +256,66 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
     public UnivariateRealFunction derivative() {
         return polynomialDerivative();
     }
-   
+
+    /** Returns a string representation of the polynomial.
+
+     * <p>The representation is user oriented. Terms are displayed lowest
+     * degrees first. The multiplications signs, coefficients equals to
+     * one and null terms are not displayed (except if the polynomial is 0,
+     * in which case the 0 constant term is displayed). Addition of terms
+     * with negative coefficients are replaced by subtraction of terms
+     * with positive coefficients except for the first displayed term
+     * (i.e. we display <code>-3</code> for a constant negative polynomial,
+     * but <code>1 - 3 x + x^2</code> if the negative coefficient is not
+     * the first one displayed).</p>
+
+     * @return a string representation of the polynomial
+
+     */
+     public String toString() {
+
+       StringBuffer s = new StringBuffer();
+       if (coefficients[0] == 0.0) {
+         if (coefficients.length == 1) {
+           return "0";
+         }
+       } else {
+         s.append(Double.toString(coefficients[0]));
+       }
+
+       for (int i = 1; i < coefficients.length; ++i) {
+
+         if (coefficients[i] != 0) {
+
+           if (s.length() > 0) {
+             if (coefficients[i] < 0) {
+               s.append(" - ");
+             } else {
+               s.append(" + ");
+             }
+           } else {
+             if (coefficients[i] < 0) {
+               s.append("-");
+             }
+           }
+
+           double absAi = Math.abs(coefficients[i]);
+           if ((absAi - 1) != 0) {
+             s.append(Double.toString(absAi));
+             s.append(' ');
+           }
+
+           s.append("x");
+           if (i > 1) {
+             s.append('^');
+             s.append(Integer.toString(i));
+           }
+         }
+
+       }
+
+       return s.toString();
+
+     }
+
 }
