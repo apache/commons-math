@@ -481,7 +481,7 @@ public class OpenIntToDoubleHashMap implements Serializable {
         /** Reference modification count. */
         private final int referenceCount;
 
-        /** Index of curent element. */
+        /** Index of current element. */
         private int current;
 
         /** Index of next element. */
