@@ -24,7 +24,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link SparseRealVector} class.
  *
- * @version $Revision: 728186 $ $Date: 2008-12-19 16:03:13 -0800 (Fri, 19 Dec 2008) $
+ * @version $Revision: 728186 $ $Date$
  */
 public class SparseRealVectorTest extends TestCase {
 
