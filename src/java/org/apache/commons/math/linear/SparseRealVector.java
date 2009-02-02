@@ -22,12 +22,12 @@ import org.apache.commons.math.util.OpenIntToDoubleHashMap.Iterator;
 
 /**
  * This class implements the {@link RealVector} interface with a {@link OpenIntToDoubleHashMap}.
- * @version $Revision: 728186 $ $Date: 2008-12-19 16:03:13 -0800 (Fri, 19 Dec 2008) $
+ * @version $Revision: 728186 $ $Date$
  * @since 2.0
 */
 public class SparseRealVector implements RealVector {
 
-    private OpenIntToDoubleHashMap entries;
+    private final OpenIntToDoubleHashMap entries;
     private final int virtualSize;
     private double epsilon = 1.0e-12;
 
@@ -805,10 +805,8 @@ public class SparseRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapInvToSelf() {
-        Iterator iter = entries.iterator();
-        while (iter.hasNext()) {
-            iter.advance();
-            entries.put(iter.key(), 1 / iter.value());
+        for(int i=0; i < virtualSize; i++){
+            set(i, 1.0/getEntry(i));
         }
         return this;
     }
@@ -825,10 +823,8 @@ public class SparseRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapLog10ToSelf() {
-        Iterator iter = entries.iterator();
-        while (iter.hasNext()) {
-            iter.advance();
-            entries.put(iter.key(), Math.log10(iter.value()));
+        for(int i=0; i < virtualSize; i++){
+            set(i, Math.log10(getEntry(i)));
         }
         return this;
     }
@@ -850,12 +846,10 @@ public class SparseRealVector implements RealVector {
     
     /** {@inheritDoc} */
     public RealVector mapLogToSelf() {
-        Iterator iter = entries.iterator();
-        while (iter.hasNext()) {
-            iter.advance();
-            entries.put(iter.key(), Math.log(iter.value()));
+        for(int i=0; i < virtualSize; i++){
+            set(i, Math.log(getEntry(i)));
         }
-        return this;
+       return this;
     }
 
     /** {@inheritDoc} */
@@ -1113,7 +1107,9 @@ public class SparseRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public void set(double value) {
-        entries = new OpenIntToDoubleHashMap(value);
+        for(int i=0; i < virtualSize; i++){
+            set(i, value);
+        }
     }
 
     /** {@inheritDoc} */
