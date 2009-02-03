@@ -48,14 +48,8 @@ public class FastFourierTransformer implements Serializable {
     /** Serializable version identifier. */
     static final long serialVersionUID = 5138259215438106000L;
 
-    /** array of the roots of unity */
-    private Complex omega[] = new Complex[0];
-
-    /**
-     * |omegaCount| is the length of lasted computed omega[]. omegaCount
-     * is positive for forward transform and negative for inverse transform.
-     */
-    private int omegaCount = 0;
+    /** roots of unity */
+    private RootsOfUnity roots = new RootsOfUnity();
 
     /**
      * Construct a default transformer.
@@ -113,7 +107,7 @@ public class FastFourierTransformer implements Serializable {
      */
     public Complex[] transform(Complex f[])
         throws IllegalArgumentException {
-        computeOmega(f.length);
+        roots.computeOmega(f.length);
         return fft(f);
     }
 
@@ -171,7 +165,7 @@ public class FastFourierTransformer implements Serializable {
     public Complex[] transform2(Complex f[])
         throws IllegalArgumentException {
 
-        computeOmega(f.length);
+        roots.computeOmega(f.length);
         double scaling_coefficient = 1.0 / Math.sqrt(f.length);
         return scaleArray(fft(f), scaling_coefficient);
     }
@@ -230,7 +224,7 @@ public class FastFourierTransformer implements Serializable {
     public Complex[] inversetransform(Complex f[])
         throws IllegalArgumentException {
 
-        computeOmega(-f.length);    // pass negative argument
+        roots.computeOmega(-f.length);    // pass negative argument
         double scaling_coefficient = 1.0 / f.length;
         return scaleArray(fft(f), scaling_coefficient);
     }
@@ -289,7 +283,7 @@ public class FastFourierTransformer implements Serializable {
     public Complex[] inversetransform2(Complex f[])
         throws IllegalArgumentException {
 
-        computeOmega(-f.length);    // pass negative argument
+        roots.computeOmega(-f.length);    // pass negative argument
         double scaling_coefficient = 1.0 / Math.sqrt(f.length);
         return scaleArray(fft(f), scaling_coefficient);
     }
@@ -319,18 +313,20 @@ public class FastFourierTransformer implements Serializable {
         for (int i = 0; i < N; i++) {
             c[i] = new Complex(f[2*i], f[2*i+1]);
         }
-        computeOmega(isInverse ? -N : N);
+        roots.computeOmega(isInverse ? -N : N);
         Complex z[] = fft(c);
 
         // reconstruct the FFT result for the original array
-        computeOmega(isInverse ? -2*N : 2*N);
+        roots.computeOmega(isInverse ? -2*N : 2*N);
         F[0] = new Complex(2 * (z[0].getReal() + z[0].getImaginary()), 0.0);
         F[N] = new Complex(2 * (z[0].getReal() - z[0].getImaginary()), 0.0);
         for (int i = 1; i < N; i++) {
             Complex A = z[N-i].conjugate();
             Complex B = z[i].add(A);
             Complex C = z[i].subtract(A);
-            Complex D = omega[i].multiply(Complex.I);
+            //Complex D = roots.getOmega(i).multiply(Complex.I);
+            Complex D = new Complex(-roots.getOmegaImaginary(i),
+                                    roots.getOmegaReal(i));
             F[i] = B.subtract(C.multiply(D));
             F[2*N-i] = F[i].conjugate();
         }
@@ -385,8 +381,8 @@ public class FastFourierTransformer implements Serializable {
             f[i] = A.add(B);
             f[i+2] = A.subtract(B);
             // omegaCount indicates forward or inverse transform
-            f[i+1] = omegaCount < 0 ? E : F;
-            f[i+3] = omegaCount > 0 ? E : F;
+            f[i+1] = roots.isForward() ? F : E;
+            f[i+3] = roots.isForward() ? E : F;
         }
 
         // iterations from bottom to top take O(N*logN) time
@@ -394,52 +390,23 @@ public class FastFourierTransformer implements Serializable {
             m = N / (i<<1);
             for (j = 0; j < N; j += i<<1) {
                 for (k = 0; k < i; k++) {
-                    z = f[i+j+k].multiply(omega[k*m]);
+                    //z = f[i+j+k].multiply(roots.getOmega(k*m));
+                    final int k_times_m = k*m;
+                    final double omega_k_times_m_real = roots.getOmegaReal(k_times_m);
+                    final double omega_k_times_m_imaginary = roots.getOmegaImaginary(k_times_m);
+                    //z = f[i+j+k].multiply(omega[k*m]);
+                    z = new Complex(
+                        f[i+j+k].getReal() * omega_k_times_m_real -
+                        f[i+j+k].getImaginary() * omega_k_times_m_imaginary,
+                        f[i+j+k].getReal() * omega_k_times_m_imaginary +
+                        f[i+j+k].getImaginary() * omega_k_times_m_real);
+                  
                     f[i+j+k] = f[j+k].subtract(z);
                     f[j+k] = f[j+k].add(z);
                 }
             }
         }
         return f;
-    }
-
-    /**
-     * Calculate the n-th roots of unity.
-     * <p>
-     * The computed omega[] = { 1, w, w^2, ... w^(n-1) } where
-     * w = exp(-2 \pi i / n), i = sqrt(-1). Note n is positive for
-     * forward transform and negative for inverse transform. </p>
-     * 
-     * @param n the integer passed in
-     * @throws IllegalArgumentException if n = 0
-     */
-    protected void computeOmega(int n)
-        throws IllegalArgumentException {
-        if (n == 0) {
-            throw MathRuntimeException.createIllegalArgumentException("cannot compute 0-th root of unity, indefinite result",
-                                                                      null);
-        }
-        // avoid repetitive calculations
-        if (n == omegaCount) { return; }
-        if (n + omegaCount == 0) {
-            for (int i = 0; i < Math.abs(omegaCount); i++) {
-                omega[i] = omega[i].conjugate();
-            }
-            omegaCount = n;
-            return;
-        }
-        // calculate everything from scratch
-        omega = new Complex[Math.abs(n)];
-        double t = 2.0 * Math.PI / n;
-        double cost = Math.cos(t);
-        double sint = Math.sin(t);
-        omega[0] = new Complex(1.0, 0.0);
-        for (int i = 1; i < Math.abs(n); i++) {
-            omega[i] = new Complex(
-                omega[i-1].getReal() * cost + omega[i-1].getImaginary() * sint,
-                omega[i-1].getImaginary() * cost - omega[i-1].getReal() * sint);
-        }
-        omegaCount = n;
     }
 
     /**
@@ -803,4 +770,143 @@ public class FastFourierTransformer implements Serializable {
             }
         }
     }
+    
+    
+    /** Computes the n<sup>th</sup> roots of unity. 
+     * A cache of already computed values is maintained.
+     */
+    private static class RootsOfUnity {
+      
+      private int      omegaCount;
+      private double[] omegaReal;
+      private double[] omegaImaginaryForward;
+      private double[] omegaImaginaryInverse;
+      private boolean  isForward;
+      
+      public RootsOfUnity() {
+        
+        omegaCount = 0;
+        omegaReal = null;
+        omegaImaginaryForward = null;
+        omegaImaginaryInverse = null;
+        isForward = true;
+        
+      }
+
+      /**
+       * Check if computation has been done for forward or reverse transform.
+       * @return true if computation has been done for forward transform
+       * @throws IllegalStateException if no roots of unity have been computed yet
+       */
+      public synchronized boolean isForward() throws IllegalStateException {
+          
+        if (omegaCount == 0) {
+          throw MathRuntimeException.createIllegalStateException(
+                  "roots of unity have not been computed yet",
+                  null);
+        }        
+        return isForward;
+        
+      }
+      
+      /** Computes the n<sup>th</sup> roots of unity.
+       * <p>The computed omega[] = { 1, w, w<sup>2</sup>, ... w<sup>(n-1)</sup> } where
+       * w = exp(-2 &pi; i / n), i = &sqrt;(-1).</p>
+       * <p>Note that n is positive for
+       * forward transform and negative for inverse transform.</p>
+       * @param n number of roots of unity to compute,
+       * positive for forward transform, negative for inverse transform
+       * @throws IllegalArgumentException if n = 0
+       */
+      public synchronized void computeOmega(int n) throws IllegalArgumentException {
+
+        if (n == 0) {
+          throw MathRuntimeException.createIllegalArgumentException(
+                  "cannot compute 0-th root of unity, indefinite result",
+                  null);
+        }
+
+        isForward = (n > 0);
+        
+        // avoid repetitive calculations
+        final int absN = Math.abs(n);
+        
+        if (absN == omegaCount) {
+            return;
+        }
+
+        // calculate everything from scratch, for both forward and inverse versions
+        final double t    = 2.0 * Math.PI / absN;
+        final double cosT = Math.cos(t);
+        final double sinT = Math.sin(t);
+        omegaReal             = new double[absN];
+        omegaImaginaryForward = new double[absN];
+        omegaImaginaryInverse = new double[absN];
+        omegaReal[0]             = 1.0;
+        omegaImaginaryForward[0] = 0.0;
+        omegaImaginaryInverse[0] = 0.0;
+        for (int i = 1; i < absN; i++) {
+          omegaReal[i] =
+            omegaReal[i-1] * cosT + omegaImaginaryForward[i-1] * sinT;
+          omegaImaginaryForward[i] =
+             omegaImaginaryForward[i-1] * cosT - omegaReal[i-1] * sinT;
+          omegaImaginaryInverse[i] = -omegaImaginaryForward[i];
+        }
+        omegaCount = absN;
+
+      }
+
+      /**
+       * Get the real part of the k<sup>th</sup> n<sup>th</sup> root of unity
+       * @param k index of the n<sup>th</sup> root of unity
+       * @return real part of the k<sup>th</sup> n<sup>th</sup> root of unity
+       * @throws IllegalStateException if no roots of unity have been computed yet
+       * @throws IllegalArgumentException if k is out of range
+       */
+      public synchronized double getOmegaReal(int k)
+        throws IllegalStateException, IllegalArgumentException {
+        
+        if (omegaCount == 0) {
+            throw MathRuntimeException.createIllegalStateException(
+                    "roots of unity have not been computed yet",
+                    null);
+        }
+        if ((k < 0) || (k >= omegaCount)) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "out of range root of unity index {0} (must be in [{1};{2}])",
+                    new Object[] { k, 0, omegaCount - 1 });
+        }
+        
+        return omegaReal[k];
+        
+      }
+
+      /**
+       * Get the imaginary part of the k<sup>th</sup> n<sup>th</sup> root of unity
+       * @param k index of the n<sup>th</sup> root of unity
+       * @return imaginary part of the k<sup>th</sup> n<sup>th</sup> root of unity
+       * @throws IllegalStateException if no roots of unity have been computed yet
+       * @throws IllegalArgumentException if k is out of range
+       */
+      public synchronized double getOmegaImaginary(int k)
+        throws IllegalStateException, IllegalArgumentException {
+      
+        if (omegaCount == 0) {
+            throw MathRuntimeException.createIllegalStateException(
+                    "roots of unity have not been computed yet",
+                    null);
+        }
+        if ((k < 0) || (k >= omegaCount)) {
+          throw MathRuntimeException.createIllegalArgumentException(
+                  "out of range root of unity index {0} (must be in [{1};{2}])",
+                  new Object[] { k, 0, omegaCount - 1 });
+        }
+
+        return (isForward) ?
+            omegaImaginaryForward[k] : omegaImaginaryInverse[k];
+        
+      }
+
+    }
+    
 }

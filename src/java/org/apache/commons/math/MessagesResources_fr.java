@@ -372,6 +372,10 @@ public class MessagesResources_fr
    // org.apache.commons.math.transform.FastFourierTransformer
    { "cannot compute 0-th root of unity, indefinite result",
      "impossible de calculer la racine z\u00e9roi\u00e8me de l''unit\u00e9, r\u00e9sultat ind\u00e9fini" },
+   { "roots of unity have not been computed yet",
+     "les racines de l''unit\u00e9 n''ont pas encore \u00e9t\u00e9 calcul\u00e9es" },
+   { "out of range root of unity index {0} (must be in [{1};{2}])",
+     "index de racine de l''unit\u00e9 hors domaine (devrait \u00eatre dans [{1}; {2}])" },
    { "number of sample is not positive: {0}",
      "le nombre d''\u00e9chantillons n''est pas positif : {0}" },
    { "{0} is not a power of 2, consider padding for fix",

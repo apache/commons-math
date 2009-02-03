@@ -39,6 +39,9 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-216" due-to="Cyril Briquet">
+        Improved fast Fourier transform efficiency.
+      </action>
       <action dev="luc" type="add" >
         Added factory methods to create Chebyshev, Hermite, Laguerre and Legendre polynomials.
       </action> 
