@@ -372,7 +372,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                 if (si == 0) {
                     throw new SingularMatrixException();
                 }
-                w.set(i, w.getEntry(i) / si);
+                w.setEntry(i, w.getEntry(i) / si);
             }
             return v.operate(w);
 

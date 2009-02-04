@@ -238,7 +238,7 @@ public class SparseRealVector implements RealVector {
             iter.advance();
             int key = iter.key();
             if (v.getEntries().containsKey(key)) {
-                res.set(key, iter.value() + v.getEntry(key));
+                res.setEntry(key, iter.value() + v.getEntry(key));
             }
         }
         iter = v.getEntries().iterator();
@@ -246,7 +246,7 @@ public class SparseRealVector implements RealVector {
             iter.advance();
             int key = iter.key();
             if (!entries.containsKey(key)) {
-                res.set(key, iter.value());
+                res.setEntry(key, iter.value());
             }
         }
         return res;
@@ -257,7 +257,7 @@ public class SparseRealVector implements RealVector {
         checkVectorDimensions(v.length);
         SparseRealVector res = new SparseRealVector(getDimension());
         for (int i = 0; i < v.length; i++) {
-            res.set(i, v[i] + getEntry(i));
+            res.setEntry(i, v[i] + getEntry(i));
         }
         return res;
     }
@@ -272,7 +272,7 @@ public class SparseRealVector implements RealVector {
         Iterator iter = v.entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
-            res.set(iter.key() + virtualSize, iter.value());
+            res.setEntry(iter.key() + virtualSize, iter.value());
         }
         return res;
     }
@@ -288,7 +288,7 @@ public class SparseRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector append(double d) {
         RealVector res = new SparseRealVector(this, 1);
-        res.set(virtualSize, d);
+        res.setEntry(virtualSize, d);
         return res;
     }
 
@@ -296,7 +296,7 @@ public class SparseRealVector implements RealVector {
     public RealVector append(double[] a) {
         RealVector res = new SparseRealVector(this, a.length);
         for (int i = 0; i < a.length; i++) {
-            res.set(i + virtualSize, a[i]);
+            res.setEntry(i + virtualSize, a[i]);
         }
         return res;
     }
@@ -340,7 +340,7 @@ public class SparseRealVector implements RealVector {
         Iterator iter = res.entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
-            res.set(iter.key(), iter.value() / v.getEntry(iter.key()));
+            res.setEntry(iter.key(), iter.value() / v.getEntry(iter.key()));
         }
         return res;
     }
@@ -352,7 +352,7 @@ public class SparseRealVector implements RealVector {
         Iterator iter = res.entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
-            res.set(iter.key(), iter.value() / v[iter.key()]);
+            res.setEntry(iter.key(), iter.value() / v[iter.key()]);
         }
         return null;
     }
@@ -364,7 +364,7 @@ public class SparseRealVector implements RealVector {
         Iterator iter = res.entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
-            res.set(iter.key(), iter.value() * v.getEntry(iter.key()));
+            res.setEntry(iter.key(), iter.value() * v.getEntry(iter.key()));
         }
         return res;
     }
@@ -376,13 +376,13 @@ public class SparseRealVector implements RealVector {
         Iterator iter = res.entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
-            res.set(iter.key(), iter.value() * v[iter.key()]);
+            res.setEntry(iter.key(), iter.value() * v[iter.key()]);
         }
         return res;
     }
 
     /** {@inheritDoc} */
-    public RealVector get(int index, int n) throws MatrixIndexException {
+    public RealVector getSubVector(int index, int n) throws MatrixIndexException {
         checkIndex(index);
         checkIndex(index+n-1);
         SparseRealVector res = new SparseRealVector(n);
@@ -392,7 +392,7 @@ public class SparseRealVector implements RealVector {
             iter.advance();
             int key = iter.key();
             if (key >= index && key < end) {
-                res.set(key - index, iter.value());
+                res.setEntry(key - index, iter.value());
             }
         }
         return res;
@@ -632,7 +632,7 @@ public class SparseRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapAcosToSelf() {
         for(int i=0; i < virtualSize; i++){
-            set(i, Math.acos(getEntry(i)));
+            setEntry(i, Math.acos(getEntry(i)));
         }
         return this;
     }
@@ -645,7 +645,7 @@ public class SparseRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapAddToSelf(double d) {
         for (int i = 0; i < virtualSize; i++) {
-            set(i, getEntry(i) + d);
+            setEntry(i, getEntry(i) + d);
         }
         return this;
     }
@@ -806,7 +806,7 @@ public class SparseRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapInvToSelf() {
         for(int i=0; i < virtualSize; i++){
-            set(i, 1.0/getEntry(i));
+            setEntry(i, 1.0/getEntry(i));
         }
         return this;
     }
@@ -824,7 +824,7 @@ public class SparseRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapLog10ToSelf() {
         for(int i=0; i < virtualSize; i++){
-            set(i, Math.log10(getEntry(i)));
+            setEntry(i, Math.log10(getEntry(i)));
         }
         return this;
     }
@@ -847,7 +847,7 @@ public class SparseRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapLogToSelf() {
         for(int i=0; i < virtualSize; i++){
-            set(i, Math.log(getEntry(i)));
+            setEntry(i, Math.log(getEntry(i)));
         }
        return this;
     }
@@ -1080,7 +1080,7 @@ public class SparseRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public void set(int index, double value) throws MatrixIndexException {
+    public void setEntry(int index, double value) throws MatrixIndexException {
         checkIndex(index);
         if (!isZero(value)) {
             entries.put(index, value);
@@ -1090,25 +1090,25 @@ public class SparseRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public void set(int index, RealVector v) throws MatrixIndexException {
+    public void setSubVector(int index, RealVector v) throws MatrixIndexException {
         checkIndex(index);
         checkIndex(index + v.getDimension() - 1);
-        set(index, v.getData());
+        setSubVector(index, v.getData());
     }
 
     /** {@inheritDoc} */
-    public void set(int index, double[] v) throws MatrixIndexException {
+    public void setSubVector(int index, double[] v) throws MatrixIndexException {
         checkIndex(index);
         checkIndex(index + v.length - 1);
         for (int i = 0; i < v.length; i++) {
-            set(i + index, v[i]);
+            setEntry(i + index, v[i]);
         }
     }
 
     /** {@inheritDoc} */
     public void set(double value) {
         for(int i=0; i < virtualSize; i++){
-            set(i, value);
+            setEntry(i, value);
         }
     }
 
@@ -1145,9 +1145,9 @@ public class SparseRealVector implements RealVector {
         SparseRealVector res = new SparseRealVector(this);
         for (int i = 0; i < v.length; i++) {
             if (entries.containsKey(i)) {
-                res.set(i, entries.get(i) - v[i]);
+                res.setEntry(i, entries.get(i) - v[i]);
             } else {
-                res.set(i, -v[i]);
+                res.setEntry(i, -v[i]);
             }
         }
         return res;

@@ -696,8 +696,20 @@ public interface RealVector {
      * @param index  index location of entry to be fetched
      * @return vector entry at index
      * @throws MatrixIndexException if the index is not valid
+     * @see #setEntry(int, double)
      */
     double getEntry(int index)
+        throws MatrixIndexException;
+
+    /**
+     * Set a single element.
+     * @param index element index.
+     * @param value new value for the element.
+     * @exception MatrixIndexException if the index is
+     * inconsistent with vector size
+     * @see #getEntry(int)
+     */
+    void setEntry(int index, double value)
         throws MatrixIndexException;
 
     /**
@@ -735,17 +747,7 @@ public interface RealVector {
      * @exception MatrixIndexException if the index is
      * inconsistent with vector size
      */
-    RealVector get(int index, int n)
-        throws MatrixIndexException;
-
-    /**
-     * Set a single element.
-     * @param index element index.
-     * @param value new value for the element.
-     * @exception MatrixIndexException if the index is
-     * inconsistent with vector size
-     */
-    void set(int index, double value)
+    RealVector getSubVector(int index, int n)
         throws MatrixIndexException;
 
     /**
@@ -754,8 +756,9 @@ public interface RealVector {
      * @param v vector containing the values to set.
      * @exception MatrixIndexException if the index is
      * inconsistent with vector size
+     * @see #setSubVector(int, double[])
      */
-    void set(int index, RealVector v)
+    void setSubVector(int index, RealVector v)
         throws MatrixIndexException;
 
     /**
@@ -764,8 +767,9 @@ public interface RealVector {
      * @param v vector containing the values to set.
      * @exception MatrixIndexException if the index is
      * inconsistent with vector size
+     * @see #setSubVector(int, RealVector)
      */
-    void set(int index, double[] v)
+    void setSubVector(int index, double[] v)
         throws MatrixIndexException;
 
     /**

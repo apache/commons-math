@@ -424,19 +424,19 @@ public class SparseRealVectorTest extends TestCase {
             throw unsupported();
         }
 
-        public RealVector get(int index, int n) throws MatrixIndexException {
+        public RealVector getSubVector(int index, int n) throws MatrixIndexException {
             throw unsupported();
         }
 
-        public void set(int index, double value) throws MatrixIndexException {
+        public void setEntry(int index, double value) throws MatrixIndexException {
             throw unsupported();
         }
 
-        public void set(int index, RealVector v) throws MatrixIndexException {
+        public void setSubVector(int index, RealVector v) throws MatrixIndexException {
             throw unsupported();
         }
 
-        public void set(int index, double[] v) throws MatrixIndexException {
+        public void setSubVector(int index, double[] v) throws MatrixIndexException {
             throw unsupported();
         }
 
@@ -580,11 +580,11 @@ public class SparseRealVectorTest extends TestCase {
 //      assertEquals("testData not same object ", v1.data, vout4.data);
 
 
-        RealVector vout5 = v4.get(3, 3);
+        RealVector vout5 = v4.getSubVector(3, 3);
         assertEquals("testData len", 3, vout5.getDimension());
         assertEquals("testData is 4.0 ", 5.0, vout5.getEntry(1));
         try {
-            v4.get(3, 7);
+            v4.getSubVector(3, 7);
             fail("MatrixIndexException expected");
         } catch (MatrixIndexException ex) {
             // expected behavior
@@ -593,10 +593,10 @@ public class SparseRealVectorTest extends TestCase {
         }
 
         SparseRealVector v_set1 = (SparseRealVector) v1.copy();
-        v_set1.set(1, 11.0);
+        v_set1.setEntry(1, 11.0);
         assertEquals("testData is 11.0 ", 11.0, v_set1.getEntry(1));
         try {
-            v_set1.set(3, 11.0);
+            v_set1.setEntry(3, 11.0);
             fail("MatrixIndexException expected");
         } catch (MatrixIndexException ex) {
             // expected behavior
@@ -605,11 +605,11 @@ public class SparseRealVectorTest extends TestCase {
         }
 
         SparseRealVector v_set2 = (SparseRealVector) v4.copy();
-        v_set2.set(3, v1);
+        v_set2.setSubVector(3, v1);
         assertEquals("testData is 1.0 ", 1.0, v_set2.getEntry(3));
         assertEquals("testData is 7.0 ", 7.0, v_set2.getEntry(6));
         try {
-            v_set2.set(7, v1);
+            v_set2.setSubVector(7, v1);
             fail("MatrixIndexException expected");
         } catch (MatrixIndexException ex) {
             // expected behavior
@@ -631,11 +631,11 @@ public class SparseRealVectorTest extends TestCase {
         }
 
         SparseRealVector v_set4 = (SparseRealVector) v4.copy();
-        v_set4.set(3, v2_t);
+        v_set4.setSubVector(3, v2_t);
         assertEquals("testData is 1.0 ", 4.0, v_set4.getEntry(3));
         assertEquals("testData is 7.0 ", 7.0, v_set4.getEntry(6));
         try {
-            v_set4.set(7, v2_t);
+            v_set4.setSubVector(7, v2_t);
             fail("MatrixIndexException expected");
         } catch (MatrixIndexException ex) {
             // expected behavior
@@ -1154,17 +1154,17 @@ public class SparseRealVectorTest extends TestCase {
         SparseRealVector v = new SparseRealVector(new double[] { 0, 1, 2 });
 
         assertFalse(v.isNaN());
-        v.set(1, Double.NaN);
+        v.setEntry(1, Double.NaN);
         assertTrue(v.isNaN());
 
         assertFalse(v.isInfinite());
-        v.set(0, Double.POSITIVE_INFINITY);
+        v.setEntry(0, Double.POSITIVE_INFINITY);
         // TODO: fixme
         //assertFalse(v.isInfinite());
-        v.set(1, 1);
+        v.setEntry(1, 1);
         assertTrue(v.isInfinite());
 
-        v.set(0, 0);
+        v.setEntry(0, 0);
         // TODO: backing store doesn't yet implement equals
         //assertEquals(v, new SparseRealVector(new double[] { 0, 1, 2 }));
         //assertNotSame(v, new SparseRealVector(new double[] { 0, 1, 2 + Math.ulp(2)}));

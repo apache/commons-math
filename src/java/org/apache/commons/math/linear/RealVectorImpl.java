@@ -1190,7 +1190,7 @@ public class RealVectorImpl implements RealVector, Serializable {
     }
 
     /** {@inheritDoc} */
-    public RealVector get(int index, int n) {
+    public RealVector getSubVector(int index, int n) {
         RealVectorImpl out = new RealVectorImpl(n);
         try {
             System.arraycopy(data, index, out.data, 0, n);
@@ -1202,7 +1202,7 @@ public class RealVectorImpl implements RealVector, Serializable {
     }
 
     /** {@inheritDoc} */
-    public void set(int index, double value) {
+    public void setEntry(int index, double value) {
         try {
             data[index] = value;
         } catch (IndexOutOfBoundsException e) {
@@ -1211,7 +1211,7 @@ public class RealVectorImpl implements RealVector, Serializable {
     }
 
     /** {@inheritDoc} */
-    public void set(int index, RealVector v) {
+    public void setSubVector(int index, RealVector v) {
         try {
             try {
                 set(index, (RealVectorImpl) v);
@@ -1227,7 +1227,7 @@ public class RealVectorImpl implements RealVector, Serializable {
     }
 
     /** {@inheritDoc} */
-    public void set(int index, double[] v) {
+    public void setSubVector(int index, double[] v) {
         try {
             System.arraycopy(v, 0, data, index, v.length);
         } catch (IndexOutOfBoundsException e) {
@@ -1246,7 +1246,7 @@ public class RealVectorImpl implements RealVector, Serializable {
      */
     public void set(int index, RealVectorImpl v)
         throws MatrixIndexException {
-        set(index, v.data);
+        setSubVector(index, v.data);
     }
 
     /** {@inheritDoc} */
