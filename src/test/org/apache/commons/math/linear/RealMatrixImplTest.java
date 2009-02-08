@@ -20,6 +20,8 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.apache.commons.math.TestUtils;
+
 /**
  * Test cases for the {@link RealMatrixImpl} class.
  *
@@ -171,7 +173,7 @@ public final class RealMatrixImplTest extends TestCase {
     public void testPlusMinus() {
         RealMatrixImpl m = new RealMatrixImpl(testData);
         RealMatrixImpl m2 = new RealMatrixImpl(testDataInv);
-        assertClose("m-n = m + -n",m.subtract(m2),
+        TestUtils.assertEquals("m-n = m + -n",m.subtract(m2),
             m2.scalarMultiply(-1d).add(m),entryTolerance);        
         try {
             m.subtract(new RealMatrixImpl(testData2));
@@ -187,15 +189,15 @@ public final class RealMatrixImplTest extends TestCase {
         RealMatrixImpl mInv = new RealMatrixImpl(testDataInv);
         RealMatrixImpl identity = new RealMatrixImpl(id);
         RealMatrixImpl m2 = new RealMatrixImpl(testData2);
-        assertClose("inverse multiply",m.multiply(mInv),
+        TestUtils.assertEquals("inverse multiply",m.multiply(mInv),
             identity,entryTolerance);
-        assertClose("inverse multiply",mInv.multiply(m),
+        TestUtils.assertEquals("inverse multiply",mInv.multiply(m),
             identity,entryTolerance);
-        assertClose("identity multiply",m.multiply(identity),
+        TestUtils.assertEquals("identity multiply",m.multiply(identity),
             m,entryTolerance);
-        assertClose("identity multiply",identity.multiply(mInv),
+        TestUtils.assertEquals("identity multiply",identity.multiply(mInv),
             mInv,entryTolerance);
-        assertClose("identity multiply",m2.multiply(identity),
+        TestUtils.assertEquals("identity multiply",m2.multiply(identity),
             m2,entryTolerance); 
         try {
             m.multiply(new RealMatrixImpl(bigSingular));
@@ -215,7 +217,7 @@ public final class RealMatrixImplTest extends TestCase {
        RealMatrix m3 = new RealMatrixImpl(d3);   
        RealMatrix m4 = new RealMatrixImpl(d4);
        RealMatrix m5 = new RealMatrixImpl(d5);
-       assertClose("m3*m4=m5", m3.multiply(m4), m5, entryTolerance);
+       TestUtils.assertEquals("m3*m4=m5", m3.multiply(m4), m5, entryTolerance);
    }  
         
     /** test trace */
@@ -234,16 +236,16 @@ public final class RealMatrixImplTest extends TestCase {
     /** test sclarAdd */
     public void testScalarAdd() {
         RealMatrix m = new RealMatrixImpl(testData);
-        assertClose("scalar add",new RealMatrixImpl(testDataPlus2),
+        TestUtils.assertEquals("scalar add",new RealMatrixImpl(testDataPlus2),
             m.scalarAdd(2d),entryTolerance);
     }
                     
     /** test operate */
     public void testOperate() {
         RealMatrix m = new RealMatrixImpl(id);
-        assertClose("identity operate", testVector,
+        TestUtils.assertEquals("identity operate", testVector,
                     m.operate(testVector), entryTolerance);
-        assertClose("identity operate", testVector,
+        TestUtils.assertEquals("identity operate", testVector,
                     m.operate(new RealVectorImpl(testVector)).getData(), entryTolerance);
         m = new RealMatrixImpl(bigSingular);
         try {
@@ -271,18 +273,18 @@ public final class RealMatrixImplTest extends TestCase {
         RealMatrix m = new RealMatrixImpl(testData); 
         RealMatrix mIT = new LUDecompositionImpl(m).getSolver().getInverse().transpose();
         RealMatrix mTI = new LUDecompositionImpl(m.transpose()).getSolver().getInverse();
-        assertClose("inverse-transpose", mIT, mTI, normTolerance);
+        TestUtils.assertEquals("inverse-transpose", mIT, mTI, normTolerance);
         m = new RealMatrixImpl(testData2);
         RealMatrix mt = new RealMatrixImpl(testData2T);
-        assertClose("transpose",mt,m.transpose(),normTolerance);
+        TestUtils.assertEquals("transpose",mt,m.transpose(),normTolerance);
     }
     
     /** test preMultiply by vector */
     public void testPremultiplyVector() {
         RealMatrix m = new RealMatrixImpl(testData);
-        assertClose("premultiply", m.preMultiply(testVector),
+        TestUtils.assertEquals("premultiply", m.preMultiply(testVector),
                     preMultTest, normTolerance);
-        assertClose("premultiply", m.preMultiply(new RealVectorImpl(testVector).getData()),
+        TestUtils.assertEquals("premultiply", m.preMultiply(new RealVectorImpl(testVector).getData()),
                     preMultTest, normTolerance);
         m = new RealMatrixImpl(bigSingular);
         try {
@@ -297,18 +299,18 @@ public final class RealMatrixImplTest extends TestCase {
         RealMatrix m3 = new RealMatrixImpl(d3);   
         RealMatrix m4 = new RealMatrixImpl(d4);
         RealMatrix m5 = new RealMatrixImpl(d5);
-        assertClose("m3*m4=m5", m4.preMultiply(m3), m5, entryTolerance);
+        TestUtils.assertEquals("m3*m4=m5", m4.preMultiply(m3), m5, entryTolerance);
         
         RealMatrixImpl m = new RealMatrixImpl(testData);
         RealMatrixImpl mInv = new RealMatrixImpl(testDataInv);
         RealMatrixImpl identity = new RealMatrixImpl(id);
-        assertClose("inverse multiply",m.preMultiply(mInv),
+        TestUtils.assertEquals("inverse multiply",m.preMultiply(mInv),
                 identity,entryTolerance);
-        assertClose("inverse multiply",mInv.preMultiply(m),
+        TestUtils.assertEquals("inverse multiply",mInv.preMultiply(m),
                 identity,entryTolerance);
-        assertClose("identity multiply",m.preMultiply(identity),
+        TestUtils.assertEquals("identity multiply",m.preMultiply(identity),
                 m,entryTolerance);
-        assertClose("identity multiply",identity.preMultiply(mInv),
+        TestUtils.assertEquals("identity multiply",identity.preMultiply(mInv),
                 mInv,entryTolerance);
         try {
             m.preMultiply(new RealMatrixImpl(bigSingular));
@@ -320,8 +322,8 @@ public final class RealMatrixImplTest extends TestCase {
     
     public void testGetVectors() {
         RealMatrix m = new RealMatrixImpl(testData);
-        assertClose("get row",m.getRow(0),testDataRow1,entryTolerance);
-        assertClose("get col",m.getColumn(2),testDataCol3,entryTolerance);
+        TestUtils.assertEquals("get row",m.getRow(0),testDataRow1,entryTolerance);
+        TestUtils.assertEquals("get col",m.getColumn(2),testDataCol3,entryTolerance);
         try {
             m.getRow(10);
             fail("expecting MatrixIndexException");
@@ -954,24 +956,6 @@ public final class RealMatrixImplTest extends TestCase {
     };
 
     //--------------- -----------------Protected methods
-        
-    /** verifies that two matrices are close (1-norm) */              
-    protected void assertClose(String msg, RealMatrix m, RealMatrix n,
-        double tolerance) {
-        assertTrue(msg,m.subtract(n).getNorm() < tolerance);
-    }
-    
-    /** verifies that two vectors are close (sup norm) */
-    protected void assertClose(String msg, double[] m, double[] n,
-        double tolerance) {
-        if (m.length != n.length) {
-            fail("vectors not same length");
-        }
-        for (int i = 0; i < m.length; i++) {
-            assertEquals(msg + " " +  i + " elements differ", 
-                m[i],n[i],tolerance);
-        }
-    }
     
     /** extracts the l  and u matrices from compact lu representation */
     protected void splitLU(RealMatrix lu, double[][] lowerData, double[][] upperData) throws InvalidMatrixException {   

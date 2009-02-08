@@ -28,6 +28,7 @@ import junit.framework.AssertionFailedError;
 
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.complex.ComplexFormat;
+import org.apache.commons.math.linear.RealMatrix;
 
 /**
  * @version $Revision$ $Date$
@@ -250,6 +251,47 @@ public class TestUtils {
     public static void assertContains(double[] values, double x,
             double epsilon) {
        assertContains(null, values, x, epsilon);
+    }
+    
+    /** verifies that two matrices are close (1-norm) */              
+    public static void assertEquals(String msg, RealMatrix expected, RealMatrix observed,
+        double tolerance) {
+        
+        if (observed == null) {
+            Assert.fail(msg + "\nObserved is null");
+        }
+        
+        if (expected.getColumnDimension() != observed.getColumnDimension() || 
+                expected.getRowDimension() != observed.getRowDimension()) {
+            StringBuffer messageBuffer = new StringBuffer(msg);
+            messageBuffer.append("\nObserved has incorrect dimensions."); 
+            messageBuffer.append("\nobserved is " + observed.getRowDimension() +
+                    " x " + observed.getColumnDimension());
+            messageBuffer.append("\nexpected " + expected.getRowDimension() +
+                    " x " + expected.getColumnDimension());
+            Assert.fail(messageBuffer.toString());
+        }
+
+        RealMatrix delta = expected.subtract(observed);
+        if (delta.getNorm() >= tolerance) {
+            StringBuffer messageBuffer = new StringBuffer(msg);
+            messageBuffer.append("\nExpected: " + expected);
+            messageBuffer.append("\nObserved: " + observed);
+            messageBuffer.append("\nexpected - observed: " + delta);
+            Assert.fail(messageBuffer.toString());
+        }
+    }
+    
+    /** verifies that two arrays are close (sup norm) */
+    public static void assertEquals(String msg, double[] m, double[] n,
+        double tolerance) {
+        if (m.length != n.length) {
+            Assert.fail("vectors not same length");
+        }
+        for (int i = 0; i < m.length; i++) {
+            Assert.assertEquals(msg + " " +  i + " elements differ", 
+                m[i],n[i],tolerance);
+        }
     }
     
 }
