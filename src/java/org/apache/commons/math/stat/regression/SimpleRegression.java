@@ -352,6 +352,29 @@ public class SimpleRegression implements Serializable {
         }
         return sumYY;
     }
+    
+    /**
+     * Returns the sum of squared deviations of the x values about their mean.
+     *
+     * If <code>n < 2</code>, this returns <code>Double.NaN</code>.</p>
+     *
+     * @return sum of squared deviations of x values
+     */
+    public double getXSumSquares() {
+        if (n < 2) {
+            return Double.NaN;
+        }
+        return sumXX;
+    }
+    
+    /**
+     * Returns the sum of crossproducts, x<sub>i</sub>*y<sub>i</sub>.
+     *
+     * @return sum of cross products
+     */
+    public double getSumOfCrossProducts() {
+        return sumXY;
+    }
 
     /**
      * Returns the sum of squared deviations of the predicted y values about 
