@@ -1270,7 +1270,7 @@ public class RealVectorImpl implements RealVector, Serializable {
      * @exception IllegalArgumentException if the vectors do not
      * have the same dimension
      */
-    public void checkVectorDimensions(RealVector v)
+    protected void checkVectorDimensions(RealVector v)
         throws IllegalArgumentException {
         checkVectorDimensions(v.getDimension());
     }
@@ -1282,7 +1282,7 @@ public class RealVectorImpl implements RealVector, Serializable {
      * @exception IllegalArgumentException if the dimension is
      * inconsistent with vector size
      */
-    public void checkVectorDimensions(int n)
+    protected void checkVectorDimensions(int n)
         throws IllegalArgumentException {
         if (data.length != n) {
             throw new IllegalArgumentException("vector dimension is " + data.length +

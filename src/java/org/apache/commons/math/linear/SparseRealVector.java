@@ -232,6 +232,7 @@ public class SparseRealVector implements RealVector {
      * @return The sum of <code>this</code> with <code>v</code>
      */
     public SparseRealVector add(SparseRealVector v) {
+        checkVectorDimensions(v.getDimension());
         SparseRealVector res = (SparseRealVector) copy();
         Iterator iter = res.getEntries().iterator();
         while (iter.hasNext()) {
@@ -717,10 +718,8 @@ public class SparseRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapCosToSelf() {
-        Iterator iter = entries.iterator();
-        while (iter.hasNext()) {
-            iter.advance();
-            entries.put(iter.key(), Math.cos(iter.value()));
+        for(int i=0; i < virtualSize; i++){
+            setEntry(i, Math.cos(getEntry(i)));
         }
         return this;
     }
@@ -732,10 +731,8 @@ public class SparseRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapCoshToSelf() {
-        Iterator iter = entries.iterator();
-        while (iter.hasNext()) {
-            iter.advance();
-            entries.put(iter.key(), Math.cosh(iter.value()));
+        for(int i = 0; i < virtualSize; i++){
+            setEntry(i, Math.cosh(getEntry(i)));
         }
         return this;
     }
@@ -1201,7 +1198,7 @@ public class SparseRealVector implements RealVector {
      * @exception IllegalArgumentException
      *                if the dimension is inconsistent with vector size
      */
-    public void checkVectorDimensions(int n) throws IllegalArgumentException {
+    protected void checkVectorDimensions(int n) throws IllegalArgumentException {
         if (getDimension() != n) {
             throw new IllegalArgumentException("vector dimension is "
                     + getDimension() + ", not " + n + " as expected");
@@ -1211,5 +1208,48 @@ public class SparseRealVector implements RealVector {
     /** {@inheritDoc} */
     public double[] toArray() {
         return getData();
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((entries == null) ? 0 : entries.hashCode());
+        long temp;
+        temp = Double.doubleToLongBits(epsilon);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + virtualSize;
+        return result;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        System.out.println("Checking equality of "+obj);
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof SparseRealVector))
+            return false;
+        System.out.println("is a sparse vector");
+        SparseRealVector other = (SparseRealVector) obj;
+        if (entries == null) {
+            if (other.entries != null)
+                return false;
+        } else if (!entries.equals(other.entries)){
+            System.out.println("no entries match");
+            return false;
+        }if (Double.doubleToLongBits(epsilon) != Double
+                .doubleToLongBits(other.epsilon))
+            return false;
+        if (virtualSize != other.virtualSize)
+            return false;
+        return true;
     }
 }
