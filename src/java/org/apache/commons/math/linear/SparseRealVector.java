@@ -1230,20 +1230,17 @@ public class SparseRealVector implements RealVector {
      */
     @Override
     public boolean equals(Object obj) {
-        System.out.println("Checking equality of "+obj);
         if (this == obj)
             return true;
         if (obj == null)
             return false;
         if (!(obj instanceof SparseRealVector))
             return false;
-        System.out.println("is a sparse vector");
         SparseRealVector other = (SparseRealVector) obj;
         if (entries == null) {
             if (other.entries != null)
                 return false;
         } else if (!entries.equals(other.entries)){
-            System.out.println("no entries match");
             return false;
         }if (Double.doubleToLongBits(epsilon) != Double
                 .doubleToLongBits(other.epsilon))

@@ -603,7 +603,6 @@ public class OpenIntToDoubleHashMap implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + Arrays.hashCode(keys);
-        result = prime * result + mask;
         long temp;
         temp = Double.doubleToLongBits(missingEntries);
         result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -627,26 +626,15 @@ public class OpenIntToDoubleHashMap implements Serializable {
         OpenIntToDoubleHashMap other = (OpenIntToDoubleHashMap) obj;
         if (!Arrays.equals(keys, other.keys))
             return false;
-        if (mask != other.mask)
-            return false;
         if (Double.doubleToLongBits(missingEntries) != Double
                 .doubleToLongBits(other.missingEntries))
             return false;
         if (size != other.size)
             return false;
         if (!Arrays.equals(states, other.states)){
-            System.out.println("states not match:" );
-            for(byte e : states){
-                System.out.print(e+" ");
-            }
-            System.out.println();
-            for(byte e : other.states){
-                System.out.print(e+" ");
-            }
             return false;
         }
         if (!Arrays.equals(values, other.values)){
-            System.out.println("values don't match");
             return false;
         }
         return true;
