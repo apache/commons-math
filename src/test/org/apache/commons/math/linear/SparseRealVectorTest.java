@@ -1124,11 +1124,12 @@ public class SparseRealVectorTest extends TestCase {
         v.setEntry(1, 1);
         assertTrue(v.isInfinite());
 
+        //TODO: backing store doesn't implement equals
         //TODO: differeciate from resetting to zero
         //v.setEntry(0, 0);
         //assertEquals(v, new SparseRealVector(new double[] { 0, 1, 2 }));
-        assertNotSame(v, new SparseRealVector(new double[] { 0, 1, 2 + Math.ulp(2)}));
-        assertNotSame(v, new SparseRealVector(new double[] { 0, 1, 2, 3 }));
+        //assertNotSame(v, new SparseRealVector(new double[] { 0, 1, 2 + Math.ulp(2)}));
+        //assertNotSame(v, new SparseRealVector(new double[] { 0, 1, 2, 3 }));
 
         //assertEquals(new SparseRealVector(new double[] { Double.NaN, 1, 2 }).hashCode(),
         //              new SparseRealVector(new double[] { 0, Double.NaN, 2 }).hashCode());

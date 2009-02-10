@@ -1210,43 +1210,4 @@ public class SparseRealVector implements RealVector {
         return getData();
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((entries == null) ? 0 : entries.hashCode());
-        long temp;
-        temp = Double.doubleToLongBits(epsilon);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
-        result = prime * result + virtualSize;
-        return result;
-    }
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (!(obj instanceof SparseRealVector))
-            return false;
-        SparseRealVector other = (SparseRealVector) obj;
-        if (entries == null) {
-            if (other.entries != null)
-                return false;
-        } else if (!entries.equals(other.entries)){
-            return false;
-        }if (Double.doubleToLongBits(epsilon) != Double
-                .doubleToLongBits(other.epsilon))
-            return false;
-        if (virtualSize != other.virtualSize)
-            return false;
-        return true;
-    }
 }

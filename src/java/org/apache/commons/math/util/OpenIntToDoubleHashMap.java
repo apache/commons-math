@@ -595,49 +595,5 @@ public class OpenIntToDoubleHashMap implements Serializable {
         count = 0;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + Arrays.hashCode(keys);
-        long temp;
-        temp = Double.doubleToLongBits(missingEntries);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
-        result = prime * result + size;
-        result = prime * result + Arrays.hashCode(states);
-        result = prime * result + Arrays.hashCode(values);
-        return result;
-    }
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        OpenIntToDoubleHashMap other = (OpenIntToDoubleHashMap) obj;
-        if (!Arrays.equals(keys, other.keys))
-            return false;
-        if (Double.doubleToLongBits(missingEntries) != Double
-                .doubleToLongBits(other.missingEntries))
-            return false;
-        if (size != other.size)
-            return false;
-        if (!Arrays.equals(states, other.states)){
-            return false;
-        }
-        if (!Arrays.equals(values, other.values)){
-            return false;
-        }
-        return true;
-    }
-
+    
 }
