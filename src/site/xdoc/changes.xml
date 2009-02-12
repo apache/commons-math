@@ -39,8 +39,15 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="psteitz" type="add" issue="MATH-114">
+        Added Covariance class to compute variance-covariance matrices in new
+        correlation package.
+      </action>
       <action dev="luc" type="fix" issue="MATH-216" due-to="Cyril Briquet">
         Improved fast Fourier transform efficiency.
+      </action>
+      <action dev="billbarker" type="add">
+         Added a SparseRealVector class that implements a sparse vector for the RealVector interface.
       </action>
       <action dev="luc" type="add" >
         Added factory methods to create Chebyshev, Hermite, Laguerre and Legendre polynomials.
@@ -302,9 +309,6 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action dev="brentworden" type="fix" issue="MATH-204" due-to="Mick">
         Added root checks for the endpoints.
-      </action>
-      <action dev="billbarker" type="add">
-         Added a SparseRealVector class that implements a sparse vector for the RealVector interface.
       </action>
     </release>
     <release version="1.2" date="2008-02-24"
