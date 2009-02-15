@@ -46,7 +46,10 @@ public class Covariance {
     
     /** covariance matrix */
     private final RealMatrix covarianceMatrix;
-    
+
+    /**
+     * Create an empty covariance matrix.
+     */
     public Covariance() {
         super();
         covarianceMatrix = null;
@@ -131,12 +134,8 @@ public class Covariance {
     /**
      * Create a covariance matrix from a matrix whose columns represent
      * covariates.
-     * 
-     * <p>The input matrix must have at least two columns and two rows</p>
-     * 
-     * <p>The <code>biasCorrected</code> parameter determines whether or not
-     * covariance estimates are bias-corrected.</p>
-     * 
+     * @param matrix input matrix (must have at least two columns and two rows)
+     * @param biasCorrected determines whether or not covariance estimates are bias-corrected
      * @return covariance matrix
      */
     protected RealMatrix computeCovariance(RealMatrix matrix, boolean biasCorrected) {
@@ -192,6 +191,7 @@ public class Covariance {
     /**
      * Throws IllegalArgumentException of the matrix does not have at least
      * two columns and two rows
+     * @param matrix matrix to check
      */
     private void checkSufficientData(final RealMatrix matrix) {
         int nRows = matrix.getRowDimension();

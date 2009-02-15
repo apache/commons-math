@@ -776,13 +776,25 @@ public class FastFourierTransformer implements Serializable {
      * A cache of already computed values is maintained.
      */
     private static class RootsOfUnity {
-      
+
+      /** Number of roots of unity. */
       private int      omegaCount;
+
+      /** Real part of the roots. */
       private double[] omegaReal;
+
+      /** Imaginary part of the roots for forward transform. */
       private double[] omegaImaginaryForward;
+
+      /** Imaginary part of the roots for reverse transform. */
       private double[] omegaImaginaryInverse;
+
+      /** Forward/reverse indicator. */
       private boolean  isForward;
-      
+
+      /**
+       * Build an engine for computing then <sup>th</sup> roots of unity
+       */
       public RootsOfUnity() {
         
         omegaCount = 0;

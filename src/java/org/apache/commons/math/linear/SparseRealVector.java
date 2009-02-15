@@ -27,8 +27,13 @@ import org.apache.commons.math.util.OpenIntToDoubleHashMap.Iterator;
 */
 public class SparseRealVector implements RealVector {
 
+    /** Entries of the vector. */
     private  OpenIntToDoubleHashMap entries;
+
+    /** Dimension of the vector. */
     private final int virtualSize;
+
+    /** Tolerance for having a value considered zero. */
     private double epsilon = 1.0e-12;
 
     /**
