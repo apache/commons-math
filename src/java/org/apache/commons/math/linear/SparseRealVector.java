@@ -1191,8 +1191,8 @@ public class SparseRealVector implements RealVector {
     private void checkIndex(final int index) throws MatrixIndexException {
         if (index < 0 || index >= getDimension()) {
             throw new MatrixIndexException(
-                    "index {0} out of allowed range [{1}, {2}]", new Object[] {
-                            index, 0, getDimension() - 1 });
+                    "index {0} out of allowed range [{1}, {2}]",
+                    new Object[] { index, 0, getDimension() - 1 });
         }
     }
 
@@ -1206,8 +1206,9 @@ public class SparseRealVector implements RealVector {
      */
     protected void checkVectorDimensions(int n) throws IllegalArgumentException {
         if (getDimension() != n) {
-            throw new IllegalArgumentException("vector dimension is "
-                    + getDimension() + ", not " + n + " as expected");
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "vector length mismatch: got {0} but expected {1}",
+                    new Object[] { getDimension(), n });
         }
     }
 
@@ -1216,9 +1217,7 @@ public class SparseRealVector implements RealVector {
         return getData();
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -1230,9 +1229,7 @@ public class SparseRealVector implements RealVector {
         return result;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
+    /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

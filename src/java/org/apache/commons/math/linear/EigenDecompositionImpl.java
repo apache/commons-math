@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.util.MathUtils;
 
@@ -404,7 +405,9 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 
             final int m = realEigenvalues.length;
             if (b.length != m) {
-                throw new IllegalArgumentException("constant vector has wrong length");
+                throw MathRuntimeException.createIllegalArgumentException(
+                        "vector length mismatch: got {0} but expected {1}",
+                        new Object[] { b.length, m });
             }
 
             final double[] bp = new double[m];
@@ -438,7 +441,9 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 
             final int m = realEigenvalues.length;
             if (b.getDimension() != m) {
-                throw new IllegalArgumentException("constant vector has wrong length");
+                throw MathRuntimeException.createIllegalArgumentException(
+                        "vector length mismatch: got {0} but expected {1}",
+                        new Object[] { b.getDimension(), m });
             }
 
             final double[] bp = new double[m];
@@ -472,7 +477,12 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 
             final int m = realEigenvalues.length;
             if (b.getRowDimension() != m) {
-                throw new IllegalArgumentException("Incorrect row dimension");
+                throw MathRuntimeException.createIllegalArgumentException(
+                        "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                        new Object[] {
+                                b.getRowDimension(), b.getColumnDimension(),
+                                m, "n"
+                        });
             }
 
             final int nColB = b.getColumnDimension();

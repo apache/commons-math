@@ -189,6 +189,16 @@ public class MessagesResources_fr
     { "matrix is singular",
       "matrice singuli\u00e8re" },
 
+    // org.apache.commons.math.linear.CholeskyDecompositionImpl
+    // org.apache.commons.math.linear.EigenDecompositionImpl
+    // org.apache.commons.math.linear.LUDecompositionImpl
+    // org.apache.commons.math.linear.QRDecompositionImpl
+    // org.apache.commons.math.linear.SingularValueDecompositionImpl
+    { "vector length mismatch: got {0} but expected {1}",
+      "dimension de vecteur erronn\u00e9e : {0} \u00e0 la place de {1}" },
+    { "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+      "dimensions erronn\u00e9es : {0}x{1} \u00e0 la place de {2}x{3}" },
+      
     // org.apache.commons.math.linear.RealVectorImpl
     { "index {0} out of allowed range [{1}, {2}]",
       "index {0} hors de la plage autoris\u00e9e [{1}, {2}]" },

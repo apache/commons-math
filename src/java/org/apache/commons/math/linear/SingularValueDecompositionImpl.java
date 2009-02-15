@@ -18,6 +18,7 @@
 package org.apache.commons.math.linear;
 
 import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -336,7 +337,9 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
             throws IllegalArgumentException, InvalidMatrixException {
 
             if (b.length != singularValues.length) {
-                throw new IllegalArgumentException("constant vector has wrong length");
+                throw MathRuntimeException.createIllegalArgumentException(
+                        "vector length mismatch: got {0} but expected {1}",
+                        new Object[] { b.length, singularValues.length });
             }
 
             final double[] w = uT.operate(b);
@@ -363,7 +366,9 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
             throws IllegalArgumentException, InvalidMatrixException {
 
             if (b.getDimension() != singularValues.length) {
-                throw new IllegalArgumentException("constant vector has wrong length");
+                throw MathRuntimeException.createIllegalArgumentException(
+                        "vector length mismatch: got {0} but expected {1}",
+                        new Object[] { b.getDimension(), singularValues.length });
             }
 
             final RealVector w = uT.operate(b);
@@ -390,7 +395,12 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
             throws IllegalArgumentException, InvalidMatrixException {
 
             if (b.getRowDimension() != singularValues.length) {
-                throw new IllegalArgumentException("Incorrect row dimension");
+                throw MathRuntimeException.createIllegalArgumentException(
+                        "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                        new Object[] {
+                                b.getRowDimension(), b.getColumnDimension(),
+                                singularValues.length, "n"
+                        });
             }
 
             final RealMatrix w = uT.multiply(b);
