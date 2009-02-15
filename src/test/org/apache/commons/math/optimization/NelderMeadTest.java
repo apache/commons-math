@@ -17,6 +17,7 @@
 
 package org.apache.commons.math.optimization;
 
+import org.apache.commons.math.linear.NotPositiveDefiniteMatrixException;
 import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.optimization.CostException;
 import org.apache.commons.math.optimization.CostFunction;
@@ -24,7 +25,6 @@ import org.apache.commons.math.optimization.NelderMead;
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.optimization.PointCostPair;
 import org.apache.commons.math.random.JDKRandomGenerator;
-import org.apache.commons.math.random.NotPositiveDefiniteMatrixException;
 import org.apache.commons.math.random.RandomGenerator;
 import org.apache.commons.math.random.RandomVectorGenerator;
 import org.apache.commons.math.random.UncorrelatedRandomVectorGenerator;
