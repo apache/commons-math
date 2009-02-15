@@ -775,7 +775,10 @@ public class FastFourierTransformer implements Serializable {
     /** Computes the n<sup>th</sup> roots of unity. 
      * A cache of already computed values is maintained.
      */
-    private static class RootsOfUnity {
+    private static class RootsOfUnity implements Serializable {
+
+      /** Serializable version id. */
+      private static final long serialVersionUID = 6404784357747329667L;
 
       /** Number of roots of unity. */
       private int      omegaCount;
