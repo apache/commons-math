@@ -21,7 +21,7 @@ import org.apache.commons.math.util.OpenIntToDoubleHashMap;
 import org.apache.commons.math.util.OpenIntToDoubleHashMap.Iterator;
 
 /**
- * This class implements the {@link RealVector} interface with a {@link OpenIntToDoubleHashMap}.
+ * This class implements the {@link RealVector} interface with a {@link OpenIntToDoubleHashMap} backing store.
  * @version $Revision: 728186 $ $Date$
  * @since 2.0
 */
@@ -230,23 +230,18 @@ public class SparseRealVector implements RealVector {
      * Optimized method to add two SparseRealVectors
      * @param v Vector to add with
      * @return The sum of <code>this</code> with <code>v</code>
+     * @throws IllegalArgumentException If the dimensions don't match
      */
-    public SparseRealVector add(SparseRealVector v) {
+    public SparseRealVector add(SparseRealVector v) throws IllegalArgumentException{
         checkVectorDimensions(v.getDimension());
-        SparseRealVector res = (SparseRealVector) copy();
-        Iterator iter = res.getEntries().iterator();
+        SparseRealVector res = (SparseRealVector)copy();
+        Iterator iter = v.getEntries().iterator();
         while (iter.hasNext()) {
             iter.advance();
             int key = iter.key();
-            if (v.getEntries().containsKey(key)) {
-                res.setEntry(key, iter.value() + v.getEntry(key));
-            }
-        }
-        iter = v.getEntries().iterator();
-        while (iter.hasNext()) {
-            iter.advance();
-            int key = iter.key();
-            if (!entries.containsKey(key)) {
+            if (entries.containsKey(key)) {
+                res.setEntry(key, entries.get(key) + iter.value());
+            } else {
                 res.setEntry(key, iter.value());
             }
         }
@@ -419,8 +414,9 @@ public class SparseRealVector implements RealVector {
      * Optimized method to compute distance
      * @param v The vector to compute distance to
      * @return The distance from <code>this</code> and <code>v</code>
+     * @throws IllegalArgumentException If the dimensions don't match
      */
-    public double getDistance(SparseRealVector v) {
+    public double getDistance(SparseRealVector v) throws IllegalArgumentException {
         Iterator iter = entries.iterator();
         double res = 0;
         while (iter.hasNext()) {
@@ -1013,8 +1009,9 @@ public class SparseRealVector implements RealVector {
      * Optimized method to compute the outer product
      * @param v The vector to comput the outer product on
      * @return The outer product of <code>this</code> and <code>v</code>
+     * @throws IllegalArgumentException If the dimensions don't match
      */
-    public SparseRealMatrix outerproduct(SparseRealVector v){
+    public SparseRealMatrix outerproduct(SparseRealVector v) throws IllegalArgumentException{
         checkVectorDimensions(v.getDimension());
         SparseRealMatrix res = new SparseRealMatrix(virtualSize, virtualSize);
         Iterator iter = entries.iterator();
@@ -1109,19 +1106,23 @@ public class SparseRealVector implements RealVector {
         }
     }
 
-    /** {@inheritDoc} */
-    public SparseRealVector subtract(SparseRealVector v) {
+    /**
+     * Optimized method to subtract SparseRealVectors
+     * @param v The vector to subtract from <code>this</code>
+     * @return The difference of <code>this</code> and <code>v</code>
+     * @throws IllegalArgumentException If the dimensions don't match
+     */
+    public SparseRealVector subtract(SparseRealVector v) throws IllegalArgumentException{
         checkVectorDimensions(v.getDimension());
-        SparseRealVector res = new SparseRealVector(this);
+        SparseRealVector res = (SparseRealVector)copy();
         Iterator iter = v.getEntries().iterator();
-        OpenIntToDoubleHashMap values = res.getEntries();
         while (iter.hasNext()) {
             iter.advance();
             int key = iter.key();
             if (entries.containsKey(key)) {
-                values.put(key, entries.get(key) - iter.value());
+                res.setEntry(key, entries.get(key) - iter.value());
             } else {
-                values.put(key, -iter.value());
+                res.setEntry(key, -iter.value());
             }
         }
         return res;
@@ -1208,6 +1209,54 @@ public class SparseRealVector implements RealVector {
     /** {@inheritDoc} */
     public double[] toArray() {
         return getData();
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        long temp;
+        temp = Double.doubleToLongBits(epsilon);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + virtualSize;
+        return result;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof SparseRealVector))
+            return false;
+        SparseRealVector other = (SparseRealVector) obj;
+        if (virtualSize != other.virtualSize)
+            return false;
+        if (Double.doubleToLongBits(epsilon) != Double
+                .doubleToLongBits(other.epsilon))
+            return false;
+        Iterator iter = entries.iterator();
+        while(iter.hasNext()){
+            iter.advance();
+            double test = iter.value() - other.getEntry(iter.key());
+            if(Math.abs(test) > epsilon)
+                return false;
+        }
+        iter = other.getEntries().iterator();
+        while(iter.hasNext()){
+            iter.advance();
+            double test = iter.value() - getEntry(iter.key());
+            if(!isZero(test))
+                return false;
+        }
+        return true;
     }
 
 }

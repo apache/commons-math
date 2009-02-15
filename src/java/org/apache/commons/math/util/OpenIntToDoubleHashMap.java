@@ -20,7 +20,6 @@ package org.apache.commons.math.util;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.NoSuchElementException;
 
@@ -476,6 +475,7 @@ public class OpenIntToDoubleHashMap implements Serializable {
         return h ^ (h >>> 7) ^ (h >>> 4);
     }
 
+    
     /** Iterator class for the map. */
     public class Iterator {
 
@@ -595,5 +595,5 @@ public class OpenIntToDoubleHashMap implements Serializable {
         count = 0;
     }
 
-    
+            
 }
