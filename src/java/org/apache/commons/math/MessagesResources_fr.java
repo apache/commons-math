@@ -68,9 +68,13 @@ public class MessagesResources_fr
     { "dimension mismatch {0} != {1}",
       "dimensions incompatibles {0} != {1}" },
 
-    // org.apache.commons.math.random.NotPositiveDefiniteMatrixException
+    // org.apache.commons.math.linear.NotPositiveDefiniteMatrixException
     { "not positive definite matrix",
       "matrice non d\u00e9finie positive" },
+
+    // org.apache.commons.math.linear.NotSymmetricMatrixException
+    { "not symmetric matrix",
+      "matrice non symm\u00e9trique" },
 
     // org.apache.commons.math.fraction.FractionConversionException
     { "Unable to convert {0} to fraction after {1} iterations",

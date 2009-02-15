@@ -170,7 +170,8 @@ The <action> type attribute can be add,update,fix,remove.
         decompose a matrix as a product of several other matrices with predefined
         properties and shapes depending on the algorithm. These algorithms allow to
         solve the equation A * X = B, either for an exact linear solution
-        (LU-decomposition) or an exact or least-squares solution (QR-decomposition).
+        (LU-decomposition, Cholesky decomposition) or an exact or least-squares
+        solution (QR-decomposition).
       </action>
       <action dev="luc" type="add" issue="MATH-219" due-to="Andrew Berry">
         Added removeData methods for the SimpleRegression class. This allows

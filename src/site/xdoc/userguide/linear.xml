@@ -132,7 +132,8 @@ RealVector solution = solver.solve(constants);
           for X is such that the residual AX-B has minimal norm. If an exact solution
           exist (i.e. if for some X the residual AX-B is exactly 0), then this exact
           solution is also the solution in least square sense. Some solvers like
-          the one obtained from <code>LUDecomposition</code> can only find the solution
+          the one obtained from <code>LUDecomposition</code> or
+          <code>CholeskyDecomposition</code>code> can only find the solution
           for square matrices and when the solution is an exact linear solution. Other
           solvers like the one obtained from <code>QRDecomposition</code>
           are more versatile and can also find solutions with non-square matrix A or when
