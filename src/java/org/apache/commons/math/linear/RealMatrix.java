@@ -19,6 +19,10 @@ package org.apache.commons.math.linear;
 
 import java.io.Serializable;
 
+import org.apache.commons.math.linear.decomposition.DecompositionSolver;
+import org.apache.commons.math.linear.decomposition.LUDecomposition;
+import org.apache.commons.math.linear.decomposition.NonSquareMatrixException;
+
 /**
  * Interface defining a real-valued matrix with basic algebraic operations.
  * <p>

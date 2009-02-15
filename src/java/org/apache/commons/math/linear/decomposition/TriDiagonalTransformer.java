@@ -15,10 +15,14 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.linear;
+package org.apache.commons.math.linear.decomposition;
 
 import java.io.Serializable;
 import java.util.Arrays;
+
+import org.apache.commons.math.linear.InvalidMatrixException;
+import org.apache.commons.math.linear.MatrixUtils;
+import org.apache.commons.math.linear.RealMatrix;
 
 /**
  * Class transforming a symmetrical matrix to tridiagonal shape.

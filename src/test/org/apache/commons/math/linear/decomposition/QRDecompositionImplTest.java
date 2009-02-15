@@ -15,9 +15,18 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.linear;
+package org.apache.commons.math.linear.decomposition;
 
 import java.util.Random;
+
+import org.apache.commons.math.linear.DefaultRealMatrixChangingVisitor;
+import org.apache.commons.math.linear.DefaultRealMatrixPreservingVisitor;
+import org.apache.commons.math.linear.DenseRealMatrix;
+import org.apache.commons.math.linear.MatrixUtils;
+import org.apache.commons.math.linear.MatrixVisitorException;
+import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.linear.decomposition.QRDecomposition;
+import org.apache.commons.math.linear.decomposition.QRDecompositionImpl;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

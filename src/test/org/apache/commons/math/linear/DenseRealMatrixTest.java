@@ -19,6 +19,9 @@ package org.apache.commons.math.linear;
 import java.util.Arrays;
 import java.util.Random;
 
+import org.apache.commons.math.linear.decomposition.LUDecompositionImpl;
+import org.apache.commons.math.linear.decomposition.NonSquareMatrixException;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;

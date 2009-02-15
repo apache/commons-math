@@ -15,9 +15,12 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.linear;
+package org.apache.commons.math.linear.decomposition;
 
 import java.io.Serializable;
+
+import org.apache.commons.math.linear.MatrixUtils;
+import org.apache.commons.math.linear.RealMatrix;
 
 /**
  * Class transforming any matrix to bi-diagonal shape.

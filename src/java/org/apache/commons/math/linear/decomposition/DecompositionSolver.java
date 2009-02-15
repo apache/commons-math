@@ -15,9 +15,13 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.linear;
+package org.apache.commons.math.linear.decomposition;
 
 import java.io.Serializable;
+
+import org.apache.commons.math.linear.InvalidMatrixException;
+import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.linear.RealVector;
 
 
 /**

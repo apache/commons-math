@@ -15,7 +15,9 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.linear;
+package org.apache.commons.math.linear.decomposition;
+
+import org.apache.commons.math.linear.InvalidMatrixException;
 
 /**
  * Thrown when an operation defined only for square matrices is applied to non-square ones.

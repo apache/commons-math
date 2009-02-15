@@ -15,9 +15,16 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.linear;
+package org.apache.commons.math.linear.decomposition;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.linear.MatrixUtils;
+import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.linear.decomposition.CholeskyDecomposition;
+import org.apache.commons.math.linear.decomposition.CholeskyDecompositionImpl;
+import org.apache.commons.math.linear.decomposition.NonSquareMatrixException;
+import org.apache.commons.math.linear.decomposition.NotPositiveDefiniteMatrixException;
+import org.apache.commons.math.linear.decomposition.NotSymmetricMatrixException;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.optimization;
 
-import org.apache.commons.math.linear.NotPositiveDefiniteMatrixException;
+import org.apache.commons.math.linear.decomposition.NotPositiveDefiniteMatrixException;
 import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.optimization.CostException;
 import org.apache.commons.math.optimization.CostFunction;

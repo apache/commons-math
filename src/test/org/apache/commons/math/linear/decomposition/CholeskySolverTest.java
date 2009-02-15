@@ -15,75 +15,50 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.linear;
+package org.apache.commons.math.linear.decomposition;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-public class SingularValueSolverTest extends TestCase {
+import org.apache.commons.math.MathException;
+import org.apache.commons.math.linear.MatrixUtils;
+import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.linear.RealVectorImpl;
+import org.apache.commons.math.linear.RealVectorImplTest;
+import org.apache.commons.math.linear.RealVectorImplTest.RealVectorTestImpl;
+import org.apache.commons.math.linear.decomposition.CholeskyDecompositionImpl;
+import org.apache.commons.math.linear.decomposition.DecompositionSolver;
 
-    private double[][] testSquare = {
-            { 24.0 / 25.0, 43.0 / 25.0 },
-            { 57.0 / 25.0, 24.0 / 25.0 }
+public class CholeskySolverTest extends TestCase {
+
+    private double[][] testData = new double[][] {
+            {  1,  2,   4,   7,  11 },
+            {  2, 13,  23,  38,  58 },
+            {  4, 23,  77, 122, 182 },
+            {  7, 38, 122, 294, 430 },
+            { 11, 58, 182, 430, 855 }
     };
 
-    private static final double normTolerance = 10e-14;
-
-    public SingularValueSolverTest(String name) {
+    public CholeskySolverTest(String name) {
         super(name);
     }
 
     public static Test suite() {
-        TestSuite suite = new TestSuite(SingularValueSolverTest.class);
-        suite.setName("SingularValueSolver Tests");
+        TestSuite suite = new TestSuite(CholeskySolverTest.class);
+        suite.setName("LUSolver Tests");
         return suite;
     }
 
     /** test solve dimension errors */
-    public void testSolveDimensionErrors() {
+    public void testSolveDimensionErrors() throws MathException {
         DecompositionSolver solver =
-            new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testSquare)).getSolver();
-        RealMatrix b = MatrixUtils.createRealMatrix(new double[3][2]);
-        try {
-            solver.solve(b);
-            fail("an exception should have been thrown");
-        } catch (IllegalArgumentException iae) {
-            // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
-        }
-        try {
-            solver.solve(b.getColumn(0));
-            fail("an exception should have been thrown");
-        } catch (IllegalArgumentException iae) {
-            // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
-        }
-        try {
-            solver.solve(new RealVectorImplTest.RealVectorTestImpl(b.getColumn(0)));
-            fail("an exception should have been thrown");
-        } catch (IllegalArgumentException iae) {
-            // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
-        }
-    }
-
-    /** test solve singularity errors */
-    public void testSolveSingularityErrors() {
-        RealMatrix m =
-            MatrixUtils.createRealMatrix(new double[][] {
-                                   { 1.0, 0.0 },
-                                   { 0.0, 0.0 }
-                               });
-        DecompositionSolver solver = new SingularValueDecompositionImpl(m).getSolver();
+            new CholeskyDecompositionImpl(MatrixUtils.createRealMatrix(testData)).getSolver();
         RealMatrix b = MatrixUtils.createRealMatrix(new double[2][2]);
         try {
             solver.solve(b);
             fail("an exception should have been thrown");
-        } catch (InvalidMatrixException ime) {
+        } catch (IllegalArgumentException iae) {
             // expected behavior
         } catch (Exception e) {
             fail("wrong exception caught");
@@ -91,15 +66,7 @@ public class SingularValueSolverTest extends TestCase {
         try {
             solver.solve(b.getColumn(0));
             fail("an exception should have been thrown");
-        } catch (InvalidMatrixException ime) {
-            // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
-        }
-        try {
-            solver.solve(b.getColumnVector(0));
-            fail("an exception should have been thrown");
-        } catch (InvalidMatrixException ime) {
+        } catch (IllegalArgumentException iae) {
             // expected behavior
         } catch (Exception e) {
             fail("wrong exception caught");
@@ -107,7 +74,7 @@ public class SingularValueSolverTest extends TestCase {
         try {
             solver.solve(new RealVectorImplTest.RealVectorTestImpl(b.getColumn(0)));
             fail("an exception should have been thrown");
-        } catch (InvalidMatrixException ime) {
+        } catch (IllegalArgumentException iae) {
             // expected behavior
         } catch (Exception e) {
             fail("wrong exception caught");
@@ -115,19 +82,26 @@ public class SingularValueSolverTest extends TestCase {
     }
 
     /** test solve */
-    public void testSolve() {
+    public void testSolve() throws MathException {
         DecompositionSolver solver =
-            new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testSquare)).getSolver();
+            new CholeskyDecompositionImpl(MatrixUtils.createRealMatrix(testData)).getSolver();
         RealMatrix b = MatrixUtils.createRealMatrix(new double[][] {
-                { 1, 2, 3 }, { 0, -5, 1 }
+                {   78,  -13,    1 },
+                {  414,  -62,   -1 },
+                { 1312, -202,  -37 },
+                { 2989, -542,  145 },
+                { 5510, -1465, 201 }
         });
         RealMatrix xRef = MatrixUtils.createRealMatrix(new double[][] {
-                { -8.0 / 25.0, -263.0 / 75.0, -29.0 / 75.0 },
-                { 19.0 / 25.0,   78.0 / 25.0,  49.0 / 25.0 }
+                { 1,  0,  1 },
+                { 0,  1,  1 },
+                { 2,  1, -4 },
+                { 2,  2,  2 },
+                { 5, -3,  0 }
         });
 
         // using RealMatrix
-        assertEquals(0, solver.solve(b).subtract(xRef).getNorm(), normTolerance);
+        assertEquals(0, solver.solve(b).subtract(xRef).getNorm(), 1.0e-13);
 
         // using double[]
         for (int i = 0; i < b.getColumnDimension(); ++i) {
@@ -136,14 +110,14 @@ public class SingularValueSolverTest extends TestCase {
                          1.0e-13);
         }
 
-        // using RealMatrixImpl
+        // using RealVectorImpl
         for (int i = 0; i < b.getColumnDimension(); ++i) {
             assertEquals(0,
                          solver.solve(b.getColumnVector(i)).subtract(xRef.getColumnVector(i)).getNorm(),
                          1.0e-13);
         }
 
-        // using RealMatrix with an alternate implementation
+        // using RealVector with an alternate implementation
         for (int i = 0; i < b.getColumnDimension(); ++i) {
             RealVectorImplTest.RealVectorTestImpl v =
                 new RealVectorImplTest.RealVectorTestImpl(b.getColumn(i));
@@ -154,11 +128,13 @@ public class SingularValueSolverTest extends TestCase {
 
     }
 
-    /** test condition number */
-    public void testConditionNumber() {
-        SingularValueDecompositionImpl svd =
-            new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testSquare));
-        assertEquals(3.0, svd.getConditionNumber(), 1.0e-15);
+    /** test determinant */
+    public void testDeterminant() throws MathException {
+        assertEquals(7290000.0, getDeterminant(MatrixUtils.createRealMatrix(testData)), 1.0e-15);
+    }
+
+    private double getDeterminant(RealMatrix m) throws MathException {
+        return new CholeskyDecompositionImpl(m).getDeterminant();
     }
 
 }

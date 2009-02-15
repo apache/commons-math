@@ -100,17 +100,25 @@ RealMatrix pInverse = new LUDecompositionImpl(p).getSolver().getInverse();
       </subsection>
       <subsection name="3.4 Solving linear systems" href="solve">
         <p>
-          The <code>solve()</code> methods of the <code>DecompositionSolver</code> interface
-          support solving linear systems of equations of the form AX=B, either in linear sense
-          or in least square sense. In each case, the <code>RealMatrix</code> represents the
-          coefficient matrix of the system. For example, to solve the linear system
+          The <code>solve()</code> methods of the <a
+          href="../apidocs/org/apache/commons/math/linear/decomposition/DecompositionSolver.html">DecompositionSolver</a>
+          interface support solving linear systems of equations of the form AX=B, either
+          in linear sense or in least square sense. A <code>RealMatrix</code> instance is
+          used to represent the coefficient matrix of the system. Solving the system is a
+          two phases process: first the coefficient matrix is decomposed in some way and
+          then a solver built from the decomposition solves the system. This allows to
+          compute the decomposition and build the solver only once if several systems have
+          to be solved with the same coefficient matrix.
+        </p>
+        <p>
+          For example, to solve the linear system
           <pre>
            2x + 3y - 2z = 1
            -x + 7y + 6x = -2
            4x - 3y - 5z = 1
           </pre>
-          Start by creating a RealMatrix to store the coefficients matrix A and provide it
-          to a solver
+          Start by decomposing the coefficient matrix A (in this case using LU decomposition)
+          and build a solver
           <source>
 RealMatrix coefficients =
     new RealMatrixImpl(new double[][] { { 2, 3, -2 }, { -1, 7, 6 }, { 4, -3, -5 } },
@@ -128,22 +136,24 @@ RealVector solution = solver.solve(constants);
           and z (<code>solution.getEntry(2)</code>) that solve the system.
         </p>
         <p>
-          The linear system AX=B is solved in least squares sense: the value returned
-          for X is such that the residual AX-B has minimal norm. If an exact solution
-          exist (i.e. if for some X the residual AX-B is exactly 0), then this exact
-          solution is also the solution in least square sense. Some solvers like
-          the one obtained from <code>LUDecomposition</code> or
-          <code>CholeskyDecomposition</code>code> can only find the solution
-          for square matrices and when the solution is an exact linear solution. Other
-          solvers like the one obtained from <code>QRDecomposition</code>
-          are more versatile and can also find solutions with non-square matrix A or when
-          no exact solution exist (i.e. when the minimal value for AX-B norm is non-null).
+          Each type of decomposition has its specific semantics and constraints on
+          the coefficient matrix as shown in the following table. For algorithms that
+          solve AX=B in least squares sense the value returned for X is such that the
+          residual AX-B has minimal norm. If an exact solution exist (i.e. if for some
+          X the residual AX-B is exactly 0), then this exact solution is also the solution
+          in least square sense. This implies that algorithms suited for least squares
+          problems can also be used to solve exact problems, but the reverse is not true. 
         </p>
         <p>
-          If the coefficient matrix is singular or doesn't fulfill the requirements of
-          the solver, an 
-          <a href="../apidocs/org/apache/commons/math/linear/InvalidMatrixException.html">
-          InvalidMatrixException</a> or an <code>IllegalArgumentException</code> is thrown.
+          <table border="1" align="center">
+          <tr BGCOLOR="#CCCCFF"><td colspan="2"><font size="+2">Decomposition algorithms</font></td></tr>
+          <tr BGCOLOR="#EEEEFF"><font size="+1"><td>Name</td><td>coefficients matrix</td><td>problem type</td></font></tr>
+          <tr><td><a href="../apidocs/org/apache/commons/math/linear/decomposition/LUDecomposition.html">LU</a></td><td>square</td><td>exact solution only</td></tr>
+          <tr><td><a href="../apidocs/org/apache/commons/math/linear/decomposition/CholeskyDecomposition.html">Cholesky</a></td><td>symmetric positive definite</td><td>exact solution only</td></tr>
+          <tr><td><a href="../apidocs/org/apache/commons/math/linear/decomposition/QRDecomposition.html">QR</a></td><td>any</td><td>least squares solution</td></tr>
+          <tr><td><a href="../apidocs/org/apache/commons/math/linear/decomposition/EigenDecomposition.html">eigen decomposition</a></td><td>square</td><td>exact solution only</td></tr>
+          <tr><td><a href="../apidocs/org/apache/commons/math/linear/decomposition/SingularValueDecomposition.html">SVD</a></td><td>any</td><td>least squares solution</td></tr>
+          </table>
         </p>
         <p>
           It is possible to use a simple array of double instead of a <code>RealVector</code>.

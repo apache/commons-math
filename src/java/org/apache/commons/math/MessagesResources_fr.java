@@ -68,11 +68,11 @@ public class MessagesResources_fr
     { "dimension mismatch {0} != {1}",
       "dimensions incompatibles {0} != {1}" },
 
-    // org.apache.commons.math.linear.NotPositiveDefiniteMatrixException
+    // org.apache.commons.math.linear.decomposition.NotPositiveDefiniteMatrixException
     { "not positive definite matrix",
       "matrice non d\u00e9finie positive" },
 
-    // org.apache.commons.math.linear.NotSymmetricMatrixException
+    // org.apache.commons.math.linear.decomposition.NotSymmetricMatrixException
     { "not symmetric matrix",
       "matrice non symm\u00e9trique" },
 
@@ -175,25 +175,25 @@ public class MessagesResources_fr
     { "no bin selected",
       "aucun compartiment s\u00e9lectionn\u00e9" },
 
-    // org.apache.commons.math.linear.EigenDecompositionImpl
+    // org.apache.commons.math.linear.decomposition.EigenDecompositionImpl
     { "cannot solve degree {0} equation",
       "impossible de r\u00e9soudre une \u00e9quation de degr\u00e9 {0}" },
     { "eigen decomposition of assymetric matrices not supported yet",
       "la d\u00e9composition en valeurs/vecteurs propres de matrices non sym\u00e9triques n''est pas encore disponible" },
 
-    // org.apache.commons.math.linear.NonSquareMatrixException
+    // org.apache.commons.math.linear.decomposition.NonSquareMatrixException
     { "a {0}x{1} matrix was provided instead of a square matrix",
       "une matrice {0}x{1} a \u00e9t\u00e9 fournie \u00e0 la place d''une matrice carr\u00e9e" },
 
-    // org.apache.commons.math.linear.SingularMatrixException
+    // org.apache.commons.math.linear.decomposition.SingularMatrixException
     { "matrix is singular",
       "matrice singuli\u00e8re" },
 
-    // org.apache.commons.math.linear.CholeskyDecompositionImpl
-    // org.apache.commons.math.linear.EigenDecompositionImpl
-    // org.apache.commons.math.linear.LUDecompositionImpl
-    // org.apache.commons.math.linear.QRDecompositionImpl
-    // org.apache.commons.math.linear.SingularValueDecompositionImpl
+    // org.apache.commons.math.linear.decomposition.CholeskyDecompositionImpl
+    // org.apache.commons.math.linear.decomposition.EigenDecompositionImpl
+    // org.apache.commons.math.linear.decomposition.LUDecompositionImpl
+    // org.apache.commons.math.linear.decomposition.QRDecompositionImpl
+    // org.apache.commons.math.linear.decomposition.SingularValueDecompositionImpl
     { "vector length mismatch: got {0} but expected {1}",
       "dimension de vecteur erronn\u00e9e : {0} \u00e0 la place de {1}" },
     { "dimensions mismatch: got {0}x{1} but expected {2}x{3}",

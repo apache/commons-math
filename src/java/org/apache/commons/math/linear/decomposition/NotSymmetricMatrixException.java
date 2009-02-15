@@ -15,28 +15,28 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.linear;
+package org.apache.commons.math.linear.decomposition;
 
 import org.apache.commons.math.MathException;
 
 /** 
  * This class represents exceptions thrown when a matrix expected to
- * be positive definite is not.
+ * be symmetric is not
  * 
- * @since 1.2
+ * @since 2.0
  * @version $Revision$ $Date$
  */
 
-public class NotPositiveDefiniteMatrixException extends MathException {
+public class NotSymmetricMatrixException extends MathException {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = 4122929125438624648L;
+    private static final long serialVersionUID = -7012803946709786097L;
 
     /** Simple constructor.
      * build an exception with a default message.
      */
-    public NotPositiveDefiniteMatrixException() {
-        super("not positive definite matrix", null);
+    public NotSymmetricMatrixException() {
+        super("not symmetric matrix", null);
     }
 
 }

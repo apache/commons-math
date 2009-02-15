@@ -15,9 +15,11 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.linear;
+package org.apache.commons.math.linear.decomposition;
 
 import java.io.Serializable;
+
+import org.apache.commons.math.linear.RealMatrix;
 
 /**
  * An interface to classes that implement an algorithm to calculate the 

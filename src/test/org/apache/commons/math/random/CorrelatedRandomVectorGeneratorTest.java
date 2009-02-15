@@ -23,8 +23,8 @@ import junit.framework.TestSuite;
 
 import org.apache.commons.math.DimensionMismatchException;
 import org.apache.commons.math.linear.MatrixUtils;
-import org.apache.commons.math.linear.NotPositiveDefiniteMatrixException;
 import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.linear.decomposition.NotPositiveDefiniteMatrixException;
 import org.apache.commons.math.stat.descriptive.moment.VectorialCovariance;
 import org.apache.commons.math.stat.descriptive.moment.VectorialMean;
 

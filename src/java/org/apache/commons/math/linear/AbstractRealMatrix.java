@@ -20,6 +20,10 @@ package org.apache.commons.math.linear;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.linear.decomposition.DecompositionSolver;
+import org.apache.commons.math.linear.decomposition.LUDecomposition;
+import org.apache.commons.math.linear.decomposition.LUDecompositionImpl;
+import org.apache.commons.math.linear.decomposition.NonSquareMatrixException;
 import org.apache.commons.math.util.MathUtils;
 
 /**

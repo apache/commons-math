@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.linear;
+package org.apache.commons.math.linear.decomposition;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +24,11 @@ import java.util.List;
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
+import org.apache.commons.math.linear.InvalidMatrixException;
+import org.apache.commons.math.linear.MatrixUtils;
+import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.linear.RealVector;
+import org.apache.commons.math.linear.RealVectorImpl;
 import org.apache.commons.math.util.MathUtils;
 
 /**

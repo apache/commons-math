@@ -15,11 +15,17 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.linear;
+package org.apache.commons.math.linear.decomposition;
 
 import java.util.Arrays;
 import java.util.Random;
 
+import org.apache.commons.math.linear.MatrixUtils;
+import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.linear.RealVector;
+import org.apache.commons.math.linear.decomposition.EigenDecomposition;
+import org.apache.commons.math.linear.decomposition.EigenDecompositionImpl;
+import org.apache.commons.math.linear.decomposition.TriDiagonalTransformer;
 import org.apache.commons.math.util.MathUtils;
 
 import junit.framework.Test;

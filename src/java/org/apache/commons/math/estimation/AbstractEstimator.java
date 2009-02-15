@@ -20,9 +20,9 @@ package org.apache.commons.math.estimation;
 import java.util.Arrays;
 
 import org.apache.commons.math.linear.InvalidMatrixException;
-import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.linear.decomposition.LUDecompositionImpl;
 
 /**
  * Base class for implementing estimators.

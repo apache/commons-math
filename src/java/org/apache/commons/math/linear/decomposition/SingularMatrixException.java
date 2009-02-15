@@ -15,7 +15,9 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.linear;
+package org.apache.commons.math.linear.decomposition;
+
+import org.apache.commons.math.linear.InvalidMatrixException;
 
 /**
  * Thrown when a matrix is singular.

@@ -15,10 +15,14 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.linear;
+package org.apache.commons.math.linear.decomposition;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.linear.InvalidMatrixException;
+import org.apache.commons.math.linear.MatrixUtils;
+import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.util.MathUtils;
 
 /**
