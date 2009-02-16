@@ -26,7 +26,7 @@ import org.apache.commons.math.stat.descriptive.moment.Variance;
  * Computes covariances for pairs of arrays or columns of a matrix.
  * 
  * <p>The constructors that take <code>RealMatrix</code> or 
- * <code>double[][]</code> arguments generate correlation matrices.  The
+ * <code>double[][]</code> arguments generate covariance matrices.  The
  * columns of the input matrices are assumed to represent variable values.</p>
  * 
  * <p>The constructor argument <code>biasCorrected</code> determines whether or
@@ -34,7 +34,7 @@ import org.apache.commons.math.stat.descriptive.moment.Variance;
  * 
  * <p>Unbiased covariances are given by the formula</p>
  * <code>cov(X, Y) = &Sigma;[(x<sub>i</sub> - E(X))(y<sub>i</sub> - E(Y))] / (n - 1)</code>
- * where <code>E(x)</code> is the mean of <code>X</code> and <code>E(Y)</code>
+ * where <code>E(X)</code> is the mean of <code>X</code> and <code>E(Y)</code>
  * is the mean of the <code>Y</code> values.
  * 
  * <p>Non-bias-corrected estimates use <code>n</code> in place of <code>n - 1</code>
@@ -50,9 +50,16 @@ public class Covariance {
     /**
      * Create an empty covariance matrix.
      */
+    /** Number of observations (length of covariate vectors) */
+    private final int n;
+    
+    /** 
+     * Create a Covariance with no data
+     */
     public Covariance() {
         super();
         covarianceMatrix = null;
+        n = 0;
     }
     
     /**
@@ -105,6 +112,7 @@ public class Covariance {
      */
     public Covariance(RealMatrix matrix, boolean biasCorrected) {
        checkSufficientData(matrix);
+       n = matrix.getRowDimension();
        covarianceMatrix = computeCovariance(matrix, biasCorrected);
     }
     
@@ -129,6 +137,16 @@ public class Covariance {
      */
     public RealMatrix getCovarianceMatrix() {
         return covarianceMatrix;
+    }
+    
+    /**
+     * Returns the number of observations (length of covariate vectors)
+     * 
+     * @return number of observations
+     */
+    
+    public int getN() {
+        return n;
     }
     
     /**
