@@ -50,6 +50,9 @@ source("multipleOLSRegressionTestCases")
 # covariance
 source("covarianceTestCases")
 
+# correlation
+source("correlationTestCases")
+
 #------------------------------------------------------------------------------
 # if output has been diverted, change it back
 if (sink.number()) {

@@ -39,6 +39,10 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="psteitz" type="add" issue="MATH-114" due-to="John Gant">
+        Added PearsonsCorrelation class to compute correlation matrices, standard
+        errors and p-values for correlation coefficients.
+      </action>
       <action dev="psteitz" type="add" issue="MATH-114">
         Added Covariance class to compute variance-covariance matrices in new
         correlation package.
