@@ -40,6 +40,34 @@ import org.apache.commons.math.linear.decomposition.LUDecompositionImpl;
 
 public class GaussNewtonEstimator extends AbstractEstimator implements Serializable {
 
+    /** Serializable version identifier */
+    private static final long serialVersionUID = 5485001826076289109L;
+
+    /** Default threshold for cost steady state detection. */
+    private static final double DEFAULT_STEADY_STATE_THRESHOLD = 1.0e-6;
+
+    /** Default threshold for cost convergence. */
+    private static final double DEFAULT_CONVERGENCE = 1.0e-6;
+
+    /** Threshold for cost steady state detection. */
+    private double steadyStateThreshold;
+
+    /** Threshold for cost convergence. */
+    private double convergence;
+
+    /** Simple constructor with default settings.
+     * <p>
+     * The estimator is built with default values for all settings.
+     * </p>
+     * @see #DEFAULT_STEADY_STATE_THRESHOLD
+     * @see #DEFAULT_CONVERGENCE
+     * @see AbstractEstimator#DEFAULT_MAX_COST_EVALUATIONS
+     */
+    public GaussNewtonEstimator() {
+        this.steadyStateThreshold = DEFAULT_STEADY_STATE_THRESHOLD;
+        this.convergence          = DEFAULT_CONVERGENCE;        
+    }
+
     /** 
      * Simple constructor.
      *
@@ -66,17 +94,40 @@ public class GaussNewtonEstimator extends AbstractEstimator implements Serializa
      * to improve the criterion anymore
      * @param steadyStateThreshold steady state detection threshold, the
      * problem has converged has reached a steady state if
-     * <code>Math.abs (Jn - Jn-1) < Jn * convergence</code>, where
-     * <code>Jn</code> and <code>Jn-1</code> are the current and
-     * preceding criterion value (square sum of the weighted residuals
-     * of considered measurements).
+     * <code>Math.abs(J<sub>n</sub> - J<sub>n-1</sub>) &lt;
+     * J<sub>n</sub> &times convergence</code>, where <code>J<sub>n</sub></code>
+     * and <code>J<sub>n-1</sub></code> are the current and preceding criterion
+     * values (square sum of the weighted residuals of considered measurements).
      */
-    public GaussNewtonEstimator(int maxCostEval,
-            double convergence,
-            double steadyStateThreshold) {
+    public GaussNewtonEstimator(final int maxCostEval, final double convergence,
+                                final double steadyStateThreshold) {
         setMaxCostEval(maxCostEval);
         this.steadyStateThreshold = steadyStateThreshold;
         this.convergence          = convergence;
+    }
+
+    /**
+     * Set the convergence criterion threshold.
+     * @param convergence criterion threshold below which we do not need
+     * to improve the criterion anymore
+     */
+    public void setConvergence(final double convergence) {
+        this.convergence = convergence;
+    }
+
+    /**
+     * Set the steady state detection threshold.
+     * <p>
+     * The problem has converged has reached a steady state if
+     * <code>Math.abs(J<sub>n</sub> - J<sub>n-1</sub>) &lt;
+     * J<sub>n</sub> &times convergence</code>, where <code>J<sub>n</sub></code>
+     * and <code>J<sub>n-1</sub></code> are the current and preceding criterion
+     * values (square sum of the weighted residuals of considered measurements).
+     * </p>
+     * @param steadyStateThreshold steady state detection threshold
+     */
+    public void setSteadyStateThreshold(final double steadyStateThreshold) {
+        this.steadyStateThreshold = steadyStateThreshold;
     }
 
     /** 
@@ -92,7 +143,7 @@ public class GaussNewtonEstimator extends AbstractEstimator implements Serializa
      * below a physical threshold under which improvement are considered
      * useless or when the algorithm is unable to improve it (even if it
      * is still high). The first condition that is met stops the
-     * iterations. If the convergence it nos reached before the maximum
+     * iterations. If the convergence it not reached before the maximum
      * number of iterations, an {@link EstimationException} is
      * thrown.</p>
      *
@@ -171,14 +222,5 @@ public class GaussNewtonEstimator extends AbstractEstimator implements Serializa
                   (Math.abs(cost) > convergence)));
 
     }
-
-    /** Threshold for cost steady state detection. */
-    private double steadyStateThreshold;
-
-    /** Threshold for cost convergence. */
-    private double convergence;
-
-    /** Serializable version identifier */
-     private static final long serialVersionUID = 5485001826076289109L;
 
 }

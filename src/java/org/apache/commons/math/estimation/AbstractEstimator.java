@@ -34,10 +34,16 @@ import org.apache.commons.math.linear.decomposition.LUDecompositionImpl;
  */
 public abstract class AbstractEstimator implements Estimator {
 
+    /** Default maximal number of cost evaluations allowed. */
+    public static final int DEFAULT_MAX_COST_EVALUATIONS = 100;
+
     /**
      * Build an abstract estimator for least squares problems.
+     * <p>The maximal number of cost evaluations allowed is set
+     * to its default value {@link #DEFAULT_MAX_COST_EVALUATIONS}.</p>
      */
     protected AbstractEstimator() {
+        setMaxCostEval(DEFAULT_MAX_COST_EVALUATIONS);
     }
 
     /**
