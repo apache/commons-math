@@ -20,6 +20,9 @@ package org.apache.commons.math.util;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
+import org.apache.commons.math.MathException;
+import org.apache.commons.math.MathRuntimeException;
+
 /**
  * Some useful additions to the built-in functions in {@link Math}.
  * @version $Revision$ $Date$
@@ -510,14 +513,38 @@ public final class MathUtils {
      * operations. See Knuth 4.5.2 algorithm B. This algorithm is due to Josef
      * Stein (1961).
      * </p>
+     * Special cases:
+     * <ul>
+     * <li>The invocations
+     * <code>gcd(Integer.MIN_VALUE, Integer.MIN_VALUE)</code>,
+     * <code>gcd(Integer.MIN_VALUE, 0)</code> and
+     * <code>gcd(0, Integer.MIN_VALUE)</code> throw an
+     * <code>ArithmeticException</code>, because the result would be 2^31, which
+     * is too large for an int value.</li>
+     * <li>The result of <code>gcd(x, x)</code>, <code>gcd(0, x)</code> and
+     * <code>gcd(x, 0)</code> is the absolute value of <code>x</code>, except
+     * for the special cases above.
+     * <li>The invocation <code>gcd(0, 0)</code> is the only one which returns
+     * <code>0</code>.</li>
+     * </ul>
      * 
-     * @param u a non-zero number
-     * @param v a non-zero number
-     * @return the greatest common divisor, never zero
+     * @param u any number
+     * @param v any number
+     * @return the greatest common divisor, never negative
+     * @throws ArithmeticException
+     *             if the result cannot be represented as a nonnegative int
+     *             value
      * @since 1.1
      */
-    public static int gcd(int u, int v) {
+    public static int gcd(final int p, final int q) {
+        int u = p;
+        int v = q;
         if ((u == 0) || (v == 0)) {
+            if ((u == Integer.MIN_VALUE) || (v == Integer.MIN_VALUE)) {
+                throw MathRuntimeException.createArithmeticException(
+                        "overflow: gcd({0}, {1}) is 2^31",
+                        new Object[] { p, q });
+            }
             return (Math.abs(u) + Math.abs(v));
         }
         // keep u and v negative, as negative integers range down to
@@ -540,7 +567,9 @@ public final class MathUtils {
             k++; // cast out twos.
         }
         if (k == 31) {
-            throw new ArithmeticException("overflow: gcd is 2^31");
+            throw MathRuntimeException.createArithmeticException(
+                    "overflow: gcd({0}, {1}) is 2^31",
+                    new Object[] { p, q });
         }
         // B2. Initialize: u and v have been divided by 2^k and at least
         // one is odd.
@@ -660,16 +689,37 @@ public final class MathUtils {
     }
 
     /**
-     * Returns the least common multiple between two integer values.
+     * <p>
+     * Returns the least common multiple of the absolute value of two numbers,
+     * using the formula <code>lcm(a,b) = (a / gcd(a,b)) * b</code>.
+     * </p>
+     * Special cases:
+     * <ul>
+     * <li>The invocations <code>lcm(Integer.MIN_VALUE, n)</code> and
+     * <code>lcm(n, Integer.MIN_VALUE)</code>, where <code>abs(n)</code> is a
+     * power of 2, throw an <code>ArithmeticException</code>, because the result
+     * would be 2^31, which is too large for an int value.</li>
+     * <li>The result of <code>lcm(0, x)</code> and <code>lcm(x, 0)</code> is
+     * <code>0</code> for any <code>x</code>.
+     * </ul>
      * 
-     * @param a the first integer value.
-     * @param b the second integer value.
-     * @return the least common multiple between a and b.
-     * @throws ArithmeticException if the lcm is too large to store as an int
+     * @param a any number
+     * @param b any number
+     * @return the least common multiple, never negative
+     * @throws ArithmeticException
+     *             if the result cannot be represented as a nonnegative int
+     *             value
      * @since 1.1
      */
     public static int lcm(int a, int b) {
-        return Math.abs(mulAndCheck(a / gcd(a, b), b));
+        if (a==0 || b==0){
+            return 0;
+        }
+        int lcm = Math.abs(mulAndCheck(a / gcd(a, b), b));
+        if (lcm == Integer.MIN_VALUE){
+            throw new ArithmeticException("overflow: lcm is 2^31");
+        }
+        return lcm;
     }
 
     /** 

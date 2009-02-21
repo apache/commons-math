@@ -44,6 +44,10 @@ public class MessagesResources_fr
   /** Non-translated/translated messages arrays. */
   static final Object[][] contents = {
 
+    // org.apache.commons.math.util.MathUtils
+    { "overflow: gcd({0}, {1}) is 2^31",
+      "d\u00e9passement de capacit\u00e9 : le PGCD de {0} et {1} vaut 2^31" },
+      
     // org.apache.commons.math.FunctionEvaluationException
     { "Evaluation failed for argument = {0}",
       "Erreur d''\u00e9valuation pour l''argument {0}" },

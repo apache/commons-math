@@ -429,12 +429,28 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(3 * (1<<15), MathUtils.gcd(3 * (1<<20), 9 * (1<<15)));
 
         assertEquals(Integer.MAX_VALUE, MathUtils.gcd(Integer.MAX_VALUE, 0));
-        // abs(Integer.MIN_VALUE) == Integer.MIN_VALUE
-        assertEquals(Integer.MIN_VALUE, MathUtils.gcd(Integer.MIN_VALUE, 0));
+        assertEquals(Integer.MAX_VALUE, MathUtils.gcd(-Integer.MAX_VALUE, 0));
+        assertEquals(1<<30, MathUtils.gcd(1<<30, -Integer.MIN_VALUE));
         try {
-            MathUtils.gcd(Integer.MIN_VALUE, Integer.MIN_VALUE);
+            // gcd(Integer.MIN_VALUE, 0) > Integer.MAX_VALUE
+            MathUtils.gcd(Integer.MIN_VALUE, 0);
+            fail("expecting ArithmeticException");
         } catch (ArithmeticException expected) {
-            //
+            // expected
+        }
+        try {
+            // gcd(0, Integer.MIN_VALUE) > Integer.MAX_VALUE
+            MathUtils.gcd(0, Integer.MIN_VALUE);
+            fail("expecting ArithmeticException");
+        } catch (ArithmeticException expected) {
+            // expected
+        }
+        try {
+            // gcd(Integer.MIN_VALUE, Integer.MIN_VALUE) > Integer.MAX_VALUE
+            MathUtils.gcd(Integer.MIN_VALUE, Integer.MIN_VALUE);
+            fail("expecting ArithmeticException");
+        } catch (ArithmeticException expected) {
+            // expected
         }
     }
 
@@ -558,7 +574,31 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(150, MathUtils.lcm(a, b));
         assertEquals(150, MathUtils.lcm(-a, b));
         assertEquals(150, MathUtils.lcm(a, -b));
+        assertEquals(150, MathUtils.lcm(-a, -b));
         assertEquals(2310, MathUtils.lcm(a, c));
+
+        // Assert that no intermediate value overflows:
+        // The naive implementation of lcm(a,b) would be (a*b)/gcd(a,b)
+        assertEquals((1<<20)*15, MathUtils.lcm((1<<20)*3, (1<<20)*5));
+
+        // Special case
+        assertEquals(0, MathUtils.lcm(0, 0));
+
+        try {
+            // lcm == abs(MIN_VALUE) cannot be represented as a nonnegative int
+            MathUtils.lcm(Integer.MIN_VALUE, 1);
+            fail("Expecting ArithmeticException");
+        } catch (ArithmeticException ex) {
+            // expected
+        }
+        
+        try {
+            // lcm == abs(MIN_VALUE) cannot be represented as a nonnegative int
+            MathUtils.lcm(Integer.MIN_VALUE, 1<<20);
+            fail("Expecting ArithmeticException");
+        } catch (ArithmeticException ex) {
+            // expected
+        }
 
         try {
             MathUtils.lcm(Integer.MAX_VALUE, Integer.MAX_VALUE - 1);
