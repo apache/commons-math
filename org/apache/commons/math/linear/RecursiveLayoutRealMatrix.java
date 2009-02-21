@@ -173,11 +173,9 @@ public class RecursiveLayoutRealMatrix extends AbstractRealMatrix implements Ser
         // create storage array
         final int expectedLength = tileNumber * tileNumber * tileSizeRows * tileSizeColumns;
         if (data.length != expectedLength) {
-            throw MathRuntimeException.createIllegalArgumentException("wrong array size (got {0}, expected {1})",
-                                                                      new Object[] {
-                                                                          data.length,
-                                                                          expectedLength
-                                                                      });
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "wrong array size (got {0}, expected {1})",
+                    data.length, expectedLength);
         }
 
         if (copyArray) {
@@ -222,7 +220,7 @@ public class RecursiveLayoutRealMatrix extends AbstractRealMatrix implements Ser
             if (length != columns) {
                 throw MathRuntimeException.createIllegalArgumentException(
                         "some rows have length {0} while others have length {1}",
-                        new Object[] { columns, length }); 
+                        columns, length); 
             }
         }
 
@@ -1028,10 +1026,9 @@ public class RecursiveLayoutRealMatrix extends AbstractRealMatrix implements Ser
         checkSubMatrixIndex(row, endRow, column, endColumn);
         for (final double[] subRow : subMatrix) {
             if (subRow.length != refLength) {
-                throw MathRuntimeException.createIllegalArgumentException("some rows have length {0} while others have length {1}",
-                                                                          new Object[] {
-                                                                              refLength, subRow.length
-                                                                          }); 
+                throw MathRuntimeException.createIllegalArgumentException(
+                        "some rows have length {0} while others have length {1}",
+                        refLength, subRow.length); 
             }
         }
 
@@ -1118,12 +1115,10 @@ public class RecursiveLayoutRealMatrix extends AbstractRealMatrix implements Ser
         final int nCols = getColumnDimension();
         if ((matrix.getRowDimension() != 1) ||
             (matrix.getColumnDimension() != nCols)) {
-            throw new InvalidMatrixException("dimensions mismatch: got {0}x{1} but expected {2}x{3}",
-                                             new Object[] {
-                                                 matrix.getRowDimension(),
-                                                 matrix.getColumnDimension(),
-                                                 1, nCols
-                                             });
+            throw new InvalidMatrixException(
+                    "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                    matrix.getRowDimension(), matrix.getColumnDimension(),
+                    1, nCols);
         }
 
         // a row matrix has always only one large tile,
@@ -1196,12 +1191,10 @@ public class RecursiveLayoutRealMatrix extends AbstractRealMatrix implements Ser
         final int nRows = getRowDimension();
         if ((matrix.getRowDimension() != nRows) ||
             (matrix.getColumnDimension() != 1)) {
-            throw new InvalidMatrixException("dimensions mismatch: got {0}x{1} but expected {2}x{3}",
-                                             new Object[] {
-                                                 matrix.getRowDimension(),
-                                                 matrix.getColumnDimension(),
-                                                 nRows, 1
-                                             });
+            throw new InvalidMatrixException(
+                    "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                    matrix.getRowDimension(), matrix.getColumnDimension(),
+                    nRows, 1);
         }
 
         // a column matrix has always only one large tile,
@@ -1229,11 +1222,9 @@ public class RecursiveLayoutRealMatrix extends AbstractRealMatrix implements Ser
         } catch (ClassCastException cce) {
             checkRowIndex(row);
             if (vector.getDimension() != columns) {
-                throw new InvalidMatrixException("dimensions mismatch: got {0}x{1} but expected {2}x{3}",
-                                                 new Object[] {
-                                                     1, vector.getDimension(),
-                                                     1, columns
-                                                 });
+                throw new InvalidMatrixException(
+                        "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                        1, vector.getDimension(), 1, columns);
             }
 
             // perform copy tile-wise, to ensure good cache behavior
@@ -1260,11 +1251,9 @@ public class RecursiveLayoutRealMatrix extends AbstractRealMatrix implements Ser
         } catch (ClassCastException cce) {
             checkColumnIndex(column);
             if (vector.getDimension() != rows) {
-                throw new InvalidMatrixException("dimensions mismatch: got {0}x{1} but expected {2}x{3}",
-                                                 new Object[] {
-                                                     vector.getDimension(), 1,
-                                                     rows, 1
-                                                 });
+                throw new InvalidMatrixException(
+                        "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                        vector.getDimension(), 1, rows, 1);
             }
 
             // perform copy tile-wise, to ensure good cache behavior
@@ -1311,11 +1300,9 @@ public class RecursiveLayoutRealMatrix extends AbstractRealMatrix implements Ser
 
         checkRowIndex(row);
         if (array.length != columns) {
-            throw new InvalidMatrixException("dimensions mismatch: got {0}x{1} but expected {2}x{3}",
-                                             new Object[] {
-                                                 1, array.length,
-                                                 1, columns
-                                             });
+            throw new InvalidMatrixException(
+                    "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                    1, array.length, 1, columns);
         }
 
         // perform copy tile-wise, to ensure good cache behavior
@@ -1362,11 +1349,9 @@ public class RecursiveLayoutRealMatrix extends AbstractRealMatrix implements Ser
 
         checkColumnIndex(column);
         if (array.length != rows) {
-            throw new InvalidMatrixException("dimensions mismatch: got {0}x{1} but expected {2}x{3}",
-                                             new Object[] {
-                                                 array.length, 1,
-                                                 rows, 1
-                                             });
+            throw new InvalidMatrixException(
+                    "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                    array.length, 1, rows, 1);
         }
 
         // perform copy tile-wise, to ensure good cache behavior
@@ -1388,11 +1373,9 @@ public class RecursiveLayoutRealMatrix extends AbstractRealMatrix implements Ser
     public double getEntry(final int row, final int column)
         throws MatrixIndexException {
         if ((row < 0) || (row >= rows) || (column < 0) || (column >= columns)) {
-            throw new MatrixIndexException("no entry at indices ({0}, {1}) in a {2}x{3} matrix",
-                                           new Object[] {
-                                               row, column,
-                                               getRowDimension(), getColumnDimension()
-                                           });
+            throw new MatrixIndexException(
+                    "no entry at indices ({0}, {1}) in a {2}x{3} matrix",
+                    row, column, getRowDimension(), getColumnDimension());
         }
         return data[index(row, column)];
     }
@@ -1401,11 +1384,9 @@ public class RecursiveLayoutRealMatrix extends AbstractRealMatrix implements Ser
     public void setEntry(final int row, final int column, final double value)
         throws MatrixIndexException {
         if ((row < 0) || (row >= rows) || (column < 0) || (column >= columns)) {
-            throw new MatrixIndexException("no entry at indices ({0}, {1}) in a {2}x{3} matrix",
-                                           new Object[] {
-                                               row, column,
-                                               getRowDimension(), getColumnDimension()
-                                           });
+            throw new MatrixIndexException(
+                    "no entry at indices ({0}, {1}) in a {2}x{3} matrix",
+                    row, column, getRowDimension(), getColumnDimension());
         }
         data[index(row, column)] = value;
     }
@@ -1414,11 +1395,9 @@ public class RecursiveLayoutRealMatrix extends AbstractRealMatrix implements Ser
     public void addToEntry(final int row, final int column, final double increment)
         throws MatrixIndexException {
         if ((row < 0) || (row >= rows) || (column < 0) || (column >= columns)) {
-            throw new MatrixIndexException("no entry at indices ({0}, {1}) in a {2}x{3} matrix",
-                                           new Object[] {
-                                               row, column,
-                                               getRowDimension(), getColumnDimension()
-                                           });
+            throw new MatrixIndexException(
+                    "no entry at indices ({0}, {1}) in a {2}x{3} matrix",
+                    row, column, getRowDimension(), getColumnDimension());
         }
         data[index(row, column)] += increment;
     }
@@ -1427,11 +1406,9 @@ public class RecursiveLayoutRealMatrix extends AbstractRealMatrix implements Ser
     public void multiplyEntry(final int row, final int column, final double factor)
         throws MatrixIndexException {
         if ((row < 0) || (row >= rows) || (column < 0) || (column >= columns)) {
-            throw new MatrixIndexException("no entry at indices ({0}, {1}) in a {2}x{3} matrix",
-                                           new Object[] {
-                                               row, column,
-                                               getRowDimension(), getColumnDimension()
-                                           });
+            throw new MatrixIndexException(
+                    "no entry at indices ({0}, {1}) in a {2}x{3} matrix",
+                    row, column, getRowDimension(), getColumnDimension());
         }
         data[index(row, column)] *= factor;
     }
@@ -1486,11 +1463,9 @@ public class RecursiveLayoutRealMatrix extends AbstractRealMatrix implements Ser
         throws IllegalArgumentException {
 
         if (v.length != columns) {
-            throw MathRuntimeException.createIllegalArgumentException("vector length mismatch:" +
-                                                                      " got {0} but expected {1}",
-                                                                      new Object[] {
-                                                                          v.length, columns
-                                                                      });
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "vector length mismatch: got {0} but expected {1}",
+                    v.length, columns);
         }
         final double[] out = new double[rows];
 
@@ -1531,11 +1506,9 @@ public class RecursiveLayoutRealMatrix extends AbstractRealMatrix implements Ser
         throws IllegalArgumentException {
 
         if (v.length != rows) {
-            throw MathRuntimeException.createIllegalArgumentException("vector length mismatch:" +
-                                                                      " got {0} but expected {1}",
-                                                                      new Object[] {
-                                                                          v.length, rows
-                                                                      });
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "vector length mismatch: got {0} but expected {1}",
+                    v.length, rows);
         }
         final double[] out = new double[columns];
 
