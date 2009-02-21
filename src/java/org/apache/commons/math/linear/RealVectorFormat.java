@@ -259,9 +259,9 @@ public class RealVectorFormat extends CompositeFormat {
         ParsePosition parsePosition = new ParsePosition(0);
         RealVectorImpl result = parse(source, parsePosition);
         if (parsePosition.getIndex() == 0) {
-            throw MathRuntimeException.createParseException("unparseable real vector: \"{0}\"",
-                                                            new Object[] { source },
-                                                            parsePosition.getErrorIndex());
+            throw MathRuntimeException.createParseException(
+                    parsePosition.getErrorIndex(),
+                    "unparseable real vector: \"{0}\"", source);
         }
         return result;
     }

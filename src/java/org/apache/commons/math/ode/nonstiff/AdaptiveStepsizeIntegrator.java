@@ -152,21 +152,17 @@ public abstract class AdaptiveStepsizeIntegrator
       super.sanityChecks(equations, t0, y0, t, y);
 
       if ((vecAbsoluteTolerance != null) && (vecAbsoluteTolerance.length != y0.length)) {
-          throw new IntegratorException("dimensions mismatch: state vector has dimension {0}," +
-                                        " absolute tolerance vector has dimension {1}",
-                                        new Object[] {
-                                          Integer.valueOf(y0.length),
-                                          Integer.valueOf(vecAbsoluteTolerance.length)
-                                        });
+          throw new IntegratorException(
+                  "dimensions mismatch: state vector has dimension {0}," +
+                  " absolute tolerance vector has dimension {1}",
+                  y0.length, vecAbsoluteTolerance.length);
       }
 
       if ((vecRelativeTolerance != null) && (vecRelativeTolerance.length != y0.length)) {
-          throw new IntegratorException("dimensions mismatch: state vector has dimension {0}," +
-                                        " relative tolerance vector has dimension {1}",
-                                        new Object[] {
-                                          Integer.valueOf(y0.length),
-                                          Integer.valueOf(vecRelativeTolerance.length)
-                                        });
+          throw new IntegratorException(
+                  "dimensions mismatch: state vector has dimension {0}," +
+                  " relative tolerance vector has dimension {1}",
+                  y0.length, vecRelativeTolerance.length);
       }
 
   }
@@ -267,12 +263,9 @@ public abstract class AdaptiveStepsizeIntegrator
           if (acceptSmall) {
               filteredH = forward ? minStep : -minStep;
           } else {
-              throw new IntegratorException("minimal step size ({0}) reached," +
-                                            " integration needs {1}",
-                                            new Object[] {
-                                                Double.valueOf(minStep),
-                                                Double.valueOf(Math.abs(h))
-                                            });
+              throw new IntegratorException(
+                      "minimal step size ({0}) reached, integration needs {1}",
+                      minStep, Math.abs(h));
           }
       }
 

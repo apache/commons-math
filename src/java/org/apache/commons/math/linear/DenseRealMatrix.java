@@ -166,11 +166,9 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
             final int iHeight = blockHeight(iBlock);
             for (int jBlock = 0; jBlock < blockColumns; ++jBlock, ++index) {
                 if (blockData[index].length != iHeight * blockWidth(jBlock)) {
-                    throw MathRuntimeException.createIllegalArgumentException("wrong array shape (block length = {0}, expected {1})",
-                                                                              new Object[] {
-                                                                                  blockData[index].length,
-                                                                                  iHeight * blockWidth(jBlock)
-                                                                              });
+                    throw MathRuntimeException.createIllegalArgumentException(
+                            "wrong array shape (block length = {0}, expected {1})",
+                            blockData[index].length, iHeight * blockWidth(jBlock));
                 }
                 if (copyArray) {
                     blocks[index] = blockData[index].clone();
@@ -216,7 +214,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
             if (length != columns) {
                 throw MathRuntimeException.createIllegalArgumentException(
                         "some rows have length {0} while others have length {1}",
-                        new Object[] { columns, length }); 
+                        columns, length); 
             }
         }
 
@@ -801,18 +799,16 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
         // safety checks
         final int refLength = subMatrix[0].length;
         if (refLength < 1) {
-            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column",
-                                                                      null);             
+            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column");             
         }
         final int endRow    = row + subMatrix.length - 1;
         final int endColumn = column + refLength - 1;
         checkSubMatrixIndex(row, endRow, column, endColumn);
         for (final double[] subRow : subMatrix) {
             if (subRow.length != refLength) {
-                throw MathRuntimeException.createIllegalArgumentException("some rows have length {0} while others have length {1}",
-                                                                          new Object[] {
-                                                                              refLength, subRow.length
-                                                                          }); 
+                throw MathRuntimeException.createIllegalArgumentException(
+                        "some rows have length {0} while others have length {1}",
+                        refLength, subRow.length); 
             }
         }
 
@@ -908,12 +904,10 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
         final int nCols = getColumnDimension();
         if ((matrix.getRowDimension() != 1) ||
             (matrix.getColumnDimension() != nCols)) {
-            throw new InvalidMatrixException("dimensions mismatch: got {0}x{1} but expected {2}x{3}",
-                                             new Object[] {
-                                                 matrix.getRowDimension(),
-                                                 matrix.getColumnDimension(),
-                                                 1, nCols
-                                             });
+            throw new InvalidMatrixException(
+                    "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                    matrix.getRowDimension(), matrix.getColumnDimension(),
+                    1, nCols);
         }
 
         // perform copy block-wise, to ensure good cache behavior
@@ -997,12 +991,10 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
         final int nRows = getRowDimension();
         if ((matrix.getRowDimension() != nRows) ||
             (matrix.getColumnDimension() != 1)) {
-            throw new InvalidMatrixException("dimensions mismatch: got {0}x{1} but expected {2}x{3}",
-                                             new Object[] {
-                                                 matrix.getRowDimension(),
-                                                 matrix.getColumnDimension(),
-                                                 nRows, 1
-                                             });
+            throw new InvalidMatrixException(
+                    "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                    matrix.getRowDimension(), matrix.getColumnDimension(),
+                    nRows, 1);
         }
 
         // perform copy block-wise, to ensure good cache behavior
@@ -1121,11 +1113,9 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
         checkRowIndex(row);
         final int nCols = getColumnDimension();
         if (array.length != nCols) {
-            throw new InvalidMatrixException("dimensions mismatch: got {0}x{1} but expected {2}x{3}",
-                                             new Object[] {
-                                                 1, array.length,
-                                                 1, nCols
-                                             });
+            throw new InvalidMatrixException(
+                    "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                    1, array.length, 1, nCols);
         }
 
         // perform copy block-wise, to ensure good cache behavior
@@ -1172,11 +1162,9 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
         checkColumnIndex(column);
         final int nRows = getRowDimension();
         if (array.length != nRows) {
-            throw new InvalidMatrixException("dimensions mismatch: got {0}x{1} but expected {2}x{3}",
-                                             new Object[] {
-                                                 array.length, 1,
-                                                 nRows, 1
-                                             });
+            throw new InvalidMatrixException(
+                    "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                    array.length, 1, nRows, 1);
         }
 
         // perform copy block-wise, to ensure good cache behavior
@@ -1204,11 +1192,9 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                                (column - jBlock * BLOCK_SIZE);
             return blocks[iBlock * blockColumns + jBlock][k];
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new MatrixIndexException("no entry at indices ({0}, {1}) in a {2}x{3} matrix",
-                                           new Object[] {
-                                               row, column,
-                                               getRowDimension(), getColumnDimension()
-                                           });
+            throw new MatrixIndexException(
+                    "no entry at indices ({0}, {1}) in a {2}x{3} matrix",
+                    row, column, getRowDimension(), getColumnDimension());
         }
     }
 
@@ -1222,11 +1208,9 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                                (column - jBlock * BLOCK_SIZE);
             blocks[iBlock * blockColumns + jBlock][k] = value;
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new MatrixIndexException("no entry at indices ({0}, {1}) in a {2}x{3} matrix",
-                                           new Object[] {
-                                               row, column,
-                                               getRowDimension(), getColumnDimension()
-                                           });
+            throw new MatrixIndexException(
+                    "no entry at indices ({0}, {1}) in a {2}x{3} matrix",
+                    row, column, getRowDimension(), getColumnDimension());
         }
     }
 
@@ -1240,11 +1224,9 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                                (column - jBlock * BLOCK_SIZE);
             blocks[iBlock * blockColumns + jBlock][k] += increment;
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new MatrixIndexException("no entry at indices ({0}, {1}) in a {2}x{3} matrix",
-                                           new Object[] {
-                                               row, column,
-                                               getRowDimension(), getColumnDimension()
-                                           });
+            throw new MatrixIndexException(
+                    "no entry at indices ({0}, {1}) in a {2}x{3} matrix",
+                    row, column, getRowDimension(), getColumnDimension());
         }
     }
 
@@ -1258,11 +1240,9 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                                (column - jBlock * BLOCK_SIZE);
             blocks[iBlock * blockColumns + jBlock][k] *= factor;
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new MatrixIndexException("no entry at indices ({0}, {1}) in a {2}x{3} matrix",
-                                           new Object[] {
-                                               row, column,
-                                               getRowDimension(), getColumnDimension()
-                                           });
+            throw new MatrixIndexException(
+                    "no entry at indices ({0}, {1}) in a {2}x{3} matrix",
+                    row, column, getRowDimension(), getColumnDimension());
         }
     }
 
@@ -1317,11 +1297,9 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
         throws IllegalArgumentException {
 
         if (v.length != columns) {
-            throw MathRuntimeException.createIllegalArgumentException("vector length mismatch:" +
-                                                                      " got {0} but expected {1}",
-                                                                      new Object[] {
-                                                                          v.length, columns
-                                                                      });
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "vector length mismatch: got {0} but expected {1}",
+                    v.length, columns);
         }
         final double[] out = new double[rows];
 
@@ -1361,11 +1339,9 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
         throws IllegalArgumentException {
 
         if (v.length != rows) {
-            throw MathRuntimeException.createIllegalArgumentException("vector length mismatch:" +
-                                                                      " got {0} but expected {1}",
-                                                                      new Object[] {
-                                                                          v.length, rows
-                                                                      });
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "vector length mismatch: got {0} but expected {1}",
+                    v.length, rows);
         }
         final double[] out = new double[columns];
 

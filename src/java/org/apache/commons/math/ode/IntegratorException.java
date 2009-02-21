@@ -27,13 +27,16 @@ import org.apache.commons.math.MathException;
  */
 public class IntegratorException
   extends MathException {
-    
+
+  /** Serializable version identifier */
+    private static final long serialVersionUID = -1607588949778036796L;
+
   /** Simple constructor.
    * Build an exception by translating and formating a message
    * @param specifier format specifier (to be translated)
    * @param parts to insert in the format (no translation)
    */
-  public IntegratorException(final String specifier, final Object[] parts) {
+  public IntegratorException(final String specifier, final Object ... parts) {
     super(specifier, parts);
   }
 
@@ -44,8 +47,5 @@ public class IntegratorException
   public IntegratorException(final Throwable cause) {
     super(cause);
   }
-
-  /** Serializable version identifier */
-  private static final long serialVersionUID = -1215318282266670558L;
 
 }

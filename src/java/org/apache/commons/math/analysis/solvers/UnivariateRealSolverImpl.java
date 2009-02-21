@@ -76,8 +76,7 @@ public abstract class UnivariateRealSolverImpl
                                        final double defaultAbsoluteAccuracy) {
         super(defaultMaximalIterationCount, defaultAbsoluteAccuracy);
         if (f == null) {
-            throw MathRuntimeException.createIllegalArgumentException("function to solve cannot be null",
-                                                                      null);
+            throw MathRuntimeException.createIllegalArgumentException("function to solve cannot be null");
         }
         this.f = f;
         this.defaultFunctionValueAccuracy = 1.0e-15;
@@ -104,7 +103,7 @@ public abstract class UnivariateRealSolverImpl
      */
     protected void checkResultComputed() throws IllegalStateException {
         if (!resultComputed) {
-            throw MathRuntimeException.createIllegalStateException("no result available", null);
+            throw MathRuntimeException.createIllegalStateException("no result available");
         }
     }
 
@@ -212,7 +211,7 @@ public abstract class UnivariateRealSolverImpl
         if (lower >= upper) {
             throw MathRuntimeException.createIllegalArgumentException(
                     "endpoints do not specify an interval: [{0}, {1}]",
-                    new Object[] { lower, upper });
+                    lower, upper);
         }       
     }
     
@@ -229,7 +228,7 @@ public abstract class UnivariateRealSolverImpl
         if (!isSequence(lower, initial, upper)) {
             throw MathRuntimeException.createIllegalArgumentException(
                     "invalid interval, initial value parameters:  lower={0}, initial={1}, upper={2}",
-                    new Object[] { lower, initial, upper });
+                    lower, initial, upper);
         }       
     }
     
@@ -253,7 +252,7 @@ public abstract class UnivariateRealSolverImpl
             throw MathRuntimeException.createIllegalArgumentException(
                     "function values at endpoints do not have different signs.  " +
                     "Endpoints: [{0}, {1}], Values: [{2}, {3}]",
-                    new Object[] { lower, upper, f.value(lower), f.value(upper) });       
+                    lower, upper, f.value(lower), f.value(upper));       
         }
     }
 }

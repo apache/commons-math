@@ -36,7 +36,7 @@ public class NotSymmetricMatrixException extends MathException {
      * build an exception with a default message.
      */
     public NotSymmetricMatrixException() {
-        super("not symmetric matrix", null);
+        super("not symmetric matrix");
     }
 
 }

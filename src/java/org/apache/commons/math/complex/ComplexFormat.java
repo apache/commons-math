@@ -251,9 +251,9 @@ public class ComplexFormat extends CompositeFormat {
         ParsePosition parsePosition = new ParsePosition(0);
         Complex result = parse(source, parsePosition);
         if (parsePosition.getIndex() == 0) {
-            throw MathRuntimeException.createParseException("unparseable complex number: \"{0}\"",
-                                                            new Object[] { source },
-                                                            parsePosition.getErrorIndex());
+            throw MathRuntimeException.createParseException(
+                    parsePosition.getErrorIndex(),
+                    "unparseable complex number: \"{0}\"", source);
         }
         return result;
     }

@@ -59,7 +59,7 @@ public class MathConfigurationExceptionTest extends TestCase {
         Object[] arguments = { Integer.valueOf(6), Integer.valueOf(4) };
         String inMsg = "inner message";
         Exception cause = new Exception(inMsg);
-        MathConfigurationException ex = new MathConfigurationException(pattern, arguments, cause);
+        MathConfigurationException ex = new MathConfigurationException(cause, pattern, arguments);
         assertEquals(cause, ex.getCause());
         assertEquals(pattern, ex.getPattern());
         assertEquals(arguments.length, ex.getArguments().length);

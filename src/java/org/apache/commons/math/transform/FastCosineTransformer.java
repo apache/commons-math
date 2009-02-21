@@ -224,8 +224,9 @@ public class FastCosineTransformer implements RealTransformer {
 
         int N = f.length - 1;
         if (!FastFourierTransformer.isPowerOf2(N)) {
-            throw MathRuntimeException.createIllegalArgumentException("{0} is not a power of 2 plus one",
-                                                                      new Object[] { f.length });
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "{0} is not a power of 2 plus one",
+                    f.length);
         }
         if (N == 1) {       // trivial case
             F[0] = 0.5 * (f[0] + f[1]);

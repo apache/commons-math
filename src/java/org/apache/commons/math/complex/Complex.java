@@ -905,8 +905,9 @@ public class Complex implements Serializable  {
     public List<Complex> nthRoot(int n) throws IllegalArgumentException {
 
         if (n <= 0) {
-            throw MathRuntimeException.createIllegalArgumentException("cannot compute nth root for null or negative n: {0}",
-                    new Object[] { n });
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "cannot compute nth root for null or negative n: {0}",
+                    n);
         }
         
         List<Complex> result = new ArrayList<Complex>();

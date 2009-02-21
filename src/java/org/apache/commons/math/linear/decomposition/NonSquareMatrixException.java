@@ -36,7 +36,7 @@ public class NonSquareMatrixException extends InvalidMatrixException {
      */
     public NonSquareMatrixException(final int rows, final int columns) {
         super("a {0}x{1} matrix was provided instead of a square matrix",
-              new Object[] { rows, columns });
+              rows, columns);
     }
 
 }

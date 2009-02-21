@@ -60,7 +60,7 @@ public abstract class UnivariateRealMinimizerImpl
      */
     protected void checkResultComputed() throws IllegalStateException {
         if (!resultComputed) {
-            throw MathRuntimeException.createIllegalStateException("no result available", null);
+            throw MathRuntimeException.createIllegalStateException("no result available");
         }
     }
 

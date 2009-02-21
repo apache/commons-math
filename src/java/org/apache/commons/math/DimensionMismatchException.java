@@ -33,10 +33,7 @@ public class DimensionMismatchException extends MathException {
      * @param dimension2 second dimension
      */
     public DimensionMismatchException(int dimension1, int dimension2) {
-        super("dimension mismatch {0} != {1}",
-              new Object[] {
-                Integer.valueOf(dimension1), Integer.valueOf(dimension2)
-              });
+        super("dimension mismatch {0} != {1}", dimension1, dimension2);
         this.dimension1 = dimension1;
         this.dimension2 = dimension2;
     }

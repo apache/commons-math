@@ -24,12 +24,9 @@ import junit.framework.TestCase;
  */
 public class InvalidMatrixExceptionTest extends TestCase {
     
-    /**
-     * 
-     */
     public void testConstructorMessage(){
         String msg = "message";
-        InvalidMatrixException ex = new InvalidMatrixException(msg, null);
+        InvalidMatrixException ex = new InvalidMatrixException(msg);
         assertEquals(msg, ex.getMessage());
     }
 }

@@ -140,7 +140,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
             }
             if (sampleStats.getN() == 0) {
                 throw MathRuntimeException.createEOFException("URL {0} contains no data",
-                                                              new Object[] { url });
+                                                              url);
             }
             in = new BufferedReader(new InputStreamReader(url.openStream()));
             fillBinStats(in);
@@ -413,8 +413,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
     public double getNextValue() throws IllegalStateException {
 
         if (!loaded) {
-            throw MathRuntimeException.createIllegalStateException("distribution not loaded",
-                                                                   null);
+            throw MathRuntimeException.createIllegalStateException("distribution not loaded");
         }
 
         // Start with a uniformly distributed random number in (0,1)
@@ -434,7 +433,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
                }
            }
         }
-        throw new MathRuntimeException("no bin selected", null);
+        throw new MathRuntimeException("no bin selected");
     }
 
     /**

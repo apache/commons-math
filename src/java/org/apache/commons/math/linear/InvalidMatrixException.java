@@ -36,7 +36,7 @@ public class InvalidMatrixException extends MathRuntimeException {
      * @param arguments format arguments
      * @since 2.0
      */
-    public InvalidMatrixException(final String pattern, final Object[] arguments) {
+    public InvalidMatrixException(final String pattern, final Object ... arguments) {
         super(pattern, arguments);
     }
 

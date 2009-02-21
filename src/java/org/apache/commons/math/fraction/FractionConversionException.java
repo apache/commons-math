@@ -38,8 +38,7 @@ public class FractionConversionException extends ConvergenceException {
      * @param maxIterations maximal number of iterations allowed
      */
     public FractionConversionException(double value, int maxIterations) {
-        super("Unable to convert {0} to fraction after {1} iterations",
-              new Object[] { Double.valueOf(value), Integer.valueOf(maxIterations) });
+        super("Unable to convert {0} to fraction after {1} iterations", value, maxIterations);
     }
 
     /**
@@ -50,8 +49,7 @@ public class FractionConversionException extends ConvergenceException {
      * @param q current denominator
      */
     public FractionConversionException(double value, long p, long q) {
-        super("Overflow trying to convert {0} to fraction ({1}/{2})",
-              new Object[] { Double.valueOf(value), Long.valueOf(p), Long.valueOf(q) });
+        super("Overflow trying to convert {0} to fraction ({1}/{2})", value, p, q);
     }
 
 }

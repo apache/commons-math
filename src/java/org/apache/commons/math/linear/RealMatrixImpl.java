@@ -120,19 +120,17 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
             }   
             final int nRows = d.length;
             if (nRows == 0) {
-                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row",
-                                                                          null); 
+                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row"); 
             }
             final int nCols = d[0].length;
             if (nCols == 0) {
-                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column",
-                                                                          null); 
+                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column"); 
             }
             for (int r = 1; r < nRows; r++) {
                 if (d[r].length != nCols) {
-                    throw MathRuntimeException.createIllegalArgumentException("some rows have length {0} while" +
-                                                                              " others have length {1}",
-                                                                              new Object[] { nCols, d[r].length });
+                    throw MathRuntimeException.createIllegalArgumentException(
+                            "some rows have length {0} while others have length {1}",
+                            nCols, d[r].length);
                 }
             }       
             data = d;
@@ -308,31 +306,30 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
     throws MatrixIndexException {
         if (data == null) {
             if (row > 0) {
-                throw MathRuntimeException.createIllegalStateException("first {0} rows are not initialized yet",
-                                                                       new Object[] { row });
+                throw MathRuntimeException.createIllegalStateException(
+                        "first {0} rows are not initialized yet",
+                        row);
             }
             if (column > 0) {
-                throw MathRuntimeException.createIllegalStateException("first {0} columns are not initialized yet",
-                                                                       new Object[] { column });
+                throw MathRuntimeException.createIllegalStateException(
+                        "first {0} columns are not initialized yet",
+                        column);
             }
             final int nRows = subMatrix.length;
             if (nRows == 0) {
-                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row",
-                                                                          null); 
+                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row"); 
             }
 
             final int nCols = subMatrix[0].length;
             if (nCols == 0) {
-                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column",
-                                                                          null); 
+                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column"); 
             }
             data = new double[subMatrix.length][nCols];
             for (int i = 0; i < data.length; ++i) {
                 if (subMatrix[i].length != nCols) {
-                    throw MathRuntimeException.createIllegalArgumentException("some rows have length {0} while others have length {1}",
-                                                                              new Object[] {
-                                                                                  nCols, subMatrix[i].length
-                                                                              }); 
+                    throw MathRuntimeException.createIllegalArgumentException(
+                            "some rows have length {0} while others have length {1}",
+                            nCols, subMatrix[i].length); 
                 }
                 System.arraycopy(subMatrix[i], 0, data[i + row], column, nCols);
             }
@@ -348,11 +345,9 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
         try {
             return data[row][column];
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new MatrixIndexException("no entry at indices ({0}, {1}) in a {2}x{3} matrix",
-                                           new Object[] {
-                                               row, column,
-                                               getRowDimension(), getColumnDimension()
-                                           });
+            throw new MatrixIndexException(
+                    "no entry at indices ({0}, {1}) in a {2}x{3} matrix",
+                    row, column, getRowDimension(), getColumnDimension());
         }
     }
 
@@ -362,11 +357,9 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
         try {
             data[row][column] = value;
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new MatrixIndexException("no entry at indices ({0}, {1}) in a {2}x{3} matrix",
-                                           new Object[] {
-                                               row, column,
-                                               getRowDimension(), getColumnDimension()
-                                           });
+            throw new MatrixIndexException(
+                    "no entry at indices ({0}, {1}) in a {2}x{3} matrix",
+                    row, column, getRowDimension(), getColumnDimension());
         }
     }
 
@@ -376,11 +369,9 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
         try {
             data[row][column] += increment;
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new MatrixIndexException("no entry at indices ({0}, {1}) in a {2}x{3} matrix",
-                                           new Object[] {
-                                               row, column,
-                                               getRowDimension(), getColumnDimension()
-                                           });
+            throw new MatrixIndexException(
+                    "no entry at indices ({0}, {1}) in a {2}x{3} matrix",
+                    row, column, getRowDimension(), getColumnDimension());
         }      
     }
 
@@ -390,11 +381,9 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
         try {
             data[row][column] *= factor;
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new MatrixIndexException("no entry at indices ({0}, {1}) in a {2}x{3} matrix",
-                                           new Object[] {
-                                               row, column,
-                                               getRowDimension(), getColumnDimension()
-                                           });
+            throw new MatrixIndexException(
+                    "no entry at indices ({0}, {1}) in a {2}x{3} matrix",
+                    row, column, getRowDimension(), getColumnDimension());
         }      
     }
 
@@ -414,11 +403,9 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
         final int nRows = this.getRowDimension();
         final int nCols = this.getColumnDimension();
         if (v.length != nCols) {
-            throw MathRuntimeException.createIllegalArgumentException("vector length mismatch:" +
-                                                                      " got {0} but expected {1}",
-                                                                      new Object[] {
-                                                                          v.length, nCols
-                                                                      });
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "vector length mismatch: got {0} but expected {1}",
+                    v.length, nCols);
         }
         final double[] out = new double[nRows];
         for (int row = 0; row < nRows; row++) {
@@ -439,11 +426,9 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
         final int nRows = getRowDimension();
         final int nCols = getColumnDimension();
         if (v.length != nRows) {
-            throw MathRuntimeException.createIllegalArgumentException("vector length mismatch:" +
-                                                                      " got {0} but expected {1}",
-                                                                      new Object[] {
-                                                                          v.length, nRows
-                                                                      });
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "vector length mismatch: got {0} but expected {1}",
+                    v.length, nRows);
         }
 
         final double[] out = new double[nCols];

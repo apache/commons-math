@@ -73,9 +73,9 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
     public void setNumberOfElements(final int n)
         throws IllegalArgumentException {
         if (n <= 0) {
-            throw MathRuntimeException.createIllegalArgumentException("invalid number of elements {0}" +
-                                                                      " (must be positive)",
-                                                                      new Object[] { n });
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "invalid number of elements {0} (must be positive)",
+                    n);
         }
         this.numberOfElements = n;
     }
@@ -100,8 +100,9 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
     public void setExponent(final double s)
         throws IllegalArgumentException {
         if (s <= 0.0) {
-            throw MathRuntimeException.createIllegalArgumentException("invalid exponent {0} (must be positive)",
-                                                                      new Object[] { s });
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "invalid exponent {0} (must be positive)",
+                    s);
         }
         this.exponent = s;
     }

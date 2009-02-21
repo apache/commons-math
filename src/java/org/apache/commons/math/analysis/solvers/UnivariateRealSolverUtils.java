@@ -200,9 +200,7 @@ public class UnivariateRealSolverUtils {
         if (fa * fb >= 0.0 ) {
             throw new ConvergenceException
             ("Number of iterations={0}, maximum iterations={1}, initial={2}, lower bound={3}, upper bound={4}, final a value={5}, final b value={6}, f(a)={7}, f(b)={8}",
-             new Object[] { Integer.valueOf(numIterations), Integer.valueOf(maximumIterations),
-                            Double.valueOf(initial), Double.valueOf(lowerBound), Double.valueOf(upperBound),
-                            Double.valueOf(a), Double.valueOf(b), Double.valueOf(fa), Double.valueOf(fb) });
+             numIterations, maximumIterations, initial, lowerBound, upperBound, a, b, fa, fb);
         }
         
         return new double[]{a, b};

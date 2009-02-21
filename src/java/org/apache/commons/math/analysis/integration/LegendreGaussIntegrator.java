@@ -150,7 +150,7 @@ public class LegendreGaussIntegrator extends UnivariateRealIntegratorImpl {
             throw MathRuntimeException.createIllegalArgumentException(
                     "{0} points Legendre-Gauss integrator not supported, " +
                     "number of points must be in the {1}-{2} range",
-                    new Object[] { n, 2, 5 });
+                    n, 2, 5);
         }
 
     }

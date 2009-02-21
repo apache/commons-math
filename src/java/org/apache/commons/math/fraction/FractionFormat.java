@@ -244,9 +244,9 @@ public class FractionFormat extends NumberFormat implements Serializable {
         ParsePosition parsePosition = new ParsePosition(0);
         Fraction result = parse(source, parsePosition);
         if (parsePosition.getIndex() == 0) {
-            throw MathRuntimeException.createParseException("unparseable fraction number: \"{0}\"",
-                                                            new Object[] { source },
-                                                            parsePosition.getErrorIndex());
+            throw MathRuntimeException.createParseException(
+                    parsePosition.getErrorIndex(),
+                    "unparseable fraction number: \"{0}\"", source);
         }
         return result;
     }

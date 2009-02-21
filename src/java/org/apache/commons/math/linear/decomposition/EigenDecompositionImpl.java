@@ -177,8 +177,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
         } else {
             // as of 2.0, non-symmetric matrices (i.e. complex eigenvalues) are NOT supported
             // see issue https://issues.apache.org/jira/browse/MATH-235
-            throw new InvalidMatrixException("eigen decomposition of assymetric matrices not supported yet",
-                                             null);
+            throw new InvalidMatrixException("eigen decomposition of assymetric matrices not supported yet");
         }
     }
 
@@ -412,7 +411,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
             if (b.length != m) {
                 throw MathRuntimeException.createIllegalArgumentException(
                         "vector length mismatch: got {0} but expected {1}",
-                        new Object[] { b.length, m });
+                        b.length, m);
             }
 
             final double[] bp = new double[m];
@@ -448,7 +447,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
             if (b.getDimension() != m) {
                 throw MathRuntimeException.createIllegalArgumentException(
                         "vector length mismatch: got {0} but expected {1}",
-                        new Object[] { b.getDimension(), m });
+                        b.getDimension(), m);
             }
 
             final double[] bp = new double[m];
@@ -484,10 +483,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
             if (b.getRowDimension() != m) {
                 throw MathRuntimeException.createIllegalArgumentException(
                         "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
-                        new Object[] {
-                                b.getRowDimension(), b.getColumnDimension(),
-                                m, "n"
-                        });
+                        b.getRowDimension(), b.getColumnDimension(), m, "n");
             }
 
             final int nColB = b.getColumnDimension();
@@ -744,7 +740,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
         final double p     = q0 * q1 - e12;
         final double delta = s * s - 4 * p;
         if (delta < 0) {
-            throw new InvalidMatrixException("cannot solve degree {0} equation", new Object[] { 2 });
+            throw new InvalidMatrixException("cannot solve degree {0} equation", 2);
         }
 
         final double largestRoot = 0.5 * (s + Math.sqrt(delta));
@@ -784,7 +780,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
             // in fact, there are solutions to the equation, but in the context
             // of symmetric realEigenvalues problem, there should be three distinct
             // real roots, so we throw an error if this condition is not met
-            throw new InvalidMatrixException("cannot solve degree {0} equation", new Object[] { 3 });           
+            throw new InvalidMatrixException("cannot solve degree {0} equation", 3);           
         }
         final double sqrtMq = Math.sqrt(-q);
         final double theta  = Math.acos(r / (-q * sqrtMq));

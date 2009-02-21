@@ -224,7 +224,7 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
             if (b.length != m) {
                 throw MathRuntimeException.createIllegalArgumentException(
                         "vector length mismatch: got {0} but expected {1}",
-                        new Object[] { b.length, m });
+                        b.length, m);
             }
 
             final double[] x = b.clone();
@@ -263,7 +263,7 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
                 if (b.getDimension() != m) {
                     throw MathRuntimeException.createIllegalArgumentException(
                             "vector length mismatch: got {0} but expected {1}",
-                            new Object[] { b.getDimension(), m });
+                            b.getDimension(), m);
                 }
 
                 final double[] x = b.getData();
@@ -312,7 +312,7 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
             if (b.getRowDimension() != m) {
                 throw MathRuntimeException.createIllegalArgumentException(
                         "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
-                        new Object[] { b.getRowDimension(), b.getColumnDimension(), m, "n"});
+                        b.getRowDimension(), b.getColumnDimension(), m, "n");
             }
 
             final int nColB = b.getColumnDimension();

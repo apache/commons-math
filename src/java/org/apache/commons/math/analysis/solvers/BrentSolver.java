@@ -178,7 +178,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
                 throw MathRuntimeException.createIllegalArgumentException(
                         "function values at endpoints do not have different signs.  " +
                         "Endpoints: [{0}, {1}], Values: [{2}, {3}]",
-                        new Object[] { min, max, yMin, yMax });       
+                        min, max, yMin, yMax);       
             }
         } else if (sign < 0){
             // solve using only the first endpoint as initial guess

@@ -106,18 +106,13 @@ public class ValueServer {
             case EXPONENTIAL_MODE: return getNextExponential();
             case GAUSSIAN_MODE: return getNextGaussian();
             case CONSTANT_MODE: return mu;
-            default: throw MathRuntimeException.createIllegalStateException("unknown mode {0}, known modes: " +
-                                                                            "{1} ({2}), {3} ({4}), {5} ({6}), " +
-                                                                            "{7} ({8}), {9} ({10}) and {11} ({12})",
-                                                                            new Object[] {
-                                                                                mode,
-                                                                                "DIGEST_MODE",      DIGEST_MODE,
-                                                                                "REPLAY_MODE",      REPLAY_MODE,
-                                                                                "UNIFORM_MODE",     UNIFORM_MODE,
-                                                                                "EXPONENTIAL_MODE", EXPONENTIAL_MODE,
-                                                                                "GAUSSIAN_MODE",    GAUSSIAN_MODE,
-                                                                                "CONSTANT_MODE",    CONSTANT_MODE
-                                                                            });
+            default: throw MathRuntimeException.createIllegalStateException(
+                    "unknown mode {0}, known modes: " +
+                    "{1} ({2}), {3} ({4}), {5} ({6}), {7} ({8}), {9} ({10}) and {11} ({12})",
+                    mode,
+                    "DIGEST_MODE",   DIGEST_MODE,   "REPLAY_MODE",      REPLAY_MODE,
+                    "UNIFORM_MODE",  UNIFORM_MODE,  "EXPONENTIAL_MODE", EXPONENTIAL_MODE,
+                    "GAUSSIAN_MODE", GAUSSIAN_MODE, "CONSTANT_MODE",    CONSTANT_MODE);
         }
     }
 
@@ -306,7 +301,7 @@ public class ValueServer {
     private double getNextDigest() {
         if ((empiricalDistribution == null) ||
             (empiricalDistribution.getBinStats().size() == 0)) {
-            throw MathRuntimeException.createIllegalStateException("digest not initialized", null);
+            throw MathRuntimeException.createIllegalStateException("digest not initialized");
         }
         return empiricalDistribution.getNextValue();
     }
@@ -340,7 +335,7 @@ public class ValueServer {
             resetReplayFile();
             if ((str = filePointer.readLine()) == null) {
                 throw MathRuntimeException.createEOFException("URL {0} contains no data",
-                                                              new Object[] { valuesFileURL });
+                                                              valuesFileURL);
             }
         }
         return Double.valueOf(str).doubleValue();

@@ -49,7 +49,7 @@ public class HighamHall54IntegratorTest
             public void computeDerivatives(double t, double[] y, double[] dot)
             throws DerivativeException {
             if (t < -0.5) {
-                throw new DerivativeException("{0}", new String[] { "oops" });
+                throw new DerivativeException("{0}", "oops");
             } else {
                 throw new DerivativeException(new RuntimeException("oops"));
            }
@@ -216,8 +216,7 @@ public class HighamHall54IntegratorTest
           double middle = (pb.getInitialTime() + pb.getFinalTime()) / 2;
           double offset = t - middle;
           if (offset > 0) {
-            throw new EventException("Evaluation failed for argument = {0}",
-                                      new Object[] { Double.valueOf(t) });
+            throw new EventException("Evaluation failed for argument = {0}", t);
           }
           return offset;
         }

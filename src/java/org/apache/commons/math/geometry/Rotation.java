@@ -156,8 +156,7 @@ public class Rotation implements Serializable {
 
     double norm = axis.getNorm();
     if (norm == 0) {
-      throw MathRuntimeException.createArithmeticException("zero norm for rotation axis",
-                                                           null);
+      throw MathRuntimeException.createArithmeticException("zero norm for rotation axis");
     }
 
     double halfAngle = -0.5 * angle;
@@ -206,12 +205,9 @@ public class Rotation implements Serializable {
     // dimension check
     if ((m.length != 3) || (m[0].length != 3) ||
         (m[1].length != 3) || (m[2].length != 3)) {
-      throw new NotARotationMatrixException("a {0}x{1} matrix" +
-                                            " cannot be a rotation matrix",
-                                            new Object[] {
-                                              Integer.toString(m.length),
-                                              Integer.toString(m[0].length)
-                                            });
+      throw new NotARotationMatrixException(
+              "a {0}x{1} matrix cannot be a rotation matrix",
+              m.length, m[0].length);
     }
 
     // compute a "close" orthogonal matrix
@@ -222,11 +218,9 @@ public class Rotation implements Serializable {
                  ort[1][0] * (ort[0][1] * ort[2][2] - ort[2][1] * ort[0][2]) +
                  ort[2][0] * (ort[0][1] * ort[1][2] - ort[1][1] * ort[0][2]);
     if (det < 0.0) {
-      throw new NotARotationMatrixException("the closest orthogonal matrix" +
-                                            " has a negative determinant {0}",
-                                            new Object[] {
-                                              Double.toString(det)
-                                            });
+      throw new NotARotationMatrixException(
+              "the closest orthogonal matrix has a negative determinant {0}",
+              det);
     }
 
     // There are different ways to compute the quaternions elements
@@ -1022,11 +1016,9 @@ public class Rotation implements Serializable {
     }
 
     // the algorithm did not converge after 10 iterations
-    throw new NotARotationMatrixException("unable to orthogonalize matrix" +
-                                          " in {0} iterations",
-                                          new Object[] {
-                                            Integer.toString(i - 1)
-                                          });
+    throw new NotARotationMatrixException(
+            "unable to orthogonalize matrix in {0} iterations",
+            i - 1);
   }
 
   /** Compute the <i>distance</i> between two rotations.

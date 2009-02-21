@@ -343,7 +343,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
             if (b.length != singularValues.length) {
                 throw MathRuntimeException.createIllegalArgumentException(
                         "vector length mismatch: got {0} but expected {1}",
-                        new Object[] { b.length, singularValues.length });
+                        b.length, singularValues.length);
             }
 
             final double[] w = uT.operate(b);
@@ -372,7 +372,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
             if (b.getDimension() != singularValues.length) {
                 throw MathRuntimeException.createIllegalArgumentException(
                         "vector length mismatch: got {0} but expected {1}",
-                        new Object[] { b.getDimension(), singularValues.length });
+                         b.getDimension(), singularValues.length);
             }
 
             final RealVector w = uT.operate(b);
@@ -401,10 +401,8 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
             if (b.getRowDimension() != singularValues.length) {
                 throw MathRuntimeException.createIllegalArgumentException(
                         "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
-                        new Object[] {
-                                b.getRowDimension(), b.getColumnDimension(),
-                                singularValues.length, "n"
-                        });
+                        b.getRowDimension(), b.getColumnDimension(),
+                        singularValues.length, "n");
             }
 
             final RealMatrix w = uT.multiply(b);

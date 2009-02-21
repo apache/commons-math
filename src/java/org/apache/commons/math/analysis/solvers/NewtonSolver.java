@@ -132,8 +132,7 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
 
             throw new MaxIterationsExceededException(maximalIterationCount);
         } catch (ClassCastException cce) {
-            throw MathRuntimeException.createIllegalArgumentException("function is not differentiable",
-                                                                      null);
+            throw MathRuntimeException.createIllegalArgumentException("function is not differentiable");
         }
     }
     

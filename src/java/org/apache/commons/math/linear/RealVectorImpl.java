@@ -1069,7 +1069,7 @@ public class RealVectorImpl implements RealVector, Serializable {
     public RealVector unitVector() throws ArithmeticException {
         final double norm = getNorm();
         if (norm == 0) {
-            throw MathRuntimeException.createArithmeticException("zero norm", null);
+            throw MathRuntimeException.createArithmeticException("zero norm");
         }
         return mapDivide(getNorm());
     }
@@ -1078,8 +1078,7 @@ public class RealVectorImpl implements RealVector, Serializable {
     public void unitize() throws ArithmeticException {
         final double norm = getNorm();
         if (norm == 0) {
-            throw MathRuntimeException.createArithmeticException("cannot normalize a zero norm vector",
-                                                                 null);
+            throw MathRuntimeException.createArithmeticException("cannot normalize a zero norm vector");
         }
         for (int i = 0; i < data.length; i++) {
             data[i] /= norm;
@@ -1399,8 +1398,9 @@ public class RealVectorImpl implements RealVector, Serializable {
     private void checkIndex(final int index)
         throws MatrixIndexException {
         if (index < 0 || index >= getDimension()) {
-            throw new MatrixIndexException("index {0} out of allowed range [{1}, {2}]",
-                                           new Object[] { index, 0, getDimension() - 1});
+            throw new MatrixIndexException(
+                    "index {0} out of allowed range [{1}, {2}]",
+                    index, 0, getDimension() - 1);
         }
     }
 

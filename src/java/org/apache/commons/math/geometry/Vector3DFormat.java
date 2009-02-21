@@ -255,9 +255,9 @@ public class Vector3DFormat extends CompositeFormat {
         ParsePosition parsePosition = new ParsePosition(0);
         Vector3D result = parse(source, parsePosition);
         if (parsePosition.getIndex() == 0) {
-            throw MathRuntimeException.createParseException("unparseable 3D vector: \"{0}\"",
-                                                            new Object[] { source },
-                                                            parsePosition.getErrorIndex());
+            throw MathRuntimeException.createParseException(
+                    parsePosition.getErrorIndex(),
+                    "unparseable 3D vector: \"{0}\"", source);
         }
         return result;
     }

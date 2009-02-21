@@ -155,7 +155,7 @@ public abstract class ContinuedFraction implements Serializable {
                     // can not scale an convergent is unbounded.
                     throw new ConvergenceException(
                         "Continued fraction convergents diverged to +/- infinity for value {0}",
-                        new Object[] { Double.valueOf(x) });
+                        x);
                 }
             }
             double r = p2 / q2;
@@ -172,7 +172,7 @@ public abstract class ContinuedFraction implements Serializable {
         if (n >= maxIterations) {
             throw new MaxIterationsExceededException(maxIterations,
                 "Continued fraction convergents failed to converge for value {0}",
-                new Object[] { Double.valueOf(x) });
+                x);
         }
 
         return c;

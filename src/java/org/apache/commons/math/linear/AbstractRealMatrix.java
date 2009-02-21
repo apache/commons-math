@@ -61,14 +61,14 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
     protected AbstractRealMatrix(final int rowDimension, final int columnDimension)
         throws IllegalArgumentException {
         if (rowDimension <= 0 ) {
-            throw MathRuntimeException.createIllegalArgumentException("invalid row dimension {0}" +
-                                                                      " (must be positive)",
-                                                                      new Object[] { rowDimension });
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "invalid row dimension {0} (must be positive)",
+                    rowDimension);
         }
         if (columnDimension <= 0) {
-            throw MathRuntimeException.createIllegalArgumentException("invalid column dimension {0}" +
-                                                                      " (must be positive)",
-                                                                      new Object[] { columnDimension });
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "invalid column dimension {0} (must be positive)",
+                    columnDimension);
         }
         lu = null;
     }
@@ -327,10 +327,8 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
         if ((destination.length < rowsCount) || (destination[0].length < columnsCount)) {
             throw MathRuntimeException.createIllegalArgumentException(
                     "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
-                    new Object[] {
-                        destination.length, destination[0].length,
-                        rowsCount, columnsCount
-                    });
+                    destination.length, destination[0].length,
+                    rowsCount, columnsCount);
         }
 
         // copy entries
@@ -372,10 +370,8 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
             (destination[0].length < selectedColumns.length)) {
             throw MathRuntimeException.createIllegalArgumentException(
                     "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
-                    new Object[] {
-                        destination.length, destination[0].length,
-                        selectedRows.length, selectedColumns.length
-                    });
+                    destination.length, destination[0].length,
+                    selectedRows.length, selectedColumns.length);
         }
 
         // copy entries
@@ -394,22 +390,19 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
 
         final int nRows = subMatrix.length;
         if (nRows == 0) {
-            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row",
-                                                                      null); 
+            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row"); 
         }
 
         final int nCols = subMatrix[0].length;
         if (nCols == 0) {
-            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column",
-                                                                      null); 
+            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column"); 
         }
 
         for (int r = 1; r < nRows; ++r) {
             if (subMatrix[r].length != nCols) {
-                throw MathRuntimeException.createIllegalArgumentException("some rows have length {0} while others have length {1}",
-                                                                          new Object[] {
-                                                                              nCols, subMatrix[r].length
-                                                                          }); 
+                throw MathRuntimeException.createIllegalArgumentException(
+                        "some rows have length {0} while others have length {1}",
+                        nCols, subMatrix[r].length); 
             }
         }
 
@@ -451,12 +444,9 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
         final int nCols = getColumnDimension();
         if ((matrix.getRowDimension() != 1) ||
             (matrix.getColumnDimension() != nCols)) {
-            throw new InvalidMatrixException("dimensions mismatch: got {0}x{1} but expected {2}x{3}",
-                                             new Object[] {
-                                                 matrix.getRowDimension(),
-                                                 matrix.getColumnDimension(),
-                                                 1, nCols
-                                             });
+            throw new InvalidMatrixException(
+                    "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                    matrix.getRowDimension(), matrix.getColumnDimension(), 1, nCols);
         }
         for (int i = 0; i < nCols; ++i) {
             setEntry(row, i, matrix.getEntry(0, i));
@@ -487,12 +477,9 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
         final int nRows = getRowDimension();
         if ((matrix.getRowDimension() != nRows) ||
             (matrix.getColumnDimension() != 1)) {
-            throw new InvalidMatrixException("dimensions mismatch: got {0}x{1} but expected {2}x{3}",
-                                             new Object[] {
-                                                 matrix.getRowDimension(),
-                                                 matrix.getColumnDimension(),
-                                                 nRows, 1
-                                             });
+            throw new InvalidMatrixException(
+                    "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                    matrix.getRowDimension(), matrix.getColumnDimension(), nRows, 1);
         }
         for (int i = 0; i < nRows; ++i) {
             setEntry(i, column, matrix.getEntry(i, 0));
@@ -513,11 +500,9 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
         checkRowIndex(row);
         final int nCols = getColumnDimension();
         if (vector.getDimension() != nCols) {
-            throw new InvalidMatrixException("dimensions mismatch: got {0}x{1} but expected {2}x{3}",
-                                             new Object[] {
-                                                 1, vector.getDimension(),
-                                                 1, nCols
-                                             });
+            throw new InvalidMatrixException(
+                    "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                    1, vector.getDimension(), 1, nCols);
         }
         for (int i = 0; i < nCols; ++i) {
             setEntry(row, i, vector.getEntry(i));
@@ -538,11 +523,9 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
         checkColumnIndex(column);
         final int nRows = getRowDimension();
         if (vector.getDimension() != nRows) {
-            throw new InvalidMatrixException("dimensions mismatch: got {0}x{1} but expected {2}x{3}",
-                                             new Object[] {
-                                                 vector.getDimension(), 1,
-                                                 nRows, 1
-                                             });
+            throw new InvalidMatrixException(
+                    "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                    vector.getDimension(), 1, nRows, 1);
         }
         for (int i = 0; i < nRows; ++i) {
             setEntry(i, column, vector.getEntry(i));
@@ -572,11 +555,9 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
         checkRowIndex(row);
         final int nCols = getColumnDimension();
         if (array.length != nCols) {
-            throw new InvalidMatrixException("dimensions mismatch: got {0}x{1} but expected {2}x{3}",
-                                             new Object[] {
-                                                 1, array.length,
-                                                 1, nCols
-                                             });
+            throw new InvalidMatrixException(
+                    "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                    1, array.length, 1, nCols);
         }
         for (int i = 0; i < nCols; ++i) {
             setEntry(row, i, array[i]);
@@ -606,11 +587,9 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
         checkColumnIndex(column);
         final int nRows = getRowDimension();
         if (array.length != nRows) {
-            throw new InvalidMatrixException("dimensions mismatch: got {0}x{1} but expected {2}x{3}",
-                                             new Object[] {
-                                                 array.length, 1,
-                                                 nRows, 1
-                                             });
+            throw new InvalidMatrixException(
+                    "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                    array.length, 1, nRows, 1);
         }
         for (int i = 0; i < nRows; ++i) {
             setEntry(i, column, array[i]);
@@ -715,11 +694,9 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
         final int nRows = getRowDimension();
         final int nCols = getColumnDimension();
         if (v.length != nCols) {
-            throw MathRuntimeException.createIllegalArgumentException("vector length mismatch:" +
-                                                                      " got {0} but expected {1}",
-                                                                      new Object[] {
-                                                                          v.length, nCols
-                                                                      });
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "vector length mismatch: got {0} but expected {1}",
+                    v.length, nCols);
         }
 
         final double[] out = new double[nRows];
@@ -744,11 +721,9 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
             final int nRows = getRowDimension();
             final int nCols = getColumnDimension();
             if (v.getDimension() != nCols) {
-                throw MathRuntimeException.createIllegalArgumentException("vector length mismatch:" +
-                                                                          " got {0} but expected {1}",
-                                                                          new Object[] {
-                                                                              v.getDimension(), nCols
-                                                                          });
+                throw MathRuntimeException.createIllegalArgumentException(
+                        "vector length mismatch: got {0} but expected {1}",
+                        v.getDimension(), nCols);
             }
 
             final double[] out = new double[nRows];
@@ -771,11 +746,9 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
         final int nRows = getRowDimension();
         final int nCols = getColumnDimension();
         if (v.length != nRows) {
-            throw MathRuntimeException.createIllegalArgumentException("vector length mismatch:" +
-                                                                      " got {0} but expected {1}",
-                                                                      new Object[] {
-                                                                          v.length, nRows
-                                                                      });
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "vector length mismatch: got {0} but expected {1}",
+                    v.length, nRows);
         }
 
         final double[] out = new double[nCols];
@@ -801,11 +774,9 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
             final int nRows = getRowDimension();
             final int nCols = getColumnDimension();
             if (v.getDimension() != nRows) {
-                throw MathRuntimeException.createIllegalArgumentException("vector length mismatch:" +
-                                                                          " got {0} but expected {1}",
-                                                                          new Object[] {
-                                                                              v.getDimension(), nRows
-                                                                          });
+                throw MathRuntimeException.createIllegalArgumentException(
+                        "vector length mismatch: got {0} but expected {1}",
+                        v.getDimension(), nRows);
             }
 
             final double[] out = new double[nCols];
@@ -1119,7 +1090,7 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
     protected void checkRowIndex(final int row) {
         if (row < 0 || row >= getRowDimension()) {
             throw new MatrixIndexException("row index {0} out of allowed range [{1}, {2}]",
-                                           new Object[] { row, 0, getRowDimension() - 1});
+                                           row, 0, getRowDimension() - 1);
         }
     }
 
@@ -1132,7 +1103,7 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
         throws MatrixIndexException {
         if (column < 0 || column >= getColumnDimension()) {
             throw new MatrixIndexException("column index {0} out of allowed range [{1}, {2}]",
-                                           new Object[] { column, 0, getColumnDimension() - 1});
+                                           column, 0, getColumnDimension() - 1);
         }
     }
 
@@ -1152,14 +1123,14 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
         checkRowIndex(endRow);
         if (startRow > endRow) {
             throw new MatrixIndexException("initial row {0} after final row {1}",
-                                           new Object[] { startRow, endRow });
+                                           startRow, endRow);
         }
 
         checkColumnIndex(startColumn);
         checkColumnIndex(endColumn);
         if (startColumn > endColumn) {
             throw new MatrixIndexException("initial column {0} after final column {1}",
-                                           new Object[] { startColumn, endColumn });
+                                           startColumn, endColumn);
         }
 
     
@@ -1176,9 +1147,9 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
     protected void checkSubMatrixIndex(final int[] selectedRows, final int[] selectedColumns) {
         if (selectedRows.length * selectedColumns.length == 0) {
             if (selectedRows.length == 0) {
-                throw new MatrixIndexException("empty selected row index array", null);
+                throw new MatrixIndexException("empty selected row index array");
             }
-            throw new MatrixIndexException("empty selected column index array", null);
+            throw new MatrixIndexException("empty selected column index array");
         }
 
         for (final int row : selectedRows) {
@@ -1197,14 +1168,10 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
     protected void checkAdditionCompatible(final RealMatrix m) {
         if ((getRowDimension()    != m.getRowDimension()) ||
             (getColumnDimension() != m.getColumnDimension())) {
-            throw MathRuntimeException.createIllegalArgumentException("{0}x{1} and {2}x{3} matrices are not" +
-                                                                      " addition compatible",
-                                                                      new Object[] {
-                                                                          getRowDimension(),
-                                                                          getColumnDimension(),
-                                                                          m.getRowDimension(),
-                                                                          m.getColumnDimension()
-                                                                      });
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "{0}x{1} and {2}x{3} matrices are not addition compatible",
+                    getRowDimension(), getColumnDimension(),
+                    m.getRowDimension(), m.getColumnDimension());
         }
     }
 
@@ -1216,14 +1183,10 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
     protected void checkSubtractionCompatible(final RealMatrix m) {
         if ((getRowDimension()    != m.getRowDimension()) ||
             (getColumnDimension() != m.getColumnDimension())) {
-            throw MathRuntimeException.createIllegalArgumentException("{0}x{1} and {2}x{3} matrices are not" +
-                                                                      " subtraction compatible",
-                                                                      new Object[] {
-                                                                          getRowDimension(),
-                                                                          getColumnDimension(),
-                                                                          m.getRowDimension(),
-                                                                          m.getColumnDimension()
-                                                                      });
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "{0}x{1} and {2}x{3} matrices are not subtraction compatible",
+                    getRowDimension(), getColumnDimension(),
+                    m.getRowDimension(), m.getColumnDimension());
         }
     }
 
@@ -1234,14 +1197,10 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
      */
     protected void checkMultiplicationCompatible(final RealMatrix m) {
         if (getColumnDimension() != m.getRowDimension()) {
-            throw MathRuntimeException.createIllegalArgumentException("{0}x{1} and {2}x{3} matrices are not" +
-                                                                      " multiplication compatible",
-                                                                      new Object[] {
-                                                                          getRowDimension(),
-                                                                          getColumnDimension(),
-                                                                          m.getRowDimension(),
-                                                                          m.getColumnDimension()
-                                                                      });
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "{0}x{1} and {2}x{3} matrices are not multiplication compatible",
+                    getRowDimension(), getColumnDimension(),
+                    m.getRowDimension(), m.getColumnDimension());
         }
     }
 

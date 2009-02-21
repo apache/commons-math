@@ -37,8 +37,7 @@ public class ArgumentOutsideDomainException extends FunctionEvaluationException 
      */
     public ArgumentOutsideDomainException(double argument, double lower, double upper) {
         super(argument,
-              "Argument {0} outside domain [{1} ; {2}]",
-              new Object[] { Double.valueOf(argument), Double.valueOf(lower), Double.valueOf(upper) });
+              "Argument {0} outside domain [{1} ; {2}]", argument, lower, upper);
     }
 
 }

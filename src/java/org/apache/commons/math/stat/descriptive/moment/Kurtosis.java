@@ -91,9 +91,8 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  {
         if (incMoment) {
             moment.increment(d);
         }  else  {
-            throw MathRuntimeException.createIllegalStateException("statistics constructed from external " +
-                                                                   "moments cannot be incremented",
-                                                                   null);
+            throw MathRuntimeException.createIllegalStateException(
+                    "statistics constructed from external moments cannot be incremented");
         }
     }
 
@@ -124,9 +123,8 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  {
         if (incMoment) {
             moment.clear();
         } else  {
-            throw MathRuntimeException.createIllegalStateException("statistics constructed from external " +
-                                                                   "moments cannot be cleared",
-                                                                   null);
+            throw MathRuntimeException.createIllegalStateException(
+                    "statistics constructed from external moments cannot be cleared");
         }
     }
 

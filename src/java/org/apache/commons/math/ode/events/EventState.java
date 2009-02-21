@@ -197,9 +197,9 @@ public class EventState implements Serializable {
                                 interpolator.setInterpolatedTime(t);
                                 return handler.g(t, interpolator.getInterpolatedState());
                             } catch (DerivativeException e) {
-                                throw new FunctionEvaluationException(t, e);
+                                throw new FunctionEvaluationException(e, t);
                             } catch (EventException e) {
-                                throw new FunctionEvaluationException(t, e);
+                                throw new FunctionEvaluationException(e, t);
                             }
                         }
                     };

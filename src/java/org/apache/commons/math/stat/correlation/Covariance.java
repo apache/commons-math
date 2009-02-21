@@ -199,9 +199,9 @@ public class Covariance {
         }
         else {
             throw MathRuntimeException.createIllegalArgumentException(
-               "Arrays must have the same length and both must have at " +
+               "arrays must have the same length and both must have at " +
                "least two elements. xArray has size {0}, yArray has {1} elements",
-                    new Object[] {xArray.length, yArray.length});
+                    xArray.length, yArray.length);
         }
         return biasCorrected ? result * ((double) length / (double)(length - 1)) : result;
     }
@@ -216,8 +216,8 @@ public class Covariance {
         int nCols = matrix.getColumnDimension();
         if (nRows < 2 || nCols < 2) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "Insufficient data:  only {0} rows and {1} columns.",
-                    new Object[]{nRows, nCols});
+                    "insufficient data: only {0} rows and {1} columns.",
+                    nRows, nCols);
         }
     }
 }

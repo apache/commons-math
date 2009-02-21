@@ -210,7 +210,7 @@ public class GaussNewtonEstimator extends AbstractEstimator implements Serializa
                 }
 
             } catch(InvalidMatrixException e) {
-                throw new EstimationException("unable to solve: singular problem", null);
+                throw new EstimationException("unable to solve: singular problem");
             }
 
 

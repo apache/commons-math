@@ -29,12 +29,15 @@ import org.apache.commons.math.MathException;
 public class DerivativeException
   extends MathException {
     
+  /** Serializable version identifier */
+  private static final long serialVersionUID = 5666710788967425123L;
+
   /** Simple constructor.
    * Build an exception by translating and formating a message
    * @param specifier format specifier (to be translated)
    * @param parts to insert in the format (no translation)
    */
-  public DerivativeException(final String specifier, final Object[] parts) {
+  public DerivativeException(final String specifier, final Object ... parts) {
     super(specifier, parts);
   }
 
@@ -44,8 +47,5 @@ public class DerivativeException
   public DerivativeException(final Throwable cause) {
     super(cause);
   }
-
-  /** Serializable version identifier */
-  private static final long serialVersionUID = -4100440615830558122L;
 
 }

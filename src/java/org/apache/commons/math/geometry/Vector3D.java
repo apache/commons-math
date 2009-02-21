@@ -267,8 +267,7 @@ public class Vector3D
   public Vector3D normalize() {
     double s = getNorm();
     if (s == 0) {
-      throw MathRuntimeException.createArithmeticException("cannot normalize a zero norm vector",
-                                                           null);
+      throw MathRuntimeException.createArithmeticException("cannot normalize a zero norm vector");
     }
     return scalarMultiply(1 / s);
   }
@@ -292,7 +291,7 @@ public class Vector3D
 
     double threshold = 0.6 * getNorm();
     if (threshold == 0) {
-      throw MathRuntimeException.createArithmeticException("zero norm", null);
+      throw MathRuntimeException.createArithmeticException("zero norm");
     }
 
     if ((x >= -threshold) && (x <= threshold)) {
@@ -322,7 +321,7 @@ public class Vector3D
 
     double normProduct = v1.getNorm() * v2.getNorm();
     if (normProduct == 0) {
-      throw MathRuntimeException.createArithmeticException("zero norm", null);
+      throw MathRuntimeException.createArithmeticException("zero norm");
     }
 
     double dot = dotProduct(v1, v2);

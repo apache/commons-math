@@ -273,7 +273,7 @@ public class LUDecompositionImpl implements LUDecomposition {
             if (b.length != m) {
                 throw MathRuntimeException.createIllegalArgumentException(
                         "vector length mismatch: got {0} but expected {1}",
-                        new Object[] { b.length, m });
+                        b.length, m);
             }
             if (singular) {
                 throw new SingularMatrixException();
@@ -316,7 +316,7 @@ public class LUDecompositionImpl implements LUDecomposition {
                 if (b.getDimension() != m) {
                     throw MathRuntimeException.createIllegalArgumentException(
                             "vector length mismatch: got {0} but expected {1}",
-                            new Object[] { b.getDimension(), m });
+                            b.getDimension(), m);
                 }
                 if (singular) {
                     throw new SingularMatrixException();
@@ -369,7 +369,7 @@ public class LUDecompositionImpl implements LUDecomposition {
             if (b.getRowDimension() != m) {
                 throw MathRuntimeException.createIllegalArgumentException(
                         "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
-                        new Object[] { b.getRowDimension(), b.getColumnDimension(), m, "n"});
+                        b.getRowDimension(), b.getColumnDimension(), m, "n");
             }
             if (singular) {
                 throw new SingularMatrixException();

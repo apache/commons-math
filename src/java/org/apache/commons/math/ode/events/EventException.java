@@ -35,7 +35,7 @@ public class EventException extends MathException {
      * @param specifier format specifier (to be translated)
      * @param parts to insert in the format (no translation)
      */
-    public EventException(final String specifier, final Object[] parts) {
+    public EventException(final String specifier, final Object ... parts) {
         super(specifier, parts);
     }
 

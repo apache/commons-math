@@ -144,7 +144,7 @@ public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
         if (maximalIterationCount > 64) {
             throw MathRuntimeException.createIllegalArgumentException(
                     "invalid iteration limits: min={0}, max={1}",
-                    new Object[] { 0, 64 });
+                    0, 64);
         }
     }
 }

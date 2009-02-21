@@ -39,7 +39,7 @@ public class CostException
      * @param pattern format specifier
      * @param arguments format arguments
      */
-    public CostException(String pattern, Object[] arguments) {
+    public CostException(String pattern, Object ... arguments) {
       super(pattern, arguments);
     }
 

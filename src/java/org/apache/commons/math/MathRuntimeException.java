@@ -37,7 +37,7 @@ import java.util.ResourceBundle;
 public class MathRuntimeException extends RuntimeException {
     
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -143052521750625264L;
+    private static final long serialVersionUID = 4184290229453587356L;
 
     /** Cache for resources bundle. */
     private static ResourceBundle cachedResources = null;
@@ -84,13 +84,13 @@ public class MathRuntimeException extends RuntimeException {
 
     /**
      * Builds a message string by from a pattern and its arguments.
+     * @param locale Locale in which the message should be translated
      * @param pattern format specifier
      * @param arguments format arguments
-     * @param locale Locale in which the message should be translated
      * @return a message string
      */
-    private static String buildMessage(final String pattern, final Object[] arguments,
-                                       final Locale locale) {
+    private static String buildMessage(final Locale locale, final String pattern,
+                                       final Object ... arguments) {
         return (pattern == null) ? "" : new MessageFormat(translate(pattern, locale), locale).format(arguments);        
     }
 
@@ -101,8 +101,8 @@ public class MathRuntimeException extends RuntimeException {
      * @param pattern format specifier
      * @param arguments format arguments
      */
-    public MathRuntimeException(final String pattern, final Object[] arguments) {
-      super(buildMessage(pattern, arguments, Locale.US));
+    public MathRuntimeException(final String pattern, final Object ... arguments) {
+      super(buildMessage(Locale.US, pattern, arguments));
       this.pattern   = pattern;
       this.arguments = (arguments == null) ? new Object[0] : arguments.clone();
     }
@@ -124,14 +124,14 @@ public class MathRuntimeException extends RuntimeException {
      * Constructs a new <code>MathRuntimeException</code> with specified
      * formatted detail message and nested <code>Throwable</code> root cause.
      * Message formatting is delegated to {@link java.text.MessageFormat}.
-     * @param pattern format specifier
-     * @param arguments format arguments
      * @param rootCause the exception or error that caused this exception
      * to be thrown.
+     * @param pattern format specifier
+     * @param arguments format arguments
      */
-    public MathRuntimeException(final String pattern, final Object[] arguments,
-                                final Throwable rootCause) {
-      super(buildMessage(pattern, arguments, Locale.US), rootCause);
+    public MathRuntimeException(final Throwable rootCause,
+                                final String pattern, final Object ... arguments) {
+      super(buildMessage(Locale.US, pattern, arguments), rootCause);
       this.pattern   = pattern;
       this.arguments = (arguments == null) ? new Object[0] : arguments.clone();
     }
@@ -159,7 +159,7 @@ public class MathRuntimeException extends RuntimeException {
      * @return localized message
      */
     public String getMessage(final Locale locale) {
-        return buildMessage(pattern, arguments, locale);
+        return buildMessage(locale, pattern, arguments);
     }
 
     /** {@inheritDoc} */
@@ -196,15 +196,15 @@ public class MathRuntimeException extends RuntimeException {
      * @return built exception
      */
     public static ArithmeticException createArithmeticException(final String pattern,
-                                                                final Object[] arguments) {
-        return new ArithmeticException(buildMessage(pattern, arguments, Locale.US)) {
+                                                                final Object ... arguments) {
+        return new ArithmeticException(buildMessage(Locale.US, pattern, arguments)) {
 
             /** Serializable version identifier. */
             private static final long serialVersionUID = 7705628723242533939L;
 
             /** {@inheritDoc} */
             public String getLocalizedMessage() {
-                return buildMessage(pattern, arguments, Locale.getDefault());
+                return buildMessage(Locale.getDefault(), pattern, arguments);
             }
 
         };
@@ -218,15 +218,15 @@ public class MathRuntimeException extends RuntimeException {
      * @return built exception
      */
     public static ArrayIndexOutOfBoundsException createArrayIndexOutOfBoundsException(final String pattern,
-                                                                                      final Object[] arguments) {
-        return new ArrayIndexOutOfBoundsException(buildMessage(pattern, arguments, Locale.US)) {
+                                                                                      final Object ... arguments) {
+        return new ArrayIndexOutOfBoundsException(buildMessage(Locale.US, pattern, arguments)) {
 
             /** Serializable version identifier. */
-            private static final long serialVersionUID = 8077627622976962141L;
+            private static final long serialVersionUID = -3394748305449283486L;
 
             /** {@inheritDoc} */
             public String getLocalizedMessage() {
-                return buildMessage(pattern, arguments, Locale.getDefault());
+                return buildMessage(Locale.getDefault(), pattern, arguments);
             }
 
         };
@@ -240,15 +240,15 @@ public class MathRuntimeException extends RuntimeException {
      * @return built exception
      */
     public static EOFException createEOFException(final String pattern,
-                                                  final Object[] arguments) {
-        return new EOFException(buildMessage(pattern, arguments, Locale.US)) {
+                                                  final Object ... arguments) {
+        return new EOFException(buildMessage(Locale.US, pattern, arguments)) {
 
             /** Serializable version identifier. */
             private static final long serialVersionUID = 279461544586092584L;
 
             /** {@inheritDoc} */
             public String getLocalizedMessage() {
-                return buildMessage(pattern, arguments, Locale.getDefault());
+                return buildMessage(Locale.getDefault(), pattern, arguments);
             }
 
         };
@@ -279,15 +279,15 @@ public class MathRuntimeException extends RuntimeException {
      * @return built exception
      */
     public static IllegalArgumentException createIllegalArgumentException(final String pattern,
-                                                                          final Object[] arguments) {
-        return new IllegalArgumentException(buildMessage(pattern, arguments, Locale.US)) {
+                                                                          final Object ... arguments) {
+        return new IllegalArgumentException(buildMessage(Locale.US, pattern, arguments)) {
 
             /** Serializable version identifier. */
-            private static final long serialVersionUID = -7537852425838457684L;
+            private static final long serialVersionUID = -6555453980658317913L;
 
             /** {@inheritDoc} */
             public String getLocalizedMessage() {
-                return buildMessage(pattern, arguments, Locale.getDefault());
+                return buildMessage(Locale.getDefault(), pattern, arguments);
             }
 
         };
@@ -301,15 +301,15 @@ public class MathRuntimeException extends RuntimeException {
      * @return built exception
      */
     public static IllegalStateException createIllegalStateException(final String pattern,
-                                                                    final Object[] arguments) {
-        return new IllegalStateException(buildMessage(pattern, arguments, Locale.US)) {
+                                                                    final Object ... arguments) {
+        return new IllegalStateException(buildMessage(Locale.US, pattern, arguments)) {
 
             /** Serializable version identifier. */
-            private static final long serialVersionUID = 5173599768297434381L;
+            private static final long serialVersionUID = -95247648156277208L;
 
             /** {@inheritDoc} */
             public String getLocalizedMessage() {
-                return buildMessage(pattern, arguments, Locale.getDefault());
+                return buildMessage(Locale.getDefault(), pattern, arguments);
             }
 
         };
@@ -323,15 +323,15 @@ public class MathRuntimeException extends RuntimeException {
      * @return built exception
      */
     public static ConcurrentModificationException createConcurrentModificationException(final String pattern,
-                                                                                        final Object[] arguments) {
-        return new ConcurrentModificationException(buildMessage(pattern, arguments, Locale.US)) {
+                                                                                        final Object ... arguments) {
+        return new ConcurrentModificationException(buildMessage(Locale.US, pattern, arguments)) {
 
             /** Serializable version identifier. */
             private static final long serialVersionUID = 6134247282754009421L;
 
             /** {@inheritDoc} */
             public String getLocalizedMessage() {
-                return buildMessage(pattern, arguments, Locale.getDefault());
+                return buildMessage(Locale.getDefault(), pattern, arguments);
             }
 
         };
@@ -345,15 +345,15 @@ public class MathRuntimeException extends RuntimeException {
      * @return built exception
      */
     public static NoSuchElementException createNoSuchElementException(final String pattern,
-                                                                      final Object[] arguments) {
-        return new NoSuchElementException(buildMessage(pattern, arguments, Locale.US)) {
+                                                                      final Object ... arguments) {
+        return new NoSuchElementException(buildMessage(Locale.US, pattern, arguments)) {
 
             /** Serializable version identifier. */
             private static final long serialVersionUID = 7304273322489425799L;
 
             /** {@inheritDoc} */
             public String getLocalizedMessage() {
-                return buildMessage(pattern, arguments, Locale.getDefault());
+                return buildMessage(Locale.getDefault(), pattern, arguments);
             }
 
         };
@@ -363,22 +363,22 @@ public class MathRuntimeException extends RuntimeException {
      * Constructs a new <code>ParseException</code> with specified
      * formatted detail message.
      * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * @param offset offset at which error occurred
      * @param pattern format specifier
      * @param arguments format arguments
-     * @param offset offset at which error occurred
      * @return built exception
      */
-    public static ParseException createParseException(final String pattern,
-                                                      final Object[] arguments,
-                                                      final int offset) {
-        return new ParseException(buildMessage(pattern, arguments, Locale.US), offset) {
+    public static ParseException createParseException(final int offset,
+                                                      final String pattern,
+                                                      final Object ... arguments) {
+        return new ParseException(buildMessage(Locale.US, pattern, arguments), offset) {
 
             /** Serializable version identifier. */
             private static final long serialVersionUID = -1103502177342465975L;
 
             /** {@inheritDoc} */
             public String getLocalizedMessage() {
-                return buildMessage(pattern, arguments, Locale.getDefault());
+                return buildMessage(Locale.getDefault(), pattern, arguments);
             }
 
         };

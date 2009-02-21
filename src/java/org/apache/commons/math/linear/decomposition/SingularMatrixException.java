@@ -33,7 +33,7 @@ public class SingularMatrixException extends InvalidMatrixException {
      * Construct an exception with a default message.
      */
     public SingularMatrixException() {
-        super("matrix is singular", null);
+        super("matrix is singular");
     }
 
 }

@@ -91,8 +91,7 @@ public class PearsonsCorrelation {
     public PearsonsCorrelation(Covariance covariance) {
         RealMatrix covarianceMatrix = covariance.getCovarianceMatrix();
         if (covarianceMatrix == null) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    "Covariance matrix is null", null);
+            throw MathRuntimeException.createIllegalArgumentException("covariance matrix is null");
         }
         nObs = covariance.getN();
         correlationMatrix = covarianceToCorrelation(covarianceMatrix);
@@ -220,8 +219,8 @@ public class PearsonsCorrelation {
         }
         else {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "Invalid array dimensions. xArray has size {0}; yArray has {1} elements",
-                    new Object[] {xArray.length, yArray.length});
+                    "invalid array dimensions. xArray has size {0}; yArray has {1} elements",
+                    xArray.length, yArray.length);
         }
     }
     
@@ -263,8 +262,8 @@ public class PearsonsCorrelation {
         int nCols = matrix.getColumnDimension();
         if (nRows < 2 || nCols < 2) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "Insufficient data: only {0} rows and {1} columns.",
-                    new Object[]{nRows, nCols});
+                    "insufficient data: only {0} rows and {1} columns.",
+                    nRows, nCols);
         }
     }
 }

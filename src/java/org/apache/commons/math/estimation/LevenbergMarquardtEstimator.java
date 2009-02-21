@@ -400,16 +400,16 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
           throw new EstimationException("cost relative tolerance is too small ({0})," +
                                         " no further reduction in the" +
                                         " sum of squares is possible",
-                                        new Object[] { Double.valueOf(costRelativeTolerance) });
+                                        costRelativeTolerance);
         } else if (delta <= 2.2204e-16 * xNorm) {
           throw new EstimationException("parameters relative tolerance is too small" +
                                         " ({0}), no further improvement in" +
                                         " the approximate solution is possible",
-                                        new Object[] { Double.valueOf(parRelativeTolerance) });
+                                        parRelativeTolerance);
         } else if (maxCosine <= 2.2204e-16)  {
           throw new EstimationException("orthogonality tolerance is too small ({0})," +
                                         " solution is orthogonal to the jacobian",
-                                        new Object[] { Double.valueOf(orthoTolerance) });
+                                        orthoTolerance);
         }
 
       }
@@ -761,8 +761,9 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
           norm2 += aki * aki;
         }
         if (Double.isInfinite(norm2) || Double.isNaN(norm2)) {
-            throw new EstimationException("unable to perform Q.R decomposition on the {0}x{1} jacobian matrix",
-                                          new Object[] { Integer.valueOf(rows), Integer.valueOf(cols) });
+            throw new EstimationException(
+                    "unable to perform Q.R decomposition on the {0}x{1} jacobian matrix",
+                    rows, cols);
         }
         if (norm2 > ak2) {
           nextColumn = i;

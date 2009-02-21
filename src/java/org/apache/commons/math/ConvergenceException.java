@@ -25,13 +25,13 @@ package org.apache.commons.math;
 public class ConvergenceException extends MathException {
     
     /** Serializable version identifier */
-    private static final long serialVersionUID = 4380655778005469702L;
+    private static final long serialVersionUID = 4883703247677159141L;
 
     /**
      * Default constructor.
      */
     public ConvergenceException() {
-        super("Convergence failed", null);
+        super("Convergence failed");
     }
     
     /**
@@ -41,7 +41,7 @@ public class ConvergenceException extends MathException {
      * @param arguments format arguments
      * @since 1.2
      */
-    public ConvergenceException(String pattern, Object[] arguments) {
+    public ConvergenceException(String pattern, Object ... arguments) {
         super(pattern, arguments);
     }
 
@@ -56,13 +56,13 @@ public class ConvergenceException extends MathException {
     /**
      * Constructs an exception with specified formatted detail message and root cause.
      * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * @param cause  the exception or error that caused this exception to be thrown
      * @param pattern format specifier
      * @param arguments format arguments
-     * @param cause  the exception or error that caused this exception to be thrown
      * @since 1.2
      */
-    public ConvergenceException(String pattern, Object[] arguments, Throwable cause) {
-        super(pattern, arguments, cause);
+    public ConvergenceException(Throwable cause, String pattern, Object ... arguments) {
+        super(cause, pattern, arguments);
     }
-    
+
 }

@@ -610,8 +610,9 @@ public class MultivariateSummaryStatistics
      */
     private void checkEmpty() {
         if (n > 0) {
-            throw MathRuntimeException.createIllegalStateException("{0} values have been added before statistic is configured",
-                                                                   new Object[] { n });
+            throw MathRuntimeException.createIllegalStateException(
+                    "{0} values have been added before statistic is configured",
+                    n);
         }
     }
 

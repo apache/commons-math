@@ -36,7 +36,7 @@ import java.util.ResourceBundle;
 public class MathException extends Exception {
     
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 5924076008552401454L;
+    private static final long serialVersionUID = -2803873247432645339L;
 
     /** Cache for resources bundle. */
     private static ResourceBundle cachedResources = null;
@@ -83,12 +83,12 @@ public class MathException extends Exception {
 
     /**
      * Builds a message string by from a pattern and its arguments.
+     * @param locale Locale in which the message should be translated
      * @param pattern format specifier
      * @param arguments format arguments
-     * @param locale Locale in which the message should be translated
      * @return a message string
      */
-    private static String buildMessage(String pattern, Object[] arguments, Locale locale) {
+    private static String buildMessage(Locale locale, String pattern, Object ... arguments) {
         return (pattern == null) ? "" : new MessageFormat(translate(pattern, locale), locale).format(arguments);        
     }
 
@@ -109,8 +109,8 @@ public class MathException extends Exception {
      * @param pattern format specifier
      * @param arguments format arguments
      */
-    public MathException(String pattern, Object[] arguments) {
-      super(buildMessage(pattern, arguments, Locale.US));
+    public MathException(String pattern, Object ... arguments) {
+      super(buildMessage(Locale.US, pattern, arguments));
       this.pattern   = pattern;
       this.arguments = (arguments == null) ? new Object[0] : arguments.clone();
     }
@@ -132,14 +132,14 @@ public class MathException extends Exception {
      * Constructs a new <code>MathException</code> with specified
      * formatted detail message and nested <code>Throwable</code> root cause.
      * Message formatting is delegated to {@link java.text.MessageFormat}.
-     * @param pattern format specifier
-     * @param arguments format arguments
      * @param rootCause the exception or error that caused this exception
      * to be thrown.
+     * @param pattern format specifier
+     * @param arguments format arguments
      * @since 1.2
      */
-    public MathException(String pattern, Object[] arguments, Throwable rootCause) {
-      super(buildMessage(pattern, arguments, Locale.US), rootCause);
+    public MathException(Throwable rootCause, String pattern, Object ... arguments) {
+      super(buildMessage(Locale.US, pattern, arguments), rootCause);
       this.pattern   = pattern;
       this.arguments = (arguments == null) ? new Object[0] : arguments.clone();
     }
@@ -170,7 +170,7 @@ public class MathException extends Exception {
      * @since 1.2
      */
     public String getMessage(Locale locale) {
-        return buildMessage(pattern, arguments, locale);
+        return buildMessage(locale, pattern, arguments);
     }
 
     /** {@inheritDoc} */

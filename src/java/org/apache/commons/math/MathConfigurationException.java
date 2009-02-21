@@ -41,7 +41,7 @@ public class MathConfigurationException extends MathException implements Seriali
      * @param arguments format arguments
      * @since 1.2
      */
-    public MathConfigurationException(String pattern, Object[] arguments) {
+    public MathConfigurationException(String pattern, Object ... arguments) {
         super(pattern, arguments);
     }
 
@@ -56,13 +56,13 @@ public class MathConfigurationException extends MathException implements Seriali
     /**
      * Constructs an exception with specified formatted detail message and root cause.
      * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * @param cause  the exception or error that caused this exception to be thrown
      * @param pattern format specifier
      * @param arguments format arguments
-     * @param cause  the exception or error that caused this exception to be thrown
      * @since 1.2
      */
-    public MathConfigurationException(String pattern, Object[] arguments, Throwable cause) {
-        super(pattern, arguments, cause);
+    public MathConfigurationException(Throwable cause, String pattern, Object ... arguments) {
+        super(cause, pattern, arguments);
     }
 
 }

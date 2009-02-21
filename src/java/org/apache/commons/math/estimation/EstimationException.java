@@ -39,7 +39,7 @@ extends MathException {
      * @param specifier format specifier (to be translated)
      * @param parts to insert in the format (no translation)
      */
-    public EstimationException(String specifier, Object[] parts) {
+    public EstimationException(String specifier, Object ... parts) {
         super(specifier, parts);
     }
 

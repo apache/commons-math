@@ -28,9 +28,6 @@ import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealVectorImpl;
 import org.apache.commons.math.linear.RealVectorImplTest;
-import org.apache.commons.math.linear.RealVectorImplTest.RealVectorTestImpl;
-import org.apache.commons.math.linear.decomposition.DecompositionSolver;
-import org.apache.commons.math.linear.decomposition.EigenDecompositionImpl;
 import org.apache.commons.math.util.MathUtils;
 
 public class EigenSolverTest extends TestCase {

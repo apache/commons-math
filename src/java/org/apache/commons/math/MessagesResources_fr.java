@@ -47,7 +47,7 @@ public class MessagesResources_fr
     // org.apache.commons.math.util.MathUtils
     { "overflow: gcd({0}, {1}) is 2^31",
       "d\u00e9passement de capacit\u00e9 : le PGCD de {0} et {1} vaut 2^31" },
-      
+        
     // org.apache.commons.math.FunctionEvaluationException
     { "Evaluation failed for argument = {0}",
       "Erreur d''\u00e9valuation pour l''argument {0}" },
@@ -284,6 +284,30 @@ public class MessagesResources_fr
      "impossible de mettre un \u00e9l\u00e9ment \u00e0 un index n\u00e9gatif ({0})" },
    { "cannot substitute an element from an empty array",
      "impossible de substituer un \u00e9l\u00e9ment dans un tableau vide" },
+   { "contraction criteria ({0}) smaller than the expansion factor ({1}).  This would " +
+     "lead to a never ending loop of expansion and contraction as a newly expanded " +
+     "internal storage array would immediately satisfy the criteria for contraction.",
+     "crit\u00e8re de contraction ({0}) inf\u00e9rieur au facteur d''extension. Ceci " +
+     "induit une boucle infinie d''extensions/contractions car tout tableau de stockage " +
+     "fra\u00eechement \u00e9tendu respecte imm\u00e9diatement le crit\u00e8re de contraction."},
+   { "contraction criteria smaller than one ({0}).  This would lead to a never ending " +
+     "loop of expansion and contraction as an internal storage array length equal " +
+     "to the number of elements would satisfy the contraction criteria.",
+     "crit\u00e8re de contraction inf\u00e9rieur \u00e0 un ({0}). Ceci induit une boucle " +
+     "infinie d''extensions/contractions car tout tableau de stockage de longueur \u00e9gale " +
+     "au nombre d''\u00e9l\u00e9ments respecte le crit\u00e8re de contraction." },
+   { "expansion factor smaller than one ({0})",
+     "facteur d''extension inf\u00e9rieur \u00e0 un ({0})"},
+   { "cannot discard {0} elements from a {1} elements array",
+     "impossible d''enlever {0} \u00e9l\u00e9ments d''un tableau en contenant {1}"},
+   { "cannot discard a negative number of elements ({0})",
+     "impossible d''enlever un nombre d''\u00e9l\u00e9ments{0} n\u00e9gatif"},
+   { "unsupported expansion mode {0}, supported modes are {1} ({2}) and {3} ({4})",
+     "mode d''extension {0} no support\u00e9, les modes support\u00e9s sont {1} ({2}) et {3} ({4})" },
+   { "initial capacity ({0}) is not positive",
+     "la capacit\u00e9 initiale ({0}) n''est pas positive" },
+   { "index ({0}) is not positive",
+     "l''indice ({0}) n''est pas positif" },
 
    // org.apache.commons.math.analysis.polynomials.PolynomialFunctionLagrangeForm
    { "identical abscissas x[{0}] == x[{1}] == {2} cause division by zero",
@@ -364,6 +388,20 @@ public class MessagesResources_fr
      "mode {0} inconnu, modes connus : {1} ({2}), {3} ({4}), {5} ({6}), {7} ({8}), {9} ({10}) et {11} ({12})" },
    { "digest not initialized",
      "mod\u00e8le empirique non initialis\u00e9" },
+
+   // org.apache.commons.math.stat.correlation.Covariance
+   { "arrays must have the same length and both must have at " +
+     "least two elements. xArray has size {0}, yArray has {1} elements",
+     "les tableaux doivent avoir la m\u00eame taille et comporter au moins deux \u00e9l\u00e9ments. " +
+     "xArray a une taille de {0}, yArray a {1} \u00e9l\u00e9ments"},
+   { "insufficient data: only {0} rows and {1} columns.",
+     "donn\u00e9es insuffisantes : seulement {0} lignes et {1} colonnes." },
+
+   // org.apache.commons.math.stat.correlation.PearsonsCorrelation
+   { "covariance matrix is null",
+     "la matrice de covariance est nulle" },
+   { "invalid array dimensions. xArray has size {0}; yArray has {1} elements",
+     "dimensions de tableaux invalides. xArray a une taille de {0}, yArray a {1} \u00e9l\u00e9ments" },
 
    // org.apache.commons.math.stat.descriptive.moment.GeometricMean
    // org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics

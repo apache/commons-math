@@ -218,8 +218,9 @@ public class FastSineTransformer implements RealTransformer {
 
         FastFourierTransformer.verifyDataSet(f);
         if (f[0] != 0.0) {
-            throw MathRuntimeException.createIllegalArgumentException("first element is not 0: {0}",
-                                                                      new Object[] { f[0] });
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "first element is not 0: {0}",
+                    f[0]);
         }
         int N = f.length;
         if (N == 1) {       // trivial case

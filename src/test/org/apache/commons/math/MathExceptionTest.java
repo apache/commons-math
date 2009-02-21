@@ -62,7 +62,7 @@ public class MathExceptionTest extends TestCase {
         Object[] arguments = { Integer.valueOf(6), Integer.valueOf(4) };
         String inMsg = "inner message";
         Exception cause = new Exception(inMsg);
-        MathException ex = new MathException(pattern, arguments, cause);
+        MathException ex = new MathException(cause, pattern, arguments);
         assertEquals(cause, ex.getCause());
         assertEquals(pattern, ex.getPattern());
         assertEquals(arguments.length, ex.getArguments().length);
@@ -79,8 +79,8 @@ public class MathExceptionTest extends TestCase {
     public void testPrintStackTrace() {
         String outMsg = "outer message";
         String inMsg = "inner message";
-        MathException cause = new MathConfigurationException(inMsg, null);
-        MathException ex = new MathException(outMsg, null, cause);
+        MathException cause = new MathConfigurationException(inMsg);
+        MathException ex = new MathException(cause, outMsg);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);
         ex.printStackTrace(ps);
@@ -104,8 +104,8 @@ public class MathExceptionTest extends TestCase {
     public void testSerialization() {
         String outMsg = "outer message";
         String inMsg = "inner message";
-        MathException cause = new MathConfigurationException(inMsg, null);
-        MathException ex = new MathException(outMsg, null, cause);
+        MathException cause = new MathConfigurationException(inMsg);
+        MathException ex = new MathException(cause, outMsg);
         MathException image = (MathException) TestUtils.serializeAndRecover(ex);
         
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

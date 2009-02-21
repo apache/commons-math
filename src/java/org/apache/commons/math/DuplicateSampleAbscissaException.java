@@ -35,7 +35,7 @@ public class DuplicateSampleAbscissaException extends MathException  {
      */
     public DuplicateSampleAbscissaException(double abscissa, int i1, int i2) {
         super("Abscissa {0} is duplicated at both indices {1} and {2}",
-              new Object[] { Double.valueOf(abscissa), Integer.valueOf(i1), Integer.valueOf(i2) });
+              abscissa, i1, i2);
     }
 
     /**

@@ -44,7 +44,7 @@ public class DefaultTransformer implements NumberTransformer, Serializable {
     public double transform(Object o) throws MathException{
 
         if (o == null) {
-            throw new MathException("Conversion Exception in Transformation, Object is null", null);
+            throw new MathException("Conversion Exception in Transformation, Object is null");
         }
 
         if (o instanceof Number) {
@@ -54,8 +54,8 @@ public class DefaultTransformer implements NumberTransformer, Serializable {
         try {
             return Double.valueOf(o.toString()).doubleValue();
         } catch (Exception e) {
-            throw new MathException("Conversion Exception in Transformation: {0}",
-                                    new Object[] { e.getMessage() }, e);
+            throw new MathException(e,
+                                    "Conversion Exception in Transformation: {0}", e.getMessage());
         }
     }
 }

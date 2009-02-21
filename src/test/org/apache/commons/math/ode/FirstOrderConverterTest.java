@@ -78,7 +78,9 @@ public class FirstOrderConverterTest
   private static class Equations
     implements SecondOrderDifferentialEquations {
       
-      private int n;
+    private static final long serialVersionUID = -7926271579508637558L;
+
+    private int n;
 
       private double omega2;
       

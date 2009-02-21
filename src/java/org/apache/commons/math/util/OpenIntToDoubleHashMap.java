@@ -523,11 +523,10 @@ public class OpenIntToDoubleHashMap implements Serializable {
         public int key()
             throws ConcurrentModificationException, NoSuchElementException {
             if (referenceCount != count) {
-                throw MathRuntimeException.createConcurrentModificationException("map has been modified while iterating",
-                                                                                 null);
+                throw MathRuntimeException.createConcurrentModificationException("map has been modified while iterating");
             }
             if (current < 0) {
-                throw MathRuntimeException.createNoSuchElementException("iterator exhausted", null);
+                throw MathRuntimeException.createNoSuchElementException("iterator exhausted");
             }
             return keys[current];
         }
@@ -541,11 +540,10 @@ public class OpenIntToDoubleHashMap implements Serializable {
         public double value()
             throws ConcurrentModificationException, NoSuchElementException {
             if (referenceCount != count) {
-                throw MathRuntimeException.createConcurrentModificationException("map has been modified while iterating",
-                                                                                 null);
+                throw MathRuntimeException.createConcurrentModificationException("map has been modified while iterating");
             }
             if (current < 0) {
-                throw MathRuntimeException.createNoSuchElementException("iterator exhausted", null);
+                throw MathRuntimeException.createNoSuchElementException("iterator exhausted");
             }
             return values[current];
         }
@@ -559,8 +557,7 @@ public class OpenIntToDoubleHashMap implements Serializable {
             throws ConcurrentModificationException, NoSuchElementException {
 
             if (referenceCount != count) {
-                throw MathRuntimeException.createConcurrentModificationException("map has been modified while iterating",
-                                                                                 null);
+                throw MathRuntimeException.createConcurrentModificationException("map has been modified while iterating");
             }
 
             // advance on step
@@ -574,7 +571,7 @@ public class OpenIntToDoubleHashMap implements Serializable {
             } catch (ArrayIndexOutOfBoundsException e) {
                 next = -2;
                 if (current < 0) {
-                    throw MathRuntimeException.createNoSuchElementException("iterator exhausted", null);
+                    throw MathRuntimeException.createNoSuchElementException("iterator exhausted");
                 }
             }
 

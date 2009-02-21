@@ -34,7 +34,7 @@ public class MatrixIndexException extends MathRuntimeException {
      * @param pattern format specifier
      * @param arguments format arguments
      */
-    public MatrixIndexException(final String pattern, final Object[] arguments) {
+    public MatrixIndexException(final String pattern, final Object ... arguments) {
       super(pattern, arguments);
     }
 

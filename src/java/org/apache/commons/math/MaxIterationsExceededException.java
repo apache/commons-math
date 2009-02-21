@@ -29,19 +29,18 @@ import org.apache.commons.math.ConvergenceException;
 public class MaxIterationsExceededException extends ConvergenceException {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -2154780004193976271L;
+    private static final long serialVersionUID = -7821226672760574694L;
 
     /** Maximal number of iterations allowed. */
-    private int maxIterations;
+    private final int maxIterations;
 
     /**
      * Constructs an exception with specified formatted detail message.
      * Message formatting is delegated to {@link java.text.MessageFormat}.
      * @param maxIterations maximal number of iterations allowed
      */
-    public MaxIterationsExceededException(int maxIterations) {
-        super("Maximal number of iterations ({0}) exceeded",
-              new Object[] { Integer.valueOf(maxIterations) });
+    public MaxIterationsExceededException(final int maxIterations) {
+        super("Maximal number of iterations ({0}) exceeded", maxIterations);
         this.maxIterations = maxIterations;
     }
 
@@ -52,8 +51,8 @@ public class MaxIterationsExceededException extends ConvergenceException {
      * @param pattern format specifier
      * @param arguments format arguments
      */
-    public MaxIterationsExceededException(int maxIterations,
-                                          String pattern, Object[] arguments) {
+    public MaxIterationsExceededException(final int maxIterations,
+                                          final String pattern, final Object ... arguments) {
         super(pattern, arguments);
         this.maxIterations = maxIterations;
     }

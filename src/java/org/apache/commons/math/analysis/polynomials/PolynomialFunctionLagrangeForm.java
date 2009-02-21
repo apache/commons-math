@@ -91,7 +91,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction,
         try {
             return evaluate(x, y, z);
         } catch (DuplicateSampleAbscissaException e) {
-            throw new FunctionEvaluationException(z, e.getPattern(), e.getArguments(), e);
+            throw new FunctionEvaluationException(e, z, e.getPattern(), e.getArguments());
         }
     }
 
@@ -258,9 +258,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction,
                 for (int k = 0; k < n; ++k) {
                     if ((i != k) && (x[i] == x[k])) {
                         throw MathRuntimeException.createArithmeticException("identical abscissas x[{0}] == x[{1}] == {2} cause division by zero",
-                                                                             new Object[] {
-                                                                                 i, k, x[i]
-                                                                             });
+                                                                             i, k, x[i]);
                     }
                 }
             }

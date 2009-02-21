@@ -53,7 +53,7 @@ public class FunctionEvaluationExceptionTest extends TestCase {
         Object[] arguments = { Double.valueOf(0.0) };
         String inMsg = "inner message";
         Exception cause = new Exception(inMsg);
-        FunctionEvaluationException ex = new FunctionEvaluationException(0.0, pattern, arguments, cause);
+        FunctionEvaluationException ex = new FunctionEvaluationException(cause, 0.0, pattern, arguments);
         assertEquals(cause, ex.getCause());
         assertEquals(pattern, ex.getPattern());
         assertEquals(arguments.length, ex.getArguments().length);
@@ -67,7 +67,7 @@ public class FunctionEvaluationExceptionTest extends TestCase {
     public void testConstructorArgumentCause(){
         String inMsg = "inner message";
         Exception cause = new Exception(inMsg);
-        FunctionEvaluationException ex = new FunctionEvaluationException(0.0, cause);
+        FunctionEvaluationException ex = new FunctionEvaluationException(cause, 0.0);
         assertEquals(cause, ex.getCause());
         assertTrue(ex.getMessage().equals(ex.getMessage(Locale.FRENCH)));
     }

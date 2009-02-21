@@ -60,7 +60,7 @@ public class ConvergenceExceptionTest extends TestCase {
         Object[] arguments = { Integer.valueOf(6), Integer.valueOf(4) };
         String inMsg = "inner message";
         Exception cause = new Exception(inMsg);
-        ConvergenceException ex = new ConvergenceException(pattern, arguments, cause);
+        ConvergenceException ex = new ConvergenceException(cause, pattern, arguments);
         assertEquals(cause, ex.getCause());
         assertEquals(pattern, ex.getPattern());
         assertEquals(arguments.length, ex.getArguments().length);

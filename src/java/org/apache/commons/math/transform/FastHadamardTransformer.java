@@ -162,8 +162,9 @@ public class FastHadamardTransformer implements RealTransformer {
 
         // n has to be of the form n = 2^p !!
         if (!FastFourierTransformer.isPowerOf2(n)) {
-            throw MathRuntimeException.createIllegalArgumentException("{0} is not a power of 2",
-                                                                      new Object[] { n });
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "{0} is not a power of 2",
+                    n);
         }
 
         // Instead of creating a matrix with p+1 columns and n rows
@@ -212,8 +213,9 @@ public class FastHadamardTransformer implements RealTransformer {
 
         // n has to be of the form n = 2^p !!
         if (!FastFourierTransformer.isPowerOf2(n)) {
-            throw MathRuntimeException.createIllegalArgumentException("{0} is not a power of 2",
-                                                                      new Object[] { n });
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "{0} is not a power of 2",
+                    n);
         }
 
         // Instead of creating a matrix with p+1 columns and n rows

@@ -98,12 +98,12 @@ public class BetaDistributionImpl
             return 0;
         } else if (x == 0) {
             if (alpha < 1) {
-                throw new MathException("Cannot compute beta density at 0 when alpha = {0,number}", new Double[]{alpha});
+                throw new MathException("Cannot compute beta density at 0 when alpha = {0,number}", alpha);
             }
             return 0;
         } else if (x == 1) {
             if (beta < 1) {
-                throw new MathException("Cannot compute beta density at 1 when beta = %.3g", new Double[]{beta});
+                throw new MathException("Cannot compute beta density at 1 when beta = %.3g", beta);
             }
             return 0;
         } else {

@@ -108,7 +108,7 @@ public abstract class UnivariateRealIntegratorImpl
         if (resultComputed) {
             return result;
         } else {
-            throw MathRuntimeException.createIllegalStateException("no result available", null);
+            throw MathRuntimeException.createIllegalStateException("no result available");
         }
     }
 
@@ -159,7 +159,7 @@ public abstract class UnivariateRealIntegratorImpl
         if (lower >= upper) {
             throw MathRuntimeException.createIllegalArgumentException(
                     "endpoints do not specify an interval: [{0}, {1}]",
-                    new Object[] { lower, upper });
+                    lower, upper);
         }       
     }
 
@@ -172,7 +172,7 @@ public abstract class UnivariateRealIntegratorImpl
         if ((minimalIterationCount <= 0) || (maximalIterationCount <= minimalIterationCount)) {
             throw MathRuntimeException.createIllegalArgumentException(
                     "invalid iteration limits: min={0}, max={1}",
-                    new Object[] { minimalIterationCount, maximalIterationCount });
+                    minimalIterationCount, maximalIterationCount);
         }       
     }
 }

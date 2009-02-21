@@ -112,7 +112,7 @@ public class RombergIntegrator extends UnivariateRealIntegratorImpl {
         if (maximalIterationCount > 32) {
             throw MathRuntimeException.createIllegalArgumentException(
                     "invalid iteration limits: min={0}, max={1}",
-                    new Object[] { 0, 32 });
+                    0, 32);
         }
     }
 }

@@ -64,7 +64,7 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
         if (f instanceof PolynomialFunction) {
             p = (PolynomialFunction) f;
         } else {
-            throw MathRuntimeException.createIllegalArgumentException("function is not polynomial", null);
+            throw MathRuntimeException.createIllegalArgumentException("function is not polynomial");
         }
     }
 
@@ -160,7 +160,7 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
 
         // check function type
         if (!(f instanceof PolynomialFunction)) {
-            throw MathRuntimeException.createIllegalArgumentException("function is not polynomial", null);
+            throw MathRuntimeException.createIllegalArgumentException("function is not polynomial");
         }
 
         // check for zeros before verifying bracketing

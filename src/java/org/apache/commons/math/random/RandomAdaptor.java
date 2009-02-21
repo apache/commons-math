@@ -32,10 +32,11 @@ public class RandomAdaptor extends Random implements RandomGenerator {
 
     /** Wrapped randomGenerator instance */
     private RandomGenerator randomGenerator = null;
-    
+
     /** 
      * Prevent instantiation without a generator argument
      */ 
+    @SuppressWarnings("unused")
     private RandomAdaptor() { }
     
     /**

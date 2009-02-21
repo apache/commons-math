@@ -20,7 +20,6 @@ package org.apache.commons.math.util;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
 
 /**
@@ -543,7 +542,7 @@ public final class MathUtils {
             if ((u == Integer.MIN_VALUE) || (v == Integer.MIN_VALUE)) {
                 throw MathRuntimeException.createArithmeticException(
                         "overflow: gcd({0}, {1}) is 2^31",
-                        new Object[] { p, q });
+                        p, q);
             }
             return (Math.abs(u) + Math.abs(v));
         }
@@ -569,7 +568,7 @@ public final class MathUtils {
         if (k == 31) {
             throw MathRuntimeException.createArithmeticException(
                     "overflow: gcd({0}, {1}) is 2^31",
-                    new Object[] { p, q });
+                    p, q);
         }
         // B2. Initialize: u and v have been divided by 2^k and at least
         // one is odd.

@@ -17,18 +17,15 @@
 
 package org.apache.commons.math.linear.decomposition;
 
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
 import org.apache.commons.math.linear.InvalidMatrixException;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealVectorImpl;
 import org.apache.commons.math.linear.RealVectorImplTest;
-import org.apache.commons.math.linear.RealVectorImplTest.RealVectorTestImpl;
-import org.apache.commons.math.linear.decomposition.DecompositionSolver;
-import org.apache.commons.math.linear.decomposition.SingularValueDecompositionImpl;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 public class SingularValueSolverTest extends TestCase {
 

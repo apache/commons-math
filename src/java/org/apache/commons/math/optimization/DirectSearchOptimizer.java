@@ -270,7 +270,7 @@ public abstract class DirectSearchOptimizer {
 
         } catch (DimensionMismatchException dme) {
             // this should not happen
-            throw new MathRuntimeException("unexpected exception caught", null, dme);
+            throw new MathRuntimeException(dme, "unexpected exception caught");
         }
 
     }
@@ -507,11 +507,9 @@ public abstract class DirectSearchOptimizer {
 
         // return the found point given the lowest cost
         if (minima[0] == null) {
-            throw new ConvergenceException("none of the {0} start points" +
-                                           " lead to convergence",
-                                           new Object[] {
-                                             Integer.toString(starts)
-                                           });
+            throw new ConvergenceException(
+                    "none of the {0} start points lead to convergence",
+                    starts);
         }
         return minima[0];
 

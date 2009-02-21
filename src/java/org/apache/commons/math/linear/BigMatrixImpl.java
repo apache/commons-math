@@ -588,14 +588,14 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         checkRowIndex(endRow);
         if (startRow > endRow) {
             throw new MatrixIndexException("initial row {0} after final row {1}",
-                                           new Object[] { startRow, endRow });
+                                           startRow, endRow);
         }
 
         checkColumnIndex(startColumn);
         checkColumnIndex(endColumn);
         if (startColumn > endColumn) {
             throw new MatrixIndexException("initial column {0} after final column {1}",
-                                           new Object[] { startColumn, endColumn });
+                                           startColumn, endColumn);
         }
 
         final BigDecimal[][] subMatrixData =
@@ -626,9 +626,9 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
 
         if (selectedRows.length * selectedColumns.length == 0) {
             if (selectedRows.length == 0) {
-                throw new MatrixIndexException("empty selected row index array", null);
+                throw new MatrixIndexException("empty selected row index array");
             }
-            throw new MatrixIndexException("empty selected column index array", null);
+            throw new MatrixIndexException("empty selected column index array");
         }
 
         final BigDecimal[][] subMatrixData =
@@ -702,12 +702,14 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
 
         if (data == null) {
             if (row > 0) {
-                throw MathRuntimeException.createIllegalStateException("first {0} rows are not initialized yet",
-                                                                       new Object[] { row });
+                throw MathRuntimeException.createIllegalStateException(
+                        "first {0} rows are not initialized yet",
+                        row);
             }
             if (column > 0) {
-                throw MathRuntimeException.createIllegalStateException("first {0} columns are not initialized yet",
-                                                                       new Object[] { column });
+                throw MathRuntimeException.createIllegalStateException(
+                        "first {0} columns are not initialized yet",
+                        column);
             }
             data = new BigDecimal[nRows][nCols];
             System.arraycopy(subMatrix, 0, data, 0, subMatrix.length);          
@@ -859,11 +861,9 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         try {
             return data[row][column];
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new MatrixIndexException("no entry at indices ({0}, {1}) in a {2}x{3} matrix",
-                                           new Object[] {
-                                               row, column,
-                                               getRowDimension(), getColumnDimension()
-                                           });
+            throw new MatrixIndexException(
+                    "no entry at indices ({0}, {1}) in a {2}x{3} matrix",
+                    row, column, getRowDimension(), getColumnDimension());
         }
     }
     
@@ -989,7 +989,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      */
     public BigDecimal getTrace() throws IllegalArgumentException {
         if (!isSquare()) {
-            throw new IllegalArgumentException("matrix is not square");
+            throw new NonSquareMatrixException(getRowDimension(), getColumnDimension());
         }
         BigDecimal trace = data[0][0];
         for (int i = 1; i < this.getRowDimension(); i++) {
@@ -1006,8 +1006,10 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      * @throws IllegalArgumentException if columnDimension != v.size()
      */
     public BigDecimal[] operate(BigDecimal[] v) throws IllegalArgumentException {
-        if (v.length != this.getColumnDimension()) {
-            throw new IllegalArgumentException("vector has wrong length");
+        if (v.length != getColumnDimension()) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "vector length mismatch: got {0} but expected {1}",
+                    v.length, getColumnDimension() );
         }
         final int nRows = this.getRowDimension();
         final int nCols = this.getColumnDimension();
@@ -1047,7 +1049,9 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     public BigDecimal[] preMultiply(BigDecimal[] v) throws IllegalArgumentException {
         final int nRows = this.getRowDimension();
         if (v.length != nRows) {
-            throw new IllegalArgumentException("vector has wrong length");
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "vector length mismatch: got {0} but expected {1}",
+                    v.length, nRows );
         }
         final int nCols = this.getColumnDimension();
         final BigDecimal[] out = new BigDecimal[nCols];
@@ -1075,7 +1079,9 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     public BigDecimal[] solve(BigDecimal[] b) throws IllegalArgumentException, InvalidMatrixException {
         final int nRows = this.getRowDimension();
         if (b.length != nRows) {
-            throw new IllegalArgumentException("constant vector has wrong length");
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "vector length mismatch: got {0} but expected {1}",
+                    b.length, nRows);
         }
         final BigMatrix bMatrix = new BigMatrixImpl(b);
         final BigDecimal[][] solution = ((BigMatrixImpl) (solve(bMatrix))).getDataRef();
@@ -1117,10 +1123,12 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      * @throws InvalidMatrixException if this matrix is not square or is singular
      */
     public BigMatrix solve(BigMatrix b) throws IllegalArgumentException, InvalidMatrixException  {
-        if (b.getRowDimension() != this.getRowDimension()) {
-            throw new IllegalArgumentException("Incorrect row dimension");
+        if (b.getRowDimension() != getRowDimension()) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                    b.getRowDimension(), b.getColumnDimension(), getRowDimension(), "n");
         }
-        if (!this.isSquare()) {
+        if (!isSquare()) {
             throw new NonSquareMatrixException(getRowDimension(), getColumnDimension());
         }
         if (this.isSingular()) { // side effect: compute LU decomp
@@ -1480,8 +1488,9 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      */
     private void checkRowIndex(final int row) {
         if (row < 0 || row >= getRowDimension()) {
-            throw new MatrixIndexException("row index {0} out of allowed range [{1}, {2}]",
-                                           new Object[] { row, 0, getRowDimension() - 1});
+            throw new MatrixIndexException(
+                    "row index {0} out of allowed range [{1}, {2}]",
+                    row, 0, getRowDimension() - 1);
         }
     }
 
@@ -1493,8 +1502,9 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     private void checkColumnIndex(final int column)
         throws MatrixIndexException {
         if (column < 0 || column >= getColumnDimension()) {
-            throw new MatrixIndexException("column index {0} out of allowed range [{1}, {2}]",
-                                           new Object[] { column, 0, getColumnDimension() - 1});
+            throw new MatrixIndexException(
+                    "column index {0} out of allowed range [{1}, {2}]",
+                    column, 0, getColumnDimension() - 1);
         }
     }
 

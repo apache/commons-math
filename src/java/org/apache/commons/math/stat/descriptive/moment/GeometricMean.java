@@ -186,8 +186,9 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic {
      */
     private void checkEmpty() {
         if (getN() > 0) {
-            throw MathRuntimeException.createIllegalStateException("{0} values have been added before statistic is configured",
-                                                                   new Object[] { getN() });
+            throw MathRuntimeException.createIllegalStateException(
+                    "{0} values have been added before statistic is configured",
+                    getN());
         }
     }
 

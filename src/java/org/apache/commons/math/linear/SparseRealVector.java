@@ -1168,8 +1168,7 @@ public class SparseRealVector implements RealVector {
     public void unitize() {
         double norm = getNorm();
         if(isZero(norm)){
-            throw  MathRuntimeException.createArithmeticException("cannot normalize a zero norm vector",
-                    null);
+            throw  MathRuntimeException.createArithmeticException("cannot normalize a zero norm vector");
             
         }
         Iterator iter = entries.iterator();
@@ -1192,7 +1191,7 @@ public class SparseRealVector implements RealVector {
         if (index < 0 || index >= getDimension()) {
             throw new MatrixIndexException(
                     "index {0} out of allowed range [{1}, {2}]",
-                    new Object[] { index, 0, getDimension() - 1 });
+                    index, 0, getDimension() - 1);
         }
     }
 
@@ -1208,7 +1207,7 @@ public class SparseRealVector implements RealVector {
         if (getDimension() != n) {
             throw MathRuntimeException.createIllegalArgumentException(
                     "vector length mismatch: got {0} but expected {1}",
-                    new Object[] { getDimension(), n });
+                    getDimension(), n);
         }
     }
 

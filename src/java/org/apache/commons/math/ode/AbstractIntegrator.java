@@ -137,28 +137,23 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
         throws IntegratorException {
 
         if (equations.getDimension() != y0.length) {
-            throw new IntegratorException("dimensions mismatch: ODE problem has dimension {0}," +
-                                          " initial state vector has dimension {1}",
-                                          new Object[] {
-                                              Integer.valueOf(equations.getDimension()),
-                                              Integer.valueOf(y0.length)
-                                          });
+            throw new IntegratorException(
+                    "dimensions mismatch: ODE problem has dimension {0}," +
+                    " initial state vector has dimension {1}",
+                    equations.getDimension(), y0.length);
         }
 
         if (equations.getDimension() != y.length) {
-            throw new IntegratorException("dimensions mismatch: ODE problem has dimension {0}," +
-                                          " final state vector has dimension {1}",
-                                          new Object[] {
-                                              Integer.valueOf(equations.getDimension()),
-                                              Integer.valueOf(y.length)
-                                          });
+            throw new IntegratorException(
+                    "dimensions mismatch: ODE problem has dimension {0}," +
+                    " final state vector has dimension {1}",
+                    equations.getDimension(), y.length);
         }
 
         if (Math.abs(t - t0) <= 1.0e-12 * Math.max(Math.abs(t0), Math.abs(t))) {
-            throw new IntegratorException("too small integration interval: length = {0}",
-                                          new Object[] {
-                                              Double.valueOf(Math.abs(t - t0))
-                                          });
+            throw new IntegratorException(
+                    "too small integration interval: length = {0}",
+                    Math.abs(t - t0));
         }
 
     }

@@ -36,7 +36,7 @@ public class NotARotationMatrixException
    * @param specifier format specifier (to be translated)
    * @param parts to insert in the format (no translation)
    */
-  public NotARotationMatrixException(String specifier, Object[] parts) {
+  public NotARotationMatrixException(String specifier, Object ... parts) {
     super(specifier, parts);
   }
 

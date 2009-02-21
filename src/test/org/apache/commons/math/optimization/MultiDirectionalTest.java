@@ -38,7 +38,7 @@ public class MultiDirectionalTest
           new CostFunction() {
             public double cost(double[] x) throws CostException {
                 if (x[0] < 0) {
-                    throw new CostException("{0}", new Object[] { "oops"});
+                    throw new CostException("{0}", "oops");
                 } else if (x[0] > 1) {
                     throw new CostException(new RuntimeException("oops"));
                 } else {
