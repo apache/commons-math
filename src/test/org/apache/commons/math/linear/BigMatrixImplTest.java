@@ -22,6 +22,8 @@ import junit.framework.TestSuite;
 
 import java.math.BigDecimal;
 
+import org.apache.commons.math.linear.decomposition.NonSquareMatrixException;
+
 /**
  * Test cases for the {@link BigMatrixImpl} class.
  *
@@ -409,8 +411,8 @@ public final class BigMatrixImplTest extends TestCase {
         m = new BigMatrixImpl(testData2);
         try {
             m.getTrace().doubleValue();
-            fail("Expecting illegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting NonSquareMatrixException");
+        } catch (NonSquareMatrixException ex) {
             ;
         }      
     }
