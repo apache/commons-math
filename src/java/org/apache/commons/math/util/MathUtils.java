@@ -374,7 +374,7 @@ public final class MathUtils {
      * Returns true iff both arguments are equal or within the range of allowed
      * error (inclusive).
      * <p>
-     * Two NaNs are considered equals, as are two infinities with same size.
+     * Two NaNs are considered equals, as are two infinities with same sign.
      * </p>
      * 
      * @param x first value
