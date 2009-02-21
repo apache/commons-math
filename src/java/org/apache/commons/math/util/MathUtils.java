@@ -373,6 +373,9 @@ public final class MathUtils {
     /**
      * Returns true iff both arguments are equal or within the range of allowed
      * error (inclusive).
+     * <p>
+     * Two NaNs are considered equals, as are two infinities with same size.
+     * </p>
      * 
      * @param x first value
      * @param y second value
@@ -380,7 +383,7 @@ public final class MathUtils {
      * @return true if the values are equal or within range of each other
      */
     public static boolean equals(double x, double y, double eps) {
-      return x == y || (x < y && (x + eps) >= y) || (x > y && x <= (y + eps));
+      return equals(x, y) || (Math.abs(y - x) <= eps);
     }
     
     /**
