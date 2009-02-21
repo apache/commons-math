@@ -39,6 +39,9 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="luc" type="add" issue="MATH-247" due-to="Benjamin McCann">
+        Added a MathUtils method to check equality given some error bounds.
+      </action>
       <action dev="psteitz" type="add" issue="MATH-114" due-to="John Gant">
         Added PearsonsCorrelation class to compute correlation matrices, standard
         errors and p-values for correlation coefficients.

@@ -335,6 +335,14 @@ public final class MathUtilsTest extends TestCase {
         }
     }
 
+    public void testEqualsWithAllowedDelta() {
+        assertTrue(MathUtils.equals(153.0000, 153.0000, .0001));
+        assertTrue(MathUtils.equals(153.0000, 153.0001, .0001));
+        assertTrue(MathUtils.equals(152.9999, 153.0000, .0001));
+        assertFalse(MathUtils.equals(153.0000, 153.0001, .00001));
+        assertFalse(MathUtils.equals(152.9998, 153.0000, .0001));
+    }
+    
     public void testArrayEquals() {
         assertFalse(MathUtils.equals(new double[] { 1d }, null));
         assertFalse(MathUtils.equals(null, new double[] { 1d }));

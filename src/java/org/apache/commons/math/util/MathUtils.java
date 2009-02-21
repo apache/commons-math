@@ -369,6 +369,19 @@ public final class MathUtils {
     }
 
     /**
+     * Returns true iff both arguments are equal or within the range of allowed
+     * error (inclusive).
+     * 
+     * @param x first value
+     * @param y second value
+     * @param eps the amount of absolute error to allow
+     * @return true if the values are equal or within range of each other
+     */
+    public static boolean equals(double x, double y, double eps) {
+      return x == y || (x < y && (x + eps) >= y) || (x > y && x <= (y + eps));
+    }
+    
+    /**
      * Returns true iff both arguments are null or have same dimensions
      * and all their elements are {@link #equals(double,double) equals}
      * 
