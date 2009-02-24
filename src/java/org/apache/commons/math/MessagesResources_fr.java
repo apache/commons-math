@@ -69,6 +69,7 @@ public class MessagesResources_fr
       "Nombre maximal d''it\u00e9rations ({0}) d\u00e9pass\u00e9" },
 
     // org.apache.commons.math.DimensionMismatchException
+    // org.apache.commons.math.optimization.LeastSquaresConverter
     { "dimension mismatch {0} != {1}",
       "dimensions incompatibles {0} != {1}" },
 
@@ -105,7 +106,7 @@ public class MessagesResources_fr
     { "Conversion Exception in Transformation: {0}",
       "Exception de conversion dans une transformation : {0}" },
 
-    // org.apache.commons.math.estimation.AbstractEstimator
+    // org.apache.commons.math.optimization.general.AbstractEstimator
     { "maximal number of evaluations exceeded ({0})",
       "nombre maximal d''\u00e9valuations d\u00e9pass\u00e9 ({0})" },
     { "unable to compute covariances: singular problem",
@@ -113,11 +114,11 @@ public class MessagesResources_fr
     { "no degrees of freedom ({0} measurements, {1} parameters)",
       "aucun degr\u00e9 de libert\u00e9 ({0} mesures, {1} param\u00e8tres)" },
 
-    // org.apache.commons.math.estimation.GaussNewtonEstimator
+    // org.apache.commons.math.optimization.general.GaussNewtonEstimator
     { "unable to solve: singular problem",
       "r\u00e9solution impossible : probl\u00e8me singulier" },
 
-    // org.apache.commons.math.estimation.LevenbergMarquardtEstimator
+    // org.apache.commons.math.optimization.general.LevenbergMarquardtEstimator
     { "cost relative tolerance is too small ({0}), no further reduction in the sum of squares is possible",
       "trop petite tol\u00e9rance relative sur le co\u00fbt ({0}), aucune r\u00e9duction de la somme des carr\u00e9s n''est possible" },
     { "parameters relative tolerance is too small ({0}), no further improvement in the approximate solution is possible",
@@ -167,11 +168,11 @@ public class MessagesResources_fr
       "intervalle d''int\u00e9gration trop petit : {0}" },
 
     // org.apache.commons.math.ode.ContinuousOutputModel
-    // org.apache.commons.math.optimization.DirectSearchOptimizer
+    // org.apache.commons.math.optimization.direct.DirectSearchOptimizer
     { "unexpected exception caught",
       "exception inattendue lev\u00e9e" },
 
-    // org.apache.commons.math.optimization.DirectSearchOptimizer
+    // org.apache.commons.math.optimization.direct.DirectSearchOptimizer
     { "none of the {0} start points lead to convergence",
       "aucun des {0} points de d\u00e9part n''aboutit \u00e0 une convergence"  },
 
@@ -198,14 +199,27 @@ public class MessagesResources_fr
     // org.apache.commons.math.linear.decomposition.LUDecompositionImpl
     // org.apache.commons.math.linear.decomposition.QRDecompositionImpl
     // org.apache.commons.math.linear.decomposition.SingularValueDecompositionImpl
-    { "vector length mismatch: got {0} but expected {1}",
-      "dimension de vecteur erronn\u00e9e : {0} \u00e0 la place de {1}" },
     { "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
       "dimensions erronn\u00e9es : {0}x{1} \u00e0 la place de {2}x{3}" },
+
+    // org.apache.commons.math.linear.decomposition.CholeskyDecompositionImpl
+    // org.apache.commons.math.linear.decomposition.EigenDecompositionImpl
+    // org.apache.commons.math.linear.decomposition.LUDecompositionImpl
+    // org.apache.commons.math.linear.decomposition.QRDecompositionImpl
+    // org.apache.commons.math.linear.decomposition.SingularValueDecompositionImpl
+    // org.apache.commons.math.linear.RealVectorImpl
+    // org.apache.commons.math.linear.SparseRealVector
+    { "vector length mismatch: got {0} but expected {1}",
+      "dimension de vecteur erronn\u00e9e : {0} \u00e0 la place de {1}" },
       
     // org.apache.commons.math.linear.RealVectorImpl
+    // org.apache.commons.math.linear.SparseRealVector
     { "index {0} out of allowed range [{1}, {2}]",
       "index {0} hors de la plage autoris\u00e9e [{1}, {2}]" },
+    { "vector must have at least one element",
+      "un vecteur doit comporter au moins un \u00e9l\u00e9ment" },
+    { "position {0} and size {1} don't fit to the size of the input array {2}",
+      "la position {0} et la taille {1} sont incompatibles avec la taille du tableau d''entr\u00e9e {2}"},
 
     // org.apache.commons.math.linear.AbstractRealMatrix
     { "invalid row dimension: {0} (must be positive)",

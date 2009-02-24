@@ -98,7 +98,7 @@ public class RealVectorImpl implements RealVector, Serializable {
             throw new NullPointerException();
         }   
         if (d.length == 0) {
-            throw new IllegalArgumentException("Vector must have at least one element."); 
+            throw MathRuntimeException.createIllegalArgumentException("vector must have at least one element"); 
         }
         data = copyArray ? d.clone() :  d;
     }
@@ -111,9 +111,9 @@ public class RealVectorImpl implements RealVector, Serializable {
      */
     public RealVectorImpl(double[] d, int pos, int size) {
         if (d.length < pos + size) {
-            throw new IllegalArgumentException("Position " + pos + " and size " + size +
-                                               " don't fit to the size of the input array " +
-                                               d.length);
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "position {0} and size {1} don't fit to the size of the input array {2}",
+                    pos, size, d.length);
         }
         data = new double[size];
         System.arraycopy(d, pos, data, 0, size);
@@ -138,9 +138,9 @@ public class RealVectorImpl implements RealVector, Serializable {
      */
     public RealVectorImpl(Double[] d, int pos, int size) {
         if (d.length < pos + size) {
-            throw new IllegalArgumentException("Position " + pos + " and size " + size +
-                                               " don't fit to the size of the input array " +
-                                               d.length);
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "position {0} and size {1} don't fit to the size of the input array {2}",
+                    pos, size, d.length);
         }
         data = new double[size];
         for (int i = pos; i < pos + size; i++) {
@@ -1284,8 +1284,9 @@ public class RealVectorImpl implements RealVector, Serializable {
     protected void checkVectorDimensions(int n)
         throws IllegalArgumentException {
         if (data.length != n) {
-            throw new IllegalArgumentException("vector dimension is " + data.length +
-                                               ", not " + n + " as expected");
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "vector length mismatch: got {0} but expected {1}",
+                    data.length, n);
         }
     }
 

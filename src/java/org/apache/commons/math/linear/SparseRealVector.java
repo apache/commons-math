@@ -27,14 +27,17 @@ import org.apache.commons.math.util.OpenIntToDoubleHashMap.Iterator;
 */
 public class SparseRealVector implements RealVector {
 
+    /** Default Tolerance for having a value considered zero. */
+    public static final double DEFAULT_ZERO_TOLERANCE = 1.0e-12;
+
     /** Entries of the vector. */
-    private  OpenIntToDoubleHashMap entries;
+    private final OpenIntToDoubleHashMap entries;
 
     /** Dimension of the vector. */
     private final int virtualSize;
 
     /** Tolerance for having a value considered zero. */
-    private double epsilon = 1.0e-12;
+    private double epsilon;
 
     /**
      * Build a 0-length vector.
@@ -46,8 +49,7 @@ public class SparseRealVector implements RealVector {
      * into this vector.</p>
      */
     public SparseRealVector() {
-        virtualSize = 0;
-        entries = new OpenIntToDoubleHashMap(0.0);
+        this(0, DEFAULT_ZERO_TOLERANCE);
     }
 
     /**
@@ -55,130 +57,69 @@ public class SparseRealVector implements RealVector {
      * @param dimension size of the vector
      */
     public SparseRealVector(int dimension) {
-        virtualSize = dimension;
-        entries = new OpenIntToDoubleHashMap(0.0);
+        this(dimension, DEFAULT_ZERO_TOLERANCE);
     }
 
     /**
-     * Construct a (dimension)-length vector of zeros, specifying zero tolerance
+     * Construct a (dimension)-length vector of zeros, specifying zero tolerance.
      * @param dimension Size of the vector
      * @param epsilon The tolerance for having a value considered zero
      */
-    public SparseRealVector(int dimension, double epsilon){
+    public SparseRealVector(int dimension, double epsilon) {
         virtualSize = dimension;
         entries = new OpenIntToDoubleHashMap(0.0);
         this.epsilon = epsilon;
     }
-    
+
     /**
-     * Resize the vector, for use with append
+     * Build a resized vector, for use with append.
      * @param v The original vector
      * @param resize The amount to resize it
      */
     protected SparseRealVector(SparseRealVector v, int resize) {
         virtualSize = v.getDimension() + resize;
         entries = new OpenIntToDoubleHashMap(v.entries);
+        epsilon = DEFAULT_ZERO_TOLERANCE;
     }
 
     /**
-     * For advanced use, when you know the sparseness 
+     * Build a vector with known the sparseness (for advanced use only).
      * @param dimension The size of the vector
-     * @param expectedSize The excpected number of non-zero entries
+     * @param expectedSize The expected number of non-zero entries
      */
     public SparseRealVector(int dimension, int expectedSize) {
-        entries = new OpenIntToDoubleHashMap(expectedSize, 0.0);
-        virtualSize = dimension;
+        this(dimension, expectedSize, DEFAULT_ZERO_TOLERANCE);
     }
 
     /**
-     * For advanced use, when you know the sparseness and want to specify zero tolerance
+     * Build a vector with known the sparseness and zero tolerance setting (for advanced use only).
      * @param dimension The size of the vector
      * @param expectedSize The expected number of non-zero entries
      * @param epsilon The tolerance for having a value considered zero
      */
-    public SparseRealVector(int dimension, int expectedSize, double epsilon){
+    public SparseRealVector(int dimension, int expectedSize, double epsilon) {
         virtualSize = dimension;
         entries = new OpenIntToDoubleHashMap(expectedSize, 0.0);
         this.epsilon = epsilon;
     }
-    
+
     /**
      * Create from a double array.
      * Only non-zero entries will be stored
      * @param values The set of values to create from
      */
     public SparseRealVector(double[] values) {
-        virtualSize = values.length;
-        fromDoubleArray(values);
+        this(values, DEFAULT_ZERO_TOLERANCE);
     }
 
     /**
      * Create from a double array, specifying zero tolerance.
      * Only non-zero entries will be stored
      * @param values The set of values to create from
-     * @param epsilon The tolerance for having a value considered zero 
-     */
-    public SparseRealVector(double [] values, double epsilon){
-        virtualSize = values.length;
-        this.epsilon = epsilon;
-        fromDoubleArray(values);
-    }
-    
-    /**
-     * Create from a Double array.
-     * Only non-zero entries will be stored
-     * @param values The set of values to create from
-     */
-    public SparseRealVector(Double [] values) {
-        virtualSize = values.length;
-        double[] vals = new double[values.length];
-        for(int i=0; i < values.length; i++){
-            vals[i] = values[i].doubleValue();
-        }
-        fromDoubleArray(vals);
-    }
-    
-    /**
-     * Create from a Double array.
-     * Only non-zero entries will be stored
-     * @param values The set of values to create from
      * @param epsilon The tolerance for having a value considered zero
      */
-    public SparseRealVector(Double [] values, double epsilon){
+    public SparseRealVector(double[] values, double epsilon) {
         virtualSize = values.length;
-        this.epsilon = epsilon;
-        double[] vals = new double[values.length];
-        for(int i=0; i < values.length; i++){
-            vals[i] = values[i].doubleValue();
-        }
-        fromDoubleArray(vals);
-    }
-    
-    /**
-     * Copy constructer
-     * @param v The instance to copy from
-     */
-    public SparseRealVector(SparseRealVector v){
-        virtualSize = v.getDimension();
-        epsilon = v.getEpsilon();
-        entries = new OpenIntToDoubleHashMap(v.getEntries());
-    }
-
-    /**
-     * Generic copy constructer
-     * @param v The instance to copy from
-     */
-    public SparseRealVector(RealVector v) {
-        virtualSize = v.getDimension();
-        fromDoubleArray(v.getData());
-    }
-
-    
-    /**
-     * Fill in the values from a double array
-     * @param values The set of values to use
-     */
-    private void fromDoubleArray(double[] values) {
         entries = new OpenIntToDoubleHashMap(0.0);
         for (int key = 0; key < values.length; key++) {
             double value = values[key];
@@ -186,19 +127,72 @@ public class SparseRealVector implements RealVector {
                 entries.put(key, value);
             }
         }
+        this.epsilon = epsilon;
     }
 
     /**
-     * 
-     * @return The entries of this instance
+     * Create from a Double array.
+     * Only non-zero entries will be stored
+     * @param values The set of values to create from
+     */
+    public SparseRealVector(Double[] values) {
+        this(values, DEFAULT_ZERO_TOLERANCE);
+    }
+
+    /**
+     * Create from a Double array.
+     * Only non-zero entries will be stored
+     * @param values The set of values to create from
+     * @param epsilon The tolerance for having a value considered zero
+     */
+    public SparseRealVector(Double[] values, double epsilon) {
+        virtualSize = values.length;
+        entries = new OpenIntToDoubleHashMap(0.0);
+        for (int key = 0; key < values.length; key++) {
+            double value = values[key].doubleValue();
+            if (!isZero(value)) {
+                entries.put(key, value);
+            }
+        }
+        this.epsilon = epsilon;
+    }
+
+    /**
+     * Copy constructor.
+     * @param v The instance to copy from
+     */
+    public SparseRealVector(SparseRealVector v) {
+        virtualSize = v.getDimension();
+        entries = new OpenIntToDoubleHashMap(v.getEntries());
+        epsilon = v.getEpsilon();
+    }
+
+    /**
+     * Generic copy constructor.
+     * @param v The instance to copy from
+     */
+    public SparseRealVector(RealVector v) {
+        virtualSize = v.getDimension();
+        entries = new OpenIntToDoubleHashMap(0.0);
+        for (int key = 0; key < virtualSize; key++) {
+            double value = v.getEntry(key);
+            if (!isZero(value)) {
+                entries.put(key, value);
+            }
+        }
+        epsilon = DEFAULT_ZERO_TOLERANCE;
+    }
+
+    /**
+     * Get the entries of this instance.
+     * @return entries of this instance
      */
     private OpenIntToDoubleHashMap getEntries() {
         return entries;
     }
 
-    
     /**
-     * Determine if this value is zero
+     * Determine if this value is zero.
      * @param value The value to test
      * @return <code>true</code> if this value is zero, <code>false</code> otherwise
      */
@@ -207,7 +201,7 @@ public class SparseRealVector implements RealVector {
     }
 
     /**
-     * 
+     * Get the tolerance for having a value considered zero.
      * @return The test range for testing if a value is zero
      */
     public double getEpsilon() {
@@ -215,7 +209,7 @@ public class SparseRealVector implements RealVector {
     }
 
     /**
-     * 
+     * Set the tolerance for having a value considered zero.
      * @param epsilon The test range for testing if a value is zero
      */
     public void setEpsilon(double epsilon) {
@@ -225,14 +219,14 @@ public class SparseRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector add(RealVector v) throws IllegalArgumentException {
         checkVectorDimensions(v.getDimension());
-        if (v instanceof SparseRealVector)
+        if (v instanceof SparseRealVector) {
             return add((SparseRealVector) v);
+        }
         return add(v.getData());
-
     }
 
     /**
-     * Optimized method to add two SparseRealVectors
+     * Optimized method to add two SparseRealVectors.
      * @param v Vector to add with
      * @return The sum of <code>this</code> with <code>v</code>
      * @throws IllegalArgumentException If the dimensions don't match
@@ -264,7 +258,7 @@ public class SparseRealVector implements RealVector {
     }
 
     /**
-     * Optimized method to append a SparseRealVector
+     * Optimized method to append a SparseRealVector.
      * @param v vector to append
      * @return The result of appending <code>v</code> to self
      */
@@ -327,8 +321,9 @@ public class SparseRealVector implements RealVector {
         while (iter.hasNext()) {
             int idx = iter.key();
             double value = 0;
-            if (idx < v.length)
+            if (idx < v.length) {
                 value = v[idx];
+            }
             res += value * iter.value();
         }
         return res;
@@ -385,7 +380,7 @@ public class SparseRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector getSubVector(int index, int n) throws MatrixIndexException {
         checkIndex(index);
-        checkIndex(index+n-1);
+        checkIndex(index + n - 1);
         SparseRealVector res = new SparseRealVector(n);
         int end = index + n;
         Iterator iter = entries.iterator();
@@ -416,7 +411,7 @@ public class SparseRealVector implements RealVector {
     }
 
     /**
-     * Optimized method to compute distance
+     * Optimized method to compute distance.
      * @param v The vector to compute distance to
      * @return The distance from <code>this</code> and <code>v</code>
      * @throws IllegalArgumentException If the dimensions don't match
@@ -436,7 +431,8 @@ public class SparseRealVector implements RealVector {
             iter.advance();
             int key = iter.key();
             if (!entries.containsKey(key)) {
-                res += iter.value() * iter.value();
+                final double value = iter.value();
+                res += value * value;
             }
         }
         return Math.sqrt(res);
@@ -521,7 +517,7 @@ public class SparseRealVector implements RealVector {
     }
 
     /**
-     * Optimized method to compute LInfDistance  
+     * Optimized method to compute LInfDistance.
      * @param v The vector to compute from
      * @return the LInfDistance
      */
@@ -531,16 +527,18 @@ public class SparseRealVector implements RealVector {
         while (iter.hasNext()) {
             iter.advance();
             double delta = Math.abs(iter.value() - v.getEntry(iter.key()));
-            if(delta > max)
+            if (delta > max) {
                 max = delta;
+            }
         }
         iter = v.getEntries().iterator();
         while (iter.hasNext()) {
             iter.advance();
             int key = iter.key();
             if (!entries.containsKey(key)) {
-                if(iter.value() > max)
+                if (iter.value() > max) {
                     max = iter.value();
+                }
             }
         }
         return max;
@@ -561,8 +559,9 @@ public class SparseRealVector implements RealVector {
         double max = 0;
         for (int i = 0; i < v.length; i++) {
             double delta = Math.abs(getEntry(i) - v[i]);
-            if(delta > max)
+            if (delta > max) {
                 max = delta;
+            }
         }
         return max;
     }
@@ -594,8 +593,9 @@ public class SparseRealVector implements RealVector {
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
-            if (Double.isInfinite(iter.value()))
+            if (Double.isInfinite(iter.value())) {
                 return true;
+            }
         }
         return false;
     }
@@ -605,8 +605,9 @@ public class SparseRealVector implements RealVector {
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
-            if (Double.isNaN(iter.value()))
+            if (Double.isNaN(iter.value())) {
                 return true;
+            }
         }
         return false;
     }
@@ -633,7 +634,7 @@ public class SparseRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapAcosToSelf() {
-        for(int i=0; i < virtualSize; i++){
+        for (int i = 0; i < virtualSize; i++) {
             setEntry(i, Math.acos(getEntry(i)));
         }
         return this;
@@ -719,7 +720,7 @@ public class SparseRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapCosToSelf() {
-        for(int i=0; i < virtualSize; i++){
+        for (int i = 0; i < virtualSize; i++) {
             setEntry(i, Math.cos(getEntry(i)));
         }
         return this;
@@ -732,7 +733,7 @@ public class SparseRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapCoshToSelf() {
-        for(int i = 0; i < virtualSize; i++){
+        for (int i = 0; i < virtualSize; i++) {
             setEntry(i, Math.cosh(getEntry(i)));
         }
         return this;
@@ -803,7 +804,7 @@ public class SparseRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapInvToSelf() {
-        for(int i=0; i < virtualSize; i++){
+        for (int i = 0; i < virtualSize; i++) {
             setEntry(i, 1.0/getEntry(i));
         }
         return this;
@@ -821,7 +822,7 @@ public class SparseRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapLog10ToSelf() {
-        for(int i=0; i < virtualSize; i++){
+        for (int i = 0; i < virtualSize; i++) {
             setEntry(i, Math.log10(getEntry(i)));
         }
         return this;
@@ -841,10 +842,10 @@ public class SparseRealVector implements RealVector {
         }
         return this;
     }
-    
+
     /** {@inheritDoc} */
     public RealVector mapLogToSelf() {
-        for(int i=0; i < virtualSize; i++){
+        for (int i = 0; i < virtualSize; i++) {
             setEntry(i, Math.log(getEntry(i)));
         }
        return this;
@@ -1011,7 +1012,7 @@ public class SparseRealVector implements RealVector {
     }
 
     /**
-     * Optimized method to compute the outer product
+     * Optimized method to compute the outer product.
      * @param v The vector to comput the outer product on
      * @return The outer product of <code>this</code> and <code>v</code>
      * @throws IllegalArgumentException If the dimensions don't match
@@ -1020,30 +1021,30 @@ public class SparseRealVector implements RealVector {
         checkVectorDimensions(v.getDimension());
         SparseRealMatrix res = new SparseRealMatrix(virtualSize, virtualSize);
         Iterator iter = entries.iterator();
-        while(iter.hasNext()){
+        while (iter.hasNext()) {
             iter.advance();
             Iterator iter2 = v.getEntries().iterator();
-            while(iter2.hasNext()){
+            while (iter2.hasNext()) {
                 iter2.advance();
                 res.setEntry(iter.key(), iter2.key(), iter.value()*iter2.value());
             }
         }
         return res;
     }
-    
+
     /** {@inheritDoc} */
     public RealMatrix outerProduct(RealVector v)
             throws IllegalArgumentException {
         checkVectorDimensions(v.getDimension());
-        if(v instanceof SparseRealVector){
+        if (v instanceof SparseRealVector) {
             return outerproduct((SparseRealVector)v);
         }
         RealMatrix res = new SparseRealMatrix(virtualSize, virtualSize);
         Iterator iter = entries.iterator();
-        while(iter.hasNext()){
+        while (iter.hasNext()) {
             iter.advance();
             int row = iter.key();
-            for(int col=0; col < virtualSize; col++){
+            for (int col = 0; col < virtualSize; col++) {
                 res.setEntry(row, col, iter.value()*v.getEntry(col));
             }
         }
@@ -1106,13 +1107,13 @@ public class SparseRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public void set(double value) {
-        for(int i=0; i < virtualSize; i++){
+        for (int i = 0; i < virtualSize; i++) {
             setEntry(i, value);
         }
     }
 
     /**
-     * Optimized method to subtract SparseRealVectors
+     * Optimized method to subtract SparseRealVectors.
      * @param v The vector to subtract from <code>this</code>
      * @return The difference of <code>this</code> and <code>v</code>
      * @throws IllegalArgumentException If the dimensions don't match
@@ -1167,9 +1168,8 @@ public class SparseRealVector implements RealVector {
     /** {@inheritDoc} */
     public void unitize() {
         double norm = getNorm();
-        if(isZero(norm)){
+        if (isZero(norm)) {
             throw  MathRuntimeException.createArithmeticException("cannot normalize a zero norm vector");
-            
         }
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
@@ -1181,7 +1181,7 @@ public class SparseRealVector implements RealVector {
 
     /**
      * Check if an index is valid.
-     * 
+     *
      * @param index
      *            index to check
      * @exception MatrixIndexException
@@ -1197,7 +1197,7 @@ public class SparseRealVector implements RealVector {
 
     /**
      * Check if instance dimension is equal to some expected value.
-     * 
+     *
      * @param n
      *            expected dimension.
      * @exception IllegalArgumentException
@@ -1231,31 +1231,38 @@ public class SparseRealVector implements RealVector {
     /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (!(obj instanceof SparseRealVector))
+        }
+        if (!(obj instanceof SparseRealVector)) {
             return false;
+        }
         SparseRealVector other = (SparseRealVector) obj;
-        if (virtualSize != other.virtualSize)
+        if (virtualSize != other.virtualSize) {
             return false;
-        if (Double.doubleToLongBits(epsilon) != Double
-                .doubleToLongBits(other.epsilon))
+        }
+        if (Double.doubleToLongBits(epsilon) !=
+            Double.doubleToLongBits(other.epsilon)) {
             return false;
+        }
         Iterator iter = entries.iterator();
-        while(iter.hasNext()){
+        while (iter.hasNext()) {
             iter.advance();
             double test = iter.value() - other.getEntry(iter.key());
-            if(Math.abs(test) > epsilon)
+            if (Math.abs(test) > epsilon) {
                 return false;
+            }
         }
         iter = other.getEntries().iterator();
-        while(iter.hasNext()){
+        while (iter.hasNext()) {
             iter.advance();
             double test = iter.value() - getEntry(iter.key());
-            if(!isZero(test))
+            if (!isZero(test)) {
                 return false;
+            }
         }
         return true;
     }
