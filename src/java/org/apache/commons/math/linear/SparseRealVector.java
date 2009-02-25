@@ -79,7 +79,7 @@ public class SparseRealVector implements RealVector {
     protected SparseRealVector(SparseRealVector v, int resize) {
         virtualSize = v.getDimension() + resize;
         entries = new OpenIntToDoubleHashMap(v.entries);
-        epsilon = DEFAULT_ZERO_TOLERANCE;
+        epsilon = v.getEpsilon();
     }
 
     /**
@@ -121,13 +121,13 @@ public class SparseRealVector implements RealVector {
     public SparseRealVector(double[] values, double epsilon) {
         virtualSize = values.length;
         entries = new OpenIntToDoubleHashMap(0.0);
+        this.epsilon = epsilon;
         for (int key = 0; key < values.length; key++) {
             double value = values[key];
             if (!isZero(value)) {
                 entries.put(key, value);
             }
         }
-        this.epsilon = epsilon;
     }
 
     /**
@@ -148,13 +148,13 @@ public class SparseRealVector implements RealVector {
     public SparseRealVector(Double[] values, double epsilon) {
         virtualSize = values.length;
         entries = new OpenIntToDoubleHashMap(0.0);
+        this.epsilon = epsilon;
         for (int key = 0; key < values.length; key++) {
             double value = values[key].doubleValue();
             if (!isZero(value)) {
                 entries.put(key, value);
             }
         }
-        this.epsilon = epsilon;
     }
 
     /**
@@ -174,13 +174,13 @@ public class SparseRealVector implements RealVector {
     public SparseRealVector(RealVector v) {
         virtualSize = v.getDimension();
         entries = new OpenIntToDoubleHashMap(0.0);
+        epsilon = DEFAULT_ZERO_TOLERANCE;
         for (int key = 0; key < virtualSize; key++) {
             double value = v.getEntry(key);
             if (!isZero(value)) {
                 entries.put(key, value);
             }
         }
-        epsilon = DEFAULT_ZERO_TOLERANCE;
     }
 
     /**
