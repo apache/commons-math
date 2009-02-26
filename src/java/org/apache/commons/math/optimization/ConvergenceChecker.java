@@ -17,6 +17,9 @@
 
 package org.apache.commons.math.optimization;
 
+import org.apache.commons.math.optimization.direct.DirectSearchOptimizer;
+
+
 /** This interface specifies how to check if a {@link
  * DirectSearchOptimizer direct search method} has converged.
  *
@@ -32,10 +35,16 @@ package org.apache.commons.math.optimization;
 public interface ConvergenceChecker {
 
   /** Check if the optimization algorithm has converged on the simplex.
-   * @param simplex ordered simplex (all points in the simplex have
-   * been eavluated and are sorted from lowest to largest cost)
+   * <p>
+   * When this method is called, all points in the simplex have been evaluated
+   * and are sorted from lowest to largest value. The values are either the
+   * original objective function values if the optimizer was configured for
+   * minimization, or the opposites of the original objective function values
+   * if the optimizer was configured for maximization.
+   * </p>
+   * @param simplex ordered simplex
    * @return true if the algorithm is considered to have converged
    */
-  public boolean converged (PointCostPair[] simplex);
+  boolean converged(PointValuePair[] simplex);
 
 }

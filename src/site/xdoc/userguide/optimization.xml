@@ -29,24 +29,37 @@
     <section name="13 Optimization">
       <subsection name="13.1 Overview" href="overview">
         <p>
-          The optimization package provides simplex-based direct search optimization algorithms.
-        </p>
-        <p>
-          The aim of this package is similar to the aim of the estimation package, but the
-          algorithms are entirely differents as:
+          The optimization package provides algorithms to optimize (i.e. minimize) some
+          objective or cost function. The package is split in several sub-packages
+          dedicated to different kind of functions or algorithms.
           <ul>
-            <li>
-              they do not need the partial derivatives of the measurements
-              with respect to the free parameters
-            </li>
-            <li>
-              they do not rely on residuals-based quadratic cost functions but
-              handle any cost functions, including non-continuous ones! 
-            </li>
+            <li>the univariate package handles univariate real functions,</li>
+            <li>the linear package handles multivariate vector linear functions
+                with linear constraints,</li>
+            <li>the direct package handles multivariate real functions using direct
+            search methods (i.e. not using derivatives),</li>
+            <li>the general package handles multivariate real or vector functions
+            using derivatives.</li>
           </ul>
         </p>
       </subsection>
-      <subsection name="13.2 Direct Methods" href="direct">
+      <subsection name="13.2 Univariate Functions" href="univariate">
+        <p>
+          A <a href="../apidocs/org/apache/commons/math/analysis/minimization/UnivariateRealMinimizer.html">
+          org.apache.commons.math.optimization.univariate.UnivariateRealMinimizer</a>
+          is used to find the minimal values of a univariate real-valued function <code>f</code>.
+        </p>
+        <p>
+          Minimization algorithms usage is very similar to root-finding algorithms usage explained
+          in the analysis package. The main difference is that the <code>solve</code> methods in root
+          finding algorithms is replaced by <code>minimize</code> methods.
+        </p>
+      </subsection>
+      <subsection name="13.3 Linear Programming" href="linear">
+        <p>
+        </p>
+      </subsection>
+      <subsection name="13.4 Direct Methods" href="direct">
         <p>
           Direct search methods only use cost function values, they don't
           need derivatives and don't either try to compute approximation of
@@ -77,11 +90,15 @@
           already provided by the <code>minimizes</code> method).
         </p>
         <p>
-          The package provides two solvers. The first one is the classical
-          <a href="../apidocs/org/apache/commons/math/optimization/NelderMead.html">
+          The <code>direct</code> package provides two solvers. The first one is the classical
+          <a href="../apidocs/org/apache/commons/math/optimization/direct/NelderMead.html">
           Nelder-Mead</a> method. The second one is Virginia Torczon's
-          <a href="../apidocs/org/apache/commons/math/optimization/MultiDirectional.html">
+          <a href="../apidocs/org/apache/commons/math/optimization/direct/MultiDirectional.html">
           multi-directional</a> method.
+        </p>
+      </subsection>
+      <subsection name="13.5 General Case" href="general">
+        <p>
         </p>
       </subsection>
      </section>

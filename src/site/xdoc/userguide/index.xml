@@ -67,10 +67,9 @@
                 <ul>
                 <li><a href="analysis.html#a4.1_Overview">4.1 Overview</a></li>
                 <li><a href="analysis.html#a4.2_Root-finding">4.2 Root-finding</a></li>                
-                <li><a href="analysis.html#a4.3_Minimization">4.3 Minimization</a></li>
-                <li><a href="analysis.html#a4.4_Interpolation">4.4 Interpolation</a></li>
-                <li><a href="analysis.html#a4.5_Integration">4.5 Integration</a></li>
-                <li><a href="analysis.html#a4.6_Polynomials">4.6 Polynomials</a></li>
+                <li><a href="analysis.html#a4.3_Interpolation">4.3 Interpolation</a></li>
+                <li><a href="analysis.html#a4.4_Integration">4.4 Integration</a></li>
+                <li><a href="analysis.html#a4.5_Polynomials">4.5 Polynomials</a></li>
                 </ul></li>     
             <li><a href="special.html">5. Special Functions</a>
                 <ul>
@@ -124,7 +123,10 @@
         <li><a href="optimization.html">13. Optimization</a>
                 <ul>
                 <li><a href="optimization.html#a13.1_Overview">13.1 Overview</a></li>
-                <li><a href="optimization.html#a13.2_Direct_Methods">13.2 Direct Methods</a></li>
+                <li><a href="analysis.html#a13.2_Univariate_Functions">13.2 Univariate Functions</a></li>
+                <li><a href="analysis.html#a13.3_Linear_Programming">13.3 Linear Programming</a></li>
+                <li><a href="optimization.html#a13.4_Direct_Methods">13.4 Direct Methods</a></li>
+                <li><a href="analysis.html#a13.5_General_Case">13.5 General Case</a></li>
                 </ul></li>                                 
         <li><a href="ode.html">14. Ordinary Differential Equations Integration</a>
                 <ul>

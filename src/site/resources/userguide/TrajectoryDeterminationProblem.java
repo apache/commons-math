@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
-import org.apache.commons.math.estimation.EstimationException;
-import org.apache.commons.math.estimation.EstimatedParameter;
-import org.apache.commons.math.estimation.EstimationProblem;
-import org.apache.commons.math.estimation.LevenbergMarquardtEstimator;
-import org.apache.commons.math.estimation.SimpleEstimationProblem;
-import org.apache.commons.math.estimation.WeightedMeasurement;
+import org.apache.commons.math.optimization.general.EstimationException;
+import org.apache.commons.math.optimization.general.EstimatedParameter;
+import org.apache.commons.math.optimization.general.EstimationProblem;
+import org.apache.commons.math.optimization.general.LevenbergMarquardtEstimator;
+import org.apache.commons.math.optimization.general.SimpleEstimationProblem;
+import org.apache.commons.math.optimization.general.WeightedMeasurement;
 
 public class TrajectoryDeterminationProblem extends SimpleEstimationProblem {
 

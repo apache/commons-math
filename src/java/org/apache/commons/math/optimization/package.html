@@ -18,7 +18,36 @@
     <!-- $Revision$ -->
 <body>
 <p>
-This package provides parametric optimization algorithms.
+This package provides common interfaces for the optimization algorithms
+provided in sub-packages. The main interfaces are {@link
+org.apache.commons.math.optimization.ObjectiveFunction ObjectiveFunction}
+and {@link org.apache.commons.math.optimization.MultiObjectiveFunction
+MultiObjectiveFunction}. Both interfaces are intended to be implemented by
+user code to represent the problem they want to optimize.
+</p>
+<p>
+The {@link org.apache.commons.math.optimization.ObjectiveFunction ObjectiveFunction}
+interface represent a scalar function that should be either minimized or maximized,
+by changing its input variables set until an optimal set is found. This function is
+often called a cost function when the goal is to minimize it.
+</p>
+
+<p>
+The {@link org.apache.commons.math.optimization.MultiObjectiveFunction
+MultiObjectiveFunction} interface represent a vectorial function that should be either
+minimized or maximized, by changing its input variables set until an optimal set is
+found.
+</p>
+
+<p>
+The {@link org.apache.commons.math.optimization.LeastSquaresConverter
+LeastSquaresConverter} class can be used to convert vectorial objective functions to
+scalar objective functions when the goal is to minimize them. This class is mostly used
+when the vectorial objective function represents residuals, i.e. differences between a
+theoretical result computed from a variables set applied to a model and a reference.
+Residuals are intended to be minimized in order to get the variables set that best fit
+the model to the reference. The reference may be obtained for example from physical
+measurements whether the model is built from theoretical considerations.
 </p>
 </body>
 </html>
