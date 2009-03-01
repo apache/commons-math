@@ -305,6 +305,12 @@ public final class MathUtilsTest extends TestCase {
             .isInfinite(x));
     }
 
+    public void testCompareTo() {
+      assertEquals(0, MathUtils.compareTo(152.33, 152.32, .011));
+      assertTrue(MathUtils.compareTo(152.308, 152.32, .011) < 0);
+      assertTrue(MathUtils.compareTo(152.33, 152.318, .011) > 0);
+    }
+    
     public void testCosh() {
         double x = 3.0;
         double expected = 10.06766;

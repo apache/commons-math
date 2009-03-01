@@ -348,6 +348,25 @@ public final class MathUtils {
     }
     
     /**
+     * Compares two numbers given some amount of allowed error.
+     * 
+     * @param x the first number
+     * @param y the second number
+     * @param eps the amount of error to allow when checking for equality
+     * @return <ul><li>0 if  {@link #equals(double, double, double) equals(x, y, eps)}</li>
+     *       <li>&lt; 0 if !{@link #equals(double, double, double) equals(x, y, eps)} &amp;&amp; x &lt; y</li>
+     *       <li>> 0 if !{@link #equals(double, double, double) equals(x, y, eps)} &amp;&amp; x > y</li></ul>
+     */
+    public static int compareTo(double x, double y, double eps) {
+        if (equals(x, y, eps)) {
+            return 0;
+        } else if (x < y) {
+          return -1;
+        }
+        return 1;
+    }
+    
+    /**
      * Returns the <a href="http://mathworld.wolfram.com/HyperbolicCosine.html">
      * hyperbolic cosine</a> of x.
      * 
