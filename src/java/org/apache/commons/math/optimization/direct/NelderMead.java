@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.optimization.direct;
 
+import java.util.Comparator;
+
 import org.apache.commons.math.optimization.ObjectiveException;
 import org.apache.commons.math.optimization.PointValuePair;
 
@@ -70,16 +72,17 @@ public class NelderMead extends DirectSearchOptimizer {
     }
 
     /** {@inheritDoc} */
-    protected void iterateSimplex() throws ObjectiveException {
+    protected void iterateSimplex(final Comparator<PointValuePair> comparator)
+        throws ObjectiveException {
 
         // the simplex has n+1 point if dimension is n
         final int n = simplex.length - 1;
 
         // interesting values
-        final double   smallest      = simplex[0].getValue();
-        final double   secondLargest = simplex[n-1].getValue();
-        final double   largest       = simplex[n].getValue();
-        final double[] xLargest      = simplex[n].getPoint();
+        final PointValuePair best       = simplex[0];
+        final PointValuePair secondBest = simplex[n-1];
+        final PointValuePair worst      = simplex[n];
+        final double[] xWorst = worst.getPoint();
 
         // compute the centroid of the best vertices
         // (dismissing the worst point at index n)
@@ -98,46 +101,47 @@ public class NelderMead extends DirectSearchOptimizer {
         // compute the reflection point
         final double[] xR = new double[n];
         for (int j = 0; j < n; ++j) {
-            xR[j] = centroid[j] + rho * (centroid[j] - xLargest[j]);
+            xR[j] = centroid[j] + rho * (centroid[j] - xWorst[j]);
         }
-        final double valueR = evaluate(xR);
+        final PointValuePair reflected = new PointValuePair(xR, evaluate(xR));
 
-        if ((smallest <= valueR) && (valueR < secondLargest)) {
+        if ((comparator.compare(best, reflected) <= 0) &&
+            (comparator.compare(reflected, secondBest) < 0)) {
 
             // accept the reflected point
-            replaceWorstPoint(new PointValuePair(xR, valueR));
+            replaceWorstPoint(reflected, comparator);
 
-        } else if (valueR < smallest) {
+        } else if (comparator.compare(reflected, best) < 0) {
 
             // compute the expansion point
             final double[] xE = new double[n];
             for (int j = 0; j < n; ++j) {
                 xE[j] = centroid[j] + khi * (xR[j] - centroid[j]);
             }
-            final double valueE = evaluate(xE);
+            final PointValuePair expanded = new PointValuePair(xE, evaluate(xE));
 
-            if (valueE < valueR) {
+            if (comparator.compare(expanded, reflected) < 0) {
                 // accept the expansion point
-                replaceWorstPoint(new PointValuePair(xE, valueE));
+                replaceWorstPoint(expanded, comparator);
             } else {
                 // accept the reflected point
-                replaceWorstPoint(new PointValuePair(xR, valueR));
+                replaceWorstPoint(reflected, comparator);
             }
 
         } else {
 
-            if (valueR < largest) {
+            if (comparator.compare(reflected, worst) < 0) {
 
                 // perform an outside contraction
                 final double[] xC = new double[n];
                 for (int j = 0; j < n; ++j) {
                     xC[j] = centroid[j] + gamma * (xR[j] - centroid[j]);
                 }
-                final double valueC = evaluate(xC);
+                final PointValuePair outContracted = new PointValuePair(xC, evaluate(xC));
 
-                if (valueC <= valueR) {
+                if (comparator.compare(outContracted, reflected) <= 0) {
                     // accept the contraction point
-                    replaceWorstPoint(new PointValuePair(xC, valueC));
+                    replaceWorstPoint(outContracted, comparator);
                     return;
                 }
 
@@ -146,13 +150,13 @@ public class NelderMead extends DirectSearchOptimizer {
                 // perform an inside contraction
                 final double[] xC = new double[n];
                 for (int j = 0; j < n; ++j) {
-                    xC[j] = centroid[j] - gamma * (centroid[j] - xLargest[j]);
+                    xC[j] = centroid[j] - gamma * (centroid[j] - xWorst[j]);
                 }
-                final double valueC = evaluate(xC);
+                final PointValuePair inContracted = new PointValuePair(xC, evaluate(xC));
 
-                if (valueC < largest) {
+                if (comparator.compare(inContracted, worst) < 0) {
                     // accept the contraction point
-                    replaceWorstPoint(new PointValuePair(xC, valueC));
+                    replaceWorstPoint(inContracted, comparator);
                     return;
                 }
 
@@ -167,7 +171,7 @@ public class NelderMead extends DirectSearchOptimizer {
                 }
                 simplex[i] = new PointValuePair(x, Double.NaN);
             }
-            evaluateSimplex();
+            evaluateSimplex(comparator);
 
         }
 

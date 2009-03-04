@@ -17,14 +17,17 @@
 
 package org.apache.commons.math.optimization.direct;
 
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
+import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.linear.decomposition.NotPositiveDefiniteMatrixException;
-import org.apache.commons.math.optimization.ConvergenceChecker;
+import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.ObjectiveException;
 import org.apache.commons.math.optimization.ObjectiveFunction;
 import org.apache.commons.math.optimization.PointValuePair;
-import org.apache.commons.math.ConvergenceException;
-
-import junit.framework.*;
+import org.apache.commons.math.optimization.ObjectiveValueChecker;
 
 public class MultiDirectionalTest
   extends TestCase {
@@ -48,8 +51,8 @@ public class MultiDirectionalTest
             }
       };
       try {
-          new MultiDirectional(1.9, 0.4).optimize(wrong, 10, new ValueChecker(1.0e-3), true,
-                                                  new double[] { -0.5 }, new double[] { 0.5 });
+          MultiDirectional optimizer = new MultiDirectional(0.9, 1.9);
+          optimizer.optimize(wrong, GoalType.MINIMIZE, new double[] { -1.0 });
           fail("an exception should have been thrown");
       } catch (ObjectiveException ce) {
           // expected behavior
@@ -58,8 +61,8 @@ public class MultiDirectionalTest
           fail("wrong exception caught: " + e.getMessage());
       } 
       try {
-          new MultiDirectional(1.9, 0.4).optimize(wrong, 10, new ValueChecker(1.0e-3), true,
-                  new double[] { 0.5 }, new double[] { 1.5 });
+          MultiDirectional optimizer = new MultiDirectional(0.9, 1.9);
+          optimizer.optimize(wrong, GoalType.MINIMIZE, new double[] { +2.0 });
           fail("an exception should have been thrown");
       } catch (ObjectiveException ce) {
           // expected behavior
@@ -86,69 +89,45 @@ public class MultiDirectionalTest
           public double objective(double[] variables) {
               final double x = variables[0];
               final double y = variables[1];
-              return Math.atan(x) * Math.atan(x + 2) * Math.atan(y) * Math.atan(y) / (x * y);
+              return ((x == 0) || (y == 0)) ? 0 : (Math.atan(x) * Math.atan(x + 2) * Math.atan(y) * Math.atan(y) / (x * y));
           }
       };
 
-      MultiDirectional md = new MultiDirectional();
+      MultiDirectional optimizer = new MultiDirectional();
+      optimizer.setConvergenceChecker(new ObjectiveValueChecker(1.0e-10, 1.0e-30));
+      optimizer.setMaxEvaluations(200);
+      optimizer.setStartConfiguration(new double[] { 0.2, 0.2 });
+      PointValuePair optimum;
 
       // minimization
-      md.optimize(fourExtrema, 200, new ValueChecker(1.0e-8), true,
-                  new double[] { -4, -2 }, new double[] { 1, 2 }, 10, 38821113105892l);
-      PointValuePair[] optima = md.getOptima();
-      assertEquals(10, optima.length);
-      int localCount  = 0;
-      int globalCount = 0;
-      for (PointValuePair optimum : optima) {
-          if (optimum != null) {
-              if (optimum.getPoint()[0] < 0) {
-                  // this should be the local minimum
-                  ++localCount;
-                  assertEquals(xM,        optimum.getPoint()[0], 1.0e-3);
-                  assertEquals(yP,        optimum.getPoint()[1], 1.0e-3);
-                  assertEquals(valueXmYp, optimum.getValue(),     3.0e-8);
-              } else {
-                  // this should be the global minimum
-                  ++globalCount;
-                  assertEquals(xP,        optimum.getPoint()[0], 1.0e-3);
-                  assertEquals(yM,        optimum.getPoint()[1], 1.0e-3);
-                  assertEquals(valueXpYm, optimum.getValue(),     3.0e-8);              
-              }
-          }
-      }
-      assertTrue(localCount  > 0);
-      assertTrue(globalCount > 0);
-      assertTrue(md.getTotalEvaluations() > 1400);
-      assertTrue(md.getTotalEvaluations() < 1700);
+      optimum = optimizer.optimize(fourExtrema, GoalType.MINIMIZE, new double[] { -3.0, 0 });
+      assertEquals(xM,        optimum.getPoint()[0], 4.0e-6);
+      assertEquals(yP,        optimum.getPoint()[1], 3.0e-6);
+      assertEquals(valueXmYp, optimum.getValue(),    8.0e-13);
+      assertTrue(optimizer.getEvaluations() > 120);
+      assertTrue(optimizer.getEvaluations() < 150);
 
-      // minimization
-      md.optimize(fourExtrema, 200, new ValueChecker(1.0e-8), false,
-                  new double[] { -3.5, -1 }, new double[] { 0.5, 1.5 }, 10, 38821113105892l);
-      optima = md.getOptima();
-      assertEquals(10, optima.length);
-      localCount  = 0;
-      globalCount = 0;
-      for (PointValuePair optimum : optima) {
-          if (optimum != null) {
-              if (optimum.getPoint()[0] < 0) {
-                  // this should be the local maximum
-                  ++localCount;
-                  assertEquals(xM,        optimum.getPoint()[0], 1.0e-3);
-                  assertEquals(yM,        optimum.getPoint()[1], 1.0e-3);
-                  assertEquals(valueXmYm, optimum.getValue(),     4.0e-8);
-              } else {
-                  // this should be the global maximum
-                  ++globalCount;
-                  assertEquals(xP,        optimum.getPoint()[0], 1.0e-3);
-                  assertEquals(yP,        optimum.getPoint()[1], 1.0e-3);
-                  assertEquals(valueXpYp, optimum.getValue(),     4.0e-8);              
-              }
-          }
-      }
-      assertTrue(localCount  > 0);
-      assertTrue(globalCount > 0);
-      assertTrue(md.getTotalEvaluations() > 1400);
-      assertTrue(md.getTotalEvaluations() < 1700);
+      optimum = optimizer.optimize(fourExtrema, GoalType.MINIMIZE, new double[] { +1, 0 });
+      assertEquals(xP,        optimum.getPoint()[0], 2.0e-8);
+      assertEquals(yM,        optimum.getPoint()[1], 3.0e-6);
+      assertEquals(valueXpYm, optimum.getValue(),    2.0e-12);              
+      assertTrue(optimizer.getEvaluations() > 120);
+      assertTrue(optimizer.getEvaluations() < 150);
+
+      // maximization
+      optimum = optimizer.optimize(fourExtrema, GoalType.MAXIMIZE, new double[] { -3.0, 0.0 });
+      assertEquals(xM,        optimum.getPoint()[0], 7.0e-7);
+      assertEquals(yM,        optimum.getPoint()[1], 3.0e-7);
+      assertEquals(valueXmYm, optimum.getValue(),    2.0e-14);
+      assertTrue(optimizer.getEvaluations() > 120);
+      assertTrue(optimizer.getEvaluations() < 150);
+
+      optimum = optimizer.optimize(fourExtrema, GoalType.MAXIMIZE, new double[] { +1, 0 });
+      assertEquals(xP,        optimum.getPoint()[0], 2.0e-8);
+      assertEquals(yP,        optimum.getPoint()[1], 3.0e-6);
+      assertEquals(valueXpYp, optimum.getValue(),    2.0e-12);
+      assertTrue(optimizer.getEvaluations() > 120);
+      assertTrue(optimizer.getEvaluations() < 150);
 
   }
 
@@ -167,14 +146,19 @@ public class MultiDirectionalTest
       };
 
     count = 0;
+    MultiDirectional optimizer = new MultiDirectional();
+    optimizer.setConvergenceChecker(new ObjectiveValueChecker(-1, 1.0e-3));
+    optimizer.setMaxEvaluations(100);
+    optimizer.setStartConfiguration(new double[][] {
+            { -1.2,  1.0 }, { 0.9, 1.2 } , {  3.5, -2.3 }
+    });
     PointValuePair optimum =
-      new MultiDirectional().optimize(rosenbrock, 100, new ValueChecker(1.0e-3), true,
-                                      new double[][] {
-                                        { -1.2,  1.0 }, { 0.9, 1.2 } , {  3.5, -2.3 }
-                                      });
+        optimizer.optimize(rosenbrock, GoalType.MINIMIZE, new double[] { -1.2, 1.0 });
 
-    assertTrue(count > 60);
-    assertTrue(optimum.getValue() > 0.01);
+    assertEquals(count, optimizer.getEvaluations());
+    assertTrue(optimizer.getEvaluations() > 70);
+    assertTrue(optimizer.getEvaluations() < 100);
+    assertTrue(optimum.getValue() > 1.0e-2);
 
   }
 
@@ -195,30 +179,17 @@ public class MultiDirectionalTest
       };
 
     count = 0;
+    MultiDirectional optimizer = new MultiDirectional();
+    optimizer.setConvergenceChecker(new ObjectiveValueChecker(-1.0, 1.0e-3));
+    optimizer.setMaxEvaluations(1000);
     PointValuePair optimum =
-      new MultiDirectional().optimize(powell, 1000, new ValueChecker(1.0e-3), true,
-                                      new double[] {  3.0, -1.0, 0.0, 1.0 },
-                                      new double[] {  4.0,  0.0, 1.0, 2.0 });
-    assertTrue(count > 850);
-    assertTrue(optimum.getValue() > 0.015);
+      optimizer.optimize(powell, GoalType.MINIMIZE, new double[] { 3.0, -1.0, 0.0, 1.0 });
+    assertEquals(count, optimizer.getEvaluations());
+    assertTrue(optimizer.getEvaluations() > 800);
+    assertTrue(optimizer.getEvaluations() < 900);
+    assertTrue(optimum.getValue() > 1.0e-2);
 
   }
-
-  private static class ValueChecker implements ConvergenceChecker {
-
-    public ValueChecker(double threshold) {
-      this.threshold = threshold;
-    }
-
-    public boolean converged(PointValuePair[] simplex) {
-      PointValuePair smallest = simplex[0];
-      PointValuePair largest  = simplex[simplex.length - 1];
-      return (largest.getValue() - smallest.getValue()) < threshold;
-    }
-
-    private double threshold;
-
-  };
 
   public static Test suite() {
     return new TestSuite(MultiDirectionalTest.class);

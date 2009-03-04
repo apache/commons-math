@@ -19,7 +19,6 @@ package org.apache.commons.math.optimization;
 
 import java.io.Serializable;
 
-
 /** 
  * This class holds a point and the value of an objective function at this point.
  * <p>This is a simple immutable container.</p>
@@ -30,7 +29,7 @@ import java.io.Serializable;
 public class PointValuePair implements Serializable {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 2254035971797977063L;
+    private static final long serialVersionUID = 1003888396256744753L;
 
     /** Point coordinates. */
     private final double[] point;

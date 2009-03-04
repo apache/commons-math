@@ -17,6 +17,7 @@
 
 package org.apache.commons.math.optimization;
 
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.linear.RealMatrix;
 
 /** This class converts {@link MultiObjectiveFunction vectorial
@@ -24,17 +25,21 @@ import org.apache.commons.math.linear.RealMatrix;
  * when the goal is to minimize them.
  * <p>
  * This class is mostly used when the vectorial objective function represents
- * residuals, i.e. differences between a theoretical result computed from a
- * variables set applied to a model and a reference. Residuals are intended to be
- * minimized in order to get the variables set that best fit the model to the
- * reference. The reference may be obtained for example from physical measurements
- * whether the model is built from theoretical considerations.
+ * a theoretical result computed from a variables set applied to a model and
+ * the models variables must be adjusted to fit the theoretical result to some
+ * reference observations. The observations may be obtained for example from
+ * physical measurements whether the model is built from theoretical
+ * considerations.
  * </p>
  * <p>
  * This class computes a possibly weighted squared sum of the residuals, which is
- * a scalar value. It implements the {@link ObjectiveFunction} interface and can
- * therefore be minimized by any optimizer supporting scalar objectives functions.
- * This correspond to a least square estimation.
+ * a scalar value. The residuals are the difference between the theoretical model
+ * (i.e. the output of the vectorial objective function) and the observations. The
+ * class implements the {@link ObjectiveFunction} interface and can therefore be
+ * minimized by any optimizer supporting scalar objectives functions.This is one way
+ * to perform a least square estimation. There are other ways to do this without using
+ * this converter, as some optimization algorithms directly support vectorial objective
+ * functions.
  * </p>
  * <p>
  * This class support combination of residuals with or without weights and correlations.
@@ -49,10 +54,13 @@ import org.apache.commons.math.linear.RealMatrix;
 public class LeastSquaresConverter implements ObjectiveFunction {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -5174886571116126798L;
+    private static final long serialVersionUID = 2424320989874772110L;
 
     /** Underlying vectorial function. */
     private final MultiObjectiveFunction function;
+
+    /** Observations to be compared to objective function to compute residuals. */
+    private final double[] observations;
 
     /** Optional weights for the residuals. */
     private final double[] weights;
@@ -62,85 +70,112 @@ public class LeastSquaresConverter implements ObjectiveFunction {
 
     /** Build a simple converter for uncorrelated residuals with the same weight.
      * @param function vectorial residuals function to wrap
+     * @param observations observations to be compared to objective function to compute residuals
      */
-    public LeastSquaresConverter (final MultiObjectiveFunction function) {
-        this.function = function;
-        this.weights  = null;
-        this.scale    = null;
+    public LeastSquaresConverter (final MultiObjectiveFunction function,
+                                  final double[] observations) {
+        this.function     = function;
+        this.observations = observations.clone();
+        this.weights      = null;
+        this.scale        = null;
     }
 
     /** Build a simple converter for uncorrelated residuals with the specific weights.
      * <p>
      * The scalar objective function value is computed as:
      * <pre>
-     * objective = &sum;(weight<sub>i</sub>residual<sub>i</sub>)<sup>2</sup>
+     * objective = &sum;weight<sub>i</sub>(observation<sub>i</sub>-objective<sub>i</sub>)<sup>2</sup>
      * </pre>
      * </p>
      * <p>
      * Weights can be used for example to combine residuals with different standard
-     * deviations. As an example, consider a 2000 elements residuals array in which
-     * even elements are angular measurements in degrees with a 0.01&deg; standard
-     * deviation and off elements are distance measurements in meters with a 15m
-     * standard deviation. In this case, the weights array should be initialized with
-     * value 1.0/0.01 in the even elements and 1.0/15.0 in the odd elements. 
+     * deviations. As an example, consider a residuals array in which even elements
+     * are angular measurements in degrees with a 0.01&deg; standard deviation and
+     * odd elements are distance measurements in meters with a 15m standard deviation.
+     * In this case, the weights array should be initialized with value
+     * 1.0/(0.01<sup>2</sup>) in the even elements and 1.0/(15.0<sup>2</sup>) in the
+     * odd elements (i.e. reciprocals of variances). 
      * </p>
      * <p>
-     * The residuals array computed by the function and the weights array must
-     * have consistent sizes or a {@link ObjectiveException} will be triggered while
-     * computing the scalar objective.
+     * The array computed by the objective function, the observations array and the
+     * weights array must have consistent sizes or a {@link ObjectiveException} will be
+     * triggered while computing the scalar objective.
      * </p>
      * @param function vectorial residuals function to wrap
+     * @param observations observations to be compared to objective function to compute residuals
      * @param weights weights to apply to the residuals
+     * @exception IllegalArgumentException if the observations vector and the weights
+     * vector dimensions don't match (objective function dimension is checked only when
+     * the {@link #objective} method is called)
      */
     public LeastSquaresConverter (final MultiObjectiveFunction function,
-                                  final double[] weights) {
-        this.function = function;
-        this.weights  = weights.clone();
-        this.scale    = null;
+                                  final double[] observations, final double[] weights)
+        throws IllegalArgumentException {
+        if (observations.length != weights.length) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "dimension mismatch {0} != {1}",
+                    observations.length, weights.length);
+        }
+        this.function     = function;
+        this.observations = observations.clone();
+        this.weights      = weights.clone();
+        this.scale        = null;
     }
 
-    /** Build a simple convertor for correlated residuals with the specific weights.
+    /** Build a simple converter for correlated residuals with the specific weights.
      * <p>
      * The scalar objective function value is computed as:
      * <pre>
-     * objective = &sum;(y<sub>i</sub>)<sup>2</sup> with y = scale&times;residual
+     * objective = y<sup>T</sup>y with y = scale&times;(observation-objective)
      * </pre>
      * </p>
      * <p>
-     * The residuals array computed by the function and the scaling matrix must
-     * have consistent sizes or a {@link ObjectiveException} will be triggered while
-     * computing the scalar objective.
+     * The array computed by the objective function, the observations array and the
+     * the scaling matrix must have consistent sizes or a {@link ObjectiveException}
+     * will be triggered while computing the scalar objective.
      * </p>
      * @param function vectorial residuals function to wrap
-     * @param scale scaling matrix (
+     * @param observations observations to be compared to objective function to compute residuals
+     * @param scale scaling matrix
+     * @exception IllegalArgumentException if the observations vector and the scale
+     * matrix dimensions don't match (objective function dimension is checked only when
+     * the {@link #objective} method is called)
      */
     public LeastSquaresConverter (final MultiObjectiveFunction function,
-                                  final RealMatrix scale) {
-        this.function = function;
-        this.weights  = null;
-        this.scale    = scale.copy();
+                                  final double[] observations, final RealMatrix scale)
+        throws IllegalArgumentException {
+        if (observations.length != scale.getColumnDimension()) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "dimension mismatch {0} != {1}",
+                    observations.length, scale.getColumnDimension());
+        }
+        this.function     = function;
+        this.observations = observations.clone();
+        this.weights      = null;
+        this.scale        = scale.copy();
     }
 
     /** {@inheritDoc} */
     public double objective(final double[] variables) throws ObjectiveException {
 
+        // compute residuals
         final double[] residuals = function.objective(variables);
-        double sumSquares = 0;
+        if (residuals.length != observations.length) {
+            throw new ObjectiveException("dimension mismatch {0} != {1}",
+                                         residuals.length, observations.length);
+        }
+        for (int i = 0; i < residuals.length; ++i) {
+            residuals[i] -= observations[i];
+        }
 
+        // compute sum of squares
+        double sumSquares = 0;
         if (weights != null) {
-            if (weights.length != residuals.length) {
-                throw new ObjectiveException("dimension mismatch {0} != {1}",
-                                        weights.length, residuals.length);
-            }
-            for (int i = 0; i < weights.length; ++i) {
-                final double ai = residuals[i] * weights[i];
-                sumSquares += ai * ai;
+            for (int i = 0; i < residuals.length; ++i) {
+                final double ri = residuals[i];
+                sumSquares +=  weights[i] * ri * ri;
             }
         } else if (scale != null) {
-            if (scale.getColumnDimension() != residuals.length) {
-                throw new ObjectiveException("dimension mismatch {0} != {1}",
-                                        scale.getColumnDimension(), residuals.length);
-            }
             for (final double yi : scale.operate(residuals)) {
                 sumSquares += yi * yi;
             }

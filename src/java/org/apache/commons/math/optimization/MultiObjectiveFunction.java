@@ -32,7 +32,9 @@ public interface MultiObjectiveFunction extends Serializable {
      * @param variables variables set
      * @return function value for the given variables set
      * @exception ObjectiveException if no cost can be computed for the parameters
+     * @exception IllegalArgumentException if variables dimension is wrong
      */
-    double[] objective(double[] variables) throws ObjectiveException;
+    double[] objective(double[] variables)
+        throws ObjectiveException, IllegalArgumentException;
 
 }

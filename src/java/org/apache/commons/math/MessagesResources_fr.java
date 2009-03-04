@@ -70,6 +70,7 @@ public class MessagesResources_fr
 
     // org.apache.commons.math.DimensionMismatchException
     // org.apache.commons.math.optimization.LeastSquaresConverter
+    // org.apache.commons.math.optimization.direct.DirectSearchOptimizer
     { "dimension mismatch {0} != {1}",
       "dimensions incompatibles {0} != {1}" },
 
@@ -106,9 +107,19 @@ public class MessagesResources_fr
     { "Conversion Exception in Transformation: {0}",
       "Exception de conversion dans une transformation : {0}" },
 
-    // org.apache.commons.math.optimization.general.AbstractEstimator
+    // org.apache.commons.math.optimization.MultiStartOptimizer
+    { "no optimum computed yet",
+      "aucun optimum n''a encore \u00e9t\u00e9 calcul\u00e9" },
+
+    // org.apache.commons.math.optimization.direct.DirectSearchOptimizer
+    { "simplex must contain at least one point",
+      "le simplex doit contenir au moins un point" },
+    { "equals vertices {0} and {1} in simplex configuration",
+      "sommets {0} et {1} \u00e9gaux dans la configuration du simplex" },
     { "maximal number of evaluations exceeded ({0})",
       "nombre maximal d''\u00e9valuations d\u00e9pass\u00e9 ({0})" },
+
+    // org.apache.commons.math.optimization.general.AbstractEstimator
     { "unable to compute covariances: singular problem",
       "impossible de calculer les covariances : probl\u00e8me singulier"},
     { "no degrees of freedom ({0} measurements, {1} parameters)",

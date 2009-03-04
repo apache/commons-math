@@ -17,11 +17,10 @@
 
 package org.apache.commons.math.optimization;
 
-import org.apache.commons.math.optimization.direct.DirectSearchOptimizer;
+import java.io.Serializable;
 
-
-/** This interface specifies how to check if a {@link
- * DirectSearchOptimizer direct search method} has converged.
+/** This interface specifies how to check if an {@link Optimizer optimization
+ * algorithm} has converged.
  *
  * <p>Deciding if convergence has been reached is a problem-dependent
  * issue. The user should provide a class implementing this interface
@@ -29,22 +28,25 @@ import org.apache.commons.math.optimization.direct.DirectSearchOptimizer;
  * the problem at hand.</p>
  *
  * @version $Revision$ $Date$
- * @since 1.2
+ * @since 2.0
  */
 
-public interface ConvergenceChecker {
+public interface ConvergenceChecker extends Serializable {
 
-  /** Check if the optimization algorithm has converged on the simplex.
+  /** Check if the optimization algorithm has converged considering the last points.
    * <p>
-   * When this method is called, all points in the simplex have been evaluated
-   * and are sorted from lowest to largest value. The values are either the
-   * original objective function values if the optimizer was configured for
-   * minimization, or the opposites of the original objective function values
-   * if the optimizer was configured for maximization.
+   * This method may be called several time from the same algorithm iteration with
+   * different points. This can be detected by checking the iteration number at each
+   * call if needed. Each time this method is called, the previous and current point
+   * correspond to points with the same role at each iteration, so they can be
+   * compared. As an example, simplex-based algorithms call this method for all
+   * points of the simplex, not only for the best or worst ones.
    * </p>
-   * @param simplex ordered simplex
+   * @param iteration index of current iteration
+   * @param previous point from previous iteration
+   * @param current point from current iteration
    * @return true if the algorithm is considered to have converged
    */
-  boolean converged(PointValuePair[] simplex);
+  boolean converged(int iteration, PointValuePair previous, PointValuePair current);
 
 }

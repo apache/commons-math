@@ -17,27 +17,18 @@
 
 package org.apache.commons.math.optimization.direct;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import org.apache.commons.math.ConvergenceException;
-import org.apache.commons.math.DimensionMismatchException;
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.decomposition.NotPositiveDefiniteMatrixException;
 import org.apache.commons.math.optimization.ConvergenceChecker;
+import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.ObjectiveException;
 import org.apache.commons.math.optimization.ObjectiveFunction;
+import org.apache.commons.math.optimization.OptimizationException;
+import org.apache.commons.math.optimization.Optimizer;
 import org.apache.commons.math.optimization.PointValuePair;
-import org.apache.commons.math.random.CorrelatedRandomVectorGenerator;
-import org.apache.commons.math.random.JDKRandomGenerator;
-import org.apache.commons.math.random.RandomGenerator;
-import org.apache.commons.math.random.RandomVectorGenerator;
-import org.apache.commons.math.random.UncorrelatedRandomVectorGenerator;
-import org.apache.commons.math.random.UniformRandomGenerator;
-import org.apache.commons.math.stat.descriptive.moment.VectorialCovariance;
-import org.apache.commons.math.stat.descriptive.moment.VectorialMean;
+import org.apache.commons.math.optimization.ObjectiveValueChecker;
 
 /** 
  * This class implements simplex-based direct search optimization
@@ -49,7 +40,7 @@ import org.apache.commons.math.stat.descriptive.moment.VectorialMean;
  * (<a href="http://cm.bell-labs.com/cm/cs/doc/96/4-02.ps.gz">Direct
  * Search Methods: Once Scorned, Now Respectable</a>), they are used
  * when either the computation of the derivative is impossible (noisy
- * functions, unpredictable dicontinuities) or difficult (complexity,
+ * functions, unpredictable discontinuities) or difficult (complexity,
  * computation cost). In the first cases, rather than an optimum, a
  * <em>not too bad</em> point is desired. In the latter cases, an
  * optimum is desired but cannot be reasonably found. In all cases
@@ -58,18 +49,26 @@ import org.apache.commons.math.stat.descriptive.moment.VectorialMean;
  * <p>Simplex-based direct search methods are based on comparison of
  * the objective function values at the vertices of a simplex (which is a
  * set of n+1 points in dimension n) that is updated by the algorithms
- * steps.</p>
+ * steps.<p>
  *
- * <p>Optimization can be attempted either in single-start or in
- * multi-start mode. Multi-start is a traditional way to try to avoid
- * being trapped in a local optimum and miss the global optimum of a
- * function. It can also be used to verify the convergence of an
- * algorithm. The various multi-start-enabled <code>optimize</code>
- * methods return the best optimum found after all starts, and the
- * {@link #getOptimum getOptimum} method can be used to retrieve all
- * optima from all starts (including the one already provided by the
- * {@link #optimize(ObjectiveFunction, int, ConvergenceChecker, double[],
- * double[]) optimize} method).</p>
+ * <p>The initial configuration of the simplex can be set using either
+ * {@link #setStartConfiguration(double[])} or {@link
+ * #setStartConfiguration(double[][])}. If neither method has been called
+ * before optimization is attempted, an explicit call to the first method
+ * with all steps set to +1 is triggered, thus building a default
+ * configuration from a unit hypercube. Each call to {@link
+ * #optimize(ObjectiveFunction, GoalType, double[]) optimize} will reuse
+ * the current start configuration and move it such that its first vertex
+ * is at the provided start point of the optimization. If the same optimizer
+ * is used to solve different problems and the number of parameters change,
+ * the start configuration <em>must</em> be reset or a dimension mismatch
+ * will occur.</p>
+ *
+ * <p>If {@link #setConvergenceChecker(ConvergenceChecker)} is not called,
+ * a default {@link ObjectiveValueChecker} is used.</p>
+ *
+ * <p>Convergence is checked by providing the <em>worst</em> points of
+ * previous and current simplex to the convergence checker, not the best ones.</p>
  *
  * <p>This class is the base class performing the boilerplate simplex
  * initialization and handling. The simplex update by itself is
@@ -82,23 +81,10 @@ import org.apache.commons.math.stat.descriptive.moment.VectorialMean;
  * @version $Revision$ $Date$
  * @since 1.2
  */
-public abstract class DirectSearchOptimizer implements Serializable {
+public abstract class DirectSearchOptimizer implements Optimizer {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -3913013760494455466L;
-
-    /** Comparator for {@link PointValuePair} objects. */
-    private static final Comparator<PointValuePair> PAIR_COMPARATOR =
-        new Comparator<PointValuePair>() {
-            public int compare(PointValuePair o1, PointValuePair o2) {
-                if (o1 == null) {
-                    return (o2 == null) ? 0 : +1;
-                } else if (o2 == null) {
-                    return -1;
-                }
-                return (o1.getValue() < o2.getValue()) ? -1 : ((o1 == o2) ? 0 : +1);
-            }
-        };
+    private static final long serialVersionUID = 4299910390345933369L;
 
     /** Simplex. */
     protected PointValuePair[] simplex;
@@ -106,497 +92,209 @@ public abstract class DirectSearchOptimizer implements Serializable {
     /** Objective function. */
     private ObjectiveFunction f;
 
-    /** Indicator for minimization. */
-    private boolean minimizing;
+    /** Convergence checker. */
+    private ConvergenceChecker checker;
 
     /** Number of evaluations already performed for the current start. */
     private int evaluations;
 
-    /** Number of evaluations already performed for all starts. */
-    private int totalEvaluations;
+    /** Maximal number of evaluations allowed. */
+    private int maxEvaluations;
 
-    /** Number of starts to go. */
-    private int starts;
-
-    /** Random generator for multi-start. */
-    private RandomVectorGenerator generator;
-
-    /** Found optima. */
-    private PointValuePair[] optima;
+    /** Start simplex configuration. */
+    private double[][] startConfiguration;
 
     /** Simple constructor.
      */
     protected DirectSearchOptimizer() {
+        setConvergenceChecker(new ObjectiveValueChecker());
     }
 
-    /** Optimizes an objective function.
-     * <p>The initial simplex is built from two vertices that are
-     * considered to represent two opposite vertices of a box parallel
-     * to the canonical axes of the space. The simplex is the subset of
-     * vertices encountered while going from vertexA to vertexB
-     * traveling along the box edges only. This can be seen as a scaled
-     * regular simplex using the projected separation between the given
-     * points as the scaling factor along each coordinate axis.</p>
-     * <p>The optimization is performed in single-start mode.</p>
-     * @param f objective function
-     * @param maxEvaluations maximal number of function calls for each
-     * start (note that the number will be checked <em>after</em>
-     * complete simplices have been evaluated, this means that in some
-     * cases this number will be exceeded by a few units, depending on
-     * the dimension of the problem)
-     * @param checker object to use to check for convergence
-     * @param minimizing if true, function must be minimize otherwise it must be maximized
-     * @param vertexA first vertex
-     * @param vertexB last vertex
-     * @return the point/value pairs giving the optimal value for objective function
-     * @exception ObjectiveException if the objective function throws one during
-     * the search
-     * @exception ConvergenceException if none of the starts did
-     * converge (it is not thrown if at least one start did converge)
+    /** Set start configuration for simplex.
+     * <p>The start configuration for simplex is built from a box parallel to
+     * the canonical axes of the space. The simplex is the subset of vertices
+     * of a box parallel to the canonical axes. It is built as the path followed
+     * while traveling from one vertex of the box to the diagonally opposite
+     * vertex moving only along the box edges. The first vertex of the box will
+     * be located at the start point of the optimization.</p>
+     * <p>As an example, in dimension 3 a simplex has 4 vertices. Setting the
+     * steps to (1, 10, 2) and the start point to (1, 1, 1) would imply the
+     * start simplex would be: { (1, 1, 1), (2, 1, 1), (2, 11, 1), (2, 11, 3) }.
+     * The first vertex would be set to the start point at (1, 1, 1) and the
+     * last vertex would be set to the diagonally opposite vertex at (2, 11, 3).</p>
+     * @param steps steps along the canonical axes representing box edges,
+     * they may be negative but not null
+     * @exception IllegalArgumentException if one step is null
      */
-    public PointValuePair optimize(final ObjectiveFunction f, final int maxEvaluations,
-                                   final ConvergenceChecker checker, final boolean minimizing,
-                                   final double[] vertexA, final double[] vertexB)
-        throws ObjectiveException, ConvergenceException {
-
-        // set up optimizer
-        buildSimplex(vertexA, vertexB);
-        setSingleStart();
-
-        // compute optimum
-        return optimize(f, maxEvaluations, checker, minimizing);
-
-    }
-
-    /** Optimizes an objective function.
-     * <p>The initial simplex is built from two vertices that are
-     * considered to represent two opposite vertices of a box parallel
-     * to the canonical axes of the space. The simplex is the subset of
-     * vertices encountered while going from vertexA to vertexB
-     * traveling along the box edges only. This can be seen as a scaled
-     * regular simplex using the projected separation between the given
-     * points as the scaling factor along each coordinate axis.</p>
-     * <p>The optimization is performed in multi-start mode.</p>
-     * @param f objective function
-     * @param maxEvaluations maximal number of function calls for each
-     * start (note that the number will be checked <em>after</em>
-     * complete simplices have been evaluated, this means that in some
-     * cases this number will be exceeded by a few units, depending on
-     * the dimension of the problem)
-     * @param checker object to use to check for convergence
-     * @param minimizing if true, function must be minimize otherwise it must be maximized
-     * @param vertexA first vertex
-     * @param vertexB last vertex
-     * @param starts number of starts to perform (including the
-     * first one), multi-start is disabled if value is less than or
-     * equal to 1
-     * @param seed seed for the random vector generator
-     * @return the point/value pairs giving the optimal value for objective function
-     * @exception ObjectiveException if the obective function throws one during
-     * the search
-     * @exception ConvergenceException if none of the starts did
-     * converge (it is not thrown if at least one start did converge)
-     */
-    public PointValuePair optimize(final ObjectiveFunction f, final int maxEvaluations,
-                                   final ConvergenceChecker checker, final boolean minimizing,
-                                   final double[] vertexA, final double[] vertexB,
-                                   final int starts, final long seed)
-        throws ObjectiveException, ConvergenceException {
-
-        // set up the simplex traveling around the box
-        buildSimplex(vertexA, vertexB);
-
-        // we consider the simplex could have been produced by a generator
-        // having its mean value at the center of the box, the standard
-        // deviation along each axe being the corresponding half size
-        final double[] mean              = new double[vertexA.length];
-        final double[] standardDeviation = new double[vertexA.length];
-        for (int i = 0; i < vertexA.length; ++i) {
-            mean[i]              = 0.5 * (vertexA[i] + vertexB[i]);
-            standardDeviation[i] = 0.5 * Math.abs(vertexA[i] - vertexB[i]);
-        }
-
-        final RandomGenerator rg = new JDKRandomGenerator();
-        rg.setSeed(seed);
-        final UniformRandomGenerator urg = new UniformRandomGenerator(rg);
-        final RandomVectorGenerator rvg =
-            new UncorrelatedRandomVectorGenerator(mean, standardDeviation, urg);
-        setMultiStart(starts, rvg);
-
-        // compute optimum
-        return optimize(f, maxEvaluations, checker, minimizing);
-
-    }
-
-    /** Optimizes an objective function.
-     * <p>The simplex is built from all its vertices.</p>
-     * <p>The optimization is performed in single-start mode.</p>
-     * @param f objective function
-     * @param maxEvaluations maximal number of function calls for each
-     * start (note that the number will be checked <em>after</em>
-     * complete simplices have been evaluated, this means that in some
-     * cases this number will be exceeded by a few units, depending on
-     * the dimension of the problem)
-     * @param checker object to use to check for convergence
-     * @param minimizing if true, function must be minimize otherwise it must be maximized
-     * @param vertices array containing all vertices of the simplex
-     * @return the point/value pairs giving the optimal value for objective function
-     * @exception ObjectiveException if the objective function throws one during
-     * the search
-     * @exception ConvergenceException if none of the starts did
-     * converge (it is not thrown if at least one start did converge)
-     */
-    public PointValuePair optimize(final ObjectiveFunction f, final int maxEvaluations,
-                                   final ConvergenceChecker checker, final boolean minimizing,
-                                   final double[][] vertices)
-        throws ObjectiveException, ConvergenceException {
-
-        // set up optimizer
-        buildSimplex(vertices);
-        setSingleStart();
-
-        // compute optimum
-        return optimize(f, maxEvaluations, checker, minimizing);
-
-    }
-
-    /** Optimizes an objective function.
-     * <p>The simplex is built from all its vertices.</p>
-     * <p>The optimization is performed in multi-start mode.</p>
-     * @param f objective function
-     * @param maxEvaluations maximal number of function calls for each
-     * start (note that the number will be checked <em>after</em>
-     * complete simplices have been evaluated, this means that in some
-     * cases this number will be exceeded by a few units, depending on
-     * the dimension of the problem)
-     * @param checker object to use to check for convergence
-     * @param minimizing if true, function must be minimize otherwise it must be maximized
-     * @param vertices array containing all vertices of the simplex
-     * @param starts number of starts to perform (including the
-     * first one), multi-start is disabled if value is less than or
-     * equal to 1
-     * @param seed seed for the random vector generator
-     * @return the point/value pairs giving the optimal value for objective function
-     * @exception NotPositiveDefiniteMatrixException if the vertices
-     * array is degenerated
-     * @exception ObjectiveException if the objective function throws one during
-     * the search
-     * @exception ConvergenceException if none of the starts did
-     * converge (it is not thrown if at least one start did converge)
-     */
-    public PointValuePair optimize(final ObjectiveFunction f, final int maxEvaluations,
-                                   final ConvergenceChecker checker, final boolean minimizing,
-                                   final double[][] vertices,
-                                   final int starts, final long seed)
-        throws NotPositiveDefiniteMatrixException, ObjectiveException, ConvergenceException {
-
-        try {
-            // store the points into the simplex
-            buildSimplex(vertices);
-
-            // compute the statistical properties of the simplex points
-            final VectorialMean meanStat = new VectorialMean(vertices[0].length);
-            final VectorialCovariance covStat = new VectorialCovariance(vertices[0].length, true);
-            for (int i = 0; i < vertices.length; ++i) {
-                meanStat.increment(vertices[i]);
-                covStat.increment(vertices[i]);
+    public void setStartConfiguration(final double[] steps)
+        throws IllegalArgumentException {
+        // only the relative position of the n final vertices with respect
+        // to the first one are stored
+        final int n = steps.length;
+        startConfiguration = new double[n][n];
+        for (int i = 0; i < n; ++i) {
+            final double[] vertexI = startConfiguration[i];
+            for (int j = 0; j < i + 1; ++j) {
+                if (steps[j] == 0.0) {
+                    throw MathRuntimeException.createIllegalArgumentException(
+                            "equals vertices {0} and {1} in simplex configuration",
+                            j, j + 1);
+                }
+                System.arraycopy(steps, 0, vertexI, 0, j + 1);
             }
-            final double[] mean = meanStat.getResult();
-            final RealMatrix covariance = covStat.getResult();
-            
-
-            final RandomGenerator rg = new JDKRandomGenerator();
-            rg.setSeed(seed);
-            final RandomVectorGenerator rvg =
-                new CorrelatedRandomVectorGenerator(mean,
-                                                    covariance, 1.0e-12 * covariance.getNorm(),
-                                                    new UniformRandomGenerator(rg));
-            setMultiStart(starts, rvg);
-
-            // compute optimum
-            return optimize(f, maxEvaluations, checker, minimizing);
-
-        } catch (DimensionMismatchException dme) {
-            // this should not happen
-            throw new MathRuntimeException(dme, "unexpected exception caught");
         }
-
     }
 
-    /** Optimizes an objective function.
-     * <p>The simplex is built randomly.</p>
-     * <p>The optimization is performed in single-start mode.</p>
-     * @param f objective function
-     * @param maxEvaluations maximal number of function calls for each
-     * start (note that the number will be checked <em>after</em>
-     * complete simplices have been evaluated, this means that in some
-     * cases this number will be exceeded by a few units, depending on
-     * the dimension of the problem)
-     * @param checker object to use to check for convergence
-     * @param minimizing if true, function must be minimize otherwise it must be maximized
-     * @param generator random vector generator
-     * @return the point/value pairs giving the optimal value for objective function
-     * @exception ObjectiveException if the objective function throws one during
-     * the search
-     * @exception ConvergenceException if none of the starts did
-     * converge (it is not thrown if at least one start did converge)
+    /** Set start configuration for simplex.
+     * <p>The real initial simplex will be set up by moving the reference
+     * simplex such that its first point is located at the start point of the
+     * optimization.</p>
+     * @param referenceSimplex reference simplex
+     * @exception IllegalArgumentException if the reference simplex does not
+     * contain at least one point, or if there is a dimension mismatch
+     * in the reference simplex or if one of its vertices is duplicated
      */
-    public PointValuePair optimize(final ObjectiveFunction f, final int maxEvaluations,
-                                   final ConvergenceChecker checker, final boolean minimizing,
-                                   final RandomVectorGenerator generator)
-        throws ObjectiveException, ConvergenceException {
+    public void setStartConfiguration(final double[][] referenceSimplex)
+        throws IllegalArgumentException {
 
-        // set up optimizer
-        buildSimplex(generator);
-        setSingleStart();
+        // only the relative position of the n final vertices with respect
+        // to the first one are stored
+        final int n = referenceSimplex.length - 1;
+        if (n < 0) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "simplex must contain at least one point");
+        }
+        startConfiguration = new double[n][n];
+        final double[] ref0 = referenceSimplex[0];
 
-        // compute optimum
-        return optimize(f, maxEvaluations, checker, minimizing);
+        // vertices loop
+        for (int i = 0; i < n + 1; ++i) {
 
-    }
+            final double[] refI = referenceSimplex[i];
 
-    /** Optimizes an objective function.
-     * <p>The simplex is built randomly.</p>
-     * <p>The optimization is performed in multi-start mode.</p>
-     * @param f objective function
-     * @param maxEvaluations maximal number of function calls for each
-     * start (note that the number will be checked <em>after</em>
-     * complete simplices have been evaluated, this means that in some
-     * cases this number will be exceeded by a few units, depending on
-     * the dimension of the problem)
-     * @param checker object to use to check for convergence
-     * @param minimizing if true, function must be minimize otherwise it must be maximized
-     * @param generator random vector generator
-     * @param starts number of starts to perform (including the
-     * first one), multi-start is disabled if value is less than or
-     * equal to 1
-     * @return the point/value pairs giving the optimal value for objective function
-     * @exception ObjectiveException if the objective function throws one during
-     * the search
-     * @exception ConvergenceException if none of the starts did
-     * converge (it is not thrown if at least one start did converge)
-     */
-    public PointValuePair optimize(final ObjectiveFunction f, final int maxEvaluations,
-                                   final ConvergenceChecker checker, final boolean minimizing,
-                                   final RandomVectorGenerator generator,
-                                   final int starts)
-        throws ObjectiveException, ConvergenceException {
+            // safety checks
+            if (refI.length != n) {
+                throw MathRuntimeException.createIllegalArgumentException(
+                        "dimension mismatch {0} != {1}",
+                        refI.length, n);
+            }
+            for (int j = 0; j < i; ++j) {
+                final double[] refJ = referenceSimplex[j];
+                boolean allEquals = true;
+                for (int k = 0; k < n; ++k) {
+                    if (refI[k] != refJ[k]) {
+                        allEquals = false;
+                        break;
+                    }
+                }
+                if (allEquals) {
+                    throw MathRuntimeException.createIllegalArgumentException(
+                            "equals vertices {0} and {1} in simplex configuration",
+                            i, j);
+                }
+            }
 
-        // set up optimizer
-        buildSimplex(generator);
-        setMultiStart(starts, generator);
-
-        // compute optimum
-        return optimize(f, maxEvaluations, checker, minimizing);
-
-    }
-
-    /** Build a simplex from two extreme vertices.
-     * <p>The two vertices are considered to represent two opposite
-     * vertices of a box parallel to the canonical axes of the
-     * space. The simplex is the subset of vertices encountered while
-     * going from vertexA to vertexB traveling along the box edges
-     * only. This can be seen as a scaled regular simplex using the
-     * projected separation between the given points as the scaling
-     * factor along each coordinate axis.</p>
-     * @param vertexA first vertex
-     * @param vertexB last vertex
-     */
-    private void buildSimplex(final double[] vertexA, final double[] vertexB) {
-
-        final int n = vertexA.length;
-        simplex = new PointValuePair[n + 1];
-
-        // set up the simplex traveling around the box
-        for (int i = 0; i <= n; ++i) {
-            final double[] vertex = new double[n];
+            // store vertex i position relative to vertex 0 position
             if (i > 0) {
-                System.arraycopy(vertexB, 0, vertex, 0, i);
+                final double[] confI = startConfiguration[i - 1];
+                for (int k = 0; k < n; ++k) {
+                    confI[k] = refI[k] - ref0[k];
+                }
             }
-            if (i < n) {
-                System.arraycopy(vertexA, i, vertex, i, n - i);
+
+        }
+
+    }
+
+    /** {@inheritDoc} */
+    public void setMaxEvaluations(int maxEvaluations) {
+        this.maxEvaluations = maxEvaluations;
+    }
+
+    /** {@inheritDoc} */
+    public int getMaxEvaluations() {
+        return maxEvaluations;
+    }
+
+    /** {@inheritDoc} */
+    public void setConvergenceChecker(ConvergenceChecker checker) {
+        this.checker = checker;
+    }
+
+    /** {@inheritDoc} */
+    public ConvergenceChecker getConvergenceChecker() {
+        return checker;
+    }
+
+    /** {@inheritDoc} */
+    public PointValuePair optimize(final ObjectiveFunction f, final GoalType goalType,
+                                   final double[] startPoint)
+        throws ObjectiveException, OptimizationException, IllegalArgumentException {
+
+        if (startConfiguration == null) {
+            // no initial configuration has been set up for simplex
+            // build a default one from a unit hypercube
+            final double[] unit = new double[startPoint.length];
+            Arrays.fill(unit, 1.0);
+            setStartConfiguration(unit);
+        }
+
+        this.f = f;
+        final Comparator<PointValuePair> comparator = new Comparator<PointValuePair>() {
+            public int compare(final PointValuePair o1, final PointValuePair o2) {
+                final double v1 = o1.getValue();
+                final double v2 = o2.getValue();
+                return (goalType == GoalType.MINIMIZE) ?
+                        Double.compare(v1, v2) : Double.compare(v2, v1);
             }
-            simplex[i] = new PointValuePair(vertex, Double.NaN);
-        }
+        };
 
-    }
+        // initialize search
+        evaluations = 0;
+        buildSimplex(startPoint);
+        evaluateSimplex(comparator);
 
-    /** Build a simplex from all its points.
-     * @param vertices array containing all vertices of the simplex
-     */
-    private void buildSimplex(final double[][] vertices) {
-        final int n = vertices.length - 1;
-        simplex = new PointValuePair[n + 1];
-        for (int i = 0; i <= n; ++i) {
-            simplex[i] = new PointValuePair(vertices[i], Double.NaN);
-        }
-    }
+        PointValuePair[] previous = new PointValuePair[simplex.length];
+        int iterations = 0;
+        while (evaluations <= maxEvaluations) {
 
-    /** Build a simplex randomly.
-     * @param generator random vector generator
-     */
-    private void buildSimplex(final RandomVectorGenerator generator) {
-
-        // use first vector size to compute the number of points
-        final double[] vertex = generator.nextVector();
-        final int n = vertex.length;
-        simplex = new PointValuePair[n + 1];
-        simplex[0] = new PointValuePair(vertex, Double.NaN);
-
-        // fill up the vertex
-        for (int i = 1; i <= n; ++i) {
-            simplex[i] = new PointValuePair(generator.nextVector(), Double.NaN);
-        }
-
-    }
-
-    /** Set up single-start mode.
-     */
-    private void setSingleStart() {
-        starts    = 1;
-        generator = null;
-        optima    = null;
-    }
-
-    /** Set up multi-start mode.
-     * @param starts number of starts to perform (including the
-     * first one), multi-start is disabled if value is less than or
-     * equal to 1
-     * @param generator random vector generator to use for restarts
-     */
-    private void setMultiStart(final int starts, final RandomVectorGenerator generator) {
-        if (starts < 2) {
-            this.starts    = 1;
-            this.generator = null;
-            optima         = null;
-        } else {
-            this.starts    = starts;
-            this.generator = generator;
-            optima         = null;
-        }
-    }
-
-    /** Get all the optima found during the last call to {@link
-     * #optimize(ObjectiveFunction, int, ConvergenceChecker, double[], double[])
-     * minimize}.
-     * <p>The optimizer stores all the optima found during a set of
-     * restarts when multi-start mode is enabled. The {@link
-     * #optimize(ObjectiveFunction, int, ConvergenceChecker, double[], double[])
-     * optimize} method returns the best point only. This method
-     * returns all the points found at the end of each starts, including
-     * the best one already returned by the {@link #optimize(ObjectiveFunction,
-     * int, ConvergenceChecker, double[], double[]) optimize} method.
-     * The array as one element for each start as specified in the constructor
-     * (it has one element only if optimizer has been set up for single-start).</p>
-     * <p>The array containing the optimum is ordered with the results
-     * from the runs that did converge first, sorted from lowest to
-     * highest objective value if minimizing (from highest to lowest if maximizing),
-     * and null elements corresponding to the runs that did not converge. This means
-     * all elements will be null if the {@link #optimize(ObjectiveFunction, int,
-     * ConvergenceChecker, double[], double[]) optimize} method did throw a {@link
-     * ConvergenceException ConvergenceException}). This also means that if the first
-     * element is non null, it is the best point found accross all starts.</p>
-     * @return array containing the optima, or null if {@link
-     * #optimize(ObjectiveFunction, int, ConvergenceChecker, double[], double[])
-     * optimize} has not been called
-     */
-    public PointValuePair[] getOptima() {
-        return (PointValuePair[]) optima.clone();
-    }
-
-    /** Optimizes an objective function.
-     * @param f objective function
-     * @param maxEvaluations maximal number of function calls for each
-     * start (note that the number will be checked <em>after</em>
-     * complete simplices have been evaluated, this means that in some
-     * cases this number will be exceeded by a few units, depending on
-     * the dimension of the problem)
-     * @param checker object to use to check for convergence
-     * @param minimizing if true, function must be minimize otherwise it must be maximized
-     * @return the point/value pairs giving the optimal value for objective function
-     * @exception ObjectiveException if the objective function throws one during
-     * the search
-     * @exception ConvergenceException if none of the starts did
-     * converge (it is not thrown if at least one start did converge)
-     */
-    private PointValuePair optimize(final ObjectiveFunction f, final int maxEvaluations,
-                                   final ConvergenceChecker checker, final boolean minimizing)
-        throws ObjectiveException, ConvergenceException {
-
-        this.f          = f;
-        this.minimizing = minimizing;
-        optima = new PointValuePair[starts];
-        totalEvaluations = 0;
-
-        // multi-start loop
-        for (int i = 0; i < starts; ++i) {
-
-            evaluations = 0;
-            evaluateSimplex();
-
-            for (boolean loop = true; loop;) {
-                if (checker.converged(simplex)) {
+            if (++iterations > 1) {
+                boolean converged = true;
+                for (int i = 0; i < simplex.length; ++i) {
+                    converged &= checker.converged(iterations, previous[i], simplex[i]);
+                }
+                if (converged) {
                     // we have found an optimum
-                    optima[i] = simplex[0];
-                    loop = false;
-                } else if (evaluations >= maxEvaluations) {
-                    // this start did not converge, try a new one
-                    optima[i] = null;
-                    loop = false;
-                } else {
-                    iterateSimplex();
+                    return simplex[0];
                 }
             }
 
-            totalEvaluations += evaluations;
-
-            if (i < (starts - 1)) {
-                // restart
-                buildSimplex(generator);
-            }
+            // we still need to search
+            System.arraycopy(simplex, 0, previous, 0, simplex.length);
+            iterateSimplex(comparator);
 
         }
 
-        // sort the optima from best to poorest, followed by
-        // null elements
-        Arrays.sort(optima, PAIR_COMPARATOR);
-
-        if (!minimizing) {
-            // revert objective function sign to match user original definition
-            for (int i = 0; i < optima.length; ++i) {
-                final PointValuePair current = optima[i];
-                if (current != null) {
-                    optima[i] = new PointValuePair(current.getPoint(), -current.getValue());
-                }
-            }
-        }
-
-        // return the found point given the best objective function value
-        if (optima[0] == null) {
-            throw new ConvergenceException(
-                    "none of the {0} start points lead to convergence",
-                    starts);
-        }
-        return optima[0];
+        throw new OptimizationException(
+                "maximal number of evaluations exceeded ({0})",
+                evaluations);
 
     }
 
-    /** Get the total number of evaluations of the objective function.
-     * <p>
-     * The total number of evaluations includes all evaluations for all
-     * starts if in optimization was done in multi-start mode.
-     * </p>
-     * @return total number of evaluations of the objective function
-     */
-    public int getTotalEvaluations() {
-        return totalEvaluations;
+    /** {@inheritDoc} */
+    public int getEvaluations() {
+        return evaluations;
     }
 
     /** Compute the next simplex of the algorithm.
+     * @param comparator comparator to use to sort simplex vertices from best to worst
      * @exception ObjectiveException if the function cannot be evaluated at
      * some point
+     * @exception OptimizationException if the algorithm failed to converge
+     * @exception IllegalArgumentException if the start point dimension is wrong
      */
-    protected abstract void iterateSimplex() throws ObjectiveException;
+    protected abstract void iterateSimplex(final Comparator<PointValuePair> comparator)
+        throws ObjectiveException, OptimizationException, IllegalArgumentException;
 
     /** Evaluate the objective function on one point.
      * <p>A side effect of this method is to count the number of
@@ -604,39 +302,76 @@ public abstract class DirectSearchOptimizer implements Serializable {
      * @param x point on which the objective function should be evaluated
      * @return objective function value at the given point
      * @exception ObjectiveException if no value can be computed for the parameters
+     * @exception IllegalArgumentException if the start point dimension is wrong
      */
-    protected double evaluate(final double[] x) throws ObjectiveException {
+    protected double evaluate(final double[] x)
+        throws ObjectiveException, IllegalArgumentException {
         evaluations++;
-        return minimizing ? f.objective(x) : -f.objective(x);
+        return f.objective(x);
+    }
+
+    /** Build an initial simplex.
+     * @param startPoint the start point for optimization
+     * @exception IllegalArgumentException
+     */
+    private void buildSimplex(final double[] startPoint)
+        throws IllegalArgumentException {
+
+        final int n = startPoint.length;
+        if (n != startConfiguration.length) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "dimension mismatch {0} != {1}",
+                    n, simplex.length);
+        }
+
+        // set first vertex
+        simplex = new PointValuePair[n + 1];
+        simplex[0] = new PointValuePair(startPoint, Double.NaN);
+
+        // set remaining vertices
+        for (int i = 0; i < n; ++i) {
+            final double[] confI   = startConfiguration[i];
+            final double[] vertexI = new double[n];
+            for (int k = 0; k < n; ++k) {
+                vertexI[k] = startPoint[k] + confI[k];
+            }
+            simplex[i + 1] = new PointValuePair(vertexI, Double.NaN);
+        }
+
     }
 
     /** Evaluate all the non-evaluated points of the simplex.
+     * @param comparator comparator to use to sort simplex vertices from best to worst
      * @exception ObjectiveException if no value can be computed for the parameters
      */
-    protected void evaluateSimplex() throws ObjectiveException {
+    protected void evaluateSimplex(final Comparator<PointValuePair> comparator)
+        throws ObjectiveException {
 
         // evaluate the objective function at all non-evaluated simplex points
         for (int i = 0; i < simplex.length; ++i) {
-            PointValuePair pair = simplex[i];
-            if (Double.isNaN(pair.getValue())) {
-                simplex[i] = new PointValuePair(pair.getPoint(), evaluate(pair.getPoint()));
+            final PointValuePair vertex = simplex[i];
+            final double[] point = vertex.getPoint();
+            if (Double.isNaN(vertex.getValue())) {
+                simplex[i] = new PointValuePair(point, evaluate(point));
             }
         }
 
-        // sort the simplex from best to poorest
-        Arrays.sort(simplex, PAIR_COMPARATOR);
+        // sort the simplex from best to worst
+        Arrays.sort(simplex, comparator);
 
     }
 
     /** Replace the worst point of the simplex by a new point.
      * @param pointValuePair point to insert
+     * @param comparator comparator to use to sort simplex vertices from best to worst
      */
-    protected void replaceWorstPoint(PointValuePair pointValuePair) {
+    protected void replaceWorstPoint(PointValuePair pointValuePair,
+                                     final Comparator<PointValuePair> comparator) {
         int n = simplex.length - 1;
         for (int i = 0; i < n; ++i) {
-            if (simplex[i].getValue() > pointValuePair.getValue()) {
+            if (comparator.compare(simplex[i], pointValuePair) > 0) {
                 PointValuePair tmp = simplex[i];
-                simplex[i]        = pointValuePair;
+                simplex[i]         = pointValuePair;
                 pointValuePair     = tmp;
             }
         }
