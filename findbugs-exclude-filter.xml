@@ -55,6 +55,29 @@
 
   <!-- the following expositions of internal representation are intentional and documented -->
   <Match>
+    <Class name="org.apache.commons.math.optimization.PointValuePair"/>
+    <Method name="getPointRef" params="" returns="double[]" />
+    <Bug pattern="EI_EXPOSE_REP" />
+  </Match>
+  <Match>
+    <Class name="org.apache.commons.math.optimization.PointValuePair"/>
+    <Method name="&lt;init>" params="double[],double,boolean" returns="void" />
+    <Bug pattern="EI_EXPOSE_REP2" />
+  </Match>
+  <Match>
+    <Class name="org.apache.commons.math.optimization.VectorialPointValuePair"/>
+    <Or>
+      <Method name="getPointRef" params="" returns="double[]" />
+      <Method name="getValueRef" params="" returns="double[]" />
+    </Or>
+    <Bug pattern="EI_EXPOSE_REP" />
+  </Match>
+  <Match>
+    <Class name="org.apache.commons.math.optimization.VectorialPointValuePair"/>
+    <Method name="&lt;init>" params="double[],double[][],boolean" returns="void" />
+    <Bug pattern="EI_EXPOSE_REP2" />
+  </Match>
+  <Match>
     <Class name="org.apache.commons.math.ode.sampling.AbstractStepInterpolator"/>
     <Or>
       <Method name="getInterpolatedState" params="" returns="double[]" />

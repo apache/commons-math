@@ -21,7 +21,7 @@ import java.util.Comparator;
 
 import org.apache.commons.math.optimization.ObjectiveException;
 import org.apache.commons.math.optimization.OptimizationException;
-import org.apache.commons.math.optimization.PointValuePair;
+import org.apache.commons.math.optimization.ScalarPointValuePair;
 
 /** 
  * This class implements the multi-directional direct search method.
@@ -59,23 +59,23 @@ public class MultiDirectional extends DirectSearchOptimizer {
     }
 
     /** {@inheritDoc} */
-    protected void iterateSimplex(final Comparator<PointValuePair> comparator)
+    protected void iterateSimplex(final Comparator<ScalarPointValuePair> comparator)
         throws ObjectiveException, OptimizationException, IllegalArgumentException {
 
         final int max = getMaxEvaluations();
         while (getEvaluations() < max) {
 
             // save the original vertex
-            final PointValuePair[] original = simplex;
-            final PointValuePair best = original[0];
+            final ScalarPointValuePair[] original = simplex;
+            final ScalarPointValuePair best = original[0];
 
             // perform a reflection step
-            final PointValuePair reflected = evaluateNewSimplex(original, 1.0, comparator);
+            final ScalarPointValuePair reflected = evaluateNewSimplex(original, 1.0, comparator);
             if (comparator.compare(reflected, best) < 0) {
 
                 // compute the expanded simplex
-                final PointValuePair[] reflectedSimplex = simplex;
-                final PointValuePair expanded = evaluateNewSimplex(original, khi, comparator);
+                final ScalarPointValuePair[] reflectedSimplex = simplex;
+                final ScalarPointValuePair expanded = evaluateNewSimplex(original, khi, comparator);
                 if (comparator.compare(reflected, expanded) <= 0) {
                     // accept the reflected simplex
                     simplex = reflectedSimplex;
@@ -86,7 +86,7 @@ public class MultiDirectional extends DirectSearchOptimizer {
             }
 
             // compute the contracted simplex
-            final PointValuePair contracted = evaluateNewSimplex(original, gamma, comparator);
+            final ScalarPointValuePair contracted = evaluateNewSimplex(original, gamma, comparator);
             if (comparator.compare(contracted, best) < 0) {
                 // accept the contracted simplex
                 return;
@@ -108,24 +108,24 @@ public class MultiDirectional extends DirectSearchOptimizer {
      * @exception ObjectiveException if the function cannot be evaluated at
      * some point
      */
-    private PointValuePair evaluateNewSimplex(final PointValuePair[] original,
+    private ScalarPointValuePair evaluateNewSimplex(final ScalarPointValuePair[] original,
                                               final double coeff,
-                                              final Comparator<PointValuePair> comparator)
+                                              final Comparator<ScalarPointValuePair> comparator)
         throws ObjectiveException {
 
-        final double[] xSmallest = original[0].getPoint();
+        final double[] xSmallest = original[0].getPointRef();
         final int n = xSmallest.length;
 
         // create the linearly transformed simplex
-        simplex = new PointValuePair[n + 1];
+        simplex = new ScalarPointValuePair[n + 1];
         simplex[0] = original[0];
         for (int i = 1; i <= n; ++i) {
-            final double[] xOriginal    = original[i].getPoint();
+            final double[] xOriginal    = original[i].getPointRef();
             final double[] xTransformed = new double[n];
             for (int j = 0; j < n; ++j) {
                 xTransformed[j] = xSmallest[j] + coeff * (xSmallest[j] - xOriginal[j]);
             }
-            simplex[i] = new PointValuePair(xTransformed, Double.NaN);
+            simplex[i] = new ScalarPointValuePair(xTransformed, Double.NaN, false);
         }
 
         // evaluate it

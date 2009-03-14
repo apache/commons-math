@@ -25,9 +25,9 @@ import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.linear.decomposition.NotPositiveDefiniteMatrixException;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.ObjectiveException;
-import org.apache.commons.math.optimization.ObjectiveFunction;
-import org.apache.commons.math.optimization.PointValuePair;
-import org.apache.commons.math.optimization.ObjectiveValueChecker;
+import org.apache.commons.math.optimization.ScalarObjectiveFunction;
+import org.apache.commons.math.optimization.ScalarPointValuePair;
+import org.apache.commons.math.optimization.SimpleValueChecker;
 
 public class NelderMeadTest
   extends TestCase {
@@ -37,8 +37,8 @@ public class NelderMeadTest
   }
 
   public void testObjectiveExceptions() throws ConvergenceException {
-      ObjectiveFunction wrong =
-          new ObjectiveFunction() {
+      ScalarObjectiveFunction wrong =
+          new ScalarObjectiveFunction() {
             private static final long serialVersionUID = 4751314470965489371L;
             public double objective(double[] x) throws ObjectiveException {
                 if (x[0] < 0) {
@@ -84,7 +84,7 @@ public class NelderMeadTest
       final double valueXmYp = -valueXmYm;                // local  minimum
       final double valueXpYm = -0.7290400707055187115322; // global minimum
       final double valueXpYp = -valueXpYm;                // global maximum
-      ObjectiveFunction fourExtrema = new ObjectiveFunction() {
+      ScalarObjectiveFunction fourExtrema = new ScalarObjectiveFunction() {
           private static final long serialVersionUID = -7039124064449091152L;
           public double objective(double[] variables) {
               final double x = variables[0];
@@ -94,10 +94,10 @@ public class NelderMeadTest
       };
 
       NelderMead optimizer = new NelderMead();
-      optimizer.setConvergenceChecker(new ObjectiveValueChecker(1.0e-10, 1.0e-30));
+      optimizer.setConvergenceChecker(new SimpleValueChecker(1.0e-10, 1.0e-30));
       optimizer.setMaxEvaluations(100);
       optimizer.setStartConfiguration(new double[] { 0.2, 0.2 });
-      PointValuePair optimum;
+      ScalarPointValuePair optimum;
 
       // minimization
       optimum = optimizer.optimize(fourExtrema, GoalType.MINIMIZE, new double[] { -3.0, 0 });
@@ -134,8 +134,8 @@ public class NelderMeadTest
   public void testRosenbrock()
     throws ObjectiveException, ConvergenceException {
 
-    ObjectiveFunction rosenbrock =
-      new ObjectiveFunction() {
+    ScalarObjectiveFunction rosenbrock =
+      new ScalarObjectiveFunction() {
         private static final long serialVersionUID = -9044950469615237490L;
         public double objective(double[] x) {
           ++count;
@@ -147,12 +147,12 @@ public class NelderMeadTest
 
     count = 0;
     NelderMead optimizer = new NelderMead();
-    optimizer.setConvergenceChecker(new ObjectiveValueChecker(-1, 1.0e-3));
+    optimizer.setConvergenceChecker(new SimpleValueChecker(-1, 1.0e-3));
     optimizer.setMaxEvaluations(100);
     optimizer.setStartConfiguration(new double[][] {
             { -1.2,  1.0 }, { 0.9, 1.2 } , {  3.5, -2.3 }
     });
-    PointValuePair optimum =
+    ScalarPointValuePair optimum =
         optimizer.optimize(rosenbrock, GoalType.MINIMIZE, new double[] { -1.2, 1.0 });
 
     assertEquals(count, optimizer.getEvaluations());
@@ -165,8 +165,8 @@ public class NelderMeadTest
   public void testPowell()
     throws ObjectiveException, ConvergenceException {
 
-    ObjectiveFunction powell =
-      new ObjectiveFunction() {
+    ScalarObjectiveFunction powell =
+      new ScalarObjectiveFunction() {
         private static final long serialVersionUID = -832162886102041840L;
         public double objective(double[] x) {
           ++count;
@@ -180,9 +180,9 @@ public class NelderMeadTest
 
     count = 0;
     NelderMead optimizer = new NelderMead();
-    optimizer.setConvergenceChecker(new ObjectiveValueChecker(-1.0, 1.0e-3));
+    optimizer.setConvergenceChecker(new SimpleValueChecker(-1.0, 1.0e-3));
     optimizer.setMaxEvaluations(200);
-    PointValuePair optimum =
+    ScalarPointValuePair optimum =
       optimizer.optimize(powell, GoalType.MINIMIZE, new double[] { 3.0, -1.0, 0.0, 1.0 });
     assertEquals(count, optimizer.getEvaluations());
     assertTrue(optimizer.getEvaluations() > 110);

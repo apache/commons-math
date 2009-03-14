@@ -19,45 +19,68 @@
 <body>
 <p>
 This package provides common interfaces for the optimization algorithms
-provided in sub-packages. The main interfaces are {@link
-org.apache.commons.math.optimization.ObjectiveFunction ObjectiveFunction}
-and {@link org.apache.commons.math.optimization.MultiObjectiveFunction
-MultiObjectiveFunction}. Both interfaces are intended to be implemented by
-user code to represent the problem they want to optimize.
+provided in sub-packages. The main interfaces defines objective functions
+and optimzers.
 </p>
 <p>
-The {@link org.apache.commons.math.optimization.ObjectiveFunction ObjectiveFunction}
-interface represent a scalar function that should be either minimized or maximized,
-by changing its input variables set until an optimal set is found. This function is
-often called a cost function when the goal is to minimize it.
-</p>
-
-<p>
-The {@link org.apache.commons.math.optimization.MultiObjectiveFunction
-MultiObjectiveFunction} interface represent a vectorial function that should be either
-minimized or maximized, by changing its input variables set until an optimal set is
-found.
-</p>
-
-<p>
-The {@link org.apache.commons.math.optimization.LeastSquaresConverter
-LeastSquaresConverter} class can be used to convert vectorial objective functions to
-scalar objective functions when the goal is to minimize them. This class is mostly used
-when the vectorial objective function represents theoretical results computed from a
-variables set applied to a model that should be fit against observations. Subtracting the
-observations from the theoretical results give residuals. Residuals are intended to be
-minimized in order to get the variables set that best fit the model to the observations.
-The observations may be obtained for example from physical measurements whether the model
-is built from theoretical considerations.
+Objective functions interfaces are intended to be implemented by
+user code to represent the problem to minimize or maximize. When the goal is to
+minimize, the objective function is often called a cost function. Objective
+functions can be either scalar or vectorial and can be either differentiable or
+not. There are four different interfaces, one for each case:
+<ul>
+  <li>{@link org.apache.commons.math.optimization.ScalarObjectiveFunction
+      ScalarObjectiveFunction}</li>
+  <li>{@link org.apache.commons.math.optimization.ScalarDifferentiableObjectiveFunction
+      ScalarDifferentiableObjectiveFunction}</li>
+  <li>{@link org.apache.commons.math.optimization.VectorialObjectiveFunction
+      VectorialObjectiveFunction}</li>
+  <li>{@link org.apache.commons.math.optimization.VectorialDifferentiableObjectiveFunction
+      VectorialDifferentiableObjectiveFunction}</li>
+</ul>
 </p>
 
 <p>
-The {@link org.apache.commons.math.optimization.Optimizer Optimizer} interface represents
-the optimization algorithm by itself. Several implementations of this interface are
-available for different kind of problems. There is also one special implementations, the
-{@link org.apache.commons.math.optimization.MultiStartOptimizer MultiStartOptimizer} which
-wraps a classical optimizer to use it several times in row with different starting points
-in order to avoid being trapped into a local extremum when looking for a global one.
+</p>
+
+<p>
+Optimizers are the algorithms that will either minimize or maximize, the objective function
+by changing its input variables set until an optimal set is found. There are only three
+interfaces defining the common behavior of optimizers, one for each type of objective
+function except {@link org.apache.commons.math.optimization.VectorialObjectiveFunction
+VectorialObjectiveFunction}:
+<ul>
+  <li>{@link org.apache.commons.math.optimization.ScalarOptimizer
+      ScalarOptimizer}</li>
+  <li>{@link org.apache.commons.math.optimization.ScalarDifferentiableOptimizer
+      ScalarDifferentiableOptimizer}</li>
+  <li>{@link org.apache.commons.math.optimization.VectorialDifferentiableOptimizer
+      VectorialDifferentiableOptimizer}</li>
+</ul>
+</p>
+
+<p>
+Despite there are only three types of supported optimizers, it is possible to optimize a
+transform a non-differentiable {@link
+org.apache.commons.math.optimization.VectorialObjectiveFunction VectorialObjectiveFunction}
+by transforming into a {@link org.apache.commons.math.optimization.ScalarObjectiveFunction
+ScalarObjectiveFunction} thanks to the {@link
+org.apache.commons.math.optimization.LeastSquaresConverter LeastSquaresConverter} helper class.
+The transformed function can be optimized using any implementation of the {@link
+org.apache.commons.math.optimization.ScalarOptimizer ScalarOptimizer} interface.
+</p>
+
+<p>
+There are also three special implementations which wrap classical optimizers in order to
+add them a multi-start feature. This feature call the underlying optimizer several times
+in sequence with different starting points and returns the best optimum found or all optima
+if desired. This is a classical way to prevent being trapped into a local extremum when
+looking for a global one. The multi-start wrappers are {@link
+org.apache.commons.math.optimization.MultiStartScalarOptimizer MultiStartScalarOptimizer},
+{@link org.apache.commons.math.optimization.MultiStartScalarDifferentiableOptimizer
+MultiStartScalarDifferentiableOptimizer} and {@link
+org.apache.commons.math.optimization.MultiStartMultiStartVectorialOptimizer
+MultiStartVectorialOptimizer}.
 </p>
 </body>
 </html>

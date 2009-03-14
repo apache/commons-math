@@ -22,11 +22,12 @@ import java.io.Serializable;
 /** 
  * This class holds a point and the value of an objective function at this point.
  * <p>This is a simple immutable container.</p>
+ * @see VectorialPointValuePair
+ * @see ScalarObjectiveFunction
  * @version $Revision$ $Date$
- * @see ObjectiveFunction
  * @since 2.0
  */
-public class PointValuePair implements Serializable {
+public class ScalarPointValuePair implements Serializable {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 1003888396256744753L;
@@ -42,8 +43,21 @@ public class PointValuePair implements Serializable {
      * a copy of the array, not the array passed as argument)
      * @param value value of an objective function at the point
      */
-    public PointValuePair(final double[] point, final double value) {
+    public ScalarPointValuePair(final double[] point, final double value) {
         this.point = point.clone();
+        this.value  = value;
+    }
+
+    /** Build a point/objective function value pair.
+     * @param point point coordinates (the built instance will store
+     * a copy of the array, not the array passed as argument)
+     * @param value value of an objective function at the point
+     * @param copyArray if true, the input array will be copied, otherwise
+     * it will be referenced
+     */
+    public ScalarPointValuePair(final double[] point, final double value,
+                          final boolean copyArray) {
+        this.point = copyArray ? point.clone() : point;
         this.value  = value;
     }
 
@@ -52,6 +66,15 @@ public class PointValuePair implements Serializable {
      */
     public double[] getPoint() {
         return point.clone();
+    }
+
+    /** Get a reference to the point.
+     * <p>This method is provided as a convenience to avoid copying
+     * the array, the elements of the array should <em>not</em> be modified.</p>
+     * @return a reference to the internal array storing the point
+     */
+    public double[] getPointRef() {
+        return point;
     }
 
     /** Get the value of the objective function.

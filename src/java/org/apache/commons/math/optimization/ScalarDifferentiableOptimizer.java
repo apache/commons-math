@@ -20,11 +20,14 @@ package org.apache.commons.math.optimization;
 import java.io.Serializable;
 
 /** 
- * This interface represents an optimization algorithm.
+ * This interface represents an optimization algorithm for {@link ScalarDifferentiableObjectiveFunction
+ * scalar differentiable objective functions}.
+ * @see ScalarOptimizer
+ * @see VectorialDifferentiableOptimizer
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public interface Optimizer extends Serializable {
+public interface ScalarDifferentiableOptimizer extends Serializable {
 
     /** Set the maximal number of objective function calls.
      * <p>
@@ -49,15 +52,25 @@ public interface Optimizer extends Serializable {
      */
     int getMaxEvaluations();
 
+    /** Get the number of evaluations of the objective function.
+     * <p>
+     * The number of evaluation correspond to the last call to the
+     * {@link #optimize(ScalarObjectiveFunction, GoalType, double[]) optimize}
+     * method. It is 0 if the method has not been called yet.
+     * </p>
+     * @return number of evaluations of the objective function
+     */
+   int getEvaluations();
+
     /** Set the convergence checker.
      * @param checker object to use to check for convergence
      */
-    void setConvergenceChecker(ConvergenceChecker checker);
+    void setConvergenceChecker(ScalarConvergenceChecker checker);
 
     /** Get the convergence checker.
      * @param checker object to use to check for convergence
      */
-    ConvergenceChecker getConvergenceChecker();
+    ScalarConvergenceChecker getConvergenceChecker();
 
     /** Optimizes an objective function.
      * @param f objective function
@@ -70,18 +83,9 @@ public interface Optimizer extends Serializable {
      * @exception OptimizationException if the algorithm failed to converge
      * @exception IllegalArgumentException if the start point dimension is wrong
      */
-    PointValuePair optimize(ObjectiveFunction f, GoalType goalType,
-                            double[] startPoint)
+    ScalarPointValuePair optimize(ScalarDifferentiableObjectiveFunction f,
+                                  GoalType goalType,
+                                  double[] startPoint)
         throws ObjectiveException, OptimizationException, IllegalArgumentException;
-
-    /** Get the number of evaluations of the objective function.
-     * <p>
-     * The number of evaluation correspond to the last call to the
-     * {@link #optimize(ObjectiveFunction, GoalType, double[]) optimize}
-     * method. It is 0 if the method has not been called yet.
-     * </p>
-     * @return number of evaluations of the objective function
-     */
-   int getEvaluations();
 
 }

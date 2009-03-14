@@ -71,6 +71,7 @@ public class MessagesResources_fr
     // org.apache.commons.math.DimensionMismatchException
     // org.apache.commons.math.optimization.LeastSquaresConverter
     // org.apache.commons.math.optimization.direct.DirectSearchOptimizer
+    // org.apache.commons.math.optimization.general.AbstractLeastSquaresOptimizer
     { "dimension mismatch {0} != {1}",
       "dimensions incompatibles {0} != {1}" },
 
@@ -116,16 +117,19 @@ public class MessagesResources_fr
       "le simplex doit contenir au moins un point" },
     { "equals vertices {0} and {1} in simplex configuration",
       "sommets {0} et {1} \u00e9gaux dans la configuration du simplex" },
+
+    // org.apache.commons.math.optimization.direct.DirectSearchOptimizer
+    // org.apache.commons.math.optimization.general.AbstractLeastSquaresOptimizer
     { "maximal number of evaluations exceeded ({0})",
       "nombre maximal d''\u00e9valuations d\u00e9pass\u00e9 ({0})" },
 
-    // org.apache.commons.math.optimization.general.AbstractEstimator
+    // org.apache.commons.math.optimization.general.AbstractLeastSquaresOptimizer
     { "unable to compute covariances: singular problem",
       "impossible de calculer les covariances : probl\u00e8me singulier"},
     { "no degrees of freedom ({0} measurements, {1} parameters)",
       "aucun degr\u00e9 de libert\u00e9 ({0} mesures, {1} param\u00e8tres)" },
 
-    // org.apache.commons.math.optimization.general.GaussNewtonEstimator
+    // org.apache.commons.math.optimization.general.GaussNewtonOptimizer
     { "unable to solve: singular problem",
       "r\u00e9solution impossible : probl\u00e8me singulier" },
 

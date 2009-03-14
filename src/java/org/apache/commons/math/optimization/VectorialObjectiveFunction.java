@@ -20,20 +20,21 @@ package org.apache.commons.math.optimization;
 import java.io.Serializable;
 
 /** 
- * This interface represents a scalar objective function to be either minimized or maximized.
+ * This interface represents a vectorial objective function to be either minimized or maximized.
+ * @see LeastSquaresConverter
  * @version $Revision$ $Date$
- * @since 1.2
+ * @since 2.0
  */
-public interface ObjectiveFunction extends Serializable {
+public interface VectorialObjectiveFunction extends Serializable {
 
     /** 
      * Compute the function value for the given variables set.
      * @param variables variables set
      * @return function value for the given variables set
-     * @exception ObjectiveException if no value can be computed for the parameters
+     * @exception ObjectiveException if no cost can be computed for the parameters
      * @exception IllegalArgumentException if variables dimension is wrong
      */
-    double objective(double[] variables)
+    double[] objective(double[] variables)
         throws ObjectiveException, IllegalArgumentException;
 
 }

@@ -20,8 +20,8 @@ package org.apache.commons.math.optimization;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.linear.RealMatrix;
 
-/** This class converts {@link MultiObjectiveFunction vectorial
- * objective functions} to {@link ObjectiveFunction scalar objective functions}
+/** This class converts {@link VectorialObjectiveFunction vectorial
+ * objective functions} to {@link ScalarObjectiveFunction scalar objective functions}
  * when the goal is to minimize them.
  * <p>
  * This class is mostly used when the vectorial objective function represents
@@ -35,7 +35,7 @@ import org.apache.commons.math.linear.RealMatrix;
  * This class computes a possibly weighted squared sum of the residuals, which is
  * a scalar value. The residuals are the difference between the theoretical model
  * (i.e. the output of the vectorial objective function) and the observations. The
- * class implements the {@link ObjectiveFunction} interface and can therefore be
+ * class implements the {@link ScalarObjectiveFunction} interface and can therefore be
  * minimized by any optimizer supporting scalar objectives functions.This is one way
  * to perform a least square estimation. There are other ways to do this without using
  * this converter, as some optimization algorithms directly support vectorial objective
@@ -45,19 +45,19 @@ import org.apache.commons.math.linear.RealMatrix;
  * This class support combination of residuals with or without weights and correlations.
  * </p>
   *
- * @see ObjectiveFunction
- * @see MultiObjectiveFunction
+ * @see ScalarObjectiveFunction
+ * @see VectorialObjectiveFunction
  * @version $Revision$ $Date$
  * @since 2.0
  */
 
-public class LeastSquaresConverter implements ObjectiveFunction {
+public class LeastSquaresConverter implements ScalarObjectiveFunction {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 2424320989874772110L;
+    private static final long serialVersionUID = -4369653306135732243L;
 
     /** Underlying vectorial function. */
-    private final MultiObjectiveFunction function;
+    private final VectorialObjectiveFunction function;
 
     /** Observations to be compared to objective function to compute residuals. */
     private final double[] observations;
@@ -72,8 +72,8 @@ public class LeastSquaresConverter implements ObjectiveFunction {
      * @param function vectorial residuals function to wrap
      * @param observations observations to be compared to objective function to compute residuals
      */
-    public LeastSquaresConverter (final MultiObjectiveFunction function,
-                                  final double[] observations) {
+    public LeastSquaresConverter(final VectorialObjectiveFunction function,
+                                 final double[] observations) {
         this.function     = function;
         this.observations = observations.clone();
         this.weights      = null;
@@ -108,8 +108,8 @@ public class LeastSquaresConverter implements ObjectiveFunction {
      * vector dimensions don't match (objective function dimension is checked only when
      * the {@link #objective} method is called)
      */
-    public LeastSquaresConverter (final MultiObjectiveFunction function,
-                                  final double[] observations, final double[] weights)
+    public LeastSquaresConverter(final VectorialObjectiveFunction function,
+                                 final double[] observations, final double[] weights)
         throws IllegalArgumentException {
         if (observations.length != weights.length) {
             throw MathRuntimeException.createIllegalArgumentException(
@@ -141,8 +141,8 @@ public class LeastSquaresConverter implements ObjectiveFunction {
      * matrix dimensions don't match (objective function dimension is checked only when
      * the {@link #objective} method is called)
      */
-    public LeastSquaresConverter (final MultiObjectiveFunction function,
-                                  final double[] observations, final RealMatrix scale)
+    public LeastSquaresConverter(final VectorialObjectiveFunction function,
+                                 final double[] observations, final RealMatrix scale)
         throws IllegalArgumentException {
         if (observations.length != scale.getColumnDimension()) {
             throw MathRuntimeException.createIllegalArgumentException(

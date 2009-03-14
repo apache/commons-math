@@ -25,7 +25,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.random.RandomVectorGenerator;
 
 /** 
- * Special implementation of the {@link Optimizer} interface adding
+ * Special implementation of the {@link ScalarOptimizer} interface adding
  * multi-start features to an existing optimizer.
  * <p>
  * This class wraps a classical optimizer to use it several times in
@@ -35,13 +35,13 @@ import org.apache.commons.math.random.RandomVectorGenerator;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class MultiStartOptimizer implements Optimizer {
+public class MultiStartOptimizer implements ScalarOptimizer {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 6648351778723282863L;
 
     /** Underlying classical optimizer. */
-    private final Optimizer optimizer;
+    private final ScalarOptimizer optimizer;
 
     /** Number of evaluations already performed for all starts. */
     private int totalEvaluations;
@@ -56,7 +56,7 @@ public class MultiStartOptimizer implements Optimizer {
     private RandomVectorGenerator generator;
 
     /** Found optima. */
-    private PointValuePair[] optima;
+    private ScalarPointValuePair[] optima;
 
     /**
      * Create a multi-start optimizer from a single-start optimizer
@@ -66,7 +66,7 @@ public class MultiStartOptimizer implements Optimizer {
      * equal to 1
      * @param generator random vector generator to use for restarts
      */
-    public MultiStartOptimizer(final Optimizer optimizer, final int starts,
+    public MultiStartOptimizer(final ScalarOptimizer optimizer, final int starts,
                                final RandomVectorGenerator generator) {
         this.optimizer        = optimizer;
         this.totalEvaluations = 0;
@@ -77,13 +77,13 @@ public class MultiStartOptimizer implements Optimizer {
     }
 
     /** Get all the optima found during the last call to {@link
-     * #optimize(ObjectiveFunction, GoalType, double[]) optimize}.
+     * #optimize(ScalarObjectiveFunction, GoalType, double[]) optimize}.
      * <p>The optimizer stores all the optima found during a set of
-     * restarts. The {@link #optimize(ObjectiveFunction, GoalType,
+     * restarts. The {@link #optimize(ScalarObjectiveFunction, GoalType,
      * double[]) optimize} method returns the best point only. This
      * method returns all the points found at the end of each starts,
      * including the best one already returned by the {@link
-     * #optimize(ObjectiveFunction, GoalType, double[]) optimize}
+     * #optimize(ScalarObjectiveFunction, GoalType, double[]) optimize}
      * method.
      * </p>
      * <p>
@@ -93,20 +93,20 @@ public class MultiStartOptimizer implements Optimizer {
      * objective value (i.e in ascending order if minimizing and in
      * descending order if maximizing), followed by and null elements
      * corresponding to the runs that did not converge. This means all
-     * elements will be null if the {@link #optimize(ObjectiveFunction,
+     * elements will be null if the {@link #optimize(ScalarObjectiveFunction,
      * GoalType, double[]) optimize} method did throw a {@link
      * ConvergenceException ConvergenceException}). This also means that
      * if the first element is non null, it is the best point found across
      * all starts.</p>
      * @return array containing the optima
-     * @exception IllegalStateException if {@link #optimize(ObjectiveFunction,
+     * @exception IllegalStateException if {@link #optimize(ScalarObjectiveFunction,
      * GoalType, double[]) optimize} has not been called
      */
-    public PointValuePair[] getOptima() throws IllegalStateException {
+    public ScalarPointValuePair[] getOptima() throws IllegalStateException {
         if (optima == null) {
             throw MathRuntimeException.createIllegalStateException("no optimum computed yet");
         }
-        return (PointValuePair[]) optima.clone();
+        return (ScalarPointValuePair[]) optima.clone();
     }
 
     /** {@inheritDoc} */
@@ -125,22 +125,22 @@ public class MultiStartOptimizer implements Optimizer {
     }
 
     /** {@inheritDoc} */
-    public void setConvergenceChecker(ConvergenceChecker checker) {
+    public void setConvergenceChecker(ScalarConvergenceChecker checker) {
         optimizer.setConvergenceChecker(checker);
     }
 
     /** {@inheritDoc} */
-    public ConvergenceChecker getConvergenceChecker() {
+    public ScalarConvergenceChecker getConvergenceChecker() {
         return optimizer.getConvergenceChecker();
     }
 
     /** {@inheritDoc} */
-    public PointValuePair optimize(final ObjectiveFunction f,
+    public ScalarPointValuePair optimize(final ScalarObjectiveFunction f,
                                    final GoalType goalType,
                                    double[] startPoint)
         throws ObjectiveException, OptimizationException {
 
-        optima = new PointValuePair[starts];
+        optima = new ScalarPointValuePair[starts];
         totalEvaluations = 0;
 
         // multi-start loop
@@ -161,8 +161,8 @@ public class MultiStartOptimizer implements Optimizer {
         }
 
         // sort the optima from best to worst, followed by null elements
-        Arrays.sort(optima, new Comparator<PointValuePair>() {
-            public int compare(final PointValuePair o1, final PointValuePair o2) {
+        Arrays.sort(optima, new Comparator<ScalarPointValuePair>() {
+            public int compare(final ScalarPointValuePair o1, final ScalarPointValuePair o2) {
                 if (o1 == null) {
                     return (o2 == null) ? 0 : +1;
                 } else if (o2 == null) {

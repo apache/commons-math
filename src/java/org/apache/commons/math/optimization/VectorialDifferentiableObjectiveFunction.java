@@ -17,24 +17,22 @@
 
 package org.apache.commons.math.optimization;
 
-import java.io.Serializable;
-
 /** 
- * This interface represents a vectorial objective function to be either minimized or maximized.
- * @see LeastSquaresConverter
+ * This interface represents a vectorial objective function that can be differentiated.
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public interface MultiObjectiveFunction extends Serializable {
+public interface VectorialDifferentiableObjectiveFunction extends VectorialObjectiveFunction {
 
     /** 
-     * Compute the function value for the given variables set.
+     * Compute the jacobian of the objective function.
      * @param variables variables set
-     * @return function value for the given variables set
+     * @param value value of the objective function (already computed)
+     * @return jacobian of the objective function
      * @exception ObjectiveException if no cost can be computed for the parameters
      * @exception IllegalArgumentException if variables dimension is wrong
      */
-    double[] objective(double[] variables)
+    double[][] jacobian(double[] variables, double[] value)
         throws ObjectiveException, IllegalArgumentException;
 
 }

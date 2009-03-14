@@ -21,14 +21,14 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.optimization.ConvergenceChecker;
+import org.apache.commons.math.optimization.ScalarConvergenceChecker;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.ObjectiveException;
-import org.apache.commons.math.optimization.ObjectiveFunction;
+import org.apache.commons.math.optimization.ScalarObjectiveFunction;
 import org.apache.commons.math.optimization.OptimizationException;
-import org.apache.commons.math.optimization.Optimizer;
-import org.apache.commons.math.optimization.PointValuePair;
-import org.apache.commons.math.optimization.ObjectiveValueChecker;
+import org.apache.commons.math.optimization.ScalarOptimizer;
+import org.apache.commons.math.optimization.ScalarPointValuePair;
+import org.apache.commons.math.optimization.SimpleValueChecker;
 
 /** 
  * This class implements simplex-based direct search optimization
@@ -57,15 +57,15 @@ import org.apache.commons.math.optimization.ObjectiveValueChecker;
  * before optimization is attempted, an explicit call to the first method
  * with all steps set to +1 is triggered, thus building a default
  * configuration from a unit hypercube. Each call to {@link
- * #optimize(ObjectiveFunction, GoalType, double[]) optimize} will reuse
+ * #optimize(ScalarObjectiveFunction, GoalType, double[]) optimize} will reuse
  * the current start configuration and move it such that its first vertex
  * is at the provided start point of the optimization. If the same optimizer
  * is used to solve different problems and the number of parameters change,
  * the start configuration <em>must</em> be reset or a dimension mismatch
  * will occur.</p>
  *
- * <p>If {@link #setConvergenceChecker(ConvergenceChecker)} is not called,
- * a default {@link ObjectiveValueChecker} is used.</p>
+ * <p>If {@link #setConvergenceChecker(ScalarConvergenceChecker)} is not called,
+ * a default {@link SimpleValueChecker} is used.</p>
  *
  * <p>Convergence is checked by providing the <em>worst</em> points of
  * previous and current simplex to the convergence checker, not the best ones.</p>
@@ -75,25 +75,25 @@ import org.apache.commons.math.optimization.ObjectiveValueChecker;
  * performed by the derived classes according to the implemented
  * algorithms.</p>
  *
- * @see ObjectiveFunction
+ * @see ScalarObjectiveFunction
  * @see NelderMead
  * @see MultiDirectional
  * @version $Revision$ $Date$
  * @since 1.2
  */
-public abstract class DirectSearchOptimizer implements Optimizer {
+public abstract class DirectSearchOptimizer implements ScalarOptimizer {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 4299910390345933369L;
 
     /** Simplex. */
-    protected PointValuePair[] simplex;
+    protected ScalarPointValuePair[] simplex;
 
     /** Objective function. */
-    private ObjectiveFunction f;
+    private ScalarObjectiveFunction f;
 
     /** Convergence checker. */
-    private ConvergenceChecker checker;
+    private ScalarConvergenceChecker checker;
 
     /** Number of evaluations already performed for the current start. */
     private int evaluations;
@@ -107,7 +107,8 @@ public abstract class DirectSearchOptimizer implements Optimizer {
     /** Simple constructor.
      */
     protected DirectSearchOptimizer() {
-        setConvergenceChecker(new ObjectiveValueChecker());
+        setConvergenceChecker(new SimpleValueChecker());
+        setMaxEvaluations(Integer.MAX_VALUE);
     }
 
     /** Set start configuration for simplex.
@@ -217,17 +218,17 @@ public abstract class DirectSearchOptimizer implements Optimizer {
     }
 
     /** {@inheritDoc} */
-    public void setConvergenceChecker(ConvergenceChecker checker) {
+    public void setConvergenceChecker(ScalarConvergenceChecker checker) {
         this.checker = checker;
     }
 
     /** {@inheritDoc} */
-    public ConvergenceChecker getConvergenceChecker() {
+    public ScalarConvergenceChecker getConvergenceChecker() {
         return checker;
     }
 
     /** {@inheritDoc} */
-    public PointValuePair optimize(final ObjectiveFunction f, final GoalType goalType,
+    public ScalarPointValuePair optimize(final ScalarObjectiveFunction f, final GoalType goalType,
                                    final double[] startPoint)
         throws ObjectiveException, OptimizationException, IllegalArgumentException {
 
@@ -240,8 +241,8 @@ public abstract class DirectSearchOptimizer implements Optimizer {
         }
 
         this.f = f;
-        final Comparator<PointValuePair> comparator = new Comparator<PointValuePair>() {
-            public int compare(final PointValuePair o1, final PointValuePair o2) {
+        final Comparator<ScalarPointValuePair> comparator = new Comparator<ScalarPointValuePair>() {
+            public int compare(final ScalarPointValuePair o1, final ScalarPointValuePair o2) {
                 final double v1 = o1.getValue();
                 final double v2 = o2.getValue();
                 return (goalType == GoalType.MINIMIZE) ?
@@ -254,7 +255,7 @@ public abstract class DirectSearchOptimizer implements Optimizer {
         buildSimplex(startPoint);
         evaluateSimplex(comparator);
 
-        PointValuePair[] previous = new PointValuePair[simplex.length];
+        ScalarPointValuePair[] previous = new ScalarPointValuePair[simplex.length];
         int iterations = 0;
         while (evaluations <= maxEvaluations) {
 
@@ -293,7 +294,7 @@ public abstract class DirectSearchOptimizer implements Optimizer {
      * @exception OptimizationException if the algorithm failed to converge
      * @exception IllegalArgumentException if the start point dimension is wrong
      */
-    protected abstract void iterateSimplex(final Comparator<PointValuePair> comparator)
+    protected abstract void iterateSimplex(final Comparator<ScalarPointValuePair> comparator)
         throws ObjectiveException, OptimizationException, IllegalArgumentException;
 
     /** Evaluate the objective function on one point.
@@ -325,8 +326,8 @@ public abstract class DirectSearchOptimizer implements Optimizer {
         }
 
         // set first vertex
-        simplex = new PointValuePair[n + 1];
-        simplex[0] = new PointValuePair(startPoint, Double.NaN);
+        simplex = new ScalarPointValuePair[n + 1];
+        simplex[0] = new ScalarPointValuePair(startPoint, Double.NaN);
 
         // set remaining vertices
         for (int i = 0; i < n; ++i) {
@@ -335,7 +336,7 @@ public abstract class DirectSearchOptimizer implements Optimizer {
             for (int k = 0; k < n; ++k) {
                 vertexI[k] = startPoint[k] + confI[k];
             }
-            simplex[i + 1] = new PointValuePair(vertexI, Double.NaN);
+            simplex[i + 1] = new ScalarPointValuePair(vertexI, Double.NaN);
         }
 
     }
@@ -344,15 +345,15 @@ public abstract class DirectSearchOptimizer implements Optimizer {
      * @param comparator comparator to use to sort simplex vertices from best to worst
      * @exception ObjectiveException if no value can be computed for the parameters
      */
-    protected void evaluateSimplex(final Comparator<PointValuePair> comparator)
+    protected void evaluateSimplex(final Comparator<ScalarPointValuePair> comparator)
         throws ObjectiveException {
 
         // evaluate the objective function at all non-evaluated simplex points
         for (int i = 0; i < simplex.length; ++i) {
-            final PointValuePair vertex = simplex[i];
-            final double[] point = vertex.getPoint();
+            final ScalarPointValuePair vertex = simplex[i];
+            final double[] point = vertex.getPointRef();
             if (Double.isNaN(vertex.getValue())) {
-                simplex[i] = new PointValuePair(point, evaluate(point));
+                simplex[i] = new ScalarPointValuePair(point, evaluate(point), false);
             }
         }
 
@@ -365,12 +366,12 @@ public abstract class DirectSearchOptimizer implements Optimizer {
      * @param pointValuePair point to insert
      * @param comparator comparator to use to sort simplex vertices from best to worst
      */
-    protected void replaceWorstPoint(PointValuePair pointValuePair,
-                                     final Comparator<PointValuePair> comparator) {
+    protected void replaceWorstPoint(ScalarPointValuePair pointValuePair,
+                                     final Comparator<ScalarPointValuePair> comparator) {
         int n = simplex.length - 1;
         for (int i = 0; i < n; ++i) {
             if (comparator.compare(simplex[i], pointValuePair) > 0) {
-                PointValuePair tmp = simplex[i];
+                ScalarPointValuePair tmp = simplex[i];
                 simplex[i]         = pointValuePair;
                 pointValuePair     = tmp;
             }

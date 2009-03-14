@@ -19,7 +19,7 @@ package org.apache.commons.math.optimization;
 
 import java.io.Serializable;
 
-/** This interface specifies how to check if an {@link Optimizer optimization
+/** This interface specifies how to check if an {@link ScalarOptimizer optimization
  * algorithm} has converged.
  *
  * <p>Deciding if convergence has been reached is a problem-dependent
@@ -31,7 +31,7 @@ import java.io.Serializable;
  * @since 2.0
  */
 
-public interface ConvergenceChecker extends Serializable {
+public interface ScalarConvergenceChecker extends Serializable {
 
   /** Check if the optimization algorithm has converged considering the last points.
    * <p>
@@ -47,6 +47,6 @@ public interface ConvergenceChecker extends Serializable {
    * @param current point from current iteration
    * @return true if the algorithm is considered to have converged
    */
-  boolean converged(int iteration, PointValuePair previous, PointValuePair current);
+  boolean converged(int iteration, ScalarPointValuePair previous, ScalarPointValuePair current);
 
 }

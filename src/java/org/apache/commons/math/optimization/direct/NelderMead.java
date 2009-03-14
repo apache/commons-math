@@ -20,7 +20,7 @@ package org.apache.commons.math.optimization.direct;
 import java.util.Comparator;
 
 import org.apache.commons.math.optimization.ObjectiveException;
-import org.apache.commons.math.optimization.PointValuePair;
+import org.apache.commons.math.optimization.ScalarPointValuePair;
 
 /** 
  * This class implements the Nelder-Mead direct search method.
@@ -72,23 +72,23 @@ public class NelderMead extends DirectSearchOptimizer {
     }
 
     /** {@inheritDoc} */
-    protected void iterateSimplex(final Comparator<PointValuePair> comparator)
+    protected void iterateSimplex(final Comparator<ScalarPointValuePair> comparator)
         throws ObjectiveException {
 
         // the simplex has n+1 point if dimension is n
         final int n = simplex.length - 1;
 
         // interesting values
-        final PointValuePair best       = simplex[0];
-        final PointValuePair secondBest = simplex[n-1];
-        final PointValuePair worst      = simplex[n];
-        final double[] xWorst = worst.getPoint();
+        final ScalarPointValuePair best       = simplex[0];
+        final ScalarPointValuePair secondBest = simplex[n-1];
+        final ScalarPointValuePair worst      = simplex[n];
+        final double[] xWorst = worst.getPointRef();
 
         // compute the centroid of the best vertices
         // (dismissing the worst point at index n)
         final double[] centroid = new double[n];
         for (int i = 0; i < n; ++i) {
-            final double[] x = simplex[i].getPoint();
+            final double[] x = simplex[i].getPointRef();
             for (int j = 0; j < n; ++j) {
                 centroid[j] += x[j];
             }
@@ -103,7 +103,7 @@ public class NelderMead extends DirectSearchOptimizer {
         for (int j = 0; j < n; ++j) {
             xR[j] = centroid[j] + rho * (centroid[j] - xWorst[j]);
         }
-        final PointValuePair reflected = new PointValuePair(xR, evaluate(xR));
+        final ScalarPointValuePair reflected = new ScalarPointValuePair(xR, evaluate(xR), false);
 
         if ((comparator.compare(best, reflected) <= 0) &&
             (comparator.compare(reflected, secondBest) < 0)) {
@@ -118,7 +118,7 @@ public class NelderMead extends DirectSearchOptimizer {
             for (int j = 0; j < n; ++j) {
                 xE[j] = centroid[j] + khi * (xR[j] - centroid[j]);
             }
-            final PointValuePair expanded = new PointValuePair(xE, evaluate(xE));
+            final ScalarPointValuePair expanded = new ScalarPointValuePair(xE, evaluate(xE), false);
 
             if (comparator.compare(expanded, reflected) < 0) {
                 // accept the expansion point
@@ -137,7 +137,7 @@ public class NelderMead extends DirectSearchOptimizer {
                 for (int j = 0; j < n; ++j) {
                     xC[j] = centroid[j] + gamma * (xR[j] - centroid[j]);
                 }
-                final PointValuePair outContracted = new PointValuePair(xC, evaluate(xC));
+                final ScalarPointValuePair outContracted = new ScalarPointValuePair(xC, evaluate(xC), false);
 
                 if (comparator.compare(outContracted, reflected) <= 0) {
                     // accept the contraction point
@@ -152,7 +152,7 @@ public class NelderMead extends DirectSearchOptimizer {
                 for (int j = 0; j < n; ++j) {
                     xC[j] = centroid[j] - gamma * (centroid[j] - xWorst[j]);
                 }
-                final PointValuePair inContracted = new PointValuePair(xC, evaluate(xC));
+                final ScalarPointValuePair inContracted = new ScalarPointValuePair(xC, evaluate(xC), false);
 
                 if (comparator.compare(inContracted, worst) < 0) {
                     // accept the contraction point
@@ -163,13 +163,13 @@ public class NelderMead extends DirectSearchOptimizer {
             }
 
             // perform a shrink
-            final double[] xSmallest = simplex[0].getPoint();
+            final double[] xSmallest = simplex[0].getPointRef();
             for (int i = 1; i < simplex.length; ++i) {
                 final double[] x = simplex[i].getPoint();
                 for (int j = 0; j < n; ++j) {
                     x[j] = xSmallest[j] + sigma * (x[j] - xSmallest[j]);
                 }
-                simplex[i] = new PointValuePair(x, Double.NaN);
+                simplex[i] = new ScalarPointValuePair(x, Double.NaN, false);
             }
             evaluateSimplex(comparator);
 

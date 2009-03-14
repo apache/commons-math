@@ -20,7 +20,7 @@ package org.apache.commons.math.optimization;
 import org.apache.commons.math.util.MathUtils;
 
 /** 
- * Special implementation of the {@link ConvergenceChecker} interface using
+ * Simple implementation of the {@link ScalarConvergenceChecker} interface using
  * only objective function values.
  * <p>
  * Convergence is considered to have been reached if either the relative
@@ -31,7 +31,7 @@ import org.apache.commons.math.util.MathUtils;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class ObjectiveValueChecker implements ConvergenceChecker {
+public class SimpleValueChecker implements ScalarConvergenceChecker {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 2490271385513842607L;
@@ -50,7 +50,7 @@ public class ObjectiveValueChecker implements ConvergenceChecker {
 
    /** Build an instance with default threshold.
      */
-    public ObjectiveValueChecker() {
+    public SimpleValueChecker() {
         this.relativeThreshold = DEFAULT_RELATIVE_THRESHOLD;
         this.absoluteThreshold = DEFAULT_ABSOLUTE_THRESHOLD;
     }
@@ -64,7 +64,7 @@ public class ObjectiveValueChecker implements ConvergenceChecker {
      * @param relativeThreshold relative tolerance threshold
      * @param absoluteThreshold absolute tolerance threshold
      */
-    public ObjectiveValueChecker(final double relativeThreshold,
+    public SimpleValueChecker(final double relativeThreshold,
                                  final double absoluteThreshold) {
         this.relativeThreshold = relativeThreshold;
         this.absoluteThreshold = absoluteThreshold;
@@ -72,8 +72,8 @@ public class ObjectiveValueChecker implements ConvergenceChecker {
 
     /** {@inheritDoc} */
     public boolean converged(final int iteration,
-                             final PointValuePair previous,
-                             final PointValuePair current) {
+                             final ScalarPointValuePair previous,
+                             final ScalarPointValuePair current) {
         final double p          = previous.getValue();
         final double c          = current.getValue();
         final double difference = Math.abs(p - c);
