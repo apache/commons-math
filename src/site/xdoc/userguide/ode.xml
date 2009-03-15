@@ -26,8 +26,8 @@
   </properties>
 
   <body>
-    <section name="14 Ordinary Differential Equations Integration">
-      <subsection name="14.1 Overview" href="overview">
+    <section name="13 Ordinary Differential Equations Integration">
+      <subsection name="13.1 Overview" href="overview">
         <p>
           The ode package provides classes to solve Ordinary Differential Equations problems.
         </p>
@@ -105,7 +105,7 @@
           automatic guess is wrong.
         </p>
       </subsection>
-      <subsection name="14.2 Discrete Events Handling" href="events">
+      <subsection name="13.2 Discrete Events Handling" href="events">
         <p>
           Discrete events detection is based on switching functions. The user provides
           a simple <a href="../apidocs/org/apache/commons/math/ode/events/EventHandler.html">g(t, y)</a>
@@ -176,7 +176,7 @@ public int eventOccurred(double t, double[] y) {
 }
         </source>
       </subsection>
-      <subsection name="14.3 ODE Problems" href="problems">
+      <subsection name="13.3 ODE Problems" href="problems">
         <p>
           First order ODE problems are defined by implementing the
           <a href="../apidocs/org/apache/commons/math/ode/FirstOrderDifferentialEquations.html">FirstOrderDifferentialEquations</a>
@@ -196,7 +196,7 @@ public int eventOccurred(double t, double[] y) {
           that implement it are allowed to handle them as they want.
         </p>
       </subsection>
-      <subsection name="14.4 Integrators" href="integrators">
+      <subsection name="13.4 Integrators" href="integrators">
         <p>
           The tables below show the various integrators available for non-stiff problems.
         </p>

@@ -112,28 +112,20 @@
                 <li><a href="geometry.html#a11.2_Vectors">11.2 Vectors</a></li>
                 <li><a href="geometry.html#a11.3_Rotations">11.3 Rotations</a></li>
                 </ul></li>                                 
-        <li><a href="estimation.html">12. Parametric Estimation</a>
+        <li><a href="optimization.html">12. Optimization</a>
                 <ul>
-                <li><a href="estimation.html#a12.1_Overview">12.1 Overview</a></li>
-                <li><a href="estimation.html#a12.2_Models">12.2 Models</a></li>
-                <li><a href="estimation.html#a12.3_Parameters">12.3 Parameters</a></li>
-                <li><a href="estimation.html#a12.4_Measurements">12.4 Measurements</a></li>
-                <li><a href="estimation.html#a12.5_Solvers">12.5 Solvers</a></li>
+                <li><a href="optimization.html#a12.1_Overview">12.1 Overview</a></li>
+                <li><a href="analysis.html#a12.2_Univariate_Functions">12.2 Univariate Functions</a></li>
+                <li><a href="analysis.html#a12.3_Linear_Programming">12.3 Linear Programming</a></li>
+                <li><a href="optimization.html#a12.4_Direct_Methods">12.4 Direct Methods</a></li>
+                <li><a href="analysis.html#a12.5_General_Case">12.5 General Case</a></li>
                 </ul></li>                                 
-        <li><a href="optimization.html">13. Optimization</a>
+        <li><a href="ode.html">13. Ordinary Differential Equations Integration</a>
                 <ul>
-                <li><a href="optimization.html#a13.1_Overview">13.1 Overview</a></li>
-                <li><a href="analysis.html#a13.2_Univariate_Functions">13.2 Univariate Functions</a></li>
-                <li><a href="analysis.html#a13.3_Linear_Programming">13.3 Linear Programming</a></li>
-                <li><a href="optimization.html#a13.4_Direct_Methods">13.4 Direct Methods</a></li>
-                <li><a href="analysis.html#a13.5_General_Case">13.5 General Case</a></li>
-                </ul></li>                                 
-        <li><a href="ode.html">14. Ordinary Differential Equations Integration</a>
-                <ul>
-                <li><a href="ode.html#a14.1_Overview">14.1 Overview</a></li>
-                <li><a href="ode.html#a14.2_Discrete_Events_Handling">14.2 Discrete Events Handling</a></li>
-                <li><a href="ode.html#a14.3_ODE_Problems">14.3 ODE Problems</a></li>
-                <li><a href="ode.html#a14.4_Integrators">14.4 Integrators</a></li>
+                <li><a href="ode.html#a13.1_Overview">13.1 Overview</a></li>
+                <li><a href="ode.html#a13.2_Discrete_Events_Handling">13.2 Discrete Events Handling</a></li>
+                <li><a href="ode.html#a13.3_ODE_Problems">13.3 ODE Problems</a></li>
+                <li><a href="ode.html#a13.4_Integrators">13.4 Integrators</a></li>
                 </ul></li>                                 
         </ul>
       </section>

@@ -26,28 +26,93 @@
   </properties>
 
   <body>
-    <section name="13 Optimization">
-      <subsection name="13.1 Overview" href="overview">
+    <section name="12 Optimization">
+      <subsection name="12.1 Overview" href="overview">
         <p>
-          The optimization package provides algorithms to optimize (i.e. minimize) some
-          objective or cost function. The package is split in several sub-packages
-          dedicated to different kind of functions or algorithms.
+          The optimization package provides algorithms to optimize (i.e. either minimize
+          or maximize) some objective or cost function. The package is split in several
+          sub-packages dedicated to different kind of functions or algorithms.
           <ul>
-            <li>the univariate package handles univariate real functions,</li>
+            <li>the univariate package handles univariate scalar functions,</li>
             <li>the linear package handles multivariate vector linear functions
                 with linear constraints,</li>
-            <li>the direct package handles multivariate real functions using direct
-            search methods (i.e. not using derivatives),</li>
-            <li>the general package handles multivariate real or vector functions
+            <li>the direct package handles multivariate scalar functions
+            using direct search methods (i.e. not using derivatives),</li>
+            <li>the general package handles multivariate scalar or vector functions
             using derivatives.</li>
           </ul>
         </p>
-      </subsection>
-      <subsection name="13.2 Univariate Functions" href="univariate">
         <p>
-          A <a href="../apidocs/org/apache/commons/math/analysis/minimization/UnivariateRealMinimizer.html">
-          org.apache.commons.math.optimization.univariate.UnivariateRealMinimizer</a>
-          is used to find the minimal values of a univariate real-valued function <code>f</code>.
+        The top level optimization package provides common interfaces for the optimization
+        algorithms provided in sub-packages. The main interfaces defines objective functions
+        and optimizers.
+        </p>
+        <p>
+        Objective functions interfaces are intended to be implemented by
+        user code to represent the problem to minimize or maximize. When the goal is to
+        minimize, the objective function is often called a cost function. Objective
+        functions can be either scalar or vectorial and can be either differentiable or
+        not. There are four different interfaces, one for each case:
+        <ul>
+          <li><a href="../apidocs/org/apache/commons/math/optimization/ScalarObjectiveFunction.html">
+              ScalarObjectiveFunction</a></li>
+          <li><a href="../apidocs/org/apache/commons/math/optimization/ScalarDifferentiableObjectiveFunction.html">
+              ScalarDifferentiableObjectiveFunction</a></li>
+          <li><a href="../apidocs/org/apache/commons/math/optimization/VectorialObjectiveFunction.html">
+              VectorialObjectiveFunction</a></li>
+          <li><a href="../apidocs/org/apache/commons/math/optimization/VectorialDifferentiableObjectiveFunction.html">
+              VectorialDifferentiableObjectiveFunction</a></li>
+        </ul>
+        </p>
+
+        <p>
+        Optimizers are the algorithms that will either minimize or maximize, the objective function
+        by changing its input variables set until an optimal set is found. There are only three
+        interfaces defining the common behavior of optimizers, one for each type of objective
+        function except <a href="../apidocs/org/apache/commons/math/optimization/VectorialObjectiveFunction.html">
+        VectorialObjectiveFunction</a>:
+        <ul>
+          <li><a href="../apidocs/org/apache/commons/math/optimization/ScalarOptimizer.html">
+              ScalarOptimizer</a></li>
+          <li><a href="../apidocs/org/apache/commons/math/optimization/ScalarDifferentiableOptimizer.html">
+              ScalarDifferentiableOptimizer</a></li>
+          <li><a href="../apidocs/org/apache/commons/math/optimization/VectorialDifferentiableOptimizer.html">
+              VectorialDifferentiableOptimizer</a></li>
+        </ul>
+        </p>
+
+        <p>
+        Despite there are only three types of supported optimizers, it is possible to optimize a
+        transform a non-differentiable <a
+        href="../apidocs/org/apache/commons/math/optimization/VectorialObjectiveFunction.html">
+        VectorialObjectiveFunction</a> by transforming into a <a
+        href="../apidocs/org/apache/commons/math/optimization/ScalarObjectiveFunction.html">
+        ScalarObjectiveFunction</a> thanks to the <a
+        href="../apidocs/org/apache/commons/math/optimization/LeastSquaresConverter.html">
+        LeastSquaresConverter</a> helper class. The transformed function can be optimized using any
+        implementation of the <a href="../apidocs/org/apache/commons/math/optimization/ScalarOptimizer.html">
+        ScalarOptimizer</a> interface.
+        </p>
+
+        <p>
+        There are also three special implementations which wrap classical optimizers in order to
+        add them a multi-start feature. This feature call the underlying optimizer several times
+        in sequence with different starting points and returns the best optimum found or all optima
+        if desired. This is a classical way to prevent being trapped into a local extremum when
+        looking for a global one. The multi-start wrappers are <a
+        href="../apidocs/org/apache/commons/math/optimization/MultiStartScalarOptimizer.html">
+        MultiStartScalarOptimizer</a>, <a
+        href="../apidocs/org/apache/commons/math/optimization/MultiStartScalarDifferentiableOptimizer.html">
+        MultiStartScalarDifferentiableOptimizer</a> and <a
+        href="../apidocs/org/apache/commons/math/optimization/MultiStartVectorialDifferentiableOptimizer.html">
+        MultiStartVectorialDifferentiableOptimizer</a>.
+        </p>
+      </subsection>
+      <subsection name="12.2 Univariate Functions" href="univariate">
+        <p>
+          A <a href="../apidocs/org/apache/commons/math/optimization/univariate/UnivariateRealMinimizer.html">
+          UnivariateRealMinimizer</a> is used to find the minimal values of a univariate scalar-valued function
+          <code>f</code>.
         </p>
         <p>
           Minimization algorithms usage is very similar to root-finding algorithms usage explained
@@ -55,11 +120,14 @@
           finding algorithms is replaced by <code>minimize</code> methods.
         </p>
       </subsection>
-      <subsection name="13.3 Linear Programming" href="linear">
+      <subsection name="12.3 Linear Programming" href="linear">
         <p>
+          This package provides an implementation of George Dantzig's simplex algorithm
+          for solving linear optimization problems with linear equality and inequality
+          constraints.
         </p>
       </subsection>
-      <subsection name="13.4 Direct Methods" href="direct">
+      <subsection name="12.4 Direct Methods" href="direct">
         <p>
           Direct search methods only use cost function values, they don't
           need derivatives and don't either try to compute approximation of
@@ -97,8 +165,45 @@
           multi-directional</a> method.
         </p>
       </subsection>
-      <subsection name="13.5 General Case" href="general">
+      <subsection name="12.5 General Case" href="general">
         <p>
+          The general package deals with non-linear vectorial optimization problems when
+          the partial derivatives of the objective function are available.
+        </p>
+        <p>
+          One important class of estimation problems is weighted least
+          squares problems. They basically consist in finding the values
+          for some parameters p<sub>k</sub> such that a cost function
+          J = sum(w<sub>i</sub>(mes<sub>i</sub> - mod<sub>i</sub>)<sup>2</sup>) is
+          minimized. The various (target<sub>i</sub> - model<sub>i</sub>(p<sub>k</sub>))
+          terms are called residuals. They represent the deviation between a set of
+          target values target<sub>i</sub> and theoretical values computed from
+          models model<sub>i</sub> depending on free parameters p<sub>k</sub>.
+          The w<sub>i</sub> factors are weights. One classical use case is when the
+          target values are experimental observations or measurements.
+        </p>
+        <p>
+          Solving a least-squares problem is finding the free parameters p<sub>k</sub>
+          of the theoretical models such that they are close to the target values, i.e.
+          when the residual are small.
+        </p>
+        <p>
+          Two optimizers are available in the general package, both devoted to least-squares
+          problems. The first one is based on the <a
+          href="../apidocs/org/apache/commons/math/optimization/general/GaussNewtonOptimizer.html">
+          Gauss-Newton</a> method. The second one is the <a
+          href="../apidocs/org/apache/commons/math/optimization/general/LevenbergMarquardtOptimizer.html">
+          Levenberg-Marquardt</a> method.
+        </p>
+        <p>
+          In order to solve a vectorial optimization problem, the user must provide it as
+          an object implementing the <a
+          href="../apidocs/org/apache/commons/math/optimization/VectorialDifferentiableObjectiveFunction.html">
+          VectorialDifferentiableObjectiveFunction</a> interface. The object will be provided to
+          the <code>estimate</code> method of the optimizer, along with the target and weight arrays,
+          thus allowing the optimizer to compute the residuals at will. The last parameter to the
+          <code>estimate</code> method is the point from which the optimizer will start its
+          search for the optimal point.
         </p>
       </subsection>
      </section>
