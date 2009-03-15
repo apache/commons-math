@@ -35,7 +35,7 @@ import org.apache.commons.math.random.RandomVectorGenerator;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class MultiStartOptimizer implements ScalarOptimizer {
+public class MultiStartScalarOptimizer implements ScalarOptimizer {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 6648351778723282863L;
@@ -66,8 +66,8 @@ public class MultiStartOptimizer implements ScalarOptimizer {
      * equal to 1
      * @param generator random vector generator to use for restarts
      */
-    public MultiStartOptimizer(final ScalarOptimizer optimizer, final int starts,
-                               final RandomVectorGenerator generator) {
+    public MultiStartScalarOptimizer(final ScalarOptimizer optimizer, final int starts,
+                                     final RandomVectorGenerator generator) {
         this.optimizer        = optimizer;
         this.totalEvaluations = 0;
         this.maxEvaluations   = Integer.MAX_VALUE;
@@ -136,8 +136,8 @@ public class MultiStartOptimizer implements ScalarOptimizer {
 
     /** {@inheritDoc} */
     public ScalarPointValuePair optimize(final ScalarObjectiveFunction f,
-                                   final GoalType goalType,
-                                   double[] startPoint)
+                                         final GoalType goalType,
+                                         double[] startPoint)
         throws ObjectiveException, OptimizationException {
 
         optima = new ScalarPointValuePair[starts];
