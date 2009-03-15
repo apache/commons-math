@@ -30,8 +30,8 @@ import org.apache.commons.math.optimization.VectorialDifferentiableOptimizer;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
 
 /**
- * Base class for implementing estimators.
- * <p>This base class handles the boilerplates methods associated to thresholds
+ * Base class for implementing least squares optimizers.
+ * <p>This base class handles the boilerplate methods associated to thresholds
  * settings, jacobian and error estimation.</p>
  * @version $Revision$ $Date$
  * @since 1.2
@@ -61,8 +61,8 @@ public abstract class AbstractLeastSquaresOptimizer implements VectorialDifferen
      * Jacobian matrix.
      * <p>This matrix is in canonical form just after the calls to
      * {@link #updateJacobian()}, but may be modified by the solver
-     * in the derived class (the {@link LevenbergMarquardtEstimator
-     * Levenberg-Marquardt estimator} does this).</p>
+     * in the derived class (the {@link LevenbergMarquardtOptimizer
+     * Levenberg-Marquardt optimizer} does this).</p>
      */
     protected double[][] jacobian;
 
@@ -86,6 +86,9 @@ public abstract class AbstractLeastSquaresOptimizer implements VectorialDifferen
 
     /** Current objective function value. */
     protected double[] objective;
+
+    /** Current residuals. */
+    protected double[] residuals;
 
     /** Cost value (square root of the sum of the residuals). */
     protected double cost;
@@ -112,6 +115,11 @@ public abstract class AbstractLeastSquaresOptimizer implements VectorialDifferen
     /** {@inheritDoc} */
     public int getEvaluations() {
         return objectiveEvaluations;
+    }
+
+    /** {@inheritDoc} */
+    public int getJacobianEvaluations() {
+        return jacobianEvaluations;
     }
 
     /** {@inheritDoc} */
@@ -175,7 +183,8 @@ public abstract class AbstractLeastSquaresOptimizer implements VectorialDifferen
         }
         cost = 0;
         for (int i = 0, index = 0; i < rows; i++, index += cols) {
-            final double residual = objective[i] - target[i];
+            final double residual = target[i] - objective[i];
+            residuals[i] = residual;
             cost += weights[i] * residual * residual;
         }
         cost = Math.sqrt(cost);
@@ -186,7 +195,7 @@ public abstract class AbstractLeastSquaresOptimizer implements VectorialDifferen
      * Get the Root Mean Square value.
      * Get the Root Mean Square value, i.e. the root of the arithmetic
      * mean of the square of all weighted residuals. This is related to the
-     * criterion that is minimized by the estimator as follows: if
+     * criterion that is minimized by the optimizer as follows: if
      * <em>c</em> if the criterion, and <em>n</em> is the number of
      * measurements, then the RMS is <em>sqrt (c/n)</em>.
      * 
@@ -195,7 +204,7 @@ public abstract class AbstractLeastSquaresOptimizer implements VectorialDifferen
     public double getRMS() {
         double criterion = 0;
         for (int i = 0; i < rows; ++i) {
-            final double residual = objective[i] - target[i];
+            final double residual = residuals[i];
             criterion += weights[i] * residual * residual;
         }
         return Math.sqrt(criterion / rows);
@@ -208,14 +217,14 @@ public abstract class AbstractLeastSquaresOptimizer implements VectorialDifferen
     public double getChiSquare() {
         double chiSquare = 0;
         for (int i = 0; i < rows; ++i) {
-            final double residual = objective[i] - target[i];
+            final double residual = residuals[i];
             chiSquare += residual * residual / weights[i];
         }
         return chiSquare;
     }
 
     /**
-     * Get the covariance matrix of unbound estimated parameters.
+     * Get the covariance matrix of optimized parameters.
      * @return covariance matrix
      * @exception ObjectiveException if the function jacobian cannot
      * be evaluated
@@ -231,12 +240,10 @@ public abstract class AbstractLeastSquaresOptimizer implements VectorialDifferen
         // compute transpose(J).J, avoiding building big intermediate matrices
         double[][] jTj = new double[cols][cols];
         for (int i = 0; i < cols; ++i) {
-            final double[] ji = jacobian[i];
             for (int j = i; j < cols; ++j) {
-                final double[] jj = jacobian[j];
                 double sum = 0;
                 for (int k = 0; k < rows; ++k) {
-                    sum += ji[k] * jj[k];
+                    sum += jacobian[k][i] * jacobian[k][j];
                 }
                 jTj[i][j] = sum;
                 jTj[j][i] = sum;
@@ -255,9 +262,9 @@ public abstract class AbstractLeastSquaresOptimizer implements VectorialDifferen
     }
 
     /**
-     * Guess the errors in unbound estimated parameters.
+     * Guess the errors in optimized parameters.
      * <p>Guessing is covariance-based, it only gives rough order of magnitude.</p>
-     * @return errors in estimated parameters
+     * @return errors in optimized parameters
      * @exception ObjectiveException if the function jacobian cannot b evaluated
      * @exception OptimizationException if the covariances matrix cannot be computed
      * or the number of degrees of freedom is not positive (number of measurements
@@ -299,6 +306,7 @@ public abstract class AbstractLeastSquaresOptimizer implements VectorialDifferen
         this.target    = target;
         this.weights   = weights;
         this.variables = startPoint.clone();
+        this.residuals = new double[target.length];
 
         // arrays shared with the other private methods
         rows      = target.length;

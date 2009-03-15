@@ -60,7 +60,17 @@ public interface VectorialDifferentiableOptimizer extends Serializable {
      * </p>
      * @return number of evaluations of the objective function
      */
-   int getEvaluations();
+    int getEvaluations();
+
+    /** Get the number of evaluations of the objective function jacobian .
+     * <p>
+     * The number of evaluation correspond to the last call to the
+     * {@link #optimize(ObjectiveFunction, GoalType, double[]) optimize}
+     * method. It is 0 if the method has not been called yet.
+     * </p>
+     * @return number of evaluations of the objective function jacobian
+     */
+    int getJacobianEvaluations();
 
     /** Set the convergence checker.
      * @param checker object to use to check for convergence

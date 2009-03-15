@@ -19,7 +19,10 @@ package org.apache.commons.math.optimization.general;
 
 import java.util.Arrays;
 
+import org.apache.commons.math.optimization.ObjectiveException;
 import org.apache.commons.math.optimization.OptimizationException;
+import org.apache.commons.math.optimization.VectorialDifferentiableObjectiveFunction;
+import org.apache.commons.math.optimization.VectorialPointValuePair;
 
 
 import junit.framework.*;
@@ -86,8 +89,7 @@ import junit.framework.*;
  * @author Jorge J. More (original fortran minpack tests)
  * @author Luc Maisonobe (non-minpack tests and minpack tests Java translation)
  */
-public class MinpackTest
-  extends TestCase {
+public class MinpackTest extends TestCase {
 
   public MinpackTest(String name) {
     super(name);
@@ -502,157 +504,117 @@ public class MinpackTest
   }
 
   private void minpackTest(MinpackFunction function, boolean exceptionExpected) {
-    LevenbergMarquardtEstimator estimator = new LevenbergMarquardtEstimator();
-    estimator.setMaxCostEval(100 * (function.getN() + 1));
-    estimator.setCostRelativeTolerance(Math.sqrt(2.22044604926e-16));
-    estimator.setParRelativeTolerance(Math.sqrt(2.22044604926e-16));
-    estimator.setOrthoTolerance(2.22044604926e-16);
-    assertTrue(function.checkTheoreticalStartCost(estimator.getRMS(function)));
-    try {
-      estimator.estimate(function);
-      assertFalse(exceptionExpected);
-    } catch (OptimizationException lsse) {
-      assertTrue(exceptionExpected);
-    }
-    assertTrue(function.checkTheoreticalMinCost(estimator.getRMS(function)));
-    assertTrue(function.checkTheoreticalMinParams());
+      LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
+      optimizer.setMaxEvaluations(100 * (function.getN() + 1));
+      optimizer.setCostRelativeTolerance(Math.sqrt(2.22044604926e-16));
+      optimizer.setParRelativeTolerance(Math.sqrt(2.22044604926e-16));
+      optimizer.setOrthoTolerance(2.22044604926e-16);
+//      assertTrue(function.checkTheoreticalStartCost(optimizer.getRMS()));
+      try {
+          VectorialPointValuePair optimum =
+              optimizer.optimize(function,
+                                 function.getTarget(), function.getWeight(),
+                                 function.getStartPoint());
+          assertFalse(exceptionExpected);
+          assertTrue(function.checkTheoreticalMinCost(optimizer.getRMS()));
+          assertTrue(function.checkTheoreticalMinParams(optimum));
+      } catch (OptimizationException lsse) {
+          assertTrue(exceptionExpected);
+      } catch (ObjectiveException oe) {
+          assertTrue(exceptionExpected);
+      }
   }
 
-  private static abstract class MinpackFunction implements EstimationProblem {
+  private static abstract class MinpackFunction
+      implements VectorialDifferentiableObjectiveFunction {
  
-    protected MinpackFunction(int m,
-                              double[] startParams,
-                              double   theoreticalStartCost,
-                              double   theoreticalMinCost,
-                              double[] theoreticalMinParams) {
-      this.m = m;
-      this.n = startParams.length;
-      parameters = new EstimatedParameter[n];
-      for (int i = 0; i < n; ++i) {
-        parameters[i] = new EstimatedParameter("p" + i, startParams[i]);
+      private static final long serialVersionUID = -6209760235478794233L;
+      protected int      n;
+      protected int      m;
+      protected double[] startParams;
+      protected double   theoreticalMinCost;
+      protected double[] theoreticalMinParams;
+      protected double   costAccuracy;
+      protected double   paramsAccuracy;
+
+      protected MinpackFunction(int m, double[] startParams,
+                                double theoreticalMinCost, double[] theoreticalMinParams) {
+          this.m = m;
+          this.n = startParams.length;
+          this.startParams          = startParams.clone();
+          this.theoreticalMinCost   = theoreticalMinCost;
+          this.theoreticalMinParams = theoreticalMinParams;
+          this.costAccuracy         = 1.0e-8;
+          this.paramsAccuracy       = 1.0e-5;
       }
-      this.theoreticalStartCost = theoreticalStartCost;
-      this.theoreticalMinCost   = theoreticalMinCost;
-      this.theoreticalMinParams = theoreticalMinParams;
-      this.costAccuracy         = 1.0e-8;
-      this.paramsAccuracy       = 1.0e-5;
-    }
 
-    protected static double[] buildArray(int n, double x) {
-      double[] array = new double[n];
-      Arrays.fill(array, x);
-      return array;
-    }
+      protected static double[] buildArray(int n, double x) {
+          double[] array = new double[n];
+          Arrays.fill(array, x);
+          return array;
+      }
 
-    protected void setCostAccuracy(double costAccuracy) {
-      this.costAccuracy = costAccuracy;
-    }
+      public double[] getTarget() {
+          return buildArray(m, 0.0);
+      }
 
-    protected void setParamsAccuracy(double paramsAccuracy) {
-      this.paramsAccuracy = paramsAccuracy;
-    }
+      public double[] getWeight() {
+          return buildArray(m, 1.0);
+      }
 
-    public int getN() {
-      return parameters.length;
-    }
+      public double[] getStartPoint() {
+          return startParams.clone();
+      }
 
-    public boolean checkTheoreticalStartCost(double rms) {
-      double threshold = costAccuracy * (1.0 + theoreticalStartCost);
-      return Math.abs(Math.sqrt(m) * rms - theoreticalStartCost) <= threshold;
-    }
+      protected void setCostAccuracy(double costAccuracy) {
+          this.costAccuracy = costAccuracy;
+      }
 
-    public boolean checkTheoreticalMinCost(double rms) {
-      double threshold = costAccuracy * (1.0 + theoreticalMinCost);
-     return Math.abs(Math.sqrt(m) * rms - theoreticalMinCost) <= threshold;
-    }
+      protected void setParamsAccuracy(double paramsAccuracy) {
+          this.paramsAccuracy = paramsAccuracy;
+      }
 
-    public boolean checkTheoreticalMinParams() {
-      if (theoreticalMinParams != null) {
-        for (int i = 0; i < theoreticalMinParams.length; ++i) {
-          double mi = theoreticalMinParams[i];
-          double vi = parameters[i].getEstimate();
-          if (Math.abs(mi - vi) > (paramsAccuracy * (1.0 + Math.abs(mi)))) {
-            return false;
+      public int getN() {
+          return startParams.length;
+      }
+
+      public boolean checkTheoreticalMinCost(double rms) {
+          double threshold = costAccuracy * (1.0 + theoreticalMinCost);
+          return Math.abs(Math.sqrt(m) * rms - theoreticalMinCost) <= threshold;
+      }
+
+      public boolean checkTheoreticalMinParams(VectorialPointValuePair optimum) {
+          double[] params = optimum.getPointRef();
+          if (theoreticalMinParams != null) {
+              for (int i = 0; i < theoreticalMinParams.length; ++i) {
+                  double mi = theoreticalMinParams[i];
+                  double vi = params[i];
+                  if (Math.abs(mi - vi) > (paramsAccuracy * (1.0 + Math.abs(mi)))) {
+                      return false;
+                  }
+              }
           }
-        }
-      }
-      return true;
-    }
- 
-    public WeightedMeasurement[] getMeasurements() {
-      WeightedMeasurement[] measurements = new WeightedMeasurement[m];
-      for (int i = 0; i < m; ++i) {
-        measurements[i] = new MinpackMeasurement(i);
-      }
-      return measurements;
-    }
-
-    public EstimatedParameter[] getUnboundParameters() {
-      return parameters;
-    }
-
-    public EstimatedParameter[] getAllParameters() {
-      return parameters;
-    }
-
-    protected abstract double[][] getJacobian();
-
-    protected abstract double[] getResiduals();
-
-    private class MinpackMeasurement extends WeightedMeasurement {
-
-      public MinpackMeasurement(int index) {
-        super(1.0, 0.0);
-        this.index = index;
+          return true;
       }
 
-      public double getTheoreticalValue() {
-        // this is obviously NOT efficient as we recompute the whole vector
-        // each time we need only one element, but it is only for test
-        // purposes and is simpler to check.
-        // This implementation should NOT be taken as an example, it is ugly!
-        return getResiduals()[index];
-      }
+      public abstract double[][] jacobian(double[] variables, double[] value);
 
-      public double getPartial(EstimatedParameter parameter) {
-        // this is obviously NOT efficient as we recompute the whole jacobian
-        // each time we need only one element, but it is only for test
-        // purposes and is simpler to check.
-        // This implementation should NOT be taken as an example, it is ugly!
-        for (int j = 0; j < n; ++j) {
-          if (parameter == parameters[j]) {
-            return getJacobian()[index][j];
-          }
-        }
-        return 0;
-      }
-
-      private int index;
-      private static final long serialVersionUID = 1L;
-
-    }
-
-    protected int                  n;
-    protected int                  m;
-    protected EstimatedParameter[] parameters;
-    protected double               theoreticalStartCost;
-    protected double               theoreticalMinCost;
-    protected double[]             theoreticalMinParams;
-    protected double               costAccuracy;
-    protected double               paramsAccuracy;
+      public abstract double[] objective(double[] variables);
 
   }
 
   private static class LinearFullRankFunction extends MinpackFunction {
 
+    private static final long serialVersionUID = -9030323226268039536L;
+
     public LinearFullRankFunction(int m, int n, double x0,
                                   double theoreticalStartCost,
                                   double theoreticalMinCost) {
-      super(m, buildArray(n, x0), theoreticalStartCost,
-            theoreticalMinCost, buildArray(n, -1.0));
+      super(m, buildArray(n, x0), theoreticalMinCost,
+            buildArray(n, -1.0));
     }
 
-    protected double[][] getJacobian() {
+    public double[][] jacobian(double[] variables, double[] value) {
       double t = 2.0 / m;
       double[][] jacobian = new double[m][];
       for (int i = 0; i < m; ++i) {
@@ -664,15 +626,15 @@ public class MinpackTest
       return jacobian;
     }
 
-    protected double[] getResiduals() {
+    public double[] objective(double[] variables) {
       double sum = 0;
       for (int i = 0; i < n; ++i) {
-        sum += parameters[i].getEstimate();
+        sum += variables[i];
       }
       double t  = 1 + 2 * sum / m;
       double[] f = new double[m];
       for (int i = 0; i < n; ++i) {
-        f[i] = parameters[i].getEstimate() - t;
+        f[i] = variables[i] - t;
       }
       Arrays.fill(f, n, m, -t);
       return f;
@@ -682,13 +644,15 @@ public class MinpackTest
 
   private static class LinearRank1Function extends MinpackFunction {
 
+    private static final long serialVersionUID = 8494863245104608300L;
+
     public LinearRank1Function(int m, int n, double x0,
                                   double theoreticalStartCost,
                                   double theoreticalMinCost) {
-      super(m, buildArray(n, x0), theoreticalStartCost, theoreticalMinCost, null);
+      super(m, buildArray(n, x0), theoreticalMinCost, null);
     }
 
-    protected double[][] getJacobian() {
+    public double[][] jacobian(double[] variables, double[] value) {
       double[][] jacobian = new double[m][];
       for (int i = 0; i < m; ++i) {
         jacobian[i] = new double[n];
@@ -699,11 +663,11 @@ public class MinpackTest
       return jacobian;
     }
 
-    protected double[] getResiduals() {
+    public double[] objective(double[] variables) {
       double[] f = new double[m];
       double sum = 0;
       for (int i = 0; i < n; ++i) {
-        sum += (i + 1) * parameters[i].getEstimate();
+        sum += (i + 1) * variables[i];
       }
       for (int i = 0; i < m; ++i) {
         f[i] = (i + 1) * sum - 1;
@@ -715,14 +679,15 @@ public class MinpackTest
 
   private static class LinearRank1ZeroColsAndRowsFunction extends MinpackFunction {
 
+    private static final long serialVersionUID = -3316653043091995018L;
+
     public LinearRank1ZeroColsAndRowsFunction(int m, int n, double x0) {
       super(m, buildArray(n, x0),
-            Math.sqrt(m + (n+1)*(n-2)*(m-2)*(m-1) * ((n+1)*(n-2)*(2*m-3) - 12) / 24.0),
             Math.sqrt((m * (m + 3) - 6) / (2.0 * (2 * m - 3))),
             null);
     }
 
-    protected double[][] getJacobian() {
+    public double[][] jacobian(double[] variables, double[] value) {
       double[][] jacobian = new double[m][];
       for (int i = 0; i < m; ++i) {
         jacobian[i] = new double[n];
@@ -741,11 +706,11 @@ public class MinpackTest
       return jacobian;
     }
 
-    protected double[] getResiduals() {
+    public double[] objective(double[] variables) {
       double[] f = new double[m];
       double sum = 0;
       for (int i = 1; i < (n - 1); ++i) {
-        sum += (i + 1) * parameters[i].getEstimate();
+        sum += (i + 1) * variables[i];
       }
       for (int i = 0; i < (m - 1); ++i) {
         f[i] = i * sum - 1;
@@ -758,18 +723,20 @@ public class MinpackTest
 
   private static class RosenbrockFunction extends MinpackFunction {
 
+    private static final long serialVersionUID = 2893438180956569134L;
+
     public RosenbrockFunction(double[] startParams, double theoreticalStartCost) {
-      super(2, startParams, theoreticalStartCost, 0.0, buildArray(2, 1.0));
+      super(2, startParams, 0.0, buildArray(2, 1.0));
     }
 
-    protected double[][] getJacobian() {
-      double x1 = parameters[0].getEstimate();
+    public double[][] jacobian(double[] variables, double[] value) {
+      double x1 = variables[0];
       return new double[][] { { -20 * x1, 10 }, { -1, 0 } };
     }
 
-    protected double[] getResiduals() {
-      double x1 = parameters[0].getEstimate();
-      double x2 = parameters[1].getEstimate();
+    public double[] objective(double[] variables) {
+      double x1 = variables[0];
+      double x2 = variables[1];
       return new double[] { 10 * (x2 - x1 * x1), 1 - x1 };
     }
 
@@ -777,15 +744,16 @@ public class MinpackTest
 
   private static class HelicalValleyFunction extends MinpackFunction {
 
+    private static final long serialVersionUID = 220613787843200102L;
+
     public HelicalValleyFunction(double[] startParams,
                                  double theoreticalStartCost) {
-      super(3, startParams, theoreticalStartCost, 0.0,
-            new double[] { 1.0, 0.0, 0.0 });
+      super(3, startParams, 0.0, new double[] { 1.0, 0.0, 0.0 });
     }
 
-    protected double[][] getJacobian() {
-      double x1 = parameters[0].getEstimate();
-      double x2 = parameters[1].getEstimate();
+    public double[][] jacobian(double[] variables, double[] value) {
+      double x1 = variables[0];
+      double x2 = variables[1];
       double tmpSquare = x1 * x1 + x2 * x2;
       double tmp1 = twoPi * tmpSquare;
       double tmp2 = Math.sqrt(tmpSquare);
@@ -796,10 +764,10 @@ public class MinpackTest
       };
     }
 
-    protected double[] getResiduals() {
-      double x1 = parameters[0].getEstimate();
-      double x2 = parameters[1].getEstimate();
-      double x3 = parameters[2].getEstimate();
+    public double[] objective(double[] variables) {
+      double x1 = variables[0];
+      double x2 = variables[1];
+      double x3 = variables[2];
       double tmp1;
       if (x1 == 0) {
         tmp1 = (x2 >= 0) ? 0.25 : -0.25;
@@ -823,16 +791,18 @@ public class MinpackTest
 
   private static class PowellSingularFunction extends MinpackFunction {
 
+    private static final long serialVersionUID = 7298364171208142405L;
+
     public PowellSingularFunction(double[] startParams,
                                   double theoreticalStartCost) {
-      super(4, startParams, theoreticalStartCost, 0.0, buildArray(4, 0.0));
+      super(4, startParams, 0.0, buildArray(4, 0.0));
     }
 
-    protected double[][] getJacobian() {
-      double x1 = parameters[0].getEstimate();
-      double x2 = parameters[1].getEstimate();
-      double x3 = parameters[2].getEstimate();
-      double x4 = parameters[3].getEstimate();
+    public double[][] jacobian(double[] variables, double[] value) {
+      double x1 = variables[0];
+      double x2 = variables[1];
+      double x3 = variables[2];
+      double x4 = variables[3];
       return new double[][] {
         { 1, 10, 0, 0 },
         { 0, 0, sqrt5, -sqrt5 },
@@ -841,11 +811,11 @@ public class MinpackTest
       };
     }
 
-    protected double[] getResiduals() {
-      double x1 = parameters[0].getEstimate();
-      double x2 = parameters[1].getEstimate();
-      double x3 = parameters[2].getEstimate();
-      double x4 = parameters[3].getEstimate();
+    public double[] objective(double[] variables) {
+      double x1 = variables[0];
+      double x2 = variables[1];
+      double x3 = variables[2];
+      double x4 = variables[3];
       return new double[] {
         x1 + 10 * x2,
         sqrt5 * (x3 - x4),
@@ -861,25 +831,27 @@ public class MinpackTest
 
   private static class FreudensteinRothFunction extends MinpackFunction {
 
+    private static final long serialVersionUID = 2892404999344244214L;
+
     public FreudensteinRothFunction(double[] startParams,
                                     double theoreticalStartCost,
                                     double theoreticalMinCost,
                                     double[] theoreticalMinParams) {
-      super(2, startParams, theoreticalStartCost,
-            theoreticalMinCost, theoreticalMinParams);
+      super(2, startParams, theoreticalMinCost,
+            theoreticalMinParams);
     }
 
-    protected double[][] getJacobian() {
-      double x2 = parameters[1].getEstimate();
+    public double[][] jacobian(double[] variables, double[] value) {
+      double x2 = variables[1];
       return new double[][] {
         { 1, x2 * (10 - 3 * x2) -  2 },
         { 1, x2 * ( 2 + 3 * x2) - 14, }
       };
     }
 
-    protected double[] getResiduals() {
-      double x1 = parameters[0].getEstimate();
-      double x2 = parameters[1].getEstimate();
+    public double[] objective(double[] variables) {
+      double x1 = variables[0];
+      double x2 = variables[1];
       return new double[] {
        -13.0 + x1 + ((5.0 - x2) * x2 -  2.0) * x2,
        -29.0 + x1 + ((1.0 + x2) * x2 - 14.0) * x2
@@ -890,17 +862,19 @@ public class MinpackTest
 
   private static class BardFunction extends MinpackFunction {
 
+    private static final long serialVersionUID = 5990442612572087668L;
+
     public BardFunction(double x0,
                         double theoreticalStartCost,
                         double theoreticalMinCost,
                         double[] theoreticalMinParams) {
-      super(15, buildArray(3, x0), theoreticalStartCost,
-            theoreticalMinCost, theoreticalMinParams);
+      super(15, buildArray(3, x0), theoreticalMinCost,
+            theoreticalMinParams);
     }
 
-    protected double[][] getJacobian() {
-      double   x2 = parameters[1].getEstimate();
-      double   x3 = parameters[2].getEstimate();
+    public double[][] jacobian(double[] variables, double[] value) {
+      double   x2 = variables[1];
+      double   x3 = variables[2];
       double[][] jacobian = new double[m][];
       for (int i = 0; i < m; ++i) {
         double tmp1 = i  + 1;
@@ -913,10 +887,10 @@ public class MinpackTest
       return jacobian;
     }
 
-    protected double[] getResiduals() {
-      double   x1 = parameters[0].getEstimate();
-      double   x2 = parameters[1].getEstimate();
-      double   x3 = parameters[2].getEstimate();
+    public double[] objective(double[] variables) {
+      double   x1 = variables[0];
+      double   x2 = variables[1];
+      double   x3 = variables[2];
       double[] f = new double[m];
       for (int i = 0; i < m; ++i) {
         double tmp1 = i + 1;
@@ -937,23 +911,25 @@ public class MinpackTest
 
   private static class KowalikOsborneFunction extends MinpackFunction {
 
+    private static final long serialVersionUID = -4867445739880495801L;
+
     public KowalikOsborneFunction(double[] startParams,
                                   double theoreticalStartCost,
                                   double theoreticalMinCost,
                                   double[] theoreticalMinParams) {
-      super(11, startParams, theoreticalStartCost,
-            theoreticalMinCost, theoreticalMinParams);
+      super(11, startParams, theoreticalMinCost,
+            theoreticalMinParams);
       if (theoreticalStartCost > 20.0) {
         setCostAccuracy(2.0e-4);
         setParamsAccuracy(5.0e-3);
       }
     }
 
-    protected double[][] getJacobian() {
-      double   x1 = parameters[0].getEstimate();
-      double   x2 = parameters[1].getEstimate();
-      double   x3 = parameters[2].getEstimate();
-      double   x4 = parameters[3].getEstimate();
+    public double[][] jacobian(double[] variables, double[] value) {
+      double   x1 = variables[0];
+      double   x2 = variables[1];
+      double   x3 = variables[2];
+      double   x4 = variables[3];
       double[][] jacobian = new double[m][];
       for (int i = 0; i < m; ++i) {
         double tmp = v[i] * (v[i] + x3) + x4;
@@ -966,11 +942,11 @@ public class MinpackTest
       return jacobian;
     }
 
-    protected double[] getResiduals() {
-      double x1 = parameters[0].getEstimate();
-      double x2 = parameters[1].getEstimate();
-      double x3 = parameters[2].getEstimate();
-      double x4 = parameters[3].getEstimate();
+    public double[] objective(double[] variables) {
+      double x1 = variables[0];
+      double x2 = variables[1];
+      double x3 = variables[2];
+      double x4 = variables[3];
       double[] f = new double[m];
       for (int i = 0; i < m; ++i) {
         f[i] = y[i] - x1 * (v[i] * (v[i] + x2)) / (v[i] * (v[i] + x3) + x4);
@@ -991,22 +967,24 @@ public class MinpackTest
 
   private static class MeyerFunction extends MinpackFunction {
 
+    private static final long serialVersionUID = -838060619150131027L;
+
     public MeyerFunction(double[] startParams,
                          double theoreticalStartCost,
                          double theoreticalMinCost,
                          double[] theoreticalMinParams) {
-      super(16, startParams, theoreticalStartCost,
-            theoreticalMinCost, theoreticalMinParams);
+      super(16, startParams, theoreticalMinCost,
+            theoreticalMinParams);
       if (theoreticalStartCost > 1.0e6) {
         setCostAccuracy(7.0e-3);
         setParamsAccuracy(2.0e-2);
       }
     }
 
-    protected double[][] getJacobian() {
-      double   x1 = parameters[0].getEstimate();
-      double   x2 = parameters[1].getEstimate();
-      double   x3 = parameters[2].getEstimate();
+    public double[][] jacobian(double[] variables, double[] value) {
+      double   x1 = variables[0];
+      double   x2 = variables[1];
+      double   x3 = variables[2];
       double[][] jacobian = new double[m][];
       for (int i = 0; i < m; ++i) {
         double temp = 5.0 * (i + 1) + 45.0 + x3;
@@ -1018,10 +996,10 @@ public class MinpackTest
       return jacobian;
     }
 
-    protected double[] getResiduals() {
-      double x1 = parameters[0].getEstimate();
-      double x2 = parameters[1].getEstimate();
-      double x3 = parameters[2].getEstimate();
+    public double[] objective(double[] variables) {
+      double x1 = variables[0];
+      double x2 = variables[1];
+      double x3 = variables[2];
       double[] f = new double[m];
       for (int i = 0; i < m; ++i) {
         f[i] = x1 * Math.exp(x2 / (5.0 * (i + 1) + 45.0 + x3)) - y[i];
@@ -1040,15 +1018,17 @@ public class MinpackTest
 
   private static class WatsonFunction extends MinpackFunction {
 
+    private static final long serialVersionUID = -9034759294980218927L;
+
     public WatsonFunction(int n, double x0,
                           double theoreticalStartCost,
                           double theoreticalMinCost,
                           double[] theoreticalMinParams) {
-      super(31, buildArray(n, x0), theoreticalStartCost,
-            theoreticalMinCost, theoreticalMinParams);
+      super(31, buildArray(n, x0), theoreticalMinCost,
+            theoreticalMinParams);
     }
 
-    protected double[][] getJacobian() {
+    public double[][] jacobian(double[] variables, double[] value) {
 
       double[][] jacobian = new double[m][];
 
@@ -1057,7 +1037,7 @@ public class MinpackTest
         double s2  = 0.0;
         double dx  = 1.0;
         for (int j = 0; j < n; ++j) {
-          s2 += dx * parameters[j].getEstimate();
+          s2 += dx * variables[j];
           dx *= div;
         }
         double temp= 2 * div * s2;
@@ -1073,34 +1053,34 @@ public class MinpackTest
       jacobian[m - 2][0] = 1;
 
       jacobian[m - 1]   = new double[n];
-      jacobian[m - 1][0]= -2 * parameters[0].getEstimate();
+      jacobian[m - 1][0]= -2 * variables[0];
       jacobian[m - 1][1]= 1;
 
       return jacobian;
 
     }
 
-    protected double[] getResiduals() {
+    public double[] objective(double[] variables) {
      double[] f = new double[m];
      for (int i = 0; i < (m - 2); ++i) {
        double div = (i + 1) / 29.0;
        double s1 = 0;
        double dx = 1;
        for (int j = 1; j < n; ++j) {
-         s1 += j * dx * parameters[j].getEstimate();
+         s1 += j * dx * variables[j];
          dx *= div;
        }
        double s2 =0;
        dx =1;
        for (int j = 0; j < n; ++j) {
-         s2 += dx * parameters[j].getEstimate();
+         s2 += dx * variables[j];
          dx *= div;
        }
        f[i] = s1 - s2 * s2 - 1;
      }
 
-     double x1 = parameters[0].getEstimate();
-     double x2 = parameters[1].getEstimate();
+     double x1 = variables[0];
+     double x2 = variables[1];
      f[m - 2] = x1;
      f[m - 1] = x2 - x1 * x1 - 1;
 
@@ -1112,15 +1092,17 @@ public class MinpackTest
 
   private static class Box3DimensionalFunction extends MinpackFunction {
 
+    private static final long serialVersionUID = 5511403858142574493L;
+
     public Box3DimensionalFunction(int m, double[] startParams,
                                    double theoreticalStartCost) {
-      super(m, startParams, theoreticalStartCost,
-            0.0, new double[] { 1.0, 10.0, 1.0 });
+      super(m, startParams, 0.0,
+            new double[] { 1.0, 10.0, 1.0 });
    }
 
-    protected double[][] getJacobian() {
-      double   x1 = parameters[0].getEstimate();
-      double   x2 = parameters[1].getEstimate();
+    public double[][] jacobian(double[] variables, double[] value) {
+      double   x1 = variables[0];
+      double   x2 = variables[1];
       double[][] jacobian = new double[m][];
       for (int i = 0; i < m; ++i) {
         double tmp = (i + 1) / 10.0;
@@ -1133,10 +1115,10 @@ public class MinpackTest
       return jacobian;
     }
 
-    protected double[] getResiduals() {
-      double x1 = parameters[0].getEstimate();
-      double x2 = parameters[1].getEstimate();
-      double x3 = parameters[2].getEstimate();
+    public double[] objective(double[] variables) {
+      double x1 = variables[0];
+      double x2 = variables[1];
+      double x3 = variables[2];
       double[] f = new double[m];
       for (int i = 0; i < m; ++i) {
         double tmp = (i + 1) / 10.0;
@@ -1150,17 +1132,19 @@ public class MinpackTest
 
   private static class JennrichSampsonFunction extends MinpackFunction {
 
+    private static final long serialVersionUID = -2489165190443352947L;
+
     public JennrichSampsonFunction(int m, double[] startParams,
                                    double theoreticalStartCost,
                                    double theoreticalMinCost,
                                    double[] theoreticalMinParams) {
-      super(m, startParams, theoreticalStartCost,
-            theoreticalMinCost, theoreticalMinParams);
+      super(m, startParams, theoreticalMinCost,
+            theoreticalMinParams);
     }
 
-    protected double[][] getJacobian() {
-      double   x1 = parameters[0].getEstimate();
-      double   x2 = parameters[1].getEstimate();
+    public double[][] jacobian(double[] variables, double[] value) {
+      double   x1 = variables[0];
+      double   x2 = variables[1];
       double[][] jacobian = new double[m][];
       for (int i = 0; i < m; ++i) {
         double t = i + 1;
@@ -1169,9 +1153,9 @@ public class MinpackTest
       return jacobian;
     }
 
-    protected double[] getResiduals() {
-      double x1 = parameters[0].getEstimate();
-      double x2 = parameters[1].getEstimate();
+    public double[] objective(double[] variables) {
+      double x1 = variables[0];
+      double x2 = variables[1];
       double[] f = new double[m];
       for (int i = 0; i < m; ++i) {
         double temp = i + 1;
@@ -1184,19 +1168,21 @@ public class MinpackTest
 
   private static class BrownDennisFunction extends MinpackFunction {
 
+    private static final long serialVersionUID = 8340018645694243910L;
+
     public BrownDennisFunction(int m, double[] startParams,
                                double theoreticalStartCost,
                                double theoreticalMinCost,
                                double[] theoreticalMinParams) {
-      super(m, startParams, theoreticalStartCost,
-            theoreticalMinCost, theoreticalMinParams);
+      super(m, startParams, theoreticalMinCost,
+            theoreticalMinParams);
     }
 
-    protected double[][] getJacobian() {
-      double   x1 = parameters[0].getEstimate();
-      double   x2 = parameters[1].getEstimate();
-      double   x3 = parameters[2].getEstimate();
-      double   x4 = parameters[3].getEstimate();
+    public double[][] jacobian(double[] variables, double[] value) {
+      double   x1 = variables[0];
+      double   x2 = variables[1];
+      double   x3 = variables[2];
+      double   x4 = variables[3];
       double[][] jacobian = new double[m][];
       for (int i = 0; i < m; ++i) {
         double temp = (i + 1) / 5.0;
@@ -1210,11 +1196,11 @@ public class MinpackTest
       return jacobian;
     }
 
-    protected double[] getResiduals() {
-      double x1 = parameters[0].getEstimate();
-      double x2 = parameters[1].getEstimate();
-      double x3 = parameters[2].getEstimate();
-      double x4 = parameters[3].getEstimate();
+    public double[] objective(double[] variables) {
+      double x1 = variables[0];
+      double x2 = variables[1];
+      double x3 = variables[2];
+      double x4 = variables[3];
       double[] f = new double[m];
       for (int i = 0; i < m; ++i) {
         double temp = (i + 1) / 5.0;
@@ -1229,6 +1215,8 @@ public class MinpackTest
 
   private static class ChebyquadFunction extends MinpackFunction {
 
+    private static final long serialVersionUID = -2394877275028008594L;
+
     private static double[] buildChebyquadArray(int n, double factor) {
       double[] array = new double[n];
       double inv = factor / (n + 1);
@@ -1242,11 +1230,11 @@ public class MinpackTest
                              double theoreticalStartCost,
                              double theoreticalMinCost,
                              double[] theoreticalMinParams) {
-      super(m, buildChebyquadArray(n, factor), theoreticalStartCost,
-            theoreticalMinCost, theoreticalMinParams);
+      super(m, buildChebyquadArray(n, factor), theoreticalMinCost,
+            theoreticalMinParams);
     }
 
-    protected double[][] getJacobian() {
+    public double[][] jacobian(double[] variables, double[] value) {
 
       double[][] jacobian = new double[m][];
       for (int i = 0; i < m; ++i) {
@@ -1256,7 +1244,7 @@ public class MinpackTest
       double dx = 1.0 / n;
       for (int j = 0; j < n; ++j) {
         double tmp1 = 1;
-        double tmp2 = 2 * parameters[j].getEstimate() - 1;
+        double tmp2 = 2 * variables[j] - 1;
         double temp = 2 * tmp2;
         double tmp3 = 0;
         double tmp4 = 2;
@@ -1275,13 +1263,13 @@ public class MinpackTest
 
     }
 
-    protected double[] getResiduals() {
+    public double[] objective(double[] variables) {
 
       double[] f = new double[m];
 
       for (int j = 0; j < n; ++j) {
         double tmp1 = 1;
-        double tmp2 = 2 * parameters[j].getEstimate() - 1;
+        double tmp2 = 2 * variables[j] - 1;
         double temp = 2 * tmp2;
         for (int i = 0; i < m; ++i) {
           f[i] += tmp2;
@@ -1309,15 +1297,17 @@ public class MinpackTest
 
   private static class BrownAlmostLinearFunction extends MinpackFunction {
 
+    private static final long serialVersionUID = 8239594490466964725L;
+
     public BrownAlmostLinearFunction(int m, double factor,
                                      double theoreticalStartCost,
                                      double theoreticalMinCost,
                                      double[] theoreticalMinParams) {
-      super(m, buildArray(m, factor), theoreticalStartCost,
-            theoreticalMinCost, theoreticalMinParams);
+      super(m, buildArray(m, factor), theoreticalMinCost,
+            theoreticalMinParams);
     }
 
-    protected double[][] getJacobian() {
+    public double[][] jacobian(double[] variables, double[] value) {
       double[][] jacobian = new double[m][];
       for (int i = 0; i < m; ++i) {
         jacobian[i] = new double[n];
@@ -1325,7 +1315,7 @@ public class MinpackTest
 
       double prod = 1;
       for (int j = 0; j < n; ++j) {
-        prod *= parameters[j].getEstimate();
+        prod *= variables[j];
         for (int i = 0; i < n; ++i) {
           jacobian[i][j] = 1;
         }
@@ -1333,14 +1323,13 @@ public class MinpackTest
       }
 
       for (int j = 0; j < n; ++j) {
-        EstimatedParameter vj = parameters[j];
-        double temp = vj.getEstimate();
+        double temp = variables[j];
         if (temp == 0) {
           temp = 1;
           prod = 1;
           for (int k = 0; k < n; ++k) {
             if (k != j) {
-              prod *= parameters[k].getEstimate();
+              prod *= variables[k];
             }
           }
         }
@@ -1351,16 +1340,16 @@ public class MinpackTest
 
     }
 
-    protected double[] getResiduals() {
+    public double[] objective(double[] variables) {
       double[] f = new double[m];
       double sum  = -(n + 1);
       double prod = 1;
       for (int j = 0; j < n; ++j) {
-        sum  += parameters[j].getEstimate();
-        prod *= parameters[j].getEstimate();
+        sum  += variables[j];
+        prod *= variables[j];
       }
       for (int i = 0; i < n; ++i) {
-        f[i] = parameters[i].getEstimate() + sum;
+        f[i] = variables[i] + sum;
       }
       f[n - 1] = prod - 1;
       return f;
@@ -1370,19 +1359,21 @@ public class MinpackTest
 
   private static class Osborne1Function extends MinpackFunction {
 
+    private static final long serialVersionUID = 4006743521149849494L;
+
     public Osborne1Function(double[] startParams,
                             double theoreticalStartCost,
                             double theoreticalMinCost,
                             double[] theoreticalMinParams) {
-      super(33, startParams, theoreticalStartCost,
-            theoreticalMinCost, theoreticalMinParams);
+      super(33, startParams, theoreticalMinCost,
+            theoreticalMinParams);
     }
 
-    protected double[][] getJacobian() {
-      double   x2 = parameters[1].getEstimate();
-      double   x3 = parameters[2].getEstimate();
-      double   x4 = parameters[3].getEstimate();
-      double   x5 = parameters[4].getEstimate();
+    public double[][] jacobian(double[] variables, double[] value) {
+      double   x2 = variables[1];
+      double   x3 = variables[2];
+      double   x4 = variables[3];
+      double   x5 = variables[4];
       double[][] jacobian = new double[m][];
       for (int i = 0; i < m; ++i) {
         double temp = 10.0 * i;
@@ -1395,12 +1386,12 @@ public class MinpackTest
       return jacobian;
     }
 
-    protected double[] getResiduals() {
-      double x1 = parameters[0].getEstimate();
-      double x2 = parameters[1].getEstimate();
-      double x3 = parameters[2].getEstimate();
-      double x4 = parameters[3].getEstimate();
-      double x5 = parameters[4].getEstimate();
+    public double[] objective(double[] variables) {
+      double x1 = variables[0];
+      double x2 = variables[1];
+      double x3 = variables[2];
+      double x4 = variables[3];
+      double x5 = variables[4];
       double[] f = new double[m];
       for (int i = 0; i < m; ++i) {
         double temp = 10.0 * i;
@@ -1421,26 +1412,28 @@ public class MinpackTest
 
   private static class Osborne2Function extends MinpackFunction {
 
+    private static final long serialVersionUID = -8418268780389858746L;
+
     public Osborne2Function(double[] startParams,
                             double theoreticalStartCost,
                             double theoreticalMinCost,
                             double[] theoreticalMinParams) {
-      super(65, startParams, theoreticalStartCost,
-            theoreticalMinCost, theoreticalMinParams);
+      super(65, startParams, theoreticalMinCost,
+            theoreticalMinParams);
     }
 
-    protected double[][] getJacobian() {
-      double   x01 = parameters[0].getEstimate();
-      double   x02 = parameters[1].getEstimate();
-      double   x03 = parameters[2].getEstimate();
-      double   x04 = parameters[3].getEstimate();
-      double   x05 = parameters[4].getEstimate();
-      double   x06 = parameters[5].getEstimate();
-      double   x07 = parameters[6].getEstimate();
-      double   x08 = parameters[7].getEstimate();
-      double   x09 = parameters[8].getEstimate();
-      double   x10 = parameters[9].getEstimate();
-      double   x11 = parameters[10].getEstimate();
+    public double[][] jacobian(double[] variables, double[] value) {
+      double   x01 = variables[0];
+      double   x02 = variables[1];
+      double   x03 = variables[2];
+      double   x04 = variables[3];
+      double   x05 = variables[4];
+      double   x06 = variables[5];
+      double   x07 = variables[6];
+      double   x08 = variables[7];
+      double   x09 = variables[8];
+      double   x10 = variables[9];
+      double   x11 = variables[10];
       double[][] jacobian = new double[m][];
       for (int i = 0; i < m; ++i) {
         double temp = i / 10.0;
@@ -1465,18 +1458,18 @@ public class MinpackTest
       return jacobian;
     }
 
-    protected double[] getResiduals() {
-      double x01 = parameters[0].getEstimate();
-      double x02 = parameters[1].getEstimate();
-      double x03 = parameters[2].getEstimate();
-      double x04 = parameters[3].getEstimate();
-      double x05 = parameters[4].getEstimate();
-      double x06 = parameters[5].getEstimate();
-      double x07 = parameters[6].getEstimate();
-      double x08 = parameters[7].getEstimate();
-      double x09 = parameters[8].getEstimate();
-      double x10 = parameters[9].getEstimate();
-      double x11 = parameters[10].getEstimate();
+    public double[] objective(double[] variables) {
+      double x01 = variables[0];
+      double x02 = variables[1];
+      double x03 = variables[2];
+      double x04 = variables[3];
+      double x05 = variables[4];
+      double x06 = variables[5];
+      double x07 = variables[6];
+      double x08 = variables[7];
+      double x09 = variables[8];
+      double x10 = variables[9];
+      double x11 = variables[10];
       double[] f = new double[m];
       for (int i = 0; i < m; ++i) {
         double temp = i / 10.0;
