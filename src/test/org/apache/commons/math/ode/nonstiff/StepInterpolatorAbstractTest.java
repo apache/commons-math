@@ -77,9 +77,6 @@ public class StepInterpolatorAbstractTest extends TestCase {
                                                32 * (yP3h[i] - yM3h[i]) +
                                              -168 * (yP2h[i] - yM2h[i]) +
                                               672 * (yP1h[i] - yM1h[i])) / (840 * h);
-                    if (Math.abs(approYDot - yDot[i]) >= threshold) {
-                        System.out.println("gotcha!");
-                    }
                     assertEquals(approYDot, yDot[i], threshold);
                 }
 
