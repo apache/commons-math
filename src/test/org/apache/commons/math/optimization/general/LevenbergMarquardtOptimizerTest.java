@@ -119,13 +119,14 @@ public class LevenbergMarquardtOptimizerTest
             fail("wrong exception caught");
         }
         assertEquals(1.5, optimum.getPoint()[0], 1.0e-10);
+        assertEquals(3.0, optimum.getValue()[0], 1.0e-10);
     }
 
     public void testQRColumnsPermutation() throws ObjectiveException, OptimizationException {
 
         LinearProblem problem =
             new LinearProblem(new double[][] { { 1.0, -1.0 }, { 0.0, 2.0 }, { 1.0, -2.0 } },
-                    new double[] { 4.0, 6.0, 1.0 });
+                              new double[] { 4.0, 6.0, 1.0 });
 
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
         VectorialPointValuePair optimum =
@@ -133,6 +134,9 @@ public class LevenbergMarquardtOptimizerTest
         assertEquals(0, optimizer.getRMS(), 1.0e-10);
         assertEquals(7.0, optimum.getPoint()[0], 1.0e-10);
         assertEquals(3.0, optimum.getPoint()[1], 1.0e-10);
+        assertEquals(4.0, optimum.getValue()[0], 1.0e-10);
+        assertEquals(6.0, optimum.getValue()[1], 1.0e-10);
+        assertEquals(1.0, optimum.getValue()[2], 1.0e-10);
 
     }
 

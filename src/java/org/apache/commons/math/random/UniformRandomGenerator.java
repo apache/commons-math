@@ -31,6 +31,9 @@ package org.apache.commons.math.random;
 
 public class UniformRandomGenerator implements NormalizedRandomGenerator {
 
+    /** Serializable version identifier. */
+    private static final long serialVersionUID = 1569292426375546027L;
+
     /** Create a new generator.
      * @param generator underlying random generator to use
      */

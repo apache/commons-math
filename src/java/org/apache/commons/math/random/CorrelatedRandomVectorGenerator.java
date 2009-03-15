@@ -60,7 +60,10 @@ import org.apache.commons.math.linear.decomposition.NotPositiveDefiniteMatrixExc
  */
 
 public class CorrelatedRandomVectorGenerator
-implements RandomVectorGenerator {
+    implements RandomVectorGenerator {
+
+    /** Serializable version identifier. */
+    private static final long serialVersionUID = -7162933284241468177L;
 
     /** Simple constructor.
      * <p>Build a correlated random vector generator from its mean

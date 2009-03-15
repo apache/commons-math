@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.random;
 
+import java.io.Serializable;
+
 /** This interface represents a random generator for whole vectors.
  * 
  * @since 1.2
@@ -24,7 +26,7 @@ package org.apache.commons.math.random;
  *
  */
 
-public interface RandomVectorGenerator {
+public interface RandomVectorGenerator extends Serializable {
 
   /** Generate a random vector.
    * @return a random vector as an array of double.

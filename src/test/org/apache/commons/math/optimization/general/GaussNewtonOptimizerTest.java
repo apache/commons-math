@@ -112,6 +112,7 @@ extends TestCase {
             optimizer.optimize(problem, problem.target, new double[] { 1 }, new double[] { 0 });
         assertEquals(0, optimizer.getRMS(), 1.0e-10);
         assertEquals(1.5, optimum.getPoint()[0], 1.0e-10);
+        assertEquals(3.0, optimum.getValue()[0], 1.0e-10);
     }
 
     public void testColumnsPermutation() throws ObjectiveException, OptimizationException {
@@ -128,6 +129,9 @@ extends TestCase {
         assertEquals(0, optimizer.getRMS(), 1.0e-10);
         assertEquals(7.0, optimum.getPoint()[0], 1.0e-10);
         assertEquals(3.0, optimum.getPoint()[1], 1.0e-10);
+        assertEquals(4.0, optimum.getValue()[0], 1.0e-10);
+        assertEquals(6.0, optimum.getValue()[1], 1.0e-10);
+        assertEquals(1.0, optimum.getValue()[2], 1.0e-10);
 
     }
 

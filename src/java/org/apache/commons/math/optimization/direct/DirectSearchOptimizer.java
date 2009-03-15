@@ -313,7 +313,8 @@ public abstract class DirectSearchOptimizer implements ScalarOptimizer {
 
     /** Build an initial simplex.
      * @param startPoint the start point for optimization
-     * @exception IllegalArgumentException
+     * @exception IllegalArgumentException if the start point does not match
+     * simplex dimension
      */
     private void buildSimplex(final double[] startPoint)
         throws IllegalArgumentException {

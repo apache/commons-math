@@ -549,8 +549,8 @@ public final class MathUtils {
      * <code>0</code>.</li>
      * </ul>
      * 
-     * @param u any number
-     * @param v any number
+     * @param p any number
+     * @param q any number
      * @return the greatest common divisor, never negative
      * @throws ArithmeticException
      *             if the result cannot be represented as a nonnegative int

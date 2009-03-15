@@ -55,7 +55,7 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
      * and the maximal number of evaluation is set to
      * {@link AbstractLeastSquaresOptimizer#DEFAULT_MAX_EVALUATIONS}.
      * @param useLU if true, the normal equations will be solved using LU
-     * decomposition, otherwise it will be solved using QR decomposition
+     * decomposition, otherwise they will be solved using QR decomposition
      */
     public GaussNewtonOptimizer(final boolean useLU) {
         this.useLU = useLU;

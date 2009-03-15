@@ -303,8 +303,8 @@ public abstract class AbstractLeastSquaresOptimizer implements VectorialDifferen
 
         // store least squares problem characteristics
         this.f         = f;
-        this.target    = target;
-        this.weights   = weights;
+        this.target    = target.clone();
+        this.weights   = weights.clone();
         this.variables = startPoint.clone();
         this.residuals = new double[target.length];
 
@@ -320,6 +320,11 @@ public abstract class AbstractLeastSquaresOptimizer implements VectorialDifferen
     }
 
     /** Perform the bulk of optimization algorithm.
+     * @return the point/value pair giving the optimal value for objective function
+     * @exception ObjectiveException if the objective function throws one during
+     * the search
+     * @exception OptimizationException if the algorithm failed to converge
+     * @exception IllegalArgumentException if the start point dimension is wrong
      */
     abstract protected VectorialPointValuePair doOptimize()
     throws ObjectiveException, OptimizationException, IllegalArgumentException;

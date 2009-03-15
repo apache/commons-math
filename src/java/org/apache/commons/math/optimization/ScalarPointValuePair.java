@@ -56,7 +56,7 @@ public class ScalarPointValuePair implements Serializable {
      * it will be referenced
      */
     public ScalarPointValuePair(final double[] point, final double value,
-                          final boolean copyArray) {
+                                final boolean copyArray) {
         this.point = copyArray ? point.clone() : point;
         this.value  = value;
     }

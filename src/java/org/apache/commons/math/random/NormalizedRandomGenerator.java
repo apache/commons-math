@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.random;
 
+import java.io.Serializable;
+
 /** 
  * This interface represent a normalized random generator for
  * scalars.
@@ -24,7 +26,7 @@ package org.apache.commons.math.random;
  * @version $Revision$ $Date$
  * @since 1.2
  */
-public interface NormalizedRandomGenerator {
+public interface NormalizedRandomGenerator extends Serializable {
 
   /** Generate a random scalar with null mean and unit standard deviation.
    * <p>This method does <strong>not</strong> specify the shape of the

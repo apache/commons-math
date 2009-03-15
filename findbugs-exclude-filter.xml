@@ -55,12 +55,12 @@
 
   <!-- the following expositions of internal representation are intentional and documented -->
   <Match>
-    <Class name="org.apache.commons.math.optimization.PointValuePair"/>
+    <Class name="org.apache.commons.math.optimization.ScalarPointValuePair"/>
     <Method name="getPointRef" params="" returns="double[]" />
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math.optimization.PointValuePair"/>
+    <Class name="org.apache.commons.math.optimization.ScalarPointValuePair"/>
     <Method name="&lt;init>" params="double[],double,boolean" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>

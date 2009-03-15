@@ -78,7 +78,7 @@ public interface VectorialDifferentiableOptimizer extends Serializable {
     void setConvergenceChecker(VectorialConvergenceChecker checker);
 
     /** Get the convergence checker.
-     * @param checker object to use to check for convergence
+     * @return object used to check for convergence
      */
     VectorialConvergenceChecker getConvergenceChecker();
 

@@ -68,7 +68,7 @@ public interface ScalarDifferentiableOptimizer extends Serializable {
     void setConvergenceChecker(ScalarConvergenceChecker checker);
 
     /** Get the convergence checker.
-     * @param checker object to use to check for convergence
+     * @return object used to check for convergence
      */
     ScalarConvergenceChecker getConvergenceChecker();
 
