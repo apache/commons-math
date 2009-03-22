@@ -183,6 +183,7 @@ public abstract class AbstractLeastSquaresOptimizer implements VectorialDifferen
     protected void updateResidualsAndCost()
         throws ObjectiveException {
 
+        ++objectiveEvaluations;
         objective = f.objective(variables);
         if (objective.length != rows) {
             throw new ObjectiveException("dimension mismatch {0} != {1}",
