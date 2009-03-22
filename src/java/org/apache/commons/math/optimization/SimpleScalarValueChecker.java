@@ -31,7 +31,7 @@ import org.apache.commons.math.util.MathUtils;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class SimpleValueChecker implements ScalarConvergenceChecker {
+public class SimpleScalarValueChecker implements ScalarConvergenceChecker {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 2490271385513842607L;
@@ -50,7 +50,7 @@ public class SimpleValueChecker implements ScalarConvergenceChecker {
 
    /** Build an instance with default threshold.
      */
-    public SimpleValueChecker() {
+    public SimpleScalarValueChecker() {
         this.relativeThreshold = DEFAULT_RELATIVE_THRESHOLD;
         this.absoluteThreshold = DEFAULT_ABSOLUTE_THRESHOLD;
     }
@@ -64,7 +64,7 @@ public class SimpleValueChecker implements ScalarConvergenceChecker {
      * @param relativeThreshold relative tolerance threshold
      * @param absoluteThreshold absolute tolerance threshold
      */
-    public SimpleValueChecker(final double relativeThreshold,
+    public SimpleScalarValueChecker(final double relativeThreshold,
                                  final double absoluteThreshold) {
         this.relativeThreshold = relativeThreshold;
         this.absoluteThreshold = absoluteThreshold;
