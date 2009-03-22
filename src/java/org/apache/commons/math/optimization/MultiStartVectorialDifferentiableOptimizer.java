@@ -38,19 +38,22 @@ import org.apache.commons.math.random.RandomVectorGenerator;
 public class MultiStartVectorialDifferentiableOptimizer implements VectorialDifferentiableOptimizer {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -6671992853686531955L;
+    private static final long serialVersionUID = -9109278856437190136L;
 
     /** Underlying classical optimizer. */
     private final VectorialDifferentiableOptimizer optimizer;
+
+    /** Maximal number of iterations allowed. */
+    private int maxIterations;
+
+    /** Number of iterations already performed for all starts. */
+    private int totalIterations;
 
     /** Number of evaluations already performed for all starts. */
     private int totalEvaluations;
 
     /** Number of jacobian evaluations already performed for all starts. */
     private int totalJacobianEvaluations;
-
-    /** Maximal number of evaluations allowed. */
-    private int maxEvaluations;
 
     /** Number of starts to go. */
     private int starts;
@@ -73,9 +76,10 @@ public class MultiStartVectorialDifferentiableOptimizer implements VectorialDiff
                                                       final int starts,
                                                       final RandomVectorGenerator generator) {
         this.optimizer                = optimizer;
+        this.maxIterations            = Integer.MAX_VALUE;
+        this.totalIterations          = 0;
         this.totalEvaluations         = 0;
         this.totalJacobianEvaluations = 0;
-        this.maxEvaluations           = Integer.MAX_VALUE;
         this.starts                   = starts;
         this.generator                = generator;
         this.optima                   = null;
@@ -115,6 +119,21 @@ public class MultiStartVectorialDifferentiableOptimizer implements VectorialDiff
     }
 
     /** {@inheritDoc} */
+    public void setMaxIterations(int maxIterations) {
+        this.maxIterations = maxIterations;
+    }
+
+    /** {@inheritDoc} */
+    public int getMaxIterations() {
+        return maxIterations;
+    }
+
+    /** {@inheritDoc} */
+    public int getIterations() {
+        return totalIterations;
+    }
+
+    /** {@inheritDoc} */
     public int getEvaluations() {
         return totalEvaluations;
     }
@@ -122,16 +141,6 @@ public class MultiStartVectorialDifferentiableOptimizer implements VectorialDiff
     /** {@inheritDoc} */
     public int getJacobianEvaluations() {
         return totalJacobianEvaluations;
-    }
-
-    /** {@inheritDoc} */
-    public void setMaxEvaluations(int maxEvaluations) {
-        this.maxEvaluations = maxEvaluations;
-    }
-
-    /** {@inheritDoc} */
-    public int getMaxEvaluations() {
-        return maxEvaluations;
     }
 
     /** {@inheritDoc} */
@@ -150,15 +159,16 @@ public class MultiStartVectorialDifferentiableOptimizer implements VectorialDiff
                                             final double[] startPoint)
         throws ObjectiveException, OptimizationException, IllegalArgumentException {
 
-        optima = new VectorialPointValuePair[starts];
-        totalEvaluations = 0;
+        optima                   = new VectorialPointValuePair[starts];
+        totalIterations          = 0;
+        totalEvaluations         = 0;
         totalJacobianEvaluations = 0;
 
         // multi-start loop
         for (int i = 0; i < starts; ++i) {
 
             try {
-                optimizer.setMaxEvaluations(maxEvaluations - totalEvaluations);
+                optimizer.setMaxIterations(maxIterations - totalIterations);
                 optima[i] = optimizer.optimize(f, target, weights,
                                                (i == 0) ? startPoint : generator.nextVector());
             } catch (ObjectiveException obe) {
@@ -167,6 +177,7 @@ public class MultiStartVectorialDifferentiableOptimizer implements VectorialDiff
                 optima[i] = null;
             }
 
+            totalIterations          += optimizer.getIterations();
             totalEvaluations         += optimizer.getEvaluations();
             totalJacobianEvaluations += optimizer.getJacobianEvaluations();
 

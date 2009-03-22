@@ -17,6 +17,7 @@
 
 package org.apache.commons.math.optimization.general;
 
+import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.linear.InvalidMatrixException;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
@@ -40,19 +41,22 @@ import org.apache.commons.math.optimization.VectorialPointValuePair;
 public abstract class AbstractLeastSquaresOptimizer implements VectorialDifferentiableOptimizer {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = -3080152374642370722L;
+    private static final long serialVersionUID = 5413193243329026789L;
 
-    /** Default maximal number of objective function evaluations allowed. */
-    public static final int DEFAULT_MAX_EVALUATIONS = 100;
+    /** Default maximal number of iterations allowed. */
+    public static final int DEFAULT_MAX_ITERATIONS = 100;
 
-    /** Number of evaluations already performed for the current start. */
+    /** Maximal number of iterations allowed. */
+    private int maxIterations;
+
+    /** Number of iterations already performed. */
+    private int iterations;
+
+    /** Number of evaluations already performed. */
     private int objectiveEvaluations;
 
     /** Number of jacobian evaluations. */
     private int jacobianEvaluations;
-
-    /** Maximal number of evaluations allowed. */
-    private int maxEvaluations;
 
     /** Convergence checker. */
     protected VectorialConvergenceChecker checker;
@@ -99,17 +103,22 @@ public abstract class AbstractLeastSquaresOptimizer implements VectorialDifferen
      */
     protected AbstractLeastSquaresOptimizer() {
         setConvergenceChecker(new SimpleVectorialValueChecker());
-        setMaxEvaluations(DEFAULT_MAX_EVALUATIONS);
+        setMaxIterations(DEFAULT_MAX_ITERATIONS);
     }
 
     /** {@inheritDoc} */
-    public void setMaxEvaluations(int maxEvaluations) {
-        this.maxEvaluations = maxEvaluations;
+    public void setMaxIterations(int maxIterations) {
+        this.maxIterations = maxIterations;
     }
 
     /** {@inheritDoc} */
-    public int getMaxEvaluations() {
-        return maxEvaluations;
+    public int getMaxIterations() {
+        return maxIterations;
+    }
+
+    /** {@inheritDoc} */
+    public int getIterations() {
+        return iterations;
     }
 
     /** {@inheritDoc} */
@@ -132,13 +141,26 @@ public abstract class AbstractLeastSquaresOptimizer implements VectorialDifferen
         return checker;
     }
 
+    /** Increment the iterations counter by 1.
+     * @exception OptimizationException if the maximal number
+     * of iterations is exceeded
+     */
+    protected void incrementIterationsCounter()
+        throws OptimizationException {
+        if (++iterations > maxIterations) {
+            if (++iterations > maxIterations) {
+                throw new OptimizationException(new MaxIterationsExceededException(maxIterations));
+            }
+        }
+    }
+
     /** 
      * Update the jacobian matrix.
      * @exception ObjectiveException if the function jacobian
      * cannot be evaluated or its dimension doesn't match problem dimension
      */
     protected void updateJacobian() throws ObjectiveException {
-        incrementJacobianEvaluationsCounter();
+        ++jacobianEvaluations;
         jacobian = f.jacobian(variables, objective);
         if (jacobian.length != rows) {
             throw new ObjectiveException("dimension mismatch {0} != {1}",
@@ -153,28 +175,13 @@ public abstract class AbstractLeastSquaresOptimizer implements VectorialDifferen
         }
     }
 
-    /**
-     * Increment the jacobian evaluations counter.
-     */
-    protected final void incrementJacobianEvaluationsCounter() {
-        ++jacobianEvaluations;
-    }
-
     /** 
      * Update the residuals array and cost function value.
      * @exception ObjectiveException if the function cannot be evaluated
      * or its dimension doesn't match problem dimension
-     * @exception OptimizationException if the number of cost evaluations
-     * exceeds the maximum allowed
      */
     protected void updateResidualsAndCost()
-        throws ObjectiveException, OptimizationException {
-
-        if (++objectiveEvaluations > maxEvaluations) {
-            throw new OptimizationException(
-                    "maximal number of evaluations exceeded ({0})",
-                    objectiveEvaluations);
-        }
+        throws ObjectiveException {
 
         objective = f.objective(variables);
         if (objective.length != rows) {
@@ -298,6 +305,7 @@ public abstract class AbstractLeastSquaresOptimizer implements VectorialDifferen
         }
 
         // reset counters
+        iterations           = 0;
         objectiveEvaluations = 0;
         jacobianEvaluations  = 0;
 
@@ -327,6 +335,6 @@ public abstract class AbstractLeastSquaresOptimizer implements VectorialDifferen
      * @exception IllegalArgumentException if the start point dimension is wrong
      */
     abstract protected VectorialPointValuePair doOptimize()
-    throws ObjectiveException, OptimizationException, IllegalArgumentException;
+        throws ObjectiveException, OptimizationException, IllegalArgumentException;
 
 }

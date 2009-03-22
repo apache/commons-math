@@ -106,7 +106,7 @@ extends TestCase {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 2 } }, new double[] { 3 });
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxEvaluations(100);
+        optimizer.setMaxIterations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         VectorialPointValuePair optimum =
             optimizer.optimize(problem, problem.target, new double[] { 1 }, new double[] { 0 });
@@ -122,7 +122,7 @@ extends TestCase {
                               new double[] { 4.0, 6.0, 1.0 });
 
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxEvaluations(100);
+        optimizer.setMaxIterations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         VectorialPointValuePair optimum =
             optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0 });
@@ -145,7 +145,7 @@ extends TestCase {
                 { 0, 0, 0, 0, 0, 2 }
         }, new double[] { 0.0, 1.1, 2.2, 3.3, 4.4, 5.5 });
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxEvaluations(100);
+        optimizer.setMaxIterations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         VectorialPointValuePair optimum =
             optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1, 1, 1, 1 },
@@ -164,7 +164,7 @@ extends TestCase {
                 {  0, -1, 1 }
         }, new double[] { 1, 1, 1});
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxEvaluations(100);
+        optimizer.setMaxIterations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         VectorialPointValuePair optimum =
             optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0, 0 });
@@ -187,7 +187,7 @@ extends TestCase {
         }, new double[] { 2, -9, 2, 2, 1 + epsilon * epsilon, 2});
 
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxEvaluations(100);
+        optimizer.setMaxIterations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         VectorialPointValuePair optimum =
             optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1, 1, 1, 1 },
@@ -210,7 +210,7 @@ extends TestCase {
                 { -3, 0, -9 }
         }, new double[] { 1, 1, 1 });
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxEvaluations(100);
+        optimizer.setMaxIterations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         try {
             optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0, 0 });
@@ -230,7 +230,7 @@ extends TestCase {
                 {  7.0, 5.0,  9.0, 10.0 }
         }, new double[] { 32, 23, 33, 31 });
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxEvaluations(100);
+        optimizer.setMaxIterations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         VectorialPointValuePair optimum1 =
             optimizer.optimize(problem1, problem1.target, new double[] { 1, 1, 1, 1 },
@@ -267,7 +267,7 @@ extends TestCase {
         }, new double[] { 7.0, 3.0, 5.0 });
 
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxEvaluations(100);
+        optimizer.setMaxIterations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         try {
             optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1 },
@@ -290,7 +290,7 @@ extends TestCase {
                  { 0.0, 0.0,  0.0, -1.0, 1.0,  0.0 }
         }, new double[] { 3.0, 12.0, -1.0, 7.0, 1.0 });
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxEvaluations(100);
+        optimizer.setMaxIterations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         try {
             optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1, 1, 1 },
@@ -311,7 +311,7 @@ extends TestCase {
         }, new double[] { 3.0, 1.0, 5.0 });
 
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxEvaluations(100);
+        optimizer.setMaxIterations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         VectorialPointValuePair optimum =
             optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1 },
@@ -330,7 +330,7 @@ extends TestCase {
         }, new double[] { 3.0, 1.0, 4.0 });
 
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxEvaluations(100);
+        optimizer.setMaxIterations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 1, 1 });
         assertTrue(optimizer.getRMS() > 0.1);
@@ -341,7 +341,7 @@ extends TestCase {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 1, 0 }, { 0, 1 } }, new double[] { -1, 1 });
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxEvaluations(100);
+        optimizer.setMaxIterations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
 
         VectorialPointValuePair optimum =
@@ -382,7 +382,7 @@ extends TestCase {
         circle.addPoint( 35.0,  15.0);
         circle.addPoint( 45.0,  97.0);
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxEvaluations(100);
+        optimizer.setMaxIterations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-15, 1.0e-15));
         try {
             optimizer.optimize(circle, new double[] { 0, 0, 0, 0, 0 },
@@ -404,7 +404,7 @@ extends TestCase {
         circle.addPoint( 35.0,  15.0);
         circle.addPoint( 45.0,  97.0);
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxEvaluations(100);
+        optimizer.setMaxIterations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-13, 1.0e-13));
         VectorialPointValuePair optimum =
             optimizer.optimize(circle, new double[] { 0, 0, 0, 0, 0 },
@@ -458,7 +458,7 @@ extends TestCase {
             circle.addPoint(points[i][0], points[i][1]);
         }
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxEvaluations(100);
+        optimizer.setMaxIterations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         try {
             optimizer.optimize(circle, target, weights, new double[] { -12, -12 });

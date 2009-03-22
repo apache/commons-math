@@ -62,8 +62,9 @@ public class MultiDirectional extends DirectSearchOptimizer {
     protected void iterateSimplex(final Comparator<ScalarPointValuePair> comparator)
         throws ObjectiveException, OptimizationException, IllegalArgumentException {
 
-        final int max = getMaxEvaluations();
-        while (getEvaluations() < max) {
+        while (true) {
+
+            incrementIterationsCounter();
 
             // save the original vertex
             final ScalarPointValuePair[] original = simplex;
@@ -93,10 +94,6 @@ public class MultiDirectional extends DirectSearchOptimizer {
             }
 
         }
-
-        throw new OptimizationException(
-                "maximal number of evaluations exceeded ({0})",
-                getEvaluations());
 
     }
 

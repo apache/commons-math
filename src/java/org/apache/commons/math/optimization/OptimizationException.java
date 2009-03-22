@@ -30,7 +30,7 @@ import org.apache.commons.math.ConvergenceException;
 public class OptimizationException extends ConvergenceException {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -781139167958631145L;
+    private static final long serialVersionUID = -357696069587075016L;
 
     /** 
      * Simple constructor.
@@ -40,6 +40,14 @@ public class OptimizationException extends ConvergenceException {
      */
     public OptimizationException(String specifier, Object ... parts) {
         super(specifier, parts);
+    }
+
+    /**
+     * Create an exception with a given root cause.
+     * @param cause  the exception or error that caused this exception to be thrown
+     */
+    public OptimizationException(Throwable cause) {
+        super(cause);
     }
 
 }

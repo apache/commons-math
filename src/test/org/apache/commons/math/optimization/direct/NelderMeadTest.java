@@ -27,7 +27,7 @@ import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.ObjectiveException;
 import org.apache.commons.math.optimization.ScalarObjectiveFunction;
 import org.apache.commons.math.optimization.ScalarPointValuePair;
-import org.apache.commons.math.optimization.SimpleValueChecker;
+import org.apache.commons.math.optimization.SimpleScalarValueChecker;
 
 public class NelderMeadTest
   extends TestCase {
@@ -94,8 +94,8 @@ public class NelderMeadTest
       };
 
       NelderMead optimizer = new NelderMead();
-      optimizer.setConvergenceChecker(new SimpleValueChecker(1.0e-10, 1.0e-30));
-      optimizer.setMaxEvaluations(100);
+      optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1.0e-10, 1.0e-30));
+      optimizer.setMaxIterations(100);
       optimizer.setStartConfiguration(new double[] { 0.2, 0.2 });
       ScalarPointValuePair optimum;
 
@@ -147,8 +147,8 @@ public class NelderMeadTest
 
     count = 0;
     NelderMead optimizer = new NelderMead();
-    optimizer.setConvergenceChecker(new SimpleValueChecker(-1, 1.0e-3));
-    optimizer.setMaxEvaluations(100);
+    optimizer.setConvergenceChecker(new SimpleScalarValueChecker(-1, 1.0e-3));
+    optimizer.setMaxIterations(100);
     optimizer.setStartConfiguration(new double[][] {
             { -1.2,  1.0 }, { 0.9, 1.2 } , {  3.5, -2.3 }
     });
@@ -180,8 +180,8 @@ public class NelderMeadTest
 
     count = 0;
     NelderMead optimizer = new NelderMead();
-    optimizer.setConvergenceChecker(new SimpleValueChecker(-1.0, 1.0e-3));
-    optimizer.setMaxEvaluations(200);
+    optimizer.setConvergenceChecker(new SimpleScalarValueChecker(-1.0, 1.0e-3));
+    optimizer.setMaxIterations(200);
     ScalarPointValuePair optimum =
       optimizer.optimize(powell, GoalType.MINIMIZE, new double[] { 3.0, -1.0, 0.0, 1.0 });
     assertEquals(count, optimizer.getEvaluations());

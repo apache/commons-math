@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.optimization.ScalarConvergenceChecker;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.ObjectiveException;
@@ -28,7 +29,7 @@ import org.apache.commons.math.optimization.ScalarObjectiveFunction;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.ScalarOptimizer;
 import org.apache.commons.math.optimization.ScalarPointValuePair;
-import org.apache.commons.math.optimization.SimpleValueChecker;
+import org.apache.commons.math.optimization.SimpleScalarValueChecker;
 
 /** 
  * This class implements simplex-based direct search optimization
@@ -65,7 +66,7 @@ import org.apache.commons.math.optimization.SimpleValueChecker;
  * will occur.</p>
  *
  * <p>If {@link #setConvergenceChecker(ScalarConvergenceChecker)} is not called,
- * a default {@link SimpleValueChecker} is used.</p>
+ * a default {@link SimpleScalarValueChecker} is used.</p>
  *
  * <p>Convergence is checked by providing the <em>worst</em> points of
  * previous and current simplex to the convergence checker, not the best ones.</p>
@@ -95,11 +96,14 @@ public abstract class DirectSearchOptimizer implements ScalarOptimizer {
     /** Convergence checker. */
     private ScalarConvergenceChecker checker;
 
-    /** Number of evaluations already performed for the current start. */
-    private int evaluations;
+    /** Maximal number of iterations allowed. */
+    private int maxIterations;
 
-    /** Maximal number of evaluations allowed. */
-    private int maxEvaluations;
+    /** Number of iterations already performed. */
+    private int iterations;
+
+    /** Number of evaluations already performed. */
+    private int evaluations;
 
     /** Start simplex configuration. */
     private double[][] startConfiguration;
@@ -107,8 +111,8 @@ public abstract class DirectSearchOptimizer implements ScalarOptimizer {
     /** Simple constructor.
      */
     protected DirectSearchOptimizer() {
-        setConvergenceChecker(new SimpleValueChecker());
-        setMaxEvaluations(Integer.MAX_VALUE);
+        setConvergenceChecker(new SimpleScalarValueChecker());
+        setMaxIterations(Integer.MAX_VALUE);
     }
 
     /** Set start configuration for simplex.
@@ -208,13 +212,23 @@ public abstract class DirectSearchOptimizer implements ScalarOptimizer {
     }
 
     /** {@inheritDoc} */
-    public void setMaxEvaluations(int maxEvaluations) {
-        this.maxEvaluations = maxEvaluations;
+    public void setMaxIterations(int maxIterations) {
+        this.maxIterations = maxIterations;
     }
 
     /** {@inheritDoc} */
-    public int getMaxEvaluations() {
-        return maxEvaluations;
+    public int getMaxIterations() {
+        return maxIterations;
+    }
+
+    /** {@inheritDoc} */
+    public int getIterations() {
+        return iterations;
+    }
+
+    /** {@inheritDoc} */
+    public int getEvaluations() {
+        return evaluations;
     }
 
     /** {@inheritDoc} */
@@ -229,7 +243,7 @@ public abstract class DirectSearchOptimizer implements ScalarOptimizer {
 
     /** {@inheritDoc} */
     public ScalarPointValuePair optimize(final ScalarObjectiveFunction f, final GoalType goalType,
-                                   final double[] startPoint)
+                                         final double[] startPoint)
         throws ObjectiveException, OptimizationException, IllegalArgumentException {
 
         if (startConfiguration == null) {
@@ -251,15 +265,15 @@ public abstract class DirectSearchOptimizer implements ScalarOptimizer {
         };
 
         // initialize search
+        iterations  = 0;
         evaluations = 0;
         buildSimplex(startPoint);
         evaluateSimplex(comparator);
 
         ScalarPointValuePair[] previous = new ScalarPointValuePair[simplex.length];
-        int iterations = 0;
-        while (evaluations <= maxEvaluations) {
+        while (true) {
 
-            if (++iterations > 1) {
+            if (iterations > 0) {
                 boolean converged = true;
                 for (int i = 0; i < simplex.length; ++i) {
                     converged &= checker.converged(iterations, previous[i], simplex[i]);
@@ -276,22 +290,24 @@ public abstract class DirectSearchOptimizer implements ScalarOptimizer {
 
         }
 
-        throw new OptimizationException(
-                "maximal number of evaluations exceeded ({0})",
-                evaluations);
-
     }
 
-    /** {@inheritDoc} */
-    public int getEvaluations() {
-        return evaluations;
+    /** Increment the iterations counter by 1.
+     * @exception OptimizationException if the maximal number
+     * of iterations is exceeded
+     */
+    protected void incrementIterationsCounter()
+        throws OptimizationException {
+        if (++iterations > maxIterations) {
+            throw new OptimizationException(new MaxIterationsExceededException(maxIterations));
+        }
     }
 
     /** Compute the next simplex of the algorithm.
      * @param comparator comparator to use to sort simplex vertices from best to worst
      * @exception ObjectiveException if the function cannot be evaluated at
      * some point
-     * @exception OptimizationException if the algorithm failed to converge
+     * @exception OptimizationException if the algorithm fails to converge
      * @exception IllegalArgumentException if the start point dimension is wrong
      */
     protected abstract void iterateSimplex(final Comparator<ScalarPointValuePair> comparator)

@@ -38,16 +38,22 @@ import org.apache.commons.math.random.RandomVectorGenerator;
 public class MultiStartScalarDifferentiableOptimizer implements ScalarDifferentiableOptimizer {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 9008747186334431824L;
+    private static final long serialVersionUID = 6185821146433609962L;
 
     /** Underlying classical optimizer. */
     private final ScalarDifferentiableOptimizer optimizer;
 
+    /** Maximal number of iterations allowed. */
+    private int maxIterations;
+
+    /** Number of iterations already performed for all starts. */
+    private int totalIterations;
+
     /** Number of evaluations already performed for all starts. */
     private int totalEvaluations;
 
-    /** Maximal number of evaluations allowed. */
-    private int maxEvaluations;
+    /** Number of gradient evaluations already performed for all starts. */
+    private int totalGradientEvaluations;
 
     /** Number of starts to go. */
     private int starts;
@@ -69,12 +75,14 @@ public class MultiStartScalarDifferentiableOptimizer implements ScalarDifferenti
     public MultiStartScalarDifferentiableOptimizer(final ScalarDifferentiableOptimizer optimizer,
                                                    final int starts,
                                                    final RandomVectorGenerator generator) {
-        this.optimizer        = optimizer;
-        this.totalEvaluations = 0;
-        this.maxEvaluations   = Integer.MAX_VALUE;
-        this.starts           = starts;
-        this.generator        = generator;
-        this.optima           = null;
+        this.optimizer                = optimizer;
+        this.maxIterations            = Integer.MAX_VALUE;
+        this.totalIterations          = 0;
+        this.totalEvaluations         = 0;
+        this.totalGradientEvaluations = 0;
+        this.starts                   = starts;
+        this.generator                = generator;
+        this.optima                   = null;
     }
 
     /** Get all the optima found during the last call to {@link
@@ -111,18 +119,28 @@ public class MultiStartScalarDifferentiableOptimizer implements ScalarDifferenti
     }
 
     /** {@inheritDoc} */
+    public void setMaxIterations(int maxIterations) {
+        this.maxIterations = maxIterations;
+    }
+
+    /** {@inheritDoc} */
+    public int getMaxIterations() {
+        return maxIterations;
+    }
+
+    /** {@inheritDoc} */
+    public int getIterations() {
+        return totalIterations;
+    }
+
+    /** {@inheritDoc} */
     public int getEvaluations() {
         return totalEvaluations;
     }
 
     /** {@inheritDoc} */
-    public void setMaxEvaluations(int maxEvaluations) {
-        this.maxEvaluations = maxEvaluations;
-    }
-
-    /** {@inheritDoc} */
-    public int getMaxEvaluations() {
-        return maxEvaluations;
+    public int getGradientEvaluations() {
+        return totalGradientEvaluations;
     }
 
     /** {@inheritDoc} */
@@ -141,14 +159,16 @@ public class MultiStartScalarDifferentiableOptimizer implements ScalarDifferenti
                                          double[] startPoint)
         throws ObjectiveException, OptimizationException {
 
-        optima = new ScalarPointValuePair[starts];
-        totalEvaluations = 0;
+        optima                   = new ScalarPointValuePair[starts];
+        totalIterations          = 0;
+        totalEvaluations         = 0;
+        totalGradientEvaluations = 0;
 
         // multi-start loop
         for (int i = 0; i < starts; ++i) {
 
             try {
-                optimizer.setMaxEvaluations(maxEvaluations - totalEvaluations);
+                optimizer.setMaxIterations(maxIterations - totalIterations);
                 optima[i] = optimizer.optimize(f, goalType,
                                                (i == 0) ? startPoint : generator.nextVector());
             } catch (ObjectiveException obe) {
@@ -157,7 +177,9 @@ public class MultiStartScalarDifferentiableOptimizer implements ScalarDifferenti
                 optima[i] = null;
             }
 
-            totalEvaluations += optimizer.getEvaluations();
+            totalIterations          += optimizer.getIterations();
+            totalEvaluations         += optimizer.getEvaluations();
+            totalGradientEvaluations += optimizer.getGradientEvaluations();
 
         }
 

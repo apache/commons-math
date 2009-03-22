@@ -146,7 +146,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
      * <p>The default values for the algorithm settings are:
      *   <ul>
      *    <li>{@link #setInitialStepBoundFactor initial step bound factor}: 100.0</li>
-     *    <li>{@link #setMaxCostEval maximal cost evaluations}: 1000</li>
+     *    <li>{@link #setMaxIterations maximal iterations}: 1000</li>
      *    <li>{@link #setCostRelativeTolerance cost relative tolerance}: 1.0e-10</li>
      *    <li>{@link #setParRelativeTolerance parameters relative tolerance}: 1.0e-10</li>
      *    <li>{@link #setOrthoTolerance orthogonality tolerance}: 1.0e-10</li>
@@ -156,7 +156,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
     public LevenbergMarquardtOptimizer() {
 
         // set up the superclass with a default  max cost evaluations setting
-        setMaxEvaluations(1000);
+        setMaxIterations(1000);
 
         // default values for the tuning parameters
         setInitialStepBoundFactor(100.0);
@@ -236,6 +236,8 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
         lmPar = 0;
         boolean firstIteration = true;
         while (true) {
+
+            incrementIterationsCounter();
 
             // compute the Q.R. decomposition of the jacobian matrix
             updateJacobian();

@@ -118,8 +118,7 @@ public class MessagesResources_fr
     { "equals vertices {0} and {1} in simplex configuration",
       "sommets {0} et {1} \u00e9gaux dans la configuration du simplex" },
 
-    // org.apache.commons.math.optimization.direct.DirectSearchOptimizer
-    // org.apache.commons.math.optimization.general.AbstractLeastSquaresOptimizer
+    // org.apache.commons.math.estimation.AbstractEstimation
     { "maximal number of evaluations exceeded ({0})",
       "nombre maximal d''\u00e9valuations d\u00e9pass\u00e9 ({0})" },
 

@@ -53,7 +53,7 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
     /** Simple constructor with default settings.
      * <p>The convergence check is set to a {@link SimpleVectorialValueChecker}
      * and the maximal number of evaluation is set to
-     * {@link AbstractLeastSquaresOptimizer#DEFAULT_MAX_EVALUATIONS}.
+     * {@link AbstractLeastSquaresOptimizer#DEFAULT_MAX_ITERATIONS}.
      * @param useLU if true, the normal equations will be solved using LU
      * decomposition, otherwise they will be solved using QR decomposition
      */
@@ -67,8 +67,9 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
 
         // iterate until convergence is reached
         VectorialPointValuePair current = null;
-        boolean converged = false;
-        for (int iteration = 1; ! converged; ++iteration) {
+        for (boolean converged = false; !converged;) {
+
+            incrementIterationsCounter();
 
             // evaluate the objective function and its jacobian
             VectorialPointValuePair previous = current;
@@ -122,7 +123,7 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
 
             // check convergence
             if (previous != null) {
-                converged = checker.converged(++iteration, previous, current);
+                converged = checker.converged(getIterations(), previous, current);
             }
 
         }

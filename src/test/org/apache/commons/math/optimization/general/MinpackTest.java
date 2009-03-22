@@ -219,7 +219,7 @@ public class MinpackTest extends TestCase {
                                              0.188053165007911,
                                              0.122430604321144,
                                              0.134575665392506
-                                           }), true);
+                                           }), false);
   }
     
   public void testMinpackMeyer()
@@ -505,7 +505,7 @@ public class MinpackTest extends TestCase {
 
   private void minpackTest(MinpackFunction function, boolean exceptionExpected) {
       LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
-      optimizer.setMaxEvaluations(100 * (function.getN() + 1));
+      optimizer.setMaxIterations(100 * (function.getN() + 1));
       optimizer.setCostRelativeTolerance(Math.sqrt(2.22044604926e-16));
       optimizer.setParRelativeTolerance(Math.sqrt(2.22044604926e-16));
       optimizer.setOrthoTolerance(2.22044604926e-16);

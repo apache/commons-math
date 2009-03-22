@@ -20,6 +20,7 @@ package org.apache.commons.math.optimization.direct;
 import java.util.Comparator;
 
 import org.apache.commons.math.optimization.ObjectiveException;
+import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.ScalarPointValuePair;
 
 /** 
@@ -73,7 +74,9 @@ public class NelderMead extends DirectSearchOptimizer {
 
     /** {@inheritDoc} */
     protected void iterateSimplex(final Comparator<ScalarPointValuePair> comparator)
-        throws ObjectiveException {
+        throws ObjectiveException, OptimizationException {
+
+        incrementIterationsCounter();
 
         // the simplex has n+1 point if dimension is n
         final int n = simplex.length - 1;

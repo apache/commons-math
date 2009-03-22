@@ -29,38 +29,45 @@ import java.io.Serializable;
  */
 public interface ScalarDifferentiableOptimizer extends Serializable {
 
-    /** Set the maximal number of objective function calls.
-     * <p>
-     * The number of objective function calls may be checked <em>after</em> a few
-     * related calls have been made. This implies that in some cases this number may
-     * be exceeded by a few units, depending on the dimension of the problem and kind
-     * of optimizer.
-     * </p>
-     * @param maxEvaluations maximal number of function calls
-     * .
+    /** Set the maximal number of iterations of the algorithm.
+     * @param maxIterations maximal number of function calls
      */
-    void setMaxEvaluations(int maxEvaluations);
+    void setMaxIterations(int maxIterations);
 
-    /** Get the maximal number of objective function calls.
-     * <p>
-     * The number of objective function calls may be checked <em>after</em> a few
-     * related calls have been made. This implies that in some cases this number may
-     * be exceeded by a few units, depending on the dimension of the problem and kind
-     * of optimizer.
-     * </p>
-      * @return maximal number of function calls
+    /** Get the maximal number of iterations of the algorithm.
+     * @return maximal number of iterations
      */
-    int getMaxEvaluations();
+    int getMaxIterations();
+
+    /** Get the number of iterations realized by the algorithm.
+     * <p>
+     * The number of evaluations corresponds to the last call to the
+     * {@link #optimize(ScalarDifferentiableObjectiveFunction, GoalType, double[]) optimize}
+     * method. It is 0 if the method has not been called yet.
+     * </p>
+     * @return number of iterations
+     */
+    int getIterations();
 
     /** Get the number of evaluations of the objective function.
      * <p>
-     * The number of evaluation correspond to the last call to the
-     * {@link #optimize(ScalarObjectiveFunction, GoalType, double[]) optimize}
+     * The number of evaluations corresponds to the last call to the
+     * {@link #optimize(ScalarDifferentiableObjectiveFunction, GoalType, double[]) optimize}
      * method. It is 0 if the method has not been called yet.
      * </p>
      * @return number of evaluations of the objective function
      */
-   int getEvaluations();
+    int getEvaluations();
+
+    /** Get the number of evaluations of the objective function gradient.
+     * <p>
+     * The number of evaluations corresponds to the last call to the
+     * {@link #optimize(ScalarDifferentiableObjectiveFunction, GoalType, double[]) optimize}
+     * method. It is 0 if the method has not been called yet.
+     * </p>
+     * @return number of evaluations of the objective function gradient
+     */
+    int getGradientEvaluations();
 
     /** Set the convergence checker.
      * @param checker object to use to check for convergence

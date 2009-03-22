@@ -38,16 +38,19 @@ import org.apache.commons.math.random.RandomVectorGenerator;
 public class MultiStartScalarOptimizer implements ScalarOptimizer {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 6648351778723282863L;
+    private static final long serialVersionUID = -7333253288301713047L;
 
     /** Underlying classical optimizer. */
     private final ScalarOptimizer optimizer;
 
+    /** Maximal number of iterations allowed. */
+    private int maxIterations;
+
+    /** Number of iterations already performed for all starts. */
+    private int totalIterations;
+
     /** Number of evaluations already performed for all starts. */
     private int totalEvaluations;
-
-    /** Maximal number of evaluations allowed. */
-    private int maxEvaluations;
 
     /** Number of starts to go. */
     private int starts;
@@ -69,8 +72,9 @@ public class MultiStartScalarOptimizer implements ScalarOptimizer {
     public MultiStartScalarOptimizer(final ScalarOptimizer optimizer, final int starts,
                                      final RandomVectorGenerator generator) {
         this.optimizer        = optimizer;
+        this.maxIterations    = Integer.MAX_VALUE;
+        this.totalIterations  = 0;
         this.totalEvaluations = 0;
-        this.maxEvaluations   = Integer.MAX_VALUE;
         this.starts           = starts;
         this.generator        = generator;
         this.optima           = null;
@@ -110,18 +114,23 @@ public class MultiStartScalarOptimizer implements ScalarOptimizer {
     }
 
     /** {@inheritDoc} */
+    public void setMaxIterations(int maxIterations) {
+        this.maxIterations = maxIterations;
+    }
+
+    /** {@inheritDoc} */
+    public int getMaxIterations() {
+        return maxIterations;
+    }
+
+    /** {@inheritDoc} */
+    public int getIterations() {
+        return totalIterations;
+    }
+
+    /** {@inheritDoc} */
     public int getEvaluations() {
         return totalEvaluations;
-    }
-
-    /** {@inheritDoc} */
-    public void setMaxEvaluations(int maxEvaluations) {
-        this.maxEvaluations = maxEvaluations;
-    }
-
-    /** {@inheritDoc} */
-    public int getMaxEvaluations() {
-        return maxEvaluations;
     }
 
     /** {@inheritDoc} */
@@ -140,14 +149,15 @@ public class MultiStartScalarOptimizer implements ScalarOptimizer {
                                          double[] startPoint)
         throws ObjectiveException, OptimizationException {
 
-        optima = new ScalarPointValuePair[starts];
+        optima           = new ScalarPointValuePair[starts];
+        totalIterations  = 0;
         totalEvaluations = 0;
 
         // multi-start loop
         for (int i = 0; i < starts; ++i) {
 
             try {
-                optimizer.setMaxEvaluations(maxEvaluations - totalEvaluations);
+                optimizer.setMaxIterations(maxIterations - totalIterations);
                 optima[i] = optimizer.optimize(f, goalType,
                                                (i == 0) ? startPoint : generator.nextVector());
             } catch (ObjectiveException obe) {
@@ -156,6 +166,7 @@ public class MultiStartScalarOptimizer implements ScalarOptimizer {
                 optima[i] = null;
             }
 
+            totalIterations  += optimizer.getIterations();
             totalEvaluations += optimizer.getEvaluations();
 
         }

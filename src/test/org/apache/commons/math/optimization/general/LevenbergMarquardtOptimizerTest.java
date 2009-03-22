@@ -379,7 +379,7 @@ public class LevenbergMarquardtOptimizerTest
         try {
             LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
             optimizer.setInitialStepBoundFactor(initialStepBoundFactor);
-            optimizer.setMaxEvaluations(maxCostEval);
+            optimizer.setMaxIterations(maxCostEval);
             optimizer.setCostRelativeTolerance(costRelativeTolerance);
             optimizer.setParRelativeTolerance(parRelativeTolerance);
             optimizer.setOrthoTolerance(orthoTolerance);
