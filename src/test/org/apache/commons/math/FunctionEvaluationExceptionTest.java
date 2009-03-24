@@ -31,11 +31,22 @@ public class FunctionEvaluationExceptionTest extends TestCase {
         assertNull(ex.getCause());
         assertNotNull(ex.getMessage());
         assertTrue(ex.getMessage().indexOf("0") > 0);
-        assertEquals(0.0, ex.getArgument(), 0);
+        assertEquals(0.0, ex.getArgument()[0], 0);
+    }
+    
+    public void testConstructorArray(){
+        FunctionEvaluationException ex =
+            new FunctionEvaluationException(new double[] { 0, 1, 2 });
+        assertNull(ex.getCause());
+        assertNotNull(ex.getMessage());
+        assertTrue(ex.getMessage().indexOf("0") > 0);
+        assertEquals(0.0, ex.getArgument()[0], 0);
+        assertEquals(1.0, ex.getArgument()[1], 0);
+        assertEquals(2.0, ex.getArgument()[2], 0);
     }
     
     public void testConstructorPatternArguments(){
-        String pattern = "Evaluation failed for argument = {0}";
+        String pattern = "evaluation failed for argument = {0}";
         Object[] arguments = { Double.valueOf(0.0) };
         FunctionEvaluationException ex = new FunctionEvaluationException(0.0, pattern, arguments);
         assertNull(ex.getCause());
@@ -48,8 +59,26 @@ public class FunctionEvaluationExceptionTest extends TestCase {
         assertFalse(ex.getMessage().equals(ex.getMessage(Locale.FRENCH)));
     }
 
+    public void testConstructorArrayPatternArguments(){
+        String pattern = "evaluation failed for argument = {0}";
+        Object[] arguments = { Double.valueOf(0.0) };
+        FunctionEvaluationException ex =
+            new FunctionEvaluationException(new double[] { 0, 1, 2 }, pattern, arguments);
+        assertNull(ex.getCause());
+        assertEquals(pattern, ex.getPattern());
+        assertEquals(arguments.length, ex.getArguments().length);
+        for (int i = 0; i < arguments.length; ++i) {
+            assertEquals(arguments[i], ex.getArguments()[i]);
+        }
+        assertFalse(pattern.equals(ex.getMessage()));
+        assertFalse(ex.getMessage().equals(ex.getMessage(Locale.FRENCH)));
+        assertEquals(0.0, ex.getArgument()[0], 0);
+        assertEquals(1.0, ex.getArgument()[1], 0);
+        assertEquals(2.0, ex.getArgument()[2], 0);
+    }
+
     public void testConstructorPatternArgumentsCause(){
-        String pattern = "Evaluation failed for argument = {0}";
+        String pattern = "evaluation failed for argument = {0}";
         Object[] arguments = { Double.valueOf(0.0) };
         String inMsg = "inner message";
         Exception cause = new Exception(inMsg);
@@ -64,12 +93,44 @@ public class FunctionEvaluationExceptionTest extends TestCase {
         assertFalse(ex.getMessage().equals(ex.getMessage(Locale.FRENCH)));
     }
 
+    public void testConstructorArrayPatternArgumentsCause(){
+        String pattern = "evaluation failed for argument = {0}";
+        Object[] arguments = { Double.valueOf(0.0) };
+        String inMsg = "inner message";
+        Exception cause = new Exception(inMsg);
+        FunctionEvaluationException ex =
+            new FunctionEvaluationException(cause, new double[] { 0, 1, 2 }, pattern, arguments);
+        assertEquals(cause, ex.getCause());
+        assertEquals(pattern, ex.getPattern());
+        assertEquals(arguments.length, ex.getArguments().length);
+        for (int i = 0; i < arguments.length; ++i) {
+            assertEquals(arguments[i], ex.getArguments()[i]);
+        }
+        assertFalse(pattern.equals(ex.getMessage()));
+        assertFalse(ex.getMessage().equals(ex.getMessage(Locale.FRENCH)));
+        assertEquals(0.0, ex.getArgument()[0], 0);
+        assertEquals(1.0, ex.getArgument()[1], 0);
+        assertEquals(2.0, ex.getArgument()[2], 0);
+    }
+
     public void testConstructorArgumentCause(){
         String inMsg = "inner message";
         Exception cause = new Exception(inMsg);
         FunctionEvaluationException ex = new FunctionEvaluationException(cause, 0.0);
         assertEquals(cause, ex.getCause());
         assertTrue(ex.getMessage().equals(ex.getMessage(Locale.FRENCH)));
+    }
+
+    public void testConstructorArrayArgumentCause(){
+        String inMsg = "inner message";
+        Exception cause = new Exception(inMsg);
+        FunctionEvaluationException ex =
+            new FunctionEvaluationException(cause, new double[] { 0, 1, 2 });
+        assertEquals(cause, ex.getCause());
+        assertTrue(ex.getMessage().equals(ex.getMessage(Locale.FRENCH)));
+        assertEquals(0.0, ex.getArgument()[0], 0);
+        assertEquals(1.0, ex.getArgument()[1], 0);
+        assertEquals(2.0, ex.getArgument()[2], 0);
     }
 
 }
