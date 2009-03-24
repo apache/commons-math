@@ -15,26 +15,27 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.optimization;
+package org.apache.commons.math.analysis;
 
 import java.io.Serializable;
 
+import org.apache.commons.math.FunctionEvaluationException;
+
 /** 
- * This interface represents a vectorial objective function to be either minimized or maximized.
- * @see LeastSquaresConverter
+ * An interface representing a multivariate matrix function.
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public interface VectorialObjectiveFunction extends Serializable {
+public interface MultivariateMatrixFunction extends Serializable {
 
     /** 
-     * Compute the function value for the given variables set.
-     * @param variables variables set
-     * @return function value for the given variables set
-     * @exception ObjectiveException if no cost can be computed for the parameters
-     * @exception IllegalArgumentException if variables dimension is wrong
+     * Compute the value for the function at the given point.
+     * @param point point at which the function must be evaluated
+     * @return function value for the given point
+     * @exception FunctionEvaluationException if the function evaluation fails
+     * @exception IllegalArgumentException if points dimension is wrong
      */
-    double[] objective(double[] variables)
-        throws ObjectiveException, IllegalArgumentException;
+    double[][] value(double[] point)
+        throws FunctionEvaluationException, IllegalArgumentException;
 
 }

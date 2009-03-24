@@ -21,17 +21,18 @@ import java.io.Serializable;
 import org.apache.commons.math.FunctionEvaluationException;
 
 /**
- * An interface representing a univariate real function.
+ * An interface representing a univariate vectorial function.
  *  
  * @version $Revision$ $Date$
+ * @since 2.0
  */
-public interface UnivariateRealFunction extends Serializable {
+public interface UnivariateVectorialFunction extends Serializable {
     /**
      * Compute the value for the function.
      * @param x the point for which the function value should be computed
      * @return the value
      * @throws FunctionEvaluationException if the function evaluation fails
      */
-    public double value(double x) throws FunctionEvaluationException;
+    public double[] value(double x) throws FunctionEvaluationException;
 
 }

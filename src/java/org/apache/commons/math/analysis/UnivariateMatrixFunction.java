@@ -14,24 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.apache.commons.math.analysis;
 
-package org.apache.commons.math.optimization;
+import java.io.Serializable;
 
-/** 
- * This interface represents a scalar objective function that can be differentiated.
+import org.apache.commons.math.FunctionEvaluationException;
+
+/**
+ * An interface representing a univariate matrix function.
+ *  
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public interface ScalarDifferentiableObjectiveFunction extends ScalarObjectiveFunction {
-
-    /** 
-     * Compute the partial derivatives of the objective function.
-     * @param variables variables set
-     * @return partial derivatives of the objective function
-     * @exception ObjectiveException if no value can be computed for the parameters
-     * @exception IllegalArgumentException if variables dimension is wrong
+public interface UnivariateMatrixFunction extends Serializable {
+    /**
+     * Compute the value for the function.
+     * @param x the point for which the function value should be computed
+     * @return the value
+     * @throws FunctionEvaluationException if the function evaluation fails
      */
-    double[] partials(double[] variables)
-        throws ObjectiveException, IllegalArgumentException;
+    public double[][] value(double x) throws FunctionEvaluationException;
 
 }

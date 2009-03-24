@@ -15,24 +15,27 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.optimization;
+package org.apache.commons.math.analysis;
+
+import java.io.Serializable;
+
+import org.apache.commons.math.FunctionEvaluationException;
 
 /** 
- * This interface represents a vectorial objective function that can be differentiated.
+ * An interface representing a multivariate real function.
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public interface VectorialDifferentiableObjectiveFunction extends VectorialObjectiveFunction {
+public interface MultivariateRealFunction extends Serializable {
 
     /** 
-     * Compute the jacobian of the objective function.
-     * @param variables variables set
-     * @param value value of the objective function (already computed)
-     * @return jacobian of the objective function
-     * @exception ObjectiveException if no cost can be computed for the parameters
-     * @exception IllegalArgumentException if variables dimension is wrong
+     * Compute the value for the function at the given point.
+     * @param point point at which the function must be evaluated
+     * @return function value for the given point
+     * @exception FunctionEvaluationException if the function evaluation fails
+     * @exception IllegalArgumentException if points dimension is wrong
      */
-    double[][] jacobian(double[] variables, double[] value)
-        throws ObjectiveException, IllegalArgumentException;
+    double value(double[] point)
+        throws FunctionEvaluationException, IllegalArgumentException;
 
 }
