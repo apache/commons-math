@@ -19,13 +19,16 @@ package org.apache.commons.math.optimization.general;
 
 import java.util.Arrays;
 
-import org.apache.commons.math.optimization.ObjectiveException;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
+import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
+import org.apache.commons.math.analysis.MultivariateMatrixFunction;
+import org.apache.commons.math.analysis.MultivariateVectorialFunction;
 import org.apache.commons.math.optimization.OptimizationException;
-import org.apache.commons.math.optimization.VectorialDifferentiableObjectiveFunction;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
-
-
-import junit.framework.*;
 
 /**
  * <p>Some of the unit tests are re-implementations of the MINPACK <a
@@ -520,13 +523,13 @@ public class MinpackTest extends TestCase {
           assertTrue(function.checkTheoreticalMinParams(optimum));
       } catch (OptimizationException lsse) {
           assertTrue(exceptionExpected);
-      } catch (ObjectiveException oe) {
+      } catch (FunctionEvaluationException fe) {
           assertTrue(exceptionExpected);
       }
   }
 
   private static abstract class MinpackFunction
-      implements VectorialDifferentiableObjectiveFunction {
+      implements DifferentiableMultivariateVectorialFunction {
  
       private static final long serialVersionUID = -6209760235478794233L;
       protected int      n;
@@ -597,9 +600,41 @@ public class MinpackTest extends TestCase {
           return true;
       }
 
-      public abstract double[][] jacobian(double[] variables, double[] value);
+      public MultivariateVectorialFunction partialDerivative(final int i) {
+          return new MultivariateVectorialFunction() {
+            private static final long serialVersionUID = 2192585229396907068L;
+            public double[] value(double[] point) {
+                  double[][] m = jacobian(point);
+                  double[] partial = new double[m.length];
+                  for (int j = 0; j < partial.length; ++j) {
+                      partial[i] = m[i][j];
+                  }
+                  return partial;
+              }
+          };
+      }
 
-      public abstract double[] objective(double[] variables);
+      public MultivariateVectorialFunction gradient(final int i) {
+          return new MultivariateVectorialFunction() {
+            private static final long serialVersionUID = -5562016064510078300L;
+            public double[] value(double[] point) {
+                  return jacobian(point)[i];
+              }
+          };
+      }
+
+      public MultivariateMatrixFunction jacobian() {
+          return new MultivariateMatrixFunction() {
+            private static final long serialVersionUID = -2435076097232923678L;
+            public double[][] value(double[] point) {
+                  return jacobian(point);
+              }
+          };
+      }
+
+      public abstract double[][] jacobian(double[] variables);
+
+      public abstract double[] value(double[] variables);
 
   }
 
@@ -614,7 +649,7 @@ public class MinpackTest extends TestCase {
             buildArray(n, -1.0));
     }
 
-    public double[][] jacobian(double[] variables, double[] value) {
+    public double[][] jacobian(double[] variables) {
       double t = 2.0 / m;
       double[][] jacobian = new double[m][];
       for (int i = 0; i < m; ++i) {
@@ -626,7 +661,7 @@ public class MinpackTest extends TestCase {
       return jacobian;
     }
 
-    public double[] objective(double[] variables) {
+    public double[] value(double[] variables) {
       double sum = 0;
       for (int i = 0; i < n; ++i) {
         sum += variables[i];
@@ -652,7 +687,7 @@ public class MinpackTest extends TestCase {
       super(m, buildArray(n, x0), theoreticalMinCost, null);
     }
 
-    public double[][] jacobian(double[] variables, double[] value) {
+    public double[][] jacobian(double[] variables) {
       double[][] jacobian = new double[m][];
       for (int i = 0; i < m; ++i) {
         jacobian[i] = new double[n];
@@ -663,7 +698,7 @@ public class MinpackTest extends TestCase {
       return jacobian;
     }
 
-    public double[] objective(double[] variables) {
+    public double[] value(double[] variables) {
       double[] f = new double[m];
       double sum = 0;
       for (int i = 0; i < n; ++i) {
@@ -687,7 +722,7 @@ public class MinpackTest extends TestCase {
             null);
     }
 
-    public double[][] jacobian(double[] variables, double[] value) {
+    public double[][] jacobian(double[] variables) {
       double[][] jacobian = new double[m][];
       for (int i = 0; i < m; ++i) {
         jacobian[i] = new double[n];
@@ -706,7 +741,7 @@ public class MinpackTest extends TestCase {
       return jacobian;
     }
 
-    public double[] objective(double[] variables) {
+    public double[] value(double[] variables) {
       double[] f = new double[m];
       double sum = 0;
       for (int i = 1; i < (n - 1); ++i) {
@@ -729,12 +764,12 @@ public class MinpackTest extends TestCase {
       super(2, startParams, 0.0, buildArray(2, 1.0));
     }
 
-    public double[][] jacobian(double[] variables, double[] value) {
+    public double[][] jacobian(double[] variables) {
       double x1 = variables[0];
       return new double[][] { { -20 * x1, 10 }, { -1, 0 } };
     }
 
-    public double[] objective(double[] variables) {
+    public double[] value(double[] variables) {
       double x1 = variables[0];
       double x2 = variables[1];
       return new double[] { 10 * (x2 - x1 * x1), 1 - x1 };
@@ -751,7 +786,7 @@ public class MinpackTest extends TestCase {
       super(3, startParams, 0.0, new double[] { 1.0, 0.0, 0.0 });
     }
 
-    public double[][] jacobian(double[] variables, double[] value) {
+    public double[][] jacobian(double[] variables) {
       double x1 = variables[0];
       double x2 = variables[1];
       double tmpSquare = x1 * x1 + x2 * x2;
@@ -764,7 +799,7 @@ public class MinpackTest extends TestCase {
       };
     }
 
-    public double[] objective(double[] variables) {
+    public double[] value(double[] variables) {
       double x1 = variables[0];
       double x2 = variables[1];
       double x3 = variables[2];
@@ -798,7 +833,7 @@ public class MinpackTest extends TestCase {
       super(4, startParams, 0.0, buildArray(4, 0.0));
     }
 
-    public double[][] jacobian(double[] variables, double[] value) {
+    public double[][] jacobian(double[] variables) {
       double x1 = variables[0];
       double x2 = variables[1];
       double x3 = variables[2];
@@ -811,7 +846,7 @@ public class MinpackTest extends TestCase {
       };
     }
 
-    public double[] objective(double[] variables) {
+    public double[] value(double[] variables) {
       double x1 = variables[0];
       double x2 = variables[1];
       double x3 = variables[2];
@@ -841,7 +876,7 @@ public class MinpackTest extends TestCase {
             theoreticalMinParams);
     }
 
-    public double[][] jacobian(double[] variables, double[] value) {
+    public double[][] jacobian(double[] variables) {
       double x2 = variables[1];
       return new double[][] {
         { 1, x2 * (10 - 3 * x2) -  2 },
@@ -849,7 +884,7 @@ public class MinpackTest extends TestCase {
       };
     }
 
-    public double[] objective(double[] variables) {
+    public double[] value(double[] variables) {
       double x1 = variables[0];
       double x2 = variables[1];
       return new double[] {
@@ -872,7 +907,7 @@ public class MinpackTest extends TestCase {
             theoreticalMinParams);
     }
 
-    public double[][] jacobian(double[] variables, double[] value) {
+    public double[][] jacobian(double[] variables) {
       double   x2 = variables[1];
       double   x3 = variables[2];
       double[][] jacobian = new double[m][];
@@ -887,7 +922,7 @@ public class MinpackTest extends TestCase {
       return jacobian;
     }
 
-    public double[] objective(double[] variables) {
+    public double[] value(double[] variables) {
       double   x1 = variables[0];
       double   x2 = variables[1];
       double   x3 = variables[2];
@@ -925,7 +960,7 @@ public class MinpackTest extends TestCase {
       }
     }
 
-    public double[][] jacobian(double[] variables, double[] value) {
+    public double[][] jacobian(double[] variables) {
       double   x1 = variables[0];
       double   x2 = variables[1];
       double   x3 = variables[2];
@@ -942,7 +977,7 @@ public class MinpackTest extends TestCase {
       return jacobian;
     }
 
-    public double[] objective(double[] variables) {
+    public double[] value(double[] variables) {
       double x1 = variables[0];
       double x2 = variables[1];
       double x3 = variables[2];
@@ -981,7 +1016,7 @@ public class MinpackTest extends TestCase {
       }
     }
 
-    public double[][] jacobian(double[] variables, double[] value) {
+    public double[][] jacobian(double[] variables) {
       double   x1 = variables[0];
       double   x2 = variables[1];
       double   x3 = variables[2];
@@ -996,7 +1031,7 @@ public class MinpackTest extends TestCase {
       return jacobian;
     }
 
-    public double[] objective(double[] variables) {
+    public double[] value(double[] variables) {
       double x1 = variables[0];
       double x2 = variables[1];
       double x3 = variables[2];
@@ -1028,7 +1063,7 @@ public class MinpackTest extends TestCase {
             theoreticalMinParams);
     }
 
-    public double[][] jacobian(double[] variables, double[] value) {
+    public double[][] jacobian(double[] variables) {
 
       double[][] jacobian = new double[m][];
 
@@ -1060,7 +1095,7 @@ public class MinpackTest extends TestCase {
 
     }
 
-    public double[] objective(double[] variables) {
+    public double[] value(double[] variables) {
      double[] f = new double[m];
      for (int i = 0; i < (m - 2); ++i) {
        double div = (i + 1) / 29.0;
@@ -1100,7 +1135,7 @@ public class MinpackTest extends TestCase {
             new double[] { 1.0, 10.0, 1.0 });
    }
 
-    public double[][] jacobian(double[] variables, double[] value) {
+    public double[][] jacobian(double[] variables) {
       double   x1 = variables[0];
       double   x2 = variables[1];
       double[][] jacobian = new double[m][];
@@ -1115,7 +1150,7 @@ public class MinpackTest extends TestCase {
       return jacobian;
     }
 
-    public double[] objective(double[] variables) {
+    public double[] value(double[] variables) {
       double x1 = variables[0];
       double x2 = variables[1];
       double x3 = variables[2];
@@ -1142,7 +1177,7 @@ public class MinpackTest extends TestCase {
             theoreticalMinParams);
     }
 
-    public double[][] jacobian(double[] variables, double[] value) {
+    public double[][] jacobian(double[] variables) {
       double   x1 = variables[0];
       double   x2 = variables[1];
       double[][] jacobian = new double[m][];
@@ -1153,7 +1188,7 @@ public class MinpackTest extends TestCase {
       return jacobian;
     }
 
-    public double[] objective(double[] variables) {
+    public double[] value(double[] variables) {
       double x1 = variables[0];
       double x2 = variables[1];
       double[] f = new double[m];
@@ -1178,7 +1213,7 @@ public class MinpackTest extends TestCase {
             theoreticalMinParams);
     }
 
-    public double[][] jacobian(double[] variables, double[] value) {
+    public double[][] jacobian(double[] variables) {
       double   x1 = variables[0];
       double   x2 = variables[1];
       double   x3 = variables[2];
@@ -1196,7 +1231,7 @@ public class MinpackTest extends TestCase {
       return jacobian;
     }
 
-    public double[] objective(double[] variables) {
+    public double[] value(double[] variables) {
       double x1 = variables[0];
       double x2 = variables[1];
       double x3 = variables[2];
@@ -1234,7 +1269,7 @@ public class MinpackTest extends TestCase {
             theoreticalMinParams);
     }
 
-    public double[][] jacobian(double[] variables, double[] value) {
+    public double[][] jacobian(double[] variables) {
 
       double[][] jacobian = new double[m][];
       for (int i = 0; i < m; ++i) {
@@ -1263,7 +1298,7 @@ public class MinpackTest extends TestCase {
 
     }
 
-    public double[] objective(double[] variables) {
+    public double[] value(double[] variables) {
 
       double[] f = new double[m];
 
@@ -1307,7 +1342,7 @@ public class MinpackTest extends TestCase {
             theoreticalMinParams);
     }
 
-    public double[][] jacobian(double[] variables, double[] value) {
+    public double[][] jacobian(double[] variables) {
       double[][] jacobian = new double[m][];
       for (int i = 0; i < m; ++i) {
         jacobian[i] = new double[n];
@@ -1340,7 +1375,7 @@ public class MinpackTest extends TestCase {
 
     }
 
-    public double[] objective(double[] variables) {
+    public double[] value(double[] variables) {
       double[] f = new double[m];
       double sum  = -(n + 1);
       double prod = 1;
@@ -1369,7 +1404,7 @@ public class MinpackTest extends TestCase {
             theoreticalMinParams);
     }
 
-    public double[][] jacobian(double[] variables, double[] value) {
+    public double[][] jacobian(double[] variables) {
       double   x2 = variables[1];
       double   x3 = variables[2];
       double   x4 = variables[3];
@@ -1386,7 +1421,7 @@ public class MinpackTest extends TestCase {
       return jacobian;
     }
 
-    public double[] objective(double[] variables) {
+    public double[] value(double[] variables) {
       double x1 = variables[0];
       double x2 = variables[1];
       double x3 = variables[2];
@@ -1422,7 +1457,7 @@ public class MinpackTest extends TestCase {
             theoreticalMinParams);
     }
 
-    public double[][] jacobian(double[] variables, double[] value) {
+    public double[][] jacobian(double[] variables) {
       double   x01 = variables[0];
       double   x02 = variables[1];
       double   x03 = variables[2];
@@ -1458,7 +1493,7 @@ public class MinpackTest extends TestCase {
       return jacobian;
     }
 
-    public double[] objective(double[] variables) {
+    public double[] value(double[] variables) {
       double x01 = variables[0];
       double x02 = variables[1];
       double x03 = variables[2];

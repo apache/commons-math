@@ -25,12 +25,14 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
+import org.apache.commons.math.analysis.MultivariateMatrixFunction;
+import org.apache.commons.math.analysis.MultivariateVectorialFunction;
 import org.apache.commons.math.linear.DenseRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.optimization.ObjectiveException;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
-import org.apache.commons.math.optimization.VectorialDifferentiableObjectiveFunction;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
 
 /**
@@ -102,7 +104,7 @@ extends TestCase {
         super(name);
     }
 
-    public void testTrivial() throws ObjectiveException, OptimizationException {
+    public void testTrivial() throws FunctionEvaluationException, OptimizationException {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 2 } }, new double[] { 3 });
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
@@ -115,7 +117,7 @@ extends TestCase {
         assertEquals(3.0, optimum.getValue()[0], 1.0e-10);
     }
 
-    public void testColumnsPermutation() throws ObjectiveException, OptimizationException {
+    public void testColumnsPermutation() throws FunctionEvaluationException, OptimizationException {
 
         LinearProblem problem =
             new LinearProblem(new double[][] { { 1.0, -1.0 }, { 0.0, 2.0 }, { 1.0, -2.0 } },
@@ -135,7 +137,7 @@ extends TestCase {
 
     }
 
-    public void testNoDependency() throws ObjectiveException, OptimizationException {
+    public void testNoDependency() throws FunctionEvaluationException, OptimizationException {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 2, 0, 0, 0, 0, 0 },
                 { 0, 2, 0, 0, 0, 0 },
@@ -156,7 +158,7 @@ extends TestCase {
         }
     }
 
-    public void testOneSet() throws ObjectiveException, OptimizationException {
+    public void testOneSet() throws FunctionEvaluationException, OptimizationException {
 
         LinearProblem problem = new LinearProblem(new double[][] {
                 {  1,  0, 0 },
@@ -175,7 +177,7 @@ extends TestCase {
 
     }
 
-    public void testTwoSets() throws ObjectiveException, OptimizationException {
+    public void testTwoSets() throws FunctionEvaluationException, OptimizationException {
         double epsilon = 1.0e-7;
         LinearProblem problem = new LinearProblem(new double[][] {
                 {  2,  1,   0,  4,       0, 0 },
@@ -222,7 +224,7 @@ extends TestCase {
         }
     }
 
-    public void testIllConditioned() throws ObjectiveException, OptimizationException {
+    public void testIllConditioned() throws FunctionEvaluationException, OptimizationException {
         LinearProblem problem1 = new LinearProblem(new double[][] {
                 { 10.0, 7.0,  8.0,  7.0 },
                 {  7.0, 5.0,  6.0,  5.0 },
@@ -303,7 +305,7 @@ extends TestCase {
         }
     }
 
-    public void testRedundantEquations() throws ObjectiveException, OptimizationException {
+    public void testRedundantEquations() throws FunctionEvaluationException, OptimizationException {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 1.0,  1.0 },
                 { 1.0, -1.0 },
@@ -322,7 +324,7 @@ extends TestCase {
 
     }
 
-    public void testInconsistentEquations() throws ObjectiveException, OptimizationException {
+    public void testInconsistentEquations() throws FunctionEvaluationException, OptimizationException {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 1.0,  1.0 },
                 { 1.0, -1.0 },
@@ -337,7 +339,7 @@ extends TestCase {
 
     }
 
-    public void testInconsistentSizes() throws ObjectiveException, OptimizationException {
+    public void testInconsistentSizes() throws FunctionEvaluationException, OptimizationException {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 1, 0 }, { 0, 1 } }, new double[] { -1, 1 });
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
@@ -366,7 +368,7 @@ extends TestCase {
                                new double[] { 1 },
                                new double[] { 0, 0 });
             fail("an exception should have been thrown");
-        } catch (ObjectiveException oe) {
+        } catch (FunctionEvaluationException oe) {
             // expected behavior
         } catch (Exception e) {
             fail("wrong exception caught");
@@ -396,7 +398,7 @@ extends TestCase {
         }
     }
 
-    public void testCircleFitting() throws ObjectiveException, OptimizationException {
+    public void testCircleFitting() throws FunctionEvaluationException, OptimizationException {
         Circle circle = new Circle();
         circle.addPoint( 30.0,  68.0);
         circle.addPoint( 50.0,  -6.0);
@@ -417,7 +419,7 @@ extends TestCase {
         assertEquals(48.135167894714,   center.y, 1.0e-10);
     }
 
-    public void testCircleFittingBadInit() throws ObjectiveException, OptimizationException {
+    public void testCircleFittingBadInit() throws FunctionEvaluationException, OptimizationException {
         Circle circle = new Circle();
         double[][] points = new double[][] {
                 {-0.312967,  0.072366}, {-0.339248,  0.132965}, {-0.379780,  0.202724},
@@ -477,9 +479,9 @@ extends TestCase {
 
     }
 
-    private static class LinearProblem implements VectorialDifferentiableObjectiveFunction {
+    private static class LinearProblem implements DifferentiableMultivariateVectorialFunction {
 
-        private static final long serialVersionUID = 703247177355019415L;
+        private static final long serialVersionUID = -8804268799379350190L;
         final RealMatrix factors;
         final double[] target;
         public LinearProblem(double[][] factors, double[] target) {
@@ -487,20 +489,42 @@ extends TestCase {
             this.target  = target;
         }
 
-        public double[][] jacobian(double[] variables, double[] value) {
-            return factors.getData();
+        public double[] value(double[] variables) {
+            return factors.operate(variables);
         }
 
-        public double[] objective(double[] variables) {
-            return factors.operate(variables);
+        public MultivariateVectorialFunction partialDerivative(final int i) {
+            return new MultivariateVectorialFunction() {
+                private static final long serialVersionUID = 1037082026387842358L;
+                public double[] value(double[] point) {
+                    return factors.getColumn(i);
+                }
+            };
+        }
+
+        public MultivariateVectorialFunction gradient(final int i) {
+            return new MultivariateVectorialFunction() {
+                private static final long serialVersionUID = -3268626996728727146L;
+                public double[] value(double[] point) {
+                    return factors.getRow(i);
+                }
+            };
+        }
+
+        public MultivariateMatrixFunction jacobian() {
+            return new MultivariateMatrixFunction() {
+                private static final long serialVersionUID = -8387467946663627585L;
+                public double[][] value(double[] point) {
+                    return factors.getData();
+                }
+            };
         }
 
     }
 
-    private static class Circle implements VectorialDifferentiableObjectiveFunction {
+    private static class Circle implements DifferentiableMultivariateVectorialFunction {
 
-        private static final long serialVersionUID = -4711170319243817874L;
-
+        private static final long serialVersionUID = -7165774454925027042L;
         private ArrayList<Point2D.Double> points;
 
         public Circle() {
@@ -523,8 +547,7 @@ extends TestCase {
             return r / points.size();
         }
 
-        public double[][] jacobian(double[] variables, double[] value)
-                throws ObjectiveException, IllegalArgumentException {
+        private double[][] jacobian(double[] variables) {
 
             int n = points.size();
             Point2D.Double center = new Point2D.Double(variables[0], variables[1]);
@@ -553,8 +576,7 @@ extends TestCase {
 
         }
 
-        public double[] objective(double[] variables)
-                throws ObjectiveException, IllegalArgumentException {
+        public double[] value(double[] variables) {
 
             Point2D.Double center = new Point2D.Double(variables[0], variables[1]);
             double radius = getRadius(center);
@@ -566,6 +588,38 @@ extends TestCase {
 
             return residuals;
 
+        }
+
+        public MultivariateVectorialFunction partialDerivative(final int i) {
+            return new MultivariateVectorialFunction() {
+                private static final long serialVersionUID = -2884159755283203273L;
+                public double[] value(double[] point) {
+                    double[][] m = jacobian(point);
+                    double[] partial = new double[m.length];
+                    for (int j = 0; j < partial.length; ++j) {
+                        partial[i] = m[i][j];
+                    }
+                    return partial;
+                }
+            };
+        }
+
+        public MultivariateVectorialFunction gradient(final int i) {
+            return new MultivariateVectorialFunction() {
+                private static final long serialVersionUID = -43357217231860547L;
+                public double[] value(double[] point) {
+                    return jacobian(point)[i];
+                }
+            };
+        }
+
+        public MultivariateMatrixFunction jacobian() {
+            return new MultivariateMatrixFunction() {
+                private static final long serialVersionUID = -4340046230875165095L;
+                public double[][] value(double[] point) {
+                    return jacobian(point);
+                }
+            };
         }
 
     }

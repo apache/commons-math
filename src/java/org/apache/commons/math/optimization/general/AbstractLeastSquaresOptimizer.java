@@ -17,17 +17,18 @@
 
 package org.apache.commons.math.optimization.general;
 
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MaxIterationsExceededException;
+import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
+import org.apache.commons.math.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math.linear.InvalidMatrixException;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.decomposition.LUDecompositionImpl;
-import org.apache.commons.math.optimization.ObjectiveException;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
 import org.apache.commons.math.optimization.VectorialConvergenceChecker;
-import org.apache.commons.math.optimization.VectorialDifferentiableObjectiveFunction;
-import org.apache.commons.math.optimization.VectorialDifferentiableOptimizer;
+import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
 
 /**
@@ -38,7 +39,7 @@ import org.apache.commons.math.optimization.VectorialPointValuePair;
  * @since 1.2
  *
  */
-public abstract class AbstractLeastSquaresOptimizer implements VectorialDifferentiableOptimizer {
+public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMultivariateVectorialOptimizer {
 
     /** Serializable version identifier */
     private static final long serialVersionUID = 5413193243329026789L;
@@ -77,7 +78,10 @@ public abstract class AbstractLeastSquaresOptimizer implements VectorialDifferen
     protected int rows;
 
     /** Objective function. */
-    private VectorialDifferentiableObjectiveFunction f;
+    private DifferentiableMultivariateVectorialFunction f;
+
+    /** Objective function derivatives. */
+    private MultivariateMatrixFunction jF;
 
     /** Target value for the objective functions at optimum. */
     protected double[] target;
@@ -85,8 +89,8 @@ public abstract class AbstractLeastSquaresOptimizer implements VectorialDifferen
     /** Weight for the least squares cost computation. */
     protected double[] weights;
 
-    /** Current variables set. */
-    protected double[] variables;
+    /** Current point. */
+    protected double[] point;
 
     /** Current objective function value. */
     protected double[] objective;
@@ -156,15 +160,15 @@ public abstract class AbstractLeastSquaresOptimizer implements VectorialDifferen
 
     /** 
      * Update the jacobian matrix.
-     * @exception ObjectiveException if the function jacobian
+     * @exception FunctionEvaluationException if the function jacobian
      * cannot be evaluated or its dimension doesn't match problem dimension
      */
-    protected void updateJacobian() throws ObjectiveException {
+    protected void updateJacobian() throws FunctionEvaluationException {
         ++jacobianEvaluations;
-        jacobian = f.jacobian(variables, objective);
+        jacobian = jF.value(point);
         if (jacobian.length != rows) {
-            throw new ObjectiveException("dimension mismatch {0} != {1}",
-                                         jacobian.length, rows);
+            throw new FunctionEvaluationException(point, "dimension mismatch {0} != {1}",
+                                                  jacobian.length, rows);
         }
         for (int i = 0; i < rows; i++) {
             final double[] ji = jacobian[i];
@@ -177,17 +181,17 @@ public abstract class AbstractLeastSquaresOptimizer implements VectorialDifferen
 
     /** 
      * Update the residuals array and cost function value.
-     * @exception ObjectiveException if the function cannot be evaluated
+     * @exception FunctionEvaluationException if the function cannot be evaluated
      * or its dimension doesn't match problem dimension
      */
     protected void updateResidualsAndCost()
-        throws ObjectiveException {
+        throws FunctionEvaluationException {
 
         ++objectiveEvaluations;
-        objective = f.objective(variables);
+        objective = f.value(point);
         if (objective.length != rows) {
-            throw new ObjectiveException("dimension mismatch {0} != {1}",
-                                         objective.length, rows);
+            throw new FunctionEvaluationException(point, "dimension mismatch {0} != {1}",
+                                                  objective.length, rows);
         }
         cost = 0;
         for (int i = 0, index = 0; i < rows; i++, index += cols) {
@@ -234,13 +238,13 @@ public abstract class AbstractLeastSquaresOptimizer implements VectorialDifferen
     /**
      * Get the covariance matrix of optimized parameters.
      * @return covariance matrix
-     * @exception ObjectiveException if the function jacobian cannot
+     * @exception FunctionEvaluationException if the function jacobian cannot
      * be evaluated
      * @exception OptimizationException if the covariance matrix
      * cannot be computed (singular problem)
      */
     public double[][] getCovariances()
-        throws ObjectiveException, OptimizationException {
+        throws FunctionEvaluationException, OptimizationException {
 
         // set up the jacobian
         updateJacobian();
@@ -273,13 +277,13 @@ public abstract class AbstractLeastSquaresOptimizer implements VectorialDifferen
      * Guess the errors in optimized parameters.
      * <p>Guessing is covariance-based, it only gives rough order of magnitude.</p>
      * @return errors in optimized parameters
-     * @exception ObjectiveException if the function jacobian cannot b evaluated
+     * @exception FunctionEvaluationException if the function jacobian cannot b evaluated
      * @exception OptimizationException if the covariances matrix cannot be computed
      * or the number of degrees of freedom is not positive (number of measurements
      * lesser or equal to number of parameters)
      */
     public double[] guessParametersErrors()
-        throws ObjectiveException, OptimizationException {
+        throws FunctionEvaluationException, OptimizationException {
         if (rows <= cols) {
             throw new OptimizationException(
                     "no degrees of freedom ({0} measurements, {1} parameters)",
@@ -295,10 +299,10 @@ public abstract class AbstractLeastSquaresOptimizer implements VectorialDifferen
     }
 
     /** {@inheritDoc} */
-    public VectorialPointValuePair optimize(final VectorialDifferentiableObjectiveFunction f,
+    public VectorialPointValuePair optimize(final DifferentiableMultivariateVectorialFunction f,
                                             final double[] target, final double[] weights,
                                             final double[] startPoint)
-        throws ObjectiveException, OptimizationException, IllegalArgumentException {
+        throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
 
         if (target.length != weights.length) {
             throw new OptimizationException("dimension mismatch {0} != {1}",
@@ -312,14 +316,15 @@ public abstract class AbstractLeastSquaresOptimizer implements VectorialDifferen
 
         // store least squares problem characteristics
         this.f         = f;
+        jF             = f.jacobian();
         this.target    = target.clone();
         this.weights   = weights.clone();
-        this.variables = startPoint.clone();
+        this.point     = startPoint.clone();
         this.residuals = new double[target.length];
 
         // arrays shared with the other private methods
         rows      = target.length;
-        cols      = variables.length;
+        cols      = point.length;
         jacobian  = new double[rows][cols];
 
         cost = Double.POSITIVE_INFINITY;
@@ -330,12 +335,12 @@ public abstract class AbstractLeastSquaresOptimizer implements VectorialDifferen
 
     /** Perform the bulk of optimization algorithm.
      * @return the point/value pair giving the optimal value for objective function
-     * @exception ObjectiveException if the objective function throws one during
+     * @exception FunctionEvaluationException if the objective function throws one during
      * the search
      * @exception OptimizationException if the algorithm failed to converge
      * @exception IllegalArgumentException if the start point dimension is wrong
      */
     abstract protected VectorialPointValuePair doOptimize()
-        throws ObjectiveException, OptimizationException, IllegalArgumentException;
+        throws FunctionEvaluationException, OptimizationException, IllegalArgumentException;
 
 }

@@ -26,12 +26,14 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
+import org.apache.commons.math.analysis.MultivariateMatrixFunction;
+import org.apache.commons.math.analysis.MultivariateVectorialFunction;
 import org.apache.commons.math.linear.DenseRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.optimization.ObjectiveException;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
-import org.apache.commons.math.optimization.VectorialDifferentiableObjectiveFunction;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
 
 /**
@@ -103,7 +105,7 @@ public class LevenbergMarquardtOptimizerTest
         super(name);
     }
 
-    public void testTrivial() throws ObjectiveException, OptimizationException {
+    public void testTrivial() throws FunctionEvaluationException, OptimizationException {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 2 } }, new double[] { 3 });
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
@@ -122,7 +124,7 @@ public class LevenbergMarquardtOptimizerTest
         assertEquals(3.0, optimum.getValue()[0], 1.0e-10);
     }
 
-    public void testQRColumnsPermutation() throws ObjectiveException, OptimizationException {
+    public void testQRColumnsPermutation() throws FunctionEvaluationException, OptimizationException {
 
         LinearProblem problem =
             new LinearProblem(new double[][] { { 1.0, -1.0 }, { 0.0, 2.0 }, { 1.0, -2.0 } },
@@ -140,7 +142,7 @@ public class LevenbergMarquardtOptimizerTest
 
     }
 
-    public void testNoDependency() throws ObjectiveException, OptimizationException {
+    public void testNoDependency() throws FunctionEvaluationException, OptimizationException {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 2, 0, 0, 0, 0, 0 },
                 { 0, 2, 0, 0, 0, 0 },
@@ -159,7 +161,7 @@ public class LevenbergMarquardtOptimizerTest
         }
     }
 
-    public void testOneSet() throws ObjectiveException, OptimizationException {
+    public void testOneSet() throws FunctionEvaluationException, OptimizationException {
 
         LinearProblem problem = new LinearProblem(new double[][] {
                 {  1,  0, 0 },
@@ -176,7 +178,7 @@ public class LevenbergMarquardtOptimizerTest
 
     }
 
-    public void testTwoSets() throws ObjectiveException, OptimizationException {
+    public void testTwoSets() throws FunctionEvaluationException, OptimizationException {
         double epsilon = 1.0e-7;
         LinearProblem problem = new LinearProblem(new double[][] {
                 {  2,  1,   0,  4,       0, 0 },
@@ -201,7 +203,7 @@ public class LevenbergMarquardtOptimizerTest
 
     }
 
-    public void testNonInversible() throws ObjectiveException, OptimizationException {
+    public void testNonInversible() throws FunctionEvaluationException, OptimizationException {
 
         LinearProblem problem = new LinearProblem(new double[][] {
                 {  1, 2, -3 },
@@ -223,7 +225,7 @@ public class LevenbergMarquardtOptimizerTest
 
     }
 
-    public void testIllConditioned() throws ObjectiveException, OptimizationException {
+    public void testIllConditioned() throws FunctionEvaluationException, OptimizationException {
         LinearProblem problem1 = new LinearProblem(new double[][] {
                 { 10.0, 7.0,  8.0,  7.0 },
                 {  7.0, 5.0,  6.0,  5.0 },
@@ -257,7 +259,7 @@ public class LevenbergMarquardtOptimizerTest
 
     }
 
-    public void testMoreEstimatedParametersSimple() throws ObjectiveException, OptimizationException {
+    public void testMoreEstimatedParametersSimple() throws FunctionEvaluationException, OptimizationException {
 
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 3.0, 2.0,  0.0, 0.0 },
@@ -272,7 +274,7 @@ public class LevenbergMarquardtOptimizerTest
 
     }
 
-    public void testMoreEstimatedParametersUnsorted() throws ObjectiveException, OptimizationException {
+    public void testMoreEstimatedParametersUnsorted() throws FunctionEvaluationException, OptimizationException {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 1.0, 1.0,  0.0,  0.0, 0.0,  0.0 },
                 { 0.0, 0.0,  1.0,  1.0, 1.0,  0.0 },
@@ -293,7 +295,7 @@ public class LevenbergMarquardtOptimizerTest
 
     }
 
-    public void testRedundantEquations() throws ObjectiveException, OptimizationException {
+    public void testRedundantEquations() throws FunctionEvaluationException, OptimizationException {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 1.0,  1.0 },
                 { 1.0, -1.0 },
@@ -310,7 +312,7 @@ public class LevenbergMarquardtOptimizerTest
 
     }
 
-    public void testInconsistentEquations() throws ObjectiveException, OptimizationException {
+    public void testInconsistentEquations() throws FunctionEvaluationException, OptimizationException {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 1.0,  1.0 },
                 { 1.0, -1.0 },
@@ -323,7 +325,7 @@ public class LevenbergMarquardtOptimizerTest
 
     }
 
-    public void testInconsistentSizes() throws ObjectiveException, OptimizationException {
+    public void testInconsistentSizes() throws FunctionEvaluationException, OptimizationException {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 1, 0 }, { 0, 1 } }, new double[] { -1, 1 });
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
@@ -350,7 +352,7 @@ public class LevenbergMarquardtOptimizerTest
                                new double[] { 1 },
                                new double[] { 0, 0 });
             fail("an exception should have been thrown");
-        } catch (ObjectiveException oe) {
+        } catch (FunctionEvaluationException oe) {
             // expected behavior
         } catch (Exception e) {
             fail("wrong exception caught");
@@ -372,7 +374,7 @@ public class LevenbergMarquardtOptimizerTest
         checkEstimate(circle, 0.1, 20, 1.0e-18, 1.0e-16, 1.0e-10, true);
     }
 
-    private void checkEstimate(VectorialDifferentiableObjectiveFunction problem,
+    private void checkEstimate(DifferentiableMultivariateVectorialFunction problem,
                                double initialStepBoundFactor, int maxCostEval,
                                double costRelativeTolerance, double parRelativeTolerance,
                                double orthoTolerance, boolean shouldFail) {
@@ -388,14 +390,14 @@ public class LevenbergMarquardtOptimizerTest
             assertTrue(! shouldFail);
         } catch (OptimizationException ee) {
             assertTrue(shouldFail);
-        } catch (ObjectiveException ee) {
+        } catch (FunctionEvaluationException ee) {
             assertTrue(shouldFail);
         } catch (Exception e) {
             fail("wrong exception type caught");
         }
     }
 
-    public void testCircleFitting() throws ObjectiveException, OptimizationException {
+    public void testCircleFitting() throws FunctionEvaluationException, OptimizationException {
         Circle circle = new Circle();
         circle.addPoint( 30.0,  68.0);
         circle.addPoint( 50.0,  -6.0);
@@ -445,7 +447,7 @@ public class LevenbergMarquardtOptimizerTest
 
     }
 
-    public void testCircleFittingBadInit() throws ObjectiveException, OptimizationException {
+    public void testCircleFittingBadInit() throws FunctionEvaluationException, OptimizationException {
         Circle circle = new Circle();
         double[][] points = new double[][] {
                 {-0.312967,  0.072366}, {-0.339248,  0.132965}, {-0.379780,  0.202724},
@@ -498,7 +500,7 @@ public class LevenbergMarquardtOptimizerTest
         assertEquals( 0.2075001, center.y,      1.0e-6);
     }
 
-    public void testMath199() throws ObjectiveException, OptimizationException {
+    public void testMath199() throws FunctionEvaluationException, OptimizationException {
         try {
             QuadraticProblem problem = new QuadraticProblem();
             problem.addPoint (0, -3.182591015485607);
@@ -517,7 +519,7 @@ public class LevenbergMarquardtOptimizerTest
 
     }
 
-    private static class LinearProblem implements VectorialDifferentiableObjectiveFunction {
+    private static class LinearProblem implements DifferentiableMultivariateVectorialFunction {
 
         private static final long serialVersionUID = 703247177355019415L;
         final RealMatrix factors;
@@ -527,17 +529,40 @@ public class LevenbergMarquardtOptimizerTest
             this.target  = target;
         }
 
-        public double[][] jacobian(double[] variables, double[] value) {
-            return factors.getData();
+        public double[] value(double[] variables) {
+            return factors.operate(variables);
         }
 
-        public double[] objective(double[] variables) {
-            return factors.operate(variables);
+        public MultivariateVectorialFunction partialDerivative(final int i) {
+            return new MultivariateVectorialFunction() {
+                private static final long serialVersionUID = 4868131119285501303L;
+                public double[] value(double[] point) {
+                    return factors.getColumn(i);
+                }
+            };
+        }
+
+        public MultivariateVectorialFunction gradient(final int i) {
+            return new MultivariateVectorialFunction() {
+                private static final long serialVersionUID = 6280336674474631774L;
+                public double[] value(double[] point) {
+                    return factors.getRow(i);
+                }
+            };
+        }
+
+        public MultivariateMatrixFunction jacobian() {
+            return new MultivariateMatrixFunction() {
+                private static final long serialVersionUID = 556396458721526234L;
+                public double[][] value(double[] point) {
+                    return factors.getData();
+                }
+            };
         }
 
     }
 
-    private static class Circle implements VectorialDifferentiableObjectiveFunction {
+    private static class Circle implements DifferentiableMultivariateVectorialFunction {
 
         private static final long serialVersionUID = -4711170319243817874L;
 
@@ -563,11 +588,10 @@ public class LevenbergMarquardtOptimizerTest
             return r / points.size();
         }
 
-        public double[][] jacobian(double[] variables, double[] value)
-        throws ObjectiveException, IllegalArgumentException {
+        private double[][] jacobian(double[] point) {
 
             int n = points.size();
-            Point2D.Double center = new Point2D.Double(variables[0], variables[1]);
+            Point2D.Double center = new Point2D.Double(point[0], point[1]);
 
             // gradient of the optimal radius
             double dRdX = 0;
@@ -593,8 +617,8 @@ public class LevenbergMarquardtOptimizerTest
 
         }
 
-        public double[] objective(double[] variables)
-        throws ObjectiveException, IllegalArgumentException {
+        public double[] value(double[] variables)
+        throws FunctionEvaluationException, IllegalArgumentException {
 
             Point2D.Double center = new Point2D.Double(variables[0], variables[1]);
             double radius = getRadius(center);
@@ -608,11 +632,43 @@ public class LevenbergMarquardtOptimizerTest
 
         }
 
+        public MultivariateVectorialFunction partialDerivative(final int i) {
+            return new MultivariateVectorialFunction() {
+                private static final long serialVersionUID = -2884159755283203273L;
+                public double[] value(double[] point) {
+                    double[][] m = jacobian(point);
+                    double[] partial = new double[m.length];
+                    for (int j = 0; j < partial.length; ++j) {
+                        partial[i] = m[i][j];
+                    }
+                    return partial;
+                }
+            };
+        }
+
+        public MultivariateVectorialFunction gradient(final int i) {
+            return new MultivariateVectorialFunction() {
+                private static final long serialVersionUID = -43357217231860547L;
+                public double[] value(double[] point) {
+                    return jacobian(point)[i];
+                }
+            };
+        }
+
+        public MultivariateMatrixFunction jacobian() {
+            return new MultivariateMatrixFunction() {
+                private static final long serialVersionUID = -4340046230875165095L;
+                public double[][] value(double[] point) {
+                    return jacobian(point);
+                }
+            };
+        }
+
     }
 
-    private static class QuadraticProblem implements VectorialDifferentiableObjectiveFunction {
+    private static class QuadraticProblem implements DifferentiableMultivariateVectorialFunction {
 
-        private static final long serialVersionUID = -247096133023967957L;
+        private static final long serialVersionUID = 7072187082052755854L;
         private List<Double> x;
         private List<Double> y;
 
@@ -626,7 +682,7 @@ public class LevenbergMarquardtOptimizerTest
             this.y.add(y);
         }
 
-        public double[][] jacobian(double[] variables, double[] value) {
+        private double[][] jacobian(double[] variables) {
             double[][] jacobian = new double[x.size()][3];
             for (int i = 0; i < jacobian.length; ++i) {
                 jacobian[i][0] = x.get(i) * x.get(i);
@@ -636,12 +692,44 @@ public class LevenbergMarquardtOptimizerTest
             return jacobian;
         }
 
-        public double[] objective(double[] variables) {
+        public double[] value(double[] variables) {
             double[] values = new double[x.size()];
             for (int i = 0; i < values.length; ++i) {
                 values[i] = (variables[0] * x.get(i) + variables[1]) * x.get(i) + variables[2];
             }
             return values;
+        }
+
+        public MultivariateVectorialFunction partialDerivative(final int i) {
+            return new MultivariateVectorialFunction() {
+                private static final long serialVersionUID = 2371658898687841192L;
+                public double[] value(double[] point) {
+                    double[][] m = jacobian(point);
+                    double[] partial = new double[m.length];
+                    for (int j = 0; j < partial.length; ++j) {
+                        partial[i] = m[i][j];
+                    }
+                    return partial;
+                }
+            };
+        }
+
+        public MultivariateVectorialFunction gradient(final int i) {
+            return new MultivariateVectorialFunction() {
+                private static final long serialVersionUID = 6863958501785879369L;
+                public double[] value(double[] point) {
+                    return jacobian(point)[i];
+                }
+            };
+        }
+
+        public MultivariateMatrixFunction jacobian() {
+            return new MultivariateMatrixFunction() {
+                private static final long serialVersionUID = -8673650298627399464L;
+                public double[][] value(double[] point) {
+                    return jacobian(point);
+                }
+            };
         }
 
     }

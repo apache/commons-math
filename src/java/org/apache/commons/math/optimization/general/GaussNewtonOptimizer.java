@@ -17,13 +17,13 @@
 
 package org.apache.commons.math.optimization.general;
 
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.linear.DenseRealMatrix;
 import org.apache.commons.math.linear.InvalidMatrixException;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.decomposition.DecompositionSolver;
 import org.apache.commons.math.linear.decomposition.LUDecompositionImpl;
 import org.apache.commons.math.linear.decomposition.QRDecompositionImpl;
-import org.apache.commons.math.optimization.ObjectiveException;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
@@ -63,7 +63,7 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
 
     /** {@inheritDoc} */
     public VectorialPointValuePair doOptimize()
-        throws ObjectiveException, OptimizationException, IllegalArgumentException {
+        throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
 
         // iterate until convergence is reached
         VectorialPointValuePair current = null;
@@ -75,7 +75,7 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
             VectorialPointValuePair previous = current;
             updateResidualsAndCost();
             updateJacobian();
-            current = new VectorialPointValuePair(variables, objective);
+            current = new VectorialPointValuePair(point, objective);
 
             // build the linear problem
             final double[]   b = new double[cols];
@@ -114,7 +114,7 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
 
                 // update the estimated parameters
                 for (int i = 0; i < cols; ++i) {
-                    variables[i] += dX[i];
+                    point[i] += dX[i];
                 }
 
             } catch(InvalidMatrixException e) {

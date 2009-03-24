@@ -18,7 +18,7 @@ package org.apache.commons.math.optimization.general;
 
 import java.util.Arrays;
 
-import org.apache.commons.math.optimization.ObjectiveException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
 
@@ -27,8 +27,8 @@ import org.apache.commons.math.optimization.VectorialPointValuePair;
  * This class solves a least squares problem using the Levenberg-Marquardt algorithm.
  *
  * <p>This implementation <em>should</em> work even for over-determined systems
- * (i.e. systems having more variables than equations). Over-determined systems
- * are solved by ignoring the variables which have the smallest impact according
+ * (i.e. systems having more point than equations). Over-determined systems
+ * are solved by ignoring the point which have the smallest impact according
  * to their jacobian column norm. Only the rank of the matrix and some loop bounds
  * are changed to implement this.</p>
  *
@@ -104,7 +104,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
     /** Serializable version identifier */
     private static final long serialVersionUID = 8851282236194244323L;
 
-    /** Number of solved variables. */
+    /** Number of solved point. */
     private int solvedCols;
 
     /** Diagonal elements of the R matrix in the Q.R. decomposition. */
@@ -210,7 +210,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
 
     /** {@inheritDoc} */
     protected VectorialPointValuePair doOptimize()
-        throws ObjectiveException, OptimizationException, IllegalArgumentException {
+        throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
 
         // arrays shared with the other private methods
         solvedCols  = Math.min(rows, cols);
@@ -220,7 +220,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
         permutation = new int[cols];
         lmDir       = new double[cols];
 
-        // local variables
+        // local point
         double   delta   = 0, xNorm = 0;
         double[] diag    = new double[cols];
         double[] oldX    = new double[cols];
@@ -255,7 +255,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
 
             if (firstIteration) {
 
-                // scale the variables according to the norms of the columns
+                // scale the point according to the norms of the columns
                 // of the initial jacobian
                 xNorm = 0;
                 for (int k = 0; k < cols; ++k) {
@@ -263,7 +263,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                     if (dk == 0) {
                         dk = 1.0;
                     }
-                    double xk = dk * variables[k];
+                    double xk = dk * point[k];
                     xNorm  += xk * xk;
                     diag[k] = dk;
                 }
@@ -291,7 +291,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
             }
             if (maxCosine <= orthoTolerance) {
                 // convergence has been reached
-                return new VectorialPointValuePair(variables, objective);
+                return new VectorialPointValuePair(point, objective);
             }
 
             // rescale if necessary
@@ -305,7 +305,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                 // save the state
                 for (int j = 0; j < solvedCols; ++j) {
                     int pj = permutation[j];
-                    oldX[pj] = variables[pj];
+                    oldX[pj] = point[pj];
                 }
                 double previousCost = cost;
                 double[] tmpVec = residuals;
@@ -320,7 +320,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                 for (int j = 0; j < solvedCols; ++j) {
                     int pj = permutation[j];
                     lmDir[pj] = -lmDir[pj];
-                    variables[pj] = oldX[pj] + lmDir[pj];
+                    point[pj] = oldX[pj] + lmDir[pj];
                     double s = diag[pj] * lmDir[pj];
                     lmNorm  += s * s;
                 }
@@ -384,7 +384,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                     firstIteration = false;
                     xNorm = 0;
                     for (int k = 0; k < cols; ++k) {
-                        double xK = diag[k] * variables[k];
+                        double xK = diag[k] * point[k];
                         xNorm    += xK * xK;
                     }
                     xNorm = Math.sqrt(xNorm);
@@ -393,7 +393,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                     cost = previousCost;
                     for (int j = 0; j < solvedCols; ++j) {
                         int pj = permutation[j];
-                        variables[pj] = oldX[pj];
+                        point[pj] = oldX[pj];
                     }
                     tmpVec    = residuals;
                     residuals = oldRes;
@@ -405,7 +405,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                         (preRed <= costRelativeTolerance) &&
                         (ratio <= 2.0)) ||
                         (delta <= parRelativeTolerance * xNorm)) {
-                    return new VectorialPointValuePair(variables, objective);
+                    return new VectorialPointValuePair(point, objective);
                 }
 
                 // tests for termination and stringent tolerances
