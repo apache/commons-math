@@ -26,7 +26,7 @@
   <!--  the following equality tests are part of the reference algorithms -->
   <!--  which already know about limited precision of the double numbers -->
   <Match>
-    <Class name="org.apache.commons.math.optimization.univariate.BrentMinimizer" />
+    <Class name="org.apache.commons.math.optimization.univariate.BrentOptimizer" />
     <Method name="localMin" params="double,double,double,double,org.apache.commons.math.analysis.UnivariateRealFunction" returns="double" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
@@ -55,12 +55,12 @@
 
   <!-- the following expositions of internal representation are intentional and documented -->
   <Match>
-    <Class name="org.apache.commons.math.optimization.ScalarPointValuePair"/>
+    <Class name="org.apache.commons.math.optimization.RealPointValuePair"/>
     <Method name="getPointRef" params="" returns="double[]" />
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math.optimization.ScalarPointValuePair"/>
+    <Class name="org.apache.commons.math.optimization.RealPointValuePair"/>
     <Method name="&lt;init>" params="double[],double,boolean" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
