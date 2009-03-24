@@ -21,11 +21,14 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
+import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.random.RandomVectorGenerator;
 
 /** 
- * Special implementation of the {@link VectorialDifferentiableOptimizer} interface adding
+ * Special implementation of the {@link DifferentiableMultivariateVectorialOptimizer} interface adding
  * multi-start features to an existing optimizer.
  * <p>
  * This class wraps a classical optimizer to use it several times in
@@ -35,13 +38,14 @@ import org.apache.commons.math.random.RandomVectorGenerator;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class MultiStartVectorialDifferentiableOptimizer implements VectorialDifferentiableOptimizer {
+public class MultiStartDifferentiableMultivariateVectorialOptimizer
+    implements DifferentiableMultivariateVectorialOptimizer {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -9109278856437190136L;
+    private static final long serialVersionUID = 9206382258980561530L;
 
     /** Underlying classical optimizer. */
-    private final VectorialDifferentiableOptimizer optimizer;
+    private final DifferentiableMultivariateVectorialOptimizer optimizer;
 
     /** Maximal number of iterations allowed. */
     private int maxIterations;
@@ -72,9 +76,10 @@ public class MultiStartVectorialDifferentiableOptimizer implements VectorialDiff
      * equal to 1
      * @param generator random vector generator to use for restarts
      */
-    public MultiStartVectorialDifferentiableOptimizer(final VectorialDifferentiableOptimizer optimizer,
-                                                      final int starts,
-                                                      final RandomVectorGenerator generator) {
+    public MultiStartDifferentiableMultivariateVectorialOptimizer(
+                final DifferentiableMultivariateVectorialOptimizer optimizer,
+                final int starts,
+                final RandomVectorGenerator generator) {
         this.optimizer                = optimizer;
         this.maxIterations            = Integer.MAX_VALUE;
         this.totalIterations          = 0;
@@ -86,13 +91,13 @@ public class MultiStartVectorialDifferentiableOptimizer implements VectorialDiff
     }
 
     /** Get all the optima found during the last call to {@link
-     * #optimize(ScalarObjectiveFunction, GoalType, double[]) optimize}.
+     * #optimize(MultivariateRealFunction, GoalType, double[]) optimize}.
      * <p>The optimizer stores all the optima found during a set of
-     * restarts. The {@link #optimize(ScalarObjectiveFunction, GoalType,
+     * restarts. The {@link #optimize(MultivariateRealFunction, GoalType,
      * double[]) optimize} method returns the best point only. This
      * method returns all the points found at the end of each starts,
      * including the best one already returned by the {@link
-     * #optimize(ScalarObjectiveFunction, GoalType, double[]) optimize}
+     * #optimize(MultivariateRealFunction, GoalType, double[]) optimize}
      * method.
      * </p>
      * <p>
@@ -102,13 +107,13 @@ public class MultiStartVectorialDifferentiableOptimizer implements VectorialDiff
      * objective value (i.e in ascending order if minimizing and in
      * descending order if maximizing), followed by and null elements
      * corresponding to the runs that did not converge. This means all
-     * elements will be null if the {@link #optimize(ScalarObjectiveFunction,
+     * elements will be null if the {@link #optimize(MultivariateRealFunction,
      * GoalType, double[]) optimize} method did throw a {@link
      * ConvergenceException ConvergenceException}). This also means that
      * if the first element is non null, it is the best point found across
      * all starts.</p>
      * @return array containing the optima
-     * @exception IllegalStateException if {@link #optimize(ScalarObjectiveFunction,
+     * @exception IllegalStateException if {@link #optimize(MultivariateRealFunction,
      * GoalType, double[]) optimize} has not been called
      */
     public VectorialPointValuePair[] getOptima() throws IllegalStateException {
@@ -154,10 +159,10 @@ public class MultiStartVectorialDifferentiableOptimizer implements VectorialDiff
     }
 
     /** {@inheritDoc} */
-    public VectorialPointValuePair optimize(final VectorialDifferentiableObjectiveFunction f,
+    public VectorialPointValuePair optimize(final DifferentiableMultivariateVectorialFunction f,
                                             final double[] target, final double[] weights,
                                             final double[] startPoint)
-        throws ObjectiveException, OptimizationException, IllegalArgumentException {
+        throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
 
         optima                   = new VectorialPointValuePair[starts];
         totalIterations          = 0;
@@ -171,9 +176,9 @@ public class MultiStartVectorialDifferentiableOptimizer implements VectorialDiff
                 optimizer.setMaxIterations(maxIterations - totalIterations);
                 optima[i] = optimizer.optimize(f, target, weights,
                                                (i == 0) ? startPoint : generator.nextVector());
-            } catch (ObjectiveException obe) {
+            } catch (FunctionEvaluationException fee) {
                 optima[i] = null;
-            } catch (OptimizationException ope) {
+            } catch (OptimizationException oe) {
                 optima[i] = null;
             }
 

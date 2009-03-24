@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.optimization.univariate;
+package org.apache.commons.math.optimization;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.ConvergingAlgorithm;
@@ -23,54 +23,60 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 
 
 /**
- * Interface for (univariate real) minimization algorithms.
+ * Interface for (univariate real) optimization algorithms.
  *  
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public interface UnivariateRealMinimizer extends ConvergingAlgorithm {
+public interface UnivariateRealOptimizer extends ConvergingAlgorithm {
 
     /**
-     * Find a minimum in the given interval.
+     * Find an optimum in the given interval.
      * <p>
-     * A minimizer may require that the interval brackets a single minimum.
+     * An optimizer may require that the interval brackets a single optimum.
      * </p>
-     * @param f the function to minimize.
+     * @param f the function to optimize.
+     * @param goalType type of optimization goal: either {@link GoalType#MAXIMIZE}
+     * or {@link GoalType#MINIMIZE}
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
-     * @return a value where the function is minimum
+     * @return a value where the function is optimum
      * @throws ConvergenceException if the maximum iteration count is exceeded
-     * or the minimizer detects convergence problems otherwise.
+     * or the optimizer detects convergence problems otherwise.
      * @throws FunctionEvaluationException if an error occurs evaluating the
      * function
      * @throws IllegalArgumentException if min > max or the endpoints do not
-     * satisfy the requirements specified by the minimizer
+     * satisfy the requirements specified by the optimizer
      */
-    double minimize(UnivariateRealFunction f, double min, double max)
+    double optimize(UnivariateRealFunction f, GoalType goalType,
+                    double min, double max)
         throws ConvergenceException, FunctionEvaluationException;
 
     /**
-     * Find a minimum in the given interval, start at startValue.
+     * Find an optimum in the given interval, start at startValue.
      * <p>
-     * A minimizer may require that the interval brackets a single minimum.
+     * An optimizer may require that the interval brackets a single optimum.
      * </p>
-     * @param f the function to minimize.
+     * @param f the function to optimize.
+     * @param goalType type of optimization goal: either {@link GoalType#MAXIMIZE}
+     * or {@link GoalType#MINIMIZE}
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
      * @param startValue the start value to use
-     * @return a value where the function is minimum
+     * @return a value where the function is optimum
      * @throws ConvergenceException if the maximum iteration count is exceeded
-     * or the minimizer detects convergence problems otherwise.
+     * or the optimizer detects convergence problems otherwise.
      * @throws FunctionEvaluationException if an error occurs evaluating the
      * function
      * @throws IllegalArgumentException if min > max or the arguments do not
-     * satisfy the requirements specified by the minimizer
+     * satisfy the requirements specified by the optimizer
      */
-    double minimize(UnivariateRealFunction f, double min, double max, double startValue)
+    double optimize(UnivariateRealFunction f, GoalType goalType,
+                    double min, double max, double startValue)
         throws ConvergenceException, FunctionEvaluationException;
 
     /**
-     * Get the result of the last run of the minimizer.
+     * Get the result of the last run of the optimizer.
      * 
      * @return the last result.
      * @throws IllegalStateException if there is no result available, either
@@ -79,7 +85,7 @@ public interface UnivariateRealMinimizer extends ConvergingAlgorithm {
     double getResult();
 
     /**
-     * Get the result of the last run of the minimizer.
+     * Get the result of the last run of the optimizer.
      * 
      * @return the value of the function at the last result.
      * @throws IllegalStateException if there is no result available, either

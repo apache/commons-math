@@ -19,19 +19,24 @@ package org.apache.commons.math.optimization;
 
 import java.io.Serializable;
 
-/** This interface specifies how to check if an {@link ScalarOptimizer optimization
+/** This interface specifies how to check if an {@link MultivariateRealOptimizer optimization
  * algorithm} has converged.
  *
- * <p>Deciding if convergence has been reached is a problem-dependent
- * issue. The user should provide a class implementing this interface
- * to allow the optimization algorithm to stop its search according to
- * the problem at hand.</p>
+ * <p>Deciding if convergence has been reached is a problem-dependent issue. The
+ * user should provide a class implementing this interface to allow the optimization
+ * algorithm to stop its search according to the problem at hand.</p>
+ * <p>For convenience, two implementations that fit simple needs are already provided:
+ * {@link SimpleScalarValueChecker} and {@link SimpleScalarPointChecker}. The first
+ * one considers convergence is reached when the objective function value does not
+ * change much anymore, it does not use the point set at all. The second one
+ * considers convergence is reached when the input point set does not change
+ * much anymore, it does not use objective function value at all.</p>
  *
  * @version $Revision$ $Date$
  * @since 2.0
  */
 
-public interface ScalarConvergenceChecker extends Serializable {
+public interface RealConvergenceChecker extends Serializable {
 
   /** Check if the optimization algorithm has converged considering the last points.
    * <p>
@@ -47,6 +52,6 @@ public interface ScalarConvergenceChecker extends Serializable {
    * @param current point from current iteration
    * @return true if the algorithm is considered to have converged
    */
-  boolean converged(int iteration, ScalarPointValuePair previous, ScalarPointValuePair current);
+  boolean converged(int iteration, RealPointValuePair previous, RealPointValuePair current);
 
 }

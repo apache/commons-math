@@ -22,10 +22,15 @@ import java.io.Serializable;
 /** This interface specifies how to check if an {@link VectorialOptimizer optimization
  * algorithm} has converged.
  *
- * <p>Deciding if convergence has been reached is a problem-dependent
- * issue. The user should provide a class implementing this interface
- * to allow the optimization algorithm to stop its search according to
- * the problem at hand.</p>
+ * <p>Deciding if convergence has been reached is a problem-dependent issue. The
+ * user should provide a class implementing this interface to allow the optimization
+ * algorithm to stop its search according to the problem at hand.</p>
+ * <p>For convenience, two implementations that fit simple needs are already provided:
+ * {@link SimpleVectorialValueChecker} and {@link SimpleVectorialPointChecker}. The first
+ * one considers convergence is reached when the objective function value does not
+ * change much anymore, it does not use the point set at all. The second one
+ * considers convergence is reached when the input point set does not change
+ * much anymore, it does not use objective function value at all.</p>
  *
  * @version $Revision$ $Date$
  * @since 2.0

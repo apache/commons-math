@@ -19,15 +19,17 @@ package org.apache.commons.math.optimization;
 
 import java.io.Serializable;
 
+import org.apache.commons.math.analysis.MultivariateRealFunction;
+
 /** 
  * This class holds a point and the value of an objective function at this point.
  * <p>This is a simple immutable container.</p>
  * @see VectorialPointValuePair
- * @see ScalarObjectiveFunction
+ * @see MultivariateRealFunction
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class ScalarPointValuePair implements Serializable {
+public class RealPointValuePair implements Serializable {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 1003888396256744753L;
@@ -43,7 +45,7 @@ public class ScalarPointValuePair implements Serializable {
      * a copy of the array, not the array passed as argument)
      * @param value value of an objective function at the point
      */
-    public ScalarPointValuePair(final double[] point, final double value) {
+    public RealPointValuePair(final double[] point, final double value) {
         this.point = point.clone();
         this.value  = value;
     }
@@ -55,7 +57,7 @@ public class ScalarPointValuePair implements Serializable {
      * @param copyArray if true, the input array will be copied, otherwise
      * it will be referenced
      */
-    public ScalarPointValuePair(final double[] point, final double value,
+    public RealPointValuePair(final double[] point, final double value,
                                 final boolean copyArray) {
         this.point = copyArray ? point.clone() : point;
         this.value  = value;

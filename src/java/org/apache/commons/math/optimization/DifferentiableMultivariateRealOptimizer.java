@@ -19,15 +19,20 @@ package org.apache.commons.math.optimization;
 
 import java.io.Serializable;
 
+import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.analysis.DifferentiableMultivariateRealFunction;
+
 /** 
- * This interface represents an optimization algorithm for {@link ScalarDifferentiableObjectiveFunction
+ * This interface represents an optimization algorithm for {@link DifferentiableMultivariateRealFunction
  * scalar differentiable objective functions}.
- * @see ScalarOptimizer
- * @see VectorialDifferentiableOptimizer
+ * <p>Optimization algorithms find the input point set that either {@link GoalType
+ * maximize or minimize} an objective function.</p>
+ * @see MultivariateRealOptimizer
+ * @see DifferentiableMultivariateVectorialOptimizer
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public interface ScalarDifferentiableOptimizer extends Serializable {
+public interface DifferentiableMultivariateRealOptimizer extends Serializable {
 
     /** Set the maximal number of iterations of the algorithm.
      * @param maxIterations maximal number of function calls
@@ -42,7 +47,7 @@ public interface ScalarDifferentiableOptimizer extends Serializable {
     /** Get the number of iterations realized by the algorithm.
      * <p>
      * The number of evaluations corresponds to the last call to the
-     * {@link #optimize(ScalarDifferentiableObjectiveFunction, GoalType, double[]) optimize}
+     * {@link #optimize(DifferentiableMultivariateRealFunction, GoalType, double[]) optimize}
      * method. It is 0 if the method has not been called yet.
      * </p>
      * @return number of iterations
@@ -52,7 +57,7 @@ public interface ScalarDifferentiableOptimizer extends Serializable {
     /** Get the number of evaluations of the objective function.
      * <p>
      * The number of evaluations corresponds to the last call to the
-     * {@link #optimize(ScalarDifferentiableObjectiveFunction, GoalType, double[]) optimize}
+     * {@link #optimize(DifferentiableMultivariateRealFunction, GoalType, double[]) optimize}
      * method. It is 0 if the method has not been called yet.
      * </p>
      * @return number of evaluations of the objective function
@@ -62,7 +67,7 @@ public interface ScalarDifferentiableOptimizer extends Serializable {
     /** Get the number of evaluations of the objective function gradient.
      * <p>
      * The number of evaluations corresponds to the last call to the
-     * {@link #optimize(ScalarDifferentiableObjectiveFunction, GoalType, double[]) optimize}
+     * {@link #optimize(DifferentiableMultivariateRealFunction, GoalType, double[]) optimize}
      * method. It is 0 if the method has not been called yet.
      * </p>
      * @return number of evaluations of the objective function gradient
@@ -72,12 +77,12 @@ public interface ScalarDifferentiableOptimizer extends Serializable {
     /** Set the convergence checker.
      * @param checker object to use to check for convergence
      */
-    void setConvergenceChecker(ScalarConvergenceChecker checker);
+    void setConvergenceChecker(RealConvergenceChecker checker);
 
     /** Get the convergence checker.
      * @return object used to check for convergence
      */
-    ScalarConvergenceChecker getConvergenceChecker();
+    RealConvergenceChecker getConvergenceChecker();
 
     /** Optimizes an objective function.
      * @param f objective function
@@ -85,14 +90,14 @@ public interface ScalarDifferentiableOptimizer extends Serializable {
      * or {@link GoalType#MINIMIZE}
      * @param startPoint the start point for optimization
      * @return the point/value pair giving the optimal value for objective function
-     * @exception ObjectiveException if the objective function throws one during
+     * @exception FunctionEvaluationException if the objective function throws one during
      * the search
      * @exception OptimizationException if the algorithm failed to converge
      * @exception IllegalArgumentException if the start point dimension is wrong
      */
-    ScalarPointValuePair optimize(ScalarDifferentiableObjectiveFunction f,
+    RealPointValuePair optimize(DifferentiableMultivariateRealFunction f,
                                   GoalType goalType,
                                   double[] startPoint)
-        throws ObjectiveException, OptimizationException, IllegalArgumentException;
+        throws FunctionEvaluationException, OptimizationException, IllegalArgumentException;
 
 }

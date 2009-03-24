@@ -21,11 +21,13 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.random.RandomVectorGenerator;
 
 /** 
- * Special implementation of the {@link ScalarOptimizer} interface adding
+ * Special implementation of the {@link MultivariateRealOptimizer} interface adding
  * multi-start features to an existing optimizer.
  * <p>
  * This class wraps a classical optimizer to use it several times in
@@ -35,13 +37,13 @@ import org.apache.commons.math.random.RandomVectorGenerator;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class MultiStartScalarOptimizer implements ScalarOptimizer {
+public class MultiStartMultivariateRealOptimizer implements MultivariateRealOptimizer {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -7333253288301713047L;
+    private static final long serialVersionUID = 5983375963110961019L;
 
     /** Underlying classical optimizer. */
-    private final ScalarOptimizer optimizer;
+    private final MultivariateRealOptimizer optimizer;
 
     /** Maximal number of iterations allowed. */
     private int maxIterations;
@@ -59,7 +61,7 @@ public class MultiStartScalarOptimizer implements ScalarOptimizer {
     private RandomVectorGenerator generator;
 
     /** Found optima. */
-    private ScalarPointValuePair[] optima;
+    private RealPointValuePair[] optima;
 
     /**
      * Create a multi-start optimizer from a single-start optimizer
@@ -69,8 +71,9 @@ public class MultiStartScalarOptimizer implements ScalarOptimizer {
      * equal to 1
      * @param generator random vector generator to use for restarts
      */
-    public MultiStartScalarOptimizer(final ScalarOptimizer optimizer, final int starts,
-                                     final RandomVectorGenerator generator) {
+    public MultiStartMultivariateRealOptimizer(final MultivariateRealOptimizer optimizer,
+                                               final int starts,
+                                               final RandomVectorGenerator generator) {
         this.optimizer        = optimizer;
         this.maxIterations    = Integer.MAX_VALUE;
         this.totalIterations  = 0;
@@ -81,13 +84,13 @@ public class MultiStartScalarOptimizer implements ScalarOptimizer {
     }
 
     /** Get all the optima found during the last call to {@link
-     * #optimize(ScalarObjectiveFunction, GoalType, double[]) optimize}.
+     * #optimize(MultivariateRealFunction, GoalType, double[]) optimize}.
      * <p>The optimizer stores all the optima found during a set of
-     * restarts. The {@link #optimize(ScalarObjectiveFunction, GoalType,
+     * restarts. The {@link #optimize(MultivariateRealFunction, GoalType,
      * double[]) optimize} method returns the best point only. This
      * method returns all the points found at the end of each starts,
      * including the best one already returned by the {@link
-     * #optimize(ScalarObjectiveFunction, GoalType, double[]) optimize}
+     * #optimize(MultivariateRealFunction, GoalType, double[]) optimize}
      * method.
      * </p>
      * <p>
@@ -97,20 +100,20 @@ public class MultiStartScalarOptimizer implements ScalarOptimizer {
      * objective value (i.e in ascending order if minimizing and in
      * descending order if maximizing), followed by and null elements
      * corresponding to the runs that did not converge. This means all
-     * elements will be null if the {@link #optimize(ScalarObjectiveFunction,
+     * elements will be null if the {@link #optimize(MultivariateRealFunction,
      * GoalType, double[]) optimize} method did throw a {@link
      * ConvergenceException ConvergenceException}). This also means that
      * if the first element is non null, it is the best point found across
      * all starts.</p>
      * @return array containing the optima
-     * @exception IllegalStateException if {@link #optimize(ScalarObjectiveFunction,
+     * @exception IllegalStateException if {@link #optimize(MultivariateRealFunction,
      * GoalType, double[]) optimize} has not been called
      */
-    public ScalarPointValuePair[] getOptima() throws IllegalStateException {
+    public RealPointValuePair[] getOptima() throws IllegalStateException {
         if (optima == null) {
             throw MathRuntimeException.createIllegalStateException("no optimum computed yet");
         }
-        return (ScalarPointValuePair[]) optima.clone();
+        return (RealPointValuePair[]) optima.clone();
     }
 
     /** {@inheritDoc} */
@@ -134,22 +137,22 @@ public class MultiStartScalarOptimizer implements ScalarOptimizer {
     }
 
     /** {@inheritDoc} */
-    public void setConvergenceChecker(ScalarConvergenceChecker checker) {
+    public void setConvergenceChecker(RealConvergenceChecker checker) {
         optimizer.setConvergenceChecker(checker);
     }
 
     /** {@inheritDoc} */
-    public ScalarConvergenceChecker getConvergenceChecker() {
+    public RealConvergenceChecker getConvergenceChecker() {
         return optimizer.getConvergenceChecker();
     }
 
     /** {@inheritDoc} */
-    public ScalarPointValuePair optimize(final ScalarObjectiveFunction f,
+    public RealPointValuePair optimize(final MultivariateRealFunction f,
                                          final GoalType goalType,
                                          double[] startPoint)
-        throws ObjectiveException, OptimizationException {
+        throws FunctionEvaluationException, OptimizationException {
 
-        optima           = new ScalarPointValuePair[starts];
+        optima           = new RealPointValuePair[starts];
         totalIterations  = 0;
         totalEvaluations = 0;
 
@@ -160,9 +163,9 @@ public class MultiStartScalarOptimizer implements ScalarOptimizer {
                 optimizer.setMaxIterations(maxIterations - totalIterations);
                 optima[i] = optimizer.optimize(f, goalType,
                                                (i == 0) ? startPoint : generator.nextVector());
-            } catch (ObjectiveException obe) {
+            } catch (FunctionEvaluationException fee) {
                 optima[i] = null;
-            } catch (OptimizationException ope) {
+            } catch (OptimizationException oe) {
                 optima[i] = null;
             }
 
@@ -172,8 +175,8 @@ public class MultiStartScalarOptimizer implements ScalarOptimizer {
         }
 
         // sort the optima from best to worst, followed by null elements
-        Arrays.sort(optima, new Comparator<ScalarPointValuePair>() {
-            public int compare(final ScalarPointValuePair o1, final ScalarPointValuePair o2) {
+        Arrays.sort(optima, new Comparator<RealPointValuePair>() {
+            public int compare(final RealPointValuePair o1, final RealPointValuePair o2) {
                 if (o1 == null) {
                     return (o2 == null) ? 0 : +1;
                 } else if (o2 == null) {

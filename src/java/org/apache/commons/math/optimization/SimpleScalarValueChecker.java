@@ -20,7 +20,7 @@ package org.apache.commons.math.optimization;
 import org.apache.commons.math.util.MathUtils;
 
 /** 
- * Simple implementation of the {@link ScalarConvergenceChecker} interface using
+ * Simple implementation of the {@link RealConvergenceChecker} interface using
  * only objective function values.
  * <p>
  * Convergence is considered to have been reached if either the relative
@@ -31,7 +31,7 @@ import org.apache.commons.math.util.MathUtils;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class SimpleScalarValueChecker implements ScalarConvergenceChecker {
+public class SimpleScalarValueChecker implements RealConvergenceChecker {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 2490271385513842607L;
@@ -72,8 +72,8 @@ public class SimpleScalarValueChecker implements ScalarConvergenceChecker {
 
     /** {@inheritDoc} */
     public boolean converged(final int iteration,
-                             final ScalarPointValuePair previous,
-                             final ScalarPointValuePair current) {
+                             final RealPointValuePair previous,
+                             final RealPointValuePair current) {
         final double p          = previous.getValue();
         final double c          = current.getValue();
         final double difference = Math.abs(p - c);
