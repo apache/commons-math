@@ -17,16 +17,19 @@
 
 package org.apache.commons.math.optimization;
 
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateVectorialFunction;
 import org.apache.commons.math.linear.RealMatrix;
 
-/** This class converts {@link VectorialObjectiveFunction vectorial
- * objective functions} to {@link ScalarObjectiveFunction scalar objective functions}
+/** This class converts {@link MultivariateVectorialFunction vectorial
+ * objective functions} to {@link MultivariateRealFunction scalar objective functions}
  * when the goal is to minimize them.
  * <p>
  * This class is mostly used when the vectorial objective function represents
- * a theoretical result computed from a variables set applied to a model and
- * the models variables must be adjusted to fit the theoretical result to some
+ * a theoretical result computed from a point set applied to a model and
+ * the models point must be adjusted to fit the theoretical result to some
  * reference observations. The observations may be obtained for example from
  * physical measurements whether the model is built from theoretical
  * considerations.
@@ -35,7 +38,7 @@ import org.apache.commons.math.linear.RealMatrix;
  * This class computes a possibly weighted squared sum of the residuals, which is
  * a scalar value. The residuals are the difference between the theoretical model
  * (i.e. the output of the vectorial objective function) and the observations. The
- * class implements the {@link ScalarObjectiveFunction} interface and can therefore be
+ * class implements the {@link MultivariateRealFunction} interface and can therefore be
  * minimized by any optimizer supporting scalar objectives functions.This is one way
  * to perform a least square estimation. There are other ways to do this without using
  * this converter, as some optimization algorithms directly support vectorial objective
@@ -45,19 +48,19 @@ import org.apache.commons.math.linear.RealMatrix;
  * This class support combination of residuals with or without weights and correlations.
  * </p>
   *
- * @see ScalarObjectiveFunction
- * @see VectorialObjectiveFunction
+ * @see MultivariateRealFunction
+ * @see MultivariateVectorialFunction
  * @version $Revision$ $Date$
  * @since 2.0
  */
 
-public class LeastSquaresConverter implements ScalarObjectiveFunction {
+public class LeastSquaresConverter implements MultivariateRealFunction {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = -4369653306135732243L;
 
     /** Underlying vectorial function. */
-    private final VectorialObjectiveFunction function;
+    private final MultivariateVectorialFunction function;
 
     /** Observations to be compared to objective function to compute residuals. */
     private final double[] observations;
@@ -72,7 +75,7 @@ public class LeastSquaresConverter implements ScalarObjectiveFunction {
      * @param function vectorial residuals function to wrap
      * @param observations observations to be compared to objective function to compute residuals
      */
-    public LeastSquaresConverter(final VectorialObjectiveFunction function,
+    public LeastSquaresConverter(final MultivariateVectorialFunction function,
                                  final double[] observations) {
         this.function     = function;
         this.observations = observations.clone();
@@ -98,7 +101,7 @@ public class LeastSquaresConverter implements ScalarObjectiveFunction {
      * </p>
      * <p>
      * The array computed by the objective function, the observations array and the
-     * weights array must have consistent sizes or a {@link ObjectiveException} will be
+     * weights array must have consistent sizes or a {@link FunctionEvaluationException} will be
      * triggered while computing the scalar objective.
      * </p>
      * @param function vectorial residuals function to wrap
@@ -108,7 +111,7 @@ public class LeastSquaresConverter implements ScalarObjectiveFunction {
      * vector dimensions don't match (objective function dimension is checked only when
      * the {@link #objective} method is called)
      */
-    public LeastSquaresConverter(final VectorialObjectiveFunction function,
+    public LeastSquaresConverter(final MultivariateVectorialFunction function,
                                  final double[] observations, final double[] weights)
         throws IllegalArgumentException {
         if (observations.length != weights.length) {
@@ -131,7 +134,7 @@ public class LeastSquaresConverter implements ScalarObjectiveFunction {
      * </p>
      * <p>
      * The array computed by the objective function, the observations array and the
-     * the scaling matrix must have consistent sizes or a {@link ObjectiveException}
+     * the scaling matrix must have consistent sizes or a {@link FunctionEvaluationException}
      * will be triggered while computing the scalar objective.
      * </p>
      * @param function vectorial residuals function to wrap
@@ -141,7 +144,7 @@ public class LeastSquaresConverter implements ScalarObjectiveFunction {
      * matrix dimensions don't match (objective function dimension is checked only when
      * the {@link #objective} method is called)
      */
-    public LeastSquaresConverter(final VectorialObjectiveFunction function,
+    public LeastSquaresConverter(final MultivariateVectorialFunction function,
                                  final double[] observations, final RealMatrix scale)
         throws IllegalArgumentException {
         if (observations.length != scale.getColumnDimension()) {
@@ -156,13 +159,13 @@ public class LeastSquaresConverter implements ScalarObjectiveFunction {
     }
 
     /** {@inheritDoc} */
-    public double objective(final double[] variables) throws ObjectiveException {
+    public double value(final double[] point) throws FunctionEvaluationException {
 
         // compute residuals
-        final double[] residuals = function.objective(variables);
+        final double[] residuals = function.value(point);
         if (residuals.length != observations.length) {
-            throw new ObjectiveException("dimension mismatch {0} != {1}",
-                                         residuals.length, observations.length);
+            throw new FunctionEvaluationException(point, "dimension mismatch {0} != {1}",
+                                                  residuals.length, observations.length);
         }
         for (int i = 0; i < residuals.length; ++i) {
             residuals[i] -= observations[i];
