@@ -41,6 +41,7 @@ The <action> type attribute can be add,update,fix,remove.
     <release version="2.0" date="TBD" description="TBD">
       <action dev="luc" type="fix" issue="MATH-177" >
         Redesigned the optimization framework for a simpler yet more powerful API.
+        Added non-linear conjugate gradient optimizer.
       </action>
       <action dev="luc" type="fix" issue="MATH-243" due-to="Christian Semrau">
         Fixed an error in computing gcd and lcm for some extreme values at integer
