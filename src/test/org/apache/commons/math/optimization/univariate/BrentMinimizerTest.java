@@ -24,6 +24,8 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.optimization.GoalType;
+import org.apache.commons.math.optimization.UnivariateRealOptimizer;
 
 /**
  * @version $Revision$ $Date$ 
@@ -36,16 +38,16 @@ public final class BrentMinimizerTest extends TestCase {
 
     public static Test suite() {
         TestSuite suite = new TestSuite(BrentMinimizerTest.class);
-        suite.setName("BrentMinimizer Tests");
+        suite.setName("BrentOptimizer Tests");
         return suite;
     }
 
     public void testSinMin() throws MathException {
         UnivariateRealFunction f = new SinFunction();
-        UnivariateRealMinimizer minimizer = new BrentMinimizer();
-        assertEquals(3 * Math.PI / 2, minimizer.minimize(f, 4, 5), 70 * minimizer.getAbsoluteAccuracy());
+        UnivariateRealOptimizer minimizer = new BrentOptimizer();
+        assertEquals(3 * Math.PI / 2, minimizer.optimize(f, GoalType.MINIMIZE, 4, 5), 70 * minimizer.getAbsoluteAccuracy());
         assertTrue(minimizer.getIterationCount() <= 50);
-        assertEquals(3 * Math.PI / 2, minimizer.minimize(f, 1, 5), 70 * minimizer.getAbsoluteAccuracy());
+        assertEquals(3 * Math.PI / 2, minimizer.optimize(f, GoalType.MINIMIZE, 1, 5), 70 * minimizer.getAbsoluteAccuracy());
         assertTrue(minimizer.getIterationCount() <= 50);
     }
 
@@ -53,26 +55,26 @@ public final class BrentMinimizerTest extends TestCase {
         // The quintic function has zeros at 0, +-0.5 and +-1.
         // The function has extrema (first derivative is zero) at 0.27195613 and 0.82221643,
         UnivariateRealFunction f = new QuinticFunction();
-        UnivariateRealMinimizer minimizer = new BrentMinimizer();
-        assertEquals(-0.27195613, minimizer.minimize(f, -0.3, -0.2), 1.0e-8);
-        assertEquals( 0.82221643, minimizer.minimize(f,  0.3,  0.9), 1.0e-8);
+        UnivariateRealOptimizer minimizer = new BrentOptimizer();
+        assertEquals(-0.27195613, minimizer.optimize(f, GoalType.MINIMIZE, -0.3, -0.2), 1.0e-8);
+        assertEquals( 0.82221643, minimizer.optimize(f, GoalType.MINIMIZE,  0.3,  0.9), 1.0e-8);
         assertTrue(minimizer.getIterationCount() <= 50);
 
         // search in a large interval
-        assertEquals(-0.27195613, minimizer.minimize(f, -1.0, 0.2), 1.0e-8);
+        assertEquals(-0.27195613, minimizer.optimize(f, GoalType.MINIMIZE, -1.0, 0.2), 1.0e-8);
         assertTrue(minimizer.getIterationCount() <= 50);
 
    }
     
     public void testMinEndpoints() throws Exception {
         UnivariateRealFunction f = new SinFunction();
-        UnivariateRealMinimizer solver = new BrentMinimizer();
+        UnivariateRealOptimizer solver = new BrentOptimizer();
         
         // endpoint is minimum
-        double result = solver.minimize(f, 3 * Math.PI / 2, 5);
+        double result = solver.optimize(f, GoalType.MINIMIZE, 3 * Math.PI / 2, 5);
         assertEquals(3 * Math.PI / 2, result, 70 * solver.getAbsoluteAccuracy());
 
-        result = solver.minimize(f, 4, 3 * Math.PI / 2);
+        result = solver.optimize(f, GoalType.MINIMIZE, 4, 3 * Math.PI / 2);
         assertEquals(3 * Math.PI / 2, result, 70 * solver.getAbsoluteAccuracy());
 
     }

@@ -19,6 +19,7 @@ package org.apache.commons.math.optimization.univariate;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.optimization.GoalType;
 
 /**
  * Implements Richard Brent's algorithm (from his book "Algorithms for
@@ -28,7 +29,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class BrentMinimizer extends UnivariateRealMinimizerImpl {
+public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
     
     /** Serializable version identifier */
     private static final long serialVersionUID = 7185472920191999565L;
@@ -41,40 +42,23 @@ public class BrentMinimizer extends UnivariateRealMinimizerImpl {
     /**
      * Construct a solver.
      */
-    public BrentMinimizer() {
+    public BrentOptimizer() {
         super(100, 1E-10);
     }
 
-    /**
-     * Find a minimum in the given interval, start at startValue.
-     * <p>
-     * A minimizer may require that the interval brackets a single minimum.
-     * </p>
-     * @param f the function to minimize.
-     * @param min the lower bound for the interval.
-     * @param max the upper bound for the interval.
-     * @param startValue this parameter is <em>not</em> used at all
-     * @return a value where the function is minimum
-     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
-     * or the minimizer detects convergence problems otherwise.
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function
-     * @throws IllegalArgumentException if min > max or the arguments do not
-     * satisfy the requirements specified by the minimizer
-     */
-    public double minimize(final UnivariateRealFunction f,
+    /** {@inheritDoc} */
+    public double optimize(final UnivariateRealFunction f, final GoalType goalType,
                            final double min, final double max, final double startValue)
         throws MaxIterationsExceededException, FunctionEvaluationException {
-        return minimize(f, min, max);
+        return optimize(f, goalType, min, max);
     }
     
     /** {@inheritDoc} */
-    public double minimize(final UnivariateRealFunction f,
+    public double optimize(final UnivariateRealFunction f, final GoalType goalType,
                            final double min, final double max)
-        throws MaxIterationsExceededException, 
-        FunctionEvaluationException {
+        throws MaxIterationsExceededException, FunctionEvaluationException {
         clearResult();
-        return localMin(min, max, relativeAccuracy, absoluteAccuracy, f);
+        return localMin(f, goalType, min, max, relativeAccuracy, absoluteAccuracy);
     }
     
     /**
@@ -88,26 +72,30 @@ public class BrentMinimizer extends UnivariateRealMinimizerImpl {
      * {@code eps} should be no smaller than <em>2 macheps</em> and preferable not
      * much less than <em>sqrt(macheps)</em>, where <em>macheps</em> is the relative
      * machine precision. {@code t} should be positive.
-     *
      * @param f the function to solve
-     * @param a Lower bound of the interval.
-     * @param b Higher bound of the interval.
-     * @param eps Relative accuracy.
-     * @param t Absolute accuracy.
+     * @param goalType type of optimization goal: either {@link GoalType#MAXIMIZE}
+     * or {@link GoalType#MINIMIZE}
+     * @param a Lower bound of the interval
+     * @param b Higher bound of the interval
+     * @param eps Relative accuracy
+     * @param t Absolute accuracy
      * @return the point at which the function is minimal.
      * @throws MaxIterationsExceededException if the maximum iteration count
      * is exceeded.
      * @throws FunctionEvaluationException if an error occurs evaluating
      * the function. 
      */
-    private double localMin(double a, double b, final double eps,
-                            final double t, final UnivariateRealFunction f)
+    private double localMin(final UnivariateRealFunction f, final GoalType goalType,
+                            double a, double b, final double eps, final double t)
         throws MaxIterationsExceededException, FunctionEvaluationException {
         double x = a + c * (b - a);
         double v = x;
         double w = x;
         double e = 0;
         double fx = f.value(x);
+        if (goalType == GoalType.MAXIMIZE) {
+            fx = -fx;
+        }
         double fv = fx;
         double fw = fx;
 
@@ -158,6 +146,9 @@ public class BrentMinimizer extends UnivariateRealMinimizerImpl {
                 // f must not be evaluated too close to a or b.
                 u = x + ((Math.abs(d) > tol) ? d : ((d > 0) ? tol : -tol));
                 double fu = f.value(u);
+                if (goalType == GoalType.MAXIMIZE) {
+                    fu = -fu;
+                }
 
                 // Update a, b, v, w and x.
                 if (fu <= fx) {
@@ -188,8 +179,8 @@ public class BrentMinimizer extends UnivariateRealMinimizerImpl {
                         fv = fu;
                     }
                 }
-            } else { // Termination.
-                setResult(x, fx, count);
+            } else { // termination
+                setResult(x, (goalType == GoalType.MAXIMIZE) ? -fx : fx, count);
                 return x;
             }
 
