@@ -19,9 +19,9 @@ package org.apache.commons.math.optimization.direct;
 
 import java.util.Comparator;
 
-import org.apache.commons.math.optimization.ObjectiveException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.optimization.OptimizationException;
-import org.apache.commons.math.optimization.ScalarPointValuePair;
+import org.apache.commons.math.optimization.RealPointValuePair;
 
 /** 
  * This class implements the Nelder-Mead direct search method.
@@ -73,8 +73,8 @@ public class NelderMead extends DirectSearchOptimizer {
     }
 
     /** {@inheritDoc} */
-    protected void iterateSimplex(final Comparator<ScalarPointValuePair> comparator)
-        throws ObjectiveException, OptimizationException {
+    protected void iterateSimplex(final Comparator<RealPointValuePair> comparator)
+        throws FunctionEvaluationException, OptimizationException {
 
         incrementIterationsCounter();
 
@@ -82,9 +82,9 @@ public class NelderMead extends DirectSearchOptimizer {
         final int n = simplex.length - 1;
 
         // interesting values
-        final ScalarPointValuePair best       = simplex[0];
-        final ScalarPointValuePair secondBest = simplex[n-1];
-        final ScalarPointValuePair worst      = simplex[n];
+        final RealPointValuePair best       = simplex[0];
+        final RealPointValuePair secondBest = simplex[n-1];
+        final RealPointValuePair worst      = simplex[n];
         final double[] xWorst = worst.getPointRef();
 
         // compute the centroid of the best vertices
@@ -106,7 +106,7 @@ public class NelderMead extends DirectSearchOptimizer {
         for (int j = 0; j < n; ++j) {
             xR[j] = centroid[j] + rho * (centroid[j] - xWorst[j]);
         }
-        final ScalarPointValuePair reflected = new ScalarPointValuePair(xR, evaluate(xR), false);
+        final RealPointValuePair reflected = new RealPointValuePair(xR, evaluate(xR), false);
 
         if ((comparator.compare(best, reflected) <= 0) &&
             (comparator.compare(reflected, secondBest) < 0)) {
@@ -121,7 +121,7 @@ public class NelderMead extends DirectSearchOptimizer {
             for (int j = 0; j < n; ++j) {
                 xE[j] = centroid[j] + khi * (xR[j] - centroid[j]);
             }
-            final ScalarPointValuePair expanded = new ScalarPointValuePair(xE, evaluate(xE), false);
+            final RealPointValuePair expanded = new RealPointValuePair(xE, evaluate(xE), false);
 
             if (comparator.compare(expanded, reflected) < 0) {
                 // accept the expansion point
@@ -140,7 +140,7 @@ public class NelderMead extends DirectSearchOptimizer {
                 for (int j = 0; j < n; ++j) {
                     xC[j] = centroid[j] + gamma * (xR[j] - centroid[j]);
                 }
-                final ScalarPointValuePair outContracted = new ScalarPointValuePair(xC, evaluate(xC), false);
+                final RealPointValuePair outContracted = new RealPointValuePair(xC, evaluate(xC), false);
 
                 if (comparator.compare(outContracted, reflected) <= 0) {
                     // accept the contraction point
@@ -155,7 +155,7 @@ public class NelderMead extends DirectSearchOptimizer {
                 for (int j = 0; j < n; ++j) {
                     xC[j] = centroid[j] - gamma * (centroid[j] - xWorst[j]);
                 }
-                final ScalarPointValuePair inContracted = new ScalarPointValuePair(xC, evaluate(xC), false);
+                final RealPointValuePair inContracted = new RealPointValuePair(xC, evaluate(xC), false);
 
                 if (comparator.compare(inContracted, worst) < 0) {
                     // accept the contraction point
@@ -172,7 +172,7 @@ public class NelderMead extends DirectSearchOptimizer {
                 for (int j = 0; j < n; ++j) {
                     x[j] = xSmallest[j] + sigma * (x[j] - xSmallest[j]);
                 }
-                simplex[i] = new ScalarPointValuePair(x, Double.NaN, false);
+                simplex[i] = new RealPointValuePair(x, Double.NaN, false);
             }
             evaluateSimplex(comparator);
 

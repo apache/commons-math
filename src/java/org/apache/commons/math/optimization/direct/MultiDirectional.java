@@ -19,9 +19,9 @@ package org.apache.commons.math.optimization.direct;
 
 import java.util.Comparator;
 
-import org.apache.commons.math.optimization.ObjectiveException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.optimization.OptimizationException;
-import org.apache.commons.math.optimization.ScalarPointValuePair;
+import org.apache.commons.math.optimization.RealPointValuePair;
 
 /** 
  * This class implements the multi-directional direct search method.
@@ -59,24 +59,24 @@ public class MultiDirectional extends DirectSearchOptimizer {
     }
 
     /** {@inheritDoc} */
-    protected void iterateSimplex(final Comparator<ScalarPointValuePair> comparator)
-        throws ObjectiveException, OptimizationException, IllegalArgumentException {
+    protected void iterateSimplex(final Comparator<RealPointValuePair> comparator)
+        throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
 
         while (true) {
 
             incrementIterationsCounter();
 
             // save the original vertex
-            final ScalarPointValuePair[] original = simplex;
-            final ScalarPointValuePair best = original[0];
+            final RealPointValuePair[] original = simplex;
+            final RealPointValuePair best = original[0];
 
             // perform a reflection step
-            final ScalarPointValuePair reflected = evaluateNewSimplex(original, 1.0, comparator);
+            final RealPointValuePair reflected = evaluateNewSimplex(original, 1.0, comparator);
             if (comparator.compare(reflected, best) < 0) {
 
                 // compute the expanded simplex
-                final ScalarPointValuePair[] reflectedSimplex = simplex;
-                final ScalarPointValuePair expanded = evaluateNewSimplex(original, khi, comparator);
+                final RealPointValuePair[] reflectedSimplex = simplex;
+                final RealPointValuePair expanded = evaluateNewSimplex(original, khi, comparator);
                 if (comparator.compare(reflected, expanded) <= 0) {
                     // accept the reflected simplex
                     simplex = reflectedSimplex;
@@ -87,7 +87,7 @@ public class MultiDirectional extends DirectSearchOptimizer {
             }
 
             // compute the contracted simplex
-            final ScalarPointValuePair contracted = evaluateNewSimplex(original, gamma, comparator);
+            final RealPointValuePair contracted = evaluateNewSimplex(original, gamma, comparator);
             if (comparator.compare(contracted, best) < 0) {
                 // accept the contracted simplex
                 return;
@@ -102,19 +102,19 @@ public class MultiDirectional extends DirectSearchOptimizer {
      * @param coeff linear coefficient
      * @param comparator comparator to use to sort simplex vertices from best to poorest
      * @return best point in the transformed simplex
-     * @exception ObjectiveException if the function cannot be evaluated at
+     * @exception FunctionEvaluationException if the function cannot be evaluated at
      * some point
      */
-    private ScalarPointValuePair evaluateNewSimplex(final ScalarPointValuePair[] original,
+    private RealPointValuePair evaluateNewSimplex(final RealPointValuePair[] original,
                                               final double coeff,
-                                              final Comparator<ScalarPointValuePair> comparator)
-        throws ObjectiveException {
+                                              final Comparator<RealPointValuePair> comparator)
+        throws FunctionEvaluationException {
 
         final double[] xSmallest = original[0].getPointRef();
         final int n = xSmallest.length;
 
         // create the linearly transformed simplex
-        simplex = new ScalarPointValuePair[n + 1];
+        simplex = new RealPointValuePair[n + 1];
         simplex[0] = original[0];
         for (int i = 1; i <= n; ++i) {
             final double[] xOriginal    = original[i].getPointRef();
@@ -122,7 +122,7 @@ public class MultiDirectional extends DirectSearchOptimizer {
             for (int j = 0; j < n; ++j) {
                 xTransformed[j] = xSmallest[j] + coeff * (xSmallest[j] - xOriginal[j]);
             }
-            simplex[i] = new ScalarPointValuePair(xTransformed, Double.NaN, false);
+            simplex[i] = new RealPointValuePair(xTransformed, Double.NaN, false);
         }
 
         // evaluate it

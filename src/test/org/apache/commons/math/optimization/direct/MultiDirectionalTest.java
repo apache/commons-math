@@ -22,11 +22,11 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.linear.decomposition.NotPositiveDefiniteMatrixException;
 import org.apache.commons.math.optimization.GoalType;
-import org.apache.commons.math.optimization.ObjectiveException;
-import org.apache.commons.math.optimization.ScalarObjectiveFunction;
-import org.apache.commons.math.optimization.ScalarPointValuePair;
+import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.optimization.SimpleScalarValueChecker;
 
 public class MultiDirectionalTest
@@ -36,15 +36,15 @@ public class MultiDirectionalTest
     super(name);
   }
 
-  public void testObjectiveExceptions() throws ConvergenceException {
-      ScalarObjectiveFunction wrong =
-          new ScalarObjectiveFunction() {
+  public void testFunctionEvaluationExceptions() throws ConvergenceException {
+      MultivariateRealFunction wrong =
+          new MultivariateRealFunction() {
             private static final long serialVersionUID = 4751314470965489371L;
-            public double objective(double[] x) throws ObjectiveException {
+            public double value(double[] x) throws FunctionEvaluationException {
                 if (x[0] < 0) {
-                    throw new ObjectiveException("{0}", "oops");
+                    throw new FunctionEvaluationException(x, "{0}", "oops");
                 } else if (x[0] > 1) {
-                    throw new ObjectiveException(new RuntimeException("oops"));
+                    throw new FunctionEvaluationException(new RuntimeException("oops"), x);
                 } else {
                     return x[0] * (1 - x[0]);
                 }
@@ -54,7 +54,7 @@ public class MultiDirectionalTest
           MultiDirectional optimizer = new MultiDirectional(0.9, 1.9);
           optimizer.optimize(wrong, GoalType.MINIMIZE, new double[] { -1.0 });
           fail("an exception should have been thrown");
-      } catch (ObjectiveException ce) {
+      } catch (FunctionEvaluationException ce) {
           // expected behavior
           assertNull(ce.getCause());
       } catch (Exception e) {
@@ -64,7 +64,7 @@ public class MultiDirectionalTest
           MultiDirectional optimizer = new MultiDirectional(0.9, 1.9);
           optimizer.optimize(wrong, GoalType.MINIMIZE, new double[] { +2.0 });
           fail("an exception should have been thrown");
-      } catch (ObjectiveException ce) {
+      } catch (FunctionEvaluationException ce) {
           // expected behavior
           assertNotNull(ce.getCause());
       } catch (Exception e) {
@@ -73,7 +73,7 @@ public class MultiDirectionalTest
   }
 
   public void testMinimizeMaximize()
-      throws ObjectiveException, ConvergenceException, NotPositiveDefiniteMatrixException {
+      throws FunctionEvaluationException, ConvergenceException, NotPositiveDefiniteMatrixException {
 
       // the following function has 4 local extrema:
       final double xM        = -3.841947088256863675365;
@@ -84,9 +84,9 @@ public class MultiDirectionalTest
       final double valueXmYp = -valueXmYm;                // local  minimum
       final double valueXpYm = -0.7290400707055187115322; // global minimum
       final double valueXpYp = -valueXpYm;                // global maximum
-      ScalarObjectiveFunction fourExtrema = new ScalarObjectiveFunction() {
+      MultivariateRealFunction fourExtrema = new MultivariateRealFunction() {
           private static final long serialVersionUID = -7039124064449091152L;
-          public double objective(double[] variables) {
+          public double value(double[] variables) throws FunctionEvaluationException {
               final double x = variables[0];
               final double y = variables[1];
               return ((x == 0) || (y == 0)) ? 0 : (Math.atan(x) * Math.atan(x + 2) * Math.atan(y) * Math.atan(y) / (x * y));
@@ -97,7 +97,7 @@ public class MultiDirectionalTest
       optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1.0e-10, 1.0e-30));
       optimizer.setMaxIterations(200);
       optimizer.setStartConfiguration(new double[] { 0.2, 0.2 });
-      ScalarPointValuePair optimum;
+      RealPointValuePair optimum;
 
       // minimization
       optimum = optimizer.optimize(fourExtrema, GoalType.MINIMIZE, new double[] { -3.0, 0 });
@@ -132,12 +132,12 @@ public class MultiDirectionalTest
   }
 
   public void testRosenbrock()
-    throws ObjectiveException, ConvergenceException {
+    throws FunctionEvaluationException, ConvergenceException {
 
-    ScalarObjectiveFunction rosenbrock =
-      new ScalarObjectiveFunction() {
+    MultivariateRealFunction rosenbrock =
+      new MultivariateRealFunction() {
         private static final long serialVersionUID = -9044950469615237490L;
-        public double objective(double[] x) {
+        public double value(double[] x) throws FunctionEvaluationException {
           ++count;
           double a = x[1] - x[0] * x[0];
           double b = 1.0 - x[0];
@@ -152,7 +152,7 @@ public class MultiDirectionalTest
     optimizer.setStartConfiguration(new double[][] {
             { -1.2,  1.0 }, { 0.9, 1.2 } , {  3.5, -2.3 }
     });
-    ScalarPointValuePair optimum =
+    RealPointValuePair optimum =
         optimizer.optimize(rosenbrock, GoalType.MINIMIZE, new double[] { -1.2, 1.0 });
 
     assertEquals(count, optimizer.getEvaluations());
@@ -163,12 +163,12 @@ public class MultiDirectionalTest
   }
 
   public void testPowell()
-    throws ObjectiveException, ConvergenceException {
+    throws FunctionEvaluationException, ConvergenceException {
 
-    ScalarObjectiveFunction powell =
-      new ScalarObjectiveFunction() {
+    MultivariateRealFunction powell =
+      new MultivariateRealFunction() {
         private static final long serialVersionUID = -832162886102041840L;
-        public double objective(double[] x) {
+        public double value(double[] x) throws FunctionEvaluationException {
           ++count;
           double a = x[0] + 10 * x[1];
           double b = x[2] - x[3];
@@ -182,7 +182,7 @@ public class MultiDirectionalTest
     MultiDirectional optimizer = new MultiDirectional();
     optimizer.setConvergenceChecker(new SimpleScalarValueChecker(-1.0, 1.0e-3));
     optimizer.setMaxIterations(1000);
-    ScalarPointValuePair optimum =
+    RealPointValuePair optimum =
       optimizer.optimize(powell, GoalType.MINIMIZE, new double[] { 3.0, -1.0, 0.0, 1.0 });
     assertEquals(count, optimizer.getEvaluations());
     assertTrue(optimizer.getEvaluations() > 800);

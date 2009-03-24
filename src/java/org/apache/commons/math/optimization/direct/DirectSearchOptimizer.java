@@ -20,15 +20,15 @@ package org.apache.commons.math.optimization.direct;
 import java.util.Arrays;
 import java.util.Comparator;
 
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
-import org.apache.commons.math.optimization.ScalarConvergenceChecker;
+import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.optimization.GoalType;
-import org.apache.commons.math.optimization.ObjectiveException;
-import org.apache.commons.math.optimization.ScalarObjectiveFunction;
 import org.apache.commons.math.optimization.OptimizationException;
-import org.apache.commons.math.optimization.ScalarOptimizer;
-import org.apache.commons.math.optimization.ScalarPointValuePair;
+import org.apache.commons.math.optimization.RealConvergenceChecker;
+import org.apache.commons.math.optimization.MultivariateRealOptimizer;
+import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.optimization.SimpleScalarValueChecker;
 
 /** 
@@ -58,14 +58,14 @@ import org.apache.commons.math.optimization.SimpleScalarValueChecker;
  * before optimization is attempted, an explicit call to the first method
  * with all steps set to +1 is triggered, thus building a default
  * configuration from a unit hypercube. Each call to {@link
- * #optimize(ScalarObjectiveFunction, GoalType, double[]) optimize} will reuse
+ * #optimize(MultivariateRealFunction, GoalType, double[]) optimize} will reuse
  * the current start configuration and move it such that its first vertex
  * is at the provided start point of the optimization. If the same optimizer
  * is used to solve different problems and the number of parameters change,
  * the start configuration <em>must</em> be reset or a dimension mismatch
  * will occur.</p>
  *
- * <p>If {@link #setConvergenceChecker(ScalarConvergenceChecker)} is not called,
+ * <p>If {@link #setConvergenceChecker(RealConvergenceChecker)} is not called,
  * a default {@link SimpleScalarValueChecker} is used.</p>
  *
  * <p>Convergence is checked by providing the <em>worst</em> points of
@@ -76,25 +76,25 @@ import org.apache.commons.math.optimization.SimpleScalarValueChecker;
  * performed by the derived classes according to the implemented
  * algorithms.</p>
  *
- * @see ScalarObjectiveFunction
+ * @see MultivariateRealFunction
  * @see NelderMead
  * @see MultiDirectional
  * @version $Revision$ $Date$
  * @since 1.2
  */
-public abstract class DirectSearchOptimizer implements ScalarOptimizer {
+public abstract class DirectSearchOptimizer implements MultivariateRealOptimizer {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 4299910390345933369L;
 
     /** Simplex. */
-    protected ScalarPointValuePair[] simplex;
+    protected RealPointValuePair[] simplex;
 
     /** Objective function. */
-    private ScalarObjectiveFunction f;
+    private MultivariateRealFunction f;
 
     /** Convergence checker. */
-    private ScalarConvergenceChecker checker;
+    private RealConvergenceChecker checker;
 
     /** Maximal number of iterations allowed. */
     private int maxIterations;
@@ -232,19 +232,21 @@ public abstract class DirectSearchOptimizer implements ScalarOptimizer {
     }
 
     /** {@inheritDoc} */
-    public void setConvergenceChecker(ScalarConvergenceChecker checker) {
+    public void setConvergenceChecker(RealConvergenceChecker checker) {
         this.checker = checker;
     }
 
     /** {@inheritDoc} */
-    public ScalarConvergenceChecker getConvergenceChecker() {
+    public RealConvergenceChecker getConvergenceChecker() {
         return checker;
     }
 
     /** {@inheritDoc} */
-    public ScalarPointValuePair optimize(final ScalarObjectiveFunction f, final GoalType goalType,
+    public RealPointValuePair optimize(final MultivariateRealFunction f,
+                                         final GoalType goalType,
                                          final double[] startPoint)
-        throws ObjectiveException, OptimizationException, IllegalArgumentException {
+        throws FunctionEvaluationException, OptimizationException,
+        IllegalArgumentException {
 
         if (startConfiguration == null) {
             // no initial configuration has been set up for simplex
@@ -255,14 +257,16 @@ public abstract class DirectSearchOptimizer implements ScalarOptimizer {
         }
 
         this.f = f;
-        final Comparator<ScalarPointValuePair> comparator = new Comparator<ScalarPointValuePair>() {
-            public int compare(final ScalarPointValuePair o1, final ScalarPointValuePair o2) {
-                final double v1 = o1.getValue();
-                final double v2 = o2.getValue();
-                return (goalType == GoalType.MINIMIZE) ?
-                        Double.compare(v1, v2) : Double.compare(v2, v1);
-            }
-        };
+        final Comparator<RealPointValuePair> comparator =
+            new Comparator<RealPointValuePair>() {
+                public int compare(final RealPointValuePair o1,
+                                   final RealPointValuePair o2) {
+                    final double v1 = o1.getValue();
+                    final double v2 = o2.getValue();
+                    return (goalType == GoalType.MINIMIZE) ?
+                            Double.compare(v1, v2) : Double.compare(v2, v1);
+                }
+            };
 
         // initialize search
         iterations  = 0;
@@ -270,7 +274,7 @@ public abstract class DirectSearchOptimizer implements ScalarOptimizer {
         buildSimplex(startPoint);
         evaluateSimplex(comparator);
 
-        ScalarPointValuePair[] previous = new ScalarPointValuePair[simplex.length];
+        RealPointValuePair[] previous = new RealPointValuePair[simplex.length];
         while (true) {
 
             if (iterations > 0) {
@@ -305,26 +309,26 @@ public abstract class DirectSearchOptimizer implements ScalarOptimizer {
 
     /** Compute the next simplex of the algorithm.
      * @param comparator comparator to use to sort simplex vertices from best to worst
-     * @exception ObjectiveException if the function cannot be evaluated at
+     * @exception FunctionEvaluationException if the function cannot be evaluated at
      * some point
      * @exception OptimizationException if the algorithm fails to converge
      * @exception IllegalArgumentException if the start point dimension is wrong
      */
-    protected abstract void iterateSimplex(final Comparator<ScalarPointValuePair> comparator)
-        throws ObjectiveException, OptimizationException, IllegalArgumentException;
+    protected abstract void iterateSimplex(final Comparator<RealPointValuePair> comparator)
+        throws FunctionEvaluationException, OptimizationException, IllegalArgumentException;
 
     /** Evaluate the objective function on one point.
      * <p>A side effect of this method is to count the number of
      * function evaluations</p>
      * @param x point on which the objective function should be evaluated
      * @return objective function value at the given point
-     * @exception ObjectiveException if no value can be computed for the parameters
+     * @exception FunctionEvaluationException if no value can be computed for the parameters
      * @exception IllegalArgumentException if the start point dimension is wrong
      */
     protected double evaluate(final double[] x)
-        throws ObjectiveException, IllegalArgumentException {
+        throws FunctionEvaluationException, IllegalArgumentException {
         evaluations++;
-        return f.objective(x);
+        return f.value(x);
     }
 
     /** Build an initial simplex.
@@ -343,8 +347,8 @@ public abstract class DirectSearchOptimizer implements ScalarOptimizer {
         }
 
         // set first vertex
-        simplex = new ScalarPointValuePair[n + 1];
-        simplex[0] = new ScalarPointValuePair(startPoint, Double.NaN);
+        simplex = new RealPointValuePair[n + 1];
+        simplex[0] = new RealPointValuePair(startPoint, Double.NaN);
 
         // set remaining vertices
         for (int i = 0; i < n; ++i) {
@@ -353,24 +357,24 @@ public abstract class DirectSearchOptimizer implements ScalarOptimizer {
             for (int k = 0; k < n; ++k) {
                 vertexI[k] = startPoint[k] + confI[k];
             }
-            simplex[i + 1] = new ScalarPointValuePair(vertexI, Double.NaN);
+            simplex[i + 1] = new RealPointValuePair(vertexI, Double.NaN);
         }
 
     }
 
     /** Evaluate all the non-evaluated points of the simplex.
      * @param comparator comparator to use to sort simplex vertices from best to worst
-     * @exception ObjectiveException if no value can be computed for the parameters
+     * @exception FunctionEvaluationException if no value can be computed for the parameters
      */
-    protected void evaluateSimplex(final Comparator<ScalarPointValuePair> comparator)
-        throws ObjectiveException {
+    protected void evaluateSimplex(final Comparator<RealPointValuePair> comparator)
+        throws FunctionEvaluationException {
 
         // evaluate the objective function at all non-evaluated simplex points
         for (int i = 0; i < simplex.length; ++i) {
-            final ScalarPointValuePair vertex = simplex[i];
+            final RealPointValuePair vertex = simplex[i];
             final double[] point = vertex.getPointRef();
             if (Double.isNaN(vertex.getValue())) {
-                simplex[i] = new ScalarPointValuePair(point, evaluate(point), false);
+                simplex[i] = new RealPointValuePair(point, evaluate(point), false);
             }
         }
 
@@ -383,12 +387,12 @@ public abstract class DirectSearchOptimizer implements ScalarOptimizer {
      * @param pointValuePair point to insert
      * @param comparator comparator to use to sort simplex vertices from best to worst
      */
-    protected void replaceWorstPoint(ScalarPointValuePair pointValuePair,
-                                     final Comparator<ScalarPointValuePair> comparator) {
+    protected void replaceWorstPoint(RealPointValuePair pointValuePair,
+                                     final Comparator<RealPointValuePair> comparator) {
         int n = simplex.length - 1;
         for (int i = 0; i < n; ++i) {
             if (comparator.compare(simplex[i], pointValuePair) > 0) {
-                ScalarPointValuePair tmp = simplex[i];
+                RealPointValuePair tmp = simplex[i];
                 simplex[i]         = pointValuePair;
                 pointValuePair     = tmp;
             }
