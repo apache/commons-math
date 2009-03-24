@@ -49,8 +49,8 @@ public class MessagesResources_fr
       "d\u00e9passement de capacit\u00e9 : le PGCD de {0} et {1} vaut 2^31" },
         
     // org.apache.commons.math.FunctionEvaluationException
-    { "Evaluation failed for argument = {0}",
-      "Erreur d''\u00e9valuation pour l''argument {0}" },
+    { "evaluation failed for argument = {0}",
+      "erreur d''\u00e9valuation pour l''argument {0}" },
 
     // org.apache.commons.math.DuplicateSampleAbscissaException
     { "Abscissa {0} is duplicated at both indices {1} and {2}",
@@ -141,6 +141,10 @@ public class MessagesResources_fr
       "trop petite tol\u00e9rance sur l''orthogonalit\u00e9 ({0}), la solution est orthogonale \u00e0 la jacobienne" },
     { "unable to perform Q.R decomposition on the {0}x{1} jacobian matrix",
       "impossible de calculer la factorisation Q.R de la matrice jacobienne {0}x{1}" },
+
+    // org.apache.commons.math.optimization.general.NonLinearConjugateGradientOptimizer
+    { "unable to bracket optimum in line search",
+      "impossible d''encadrer l''optimum lors de la recherche lin\u00e9aire" },
 
     // org.apache.commons.math.geometry.CardanEulerSingularityException
     { "Cardan angles singularity",

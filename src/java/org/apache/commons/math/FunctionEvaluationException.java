@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math;
 
+import org.apache.commons.math.linear.RealVectorImpl;
+
 /**
  * Exception thrown when an error occurs evaluating a function.
  * <p>
@@ -27,10 +29,10 @@ package org.apache.commons.math;
 public class FunctionEvaluationException extends MathException  {
     
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -7267500407292949362L;
+    private static final long serialVersionUID = -4305020489115478365L;
 
     /** Argument causing function evaluation failure */
-    private double argument = Double.NaN;
+    private double[] argument;
     
     /**
      * Construct an exception indicating the argument value
@@ -39,8 +41,20 @@ public class FunctionEvaluationException extends MathException  {
      * @param argument  the failing function argument 
      */
     public FunctionEvaluationException(double argument) {
-        super("Evaluation failed for argument = {0}", Double.valueOf(argument));
-        this.argument = argument;
+        super("evaluation failed for argument = {0}", argument);
+        this.argument = new double[] { argument };
+    }
+    
+    /**
+     * Construct an exception indicating the argument value
+     * that caused the function evaluation to fail.
+     * 
+     * @param argument  the failing function argument 
+     * @since 2.0
+     */
+    public FunctionEvaluationException(double[] argument) {
+        super("evaluation failed for argument = {0}", new RealVectorImpl(argument));
+        this.argument = argument.clone();
     }
     
     /**
@@ -54,7 +68,21 @@ public class FunctionEvaluationException extends MathException  {
     public FunctionEvaluationException(double argument,
                                        String pattern, Object ... arguments) {
         super(pattern, arguments);
-        this.argument = argument;
+        this.argument = new double[] { argument };
+    }
+
+    /**
+     * Constructs an exception with specified formatted detail message.
+     * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * @param argument  the failing function argument 
+     * @param pattern format specifier
+     * @param arguments format arguments
+     * @since 2.0
+     */
+    public FunctionEvaluationException(double[] argument,
+                                       String pattern, Object ... arguments) {
+        super(pattern, arguments);
+        this.argument = argument.clone();
     }
 
     /**
@@ -66,7 +94,19 @@ public class FunctionEvaluationException extends MathException  {
      */
     public FunctionEvaluationException(Throwable cause, double argument) {
         super(cause);
-        this.argument = argument;
+        this.argument = new double[] { argument };
+    }
+
+    /**
+     * Constructs an exception with specified root cause.
+     * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * @param cause  the exception or error that caused this exception to be thrown
+     * @param argument  the failing function argument 
+     * @since 2.0
+     */
+    public FunctionEvaluationException(Throwable cause, double[] argument) {
+        super(cause);
+        this.argument = argument.clone();
     }
 
     /**
@@ -82,7 +122,23 @@ public class FunctionEvaluationException extends MathException  {
                                        double argument, String pattern,
                                        Object ... arguments) {
         super(cause, pattern, arguments);
-        this.argument = argument;
+        this.argument = new double[] { argument };
+    }
+
+    /**
+     * Constructs an exception with specified formatted detail message and root cause.
+     * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * @param cause  the exception or error that caused this exception to be thrown
+     * @param argument  the failing function argument 
+     * @param pattern format specifier
+     * @param arguments format arguments
+     * @since 2.0
+     */
+    public FunctionEvaluationException(Throwable cause,
+                                       double[] argument, String pattern,
+                                       Object ... arguments) {
+        super(cause, pattern, arguments);
+        this.argument = argument.clone();
     }
 
     /**
@@ -90,8 +146,8 @@ public class FunctionEvaluationException extends MathException  {
      * 
      * @return  argument that caused function evaluation to fail
      */
-    public double getArgument() {
-        return this.argument;
+    public double[] getArgument() {
+        return argument.clone();
     }
 
 }
