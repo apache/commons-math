@@ -19,68 +19,54 @@
 <body>
 <p>
 This package provides common interfaces for the optimization algorithms
-provided in sub-packages. The main interfaces defines objective functions
-and optimizers.
-</p>
-<p>
-Objective functions interfaces are intended to be implemented by
-user code to represent the problem to minimize or maximize. When the goal is to
-minimize, the objective function is often called a cost function. Objective
-functions can be either scalar or vectorial and can be either differentiable or
-not. There are four different interfaces, one for each case:
-<ul>
-  <li>{@link org.apache.commons.math.optimization.ScalarObjectiveFunction
-      ScalarObjectiveFunction}</li>
-  <li>{@link org.apache.commons.math.optimization.ScalarDifferentiableObjectiveFunction
-      ScalarDifferentiableObjectiveFunction}</li>
-  <li>{@link org.apache.commons.math.optimization.VectorialObjectiveFunction
-      VectorialObjectiveFunction}</li>
-  <li>{@link org.apache.commons.math.optimization.VectorialDifferentiableObjectiveFunction
-      VectorialDifferentiableObjectiveFunction}</li>
-</ul>
-</p>
-
-<p>
+provided in sub-packages. The main interfaces defines optimizers and convergence
+checkers. The functions that are optimized by the algorithms provided by this
+package and its sub-packages are a subset of the one defined in the <code>analysis</code>
+package, namely the real and vector valued functions. These functions are called
+objective function here. When the goal is to minimize, the functions are often called
+cost function, this name is not used in this package.
 </p>
 
 <p>
 Optimizers are the algorithms that will either minimize or maximize, the objective function
-by changing its input variables set until an optimal set is found. There are only three
-interfaces defining the common behavior of optimizers, one for each type of objective
-function except {@link org.apache.commons.math.optimization.VectorialObjectiveFunction
-VectorialObjectiveFunction}:
+by changing its input variables set until an optimal set is found. There are only four
+interfaces defining the common behavior of optimizers, one for each supported type of objective
+function:
 <ul>
-  <li>{@link org.apache.commons.math.optimization.ScalarOptimizer
-      ScalarOptimizer}</li>
-  <li>{@link org.apache.commons.math.optimization.ScalarDifferentiableOptimizer
-      ScalarDifferentiableOptimizer}</li>
-  <li>{@link org.apache.commons.math.optimization.VectorialDifferentiableOptimizer
-      VectorialDifferentiableOptimizer}</li>
+  <li>{@link org.apache.commons.math.optimization.UnivariateRealOptimizer
+      UnivariateRealOptimizer} for {@link org.apache.commons.math.analysis.UnivariateRealFunction
+      univariate real functions}</li>
+  <li>{@link org.apache.commons.math.optimization.MultivariateRealOptimizer
+      MultivariateRealOptimizer} for {@link org.apache.commons.math.analysis.MultivariateRealFunction
+      multivariate real functions}</li>
+  <li>{@link org.apache.commons.math.optimization.DifferentiableMultivariateRealOptimizer
+      DifferentiableMultivariateRealOptimizer} for {@link
+      org.apache.commons.math.analysis.DifferentiableMultivariateRealFunction
+      differentiable multivariate real functions}</li>
+  <li>{@link org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer
+      DifferentiableMultivariateVectorialOptimizer} for {@link
+      org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction
+      differentiable multivariate vectorial functions}</li>
 </ul>
 </p>
 
 <p>
-Despite there are only three types of supported optimizers, it is possible to optimize a
-transform a non-differentiable {@link
-org.apache.commons.math.optimization.VectorialObjectiveFunction VectorialObjectiveFunction}
-by transforming into a {@link org.apache.commons.math.optimization.ScalarObjectiveFunction
-ScalarObjectiveFunction} thanks to the {@link
+Despite there are only four types of supported optimizers, it is possible to optimize a
+transform a {@link org.apache.commons.math.analysis.MultivariateVectorialFunction
+non-differentiable multivariate vectorial function} by converting it to a {@link
+org.apache.commons.math.analysis.MultivariateRealFunction non-differentiable multivariate
+real function} thanks to the {@link
 org.apache.commons.math.optimization.LeastSquaresConverter LeastSquaresConverter} helper class.
 The transformed function can be optimized using any implementation of the {@link
-org.apache.commons.math.optimization.ScalarOptimizer ScalarOptimizer} interface.
+org.apache.commons.math.optimization.MultivariateRealOptimizer MultivariateRealOptimizer} interface.
 </p>
 
 <p>
-There are also three special implementations which wrap classical optimizers in order to
-add them a multi-start feature. This feature call the underlying optimizer several times
-in sequence with different starting points and returns the best optimum found or all optima
-if desired. This is a classical way to prevent being trapped into a local extremum when
-looking for a global one. The multi-start wrappers are {@link
-org.apache.commons.math.optimization.MultiStartScalarOptimizer MultiStartScalarOptimizer},
-{@link org.apache.commons.math.optimization.MultiStartScalarDifferentiableOptimizer
-MultiStartScalarDifferentiableOptimizer} and {@link
-org.apache.commons.math.optimization.MultiStartMultiStartVectorialOptimizer
-MultiStartVectorialOptimizer}.
+For each of the four types of supported optimizers, there is a special implementation which
+wraps a classical optimizer in order to add it a multi-start feature. This feature call the
+underlying optimizer several times in sequence with different starting points and returns
+the best optimum found or all optima if desired. This is a classical way to prevent being
+trapped into a local extremum when looking for a global one.
 </p>
 </body>
 </html>

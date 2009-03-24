@@ -34,6 +34,13 @@
          coefficients as differentiable real functions.
         </p>
         <p>
+         Functions interfaces are intended to be implemented by user code to represent
+         their domain problems. The algorithms provided by the library will then operate
+         on these function to find their roots, or integrate them, or ... Functions can
+         be multivariate or univariate, real vectorial or matrix valued, and they can be
+         differentiable or not.
+        </p>
+        <p>
           Possible future additions may include numerical differentiation.
         </p>
       </subsection>
