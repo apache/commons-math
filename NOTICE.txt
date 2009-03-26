@@ -4,6 +4,9 @@ Copyright 2001-2008 The Apache Software Foundation
 This product includes software developed by
 The Apache Software Foundation (http://www.apache.org/).
 
+This product includes software developed by
+Benjamin McCann (http://www.benmccann.com) and distributed with with
+the following copyright: Copyright 2009 Google Inc.
 
 This product includes software translated from the lmder, lmpar
 and qrsolv Fortran routines from the Minpack package and

@@ -1,0 +1,98 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.apache.commons.math.optimization.linear;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+import org.apache.commons.math.optimization.GoalType;
+
+import junit.framework.TestCase;
+
+public class SimplexTableauTest extends TestCase {
+
+    public void testInitialization() {    
+        LinearObjectiveFunction f = createFunction();
+        Collection<LinearConstraint> constraints = createConstraints();
+        SimplexTableau tableau =
+            new SimplexTableau(f, constraints, GoalType.MAXIMIZE, false);
+        double[][] expectedInitialTableau = {
+                                             {-1, 0,  -1,  -1,  2, 0, 0, 0, -4},
+                                             { 0, 1, -15, -10, 25, 0, 0, 0,  0},
+                                             { 0, 0,   1,   0, -1, 1, 0, 0,  2},
+                                             { 0, 0,   0,   1, -1, 0, 1, 0,  3},
+                                             { 0, 0,   1,   1, -2, 0, 0, 1,  4}
+        };
+        assertMatrixEquals(expectedInitialTableau, tableau.getData());
+    }
+
+    public void testdiscardArtificialVariables() {    
+        LinearObjectiveFunction f = createFunction();
+        Collection<LinearConstraint> constraints = createConstraints();
+        SimplexTableau tableau =
+            new SimplexTableau(f, constraints, GoalType.MAXIMIZE, false);
+        double[][] expectedTableau = {
+                                      { 1, -15, -10, 25, 0, 0, 0},
+                                      { 0,   1,   0, -1, 1, 0, 2},
+                                      { 0,   0,   1, -1, 0, 1, 3},
+                                      { 0,   1,   1, -2, 0, 0, 4}
+        };
+        tableau.discardArtificialVariables();
+        assertMatrixEquals(expectedTableau, tableau.getData());
+    }
+
+    public void testTableauWithNoArtificialVars() {
+        LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] {15, 10}, 0);
+        Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        constraints.add(new LinearConstraint(new double[] {1, 0}, Relationship.LEQ, 2));
+        constraints.add(new LinearConstraint(new double[] {0, 1}, Relationship.LEQ, 3));
+        constraints.add(new LinearConstraint(new double[] {1, 1}, Relationship.LEQ, 4));    
+        SimplexTableau tableau =
+            new SimplexTableau(f, constraints, GoalType.MAXIMIZE, false);
+        double[][] initialTableau = {
+                                     {1, -15, -10, 25, 0, 0, 0, 0},
+                                     {0,   1,   0, -1, 1, 0, 0, 2},
+                                     {0,   0,   1, -1, 0, 1, 0, 3},
+                                     {0,   1,   1, -2, 0, 0, 1, 4}
+        };
+        assertMatrixEquals(initialTableau, tableau.getData());
+    }
+
+    private LinearObjectiveFunction createFunction() {
+        return new LinearObjectiveFunction(new double[] {15, 10}, 0);
+    }
+
+    private Collection<LinearConstraint> createConstraints() {
+        Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        constraints.add(new LinearConstraint(new double[] {1, 0}, Relationship.LEQ, 2));
+        constraints.add(new LinearConstraint(new double[] {0, 1}, Relationship.LEQ, 3));
+        constraints.add(new LinearConstraint(new double[] {1, 1}, Relationship.EQ, 4));
+        return constraints;
+    }
+
+    private void assertMatrixEquals(double[][] expected, double[][] result) {
+        assertEquals("Wrong number of rows.", expected.length, result.length);
+        for (int i = 0; i < expected.length; i++) {
+            assertEquals("Wrong number of columns.", expected[i].length, result[i].length);
+            for (int j = 0; j < expected[i].length; j++) {
+                assertEquals("Wrong value at position [" + i + "," + j + "]", expected[i][j], result[i][j]);
+            }
+        }
+    }
+
+}

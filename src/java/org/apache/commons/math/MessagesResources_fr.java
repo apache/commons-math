@@ -146,6 +146,14 @@ public class MessagesResources_fr
     { "unable to bracket optimum in line search",
       "impossible d''encadrer l''optimum lors de la recherche lin\u00e9aire" },
 
+    // org.apache.commons.math.optimization.linear2.NoFeasibleSolutionException
+    { "no feasible solution",
+      "aucune solution r\u00e9alisable" },
+
+    // org.apache.commons.math.optimization.linear2.UnboundedSolutionException
+    { "unbounded solution",
+      "solution non born\u00e9e" },
+
     // org.apache.commons.math.geometry.CardanEulerSingularityException
     { "Cardan angles singularity",
       "singularit\u00e9 d''angles de Cardan" },

@@ -15,39 +15,26 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.optimization;
+package org.apache.commons.math.optimization.linear;
 
-import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.optimization.OptimizationException;
 
-/** 
- * This class represents exceptions thrown by optimizers.
- *
+/**
+ * This class represents exceptions thrown by optimizers when a solution
+ * escapes to infinity.
  * @version $Revision$ $Date$
- * @since 1.2
- *
+ * @since 2.0
  */
-
-public class OptimizationException extends ConvergenceException {
+public class UnboundedSolutionException extends OptimizationException {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -357696069587075016L;
+    private static final long serialVersionUID = 940539497277290619L;
 
     /** 
-     * Simple constructor.
-     * Build an exception by translating and formating a message
-     * @param specifier format specifier (to be translated)
-     * @param parts to insert in the format (no translation)
+     * Simple constructor using a default message.
      */
-    public OptimizationException(String specifier, Object ... parts) {
-        super(specifier, parts);
-    }
-
-    /**
-     * Create an exception with a given root cause.
-     * @param cause  the exception or error that caused this exception to be thrown
-     */
-    public OptimizationException(Throwable cause) {
-        super(cause);
+    public UnboundedSolutionException() {
+        super("unbounded solution");
     }
 
 }
