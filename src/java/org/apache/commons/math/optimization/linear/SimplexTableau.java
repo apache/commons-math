@@ -392,7 +392,7 @@ class SimplexTableau implements Serializable {
     /** Set an entry of the tableau.
      * @param row row index
      * @param column column index
-     * param value for the entry
+     * @param value for the entry
      */
     protected final void setEntry(final int row, final int column,
                                   final double value) {
