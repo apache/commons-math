@@ -19,7 +19,6 @@ package org.apache.commons.math.optimization.linear;
 
 import java.util.Collection;
 
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.OptimizationException;
