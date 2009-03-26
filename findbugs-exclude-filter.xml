@@ -27,7 +27,7 @@
   <!--  which already know about limited precision of the double numbers -->
   <Match>
     <Class name="org.apache.commons.math.optimization.univariate.BrentOptimizer" />
-    <Method name="localMin" params="double,double,double,double,org.apache.commons.math.analysis.UnivariateRealFunction" returns="double" />
+    <Method name="localMin" params="org.apache.commons.math.analysis.UnivariateRealFunction,org.apache.commons.math.optimization.GoalType,double,double,double,double" returns="double" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
   <Match>
@@ -43,7 +43,6 @@
     </Or>
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
-
 
   <!-- The following equality test is intentional and needed for rounding purposes -->
   <Match>

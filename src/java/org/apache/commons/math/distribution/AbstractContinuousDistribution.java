@@ -66,7 +66,7 @@ public abstract class AbstractContinuousDistribution
         // subclasses can overide if there is a better method.
         UnivariateRealFunction rootFindingFunction =
             new UnivariateRealFunction() {
-
+            private static final long serialVersionUID = 1043729002768873023L;
             public double value(double x) throws FunctionEvaluationException {
                 try {
                     return cumulativeProbability(x) - p;
