@@ -143,7 +143,7 @@ public class SimplexSolverTest extends TestCase {
         assertEquals(1438556.7491409, solution.getValue(), .0000001);
     }
 
-    public void testSomething() throws OptimizationException {
+    public void testTrivialModel() throws OptimizationException {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 1, 1 }, 0);
         Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
         constraints.add(new LinearConstraint(new double[] { 1, 1 }, Relationship.EQ,  0));
@@ -276,8 +276,7 @@ public class SimplexSolverTest extends TestCase {
 
         SimplexSolver solver = new SimplexSolver();
         RealPointValuePair solution = solver.optimize(f, constraints, GoalType.MINIMIZE, true);
-        assertEquals(13366.0, solution.getValue(), .0000001);
-        //assertEquals(7518.0, solution.getValue(), .0000001);
+        assertEquals(7518.0, solution.getValue(), .0000001);
     }
     
     /**

@@ -327,9 +327,20 @@ class SimplexTableau implements Serializable {
      * @return The value of the given decision variable.
      */
     protected double getDecisionVariableValue(final int decisionVariable) {
-        Integer basicRow = getBasicRow(getNumObjectiveFunctions() + decisionVariable);
-        return basicRow == null ? 0 : getEntry(basicRow, getRhsOffset()); 
-    }
+      int col = getNumObjectiveFunctions() + decisionVariable;  
+      Integer basicRow = getBasicRow(col);
+      if (basicRow == null) {
+          return 0;
+      }
+      // if there are multiple variables that can take the value on the RHS
+      // then we'll give the first variable that value
+      for (int i = getNumObjectiveFunctions(); i < col; i++) {
+          if (tableau.getEntry(basicRow, i) == 1) {
+              return 0;
+          }
+      }
+      return getEntry(basicRow, getRhsOffset()); 
+  }
 
     /**
      * Subtracts a multiple of one row from another.
