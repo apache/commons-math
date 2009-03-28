@@ -39,6 +39,10 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="luc" type="add" issue="MATH-251" due-to="Benjamin Croizet">
+        Added a BigFraction class that does not overflow when big numerators or
+        denominators are used.
+      </action>
       <action dev="luc" type="add" issue="MATH-246" due-to="Benjamin McCann">
         Added an optimizer for constrained linear problems based on 2-phases standard simplex.
       </action>

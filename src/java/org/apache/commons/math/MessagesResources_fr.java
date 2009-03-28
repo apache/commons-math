@@ -89,6 +89,18 @@ public class MessagesResources_fr
     { "Overflow trying to convert {0} to fraction ({1}/{2})",
       "D\u00e9passement de capacit\u00e9 lors de la conversion de {0} en fraction ({1}/{2})" },
 
+    // org.apache.commons.math.fraction.BigFraction
+    { "numerator is null",
+      "le num\u00e9rateur est null" },
+    { "denimonator is null",
+      "le d\u00e9nominateur est null" },
+    { "denominator must be different from 0",
+      "le d\u00e9nominateur doit \u00eatre diff\u00e9rent de 0" },
+    { "cannot convert NaN value",
+      "les valeurs NaN ne peuvent \u00eatre converties" },
+    { "cannot convert infinite value",
+      "les valeurs infinies ne peuvent \u00eatre converties" },
+
     // org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils
     { "Number of iterations={0}, maximum iterations={1}, initial={2}, lower bound={3}, upper bound={4}," +
           " final a value={5}, final b value={6}, f(a)={7}, f(b)={8}",

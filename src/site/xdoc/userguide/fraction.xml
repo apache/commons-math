@@ -34,14 +34,20 @@
       <subsection name="9.2 Fraction Numbers" href="fraction">
         <p>
           <a href="../apidocs/org/apache/commons/math/fraction/Fraction.html">
-          org.apache.commons.math.fraction.Fraction</a> provides a fraction number
+          org.apache.commons.math.fraction.Fraction</a> and
+          <a href="../apidocs/org/apache/commons/math/fraction/BigFraction.html">
+          org.apache.commons.math.fraction.BigFraction</a> provide fraction number
           type that forms the basis for the fraction functionality found in 
-          commons-math.
+          commons-math. The former one can be used for fractions whose numerators
+          and denominators are small enough to fit in an int (taking care of intermediate
+          values) while the second class should be used when there is a risk the numerator
+          and denominator grow very large.
         </p>
         <p>
-          To create a fraction number, simply call the constructor passing in two
-          integer arguments, the first being the numerator of the fraction and the second being the denominator:
-          <source>Fraction f = new Fraction(1, 3); // 1 / 3</source>
+          A fraction number, can be built from two integer arguments representing numerator
+          and denominator or from a double which will be approximated:
+          <source>Fraction f = new Fraction(1, 3); // 1 / 3
+Fraction g = new Fraction(0.25); // 1 / 4</source>
         </p>
         <p>
           Of special note with fraction construction, when a fraction is created it is always reduced to lowest terms.

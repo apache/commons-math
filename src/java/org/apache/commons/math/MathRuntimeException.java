@@ -360,6 +360,28 @@ public class MathRuntimeException extends RuntimeException {
     }
 
     /**
+     * Constructs a new <code>NullPointerException</code> with specified formatted detail message.
+     * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * @param pattern format specifier
+     * @param arguments format arguments
+     * @return built exception
+     */
+    public static NullPointerException createNullPointerException(final String pattern,
+                                                                  final Object ... arguments) {
+        return new NullPointerException(buildMessage(Locale.US, pattern, arguments)) {
+
+            /** Serializable version identifier. */
+            private static final long serialVersionUID = -3075660477939965216L;
+
+            /** {@inheritDoc} */
+            public String getLocalizedMessage() {
+                return buildMessage(Locale.getDefault(), pattern, arguments);
+            }
+
+        };
+    }
+
+   /**
      * Constructs a new <code>ParseException</code> with specified
      * formatted detail message.
      * Message formatting is delegated to {@link java.text.MessageFormat}.
