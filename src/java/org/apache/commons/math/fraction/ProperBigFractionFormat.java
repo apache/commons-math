@@ -16,15 +16,15 @@
  */
 package org.apache.commons.math.fraction;
 
+import java.math.BigInteger;
 import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.util.MathUtils;
 
 /**
- * Formats a Fraction number in proper format.  The number format for each of
+ * Formats a BigFraction number in proper format.  The number format for each of
  * the whole number, numerator and, denominator can be configured.
  * <p>
  * Minus signs are only allowed in the whole number part - i.e.,
@@ -34,11 +34,11 @@ import org.apache.commons.math.util.MathUtils;
  * @since 1.1
  * @version $Revision$ $Date$
  */
-public class ProperFractionFormat extends FractionFormat {
+public class ProperBigFractionFormat extends BigFractionFormat {
     
     /** Serializable version identifier */
-    private static final long serialVersionUID = 760934726031766749L;
-
+    private static final long serialVersionUID = -6337346779577272307L;
+    
     /** The format used for the whole number. */
     private NumberFormat wholeFormat;
 
@@ -46,7 +46,7 @@ public class ProperFractionFormat extends FractionFormat {
      * Create a proper formatting instance with the default number format for
      * the whole, numerator, and denominator.  
      */
-    public ProperFractionFormat() {
+    public ProperBigFractionFormat() {
         this(getDefaultNumberFormat());
     }
     
@@ -56,7 +56,7 @@ public class ProperFractionFormat extends FractionFormat {
      * @param format the custom format for the whole, numerator, and
      *        denominator.
      */
-    public ProperFractionFormat(NumberFormat format) {
+    public ProperBigFractionFormat(final NumberFormat format) {
         this(format, (NumberFormat)format.clone(), (NumberFormat)format.clone());
     }
     
@@ -67,16 +67,15 @@ public class ProperFractionFormat extends FractionFormat {
      * @param numeratorFormat the custom format for the numerator.
      * @param denominatorFormat the custom format for the denominator.
      */
-    public ProperFractionFormat(NumberFormat wholeFormat,
-            NumberFormat numeratorFormat,
-            NumberFormat denominatorFormat)
-    {
+    public ProperBigFractionFormat(final NumberFormat wholeFormat,
+                                   final NumberFormat numeratorFormat,
+                                   final NumberFormat denominatorFormat) {
         super(numeratorFormat, denominatorFormat);
         setWholeFormat(wholeFormat);
     }
     
     /**
-     * Formats a {@link Fraction} object to produce a string.  The fraction
+     * Formats a {@link BigFraction} object to produce a string.  The BigFraction
      * is output in proper format.
      *
      * @param fraction the object to format.
@@ -85,26 +84,27 @@ public class ProperFractionFormat extends FractionFormat {
      *            offsets of the alignment field
      * @return the value passed in as toAppendTo.
      */
-    public StringBuffer format(Fraction fraction, StringBuffer toAppendTo,
-            FieldPosition pos) {
+    public StringBuffer format(final BigFraction fraction,
+                               final StringBuffer toAppendTo, final FieldPosition pos) {
         
         pos.setBeginIndex(0);
         pos.setEndIndex(0);
 
-        int num = fraction.getNumerator();
-        int den = fraction.getDenominator();
-        int whole = num / den;
-        num = num % den;
+        BigInteger num = fraction.getNumerator();
+        BigInteger den = fraction.getDenominator();
+        BigInteger whole = num.divide(den);
+        num = num.remainder(den);
         
-        if (whole != 0) {
+        if (!BigInteger.ZERO.equals(whole)) {
             getWholeFormat().format(whole, toAppendTo, pos);
             toAppendTo.append(' ');
-            num = Math.abs(num);
+            if (num.compareTo(BigInteger.ZERO) < 0) {
+                num = num.negate();
+            }
         }
         getNumeratorFormat().format(num, toAppendTo, pos);
         toAppendTo.append(" / ");
-        getDenominatorFormat().format(den, toAppendTo,
-            pos);
+        getDenominatorFormat().format(den, toAppendTo, pos);
         
         return toAppendTo;
     }
@@ -118,8 +118,8 @@ public class ProperFractionFormat extends FractionFormat {
     }
     
     /**
-     * Parses a string to produce a {@link Fraction} object.  This method
-     * expects the string to be formatted as a proper fraction.
+     * Parses a string to produce a {@link BigFraction} object.  This method
+     * expects the string to be formatted as a proper BigFraction.
      * <p>
      * Minus signs are only allowed in the whole number part - i.e.,
      * "-3 1/2" is legitimate and denotes -7/2, but "-3 -1/2" is invalid and
@@ -127,22 +127,22 @@ public class ProperFractionFormat extends FractionFormat {
      * 
      * @param source the string to parse
      * @param pos input/ouput parsing parameter.
-     * @return the parsed {@link Fraction} object.
+     * @return the parsed {@link BigFraction} object.
      */
-    public Fraction parse(String source, ParsePosition pos) {
-        // try to parse improper fraction
-        Fraction ret = super.parse(source, pos);
+    public BigFraction parse(final String source, final ParsePosition pos) {
+        // try to parse improper BigFraction
+        BigFraction ret = super.parse(source, pos);
         if (ret != null) {
             return ret;
         }
         
-        int initialIndex = pos.getIndex();
+        final int initialIndex = pos.getIndex();
 
         // parse whitespace
         parseAndIgnoreWhitespace(source, pos);
 
         // parse whole
-        Number whole = getWholeFormat().parse(source, pos);
+        BigInteger whole = parseNextBigInteger(source, pos);
         if (whole == null) {
             // invalid integer number
             // set index back to initial, error index should already be set
@@ -155,7 +155,7 @@ public class ProperFractionFormat extends FractionFormat {
         parseAndIgnoreWhitespace(source, pos);
         
         // parse numerator
-        Number num = getNumeratorFormat().parse(source, pos);
+        BigInteger num = parseNextBigInteger(source, pos);
         if (num == null) {
             // invalid integer number
             // set index back to initial, error index should already be set
@@ -164,20 +164,20 @@ public class ProperFractionFormat extends FractionFormat {
             return null;
         }
         
-        if (num.intValue() < 0) {
+        if (num.compareTo(BigInteger.ZERO) < 0) {
             // minus signs should be leading, invalid expression
             pos.setIndex(initialIndex);
             return null;
         }
 
         // parse '/'
-        int startIndex = pos.getIndex();
-        char c = parseNextCharacter(source, pos);
+        final int startIndex = pos.getIndex();
+        final char c = parseNextCharacter(source, pos);
         switch (c) {
         case 0 :
             // no '/'
-            // return num as a fraction
-            return new Fraction(num.intValue(), 1);
+            // return num as a BigFraction
+            return new BigFraction(num);
         case '/' :
             // found '/', continue parsing denominator
             break;
@@ -194,7 +194,7 @@ public class ProperFractionFormat extends FractionFormat {
         parseAndIgnoreWhitespace(source, pos);
 
         // parse denominator
-        Number den = getDenominatorFormat().parse(source, pos);
+        final BigInteger den = parseNextBigInteger(source, pos);
         if (den == null) {
             // invalid integer number
             // set index back to initial, error index should already be set
@@ -203,16 +203,23 @@ public class ProperFractionFormat extends FractionFormat {
             return null;
         }
         
-        if (den.intValue() < 0) {
+        if (den.compareTo(BigInteger.ZERO) < 0) {
             // minus signs must be leading, invalid
             pos.setIndex(initialIndex);
             return null;
         }
 
-        int w = whole.intValue();
-        int n = num.intValue();
-        int d = den.intValue();
-        return new Fraction(((Math.abs(w) * d) + n) * MathUtils.sign(w), d);
+        boolean wholeIsNeg = whole.compareTo(BigInteger.ZERO) < 0;
+        if (wholeIsNeg) {
+            whole = whole.negate();
+        }
+        num = whole.multiply(den).add(num);
+        if (wholeIsNeg) {
+            num = num.negate();
+        }
+
+        return new BigFraction(num, den);
+
     }
     
     /**
@@ -221,11 +228,12 @@ public class ProperFractionFormat extends FractionFormat {
      * @throws IllegalArgumentException if <code>format</code> is
      *         <code>null</code>.
      */
-    public void setWholeFormat(NumberFormat format) {
+    public void setWholeFormat(final NumberFormat format) {
         if (format == null) {
             throw MathRuntimeException.createIllegalArgumentException(
                 "whole format can not be null");
         }
         this.wholeFormat = format;
     }
+
 }

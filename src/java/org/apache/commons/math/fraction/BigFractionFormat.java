@@ -17,33 +17,36 @@
 
 package org.apache.commons.math.fraction;
 
+import java.io.Serializable;
+import java.math.BigInteger;
 import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.Locale;
 
-import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.MathRuntimeException;
 
 /**
- * Formats a Fraction number in proper format or improper format.  The number
- * format for each of the whole number, numerator and, denominator can be
- * configured.
+ * Formats a BigFraction number in proper format or improper format.
+ * <p>
+ * The number format for each of the whole number, numerator and,
+ * denominator can be configured.
+ * </p>
  *
- * @since 1.1
+ * @since 2.0
  * @version $Revision$ $Date$
  */
-public class FractionFormat extends AbstractFormat {
+public class BigFractionFormat extends AbstractFormat implements Serializable {
     
     /** Serializable version identifier */
-    private static final long serialVersionUID = 3008655719530972611L;
+    private static final long serialVersionUID = -2932167925527338976L;
 
     /**
      * Create an improper formatting instance with the default number format
      * for the numerator and denominator.  
      */
-    public FractionFormat() {
+    public BigFractionFormat() {
     }
 
     /**
@@ -51,7 +54,7 @@ public class FractionFormat extends AbstractFormat {
      * both the numerator and denominator.
      * @param format the custom format for both the numerator and denominator.
      */
-    public FractionFormat(final NumberFormat format) {
+    public BigFractionFormat(final NumberFormat format) {
         super(format);
     }
 
@@ -61,8 +64,8 @@ public class FractionFormat extends AbstractFormat {
      * @param numeratorFormat the custom format for the numerator.
      * @param denominatorFormat the custom format for the denominator.
      */
-    public FractionFormat(final NumberFormat numeratorFormat,
-                          final NumberFormat denominatorFormat) {
+    public BigFractionFormat(final NumberFormat numeratorFormat,
+                             final NumberFormat denominatorFormat) {
         super(numeratorFormat, denominatorFormat);
     }
 
@@ -76,13 +79,13 @@ public class FractionFormat extends AbstractFormat {
     }
 
     /**
-     * This static method calls formatFraction() on a default instance of
-     * FractionFormat.
+     * This static method calls formatBigFraction() on a default instance of
+     * BigFractionFormat.
      *
-     * @param f Fraction object to format
-     * @return A formatted fraction in proper form.
+     * @param f BigFraction object to format
+     * @return A formatted BigFraction in proper form.
      */
-    public static String formatFraction(Fraction f) {
+    public static String formatBigFraction(final BigFraction f) {
         return getImproperInstance().format(f);
     }
     
@@ -90,7 +93,7 @@ public class FractionFormat extends AbstractFormat {
      * Returns the default complex format for the current locale.
      * @return the default complex format.
      */
-    public static FractionFormat getImproperInstance() {
+    public static BigFractionFormat getImproperInstance() {
         return getImproperInstance(Locale.getDefault());
     }
     
@@ -99,15 +102,15 @@ public class FractionFormat extends AbstractFormat {
      * @param locale the specific locale used by the format.
      * @return the complex format specific to the given locale.
      */
-    public static FractionFormat getImproperInstance(final Locale locale) {
-        return new FractionFormat(getDefaultNumberFormat(locale));
+    public static BigFractionFormat getImproperInstance(final Locale locale) {
+        return new BigFractionFormat(getDefaultNumberFormat(locale));
     }
     
     /**
      * Returns the default complex format for the current locale.
      * @return the default complex format.
      */
-    public static FractionFormat getProperInstance() {
+    public static BigFractionFormat getProperInstance() {
         return getProperInstance(Locale.getDefault());
     }
     
@@ -116,47 +119,37 @@ public class FractionFormat extends AbstractFormat {
      * @param locale the specific locale used by the format.
      * @return the complex format specific to the given locale.
      */
-    public static FractionFormat getProperInstance(final Locale locale) {
-        return new ProperFractionFormat(getDefaultNumberFormat(locale));
+    public static BigFractionFormat getProperInstance(final Locale locale) {
+        return new ProperBigFractionFormat(getDefaultNumberFormat(locale));
     }
     
     /**
-     * Create a default number format.  The default number format is based on
-     * {@link NumberFormat#getNumberInstance(java.util.Locale)} with the only
-     * customizing is the maximum number of fraction digits, which is set to 0.  
-     * @return the default number format.
-     */
-    protected static NumberFormat getDefaultNumberFormat() {
-        return getDefaultNumberFormat(Locale.getDefault());
-    }
-    
-    /**
-     * Formats a {@link Fraction} object to produce a string.  The fraction is
+     * Formats a {@link BigFraction} object to produce a string.  The BigFraction is
      * output in improper format.
      *
-     * @param fraction the object to format.
+     * @param BigFraction the object to format.
      * @param toAppendTo where the text is to be appended
      * @param pos On input: an alignment field, if desired. On output: the
      *            offsets of the alignment field
      * @return the value passed in as toAppendTo.
      */
-    public StringBuffer format(final Fraction fraction,
+    public StringBuffer format(final BigFraction BigFraction,
                                final StringBuffer toAppendTo, final FieldPosition pos) {
         
         pos.setBeginIndex(0);
         pos.setEndIndex(0);
 
-        getNumeratorFormat().format(fraction.getNumerator(), toAppendTo, pos);
+        getNumeratorFormat().format(BigFraction.getNumerator(), toAppendTo, pos);
         toAppendTo.append(" / ");
-        getDenominatorFormat().format(fraction.getDenominator(), toAppendTo,
-            pos);
+        getDenominatorFormat().format(BigFraction.getDenominator(), toAppendTo, pos);
         
         return toAppendTo;
     }
     
     /**
-     * Formats an object and appends the result to a StringBuffer. <code>obj</code> must be either a 
-     * {@link Fraction} object or a {@link Number} object.  Any other type of
+     * Formats an object and appends the result to a StringBuffer.
+     * <code>obj</code> must be either a  {@link BigFraction} object or a
+     * {@link BigInteger} object or a {@link Number} object. Any other type of
      * object will result in an {@link IllegalArgumentException} being thrown.
      *
      * @param obj the object to format.
@@ -169,19 +162,15 @@ public class FractionFormat extends AbstractFormat {
      */
     public StringBuffer format(final Object obj,
                                final StringBuffer toAppendTo, final FieldPosition pos) {
-        StringBuffer ret = null;
-        
-        if (obj instanceof Fraction) {
-            ret = format((Fraction) obj, toAppendTo, pos);
+
+        final StringBuffer ret;
+        if (obj instanceof BigFraction) {
+            ret = format((BigFraction) obj, toAppendTo, pos);
+        } else if (obj instanceof BigInteger) {
+            ret = format(new BigFraction((BigInteger) obj), toAppendTo, pos);
         } else if (obj instanceof Number) {
-            try {
-                ret = format(new Fraction(((Number) obj).doubleValue()),
-                             toAppendTo, pos);
-            } catch (ConvergenceException ex) {
-                throw MathRuntimeException.createIllegalArgumentException(
-                    "cannot convert given object to a fraction number: {0}",
-                    ex.getLocalizedMessage());
-            }
+            ret = format(new BigFraction(((Number) obj).doubleValue()),
+                         toAppendTo, pos);
         } else { 
             throw MathRuntimeException.createIllegalArgumentException(
                 "cannot format given object as a fraction number");
@@ -191,15 +180,15 @@ public class FractionFormat extends AbstractFormat {
     }
 
     /**
-     * Parses a string to produce a {@link Fraction} object.
+     * Parses a string to produce a {@link BigFraction} object.
      * @param source the string to parse
-     * @return the parsed {@link Fraction} object.
+     * @return the parsed {@link BigFraction} object.
      * @exception ParseException if the beginning of the specified string
      *            cannot be parsed.
      */
-    public Fraction parse(final String source) throws ParseException {
+    public BigFraction parse(final String source) throws ParseException {
         final ParsePosition parsePosition = new ParsePosition(0);
-        final Fraction result = parse(source, parsePosition);
+        final BigFraction result = parse(source, parsePosition);
         if (parsePosition.getIndex() == 0) {
             throw MathRuntimeException.createParseException(
                     parsePosition.getErrorIndex(),
@@ -209,20 +198,20 @@ public class FractionFormat extends AbstractFormat {
     }
     
     /**
-     * Parses a string to produce a {@link Fraction} object.  This method
-     * expects the string to be formatted as an improper fraction.  
+     * Parses a string to produce a {@link BigFraction} object.
+     * This method expects the string to be formatted as an improper BigFraction.  
      * @param source the string to parse
      * @param pos input/ouput parsing parameter.
-     * @return the parsed {@link Fraction} object.
+     * @return the parsed {@link BigFraction} object.
      */
-    public Fraction parse(final String source, final ParsePosition pos) {
+    public BigFraction parse(final String source, final ParsePosition pos) {
         final int initialIndex = pos.getIndex();
 
         // parse whitespace
         parseAndIgnoreWhitespace(source, pos);
 
         // parse numerator
-        final Number num = getNumeratorFormat().parse(source, pos);
+        final BigInteger num = parseNextBigInteger(source, pos);
         if (num == null) {
             // invalid integer number
             // set index back to initial, error index should already be set
@@ -237,8 +226,8 @@ public class FractionFormat extends AbstractFormat {
         switch (c) {
         case 0 :
             // no '/'
-            // return num as a fraction
-            return new Fraction(num.intValue(), 1);
+            // return num as a BigFraction
+            return new BigFraction(num);
         case '/' :
             // found '/', continue parsing denominator
             break;
@@ -255,7 +244,7 @@ public class FractionFormat extends AbstractFormat {
         parseAndIgnoreWhitespace(source, pos);
 
         // parse denominator
-        final Number den = getDenominatorFormat().parse(source, pos);
+        final BigInteger den = parseNextBigInteger(source, pos);
         if (den == null) {
             // invalid integer number
             // set index back to initial, error index should already be set
@@ -264,7 +253,35 @@ public class FractionFormat extends AbstractFormat {
             return null;
         }
 
-        return new Fraction(num.intValue(), den.intValue());
+        return new BigFraction(num, den);
     }
-    
+
+    /**
+     * Parses a string to produce a <code>BigInteger</code>.
+     * @param source the string to parse
+     * @param pos input/ouput parsing parameter.
+     * @return a parsed <code>BigInteger</code> or null if string does not
+     * contain a BigInteger at the specified position
+     */
+    protected BigInteger parseNextBigInteger(final String source,
+                                             final ParsePosition pos) {
+
+        final int start = pos.getIndex();
+         int end = (source.charAt(start) == '-') ? (start + 1) : start;
+         while((end < source.length()) &&
+               Character.isDigit(source.charAt(end))) {
+             ++end;
+         }
+
+         try {
+             BigInteger n = new BigInteger(source.substring(start, end));
+             pos.setIndex(end);
+             return n;
+         } catch (NumberFormatException nfe) {
+             pos.setErrorIndex(start);
+             return null;
+         }
+
+    }
+
 }

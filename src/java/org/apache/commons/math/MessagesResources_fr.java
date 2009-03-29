@@ -101,6 +101,28 @@ public class MessagesResources_fr
     { "cannot convert infinite value",
       "les valeurs infinies ne peuvent \u00eatre converties" },
 
+    // org.apache.commons.math.fraction.AbstractFormat
+    { "denominator format can not be null",
+      "le format du d\u00e9nominateur ne doit pas \u00eatre nul" },
+    { "numerator format can not be null",
+      "le format du num\u00e9rateur ne doit pas \u00eatre nul" },
+
+    // org.apache.commons.math.fraction.FractionFormat
+    { "cannot convert given object to a fraction number: {0}",
+      "impossible de convertir l''objet sous forme d''un nombre rationnel : {0}" },
+
+    // org.apache.commons.math.fraction.FractionFormat
+    // org.apache.commons.math.fraction.BigFractionFormat
+    { "unparseable fraction number: \"{0}\"",
+      "\u00e9chec d''analyse du nombre rationnel \"{0}\"" },
+    { "cannot format given object as a fraction number",
+      "impossible de formater l''objet sous forme d''un nombre rationnel" },
+
+    // org.apache.commons.math.fraction.ProperFractionFormat
+    // org.apache.commons.math.fraction.ProperBigFractionFormat
+    { "whole format can not be null",
+      "le format complet ne doit pas \u00eatre nul" },
+
     // org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils
     { "Number of iterations={0}, maximum iterations={1}, initial={2}, lower bound={3}, upper bound={4}," +
           " final a value={5}, final b value={6}, f(a)={7}, f(b)={8}",
@@ -314,10 +336,6 @@ public class MessagesResources_fr
    // org.apache.commons.math.complex.ComplexFormat
    { "unparseable complex number: \"{0}\"",
      "\u00e9chec d''analyse du nombre complexe \"{0}\"" },
-
-   // org.apache.commons.math.fraction.FractionFormat
-   { "unparseable fraction number: \"{0}\"",
-     "\u00e9chec d''analyse du nombre rationnel \"{0}\"" },
 
    // org.apache.commons.math.geometry.Vector3DFormat
    { "unparseable 3D vector: \"{0}\"",
