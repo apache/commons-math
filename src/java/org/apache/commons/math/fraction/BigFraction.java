@@ -28,7 +28,7 @@ import org.apache.commons.math.MathRuntimeException;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class BigFraction extends Number implements Comparable<BigFraction>, Cloneable {
+public class BigFraction extends Number implements Comparable<BigFraction> {
 
     /** A fraction representing "1". */
     public static final BigFraction ONE = new BigFraction(1, 1);
@@ -575,30 +575,6 @@ public class BigFraction extends Number implements Comparable<BigFraction>, Clon
 
     /**
      * <p>
-     * Clones this object. The result {@link BigFraction} isn't reduced and is
-     * exactly the same as the original.
-     * </p>
-     * 
-     * @return an exact copy of this {@link BigFraction}.
-     * @see java.lang.Object#clone()
-     */
-    @Override
-    public BigFraction clone() {
-        // don't need to clone numerator and denominator because the object is
-        // immutable
-        BigFraction clone = null;
-
-        try {
-            clone = (BigFraction) super.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-
-        return clone;
-    }
-
-    /**
-     * <p>
      * Compares this object to another based on size.
      * </p>
      * 
@@ -1058,25 +1034,21 @@ public class BigFraction extends Number implements Comparable<BigFraction>, Clon
      *             if the fraction is <code>null</code>.
      */
     public BigFraction subtract(final BigFraction fraction) {
-        BigFraction ret = null;
-
         if (ZERO.equals(fraction)) {
-            ret = clone();
-        } else {
-            BigInteger num = null;
-            BigInteger den = null;
-
-            if (denominator.equals(fraction.denominator)) {
-                num = numerator.subtract(fraction.numerator);
-                den = denominator;
-            } else {
-                num = (numerator.multiply(fraction.denominator)).subtract((fraction.numerator).multiply(denominator));
-                den = denominator.multiply(fraction.denominator);
-            }
-            ret = new BigFraction(num, den);
+            return this;
         }
 
-        return ret;
+        BigInteger num = null;
+        BigInteger den = null;
+        if (denominator.equals(fraction.denominator)) {
+            num = numerator.subtract(fraction.numerator);
+            den = denominator;
+        } else {
+            num = (numerator.multiply(fraction.denominator)).subtract((fraction.numerator).multiply(denominator));
+            den = denominator.multiply(fraction.denominator);
+        }
+        return new BigFraction(num, den);
+
     }
 
     /**
