@@ -256,20 +256,9 @@ public class Fraction extends Number implements Comparable<Fraction> {
      *         than <tt>object</tt>, 0 if they are equal.
      */
     public int compareTo(Fraction object) {
-        int ret = 0;
-        
-        if (this != object) { 
-            double first = doubleValue();
-            double second = object.doubleValue();
-            
-            if (first < second) {
-                ret = -1;
-            } else if (first > second) {
-                ret = 1;
-            }
-        }
-        
-        return ret;
+        long nOd = ((long) numerator) * object.denominator;
+        long dOn = ((long) denominator) * object.numerator;
+        return (nOd < dOn) ? -1 : ((nOd > dOn) ? +1 : 0);
     }
     
     /**
