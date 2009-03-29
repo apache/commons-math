@@ -106,7 +106,7 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
             return ZERO; // normalize zero.
         }
 
-        return new BigFraction(numerator, denominator).reduce();
+        return new BigFraction(numerator, denominator);
     }
 
     /**
