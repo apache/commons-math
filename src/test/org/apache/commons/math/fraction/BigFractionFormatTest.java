@@ -17,6 +17,7 @@
 
 package org.apache.commons.math.fraction;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -246,6 +247,24 @@ public class BigFractionFormatTest extends TestCase {
         } catch (ParseException ex) {
             // expected
         }
+    }
+
+    public void testParseBig() throws ParseException {
+        BigFraction f1 =
+            improperFormat.parse("167213075789791382630275400487886041651764456874403" +
+                                 " / " +
+                                 "53225575123090058458126718248444563466137046489291");
+        assertEquals(Math.PI, f1.doubleValue(), 0.0);
+        BigFraction f2 =
+            properFormat.parse("3 " +
+                               "7536350420521207255895245742552351253353317406530" +
+                               " / " +
+                               "53225575123090058458126718248444563466137046489291");
+        assertEquals(Math.PI, f2.doubleValue(), 0.0);
+        assertEquals(f1, f2);
+        BigDecimal pi =
+            new BigDecimal("3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117068");
+        assertEquals(pi, f1.bigDecimalValue(99, BigDecimal.ROUND_HALF_EVEN));
     }
     
     public void testNumeratorFormat() {
