@@ -47,6 +47,8 @@ public class MessagesResources_fr
     // org.apache.commons.math.util.MathUtils
     { "overflow: gcd({0}, {1}) is 2^31",
       "d\u00e9passement de capacit\u00e9 : le PGCD de {0} et {1} vaut 2^31" },
+    { "cannot raise an integral value to a negative power ({0}^{1})",
+      "impossible d''\u00e9lever une valeur enti\u00e8re \u00e0 une puissance n\u00e9gative ({0}^{1})" },
         
     // org.apache.commons.math.FunctionEvaluationException
     { "evaluation failed for argument = {0}",

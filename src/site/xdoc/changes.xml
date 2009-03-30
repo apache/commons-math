@@ -39,6 +39,9 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="luc" type="add">
+        Added some utility functions to compute powers with integral types (int, long, BigInteger).
+      </action>
       <action dev="luc" type="fix" issue="MATH-252">
         Fixed a comparison error when two different fractions evaluate to the
         same double due to limited precision.

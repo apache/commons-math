@@ -14,6 +14,7 @@
 package org.apache.commons.math.util;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -1076,5 +1077,81 @@ public final class MathUtilsTest extends TestCase {
             // success
         }
 
+    }
+
+    public void testPow() {
+
+        assertEquals(1801088541, MathUtils.pow(21, 7));
+        assertEquals(1, MathUtils.pow(21, 0));
+        try {
+            MathUtils.pow(21, -7);
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            // expected behavior
+        }
+
+        assertEquals(1801088541, MathUtils.pow(21, 7l));
+        assertEquals(1, MathUtils.pow(21, 0l));
+        try {
+            MathUtils.pow(21, -7l);
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            // expected behavior
+        }
+
+        assertEquals(1801088541l, MathUtils.pow(21l, 7));
+        assertEquals(1l, MathUtils.pow(21l, 0));
+        try {
+            MathUtils.pow(21l, -7);
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            // expected behavior
+        }
+
+        assertEquals(1801088541l, MathUtils.pow(21l, 7l));
+        assertEquals(1l, MathUtils.pow(21l, 0l));
+        try {
+            MathUtils.pow(21l, -7l);
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            // expected behavior
+        }
+
+        BigInteger twentyOne = BigInteger.valueOf(21l);
+        assertEquals(BigInteger.valueOf(1801088541l), MathUtils.pow(twentyOne, 7));
+        assertEquals(BigInteger.ONE, MathUtils.pow(twentyOne, 0));
+        try {
+            MathUtils.pow(twentyOne, -7);
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            // expected behavior
+        }
+
+        assertEquals(BigInteger.valueOf(1801088541l), MathUtils.pow(twentyOne, 7l));
+        assertEquals(BigInteger.ONE, MathUtils.pow(twentyOne, 0l));
+        try {
+            MathUtils.pow(twentyOne, -7l);
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            // expected behavior
+        }
+
+        assertEquals(BigInteger.valueOf(1801088541l), MathUtils.pow(twentyOne, BigInteger.valueOf(7l)));
+        assertEquals(BigInteger.ONE, MathUtils.pow(twentyOne, BigInteger.ZERO));
+        try {
+            MathUtils.pow(twentyOne, BigInteger.valueOf(-7l));
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            // expected behavior
+        }
+
+        BigInteger bigOne =
+            new BigInteger("1543786922199448028351389769265814882661837148" +
+                           "4763915343722775611762713982220306372888519211" +
+                           "560905579993523402015636025177602059044911261");
+        assertEquals(bigOne, MathUtils.pow(twentyOne, 103));
+        assertEquals(bigOne, MathUtils.pow(twentyOne, 103l));
+        assertEquals(bigOne, MathUtils.pow(twentyOne, BigInteger.valueOf(103l)));
+        
     }
 }
