@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * Representation of a rational number without any overflow. This class is
@@ -457,7 +458,35 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
      *             if the {@link BigInteger} is <code>null</code>.
      */
     public BigFraction add(final BigInteger bg) {
-        return add(new BigFraction(bg, BigInteger.ONE));
+        return new BigFraction(numerator.add(denominator.multiply(bg)), denominator);
+    }
+
+    /**
+     * <p>
+     * Adds the value of this fraction to the passed <tt>integer</tt>, returning
+     * the result in reduced form.
+     * </p>
+     * 
+     * @param i
+     *            the <tt>integer</tt> to add.
+     * @return a <code>BigFraction</code> instance with the resulting values.
+     */
+    public BigFraction add(final int i) {
+        return add(BigInteger.valueOf(i));
+    }
+
+    /**
+     * <p>
+     * Adds the value of this fraction to the passed <tt>long</tt>, returning
+     * the result in reduced form.
+     * </p>
+     * 
+     * @param l
+     *            the <tt>long</tt> to add.
+     * @return a <code>BigFraction</code> instance with the resulting values.
+     */
+    public BigFraction add(final long l) {
+        return add(BigInteger.valueOf(l));
     }
 
     /**
@@ -489,34 +518,6 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
         }
         return new BigFraction(num, den);
 
-    }
-
-    /**
-     * <p>
-     * Adds the value of this fraction to the passed <tt>integer</tt>, returning
-     * the result in reduced form.
-     * </p>
-     * 
-     * @param i
-     *            the <tt>integer</tt> to add.
-     * @return a <code>BigFraction</code> instance with the resulting values.
-     */
-    public BigFraction add(final int i) {
-        return add(new BigFraction(i, 1));
-    }
-
-    /**
-     * <p>
-     * Adds the value of this fraction to the passed <tt>long</tt>, returning
-     * the result in reduced form.
-     * </p>
-     * 
-     * @param l
-     *            the <tt>long</tt> to add.
-     * @return a <code>BigFraction</code> instance with the resulting values.
-     */
-    public BigFraction add(final long l) {
-        return add(new BigFraction(l, 1L));
     }
 
     /**
@@ -602,9 +603,46 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
      * @return a {@link BigFraction} instance with the resulting values.
      * @throws NullPointerException
      *             if the <code>BigInteger</code> is <code>null</code>.
+     * @throws ArithmeticException
+     *             if the fraction to divide by is zero.
      */
     public BigFraction divide(final BigInteger bg) {
-        return divide(new BigFraction(bg, BigInteger.ONE));
+        if (BigInteger.ZERO.equals(bg)) {
+            throw MathRuntimeException.createArithmeticException("denominator must be different from 0");
+        }
+        return new BigFraction(numerator, denominator.multiply(bg));
+    }
+
+    /**
+     * <p>
+     * Divide the value of this fraction by the passed <tt>int</tt>, ie
+     * "this * 1 / i", returning the result in reduced form.
+     * </p>
+     * 
+     * @param i
+     *            the <tt>int</tt> to divide by.
+     * @return a {@link BigFraction} instance with the resulting values.
+     * @throws ArithmeticException
+     *             if the fraction to divide by is zero.
+     */
+    public BigFraction divide(final int i) {
+        return divide(BigInteger.valueOf(i));
+    }
+
+    /**
+     * <p>
+     * Divide the value of this fraction by the passed <tt>long</tt>, ie
+     * "this * 1 / l", returning the result in reduced form.
+     * </p>
+     * 
+     * @param l
+     *            the <tt>long</tt> to divide by.
+     * @return a {@link BigFraction} instance with the resulting values.
+     * @throws ArithmeticException
+     *             if the fraction to divide by is zero.
+     */
+    public BigFraction divide(final long l) {
+        return divide(BigInteger.valueOf(l));
     }
 
     /**
@@ -627,34 +665,6 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
         }
 
         return multiply(fraction.reciprocal());
-    }
-
-    /**
-     * <p>
-     * Divide the value of this fraction by the passed <tt>int</tt>, ie
-     * "this * 1 / i", returning the result in reduced form.
-     * </p>
-     * 
-     * @param i
-     *            the <tt>int</tt> to divide by.
-     * @return a {@link BigFraction} instance with the resulting values.
-     */
-    public BigFraction divide(final int i) {
-        return divide(new BigFraction(i, 1));
-    }
-
-    /**
-     * <p>
-     * Divide the value of this fraction by the passed <tt>long</tt>, ie
-     * "this * 1 / l", returning the result in reduced form.
-     * </p>
-     * 
-     * @param l
-     *            the <tt>long</tt> to divide by.
-     * @return a {@link BigFraction} instance with the resulting values.
-     */
-    public BigFraction divide(final long l) {
-        return divide(new BigFraction(l, 1L));
     }
 
     /**
@@ -840,6 +850,34 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
 
     /**
      * <p>
+     * Multiply the value of this fraction by the passed <tt>int</tt>, returning
+     * the result in reduced form.
+     * </p>
+     * 
+     * @param i
+     *            the <tt>int</tt> to multiply by.
+     * @return a {@link BigFraction} instance with the resulting values.
+     */
+    public BigFraction multiply(final int i) {
+        return multiply(BigInteger.valueOf(i));
+    }
+
+    /**
+     * <p>
+     * Multiply the value of this fraction by the passed <tt>long</tt>,
+     * returning the result in reduced form.
+     * </p>
+     * 
+     * @param l
+     *            the <tt>long</tt> to multiply by.
+     * @return a {@link BigFraction} instance with the resulting values.
+     */
+    public BigFraction multiply(final long l) {
+        return multiply(BigInteger.valueOf(l));
+    }
+
+    /**
+     * <p>
      * Multiplies the value of this fraction by another, returning the result in
      * reduced form.
      * </p>
@@ -858,34 +896,6 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
         }
 
         return ret;
-    }
-
-    /**
-     * <p>
-     * Multiply the value of this fraction by the passed <tt>int</tt>, returning
-     * the result in reduced form.
-     * </p>
-     * 
-     * @param i
-     *            the <tt>int</tt> to multiply by.
-     * @return a {@link BigFraction} instance with the resulting values.
-     */
-    public BigFraction multiply(final int i) {
-        return multiply(new BigFraction(i, 1));
-    }
-
-    /**
-     * <p>
-     * Multiply the value of this fraction by the passed <tt>long</tt>,
-     * returning the result in reduced form.
-     * </p>
-     * 
-     * @param l
-     *            the <tt>long</tt> to multiply by.
-     * @return a {@link BigFraction} instance with the resulting values.
-     */
-    public BigFraction multiply(final long l) {
-        return multiply(new BigFraction(l, 1L));
     }
 
     /**
@@ -914,44 +924,6 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
 
     /**
      * <p>
-     * Returns a <code>BigFraction</code> whose value is
-     * <tt>(this<sup>exponent</sup>)</tt>, returning the result in reduced form.
-     * </p>
-     * 
-     * @param exponent
-     *            exponent to which this <code>BigFraction</code> is to be raised.
-     * @return <tt>this<sup>exponent</sup></tt> as a <code>BigFraction</code>.
-     */
-    public BigFraction pow(final BigInteger exponent) {
-        BigFraction ret = this;
-        if (!BigInteger.ONE.equals(exponent)) {
-            ret = ONE;
-            if (!BigInteger.ZERO.equals(exponent)) {
-                for (BigInteger bg = BigInteger.ONE; bg.compareTo(exponent) < 0; bg = bg.add(BigInteger.ONE)) {
-                    ret = ret.multiply(this);
-                }
-            }
-        }
-
-        return ret;
-    }
-
-    /**
-     * <p>
-     * Returns a <code>BigFraction</code> whose value is
-     * <tt>(this<sup>exponent</sup>)</tt>, returning the result in reduced form.
-     * </p>
-     * 
-     * @param exponent
-     *            exponent to which this <code>BigFraction</code> is to be raised.
-     * @return <tt>this<sup>exponent</sup></tt>.
-     */
-    public double pow(final BigFraction exponent) {
-        return Math.pow(numerator.doubleValue(), exponent.doubleValue()) / Math.pow(denominator.doubleValue(), exponent.doubleValue());
-    }
-
-    /**
-     * <p>
      * Returns a <tt>integer</tt> whose value is
      * <tt>(this<sup>exponent</sup>)</tt>, returning the result in reduced form.
      * </p>
@@ -962,7 +934,10 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
      * @return <tt>this<sup>exponent</sup></tt>.
      */
     public BigFraction pow(final int exponent) {
-        return pow(BigInteger.valueOf(exponent));
+        if (exponent < 0) {
+            return new BigFraction(denominator.pow(-exponent), numerator.pow(-exponent));
+        }
+        return new BigFraction(numerator.pow(exponent), denominator.pow(exponent));
     }
 
     /**
@@ -976,7 +951,47 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
      * @return <tt>this<sup>exponent</sup></tt> as a <code>BigFraction</code>.
      */
     public BigFraction pow(final long exponent) {
-        return pow(BigInteger.valueOf(exponent));
+        if (exponent < 0) {
+            return new BigFraction(MathUtils.pow(denominator, -exponent),
+                                   MathUtils.pow(numerator,   -exponent));
+        }
+        return new BigFraction(MathUtils.pow(numerator,   exponent),
+                               MathUtils.pow(denominator, exponent));
+    }
+ 
+    /**
+     * <p>
+     * Returns a <code>BigFraction</code> whose value is
+     * <tt>(this<sup>exponent</sup>)</tt>, returning the result in reduced form.
+     * </p>
+     * 
+     * @param exponent
+     *            exponent to which this <code>BigFraction</code> is to be raised.
+     * @return <tt>this<sup>exponent</sup></tt> as a <code>BigFraction</code>.
+     */
+    public BigFraction pow(final BigInteger exponent) {
+        if (exponent.compareTo(BigInteger.ZERO) < 0) {
+            final BigInteger eNeg = exponent.negate();
+            return new BigFraction(MathUtils.pow(denominator, eNeg),
+                                   MathUtils.pow(numerator,   eNeg));
+        }
+        return new BigFraction(MathUtils.pow(numerator,   exponent),
+                               MathUtils.pow(denominator, exponent));
+    }
+
+    /**
+     * <p>
+     * Returns a <code>double</code> whose value is
+     * <tt>(this<sup>exponent</sup>)</tt>, returning the result in reduced form.
+     * </p>
+     * 
+     * @param exponent
+     *            exponent to which this <code>BigFraction</code> is to be raised.
+     * @return <tt>this<sup>exponent</sup></tt>.
+     */
+    public double pow(final double exponent) {
+        return Math.pow(numerator.doubleValue(),   exponent) /
+               Math.pow(denominator.doubleValue(), exponent);
     }
 
     /**
@@ -1017,7 +1032,36 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
      *             if the {@link BigInteger} is <code>null</code>.
      */
     public BigFraction subtract(final BigInteger bg) {
-        return subtract(new BigFraction(bg, BigInteger.valueOf(1)));
+        return new BigFraction(numerator.subtract(denominator.multiply(bg)), denominator);
+    }
+
+    /**
+     * <p>
+     * Subtracts the value of an <tt>integer</tt> from the value of this one,
+     * returning the result in reduced form.
+     * </p>
+     * 
+     * @param i
+     *            the <tt>integer</tt> to subtract.
+     * @return a <code>BigFraction</code> instance with the resulting values.
+     */
+    public BigFraction subtract(final int i) {
+        return subtract(BigInteger.valueOf(i));
+    }
+
+    /**
+     * <p>
+     * Subtracts the value of an <tt>integer</tt> from the value of this one,
+     * returning the result in reduced form.
+     * </p>
+     * 
+     * @param l
+     *            the <tt>long</tt> to subtract.
+     * @return a <code>BigFraction</code> instance with the resulting values, or
+     *         this object if the <tt>long</tt> is zero.
+     */
+    public BigFraction subtract(final long l) {
+        return subtract(BigInteger.valueOf(l));
     }
 
     /**
@@ -1049,35 +1093,6 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
         }
         return new BigFraction(num, den);
 
-    }
-
-    /**
-     * <p>
-     * Subtracts the value of an <tt>integer</tt> from the value of this one,
-     * returning the result in reduced form.
-     * </p>
-     * 
-     * @param i
-     *            the <tt>integer</tt> to subtract.
-     * @return a <code>BigFraction</code> instance with the resulting values.
-     */
-    public BigFraction subtract(final int i) {
-        return subtract(new BigFraction(i, 1));
-    }
-
-    /**
-     * <p>
-     * Subtracts the value of an <tt>integer</tt> from the value of this one,
-     * returning the result in reduced form.
-     * </p>
-     * 
-     * @param l
-     *            the <tt>long</tt> to subtract.
-     * @return a <code>BigFraction</code> instance with the resulting values, or
-     *         this object if the <tt>long</tt> is zero.
-     */
-    public BigFraction subtract(final long l) {
-        return subtract(new BigFraction(l, 1L));
     }
 
     /**

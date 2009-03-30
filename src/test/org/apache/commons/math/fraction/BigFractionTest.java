@@ -537,4 +537,17 @@ public class BigFractionTest extends TestCase {
         assertEquals(BigFraction.getReducedFraction(2, Integer.MIN_VALUE).getNumeratorAsInt(), -1);
         assertEquals(BigFraction.getReducedFraction(1, -1).getNumeratorAsInt(), -1);
     }
+
+    public void testPow() {
+        assertEquals(new BigFraction(8192, 1594323), new BigFraction(2, 3).pow(13));
+        assertEquals(new BigFraction(8192, 1594323), new BigFraction(2, 3).pow(13l));
+        assertEquals(new BigFraction(8192, 1594323), new BigFraction(2, 3).pow(BigInteger.valueOf(13l)));
+        assertEquals(BigFraction.ONE, new BigFraction(2, 3).pow(0));
+        assertEquals(BigFraction.ONE, new BigFraction(2, 3).pow(0l));
+        assertEquals(BigFraction.ONE, new BigFraction(2, 3).pow(BigInteger.valueOf(0l)));
+        assertEquals(new BigFraction(1594323, 8192), new BigFraction(2, 3).pow(-13));
+        assertEquals(new BigFraction(1594323, 8192), new BigFraction(2, 3).pow(-13l));
+        assertEquals(new BigFraction(1594323, 8192), new BigFraction(2, 3).pow(BigInteger.valueOf(-13l)));
+    }
+
 }
