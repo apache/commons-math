@@ -32,11 +32,41 @@ public class Fraction extends Number implements Comparable<Fraction> {
     /** A fraction representing "2 / 1". */
     public static final Fraction TWO = new Fraction(2, 1);
 
-    /** A fraction representing "1 / 1". */
+    /** A fraction representing "1". */
     public static final Fraction ONE = new Fraction(1, 1);
 
-    /** A fraction representing "0 / 1". */
+    /** A fraction representing "0". */
     public static final Fraction ZERO = new Fraction(0, 1);
+
+    /** A fraction representing "4/5". */
+    public static final Fraction FOUR_FIFTHS = new Fraction(4, 5);
+
+    /** A fraction representing "1/5". */
+    public static final Fraction ONE_FIFTH = new Fraction(1, 5);
+
+    /** A fraction representing "1/2". */
+    public static final Fraction ONE_HALF = new Fraction(1, 2);
+
+    /** A fraction representing "1/4". */
+    public static final Fraction ONE_QUARTER = new Fraction(1, 4);
+
+    /** A fraction representing "1/3". */
+    public static final Fraction ONE_THIRD = new Fraction(1, 3);
+
+    /** A fraction representing "3/5". */
+    public static final Fraction THREE_FIFTHS = new Fraction(3, 5);
+
+    /** A fraction representing "3/4". */
+    public static final Fraction THREE_QUARTERS = new Fraction(3, 4);
+
+    /** A fraction representing "4/5". */
+    public static final Fraction TWO_FIFTHS = new Fraction(4, 5);
+
+    /** A fraction representing "2/4". */
+    public static final Fraction TWO_QUARTERS = new Fraction(2, 4);
+
+    /** A fraction representing "2/3". */
+    public static final Fraction TWO_THIRDS = new Fraction(2, 3);
 
     /** A fraction representing "-1 / 1". */
     public static final Fraction MINUS_ONE = new Fraction(-1, 1);
@@ -199,6 +229,15 @@ public class Fraction extends Number implements Comparable<Fraction> {
     }
     
     /**
+     * Create a fraction from an int. 
+     * The fraction is num / 1.
+     * @param num the numerator.
+     */
+    public Fraction(int num) {
+        this(num, 1);
+    }
+    
+    /**
      * Create a fraction given the numerator and denominator.  The fraction is
      * reduced to lowest terms.
      * @param num the numerator.
@@ -206,7 +245,6 @@ public class Fraction extends Number implements Comparable<Fraction> {
      * @throws ArithmeticException if the denominator is <code>zero</code>
      */
     public Fraction(int num, int den) {
-        super();
         if (den == 0) {
             throw MathRuntimeException.createArithmeticException("zero denominator in fraction {0}/{1}",
                                                                  num, den);
@@ -220,7 +258,7 @@ public class Fraction extends Number implements Comparable<Fraction> {
             den = -den;
         }
         // reduce numerator and denominator by greatest common denominator.
-        int d = MathUtils.gcd(num, den);
+        final int d = MathUtils.gcd(num, den);
         if (d > 1) {
             num /= d;
             den /= d;
@@ -228,10 +266,10 @@ public class Fraction extends Number implements Comparable<Fraction> {
         
         // move sign to numerator.
         if (den < 0) {
-            num *= -1;
-            den *= -1;
+            num = -num;
+            den = -den;
         }
-        this.numerator = num;
+        this.numerator   = num;
         this.denominator = den;
     }
     
@@ -260,7 +298,7 @@ public class Fraction extends Number implements Comparable<Fraction> {
         long dOn = ((long) denominator) * object.numerator;
         return (nOd < dOn) ? -1 : ((nOd > dOn) ? +1 : 0);
     }
-    
+
     /**
      * Gets the fraction as a <tt>double</tt>. This calculates the fraction as
      * the numerator divided by denominator.
@@ -388,6 +426,15 @@ public class Fraction extends Number implements Comparable<Fraction> {
     }
 
     /**
+     * Add an integer to the fraction.
+     * @param i the <tt>integer</tt> to add.
+     * @return this + i
+     */
+    public Fraction add(final int i) {
+        return new Fraction(numerator + i * denominator, denominator);
+    }
+
+    /**
      * <p>Subtracts the value of another fraction from the value of this one, 
      * returning the result in reduced form.</p>
      *
@@ -399,6 +446,15 @@ public class Fraction extends Number implements Comparable<Fraction> {
      */
     public Fraction subtract(Fraction fraction) {
         return addSub(fraction, false /* subtract */);
+    }
+
+    /**
+     * Subtract an integer from the fraction.
+     * @param i the <tt>integer</tt> to subtract.
+     * @return this - i
+     */
+    public Fraction subtract(final int i) {
+        return new Fraction(numerator - i * denominator, denominator);
     }
 
     /** 
@@ -485,6 +541,15 @@ public class Fraction extends Number implements Comparable<Fraction> {
     }
 
     /**
+     * Multiply the fraction by an integer.
+     * @param i the <tt>integer</tt> to multiply by.
+     * @return this * i
+     */
+    public Fraction multiply(final int i) {
+        return new Fraction(numerator * i, denominator);
+    }
+
+    /**
      * <p>Divide the value of this fraction by another.</p>
      *
      * @param fraction  the fraction to divide by, must not be <code>null</code>
@@ -505,7 +570,16 @@ public class Fraction extends Number implements Comparable<Fraction> {
         }
         return multiply(fraction.reciprocal());
     }
-    
+
+    /**
+     * Divide the fraction by an integer.
+     * @param i the <tt>integer</tt> to divide by.
+     * @return this * i
+     */
+    public Fraction divide(final int i) {
+        return new Fraction(numerator, denominator * i);
+    }
+
     /**
      * <p>Creates a <code>Fraction</code> instance with the 2 parts
      * of a fraction Y/Z.</p>
@@ -546,4 +620,5 @@ public class Fraction extends Number implements Comparable<Fraction> {
         denominator /= gcd;
         return new Fraction(numerator, denominator);
     }
+
 }

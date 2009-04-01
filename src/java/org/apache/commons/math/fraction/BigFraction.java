@@ -31,11 +31,17 @@ import org.apache.commons.math.util.MathUtils;
  */
 public class BigFraction extends Number implements Comparable<BigFraction> {
 
+    /** A fraction representing "2 / 1". */
+    public static final BigFraction TWO = new BigFraction(2);
+
     /** A fraction representing "1". */
-    public static final BigFraction ONE = new BigFraction(1, 1);
+    public static final BigFraction ONE = new BigFraction(1);
 
     /** A fraction representing "0". */
-    public static final BigFraction ZERO = new BigFraction(0, 1);
+    public static final BigFraction ZERO = new BigFraction(0);
+
+    /** A fraction representing "-1 / 1". */
+    public static final BigFraction MINUS_ONE = new BigFraction(-1);
 
     /** A fraction representing "4/5". */
     public static final BigFraction FOUR_FIFTHS = new BigFraction(4, 5);
@@ -67,11 +73,8 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
     /** A fraction representing "2/3". */
     public static final BigFraction TWO_THIRDS = new BigFraction(2, 3);
 
-    /** A fraction representing "-1 / 1". */
-    public static final BigFraction MINUS_ONE = new BigFraction(-1, 1);
-
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -5984892138972589598L;
+    private static final long serialVersionUID = -130662482360701382L;
 
     /** <code>BigInteger</code> representation of 100. */
     private static final BigInteger ONE_HUNDRED_DOUBLE = BigInteger.valueOf(100);

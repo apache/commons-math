@@ -308,6 +308,9 @@ public class FractionTest extends TestCase {
         Fraction f = f1.add(f2);
         assertEquals(Integer.MAX_VALUE, f.getNumerator());
         assertEquals(1, f.getDenominator());
+        f = f1.add(1);
+        assertEquals(Integer.MAX_VALUE, f.getNumerator());
+        assertEquals(1, f.getDenominator());
         
         f1 = new Fraction(-1, 13*13*2*2);
         f2 = new Fraction(-2, 13*17*2);
@@ -426,6 +429,12 @@ public class FractionTest extends TestCase {
             f = f1.divide(f1.reciprocal());  // should overflow
             fail("expecting ArithmeticException");
         } catch (ArithmeticException ex) {}
+
+        f1 = new Fraction(6, 35);
+        f  = f1.divide(15);
+        assertEquals(2, f.getNumerator());
+        assertEquals(175, f.getDenominator());
+
     }
     
     public void testMultiply() {
@@ -447,6 +456,11 @@ public class FractionTest extends TestCase {
             f.multiply(null);
             fail("expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {}
+
+        f1 = new Fraction(6, 35);
+        f  = f1.multiply(15);
+        assertEquals(18, f.getNumerator());
+        assertEquals(7, f.getDenominator());
     }
     
     public void testSubtract() {
@@ -481,6 +495,9 @@ public class FractionTest extends TestCase {
         f1 = new Fraction(Integer.MAX_VALUE, 1);
         f2 = Fraction.ONE;
         f = f1.subtract(f2);
+        assertEquals(Integer.MAX_VALUE-1, f.getNumerator());
+        assertEquals(1, f.getDenominator());
+        f = f1.subtract(1);
         assertEquals(Integer.MAX_VALUE-1, f.getNumerator());
         assertEquals(1, f.getDenominator());
 
