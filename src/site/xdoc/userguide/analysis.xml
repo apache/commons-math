@@ -324,9 +324,8 @@ System.out println("f(" + interpolationX + ") = " + interpolatedY);</source>
           one, using traditional coefficients arrays. The <a
           href="../apidocs/org/apache/commons/math/analysis/polynomials/PolynomialsUtils.html">
           org.apache.commons.math.analysis.polynomials.PolynomialsUtils</a> utility class provides static
-          factory methods to build Chebyshev, Hermite, Lagrange and Legendre polynomials. Beware that due
-          to overflows in the coefficients computations, these factory methods can only build low degrees
-          polynomials yet.
+          factory methods to build Chebyshev, Hermite, Lagrange and Legendre polynomials. Coefficients
+          are computed using exact fractions so these factory methods can build polynomials up to any degree.
         </p>
       </subsection>
     </section>

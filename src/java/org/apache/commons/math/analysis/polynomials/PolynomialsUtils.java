@@ -18,7 +18,7 @@ package org.apache.commons.math.analysis.polynomials;
 
 import java.util.ArrayList;
 
-import org.apache.commons.math.fraction.Fraction;
+import org.apache.commons.math.fraction.BigFraction;
 
 /**
  * A collection of static methods that operate on or return polynomials.
@@ -29,46 +29,46 @@ import org.apache.commons.math.fraction.Fraction;
 public class PolynomialsUtils {
 
     /** Coefficients for Chebyshev polynomials. */
-    private static final ArrayList<Fraction> CHEBYSHEV_COEFFICIENTS;
+    private static final ArrayList<BigFraction> CHEBYSHEV_COEFFICIENTS;
 
     /** Coefficients for Hermite polynomials. */
-    private static final ArrayList<Fraction> HERMITE_COEFFICIENTS;
+    private static final ArrayList<BigFraction> HERMITE_COEFFICIENTS;
 
     /** Coefficients for Laguerre polynomials. */
-    private static final ArrayList<Fraction> LAGUERRE_COEFFICIENTS;
+    private static final ArrayList<BigFraction> LAGUERRE_COEFFICIENTS;
 
     /** Coefficients for Legendre polynomials. */
-    private static final ArrayList<Fraction> LEGENDRE_COEFFICIENTS;
+    private static final ArrayList<BigFraction> LEGENDRE_COEFFICIENTS;
 
     static {
 
         // initialize recurrence for Chebyshev polynomials
         // T0(X) = 1, T1(X) = 0 + 1 * X
-        CHEBYSHEV_COEFFICIENTS = new ArrayList<Fraction>();
-        CHEBYSHEV_COEFFICIENTS.add(Fraction.ONE);
-        CHEBYSHEV_COEFFICIENTS.add(Fraction.ZERO);
-        CHEBYSHEV_COEFFICIENTS.add(Fraction.ONE);
+        CHEBYSHEV_COEFFICIENTS = new ArrayList<BigFraction>();
+        CHEBYSHEV_COEFFICIENTS.add(BigFraction.ONE);
+        CHEBYSHEV_COEFFICIENTS.add(BigFraction.ZERO);
+        CHEBYSHEV_COEFFICIENTS.add(BigFraction.ONE);
 
         // initialize recurrence for Hermite polynomials
         // H0(X) = 1, H1(X) = 0 + 2 * X
-        HERMITE_COEFFICIENTS = new ArrayList<Fraction>();
-        HERMITE_COEFFICIENTS.add(Fraction.ONE);
-        HERMITE_COEFFICIENTS.add(Fraction.ZERO);
-        HERMITE_COEFFICIENTS.add(Fraction.TWO);
+        HERMITE_COEFFICIENTS = new ArrayList<BigFraction>();
+        HERMITE_COEFFICIENTS.add(BigFraction.ONE);
+        HERMITE_COEFFICIENTS.add(BigFraction.ZERO);
+        HERMITE_COEFFICIENTS.add(BigFraction.TWO);
 
         // initialize recurrence for Laguerre polynomials
         // L0(X) = 1, L1(X) = 1 - 1 * X
-        LAGUERRE_COEFFICIENTS = new ArrayList<Fraction>();
-        LAGUERRE_COEFFICIENTS.add(Fraction.ONE);
-        LAGUERRE_COEFFICIENTS.add(Fraction.ONE);
-        LAGUERRE_COEFFICIENTS.add(Fraction.MINUS_ONE);
+        LAGUERRE_COEFFICIENTS = new ArrayList<BigFraction>();
+        LAGUERRE_COEFFICIENTS.add(BigFraction.ONE);
+        LAGUERRE_COEFFICIENTS.add(BigFraction.ONE);
+        LAGUERRE_COEFFICIENTS.add(BigFraction.MINUS_ONE);
 
         // initialize recurrence for Legendre polynomials
         // P0(X) = 1, P1(X) = 0 + 1 * X
-        LEGENDRE_COEFFICIENTS = new ArrayList<Fraction>();
-        LEGENDRE_COEFFICIENTS.add(Fraction.ONE);
-        LEGENDRE_COEFFICIENTS.add(Fraction.ZERO);
-        LEGENDRE_COEFFICIENTS.add(Fraction.ONE);
+        LEGENDRE_COEFFICIENTS = new ArrayList<BigFraction>();
+        LEGENDRE_COEFFICIENTS.add(BigFraction.ONE);
+        LEGENDRE_COEFFICIENTS.add(BigFraction.ZERO);
+        LEGENDRE_COEFFICIENTS.add(BigFraction.ONE);
 
     }
 
@@ -94,9 +94,9 @@ public class PolynomialsUtils {
     public static PolynomialFunction createChebyshevPolynomial(final int degree) {
         return buildPolynomial(degree, CHEBYSHEV_COEFFICIENTS,
                 new RecurrenceCoefficientsGenerator() {
-            private final Fraction[] coeffs = { Fraction.ZERO, Fraction.TWO, Fraction.ONE};
+            private final BigFraction[] coeffs = { BigFraction.ZERO, BigFraction.TWO, BigFraction.ONE };
             /** {@inheritDoc} */
-            public Fraction[] generate(int k) {
+            public BigFraction[] generate(int k) {
                 return coeffs;
             }
         });
@@ -120,11 +120,11 @@ public class PolynomialsUtils {
         return buildPolynomial(degree, HERMITE_COEFFICIENTS,
                 new RecurrenceCoefficientsGenerator() {
             /** {@inheritDoc} */
-            public Fraction[] generate(int k) {
-                return new Fraction[] {
-                        Fraction.ZERO,
-                        Fraction.TWO,
-                        new Fraction(2 * k, 1)};
+            public BigFraction[] generate(int k) {
+                return new BigFraction[] {
+                        BigFraction.ZERO,
+                        BigFraction.TWO,
+                        new BigFraction(2 * k)};
             }
         });
     }
@@ -146,12 +146,12 @@ public class PolynomialsUtils {
         return buildPolynomial(degree, LAGUERRE_COEFFICIENTS,
                 new RecurrenceCoefficientsGenerator() {
             /** {@inheritDoc} */
-            public Fraction[] generate(int k) {
+            public BigFraction[] generate(int k) {
                 final int kP1 = k + 1;
-                return new Fraction[] {
-                        new Fraction(2 * k + 1, kP1),
-                        new Fraction(-1, kP1),
-                        new Fraction(k, kP1)};
+                return new BigFraction[] {
+                        new BigFraction(2 * k + 1, kP1),
+                        new BigFraction(-1, kP1),
+                        new BigFraction(k, kP1)};
             }
         });
     }
@@ -173,12 +173,12 @@ public class PolynomialsUtils {
         return buildPolynomial(degree, LEGENDRE_COEFFICIENTS,
                                new RecurrenceCoefficientsGenerator() {
             /** {@inheritDoc} */
-            public Fraction[] generate(int k) {
+            public BigFraction[] generate(int k) {
                 final int kP1 = k + 1;
-                return new Fraction[] {
-                        Fraction.ZERO,
-                        new Fraction(k + kP1, kP1),
-                        new Fraction(k, kP1)};
+                return new BigFraction[] {
+                        BigFraction.ZERO,
+                        new BigFraction(k + kP1, kP1),
+                        new BigFraction(k, kP1)};
             }
         });
     }
@@ -190,7 +190,7 @@ public class PolynomialsUtils {
      * @return coefficients array
      */
     private static PolynomialFunction buildPolynomial(final int degree,
-                                                      final ArrayList<Fraction> coefficients,
+                                                      final ArrayList<BigFraction> coefficients,
                                                       final RecurrenceCoefficientsGenerator generator) {
 
         final int maxDegree = (int) Math.floor(Math.sqrt(2 * coefficients.size())) - 1;
@@ -228,7 +228,7 @@ public class PolynomialsUtils {
      */
     private static void computeUpToDegree(final int degree, final int maxDegree,
                                           final RecurrenceCoefficientsGenerator generator,
-                                          final ArrayList<Fraction> coefficients) {
+                                          final ArrayList<BigFraction> coefficients) {
 
         int startK = (maxDegree - 1) * maxDegree / 2;
         for (int k = maxDegree; k < degree; ++k) {
@@ -238,24 +238,24 @@ public class PolynomialsUtils {
             startK += k;
 
             // Pk+1(X) = (a[0] + a[1] X) Pk(X) - a[2] Pk-1(X)
-            Fraction[] ai = generator.generate(k);
+            BigFraction[] ai = generator.generate(k);
 
-            Fraction ck     = coefficients.get(startK);
-            Fraction ckm1   = coefficients.get(startKm1);
+            BigFraction ck     = coefficients.get(startK);
+            BigFraction ckm1   = coefficients.get(startKm1);
 
             // degree 0 coefficient
             coefficients.add(ck.multiply(ai[0]).subtract(ckm1.multiply(ai[2])));
 
             // degree 1 to degree k-1 coefficients
             for (int i = 1; i < k; ++i) {
-                final Fraction ckPrev = ck;
+                final BigFraction ckPrev = ck;
                 ck     = coefficients.get(startK + i);
                 ckm1   = coefficients.get(startKm1 + i);
                 coefficients.add(ck.multiply(ai[0]).add(ckPrev.multiply(ai[1])).subtract(ckm1.multiply(ai[2])));
             }
 
             // degree k coefficient
-            final Fraction ckPrev = ck;
+            final BigFraction ckPrev = ck;
             ck = coefficients.get(startK + k);
             coefficients.add(ck.multiply(ai[0]).add(ckPrev.multiply(ai[1])));
 
@@ -274,7 +274,7 @@ public class PolynomialsUtils {
          * @return an array of three coefficients such that
          * P<sub>k+1</sub>(X) = (a[0] + a[1] X) P<sub>k</sub>(X) - a[2] P<sub>k-1</sub>(X)
          */
-        Fraction[] generate(int k);
+        BigFraction[] generate(int k);
     }
 
 }
