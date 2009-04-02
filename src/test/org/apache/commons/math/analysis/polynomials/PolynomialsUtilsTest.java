@@ -191,7 +191,7 @@ public class PolynomialsUtilsTest extends TestCase {
         for (int i = 0; i < l40.length; ++i) {
             if (i % 2 == 0) {
                 double ci = numerators[i / 2] / denominator;
-                assertEquals(ci, l40[i], ci * 1.0e-15);
+                assertEquals(ci, l40[i], Math.abs(ci) * 1.0e-15);
             } else {
                 assertEquals(0.0, l40[i], 0.0);
             }
