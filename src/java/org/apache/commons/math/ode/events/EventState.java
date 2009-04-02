@@ -192,6 +192,7 @@ public class EventState implements Serializable {
                     increasing = (gb >= ga);
 
                     final UnivariateRealFunction f = new UnivariateRealFunction() {
+                        private static final long serialVersionUID = 620905575148456915L;
                         public double value(final double t) throws FunctionEvaluationException {
                             try {
                                 interpolator.setInterpolatedTime(t);
