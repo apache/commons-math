@@ -21,6 +21,7 @@ import org.apache.commons.math.fraction.Fraction;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.IntegratorException;
+import org.apache.commons.math.ode.MultistepIntegrator;
 import org.apache.commons.math.ode.events.CombinedEventsManager;
 import org.apache.commons.math.ode.sampling.StepHandler;
 
@@ -225,7 +226,7 @@ public class AdamsBashforthIntegrator extends MultistepIntegrator {
 
     /** Compute the backward differences coefficients array.
      * <p>This is quite similar to the Pascal triangle containing the
-     * binomial coefficiens, except for an additional (-1)<sup>i</sup> sign.
+     * binomial coefficients, except for an additional (-1)<sup>i</sup> sign.
      * We use a straightforward approach here, since we don't expect this to
      * be run too many times with too high k. It is based on the recurrence
      * relations:</p>

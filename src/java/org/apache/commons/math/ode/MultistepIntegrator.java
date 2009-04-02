@@ -15,21 +15,19 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.ode.nonstiff;
+package org.apache.commons.math.ode;
 
 import java.util.Arrays;
 
-import org.apache.commons.math.ode.AbstractIntegrator;
-import org.apache.commons.math.ode.DerivativeException;
-import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
-import org.apache.commons.math.ode.FirstOrderIntegrator;
-import org.apache.commons.math.ode.IntegratorException;
-import org.apache.commons.math.ode.ODEIntegrator;
 import org.apache.commons.math.ode.events.CombinedEventsManager;
 import org.apache.commons.math.ode.events.EventException;
 import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.ode.events.EventState;
+import org.apache.commons.math.ode.nonstiff.AdamsBashforthIntegrator;
+import org.apache.commons.math.ode.nonstiff.AdamsMoultonIntegrator;
+import org.apache.commons.math.ode.nonstiff.DormandPrince853Integrator;
 import org.apache.commons.math.ode.sampling.FixedStepHandler;
+import org.apache.commons.math.ode.sampling.MultistepStepInterpolator;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 import org.apache.commons.math.ode.sampling.StepNormalizer;
@@ -110,7 +108,7 @@ public abstract class MultistepIntegrator extends AbstractIntegrator {
      * registered events handlers before this start phase is completed. As
      * an example, consider integrating a differential equation from t=0
      * to t=100 with a 4 steps method and step size equal to 0.2. If an event
-     * resets the state at t=0.5, the start phase will not end at t=0.7 with
+     * resets the state at t=0.5, the start phase will not end at t=0.6 with
      * steps at [0.0, 0.2, 0.4, 0.6] but instead will end at t=1.1 with steps
      * at [0.5, 0.7, 0.9, 1.1].</p>
      * <p>A side effect of the need for smoothness is that an ODE triggering
@@ -168,7 +166,7 @@ public abstract class MultistepIntegrator extends AbstractIntegrator {
         do {
             resetTime = Double.NaN;
             store.restart();
-            // we overshoot by 1/10000 step the end to make sure we get don't miss the last point
+            // we overshoot by 1/10000 step the end to make sure we don't miss the last point
             stopTime = starter.integrate(equations, t, y, t + (n - 0.9999) * h, y);
             if (!Double.isNaN(resetTime)) {
                 // there was an intermediate reset, we restart

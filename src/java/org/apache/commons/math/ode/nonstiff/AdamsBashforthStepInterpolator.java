@@ -24,6 +24,7 @@ import java.io.ObjectOutput;
 import org.apache.commons.math.fraction.Fraction;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
+import org.apache.commons.math.ode.sampling.MultistepStepInterpolator;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 
 /**

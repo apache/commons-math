@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.ode.nonstiff;
+package org.apache.commons.math.ode.sampling;
 
 import java.io.IOException;
 import java.io.ObjectInput;
@@ -23,7 +23,7 @@ import java.io.ObjectOutput;
 
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.ode.DerivativeException;
-import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
+import org.apache.commons.math.ode.MultistepIntegrator;
 
 /** This class represents an interpolator over the last step during an
  * ODE integration for multistep integrators.
@@ -34,7 +34,7 @@ import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
  * @since 2.0
  */
 
-abstract class MultistepStepInterpolator
+public abstract class MultistepStepInterpolator
     extends AbstractStepInterpolator {
 
     /** Previous steps times. */
