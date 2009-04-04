@@ -20,7 +20,7 @@ package org.apache.commons.math.ode.sampling;
 import java.io.Serializable;
 
 /**
- * This class is a step handler that do nothing.
+ * This class is a step handler that does nothing.
 
  * <p>This class is provided as a convenience for users who are only
  * interested in the final state of an integration and not in the
@@ -84,7 +84,7 @@ public class DummyStepHandler
   }
 
   /** The only instance. */
-  private static DummyStepHandler instance = new DummyStepHandler();
+  private static final DummyStepHandler instance = new DummyStepHandler();
 
   /** Serializable version identifier */
   private static final long serialVersionUID = 2731635121223090252L;
