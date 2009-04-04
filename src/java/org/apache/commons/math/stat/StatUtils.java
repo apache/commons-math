@@ -37,34 +37,34 @@ import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
 public final class StatUtils {
 
     /** sum */
-    private static UnivariateStatistic sum = new Sum();
+    private static final UnivariateStatistic sum = new Sum();
 
     /** sumSq */
-    private static UnivariateStatistic sumSq = new SumOfSquares();
+    private static final UnivariateStatistic sumSq = new SumOfSquares();
 
     /** prod */
-    private static UnivariateStatistic prod = new Product();
+    private static final UnivariateStatistic prod = new Product();
 
     /** sumLog */
-    private static UnivariateStatistic sumLog = new SumOfLogs();
+    private static final UnivariateStatistic sumLog = new SumOfLogs();
 
     /** min */
-    private static UnivariateStatistic min = new Min();
+    private static final UnivariateStatistic min = new Min();
 
     /** max */
-    private static UnivariateStatistic max = new Max();
+    private static final UnivariateStatistic max = new Max();
 
     /** mean */
-    private static UnivariateStatistic mean = new Mean();
+    private static final UnivariateStatistic mean = new Mean();
 
     /** variance */
-    private static Variance variance = new Variance();
+    private static final Variance variance = new Variance();
 
     /** percentile */
-    private static Percentile percentile = new Percentile();
+    private static final Percentile percentile = new Percentile();
     
     /** geometric mean */
-    private static GeometricMean geometricMean = new GeometricMean();
+    private static final GeometricMean geometricMean = new GeometricMean();
 
     /**
      * Private Constructor
