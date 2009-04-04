@@ -235,7 +235,7 @@ public class BigFractionTest extends TestCase {
             }
         }
         assertEquals(1l, new BigFraction(Double.MAX_VALUE).getDenominatorAsLong());
-        assertEquals(1l, new BigFraction(Double.MIN_NORMAL).getNumeratorAsLong());
+        assertEquals(1l, new BigFraction(Double.longBitsToDouble(0x0010000000000000L)).getNumeratorAsLong());
         assertEquals(1l, new BigFraction(Double.MIN_VALUE).getNumeratorAsLong());
     }
 
