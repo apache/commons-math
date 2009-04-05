@@ -132,11 +132,11 @@ public final class SparseRealMatrixTest extends TestCase {
         SparseRealMatrix m1 = createSparseMatrix(testData);
         RealMatrix m2 = m1.copy();
         assertTrue(m2 instanceof SparseRealMatrix);
-        assertEquals(((SparseRealMatrix) m2), m1);
+        assertEquals((m2), m1);
         SparseRealMatrix m3 = createSparseMatrix(testData);
         RealMatrix m4 = m3.copy();
         assertTrue(m4 instanceof SparseRealMatrix);
-        assertEquals(((SparseRealMatrix) m4), m3);
+        assertEquals((m4), m3);
     }
 
     /** test add */
@@ -162,7 +162,7 @@ public final class SparseRealMatrixTest extends TestCase {
             m.add(m2);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
     }
 
@@ -184,7 +184,7 @@ public final class SparseRealMatrixTest extends TestCase {
             m.subtract(createSparseMatrix(testData2));
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
     }
 
@@ -210,7 +210,7 @@ public final class SparseRealMatrixTest extends TestCase {
             m.multiply(createSparseMatrix(bigSingular));
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
     }
 
@@ -236,7 +236,7 @@ public final class SparseRealMatrixTest extends TestCase {
             m.getTrace();
             fail("Expecting NonSquareMatrixException");
         } catch (NonSquareMatrixException ex) {
-            ;
+            // ignored
         }
     }
 
@@ -259,7 +259,7 @@ public final class SparseRealMatrixTest extends TestCase {
             m.operate(testVector);
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
     }
 
@@ -298,7 +298,7 @@ public final class SparseRealMatrixTest extends TestCase {
             m.preMultiply(testVector);
             fail("expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
     }
 
@@ -323,7 +323,7 @@ public final class SparseRealMatrixTest extends TestCase {
             m.preMultiply(createSparseMatrix(bigSingular));
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
     }
 
@@ -335,13 +335,13 @@ public final class SparseRealMatrixTest extends TestCase {
             m.getRow(10);
             fail("expecting MatrixIndexException");
         } catch (MatrixIndexException ex) {
-            ;
+            // ignored
         }
         try {
             m.getColumn(-1);
             fail("expecting MatrixIndexException");
         } catch (MatrixIndexException ex) {
-            ;
+            // ignored
         }
     }
 
@@ -581,8 +581,8 @@ public final class SparseRealMatrixTest extends TestCase {
 
         // javadoc example
         SparseRealMatrix matrix = 
-            (SparseRealMatrix) createSparseMatrix(new double[][] { 
-            { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 0, 1, 2 } });
+            createSparseMatrix(new double[][] { 
+        { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 0, 1, 2 } });
         matrix.setSubMatrix(new double[][] { { 3, 4 }, { 5, 6 } }, 1, 1);
         expected = createSparseMatrix(new double[][] {
                 { 1, 2, 3, 4 }, { 5, 3, 4, 8 }, { 9, 5, 6, 2 } });
