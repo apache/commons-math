@@ -620,7 +620,7 @@ public class FastFourierTransformer implements Serializable {
         private static final long serialVersionUID =  0x564FCD47EBA8169BL;
 
         /** Size in all dimensions. */
-        protected int[] dimensionSize = new int[1];
+        protected int[] dimensionSize;
 
         /** Storage array. */
         protected Object multiDimensionalComplexArray;
@@ -628,32 +628,31 @@ public class FastFourierTransformer implements Serializable {
         /** Simple constructor.
          * @param multiDimensionalComplexArray array containing the matrix elements
          */
-        public MultiDimensionalComplexMatrix(Object
-                                             multiDimensionalComplexArray) {
+        public MultiDimensionalComplexMatrix(Object multiDimensionalComplexArray) {
+
             this.multiDimensionalComplexArray = multiDimensionalComplexArray;
+
+            // count dimensions
             int numOfDimensions = 0;
-            
-            Object lastDimension = multiDimensionalComplexArray;
-            while(lastDimension instanceof Object[]) {
+            for (Object lastDimension = multiDimensionalComplexArray;
+                 lastDimension instanceof Object[];) {
+                final Object[] array = (Object[]) lastDimension;
                 numOfDimensions++;
-                //manually implement variable size int[]
-                if (dimensionSize.length < numOfDimensions) {
-                    int[] newDimensionSize = new int[(int) Math.ceil(
-                            dimensionSize.length*1.6)];
-                    System.arraycopy(dimensionSize, 0, newDimensionSize, 0,
-                                     dimensionSize.length);
-                    dimensionSize = newDimensionSize;
-                }
-                dimensionSize[numOfDimensions - 1] = ((Object[])
-                                                      lastDimension).length;
-                lastDimension = ((Object[]) lastDimension)[0];
+                lastDimension = array[0];
             }
-            if (dimensionSize.length > numOfDimensions) {
-                int[] newDimensionSize = new int[numOfDimensions];
-                System.arraycopy(dimensionSize, 0, newDimensionSize, 0,
-                                 numOfDimensions);
-                dimensionSize = newDimensionSize;
+
+            // allocate array with exact count
+            dimensionSize = new int[numOfDimensions];
+
+            // fill array
+            numOfDimensions = 0;
+            for (Object lastDimension = multiDimensionalComplexArray;
+                 lastDimension instanceof Object[];) {
+                final Object[] array = (Object[]) lastDimension;
+                dimensionSize[numOfDimensions++] = array.length;
+                lastDimension = array[0];
             }
+
         }
 
         /**
@@ -664,12 +663,15 @@ public class FastFourierTransformer implements Serializable {
          */
         public Complex get(int... vector)
             throws IllegalArgumentException {
-            if (vector == null && dimensionSize.length > 1) {
-                throw MathRuntimeException.createIllegalArgumentException(
-                        "some dimensions don't match: {0} != {1}",
-                        0, dimensionSize.length);
+            if (vector == null) {
+                if (dimensionSize.length > 0) {
+                    throw MathRuntimeException.createIllegalArgumentException(
+                            "some dimensions don't match: {0} != {1}",
+                            0, dimensionSize.length);
+                }
+                return null;
             }
-            if (vector != null && vector.length != dimensionSize.length) {
+            if (vector.length != dimensionSize.length) {
                 throw MathRuntimeException.createIllegalArgumentException(
                         "some dimensions don't match: {0} != {1}",
                         vector.length, dimensionSize.length);
@@ -693,7 +695,7 @@ public class FastFourierTransformer implements Serializable {
         public Complex set(Complex magnitude, int... vector)
             throws IllegalArgumentException {
             if (vector == null) {
-                if (dimensionSize.length > 1) {
+                if (dimensionSize.length > 0) {
                     throw MathRuntimeException.createIllegalArgumentException(
                             "some dimensions don't match: {0} != {1}",
                             0, dimensionSize.length);
