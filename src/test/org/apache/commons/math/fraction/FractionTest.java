@@ -564,4 +564,10 @@ public class FractionTest extends TestCase {
         assertEquals(Fraction.getReducedFraction
                 (1, -1).getNumerator(), -1);
     }
+
+    public void testToString() {
+        assertEquals("0", new Fraction(0, 3).toString());
+        assertEquals("3", new Fraction(6, 2).toString());
+        assertEquals("2 / 3", new Fraction(18, 27).toString());
+    }
 }

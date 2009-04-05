@@ -627,4 +627,26 @@ public class Fraction extends Number implements Comparable<Fraction> {
         return new Fraction(numerator, denominator);
     }
 
+    /**
+     * <p>
+     * Returns the <code>String</code> representing this fraction, ie
+     * "num / dem" or just "num" if the denominator is one.
+     * </p>
+     * 
+     * @return a string representation of the fraction.
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        String str = null;
+        if (denominator == 1) {
+            str = Integer.toString(numerator);
+        } else if (numerator == 0) {
+            str = "0";
+        } else {
+            str = numerator + " / " + denominator;
+        }
+        return str;
+    }
+
 }
