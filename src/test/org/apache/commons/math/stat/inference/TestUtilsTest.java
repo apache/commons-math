@@ -35,9 +35,6 @@ public class TestUtilsTest extends TestCase {
         super(name);
     }
 
-    public void setUp() {
-    }
-
     public static Test suite() {
         TestSuite suite = new TestSuite(TestUtilsTest.class);
         suite.setName("TestUtils Tests");

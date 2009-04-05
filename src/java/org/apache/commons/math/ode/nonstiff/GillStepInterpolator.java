@@ -70,12 +70,14 @@ class GillStepInterpolator
   }
 
   /** {@inheritDoc} */
+  @Override
   protected StepInterpolator doCopy() {
     return new GillStepInterpolator(this);
   }
 
 
   /** {@inheritDoc} */
+  @Override
   protected void computeInterpolatedState(final double theta,
                                           final double oneMinusThetaH)
     throws DerivativeException {

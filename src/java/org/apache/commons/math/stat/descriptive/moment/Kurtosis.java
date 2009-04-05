@@ -87,6 +87,7 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void increment(final double d) {
         if (incMoment) {
             moment.increment(d);
@@ -99,6 +100,7 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  {
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getResult() {
         double kurtosis = Double.NaN;
         if (moment.getN() > 3) {
@@ -119,6 +121,7 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void clear() {
         if (incMoment) {
             moment.clear();
@@ -153,6 +156,7 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  {
      * @throws IllegalArgumentException if the input array is null or the array
      * index parameters are not valid
      */
+    @Override
     public double evaluate(final double[] values,final int begin, final int length) {
         // Initialize the kurtosis  
         double kurt = Double.NaN;   
@@ -190,6 +194,7 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Kurtosis copy() {
         Kurtosis result = new Kurtosis();
         copy(this, result);

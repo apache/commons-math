@@ -167,6 +167,7 @@ public class FractionFormat extends AbstractFormat {
      * @see java.text.Format#format(java.lang.Object, java.lang.StringBuffer, java.text.FieldPosition)
      * @throws IllegalArgumentException is <code>obj</code> is not a valid type.
      */
+    @Override
     public StringBuffer format(final Object obj,
                                final StringBuffer toAppendTo, final FieldPosition pos) {
         StringBuffer ret = null;
@@ -197,6 +198,7 @@ public class FractionFormat extends AbstractFormat {
      * @exception ParseException if the beginning of the specified string
      *            cannot be parsed.
      */
+    @Override
     public Fraction parse(final String source) throws ParseException {
         final ParsePosition parsePosition = new ParsePosition(0);
         final Fraction result = parse(source, parsePosition);
@@ -215,6 +217,7 @@ public class FractionFormat extends AbstractFormat {
      * @param pos input/ouput parsing parameter.
      * @return the parsed {@link Fraction} object.
      */
+    @Override
     public Fraction parse(final String source, final ParsePosition pos) {
         final int initialIndex = pos.getIndex();
 

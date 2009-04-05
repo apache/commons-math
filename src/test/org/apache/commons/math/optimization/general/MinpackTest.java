@@ -649,6 +649,7 @@ public class MinpackTest extends TestCase {
             buildArray(n, -1.0));
     }
 
+    @Override
     public double[][] jacobian(double[] variables) {
       double t = 2.0 / m;
       double[][] jacobian = new double[m][];
@@ -661,6 +662,7 @@ public class MinpackTest extends TestCase {
       return jacobian;
     }
 
+    @Override
     public double[] value(double[] variables) {
       double sum = 0;
       for (int i = 0; i < n; ++i) {
@@ -687,6 +689,7 @@ public class MinpackTest extends TestCase {
       super(m, buildArray(n, x0), theoreticalMinCost, null);
     }
 
+    @Override
     public double[][] jacobian(double[] variables) {
       double[][] jacobian = new double[m][];
       for (int i = 0; i < m; ++i) {
@@ -698,6 +701,7 @@ public class MinpackTest extends TestCase {
       return jacobian;
     }
 
+    @Override
     public double[] value(double[] variables) {
       double[] f = new double[m];
       double sum = 0;
@@ -722,6 +726,7 @@ public class MinpackTest extends TestCase {
             null);
     }
 
+    @Override
     public double[][] jacobian(double[] variables) {
       double[][] jacobian = new double[m][];
       for (int i = 0; i < m; ++i) {
@@ -741,6 +746,7 @@ public class MinpackTest extends TestCase {
       return jacobian;
     }
 
+    @Override
     public double[] value(double[] variables) {
       double[] f = new double[m];
       double sum = 0;
@@ -764,11 +770,13 @@ public class MinpackTest extends TestCase {
       super(2, startParams, 0.0, buildArray(2, 1.0));
     }
 
+    @Override
     public double[][] jacobian(double[] variables) {
       double x1 = variables[0];
       return new double[][] { { -20 * x1, 10 }, { -1, 0 } };
     }
 
+    @Override
     public double[] value(double[] variables) {
       double x1 = variables[0];
       double x2 = variables[1];
@@ -786,6 +794,7 @@ public class MinpackTest extends TestCase {
       super(3, startParams, 0.0, new double[] { 1.0, 0.0, 0.0 });
     }
 
+    @Override
     public double[][] jacobian(double[] variables) {
       double x1 = variables[0];
       double x2 = variables[1];
@@ -799,6 +808,7 @@ public class MinpackTest extends TestCase {
       };
     }
 
+    @Override
     public double[] value(double[] variables) {
       double x1 = variables[0];
       double x2 = variables[1];
@@ -833,6 +843,7 @@ public class MinpackTest extends TestCase {
       super(4, startParams, 0.0, buildArray(4, 0.0));
     }
 
+    @Override
     public double[][] jacobian(double[] variables) {
       double x1 = variables[0];
       double x2 = variables[1];
@@ -846,6 +857,7 @@ public class MinpackTest extends TestCase {
       };
     }
 
+    @Override
     public double[] value(double[] variables) {
       double x1 = variables[0];
       double x2 = variables[1];
@@ -876,6 +888,7 @@ public class MinpackTest extends TestCase {
             theoreticalMinParams);
     }
 
+    @Override
     public double[][] jacobian(double[] variables) {
       double x2 = variables[1];
       return new double[][] {
@@ -884,6 +897,7 @@ public class MinpackTest extends TestCase {
       };
     }
 
+    @Override
     public double[] value(double[] variables) {
       double x1 = variables[0];
       double x2 = variables[1];
@@ -907,6 +921,7 @@ public class MinpackTest extends TestCase {
             theoreticalMinParams);
     }
 
+    @Override
     public double[][] jacobian(double[] variables) {
       double   x2 = variables[1];
       double   x3 = variables[2];
@@ -922,6 +937,7 @@ public class MinpackTest extends TestCase {
       return jacobian;
     }
 
+    @Override
     public double[] value(double[] variables) {
       double   x1 = variables[0];
       double   x2 = variables[1];
@@ -960,6 +976,7 @@ public class MinpackTest extends TestCase {
       }
     }
 
+    @Override
     public double[][] jacobian(double[] variables) {
       double   x1 = variables[0];
       double   x2 = variables[1];
@@ -977,6 +994,7 @@ public class MinpackTest extends TestCase {
       return jacobian;
     }
 
+    @Override
     public double[] value(double[] variables) {
       double x1 = variables[0];
       double x2 = variables[1];
@@ -1016,6 +1034,7 @@ public class MinpackTest extends TestCase {
       }
     }
 
+    @Override
     public double[][] jacobian(double[] variables) {
       double   x1 = variables[0];
       double   x2 = variables[1];
@@ -1031,6 +1050,7 @@ public class MinpackTest extends TestCase {
       return jacobian;
     }
 
+    @Override
     public double[] value(double[] variables) {
       double x1 = variables[0];
       double x2 = variables[1];
@@ -1063,6 +1083,7 @@ public class MinpackTest extends TestCase {
             theoreticalMinParams);
     }
 
+    @Override
     public double[][] jacobian(double[] variables) {
 
       double[][] jacobian = new double[m][];
@@ -1095,6 +1116,7 @@ public class MinpackTest extends TestCase {
 
     }
 
+    @Override
     public double[] value(double[] variables) {
      double[] f = new double[m];
      for (int i = 0; i < (m - 2); ++i) {
@@ -1135,6 +1157,7 @@ public class MinpackTest extends TestCase {
             new double[] { 1.0, 10.0, 1.0 });
    }
 
+    @Override
     public double[][] jacobian(double[] variables) {
       double   x1 = variables[0];
       double   x2 = variables[1];
@@ -1150,6 +1173,7 @@ public class MinpackTest extends TestCase {
       return jacobian;
     }
 
+    @Override
     public double[] value(double[] variables) {
       double x1 = variables[0];
       double x2 = variables[1];
@@ -1177,6 +1201,7 @@ public class MinpackTest extends TestCase {
             theoreticalMinParams);
     }
 
+    @Override
     public double[][] jacobian(double[] variables) {
       double   x1 = variables[0];
       double   x2 = variables[1];
@@ -1188,6 +1213,7 @@ public class MinpackTest extends TestCase {
       return jacobian;
     }
 
+    @Override
     public double[] value(double[] variables) {
       double x1 = variables[0];
       double x2 = variables[1];
@@ -1213,6 +1239,7 @@ public class MinpackTest extends TestCase {
             theoreticalMinParams);
     }
 
+    @Override
     public double[][] jacobian(double[] variables) {
       double   x1 = variables[0];
       double   x2 = variables[1];
@@ -1231,6 +1258,7 @@ public class MinpackTest extends TestCase {
       return jacobian;
     }
 
+    @Override
     public double[] value(double[] variables) {
       double x1 = variables[0];
       double x2 = variables[1];
@@ -1269,6 +1297,7 @@ public class MinpackTest extends TestCase {
             theoreticalMinParams);
     }
 
+    @Override
     public double[][] jacobian(double[] variables) {
 
       double[][] jacobian = new double[m][];
@@ -1298,6 +1327,7 @@ public class MinpackTest extends TestCase {
 
     }
 
+    @Override
     public double[] value(double[] variables) {
 
       double[] f = new double[m];
@@ -1342,6 +1372,7 @@ public class MinpackTest extends TestCase {
             theoreticalMinParams);
     }
 
+    @Override
     public double[][] jacobian(double[] variables) {
       double[][] jacobian = new double[m][];
       for (int i = 0; i < m; ++i) {
@@ -1375,6 +1406,7 @@ public class MinpackTest extends TestCase {
 
     }
 
+    @Override
     public double[] value(double[] variables) {
       double[] f = new double[m];
       double sum  = -(n + 1);
@@ -1404,6 +1436,7 @@ public class MinpackTest extends TestCase {
             theoreticalMinParams);
     }
 
+    @Override
     public double[][] jacobian(double[] variables) {
       double   x2 = variables[1];
       double   x3 = variables[2];
@@ -1421,6 +1454,7 @@ public class MinpackTest extends TestCase {
       return jacobian;
     }
 
+    @Override
     public double[] value(double[] variables) {
       double x1 = variables[0];
       double x2 = variables[1];
@@ -1457,6 +1491,7 @@ public class MinpackTest extends TestCase {
             theoreticalMinParams);
     }
 
+    @Override
     public double[][] jacobian(double[] variables) {
       double   x01 = variables[0];
       double   x02 = variables[1];
@@ -1493,6 +1528,7 @@ public class MinpackTest extends TestCase {
       return jacobian;
     }
 
+    @Override
     public double[] value(double[] variables) {
       double x01 = variables[0];
       double x02 = variables[1];

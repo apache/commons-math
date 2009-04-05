@@ -38,11 +38,13 @@ public class ExponentialDistributionTest extends ContinuousDistributionAbstractT
     //-------------- Implementations for abstract methods -----------------------
     
     /** Creates the default continuous distribution instance to use in tests. */
+    @Override
     public ContinuousDistribution makeDistribution() {
         return new ExponentialDistributionImpl(5.0);
     }   
     
     /** Creates the default cumulative probability distribution test input values */
+    @Override
     public double[] makeCumulativeTestPoints() {
         // quantiles computed using R version 1.8.1 (linux version)
         return new double[] {0.005002502d, 0.05025168d, 0.1265890d, 0.2564665d, 0.5268026d, 
@@ -50,6 +52,7 @@ public class ExponentialDistributionTest extends ContinuousDistributionAbstractT
     }
     
     /** Creates the default cumulative probability density test expected values */
+    @Override
     public double[] makeCumulativeTestValues() {
         return new double[] {0.001d, 0.01d, 0.025d, 0.05d, 0.1d, 0.999d,
                 0.990d, 0.975d, 0.950d, 0.900d}; 

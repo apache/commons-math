@@ -68,6 +68,7 @@ public class Frequency implements Serializable {
      * 
      * @return a string representation.
      */
+    @Override
     public String toString() {
         NumberFormat nf = NumberFormat.getPercentInstance();
         StringBuffer outBuffer = new StringBuffer();

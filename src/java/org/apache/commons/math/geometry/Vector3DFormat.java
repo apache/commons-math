@@ -233,6 +233,7 @@ public class Vector3DFormat extends CompositeFormat {
      * @see java.text.Format#format(java.lang.Object, java.lang.StringBuffer, java.text.FieldPosition)
      * @throws IllegalArgumentException is <code>obj</code> is not a valid type.
      */
+    @Override
     public StringBuffer format(Object obj, StringBuffer toAppendTo,
                                FieldPosition pos) {
 
@@ -332,6 +333,7 @@ public class Vector3DFormat extends CompositeFormat {
      * @return the parsed object.
      * @see java.text.Format#parseObject(java.lang.String, java.text.ParsePosition)
      */
+    @Override
     public Object parseObject(String source, ParsePosition pos) {
         return parse(source, pos);
     }

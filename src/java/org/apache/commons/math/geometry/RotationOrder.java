@@ -50,6 +50,7 @@ public final class RotationOrder {
   /** Get a string representation of the instance.
    * @return a string representation of the instance (in fact, its name)
    */
+  @Override
   public String toString() {
     return name;
   }

@@ -72,19 +72,23 @@ public class TestProblem4
    * Clone operation.
    * @return a copy of the instance
    */
+  @Override
   public Object clone() {
     return new TestProblem4(this);
   }
 
+  @Override
   public EventHandler[] getEventsHandlers() {
     return new EventHandler[] { new Bounce(), new Stop() };
   }
 
+  @Override
   public void doComputeDerivatives(double t, double[] y, double[] yDot) {
     yDot[0] =  y[1];
     yDot[1] = -y[0];
   }
 
+  @Override
   public double[] computeTheoreticalState(double t) {
     double sin = Math.sin(t + a);
     double cos = Math.cos(t + a);

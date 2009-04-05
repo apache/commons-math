@@ -34,9 +34,11 @@ public abstract class StorelessUnivariateStatisticAbstractTest
     protected double[][] smallSamples = {{}, {1}, {1,2}, {1,2,3}, {1,2,3,4}};
 
     /** Return a new instance of the statistic */
+    @Override
     public abstract UnivariateStatistic getUnivariateStatistic();
 
     /**Expected value for  the testArray defined in UnivariateStatisticAbstractTest */
+    @Override
     public abstract double expectedValue();
     
     /** 

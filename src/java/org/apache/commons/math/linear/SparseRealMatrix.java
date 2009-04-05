@@ -81,6 +81,7 @@ public class SparseRealMatrix extends AbstractRealMatrix {
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealMatrix add(final RealMatrix m)
         throws IllegalArgumentException {
         try {
@@ -115,6 +116,7 @@ public class SparseRealMatrix extends AbstractRealMatrix {
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealMatrix subtract(final RealMatrix m)
         throws IllegalArgumentException {
         try {

@@ -77,6 +77,7 @@ public class DummyStepInterpolator
   /** Really copy the finalized instance.
    * @return a copy of the finalized instance
    */
+  @Override
   protected StepInterpolator doCopy() {
     return new DummyStepInterpolator(this);
   }
@@ -91,6 +92,7 @@ public class DummyStepInterpolator
    * @throws DerivativeException this exception is propagated to the caller if the
    * underlying user function triggers one
    */
+  @Override
   protected void computeInterpolatedState(final double theta, final double oneMinusThetaH)
     throws DerivativeException {
       System.arraycopy(currentState, 0, interpolatedState, 0, currentState.length);
@@ -100,6 +102,7 @@ public class DummyStepInterpolator
    * @param out output channel
    * @exception IOException if the instance cannot be written
    */
+  @Override
   public void writeExternal(final ObjectOutput out)
     throws IOException {
     // save the state of the base class
@@ -110,6 +113,7 @@ public class DummyStepInterpolator
    * @param in input channel
    * @exception IOException if the instance cannot be read
    */
+  @Override
   public void readExternal(final ObjectInput in)
     throws IOException {
 

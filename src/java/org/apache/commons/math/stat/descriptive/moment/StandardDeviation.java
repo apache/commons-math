@@ -105,6 +105,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
     /**
      * {@inheritDoc}
      */
+    @Override
     public void increment(final double d) {
         variance.increment(d);
     }
@@ -119,6 +120,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getResult() {
         return Math.sqrt(variance.getResult());
     }
@@ -126,6 +128,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
     /**
      * {@inheritDoc}
      */
+    @Override
     public void clear() {
         variance.clear();
     }
@@ -144,6 +147,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      * @return the standard deviation of the values or Double.NaN if length = 0
      * @throws IllegalArgumentException if the array is null
      */  
+    @Override
     public double evaluate(final double[] values)  {
         return Math.sqrt(variance.evaluate(values));
     }
@@ -166,6 +170,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      * @throws IllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
+    @Override
     public double evaluate(final double[] values, final int begin, final int length)  {
        return Math.sqrt(variance.evaluate(values, begin, length));
     }
@@ -241,6 +246,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
     /**
      * {@inheritDoc}
      */
+    @Override
     public StandardDeviation copy() {
         StandardDeviation result = new StandardDeviation();
         copy(this, result);

@@ -70,11 +70,13 @@ public class WeightedMeasurementTest
     return new TestSuite(WeightedMeasurementTest.class);
   }
 
+  @Override
   public void setUp() {
     p1 = new EstimatedParameter("p1", 1.0);
     p2 = new EstimatedParameter("p2", 2.0);
   }
 
+  @Override
   public void tearDown() {
     p1 = null;
     p2 = null;
@@ -107,10 +109,12 @@ public class WeightedMeasurementTest
       this.testInstance = testInstance;
     }
 
+    @Override
     public double getTheoreticalValue() {
       return testInstance.theoretical();
     }
 
+    @Override
     public double getPartial(EstimatedParameter p) {
       return testInstance.partial(p);
     }

@@ -75,6 +75,7 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements S
     /**
      * {@inheritDoc}
      */
+    @Override
     public void increment(final double d) {
         value += Math.log(d);
         n++;
@@ -83,6 +84,7 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements S
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getResult() {
         if (n > 0) {
             return value;
@@ -101,6 +103,7 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements S
     /**
      * {@inheritDoc}
      */
+    @Override
     public void clear() {
         value = 0d;
         n = 0;
@@ -123,6 +126,7 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements S
      * @throws IllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
+    @Override
     public double evaluate(final double[] values, final int begin, final int length) {
         double sumLog = Double.NaN;
         if (test(values, begin, length)) {
@@ -137,6 +141,7 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements S
     /**
      * {@inheritDoc}
      */
+    @Override
     public SumOfLogs copy() {
         SumOfLogs result = new SumOfLogs();
         copy(this, result);

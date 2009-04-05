@@ -102,6 +102,7 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
      * @return domain value lower bound, i.e. P(X &lt; <i>lower bound</i>) &lt;
      *         <code>p</code>
      */
+    @Override
     protected int getDomainLowerBound(double p) {
         return -1;
     }
@@ -113,6 +114,7 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
      * @return domain value upper bound, i.e. P(X &lt; <i>upper bound</i>) &gt;
      *         <code>p</code>
      */
+    @Override
     protected int getDomainUpperBound(double p) {
         // use MAX - 1 because MAX causes loop
         return Integer.MAX_VALUE - 1;
@@ -125,6 +127,7 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
      * @throws MathException if the cumulative probability can not be computed
      *         due to convergence or other numerical errors
      */
+    @Override
     public double cumulativeProbability(int x) throws MathException {
         double ret;
         if (x < 0) {
@@ -166,6 +169,7 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
      *         computed due to convergence or other numerical errors.
      * @throws IllegalArgumentException if p < 0 or p > 1
      */
+    @Override
     public int inverseCumulativeProbability(final double p)
         throws MathException {
         int ret;

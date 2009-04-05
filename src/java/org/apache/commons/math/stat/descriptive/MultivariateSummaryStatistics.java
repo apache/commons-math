@@ -301,6 +301,7 @@ public class MultivariateSummaryStatistics
      * have been added.
      * @return String with line feeds displaying statistics
      */
+    @Override
     public String toString() {
         StringBuffer outBuffer = new StringBuffer();
         outBuffer.append("MultivariateSummaryStatistics:\n");
@@ -359,6 +360,7 @@ public class MultivariateSummaryStatistics
      * @param object the object to test equality against.
      * @return true if object equals this
      */
+    @Override
     public boolean equals(Object object) {
         if (object == this ) {
             return true;
@@ -384,6 +386,7 @@ public class MultivariateSummaryStatistics
      * 
      * @return hash code
      */
+    @Override
     public int hashCode() {
         int result = 31 + MathUtils.hash(getGeometricMean());
         result = result * 31 + MathUtils.hash(getGeometricMean());

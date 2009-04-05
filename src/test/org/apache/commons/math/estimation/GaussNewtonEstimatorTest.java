@@ -591,6 +591,7 @@ public class GaussNewtonEstimatorTest
       setIgnored(false);
     }
 
+    @Override
     public double getTheoreticalValue() {
       double v = 0;
       for (int i = 0; i < factors.length; ++i) {
@@ -599,6 +600,7 @@ public class GaussNewtonEstimatorTest
       return v;
     }
 
+    @Override
     public double getPartial(EstimatedParameter parameter) {
       for (int i = 0; i < parameters.length; ++i) {
         if (parameters[i] == parameter) {
@@ -686,6 +688,7 @@ public class GaussNewtonEstimatorTest
         this.py = py;
       }
 
+      @Override
       public double getPartial(EstimatedParameter parameter) {
         if (parameter == cx) {
           return getPartialDiX() - getPartialRadiusX();
@@ -709,6 +712,7 @@ public class GaussNewtonEstimatorTest
         return (cy.getEstimate() - py) / getCenterDistance();
       }
 
+      @Override
       public double getTheoreticalValue() {
         return getCenterDistance() - getRadius();
       }

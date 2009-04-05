@@ -59,6 +59,7 @@ extends TestCase {
 
     }
 
+    @Override
     public void setUp() {
         mean              = new double[] {0.0, 1.0, -3.0, 2.3};
         standardDeviation = new double[] {1.0, 2.0, 10.0, 0.1};
@@ -69,6 +70,7 @@ extends TestCase {
                     new GaussianRandomGenerator(rg));
     }
 
+    @Override
     public void tearDown() {
         mean = null;
         standardDeviation = null;

@@ -46,9 +46,6 @@ public class OneWayAnovaTest extends TestCase {
         super(name);
     }
 
-    public void setUp() {
-    }
-
     public static Test suite() {
         TestSuite suite = new TestSuite(OneWayAnovaTest.class);
         suite.setName("TestStatistic Tests");

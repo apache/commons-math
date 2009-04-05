@@ -105,6 +105,7 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
     /**
      * Setup sets all test instance data to default values 
      */
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
         distribution = makeDistribution();
@@ -119,6 +120,7 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
     /**
      * Cleans up test instance data
      */
+    @Override
     protected void tearDown() throws Exception {      
         super.tearDown();
         distribution = null;

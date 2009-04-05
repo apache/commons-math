@@ -29,8 +29,9 @@ public class ChiSquareFactoryTest extends ChiSquareTestTest {
     public ChiSquareFactoryTest(String name) {
         super(name);
     }
-    
-    public void setUp() {
+
+    @Override
+    public void setUp() throws Exception {
     	super.setUp();
         testStatistic = TestUtils.getUnknownDistributionChiSquareTest();
     }

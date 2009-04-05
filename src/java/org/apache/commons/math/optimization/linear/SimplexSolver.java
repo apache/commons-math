@@ -182,6 +182,7 @@ public class SimplexSolver extends AbstractLinearOptimizer {
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealPointValuePair doOptimize()
         throws OptimizationException {
         final SimplexTableau tableau =

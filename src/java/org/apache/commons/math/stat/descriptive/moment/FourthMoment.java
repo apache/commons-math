@@ -80,6 +80,7 @@ public class FourthMoment extends ThirdMoment implements Serializable{
     /**
      * {@inheritDoc}
      */
+     @Override
     public void increment(final double d) {
         if (n < 1) {
             m4 = 0.0;
@@ -102,6 +103,7 @@ public class FourthMoment extends ThirdMoment implements Serializable{
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getResult() {
         return m4;
     }
@@ -109,6 +111,7 @@ public class FourthMoment extends ThirdMoment implements Serializable{
     /**
      * {@inheritDoc}
      */
+    @Override
     public void clear() {
         super.clear();
         m4 = Double.NaN;
@@ -117,6 +120,7 @@ public class FourthMoment extends ThirdMoment implements Serializable{
     /**
      * {@inheritDoc}
      */
+    @Override
     public FourthMoment copy() {
         FourthMoment result = new FourthMoment();
         copy(this, result);

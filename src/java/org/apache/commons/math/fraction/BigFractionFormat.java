@@ -160,6 +160,7 @@ public class BigFractionFormat extends AbstractFormat implements Serializable {
      * @see java.text.Format#format(java.lang.Object, java.lang.StringBuffer, java.text.FieldPosition)
      * @throws IllegalArgumentException is <code>obj</code> is not a valid type.
      */
+    @Override
     public StringBuffer format(final Object obj,
                                final StringBuffer toAppendTo, final FieldPosition pos) {
 
@@ -186,6 +187,7 @@ public class BigFractionFormat extends AbstractFormat implements Serializable {
      * @exception ParseException if the beginning of the specified string
      *            cannot be parsed.
      */
+    @Override
     public BigFraction parse(final String source) throws ParseException {
         final ParsePosition parsePosition = new ParsePosition(0);
         final BigFraction result = parse(source, parsePosition);
@@ -204,6 +206,7 @@ public class BigFractionFormat extends AbstractFormat implements Serializable {
      * @param pos input/ouput parsing parameter.
      * @return the parsed {@link BigFraction} object.
      */
+    @Override
     public BigFraction parse(final String source, final ParsePosition pos) {
         final int initialIndex = pos.getIndex();
 

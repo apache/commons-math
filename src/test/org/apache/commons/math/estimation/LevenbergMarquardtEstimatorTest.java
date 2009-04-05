@@ -636,6 +636,7 @@ public class LevenbergMarquardtEstimatorTest
       this.parameters = parameters;
     }
 
+    @Override
     public double getTheoreticalValue() {
       double v = 0;
       for (int i = 0; i < factors.length; ++i) {
@@ -644,6 +645,7 @@ public class LevenbergMarquardtEstimatorTest
       return v;
     }
 
+    @Override
     public double getPartial(EstimatedParameter parameter) {
       for (int i = 0; i < parameters.length; ++i) {
         if (parameters[i] == parameter) {
@@ -731,6 +733,7 @@ public class LevenbergMarquardtEstimatorTest
         this.py = py;
       }
 
+      @Override
       public double getPartial(EstimatedParameter parameter) {
         if (parameter == cx) {
           return getPartialDiX() - getPartialRadiusX();
@@ -754,6 +757,7 @@ public class LevenbergMarquardtEstimatorTest
         return (cy.getEstimate() - py) / getCenterDistance();
       }
 
+      @Override
       public double getTheoreticalValue() {
         return getCenterDistance() - getRadius();
       }
@@ -826,10 +830,12 @@ public class LevenbergMarquardtEstimatorTest
               this.x = x;
           }
 
+          @Override
           public double getTheoreticalValue() {
               return theoreticalValue(x);
           }
 
+          @Override
           public double getPartial(EstimatedParameter parameter) {
               return partial(x, parameter);
           }

@@ -72,12 +72,14 @@ class ThreeEighthesStepInterpolator
   }
 
   /** {@inheritDoc} */
+  @Override
   protected StepInterpolator doCopy() {
     return new ThreeEighthesStepInterpolator(this);
   }
 
 
   /** {@inheritDoc} */
+  @Override
   protected void computeInterpolatedState(final double theta,
                                           final double oneMinusThetaH)
       throws DerivativeException {

@@ -70,6 +70,7 @@ extends TestCase {
 
     }
 
+    @Override
     public void setUp() {
         points = new double[][] {
                 { 1.2, 2.3,  4.5},
@@ -80,6 +81,7 @@ extends TestCase {
         };
     }
 
+    @Override
     public void tearDown() {
         points = null;
     }

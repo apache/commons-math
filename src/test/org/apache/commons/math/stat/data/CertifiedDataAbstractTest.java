@@ -42,7 +42,8 @@ public abstract class CertifiedDataAbstractTest extends TestCase {
     private SummaryStatistics summaries;
     
     private Map<String, Double> certifiedValues;
-    
+
+    @Override
     protected void setUp() throws Exception {
         descriptives = new DescriptiveStatistics();
         summaries = new SummaryStatistics();
@@ -96,7 +97,8 @@ public abstract class CertifiedDataAbstractTest extends TestCase {
     protected double getMaximumAbsoluteError() {
         return 1.0e-5;
     }
-    
+
+    @Override
     protected void tearDown() throws Exception {
         descriptives.clear();
         descriptives = null;

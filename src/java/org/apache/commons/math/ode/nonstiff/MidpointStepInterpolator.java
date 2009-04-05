@@ -67,12 +67,14 @@ class MidpointStepInterpolator
   }
 
   /** {@inheritDoc} */
+  @Override
   protected StepInterpolator doCopy() {
     return new MidpointStepInterpolator(this);
   }
 
 
   /** {@inheritDoc} */
+  @Override
   protected void computeInterpolatedState(final double theta,
                                           final double oneMinusThetaH)
     throws DerivativeException {

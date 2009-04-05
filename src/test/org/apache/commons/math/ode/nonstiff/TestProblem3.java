@@ -82,10 +82,12 @@ public class TestProblem3
    * Clone operation.
    * @return a copy of the instance
    */
+  @Override
   public Object clone() {
     return new TestProblem3(this);
   }
 
+  @Override
   public void doComputeDerivatives(double t, double[] y, double[] yDot) {
 
     // current radius
@@ -100,6 +102,7 @@ public class TestProblem3
 
   }
 
+  @Override
   public double[] computeTheoreticalState(double t) {
 
     // solve Kepler's equation

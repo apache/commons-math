@@ -29,12 +29,14 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
     public ResizableDoubleArrayTest(String name) {
         super( name );
     }
-      
+
+    @Override
     protected void tearDown() throws Exception {
         da = null;
         ra = null;
     }
        
+    @Override
     protected void setUp() throws Exception {
         da = new ResizableDoubleArray();
         ra = new ResizableDoubleArray();
@@ -174,14 +176,16 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         testDa.addElement(1d);
         assertEquals(4, testDa.getInternalLength());         
     }
-    
+
+    @Override
     public void testAdd1000() {
         super.testAdd1000();
         assertEquals("Internal Storage length should be 1024 if we started out with initial capacity of " +
                 "16 and an expansion factor of 2.0",
                 1024, ((ResizableDoubleArray) da).getInternalLength());
     }
-    
+
+    @Override
     public void testAddElementRolling() {
         super.testAddElementRolling();
         

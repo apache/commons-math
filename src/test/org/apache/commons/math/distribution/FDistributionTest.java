@@ -37,11 +37,13 @@ public class FDistributionTest extends ContinuousDistributionAbstractTest {
     //-------------- Implementations for abstract methods -----------------------
     
     /** Creates the default continuous distribution instance to use in tests. */
+    @Override
     public ContinuousDistribution makeDistribution() {
         return new FDistributionImpl(5.0, 6.0);
     }   
     
     /** Creates the default cumulative probability distribution test input values */
+    @Override
     public double[] makeCumulativeTestPoints() {
         // quantiles computed using R version 1.8.1 (linux version)
         return new double[] {0.03468084d ,0.09370091d, 0.1433137d,
@@ -50,12 +52,14 @@ public class FDistributionTest extends ContinuousDistributionAbstractTest {
     }
     
     /** Creates the default cumulative probability density test expected values */
+    @Override
     public double[] makeCumulativeTestValues() {
         return new double[] {0.001d, 0.01d, 0.025d, 0.05d, 0.1d, 0.999d,
                 0.990d, 0.975d, 0.950d, 0.900d}; 
     }
     
     // --------------------- Override tolerance  --------------
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
         setTolerance(4e-6);

@@ -620,6 +620,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @return the internal storage array used by this object
      * @deprecated replaced by {@link #getInternalValues()} as of 2.0
      */
+    @Deprecated
     public synchronized double[] getValues() {
         return (internalArray);
     }
@@ -841,6 +842,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * properties as this
      * @since 2.0
      */
+    @Override
     public boolean equals(Object object) {
         if (object == this ) {
             return true;
@@ -873,6 +875,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @return hash code representing this ResizableDoubleArray
      * @since 2.0
      */
+    @Override
     public int hashCode() {
         int[] hashData = new int[7];
         hashData[0] = new Float(expansionFactor).hashCode();

@@ -114,6 +114,7 @@ public class BetaDistributionImpl
     }
 
     /** {@inheritDoc} */
+    @Override
     public double inverseCumulativeProbability(double p) throws MathException {
         if (p == 0) {
             return 0;
@@ -125,16 +126,19 @@ public class BetaDistributionImpl
     }
 
     /** {@inheritDoc} */
+    @Override
     protected double getInitialDomain(double p) {
         return p;
     }
 
     /** {@inheritDoc} */
+    @Override
     protected double getDomainLowerBound(double p) {
         return 0;
     }
 
     /** {@inheritDoc} */
+    @Override
     protected double getDomainUpperBound(double p) {
         return 1;
     }
@@ -151,6 +155,7 @@ public class BetaDistributionImpl
     }
 
     /** {@inheritDoc} */
+    @Override
     public double cumulativeProbability(double x0, double x1) throws MathException {
         return cumulativeProbability(x1) - cumulativeProbability(x0);
     }

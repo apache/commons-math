@@ -69,9 +69,8 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
         this.transformer = transformer;
     }
 
-    /**
-     * @see org.apache.commons.math.stat.descriptive.DescriptiveStatistics#getValues()
-     */
+    /** {@inheritDoc} */
+    @Override
     public double[] getValues() {
 
         int length = list.size();
@@ -96,9 +95,8 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
         return copiedArray;
     }
 
-    /**
-     * @see org.apache.commons.math.stat.descriptive.DescriptiveStatistics#getElement(int)
-     */
+    /** {@inheritDoc} */
+    @Override
     public double getElement(int index) {
 
         double value = Double.NaN;
@@ -121,9 +119,8 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
         return value;
     }
 
-    /**
-     * @see org.apache.commons.math.stat.descriptive.DescriptiveStatistics#getN()
-     */
+    /** {@inheritDoc} */
+    @Override
     public long getN() {
         int n = 0;
 
@@ -139,9 +136,8 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
         return n;
     }
 
-    /**
-     * @see org.apache.commons.math.stat.descriptive.DescriptiveStatistics#addValue(double)
-     */
+    /** {@inheritDoc} */
+    @Override
     public void addValue(double v) {
         list.add(Double.valueOf(v));
     }
@@ -159,6 +155,7 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
      * <p>
      * <strong>N.B.: </strong> This method has the side effect of clearing the underlying list.
      */
+    @Override
     public void clear() {
         list.clear();
     }
@@ -168,6 +165,7 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
      * @param stat the statistic to apply
      * @return the computed value of the statistic.
      */
+    @Override
     public double apply(UnivariateStatistic stat) {
         double[] v = this.getValues();
 
@@ -193,9 +191,8 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
         this.transformer = transformer;
     }
     
-    /**
-     * @see org.apache.commons.math.stat.descriptive.DescriptiveStatistics#setWindowSize(int)
-     */
+    /** {@inheritDoc} */
+    @Override
     public synchronized void setWindowSize(int windowSize) {
         this.windowSize = windowSize;
         //Discard elements from the front of the list if the windowSize is less than 
@@ -206,9 +203,8 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
         }
     }
 
-    /**
-     * @see org.apache.commons.math.stat.descriptive.DescriptiveStatistics#getWindowSize
-     */
+    /** {@inheritDoc} */
+    @Override
     public synchronized int getWindowSize() {
         return windowSize;
     }

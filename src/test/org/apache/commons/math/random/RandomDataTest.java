@@ -48,9 +48,6 @@ public class RandomDataTest extends RetryTestCase {
     protected RandomDataImpl randomData = null; 
     protected ChiSquareTestImpl testStatistic = new ChiSquareTestImpl();
     
-    public void setUp() { 
-    }
-
     public static Test suite() {
         TestSuite suite = new TestSuite(RandomDataTest.class);
         suite.setName("RandomData Tests");

@@ -33,6 +33,7 @@ public final class SynchronizedSummaryStatisticsTest extends SummaryStatisticsTe
         return suite;
     }
 
+    @Override
     protected SummaryStatistics createSummaryStatistics() {
         return new SynchronizedSummaryStatistics();
     }

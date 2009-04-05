@@ -272,6 +272,7 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
      * @return a string representation of the polynomial
 
      */
+    @Override
      public String toString() {
 
        StringBuffer s = new StringBuffer();

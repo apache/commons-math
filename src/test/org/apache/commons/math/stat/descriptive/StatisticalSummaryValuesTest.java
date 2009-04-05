@@ -35,9 +35,6 @@ public final class StatisticalSummaryValuesTest extends TestCase {
         super(name);
     }
     
-    public void setUp() {  
-    }
-    
     public static Test suite() {
         TestSuite suite = new TestSuite(StatisticalSummaryValuesTest.class);
         suite.setName("StatisticalSummaryValues Tests");

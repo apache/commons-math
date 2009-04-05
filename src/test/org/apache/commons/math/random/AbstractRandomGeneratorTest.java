@@ -42,6 +42,7 @@ public class AbstractRandomGeneratorTest extends RandomDataTest {
         return suite;
     }
     
+    @Override
     public void testNextInt() {
         try {
             testGenerator.nextInt(-1);
@@ -68,6 +69,7 @@ public class AbstractRandomGeneratorTest extends RandomDataTest {
                 testStatistic.chiSquare(expected,observed) < 16.27);    
     }
     
+    @Override
     public void testNextLong() {
         long q1 = Long.MAX_VALUE/4;
         long q2 = 2 *  q1;

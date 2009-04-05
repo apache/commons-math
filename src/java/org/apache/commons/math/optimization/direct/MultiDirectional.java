@@ -59,6 +59,7 @@ public class MultiDirectional extends DirectSearchOptimizer {
     }
 
     /** {@inheritDoc} */
+    @Override
     protected void iterateSimplex(final Comparator<RealPointValuePair> comparator)
         throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
 

@@ -1281,6 +1281,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      * Get a string representation for this matrix.
      * @return a string representation for this matrix
      */
+    @Override
     public String toString() {
         StringBuffer res = new StringBuffer();
         res.append("BigMatrixImpl{");
@@ -1312,6 +1313,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      * @param object the object to test equality against.
      * @return true if object equals this
      */
+    @Override
     public boolean equals(Object object) {
         if (object == this ) {
             return true;
@@ -1341,6 +1343,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      * 
      * @return hashcode for matrix
      */
+    @Override
     public int hashCode() {
         int ret = 7;
         final int nRows = getRowDimension();

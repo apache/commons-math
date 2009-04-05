@@ -43,16 +43,18 @@ public class MaxTest extends StorelessUnivariateStatisticAbstractTest{
         return suite;
     }
     
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.stat.descriptive.UnivariateStatisticAbstractTest#getUnivariateStatistic()
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public UnivariateStatistic getUnivariateStatistic() {
         return new Max();
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.stat.descriptive.UnivariateStatisticAbstractTest#expectedValue()
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public double expectedValue() {
         return this.max;
     }

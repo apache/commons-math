@@ -113,6 +113,7 @@ public class NonLinearConjugateGradientOptimizer
     }
 
     /** {@inheritDoc} */
+    @Override
     protected RealPointValuePair doOptimize()
         throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
         try {

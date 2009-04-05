@@ -125,6 +125,7 @@ abstract class RungeKuttaStepInterpolator
   }
 
   /** {@inheritDoc} */
+  @Override
   public void writeExternal(final ObjectOutput out)
     throws IOException {
 
@@ -144,6 +145,7 @@ abstract class RungeKuttaStepInterpolator
   }
 
   /** {@inheritDoc} */
+  @Override
   public void readExternal(final ObjectInput in)
     throws IOException {
 

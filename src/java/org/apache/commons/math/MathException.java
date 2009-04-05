@@ -174,6 +174,7 @@ public class MathException extends Exception {
     }
 
     /** {@inheritDoc} */
+    @Override
     public String getLocalizedMessage() {
         return getMessage(Locale.getDefault());
     }
@@ -181,6 +182,7 @@ public class MathException extends Exception {
     /**
      * Prints the stack trace of this exception to the standard error stream.
      */
+    @Override
     public void printStackTrace() {
         printStackTrace(System.err);
     }
@@ -190,6 +192,7 @@ public class MathException extends Exception {
      *
      * @param out  the <code>PrintStream</code> to use for output
      */
+    @Override
     public void printStackTrace(PrintStream out) {
         synchronized (out) {
             PrintWriter pw = new PrintWriter(out, false);

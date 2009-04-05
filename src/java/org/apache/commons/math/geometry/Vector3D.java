@@ -392,6 +392,7 @@ public class Vector3D
    *         not equal to this Vector3D instance
    * 
    */
+  @Override
   public boolean equals(Object other) {
 
     if (this == other) { 
@@ -425,6 +426,7 @@ public class Vector3D
    * 
    * @return a hash code value for this object
    */
+  @Override
   public int hashCode() {
       if (isNaN()) {
           return 8;
@@ -485,6 +487,7 @@ public class Vector3D
   /** Get a string representation of this vector.
    * @return a string representation of this vector
    */
+  @Override
   public String toString() {
       return DEFAULT_FORMAT.format(this);
   }

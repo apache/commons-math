@@ -105,6 +105,7 @@ public class ChiSquaredDistributionImpl
      * @throws IllegalArgumentException if <code>p</code> is not a valid
      *         probability.
      */
+    @Override
     public double inverseCumulativeProbability(final double p)
         throws MathException {
         if (p == 0) {
@@ -125,6 +126,7 @@ public class ChiSquaredDistributionImpl
      * @return domain value lower bound, i.e.
      *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code> 
      */
+    @Override
     protected double getDomainLowerBound(double p) {
         return Double.MIN_VALUE * getGamma().getBeta();
     }
@@ -138,6 +140,7 @@ public class ChiSquaredDistributionImpl
      * @return domain value upper bound, i.e.
      *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code> 
      */
+    @Override
     protected double getDomainUpperBound(double p) {
         // NOTE: chi squared is skewed to the left
         // NOTE: therefore, P(X < &mu;) > .5
@@ -163,6 +166,7 @@ public class ChiSquaredDistributionImpl
      * @param p the desired probability for the critical value
      * @return initial domain value
      */
+    @Override
     protected double getInitialDomain(double p) {
         // NOTE: chi squared is skewed to the left
         // NOTE: therefore, P(X < &mu;) > .5

@@ -261,6 +261,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
          * @param delta  grid size
          * @throws IOException if an IO error occurs
          */
+        @Override
         public void computeBinStats(double min, double delta)
                 throws IOException {
             String str = null;
@@ -279,6 +280,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
          * 
          * @throws IOException if an IOError occurs
          */
+        @Override
         public void computeStats() throws IOException {
             String str = null;
             double val = 0.0;
@@ -314,6 +316,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
          * 
          * @throws IOException if an IO error occurs
          */
+        @Override
         public void computeStats() throws IOException {
             sampleStats = new SummaryStatistics();
             for (int i = 0; i < inputArray.length; i++) {
@@ -327,6 +330,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
          * @param delta  grid size
          * @throws IOException  if an IO error occurs
          */
+        @Override
         public void computeBinStats(double min, double delta)
             throws IOException {
             for (int i = 0; i < inputArray.length; i++) {

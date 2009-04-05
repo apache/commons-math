@@ -34,6 +34,7 @@ public class BigFractionFormatTest extends TestCase {
         return Locale.getDefault();
     }
 
+    @Override
     protected void setUp() throws Exception {
         properFormat = BigFractionFormat.getProperInstance(getLocale());
         improperFormat = BigFractionFormat.getImproperInstance(getLocale());

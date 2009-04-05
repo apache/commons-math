@@ -96,10 +96,6 @@ public final class RealMatrixImplTest extends TestCase {
         super(name);
     }
     
-    public void setUp() {
-        
-    }
-    
     public static Test suite() {
         TestSuite suite = new TestSuite(RealMatrixImplTest.class);
         suite.setName("RealMatrixImpl Tests");
@@ -940,6 +936,7 @@ public final class RealMatrixImplTest extends TestCase {
     
     private static class SetVisitor extends DefaultRealMatrixChangingVisitor {
         private static final long serialVersionUID = -5082825244208703349L;
+        @Override
         public double visit(int i, int j, double value) {
             return i + j / 1024.0;
         }
@@ -948,6 +945,7 @@ public final class RealMatrixImplTest extends TestCase {
     private static class GetVisitor extends DefaultRealMatrixPreservingVisitor {
         private static final long serialVersionUID = 849639072339030818L;
         private int count = 0;
+        @Override
         public void visit(int i, int j, double value) {
             ++count;
             assertEquals(i + j / 1024.0, value, 0.0);

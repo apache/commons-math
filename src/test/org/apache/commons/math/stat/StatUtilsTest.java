@@ -45,9 +45,6 @@ public final class StatUtilsTest extends TestCase {
         super(name);
     }
 
-    public void setUp() {
-    }
-
     public static Test suite() {
         TestSuite suite = new TestSuite(StatUtilsTest.class);
         suite.setName("StatUtil Tests");

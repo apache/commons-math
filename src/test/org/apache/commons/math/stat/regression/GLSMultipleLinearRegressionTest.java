@@ -26,6 +26,7 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
     private double[][] omega;
 
     @Before
+    @Override
     public void setUp(){
         y = new double[]{11.0, 12.0, 13.0, 14.0, 15.0, 16.0};
         x = new double[6][];
@@ -92,16 +93,19 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         createRegression().newSampleData(y, x, omega);
     }
 
+    @Override
     protected GLSMultipleLinearRegression createRegression() {
         GLSMultipleLinearRegression regression = new GLSMultipleLinearRegression();
         regression.newSampleData(y, x, omega);
         return regression;
     }
 
+    @Override
     protected int getNumberOfRegressors() {
         return x[0].length;
     }
 
+    @Override
     protected int getSampleSize() {
         return y.length;
     }

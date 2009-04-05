@@ -72,6 +72,7 @@ public class SecondMoment extends FirstMoment implements Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void increment(final double d) {
         if (n < 1) {
             m1 = m2 = 0.0;
@@ -83,6 +84,7 @@ public class SecondMoment extends FirstMoment implements Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void clear() {
         super.clear();
         m2 = Double.NaN;
@@ -91,6 +93,7 @@ public class SecondMoment extends FirstMoment implements Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getResult() {
         return m2;
     }
@@ -98,6 +101,7 @@ public class SecondMoment extends FirstMoment implements Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public SecondMoment copy() {
         SecondMoment result = new SecondMoment();
         copy(this, result);

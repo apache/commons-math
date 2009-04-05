@@ -55,6 +55,7 @@ public abstract class AbstractStorelessUnivariateStatistic
      * @return the value of the statistic applied to the input array
      * @see org.apache.commons.math.stat.descriptive.UnivariateStatistic#evaluate(double[])
      */
+    @Override
     public double evaluate(final double[] values) {
         if (values == null) {
             throw new IllegalArgumentException("input value array is null");
@@ -83,6 +84,7 @@ public abstract class AbstractStorelessUnivariateStatistic
      * @return the value of the statistic applied to the included array entries
      * @see org.apache.commons.math.stat.descriptive.UnivariateStatistic#evaluate(double[], int, int)
      */
+    @Override
     public double evaluate(final double[] values, final int begin, final int length) {
         if (test(values, begin, length)) {
             clear();
@@ -94,6 +96,7 @@ public abstract class AbstractStorelessUnivariateStatistic
     /**
      * {@inheritDoc}
      */
+    @Override
     public abstract StorelessUnivariateStatistic copy();
 
     /**
@@ -156,6 +159,7 @@ public abstract class AbstractStorelessUnivariateStatistic
      * @param object object to test equality against.
      * @return true if object returns the same value as this
      */
+    @Override
     public boolean equals(Object object) {
         if (object == this ) {
             return true;
@@ -173,6 +177,7 @@ public abstract class AbstractStorelessUnivariateStatistic
      * 
      * @return hash code
      */
+    @Override
     public int hashCode() {
         return 31* (31 + MathUtils.hash(getResult())) + MathUtils.hash(getN());
     }

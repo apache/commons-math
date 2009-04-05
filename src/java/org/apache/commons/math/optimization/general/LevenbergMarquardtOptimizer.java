@@ -209,6 +209,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
     }
 
     /** {@inheritDoc} */
+    @Override
     protected VectorialPointValuePair doOptimize()
         throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
 

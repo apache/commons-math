@@ -36,10 +36,12 @@ public class ContinuedFractionTest extends TestCase {
         ContinuedFraction cf = new ContinuedFraction() {
             private static final long serialVersionUID = 4696264881688589546L;
 
+            @Override
             public double getA(int n, double x) {
                 return 1.0;
             }
 
+            @Override
             public double getB(int n, double x) {
                 return 1.0;
             }

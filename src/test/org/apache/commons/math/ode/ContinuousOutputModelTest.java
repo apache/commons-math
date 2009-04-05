@@ -182,6 +182,7 @@ public class ContinuousOutputModelTest
     return new TestSuite(ContinuousOutputModelTest.class);
   }
 
+  @Override
   public void setUp() {
     pb = new TestProblem3(0.9);
     double minStep = 0;
@@ -189,6 +190,7 @@ public class ContinuousOutputModelTest
     integ = new DormandPrince54Integrator(minStep, maxStep, 1.0e-8, 1.0e-8);
   }
 
+  @Override
   public void tearDown() {
     pb    = null;
     integ = null;

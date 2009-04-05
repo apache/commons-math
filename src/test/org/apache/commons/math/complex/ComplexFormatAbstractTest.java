@@ -34,7 +34,8 @@ public abstract class ComplexFormatAbstractTest extends TestCase {
     protected abstract Locale getLocale();
 
     protected abstract char getDecimalCharacter();
-    
+
+    @Override
     protected void setUp() throws Exception {
         complexFormat = ComplexFormat.getInstance(getLocale());
         complexFormatJ = ComplexFormat.getInstance(getLocale());

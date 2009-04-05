@@ -44,12 +44,6 @@ public class CertifiedDataTest extends TestCase  {
         super(name);
     }
 
-    /* (non-Javadoc)
-     * @see junit.framework.TestCase#setUp()
-     */
-    public void setUp() {
-    }
-
     /**
      * @return The test suite
      */

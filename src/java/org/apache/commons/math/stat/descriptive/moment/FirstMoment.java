@@ -93,6 +93,7 @@ public class FirstMoment extends AbstractStorelessUnivariateStatistic
     /**
      * {@inheritDoc}
      */
+     @Override
     public void increment(final double d) {
         if (n == 0) {
             m1 = 0.0;
@@ -107,6 +108,7 @@ public class FirstMoment extends AbstractStorelessUnivariateStatistic
     /**
      * {@inheritDoc}
      */
+    @Override
     public void clear() {
         m1 = Double.NaN;
         n = 0;
@@ -117,6 +119,7 @@ public class FirstMoment extends AbstractStorelessUnivariateStatistic
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getResult() {
         return m1;
     }
@@ -131,6 +134,7 @@ public class FirstMoment extends AbstractStorelessUnivariateStatistic
     /**
      * {@inheritDoc}
      */
+    @Override
     public FirstMoment copy() {
         FirstMoment result = new FirstMoment();
         copy(this, result);

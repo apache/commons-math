@@ -32,6 +32,7 @@ public class UnivariateRealSolverFactoryImplTest extends TestCase {
      * @throws java.lang.Exception
      * @see junit.framework.TestCase#tearDown()
      */
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
         factory = new UnivariateRealSolverFactoryImpl();
@@ -41,6 +42,7 @@ public class UnivariateRealSolverFactoryImplTest extends TestCase {
      * @throws java.lang.Exception
      * @see junit.framework.TestCase#tearDown()
      */
+    @Override
     protected void tearDown() throws Exception {
         factory = null;
         super.tearDown();

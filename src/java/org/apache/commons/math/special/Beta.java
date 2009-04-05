@@ -134,6 +134,7 @@ public class Beta implements Serializable {
 
                 private static final long serialVersionUID = -7658917278956100597L;
 
+                @Override
                 protected double getB(int n, double x) {
                     double ret;
                     double m;
@@ -149,6 +150,7 @@ public class Beta implements Serializable {
                     return ret;
                 }
 
+                @Override
                 protected double getA(int n, double x) {
                     return 1.0;
                 }

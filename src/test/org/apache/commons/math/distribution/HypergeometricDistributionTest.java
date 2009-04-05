@@ -39,39 +39,46 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
 //-------------- Implementations for abstract methods -----------------------
     
     /** Creates the default discrete distribution instance to use in tests. */
+    @Override
     public IntegerDistribution makeDistribution() {
         return new HypergeometricDistributionImpl(10,5, 5);
     }
     
     /** Creates the default probability density test input values */
+    @Override
     public int[] makeDensityTestPoints() {
         return new int[] {-1, 0, 1, 2, 3, 4, 5, 10};
     }
     
     /** Creates the default probability density test expected values */
+    @Override
     public double[] makeDensityTestValues() {
         return new double[] {0d, 0.003968d, 0.099206d, 0.396825d, 0.396825d, 
                 0.099206d, 0.003968d, 0d};
     }
     
     /** Creates the default cumulative probability density test input values */
+    @Override
     public int[] makeCumulativeTestPoints() {
         return makeDensityTestPoints();
     }
     
     /** Creates the default cumulative probability density test expected values */
+    @Override
     public double[] makeCumulativeTestValues() {
         return new double[] {0d, .003968d, .103175d, .50000d, .896825d, .996032d,
                 1.00000d, 1d};
     }
     
     /** Creates the default inverse cumulative probability test input values */
+    @Override
     public double[] makeInverseCumulativeTestPoints() {
         return new double[] {0d, 0.001d, 0.010d, 0.025d, 0.050d, 0.100d, 0.999d,
                 0.990d, 0.975d, 0.950d, 0.900d, 1d}; 
     }
     
     /** Creates the default inverse cumulative probability density test expected values */
+    @Override
     public int[] makeInverseCumulativeTestValues() {
         return new int[] {-1, -1, 0, 0, 0, 0, 4, 3, 3, 3, 3, 5};
     }

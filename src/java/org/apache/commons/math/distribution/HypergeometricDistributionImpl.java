@@ -71,6 +71,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      * @param x the value at which the PDF is evaluated.
      * @return PDF for this distribution. 
      */
+    @Override
     public double cumulativeProbability(int x) {
         double ret;
         
@@ -113,6 +114,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      * @return domain value lower bound, i.e.
      *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code> 
      */
+    @Override
     protected int getDomainLowerBound(double p) {
         return getLowerDomain(getPopulationSize(), getNumberOfSuccesses(),
             getSampleSize());
@@ -126,6 +128,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      * @return domain value upper bound, i.e.
      *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code> 
      */
+    @Override
     protected int getDomainUpperBound(double p) {
         return getUpperDomain(getSampleSize(), getNumberOfSuccesses());
     }

@@ -91,6 +91,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
      * @throws IllegalArgumentException if <code>p</code> is not a valid
      *         probability.
      */
+    @Override
     public double inverseCumulativeProbability(final double p) 
     throws MathException {
         if (p == 0) {
@@ -162,6 +163,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
      * @return domain value lower bound, i.e.
      *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code>
      */
+    @Override
     protected double getDomainLowerBound(double p) {
         // TODO: try to improve on this estimate
         return Double.MIN_VALUE;
@@ -176,6 +178,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
      * @return domain value upper bound, i.e.
      *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code> 
      */
+    @Override
     protected double getDomainUpperBound(double p) {
         // TODO: try to improve on this estimate
         // NOTE: gamma is skewed to the left
@@ -202,6 +205,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
      * @param p the desired probability for the critical value
      * @return initial domain value
      */
+    @Override
     protected double getInitialDomain(double p) {
         // TODO: try to improve on this estimate
         // Gamma is skewed to the left, therefore, P(X < &mu;) > .5

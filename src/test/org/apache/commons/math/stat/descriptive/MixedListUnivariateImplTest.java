@@ -58,9 +58,6 @@ public final class MixedListUnivariateImplTest extends TestCase {
 
     }
 
-    public void setUp() {
-    }
-
     public static Test suite() {
         TestSuite suite = new TestSuite(MixedListUnivariateImplTest.class);
         suite.setName("Mixed List Tests");

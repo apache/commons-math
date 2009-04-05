@@ -314,6 +314,7 @@ public class EigenDecompositionImplTest extends TestCase {
         return found;
     }
 
+    @Override
     public void setUp() {
         refValues = new double[] {
                 2.003, 2.002, 2.001, 1.001, 1.000, 0.001
@@ -321,6 +322,7 @@ public class EigenDecompositionImplTest extends TestCase {
         matrix = createTestMatrix(new Random(35992629946426l), refValues);
     }
 
+    @Override
     public void tearDown() {
         refValues = null;
         matrix    = null;

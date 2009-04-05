@@ -134,6 +134,7 @@ public class DummyStepInterpolatorTest
       public BadStepInterpolator(double[] y, boolean forward) {
           super(y, forward);
       }
+      @Override
       protected void doFinalize()
       throws DerivativeException {
           throw new DerivativeException(null);
@@ -180,6 +181,7 @@ public class DummyStepInterpolatorTest
       protected ErrorGeneratingInterpolator(double[] y, boolean forward) {
           super(y, forward);
       }
+      @Override
       public void computeInterpolatedState(double theta, double oneMinusThetaH)
       throws DerivativeException {
           throw new DerivativeException(null);

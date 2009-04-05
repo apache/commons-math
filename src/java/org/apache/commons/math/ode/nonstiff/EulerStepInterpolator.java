@@ -68,12 +68,14 @@ class EulerStepInterpolator
   }
 
   /** {@inheritDoc} */
+  @Override
   protected StepInterpolator doCopy() {
     return new EulerStepInterpolator(this);
   }
 
 
   /** {@inheritDoc} */
+  @Override
   protected void computeInterpolatedState(final double theta,
                                           final double oneMinusThetaH)
     throws DerivativeException {

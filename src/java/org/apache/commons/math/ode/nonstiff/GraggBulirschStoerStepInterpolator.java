@@ -224,6 +224,7 @@ class GraggBulirschStoerStepInterpolator
   }
 
   /** {@inheritDoc} */
+  @Override
   protected StepInterpolator doCopy() {
     return new GraggBulirschStoerStepInterpolator(this);
   }
@@ -305,6 +306,7 @@ class GraggBulirschStoerStepInterpolator
   }
 
   /** {@inheritDoc} */
+  @Override
   protected void computeInterpolatedState(final double theta,
                                           final double oneMinusThetaH)
     throws DerivativeException {
@@ -352,6 +354,7 @@ class GraggBulirschStoerStepInterpolator
   }
     
   /** {@inheritDoc} */
+  @Override
   public void writeExternal(final ObjectOutput out)
     throws IOException {
 
@@ -371,6 +374,7 @@ class GraggBulirschStoerStepInterpolator
   }
 
   /** {@inheritDoc} */
+  @Override
   public void readExternal(final ObjectInput in)
     throws IOException {
 

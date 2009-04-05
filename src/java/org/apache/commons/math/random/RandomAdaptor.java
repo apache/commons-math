@@ -68,6 +68,7 @@ public class RandomAdaptor extends Random implements RandomGenerator {
      * <code>boolean</code> value from this random number generator's
      * sequence
      */
+    @Override
     public boolean nextBoolean() {
         return randomGenerator.nextBoolean();
     }
@@ -80,6 +81,7 @@ public class RandomAdaptor extends Random implements RandomGenerator {
      * @param bytes the non-null byte array in which to put the 
      * random bytes
      */
+    @Override
     public void nextBytes(byte[] bytes) {
         randomGenerator.nextBytes(bytes);
     }
@@ -93,6 +95,7 @@ public class RandomAdaptor extends Random implements RandomGenerator {
      *  <code>double</code> value between <code>0.0</code> and
      *  <code>1.0</code> from this random number generator's sequence
      */  
+    @Override
     public double nextDouble() {
         return randomGenerator.nextDouble();
     }
@@ -106,6 +109,7 @@ public class RandomAdaptor extends Random implements RandomGenerator {
      * value between <code>0.0</code> and <code>1.0</code> from this
      * random number generator's sequence
      */
+    @Override
     public float nextFloat() {
         return randomGenerator.nextFloat();
     }
@@ -120,6 +124,7 @@ public class RandomAdaptor extends Random implements RandomGenerator {
      * standard deviation <code>1.0</code> from this random number
      *  generator's sequence
      */
+    @Override
     public double nextGaussian() {
         return randomGenerator.nextGaussian();
     }
@@ -133,6 +138,7 @@ public class RandomAdaptor extends Random implements RandomGenerator {
      * @return the next pseudorandom, uniformly distributed <code>int</code>
      *  value from this random number generator's sequence
      */
+    @Override
     public int nextInt() {
         return randomGenerator.nextInt();
     }
@@ -148,6 +154,7 @@ public class RandomAdaptor extends Random implements RandomGenerator {
      * value between 0 (inclusive) and n (exclusive).
      * @throws IllegalArgumentException  if n is not positive.
      */
+    @Override
     public int nextInt(int n) {
         return randomGenerator.nextInt(n);
     }
@@ -161,6 +168,7 @@ public class RandomAdaptor extends Random implements RandomGenerator {
      * @return  the next pseudorandom, uniformly distributed <code>long</code>
      *value from this random number generator's sequence
      */
+    @Override
     public long nextLong() {
         return randomGenerator.nextLong();
     }
@@ -172,6 +180,7 @@ public class RandomAdaptor extends Random implements RandomGenerator {
      *
      * @param seed the seed value
      */
+    @Override
     public void setSeed(long seed) {
         if (randomGenerator != null) {  // required to avoid NPE in constructor
             randomGenerator.setSeed(seed);

@@ -85,6 +85,7 @@ public class ProperFractionFormat extends FractionFormat {
      *            offsets of the alignment field
      * @return the value passed in as toAppendTo.
      */
+    @Override
     public StringBuffer format(Fraction fraction, StringBuffer toAppendTo,
             FieldPosition pos) {
         
@@ -129,6 +130,7 @@ public class ProperFractionFormat extends FractionFormat {
      * @param pos input/ouput parsing parameter.
      * @return the parsed {@link Fraction} object.
      */
+    @Override
     public Fraction parse(String source, ParsePosition pos) {
         // try to parse improper fraction
         Fraction ret = super.parse(source, pos);

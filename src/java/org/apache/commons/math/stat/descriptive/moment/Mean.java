@@ -101,6 +101,7 @@ public class Mean extends AbstractStorelessUnivariateStatistic
     /**
      * {@inheritDoc}
      */
+    @Override
     public void increment(final double d) {
         if (incMoment) {
             moment.increment(d);
@@ -110,6 +111,7 @@ public class Mean extends AbstractStorelessUnivariateStatistic
     /**
      * {@inheritDoc}
      */
+    @Override
     public void clear() {
         if (incMoment) {
             moment.clear();
@@ -119,6 +121,7 @@ public class Mean extends AbstractStorelessUnivariateStatistic
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getResult() {
         return moment.m1;
     }
@@ -146,6 +149,7 @@ public class Mean extends AbstractStorelessUnivariateStatistic
      * @throws IllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
+    @Override
     public double evaluate(final double[] values,final int begin, final int length) {
         if (test(values, begin, length)) {
             Sum sum = new Sum();
@@ -167,6 +171,7 @@ public class Mean extends AbstractStorelessUnivariateStatistic
     /**
      * {@inheritDoc}
      */
+    @Override
     public Mean copy() {
         Mean result = new Mean();
         copy(this, result);

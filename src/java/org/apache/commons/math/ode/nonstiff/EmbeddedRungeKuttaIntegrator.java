@@ -164,6 +164,7 @@ public abstract class EmbeddedRungeKuttaIntegrator
   }
 
   /** {@inheritDoc} */
+  @Override
   public double integrate(final FirstOrderDifferentialEquations equations,
                           final double t0, final double[] y0,
                           final double t, final double[] y)

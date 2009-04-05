@@ -28,12 +28,14 @@ public class TestRandomGenerator extends AbstractRandomGenerator {
 
     private static final long serialVersionUID = -9161426374178114548L;
     private Random random = new Random();
-    
+
+    @Override
     public void setSeed(long seed) {
        clear();
        random.setSeed(seed);
     }
-    
+
+    @Override
     public double nextDouble() {
         return random.nextDouble();
     }

@@ -49,6 +49,7 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
         super(name);
     }
 
+    @Override
     public void setUp() throws IOException {
         empiricalDistribution = new EmpiricalDistributionImpl(100);
         url = getClass().getResource("testData.txt");

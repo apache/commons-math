@@ -67,6 +67,7 @@ public class Max extends AbstractStorelessUnivariateStatistic {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void increment(final double d) {
         if (d > value || Double.isNaN(value)) {
             value = d;
@@ -77,6 +78,7 @@ public class Max extends AbstractStorelessUnivariateStatistic {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void clear() {
         value = Double.NaN;
         n = 0;
@@ -85,6 +87,7 @@ public class Max extends AbstractStorelessUnivariateStatistic {
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getResult() {
         return value;
     }
@@ -118,6 +121,7 @@ public class Max extends AbstractStorelessUnivariateStatistic {
      * @throws IllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
+    @Override
     public double evaluate(final double[] values, final int begin, final int length) {
         double max = Double.NaN;
         if (test(values, begin, length)) {
@@ -134,6 +138,7 @@ public class Max extends AbstractStorelessUnivariateStatistic {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Max copy() {
         Max result = new Max();
         copy(this, result);

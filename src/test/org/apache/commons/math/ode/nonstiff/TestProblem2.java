@@ -67,10 +67,12 @@ public class TestProblem2
    * Clone operation.
    * @return a copy of the instance
    */
+  @Override
   public Object clone() {
     return new TestProblem2(this);
   }
 
+  @Override
   public void doComputeDerivatives(double t, double[] y, double[] yDot) {
 
     // compute the derivatives
@@ -79,6 +81,7 @@ public class TestProblem2
 
   }
 
+  @Override
   public double[] computeTheoreticalState(double t) {
     double t2 = t * t;
     double c = t2 + 2 * (Math.exp (-0.5 * t2) - 1);

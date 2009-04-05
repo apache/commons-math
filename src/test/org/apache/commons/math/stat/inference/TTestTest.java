@@ -40,6 +40,7 @@ public class TTestTest extends TestCase {
         super(name);
     }
 
+    @Override
     public void setUp() {
         tooShortStats = new SummaryStatistics();
         tooShortStats.addValue(0d);

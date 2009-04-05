@@ -38,6 +38,7 @@ public class FourthMomentTest extends StorelessUnivariateStatisticAbstractTest{
     /**
      * @see org.apache.commons.math.stat.descriptive.UnivariateStatisticAbstractTest#getUnivariateStatistic()
      */
+    @Override
     public UnivariateStatistic getUnivariateStatistic() {
         return new FourthMoment();
     }
@@ -45,6 +46,7 @@ public class FourthMomentTest extends StorelessUnivariateStatisticAbstractTest{
     /**
      * @see org.apache.commons.math.stat.descriptive.UnivariateStatisticAbstractTest#expectedValue()
      */
+    @Override
     public double expectedValue() {
        return this.fourthMoment;
     }

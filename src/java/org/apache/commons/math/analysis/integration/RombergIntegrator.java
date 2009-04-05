@@ -106,6 +106,7 @@ public class RombergIntegrator extends UnivariateRealIntegratorImpl {
     }
 
     /** {@inheritDoc} */
+    @Override
     protected void verifyIterationCount() throws IllegalArgumentException {
         super.verifyIterationCount();
         // at most 32 bisection refinements due to higher order divider

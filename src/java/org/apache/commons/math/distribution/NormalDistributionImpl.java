@@ -148,6 +148,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      * @throws IllegalArgumentException if <code>p</code> is not a valid
      *         probability.
      */
+    @Override
     public double inverseCumulativeProbability(final double p) 
     throws MathException {
         if (p == 0) {
@@ -168,6 +169,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      * @return domain value lower bound, i.e.
      *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code> 
      */
+    @Override
     protected double getDomainLowerBound(double p) {
         double ret;
 
@@ -189,6 +191,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      * @return domain value upper bound, i.e.
      *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code> 
      */
+    @Override
     protected double getDomainUpperBound(double p) {
         double ret;
 
@@ -209,6 +212,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      * @param p the desired probability for the critical value
      * @return initial domain value
      */
+    @Override
     protected double getInitialDomain(double p) {
         double ret;
 

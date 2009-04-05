@@ -200,6 +200,7 @@ public class QRSolverTest extends TestCase {
         final double noise = 0.001;
         b.walkInOptimizedOrder(new DefaultRealMatrixChangingVisitor() {
             private static final long serialVersionUID = 3533849820776962636L;
+            @Override
             public double visit(int row, int column, double value) {
                 return value * (1.0 + noise * (2 * r.nextDouble() - 1));
             }
@@ -232,6 +233,7 @@ public class QRSolverTest extends TestCase {
         RealMatrix m = MatrixUtils.createRealMatrix(rows, columns);
         m.walkInOptimizedOrder(new DefaultRealMatrixChangingVisitor(){
             private static final long serialVersionUID = -556118291433400034L;
+            @Override
             public double visit(int row, int column, double value)
                 throws MatrixVisitorException {
                 return 2.0 * r.nextDouble() - 1.0;

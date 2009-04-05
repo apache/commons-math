@@ -1259,6 +1259,7 @@ public class RealVectorImpl implements RealVector, Serializable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public String toString(){
         return DEFAULT_FORMAT.format(this);
     }
@@ -1344,6 +1345,7 @@ public class RealVectorImpl implements RealVector, Serializable {
      *         not equal to this Vector3D instance
      * 
      */
+    @Override
     public boolean equals(Object other) {
 
       if (this == other) { 
@@ -1384,6 +1386,7 @@ public class RealVectorImpl implements RealVector, Serializable {
      * <p>All NaN values have the same hash code.</p>
      * @return a hash code value for this object
      */
+    @Override
     public int hashCode() {
         if (isNaN()) {
             return 9;

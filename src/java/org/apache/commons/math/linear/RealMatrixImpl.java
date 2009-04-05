@@ -154,17 +154,20 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealMatrix createMatrix(final int rowDimension, final int columnDimension)
         throws IllegalArgumentException {
         return new RealMatrixImpl(rowDimension, columnDimension);
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealMatrix copy() {
         return new RealMatrixImpl(copyOut(), false);
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealMatrix add(final RealMatrix m)
         throws IllegalArgumentException {
         try {
@@ -204,6 +207,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealMatrix subtract(final RealMatrix m)
         throws IllegalArgumentException {
         try {
@@ -243,6 +247,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealMatrix multiply(final RealMatrix m)
         throws IllegalArgumentException {
         try {
@@ -286,6 +291,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double[][] getData() {
         return copyOut();
     }
@@ -302,6 +308,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setSubMatrix(final double[][] subMatrix, final int row, final int column) 
     throws MatrixIndexException {
         if (data == null) {
@@ -340,6 +347,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getEntry(final int row, final int column)
         throws MatrixIndexException {
         try {
@@ -352,6 +360,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setEntry(final int row, final int column, final double value)
         throws MatrixIndexException {
         try {
@@ -364,6 +373,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public void addToEntry(final int row, final int column, final double increment)
         throws MatrixIndexException {
         try {
@@ -376,6 +386,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public void multiplyEntry(final int row, final int column, final double factor)
         throws MatrixIndexException {
         try {
@@ -388,16 +399,19 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public int getRowDimension() {
         return (data == null) ? 0 : data.length;
     }
 
     /** {@inheritDoc} */
+    @Override
     public int getColumnDimension() {
         return ((data == null) || (data[0] == null)) ? 0 : data[0].length;
     }
 
     /** {@inheritDoc} */
+    @Override
     public double[] operate(final double[] v)
         throws IllegalArgumentException {
         final int nRows = this.getRowDimension();
@@ -420,6 +434,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double[] preMultiply(final double[] v)
         throws IllegalArgumentException {
 
@@ -445,6 +460,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double walkInRowOrder(final RealMatrixChangingVisitor visitor)
         throws MatrixVisitorException {
         final int rows    = getRowDimension();
@@ -460,6 +476,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double walkInRowOrder(final RealMatrixPreservingVisitor visitor)
         throws MatrixVisitorException {
         final int rows    = getRowDimension();
@@ -475,6 +492,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double walkInRowOrder(final RealMatrixChangingVisitor visitor,
                                  final int startRow, final int endRow,
                                  final int startColumn, final int endColumn)
@@ -492,6 +510,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double walkInRowOrder(final RealMatrixPreservingVisitor visitor,
                                  final int startRow, final int endRow,
                                  final int startColumn, final int endColumn)
@@ -509,6 +528,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double walkInColumnOrder(final RealMatrixChangingVisitor visitor)
         throws MatrixVisitorException {
         final int rows    = getRowDimension();
@@ -524,6 +544,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double walkInColumnOrder(final RealMatrixPreservingVisitor visitor)
         throws MatrixVisitorException {
         final int rows    = getRowDimension();
@@ -538,6 +559,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double walkInColumnOrder(final RealMatrixChangingVisitor visitor,
                                     final int startRow, final int endRow,
                                     final int startColumn, final int endColumn)
@@ -555,6 +577,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double walkInColumnOrder(final RealMatrixPreservingVisitor visitor,
                                     final int startRow, final int endRow,
                                     final int startColumn, final int endColumn)

@@ -29,7 +29,8 @@ public class TTestFactoryTest extends TTestTest {
     public TTestFactoryTest(String name) {
         super(name);
     }
-    
+
+    @Override
     public void setUp() {
     	super.setUp();
         testStatistic = TestUtils.getTTest();

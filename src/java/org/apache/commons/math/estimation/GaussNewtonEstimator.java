@@ -155,6 +155,7 @@ public class GaussNewtonEstimator extends AbstractEstimator implements Serializa
      * @see EstimationProblem
      *
      */
+    @Override
     public void estimate(EstimationProblem problem)
     throws EstimationException {
 

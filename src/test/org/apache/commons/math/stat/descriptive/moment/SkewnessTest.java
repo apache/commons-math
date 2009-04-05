@@ -38,9 +38,10 @@ public class SkewnessTest extends StorelessUnivariateStatisticAbstractTest{
         super(name);
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.stat.descriptive.UnivariateStatisticAbstractTest#getUnivariateStatistic()
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public UnivariateStatistic getUnivariateStatistic() {
         return new Skewness();
     }
@@ -51,9 +52,10 @@ public class SkewnessTest extends StorelessUnivariateStatisticAbstractTest{
         return suite;
     }
     
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.stat.descriptive.UnivariateStatisticAbstractTest#expectedValue()
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public double expectedValue() {
         return this.skew;
     }

@@ -163,6 +163,7 @@ public class MathRuntimeException extends RuntimeException {
     }
 
     /** {@inheritDoc} */
+    @Override
     public String getLocalizedMessage() {
         return getMessage(Locale.getDefault());
     }
@@ -170,6 +171,7 @@ public class MathRuntimeException extends RuntimeException {
     /**
      * Prints the stack trace of this exception to the standard error stream.
      */
+    @Override
     public void printStackTrace() {
         printStackTrace(System.err);
     }
@@ -179,6 +181,7 @@ public class MathRuntimeException extends RuntimeException {
      *
      * @param out  the <code>PrintStream</code> to use for output
      */
+    @Override
     public void printStackTrace(final PrintStream out) {
         synchronized (out) {
             PrintWriter pw = new PrintWriter(out, false);
@@ -203,6 +206,7 @@ public class MathRuntimeException extends RuntimeException {
             private static final long serialVersionUID = 7705628723242533939L;
 
             /** {@inheritDoc} */
+            @Override
             public String getLocalizedMessage() {
                 return buildMessage(Locale.getDefault(), pattern, arguments);
             }
@@ -225,6 +229,7 @@ public class MathRuntimeException extends RuntimeException {
             private static final long serialVersionUID = -3394748305449283486L;
 
             /** {@inheritDoc} */
+            @Override
             public String getLocalizedMessage() {
                 return buildMessage(Locale.getDefault(), pattern, arguments);
             }
@@ -247,6 +252,7 @@ public class MathRuntimeException extends RuntimeException {
             private static final long serialVersionUID = 279461544586092584L;
 
             /** {@inheritDoc} */
+            @Override
             public String getLocalizedMessage() {
                 return buildMessage(Locale.getDefault(), pattern, arguments);
             }
@@ -286,6 +292,7 @@ public class MathRuntimeException extends RuntimeException {
             private static final long serialVersionUID = -6555453980658317913L;
 
             /** {@inheritDoc} */
+            @Override
             public String getLocalizedMessage() {
                 return buildMessage(Locale.getDefault(), pattern, arguments);
             }
@@ -308,6 +315,7 @@ public class MathRuntimeException extends RuntimeException {
             private static final long serialVersionUID = -95247648156277208L;
 
             /** {@inheritDoc} */
+            @Override
             public String getLocalizedMessage() {
                 return buildMessage(Locale.getDefault(), pattern, arguments);
             }
@@ -330,6 +338,7 @@ public class MathRuntimeException extends RuntimeException {
             private static final long serialVersionUID = 6134247282754009421L;
 
             /** {@inheritDoc} */
+            @Override
             public String getLocalizedMessage() {
                 return buildMessage(Locale.getDefault(), pattern, arguments);
             }
@@ -352,6 +361,7 @@ public class MathRuntimeException extends RuntimeException {
             private static final long serialVersionUID = 7304273322489425799L;
 
             /** {@inheritDoc} */
+            @Override
             public String getLocalizedMessage() {
                 return buildMessage(Locale.getDefault(), pattern, arguments);
             }
@@ -374,6 +384,7 @@ public class MathRuntimeException extends RuntimeException {
             private static final long serialVersionUID = -3075660477939965216L;
 
             /** {@inheritDoc} */
+            @Override
             public String getLocalizedMessage() {
                 return buildMessage(Locale.getDefault(), pattern, arguments);
             }
@@ -399,6 +410,7 @@ public class MathRuntimeException extends RuntimeException {
             private static final long serialVersionUID = -1103502177342465975L;
 
             /** {@inheritDoc} */
+            @Override
             public String getLocalizedMessage() {
                 return buildMessage(Locale.getDefault(), pattern, arguments);
             }

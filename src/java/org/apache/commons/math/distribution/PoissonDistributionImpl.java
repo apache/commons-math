@@ -118,6 +118,7 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
      * @throws MathException if the cumulative probability can not be
      *            computed due to convergence or other numerical errors.
      */
+    @Override
     public double cumulativeProbability(int x) throws MathException {
         if (x < 0) {
             return 0;
@@ -154,6 +155,7 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
      * @param p the desired probability for the critical value
      * @return domain lower bound
      */
+    @Override
     protected int getDomainLowerBound(double p) {
         return 0;
     }
@@ -166,6 +168,7 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
      * @param p the desired probability for the critical value
      * @return domain upper bound
      */
+    @Override
     protected int getDomainUpperBound(double p) {
         return Integer.MAX_VALUE;
     }

@@ -37,11 +37,13 @@ public class NormalDistributionTest extends ContinuousDistributionAbstractTest  
     //-------------- Implementations for abstract methods -----------------------
     
     /** Creates the default continuous distribution instance to use in tests. */
+    @Override
     public ContinuousDistribution makeDistribution() {
         return new NormalDistributionImpl(2.1, 1.4);
     }   
     
     /** Creates the default cumulative probability distribution test input values */
+    @Override
     public double[] makeCumulativeTestPoints() {
         // quantiles computed using R 
         return new double[] {-2.226325d, -1.156887d, -0.6439496d, -0.2027951d, 0.3058278d, 
@@ -49,12 +51,14 @@ public class NormalDistributionTest extends ContinuousDistributionAbstractTest  
     }
     
     /** Creates the default cumulative probability density test expected values */
+    @Override
     public double[] makeCumulativeTestValues() {
         return new double[] {0.001d, 0.01d, 0.025d, 0.05d, 0.1d, 0.999d,
                 0.990d, 0.975d, 0.950d, 0.900d}; 
     }
     
     // --------------------- Override tolerance  --------------
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
         setTolerance(1E-6);

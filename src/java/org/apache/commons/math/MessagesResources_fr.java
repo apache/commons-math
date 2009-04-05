@@ -37,6 +37,7 @@ public class MessagesResources_fr
    * Get the non-translated/translated messages arrays from this resource bundle.
    * @return non-translated/translated messages arrays
    */
+  @Override
   public Object[][] getContents() {
     return (Object[][]) contents.clone();
   }

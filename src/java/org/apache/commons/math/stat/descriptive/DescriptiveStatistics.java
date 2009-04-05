@@ -399,6 +399,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      * 
      * @return String with line feeds displaying statistics
      */
+    @Override
     public String toString() {
         StringBuffer outBuffer = new StringBuffer();
         String endl = "\n";

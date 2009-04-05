@@ -126,6 +126,7 @@ public class StatisticalSummaryValues implements Serializable,
      * @param object the object to test equality against.
      * @return true if object equals this
      */
+    @Override
     public boolean equals(Object object) {
         if (object == this ) {
             return true;
@@ -147,6 +148,7 @@ public class StatisticalSummaryValues implements Serializable,
      * 
      * @return hash code
      */
+    @Override
     public int hashCode() {
         int result = 31 + MathUtils.hash(getMax());
         result = result * 31 + MathUtils.hash(getMean());

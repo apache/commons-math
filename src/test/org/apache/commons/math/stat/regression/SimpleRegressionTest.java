@@ -82,9 +82,6 @@ public final class SimpleRegressionTest extends TestCase {
         super(name);
     }
 
-    public void setUp() {
-    }
-
     public static Test suite() {
         TestSuite suite = new TestSuite(SimpleRegressionTest.class);
         suite.setName("BivariateRegression Tests");

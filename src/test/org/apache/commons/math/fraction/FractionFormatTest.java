@@ -32,6 +32,7 @@ public class FractionFormatTest extends TestCase {
         return Locale.getDefault();
     }
 
+    @Override
     protected void setUp() throws Exception {
         properFormat = FractionFormat.getProperInstance(getLocale());
         improperFormat = FractionFormat.getImproperInstance(getLocale());

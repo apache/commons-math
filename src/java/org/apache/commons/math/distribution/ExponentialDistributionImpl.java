@@ -113,6 +113,7 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
      *            computed due to convergence or other numerical errors.
      * @throws IllegalArgumentException if p < 0 or p > 1.
      */
+    @Override
     public double inverseCumulativeProbability(double p) throws MathException {
         double ret;
         
@@ -136,6 +137,7 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
      * @return domain value lower bound, i.e.
      *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code>
      */
+    @Override
     protected double getDomainLowerBound(double p) {
         return 0;
     }
@@ -148,6 +150,7 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
      * @return domain value upper bound, i.e.
      *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code> 
      */
+    @Override
     protected double getDomainUpperBound(double p) {
         // NOTE: exponential is skewed to the left
         // NOTE: therefore, P(X < &mu;) > .5
@@ -168,6 +171,7 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
      * @param p the desired probability for the critical value
      * @return initial domain value
      */
+    @Override
     protected double getInitialDomain(double p) {
         // TODO: try to improve on this estimate
         // TODO: what should really happen here is not derive from AbstractContinuousDistribution

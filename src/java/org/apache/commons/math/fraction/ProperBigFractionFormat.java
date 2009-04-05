@@ -84,6 +84,7 @@ public class ProperBigFractionFormat extends BigFractionFormat {
      *            offsets of the alignment field
      * @return the value passed in as toAppendTo.
      */
+    @Override
     public StringBuffer format(final BigFraction fraction,
                                final StringBuffer toAppendTo, final FieldPosition pos) {
         
@@ -129,6 +130,7 @@ public class ProperBigFractionFormat extends BigFractionFormat {
      * @param pos input/ouput parsing parameter.
      * @return the parsed {@link BigFraction} object.
      */
+    @Override
     public BigFraction parse(final String source, final ParsePosition pos) {
         // try to parse improper BigFraction
         BigFraction ret = super.parse(source, pos);

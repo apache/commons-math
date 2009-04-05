@@ -42,6 +42,7 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
     /** Cached LU solver.
      * @deprecated as of release 2.0, since all methods using this are deprecated
      */
+    @Deprecated
     private DecompositionSolver lu;
 
     /**
@@ -304,6 +305,7 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
             private static final long serialVersionUID = 4572851009041214720L;
 
             /** {@inheritDoc} */
+            @Override
             public double visit(final int row, final int column, final double value) {
                 return getEntry(selectedRows[row], selectedColumns[column]);
             }
@@ -344,6 +346,7 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
             private int startColumn;
 
             /** {@inheritDoc} */
+            @Override
             public void start(final int rows, final int columns,
                               final int startRow, final int endRow,
                               final int startColumn, final int endColumn) {
@@ -352,6 +355,7 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
             }
 
             /** {@inheritDoc} */
+            @Override
             public void visit(final int row, final int column, final double value) {
                 destination[row - startRow][column - startColumn] = value;
             }
@@ -625,6 +629,7 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
             private static final long serialVersionUID = 2482589609486637597L;
 
             /** {@inheritDoc} */
+            @Override
             public void visit(final int row, final int column, final double value) {
                 out.setEntry(column, row, value);
             }
@@ -1004,6 +1009,7 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
      * Get a string representation for this matrix.
      * @return a string representation for this matrix
      */
+    @Override
     public String toString() {
         final int nRows = getRowDimension();
         final int nCols = getColumnDimension();
@@ -1039,6 +1045,7 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
      * @param object the object to test equality against.
      * @return true if object equals this
      */
+    @Override
     public boolean equals(final Object object) {
         if (object == this ) {
             return true;
@@ -1067,6 +1074,7 @@ public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
      * 
      * @return hashcode for matrix
      */
+    @Override
     public int hashCode() {
         int ret = 7;
         final int nRows = getRowDimension();

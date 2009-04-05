@@ -144,6 +144,7 @@ public abstract class AdaptiveStepsizeIntegrator
    * @param y placeholder where to put the state vector
    * @exception IntegratorException if some inconsistency is detected
    */
+  @Override
   protected void sanityChecks(final FirstOrderDifferentialEquations equations,
                               final double t0, final double[] y0,
                               final double t, final double[] y)
@@ -286,6 +287,7 @@ public abstract class AdaptiveStepsizeIntegrator
     throws DerivativeException, IntegratorException;
 
   /** {@inheritDoc} */
+  @Override
   public double getCurrentStepStart() {
     return stepStart;
   }

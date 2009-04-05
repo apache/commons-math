@@ -61,15 +61,15 @@ public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
     /**
      * {@inheritDoc}
      */
+    @Override
     public synchronized void addValue(double v) {
         super.addValue(v);
     }
 
     /**
-     * Apply the given statistic to this univariate collection.
-     * @param stat the statistic to apply
-     * @return the computed value of the statistic.
+     * {@inheritDoc}
      */
+    @Override
     public synchronized double apply(UnivariateStatistic stat) {
         return super.apply(stat);
     }
@@ -77,6 +77,7 @@ public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
     /**
      * {@inheritDoc}
      */
+    @Override
     public synchronized void clear() {
         super.clear();
     }
@@ -84,6 +85,7 @@ public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
     /**
      * {@inheritDoc}
      */
+    @Override
     public synchronized double getElement(int index) {
         return super.getElement(index);
     }
@@ -91,15 +93,15 @@ public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
     /**
      * {@inheritDoc}
      */
+    @Override
     public synchronized long getN() {
         return super.getN();
     }
 
     /** 
-     * Returns the standard deviation of the available values.
-     * @return The standard deviation, Double.NaN if no values have been added 
-     * or 0.0 for a single value set. 
+     * {@inheritDoc}
      */
+    @Override
     public synchronized double getStandardDeviation() {
         return super.getStandardDeviation();
     }
@@ -107,14 +109,15 @@ public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
     /**
      * {@inheritDoc}
      */
+    @Override
     public synchronized double[] getValues() {
         return super.getValues();
     }
 
     /**
-     * Access the window size.
-     * @return the current window size.
+     * {@inheritDoc}
      */
+    @Override
     public synchronized int getWindowSize() {
         return super.getWindowSize();
     }
@@ -122,17 +125,15 @@ public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
     /**
      * {@inheritDoc}
      */
+    @Override
     public synchronized void setWindowSize(int windowSize) {
         super.setWindowSize(windowSize);
     }
 
     /**
-     * Generates a text report displaying univariate statistics from values
-     * that have been added.  Each statistic is displayed on a separate
-     * line.
-     * 
-     * @return String with line feeds displaying statistics
+     * {@inheritDoc}
      */
+    @Override
     public synchronized String toString() {
         return super.toString();
     }
@@ -143,6 +144,7 @@ public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
      * 
      * @return a copy of this
      */
+    @Override
     public synchronized SynchronizedDescriptiveStatistics copy() {
         SynchronizedDescriptiveStatistics result = 
             new SynchronizedDescriptiveStatistics();

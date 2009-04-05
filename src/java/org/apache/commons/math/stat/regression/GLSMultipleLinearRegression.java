@@ -90,6 +90,7 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * </pre>
      * @return beta
      */
+    @Override
     protected RealMatrix calculateBeta() {
         RealMatrix OI = getOmegaInverse();
         RealMatrix XT = X.transpose();
@@ -105,6 +106,7 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * </pre>
      * @return The beta variance matrix
      */
+    @Override
     protected RealMatrix calculateBetaVariance() {
         RealMatrix OI = getOmegaInverse();
         RealMatrix XTOIX = X.transpose().multiply(OI).multiply(X);
@@ -118,6 +120,7 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * </pre>
      * @return The Y variance
      */
+    @Override
     protected double calculateYVariance() {
         RealMatrix u = calculateResiduals();
         RealMatrix sse =  u.transpose().multiply(getOmegaInverse()).multiply(u);

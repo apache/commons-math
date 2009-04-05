@@ -85,6 +85,7 @@ public abstract class TestProblemAbstract
    * Clone operation.
    * @return a copy of the instance
    */
+  @Override
   public abstract Object clone();
 
   /**

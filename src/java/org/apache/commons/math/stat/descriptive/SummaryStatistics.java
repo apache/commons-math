@@ -290,6 +290,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * @return String with line feeds displaying statistics
      * @since 1.2
      */
+    @Override
     public String toString() {
         StringBuffer outBuffer = new StringBuffer();
         String endl = "\n";
@@ -335,6 +336,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * @param object the object to test equality against.
      * @return true if object equals this
      */
+    @Override
     public boolean equals(Object object) {
         if (object == this) {
             return true;
@@ -358,6 +360,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * Returns hash code based on values of statistics
      * @return hash code
      */
+    @Override
     public int hashCode() {
         int result = 31 + MathUtils.hash(getGeometricMean());
         result = result * 31 + MathUtils.hash(getGeometricMean());

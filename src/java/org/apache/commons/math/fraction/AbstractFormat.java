@@ -182,6 +182,7 @@ public abstract class AbstractFormat extends NumberFormat implements Serializabl
      * @return a reference to the appended buffer
      * @see {@link #format(Object, StringBuffer, FieldPosition)}
      */
+    @Override
     public StringBuffer format(final double value,
                                final StringBuffer buffer, final FieldPosition position) {
         return format(Double.valueOf(value), buffer, position);
@@ -198,6 +199,7 @@ public abstract class AbstractFormat extends NumberFormat implements Serializabl
      * @return a reference to the appended buffer
      * @see {@link #format(Object, StringBuffer, FieldPosition)}
      */
+    @Override
     public StringBuffer format(final long value,
                                final StringBuffer buffer, final FieldPosition position) {
         return format(Long.valueOf(value), buffer, position);

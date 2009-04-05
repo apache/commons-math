@@ -78,6 +78,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * 
      * Computes and caches QR decomposition of the X matrix
      */
+    @Override
     public void newSampleData(double[] data, int nobs, int nvars) {
         super.newSampleData(data, nobs, nvars);
         qr = new QRDecompositionImpl(X);
@@ -124,6 +125,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * 
      * @param x the [n,k] array representing the x sample
      */
+    @Override
     protected void newXSampleData(double[][] x) {
         this.X = new RealMatrixImpl(x);
         qr = new QRDecompositionImpl(X);
@@ -134,6 +136,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * 
      * @return beta
      */
+    @Override
     protected RealMatrix calculateBeta() {
         return solveUpperTriangular(qr.getR(), qr.getQ().transpose().multiply(Y));
     }
@@ -149,6 +152,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * 
      * @return The beta variance
      */
+    @Override
     protected RealMatrix calculateBetaVariance() {
         int p = X.getColumnDimension();
         RealMatrix Raug = qr.getR().getSubMatrix(0, p - 1 , 0, p - 1);
@@ -164,6 +168,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * </p>
      * @return The Y variance
      */
+    @Override
     protected double calculateYVariance() {
         RealMatrix u = calculateResiduals();
         RealMatrix sse = u.transpose().multiply(u);

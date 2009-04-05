@@ -82,12 +82,14 @@ class DormandPrince54StepInterpolator
   }
 
   /** {@inheritDoc} */
+  @Override
   protected StepInterpolator doCopy() {
     return new DormandPrince54StepInterpolator(this);
   }
 
 
   /** {@inheritDoc} */
+  @Override
   public void reinitialize(final FirstOrderDifferentialEquations equations,
                            final double[] y, final double[][] yDotK, final boolean forward) {
     super.reinitialize(equations, y, yDotK, forward);
@@ -99,12 +101,14 @@ class DormandPrince54StepInterpolator
   }
 
   /** {@inheritDoc} */
+  @Override
   public void storeTime(final double t) {
     super.storeTime(t);
     vectorsInitialized = false;
   }
 
   /** {@inheritDoc} */
+  @Override
   protected void computeInterpolatedState(final double theta,
                                           final double oneMinusThetaH)
     throws DerivativeException {

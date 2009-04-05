@@ -125,11 +125,13 @@ public class DormandPrince54Integrator
   }
 
   /** {@inheritDoc} */
+  @Override
   public int getOrder() {
     return 5;
   }
 
   /** {@inheritDoc} */
+  @Override
   protected double estimateError(final double[][] yDotK,
                                  final double[] y0, final double[] y1,
                                  final double h) {

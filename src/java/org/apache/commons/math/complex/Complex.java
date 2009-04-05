@@ -246,6 +246,7 @@ public class Complex implements Serializable  {
      *         not equal to this Complex instance
      * 
      */
+    @Override
     public boolean equals(Object other) {
         boolean ret;
         
@@ -277,6 +278,7 @@ public class Complex implements Serializable  {
      * 
      * @return a hash code value for this object
      */
+    @Override
     public int hashCode() {
         if (isNaN()) {
             return 7;

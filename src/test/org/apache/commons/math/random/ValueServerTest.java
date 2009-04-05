@@ -39,6 +39,7 @@ public final class ValueServerTest extends RetryTestCase {
         super(name);
     }
 
+    @Override
     public void setUp() {
         vs.setMode(ValueServer.DIGEST_MODE);
         try {

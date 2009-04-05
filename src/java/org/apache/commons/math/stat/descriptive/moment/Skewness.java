@@ -83,6 +83,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
     /**
      * {@inheritDoc}
      */
+    @Override
     public void increment(final double d) {
         if (incMoment) {
             moment.increment(d);
@@ -96,6 +97,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
      * 
      * @return the skewness of the available values.
      */
+    @Override
     public double getResult() {
         
         if (moment.n < 3) {
@@ -121,6 +123,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
     /**
      * {@inheritDoc}
      */
+    @Override
     public void clear() {
         if (incMoment) {
             moment.clear();
@@ -143,6 +146,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
      * @throws IllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
+    @Override
     public double evaluate(final double[] values,final int begin, 
             final int length) {
 
@@ -184,6 +188,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
     /**
      * {@inheritDoc}
      */
+    @Override
     public Skewness copy() {
         Skewness result = new Skewness();
         copy(this, result);

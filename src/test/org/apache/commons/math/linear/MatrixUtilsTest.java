@@ -53,9 +53,7 @@ public final class MatrixUtilsTest extends TestCase {
         super(name);
     }
     
-    public void setUp() {     
-    }
-    
+
     public static Test suite() {
         TestSuite suite = new TestSuite(MatrixUtilsTest.class);
         suite.setName("MatrixUtils Tests");

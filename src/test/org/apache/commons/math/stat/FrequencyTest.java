@@ -46,7 +46,8 @@ public final class FrequencyTest extends TestCase {
     public FrequencyTest(String name) {
         super(name);
     }
-    
+
+    @Override
     public void setUp() {  
         f = new Frequency();
     }

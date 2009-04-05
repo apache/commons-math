@@ -105,6 +105,7 @@ public class SimpsonIntegrator extends UnivariateRealIntegratorImpl {
     }
 
     /** {@inheritDoc} */
+    @Override
     protected void verifyIterationCount() throws IllegalArgumentException {
         super.verifyIterationCount();
         // at most 64 bisection refinements

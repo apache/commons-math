@@ -128,6 +128,7 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
      * @param x the value at which the PDF is evaluated.
      * @return Zipf distribution function evaluated at x
      */
+    @Override
     public double cumulativeProbability(final int x) {
         if (x <= 0) {
             return 0.0;
@@ -147,6 +148,7 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
      * @return domain value lower bound, i.e.
      *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code> 
      */
+    @Override
     protected int getDomainLowerBound(final double p) {
         return 0;
     }
@@ -159,6 +161,7 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
      * @return domain value upper bound, i.e.
      *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code> 
      */
+    @Override
     protected int getDomainUpperBound(final double p) {
         return numberOfElements;
     }

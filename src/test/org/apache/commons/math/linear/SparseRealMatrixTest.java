@@ -109,10 +109,6 @@ public final class SparseRealMatrixTest extends TestCase {
         super(name);
     }
 
-    public void setUp() {
-
-    }
-
     public static Test suite() {
         TestSuite suite = new TestSuite(SparseRealMatrixTest.class);
         suite.setName("SparseRealMatrix Tests");

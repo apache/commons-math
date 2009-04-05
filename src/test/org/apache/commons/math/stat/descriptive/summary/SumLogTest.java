@@ -43,16 +43,18 @@ public class SumLogTest extends StorelessUnivariateStatisticAbstractTest{
         return suite;
     }
     
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.stat.descriptive.UnivariateStatisticAbstractTest#getUnivariateStatistic()
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public UnivariateStatistic getUnivariateStatistic() {        
         return new SumOfLogs();
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.stat.descriptive.UnivariateStatisticAbstractTest#expectedValue()
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public double expectedValue() {
         return this.sumLog;
     }

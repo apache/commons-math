@@ -37,11 +37,13 @@ public class ChiSquareDistributionTest extends ContinuousDistributionAbstractTes
     //-------------- Implementations for abstract methods -----------------------
     
     /** Creates the default continuous distribution instance to use in tests. */
+    @Override
     public ContinuousDistribution makeDistribution() {
         return new ChiSquaredDistributionImpl(5.0);
     }   
     
     /** Creates the default cumulative probability distribution test input values */
+    @Override
     public double[] makeCumulativeTestPoints() {
         // quantiles computed using R version 1.8.1 (linux version)
         return new double[] {0.210216d, 0.5542981d, 0.8312116d, 1.145476d, 1.610308d, 
@@ -49,18 +51,21 @@ public class ChiSquareDistributionTest extends ContinuousDistributionAbstractTes
     }
     
     /** Creates the default cumulative probability density test expected values */
+    @Override
     public double[] makeCumulativeTestValues() {
         return new double[] {0.001d, 0.01d, 0.025d, 0.05d, 0.1d, 0.999d,
                 0.990d, 0.975d, 0.950d, 0.900d}; 
     }
     
     /** Creates the default inverse cumulative probability test input values */
+    @Override
     public double[] makeInverseCumulativeTestPoints() {
         return new double[] {0, 0.001d, 0.01d, 0.025d, 0.05d, 0.1d, 0.999d,
                 0.990d, 0.975d, 0.950d, 0.900d, 1};     
     }
     
     /** Creates the default inverse cumulative probability density test expected values */
+    @Override
     public double[] makeInverseCumulativeTestValues() {
         return new double[] {0, 0.210216d, 0.5542981d, 0.8312116d, 1.145476d, 1.610308d, 
                 20.51501d, 15.08627d, 12.83250d, 11.07050d, 9.236357d, 
@@ -68,6 +73,7 @@ public class ChiSquareDistributionTest extends ContinuousDistributionAbstractTes
     }
     
  // --------------------- Override tolerance  --------------
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
         setTolerance(5e-6);

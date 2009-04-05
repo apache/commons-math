@@ -67,6 +67,7 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
     /**
      * {@inheritDoc}
      */
+    @Override
     public void increment(final double d) {
         if (n == 0) {
             value = d * d;
@@ -79,6 +80,7 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getResult() {
         return value;
     }
@@ -93,6 +95,7 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
     /**
      * {@inheritDoc}
      */
+    @Override
     public void clear() {
         value = Double.NaN;
         n = 0;
@@ -112,6 +115,7 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
      * @throws IllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
+    @Override
     public double evaluate(final double[] values,final int begin, final int length) {
         double sumSq = Double.NaN;
         if (test(values, begin, length)) {
@@ -126,6 +130,7 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
     /**
      * {@inheritDoc}
      */
+    @Override
     public SumOfSquares copy() {
         SumOfSquares result = new SumOfSquares();
         copy(this, result);

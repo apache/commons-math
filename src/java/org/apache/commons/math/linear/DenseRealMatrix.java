@@ -280,12 +280,14 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealMatrix createMatrix(final int rowDimension, final int columnDimension)
         throws IllegalArgumentException {
         return new DenseRealMatrix(rowDimension, columnDimension);
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealMatrix copy() {
 
         // create an empty matrix
@@ -301,6 +303,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealMatrix add(final RealMatrix m)
         throws IllegalArgumentException {
         try {
@@ -371,6 +374,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealMatrix subtract(final RealMatrix m)
         throws IllegalArgumentException {
         try {
@@ -441,6 +445,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealMatrix scalarAdd(final double d)
         throws IllegalArgumentException {
 
@@ -460,6 +465,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealMatrix scalarMultiply(final double d)
         throws IllegalArgumentException {
 
@@ -479,6 +485,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealMatrix multiply(final RealMatrix m)
         throws IllegalArgumentException {
         try {
@@ -605,6 +612,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public double[][] getData() {
 
         final double[][] data = new double[getRowDimension()][getColumnDimension()];
@@ -634,6 +642,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getNorm() {
         final double[] colSums = new double[BLOCK_SIZE];
         double maxColSum = 0;
@@ -659,6 +668,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
     
     /** {@inheritDoc} */
+    @Override
     public double getFrobeniusNorm() {
         double sum2 = 0;
         for (int blockIndex = 0; blockIndex < blocks.length; ++blockIndex) {
@@ -670,6 +680,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealMatrix getSubMatrix(final int startRow, final int endRow,
                                    final int startColumn, final int endColumn)
         throws MatrixIndexException {
@@ -793,6 +804,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setSubMatrix(final double[][] subMatrix, final int row, final int column)
         throws MatrixIndexException {
 
@@ -845,6 +857,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealMatrix getRowMatrix(final int row)
         throws MatrixIndexException {
 
@@ -877,6 +890,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setRowMatrix(final int row, final RealMatrix matrix)
         throws MatrixIndexException, InvalidMatrixException {
         try {
@@ -934,6 +948,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
     
     /** {@inheritDoc} */
+    @Override
     public RealMatrix getColumnMatrix(final int column)
         throws MatrixIndexException {
 
@@ -964,6 +979,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setColumnMatrix(final int column, final RealMatrix matrix)
         throws MatrixIndexException, InvalidMatrixException {
         try {
@@ -1017,8 +1033,9 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
         }
 
     }
-    
+
     /** {@inheritDoc} */
+    @Override
     public RealVector getRowVector(final int row)
         throws MatrixIndexException {
 
@@ -1041,6 +1058,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setRowVector(final int row, final RealVector vector)
         throws MatrixIndexException, InvalidMatrixException {
         try {
@@ -1051,6 +1069,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector getColumnVector(final int column)
         throws MatrixIndexException {
 
@@ -1075,6 +1094,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setColumnVector(final int column, final RealVector vector)
         throws MatrixIndexException, InvalidMatrixException {
         try {
@@ -1085,6 +1105,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public double[] getRow(final int row)
         throws MatrixIndexException {
 
@@ -1107,6 +1128,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setRow(final int row, final double[] array)
         throws MatrixIndexException, InvalidMatrixException {
 
@@ -1132,6 +1154,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public double[] getColumn(final int column)
         throws MatrixIndexException {
 
@@ -1156,6 +1179,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setColumn(final int column, final double[] array)
         throws MatrixIndexException, InvalidMatrixException {
 
@@ -1183,6 +1207,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getEntry(final int row, final int column)
         throws MatrixIndexException {
         try {
@@ -1199,6 +1224,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setEntry(final int row, final int column, final double value)
         throws MatrixIndexException {
         try {
@@ -1215,6 +1241,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public void addToEntry(final int row, final int column, final double increment)
         throws MatrixIndexException {
         try {
@@ -1231,6 +1258,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public void multiplyEntry(final int row, final int column, final double factor)
         throws MatrixIndexException {
         try {
@@ -1247,6 +1275,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealMatrix transpose() {
 
         final int nRows = getRowDimension();
@@ -1283,16 +1312,19 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public int getRowDimension() {
         return rows;
     }
 
     /** {@inheritDoc} */
+    @Override
     public int getColumnDimension() {
         return columns;
     }
 
     /** {@inheritDoc} */
+    @Override
     public double[] operate(final double[] v)
         throws IllegalArgumentException {
 
@@ -1335,6 +1367,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public double[] preMultiply(final double[] v)
         throws IllegalArgumentException {
 
@@ -1383,6 +1416,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public double walkInRowOrder(final RealMatrixChangingVisitor visitor)
         throws MatrixVisitorException {
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
@@ -1405,6 +1439,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public double walkInRowOrder(final RealMatrixPreservingVisitor visitor)
         throws MatrixVisitorException {
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
@@ -1427,6 +1462,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public double walkInRowOrder(final RealMatrixChangingVisitor visitor,
                                  final int startRow, final int endRow,
                                  final int startColumn, final int endColumn)
@@ -1454,6 +1490,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public double walkInRowOrder(final RealMatrixPreservingVisitor visitor,
                                  final int startRow, final int endRow,
                                  final int startColumn, final int endColumn)
@@ -1481,6 +1518,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public double walkInOptimizedOrder(final RealMatrixChangingVisitor visitor)
         throws MatrixVisitorException {
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
@@ -1502,6 +1540,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public double walkInOptimizedOrder(final RealMatrixPreservingVisitor visitor)
         throws MatrixVisitorException {
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
@@ -1523,6 +1562,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public double walkInOptimizedOrder(final RealMatrixChangingVisitor visitor,
                                        final int startRow, final int endRow,
                                        final int startColumn, final int endColumn)
@@ -1550,6 +1590,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public double walkInOptimizedOrder(final RealMatrixPreservingVisitor visitor,
                                        final int startRow, final int endRow,
                                        final int startColumn, final int endColumn)

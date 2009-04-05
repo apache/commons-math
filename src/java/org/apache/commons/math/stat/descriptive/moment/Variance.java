@@ -150,6 +150,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * list of values together to execute a two-pass algorithm.  
      * See {@link Variance}.</p>
      */
+    @Override
     public void increment(final double d) {
         if (incMoment) {
             moment.increment(d);
@@ -159,6 +160,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getResult() {
             if (moment.n == 0) {
                 return Double.NaN;
@@ -183,6 +185,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
     /**
      * {@inheritDoc}
      */
+    @Override
     public void clear() {
         if (incMoment) {
             moment.clear();
@@ -205,6 +208,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * @return the variance of the values or Double.NaN if length = 0
      * @throws IllegalArgumentException if the array is null
      */
+    @Override
     public double evaluate(final double[] values) {
         if (values == null) {
             throw new IllegalArgumentException("input values array is null");
@@ -232,6 +236,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * @throws IllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
+    @Override
     public double evaluate(final double[] values, final int begin, final int length) {
 
         double var = Double.NaN;
@@ -349,6 +354,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
     /**
      * {@inheritDoc}
      */
+    @Override
     public Variance copy() {
         Variance result = new Variance();
         copy(this, result);

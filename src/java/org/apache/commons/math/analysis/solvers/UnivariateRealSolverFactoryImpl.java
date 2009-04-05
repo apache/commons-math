@@ -33,26 +33,31 @@ public class UnivariateRealSolverFactoryImpl extends UnivariateRealSolverFactory
     }
 
     /** {@inheritDoc} */
+    @Override
     public UnivariateRealSolver newDefaultSolver() {
         return newBrentSolver();
     }
     
     /** {@inheritDoc} */
+    @Override
     public UnivariateRealSolver newBisectionSolver() {
         return new BisectionSolver();
     }
 
     /** {@inheritDoc} */
+    @Override
     public UnivariateRealSolver newBrentSolver() {
         return new BrentSolver();
     }
     
     /** {@inheritDoc} */
+    @Override
     public UnivariateRealSolver newNewtonSolver() {
         return new NewtonSolver();
     }
     
     /** {@inheritDoc} */
+    @Override
     public UnivariateRealSolver newSecantSolver() {
         return new SecantSolver();
     }

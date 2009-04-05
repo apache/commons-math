@@ -100,6 +100,7 @@ public class StepNormalizerTest
     return new TestSuite(StepNormalizerTest.class);
   }
 
+  @Override
   public void setUp() {
     pb = new TestProblem3(0.9);
     double minStep = 0;
@@ -108,6 +109,7 @@ public class StepNormalizerTest
     lastSeen = false;
   }
 
+  @Override
   public void tearDown() {
     pb    = null;
     integ = null;

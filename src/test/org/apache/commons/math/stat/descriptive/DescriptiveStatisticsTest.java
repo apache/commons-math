@@ -148,13 +148,16 @@ public class DescriptiveStatisticsTest extends TestCase {
      * Always returns currently set quantile
      */
     static class subPercentile extends Percentile {
+        @Override
         public double evaluate(double[] values, int begin, int length) {
             return getQuantile();
         }
+        @Override
         public double evaluate(double[] values) {
             return getQuantile();
         }  
         private static final long serialVersionUID = 8040701391045914979L;
+        @Override
         public Percentile copy() {
             subPercentile result = new subPercentile();
             return result;

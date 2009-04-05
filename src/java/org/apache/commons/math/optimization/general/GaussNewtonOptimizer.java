@@ -62,6 +62,7 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
     }
 
     /** {@inheritDoc} */
+    @Override
     public VectorialPointValuePair doOptimize()
         throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
 

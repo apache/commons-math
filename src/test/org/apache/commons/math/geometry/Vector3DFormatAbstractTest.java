@@ -34,7 +34,8 @@ public abstract class Vector3DFormatAbstractTest extends TestCase {
     protected abstract Locale getLocale();
 
     protected abstract char getDecimalCharacter();
-    
+
+    @Override
     protected void setUp() throws Exception {
         vector3DFormat = Vector3DFormat.getInstance(getLocale());
         final NumberFormat nf = NumberFormat.getInstance(getLocale());

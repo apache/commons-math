@@ -95,6 +95,7 @@ public class FDistributionImpl
      * @throws IllegalArgumentException if <code>p</code> is not a valid
      *         probability.
      */
+    @Override
     public double inverseCumulativeProbability(final double p) 
         throws MathException {
         if (p == 0) {
@@ -115,6 +116,7 @@ public class FDistributionImpl
      * @return domain value lower bound, i.e.
      *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code> 
      */
+    @Override
     protected double getDomainLowerBound(double p) {
         return 0.0;
     }
@@ -128,6 +130,7 @@ public class FDistributionImpl
      * @return domain value upper bound, i.e.
      *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code> 
      */
+    @Override
     protected double getDomainUpperBound(double p) {
         return Double.MAX_VALUE;
     }
@@ -140,6 +143,7 @@ public class FDistributionImpl
      * @param p the desired probability for the critical value
      * @return initial domain value
      */
+    @Override
     protected double getInitialDomain(double p) {
         double ret = 1.0;
         double d = getDenominatorDegreesOfFreedom();

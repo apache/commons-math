@@ -37,11 +37,13 @@ public class WeibullDistributionTest extends ContinuousDistributionAbstractTest 
     //-------------- Implementations for abstract methods -----------------------
     
     /** Creates the default continuous distribution instance to use in tests. */
+    @Override
     public ContinuousDistribution makeDistribution() {
         return new WeibullDistributionImpl(1.2, 2.1);
     }   
     
     /** Creates the default cumulative probability distribution test input values */
+    @Override
     public double[] makeCumulativeTestPoints() {
         // quantiles computed using Mathematica 
         return new double[] {0.00664355181d, 0.04543282833d, 0.09811627374d,
@@ -50,6 +52,7 @@ public class WeibullDistributionTest extends ContinuousDistributionAbstractTest 
     }
     
     /** Creates the default cumulative probability density test expected values */
+    @Override
     public double[] makeCumulativeTestValues() {
         return new double[] {0.001d, 0.01d, 0.025d, 0.05d, 0.1d, 0.900d, 0.950d,
                 0.975d, 0.990d, 0.999d};

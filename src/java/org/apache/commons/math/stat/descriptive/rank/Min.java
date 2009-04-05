@@ -69,6 +69,7 @@ public class Min extends AbstractStorelessUnivariateStatistic implements Seriali
     /**
      * {@inheritDoc}
      */
+    @Override
     public void increment(final double d) {
         if (d < value || Double.isNaN(value)) {
             value = d;
@@ -79,6 +80,7 @@ public class Min extends AbstractStorelessUnivariateStatistic implements Seriali
     /**
      * {@inheritDoc}
      */
+    @Override
     public void clear() {
         value = Double.NaN;
         n = 0;
@@ -87,6 +89,7 @@ public class Min extends AbstractStorelessUnivariateStatistic implements Seriali
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getResult() {
         return value;
     }
@@ -120,6 +123,7 @@ public class Min extends AbstractStorelessUnivariateStatistic implements Seriali
      * @throws IllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
+    @Override
     public double evaluate(final double[] values,final int begin, final int length) {
         double min = Double.NaN;
         if (test(values, begin, length)) {
@@ -136,6 +140,7 @@ public class Min extends AbstractStorelessUnivariateStatistic implements Seriali
     /**
      * {@inheritDoc}
      */
+    @Override
     public Min copy() {
         Min result = new Min();
         copy(this, result);

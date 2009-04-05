@@ -304,6 +304,7 @@ public class Fraction extends Number implements Comparable<Fraction> {
      * the numerator divided by denominator.
      * @return the fraction as a <tt>double</tt>
      */
+    @Override
     public double doubleValue() {
         return (double)numerator / (double)denominator;
     }
@@ -317,6 +318,7 @@ public class Fraction extends Number implements Comparable<Fraction> {
      *         <tt>null</tt>, not an instance of {@link Fraction}, or not equal
      *         to this fraction instance.
      */
+    @Override
     public boolean equals(Object other) {
         boolean ret;
         
@@ -345,6 +347,7 @@ public class Fraction extends Number implements Comparable<Fraction> {
      * the numerator divided by denominator.
      * @return the fraction as a <tt>float</tt>
      */
+    @Override
     public float floatValue() {
         return (float)doubleValue();
     }
@@ -369,6 +372,7 @@ public class Fraction extends Number implements Comparable<Fraction> {
      * Gets a hashCode for the fraction.
      * @return a hash code value for this object
      */
+    @Override
     public int hashCode() {
         return 37 * (37 * 17 + getNumerator()) + getDenominator();
     }
@@ -378,6 +382,7 @@ public class Fraction extends Number implements Comparable<Fraction> {
      * of the fraction.
      * @return the whole number fraction part
      */
+    @Override
     public int intValue() {
         return (int)doubleValue();
     }
@@ -387,6 +392,7 @@ public class Fraction extends Number implements Comparable<Fraction> {
      * of the fraction.
      * @return the whole number fraction part
      */
+    @Override
     public long longValue() {
         return (long)doubleValue();
     }

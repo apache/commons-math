@@ -43,20 +43,26 @@ public class ProductTest extends StorelessUnivariateStatisticAbstractTest{
         return suite;
     }
     
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.stat.descriptive.UnivariateStatisticAbstractTest#getUnivariateStatistic()
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public UnivariateStatistic getUnivariateStatistic() {
         return new Product();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public double getTolerance() {
         return 10E8;    //sic -- big absolute error due to only 15 digits of accuracy in double
     }
     
-    /* (non-Javadoc)
-     * @see org.apache.commons.math.stat.descriptive.UnivariateStatisticAbstractTest#expectedValue()
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public double expectedValue() {
         return this.product;
     }

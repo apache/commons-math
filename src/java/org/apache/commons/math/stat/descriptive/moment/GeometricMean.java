@@ -74,6 +74,7 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic {
     /**
      * {@inheritDoc}
      */
+    @Override
     public GeometricMean copy() {
         GeometricMean result = new GeometricMean();
         copy(this, result);
@@ -91,6 +92,7 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void increment(final double d) {
         sumOfLogs.increment(d);
     }
@@ -98,6 +100,7 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic {
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getResult() {
         if (sumOfLogs.getN() > 0) {
             return Math.exp(sumOfLogs.getResult() / (double) sumOfLogs.getN());
@@ -109,6 +112,7 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void clear() {
         sumOfLogs.clear();
     }
@@ -129,6 +133,7 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic {
      * @throws IllegalArgumentException if the input array is null or the array
      * index parameters are not valid
      */
+    @Override
     public double evaluate(
         final double[] values, final int begin, final int length) {
         return Math.exp(

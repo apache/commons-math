@@ -98,6 +98,7 @@ extends TestCase {
 
     }
 
+    @Override
     public void setUp() {
         try {
             mean = new double[] { 0.0, 1.0, -3.0, 2.3};
@@ -134,6 +135,7 @@ extends TestCase {
         }
     }
 
+    @Override
     public void tearDown() {
         mean       = null;
         covariance = null;

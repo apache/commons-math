@@ -34,8 +34,9 @@ public abstract class RealVectorFormatAbstractTest extends TestCase {
     protected abstract Locale getLocale();
 
     protected abstract char getDecimalCharacter();
-    
-    protected void setUp() throws Exception {
+
+    @Override
+    public void setUp() throws Exception {
         realVectorFormat = RealVectorFormat.getInstance(getLocale());
         final NumberFormat nf = NumberFormat.getInstance(getLocale());
         nf.setMaximumFractionDigits(2);

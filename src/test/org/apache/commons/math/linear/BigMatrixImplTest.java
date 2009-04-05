@@ -99,10 +99,6 @@ public final class BigMatrixImplTest extends TestCase {
         super(name);
     }
     
-    public void setUp() {
-        
-    }
-    
     public static Test suite() {
         TestSuite suite = new TestSuite(BigMatrixImplTest.class);
         suite.setName("BigMatrixImpl Tests");

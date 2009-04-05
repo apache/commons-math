@@ -155,6 +155,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * @throws IllegalArgumentException if the parameters are not valid
      * 
      */
+    @Override
     public double evaluate( final double[] values, final int start, final int length) {
         return evaluate(values, start, length, quantile);
     }
@@ -251,6 +252,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
     /**
      * {@inheritDoc}
      */
+    @Override
     public Percentile copy() {
         Percentile result = new Percentile();
         copy(this, result);
