@@ -93,6 +93,8 @@ public abstract class MultistepStepInterpolator
     }
 
     /** Reinitialize the instance
+     * <p>Beware that all arrays <em>must</em> be references to integrator
+     * arrays, in order to ensure proper update without copy.</p>
      * @param y reference to the integrator array holding the state at
      * the end of the step
      * @param previousT reference to the integrator array holding the times

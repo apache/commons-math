@@ -85,6 +85,11 @@
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
+    <Class name="org.apache.commons.math.ode.sampling.MultistepStepInterpolator"/>
+    <Method name="reinitialize" params="double[],double[],double[][],boolean" returns="void" />
+    <Bug pattern="EI_EXPOSE_REP2" />
+  </Match>
+  <Match>
     <Class name="org.apache.commons.math.linear.BigMatrixImpl"/>
     <Method name="&lt;init>" params="java.math.BigDecimal[][],boolean" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />

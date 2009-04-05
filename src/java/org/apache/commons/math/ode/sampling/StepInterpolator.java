@@ -32,6 +32,14 @@ import org.apache.commons.math.ode.SecondOrderIntegrator;
  * handlers can use these objects to retrieve the state vector at
  * intermediate times between the previous and the current grid points
  * (this feature is often called dense output).</p>
+ * <p>One important thing to note is that the step handlers may be so
+ * tightly bound to the integrators that they often share some internal
+ * state arrays. This imply that one should <em>never</em> use a direct
+ * reference to a step interpolator outside of the step handler, either
+ * for future use or for use in another thread. If such a need arise, the
+ * step interpolator <em>must</em> be copied using the dedicated
+ * {@link #copy()} method.
+ * </p>
  *
  * @see FirstOrderIntegrator
  * @see SecondOrderIntegrator
