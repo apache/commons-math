@@ -25,6 +25,11 @@ import java.util.Locale;
 
 import org.apache.commons.math.MathRuntimeException;
 
+/**
+ * Common part shared by both {@link FractionFormat} and {@link BigFractionFormat}.
+ * @version $Revision$ $Date$
+ * @since 2.0
+ */
 public abstract class AbstractFormat extends NumberFormat implements Serializable {
 
     /** Serializable version identifier. */
