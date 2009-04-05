@@ -666,12 +666,12 @@ public class FastFourierTransformer implements Serializable {
             throws IllegalArgumentException {
             if (vector == null && dimensionSize.length > 1) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                        "some dimensions don't math: {0} != {1}",
+                        "some dimensions don't match: {0} != {1}",
                         0, dimensionSize.length);
             }
             if (vector != null && vector.length != dimensionSize.length) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                        "some dimensions don't math: {0} != {1}",
+                        "some dimensions don't match: {0} != {1}",
                         vector.length, dimensionSize.length);
             }
             
@@ -695,14 +695,14 @@ public class FastFourierTransformer implements Serializable {
             if (vector == null) {
                 if (dimensionSize.length > 1) {
                     throw MathRuntimeException.createIllegalArgumentException(
-                            "some dimensions don't math: {0} != {1}",
+                            "some dimensions don't match: {0} != {1}",
                             0, dimensionSize.length);
                 }
                 return null;
             }
             if (vector.length != dimensionSize.length) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                        "some dimensions don't math: {0} != {1}",
+                        "some dimensions don't match: {0} != {1}",
                         vector.length,dimensionSize.length);
             }
 

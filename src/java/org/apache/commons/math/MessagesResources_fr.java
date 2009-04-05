@@ -509,7 +509,7 @@ public class MessagesResources_fr
      "le nombre d''\u00e9chantillons n''est pas positif : {0}" },
    { "{0} is not a power of 2, consider padding for fix",
      "{0} n''est pas une puissance de 2, ajoutez des \u00e9l\u00e9ments pour corriger" },
-   { "some dimensions don't math: {0} != {1}",
+   { "some dimensions don't match: {0} != {1}",
      "certaines dimensions sont incoh\u00e9rentes : {0} != {1}" },
 
    // org.apache.commons.math.transform.FastCosineTransformer
