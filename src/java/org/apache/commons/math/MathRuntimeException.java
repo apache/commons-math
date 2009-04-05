@@ -37,11 +37,8 @@ import java.util.ResourceBundle;
 public class MathRuntimeException extends RuntimeException {
     
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 4184290229453587356L;
+    private static final long serialVersionUID = -5128983364075381060L;
 
-    /** Cache for resources bundle. */
-    private static ResourceBundle cachedResources = null;
- 
     /**
      * Pattern used to build the message.
      */
@@ -61,15 +58,11 @@ public class MathRuntimeException extends RuntimeException {
      */
     private static String translate(final String s, final Locale locale) {
         try {
-            if ((cachedResources == null) || (! cachedResources.getLocale().equals(locale))) {
-                // caching the resource bundle
-                cachedResources =
+            ResourceBundle bundle =
                     ResourceBundle.getBundle("org.apache.commons.math.MessagesResources", locale);
-            }
-
-            if (cachedResources.getLocale().getLanguage().equals(locale.getLanguage())) {
+            if (bundle.getLocale().getLanguage().equals(locale.getLanguage())) {
                 // the value of the resource is the translated string
-                return cachedResources.getString(s);
+                return bundle.getString(s);
             }
             
         } catch (MissingResourceException mre) {
