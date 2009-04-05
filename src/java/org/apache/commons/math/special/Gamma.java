@@ -37,7 +37,7 @@ public class Gamma implements Serializable {
     private static final double DEFAULT_EPSILON = 10e-15;
 
     /** Lanczos coefficients */
-    private static double[] lanczos =
+    private static final double[] lanczos =
     {
         0.99999999999999709182,
         57.156235665862923517,

@@ -45,7 +45,7 @@ public final class MathUtilsTest extends TestCase {
     }
 
     /** cached binomial coefficients */
-    private static List<Map<Integer, Long>> binomialCache = new ArrayList<Map<Integer, Long>>();
+    private static final List<Map<Integer, Long>> binomialCache = new ArrayList<Map<Integer, Long>>();
 
     /**
      * Exact (caching) recursive implementation to test against
