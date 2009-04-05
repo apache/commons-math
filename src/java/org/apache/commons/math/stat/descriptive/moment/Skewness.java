@@ -103,11 +103,11 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
         if (moment.n < 3) {
             return Double.NaN;
         }
-        double variance = moment.m2 / (double) (moment.n - 1);
+        double variance = moment.m2 / (moment.n - 1);
         if (variance < 10E-20) {
             return 0.0d;
         } else {
-            double n0 = (double) moment.getN();
+            double n0 = moment.getN();
             return  (n0 * moment.m3) /
             ((n0 - 1) * (n0 -2) * Math.sqrt(variance) * variance);
         }
@@ -167,8 +167,8 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
                 accum += Math.pow((values[i] - m), 2.0);
                 accum2 += (values[i] - m);
             }
-            double stdDev = Math.sqrt((accum - (Math.pow(accum2, 2) / ((double) length))) /
-                    (double) (length - 1));
+            double stdDev = Math.sqrt((accum - (Math.pow(accum2, 2) / (length))) /
+                    (length - 1));
             
             double accum3 = 0.0;
             for (int i = begin; i < begin + length; i++) {
@@ -204,7 +204,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
      * @throws NullPointerException if either source or dest is null
      */
     public static void copy(Skewness source, Skewness dest) {
-        dest.moment = new ThirdMoment((ThirdMoment) source.moment.copy());
+        dest.moment = new ThirdMoment(source.moment.copy());
         dest.incMoment = source.incMoment;
     }
 }

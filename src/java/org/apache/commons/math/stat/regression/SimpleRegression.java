@@ -124,11 +124,11 @@ public class SimpleRegression implements Serializable {
         } else {
             double dx = x - xbar;
             double dy = y - ybar;
-            sumXX += dx * dx * (double) n / (double) (n + 1.0);
-            sumYY += dy * dy * (double) n / (double) (n + 1.0);
-            sumXY += dx * dy * (double) n / (double) (n + 1.0);
-            xbar += dx / (double) (n + 1.0);
-            ybar += dy / (double) (n + 1.0);
+            sumXX += dx * dx * n / (n + 1.0);
+            sumYY += dy * dy * n / (n + 1.0);
+            sumXY += dx * dy * n / (n + 1.0);
+            xbar += dx / (n + 1.0);
+            ybar += dy / (n + 1.0);
         }
         sumX += x;
         sumY += y;
@@ -157,11 +157,11 @@ public class SimpleRegression implements Serializable {
         if (n > 0) {
             double dx = x - xbar;
             double dy = y - ybar;
-            sumXX -= dx * dx * (double) n / (double) (n - 1.0);
-            sumYY -= dy * dy * (double) n / (double) (n - 1.0);
-            sumXY -= dx * dy * (double) n / (double) (n - 1.0);
-            xbar -= dx / (double) (n - 1.0);
-            ybar -= dy / (double) (n - 1.0);
+            sumXX -= dx * dx * n / (n - 1.0);
+            sumYY -= dy * dy * n / (n - 1.0);
+            sumXY -= dx * dy * n / (n - 1.0);
+            xbar -= dx / (n - 1.0);
+            ybar -= dy / (n - 1.0);
             sumX -= x;
             sumY -= y;
             n--;
@@ -410,7 +410,7 @@ public class SimpleRegression implements Serializable {
         if (n < 3) {
             return Double.NaN;
         }
-        return getSumSquaredErrors() / (double) (n - 2);
+        return getSumSquaredErrors() / (n - 2);
     }
 
     /**
@@ -468,7 +468,7 @@ public class SimpleRegression implements Serializable {
      */
     public double getInterceptStdErr() {
         return Math.sqrt(
-            getMeanSquareError() * ((1d / (double) n) + (xbar * xbar) / sumXX));
+            getMeanSquareError() * ((1d / n) + (xbar * xbar) / sumXX));
     }
 
     /**
@@ -589,7 +589,7 @@ public class SimpleRegression implements Serializable {
     * @return the intercept of the regression line
     */
     private double getIntercept(double slope) {
-        return (sumY - slope * sumX) / ((double) n);
+        return (sumY - slope * sumX) / (n);
     }
 
     /**

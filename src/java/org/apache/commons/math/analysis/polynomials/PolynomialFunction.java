@@ -234,7 +234,7 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
         }
         double[] result = new double[n - 1];
         for (int i = n - 1; i  > 0; i--) {
-            result[i - 1] = (double) i * coefficients[i];
+            result[i - 1] = i * coefficients[i];
         }
         return result;
     }

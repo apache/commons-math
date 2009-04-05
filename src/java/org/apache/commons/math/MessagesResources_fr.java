@@ -39,7 +39,7 @@ public class MessagesResources_fr
    */
   @Override
   public Object[][] getContents() {
-    return (Object[][]) contents.clone();
+    return contents.clone();
   }
 
   /** Non-translated/translated messages arrays. */

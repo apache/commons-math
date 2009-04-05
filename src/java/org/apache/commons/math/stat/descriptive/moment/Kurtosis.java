@@ -104,11 +104,11 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  {
     public double getResult() {
         double kurtosis = Double.NaN;
         if (moment.getN() > 3) {
-            double variance = moment.m2 / (double) (moment.n - 1);
+            double variance = moment.m2 / (moment.n - 1);
                 if (moment.n <= 3 || variance < 10E-20) {
                     kurtosis = 0.0;
                 } else {
-                    double n = (double) moment.n;
+                    double n = moment.n;
                     kurtosis =
                         (n * (n + 1) * moment.m4 -
                                 3 * moment.m2 * moment.m2 * (n - 1)) /
@@ -210,7 +210,7 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  {
      * @throws NullPointerException if either source or dest is null
      */
     public static void copy(Kurtosis source, Kurtosis dest) {
-        dest.moment = (FourthMoment) source.moment.copy();
+        dest.moment = source.moment.copy();
         dest.incMoment = source.incMoment;
     }
 

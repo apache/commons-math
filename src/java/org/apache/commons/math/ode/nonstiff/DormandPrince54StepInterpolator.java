@@ -71,10 +71,10 @@ class DormandPrince54StepInterpolator
 
     } else {
 
-      v1 = (double[]) interpolator.v1.clone();
-      v2 = (double[]) interpolator.v2.clone();
-      v3 = (double[]) interpolator.v3.clone();
-      v4 = (double[]) interpolator.v4.clone();
+      v1 = interpolator.v1.clone();
+      v2 = interpolator.v2.clone();
+      v3 = interpolator.v3.clone();
+      v4 = interpolator.v4.clone();
       vectorsInitialized = interpolator.vectorsInitialized;
 
     }

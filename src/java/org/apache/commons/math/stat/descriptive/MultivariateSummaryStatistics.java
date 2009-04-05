@@ -425,7 +425,7 @@ public class MultivariateSummaryStatistics
      * @return the StorelessUnivariateStatistic implementing the sum
      */
     public StorelessUnivariateStatistic[] getSumImpl() {
-        return (StorelessUnivariateStatistic[]) sumImpl.clone();
+        return sumImpl.clone();
     }
 
     /**
@@ -452,7 +452,7 @@ public class MultivariateSummaryStatistics
      * @return the StorelessUnivariateStatistic implementing the sum of squares
      */
     public StorelessUnivariateStatistic[] getSumsqImpl() {
-        return (StorelessUnivariateStatistic[]) sumSqImpl.clone();
+        return sumSqImpl.clone();
     }
 
     /**
@@ -479,7 +479,7 @@ public class MultivariateSummaryStatistics
      * @return the StorelessUnivariateStatistic implementing the minimum
      */
     public StorelessUnivariateStatistic[] getMinImpl() {
-        return (StorelessUnivariateStatistic[]) minImpl.clone();
+        return minImpl.clone();
     }
 
     /**
@@ -506,7 +506,7 @@ public class MultivariateSummaryStatistics
      * @return the StorelessUnivariateStatistic implementing the maximum
      */
     public StorelessUnivariateStatistic[] getMaxImpl() {
-        return (StorelessUnivariateStatistic[]) maxImpl.clone();
+        return maxImpl.clone();
     }
 
     /**
@@ -533,7 +533,7 @@ public class MultivariateSummaryStatistics
      * @return the StorelessUnivariateStatistic implementing the log sum
      */
     public StorelessUnivariateStatistic[] getSumLogImpl() {
-        return (StorelessUnivariateStatistic[]) sumLogImpl.clone();
+        return sumLogImpl.clone();
     }
 
     /**
@@ -560,7 +560,7 @@ public class MultivariateSummaryStatistics
      * @return the StorelessUnivariateStatistic implementing the geometric mean
      */
     public StorelessUnivariateStatistic[] getGeoMeanImpl() {
-        return (StorelessUnivariateStatistic[]) geoMeanImpl.clone();
+        return geoMeanImpl.clone();
     }
 
     /**
@@ -587,7 +587,7 @@ public class MultivariateSummaryStatistics
      * @return the StorelessUnivariateStatistic implementing the mean
      */
     public StorelessUnivariateStatistic[] getMeanImpl() {
-        return (StorelessUnivariateStatistic[]) meanImpl.clone();
+        return meanImpl.clone();
     }
 
     /**

@@ -153,7 +153,7 @@ public class Mean extends AbstractStorelessUnivariateStatistic
     public double evaluate(final double[] values,final int begin, final int length) {
         if (test(values, begin, length)) {
             Sum sum = new Sum();
-            double sampleSize = (double) length;
+            double sampleSize = length;
             
             // Compute initial estimate using definitional formula
             double xbar = sum.evaluate(values, begin, length) / sampleSize;
@@ -189,6 +189,6 @@ public class Mean extends AbstractStorelessUnivariateStatistic
      */
     public static void copy(Mean source, Mean dest) {
         dest.incMoment = source.incMoment;
-        dest.moment = (FirstMoment) source.moment.copy();
+        dest.moment = source.moment.copy();
     }
 }

@@ -122,7 +122,7 @@ public class ContinuousOutputModel
         throw new IllegalArgumentException("propagation direction mismatch");
       }
 
-      final StepInterpolator lastInterpolator = (StepInterpolator) steps.get(index);
+      final StepInterpolator lastInterpolator = steps.get(index);
       final double current  = lastInterpolator.getCurrentTime();
       final double previous = lastInterpolator.getPreviousTime();
       final double step = current - previous;
@@ -138,7 +138,7 @@ public class ContinuousOutputModel
     }
 
     index = steps.size() - 1;
-    finalTime = ((StepInterpolator) steps.get(index)).getCurrentTime();
+    finalTime = (steps.get(index)).getCurrentTime();
 
   }
 

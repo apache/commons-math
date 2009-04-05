@@ -103,7 +103,7 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic {
     @Override
     public double getResult() {
         if (sumOfLogs.getN() > 0) {
-            return Math.exp(sumOfLogs.getResult() / (double) sumOfLogs.getN());
+            return Math.exp(sumOfLogs.getResult() / sumOfLogs.getN());
         } else {
             return Double.NaN;
         }
@@ -137,7 +137,7 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic {
     public double evaluate(
         final double[] values, final int begin, final int length) {
         return Math.exp(
-            sumOfLogs.evaluate(values, begin, length) / (double) length);
+            sumOfLogs.evaluate(values, begin, length) / length);
     }
     
     /**
@@ -182,7 +182,7 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic {
      * @throws NullPointerException if either source or dest is null
      */
     public static void copy(GeometricMean source, GeometricMean dest) {
-        dest.sumOfLogs = (SumOfLogs) source.sumOfLogs.copy();
+        dest.sumOfLogs = source.sumOfLogs.copy();
     }
     
     

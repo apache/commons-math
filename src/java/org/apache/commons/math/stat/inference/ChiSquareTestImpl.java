@@ -86,10 +86,10 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
         double dev = 0.0d;
         for (int i = 0; i < observed.length; i++) {
             if (rescale) {
-                dev = ((double) observed[i] - ratio * expected[i]);
+                dev = (observed[i] - ratio * expected[i]);
                 sumSq += dev * dev / (ratio * expected[i]);
             } else {
-                dev = ((double) observed[i] - expected[i]);
+                dev = (observed[i] - expected[i]);
                 sumSq += dev * dev / expected[i];
             }
         }
@@ -155,9 +155,9 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
         double total = 0.0d;
         for (int row = 0; row < nRows; row++) {
             for (int col = 0; col < nCols; col++) {
-                rowSum[row] += (double) counts[row][col];
-                colSum[col] += (double) counts[row][col];
-                total += (double) counts[row][col];
+                rowSum[row] += counts[row][col];
+                colSum[col] += counts[row][col];
+                total += counts[row][col];
             }
         }
         
@@ -167,8 +167,8 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
         for (int row = 0; row < nRows; row++) {
             for (int col = 0; col < nCols; col++) {
                 expected = (rowSum[row] * colSum[col]) / total;
-                sumSq += (((double) counts[row][col] - expected) * 
-                        ((double) counts[row][col] - expected)) / expected; 
+                sumSq += ((counts[row][col] - expected) * 
+                        (counts[row][col] - expected)) / expected; 
             }
         } 
         return sumSq;
@@ -253,8 +253,8 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
                 throw new IllegalArgumentException(
                         "observed counts must not both be zero");
             } else {
-                obs1 = (double) observed1[i];
-                obs2 = (double) observed2[i];
+                obs1 = observed1[i];
+                obs2 = observed2[i];
                 if (unequalCounts) { // apply weights
                     dev = obs1/weight - obs2 * weight;
                 } else {

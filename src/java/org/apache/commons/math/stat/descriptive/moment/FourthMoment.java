@@ -94,7 +94,7 @@ public class FourthMoment extends ThirdMoment implements Serializable{
         
         super.increment(d);
         
-        double n0 = (double) n;
+        double n0 = n;
 
         m4 = m4 - 4.0 * nDev * prevM3 + 6.0 * nDevSq * prevM2 +
             ((n0 * n0) - 3 * (n0 -1)) * (nDevSq * nDevSq * (n0 - 1) * n0);

@@ -82,7 +82,7 @@ public class TTestImpl implements TTest  {
         double meanDifference = StatUtils.meanDifference(sample1, sample2);
         return t(meanDifference, 0,  
                 StatUtils.varianceDifference(sample1, sample2, meanDifference),
-                (double) sample1.length);
+                sample1.length);
     }
 
      /**
@@ -123,7 +123,7 @@ public class TTestImpl implements TTest  {
         double meanDifference = StatUtils.meanDifference(sample1, sample2);
         return tTest(meanDifference, 0, 
                 StatUtils.varianceDifference(sample1, sample2, meanDifference), 
-                (double) sample1.length);
+                sample1.length);
     }
 
      /**
@@ -256,7 +256,7 @@ public class TTestImpl implements TTest  {
         }
         return homoscedasticT(StatUtils.mean(sample1), StatUtils.mean(sample2),
                 StatUtils.variance(sample1), StatUtils.variance(sample2),
-                (double) sample1.length, (double) sample2.length);
+                sample1.length, sample2.length);
     }
     
     /**
@@ -295,7 +295,7 @@ public class TTestImpl implements TTest  {
         }
         return t(StatUtils.mean(sample1), StatUtils.mean(sample2),
                 StatUtils.variance(sample1), StatUtils.variance(sample2),
-                (double) sample1.length, (double) sample2.length);
+                sample1.length, sample2.length);
     }
 
     /**
@@ -339,7 +339,7 @@ public class TTestImpl implements TTest  {
         }
         return t(sampleStats1.getMean(), sampleStats2.getMean(), 
                 sampleStats1.getVariance(), sampleStats2.getVariance(),
-                (double) sampleStats1.getN(), (double) sampleStats2.getN());
+                sampleStats1.getN(), sampleStats2.getN());
     }
     
     /**
@@ -387,7 +387,7 @@ public class TTestImpl implements TTest  {
         }
         return homoscedasticT(sampleStats1.getMean(), sampleStats2.getMean(), 
                 sampleStats1.getVariance(), sampleStats2.getVariance(), 
-                (double) sampleStats1.getN(), (double) sampleStats2.getN());
+                sampleStats1.getN(), sampleStats2.getN());
     }
 
      /**
@@ -594,7 +594,7 @@ public class TTestImpl implements TTest  {
         }
         return tTest(StatUtils.mean(sample1), StatUtils.mean(sample2),
                 StatUtils.variance(sample1), StatUtils.variance(sample2),
-                (double) sample1.length, (double) sample2.length);
+                sample1.length, sample2.length);
     }
     
     /**
@@ -638,8 +638,8 @@ public class TTestImpl implements TTest  {
         }
         return homoscedasticTTest(StatUtils.mean(sample1), 
                 StatUtils.mean(sample2), StatUtils.variance(sample1),
-                StatUtils.variance(sample2), (double) sample1.length, 
-                (double) sample2.length);
+                StatUtils.variance(sample2), sample1.length, 
+                sample2.length);
     }
     
 
@@ -804,8 +804,8 @@ public class TTestImpl implements TTest  {
             throw new IllegalArgumentException("insufficient data for t statistic");
         }
         return tTest(sampleStats1.getMean(), sampleStats2.getMean(), sampleStats1.getVariance(),
-                sampleStats2.getVariance(), (double) sampleStats1.getN(), 
-                (double) sampleStats2.getN());
+                sampleStats2.getVariance(), sampleStats1.getN(), 
+                sampleStats2.getN());
     }
     
     /**
@@ -850,8 +850,8 @@ public class TTestImpl implements TTest  {
         }
         return homoscedasticTTest(sampleStats1.getMean(),
                 sampleStats2.getMean(), sampleStats1.getVariance(),
-                sampleStats2.getVariance(), (double) sampleStats1.getN(), 
-                (double) sampleStats2.getN());
+                sampleStats2.getVariance(), sampleStats1.getN(), 
+                sampleStats2.getN());
     }
 
     /**
@@ -1043,7 +1043,7 @@ public class TTestImpl implements TTest  {
             double v2, double n1, double n2)
     throws MathException {
         double t = Math.abs(homoscedasticT(m1, m2, v1, v2, n1, n2));
-        double degreesOfFreedom = (double) (n1 + n2 - 2);
+        double degreesOfFreedom = (n1 + n2 - 2);
         distribution.setDegreesOfFreedom(degreesOfFreedom);
         return 2.0 * distribution.cumulativeProbability(-t);
     }

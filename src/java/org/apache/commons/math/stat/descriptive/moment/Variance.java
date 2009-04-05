@@ -168,9 +168,9 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
                 return 0d;
             } else {
                 if (isBiasCorrected) {
-                    return moment.m2 / ((double) moment.n - 1d);
+                    return moment.m2 / (moment.n - 1d);
                 } else {
-                    return moment.m2 / ((double) moment.n);
+                    return moment.m2 / (moment.n);
                 }
             }
     }
@@ -297,7 +297,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
                     accum += dev * dev;
                     accum2 += dev;
                 }
-                double len = (double) length;            
+                double len = length;            
                 if (isBiasCorrected) {
                     var = (accum - (accum2 * accum2 / len)) / (len - 1.0);
                 } else {
@@ -371,7 +371,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * @throws NullPointerException if either source or dest is null
      */
     public static void copy(Variance source, Variance dest) {
-        dest.moment = (SecondMoment) source.moment.copy();
+        dest.moment = source.moment.copy();
         dest.isBiasCorrected = source.isBiasCorrected;
         dest.incMoment = source.incMoment;
     }

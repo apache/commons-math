@@ -120,7 +120,7 @@ public class MultiStartDifferentiableMultivariateVectorialOptimizer
         if (optima == null) {
             throw MathRuntimeException.createIllegalStateException("no optimum computed yet");
         }
-        return (VectorialPointValuePair[]) optima.clone();
+        return optima.clone();
     }
 
     /** {@inheritDoc} */

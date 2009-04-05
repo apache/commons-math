@@ -79,7 +79,7 @@ public class TransformerMap implements NumberTransformer, Serializable {
      * @return the mapped NumberTransformer or null.
      */
     public NumberTransformer getTransformer(Class<?> key) {
-        return (NumberTransformer) map.get(key);
+        return map.get(key);
     }
 
     /**

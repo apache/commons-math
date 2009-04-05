@@ -57,7 +57,7 @@ public class SimpleEstimationProblem implements EstimationProblem {
      * @return parameters
      */
     public EstimatedParameter[] getAllParameters() {
-        return (EstimatedParameter[]) parameters.toArray(new EstimatedParameter[parameters.size()]);
+        return parameters.toArray(new EstimatedParameter[parameters.size()]);
     }
 
     /** 
@@ -75,7 +75,7 @@ public class SimpleEstimationProblem implements EstimationProblem {
         }
 
         // convert to an array
-        return (EstimatedParameter[]) unbound.toArray(new EstimatedParameter[unbound.size()]);
+        return unbound.toArray(new EstimatedParameter[unbound.size()]);
         
     }
 
@@ -84,7 +84,7 @@ public class SimpleEstimationProblem implements EstimationProblem {
      * @return measurements
      */
     public WeightedMeasurement[] getMeasurements() {
-        return (WeightedMeasurement[]) measurements.toArray(new WeightedMeasurement[measurements.size()]);
+        return measurements.toArray(new WeightedMeasurement[measurements.size()]);
     }
 
     /** Add a parameter to the problem.

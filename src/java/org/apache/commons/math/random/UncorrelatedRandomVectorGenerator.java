@@ -48,8 +48,8 @@ public class UncorrelatedRandomVectorGenerator
     if (mean.length != standardDeviation.length) {
       throw new IllegalArgumentException("dimension mismatch");
     }
-    this.mean              = (double[]) mean.clone();
-    this.standardDeviation = (double[]) standardDeviation.clone();
+    this.mean              = mean.clone();
+    this.standardDeviation = standardDeviation.clone();
     this.generator = generator;
   }
 

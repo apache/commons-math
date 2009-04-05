@@ -142,9 +142,9 @@ public abstract class AbstractStepInterpolator
     interpolatedTime  = interpolator.interpolatedTime;
 
     if (interpolator.currentState != null) {
-      currentState            = (double[]) interpolator.currentState.clone();
-      interpolatedState       = (double[]) interpolator.interpolatedState.clone();
-      interpolatedDerivatives = (double[]) interpolator.interpolatedDerivatives.clone();
+      currentState            = interpolator.currentState.clone();
+      interpolatedState       = interpolator.interpolatedState.clone();
+      interpolatedDerivatives = interpolator.interpolatedDerivatives.clone();
     } else {
       currentState            = null;
       interpolatedState       = null;

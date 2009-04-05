@@ -90,7 +90,7 @@ public class ThirdMoment extends SecondMoment implements Serializable {
         double prevM2 = m2;
         super.increment(d);
         nDevSq = nDev * nDev;
-        double n0 = (double) n;
+        double n0 = n;
         m3 = m3 - 3.0 * nDev * prevM2 + (n0 - 1) * (n0 - 2) * nDevSq * dev;
     }
 

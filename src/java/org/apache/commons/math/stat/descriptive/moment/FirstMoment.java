@@ -99,7 +99,7 @@ public class FirstMoment extends AbstractStorelessUnivariateStatistic
             m1 = 0.0;
         }
         n++;
-        double n0 = (double) n;
+        double n0 = n;
         dev = d - m1;
         nDev = dev / n0;
         m1 += nDev;

@@ -586,7 +586,7 @@ public final class StatUtils {
      */
     public static double meanDifference(final double[] sample1, final double[] sample2)
     throws IllegalArgumentException {
-        return sumDifference(sample1, sample2) / (double) sample1.length;
+        return sumDifference(sample1, sample2) / sample1.length;
     }
     
     /**
@@ -615,7 +615,7 @@ public final class StatUtils {
             sum1 += (diff - meanDifference) *(diff - meanDifference);
             sum2 += diff - meanDifference;
         }
-        return (sum1 - (sum2 * sum2 / (double) n)) / (double) (n - 1);
+        return (sum1 - (sum2 * sum2 / n)) / (n - 1);
     }      
     
 }

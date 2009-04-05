@@ -204,7 +204,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
         if (length == 1) {
             return values[begin]; // always return single value for n = 1
         }
-        double n = (double) length;
+        double n = length;
         double pos = p * (n + 1) / 100;
         double fpos = Math.floor(pos);
         int intPos = (int) fpos;

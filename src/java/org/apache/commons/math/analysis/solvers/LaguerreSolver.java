@@ -303,8 +303,8 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
             throw new IllegalArgumentException
                 ("Polynomial degree must be positive: degree=" + n);
         }
-        Complex N = new Complex((double)n, 0.0);
-        Complex N1 = new Complex((double)(n-1), 0.0);
+        Complex N = new Complex(n, 0.0);
+        Complex N1 = new Complex((n-1), 0.0);
 
         int i = 1;
         Complex pv = null;

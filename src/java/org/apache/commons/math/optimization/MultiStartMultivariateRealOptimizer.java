@@ -113,7 +113,7 @@ public class MultiStartMultivariateRealOptimizer implements MultivariateRealOpti
         if (optima == null) {
             throw MathRuntimeException.createIllegalStateException("no optimum computed yet");
         }
-        return (RealPointValuePair[]) optima.clone();
+        return optima.clone();
     }
 
     /** {@inheritDoc} */
