@@ -71,12 +71,12 @@ public abstract class TestProblemAbstract
     if (problem.y0 == null) {
       y0 = null;
     } else {
-      y0 = (double[]) problem.y0.clone();
+      y0 = problem.y0.clone();
     }
     if (problem.errorScale == null) {
       errorScale = null;
     } else {
-      errorScale = (double[]) problem.errorScale.clone();
+      errorScale = problem.errorScale.clone();
     }
     t1 = problem.t1;
   }
@@ -97,7 +97,7 @@ public abstract class TestProblemAbstract
     calls     = 0;
     n         = y0.length;
     this.t0   = t0;
-    this.y0   = (double[]) y0.clone(); 
+    this.y0   = y0.clone(); 
    }
 
   /**
@@ -113,7 +113,7 @@ public abstract class TestProblemAbstract
    * @param errorScale error scale
    */
   protected void setErrorScale(double[] errorScale) {
-    this.errorScale = (double[]) errorScale.clone(); 
+    this.errorScale = errorScale.clone(); 
   }
 
   public int getDimension() {

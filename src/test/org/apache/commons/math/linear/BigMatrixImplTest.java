@@ -236,7 +236,7 @@ public final class BigMatrixImplTest extends TestCase {
             m.add(m2);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
     }
     
@@ -258,7 +258,7 @@ public final class BigMatrixImplTest extends TestCase {
             m.subtract(new BigMatrixImpl(testData2));
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }      
     }
    
@@ -282,7 +282,7 @@ public final class BigMatrixImplTest extends TestCase {
             m.multiply(new BigMatrixImpl(bigSingular));
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }      
     }   
     
@@ -350,32 +350,32 @@ public final class BigMatrixImplTest extends TestCase {
             asDouble(m.solve(asBigDecimal(testVector2)));
             fail("expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }       
         BigMatrix bs = new BigMatrixImpl(bigSingular);
         try {
             bs.solve(bs);
             fail("Expecting InvalidMatrixException");
         } catch (InvalidMatrixException ex) {
-            ;
+            // ignored
         }
         try {
             m.solve(bs);
             fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
         try {
             new BigMatrixImpl(testData2).solve(bs);
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         } 
         try {
             (new BigMatrixImpl(testData2)).luDecompose();
             fail("Expecting InvalidMatrixException");
         } catch (InvalidMatrixException ex) {
-            ;
+            // ignored
         }  
     }
     
@@ -396,7 +396,7 @@ public final class BigMatrixImplTest extends TestCase {
             new BigMatrixImpl(testData2).getDeterminant().doubleValue();
             fail("Expecting InvalidMatrixException");
         } catch (InvalidMatrixException ex) {
-            ;
+            // ignored
         }      
     }
     
@@ -409,7 +409,7 @@ public final class BigMatrixImplTest extends TestCase {
             m.getTrace().doubleValue();
             fail("Expecting NonSquareMatrixException");
         } catch (NonSquareMatrixException ex) {
-            ;
+            // ignored
         }      
     }
     
@@ -430,7 +430,7 @@ public final class BigMatrixImplTest extends TestCase {
             asDouble(m.operate(asBigDecimal(testVector)));
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }      
     }
 
@@ -467,7 +467,7 @@ public final class BigMatrixImplTest extends TestCase {
             m.preMultiply(asBigDecimal(testVector));
             fail("expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
     }
     
@@ -493,7 +493,7 @@ public final class BigMatrixImplTest extends TestCase {
             m.preMultiply(new BigMatrixImpl(bigSingular));
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }      
     }
     
@@ -505,24 +505,24 @@ public final class BigMatrixImplTest extends TestCase {
             m.getRowAsDoubleArray(10);
             fail("expecting MatrixIndexException");
         } catch (MatrixIndexException ex) {
-            ;
+            // ignored
         }
         try {
             m.getColumnAsDoubleArray(-1);
             fail("expecting MatrixIndexException");
         } catch (MatrixIndexException ex) {
-            ;
+            // ignored
         }
     }
       
     public void testLUDecomposition() throws Exception {
         BigMatrixImpl m = new BigMatrixImpl(testData);
         BigMatrix lu = m.getLUMatrix();
-        assertClose("LU decomposition", lu, (BigMatrix) new BigMatrixImpl(testDataLU), normTolerance);
+        assertClose("LU decomposition", lu, new BigMatrixImpl(testDataLU), normTolerance);
         verifyDecomposition(m, lu);
         m = new BigMatrixImpl(luData);
         lu = m.getLUMatrix();
-        assertClose("LU decomposition", lu, (BigMatrix) new BigMatrixImpl(luDataLUDecomposition), normTolerance);
+        assertClose("LU decomposition", lu, new BigMatrixImpl(luDataLUDecomposition), normTolerance);
         verifyDecomposition(m, lu);
         m = new BigMatrixImpl(testDataMinus);
         lu = m.getLUMatrix();

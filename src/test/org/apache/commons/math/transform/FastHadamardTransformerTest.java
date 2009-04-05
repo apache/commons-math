@@ -77,7 +77,7 @@ public final class FastHadamardTransformerTest extends TestCase {
         // check double transform
         double[] dX = new double[x.length];
         for (int i = 0; i < dX.length; ++i) {
-            dX[i] = (double) x[i];
+            dX[i] = x[i];
         }
         double dResult[] = transformer.transform(dX);
         for (int i = 0; i < dResult.length; i++) {
@@ -106,7 +106,7 @@ public final class FastHadamardTransformerTest extends TestCase {
         // check double transform
         double[] dY = new double[y.length];
         for (int i = 0; i < dY.length; ++i) {
-            dY[i] = (double) y[i];
+            dY[i] = y[i];
         }
         double dResult[] = transformer.inversetransform(dY);
         for (int i = 0; i < dResult.length; i++) {

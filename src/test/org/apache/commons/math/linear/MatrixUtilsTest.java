@@ -132,11 +132,11 @@ public final class MatrixUtilsTest extends TestCase {
     }
     
     public void testCreateRowBigMatrix() {
-        assertEquals((BigMatrixImpl) MatrixUtils.createRowBigMatrix(row),
+        assertEquals(MatrixUtils.createRowBigMatrix(row),
                 new BigMatrixImpl(rowMatrix));
-        assertEquals((BigMatrixImpl) MatrixUtils.createRowBigMatrix(bigRow),
+        assertEquals(MatrixUtils.createRowBigMatrix(bigRow),
                 new BigMatrixImpl(bigRowMatrix));
-        assertEquals((BigMatrixImpl) MatrixUtils.createRowBigMatrix(stringRow),
+        assertEquals(MatrixUtils.createRowBigMatrix(stringRow),
                 new BigMatrixImpl(stringRowMatrix));
         try {
             MatrixUtils.createRowBigMatrix(new double[] {});  // empty
@@ -170,11 +170,11 @@ public final class MatrixUtilsTest extends TestCase {
     }
     
     public void testCreateColumnBigMatrix() {
-        assertEquals((BigMatrixImpl) MatrixUtils.createColumnBigMatrix(col),
+        assertEquals(MatrixUtils.createColumnBigMatrix(col),
                 new BigMatrixImpl(colMatrix));
-        assertEquals((BigMatrixImpl) MatrixUtils.createColumnBigMatrix(bigCol),
+        assertEquals(MatrixUtils.createColumnBigMatrix(bigCol),
                 new BigMatrixImpl(bigColMatrix));
-        assertEquals((BigMatrixImpl) MatrixUtils.createColumnBigMatrix(stringCol),
+        assertEquals(MatrixUtils.createColumnBigMatrix(stringCol),
                 new BigMatrixImpl(stringColMatrix));   
        
         try {

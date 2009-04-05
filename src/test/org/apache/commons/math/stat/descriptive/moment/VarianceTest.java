@@ -100,7 +100,7 @@ public class VarianceTest extends StorelessUnivariateStatisticAbstractTest{
         for (int i = 0; i < v.length; i++) {
            sum += (v[i] - mean) * (v[i] - mean); 
         }
-        return sum / (double) v.length;
+        return sum / v.length;
     }
 
 }

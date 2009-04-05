@@ -457,7 +457,7 @@ public class LevenbergMarquardtEstimatorTest
 
   }
 
-  public void testControlParameters() throws EstimationException {
+  public void testControlParameters() {
       Circle circle = new Circle(98.680, 47.345);
       circle.addPoint( 30.0,  68.0);
       circle.addPoint( 50.0,  -6.0);
@@ -620,7 +620,7 @@ public class LevenbergMarquardtEstimatorTest
           set.add(parameters[j]);
         }
       }
-      return (EstimatedParameter[]) set.toArray(new EstimatedParameter[set.size()]);
+      return set.toArray(new EstimatedParameter[set.size()]);
     }
   
     private LinearMeasurement[] measurements;
@@ -682,7 +682,7 @@ public class LevenbergMarquardtEstimatorTest
     }
 
     public WeightedMeasurement[] getMeasurements() {
-      return (WeightedMeasurement[]) points.toArray(new PointModel[points.size()]);
+      return points.toArray(new PointModel[points.size()]);
     }
 
     public EstimatedParameter[] getAllParameters() {

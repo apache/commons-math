@@ -170,8 +170,8 @@ public final class MathUtilsTest extends TestCase {
         for (int n = 1; n < 10; n++) {
             for (int k = 0; k <= n; k++) {
                 assertEquals(n + " choose " + k, binomialCoefficient(n, k), MathUtils.binomialCoefficient(n, k));
-                assertEquals(n + " choose " + k, (double)binomialCoefficient(n, k), MathUtils.binomialCoefficientDouble(n, k), Double.MIN_VALUE);
-                assertEquals(n + " choose " + k, Math.log((double)binomialCoefficient(n, k)), MathUtils.binomialCoefficientLog(n, k), 10E-12);
+                assertEquals(n + " choose " + k, binomialCoefficient(n, k), MathUtils.binomialCoefficientDouble(n, k), Double.MIN_VALUE);
+                assertEquals(n + " choose " + k, Math.log(binomialCoefficient(n, k)), MathUtils.binomialCoefficientLog(n, k), 10E-12);
             }
         }
 
@@ -181,7 +181,7 @@ public final class MathUtilsTest extends TestCase {
             long expected = binomialCoefficient(n[i], k[i]);
             assertEquals(n[i] + " choose " + k[i], expected,
                 MathUtils.binomialCoefficient(n[i], k[i]));
-            assertEquals(n[i] + " choose " + k[i], (double) expected,
+            assertEquals(n[i] + " choose " + k[i], expected,
                 MathUtils.binomialCoefficientDouble(n[i], k[i]), 0.0);
             assertEquals("log(" + n[i] + " choose " + k[i] + ")", Math.log(expected),
                 MathUtils.binomialCoefficientLog(n[i], k[i]), 0.0);
@@ -253,53 +253,53 @@ public final class MathUtilsTest extends TestCase {
             MathUtils.binomialCoefficient(4, 5);
             fail("expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
 
         try {
             MathUtils.binomialCoefficientDouble(4, 5);
             fail("expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
 
         try {
             MathUtils.binomialCoefficientLog(4, 5);
             fail("expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
 
         try {
             MathUtils.binomialCoefficient(-1, -2);
             fail("expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
         try {
             MathUtils.binomialCoefficientDouble(-1, -2);
             fail("expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
         try {
             MathUtils.binomialCoefficientLog(-1, -2);
             fail("expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
 
         try {
             MathUtils.binomialCoefficient(67, 30);
             fail("expecting ArithmeticException");
         } catch (ArithmeticException ex) {
-            ;
+            // ignored
         }
         try {
             MathUtils.binomialCoefficient(67, 34);
             fail("expecting ArithmeticException");
         } catch (ArithmeticException ex) {
-            ;
+            // ignored
         }
         double x = MathUtils.binomialCoefficientDouble(1030, 515);
         assertTrue("expecting infinite binomial coefficient", Double
@@ -378,8 +378,8 @@ public final class MathUtilsTest extends TestCase {
     public void testFactorial() {
         for (int i = 1; i < 21; i++) {
             assertEquals(i + "! ", factorial(i), MathUtils.factorial(i));
-            assertEquals(i + "! ", (double)factorial(i), MathUtils.factorialDouble(i), Double.MIN_VALUE);
-            assertEquals(i + "! ", Math.log((double)factorial(i)), MathUtils.factorialLog(i), 10E-12);
+            assertEquals(i + "! ", factorial(i), MathUtils.factorialDouble(i), Double.MIN_VALUE);
+            assertEquals(i + "! ", Math.log(factorial(i)), MathUtils.factorialLog(i), 10E-12);
         }
         
         assertEquals("0", 1, MathUtils.factorial(0));
@@ -392,25 +392,25 @@ public final class MathUtilsTest extends TestCase {
             MathUtils.factorial(-1);
             fail("expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
         try {
             MathUtils.factorialDouble(-1);
             fail("expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
         try {
             MathUtils.factorialLog(-1);
             fail("expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
         try {
             MathUtils.factorial(21);
             fail("expecting ArithmeticException");
         } catch (ArithmeticException ex) {
-            ;
+            // ignored
         }
         assertTrue("expecting infinite factorial value", Double.isInfinite(MathUtils.factorialDouble(171)));
     }
@@ -515,7 +515,7 @@ public final class MathUtilsTest extends TestCase {
         
         // Generate 10 distinct random values
         for (int i = 0; i < 10; i++) {
-            original[i] = random.nextUniform((double)i + 0.5, (double)i + 0.75);
+            original[i] = random.nextUniform(i + 0.5, i + 0.75);
         }
         
         // Generate a random permutation, making sure it is not the identity
@@ -556,9 +556,9 @@ public final class MathUtilsTest extends TestCase {
     }
 
     public void testIndicatorInt() {
-        assertEquals((int)1, MathUtils.indicator((int)(2)));
-        assertEquals((int)1, MathUtils.indicator((int)(0)));
-        assertEquals((int)(-1), MathUtils.indicator((int)(-2)));
+        assertEquals(1, MathUtils.indicator((2)));
+        assertEquals(1, MathUtils.indicator((0)));
+        assertEquals((-1), MathUtils.indicator((-2)));
     }
 
     public void testIndicatorLong() {
@@ -999,9 +999,9 @@ public final class MathUtilsTest extends TestCase {
     }
 
     public void testSignInt() {
-        assertEquals((int) 1, MathUtils.sign((int) 2));
-        assertEquals((int) 0, MathUtils.sign((int) 0));
-        assertEquals((int) (-1), MathUtils.sign((int) (-2)));
+        assertEquals(1, MathUtils.sign(2));
+        assertEquals(0, MathUtils.sign(0));
+        assertEquals((-1), MathUtils.sign((-2)));
     }
 
     public void testSignLong() {

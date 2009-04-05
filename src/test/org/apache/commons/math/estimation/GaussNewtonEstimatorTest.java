@@ -237,7 +237,7 @@ public class GaussNewtonEstimatorTest
 
   }
 
-  public void testNonInversible() throws EstimationException {
+  public void testNonInversible() {
 
     EstimatedParameter[] p = {
        new EstimatedParameter("p0", 0),
@@ -322,7 +322,7 @@ public class GaussNewtonEstimatorTest
 
   }
 
-  public void testMoreEstimatedParametersSimple() throws EstimationException {
+  public void testMoreEstimatedParametersSimple() {
 
     EstimatedParameter[] p = {
        new EstimatedParameter("p0", 7),
@@ -354,7 +354,7 @@ public class GaussNewtonEstimatorTest
 
   }
 
-  public void testMoreEstimatedParametersUnsorted() throws EstimationException {
+  public void testMoreEstimatedParametersUnsorted() {
     EstimatedParameter[] p = {
       new EstimatedParameter("p0", 2),
       new EstimatedParameter("p1", 2),
@@ -516,7 +516,7 @@ public class GaussNewtonEstimatorTest
       assertEquals(48.13516790438953, circle.getY(),      1.0e-10);
     }
 
-  public void testCircleFittingBadInit() throws EstimationException {
+  public void testCircleFittingBadInit() {
     Circle circle = new Circle(-12, -12);
     double[][] points = new double[][] {
       {-0.312967,  0.072366}, {-0.339248,  0.132965}, {-0.379780,  0.202724},
@@ -637,7 +637,7 @@ public class GaussNewtonEstimatorTest
     }
 
     public WeightedMeasurement[] getMeasurements() {
-      return (WeightedMeasurement[]) points.toArray(new PointModel[points.size()]);
+      return points.toArray(new PointModel[points.size()]);
     }
 
     public EstimatedParameter[] getAllParameters() {

@@ -101,7 +101,7 @@ public class StandardDeviationTest extends StorelessUnivariateStatisticAbstractT
         for (int i = 0; i < v.length; i++) {
             sum += (v[i] - mean) * (v[i] - mean); 
         }
-        return Math.sqrt(sum / (double) v.length);
+        return Math.sqrt(sum / v.length);
     }
 
 }

@@ -60,7 +60,7 @@ public class TestProblem2
    */
   public TestProblem2(TestProblem2 problem) {
     super(problem);
-    y = (double[]) problem.y.clone();
+    y = problem.y.clone();
   }
 
   /**

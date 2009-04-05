@@ -18,8 +18,6 @@ package org.apache.commons.math.random;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import java.security.NoSuchProviderException;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
 
 import org.apache.commons.math.RetryTestCase;
@@ -72,7 +70,7 @@ public class RandomDataTest extends RetryTestCase {
             randomData.nextInt(4,3);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
         Frequency freq = new Frequency();
         int value = 0;
@@ -99,7 +97,7 @@ public class RandomDataTest extends RetryTestCase {
             randomData.nextLong(4,3);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
        Frequency freq = new Frequency();
        long value = 0;
@@ -126,7 +124,7 @@ public class RandomDataTest extends RetryTestCase {
             randomData.nextSecureLong(4,3);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
         Frequency freq = new Frequency();
         long value = 0;
@@ -153,7 +151,7 @@ public class RandomDataTest extends RetryTestCase {
             randomData.nextSecureInt(4,3);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
         Frequency freq = new Frequency();
         int value = 0;
@@ -185,7 +183,7 @@ public class RandomDataTest extends RetryTestCase {
             randomData.nextPoisson(0);
             fail("zero mean -- expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
         Frequency f = new Frequency();
         for (int i = 0; i<largeSampleSize; i++) {
@@ -205,13 +203,13 @@ public class RandomDataTest extends RetryTestCase {
             randomData.nextPoisson(-1);
             fail("negative mean supplied -- IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
         try {
             randomData.nextPoisson(0);
             fail("0 mean supplied -- IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
         
     }
@@ -222,13 +220,13 @@ public class RandomDataTest extends RetryTestCase {
             randomData.nextHexString(-1);
             fail("negative length supplied -- IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
         try {
             randomData.nextHexString(0);
             fail("zero length supplied -- IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
         String hexString = randomData.nextHexString(3);
         if (hexString.length() != 3) {
@@ -242,7 +240,7 @@ public class RandomDataTest extends RetryTestCase {
             hexString = randomData.nextHexString(0);
             fail("zero length requested -- expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
         if (hexString.length() != 1) {
                 fail("incorrect length for generated string");
@@ -260,7 +258,7 @@ public class RandomDataTest extends RetryTestCase {
         double[] expected = new double[16];
         long[] observed = new long[16];
         for (int i = 0; i < 16; i++) {
-            expected[i] = (double)smallSampleSize*100/(double)16;
+            expected[i] = (double)smallSampleSize*100/16;
             observed[i] = f.getCount(hex[i]);
         }
         /* Use ChiSquare dist with df = 16-1 = 15, alpha = .001
@@ -276,13 +274,13 @@ public class RandomDataTest extends RetryTestCase {
             randomData.nextSecureHexString(-1);
             fail("negative length -- IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
         try {
             randomData.nextSecureHexString(0);
             fail("zero length -- IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
         String hexString = randomData.nextSecureHexString(3);
         if (hexString.length() != 3) {
@@ -296,7 +294,7 @@ public class RandomDataTest extends RetryTestCase {
             hexString = randomData.nextSecureHexString(0);
             fail("zero length requested -- expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
         if (hexString.length() != 1) {
                 fail("incorrect length for generated string");
@@ -314,7 +312,7 @@ public class RandomDataTest extends RetryTestCase {
         double[] expected = new double[16];
         long[] observed = new long[16];
         for (int i = 0; i < 16; i++) {
-            expected[i] = (double)smallSampleSize*100/(double)16;
+            expected[i] = (double)smallSampleSize*100/16;
             observed[i] = f.getCount(hex[i]);
         }
         /* Use ChiSquare dist with df = 16-1 = 15, alpha = .001
@@ -330,13 +328,13 @@ public class RandomDataTest extends RetryTestCase {
             randomData.nextUniform(4,3);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
         try {
             randomData.nextUniform(3,3);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
         double[] expected = {500,500};
         long[] observed = {0,0};
@@ -376,7 +374,7 @@ public class RandomDataTest extends RetryTestCase {
             randomData.nextGaussian(0,0);
             fail("zero sigma -- IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
         SummaryStatistics u = new SummaryStatistics();
         for (int i = 0; i<largeSampleSize; i++) {
@@ -384,7 +382,7 @@ public class RandomDataTest extends RetryTestCase {
         }
         double xbar = u.getMean();
         double s = u.getStandardDeviation();
-        double n = (double) u.getN(); 
+        double n = u.getN(); 
         /* t-test at .001-level TODO: replace with externalized t-test, with
          * test statistic defined in TestStatistic
          */
@@ -397,7 +395,7 @@ public class RandomDataTest extends RetryTestCase {
             randomData.nextExponential(-1);
             fail("negative mean -- expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
         assertEquals("0 mean", 0,randomData.nextExponential(0),10E-8); 
         long cumFreq = 0;
@@ -416,8 +414,7 @@ public class RandomDataTest extends RetryTestCase {
     } 
     
     /** test reseeding, algorithm/provider games */
-    public void testConfig() throws NoSuchProviderException, 
-      NoSuchAlgorithmException {
+    public void testConfig() {
         randomData.reSeed(1000);
         double v = randomData.nextUniform(0,1);
         randomData.reSeed();
@@ -521,7 +518,7 @@ public class RandomDataTest extends RetryTestCase {
            one = randomData.nextSample(hs,2);
            fail("sample size > set size, expecting IllegalArgumentException");
        } catch (IllegalArgumentException ex) {
-           ;
+           // ignored
        }
        
        // Make sure we fail for empty collection
@@ -530,7 +527,7 @@ public class RandomDataTest extends RetryTestCase {
            one = randomData.nextSample(hs,0);
            fail("n = k = 0, expecting IllegalArgumentException");
        } catch (IllegalArgumentException ex) {
-           ;
+           // ignored
        }
     }
 
@@ -577,7 +574,7 @@ public class RandomDataTest extends RetryTestCase {
                 perm = randomData.nextPermutation(2,3);
                 fail("permutation k > n, expecting IllegalArgumentException");
             } catch (IllegalArgumentException ex) {
-                ;
+                // ignored
             }
             
             // Make sure we fail for n = 0
@@ -585,7 +582,7 @@ public class RandomDataTest extends RetryTestCase {
                 perm = randomData.nextPermutation(0,0);
                 fail("permutation k = n = 0, expecting IllegalArgumentException");
             } catch (IllegalArgumentException ex) {
-                ;
+                // ignored
             }  
             
             // Make sure we fail for k < n < 0
@@ -593,7 +590,7 @@ public class RandomDataTest extends RetryTestCase {
                 perm = randomData.nextPermutation(-1,-3);
                 fail("permutation k < n < 0, expecting IllegalArgumentException");
             } catch (IllegalArgumentException ex) {
-                ;
+                // ignored
             }  
             
         }       

@@ -183,11 +183,11 @@ public abstract class StorelessUnivariateStatisticAbstractTest
         StorelessUnivariateStatistic replica = null;
         
         // Randomly select a portion of testArray to load first
-        long index = Math.round((Math.random()) * (double) testArray.length);
+        long index = Math.round((Math.random()) * testArray.length);
         
         // Put first half in master and copy master to replica
         master.incrementAll(testArray, 0, (int) index);
-        replica = (StorelessUnivariateStatistic) master.copy();
+        replica = master.copy();
         
         // Check same
         assertTrue(replica.equals(master));

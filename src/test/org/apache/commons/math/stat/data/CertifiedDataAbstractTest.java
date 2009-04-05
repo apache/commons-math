@@ -112,7 +112,7 @@ public abstract class CertifiedDataAbstractTest extends TestCase {
     
     public void testCertifiedValues() {
         for (String name : certifiedValues.keySet()) {
-            Double expectedValue = (Double)certifiedValues.get(name);
+            Double expectedValue = certifiedValues.get(name);
 
             Double summariesValue = getProperty(summaries, name);
             if (summariesValue != null) {

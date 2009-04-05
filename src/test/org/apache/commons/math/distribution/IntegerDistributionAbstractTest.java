@@ -196,14 +196,14 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
      */
     public void testFloatingPointArguments() throws Exception {
         for (int i = 0; i < cumulativeTestPoints.length; i++) {
-            double arg = (double) cumulativeTestPoints[i];
+            double arg = cumulativeTestPoints[i];
             assertEquals(
                     "Incorrect cumulative probability value returned for " +
                     cumulativeTestPoints[i],
                     cumulativeTestValues[i], 
                     distribution.cumulativeProbability(arg), tolerance);
             if (i < cumulativeTestPoints.length - 1) {
-                double arg2 = (double) cumulativeTestPoints[i + 1];
+                double arg2 = cumulativeTestPoints[i + 1];
                 assertEquals("Inconsistent probability for discrete range " +
                         "[ " + arg + "," + arg2 + " ]",
                    distribution.cumulativeProbability(
@@ -223,9 +223,9 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
         int one = 1;
         int ten = 10;
         int two = 2;
-        double oned = (double) one;
-        double twod = (double) two;
-        double tend = (double) ten;
+        double oned = one;
+        double twod = two;
+        double tend = ten;
         assertEquals(distribution.cumulativeProbability(one, two), 
                 distribution.cumulativeProbability(oned, twod), tolerance);
         assertEquals(distribution.cumulativeProbability(one, two), 

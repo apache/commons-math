@@ -63,7 +63,7 @@ public class EulerStepInterpolatorTest
     double   t0 = 0;
     double[] y0 = {0.0, 1.0, -2.0};
 
-    double[] y = (double[]) y0.clone();
+    double[] y = y0.clone();
     double[][] yDot = { new double[y0.length] };
     EulerStepInterpolator interpolator = new EulerStepInterpolator();
     interpolator.reinitialize(new DummyEquations(), y, yDot, true);

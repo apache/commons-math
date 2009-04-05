@@ -34,7 +34,7 @@ public final class FastFourierTransformerTest extends TestCase {
     /**
      * Test of transformer for the ad hoc data taken from Mathematica.
      */
-    public void testAdHocData() throws MathException {
+    public void testAdHocData() {
         FastFourierTransformer transformer = new FastFourierTransformer();
         Complex result[]; double tolerance = 1E-12;
 
@@ -78,7 +78,7 @@ public final class FastFourierTransformerTest extends TestCase {
         }
     }
     
-    public void test2DData() throws MathException {
+    public void test2DData() {
         FastFourierTransformer transformer = new FastFourierTransformer();
         double tolerance = 1E-12;
         Complex[][] input = new Complex[][] {new Complex[] {new Complex(1, 0),

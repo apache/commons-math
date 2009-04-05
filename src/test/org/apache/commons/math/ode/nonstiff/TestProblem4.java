@@ -65,7 +65,7 @@ public class TestProblem4
   public TestProblem4(TestProblem4 problem) {
     super(problem);
     a = problem.a;
-    y = (double[]) problem.y.clone();
+    y = problem.y.clone();
   }
 
   /**
