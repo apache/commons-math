@@ -33,9 +33,6 @@ public class UnivariateRealSolverUtils {
         super();
     }
     
-    /** Cached solver factory */
-    private static UnivariateRealSolverFactory factory = null;
-
     /**
      * Convenience method to find a zero of a univariate real function.  A default
      * solver is used. 
@@ -53,7 +50,7 @@ public class UnivariateRealSolverUtils {
     public static double solve(UnivariateRealFunction f, double x0, double x1)
     throws ConvergenceException, FunctionEvaluationException {
         setup(f);
-        return factory.newDefaultSolver().solve(f, x0, x1);
+        return LazyHolder.FACTORY.newDefaultSolver().solve(f, x0, x1);
     }
 
     /**
@@ -77,7 +74,7 @@ public class UnivariateRealSolverUtils {
             FunctionEvaluationException {    
        
         setup(f);
-        UnivariateRealSolver solver = factory.newDefaultSolver();
+        UnivariateRealSolver solver = LazyHolder.FACTORY.newDefaultSolver();
         solver.setAbsoluteAccuracy(absoluteAccuracy);
         return solver.solve(f, x0, x1);
     }
@@ -219,19 +216,22 @@ public class UnivariateRealSolverUtils {
     
     /**
      * Checks to see if f is null, throwing IllegalArgumentException if so.
-     * Also initializes factory if factory is null.
-     * 
      * @param f  input function
      * @throws IllegalArgumentException if f is null
      */
     private static void setup(UnivariateRealFunction f) {
-       
         if (f == null) {
             throw new IllegalArgumentException("function can not be null.");    
         }
-        
-        if (factory == null) {
-            factory = UnivariateRealSolverFactory.newInstance();
-        }       
     }
+
+    /** Holder for the factory.
+     * <p>We use here the Initialization On Demand Holder Idiom.</p>
+     */
+    private static class LazyHolder {
+        /** Cached solver factory */
+        private static final UnivariateRealSolverFactory FACTORY =
+            UnivariateRealSolverFactory.newInstance();
+    }
+
 }
