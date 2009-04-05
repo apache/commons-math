@@ -39,7 +39,10 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
-      <action dev="luc" type="add" issue="MATH-256">
+      <action dev="luc" type="add" issue="MATH-255" due-to="Sebb">
+        Reduced visibility of MessagesResources_fr.contents field to private
+      </action>
+      <action dev="luc" type="add" issue="MATH-256 >
         Added  Fraction.toString()
       </action>
       <action dev="luc" type="add">

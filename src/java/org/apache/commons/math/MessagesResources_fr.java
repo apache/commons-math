@@ -43,7 +43,7 @@ public class MessagesResources_fr
   }
 
   /** Non-translated/translated messages arrays. */
-  static final Object[][] contents = {
+  private static final Object[][] contents = {
 
     // org.apache.commons.math.util.MathUtils
     { "overflow: gcd({0}, {1}) is 2^31",
