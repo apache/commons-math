@@ -16,12 +16,12 @@
  */
 package org.apache.commons.math.linear;
 
-import org.apache.commons.math.linear.decomposition.LUDecompositionImpl;
-import org.apache.commons.math.linear.decomposition.NonSquareMatrixException;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
+import org.apache.commons.math.linear.decomposition.LUDecompositionImpl;
+import org.apache.commons.math.linear.decomposition.NonSquareMatrixException;
 
 /**
  * Test cases for the {@link SparseRealMatrix} class.
@@ -196,6 +196,8 @@ public final class SparseRealMatrixTest extends TestCase {
         SparseRealMatrix m2 = createSparseMatrix(testData2);
         assertClose("inverse multiply", m.multiply(mInv), identity,
                 entryTolerance);
+        assertClose("inverse multiply", m.multiply(new DenseRealMatrix(testDataInv)), identity,
+                    entryTolerance);
         assertClose("inverse multiply", mInv.multiply(m), identity,
                 entryTolerance);
         assertClose("identity multiply", m.multiply(identity), m,

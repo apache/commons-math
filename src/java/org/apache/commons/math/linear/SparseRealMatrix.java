@@ -152,6 +152,75 @@ public class SparseRealMatrix extends AbstractRealMatrix {
 
     /** {@inheritDoc} */
     @Override
+    public RealMatrix multiply(final RealMatrix m)
+        throws IllegalArgumentException {
+        try {
+            return multiply((SparseRealMatrix) m);
+        } catch (ClassCastException cce) {
+
+            // safety check
+            checkMultiplicationCompatible(m);
+
+            final int outCols = m.getColumnDimension();
+            final DenseRealMatrix out = new DenseRealMatrix(rowDimension, outCols);
+            for (OpenIntToDoubleHashMap.Iterator iterator = entries.iterator(); iterator.hasNext();) {
+                iterator.advance();
+                final double value = iterator.value();
+                final int key      = iterator.key();
+                final int i        = key / columnDimension;
+                final int k        = key % columnDimension;
+                for (int j = 0; j < outCols; ++j) {
+                    out.addToEntry(i, j, value * m.getEntry(k, j));
+                }
+            }
+
+            return out;
+
+        }
+    }
+
+    /**
+     * Returns the result of postmultiplying this by m.
+     *
+     * @param m    matrix to postmultiply by
+     * @return     this * m
+     * @throws     IllegalArgumentException
+     *             if columnDimension(this) != rowDimension(m)
+     */
+    public SparseRealMatrix multiply(SparseRealMatrix m) throws IllegalArgumentException {
+
+        // safety check
+        checkMultiplicationCompatible(m);
+
+        final int outCols = m.getColumnDimension();
+        SparseRealMatrix out = new SparseRealMatrix(rowDimension, outCols);
+        for (OpenIntToDoubleHashMap.Iterator iterator = entries.iterator(); iterator.hasNext();) {
+            iterator.advance();
+            final double value = iterator.value();
+            final int key      = iterator.key();
+            final int i        = key / columnDimension;
+            final int k        = key % columnDimension;
+            for (int j = 0; j < outCols; ++j) {
+                final int rightKey = m.computeKey(k, j);
+                if (m.entries.containsKey(rightKey)) {
+                    final int outKey = out.computeKey(i, j);
+                    final double outValue =
+                        out.entries.get(outKey) + value * m.entries.get(rightKey);
+                    if (outValue == 0.0) {
+                        out.entries.remove(outKey);
+                    } else {
+                        out.entries.put(outKey, outValue);
+                    }
+                }
+            }
+        }
+
+        return out;
+
+    }
+
+    /** {@inheritDoc} */
+    @Override
     public double getEntry(int row, int column) throws MatrixIndexException {
         checkRowIndex(row);
         checkColumnIndex(column);
