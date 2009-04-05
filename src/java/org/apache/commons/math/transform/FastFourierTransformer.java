@@ -700,7 +700,7 @@ public class FastFourierTransformer implements Serializable {
                 }
                 return null;
             }
-            if (vector != null && vector.length != dimensionSize.length) {
+            if (vector.length != dimensionSize.length) {
                 throw MathRuntimeException.createIllegalArgumentException(
                         "some dimensions don't math: {0} != {1}",
                         vector.length,dimensionSize.length);
