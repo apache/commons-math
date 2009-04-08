@@ -33,7 +33,7 @@ public class SimplexSolver extends AbstractLinearOptimizer {
     private static final long serialVersionUID = -4886937648715323786L;
 
     /** Default amount of error to accept in floating point comparisons. */ 
-    private static final double DEFAULT_EPSILON = 1.0e-10;
+    private static final double DEFAULT_EPSILON = 1.0e-6;
 
     /** Amount of error to accept in floating point comparisons. */ 
     protected final double epsilon;  
@@ -62,7 +62,7 @@ public class SimplexSolver extends AbstractLinearOptimizer {
         double minValue = 0;
         Integer minPos = null;
         for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getWidth() - 1; i++) {
-            if (tableau.getEntry(0, i) < minValue) {
+            if (MathUtils.compareTo(tableau.getEntry(0, i), minValue, epsilon) < 0) {
                 minValue = tableau.getEntry(0, i);
                 minPos = i;
             }
@@ -81,7 +81,7 @@ public class SimplexSolver extends AbstractLinearOptimizer {
         Integer minRatioPos = null;
         for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getHeight(); i++) {
             double rhs = tableau.getEntry(i, tableau.getWidth() - 1);
-            if (tableau.getEntry(i, col) >= 0) {
+            if (MathUtils.compareTo(tableau.getEntry(i, col), 0, epsilon) >= 0) {
                 double ratio = rhs / tableau.getEntry(i, col);
                 if (ratio < minRatio) {
                     minRatio = ratio;
@@ -133,7 +133,7 @@ public class SimplexSolver extends AbstractLinearOptimizer {
             return true;
         }
         for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getWidth() - 1; i++) {
-            if (tableau.getEntry(0, i) < 0) {
+            if (MathUtils.compareTo(tableau.getEntry(0, i), 0, epsilon) < 0) {
                 return false;
             }
         }
@@ -150,7 +150,7 @@ public class SimplexSolver extends AbstractLinearOptimizer {
             return false;
         }
         for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getWidth() - 1; i++) {
-            if (tableau.getEntry(0, i) < 0) {
+            if (MathUtils.compareTo(tableau.getEntry(0, i), 0, epsilon) < 0) {
                 return false;
             }
         }
@@ -186,7 +186,7 @@ public class SimplexSolver extends AbstractLinearOptimizer {
     public RealPointValuePair doOptimize()
         throws OptimizationException {
         final SimplexTableau tableau =
-            new SimplexTableau(f, constraints, goalType, restrictToNonNegative);
+            new SimplexTableau(f, constraints, goalType, restrictToNonNegative, epsilon);
         solvePhase1(tableau);
         tableau.discardArtificialVariables();
         while (!isOptimal(tableau)) {

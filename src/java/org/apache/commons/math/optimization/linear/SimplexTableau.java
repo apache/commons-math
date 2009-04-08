@@ -27,6 +27,7 @@ import org.apache.commons.math.linear.RealMatrixImpl;
 import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * A tableau for use in the Simplex method.
@@ -79,6 +80,9 @@ class SimplexTableau implements Serializable {
     /** Number of artificial variables. */
     protected int numArtificialVariables;
 
+    /** Amount of error to accept in floating point comparisons. */ 
+    protected final double epsilon;
+    
     /**
      * Build a tableau for a linear problem.
      * @param f linear objective function
@@ -86,13 +90,16 @@ class SimplexTableau implements Serializable {
      * @param goalType type of optimization goal: either {@link GoalType#MAXIMIZE}
      * or {@link GoalType#MINIMIZE}
      * @param restrictToNonNegative whether to restrict the variables to non-negative values
+     * @param epsilon amount of error to accept in floating point comparisons
      */
     SimplexTableau(final LinearObjectiveFunction f,
                    final Collection<LinearConstraint> constraints,
-                   final GoalType goalType, final boolean restrictToNonNegative) {
+                   final GoalType goalType, final boolean restrictToNonNegative,
+                   final double epsilon) {
         this.f                      = f;
         this.constraints            = constraints;
         this.restrictToNonNegative  = restrictToNonNegative;
+        this.epsilon                = epsilon;
         this.numDecisionVariables   = getNumVariables() + (restrictToNonNegative ? 0 : 1);
         this.numSlackVariables      = getConstraintTypeCounts(Relationship.LEQ) +
                                       getConstraintTypeCounts(Relationship.GEQ);
@@ -259,7 +266,7 @@ class SimplexTableau implements Serializable {
     private Integer getBasicRow(final int col) {
         Integer row = null;
         for (int i = getNumObjectiveFunctions(); i < getHeight(); i++) {
-            if (getEntry(i, col) != 0.0) {
+            if (!MathUtils.equals(getEntry(i, col), 0.0, epsilon)) {
                 if (row == null) {
                     row = i;
                 } else {

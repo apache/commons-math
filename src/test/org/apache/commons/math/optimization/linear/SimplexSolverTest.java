@@ -31,7 +31,6 @@ import org.apache.commons.math.optimization.RealPointValuePair;
 public class SimplexSolverTest extends TestCase {
 
     public void testSimplexSolver() throws OptimizationException {
-
         LinearObjectiveFunction f =
             new LinearObjectiveFunction(new double[] { 15, 10 }, 7);
         Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
@@ -143,6 +142,22 @@ public class SimplexSolverTest extends TestCase {
         assertEquals(1438556.7491409, solution.getValue(), .0000001);
     }
 
+    public void testEpsilon() throws OptimizationException {
+      LinearObjectiveFunction f =
+          new LinearObjectiveFunction(new double[] { 10, 5, 1 }, 0);
+      Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+      constraints.add(new LinearConstraint(new double[] {  9, 8, 0 }, Relationship.EQ,  17));
+      constraints.add(new LinearConstraint(new double[] {  0, 7, 8 }, Relationship.LEQ,  7));
+      constraints.add(new LinearConstraint(new double[] { 10, 0, 2 }, Relationship.LEQ, 10));
+
+      SimplexSolver solver = new SimplexSolver();
+      RealPointValuePair solution = solver.optimize(f, constraints, GoalType.MAXIMIZE, false);
+      assertEquals(1.0, solution.getPoint()[0]);
+      assertEquals(1.0, solution.getPoint()[1]);
+      assertEquals(0.0, solution.getPoint()[2]);
+      assertEquals(15.0, solution.getValue());
+  }
+    
     public void testTrivialModel() throws OptimizationException {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 1, 1 }, 0);
         Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();

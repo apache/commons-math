@@ -30,7 +30,7 @@ public class SimplexTableauTest extends TestCase {
         LinearObjectiveFunction f = createFunction();
         Collection<LinearConstraint> constraints = createConstraints();
         SimplexTableau tableau =
-            new SimplexTableau(f, constraints, GoalType.MAXIMIZE, false);
+            new SimplexTableau(f, constraints, GoalType.MAXIMIZE, false, 1.0e-6);
         double[][] expectedInitialTableau = {
                                              {-1, 0,  -1,  -1,  2, 0, 0, 0, -4},
                                              { 0, 1, -15, -10, 25, 0, 0, 0,  0},
@@ -45,7 +45,7 @@ public class SimplexTableauTest extends TestCase {
         LinearObjectiveFunction f = createFunction();
         Collection<LinearConstraint> constraints = createConstraints();
         SimplexTableau tableau =
-            new SimplexTableau(f, constraints, GoalType.MAXIMIZE, false);
+            new SimplexTableau(f, constraints, GoalType.MAXIMIZE, false, 1.0e-6);
         double[][] expectedTableau = {
                                       { 1, -15, -10, 25, 0, 0, 0},
                                       { 0,   1,   0, -1, 1, 0, 2},
@@ -63,7 +63,7 @@ public class SimplexTableauTest extends TestCase {
         constraints.add(new LinearConstraint(new double[] {0, 1}, Relationship.LEQ, 3));
         constraints.add(new LinearConstraint(new double[] {1, 1}, Relationship.LEQ, 4));    
         SimplexTableau tableau =
-            new SimplexTableau(f, constraints, GoalType.MAXIMIZE, false);
+            new SimplexTableau(f, constraints, GoalType.MAXIMIZE, false, 1.0e-6);
         double[][] initialTableau = {
                                      {1, -15, -10, 25, 0, 0, 0, 0},
                                      {0,   1,   0, -1, 1, 0, 0, 2},
