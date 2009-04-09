@@ -23,8 +23,6 @@ import org.apache.commons.math.ode.events.CombinedEventsManager;
 import org.apache.commons.math.ode.events.EventException;
 import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.ode.events.EventState;
-import org.apache.commons.math.ode.nonstiff.AdamsBashforthIntegrator;
-import org.apache.commons.math.ode.nonstiff.AdamsMoultonIntegrator;
 import org.apache.commons.math.ode.nonstiff.DormandPrince853Integrator;
 import org.apache.commons.math.ode.sampling.FixedStepHandler;
 import org.apache.commons.math.ode.sampling.MultistepStepInterpolator;
@@ -36,8 +34,8 @@ import org.apache.commons.math.ode.sampling.StepNormalizer;
  * This class is the base class for multistep integrators for Ordinary
  * Differential Equations.
  *
- * @see AdamsBashforthIntegrator
- * @see AdamsMoultonIntegrator
+ * @see org.apache.commons.math.ode.nonstiff.AdamsBashforthIntegrator
+ * @see org.apache.commons.math.ode.nonstiff.AdamsMoultonIntegrator
  * @version $Revision$ $Date$
  * @since 2.0
  */
