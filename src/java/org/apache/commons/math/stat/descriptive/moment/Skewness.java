@@ -167,7 +167,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
                 accum += Math.pow((values[i] - m), 2.0);
                 accum2 += (values[i] - m);
             }
-            double stdDev = Math.sqrt((accum - (Math.pow(accum2, 2) / (length))) /
+            double stdDev = Math.sqrt((accum - (Math.pow(accum2, 2) / length)) /
                     (length - 1));
             
             double accum3 = 0.0;
