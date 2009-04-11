@@ -1043,7 +1043,7 @@ public class TTestImpl implements TTest  {
             double v2, double n1, double n2)
     throws MathException {
         double t = Math.abs(homoscedasticT(m1, m2, v1, v2, n1, n2));
-        double degreesOfFreedom = (n1 + n2 - 2);
+        double degreesOfFreedom = n1 + n2 - 2;
         distribution.setDegreesOfFreedom(degreesOfFreedom);
         return 2.0 * distribution.cumulativeProbability(-t);
     }
