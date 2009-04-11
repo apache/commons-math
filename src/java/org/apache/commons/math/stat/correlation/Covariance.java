@@ -187,11 +187,11 @@ public class Covariance {
         throws IllegalArgumentException {
         Mean mean = new Mean();
         double result = 0d;
-        long length = xArray.length;
+        int length = xArray.length;
         if(length == yArray.length && length > 1) {
             double xMean = mean.evaluate(xArray);
             double yMean = mean.evaluate(yArray);
-            for (int i = 0; i < xArray.length; i++) {
+            for (int i = 0; i < length; i++) {
                 double xDev = xArray[i] - xMean;
                 double yDev = yArray[i] - yMean;
                 result += (xDev * yDev - result) / (i + 1);
@@ -201,7 +201,7 @@ public class Covariance {
             throw MathRuntimeException.createIllegalArgumentException(
                "arrays must have the same length and both must have at " +
                "least two elements. xArray has size {0}, yArray has {1} elements",
-                    xArray.length, yArray.length);
+                    length, yArray.length);
         }
         return biasCorrected ? result * ((double) length / (double)(length - 1)) : result;
     }
