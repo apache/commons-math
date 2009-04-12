@@ -513,13 +513,13 @@ regression.addData(y, x, omega); // we do need covariance
             where <code>E(X)</code> is the mean of <code>X</code> and <code>E(Y)</code>
            is the mean of the <code>Y</code> values. Non-bias-corrected estimates use 
            <code>n</code> in place of <code>n - 1.</code>  Whether or not covariances are
-           bias-corrected is determined by the optional constructor parameter, 
-           "biasCorrected," which defaults to <code>true.</code>      
+           bias-corrected is determined by the optional parameter, "biasCorrected," which
+           defaults to <code>true.</code>      
           </li>
           <li>
             <a href="../apidocs/org/apache/commons/math/stat/correlation/PearsonsCorrelation.html">
-          PearsonsCorrelation</a> computes corralations defined by the formula <br></br>
-          <code>cor(X, Y) = sum[(x<sub>i</sub> - E(X))(y<sub>i</sub> - E(Y))] / [(n - 1)s(X)s(Y)]</code>
+          PearsonsCorrelation</a> computes correlations defined by the formula <br></br>
+          <code>cor(X, Y) = sum[(x<sub>i</sub> - E(X))(y<sub>i</sub> - E(Y))] / [(n - 1)s(X)s(Y)]</code><br/>
           where <code>E(X)</code> and <code>E(Y)</code> are means of <code>X</code> and <code>Y</code>
           and <code>s(X)</code>, <code>s(Y)</code> are standard deviations.
           </li>
@@ -579,8 +579,8 @@ new PearsonsCorrelation().computeCorrelationMatrix(data)
           <dt><strong>Pearson's correlation significance and standard errors</strong></dt>
           <br></br>
           <dd> To compute standard errors and/or significances of correlation coefficients
-          associated with Pearson's correlation coefficients, start by creating a PearsonsCorrelation
-          instance from the data <code>data</code> using
+          associated with Pearson's correlation coefficients, start by creating a
+          <code>PearsonsCorrelation</code> instance
           <source>
 PearsonsCorrelation correlation = new PearsonsCorrelation(data);
           </source>
@@ -593,16 +593,25 @@ correlation.getCorrelationStandardErrors();
           <code>SE<sub>r</sub> = ((1 - r<sup>2</sup>) / (n - 2))<sup>1/2</sup></code><br/>
            where <code>r</code> is the estimated correlation coefficient and 
           <code>n</code> is the number of observations in the source dataset.<br/><br/>
-          <strong>p-values</strong> for the null hypothesis that respective coefficients are zero (also known as 
-          <i>significances</i>) populate the <code>RealMatrix</code> returned by
+          <strong>p-values</strong> for the (2-sided) null hypotheses that elements of
+          a correlation matrix are zero populate the RealMatrix returned by
           <source>
-correlation.getCorrelationPValues();
+correlation.getCorrelationPValues()
           </source>
-          <code>getCorrelationPValues().getEntry(i,j)</code> is the probability
-          that a random variable distributed as <code>t<sub>n-2</sub></code> takes
+          <code>getCorrelationPValues().getEntry(i,j)</code> is the
+          probability that a random variable distributed as <code>t<sub>n-2</sub></code> takes
            a value with absolute value greater than or equal to <br></br>
-           <code>|r|((n - 2) / (1 - r<sup>2</sup>))<sup>1/2</sup></code>, where <code>r</code>
-           is the estimated correlation coefficient.
+           <code>|r<sub>ij</sub>|((n - 2) / (1 - r<sub>ij</sub><sup>2</sup>))<sup>1/2</sup></code>,
+           where <code>r<sub>ij</sub></code> is the estimated correlation between the ith and jth
+           columns of the source array or RealMatrix. This is sometimes referred to as the 
+           <i>significance</i> of the coefficient.<br/><br/>
+           For example, if <code>data</code> is a RealMatrix with 2 columns and 10 rows, then 
+           <source>
+new PearsonsCorrelation(data).getCorrelationPValues().getEntry(0,1)
+           </source>
+           is the significance of the Pearson's correlation coefficient between the two columns
+           of <code>data</code>.  If this value is less than .01, we can say that the correlation
+           between the two columns of data is significant at the 99% level.
           </dd>
            <br></br>
         </dl>
@@ -691,7 +700,7 @@ correlation.getCorrelationPValues();
           <source>
 double[] observed = {1d, 2d, 3d};
 double mu = 2.5d;
-System.out.println(TestUtils.t(mu, observed);
+System.out.println(TestUtils.t(mu, observed));
           </source>
           The code above will display the t-statisitic associated with a one-sample
            t-test comparing the mean of the <code>observed</code> values against
@@ -708,7 +717,7 @@ sampleStats = SummaryStatistics.newInstance();
 for (int i = 0; i &lt; observed.length; i++) {
     sampleStats.addValue(observed[i]);
 }
-System.out.println(TestUtils.t(mu, observed);
+System.out.println(TestUtils.t(mu, observed));
 </source>
            </dd>
            <dd>To compute the p-value associated with the null hypothesis that the mean
@@ -717,7 +726,7 @@ System.out.println(TestUtils.t(mu, observed);
             <source>
 double[] observed = {1d, 2d, 3d};
 double mu = 2.5d;
-System.out.println(TestUtils.tTest(mu, observed);
+System.out.println(TestUtils.tTest(mu, observed));
            </source>
           The snippet above will display the p-value associated with the null
           hypothesis that the mean of the population from which the
