@@ -25,20 +25,22 @@
   </properties>
   <body>
     <section name="1 Statistics">
-      <subsection name="1.1 Overview" href="overview">
+      <subsection name="1.1 Overview">
         <p>
           The statistics package provides frameworks and implementations for
           basic Descriptive statistics, frequency distributions, bivariate regression,
           and t-, chi-square and ANOVA test statistics.
         </p>
         <p>
-         <a href="#1.2 Descriptive statistics">Descriptive statistics</a><br></br>
-         <a href="#1.3 Frequency distributions">Frequency distributions</a><br></br>
-         <a href="#1.4 Simple regression">Simple Regression</a><br></br>
-         <a href="#1.5 Statistical tests">Statistical Tests</a><br></br>
+         <a href="#a1.2_Descriptive_statistics">Descriptive statistics</a><br></br>
+         <a href="#a1.3_Frequency_distributions">Frequency distributions</a><br></br>
+         <a href="#a1.4_Simple_regression">Simple Regression</a><br></br>
+         <a href="#a1.5_Multiple_linear_regression">Multiple Regression</a><br></br>
+         <a href="#a1.6_Covariance_and_correlation">Covariance and correlation</a><br></br>
+         <a href="#a1.7_Statistical_tests">Statistical Tests</a><br></br>
         </p>
       </subsection>
-      <subsection name="1.2 Descriptive statistics" href="univariate">
+      <subsection name="1.2 Descriptive statistics">
         <p>
           The stat package includes a framework and default implementations for
            the following Descriptive statistics:
@@ -217,7 +219,7 @@ DescriptiveStatistics stats = DescriptiveStatistics.newInstance(SynchronizedDesc
         </dl>
        </p>
       </subsection>
-      <subsection name="1.3 Frequency distributions" href="frequency">
+      <subsection name="1.3 Frequency distributions">
         <p>
           <a href="../apidocs/org/apache/commons/math/stat/Frequency.html">
           org.apache.commons.math.stat.descriptive.Frequency</a>
@@ -281,7 +283,7 @@ System.out.println(f.getCumPct("z"));  // displays 1
        </dl>
       </p>
       </subsection>
-      <subsection name="1.4 Simple regression" href="regression">
+      <subsection name="1.4 Simple regression">
         <p>
          <a href="../apidocs/org/apache/commons/math/stat/regression/SimpleRegression.html">
           org.apache.commons.math.stat.regression.SimpleRegression</a>
@@ -398,7 +400,7 @@ System.out.println(regression.getSlopeStdErr());
          </dl>
         </p>
       </subsection>
-      <subsection name="1.5 Multiple linear regression" href="regression">
+      <subsection name="1.5 Multiple linear regression">
         <p>
          <a href="../apidocs/org/apache/commons/math/stat/regression/MultipleLinearRegression.html">
           org.apache.commons.math.stat.regression.MultipleLinearRegression</a>
@@ -492,7 +494,121 @@ regression.addData(y, x, omega); // we do need covariance
          </dl>
         </p>
       </subsection>      
-      <subsection name="1.6 Statistical tests" href="tests">
+      <subsection name="1.6 Covariance and correlation">
+        <p>
+          The <a href="../apidocs/org/apache/commons/math/stat/correlation/package-summary.html">
+          org.apache.commons.math.stat.correlation</a> package computes covariances
+          and correlations for pairs of arrays or columns of a matrix.
+          <a href="../apidocs/org/apache/commons/math/stat/correlation/Covariance.html">
+          Covariance</a> computes covariances and 
+          <a href="../apidocs/org/apache/commons/math/stat/correlation/PearsonsCorrelation.html">
+          PearsonsCorrelation</a> provides Pearson's Product-Moment correlation coefficients.
+        </p>
+        <p>
+          <strong>Implementation Notes</strong>
+          <ul>
+          <li>
+            Unbiased covariances are given by the formula <br></br>
+            <code>cov(X, Y) = sum [(x<sub>i</sub> - E(X))(y<sub>i</sub> - E(Y))] / (n - 1)</code>
+            where <code>E(X)</code> is the mean of <code>X</code> and <code>E(Y)</code>
+           is the mean of the <code>Y</code> values. Non-bias-corrected estimates use 
+           <code>n</code> in place of <code>n - 1.</code>  Whether or not covariances are
+           bias-corrected is determined by the optional constructor parameter, 
+           "biasCorrected," which defaults to <code>true.</code>      
+          </li>
+          <li>
+            <a href="../apidocs/org/apache/commons/math/stat/correlation/PearsonsCorrelation.html">
+          PearsonsCorrelation</a> computes corralations defined by the formula <br></br>
+          <code>cor(X, Y) = sum[(x<sub>i</sub> - E(X))(y<sub>i</sub> - E(Y))] / [(n - 1)s(X)s(Y)]</code>
+          where <code>E(X)</code> and <code>E(Y)</code> are means of <code>X</code> and <code>Y</code>
+          and <code>s(X)</code>, <code>s(Y)</code> are standard deviations.
+          </li>
+          </ul>
+        </p>
+        <p>
+        <strong>Examples:</strong>
+        <dl>
+          <dt><strong>Covariance of 2 arrays</strong></dt>
+          <br></br>
+          <dd>To compute the unbiased covariance between 2 double arrays,
+          <code>x</code> and <code>y</code>, use:
+          <source>
+new Covariance().covariance(x, y)
+          </source>
+          For non-bias-corrected covariances, use
+          <source>
+covariance(x, y, false)
+          </source>
+          </dd>
+          <br></br>
+          <dt><strong>Covariance matrix</strong></dt>
+          <br></br>
+          <dd> A covariance matrix over the columns of a source matrix <code>data</code>
+          can be computed using
+          <source>
+new Covariance().computeCovarianceMatrix(data)
+          </source>
+          The i-jth entry of the returned matrix is the unbiased covariance of the ith and jth
+          columns of <code>data.</code> As above, to get non-bias-corrected covariances,
+          use 
+         <source>
+computeCovarianceMatrix(data, false)
+         </source>
+          </dd>
+           <br></br>
+          <dt><strong>Pearson's correlation of 2 arrays</strong></dt>
+          <br></br>
+          <dd>To compute the Pearson's product-moment correlation between two double arrays
+          <code>x</code> and <code>y</code>, use:
+          <source>
+new PearsonsCorrelation().correlation(x, y)
+          </source>
+          </dd>
+          <br></br>
+          <dt><strong>Pearson's correlation matrix</strong></dt>
+          <br></br>
+          <dd> A (Pearson's) correlation matrix over the columns of a source matrix <code>data</code>
+          can be computed using
+          <source>
+new PearsonsCorrelation().computeCorrelationMatrix(data)
+          </source>
+          The i-jth entry of the returned matrix is the Pearson's product-moment correlation between the
+          ith and jth columns of <code>data.</code> 
+          </dd>
+           <br></br>
+          <dt><strong>Pearson's correlation significance and standard errors</strong></dt>
+          <br></br>
+          <dd> To compute standard errors and/or significances of correlation coefficients
+          associated with Pearson's correlation coefficients, start by creating a PearsonsCorrelation
+          instance from the data <code>data</code> using
+          <source>
+PearsonsCorrelation correlation = new PearsonsCorrelation(data);
+          </source>
+          where <code>data</code> is either a rectangular array or a <code>RealMatrix.</code>
+          Then the matrix of standard errors is
+          <source>
+correlation.getCorrelationStandardErrors();
+          </source>
+          The formula used to compute the standard error is <br/>
+          <code>SE<sub>r</sub> = ((1 - r<sup>2</sup>) / (n - 2))<sup>1/2</sup></code><br/>
+           where <code>r</code> is the estimated correlation coefficient and 
+          <code>n</code> is the number of observations in the source dataset.<br/><br/>
+          <strong>p-values</strong> for the null hypothesis that respective coefficients are zero (also known as 
+          <i>significances</i>) populate the <code>RealMatrix</code> returned by
+          <source>
+correlation.getCorrelationPValues();
+          </source>
+          <code>getCorrelationPValues().getEntry(i,j)</code> is the probability
+          that a random variable distributed as <code>t<sub>n-2</sub></code> takes
+           a value with absolute value greater than or equal to <br></br>
+           <code>|r|((n - 2) / (1 - r<sup>2</sup>))<sup>1/2</sup></code>, where <code>r</code>
+           is the estimated correlation coefficient.
+          </dd>
+           <br></br>
+        </dl>
+        </p>
+      </subsection>
+            <subsection name="1.7 Statistical tests">
         <p>
           The interfaces and implementations in the
           <a href="../apidocs/org/apache/commons/math/stat/inference/">
