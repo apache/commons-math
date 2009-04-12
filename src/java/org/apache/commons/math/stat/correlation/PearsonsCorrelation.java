@@ -77,7 +77,7 @@ public class PearsonsCorrelation {
     public PearsonsCorrelation(RealMatrix matrix) {
         checkSufficientData(matrix);
         nObs = matrix.getRowDimension();
-        correlationMatrix = computeCorrelation(matrix);
+        correlationMatrix = computeCorrelationMatrix(matrix);
     }
     
     /**
@@ -183,7 +183,7 @@ public class PearsonsCorrelation {
      * @param matrix matrix with columns representing variables to correlate
      * @return correlation matrix
      */
-    public RealMatrix computeCorrelation(RealMatrix matrix) {
+    public RealMatrix computeCorrelationMatrix(RealMatrix matrix) {
         int nVars = matrix.getColumnDimension();
         RealMatrix outMatrix = new DenseRealMatrix(nVars, nVars);
         for (int i = 0; i < nVars; i++) {
@@ -195,6 +195,18 @@ public class PearsonsCorrelation {
             outMatrix.setEntry(i, i, 1d);
         }
         return outMatrix;
+    }
+    
+    /**
+     * Computes the correlation matrix for the columns of the
+     * input rectangular array.  The colums of the array represent values
+     * of variables to be correlated.
+     * 
+     * @param data matrix with columns representing variables to correlate
+     * @return correlation matrix
+     */
+    public RealMatrix computeCorrelationMatrix(double[][] data) {
+       return computeCorrelationMatrix(new DenseRealMatrix(data));
     }
     
     /**

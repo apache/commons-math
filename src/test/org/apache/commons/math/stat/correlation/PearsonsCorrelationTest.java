@@ -240,6 +240,19 @@ public class PearsonsCorrelationTest extends TestCase {
                 corrFromCovInstance2.getCorrelationStandardErrors(), 10E-15);
     }
     
+     
+    public void testConsistency() {
+        RealMatrix matrix = createRealMatrix(longleyData, 16, 7);
+        PearsonsCorrelation corrInstance = new PearsonsCorrelation(matrix); 
+        double[][] data = matrix.getData();
+        double[] x = matrix.getColumn(0);
+        double[] y = matrix.getColumn(1);
+        assertEquals(new PearsonsCorrelation().correlation(x, y), 
+                corrInstance.getCorrelationMatrix().getEntry(0, 1), Double.MIN_VALUE);
+        TestUtils.assertEquals("Correlation matrix", corrInstance.getCorrelationMatrix(),
+                new PearsonsCorrelation().computeCorrelationMatrix(data), Double.MIN_VALUE);
+    }
+    
     protected RealMatrix createRealMatrix(double[] data, int nRows, int nCols) {
         double[][] matrixData = new double[nRows][nCols];
         int ptr = 0;
