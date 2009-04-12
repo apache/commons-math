@@ -168,10 +168,25 @@ public final class FrequencyTest extends TestCase {
         } catch (IllegalArgumentException ex) {
             // expected
         }
+        try {
+            f.addValue(2);
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
         assertEquals("a pct",0.5,f.getPct(aChar),tolerance);
         assertEquals("b cum pct",1.0,f.getCumPct(bChar),tolerance);
         assertEquals("a string pct",0.0,f.getPct(aString),tolerance);
         assertEquals("a string cum pct",0.0,f.getCumPct(aString),tolerance);
+        
+        f = new Frequency();
+        f.addValue("One");
+        try {
+            f.addValue(new Integer("One")); 
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
     }
     
     /** test empty table */

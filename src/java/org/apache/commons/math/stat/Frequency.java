@@ -33,6 +33,11 @@ import java.util.TreeMap;
  * i.e. <code>addValue(Long.valueOf(2)), addValue(2), addValue(2l)</code> all have
  * the same effect (similarly for arguments to <code>getCount,</code> etc.).</p>
  * <p>
+ * char values are converted by <code>addValue</code> to Character instances.
+ * As such, these values are not comparable to integral values, so attempts
+ * to combine integral types with chars in a frequency distribution will fail.
+ * </p>
+ * <p>
  * The values are ordered using the default (natural order), unless a  
  * <code>Comparator</code> is supplied in the constructor.</p>
  *
@@ -90,6 +95,10 @@ public class Frequency implements Serializable {
 
     /**
      * Adds 1 to the frequency count for v.
+     * <p>
+     * If other objects have already been added to this Frequency, v must
+     * be comparable to those that have already been added.
+     * </p>
      * 
      * @param v the value to add.
      * @throws IllegalArgumentException if <code>v</code> is not comparable.
