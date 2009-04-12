@@ -184,8 +184,8 @@ public class CovarianceTest extends TestCase {
      * column-by-column covariances
      */
     public void testConsistency() {
-        RealMatrix matrix = createRealMatrix(swissData, 47, 5);
-        RealMatrix covarianceMatrix = new Covariance(matrix).getCovarianceMatrix();
+        final RealMatrix matrix = createRealMatrix(swissData, 47, 5);
+        final RealMatrix covarianceMatrix = new Covariance(matrix).getCovarianceMatrix();
         
         // Variances on the diagonal
         Variance variance = new Variance();
@@ -203,14 +203,25 @@ public class CovarianceTest extends TestCase {
         for (int i = 0; i < 3; i++) {
             repeatedColumns.setColumnMatrix(i, matrix.getColumnMatrix(0));
         }
-        covarianceMatrix = new Covariance(repeatedColumns).getCovarianceMatrix();
+        RealMatrix repeatedCovarianceMatrix = new Covariance(repeatedColumns).getCovarianceMatrix();
         double columnVariance = variance.evaluate(matrix.getColumn(0));
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                assertEquals(columnVariance, covarianceMatrix.getEntry(i, j), 10E-14);
+                assertEquals(columnVariance, repeatedCovarianceMatrix.getEntry(i, j), 10E-14);
             }
         }
         
+        // Check bias-correction defaults
+        double[][] data = matrix.getData();
+        TestUtils.assertEquals("Covariances", 
+                covarianceMatrix, new Covariance().computeCovarianceMatrix(data),Double.MIN_VALUE);
+        TestUtils.assertEquals("Covariances", 
+                covarianceMatrix, new Covariance().computeCovarianceMatrix(data, true),Double.MIN_VALUE);
+        
+        double[] x = data[0];
+        double[] y = data[1];
+        assertEquals(new Covariance().covariance(x, y), 
+                new Covariance().covariance(x, y, true), Double.MIN_VALUE); 
     }
     
     protected RealMatrix createRealMatrix(double[] data, int nRows, int nCols) {

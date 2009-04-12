@@ -113,7 +113,7 @@ public class Covariance {
     public Covariance(RealMatrix matrix, boolean biasCorrected) {
        checkSufficientData(matrix);
        n = matrix.getRowDimension();
-       covarianceMatrix = computeCovariance(matrix, biasCorrected);
+       covarianceMatrix = computeCovarianceMatrix(matrix, biasCorrected);
     }
     
     /**
@@ -150,13 +150,13 @@ public class Covariance {
     }
     
     /**
-     * Create a covariance matrix from a matrix whose columns represent
+     * Compute a covariance matrix from a matrix whose columns represent
      * covariates.
      * @param matrix input matrix (must have at least two columns and two rows)
      * @param biasCorrected determines whether or not covariance estimates are bias-corrected
      * @return covariance matrix
      */
-    protected RealMatrix computeCovariance(RealMatrix matrix, boolean biasCorrected) {
+    protected RealMatrix computeCovarianceMatrix(RealMatrix matrix, boolean biasCorrected) {
         int dimension = matrix.getColumnDimension();
         Variance variance = new Variance(biasCorrected);
         RealMatrix outMatrix = new DenseRealMatrix(dimension, dimension);
@@ -169,6 +169,39 @@ public class Covariance {
             outMatrix.setEntry(i, i, variance.evaluate(matrix.getColumn(i)));
         }
         return outMatrix;
+    }
+    
+    /**
+     * Create a covariance matrix from a matrix whose columns represent
+     * covariates. Covariances are computed using the bias-corrected formula.
+     * @param matrix input matrix (must have at least two columns and two rows)
+     * @return covariance matrix
+     * @see #Covariance
+     */
+    protected RealMatrix computeCovarianceMatrix(RealMatrix matrix) {
+        return computeCovarianceMatrix(matrix, true);
+    }
+    
+    /**
+     * Compute a covariance matrix from a rectangular array whose columns represent
+     * covariates.
+     * @param data input array (must have at least two columns and two rows)
+     * @param biasCorrected determines whether or not covariance estimates are bias-corrected
+     * @return covariance matrix
+     */
+    protected RealMatrix computeCovarianceMatrix(double[][] data, boolean biasCorrected) {
+        return computeCovarianceMatrix(new DenseRealMatrix(data), biasCorrected);
+    }
+    
+    /**
+     * Create a covariance matrix from a rectangual array whose columns represent
+     * covariates. Covariances are computed using the bias-corrected formula.
+     * @param data input array (must have at least two columns and two rows)
+     * @return covariance matrix
+     * @see #Covariance
+     */
+    protected RealMatrix computeCovarianceMatrix(double[][] data) {
+        return computeCovarianceMatrix(data, true);
     }
     
     /**
@@ -204,6 +237,23 @@ public class Covariance {
                     length, yArray.length);
         }
         return biasCorrected ? result * ((double) length / (double)(length - 1)) : result;
+    }
+    
+    /**
+     * Computes the covariance between the two arrays, using the bias-corrected
+     * formula.
+     * 
+     * <p>Array lengths must match and the common length must be at least 2.</p>
+     *
+     * @param xArray first data array
+     * @param yArray second data array
+     * @return returns the covariance for the two arrays 
+     * @throws  IllegalArgumentException if the arrays lengths do not match or
+     * there is insufficient data
+     */
+    public double covariance(final double[] xArray, final double[] yArray) 
+        throws IllegalArgumentException {
+        return covariance(xArray, yArray, true);
     }
     
     /**
