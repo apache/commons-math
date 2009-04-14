@@ -48,7 +48,7 @@ public class AbstractRandomGeneratorTest extends RandomDataTest {
             testGenerator.nextInt(-1);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
         Frequency freq = new Frequency();
         int value = 0;

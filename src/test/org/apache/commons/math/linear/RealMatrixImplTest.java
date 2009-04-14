@@ -147,7 +147,7 @@ public final class RealMatrixImplTest extends TestCase {
             m.add(m2);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
     }
     
@@ -177,7 +177,7 @@ public final class RealMatrixImplTest extends TestCase {
             m.subtract(new RealMatrixImpl(testData2));
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }      
     }
    
@@ -201,7 +201,7 @@ public final class RealMatrixImplTest extends TestCase {
             m.multiply(new RealMatrixImpl(bigSingular));
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }      
     }   
     
@@ -227,7 +227,7 @@ public final class RealMatrixImplTest extends TestCase {
             m.getTrace();
             fail("Expecting NonSquareMatrixException");
         } catch (NonSquareMatrixException ex) {
-            ;
+            // ignored
         }      
     }
     
@@ -250,7 +250,7 @@ public final class RealMatrixImplTest extends TestCase {
             m.operate(testVector);
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }      
     }
 
@@ -289,7 +289,7 @@ public final class RealMatrixImplTest extends TestCase {
             m.preMultiply(testVector);
             fail("expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
     }
     
@@ -314,7 +314,7 @@ public final class RealMatrixImplTest extends TestCase {
             m.preMultiply(new RealMatrixImpl(bigSingular));
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }      
     }
     
@@ -326,13 +326,13 @@ public final class RealMatrixImplTest extends TestCase {
             m.getRow(10);
             fail("expecting MatrixIndexException");
         } catch (MatrixIndexException ex) {
-            ;
+            // ignored
         }
         try {
             m.getColumn(-1);
             fail("expecting MatrixIndexException");
         } catch (MatrixIndexException ex) {
-            ;
+            // ignored
         }
     }
     
@@ -953,7 +953,7 @@ public final class RealMatrixImplTest extends TestCase {
         public int getCount() {
             return count;
         }
-    };
+    }
 
     //--------------- -----------------Protected methods
     

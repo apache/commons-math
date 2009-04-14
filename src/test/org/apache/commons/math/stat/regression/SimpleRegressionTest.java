@@ -231,7 +231,7 @@ public final class SimpleRegressionTest extends TestCase {
             regression.getSlopeConfidenceInterval(1);
             fail("expecting IllegalArgumentException for alpha = 1");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }  
 
     }

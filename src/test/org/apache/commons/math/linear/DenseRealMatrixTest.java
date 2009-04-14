@@ -150,7 +150,7 @@ public final class DenseRealMatrixTest extends TestCase {
             m.add(m2);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
     }
     
@@ -179,7 +179,7 @@ public final class DenseRealMatrixTest extends TestCase {
             m.subtract(new DenseRealMatrix(testData2));
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }      
     }
    
@@ -308,7 +308,7 @@ public final class DenseRealMatrixTest extends TestCase {
             m.getTrace();
             fail("Expecting NonSquareMatrixException");
         } catch (NonSquareMatrixException ex) {
-            ;
+            // ignored
         }      
     }
     
@@ -328,7 +328,7 @@ public final class DenseRealMatrixTest extends TestCase {
             m.operate(testVector);
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }      
     }
 
@@ -392,7 +392,7 @@ public final class DenseRealMatrixTest extends TestCase {
             m.preMultiply(testVector);
             fail("expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }
     }
     
@@ -413,7 +413,7 @@ public final class DenseRealMatrixTest extends TestCase {
             m.preMultiply(new DenseRealMatrix(bigSingular));
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            ;
+            // ignored
         }      
     }
     
@@ -425,13 +425,13 @@ public final class DenseRealMatrixTest extends TestCase {
             m.getRow(10);
             fail("expecting MatrixIndexException");
         } catch (MatrixIndexException ex) {
-            ;
+            // ignored
         }
         try {
             m.getColumn(-1);
             fail("expecting MatrixIndexException");
         } catch (MatrixIndexException ex) {
-            ;
+            // ignored
         }
     }
     
@@ -1175,7 +1175,7 @@ public final class DenseRealMatrixTest extends TestCase {
         public int getCount() {
             return count;
         }
-    };
+    }
 
     //--------------- -----------------Protected methods
         

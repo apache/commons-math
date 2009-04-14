@@ -139,7 +139,7 @@ public class DummyStepInterpolatorTest
       throws DerivativeException {
           throw new DerivativeException(null);
       }
-  };
+  }
 
 
   public void testSerializationError()

@@ -99,7 +99,7 @@ public final class ValueServerTest extends RetryTestCase {
         try {
             vs.getNext();
             fail("Expecting IllegalStateException");
-        } catch (IllegalStateException ex) {;}
+        } catch (IllegalStateException ex) {}
     }
 
     public void testEmptyReplayFile() {
@@ -182,7 +182,7 @@ public final class ValueServerTest extends RetryTestCase {
             vs.getNext();
             fail("bad mode, expecting IllegalStateException");
         } catch (IllegalStateException ex) {
-            ;
+            // ignored
         }
     }
     
