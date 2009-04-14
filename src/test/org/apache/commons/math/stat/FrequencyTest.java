@@ -245,7 +245,7 @@ public final class FrequencyTest extends TestCase {
         assertEquals("Integer 1 cumPct", 0.5, f.getCumPct(1), tolerance);
         assertEquals("Integer 1 cumPct", 0.5, f.getCumPct(Long.valueOf(1)), tolerance);
         assertEquals("Integer 1 cumPct", 0.5, f.getCumPct(Integer.valueOf(1)), tolerance);
-        Iterator it = f.valuesIterator();
+        Iterator<?> it = f.valuesIterator();
         while (it.hasNext()) {
             assertTrue(it.next() instanceof Long);
         }     
