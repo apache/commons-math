@@ -19,7 +19,6 @@ package org.apache.commons.math.random;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import java.util.HashSet;
-import java.util.Iterator;
 
 import org.apache.commons.math.RetryTestCase;
 import org.apache.commons.math.stat.Frequency;
