@@ -360,7 +360,7 @@ public class LevenbergMarquardtOptimizerTest
 
     }
 
-    public void testControlParameters() throws OptimizationException {
+    public void testControlParameters() {
         Circle circle = new Circle();
         circle.addPoint( 30.0,  68.0);
         circle.addPoint( 50.0,  -6.0);
@@ -500,7 +500,7 @@ public class LevenbergMarquardtOptimizerTest
         assertEquals( 0.2075001, center.y,      1.0e-6);
     }
 
-    public void testMath199() throws FunctionEvaluationException, OptimizationException {
+    public void testMath199() throws FunctionEvaluationException {
         try {
             QuadraticProblem problem = new QuadraticProblem();
             problem.addPoint (0, -3.182591015485607);

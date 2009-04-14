@@ -33,7 +33,7 @@ public final class FastCosineTransformerTest extends TestCase {
     /**
      * Test of transformer for the ad hoc data.
      */
-    public void testAdHocData() throws MathException {
+    public void testAdHocData() {
         FastCosineTransformer transformer = new FastCosineTransformer();
         double result[], tolerance = 1E-12;
 

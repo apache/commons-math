@@ -65,8 +65,7 @@ public class DormandPrince853IntegratorTest
     }
   }
 
-  public void testMinStep()
-    throws DerivativeException, IntegratorException {
+  public void testMinStep() {
 
     try {
       TestProblem1 pb = new TestProblem1();

@@ -90,7 +90,7 @@ public final class PolynomialFunctionTest extends TestCase {
      * <p> This will test the function f(x) = 2x^2 - 3x -2 = (2x+1)(x-2)</p>
      *
      */
-    public void testQuadratic() throws MathException {
+    public void testQuadratic() {
         double[] c = { -2.0, -3.0, 2.0 };
         PolynomialFunction f = new PolynomialFunction( c );
 
@@ -112,7 +112,7 @@ public final class PolynomialFunctionTest extends TestCase {
      *   f(x) = x^2(x-5)(x+3)(x-1) = x^5 - 3x^4 -13x^3 + 15x^2</p>
      *
      */
-    public void testQuintic() throws MathException {
+    public void testQuintic() {
         double[] c = { 0.0, 0.0, 15.0, -13.0, -3.0, 1.0 };
         PolynomialFunction f = new PolynomialFunction( c );
 

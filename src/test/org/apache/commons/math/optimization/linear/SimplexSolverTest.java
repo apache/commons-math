@@ -90,7 +90,7 @@ public class SimplexSolverTest extends TestCase {
         assertEquals(12.0, solution.getValue());
     }
 
-    public void testInfeasibleSolution() throws UnboundedSolutionException {
+    public void testInfeasibleSolution() {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 15 }, 0);
         Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
         constraints.add(new LinearConstraint(new double[] { 1 }, Relationship.LEQ, 1));
@@ -107,7 +107,7 @@ public class SimplexSolverTest extends TestCase {
         }
     }
 
-    public void testUnboundedSolution() throws NoFeasibleSolutionException {
+    public void testUnboundedSolution() {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 15, 10 }, 0);
         Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
         constraints.add(new LinearConstraint(new double[] { 1, 0 }, Relationship.EQ, 2));

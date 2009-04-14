@@ -25,7 +25,6 @@ import java.io.ObjectInputStream;
 import java.io.IOException;
 
 import org.apache.commons.math.ode.DerivativeException;
-import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math.ode.sampling.DummyStepInterpolator;
 
@@ -75,8 +74,7 @@ public class DummyStepInterpolatorTest
   }
 
   public void testSerialization()
-  throws DerivativeException, IntegratorException,
-         IOException, ClassNotFoundException {
+  throws DerivativeException, IOException, ClassNotFoundException {
 
     double[]   y    =   { 0.0, 1.0, -2.0 };
     DummyStepInterpolator interpolator = new DummyStepInterpolator(y, true);
@@ -104,8 +102,7 @@ public class DummyStepInterpolatorTest
   }
 
   public void testImpossibleSerialization()
-  throws DerivativeException, IntegratorException,
-         IOException, ClassNotFoundException {
+  throws IOException {
 
     double[] y = { 0.0, 1.0, -2.0 };
     AbstractStepInterpolator interpolator = new BadStepInterpolator(y, true);
@@ -143,8 +140,7 @@ public class DummyStepInterpolatorTest
 
 
   public void testSerializationError()
-  throws DerivativeException, IntegratorException,
-         IOException, ClassNotFoundException {
+  throws IOException {
 
     double[] y = { 0.0, 1.0, -2.0 };
     ErrorGeneratingInterpolator interpolator =

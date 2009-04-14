@@ -64,8 +64,7 @@ public class GraggBulirschStoerIntegratorTest
     }
   }
 
-  public void testMinStep()
-    throws DerivativeException, IntegratorException {
+  public void testMinStep() {
 
     try {
       TestProblem5 pb  = new TestProblem5();

@@ -24,7 +24,6 @@ import junit.framework.TestSuite;
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
-import org.apache.commons.math.linear.decomposition.NotPositiveDefiniteMatrixException;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.optimization.SimpleScalarValueChecker;
@@ -36,7 +35,7 @@ public class MultiDirectionalTest
     super(name);
   }
 
-  public void testFunctionEvaluationExceptions() throws ConvergenceException {
+  public void testFunctionEvaluationExceptions() {
       MultivariateRealFunction wrong =
           new MultivariateRealFunction() {
             private static final long serialVersionUID = 4751314470965489371L;
@@ -73,7 +72,7 @@ public class MultiDirectionalTest
   }
 
   public void testMinimizeMaximize()
-      throws FunctionEvaluationException, ConvergenceException, NotPositiveDefiniteMatrixException {
+      throws FunctionEvaluationException, ConvergenceException {
 
       // the following function has 4 local extrema:
       final double xM        = -3.841947088256863675365;

@@ -349,8 +349,7 @@ public class RotationTest
 
   }
 
-  public void testSingularities()
-    throws CardanEulerSingularityException {
+  public void testSingularities() {
 
     RotationOrder[] CardanOrders = {
       RotationOrder.XYZ, RotationOrder.XZY, RotationOrder.YXZ,

@@ -204,7 +204,7 @@ extends TestCase {
 
     }
 
-    public void testNonInversible() throws OptimizationException {
+    public void testNonInversible() {
 
         LinearProblem problem = new LinearProblem(new double[][] {
                 {  1, 2, -3 },
@@ -260,7 +260,7 @@ extends TestCase {
 
     }
 
-    public void testMoreEstimatedParametersSimple() throws OptimizationException {
+    public void testMoreEstimatedParametersSimple() {
 
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 3.0, 2.0,  0.0, 0.0 },
@@ -283,7 +283,7 @@ extends TestCase {
 
     }
 
-    public void testMoreEstimatedParametersUnsorted() throws OptimizationException {
+    public void testMoreEstimatedParametersUnsorted() {
         LinearProblem problem = new LinearProblem(new double[][] {
                  { 1.0, 1.0,  0.0,  0.0, 0.0,  0.0 },
                  { 0.0, 0.0,  1.0,  1.0, 1.0,  0.0 },

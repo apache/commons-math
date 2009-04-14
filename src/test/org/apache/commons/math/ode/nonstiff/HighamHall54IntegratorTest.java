@@ -78,8 +78,7 @@ public class HighamHall54IntegratorTest
     }
   }
 
-  public void testMinStep()
-    throws DerivativeException, IntegratorException {
+  public void testMinStep() {
 
     try {
       TestProblem1 pb = new TestProblem1();
@@ -193,8 +192,7 @@ public class HighamHall54IntegratorTest
 
   }
 
-  public void testEventsErrors()
-    throws DerivativeException, IntegratorException {
+  public void testEventsErrors() {
 
       final TestProblem1 pb = new TestProblem1();
       double minStep = 0;
@@ -238,8 +236,7 @@ public class HighamHall54IntegratorTest
 
   }
 
-  public void testEventsNoConvergence()
-  throws DerivativeException, IntegratorException {
+  public void testEventsNoConvergence() {
 
     final TestProblem1 pb = new TestProblem1();
     double minStep = 0;
