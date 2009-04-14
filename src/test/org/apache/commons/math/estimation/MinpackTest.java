@@ -97,30 +97,26 @@ public class MinpackTest
     super(name);
   }
 
-  public void testMinpackLinearFullRank()
-    throws EstimationException {
+  public void testMinpackLinearFullRank() {
     minpackTest(new LinearFullRankFunction(10, 5, 1.0,
                                            5.0, 2.23606797749979), false);
     minpackTest(new LinearFullRankFunction(50, 5, 1.0,
                                            8.06225774829855, 6.70820393249937), false);
   }
 
-  public void testMinpackLinearRank1()
-    throws EstimationException {
+  public void testMinpackLinearRank1() {
     minpackTest(new LinearRank1Function(10, 5, 1.0,
                                         291.521868819476, 1.4638501094228), false);
     minpackTest(new LinearRank1Function(50, 5, 1.0,
                                         3101.60039334535, 3.48263016573496), false);
   }
 
-  public void testMinpackLinearRank1ZeroColsAndRows()
-    throws EstimationException {
+  public void testMinpackLinearRank1ZeroColsAndRows() {
     minpackTest(new LinearRank1ZeroColsAndRowsFunction(10, 5, 1.0), false);
     minpackTest(new LinearRank1ZeroColsAndRowsFunction(50, 5, 1.0), false);
   }
 
-  public void testMinpackRosenbrok()
-    throws EstimationException {
+  public void testMinpackRosenbrok() {
     minpackTest(new RosenbrockFunction(new double[] { -1.2, 1.0 },
                                        Math.sqrt(24.2)), false);
     minpackTest(new RosenbrockFunction(new double[] { -12.0, 10.0 },
@@ -129,8 +125,7 @@ public class MinpackTest
                                        11.0 * Math.sqrt(169000121.0)), false);
   }
 
-  public void testMinpackHelicalValley()
-    throws EstimationException {
+  public void testMinpackHelicalValley() {
     minpackTest(new HelicalValleyFunction(new double[] { -1.0, 0.0, 0.0 },
                                           50.0), false);
     minpackTest(new HelicalValleyFunction(new double[] { -10.0, 0.0, 0.0 },
@@ -139,8 +134,7 @@ public class MinpackTest
                                           991.261822123701), false);
   }
     
-  public void testMinpackPowellSingular()
-    throws EstimationException {
+  public void testMinpackPowellSingular() {
     minpackTest(new PowellSingularFunction(new double[] { 3.0, -1.0, 0.0, 1.0 },
                                            14.6628782986152), false);
     minpackTest(new PowellSingularFunction(new double[] { 30.0, -10.0, 0.0, 10.0 },
@@ -149,8 +143,7 @@ public class MinpackTest
                                            126887.903284750), false);
   }
     
-  public void testMinpackFreudensteinRoth()
-    throws EstimationException {
+  public void testMinpackFreudensteinRoth() {
     minpackTest(new FreudensteinRothFunction(new double[] { 0.5, -2.0 },
                                              20.0124960961895, 6.99887517584575,
                                              new double[] {
@@ -171,8 +164,7 @@ public class MinpackTest
                                              }), false);
   }
     
-  public void testMinpackBard()
-    throws EstimationException {
+  public void testMinpackBard() {
     minpackTest(new BardFunction(1.0, 6.45613629515967, 0.0906359603390466,
                                  new double[] {
                                    0.0824105765758334,
@@ -193,8 +185,7 @@ public class MinpackTest
                                  }), false);
   }
     
-  public void testMinpackKowalikOsborne()
-    throws EstimationException {
+  public void testMinpackKowalikOsborne() {
     minpackTest(new KowalikOsborneFunction(new double[] { 0.25, 0.39, 0.415, 0.39 },
                                            0.0728915102882945,
                                            0.017535837721129,
@@ -224,8 +215,7 @@ public class MinpackTest
                                            }), true);
   }
     
-  public void testMinpackMeyer()
-    throws EstimationException {
+  public void testMinpackMeyer() {
     minpackTest(new MeyerFunction(new double[] { 0.02, 4000.0, 250.0 },
                                   41153.4665543031, 9.37794514651874,
                                   new double[] {
@@ -242,8 +232,7 @@ public class MinpackTest
                                   }), true);
   }
     
-  public void testMinpackWatson()
-    throws EstimationException {
+  public void testMinpackWatson() {
   
     minpackTest(new WatsonFunction(6, 0.0,
                                    5.47722557505166, 0.0478295939097601,
@@ -328,14 +317,12 @@ public class MinpackTest
 
   }
     
-  public void testMinpackBox3Dimensional()
-  throws EstimationException {
+  public void testMinpackBox3Dimensional() {
     minpackTest(new Box3DimensionalFunction(10, new double[] { 0.0, 10.0, 20.0 },
                                             32.1115837449572), false);
   }
     
-  public void testMinpackJennrichSampson()
-    throws EstimationException {
+  public void testMinpackJennrichSampson() {
     minpackTest(new JennrichSampsonFunction(10, new double[] { 0.3, 0.4 },
                                             64.5856498144943, 11.1517793413499,
                                             new double[] {
@@ -343,8 +330,7 @@ public class MinpackTest
                                             }), false);
   }
 
-  public void testMinpackBrownDennis()
-    throws EstimationException {
+  public void testMinpackBrownDennis() {
     minpackTest(new BrownDennisFunction(20,
                                         new double[] { 25.0, 5.0, -5.0, -1.0 },
                                         2815.43839161816, 292.954288244866,
@@ -368,8 +354,7 @@ public class MinpackTest
                                         }), false);
   }
     
-  public void testMinpackChebyquad()
-    throws EstimationException {
+  public void testMinpackChebyquad() {
     minpackTest(new ChebyquadFunction(1, 8, 1.0,
                                       1.88623796907732, 1.88623796907732,
                                       new double[] { 0.5 }), false);
@@ -407,8 +392,7 @@ public class MinpackTest
                                       }), false);
   }
     
-  public void testMinpackBrownAlmostLinear()
-    throws EstimationException {
+  public void testMinpackBrownAlmostLinear() {
     minpackTest(new BrownAlmostLinearFunction(10, 0.5,
                                               16.5302162063499, 0.0,
                                               new double[] {
@@ -476,8 +460,7 @@ public class MinpackTest
                                               }), false);
     }
     
-  public void testMinpackOsborne1()
-    throws EstimationException {
+  public void testMinpackOsborne1() {
       minpackTest(new Osborne1Function(new double[] { 0.5, 1.5, -1.0, 0.01, 0.02, },
                                        0.937564021037838, 0.00739249260904843,
                                        new double[] {
@@ -487,8 +470,7 @@ public class MinpackTest
                                        }), false);
     }
     
-  public void testMinpackOsborne2()
-    throws EstimationException {
+  public void testMinpackOsborne2() {
       
     minpackTest(new Osborne2Function(new double[] {
                                        1.3, 0.65, 0.65, 0.7, 0.6,
