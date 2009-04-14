@@ -146,12 +146,10 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
             fillBinStats(in);
             loaded = true;
         } finally {
-           if (in != null) {
-               try {
-                   in.close();
-               } catch (Exception ex) {
-                   // ignore
-               }
+           try {
+               in.close();
+           } catch (IOException ex) {
+               // ignore
            }
         }
     }
@@ -181,12 +179,10 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
             fillBinStats(in);
             loaded = true;
         } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (Exception ex) {
-                    // ignore
-                }
+            try {
+                in.close();
+            } catch (IOException ex) {
+                // ignore
             }
         }
     }
