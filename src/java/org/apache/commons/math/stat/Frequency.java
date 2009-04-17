@@ -49,7 +49,7 @@ public class Frequency implements Serializable {
     private static final long serialVersionUID = -3845586908418844111L;
 
     /** underlying collection */
-    private TreeMap freqTable = null;
+    private final TreeMap freqTable;
 
     /**
      * Default constructor.
@@ -193,6 +193,7 @@ public class Frequency implements Serializable {
 
     /**
      * Returns the number of values = v.
+     * Returns 0 if the value is not comparable.
      * 
      * @param v the value to lookup.
      * @return the frequency of v.
@@ -255,10 +256,11 @@ public class Frequency implements Serializable {
      * @return the proportion of values equal to v
      */
     public double getPct(Object v) {
-        if (getSumFreq() == 0) {
+        final long sumFreq = getSumFreq();
+        if (sumFreq == 0) {
             return Double.NaN;
         }
-        return (double) getCount(v) / (double) getSumFreq();        
+        return (double) getCount(v) / (double) sumFreq;        
     }
     
     /**
@@ -396,10 +398,11 @@ public class Frequency implements Serializable {
      * @return the proportion of values less than or equal to v
      */
     public double getCumPct(Object v) {
-        if (getSumFreq() == 0) {
+        final long sumFreq = getSumFreq();
+        if (sumFreq == 0) {
             return Double.NaN;
         }
-        return (double) getCumFreq(v) / (double) getSumFreq();        
+        return (double) getCumFreq(v) / (double) sumFreq;        
     }
     
     /**
