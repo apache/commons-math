@@ -101,9 +101,26 @@ public class Frequency implements Serializable {
      * </p>
      * 
      * @param v the value to add.
-     * @throws IllegalArgumentException if <code>v</code> is not comparable.
+     * @throws IllegalArgumentException if <code>v</code> is not comparable with previous entries
+     * @throws ClassCastException if <code>v</code> is not Comparable
+     * @deprecated use {@link #addValue(Comparable)} instead
      */
+    @Deprecated
     public void addValue(Object v) {
+        addValue((Comparable<?>) v);
+    }
+    
+    /**
+     * Adds 1 to the frequency count for v.
+     * <p>
+     * If other objects have already been added to this Frequency, v must
+     * be comparable to those that have already been added.
+     * </p>
+     * 
+     * @param v the value to add.
+     * @throws IllegalArgumentException if <code>v</code> is not comparable with previous entries
+     */
+    public void addValue(Comparable<?>v){
         Object obj = v;
         if (v instanceof Integer) {
            obj = Long.valueOf(((Integer) v).longValue());
