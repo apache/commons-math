@@ -101,13 +101,17 @@ public class Frequency implements Serializable {
      * </p>
      * 
      * @param v the value to add.
-     * @throws IllegalArgumentException if <code>v</code> is not comparable with previous entries
-     * @throws ClassCastException if <code>v</code> is not Comparable
+     * @throws IllegalArgumentException if <code>v</code> is not Comparable, 
+     *         or is not comparable with previous entries
      * @deprecated use {@link #addValue(Comparable)} instead
      */
     @Deprecated
     public void addValue(Object v) {
-        addValue((Comparable<?>) v);
+        if (v instanceof Comparable<?>){
+            addValue((Comparable<?>) v);            
+        } else {
+            throw new IllegalArgumentException("Object must implement Comparable");
+        }
     }
     
     /**

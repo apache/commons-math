@@ -192,16 +192,16 @@ public final class FrequencyTest extends TestCase {
     // Check what happens when non-Comparable objects are added
     public void testAddNonComparable(){
         try {
-            f.addValue(new Object()); // This was OK
-            fail("Expected ClassCastException");
-        } catch (ClassCastException expected) {
+            f.addValue(new Object()); // This was previously OK
+            fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException expected) {
         }
         f.clear();
         f.addValue(1);
         try {
             f.addValue(new Object());
-            fail("Expected ClassCastException"); // Previously would have been IllegalArgument
-        } catch (ClassCastException expected) {
+            fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException expected) {
         }
     }
 
