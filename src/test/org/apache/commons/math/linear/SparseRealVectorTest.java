@@ -497,42 +497,19 @@ public class SparseRealVectorTest extends TestCase {
         assertEquals("testData len", 9, v5.getDimension());
         assertEquals("testData is 9.0 ", 9.0, v5.getEntry(8));
 
-        //SparseRealVector v6 = new SparseRealVector(dvec1, 3, 2);
-        //assertEquals("testData len", 2, v6.getDimension());
-        //assertEquals("testData is 4.0 ", 4.0, v6.getEntry(0));
-        //try {
-        //    new SparseRealVector(dvec1, 8, 3);
-        //    fail("IllegalArgumentException expected");
-        //} catch (IllegalArgumentException ex) {
-            // expected behavior
-        //} catch (Exception e) {
-        //    fail("wrong exception caught");
-        //}
-
         SparseRealVector v7 = new SparseRealVector(v1);
         assertEquals("testData len", 7, v7.getDimension());
         assertEquals("testData is 0.0 ", 0.0, v7.getEntry(6));
 
         SparseRealVectorTestImpl v7_i = new SparseRealVectorTestImpl(vec1);
 
-	/*TODO: fixme */
-        //SparseRealVector v7_2 = new SparseRealVector(v7_i);
-        //assertEquals("testData len", 3, v7_2.getDimension());
-        //assertEquals("testData is 0.0 ", 2.0d, v7_2.getEntry(1));
+        SparseRealVector v7_2 = new SparseRealVector(v7_i);
+        assertEquals("testData len", 3, v7_2.getDimension());
+        assertEquals("testData is 0.0 ", 2.0d, v7_2.getEntry(1));
 
-        //SparseRealVector v8 = new SparseRealVector(v1, true);
-        //assertEquals("testData len", 7, v8.getDimension());
-        //assertEquals("testData is 0.0 ", 0.0, v8.getEntry(6));
-        //assertNotSame("testData not same object ", v1.data, v8.data);
-
-        //SparseRealVector v8_2 = new SparseRealVector(v1, false);
-        //assertEquals("testData len", 7, v8_2.getDimension());
-        //assertEquals("testData is 0.0 ", 0.0, v8_2.getEntry(6));
-        //assertEquals("testData same object ", v1.data, v8_2.data);
-
-        //SparseRealVector v9 = new SparseRealVector(v1, v3);
-        //assertEquals("testData len", 10, v9.getDimension());
-        //assertEquals("testData is 1.0 ", 1.0, v9.getEntry(7));
+        SparseRealVector v8 = new SparseRealVector(v1);
+        assertEquals("testData len", 7, v8.getDimension());
+        assertEquals("testData is 0.0 ", 0.0, v8.getEntry(6));
 
     }
 
@@ -622,13 +599,6 @@ public class SparseRealVectorTest extends TestCase {
             fail("wrong exception caught");
         }
 
-
-        SparseRealVector vout10 = (SparseRealVector) v1.copy();       
-        SparseRealVector vout10_2 = (SparseRealVector) v1.copy();
-        // TODO: backing store doesn't implement equals
-        //assertEquals(vout10, vout10_2);
-        //vout10_2.set(0, 1.1);
-        //assertNotSame(vout10, vout10_2);
 
     }
 
@@ -1087,16 +1057,9 @@ public class SparseRealVectorTest extends TestCase {
 
     public void testMisc() { 
         SparseRealVector v1 = new SparseRealVector(vec1);
-        SparseRealVector v4 = new SparseRealVector(vec4);
-        RealVector v4_2 = new SparseRealVector(vec4);
 
         String out1 = v1.toString();
         assertTrue("some output ",  out1.length()!=0);
-        /*    
-         double[] dout1 = v1.copyOut();
-        assertEquals("testData len", 3, dout1.length);
-        assertNotSame("testData not same object ", v1.data, dout1);   
-         */      
         try {
             v1.checkVectorDimensions(2); 
             fail("IllegalArgumentException expected");
@@ -1119,22 +1082,20 @@ public class SparseRealVectorTest extends TestCase {
 
         assertFalse(v.isInfinite());
         v.setEntry(0, Double.POSITIVE_INFINITY);
-        // TODO: why is this test here
-        //assertFalse(v.isInfinite());
+        assertFalse(v.isInfinite()); // NaN is checked before infinity
         v.setEntry(1, 1);
         assertTrue(v.isInfinite());
 
-        //TODO: differeciate from resetting to zero
         v.setEntry(0, 0);
         assertEquals(v, new SparseRealVector(new double[] { 0, 1, 2 }));
         assertNotSame(v, new SparseRealVector(new double[] { 0, 1, 2 + Math.ulp(2)}));
         assertNotSame(v, new SparseRealVector(new double[] { 0, 1, 2, 3 }));
 
-        //assertEquals(new SparseRealVector(new double[] { Double.NaN, 1, 2 }).hashCode(),
-        //              new SparseRealVector(new double[] { 0, Double.NaN, 2 }).hashCode());
+        assertEquals(new SparseRealVector(new double[] { Double.NaN, 1, 2 }).hashCode(),
+                      new SparseRealVector(new double[] { 0, Double.NaN, 2 }).hashCode());
 
-        //assertTrue(new SparseRealVector(new double[] { Double.NaN, 1, 2 }).hashCode() !=
-        //           new SparseRealVector(new double[] { 0, 1, 2 }).hashCode());
+        assertTrue(new SparseRealVector(new double[] { Double.NaN, 1, 2 }).hashCode() !=
+                   new SparseRealVector(new double[] { 0, 1, 2 }).hashCode());
 
     }
 
