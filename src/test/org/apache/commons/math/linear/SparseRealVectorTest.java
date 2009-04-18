@@ -1082,7 +1082,7 @@ public class SparseRealVectorTest extends TestCase {
 
         assertFalse(v.isInfinite());
         v.setEntry(0, Double.POSITIVE_INFINITY);
-        assertFalse(v.isInfinite()); // NaN is checked before infinity
+        assertFalse(v.isInfinite()); // NaN has higher priority than infinity
         v.setEntry(1, 1);
         assertTrue(v.isInfinite());
 
@@ -1091,7 +1091,7 @@ public class SparseRealVectorTest extends TestCase {
         assertNotSame(v, new SparseRealVector(new double[] { 0, 1, 2 + Math.ulp(2)}));
         assertNotSame(v, new SparseRealVector(new double[] { 0, 1, 2, 3 }));
 
-        assertEquals(new SparseRealVector(new double[] { Double.NaN, 1, 2 }).hashCode(),
+        assertTrue(new SparseRealVector(new double[] { Double.NaN, 1, 2 }).hashCode() !=
                       new SparseRealVector(new double[] { 0, Double.NaN, 2 }).hashCode());
 
         assertTrue(new SparseRealVector(new double[] { Double.NaN, 1, 2 }).hashCode() !=
