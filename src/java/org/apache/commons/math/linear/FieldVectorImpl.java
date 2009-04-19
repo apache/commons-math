@@ -1,0 +1,802 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.math.linear;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
+import org.apache.commons.math.Field;
+import org.apache.commons.math.FieldElement;
+import org.apache.commons.math.MathRuntimeException;
+
+/**
+ * This class implements the {@link FieldVector<T>} interface with a {@link FieldElement} array.
+ * @param <T> the type of the field elements
+ * @version $Revision$ $Date$
+ * @since 2.0
+ */
+public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T> {
+
+    /** Serializable version identifier. */
+    private static final long serialVersionUID = 7648186910365927050L;
+
+    /** Field to which the elements belong. */
+    private final Field<T> field;
+
+    /** Entries of the vector. */
+    protected T[] data;
+
+    /** Build an array of elements.
+     * @param length size of the array to build
+     * @return a new array
+     */
+    @SuppressWarnings("unchecked")
+    private T[] buildArray(final int length) {
+        return (T[]) Array.newInstance(field.getZero().getClass(), length);
+    }
+
+    /**
+     * Build a 0-length vector.
+     * <p>Zero-length vectors may be used to initialized construction of vectors
+     * by data gathering. We start with zero-length and use either the {@link
+     * #FieldVectorImpl(FieldVectorImpl<T>, FieldVectorImpl<T>)} constructor
+     * or one of the <code>append</code> method ({@link #append(double)}, {@link
+     * #append(T[])}, {@link #append(FieldVectorImpl<T>)}) to gather data
+     * into this vector.</p>
+     * @param field field to which the elements belong
+     */
+    public FieldVectorImpl(final Field<T> field) {
+        this(field, 0);
+    }
+
+    /**
+     * Construct a (size)-length vector of zeros.
+     * @param field field to which the elements belong
+     * @param size size of the vector
+     */
+    public FieldVectorImpl(Field<T> field, int size) {
+        this.field = field;
+        data = buildArray(size);
+        Arrays.fill(data, field.getZero());
+    }
+
+    /**
+     * Construct an (size)-length vector with preset values.
+     * @param size size of the vector
+     * @param preset fill the vector with this scalar value
+     */
+    public FieldVectorImpl(int size, T preset) {
+        this(preset.getField(), size);
+        Arrays.fill(data, preset);
+    }
+
+    /**
+     * Construct a vector from an array, copying the input array.
+     * @param d array of Ts.
+     * @throws IllegalArgumentException if <code>d</code> is empty
+     */
+    public FieldVectorImpl(T[] d)
+        throws IllegalArgumentException {
+        try {
+            field = d[0].getField();
+            data = d.clone();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                      "vector must have at least one element"); 
+        }
+    }
+
+    /**
+     * Create a new FieldVectorImpl using the input array as the underlying
+     * data array.
+     * <p>If an array is built specially in order to be embedded in a
+     * FieldVectorImpl and not used directly, the <code>copyArray</code> may be
+     * set to <code>false</code. This will prevent the copying and improve
+     * performance as no new array will be built and no data will be copied.</p>
+     * @param d data for new vector
+     * @param copyArray if true, the input array will be copied, otherwise
+     * it will be referenced
+     * @throws IllegalArgumentException if <code>d</code> is empty
+     * @throws NullPointerException if <code>d</code> is null
+     * @see #FieldVectorImpl(T[])
+     */
+    public FieldVectorImpl(T[] d, boolean copyArray)
+        throws NullPointerException, IllegalArgumentException {
+        try {
+            field = d[0].getField();
+            data = copyArray ? d.clone() :  d;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                      "vector must have at least one element");
+        }
+    }
+
+    /**
+     * Construct a vector from part of a array.
+     * @param d array of Ts.
+     * @param pos position of first entry
+     * @param size number of entries to copy
+     */
+    public FieldVectorImpl(T[] d, int pos, int size) {
+        if (d.length < pos + size) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "position {0} and size {1} don't fit to the size of the input array {2}",
+                    pos, size, d.length);
+        }
+        field = d[0].getField();
+        data = buildArray(size);
+        System.arraycopy(d, pos, data, 0, size);
+    }
+
+    /**
+     * Construct a vector from another vector, using a deep copy.
+     * @param v vector to copy
+     */
+    public FieldVectorImpl(FieldVector<T> v) {
+        field = v.getField();
+        data = buildArray(v.getDimension());
+        for (int i = 0; i < data.length; ++i) {
+            data[i] = v.getEntry(i);
+        }
+    }
+
+    /**
+     * Construct a vector from another vector, using a deep copy.
+     * @param v vector to copy
+     */
+    public FieldVectorImpl(FieldVectorImpl<T> v) {
+        field = v.getField();
+        data = v.data.clone();
+    }
+
+    /**
+     * Construct a vector from another vector.
+     * @param v vector to copy
+     * @param deep if true perform a deep copy otherwise perform a shallow copy
+     */
+    public FieldVectorImpl(FieldVectorImpl<T> v, boolean deep) {
+        field = v.getField();
+        data = deep ? v.data.clone() : v.data;
+    }
+
+    /**
+     * Construct a vector by appending one vector to another vector.
+     * @param v1 first vector (will be put in front of the new vector)
+     * @param v2 second vector (will be put at back of the new vector)
+     */
+    public FieldVectorImpl(FieldVectorImpl<T> v1, FieldVectorImpl<T> v2) {
+        field = v1.getField();
+        data = buildArray(v1.data.length + v2.data.length);
+        System.arraycopy(v1.data, 0, data, 0, v1.data.length);
+        System.arraycopy(v2.data, 0, data, v1.data.length, v2.data.length);
+    }
+
+    /**
+     * Construct a vector by appending one vector to another vector.
+     * @param v1 first vector (will be put in front of the new vector)
+     * @param v2 second vector (will be put at back of the new vector)
+     */
+    public FieldVectorImpl(FieldVectorImpl<T> v1, T[] v2) {
+        field = v1.getField();
+        data = buildArray(v1.data.length + v2.length);
+        System.arraycopy(v1.data, 0, data, 0, v1.data.length);
+        System.arraycopy(v2, 0, data, v1.data.length, v2.length);
+    }
+
+    /**
+     * Construct a vector by appending one vector to another vector.
+     * @param v1 first vector (will be put in front of the new vector)
+     * @param v2 second vector (will be put at back of the new vector)
+     */
+    public FieldVectorImpl(T[] v1, FieldVectorImpl<T> v2) {
+        field = v2.getField();
+        data = buildArray(v1.length + v2.data.length);
+        System.arraycopy(v1, 0, data, 0, v1.length);
+        System.arraycopy(v2.data, 0, data, v1.length, v2.data.length);
+    }
+
+    /**
+     * Construct a vector by appending one vector to another vector.
+     * @param v1 first vector (will be put in front of the new vector)
+     * @param v2 second vector (will be put at back of the new vector)
+     * @exception IllegalArgumentException if both vectors are empty
+     */
+    public FieldVectorImpl(T[] v1, T[] v2) {
+        try {
+            data = buildArray(v1.length + v2.length);
+            System.arraycopy(v1, 0, data, 0, v1.length);
+            System.arraycopy(v2, 0, data, v1.length, v2.length);
+            field = data[0].getField();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                      "vector must have at least one element");
+        }
+    }
+
+    /** {@inheritDoc} */
+    public Field<T> getField() {
+        return field;
+    }
+
+    /** {@inheritDoc} */
+    public FieldVector<T> copy() {
+        return new FieldVectorImpl<T>(this, true);
+    }
+
+    /** {@inheritDoc} */
+    public FieldVector<T> add(FieldVector<T> v) throws IllegalArgumentException {
+        try {
+            return add((FieldVectorImpl<T>) v);
+        } catch (ClassCastException cce) {
+            checkVectorDimensions(v);
+            T[] out = buildArray(data.length);
+            for (int i = 0; i < data.length; i++) {
+                out[i] = data[i].add(v.getEntry(i));
+            }
+            return new FieldVectorImpl<T>(out);
+        }
+    }
+
+    /** {@inheritDoc} */
+    public FieldVector<T> add(T[] v) throws IllegalArgumentException {
+        checkVectorDimensions(v.length);
+        T[] out = buildArray(data.length);
+        for (int i = 0; i < data.length; i++) {
+            out[i] = data[i].add(v[i]);
+        }
+        return new FieldVectorImpl<T>(out);
+    }
+
+    /**
+     * Compute the sum of this and v.
+     * @param v vector to be added
+     * @return this + v
+     * @throws IllegalArgumentException if v is not the same size as this
+     */
+    public FieldVectorImpl<T> add(FieldVectorImpl<T> v)
+        throws IllegalArgumentException {
+        return (FieldVectorImpl<T>) add((T[]) v.data);
+    }
+
+    /** {@inheritDoc} */
+    public FieldVector<T> subtract(FieldVector<T> v) throws IllegalArgumentException {
+        try {
+            return subtract((FieldVectorImpl<T>) v);
+        } catch (ClassCastException cce) {
+            checkVectorDimensions(v);
+            T[] out = buildArray(data.length);
+            for (int i = 0; i < data.length; i++) {
+                out[i] = data[i].subtract(v.getEntry(i));
+            }
+            return new FieldVectorImpl<T>(out);
+        }
+    }
+
+    /** {@inheritDoc} */
+    public FieldVector<T> subtract(T[] v) throws IllegalArgumentException {
+        checkVectorDimensions(v.length);
+        T[] out = buildArray(data.length);
+        for (int i = 0; i < data.length; i++) {
+            out[i] = data[i].subtract(v[i]);
+        }
+        return new FieldVectorImpl<T>(out);
+    }
+
+    /**
+     * Compute this minus v.
+     * @param v vector to be subtracted
+     * @return this + v
+     * @throws IllegalArgumentException if v is not the same size as this
+     */
+    public FieldVectorImpl<T> subtract(FieldVectorImpl<T> v)
+        throws IllegalArgumentException {
+        return (FieldVectorImpl<T>) subtract((T[]) v.data);
+    }
+
+    /** {@inheritDoc} */
+    public FieldVector<T> mapAdd(T d) {
+        T[] out = buildArray(data.length);
+        for (int i = 0; i < data.length; i++) {
+            out[i] = data[i].add(d);
+        }
+        return new FieldVectorImpl<T>(out);
+    }
+
+    /** {@inheritDoc} */
+    public FieldVector<T> mapAddToSelf(T d) {
+        for (int i = 0; i < data.length; i++) {
+            data[i] = data[i].add(d);
+        }
+        return this;
+    }
+
+    /** {@inheritDoc} */
+    public FieldVector<T> mapSubtract(T d) {
+        T[] out = buildArray(data.length);
+        for (int i = 0; i < data.length; i++) {
+            out[i] = data[i].subtract(d);
+        }
+        return new FieldVectorImpl<T>(out);
+    }
+
+    /** {@inheritDoc} */
+    public FieldVector<T> mapSubtractToSelf(T d) {
+        for (int i = 0; i < data.length; i++) {
+            data[i] = data[i].subtract(d);
+        }
+        return this;
+    }
+
+    /** {@inheritDoc} */
+    public FieldVector<T> mapMultiply(T d) {
+        T[] out = buildArray(data.length);
+        for (int i = 0; i < data.length; i++) {
+            out[i] = data[i].multiply(d);
+        }
+        return new FieldVectorImpl<T>(out);
+    }
+
+    /** {@inheritDoc} */
+    public FieldVector<T> mapMultiplyToSelf(T d) {
+        for (int i = 0; i < data.length; i++) {
+            data[i] = data[i].multiply(d);
+        }
+        return this;
+    }
+
+    /** {@inheritDoc} */
+    public FieldVector<T> mapDivide(T d) {
+        T[] out = buildArray(data.length);
+        for (int i = 0; i < data.length; i++) {
+            out[i] = data[i].divide(d);
+        }
+        return new FieldVectorImpl<T>(out);
+    }
+
+    /** {@inheritDoc} */
+    public FieldVector<T> mapDivideToSelf(T d) {
+        for (int i = 0; i < data.length; i++) {
+            data[i] = data[i].divide(d);
+        }
+        return this;
+    }
+
+    /** {@inheritDoc} */
+    public FieldVector<T> mapInv() {
+        T[] out = buildArray(data.length);
+        final T one = field.getOne();
+        for (int i = 0; i < data.length; i++) {
+            out[i] = one.divide(data[i]);
+        }
+        return new FieldVectorImpl<T>(out);
+    }
+
+    /** {@inheritDoc} */
+    public FieldVector<T> mapInvToSelf() {
+        final T one = field.getOne();
+        for (int i = 0; i < data.length; i++) {
+            data[i] = one.divide(data[i]);
+        }
+        return this;
+    }
+
+    /** {@inheritDoc} */
+    public FieldVector<T> ebeMultiply(FieldVector<T> v)
+        throws IllegalArgumentException {
+        try {
+            return ebeMultiply((FieldVectorImpl<T>) v);
+        } catch (ClassCastException cce) {
+            checkVectorDimensions(v);
+            T[] out = buildArray(data.length);
+            for (int i = 0; i < data.length; i++) {
+                out[i] = data[i].multiply(v.getEntry(i));
+            }
+            return new FieldVectorImpl<T>(out);
+        }
+    }
+
+    /** {@inheritDoc} */
+    public FieldVector<T> ebeMultiply(T[] v)
+        throws IllegalArgumentException {
+        checkVectorDimensions(v.length);
+        T[] out = buildArray(data.length);
+        for (int i = 0; i < data.length; i++) {
+            out[i] = data[i].multiply(v[i]);
+        }
+        return new FieldVectorImpl<T>(out);
+    }
+
+    /**
+     * Element-by-element multiplication.
+     * @param v vector by which instance elements must be multiplied
+     * @return a vector containing this[i] * v[i] for all i
+     * @exception IllegalArgumentException if v is not the same size as this
+     */
+    public FieldVectorImpl<T> ebeMultiply(FieldVectorImpl<T> v)
+        throws IllegalArgumentException {
+        return (FieldVectorImpl<T>) ebeMultiply(v.data);
+    }
+
+    /** {@inheritDoc} */
+    public FieldVector<T> ebeDivide(FieldVector<T> v)
+        throws IllegalArgumentException {
+        try {
+            return ebeDivide((FieldVectorImpl<T>) v);
+        } catch (ClassCastException cce) {
+            checkVectorDimensions(v);
+            T[] out = buildArray(data.length);
+            for (int i = 0; i < data.length; i++) {
+                out[i] = data[i].divide(v.getEntry(i));
+            }
+            return new FieldVectorImpl<T>(out);
+        }
+    }
+
+    /** {@inheritDoc} */
+    public FieldVector<T> ebeDivide(T[] v)
+        throws IllegalArgumentException {
+        checkVectorDimensions(v.length);
+        T[] out = buildArray(data.length);
+        for (int i = 0; i < data.length; i++) {
+                out[i] = data[i].divide(v[i]);
+        }
+        return new FieldVectorImpl<T>(out);
+    }
+
+    /**
+     * Element-by-element division.
+     * @param v vector by which instance elements must be divided
+     * @return a vector containing this[i] / v[i] for all i
+     * @throws IllegalArgumentException if v is not the same size as this
+     */
+    public FieldVectorImpl<T> ebeDivide(FieldVectorImpl<T> v)
+        throws IllegalArgumentException {
+        return (FieldVectorImpl<T>) ebeDivide(v.data);
+    }
+
+    /** {@inheritDoc} */
+    public T[] getData() {
+        return data.clone();
+    }
+
+    /**
+     * Returns a reference to the underlying data array.
+     * <p>Does not make a fresh copy of the underlying data.</p>
+     * @return array of entries
+     */
+    public T[] getDataRef() {
+        return data;
+    }
+
+    /** {@inheritDoc} */
+    public T dotProduct(FieldVector<T> v)
+        throws IllegalArgumentException {
+        try {
+            return dotProduct((FieldVectorImpl<T>) v);
+        } catch (ClassCastException cce) {
+            checkVectorDimensions(v);
+            T dot = field.getZero();
+            for (int i = 0; i < data.length; i++) {
+                dot = dot.add(data[i].multiply(v.getEntry(i)));
+            }
+            return dot;
+        }
+    }
+
+    /** {@inheritDoc} */
+    public T dotProduct(T[] v)
+        throws IllegalArgumentException {
+        checkVectorDimensions(v.length);
+        T dot = field.getZero();
+        for (int i = 0; i < data.length; i++) {
+            dot = dot.add(data[i].multiply(v[i]));
+        }
+        return dot;
+    }
+
+    /**
+     * Compute the dot product.
+     * @param v vector with which dot product should be computed
+     * @return the scalar dot product between instance and v
+     * @exception IllegalArgumentException if v is not the same size as this
+     */
+    public T dotProduct(FieldVectorImpl<T> v)
+        throws IllegalArgumentException {
+        return dotProduct(v.data);
+    }
+
+    /** {@inheritDoc} */
+    public FieldVector<T> projection(FieldVector<T> v) {
+        return v.mapMultiply(dotProduct(v).divide(v.dotProduct(v)));
+    }
+
+    /** {@inheritDoc} */
+    public FieldVector<T> projection(T[] v) {
+        return projection(new FieldVectorImpl<T>(v, false));
+    }
+
+   /** Find the orthogonal projection of this vector onto another vector.
+     * @param v vector onto which instance must be projected
+     * @return projection of the instance onto v
+     * @throws IllegalArgumentException if v is not the same size as this
+     */
+    public FieldVectorImpl<T> projection(FieldVectorImpl<T> v) {
+        return (FieldVectorImpl<T>) v.mapMultiply(dotProduct(v).divide(v.dotProduct(v)));
+    }
+
+    /** {@inheritDoc} */
+    public FieldMatrix<T> outerProduct(FieldVector<T> v)
+        throws IllegalArgumentException {
+        try {
+            return outerProduct((FieldVectorImpl<T>) v);
+        } catch (ClassCastException cce) {
+            checkVectorDimensions(v);
+            final int m = data.length;
+            final FieldMatrix<T> out = new FieldMatrixImpl<T>(field, m, m);
+            for (int i = 0; i < data.length; i++) {
+                for (int j = 0; j < data.length; j++) {
+                    out.setEntry(i, j, data[i].multiply(v.getEntry(j)));
+                }
+            }
+            return out;
+        }
+    }
+
+    /**
+     * Compute the outer product.
+     * @param v vector with which outer product should be computed
+     * @return the square matrix outer product between instance and v
+     * @exception IllegalArgumentException if v is not the same size as this
+     */
+    public FieldMatrix<T> outerProduct(FieldVectorImpl<T> v)
+        throws IllegalArgumentException {
+        return outerProduct(v.data);
+    }
+
+    /** {@inheritDoc} */
+    public FieldMatrix<T> outerProduct(T[] v)
+        throws IllegalArgumentException {
+        checkVectorDimensions(v.length);
+        final int m = data.length;
+        final FieldMatrix<T> out = new FieldMatrixImpl<T>(field, m, m);
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data.length; j++) {
+                out.setEntry(i, j, data[i].multiply(v[j]));
+            }
+        }
+        return out;
+    }
+
+    /** {@inheritDoc} */
+    public T getEntry(int index) throws MatrixIndexException {
+        return data[index];
+    }
+
+    /** {@inheritDoc} */
+    public int getDimension() {
+        return data.length;
+    }
+
+    /** {@inheritDoc} */
+    public FieldVector<T> append(FieldVector<T> v) {
+        try {
+            return append((FieldVectorImpl<T>) v);
+        } catch (ClassCastException cce) {
+            return new FieldVectorImpl<T>(this,new FieldVectorImpl<T>(v));
+        }
+    }
+
+    /**
+     * Construct a vector by appending a vector to this vector.
+     * @param v vector to append to this one.
+     * @return a new vector
+     */
+    public FieldVectorImpl<T> append(FieldVectorImpl<T> v) {
+        return new FieldVectorImpl<T>(this, v);
+    }
+
+    /** {@inheritDoc} */
+    public FieldVector<T> append(T in) {
+        final T[] out = buildArray(data.length + 1);
+        System.arraycopy(data, 0, out, 0, data.length);
+        out[data.length] = in;
+        return new FieldVectorImpl<T>(out);
+    }
+
+    /** {@inheritDoc} */
+    public FieldVector<T> append(T[] in) {
+        return new FieldVectorImpl<T>(this, in);
+    }
+
+    /** {@inheritDoc} */
+    public FieldVector<T> getSubVector(int index, int n) {
+        FieldVectorImpl<T> out = new FieldVectorImpl<T>(field, n);
+        try {
+            System.arraycopy(data, index, out.data, 0, n);
+        } catch (IndexOutOfBoundsException e) {
+            checkIndex(index);
+            checkIndex(index + n - 1);
+        }
+        return out;
+    }
+
+    /** {@inheritDoc} */
+    public void setEntry(int index, T value) {
+        try {
+            data[index] = value;
+        } catch (IndexOutOfBoundsException e) {
+            checkIndex(index);
+        }
+    }
+
+    /** {@inheritDoc} */
+    public void setSubVector(int index, FieldVector<T> v) {
+        try {
+            try {
+                set(index, (FieldVectorImpl<T>) v);
+            } catch (ClassCastException cce) {
+                for (int i = index; i < index + v.getDimension(); ++i) {
+                    data[i] = v.getEntry(i-index);
+                }
+            }
+        } catch (IndexOutOfBoundsException e) {
+            checkIndex(index);
+            checkIndex(index + v.getDimension() - 1);
+        }
+    }
+
+    /** {@inheritDoc} */
+    public void setSubVector(int index, T[] v) {
+        try {
+            System.arraycopy(v, 0, data, index, v.length);
+        } catch (IndexOutOfBoundsException e) {
+            checkIndex(index);
+            checkIndex(index + v.length - 1);
+        }
+    }
+
+    /**
+     * Set a set of consecutive elements.
+     * 
+     * @param index index of first element to be set.
+     * @param v vector containing the values to set.
+     * @exception MatrixIndexException if the index is
+     * inconsistent with vector size
+     */
+    public void set(int index, FieldVectorImpl<T> v)
+        throws MatrixIndexException {
+        setSubVector(index, v.data);
+    }
+
+    /** {@inheritDoc} */
+    public void set(T value) {
+        Arrays.fill(data, value);
+    }
+
+    /** {@inheritDoc} */
+    public T[] toArray(){
+        return data.clone();
+    }
+
+    /**
+     * Check if instance and specified vectors have the same dimension.
+     * @param v vector to compare instance with
+     * @exception IllegalArgumentException if the vectors do not
+     * have the same dimension
+     */
+    protected void checkVectorDimensions(FieldVector<T> v)
+        throws IllegalArgumentException {
+        checkVectorDimensions(v.getDimension());
+    }
+
+    /**
+     * Check if instance dimension is equal to some expected value.
+     * 
+     * @param n expected dimension.
+     * @exception IllegalArgumentException if the dimension is
+     * inconsistent with vector size
+     */
+    protected void checkVectorDimensions(int n)
+        throws IllegalArgumentException {
+        if (data.length != n) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "vector length mismatch: got {0} but expected {1}",
+                    data.length, n);
+        }
+    }
+
+    /**
+     * Test for the equality of two real vectors.
+     * <p>
+     * If all coordinates of two real vectors are exactly the same, and none are
+     * <code>Double.NaN</code>, the two real vectors are considered to be equal.
+     * </p>
+     * <p>
+     * <code>NaN</code> coordinates are considered to affect globally the vector
+     * and be equals to each other - i.e, if either (or all) coordinates of the
+     * real vector are equal to <code>Double.NaN</code>, the real vector is equal to
+     * a vector with all <code>Double.NaN</code> coordinates.
+     * </p>
+     *
+     * @param other Object to test for equality to this
+     * @return true if two 3D vector objects are equal, false if
+     *         object is null, not an instance of Vector3D, or
+     *         not equal to this Vector3D instance
+     * 
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public boolean equals(Object other) {
+
+      if (this == other) { 
+        return true;
+      }
+
+      if (other == null) {
+        return false;
+      }
+
+      try {
+
+          FieldVector<T> rhs = (FieldVector<T>) other;
+          if (data.length != rhs.getDimension()) {
+              return false;
+          }
+
+          for (int i = 0; i < data.length; ++i) {
+              if (!data[i].equals(rhs.getEntry(i))) {
+                  return false;
+              }
+          }
+          return true;
+
+      } catch (ClassCastException ex) {
+          // ignore exception
+          return false;
+      }
+
+    }
+    
+    /**
+     * Get a hashCode for the real vector.
+     * <p>All NaN values have the same hash code.</p>
+     * @return a hash code value for this object
+     */
+    @Override
+    public int hashCode() {
+        int h = 3542;
+        for (final T a : data) {
+            h = h ^ a.hashCode();
+        }
+        return h;
+    }
+
+    /**
+     * Check if an index is valid.
+     * @param index index to check
+     * @exception MatrixIndexException if index is not valid
+     */
+    private void checkIndex(final int index)
+        throws MatrixIndexException {
+        if (index < 0 || index >= getDimension()) {
+            throw new MatrixIndexException(
+                    "index {0} out of allowed range [{1}, {2}]",
+                    index, 0, getDimension() - 1);
+        }
+    }
+
+}

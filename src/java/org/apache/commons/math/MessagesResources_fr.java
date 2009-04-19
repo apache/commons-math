@@ -230,6 +230,12 @@ public class MessagesResources_fr
     { "too small integration interval: length = {0}",
       "intervalle d''int\u00e9gration trop petit : {0}" },
 
+    // org.apache.commons.math.ode.stiff.BDFIntegrator
+    { "unsupported order {0} for BDF methods, must be between {1} and {2}",
+      "ordre {0} non support\u00e9 pour les m\u00e9thodes BDF, doit \u00eatre entre {1} et {2}" },
+    { "corrector failed to converge after {0} iterations at t = {1}",
+      "\u00e9chec de convergence du correcteur apr\u00e8s {0} it\u00e9rations \u00e0 t = {1}" },
+
     // org.apache.commons.math.ode.ContinuousOutputModel
     // org.apache.commons.math.optimization.direct.DirectSearchOptimizer
     { "unexpected exception caught",
@@ -276,6 +282,7 @@ public class MessagesResources_fr
       "dimension de vecteur erronn\u00e9e : {0} \u00e0 la place de {1}" },
       
     // org.apache.commons.math.linear.RealVectorImpl
+    // org.apache.commons.math.linear.FieldVectorImpl
     // org.apache.commons.math.linear.SparseRealVector
     { "index {0} out of allowed range [{1}, {2}]",
       "index {0} hors de la plage autoris\u00e9e [{1}, {2}]" },
@@ -285,6 +292,7 @@ public class MessagesResources_fr
       "la position {0} et la taille {1} sont incompatibles avec la taille du tableau d''entr\u00e9e {2}"},
 
     // org.apache.commons.math.linear.AbstractRealMatrix
+    // org.apache.commons.math.linear.AbstractFieldMatrix
     { "invalid row dimension: {0} (must be positive)",
       "nombre de lignes invalide : {0} (doit \u00eatre positif)" },
     { "invalid column dimension: {0} (must be positive)",

@@ -184,6 +184,19 @@ RealVector solution = solver.solve(constants);
         vector spaces (which may have different dimensions).
         </p>
       </subsection>
+      <subsection name="3.6 Non-real fields (complex, fractions ...)" href="field">
+        <p>
+          In addition to the real field, matrices and vectors using non-real <a
+          href="../apidocs/org/apache/commons/math/FieldElement.html">field elements</a> can be used.
+          The fields already supported by the library are:
+          <ul>
+            <li><a href="../apidocs/org/apache/commons/math/complex/Complex.html">Complex</a></li>
+            <li><a href="../apidocs/org/apache/commons/math/fraction/Fraction.html">Fraction</a></li>
+            <li><a href="../apidocs/org/apache/commons/math/fraction/BigFraction.html">BigFraction</a></li>
+            <li><a href="../apidocs/org/apache/commons/math/util/BigReal.html">BigReal</a></li>
+          </ul>
+        </p>
+      </subsection>
     </section>
   </body>
 </document>

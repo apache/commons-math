@@ -29,7 +29,7 @@ import org.apache.commons.math.linear.decomposition.NonSquareMatrixException;
  *
  * @version $Revision$ $Date$
  */
-
+@Deprecated
 public final class BigMatrixImplTest extends TestCase {
     
     // Test data for String constructors

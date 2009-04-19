@@ -17,13 +17,16 @@
 
 package org.apache.commons.math.linear.decomposition;
 
+import java.lang.reflect.Array;
+
+import org.apache.commons.math.Field;
+import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.linear.FieldMatrix;
+import org.apache.commons.math.linear.FieldMatrixImpl;
+import org.apache.commons.math.linear.FieldVector;
+import org.apache.commons.math.linear.FieldVectorImpl;
 import org.apache.commons.math.linear.InvalidMatrixException;
-import org.apache.commons.math.linear.MatrixUtils;
-import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.RealMatrixImpl;
-import org.apache.commons.math.linear.RealVector;
-import org.apache.commons.math.linear.RealVectorImpl;
 
 /**
  * Calculates the LUP-decomposition of a square matrix.
@@ -31,19 +34,24 @@ import org.apache.commons.math.linear.RealVectorImpl;
  * L, U and P that satisfy: PA = LU, L is lower triangular, and U is
  * upper triangular and P is a permutation matrix. All matrices are
  * m&times;m.</p>
- * <p>As shown by the presence of the P matrix, this decomposition is
- * implemented using partial pivoting.</p>
+ * <p>Since {@link FieldElement field elements} do not provide an ordering
+ * operator, the permutation matrix is computed here only in order to avoid
+ * a zero pivot element, no attempt is done to get the largest pivot element.</p>
  *
+ * @param <T> the type of the field elements
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class LUDecompositionImpl implements LUDecomposition {
+public class FieldLUDecompositionImpl<T extends FieldElement<T>> implements FieldLUDecomposition<T> {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 1954692554563387537L;
 
+    /** Field to which the elements belong. */
+    private final Field<T> field;
+
     /** Entries of LU decomposition. */
-    private double lu[][];
+    private T lu[][];
 
     /** Pivot permutation associated with LU decomposition */
     private int[] pivot;
@@ -55,35 +63,20 @@ public class LUDecompositionImpl implements LUDecomposition {
     private boolean singular;
 
     /** Cached value of L. */
-    private RealMatrix cachedL;
+    private FieldMatrix<T> cachedL;
 
     /** Cached value of U. */
-    private RealMatrix cachedU;
+    private FieldMatrix<T> cachedU;
 
     /** Cached value of P. */
-    private RealMatrix cachedP;
-
-    /** Default bound to determine effective singularity in LU decomposition */
-    private static final double DEFAULT_TOO_SMALL = 10E-12;
+    private FieldMatrix<T> cachedP;
 
     /**
      * Calculates the LU-decomposition of the given matrix. 
      * @param matrix The matrix to decompose.
-     * @exception InvalidMatrixException if matrix is not square
-     */
-    public LUDecompositionImpl(RealMatrix matrix)
-        throws InvalidMatrixException {
-        this(matrix, DEFAULT_TOO_SMALL);
-    }
-
-    /**
-     * Calculates the LU-decomposition of the given matrix. 
-     * @param matrix The matrix to decompose.
-     * @param singularityThreshold threshold (based on partial row norm)
-     * under which a matrix is considered singular
      * @exception NonSquareMatrixException if matrix is not square
      */
-    public LUDecompositionImpl(RealMatrix matrix, double singularityThreshold)
+    public FieldLUDecompositionImpl(FieldMatrix<T> matrix)
         throws NonSquareMatrixException {
 
         if (!matrix.isSquare()) {
@@ -91,6 +84,7 @@ public class LUDecompositionImpl implements LUDecomposition {
         }
 
         final int m = matrix.getColumnDimension();
+        field = matrix.getField();
         lu = matrix.getData();
         pivot = new int[m];
         cachedL = null;
@@ -107,90 +101,87 @@ public class LUDecompositionImpl implements LUDecomposition {
         // Loop over columns
         for (int col = 0; col < m; col++) {
 
-            double sum = 0;
+            T sum = field.getZero();
 
             // upper
             for (int row = 0; row < col; row++) {
-                final double[] luRow = lu[row];
+                final T[] luRow = lu[row];
                 sum = luRow[col];
                 for (int i = 0; i < row; i++) {
-                    sum -= luRow[i] * lu[i][col];
+                    sum = sum.subtract(luRow[i].multiply(lu[i][col]));
                 }
                 luRow[col] = sum;
             }
 
             // lower
-            int max = col; // permutation row
-            double largest = Double.NEGATIVE_INFINITY;
+            int nonZero = col; // permutation row
             for (int row = col; row < m; row++) {
-                final double[] luRow = lu[row];
+                final T[] luRow = lu[row];
                 sum = luRow[col];
                 for (int i = 0; i < col; i++) {
-                    sum -= luRow[i] * lu[i][col];
+                    sum = sum.subtract(luRow[i].multiply(lu[i][col]));
                 }
                 luRow[col] = sum;
 
-                // maintain best permutation choice
-                if (Math.abs(sum) > largest) {
-                    largest = Math.abs(sum);
-                    max = row;
+                if (lu[nonZero][col].equals(field.getZero())) {
+                    // try to select a better permutation choice
+                    ++nonZero;
                 }
             }
 
             // Singularity check
-            if (Math.abs(lu[max][col]) < singularityThreshold) {
+            if (nonZero >= m) {
                 singular = true;
                 return;
             }
 
             // Pivot if necessary
-            if (max != col) {
-                double tmp = 0;
-                final double[] luMax = lu[max];
-                final double[] luCol = lu[col];
+            if (nonZero != col) {
+                T tmp = field.getZero();
                 for (int i = 0; i < m; i++) {
-                    tmp = luMax[i];
-                    luMax[i] = luCol[i];
-                    luCol[i] = tmp;
+                    tmp = lu[nonZero][i];
+                    lu[nonZero][i] = lu[col][i];
+                    lu[col][i] = tmp;
                 }
-                int temp = pivot[max];
-                pivot[max] = pivot[col];
+                int temp = pivot[nonZero];
+                pivot[nonZero] = pivot[col];
                 pivot[col] = temp;
                 even = !even;
             }
 
             // Divide the lower elements by the "winning" diagonal elt.
-            final double luDiag = lu[col][col];
+            final T luDiag = lu[col][col];
             for (int row = col + 1; row < m; row++) {
-                lu[row][col] /= luDiag;
+                final T[] luRow = lu[row];
+                luRow[col] = luRow[col].divide(luDiag);
             }
         }
 
     }
 
     /** {@inheritDoc} */
-    public RealMatrix getL() {
+    public FieldMatrix<T> getL() {
         if ((cachedL == null) && !singular) {
             final int m = pivot.length;
-            cachedL = MatrixUtils.createRealMatrix(m, m);
+            cachedL = new FieldMatrixImpl<T>(field, m, m);
             for (int i = 0; i < m; ++i) {
-                final double[] luI = lu[i];
+                final T[] luI = lu[i];
                 for (int j = 0; j < i; ++j) {
                     cachedL.setEntry(i, j, luI[j]);
                 }
-                cachedL.setEntry(i, i, 1.0);
+                cachedL.setEntry(i, i, field.getOne());
             }
         }
         return cachedL;
     }
 
     /** {@inheritDoc} */
-    public RealMatrix getU() {
+    public FieldMatrix<T> getU() {
         if ((cachedU == null) && !singular) {
             final int m = pivot.length;
-            cachedU = MatrixUtils.createRealMatrix(m, m);
+            cachedU = new FieldMatrixImpl<T>(field, m, m);
             for (int i = 0; i < m; ++i) {
-                final double[] luI = lu[i];
+                final T[] luI = lu[i];
                 for (int j = i; j < m; ++j) {
                     cachedU.setEntry(i, j, luI[j]);
                 }
@@ -200,12 +191,12 @@ public class LUDecompositionImpl implements LUDecomposition {
     }
 
     /** {@inheritDoc} */
-    public RealMatrix getP() {
+    public FieldMatrix<T> getP() {
         if ((cachedP == null) && !singular) {
             final int m = pivot.length;
-            cachedP = MatrixUtils.createRealMatrix(m, m);
+            cachedP = new FieldMatrixImpl<T>(field, m, m);
             for (int i = 0; i < m; ++i) {
-                cachedP.setEntry(i, pivot[i], 1.0);
+                cachedP.setEntry(i, pivot[i], field.getOne());
             }
         }
         return cachedP;
@@ -217,32 +208,35 @@ public class LUDecompositionImpl implements LUDecomposition {
     }
 
     /** {@inheritDoc} */
-    public double getDeterminant() {
+    public T getDeterminant() {
         if (singular) {
-            return 0;
+            return field.getZero();
         } else {
             final int m = pivot.length;
-            double determinant = even ? 1 : -1;
+            T determinant = even ? field.getOne() : field.getZero().subtract(field.getOne());
             for (int i = 0; i < m; i++) {
-                determinant *= lu[i][i];
+                determinant = determinant.multiply(lu[i][i]);
             }
             return determinant;
         }
     }
 
     /** {@inheritDoc} */
-    public DecompositionSolver getSolver() {
-        return new Solver(lu, pivot, singular);
+    public FieldDecompositionSolver<T> getSolver() {
+        return new Solver<T>(field, lu, pivot, singular);
     }
 
     /** Specialized solver. */
-    private static class Solver implements DecompositionSolver {
+    private static class Solver<T extends FieldElement<T>> implements FieldDecompositionSolver<T> {
 
         /** Serializable version identifier. */
         private static final long serialVersionUID = -6353105415121373022L;
 
+        /** Field to which the elements belong. */
+        private final Field<T> field;
+
         /** Entries of LU decomposition. */
-        private final double lu[][];
+        private final T lu[][];
 
         /** Pivot permutation associated with LU decomposition. */
         private final int[] pivot;
@@ -252,11 +246,14 @@ public class LUDecompositionImpl implements LUDecomposition {
 
         /**
          * Build a solver from decomposed matrix.
+         * @param field field to which the matrix elements belong
          * @param lu entries of LU decomposition
          * @param pivot pivot permutation associated with LU decomposition
          * @param singular singularity indicator
          */
-        private Solver(final double[][] lu, final int[] pivot, final boolean singular) {
+        private Solver(final Field<T> field, final T[][] lu,
+                       final int[] pivot, final boolean singular) {
+            this.field    = field;
             this.lu       = lu;
             this.pivot    = pivot;
             this.singular = singular;
@@ -268,7 +265,8 @@ public class LUDecompositionImpl implements LUDecomposition {
         }
 
         /** {@inheritDoc} */
-        public double[] solve(double[] b)
+        @SuppressWarnings("unchecked")
+        public T[] solve(T[] b)
             throws IllegalArgumentException, InvalidMatrixException {
 
             final int m = pivot.length;
@@ -281,7 +279,7 @@ public class LUDecompositionImpl implements LUDecomposition {
                 throw new SingularMatrixException();
             }
 
-            final double[] bp = new double[m];
+            final T[] bp = (T[]) Array.newInstance(field.getZero().getClass(), m);
 
             // Apply permutations to b
             for (int row = 0; row < m; row++) {
@@ -290,18 +288,18 @@ public class LUDecompositionImpl implements LUDecomposition {
 
             // Solve LY = b
             for (int col = 0; col < m; col++) {
-                final double bpCol = bp[col];
+                final T bpCol = bp[col];
                 for (int i = col + 1; i < m; i++) {
-                    bp[i] -= bpCol * lu[i][col];
+                    bp[i] = bp[i].subtract(bpCol.multiply(lu[i][col]));
                 }
             }
 
             // Solve UX = Y
             for (int col = m - 1; col >= 0; col--) {
-                bp[col] /= lu[col][col];
-                final double bpCol = bp[col];
+                bp[col] = bp[col].divide(lu[col][col]);
+                final T bpCol = bp[col];
                 for (int i = 0; i < col; i++) {
-                    bp[i] -= bpCol * lu[i][col];
+                    bp[i] = bp[i].subtract(bpCol.multiply(lu[i][col]));
                 }
             }
 
@@ -310,10 +308,11 @@ public class LUDecompositionImpl implements LUDecomposition {
         }
 
         /** {@inheritDoc} */
-        public RealVector solve(RealVector b)
+        @SuppressWarnings("unchecked")
+        public FieldVector<T> solve(FieldVector<T> b)
             throws IllegalArgumentException, InvalidMatrixException {
             try {
-                return solve((RealVectorImpl) b);
+                return solve((FieldVectorImpl<T>) b);
             } catch (ClassCastException cce) {
 
                 final int m = pivot.length;
@@ -326,7 +325,7 @@ public class LUDecompositionImpl implements LUDecomposition {
                     throw new SingularMatrixException();
                 }
 
-                final double[] bp = new double[m];
+                final T[] bp = (T[]) Array.newInstance(field.getZero().getClass(), m);
 
                 // Apply permutations to b
                 for (int row = 0; row < m; row++) {
@@ -335,22 +334,22 @@ public class LUDecompositionImpl implements LUDecomposition {
 
                 // Solve LY = b
                 for (int col = 0; col < m; col++) {
-                    final double bpCol = bp[col];
+                    final T bpCol = bp[col];
                     for (int i = col + 1; i < m; i++) {
-                        bp[i] -= bpCol * lu[i][col];
+                        bp[i] = bp[i].subtract(bpCol.multiply(lu[i][col]));
                     }
                 }
 
                 // Solve UX = Y
                 for (int col = m - 1; col >= 0; col--) {
-                    bp[col] /= lu[col][col];
-                    final double bpCol = bp[col];
+                    bp[col] = bp[col].divide(lu[col][col]);
+                    final T bpCol = bp[col];
                     for (int i = 0; i < col; i++) {
-                        bp[i] -= bpCol * lu[i][col];
+                        bp[i] = bp[i].subtract(bpCol.multiply(lu[i][col]));
                     }
                 }
 
-                return new RealVectorImpl(bp, false);
+                return new FieldVectorImpl<T>(bp, false);
 
             }
         }
@@ -362,13 +361,14 @@ public class LUDecompositionImpl implements LUDecomposition {
          * @exception IllegalArgumentException if matrices dimensions don't match
          * @exception InvalidMatrixException if decomposed matrix is singular
          */
-        public RealVectorImpl solve(RealVectorImpl b)
+        public FieldVectorImpl<T> solve(FieldVectorImpl<T> b)
             throws IllegalArgumentException, InvalidMatrixException {
-            return new RealVectorImpl(solve(b.getDataRef()), false);
+            return new FieldVectorImpl<T>(solve(b.getDataRef()), false);
         }
 
         /** {@inheritDoc} */
-        public RealMatrix solve(RealMatrix b)
+        @SuppressWarnings("unchecked")
+        public FieldMatrix<T> solve(FieldMatrix<T> b)
             throws IllegalArgumentException, InvalidMatrixException {
 
             final int m = pivot.length;
@@ -384,9 +384,9 @@ public class LUDecompositionImpl implements LUDecomposition {
             final int nColB = b.getColumnDimension();
 
             // Apply permutations to b
-            final double[][] bp = new double[m][nColB];
+            final T[][] bp = (T[][]) Array.newInstance(field.getZero().getClass(), new int[] { m, nColB });
             for (int row = 0; row < m; row++) {
-                final double[] bpRow = bp[row];
+                final T[] bpRow = bp[row];
                 final int pRow = pivot[row];
                 for (int col = 0; col < nColB; col++) {
                     bpRow[col] = b.getEntry(pRow, col);
@@ -395,39 +395,45 @@ public class LUDecompositionImpl implements LUDecomposition {
 
             // Solve LY = b
             for (int col = 0; col < m; col++) {
-                final double[] bpCol = bp[col];
+                final T[] bpCol = bp[col];
                 for (int i = col + 1; i < m; i++) {
-                    final double[] bpI = bp[i];
-                    final double luICol = lu[i][col];
+                    final T[] bpI = bp[i];
+                    final T luICol = lu[i][col];
                     for (int j = 0; j < nColB; j++) {
-                        bpI[j] -= bpCol[j] * luICol;
+                        bpI[j] = bpI[j].subtract(bpCol[j].multiply(luICol));
                     }
                 }
             }
 
             // Solve UX = Y
             for (int col = m - 1; col >= 0; col--) {
-                final double[] bpCol = bp[col];
-                final double luDiag = lu[col][col];
+                final T[] bpCol = bp[col];
+                final T luDiag = lu[col][col];
                 for (int j = 0; j < nColB; j++) {
-                    bpCol[j] /= luDiag;
+                    bpCol[j] = bpCol[j].divide(luDiag);
                 }
                 for (int i = 0; i < col; i++) {
-                    final double[] bpI = bp[i];
-                    final double luICol = lu[i][col];
+                    final T[] bpI = bp[i];
+                    final T luICol = lu[i][col];
                     for (int j = 0; j < nColB; j++) {
-                        bpI[j] -= bpCol[j] * luICol;
+                        bpI[j] = bpI[j].subtract(bpCol[j].multiply(luICol));
                     }
                 }
             }
 
-            return new RealMatrixImpl(bp, false);
+            return new FieldMatrixImpl<T>(bp, false);
 
         }
 
         /** {@inheritDoc} */
-        public RealMatrix getInverse() throws InvalidMatrixException {
-            return solve(MatrixUtils.createRealIdentityMatrix(pivot.length));
+        public FieldMatrix<T> getInverse() throws InvalidMatrixException {
+            final int m = pivot.length;
+            final T one = field.getOne();
+            FieldMatrix<T> identity = new FieldMatrixImpl<T>(field, m, m);
+            for (int i = 0; i < m; ++i) {
+                identity.setEntry(i, i, one);
+            }
+            return solve(identity);
         }
 
     }

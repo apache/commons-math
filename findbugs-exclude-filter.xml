@@ -110,6 +110,16 @@
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
+    <Class name="org.apache.commons.math.linear.FieldMatrixImpl"/>
+    <Method name="&lt;init>" params="org.apache.commons.math.FieldElement[][],boolean" returns="void" />
+    <Bug pattern="EI_EXPOSE_REP2" />
+  </Match>
+  <Match>
+    <Class name="org.apache.commons.math.linear.FieldMatrixImpl"/>
+    <Method name="getDataRef" params="" returns="org.apache.commons.math.FieldElement[][]" />
+    <Bug pattern="EI_EXPOSE_REP" />
+  </Match>
+  <Match>
     <Class name="org.apache.commons.math.linear.DenseRealMatrix"/>
     <Method name="&lt;init>" params="int,int,double[][],boolean" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />
@@ -125,6 +135,11 @@
   <Match>
     <Class name="org.apache.commons.math.linear.RealVectorImpl"/>
     <Method name="getDataRef" params="" returns="double[]" />
+    <Bug pattern="EI_EXPOSE_REP" />
+  </Match>
+  <Match>
+    <Class name="org.apache.commons.math.linear.FieldVectorImpl"/>
+    <Method name="getDataRef" params="" returns="org.apache.commons.math.FieldElement[]" />
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
 

@@ -62,6 +62,7 @@
                 <li><a href="linear.html#a3.3_Real_vectors">3.3 Real vectors</a></li>
                 <li><a href="linear.html#a3.4_Solving_linear_systems">3.4 Solving linear systems</a></li> 
                 <li><a href="linear.html#a3.5_Eigenvalueseigenvectors_and_singular_valuessingular_vectors">3.5 Eigenvalues/eigenvectors and singular values/singular vectors</a></li>
+                <li><a href="linear.html#a3.6_Non-real_fields_complex_fractions_...">3.6 Non-real fields (complex, fractions ...)</a></li>
                 </ul></li>             
             <li><a href="analysis.html">4. Numerical Analysis</a>
                 <ul>
@@ -84,7 +85,7 @@
                 <li><a href="utilities.html#a6.2_Double_array_utilities">6.2 Double array utilities</a></li>
                 <li><a href="utilities.html#a6.3_intdouble_hash_map">6.3 int/double hash map</a></li>
                 <li><a href="utilities.html#a6.4_Continued_Fractions">6.4 Continued Fractions</a></li>
-                <li><a href="utilities.html#a6.5_binomial_coefficients,_factorials_and_other_common_math_functions">6.5 binomial coefficients, factorials and other common math functions</a></li>
+                <li><a href="utilities.html#a6.5_binomial_coefficients_factorials_and_other_common_math_functions">6.5 binomial coefficients, factorials and other common math functions</a></li>
                 </ul></li>                                 
         <li><a href="complex.html">7. Complex Numbers</a>
                 <ul>

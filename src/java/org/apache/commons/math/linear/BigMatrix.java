@@ -27,7 +27,10 @@ import java.math.BigDecimal;
  * returns the element in the first row, first column of the matrix.</p>
  *
  * @version $Revision$ $Date$
+ * @deprecated as of 2.0, replaced by {@link FieldMatrix} with a {@link
+ * org.apache.commons.math.util.BigReal} parameter
  */
+@Deprecated
 public interface BigMatrix {
 
     /**

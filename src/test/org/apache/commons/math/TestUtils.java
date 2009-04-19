@@ -28,6 +28,7 @@ import junit.framework.AssertionFailedError;
 
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.complex.ComplexFormat;
+import org.apache.commons.math.linear.FieldMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 
 /**
@@ -282,6 +283,34 @@ public class TestUtils {
         }
     }
     
+    /** verifies that two matrices are equal */              
+    public static void assertEquals(FieldMatrix<? extends FieldElement<?>> expected,
+                                    FieldMatrix<? extends FieldElement<?>> observed) {
+        
+        if (observed == null) {
+            Assert.fail("Observed is null");
+        }
+        
+        if (expected.getColumnDimension() != observed.getColumnDimension() || 
+                expected.getRowDimension() != observed.getRowDimension()) {
+            StringBuffer messageBuffer = new StringBuffer();
+            messageBuffer.append("Observed has incorrect dimensions."); 
+            messageBuffer.append("\nobserved is " + observed.getRowDimension() +
+                    " x " + observed.getColumnDimension());
+            messageBuffer.append("\nexpected " + expected.getRowDimension() +
+                    " x " + expected.getColumnDimension());
+            Assert.fail(messageBuffer.toString());
+        }
+
+        for (int i = 0; i < expected.getRowDimension(); ++i) {
+            for (int j = 0; j < expected.getColumnDimension(); ++j) {
+                FieldElement<?> eij = expected.getEntry(i, j);
+                FieldElement<?> oij = observed.getEntry(i, j);
+                Assert.assertEquals(eij, oij);
+            }
+        }
+    }
+    
     /** verifies that two arrays are close (sup norm) */
     public static void assertEquals(String msg, double[] m, double[] n,
         double tolerance) {
@@ -291,6 +320,17 @@ public class TestUtils {
         for (int i = 0; i < m.length; i++) {
             Assert.assertEquals(msg + " " +  i + " elements differ", 
                 m[i],n[i],tolerance);
+        }
+    }
+    
+    /** verifies that two arrays are equal */
+    public static void assertEquals(FieldElement<? extends FieldElement<?>>[] m,
+                                    FieldElement<? extends FieldElement<?>>[] n) {
+        if (m.length != n.length) {
+            Assert.fail("vectors not same length");
+        }
+        for (int i = 0; i < m.length; i++) {
+            Assert.assertEquals(m[i],n[i]);
         }
     }
     

@@ -40,6 +40,10 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
     <release version="2.0" date="TBD" description="TBD">
       <action dev="luc" type="add" >
+        Added support for any type of field in linear algebra (FielxMatrix, FieldVector,
+        FieldLUDecomposition)
+      </action>
+      <action dev="luc" type="add" >
         Added general Field and FieldElement interfaces to allow generic algorithms
         to operate on fields. The library already provides several implementations:
         Complex, Fraction, BigFraction and BigReal
