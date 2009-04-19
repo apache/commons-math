@@ -81,8 +81,7 @@ import org.apache.commons.math.util.MathUtils;
  * </ul>
  * </p>
  * 
- * @version $Revision$ $Date: 2008-11-23 08:27:09 -0600 (Sun, 23 Nov
- *          2008) $
+ * @version $Revision$ $Date$
  */
 public class RandomDataImpl implements RandomData, Serializable {
 
@@ -379,13 +378,13 @@ public class RandomDataImpl implements RandomData, Serializable {
             double muFactorialLog = MathUtils.factorialLog((int) mu);
 
             double c1 = Math.sqrt(Math.PI * mu / 2.0);
-            double c2 = c1
-                    + Math.sqrt(Math.PI * muDeltaHalf
-                            / (2.0 * Math.exp(1.0 / mu2delta)));
+            double c2 = c1 +
+                        Math.sqrt(Math.PI * muDeltaHalf /
+                                  (2.0 * Math.exp(1.0 / mu2delta)));
             double c3 = c2 + 2.0;
             double c4 = c3 + Math.exp(1.0 / 78.0);
-            double c = c4 + 2.0 / delta * mu2delta
-                    * Math.exp(-delta / mu2delta * (1.0 + delta / 2.0));
+            double c = c4 + 2.0 / delta * mu2delta *
+                       Math.exp(-delta / mu2delta * (1.0 + delta / 2.0));
 
             double y = 0.0;
             double x = 0.0;
@@ -424,9 +423,9 @@ public class RandomDataImpl implements RandomData, Serializable {
                     x = Math.ceil(y);
                     w = -delta / mu2delta * (1.0 + y / 2.0) - e - x * logMeanMu;
                 }
-                accept = (w <= x * Math.log(mu)
-                        - MathUtils.factorialLog((int) (mu + x))
-                        / muFactorialLog);
+                accept = (w <= x * Math.log(mu) -
+                         MathUtils.factorialLog((int) (mu + x)) /
+                         muFactorialLog);
             }
             // cast to long is acceptable because both x and mu are whole
             // numbers.
