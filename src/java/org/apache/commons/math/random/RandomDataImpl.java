@@ -86,664 +86,664 @@ import org.apache.commons.math.util.MathUtils;
  */
 public class RandomDataImpl implements RandomData, Serializable {
 
-	/** Serializable version identifier */
-	private static final long serialVersionUID = -626730818244969716L;
+    /** Serializable version identifier */
+    private static final long serialVersionUID = -626730818244969716L;
 
-	/** underlying random number generator */
-	private RandomGenerator rand = null;
+    /** underlying random number generator */
+    private RandomGenerator rand = null;
 
-	/** underlying secure random number generator */
-	private SecureRandom secRand = null;
+    /** underlying secure random number generator */
+    private SecureRandom secRand = null;
 
-	/**
-	 * Construct a RandomDataImpl.
-	 */
-	public RandomDataImpl() {
-	}
+    /**
+     * Construct a RandomDataImpl.
+     */
+    public RandomDataImpl() {
+    }
 
-	/**
-	 * Construct a RandomDataImpl using the supplied {@link RandomGenerator} as
-	 * the source of (non-secure) random data.
-	 * 
-	 * @param rand
-	 *            the source of (non-secure) random data
-	 * @since 1.1
-	 */
-	public RandomDataImpl(RandomGenerator rand) {
-		super();
-		this.rand = rand;
-	}
+    /**
+     * Construct a RandomDataImpl using the supplied {@link RandomGenerator} as
+     * the source of (non-secure) random data.
+     * 
+     * @param rand
+     *            the source of (non-secure) random data
+     * @since 1.1
+     */
+    public RandomDataImpl(RandomGenerator rand) {
+        super();
+        this.rand = rand;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 * <p>
-	 * <strong>Algorithm Description:</strong> hex strings are generated using a
-	 * 2-step process.
-	 * <ol>
-	 * <li>
-	 * len/2+1 binary bytes are generated using the underlying Random</li>
-	 * <li>
-	 * Each binary byte is translated into 2 hex digits</li>
-	 * </ol>
-	 * </p>
-	 * 
-	 * @param len
-	 *            the desired string length.
-	 * @return the random string.
-	 */
-	public String nextHexString(int len) {
-		if (len <= 0) {
-			throw new IllegalArgumentException("length must be positive");
-		}
+    /**
+     * {@inheritDoc}
+     * <p>
+     * <strong>Algorithm Description:</strong> hex strings are generated using a
+     * 2-step process.
+     * <ol>
+     * <li>
+     * len/2+1 binary bytes are generated using the underlying Random</li>
+     * <li>
+     * Each binary byte is translated into 2 hex digits</li>
+     * </ol>
+     * </p>
+     * 
+     * @param len
+     *            the desired string length.
+     * @return the random string.
+     */
+    public String nextHexString(int len) {
+        if (len <= 0) {
+            throw new IllegalArgumentException("length must be positive");
+        }
 
-		// Get a random number generator
-		RandomGenerator ran = getRan();
+        // Get a random number generator
+        RandomGenerator ran = getRan();
 
-		// Initialize output buffer
-		StringBuffer outBuffer = new StringBuffer();
+        // Initialize output buffer
+        StringBuffer outBuffer = new StringBuffer();
 
-		// Get int(len/2)+1 random bytes
-		byte[] randomBytes = new byte[(len / 2) + 1];
-		ran.nextBytes(randomBytes);
+        // Get int(len/2)+1 random bytes
+        byte[] randomBytes = new byte[(len / 2) + 1];
+        ran.nextBytes(randomBytes);
 
-		// Convert each byte to 2 hex digits
-		for (int i = 0; i < randomBytes.length; i++) {
-			Integer c = Integer.valueOf(randomBytes[i]);
+        // Convert each byte to 2 hex digits
+        for (int i = 0; i < randomBytes.length; i++) {
+            Integer c = Integer.valueOf(randomBytes[i]);
 
-			/*
-			 * Add 128 to byte value to make interval 0-255 before doing hex
-			 * conversion. This guarantees <= 2 hex digits from toHexString()
-			 * toHexString would otherwise add 2^32 to negative arguments.
-			 */
-			String hex = Integer.toHexString(c.intValue() + 128);
+            /*
+             * Add 128 to byte value to make interval 0-255 before doing hex
+             * conversion. This guarantees <= 2 hex digits from toHexString()
+             * toHexString would otherwise add 2^32 to negative arguments.
+             */
+            String hex = Integer.toHexString(c.intValue() + 128);
 
-			// Make sure we add 2 hex digits for each byte
-			if (hex.length() == 1) {
-				hex = "0" + hex;
-			}
-			outBuffer.append(hex);
-		}
-		return outBuffer.toString().substring(0, len);
-	}
+            // Make sure we add 2 hex digits for each byte
+            if (hex.length() == 1) {
+                hex = "0" + hex;
+            }
+            outBuffer.append(hex);
+        }
+        return outBuffer.toString().substring(0, len);
+    }
 
-	/**
-	 * Generate a random int value uniformly distributed between
-	 * <code>lower</code> and <code>upper</code>, inclusive.
-	 * 
-	 * @param lower
-	 *            the lower bound.
-	 * @param upper
-	 *            the upper bound.
-	 * @return the random integer.
-	 */
-	public int nextInt(int lower, int upper) {
-		if (lower >= upper) {
-			throw new IllegalArgumentException(
-					"upper bound must be > lower bound");
-		}
-		RandomGenerator rand = getRan();
-		double r = rand.nextDouble();
-		return (int) ((r * upper) + ((1.0 - r) * lower) + r);
-	}
+    /**
+     * Generate a random int value uniformly distributed between
+     * <code>lower</code> and <code>upper</code>, inclusive.
+     * 
+     * @param lower
+     *            the lower bound.
+     * @param upper
+     *            the upper bound.
+     * @return the random integer.
+     */
+    public int nextInt(int lower, int upper) {
+        if (lower >= upper) {
+            throw new IllegalArgumentException(
+                    "upper bound must be > lower bound");
+        }
+        RandomGenerator rand = getRan();
+        double r = rand.nextDouble();
+        return (int) ((r * upper) + ((1.0 - r) * lower) + r);
+    }
 
-	/**
-	 * Generate a random long value uniformly distributed between
-	 * <code>lower</code> and <code>upper</code>, inclusive.
-	 * 
-	 * @param lower
-	 *            the lower bound.
-	 * @param upper
-	 *            the upper bound.
-	 * @return the random integer.
-	 */
-	public long nextLong(long lower, long upper) {
-		if (lower >= upper) {
-			throw new IllegalArgumentException(
-					"upper bound must be > lower bound");
-		}
-		RandomGenerator rand = getRan();
-		double r = rand.nextDouble();
-		return (long) ((r * upper) + ((1.0 - r) * lower) + r);
-	}
+    /**
+     * Generate a random long value uniformly distributed between
+     * <code>lower</code> and <code>upper</code>, inclusive.
+     * 
+     * @param lower
+     *            the lower bound.
+     * @param upper
+     *            the upper bound.
+     * @return the random integer.
+     */
+    public long nextLong(long lower, long upper) {
+        if (lower >= upper) {
+            throw new IllegalArgumentException(
+                    "upper bound must be > lower bound");
+        }
+        RandomGenerator rand = getRan();
+        double r = rand.nextDouble();
+        return (long) ((r * upper) + ((1.0 - r) * lower) + r);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 * <p>
-	 * <strong>Algorithm Description:</strong> hex strings are generated in
-	 * 40-byte segments using a 3-step process.
-	 * <ol>
-	 * <li>
-	 * 20 random bytes are generated using the underlying
-	 * <code>SecureRandom</code>.</li>
-	 * <li>
-	 * SHA-1 hash is applied to yield a 20-byte binary digest.</li>
-	 * <li>
-	 * Each byte of the binary digest is converted to 2 hex digits.</li>
-	 * </ol>
-	 * </p>
-	 * 
-	 * @param len
-	 *            the length of the generated string
-	 * @return the random string
-	 */
-	public String nextSecureHexString(int len) {
-		if (len <= 0) {
-			throw new IllegalArgumentException("length must be positive");
-		}
+    /**
+     * {@inheritDoc}
+     * <p>
+     * <strong>Algorithm Description:</strong> hex strings are generated in
+     * 40-byte segments using a 3-step process.
+     * <ol>
+     * <li>
+     * 20 random bytes are generated using the underlying
+     * <code>SecureRandom</code>.</li>
+     * <li>
+     * SHA-1 hash is applied to yield a 20-byte binary digest.</li>
+     * <li>
+     * Each byte of the binary digest is converted to 2 hex digits.</li>
+     * </ol>
+     * </p>
+     * 
+     * @param len
+     *            the length of the generated string
+     * @return the random string
+     */
+    public String nextSecureHexString(int len) {
+        if (len <= 0) {
+            throw new IllegalArgumentException("length must be positive");
+        }
 
-		// Get SecureRandom and setup Digest provider
-		SecureRandom secRan = getSecRan();
-		MessageDigest alg = null;
-		try {
-			alg = MessageDigest.getInstance("SHA-1");
-		} catch (NoSuchAlgorithmException ex) {
-			return null; // gulp FIXME? -- this *should* never fail.
-		}
-		alg.reset();
+        // Get SecureRandom and setup Digest provider
+        SecureRandom secRan = getSecRan();
+        MessageDigest alg = null;
+        try {
+            alg = MessageDigest.getInstance("SHA-1");
+        } catch (NoSuchAlgorithmException ex) {
+            return null; // gulp FIXME? -- this *should* never fail.
+        }
+        alg.reset();
 
-		// Compute number of iterations required (40 bytes each)
-		int numIter = (len / 40) + 1;
+        // Compute number of iterations required (40 bytes each)
+        int numIter = (len / 40) + 1;
 
-		StringBuffer outBuffer = new StringBuffer();
-		for (int iter = 1; iter < numIter + 1; iter++) {
-			byte[] randomBytes = new byte[40];
-			secRan.nextBytes(randomBytes);
-			alg.update(randomBytes);
+        StringBuffer outBuffer = new StringBuffer();
+        for (int iter = 1; iter < numIter + 1; iter++) {
+            byte[] randomBytes = new byte[40];
+            secRan.nextBytes(randomBytes);
+            alg.update(randomBytes);
 
-			// Compute hash -- will create 20-byte binary hash
-			byte hash[] = alg.digest();
+            // Compute hash -- will create 20-byte binary hash
+            byte hash[] = alg.digest();
 
-			// Loop over the hash, converting each byte to 2 hex digits
-			for (int i = 0; i < hash.length; i++) {
-				Integer c = Integer.valueOf(hash[i]);
+            // Loop over the hash, converting each byte to 2 hex digits
+            for (int i = 0; i < hash.length; i++) {
+                Integer c = Integer.valueOf(hash[i]);
 
-				/*
-				 * Add 128 to byte value to make interval 0-255 This guarantees
-				 * <= 2 hex digits from toHexString() toHexString would
-				 * otherwise add 2^32 to negative arguments
-				 */
-				String hex = Integer.toHexString(c.intValue() + 128);
+                /*
+                 * Add 128 to byte value to make interval 0-255 This guarantees
+                 * <= 2 hex digits from toHexString() toHexString would
+                 * otherwise add 2^32 to negative arguments
+                 */
+                String hex = Integer.toHexString(c.intValue() + 128);
 
-				// Keep strings uniform length -- guarantees 40 bytes
-				if (hex.length() == 1) {
-					hex = "0" + hex;
-				}
-				outBuffer.append(hex);
-			}
-		}
-		return outBuffer.toString().substring(0, len);
-	}
+                // Keep strings uniform length -- guarantees 40 bytes
+                if (hex.length() == 1) {
+                    hex = "0" + hex;
+                }
+                outBuffer.append(hex);
+            }
+        }
+        return outBuffer.toString().substring(0, len);
+    }
 
-	/**
-	 * Generate a random int value uniformly distributed between
-	 * <code>lower</code> and <code>upper</code>, inclusive. This algorithm uses
-	 * a secure random number generator.
-	 * 
-	 * @param lower
-	 *            the lower bound.
-	 * @param upper
-	 *            the upper bound.
-	 * @return the random integer.
-	 */
-	public int nextSecureInt(int lower, int upper) {
-		if (lower >= upper) {
-			throw new IllegalArgumentException(
-					"lower bound must be < upper bound");
-		}
-		SecureRandom sec = getSecRan();
-		return lower + (int) (sec.nextDouble() * (upper - lower + 1));
-	}
+    /**
+     * Generate a random int value uniformly distributed between
+     * <code>lower</code> and <code>upper</code>, inclusive. This algorithm uses
+     * a secure random number generator.
+     * 
+     * @param lower
+     *            the lower bound.
+     * @param upper
+     *            the upper bound.
+     * @return the random integer.
+     */
+    public int nextSecureInt(int lower, int upper) {
+        if (lower >= upper) {
+            throw new IllegalArgumentException(
+                    "lower bound must be < upper bound");
+        }
+        SecureRandom sec = getSecRan();
+        return lower + (int) (sec.nextDouble() * (upper - lower + 1));
+    }
 
-	/**
-	 * Generate a random long value uniformly distributed between
-	 * <code>lower</code> and <code>upper</code>, inclusive. This algorithm uses
-	 * a secure random number generator.
-	 * 
-	 * @param lower
-	 *            the lower bound.
-	 * @param upper
-	 *            the upper bound.
-	 * @return the random integer.
-	 */
-	public long nextSecureLong(long lower, long upper) {
-		if (lower >= upper) {
-			throw new IllegalArgumentException(
-					"lower bound must be < upper bound");
-		}
-		SecureRandom sec = getSecRan();
-		return lower + (long) (sec.nextDouble() * (upper - lower + 1));
-	}
+    /**
+     * Generate a random long value uniformly distributed between
+     * <code>lower</code> and <code>upper</code>, inclusive. This algorithm uses
+     * a secure random number generator.
+     * 
+     * @param lower
+     *            the lower bound.
+     * @param upper
+     *            the upper bound.
+     * @return the random integer.
+     */
+    public long nextSecureLong(long lower, long upper) {
+        if (lower >= upper) {
+            throw new IllegalArgumentException(
+                    "lower bound must be < upper bound");
+        }
+        SecureRandom sec = getSecRan();
+        return lower + (long) (sec.nextDouble() * (upper - lower + 1));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 * <p>
-	 * <strong>Algorithm Description</strong>: For small means, uses simulation
-	 * of a Poisson process using Uniform deviates, as described <a
-	 * href="http://irmi.epfl.ch/cmos/Pmmi/interactive/rng7.htm"> here.</a>
-	 * </p>
-	 * <p>
-	 * The Poisson process (and hence value returned) is bounded by 1000 * mean.
-	 * </p>
-	 * 
-	 * <p>
-	 * For large means, uses a reject method as described in <a
-	 * href="http://cg.scs.carleton.ca/~luc/rnbookindex.html">Non-Uniform Random
-	 * Variate Generation</a>
-	 * </p>
-	 * 
-	 * <p>
-	 * References:
-	 * <ul>
-	 * <li>Devroye, Luc. (1986). <i>Non-Uniform Random Variate Generation</i>.
-	 * New York, NY. Springer-Verlag</li>
-	 * </ul>
-	 * </p>
-	 * 
-	 * @param mean
-	 *            mean of the Poisson distribution.
-	 * @return the random Poisson value.
-	 */
-	public long nextPoisson(double mean) {
-		if (mean <= 0) {
-			throw new IllegalArgumentException("Poisson mean must be > 0");
-		}
+    /**
+     * {@inheritDoc}
+     * <p>
+     * <strong>Algorithm Description</strong>: For small means, uses simulation
+     * of a Poisson process using Uniform deviates, as described <a
+     * href="http://irmi.epfl.ch/cmos/Pmmi/interactive/rng7.htm"> here.</a>
+     * </p>
+     * <p>
+     * The Poisson process (and hence value returned) is bounded by 1000 * mean.
+     * </p>
+     * 
+     * <p>
+     * For large means, uses a reject method as described in <a
+     * href="http://cg.scs.carleton.ca/~luc/rnbookindex.html">Non-Uniform Random
+     * Variate Generation</a>
+     * </p>
+     * 
+     * <p>
+     * References:
+     * <ul>
+     * <li>Devroye, Luc. (1986). <i>Non-Uniform Random Variate Generation</i>.
+     * New York, NY. Springer-Verlag</li>
+     * </ul>
+     * </p>
+     * 
+     * @param mean
+     *            mean of the Poisson distribution.
+     * @return the random Poisson value.
+     */
+    public long nextPoisson(double mean) {
+        if (mean <= 0) {
+            throw new IllegalArgumentException("Poisson mean must be > 0");
+        }
 
-		RandomGenerator rand = getRan();
+        RandomGenerator rand = getRan();
 
-		double pivot = 6.0;
-		if (mean < pivot) {
-			double p = Math.exp(-mean);
-			long n = 0;
-			double r = 1.0d;
-			double rnd = 1.0d;
+        double pivot = 6.0;
+        if (mean < pivot) {
+            double p = Math.exp(-mean);
+            long n = 0;
+            double r = 1.0d;
+            double rnd = 1.0d;
 
-			while (n < 1000 * mean) {
-				rnd = rand.nextDouble();
-				r = r * rnd;
-				if (r >= p) {
-					n++;
-				} else {
-					return n;
-				}
-			}
-			return n;
-		} else {
-			double mu = Math.floor(mean);
-			double delta = Math.floor(pivot + (mu - pivot) / 2.0); // integer
-			// between 6
-			// and mean
-			double mu2delta = 2.0 * mu + delta;
-			double muDeltaHalf = mu + delta / 2.0;
-			double logMeanMu = Math.log(mean / mu);
+            while (n < 1000 * mean) {
+                rnd = rand.nextDouble();
+                r = r * rnd;
+                if (r >= p) {
+                    n++;
+                } else {
+                    return n;
+                }
+            }
+            return n;
+        } else {
+            double mu = Math.floor(mean);
+            double delta = Math.floor(pivot + (mu - pivot) / 2.0); // integer
+            // between 6
+            // and mean
+            double mu2delta = 2.0 * mu + delta;
+            double muDeltaHalf = mu + delta / 2.0;
+            double logMeanMu = Math.log(mean / mu);
 
-			double muFactorialLog = MathUtils.factorialLog((int) mu);
+            double muFactorialLog = MathUtils.factorialLog((int) mu);
 
-			double c1 = Math.sqrt(Math.PI * mu / 2.0);
-			double c2 = c1
-					+ Math.sqrt(Math.PI * muDeltaHalf
-							/ (2.0 * Math.exp(1.0 / mu2delta)));
-			double c3 = c2 + 2.0;
-			double c4 = c3 + Math.exp(1.0 / 78.0);
-			double c = c4 + 2.0 / delta * mu2delta
-					* Math.exp(-delta / mu2delta * (1.0 + delta / 2.0));
+            double c1 = Math.sqrt(Math.PI * mu / 2.0);
+            double c2 = c1
+                    + Math.sqrt(Math.PI * muDeltaHalf
+                            / (2.0 * Math.exp(1.0 / mu2delta)));
+            double c3 = c2 + 2.0;
+            double c4 = c3 + Math.exp(1.0 / 78.0);
+            double c = c4 + 2.0 / delta * mu2delta
+                    * Math.exp(-delta / mu2delta * (1.0 + delta / 2.0));
 
-			double y = 0.0;
-			double x = 0.0;
-			double w = Double.POSITIVE_INFINITY;
+            double y = 0.0;
+            double x = 0.0;
+            double w = Double.POSITIVE_INFINITY;
 
-			boolean accept = false;
-			while (!accept) {
-				double u = nextUniform(0.0, c);
-				double e = nextExponential(mean);
+            boolean accept = false;
+            while (!accept) {
+                double u = nextUniform(0.0, c);
+                double e = nextExponential(mean);
 
-				if (u <= c1) {
-					double z = nextGaussian(0.0, 1.0);
-					y = -Math.abs(z) * Math.sqrt(mu) - 1.0;
-					x = Math.floor(y);
-					w = -z * z / 2.0 - e - x * logMeanMu;
-					if (x < -mu) {
-						w = Double.POSITIVE_INFINITY;
-					}
-				} else if (c1 < u && u <= c2) {
-					double z = nextGaussian(0.0, 1.0);
-					y = 1.0 + Math.abs(z) * Math.sqrt(muDeltaHalf);
-					x = Math.ceil(y);
-					w = (-y * y + 2.0 * y) / mu2delta - e - x * logMeanMu;
-					if (x > delta) {
-						w = Double.POSITIVE_INFINITY;
-					}
-				} else if (c2 < u && u <= c3) {
-					x = 0.0;
-					w = -e;
-				} else if (c3 < u && u <= c4) {
-					x = 1.0;
-					w = -e - logMeanMu;
-				} else if (c4 < u) {
-					double v = nextExponential(mean);
-					y = delta + v * 2.0 / delta * mu2delta;
-					x = Math.ceil(y);
-					w = -delta / mu2delta * (1.0 + y / 2.0) - e - x * logMeanMu;
-				}
-				accept = (w <= x * Math.log(mu)
-						- MathUtils.factorialLog((int) (mu + x))
-						/ muFactorialLog);
-			}
-			// cast to long is acceptable because both x and mu are whole
-			// numbers.
-			return (long) (x + mu);
-		}
-	}
+                if (u <= c1) {
+                    double z = nextGaussian(0.0, 1.0);
+                    y = -Math.abs(z) * Math.sqrt(mu) - 1.0;
+                    x = Math.floor(y);
+                    w = -z * z / 2.0 - e - x * logMeanMu;
+                    if (x < -mu) {
+                        w = Double.POSITIVE_INFINITY;
+                    }
+                } else if (c1 < u && u <= c2) {
+                    double z = nextGaussian(0.0, 1.0);
+                    y = 1.0 + Math.abs(z) * Math.sqrt(muDeltaHalf);
+                    x = Math.ceil(y);
+                    w = (-y * y + 2.0 * y) / mu2delta - e - x * logMeanMu;
+                    if (x > delta) {
+                        w = Double.POSITIVE_INFINITY;
+                    }
+                } else if (c2 < u && u <= c3) {
+                    x = 0.0;
+                    w = -e;
+                } else if (c3 < u && u <= c4) {
+                    x = 1.0;
+                    w = -e - logMeanMu;
+                } else if (c4 < u) {
+                    double v = nextExponential(mean);
+                    y = delta + v * 2.0 / delta * mu2delta;
+                    x = Math.ceil(y);
+                    w = -delta / mu2delta * (1.0 + y / 2.0) - e - x * logMeanMu;
+                }
+                accept = (w <= x * Math.log(mu)
+                        - MathUtils.factorialLog((int) (mu + x))
+                        / muFactorialLog);
+            }
+            // cast to long is acceptable because both x and mu are whole
+            // numbers.
+            return (long) (x + mu);
+        }
+    }
 
-	/**
-	 * Generate a random value from a Normal (a.k.a. Gaussian) distribution with
-	 * the given mean, <code>mu</code> and the given standard deviation,
-	 * <code>sigma</code>.
-	 * 
-	 * @param mu
-	 *            the mean of the distribution
-	 * @param sigma
-	 *            the standard deviation of the distribution
-	 * @return the random Normal value
-	 */
-	public double nextGaussian(double mu, double sigma) {
-		if (sigma <= 0) {
-			throw new IllegalArgumentException("Gaussian std dev must be > 0");
-		}
-		RandomGenerator rand = getRan();
-		return sigma * rand.nextGaussian() + mu;
-	}
+    /**
+     * Generate a random value from a Normal (a.k.a. Gaussian) distribution with
+     * the given mean, <code>mu</code> and the given standard deviation,
+     * <code>sigma</code>.
+     * 
+     * @param mu
+     *            the mean of the distribution
+     * @param sigma
+     *            the standard deviation of the distribution
+     * @return the random Normal value
+     */
+    public double nextGaussian(double mu, double sigma) {
+        if (sigma <= 0) {
+            throw new IllegalArgumentException("Gaussian std dev must be > 0");
+        }
+        RandomGenerator rand = getRan();
+        return sigma * rand.nextGaussian() + mu;
+    }
 
-	/**
-	 * Returns a random value from an Exponential distribution with the given
-	 * mean.
-	 * <p>
-	 * <strong>Algorithm Description</strong>: Uses the <a
-	 * href="http://www.jesus.ox.ac.uk/~clifford/a5/chap1/node5.html"> Inversion
-	 * Method</a> to generate exponentially distributed random values from
-	 * uniform deviates.
-	 * </p>
-	 * 
-	 * @param mean
-	 *            the mean of the distribution
-	 * @return the random Exponential value
-	 */
-	public double nextExponential(double mean) {
-		if (mean < 0.0) {
-			throw new IllegalArgumentException("Exponential mean must be >= 0");
-		}
-		RandomGenerator rand = getRan();
-		double unif = rand.nextDouble();
-		while (unif == 0.0d) {
-			unif = rand.nextDouble();
-		}
-		return -mean * Math.log(unif);
-	}
+    /**
+     * Returns a random value from an Exponential distribution with the given
+     * mean.
+     * <p>
+     * <strong>Algorithm Description</strong>: Uses the <a
+     * href="http://www.jesus.ox.ac.uk/~clifford/a5/chap1/node5.html"> Inversion
+     * Method</a> to generate exponentially distributed random values from
+     * uniform deviates.
+     * </p>
+     * 
+     * @param mean
+     *            the mean of the distribution
+     * @return the random Exponential value
+     */
+    public double nextExponential(double mean) {
+        if (mean < 0.0) {
+            throw new IllegalArgumentException("Exponential mean must be >= 0");
+        }
+        RandomGenerator rand = getRan();
+        double unif = rand.nextDouble();
+        while (unif == 0.0d) {
+            unif = rand.nextDouble();
+        }
+        return -mean * Math.log(unif);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 * <p>
-	 * <strong>Algorithm Description</strong>: scales the output of
-	 * Random.nextDouble(), but rejects 0 values (i.e., will generate another
-	 * random double if Random.nextDouble() returns 0). This is necessary to
-	 * provide a symmetric output interval (both endpoints excluded).
-	 * </p>
-	 * 
-	 * @param lower
-	 *            the lower bound.
-	 * @param upper
-	 *            the upper bound.
-	 * @return a uniformly distributed random value from the interval (lower,
-	 *         upper)
-	 */
-	public double nextUniform(double lower, double upper) {
-		if (lower >= upper) {
-			throw new IllegalArgumentException(
-					"lower bound must be < upper bound");
-		}
-		RandomGenerator rand = getRan();
+    /**
+     * {@inheritDoc}
+     * <p>
+     * <strong>Algorithm Description</strong>: scales the output of
+     * Random.nextDouble(), but rejects 0 values (i.e., will generate another
+     * random double if Random.nextDouble() returns 0). This is necessary to
+     * provide a symmetric output interval (both endpoints excluded).
+     * </p>
+     * 
+     * @param lower
+     *            the lower bound.
+     * @param upper
+     *            the upper bound.
+     * @return a uniformly distributed random value from the interval (lower,
+     *         upper)
+     */
+    public double nextUniform(double lower, double upper) {
+        if (lower >= upper) {
+            throw new IllegalArgumentException(
+                    "lower bound must be < upper bound");
+        }
+        RandomGenerator rand = getRan();
 
-		// ensure nextDouble() isn't 0.0
-		double u = rand.nextDouble();
-		while (u <= 0.0) {
-			u = rand.nextDouble();
-		}
+        // ensure nextDouble() isn't 0.0
+        double u = rand.nextDouble();
+        while (u <= 0.0) {
+            u = rand.nextDouble();
+        }
 
-		return lower + u * (upper - lower);
-	}
+        return lower + u * (upper - lower);
+    }
 
-	/**
-	 * Returns the RandomGenerator used to generate non-secure random data.
-	 * <p>
-	 * Creates and initializes a default generator if null.
-	 * </p>
-	 * 
-	 * @return the Random used to generate random data
-	 * @since 1.1
-	 */
-	private RandomGenerator getRan() {
-		if (rand == null) {
-			rand = new JDKRandomGenerator();
-			rand.setSeed(System.currentTimeMillis());
-		}
-		return rand;
-	}
+    /**
+     * Returns the RandomGenerator used to generate non-secure random data.
+     * <p>
+     * Creates and initializes a default generator if null.
+     * </p>
+     * 
+     * @return the Random used to generate random data
+     * @since 1.1
+     */
+    private RandomGenerator getRan() {
+        if (rand == null) {
+            rand = new JDKRandomGenerator();
+            rand.setSeed(System.currentTimeMillis());
+        }
+        return rand;
+    }
 
-	/**
-	 * Returns the SecureRandom used to generate secure random data.
-	 * <p>
-	 * Creates and initializes if null.
-	 * </p>
-	 * 
-	 * @return the SecureRandom used to generate secure random data
-	 */
-	private SecureRandom getSecRan() {
-		if (secRand == null) {
-			secRand = new SecureRandom();
-			secRand.setSeed(System.currentTimeMillis());
-		}
-		return secRand;
-	}
+    /**
+     * Returns the SecureRandom used to generate secure random data.
+     * <p>
+     * Creates and initializes if null.
+     * </p>
+     * 
+     * @return the SecureRandom used to generate secure random data
+     */
+    private SecureRandom getSecRan() {
+        if (secRand == null) {
+            secRand = new SecureRandom();
+            secRand.setSeed(System.currentTimeMillis());
+        }
+        return secRand;
+    }
 
-	/**
-	 * Reseeds the random number generator with the supplied seed.
-	 * <p>
-	 * Will create and initialize if null.
-	 * </p>
-	 * 
-	 * @param seed
-	 *            the seed value to use
-	 */
-	public void reSeed(long seed) {
-		if (rand == null) {
-			rand = new JDKRandomGenerator();
-		}
-		rand.setSeed(seed);
-	}
+    /**
+     * Reseeds the random number generator with the supplied seed.
+     * <p>
+     * Will create and initialize if null.
+     * </p>
+     * 
+     * @param seed
+     *            the seed value to use
+     */
+    public void reSeed(long seed) {
+        if (rand == null) {
+            rand = new JDKRandomGenerator();
+        }
+        rand.setSeed(seed);
+    }
 
-	/**
-	 * Reseeds the secure random number generator with the current time in
-	 * milliseconds.
-	 * <p>
-	 * Will create and initialize if null.
-	 * </p>
-	 */
-	public void reSeedSecure() {
-		if (secRand == null) {
-			secRand = new SecureRandom();
-		}
-		secRand.setSeed(System.currentTimeMillis());
-	}
+    /**
+     * Reseeds the secure random number generator with the current time in
+     * milliseconds.
+     * <p>
+     * Will create and initialize if null.
+     * </p>
+     */
+    public void reSeedSecure() {
+        if (secRand == null) {
+            secRand = new SecureRandom();
+        }
+        secRand.setSeed(System.currentTimeMillis());
+    }
 
-	/**
-	 * Reseeds the secure random number generator with the supplied seed.
-	 * <p>
-	 * Will create and initialize if null.
-	 * </p>
-	 * 
-	 * @param seed
-	 *            the seed value to use
-	 */
-	public void reSeedSecure(long seed) {
-		if (secRand == null) {
-			secRand = new SecureRandom();
-		}
-		secRand.setSeed(seed);
-	}
+    /**
+     * Reseeds the secure random number generator with the supplied seed.
+     * <p>
+     * Will create and initialize if null.
+     * </p>
+     * 
+     * @param seed
+     *            the seed value to use
+     */
+    public void reSeedSecure(long seed) {
+        if (secRand == null) {
+            secRand = new SecureRandom();
+        }
+        secRand.setSeed(seed);
+    }
 
-	/**
-	 * Reseeds the random number generator with the current time in
-	 * milliseconds.
-	 */
-	public void reSeed() {
-		if (rand == null) {
-			rand = new JDKRandomGenerator();
-		}
-		rand.setSeed(System.currentTimeMillis());
-	}
+    /**
+     * Reseeds the random number generator with the current time in
+     * milliseconds.
+     */
+    public void reSeed() {
+        if (rand == null) {
+            rand = new JDKRandomGenerator();
+        }
+        rand.setSeed(System.currentTimeMillis());
+    }
 
-	/**
-	 * Sets the PRNG algorithm for the underlying SecureRandom instance using
-	 * the Security Provider API. The Security Provider API is defined in <a
-	 * href =
-	 * "http://java.sun.com/j2se/1.3/docs/guide/security/CryptoSpec.html#AppA">
-	 * Java Cryptography Architecture API Specification & Reference.</a>
-	 * <p>
-	 * <strong>USAGE NOTE:</strong> This method carries <i>significant</i>
-	 * overhead and may take several seconds to execute.
-	 * </p>
-	 * 
-	 * @param algorithm
-	 *            the name of the PRNG algorithm
-	 * @param provider
-	 *            the name of the provider
-	 * @throws NoSuchAlgorithmException
-	 *             if the specified algorithm is not available
-	 * @throws NoSuchProviderException
-	 *             if the specified provider is not installed
-	 */
-	public void setSecureAlgorithm(String algorithm, String provider)
-			throws NoSuchAlgorithmException, NoSuchProviderException {
-		secRand = SecureRandom.getInstance(algorithm, provider);
-	}
+    /**
+     * Sets the PRNG algorithm for the underlying SecureRandom instance using
+     * the Security Provider API. The Security Provider API is defined in <a
+     * href =
+     * "http://java.sun.com/j2se/1.3/docs/guide/security/CryptoSpec.html#AppA">
+     * Java Cryptography Architecture API Specification & Reference.</a>
+     * <p>
+     * <strong>USAGE NOTE:</strong> This method carries <i>significant</i>
+     * overhead and may take several seconds to execute.
+     * </p>
+     * 
+     * @param algorithm
+     *            the name of the PRNG algorithm
+     * @param provider
+     *            the name of the provider
+     * @throws NoSuchAlgorithmException
+     *             if the specified algorithm is not available
+     * @throws NoSuchProviderException
+     *             if the specified provider is not installed
+     */
+    public void setSecureAlgorithm(String algorithm, String provider)
+            throws NoSuchAlgorithmException, NoSuchProviderException {
+        secRand = SecureRandom.getInstance(algorithm, provider);
+    }
 
-	/**
-	 * Generates an integer array of length <code>k</code> whose entries are
-	 * selected randomly, without repetition, from the integers
-	 * <code>0 through n-1</code> (inclusive).
-	 * <p>
-	 * Generated arrays represent permutations of <code>n</code> taken
-	 * <code>k</code> at a time.
-	 * </p>
-	 * <p>
-	 * <strong>Preconditions:</strong>
-	 * <ul>
-	 * <li> <code>k <= n</code></li>
-	 * <li> <code>n > 0</code></li>
-	 * </ul>
-	 * If the preconditions are not met, an IllegalArgumentException is thrown.
-	 * </p>
-	 * <p>
-	 * Uses a 2-cycle permutation shuffle. The shuffling process is described <a
-	 * href="http://www.maths.abdn.ac.uk/~igc/tch/mx4002/notes/node83.html">
-	 * here</a>.
-	 * </p>
-	 * 
-	 * @param n
-	 *            domain of the permutation (must be positive)
-	 * @param k
-	 *            size of the permutation (must satisfy 0 < k <= n).
-	 * @return the random permutation as an int array
-	 */
-	public int[] nextPermutation(int n, int k) {
-		if (k > n) {
-			throw new IllegalArgumentException("permutation k exceeds n");
-		}
-		if (k == 0) {
-			throw new IllegalArgumentException("permutation k must be > 0");
-		}
+    /**
+     * Generates an integer array of length <code>k</code> whose entries are
+     * selected randomly, without repetition, from the integers
+     * <code>0 through n-1</code> (inclusive).
+     * <p>
+     * Generated arrays represent permutations of <code>n</code> taken
+     * <code>k</code> at a time.
+     * </p>
+     * <p>
+     * <strong>Preconditions:</strong>
+     * <ul>
+     * <li> <code>k <= n</code></li>
+     * <li> <code>n > 0</code></li>
+     * </ul>
+     * If the preconditions are not met, an IllegalArgumentException is thrown.
+     * </p>
+     * <p>
+     * Uses a 2-cycle permutation shuffle. The shuffling process is described <a
+     * href="http://www.maths.abdn.ac.uk/~igc/tch/mx4002/notes/node83.html">
+     * here</a>.
+     * </p>
+     * 
+     * @param n
+     *            domain of the permutation (must be positive)
+     * @param k
+     *            size of the permutation (must satisfy 0 < k <= n).
+     * @return the random permutation as an int array
+     */
+    public int[] nextPermutation(int n, int k) {
+        if (k > n) {
+            throw new IllegalArgumentException("permutation k exceeds n");
+        }
+        if (k == 0) {
+            throw new IllegalArgumentException("permutation k must be > 0");
+        }
 
-		int[] index = getNatural(n);
-		shuffle(index, n - k);
-		int[] result = new int[k];
-		for (int i = 0; i < k; i++) {
-			result[i] = index[n - i - 1];
-		}
+        int[] index = getNatural(n);
+        shuffle(index, n - k);
+        int[] result = new int[k];
+        for (int i = 0; i < k; i++) {
+            result[i] = index[n - i - 1];
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	/**
-	 * Uses a 2-cycle permutation shuffle to generate a random permutation.
-	 * <strong>Algorithm Description</strong>: Uses a 2-cycle permutation
-	 * shuffle to generate a random permutation of <code>c.size()</code> and
-	 * then returns the elements whose indexes correspond to the elements of the
-	 * generated permutation. This technique is described, and proven to
-	 * generate random samples, <a
-	 * href="http://www.maths.abdn.ac.uk/~igc/tch/mx4002/notes/node83.html">
-	 * here</a>
-	 * 
-	 * @param c
-	 *            Collection to sample from.
-	 * @param k
-	 *            sample size.
-	 * @return the random sample.
-	 */
-	public Object[] nextSample(Collection<?> c, int k) {
-		int len = c.size();
-		if (k > len) {
-			throw new IllegalArgumentException(
-					"sample size exceeds collection size");
-		}
-		if (k == 0) {
-			throw new IllegalArgumentException("sample size must be > 0");
-		}
+    /**
+     * Uses a 2-cycle permutation shuffle to generate a random permutation.
+     * <strong>Algorithm Description</strong>: Uses a 2-cycle permutation
+     * shuffle to generate a random permutation of <code>c.size()</code> and
+     * then returns the elements whose indexes correspond to the elements of the
+     * generated permutation. This technique is described, and proven to
+     * generate random samples, <a
+     * href="http://www.maths.abdn.ac.uk/~igc/tch/mx4002/notes/node83.html">
+     * here</a>
+     * 
+     * @param c
+     *            Collection to sample from.
+     * @param k
+     *            sample size.
+     * @return the random sample.
+     */
+    public Object[] nextSample(Collection<?> c, int k) {
+        int len = c.size();
+        if (k > len) {
+            throw new IllegalArgumentException(
+                    "sample size exceeds collection size");
+        }
+        if (k == 0) {
+            throw new IllegalArgumentException("sample size must be > 0");
+        }
 
-		Object[] objects = c.toArray();
-		int[] index = nextPermutation(len, k);
-		Object[] result = new Object[k];
-		for (int i = 0; i < k; i++) {
-			result[i] = objects[index[i]];
-		}
-		return result;
-	}
+        Object[] objects = c.toArray();
+        int[] index = nextPermutation(len, k);
+        Object[] result = new Object[k];
+        for (int i = 0; i < k; i++) {
+            result[i] = objects[index[i]];
+        }
+        return result;
+    }
 
-	// ------------------------Private methods----------------------------------
+    // ------------------------Private methods----------------------------------
 
-	/**
-	 * Uses a 2-cycle permutation shuffle to randomly re-order the last elements
-	 * of list.
-	 * 
-	 * @param list
-	 *            list to be shuffled
-	 * @param end
-	 *            element past which shuffling begins
-	 */
-	private void shuffle(int[] list, int end) {
-		int target = 0;
-		for (int i = list.length - 1; i >= end; i--) {
-			if (i == 0) {
-				target = 0;
-			} else {
-				target = nextInt(0, i);
-			}
-			int temp = list[target];
-			list[target] = list[i];
-			list[i] = temp;
-		}
-	}
+    /**
+     * Uses a 2-cycle permutation shuffle to randomly re-order the last elements
+     * of list.
+     * 
+     * @param list
+     *            list to be shuffled
+     * @param end
+     *            element past which shuffling begins
+     */
+    private void shuffle(int[] list, int end) {
+        int target = 0;
+        for (int i = list.length - 1; i >= end; i--) {
+            if (i == 0) {
+                target = 0;
+            } else {
+                target = nextInt(0, i);
+            }
+            int temp = list[target];
+            list[target] = list[i];
+            list[i] = temp;
+        }
+    }
 
-	/**
-	 * Returns an array representing n.
-	 * 
-	 * @param n
-	 *            the natural number to represent
-	 * @return array with entries = elements of n
-	 */
-	private int[] getNatural(int n) {
-		int[] natural = new int[n];
-		for (int i = 0; i < n; i++) {
-			natural[i] = i;
-		}
-		return natural;
-	}
+    /**
+     * Returns an array representing n.
+     * 
+     * @param n
+     *            the natural number to represent
+     * @return array with entries = elements of n
+     */
+    private int[] getNatural(int n) {
+        int[] natural = new int[n];
+        for (int i = 0; i < n; i++) {
+            natural[i] = i;
+        }
+        return natural;
+    }
 }
