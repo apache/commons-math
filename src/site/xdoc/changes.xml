@@ -39,6 +39,11 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="luc" type="add" >
+        Added general Field and FieldElement interfaces to allow generic algorithms
+        to operate on fields. The library already provides several implementations:
+        Complex, Fraction, BigFraction and BigReal
+      </action>
       <action dev="luc" type="fix" issue="MATH-257" due-to="Sebb">
         Fixed inconsistent access to multidimensional array in FastFourierTransformer
       </action>

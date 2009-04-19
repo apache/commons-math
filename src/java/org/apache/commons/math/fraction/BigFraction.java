@@ -19,6 +19,7 @@ package org.apache.commons.math.fraction;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.util.MathUtils;
 
@@ -29,7 +30,7 @@ import org.apache.commons.math.util.MathUtils;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class BigFraction extends Number implements Comparable<BigFraction> {
+public class BigFraction extends Number implements FieldElement<BigFraction>, Comparable<BigFraction> {
 
     /** A fraction representing "2 / 1". */
     public static final BigFraction TWO = new BigFraction(2);
@@ -74,7 +75,7 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
     public static final BigFraction TWO_THIRDS = new BigFraction(2, 3);
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -130662482360701382L;
+    private static final long serialVersionUID = -5630213147331578515L;
 
     /** <code>BigInteger</code> representation of 100. */
     private static final BigInteger ONE_HUNDRED_DOUBLE = BigInteger.valueOf(100);
@@ -1119,4 +1120,10 @@ public class BigFraction extends Number implements Comparable<BigFraction> {
         }
         return str;
     }
+
+    /** {@inheritDoc} */
+    public BigFractionField getField() {
+        return BigFractionField.getInstance();
+    }
+
 }

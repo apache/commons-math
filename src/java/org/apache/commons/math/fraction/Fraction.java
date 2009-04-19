@@ -18,6 +18,7 @@ package org.apache.commons.math.fraction;
 
 import java.math.BigInteger;
 
+import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.util.MathUtils;
 
@@ -27,7 +28,7 @@ import org.apache.commons.math.util.MathUtils;
  * @since 1.1
  * @version $Revision$ $Date$
  */
-public class Fraction extends Number implements Comparable<Fraction> {
+public class Fraction extends Number implements FieldElement<Fraction>, Comparable<Fraction> {
 
     /** A fraction representing "2 / 1". */
     public static final Fraction TWO = new Fraction(2, 1);
@@ -72,7 +73,7 @@ public class Fraction extends Number implements Comparable<Fraction> {
     public static final Fraction MINUS_ONE = new Fraction(-1, 1);
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = 3071409609509774764L;
+    private static final long serialVersionUID = 3698073679419233275L;
 
     /** The denominator. */
     private final int denominator;
@@ -647,6 +648,11 @@ public class Fraction extends Number implements Comparable<Fraction> {
             str = numerator + " / " + denominator;
         }
         return str;
+    }
+
+    /** {@inheritDoc} */
+    public FractionField getField() {
+        return FractionField.getInstance();
     }
 
 }
