@@ -88,7 +88,7 @@
 
   <!-- Should Java compilations set the 'optimize' compiler option? -->
   <property name="compile.optimize"        value="true"/>
-	
+    
   <!-- JDK level -->
   <property name="compile.source"          value="1.5"/>
   <property name="compile.target"          value="1.5"/>
@@ -168,34 +168,34 @@
     
       <copy todir="${build.home}/test-classes">
           <fileset dir="${test.home}">
-    	      <include name="**/*.xml"/>
-    	      <include name="**/*.txt"/>
-    	  </fileset>
+              <include name="**/*.xml"/>
+              <include name="**/*.txt"/>
+          </fileset>
       </copy>
 
     </target>
 
   <target name="test"  depends="compile.tests"
                        description="Run unit tests">
-  	<junit printsummary="true"
-  	         errorProperty="test.failed"
-  	         failureProperty="test.failed"
-  	         fork="true"
-  		     showOutput="true">
-  		     <formatter usefile="false" type="plain"/>
-  	         <classpath refid="test.classpath"/>
-  	         <batchtest>
-  	            <fileset dir="${test.home}" includes="**/*Test.java" 
-  	            excludes="**/*AbstractTest.java"/>
-  	         </batchtest>
-  	 </junit>
-  	 <fail message="There were test failures.">
-  	 	<condition>
-  	 		<and>
-  	 			<istrue value="${test.failonerror}"/>
-  	 		    <isset property="test.failed"/>
-  	 	    </and>
-  	 	</condition>
+      <junit printsummary="true"
+               errorProperty="test.failed"
+               failureProperty="test.failed"
+               fork="true"
+               showOutput="true">
+               <formatter usefile="false" type="plain"/>
+               <classpath refid="test.classpath"/>
+               <batchtest>
+                  <fileset dir="${test.home}" includes="**/*Test.java" 
+                  excludes="**/*AbstractTest.java"/>
+               </batchtest>
+       </junit>
+       <fail message="There were test failures.">
+           <condition>
+               <and>
+                   <istrue value="${test.failonerror}"/>
+                   <isset property="test.failed"/>
+               </and>
+           </condition>
      </fail>
   </target>
 
@@ -218,7 +218,7 @@
                  bottom="Copyright (c) 2003-${current.year}  Apache Software Foundation"
            classpathref="compile.classpath">
         <link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>  
-    	<link href="http://commons.apache.org/collections/api"/> 
+        <link href="http://commons.apache.org/collections/api"/> 
     </javadoc>
   </target>
 

@@ -39,31 +39,31 @@
     <module name="InterfaceIsType"/>
 
     <!-- Must have class / interface header comments including scm version -->
-	<module name="JavadocType">
-  	  <property name="versionFormat" value="\$Revision.*\$ \$Date.*\$"/>
-	</module>
-		
+    <module name="JavadocType">
+        <property name="versionFormat" value="\$Revision.*\$ \$Date.*\$"/>
+    </module>
+        
      <!-- Require method javadocs, allow undeclared RTE -->
-	<module name="JavadocMethod">
-	  <property name="allowUndeclaredRTE" value="true"/>
-	</module>
-		
+    <module name="JavadocMethod">
+      <property name="allowUndeclaredRTE" value="true"/>
+    </module>
+        
     <!-- Require field javadoc -->
-	<module name="JavadocVariable"/>
-		
+    <module name="JavadocVariable"/>
+        
     <!-- No tabs allowed! -->
-	<module name="TabCharacter"/>
-	
-	<!-- No public fields -->
-	<module name="VisibilityModifier">
+    <module name="TabCharacter"/>
+    
+    <!-- No public fields -->
+    <module name="VisibilityModifier">
        <property name="protectedAllowed" value="true"/>
     </module>
-	
-	<!-- Require hash code override when equals is -->
-	<module name="EqualsHashCode"/>
-	
-	<!-- Disallow unecessary instantiantion of Boolean, String -->
-	<module name="IllegalInstantiation">
+    
+    <!-- Require hash code override when equals is -->
+    <module name="EqualsHashCode"/>
+    
+    <!-- Disallow unecessary instantiantion of Boolean, String -->
+    <module name="IllegalInstantiation">
       <property name="classes" value="java.lang.Boolean, java.lang.String"/>
     </module>
 
