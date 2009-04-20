@@ -23,6 +23,7 @@ import java.util.Arrays;
 
 import org.apache.commons.math.Field;
 import org.apache.commons.math.FieldElement;
+import org.apache.commons.math.MathRuntimeException;
 
 /**
  * A collection of static methods that operate on or return matrices.
@@ -315,6 +316,9 @@ public class MatrixUtils {
     public static <T extends FieldElement<T>> FieldMatrix<T>
         createRowFieldMatrix(final T[] rowData) {
         final int nCols = rowData.length;
+        if (nCols == 0) {
+            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column"); 
+        }
         final FieldMatrix<T> m = createFieldMatrix(rowData[0].getField(), 1, nCols);
         for (int i = 0; i < nCols; ++i) {
             m.setEntry(0, i, rowData[i]);
@@ -410,6 +414,9 @@ public class MatrixUtils {
     public static <T extends FieldElement<T>> FieldMatrix<T>
         createColumnFieldMatrix(final T[] columnData) {
         final int nRows = columnData.length;
+        if (nRows == 0) {
+            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row"); 
+        }
         final FieldMatrix<T> m = createFieldMatrix(columnData[0].getField(), nRows, 1);
         for (int i = 0; i < nRows; ++i) {
             m.setEntry(i, 0, columnData[i]);
