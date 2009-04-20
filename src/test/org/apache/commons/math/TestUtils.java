@@ -324,8 +324,7 @@ public class TestUtils {
     }
     
     /** verifies that two arrays are equal */
-    public static void assertEquals(FieldElement<? extends FieldElement<?>>[] m,
-                                    FieldElement<? extends FieldElement<?>>[] n) {
+    public static <T extends FieldElement<T>> void assertEquals(T[] m, T[] n) {
         if (m.length != n.length) {
             Assert.fail("vectors not same length");
         }
