@@ -594,19 +594,18 @@ public class SparseRealVector implements RealVector {
     /** {@inheritDoc} */
     public boolean isInfinite() {
         boolean infiniteFound = false;
-        boolean nanFound      = false;
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
             final double value = iter.value();
             if (Double.isNaN(value)) {
-                nanFound = true;
+                return false;
             }
             if (Double.isInfinite(value)) {
                 infiniteFound = true;
             }
         }
-        return infiniteFound && (!nanFound);
+        return infiniteFound;
     }
 
     /** {@inheritDoc} */
@@ -1234,12 +1233,6 @@ public class SparseRealVector implements RealVector {
         temp = Double.doubleToLongBits(epsilon);
         result = prime * result + (int) (temp ^ (temp >>> 32));
         result = prime * result + virtualSize;
-        Iterator iter = entries.iterator();
-        while (iter.hasNext()) {
-            iter.advance();
-            temp = Double.doubleToLongBits(iter.value());
-            result = prime * result + (int) (temp ^ (temp >>> 32));
-        }
         return result;
     }
 

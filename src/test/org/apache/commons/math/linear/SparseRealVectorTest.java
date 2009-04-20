@@ -1091,12 +1091,6 @@ public class SparseRealVectorTest extends TestCase {
         assertNotSame(v, new SparseRealVector(new double[] { 0, 1, 2 + Math.ulp(2)}));
         assertNotSame(v, new SparseRealVector(new double[] { 0, 1, 2, 3 }));
 
-        assertTrue(new SparseRealVector(new double[] { Double.NaN, 1, 2 }).hashCode() !=
-                      new SparseRealVector(new double[] { 0, Double.NaN, 2 }).hashCode());
-
-        assertTrue(new SparseRealVector(new double[] { Double.NaN, 1, 2 }).hashCode() !=
-                   new SparseRealVector(new double[] { 0, 1, 2 }).hashCode());
-
     }
 
     /** verifies that two vectors are close (sup norm) */
