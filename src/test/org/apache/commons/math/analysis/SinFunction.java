@@ -30,6 +30,8 @@ import org.apache.commons.math.FunctionEvaluationException;
  */
 public class SinFunction implements DifferentiableUnivariateRealFunction {
 
+    private static final long serialVersionUID = 6422911699694536977L;
+
     /* Evaluate sinus fuction.
      * @see org.apache.commons.math.UnivariateRealFunction#value(double)
      */
@@ -41,6 +43,7 @@ public class SinFunction implements DifferentiableUnivariateRealFunction {
      */
     public UnivariateRealFunction derivative() {
         return new UnivariateRealFunction() {
+            private static final long serialVersionUID = -309931502404170015L;
             public double value(double x) throws FunctionEvaluationException {
                 return Math.cos(x);
             }

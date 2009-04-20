@@ -25,6 +25,8 @@ import org.apache.commons.math.FunctionEvaluationException;
  */
 public class MonitoredFunction implements UnivariateRealFunction {
 
+    private static final long serialVersionUID = -8403645545888892674L;
+
     public MonitoredFunction(UnivariateRealFunction f) {
         callsCount = 0;
         this.f = f;

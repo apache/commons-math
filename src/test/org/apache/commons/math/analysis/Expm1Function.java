@@ -25,6 +25,8 @@ import org.apache.commons.math.FunctionEvaluationException;
  */
 public class Expm1Function implements DifferentiableUnivariateRealFunction {
 
+    private static final long serialVersionUID = 1410052725961159179L;
+
     public double value(double x) throws FunctionEvaluationException {
         // Math.expm1() is available in jdk 1.5 but not in jdk 1.4.2.
         return Math.exp(x) - 1.0;
@@ -32,6 +34,7 @@ public class Expm1Function implements DifferentiableUnivariateRealFunction {
 
     public UnivariateRealFunction derivative() {
         return new UnivariateRealFunction() {
+            private static final long serialVersionUID = 5621329502844531460L;
             public double value(double x) throws FunctionEvaluationException {
                 return Math.exp(x);
             }

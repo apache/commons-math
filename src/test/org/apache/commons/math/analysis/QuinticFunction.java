@@ -38,6 +38,7 @@ public class QuinticFunction implements DifferentiableUnivariateRealFunction, Se
 
     public UnivariateRealFunction derivative() {
         return new UnivariateRealFunction() {
+            private static final long serialVersionUID = 5265867813333370L;
             public double value(double x) throws FunctionEvaluationException {
                 return (5*x*x-3.75)*x*x+0.25;
             }
