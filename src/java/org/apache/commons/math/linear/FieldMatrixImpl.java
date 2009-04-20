@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.linear;
 
-import java.util.Arrays;
-
 import org.apache.commons.math.Field;
 import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.MathRuntimeException;
@@ -43,37 +41,6 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
     protected T[][] data;
 
     /**
-     * Get the elements type from an array.
-     * @param d data array
-     * @return field to which array elements belong
-     * @exception IllegalArgumentException if array is empty
-     */
-    private static Field<? extends FieldElement<?>> extractField(final FieldElement<? extends FieldElement<?>>[][] d)
-        throws IllegalArgumentException {
-        if (d.length == 0) {
-            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row"); 
-        }
-        if (d[0].length == 0) {
-            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column"); 
-        }
-        return d[0][0].getField();
-    }
-
-    /**
-     * Get the elements type from an array.
-     * @param d data array
-     * @return field to which array elements belong
-     * @exception IllegalArgumentException if array is empty
-     */
-    private static Field<? extends FieldElement<?>> extractField(final FieldElement<? extends FieldElement<?>>[] d)
-        throws IllegalArgumentException {
-        if (d.length == 0) {
-            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row"); 
-        }
-        return d[0].getField();
-    }
-
-    /**
      * Creates a matrix with no data
      * @param field field to which the elements belong
      */
@@ -94,11 +61,7 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
                            final int rowDimension, final int columnDimension)
         throws IllegalArgumentException {
         super(field, rowDimension, columnDimension);
-        data = buildArray(rowDimension, columnDimension);
-        final T zero = field.getZero();
-        for (int i = 0; i < rowDimension; ++i) {
-            Arrays.fill(data[i], zero);
-        }
+        data = buildArray(field, rowDimension, columnDimension);
     }
 
     /**
@@ -114,7 +77,6 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
      * @throws NullPointerException if <code>d</code> is null
      * @see #FieldMatrixImpl(T[][], boolean)
      */
-    @SuppressWarnings("unchecked")
     public FieldMatrixImpl(final T[][] d)
         throws IllegalArgumentException, NullPointerException {
         super((Field<T>) extractField(d));
@@ -136,7 +98,6 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
      * @throws NullPointerException if <code>d</code> is null
      * @see #FieldMatrixImpl(T[][])
      */
-    @SuppressWarnings("unchecked")
     public FieldMatrixImpl(final T[][] d, final boolean copyArray)
         throws IllegalArgumentException, NullPointerException {
         super((Field<T>) extractField(d));
@@ -173,11 +134,10 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
      *
      * @param v column vector holding data for new matrix
      */
-    @SuppressWarnings("unchecked")
     public FieldMatrixImpl(final T[] v) {
         super((Field<T>) extractField(v));
         final int nRows = v.length;
-        data = buildArray(nRows, 1);
+        data = buildArray(getField(), nRows, 1);
         for (int row = 0; row < nRows; row++) {
             data[row][0] = v[row];
         }
@@ -222,7 +182,7 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
 
         final int rowCount    = getRowDimension();
         final int columnCount = getColumnDimension();
-        final T[][] outData = buildArray(rowCount, columnCount);
+        final T[][] outData = buildArray(getField(), rowCount, columnCount);
         for (int row = 0; row < rowCount; row++) {
             final T[] dataRow    = data[row];
             final T[] mRow       = m.data[row];
@@ -262,7 +222,7 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
 
         final int rowCount    = getRowDimension();
         final int columnCount = getColumnDimension();
-        final T[][] outData = buildArray(rowCount, columnCount);
+        final T[][] outData = buildArray(getField(), rowCount, columnCount);
         for (int row = 0; row < rowCount; row++) {
             final T[] dataRow    = data[row];
             final T[] mRow       = m.data[row];
@@ -303,7 +263,7 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
         final int nRows = this.getRowDimension();
         final int nCols = m.getColumnDimension();
         final int nSum = this.getColumnDimension();
-        final T[][] outData = buildArray(nRows, nCols);
+        final T[][] outData = buildArray(getField(), nRows, nCols);
         for (int row = 0; row < nRows; row++) {
             final T[] dataRow    = data[row];
             final T[] outDataRow = outData[row];
@@ -361,7 +321,7 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
             if (nCols == 0) {
                 throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column"); 
             }
-            data = buildArray(subMatrix.length, nCols);
+            data = buildArray(getField(), subMatrix.length, nCols);
             for (int i = 0; i < data.length; ++i) {
                 if (subMatrix[i].length != nCols) {
                     throw MathRuntimeException.createIllegalArgumentException(
@@ -451,7 +411,7 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
                     "vector length mismatch: got {0} but expected {1}",
                     v.length, nCols);
         }
-        final T[] out = buildArray(nRows);
+        final T[] out = buildArray(getField(), nRows);
         for (int row = 0; row < nRows; row++) {
             final T[] dataRow = data[row];
             T sum = getField().getZero();
@@ -476,7 +436,7 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
                     v.length, nRows);
         }
 
-        final T[] out = buildArray(nCols);
+        final T[] out = buildArray(getField(), nCols);
         for (int col = 0; col < nCols; ++col) {
             T sum = getField().getZero();
             for (int i = 0; i < nRows; ++i) {
@@ -630,7 +590,7 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
      */
     private T[][] copyOut() {
         final int nRows = this.getRowDimension();
-        final T[][] out = buildArray(nRows, getColumnDimension());
+        final T[][] out = buildArray(getField(), nRows, getColumnDimension());
         // can't copy 2-d array in one shot, otherwise get row references
         for (int i = 0; i < nRows; i++) {
             System.arraycopy(data[i], 0, out[i], 0, data[i].length);
