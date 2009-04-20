@@ -21,6 +21,10 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.apache.commons.math.fraction.Fraction;
+import org.apache.commons.math.fraction.FractionConversionException;
+import org.apache.commons.math.fraction.FractionField;
+
 /**
  * Test cases for the {@link MatrixUtils} class.
  *
@@ -35,19 +39,27 @@ public final class MatrixUtilsTest extends TestCase {
     protected BigDecimal[] bigRow = 
         {new BigDecimal(1),new BigDecimal(2),new BigDecimal(3)};
     protected String[] stringRow = {"1", "2", "3"};
+    protected Fraction[] fractionRow = 
+        {new Fraction(1),new Fraction(2),new Fraction(3)};
     protected double[][] rowMatrix = {{1,2,3}};
     protected BigDecimal[][] bigRowMatrix = 
         {{new BigDecimal(1), new BigDecimal(2), new BigDecimal(3)}};
     protected String[][] stringRowMatrix = {{"1", "2", "3"}};
+    protected Fraction[][] fractionRowMatrix = 
+        {{new Fraction(1), new Fraction(2), new Fraction(3)}};
     protected double[] col = {0,4,6};
     protected BigDecimal[] bigCol = 
         {new BigDecimal(0),new BigDecimal(4),new BigDecimal(6)};
     protected String[] stringCol = {"0","4","6"};
+    protected Fraction[] fractionCol = 
+        {new Fraction(0),new Fraction(4),new Fraction(6)};
     protected double[] nullDoubleArray = null;
     protected double[][] colMatrix = {{0},{4},{6}};
     protected BigDecimal[][] bigColMatrix = 
         {{new BigDecimal(0)},{new BigDecimal(4)},{new BigDecimal(6)}};
     protected String[][] stringColMatrix = {{"0"}, {"4"}, {"6"}};
+    protected Fraction[][] fractionColMatrix = 
+        {{new Fraction(0)},{new Fraction(4)},{new Fraction(6)}};
     
     public MatrixUtilsTest(String name) {
         super(name);
@@ -82,7 +94,33 @@ public final class MatrixUtilsTest extends TestCase {
             // expected
         } 
     }
-    
+
+    public void testcreateFieldMatrix() {
+        assertEquals(new FieldMatrixImpl<Fraction>(asFraction(testData)), 
+                     MatrixUtils.createFieldMatrix(asFraction(testData)));
+        assertEquals(new FieldMatrixImpl<Fraction>(fractionColMatrix), 
+                     MatrixUtils.createFieldMatrix(fractionColMatrix));
+        try {
+            MatrixUtils.createFieldMatrix(asFraction(new double[][] {{1}, {1,2}}));  // ragged
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        } 
+        try {
+            MatrixUtils.createFieldMatrix(asFraction(new double[][] {{}, {}}));  // no columns
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+        try {
+            MatrixUtils.createFieldMatrix((Fraction[][])null);  // null
+            fail("Expecting NullPointerException");
+        } catch (NullPointerException ex) {
+            // expected
+        } 
+    }
+
+    @Deprecated
     public void testCreateBigMatrix() {
         assertEquals(new BigMatrixImpl(testData), 
                 MatrixUtils.createBigMatrix(testData));
@@ -131,6 +169,26 @@ public final class MatrixUtilsTest extends TestCase {
         } 
     }
     
+    public void testCreateRowFieldMatrix() {
+        assertEquals(MatrixUtils.createRowFieldMatrix(asFraction(row)),
+                     new FieldMatrixImpl<Fraction>(asFraction(rowMatrix)));
+        assertEquals(MatrixUtils.createRowFieldMatrix(fractionRow),
+                     new FieldMatrixImpl<Fraction>(fractionRowMatrix));
+        try {
+            MatrixUtils.createRowFieldMatrix(new Fraction[] {});  // empty
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+        try {
+            MatrixUtils.createRowFieldMatrix((Fraction[]) null);  // null
+            fail("Expecting NullPointerException");
+        } catch (NullPointerException ex) {
+            // expected
+        } 
+    }
+
+    @Deprecated
     public void testCreateRowBigMatrix() {
         assertEquals(MatrixUtils.createRowBigMatrix(row),
                 new BigMatrixImpl(rowMatrix));
@@ -151,7 +209,7 @@ public final class MatrixUtilsTest extends TestCase {
             // expected
         } 
     }
-    
+
     public void testCreateColumnRealMatrix() {
         assertEquals(MatrixUtils.createColumnRealMatrix(col),
                      new DenseRealMatrix(colMatrix));
@@ -169,6 +227,27 @@ public final class MatrixUtilsTest extends TestCase {
         } 
     }
     
+    public void testCreateColumnFieldMatrix() {
+        assertEquals(MatrixUtils.createColumnFieldMatrix(asFraction(col)),
+                     new FieldMatrixImpl<Fraction>(asFraction(colMatrix)));
+        assertEquals(MatrixUtils.createColumnFieldMatrix(fractionCol),
+                     new FieldMatrixImpl<Fraction>(fractionColMatrix));
+
+        try {
+            MatrixUtils.createColumnFieldMatrix(new Fraction[] {});  // empty
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+        try {
+            MatrixUtils.createColumnFieldMatrix((Fraction[]) null);  // null
+            fail("Expecting NullPointerException");
+        } catch (NullPointerException ex) {
+            // expected
+        } 
+    }
+
+    @Deprecated
     public void testCreateColumnBigMatrix() {
         assertEquals(MatrixUtils.createColumnBigMatrix(col),
                 new BigMatrixImpl(colMatrix));
@@ -190,7 +269,7 @@ public final class MatrixUtilsTest extends TestCase {
             // expected
         } 
     }
-    
+
     /**
      * Verifies that the matrix is an identity matrix
      */
@@ -220,6 +299,62 @@ public final class MatrixUtilsTest extends TestCase {
     /**
      * Verifies that the matrix is an identity matrix
      */
+    protected void checkIdentityFieldMatrix(FieldMatrix<Fraction> m) {
+        for (int i = 0; i < m.getRowDimension(); i++) {
+            for (int j =0; j < m.getColumnDimension(); j++) {
+                if (i == j) {
+                    assertEquals(m.getEntry(i, j), Fraction.ONE);
+                } else {
+                    assertEquals(m.getEntry(i, j), Fraction.ZERO);
+                }
+            }
+        }   
+    }
+    
+    public void testcreateFieldIdentityMatrix() {
+        checkIdentityFieldMatrix(MatrixUtils.createFieldIdentityMatrix(FractionField.getInstance(), 3));
+        checkIdentityFieldMatrix(MatrixUtils.createFieldIdentityMatrix(FractionField.getInstance(), 2));
+        checkIdentityFieldMatrix(MatrixUtils.createFieldIdentityMatrix(FractionField.getInstance(), 1));
+        try {
+            MatrixUtils.createRealIdentityMatrix(0);
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+    }
+
+    public static final Fraction[][] asFraction(double[][] data) {
+        Fraction d[][] = new Fraction[data.length][];
+        try {
+            for (int i = 0; i < data.length; ++i) {
+                double[] dataI = data[i];
+                Fraction[] dI  = new Fraction[dataI.length];
+                for (int j = 0; j < dataI.length; ++j) {
+                    dI[j] = new Fraction(dataI[j]);
+                }
+                d[i] = dI;
+            }
+        } catch (FractionConversionException fce) {
+            fail(fce.getMessage());
+        }
+        return d;
+    }
+
+    public static final Fraction[] asFraction(double[] data) {
+        Fraction d[] = new Fraction[data.length];
+        try {
+            for (int i = 0; i < data.length; ++i) {
+                d[i] = new Fraction(data[i]);
+            }
+        } catch (FractionConversionException fce) {
+            fail(fce.getMessage());
+        }
+        return d;
+    }
+
+    /**
+     * Verifies that the matrix is an identity matrix
+     */
+    @Deprecated
     protected void checkIdentityBigMatrix(BigMatrix m) {
         for (int i = 0; i < m.getRowDimension(); i++) {
             for (int j =0; j < m.getColumnDimension(); j++) {
@@ -231,7 +366,8 @@ public final class MatrixUtilsTest extends TestCase {
             }
         }   
     }
-    
+
+    @Deprecated
     public void testCreateBigIdentityMatrix() {
         checkIdentityBigMatrix(MatrixUtils.createBigIdentityMatrix(3));
         checkIdentityBigMatrix(MatrixUtils.createBigIdentityMatrix(2));
@@ -242,6 +378,6 @@ public final class MatrixUtilsTest extends TestCase {
             // expected
         }
     }
-        
+
 }
 
