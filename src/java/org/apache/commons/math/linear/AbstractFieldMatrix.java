@@ -92,7 +92,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
             return (T[][]) Array.newInstance(dummyRow.getClass(), rows);            
         }
         T[][] array =
-            (T[][]) Array.newInstance(field.getZero().getClass(), rows, columns);
+            (T[][]) Array.newInstance(field.getZero().getClass(), new int[] { rows, columns });
         for (int i = 0; i < array.length; ++i) {
             Arrays.fill(array[i], field.getZero());
         }
