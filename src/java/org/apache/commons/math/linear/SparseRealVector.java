@@ -1224,7 +1224,11 @@ public class SparseRealVector implements RealVector {
         return getData();
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc} 
+     * <p> Implementation Note: This works on exact values, and as a result
+     * it is possible for {@code a.subtract(b)} to be the zero vector, while
+     * {@code a.hashCode() != b.hashCode()}.</p>
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -1233,10 +1237,21 @@ public class SparseRealVector implements RealVector {
         temp = Double.doubleToLongBits(epsilon);
         result = prime * result + (int) (temp ^ (temp >>> 32));
         result = prime * result + virtualSize;
+        Iterator iter = entries.iterator();
+        while (iter.hasNext()) {
+            iter.advance();
+            temp = Double.doubleToLongBits(iter.value());
+            result = prime * result + (int) (temp ^ (temp >>32));
+        }
         return result;
     }
 
-    /** {@inheritDoc} */
+    /**  
+     * <p> Implementation Note: This performs an exact comparison, and as a result
+     * it is possible for {@code a.subtract(b}} to be the zero vector, while 
+     * {@code  a.equals(b) == false}.</p>
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -1259,16 +1274,16 @@ public class SparseRealVector implements RealVector {
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
-            double test = iter.value() - other.getEntry(iter.key());
-            if (Math.abs(test) > epsilon) {
+            double test = other.getEntry(iter.key());
+            if (Double.doubleToLongBits(test) != Double.doubleToLongBits(iter.value())) {
                 return false;
             }
         }
         iter = other.getEntries().iterator();
         while (iter.hasNext()) {
             iter.advance();
-            double test = iter.value() - getEntry(iter.key());
-            if (!isZero(test)) {
+            double test = iter.value();
+            if (Double.doubleToLongBits(test) != Double.doubleToLongBits(iter.value())) {
                 return false;
             }
         }
