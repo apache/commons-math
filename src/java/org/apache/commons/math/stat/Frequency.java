@@ -49,13 +49,13 @@ public class Frequency implements Serializable {
     private static final long serialVersionUID = -3845586908418844111L;
 
     /** underlying collection */
-    private final TreeMap freqTable;
+    private final TreeMap<Comparable<?>, Long> freqTable;
 
     /**
      * Default constructor.
      */
     public Frequency() {
-        freqTable = new TreeMap();
+        freqTable = new TreeMap<Comparable<?>, Long>();
     }
     
     /**
@@ -64,7 +64,7 @@ public class Frequency implements Serializable {
      * @param comparator Comparator used to order values
      */
     public Frequency(Comparator comparator) {
-        freqTable = new TreeMap(comparator);
+        freqTable = new TreeMap<Comparable<?>, Long>(comparator);
     }
 
     /**
@@ -78,7 +78,7 @@ public class Frequency implements Serializable {
         NumberFormat nf = NumberFormat.getPercentInstance();
         StringBuffer outBuffer = new StringBuffer();
         outBuffer.append("Value \t Freq. \t Pct. \t Cum Pct. \n");
-        Iterator iter = freqTable.keySet().iterator();
+        Iterator<?> iter = freqTable.keySet().iterator();
         while (iter.hasNext()) {
             Object value = iter.next();
             outBuffer.append(value);
@@ -124,13 +124,13 @@ public class Frequency implements Serializable {
      * @param v the value to add.
      * @throws IllegalArgumentException if <code>v</code> is not comparable with previous entries
      */
-    public void addValue(Comparable<?>v){
-        Object obj = v;
+    public void addValue(Comparable<?> v){
+        Comparable<?> obj = v;
         if (v instanceof Integer) {
            obj = Long.valueOf(((Integer) v).longValue());
         }
         try {
-            Long count = (Long) freqTable.get(obj);
+            Long count = freqTable.get(obj);
             if (count == null) {
                 freqTable.put(obj, Long.valueOf(1));
             } else {
@@ -192,7 +192,7 @@ public class Frequency implements Serializable {
      * 
      * @return values Iterator
      */
-    public Iterator valuesIterator() {
+    public Iterator<Comparable<?>> valuesIterator() {
         return freqTable.keySet().iterator();
     }
     
@@ -205,7 +205,7 @@ public class Frequency implements Serializable {
      */
     public long getSumFreq() {
         long result = 0;
-        Iterator iterator = freqTable.values().iterator();
+        Iterator<?> iterator = freqTable.values().iterator();
         while (iterator.hasNext())  {
             result += ((Long) iterator.next()).longValue();
         }
@@ -225,7 +225,7 @@ public class Frequency implements Serializable {
         }
         long result = 0;
         try { 
-            Long count =  (Long) freqTable.get(v);
+            Long count =  freqTable.get(v);
             if (count != null) {
                 result = count.longValue();
             }
@@ -341,7 +341,7 @@ public class Frequency implements Serializable {
         long result = 0;
         
         try {
-            Long value = (Long) freqTable.get(v);
+            Long value = freqTable.get(v);
             if (value != null) {
                 result = value.longValue();
             }
@@ -357,7 +357,7 @@ public class Frequency implements Serializable {
             return getSumFreq();    // v is comparable, but greater than the last value
         }
         
-        Iterator values = valuesIterator();
+        Iterator<?> values = valuesIterator();
         while (values.hasNext()) {
             Object nextValue = values.next();
             if (c.compare(v, nextValue) > 0) {
@@ -487,8 +487,9 @@ public class Frequency implements Serializable {
          * @throws ClassCastException when <i>o1</i> is not a {@link Comparable Comparable}, 
          *         or when <code>((Comparable)o1).compareTo(o2)</code> does
          */
+        @SuppressWarnings("unchecked") // See Javadoc, ClassCast is expected
         public int compare(Object o1, Object o2) {
-            return ((Comparable)o1).compareTo(o2);
+            return ((Comparable<Object>)o1).compareTo(o2);
         }
     }
 }
