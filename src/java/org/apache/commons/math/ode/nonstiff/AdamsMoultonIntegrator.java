@@ -83,7 +83,7 @@ public class AdamsMoultonIntegrator extends MultistepIntegrator {
         super(METHOD_NAME, order + 1, new AdamsMoultonStepInterpolator());
 
         // compute the integration coefficients
-        int[][] bdArray      = AdamsBashforthIntegrator.computeBackwardDifferencesArray(order + 1);
+        int[][] bdArray      = AdamsBashforthIntegrator.computeBackwardDifferencesArray(order);
 
         Fraction[] gamma     = AdamsBashforthIntegrator.computeGammaArray(order);
         predictorCoeffs = new double[order];
@@ -97,10 +97,10 @@ public class AdamsMoultonIntegrator extends MultistepIntegrator {
         }
 
         Fraction[] gammaStar = computeGammaStarArray(order);
-        correctorCoeffs = new double[order + 1];
-        for (int i = 0; i <= order; ++i) {
+        correctorCoeffs = new double[order];
+        for (int i = 0; i < order; ++i) {
             Fraction fCorrector = Fraction.ZERO;
-            for (int j = i; j <= order; ++j) {
+            for (int j = i; j < order; ++j) {
                 Fraction f = new Fraction(bdArray[j][i], 1);
                 fCorrector = fCorrector.add(gammaStar[j].multiply(f));
             }
@@ -272,7 +272,7 @@ public class AdamsMoultonIntegrator extends MultistepIntegrator {
      * @param order order of the integration method
      * @return gamma star coefficients array
      */
-    static Fraction[] computeGammaStarArray(final int order) {
+    public static Fraction[] computeGammaStarArray(final int order) {
 
         // create the array
         Fraction[] gammaStarArray = new Fraction[order + 1];

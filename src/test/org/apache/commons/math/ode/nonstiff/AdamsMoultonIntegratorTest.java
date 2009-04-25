@@ -46,25 +46,25 @@ public class AdamsMoultonIntegratorTest
 
     public void testCorrectorCoefficients() {
 
-        double[] coeffs1 = new AdamsMoultonIntegrator(1, 0.01).getCorrectorCoeffs();
+        double[] coeffs1 = new AdamsMoultonIntegrator(2, 0.01).getCorrectorCoeffs();
         assertEquals(2, coeffs1.length);
         assertEquals(1.0 / 2.0, coeffs1[0], 1.0e-16);
         assertEquals(1.0 / 2.0, coeffs1[1], 1.0e-16);
 
-        double[] coeffs2 = new AdamsMoultonIntegrator(2, 0.01).getCorrectorCoeffs();
+        double[] coeffs2 = new AdamsMoultonIntegrator(3, 0.01).getCorrectorCoeffs();
         assertEquals(3, coeffs2.length);
         assertEquals( 5.0 / 12.0, coeffs2[0], 1.0e-16);
         assertEquals( 8.0 / 12.0, coeffs2[1], 1.0e-16);
         assertEquals(-1.0 / 12.0, coeffs2[2], 1.0e-16);
 
-        double[] coeffs3 = new AdamsMoultonIntegrator(3, 0.01).getCorrectorCoeffs();
+        double[] coeffs3 = new AdamsMoultonIntegrator(4, 0.01).getCorrectorCoeffs();
         assertEquals(4, coeffs3.length);
         assertEquals( 9.0 / 24.0, coeffs3[0], 1.0e-16);
         assertEquals(19.0 / 24.0, coeffs3[1], 1.0e-16);
         assertEquals(-5.0 / 24.0, coeffs3[2], 1.0e-16);
         assertEquals( 1.0 / 24.0, coeffs3[3], 1.0e-16);
 
-        double[] coeffs4 = new AdamsMoultonIntegrator(4, 0.01).getCorrectorCoeffs();
+        double[] coeffs4 = new AdamsMoultonIntegrator(5, 0.01).getCorrectorCoeffs();
         assertEquals(5, coeffs4.length);
         assertEquals( 251.0 / 720.0, coeffs4[0], 1.0e-16);
         assertEquals( 646.0 / 720.0, coeffs4[1], 1.0e-16);
@@ -72,7 +72,7 @@ public class AdamsMoultonIntegratorTest
         assertEquals( 106.0 / 720.0, coeffs4[3], 1.0e-16);
         assertEquals( -19.0 / 720.0, coeffs4[4], 1.0e-16);
 
-        double[] coeffs5 = new AdamsMoultonIntegrator(5, 0.01).getCorrectorCoeffs();
+        double[] coeffs5 = new AdamsMoultonIntegrator(6, 0.01).getCorrectorCoeffs();
         assertEquals(6, coeffs5.length);
         assertEquals( 475.0 / 1440.0, coeffs5[0], 1.0e-16);
         assertEquals(1427.0 / 1440.0, coeffs5[1], 1.0e-16);
@@ -81,7 +81,7 @@ public class AdamsMoultonIntegratorTest
         assertEquals(-173.0 / 1440.0, coeffs5[4], 1.0e-16);
         assertEquals(  27.0 / 1440.0, coeffs5[5], 1.0e-16);
 
-        double[] coeffs6 = new AdamsMoultonIntegrator(6, 0.01).getCorrectorCoeffs();
+        double[] coeffs6 = new AdamsMoultonIntegrator(7, 0.01).getCorrectorCoeffs();
         assertEquals(7, coeffs6.length);
         assertEquals( 19087.0 / 60480.0, coeffs6[0], 1.0e-16);
         assertEquals( 65112.0 / 60480.0, coeffs6[1], 1.0e-16);
@@ -91,7 +91,7 @@ public class AdamsMoultonIntegratorTest
         assertEquals(  6312.0 / 60480.0, coeffs6[5], 1.0e-16);
         assertEquals(  -863.0 / 60480.0, coeffs6[6], 1.0e-16);
 
-        double[] coeffs7 = new AdamsMoultonIntegrator(7, 0.01).getCorrectorCoeffs();
+        double[] coeffs7 = new AdamsMoultonIntegrator(8, 0.01).getCorrectorCoeffs();
         assertEquals(8, coeffs7.length);
         assertEquals(  36799.0 / 120960.0, coeffs7[0], 1.0e-16);
         assertEquals( 139849.0 / 120960.0, coeffs7[1], 1.0e-16);
@@ -102,7 +102,7 @@ public class AdamsMoultonIntegratorTest
         assertEquals( -11351.0 / 120960.0, coeffs7[6], 1.0e-16);
         assertEquals(   1375.0 / 120960.0, coeffs7[7], 1.0e-16);
 
-        double[] coeffs8 = new AdamsMoultonIntegrator(8, 0.01).getCorrectorCoeffs();
+        double[] coeffs8 = new AdamsMoultonIntegrator(9, 0.01).getCorrectorCoeffs();
         assertEquals(9, coeffs8.length);
         assertEquals( 1070017.0 / 3628800.0, coeffs8[0], 1.0e-16);
         assertEquals( 4467094.0 / 3628800.0, coeffs8[1], 1.0e-16);
@@ -183,9 +183,9 @@ public class AdamsMoultonIntegratorTest
                 pb.getInitialTime(), pb.getInitialState(),
                 pb.getFinalTime(), new double[pb.getDimension()]);
 
-        assertTrue(handler.getLastError() < 7.0e-12);
-        assertTrue(handler.getMaximalValueError() < 4.0e-11);
-        assertEquals(0, handler.getMaximalTimeError(), 1.0e-14);
+        assertTrue(handler.getLastError() < 3.0e-10);
+        assertTrue(handler.getMaximalValueError() < 2.0e-9);
+        assertEquals(0, handler.getMaximalTimeError(), 1.0e-15);
         assertEquals("Adams-Moulton", integ.getName());
 
     }
