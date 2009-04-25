@@ -467,7 +467,6 @@ public class SparseRealVector implements RealVector {
         return entries.get(index);
     }
 
-    /** {@inheritDoc} */
     public double getL1Distance(SparseRealVector v) {
         double max = 0;
         Iterator iter = entries.iterator();
