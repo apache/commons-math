@@ -467,6 +467,14 @@ public class SparseRealVector implements RealVector {
         return entries.get(index);
     }
 
+    /**
+     * Distance between two vectors.
+     * <p>This method computes the distance consistent with
+     * L<sub>1</sub> norm, i.e. the sum of the absolute values of
+     * elements differences.</p>
+     * @param v vector to which distance is requested
+     * @return distance between two vectors.
+     */
     public double getL1Distance(SparseRealVector v) {
         double max = 0;
         Iterator iter = entries.iterator();
