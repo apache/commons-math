@@ -271,7 +271,7 @@ public interface FieldVector<T extends FieldElement<T>> extends Serializable {
      * @param index  index location of entry to be fetched
      * @return vector entry at index
      * @throws MatrixIndexException if the index is not valid
-     * @see #setEntry(int, T)
+     * @see #setEntry(int, FieldElement)
      */
     T getEntry(int index)
         throws MatrixIndexException;

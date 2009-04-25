@@ -137,7 +137,7 @@ public class DenseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
      *
      * @exception IllegalArgumentException if <code>blockData</code> shape is
      * inconsistent with block layout
-     * @see #createBlocksLayout(int, int)
+     * @see #createBlocksLayout(Field, int, int)
      * @see #toBlocksLayout(T[][])
      * @see #DenseFieldMatrix(T[][])
      */
@@ -197,7 +197,7 @@ public class DenseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
      * @return a new data array containing the same entries but in blocks layout
      * @exception IllegalArgumentException if <code>rawData</code> is not rectangular
      *  (not all rows have the same length)
-     * @see #createBlocksLayout(int, int)
+     * @see #createBlocksLayout(Field, int, int)
      * @see #DenseFieldMatrix(int, int, T[][], boolean)
      */
     public static <T extends FieldElement<T>> T[][] toBlocksLayout(final T[][] rawData)
