@@ -24,7 +24,7 @@ import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.MathRuntimeException;
 
 /**
- * This class implements the {@link FieldVector<T>} interface with a {@link FieldElement} array.
+ * This class implements the {@link FieldVector} interface with a {@link FieldElement} array.
  * @param <T> the type of the field elements
  * @version $Revision$ $Date$
  * @since 2.0
@@ -53,9 +53,9 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
      * Build a 0-length vector.
      * <p>Zero-length vectors may be used to initialized construction of vectors
      * by data gathering. We start with zero-length and use either the {@link
-     * #FieldVectorImpl(FieldVectorImpl<T>, FieldVectorImpl<T>)} constructor
-     * or one of the <code>append</code> method ({@link #append(double)}, {@link
-     * #append(T[])}, {@link #append(FieldVectorImpl<T>)}) to gather data
+     * #FieldVectorImpl(FieldVectorImpl, FieldVectorImpl)} constructor
+     * or one of the <code>append</code> methods ({@link #append(double)}, {@link
+     * #append(T[])}, {@link #append(FieldVectorImpl)}) to gather data
      * into this vector.</p>
      * @param field field to which the elements belong
      */
@@ -269,7 +269,7 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
      */
     public FieldVectorImpl<T> add(FieldVectorImpl<T> v)
         throws IllegalArgumentException {
-        return (FieldVectorImpl<T>) add((T[]) v.data);
+        return (FieldVectorImpl<T>) add(v.data);
     }
 
     /** {@inheritDoc} */
@@ -304,7 +304,7 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
      */
     public FieldVectorImpl<T> subtract(FieldVectorImpl<T> v)
         throws IllegalArgumentException {
-        return (FieldVectorImpl<T>) subtract((T[]) v.data);
+        return (FieldVectorImpl<T>) subtract(v.data);
     }
 
     /** {@inheritDoc} */

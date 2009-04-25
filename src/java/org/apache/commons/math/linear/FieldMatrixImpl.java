@@ -79,7 +79,7 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
      */
     public FieldMatrixImpl(final T[][] d)
         throws IllegalArgumentException, NullPointerException {
-        super((Field<T>) extractField(d));
+        super(extractField(d));
         copyIn(d);
     }
 
@@ -100,7 +100,7 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
      */
     public FieldMatrixImpl(final T[][] d, final boolean copyArray)
         throws IllegalArgumentException, NullPointerException {
-        super((Field<T>) extractField(d));
+        super(extractField(d));
         if (copyArray) {
             copyIn(d);
         } else {
@@ -135,7 +135,7 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
      * @param v column vector holding data for new matrix
      */
     public FieldMatrixImpl(final T[] v) {
-        super((Field<T>) extractField(v));
+        super(extractField(v));
         final int nRows = v.length;
         data = buildArray(getField(), nRows, 1);
         for (int row = 0; row < nRows; row++) {
