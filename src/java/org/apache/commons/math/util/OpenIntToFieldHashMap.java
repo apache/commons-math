@@ -94,6 +94,7 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Seriali
 
     /**
      * Build an empty map with default size and using zero for missing entries.
+     * @param field field to which the elements belong
      */
     public OpenIntToFieldHashMap(final Field<T>field) {
         this(field, DEFAULT_EXPECTED_SIZE, field.getZero());
@@ -101,6 +102,7 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Seriali
 
     /**
      * Build an empty map with default size
+     * @param field field to which the elements belong
      * @param missingEntries value to return when a missing entry is fetched
      */
     public OpenIntToFieldHashMap(final Field<T>field, final T missingEntries) {
@@ -109,6 +111,7 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Seriali
 
     /**
      * Build an empty map with specified size and using zero for missing entries.
+     * @param field field to which the elements belong
      * @param expectedSize expected number of elements in the map
      */
     public OpenIntToFieldHashMap(final Field<T> field,final int expectedSize) {
@@ -117,6 +120,7 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Seriali
 
     /**
      * Build an empty map with specified size.
+     * @param field field to which the elements belong
      * @param expectedSize expected number of elements in the map
      * @param missingEntries value to return when a missing entry is fetched
      */
