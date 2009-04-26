@@ -93,11 +93,8 @@ public class TestUtils {
     /**
      * Verifies that two double arrays have equal entries, up to tolerance
      */
-    public static void assertEquals(double a[], double b[], double tolerance) {
-        Assert.assertEquals(a.length, b.length);
-        for (int i = 0; i < a.length; i++) {
-            Assert.assertEquals(a[i], b[i], tolerance);
-        }
+    public static void assertEquals(double expected[], double observed[], double tolerance) {
+        assertEquals("Array comparison failure", expected, observed, tolerance);
     }
     
     /**
@@ -312,14 +309,34 @@ public class TestUtils {
     }
     
     /** verifies that two arrays are close (sup norm) */
-    public static void assertEquals(String msg, double[] m, double[] n,
+    public static void assertEquals(String msg, double[] expected, double[] observed,
         double tolerance) {
-        if (m.length != n.length) {
-            Assert.fail("vectors not same length");
+        StringBuffer out = new StringBuffer(msg);
+        if (expected.length != observed.length) {
+            out.append("\n Arrays not same length. \n");
+            out.append("expected has length ");
+            out.append(expected.length);
+            out.append(" observed length = ");
+            out.append(observed.length);
+            Assert.fail(out.toString());
         }
-        for (int i = 0; i < m.length; i++) {
-            Assert.assertEquals(msg + " " +  i + " elements differ", 
-                m[i],n[i],tolerance);
+        boolean failure = false;
+        for (int i=0; i < expected.length; i++) {
+            try {
+                Assert.assertEquals(expected[i], observed[i], tolerance);
+            } catch (AssertionFailedError ex) {
+                failure = true;
+                out.append("\n Elements at index ");
+                out.append(i);
+                out.append(" differ. ");
+                out.append(" expected = ");
+                out.append(expected[i]);
+                out.append(" observed = ");
+                out.append(observed[i]); 
+            }
+        }
+        if (failure) {
+            Assert.fail(out.toString());
         }
     }
     
