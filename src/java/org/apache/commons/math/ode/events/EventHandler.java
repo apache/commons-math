@@ -134,7 +134,7 @@ public interface EventHandler extends Serializable {
    * @param y array containing the current value of the state vector
    * @param increasing if true, the value of the switching function increases
    * when times increases around event (note that increase is measured with respect
-   * to physical time, not with respect to propagation which may go backward in time)
+   * to physical time, not with respect to integration which may go backward in time)
    * @return indication of what the integrator should do next, this
    * value must be one of {@link #STOP}, {@link #RESET_STATE},
    * {@link #RESET_DERIVATIVES} or {@link #CONTINUE}
