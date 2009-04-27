@@ -75,6 +75,9 @@ public class EventState implements Serializable {
     /** Occurrence time of the previous event. */
     private double previousEventTime;
 
+    /** Integration direction. */
+    private boolean forward;
+
     /** Variation direction around pending event.
      *  (this is considered with respect to the integration direction)
      */
@@ -170,6 +173,7 @@ public class EventState implements Serializable {
 
         try {
 
+            forward = interpolator.isForward();
             final double t1 = interpolator.getCurrentTime();
             final int    n  = Math.max(1, (int) Math.ceil(Math.abs(t1 - t0) / maxCheckInterval));
             final double h  = (t1 - t0) / n;
@@ -280,7 +284,7 @@ public class EventState implements Serializable {
             // force the sign to its value "just after the event"
             previousEventTime = t;
             g0Positive        = increasing;
-            nextAction        = handler.eventOccurred(t, y);
+            nextAction        = handler.eventOccurred(t, y, !(increasing ^ forward));
         } else {
             g0Positive = (g0 >= 0);
             nextAction = EventHandler.CONTINUE;

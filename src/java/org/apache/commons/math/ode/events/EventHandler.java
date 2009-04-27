@@ -132,12 +132,15 @@ public interface EventHandler extends Serializable {
 
    * @param t current value of the independent <i>time</i> variable
    * @param y array containing the current value of the state vector
+   * @param increasing if true, the value of the switching function increases
+   * when times increases around event (note that increase is measured with respect
+   * to physical time, not with respect to propagation which may go backward in time)
    * @return indication of what the integrator should do next, this
    * value must be one of {@link #STOP}, {@link #RESET_STATE},
    * {@link #RESET_DERIVATIVES} or {@link #CONTINUE}
    * @exception EventException if the event occurrence triggers an error
    */
-  public int eventOccurred(double t, double[] y) throws EventException;
+  public int eventOccurred(double t, double[] y, boolean increasing) throws EventException;
   
   /** Reset the state prior to continue the integration.
 

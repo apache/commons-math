@@ -198,7 +198,7 @@ public abstract class MultistepIntegrator extends AbstractIntegrator {
     private class ResetCheckingWrapper implements EventHandler {
 
         /** Serializable version identifier. */
-        private static final long serialVersionUID = 4922660285376467937L;
+        private static final long serialVersionUID = -3138614051962269485L;
 
         /** Wrapped event handler. */
         private final EventHandler handler;
@@ -211,8 +211,9 @@ public abstract class MultistepIntegrator extends AbstractIntegrator {
         }
 
         /** {@inheritDoc} */
-        public int eventOccurred(double t, double[] y) throws EventException {
-            final int action = handler.eventOccurred(t, y);
+        public int eventOccurred(double t, double[] y, boolean increasing)
+            throws EventException {
+            final int action = handler.eventOccurred(t, y, increasing);
             if ((action == RESET_DERIVATIVES) || (action == RESET_STATE)) {
                 // a singularity has been encountered
                 // we need to restart the start phase

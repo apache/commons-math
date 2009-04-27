@@ -110,7 +110,7 @@ public class TestProblem4
       return sign * y[0];
     }
 
-    public int eventOccurred(double t, double[] y) {
+    public int eventOccurred(double t, double[] y, boolean increasing) {
       // this sign change is needed because the state will be reset soon
       sign = -sign;
       return EventHandler.RESET_STATE;
@@ -134,7 +134,7 @@ public class TestProblem4
       return t - 12.0;
     }
 
-    public int eventOccurred(double t, double[] y) {
+    public int eventOccurred(double t, double[] y, boolean increasing) {
       return EventHandler.STOP;
     }
   

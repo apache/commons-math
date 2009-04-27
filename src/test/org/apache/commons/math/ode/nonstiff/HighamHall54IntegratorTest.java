@@ -207,7 +207,7 @@ public class HighamHall54IntegratorTest
       integ.addStepHandler(handler);
 
       integ.addEventHandler(new EventHandler() {
-        public int eventOccurred(double t, double[] y) {
+        public int eventOccurred(double t, double[] y, boolean increasing) {
           return EventHandler.CONTINUE;
         }
         public double g(double t, double[] y) throws EventException {
@@ -251,7 +251,7 @@ public class HighamHall54IntegratorTest
     integ.addStepHandler(handler);
 
     integ.addEventHandler(new EventHandler() {
-      public int eventOccurred(double t, double[] y) {
+      public int eventOccurred(double t, double[] y, boolean increasing) {
         return EventHandler.CONTINUE;
       }
       public double g(double t, double[] y) {

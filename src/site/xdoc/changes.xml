@@ -285,6 +285,10 @@ The <action> type attribute can be add,update,fix,remove.
         difficult to get the corresponding time (it involved setting a step
         handler monitoring the last step specially).
       </action>
+      <action dev="luc" type="update" >
+        Events handlers in the ODE package now also provide the switching function
+        variation (increasing/decreasing) when an event occurs
+      </action>
       <action dev="luc" type="update">
         Clarified the ODE package by breaking in into several sub-packages and renaming
         classes (SwitchingFunctions/EventHandler, SwitchingFunctionsHandler/CombinedEventsManager)

@@ -189,9 +189,9 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
     private static class EndTimeChecker implements EventHandler {
 
         /** Serializable version identifier. */
-        private static final long serialVersionUID = -5211782540446301964L;
+        private static final long serialVersionUID = -7029115498939113263L;
 
-        /** DEsiredt end time. */
+        /** Desired end time. */
         private final double endTime;
 
         /** Build an instance.
@@ -202,7 +202,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
         }
 
         /** {@inheritDoc} */
-        public int eventOccurred(double t, double[] y) {
+        public int eventOccurred(double t, double[] y, boolean increasing) {
             return STOP;
         }
 
