@@ -385,9 +385,9 @@ public final class DenseFieldMatrixTest extends TestCase {
     }
 
     public void testOperateLarge() {
-        int p = (3 * DenseFieldMatrix.BLOCK_SIZE) / 2;
-        int q = (5 * DenseFieldMatrix.BLOCK_SIZE) / 2;
-        int r =  2 * DenseFieldMatrix.BLOCK_SIZE;
+        int p = (11 * DenseFieldMatrix.BLOCK_SIZE) / 10;
+        int q = (11 * DenseFieldMatrix.BLOCK_SIZE) / 10;
+        int r =  DenseFieldMatrix.BLOCK_SIZE / 2;
         Random random = new Random(111007463902334l);
         FieldMatrix<Fraction> m1 = createRandomMatrix(random, p, q);
         FieldMatrix<Fraction> m2 = createRandomMatrix(random, q, r);
@@ -398,9 +398,9 @@ public final class DenseFieldMatrixTest extends TestCase {
     }
 
     public void testOperatePremultiplyLarge() {
-        int p = (3 * DenseFieldMatrix.BLOCK_SIZE) / 2;
-        int q = (5 * DenseFieldMatrix.BLOCK_SIZE) / 2;
-        int r =  2 * DenseFieldMatrix.BLOCK_SIZE;
+        int p = (11 * DenseFieldMatrix.BLOCK_SIZE) / 10;
+        int q = (11 * DenseFieldMatrix.BLOCK_SIZE) / 10;
+        int r =  DenseFieldMatrix.BLOCK_SIZE / 2;
         Random random = new Random(111007463902334l);
         FieldMatrix<Fraction> m1 = createRandomMatrix(random, p, q);
         FieldMatrix<Fraction> m2 = createRandomMatrix(random, q, r);
