@@ -43,6 +43,9 @@ The <action> type attribute can be add,update,fix,remove.
         Added support for any type of field in linear algebra (FielxMatrix, FieldVector,
         FieldLUDecomposition)
       </action>
+      <action dev="psteitz" type="add" due-to="John Bollinger">
+        Added AggregateSummaryStatistics class to support aggregation of SummaryStatistics.
+      </action>
       <action dev="luc" type="add" >
         Added general Field and FieldElement interfaces to allow generic algorithms
         to operate on fields. The library already provides several implementations:
