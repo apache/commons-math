@@ -1050,7 +1050,7 @@ public class RealVectorImpl implements RealVector, Serializable {
     /**
      * Distance between two vectors.
      * <p>This method computes the distance consistent with
-     * L<sub>&infty;</sub> norm, i.e. the max of the absolute values of
+     * L<sub>&infin;</sub> norm, i.e. the max of the absolute values of
      * elements differences.</p>
      * @param v vector to which distance is requested
      * @return distance between two vectors.

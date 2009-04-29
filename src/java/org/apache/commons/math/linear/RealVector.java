@@ -542,8 +542,8 @@ public interface RealVector extends Serializable {
     double getL1Norm();
 
     /**
-     * Returns the L<sub>&infty;</sub> norm of the vector.
-     * <p>The L<sub>&infty;</sub> norm is the max of the absolute
+     * Returns the L<sub>&infin;</sub> norm of the vector.
+     * <p>The L<sub>&infin;</sub> norm is the max of the absolute
      * values of elements.</p>
      * @return norm
      * @see #getNorm()
@@ -615,7 +615,7 @@ public interface RealVector extends Serializable {
     /**
      * Distance between two vectors.
      * <p>This method computes the distance consistent with
-     * L<sub>&infty;</sub> norm, i.e. the max of the absolute values of
+     * L<sub>&infin;</sub> norm, i.e. the max of the absolute values of
      * elements differences.</p>
      * @param v vector to which distance is requested
      * @return distance between two vectors.
@@ -630,7 +630,7 @@ public interface RealVector extends Serializable {
     /**
      * Distance between two vectors.
      * <p>This method computes the distance consistent with
-     * L<sub>&infty;</sub> norm, i.e. the max of the absolute values of
+     * L<sub>&infin;</sub> norm, i.e. the max of the absolute values of
      * elements differences.</p>
      * @param v vector to which distance is requested
      * @return distance between two vectors.
