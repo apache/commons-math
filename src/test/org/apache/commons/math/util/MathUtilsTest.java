@@ -353,6 +353,31 @@ public final class MathUtilsTest extends TestCase {
         assertFalse(MathUtils.equals(153.0000, 153.0625, .0624));
         assertFalse(MathUtils.equals(152.9374, 153.0000, .0625));
     }
+
+    public void testEqualsWithAllowedUlps() {
+        assertTrue(MathUtils.equals(153, 153, 1));
+
+        assertTrue(MathUtils.equals(153, 153.00000000000003, 1));
+        assertFalse(MathUtils.equals(153, 153.00000000000006, 1));
+        assertTrue(MathUtils.equals(153, 152.99999999999997, 1));
+        assertFalse(MathUtils.equals(153, 152.99999999999994, 1));
+        
+        assertTrue(MathUtils.equals(-128, -127.99999999999999, 1));
+        assertFalse(MathUtils.equals(-128, -127.99999999999997, 1));
+        assertTrue(MathUtils.equals(-128, -128.00000000000003, 1));
+        assertFalse(MathUtils.equals(-128, -128.00000000000006, 1));
+
+        assertTrue(MathUtils.equals(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 1));
+        assertTrue(MathUtils.equals(Double.MAX_VALUE, Double.POSITIVE_INFINITY, 1));
+
+        assertTrue(MathUtils.equals(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, 1));
+        assertTrue(MathUtils.equals(-Double.MAX_VALUE, Double.NEGATIVE_INFINITY, 1));
+
+
+        assertTrue(MathUtils.equals(Double.NaN, Double.NaN, 1));
+
+        assertFalse(MathUtils.equals(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 100000));
+    }
     
     public void testArrayEquals() {
         assertFalse(MathUtils.equals(new double[] { 1d }, null));

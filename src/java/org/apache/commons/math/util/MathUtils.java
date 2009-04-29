@@ -59,6 +59,9 @@ public final class MathUtils {
     /** 2 &pi;. */
     private static final double TWO_PI = 2 * Math.PI;
 
+    private static final int NAN_GAP = 4 * 1024 * 1024;
+    private static final long SGN_MASK = 0x8000000000000000L;
+
     /**
      * Private Constructor
      */
@@ -406,6 +409,39 @@ public final class MathUtils {
       return equals(x, y) || (Math.abs(y - x) <= eps);
     }
     
+    /**
+     * Returns true iff both arguments are equal or within the range of allowed
+     * error (inclusive).
+     * Adapted from <a
+     * href="http://www.cygnus-software.com/papers/comparingfloats/comparingfloats.htm">
+     * Bruce Dawson</a>
+     *
+     * @param x first value
+     * @param y second value
+     * @param maxUlps {@code (maxUlps - 1)} is the number of floating point
+     * values between {@code x} and {@code y}.
+     * @return {@code true} if there are less than {@code maxUlps} floating
+     * point values between {@code x} and {@code y}
+     */
+    public static boolean equals(double x, double y, int maxUlps) {
+        // Check that "maxUlps" is non-negative and small enough so that the
+        // default NAN won't compare as equal to anything.
+        assert maxUlps > 0 && maxUlps < NAN_GAP;
+
+        long xInt = Double.doubleToLongBits(x);
+        long yInt = Double.doubleToLongBits(y);
+
+        // Make lexicographically ordered as a two's-complement integer.
+        if (xInt < 0) {
+            xInt = SGN_MASK - xInt;
+        }
+        if (yInt < 0) {
+            yInt = SGN_MASK - yInt;
+        }
+
+        return Math.abs(xInt - yInt) <= maxUlps;
+    }
+
     /**
      * Returns true iff both arguments are null or have same dimensions
      * and all their elements are {@link #equals(double,double) equals}
