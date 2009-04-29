@@ -196,7 +196,14 @@ public class Vector3D
     return z;
   }
 
-  /** Get the norm for the vector.
+  /** Get the L<sub>1</sub> norm for the vector.
+   * @return L<sub>1</sub> norm for the vector
+   */
+  public double getNorm1() {
+    return Math.abs(x) + Math.abs(y) + Math.abs(z);
+  }
+
+  /** Get the L<sub>2</sub> norm for the vector.
    * @return euclidian norm for the vector
    */
   public double getNorm() {
@@ -208,6 +215,13 @@ public class Vector3D
    */
   public double getNormSq() {
     return x * x + y * y + z * z;
+  }
+
+  /** Get the L<sub>&infin;</sub> norm for the vector.
+   * @return L<sub>&infin;</sub> norm for the vector
+   */
+  public double getNormInf() {
+    return Math.max(Math.max(Math.abs(x), Math.abs(y)), Math.abs(z));
   }
 
   /** Get the azimuth of the vector.
@@ -309,7 +323,7 @@ public class Vector3D
   /** Compute the angular separation between two vectors.
    * <p>This method computes the angular separation between two
    * vectors using the dot product for well separated vectors and the
-   * cross product for almost aligned vectors. This allow to have a
+   * cross product for almost aligned vectors. This allows to have a
    * good accuracy in all cases, even for vectors very close to each
    * other.</p>
    * @param v1 first vector
@@ -454,19 +468,49 @@ public class Vector3D
                         v1.x * v2.y - v1.y * v2.x);
   }
 
-  /** Compute the distance between two vectors.
+  /** Compute the distance between two vectors according to the L<sub>1</sub> norm.
+   * <p>Calling this method is equivalent to calling:
+   * <code>v1.subtract(v2).getNorm1()</code> except that no intermediate
+   * vector is built</p>
+   * @param v1 first vector
+   * @param v2 second vector
+   * @return the distance between v1 and v2 according to the L<sub>1</sub> norm
+   */
+  public static double distance1(Vector3D v1, Vector3D v2) {
+    final double dx = Math.abs(v2.x - v1.x);
+    final double dy = Math.abs(v2.y - v1.y);
+    final double dz = Math.abs(v2.z - v1.z);
+    return dx + dy + dz;
+  }
+
+  /** Compute the distance between two vectors according to the L<sub>2</sub> norm.
    * <p>Calling this method is equivalent to calling:
    * <code>v1.subtract(v2).getNorm()</code> except that no intermediate
    * vector is built</p>
    * @param v1 first vector
    * @param v2 second vector
-   * @return the distance between v1 and v2
+   * @return the distance between v1 and v2 according to the L<sub>2</sub> norm
    */
   public static double distance(Vector3D v1, Vector3D v2) {
     final double dx = v2.x - v1.x;
     final double dy = v2.y - v1.y;
     final double dz = v2.z - v1.z;
     return Math.sqrt(dx * dx + dy * dy + dz * dz);
+  }
+
+  /** Compute the distance between two vectors according to the L<sub>&infin;</sub> norm.
+   * <p>Calling this method is equivalent to calling:
+   * <code>v1.subtract(v2).getNormInf()</code> except that no intermediate
+   * vector is built</p>
+   * @param v1 first vector
+   * @param v2 second vector
+   * @return the distance between v1 and v2 according to the L<sub>&infin;</sub> norm
+   */
+  public static double distanceInf(Vector3D v1, Vector3D v2) {
+    final double dx = Math.abs(v2.x - v1.x);
+    final double dy = Math.abs(v2.y - v1.y);
+    final double dz = Math.abs(v2.z - v1.z);
+    return Math.max(Math.max(dx, dy), dz);
   }
 
   /** Compute the square of the distance between two vectors.

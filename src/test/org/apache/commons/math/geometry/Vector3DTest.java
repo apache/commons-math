@@ -53,10 +53,52 @@ public class Vector3DTest
     assertTrue(Math.abs(v.getZ() - 3) < 1.0e-12);
   }
   
+  public void testNorm1() {
+    assertEquals(0.0, Vector3D.ZERO.getNorm1());
+    assertEquals(6.0, new Vector3D(1, -2, 3).getNorm1(), 0);
+  }
+
   public void testNorm() {
-    assertTrue(Math.abs(Vector3D.ZERO.getNorm()) < 1.0e-12);
-    assertTrue(Math.abs(new Vector3D(1, 2, 3).getNorm() - Math.sqrt(14))
-               < 1.0e-12);
+      assertEquals(0.0, Vector3D.ZERO.getNorm());
+      assertEquals(Math.sqrt(14), new Vector3D(1, 2, 3).getNorm(), 1.0e-12);
+    }
+
+  public void testNormInf() {
+      assertEquals(0.0, Vector3D.ZERO.getNormInf());
+      assertEquals(3.0, new Vector3D(1, -2, 3).getNormInf(), 0);
+    }
+
+  public void testDistance1() {
+      Vector3D v1 = new Vector3D(1, -2, 3);
+      Vector3D v2 = new Vector3D(-4, 2, 0);
+      assertEquals(0.0, Vector3D.distance1(Vector3D.MINUS_I, Vector3D.MINUS_I), 0);
+      assertEquals(12.0, Vector3D.distance1(v1, v2), 1.0e-12);
+      assertEquals(v1.subtract(v2).getNorm1(), Vector3D.distance1(v1, v2), 1.0e-12);
+  }
+
+  public void testDistance() {
+      Vector3D v1 = new Vector3D(1, -2, 3);
+      Vector3D v2 = new Vector3D(-4, 2, 0);
+      assertEquals(0.0, Vector3D.distance(Vector3D.MINUS_I, Vector3D.MINUS_I), 0);
+      assertEquals(Math.sqrt(50), Vector3D.distance(v1, v2), 1.0e-12);
+      assertEquals(v1.subtract(v2).getNorm(), Vector3D.distance(v1, v2), 1.0e-12);
+  }
+
+  public void testDistanceSq() {
+      Vector3D v1 = new Vector3D(1, -2, 3);
+      Vector3D v2 = new Vector3D(-4, 2, 0);
+      assertEquals(0.0, Vector3D.distanceSq(Vector3D.MINUS_I, Vector3D.MINUS_I), 0);
+      assertEquals(50.0, Vector3D.distanceSq(v1, v2), 1.0e-12);
+      assertEquals(Vector3D.distance(v1, v2) * Vector3D.distance(v1, v2),
+                   Vector3D.distanceSq(v1, v2), 1.0e-12);
+  }
+
+  public void testDistanceInf() {
+      Vector3D v1 = new Vector3D(1, -2, 3);
+      Vector3D v2 = new Vector3D(-4, 2, 0);
+      assertEquals(0.0, Vector3D.distanceInf(Vector3D.MINUS_I, Vector3D.MINUS_I), 0);
+      assertEquals(5.0, Vector3D.distanceInf(v1, v2), 1.0e-12);
+      assertEquals(v1.subtract(v2).getNormInf(), Vector3D.distanceInf(v1, v2), 1.0e-12);
   }
 
   public void testSubtract() {

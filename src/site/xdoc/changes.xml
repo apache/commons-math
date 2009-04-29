@@ -41,7 +41,10 @@ The <action> type attribute can be add,update,fix,remove.
     <release version="2.0" date="TBD" description="TBD">
       <action dev="luc" type="fix" issue="MATH-264" due-to="Gilles Sadowski">
         Added an utility equality method between double numbers using tolerance
-        in ulps (Units in Last Position) 
+        in ulps (Units in Last Position)
+      </action>
+      <action dev="luc" type="fix" issue="MATH-263">
+        Added getNorm1, getNormInf, distance1 and distanceInf to the Vector3D class
       </action>
       <action dev="luc" type="add" >
         Added support for any type of field in linear algebra (FielxMatrix, FieldVector,
