@@ -38,8 +38,8 @@
         </p>
         <p>
           All integrators provide dense output. This means that besides computing the state vector
-          at discrete times, they also provide a cheap mean to get the state between the time steps.
-          They do so through classes extending the
+          at discrete times, they also provide a cheap mean to get both the state and its derivative
+          between the time steps. They do so through classes extending the
           <a href="../apidocs/org/apache/commons/math/ode/sampling/StepInterpolator.html">StepInterpolator</a>
           abstract class, which are made available to the user at the end of each step.
         </p>
@@ -118,7 +118,9 @@
         </p>
 
         <p>
-          When an event is triggered, several different options are available:
+          When an event is triggered, the event time, current state and an indicator
+          whether the switching function was increasing or decreasing at event time
+          are provided to the user. Several different options are available to him:
         </p>
         <ul>
           <li>integration can be stopped (this is called a G-stop facility),</li>
@@ -138,7 +140,7 @@ public double g(double t, double[] y) {
   return y[0] - targetConcentration;
 }
 
-public int eventOccurred(double t, double[] y) {
+public int eventOccurred(double t, double[] y, boolean increasing) {
   return STOP;
 }
        </source>
@@ -157,7 +159,7 @@ public double g(double t, double[] y) {
   return (t - tManeuverStart) * (t - tManeuverStop);
 }
 
-public int eventOccurred(double t, double[] y) {
+public int eventOccurred(double t, double[] y, boolean increasing) {
   return RESET_DERIVATIVES;
 }
         </source>
@@ -170,7 +172,7 @@ public double g(double t, double[] y) {
   return y[0] - y[1];
 }
 
-public int eventOccurred(double t, double[] y) {
+public int eventOccurred(double t, double[] y, boolean increasing) {
   logger.log("y0(t) and y1(t) curves cross at t = " + t);
   return CONTINUE;
 }
