@@ -39,6 +39,10 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-265" due-to="Benjamin McCann">
+        Added distance1, distance and distanceInf utility methods for double and
+        int arrays in MathUtils
+      </action>
       <action dev="luc" type="fix" issue="MATH-264" due-to="Gilles Sadowski">
         Added an utility equality method between double numbers using tolerance
         in ulps (Units in Last Position)

@@ -1483,4 +1483,97 @@ public final class MathUtils {
 
     }
 
+    /**
+     * Calculates the L<sub>1</sub> (sum of abs) distance between two points.
+     *
+     * @param p1 the first point
+     * @param p2 the second point
+     * @return the L<sub>1</sub> distance between the two points
+     */
+    public static final double distance1(double[] p1, double[] p2) {
+        double sum = 0;
+        for (int i = 0; i < p1.length; i++) {
+            sum += Math.abs(p1[i] - p2[i]);
+        }
+        return sum;
+    }
+    
+    /**
+     * Calculates the L<sub>1</sub> (sum of abs) distance between two points.
+     *
+     * @param p1 the first point
+     * @param p2 the second point
+     * @return the L<sub>1</sub> distance between the two points
+     */
+    public static final int distance1(int[] p1, int[] p2) {
+      int sum = 0;
+      for (int i = 0; i < p1.length; i++) {
+          sum += Math.abs(p1[i] - p2[i]);
+      }
+      return sum;
+    }
+
+    /**
+     * Calculates the L<sub>2</sub> (Euclidean) distance between two points.
+     *
+     * @param p1 the first point
+     * @param p2 the second point
+     * @return the L<sub>2</sub> distance between the two points
+     */
+    public static final double distance(double[] p1, double[] p2) {
+        double sum = 0;
+        for (int i = 0; i < p1.length; i++) {
+            final double dp = p1[i] - p2[i];
+            sum += dp * dp;
+        }
+        return Math.sqrt(sum);
+    }
+    
+    /**
+     * Calculates the L<sub>2</sub> (Euclidean) distance between two points.
+     *
+     * @param p1 the first point
+     * @param p2 the second point
+     * @return the L<sub>2</sub> distance between the two points
+     */
+    public static final double distance(int[] p1, int[] p2) {
+      int sum = 0;
+      for (int i = 0; i < p1.length; i++) {
+          final int dp = p1[i] - p2[i];
+          sum += dp * dp;
+      }
+      return Math.sqrt(sum);
+    }
+    
+    /**
+     * Calculates the L<sub>&infin;</sub> (max of abs) distance between two points.
+     *
+     * @param p1 the first point
+     * @param p2 the second point
+     * @return the L<sub>&infin;</sub> distance between the two points
+     */
+    public static final double distanceInf(double[] p1, double[] p2) {
+        double max = 0;
+        for (int i = 0; i < p1.length; i++) {
+            max = Math.max(max, Math.abs(p1[i] - p2[i]));
+        }
+        return max;
+    }
+    
+    /**
+     * Calculates the L<sub>&infin;</sub> (max of abs) distance between two points.
+     *
+     * @param p1 the first point
+     * @param p2 the second point
+     * @return the L<sub>&infin;</sub> distance between the two points
+     */
+    public static final int distanceInf(int[] p1, int[] p2) {
+        int max = 0;
+        for (int i = 0; i < p1.length; i++) {
+            max = Math.max(max, Math.abs(p1[i] - p2[i]));
+        }
+        return max;
+    }
+
+    
 }

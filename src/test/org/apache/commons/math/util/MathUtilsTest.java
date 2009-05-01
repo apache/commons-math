@@ -1179,4 +1179,41 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(bigOne, MathUtils.pow(twentyOne, BigInteger.valueOf(103l)));
         
     }
+
+    public void testL1DistanceDouble() {
+        double[] p1 = { 2.5,  0.0 };
+        double[] p2 = { -0.5, 4.0 };
+        assertEquals(7.0, MathUtils.distance1(p1, p2));
+    }
+
+    public void testL1DistanceInt() {
+        int[] p1 = { 3, 0 };
+        int[] p2 = { 0, 4 };
+        assertEquals(7, MathUtils.distance1(p1, p2));
+    }
+
+    public void testL2DistanceDouble() {
+        double[] p1 = { 2.5,  0.0 };
+        double[] p2 = { -0.5, 4.0 };
+        assertEquals(5.0, MathUtils.distance(p1, p2));
+    }
+
+    public void testL2DistanceInt() {
+        int[] p1 = { 3, 0 };
+        int[] p2 = { 0, 4 };
+        assertEquals(5.0, MathUtils.distance(p1, p2));
+    }
+
+    public void testLInfDistanceDouble() {
+        double[] p1 = { 2.5,  0.0 };
+        double[] p2 = { -0.5, 4.0 };
+        assertEquals(4.0, MathUtils.distanceInf(p1, p2));
+    }
+
+    public void testLInfDistanceInt() {
+        int[] p1 = { 3, 0 };
+        int[] p2 = { 0, 4 };
+        assertEquals(4, MathUtils.distanceInf(p1, p2));
+    }
+
 }
