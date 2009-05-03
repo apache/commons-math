@@ -37,7 +37,7 @@ public class SparseRealMatrix extends AbstractRealMatrix {
     private final int columnDimension;
 
     /** Storage for (sparse) matrix elements. */
-    private OpenIntToDoubleHashMap entries;
+    private final OpenIntToDoubleHashMap entries;
 
     /**
      * Build a sparse matrix with the supplied row and column dimensions.

@@ -353,7 +353,7 @@ public class SparseRealVector implements RealVector {
             iter.advance();
             res.setEntry(iter.key(), iter.value() / v[iter.key()]);
         }
-        return null;
+        return res;
     }
 
     /** {@inheritDoc} */
