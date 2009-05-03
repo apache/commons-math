@@ -24,6 +24,7 @@ import java.util.Random;
 
 /**
  * Clustering algorithm based on David Arthur and Sergei Vassilvitski k-means++ algorithm.
+ * @param <T> type of the points to cluster
  * @see <a href="http://en.wikipedia.org/wiki/K-means%2B%2B">K-means++ (wikipedia)</a>
  * @version $Revision$ $Date$
  * @since 2.0
@@ -79,6 +80,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
     /**
      * Adds the given points to the closest {@link Cluster}.
      * 
+     * @param <T> type of the points to cluster
      * @param clusters the {@link Cluster}s to add the points to
      * @param points the points to add to the given {@link Cluster}s
      */
@@ -93,6 +95,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
     /**
      * Use K-means++ to choose the initial centers.
      * 
+     * @param <T> type of the points to cluster
      * @param points the points to choose the initial centers from
      * @param k the number of centers to choose
      * @param random random generator to use
@@ -140,6 +143,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
     /**
      * Returns the nearest {@link Cluster} to the given point
      * 
+     * @param <T> type of the points to cluster
      * @param clusters the {@link Cluster}s to search
      * @param point the point to find the nearest {@link Cluster} for
      * @return the nearest {@link Cluster} to the given point

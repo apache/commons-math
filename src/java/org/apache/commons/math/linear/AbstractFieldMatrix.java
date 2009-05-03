@@ -45,6 +45,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
 
     /**
      * Get the elements type from an array.
+     * @param <T> the type of the field elements
      * @param d data array
      * @return field to which array elements belong
      * @exception IllegalArgumentException if array is empty
@@ -62,6 +63,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
 
     /**
      * Get the elements type from an array.
+     * @param <T> the type of the field elements
      * @param d data array
      * @return field to which array elements belong
      * @exception IllegalArgumentException if array is empty
@@ -78,6 +80,8 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
      * <p>
      * Complete arrays are filled with field.getZero()
      * </p>
+     * @param <T> the type of the field elements
+     * @param field field to which array elements belong
      * @param rows number of rows
      * @param columns number of columns (may be negative to build partial
      * arrays in the same way <code>new Field[rows][]</code> works)
@@ -103,6 +107,8 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
      * <p>
      * Arrays are filled with field.getZero()
      * </p>
+     * @param <T> the type of the field elements
+     * @param field field to which array elements belong
      * @param length of the array
      * @return a new array
      */

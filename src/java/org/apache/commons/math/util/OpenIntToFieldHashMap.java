@@ -35,13 +35,14 @@ import org.apache.commons.math.MathRuntimeException;
  * {@link #iterator()} are fail-fast: they throw a
  * <code>ConcurrentModificationException</code> when they detect the map has been
  * modified during iteration.</p>
+ * @param <T> the type of the field elements
  * @version $Revision: 746578 $ $Date: 2009-02-21 12:01:14 -0800 (Sat, 21 Feb 2009) $
  * @since 2.0
  */
 public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
     
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -9179080286849120720L;
 
     /** Load factor for the map. */
     private static final float LOAD_FACTOR = 0.5f;

@@ -59,7 +59,10 @@ public final class MathUtils {
     /** 2 &pi;. */
     private static final double TWO_PI = 2 * Math.PI;
 
+    /** Gap between NaN and regular numbers. */
     private static final int NAN_GAP = 4 * 1024 * 1024;
+
+    /** Offset to order signed double numbers lexicographically. */
     private static final long SGN_MASK = 0x8000000000000000L;
 
     /**

@@ -54,6 +54,7 @@ public class MatrixUtils {
     /**
      * Returns a {@link FieldMatrix} with specified dimensions.
      * <p>The matrix elements are all set to field.getZero().</p>
+     * @param <T> the type of the field elements
      * @param field field to which the matrix elements belong
      * @param rows number of rows of the matrix
      * @param columns number of columns of the matrix
@@ -88,6 +89,7 @@ public class MatrixUtils {
      * <p>
      * The input array is copied, not referenced.
      * </p>
+     * @param <T> the type of the field elements
      * @param data input array
      * @return  RealMatrix containing the values of the array
      * @throws IllegalArgumentException if <code>data</code> is not rectangular
@@ -119,6 +121,8 @@ public class MatrixUtils {
     /**
      * Returns <code>dimension x dimension</code> identity matrix.
      *
+     * @param <T> the type of the field elements
+     * @param field field to which the elements belong
      * @param dimension dimension of identity matrix to generate
      * @return identity matrix
      * @throws IllegalArgumentException if dimension is not positive
@@ -177,6 +181,7 @@ public class MatrixUtils {
     /**
      * Returns a diagonal matrix with specified elements.
      *
+     * @param <T> the type of the field elements
      * @param diagonal diagonal elements of the matrix (the array elements
      * will be copied)
      * @return diagonal matrix
@@ -277,6 +282,7 @@ public class MatrixUtils {
     /**
      * Creates a {@link FieldVector} using the data from the input array. 
      * 
+     * @param <T> the type of the field elements
      * @param data the input data
      * @return a data.length FieldVector
      * @throws IllegalArgumentException if <code>data</code> is empty
@@ -308,6 +314,7 @@ public class MatrixUtils {
      * Creates a row {@link FieldMatrix} using the data from the input
      * array. 
      * 
+     * @param <T> the type of the field elements
      * @param rowData the input row data
      * @return a 1 x rowData.length FieldMatrix
      * @throws IllegalArgumentException if <code>rowData</code> is empty
@@ -406,6 +413,7 @@ public class MatrixUtils {
      * Creates a column {@link FieldMatrix} using the data from the input
      * array.
      * 
+     * @param <T> the type of the field elements
      * @param columnData  the input column data
      * @return a columnData x 1 FieldMatrix
      * @throws IllegalArgumentException if <code>columnData</code> is empty

@@ -57,6 +57,7 @@ import org.apache.commons.math.MathRuntimeException;
  * arrays is negligible for small matrices (about 1%). The gain from cache efficiency leads
  * to up to 3-fold improvements for matrices of moderate to large size.
  * </p>
+ * @param <T> the type of the field elements
  * @version $Revision$ $Date$
  * @since 2.0
  */
@@ -142,7 +143,7 @@ public class DenseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
      * @see #DenseFieldMatrix(T[][])
      */
     public DenseFieldMatrix(final int rows, final int columns,
-                           final T[][] blockData, final boolean copyArray)
+                            final T[][] blockData, final boolean copyArray)
         throws IllegalArgumentException {
 
         super(extractField(blockData), rows, columns);
@@ -193,6 +194,7 @@ public class DenseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
      * It can be used to provide the array argument of the {@link
      * DenseFieldMatrix#DenseFieldMatrix(int, int, T[][], boolean)} constructor.
      * </p>
+     * @param <T> the type of the field elements
      * @param rawData data array in raw layout
      * @return a new data array containing the same entries but in blocks layout
      * @exception IllegalArgumentException if <code>rawData</code> is not rectangular
@@ -252,6 +254,8 @@ public class DenseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
      * This method can be used to create the array argument of the {@link
      * DenseFieldMatrix#DenseFieldMatrix(int, int, T[][], boolean)} constructor.
      * </p>
+     * @param <T> the type of the field elements
+     * @param field field to which the elements belong
      * @param rows  the number of rows in the new matrix
      * @param columns  the number of columns in the new matrix
      * @return a new data array in blocks layout

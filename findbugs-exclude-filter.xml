@@ -110,6 +110,11 @@
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
+    <Class name="org.apache.commons.math.linear.DenseFieldMatrix"/>
+    <Method name="&lt;init>" params="int,int,org.apache.commons.math.FieldElement[][],boolean" returns="void" />
+    <Bug pattern="EI_EXPOSE_REP2" />
+  </Match>
+  <Match>
     <Class name="org.apache.commons.math.linear.FieldMatrixImpl"/>
     <Method name="&lt;init>" params="org.apache.commons.math.FieldElement[][],boolean" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />
@@ -140,6 +145,16 @@
   <Match>
     <Class name="org.apache.commons.math.linear.FieldVectorImpl"/>
     <Method name="getDataRef" params="" returns="org.apache.commons.math.FieldElement[]" />
+    <Bug pattern="EI_EXPOSE_REP" />
+  </Match>
+  <Match>
+    <Class name="org.apache.commons.math.stat.clustering.EuclideanIntegerPoint"/>
+    <Method name="&lt;init>" params="int[]" returns="void" />
+    <Bug pattern="EI_EXPOSE_REP2" />
+  </Match>
+  <Match>
+    <Class name="org.apache.commons.math.stat.clustering.EuclideanIntegerPoint"/>
+    <Method name="getPoint" params="" returns="int[]" />
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
 

@@ -30,13 +30,13 @@ import java.util.List;
 public class Cluster<T extends Clusterable<T>> implements Serializable {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -1741417096265465690L;
+    private static final long serialVersionUID = -3442297081515880464L;
 
     /** The points contained in this cluster. */
-    final List<T> points;
+    private final List<T> points;
 
     /** Center of the cluster. */
-    final T center;
+    private final T center;
 
     /**
      * Build a cluster centered at a specified point.

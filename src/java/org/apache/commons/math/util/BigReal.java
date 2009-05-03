@@ -206,6 +206,25 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal> {
     }
 
     /** {@inheritDoc} */
+    @Override
+    public boolean equals(Object other) {
+        try {
+            if (other == null) {
+                return false;
+            }
+            return d.equals(((BigReal) other).d);
+        } catch (ClassCastException cce) {
+            return false;
+        }
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode() {
+        return d.hashCode();
+    }
+
+    /** {@inheritDoc} */
     public Field<BigReal> getField() {
         return BigRealField.getInstance();
     }

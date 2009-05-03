@@ -35,6 +35,8 @@ public class EuclideanIntegerPoint implements Clusterable<EuclideanIntegerPoint>
     private final int[] point;
 
     /**
+     * Build an instance wrapping an integer array.
+     * <p>The wrapped array is referenced, it is <em>not</em> copied.</p>
      * @param point the n-dimensional point in integer space
      */
     public EuclideanIntegerPoint(final int[] point) {
@@ -42,7 +44,8 @@ public class EuclideanIntegerPoint implements Clusterable<EuclideanIntegerPoint>
     }
 
     /**
-     * Returns the n-dimensional point in integer space
+     * Get the n-dimensional point in integer space.
+     * @return a reference (not a copy!) to the wrapped array
      */
     public int[] getPoint() {
         return point;
