@@ -18,6 +18,7 @@ package org.apache.commons.math.analysis.polynomials;
 
 import java.io.Serializable;
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.interpolation.DividedDifferenceInterpolator;
 
@@ -209,12 +210,13 @@ public class PolynomialFunctionNewtonForm implements UnivariateRealFunction,
         IllegalArgumentException {
 
         if (a.length < 1 || c.length < 1) {
-            throw new IllegalArgumentException
-                ("Input arrays must not be empty.");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "empty polynomials coefficients array");
         }
         if (a.length != c.length + 1) {
-            throw new IllegalArgumentException
-                ("Bad input array sizes, should have difference 1.");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "array sizes should have difference 1 ({0} != {1} + 1)",
+                  a.length, c.length);
         }
     }
 }

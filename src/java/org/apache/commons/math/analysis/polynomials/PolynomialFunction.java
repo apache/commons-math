@@ -18,6 +18,7 @@ package org.apache.commons.math.analysis.polynomials;
 
 import java.io.Serializable;
 
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 
@@ -58,7 +59,7 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
     public PolynomialFunction(double c[]) {
         super();
         if (c.length < 1) {
-            throw new IllegalArgumentException("Polynomial coefficient array must have postive length.");
+            throw MathRuntimeException.createIllegalArgumentException("empty polynomials coefficients array");
         }
         int l = c.length;
         while ((l > 1) && (c[l - 1] == 0)) {
@@ -118,7 +119,7 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
     protected static double evaluate(double[] coefficients, double argument) {
         int n = coefficients.length;
         if (n < 1) {
-            throw new IllegalArgumentException("Coefficient array must have positive length for evaluation");
+            throw MathRuntimeException.createIllegalArgumentException("empty polynomials coefficients array");
         }
         double result = coefficients[n - 1];
         for (int j = n -2; j >=0; j--) {
@@ -227,7 +228,7 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
     protected static double[] differentiate(double[] coefficients) {
         int n = coefficients.length;
         if (n < 1) {
-            throw new IllegalArgumentException("Coefficient array must have positive length for differentiation");
+            throw MathRuntimeException.createIllegalArgumentException("empty polynomials coefficients array");
         }
         if (n == 1) {
             return new double[]{0};

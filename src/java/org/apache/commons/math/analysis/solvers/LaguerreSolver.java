@@ -252,8 +252,8 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
         int n = coefficients.length - 1;
         int iterationCount = 0;
         if (n < 1) {
-            throw new IllegalArgumentException
-                ("Polynomial degree must be positive: degree=" + n);
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "polynomial degree must be positive: degree={0}", n);
         }
         Complex c[] = new Complex[n+1];    // coefficients for deflated polynomial
         for (int i = 0; i <= n; i++) {
@@ -300,8 +300,8 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
 
         int n = coefficients.length - 1;
         if (n < 1) {
-            throw new IllegalArgumentException
-                ("Polynomial degree must be positive: degree=" + n);
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "polynomial degree must be positive: degree={0}", n);
         }
         Complex N = new Complex(n, 0.0);
         Complex N1 = new Complex((n-1), 0.0);

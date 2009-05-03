@@ -66,7 +66,7 @@ public abstract class UnivariateRealIntegratorImpl
         throws IllegalArgumentException {
         super(defaultMaximalIterationCount, 1.0e-15);
         if (f == null) {
-            throw new IllegalArgumentException("Function can not be null.");
+            throw MathRuntimeException.createIllegalArgumentException("function is null");
         }
 
         this.f = f;

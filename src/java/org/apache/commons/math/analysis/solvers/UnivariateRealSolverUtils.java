@@ -18,6 +18,7 @@ package org.apache.commons.math.analysis.solvers;
 
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 
 /**
@@ -167,16 +168,16 @@ public class UnivariateRealSolverUtils {
             FunctionEvaluationException {
         
         if (function == null) {
-            throw new IllegalArgumentException ("function is null.");
+            throw MathRuntimeException.createIllegalArgumentException("function is null");
         }
         if (maximumIterations <= 0)  {
-            throw new IllegalArgumentException
-            ("bad value for maximumIterations: " + maximumIterations);
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "bad value for maximum iterations number: {0}", maximumIterations);
         }
         if (initial < lowerBound || initial > upperBound || lowerBound >= upperBound) {
-            throw new IllegalArgumentException
-            ("Invalid endpoint parameters:  lowerBound=" + lowerBound + 
-              " initial=" + initial + " upperBound=" + upperBound);
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "invalid bracketing parameters:  lower bound={0},  initial={1}, upper bound={2}",
+                  lowerBound, initial, upperBound);
         }
         double a = initial;
         double b = initial;
@@ -195,9 +196,12 @@ public class UnivariateRealSolverUtils {
                 ((a > lowerBound) || (b < upperBound)));
    
         if (fa * fb >= 0.0 ) {
-            throw new ConvergenceException
-            ("Number of iterations={0}, maximum iterations={1}, initial={2}, lower bound={3}, upper bound={4}, final a value={5}, final b value={6}, f(a)={7}, f(b)={8}",
-             numIterations, maximumIterations, initial, lowerBound, upperBound, a, b, fa, fb);
+            throw new ConvergenceException(
+                      "number of iterations={0}, maximum iterations={1}, " +
+                      "initial={2}, lower bound={3}, upper bound={4}, final a value={5}, " +
+                      "final b value={6}, f(a)={7}, f(b)={8}",
+                      numIterations, maximumIterations, initial,
+                      lowerBound, upperBound, a, b, fa, fb);
         }
         
         return new double[]{a, b};
@@ -221,7 +225,7 @@ public class UnivariateRealSolverUtils {
      */
     private static void setup(UnivariateRealFunction f) {
         if (f == null) {
-            throw new IllegalArgumentException("function can not be null.");    
+            throw MathRuntimeException.createIllegalArgumentException("function is null");
         }
     }
 

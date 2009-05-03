@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialSplineFunction;
@@ -57,12 +58,13 @@ public class SplineInterpolator implements UnivariateRealInterpolator {
      */
     public UnivariateRealFunction interpolate(double x[], double y[]) {
         if (x.length != y.length) {
-            throw new IllegalArgumentException("Dataset arrays must have same length.");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "dimension mismatch {0} != {1}", x.length, y.length);
         }
         
         if (x.length < 3) {
-            throw new IllegalArgumentException
-                ("At least 3 datapoints are required to compute a spline interpolant");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "{0} points are required, got only {1}", 3, x.length);
         }
         
         // Number of intervals.  The number of data points is n + 1.
@@ -70,7 +72,9 @@ public class SplineInterpolator implements UnivariateRealInterpolator {
         
         for (int i = 0; i < n; i++) {
             if (x[i]  >= x[i + 1]) {
-                throw new IllegalArgumentException("Dataset x values must be strictly increasing.");
+                throw MathRuntimeException.createIllegalArgumentException(
+                      "points {0} and {1} are not strictly increasing ({2} >= {3})",
+                      i, i+1, x[i], x[i+1]);
             }
         }
         

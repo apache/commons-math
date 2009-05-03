@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 import org.apache.commons.math.ArgumentOutsideDomainException;
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 
@@ -99,16 +100,18 @@ public class PolynomialSplineFunction
      */
     public PolynomialSplineFunction(double knots[], PolynomialFunction polynomials[]) {
         if (knots.length < 2) {
-            throw new IllegalArgumentException
-                ("Not enough knot values -- spline partition must have at least 2 points.");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "spline partition must have at least {0} points, got {1}",
+                  2, knots.length);
         }
         if (knots.length - 1 != polynomials.length) {
-            throw new IllegalArgumentException 
-            ("Number of polynomial interpolants must match the number of segments.");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "number of polynomial interpolants must match the number of segments ({0} != {1} - 1)",
+                  polynomials.length, knots.length);
         }
         if (!isStrictlyIncreasing(knots)) {
-            throw new IllegalArgumentException 
-                ("Knot values must be strictly increasing.");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "knot values must be strictly increasing");
         }
         
         this.n = knots.length -1;

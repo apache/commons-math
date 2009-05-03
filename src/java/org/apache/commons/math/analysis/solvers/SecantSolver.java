@@ -20,6 +20,7 @@ import java.io.Serializable;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 
@@ -130,10 +131,10 @@ public class SecantSolver extends UnivariateRealSolverImpl implements Serializab
         
         // Verify bracketing
         if (y0 * y1 >= 0) {
-            throw new IllegalArgumentException
-            ("Function values at endpoints do not have different signs." +
-                    "  Endpoints: [" + min + "," + max + "]" + 
-                    "  Values: [" + y0 + "," + y1 + "]");       
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "function values at endpoints do not have different signs, " +
+                  "endpoints: [{0}, {1}], values: [{2}, {3}]",
+                  min, max, y0, y1);       
         }
         
         double x2 = x0;

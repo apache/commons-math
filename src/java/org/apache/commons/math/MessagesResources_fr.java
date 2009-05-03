@@ -71,6 +71,8 @@ public class MessagesResources_fr
     { "Maximal number of iterations ({0}) exceeded",
       "Nombre maximal d''it\u00e9rations ({0}) d\u00e9pass\u00e9" },
 
+    // org.apache.commons.math.analysis.interpolation.SplineInterpolator
+    // org.apache.commons.math.analysis.polynomials.PolynomialFunctionLagrangeForm
     // org.apache.commons.math.DimensionMismatchException
     // org.apache.commons.math.optimization.LeastSquaresConverter
     // org.apache.commons.math.optimization.direct.DirectSearchOptimizer
@@ -127,11 +129,34 @@ public class MessagesResources_fr
       "le format complet ne doit pas \u00eatre nul" },
 
     // org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils
-    { "Number of iterations={0}, maximum iterations={1}, initial={2}, lower bound={3}, upper bound={4}," +
-          " final a value={5}, final b value={6}, f(a)={7}, f(b)={8}",
-      "Nombre d''it\u00e9rations = {0}, it\u00e9rations maximum = {1}, valeur initiale = {2}," +
-          " borne inf\u00e9rieure = {3}, borne sup\u00e9rieure = {4}," +
-          " valeur a finale = {5}, valeur b finale = {6}, f(a) = {7}, f(b) = {8}" },
+    { "function is null",
+      "la fonction est nulle" },
+    { "bad value for maximum iterations number: {0}",
+      "valeur invalide pour le nombre maximal d''it\u00e9rations : {0}" },
+    { "invalid bracketing parameters:  lower bound={0},  initial={1}, upper bound={2}",
+      "param\u00e8tres d''encadrement invalides : borne inf\u00e9rieure = {0}, valeur initiale = {1}, borne sup\u00e9rieure = {2}" },
+    { "number of iterations={0}, maximum iterations={1}, initial={2}, lower bound={3}, upper bound={4}," +
+        " final a value={5}, final b value={6}, f(a)={7}, f(b)={8}",
+      "nombre d''it\u00e9rations = {0}, it\u00e9rations maximum = {1}, valeur initiale = {2}," +
+        " borne inf\u00e9rieure = {3}, borne sup\u00e9rieure = {4}," +
+        " valeur a finale = {5}, valeur b finale = {6}, f(a) = {7}, f(b) = {8}" },
+
+    // org.apache.commons.math.analysis.solvers.LaguerreSolver
+    { "polynomial degree must be positive: degree={0}",
+      "le polyn\u00f4me doit \u00eatre de degr\u00e9 positif : degr\u00e9 = {0}" },
+
+    // org.apache.commons.math.analysis.solvers.SecantSolver
+    { "function values at endpoints do not have different signs, endpoints: [{0}, {1}], values: [{2}, {3}]",
+      "les valeurs de la fonctions aux bornes sont de m\u00eame signe, bornes : [{0}, {1}], valeurs : [{2}, {3}]" },
+
+    // org.apache.commons.math.analysis.interpolation.SplineInterpolator
+    // org.apache.commons.math.analysis.polynomials.PolynomialFunctionLagrangeForm
+    { "{0} points are required, got only {1}",
+      "{0} sont n\u00e9cessaires, seuls {1} ont \u00e9t\u00e9 fournis" },
+
+    // org.apache.commons.math.analysis.interpolation.SplineInterpolator
+    { "points {0} and {1} are not strictly increasing ({2} >= {3})",
+      "les points {0} et {1} ne sont pas strictements croissants ({2} >= {3})" },
 
     // org.apache.commons.math.util.ContinuedFraction
     { "Continued fraction convergents diverged to +/- infinity for value {0}",
@@ -390,9 +415,26 @@ public class MessagesResources_fr
    { "index ({0}) is not positive",
      "l''indice ({0}) n''est pas positif" },
 
+   // org.apache.commons.math.analysis.polynomials.PolynomialFunction
+   // org.apache.commons.math.analysis.polynomials.PolynomialFunctionNewtonForm
+   { "empty polynomials coefficients array",
+     "tableau de coefficients polyn\u00f4miaux vide" },
+
+   // org.apache.commons.math.analysis.polynomials.PolynomialFunctionNewtonForm
+   { "array sizes should have difference 1 ({0} != {1} + 1)",
+     "les tableaux devraient avoir une diff\u00e9rence de taille de 1 ({0} != {1} + 1)" },
+
    // org.apache.commons.math.analysis.polynomials.PolynomialFunctionLagrangeForm
    { "identical abscissas x[{0}] == x[{1}] == {2} cause division by zero",
      "division par z\u00e9ro caus\u00e9e par les abscisses identiques x[{0}] == x[{1}] == {2}" },
+
+   // org.apache.commons.math.analysis.polynomials.PolynomialSplineFunction
+   { "spline partition must have at least {0} points, got {1}",
+     "une partiction spline n\u00e9cessite au moins {0} points, seuls {1} ont \u00e9t\u00e9 fournis" },
+   { "knot values must be strictly increasing",
+     "les n\u0153uds d''interpolation doivent \u00eatre strictement croissants" },
+   { "number of polynomial interpolants must match the number of segments ({0} != {1} - 1)",
+     "le nombre d''interpolants polyn\u00f4miaux doit correspondre au nombre de segments ({0} != {1} - 1)" },
 
    // org.apache.commons.math.analysis.solvers.UnivariateRealSolverImpl
    { "function to solve cannot be null",

@@ -292,13 +292,14 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction,
     public static void verifyInterpolationArray(double x[], double y[]) throws
         IllegalArgumentException {
 
-        if (x.length < 2 || y.length < 2) {
-            throw new IllegalArgumentException
-                ("Interpolation requires at least two points.");
+        if (Math.min(x.length, y.length) < 2) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "{0} points are required, got only {1}",
+                  2, Math.min(x.length, y.length));
         }
         if (x.length != y.length) {
-            throw new IllegalArgumentException
-                ("Abscissa and value arrays must have the same length.");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "dimension mismatch {0} != {1}", x.length, y.length);
         }
     }
 }
