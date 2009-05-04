@@ -44,7 +44,7 @@ public class SparseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldM
     
 
     /**
-     * Creates a matrix with no data
+     * Creates a matrix with no data.
      * @param field field to which the elements belong
      */
     public SparseFieldMatrix(final Field<T> field) {
@@ -63,7 +63,7 @@ public class SparseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldM
      * @throws IllegalArgumentException if row or column dimension is not positive
      */
     public SparseFieldMatrix(final Field<T> field,
-                                  final int rowDimension, final int columnDimension)
+                             final int rowDimension, final int columnDimension)
         throws IllegalArgumentException {
         super(field, rowDimension, columnDimension);
         this.rowDimension = rowDimension;
@@ -72,10 +72,10 @@ public class SparseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldM
     }
     
     /**
-     * Copy construtor.
+     * Copy constructor.
      * @param other The instance to copy
      */
-    public SparseFieldMatrix(SparseFieldMatrix<T> other){
+    public SparseFieldMatrix(SparseFieldMatrix<T> other) {
         super(other.getField(), other.getRowDimension(), other.getColumnDimension());
         rowDimension = other.getRowDimension();
         columnDimension = other.getColumnDimension();
@@ -83,7 +83,7 @@ public class SparseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldM
     }
 
     /**
-     * Generic copy construtor.
+     * Generic copy constructor.
      * @param other The instance to copy
      */
     public SparseFieldMatrix(FieldMatrix<T> other){
@@ -91,8 +91,8 @@ public class SparseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldM
         rowDimension = other.getRowDimension();
         columnDimension = other.getColumnDimension();
         entries = new OpenIntToFieldHashMap<T>(getField());
-        for(int i=0; i < rowDimension; i++){
-            for(int j=0; j < columnDimension; j++){
+        for (int i = 0; i < rowDimension; i++) {
+            for (int j = 0; j < columnDimension; j++) {
                 setEntry(i, j, other.getEntry(i, j));
             }
         }

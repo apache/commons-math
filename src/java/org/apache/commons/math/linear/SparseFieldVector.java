@@ -43,7 +43,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
 
     /**
      * Build a 0-length vector.
-     * <p>Zero-length vectors may be used to initialized construction of vectors
+     * <p>Zero-length vectors may be used to initialize construction of vectors
      * by data gathering. We start with zero-length and use either the {@link
      * #SparseFieldVector(SparseFieldVector<T>, int)} constructor
      * or one of the <code>append</code> method ({@link #append(Field<T>)}, {@link
@@ -87,7 +87,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     public SparseFieldVector(Field<T> field, int dimension, int expectedSize) {
         this.field = field;
         virtualSize = dimension;
-        entries = new OpenIntToFieldHashMap<T> (field,expectedSize);
+        entries = new OpenIntToFieldHashMap<T>(field,expectedSize);
     }
 
     /**
@@ -127,10 +127,10 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     }
     
     /**
-     * Optimzed method to add sparse vectors
+     * Optimized method to add sparse vectors.
      * @return The sum of <code>this</code> and <code>v</code>
      * @throws IllegalArgumentException If the dimensions don't match
-*/
+     */
     public FieldVector<T> add(SparseFieldVector<T> v) throws IllegalArgumentException {
         checkVectorDimensions(v.getDimension());
         SparseFieldVector<T> res = (SparseFieldVector<T>)copy();
@@ -173,11 +173,11 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
 
     /** {@inheritDoc} */
     public FieldVector<T> append(FieldVector<T> v) {
-        if(v instanceof SparseFieldVector)
-            return append((SparseFieldVector<T>)v);
-        else
+        if (v instanceof SparseFieldVector) {
+            return append((SparseFieldVector<T>) v);
+        } else {
             return append(v.toArray());
-            
+        }   
     }
 
     /** {@inheritDoc} */
@@ -231,7 +231,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
 
     /** {@inheritDoc} */
     public FieldVector<T> ebeDivide(FieldVector<T> v)
-            throws IllegalArgumentException {
+        throws IllegalArgumentException {
         checkVectorDimensions(v.getDimension());
         SparseFieldVector<T> res = new SparseFieldVector<T>(this);
         OpenIntToFieldHashMap<T>.Iterator iter = res.entries.iterator();
@@ -390,7 +390,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     }
 
      /**
-      * Optimized method to compute outer product when both vectors are sparse
+      * Optimized method to compute outer product when both vectors are sparse.
       * @param v vector with which outer product should be computed
       * @return the square matrix outer product between instance and v
       * @throws IllegalArgumentException if v is not the same size as {@code this}
@@ -436,6 +436,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
             return outerProduct(v.toArray());
     }
 
+    /** {@inheritDoc} */
     public FieldVector<T> projection(FieldVector<T> v)
     throws IllegalArgumentException {
         checkVectorDimensions(v.getDimension());
@@ -564,10 +565,11 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
 
     /** {@inheritDoc} */
     public FieldVector<T> add(FieldVector<T> v) throws IllegalArgumentException {
-        if(v instanceof SparseFieldVector)
+        if (v instanceof SparseFieldVector) {
             return add((SparseFieldVector<T>)v);
-        else
+        } else {
             return add(v.toArray());
+        }
     }
 
     /** Build an array of elements.
@@ -598,22 +600,34 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
 
 
     /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+
+        if (obj == null) {
             return false;
-        if (!(obj instanceof SparseFieldVector))
+        }
+
+        if (!(obj instanceof SparseFieldVector)) {
             return false;
+        }
+
         SparseFieldVector<T> other = (SparseFieldVector<T>) obj;
         if (field == null) {
-            if (other.field != null)
+            if (other.field != null) {
                 return false;
-        } else if (!field.equals(other.field))
+            }
+        } else if (!field.equals(other.field)) {
             return false;
-        if (virtualSize != other.virtualSize)
+        }
+        if (virtualSize != other.virtualSize) {
             return false;
+        }
+
         OpenIntToFieldHashMap<T>.Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
