@@ -90,7 +90,6 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
         entries = new OpenIntToFieldHashMap<T> (field,expectedSize);
     }
 
-    
     /**
      * Create from a Field array.
      * Only non-zero entries will be stored
@@ -578,6 +577,60 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     @SuppressWarnings("unchecked")
     private T[] buildArray(final int length) {
         return (T[]) Array.newInstance(field.getZero().getClass(), length);
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((field == null) ? 0 : field.hashCode());
+        result = prime * result + virtualSize;
+        OpenIntToFieldHashMap<T>.Iterator iter = entries.iterator();
+        while (iter.hasNext()) {
+            iter.advance();
+            int temp = iter.value().hashCode();
+            result = prime * result + temp;
+        }
+        return result;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof SparseFieldVector))
+            return false;
+        SparseFieldVector<T> other = (SparseFieldVector<T>) obj;
+        if (field == null) {
+            if (other.field != null)
+                return false;
+        } else if (!field.equals(other.field))
+            return false;
+        if (virtualSize != other.virtualSize)
+            return false;
+        OpenIntToFieldHashMap<T>.Iterator iter = entries.iterator();
+        while (iter.hasNext()) {
+            iter.advance();
+            T test = other.getEntry(iter.key());
+            if (!test.equals(iter.value())) {
+                return false;
+            }
+        }
+        iter = other.getEntries().iterator();
+        while (iter.hasNext()) {
+            iter.advance();
+            T test = iter.value();
+            if (!test.equals(getEntry(iter.key()))) {
+                return false;
+            }
+        }
+        return true;
     }
 
 

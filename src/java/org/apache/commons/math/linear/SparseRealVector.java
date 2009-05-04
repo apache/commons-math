@@ -1290,7 +1290,7 @@ public class SparseRealVector implements RealVector {
         while (iter.hasNext()) {
             iter.advance();
             double test = iter.value();
-            if (Double.doubleToLongBits(test) != Double.doubleToLongBits(iter.value())) {
+            if (Double.doubleToLongBits(test) != Double.doubleToLongBits(getEntry(iter.key()))) {
                 return false;
             }
         }
