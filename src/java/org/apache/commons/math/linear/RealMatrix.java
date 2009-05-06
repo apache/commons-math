@@ -31,7 +31,7 @@ import org.apache.commons.math.linear.decomposition.NonSquareMatrixException;
  * 
  * @version $Revision$ $Date$
  */
-public interface RealMatrix extends Serializable {
+public interface RealMatrix extends AnyMatrix, Serializable {
 
     /**
      * Create a new RealMatrix of the same type as the instance with the supplied
@@ -460,12 +460,6 @@ public interface RealMatrix extends Serializable {
     double getDeterminant();
 
     /**
-     * Is this a square matrix?
-     * @return true if the matrix is square (rowDimension = columnDimension)
-     */
-    boolean isSquare();
-
-    /**
      * Is this a singular matrix?
      * @return true if the matrix is singular
      * @deprecated as of release 2.0, replaced by the boolean negation of
@@ -473,20 +467,6 @@ public interface RealMatrix extends Serializable {
      */
     @Deprecated
     boolean isSingular();
-
-    /**
-     * Returns the number of rows in the matrix.
-     *
-     * @return rowDimension
-     */
-    int getRowDimension();
-
-    /**
-     * Returns the number of columns in the matrix.
-     *
-     * @return columnDimension
-     */
-    int getColumnDimension();
 
     /**
      * Returns the <a href="http://mathworld.wolfram.com/MatrixTrace.html">

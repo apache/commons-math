@@ -19,6 +19,8 @@ package org.apache.commons.math.random;
 
 import java.util.Arrays;
 
+import org.apache.commons.math.MathRuntimeException;
+
 /** 
  * A {@link RandomVectorGenerator} that generates vectors with uncorrelated
  * components. Components of generated vectors follow (independent) Gaussian
@@ -46,7 +48,9 @@ public class UncorrelatedRandomVectorGenerator
                                            double[] standardDeviation,
                                            NormalizedRandomGenerator generator) {
     if (mean.length != standardDeviation.length) {
-      throw new IllegalArgumentException("dimension mismatch");
+      throw MathRuntimeException.createIllegalArgumentException(
+            "dimension mismatch {0} != {1}",
+            mean.length, standardDeviation.length);
     }
     this.mean              = mean.clone();
     this.standardDeviation = standardDeviation.clone();

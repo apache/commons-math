@@ -18,6 +18,8 @@ package org.apache.commons.math.stat.descriptive;
 
 import java.io.Serializable;
 
+import org.apache.commons.math.MathRuntimeException;
+
 /**
  * Abstract base class for all implementations of the 
  * {@link UnivariateStatistic} interface.
@@ -80,20 +82,22 @@ public abstract class AbstractUnivariateStatistic
         final int length) {
 
         if (values == null) {
-            throw new IllegalArgumentException("input value array is null");
+            throw MathRuntimeException.createIllegalArgumentException("input values array is null");
         }
         
         if (begin < 0) {
-            throw new IllegalArgumentException("start position cannot be negative");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "start position cannot be negative ({0})", begin);
         }
         
         if (length < 0) {
-            throw new IllegalArgumentException("length cannot be negative");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "length cannot be negative ({0})", length);
         }
         
         if (begin + length > values.length) {
-            throw new IllegalArgumentException(
-                "begin + length > values.length");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "subarray ends after array end");
         }
 
         if (length == 0) {

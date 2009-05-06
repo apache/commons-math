@@ -53,7 +53,9 @@ import org.apache.commons.math.linear.decomposition.FieldLUDecompositionImpl;
  * org.apache.commons.math.ode.nonstiff.AdamsBashforthIntegrator Adams-Bashforth}
  * integrator uses p=1, q=2, r=1, s=n. The {@link
  * org.apache.commons.math.ode.nonstiff.AdamsMoultonIntegrator Adams-Moulton}
- * integrator uses p=1, q=2, r=0, s=n-1.
+ * integrator uses p=1, q=2, r=0, s=n-1. The {@link
+ * org.apache.commons.math.ode.stiff.BDFIntegrator BDF} integrator uses p=1, q=n,
+ * r=0, s=1.
  * </p>
  * <p>
  * The Nordsieck form for a dimension n state history at step k is composed of the
@@ -81,6 +83,7 @@ import org.apache.commons.math.linear.decomposition.FieldLUDecompositionImpl;
  * @see org.apache.commons.math.ode.MultistepIntegrator
  * @see org.apache.commons.math.ode.nonstiff.AdamsBashforthIntegrator
  * @see org.apache.commons.math.ode.nonstiff.AdamsMoultonIntegrator
+ * @see org.apache.commons.math.ode.stiff.BDFIntegrator
  * @version $Revision$ $Date$
  * @since 2.0
  */

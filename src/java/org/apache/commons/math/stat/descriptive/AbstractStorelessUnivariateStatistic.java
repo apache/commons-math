@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math.stat.descriptive;
 
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.util.MathUtils;
 import java.io.Serializable;
 
@@ -58,7 +59,7 @@ public abstract class AbstractStorelessUnivariateStatistic
     @Override
     public double evaluate(final double[] values) {
         if (values == null) {
-            throw new IllegalArgumentException("input value array is null");
+            throw MathRuntimeException.createIllegalArgumentException("input values array is null");
         }
         return evaluate(values, 0, values.length);
     }
@@ -126,7 +127,7 @@ public abstract class AbstractStorelessUnivariateStatistic
      */
     public void incrementAll(double[] values) {
         if (values == null) {
-            throw new IllegalArgumentException("input values array is null");
+            throw MathRuntimeException.createIllegalArgumentException("input values array is null");
         }
         incrementAll(values, 0, values.length);
     } 

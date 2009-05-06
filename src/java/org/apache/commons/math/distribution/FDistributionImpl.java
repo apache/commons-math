@@ -19,6 +19,7 @@ package org.apache.commons.math.distribution;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.special.Beta;
 
 /**
@@ -162,8 +163,9 @@ public class FDistributionImpl
      */
     public void setNumeratorDegreesOfFreedom(double degreesOfFreedom) {
         if (degreesOfFreedom <= 0.0) {
-            throw new IllegalArgumentException(
-                "degrees of freedom must be positive.");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "degrees of freedom must be positive ({0})",
+                  degreesOfFreedom);
         }
         this.numeratorDegreesOfFreedom = degreesOfFreedom;
     }
@@ -184,8 +186,9 @@ public class FDistributionImpl
      */
     public void setDenominatorDegreesOfFreedom(double degreesOfFreedom) {
         if (degreesOfFreedom <= 0.0) {
-            throw new IllegalArgumentException(
-                "degrees of freedom must be positive.");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "degrees of freedom must be positive ({0})",
+                  degreesOfFreedom);
         }
         this.denominatorDegreesOfFreedom = degreesOfFreedom;
     }

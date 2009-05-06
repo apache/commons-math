@@ -192,7 +192,9 @@ public class ComplexFormat extends CompositeFormat {
             ret = format( new Complex(((Number)obj).doubleValue(), 0.0),
                 toAppendTo, pos);
         } else { 
-            throw new IllegalArgumentException("Cannot format given Object as a Complex");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "cannot format a {0} instance as a complex number",
+                  obj.getClass().getName());
         }
         
         return ret;
@@ -347,8 +349,8 @@ public class ComplexFormat extends CompositeFormat {
      */
     public void setImaginaryCharacter(String imaginaryCharacter) {
         if (imaginaryCharacter == null || imaginaryCharacter.length() == 0) {
-            throw new IllegalArgumentException(
-                "imaginaryCharacter must be a non-empty string.");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "empty string for imaginary character");
         }
         this.imaginaryCharacter = imaginaryCharacter;
     }
@@ -361,8 +363,8 @@ public class ComplexFormat extends CompositeFormat {
      */
     public void setImaginaryFormat(NumberFormat imaginaryFormat) {
         if (imaginaryFormat == null) {
-            throw new IllegalArgumentException(
-                "imaginaryFormat can not be null.");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "null imaginary format");
         }
         this.imaginaryFormat = imaginaryFormat;
     }
@@ -375,8 +377,8 @@ public class ComplexFormat extends CompositeFormat {
      */
     public void setRealFormat(NumberFormat realFormat) {
         if (realFormat == null) {
-            throw new IllegalArgumentException(
-                "realFormat can not be null.");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "null real format");
         }
         this.realFormat = realFormat;
     }

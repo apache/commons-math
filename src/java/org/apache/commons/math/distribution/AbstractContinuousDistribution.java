@@ -21,6 +21,7 @@ import java.io.Serializable;
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils;
 
@@ -59,7 +60,8 @@ public abstract class AbstractContinuousDistribution
     public double inverseCumulativeProbability(final double p)
         throws MathException {
         if (p < 0.0 || p > 1.0) {
-            throw new IllegalArgumentException("p must be between 0.0 and 1.0, inclusive.");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "{0} out of [{1}, {2}] range", p, 0.0, 1.0);
         }
 
         // by default, do simple root finding using bracketing and default solver.

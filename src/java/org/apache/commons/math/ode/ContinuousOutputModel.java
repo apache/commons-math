@@ -115,11 +115,14 @@ public class ContinuousOutputModel
     } else {
 
       if (getInterpolatedState().length != model.getInterpolatedState().length) {
-        throw new IllegalArgumentException("state vector dimension mismatch");
+          throw MathRuntimeException.createIllegalArgumentException(
+                "dimension mismatch {0} != {1}",
+                getInterpolatedState().length, model.getInterpolatedState().length);
       }
 
       if (forward ^ model.forward) {
-        throw new IllegalArgumentException("propagation direction mismatch");
+          throw MathRuntimeException.createIllegalArgumentException(
+                "propagation direction mismatch");
       }
 
       final StepInterpolator lastInterpolator = steps.get(index);
@@ -128,7 +131,8 @@ public class ContinuousOutputModel
       final double step = current - previous;
       final double gap = model.getInitialTime() - current;
       if (Math.abs(gap) > 1.0e-3 * Math.abs(step)) {
-        throw new IllegalArgumentException("hole between time ranges");
+        throw MathRuntimeException.createIllegalArgumentException(
+              "{0} wide hole between models time ranges", Math.abs(gap));
       }
 
     }

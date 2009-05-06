@@ -188,7 +188,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
         throws IllegalArgumentException {
 
         // safety check
-        checkAdditionCompatible(m);
+        MatrixUtils.checkAdditionCompatible(this, m);
 
         final int rowCount    = getRowDimension();
         final int columnCount = getColumnDimension();
@@ -228,7 +228,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
         throws IllegalArgumentException {
 
         // safety check
-        checkSubtractionCompatible(m);
+        MatrixUtils.checkSubtractionCompatible(this, m);
 
         final int rowCount    = getRowDimension();
         final int columnCount = getColumnDimension();
@@ -268,7 +268,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
         throws IllegalArgumentException {
 
         // safety check
-        checkMultiplicationCompatible(m);
+        MatrixUtils.checkMultiplicationCompatible(this, m);
 
         final int nRows = this.getRowDimension();
         final int nCols = m.getColumnDimension();
@@ -497,7 +497,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
                                  final int startRow, final int endRow,
                                  final int startColumn, final int endColumn)
         throws MatrixIndexException, MatrixVisitorException {
-        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
+        MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
         visitor.start(getRowDimension(), getColumnDimension(),
                       startRow, endRow, startColumn, endColumn);
         for (int i = startRow; i <= endRow; ++i) {
@@ -515,7 +515,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
                                  final int startRow, final int endRow,
                                  final int startColumn, final int endColumn)
         throws MatrixIndexException, MatrixVisitorException {
-        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
+        MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
         visitor.start(getRowDimension(), getColumnDimension(),
                       startRow, endRow, startColumn, endColumn);
         for (int i = startRow; i <= endRow; ++i) {
@@ -564,7 +564,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
                                     final int startRow, final int endRow,
                                     final int startColumn, final int endColumn)
         throws MatrixIndexException, MatrixVisitorException {
-        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
+        MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
         visitor.start(getRowDimension(), getColumnDimension(),
                       startRow, endRow, startColumn, endColumn);
         for (int j = startColumn; j <= endColumn; ++j) {
@@ -582,7 +582,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
                                     final int startRow, final int endRow,
                                     final int startColumn, final int endColumn)
         throws MatrixIndexException, MatrixVisitorException {
-        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
+        MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
         visitor.start(getRowDimension(), getColumnDimension(),
                       startRow, endRow, startColumn, endColumn);
         for (int j = startColumn; j <= endColumn; ++j) {

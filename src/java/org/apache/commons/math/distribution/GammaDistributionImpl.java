@@ -19,6 +19,7 @@ package org.apache.commons.math.distribution;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.special.Gamma;
 
 /**
@@ -110,7 +111,9 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
      */
     public void setAlpha(double alpha) {
         if (alpha <= 0.0) {
-            throw new IllegalArgumentException("alpha must be positive");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "alpha must be positive ({0})",
+                  alpha);
         }
         this.alpha = alpha;
     }
@@ -130,7 +133,9 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
      */
     public void setBeta(double beta) {
         if (beta <= 0.0) {
-            throw new IllegalArgumentException("beta must be positive");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "beta must be positive ({0})",
+                  beta);
         }
         this.beta = beta;
     }

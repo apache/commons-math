@@ -19,6 +19,7 @@ package org.apache.commons.math.distribution;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.MathRuntimeException;
 
 /**
  * The default implementation of {@link ExponentialDistribution}.
@@ -50,7 +51,8 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
      */
     public void setMean(double mean) {
         if (mean <= 0.0) {
-            throw new IllegalArgumentException("mean must be positive.");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "mean must be positive ({0})", mean);
         }
         this.mean = mean;
     }
@@ -118,8 +120,8 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
         double ret;
         
         if (p < 0.0 || p > 1.0) {
-            throw new IllegalArgumentException
-                ("probability argument must be between 0 and 1 (inclusive)");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "{0} out of [{1}, {2}] range", p, 0.0, 1.0);
         } else if (p == 1.0) {
             ret = Double.POSITIVE_INFINITY;
         } else {

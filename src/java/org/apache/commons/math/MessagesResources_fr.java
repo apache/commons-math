@@ -46,11 +46,23 @@ public class MessagesResources_fr
   private static final Object[][] contents = {
 
     // org.apache.commons.math.util.MathUtils
+    { "must have n >= k for binomial coefficient (n,k), got n = {0}, k = {1}",
+      "n doit \u00eatre sup\u00e9rieur ou \u00e9gal \u00e0 k " +
+      "pour le coefficient du bin\u00f4me (n,k), or n = {0}, k = {1}" },
+    { "must have n >= 0 for binomial coefficient (n,k), got n = {0}",
+      "n doit \u00eatre positif pour le coefficient du bin\u00f4me (n,k), or n = {0}" },
+    { "must have n >= 0 for n!, got n = {0}",
+      "n doit \u00eatre positif pour le calcul de n!, or n = {0}" },
     { "overflow: gcd({0}, {1}) is 2^31",
       "d\u00e9passement de capacit\u00e9 : le PGCD de {0} et {1} vaut 2^31" },
     { "cannot raise an integral value to a negative power ({0}^{1})",
-      "impossible d''\u00e9lever une valeur enti\u00e8re \u00e0 une puissance n\u00e9gative ({0}^{1})" },
-        
+      "impossible d''\u00e9lever une valeur enti\u00e8re " +
+      "\u00e0 une puissance n\u00e9gative ({0}^{1})" },
+    { "invalid rounding method {0}, valid methods: {1} ({2}), {3} ({4})," +
+       " {5} ({6}), {7} ({8}), {9} ({10}), {11} ({12}), {13} ({14}), {15} ({16})",
+      "m\u00e9thode d''arondi {0} invalide, m\u00e9thodes valides : {1} ({2}), {3} ({4})," +
+       " {5} ({6}), {7} ({8}), {9} ({10}), {11} ({12}), {13} ({14}), {15} ({16})" },
+
     // org.apache.commons.math.FunctionEvaluationException
     { "evaluation failed for argument = {0}",
       "erreur d''\u00e9valuation pour l''argument {0}" },
@@ -77,6 +89,8 @@ public class MessagesResources_fr
     // org.apache.commons.math.optimization.LeastSquaresConverter
     // org.apache.commons.math.optimization.direct.DirectSearchOptimizer
     // org.apache.commons.math.optimization.general.AbstractLeastSquaresOptimizer
+    // org.apache.commons.math.ode.ContinuousOutputModel
+    // org.apache.commons.math.random.UncorrelatedRandomVectorGenerator
     { "dimension mismatch {0} != {1}",
       "dimensions incompatibles {0} != {1}" },
 
@@ -265,20 +279,58 @@ public class MessagesResources_fr
     // org.apache.commons.math.optimization.direct.DirectSearchOptimizer
     { "unexpected exception caught",
       "exception inattendue lev\u00e9e" },
+    { "propagation direction mismatch",
+      "directions de propagation incoh\u00e9rentes" },
+    { "{0} wide hole between models time ranges",
+      "trou de longueur {0} entre les domaines temporels des mod\u00e8les" },
 
     // org.apache.commons.math.optimization.direct.DirectSearchOptimizer
     { "none of the {0} start points lead to convergence",
       "aucun des {0} points de d\u00e9part n''aboutit \u00e0 une convergence"  },
 
+    // org.apache.commons.math.random.ValueServer
+    { "unknown mode {0}, known modes: {1} ({2}), {3} ({4}), {5} ({6}), {7} ({8}), {9} ({10}) and {11} ({12})",
+      "mode {0} inconnu, modes connus : {1} ({2}), {3} ({4}), {5} ({6}), {7} ({8}), {9} ({10}) et {11} ({12})" },
+    { "digest not initialized",
+      "mod\u00e8le empirique non initialis\u00e9" },
+
     // org.apache.commons.math.random.EmpiricalDistributionImpl
+    { "distribution not loaded",
+      "aucune distribution n''a \u00e9t\u00e9 charg\u00e9e" },
     { "no bin selected",
       "aucun compartiment s\u00e9lectionn\u00e9" },
+    { "input data comes from unsupported datasource: {0}, supported sources: {1}, {2}",
+      "les donn\u00e9es d''entr\u00e9e proviennent " +
+      "d''une source non support\u00e9e : {0}, sources support\u00e9es : {1}, {2}" },
+
+    // org.apache.commons.math.random.EmpiricalDistributionImpl
+    // org.apache.commons.math.random.ValueServer
+    { "URL {0} contains no data",
+      "l''adresse {0} ne contient aucune donn\u00e9e" },
+
+    // org.apache.commons.math.random.AbstractRandomGenerator
+    { "upper bound must be positive ({0})",
+      "la borne sup\u00e9rieure doit \u00eatre positive ({0})" },
+
+    // org.apache.commons.math.random.RandomDataImpl
+    { "length must be positive ({0})",
+      "la longueur doit \u00eatre positive ({0})" },
+    { "upper bound ({0}) must be greater than lower bound ({1})",
+      "la borne sup\u00e9rieure ({0}) doit \u00eatre sup\u00e9rieure" +
+      " \u00e0 la borne inf\u00e9rieure ({1})" },
+    { "permutation k ({0}) exceeds n ({1})",
+      "la permutation k ({0}) d\u00e9passe n ({1})" },
+    { "permutation k ({0}) must be positive",
+      "la permutation k ({0}) doit \u00eatre positive" },
+    { "sample size ({0}) exceeds collection size ({1})",
+      "la taille de l''\u00e9chantillon ({0}) d\u00e9passe la taille de la collection ({1})" },
 
     // org.apache.commons.math.linear.decomposition.EigenDecompositionImpl
     { "cannot solve degree {0} equation",
       "impossible de r\u00e9soudre une \u00e9quation de degr\u00e9 {0}" },
     { "eigen decomposition of assymetric matrices not supported yet",
-      "la d\u00e9composition en valeurs/vecteurs propres de matrices non sym\u00e9triques n''est pas encore disponible" },
+      "la d\u00e9composition en valeurs/vecteurs propres de matrices " +
+      "non sym\u00e9triques n''est pas encore disponible" },
 
     // org.apache.commons.math.linear.decomposition.NonSquareMatrixException
     { "a {0}x{1} matrix was provided instead of a square matrix",
@@ -332,6 +384,20 @@ public class MessagesResources_fr
       "une matrice doit comporter au moins une colonne" },
     { "some rows have length {0} while others have length {1}",
       "certaines lignes ont une longueur de {0} alors que d''autres ont une longueur de {1}" },
+
+    // org.apache.commons.math.linear.MatrixUtils
+    { "row index {0} out of allowed range [{1}, {2}]",
+      "index de ligne {0} hors de la plage autoris\u00e9e [{1}, {2}]" },
+    { "column index {0} out of allowed range [{1}, {2}]",
+      "index de colonne {0} hors de la plage autoris\u00e9e [{1}, {2}]" },
+    { "initial row {0} after final row {1}",
+      "ligne initiale {0} apr\u00e8s la ligne finale {1}" },
+    { "initial column {0} after final column {1}",
+      "colonne initiale {0} apr\u00e8s la colonne finale {1}" },
+    { "empty selected row index array",
+      "tableau des indices de lignes s\u00e9lectionn\u00e9es vide" },
+    { "empty selected column index array",
+      "tableau des indices de colonnes s\u00e9lectionn\u00e9es vide" },
     { "{0}x{1} and {2}x{3} matrices are not addition compatible",
       "les dimensions {0}x{1} et {2}x{3} sont incompatibles pour l'addition matricielle" },
     { "{0}x{1} and {2}x{3} matrices are not subtraction compatible",
@@ -343,43 +409,37 @@ public class MessagesResources_fr
     { "wrong array shape (block length = {0}, expected {1})",
       "forme de tableau erron\u00e9e (bloc de longueur {0} au lieu des {1} attendus)" },
 
-    // org.apache.commons.math.linear.BigMatrixImpl
-    // org.apache.commons.math.linear.RealMatrixImpl
-    { "row index {0} out of allowed range [{1}, {2}]",
-      "index de ligne {0} hors de la plage autoris\u00e9e [{1}, {2}]" },
-    { "column index {0} out of allowed range [{1}, {2}]",
-      "index de colonne {0} hors de la plage autoris\u00e9e [{1}, {2}]" },
-    { "no entry at indices ({0}, {1}) in a {2}x{3} matrix",
-      "pas d''entr\u00e9e aux indices ({0}, {1}) dans une matrice {2}x{3}" },
-    { "initial row {0} after final row {1}",
-      "ligne initiale {0} apr\u00e8s la ligne finale {1}" },
-    { "initial column {0} after final column {1}",
-      "colonne initiale {0} apr\u00e8s la colonne finale {1}" },
-    { "empty selected row index array",
-      "tableau des indices de lignes s\u00e9lectionn\u00e9es vide" },
-    { "empty selected column index array",
-      "tableau des indices de colonnes s\u00e9lectionn\u00e9es vide" },
-
-   // org.apache.commons.math.random.EmpiricalDistributionImpl
-   // org.apache.commons.math.random.ValueServer
-   { "URL {0} contains no data",
-     "l''adresse {0} ne contient aucune donn\u00e9e" },
-
-   // org.apache.commons.math.complex.Complex
-   { "cannot compute nth root for null or negative n: {0}",
+    // org.apache.commons.math.complex.Complex
+    { "cannot compute nth root for null or negative n: {0}",
      "impossible de calculer la racine ni\u00e8me pour n n\u00e9gatif ou nul : {0}" },
 
    // org.apache.commons.math.complex.ComplexFormat
    { "unparseable complex number: \"{0}\"",
      "\u00e9chec d''analyse du nombre complexe \"{0}\"" },
+   { "cannot format a {0} instance as a complex number",
+     "impossible de formater une instance de {0} comme un nombre complexe" },
+   { "empty string for imaginary character",
+     "cha\u00eene vide pour le caract\u00e8 imaginaire" },
+   { "null imaginary format",
+     "format imaginaire nul" },
+   { "null real format",
+     "format r\u00e9el nul" },
+
+   // org.apache.commons.math.complex.ComplexUtils
+   { "negative complex module {0}",
+     "module n\u00e9gatif ({0}) pour un nombre complexe" },
 
    // org.apache.commons.math.geometry.Vector3DFormat
    { "unparseable 3D vector: \"{0}\"",
      "\u00e9chec d''analyse du vecteur de dimension 3 \"{0}\"" },
+   { "cannot format a {0} instance as a 3D vector",
+     "impossible de formater une instance de {0} comme un vecteur de dimension 3" },
 
    // org.apache.commons.math.linear.RealVectorFormat
    { "unparseable real vector: \"{0}\"",
      "\u00e9chec d''analyse du vecteur r\u00e9el \"{0}\"" },
+   { "cannot format a {0} instance as a real vector",
+     "impossible de formater une instance de {0} comme un vecteur r\u00e9el" },
 
    // org.apache.commons.math.util.ResizableDoubleArray
    { "the index specified: {0} is larger than the current maximal index {1}",
@@ -480,10 +540,14 @@ public class MessagesResources_fr
      "d\u00e9passement de capacit\u00e9 pour le num\u00e9rateur apr\u00e8s multiplication : {0}" },
    { "the fraction to divide by must not be zero: {0}/{1}",
      "division par un nombre rationnel nul : {0}/{1}" },
+   { "null fraction",
+     "fraction nulle" },
 
    // org.apache.commons.math.geometry.Rotation
    { "zero norm for rotation axis",
      "norme nulle pour un axe de rotation" },
+   { "zero norm for rotation defining vector",
+     "norme nulle pour un axe de d\u00e9finition de rotation" },
 
    // org.apache.commons.math.geometry.Vector3D
    // org.apache.commons.math.linear.RealVectorImpl
@@ -502,20 +566,24 @@ public class MessagesResources_fr
    { "first {0} columns are not initialized yet",
      "les {0} premi\u00e8res colonnes ne sont pas encore initialis\u00e9es" },
 
-   // org.apache.commons.math.random.EmpiricalDistributionImpl
-   { "distribution not loaded",
-     "aucune distribution n''a \u00e9t\u00e9 charg\u00e9e" },
+   // org.apache.commons.math.stat.Frequency
+   { "class ({0}) does not implement Comparable",
+     "la classe ({0}) n''implante pas l''interface Comparable" },
+   { "instance of class {0} not comparable to existing values",
+     "l''instance de la classe {0} n''est pas comparable aux valeurs existantes" },
 
-   // org.apache.commons.math.random.ValueServer
-   { "unknown mode {0}, known modes: {1} ({2}), {3} ({4}), {5} ({6}), {7} ({8}), {9} ({10}) and {11} ({12})",
-     "mode {0} inconnu, modes connus : {1} ({2}), {3} ({4}), {5} ({6}), {7} ({8}), {9} ({10}) et {11} ({12})" },
-   { "digest not initialized",
-     "mod\u00e8le empirique non initialis\u00e9" },
+   // org.apache.commons.math.stat.StatUtils
+   { "input arrays must have the same positive length ({0} and {1})",
+     "les tableaux d''entr\u00e9e doivent avoir la m\u00eame taille positive ({0} et {1})" },
+   { "input arrays must have the same length and at least two elements ({0} and {1})",
+     "les tableaux d''entr\u00e9e doivent avoir la m\u00eame taille" +
+     " et au moins deux \u00e9l\u00e9ments ({0} et {1})" },
 
    // org.apache.commons.math.stat.correlation.Covariance
    { "arrays must have the same length and both must have at " +
      "least two elements. xArray has size {0}, yArray has {1} elements",
-     "les tableaux doivent avoir la m\u00eame taille et comporter au moins deux \u00e9l\u00e9ments. " +
+     "les tableaux doivent avoir la m\u00eame taille " +
+     "et comporter au moins deux \u00e9l\u00e9ments. " +
      "xArray a une taille de {0}, yArray a {1} \u00e9l\u00e9ments"},
    { "insufficient data: only {0} rows and {1} columns.",
      "donn\u00e9es insuffisantes : seulement {0} lignes et {1} colonnes." },
@@ -524,19 +592,127 @@ public class MessagesResources_fr
    { "covariance matrix is null",
      "la matrice de covariance est nulle" },
    { "invalid array dimensions. xArray has size {0}; yArray has {1} elements",
-     "dimensions de tableaux invalides. xArray a une taille de {0}, yArray a {1} \u00e9l\u00e9ments" },
+     "dimensions de tableaux invalides. xArray a une taille de {0}, " +
+     "yArray a {1} \u00e9l\u00e9ments" },
+
+   // org.apache.commons.math.stat.descriptive.DescriptiveStatistics
+   { "window size must be positive ({0})",
+     "la taille de la fen\u00eatre doit \u00eatre positive ({0})" },
+   { "percentile implementation {0} does not support setQuantile",
+     "l''implantation de pourcentage {0} ne dispose pas de la m\u00e9thode setQuantile" },
+   { "cannot access setQuantile method in percentile implementation {0}",
+     "acc\u00e8s impossible \u00e0 la m\u00e9thode setQuantile" +
+     " dans l''implantation de pourcentage {0}" },
+   { "out of bounds quantile value: {0}, must be in (0, 100]",
+     "valeur de quantile {0} hors bornes, doit \u00eatre dans l''intervalle ]0, 100]" },
+
+   // org.apache.commons.math.stat.descriptive.moment.Variance
+   // org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic
+   // org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic
+   { "input values array is null",
+     "le tableau des valeurs d''entr\u00e9es est nul" },
+
+   // org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic
+   { "start position cannot be negative ({0})",
+     "la position de d\u00e9part ne peut pas \u00eatre n\u00e9gative" },
+   { "length cannot be negative ({0})",
+     "la longueur ne peut pas \u00eatre n\u00e9gative" },
+   { "subarray ends after array end",
+     "le sous-tableau se termine apr\u00e8s la fin du tableau" },
 
    // org.apache.commons.math.stat.descriptive.moment.GeometricMean
    // org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics
    // org.apache.commons.math.stat.descriptive.SummaryStatistics
    { "{0} values have been added before statistic is configured",
-     "{0} valeurs ont \u00e9t\u00e9 ajout\u00e9es avant que la statistique ne soit configur\u00e9e" },
+     "{0} valeurs ont \u00e9t\u00e9 ajout\u00e9es " +
+     "avant que la statistique ne soit configur\u00e9e" },
 
    // org.apache.commons.math.stat.descriptive.moment.Kurtosis
    { "statistics constructed from external moments cannot be incremented",
-     "les statistiques bas\u00e9es sur des moments externes ne peuvent pas \u00eatre incr\u00e9ment\u00e9es" },
+     "les statistiques bas\u00e9es sur des moments externes " +
+     "ne peuvent pas \u00eatre incr\u00e9ment\u00e9es" },
    { "statistics constructed from external moments cannot be cleared",
-     "les statistiques bas\u00e9es sur des moments externes ne peuvent pas \u00eatre remises \u00e0 z\u00e9ro" },
+     "les statistiques bas\u00e9es sur des moments externes " +
+     "ne peuvent pas \u00eatre remises \u00e0 z\u00e9ro" },
+
+   // org.apache.commons.math.stat.Regression
+   { "out of bounds significance level {0}, must be in (0, 1)",
+     "niveau de signification {0} hors domaine, doit \u00eatre dans l''intervalle ]0, 1[" },
+
+   // org.apache.commons.math.distribution.AbstractContinuousDistribution
+   // org.apache.commons.math.distribution.AbstractIntegerDistribution
+   // org.apache.commons.math.distribution.ExponentialDistributionImpl
+   // org.apache.commons.math.distribution.BinomialDistributionImpl
+   // org.apache.commons.math.distribution.CauchyDistributionImpl
+   // org.apache.commons.math.distribution.PascalDistributionImpl
+   // org.apache.commons.math.distribution.WeibullDistributionImpl
+   { "{0} out of [{1}, {2}] range",
+     "{0} hors du domaine [{1}, {2}]" },
+
+   // org.apache.commons.math.distribution.AbstractDistribution
+   // org.apache.commons.math.distribution.AbstractIntegerDistribution
+   { "lower endpoint ({0}) must be less than or equal to upper endpoint ({1})",
+     "la borne inf\u00e9rieure ({0}) devrait \u00eatre inf\u00e9rieure " +
+     "ou \u00e9gale \u00e0 la borne sup\u00e9rieure ({1})" },
+
+   // org.apache.commons.math.distribution.BinomialDistributionImpl
+   { "number of trials must be non-negative ({0})",
+     "le nombre d''essais ne doit pas \u00eatre n\u00e9gatif ({0})" },
+
+   // org.apache.commons.math.distribution.ExponentialDistributionImpl
+   // org.apache.commons.math.random.RandomDataImpl
+   { "mean must be positive ({0})",
+     "la moyenne doit \u00eatre positive ({0})" },
+
+   // org.apache.commons.math.distribution.FDistributionImpl
+   // org.apache.commons.math.distribution.TDistributionImpl
+   { "degrees of freedom must be positive ({0})",
+     "les degr\u00e9s de libert\u00e9 doivent \u00eatre positifs ({0})" },
+
+   // org.apache.commons.math.distribution.GammaDistributionImpl
+   { "alpha must be positive ({0})",
+     "alpha doit \u00eatre positif ({0})" },
+   { "beta must be positive ({0})",
+     "beta doit \u00eatre positif ({0})" },
+
+   // org.apache.commons.math.distribution.HypergeometricDistributionImpl
+   { "number of successes ({0}) must be less than or equal to population size ({1})",
+     "le nombre de succ\u00e8s doit \u00eatre inf\u00e9rieur " +
+     "ou \u00e9gal \u00e0 la taille de la population ({1})" },
+   { "sample size ({0}) must be less than or equal to population size ({1})",
+     "la taille de l''\u00e9chantillon doit \u00eatre inf\u00e9rieure " +
+     "ou \u00e9gale \u00e0 la taille de la population ({1})" },
+   { "population size must be positive ({0})",
+     "la taille de la population doit \u00eatre positive ({0})" },
+
+   // org.apache.commons.math.distribution.HypergeometricDistributionImpl
+   // org.apache.commons.math.random.RandomDataImpl
+   { "sample size must be positive ({0})",
+     "la taille de l''\u00e9chantillon doit \u00eatre positive ({0})" },
+
+   // org.apache.commons.math.distribution.HypergeometricDistributionImpl
+   // org.apache.commons.math.distribution.PascalDistributionImpl
+   { "number of successes must be non-negative ({0})",
+     "le nombre de succ\u00e8s ne doit pas \u00eatre n\u00e9gatif ({0})" },
+
+   // org.apache.commons.math.distribution.NormalDistributionImpl
+   // org.apache.commons.math.random.RandomDataImpl
+   { "standard deviation must be positive ({0})",
+     "l''\u00e9cart type doit \u00eatre positif ({0})" },
+
+   // org.apache.commons.math.distribution.PoissonDistributionImpl
+   // org.apache.commons.math.random.RandomDataImpl
+   { "the Poisson mean must be positive ({0})",
+     "la moyenne de Poisson doit \u00eatre positive ({0})" },
+
+   // org.apache.commons.math.distribution.WeibullDistributionImpl
+   { "shape must be positive ({0})",
+     "le facteur de forme doit \u00eatre positif ({0})" },
+
+   // org.apache.commons.math.distribution.WeibullDistributionImpl
+   // org.apache.commons.math.distribution.CauchyDistributionImpl
+   { "scale must be positive ({0})",
+     "l''\u00e9chelle doit \u00eatre positive ({0})" },
 
    // org.apache.commons.math.distribution.ZipfDistributionImpl
    { "invalid number of elements {0} (must be positive)",
@@ -550,7 +726,8 @@ public class MessagesResources_fr
 
    // org.apache.commons.math.transform.FastFourierTransformer
    { "cannot compute 0-th root of unity, indefinite result",
-     "impossible de calculer la racine z\u00e9roi\u00e8me de l''unit\u00e9, r\u00e9sultat ind\u00e9fini" },
+     "impossible de calculer la racine z\u00e9roi\u00e8me de l''unit\u00e9, " +
+     "r\u00e9sultat ind\u00e9fini" },
    { "roots of unity have not been computed yet",
      "les racines de l''unit\u00e9 n''ont pas encore \u00e9t\u00e9 calcul\u00e9es" },
    { "out of range root of unity index {0} (must be in [{1};{2}])",

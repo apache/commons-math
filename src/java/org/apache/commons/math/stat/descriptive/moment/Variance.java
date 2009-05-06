@@ -18,6 +18,7 @@ package org.apache.commons.math.stat.descriptive.moment;
 
 import java.io.Serializable;
 
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
 
 /**
@@ -211,7 +212,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
     @Override
     public double evaluate(final double[] values) {
         if (values == null) {
-            throw new IllegalArgumentException("input values array is null");
+            throw MathRuntimeException.createIllegalArgumentException("input values array is null");
         }
         return evaluate(values, 0, values.length);
     }

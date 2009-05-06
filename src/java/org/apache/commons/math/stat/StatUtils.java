@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math.stat;
 
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 import org.apache.commons.math.stat.descriptive.moment.GeometricMean;
 import org.apache.commons.math.stat.descriptive.moment.Mean;
@@ -563,9 +564,10 @@ public final class StatUtils {
     public static double sumDifference(final double[] sample1, final double[] sample2)
         throws IllegalArgumentException {
         int n = sample1.length;
-        if (n  != sample2.length || n < 1) {
-            throw new IllegalArgumentException 
-                ("Input arrays must have the same (positive) length.");
+        if ((n  != sample2.length) || (n < 1)) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "input arrays must have the same positive length ({0} and {1})",
+                  n, sample2.length);
         }
         double result = 0;
         for (int i = 0; i < n; i++) {
@@ -608,7 +610,9 @@ public final class StatUtils {
         double diff = 0d;
         int n = sample1.length;
         if (n < 2 || n != sample2.length) {
-            throw new IllegalArgumentException("Input array lengths must be equal and at least 2.");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "input arrays must have the same length and at least two elements ({0} and {1})",
+                  n, sample2.length);
         }
         for (int i = 0; i < n; i++) {
             diff = sample1[i] - sample2[i];

@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.stat.descriptive.moment.GeometricMean;
 import org.apache.commons.math.stat.descriptive.moment.Kurtosis;
 import org.apache.commons.math.stat.descriptive.moment.Mean;
@@ -301,7 +302,8 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     public void setWindowSize(int windowSize) {
         if (windowSize < 1) {
             if (windowSize != INFINITE_WINDOW) {
-                throw new IllegalArgumentException("window size must be positive.");
+                throw MathRuntimeException.createIllegalArgumentException(
+                      "window size must be positive ({0})", windowSize);
             }
         }
         
@@ -379,14 +381,15 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
                         new Class[] {Double.TYPE}).invoke(percentileImpl,
                                 new Object[] {Double.valueOf(p)});
             } catch (NoSuchMethodException e1) { // Setter guard should prevent
-                throw new IllegalArgumentException(
-                   "Percentile implementation does not support setQuantile");
+                throw MathRuntimeException.createIllegalArgumentException(
+                      "percentile implementation {0} does not support setQuantile",
+                      percentileImpl.getClass().getName());
             } catch (IllegalAccessException e2) {
-                throw new IllegalArgumentException(
-                    "IllegalAccessException setting quantile"); 
+                throw MathRuntimeException.createIllegalArgumentException(
+                      "cannot access setQuantile method in percentile implementation {0}",
+                      percentileImpl.getClass().getName());
             } catch (InvocationTargetException e3) {
-                throw new IllegalArgumentException(
-                    "Error setting quantile" + e3.toString()); 
+                throw MathRuntimeException.createIllegalArgumentException(e3.getCause()); 
             }
         }
         return apply(percentileImpl);
@@ -561,14 +564,15 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
                     new Class[] {Double.TYPE}).invoke(percentileImpl,
                             new Object[] {Double.valueOf(50.0d)});
         } catch (NoSuchMethodException e1) { 
-            throw new IllegalArgumentException(
-                    "Percentile implementation does not support setQuantile");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "percentile implementation {0} does not support setQuantile",
+                  percentileImpl.getClass().getName());
         } catch (IllegalAccessException e2) {
-            throw new IllegalArgumentException(
-                "IllegalAccessException setting quantile"); 
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "cannot access setQuantile method in percentile implementation {0}",
+                  percentileImpl.getClass().getName());
         } catch (InvocationTargetException e3) {
-            throw new IllegalArgumentException(
-                "Error setting quantile" + e3.toString()); 
+            throw MathRuntimeException.createIllegalArgumentException(e3.getCause()); 
         }
         this.percentileImpl = percentileImpl;
     }

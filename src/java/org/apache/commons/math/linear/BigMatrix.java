@@ -31,7 +31,7 @@ import java.math.BigDecimal;
  * org.apache.commons.math.util.BigReal} parameter
  */
 @Deprecated
-public interface BigMatrix {
+public interface BigMatrix extends AnyMatrix {
 
     /**
      * Returns a (deep) copy of this.
@@ -277,32 +277,6 @@ public interface BigMatrix {
       *    matrix is not square
      */
     BigDecimal getDeterminant() throws InvalidMatrixException;
-    
-    /**
-     * Is this a square matrix?
-     * @return true if the matrix is square (rowDimension = columnDimension)
-     */
-    boolean isSquare();
-    
-    /**
-     * Is this a singular matrix?
-     * @return true if the matrix is singular
-     */
-    boolean isSingular();
-    
-    /**
-     * Returns the number of rows in the matrix.
-     *
-     * @return rowDimension
-     */
-    int getRowDimension();
-    
-    /**
-     * Returns the number of columns in the matrix.
-     *
-     * @return columnDimension
-     */
-    int getColumnDimension();
     
     /**
      * Returns the <a href="http://mathworld.wolfram.com/MatrixTrace.html">

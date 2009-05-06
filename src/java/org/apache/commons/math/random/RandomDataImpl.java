@@ -24,6 +24,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.util.Collection;
 
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -132,7 +133,8 @@ public class RandomDataImpl implements RandomData, Serializable {
      */
     public String nextHexString(int len) {
         if (len <= 0) {
-            throw new IllegalArgumentException("length must be positive");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "length must be positive ({0})", len);
         }
 
         // Get a random number generator
@@ -177,8 +179,9 @@ public class RandomDataImpl implements RandomData, Serializable {
      */
     public int nextInt(int lower, int upper) {
         if (lower >= upper) {
-            throw new IllegalArgumentException(
-                    "upper bound must be > lower bound");
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "upper bound ({0}) must be greater than lower bound ({1})",
+                    upper, lower);
         }
         RandomGenerator rand = getRan();
         double r = rand.nextDouble();
@@ -197,8 +200,9 @@ public class RandomDataImpl implements RandomData, Serializable {
      */
     public long nextLong(long lower, long upper) {
         if (lower >= upper) {
-            throw new IllegalArgumentException(
-                    "upper bound must be > lower bound");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "upper bound ({0}) must be greater than lower bound ({1})",
+                  upper, lower);
         }
         RandomGenerator rand = getRan();
         double r = rand.nextDouble();
@@ -227,7 +231,8 @@ public class RandomDataImpl implements RandomData, Serializable {
      */
     public String nextSecureHexString(int len) {
         if (len <= 0) {
-            throw new IllegalArgumentException("length must be positive");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "length must be positive ({0})", len);
         }
 
         // Get SecureRandom and setup Digest provider
@@ -286,8 +291,9 @@ public class RandomDataImpl implements RandomData, Serializable {
      */
     public int nextSecureInt(int lower, int upper) {
         if (lower >= upper) {
-            throw new IllegalArgumentException(
-                    "lower bound must be < upper bound");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "upper bound ({0}) must be greater than lower bound ({1})",
+                  upper, lower);
         }
         SecureRandom sec = getSecRan();
         return lower + (int) (sec.nextDouble() * (upper - lower + 1));
@@ -306,8 +312,9 @@ public class RandomDataImpl implements RandomData, Serializable {
      */
     public long nextSecureLong(long lower, long upper) {
         if (lower >= upper) {
-            throw new IllegalArgumentException(
-                    "lower bound must be < upper bound");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "upper bound ({0}) must be greater than lower bound ({1})",
+                  upper, lower);
         }
         SecureRandom sec = getSecRan();
         return lower + (long) (sec.nextDouble() * (upper - lower + 1));
@@ -344,7 +351,8 @@ public class RandomDataImpl implements RandomData, Serializable {
      */
     public long nextPoisson(double mean) {
         if (mean <= 0) {
-            throw new IllegalArgumentException("Poisson mean must be > 0");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "the Poisson mean must be positive ({0})", mean);
         }
 
         RandomGenerator rand = getRan();
@@ -446,7 +454,8 @@ public class RandomDataImpl implements RandomData, Serializable {
      */
     public double nextGaussian(double mu, double sigma) {
         if (sigma <= 0) {
-            throw new IllegalArgumentException("Gaussian std dev must be > 0");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "standard deviation must be positive ({0})", sigma);
         }
         RandomGenerator rand = getRan();
         return sigma * rand.nextGaussian() + mu;
@@ -468,7 +477,8 @@ public class RandomDataImpl implements RandomData, Serializable {
      */
     public double nextExponential(double mean) {
         if (mean < 0.0) {
-            throw new IllegalArgumentException("Exponential mean must be >= 0");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "mean must be positive ({0})", mean);
         }
         RandomGenerator rand = getRan();
         double unif = rand.nextDouble();
@@ -496,8 +506,9 @@ public class RandomDataImpl implements RandomData, Serializable {
      */
     public double nextUniform(double lower, double upper) {
         if (lower >= upper) {
-            throw new IllegalArgumentException(
-                    "lower bound must be < upper bound");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "upper bound ({0}) must be greater than lower bound ({1})",
+                  upper, lower);
         }
         RandomGenerator rand = getRan();
 
@@ -655,10 +666,12 @@ public class RandomDataImpl implements RandomData, Serializable {
      */
     public int[] nextPermutation(int n, int k) {
         if (k > n) {
-            throw new IllegalArgumentException("permutation k exceeds n");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "permutation k ({0}) exceeds n ({1})", k, n);
         }
         if (k == 0) {
-            throw new IllegalArgumentException("permutation k must be > 0");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "permutation k ({0}) must be positive", k);
         }
 
         int[] index = getNatural(n);
@@ -690,11 +703,12 @@ public class RandomDataImpl implements RandomData, Serializable {
     public Object[] nextSample(Collection<?> c, int k) {
         int len = c.size();
         if (k > len) {
-            throw new IllegalArgumentException(
-                    "sample size exceeds collection size");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "sample size ({0}) exceeds collection size ({1})");
         }
-        if (k == 0) {
-            throw new IllegalArgumentException("sample size must be > 0");
+        if (k <= 0) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "sample size must be positive ({0})", k);
         }
 
         Object[] objects = c.toArray();
@@ -745,4 +759,5 @@ public class RandomDataImpl implements RandomData, Serializable {
         }
         return natural;
     }
+
 }

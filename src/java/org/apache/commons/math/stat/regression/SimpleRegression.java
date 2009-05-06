@@ -19,6 +19,7 @@ package org.apache.commons.math.stat.regression;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.distribution.TDistribution;
 import org.apache.commons.math.distribution.TDistributionImpl;
 
@@ -546,7 +547,9 @@ public class SimpleRegression implements Serializable {
     public double getSlopeConfidenceInterval(double alpha)
         throws MathException {
         if (alpha >= 1 || alpha <= 0) {
-            throw new IllegalArgumentException();
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "out of bounds significance level {0}, must be in (0, 1)",
+                  alpha);
         }
         return getSlopeStdErr() *
             distribution.inverseCumulativeProbability(1d - alpha / 2d);

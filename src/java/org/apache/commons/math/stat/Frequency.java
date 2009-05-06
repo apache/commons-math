@@ -22,6 +22,8 @@ import java.util.Iterator;
 import java.util.Comparator;
 import java.util.TreeMap;
 
+import org.apache.commons.math.MathRuntimeException;
+
 /** 
  * Maintains a frequency distribution.
  * <p>
@@ -110,7 +112,9 @@ public class Frequency implements Serializable {
         if (v instanceof Comparable<?>){
             addValue((Comparable<?>) v);            
         } else {
-            throw new IllegalArgumentException("Object must implement Comparable");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "class ({0}) does not implement Comparable",
+                  v.getClass().getName());
         }
     }
     
@@ -138,7 +142,9 @@ public class Frequency implements Serializable {
             }
         } catch (ClassCastException ex) {   
             //TreeMap will throw ClassCastException if v is not comparable
-            throw new IllegalArgumentException("Value not comparable to existing values.");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "instance of class {0} not comparable to existing values",
+                  v.getClass().getName());
         }
     }
 

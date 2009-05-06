@@ -19,6 +19,7 @@ package org.apache.commons.math.distribution;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.MathRuntimeException;
 
 
 /**
@@ -77,8 +78,9 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
     public double cumulativeProbability(double x0, double x1)
         throws MathException {
         if (x0 > x1) {
-            throw new IllegalArgumentException
-            ("lower endpoint must be less than or equal to upper endpoint");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "lower endpoint ({0}) must be less than or equal to upper endpoint ({1})",
+                  x0, x1);
         }
         if (Math.floor(x0) < x0) {
             return cumulativeProbability(((int) Math.floor(x0)) + 1,
@@ -134,8 +136,9 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
      */
     public double cumulativeProbability(int x0, int x1) throws MathException {
         if (x0 > x1) {
-            throw new IllegalArgumentException
-                ("lower endpoint must be less than or equal to upper endpoint");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "lower endpoint ({0}) must be less than or equal to upper endpoint ({1})",
+                  x0, x1);
         }
         return cumulativeProbability(x1) - cumulativeProbability(x0 - 1);
     }
@@ -153,8 +156,8 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
      */
     public int inverseCumulativeProbability(final double p) throws MathException{
         if (p < 0.0 || p > 1.0) {
-            throw new IllegalArgumentException(
-                "p must be between 0 and 1.0 (inclusive)");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "{0} out of [{1}, {2}] range", p, 0.0, 1.0);
         }
         
         // by default, do simple bisection.

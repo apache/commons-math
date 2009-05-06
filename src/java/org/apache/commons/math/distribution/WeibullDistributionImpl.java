@@ -19,6 +19,8 @@ package org.apache.commons.math.distribution;
 
 import java.io.Serializable;
 
+import org.apache.commons.math.MathRuntimeException;
+
 /**
  * Default implementation of
  * {@link org.apache.commons.math.distribution.WeibullDistribution}.
@@ -97,8 +99,8 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
     public double inverseCumulativeProbability(double p) {
         double ret;
         if (p < 0.0 || p > 1.0) {
-            throw new IllegalArgumentException
-                ("probability argument must be between 0 and 1 (inclusive)");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "{0} out of [{1}, {2}] range", p, 0.0, 1.0);
         } else if (p == 0) {
             ret = 0.0;
         } else  if (p == 1) {
@@ -115,8 +117,9 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
      */
     public void setShape(double alpha) {
         if (alpha <= 0.0) {
-            throw new IllegalArgumentException(
-                "Shape must be positive.");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "shape must be positive ({0})",
+                  alpha);
         }       
         this.alpha = alpha;
     }
@@ -127,8 +130,9 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
      */
     public void setScale(double beta) {
         if (beta <= 0.0) {
-            throw new IllegalArgumentException(
-                "Scale must be positive.");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "scale must be positive ({0})",
+                  beta);
         }       
         this.beta = beta;
     }

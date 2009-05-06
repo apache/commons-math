@@ -241,7 +241,8 @@ public class Vector3DFormat extends CompositeFormat {
             return format( (Vector3D)obj, toAppendTo, pos);
         }
 
-        throw new IllegalArgumentException("Cannot format given Object as a Vector3D");
+        throw MathRuntimeException.createIllegalArgumentException("cannot format a {0} instance as a 3D vector",
+                                                                  obj.getClass().getName());
 
     }
 

@@ -20,6 +20,7 @@ package org.apache.commons.math.distribution;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.special.Erf;
 
@@ -94,8 +95,9 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      */
     public void setStandardDeviation(double sd) {
         if (sd <= 0.0) {
-            throw new IllegalArgumentException(
-                "Standard deviation must be positive.");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "standard deviation must be positive ({0})",
+                  sd);
         }       
         standardDeviation = sd;
     }

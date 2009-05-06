@@ -19,6 +19,7 @@ package org.apache.commons.math.distribution;
 
 import java.io.Serializable;
 
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -53,13 +54,14 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
         int numberOfSuccesses, int sampleSize) {
         super();
         if (numberOfSuccesses > populationSize) {
-            throw new IllegalArgumentException(
-                "number of successes must be less than or equal to " +
-                "population size");
+            throw MathRuntimeException.createIllegalArgumentException(
+                "number of successes ({0}) must be less than or equal to population size ({1})",
+                numberOfSuccesses, populationSize);
         }
         if (sampleSize > populationSize) {
-            throw new IllegalArgumentException(
-            "sample size must be less than or equal to population size");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "sample size ({0}) must be less than or equal to population size ({1})",
+                  sampleSize, populationSize);
         }
         setPopulationSize(populationSize);
         setSampleSize(sampleSize);
@@ -226,8 +228,9 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      */
     public void setNumberOfSuccesses(int num) {
         if(num < 0){
-            throw new IllegalArgumentException(
-                "number of successes must be non-negative.");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "number of successes must be non-negative ({0})",
+                  num);
         }
         numberOfSuccesses = num;
     }
@@ -239,8 +242,9 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      */
     public void setPopulationSize(int size) {
         if(size <= 0){
-            throw new IllegalArgumentException(
-                "population size must be positive.");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "population size must be positive ({0})",
+                  size);
         }
         populationSize = size;
     }
@@ -252,8 +256,9 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      */
     public void setSampleSize(int size) {
         if (size < 0) {
-            throw new IllegalArgumentException(
-                "sample size must be non-negative.");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "sample size must be positive ({0})",
+                  size);
         }    
         sampleSize = size;
     }

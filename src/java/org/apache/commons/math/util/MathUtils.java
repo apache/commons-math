@@ -176,14 +176,7 @@ public final class MathUtils {
      *         by a long integer.
      */
     public static long binomialCoefficient(final int n, final int k) {
-        if (n < k) {
-            throw new IllegalArgumentException(
-                "must have n >= k for binomial coefficient (n,k)");
-        }
-        if (n < 0) {
-            throw new IllegalArgumentException(
-                "must have n >= 0 for binomial coefficient (n,k)");
-        }
+        checkBinomial(n, k);
         if ((n == k) || (k == 0)) {
             return 1;
         }
@@ -253,14 +246,7 @@ public final class MathUtils {
      * @throws IllegalArgumentException if preconditions are not met.
      */
     public static double binomialCoefficientDouble(final int n, final int k) {
-        if (n < k) {
-            throw new IllegalArgumentException(
-                "must have n >= k for binomial coefficient (n,k)");
-        }
-        if (n < 0) {
-            throw new IllegalArgumentException(
-                "must have n >= 0 for binomial coefficient (n,k)");
-        }
+        checkBinomial(n, k);
         if ((n == k) || (k == 0)) {
             return 1d;
         }
@@ -301,14 +287,7 @@ public final class MathUtils {
      * @throws IllegalArgumentException if preconditions are not met.
      */
     public static double binomialCoefficientLog(final int n, final int k) {
-        if (n < k) {
-            throw new IllegalArgumentException(
-                "must have n >= k for binomial coefficient (n,k)");
-        }
-        if (n < 0) {
-            throw new IllegalArgumentException(
-                "must have n >= 0 for binomial coefficient (n,k)");
-        }
+        checkBinomial(n, k);
         if ((n == k) || (k == 0)) {
             return 0;
         }
@@ -352,6 +331,26 @@ public final class MathUtils {
         }
 
         return logSum;      
+    }
+
+    /**
+     * Check binomial preconditions.
+     * @param n the size of the set
+     * @param k the size of the subsets to be counted
+     * @exception IllegalArgumentException if preconditions are not met.
+     */
+    private static void checkBinomial(final int n, final int k)
+        throws IllegalArgumentException {
+        if (n < k) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                "must have n >= k for binomial coefficient (n,k), got n = {0}, k = {1}",
+                n, k);
+        }
+        if (n < 0) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "must have n >= 0 for binomial coefficient (n,k), got n = {0}",
+                  n);
+        }
     }
     
     /**
@@ -501,7 +500,9 @@ public final class MathUtils {
      */
     public static long factorial(final int n) {
         if (n < 0) {
-            throw new IllegalArgumentException("must have n >= 0 for n!");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "must have n >= 0 for n!, got n = {0}",
+                  n);
         }
         if (n > 20) {
             throw new ArithmeticException(
@@ -532,7 +533,9 @@ public final class MathUtils {
      */
     public static double factorialDouble(final int n) {
         if (n < 0) {
-            throw new IllegalArgumentException("must have n >= 0 for n!");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "must have n >= 0 for n!, got n = {0}",
+                  n);
         }
         if (n < 21) {
             return factorial(n);
@@ -555,7 +558,9 @@ public final class MathUtils {
      */
     public static double factorialLog(final int n) {
         if (n < 0) {
-            throw new IllegalArgumentException("must have n > 0 for n!");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "must have n >= 0 for n!, got n = {0}",
+                  n);
         }
         if (n < 21) {
             return Math.log(factorial(n));
@@ -1132,7 +1137,18 @@ public final class MathUtils {
             unscaled = Math.ceil(nextAfter(unscaled,  Double.POSITIVE_INFINITY));
             break;
         default :
-            throw new IllegalArgumentException("Invalid rounding method.");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "invalid rounding method {0}, valid methods: {1} ({2}), {3} ({4})," +
+                  " {5} ({6}), {7} ({8}), {9} ({10}), {11} ({12}), {13} ({14}), {15} ({16})",
+                  roundingMethod,
+                  "ROUND_CEILING",     BigDecimal.ROUND_CEILING,
+                  "ROUND_DOWN",        BigDecimal.ROUND_DOWN,
+                  "ROUND_FLOOR",       BigDecimal.ROUND_FLOOR,
+                  "ROUND_HALF_DOWN",   BigDecimal.ROUND_HALF_DOWN,
+                  "ROUND_HALF_EVEN",   BigDecimal.ROUND_HALF_EVEN,
+                  "ROUND_HALF_UP",     BigDecimal.ROUND_HALF_UP,
+                  "ROUND_UNNECESSARY", BigDecimal.ROUND_UNNECESSARY,
+                  "ROUND_UP",          BigDecimal.ROUND_UP);
         }
         return unscaled;
     }

@@ -300,7 +300,7 @@ public class Rotation implements Serializable {
   double v1v1 = Vector3D.dotProduct(v1, v1);
   double v2v2 = Vector3D.dotProduct(v2, v2);
   if ((u1u1 == 0) || (u2u2 == 0) || (v1v1 == 0) || (v2v2 == 0)) {
-    throw new IllegalArgumentException("zero norm for rotation defining vector");
+    throw MathRuntimeException.createIllegalArgumentException("zero norm for rotation defining vector");
   }
 
   double u1x = u1.getX();
@@ -431,7 +431,7 @@ public class Rotation implements Serializable {
 
     double normProduct = u.getNorm() * v.getNorm();
     if (normProduct == 0) {
-      throw new IllegalArgumentException("zero norm for rotation defining vector");
+        throw MathRuntimeException.createIllegalArgumentException("zero norm for rotation defining vector");
     }
 
     double dot = Vector3D.dotProduct(u, v);

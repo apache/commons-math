@@ -228,8 +228,11 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
                 double[] inputArray = (double[]) in;
                 return new ArrayDataAdapter(inputArray);
             } else {
-                throw new IllegalArgumentException(
-                    "Input data comes from the" + " unsupported source");
+                throw MathRuntimeException.createIllegalArgumentException(
+                      "input data comes from unsupported datasource: {0}, " +
+                      "supported sources: {1}, {2}",
+                      in.getClass().getName(),
+                      BufferedReader.class.getName(), double[].class.getName());
             }
         }
     }

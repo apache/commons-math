@@ -311,7 +311,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
         } catch (ClassCastException cce) {
 
             // safety check
-            checkAdditionCompatible(m);
+            MatrixUtils.checkAdditionCompatible(this, m);
 
             final DenseRealMatrix out = new DenseRealMatrix(rows, columns);
 
@@ -355,7 +355,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
         throws IllegalArgumentException {
 
         // safety check
-        checkAdditionCompatible(m);
+        MatrixUtils.checkAdditionCompatible(this, m);
 
         final DenseRealMatrix out = new DenseRealMatrix(rows, columns);
 
@@ -382,7 +382,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
         } catch (ClassCastException cce) {
 
             // safety check
-            checkSubtractionCompatible(m);
+            MatrixUtils.checkSubtractionCompatible(this, m);
 
             final DenseRealMatrix out = new DenseRealMatrix(rows, columns);
 
@@ -426,7 +426,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
         throws IllegalArgumentException {
 
         // safety check
-        checkSubtractionCompatible(m);
+        MatrixUtils.checkSubtractionCompatible(this, m);
 
         final DenseRealMatrix out = new DenseRealMatrix(rows, columns);
 
@@ -493,7 +493,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
         } catch (ClassCastException cce) {
 
             // safety check
-            checkMultiplicationCompatible(m);
+            MatrixUtils.checkMultiplicationCompatible(this, m);
 
             final DenseRealMatrix out = new DenseRealMatrix(rows, m.getColumnDimension());
 
@@ -552,7 +552,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     public DenseRealMatrix multiply(DenseRealMatrix m) throws IllegalArgumentException {
 
         // safety check
-        checkMultiplicationCompatible(m);
+        MatrixUtils.checkMultiplicationCompatible(this, m);
 
         final DenseRealMatrix out = new DenseRealMatrix(rows, m.columns);
 
@@ -686,7 +686,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
         throws MatrixIndexException {
 
         // safety checks
-        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
+        MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
 
         // create the output matrix
         final DenseRealMatrix out =
@@ -815,7 +815,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
         }
         final int endRow    = row + subMatrix.length - 1;
         final int endColumn = column + refLength - 1;
-        checkSubMatrixIndex(row, endRow, column, endColumn);
+        MatrixUtils.checkSubMatrixIndex(this, row, endRow, column, endColumn);
         for (final double[] subRow : subMatrix) {
             if (subRow.length != refLength) {
                 throw MathRuntimeException.createIllegalArgumentException(
@@ -861,7 +861,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     public RealMatrix getRowMatrix(final int row)
         throws MatrixIndexException {
 
-        checkRowIndex(row);
+        MatrixUtils.checkRowIndex(this, row);
         final DenseRealMatrix out = new DenseRealMatrix(1, columns);
 
         // perform copy block-wise, to ensure good cache behavior
@@ -914,7 +914,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     public void setRowMatrix(final int row, final DenseRealMatrix matrix)
         throws MatrixIndexException, InvalidMatrixException {
 
-        checkRowIndex(row);
+        MatrixUtils.checkRowIndex(this, row);
         final int nCols = getColumnDimension();
         if ((matrix.getRowDimension() != 1) ||
             (matrix.getColumnDimension() != nCols)) {
@@ -952,7 +952,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     public RealMatrix getColumnMatrix(final int column)
         throws MatrixIndexException {
 
-        checkColumnIndex(column);
+        MatrixUtils.checkColumnIndex(this, column);
         final DenseRealMatrix out = new DenseRealMatrix(rows, 1);
 
         // perform copy block-wise, to ensure good cache behavior
@@ -1003,7 +1003,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     void setColumnMatrix(final int column, final DenseRealMatrix matrix)
         throws MatrixIndexException, InvalidMatrixException {
 
-        checkColumnIndex(column);
+        MatrixUtils.checkColumnIndex(this, column);
         final int nRows = getRowDimension();
         if ((matrix.getRowDimension() != nRows) ||
             (matrix.getColumnDimension() != 1)) {
@@ -1039,7 +1039,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     public RealVector getRowVector(final int row)
         throws MatrixIndexException {
 
-        checkRowIndex(row);
+        MatrixUtils.checkRowIndex(this, row);
         final double[] outData = new double[columns];
 
         // perform copy block-wise, to ensure good cache behavior
@@ -1073,7 +1073,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     public RealVector getColumnVector(final int column)
         throws MatrixIndexException {
 
-        checkColumnIndex(column);
+        MatrixUtils.checkColumnIndex(this, column);
         final double[] outData = new double[rows];
 
         // perform copy block-wise, to ensure good cache behavior
@@ -1109,7 +1109,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     public double[] getRow(final int row)
         throws MatrixIndexException {
 
-        checkRowIndex(row);
+        MatrixUtils.checkRowIndex(this, row);
         final double[] out = new double[columns];
 
         // perform copy block-wise, to ensure good cache behavior
@@ -1132,7 +1132,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     public void setRow(final int row, final double[] array)
         throws MatrixIndexException, InvalidMatrixException {
 
-        checkRowIndex(row);
+        MatrixUtils.checkRowIndex(this, row);
         final int nCols = getColumnDimension();
         if (array.length != nCols) {
             throw new InvalidMatrixException(
@@ -1158,7 +1158,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     public double[] getColumn(final int column)
         throws MatrixIndexException {
 
-        checkColumnIndex(column);
+        MatrixUtils.checkColumnIndex(this, column);
         final double[] out = new double[rows];
 
         // perform copy block-wise, to ensure good cache behavior
@@ -1183,7 +1183,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     public void setColumn(final int column, final double[] array)
         throws MatrixIndexException, InvalidMatrixException {
 
-        checkColumnIndex(column);
+        MatrixUtils.checkColumnIndex(this, column);
         final int nRows = getRowDimension();
         if (array.length != nRows) {
             throw new InvalidMatrixException(
@@ -1467,7 +1467,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                                  final int startRow, final int endRow,
                                  final int startColumn, final int endColumn)
         throws MatrixIndexException, MatrixVisitorException {
-        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
+        MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
         visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
         for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
             final int p0     = iBlock * BLOCK_SIZE;
@@ -1495,7 +1495,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                                  final int startRow, final int endRow,
                                  final int startColumn, final int endColumn)
         throws MatrixIndexException, MatrixVisitorException {
-        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
+        MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
         visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
         for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
             final int p0     = iBlock * BLOCK_SIZE;
@@ -1567,7 +1567,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                                        final int startRow, final int endRow,
                                        final int startColumn, final int endColumn)
         throws MatrixIndexException, MatrixVisitorException {
-        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
+        MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
         visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
         for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
             final int p0     = iBlock * BLOCK_SIZE;
@@ -1595,7 +1595,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                                        final int startRow, final int endRow,
                                        final int startColumn, final int endColumn)
         throws MatrixIndexException, MatrixVisitorException {
-        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
+        MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
         visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
         for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
             final int p0     = iBlock * BLOCK_SIZE;

@@ -491,6 +491,140 @@ public class MatrixUtils {
         }
         return new BigMatrixImpl(data, false);
     }
-    
-}
 
+    /**
+     * Check if a row index is valid.
+     * @param m matrix containing the submatrix
+     * @param row row index to check
+     * @exception MatrixIndexException if index is not valid
+     */
+    public static void checkRowIndex(final AnyMatrix m, final int row) {
+        if (row < 0 || row >= m.getRowDimension()) {
+            throw new MatrixIndexException("row index {0} out of allowed range [{1}, {2}]",
+                                           row, 0, m.getRowDimension() - 1);
+        }
+    }
+
+    /**
+     * Check if a column index is valid.
+     * @param m matrix containing the submatrix
+     * @param column column index to check
+     * @exception MatrixIndexException if index is not valid
+     */
+    public static void checkColumnIndex(final AnyMatrix m, final int column)
+        throws MatrixIndexException {
+        if (column < 0 || column >= m.getColumnDimension()) {
+            throw new MatrixIndexException("column index {0} out of allowed range [{1}, {2}]",
+                                           column, 0, m.getColumnDimension() - 1);
+        }
+    }
+
+    /**
+     * Check if submatrix ranges indices are valid.
+     * Rows and columns are indicated counting from 0 to n-1.
+     *
+     * @param m matrix containing the submatrix
+     * @param startRow Initial row index
+     * @param endRow Final row index
+     * @param startColumn Initial column index
+     * @param endColumn Final column index
+     * @exception MatrixIndexException  if the indices are not valid
+     */
+    public static void checkSubMatrixIndex(final AnyMatrix m,
+                                           final int startRow, final int endRow,
+                                           final int startColumn, final int endColumn) {
+        checkRowIndex(m, startRow);
+        checkRowIndex(m, endRow);
+        if (startRow > endRow) {
+            throw new MatrixIndexException("initial row {0} after final row {1}",
+                                           startRow, endRow);
+        }
+
+        checkColumnIndex(m, startColumn);
+        checkColumnIndex(m, endColumn);
+        if (startColumn > endColumn) {
+            throw new MatrixIndexException("initial column {0} after final column {1}",
+                                           startColumn, endColumn);
+        }
+
+    
+    }
+
+    /**
+     * Check if submatrix ranges indices are valid.
+     * Rows and columns are indicated counting from 0 to n-1.
+     *
+     * @param m matrix containing the submatrix
+     * @param selectedRows Array of row indices.
+     * @param selectedColumns Array of column indices.
+     * @exception MatrixIndexException if row or column selections are not valid
+     */
+    public static void checkSubMatrixIndex(final AnyMatrix m,
+                                           final int[] selectedRows, final int[] selectedColumns)
+        throws MatrixIndexException {
+        if (selectedRows.length * selectedColumns.length == 0) {
+            if (selectedRows.length == 0) {
+                throw new MatrixIndexException("empty selected row index array");
+            }
+            throw new MatrixIndexException("empty selected column index array");
+        }
+
+        for (final int row : selectedRows) {
+            checkRowIndex(m, row);
+        }
+        for (final int column : selectedColumns) {
+            checkColumnIndex(m, column);
+        }
+    }
+
+    /**
+     * Check if matrices are addition compatible
+     * @param left left hand side matrix
+     * @param right right hand side matrix
+     * @exception IllegalArgumentException if matrices are not addition compatible
+     */
+    public static void checkAdditionCompatible(final AnyMatrix left, final AnyMatrix right)
+        throws IllegalArgumentException {
+        if ((left.getRowDimension()    != right.getRowDimension()) ||
+            (left.getColumnDimension() != right.getColumnDimension())) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "{0}x{1} and {2}x{3} matrices are not addition compatible",
+                    left.getRowDimension(), left.getColumnDimension(),
+                    right.getRowDimension(), right.getColumnDimension());
+        }
+    }
+
+    /**
+     * Check if matrices are subtraction compatible
+     * @param left left hand side matrix
+     * @param right right hand side matrix
+     * @exception IllegalArgumentException if matrices are not subtraction compatible
+     */
+    public static void checkSubtractionCompatible(final AnyMatrix left, final AnyMatrix right)
+        throws IllegalArgumentException {
+        if ((left.getRowDimension()    != right.getRowDimension()) ||
+            (left.getColumnDimension() != right.getColumnDimension())) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "{0}x{1} and {2}x{3} matrices are not subtraction compatible",
+                    left.getRowDimension(), left.getColumnDimension(),
+                    right.getRowDimension(), right.getColumnDimension());
+        }
+    }
+
+    /**
+     * Check if matrices are multiplication compatible
+     * @param left left hand side matrix
+     * @param right right hand side matrix
+     * @exception IllegalArgumentException if matrices are not multiplication compatible
+     */
+    public static void checkMultiplicationCompatible(final AnyMatrix left, final AnyMatrix right)
+        throws IllegalArgumentException {
+        if (left.getColumnDimension() != right.getRowDimension()) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "{0}x{1} and {2}x{3} matrices are not multiplication compatible",
+                    left.getRowDimension(), left.getColumnDimension(),
+                    right.getRowDimension(), right.getColumnDimension());
+        }
+    }
+
+}

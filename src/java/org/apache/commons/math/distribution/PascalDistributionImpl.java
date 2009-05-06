@@ -19,6 +19,7 @@ package org.apache.commons.math.distribution;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.special.Beta;
 import org.apache.commons.math.util.MathUtils;
 
@@ -75,8 +76,9 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
      */
     public void setNumberOfSuccesses(int successes) {
         if (successes < 0) {
-            throw new IllegalArgumentException(
-                "number of successes must be non-negative.");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "number of successes must be non-negative ({0})",
+                  successes);
         }
         numberOfSuccesses = successes;
     }
@@ -89,8 +91,8 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
      */
     public void setProbabilityOfSuccess(double p) {
         if (p < 0.0 || p > 1.0) {
-            throw new IllegalArgumentException(
-                "probability of success must be between 0.0 and 1.0, inclusive.");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "{0} out of [{1}, {2}] range", p, 0.0, 1.0);
         }
         probabilityOfSuccess = p;
     }

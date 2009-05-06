@@ -101,7 +101,7 @@ public class SparseRealMatrix extends AbstractRealMatrix {
     public RealMatrix add(SparseRealMatrix m) throws IllegalArgumentException {
 
         // safety check
-        checkAdditionCompatible(m);
+        MatrixUtils.checkAdditionCompatible(this, m);
 
         final RealMatrix out = new SparseRealMatrix(this);
         for (OpenIntToDoubleHashMap.Iterator iterator = m.entries.iterator(); iterator.hasNext();) {
@@ -136,7 +136,7 @@ public class SparseRealMatrix extends AbstractRealMatrix {
     public RealMatrix subtract(SparseRealMatrix m) throws IllegalArgumentException {
 
         // safety check
-        checkAdditionCompatible(m);
+        MatrixUtils.checkAdditionCompatible(this, m);
 
         final RealMatrix out = new SparseRealMatrix(this);
         for (OpenIntToDoubleHashMap.Iterator iterator = m.entries.iterator(); iterator.hasNext();) {
@@ -159,7 +159,7 @@ public class SparseRealMatrix extends AbstractRealMatrix {
         } catch (ClassCastException cce) {
 
             // safety check
-            checkMultiplicationCompatible(m);
+            MatrixUtils.checkMultiplicationCompatible(this, m);
 
             final int outCols = m.getColumnDimension();
             final DenseRealMatrix out = new DenseRealMatrix(rowDimension, outCols);
@@ -190,7 +190,7 @@ public class SparseRealMatrix extends AbstractRealMatrix {
     public SparseRealMatrix multiply(SparseRealMatrix m) throws IllegalArgumentException {
 
         // safety check
-        checkMultiplicationCompatible(m);
+        MatrixUtils.checkMultiplicationCompatible(this, m);
 
         final int outCols = m.getColumnDimension();
         SparseRealMatrix out = new SparseRealMatrix(rowDimension, outCols);
@@ -222,8 +222,8 @@ public class SparseRealMatrix extends AbstractRealMatrix {
     /** {@inheritDoc} */
     @Override
     public double getEntry(int row, int column) throws MatrixIndexException {
-        checkRowIndex(row);
-        checkColumnIndex(column);
+        MatrixUtils.checkRowIndex(this, row);
+        MatrixUtils.checkColumnIndex(this, column);
         return entries.get(computeKey(row, column));
     }
 
@@ -237,8 +237,8 @@ public class SparseRealMatrix extends AbstractRealMatrix {
     @Override
     public void setEntry(int row, int column, double value)
             throws MatrixIndexException {
-        checkRowIndex(row);
-        checkColumnIndex(column);
+        MatrixUtils.checkRowIndex(this, row);
+        MatrixUtils.checkColumnIndex(this, column);
         if (value == 0.0) {
             entries.remove(computeKey(row, column));
         } else {
@@ -250,8 +250,8 @@ public class SparseRealMatrix extends AbstractRealMatrix {
     @Override
     public void addToEntry(int row, int column, double increment)
             throws MatrixIndexException {
-        checkRowIndex(row);
-        checkColumnIndex(column);
+        MatrixUtils.checkRowIndex(this, row);
+        MatrixUtils.checkColumnIndex(this, column);
         final int key = computeKey(row, column);
         final double value = entries.get(key) + increment;
         if (value == 0.0) {
@@ -265,8 +265,8 @@ public class SparseRealMatrix extends AbstractRealMatrix {
     @Override
     public void multiplyEntry(int row, int column, double factor)
             throws MatrixIndexException {
-        checkRowIndex(row);
-        checkColumnIndex(column);
+        MatrixUtils.checkRowIndex(this, row);
+        MatrixUtils.checkColumnIndex(this, column);
         final int key = computeKey(row, column);
         final double value = entries.get(key) * factor;
         if (value == 0.0) {

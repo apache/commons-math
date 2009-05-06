@@ -245,7 +245,9 @@ public class RealVectorFormat extends CompositeFormat {
             return format( (RealVector)obj, toAppendTo, pos);
         }
 
-        throw new IllegalArgumentException("Cannot format given Object as a RealVector");
+        throw MathRuntimeException.createIllegalArgumentException(
+              "cannot format a {0} instance as a real vector",
+              obj.getClass().getName());
 
     }
 

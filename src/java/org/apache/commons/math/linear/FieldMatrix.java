@@ -32,7 +32,7 @@ import org.apache.commons.math.linear.decomposition.NonSquareMatrixException;
  * @param <T> the type of the field elements
  * @version $Revision$ $Date$
  */
-public interface FieldMatrix<T extends FieldElement<T>> extends Serializable {
+public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix, Serializable {
 
     /**
      * Get the type of field elements of the matrix.
@@ -430,26 +430,6 @@ public interface FieldMatrix<T extends FieldElement<T>> extends Serializable {
      * @return transpose matrix
      */
     FieldMatrix<T> transpose();
-
-    /**
-     * Is this a square matrix?
-     * @return true if the matrix is square (rowDimension = columnDimension)
-     */
-    boolean isSquare();
-
-    /**
-     * Returns the number of rows in the matrix.
-     *
-     * @return rowDimension
-     */
-    int getRowDimension();
-
-    /**
-     * Returns the number of columns in the matrix.
-     *
-     * @return columnDimension
-     */
-    int getColumnDimension();
 
     /**
      * Returns the <a href="http://mathworld.wolfram.com/MatrixTrace.html">

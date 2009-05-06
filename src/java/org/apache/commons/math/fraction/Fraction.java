@@ -476,7 +476,7 @@ public class Fraction extends Number implements FieldElement<Fraction>, Comparab
      */
     private Fraction addSub(Fraction fraction, boolean isAdd) {
         if (fraction == null) {
-            throw new IllegalArgumentException("The fraction must not be null");
+            throw MathRuntimeException.createIllegalArgumentException("null fraction");
         }
         // zero is identity for addition.
         if (numerator == 0) {
@@ -533,7 +533,7 @@ public class Fraction extends Number implements FieldElement<Fraction>, Comparab
      */
     public Fraction multiply(Fraction fraction) {
         if (fraction == null) {
-            throw new IllegalArgumentException("The fraction must not be null");
+            throw MathRuntimeException.createIllegalArgumentException("null fraction");
         }
         if (numerator == 0 || fraction.numerator == 0) {
             return ZERO;
@@ -568,7 +568,7 @@ public class Fraction extends Number implements FieldElement<Fraction>, Comparab
      */
     public Fraction divide(Fraction fraction) {
         if (fraction == null) {
-            throw new IllegalArgumentException("The fraction must not be null");
+            throw MathRuntimeException.createIllegalArgumentException("null fraction");
         }
         if (fraction.numerator == 0) {
             throw MathRuntimeException.createArithmeticException(

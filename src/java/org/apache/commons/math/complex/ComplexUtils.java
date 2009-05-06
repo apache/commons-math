@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.complex;
 
+import org.apache.commons.math.MathRuntimeException;
+
 /**
  * Static implementations of common 
  * {@link org.apache.commons.math.complex.Complex} utilities functions.
@@ -59,8 +61,8 @@ public class ComplexUtils {
      */
     public static Complex polar2Complex(double r, double theta) {
         if (r < 0) {
-            throw new IllegalArgumentException
-                ("Complex modulus must not be negative");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "negative complex module {0}", r);
         }
         return new Complex(r * Math.cos(theta), r * Math.sin(theta));
     }

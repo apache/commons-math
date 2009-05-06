@@ -19,6 +19,8 @@ package org.apache.commons.math.distribution;
 
 import java.io.Serializable;
 
+import org.apache.commons.math.MathRuntimeException;
+
 /**
  * Default implementation of
  * {@link org.apache.commons.math.distribution.CauchyDistribution}.
@@ -98,8 +100,8 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
     public double inverseCumulativeProbability(double p) {
         double ret;
         if (p < 0.0 || p > 1.0) {
-            throw new IllegalArgumentException
-                ("probability argument must be between 0 and 1 (inclusive)");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "{0} out of [{1}, {2}] range", p, 0.0, 1.0);
         } else if (p == 0) {
             ret = Double.NEGATIVE_INFINITY;
         } else  if (p == 1) {
@@ -125,8 +127,8 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
      */
     public void setScale(double s) {
         if (s <= 0.0) {
-            throw new IllegalArgumentException(
-                "Scale must be positive.");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "scale must be positive ({0})", s);
         }       
         scale = s;
     }

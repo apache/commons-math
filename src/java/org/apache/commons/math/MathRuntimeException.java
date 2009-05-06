@@ -294,6 +294,19 @@ public class MathRuntimeException extends RuntimeException {
     }
 
     /**
+     * Constructs a new <code>IllegalArgumentException</code> with specified nested
+     * <code>Throwable</code> root cause.
+     * @param rootCause the exception or error that caused this exception
+     * to be thrown.
+     * @return built exception
+     */
+    public static IllegalArgumentException createIllegalArgumentException(final Throwable rootCause) {
+        IllegalArgumentException iae = new IllegalArgumentException(rootCause.getLocalizedMessage());
+        iae.initCause(rootCause);
+        return iae;
+    }
+
+    /**
      * Constructs a new <code>IllegalStateException</code> with specified formatted detail message.
      * Message formatting is delegated to {@link java.text.MessageFormat}.
      * @param pattern format specifier

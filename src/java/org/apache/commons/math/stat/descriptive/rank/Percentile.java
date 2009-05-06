@@ -18,6 +18,8 @@ package org.apache.commons.math.stat.descriptive.rank;
 
 import java.io.Serializable;
 import java.util.Arrays;
+
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic;
 
 /**
@@ -196,7 +198,8 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
         test(values, begin, length);
 
         if ((p > 100) || (p <= 0)) {
-            throw new IllegalArgumentException("invalid quantile value: " + p);
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "out of bounds quantile value: {0}, must be in (0, 100]", p);
         }
         if (length == 0) {
             return Double.NaN;
@@ -244,7 +247,8 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      */
     public void setQuantile(final double p) {
         if (p <= 0 || p > 100) {
-            throw new IllegalArgumentException("Illegal quantile value: " + p);
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "out of bounds quantile value: {0}, must be in (0, 100]", p);
         }
         quantile = p;
     }
