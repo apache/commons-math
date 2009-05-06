@@ -139,7 +139,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
           new double[]{-3482258.63459582, 15.0618722713733,
                 -0.358191792925910E-01,-2.02022980381683,
                 -1.03322686717359,-0.511041056535807E-01,
-                 1829.15146461355}, 1E-8); // 
+                 1829.15146461355}, 2E-8); // 
         
         // Check expected residuals from R
         double[] residuals = model.estimateResiduals();
@@ -332,7 +332,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
          */
         double[] residuals = model.estimateResiduals();
         RealMatrix I = MatrixUtils.createRealIdentityMatrix(10);
-        double[] hatResiduals = I.subtract(hat).multiply(model.Y).getColumn(0);
+        double[] hatResiduals = I.subtract(hat).operate(model.Y).getData();
         TestUtils.assertEquals(residuals, hatResiduals, 10e-12);    
     }
 }
