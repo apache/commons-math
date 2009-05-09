@@ -19,8 +19,11 @@ package org.apache.commons.math.stat.regression;
 import static org.junit.Assert.assertEquals;
 
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.linear.DefaultRealMatrixChangingVisitor;
 import org.apache.commons.math.linear.MatrixUtils;
+import org.apache.commons.math.linear.MatrixVisitorException;
 import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.linear.RealMatrixImpl;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -82,13 +85,30 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
     public void testPerfectFit() {
         double[] betaHat = regression.estimateRegressionParameters();
         TestUtils.assertEquals(betaHat, 
-          new double[]{11.0,0.5,0.666666666666667,0.75,0.8,0.8333333333333333},
-                1e-12);
+                               new double[]{ 11.0, 1.0 / 2.0, 2.0 / 3.0, 3.0 / 4.0, 4.0 / 5.0, 5.0 / 6.0 },
+                               1e-14);
         double[] residuals = regression.estimateResiduals();
         TestUtils.assertEquals(residuals, new double[]{0d,0d,0d,0d,0d,0d},
-                      1e-12);
-        double[][] errors = regression.estimateRegressionParametersVariance();
-        // TODO: translate this into standard error vector and check
+                               1e-14);
+        RealMatrix errors =
+            new RealMatrixImpl(regression.estimateRegressionParametersVariance(), false);
+        final double[] s = { 1.0, -1.0 /  2.0, -1.0 /  3.0, -1.0 /  4.0, -1.0 /  5.0, -1.0 /  6.0 };
+        RealMatrix referenceVariance = new RealMatrixImpl(s.length, s.length);
+        referenceVariance.walkInOptimizedOrder(new DefaultRealMatrixChangingVisitor() {
+            private static final long serialVersionUID = -6071126933773694288L;
+            @Override
+            public double visit(int row, int column, double value)
+                throws MatrixVisitorException {
+                if (row == 0) {
+                    return s[column];
+                }
+                double x = s[row] * s[column];
+                return (row == column) ? 2 * x : x;
+            }
+        });
+       assertEquals(0.0,
+                     errors.subtract(referenceVariance).getNorm(),
+                     5.0e-16 * referenceVariance.getNorm());
     }
     
     
