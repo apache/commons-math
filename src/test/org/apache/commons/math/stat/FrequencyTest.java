@@ -190,6 +190,7 @@ public final class FrequencyTest extends TestCase {
     }
     
     // Check what happens when non-Comparable objects are added
+    @SuppressWarnings("deprecation")
     public void testAddNonComparable(){
         try {
             f.addValue(new Object()); // This was previously OK
@@ -248,7 +249,7 @@ public final class FrequencyTest extends TestCase {
         }        
     }
     public void testIntegerValues() {
-        Object obj1 = null;
+        Comparable<?> obj1 = null;
         obj1 = Integer.valueOf(1);
         Integer int1 = Integer.valueOf(1);
         f.addValue(obj1);
