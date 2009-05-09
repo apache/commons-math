@@ -17,6 +17,7 @@
 package org.apache.commons.math.stat.inference;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.distribution.ChiSquaredDistribution;
 import org.apache.commons.math.distribution.ChiSquaredDistributionImpl;
 
@@ -62,14 +63,17 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
      */
     public double chiSquare(double[] expected, long[] observed)
         throws IllegalArgumentException {
-        if ((expected.length < 2) || (expected.length != observed.length)) {
-            throw new IllegalArgumentException(
-                    "observed, expected array lengths incorrect");
+        if (expected.length < 2) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "expected array length = {0}, must be at least 2",
+                  expected.length);
         }
-        if (!isPositive(expected) || !isNonNegative(observed)) {
-            throw new IllegalArgumentException(
-                "observed counts must be non-negative and expected counts must be postive");
+        if (expected.length != observed.length) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "dimension mismatch {0} != {1}", expected.length, observed.length);
         }
+        checkPositive(expected);
+        checkNonNegative(observed);
         double sumExpected = 0d;
         double sumObserved = 0d;
         for (int i = 0; i < observed.length; i++) {
@@ -132,8 +136,9 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
     public boolean chiSquareTest(double[] expected, long[] observed, 
             double alpha) throws IllegalArgumentException, MathException {
         if ((alpha <= 0) || (alpha > 0.5)) {
-            throw new IllegalArgumentException(
-                    "bad significance level: " + alpha);
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "out of bounds significance level {0}, must be between {1} and {2}",
+                  alpha, 0, 0.5);
         }
         return (chiSquareTest(expected, observed) < alpha);
     }
@@ -199,7 +204,9 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
     public boolean chiSquareTest(long[][] counts, double alpha)
     throws IllegalArgumentException, MathException {
         if ((alpha <= 0) || (alpha > 0.5)) {
-            throw new IllegalArgumentException("bad significance level: " + alpha);
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "out of bounds significance level {0}, must be between {1} and {2}",
+                  alpha, 0.0, 0.5);
         }
         return (chiSquareTest(counts) < alpha);
     }
@@ -215,15 +222,21 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
         throws IllegalArgumentException {
         
         // Make sure lengths are same
-        if ((observed1.length < 2) || (observed1.length != observed2.length)) {
-            throw new IllegalArgumentException(
-                    "oberved1, observed2 array lengths incorrect");
+        if (observed1.length < 2) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "observed array length = {0}, must be at least 2",
+                  observed1.length);
         }
+        if (observed1.length != observed2.length) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "dimension mismatch {0} != {1}",
+                  observed1.length, observed2.length);
+        }
+
         // Ensure non-negative counts
-        if (!isNonNegative(observed1) || !isNonNegative(observed2)) {
-            throw new IllegalArgumentException(
-                "observed counts must be non-negative");
-        }
+        checkNonNegative(observed1);
+        checkNonNegative(observed2);
+
         // Compute and compare count sums
         long countSum1 = 0;
         long countSum2 = 0;
@@ -234,9 +247,13 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
             countSum2 += observed2[i];   
         }
         // Ensure neither sample is uniformly 0
-        if (countSum1 * countSum2 == 0) {
-            throw new IllegalArgumentException(
-             "observed counts cannot all be 0"); 
+        if (countSum1 == 0) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "observed counts are all 0 in first observed array"); 
+        }
+        if (countSum2 == 0) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "observed counts are all 0 in second observed array"); 
         }
         // Compare and compute weight only if different
         unequalCounts = (countSum1 != countSum2);
@@ -250,8 +267,8 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
         double obs2 = 0.0d;
         for (int i = 0; i < observed1.length; i++) {
             if (observed1[i] == 0 && observed2[i] == 0) {
-                throw new IllegalArgumentException(
-                        "observed counts must not both be zero");
+                throw MathRuntimeException.createIllegalArgumentException(
+                      "observed counts are both zero for entry {0}", i);
             } else {
                 obs1 = observed1[i];
                 obs2 = observed2[i];
@@ -294,8 +311,9 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
     public boolean chiSquareTestDataSetsComparison(long[] observed1, long[] observed2,
             double alpha) throws IllegalArgumentException, MathException {
         if ((alpha <= 0) || (alpha > 0.5)) {
-            throw new IllegalArgumentException(
-                    "bad significance level: " + alpha);
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "out of bounds significance level {0}, must be between {1} and {2}",
+                  alpha, 0.0, 0.5);
         }
         return (chiSquareTestDataSetsComparison(observed1, observed2) < alpha);
     }
@@ -311,20 +329,19 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
     private void checkArray(long[][] in) throws IllegalArgumentException {
         
         if (in.length < 2) {
-            throw new IllegalArgumentException("Input table must have at least two rows");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "invalid row dimension: {0} (must be at least 2)",
+                  in.length);
         }
         
         if (in[0].length < 2) {
-            throw new IllegalArgumentException("Input table must have at least two columns");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "invalid column dimension: {0} (must be at least 2)",
+                  in[0].length);
         }    
         
-        if (!isRectangular(in)) {
-            throw new IllegalArgumentException("Input table must be rectangular");
-        }
-        
-        if (!isNonNegative(in)) {
-            throw new IllegalArgumentException("All entries in input 2-way table must be non-negative");
-        }
+        checkRectangular(in);
+        checkNonNegative(in);
         
     }
     
@@ -338,66 +355,64 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
      * @throws NullPointerException if input array is null
      * @throws ArrayIndexOutOfBoundsException if input array is empty
      */
-    private boolean isRectangular(long[][] in) {
+    private void checkRectangular(long[][] in) {
         for (int i = 1; i < in.length; i++) {
             if (in[i].length != in[0].length) {
-                return false;
+                throw MathRuntimeException.createIllegalArgumentException(
+                      "some rows have length {0} while others have length {1}",
+                      in[i].length, in[0].length);
             }
         }  
-        return true;
     }
     
     /**
-     * Returns true iff all entries of the input array are > 0.
-     * Returns true if the array is non-null, but empty
+     * Check all entries of the input array are > 0.
      * 
      * @param in array to be tested
-     * @return true if all entries of the array are positive
-     * @throws NullPointerException if input array is null
+     * @exception IllegalArgumentException if one entry is not positive
      */
-    private boolean isPositive(double[] in) {
-        for (int i = 0; i < in.length; i ++) {
+    private void checkPositive(double[] in) throws IllegalArgumentException {
+        for (int i = 0; i < in.length; i++) {
             if (in[i] <= 0) {
-                return false;
+                throw MathRuntimeException.createIllegalArgumentException(
+                      "element {0} is not positive: {1}",
+                      i, in[i]);
             }
         }
-        return true;
     }
     
     /**
-     * Returns true iff all entries of the input array are >= 0.
-     * Returns true if the array is non-null, but empty
+     * Check all entries of the input array are >= 0.
      * 
      * @param in array to be tested
-     * @return true if all entries of the array are non-negative
-     * @throws NullPointerException if input array is null
+     * @exception IllegalArgumentException if one entry is negative
      */
-    private boolean isNonNegative(long[] in) {
-        for (int i = 0; i < in.length; i ++) {
+    private void checkNonNegative(long[] in) throws IllegalArgumentException {
+        for (int i = 0; i < in.length; i++) {
             if (in[i] < 0) {
-                return false;
+                throw MathRuntimeException.createIllegalArgumentException(
+                      "element {0} is negative: {1}",
+                      i, in[i]);
             }
         }
-        return true;
     }
     
     /**
-     * Returns true iff all entries of (all subarrays of) the input array are >= 0.
-     * Returns true if the array is non-null, but empty
+     * Check all entries of the input array are >= 0.
      * 
      * @param in array to be tested
-     * @return true if all entries of the array are non-negative
-     * @throws NullPointerException if input array is null
+     * @exception IllegalArgumentException if one entry is negative
      */
-    private boolean isNonNegative(long[][] in) {
+    private void checkNonNegative(long[][] in) throws IllegalArgumentException {
         for (int i = 0; i < in.length; i ++) {
             for (int j = 0; j < in[i].length; j++) {
                 if (in[i][j] < 0) {
-                    return false;
+                    throw MathRuntimeException.createIllegalArgumentException(
+                          "element ({0}, {1}) is negative: {2}",
+                          i, j, in[i][j]);
                 }
             }
         }
-        return true;
     }
  
     /**

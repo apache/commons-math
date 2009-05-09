@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math.stat.regression;
 
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealMatrixImpl;
 import org.apache.commons.math.linear.RealVector;
@@ -199,10 +200,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      */
     private static RealVector solveUpperTriangular(RealMatrix coefficients,
                                                    RealVector constants) {
-        if (!isUpperTriangular(coefficients, 1E-12)) {
-            throw new IllegalArgumentException(
-                   "Coefficients is not upper-triangular");
-        }
+        checkUpperTriangular(coefficients, 1E-12);
         int length = coefficients.getColumnDimension();
         double x[] = new double[length];
         for (int i = 0; i < length; i++) {
@@ -217,7 +215,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
     }
     
     /**
-     * <p>Returns true iff m is an upper-triangular matrix.</p>
+     * <p>Check if a matrix is upper-triangular.</p>
      * 
      * <p>Makes sure all below-diagonal elements are within epsilon of 0.</p>
      * 
@@ -225,20 +223,20 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * @param epsilon maximum allowable absolute value for elements below
      * the main diagonal
      * 
-     * @return true if m is upper-triangular; false otherwise
-     * @throws NullPointerException if m is null
+     * @throws IllegalArgumentException if m is not upper-triangular
      */
-    private static boolean isUpperTriangular(RealMatrix m, double epsilon) {
+    private static void checkUpperTriangular(RealMatrix m, double epsilon) {
         int nCols = m.getColumnDimension();
         int nRows = m.getRowDimension();
         for (int r = 0; r < nRows; r++) {
             int bound = Math.min(r, nCols);
             for (int c = 0; c < bound; c++) {
                 if (Math.abs(m.getEntry(r, c)) > epsilon) {
-                    return false;
+                    throw MathRuntimeException.createIllegalArgumentException(
+                          "matrix is not upper-triangular, entry ({0}, {1}) = {2} is too large",
+                          r, c, m.getEntry(r, c));
                 }
             }
         }
-        return true;
     }
 }

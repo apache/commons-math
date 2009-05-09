@@ -91,6 +91,8 @@ public class MessagesResources_fr
     // org.apache.commons.math.optimization.general.AbstractLeastSquaresOptimizer
     // org.apache.commons.math.ode.ContinuousOutputModel
     // org.apache.commons.math.random.UncorrelatedRandomVectorGenerator
+    // org.apache.commons.math.stat.regression.AbstractMultipleLinearRegression
+    // org.apache.commons.math.stat.inference.ChiSquareTestImpl
     { "dimension mismatch {0} != {1}",
       "dimensions incompatibles {0} != {1}" },
 
@@ -333,6 +335,7 @@ public class MessagesResources_fr
       "non sym\u00e9triques n''est pas encore disponible" },
 
     // org.apache.commons.math.linear.decomposition.NonSquareMatrixException
+    // org.apache.commons.math.stat.regression.AbstractMultipleLinearRegression
     { "a {0}x{1} matrix was provided instead of a square matrix",
       "une matrice {0}x{1} a \u00e9t\u00e9 fournie \u00e0 la place d''une matrice carr\u00e9e" },
 
@@ -382,6 +385,10 @@ public class MessagesResources_fr
       "une matrice doit comporter au moins une ligne" },
     { "matrix must have at least one column",
       "une matrice doit comporter au moins une colonne" },
+
+    // org.apache.commons.math.linear.AbstractRealMatrix
+    // org.apache.commons.math.linear.AbstractFieldMatrix
+    // org.apache.commons.math.stat.inference.ChiSquareTestImpl      
     { "some rows have length {0} while others have length {1}",
       "certaines lignes ont une longueur de {0} alors que d''autres ont une longueur de {1}" },
 
@@ -635,9 +642,48 @@ public class MessagesResources_fr
      "les statistiques bas\u00e9es sur des moments externes " +
      "ne peuvent pas \u00eatre remises \u00e0 z\u00e9ro" },
 
+   // org.apache.commons.math.stat.inference.ChiSquareTestImpl
+   { "expected array length = {0}, must be at least 2",
+     "le tableau des valeurs attendues a une longueur de {0}, elle devrait \u00eatre au moins de 2" },
+   { "observed array length = {0}, must be at least 2",
+     "le tableau des valeurs observ\u00e9es a une longueur de {0}, elle devrait \u00eatre au moins de 2" },
+   { "observed counts are all 0 in first observed array",
+     "aucune occurrence dans le premier tableau des observations" },
+   { "observed counts are all 0 in second observed array",
+     "aucune occurrence dans le second tableau des observations" },
+   { "observed counts are both zero for entry {0}",
+     "les occurrences observ\u00e9es sont toutes deux nulles pour l'entr\u00e9e {0}" },
+   { "invalid row dimension: {0} (must be at least 2)",
+     "nombre de lignes invalide : {0} (doit \u00eatre au moins de 2)" },
+   { "invalid column dimension: {0} (must be at least 2)",
+     "nombre de colonnes invalide : {0} (doit \u00eatre au moins de 2)" },
+   { "element {0} is not positive: {1}",
+     "l''\u00e9l\u00e9ment {0} n''est pas positif : {1}" },
+   { "element {0} is negative: {1}",
+     "l''\u00e9l\u00e9ment {0} est n\u00e9gatif : {1}" },
+   { "element ({0}, {1}) is negative: {2}",
+     "l''\u00e9l\u00e9ment ({0}, {1}) est n\u00e9gatif : {2}" },
+
+   // org.apache.commons.math.stat.inference.OneWayAnovaImpl
+   { "two or more categories required, got {0}",
+     "deux cat\u00e9gories ou plus sont n\u00e9cessaires, il y en a {0}" },
+   { "two or more values required in each category, one has {0}",
+     "deux valeurs ou plus sont n\u00e9cessaires pour chaque cat\u00e9gorie, une cat\u00e9gorie en a {0}" },
+
+   // org.apache.commons.math.stat.inference.TTestImpl
+   { "insufficient data for t statistic, needs at least 2, got {0}",
+     "deux valeurs ou plus sont n\u00e9cessaires pour la statistique t, il y en a {0}" },
+
+   // org.apache.commons.math.stat.inference.ChiSquareTestImpl
+   // org.apache.commons.math.stat.inference.TTestImpl
+   // org.apache.commons.math.stat.inference.OneWayAnovaImpl
    // org.apache.commons.math.stat.Regression
-   { "out of bounds significance level {0}, must be in (0, 1)",
-     "niveau de signification {0} hors domaine, doit \u00eatre dans l''intervalle ]0, 1[" },
+   { "out of bounds significance level {0}, must be between {1} and {2}",
+     "niveau de signification {0} hors domaine, doit \u00eatre entre {1} et {2}" },
+
+   // org.apache.commons.math.stat.regression.OLSMultipleLinearRegression
+   { "matrix is not upper-triangular, entry ({0}, {1}) = {2} is too large",
+     "matrice non triangulaire sup\u00e9rieure, l''\u00e9l\u00e9ment ({0}, {1}) = {2} est trop grand" },
 
    // org.apache.commons.math.distribution.AbstractContinuousDistribution
    // org.apache.commons.math.distribution.AbstractIntegerDistribution

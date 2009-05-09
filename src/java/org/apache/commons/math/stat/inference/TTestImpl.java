@@ -17,6 +17,7 @@
 package org.apache.commons.math.stat.inference;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.distribution.TDistribution;
 import org.apache.commons.math.distribution.TDistributionImpl;
 import org.apache.commons.math.stat.StatUtils;
@@ -75,10 +76,8 @@ public class TTestImpl implements TTest  {
      */
     public double pairedT(double[] sample1, double[] sample2)
         throws IllegalArgumentException, MathException {
-        if ((sample1 == null) || (sample2 == null ||
-                Math.min(sample1.length, sample2.length) < 2)) {
-            throw new IllegalArgumentException("insufficient data for t statistic");
-        }
+        checkSampleData(sample1);
+        checkSampleData(sample2);
         double meanDifference = StatUtils.meanDifference(sample1, sample2);
         return t(meanDifference, 0,  
                 StatUtils.varianceDifference(sample1, sample2, meanDifference),
@@ -160,9 +159,7 @@ public class TTestImpl implements TTest  {
      */
     public boolean pairedTTest(double[] sample1, double[] sample2, double alpha)
         throws IllegalArgumentException, MathException {
-        if ((alpha <= 0) || (alpha > 0.5)) {
-            throw new IllegalArgumentException("bad significance level: " + alpha);
-        }
+        checkSignificanceLevel(alpha);
         return (pairedTTest(sample1, sample2) < alpha);
     }
 
@@ -183,9 +180,7 @@ public class TTestImpl implements TTest  {
      */
     public double t(double mu, double[] observed)
     throws IllegalArgumentException {
-        if ((observed == null) || (observed.length < 2)) {
-            throw new IllegalArgumentException("insufficient data for t statistic");
-        }
+        checkSampleData(observed);
         return t(StatUtils.mean(observed), mu, StatUtils.variance(observed),
                 observed.length);
     }
@@ -208,9 +203,7 @@ public class TTestImpl implements TTest  {
      */
     public double t(double mu, StatisticalSummary sampleStats)
     throws IllegalArgumentException {
-        if ((sampleStats == null) || (sampleStats.getN() < 2)) {
-            throw new IllegalArgumentException("insufficient data for t statistic");
-        }
+        checkSampleData(sampleStats);
         return t(sampleStats.getMean(), mu, sampleStats.getVariance(),
                 sampleStats.getN());
     }
@@ -250,10 +243,8 @@ public class TTestImpl implements TTest  {
      */
     public double homoscedasticT(double[] sample1, double[] sample2)
     throws IllegalArgumentException {
-        if ((sample1 == null) || (sample2 == null ||
-                Math.min(sample1.length, sample2.length) < 2)) {
-            throw new IllegalArgumentException("insufficient data for t statistic");
-        }
+        checkSampleData(sample1);
+        checkSampleData(sample2);
         return homoscedasticT(StatUtils.mean(sample1), StatUtils.mean(sample2),
                 StatUtils.variance(sample1), StatUtils.variance(sample2),
                 sample1.length, sample2.length);
@@ -289,10 +280,8 @@ public class TTestImpl implements TTest  {
      */
     public double t(double[] sample1, double[] sample2)
     throws IllegalArgumentException {
-        if ((sample1 == null) || (sample2 == null ||
-                Math.min(sample1.length, sample2.length) < 2)) {
-            throw new IllegalArgumentException("insufficient data for t statistic");
-        }
+        checkSampleData(sample1);
+        checkSampleData(sample2);
         return t(StatUtils.mean(sample1), StatUtils.mean(sample2),
                 StatUtils.variance(sample1), StatUtils.variance(sample2),
                 sample1.length, sample2.length);
@@ -330,13 +319,10 @@ public class TTestImpl implements TTest  {
      * @throws IllegalArgumentException if the precondition is not met
      */
     public double t(StatisticalSummary sampleStats1, 
-            StatisticalSummary sampleStats2)
+                    StatisticalSummary sampleStats2)
     throws IllegalArgumentException {
-        if ((sampleStats1 == null) ||
-                (sampleStats2 == null ||
-                        Math.min(sampleStats1.getN(), sampleStats2.getN()) < 2)) {
-            throw new IllegalArgumentException("insufficient data for t statistic");
-        }
+        checkSampleData(sampleStats1);
+        checkSampleData(sampleStats2);
         return t(sampleStats1.getMean(), sampleStats2.getMean(), 
                 sampleStats1.getVariance(), sampleStats2.getVariance(),
                 sampleStats1.getN(), sampleStats2.getN());
@@ -380,11 +366,8 @@ public class TTestImpl implements TTest  {
     public double homoscedasticT(StatisticalSummary sampleStats1, 
             StatisticalSummary sampleStats2)
     throws IllegalArgumentException {
-        if ((sampleStats1 == null) ||
-                (sampleStats2 == null ||
-                        Math.min(sampleStats1.getN(), sampleStats2.getN()) < 2)) {
-            throw new IllegalArgumentException("insufficient data for t statistic");
-        }
+        checkSampleData(sampleStats1);
+        checkSampleData(sampleStats2);
         return homoscedasticT(sampleStats1.getMean(), sampleStats2.getMean(), 
                 sampleStats1.getVariance(), sampleStats2.getVariance(), 
                 sampleStats1.getN(), sampleStats2.getN());
@@ -418,9 +401,7 @@ public class TTestImpl implements TTest  {
      */
     public double tTest(double mu, double[] sample)
     throws IllegalArgumentException, MathException {
-        if ((sample == null) || (sample.length < 2)) {
-            throw new IllegalArgumentException("insufficient data for t statistic");
-        }
+        checkSampleData(sample);
         return tTest( StatUtils.mean(sample), mu, StatUtils.variance(sample),
                 sample.length);
     }
@@ -462,9 +443,7 @@ public class TTestImpl implements TTest  {
      */
     public boolean tTest(double mu, double[] sample, double alpha)
     throws IllegalArgumentException, MathException {
-        if ((alpha <= 0) || (alpha > 0.5)) {
-            throw new IllegalArgumentException("bad significance level: " + alpha);
-        }
+        checkSignificanceLevel(alpha);
         return (tTest(mu, sample) < alpha);
     }
 
@@ -498,9 +477,7 @@ public class TTestImpl implements TTest  {
      */
     public double tTest(double mu, StatisticalSummary sampleStats)
     throws IllegalArgumentException, MathException {
-        if ((sampleStats == null) || (sampleStats.getN() < 2)) {
-            throw new IllegalArgumentException("insufficient data for t statistic");
-        }
+        checkSampleData(sampleStats);
         return tTest(sampleStats.getMean(), mu, sampleStats.getVariance(),
                 sampleStats.getN());
     }
@@ -544,9 +521,7 @@ public class TTestImpl implements TTest  {
     public boolean tTest( double mu, StatisticalSummary sampleStats,
             double alpha)
     throws IllegalArgumentException, MathException {
-        if ((alpha <= 0) || (alpha > 0.5)) {
-            throw new IllegalArgumentException("bad significance level: " + alpha);
-        }
+        checkSignificanceLevel(alpha);
         return (tTest(mu, sampleStats) < alpha);
     }
 
@@ -588,10 +563,8 @@ public class TTestImpl implements TTest  {
      */
     public double tTest(double[] sample1, double[] sample2)
     throws IllegalArgumentException, MathException {
-        if ((sample1 == null) || (sample2 == null ||
-                Math.min(sample1.length, sample2.length) < 2)) {
-            throw new IllegalArgumentException("insufficient data");
-        }
+        checkSampleData(sample1);
+        checkSampleData(sample2);
         return tTest(StatUtils.mean(sample1), StatUtils.mean(sample2),
                 StatUtils.variance(sample1), StatUtils.variance(sample2),
                 sample1.length, sample2.length);
@@ -632,10 +605,8 @@ public class TTestImpl implements TTest  {
      */
     public double homoscedasticTTest(double[] sample1, double[] sample2)
     throws IllegalArgumentException, MathException {
-        if ((sample1 == null) || (sample2 == null ||
-                Math.min(sample1.length, sample2.length) < 2)) {
-            throw new IllegalArgumentException("insufficient data");
-        }
+        checkSampleData(sample1);
+        checkSampleData(sample2);
         return homoscedasticTTest(StatUtils.mean(sample1), 
                 StatUtils.mean(sample2), StatUtils.variance(sample1),
                 StatUtils.variance(sample2), sample1.length, 
@@ -697,9 +668,7 @@ public class TTestImpl implements TTest  {
     public boolean tTest(double[] sample1, double[] sample2,
             double alpha)
     throws IllegalArgumentException, MathException {
-        if ((alpha <= 0) || (alpha > 0.5)) {
-            throw new IllegalArgumentException("bad significance level: " + alpha);
-        }
+        checkSignificanceLevel(alpha);
         return (tTest(sample1, sample2) < alpha);
     }
     
@@ -757,9 +726,7 @@ public class TTestImpl implements TTest  {
     public boolean homoscedasticTTest(double[] sample1, double[] sample2,
             double alpha)
     throws IllegalArgumentException, MathException {
-        if ((alpha <= 0) || (alpha > 0.5)) {
-            throw new IllegalArgumentException("bad significance level: " + alpha);
-        }
+        checkSignificanceLevel(alpha);
         return (homoscedasticTTest(sample1, sample2) < alpha);
     }
 
@@ -799,10 +766,8 @@ public class TTestImpl implements TTest  {
      */
     public double tTest(StatisticalSummary sampleStats1, StatisticalSummary sampleStats2)
     throws IllegalArgumentException, MathException {
-        if ((sampleStats1 == null) || (sampleStats2 == null ||
-                Math.min(sampleStats1.getN(), sampleStats2.getN()) < 2)) {
-            throw new IllegalArgumentException("insufficient data for t statistic");
-        }
+        checkSampleData(sampleStats1);
+        checkSampleData(sampleStats2);
         return tTest(sampleStats1.getMean(), sampleStats2.getMean(), sampleStats1.getVariance(),
                 sampleStats2.getVariance(), sampleStats1.getN(), 
                 sampleStats2.getN());
@@ -842,12 +807,10 @@ public class TTestImpl implements TTest  {
      * @throws MathException if an error occurs computing the p-value
      */
     public double homoscedasticTTest(StatisticalSummary sampleStats1, 
-            StatisticalSummary sampleStats2)
+                                     StatisticalSummary sampleStats2)
     throws IllegalArgumentException, MathException {
-        if ((sampleStats1 == null) || (sampleStats2 == null ||
-                Math.min(sampleStats1.getN(), sampleStats2.getN()) < 2)) {
-            throw new IllegalArgumentException("insufficient data for t statistic");
-        }
+        checkSampleData(sampleStats1);
+        checkSampleData(sampleStats2);
         return homoscedasticTTest(sampleStats1.getMean(),
                 sampleStats2.getMean(), sampleStats1.getVariance(),
                 sampleStats2.getVariance(), sampleStats1.getN(), 
@@ -910,9 +873,7 @@ public class TTestImpl implements TTest  {
     public boolean tTest(StatisticalSummary sampleStats1,
             StatisticalSummary sampleStats2, double alpha)
     throws IllegalArgumentException, MathException {
-        if ((alpha <= 0) || (alpha > 0.5)) {
-            throw new IllegalArgumentException("bad significance level: " + alpha);
-        }
+        checkSignificanceLevel(alpha);
         return (tTest(sampleStats1, sampleStats2) < alpha);
     }
     
@@ -1056,4 +1017,44 @@ public class TTestImpl implements TTest  {
     public void setDistribution(TDistribution value) {
         distribution = value;
     }
+
+    /** Check significance level.
+     * @param alpha significance level
+     * @exception IllegalArgumentException if significance level is out of bounds
+     */
+    private void checkSignificanceLevel(final double alpha)
+        throws IllegalArgumentException {
+        if ((alpha <= 0) || (alpha > 0.5)) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "out of bounds significance level {0}, must be between {1} and {2}",
+                  alpha, 0.0, 0.5);
+        }
+    }
+
+    /** Check sample data.
+     * @param data sample data
+     * @exception IllegalArgumentException if there is not enough sample data
+     */
+    private void checkSampleData(final double[] data)
+        throws IllegalArgumentException {
+        if ((data == null) || (data.length < 2)) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "insufficient data for t statistic, needs at least 2, got {0}",
+                  (data == null) ? 0 : data.length);
+        }
+    }
+
+    /** Check sample data.
+     * @param stat statistical summary
+     * @exception IllegalArgumentException if there is not enough sample data
+     */
+    private void checkSampleData(final StatisticalSummary stat)
+        throws IllegalArgumentException {
+        if ((stat == null) || (stat.getN() < 2)) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "insufficient data for t statistic, needs at least 2, got {0}",
+                  (stat == null) ? 0 : stat.getN());
+        }
+    }
+
 }

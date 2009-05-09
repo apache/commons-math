@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math.stat.regression;
 
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealMatrixImpl;
 import org.apache.commons.math.linear.RealVector;
@@ -85,15 +86,11 @@ public abstract class AbstractMultipleLinearRegression implements
      *             compatible for the regression
      */
     protected void validateSampleData(double[][] x, double[] y) {
-        if (x == null) {
-            throw new IllegalArgumentException("The regressors matrix x cannot be null.");
-        }
-        if (y == null) {
-            throw new IllegalArgumentException("The regressand vector y cannot be null.");
-        }
-        if (x.length != y.length) {
-            throw new IllegalArgumentException(
-                    "The regressors matrix x columns must have the same length of the regressand vector y");
+        if ((x == null) || (y == null) || (x.length != y.length)) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "dimension mismatch {0} != {1}",
+                  (x == null) ? 0 : x.length,
+                  (y == null) ? 0 : y.length);
         }
     }
 
@@ -106,15 +103,14 @@ public abstract class AbstractMultipleLinearRegression implements
      *             matrix are not compatible for the regression
      */
     protected void validateCovarianceData(double[][] x, double[][] covariance) {
-        if (covariance == null) {
-            throw new IllegalArgumentException("Covariance matrix cannot be null.");
-        }
         if (x.length != covariance.length) {
-            throw new IllegalArgumentException(
-                    "The regressors matrix x columns must have the same length of the covariance matrix columns");
+            throw MathRuntimeException.createIllegalArgumentException(
+                 "dimension mismatch {0} != {1}", x.length, covariance.length);
         }
         if (covariance.length > 0 && covariance.length != covariance[0].length) {
-            throw new IllegalArgumentException("The covariance matrix must be square");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "a {0}x{1} matrix was provided instead of a square matrix",
+                  covariance.length, covariance[0].length);
         }
     }
 

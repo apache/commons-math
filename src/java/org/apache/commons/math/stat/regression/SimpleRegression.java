@@ -548,8 +548,8 @@ public class SimpleRegression implements Serializable {
         throws MathException {
         if (alpha >= 1 || alpha <= 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "out of bounds significance level {0}, must be in (0, 1)",
-                  alpha);
+                  "out of bounds significance level {0}, must be between {1} and {2}",
+                  alpha, 0.0, 1.0);
         }
         return getSlopeStdErr() *
             distribution.inverseCumulativeProbability(1d - alpha / 2d);

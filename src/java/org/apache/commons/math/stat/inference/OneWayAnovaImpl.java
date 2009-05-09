@@ -19,6 +19,7 @@ package org.apache.commons.math.stat.inference;
 import java.util.Collection;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.distribution.FDistribution;
 import org.apache.commons.math.distribution.FDistributionImpl;
 import org.apache.commons.math.stat.descriptive.summary.Sum;
@@ -100,7 +101,9 @@ public class OneWayAnovaImpl implements OneWayAnova  {
     public boolean anovaTest(Collection<double[]> categoryData, double alpha)
         throws IllegalArgumentException, MathException {
         if ((alpha <= 0) || (alpha > 0.5)) {
-            throw new IllegalArgumentException("bad significance level: " + alpha);
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "out of bounds significance level {0}, must be between {1} and {2}",
+                  alpha, 0, 0.5);
         }
         return (anovaPValue(categoryData) < alpha);
     }
@@ -121,15 +124,17 @@ public class OneWayAnovaImpl implements OneWayAnova  {
 
         // check if we have enough categories
         if (categoryData.size() < 2) {
-            throw new IllegalArgumentException(
-                    "ANOVA: two or more categories required");
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "two or more categories required, got {0}",
+                  categoryData.size());
         }
         
         // check if each category has enough data and all is double[]
         for (double[] array : categoryData) {
             if (array.length <= 1) {
-                throw new IllegalArgumentException(
-                        "ANOVA: one element of categoryData has fewer than 2 values.");
+                throw MathRuntimeException.createIllegalArgumentException(
+                      "two or more values required in each category, one has {0}",
+                      array.length);
             }
         }
 
