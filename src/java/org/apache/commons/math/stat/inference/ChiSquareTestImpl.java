@@ -348,12 +348,11 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
     //---------------------  Private array methods -- should find a utility home for these
     
     /**
-     * Returns true iff input array is rectangular.
+     * Throws IllegalArgumentException if the input array is not rectangular.
      * 
      * @param in array to be tested
-     * @return true if the array is rectangular
      * @throws NullPointerException if input array is null
-     * @throws ArrayIndexOutOfBoundsException if input array is empty
+     * @throws IllegalArgumentException if input array is not rectangular
      */
     private void checkRectangular(long[][] in) {
         for (int i = 1; i < in.length; i++) {
