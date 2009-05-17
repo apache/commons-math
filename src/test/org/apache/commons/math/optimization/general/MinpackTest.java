@@ -582,29 +582,6 @@ public class MinpackTest extends TestCase {
           return true;
       }
 
-      public MultivariateVectorialFunction partialDerivative(final int i) {
-          return new MultivariateVectorialFunction() {
-            private static final long serialVersionUID = 2192585229396907068L;
-            public double[] value(double[] point) {
-                  double[][] m = jacobian(point);
-                  double[] partial = new double[m.length];
-                  for (int j = 0; j < partial.length; ++j) {
-                      partial[i] = m[i][j];
-                  }
-                  return partial;
-              }
-          };
-      }
-
-      public MultivariateVectorialFunction gradient(final int i) {
-          return new MultivariateVectorialFunction() {
-            private static final long serialVersionUID = -5562016064510078300L;
-            public double[] value(double[] point) {
-                  return jacobian(point)[i];
-              }
-          };
-      }
-
       public MultivariateMatrixFunction jacobian() {
           return new MultivariateMatrixFunction() {
             private static final long serialVersionUID = -2435076097232923678L;

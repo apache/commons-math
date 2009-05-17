@@ -493,24 +493,6 @@ extends TestCase {
             return factors.operate(variables);
         }
 
-        public MultivariateVectorialFunction partialDerivative(final int i) {
-            return new MultivariateVectorialFunction() {
-                private static final long serialVersionUID = 1037082026387842358L;
-                public double[] value(double[] point) {
-                    return factors.getColumn(i);
-                }
-            };
-        }
-
-        public MultivariateVectorialFunction gradient(final int i) {
-            return new MultivariateVectorialFunction() {
-                private static final long serialVersionUID = -3268626996728727146L;
-                public double[] value(double[] point) {
-                    return factors.getRow(i);
-                }
-            };
-        }
-
         public MultivariateMatrixFunction jacobian() {
             return new MultivariateMatrixFunction() {
                 private static final long serialVersionUID = -8387467946663627585L;
@@ -588,29 +570,6 @@ extends TestCase {
 
             return residuals;
 
-        }
-
-        public MultivariateVectorialFunction partialDerivative(final int i) {
-            return new MultivariateVectorialFunction() {
-                private static final long serialVersionUID = -2884159755283203273L;
-                public double[] value(double[] point) {
-                    double[][] m = jacobian(point);
-                    double[] partial = new double[m.length];
-                    for (int j = 0; j < partial.length; ++j) {
-                        partial[i] = m[i][j];
-                    }
-                    return partial;
-                }
-            };
-        }
-
-        public MultivariateVectorialFunction gradient(final int i) {
-            return new MultivariateVectorialFunction() {
-                private static final long serialVersionUID = -43357217231860547L;
-                public double[] value(double[] point) {
-                    return jacobian(point)[i];
-                }
-            };
         }
 
         public MultivariateMatrixFunction jacobian() {

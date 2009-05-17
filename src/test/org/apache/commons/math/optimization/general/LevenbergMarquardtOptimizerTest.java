@@ -533,24 +533,6 @@ public class LevenbergMarquardtOptimizerTest
             return factors.operate(variables);
         }
 
-        public MultivariateVectorialFunction partialDerivative(final int i) {
-            return new MultivariateVectorialFunction() {
-                private static final long serialVersionUID = 4868131119285501303L;
-                public double[] value(double[] point) {
-                    return factors.getColumn(i);
-                }
-            };
-        }
-
-        public MultivariateVectorialFunction gradient(final int i) {
-            return new MultivariateVectorialFunction() {
-                private static final long serialVersionUID = 6280336674474631774L;
-                public double[] value(double[] point) {
-                    return factors.getRow(i);
-                }
-            };
-        }
-
         public MultivariateMatrixFunction jacobian() {
             return new MultivariateMatrixFunction() {
                 private static final long serialVersionUID = 556396458721526234L;
@@ -632,29 +614,6 @@ public class LevenbergMarquardtOptimizerTest
 
         }
 
-        public MultivariateVectorialFunction partialDerivative(final int i) {
-            return new MultivariateVectorialFunction() {
-                private static final long serialVersionUID = -2884159755283203273L;
-                public double[] value(double[] point) {
-                    double[][] m = jacobian(point);
-                    double[] partial = new double[m.length];
-                    for (int j = 0; j < partial.length; ++j) {
-                        partial[i] = m[i][j];
-                    }
-                    return partial;
-                }
-            };
-        }
-
-        public MultivariateVectorialFunction gradient(final int i) {
-            return new MultivariateVectorialFunction() {
-                private static final long serialVersionUID = -43357217231860547L;
-                public double[] value(double[] point) {
-                    return jacobian(point)[i];
-                }
-            };
-        }
-
         public MultivariateMatrixFunction jacobian() {
             return new MultivariateMatrixFunction() {
                 private static final long serialVersionUID = -4340046230875165095L;
@@ -698,29 +657,6 @@ public class LevenbergMarquardtOptimizerTest
                 values[i] = (variables[0] * x.get(i) + variables[1]) * x.get(i) + variables[2];
             }
             return values;
-        }
-
-        public MultivariateVectorialFunction partialDerivative(final int i) {
-            return new MultivariateVectorialFunction() {
-                private static final long serialVersionUID = 2371658898687841192L;
-                public double[] value(double[] point) {
-                    double[][] m = jacobian(point);
-                    double[] partial = new double[m.length];
-                    for (int j = 0; j < partial.length; ++j) {
-                        partial[i] = m[i][j];
-                    }
-                    return partial;
-                }
-            };
-        }
-
-        public MultivariateVectorialFunction gradient(final int i) {
-            return new MultivariateVectorialFunction() {
-                private static final long serialVersionUID = 6863958501785879369L;
-                public double[] value(double[] point) {
-                    return jacobian(point)[i];
-                }
-            };
         }
 
         public MultivariateMatrixFunction jacobian() {
