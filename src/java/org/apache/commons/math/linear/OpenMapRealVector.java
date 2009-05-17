@@ -25,7 +25,7 @@ import org.apache.commons.math.util.OpenIntToDoubleHashMap.Iterator;
  * @version $Revision: 728186 $ $Date$
  * @since 2.0
 */
-public class SparseRealVector implements RealVector {
+public class OpenMapRealVector implements RealVector {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 8772222695580707260L;
@@ -46,12 +46,12 @@ public class SparseRealVector implements RealVector {
      * Build a 0-length vector.
      * <p>Zero-length vectors may be used to initialized construction of vectors
      * by data gathering. We start with zero-length and use either the {@link
-     * #SparseRealVector(SparseRealVector, int)} constructor
+     * #SparseRealVector(OpenMapRealVector, int)} constructor
      * or one of the <code>append</code> method ({@link #append(double)}, {@link
      * #append(double[])}, {@link #append(RealVector)}) to gather data
      * into this vector.</p>
      */
-    public SparseRealVector() {
+    public OpenMapRealVector() {
         this(0, DEFAULT_ZERO_TOLERANCE);
     }
 
@@ -59,7 +59,7 @@ public class SparseRealVector implements RealVector {
      * Construct a (dimension)-length vector of zeros.
      * @param dimension size of the vector
      */
-    public SparseRealVector(int dimension) {
+    public OpenMapRealVector(int dimension) {
         this(dimension, DEFAULT_ZERO_TOLERANCE);
     }
 
@@ -68,7 +68,7 @@ public class SparseRealVector implements RealVector {
      * @param dimension Size of the vector
      * @param epsilon The tolerance for having a value considered zero
      */
-    public SparseRealVector(int dimension, double epsilon) {
+    public OpenMapRealVector(int dimension, double epsilon) {
         virtualSize = dimension;
         entries = new OpenIntToDoubleHashMap(0.0);
         this.epsilon = epsilon;
@@ -79,7 +79,7 @@ public class SparseRealVector implements RealVector {
      * @param v The original vector
      * @param resize The amount to resize it
      */
-    protected SparseRealVector(SparseRealVector v, int resize) {
+    protected OpenMapRealVector(OpenMapRealVector v, int resize) {
         virtualSize = v.getDimension() + resize;
         entries = new OpenIntToDoubleHashMap(v.entries);
         epsilon = v.getEpsilon();
@@ -90,7 +90,7 @@ public class SparseRealVector implements RealVector {
      * @param dimension The size of the vector
      * @param expectedSize The expected number of non-zero entries
      */
-    public SparseRealVector(int dimension, int expectedSize) {
+    public OpenMapRealVector(int dimension, int expectedSize) {
         this(dimension, expectedSize, DEFAULT_ZERO_TOLERANCE);
     }
 
@@ -100,7 +100,7 @@ public class SparseRealVector implements RealVector {
      * @param expectedSize The expected number of non-zero entries
      * @param epsilon The tolerance for having a value considered zero
      */
-    public SparseRealVector(int dimension, int expectedSize, double epsilon) {
+    public OpenMapRealVector(int dimension, int expectedSize, double epsilon) {
         virtualSize = dimension;
         entries = new OpenIntToDoubleHashMap(expectedSize, 0.0);
         this.epsilon = epsilon;
@@ -111,7 +111,7 @@ public class SparseRealVector implements RealVector {
      * Only non-zero entries will be stored
      * @param values The set of values to create from
      */
-    public SparseRealVector(double[] values) {
+    public OpenMapRealVector(double[] values) {
         this(values, DEFAULT_ZERO_TOLERANCE);
     }
 
@@ -121,7 +121,7 @@ public class SparseRealVector implements RealVector {
      * @param values The set of values to create from
      * @param epsilon The tolerance for having a value considered zero
      */
-    public SparseRealVector(double[] values, double epsilon) {
+    public OpenMapRealVector(double[] values, double epsilon) {
         virtualSize = values.length;
         entries = new OpenIntToDoubleHashMap(0.0);
         this.epsilon = epsilon;
@@ -138,7 +138,7 @@ public class SparseRealVector implements RealVector {
      * Only non-zero entries will be stored
      * @param values The set of values to create from
      */
-    public SparseRealVector(Double[] values) {
+    public OpenMapRealVector(Double[] values) {
         this(values, DEFAULT_ZERO_TOLERANCE);
     }
 
@@ -148,7 +148,7 @@ public class SparseRealVector implements RealVector {
      * @param values The set of values to create from
      * @param epsilon The tolerance for having a value considered zero
      */
-    public SparseRealVector(Double[] values, double epsilon) {
+    public OpenMapRealVector(Double[] values, double epsilon) {
         virtualSize = values.length;
         entries = new OpenIntToDoubleHashMap(0.0);
         this.epsilon = epsilon;
@@ -164,7 +164,7 @@ public class SparseRealVector implements RealVector {
      * Copy constructor.
      * @param v The instance to copy from
      */
-    public SparseRealVector(SparseRealVector v) {
+    public OpenMapRealVector(OpenMapRealVector v) {
         virtualSize = v.getDimension();
         entries = new OpenIntToDoubleHashMap(v.getEntries());
         epsilon = v.getEpsilon();
@@ -174,7 +174,7 @@ public class SparseRealVector implements RealVector {
      * Generic copy constructor.
      * @param v The instance to copy from
      */
-    public SparseRealVector(RealVector v) {
+    public OpenMapRealVector(RealVector v) {
         virtualSize = v.getDimension();
         entries = new OpenIntToDoubleHashMap(0.0);
         epsilon = DEFAULT_ZERO_TOLERANCE;
@@ -222,8 +222,8 @@ public class SparseRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector add(RealVector v) throws IllegalArgumentException {
         checkVectorDimensions(v.getDimension());
-        if (v instanceof SparseRealVector) {
-            return add((SparseRealVector) v);
+        if (v instanceof OpenMapRealVector) {
+            return add((OpenMapRealVector) v);
         }
         return add(v.getData());
     }
@@ -234,9 +234,9 @@ public class SparseRealVector implements RealVector {
      * @return The sum of <code>this</code> with <code>v</code>
      * @throws IllegalArgumentException If the dimensions don't match
      */
-    public SparseRealVector add(SparseRealVector v) throws IllegalArgumentException{
+    public OpenMapRealVector add(OpenMapRealVector v) throws IllegalArgumentException{
         checkVectorDimensions(v.getDimension());
-        SparseRealVector res = (SparseRealVector)copy();
+        OpenMapRealVector res = (OpenMapRealVector)copy();
         Iterator iter = v.getEntries().iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -253,7 +253,7 @@ public class SparseRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector add(double[] v) throws IllegalArgumentException {
         checkVectorDimensions(v.length);
-        SparseRealVector res = new SparseRealVector(getDimension());
+        OpenMapRealVector res = new OpenMapRealVector(getDimension());
         for (int i = 0; i < v.length; i++) {
             res.setEntry(i, v[i] + getEntry(i));
         }
@@ -265,8 +265,8 @@ public class SparseRealVector implements RealVector {
      * @param v vector to append
      * @return The result of appending <code>v</code> to self
      */
-    public SparseRealVector append(SparseRealVector v) {
-        SparseRealVector res = new SparseRealVector(this, v.getDimension());
+    public OpenMapRealVector append(OpenMapRealVector v) {
+        OpenMapRealVector res = new OpenMapRealVector(this, v.getDimension());
         Iterator iter = v.entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -277,22 +277,22 @@ public class SparseRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector append(RealVector v) {
-        if (v instanceof SparseRealVector) {
-            return append((SparseRealVector) v);
+        if (v instanceof OpenMapRealVector) {
+            return append((OpenMapRealVector) v);
         }
         return append(v.getData());
     }
 
     /** {@inheritDoc} */
     public RealVector append(double d) {
-        RealVector res = new SparseRealVector(this, 1);
+        RealVector res = new OpenMapRealVector(this, 1);
         res.setEntry(virtualSize, d);
         return res;
     }
 
     /** {@inheritDoc} */
     public RealVector append(double[] a) {
-        RealVector res = new SparseRealVector(this, a.length);
+        RealVector res = new OpenMapRealVector(this, a.length);
         for (int i = 0; i < a.length; i++) {
             res.setEntry(i + virtualSize, a[i]);
         }
@@ -301,7 +301,7 @@ public class SparseRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector copy() {
-        return new SparseRealVector(this);
+        return new OpenMapRealVector(this);
     }
 
     /** {@inheritDoc} */
@@ -335,7 +335,7 @@ public class SparseRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector ebeDivide(RealVector v) throws IllegalArgumentException {
         checkVectorDimensions(v.getDimension());
-        SparseRealVector res = new SparseRealVector(this);
+        OpenMapRealVector res = new OpenMapRealVector(this);
         Iterator iter = res.entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -347,7 +347,7 @@ public class SparseRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector ebeDivide(double[] v) throws IllegalArgumentException {
         checkVectorDimensions(v.length);
-        SparseRealVector res = new SparseRealVector(this);
+        OpenMapRealVector res = new OpenMapRealVector(this);
         Iterator iter = res.entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -359,7 +359,7 @@ public class SparseRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector ebeMultiply(RealVector v) throws IllegalArgumentException {
         checkVectorDimensions(v.getDimension());
-        SparseRealVector res = new SparseRealVector(this);
+        OpenMapRealVector res = new OpenMapRealVector(this);
         Iterator iter = res.entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -371,7 +371,7 @@ public class SparseRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector ebeMultiply(double[] v) throws IllegalArgumentException {
         checkVectorDimensions(v.length);
-        SparseRealVector res = new SparseRealVector(this);
+        OpenMapRealVector res = new OpenMapRealVector(this);
         Iterator iter = res.entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -384,7 +384,7 @@ public class SparseRealVector implements RealVector {
     public RealVector getSubVector(int index, int n) throws MatrixIndexException {
         checkIndex(index);
         checkIndex(index + n - 1);
-        SparseRealVector res = new SparseRealVector(n);
+        OpenMapRealVector res = new OpenMapRealVector(n);
         int end = index + n;
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
@@ -419,7 +419,7 @@ public class SparseRealVector implements RealVector {
      * @return The distance from <code>this</code> and <code>v</code>
      * @throws IllegalArgumentException If the dimensions don't match
      */
-    public double getDistance(SparseRealVector v) throws IllegalArgumentException {
+    public double getDistance(OpenMapRealVector v) throws IllegalArgumentException {
         Iterator iter = entries.iterator();
         double res = 0;
         while (iter.hasNext()) {
@@ -444,8 +444,8 @@ public class SparseRealVector implements RealVector {
     /** {@inheritDoc} */
     public double getDistance(RealVector v) throws IllegalArgumentException {
         checkVectorDimensions(v.getDimension());
-        if (v instanceof SparseRealVector) {
-            return getDistance((SparseRealVector) v);
+        if (v instanceof OpenMapRealVector) {
+            return getDistance((OpenMapRealVector) v);
         }
         return getDistance(v.getData());
     }
@@ -475,7 +475,7 @@ public class SparseRealVector implements RealVector {
      * @param v vector to which distance is requested
      * @return distance between two vectors.
      */
-    public double getL1Distance(SparseRealVector v) {
+    public double getL1Distance(OpenMapRealVector v) {
         double max = 0;
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
@@ -498,8 +498,8 @@ public class SparseRealVector implements RealVector {
     /** {@inheritDoc} */
     public double getL1Distance(RealVector v) throws IllegalArgumentException {
         checkVectorDimensions(v.getDimension());
-        if (v instanceof SparseRealVector) {
-            return getL1Distance((SparseRealVector) v);
+        if (v instanceof OpenMapRealVector) {
+            return getL1Distance((OpenMapRealVector) v);
         }
         return getL1Distance(v.getData());
     }
@@ -531,7 +531,7 @@ public class SparseRealVector implements RealVector {
      * @param v The vector to compute from
      * @return the LInfDistance
      */
-    private double getLInfDistance(SparseRealVector v) {
+    private double getLInfDistance(OpenMapRealVector v) {
         double max = 0;
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
@@ -557,8 +557,8 @@ public class SparseRealVector implements RealVector {
     /** {@inheritDoc} */
     public double getLInfDistance(RealVector v) throws IllegalArgumentException {
         checkVectorDimensions(v.getDimension());
-        if (v instanceof SparseRealVector) {
-            return getLInfDistance((SparseRealVector) v);
+        if (v instanceof OpenMapRealVector) {
+            return getLInfDistance((OpenMapRealVector) v);
         }
         return getLInfDistance(v.getData());
     }
@@ -1032,9 +1032,9 @@ public class SparseRealVector implements RealVector {
      * @return The outer product of <code>this</code> and <code>v</code>
      * @throws IllegalArgumentException If the dimensions don't match
      */
-    public SparseRealMatrix outerproduct(SparseRealVector v) throws IllegalArgumentException{
+    public OpenMapRealMatrix outerproduct(OpenMapRealVector v) throws IllegalArgumentException{
         checkVectorDimensions(v.getDimension());
-        SparseRealMatrix res = new SparseRealMatrix(virtualSize, virtualSize);
+        OpenMapRealMatrix res = new OpenMapRealMatrix(virtualSize, virtualSize);
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -1051,10 +1051,10 @@ public class SparseRealVector implements RealVector {
     public RealMatrix outerProduct(RealVector v)
             throws IllegalArgumentException {
         checkVectorDimensions(v.getDimension());
-        if (v instanceof SparseRealVector) {
-            return outerproduct((SparseRealVector)v);
+        if (v instanceof OpenMapRealVector) {
+            return outerproduct((OpenMapRealVector)v);
         }
-        RealMatrix res = new SparseRealMatrix(virtualSize, virtualSize);
+        RealMatrix res = new OpenMapRealMatrix(virtualSize, virtualSize);
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -1069,7 +1069,7 @@ public class SparseRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealMatrix outerProduct(double[] v) throws IllegalArgumentException {
         checkVectorDimensions(v.length);
-        RealMatrix res = new SparseRealMatrix(virtualSize, virtualSize);
+        RealMatrix res = new OpenMapRealMatrix(virtualSize, virtualSize);
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -1091,7 +1091,7 @@ public class SparseRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector projection(double[] v) throws IllegalArgumentException {
         checkVectorDimensions(v.length);
-        return projection(new SparseRealVector(v));
+        return projection(new OpenMapRealVector(v));
     }
 
     /** {@inheritDoc} */
@@ -1133,9 +1133,9 @@ public class SparseRealVector implements RealVector {
      * @return The difference of <code>this</code> and <code>v</code>
      * @throws IllegalArgumentException If the dimensions don't match
      */
-    public SparseRealVector subtract(SparseRealVector v) throws IllegalArgumentException{
+    public OpenMapRealVector subtract(OpenMapRealVector v) throws IllegalArgumentException{
         checkVectorDimensions(v.getDimension());
-        SparseRealVector res = (SparseRealVector)copy();
+        OpenMapRealVector res = (OpenMapRealVector)copy();
         Iterator iter = v.getEntries().iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -1152,8 +1152,8 @@ public class SparseRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector subtract(RealVector v) throws IllegalArgumentException {
         checkVectorDimensions(v.getDimension());
-        if (v instanceof SparseRealVector) {
-            return subtract((SparseRealVector) v);
+        if (v instanceof OpenMapRealVector) {
+            return subtract((OpenMapRealVector) v);
         }
         return subtract(v.getData());
     }
@@ -1161,7 +1161,7 @@ public class SparseRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector subtract(double[] v) throws IllegalArgumentException {
         checkVectorDimensions(v.length);
-        SparseRealVector res = new SparseRealVector(this);
+        OpenMapRealVector res = new OpenMapRealVector(this);
         for (int i = 0; i < v.length; i++) {
             if (entries.containsKey(i)) {
                 res.setEntry(i, entries.get(i) - v[i]);
@@ -1267,10 +1267,10 @@ public class SparseRealVector implements RealVector {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof SparseRealVector)) {
+        if (!(obj instanceof OpenMapRealVector)) {
             return false;
         }
-        SparseRealVector other = (SparseRealVector) obj;
+        OpenMapRealVector other = (OpenMapRealVector) obj;
         if (virtualSize != other.virtualSize) {
             return false;
         }

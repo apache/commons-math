@@ -25,7 +25,7 @@ import org.apache.commons.math.util.OpenIntToDoubleHashMap;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class SparseRealMatrix extends AbstractRealMatrix {
+public class OpenMapRealMatrix extends AbstractRealMatrix {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = -5962461716457143437L;
@@ -44,7 +44,7 @@ public class SparseRealMatrix extends AbstractRealMatrix {
      * @param rowDimension number of rows of the matrix
      * @param columnDimension number of columns of the matrix
      */
-    public SparseRealMatrix(int rowDimension, int columnDimension) {
+    public OpenMapRealMatrix(int rowDimension, int columnDimension) {
         super(rowDimension, columnDimension);
         this.rowDimension = rowDimension;
         this.columnDimension = columnDimension;
@@ -55,7 +55,7 @@ public class SparseRealMatrix extends AbstractRealMatrix {
      * Build a matrix by copying another one.
      * @param matrix matrix to copy
      */
-    public SparseRealMatrix(SparseRealMatrix matrix) {
+    public OpenMapRealMatrix(OpenMapRealMatrix matrix) {
         this.rowDimension = matrix.rowDimension;
         this.columnDimension = matrix.columnDimension;
         this.entries = new OpenIntToDoubleHashMap(matrix.entries);
@@ -64,14 +64,14 @@ public class SparseRealMatrix extends AbstractRealMatrix {
     /** {@inheritDoc} */
     @Override
     public RealMatrix copy() {
-        return new SparseRealMatrix(this);
+        return new OpenMapRealMatrix(this);
     }
 
     /** {@inheritDoc} */
     @Override
     public RealMatrix createMatrix(int rowDimension, int columnDimension)
             throws IllegalArgumentException {
-        return new SparseRealMatrix(rowDimension, columnDimension);
+        return new OpenMapRealMatrix(rowDimension, columnDimension);
     }
 
     /** {@inheritDoc} */
@@ -85,7 +85,7 @@ public class SparseRealMatrix extends AbstractRealMatrix {
     public RealMatrix add(final RealMatrix m)
         throws IllegalArgumentException {
         try {
-            return add((SparseRealMatrix) m);
+            return add((OpenMapRealMatrix) m);
         } catch (ClassCastException cce) {
             return super.add(m);
         }
@@ -98,12 +98,12 @@ public class SparseRealMatrix extends AbstractRealMatrix {
      * @return     this + m
      * @throws  IllegalArgumentException if m is not the same size as this
      */
-    public RealMatrix add(SparseRealMatrix m) throws IllegalArgumentException {
+    public RealMatrix add(OpenMapRealMatrix m) throws IllegalArgumentException {
 
         // safety check
         MatrixUtils.checkAdditionCompatible(this, m);
 
-        final RealMatrix out = new SparseRealMatrix(this);
+        final RealMatrix out = new OpenMapRealMatrix(this);
         for (OpenIntToDoubleHashMap.Iterator iterator = m.entries.iterator(); iterator.hasNext();) {
             iterator.advance();
             final int row = iterator.key() / columnDimension;
@@ -120,7 +120,7 @@ public class SparseRealMatrix extends AbstractRealMatrix {
     public RealMatrix subtract(final RealMatrix m)
         throws IllegalArgumentException {
         try {
-            return subtract((SparseRealMatrix) m);
+            return subtract((OpenMapRealMatrix) m);
         } catch (ClassCastException cce) {
             return super.add(m);
         }
@@ -133,12 +133,12 @@ public class SparseRealMatrix extends AbstractRealMatrix {
      * @return     this - m
      * @throws  IllegalArgumentException if m is not the same size as this
      */
-    public RealMatrix subtract(SparseRealMatrix m) throws IllegalArgumentException {
+    public RealMatrix subtract(OpenMapRealMatrix m) throws IllegalArgumentException {
 
         // safety check
         MatrixUtils.checkAdditionCompatible(this, m);
 
-        final RealMatrix out = new SparseRealMatrix(this);
+        final RealMatrix out = new OpenMapRealMatrix(this);
         for (OpenIntToDoubleHashMap.Iterator iterator = m.entries.iterator(); iterator.hasNext();) {
             iterator.advance();
             final int row = iterator.key() / columnDimension;
@@ -155,7 +155,7 @@ public class SparseRealMatrix extends AbstractRealMatrix {
     public RealMatrix multiply(final RealMatrix m)
         throws IllegalArgumentException {
         try {
-            return multiply((SparseRealMatrix) m);
+            return multiply((OpenMapRealMatrix) m);
         } catch (ClassCastException cce) {
 
             // safety check
@@ -187,13 +187,13 @@ public class SparseRealMatrix extends AbstractRealMatrix {
      * @throws     IllegalArgumentException
      *             if columnDimension(this) != rowDimension(m)
      */
-    public SparseRealMatrix multiply(SparseRealMatrix m) throws IllegalArgumentException {
+    public OpenMapRealMatrix multiply(OpenMapRealMatrix m) throws IllegalArgumentException {
 
         // safety check
         MatrixUtils.checkMultiplicationCompatible(this, m);
 
         final int outCols = m.getColumnDimension();
-        SparseRealMatrix out = new SparseRealMatrix(rowDimension, outCols);
+        OpenMapRealMatrix out = new OpenMapRealMatrix(rowDimension, outCols);
         for (OpenIntToDoubleHashMap.Iterator iterator = entries.iterator(); iterator.hasNext();) {
             iterator.advance();
             final double value = iterator.value();
