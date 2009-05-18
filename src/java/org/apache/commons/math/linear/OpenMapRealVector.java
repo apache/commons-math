@@ -25,7 +25,7 @@ import org.apache.commons.math.util.OpenIntToDoubleHashMap.Iterator;
  * @version $Revision: 728186 $ $Date$
  * @since 2.0
 */
-public class OpenMapRealVector implements RealVector {
+public class OpenMapRealVector implements SparseRealVector {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 8772222695580707260L;
@@ -46,7 +46,7 @@ public class OpenMapRealVector implements RealVector {
      * Build a 0-length vector.
      * <p>Zero-length vectors may be used to initialized construction of vectors
      * by data gathering. We start with zero-length and use either the {@link
-     * #SparseRealVector(OpenMapRealVector, int)} constructor
+     * #OpenMapRealVector(OpenMapRealVector, int)} constructor
      * or one of the <code>append</code> method ({@link #append(double)}, {@link
      * #append(double[])}, {@link #append(RealVector)}) to gather data
      * into this vector.</p>
@@ -220,7 +220,7 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector add(RealVector v) throws IllegalArgumentException {
+    public OpenMapRealVector add(RealVector v) throws IllegalArgumentException {
         checkVectorDimensions(v.getDimension());
         if (v instanceof OpenMapRealVector) {
             return add((OpenMapRealVector) v);
@@ -229,7 +229,7 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /**
-     * Optimized method to add two SparseRealVectors.
+     * Optimized method to add two OpenMapRealVectors.
      * @param v Vector to add with
      * @return The sum of <code>this</code> with <code>v</code>
      * @throws IllegalArgumentException If the dimensions don't match
@@ -251,7 +251,7 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector add(double[] v) throws IllegalArgumentException {
+    public OpenMapRealVector add(double[] v) throws IllegalArgumentException {
         checkVectorDimensions(v.length);
         OpenMapRealVector res = new OpenMapRealVector(getDimension());
         for (int i = 0; i < v.length; i++) {
@@ -261,7 +261,7 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /**
-     * Optimized method to append a SparseRealVector.
+     * Optimized method to append a OpenMapRealVector.
      * @param v vector to append
      * @return The result of appending <code>v</code> to self
      */
@@ -276,7 +276,7 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector append(RealVector v) {
+    public OpenMapRealVector append(RealVector v) {
         if (v instanceof OpenMapRealVector) {
             return append((OpenMapRealVector) v);
         }
@@ -284,15 +284,15 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector append(double d) {
-        RealVector res = new OpenMapRealVector(this, 1);
+    public OpenMapRealVector append(double d) {
+        OpenMapRealVector res = new OpenMapRealVector(this, 1);
         res.setEntry(virtualSize, d);
         return res;
     }
 
     /** {@inheritDoc} */
-    public RealVector append(double[] a) {
-        RealVector res = new OpenMapRealVector(this, a.length);
+    public OpenMapRealVector append(double[] a) {
+        OpenMapRealVector res = new OpenMapRealVector(this, a.length);
         for (int i = 0; i < a.length; i++) {
             res.setEntry(i + virtualSize, a[i]);
         }
@@ -300,7 +300,7 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector copy() {
+    public OpenMapRealVector copy() {
         return new OpenMapRealVector(this);
     }
 
@@ -333,7 +333,7 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector ebeDivide(RealVector v) throws IllegalArgumentException {
+    public OpenMapRealVector ebeDivide(RealVector v) throws IllegalArgumentException {
         checkVectorDimensions(v.getDimension());
         OpenMapRealVector res = new OpenMapRealVector(this);
         Iterator iter = res.entries.iterator();
@@ -345,7 +345,7 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector ebeDivide(double[] v) throws IllegalArgumentException {
+    public OpenMapRealVector ebeDivide(double[] v) throws IllegalArgumentException {
         checkVectorDimensions(v.length);
         OpenMapRealVector res = new OpenMapRealVector(this);
         Iterator iter = res.entries.iterator();
@@ -357,7 +357,7 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector ebeMultiply(RealVector v) throws IllegalArgumentException {
+    public OpenMapRealVector ebeMultiply(RealVector v) throws IllegalArgumentException {
         checkVectorDimensions(v.getDimension());
         OpenMapRealVector res = new OpenMapRealVector(this);
         Iterator iter = res.entries.iterator();
@@ -369,7 +369,7 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector ebeMultiply(double[] v) throws IllegalArgumentException {
+    public OpenMapRealVector ebeMultiply(double[] v) throws IllegalArgumentException {
         checkVectorDimensions(v.length);
         OpenMapRealVector res = new OpenMapRealVector(this);
         Iterator iter = res.entries.iterator();
@@ -381,7 +381,7 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector getSubVector(int index, int n) throws MatrixIndexException {
+    public OpenMapRealVector getSubVector(int index, int n) throws MatrixIndexException {
         checkIndex(index);
         checkIndex(index + n - 1);
         OpenMapRealVector res = new OpenMapRealVector(n);
@@ -628,12 +628,12 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector mapAbs() {
+    public OpenMapRealVector mapAbs() {
         return copy().mapAbsToSelf();
     }
 
     /** {@inheritDoc} */
-    public RealVector mapAbsToSelf() {
+    public OpenMapRealVector mapAbsToSelf() {
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -643,12 +643,12 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector mapAcos() {
+    public OpenMapRealVector mapAcos() {
         return copy().mapAcosToSelf();
     }
 
     /** {@inheritDoc} */
-    public RealVector mapAcosToSelf() {
+    public OpenMapRealVector mapAcosToSelf() {
         for (int i = 0; i < virtualSize; i++) {
             setEntry(i, Math.acos(getEntry(i)));
         }
@@ -656,12 +656,12 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector mapAdd(double d) {
+    public OpenMapRealVector mapAdd(double d) {
         return copy().mapAddToSelf(d);
     }
 
     /** {@inheritDoc} */
-    public RealVector mapAddToSelf(double d) {
+    public OpenMapRealVector mapAddToSelf(double d) {
         for (int i = 0; i < virtualSize; i++) {
             setEntry(i, getEntry(i) + d);
         }
@@ -669,12 +669,12 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector mapAsin() {
+    public OpenMapRealVector mapAsin() {
         return copy().mapAsinToSelf();
     }
 
     /** {@inheritDoc} */
-    public RealVector mapAsinToSelf() {
+    public OpenMapRealVector mapAsinToSelf() {
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -684,12 +684,12 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector mapAtan() {
+    public OpenMapRealVector mapAtan() {
         return copy().mapAtanToSelf();
     }
 
     /** {@inheritDoc} */
-    public RealVector mapAtanToSelf() {
+    public OpenMapRealVector mapAtanToSelf() {
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -699,12 +699,12 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector mapCbrt() {
+    public OpenMapRealVector mapCbrt() {
         return copy().mapCbrtToSelf();
     }
 
     /** {@inheritDoc} */
-    public RealVector mapCbrtToSelf() {
+    public OpenMapRealVector mapCbrtToSelf() {
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -714,12 +714,12 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector mapCeil() {
+    public OpenMapRealVector mapCeil() {
         return copy().mapCeilToSelf();
     }
 
     /** {@inheritDoc} */
-    public RealVector mapCeilToSelf() {
+    public OpenMapRealVector mapCeilToSelf() {
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -729,12 +729,12 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector mapCos() {
+    public OpenMapRealVector mapCos() {
         return copy().mapCosToSelf();
     }
 
     /** {@inheritDoc} */
-    public RealVector mapCosToSelf() {
+    public OpenMapRealVector mapCosToSelf() {
         for (int i = 0; i < virtualSize; i++) {
             setEntry(i, Math.cos(getEntry(i)));
         }
@@ -742,12 +742,12 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector mapCosh() {
+    public OpenMapRealVector mapCosh() {
         return copy().mapCoshToSelf();
     }
 
     /** {@inheritDoc} */
-    public RealVector mapCoshToSelf() {
+    public OpenMapRealVector mapCoshToSelf() {
         for (int i = 0; i < virtualSize; i++) {
             setEntry(i, Math.cosh(getEntry(i)));
         }
@@ -755,12 +755,12 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector mapDivide(double d) {
+    public OpenMapRealVector mapDivide(double d) {
         return copy().mapDivideToSelf(d);
     }
 
     /** {@inheritDoc} */
-    public RealVector mapDivideToSelf(double d) {
+    public OpenMapRealVector mapDivideToSelf(double d) {
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -770,12 +770,12 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector mapExp() {
+    public OpenMapRealVector mapExp() {
         return copy().mapExpToSelf();
     }
 
     /** {@inheritDoc} */
-    public RealVector mapExpToSelf() {
+    public OpenMapRealVector mapExpToSelf() {
         for (int i = 0; i < virtualSize; i++) {
             entries.put(i, Math.exp(entries.get(i)));
         }
@@ -783,12 +783,12 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector mapExpm1() {
+    public OpenMapRealVector mapExpm1() {
         return copy().mapExpm1ToSelf();
     }
 
     /** {@inheritDoc} */
-    public RealVector mapExpm1ToSelf() {
+    public OpenMapRealVector mapExpm1ToSelf() {
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -798,12 +798,12 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector mapFloor() {
+    public OpenMapRealVector mapFloor() {
         return copy().mapFloorToSelf();
     }
 
     /** {@inheritDoc} */
-    public RealVector mapFloorToSelf() {
+    public OpenMapRealVector mapFloorToSelf() {
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -813,12 +813,12 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector mapInv() {
+    public OpenMapRealVector mapInv() {
         return copy().mapInvToSelf();
     }
 
     /** {@inheritDoc} */
-    public RealVector mapInvToSelf() {
+    public OpenMapRealVector mapInvToSelf() {
         for (int i = 0; i < virtualSize; i++) {
             setEntry(i, 1.0/getEntry(i));
         }
@@ -826,17 +826,17 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector mapLog() {
+    public OpenMapRealVector mapLog() {
         return copy().mapLogToSelf();
     }
 
     /** {@inheritDoc} */
-    public RealVector mapLog10() {
+    public OpenMapRealVector mapLog10() {
         return copy().mapLog10ToSelf();
     }
 
     /** {@inheritDoc} */
-    public RealVector mapLog10ToSelf() {
+    public OpenMapRealVector mapLog10ToSelf() {
         for (int i = 0; i < virtualSize; i++) {
             setEntry(i, Math.log10(getEntry(i)));
         }
@@ -844,12 +844,12 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector mapLog1p() {
+    public OpenMapRealVector mapLog1p() {
         return copy().mapLog1pToSelf();
     }
 
     /** {@inheritDoc} */
-    public RealVector mapLog1pToSelf() {
+    public OpenMapRealVector mapLog1pToSelf() {
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -859,7 +859,7 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector mapLogToSelf() {
+    public OpenMapRealVector mapLogToSelf() {
         for (int i = 0; i < virtualSize; i++) {
             setEntry(i, Math.log(getEntry(i)));
         }
@@ -867,12 +867,12 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector mapMultiply(double d) {
+    public OpenMapRealVector mapMultiply(double d) {
         return copy().mapMultiplyToSelf(d);
     }
 
     /** {@inheritDoc} */
-    public RealVector mapMultiplyToSelf(double d) {
+    public OpenMapRealVector mapMultiplyToSelf(double d) {
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -881,12 +881,12 @@ public class OpenMapRealVector implements RealVector {
         return this;
     }
     /** {@inheritDoc} */
-    public RealVector mapPow(double d) {
+    public OpenMapRealVector mapPow(double d) {
         return copy().mapPowToSelf(d);
     }
 
     /** {@inheritDoc} */
-    public RealVector mapPowToSelf(double d) {
+    public OpenMapRealVector mapPowToSelf(double d) {
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -896,12 +896,12 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector mapRint() {
+    public OpenMapRealVector mapRint() {
         return copy().mapRintToSelf();
     }
 
     /** {@inheritDoc} */
-    public RealVector mapRintToSelf() {
+    public OpenMapRealVector mapRintToSelf() {
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -911,12 +911,12 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector mapSignum() {
+    public OpenMapRealVector mapSignum() {
         return copy().mapSignumToSelf();
     }
 
     /** {@inheritDoc} */
-    public RealVector mapSignumToSelf() {
+    public OpenMapRealVector mapSignumToSelf() {
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -926,12 +926,12 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector mapSin() {
+    public OpenMapRealVector mapSin() {
         return copy().mapSinToSelf();
     }
 
     /** {@inheritDoc} */
-    public RealVector mapSinToSelf() {
+    public OpenMapRealVector mapSinToSelf() {
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -941,12 +941,12 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector mapSinh() {
+    public OpenMapRealVector mapSinh() {
         return copy().mapSinhToSelf();
     }
 
     /** {@inheritDoc} */
-    public RealVector mapSinhToSelf() {
+    public OpenMapRealVector mapSinhToSelf() {
 
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
@@ -957,12 +957,12 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector mapSqrt() {
+    public OpenMapRealVector mapSqrt() {
         return copy().mapSqrtToSelf();
     }
 
     /** {@inheritDoc} */
-    public RealVector mapSqrtToSelf() {
+    public OpenMapRealVector mapSqrtToSelf() {
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -972,22 +972,22 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector mapSubtract(double d) {
+    public OpenMapRealVector mapSubtract(double d) {
         return copy().mapSubtractToSelf(d);
     }
 
     /** {@inheritDoc} */
-    public RealVector mapSubtractToSelf(double d) {
+    public OpenMapRealVector mapSubtractToSelf(double d) {
         return mapAddToSelf(-d);
     }
 
     /** {@inheritDoc} */
-    public RealVector mapTan() {
+    public OpenMapRealVector mapTan() {
         return copy().mapTanToSelf();
     }
 
     /** {@inheritDoc} */
-    public RealVector mapTanToSelf() {
+    public OpenMapRealVector mapTanToSelf() {
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -997,12 +997,12 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector mapTanh() {
+    public OpenMapRealVector mapTanh() {
         return copy().mapTanhToSelf();
     }
 
     /** {@inheritDoc} */
-    public RealVector mapTanhToSelf() {
+    public OpenMapRealVector mapTanhToSelf() {
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -1012,12 +1012,12 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector mapUlp() {
+    public OpenMapRealVector mapUlp() {
         return copy().mapUlpToSelf();
     }
 
     /** {@inheritDoc} */
-    public RealVector mapUlpToSelf() {
+    public OpenMapRealVector mapUlpToSelf() {
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -1089,9 +1089,9 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector projection(double[] v) throws IllegalArgumentException {
+    public OpenMapRealVector projection(double[] v) throws IllegalArgumentException {
         checkVectorDimensions(v.length);
-        return projection(new OpenMapRealVector(v));
+        return (OpenMapRealVector) projection(new OpenMapRealVector(v));
     }
 
     /** {@inheritDoc} */
@@ -1128,7 +1128,7 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /**
-     * Optimized method to subtract SparseRealVectors.
+     * Optimized method to subtract OpenMapRealVectors.
      * @param v The vector to subtract from <code>this</code>
      * @return The difference of <code>this</code> and <code>v</code>
      * @throws IllegalArgumentException If the dimensions don't match
@@ -1150,7 +1150,7 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector subtract(RealVector v) throws IllegalArgumentException {
+    public OpenMapRealVector subtract(RealVector v) throws IllegalArgumentException {
         checkVectorDimensions(v.getDimension());
         if (v instanceof OpenMapRealVector) {
             return subtract((OpenMapRealVector) v);
@@ -1159,7 +1159,7 @@ public class OpenMapRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector subtract(double[] v) throws IllegalArgumentException {
+    public OpenMapRealVector subtract(double[] v) throws IllegalArgumentException {
         checkVectorDimensions(v.length);
         OpenMapRealVector res = new OpenMapRealVector(this);
         for (int i = 0; i < v.length; i++) {
@@ -1174,8 +1174,8 @@ public class OpenMapRealVector implements RealVector {
 
 
     /** {@inheritDoc} */
-    public RealVector unitVector() {
-        RealVector res = copy();
+    public OpenMapRealVector unitVector() {
+        OpenMapRealVector res = copy();
         res.unitize();
         return res;
     }
@@ -1295,6 +1295,11 @@ public class OpenMapRealVector implements RealVector {
             }
         }
         return true;
+    }
+
+    /** {@inheritDoc} */
+    public double getSparcity() {
+        return (double)entries.size()/(double)getDimension();
     }
 
 }
