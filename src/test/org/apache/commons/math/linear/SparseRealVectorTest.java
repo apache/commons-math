@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * Test cases for the {@link SparseRealVector} class.
+ * Test cases for the {@link OpenMapRealVector} class.
  *
  * @version $Revision: 728186 $ $Date$
  */
@@ -101,7 +101,7 @@ public class SparseRealVectorTest extends TestCase {
             for (int i = 0; i < data.length; i++) {
                 out[i] = data[i] * d;
             }
-            return new SparseRealVector(out);
+            return new OpenMapRealVector(out);
         }
 
         public RealVector mapMultiplyToSelf(double d) {
@@ -466,14 +466,14 @@ public class SparseRealVectorTest extends TestCase {
 
     public void testConstructors() {
 
-        SparseRealVector v0 = new SparseRealVector();
+        OpenMapRealVector v0 = new OpenMapRealVector();
         assertEquals("testData len", 0, v0.getDimension());
 
-        SparseRealVector v1 = new SparseRealVector(7);
+        OpenMapRealVector v1 = new OpenMapRealVector(7);
         assertEquals("testData len", 7, v1.getDimension());
         assertEquals("testData is 0.0 ", 0.0, v1.getEntry(6));
 
-        SparseRealVector v3 = new SparseRealVector(vec1);
+        OpenMapRealVector v3 = new OpenMapRealVector(vec1);
         assertEquals("testData len", 3, v3.getDimension());
         assertEquals("testData is 2.0 ", 2.0, v3.getEntry(1));
 
@@ -489,25 +489,25 @@ public class SparseRealVectorTest extends TestCase {
         //    fail("wrong exception caught");
         //}
 
-        RealVector v5_i = new SparseRealVector(dvec1);
+        RealVector v5_i = new OpenMapRealVector(dvec1);
         assertEquals("testData len", 9, v5_i.getDimension());
         assertEquals("testData is 9.0 ", 9.0, v5_i.getEntry(8));
 
-        SparseRealVector v5 = new SparseRealVector(dvec1);
+        OpenMapRealVector v5 = new OpenMapRealVector(dvec1);
         assertEquals("testData len", 9, v5.getDimension());
         assertEquals("testData is 9.0 ", 9.0, v5.getEntry(8));
 
-        SparseRealVector v7 = new SparseRealVector(v1);
+        OpenMapRealVector v7 = new OpenMapRealVector(v1);
         assertEquals("testData len", 7, v7.getDimension());
         assertEquals("testData is 0.0 ", 0.0, v7.getEntry(6));
 
         SparseRealVectorTestImpl v7_i = new SparseRealVectorTestImpl(vec1);
 
-        SparseRealVector v7_2 = new SparseRealVector(v7_i);
+        OpenMapRealVector v7_2 = new OpenMapRealVector(v7_i);
         assertEquals("testData len", 3, v7_2.getDimension());
         assertEquals("testData is 0.0 ", 2.0d, v7_2.getEntry(1));
 
-        SparseRealVector v8 = new SparseRealVector(v1);
+        OpenMapRealVector v8 = new OpenMapRealVector(v1);
         assertEquals("testData len", 7, v8.getDimension());
         assertEquals("testData is 0.0 ", 0.0, v8.getEntry(6));
 
@@ -515,9 +515,9 @@ public class SparseRealVectorTest extends TestCase {
 
     public void testDataInOut() {
 
-        SparseRealVector v1 = new SparseRealVector(vec1);
-        SparseRealVector v2 = new SparseRealVector(vec2);
-        SparseRealVector v4 = new SparseRealVector(vec4);
+        OpenMapRealVector v1 = new OpenMapRealVector(vec1);
+        OpenMapRealVector v2 = new OpenMapRealVector(vec2);
+        OpenMapRealVector v4 = new OpenMapRealVector(vec4);
         SparseRealVectorTestImpl v2_t = new SparseRealVectorTestImpl(vec2); 
 
         RealVector v_append_1 = v1.append(v2);
@@ -548,7 +548,7 @@ public class SparseRealVectorTest extends TestCase {
             fail("wrong exception caught");
         }
 
-        SparseRealVector v_set1 = (SparseRealVector) v1.copy();
+        OpenMapRealVector v_set1 = (OpenMapRealVector) v1.copy();
         v_set1.setEntry(1, 11.0);
         assertEquals("testData is 11.0 ", 11.0, v_set1.getEntry(1));
         try {
@@ -560,7 +560,7 @@ public class SparseRealVectorTest extends TestCase {
             fail("wrong exception caught");
         }
 
-        SparseRealVector v_set2 = (SparseRealVector) v4.copy();
+        OpenMapRealVector v_set2 = (OpenMapRealVector) v4.copy();
         v_set2.setSubVector(3, v1);
         assertEquals("testData is 1.0 ", 1.0, v_set2.getEntry(3));
         assertEquals("testData is 7.0 ", 7.0, v_set2.getEntry(6));
@@ -573,7 +573,7 @@ public class SparseRealVectorTest extends TestCase {
             fail("wrong exception caught");
         }
 
-        SparseRealVector v_set3 = (SparseRealVector) v1.copy();
+        OpenMapRealVector v_set3 = (OpenMapRealVector) v1.copy();
         v_set3.set(13.0);
         assertEquals("testData is 13.0 ", 13.0, v_set3.getEntry(2));
 
@@ -586,7 +586,7 @@ public class SparseRealVectorTest extends TestCase {
             fail("wrong exception caught");
         }
 
-        SparseRealVector v_set4 = (SparseRealVector) v4.copy();
+        OpenMapRealVector v_set4 = (OpenMapRealVector) v4.copy();
         v_set4.setSubVector(3, v2_t);
         assertEquals("testData is 1.0 ", 4.0, v_set4.getEntry(3));
         assertEquals("testData is 7.0 ", 7.0, v_set4.getEntry(6));
@@ -603,7 +603,7 @@ public class SparseRealVectorTest extends TestCase {
     }
 
     public void testMapFunctions() { 
-        SparseRealVector v1 = new SparseRealVector(vec1);
+        OpenMapRealVector v1 = new OpenMapRealVector(vec1);
 
         //octave =  v1 .+ 2.0
         RealVector v_mapAdd = v1.mapAdd(2.0d);
@@ -783,7 +783,7 @@ public class SparseRealVectorTest extends TestCase {
         assertClose("compare vectors" ,result_mapTanToSelf,v_mapTanToSelf.getData(),normTolerance);
 
         double[] vat_a = {0d, 0.5d, 1.0d};
-        SparseRealVector vat = new SparseRealVector(vat_a);
+        OpenMapRealVector vat = new OpenMapRealVector(vat_a);
 
         //octave =  acos(vat)
         RealVector v_mapAcos = vat.mapAcos();
@@ -830,7 +830,7 @@ public class SparseRealVectorTest extends TestCase {
         assertClose("compare vectors" ,result_mapInvToSelf,v_mapInvToSelf.getData(),normTolerance);
 
         double[] abs_a = {-1.0d, 0.0d, 1.0d};
-        SparseRealVector abs_v = new SparseRealVector(abs_a);
+        OpenMapRealVector abs_v = new OpenMapRealVector(abs_a);
 
         //octave =  abs(abs_v)
         RealVector v_mapAbs = abs_v.mapAbs();
@@ -855,7 +855,7 @@ public class SparseRealVectorTest extends TestCase {
         assertClose("compare vectors" ,result_mapSqrtToSelf,v_mapSqrtToSelf.getData(),normTolerance);
 
         double[] cbrt_a = {-2.0d, 0.0d, 2.0d};
-        SparseRealVector cbrt_v = new SparseRealVector(cbrt_a);
+        OpenMapRealVector cbrt_v = new OpenMapRealVector(cbrt_a);
 
         //octave =  ???
         RealVector v_mapCbrt = cbrt_v.mapCbrt();
@@ -869,7 +869,7 @@ public class SparseRealVectorTest extends TestCase {
         assertClose("compare vectors" ,result_mapCbrtToSelf,v_mapCbrtToSelf.getData(),normTolerance);
 
         double[] ceil_a = {-1.1d, 0.9d, 1.1d};
-        SparseRealVector ceil_v = new SparseRealVector(ceil_a);
+        OpenMapRealVector ceil_v = new OpenMapRealVector(ceil_a);
 
         //octave =  ceil(ceil_v)
         RealVector v_mapCeil = ceil_v.mapCeil();
@@ -931,9 +931,9 @@ public class SparseRealVectorTest extends TestCase {
     }
 
     public void testBasicFunctions() { 
-        SparseRealVector v1 = new SparseRealVector(vec1);
-        SparseRealVector v2 = new SparseRealVector(vec2);
-        SparseRealVector v_null = new SparseRealVector(vec_null);
+        OpenMapRealVector v1 = new OpenMapRealVector(vec1);
+        OpenMapRealVector v2 = new OpenMapRealVector(vec2);
+        OpenMapRealVector v_null = new OpenMapRealVector(vec_null);
 
         SparseRealVectorTestImpl v2_t = new SparseRealVectorTestImpl(vec2); 
 
@@ -970,7 +970,7 @@ public class SparseRealVectorTest extends TestCase {
         assertEquals("compare values  ",3d, d_getLInfDistance_2 );
 
         //octave =  v1 + v2
-        SparseRealVector v_add = v1.add(v2);
+        OpenMapRealVector v_add = v1.add(v2);
         double[] result_add = {5d, 7d, 9d};
         assertClose("compare vect" ,v_add.getData(),result_add,normTolerance);
 
@@ -980,7 +980,7 @@ public class SparseRealVectorTest extends TestCase {
         assertClose("compare vect" ,v_add_i.getData(),result_add_i,normTolerance);
 
         //octave =  v1 - v2
-        SparseRealVector v_subtract = v1.subtract(v2);
+        OpenMapRealVector v_subtract = v1.subtract(v2);
         double[] result_subtract = {-3d, -3d, -3d};
         assertClose("compare vect" ,v_subtract.getData(),result_subtract,normTolerance);
 
@@ -1033,7 +1033,7 @@ public class SparseRealVectorTest extends TestCase {
             fail("wrong exception caught");
         }
 
-        SparseRealVector v_unitize = (SparseRealVector)v1.copy();
+        OpenMapRealVector v_unitize = (OpenMapRealVector)v1.copy();
         v_unitize.unitize();
         assertClose("compare vect" ,v_unitVector_2.getData(),v_unitize.getData(),normTolerance);
         try {
@@ -1056,7 +1056,7 @@ public class SparseRealVectorTest extends TestCase {
     }  
 
     public void testMisc() { 
-        SparseRealVector v1 = new SparseRealVector(vec1);
+        OpenMapRealVector v1 = new OpenMapRealVector(vec1);
 
         String out1 = v1.toString();
         assertTrue("some output ",  out1.length()!=0);
@@ -1074,7 +1074,7 @@ public class SparseRealVectorTest extends TestCase {
 
     public void testPredicates() {
 
-        SparseRealVector v = new SparseRealVector(new double[] { 0, 1, 2 });
+        OpenMapRealVector v = new OpenMapRealVector(new double[] { 0, 1, 2 });
 
         assertFalse(v.isNaN());
         v.setEntry(1, Double.NaN);
@@ -1087,9 +1087,9 @@ public class SparseRealVectorTest extends TestCase {
         assertTrue(v.isInfinite());
 
         v.setEntry(0, 0);
-        assertEquals(v, new SparseRealVector(new double[] { 0, 1, 2 }));
-        assertNotSame(v, new SparseRealVector(new double[] { 0, 1, 2 + Math.ulp(2)}));
-        assertNotSame(v, new SparseRealVector(new double[] { 0, 1, 2, 3 }));
+        assertEquals(v, new OpenMapRealVector(new double[] { 0, 1, 2 }));
+        assertNotSame(v, new OpenMapRealVector(new double[] { 0, 1, 2 + Math.ulp(2)}));
+        assertNotSame(v, new OpenMapRealVector(new double[] { 0, 1, 2, 3 }));
 
     }
 

@@ -24,7 +24,7 @@ import org.apache.commons.math.linear.decomposition.LUDecompositionImpl;
 import org.apache.commons.math.linear.decomposition.NonSquareMatrixException;
 
 /**
- * Test cases for the {@link SparseRealMatrix} class.
+ * Test cases for the {@link OpenMapRealMatrix} class.
  * 
  * @version $Revision$ $Date: 2008-11-07 06:48:13 -0800 (Fri, 07 Nov
  *          2008) $
@@ -117,8 +117,8 @@ public final class SparseRealMatrixTest extends TestCase {
 
     /** test dimensions */
     public void testDimensions() {
-        SparseRealMatrix m = createSparseMatrix(testData);
-        SparseRealMatrix m2 = createSparseMatrix(testData2);
+        OpenMapRealMatrix m = createSparseMatrix(testData);
+        OpenMapRealMatrix m2 = createSparseMatrix(testData2);
         assertEquals("testData row dimension", 3, m.getRowDimension());
         assertEquals("testData column dimension", 3, m.getColumnDimension());
         assertTrue("testData is square", m.isSquare());
@@ -129,21 +129,21 @@ public final class SparseRealMatrixTest extends TestCase {
 
     /** test copy functions */
     public void testCopyFunctions() {
-        SparseRealMatrix m1 = createSparseMatrix(testData);
+        OpenMapRealMatrix m1 = createSparseMatrix(testData);
         RealMatrix m2 = m1.copy();
-        assertTrue(m2 instanceof SparseRealMatrix);
+        assertTrue(m2 instanceof OpenMapRealMatrix);
         assertEquals((m2), m1);
-        SparseRealMatrix m3 = createSparseMatrix(testData);
+        OpenMapRealMatrix m3 = createSparseMatrix(testData);
         RealMatrix m4 = m3.copy();
-        assertTrue(m4 instanceof SparseRealMatrix);
+        assertTrue(m4 instanceof OpenMapRealMatrix);
         assertEquals((m4), m3);
     }
 
     /** test add */
     public void testAdd() {
-        SparseRealMatrix m = createSparseMatrix(testData);
-        SparseRealMatrix mInv = createSparseMatrix(testDataInv);
-        SparseRealMatrix mDataPlusInv = createSparseMatrix(testDataPlusInv);
+        OpenMapRealMatrix m = createSparseMatrix(testData);
+        OpenMapRealMatrix mInv = createSparseMatrix(testDataInv);
+        OpenMapRealMatrix mDataPlusInv = createSparseMatrix(testDataPlusInv);
         RealMatrix mPlusMInv = m.add(mInv);
         for (int row = 0; row < m.getRowDimension(); row++) {
             for (int col = 0; col < m.getColumnDimension(); col++) {
@@ -156,8 +156,8 @@ public final class SparseRealMatrixTest extends TestCase {
 
     /** test add failure */
     public void testAddFail() {
-        SparseRealMatrix m = createSparseMatrix(testData);
-        SparseRealMatrix m2 = createSparseMatrix(testData2);
+        OpenMapRealMatrix m = createSparseMatrix(testData);
+        OpenMapRealMatrix m2 = createSparseMatrix(testData2);
         try {
             m.add(m2);
             fail("IllegalArgumentException expected");
@@ -168,16 +168,16 @@ public final class SparseRealMatrixTest extends TestCase {
 
     /** test norm */
     public void testNorm() {
-        SparseRealMatrix m = createSparseMatrix(testData);
-        SparseRealMatrix m2 = createSparseMatrix(testData2);
+        OpenMapRealMatrix m = createSparseMatrix(testData);
+        OpenMapRealMatrix m2 = createSparseMatrix(testData2);
         assertEquals("testData norm", 14d, m.getNorm(), entryTolerance);
         assertEquals("testData2 norm", 7d, m2.getNorm(), entryTolerance);
     }
 
     /** test m-n = m + -n */
     public void testPlusMinus() {
-        SparseRealMatrix m = createSparseMatrix(testData);
-        SparseRealMatrix n = createSparseMatrix(testDataInv);
+        OpenMapRealMatrix m = createSparseMatrix(testData);
+        OpenMapRealMatrix n = createSparseMatrix(testDataInv);
         assertClose("m-n = m + -n", m.subtract(n),
             n.scalarMultiply(-1d).add(m), entryTolerance);
         try {
@@ -190,10 +190,10 @@ public final class SparseRealMatrixTest extends TestCase {
 
     /** test multiply */
     public void testMultiply() {
-        SparseRealMatrix m = createSparseMatrix(testData);
-        SparseRealMatrix mInv = createSparseMatrix(testDataInv);
-        SparseRealMatrix identity = createSparseMatrix(id);
-        SparseRealMatrix m2 = createSparseMatrix(testData2);
+        OpenMapRealMatrix m = createSparseMatrix(testData);
+        OpenMapRealMatrix mInv = createSparseMatrix(testDataInv);
+        OpenMapRealMatrix identity = createSparseMatrix(id);
+        OpenMapRealMatrix m2 = createSparseMatrix(testData2);
         assertClose("inverse multiply", m.multiply(mInv), identity,
                 entryTolerance);
         assertClose("inverse multiply", m.multiply(new DenseRealMatrix(testDataInv)), identity,
@@ -308,9 +308,9 @@ public final class SparseRealMatrixTest extends TestCase {
         RealMatrix m5 = createSparseMatrix(d5);
         assertClose("m3*m4=m5", m4.preMultiply(m3), m5, entryTolerance);
 
-        SparseRealMatrix m = createSparseMatrix(testData);
-        SparseRealMatrix mInv = createSparseMatrix(testDataInv);
-        SparseRealMatrix identity = createSparseMatrix(id);
+        OpenMapRealMatrix m = createSparseMatrix(testData);
+        OpenMapRealMatrix mInv = createSparseMatrix(testDataInv);
+        OpenMapRealMatrix identity = createSparseMatrix(id);
         assertClose("inverse multiply", m.preMultiply(mInv), identity,
                 entryTolerance);
         assertClose("inverse multiply", mInv.preMultiply(m), identity,
@@ -542,9 +542,9 @@ public final class SparseRealMatrixTest extends TestCase {
     }
 
     public void testEqualsAndHashCode() {
-        SparseRealMatrix m = createSparseMatrix(testData);
-        SparseRealMatrix m1 = (SparseRealMatrix) m.copy();
-        SparseRealMatrix mt = (SparseRealMatrix) m.transpose();
+        OpenMapRealMatrix m = createSparseMatrix(testData);
+        OpenMapRealMatrix m1 = (OpenMapRealMatrix) m.copy();
+        OpenMapRealMatrix mt = (OpenMapRealMatrix) m.transpose();
         assertTrue(m.hashCode() != mt.hashCode());
         assertEquals(m.hashCode(), m1.hashCode());
         assertEquals(m, m);
@@ -555,15 +555,15 @@ public final class SparseRealMatrixTest extends TestCase {
     }
 
     public void testToString() {
-        SparseRealMatrix m = createSparseMatrix(testData);
-        assertEquals("SparseRealMatrix{{1.0,2.0,3.0},{2.0,5.0,3.0},{1.0,0.0,8.0}}", 
+        OpenMapRealMatrix m = createSparseMatrix(testData);
+        assertEquals("OpenMapRealMatrix{{1.0,2.0,3.0},{2.0,5.0,3.0},{1.0,0.0,8.0}}", 
             m.toString());
-        m = new SparseRealMatrix(1, 1);
-        assertEquals("SparseRealMatrix{{0.0}}", m.toString());
+        m = new OpenMapRealMatrix(1, 1);
+        assertEquals("OpenMapRealMatrix{{0.0}}", m.toString());
     }
 
     public void testSetSubMatrix() throws Exception {
-        SparseRealMatrix m = createSparseMatrix(testData);
+        OpenMapRealMatrix m = createSparseMatrix(testData);
         m.setSubMatrix(detData2, 1, 1);
         RealMatrix expected = createSparseMatrix(new double[][] {
                 { 1.0, 2.0, 3.0 }, { 2.0, 1.0, 3.0 }, { 1.0, 2.0, 4.0 } });
@@ -580,7 +580,7 @@ public final class SparseRealMatrixTest extends TestCase {
         assertEquals(expected, m);
 
         // javadoc example
-        SparseRealMatrix matrix = 
+        OpenMapRealMatrix matrix = 
             createSparseMatrix(new double[][] { 
         { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 0, 1, 2 } });
         matrix.setSubMatrix(new double[][] { { 3, 4 }, { 5, 6 } }, 1, 1);
@@ -617,7 +617,7 @@ public final class SparseRealMatrixTest extends TestCase {
             // expected
         }
         try {
-            new SparseRealMatrix(0, 0);
+            new OpenMapRealMatrix(0, 0);
             fail("expecting IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             // expected
@@ -661,8 +661,8 @@ public final class SparseRealMatrixTest extends TestCase {
         }
     }
     
-    private SparseRealMatrix createSparseMatrix(double[][] data) {
-        SparseRealMatrix matrix = new SparseRealMatrix(data.length, data[0].length);
+    private OpenMapRealMatrix createSparseMatrix(double[][] data) {
+        OpenMapRealMatrix matrix = new OpenMapRealMatrix(data.length, data[0].length);
         for (int row = 0; row < data.length; row++) {
             for (int col = 0; col < data[row].length; col++) {
                 matrix.setEntry(row, col, data[row][col]);
