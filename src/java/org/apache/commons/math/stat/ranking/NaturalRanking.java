@@ -306,7 +306,7 @@ public class NaturalRanking implements RankingAlgorithm {
     }
     
     /**
-     * Resolve a sequence of ties, using the cconfigured {@link TiesStrategy}.
+     * Resolve a sequence of ties, using the configured {@link TiesStrategy}.
      * The input <code>ranks</code> array is expected to take the same value
      * for all indices in <code>tiesTrace</code>.  The common value is recoded
      * according to the tiesStrategy. For example, if ranks = <5,8,2,6,2,7,1,2>,
