@@ -169,5 +169,11 @@
     <Method name="testNewNewtonSolverNull" params="" returns="void" />
     <Bug pattern="NP_NULL_PARAM_DEREF_ALL_TARGETS_DANGEROUS" />
   </Match>
+  
+  <!-- IntDoublePair intentionally implements Comparable inconsistently with equals -->
+  <Match>
+    <Class name="org.apache.commons.math.stat.ranking.NaturalRanking$IntDoublePair" />
+    <Bug pattern="EQ_COMPARETO_USE_OBJECT_EQUALS" />
+  </Match>
 
 </FindBugsFilter>
