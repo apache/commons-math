@@ -21,6 +21,7 @@ import java.io.Serializable;
 
 import org.apache.commons.math.linear.decomposition.DecompositionSolver;
 import org.apache.commons.math.linear.decomposition.LUDecomposition;
+import org.apache.commons.math.linear.decomposition.LUDecompositionImpl;
 import org.apache.commons.math.linear.decomposition.NonSquareMatrixException;
 
 /**
@@ -445,7 +446,11 @@ public interface RealMatrix extends AnyMatrix, Serializable {
      *
      * @return inverse matrix
      * @throws InvalidMatrixException if  this is not invertible
-     * @deprecated as of release 2.0, replaced by {@link DecompositionSolver#getInverse()}
+     * @deprecated as of release 2.0, replaced by <code>
+     * {@link LUDecompositionImpl#LUDecompositionImpl(RealMatrix)
+     * new LUDecompositionImpl(m)}.{@link LUDecomposition#getSolver()
+     * getSolver()}.{@link DecompositionSolver#getInverse()
+     * getInverse()}</code>
      */
     @Deprecated
     RealMatrix inverse() throws InvalidMatrixException;
@@ -454,7 +459,10 @@ public interface RealMatrix extends AnyMatrix, Serializable {
      * Returns the determinant of this matrix.
      *
      * @return determinant
-     * @deprecated as of release 2.0, replaced by {@link LUDecomposition#getDeterminant()}
+     * @deprecated as of release 2.0, replaced by <code>
+     * {@link LUDecompositionImpl#LUDecompositionImpl(RealMatrix)
+     * new LUDecompositionImpl(m)}.{@link LUDecomposition#getDeterminant()
+     * getDeterminant()}</code>
      */
     @Deprecated
     double getDeterminant();
@@ -463,7 +471,10 @@ public interface RealMatrix extends AnyMatrix, Serializable {
      * Is this a singular matrix?
      * @return true if the matrix is singular
      * @deprecated as of release 2.0, replaced by the boolean negation of
-     * {@link DecompositionSolver#isNonSingular()}
+     * <code>{@link LUDecompositionImpl#LUDecompositionImpl(RealMatrix)
+     * new LUDecompositionImpl(m)}.{@link LUDecomposition#getSolver()
+     * getSolver()}.{@link DecompositionSolver#isNonSingular()
+     * isNonSingular()}</code>
      */
     @Deprecated
     boolean isSingular();
