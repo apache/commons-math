@@ -24,6 +24,7 @@ import org.apache.commons.math.fraction.BigFraction;
 import org.apache.commons.math.linear.DefaultFieldMatrixPreservingVisitor;
 import org.apache.commons.math.linear.FieldMatrix;
 import org.apache.commons.math.linear.FieldMatrixImpl;
+import org.apache.commons.math.linear.InvalidMatrixException;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealMatrixImpl;
 import org.apache.commons.math.linear.decomposition.FieldDecompositionSolver;
@@ -100,15 +101,18 @@ public class NordsieckTransformer implements Serializable {
 
     /**
      * Build a transformer for a specified order.
-     * <p>states considered are y<sub>k-p</sub>, y<sub>k-(p+1)</sub> ...
+     * <p>States considered are y<sub>k-p</sub>, y<sub>k-(p+1)</sub> ...
      * y<sub>k-(q-1)</sub> and scaled derivatives considered are
-     * h y'<sub>k-r</sub>, h y'<sub>k-(r+1)</sub> ... h y'<sub>k-(s-1)</sub>
+     * h y'<sub>k-r</sub>, h y'<sub>k-(r+1)</sub> ... h y'<sub>k-(s-1)</sub><\p>
      * @param p start state index offset in multistep form
      * @param q end state index offset in multistep form
      * @param r start state derivative index offset in multistep form
      * @param s end state derivative index offset in multistep form
+     * @exception InvalidMatrixException if the selected indices ranges define a
+     * non-invertible transform (this typically happens when p == q)
      */
-    public NordsieckTransformer(final int p, final int q, final int r, final int s) {
+    public NordsieckTransformer(final int p, final int q, final int r, final int s)
+        throws InvalidMatrixException {
 
         // from Nordsieck to multistep
         final FieldMatrix<BigFraction> bigNtoM = buildNordsieckToMultistep(p, q, r, s);
@@ -128,7 +132,7 @@ public class NordsieckTransformer implements Serializable {
 
     /**
      * Build the transform from Nordsieck to multistep.
-     * <p>states considered are y<sub>k-p</sub>, y<sub>k-(p+1)</sub> ...
+     * <p>States considered are y<sub>k-p</sub>, y<sub>k-(p+1)</sub> ...
      * y<sub>k-(q-1)</sub> and scaled derivatives considered are
      * h y'<sub>k-r</sub>, h y'<sub>k-(r+1)</sub> ... h y'<sub>k-(s-1)</sub>
      * @param p start state index offset in multistep form
@@ -163,10 +167,10 @@ public class NordsieckTransformer implements Serializable {
         for (int l = r; l < s; ++l) {
             // handle previous state scaled derivative h y'<sub>(k-l)</sub>
             // the following expressions are direct applications of Taylor series
-            // h y'<sub>k-1</sub>: [ 0  1  -2   3  -4   5 ...]
-            // h y'<sub>k-2</sub>: [ 0  1  -4   6  -8  10 ...]
-            // h y'<sub>k-3</sub>: [ 0  1  -6   9 -12  15 ...]
-            // h y'<sub>k-4</sub>: [ 0  1  -8  12 -16  20 ...]
+            // h y'<sub>k-1</sub>: [ 0  1  -2   3   -4     5 ...]
+            // h y'<sub>k-2</sub>: [ 0  1  -4  12  -32    80 ...]
+            // h y'<sub>k-3</sub>: [ 0  1  -6  27 -108   405 ...]
+            // h y'<sub>k-4</sub>: [ 0  1  -8  48 -256  1280 ...]
             final BigFraction[] row = array[i++];
             final BigInteger factor = BigInteger.valueOf(-l);
             row[0] = BigFraction.ZERO;
