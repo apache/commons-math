@@ -323,7 +323,7 @@ public class TestUtils {
         boolean failure = false;
         for (int i=0; i < expected.length; i++) {
             try {
-                Assert.assertEquals(expected[i], observed[i], tolerance);
+                assertEquals(expected[i], observed[i], tolerance);
             } catch (AssertionFailedError ex) {
                 failure = true;
                 out.append("\n Elements at index ");
