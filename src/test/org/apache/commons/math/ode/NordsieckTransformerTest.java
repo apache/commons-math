@@ -17,26 +17,27 @@
 
 package org.apache.commons.math.ode;
 
-import java.util.Random;
+import static org.junit.Assert.assertEquals;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import java.util.Random;
 
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math.fraction.BigFraction;
 import org.apache.commons.math.linear.FieldMatrix;
+import org.apache.commons.math.linear.InvalidMatrixException;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealMatrixImpl;
+import org.junit.Test;
 
-public class NordsieckTransformerTest
-extends TestCase {
+public class NordsieckTransformerTest {
 
-    public NordsieckTransformerTest(String name) {
-        super(name);
+    @Test(expected=InvalidMatrixException.class)
+    public void nonInvertible() {
+        new NordsieckTransformer(1, 1, 0, 1);
     }
 
-    public void testDimension2() {
+    @Test
+    public void dimension2() {
         NordsieckTransformer transformer = new NordsieckTransformer(0, 2, 0, 0);
         double[] nordsieckHistory = new double[] { 1.0,  2.0 };
         double[] multistepHistory = new double[] { 1.0, -1.0 };
@@ -44,7 +45,8 @@ extends TestCase {
         checkVector(multistepHistory, transformer.nordsieckToMultistep(nordsieckHistory));
     }
 
-    public void testDimension2Der() {
+    @Test
+    public void dimension2Der() {
         NordsieckTransformer transformer = new NordsieckTransformer(0, 1, 0, 1);
         double[] nordsieckHistory = new double[] { 1.0,  2.0 };
         double[] multistepHistory = new double[] { 1.0,  2.0 };
@@ -52,7 +54,8 @@ extends TestCase {
         checkVector(multistepHistory, transformer.nordsieckToMultistep(nordsieckHistory));
     }
 
-    public void testDimension3() {
+    @Test
+    public void dimension3() {
         NordsieckTransformer transformer = new NordsieckTransformer(0, 3, 0, 0);
         double[] nordsieckHistory = new double[] { 1.0,  4.0, 18.0 };
         double[] multistepHistory = new double[] { 1.0, 15.0, 65.0 };
@@ -60,7 +63,8 @@ extends TestCase {
         checkVector(multistepHistory, transformer.nordsieckToMultistep(nordsieckHistory));
     }
 
-    public void testDimension3Der() {
+    @Test
+    public void dimension3Der() {
         NordsieckTransformer transformer = new NordsieckTransformer(0, 2, 0, 1);
         double[] nordsieckHistory = new double[] { 1.0,  4.0, 18.0 };
         double[] multistepHistory = new double[] { 1.0, 15.0,  4.0 };
@@ -68,7 +72,8 @@ extends TestCase {
         checkVector(multistepHistory, transformer.nordsieckToMultistep(nordsieckHistory));
     }
 
-    public void testDimension7() {
+    @Test
+    public void dimension7() {
         NordsieckTransformer transformer = new NordsieckTransformer(0, 7, 0, 0);
         RealMatrix nordsieckHistory =
             new RealMatrixImpl(new double[][] {
@@ -98,7 +103,8 @@ extends TestCase {
 
     }
 
-    public void testDimension7Der() {
+    @Test
+    public void dimension7Der() {
         NordsieckTransformer transformer = new NordsieckTransformer(0, 6, 0, 1);
         RealMatrix nordsieckHistory =
             new RealMatrixImpl(new double[][] {
@@ -128,27 +134,83 @@ extends TestCase {
 
     }
 
-    public void testMatrices1() {
+    @Test
+    public void matrices1() {
         checkMatrix(1, new int[][] { { 1 } },
                     NordsieckTransformer.buildNordsieckToMultistep(0, 1, 0, 0));
     }
 
-    public void testMatrices2() {
+    @Test
+    public void matrices2() {
         checkMatrix(1, new int[][] { { 1, 0 }, { 1, -1 } },
                     NordsieckTransformer.buildNordsieckToMultistep(0, 2, 0, 0));
     }
 
-    public void testMatrices3() {
+    @Test
+    public void matrices3() {
         checkMatrix(1, new int[][] { { 1, 0, 0 }, { 1, -1, 1 }, { 1, -2, 4 } },
                     NordsieckTransformer.buildNordsieckToMultistep(0, 3, 0, 0));
     }
 
-    public void testMatrices4() {
-        checkMatrix(1, new int[][] { { 1, 0, 0, 0 }, { 1, -1, 1, -1 }, { 1, -2, 4, -8 }, { 1, -3, 9, -27 } },
-                    NordsieckTransformer.buildNordsieckToMultistep(0, 4, 0, 0));
+    @Test
+    public void matrices4() {
+        checkMatrix(1,
+                    new int[][] {
+                         { 1, 0, 0, 0 },
+                         { 1, -1, 1, -1 },
+                         { 1, -2, 4, -8 },
+                         { 1, -3, 9, -27 }
+                    }, NordsieckTransformer.buildNordsieckToMultistep(0, 4, 0, 0));
     }
 
-    public void testPolynomial() {
+    @Test
+    public void adamsBashforth2() {
+        checkMatrix(1,
+                    new int[][] {
+                        { 1, 0,  0 },
+                        { 0, 1,  0 },
+                        { 0, 1, -2 }
+                    }, NordsieckTransformer.buildNordsieckToMultistep(0, 1, 0, 2));
+    }
+
+    @Test
+    public void adamsBashforth3() {
+        checkMatrix(1,
+                    new int[][] {
+                        { 1, 0,  0,  0 },
+                        { 0, 1,  0,  0 },
+                        { 0, 1, -2,  3 },
+                        { 0, 1, -4, 12 }
+                    }, NordsieckTransformer.buildNordsieckToMultistep(0, 1, 0, 3));
+    }
+
+    @Test
+    public void adamsBashforth4() {
+        checkMatrix(1,
+                    new int[][] {
+                        { 1, 0,  0,  0,    0 },
+                        { 0, 1,  0,  0,    0 },
+                        { 0, 1, -2,  3,   -4 },
+                        { 0, 1, -4, 12,  -32 },
+                        { 0, 1, -6, 27, -108 }
+                    }, NordsieckTransformer.buildNordsieckToMultistep(0, 1, 0, 4));
+    }
+
+    @Test
+    public void adamsBashforth5() {
+        checkMatrix(1,
+                    new int[][] {
+                        { 1, 0,  0,  0,    0,    0 },
+                        { 0, 1,  0,  0,    0,    0 },
+                        { 0, 1, -2,  3,   -4,    5 },
+                        { 0, 1, -4, 12,  -32,   80 },
+                        { 0, 1, -6, 27, -108,  405 },
+                        { 0, 1, -8, 48, -256, 1280 }
+                    }, NordsieckTransformer.buildNordsieckToMultistep(0, 1, 0, 5));
+    }
+
+    @Test
+    public void polynomial() {
         Random random = new Random(1847222905841997856l);
         for (int n = 2; n < 10; ++n) {
             for (int m = 0; m < 10; ++m) {
@@ -217,9 +279,5 @@ extends TestCase {
             }
         }
     }
-
-    public static Test suite() {
-        return new TestSuite(NordsieckTransformerTest.class);
-      }
 
 }
