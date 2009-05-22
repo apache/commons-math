@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.analysis;
 
-import java.io.Serializable;
 
 import org.apache.commons.math.FunctionEvaluationException;
 
@@ -26,7 +25,7 @@ import org.apache.commons.math.FunctionEvaluationException;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public interface MultivariateMatrixFunction extends Serializable {
+public interface MultivariateMatrixFunction {
 
     /** 
      * Compute the value for the function at the given point.
