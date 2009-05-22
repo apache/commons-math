@@ -24,10 +24,4 @@ package org.apache.commons.math.linear;
  */
 public interface SparseRealVector extends RealVector {
     
-    /**
-     * 
-     * @return the percentage of none zero elements as a decimal percent.
-     */
-    double getSparcity ();
-
 }

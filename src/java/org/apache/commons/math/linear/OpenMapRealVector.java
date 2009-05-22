@@ -1297,7 +1297,10 @@ public class OpenMapRealVector implements SparseRealVector {
         return true;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * 
+     * @return the percentage of none zero elements as a decimal percent.
+     */
     public double getSparcity() {
         return (double)entries.size()/(double)getDimension();
     }

@@ -286,9 +286,5 @@ public class OpenMapRealMatrix extends AbstractRealMatrix implements SparseRealM
         return row * columnDimension + column;
     }
 
-    /** {@inheritDoc} */
-    public MatrixShape getShape() {
-        return MatrixShape.Any;
-    }
 
 }

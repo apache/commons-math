@@ -25,16 +25,5 @@ package org.apache.commons.math.linear;
  *
  */
 public interface SparseRealMatrix extends RealMatrix {
-
-    /**
-     * Type to identify the shape of the matrix 
-     */
-    public static enum MatrixShape  {Any};
-    
-    /**
-     * 
-     * @return the shape of the matrix
-     */
-    MatrixShape getShape();
     
 }
