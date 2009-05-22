@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.fraction;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.Field;
 
 /**
@@ -28,7 +30,9 @@ import org.apache.commons.math.Field;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class BigFractionField implements Field<BigFraction>  {
+public class BigFractionField implements Field<BigFraction>, Serializable  {
+    // TODO: Add Serializable documentation
+    // TODO: Check Serializable implementation
 
     /** Serializable version identifier */
     private static final long serialVersionUID = -1699294557189741703L;

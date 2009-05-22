@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math;
 
-import java.io.Serializable;
-
 /**
  * Interface representing a <a href="http://mathworld.wolfram.com/Field.html">field</a>.
  * <p>
@@ -28,7 +26,7 @@ import java.io.Serializable;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public interface Field<T> extends Serializable {
+public interface Field<T> {
 
     /** Get the additive identity of the field.
      * <p>
