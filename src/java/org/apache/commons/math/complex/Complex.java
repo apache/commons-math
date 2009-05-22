@@ -17,6 +17,7 @@
 
 package org.apache.commons.math.complex;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,9 +39,13 @@ import org.apache.commons.math.util.MathUtils;
  * or imaginary part - e.g., <pre>
  * <code>1 + NaNi  == NaN + i == NaN + NaNi.</code></pre></p>
  *
+ * implements Serializable since 2.0
+ * 
  * @version $Revision$ $Date$
  */
-public class Complex implements FieldElement<Complex>  {
+public class Complex implements FieldElement<Complex>, Serializable  {
+    // TODO: Add Serializable documentation
+    // TODO: Check Serializable implementation
 
     /** Serializable version identifier */
     private static final long serialVersionUID = -6195664516687396620L;

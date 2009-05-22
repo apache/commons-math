@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math.fraction;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 
 import org.apache.commons.math.FieldElement;
@@ -25,10 +26,14 @@ import org.apache.commons.math.util.MathUtils;
 /**
  * Representation of a rational number.
  *
+ * implements Serializable since 2.0
+ * 
  * @since 1.1
  * @version $Revision$ $Date$
  */
-public class Fraction extends Number implements FieldElement<Fraction>, Comparable<Fraction> {
+public class Fraction extends Number implements FieldElement<Fraction>, Comparable<Fraction>, Serializable {
+    // TODO: Add Serializable documentation
+    // TODO: Check Serializable implementation
 
     /** A fraction representing "2 / 1". */
     public static final Fraction TWO = new Fraction(2, 1);

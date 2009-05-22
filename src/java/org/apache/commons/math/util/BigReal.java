@@ -17,6 +17,7 @@
 package org.apache.commons.math.util;
 
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
@@ -33,7 +34,9 @@ import org.apache.commons.math.FieldElement;
  * @since 2.0
  * @version $Revision$ $Date$
  */
-public class BigReal implements FieldElement<BigReal>, Comparable<BigReal> {
+public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Serializable {
+    // TODO: Add Serializable documentation
+    // TODO: Check Serializable implementation
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 7887631840434052850L;

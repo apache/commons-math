@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math.fraction;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
@@ -30,7 +31,9 @@ import org.apache.commons.math.util.MathUtils;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class BigFraction extends Number implements FieldElement<BigFraction>, Comparable<BigFraction> {
+public class BigFraction extends Number implements FieldElement<BigFraction>, Comparable<BigFraction>, Serializable {
+    // TODO: Add Serializable documentation
+    // TODO: Check Serializable implementation
 
     /** A fraction representing "2 / 1". */
     public static final BigFraction TWO = new BigFraction(2);
