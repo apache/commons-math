@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.linear.decomposition;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.linear.RealMatrix;
 
 /**
@@ -38,12 +36,14 @@ import org.apache.commons.math.linear.RealMatrix;
  *   the returned {@link DecompositionSolver}.</li>
  * </ul>
  *   
+ * No longer Serializable since 3.3
+ * 
  * @see <a href="http://mathworld.wolfram.com/CholeskyDecomposition.html">MathWorld</a>
  * @see <a href="http://en.wikipedia.org/wiki/Cholesky_decomposition">Wikipedia</a>
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public interface CholeskyDecomposition extends Serializable {
+public interface CholeskyDecomposition {
 
     /**
      * Returns the matrix L of the decomposition. 

@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.linear.decomposition;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.linear.InvalidMatrixException;
 import org.apache.commons.math.linear.MatrixUtils;
@@ -37,7 +39,9 @@ import org.apache.commons.math.linear.RealVectorImpl;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class CholeskyDecompositionImpl implements CholeskyDecomposition {
+public class CholeskyDecompositionImpl implements CholeskyDecomposition, Serializable {
+    // TODO: Add Serializable documentation
+    // TODO: Check Serializable implementation
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = -2036131698031167221L;
