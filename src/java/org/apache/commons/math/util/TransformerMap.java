@@ -32,6 +32,8 @@ import org.apache.commons.math.MathException;
  * @version $Revision$ $Date$
  */
 public class TransformerMap implements NumberTransformer, Serializable {
+    // TODO: Add Serializable documentation
+    // TODO: Check Serializable implementation
 
     /** Serializable version identifier */
     private static final long serialVersionUID = 4605318041528645258L;

@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math.stat.descriptive;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -184,7 +185,7 @@ public final class MixedListUnivariateImplTest extends TestCase {
         }
     }
 
-    public static final class FooTransformer implements NumberTransformer {
+    public static final class FooTransformer implements NumberTransformer, Serializable {
         private static final long serialVersionUID = -4252248129291326127L;
         public double transform(Object o) {
             return Double.parseDouble(((Foo) o).heresFoo());
@@ -197,7 +198,7 @@ public final class MixedListUnivariateImplTest extends TestCase {
         }
     }
 
-    public static final class BarTransformer implements NumberTransformer {
+    public static final class BarTransformer implements NumberTransformer, Serializable {
         private static final long serialVersionUID = -1768345377764262043L;
         public double transform(Object o) {
             return Double.parseDouble(((Bar) o).heresBar());
