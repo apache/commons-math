@@ -27,7 +27,7 @@ package org.apache.commons.math.ode.nonstiff;
  * with the initial condition y (0) = 0. The solution of this equation
  * is the following function :
  * <pre>
- *   y (t) = t^2 + 2 (ext (- t^2 / 2) - 1)
+ *   y (t) = t^2 + 2 (exp (- t^2 / 2) - 1)
  * </pre>
  * </p>
 
