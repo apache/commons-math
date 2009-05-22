@@ -36,8 +36,6 @@ import org.apache.commons.math.linear.RealMatrix;
  *   the returned {@link DecompositionSolver}.</li>
  * </ul>
  *   
- * No longer Serializable since 3.3
- * 
  * @see <a href="http://mathworld.wolfram.com/CholeskyDecomposition.html">MathWorld</a>
  * @see <a href="http://en.wikipedia.org/wiki/Cholesky_decomposition">Wikipedia</a>
  * @version $Revision$ $Date$
