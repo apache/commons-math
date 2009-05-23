@@ -17,6 +17,7 @@
 
 package org.apache.commons.math.optimization.direct;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -76,13 +77,17 @@ import org.apache.commons.math.optimization.SimpleScalarValueChecker;
  * performed by the derived classes according to the implemented
  * algorithms.</p>
  *
+ * implements MultivariateRealOptimizer, Serializable since 2.0
+ * 
  * @see MultivariateRealFunction
  * @see NelderMead
  * @see MultiDirectional
  * @version $Revision$ $Date$
  * @since 1.2
  */
-public abstract class DirectSearchOptimizer implements MultivariateRealOptimizer {
+public abstract class DirectSearchOptimizer implements MultivariateRealOptimizer, Serializable {
+    // TODO: Add Serializable documentation
+    // TODO: Check Serializable implementation
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 4299910390345933369L;

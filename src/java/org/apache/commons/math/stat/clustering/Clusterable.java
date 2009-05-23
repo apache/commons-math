@@ -26,7 +26,7 @@ import java.util.Collection;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public interface Clusterable<T> extends Serializable {
+public interface Clusterable<T> {
 
     /**
      * Returns the distance from the given point.

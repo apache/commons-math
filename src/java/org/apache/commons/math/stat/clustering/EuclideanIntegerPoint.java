@@ -17,6 +17,7 @@
 
 package org.apache.commons.math.stat.clustering;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 import org.apache.commons.math.util.MathUtils;
@@ -26,7 +27,9 @@ import org.apache.commons.math.util.MathUtils;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class EuclideanIntegerPoint implements Clusterable<EuclideanIntegerPoint> {
+public class EuclideanIntegerPoint implements Clusterable<EuclideanIntegerPoint>, Serializable {
+    // TODO: Add Serializable documentation
+    // TODO: Check Serializable implementation
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 3946024775784901369L;

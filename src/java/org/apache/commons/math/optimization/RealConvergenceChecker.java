@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.optimization;
 
-import java.io.Serializable;
-
 /** This interface specifies how to check if an {@link MultivariateRealOptimizer optimization
  * algorithm} has converged.
  *
@@ -36,7 +34,7 @@ import java.io.Serializable;
  * @since 2.0
  */
 
-public interface RealConvergenceChecker extends Serializable {
+public interface RealConvergenceChecker {
 
   /** Check if the optimization algorithm has converged considering the last points.
    * <p>

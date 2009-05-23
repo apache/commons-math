@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.optimization;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.util.MathUtils;
 
 /** 
@@ -31,7 +33,9 @@ import org.apache.commons.math.util.MathUtils;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class SimpleVectorialPointChecker implements VectorialConvergenceChecker {
+public class SimpleVectorialPointChecker implements VectorialConvergenceChecker, Serializable {
+    // TODO: Add Serializable documentation
+    // TODO: Check Serializable implementation
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 6571098732056285089L;
