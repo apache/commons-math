@@ -16,6 +16,12 @@
  */
 package org.apache.commons.math.linear;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -1093,6 +1099,26 @@ public class SparseRealVectorTest extends TestCase {
 
     }
 
+    public void testSerial()  {
+        try {
+            File test = File.createTempFile("OMV",".ser");
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(test));
+            OpenMapRealVector v = new OpenMapRealVector(new double[] { 0, 1, 2 });
+            out.writeObject(v);
+            out.close();
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream(test));
+            OpenMapRealVector nv = (OpenMapRealVector)in.readObject();
+            in.close();
+            test.delete();
+            assertEquals(v,nv);
+            
+        } catch (IOException e) {
+            fail("IOException: "+e);
+        } catch (ClassNotFoundException e) {
+            fail("Can't happen: "+e);
+        }
+    }
+    
     /** verifies that two vectors are close (sup norm) */
     protected void assertClose(String msg, double[] m, double[] n,
             double tolerance) {

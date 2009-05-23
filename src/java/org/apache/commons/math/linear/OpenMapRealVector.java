@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.linear;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.util.OpenIntToDoubleHashMap;
 import org.apache.commons.math.util.OpenIntToDoubleHashMap.Iterator;
@@ -25,7 +27,7 @@ import org.apache.commons.math.util.OpenIntToDoubleHashMap.Iterator;
  * @version $Revision: 728186 $ $Date$
  * @since 2.0
 */
-public class OpenMapRealVector implements SparseRealVector {
+public class OpenMapRealVector implements SparseRealVector, Serializable {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 8772222695580707260L;

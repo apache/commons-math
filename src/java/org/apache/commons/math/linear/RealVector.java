@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.linear;
 
-import java.io.Serializable;
-
 /**
  * Interface defining a real-valued vector with basic algebraic operations.
  * <p>
@@ -41,7 +39,7 @@ import java.io.Serializable;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public interface RealVector extends Serializable {
+public interface RealVector {
 
     /**
      * Returns a (deep) copy of this.
