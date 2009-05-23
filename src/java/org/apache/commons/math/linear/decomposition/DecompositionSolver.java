@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.linear.decomposition;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.linear.InvalidMatrixException;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealVector;
@@ -38,7 +36,7 @@ import org.apache.commons.math.linear.RealVector;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public interface DecompositionSolver extends Serializable {
+public interface DecompositionSolver {
 
     /** Solve the linear equation A &times; X = B for matrices A.
      * <p>The A matrix is implicit, it is provided by the underlying
