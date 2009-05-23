@@ -17,6 +17,7 @@
 
 package org.apache.commons.math.optimization.general;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 import junit.framework.Test;
@@ -510,7 +511,7 @@ public class MinpackTest extends TestCase {
   }
 
   private static abstract class MinpackFunction
-      implements DifferentiableMultivariateVectorialFunction {
+      implements DifferentiableMultivariateVectorialFunction, Serializable {
  
       private static final long serialVersionUID = -6209760235478794233L;
       protected int      n;

@@ -18,6 +18,7 @@
 package org.apache.commons.math.optimization.general;
 
 import java.awt.geom.Point2D;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -518,7 +519,7 @@ public class LevenbergMarquardtOptimizerTest
 
     }
 
-    private static class LinearProblem implements DifferentiableMultivariateVectorialFunction {
+    private static class LinearProblem implements DifferentiableMultivariateVectorialFunction, Serializable {
 
         private static final long serialVersionUID = 703247177355019415L;
         final RealMatrix factors;
@@ -543,7 +544,7 @@ public class LevenbergMarquardtOptimizerTest
 
     }
 
-    private static class Circle implements DifferentiableMultivariateVectorialFunction {
+    private static class Circle implements DifferentiableMultivariateVectorialFunction, Serializable {
 
         private static final long serialVersionUID = -4711170319243817874L;
 
@@ -624,7 +625,7 @@ public class LevenbergMarquardtOptimizerTest
 
     }
 
-    private static class QuadraticProblem implements DifferentiableMultivariateVectorialFunction {
+    private static class QuadraticProblem implements DifferentiableMultivariateVectorialFunction, Serializable {
 
         private static final long serialVersionUID = 7072187082052755854L;
         private List<Double> x;

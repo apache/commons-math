@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.analysis;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.FunctionEvaluationException;
 
 /**
@@ -23,7 +25,7 @@ import org.apache.commons.math.FunctionEvaluationException;
  *
  * @version $Revision$ $Date$
  */
-public class Expm1Function implements DifferentiableUnivariateRealFunction {
+public class Expm1Function implements DifferentiableUnivariateRealFunction, Serializable {
 
     private static final long serialVersionUID = 1410052725961159179L;
 

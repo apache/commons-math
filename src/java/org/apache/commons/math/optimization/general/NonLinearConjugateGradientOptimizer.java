@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.optimization.general;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
@@ -261,7 +263,9 @@ public class NonLinearConjugateGradientOptimizer
      * extremum along the search direction.
      * </p>
      */
-    private class LineSearchFunction implements UnivariateRealFunction {
+    private class LineSearchFunction implements UnivariateRealFunction, Serializable {
+        // TODO: Add Serializable documentation
+        // TODO: Check Serializable implementation
 
         /** Serializable version identifier. */
         private static final long serialVersionUID = 8184683950487801424L;

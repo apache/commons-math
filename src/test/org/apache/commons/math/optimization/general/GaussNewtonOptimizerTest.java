@@ -18,6 +18,7 @@
 package org.apache.commons.math.optimization.general;
 
 import java.awt.geom.Point2D;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -478,7 +479,7 @@ extends TestCase {
 
     }
 
-    private static class LinearProblem implements DifferentiableMultivariateVectorialFunction {
+    private static class LinearProblem implements DifferentiableMultivariateVectorialFunction, Serializable {
 
         private static final long serialVersionUID = -8804268799379350190L;
         final RealMatrix factors;
@@ -503,7 +504,7 @@ extends TestCase {
 
     }
 
-    private static class Circle implements DifferentiableMultivariateVectorialFunction {
+    private static class Circle implements DifferentiableMultivariateVectorialFunction, Serializable {
 
         private static final long serialVersionUID = -7165774454925027042L;
         private ArrayList<Point2D.Double> points;

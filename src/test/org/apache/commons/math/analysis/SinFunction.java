@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.analysis;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.FunctionEvaluationException;
 
 /**
@@ -28,7 +30,7 @@ import org.apache.commons.math.FunctionEvaluationException;
  * 
  * @version $Revision$ $Date$
  */
-public class SinFunction implements DifferentiableUnivariateRealFunction {
+public class SinFunction implements DifferentiableUnivariateRealFunction, Serializable {
 
     private static final long serialVersionUID = 6422911699694536977L;
 

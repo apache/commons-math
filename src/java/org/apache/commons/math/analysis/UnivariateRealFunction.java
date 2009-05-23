@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.analysis;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.FunctionEvaluationException;
 
 /**
@@ -25,7 +23,7 @@ import org.apache.commons.math.FunctionEvaluationException;
  *  
  * @version $Revision$ $Date$
  */
-public interface UnivariateRealFunction extends Serializable {
+public interface UnivariateRealFunction {
     /**
      * Compute the value for the function.
      * @param x the point for which the function value should be computed
