@@ -33,9 +33,6 @@ import org.apache.commons.math.FieldElement;
 public class DefaultFieldMatrixPreservingVisitor<T extends FieldElement<T>>
     implements FieldMatrixPreservingVisitor<T> {
 
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 7998898965168636198L;
-
     /** Zero element of the field. */
     private final T zero;
 

@@ -188,9 +188,6 @@ public class NordsieckTransformer implements Serializable {
     /** Convertor for {@link FieldMatrix}/{@link BigFraction}. */
     private static class Convertor extends DefaultFieldMatrixPreservingVisitor<BigFraction> {
 
-        /** Serializable version identifier. */
-        private static final long serialVersionUID = -1799685632320460982L;
-
         /** Converted array. */
         private double[][] data;
 

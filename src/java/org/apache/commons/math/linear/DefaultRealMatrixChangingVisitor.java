@@ -29,9 +29,6 @@ package org.apache.commons.math.linear;
  */
 public class DefaultRealMatrixChangingVisitor implements RealMatrixChangingVisitor {
 
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 892744666836410796L;
-
     /** {@inheritDoc} */
     public void start(int rows, int columns,
                       int startRow, int endRow, int startColumn, int endColumn) {

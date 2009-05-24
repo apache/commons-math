@@ -1247,7 +1247,6 @@ public final class DenseFieldMatrixTest extends TestCase {
     }
     
     private static class SetVisitor extends DefaultFieldMatrixChangingVisitor<Fraction> {
-        private static final long serialVersionUID = 6586716383170553060L;
         public SetVisitor() {
             super(Fraction.ZERO);
         }
@@ -1258,7 +1257,6 @@ public final class DenseFieldMatrixTest extends TestCase {
     }
 
     private static class GetVisitor extends DefaultFieldMatrixPreservingVisitor<Fraction> {
-        private static final long serialVersionUID = 8363001284977267825L;
         private int count;
         public GetVisitor() {
             super(Fraction.ZERO);

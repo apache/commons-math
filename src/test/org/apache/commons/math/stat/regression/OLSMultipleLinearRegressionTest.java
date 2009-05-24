@@ -95,7 +95,6 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         final double[] s = { 1.0, -1.0 /  2.0, -1.0 /  3.0, -1.0 /  4.0, -1.0 /  5.0, -1.0 /  6.0 };
         RealMatrix referenceVariance = new RealMatrixImpl(s.length, s.length);
         referenceVariance.walkInOptimizedOrder(new DefaultRealMatrixChangingVisitor() {
-            private static final long serialVersionUID = -6071126933773694288L;
             @Override
             public double visit(int row, int column, double value)
                 throws MatrixVisitorException {

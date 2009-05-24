@@ -198,9 +198,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     public double getNorm() {
         return walkInColumnOrder(new RealMatrixPreservingVisitor() {
 
-            /** Serializable version identifier */
-            private static final long serialVersionUID = -2452270856202894168L;
-
             /** Last row index. */
             private double endRow;
 
@@ -239,9 +236,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     /** {@inheritDoc} */
     public double getFrobeniusNorm() {
         return walkInOptimizedOrder(new RealMatrixPreservingVisitor() {
-
-            /** Serializable version identifier */
-            private static final long serialVersionUID = -6065411033772300640L;
 
             /** Sum of squared entries. */
             private double sum;
@@ -297,9 +291,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
             createMatrix(selectedRows.length, selectedColumns.length);
         subMatrix.walkInOptimizedOrder(new DefaultRealMatrixChangingVisitor() {
 
-            /** Serializable version identifier. */
-            private static final long serialVersionUID = 4572851009041214720L;
-
             /** {@inheritDoc} */
             @Override
             public double visit(final int row, final int column, final double value) {
@@ -331,9 +322,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 
         // copy entries
         walkInOptimizedOrder(new DefaultRealMatrixPreservingVisitor() {
-
-            /** Serializable version identifier. */
-            private static final long serialVersionUID = -6302162622577015104L;
 
             /** Initial row index. */
             private int startRow;
@@ -620,9 +608,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         final int nCols = getColumnDimension();
         final RealMatrix out = createMatrix(nCols, nRows);
         walkInOptimizedOrder(new DefaultRealMatrixPreservingVisitor() {
-
-            /** Serializable version identifier. */
-            private static final long serialVersionUID = 2482589609486637597L;
 
             /** {@inheritDoc} */
             @Override

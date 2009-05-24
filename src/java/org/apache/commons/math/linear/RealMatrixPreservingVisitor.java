@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.linear;
 
-import java.io.Serializable;
-
 /**
  * Interface defining a visitor for matrix entries.
  * 
@@ -26,7 +24,7 @@ import java.io.Serializable;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public interface RealMatrixPreservingVisitor extends Serializable {
+public interface RealMatrixPreservingVisitor {
 
     /**
      * Start visiting a matrix.

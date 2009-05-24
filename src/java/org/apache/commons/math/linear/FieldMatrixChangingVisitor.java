@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.linear;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.FieldElement;
 
 /**
@@ -28,7 +26,7 @@ import org.apache.commons.math.FieldElement;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public interface FieldMatrixChangingVisitor<T extends FieldElement<?>> extends Serializable {
+public interface FieldMatrixChangingVisitor<T extends FieldElement<?>> {
 
     /**
      * Start visiting a matrix.

@@ -933,7 +933,6 @@ public final class FieldMatrixImplTest extends TestCase {
     }
     
     private static class SetVisitor extends DefaultFieldMatrixChangingVisitor<Fraction> {
-        private static final long serialVersionUID = -949750581026560454L;
         public SetVisitor() {
             super(Fraction.ZERO);
         }
@@ -944,7 +943,6 @@ public final class FieldMatrixImplTest extends TestCase {
     }
 
     private static class GetVisitor extends DefaultFieldMatrixPreservingVisitor<Fraction> {
-        private static final long serialVersionUID = -8008915491884412915L;
         private int count;
         public GetVisitor() {
             super(Fraction.ZERO);

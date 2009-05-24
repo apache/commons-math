@@ -312,9 +312,6 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
             createMatrix(selectedRows.length, selectedColumns.length);
         subMatrix.walkInOptimizedOrder(new DefaultFieldMatrixChangingVisitor<T>(field.getZero()) {
 
-            /** Serializable version identifier. */
-            private static final long serialVersionUID = 5079316658710707181L;
-
             /** {@inheritDoc} */
             @Override
             public T visit(final int row, final int column, final T value) {
@@ -346,9 +343,6 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
 
         // copy entries
         walkInOptimizedOrder(new DefaultFieldMatrixPreservingVisitor<T>(field.getZero()) {
-
-            /** Serializable version identifier. */
-            private static final long serialVersionUID = 1894428776156078725L;
 
             /** Initial row index. */
             private int startRow;
@@ -633,9 +627,6 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
         final int nCols = getColumnDimension();
         final FieldMatrix<T> out = createMatrix(nCols, nRows);
         walkInOptimizedOrder(new DefaultFieldMatrixPreservingVisitor<T>(field.getZero()) {
-
-            /** Serializable version identifier. */
-            private static final long serialVersionUID = 6281961451465720534L;
 
             /** {@inheritDoc} */
             @Override

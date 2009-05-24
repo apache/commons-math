@@ -172,7 +172,6 @@ public class QRDecompositionImplTest extends TestCase {
 
     private void checkUpperTriangular(RealMatrix m) {
         m.walkInOptimizedOrder(new DefaultRealMatrixPreservingVisitor() {
-            private static final long serialVersionUID = -7685630069569815930L;
             @Override
             public void visit(int row, int column, double value) {
                 if (column < row) {
@@ -209,7 +208,6 @@ public class QRDecompositionImplTest extends TestCase {
 
     private void checkTrapezoidal(RealMatrix m) {
         m.walkInOptimizedOrder(new DefaultRealMatrixPreservingVisitor() {
-            private static final long serialVersionUID = -43649044361860701L;
             @Override
             public void visit(int row, int column, double value) {
                 if (column > row) {
@@ -258,7 +256,6 @@ public class QRDecompositionImplTest extends TestCase {
     private RealMatrix createTestMatrix(final Random r, final int rows, final int columns) {
         RealMatrix m = MatrixUtils.createRealMatrix(rows, columns);
         m.walkInOptimizedOrder(new DefaultRealMatrixChangingVisitor(){
-            private static final long serialVersionUID = -556118291433400034L;
             @Override
             public double visit(int row, int column, double value)
                 throws MatrixVisitorException {

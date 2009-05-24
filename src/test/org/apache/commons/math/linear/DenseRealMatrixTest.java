@@ -1183,7 +1183,6 @@ public final class DenseRealMatrixTest extends TestCase {
     }
         
     private static class SetVisitor extends DefaultRealMatrixChangingVisitor {
-        private static final long serialVersionUID = 1773444180892369386L;
         @Override
         public double visit(int i, int j, double value) {
             return i + j / 1024.0;
@@ -1191,7 +1190,6 @@ public final class DenseRealMatrixTest extends TestCase {
     }
 
     private static class GetVisitor extends DefaultRealMatrixPreservingVisitor {
-        private static final long serialVersionUID = -7745543227178932689L;
         private int count = 0;
         @Override
         public void visit(int i, int j, double value) {
