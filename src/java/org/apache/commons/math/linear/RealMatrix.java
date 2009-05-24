@@ -32,7 +32,7 @@ import org.apache.commons.math.linear.decomposition.NonSquareMatrixException;
  * 
  * @version $Revision$ $Date$
  */
-public interface RealMatrix extends AnyMatrix, Serializable {
+public interface RealMatrix extends AnyMatrix {
 
     /**
      * Create a new RealMatrix of the same type as the instance with the supplied

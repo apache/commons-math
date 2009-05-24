@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.linear;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.util.OpenIntToDoubleHashMap;
 
 /**
@@ -25,7 +27,7 @@ import org.apache.commons.math.util.OpenIntToDoubleHashMap;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class OpenMapRealMatrix extends AbstractRealMatrix implements SparseRealMatrix {
+public class OpenMapRealMatrix extends AbstractRealMatrix implements SparseRealMatrix, Serializable {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = -5962461716457143437L;

@@ -16,6 +16,12 @@
  */
 package org.apache.commons.math.linear;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -1156,6 +1162,26 @@ public final class DenseRealMatrixTest extends TestCase {
 
     }
     
+    public void testSerial()  {
+        try {
+            File test = File.createTempFile("DRM",".ser");
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(test));
+            DenseRealMatrix m = new DenseRealMatrix(testData);
+            out.writeObject(m);
+            out.close();
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream(test));
+            DenseRealMatrix nm = (DenseRealMatrix)in.readObject();
+            in.close();
+            test.delete();
+            assertEquals(m,nm);
+            
+        } catch (IOException e) {
+            fail("IOException: "+e);
+        } catch (ClassNotFoundException e) {
+            fail("Can't happen: "+e);
+        }
+    }
+        
     private static class SetVisitor extends DefaultRealMatrixChangingVisitor {
         private static final long serialVersionUID = 1773444180892369386L;
         @Override

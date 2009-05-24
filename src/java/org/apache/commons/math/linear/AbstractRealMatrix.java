@@ -34,11 +34,9 @@ import org.apache.commons.math.util.MathUtils;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public abstract class AbstractRealMatrix implements RealMatrix, Serializable {
+public abstract class AbstractRealMatrix implements RealMatrix {
     
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -3665653040524315561L;
-
+    
     /** Cached LU solver.
      * @deprecated as of release 2.0, since all methods using this are deprecated
      */
