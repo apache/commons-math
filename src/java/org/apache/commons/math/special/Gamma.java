@@ -33,7 +33,10 @@ public class Gamma implements Serializable {
     /** Serializable version identifier */
     private static final long serialVersionUID = -6587513359895466954L;
 
-    /** <a href="http://en.wikipedia.org/wiki/Euler-Mascheroni_constant">Euler-Mascheroni constant</a> */
+    /** 
+     * <a href="http://en.wikipedia.org/wiki/Euler-Mascheroni_constant">Euler-Mascheroni constant</a>
+     * @since 2.0
+     */
     public static final double GAMMA = 0.577215664901532860606512090082;
 
     /** Maximum allowed numerical error. */
@@ -284,8 +287,10 @@ public class Gamma implements Serializable {
      * <p> Performance for large negative values of x will be quite expensive (proportional to
      * |x|).  Accuracy for negative values of x should be about 10^-8 absolute for results
      * less than 10^5 and 10^-8 relative for results larger than that.
+     * 
      * @param x argument
      * @return value of the digamma function
+     * @since 2.0
      */
     public static double digamma(double x) {
         if (x > 0 && x <= S_LIMIT) {
