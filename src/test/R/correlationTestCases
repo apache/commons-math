@@ -29,11 +29,22 @@ tol <- 1E-15                      # error tolerance for tests
 source("testFunctions")           # utility test functions
 options(digits=16)	              # override number of digits displayed
 
-# function to verify correlation computations
-verifyCorrelation <- function(matrix, expectedCorrelation, name) {
+# Verify Pearson's correlation
+verifyPearsonsCorrelation <- function(matrix, expectedCorrelation, name) {
     correlation <- cor(matrix)
-    output <- c("Correlation matrix test dataset = ", name)
-    if (assertEquals(expectedCorrelation, correlation,tol,"Correlations")) {
+    output <- c("Pearson's Correlation matrix test dataset = ", name)
+    if (assertEquals(expectedCorrelation, correlation,tol,"Pearson's Correlations")) {
+        displayPadded(output, SUCCEEDED, WIDTH)
+    } else {
+        displayPadded(output, FAILED, WIDTH)
+    }  
+}
+
+# Verify Spearman's correlation
+verifySpearmansCorrelation <- function(matrix, expectedCorrelation, name) {
+    correlation <- cor(matrix, method="spearman")
+    output <- c("Spearman's Correlation matrix test dataset = ", name)
+    if (assertEquals(expectedCorrelation, correlation,tol,"Spearman's Correlations")) {
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
@@ -94,6 +105,7 @@ longley <- matrix(c(60323,83.0,234289,2356,1590,107608,1947,
                     70551,116.9,554894,4007,2827,130081,1962),
                     nrow = 16, ncol = 7, byrow = TRUE)
 
+# Pearson's
 expectedCorrelation <- matrix(c(
          1.000000000000000, 0.9708985250610560, 0.9835516111796693, 0.5024980838759942,
          0.4573073999764817, 0.960390571594376, 0.9713294591921188,
@@ -110,7 +122,7 @@ expectedCorrelation <- matrix(c(
           0.971329459192119, 0.9911491900672053, 0.9952734837647849, 0.6682566045621746,
           0.4172451498349454, 0.993952846232926, 1.0000000000000000),
           nrow = 7, ncol = 7, byrow = TRUE)
- verifyCorrelation(longley, expectedCorrelation, "longley")
+ verifyPearsonsCorrelation(longley, expectedCorrelation, "longley")
  
  expectedPValues <- c(
           4.38904690369668e-10,
@@ -121,6 +133,19 @@ expectedCorrelation <- matrix(c(
           3.95834476307755e-10, 1.114663916723657e-13, 1.332267629550188e-15, 0.00466039138541463, 0.1078477071581498, 7.771561172376096e-15)
  verifyPValues(longley, expectedPValues, "longley")
  
+ # Spearman's
+expectedCorrelation <- matrix(c(
+          1, 0.982352941176471, 0.985294117647059, 0.564705882352941, 0.2264705882352941, 0.976470588235294,
+          0.976470588235294, 0.982352941176471, 1, 0.997058823529412, 0.664705882352941, 0.2205882352941176,
+          0.997058823529412, 0.997058823529412, 0.985294117647059, 0.997058823529412, 1, 0.638235294117647,
+          0.2235294117647059, 0.9941176470588236, 0.9941176470588236, 0.564705882352941, 0.664705882352941,
+          0.638235294117647, 1, -0.3411764705882353, 0.685294117647059, 0.685294117647059, 0.2264705882352941,
+          0.2205882352941176, 0.2235294117647059, -0.3411764705882353, 1, 0.2264705882352941, 0.2264705882352941,
+          0.976470588235294, 0.997058823529412, 0.9941176470588236, 0.685294117647059, 0.2264705882352941, 1, 1,
+          0.976470588235294, 0.997058823529412, 0.9941176470588236, 0.685294117647059, 0.2264705882352941, 1, 1),
+          nrow = 7, ncol = 7, byrow = TRUE)
+ verifySpearmansCorrelation(longley, expectedCorrelation, "longley")
+  
  # Swiss Fertility
  
  fertility <- matrix(c(80.2,17.0,15,12,9.96,
@@ -171,15 +196,14 @@ expectedCorrelation <- matrix(c(
   44.7,46.6,16,29,50.43,
   42.8,27.7,22,29,58.33),
   nrow = 47, ncol = 5, byrow = TRUE)
-   
-expectedCorrelation <- matrix(c(
-         1.0000000000000000, 0.3530791836199747, -0.6458827064572875, -0.6637888570350691,  0.4636847006517939,
-         0.3530791836199747, 1.0000000000000000,-0.6865422086171366, -0.6395225189483201, 0.4010950530487398,
-         -0.6458827064572875, -0.6865422086171366, 1.0000000000000000, 0.6984152962884830, -0.5727418060641666,
-         -0.6637888570350691, -0.6395225189483201, 0.6984152962884830, 1.0000000000000000, -0.1538589170909148,
-          0.4636847006517939, 0.4010950530487398, -0.5727418060641666, -0.1538589170909148, 1.0000000000000000),
+  expectedCorrelation <- matrix(c(
+          1, 0.3530791836199747, -0.6458827064572875, -0.663788857035069, 0.463684700651794,
+          0.3530791836199747, 1, -0.6865422086171366, -0.63952251894832, 0.4010950530487398,
+         -0.6458827064572875, -0.6865422086171366, 1, 0.698415296288483, -0.572741806064167,
+         -0.663788857035069, -0.63952251894832, 0.698415296288483, 1, -0.1538589170909148,
+          0.463684700651794, 0.4010950530487398, -0.572741806064167, -0.1538589170909148, 1),
           nrow = 5, ncol = 5, byrow = TRUE)
-verifyCorrelation(fertility, expectedCorrelation, "swiss fertility")
+verifyPearsonsCorrelation(fertility, expectedCorrelation, "swiss fertility")
 
 expectedPValues <- c(
           0.01491720061472623,
@@ -187,5 +211,15 @@ expectedPValues <- c(
           3.658616965962355e-07, 1.304590105694471e-06, 4.811397236181847e-08,
           0.001028523190118147, 0.005204433539191644, 2.588307925380906e-05, 0.301807756132683)
 verifyPValues(fertility, expectedPValues, "swiss fertility")
+
+# Spearman's
+expectedCorrelation <- matrix(c(
+           1, 0.2426642769364176, -0.660902996352354, -0.443257690360988, 0.4136455623012432,
+           0.2426642769364176, 1, -0.598859938748963, -0.650463814145816, 0.2886878090882852,
+          -0.660902996352354, -0.598859938748963, 1, 0.674603831406147, -0.4750575257171745,
+          -0.443257690360988, -0.650463814145816, 0.674603831406147, 1, -0.1444163088302244,
+           0.4136455623012432, 0.2886878090882852, -0.4750575257171745, -0.1444163088302244, 1),
+          nrow = 5, ncol = 5, byrow = TRUE)
+ verifySpearmansCorrelation(fertility, expectedCorrelation, "swiss fertility")
 
 displayDashes(WIDTH)
