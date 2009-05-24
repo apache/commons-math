@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.stat.clustering;
 
-import java.io.Serializable;
 import java.util.Collection;
 
 /**
