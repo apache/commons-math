@@ -28,10 +28,12 @@ import org.apache.commons.math.linear.RealMatrix;
  */
 public class SpearmansRankCorrelationTest extends PearsonsCorrelationTest {
 
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
     }
 
+    @Override
     protected void tearDown() throws Exception {
         super.tearDown();
     }
@@ -39,6 +41,7 @@ public class SpearmansRankCorrelationTest extends PearsonsCorrelationTest {
     /**
      * Test Longley dataset against R.
      */
+    @Override
     public void testLongly() throws Exception {  
         RealMatrix matrix = createRealMatrix(longleyData, 16, 7);
         SpearmansCorrelation corrInstance = new SpearmansCorrelation(matrix); 
@@ -76,6 +79,7 @@ public class SpearmansRankCorrelationTest extends PearsonsCorrelationTest {
     /**
      * Constant column
      */
+    @Override
     public void testConstant() {
         double[] noVariance = new double[] {1, 1, 1, 1};
         double[] values = new double[] {1, 2, 3, 4};
@@ -85,6 +89,7 @@ public class SpearmansRankCorrelationTest extends PearsonsCorrelationTest {
     /**
      * Insufficient data
      */ 
+    @Override
     public void testInsufficientData() {
         double[] one = new double[] {1};
         double[] two = new double[] {2};
@@ -103,6 +108,7 @@ public class SpearmansRankCorrelationTest extends PearsonsCorrelationTest {
         }
     }
     
+    @Override
     public void testConsistency() {
         RealMatrix matrix = createRealMatrix(longleyData, 16, 7);
         SpearmansCorrelation corrInstance = new SpearmansCorrelation(matrix); 
@@ -116,7 +122,9 @@ public class SpearmansRankCorrelationTest extends PearsonsCorrelationTest {
     }
     
     // Not relevant here
+    @Override
     public void testStdErrorConsistency() throws Exception {}
+    @Override
     public void testCovarianceConsistency() throws Exception {}
      
 }
