@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.linear;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.Field;
 import org.apache.commons.math.FieldElement;
 
@@ -45,7 +43,7 @@ import org.apache.commons.math.FieldElement;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public interface FieldVector<T extends FieldElement<T>> extends Serializable {
+public interface FieldVector<T extends FieldElement<T>>  {
 
     /**
      * Get the type of field elements of the vector.

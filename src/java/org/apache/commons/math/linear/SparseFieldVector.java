@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math.linear;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 
 import org.apache.commons.math.Field;
@@ -28,7 +29,7 @@ import org.apache.commons.math.util.OpenIntToFieldHashMap;
  * @version $Revision: 728186 $ $Date: 2009-04-25 12:39:38 -0700 (Sat, 25 Apr 2009) $
  * @since 2.0
 */
-public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector<T> {
+public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector<T>, Serializable {
     
     /**
      *  Serial version id

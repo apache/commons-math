@@ -16,6 +16,12 @@
  */
 package org.apache.commons.math.linear;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 
@@ -612,6 +618,27 @@ public class FieldVectorImplTest extends TestCase {
 
     }
 
+    @SuppressWarnings("unchecked")
+    public void testSerial()  {
+        try {
+            File test = File.createTempFile("FVI",".ser");
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(test));
+            FieldVectorImpl<Fraction> v = new FieldVectorImpl<Fraction>(vec1);
+            out.writeObject(v);
+            out.close();
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream(test));
+            FieldVectorImpl<Fraction> nv = (FieldVectorImpl<Fraction>)in.readObject();
+            in.close();
+            test.delete();
+            assertEquals(v,nv);
+            
+        } catch (IOException e) {
+            fail("IOException: "+e);
+        } catch (ClassNotFoundException e) {
+            fail("Can't happen: "+e);
+        }
+    }
+  
     /** verifies that two vectors are equals */
     protected void checkArray(String msg, Fraction[] m, Fraction[] n) {
         if (m.length != n.length) {

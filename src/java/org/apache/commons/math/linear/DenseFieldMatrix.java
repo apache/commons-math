@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.linear;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.Field;
 import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.MathRuntimeException;
@@ -61,7 +63,7 @@ import org.apache.commons.math.MathRuntimeException;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class DenseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMatrix<T> {
+public class DenseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMatrix<T> implements Serializable {
     
     /** Serializable version identifier */
     private static final long serialVersionUID = -4602336630143123183L;

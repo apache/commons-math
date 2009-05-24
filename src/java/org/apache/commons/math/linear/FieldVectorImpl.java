@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math.linear;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
@@ -29,7 +30,7 @@ import org.apache.commons.math.MathRuntimeException;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T> {
+public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T>, Serializable {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 7648186910365927050L;

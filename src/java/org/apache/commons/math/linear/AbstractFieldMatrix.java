@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.linear;
 
-import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
@@ -35,11 +34,8 @@ import org.apache.commons.math.linear.decomposition.NonSquareMatrixException;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements FieldMatrix<T>, Serializable {
+public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements FieldMatrix<T> {
     
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -3665653040524315561L;
-
     /** Field to which the elements belong. */
     private final Field<T> field;
 
@@ -120,6 +116,13 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
         return array;
     }
 
+    /**
+     * Constructor for use with Serializable
+     */
+    protected AbstractFieldMatrix() {
+        field = null;
+    }
+    
     /**
      * Creates a matrix with no data
      * @param field field to which the elements belong

@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.linear;
 
-import java.io.Serializable;
 
 import org.apache.commons.math.Field;
 import org.apache.commons.math.FieldElement;
@@ -32,7 +31,7 @@ import org.apache.commons.math.linear.decomposition.NonSquareMatrixException;
  * @param <T> the type of the field elements
  * @version $Revision$ $Date$
  */
-public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix, Serializable {
+public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
 
     /**
      * Get the type of field elements of the matrix.

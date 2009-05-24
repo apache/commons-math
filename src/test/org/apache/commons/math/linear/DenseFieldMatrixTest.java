@@ -16,6 +16,12 @@
  */
 package org.apache.commons.math.linear;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -1245,7 +1251,28 @@ public final class DenseFieldMatrixTest extends TestCase {
         }
 
     }
-    
+
+    @SuppressWarnings("unchecked")
+    public void testSerial()  {
+        try {
+            File test = File.createTempFile("DFM",".ser");
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(test));
+            DenseFieldMatrix<Fraction> m = new DenseFieldMatrix<Fraction>(testData);
+            out.writeObject(m);
+            out.close();
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream(test));
+            DenseFieldMatrix<Fraction> nm = (DenseFieldMatrix<Fraction>)in.readObject();
+            in.close();
+            test.delete();
+            assertEquals(m,nm);
+            
+        } catch (IOException e) {
+            fail("IOException: "+e);
+        } catch (ClassNotFoundException e) {
+            fail("Can't happen: "+e);
+        }
+    }
+  
     private static class SetVisitor extends DefaultFieldMatrixChangingVisitor<Fraction> {
         public SetVisitor() {
             super(Fraction.ZERO);

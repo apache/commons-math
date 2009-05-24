@@ -16,6 +16,13 @@
  */
 package org.apache.commons.math.linear;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -931,7 +938,28 @@ public final class FieldMatrixImplTest extends TestCase {
         }
 
     }
-    
+
+    @SuppressWarnings("unchecked")
+    public void testSerial()  {
+        try {
+            File test = File.createTempFile("FMI",".ser");
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(test));
+            FieldMatrixImpl<Fraction> m = new FieldMatrixImpl<Fraction>(testData);
+            out.writeObject(m);
+            out.close();
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream(test));
+            FieldMatrixImpl<Fraction> nm = (FieldMatrixImpl<Fraction>)in.readObject();
+            in.close();
+            test.delete();
+            assertEquals(m,nm);
+            
+        } catch (IOException e) {
+            fail("IOException: "+e);
+        } catch (ClassNotFoundException e) {
+            fail("Can't happen: "+e);
+        }
+    }
+  
     private static class SetVisitor extends DefaultFieldMatrixChangingVisitor<Fraction> {
         public SetVisitor() {
             super(Fraction.ZERO);
