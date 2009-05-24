@@ -39,6 +39,9 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="psteitz" type="add" issue="MATH-267" due=to="Ted Dunning">
+        Added digamma function.
+      </action>
       <action dev="psteitz" type="add" issue="MATH-136" due=to="John Gant">
         Added Spearman's rank correlation (SpearmansCorrelation).
       </action>

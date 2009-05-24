@@ -25,10 +25,7 @@ import junit.framework.TestCase;
  * @version $Revision$ $Date$
  */
 public class GammaTest extends TestCase {
-    /**
-     * Constructor for BetaTest.
-     * @param name
-     */
+     
     public GammaTest(String name) {
         super(name);
     }
@@ -91,5 +88,38 @@ public class GammaTest extends TestCase {
     
     public void testLogGammaPositive() {
         testLogGamma(0.6931471805599457, 3.0);
+    }
+
+    public void testDigammaLargeArgs() {
+        double eps = 1e-8;
+        assertEquals(4.6001618527380874002, Gamma.digamma(100), eps);
+        assertEquals(3.9019896734278921970, Gamma.digamma(50), eps);
+        assertEquals(2.9705239922421490509, Gamma.digamma(20), eps);
+        assertEquals(2.9958363947076465821, Gamma.digamma(20.5), eps);
+        assertEquals(2.2622143570941481605, Gamma.digamma(10.1), eps);
+        assertEquals(2.1168588189004379233, Gamma.digamma(8.8), eps);
+        assertEquals(1.8727843350984671394, Gamma.digamma(7), eps);
+        assertEquals(0.42278433509846713939, Gamma.digamma(2), eps);
+        assertEquals(-100.56088545786867450, Gamma.digamma(0.01), eps);
+        assertEquals(-4.0390398965921882955, Gamma.digamma(-0.8), eps);
+        assertEquals(4.2003210041401844726, Gamma.digamma(-6.3), eps);
+    }
+
+    public void testDigammaSmallArgs() {
+        // values for negative powers of 10 from 1 to 30 as computed by webMathematica with 20 digits
+        // see functions.wolfram.com
+        double[] expected = {-10.423754940411076795, -100.56088545786867450, -1000.5755719318103005,
+                -10000.577051183514335, -100000.57719921568107, -1.0000005772140199687e6, -1.0000000577215500408e7,
+                -1.0000000057721564845e8, -1.0000000005772156633e9, -1.0000000000577215665e10, -1.0000000000057721566e11,
+                -1.0000000000005772157e12, -1.0000000000000577216e13, -1.0000000000000057722e14, -1.0000000000000005772e15, -1e+16,
+                -1e+17, -1e+18, -1e+19, -1e+20, -1e+21, -1e+22, -1e+23, -1e+24, -1e+25, -1e+26,
+                -1e+27, -1e+28, -1e+29, -1e+30};
+        for (double n = 1; n < 30; n++) {
+            checkRelativeError(String.format("Test %.0f: ", n), expected[(int) (n - 1)], Gamma.digamma(Math.pow(10.0, -n)), 1e-8);
+        }
+    }
+
+    private void checkRelativeError(String msg, double expected, double actual, double tolerance) {
+        assertEquals(msg, expected, actual, Math.abs(tolerance * actual));
     }
 }
