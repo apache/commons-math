@@ -271,25 +271,28 @@ public class Gamma implements Serializable {
 
     // limits for switching algorithm in digamma
     /** C limit */
-    private static final double C_LIMIT = 49;
-    /** S limit */
-    private static final double S_LIMIT = 1e-5;
+     private static final double C_LIMIT = 49;
+     /** S limit */
+     private static final double S_LIMIT = 1e-5;
 
     /**
-     * <p>Computes the <a href="http://en.wikipedia.org/wiki/Digamma_function">digamma function</a>
-     * using the algorithm defined in <br/>
+     * <p>Computes the digamma function of x.</p>
+     * 
+     * <p>This is an independently written implementation of the algorithm described in
      * Jose Bernardo, Algorithm AS 103: Psi (Digamma) Function, Applied Statistics, 1976.</p>
      * 
      * <p>Some of the constants have been changed to increase accuracy at the moderate expense
-     * of run-time performance.  The result should be accurate to within 10^-8 absolute tolerance for
+     * of run-time.  The result should be accurate to within 10^-8 absolute tolerance for
      * x >= 10^-5 and within 10^-8 relative tolerance for x > 0.</p>
      * 
-     * <p> Performance for large negative values of x will be quite expensive (proportional to
+     * <p>Performance for large negative values of x will be quite expensive (proportional to
      * |x|).  Accuracy for negative values of x should be about 10^-8 absolute for results
-     * less than 10^5 and 10^-8 relative for results larger than that.
+     * less than 10^5 and 10^-8 relative for results larger than that.</p>
      * 
-     * @param x argument
-     * @return value of the digamma function
+     * @param x  the argument
+     * @return   digamma(x) to within 10-8 relative or absolute error whichever is smaller
+     * @see <a href="http://en.wikipedia.org/wiki/Digamma_function"> Digamma at wikipedia </a>
+     * @see <a href="http://www.uv.es/~bernardo/1976AppStatist.pdf"> Bernardo's original article </a>
      * @since 2.0
      */
     public static double digamma(double x) {
@@ -303,11 +306,38 @@ public class Gamma implements Serializable {
             // use method 4 (accurate to O(1/x^8)
             double inv = 1 / (x * x);
             //            1       1        1         1
-            // log(x) -  --- - ------ - ------- - -------
+            // log(x) -  --- - ------ + ------- - -------
             //           2 x   12 x^2   120 x^4   252 x^6
             return Math.log(x) - 0.5 / x - inv * ((1.0 / 12) + inv * (1.0 / 120 - inv / 252));
         }
 
         return digamma(x + 1) - 1 / x;
+    }
+
+    /**
+     * <p>Computes the trigamma function of x.  This function is derived by taking the derivative of
+     * the implementation of digamma.</p>
+     * 
+     * @param x  the argument
+     * @return   trigamma(x) to within 10-8 relative or absolute error whichever is smaller
+     * @see <a href="http://en.wikipedia.org/wiki/Trigamma_function"> Trigamma at wikipedia </a>
+     * @see Gamma#digamma(double)
+     * @since 2.0
+     */
+    public static double trigamma(double x) {
+        if (x > 0 && x <= S_LIMIT) {
+            return 1 / (x * x);
+        }
+
+        if (x >= C_LIMIT) {
+            double inv = 1 / (x * x);
+            //  1    1      1       1       1
+            //  - + ---- + ---- - ----- + -----
+            //  x      2      3       5       7
+            //      2 x    6 x    30 x    42 x
+            return 1 / x + inv / 2 + inv / x * (1.0 / 6 - inv * (1.0 / 30 + inv / 42));
+        }
+
+        return trigamma(x + 1) + 1 / (x * x);
     }
 }
