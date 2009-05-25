@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.linear.decomposition;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.linear.RealMatrix;
 
 
@@ -49,7 +47,7 @@ import org.apache.commons.math.linear.RealMatrix;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public interface SingularValueDecomposition extends Serializable {
+public interface SingularValueDecomposition {
 
     /**
      * Returns the matrix U of the decomposition. 

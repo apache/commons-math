@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.linear.decomposition;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -62,9 +61,6 @@ import org.apache.commons.math.util.MathUtils;
  * @since 2.0
  */
 public class EigenDecompositionImpl implements EigenDecomposition {
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 1625101476333719659L;
 
     /** Tolerance. */
     private static final double TOLERANCE = 100 * MathUtils.EPSILON;
@@ -366,13 +362,8 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     }
 
     /** Specialized solver. */
-    private static class Solver implements DecompositionSolver, Serializable {
-        // TODO: Add Serializable documentation
-        // TODO: Check Serializable implementation
-
-        /** Serializable version identifier. */
-        private static final long serialVersionUID = -8965845906036558410L;
-
+    private static class Solver implements DecompositionSolver {
+    
         /** Real part of the realEigenvalues. */
         private double[] realEigenvalues;
 

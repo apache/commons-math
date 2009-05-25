@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.linear.decomposition;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.linear.RealMatrix;
 
 /**
@@ -46,7 +44,7 @@ import org.apache.commons.math.linear.RealMatrix;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public interface LUDecomposition extends Serializable {
+public interface LUDecomposition {
 
     /**
      * Returns the matrix L of the decomposition. 

@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.linear.decomposition;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.linear.FieldMatrix;
 
@@ -48,7 +46,7 @@ import org.apache.commons.math.linear.FieldMatrix;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public interface FieldLUDecomposition<T extends FieldElement<T>> extends Serializable {
+public interface FieldLUDecomposition<T extends FieldElement<T>> {
 
     /**
      * Returns the matrix L of the decomposition. 

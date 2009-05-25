@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.linear.decomposition;
 
-import java.io.Serializable;
 import java.util.Arrays;
 
 import org.apache.commons.math.MathRuntimeException;
@@ -46,9 +45,6 @@ import org.apache.commons.math.linear.RealVectorImpl;
  * @since 1.2
  */
 public class QRDecompositionImpl implements QRDecomposition {
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -2036131698031167221L;
 
     /**
      * A packed TRANSPOSED representation of the QR decomposition.
@@ -257,13 +253,8 @@ public class QRDecompositionImpl implements QRDecomposition {
     }
 
     /** Specialized solver. */
-    private static class Solver implements DecompositionSolver, Serializable {
-        // TODO: Add Serializable documentation
-        // TODO: Check Serializable implementation
-
-        /** Serializable version identifier. */
-        private static final long serialVersionUID = -6353105415121373022L;
-
+    private static class Solver implements DecompositionSolver {
+    
         /**
          * A packed TRANSPOSED representation of the QR decomposition.
          * <p>The elements BELOW the diagonal are the elements of the UPPER triangular

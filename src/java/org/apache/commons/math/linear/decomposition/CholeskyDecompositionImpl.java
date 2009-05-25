@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.linear.decomposition;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.linear.InvalidMatrixException;
 import org.apache.commons.math.linear.MatrixUtils;
@@ -39,12 +37,7 @@ import org.apache.commons.math.linear.RealVectorImpl;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class CholeskyDecompositionImpl implements CholeskyDecomposition, Serializable {
-    // TODO: Add Serializable documentation
-    // TODO: Check Serializable implementation
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -2036131698031167221L;
+public class CholeskyDecompositionImpl implements CholeskyDecomposition {
 
     /** Default threshold above which off-diagonal elements are considered too different
      * and matrix not symmetric. */
@@ -198,13 +191,8 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition, Seriali
     }
 
     /** Specialized solver. */
-    private static class Solver implements DecompositionSolver, Serializable {
-        // TODO: Add Serializable documentation
-        // TODO: Check Serializable implementation
-
-        /** Serializable version identifier. */
-        private static final long serialVersionUID = -7288829864732555901L;
-
+    private static class Solver implements DecompositionSolver {
+    
         /** Row-oriented storage for L<sup>T</sup> matrix data. */
         private final double[][] lTData;
 

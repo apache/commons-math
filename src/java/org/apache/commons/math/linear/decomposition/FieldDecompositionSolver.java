@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.linear.decomposition;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.linear.FieldMatrix;
 import org.apache.commons.math.linear.FieldVector;
@@ -40,7 +38,7 @@ import org.apache.commons.math.linear.InvalidMatrixException;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public interface FieldDecompositionSolver<T extends FieldElement<T>> extends Serializable {
+public interface FieldDecompositionSolver<T extends FieldElement<T>> {
 
     /** Solve the linear equation A &times; X = B for matrices A.
      * <p>The A matrix is implicit, it is provided by the underlying

@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.linear.decomposition;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealVector;
 
@@ -45,7 +43,7 @@ import org.apache.commons.math.linear.RealVector;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public interface EigenDecomposition extends Serializable {
+public interface EigenDecomposition {
 
     /**
      * Returns the matrix V of the decomposition. 

@@ -44,9 +44,6 @@ import org.apache.commons.math.linear.InvalidMatrixException;
  */
 public class FieldLUDecompositionImpl<T extends FieldElement<T>> implements FieldLUDecomposition<T> {
 
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 1954692554563387537L;
-
     /** Field to which the elements belong. */
     private final Field<T> field;
 

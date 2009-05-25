@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.linear.decomposition;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.linear.RealMatrix;
 
 /**
@@ -39,7 +37,7 @@ import org.apache.commons.math.linear.RealMatrix;
  * @version $Revision$ $Date$
  * @since 1.2
  */
-public interface QRDecomposition extends Serializable {
+public interface QRDecomposition {
 
     /**
      * Returns the matrix R of the decomposition. 

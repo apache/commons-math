@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.linear.decomposition;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
 
@@ -37,10 +35,7 @@ import org.apache.commons.math.linear.RealMatrix;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-class BiDiagonalTransformer implements Serializable {
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 8935390784125343332L;
+class BiDiagonalTransformer {
 
     /** Householder vectors. */
     private final double householderVectors[][];

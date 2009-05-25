@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.linear.decomposition;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.linear.InvalidMatrixException;
 import org.apache.commons.math.linear.MatrixUtils;
@@ -40,9 +38,6 @@ import org.apache.commons.math.linear.RealVectorImpl;
  * @since 2.0
  */
 public class LUDecompositionImpl implements LUDecomposition {
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 1954692554563387537L;
 
     /** Entries of LU decomposition. */
     private double lu[][];
@@ -238,13 +233,8 @@ public class LUDecompositionImpl implements LUDecomposition {
     }
 
     /** Specialized solver. */
-    private static class Solver implements DecompositionSolver, Serializable {
-        // TODO: Add Serializable documentation
-        // TODO: Check Serializable implementation
-
-        /** Serializable version identifier. */
-        private static final long serialVersionUID = -6353105415121373022L;
-
+    private static class Solver implements DecompositionSolver {
+    
         /** Entries of LU decomposition. */
         private final double lu[][];
 

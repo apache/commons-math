@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.linear.decomposition;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.linear.InvalidMatrixException;
@@ -39,9 +37,6 @@ import org.apache.commons.math.util.MathUtils;
  * @since 2.0
  */
 public class SingularValueDecompositionImpl implements SingularValueDecomposition {
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -3532767302235568872L;
 
     /** Number of rows of the initial matrix. */
     private int m;
@@ -299,13 +294,8 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
     }
 
     /** Specialized solver. */
-    private static class Solver implements DecompositionSolver, Serializable {
-        // TODO: Add Serializable documentation
-        // TODO: Check Serializable implementation
-
-        /** Serializable version identifier. */
-        private static final long serialVersionUID = -1959408026708904378L;
-
+    private static class Solver implements DecompositionSolver {
+        
         /** Singular values. */
         private final double[] singularValues;
 
