@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.util;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MaxIterationsExceededException;
@@ -36,10 +34,7 @@ import org.apache.commons.math.MaxIterationsExceededException;
  *
  * @version $Revision$ $Date$
  */
-public abstract class ContinuedFraction implements Serializable {
-    
-    /** Serialization UID */
-    private static final long serialVersionUID = 1768555336266158242L;
+public abstract class ContinuedFraction {
     
     /** Maximum allowed numerical error. */
     private static final double DEFAULT_EPSILON = 10e-9;

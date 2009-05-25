@@ -248,8 +248,6 @@ public class Gamma implements Serializable {
             // create continued fraction
             ContinuedFraction cf = new ContinuedFraction() {
 
-                private static final long serialVersionUID = 5378525034886164398L;
-
                 @Override
                 protected double getA(int n, double x) {
                     return ((2.0 * n) + 1.0) - a + x;

@@ -132,8 +132,6 @@ public class Beta implements Serializable {
         } else {
             ContinuedFraction fraction = new ContinuedFraction() {
 
-                private static final long serialVersionUID = -7658917278956100597L;
-
                 @Override
                 protected double getB(int n, double x) {
                     double ret;
