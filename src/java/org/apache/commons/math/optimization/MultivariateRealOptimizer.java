@@ -33,9 +33,14 @@ import org.apache.commons.math.analysis.MultivariateRealFunction;
 public interface MultivariateRealOptimizer {
 
     /** Set the maximal number of iterations of the algorithm.
-     * @param maxIterations maximal number of function calls
+     * @param maxIterations maximal number of algorithm iterations
      */
     void setMaxIterations(int maxIterations);
+
+    /** Set the maximal number of evaluations of the algorithm.
+     * @param maxEvaluations maximal number of function calls
+     */
+    void setMaxEvaluations(int maxEvaluations);
 
     /** Get the maximal number of iterations of the algorithm.
      * @return maximal number of iterations

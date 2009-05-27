@@ -110,11 +110,12 @@ public class MultiDirectional extends DirectSearchOptimizer implements Serializa
      * @return best point in the transformed simplex
      * @exception FunctionEvaluationException if the function cannot be evaluated at
      * some point
+     * @exception OptimizationException if the maximal number of evaluations is exceeded
      */
     private RealPointValuePair evaluateNewSimplex(final RealPointValuePair[] original,
                                               final double coeff,
                                               final Comparator<RealPointValuePair> comparator)
-        throws FunctionEvaluationException {
+        throws FunctionEvaluationException, OptimizationException {
 
         final double[] xSmallest = original[0].getPointRef();
         final int n = xSmallest.length;

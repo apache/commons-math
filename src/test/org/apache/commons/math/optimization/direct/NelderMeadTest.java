@@ -17,24 +17,27 @@
 
 package org.apache.commons.math.optimization.direct;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MathException;
+import org.apache.commons.math.MaxEvaluationsExceededException;
+import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.optimization.GoalType;
+import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.optimization.SimpleScalarValueChecker;
+import org.junit.Test;
 
-public class NelderMeadTest
-  extends TestCase {
+public class NelderMeadTest {
 
-  public NelderMeadTest(String name) {
-    super(name);
-  }
-
+  @Test
   public void testFunctionEvaluationExceptions() {
       MultivariateRealFunction wrong =
           new MultivariateRealFunction() {
@@ -71,6 +74,7 @@ public class NelderMeadTest
       } 
   }
 
+  @Test
   public void testMinimizeMaximize()
       throws FunctionEvaluationException, ConvergenceException {
 
@@ -130,21 +134,11 @@ public class NelderMeadTest
 
   }
 
+  @Test
   public void testRosenbrock()
     throws FunctionEvaluationException, ConvergenceException {
 
-    MultivariateRealFunction rosenbrock =
-      new MultivariateRealFunction() {
-        private static final long serialVersionUID = -9044950469615237490L;
-        public double value(double[] x) throws FunctionEvaluationException {
-          ++count;
-          double a = x[1] - x[0] * x[0];
-          double b = 1.0 - x[0];
-          return 100 * a * a + b * b;
-        }
-      };
-
-    count = 0;
+    Rosenbrock rosenbrock = new Rosenbrock();
     NelderMead optimizer = new NelderMead();
     optimizer.setConvergenceChecker(new SimpleScalarValueChecker(-1, 1.0e-3));
     optimizer.setMaxIterations(100);
@@ -154,46 +148,104 @@ public class NelderMeadTest
     RealPointValuePair optimum =
         optimizer.optimize(rosenbrock, GoalType.MINIMIZE, new double[] { -1.2, 1.0 });
 
-    assertEquals(count, optimizer.getEvaluations());
+    assertEquals(rosenbrock.getCount(), optimizer.getEvaluations());
     assertTrue(optimizer.getEvaluations() > 40);
     assertTrue(optimizer.getEvaluations() < 50);
     assertTrue(optimum.getValue() < 8.0e-4);
 
   }
 
+  @Test
   public void testPowell()
     throws FunctionEvaluationException, ConvergenceException {
 
-    MultivariateRealFunction powell =
-      new MultivariateRealFunction() {
-        private static final long serialVersionUID = -832162886102041840L;
-        public double value(double[] x) throws FunctionEvaluationException {
-          ++count;
-          double a = x[0] + 10 * x[1];
-          double b = x[2] - x[3];
-          double c = x[1] - 2 * x[2];
-          double d = x[0] - x[3];
-          return a * a + 5 * b * b + c * c * c * c + 10 * d * d * d * d;
-        }
-      };
-
-    count = 0;
+    Powell powell = new Powell();
     NelderMead optimizer = new NelderMead();
     optimizer.setConvergenceChecker(new SimpleScalarValueChecker(-1.0, 1.0e-3));
     optimizer.setMaxIterations(200);
     RealPointValuePair optimum =
       optimizer.optimize(powell, GoalType.MINIMIZE, new double[] { 3.0, -1.0, 0.0, 1.0 });
-    assertEquals(count, optimizer.getEvaluations());
+    assertEquals(powell.getCount(), optimizer.getEvaluations());
     assertTrue(optimizer.getEvaluations() > 110);
     assertTrue(optimizer.getEvaluations() < 130);
     assertTrue(optimum.getValue() < 2.0e-3);
 
   }
 
-  public static Test suite() {
-    return new TestSuite(NelderMeadTest.class);
+  @Test(expected = MaxIterationsExceededException.class)
+  public void testMaxIterations() throws MathException {
+      try {
+          Powell powell = new Powell();
+          NelderMead optimizer = new NelderMead();
+          optimizer.setConvergenceChecker(new SimpleScalarValueChecker(-1.0, 1.0e-3));
+          optimizer.setMaxIterations(20);
+          optimizer.optimize(powell, GoalType.MINIMIZE, new double[] { 3.0, -1.0, 0.0, 1.0 });
+      } catch (OptimizationException oe) {
+          if (oe.getCause() instanceof ConvergenceException) {
+              throw (ConvergenceException) oe.getCause();
+          }
+          throw oe;
+      }
   }
 
-  private int count;
+  @Test(expected = MaxEvaluationsExceededException.class)
+  public void testMaxEvaluations() throws MathException {
+      try {
+          Powell powell = new Powell();
+          NelderMead optimizer = new NelderMead();
+          optimizer.setConvergenceChecker(new SimpleScalarValueChecker(-1.0, 1.0e-3));
+          optimizer.setMaxEvaluations(20);
+          optimizer.optimize(powell, GoalType.MINIMIZE, new double[] { 3.0, -1.0, 0.0, 1.0 });
+      } catch (OptimizationException oe) {
+          if (oe.getCause() instanceof ConvergenceException) {
+              throw (ConvergenceException) oe.getCause();
+          }
+          throw oe;
+      }
+  }
+
+  private class Rosenbrock implements MultivariateRealFunction {
+
+      private int count;
+
+      public Rosenbrock() {
+          count = 0;
+      }
+
+      public double value(double[] x) throws FunctionEvaluationException {
+          ++count;
+          double a = x[1] - x[0] * x[0];
+          double b = 1.0 - x[0];
+          return 100 * a * a + b * b;
+      }
+
+      public int getCount() {
+          return count;
+      }
+
+  }
+
+  private class Powell implements MultivariateRealFunction {
+
+      private int count;
+
+      public Powell() {
+          count = 0;
+      }
+
+      public double value(double[] x) throws FunctionEvaluationException {
+          ++count;
+          double a = x[0] + 10 * x[1];
+          double b = x[2] - x[3];
+          double c = x[1] - 2 * x[2];
+          double d = x[0] - x[3];
+          return a * a + 5 * b * b + c * c * c * c + 10 * d * d * d * d;
+      }
+
+      public int getCount() {
+          return count;
+      }
+
+  }
 
 }

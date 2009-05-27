@@ -51,6 +51,9 @@ public class MultiStartMultivariateRealOptimizer implements MultivariateRealOpti
     /** Maximal number of iterations allowed. */
     private int maxIterations;
 
+    /** Maximal number of evaluations allowed. */
+    private int maxEvaluations;
+
     /** Number of iterations already performed for all starts. */
     private int totalIterations;
 
@@ -130,6 +133,16 @@ public class MultiStartMultivariateRealOptimizer implements MultivariateRealOpti
     }
 
     /** {@inheritDoc} */
+    public void setMaxEvaluations(int maxEvaluations) {
+        this.maxEvaluations = maxEvaluations;
+    }
+
+    /** {@inheritDoc} */
+    public int getMaxEvaluations() {
+        return maxEvaluations;
+    }
+
+    /** {@inheritDoc} */
     public int getIterations() {
         return totalIterations;
     }
@@ -164,6 +177,7 @@ public class MultiStartMultivariateRealOptimizer implements MultivariateRealOpti
 
             try {
                 optimizer.setMaxIterations(maxIterations - totalIterations);
+                optimizer.setMaxEvaluations(maxEvaluations - totalEvaluations);
                 optima[i] = optimizer.optimize(f, goalType,
                                                (i == 0) ? startPoint : generator.nextVector());
             } catch (FunctionEvaluationException fee) {

@@ -83,6 +83,10 @@ public class MessagesResources_fr
     { "Maximal number of iterations ({0}) exceeded",
       "Nombre maximal d''it\u00e9rations ({0}) d\u00e9pass\u00e9" },
 
+    // org.apache.commons.math.MaxEvaluationsExceededException
+    { "Maximal number of evaluations ({0}) exceeded",
+      "Nombre maximal d''\u00e9valuations ({0}) d\u00e9pass\u00e9" },
+
     // org.apache.commons.math.analysis.interpolation.SplineInterpolator
     // org.apache.commons.math.analysis.polynomials.PolynomialFunctionLagrangeForm
     // org.apache.commons.math.DimensionMismatchException

@@ -23,6 +23,7 @@ import java.util.Comparator;
 
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.MaxEvaluationsExceededException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.optimization.GoalType;
@@ -104,6 +105,9 @@ public abstract class DirectSearchOptimizer implements MultivariateRealOptimizer
     /** Maximal number of iterations allowed. */
     private int maxIterations;
 
+    /** Maximal number of evaluations allowed. */
+    private int maxEvaluations;
+
     /** Number of iterations already performed. */
     private int iterations;
 
@@ -118,6 +122,7 @@ public abstract class DirectSearchOptimizer implements MultivariateRealOptimizer
     protected DirectSearchOptimizer() {
         setConvergenceChecker(new SimpleScalarValueChecker());
         setMaxIterations(Integer.MAX_VALUE);
+        setMaxEvaluations(Integer.MAX_VALUE);
     }
 
     /** Set start configuration for simplex.
@@ -219,6 +224,11 @@ public abstract class DirectSearchOptimizer implements MultivariateRealOptimizer
     /** {@inheritDoc} */
     public void setMaxIterations(int maxIterations) {
         this.maxIterations = maxIterations;
+    }
+
+    /** {@inheritDoc} */
+    public void setMaxEvaluations(int maxEvaluations) {
+        this.maxEvaluations = maxEvaluations;
     }
 
     /** {@inheritDoc} */
@@ -329,10 +339,13 @@ public abstract class DirectSearchOptimizer implements MultivariateRealOptimizer
      * @return objective function value at the given point
      * @exception FunctionEvaluationException if no value can be computed for the parameters
      * @exception IllegalArgumentException if the start point dimension is wrong
+     * @exception OptimizationException if the maximal number of evaluations is exceeded
      */
     protected double evaluate(final double[] x)
-        throws FunctionEvaluationException, IllegalArgumentException {
-        evaluations++;
+        throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
+        if (++evaluations > maxEvaluations) {
+            throw new OptimizationException(new MaxEvaluationsExceededException(maxEvaluations));
+        }
         return f.value(x);
     }
 
@@ -370,9 +383,10 @@ public abstract class DirectSearchOptimizer implements MultivariateRealOptimizer
     /** Evaluate all the non-evaluated points of the simplex.
      * @param comparator comparator to use to sort simplex vertices from best to worst
      * @exception FunctionEvaluationException if no value can be computed for the parameters
+     * @exception OptimizationException if the maximal number of evaluations is exceeded
      */
     protected void evaluateSimplex(final Comparator<RealPointValuePair> comparator)
-        throws FunctionEvaluationException {
+        throws FunctionEvaluationException, OptimizationException {
 
         // evaluate the objective function at all non-evaluated simplex points
         for (int i = 0; i < simplex.length; ++i) {
