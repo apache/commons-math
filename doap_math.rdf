@@ -18,16 +18,16 @@
       </SVNRepository>
     </repository>
     <release>
-      <revision>
+      <Version>
         <name>commons-math</name>
         <created>2008-02-24</created>
-        <version>1.2</version>
-      </revision>
-      <revision>
+        <revision>1.2</revision>
+      </Version>
+      <Version>
         <name>commons-math</name>
         <created>2005-12-19</created>
-        <version>1.1</version>
-      </revision>
+        <revision>1.1</revision>
+      </Version>
     </release>
     <mailing-list rdf:resource="http://commons.apache.org/mail-lists.html"/>
   </Project>
