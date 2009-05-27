@@ -37,15 +37,20 @@ public interface MultivariateRealOptimizer {
      */
     void setMaxIterations(int maxIterations);
 
-    /** Set the maximal number of evaluations of the algorithm.
-     * @param maxEvaluations maximal number of function calls
-     */
-    void setMaxEvaluations(int maxEvaluations);
-
     /** Get the maximal number of iterations of the algorithm.
      * @return maximal number of iterations
      */
     int getMaxIterations();
+
+    /** Set the maximal number of functions evaluations.
+     * @param maxEvaluations maximal number of function evaluations
+     */
+    void setMaxEvaluations(int maxEvaluations);
+
+    /** Get the maximal number of functions evaluations.
+     * @return maximal number of functions evaluations
+     */
+    int getMaxEvaluations();
 
     /** Get the number of iterations realized by the algorithm.
      * <p>

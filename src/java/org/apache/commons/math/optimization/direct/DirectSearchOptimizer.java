@@ -227,13 +227,18 @@ public abstract class DirectSearchOptimizer implements MultivariateRealOptimizer
     }
 
     /** {@inheritDoc} */
+    public int getMaxIterations() {
+        return maxIterations;
+    }
+
+    /** {@inheritDoc} */
     public void setMaxEvaluations(int maxEvaluations) {
         this.maxEvaluations = maxEvaluations;
     }
 
     /** {@inheritDoc} */
-    public int getMaxIterations() {
-        return maxIterations;
+    public int getMaxEvaluations() {
+        return maxEvaluations;
     }
 
     /** {@inheritDoc} */
