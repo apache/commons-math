@@ -21,6 +21,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.apache.commons.math.fraction.BigFraction;
 import org.apache.commons.math.fraction.Fraction;
 import org.apache.commons.math.fraction.FractionConversionException;
 import org.apache.commons.math.fraction.FractionField;
@@ -320,6 +321,30 @@ public final class MatrixUtilsTest extends TestCase {
         } catch (IllegalArgumentException ex) {
             // expected
         }
+    }
+
+    public void testBigFractionConverter() {
+        BigFraction[][] bfData = {
+                { new BigFraction(1), new BigFraction(2), new BigFraction(3) },
+                { new BigFraction(2), new BigFraction(5), new BigFraction(3) },
+                { new BigFraction(1), new BigFraction(0), new BigFraction(8) }
+        };
+        FieldMatrix<BigFraction> m = new FieldMatrixImpl<BigFraction>(bfData, false);
+        RealMatrix converted = MatrixUtils.bigFractionMatrixToRealMatrix(m);
+        RealMatrix reference = new RealMatrixImpl(testData, false);
+        assertEquals(0.0, converted.subtract(reference).getNorm(), 0.0);
+    }
+
+    public void testFractionConverter() {
+        Fraction[][] fData = {
+                { new Fraction(1), new Fraction(2), new Fraction(3) },
+                { new Fraction(2), new Fraction(5), new Fraction(3) },
+                { new Fraction(1), new Fraction(0), new Fraction(8) }
+        };
+        FieldMatrix<Fraction> m = new FieldMatrixImpl<Fraction>(fData, false);
+        RealMatrix converted = MatrixUtils.fractionMatrixToRealMatrix(m);
+        RealMatrix reference = new RealMatrixImpl(testData, false);
+        assertEquals(0.0, converted.subtract(reference).getNorm(), 0.0);
     }
 
     public static final Fraction[][] asFraction(double[][] data) {
