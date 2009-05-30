@@ -21,12 +21,11 @@ import java.io.Serializable;
 import java.math.BigInteger;
 
 import org.apache.commons.math.fraction.BigFraction;
-import org.apache.commons.math.linear.DefaultFieldMatrixPreservingVisitor;
 import org.apache.commons.math.linear.FieldMatrix;
 import org.apache.commons.math.linear.FieldMatrixImpl;
 import org.apache.commons.math.linear.InvalidMatrixException;
+import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.RealMatrixImpl;
 import org.apache.commons.math.linear.decomposition.FieldDecompositionSolver;
 import org.apache.commons.math.linear.decomposition.FieldLUDecompositionImpl;
 
@@ -116,17 +115,12 @@ public class NordsieckTransformer implements Serializable {
 
         // from Nordsieck to multistep
         final FieldMatrix<BigFraction> bigNtoM = buildNordsieckToMultistep(p, q, r, s);
-        Convertor convertor = new Convertor();
-        bigNtoM.walkInOptimizedOrder(convertor);
-        nordsieckToMultistep = convertor.getConvertedMatrix();
+        nordsieckToMultistep = MatrixUtils.bigFractionMatrixToRealMatrix(bigNtoM);
 
         // from multistep to Nordsieck
         final FieldDecompositionSolver<BigFraction> solver =
             new FieldLUDecompositionImpl<BigFraction>(bigNtoM).getSolver();
-        final FieldMatrix<BigFraction> bigMtoN = solver.getInverse();
-        convertor = new Convertor();
-        bigMtoN.walkInOptimizedOrder(convertor);
-        multistepToNordsieck = convertor.getConvertedMatrix();
+        multistepToNordsieck = MatrixUtils.bigFractionMatrixToRealMatrix(solver.getInverse());
 
     }
 
@@ -182,39 +176,6 @@ public class NordsieckTransformer implements Serializable {
         }
 
         return new FieldMatrixImpl<BigFraction>(array, false);
-
-    }
-
-    /** Convertor for {@link FieldMatrix}/{@link BigFraction}. */
-    private static class Convertor extends DefaultFieldMatrixPreservingVisitor<BigFraction> {
-
-        /** Converted array. */
-        private double[][] data;
-
-        /** Simple constructor. */
-        public Convertor() {
-            super(BigFraction.ZERO);
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public void start(int rows, int columns,
-                          int startRow, int endRow, int startColumn, int endColumn) {
-            data = new double[rows][columns];
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public void visit(int row, int column, BigFraction value) {
-            data[row][column] = value.doubleValue();
-        }
-
-        /** Get the converted matrix.
-         * @return converted matrix
-         */
-        RealMatrix getConvertedMatrix() {
-            return new RealMatrixImpl(data, false);
-        }
 
     }
 
