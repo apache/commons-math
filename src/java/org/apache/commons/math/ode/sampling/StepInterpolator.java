@@ -105,6 +105,7 @@ public interface StepInterpolator
    * to be preserved across several calls.</p>
    * @return derivatives of the state vector at time {@link #getInterpolatedTime}
    * @see #getInterpolatedState()
+   * @since 2.0
    */
   public double[] getInterpolatedDerivatives();
 
