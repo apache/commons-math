@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -24,23 +26,18 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Random;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.apache.commons.math.ode.ContinuousOutputModel;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.sampling.StepHandler;
+import org.apache.commons.math.ode.sampling.StepInterpolatorTestUtils;
+import org.junit.Test;
 
-public class EulerStepInterpolatorTest
-  extends StepInterpolatorAbstractTest {
+public class EulerStepInterpolatorTest {
 
-  public EulerStepInterpolatorTest(String name) {
-    super(name);
-  }
-
-  public void testNoReset() {
+  @Test
+  public void noReset() {
 
     double[]   y    =   { 0.0, 1.0, -2.0 };
     double[][] yDot = { { 1.0, 2.0, -2.0 } };
@@ -57,7 +54,8 @@ public class EulerStepInterpolatorTest
 
   }
 
-  public void testInterpolationAtBounds()
+  @Test
+  public void interpolationAtBounds()
     throws DerivativeException {
 
     double   t0 = 0;
@@ -93,7 +91,8 @@ public class EulerStepInterpolatorTest
 
   }
 
-  public void testInterpolationInside()
+  @Test
+  public void interpolationInside()
   throws DerivativeException {
 
     double[]   y    =   { 1.0, 3.0, -4.0 };
@@ -118,15 +117,17 @@ public class EulerStepInterpolatorTest
 
   }
 
-  public void testDerivativesConsistency()
+  @Test
+  public void derivativesConsistency()
   throws DerivativeException, IntegratorException {
     TestProblem3 pb = new TestProblem3();
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.001;
     EulerIntegrator integ = new EulerIntegrator(step);
-    checkDerivativesConsistency(integ, pb, 1.0e-10);
+    StepInterpolatorTestUtils.checkDerivativesConsistency(integ, pb, 1.0e-10);
   }
 
-  public void testSerialization()
+  @Test
+  public void serialization()
     throws DerivativeException, IntegratorException,
            IOException, ClassNotFoundException {
 
@@ -179,10 +180,6 @@ public class EulerStepInterpolatorTest
     }
     public void computeDerivatives(double t, double[] y, double[] yDot) {
     }
-  }
-
-  public static Test suite() {
-    return new TestSuite(EulerStepInterpolatorTest.class);
   }
 
 }

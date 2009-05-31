@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -24,30 +26,26 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Random;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.apache.commons.math.ode.ContinuousOutputModel;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.sampling.StepHandler;
+import org.apache.commons.math.ode.sampling.StepInterpolatorTestUtils;
+import org.junit.Test;
 
-public class MidpointStepInterpolatorTest
-  extends StepInterpolatorAbstractTest {
+public class MidpointStepInterpolatorTest {
 
-  public MidpointStepInterpolatorTest(String name) {
-    super(name);
-  }
-
+  @Test
   public void testDerivativesConsistency()
   throws DerivativeException, IntegratorException {
     TestProblem3 pb = new TestProblem3();
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.001;
     MidpointIntegrator integ = new MidpointIntegrator(step);
-    checkDerivativesConsistency(integ, pb, 1.0e-10);
+    StepInterpolatorTestUtils.checkDerivativesConsistency(integ, pb, 1.0e-10);
   }
 
-  public void testSerialization()
+  @Test
+  public void serialization()
     throws DerivativeException, IntegratorException,
            IOException, ClassNotFoundException {
 
@@ -90,10 +88,6 @@ public class MidpointStepInterpolatorTest
 
     assertTrue(maxError < 1.0e-6);
 
-  }
-
-  public static Test suite() {
-    return new TestSuite(MidpointStepInterpolatorTest.class);
   }
 
 }

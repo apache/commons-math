@@ -17,7 +17,8 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import junit.framework.*;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Random;
 import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
@@ -30,23 +31,22 @@ import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.nonstiff.GillIntegrator;
 import org.apache.commons.math.ode.sampling.StepHandler;
+import org.apache.commons.math.ode.sampling.StepInterpolatorTestUtils;
+import org.junit.Test;
 
-public class GillStepInterpolatorTest
-  extends StepInterpolatorAbstractTest {
+public class GillStepInterpolatorTest {
 
-  public GillStepInterpolatorTest(String name) {
-    super(name);
-  }
-
+  @Test
   public void testDerivativesConsistency()
   throws DerivativeException, IntegratorException {
     TestProblem3 pb = new TestProblem3();
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.001;
     GillIntegrator integ = new GillIntegrator(step);
-    checkDerivativesConsistency(integ, pb, 1.0e-10);
+    StepInterpolatorTestUtils.checkDerivativesConsistency(integ, pb, 1.0e-10);
   }
 
-  public void testSerialization()
+  @Test
+  public void serialization()
     throws DerivativeException, IntegratorException,
            IOException, ClassNotFoundException {
 
@@ -89,10 +89,6 @@ public class GillStepInterpolatorTest
 
     assertTrue(maxError < 0.003);
 
-  }
-
-  public static Test suite() {
-    return new TestSuite(GillStepInterpolatorTest.class);
   }
 
 }

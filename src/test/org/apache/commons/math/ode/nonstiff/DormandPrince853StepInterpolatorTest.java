@@ -17,29 +17,28 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import junit.framework.*;
-import java.util.Random;
-import java.io.ByteArrayOutputStream;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.io.ByteArrayInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Random;
 
 import org.apache.commons.math.ode.ContinuousOutputModel;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.IntegratorException;
-import org.apache.commons.math.ode.nonstiff.DormandPrince853Integrator;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
+import org.apache.commons.math.ode.sampling.StepInterpolatorTestUtils;
+import org.junit.Test;
 
-public class DormandPrince853StepInterpolatorTest
-  extends StepInterpolatorAbstractTest {
+public class DormandPrince853StepInterpolatorTest {
 
-  public DormandPrince853StepInterpolatorTest(String name) {
-    super(name);
-  }
-
-  public void testDerivativesConsistency()
+  @Test
+  public void derivativesConsistency()
   throws DerivativeException, IntegratorException {
     TestProblem3 pb = new TestProblem3(0.1);
     double minStep = 0;
@@ -49,10 +48,11 @@ public class DormandPrince853StepInterpolatorTest
     DormandPrince853Integrator integ = new DormandPrince853Integrator(minStep, maxStep,
                                                                       scalAbsoluteTolerance,
                                                                       scalRelativeTolerance);
-    checkDerivativesConsistency(integ, pb, 1.0e-10);
+    StepInterpolatorTestUtils.checkDerivativesConsistency(integ, pb, 1.0e-10);
   }
 
-  public void testSerialization()
+  @Test
+  public void serialization()
     throws DerivativeException, IntegratorException,
            IOException, ClassNotFoundException {
 
@@ -102,7 +102,8 @@ public class DormandPrince853StepInterpolatorTest
 
   }
 
-  public void testClone()
+  @Test
+  public void checklone()
   throws DerivativeException, IntegratorException {
     TestProblem3 pb = new TestProblem3(0.9);
     double minStep = 0;
@@ -145,10 +146,6 @@ public class DormandPrince853StepInterpolatorTest
             pb.getInitialTime(), pb.getInitialState(),
             pb.getFinalTime(), new double[pb.getDimension()]);
 
-  }
-
-  public static Test suite() {
-    return new TestSuite(DormandPrince853StepInterpolatorTest.class);
   }
 
 }
