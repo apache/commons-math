@@ -275,6 +275,10 @@ public class MessagesResources_fr
     { "too small integration interval: length = {0}",
       "intervalle d''int\u00e9gration trop petit : {0}" },
 
+    // org.apache.commons.math.ode.nonstiff.AdamsIntegrator
+    { "{0} is supported only for orders 2 or more",
+      "la m\u00e9thode {0} n''est disponible que pour les ordres 2 ou plus" },
+
     // org.apache.commons.math.ode.stiff.BDFIntegrator
     { "unsupported order {0} for BDF methods, must be between {1} and {2}",
       "ordre {0} non support\u00e9 pour les m\u00e9thodes BDF, doit \u00eatre entre {1} et {2}" },
