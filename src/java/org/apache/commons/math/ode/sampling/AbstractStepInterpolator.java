@@ -351,14 +351,20 @@ public abstract class AbstractStepInterpolator
   protected void writeBaseExternal(final ObjectOutput out)
     throws IOException {
 
-    out.writeInt(currentState.length);
+    if (currentState == null) {
+        out.writeInt(-1);
+    } else {
+        out.writeInt(currentState.length);
+    }
     out.writeDouble(previousTime);
     out.writeDouble(currentTime);
     out.writeDouble(h);
     out.writeBoolean(forward);
 
-    for (int i = 0; i < currentState.length; ++i) {
-      out.writeDouble(currentState[i]);
+    if (currentState != null) {
+        for (int i = 0; i < currentState.length; ++i) {
+            out.writeDouble(currentState[i]);
+        }
     }
 
     out.writeDouble(interpolatedTime);
@@ -393,15 +399,19 @@ public abstract class AbstractStepInterpolator
     h             = in.readDouble();
     forward       = in.readBoolean();
 
-    currentState  = new double[dimension];
-    for (int i = 0; i < currentState.length; ++i) {
-      currentState[i] = in.readDouble();
+    if (dimension < 0) {
+        currentState = null;
+    } else {
+        currentState  = new double[dimension];
+        for (int i = 0; i < currentState.length; ++i) {
+            currentState[i] = in.readDouble();
+        }
     }
 
     // we do NOT handle the interpolated time and state here
     interpolatedTime        = Double.NaN;
-    interpolatedState       = new double[dimension];
-    interpolatedDerivatives = new double[dimension];
+    interpolatedState       = (dimension < 0) ? null : new double[dimension];
+    interpolatedDerivatives = (dimension < 0) ? null : new double[dimension];
 
     finalized = true;
 

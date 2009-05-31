@@ -133,9 +133,11 @@ abstract class RungeKuttaStepInterpolator
     writeBaseExternal(out);
 
     // save the local attributes
-    out.writeInt(yDotK.length);
-    for (int k = 0; k < yDotK.length; ++k) {
-      for (int i = 0; i < currentState.length; ++i) {
+    final int n = (currentState == null) ? -1 : currentState.length;
+    final int kMax = (yDotK == null) ? -1 : yDotK.length;
+    out.writeInt(kMax);
+    for (int k = 0; k < kMax; ++k) {
+      for (int i = 0; i < n; ++i) {
         out.writeDouble(yDotK[k][i]);
       }
     }
@@ -153,22 +155,27 @@ abstract class RungeKuttaStepInterpolator
     final double t = readBaseExternal(in);
 
     // read the local attributes
+    final int n = (currentState == null) ? -1 : currentState.length;
     final int kMax = in.readInt();
-    yDotK = new double[kMax][];
+    yDotK = (kMax < 0) ? null : new double[kMax][];
     for (int k = 0; k < kMax; ++k) {
-      yDotK[k] = new double[currentState.length];
-      for (int i = 0; i < currentState.length; ++i) {
+      yDotK[k] = (n < 0) ? null : new double[n];
+      for (int i = 0; i < n; ++i) {
         yDotK[k][i] = in.readDouble();
       }
     }
 
     equations = null;
 
-    try {
-      // we can now set the interpolated time and state
-      setInterpolatedTime(t);
-    } catch (DerivativeException e) {
-      throw MathRuntimeException.createIOException(e);
+    if (currentState != null) {
+        try {
+            // we can now set the interpolated time and state
+            setInterpolatedTime(t);
+        } catch (DerivativeException e) {
+            throw MathRuntimeException.createIOException(e);
+        }
+    } else {
+        interpolatedTime = t;
     }
 
   }

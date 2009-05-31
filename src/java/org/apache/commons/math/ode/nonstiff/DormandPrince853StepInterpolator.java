@@ -259,8 +259,9 @@ class DormandPrince853StepInterpolator
     } catch (DerivativeException e) {
       throw MathRuntimeException.createIOException(e);
     }
-    out.writeInt(currentState.length);
-    for (int i = 0; i < currentState.length; ++i) {
+    final int dimension = (currentState == null) ? -1 : currentState.length;
+    out.writeInt(dimension);
+    for (int i = 0; i < dimension; ++i) {
       out.writeDouble(yDotKLast[0][i]);
       out.writeDouble(yDotKLast[1][i]);
       out.writeDouble(yDotKLast[2][i]);
@@ -279,9 +280,9 @@ class DormandPrince853StepInterpolator
     // read the local attributes
     yDotKLast = new double[3][];
     final int dimension = in.readInt();
-    yDotKLast[0] = new double[dimension];
-    yDotKLast[1] = new double[dimension];
-    yDotKLast[2] = new double[dimension];
+    yDotKLast[0] = (dimension < 0) ? null : new double[dimension];
+    yDotKLast[1] = (dimension < 0) ? null : new double[dimension];
+    yDotKLast[2] = (dimension < 0) ? null : new double[dimension];
 
     for (int i = 0; i < dimension; ++i) {
       yDotKLast[0][i] = in.readDouble();

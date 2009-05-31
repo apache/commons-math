@@ -358,7 +358,7 @@ class GraggBulirschStoerStepInterpolator
   public void writeExternal(final ObjectOutput out)
     throws IOException {
 
-    final int dimension = currentState.length;
+    final int dimension = (currentState == null) ? -1 : currentState.length;
 
     // save the state of the base class
     writeBaseExternal(out);
@@ -380,7 +380,7 @@ class GraggBulirschStoerStepInterpolator
 
     // read the base class 
     final double t = readBaseExternal(in);
-    final int dimension = currentState.length;
+    final int dimension = (currentState == null) ? -1 : currentState.length;
 
     // read the local attributes
     final int degree = in.readInt();
