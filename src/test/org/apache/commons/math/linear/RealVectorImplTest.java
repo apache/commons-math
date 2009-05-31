@@ -23,6 +23,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+
+import org.apache.commons.math.TestUtils;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -1176,23 +1179,8 @@ public class RealVectorImplTest extends TestCase {
     }
 
     public void testSerial()  {
-        try {
-            File test = File.createTempFile("RVI",".ser");
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(test));
-            RealVectorImpl v = new RealVectorImpl(new double[] { 0, 1, 2 });
-            out.writeObject(v);
-            out.close();
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream(test));
-            RealVectorImpl nv = (RealVectorImpl)in.readObject();
-            in.close();
-            test.delete();
-            assertEquals(v,nv);
-            
-        } catch (IOException e) {
-            fail("IOException: "+e);
-        } catch (ClassNotFoundException e) {
-            fail("Can't happen: "+e);
-        }
+        RealVectorImpl v = new RealVectorImpl(new double[] { 0, 1, 2 });
+        assertEquals(v,TestUtils.serializeAndRecover(v));
     }
     
     

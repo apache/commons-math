@@ -1252,27 +1252,11 @@ public final class DenseFieldMatrixTest extends TestCase {
 
     }
 
-    @SuppressWarnings("unchecked")
     public void testSerial()  {
-        try {
-            File test = File.createTempFile("DFM",".ser");
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(test));
-            DenseFieldMatrix<Fraction> m = new DenseFieldMatrix<Fraction>(testData);
-            out.writeObject(m);
-            out.close();
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream(test));
-            DenseFieldMatrix<Fraction> nm = (DenseFieldMatrix<Fraction>)in.readObject();
-            in.close();
-            test.delete();
-            assertEquals(m,nm);
-            
-        } catch (IOException e) {
-            fail("IOException: "+e);
-        } catch (ClassNotFoundException e) {
-            fail("Can't happen: "+e);
-        }
+        DenseFieldMatrix<Fraction> m = new DenseFieldMatrix<Fraction>(testData);
+        assertEquals(m,TestUtils.serializeAndRecover(m));
     }
-  
+
     private static class SetVisitor extends DefaultFieldMatrixChangingVisitor<Fraction> {
         public SetVisitor() {
             super(Fraction.ZERO);

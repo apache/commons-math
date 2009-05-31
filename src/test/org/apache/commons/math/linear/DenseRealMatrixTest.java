@@ -25,6 +25,7 @@ import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import java.util.Random;
 
+import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.linear.decomposition.LUDecompositionImpl;
 import org.apache.commons.math.linear.decomposition.NonSquareMatrixException;
 
@@ -1163,25 +1164,10 @@ public final class DenseRealMatrixTest extends TestCase {
     }
     
     public void testSerial()  {
-        try {
-            File test = File.createTempFile("DRM",".ser");
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(test));
-            DenseRealMatrix m = new DenseRealMatrix(testData);
-            out.writeObject(m);
-            out.close();
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream(test));
-            DenseRealMatrix nm = (DenseRealMatrix)in.readObject();
-            in.close();
-            test.delete();
-            assertEquals(m,nm);
-            
-        } catch (IOException e) {
-            fail("IOException: "+e);
-        } catch (ClassNotFoundException e) {
-            fail("Can't happen: "+e);
-        }
+        DenseRealMatrix m = new DenseRealMatrix(testData);
+        assertEquals(m,TestUtils.serializeAndRecover(m));
     }
-        
+
     private static class SetVisitor extends DefaultRealMatrixChangingVisitor {
         @Override
         public double visit(int i, int j, double value) {

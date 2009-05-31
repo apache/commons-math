@@ -939,25 +939,9 @@ public final class FieldMatrixImplTest extends TestCase {
 
     }
 
-    @SuppressWarnings("unchecked")
     public void testSerial()  {
-        try {
-            File test = File.createTempFile("FMI",".ser");
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(test));
-            FieldMatrixImpl<Fraction> m = new FieldMatrixImpl<Fraction>(testData);
-            out.writeObject(m);
-            out.close();
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream(test));
-            FieldMatrixImpl<Fraction> nm = (FieldMatrixImpl<Fraction>)in.readObject();
-            in.close();
-            test.delete();
-            assertEquals(m,nm);
-            
-        } catch (IOException e) {
-            fail("IOException: "+e);
-        } catch (ClassNotFoundException e) {
-            fail("Can't happen: "+e);
-        }
+        FieldMatrixImpl<Fraction> m = new FieldMatrixImpl<Fraction>(testData);
+        assertEquals(m,TestUtils.serializeAndRecover(m));
     }
   
     private static class SetVisitor extends DefaultFieldMatrixChangingVisitor<Fraction> {

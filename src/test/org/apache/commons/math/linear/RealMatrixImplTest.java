@@ -942,23 +942,8 @@ public final class RealMatrixImplTest extends TestCase {
     }
 
     public void testSerial()  {
-        try {
-            File test = File.createTempFile("RMI",".ser");
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(test));
-            RealMatrixImpl m = new RealMatrixImpl(testData);
-            out.writeObject(m);
-            out.close();
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream(test));
-            RealMatrixImpl nm = (RealMatrixImpl)in.readObject();
-            in.close();
-            test.delete();
-            assertEquals(m,nm);
-            
-        } catch (IOException e) {
-            fail("IOException: "+e);
-        } catch (ClassNotFoundException e) {
-            fail("Can't happen: "+e);
-        }
+        RealMatrixImpl m = new RealMatrixImpl(testData);
+        assertEquals(m,TestUtils.serializeAndRecover(m));
     }
     
     

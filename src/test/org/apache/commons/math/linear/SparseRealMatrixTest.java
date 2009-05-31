@@ -27,6 +27,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.linear.decomposition.LUDecompositionImpl;
 import org.apache.commons.math.linear.decomposition.NonSquareMatrixException;
 
@@ -649,23 +650,8 @@ public final class SparseRealMatrixTest extends TestCase {
     }
 
     public void testSerial()  {
-        try {
-            File test = File.createTempFile("OMRM",".ser");
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(test));
-            OpenMapRealMatrix m = createSparseMatrix(testData);
-            out.writeObject(m);
-            out.close();
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream(test));
-            OpenMapRealMatrix nm = (OpenMapRealMatrix)in.readObject();
-            in.close();
-            test.delete();
-            assertEquals(m,nm);
-
-        } catch (IOException e) {
-            fail("IOException: "+e);
-        } catch (ClassNotFoundException e) {
-            fail("Can't happen: "+e);
-        }
+        OpenMapRealMatrix m = createSparseMatrix(testData);
+        assertEquals(m,TestUtils.serializeAndRecover(m));
     }
 
     // --------------- -----------------Protected methods

@@ -31,6 +31,7 @@ import junit.framework.TestSuite;
 
 import org.apache.commons.math.Field;
 import org.apache.commons.math.FieldElement;
+import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.fraction.Fraction;
 import org.apache.commons.math.fraction.FractionField;
 
@@ -618,25 +619,9 @@ public class FieldVectorImplTest extends TestCase {
 
     }
 
-    @SuppressWarnings("unchecked")
     public void testSerial()  {
-        try {
-            File test = File.createTempFile("FVI",".ser");
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(test));
-            FieldVectorImpl<Fraction> v = new FieldVectorImpl<Fraction>(vec1);
-            out.writeObject(v);
-            out.close();
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream(test));
-            FieldVectorImpl<Fraction> nv = (FieldVectorImpl<Fraction>)in.readObject();
-            in.close();
-            test.delete();
-            assertEquals(v,nv);
-            
-        } catch (IOException e) {
-            fail("IOException: "+e);
-        } catch (ClassNotFoundException e) {
-            fail("Can't happen: "+e);
-        }
+        FieldVectorImpl<Fraction> v = new FieldVectorImpl<Fraction>(vec1);
+        assertEquals(v,TestUtils.serializeAndRecover(v));
     }
   
     /** verifies that two vectors are equals */
