@@ -25,7 +25,6 @@ import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.ode.events.EventState;
 import org.apache.commons.math.ode.nonstiff.DormandPrince853Integrator;
 import org.apache.commons.math.ode.sampling.FixedStepHandler;
-import org.apache.commons.math.ode.sampling.MultistepStepInterpolator;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 import org.apache.commons.math.ode.sampling.StepNormalizer;
@@ -34,8 +33,7 @@ import org.apache.commons.math.ode.sampling.StepNormalizer;
  * This class is the base class for multistep integrators for Ordinary
  * Differential Equations.
  *
- * @see org.apache.commons.math.ode.nonstiff.AdamsBashforthIntegrator
- * @see org.apache.commons.math.ode.nonstiff.AdamsMoultonIntegrator
+ * @see org.apache.commons.math.ode.nonstiff.AdamsIntegrator
  * @version $Revision$ $Date$
  * @since 2.0
  */
@@ -57,7 +55,7 @@ public abstract class MultistepIntegrator extends AbstractIntegrator {
     private double resetTime;
 
     /** Prototype of the step interpolator. */
-    protected MultistepStepInterpolator prototype;
+    protected StepInterpolator prototype;
                                            
     /**
      * Build a multistep integrator with the given number of steps.
@@ -70,7 +68,7 @@ public abstract class MultistepIntegrator extends AbstractIntegrator {
      * @param prototype prototype of the step interpolator to use
      */
     protected MultistepIntegrator(final String name, final int k,
-                                  final MultistepStepInterpolator prototype) {
+                                  final StepInterpolator prototype) {
         super(name);
         starter = new DormandPrince853Integrator(1.0e-6, 1.0e6, 1.0e-5, 1.0e-6);
         previousT = new double[k];
