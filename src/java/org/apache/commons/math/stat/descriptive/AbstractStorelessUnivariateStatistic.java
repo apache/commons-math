@@ -18,7 +18,6 @@ package org.apache.commons.math.stat.descriptive;
 
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.util.MathUtils;
-import java.io.Serializable;
 
 /**
  *
