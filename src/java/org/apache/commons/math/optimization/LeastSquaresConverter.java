@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.optimization;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
@@ -56,12 +54,7 @@ import org.apache.commons.math.linear.RealMatrix;
  * @since 2.0
  */
 
-public class LeastSquaresConverter implements MultivariateRealFunction, Serializable {
-    // TODO: Add Serializable documentation
-    // TODO: Check Serializable implementation
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -4369653306135732243L;
+public class LeastSquaresConverter implements MultivariateRealFunction {
 
     /** Underlying vectorial function. */
     private final MultivariateVectorialFunction function;
