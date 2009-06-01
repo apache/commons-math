@@ -26,9 +26,10 @@ import org.apache.commons.math.util.OpenIntToFieldHashMap;
 
 /**
  * This class implements the {@link FieldVector} interface with a {@link OpenIntToFieldHashMap} backing store.
+ * @param <T> the type of the field elements
  * @version $Revision: 728186 $ $Date: 2009-04-25 12:39:38 -0700 (Sat, 25 Apr 2009) $
  * @since 2.0
-*/
+ */
 public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector<T>, Serializable {
     
     /**
@@ -50,6 +51,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
      * or one of the <code>append</code> method ({@link #append(Field<T>)}, {@link
      * #append(Field<T>[])}, {@link #append(FieldVector)}) to gather data
      * into this vector.</p>
+     * @param field field to which the elements belong
      */
     public SparseFieldVector(Field<T> field) {
         this(field, 0);
@@ -58,8 +60,8 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     
     /**
      * Construct a (dimension)-length vector of zeros.
+     * @param field field to which the elements belong
      * @param dimension Size of the vector
-     * @param epsilon The tolerance for having a value considered zero
      */
     public SparseFieldVector(Field<T> field, int dimension) {
         this.field = field;
@@ -81,9 +83,9 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     
     /**
      * Build a vector with known the sparseness (for advanced use only).
+     * @param field field to which the elements belong
      * @param dimension The size of the vector
      * @param expectedSize The expected number of non-zero entries
-     * @param epsilon The tolerance for having a value considered zero
      */
     public SparseFieldVector(Field<T> field, int dimension, int expectedSize) {
         this.field = field;
@@ -94,8 +96,8 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     /**
      * Create from a Field array.
      * Only non-zero entries will be stored
+     * @param field field to which the elements belong
      * @param values The set of values to create from
-     * @param epsilon The tolerance for having a value considered zero
      */
     public SparseFieldVector(Field<T> field, T[] values) {
         this.field = field;
@@ -129,6 +131,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     
     /**
      * Optimized method to add sparse vectors.
+     * @param v vector to add
      * @return The sum of <code>this</code> and <code>v</code>
      * @throws IllegalArgumentException If the dimensions don't match
      */

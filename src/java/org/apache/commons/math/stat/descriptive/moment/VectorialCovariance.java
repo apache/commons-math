@@ -118,7 +118,7 @@ public class VectorialCovariance implements Serializable {
         Arrays.fill(productsSums, 0.0);
     }
 
-    /** @inheritDoc{} */
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -130,7 +130,7 @@ public class VectorialCovariance implements Serializable {
         return result;
     }
 
-    /** @inheritDoc{} */
+    /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

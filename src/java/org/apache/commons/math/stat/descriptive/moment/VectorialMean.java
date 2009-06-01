@@ -78,7 +78,7 @@ public class VectorialMean implements Serializable {
         return (means.length == 0) ? 0 : means[0].getN();
     }
 
-    /* @inheritDocs{} */
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -87,7 +87,7 @@ public class VectorialMean implements Serializable {
         return result;
     }
 
-    /* @inheritDocs{} */
+    /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
