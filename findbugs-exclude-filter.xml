@@ -85,8 +85,8 @@
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math.ode.sampling.MultistepStepInterpolator"/>
-    <Method name="reinitialize" params="double[],double[],double[][],boolean" returns="void" />
+    <Class name="org.apache.commons.math.ode.sampling.NordsieckStepInterpolator"/>
+    <Method name="reinitialize" params="double,double[],org.apache.commons.math.linear.RealMatrix" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
   <Match>
