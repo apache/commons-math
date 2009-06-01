@@ -633,9 +633,13 @@ public class AdamsIntegrator extends MultistepIntegrator {
             }
 
         } catch (NoSuchFieldException nsfe) {
-            throw new IOException(nsfe);
+            IOException ioe = new IOException();
+            ioe.initCause(nsfe);
+            throw ioe;
         } catch (IllegalAccessException iae) {
-            throw new IOException(iae);
+            IOException ioe = new IOException();
+            ioe.initCause(iae);
+            throw ioe;
         }
 
     }
