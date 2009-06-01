@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.stat.descriptive;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.MathRuntimeException;
 
 /**
@@ -34,10 +32,7 @@ import org.apache.commons.math.MathRuntimeException;
  * @version $Revision$ $Date$
  */
 public abstract class AbstractUnivariateStatistic
-    implements UnivariateStatistic, Serializable {
-    
-    /** Serialization UID */
-    private static final long serialVersionUID = -8007759382851708045L;
+    implements UnivariateStatistic {
 
     /**
      * {@inheritDoc}

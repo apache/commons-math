@@ -118,4 +118,37 @@ public class VectorialCovariance implements Serializable {
         Arrays.fill(productsSums, 0.0);
     }
 
+    /** @inheritDoc{} */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (isBiasCorrected ? 1231 : 1237);
+        result = prime * result + (int) (n ^ (n >>> 32));
+        result = prime * result + Arrays.hashCode(productsSums);
+        result = prime * result + Arrays.hashCode(sums);
+        return result;
+    }
+
+    /** @inheritDoc{} */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof VectorialCovariance))
+            return false;
+        VectorialCovariance other = (VectorialCovariance) obj;
+        if (isBiasCorrected != other.isBiasCorrected)
+            return false;
+        if (n != other.n)
+            return false;
+        if (!Arrays.equals(productsSums, other.productsSums))
+            return false;
+        if (!Arrays.equals(sums, other.sums))
+            return false;
+        return true;
+    }
+
 }

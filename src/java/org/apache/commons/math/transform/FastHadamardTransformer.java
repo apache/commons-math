@@ -33,9 +33,6 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  */
 public class FastHadamardTransformer implements RealTransformer {
 
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -720498949613305350L;
-
     /** {@inheritDoc} */
     public double[] transform(double f[])
         throws IllegalArgumentException {

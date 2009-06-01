@@ -18,6 +18,7 @@
 package org.apache.commons.math.stat.descriptive.moment;
 
 import org.apache.commons.math.DimensionMismatchException;
+import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.linear.RealMatrix;
 
 import junit.framework.Test;
@@ -78,6 +79,11 @@ extends TestCase {
 
     }
 
+    public void testSerial(){
+        VectorialCovariance stat = new VectorialCovariance(points[0].length, true);
+        assertEquals(stat, TestUtils.serializeAndRecover(stat));
+    }
+    
     @Override
     public void setUp() {
         points = new double[][] {

@@ -16,14 +16,13 @@
  */
 package org.apache.commons.math.stat.descriptive;
 
-import java.io.Serializable;
 
 /**
  * Base interface implemented by all statistics.
  * 
  * @version $Revision$ $Date$
  */
-public interface UnivariateStatistic extends Serializable {
+public interface UnivariateStatistic {
 
     /**
      * Returns the result of evaluating the statistic over the input array.

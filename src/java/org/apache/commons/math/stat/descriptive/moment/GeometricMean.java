@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.stat.descriptive.moment;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic;
@@ -45,7 +47,7 @@ import org.apache.commons.math.stat.descriptive.summary.SumOfLogs;
  *
  * @version $Revision$ $Date$
  */
-public class GeometricMean extends AbstractStorelessUnivariateStatistic {
+public class GeometricMean extends AbstractStorelessUnivariateStatistic implements Serializable {
 
     /** Serializable version identifier */
     private static final long serialVersionUID = -8178734905303459453L;  

@@ -498,4 +498,36 @@ public class Frequency implements Serializable {
             return ((Comparable<Object>)o1).compareTo(o2);
         }
     }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result
+                + ((freqTable == null) ? 0 : freqTable.hashCode());
+        return result;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof Frequency))
+            return false;
+        Frequency other = (Frequency) obj;
+        if (freqTable == null) {
+            if (other.freqTable != null)
+                return false;
+        } else if (!freqTable.equals(other.freqTable))
+            return false;
+        return true;
+    }
 }

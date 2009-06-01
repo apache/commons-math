@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.transform;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.complex.Complex;
@@ -34,7 +32,7 @@ import org.apache.commons.math.complex.Complex;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public interface RealTransformer extends Serializable {
+public interface RealTransformer  {
 
     /**
      * Transform the given real data set.

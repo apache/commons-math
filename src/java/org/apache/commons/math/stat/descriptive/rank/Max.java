@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.stat.descriptive.rank;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
 
 /**
@@ -35,7 +37,7 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
  * 
  * @version $Revision$ $Date$
  */
-public class Max extends AbstractStorelessUnivariateStatistic {
+public class Max extends AbstractStorelessUnivariateStatistic implements Serializable {
 
     /** Serializable version identifier */
     private static final long serialVersionUID = -5593383832225844641L;    

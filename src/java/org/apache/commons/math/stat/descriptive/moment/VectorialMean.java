@@ -17,6 +17,7 @@
 package org.apache.commons.math.stat.descriptive.moment;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 import org.apache.commons.math.DimensionMismatchException;
 
@@ -75,6 +76,30 @@ public class VectorialMean implements Serializable {
      */
     public long getN() {
         return (means.length == 0) ? 0 : means[0].getN();
+    }
+
+    /* @inheritDocs{} */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + Arrays.hashCode(means);
+        return result;
+    }
+
+    /* @inheritDocs{} */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof VectorialMean))
+            return false;
+        VectorialMean other = (VectorialMean) obj;
+        if (!Arrays.equals(means, other.means))
+            return false;
+        return true;
     }
 
 }

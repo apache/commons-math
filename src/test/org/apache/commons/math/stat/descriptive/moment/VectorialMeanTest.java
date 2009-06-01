@@ -18,6 +18,7 @@
 package org.apache.commons.math.stat.descriptive.moment;
 
 import org.apache.commons.math.DimensionMismatchException;
+import org.apache.commons.math.TestUtils;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -70,6 +71,13 @@ extends TestCase {
 
     }
 
+    public void testSerial() throws DimensionMismatchException {
+        VectorialMean stat = new VectorialMean(points[0].length);
+        for (int i = 0; i < points.length; ++i) {
+            stat.increment(points[i]);
+        }
+        assertEquals(stat, TestUtils.serializeAndRecover(stat));
+    }
     @Override
     public void setUp() {
         points = new double[][] {

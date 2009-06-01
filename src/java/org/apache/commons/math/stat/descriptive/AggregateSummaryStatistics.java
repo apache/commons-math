@@ -41,10 +41,9 @@ import java.io.Serializable;
 public class AggregateSummaryStatistics implements StatisticalSummary,
         Serializable {
 
-    /**
-     * The serialization version of this class
-     */
-    private static final long serialVersionUID = 1L;
+ 
+    /** Serializable version identifier */
+   private static final long serialVersionUID = -8207112444016386906L;
 
     /**
      * A SummaryStatistics serving as a prototype for creating SummaryStatistics

@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.stat.descriptive.moment;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
 
@@ -40,7 +42,7 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
  * 
  * @version $Revision$ $Date$
  */
-public class Kurtosis extends AbstractStorelessUnivariateStatistic  {
+public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements Serializable {
 
     /** Serializable version identifier */
     private static final long serialVersionUID = 2784465764798260919L;  

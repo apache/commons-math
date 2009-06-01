@@ -33,14 +33,12 @@ import org.apache.commons.math.MathRuntimeException;
  * Similar to FFT, we also require the length of data set to be power of 2.
  * In addition, the first element must be 0 and it's enforced in function
  * transformation after sampling.</p>
- *
+ * <p>As of version 2.0 this no longer implements Serializable</p>
+ * 
  * @version $Revision$ $Date$
  * @since 1.2
  */
 public class FastSineTransformer implements RealTransformer {
-
-    /** serializable version identifier */
-    private static final long serialVersionUID = -7557024407476823001L;
 
     /**
      * Construct a default transformer.

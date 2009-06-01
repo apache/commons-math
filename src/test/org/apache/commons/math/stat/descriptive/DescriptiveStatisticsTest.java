@@ -107,7 +107,6 @@ public class DescriptiveStatisticsTest extends TestCase {
      * A new way to compute the mean 
      */
     static class deepMean implements UnivariateStatistic {
-        private static final long serialVersionUID = 9108665370122541953L;
 
         public double evaluate(double[] values, int begin, int length) {
             return 42;
@@ -125,7 +124,6 @@ public class DescriptiveStatisticsTest extends TestCase {
      * Test percentile implementation - wraps a Percentile
      */
     static class goodPercentile implements UnivariateStatistic {
-        private static final long serialVersionUID = 801005145532790795L;
         private Percentile percentile = new Percentile();
         public void setQuantile(double quantile) {
             percentile.setQuantile(quantile);
@@ -168,7 +166,6 @@ public class DescriptiveStatisticsTest extends TestCase {
      * "Bad" test percentile implementation - no setQuantile
      */
     static class badPercentile implements UnivariateStatistic {
-        private static final long serialVersionUID = -707437653388052183L;
         private Percentile percentile = new Percentile();
         public double evaluate(double[] values, int begin, int length) {
             return percentile.evaluate(values, begin, length);

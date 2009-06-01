@@ -33,10 +33,7 @@ import java.io.Serializable;
  */
 public abstract class AbstractStorelessUnivariateStatistic
     extends AbstractUnivariateStatistic
-    implements StorelessUnivariateStatistic, Serializable {
-
-    /** Serialization UID */
-    private static final long serialVersionUID = -44915725420072521L;
+    implements StorelessUnivariateStatistic {
     
     /**
      * This default implementation calls {@link #clear}, then invokes 

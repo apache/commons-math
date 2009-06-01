@@ -267,5 +267,13 @@ public final class FrequencyTest extends TestCase {
             assertTrue(it.next() instanceof Long);
         }     
     }
+    
+    public void testSerial() {
+        f.addValue(oneL);
+        f.addValue(twoL);
+        f.addValue(oneI);
+        f.addValue(twoI);
+        assertEquals(f, TestUtils.serializeAndRecover(f));
+    }
 }
 

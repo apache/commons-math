@@ -202,4 +202,9 @@ public abstract class StorelessUnivariateStatisticAbstractTest
         assertTrue(master.equals(replica));
     }
     
+    public void testSerial() {
+        StorelessUnivariateStatistic s =
+            (StorelessUnivariateStatistic) getUnivariateStatistic();
+        assertEquals(s, TestUtils.serializeAndRecover(s));
+    }
 }

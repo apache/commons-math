@@ -33,14 +33,12 @@ import org.apache.commons.math.complex.Complex;
  * Different from FFT and FST, FCT requires the length of data set to be
  * power of 2 plus one. Users should especially pay attention to the
  * function transformation on how this affects the sampling.</p>
+ * <p>As of version 2.0 this no longer implements Serializable</p>
  *
  * @version $Revision:670469 $ $Date:2008-06-23 10:01:38 +0200 (lun., 23 juin 2008) $
  * @since 1.2
  */
 public class FastCosineTransformer implements RealTransformer {
-
-    /** serializable version identifier */
-    private static final long serialVersionUID = -831323620109865380L;
 
     /**
      * Construct a default transformer.
