@@ -23,7 +23,7 @@ import org.apache.commons.math.MathException;
 
 /**
  * A Default NumberTransformer for java.lang.Numbers and Numeric Strings. This 
- * provides some simple conversion capabilities to turn any java/lang.Number 
+ * provides some simple conversion capabilities to turn any java.lang.Number 
  * into a primitive double or to turn a String representation of a Number into 
  * a double.
  *
@@ -41,7 +41,7 @@ public class DefaultTransformer implements NumberTransformer, Serializable {
      * @return a double primitive representation of the Object o.
      * @throws org.apache.commons.math.MathException If it cannot successfully 
      * be transformed or is null.
-     * @see org.apache.commons.collections.Transformer#transform(java.lang.Object)
+     * @see <a href="http://commons.apache.org/collections/api-release/org/apache/commons/collections/Transformer.html"/>
      */
     public double transform(Object o) throws MathException{
 

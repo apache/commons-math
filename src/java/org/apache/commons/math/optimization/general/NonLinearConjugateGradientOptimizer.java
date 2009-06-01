@@ -64,11 +64,11 @@ public class NonLinearConjugateGradientOptimizer
 
     /** Simple constructor with default settings.
      * <p>The convergence check is set to a {@link SimpleVectorialValueChecker}
-     * and the maximal number of evaluation is set to
-     * {@link AbstractLinearOptimizer#DEFAULT_MAX_EVALUATIONS}.
+     * and the maximal number of iterations is set to
+     * {@link AbstractScalarDifferentiableOptimizer#DEFAULT_MAX_ITERATIONS}.
      * @param updateFormula formula to use for updating the &beta; parameter,
-     * must be one of {@link UpdateFormula#FLETCHER_REEVES} or {@link
-     * UpdateFormula#POLAK_RIBIERE}
+     * must be one of {@link ConjugateGradientFormula#FLETCHER_REEVES} or {@link
+     * ConjugateGradientFormula#POLAK_RIBIERE}
      */
     public NonLinearConjugateGradientOptimizer(final ConjugateGradientFormula updateFormula) {
         this.updateFormula = updateFormula;

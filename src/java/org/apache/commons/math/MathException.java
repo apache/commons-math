@@ -29,7 +29,7 @@ import java.util.ResourceBundle;
 * <p>
 * Supports nesting, emulating JDK 1.4 behavior if necessary.</p>
 * <p>
-* Adapted from {@link org.apache.commons.collections.FunctorException}.</p>
+* Adapted from <a href="http://commons.apache.org/collections/api-release/org/apache/commons/collections/FunctorException.html"/>.</p>
 * 
 * @version $Revision$ $Date$
 */

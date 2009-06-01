@@ -53,8 +53,9 @@ public interface DifferentiableMultivariateVectorialOptimizer extends Serializab
     /** Get the number of evaluations of the objective function.
      * <p>
      * The number of evaluation correspond to the last call to the
-     * {@link #optimize(ObjectiveFunction, GoalType, double[]) optimize}
-     * method. It is 0 if the method has not been called yet.
+     * {@link #optimize(DifferentiableMultivariateVectorialFunction,
+     * double[], double[], double[]) optimize} method. It is 0 if
+     * the method has not been called yet.
      * </p>
      * @return number of evaluations of the objective function
      */
@@ -63,8 +64,9 @@ public interface DifferentiableMultivariateVectorialOptimizer extends Serializab
     /** Get the number of evaluations of the objective function jacobian .
      * <p>
      * The number of evaluation correspond to the last call to the
-     * {@link #optimize(ObjectiveFunction, GoalType, double[]) optimize}
-     * method. It is 0 if the method has not been called yet.
+     * {@link #optimize(DifferentiableMultivariateVectorialFunction,
+     * double[], double[], double[]) optimize} method. It is 0 if
+     * the method has not been called yet.
      * </p>
      * @return number of evaluations of the objective function jacobian
      */

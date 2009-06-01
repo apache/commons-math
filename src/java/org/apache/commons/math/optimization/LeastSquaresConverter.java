@@ -106,7 +106,7 @@ public class LeastSquaresConverter implements MultivariateRealFunction {
      * @param weights weights to apply to the residuals
      * @exception IllegalArgumentException if the observations vector and the weights
      * vector dimensions don't match (objective function dimension is checked only when
-     * the {@link #objective} method is called)
+     * the {@link #value(double[])} method is called)
      */
     public LeastSquaresConverter(final MultivariateVectorialFunction function,
                                  final double[] observations, final double[] weights)
@@ -139,7 +139,7 @@ public class LeastSquaresConverter implements MultivariateRealFunction {
      * @param scale scaling matrix
      * @exception IllegalArgumentException if the observations vector and the scale
      * matrix dimensions don't match (objective function dimension is checked only when
-     * the {@link #objective} method is called)
+     * the {@link #value(double[])} method is called)
      */
     public LeastSquaresConverter(final MultivariateVectorialFunction function,
                                  final double[] observations, final RealMatrix scale)

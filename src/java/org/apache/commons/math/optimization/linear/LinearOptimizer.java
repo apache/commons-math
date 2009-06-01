@@ -20,7 +20,6 @@ package org.apache.commons.math.optimization.linear;
 import java.io.Serializable;
 import java.util.Collection;
 
-import org.apache.commons.math.analysis.DifferentiableMultivariateRealFunction;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.RealPointValuePair;
@@ -67,7 +66,7 @@ public interface LinearOptimizer extends Serializable {
     /** Get the number of iterations realized by the algorithm.
      * <p>
      * The number of evaluations corresponds to the last call to the
-     * {@link #optimize(DifferentiableMultivariateRealFunction, GoalType, double[]) optimize}
+     * {@link #optimize(LinearObjectiveFunction, Collection, GoalType, boolean) optimize}
      * method. It is 0 if the method has not been called yet.
      * </p>
      * @return number of iterations

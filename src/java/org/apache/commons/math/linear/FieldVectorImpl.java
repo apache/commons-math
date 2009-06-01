@@ -55,8 +55,8 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
      * <p>Zero-length vectors may be used to initialized construction of vectors
      * by data gathering. We start with zero-length and use either the {@link
      * #FieldVectorImpl(FieldVectorImpl, FieldVectorImpl)} constructor
-     * or one of the <code>append</code> methods ({@link #append(double)}, {@link
-     * #append(T[])}, {@link #append(FieldVectorImpl)}) to gather data
+     * or one of the <code>append</code> methods ({@link #append(FieldElement[])},
+     * {@link #add(FieldVector)}, {@link #append(FieldVectorImpl)}) to gather data
      * into this vector.</p>
      * @param field field to which the elements belong
      */
@@ -113,7 +113,7 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
      * it will be referenced
      * @throws IllegalArgumentException if <code>d</code> is empty
      * @throws NullPointerException if <code>d</code> is null
-     * @see #FieldVectorImpl(T[])
+     * @see #FieldVectorImpl(FieldElement[])
      */
     public FieldVectorImpl(T[] d, boolean copyArray)
         throws NullPointerException, IllegalArgumentException {

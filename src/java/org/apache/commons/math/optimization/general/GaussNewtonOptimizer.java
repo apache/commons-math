@@ -53,7 +53,7 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
     /** Simple constructor with default settings.
      * <p>The convergence check is set to a {@link SimpleVectorialValueChecker}
      * and the maximal number of evaluation is set to
-     * {@link AbstractLinearOptimizer#DEFAULT_MAX_ITERATIONS}.
+     * {@link AbstractLeastSquaresOptimizer#DEFAULT_MAX_ITERATIONS}.
      * @param useLU if true, the normal equations will be solved using LU
      * decomposition, otherwise they will be solved using QR decomposition
      */

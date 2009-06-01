@@ -122,7 +122,7 @@ public class DenseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
      *
      * @exception IllegalArgumentException if <code>blockData</code> shape is
      * inconsistent with block layout
-     * @see #DenseFieldMatrix(int, int, T[][], boolean)
+     * @see #DenseFieldMatrix(int, int, FieldElement[][], boolean)
      */
     public DenseFieldMatrix(final T[][] rawData)
         throws IllegalArgumentException {
@@ -141,8 +141,8 @@ public class DenseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
      * @exception IllegalArgumentException if <code>blockData</code> shape is
      * inconsistent with block layout
      * @see #createBlocksLayout(Field, int, int)
-     * @see #toBlocksLayout(T[][])
-     * @see #DenseFieldMatrix(T[][])
+     * @see #toBlocksLayout(FieldElement[][])
+     * @see #DenseFieldMatrix(FieldElement[][])
      */
     public DenseFieldMatrix(final int rows, final int columns,
                             final T[][] blockData, final boolean copyArray)
@@ -194,7 +194,8 @@ public class DenseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
      * <p>
      * This method creates an array in blocks layout from an input array in raw layout.
      * It can be used to provide the array argument of the {@link
-     * DenseFieldMatrix#DenseFieldMatrix(int, int, T[][], boolean)} constructor.
+     * DenseFieldMatrix#DenseFieldMatrix(int, int, FieldElement[][], boolean)}
+     * constructor.
      * </p>
      * @param <T> the type of the field elements
      * @param rawData data array in raw layout
@@ -202,7 +203,7 @@ public class DenseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
      * @exception IllegalArgumentException if <code>rawData</code> is not rectangular
      *  (not all rows have the same length)
      * @see #createBlocksLayout(Field, int, int)
-     * @see #DenseFieldMatrix(int, int, T[][], boolean)
+     * @see #DenseFieldMatrix(int, int, FieldElement[][], boolean)
      */
     public static <T extends FieldElement<T>> T[][] toBlocksLayout(final T[][] rawData)
         throws IllegalArgumentException {
@@ -254,15 +255,16 @@ public class DenseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
      * Create a data array in blocks layout.
      * <p>
      * This method can be used to create the array argument of the {@link
-     * DenseFieldMatrix#DenseFieldMatrix(int, int, T[][], boolean)} constructor.
+     * DenseFieldMatrix#DenseFieldMatrix(int, int, FieldElement[][], boolean)}
+     * constructor.
      * </p>
      * @param <T> the type of the field elements
      * @param field field to which the elements belong
      * @param rows  the number of rows in the new matrix
      * @param columns  the number of columns in the new matrix
      * @return a new data array in blocks layout
-     * @see #toBlocksLayout(T[][])
-     * @see #DenseFieldMatrix(int, int, T[][], boolean)
+     * @see #toBlocksLayout(FieldElement[][])
+     * @see #DenseFieldMatrix(int, int, FieldElement[][], boolean)
      */
     public static <T extends FieldElement<T>> T[][] createBlocksLayout(final Field<T> field,
                                                                        final int rows, final int columns) {

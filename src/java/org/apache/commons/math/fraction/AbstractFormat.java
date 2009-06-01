@@ -185,7 +185,7 @@ public abstract class AbstractFormat extends NumberFormat implements Serializabl
      * @param position On input: an alignment field, if desired. On output: the
      *            offsets of the alignment field
      * @return a reference to the appended buffer
-     * @see {@link #format(Object, StringBuffer, FieldPosition)}
+     * @see #format(Object, StringBuffer, FieldPosition)
      */
     @Override
     public StringBuffer format(final double value,
@@ -202,7 +202,7 @@ public abstract class AbstractFormat extends NumberFormat implements Serializabl
      * @param position On input: an alignment field, if desired. On output: the
      *            offsets of the alignment field
      * @return a reference to the appended buffer
-     * @see {@link #format(Object, StringBuffer, FieldPosition)}
+     * @see #format(Object, StringBuffer, FieldPosition)
      */
     @Override
     public StringBuffer format(final long value,

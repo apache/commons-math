@@ -22,7 +22,6 @@ import java.util.Arrays;
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.random.RandomGenerator;
 
@@ -140,13 +139,13 @@ public class MultiStartUnivariateRealOptimizer implements UnivariateRealOptimize
     }
 
     /** Get all the optima found during the last call to {@link
-     * #optimize(MultivariateRealFunction, GoalType, double[]) optimize}.
+     * #optimize(UnivariateRealFunction, GoalType, double, double) optimize}.
      * <p>The optimizer stores all the optima found during a set of
-     * restarts. The {@link #optimize(MultivariateRealFunction, GoalType,
-     * double[]) optimize} method returns the best point only. This
+     * restarts. The {@link #optimize(UnivariateRealFunction, GoalType,
+     * double, double) optimize} method returns the best point only. This
      * method returns all the points found at the end of each starts,
      * including the best one already returned by the {@link
-     * #optimize(MultivariateRealFunction, GoalType, double[]) optimize}
+     * #optimize(UnivariateRealFunction, GoalType, double, double) optimize}
      * method.
      * </p>
      * <p>
@@ -156,14 +155,14 @@ public class MultiStartUnivariateRealOptimizer implements UnivariateRealOptimize
      * objective value (i.e in ascending order if minimizing and in
      * descending order if maximizing), followed by and null elements
      * corresponding to the runs that did not converge. This means all
-     * elements will be null if the {@link #optimize(MultivariateRealFunction,
-     * GoalType, double[]) optimize} method did throw a {@link
+     * elements will be null if the {@link #optimize(UnivariateRealFunction,
+     * GoalType, double, double) optimize} method did throw a {@link
      * ConvergenceException ConvergenceException}). This also means that
      * if the first element is non null, it is the best point found across
      * all starts.</p>
      * @return array containing the optima
-     * @exception IllegalStateException if {@link #optimize(MultivariateRealFunction,
-     * GoalType, double[]) optimize} has not been called
+     * @exception IllegalStateException if {@link #optimize(UnivariateRealFunction,
+     * GoalType, double, double) optimize} has not been called
      */
     public double[] getOptima() throws IllegalStateException {
         if (optima == null) {

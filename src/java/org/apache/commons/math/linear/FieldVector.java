@@ -329,7 +329,7 @@ public interface FieldVector<T extends FieldElement<T>>  {
      * @param v vector containing the values to set.
      * @exception MatrixIndexException if the index is
      * inconsistent with vector size
-     * @see #setSubVector(int, T[])
+     * @see #setSubVector(int, FieldElement[])
      */
     void setSubVector(int index, FieldVector<T> v)
         throws MatrixIndexException;

@@ -70,14 +70,14 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
      * Create a new FieldMatrix<T> using the input array as the underlying
      * data array.
      * <p>The input array is copied, not referenced. This constructor has
-     * the same effect as calling {@link #FieldMatrixImpl(T[][], boolean)}
+     * the same effect as calling {@link #FieldMatrixImpl(FieldElement[][], boolean)}
      * with the second argument set to <code>true</code>.</p>
      *
      * @param d data for new matrix
      * @throws IllegalArgumentException if <code>d</code> is not rectangular
      *  (not all rows have the same length) or empty
      * @throws NullPointerException if <code>d</code> is null
-     * @see #FieldMatrixImpl(T[][], boolean)
+     * @see #FieldMatrixImpl(FieldElement[][], boolean)
      */
     public FieldMatrixImpl(final T[][] d)
         throws IllegalArgumentException, NullPointerException {
@@ -98,7 +98,7 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
      * @throws IllegalArgumentException if <code>d</code> is not rectangular
      *  (not all rows have the same length) or empty
      * @throws NullPointerException if <code>d</code> is null
-     * @see #FieldMatrixImpl(T[][])
+     * @see #FieldMatrixImpl(FieldElement[][])
      */
     public FieldMatrixImpl(final T[][] d, final boolean copyArray)
         throws IllegalArgumentException, NullPointerException {

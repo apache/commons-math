@@ -47,10 +47,10 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
      * Build a 0-length vector.
      * <p>Zero-length vectors may be used to initialize construction of vectors
      * by data gathering. We start with zero-length and use either the {@link
-     * #SparseFieldVector(SparseFieldVector<T>, int)} constructor
-     * or one of the <code>append</code> method ({@link #append(Field<T>)}, {@link
-     * #append(Field<T>[])}, {@link #append(FieldVector)}) to gather data
-     * into this vector.</p>
+     * #SparseFieldVector(SparseFieldVector, int)} constructor
+     * or one of the <code>append</code> method ({@link #append(FieldElement)},
+     * {@link #append(FieldElement[])}, {@link #append(FieldVector)},
+     * {@link #append(SparseFieldVector)}) to gather data into this vector.</p>
      * @param field field to which the elements belong
      */
     public SparseFieldVector(Field<T> field) {
@@ -164,7 +164,11 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
         return res;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Construct a vector by appending a vector to this vector.
+     * @param v vector to append to this one.
+     * @return a new vector
+     */
     public FieldVector<T> append(SparseFieldVector<T> v) {
         SparseFieldVector<T> res = new SparseFieldVector<T>(this, v.getDimension());
         OpenIntToFieldHashMap<T>.Iterator iter = v.entries.iterator();

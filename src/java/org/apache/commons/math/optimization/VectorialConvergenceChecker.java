@@ -17,8 +17,8 @@
 
 package org.apache.commons.math.optimization;
 
-/** This interface specifies how to check if an {@link VectorialOptimizer optimization
- * algorithm} has converged.
+/** This interface specifies how to check if a {@link
+ * DifferentiableMultivariateVectorialOptimizer optimization algorithm} has converged.
  *
  * <p>Deciding if convergence has been reached is a problem-dependent issue. The
  * user should provide a class implementing this interface to allow the optimization
