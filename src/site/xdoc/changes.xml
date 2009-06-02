@@ -39,6 +39,10 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-272" due-to="Benjamin McCann">
+        Fixed a problem when setting some variables (several variables were set
+        instead of only one)
+      </action>
       <action dev="luc" type="add" due-to="Gilles Sadowski">
         Added a way to limit the number of functions evaluations in optimizers
         (the number of iterations could already be limited)

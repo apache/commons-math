@@ -23,7 +23,9 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
@@ -321,37 +323,25 @@ class SimplexTableau implements Serializable {
      */
     protected RealPointValuePair getSolution() {
         double[] coefficients = new double[getOriginalNumDecisionVariables()];
-        double mostNegative = getDecisionVariableValue(getOriginalNumDecisionVariables());
+        Integer basicRow =
+            getBasicRow(getNumObjectiveFunctions() + getOriginalNumDecisionVariables());
+        double mostNegative = basicRow == null ? 0 : getEntry(basicRow, getRhsOffset());
+        Set<Integer> basicRows = new HashSet<Integer>();
         for (int i = 0; i < coefficients.length; i++) {
-            coefficients[i] =
-                getDecisionVariableValue(i) - (restrictToNonNegative ? 0 : mostNegative); 
+            basicRow = getBasicRow(getNumObjectiveFunctions() + i);
+            if (basicRows.contains(basicRow)) {
+                // if multiple variables can take a given value 
+                // then we choose the first and set the rest equal to 0
+                coefficients[i] = 0;
+            } else {
+                basicRows.add(basicRow);
+                coefficients[i] =
+                    (basicRow == null ? 0 : getEntry(basicRow, getRhsOffset())) -
+                    (restrictToNonNegative ? 0 : mostNegative);
+            }
         }
         return new RealPointValuePair(coefficients, f.getValue(coefficients));
     }
-
-    /**
-     * Get the value of the given decision variable.  This is not the actual
-     * value as it is guaranteed to be >= 0 and thus must be corrected before
-     * being returned to the user.
-     * 
-     * @param decisionVariable The index of the decision variable
-     * @return The value of the given decision variable.
-     */
-    protected double getDecisionVariableValue(final int decisionVariable) {
-      int col = getNumObjectiveFunctions() + decisionVariable;  
-      Integer basicRow = getBasicRow(col);
-      if (basicRow == null) {
-          return 0;
-      }
-      // if there are multiple variables that can take the value on the RHS
-      // then we'll give the first variable that value
-      for (int i = getNumObjectiveFunctions(); i < col; i++) {
-          if (tableau.getEntry(basicRow, i) == 1) {
-              return 0;
-          }
-      }
-      return getEntry(basicRow, getRhsOffset()); 
-  }
 
     /**
      * Subtracts a multiple of one row from another.

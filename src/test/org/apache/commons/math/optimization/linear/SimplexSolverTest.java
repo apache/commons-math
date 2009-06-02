@@ -17,19 +17,38 @@
 
 package org.apache.commons.math.optimization.linear;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 import java.util.Collection;
-
-import junit.framework.TestCase;
 
 import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.linear.RealVectorImpl;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.RealPointValuePair;
+import org.junit.Test;
 
-public class SimplexSolverTest extends TestCase {
+public class SimplexSolverTest {
 
+    @Test
+    public void testMath272() throws OptimizationException {
+        LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 2, 2, 1 }, 0);
+        Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        constraints.add(new LinearConstraint(new double[] { 1, 1, 0 }, Relationship.GEQ,  1));
+        constraints.add(new LinearConstraint(new double[] { 1, 0, 1 }, Relationship.GEQ,  1));
+        constraints.add(new LinearConstraint(new double[] { 0, 1, 0 }, Relationship.GEQ,  1));
+
+        SimplexSolver solver = new SimplexSolver();
+        RealPointValuePair solution = solver.optimize(f, constraints, GoalType.MINIMIZE, true);
+        
+        assertEquals(0.0, solution.getPoint()[0], .0000001);
+        assertEquals(1.0, solution.getPoint()[1], .0000001);
+        assertEquals(1.0, solution.getPoint()[2], .0000001);
+        assertEquals(3.0, solution.getValue(), .0000001);
+      }
+
+    @Test
     public void testSimplexSolver() throws OptimizationException {
         LinearObjectiveFunction f =
             new LinearObjectiveFunction(new double[] { 15, 10 }, 7);
@@ -40,15 +59,16 @@ public class SimplexSolverTest extends TestCase {
 
         SimplexSolver solver = new SimplexSolver();
         RealPointValuePair solution = solver.optimize(f, constraints, GoalType.MAXIMIZE, false);
-        assertEquals(2.0, solution.getPoint()[0]);
-        assertEquals(2.0, solution.getPoint()[1]);
-        assertEquals(57.0, solution.getValue());
+        assertEquals(2.0, solution.getPoint()[0], 0.0);
+        assertEquals(2.0, solution.getPoint()[1], 0.0);
+        assertEquals(57.0, solution.getValue(), 0.0);
     }
 
     /**
      * With no artificial variables needed (no equals and no greater than
      * constraints) we can go straight to Phase 2.
      */
+    @Test
     public void testModelWithNoArtificialVars() throws OptimizationException {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 15, 10 }, 0);
         Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
@@ -58,11 +78,12 @@ public class SimplexSolverTest extends TestCase {
 
         SimplexSolver solver = new SimplexSolver();
         RealPointValuePair solution = solver.optimize(f, constraints, GoalType.MAXIMIZE, false);
-        assertEquals(2.0, solution.getPoint()[0]);
-        assertEquals(2.0, solution.getPoint()[1]);
-        assertEquals(50.0, solution.getValue());
+        assertEquals(2.0, solution.getPoint()[0], 0.0);
+        assertEquals(2.0, solution.getPoint()[1], 0.0);
+        assertEquals(50.0, solution.getValue(), 0.0);
     }
 
+    @Test
     public void testMinimization() throws OptimizationException {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { -2, 1 }, -5);
         Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
@@ -72,11 +93,12 @@ public class SimplexSolverTest extends TestCase {
 
         SimplexSolver solver = new SimplexSolver();
         RealPointValuePair solution = solver.optimize(f, constraints, GoalType.MINIMIZE, false);
-        assertEquals(4.0, solution.getPoint()[0]);
-        assertEquals(0.0, solution.getPoint()[1]);
-        assertEquals(-13.0, solution.getValue());
+        assertEquals(4.0, solution.getPoint()[0], 0.0);
+        assertEquals(0.0, solution.getPoint()[1], 0.0);
+        assertEquals(-13.0, solution.getValue(), 0.0);
     }
 
+    @Test
     public void testSolutionWithNegativeDecisionVariable() throws OptimizationException {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { -2, 1 }, 0);
         Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
@@ -85,44 +107,33 @@ public class SimplexSolverTest extends TestCase {
 
         SimplexSolver solver = new SimplexSolver();
         RealPointValuePair solution = solver.optimize(f, constraints, GoalType.MAXIMIZE, false);
-        assertEquals(-2.0, solution.getPoint()[0]);
-        assertEquals(8.0, solution.getPoint()[1]);
-        assertEquals(12.0, solution.getValue());
+        assertEquals(-2.0, solution.getPoint()[0], 0.0);
+        assertEquals(8.0, solution.getPoint()[1], 0.0);
+        assertEquals(12.0, solution.getValue(), 0.0);
     }
 
-    public void testInfeasibleSolution() {
+    @Test(expected = NoFeasibleSolutionException.class)
+    public void testInfeasibleSolution() throws OptimizationException {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 15 }, 0);
         Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
         constraints.add(new LinearConstraint(new double[] { 1 }, Relationship.LEQ, 1));
         constraints.add(new LinearConstraint(new double[] { 1 }, Relationship.GEQ, 3));
 
         SimplexSolver solver = new SimplexSolver();
-        try {
-            solver.optimize(f, constraints, GoalType.MAXIMIZE, false);
-            fail("An exception should have been thrown.");
-        } catch (NoFeasibleSolutionException e) {
-            // expected;
-        } catch (OptimizationException e) {
-            fail("wrong exception caught");
-        }
+        solver.optimize(f, constraints, GoalType.MAXIMIZE, false);
     }
 
-    public void testUnboundedSolution() {
+    @Test(expected = UnboundedSolutionException.class)
+    public void testUnboundedSolution() throws OptimizationException {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 15, 10 }, 0);
         Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
         constraints.add(new LinearConstraint(new double[] { 1, 0 }, Relationship.EQ, 2));
 
         SimplexSolver solver = new SimplexSolver();
-        try {
-            solver.optimize(f, constraints, GoalType.MAXIMIZE, false);
-            fail("An exception should have been thrown.");
-        } catch (UnboundedSolutionException e) {
-            // expected;
-        } catch (OptimizationException e) {
-            fail("wrong exception caught");
-        }
+        solver.optimize(f, constraints, GoalType.MAXIMIZE, false);
     }
 
+    @Test
     public void testRestrictVariablesToNonNegative() throws OptimizationException {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 409, 523, 70, 204, 339 }, 0);
         Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
@@ -142,6 +153,7 @@ public class SimplexSolverTest extends TestCase {
         assertEquals(1438556.7491409, solution.getValue(), .0000001);
     }
 
+    @Test
     public void testEpsilon() throws OptimizationException {
       LinearObjectiveFunction f =
           new LinearObjectiveFunction(new double[] { 10, 5, 1 }, 0);
@@ -152,12 +164,13 @@ public class SimplexSolverTest extends TestCase {
 
       SimplexSolver solver = new SimplexSolver();
       RealPointValuePair solution = solver.optimize(f, constraints, GoalType.MAXIMIZE, false);
-      assertEquals(1.0, solution.getPoint()[0]);
-      assertEquals(1.0, solution.getPoint()[1]);
-      assertEquals(0.0, solution.getPoint()[2]);
-      assertEquals(15.0, solution.getValue());
+      assertEquals(1.0, solution.getPoint()[0], 0.0);
+      assertEquals(1.0, solution.getPoint()[1], 0.0);
+      assertEquals(0.0, solution.getPoint()[2], 0.0);
+      assertEquals(15.0, solution.getValue(), 0.0);
   }
     
+    @Test
     public void testTrivialModel() throws OptimizationException {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 1, 1 }, 0);
         Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
@@ -168,6 +181,7 @@ public class SimplexSolverTest extends TestCase {
         assertEquals(0, solution.getValue(), .0000001);
     }
 
+    @Test
     public void testLargeModel() throws OptimizationException {
         double[] objective = new double[] {
                                            1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
