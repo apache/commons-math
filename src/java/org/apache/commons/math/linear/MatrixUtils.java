@@ -890,7 +890,7 @@ public class MatrixUtils {
      * @param ois stream from which the real matrix should be read
      * @exception ClassNotFoundException if a class in the stream cannot be found
      * @exception IOException if object cannot be read from the stream
-     * @see #serializeVector(RealVector, ObjectOutputStream)
+     * @see #serializeRealMatrix(RealMatrix, ObjectOutputStream)
      */
     public static void deserializeRealMatrix(final Object instance,
                                              final String fieldName,
