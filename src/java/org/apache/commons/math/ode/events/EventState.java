@@ -211,13 +211,21 @@ public class EventState implements Serializable {
                     final BrentSolver solver = new BrentSolver();
                     solver.setAbsoluteAccuracy(convergence);
                     solver.setMaximalIterationCount(maxIterationCount);
-                    final double root = (ta <= tb) ? solver.solve(f, ta, tb) : solver.solve(f, tb, ta);
-                    if (Math.abs(root - ta) <= convergence) {
-                        // we have found (again ?) a past event, we simply ignore it
+                    double root;
+                    try {
+                        root = (ta <= tb) ? solver.solve(f, ta, tb) : solver.solve(f, tb, ta);
+                    } catch (IllegalArgumentException iae) {
+                        // the interval did not really bracket a root
+                        root = Double.NaN;
+                    }
+                    if (Double.isNaN(root) ||
+                        ((Math.abs(root - ta) <= convergence) &&
+                         (Math.abs(root - previousEventTime) <= convergence))) {
+                        // we have either found nothing or found (again ?) a past event, we simply ignore it
                         ta = tb;
                         ga = gb;
                     } else if (Double.isNaN(previousEventTime) ||
-                        (Math.abs(previousEventTime - root) > convergence)) {
+                               (Math.abs(previousEventTime - root) > convergence)) {
                         pendingEventTime = root;
                         if (pendingEvent && (Math.abs(t1 - pendingEventTime) <= convergence)) {
                             // we were already waiting for this event which was
