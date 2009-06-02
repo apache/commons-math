@@ -357,6 +357,9 @@ public class AdamsIntegrator extends MultistepIntegrator {
                     // convert to Nordsieck representation
                     scaled    = convertToNordsieckLow();
                     nordsieck = convertToNordsieckHigh(scaled);
+                    interpolator.reinitialize(stepSize, scaled, nordsieck);
+                    interpolator.storeTime(stepStart);
+
 
                 } else {
 
@@ -373,11 +376,11 @@ public class AdamsIntegrator extends MultistepIntegrator {
                     }
                     nordsieck.walkInOptimizedOrder(new NordsieckUpdater(scaled, end, coefficients.c1));
                     scaled = end;
+                    interpolator.reinitialize(stepSize, scaled, nordsieck);
 
                 }
 
                 System.arraycopy(y, 0, yTmp, 0, n);
-                interpolator.reinitialize(stepSize, scaled, nordsieck);
 
             }
 
