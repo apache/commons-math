@@ -25,7 +25,7 @@ import java.io.Serializable;
  * @since 1.1
  * @version $Revision$ $Date$
  */
-public interface RandomGenerator extends Serializable {
+public interface RandomGenerator {
     
     /**
      * Sets the seed of the underyling random number generator using a 

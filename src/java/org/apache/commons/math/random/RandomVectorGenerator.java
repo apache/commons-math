@@ -26,7 +26,7 @@ import java.io.Serializable;
  *
  */
 
-public interface RandomVectorGenerator extends Serializable {
+public interface RandomVectorGenerator {
 
   /** Generate a random vector.
    * @return a random vector as an array of double.

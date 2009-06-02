@@ -28,11 +28,8 @@ import org.apache.commons.math.util.ContinuedFraction;
  *
  * @version $Revision$ $Date$
  */
-public class Gamma implements Serializable {
+public class Gamma {
     
-    /** Serializable version identifier */
-    private static final long serialVersionUID = -6587513359895466954L;
-
     /** 
      * <a href="http://en.wikipedia.org/wiki/Euler-Mascheroni_constant">Euler-Mascheroni constant</a>
      * @since 2.0

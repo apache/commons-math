@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.special;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.util.ContinuedFraction;
 
@@ -27,10 +25,7 @@ import org.apache.commons.math.util.ContinuedFraction;
  *
  * @version $Revision$ $Date$
  */
-public class Beta implements Serializable {
-
-    /** Serializable version identifier */
-    private static final long serialVersionUID = -3833485397404128220L;
+public class Beta {
 
     /** Maximum allowed numerical error. */
     private static final double DEFAULT_EPSILON = 10e-15;

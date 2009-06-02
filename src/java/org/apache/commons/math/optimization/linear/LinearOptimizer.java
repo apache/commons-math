@@ -51,7 +51,7 @@ import org.apache.commons.math.optimization.RealPointValuePair;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public interface LinearOptimizer extends Serializable {
+public interface LinearOptimizer {
 
     /** Set the maximal number of iterations of the algorithm.
      * @param maxIterations maximal number of function calls

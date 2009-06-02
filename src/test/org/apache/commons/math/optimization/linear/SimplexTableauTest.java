@@ -20,6 +20,7 @@ package org.apache.commons.math.optimization.linear;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.optimization.GoalType;
 
 import junit.framework.TestCase;
@@ -73,6 +74,13 @@ public class SimplexTableauTest extends TestCase {
         assertMatrixEquals(initialTableau, tableau.getData());
     }
 
+    public void testSerial() {
+        LinearObjectiveFunction f = createFunction();
+        Collection<LinearConstraint> constraints = createConstraints();
+        SimplexTableau tableau =
+            new SimplexTableau(f, constraints, GoalType.MAXIMIZE, false, 1.0e-6);
+        assertEquals(tableau, TestUtils.serializeAndRecover(tableau));
+    }
     private LinearObjectiveFunction createFunction() {
         return new LinearObjectiveFunction(new double[] {15, 10}, 0);
     }

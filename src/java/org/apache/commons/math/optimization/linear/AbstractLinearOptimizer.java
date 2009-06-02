@@ -34,9 +34,6 @@ import org.apache.commons.math.optimization.RealPointValuePair;
  */
 public abstract class AbstractLinearOptimizer implements LinearOptimizer {
 
-    /** Serializable version identifier */
-    private static final long serialVersionUID = 8581325080951819398L;
-
     /** Default maximal number of iterations allowed. */
     public static final int DEFAULT_MAX_ITERATIONS = 100;
 

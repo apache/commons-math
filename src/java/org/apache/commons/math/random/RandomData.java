@@ -23,7 +23,7 @@ import java.util.Collection;
  * Random data generation utilities.
  * @version $Revision$ $Date$
  */
-public interface RandomData extends Serializable {
+public interface RandomData {
     /**
      * Generates a random string of hex characters of length
      * <code>len</code>.

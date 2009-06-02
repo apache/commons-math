@@ -33,9 +33,6 @@ import org.apache.commons.math.MathRuntimeException;
 public class UncorrelatedRandomVectorGenerator
   implements RandomVectorGenerator {
 
-  /** Serializable version identifier. */
-  private static final long serialVersionUID = -3268228248001718811L;
-
   /** Simple constructor.
    * <p>Build an uncorrelated random vector generator from
    * its mean and standard deviation vectors.</p>

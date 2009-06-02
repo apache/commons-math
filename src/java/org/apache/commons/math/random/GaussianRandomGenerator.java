@@ -27,9 +27,6 @@ package org.apache.commons.math.random;
 
 public class GaussianRandomGenerator implements NormalizedRandomGenerator {
 
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -4698731518385853565L;
-
     /** Create a new generator.
      * @param generator underlying random generator to use
      */

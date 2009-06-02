@@ -67,8 +67,6 @@ public class RandomAdaptorTest extends RandomDataTest {
      */
     private static class ConstantGenerator implements RandomGenerator {
         
-        private static final long serialVersionUID = 5936262220824971138L;
-
         public boolean nextBoolean() {
             return false;
         }

@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.special;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.MathException;
 
 /**
@@ -26,10 +24,7 @@ import org.apache.commons.math.MathException;
  *
  * @version $Revision$ $Date$
  */
-public class Erf implements Serializable {
-
-    /** Serializable version identifier */
-    private static final long serialVersionUID = 490960015010326571L;
+public class Erf {
 
     /**
      * Default constructor.  Prohibit instantiation.

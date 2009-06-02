@@ -29,9 +29,6 @@ import org.apache.commons.math.util.MathUtils;
  */
 public class SimplexSolver extends AbstractLinearOptimizer {
 
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -4886937648715323786L;
-
     /** Default amount of error to accept in floating point comparisons. */ 
     private static final double DEFAULT_EPSILON = 1.0e-6;
 
