@@ -1340,9 +1340,9 @@ public class RealVectorImpl implements RealVector, Serializable {
      * </p>
      *
      * @param other Object to test for equality to this
-     * @return true if two 3D vector objects are equal, false if
-     *         object is null, not an instance of Vector3D, or
-     *         not equal to this Vector3D instance
+     * @return true if two vector objects are equal, false if
+     *         object is null, not an instance of RealVector, or
+     *         not equal to this RealVector instance
      * 
      */
     @Override
