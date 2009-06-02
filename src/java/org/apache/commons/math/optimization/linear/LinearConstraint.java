@@ -17,8 +17,12 @@
 
 package org.apache.commons.math.optimization.linear;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.linear.RealVectorImpl;
 
@@ -50,7 +54,7 @@ public class LinearConstraint implements Serializable {
     private static final long serialVersionUID = -764632794033034092L;
 
     /** Coefficients of the constraint (left hand side). */
-    private final RealVector coefficients;
+    private final transient RealVector coefficients;
 
     /** Relationship between left and right hand sides (=, &lt;=, >=). */
     private final Relationship relationship;
@@ -178,6 +182,61 @@ public class LinearConstraint implements Serializable {
      */
     public double getValue() {
         return value;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean equals(Object other) {
+
+      if (this == other) { 
+        return true;
+      }
+
+      if (other == null) {
+        return false;
+      }
+
+      try {
+
+          LinearConstraint rhs = (LinearConstraint) other;
+          return (relationship == rhs.relationship) &&
+                 (value        == rhs.value) &&
+                 coefficients.equals(rhs.coefficients);
+
+      } catch (ClassCastException ex) {
+          // ignore exception
+          return false;
+      }
+
+    }
+    
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode() {
+        return relationship.hashCode() ^
+               Double.valueOf(value).hashCode() ^
+               coefficients.hashCode();
+    }
+
+    /** Serialize the instance.
+     * @param oos stream where object should be written
+     * @throws IOException if object cannot be written to stream
+     */
+    private void writeObject(ObjectOutputStream oos)
+        throws IOException {
+        oos.defaultWriteObject();
+        MatrixUtils.serializeRealVector(coefficients, oos);
+    }
+
+    /** Deserialize the instance.
+     * @param ois stream from which the object should be read
+     * @throws ClassNotFoundException if a class in the stream cannot be found
+     * @throws IOException if object cannot be read from the stream
+     */
+    private void readObject(ObjectInputStream ois)
+      throws ClassNotFoundException, IOException {
+        ois.defaultReadObject();
+        MatrixUtils.deserializeRealVector(this, "coefficients", ois);
     }
 
 }

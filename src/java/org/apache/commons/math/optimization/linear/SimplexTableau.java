@@ -17,11 +17,15 @@
 
 package org.apache.commons.math.optimization.linear;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealMatrixImpl;
 import org.apache.commons.math.linear.RealVector;
@@ -69,7 +73,7 @@ class SimplexTableau implements Serializable {
     private final boolean restrictToNonNegative;
 
     /** Simple tableau. */
-    protected RealMatrix tableau;
+    protected transient RealMatrix tableau;
 
     /** Number of decision variables. */
     protected final int numDecisionVariables;
@@ -488,4 +492,68 @@ class SimplexTableau implements Serializable {
         return tableau.getData();
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public boolean equals(Object other) {
+
+      if (this == other) { 
+        return true;
+      }
+
+      if (other == null) {
+        return false;
+      }
+
+      try {
+
+          SimplexTableau rhs = (SimplexTableau) other;
+          return (restrictToNonNegative  == rhs.restrictToNonNegative) &&
+                 (numDecisionVariables   == rhs.numDecisionVariables) &&
+                 (numSlackVariables      == rhs.numSlackVariables) &&
+                 (numArtificialVariables == rhs.numArtificialVariables) &&
+                 (epsilon                == rhs.epsilon) &&
+                 f.equals(rhs.f) &&
+                 constraints.equals(rhs.constraints) &&
+                 tableau.equals(rhs.tableau);
+
+      } catch (ClassCastException ex) {
+          // ignore exception
+          return false;
+      }
+
+    }
+    
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode() {
+        return Boolean.valueOf(restrictToNonNegative).hashCode() ^
+               numDecisionVariables ^
+               numSlackVariables ^
+               numArtificialVariables ^
+               Double.valueOf(epsilon).hashCode() ^
+               f.hashCode() ^
+               constraints.hashCode() ^
+               tableau.hashCode();
+    }
+
+    /** Serialize the instance.
+     * @param oos stream where object should be written
+     * @throws IOException if object cannot be written to stream
+     */
+    private void writeObject(ObjectOutputStream oos)
+        throws IOException {
+        oos.defaultWriteObject();
+        MatrixUtils.serializeRealMatrix(tableau, oos);
+    }
+
+    /** Deserialize the instance.
+     * @param ois stream from which the object should be read
+     * @throws ClassNotFoundException if a class in the stream cannot be found
+     * @throws IOException if object cannot be read from the stream
+     */
+    private void readObject(ObjectInputStream ois)
+      throws ClassNotFoundException, IOException {
+        ois.defaultReadObject();
+        MatrixUtils.deserializeRealMatrix(this, "tableau", ois);
+    }
 }
