@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.special;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.util.ContinuedFraction;

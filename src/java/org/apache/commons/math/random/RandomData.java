@@ -16,7 +16,6 @@
  */
 
 package org.apache.commons.math.random;
-import java.io.Serializable;
 import java.util.Collection;
 
 /**

@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.random;
 
-import java.io.Serializable;
 
 /** This interface represents a random generator for whole vectors.
  * 

@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.random;
 
-import java.io.Serializable;
 
 /**
  * Interface extracted from <code>java.util.Random</code>.  This interface is

@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.optimization.linear;
 
-import java.io.Serializable;
 import java.util.Collection;
 
 import org.apache.commons.math.optimization.GoalType;
