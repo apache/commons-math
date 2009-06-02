@@ -161,9 +161,15 @@ public abstract class MultistepIntegrator extends AbstractIntegrator {
         double stopTime = Double.NaN;
         do {
             resetTime = Double.NaN;
+            final double dt = (n - 0.9999) * h;
+            for (EventHandler handler : starter.getEventHandlers()) {
+                ((ResetCheckingWrapper) handler).setRange(t, Math.abs(dt));
+            }
             store.restart();
+
             // we overshoot by 1/10000 step the end to make sure we don't miss the last point
-            stopTime = starter.integrate(equations, t, y, t + (n - 0.9999) * h, y);
+            stopTime = starter.integrate(equations, t, y, t + dt, y);
+
             if (!Double.isNaN(resetTime)) {
                 // there was an intermediate reset, we restart
                 t = resetTime;
@@ -201,6 +207,12 @@ public abstract class MultistepIntegrator extends AbstractIntegrator {
         /** Wrapped event handler. */
         private final EventHandler handler;
 
+        /** Range start. */
+        private double rangeStart;
+
+        /** Range size. */
+        private double rangeSize;
+
         /** Build a new instance.
          * @param handler event handler to wrap
          */
@@ -208,10 +220,23 @@ public abstract class MultistepIntegrator extends AbstractIntegrator {
             this.handler = handler;
         }
 
+        /** Set the range.
+         * @param rangeStart range start
+         * @param rangeSize range size
+         */
+        public void setRange(final double rangeStart, final double rangeSize) {
+            this.rangeStart = rangeStart;
+            this.rangeSize  = rangeSize;
+        }
+
         /** {@inheritDoc} */
         public int eventOccurred(double t, double[] y, boolean increasing)
             throws EventException {
             final int action = handler.eventOccurred(t, y, increasing);
+            if (Math.abs(t - rangeStart) < 1.0e-10 * rangeSize) {
+                // we have encountered again an already handled reset, don't stop here
+                return action;
+            }
             if ((action == RESET_DERIVATIVES) || (action == RESET_STATE)) {
                 // a singularity has been encountered
                 // we need to restart the start phase
