@@ -23,8 +23,6 @@ import junit.framework.TestSuite;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.fraction.Fraction;
 import org.apache.commons.math.fraction.FractionField;
-import org.apache.commons.math.linear.decomposition.FieldLUDecompositionImpl;
-import org.apache.commons.math.linear.decomposition.NonSquareMatrixException;
 
 /**
  * Test cases for the {@link FieldMatrixImpl} class.

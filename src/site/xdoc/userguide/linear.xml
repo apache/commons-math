@@ -101,7 +101,7 @@ RealMatrix pInverse = new LUDecompositionImpl(p).getSolver().getInverse();
       <subsection name="3.4 Solving linear systems" href="solve">
         <p>
           The <code>solve()</code> methods of the <a
-          href="../apidocs/org/apache/commons/math/linear/decomposition/DecompositionSolver.html">DecompositionSolver</a>
+          href="../apidocs/org/apache/commons/math/linear/DecompositionSolver.html">DecompositionSolver</a>
           interface support solving linear systems of equations of the form AX=B, either
           in linear sense or in least square sense. A <code>RealMatrix</code> instance is
           used to represent the coefficient matrix of the system. Solving the system is a
@@ -148,11 +148,11 @@ RealVector solution = solver.solve(constants);
           <table border="1" align="center">
           <tr BGCOLOR="#CCCCFF"><td colspan="2"><font size="+2">Decomposition algorithms</font></td></tr>
           <tr BGCOLOR="#EEEEFF"><font size="+1"><td>Name</td><td>coefficients matrix</td><td>problem type</td></font></tr>
-          <tr><td><a href="../apidocs/org/apache/commons/math/linear/decomposition/LUDecomposition.html">LU</a></td><td>square</td><td>exact solution only</td></tr>
-          <tr><td><a href="../apidocs/org/apache/commons/math/linear/decomposition/CholeskyDecomposition.html">Cholesky</a></td><td>symmetric positive definite</td><td>exact solution only</td></tr>
-          <tr><td><a href="../apidocs/org/apache/commons/math/linear/decomposition/QRDecomposition.html">QR</a></td><td>any</td><td>least squares solution</td></tr>
-          <tr><td><a href="../apidocs/org/apache/commons/math/linear/decomposition/EigenDecomposition.html">eigen decomposition</a></td><td>square</td><td>exact solution only</td></tr>
-          <tr><td><a href="../apidocs/org/apache/commons/math/linear/decomposition/SingularValueDecomposition.html">SVD</a></td><td>any</td><td>least squares solution</td></tr>
+          <tr><td><a href="../apidocs/org/apache/commons/math/linear/LUDecomposition.html">LU</a></td><td>square</td><td>exact solution only</td></tr>
+          <tr><td><a href="../apidocs/org/apache/commons/math/linear/CholeskyDecomposition.html">Cholesky</a></td><td>symmetric positive definite</td><td>exact solution only</td></tr>
+          <tr><td><a href="../apidocs/org/apache/commons/math/linear/QRDecomposition.html">QR</a></td><td>any</td><td>least squares solution</td></tr>
+          <tr><td><a href="../apidocs/org/apache/commons/math/linear/EigenDecomposition.html">eigen decomposition</a></td><td>square</td><td>exact solution only</td></tr>
+          <tr><td><a href="../apidocs/org/apache/commons/math/linear/SingularValueDecomposition.html">SVD</a></td><td>any</td><td>least squares solution</td></tr>
           </table>
         </p>
         <p>

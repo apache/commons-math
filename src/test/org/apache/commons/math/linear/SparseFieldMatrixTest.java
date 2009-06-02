@@ -20,8 +20,6 @@ import org.apache.commons.math.Field;
 import org.apache.commons.math.fraction.Fraction;
 import org.apache.commons.math.fraction.FractionConversionException;
 import org.apache.commons.math.fraction.FractionField;
-import org.apache.commons.math.linear.decomposition.FieldLUDecompositionImpl;
-import org.apache.commons.math.linear.decomposition.NonSquareMatrixException;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

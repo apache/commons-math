@@ -24,8 +24,6 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.apache.commons.math.TestUtils;
-import org.apache.commons.math.linear.decomposition.LUDecompositionImpl;
-import org.apache.commons.math.linear.decomposition.NonSquareMatrixException;
 
 /**
  * Test cases for the {@link DenseRealMatrix} class.

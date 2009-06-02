@@ -19,8 +19,8 @@ package org.apache.commons.math.random;
 
 import org.apache.commons.math.DimensionMismatchException;
 import org.apache.commons.math.linear.MatrixUtils;
+import org.apache.commons.math.linear.NotPositiveDefiniteMatrixException;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.decomposition.NotPositiveDefiniteMatrixException;
 
 /** 
  * A {@link RandomVectorGenerator} that generates vectors with with 

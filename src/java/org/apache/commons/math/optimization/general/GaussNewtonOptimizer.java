@@ -18,12 +18,12 @@
 package org.apache.commons.math.optimization.general;
 
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.linear.DecompositionSolver;
 import org.apache.commons.math.linear.DenseRealMatrix;
 import org.apache.commons.math.linear.InvalidMatrixException;
+import org.apache.commons.math.linear.LUDecompositionImpl;
+import org.apache.commons.math.linear.QRDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.decomposition.DecompositionSolver;
-import org.apache.commons.math.linear.decomposition.LUDecompositionImpl;
-import org.apache.commons.math.linear.decomposition.QRDecompositionImpl;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
 import org.apache.commons.math.optimization.VectorialPointValuePair;

@@ -22,7 +22,6 @@ import junit.framework.TestSuite;
 
 import java.math.BigDecimal;
 
-import org.apache.commons.math.linear.decomposition.NonSquareMatrixException;
 
 /**
  * Test cases for the {@link BigMatrixImpl} class.

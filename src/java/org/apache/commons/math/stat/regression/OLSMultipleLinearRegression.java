@@ -17,13 +17,13 @@
 package org.apache.commons.math.stat.regression;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.linear.LUDecompositionImpl;
+import org.apache.commons.math.linear.QRDecomposition;
+import org.apache.commons.math.linear.QRDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealMatrixImpl;
 import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.linear.RealVectorImpl;
-import org.apache.commons.math.linear.decomposition.LUDecompositionImpl;
-import org.apache.commons.math.linear.decomposition.QRDecomposition;
-import org.apache.commons.math.linear.decomposition.QRDecompositionImpl;
 
 /**
  * <p>Implements ordinary least squares (OLS) to estimate the parameters of a 
