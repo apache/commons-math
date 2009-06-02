@@ -17,6 +17,9 @@
 
 package org.apache.commons.math.linear;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -713,6 +716,216 @@ public class MatrixUtils {
          */
         RealMatrix getConvertedMatrix() {
             return new RealMatrixImpl(data, false);
+        }
+
+    }
+
+    /** Serialize a {@link RealVector}.
+     * <p>
+     * This method is intended to be called from within a private
+     * <code>writeObject</code> method (after a call to
+     * <code>oos.defaultWriteObject()</code>) in a class that has a
+     * {@link RealVector} field, which should be declared <code>transient</code>.
+     * This way, the default handling does not serialize the vector (the {@link
+     * RealVector} interface is not serializable by default) but this method does
+     * serialize it specifically.
+     * </p>
+     * <p>
+     * The following example shows how a simple class with a name and a real vector
+     * should be written:
+     * <pre><code>
+     * public class NamedVector implements Serializable {
+     *
+     *     private final String name;
+     *     private final transient RealVector coefficients;
+     *
+     *     // omitted constructors, getters ...
+     *
+     *     private void writeObject(ObjectOutputStream oos) throws IOException {
+     *         oos.defaultWriteObject();  // takes care of name field
+     *         MatrixUtils.serializeRealVector(coefficients, oos);
+     *     }
+     *
+     *     private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
+     *         ois.defaultReadObject();  // takes care of name field
+     *         MatrixUtils.deserializeRealVector(this, "coefficients", ois);
+     *     }
+     *
+     * }
+     * </code></pre>
+     * </p>
+     * 
+     * @param vector real vector to serialize
+     * @param oos stream where the real vector should be written
+     * @exception IOException if object cannot be written to stream
+     * @see #deserializeRealVector(Object, String, ObjectInputStream)
+     */
+    public static void serializeRealVector(final RealVector vector,
+                                           final ObjectOutputStream oos)
+        throws IOException {
+        final int n = vector.getDimension();
+        oos.writeInt(n);
+        for (int i = 0; i < n; ++i) {
+            oos.writeDouble(vector.getEntry(i));
+        }
+    }
+
+    /** Deserialize  a {@link RealVector} field in a class.
+     * <p>
+     * This method is intended to be called from within a private
+     * <code>readObject</code> method (after a call to
+     * <code>ois.defaultReadObject()</code>) in a class that has a
+     * {@link RealVector} field, which should be declared <code>transient</code>.
+     * This way, the default handling does not deserialize the vector (the {@link
+     * RealVector} interface is not serializable by default) but this method does
+     * deserialize it specifically.
+     * </p>
+     * @param instance instance in which the field must be set up
+     * @param fieldName name of the field within the class (may be private and final)
+     * @param ois stream from which the real vector should be read
+     * @exception ClassNotFoundException if a class in the stream cannot be found
+     * @exception IOException if object cannot be read from the stream
+     * @see #serializeRealVector(RealVector, ObjectOutputStream)
+     */
+    public static void deserializeRealVector(final Object instance,
+                                             final String fieldName,
+                                             final ObjectInputStream ois)
+      throws ClassNotFoundException, IOException {
+        try {
+
+            // read the vector data
+            final int n = ois.readInt();
+            final double[] data = new double[n];
+            for (int i = 0; i < n; ++i) {
+                data[i] = ois.readDouble();
+            }
+
+            // create the instance
+            final RealVector vector = new RealVectorImpl(data, false);
+
+            // set up the field
+            final java.lang.reflect.Field f =
+                instance.getClass().getDeclaredField(fieldName);
+            f.setAccessible(true);
+            f.set(instance, vector);
+
+        } catch (NoSuchFieldException nsfe) {
+            IOException ioe = new IOException();
+            ioe.initCause(nsfe);
+            throw ioe;
+        } catch (IllegalAccessException iae) {
+            IOException ioe = new IOException();
+            ioe.initCause(iae);
+            throw ioe;
+        }
+
+    }
+
+    /** Serialize a {@link RealMatrix}.
+     * <p>
+     * This method is intended to be called from within a private
+     * <code>writeObject</code> method (after a call to
+     * <code>oos.defaultWriteObject()</code>) in a class that has a
+     * {@link RealMatrix} field, which should be declared <code>transient</code>.
+     * This way, the default handling does not serialize the matrix (the {@link
+     * RealMatrix} interface is not serializable by default) but this method does
+     * serialize it specifically.
+     * </p>
+     * <p>
+     * The following example shows how a simple class with a name and a real matrix
+     * should be written:
+     * <pre><code>
+     * public class NamedMatrix implements Serializable {
+     *
+     *     private final String name;
+     *     private final transient RealMatrix coefficients;
+     *
+     *     // omitted constructors, getters ...
+     *
+     *     private void writeObject(ObjectOutputStream oos) throws IOException {
+     *         oos.defaultWriteObject();  // takes care of name field
+     *         MatrixUtils.serializeRealMatrix(coefficients, oos);
+     *     }
+     *
+     *     private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
+     *         ois.defaultReadObject();  // takes care of name field
+     *         MatrixUtils.deserializeRealMatrix(this, "coefficients", ois);
+     *     }
+     *
+     * }
+     * </code></pre>
+     * </p>
+     * 
+     * @param matrix real matrix to serialize
+     * @param oos stream where the real matrix should be written
+     * @exception IOException if object cannot be written to stream
+     * @see #deserializeRealMatrix(Object, String, ObjectInputStream)
+     */
+    public static void serializeRealMatrix(final RealMatrix matrix,
+                                           final ObjectOutputStream oos)
+        throws IOException {
+        final int n = matrix.getRowDimension();
+        final int m = matrix.getColumnDimension();
+        oos.writeInt(n);
+        oos.writeInt(m);
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < m; ++j) {
+                oos.writeDouble(matrix.getEntry(i, j));
+            }
+        }
+    }
+
+    /** Deserialize  a {@link RealMatrix} field in a class.
+     * <p>
+     * This method is intended to be called from within a private
+     * <code>readObject</code> method (after a call to
+     * <code>ois.defaultReadObject()</code>) in a class that has a
+     * {@link RealMatrix} field, which should be declared <code>transient</code>.
+     * This way, the default handling does not deserialize the matrix (the {@link
+     * RealMatrix} interface is not serializable by default) but this method does
+     * deserialize it specifically.
+     * </p>
+     * @param instance instance in which the field must be set up
+     * @param fieldName name of the field within the class (may be private and final)
+     * @param ois stream from which the real matrix should be read
+     * @exception ClassNotFoundException if a class in the stream cannot be found
+     * @exception IOException if object cannot be read from the stream
+     * @see #serializeVector(RealVector, ObjectOutputStream)
+     */
+    public static void deserializeRealMatrix(final Object instance,
+                                             final String fieldName,
+                                             final ObjectInputStream ois)
+      throws ClassNotFoundException, IOException {
+        try {
+
+            // read the matrix data
+            final int n = ois.readInt();
+            final int m = ois.readInt();
+            final double[][] data = new double[n][m];
+            for (int i = 0; i < n; ++i) {
+                final double[] dataI = data[i];
+                for (int j = 0; j < m; ++j) {
+                    dataI[j] = ois.readDouble();
+                }
+            }
+
+            // create the instance
+            final RealMatrix matrix = new RealMatrixImpl(data, false);
+
+            // set up the field
+            final java.lang.reflect.Field f =
+                instance.getClass().getDeclaredField(fieldName);
+            f.setAccessible(true);
+            f.set(instance, matrix);
+
+        } catch (NoSuchFieldException nsfe) {
+            IOException ioe = new IOException();
+            ioe.initCause(nsfe);
+            throw ioe;
+        } catch (IllegalAccessException iae) {
+            IOException ioe = new IOException();
+            ioe.initCause(iae);
+            throw ioe;
         }
 
     }
