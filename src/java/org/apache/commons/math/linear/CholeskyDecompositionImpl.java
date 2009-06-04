@@ -111,11 +111,6 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
 
             final double[] lI = lTData[i];
 
-            // check diagonal element
-            if (lTData[i][i] < absolutePositivityThreshold) {
-                throw new NotPositiveDefiniteMatrixException();
-            }
-
             // check off-diagonal elements (and reset them to 0)
             for (int j = i + 1; j < order; ++j) {
                 final double[] lJ = lTData[j];
@@ -134,6 +129,12 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
         for (int i = 0; i < order; ++i) {
 
             final double[] ltI = lTData[i];
+
+            // check diagonal element
+            if (ltI[i] < absolutePositivityThreshold) {
+                throw new NotPositiveDefiniteMatrixException();
+            }
+
             ltI[i] = Math.sqrt(ltI[i]);
             final double inverse = 1.0 / ltI[i];
 

@@ -17,6 +17,9 @@
 
 package org.apache.commons.math.linear;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.linear.CholeskyDecomposition;
 import org.apache.commons.math.linear.CholeskyDecompositionImpl;
@@ -25,12 +28,9 @@ import org.apache.commons.math.linear.NonSquareMatrixException;
 import org.apache.commons.math.linear.NotPositiveDefiniteMatrixException;
 import org.apache.commons.math.linear.NotSymmetricMatrixException;
 import org.apache.commons.math.linear.RealMatrix;
+import org.junit.Test;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-public class CholeskyDecompositionImplTest extends TestCase {
+public class CholeskyDecompositionImplTest {
 
     private double[][] testData = new double[][] {
             {  1,  2,   4,   7,  11 },
@@ -40,17 +40,8 @@ public class CholeskyDecompositionImplTest extends TestCase {
             { 11, 58, 182, 430, 855 }
     };
 
-    public CholeskyDecompositionImplTest(String name) {
-        super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(CholeskyDecompositionImplTest.class);
-        suite.setName("CholeskyDecompositionImpl Tests");
-        return suite;
-    }
-
     /** test dimensions */
+    @Test
     public void testDimensions() throws MathException {
         CholeskyDecomposition llt =
             new CholeskyDecompositionImpl(MatrixUtils.createRealMatrix(testData));
@@ -61,47 +52,45 @@ public class CholeskyDecompositionImplTest extends TestCase {
     }
 
     /** test non-square matrix */
-    public void testNonSquare() {
-        try {
-            new CholeskyDecompositionImpl(MatrixUtils.createRealMatrix(new double[3][2]));
-        } catch (NonSquareMatrixException ime) {
-            // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
-        }
+    @Test(expected = NonSquareMatrixException.class)
+    public void testNonSquare() throws MathException {
+        new CholeskyDecompositionImpl(MatrixUtils.createRealMatrix(new double[3][2]));
     }
 
     /** test non-symmetric matrix */
-    public void testNotSymmetricMatrixException() {
-        try {
-            double[][] changed = testData.clone();
-            changed[0][changed[0].length - 1] += 1.0e-5;
-            new CholeskyDecompositionImpl(MatrixUtils.createRealMatrix(changed));
-        } catch (NotSymmetricMatrixException e) {
-            // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
-        }
+    @Test(expected = NotSymmetricMatrixException.class)
+    public void testNotSymmetricMatrixException() throws MathException {
+        double[][] changed = testData.clone();
+        changed[0][changed[0].length - 1] += 1.0e-5;
+        new CholeskyDecompositionImpl(MatrixUtils.createRealMatrix(changed));
     }
 
     /** test non positive definite matrix */
-    public void testNotPositiveDefinite() {
-        try {
-            new CholeskyDecompositionImpl(MatrixUtils.createRealMatrix(new double[][] {
-                    { 14, 11, 13, 15, 24 },
-                    { 11, 34, 13, 8,  25 },
-                    { 13, 13, 14, 15, 21 },
-                    { 15, 8,  15, 18, 23 },
-                    { 24, 25, 21, 23, 45 }
-            }));
-        } catch (NotPositiveDefiniteMatrixException e) {
-            // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
-        }
+    @Test(expected = NotPositiveDefiniteMatrixException.class)
+    public void testNotPositiveDefinite() throws MathException {
+        CholeskyDecomposition cd = new CholeskyDecompositionImpl(MatrixUtils.createRealMatrix(new double[][] {
+                { 14, 11, 13, 15, 24 },
+                { 11, 34, 13, 8,  25 },
+                { 13, 13, 14, 15, 21 },
+                { 15, 8,  15, 18, 23 },
+                { 24, 25, 21, 23, 45 }
+        }));
+        System.out.println(cd.getL().multiply(cd.getLT()));
+    }
+
+    @Test(expected = NotPositiveDefiniteMatrixException.class)
+    public void testMath274() throws MathException {
+        new CholeskyDecompositionImpl(MatrixUtils.createRealMatrix(new double[][] {
+                { 0.40434286, -0.09376327, 0.30328980, 0.04909388 },
+                {-0.09376327,  0.10400408, 0.07137959, 0.04762857 },
+                { 0.30328980,  0.07137959, 0.30458776, 0.04882449 },
+                { 0.04909388,  0.04762857, 0.04882449, 0.07543265 }
+            
+        }));
     }
 
     /** test A = LLT */
+    @Test
     public void testAEqualLLT() throws MathException {
         RealMatrix matrix = MatrixUtils.createRealMatrix(testData);
         CholeskyDecomposition llt = new CholeskyDecompositionImpl(matrix);
@@ -112,17 +101,19 @@ public class CholeskyDecompositionImplTest extends TestCase {
     }
 
     /** test that L is lower triangular */
+    @Test
     public void testLLowerTriangular() throws MathException {
         RealMatrix matrix = MatrixUtils.createRealMatrix(testData);
         RealMatrix l = new CholeskyDecompositionImpl(matrix).getL();
         for (int i = 0; i < l.getRowDimension(); i++) {
             for (int j = i + 1; j < l.getColumnDimension(); j++) {
-                assertEquals(0.0, l.getEntry(i, j));
+                assertEquals(0.0, l.getEntry(i, j), 0.0);
             }
         }
     }
 
     /** test that LT is transpose of L */
+    @Test
     public void testLTTransposed() throws MathException {
         RealMatrix matrix = MatrixUtils.createRealMatrix(testData);
         CholeskyDecomposition llt = new CholeskyDecompositionImpl(matrix);
@@ -133,6 +124,7 @@ public class CholeskyDecompositionImplTest extends TestCase {
     }
 
     /** test matrices values */
+    @Test
     public void testMatricesValues() throws MathException {
         RealMatrix lRef = MatrixUtils.createRealMatrix(new double[][] {
                 {  1,  0,  0,  0,  0 },
