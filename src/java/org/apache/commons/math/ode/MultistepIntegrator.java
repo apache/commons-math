@@ -28,12 +28,14 @@ import org.apache.commons.math.ode.sampling.FixedStepHandler;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 import org.apache.commons.math.ode.sampling.StepNormalizer;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * This class is the base class for multistep integrators for Ordinary
  * Differential Equations.
  *
- * @see org.apache.commons.math.ode.nonstiff.AdamsIntegrator
+ * @see org.apache.commons.math.ode.nonstiff.AdamsBashforthIntegrator
+ * @see org.apache.commons.math.ode.nonstiff.AdamsMoultonIntegrator
  * @version $Revision$ $Date$
  * @since 2.0
  */
@@ -54,9 +56,6 @@ public abstract class MultistepIntegrator extends AbstractIntegrator {
     /** Time of last detected reset. */
     private double resetTime;
 
-    /** Prototype of the step interpolator. */
-    protected StepInterpolator prototype;
-                                           
     /**
      * Build a multistep integrator with the given number of steps.
      * <p>The default starter integrator is set to the {@link
@@ -65,15 +64,13 @@ public abstract class MultistepIntegrator extends AbstractIntegrator {
      * @param name name of the method
      * @param k number of steps of the multistep method
      * (including the one being computed)
-     * @param prototype prototype of the step interpolator to use
      */
-    protected MultistepIntegrator(final String name, final int k,
-                                  final StepInterpolator prototype) {
+    protected MultistepIntegrator(final String name, final int k) {
         super(name);
-        starter = new DormandPrince853Integrator(1.0e-6, 1.0e6, 1.0e-5, 1.0e-6);
+        starter = new DormandPrince853Integrator(MathUtils.SAFE_MIN, Double.MAX_VALUE,
+                                                 1.0e-8, 1.0e-8);
         previousT = new double[k];
         previousF = new double[k][];
-        this.prototype = prototype;
     }
 
     /**
