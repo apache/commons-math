@@ -82,11 +82,8 @@ public interface StepInterpolator
    * specific state must be preserved, a copy of the instance must be
    * created using {@link #copy()}.</p>
    * @param time time of the interpolated point
-   * @throws DerivativeException if this call induces an automatic
-   * step finalization that throws one
    */
-  public void setInterpolatedTime(double time)
-    throws DerivativeException;
+  public void setInterpolatedTime(double time);
 
   /**
    * Get the state vector of the interpolated point.
@@ -95,8 +92,11 @@ public interface StepInterpolator
    * to be preserved across several calls.</p>
    * @return state vector at time {@link #getInterpolatedTime}
    * @see #getInterpolatedDerivatives()
+   * @throws DerivativeException if this call induces an automatic
+   * step finalization that throws one
    */
-  public double[] getInterpolatedState();
+  public double[] getInterpolatedState()
+      throws DerivativeException;
 
   /**
    * Get the derivatives of the state vector of the interpolated point.
@@ -105,9 +105,12 @@ public interface StepInterpolator
    * to be preserved across several calls.</p>
    * @return derivatives of the state vector at time {@link #getInterpolatedTime}
    * @see #getInterpolatedState()
+   * @throws DerivativeException if this call induces an automatic
+   * step finalization that throws one
    * @since 2.0
    */
-  public double[] getInterpolatedDerivatives();
+  public double[] getInterpolatedDerivatives()
+      throws DerivativeException;
 
   /** Check if the natural integration direction is forward.
    * <p>This method provides the integration direction as specified by

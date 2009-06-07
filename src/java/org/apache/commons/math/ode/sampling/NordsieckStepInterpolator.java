@@ -22,12 +22,9 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.util.Arrays;
 
-import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealMatrixImpl;
 import org.apache.commons.math.linear.RealMatrixPreservingVisitor;
-import org.apache.commons.math.ode.DerivativeException;
-import org.apache.commons.math.ode.nonstiff.AdamsIntegrator;
 
 /**
  * This class implements an interpolator for integrators using Nordsieck representation.
@@ -35,7 +32,8 @@ import org.apache.commons.math.ode.nonstiff.AdamsIntegrator;
  * <p>This interpolator computes dense output around the current point.
  * The interpolation equation is based on Taylor series formulas.
  *
- * @see AdamsIntegrator
+ * @see org.apache.commons.math.ode.nonstiff.AdamsBashforthIntegrator
+ * @see org.apache.commons.math.ode.nonstiff.AdamsMoultonIntegrator
  * @version $Revision$ $Date$
  * @since 2.0
  */
@@ -47,6 +45,14 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
 
     /** Step size used in the first scaled derivative and Nordsieck vector. */
     private double scalingH;
+
+    /** Reference time for all arrays.
+     * <p>Sometimes, the reference time is the same as previousTime,
+     * sometimes it is the same as currentTime, so we use a separate
+     * field to avoid any confusion.
+     * </p>
+     */
+    private double referenceTime;
 
     /** First scaled derivative. */
     private double[] scaled;
@@ -101,34 +107,29 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
     /** Reinitialize the instance
      * <p>Beware that all arrays <em>must</em> be references to integrator
      * arrays, in order to ensure proper update without copy.</p>
+     * @param referenceTime time at which all arrays are defined
      * @param scalingH step size used in the scaled and nordsieck arrays
      * @param scaled reference to the integrator array holding the first
      * scaled derivative
      * @param nordsieck reference to the integrator matrix holding the
      * nordsieck vector
      */
-    public void reinitialize(final double scalingH, final double[] scaled,
-                             final RealMatrix nordsieck) {
-        this.scalingH  = scalingH;
-        this.scaled    = scaled;
-        this.nordsieck = nordsieck;
-    }
+    public void reinitialize(final double referenceTime, final double scalingH,
+                             final double[] scaled, final RealMatrix nordsieck) {
+        this.referenceTime = referenceTime;
+        this.scalingH      = scalingH;
+        this.scaled        = scaled;
+        this.nordsieck     = nordsieck;
 
-    /** Store the current step time.
-     * @param t current time
-     */
-    @Override
-    public void storeTime(final double t) {
-      currentTime      = t;
-      h                = currentTime - previousTime;
-      interpolatedTime = t;
-      computeInterpolatedState(1.0, 0.0);
+        // make sure the state and derivatives will depend on the new arrays
+        setInterpolatedTime(getInterpolatedTime());
+
     }
 
     /** {@inheritDoc} */
     @Override
-    protected void computeInterpolatedState(final double theta, final double oneMinusThetaH) {
-        final double x = theta * h;
+    protected void computeInterpolatedStateAndDerivatives(final double theta, final double oneMinusThetaH) {
+        final double x = interpolatedTime - referenceTime;
         nordsieck.walkInOptimizedOrder(new StateEstimator(x, x / scalingH));
     }
 
@@ -254,13 +255,9 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
             nordsieck = null;
         }
 
-        try {
-            if (hasScaled && hasNordsieck) {
-                // we can now set the interpolated time and state
-                setInterpolatedTime(t);
-            }
-        } catch (DerivativeException e) {
-            throw MathRuntimeException.createIOException(e);
+        if (hasScaled && hasNordsieck) {
+            // we can now set the interpolated time and state
+            setInterpolatedTime(t);
         }
 
     }

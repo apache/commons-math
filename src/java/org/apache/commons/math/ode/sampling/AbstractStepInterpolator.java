@@ -74,6 +74,10 @@ public abstract class AbstractStepInterpolator
   /** integration direction. */
   private boolean forward;
 
+  /** indicator for dirty state. */
+  private boolean dirtyState;
+
+
   /** Simple constructor.
    * This constructor builds an instance that is not usable yet, the
    * {@link #reinitialize} method should be called before using the
@@ -94,6 +98,7 @@ public abstract class AbstractStepInterpolator
     interpolatedDerivatives = null;
     finalized               = false;
     this.forward            = true;
+    this.dirtyState         = true;
   }
 
   /** Simple constructor.
@@ -114,6 +119,7 @@ public abstract class AbstractStepInterpolator
 
     finalized         = false;
     this.forward      = forward;
+    this.dirtyState   = true;
 
   }
 
@@ -151,8 +157,9 @@ public abstract class AbstractStepInterpolator
       interpolatedDerivatives = null;
     }
 
-    finalized = interpolator.finalized;
-    forward   = interpolator.forward;
+    finalized  = interpolator.finalized;
+    forward    = interpolator.forward;
+    dirtyState = interpolator.dirtyState;
 
   }
 
@@ -174,6 +181,7 @@ public abstract class AbstractStepInterpolator
 
     finalized         = false;
     this.forward      = forward;
+    this.dirtyState   = true;
 
   }
 
@@ -210,14 +218,12 @@ public abstract class AbstractStepInterpolator
    */
   public void storeTime(final double t) {
 
-    currentTime      = t;
-    h                = currentTime - previousTime;
-    interpolatedTime = t;
-    System.arraycopy(currentState, 0, interpolatedState, 0,
-                     currentState.length);
+    currentTime = t;
+    h           = currentTime - previousTime;
+    setInterpolatedTime(t);
 
     // the step is not finalized anymore
-    finalized = false;
+    finalized  = false;
 
   }
 
@@ -237,12 +243,9 @@ public abstract class AbstractStepInterpolator
   }
     
   /** {@inheritDoc} */
-  public void setInterpolatedTime(final double time)
-      throws DerivativeException {
+  public void setInterpolatedTime(final double time) {
       interpolatedTime = time;
-      final double oneMinusThetaH = currentTime - interpolatedTime;
-      final double theta = (h == 0) ? 0 : (h - oneMinusThetaH) / h;
-      computeInterpolatedState(theta, oneMinusThetaH);
+      dirtyState       = true;
   }
 
   /** {@inheritDoc} */
@@ -250,7 +253,7 @@ public abstract class AbstractStepInterpolator
     return forward;
   }
 
-  /** Compute the state at the interpolated time.
+  /** Compute the state and derivatives at the interpolated time.
    * This is the main processing method that should be implemented by
    * the derived classes to perform the interpolation.
    * @param theta normalized interpolation abscissa within the step
@@ -260,18 +263,38 @@ public abstract class AbstractStepInterpolator
    * @throws DerivativeException this exception is propagated to the caller if the
    * underlying user function triggers one
    */
-  protected abstract void computeInterpolatedState(double theta,
-                                                   double oneMinusThetaH)
+  protected abstract void computeInterpolatedStateAndDerivatives(double theta,
+                                                                 double oneMinusThetaH)
     throws DerivativeException;
     
   /** {@inheritDoc} */
-  public double[] getInterpolatedState() {
-    return interpolatedState;
+  public double[] getInterpolatedState() throws DerivativeException {
+
+      // lazy evaluation of the state
+      if (dirtyState) {
+          final double oneMinusThetaH = currentTime - interpolatedTime;
+          final double theta = (h == 0) ? 0 : (h - oneMinusThetaH) / h;
+          computeInterpolatedStateAndDerivatives(theta, oneMinusThetaH);
+          dirtyState = false;
+      }
+
+      return interpolatedState;
+
   }
 
   /** {@inheritDoc} */
-  public double[] getInterpolatedDerivatives() {
-    return interpolatedDerivatives;
+  public double[] getInterpolatedDerivatives() throws DerivativeException {
+
+      // lazy evaluation of the state
+      if (dirtyState) {
+          final double oneMinusThetaH = currentTime - interpolatedTime;
+          final double theta = (h == 0) ? 0 : (h - oneMinusThetaH) / h;
+          computeInterpolatedStateAndDerivatives(theta, oneMinusThetaH);
+          dirtyState = false;
+      }
+
+      return interpolatedDerivatives;
+
   }
 
   /**
@@ -398,6 +421,7 @@ public abstract class AbstractStepInterpolator
     currentTime   = in.readDouble();
     h             = in.readDouble();
     forward       = in.readBoolean();
+    dirtyState    = true;
 
     if (dimension < 0) {
         currentState = null;

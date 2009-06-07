@@ -17,11 +17,10 @@
 
 package org.apache.commons.math.ode.sampling;
 
+import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-import java.io.IOException;
 
-import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.nonstiff.EmbeddedRungeKuttaIntegrator;
 
@@ -93,7 +92,7 @@ public class DummyStepInterpolator
    * underlying user function triggers one
    */
   @Override
-  protected void computeInterpolatedState(final double theta, final double oneMinusThetaH)
+  protected void computeInterpolatedStateAndDerivatives(final double theta, final double oneMinusThetaH)
     throws DerivativeException {
       System.arraycopy(currentState, 0, interpolatedState, 0, currentState.length);
   }
@@ -120,12 +119,8 @@ public class DummyStepInterpolator
     // read the base class 
     final double t = readBaseExternal(in);
 
-    try {
-      // we can now set the interpolated time and state
-      setInterpolatedTime(t);
-    } catch (DerivativeException e) {
-      throw MathRuntimeException.createIOException(e);
-    }
+    // we can now set the interpolated time and state
+    setInterpolatedTime(t);
 
   }
 

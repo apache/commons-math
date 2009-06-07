@@ -233,7 +233,6 @@ public class ContinuousOutputModel
    */
   public void setInterpolatedTime(final double time) {
 
-    try {
       // initialize the search with the complete steps table
       int iMin = 0;
       final StepInterpolator sMin = steps.get(iMin);
@@ -318,17 +317,15 @@ public class ContinuousOutputModel
 
       steps.get(index).setInterpolatedTime(time);
 
-    } catch (DerivativeException de) {
-      throw new MathRuntimeException(de, "unexpected exception caught");
-    }
-
   }
 
   /**
    * Get the state vector of the interpolated point.
    * @return state vector at time {@link #getInterpolatedTime}
+   * @throws DerivativeException if this call induces an automatic
+   * step finalization that throws one
    */
-  public double[] getInterpolatedState() {
+  public double[] getInterpolatedState() throws DerivativeException {
     return steps.get(index).getInterpolatedState();
   }
 
