@@ -17,6 +17,7 @@
 
 package org.apache.commons.math.optimization;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -38,7 +39,7 @@ import org.apache.commons.math.random.RandomVectorGenerator;
  * @since 2.0
  */
 public class MultiStartDifferentiableMultivariateRealOptimizer
-    implements DifferentiableMultivariateRealOptimizer {
+    implements DifferentiableMultivariateRealOptimizer, Serializable {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = -3220364832729994537L;

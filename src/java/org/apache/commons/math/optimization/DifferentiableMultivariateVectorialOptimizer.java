@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.optimization;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
 
@@ -32,7 +30,7 @@ import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunct
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public interface DifferentiableMultivariateVectorialOptimizer extends Serializable {
+public interface DifferentiableMultivariateVectorialOptimizer {
 
     /** Set the maximal number of iterations of the algorithm.
      * @param maxIterations maximal number of function calls

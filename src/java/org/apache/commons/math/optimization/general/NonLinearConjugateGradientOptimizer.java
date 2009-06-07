@@ -45,7 +45,7 @@ import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
 
 public class NonLinearConjugateGradientOptimizer
     extends AbstractScalarDifferentiableOptimizer
-    implements DifferentiableMultivariateRealOptimizer {
+    implements DifferentiableMultivariateRealOptimizer, Serializable {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = -6545223926568155458L;
@@ -242,7 +242,7 @@ public class NonLinearConjugateGradientOptimizer
     }
 
     /** Default identity preconditioner. */
-    private static class IdentityPreconditioner implements Preconditioner {
+    private static class IdentityPreconditioner implements Preconditioner, Serializable {
 
         /** Serializable version identifier. */
         private static final long serialVersionUID = 1868235977809734023L;

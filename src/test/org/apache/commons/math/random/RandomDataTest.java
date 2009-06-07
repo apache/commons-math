@@ -21,6 +21,7 @@ import junit.framework.TestSuite;
 import java.util.HashSet;
 
 import org.apache.commons.math.RetryTestCase;
+import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.stat.Frequency;
 import org.apache.commons.math.stat.inference.ChiSquareTestImpl;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
@@ -607,6 +608,10 @@ public class RandomDataTest extends RetryTestCase {
 		}
 	}
 	
+	// Disable until we have equals
+	//public void testSerial() {
+	//    assertEquals(randomData, TestUtils.serializeAndRecover(randomData));
+	//}
 	
 	private int findPerm(int[][] p, int[] samp) {
 		for (int i = 0; i < p.length; i++) {

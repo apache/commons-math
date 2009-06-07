@@ -86,12 +86,7 @@ import org.apache.commons.math.optimization.SimpleScalarValueChecker;
  * @version $Revision$ $Date$
  * @since 1.2
  */
-public abstract class DirectSearchOptimizer implements MultivariateRealOptimizer, Serializable {
-    // TODO: Add Serializable documentation
-    // TODO: Check Serializable implementation
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 4299910390345933369L;
+public abstract class DirectSearchOptimizer implements MultivariateRealOptimizer {
 
     /** Simplex. */
     protected RealPointValuePair[] simplex;

@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.optimization.general;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.linear.DecompositionSolver;
 import org.apache.commons.math.linear.DenseRealMatrix;
@@ -42,7 +44,7 @@ import org.apache.commons.math.optimization.VectorialPointValuePair;
  *
  */
 
-public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
+public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer implements Serializable {
 
     /** Serializable version identifier */
     private static final long serialVersionUID = 7011643996279553223L;

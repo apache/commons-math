@@ -191,7 +191,6 @@ extends TestCase {
             new NonLinearConjugateGradientOptimizer(ConjugateGradientFormula.POLAK_RIBIERE);
         optimizer.setMaxIterations(100);
         optimizer.setPreconditioner(new Preconditioner() {
-            private static final long serialVersionUID = -2935127802358453014L;
             public double[] precondition(double[] point, double[] r) {
                 double[] d = r.clone();
                 d[0] /=  72.0;

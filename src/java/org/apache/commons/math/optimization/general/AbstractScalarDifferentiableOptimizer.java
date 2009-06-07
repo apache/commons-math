@@ -41,9 +41,6 @@ public abstract class AbstractScalarDifferentiableOptimizer
     /** Default maximal number of iterations allowed. */
     public static final int DEFAULT_MAX_ITERATIONS = 100;
 
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 1357126012308766636L;
-
     /** Maximal number of iterations allowed. */
     private int maxIterations;
 

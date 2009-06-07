@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.optimization.general;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.FunctionEvaluationException;
 
 /** 
@@ -27,7 +25,7 @@ import org.apache.commons.math.FunctionEvaluationException;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public interface Preconditioner extends Serializable {
+public interface Preconditioner {
 
     /** 
      * Precondition a search direction.

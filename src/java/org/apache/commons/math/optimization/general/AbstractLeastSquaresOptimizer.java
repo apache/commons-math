@@ -41,9 +41,6 @@ import org.apache.commons.math.optimization.VectorialPointValuePair;
  */
 public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMultivariateVectorialOptimizer {
 
-    /** Serializable version identifier */
-    private static final long serialVersionUID = 5413193243329026789L;
-
     /** Default maximal number of iterations allowed. */
     public static final int DEFAULT_MAX_ITERATIONS = 100;
 
