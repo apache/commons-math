@@ -46,37 +46,23 @@ import org.apache.commons.math.ode.sampling.StepHandler;
 
 
 /**
- * This class implements explicit Adams-Bashforth and Adams-Moulton integrators for Ordinary
+ * This class implements implicit Adams-Moulton integrators for Ordinary
  * Differential Equations.
  *
- * <p>Adams-Bashforth (in fact due to Adams alone) methods are explicit
- * multistep ODE solvers witch fixed stepsize. The value of state vector
+ * <p>Adams-Moulton methods (in fact due to Adams alone) are implicit
+ * multistep ODE solvers with fixed stepsize. The value of state vector
  * at step n+1 is a simple combination of the value at step n and of the
- * derivatives at steps n, n-1, n-2 ... Depending on the number k of previous
- * steps one wants to use for computing the next value, different formulas
- * are available:</p>
- * <ul>
- *   <li>k = 1: y<sub>n+1</sub> = y<sub>n</sub> + h y'<sub>n</sub></li>
- *   <li>k = 2: y<sub>n+1</sub> = y<sub>n</sub> + h (3y'<sub>n</sub>-y'<sub>n-1</sub>)/2</li>
- *   <li>k = 3: y<sub>n+1</sub> = y<sub>n</sub> + h (23y'<sub>n</sub>-16y'<sub>n-1</sub>+5y'<sub>n-2</sub>)/12</li>
- *   <li>k = 4: y<sub>n+1</sub> = y<sub>n</sub> + h (55y'<sub>n</sub>-59y'<sub>n-1</sub>+37y'<sub>n-2</sub>-9y'<sub>n-3)/24</sub></li>
- *   <li>...</li>
- * </ul>
- *
- * <p>A k-steps Adams-Bashforth method is of order k. There is no theoretical limit to the
- * value of k, but due to an implementation limitation k must be greater than 1.</p>
- *
- * <p>Adams-Moulton (also due to Adams alone) methods are implicit
- * multistep ODE solvers witch fixed stepsize. The value of state vector
- * at step n+1 is a simple combination of the value at step n and of the
- * derivatives at steps n+1, n, n-1 ... Depending on the number k of previous
- * steps one wants to use for computing the next value, different formulas
- * are available:</p>
+ * derivatives at steps n+1, n, n-1 ... Since y'<sub>n+1</sub> is needed to
+ * compute y<sub>n+1</sub>, another method must be used to compute a first
+ * estimate of y<sub>n+1</sub>, then compute y'<sub>n+1</sub>, then compute
+ * a final estimate of y<sub>n+1</sub> using the following formulas. Depending
+ * on the number k of previous steps one wants to use for computing the next
+ * value, different formulas are available for the final estimate:</p>
  * <ul>
  *   <li>k = 1: y<sub>n+1</sub> = y<sub>n</sub> + h y'<sub>n+1</sub></li>
  *   <li>k = 2: y<sub>n+1</sub> = y<sub>n</sub> + h (y'<sub>n+1</sub>+y'<sub>n</sub>)/2</li>
  *   <li>k = 3: y<sub>n+1</sub> = y<sub>n</sub> + h (5y'<sub>n+1</sub>+8y'<sub>n</sub>-y'<sub>n-1</sub>)/12</li>
- *   <li>k = 4: y<sub>n+1</sub> = y<sub>n</sub> + h (9y'<sub>n+1</sub>+19y'<sub>n</sub>-5y'<sub>n-1</sub>+y'<sub>n-2)/24</sub></li>
+ *   <li>k = 4: y<sub>n+1</sub> = y<sub>n</sub> + h (9y'<sub>n+1</sub>+19y'<sub>n</sub>-5y'<sub>n-1</sub>+y'<sub>n-2</sub>)/24</li>
  *   <li>...</li>
  * </ul>
  *
@@ -100,14 +86,7 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  *   q<sub>n</sub> = [ s<sub>1</sub>(n-1) s<sub>1</sub>(n-2) ... s<sub>1</sub>(n-(k-1)) ]<sup>T</sup>
  * </pre>
  * (we omit the k index in the notation for clarity). With these definitions,
- * Adams-Bashforth methods can be written:
- * <ul>
- *   <li>k = 1: y<sub>n+1</sub> = y<sub>n</sub> + s<sub>1</sub>(n)</li>
- *   <li>k = 2: y<sub>n+1</sub> = y<sub>n</sub> + 3/2 s<sub>1</sub>(n) + [ -1/2 ] q<sub>n</sub></li>
- *   <li>k = 3: y<sub>n+1</sub> = y<sub>n</sub> + 23/12 s<sub>1</sub>(n) + [ -16/12 5/12 ] q<sub>n</sub></li>
- *   <li>k = 4: y<sub>n+1</sub> = y<sub>n</sub> + 55/24 s<sub>1</sub>(n) + [ -59/24 37/24 -9/24 ] q<sub>n</sub></li>
- *   <li>...</li>
- * </ul>and Adams-Moulton methods can be written:
+ * Adams-Moulton methods can be written:
  * <ul>
  *   <li>k = 1: y<sub>n+1</sub> = y<sub>n</sub> + s<sub>1</sub>(n+1)</li>
  *   <li>k = 2: y<sub>n+1</sub> = y<sub>n</sub> + 1/2 s<sub>1</sub>(n+1) + [ 1/2 ] q<sub>n+1</sub></li>
@@ -116,6 +95,16 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  *   <li>...</li>
  * </ul></p>
  *
+ * <p>Instead of using the classical representation with first derivatives only (y<sub>n</sub>,
+ * s<sub>1</sub>(n+1) and q<sub>n+1</sub>), our implementation uses the Nordsieck vector with
+ * higher degrees scaled derivatives all taken at the same step (y<sub>n</sub>, s<sub>1</sub>(n)
+ * and r<sub>n</sub>) where r<sub>n</sub> is defined as:
+ * <pre>
+ * r<sub>n</sub> = [ s<sub>2</sub>(n), s<sub>3</sub>(n) ... s<sub>k</sub>(n) ]<sup>T</sup>
+ * </pre>
+ * (here again we omit the k index in the notation for clarity)
+ * </p>
+ *
  * <p>Taylor series formulas show that for any index offset i, s<sub>1</sub>(n-i) can be
  * computed from s<sub>1</sub>(n), s<sub>2</sub>(n) ... s<sub>k</sub>(n), the formula being exact
  * for degree k polynomials.
@@ -123,12 +112,7 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  * s<sub>1</sub>(n-i) = s<sub>1</sub>(n) + &sum;<sub>j</sub> j (-i)<sup>j-1</sup> s<sub>j</sub>(n)
  * </pre>
  * The previous formula can be used with several values for i to compute the transform between
- * classical representation (q<sub>n</sub> for Adams-Bashforth or q<sub>n+1</sub> for Adams-Moulton)
- * and Nordsieck vector
- * <pre>
- * r<sub>n</sub> = [ s<sub>2</sub>(n), s<sub>3</sub>(n) ... s<sub>k</sub>(n) ]<supT</sup>
- * </pre>
- * (here again we omit the k index in the notation for clarity). The transform between r<sub>n</sub>
+ * classical representation and Nordsieck vector. The transform between r<sub>n</sub>
  * and q<sub>n</sub> resulting from the Taylor series formulas above is:
  * <pre>
  * q<sub>n</sub> = s<sub>1</sub>(n) u + P r<sub>n</sub>
@@ -143,12 +127,8 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  *        [          ...           ]
  * </pre></p>
  * 
- * <p>This class implements the Adams-Bashforth and Adams-Moulton method using the Nordsieck vector
- * (i.e. y<sub>n</sub>, s<sub>1</sub>(n) and r<sub>n</sub>) rather than the classical representation.
- * Using the Nordsieck vector has several advantages:
+ * <p>Using the Nordsieck vector has several advantages:
  * <ul>
- *   <li>it leverages Adams-Bashforth and Adams-Moulton methods as in this representation
- *   they share most of their coefficients and most of their implementation,</li>
  *   <li>it greatly simplifies step interpolation as the interpolator mainly applies
  *   Taylor series formulas,</li>
  *   <li>it simplifies step changes that occur when discrete events that truncate
@@ -156,11 +136,12 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  *   <li>it allows to extend the methods in order to support adaptive stepsize (not implemented yet).</li>
  * </ul></p>
  * 
- * <p>The Nordsieck vector at step n+1 is computed from the Nordsieck vector at step n as follows:
+ * <p>The predicted Nordsieck vector at step n+1 is computed from the Nordsieck vector at step
+ * n as follows:
  * <ul>
- *   <li>y<sub>n+1</sub> = y<sub>n</sub> + s<sub>1</sub>(n) + u<sup>T</sup> r<sub>n</sub></li>
- *   <li>s<sub>1</sub>(n+1) = h f(t<sub>n+1</sub>, y<sub>n+1</sub>)</li>
- *   <li>r<sub>n+1</sub> = (s<sub>1</sub>(n) - s<sub>1</sub>(n+1)) P<sup>-1</sup> u + P<sup>-1</sup> A P r<sub>n</sub></li>
+ *   <li>Y<sub>n+1</sub> = y<sub>n</sub> + s<sub>1</sub>(n) + u<sup>T</sup> r<sub>n</sub></li>
+ *   <li>S<sub>1</sub>(n+1) = h f(t<sub>n+1</sub>, Y<sub>n+1</sub>)</li>
+ *   <li>R<sub>n+1</sub> = (s<sub>1</sub>(n) - s<sub>1</sub>(n+1)) P<sup>-1</sup> u + P<sup>-1</sup> A P r<sub>n</sub></li>
  * </ul>
  * where A is a rows shifting matrix (the lower left part is an identity matrix):
  * <pre>
@@ -172,39 +153,30 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  *        [ 0 0   ...  1 0 | 0 ]
  *        [ 0 0   ...  0 1 | 0 ]
  * </pre>
- * If the method is an Adams-Moulton method, the following additional correction is performed:
+ * From this predicted vector, the corrected vector is computed as follows:
  * <ul>
- *   <li>Y<sub>n+1</sub> = y<sub>n</sub> + s<sub>1</sub>(n+1) + [ -1 +1 -1 +1 ... &plusmn;1 ] r<sub>n+1</sub></li>
- *   <li>S<sub>1</sub>(n+1) = h f(t<sub>n+1</sub>, Y<sub>n+1</sub>)</li>
- *   <li>R<sub>n+1</sub> = r<sub>n+1</sub> + (s<sub>1</sub>(n) - S<sub>1</sub>(n+1)) P<sup>-1</sup> u</li>
+ *   <li>y<sub>n+1</sub> = y<sub>n</sub> + S<sub>1</sub>(n+1) + [ -1 +1 -1 +1 ... &plusmn;1 ] r<sub>n+1</sub></li>
+ *   <li>s<sub>1</sub>(n+1) = h f(t<sub>n+1</sub>, y<sub>n+1</sub>)</li>
+ *   <li>r<sub>n+1</sub> = R<sub>n+1</sub> + (s<sub>1</sub>(n+1) - S<sub>1</sub>(n+1)) P<sup>-1</sup> u</li>
  * </ul>
- * where the upper case Y<sub>n+1</sub>, S<sub>n+1</sub> and R<sub>n+1</sub> represent the
- * corrected states whereas the lower case y<sub>n+1</sub>, s<sub>n+1</sub> and r<sub>n+1</sub>
- * represent the predicted states.</p>
+ * where the upper case Y<sub>n+1</sub>, S<sub>1</sub>(n+1) and R<sub>n+1</sub> represent the
+ * predicted states whereas the lower case y<sub>n+1</sub>, s<sub>n+1</sub> and r<sub>n+1</sub>
+ * represent the corrected states.</p>
  *
  * <p>The P<sup>-1</sup>u vector and the P<sup>-1</sup> A P matrix do not depend on the state,
- * they are precomputed once for all.</p>
+ * they only depend on k and therefore are precomputed once for all.</p>
  *
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class AdamsIntegrator extends MultistepIntegrator {
+public class AdamsMoultonIntegrator extends MultistepIntegrator {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -5893911062100008922L;
+    private static final long serialVersionUID = -2740961714898447598L;
 
     /** Cache for already computed coefficients. */
     private static final Map<Integer, CachedCoefficients> cache =
         new HashMap<Integer, CachedCoefficients>();
-
-    /** No correction integrator method name. */
-    private static final String NO_CORRECTION_METHOD_NAME = "Adams-Bashforth";
-
-    /** Correction integrator method name. */
-    private static final String CORRECTION_METHOD_NAME = "Adams-Moulton";
-
-    /** Correction indicator (to choose between Adams-Bashforth and Adams-Moulton). */
-    private final boolean withCorrection;
 
     /** Coefficients of the method. */
     private final transient CachedCoefficients coefficients;
@@ -213,26 +185,21 @@ public class AdamsIntegrator extends MultistepIntegrator {
     private final double step;
 
     /**
-     * Build an Adams-Bashforth or Adams-Moulton integrator with the given order and step size.
+     * Build an Adams-Moulton integrator with the given order and step size.
      * @param order order of the method (must be greater than 1: due to
      * an implementation limitation the order 1 method is not supported)
-     * @param withCorrection if true apply Adams-Moulton correction at end of
-     * step, otherwise use only Adams-Bashforth prediction
      * @param step integration step size
      * @exception IllegalArgumentException if order is 1 or less
      */
-    public AdamsIntegrator(final int order, final boolean withCorrection,
-                           final double step)
+    public AdamsMoultonIntegrator(final int order, final double step)
         throws IllegalArgumentException {
 
-        super(withCorrection ? CORRECTION_METHOD_NAME : NO_CORRECTION_METHOD_NAME,
-              order, new NordsieckStepInterpolator());
+        super("Adams-Moulton", order);
         if (order <= 1) {
             throw MathRuntimeException.createIllegalArgumentException(
                   "{0} is supported only for orders 2 or more",
                   getName());
         }
-        this.withCorrection = withCorrection;
 
         // cache the coefficients for each order, to avoid recomputing them
         synchronized(cache) {
@@ -264,10 +231,11 @@ public class AdamsIntegrator extends MultistepIntegrator {
         }
         final double[] yTmp = new double[y0.length];
 
-        // set up an interpolator sharing the integrator arrays
-        final NordsieckStepInterpolator interpolator =
-                (NordsieckStepInterpolator) prototype.copy();
-        interpolator.reinitialize(yTmp, forward);
+        // set up two interpolators sharing the integrator arrays
+        final NordsieckStepInterpolator interpolator = new NordsieckStepInterpolator();
+        interpolator.reinitialize(y, forward);
+        final NordsieckStepInterpolator interpolatorTmp = new NordsieckStepInterpolator();
+        interpolatorTmp.reinitialize(yTmp, forward);
 
         // set up integration control objects
         stepStart = t0;
@@ -284,12 +252,12 @@ public class AdamsIntegrator extends MultistepIntegrator {
             return stopTime;
         }
         stepStart = previousT[0];
-        System.arraycopy(y, 0, yTmp, 0, n);
+        double hNew = 0;
 
         // convert to Nordsieck representation
         double[]   scaled    = convertToNordsieckLow();
         RealMatrix nordsieck = convertToNordsieckHigh(scaled);
-        interpolator.reinitialize(stepSize, scaled, nordsieck);
+        interpolator.reinitialize(stepStart, stepSize, scaled, nordsieck);
         interpolator.storeTime(stepStart);
 
         boolean lastStep = false;
@@ -298,89 +266,90 @@ public class AdamsIntegrator extends MultistepIntegrator {
             // shift all data
             interpolator.shift();
 
-            if (withCorrection) {
+            hNew  = forward ? step : -step;
+            for (boolean loop = true; loop;) {
 
-                // evaluate derivative at predicted state
+                stepSize = hNew;
+
+                // predict a first estimate of the state at step end (P in the PECE sequence)
                 final double stepEnd = stepStart + stepSize;
+                interpolator.setInterpolatedTime(stepEnd);
+                System.arraycopy(interpolator.getInterpolatedState(), 0, yTmp, 0, y0.length);
+
+                // evaluate a first estimate of the derivative (first E in the PECE sequence)
                 final double[] f0 = previousF[0];
                 previousT[0] = stepEnd;
-                equations.computeDerivatives(stepEnd, interpolator.getInterpolatedState(), f0);
+                equations.computeDerivatives(stepEnd, yTmp, f0);
 
                 // update Nordsieck vector
-                nordsieck = coefficients.msUpdate.multiply(nordsieck);
-                final double[] end = new double[y0.length];
+                final RealMatrix nordsieckTmp = coefficients.msUpdate.multiply(nordsieck);
+                final double[] predictedScaled = new double[y0.length];
                 for (int j = 0; j < y0.length; ++j) {
-                    end[j] = stepSize * f0[j];
+                    predictedScaled[j] = stepSize * f0[j];
                 }
-                nordsieck.walkInOptimizedOrder(new NordsieckUpdater(scaled, end, coefficients.c1));
-                scaled = end;
+                nordsieckTmp.walkInOptimizedOrder(new NordsieckUpdater(scaled, predictedScaled, coefficients.c1));
 
-                // update interpolator
-                nordsieck.walkInOptimizedOrder(new Corrector(y, scaled, yTmp));
-                interpolator.reinitialize(stepSize, scaled, nordsieck);
+                // apply correction (C in the PECE sequence)
+                nordsieckTmp.walkInOptimizedOrder(new Corrector(y, predictedScaled, yTmp));
 
-            }
+                // evaluate a final estimate of the derivative (second E in the PECE sequence)
+                equations.computeDerivatives(stepEnd, yTmp, f0);
 
-            // discrete events handling
-            interpolator.storeTime(stepStart + stepSize);
-            if (manager.evaluateStep(interpolator)) {
-                stepSize = manager.getEventTime() - stepStart;
+                // update Nordsieck vector
+                final double[] correctedScaled = new double[y0.length];
+                for (int j = 0; j < y0.length; ++j) {
+                    correctedScaled[j] = stepSize * f0[j];
+                }
+                nordsieckTmp.walkInOptimizedOrder(new NordsieckUpdater(predictedScaled, correctedScaled, coefficients.c1));
+
+                // discrete events handling
+                interpolatorTmp.reinitialize(stepEnd, stepSize, correctedScaled, nordsieckTmp);
+                interpolatorTmp.storeTime(stepStart);
+                interpolatorTmp.shift();
+                interpolatorTmp.storeTime(stepEnd);
+                if (manager.evaluateStep(interpolatorTmp)) {
+                    // reject the step to match exactly the next switch time
+                    hNew = manager.getEventTime() - stepStart;
+                } else {
+                    // accept the step
+                    scaled    = correctedScaled;
+                    nordsieck = nordsieckTmp;
+                    interpolator.reinitialize(stepEnd, stepSize, scaled, nordsieck);
+                    loop = false;
+                }
+
             }
 
             // the step has been accepted (may have been truncated)
             final double nextStep = stepStart + stepSize;
-            interpolator.setInterpolatedTime(nextStep);
-            System.arraycopy(interpolator.getInterpolatedState(), 0, y, 0, n);
+            System.arraycopy(yTmp, 0, y, 0, n);
+            interpolator.storeTime(nextStep);
             manager.stepAccepted(nextStep, y);
             lastStep = manager.stop();
 
             // provide the step data to the step handler
+            interpolator.setInterpolatedTime(nextStep);
             for (StepHandler handler : stepHandlers) {
                 handler.handleStep(interpolator, lastStep);
             }
             stepStart = nextStep;
 
-            if (!lastStep) {
-                // prepare next step
+            if (!lastStep && manager.reset(stepStart, y)) {
 
-                if (manager.reset(stepStart, y)) {
-
-                    // some events handler has triggered changes that
-                    // invalidate the derivatives, we need to restart from scratch
-                    stopTime =
-                        start(previousF.length, stepSize, manager, equations, stepStart, y);
-                    if (Double.isNaN(previousT[0])) {
-                        return stopTime;
-                    }
-                    stepStart = previousT[0];
-
-                    // convert to Nordsieck representation
-                    scaled    = convertToNordsieckLow();
-                    nordsieck = convertToNordsieckHigh(scaled);
-                    interpolator.reinitialize(stepSize, scaled, nordsieck);
-                    interpolator.storeTime(stepStart);
-
-
-                } else {
-
-                    // evaluate differential equations for next step
-                    final double[] f0 = previousF[0];
-                    previousT[0] = stepStart;
-                    equations.computeDerivatives(stepStart, y, f0);
-                    if (!withCorrection) {
-                        nordsieck = coefficients.msUpdate.multiply(nordsieck);
-                    }
-                    final double[] end = new double[y0.length];
-                    for (int j = 0; j < y0.length; ++j) {
-                        end[j] = stepSize * f0[j];
-                    }
-                    nordsieck.walkInOptimizedOrder(new NordsieckUpdater(scaled, end, coefficients.c1));
-                    scaled = end;
-                    interpolator.reinitialize(stepSize, scaled, nordsieck);
-
+                // some events handler has triggered changes that
+                // invalidate the derivatives, we need to restart from scratch
+                stopTime =
+                    start(previousF.length, stepSize, manager, equations, stepStart, y);
+                if (Double.isNaN(previousT[0])) {
+                    return stopTime;
                 }
+                stepStart = previousT[0];
 
-                System.arraycopy(y, 0, yTmp, 0, n);
+                // convert to Nordsieck representation
+                scaled    = convertToNordsieckLow();
+                nordsieck = convertToNordsieckHigh(scaled);
+                interpolator.reinitialize(stepStart, stepSize, scaled, nordsieck);
+                interpolator.storeTime(stepStart);
 
             }
 
@@ -621,7 +590,7 @@ public class AdamsIntegrator extends MultistepIntegrator {
             ois.defaultReadObject();
             final int order = ois.readInt();
 
-            final Class<AdamsIntegrator> cl = AdamsIntegrator.class;
+            final Class<AdamsMoultonIntegrator> cl = AdamsMoultonIntegrator.class;
             final Field f = cl.getDeclaredField("coefficients");
             f.setAccessible(true);
 

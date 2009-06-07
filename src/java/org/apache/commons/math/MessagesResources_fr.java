@@ -275,7 +275,8 @@ public class MessagesResources_fr
     { "too small integration interval: length = {0}",
       "intervalle d''int\u00e9gration trop petit : {0}" },
 
-    // org.apache.commons.math.ode.nonstiff.AdamsIntegrator
+    // org.apache.commons.math.ode.nonstiff.AdamsBashforthIntegrator
+    // org.apache.commons.math.ode.nonstiff.AdamsMoultonIntegrator
     { "{0} is supported only for orders 2 or more",
       "la m\u00e9thode {0} n''est disponible que pour les ordres 2 ou plus" },
 

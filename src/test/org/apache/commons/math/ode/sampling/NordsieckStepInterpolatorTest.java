@@ -29,7 +29,7 @@ import java.util.Random;
 import org.apache.commons.math.ode.ContinuousOutputModel;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.IntegratorException;
-import org.apache.commons.math.ode.nonstiff.AdamsIntegrator;
+import org.apache.commons.math.ode.nonstiff.AdamsBashforthIntegrator;
 import org.apache.commons.math.ode.nonstiff.TestProblem1;
 import org.apache.commons.math.ode.nonstiff.TestProblem3;
 import org.junit.Test;
@@ -41,7 +41,7 @@ public class NordsieckStepInterpolatorTest {
     throws DerivativeException, IntegratorException {
         TestProblem3 pb = new TestProblem3();
         double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.001;
-        AdamsIntegrator integ = new AdamsIntegrator(5, false, step);
+        AdamsBashforthIntegrator integ = new AdamsBashforthIntegrator(5, step);
         StepInterpolatorTestUtils.checkDerivativesConsistency(integ, pb, 1.0e-10);
     }
 
@@ -52,7 +52,7 @@ public class NordsieckStepInterpolatorTest {
 
         TestProblem1 pb = new TestProblem1();
         double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.001;
-        AdamsIntegrator integ = new AdamsIntegrator(5, false, step);
+        AdamsBashforthIntegrator integ = new AdamsBashforthIntegrator(5, step);
         integ.addStepHandler(new ContinuousOutputModel());
         integ.integrate(pb,
                         pb.getInitialTime(), pb.getInitialState(),
