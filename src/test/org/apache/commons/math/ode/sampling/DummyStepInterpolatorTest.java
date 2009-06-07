@@ -17,7 +17,10 @@
 
 package org.apache.commons.math.ode.sampling;
 
-import junit.framework.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ObjectOutputStream;
@@ -27,15 +30,12 @@ import java.io.IOException;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math.ode.sampling.DummyStepInterpolator;
+import org.junit.Test;
 
-public class DummyStepInterpolatorTest
-  extends TestCase {
+public class DummyStepInterpolatorTest {
 
-  public DummyStepInterpolatorTest(String name) {
-    super(name);
-  }
-
-  public void testNoReset() {
+  @Test
+  public void testNoReset() throws DerivativeException {
 
     double[]   y    =   { 0.0, 1.0, -2.0 };
     DummyStepInterpolator interpolator = new DummyStepInterpolator(y, true);
@@ -50,6 +50,7 @@ public class DummyStepInterpolatorTest
 
   }
 
+  @Test
   public void testFixedState()
     throws DerivativeException {
 
@@ -73,6 +74,7 @@ public class DummyStepInterpolatorTest
 
   }
 
+  @Test
   public void testSerialization()
   throws DerivativeException, IOException, ClassNotFoundException {
 
@@ -101,6 +103,7 @@ public class DummyStepInterpolatorTest
 
   }
 
+  @Test
   public void testImpossibleSerialization()
   throws IOException {
 
@@ -136,57 +139,6 @@ public class DummyStepInterpolatorTest
       throws DerivativeException {
           throw new DerivativeException(null);
       }
-  }
-
-
-  public void testSerializationError()
-  throws IOException {
-
-    double[] y = { 0.0, 1.0, -2.0 };
-    ErrorGeneratingInterpolator interpolator =
-        new ErrorGeneratingInterpolator(y, true);
-    interpolator.storeTime(0);
-    interpolator.shift();
-    interpolator.storeTime(1);
-
-    ByteArrayOutputStream bos = new ByteArrayOutputStream();
-    ObjectOutputStream    oos = new ObjectOutputStream(bos);
-    oos.writeObject(interpolator);
-
-    assertTrue(bos.size () > 300);
-    assertTrue(bos.size () < 350);
-
-    ByteArrayInputStream  bis = new ByteArrayInputStream(bos.toByteArray());
-    ObjectInputStream     ois = new ObjectInputStream(bis);
-    try {
-        ois.readObject();
-        fail("an exception should have been thrown");
-    } catch (IOException ioe) {
-        // expected behavior
-        assertEquals(0, ioe.getMessage().length());
-    } catch (Exception e) {
-        fail("wrong exception caught");
-    }
-
-  }
-
-  private static class ErrorGeneratingInterpolator extends DummyStepInterpolator {
-      public ErrorGeneratingInterpolator() {
-          super();
-      }
-      protected ErrorGeneratingInterpolator(double[] y, boolean forward) {
-          super(y, forward);
-      }
-      @Override
-      public void computeInterpolatedState(double theta, double oneMinusThetaH)
-      throws DerivativeException {
-          throw new DerivativeException(null);
-      }
-      private static final long serialVersionUID = 0x3f6ab636f0c93571L;
-  }
-
-  public static Test suite() {
-    return new TestSuite(DummyStepInterpolatorTest.class);
   }
 
 }
