@@ -97,9 +97,7 @@ class TestProblemHandler
       double[] theoreticalY  = problem.computeTheoreticalState(cT);
       for (int i = 0; i < interpolatedY.length; ++i) {
         double error = Math.abs(interpolatedY[i] - theoreticalY[i]);
-        if (error > lastError) {
-          lastError = error;
-        }
+        lastError = Math.max(error, lastError);
       }
       lastTime = cT;
     }
@@ -115,11 +113,8 @@ class TestProblemHandler
       // update the errors
       for (int i = 0; i < interpolatedY.length; ++i) {
         double error = errorScale[i] * Math.abs(interpolatedY[i] - theoreticalY[i]);
-        if (error > maxValueError) {
-          maxValueError = error;
-        }
+        maxValueError = Math.max(error, maxValueError);
       }
-
     }
   }
 
