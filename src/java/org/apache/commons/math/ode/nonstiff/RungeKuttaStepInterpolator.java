@@ -17,12 +17,10 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
+import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-import java.io.IOException;
 
-import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 
@@ -168,12 +166,8 @@ abstract class RungeKuttaStepInterpolator
     equations = null;
 
     if (currentState != null) {
-        try {
-            // we can now set the interpolated time and state
-            setInterpolatedTime(t);
-        } catch (DerivativeException e) {
-            throw MathRuntimeException.createIOException(e);
-        }
+        // we can now set the interpolated time and state
+        setInterpolatedTime(t);
     } else {
         interpolatedTime = t;
     }

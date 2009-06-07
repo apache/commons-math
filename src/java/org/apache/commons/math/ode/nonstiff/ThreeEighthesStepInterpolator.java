@@ -80,7 +80,7 @@ class ThreeEighthesStepInterpolator
 
   /** {@inheritDoc} */
   @Override
-  protected void computeInterpolatedState(final double theta,
+  protected void computeInterpolatedStateAndDerivatives(final double theta,
                                           final double oneMinusThetaH)
       throws DerivativeException {
 
