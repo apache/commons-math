@@ -189,7 +189,7 @@ public class ClassicalRungeKuttaIntegratorTest
       maxError = 0;
     }
     public void handleStep(StepInterpolator interpolator,
-                           boolean isLast) {
+                           boolean isLast) throws DerivativeException {
 
       double[] interpolatedY = interpolator.getInterpolatedState ();
       double[] theoreticalY  = pb.computeTheoreticalState(interpolator.getCurrentTime());

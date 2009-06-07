@@ -37,7 +37,7 @@ import org.junit.Test;
 public class EulerStepInterpolatorTest {
 
   @Test
-  public void noReset() {
+  public void noReset() throws DerivativeException {
 
     double[]   y    =   { 0.0, 1.0, -2.0 };
     double[][] yDot = { { 1.0, 2.0, -2.0 } };

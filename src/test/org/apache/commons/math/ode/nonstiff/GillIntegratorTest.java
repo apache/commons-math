@@ -179,9 +179,9 @@ public class GillIntegratorTest
       maxError = 0;
     }
     public void handleStep(StepInterpolator interpolator,
-                           boolean isLast) {
+                           boolean isLast) throws DerivativeException {
 
-      double[] interpolatedY = interpolator.getInterpolatedState ();
+      double[] interpolatedY = interpolator.getInterpolatedState();
       double[] theoreticalY  = pb.computeTheoreticalState(interpolator.getCurrentTime());
       double dx = interpolatedY[0] - theoreticalY[0];
       double dy = interpolatedY[1] - theoreticalY[1];
