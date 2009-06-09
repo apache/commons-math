@@ -189,6 +189,7 @@ public class DormandPrince54IntegratorTest
       assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
 
       int calls = pb.getCalls();
+      assertEquals(integ.getEvaluations(), calls);
       assertTrue(calls <= previousCalls);
       previousCalls = calls;
 
@@ -245,6 +246,7 @@ public class DormandPrince54IntegratorTest
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
+    assertEquals(integ.getEvaluations(), pb.getCalls());
     assertTrue(pb.getCalls() < 2800);
 
   }

@@ -99,6 +99,26 @@ public class AdamsBashforthIntegratorTest {
         assertTrue(handler.getMaximalValueError() < 9.0e-9);
         assertEquals(0, handler.getMaximalTimeError(), 1.0e-16);
         assertEquals("Adams-Bashforth", integ.getName());
+        assertTrue(integ.getEvaluations() > 1000);
+        assertEquals(Integer.MAX_VALUE, integ.getMaxEvaluations());
+
+    }
+
+    @Test(expected = DerivativeException.class)
+    public void exceedMaxEvaluations() throws DerivativeException, IntegratorException {
+
+        TestProblem1 pb  = new TestProblem1();
+        double range = pb.getFinalTime() - pb.getInitialTime();
+        double step = range * 0.001;
+
+        AdamsBashforthIntegrator integ = new AdamsBashforthIntegrator(3, step);
+        integ.setStarterIntegrator(new DormandPrince853Integrator(0, range, 1.0e-12, 1.0e-12));
+        TestProblemHandler handler = new TestProblemHandler(pb, integ);
+        integ.addStepHandler(handler);
+        integ.setMaxEvaluations(1000);
+        integ.integrate(pb,
+                        pb.getInitialTime(), pb.getInitialState(),
+                        pb.getFinalTime(), new double[pb.getDimension()]);
 
     }
 
@@ -172,8 +192,8 @@ public class AdamsBashforthIntegratorTest {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ObjectOutputStream    oos = new ObjectOutputStream(bos);
         oos.writeObject(new AdamsBashforthIntegrator(8, step));
-        assertTrue(bos.size() > 2800);
-        assertTrue(bos.size() < 2900);
+        assertTrue(bos.size() > 2900);
+        assertTrue(bos.size() < 3000);
 
         ByteArrayInputStream  bis = new ByteArrayInputStream(bos.toByteArray());
         ObjectInputStream     ois = new ObjectInputStream(bis);

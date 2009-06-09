@@ -17,8 +17,8 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
+import org.apache.commons.math.ode.AbstractIntegrator;
 import org.apache.commons.math.ode.DerivativeException;
-import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 
 /**
@@ -90,9 +90,9 @@ class DormandPrince54StepInterpolator
 
   /** {@inheritDoc} */
   @Override
-  public void reinitialize(final FirstOrderDifferentialEquations equations,
+  public void reinitialize(final AbstractIntegrator integrator,
                            final double[] y, final double[][] yDotK, final boolean forward) {
-    super.reinitialize(equations, y, yDotK, forward);
+    super.reinitialize(integrator, y, yDotK, forward);
     v1 = null;
     v2 = null;
     v3 = null;

@@ -126,7 +126,6 @@ public abstract class MultistepIntegrator extends AbstractIntegrator {
      */
     protected double start(final int n, final double h,
                            final CombinedEventsManager manager,
-                           final FirstOrderDifferentialEquations equations,
                            final double t0, final double[] y)
         throws DerivativeException, IntegratorException {
 
@@ -156,6 +155,8 @@ public abstract class MultistepIntegrator extends AbstractIntegrator {
         // integrate over the first few steps, ensuring no intermediate reset occurs
         double t = t0;
         double stopTime = Double.NaN;
+        FirstOrderDifferentialEquations equations =
+            new CountingDifferentialEquations(y.length);
         do {
             resetTime = Double.NaN;
             final double dt = (n - 0.9999) * h;
@@ -339,6 +340,34 @@ public abstract class MultistepIntegrator extends AbstractIntegrator {
             }
         }
 
+    }
+
+    /** Wrapper for differential equations, ensuring start evaluations are counted. */
+    private class CountingDifferentialEquations implements FirstOrderDifferentialEquations {
+
+        /** Serializable uid. */
+        private static final long serialVersionUID = -6329212616396607764L;
+
+        /** Dimension of the problem. */
+        private final int dimension;
+
+        /** Simple constructor.
+         * @param dimension dimension of the problem
+         */
+        public CountingDifferentialEquations(final int dimension) {
+            this.dimension = dimension;
+        }
+
+        /** {@inheritDoc} */
+        public void computeDerivatives(double t, double[] y, double[] dot)
+                throws DerivativeException {
+            MultistepIntegrator.this.computeDerivatives(t, y, dot);
+        }
+
+        /** {@inheritDoc} */
+        public int getDimension() {
+            return dimension;
+        }
     }
 
 }

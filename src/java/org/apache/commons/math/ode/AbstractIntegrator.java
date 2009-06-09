@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
+import org.apache.commons.math.MaxEvaluationsExceededException;
 import org.apache.commons.math.ode.events.CombinedEventsManager;
 import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.ode.events.EventState;
@@ -38,6 +39,15 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
 
     /** Name of the method. */
     private final String name;
+
+    /** Maximal number of evaluations allowed. */
+    private int maxEvaluations;
+
+    /** Number of evaluations already performed. */
+    private int evaluations;
+
+    /** Differential equations to integrate. */
+    private transient FirstOrderDifferentialEquations equations;
 
     /** Step handler. */
     protected Collection<StepHandler> stepHandlers;
@@ -60,6 +70,8 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
         stepStart = Double.NaN;
         stepSize  = Double.NaN;
         eventsHandlersManager = new CombinedEventsManager();
+        setMaxEvaluations(-1);
+        resetEvaluations();
     }
 
     /** {@inheritDoc} */
@@ -121,6 +133,49 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
     /** {@inheritDoc} */
     public double getCurrentSignedStepsize() {
         return stepSize;
+    }
+
+    /** {@inheritDoc} */
+    public void setMaxEvaluations(int maxEvaluations) {
+        this.maxEvaluations = (maxEvaluations < 0) ? Integer.MAX_VALUE : maxEvaluations;
+    }
+
+    /** {@inheritDoc} */
+    public int getMaxEvaluations() {
+        return maxEvaluations;
+    }
+
+    /** {@inheritDoc} */
+    public int getEvaluations() {
+        return evaluations;
+    }
+
+    /** Reset the number of evaluations to zero.
+     */
+    protected void resetEvaluations() {
+        evaluations = 0;
+    }
+
+    /** Set the differential equations.
+     * @see #computeDerivatives(double, double[], double[])
+     */
+    protected void setEquations(final FirstOrderDifferentialEquations equations) {
+        this.equations = equations;
+    }
+
+    /** Compute the derivatives and check the number of evaluations.
+     * @param t current value of the independent <I>time</I> variable
+     * @param y array containing the current value of the state vector
+     * @param yDot placeholder array where to put the time derivative of the state vector
+     * @throws DerivativeException this exception is propagated to the caller if the
+     * underlying user function triggers one
+     */
+    public void computeDerivatives(final double t, final double[] y, final double[] yDot)
+        throws DerivativeException {
+        if (++evaluations > maxEvaluations) {
+            throw new DerivativeException(new MaxEvaluationsExceededException(maxEvaluations));
+        }
+        equations.computeDerivatives(t, y, yDot);
     }
 
     /** Perform some sanity checks on the integration parameters.

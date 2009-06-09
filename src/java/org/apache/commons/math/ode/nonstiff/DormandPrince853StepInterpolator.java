@@ -22,8 +22,8 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.ode.AbstractIntegrator;
 import org.apache.commons.math.ode.DerivativeException;
-import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 
 /**
@@ -101,10 +101,10 @@ class DormandPrince853StepInterpolator
 
   /** {@inheritDoc} */
   @Override
-  public void reinitialize(final FirstOrderDifferentialEquations equations,
+  public void reinitialize(final AbstractIntegrator integrator,
                            final double[] y, final double[][] yDotK, final boolean forward) {
 
-    super.reinitialize(equations, y, yDotK, forward);
+    super.reinitialize(integrator, y, yDotK, forward);
 
     final int dimension = currentState.length;
 
@@ -224,7 +224,7 @@ class DormandPrince853StepInterpolator
           k14_11 * yDotK[10][j] + k14_12 * yDotK[11][j] + k14_13 * yDotK[12][j];
       yTmp[j] = currentState[j] + h * s;
     }
-    equations.computeDerivatives(previousTime + c14 * h, yTmp, yDotKLast[0]);
+    integrator.computeDerivatives(previousTime + c14 * h, yTmp, yDotKLast[0]);
 
     // k15
     for (int j = 0; j < currentState.length; ++j) {
@@ -234,7 +234,7 @@ class DormandPrince853StepInterpolator
          k15_14 * yDotKLast[0][j];
      yTmp[j] = currentState[j] + h * s;
     }
-    equations.computeDerivatives(previousTime + c15 * h, yTmp, yDotKLast[1]);
+    integrator.computeDerivatives(previousTime + c15 * h, yTmp, yDotKLast[1]);
 
     // k16
     for (int j = 0; j < currentState.length; ++j) {
@@ -244,7 +244,7 @@ class DormandPrince853StepInterpolator
           k16_14 * yDotKLast[0][j] +  k16_15 * yDotKLast[1][j];
       yTmp[j] = currentState[j] + h * s;
     }
-    equations.computeDerivatives(previousTime + c16 * h, yTmp, yDotKLast[2]);
+    integrator.computeDerivatives(previousTime + c16 * h, yTmp, yDotKLast[2]);
 
   }
 

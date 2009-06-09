@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
+import org.apache.commons.math.ode.AbstractIntegrator;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 
 /** This class represents an interpolator over the last step during an
@@ -49,8 +49,8 @@ abstract class RungeKuttaStepInterpolator
    */
   protected RungeKuttaStepInterpolator() {
     super();
-    yDotK     = null;
-    equations = null;
+    yDotK      = null;
+    integrator = null;
   }
 
   /** Copy constructor.
@@ -90,7 +90,7 @@ abstract class RungeKuttaStepInterpolator
 
     // we cannot keep any reference to the equations in the copy
     // the interpolator should have been finalized before
-    equations = null;
+    integrator = null;
 
   }
 
@@ -108,18 +108,18 @@ abstract class RungeKuttaStepInterpolator
    * {@link AbstractStepInterpolator#getInterpolatedState
    * getInterpolatedState} method (for an interpolator which needs a
    * finalization) or if it clones the step interpolator.</p>
-   * @param equations set of differential equations being integrated
+   * @param integrator integrator being used
    * @param y reference to the integrator array holding the state at
    * the end of the step
    * @param yDotK reference to the integrator array holding all the
    * intermediate slopes
    * @param forward integration direction indicator
    */
-  public void reinitialize(final FirstOrderDifferentialEquations equations,
+  public void reinitialize(final AbstractIntegrator integrator,
                            final double[] y, final double[][] yDotK, final boolean forward) {
     reinitialize(y, forward);
     this.yDotK = yDotK;
-    this.equations = equations;
+    this.integrator = integrator;
   }
 
   /** {@inheritDoc} */
@@ -163,7 +163,7 @@ abstract class RungeKuttaStepInterpolator
       }
     }
 
-    equations = null;
+    integrator = null;
 
     if (currentState != null) {
         // we can now set the interpolated time and state
@@ -177,7 +177,7 @@ abstract class RungeKuttaStepInterpolator
   /** Slopes at the intermediate points */
   protected double[][] yDotK;
 
-  /** Reference to the differential equations being integrated. */
-  protected FirstOrderDifferentialEquations equations;
+  /** Reference to the integrator. */
+  protected AbstractIntegrator integrator;
 
 }

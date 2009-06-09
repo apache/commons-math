@@ -223,6 +223,8 @@ public class AdamsMoultonIntegrator extends MultistepIntegrator {
 
         final int n = y0.length;
         sanityChecks(equations, t0, y0, t, y);
+        setEquations(equations);
+        resetEvaluations();
         final boolean forward = (t > t0);
 
         // initialize working arrays
@@ -246,8 +248,7 @@ public class AdamsMoultonIntegrator extends MultistepIntegrator {
         CombinedEventsManager manager = addEndTimeChecker(t0, t, eventsHandlersManager);
 
         // compute the first few steps using the configured starter integrator
-        double stopTime =
-            start(previousF.length, stepSize, manager, equations, stepStart, y);
+        double stopTime = start(previousF.length, stepSize, manager, stepStart, y);
         if (Double.isNaN(previousT[0])) {
             return stopTime;
         }
@@ -279,7 +280,7 @@ public class AdamsMoultonIntegrator extends MultistepIntegrator {
                 // evaluate a first estimate of the derivative (first E in the PECE sequence)
                 final double[] f0 = previousF[0];
                 previousT[0] = stepEnd;
-                equations.computeDerivatives(stepEnd, yTmp, f0);
+                computeDerivatives(stepEnd, yTmp, f0);
 
                 // update Nordsieck vector
                 final RealMatrix nordsieckTmp = coefficients.msUpdate.multiply(nordsieck);
@@ -293,7 +294,7 @@ public class AdamsMoultonIntegrator extends MultistepIntegrator {
                 nordsieckTmp.walkInOptimizedOrder(new Corrector(y, predictedScaled, yTmp));
 
                 // evaluate a final estimate of the derivative (second E in the PECE sequence)
-                equations.computeDerivatives(stepEnd, yTmp, f0);
+                computeDerivatives(stepEnd, yTmp, f0);
 
                 // update Nordsieck vector
                 final double[] correctedScaled = new double[y0.length];
@@ -338,8 +339,7 @@ public class AdamsMoultonIntegrator extends MultistepIntegrator {
 
                 // some events handler has triggered changes that
                 // invalidate the derivatives, we need to restart from scratch
-                stopTime =
-                    start(previousF.length, stepSize, manager, equations, stepStart, y);
+                stopTime = start(previousF.length, stepSize, manager, stepStart, y);
                 if (Double.isNaN(previousT[0])) {
                     return stopTime;
                 }

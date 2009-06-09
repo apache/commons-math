@@ -17,9 +17,9 @@
 
 package org.apache.commons.math.ode.sampling;
 
+import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-import java.io.IOException;
 
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.ode.DerivativeException;
@@ -337,7 +337,6 @@ public abstract class AbstractStepInterpolator
 
    * @throws DerivativeException this exception is propagated to the
    * caller if the underlying user function triggers one
-
    */
   public final void finalizeStep()
     throws DerivativeException {

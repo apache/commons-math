@@ -215,7 +215,7 @@ public abstract class AdaptiveStepsizeIntegrator
     for (int j = 0; j < y0.length; ++j) {
       y1[j] = y0[j] + h * yDot0[j];
     }
-    equations.computeDerivatives(t0 + h, y1, yDot1);
+    computeDerivatives(t0 + h, y1, yDot1);
 
     // estimate the second derivative of the solution
     double yDDotOnScale = 0;

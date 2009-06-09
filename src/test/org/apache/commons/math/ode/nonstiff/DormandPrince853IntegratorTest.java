@@ -117,6 +117,7 @@ public class DormandPrince853IntegratorTest
       assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
 
       int calls = pb.getCalls();
+      assertEquals(integ.getEvaluations(), calls);
       assertTrue(calls <= previousCalls);
       previousCalls = calls;
 
@@ -196,6 +197,7 @@ public class DormandPrince853IntegratorTest
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
+    assertEquals(integ.getEvaluations(), pb.getCalls());
     assertTrue(pb.getCalls() < 3300);
 
   }
@@ -237,12 +239,14 @@ public class DormandPrince853IntegratorTest
                     pb1.getInitialTime(), pb1.getInitialState(),
                     pb1.getFinalTime(), new double[pb1.getDimension()]);
     int callsWithoutDenseOutput = pb1.getCalls();
+    assertEquals(integ.getEvaluations(), callsWithoutDenseOutput);
 
     integ.addStepHandler(new InterpolatingStepHandler());
     integ.integrate(pb2,
                     pb2.getInitialTime(), pb2.getInitialState(),
                     pb2.getFinalTime(), new double[pb2.getDimension()]);
     int callsWithDenseOutput = pb2.getCalls();
+    assertEquals(integ.getEvaluations(), callsWithDenseOutput);
 
     assertTrue(callsWithDenseOutput > callsWithoutDenseOutput);
 

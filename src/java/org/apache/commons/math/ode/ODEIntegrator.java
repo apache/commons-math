@@ -114,4 +114,28 @@ public interface ODEIntegrator extends Serializable {
      */
     double getCurrentSignedStepsize();
 
+    /** Set the maximal number of differential equations function evaluations.
+     * <p>The purpose of this method is to avoid infinite loops which can occur
+     * for example when stringent error constraints are set or when lots of
+     * discrete events are triggered, thus leading to many rejected steps.</p>
+     * @param maxEvaluations maximal number of function evaluations (negative
+     * values are silently converted to maximal integer value, thus representing
+     * almost unlimited evaluations)
+     */
+    void setMaxEvaluations(int maxEvaluations);
+
+    /** Get the maximal number of functions evaluations.
+     * @return maximal number of functions evaluations
+     */
+    int getMaxEvaluations();
+
+    /** Get the number of evaluations of the differential equations function.
+     * <p>
+     * The number of evaluations corresponds to the last call to the
+     * <code>integrate</code> method. It is 0 if the method has not been called yet.
+     * </p>
+     * @return number of evaluations of the differential equations function
+     */
+    int getEvaluations();
+
 }

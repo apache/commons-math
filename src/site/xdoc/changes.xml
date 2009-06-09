@@ -309,6 +309,12 @@ The <action> type attribute can be add,update,fix,remove.
         and a clearStepHandlers method has been added.
       </action>
       <action dev="luc" type="add">
+        All ODE integrators now support setting a maximal number of evaluations of differential
+        equations function. If this number is exceeded, an exception will be thrown during
+        integration. This can be used to prevent infinite loops if for example error control or
+        discrete events create a really large number of extremely small steps.
+      </action>
+      <action dev="luc" type="add">
         All step interpolators for ODE integrators now provide interpolation for
         both the state and its time derivatives. The interpolated derivatives are
         the exact derivatives of the interpolated state, thus preserving consistency.

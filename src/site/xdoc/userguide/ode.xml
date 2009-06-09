@@ -54,6 +54,15 @@
           equations gracefully and get accurate dense output even close to the discontinuity.
         </p>
         <p>
+          All integrators support setting a maximal number of evaluations of differential
+          equations function. If this number is exceeded, an exception will be thrown during
+          integration. This can be used to prevent infinite loops if for example error control or
+          discrete events create a really large number of extremely small steps. By default, the
+          maximal number of evaluation is set to <code>Integer.MAX_VALUE</code> (i.e. 2<sup>31</sup>-1
+          or 2147483647). It is recommended to set this maximal number to a value suited to the ODE
+          problem, integration range, and step size or error control settings.
+        </p>
+        <p>
           The user should describe his problem in his own classes which should implement the
           <a href="../apidocs/org/apache/commons/math/ode/FirstOrderDifferentialEquations.html">FirstOrderDifferentialEquations</a>
           interface. Then he should pass it to the integrator he prefers among all the classes that implement

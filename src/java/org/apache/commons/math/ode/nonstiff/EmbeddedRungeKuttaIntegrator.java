@@ -171,6 +171,8 @@ public abstract class EmbeddedRungeKuttaIntegrator
   throws DerivativeException, IntegratorException {
 
     sanityChecks(equations, t0, y0, t, y);
+    setEquations(equations);
+    resetEvaluations();
     final boolean forward = (t > t0);
 
     // create some internal working arrays
@@ -188,7 +190,7 @@ public abstract class EmbeddedRungeKuttaIntegrator
     AbstractStepInterpolator interpolator;
     if (requiresDenseOutput() || (! eventsHandlersManager.isEmpty())) {
       final RungeKuttaStepInterpolator rki = (RungeKuttaStepInterpolator) prototype.copy();
-      rki.reinitialize(equations, yTmp, yDotK, forward);
+      rki.reinitialize(this, yTmp, yDotK, forward);
       interpolator = rki;
     } else {
       interpolator = new DummyStepInterpolator(yTmp, forward);
@@ -215,7 +217,7 @@ public abstract class EmbeddedRungeKuttaIntegrator
 
         if (firstTime || !fsal) {
           // first stage
-          equations.computeDerivatives(stepStart, y, yDotK[0]);
+          computeDerivatives(stepStart, y, yDotK[0]);
         }
 
         if (firstTime) {
@@ -246,7 +248,7 @@ public abstract class EmbeddedRungeKuttaIntegrator
             yTmp[j] = y[j] + stepSize * sum;
           }
 
-          equations.computeDerivatives(stepStart + c[k-1] * stepSize, yTmp, yDotK[k]);
+          computeDerivatives(stepStart + c[k-1] * stepSize, yTmp, yDotK[k]);
 
         }
 
@@ -304,7 +306,7 @@ public abstract class EmbeddedRungeKuttaIntegrator
       if (manager.reset(stepStart, y) && ! lastStep) {
         // some event handler has triggered changes that
         // invalidate the derivatives, we need to recompute them
-        equations.computeDerivatives(stepStart, y, yDotK[0]);
+        computeDerivatives(stepStart, y, yDotK[0]);
       }
 
       if (! lastStep) {

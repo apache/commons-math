@@ -395,7 +395,6 @@ public class GraggBulirschStoerIntegrator
 
   /** Perform integration over one step using substeps of a modified
    * midpoint method.
-   * @param equations differential equations to integrate
    * @param t0 initial time
    * @param y0 initial value of the state vector at t0
    * @param step global step
@@ -411,8 +410,7 @@ public class GraggBulirschStoerIntegrator
    * @throws DerivativeException this exception is propagated to the caller if the
    * underlying user function triggers one
    */
-  private boolean tryStep(final FirstOrderDifferentialEquations equations,
-                          final double t0, final double[] y0, final double step, final int k,
+  private boolean tryStep(final double t0, final double[] y0, final double step, final int k,
                           final double[] scale, final double[][] f,
                           final double[] yMiddle, final double[] yEnd,
                           final double[] yTmp)
@@ -428,7 +426,7 @@ public class GraggBulirschStoerIntegrator
       yTmp[i] = y0[i];
       yEnd[i] = y0[i] + subStep * f[0][i];
     }
-    equations.computeDerivatives(t, yEnd, f[1]);
+    computeDerivatives(t, yEnd, f[1]);
 
     // other substeps
     for (int j = 1; j < n; ++j) {
@@ -445,7 +443,7 @@ public class GraggBulirschStoerIntegrator
         yTmp[i]       = middle;
       }
 
-      equations.computeDerivatives(t, yEnd, f[j+1]);
+      computeDerivatives(t, yEnd, f[j+1]);
 
       // stability check
       if (performTest && (j <= maxChecks) && (k < maxIter)) {
@@ -508,6 +506,8 @@ public class GraggBulirschStoerIntegrator
   throws DerivativeException, IntegratorException {
 
     sanityChecks(equations, t0, y0, t, y);
+    setEquations(equations);
+    resetEvaluations();
     final boolean forward = (t > t0);
 
     // create some internal working arrays
@@ -599,7 +599,7 @@ public class GraggBulirschStoerIntegrator
 
         // first evaluation, at the beginning of the step
         if (! firstStepAlreadyComputed) {
-          equations.computeDerivatives(stepStart, y, yDot0);
+          computeDerivatives(stepStart, y, yDot0);
         }
 
         if (firstTime) {
@@ -635,7 +635,7 @@ public class GraggBulirschStoerIntegrator
         ++k;
 
         // modified midpoint integration with the current substep
-        if ( ! tryStep(equations, stepStart, y, stepSize, k, scale, fk[k],
+        if ( ! tryStep(stepStart, y, stepSize, k, scale, fk[k],
                        (k == 0) ? yMidDots[0] : diagonal[k-1],
                        (k == 0) ? y1 : y1Diag[k-1],
                        yTmp)) {
@@ -773,7 +773,7 @@ public class GraggBulirschStoerIntegrator
         }
 
         // derivative at end of step
-        equations.computeDerivatives(stepStart + stepSize, y1, yDot1);
+        computeDerivatives(stepStart + stepSize, y1, yDot1);
 
         final int mu = 2 * k - mudif + 3;
 

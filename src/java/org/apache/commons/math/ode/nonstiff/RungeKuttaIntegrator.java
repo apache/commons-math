@@ -86,6 +86,8 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
   throws DerivativeException, IntegratorException {
 
     sanityChecks(equations, t0, y0, t, y);
+    setEquations(equations);
+    resetEvaluations();
     final boolean forward = (t > t0);
 
     // create some internal working arrays
@@ -103,7 +105,7 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
     AbstractStepInterpolator interpolator;
     if (requiresDenseOutput() || (! eventsHandlersManager.isEmpty())) {
       final RungeKuttaStepInterpolator rki = (RungeKuttaStepInterpolator) prototype.copy();
-      rki.reinitialize(equations, yTmp, yDotK, forward);
+      rki.reinitialize(this, yTmp, yDotK, forward);
       interpolator = rki;
     } else {
       interpolator = new DummyStepInterpolator(yTmp, forward);
@@ -127,7 +129,7 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
       for (boolean loop = true; loop;) {
 
         // first stage
-        equations.computeDerivatives(stepStart, y, yDotK[0]);
+        computeDerivatives(stepStart, y, yDotK[0]);
 
         // next stages
         for (int k = 1; k < stages; ++k) {
@@ -140,7 +142,7 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
             yTmp[j] = y[j] + stepSize * sum;
           }
 
-          equations.computeDerivatives(stepStart + c[k-1] * stepSize, yTmp, yDotK[k]);
+          computeDerivatives(stepStart + c[k-1] * stepSize, yTmp, yDotK[k]);
 
         }
 
@@ -179,7 +181,7 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
       if (manager.reset(stepStart, y) && ! lastStep) {
         // some events handler has triggered changes that
         // invalidate the derivatives, we need to recompute them
-        equations.computeDerivatives(stepStart, y, yDotK[0]);
+        computeDerivatives(stepStart, y, yDotK[0]);
       }
 
       // make sure step size is set to default before next step

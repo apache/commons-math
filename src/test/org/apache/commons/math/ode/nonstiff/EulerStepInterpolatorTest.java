@@ -28,7 +28,6 @@ import java.util.Random;
 
 import org.apache.commons.math.ode.ContinuousOutputModel;
 import org.apache.commons.math.ode.DerivativeException;
-import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolatorTestUtils;
@@ -42,7 +41,7 @@ public class EulerStepInterpolatorTest {
     double[]   y    =   { 0.0, 1.0, -2.0 };
     double[][] yDot = { { 1.0, 2.0, -2.0 } };
     EulerStepInterpolator interpolator = new EulerStepInterpolator();
-    interpolator.reinitialize(new DummyEquations(), y, yDot, true);
+    interpolator.reinitialize(new DummyIntegrator(interpolator), y, yDot, true);
     interpolator.storeTime(0);
     interpolator.shift();
     interpolator.storeTime(1);
@@ -64,7 +63,7 @@ public class EulerStepInterpolatorTest {
     double[] y = y0.clone();
     double[][] yDot = { new double[y0.length] };
     EulerStepInterpolator interpolator = new EulerStepInterpolator();
-    interpolator.reinitialize(new DummyEquations(), y, yDot, true);
+    interpolator.reinitialize(new DummyIntegrator(interpolator), y, yDot, true);
     interpolator.storeTime(t0);
 
     double dt = 1.0;
@@ -98,7 +97,7 @@ public class EulerStepInterpolatorTest {
     double[]   y    =   { 1.0, 3.0, -4.0 };
     double[][] yDot = { { 1.0, 2.0, -2.0 } };
     EulerStepInterpolator interpolator = new EulerStepInterpolator();
-    interpolator.reinitialize(new DummyEquations(), y, yDot, true);
+    interpolator.reinitialize(new DummyIntegrator(interpolator), y, yDot, true);
     interpolator.storeTime(0);
     interpolator.shift();
     interpolator.storeTime(1);
@@ -172,14 +171,14 @@ public class EulerStepInterpolatorTest {
 
   }
 
-  private static class DummyEquations
-    implements FirstOrderDifferentialEquations {
-    private static final long serialVersionUID = 291437140744677100L;
-    public int getDimension() {
-      return 0;
-    }
-    public void computeDerivatives(double t, double[] y, double[] yDot) {
-    }
+  private static class DummyIntegrator extends RungeKuttaIntegrator {
+
+      private static final long serialVersionUID = -6936405965711773334L;
+
+      protected DummyIntegrator(RungeKuttaStepInterpolator prototype) {
+          super("dummy", new double[0], new double[0][0], new double[0], prototype, Double.NaN);
+      }
+
   }
 
 }

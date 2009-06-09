@@ -130,6 +130,7 @@ public class HighamHall54IntegratorTest
       assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
 
       int calls = pb.getCalls();
+      assertEquals(integ.getEvaluations(), calls);
       assertTrue(calls <= previousCalls);
       previousCalls = calls;
 

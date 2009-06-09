@@ -176,8 +176,8 @@ public class AdamsMoultonIntegratorTest {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ObjectOutputStream    oos = new ObjectOutputStream(bos);
         oos.writeObject(new AdamsMoultonIntegrator(8, step));
-        assertTrue(bos.size() > 2800);
-        assertTrue(bos.size() < 2900);
+        assertTrue(bos.size() > 2900);
+        assertTrue(bos.size() < 3000);
 
         ByteArrayInputStream  bis = new ByteArrayInputStream(bos.toByteArray());
         ObjectInputStream     ois = new ObjectInputStream(bis);

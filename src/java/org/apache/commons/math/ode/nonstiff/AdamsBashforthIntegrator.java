@@ -209,6 +209,8 @@ public class AdamsBashforthIntegrator extends MultistepIntegrator {
 
         final int n = y0.length;
         sanityChecks(equations, t0, y0, t, y);
+        setEquations(equations);
+        resetEvaluations();
         final boolean forward = (t > t0);
 
         // initialize working arrays
@@ -229,8 +231,7 @@ public class AdamsBashforthIntegrator extends MultistepIntegrator {
         CombinedEventsManager manager = addEndTimeChecker(t0, t, eventsHandlersManager);
 
         // compute the first few steps using the configured starter integrator
-        double stopTime =
-            start(previousF.length, stepSize, manager, equations, stepStart, y);
+        double stopTime = start(previousF.length, stepSize, manager, stepStart, y);
         if (Double.isNaN(previousT[0])) {
             return stopTime;
         }
@@ -264,7 +265,7 @@ public class AdamsBashforthIntegrator extends MultistepIntegrator {
             // update the Nordsieck vector
             final double[] f0 = previousF[0];
             previousT[0] = nextStep;
-            equations.computeDerivatives(nextStep, y, f0);
+            computeDerivatives(nextStep, y, f0);
             nordsieck = coefficients.msUpdate.multiply(nordsieck);
             final double[] end = new double[y0.length];
             for (int j = 0; j < y0.length; ++j) {
@@ -284,8 +285,7 @@ public class AdamsBashforthIntegrator extends MultistepIntegrator {
 
                 // some events handler has triggered changes that
                 // invalidate the derivatives, we need to restart from scratch
-                stopTime =
-                    start(previousF.length, stepSize, manager, equations, stepStart, y);
+                stopTime = start(previousF.length, stepSize, manager, stepStart, y);
                 if (Double.isNaN(previousT[0])) {
                     return stopTime;
                 }
