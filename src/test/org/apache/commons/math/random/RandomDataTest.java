@@ -21,7 +21,6 @@ import junit.framework.TestSuite;
 import java.util.HashSet;
 
 import org.apache.commons.math.RetryTestCase;
-import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.stat.Frequency;
 import org.apache.commons.math.stat.inference.ChiSquareTestImpl;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
