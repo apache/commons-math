@@ -157,6 +157,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
     }
 
     /** Set the differential equations.
+     * @param equations differential equations to integrate
      * @see #computeDerivatives(double, double[], double[])
      */
     protected void setEquations(final FirstOrderDifferentialEquations equations) {

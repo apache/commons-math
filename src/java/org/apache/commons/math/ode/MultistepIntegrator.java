@@ -114,7 +114,6 @@ public abstract class MultistepIntegrator extends AbstractIntegrator {
      * @param n number of steps to store
      * @param h signed step size to use for the first steps
      * @param manager discrete events manager to use
-     * @param equations differential equations to integrate
      * @param t0 initial time
      * @param y state vector: contains the initial value of the state vector at t0,
      * will be used to put the state vector at each successful step and hence
