@@ -831,8 +831,12 @@ public class GraggBulirschStoerIntegrator
           if (!reject) {
             interpolator.storeTime(stepStart + stepSize);
             if (eventsHandlersManager.evaluateStep(interpolator)) {
-              reject = true;
-              hNew = Math.abs(eventsHandlersManager.getEventTime() - stepStart);
+                final double dt = eventsHandlersManager.getEventTime() - stepStart;
+                if (Math.abs(dt) > Math.ulp(stepStart)) {
+                    // reject the step to match exactly the next switch time
+                    hNew = Math.abs(dt);
+                    reject = true;
+                }
             }
           }
 

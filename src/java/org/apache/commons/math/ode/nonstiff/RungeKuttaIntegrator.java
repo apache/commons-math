@@ -158,7 +158,14 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
         // discrete events handling
         interpolator.storeTime(stepStart + stepSize);
         if (manager.evaluateStep(interpolator)) {
-          stepSize = manager.getEventTime() - stepStart;
+            final double dt = manager.getEventTime() - stepStart;
+            if (Math.abs(dt) <= Math.ulp(stepStart)) {
+                // rejecting the step would lead to a too small next step, we accept it
+                loop = false;
+            } else {
+                // reject the step to match exactly the next switch time
+                stepSize = dt;
+            }
         } else {
           loop = false;
         }
