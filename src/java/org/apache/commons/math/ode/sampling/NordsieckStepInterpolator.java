@@ -77,7 +77,8 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
      */
     public NordsieckStepInterpolator(final NordsieckStepInterpolator interpolator) {
         super(interpolator);
-        scalingH = interpolator.scalingH;
+        scalingH      = interpolator.scalingH;
+        referenceTime = interpolator.referenceTime;
         if (interpolator.scaled != null) {
             scaled = interpolator.scaled.clone();
         }
