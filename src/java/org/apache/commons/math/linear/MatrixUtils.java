@@ -46,6 +46,11 @@ public class MatrixUtils {
     
     /**
      * Returns a {@link RealMatrix} with specified dimensions.
+     * <p>The type of matrix returned depends on the dimension. Below
+     * 2<sup>12</sup> elements (i.e. 4096 elements or 64&times;64 for a
+     * square matrix) which can be stored in a 32kB array, a {@link
+     * RealMatrixImpl} instance is built. Above this threshold a {@link
+     * BlockRealMatrix} instance is built.</p>
      * <p>The matrix elements are all set to 0.0.</p>
      * @param rows number of rows of the matrix
      * @param columns number of columns of the matrix
@@ -53,11 +58,16 @@ public class MatrixUtils {
      * @see #createRealMatrix(double[][])
      */
     public static RealMatrix createRealMatrix(final int rows, final int columns) {
-        return new DenseRealMatrix(rows, columns);
+        return (rows * columns <= 4096) ?
+                new RealMatrixImpl(rows, columns) : new BlockRealMatrix(rows, columns);
     }
 
     /**
      * Returns a {@link FieldMatrix} with specified dimensions.
+     * <p>The type of matrix returned depends on the dimension. Below
+     * 2<sup>12</sup> elements (i.e. 4096 elements or 64&times;64 for a
+     * square matrix), a {@link FieldMatrix} instance is built. Above
+     * this threshold a {@link BlockFieldMatrix} instance is built.</p>
      * <p>The matrix elements are all set to field.getZero().</p>
      * @param <T> the type of the field elements
      * @param field field to which the matrix elements belong
@@ -70,41 +80,54 @@ public class MatrixUtils {
     public static <T extends FieldElement<T>> FieldMatrix<T> createFieldMatrix(final Field<T> field,
                                                                                final int rows,
                                                                                final int columns) {
-        return new DenseFieldMatrix<T>(field, rows, columns);
+        return (rows * columns <= 4096) ?
+                new FieldMatrixImpl<T>(field, rows, columns) : new BlockFieldMatrix<T>(field, rows, columns);
     }
 
     /**
      * Returns a {@link RealMatrix} whose entries are the the values in the
-     * the input array.  The input array is copied, not referenced.
+     * the input array.
+     * <p>The type of matrix returned depends on the dimension. Below
+     * 2<sup>12</sup> elements (i.e. 4096 elements or 64&times;64 for a
+     * square matrix) which can be stored in a 32kB array, a {@link
+     * RealMatrixImpl} instance is built. Above this threshold a {@link
+     * BlockRealMatrix} instance is built.</p>
+     * <p>The input array is copied, not referenced.</p>
      * 
      * @param data input array
      * @return  RealMatrix containing the values of the array
      * @throws IllegalArgumentException if <code>data</code> is not rectangular
      *  (not all rows have the same length) or empty
-     * @throws NullPointerException if <code>data</code> is null
+     * @throws NullPointerException if either <code>data</code> or
+     * <code>data[0]</code> is null
      * @see #createRealMatrix(int, int)
      */
     public static RealMatrix createRealMatrix(double[][] data) {
-        return new DenseRealMatrix(data);
+        return (data.length * data[0].length <= 4096) ?
+                new RealMatrixImpl(data) : new BlockRealMatrix(data);
     }
 
     /**
      * Returns a {@link FieldMatrix} whose entries are the the values in the
      * the input array.
-     * <p>
-     * The input array is copied, not referenced.
-     * </p>
+     * <p>The type of matrix returned depends on the dimension. Below
+     * 2<sup>12</sup> elements (i.e. 4096 elements or 64&times;64 for a
+     * square matrix), a {@link FieldMatrix} instance is built. Above
+     * this threshold a {@link BlockFieldMatrix} instance is built.</p>
+     * <p>The input array is copied, not referenced.</p>
      * @param <T> the type of the field elements
      * @param data input array
      * @return  RealMatrix containing the values of the array
      * @throws IllegalArgumentException if <code>data</code> is not rectangular
      *  (not all rows have the same length) or empty
-     * @throws NullPointerException if <code>data</code> is null
+     * @throws NullPointerException if either <code>data</code> or
+     * <code>data[0]</code> is null
      * @see #createFieldMatrix(Field, int, int)
      * @since 2.0
      */
     public static <T extends FieldElement<T>> FieldMatrix<T> createFieldMatrix(T[][] data) {
-        return new DenseFieldMatrix<T>(data);
+        return (data.length * data[0].length <= 4096) ?
+                new FieldMatrixImpl<T>(data) : new BlockFieldMatrix<T>(data);
     }
 
     /**
