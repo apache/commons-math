@@ -31,7 +31,7 @@ import org.apache.commons.math.MathRuntimeException;
  * process matrices with sizes similar enough to have the same power of two
  * number of tiles in all three matrices A, B and C such that C = A*B. These
  * parts have not been fixed since the performance gain with respect to
- * DenseRealMatrix are not very important, and the numerical stability is not
+ * BlockRealMatrix are not very important, and the numerical stability is not
  * good. This may well be due to a bad implementation. This code has been put
  * in the experimental part for the record, putting it into production would
  * require solving all these issues.
@@ -136,7 +136,7 @@ public class RecursiveLayoutRealMatrix extends AbstractRealMatrix implements Ser
      *
      * @exception IllegalArgumentException if <code>rawData</code> shape is
      * inconsistent with tile layout
-     * @see #DenseRealMatrix(int, int, double[][], boolean)
+     * @see #RecursiveLayoutRealMatrix(int, int, double[][], boolean)
      */
     public RecursiveLayoutRealMatrix(final double[][] rawData)
         throws IllegalArgumentException {

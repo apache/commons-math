@@ -191,7 +191,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
      * <p>
      * This method creates an array in blocks layout from an input array in raw layout.
      * It can be used to provide the array argument of the {@link
-     * BlockRealMatrix#DenseRealMatrix(int, int, double[][], boolean)} constructor.
+     * #BlockRealMatrix(int, int, double[][], boolean)} constructor.
      * </p>
      * @param rawData data array in raw layout
      * @return a new data array containing the same entries but in blocks layout
@@ -249,7 +249,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
      * Create a data array in blocks layout.
      * <p>
      * This method can be used to create the array argument of the {@link
-     * BlockRealMatrix#DenseRealMatrix(int, int, double[][], boolean)} constructor.
+     * #BlockRealMatrix(int, int, double[][], boolean)} constructor.
      * </p>
      * @param rows  the number of rows in the new matrix
      * @param columns  the number of columns in the new matrix

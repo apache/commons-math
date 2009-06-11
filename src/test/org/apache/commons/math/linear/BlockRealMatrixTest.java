@@ -285,7 +285,7 @@ public final class BlockRealMatrixTest extends TestCase {
 
     }
 
-    //Additional Test for DenseRealMatrixTest.testMultiply
+    //Additional Test for BlockRealMatrixTest.testMultiply
 
     private double[][] d3 = new double[][] {{1,2,3,4},{5,6,7,8}};
     private double[][] d4 = new double[][] {{1},{2},{3},{4}};

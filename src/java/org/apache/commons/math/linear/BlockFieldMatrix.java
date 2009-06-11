@@ -194,7 +194,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
      * <p>
      * This method creates an array in blocks layout from an input array in raw layout.
      * It can be used to provide the array argument of the {@link
-     * BlockFieldMatrix#DenseFieldMatrix(int, int, FieldElement[][], boolean)}
+     * #BlockFieldMatrix(int, int, FieldElement[][], boolean)}
      * constructor.
      * </p>
      * @param <T> the type of the field elements
@@ -255,7 +255,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
      * Create a data array in blocks layout.
      * <p>
      * This method can be used to create the array argument of the {@link
-     * BlockFieldMatrix#DenseFieldMatrix(int, int, FieldElement[][], boolean)}
+     * #BlockFieldMatrix(int, int, FieldElement[][], boolean)}
      * constructor.
      * </p>
      * @param <T> the type of the field elements
