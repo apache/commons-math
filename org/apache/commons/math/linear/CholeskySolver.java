@@ -37,7 +37,7 @@ public class CholeskySolver {
     private double numericalZero = 10E-12;
     
     /** The lower triangular matrix */
-    private RealMatrixImpl decompMatrix;
+    private Array2DRowRealMatrix decompMatrix;
     
    
     /** 
@@ -108,7 +108,7 @@ public class CholeskySolver {
            
        }//for all columns
        
-       decompMatrix = new RealMatrixImpl(decomp);
+       decompMatrix = new Array2DRowRealMatrix(decomp);
        
     }//decompose
     
@@ -119,7 +119,7 @@ public class CholeskySolver {
      * Caution: Every call of this Method will return the same object.
      * Decomposing another matrix will generate a new one.
      */
-    public RealMatrixImpl getDecomposition() {
+    public Array2DRowRealMatrix getDecomposition() {
         return decompMatrix;
     }//getDecomposition
     
