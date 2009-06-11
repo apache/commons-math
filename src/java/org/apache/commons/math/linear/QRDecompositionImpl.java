@@ -369,9 +369,9 @@ public class QRDecompositionImpl implements QRDecomposition {
             }
 
             final int columns        = b.getColumnDimension();
-            final int blockSize      = DenseRealMatrix.BLOCK_SIZE;
+            final int blockSize      = BlockRealMatrix.BLOCK_SIZE;
             final int cBlocks        = (columns + blockSize - 1) / blockSize;
-            final double[][] xBlocks = DenseRealMatrix.createBlocksLayout(n, columns);
+            final double[][] xBlocks = BlockRealMatrix.createBlocksLayout(n, columns);
             final double[][] y       = new double[b.getRowDimension()][blockSize];
             final double[]   alpha   = new double[blockSize];
 
@@ -435,7 +435,7 @@ public class QRDecompositionImpl implements QRDecomposition {
 
             }
 
-            return new DenseRealMatrix(n, columns, xBlocks, false);
+            return new BlockRealMatrix(n, columns, xBlocks, false);
 
         }
 

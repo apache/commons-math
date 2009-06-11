@@ -26,7 +26,7 @@ import junit.framework.TestSuite;
 import org.apache.commons.math.TestUtils;
 
 /**
- * Test cases for the {@link DenseRealMatrix} class.
+ * Test cases for the {@link BlockRealMatrix} class.
  *
  * @version $Revision$ $Date$
  */
@@ -99,14 +99,14 @@ public final class DenseRealMatrixTest extends TestCase {
     
     public static Test suite() {
         TestSuite suite = new TestSuite(DenseRealMatrixTest.class);
-        suite.setName("DenseRealMatrix Tests");
+        suite.setName("BlockRealMatrix Tests");
         return suite;
     }
     
     /** test dimensions */
     public void testDimensions() {
-        DenseRealMatrix m = new DenseRealMatrix(testData);
-        DenseRealMatrix m2 = new DenseRealMatrix(testData2);
+        BlockRealMatrix m = new BlockRealMatrix(testData);
+        BlockRealMatrix m2 = new BlockRealMatrix(testData2);
         assertEquals("testData row dimension",3,m.getRowDimension());
         assertEquals("testData column dimension",3,m.getColumnDimension());
         assertTrue("testData is square",m.isSquare());
@@ -118,18 +118,18 @@ public final class DenseRealMatrixTest extends TestCase {
     /** test copy functions */
     public void testCopyFunctions() {
         Random r = new Random(66636328996002l);
-        DenseRealMatrix m1 = createRandomMatrix(r, 47, 83);
-        DenseRealMatrix m2 = new DenseRealMatrix(m1.getData());
+        BlockRealMatrix m1 = createRandomMatrix(r, 47, 83);
+        BlockRealMatrix m2 = new BlockRealMatrix(m1.getData());
         assertEquals(m1, m2);
-        DenseRealMatrix m3 = new DenseRealMatrix(testData);
-        DenseRealMatrix m4 = new DenseRealMatrix(m3.getData());
+        BlockRealMatrix m3 = new BlockRealMatrix(testData);
+        BlockRealMatrix m4 = new BlockRealMatrix(m3.getData());
         assertEquals(m3, m4);
     }           
     
     /** test add */
     public void testAdd() {
-        DenseRealMatrix m = new DenseRealMatrix(testData);
-        DenseRealMatrix mInv = new DenseRealMatrix(testDataInv);
+        BlockRealMatrix m = new BlockRealMatrix(testData);
+        BlockRealMatrix mInv = new BlockRealMatrix(testDataInv);
         RealMatrix mPlusMInv = m.add(mInv);
         double[][] sumEntries = mPlusMInv.getData();
         for (int row = 0; row < m.getRowDimension(); row++) {
@@ -143,8 +143,8 @@ public final class DenseRealMatrixTest extends TestCase {
     
     /** test add failure */
     public void testAddFail() {
-        DenseRealMatrix m = new DenseRealMatrix(testData);
-        DenseRealMatrix m2 = new DenseRealMatrix(testData2);
+        BlockRealMatrix m = new BlockRealMatrix(testData);
+        BlockRealMatrix m2 = new BlockRealMatrix(testData2);
         try {
             m.add(m2);
             fail("IllegalArgumentException expected");
@@ -155,27 +155,27 @@ public final class DenseRealMatrixTest extends TestCase {
     
     /** test norm */
     public void testNorm() {
-        DenseRealMatrix m = new DenseRealMatrix(testData);
-        DenseRealMatrix m2 = new DenseRealMatrix(testData2);
+        BlockRealMatrix m = new BlockRealMatrix(testData);
+        BlockRealMatrix m2 = new BlockRealMatrix(testData2);
         assertEquals("testData norm",14d,m.getNorm(),entryTolerance);
         assertEquals("testData2 norm",7d,m2.getNorm(),entryTolerance);
     }
     
     /** test Frobenius norm */
     public void testFrobeniusNorm() {
-        DenseRealMatrix m = new DenseRealMatrix(testData);
-        DenseRealMatrix m2 = new DenseRealMatrix(testData2);
+        BlockRealMatrix m = new BlockRealMatrix(testData);
+        BlockRealMatrix m2 = new BlockRealMatrix(testData2);
         assertEquals("testData Frobenius norm", Math.sqrt(117.0), m.getFrobeniusNorm(), entryTolerance);
         assertEquals("testData2 Frobenius norm", Math.sqrt(52.0), m2.getFrobeniusNorm(), entryTolerance);
     }
     
      /** test m-n = m + -n */
     public void testPlusMinus() {
-        DenseRealMatrix m = new DenseRealMatrix(testData);
-        DenseRealMatrix m2 = new DenseRealMatrix(testDataInv);
+        BlockRealMatrix m = new BlockRealMatrix(testData);
+        BlockRealMatrix m2 = new BlockRealMatrix(testDataInv);
         assertClose(m.subtract(m2), m2.scalarMultiply(-1d).add(m), entryTolerance);        
         try {
-            m.subtract(new DenseRealMatrix(testData2));
+            m.subtract(new BlockRealMatrix(testData2));
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // ignored
@@ -184,17 +184,17 @@ public final class DenseRealMatrixTest extends TestCase {
    
     /** test multiply */
      public void testMultiply() {
-        DenseRealMatrix m = new DenseRealMatrix(testData);
-        DenseRealMatrix mInv = new DenseRealMatrix(testDataInv);
-        DenseRealMatrix identity = new DenseRealMatrix(id);
-        DenseRealMatrix m2 = new DenseRealMatrix(testData2);
+        BlockRealMatrix m = new BlockRealMatrix(testData);
+        BlockRealMatrix mInv = new BlockRealMatrix(testDataInv);
+        BlockRealMatrix identity = new BlockRealMatrix(id);
+        BlockRealMatrix m2 = new BlockRealMatrix(testData2);
         assertClose(m.multiply(mInv), identity, entryTolerance);
         assertClose(mInv.multiply(m), identity, entryTolerance);
         assertClose(m.multiply(identity), m, entryTolerance);
         assertClose(identity.multiply(mInv), mInv, entryTolerance);
         assertClose(m2.multiply(identity), m2, entryTolerance); 
         try {
-            m.multiply(new DenseRealMatrix(bigSingular));
+            m.multiply(new BlockRealMatrix(bigSingular));
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
@@ -203,7 +203,7 @@ public final class DenseRealMatrixTest extends TestCase {
 
     public void testSeveralBlocks() {
 
-        RealMatrix m = new DenseRealMatrix(35, 71);
+        RealMatrix m = new BlockRealMatrix(35, 71);
         for (int i = 0; i < m.getRowDimension(); ++i) {
             for (int j = 0; j < m.getColumnDimension(); ++j) {
                 m.setEntry(i, j, i + j / 1024.0);
@@ -292,17 +292,17 @@ public final class DenseRealMatrixTest extends TestCase {
     private double[][] d5 = new double[][] {{30},{70}};
      
     public void testMultiply2() { 
-       RealMatrix m3 = new DenseRealMatrix(d3);   
-       RealMatrix m4 = new DenseRealMatrix(d4);
-       RealMatrix m5 = new DenseRealMatrix(d5);
+       RealMatrix m3 = new BlockRealMatrix(d3);   
+       RealMatrix m4 = new BlockRealMatrix(d4);
+       RealMatrix m5 = new BlockRealMatrix(d5);
        assertClose(m3.multiply(m4), m5, entryTolerance);
    }  
         
     /** test trace */
     public void testTrace() {
-        RealMatrix m = new DenseRealMatrix(id);
+        RealMatrix m = new BlockRealMatrix(id);
         assertEquals("identity trace",3d,m.getTrace(),entryTolerance);
-        m = new DenseRealMatrix(testData2);
+        m = new BlockRealMatrix(testData2);
         try {
             m.getTrace();
             fail("Expecting NonSquareMatrixException");
@@ -313,16 +313,16 @@ public final class DenseRealMatrixTest extends TestCase {
     
     /** test scalarAdd */
     public void testScalarAdd() {
-        RealMatrix m = new DenseRealMatrix(testData);
-        assertClose(new DenseRealMatrix(testDataPlus2), m.scalarAdd(2d), entryTolerance);
+        RealMatrix m = new BlockRealMatrix(testData);
+        assertClose(new BlockRealMatrix(testDataPlus2), m.scalarAdd(2d), entryTolerance);
     }
                     
     /** test operate */
     public void testOperate() {
-        RealMatrix m = new DenseRealMatrix(id);
+        RealMatrix m = new BlockRealMatrix(id);
         assertClose(testVector, m.operate(testVector), entryTolerance);
         assertClose(testVector, m.operate(new RealVectorImpl(testVector)).getData(), entryTolerance);
-        m = new DenseRealMatrix(bigSingular);
+        m = new BlockRealMatrix(bigSingular);
         try {
             m.operate(testVector);
             fail("Expecting illegalArgumentException");
@@ -332,9 +332,9 @@ public final class DenseRealMatrixTest extends TestCase {
     }
 
     public void testOperateLarge() {
-        int p = (7 * DenseRealMatrix.BLOCK_SIZE) / 2;
-        int q = (5 * DenseRealMatrix.BLOCK_SIZE) / 2;
-        int r =  3 * DenseRealMatrix.BLOCK_SIZE;
+        int p = (7 * BlockRealMatrix.BLOCK_SIZE) / 2;
+        int q = (5 * BlockRealMatrix.BLOCK_SIZE) / 2;
+        int r =  3 * BlockRealMatrix.BLOCK_SIZE;
         Random random = new Random(111007463902334l);
         RealMatrix m1 = createRandomMatrix(random, p, q);
         RealMatrix m2 = createRandomMatrix(random, q, r);
@@ -345,9 +345,9 @@ public final class DenseRealMatrixTest extends TestCase {
     }
 
     public void testOperatePremultiplyLarge() {
-        int p = (7 * DenseRealMatrix.BLOCK_SIZE) / 2;
-        int q = (5 * DenseRealMatrix.BLOCK_SIZE) / 2;
-        int r =  3 * DenseRealMatrix.BLOCK_SIZE;
+        int p = (7 * BlockRealMatrix.BLOCK_SIZE) / 2;
+        int q = (5 * BlockRealMatrix.BLOCK_SIZE) / 2;
+        int r =  3 * BlockRealMatrix.BLOCK_SIZE;
         Random random = new Random(111007463902334l);
         RealMatrix m1 = createRandomMatrix(random, p, q);
         RealMatrix m2 = createRandomMatrix(random, q, r);
@@ -359,7 +359,7 @@ public final class DenseRealMatrixTest extends TestCase {
 
     /** test issue MATH-209 */
     public void testMath209() {
-        RealMatrix a = new DenseRealMatrix(new double[][] {
+        RealMatrix a = new BlockRealMatrix(new double[][] {
                 { 1, 2 }, { 3, 4 }, { 5, 6 }
         });
         double[] b = a.operate(new double[] { 1, 1 });
@@ -371,22 +371,22 @@ public final class DenseRealMatrixTest extends TestCase {
     
     /** test transpose */
     public void testTranspose() {
-        RealMatrix m = new DenseRealMatrix(testData); 
+        RealMatrix m = new BlockRealMatrix(testData); 
         RealMatrix mIT = new LUDecompositionImpl(m).getSolver().getInverse().transpose();
         RealMatrix mTI = new LUDecompositionImpl(m.transpose()).getSolver().getInverse();
         assertClose(mIT, mTI, normTolerance);
-        m = new DenseRealMatrix(testData2);
-        RealMatrix mt = new DenseRealMatrix(testData2T);
+        m = new BlockRealMatrix(testData2);
+        RealMatrix mt = new BlockRealMatrix(testData2T);
         assertClose(mt, m.transpose(), normTolerance);
     }
     
     /** test preMultiply by vector */
     public void testPremultiplyVector() {
-        RealMatrix m = new DenseRealMatrix(testData);
+        RealMatrix m = new BlockRealMatrix(testData);
         assertClose(m.preMultiply(testVector), preMultTest, normTolerance);
         assertClose(m.preMultiply(new RealVectorImpl(testVector).getData()),
                     preMultTest, normTolerance);
-        m = new DenseRealMatrix(bigSingular);
+        m = new BlockRealMatrix(bigSingular);
         try {
             m.preMultiply(testVector);
             fail("expecting IllegalArgumentException");
@@ -396,20 +396,20 @@ public final class DenseRealMatrixTest extends TestCase {
     }
     
     public void testPremultiply() {
-        RealMatrix m3 = new DenseRealMatrix(d3);   
-        RealMatrix m4 = new DenseRealMatrix(d4);
-        RealMatrix m5 = new DenseRealMatrix(d5);
+        RealMatrix m3 = new BlockRealMatrix(d3);   
+        RealMatrix m4 = new BlockRealMatrix(d4);
+        RealMatrix m5 = new BlockRealMatrix(d5);
         assertClose(m4.preMultiply(m3), m5, entryTolerance);
         
-        DenseRealMatrix m = new DenseRealMatrix(testData);
-        DenseRealMatrix mInv = new DenseRealMatrix(testDataInv);
-        DenseRealMatrix identity = new DenseRealMatrix(id);
+        BlockRealMatrix m = new BlockRealMatrix(testData);
+        BlockRealMatrix mInv = new BlockRealMatrix(testDataInv);
+        BlockRealMatrix identity = new BlockRealMatrix(id);
         assertClose(m.preMultiply(mInv), identity, entryTolerance);
         assertClose(mInv.preMultiply(m), identity, entryTolerance);
         assertClose(m.preMultiply(identity), m, entryTolerance);
         assertClose(identity.preMultiply(mInv), mInv, entryTolerance);
         try {
-            m.preMultiply(new DenseRealMatrix(bigSingular));
+            m.preMultiply(new BlockRealMatrix(bigSingular));
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // ignored
@@ -417,7 +417,7 @@ public final class DenseRealMatrixTest extends TestCase {
     }
     
     public void testGetVectors() {
-        RealMatrix m = new DenseRealMatrix(testData);
+        RealMatrix m = new BlockRealMatrix(testData);
         assertClose(m.getRow(0), testDataRow1, entryTolerance);
         assertClose(m.getColumn(2), testDataCol3, entryTolerance);
         try {
@@ -435,7 +435,7 @@ public final class DenseRealMatrixTest extends TestCase {
     }
     
     public void testGetEntry() {
-        RealMatrix m = new DenseRealMatrix(testData);
+        RealMatrix m = new BlockRealMatrix(testData);
         assertEquals("get entry",m.getEntry(0,1),2d,entryTolerance);
         try {
             m.getEntry(10, 4);
@@ -449,10 +449,10 @@ public final class DenseRealMatrixTest extends TestCase {
     public void testExamples() {
         // Create a real matrix with two rows and three columns
         double[][] matrixData = { {1d,2d,3d}, {2d,5d,3d}};
-        RealMatrix m = new DenseRealMatrix(matrixData);
+        RealMatrix m = new BlockRealMatrix(matrixData);
         // One more with three rows, two columns
         double[][] matrixData2 = { {1d,2d}, {2d,5d}, {1d, 7d}};
-        RealMatrix n = new DenseRealMatrix(matrixData2);
+        RealMatrix n = new BlockRealMatrix(matrixData2);
         // Now multiply m by n
         RealMatrix p = m.multiply(n);
         assertEquals(2, p.getRowDimension());
@@ -464,7 +464,7 @@ public final class DenseRealMatrixTest extends TestCase {
         
         // Solve example
         double[][] coefficientsData = {{2, 3, -2}, {-1, 7, 6}, {4, -3, -5}};
-        RealMatrix coefficients = new DenseRealMatrix(coefficientsData);
+        RealMatrix coefficients = new BlockRealMatrix(coefficientsData);
         double[] constants = {1, -2, 1};
         double[] solution = new LUDecompositionImpl(coefficients).getSolver().solve(constants);
         assertEquals(2 * solution[0] + 3 * solution[1] -2 * solution[2], constants[0], 1E-12);
@@ -475,7 +475,7 @@ public final class DenseRealMatrixTest extends TestCase {
     
     // test submatrix accessors
     public void testGetSubMatrix() {
-        RealMatrix m = new DenseRealMatrix(subTestData);
+        RealMatrix m = new BlockRealMatrix(subTestData);
         checkGetSubMatrix(m, subRows23Cols00,  2 , 3 , 0, 0, false);
         checkGetSubMatrix(m, subRows00Cols33,  0 , 0 , 3, 3, false);
         checkGetSubMatrix(m, subRows01Cols23,  0 , 1 , 2, 3, false);   
@@ -498,7 +498,7 @@ public final class DenseRealMatrixTest extends TestCase {
                                    boolean mustFail) {
         try {
             RealMatrix sub = m.getSubMatrix(startRow, endRow, startColumn, endColumn);
-            assertEquals(new DenseRealMatrix(reference), sub);
+            assertEquals(new BlockRealMatrix(reference), sub);
             if (mustFail) {
                 fail("Expecting MatrixIndexException");
             }
@@ -514,7 +514,7 @@ public final class DenseRealMatrixTest extends TestCase {
                                    boolean mustFail) {
         try {
             RealMatrix sub = m.getSubMatrix(selectedRows, selectedColumns);
-            assertEquals(new DenseRealMatrix(reference), sub);
+            assertEquals(new BlockRealMatrix(reference), sub);
             if (mustFail) {
                 fail("Expecting MatrixIndexException");
             }
@@ -526,9 +526,9 @@ public final class DenseRealMatrixTest extends TestCase {
     }
 
     public void testGetSetMatrixLarge() {
-        int n = 3 * DenseRealMatrix.BLOCK_SIZE;
-        RealMatrix m = new DenseRealMatrix(n, n);
-        RealMatrix sub = new DenseRealMatrix(n - 4, n - 4).scalarAdd(1);
+        int n = 3 * BlockRealMatrix.BLOCK_SIZE;
+        RealMatrix m = new BlockRealMatrix(n, n);
+        RealMatrix sub = new BlockRealMatrix(n - 4, n - 4).scalarAdd(1);
 
         m.setSubMatrix(sub.getData(), 2, 2);
         for (int i = 0; i < n; ++i) {
@@ -545,7 +545,7 @@ public final class DenseRealMatrixTest extends TestCase {
     }
 
     public void testCopySubMatrix() {
-        RealMatrix m = new DenseRealMatrix(subTestData);
+        RealMatrix m = new BlockRealMatrix(subTestData);
         checkCopy(m, subRows23Cols00,  2 , 3 , 0, 0, false);
         checkCopy(m, subRows00Cols33,  0 , 0 , 3, 3, false);
         checkCopy(m, subRows01Cols23,  0 , 1 , 2, 3, false);   
@@ -572,7 +572,7 @@ public final class DenseRealMatrixTest extends TestCase {
                              new double[1][1] :
                              new double[reference.length][reference[0].length];
             m.copySubMatrix(startRow, endRow, startColumn, endColumn, sub);
-            assertEquals(new DenseRealMatrix(reference), new DenseRealMatrix(sub));
+            assertEquals(new BlockRealMatrix(reference), new BlockRealMatrix(sub));
             if (mustFail) {
                 fail("Expecting MatrixIndexException");
             }
@@ -591,7 +591,7 @@ public final class DenseRealMatrixTest extends TestCase {
                     new double[1][1] :
                     new double[reference.length][reference[0].length];
             m.copySubMatrix(selectedRows, selectedColumns, sub);
-            assertEquals(new DenseRealMatrix(reference), new DenseRealMatrix(sub));
+            assertEquals(new BlockRealMatrix(reference), new BlockRealMatrix(sub));
             if (mustFail) {
                 fail("Expecting MatrixIndexException");
             }
@@ -603,9 +603,9 @@ public final class DenseRealMatrixTest extends TestCase {
     }
 
     public void testGetRowMatrix() {
-        RealMatrix m     = new DenseRealMatrix(subTestData);
-        RealMatrix mRow0 = new DenseRealMatrix(subRow0);
-        RealMatrix mRow3 = new DenseRealMatrix(subRow3);
+        RealMatrix m     = new BlockRealMatrix(subTestData);
+        RealMatrix mRow0 = new BlockRealMatrix(subRow0);
+        RealMatrix mRow3 = new BlockRealMatrix(subRow3);
         assertEquals("Row0", mRow0, m.getRowMatrix(0));
         assertEquals("Row3", mRow3, m.getRowMatrix(3));
         try {
@@ -623,8 +623,8 @@ public final class DenseRealMatrixTest extends TestCase {
     }
 
     public void testSetRowMatrix() {
-        RealMatrix m = new DenseRealMatrix(subTestData);
-        RealMatrix mRow3 = new DenseRealMatrix(subRow3);
+        RealMatrix m = new BlockRealMatrix(subTestData);
+        RealMatrix mRow3 = new BlockRealMatrix(subRow3);
         assertNotSame(mRow3, m.getRowMatrix(0));
         m.setRowMatrix(0, mRow3);
         assertEquals(mRow3, m.getRowMatrix(0));
@@ -643,9 +643,9 @@ public final class DenseRealMatrixTest extends TestCase {
     }
     
     public void testGetSetRowMatrixLarge() {
-        int n = 3 * DenseRealMatrix.BLOCK_SIZE;
-        RealMatrix m = new DenseRealMatrix(n, n);
-        RealMatrix sub = new DenseRealMatrix(1, n).scalarAdd(1);
+        int n = 3 * BlockRealMatrix.BLOCK_SIZE;
+        RealMatrix m = new BlockRealMatrix(n, n);
+        RealMatrix sub = new BlockRealMatrix(1, n).scalarAdd(1);
 
         m.setRowMatrix(2, sub);
         for (int i = 0; i < n; ++i) {
@@ -662,9 +662,9 @@ public final class DenseRealMatrixTest extends TestCase {
     }
     
     public void testGetColumnMatrix() {
-        RealMatrix m = new DenseRealMatrix(subTestData);
-        RealMatrix mColumn1 = new DenseRealMatrix(subColumn1);
-        RealMatrix mColumn3 = new DenseRealMatrix(subColumn3);
+        RealMatrix m = new BlockRealMatrix(subTestData);
+        RealMatrix mColumn1 = new BlockRealMatrix(subColumn1);
+        RealMatrix mColumn3 = new BlockRealMatrix(subColumn3);
         assertEquals(mColumn1, m.getColumnMatrix(1));
         assertEquals(mColumn3, m.getColumnMatrix(3));
         try {
@@ -682,8 +682,8 @@ public final class DenseRealMatrixTest extends TestCase {
     }
 
     public void testSetColumnMatrix() {
-        RealMatrix m = new DenseRealMatrix(subTestData);
-        RealMatrix mColumn3 = new DenseRealMatrix(subColumn3);
+        RealMatrix m = new BlockRealMatrix(subTestData);
+        RealMatrix mColumn3 = new BlockRealMatrix(subColumn3);
         assertNotSame(mColumn3, m.getColumnMatrix(1));
         m.setColumnMatrix(1, mColumn3);
         assertEquals(mColumn3, m.getColumnMatrix(1));
@@ -702,9 +702,9 @@ public final class DenseRealMatrixTest extends TestCase {
     }
 
     public void testGetSetColumnMatrixLarge() {
-        int n = 3 * DenseRealMatrix.BLOCK_SIZE;
-        RealMatrix m = new DenseRealMatrix(n, n);
-        RealMatrix sub = new DenseRealMatrix(n, 1).scalarAdd(1);
+        int n = 3 * BlockRealMatrix.BLOCK_SIZE;
+        RealMatrix m = new BlockRealMatrix(n, n);
+        RealMatrix sub = new BlockRealMatrix(n, 1).scalarAdd(1);
 
         m.setColumnMatrix(2, sub);
         for (int i = 0; i < n; ++i) {
@@ -721,7 +721,7 @@ public final class DenseRealMatrixTest extends TestCase {
     }
     
     public void testGetRowVector() {
-        RealMatrix m = new DenseRealMatrix(subTestData);
+        RealMatrix m = new BlockRealMatrix(subTestData);
         RealVector mRow0 = new RealVectorImpl(subRow0[0]);
         RealVector mRow3 = new RealVectorImpl(subRow3[0]);
         assertEquals(mRow0, m.getRowVector(0));
@@ -741,7 +741,7 @@ public final class DenseRealMatrixTest extends TestCase {
     }
 
     public void testSetRowVector() {
-        RealMatrix m = new DenseRealMatrix(subTestData);
+        RealMatrix m = new BlockRealMatrix(subTestData);
         RealVector mRow3 = new RealVectorImpl(subRow3[0]);
         assertNotSame(mRow3, m.getRowMatrix(0));
         m.setRowVector(0, mRow3);
@@ -761,8 +761,8 @@ public final class DenseRealMatrixTest extends TestCase {
     }
 
     public void testGetSetRowVectorLarge() {
-        int n = 3 * DenseRealMatrix.BLOCK_SIZE;
-        RealMatrix m = new DenseRealMatrix(n, n);
+        int n = 3 * BlockRealMatrix.BLOCK_SIZE;
+        RealMatrix m = new BlockRealMatrix(n, n);
         RealVector sub = new RealVectorImpl(n, 1.0);
 
         m.setRowVector(2, sub);
@@ -780,7 +780,7 @@ public final class DenseRealMatrixTest extends TestCase {
     }
     
     public void testGetColumnVector() {
-        RealMatrix m = new DenseRealMatrix(subTestData);
+        RealMatrix m = new BlockRealMatrix(subTestData);
         RealVector mColumn1 = columnToVector(subColumn1);
         RealVector mColumn3 = columnToVector(subColumn3);
         assertEquals(mColumn1, m.getColumnVector(1));
@@ -800,7 +800,7 @@ public final class DenseRealMatrixTest extends TestCase {
     }
 
     public void testSetColumnVector() {
-        RealMatrix m = new DenseRealMatrix(subTestData);
+        RealMatrix m = new BlockRealMatrix(subTestData);
         RealVector mColumn3 = columnToVector(subColumn3);
         assertNotSame(mColumn3, m.getColumnVector(1));
         m.setColumnVector(1, mColumn3);
@@ -820,8 +820,8 @@ public final class DenseRealMatrixTest extends TestCase {
     }
 
     public void testGetSetColumnVectorLarge() {
-        int n = 3 * DenseRealMatrix.BLOCK_SIZE;
-        RealMatrix m = new DenseRealMatrix(n, n);
+        int n = 3 * BlockRealMatrix.BLOCK_SIZE;
+        RealMatrix m = new BlockRealMatrix(n, n);
         RealVector sub = new RealVectorImpl(n, 1.0);
 
         m.setColumnVector(2, sub);
@@ -847,7 +847,7 @@ public final class DenseRealMatrixTest extends TestCase {
     }
 
     public void testGetRow() {
-        RealMatrix m = new DenseRealMatrix(subTestData);
+        RealMatrix m = new BlockRealMatrix(subTestData);
         checkArrays(subRow0[0], m.getRow(0));
         checkArrays(subRow3[0], m.getRow(3));
         try {
@@ -865,7 +865,7 @@ public final class DenseRealMatrixTest extends TestCase {
     }
 
     public void testSetRow() {
-        RealMatrix m = new DenseRealMatrix(subTestData);
+        RealMatrix m = new BlockRealMatrix(subTestData);
         assertTrue(subRow3[0][0] != m.getRow(0)[0]);
         m.setRow(0, subRow3[0]);
         checkArrays(subRow3[0], m.getRow(0));
@@ -884,8 +884,8 @@ public final class DenseRealMatrixTest extends TestCase {
     }
 
     public void testGetSetRowLarge() {
-        int n = 3 * DenseRealMatrix.BLOCK_SIZE;
-        RealMatrix m = new DenseRealMatrix(n, n);
+        int n = 3 * BlockRealMatrix.BLOCK_SIZE;
+        RealMatrix m = new BlockRealMatrix(n, n);
         double[] sub = new double[n];
         Arrays.fill(sub, 1.0);
 
@@ -904,7 +904,7 @@ public final class DenseRealMatrixTest extends TestCase {
     }
     
     public void testGetColumn() {
-        RealMatrix m = new DenseRealMatrix(subTestData);
+        RealMatrix m = new BlockRealMatrix(subTestData);
         double[] mColumn1 = columnToArray(subColumn1);
         double[] mColumn3 = columnToArray(subColumn3);
         checkArrays(mColumn1, m.getColumn(1));
@@ -924,7 +924,7 @@ public final class DenseRealMatrixTest extends TestCase {
     }
 
     public void testSetColumn() {
-        RealMatrix m = new DenseRealMatrix(subTestData);
+        RealMatrix m = new BlockRealMatrix(subTestData);
         double[] mColumn3 = columnToArray(subColumn3);
         assertTrue(mColumn3[0] != m.getColumn(1)[0]);
         m.setColumn(1, mColumn3);
@@ -944,8 +944,8 @@ public final class DenseRealMatrixTest extends TestCase {
     }
 
     public void testGetSetColumnLarge() {
-        int n = 3 * DenseRealMatrix.BLOCK_SIZE;
-        RealMatrix m = new DenseRealMatrix(n, n);
+        int n = 3 * BlockRealMatrix.BLOCK_SIZE;
+        RealMatrix m = new BlockRealMatrix(n, n);
         double[] sub = new double[n];
         Arrays.fill(sub, 1.0);
 
@@ -979,46 +979,46 @@ public final class DenseRealMatrixTest extends TestCase {
     }
     
     public void testEqualsAndHashCode() {
-        DenseRealMatrix m = new DenseRealMatrix(testData);
-        DenseRealMatrix m1 = (DenseRealMatrix) m.copy();
-        DenseRealMatrix mt = (DenseRealMatrix) m.transpose();
+        BlockRealMatrix m = new BlockRealMatrix(testData);
+        BlockRealMatrix m1 = (BlockRealMatrix) m.copy();
+        BlockRealMatrix mt = (BlockRealMatrix) m.transpose();
         assertTrue(m.hashCode() != mt.hashCode());
         assertEquals(m.hashCode(), m1.hashCode());
         assertEquals(m, m);
         assertEquals(m, m1);
         assertFalse(m.equals(null));
         assertFalse(m.equals(mt));
-        assertFalse(m.equals(new DenseRealMatrix(bigSingular))); 
+        assertFalse(m.equals(new BlockRealMatrix(bigSingular))); 
     }
     
     public void testToString() {
-        DenseRealMatrix m = new DenseRealMatrix(testData);
-        assertEquals("DenseRealMatrix{{1.0,2.0,3.0},{2.0,5.0,3.0},{1.0,0.0,8.0}}",
+        BlockRealMatrix m = new BlockRealMatrix(testData);
+        assertEquals("BlockRealMatrix{{1.0,2.0,3.0},{2.0,5.0,3.0},{1.0,0.0,8.0}}",
                 m.toString());
     }
     
     public void testSetSubMatrix() throws Exception {
-        DenseRealMatrix m = new DenseRealMatrix(testData);
+        BlockRealMatrix m = new BlockRealMatrix(testData);
         m.setSubMatrix(detData2,1,1);
-        RealMatrix expected = new DenseRealMatrix
+        RealMatrix expected = new BlockRealMatrix
             (new double[][] {{1.0,2.0,3.0},{2.0,1.0,3.0},{1.0,2.0,4.0}});
         assertEquals(expected, m);  
         
         m.setSubMatrix(detData2,0,0);
-        expected = new DenseRealMatrix
+        expected = new BlockRealMatrix
             (new double[][] {{1.0,3.0,3.0},{2.0,4.0,3.0},{1.0,2.0,4.0}});
         assertEquals(expected, m);  
         
         m.setSubMatrix(testDataPlus2,0,0);      
-        expected = new DenseRealMatrix
+        expected = new BlockRealMatrix
             (new double[][] {{3.0,4.0,5.0},{4.0,7.0,5.0},{3.0,2.0,10.0}});
         assertEquals(expected, m);   
         
         // javadoc example
-        DenseRealMatrix matrix = new DenseRealMatrix
+        BlockRealMatrix matrix = new BlockRealMatrix
             (new double[][] {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 0, 1 , 2}});
         matrix.setSubMatrix(new double[][] {{3, 4}, {5, 6}}, 1, 1);
-        expected = new DenseRealMatrix
+        expected = new BlockRealMatrix
             (new double[][] {{1, 2, 3, 4}, {5, 3, 4, 8}, {9, 5 ,6, 2}});
         assertEquals(expected, matrix);   
 
@@ -1073,13 +1073,13 @@ public final class DenseRealMatrixTest extends TestCase {
         int rows    = 150;
         int columns = 75;
 
-        RealMatrix m = new DenseRealMatrix(rows, columns);
+        RealMatrix m = new BlockRealMatrix(rows, columns);
         m.walkInRowOrder(new SetVisitor());
         GetVisitor getVisitor = new GetVisitor();
         m.walkInOptimizedOrder(getVisitor);
         assertEquals(rows * columns, getVisitor.getCount());
 
-        m = new DenseRealMatrix(rows, columns);
+        m = new BlockRealMatrix(rows, columns);
         m.walkInRowOrder(new SetVisitor(), 1, rows - 2, 1, columns - 2);
         getVisitor = new GetVisitor();
         m.walkInOptimizedOrder(getVisitor, 1, rows - 2, 1, columns - 2);
@@ -1093,13 +1093,13 @@ public final class DenseRealMatrixTest extends TestCase {
             assertEquals(0.0, m.getEntry(rows - 1, j), 0);
         }
 
-        m = new DenseRealMatrix(rows, columns);
+        m = new BlockRealMatrix(rows, columns);
         m.walkInColumnOrder(new SetVisitor());
         getVisitor = new GetVisitor();
         m.walkInOptimizedOrder(getVisitor);
         assertEquals(rows * columns, getVisitor.getCount());
 
-        m = new DenseRealMatrix(rows, columns);
+        m = new BlockRealMatrix(rows, columns);
         m.walkInColumnOrder(new SetVisitor(), 1, rows - 2, 1, columns - 2);
         getVisitor = new GetVisitor();
         m.walkInOptimizedOrder(getVisitor, 1, rows - 2, 1, columns - 2);
@@ -1113,13 +1113,13 @@ public final class DenseRealMatrixTest extends TestCase {
             assertEquals(0.0, m.getEntry(rows - 1, j), 0);
         }
 
-        m = new DenseRealMatrix(rows, columns);
+        m = new BlockRealMatrix(rows, columns);
         m.walkInOptimizedOrder(new SetVisitor());
         getVisitor = new GetVisitor();
         m.walkInRowOrder(getVisitor);
         assertEquals(rows * columns, getVisitor.getCount());
 
-        m = new DenseRealMatrix(rows, columns);
+        m = new BlockRealMatrix(rows, columns);
         m.walkInOptimizedOrder(new SetVisitor(), 1, rows - 2, 1, columns - 2);
         getVisitor = new GetVisitor();
         m.walkInRowOrder(getVisitor, 1, rows - 2, 1, columns - 2);
@@ -1133,13 +1133,13 @@ public final class DenseRealMatrixTest extends TestCase {
             assertEquals(0.0, m.getEntry(rows - 1, j), 0);
         }
 
-        m = new DenseRealMatrix(rows, columns);
+        m = new BlockRealMatrix(rows, columns);
         m.walkInOptimizedOrder(new SetVisitor());
         getVisitor = new GetVisitor();
         m.walkInColumnOrder(getVisitor);
         assertEquals(rows * columns, getVisitor.getCount());
 
-        m = new DenseRealMatrix(rows, columns);
+        m = new BlockRealMatrix(rows, columns);
         m.walkInOptimizedOrder(new SetVisitor(), 1, rows - 2, 1, columns - 2);
         getVisitor = new GetVisitor();
         m.walkInColumnOrder(getVisitor, 1, rows - 2, 1, columns - 2);
@@ -1156,7 +1156,7 @@ public final class DenseRealMatrixTest extends TestCase {
     }
     
     public void testSerial()  {
-        DenseRealMatrix m = new DenseRealMatrix(testData);
+        BlockRealMatrix m = new BlockRealMatrix(testData);
         assertEquals(m,TestUtils.serializeAndRecover(m));
     }
 
@@ -1196,8 +1196,8 @@ public final class DenseRealMatrixTest extends TestCase {
         }
     }
 
-    private DenseRealMatrix createRandomMatrix(Random r, int rows, int columns) {
-        DenseRealMatrix m = new DenseRealMatrix(rows, columns);
+    private BlockRealMatrix createRandomMatrix(Random r, int rows, int columns) {
+        BlockRealMatrix m = new BlockRealMatrix(rows, columns);
         for (int i = 0; i < rows; ++i) {
             for (int j = 0; j < columns; ++j) {
                 m.setEntry(i, j, 200 * r.nextDouble() - 100);

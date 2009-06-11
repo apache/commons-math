@@ -21,7 +21,7 @@ import java.io.Serializable;
 
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.linear.DecompositionSolver;
-import org.apache.commons.math.linear.DenseRealMatrix;
+import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.InvalidMatrixException;
 import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.QRDecompositionImpl;
@@ -109,7 +109,7 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer implemen
             try {
 
                 // solve the linearized least squares problem
-                RealMatrix mA = new DenseRealMatrix(a);
+                RealMatrix mA = new BlockRealMatrix(a);
                 DecompositionSolver solver = useLU ?
                         new LUDecompositionImpl(mA).getSolver() :
                         new QRDecompositionImpl(mA).getSolver();

@@ -17,7 +17,7 @@
 package org.apache.commons.math.stat.correlation;
 
 import org.apache.commons.math.TestUtils;
-import org.apache.commons.math.linear.DenseRealMatrix;
+import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 
 /**
@@ -99,7 +99,7 @@ public class SpearmansRankCorrelationTest extends PearsonsCorrelationTest {
         } catch (IllegalArgumentException ex) {
             // Expected
         }
-        RealMatrix matrix = new DenseRealMatrix(new double[][] {{0},{1}});
+        RealMatrix matrix = new BlockRealMatrix(new double[][] {{0},{1}});
         try {
             new SpearmansCorrelation(matrix);
             fail("Expecting IllegalArgumentException");

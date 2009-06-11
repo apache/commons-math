@@ -21,7 +21,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.distribution.TDistribution;
 import org.apache.commons.math.distribution.TDistributionImpl;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.DenseRealMatrix;
+import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.stat.regression.SimpleRegression;
 
 /**
@@ -65,7 +65,7 @@ public class PearsonsCorrelation {
      * rectangular with at least two rows and two columns.
      */
     public PearsonsCorrelation(double[][] data) {
-        this(new DenseRealMatrix(data));
+        this(new BlockRealMatrix(data));
     }
     
     /**
@@ -141,7 +141,7 @@ public class PearsonsCorrelation {
                 out[i][j] = Math.sqrt((1 - r * r) /(nObs - 2));
             }
         }
-        return new DenseRealMatrix(out);
+        return new BlockRealMatrix(out);
     }
 
     /**
@@ -172,7 +172,7 @@ public class PearsonsCorrelation {
                 }
             }
         }
-        return new DenseRealMatrix(out);
+        return new BlockRealMatrix(out);
     }
     
     
@@ -185,7 +185,7 @@ public class PearsonsCorrelation {
      */
     public RealMatrix computeCorrelationMatrix(RealMatrix matrix) {
         int nVars = matrix.getColumnDimension();
-        RealMatrix outMatrix = new DenseRealMatrix(nVars, nVars);
+        RealMatrix outMatrix = new BlockRealMatrix(nVars, nVars);
         for (int i = 0; i < nVars; i++) {
             for (int j = 0; j < i; j++) {
               double corr = correlation(matrix.getColumn(i), matrix.getColumn(j));
@@ -206,7 +206,7 @@ public class PearsonsCorrelation {
      * @return correlation matrix
      */
     public RealMatrix computeCorrelationMatrix(double[][] data) {
-       return computeCorrelationMatrix(new DenseRealMatrix(data));
+       return computeCorrelationMatrix(new BlockRealMatrix(data));
     }
     
     /**
@@ -249,7 +249,7 @@ public class PearsonsCorrelation {
      */
     public RealMatrix covarianceToCorrelation(RealMatrix covarianceMatrix) {
         int nVars = covarianceMatrix.getColumnDimension();
-        RealMatrix outMatrix = new DenseRealMatrix(nVars, nVars);
+        RealMatrix outMatrix = new BlockRealMatrix(nVars, nVars);
         for (int i = 0; i < nVars; i++) {
             double sigma = Math.sqrt(covarianceMatrix.getEntry(i, i));
             outMatrix.setEntry(i, i, 1d);

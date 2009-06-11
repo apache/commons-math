@@ -164,7 +164,7 @@ public class OpenMapRealMatrix extends AbstractRealMatrix implements SparseRealM
             MatrixUtils.checkMultiplicationCompatible(this, m);
 
             final int outCols = m.getColumnDimension();
-            final DenseRealMatrix out = new DenseRealMatrix(rowDimension, outCols);
+            final BlockRealMatrix out = new BlockRealMatrix(rowDimension, outCols);
             for (OpenIntToDoubleHashMap.Iterator iterator = entries.iterator(); iterator.hasNext();) {
                 iterator.advance();
                 final double value = iterator.value();

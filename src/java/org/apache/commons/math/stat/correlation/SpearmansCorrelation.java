@@ -18,7 +18,7 @@
 package org.apache.commons.math.stat.correlation;
 
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.linear.DenseRealMatrix;
+import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.stat.ranking.NaturalRanking;
 import org.apache.commons.math.stat.ranking.RankingAlgorithm;
@@ -128,7 +128,7 @@ public class SpearmansCorrelation {
      * @return correlation matrix
      */
     public RealMatrix computeCorrelationMatrix(double[][] data) {
-       return computeCorrelationMatrix(new DenseRealMatrix(data));
+       return computeCorrelationMatrix(new BlockRealMatrix(data));
     }
     
     /**

@@ -110,7 +110,7 @@
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math.linear.DenseFieldMatrix"/>
+    <Class name="org.apache.commons.math.linear.BlockFieldMatrix"/>
     <Method name="&lt;init>" params="int,int,org.apache.commons.math.FieldElement[][],boolean" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
@@ -125,7 +125,7 @@
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math.linear.DenseRealMatrix"/>
+    <Class name="org.apache.commons.math.linear.BlockRealMatrix"/>
     <Method name="&lt;init>" params="int,int,double[][],boolean" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>

@@ -195,7 +195,7 @@ public final class SparseRealMatrixTest extends TestCase {
         OpenMapRealMatrix m2 = createSparseMatrix(testData2);
         assertClose("inverse multiply", m.multiply(mInv), identity,
                 entryTolerance);
-        assertClose("inverse multiply", m.multiply(new DenseRealMatrix(testDataInv)), identity,
+        assertClose("inverse multiply", m.multiply(new BlockRealMatrix(testDataInv)), identity,
                     entryTolerance);
         assertClose("inverse multiply", mInv.multiply(m), identity,
                 entryTolerance);

@@ -20,7 +20,7 @@ import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.distribution.TDistribution;
 import org.apache.commons.math.distribution.TDistributionImpl;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.DenseRealMatrix;
+import org.apache.commons.math.linear.BlockRealMatrix;
 
 import junit.framework.TestCase;
 
@@ -184,7 +184,7 @@ public class PearsonsCorrelationTest extends TestCase {
         } catch (IllegalArgumentException ex) {
             // Expected
         }
-        RealMatrix matrix = new DenseRealMatrix(new double[][] {{0},{1}});
+        RealMatrix matrix = new BlockRealMatrix(new double[][] {{0},{1}});
         try {
             new PearsonsCorrelation(matrix);
             fail("Expecting IllegalArgumentException");
@@ -259,12 +259,12 @@ public class PearsonsCorrelationTest extends TestCase {
             System.arraycopy(data, ptr, matrixData[i], 0, nCols);
             ptr += nCols;
         }
-        return new DenseRealMatrix(matrixData); 
+        return new BlockRealMatrix(matrixData); 
     }
     
     protected RealMatrix createLowerTriangularRealMatrix(double[] data, int dimension) {
         int ptr = 0;
-        RealMatrix result = new DenseRealMatrix(dimension, dimension);
+        RealMatrix result = new BlockRealMatrix(dimension, dimension);
         for (int i = 1; i < dimension; i++) {
             for (int j = 0; j < i; j++) {
                 result.setEntry(i, j, data[ptr]);

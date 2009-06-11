@@ -18,12 +18,13 @@
 package org.apache.commons.math.linear;
 
 import java.io.Serializable;
-import java.util.Arrays;
 
+import org.apache.commons.math.Field;
+import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.MathRuntimeException;
 
 /**
- * Cache-friendly implementation of RealMatrix using a flat arrays to store
+ * Cache-friendly implementation of FieldMatrix using a flat arrays to store
  * square blocks of the matrix.
  * <p>
  * This implementation is specially designed to be cache-friendly. Square blocks are
@@ -35,9 +36,7 @@ import org.apache.commons.math.MathRuntimeException;
  * The size of square blocks is a static parameter. It may be tuned according to the cache
  * size of the target computer processor. As a rule of thumbs, it should be the largest
  * value that allows three blocks to be simultaneously cached (this is necessary for example
- * for matrix multiplication). The default value is to use 52x52 blocks which is well suited
- * for processors with 64k L1 cache (one block holds 2704 values or 21632 bytes). This value
- * could be lowered to 36x36 for processors with 32k L1 cache.
+ * for matrix multiplication). The default value is to use 36x36 blocks.
  * </p>
  * <p>
  * The regular blocks represent {@link #BLOCK_SIZE} x {@link #BLOCK_SIZE} squares. Blocks
@@ -47,30 +46,33 @@ import org.apache.commons.math.MathRuntimeException;
  * organized in row major order.
  * </p>
  * <p>
- * As an example, for a block size of 52x52, a 100x60 matrix would be stored in 4 blocks.
- * Block 0 would be a double[2704] array holding the upper left 52x52 square, block 1 would be
- * a double[416] array holding the upper right 52x8 rectangle, block 2 would be a double[2496]
- * array holding the lower left 48x52 rectangle and block 3 would be a double[384] array
- * holding the lower right 48x8 rectangle.
+ * As an example, for a block size of 36x36, a 100x60 matrix would be stored in 6 blocks.
+ * Block 0 would be a Field[1296] array holding the upper left 36x36 square, block 1 would be
+ * a Field[1296] array holding the upper center 36x36 square, block 2 would be a Field[1008]
+ * array holding the upper right 36x28 rectangle, block 3 would be a Field[864] array holding
+ * the lower left 24x36 rectangle, block 4 would be a Field[864] array holding the lower center
+ * 24x36 rectangle and block 5 would be a Field[672] array holding the lower right 24x28
+ * rectangle.
  * </p>
  * <p>
  * The layout complexity overhead versus simple mapping of matrices to java
  * arrays is negligible for small matrices (about 1%). The gain from cache efficiency leads
  * to up to 3-fold improvements for matrices of moderate to large size.
  * </p>
+ * @param <T> the type of the field elements
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class DenseRealMatrix extends AbstractRealMatrix implements Serializable {
+public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMatrix<T> implements Serializable {
     
     /** Serializable version identifier */
-    private static final long serialVersionUID = 4991895511313664478L;
+    private static final long serialVersionUID = -4602336630143123183L;
 
     /** Block size. */
-    public static final int BLOCK_SIZE = 52;
+    public static final int BLOCK_SIZE = 36;
 
     /** Blocks of matrix entries. */
-    private final double blocks[][];
+    private final T blocks[][];
 
     /** Number of rows of the matrix. */
     private final int rows;
@@ -87,15 +89,16 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     /**
      * Create a new matrix with the supplied row and column dimensions.
      *
+     * @param field field to which the elements belong
      * @param rows  the number of rows in the new matrix
      * @param columns  the number of columns in the new matrix
      * @throws IllegalArgumentException if row or column dimension is not
      *  positive
      */
-    public DenseRealMatrix(final int rows, final int columns)
+    public BlockFieldMatrix(final Field<T> field, final int rows, final int columns)
         throws IllegalArgumentException {
 
-        super(rows, columns);
+        super(field, rows, columns);
         this.rows    = rows;
         this.columns = columns;
 
@@ -104,7 +107,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
         blockColumns = (columns + BLOCK_SIZE - 1) / BLOCK_SIZE;
 
         // allocate storage blocks, taking care of smaller ones at right and bottom
-        blocks = createBlocksLayout(rows, columns);
+        blocks = createBlocksLayout(field, rows, columns);
 
     }
 
@@ -112,16 +115,16 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
      * Create a new dense matrix copying entries from raw layout data.
      * <p>The input array <em>must</em> already be in raw layout.</p>
      * <p>Calling this constructor is equivalent to call:
-     * <pre>matrix = new DenseRealMatrix(rawData.length, rawData[0].length,
+     * <pre>matrix = new BlockFieldMatrix<T>(getField(), rawData.length, rawData[0].length,
      *                                   toBlocksLayout(rawData), false);</pre>
      * </p>
      * @param rawData data for new matrix, in raw layout
      *
      * @exception IllegalArgumentException if <code>blockData</code> shape is
      * inconsistent with block layout
-     * @see #DenseRealMatrix(int, int, double[][], boolean)
+     * @see #BlockFieldMatrix(int, int, FieldElement[][], boolean)
      */
-    public DenseRealMatrix(final double[][] rawData)
+    public BlockFieldMatrix(final T[][] rawData)
         throws IllegalArgumentException {
         this(rawData.length, rawData[0].length, toBlocksLayout(rawData), false);
     }
@@ -137,15 +140,15 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
      *
      * @exception IllegalArgumentException if <code>blockData</code> shape is
      * inconsistent with block layout
-     * @see #createBlocksLayout(int, int)
-     * @see #toBlocksLayout(double[][])
-     * @see #DenseRealMatrix(double[][])
+     * @see #createBlocksLayout(Field, int, int)
+     * @see #toBlocksLayout(FieldElement[][])
+     * @see #BlockFieldMatrix(FieldElement[][])
      */
-    public DenseRealMatrix(final int rows, final int columns,
-                           final double[][] blockData, final boolean copyArray)
+    public BlockFieldMatrix(final int rows, final int columns,
+                            final T[][] blockData, final boolean copyArray)
         throws IllegalArgumentException {
 
-        super(rows, columns);
+        super(extractField(blockData), rows, columns);
         this.rows    = rows;
         this.columns = columns;
 
@@ -155,7 +158,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
         if (copyArray) {
             // allocate storage blocks, taking care of smaller ones at right and bottom
-            blocks = new double[blockRows * blockColumns][];
+            blocks = buildArray(getField(), blockRows * blockColumns, -1);
         } else {
             // reference existing array
             blocks = blockData;
@@ -183,7 +186,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
      * <p>
      * Raw layout is the straightforward layout where element at row i and
      * column j is in array element <code>rawData[i][j]</code>. Blocks layout
-     * is the layout used in {@link DenseRealMatrix} instances, where the matrix
+     * is the layout used in {@link BlockFieldMatrix} instances, where the matrix
      * is split in square blocks (except at right and bottom side where blocks may
      * be rectangular to fit matrix size) and each block is stored in a flattened
      * one-dimensional array.
@@ -191,16 +194,18 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
      * <p>
      * This method creates an array in blocks layout from an input array in raw layout.
      * It can be used to provide the array argument of the {@link
-     * DenseRealMatrix#DenseRealMatrix(int, int, double[][], boolean)} constructor.
+     * BlockFieldMatrix#DenseFieldMatrix(int, int, FieldElement[][], boolean)}
+     * constructor.
      * </p>
+     * @param <T> the type of the field elements
      * @param rawData data array in raw layout
      * @return a new data array containing the same entries but in blocks layout
      * @exception IllegalArgumentException if <code>rawData</code> is not rectangular
      *  (not all rows have the same length)
-     * @see #createBlocksLayout(int, int)
-     * @see #DenseRealMatrix(int, int, double[][], boolean)
+     * @see #createBlocksLayout(Field, int, int)
+     * @see #BlockFieldMatrix(int, int, FieldElement[][], boolean)
      */
-    public static double[][] toBlocksLayout(final double[][] rawData)
+    public static <T extends FieldElement<T>> T[][] toBlocksLayout(final T[][] rawData)
         throws IllegalArgumentException {
 
         final int rows         = rawData.length;
@@ -219,7 +224,8 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
         }
 
         // convert array
-        final double[][] blocks = new double[blockRows * blockColumns][];
+        final Field<T> field = extractField(rawData);
+        final T[][] blocks = buildArray(field, blockRows * blockColumns, -1);
         for (int iBlock = 0, blockIndex = 0; iBlock < blockRows; ++iBlock) {
             final int pStart  = iBlock * BLOCK_SIZE;
             final int pEnd    = Math.min(pStart + BLOCK_SIZE, rows);
@@ -230,7 +236,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                 final int jWidth = qEnd - qStart;
 
                 // allocate new block
-                final double[] block = new double[iHeight * jWidth];
+                final T[] block = buildArray(field, iHeight * jWidth);
                 blocks[blockIndex] = block;
 
                 // copy data
@@ -249,20 +255,24 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
      * Create a data array in blocks layout.
      * <p>
      * This method can be used to create the array argument of the {@link
-     * DenseRealMatrix#DenseRealMatrix(int, int, double[][], boolean)} constructor.
+     * BlockFieldMatrix#DenseFieldMatrix(int, int, FieldElement[][], boolean)}
+     * constructor.
      * </p>
+     * @param <T> the type of the field elements
+     * @param field field to which the elements belong
      * @param rows  the number of rows in the new matrix
      * @param columns  the number of columns in the new matrix
      * @return a new data array in blocks layout
-     * @see #toBlocksLayout(double[][])
-     * @see #DenseRealMatrix(int, int, double[][], boolean)
+     * @see #toBlocksLayout(FieldElement[][])
+     * @see #BlockFieldMatrix(int, int, FieldElement[][], boolean)
      */
-    public static double[][] createBlocksLayout(final int rows, final int columns) {
+    public static <T extends FieldElement<T>> T[][] createBlocksLayout(final Field<T> field,
+                                                                       final int rows, final int columns) {
 
         final int blockRows    = (rows    + BLOCK_SIZE - 1) / BLOCK_SIZE;
         final int blockColumns = (columns + BLOCK_SIZE - 1) / BLOCK_SIZE;
 
-        final double[][] blocks = new double[blockRows * blockColumns][];
+        final T[][] blocks = buildArray(field, blockRows * blockColumns, -1);
         for (int iBlock = 0, blockIndex = 0; iBlock < blockRows; ++iBlock) {
             final int pStart  = iBlock * BLOCK_SIZE;
             final int pEnd    = Math.min(pStart + BLOCK_SIZE, rows);
@@ -271,7 +281,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                 final int qStart = jBlock * BLOCK_SIZE;
                 final int qEnd   = Math.min(qStart + BLOCK_SIZE, columns);
                 final int jWidth = qEnd - qStart;
-                blocks[blockIndex] = new double[iHeight * jWidth];
+                blocks[blockIndex] = buildArray(field, iHeight * jWidth);
             }
         }
 
@@ -281,17 +291,17 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public DenseRealMatrix createMatrix(final int rowDimension, final int columnDimension)
+    public FieldMatrix<T> createMatrix(final int rowDimension, final int columnDimension)
         throws IllegalArgumentException {
-        return new DenseRealMatrix(rowDimension, columnDimension);
+        return new BlockFieldMatrix<T>(getField(), rowDimension, columnDimension);
     }
 
     /** {@inheritDoc} */
     @Override
-    public DenseRealMatrix copy() {
+    public FieldMatrix<T> copy() {
 
         // create an empty matrix
-        DenseRealMatrix copied = new DenseRealMatrix(rows, columns);
+        BlockFieldMatrix<T> copied = new BlockFieldMatrix<T>(getField(), rows, columns);
 
         // copy the blocks
         for (int i = 0; i < blocks.length; ++i) {
@@ -304,16 +314,16 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public DenseRealMatrix add(final RealMatrix m)
+    public FieldMatrix<T> add(final FieldMatrix<T> m)
         throws IllegalArgumentException {
         try {
-            return add((DenseRealMatrix) m);
+            return add((BlockFieldMatrix<T>) m);
         } catch (ClassCastException cce) {
 
             // safety check
-            MatrixUtils.checkAdditionCompatible(this, m);
+            checkAdditionCompatible(m);
 
-            final DenseRealMatrix out = new DenseRealMatrix(rows, columns);
+            final BlockFieldMatrix<T> out = new BlockFieldMatrix<T>(getField(), rows, columns);
 
             // perform addition block-wise, to ensure good cache behavior
             int blockIndex = 0;
@@ -321,15 +331,15 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                 for (int jBlock = 0; jBlock < out.blockColumns; ++jBlock) {
 
                     // perform addition on the current block
-                    final double[] outBlock = out.blocks[blockIndex];
-                    final double[] tBlock   = blocks[blockIndex];
+                    final T[] outBlock = out.blocks[blockIndex];
+                    final T[] tBlock   = blocks[blockIndex];
                     final int      pStart   = iBlock * BLOCK_SIZE;
                     final int      pEnd     = Math.min(pStart + BLOCK_SIZE, rows);
                     final int      qStart   = jBlock * BLOCK_SIZE;
                     final int      qEnd     = Math.min(qStart + BLOCK_SIZE, columns);
                     for (int p = pStart, k = 0; p < pEnd; ++p) {
                         for (int q = qStart; q < qEnd; ++q, ++k) {
-                            outBlock[k] = tBlock[k] + m.getEntry(p, q);
+                            outBlock[k] = tBlock[k].add(m.getEntry(p, q));
                         }
                     }
 
@@ -351,21 +361,21 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
      * @return     this + m
      * @throws  IllegalArgumentException if m is not the same size as this
      */
-    public DenseRealMatrix add(final DenseRealMatrix m)
+    public BlockFieldMatrix<T> add(final BlockFieldMatrix<T> m)
         throws IllegalArgumentException {
 
         // safety check
-        MatrixUtils.checkAdditionCompatible(this, m);
+        checkAdditionCompatible(m);
 
-        final DenseRealMatrix out = new DenseRealMatrix(rows, columns);
+        final BlockFieldMatrix<T> out = new BlockFieldMatrix<T>(getField(), rows, columns);
 
         // perform addition block-wise, to ensure good cache behavior
         for (int blockIndex = 0; blockIndex < out.blocks.length; ++blockIndex) {
-            final double[] outBlock = out.blocks[blockIndex];
-            final double[] tBlock   = blocks[blockIndex];
-            final double[] mBlock   = m.blocks[blockIndex];
+            final T[] outBlock = out.blocks[blockIndex];
+            final T[] tBlock   = blocks[blockIndex];
+            final T[] mBlock   = m.blocks[blockIndex];
             for (int k = 0; k < outBlock.length; ++k) {
-                outBlock[k] = tBlock[k] + mBlock[k];
+                outBlock[k] = tBlock[k].add(mBlock[k]);
             }
         }
 
@@ -375,16 +385,16 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public DenseRealMatrix subtract(final RealMatrix m)
+    public FieldMatrix<T> subtract(final FieldMatrix<T> m)
         throws IllegalArgumentException {
         try {
-            return subtract((DenseRealMatrix) m);
+            return subtract((BlockFieldMatrix<T>) m);
         } catch (ClassCastException cce) {
 
             // safety check
-            MatrixUtils.checkSubtractionCompatible(this, m);
+            checkSubtractionCompatible(m);
 
-            final DenseRealMatrix out = new DenseRealMatrix(rows, columns);
+            final BlockFieldMatrix<T> out = new BlockFieldMatrix<T>(getField(), rows, columns);
 
             // perform subtraction block-wise, to ensure good cache behavior
             int blockIndex = 0;
@@ -392,15 +402,15 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                 for (int jBlock = 0; jBlock < out.blockColumns; ++jBlock) {
 
                     // perform subtraction on the current block
-                    final double[] outBlock = out.blocks[blockIndex];
-                    final double[] tBlock   = blocks[blockIndex];
+                    final T[] outBlock = out.blocks[blockIndex];
+                    final T[] tBlock   = blocks[blockIndex];
                     final int      pStart   = iBlock * BLOCK_SIZE;
                     final int      pEnd     = Math.min(pStart + BLOCK_SIZE, rows);
                     final int      qStart   = jBlock * BLOCK_SIZE;
                     final int      qEnd     = Math.min(qStart + BLOCK_SIZE, columns);
                     for (int p = pStart, k = 0; p < pEnd; ++p) {
                         for (int q = qStart; q < qEnd; ++q, ++k) {
-                            outBlock[k] = tBlock[k] - m.getEntry(p, q);
+                            outBlock[k] = tBlock[k].subtract(m.getEntry(p, q));
                         }
                     }
 
@@ -422,21 +432,21 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
      * @return     this - m
      * @throws  IllegalArgumentException if m is not the same size as this
      */
-    public DenseRealMatrix subtract(final DenseRealMatrix m)
+    public BlockFieldMatrix<T> subtract(final BlockFieldMatrix<T> m)
         throws IllegalArgumentException {
 
         // safety check
-        MatrixUtils.checkSubtractionCompatible(this, m);
+        checkSubtractionCompatible(m);
 
-        final DenseRealMatrix out = new DenseRealMatrix(rows, columns);
+        final BlockFieldMatrix<T> out = new BlockFieldMatrix<T>(getField(), rows, columns);
 
         // perform subtraction block-wise, to ensure good cache behavior
         for (int blockIndex = 0; blockIndex < out.blocks.length; ++blockIndex) {
-            final double[] outBlock = out.blocks[blockIndex];
-            final double[] tBlock   = blocks[blockIndex];
-            final double[] mBlock   = m.blocks[blockIndex];
+            final T[] outBlock = out.blocks[blockIndex];
+            final T[] tBlock   = blocks[blockIndex];
+            final T[] mBlock   = m.blocks[blockIndex];
             for (int k = 0; k < outBlock.length; ++k) {
-                outBlock[k] = tBlock[k] - mBlock[k];
+                outBlock[k] = tBlock[k].subtract(mBlock[k]);
             }
         }
 
@@ -446,17 +456,17 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public DenseRealMatrix scalarAdd(final double d)
+    public FieldMatrix<T> scalarAdd(final T d)
         throws IllegalArgumentException {
 
-        final DenseRealMatrix out = new DenseRealMatrix(rows, columns);
+        final BlockFieldMatrix<T> out = new BlockFieldMatrix<T>(getField(), rows, columns);
 
         // perform subtraction block-wise, to ensure good cache behavior
         for (int blockIndex = 0; blockIndex < out.blocks.length; ++blockIndex) {
-            final double[] outBlock = out.blocks[blockIndex];
-            final double[] tBlock   = blocks[blockIndex];
+            final T[] outBlock = out.blocks[blockIndex];
+            final T[] tBlock   = blocks[blockIndex];
             for (int k = 0; k < outBlock.length; ++k) {
-                outBlock[k] = tBlock[k] + d;
+                outBlock[k] = tBlock[k].add(d);
             }
         }
 
@@ -466,17 +476,17 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public RealMatrix scalarMultiply(final double d)
+    public FieldMatrix<T> scalarMultiply(final T d)
         throws IllegalArgumentException {
 
-        final DenseRealMatrix out = new DenseRealMatrix(rows, columns);
+        final BlockFieldMatrix<T> out = new BlockFieldMatrix<T>(getField(), rows, columns);
 
         // perform subtraction block-wise, to ensure good cache behavior
         for (int blockIndex = 0; blockIndex < out.blocks.length; ++blockIndex) {
-            final double[] outBlock = out.blocks[blockIndex];
-            final double[] tBlock   = blocks[blockIndex];
+            final T[] outBlock = out.blocks[blockIndex];
+            final T[] tBlock   = blocks[blockIndex];
             for (int k = 0; k < outBlock.length; ++k) {
-                outBlock[k] = tBlock[k] * d;
+                outBlock[k] = tBlock[k].multiply(d);
             }
         }
 
@@ -486,16 +496,17 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public DenseRealMatrix multiply(final RealMatrix m)
+    public FieldMatrix<T> multiply(final FieldMatrix<T> m)
         throws IllegalArgumentException {
         try {
-            return multiply((DenseRealMatrix) m);
+            return multiply((BlockFieldMatrix<T>) m);
         } catch (ClassCastException cce) {
 
             // safety check
-            MatrixUtils.checkMultiplicationCompatible(this, m);
+            checkMultiplicationCompatible(m);
 
-            final DenseRealMatrix out = new DenseRealMatrix(rows, m.getColumnDimension());
+            final BlockFieldMatrix<T> out = new BlockFieldMatrix<T>(getField(), rows, m.getColumnDimension());
+            final T zero = getField().getZero();
 
             // perform multiplication block-wise, to ensure good cache behavior
             int blockIndex = 0;
@@ -510,22 +521,23 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                     final int qEnd   = Math.min(qStart + BLOCK_SIZE, m.getColumnDimension());
 
                     // select current block
-                    final double[] outBlock = out.blocks[blockIndex];
+                    final T[] outBlock = out.blocks[blockIndex];
 
                     // perform multiplication on current block
                     for (int kBlock = 0; kBlock < blockColumns; ++kBlock) {
                         final int kWidth      = blockWidth(kBlock);
-                        final double[] tBlock = blocks[iBlock * blockColumns + kBlock];
+                        final T[] tBlock = blocks[iBlock * blockColumns + kBlock];
                         final int rStart      = kBlock * BLOCK_SIZE;
                         for (int p = pStart, k = 0; p < pEnd; ++p) {
                             final int lStart = (p - pStart) * kWidth;
                             final int lEnd   = lStart + kWidth;
                             for (int q = qStart; q < qEnd; ++q) {
-                                double sum = 0;
+                                T sum = zero;
                                 for (int l = lStart, r = rStart; l < lEnd; ++l, ++r) {
-                                    sum += tBlock[l] * m.getEntry(r, q);
+                                    sum = sum.add(tBlock[l].multiply(m.getEntry(r, q)));
                                 }
-                                outBlock[k++] += sum;
+                                outBlock[k] = outBlock[k].add(sum);
+                                ++k;
                             }
                         }
                     }
@@ -549,12 +561,13 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
      * @throws     IllegalArgumentException
      *             if columnDimension(this) != rowDimension(m)
      */
-    public DenseRealMatrix multiply(DenseRealMatrix m) throws IllegalArgumentException {
+    public BlockFieldMatrix<T> multiply(BlockFieldMatrix<T> m) throws IllegalArgumentException {
 
         // safety check
-        MatrixUtils.checkMultiplicationCompatible(this, m);
+        checkMultiplicationCompatible(m);
 
-        final DenseRealMatrix out = new DenseRealMatrix(rows, m.columns);
+        final BlockFieldMatrix<T> out = new BlockFieldMatrix<T>(getField(), rows, m.columns);
+        final T zero = getField().getZero();
 
         // perform multiplication block-wise, to ensure good cache behavior
         int blockIndex = 0;
@@ -570,33 +583,35 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                 final int jWidth4 = jWidth3 + jWidth;
 
                 // select current block
-                final double[] outBlock = out.blocks[blockIndex];
+                final T[] outBlock = out.blocks[blockIndex];
 
                 // perform multiplication on current block
                 for (int kBlock = 0; kBlock < blockColumns; ++kBlock) {
                     final int kWidth = blockWidth(kBlock);
-                    final double[] tBlock = blocks[iBlock * blockColumns + kBlock];
-                    final double[] mBlock = m.blocks[kBlock * m.blockColumns + jBlock];
+                    final T[] tBlock = blocks[iBlock * blockColumns + kBlock];
+                    final T[] mBlock = m.blocks[kBlock * m.blockColumns + jBlock];
                     for (int p = pStart, k = 0; p < pEnd; ++p) {
                         final int lStart = (p - pStart) * kWidth;
                         final int lEnd   = lStart + kWidth;
                         for (int nStart = 0; nStart < jWidth; ++nStart) {
-                            double sum = 0;
+                            T sum = zero;
                             int l = lStart;
                             int n = nStart;
                             while (l < lEnd - 3) {
-                                sum += tBlock[l] * mBlock[n] +
-                                       tBlock[l + 1] * mBlock[n + jWidth] +
-                                       tBlock[l + 2] * mBlock[n + jWidth2] +
-                                       tBlock[l + 3] * mBlock[n + jWidth3];
+                                sum = sum.
+                                      add(tBlock[l].multiply(mBlock[n])).
+                                      add(tBlock[l + 1].multiply(mBlock[n + jWidth])).
+                                      add(tBlock[l + 2].multiply(mBlock[n + jWidth2])).
+                                      add(tBlock[l + 3].multiply(mBlock[n + jWidth3]));
                                 l += 4;
                                 n += jWidth4;
                             }
                             while (l < lEnd) {
-                                sum += tBlock[l++] * mBlock[n];
+                                sum = sum.add(tBlock[l++].multiply(mBlock[n]));
                                 n += jWidth;
                             }
-                            outBlock[k++] += sum;
+                            outBlock[k] = outBlock[k].add(sum);
+                            ++k;
                         }
                     }
                 }
@@ -613,9 +628,9 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public double[][] getData() {
+    public T[][] getData() {
 
-        final double[][] data = new double[getRowDimension()][getColumnDimension()];
+        final T[][] data = buildArray(getField(), getRowDimension(), getColumnDimension());
         final int lastColumns = columns - (blockColumns - 1) * BLOCK_SIZE;
 
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
@@ -624,7 +639,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
             int regularPos   = 0;
             int lastPos      = 0;
             for (int p = pStart; p < pEnd; ++p) {
-                final double[] dataP = data[p];
+                final T[] dataP = data[p];
                 int blockIndex = iBlock * blockColumns;
                 int dataPos    = 0;
                 for (int jBlock = 0; jBlock < blockColumns - 1; ++jBlock) {
@@ -643,54 +658,16 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public double getNorm() {
-        final double[] colSums = new double[BLOCK_SIZE];
-        double maxColSum = 0;
-        for (int jBlock = 0; jBlock < blockColumns; jBlock++) {
-            final int jWidth = blockWidth(jBlock);
-            Arrays.fill(colSums, 0, jWidth, 0.0);
-            for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
-                final int iHeight = blockHeight(iBlock);
-                final double[] block = blocks[iBlock * blockColumns + jBlock];
-                for (int j = 0; j < jWidth; ++j) {
-                    double sum = 0;
-                    for (int i = 0; i < iHeight; ++i) {
-                        sum += Math.abs(block[i * jWidth + j]);
-                    }
-                    colSums[j] += sum;
-                }
-            }
-            for (int j = 0; j < jWidth; ++j) {
-                maxColSum = Math.max(maxColSum, colSums[j]);
-            }
-        }
-        return maxColSum;
-    }
-    
-    /** {@inheritDoc} */
-    @Override
-    public double getFrobeniusNorm() {
-        double sum2 = 0;
-        for (int blockIndex = 0; blockIndex < blocks.length; ++blockIndex) {
-            for (final double entry : blocks[blockIndex]) {
-                sum2 += entry * entry;
-            }
-        }
-        return Math.sqrt(sum2);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public DenseRealMatrix getSubMatrix(final int startRow, final int endRow,
+    public FieldMatrix<T> getSubMatrix(final int startRow, final int endRow,
                                    final int startColumn, final int endColumn)
         throws MatrixIndexException {
 
         // safety checks
-        MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
+        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
 
         // create the output matrix
-        final DenseRealMatrix out =
-            new DenseRealMatrix(endRow - startRow + 1, endColumn - startColumn + 1);
+        final BlockFieldMatrix<T> out =
+            new BlockFieldMatrix<T>(getField(), endRow - startRow + 1, endColumn - startColumn + 1);
 
         // compute blocks shifts
         final int blockStartRow    = startRow    / BLOCK_SIZE;
@@ -706,7 +683,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
                 // handle one block of the output matrix
                 final int      outIndex = iBlock * out.blockColumns + jBlock;
-                final double[] outBlock = out.blocks[outIndex];
+                final T[] outBlock = out.blocks[outIndex];
                 final int      index    = pBlock * blockColumns + qBlock;
                 final int      width    = blockWidth(qBlock);
 
@@ -788,10 +765,10 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
      * @param dstStartRow start row in the destination block
      * @param dstStartColumn start column in the destination block
      */
-    private void copyBlockPart(final double[] srcBlock, final int srcWidth,
+    private void copyBlockPart(final T[] srcBlock, final int srcWidth,
                                final int srcStartRow, final int srcEndRow,
                                final int srcStartColumn, final int srcEndColumn,
-                               final double[] dstBlock, final int dstWidth,
+                               final T[] dstBlock, final int dstWidth,
                                final int dstStartRow, final int dstStartColumn) {
         final int length = srcEndColumn - srcStartColumn;
         int srcPos = srcStartRow * srcWidth + srcStartColumn;
@@ -805,7 +782,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public void setSubMatrix(final double[][] subMatrix, final int row, final int column)
+    public void setSubMatrix(final T[][] subMatrix, final int row, final int column)
         throws MatrixIndexException {
 
         // safety checks
@@ -815,8 +792,8 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
         }
         final int endRow    = row + subMatrix.length - 1;
         final int endColumn = column + refLength - 1;
-        MatrixUtils.checkSubMatrixIndex(this, row, endRow, column, endColumn);
-        for (final double[] subRow : subMatrix) {
+        checkSubMatrixIndex(row, endRow, column, endColumn);
+        for (final T[] subRow : subMatrix) {
             if (subRow.length != refLength) {
                 throw MathRuntimeException.createIllegalArgumentException(
                         "some rows have length {0} while others have length {1}",
@@ -845,7 +822,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                 final int jLength     = jEnd - jStart;
 
                 // handle one block, row by row
-                final double[] block = blocks[iBlock * blockColumns + jBlock];
+                final T[] block = blocks[iBlock * blockColumns + jBlock];
                 for (int i = iStart; i < iEnd; ++i) {
                     System.arraycopy(subMatrix[i - row], jStart - column,
                                      block, (i - firstRow) * jWidth + (jStart - firstColumn),
@@ -858,21 +835,21 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public DenseRealMatrix getRowMatrix(final int row)
+    public FieldMatrix<T> getRowMatrix(final int row)
         throws MatrixIndexException {
 
-        MatrixUtils.checkRowIndex(this, row);
-        final DenseRealMatrix out = new DenseRealMatrix(1, columns);
+        checkRowIndex(row);
+        final BlockFieldMatrix<T> out = new BlockFieldMatrix<T>(getField(), 1, columns);
 
         // perform copy block-wise, to ensure good cache behavior
         final int iBlock  = row / BLOCK_SIZE;
         final int iRow    = row - iBlock * BLOCK_SIZE;
         int outBlockIndex = 0;
         int outIndex      = 0;
-        double[] outBlock = out.blocks[outBlockIndex];
+        T[] outBlock = out.blocks[outBlockIndex];
         for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
             final int jWidth     = blockWidth(jBlock);
-            final double[] block = blocks[iBlock * blockColumns + jBlock];
+            final T[] block = blocks[iBlock * blockColumns + jBlock];
             final int available  = outBlock.length - outIndex;
             if (jWidth > available) {
                 System.arraycopy(block, iRow * jWidth, outBlock, outIndex, available);
@@ -891,10 +868,10 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public void setRowMatrix(final int row, final RealMatrix matrix)
+    public void setRowMatrix(final int row, final FieldMatrix<T> matrix)
         throws MatrixIndexException, InvalidMatrixException {
         try {
-            setRowMatrix(row, (DenseRealMatrix) matrix);
+            setRowMatrix(row, (BlockFieldMatrix<T>) matrix);
         } catch (ClassCastException cce) {
             super.setRowMatrix(row, matrix);
         }
@@ -911,10 +888,10 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
      * @throws InvalidMatrixException if the matrix dimensions do not match one
      * instance row
      */
-    public void setRowMatrix(final int row, final DenseRealMatrix matrix)
+    public void setRowMatrix(final int row, final BlockFieldMatrix<T> matrix)
         throws MatrixIndexException, InvalidMatrixException {
 
-        MatrixUtils.checkRowIndex(this, row);
+        checkRowIndex(row);
         final int nCols = getColumnDimension();
         if ((matrix.getRowDimension() != 1) ||
             (matrix.getColumnDimension() != nCols)) {
@@ -929,10 +906,10 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
         final int iRow   = row - iBlock * BLOCK_SIZE;
         int mBlockIndex  = 0;
         int mIndex       = 0;
-        double[] mBlock  = matrix.blocks[mBlockIndex];
+        T[] mBlock  = matrix.blocks[mBlockIndex];
         for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
             final int jWidth     = blockWidth(jBlock);
-            final double[] block = blocks[iBlock * blockColumns + jBlock];
+            final T[] block = blocks[iBlock * blockColumns + jBlock];
             final int available  = mBlock.length - mIndex;
             if (jWidth > available) {
                 System.arraycopy(mBlock, mIndex, block, iRow * jWidth, available);
@@ -949,11 +926,11 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
     
     /** {@inheritDoc} */
     @Override
-    public DenseRealMatrix getColumnMatrix(final int column)
+    public FieldMatrix<T> getColumnMatrix(final int column)
         throws MatrixIndexException {
 
-        MatrixUtils.checkColumnIndex(this, column);
-        final DenseRealMatrix out = new DenseRealMatrix(rows, 1);
+        checkColumnIndex(column);
+        final BlockFieldMatrix<T> out = new BlockFieldMatrix<T>(getField(), rows, 1);
 
         // perform copy block-wise, to ensure good cache behavior
         final int jBlock  = column / BLOCK_SIZE;
@@ -961,10 +938,10 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
         final int jWidth  = blockWidth(jBlock);
         int outBlockIndex = 0;
         int outIndex      = 0;
-        double[] outBlock = out.blocks[outBlockIndex];
+        T[] outBlock = out.blocks[outBlockIndex];
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int iHeight = blockHeight(iBlock);
-            final double[] block = blocks[iBlock * blockColumns + jBlock];
+            final T[] block = blocks[iBlock * blockColumns + jBlock];
             for (int i = 0; i < iHeight; ++i) {
                 if (outIndex >= outBlock.length) {
                     outBlock = out.blocks[++outBlockIndex];
@@ -980,10 +957,10 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public void setColumnMatrix(final int column, final RealMatrix matrix)
+    public void setColumnMatrix(final int column, final FieldMatrix<T> matrix)
         throws MatrixIndexException, InvalidMatrixException {
         try {
-            setColumnMatrix(column, (DenseRealMatrix) matrix);
+            setColumnMatrix(column, (BlockFieldMatrix<T>) matrix);
         } catch (ClassCastException cce) {
             super.setColumnMatrix(column, matrix);
         }
@@ -1000,10 +977,10 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
      * @throws InvalidMatrixException if the matrix dimensions do not match one
      * instance column
      */
-    void setColumnMatrix(final int column, final DenseRealMatrix matrix)
+    void setColumnMatrix(final int column, final BlockFieldMatrix<T> matrix)
         throws MatrixIndexException, InvalidMatrixException {
 
-        MatrixUtils.checkColumnIndex(this, column);
+        checkColumnIndex(column);
         final int nRows = getRowDimension();
         if ((matrix.getRowDimension() != nRows) ||
             (matrix.getColumnDimension() != 1)) {
@@ -1019,10 +996,10 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
         final int jWidth  = blockWidth(jBlock);
         int mBlockIndex = 0;
         int mIndex      = 0;
-        double[] mBlock = matrix.blocks[mBlockIndex];
+        T[] mBlock = matrix.blocks[mBlockIndex];
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int iHeight = blockHeight(iBlock);
-            final double[] block = blocks[iBlock * blockColumns + jBlock];
+            final T[] block = blocks[iBlock * blockColumns + jBlock];
             for (int i = 0; i < iHeight; ++i) {
                 if (mIndex >= mBlock.length) {
                     mBlock = matrix.blocks[++mBlockIndex];
@@ -1036,11 +1013,11 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public RealVector getRowVector(final int row)
+    public FieldVector<T> getRowVector(final int row)
         throws MatrixIndexException {
 
-        MatrixUtils.checkRowIndex(this, row);
-        final double[] outData = new double[columns];
+        checkRowIndex(row);
+        final T[] outData = buildArray(getField(), columns);
 
         // perform copy block-wise, to ensure good cache behavior
         final int iBlock  = row / BLOCK_SIZE;
@@ -1048,21 +1025,21 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
         int outIndex      = 0;
         for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
             final int jWidth     = blockWidth(jBlock);
-            final double[] block = blocks[iBlock * blockColumns + jBlock];
+            final T[] block = blocks[iBlock * blockColumns + jBlock];
             System.arraycopy(block, iRow * jWidth, outData, outIndex, jWidth);
             outIndex += jWidth;
         }
 
-        return new RealVectorImpl(outData, false);
+        return new FieldVectorImpl<T>(outData, false);
 
     }
 
     /** {@inheritDoc} */
     @Override
-    public void setRowVector(final int row, final RealVector vector)
+    public void setRowVector(final int row, final FieldVector<T> vector)
         throws MatrixIndexException, InvalidMatrixException {
         try {
-            setRow(row, ((RealVectorImpl) vector).getDataRef());
+            setRow(row, ((FieldVectorImpl<T>) vector).getDataRef());
         } catch (ClassCastException cce) {
             super.setRowVector(row, vector);
         }
@@ -1070,11 +1047,11 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public RealVector getColumnVector(final int column)
+    public FieldVector<T> getColumnVector(final int column)
         throws MatrixIndexException {
 
-        MatrixUtils.checkColumnIndex(this, column);
-        final double[] outData = new double[rows];
+        checkColumnIndex(column);
+        final T[] outData = buildArray(getField(), rows);
 
         // perform copy block-wise, to ensure good cache behavior
         final int jBlock  = column / BLOCK_SIZE;
@@ -1083,22 +1060,22 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
         int outIndex      = 0;
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int iHeight = blockHeight(iBlock);
-            final double[] block = blocks[iBlock * blockColumns + jBlock];
+            final T[] block = blocks[iBlock * blockColumns + jBlock];
             for (int i = 0; i < iHeight; ++i) {
                 outData[outIndex++] = block[i * jWidth + jColumn];
             }
         }
 
-        return new RealVectorImpl(outData, false);
+        return new FieldVectorImpl<T>(outData, false);
 
     }
 
     /** {@inheritDoc} */
     @Override
-    public void setColumnVector(final int column, final RealVector vector)
+    public void setColumnVector(final int column, final FieldVector<T> vector)
         throws MatrixIndexException, InvalidMatrixException {
         try {
-            setColumn(column, ((RealVectorImpl) vector).getDataRef());
+            setColumn(column, ((FieldVectorImpl<T>) vector).getDataRef());
         } catch (ClassCastException cce) {
             super.setColumnVector(column, vector);
         }
@@ -1106,11 +1083,11 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public double[] getRow(final int row)
+    public T[] getRow(final int row)
         throws MatrixIndexException {
 
-        MatrixUtils.checkRowIndex(this, row);
-        final double[] out = new double[columns];
+        checkRowIndex(row);
+        final T[] out = buildArray(getField(), columns);
 
         // perform copy block-wise, to ensure good cache behavior
         final int iBlock  = row / BLOCK_SIZE;
@@ -1118,7 +1095,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
         int outIndex      = 0;
         for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
             final int jWidth     = blockWidth(jBlock);
-            final double[] block = blocks[iBlock * blockColumns + jBlock];
+            final T[] block = blocks[iBlock * blockColumns + jBlock];
             System.arraycopy(block, iRow * jWidth, out, outIndex, jWidth);
             outIndex += jWidth;
         }
@@ -1129,10 +1106,10 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public void setRow(final int row, final double[] array)
+    public void setRow(final int row, final T[] array)
         throws MatrixIndexException, InvalidMatrixException {
 
-        MatrixUtils.checkRowIndex(this, row);
+        checkRowIndex(row);
         final int nCols = getColumnDimension();
         if (array.length != nCols) {
             throw new InvalidMatrixException(
@@ -1146,7 +1123,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
         int outIndex      = 0;
         for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
             final int jWidth     = blockWidth(jBlock);
-            final double[] block = blocks[iBlock * blockColumns + jBlock];
+            final T[] block = blocks[iBlock * blockColumns + jBlock];
             System.arraycopy(array, outIndex, block, iRow * jWidth, jWidth);
             outIndex += jWidth;
         }
@@ -1155,11 +1132,11 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public double[] getColumn(final int column)
+    public T[] getColumn(final int column)
         throws MatrixIndexException {
 
-        MatrixUtils.checkColumnIndex(this, column);
-        final double[] out = new double[rows];
+        checkColumnIndex(column);
+        final T[] out = buildArray(getField(), rows);
 
         // perform copy block-wise, to ensure good cache behavior
         final int jBlock  = column / BLOCK_SIZE;
@@ -1168,7 +1145,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
         int outIndex      = 0;
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int iHeight = blockHeight(iBlock);
-            final double[] block = blocks[iBlock * blockColumns + jBlock];
+            final T[] block = blocks[iBlock * blockColumns + jBlock];
             for (int i = 0; i < iHeight; ++i) {
                 out[outIndex++] = block[i * jWidth + jColumn];
             }
@@ -1180,10 +1157,10 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public void setColumn(final int column, final double[] array)
+    public void setColumn(final int column, final T[] array)
         throws MatrixIndexException, InvalidMatrixException {
 
-        MatrixUtils.checkColumnIndex(this, column);
+        checkColumnIndex(column);
         final int nRows = getRowDimension();
         if (array.length != nRows) {
             throw new InvalidMatrixException(
@@ -1198,7 +1175,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
         int outIndex      = 0;
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int iHeight = blockHeight(iBlock);
-            final double[] block = blocks[iBlock * blockColumns + jBlock];
+            final T[] block = blocks[iBlock * blockColumns + jBlock];
             for (int i = 0; i < iHeight; ++i) {
                 block[i * jWidth + jColumn] = array[outIndex++];
             }
@@ -1208,7 +1185,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public double getEntry(final int row, final int column)
+    public T getEntry(final int row, final int column)
         throws MatrixIndexException {
         try {
             final int iBlock = row    / BLOCK_SIZE;
@@ -1225,7 +1202,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public void setEntry(final int row, final int column, final double value)
+    public void setEntry(final int row, final int column, final T value)
         throws MatrixIndexException {
         try {
             final int iBlock = row    / BLOCK_SIZE;
@@ -1242,14 +1219,15 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public void addToEntry(final int row, final int column, final double increment)
+    public void addToEntry(final int row, final int column, final T increment)
         throws MatrixIndexException {
         try {
             final int iBlock = row    / BLOCK_SIZE;
             final int jBlock = column / BLOCK_SIZE;
             final int k      = (row    - iBlock * BLOCK_SIZE) * blockWidth(jBlock) +
                                (column - jBlock * BLOCK_SIZE);
-            blocks[iBlock * blockColumns + jBlock][k] += increment;
+            final T[] blockIJ = blocks[iBlock * blockColumns + jBlock];
+            blockIJ[k] = blockIJ[k].add(increment);
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new MatrixIndexException(
                     "no entry at indices ({0}, {1}) in a {2}x{3} matrix",
@@ -1259,14 +1237,15 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public void multiplyEntry(final int row, final int column, final double factor)
+    public void multiplyEntry(final int row, final int column, final T factor)
         throws MatrixIndexException {
         try {
             final int iBlock = row    / BLOCK_SIZE;
             final int jBlock = column / BLOCK_SIZE;
             final int k      = (row    - iBlock * BLOCK_SIZE) * blockWidth(jBlock) +
                                (column - jBlock * BLOCK_SIZE);
-            blocks[iBlock * blockColumns + jBlock][k] *= factor;
+            final T[] blockIJ = blocks[iBlock * blockColumns + jBlock];
+            blockIJ[k] = blockIJ[k].multiply(factor);
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new MatrixIndexException(
                     "no entry at indices ({0}, {1}) in a {2}x{3} matrix",
@@ -1276,11 +1255,11 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public DenseRealMatrix transpose() {
+    public FieldMatrix<T> transpose() {
 
         final int nRows = getRowDimension();
         final int nCols = getColumnDimension();
-        final DenseRealMatrix out = new DenseRealMatrix(nCols, nRows);
+        final BlockFieldMatrix<T> out = new BlockFieldMatrix<T>(getField(), nCols, nRows);
 
         // perform transpose block-wise, to ensure good cache behavior
         int blockIndex = 0;
@@ -1288,8 +1267,8 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
             for (int jBlock = 0; jBlock < blockRows; ++jBlock) {
 
                 // transpose current block
-                final double[] outBlock = out.blocks[blockIndex];
-                final double[] tBlock   = blocks[jBlock * blockColumns + iBlock];
+                final T[] outBlock = out.blocks[blockIndex];
+                final T[] tBlock   = blocks[jBlock * blockColumns + iBlock];
                 final int      pStart   = iBlock * BLOCK_SIZE;
                 final int      pEnd     = Math.min(pStart + BLOCK_SIZE, columns);
                 final int      qStart   = jBlock * BLOCK_SIZE;
@@ -1325,7 +1304,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public double[] operate(final double[] v)
+    public T[] operate(final T[] v)
         throws IllegalArgumentException {
 
         if (v.length != columns) {
@@ -1333,31 +1312,33 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                     "vector length mismatch: got {0} but expected {1}",
                     v.length, columns);
         }
-        final double[] out = new double[rows];
+        final T[] out = buildArray(getField(), rows);
+        final T zero = getField().getZero();
 
         // perform multiplication block-wise, to ensure good cache behavior
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int pStart = iBlock * BLOCK_SIZE;
             final int pEnd   = Math.min(pStart + BLOCK_SIZE, rows);
             for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
-                final double[] block  = blocks[iBlock * blockColumns + jBlock];
+                final T[] block  = blocks[iBlock * blockColumns + jBlock];
                 final int      qStart = jBlock * BLOCK_SIZE;
                 final int      qEnd   = Math.min(qStart + BLOCK_SIZE, columns);
                 for (int p = pStart, k = 0; p < pEnd; ++p) {
-                    double sum = 0;
+                    T sum = zero;
                     int q = qStart;
                     while (q < qEnd - 3) {
-                        sum += block[k]     * v[q]     +
-                               block[k + 1] * v[q + 1] +
-                               block[k + 2] * v[q + 2] +
-                               block[k + 3] * v[q + 3];
+                        sum = sum.
+                              add(block[k].multiply(v[q])).
+                              add(block[k + 1].multiply(v[q + 1])).
+                              add(block[k + 2].multiply(v[q + 2])).
+                              add(block[k + 3].multiply(v[q + 3]));
                         k += 4;
                         q += 4;
                     }
                     while (q < qEnd) {
-                        sum += block[k++] * v[q++];
+                        sum = sum.add(block[k++].multiply(v[q++]));
                     }
-                    out[p] += sum;
+                    out[p] = out[p].add(sum);
                 }
             }
         }
@@ -1368,7 +1349,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public double[] preMultiply(final double[] v)
+    public T[] preMultiply(final T[] v)
         throws IllegalArgumentException {
 
         if (v.length != rows) {
@@ -1376,7 +1357,8 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                     "vector length mismatch: got {0} but expected {1}",
                     v.length, rows);
         }
-        final double[] out = new double[columns];
+        final T[] out = buildArray(getField(), columns);
+        final T zero = getField().getZero();
 
         // perform multiplication block-wise, to ensure good cache behavior
         for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
@@ -1387,26 +1369,27 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
             final int qStart = jBlock * BLOCK_SIZE;
             final int qEnd   = Math.min(qStart + BLOCK_SIZE, columns);
             for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
-                final double[] block  = blocks[iBlock * blockColumns + jBlock];
+                final T[] block  = blocks[iBlock * blockColumns + jBlock];
                 final int      pStart = iBlock * BLOCK_SIZE;
                 final int      pEnd   = Math.min(pStart + BLOCK_SIZE, rows);
                 for (int q = qStart; q < qEnd; ++q) {
                     int k = q - qStart;
-                    double sum = 0;
+                    T sum = zero;
                     int p = pStart;
                     while (p < pEnd - 3) {
-                        sum += block[k]           * v[p]     +
-                               block[k + jWidth]  * v[p + 1] +
-                               block[k + jWidth2] * v[p + 2] +
-                               block[k + jWidth3] * v[p + 3];
+                        sum = sum.
+                              add(block[k].multiply(v[p])).
+                              add(block[k + jWidth].multiply(v[p + 1])).
+                              add(block[k + jWidth2].multiply(v[p + 2])).
+                              add(block[k + jWidth3].multiply(v[p + 3]));
                         k += jWidth4;
                         p += 4;
                     }
                     while (p < pEnd) {
-                        sum += block[k] * v[p++];
+                        sum = sum.add(block[k].multiply(v[p++]));
                         k += jWidth;
                     }
-                    out[q] += sum;
+                    out[q] = out[q].add(sum);
                 }
             }
         }
@@ -1417,7 +1400,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public double walkInRowOrder(final RealMatrixChangingVisitor visitor)
+    public T walkInRowOrder(final FieldMatrixChangingVisitor<T> visitor)
         throws MatrixVisitorException {
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
@@ -1428,7 +1411,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                     final int jWidth = blockWidth(jBlock);
                     final int qStart = jBlock * BLOCK_SIZE;
                     final int qEnd   = Math.min(qStart + BLOCK_SIZE, columns);
-                    final double[] block = blocks[iBlock * blockColumns + jBlock];
+                    final T[] block = blocks[iBlock * blockColumns + jBlock];
                     for (int q = qStart, k = (p - pStart) * jWidth; q < qEnd; ++q, ++k) {
                         block[k] = visitor.visit(p, q, block[k]);
                     }
@@ -1440,7 +1423,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public double walkInRowOrder(final RealMatrixPreservingVisitor visitor)
+    public T walkInRowOrder(final FieldMatrixPreservingVisitor<T> visitor)
         throws MatrixVisitorException {
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
@@ -1451,7 +1434,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                     final int jWidth = blockWidth(jBlock);
                     final int qStart = jBlock * BLOCK_SIZE;
                     final int qEnd   = Math.min(qStart + BLOCK_SIZE, columns);
-                    final double[] block = blocks[iBlock * blockColumns + jBlock];
+                    final T[] block = blocks[iBlock * blockColumns + jBlock];
                     for (int q = qStart, k = (p - pStart) * jWidth; q < qEnd; ++q, ++k) {
                         visitor.visit(p, q, block[k]);
                     }
@@ -1463,11 +1446,11 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public double walkInRowOrder(final RealMatrixChangingVisitor visitor,
+    public T walkInRowOrder(final FieldMatrixChangingVisitor<T> visitor,
                                  final int startRow, final int endRow,
                                  final int startColumn, final int endColumn)
         throws MatrixIndexException, MatrixVisitorException {
-        MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
+        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
         visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
         for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
             final int p0     = iBlock * BLOCK_SIZE;
@@ -1479,7 +1462,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                     final int q0     = jBlock * BLOCK_SIZE;
                     final int qStart = Math.max(startColumn, q0);
                     final int qEnd   = Math.min((jBlock + 1) * BLOCK_SIZE, 1 + endColumn);
-                    final double[] block = blocks[iBlock * blockColumns + jBlock];
+                    final T[] block = blocks[iBlock * blockColumns + jBlock];
                     for (int q = qStart, k = (p - p0) * jWidth + qStart - q0; q < qEnd; ++q, ++k) {
                         block[k] = visitor.visit(p, q, block[k]);
                     }
@@ -1491,11 +1474,11 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public double walkInRowOrder(final RealMatrixPreservingVisitor visitor,
+    public T walkInRowOrder(final FieldMatrixPreservingVisitor<T> visitor,
                                  final int startRow, final int endRow,
                                  final int startColumn, final int endColumn)
         throws MatrixIndexException, MatrixVisitorException {
-        MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
+        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
         visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
         for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
             final int p0     = iBlock * BLOCK_SIZE;
@@ -1507,7 +1490,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                     final int q0     = jBlock * BLOCK_SIZE;
                     final int qStart = Math.max(startColumn, q0);
                     final int qEnd   = Math.min((jBlock + 1) * BLOCK_SIZE, 1 + endColumn);
-                    final double[] block = blocks[iBlock * blockColumns + jBlock];
+                    final T[] block = blocks[iBlock * blockColumns + jBlock];
                     for (int q = qStart, k = (p - p0) * jWidth + qStart - q0; q < qEnd; ++q, ++k) {
                         visitor.visit(p, q, block[k]);
                     }
@@ -1519,7 +1502,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public double walkInOptimizedOrder(final RealMatrixChangingVisitor visitor)
+    public T walkInOptimizedOrder(final FieldMatrixChangingVisitor<T> visitor)
         throws MatrixVisitorException {
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
         for (int iBlock = 0, blockIndex = 0; iBlock < blockRows; ++iBlock) {
@@ -1528,7 +1511,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
             for (int jBlock = 0; jBlock < blockColumns; ++jBlock, ++blockIndex) {
                 final int qStart = jBlock * BLOCK_SIZE;
                 final int qEnd   = Math.min(qStart + BLOCK_SIZE, columns);
-                final double[] block = blocks[blockIndex];
+                final T[] block = blocks[blockIndex];
                 for (int p = pStart, k = 0; p < pEnd; ++p) {
                     for (int q = qStart; q < qEnd; ++q, ++k) {
                         block[k] = visitor.visit(p, q, block[k]);
@@ -1541,7 +1524,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public double walkInOptimizedOrder(final RealMatrixPreservingVisitor visitor)
+    public T walkInOptimizedOrder(final FieldMatrixPreservingVisitor<T> visitor)
         throws MatrixVisitorException {
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
         for (int iBlock = 0, blockIndex = 0; iBlock < blockRows; ++iBlock) {
@@ -1550,7 +1533,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
             for (int jBlock = 0; jBlock < blockColumns; ++jBlock, ++blockIndex) {
                 final int qStart = jBlock * BLOCK_SIZE;
                 final int qEnd   = Math.min(qStart + BLOCK_SIZE, columns);
-                final double[] block = blocks[blockIndex];
+                final T[] block = blocks[blockIndex];
                 for (int p = pStart, k = 0; p < pEnd; ++p) {
                     for (int q = qStart; q < qEnd; ++q, ++k) {
                         visitor.visit(p, q, block[k]);
@@ -1563,11 +1546,11 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public double walkInOptimizedOrder(final RealMatrixChangingVisitor visitor,
+    public T walkInOptimizedOrder(final FieldMatrixChangingVisitor<T> visitor,
                                        final int startRow, final int endRow,
                                        final int startColumn, final int endColumn)
         throws MatrixIndexException, MatrixVisitorException {
-        MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
+        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
         visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
         for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
             final int p0     = iBlock * BLOCK_SIZE;
@@ -1578,7 +1561,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                 final int q0     = jBlock * BLOCK_SIZE;
                 final int qStart = Math.max(startColumn, q0);
                 final int qEnd   = Math.min((jBlock + 1) * BLOCK_SIZE, 1 + endColumn);
-                final double[] block = blocks[iBlock * blockColumns + jBlock];
+                final T[] block = blocks[iBlock * blockColumns + jBlock];
                 for (int p = pStart; p < pEnd; ++p) {
                     for (int q = qStart, k = (p - p0) * jWidth + qStart - q0; q < qEnd; ++q, ++k) {
                         block[k] = visitor.visit(p, q, block[k]);
@@ -1591,11 +1574,11 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public double walkInOptimizedOrder(final RealMatrixPreservingVisitor visitor,
+    public T walkInOptimizedOrder(final FieldMatrixPreservingVisitor<T> visitor,
                                        final int startRow, final int endRow,
                                        final int startColumn, final int endColumn)
         throws MatrixIndexException, MatrixVisitorException {
-        MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
+        checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
         visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
         for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
             final int p0     = iBlock * BLOCK_SIZE;
@@ -1606,7 +1589,7 @@ public class DenseRealMatrix extends AbstractRealMatrix implements Serializable 
                 final int q0     = jBlock * BLOCK_SIZE;
                 final int qStart = Math.max(startColumn, q0);
                 final int qEnd   = Math.min((jBlock + 1) * BLOCK_SIZE, 1 + endColumn);
-                final double[] block = blocks[iBlock * blockColumns + jBlock];
+                final T[] block = blocks[iBlock * blockColumns + jBlock];
                 for (int p = pStart; p < pEnd; ++p) {
                     for (int q = qStart, k = (p - p0) * jWidth + qStart - q0; q < qEnd; ++q, ++k) {
                         visitor.visit(p, q, block[k]);

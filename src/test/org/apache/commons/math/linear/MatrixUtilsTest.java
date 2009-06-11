@@ -74,7 +74,7 @@ public final class MatrixUtilsTest extends TestCase {
     }
     
     public void testCreateRealMatrix() {
-        assertEquals(new DenseRealMatrix(testData), 
+        assertEquals(new BlockRealMatrix(testData), 
                 MatrixUtils.createRealMatrix(testData));
         try {
             MatrixUtils.createRealMatrix(new double[][] {{1}, {1,2}});  // ragged
@@ -155,7 +155,7 @@ public final class MatrixUtilsTest extends TestCase {
         
     public void testCreateRowRealMatrix() {
         assertEquals(MatrixUtils.createRowRealMatrix(row),
-                     new DenseRealMatrix(rowMatrix));
+                     new BlockRealMatrix(rowMatrix));
         try {
             MatrixUtils.createRowRealMatrix(new double[] {});  // empty
             fail("Expecting IllegalArgumentException");
@@ -213,7 +213,7 @@ public final class MatrixUtilsTest extends TestCase {
 
     public void testCreateColumnRealMatrix() {
         assertEquals(MatrixUtils.createColumnRealMatrix(col),
-                     new DenseRealMatrix(colMatrix));
+                     new BlockRealMatrix(colMatrix));
         try {
             MatrixUtils.createColumnRealMatrix(new double[] {});  // empty
             fail("Expecting IllegalArgumentException");

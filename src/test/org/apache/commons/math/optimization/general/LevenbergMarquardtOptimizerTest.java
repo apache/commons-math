@@ -30,7 +30,7 @@ import junit.framework.TestSuite;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
-import org.apache.commons.math.linear.DenseRealMatrix;
+import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
@@ -525,7 +525,7 @@ public class LevenbergMarquardtOptimizerTest
         final RealMatrix factors;
         final double[] target;
         public LinearProblem(double[][] factors, double[] target) {
-            this.factors = new DenseRealMatrix(factors);
+            this.factors = new BlockRealMatrix(factors);
             this.target  = target;
         }
 

@@ -18,7 +18,7 @@ package org.apache.commons.math.stat.correlation;
 
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.DenseRealMatrix;
+import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.stat.descriptive.moment.Mean;
 import org.apache.commons.math.stat.descriptive.moment.Variance;
 
@@ -78,7 +78,7 @@ public class Covariance {
      * rectangular with at least two rows and two columns.
      */
     public Covariance(double[][] data, boolean biasCorrected) {
-        this(new DenseRealMatrix(data), biasCorrected);
+        this(new BlockRealMatrix(data), biasCorrected);
     }
     
     /**
@@ -159,7 +159,7 @@ public class Covariance {
     protected RealMatrix computeCovarianceMatrix(RealMatrix matrix, boolean biasCorrected) {
         int dimension = matrix.getColumnDimension();
         Variance variance = new Variance(biasCorrected);
-        RealMatrix outMatrix = new DenseRealMatrix(dimension, dimension);
+        RealMatrix outMatrix = new BlockRealMatrix(dimension, dimension);
         for (int i = 0; i < dimension; i++) {
             for (int j = 0; j < i; j++) {
               double cov = covariance(matrix.getColumn(i), matrix.getColumn(j), biasCorrected);
@@ -190,7 +190,7 @@ public class Covariance {
      * @return covariance matrix
      */
     protected RealMatrix computeCovarianceMatrix(double[][] data, boolean biasCorrected) {
-        return computeCovarianceMatrix(new DenseRealMatrix(data), biasCorrected);
+        return computeCovarianceMatrix(new BlockRealMatrix(data), biasCorrected);
     }
     
     /**

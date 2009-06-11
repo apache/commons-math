@@ -21,7 +21,7 @@ import java.util.Random;
 
 import org.apache.commons.math.linear.DefaultRealMatrixChangingVisitor;
 import org.apache.commons.math.linear.DefaultRealMatrixPreservingVisitor;
-import org.apache.commons.math.linear.DenseRealMatrix;
+import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.MatrixVisitorException;
 import org.apache.commons.math.linear.QRDecomposition;
@@ -77,8 +77,8 @@ public class QRDecompositionImplTest extends TestCase {
         checkDimension(MatrixUtils.createRealMatrix(testData3x4));
 
         Random r = new Random(643895747384642l);
-        int    p = (5 * DenseRealMatrix.BLOCK_SIZE) / 4;
-        int    q = (7 * DenseRealMatrix.BLOCK_SIZE) / 4;
+        int    p = (5 * BlockRealMatrix.BLOCK_SIZE) / 4;
+        int    q = (7 * BlockRealMatrix.BLOCK_SIZE) / 4;
         checkDimension(createTestMatrix(r, p, q));
         checkDimension(createTestMatrix(r, q, p));
 
@@ -105,8 +105,8 @@ public class QRDecompositionImplTest extends TestCase {
         checkAEqualQR(MatrixUtils.createRealMatrix(testData4x3));
 
         Random r = new Random(643895747384642l);
-        int    p = (5 * DenseRealMatrix.BLOCK_SIZE) / 4;
-        int    q = (7 * DenseRealMatrix.BLOCK_SIZE) / 4;
+        int    p = (5 * BlockRealMatrix.BLOCK_SIZE) / 4;
+        int    q = (7 * BlockRealMatrix.BLOCK_SIZE) / 4;
         checkAEqualQR(createTestMatrix(r, p, q));
 
         checkAEqualQR(createTestMatrix(r, q, p));
@@ -130,8 +130,8 @@ public class QRDecompositionImplTest extends TestCase {
         checkQOrthogonal(MatrixUtils.createRealMatrix(testData4x3));
 
         Random r = new Random(643895747384642l);
-        int    p = (5 * DenseRealMatrix.BLOCK_SIZE) / 4;
-        int    q = (7 * DenseRealMatrix.BLOCK_SIZE) / 4;
+        int    p = (5 * BlockRealMatrix.BLOCK_SIZE) / 4;
+        int    q = (7 * BlockRealMatrix.BLOCK_SIZE) / 4;
         checkQOrthogonal(createTestMatrix(r, p, q));
 
         checkQOrthogonal(createTestMatrix(r, q, p));
@@ -160,8 +160,8 @@ public class QRDecompositionImplTest extends TestCase {
         checkUpperTriangular(new QRDecompositionImpl(matrix).getR());
 
         Random r = new Random(643895747384642l);
-        int    p = (5 * DenseRealMatrix.BLOCK_SIZE) / 4;
-        int    q = (7 * DenseRealMatrix.BLOCK_SIZE) / 4;
+        int    p = (5 * BlockRealMatrix.BLOCK_SIZE) / 4;
+        int    q = (7 * BlockRealMatrix.BLOCK_SIZE) / 4;
         matrix = createTestMatrix(r, p, q);
         checkUpperTriangular(new QRDecompositionImpl(matrix).getR());
 
@@ -196,8 +196,8 @@ public class QRDecompositionImplTest extends TestCase {
         checkTrapezoidal(new QRDecompositionImpl(matrix).getH());
 
         Random r = new Random(643895747384642l);
-        int    p = (5 * DenseRealMatrix.BLOCK_SIZE) / 4;
-        int    q = (7 * DenseRealMatrix.BLOCK_SIZE) / 4;
+        int    p = (5 * BlockRealMatrix.BLOCK_SIZE) / 4;
+        int    q = (7 * BlockRealMatrix.BLOCK_SIZE) / 4;
         matrix = createTestMatrix(r, p, q);
         checkTrapezoidal(new QRDecompositionImpl(matrix).getH());
 

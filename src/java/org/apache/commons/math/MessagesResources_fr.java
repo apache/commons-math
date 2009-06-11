@@ -421,7 +421,7 @@ public class MessagesResources_fr
     { "{0}x{1} and {2}x{3} matrices are not multiplication compatible",
       "les dimensions {0}x{1} et {2}x{3} sont incompatibles pour la multiplication matricielle" },
 
-    // org.apache.commons.math.linear.DenseRealMatrix
+    // org.apache.commons.math.linear.BlockRealMatrix
     { "wrong array shape (block length = {0}, expected {1})",
       "forme de tableau erron\u00e9e (bloc de longueur {0} au lieu des {1} attendus)" },
 

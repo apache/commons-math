@@ -71,9 +71,12 @@ RealMatrix pInverse = new LUDecompositionImpl(p).getSolver().getInverse();
          </source>
         </p>
         <p>
-        The two main implementations of the interface are <a
+        The three main implementations of the interface are <a
         href="../apidocs/org/apache/commons/math/linear/RealMatrixImpl.html">
-        RealMatrixImpl</a> for dense matrices and <a
+        RealMatrixImpl</a> and <a
+        href="../apidocs/org/apache/commons/math/linear/BlockRealMatrix.html">
+        BlockRealMatrix</a> for dense matrices (the second one being more suited to
+        dimensions above 50 or 100) and <a
         href="../apidocs/org/apache/commons/math/linear/SparseRealMatrix.html">
         SparseRealMatrix</a> for sparse matrices.
         </p>

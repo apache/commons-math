@@ -30,7 +30,7 @@ import org.apache.commons.math.analysis.DifferentiableMultivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateVectorialFunction;
 import org.apache.commons.math.analysis.solvers.BrentSolver;
-import org.apache.commons.math.linear.DenseRealMatrix;
+import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.OptimizationException;
@@ -369,7 +369,7 @@ extends TestCase {
         final RealMatrix factors;
         final double[] target;
         public LinearProblem(double[][] factors, double[] target) {
-            this.factors = new DenseRealMatrix(factors);
+            this.factors = new BlockRealMatrix(factors);
             this.target  = target;
         }
 

@@ -25,7 +25,7 @@ import junit.framework.TestSuite;
 
 import org.apache.commons.math.linear.DecompositionSolver;
 import org.apache.commons.math.linear.DefaultRealMatrixChangingVisitor;
-import org.apache.commons.math.linear.DenseRealMatrix;
+import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.InvalidMatrixException;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.MatrixVisitorException;
@@ -192,10 +192,10 @@ public class QRSolverTest extends TestCase {
 
     public void testOverdetermined() {
         final Random r    = new Random(5559252868205245l);
-        int          p    = (7 * DenseRealMatrix.BLOCK_SIZE) / 4;
-        int          q    = (5 * DenseRealMatrix.BLOCK_SIZE) / 4;
+        int          p    = (7 * BlockRealMatrix.BLOCK_SIZE) / 4;
+        int          q    = (5 * BlockRealMatrix.BLOCK_SIZE) / 4;
         RealMatrix   a    = createTestMatrix(r, p, q);
-        RealMatrix   xRef = createTestMatrix(r, q, DenseRealMatrix.BLOCK_SIZE + 3);
+        RealMatrix   xRef = createTestMatrix(r, q, BlockRealMatrix.BLOCK_SIZE + 3);
 
         // build a perturbed system: A.X + noise = B
         RealMatrix b = a.multiply(xRef);
@@ -215,10 +215,10 @@ public class QRSolverTest extends TestCase {
 
     public void testUnderdetermined() {
         final Random r    = new Random(42185006424567123l);
-        int          p    = (5 * DenseRealMatrix.BLOCK_SIZE) / 4;
-        int          q    = (7 * DenseRealMatrix.BLOCK_SIZE) / 4;
+        int          p    = (5 * BlockRealMatrix.BLOCK_SIZE) / 4;
+        int          q    = (7 * BlockRealMatrix.BLOCK_SIZE) / 4;
         RealMatrix   a    = createTestMatrix(r, p, q);
-        RealMatrix   xRef = createTestMatrix(r, q, DenseRealMatrix.BLOCK_SIZE + 3);
+        RealMatrix   xRef = createTestMatrix(r, q, BlockRealMatrix.BLOCK_SIZE + 3);
         RealMatrix   b    = a.multiply(xRef);
         RealMatrix   x = new QRDecompositionImpl(a).getSolver().solve(b);
 
