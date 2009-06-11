@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.apache.commons.math.linear.RealVector;
-import org.apache.commons.math.linear.RealVectorImpl;
+import org.apache.commons.math.linear.ArrayRealVector;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.RealPointValuePair;
@@ -339,7 +339,7 @@ public class SimplexSolverTest {
         String[] equationParts = s.split("[>|<]?=");
         double rhs = Double.parseDouble(equationParts[1].trim());
 
-        RealVector lhs = new RealVectorImpl(numCoefficients);
+        RealVector lhs = new ArrayRealVector(numCoefficients);
         String left = equationParts[0].replaceAll(" ?x", "");
         String[] coefficients = left.split(" ");
         for (String coefficient : coefficients) {

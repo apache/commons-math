@@ -98,7 +98,7 @@ extends TestCase {
         
         try {
             solver.decompose(
-                new RealMatrixImpl(new double[][]{{numericalZero/2, 0},
+                new Array2DRowRealMatrix(new double[][]{{numericalZero/2, 0},
                                                   {0, numericalZero/2}}));
             fail("testing numericalZero");
         } catch (IllegalArgumentException e) {}
@@ -127,7 +127,7 @@ extends TestCase {
         
          try {
              CholeskySolver solver = new CholeskySolver();
-             solver.decompose(new RealMatrixImpl(m7));
+             solver.decompose(new Array2DRowRealMatrix(m7));
              fail("Decomposing matrix m7"); 
         } catch (IllegalArgumentException e) {}
         
@@ -162,7 +162,7 @@ extends TestCase {
 
          try {
              CholeskySolver solver = new CholeskySolver();
-             solver.solve(new RealMatrixImpl(m3), new double[] {1, 2, 3, 4});
+             solver.solve(new Array2DRowRealMatrix(m3), new double[] {1, 2, 3, 4});
              fail("Solving matrix m3[3x3], v[4]"); 
         } catch (IllegalArgumentException e) {}
         
@@ -201,7 +201,7 @@ extends TestCase {
     private void testDecompose(double[][] lowerTriangularMatrix, String message) 
     throws IllegalArgumentException {
     
-        RealMatrix triangularMatrix = new RealMatrixImpl(lowerTriangularMatrix);
+        RealMatrix triangularMatrix = new Array2DRowRealMatrix(lowerTriangularMatrix);
         RealMatrix pdMatrix = 
             triangularMatrix.multiply(triangularMatrix.transpose());
         
@@ -220,9 +220,9 @@ extends TestCase {
     private void testSolve(double[][] lowerTriangularMatrix, String message)  {
       
         RealMatrix triangularMatrix = 
-            new RealMatrixImpl(lowerTriangularMatrix);
-        RealMatrixImpl pdMatrix = 
-            (RealMatrixImpl) triangularMatrix.multiply(triangularMatrix.transpose());
+            new Array2DRowRealMatrix(lowerTriangularMatrix);
+        Array2DRowRealMatrix pdMatrix = 
+            (Array2DRowRealMatrix) triangularMatrix.multiply(triangularMatrix.transpose());
         CholeskySolver solver = 
             new CholeskySolver();
         
@@ -232,10 +232,10 @@ extends TestCase {
                 c[i] += lowerTriangularMatrix[i][j];
         
         solver.decompose(pdMatrix);
-        RealMatrix x = new RealMatrixImpl(solver.solve(c));
+        RealMatrix x = new Array2DRowRealMatrix(solver.solve(c));
 
         assertTrue(message, 
-            areEqual(pdMatrix.multiply(x),  new RealMatrixImpl(c), 1.0E-10));
+            areEqual(pdMatrix.multiply(x),  new Array2DRowRealMatrix(c), 1.0E-10));
     }//testSolve
 
     
@@ -247,7 +247,7 @@ extends TestCase {
                                     String message) 
     throws IllegalArgumentException {
     
-        RealMatrix triangularMatrix = new RealMatrixImpl(lowerTriangularMatrix);
+        RealMatrix triangularMatrix = new Array2DRowRealMatrix(lowerTriangularMatrix);
         RealMatrix pdMatrix = 
             triangularMatrix.multiply(triangularMatrix.transpose());
         double pdDeterminant = determinant * determinant;

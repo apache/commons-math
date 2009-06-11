@@ -18,7 +18,7 @@ package org.apache.commons.math.stat.regression;
 
 import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.RealMatrixImpl;
+import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealVector;
 
 
@@ -68,7 +68,7 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * @param omega the [n,n] array representing the covariance
      */
     protected void newCovarianceData(double[][] omega){
-        this.Omega = new RealMatrixImpl(omega);
+        this.Omega = new Array2DRowRealMatrix(omega);
         this.OmegaInverse = null;
     }
 

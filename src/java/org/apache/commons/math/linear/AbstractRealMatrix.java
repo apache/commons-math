@@ -474,7 +474,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     /** {@inheritDoc} */
     public RealVector getRowVector(final int row)
         throws MatrixIndexException {
-        return new RealVectorImpl(getRow(row), false);
+        return new ArrayRealVector(getRow(row), false);
     }
 
     /** {@inheritDoc} */
@@ -497,7 +497,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     /** {@inheritDoc} */
     public RealVector getColumnVector(final int column)
         throws MatrixIndexException {
-        return new RealVectorImpl(getColumn(column), false);
+        return new ArrayRealVector(getColumn(column), false);
     }
 
     /** {@inheritDoc} */
@@ -698,7 +698,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     public RealVector operate(final RealVector v)
         throws IllegalArgumentException {
         try {
-            return new RealVectorImpl(operate(((RealVectorImpl) v).getDataRef()), false);
+            return new ArrayRealVector(operate(((ArrayRealVector) v).getDataRef()), false);
         } catch (ClassCastException cce) {
             final int nRows = getRowDimension();
             final int nCols = getColumnDimension();
@@ -717,7 +717,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
                 out[row] = sum;
             }
 
-            return new RealVectorImpl(out, false);
+            return new ArrayRealVector(out, false);
         }
     }
 
@@ -750,7 +750,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     public RealVector preMultiply(final RealVector v)
         throws IllegalArgumentException {
         try {
-            return new RealVectorImpl(preMultiply(((RealVectorImpl) v).getDataRef()), false);
+            return new ArrayRealVector(preMultiply(((ArrayRealVector) v).getDataRef()), false);
         } catch (ClassCastException cce) {
 
             final int nRows = getRowDimension();
@@ -770,7 +770,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
                 out[col] = sum;
             }
 
-            return new RealVectorImpl(out);
+            return new ArrayRealVector(out);
 
         }
     }

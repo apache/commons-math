@@ -47,7 +47,7 @@ import org.apache.commons.math.MathRuntimeException;
  * is 0-based -- e.g., <code>getEntry(0, 0)</code>
  * returns the element in the first row, first column of the matrix.</li></ul></p>
  * 
- * @deprecated as of 2.0, replaced by {@link FieldMatrixImpl} with a {@link
+ * @deprecated as of 2.0, replaced by {@link Array2DRowFieldMatrix} with a {@link
  * org.apache.commons.math.util.BigReal} parameter
  * @version $Revision$ $Date$
  */

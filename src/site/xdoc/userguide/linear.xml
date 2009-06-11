@@ -53,11 +53,11 @@
          <source>
 // Create a real matrix with two rows and three columns
 double[][] matrixData = { {1d,2d,3d}, {2d,5d,3d}};
-RealMatrix m = new RealMatrixImpl(matrixData);
+RealMatrix m = new Array2DRowRealMatrix(matrixData);
 
 // One more with three rows, two columns
 double[][] matrixData2 = { {1d,2d}, {2d,5d}, {1d, 7d}};
-RealMatrix n = new RealMatrixImpl(matrixData2);
+RealMatrix n = new Array2DRowRealMatrix(matrixData2);
 
 // Note: The constructor copies  the input double[][] array.
 
@@ -72,8 +72,8 @@ RealMatrix pInverse = new LUDecompositionImpl(p).getSolver().getInverse();
         </p>
         <p>
         The three main implementations of the interface are <a
-        href="../apidocs/org/apache/commons/math/linear/RealMatrixImpl.html">
-        RealMatrixImpl</a> and <a
+        href="../apidocs/org/apache/commons/math/linear/Array2DRowRealMatrix.html">
+        Array2DRowRealMatrix</a> and <a
         href="../apidocs/org/apache/commons/math/linear/BlockRealMatrix.html">
         BlockRealMatrix</a> for dense matrices (the second one being more suited to
         dimensions above 50 or 100) and <a
@@ -124,7 +124,7 @@ RealMatrix pInverse = new LUDecompositionImpl(p).getSolver().getInverse();
           and build a solver
           <source>
 RealMatrix coefficients =
-    new RealMatrixImpl(new double[][] { { 2, 3, -2 }, { -1, 7, 6 }, { 4, -3, -5 } },
+    new Array2DRowRealMatrix(new double[][] { { 2, 3, -2 }, { -1, 7, 6 }, { 4, -3, -5 } },
                        false);
 DecompositionSolver solver = new LUDecompositionImpl(coefficients).getSolver();
           </source>

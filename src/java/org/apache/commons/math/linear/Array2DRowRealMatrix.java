@@ -48,10 +48,8 @@ import org.apache.commons.math.MathRuntimeException;
  * </p>
  *
  * @version $Revision$ $Date$
- * @deprecated as of 2.0 replaced by {@link Array2DRowRealMatrix}
  */
-@Deprecated
-public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
+public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializable {
     
     /** Serializable version identifier */
     private static final long serialVersionUID = -1067294169172445528L;
@@ -62,7 +60,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
     /**
      * Creates a matrix with no data
      */
-    public RealMatrixImpl() {
+    public Array2DRowRealMatrix() {
     }
 
     /**
@@ -73,7 +71,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
      * @throws IllegalArgumentException if row or column dimension is not
      *  positive
      */
-    public RealMatrixImpl(final int rowDimension, final int columnDimension)
+    public Array2DRowRealMatrix(final int rowDimension, final int columnDimension)
         throws IllegalArgumentException {
         super(rowDimension, columnDimension);
         data = new double[rowDimension][columnDimension];
@@ -83,16 +81,16 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
      * Create a new RealMatrix using the input array as the underlying
      * data array.
      * <p>The input array is copied, not referenced. This constructor has
-     * the same effect as calling {@link #RealMatrixImpl(double[][], boolean)}
+     * the same effect as calling {@link #Array2DRowRealMatrix(double[][], boolean)}
      * with the second argument set to <code>true</code>.</p>
      *
      * @param d data for new matrix
      * @throws IllegalArgumentException if <code>d</code> is not rectangular
      *  (not all rows have the same length) or empty
      * @throws NullPointerException if <code>d</code> is null
-     * @see #RealMatrixImpl(double[][], boolean)
+     * @see #Array2DRowRealMatrix(double[][], boolean)
      */
-    public RealMatrixImpl(final double[][] d)
+    public Array2DRowRealMatrix(final double[][] d)
         throws IllegalArgumentException, NullPointerException {
         copyIn(d);
     }
@@ -110,9 +108,9 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
      * @throws IllegalArgumentException if <code>d</code> is not rectangular
      *  (not all rows have the same length) or empty
      * @throws NullPointerException if <code>d</code> is null
-     * @see #RealMatrixImpl(double[][])
+     * @see #Array2DRowRealMatrix(double[][])
      */
-    public RealMatrixImpl(final double[][] d, final boolean copyArray)
+    public Array2DRowRealMatrix(final double[][] d, final boolean copyArray)
         throws IllegalArgumentException, NullPointerException {
         if (copyArray) {
             copyIn(d);
@@ -147,7 +145,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
      *
      * @param v column vector holding data for new matrix
      */
-    public RealMatrixImpl(final double[] v) {
+    public Array2DRowRealMatrix(final double[] v) {
         final int nRows = v.length;
         data = new double[nRows][1];
         for (int row = 0; row < nRows; row++) {
@@ -159,13 +157,13 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
     @Override
     public RealMatrix createMatrix(final int rowDimension, final int columnDimension)
         throws IllegalArgumentException {
-        return new RealMatrixImpl(rowDimension, columnDimension);
+        return new Array2DRowRealMatrix(rowDimension, columnDimension);
     }
 
     /** {@inheritDoc} */
     @Override
     public RealMatrix copy() {
-        return new RealMatrixImpl(copyOut(), false);
+        return new Array2DRowRealMatrix(copyOut(), false);
     }
 
     /** {@inheritDoc} */
@@ -173,7 +171,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
     public RealMatrix add(final RealMatrix m)
         throws IllegalArgumentException {
         try {
-            return add((RealMatrixImpl) m);
+            return add((Array2DRowRealMatrix) m);
         } catch (ClassCastException cce) {
             return super.add(m);
         }
@@ -186,7 +184,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
      * @return     this + m
      * @throws  IllegalArgumentException if m is not the same size as this
      */
-    public RealMatrixImpl add(final RealMatrixImpl m)
+    public Array2DRowRealMatrix add(final Array2DRowRealMatrix m)
         throws IllegalArgumentException {
 
         // safety check
@@ -204,7 +202,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
             }
         }
 
-        return new RealMatrixImpl(outData, false);
+        return new Array2DRowRealMatrix(outData, false);
 
     }
 
@@ -213,7 +211,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
     public RealMatrix subtract(final RealMatrix m)
         throws IllegalArgumentException {
         try {
-            return subtract((RealMatrixImpl) m);
+            return subtract((Array2DRowRealMatrix) m);
         } catch (ClassCastException cce) {
             return super.subtract(m);
         }
@@ -226,7 +224,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
      * @return     this + m
      * @throws  IllegalArgumentException if m is not the same size as this
      */
-    public RealMatrixImpl subtract(final RealMatrixImpl m)
+    public Array2DRowRealMatrix subtract(final Array2DRowRealMatrix m)
         throws IllegalArgumentException {
 
         // safety check
@@ -244,7 +242,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
             }
         }
 
-        return new RealMatrixImpl(outData, false);
+        return new Array2DRowRealMatrix(outData, false);
 
     }
 
@@ -253,7 +251,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
     public RealMatrix multiply(final RealMatrix m)
         throws IllegalArgumentException {
         try {
-            return multiply((RealMatrixImpl) m);
+            return multiply((Array2DRowRealMatrix) m);
         } catch (ClassCastException cce) {
             return super.multiply(m);
         }
@@ -266,7 +264,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
      * @throws     IllegalArgumentException
      *             if columnDimension(this) != rowDimension(m)
      */
-    public RealMatrixImpl multiply(final RealMatrixImpl m)
+    public Array2DRowRealMatrix multiply(final Array2DRowRealMatrix m)
         throws IllegalArgumentException {
 
         // safety check
@@ -288,7 +286,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
             }
         }
 
-        return new RealMatrixImpl(outData, false);
+        return new Array2DRowRealMatrix(outData, false);
 
     }
 

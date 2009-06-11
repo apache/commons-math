@@ -335,9 +335,9 @@ public class QRDecompositionImpl implements QRDecomposition {
         public RealVector solve(RealVector b)
         throws IllegalArgumentException, InvalidMatrixException {
             try {
-                return solve((RealVectorImpl) b);
+                return solve((ArrayRealVector) b);
             } catch (ClassCastException cce) {
-                return new RealVectorImpl(solve(b.getData()), false);
+                return new ArrayRealVector(solve(b.getData()), false);
             }
         }
 
@@ -348,9 +348,9 @@ public class QRDecompositionImpl implements QRDecomposition {
          * @throws IllegalArgumentException if matrices dimensions don't match
          * @throws InvalidMatrixException if decomposed matrix is singular
          */
-        public RealVectorImpl solve(RealVectorImpl b)
+        public ArrayRealVector solve(ArrayRealVector b)
         throws IllegalArgumentException, InvalidMatrixException {
-            return new RealVectorImpl(solve(b.getDataRef()), false);
+            return new ArrayRealVector(solve(b.getDataRef()), false);
         }
 
         /** {@inheritDoc} */

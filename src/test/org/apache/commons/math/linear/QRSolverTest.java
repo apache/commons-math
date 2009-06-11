@@ -33,7 +33,7 @@ import org.apache.commons.math.linear.QRDecomposition;
 import org.apache.commons.math.linear.QRDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealVector;
-import org.apache.commons.math.linear.RealVectorImpl;
+import org.apache.commons.math.linear.ArrayRealVector;
 
 public class QRSolverTest extends TestCase {
     double[][] testData3x3NonSingular = { 
@@ -168,11 +168,11 @@ public class QRSolverTest extends TestCase {
         // using double[]
         for (int i = 0; i < b.getColumnDimension(); ++i) {
             final double[] x = solver.solve(b.getColumn(i));
-            final double error = new RealVectorImpl(x).subtract(xRef.getColumnVector(i)).getNorm();
+            final double error = new ArrayRealVector(x).subtract(xRef.getColumnVector(i)).getNorm();
             assertEquals(0, error, 3.0e-16 * xRef.getColumnVector(i).getNorm());
         }
 
-        // using RealVectorImpl
+        // using ArrayRealVector
         for (int i = 0; i < b.getColumnDimension(); ++i) {
             final RealVector x = solver.solve(b.getColumnVector(i));
             final double error = x.subtract(xRef.getColumnVector(i)).getNorm();
@@ -181,8 +181,8 @@ public class QRSolverTest extends TestCase {
 
         // using RealVector with an alternate implementation
         for (int i = 0; i < b.getColumnDimension(); ++i) {
-            RealVectorImplTest.RealVectorTestImpl v =
-                new RealVectorImplTest.RealVectorTestImpl(b.getColumn(i));
+            ArrayRealVectorTest.RealVectorTestImpl v =
+                new ArrayRealVectorTest.RealVectorTestImpl(b.getColumn(i));
             final RealVector x = solver.solve(v);
             final double error = x.subtract(xRef.getColumnVector(i)).getNorm();
             assertEquals(0, error, 3.0e-16 * xRef.getColumnVector(i).getNorm());

@@ -97,9 +97,9 @@ public final class MatrixUtilsTest extends TestCase {
     }
 
     public void testcreateFieldMatrix() {
-        assertEquals(new FieldMatrixImpl<Fraction>(asFraction(testData)), 
+        assertEquals(new Array2DRowFieldMatrix<Fraction>(asFraction(testData)), 
                      MatrixUtils.createFieldMatrix(asFraction(testData)));
-        assertEquals(new FieldMatrixImpl<Fraction>(fractionColMatrix), 
+        assertEquals(new Array2DRowFieldMatrix<Fraction>(fractionColMatrix), 
                      MatrixUtils.createFieldMatrix(fractionColMatrix));
         try {
             MatrixUtils.createFieldMatrix(asFraction(new double[][] {{1}, {1,2}}));  // ragged
@@ -172,9 +172,9 @@ public final class MatrixUtilsTest extends TestCase {
     
     public void testCreateRowFieldMatrix() {
         assertEquals(MatrixUtils.createRowFieldMatrix(asFraction(row)),
-                     new FieldMatrixImpl<Fraction>(asFraction(rowMatrix)));
+                     new Array2DRowFieldMatrix<Fraction>(asFraction(rowMatrix)));
         assertEquals(MatrixUtils.createRowFieldMatrix(fractionRow),
-                     new FieldMatrixImpl<Fraction>(fractionRowMatrix));
+                     new Array2DRowFieldMatrix<Fraction>(fractionRowMatrix));
         try {
             MatrixUtils.createRowFieldMatrix(new Fraction[] {});  // empty
             fail("Expecting IllegalArgumentException");
@@ -230,9 +230,9 @@ public final class MatrixUtilsTest extends TestCase {
     
     public void testCreateColumnFieldMatrix() {
         assertEquals(MatrixUtils.createColumnFieldMatrix(asFraction(col)),
-                     new FieldMatrixImpl<Fraction>(asFraction(colMatrix)));
+                     new Array2DRowFieldMatrix<Fraction>(asFraction(colMatrix)));
         assertEquals(MatrixUtils.createColumnFieldMatrix(fractionCol),
-                     new FieldMatrixImpl<Fraction>(fractionColMatrix));
+                     new Array2DRowFieldMatrix<Fraction>(fractionColMatrix));
 
         try {
             MatrixUtils.createColumnFieldMatrix(new Fraction[] {});  // empty
@@ -329,9 +329,9 @@ public final class MatrixUtilsTest extends TestCase {
                 { new BigFraction(2), new BigFraction(5), new BigFraction(3) },
                 { new BigFraction(1), new BigFraction(0), new BigFraction(8) }
         };
-        FieldMatrix<BigFraction> m = new FieldMatrixImpl<BigFraction>(bfData, false);
+        FieldMatrix<BigFraction> m = new Array2DRowFieldMatrix<BigFraction>(bfData, false);
         RealMatrix converted = MatrixUtils.bigFractionMatrixToRealMatrix(m);
-        RealMatrix reference = new RealMatrixImpl(testData, false);
+        RealMatrix reference = new Array2DRowRealMatrix(testData, false);
         assertEquals(0.0, converted.subtract(reference).getNorm(), 0.0);
     }
 
@@ -341,9 +341,9 @@ public final class MatrixUtilsTest extends TestCase {
                 { new Fraction(2), new Fraction(5), new Fraction(3) },
                 { new Fraction(1), new Fraction(0), new Fraction(8) }
         };
-        FieldMatrix<Fraction> m = new FieldMatrixImpl<Fraction>(fData, false);
+        FieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(fData, false);
         RealMatrix converted = MatrixUtils.fractionMatrixToRealMatrix(m);
-        RealMatrix reference = new RealMatrixImpl(testData, false);
+        RealMatrix reference = new Array2DRowRealMatrix(testData, false);
         assertEquals(0.0, converted.subtract(reference).getNorm(), 0.0);
     }
 

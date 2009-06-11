@@ -18,9 +18,9 @@ package org.apache.commons.math.stat.regression;
 
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.RealMatrixImpl;
+import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealVector;
-import org.apache.commons.math.linear.RealVectorImpl;
+import org.apache.commons.math.linear.ArrayRealVector;
 
 /**
  * Abstract base class for implementations of MultipleLinearRegression.
@@ -55,8 +55,8 @@ public abstract class AbstractMultipleLinearRegression implements
                 x[i][j] = data[pointer++];
             }
         }
-        this.X = new RealMatrixImpl(x);
-        this.Y = new RealVectorImpl(y);
+        this.X = new Array2DRowRealMatrix(x);
+        this.Y = new ArrayRealVector(y);
     }
     
     /**
@@ -65,7 +65,7 @@ public abstract class AbstractMultipleLinearRegression implements
      * @param y the [n,1] array representing the y sample
      */
     protected void newYSampleData(double[] y) {
-        this.Y = new RealVectorImpl(y);
+        this.Y = new ArrayRealVector(y);
     }
 
     /**
@@ -74,7 +74,7 @@ public abstract class AbstractMultipleLinearRegression implements
      * @param x the [n,k] array representing the x sample
      */
     protected void newXSampleData(double[][] x) {
-        this.X = new RealMatrixImpl(x);
+        this.X = new Array2DRowRealMatrix(x);
     }
 
     /**

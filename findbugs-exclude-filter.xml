@@ -100,12 +100,12 @@
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math.linear.RealMatrixImpl"/>
+    <Class name="org.apache.commons.math.linear.Array2DRowRealMatrix"/>
     <Method name="&lt;init>" params="double[][],boolean" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math.linear.RealMatrixImpl"/>
+    <Class name="org.apache.commons.math.linear.Array2DRowRealMatrix"/>
     <Method name="getDataRef" params="" returns="double[][]" />
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
@@ -115,12 +115,12 @@
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math.linear.FieldMatrixImpl"/>
+    <Class name="org.apache.commons.math.linear.Array2DRowFieldMatrix"/>
     <Method name="&lt;init>" params="org.apache.commons.math.FieldElement[][],boolean" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math.linear.FieldMatrixImpl"/>
+    <Class name="org.apache.commons.math.linear.Array2DRowFieldMatrix"/>
     <Method name="getDataRef" params="" returns="org.apache.commons.math.FieldElement[][]" />
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
@@ -138,12 +138,12 @@
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math.linear.RealVectorImpl"/>
+    <Class name="org.apache.commons.math.linear.ArrayRealVector"/>
     <Method name="getDataRef" params="" returns="double[]" />
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math.linear.FieldVectorImpl"/>
+    <Class name="org.apache.commons.math.linear.ArrayFieldVector"/>
     <Method name="getDataRef" params="" returns="org.apache.commons.math.FieldElement[]" />
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>

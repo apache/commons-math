@@ -365,13 +365,13 @@ public class MessagesResources_fr
     // org.apache.commons.math.linear.decomposition.LUDecompositionImpl
     // org.apache.commons.math.linear.decomposition.QRDecompositionImpl
     // org.apache.commons.math.linear.decomposition.SingularValueDecompositionImpl
-    // org.apache.commons.math.linear.RealVectorImpl
+    // org.apache.commons.math.linear.ArrayRealVector
     // org.apache.commons.math.linear.SparseRealVector
     { "vector length mismatch: got {0} but expected {1}",
       "dimension de vecteur erronn\u00e9e : {0} \u00e0 la place de {1}" },
       
-    // org.apache.commons.math.linear.RealVectorImpl
-    // org.apache.commons.math.linear.FieldVectorImpl
+    // org.apache.commons.math.linear.ArrayRealVector
+    // org.apache.commons.math.linear.ArrayFieldVector
     // org.apache.commons.math.linear.SparseRealVector
     { "index {0} out of allowed range [{1}, {2}]",
       "index {0} hors de la plage autoris\u00e9e [{1}, {2}]" },
@@ -566,7 +566,7 @@ public class MessagesResources_fr
      "norme nulle pour un axe de d\u00e9finition de rotation" },
 
    // org.apache.commons.math.geometry.Vector3D
-   // org.apache.commons.math.linear.RealVectorImpl
+   // org.apache.commons.math.linear.ArrayRealVector
    { "cannot normalize a zero norm vector",
      "impossible de normer un vecteur de norme nulle" },
    { "zero norm",

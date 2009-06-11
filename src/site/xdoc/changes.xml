@@ -84,6 +84,11 @@ The <action> type attribute can be add,update,fix,remove.
         FieldLUDecomposition)
       </action>
       <action dev="luc" type="add" >
+        The RealMatrixImpl implementation classes has been renamed Array2DRowRealMatrix
+        to reflect its specificities and for consistency with the new implementations. The
+        previous name is still available but is deprecated
+      </action>
+      <action dev="luc" type="add" >
         Added a block-based storage type for dense matrices improving speed for large dimensions
       </action>
       <action dev="psteitz" type="add" due-to="John Bollinger">

@@ -155,7 +155,7 @@ public class FieldLUDecompositionImpl<T extends FieldElement<T>> implements Fiel
     public FieldMatrix<T> getL() {
         if ((cachedL == null) && !singular) {
             final int m = pivot.length;
-            cachedL = new FieldMatrixImpl<T>(field, m, m);
+            cachedL = new Array2DRowFieldMatrix<T>(field, m, m);
             for (int i = 0; i < m; ++i) {
                 final T[] luI = lu[i];
                 for (int j = 0; j < i; ++j) {
@@ -171,7 +171,7 @@ public class FieldLUDecompositionImpl<T extends FieldElement<T>> implements Fiel
     public FieldMatrix<T> getU() {
         if ((cachedU == null) && !singular) {
             final int m = pivot.length;
-            cachedU = new FieldMatrixImpl<T>(field, m, m);
+            cachedU = new Array2DRowFieldMatrix<T>(field, m, m);
             for (int i = 0; i < m; ++i) {
                 final T[] luI = lu[i];
                 for (int j = i; j < m; ++j) {
@@ -186,7 +186,7 @@ public class FieldLUDecompositionImpl<T extends FieldElement<T>> implements Fiel
     public FieldMatrix<T> getP() {
         if ((cachedP == null) && !singular) {
             final int m = pivot.length;
-            cachedP = new FieldMatrixImpl<T>(field, m, m);
+            cachedP = new Array2DRowFieldMatrix<T>(field, m, m);
             for (int i = 0; i < m; ++i) {
                 cachedP.setEntry(i, pivot[i], field.getOne());
             }
@@ -304,7 +304,7 @@ public class FieldLUDecompositionImpl<T extends FieldElement<T>> implements Fiel
         public FieldVector<T> solve(FieldVector<T> b)
             throws IllegalArgumentException, InvalidMatrixException {
             try {
-                return solve((FieldVectorImpl<T>) b);
+                return solve((ArrayFieldVector<T>) b);
             } catch (ClassCastException cce) {
 
                 final int m = pivot.length;
@@ -341,7 +341,7 @@ public class FieldLUDecompositionImpl<T extends FieldElement<T>> implements Fiel
                     }
                 }
 
-                return new FieldVectorImpl<T>(bp, false);
+                return new ArrayFieldVector<T>(bp, false);
 
             }
         }
@@ -353,9 +353,9 @@ public class FieldLUDecompositionImpl<T extends FieldElement<T>> implements Fiel
          * @exception IllegalArgumentException if matrices dimensions don't match
          * @exception InvalidMatrixException if decomposed matrix is singular
          */
-        public FieldVectorImpl<T> solve(FieldVectorImpl<T> b)
+        public ArrayFieldVector<T> solve(ArrayFieldVector<T> b)
             throws IllegalArgumentException, InvalidMatrixException {
-            return new FieldVectorImpl<T>(solve(b.getDataRef()), false);
+            return new ArrayFieldVector<T>(solve(b.getDataRef()), false);
         }
 
         /** {@inheritDoc} */
@@ -413,7 +413,7 @@ public class FieldLUDecompositionImpl<T extends FieldElement<T>> implements Fiel
                 }
             }
 
-            return new FieldMatrixImpl<T>(bp, false);
+            return new Array2DRowFieldMatrix<T>(bp, false);
 
         }
 
@@ -421,7 +421,7 @@ public class FieldLUDecompositionImpl<T extends FieldElement<T>> implements Fiel
         public FieldMatrix<T> getInverse() throws InvalidMatrixException {
             final int m = pivot.length;
             final T one = field.getOne();
-            FieldMatrix<T> identity = new FieldMatrixImpl<T>(field, m, m);
+            FieldMatrix<T> identity = new Array2DRowFieldMatrix<T>(field, m, m);
             for (int i = 0; i < m; ++i) {
                 identity.setEntry(i, i, one);
             }

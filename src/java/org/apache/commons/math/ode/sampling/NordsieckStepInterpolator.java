@@ -23,7 +23,7 @@ import java.io.ObjectOutput;
 import java.util.Arrays;
 
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.RealMatrixImpl;
+import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealMatrixPreservingVisitor;
 
 /**
@@ -251,7 +251,7 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
                     nI[j] = in.readDouble();
                 }
             }
-            nordsieck = new RealMatrixImpl(nData, false);
+            nordsieck = new Array2DRowRealMatrix(nData, false);
         } else {
             nordsieck = null;
         }

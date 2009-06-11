@@ -29,7 +29,7 @@ import java.util.Set;
 
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.RealMatrixImpl;
+import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.RealPointValuePair;
@@ -111,7 +111,7 @@ class SimplexTableau implements Serializable {
                                       getConstraintTypeCounts(Relationship.GEQ);
         this.numArtificialVariables = getConstraintTypeCounts(Relationship.EQ) +
                                       getConstraintTypeCounts(Relationship.GEQ);
-        this.tableau = new RealMatrixImpl(createTableau(goalType == GoalType.MAXIMIZE));
+        this.tableau = new Array2DRowRealMatrix(createTableau(goalType == GoalType.MAXIMIZE));
         initialize();
     }
 
@@ -297,7 +297,7 @@ class SimplexTableau implements Serializable {
             }
             matrix[i][width - 1] = getEntry(i + 1, getRhsOffset());
         }
-        this.tableau = new RealMatrixImpl(matrix);
+        this.tableau = new Array2DRowRealMatrix(matrix);
         this.numArtificialVariables = 0;
     }
 

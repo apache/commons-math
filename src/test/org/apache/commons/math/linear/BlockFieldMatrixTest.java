@@ -33,7 +33,7 @@ import org.apache.commons.math.fraction.FractionField;
  * @version $Revision$ $Date$
  */
 
-public final class DenseFieldMatrixTest extends TestCase {
+public final class BlockFieldMatrixTest extends TestCase {
     
     // 3 x 3 identity matrix
     protected Fraction[][] id = {
@@ -152,12 +152,12 @@ public final class DenseFieldMatrixTest extends TestCase {
     protected double entryTolerance = 10E-16;
     protected double normTolerance = 10E-14;
     
-    public DenseFieldMatrixTest(String name) {
+    public BlockFieldMatrixTest(String name) {
         super(name);
     }
     
     public static Test suite() {
-        TestSuite suite = new TestSuite(DenseFieldMatrixTest.class);
+        TestSuite suite = new TestSuite(BlockFieldMatrixTest.class);
         suite.setName("BlockFieldMatrix<Fraction> Tests");
         return suite;
     }
@@ -372,7 +372,7 @@ public final class DenseFieldMatrixTest extends TestCase {
     public void testOperate() {
         FieldMatrix<Fraction> m = new BlockFieldMatrix<Fraction>(id);
         TestUtils.assertEquals(testVector, m.operate(testVector));
-        TestUtils.assertEquals(testVector, m.operate(new FieldVectorImpl<Fraction>(testVector)).getData());
+        TestUtils.assertEquals(testVector, m.operate(new ArrayFieldVector<Fraction>(testVector)).getData());
         m = new BlockFieldMatrix<Fraction>(bigSingular);
         try {
             m.operate(testVector);
@@ -437,7 +437,7 @@ public final class DenseFieldMatrixTest extends TestCase {
     public void testPremultiplyVector() {
         FieldMatrix<Fraction> m = new BlockFieldMatrix<Fraction>(testData);
         TestUtils.assertEquals(m.preMultiply(testVector), preMultTest);
-        TestUtils.assertEquals(m.preMultiply(new FieldVectorImpl<Fraction>(testVector).getData()),
+        TestUtils.assertEquals(m.preMultiply(new ArrayFieldVector<Fraction>(testVector).getData()),
                                preMultTest);
         m = new BlockFieldMatrix<Fraction>(bigSingular);
         try {
@@ -801,8 +801,8 @@ public final class DenseFieldMatrixTest extends TestCase {
     
     public void testGetRowVector() {
         FieldMatrix<Fraction> m = new BlockFieldMatrix<Fraction>(subTestData);
-        FieldVector<Fraction> mRow0 = new FieldVectorImpl<Fraction>(subRow0[0]);
-        FieldVector<Fraction> mRow3 = new FieldVectorImpl<Fraction>(subRow3[0]);
+        FieldVector<Fraction> mRow0 = new ArrayFieldVector<Fraction>(subRow0[0]);
+        FieldVector<Fraction> mRow3 = new ArrayFieldVector<Fraction>(subRow3[0]);
         assertEquals(mRow0, m.getRowVector(0));
         assertEquals(mRow3, m.getRowVector(3));
         try {
@@ -821,7 +821,7 @@ public final class DenseFieldMatrixTest extends TestCase {
 
     public void testSetRowVector() {
         FieldMatrix<Fraction> m = new BlockFieldMatrix<Fraction>(subTestData);
-        FieldVector<Fraction> mRow3 = new FieldVectorImpl<Fraction>(subRow3[0]);
+        FieldVector<Fraction> mRow3 = new ArrayFieldVector<Fraction>(subRow3[0]);
         assertNotSame(mRow3, m.getRowMatrix(0));
         m.setRowVector(0, mRow3);
         assertEquals(mRow3, m.getRowVector(0));
@@ -832,7 +832,7 @@ public final class DenseFieldMatrixTest extends TestCase {
             // expected
         }
         try {
-            m.setRowVector(0, new FieldVectorImpl<Fraction>(FractionField.getInstance(), 5));
+            m.setRowVector(0, new ArrayFieldVector<Fraction>(FractionField.getInstance(), 5));
             fail("Expecting InvalidMatrixException");
         } catch (InvalidMatrixException ex) {
             // expected
@@ -842,7 +842,7 @@ public final class DenseFieldMatrixTest extends TestCase {
     public void testGetSetRowVectorLarge() {
         int n = 3 * BlockFieldMatrix.BLOCK_SIZE;
         FieldMatrix<Fraction> m = new BlockFieldMatrix<Fraction>(FractionField.getInstance(), n, n);
-        FieldVector<Fraction> sub = new FieldVectorImpl<Fraction>(n, new Fraction(1));
+        FieldVector<Fraction> sub = new ArrayFieldVector<Fraction>(n, new Fraction(1));
 
         m.setRowVector(2, sub);
         for (int i = 0; i < n; ++i) {
@@ -891,7 +891,7 @@ public final class DenseFieldMatrixTest extends TestCase {
             // expected
         }
         try {
-            m.setColumnVector(0, new FieldVectorImpl<Fraction>(FractionField.getInstance(), 5));
+            m.setColumnVector(0, new ArrayFieldVector<Fraction>(FractionField.getInstance(), 5));
             fail("Expecting InvalidMatrixException");
         } catch (InvalidMatrixException ex) {
             // expected
@@ -901,7 +901,7 @@ public final class DenseFieldMatrixTest extends TestCase {
     public void testGetSetColumnVectorLarge() {
         int n = 3 * BlockFieldMatrix.BLOCK_SIZE;
         FieldMatrix<Fraction> m = new BlockFieldMatrix<Fraction>(FractionField.getInstance(), n, n);
-        FieldVector<Fraction> sub = new FieldVectorImpl<Fraction>(n, new Fraction(1));
+        FieldVector<Fraction> sub = new ArrayFieldVector<Fraction>(n, new Fraction(1));
 
         m.setColumnVector(2, sub);
         for (int i = 0; i < n; ++i) {
@@ -922,7 +922,7 @@ public final class DenseFieldMatrixTest extends TestCase {
         for (int i = 0; i < data.length; ++i) {
             data[i] = column[i][0];
         }
-        return new FieldVectorImpl<Fraction>(data, false);
+        return new ArrayFieldVector<Fraction>(data, false);
     }
 
     public void testGetRow() {

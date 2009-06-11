@@ -1030,7 +1030,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
             outIndex += jWidth;
         }
 
-        return new FieldVectorImpl<T>(outData, false);
+        return new ArrayFieldVector<T>(outData, false);
 
     }
 
@@ -1039,7 +1039,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
     public void setRowVector(final int row, final FieldVector<T> vector)
         throws MatrixIndexException, InvalidMatrixException {
         try {
-            setRow(row, ((FieldVectorImpl<T>) vector).getDataRef());
+            setRow(row, ((ArrayFieldVector<T>) vector).getDataRef());
         } catch (ClassCastException cce) {
             super.setRowVector(row, vector);
         }
@@ -1066,7 +1066,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
             }
         }
 
-        return new FieldVectorImpl<T>(outData, false);
+        return new ArrayFieldVector<T>(outData, false);
 
     }
 
@@ -1075,7 +1075,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
     public void setColumnVector(final int column, final FieldVector<T> vector)
         throws MatrixIndexException, InvalidMatrixException {
         try {
-            setColumn(column, ((FieldVectorImpl<T>) vector).getDataRef());
+            setColumn(column, ((ArrayFieldVector<T>) vector).getDataRef());
         } catch (ClassCastException cce) {
             super.setColumnVector(column, vector);
         }

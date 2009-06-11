@@ -207,7 +207,7 @@ public class SparseFieldMatrixTest extends TestCase {
         SparseFieldMatrix<Fraction> m2 = createSparseMatrix(testData2);
         assertClose("inverse multiply", m.multiply(mInv), identity,
                 entryTolerance);
-        assertClose("inverse multiply", m.multiply(new FieldMatrixImpl<Fraction>(testDataInv)), identity,
+        assertClose("inverse multiply", m.multiply(new Array2DRowFieldMatrix<Fraction>(testDataInv)), identity,
                     entryTolerance);
         assertClose("inverse multiply", mInv.multiply(m), identity,
                 entryTolerance);
@@ -225,7 +225,7 @@ public class SparseFieldMatrixTest extends TestCase {
         }
     }
 
-    // Additional Test for RealMatrixImplTest.testMultiply
+    // Additional Test for Array2DRowRealMatrixTest.testMultiply
 
     private Fraction[][] d3 = new Fraction[][] { { new Fraction(1), new Fraction(2), new Fraction(3), new Fraction(4) }, { new Fraction(5), new Fraction(6), new Fraction(7), new Fraction(8) } };
     private Fraction[][] d4 = new Fraction[][] { { new Fraction(1) }, { new Fraction(2) }, { new Fraction(3) }, { new Fraction(4) } };
@@ -264,7 +264,7 @@ public class SparseFieldMatrixTest extends TestCase {
         assertClose("identity operate", testVector, m.operate(testVector),
                 entryTolerance);
         assertClose("identity operate", testVector, m.operate(
-                new FieldVectorImpl<Fraction>(testVector)).getData(), entryTolerance);
+                new ArrayFieldVector<Fraction>(testVector)).getData(), entryTolerance);
         m = createSparseMatrix(bigSingular);
         try {
             m.operate(testVector);
@@ -303,7 +303,7 @@ public class SparseFieldMatrixTest extends TestCase {
         assertClose("premultiply", m.preMultiply(testVector), preMultTest,
             normTolerance);
         assertClose("premultiply", m.preMultiply(
-            new FieldVectorImpl<Fraction>(testVector).getData()), preMultTest, normTolerance);
+            new ArrayFieldVector<Fraction>(testVector).getData()), preMultTest, normTolerance);
         m = createSparseMatrix(bigSingular);
         try {
             m.preMultiply(testVector);
@@ -506,8 +506,8 @@ public class SparseFieldMatrixTest extends TestCase {
 
     public void testGetRowVector() {
         FieldMatrix<Fraction> m = createSparseMatrix(subTestData);
-        FieldVector<Fraction> mRow0 = new FieldVectorImpl<Fraction>(subRow0[0]);
-        FieldVector<Fraction> mRow3 = new FieldVectorImpl<Fraction>(subRow3[0]);
+        FieldVector<Fraction> mRow0 = new ArrayFieldVector<Fraction>(subRow0[0]);
+        FieldVector<Fraction> mRow3 = new ArrayFieldVector<Fraction>(subRow3[0]);
         assertEquals("Row0", mRow0, m.getRowVector(0));
         assertEquals("Row3", mRow3, m.getRowVector(3));
         try {
@@ -549,7 +549,7 @@ public class SparseFieldMatrixTest extends TestCase {
         for (int i = 0; i < data.length; ++i) {
             data[i] = column[i][0];
         }
-        return new FieldVectorImpl<Fraction>(data, false);
+        return new ArrayFieldVector<Fraction>(data, false);
     }
 
     public void testEqualsAndHashCode() {

@@ -30,11 +30,11 @@ import org.apache.commons.math.fraction.Fraction;
 import org.apache.commons.math.fraction.FractionField;
 
 /**
- * Test cases for the {@link FieldVectorImpl} class.
+ * Test cases for the {@link ArrayFieldVector} class.
  *
  * @version $Revision$ $Date$
  */
-public class FieldVectorImplTest extends TestCase {
+public class ArrayFieldVectorTest extends TestCase {
 
     // 
     protected Fraction[][] ma1 = {
@@ -255,33 +255,33 @@ public class FieldVectorImplTest extends TestCase {
     }
 
     public static Test suite() {
-        TestSuite suite = new TestSuite(FieldVectorImplTest.class);
-        suite.setName("FieldVectorImpl<Fraction> Tests");
+        TestSuite suite = new TestSuite(ArrayFieldVectorTest.class);
+        suite.setName("ArrayFieldVector<Fraction> Tests");
         return suite;
     }
 
     public void testConstructors() {
 
-        FieldVectorImpl<Fraction> v0 = new FieldVectorImpl<Fraction>(FractionField.getInstance());
+        ArrayFieldVector<Fraction> v0 = new ArrayFieldVector<Fraction>(FractionField.getInstance());
         assertEquals(0, v0.getDimension());
 
-        FieldVectorImpl<Fraction> v1 = new FieldVectorImpl<Fraction>(FractionField.getInstance(), 7);
+        ArrayFieldVector<Fraction> v1 = new ArrayFieldVector<Fraction>(FractionField.getInstance(), 7);
         assertEquals(7, v1.getDimension());
         assertEquals(new Fraction(0), v1.getEntry(6));
 
-        FieldVectorImpl<Fraction> v2 = new FieldVectorImpl<Fraction>(5, new Fraction(123, 100));
+        ArrayFieldVector<Fraction> v2 = new ArrayFieldVector<Fraction>(5, new Fraction(123, 100));
         assertEquals(5, v2.getDimension());
         assertEquals(new Fraction(123, 100), v2.getEntry(4));
 
-        FieldVectorImpl<Fraction> v3 = new FieldVectorImpl<Fraction>(vec1);
+        ArrayFieldVector<Fraction> v3 = new ArrayFieldVector<Fraction>(vec1);
         assertEquals(3, v3.getDimension());
         assertEquals(new Fraction(2), v3.getEntry(1));
 
-        FieldVectorImpl<Fraction> v4 = new FieldVectorImpl<Fraction>(vec4, 3, 2);
+        ArrayFieldVector<Fraction> v4 = new ArrayFieldVector<Fraction>(vec4, 3, 2);
         assertEquals(2, v4.getDimension());
         assertEquals(new Fraction(4), v4.getEntry(0));
         try {
-            new FieldVectorImpl<Fraction>(vec4, 8, 3);
+            new ArrayFieldVector<Fraction>(vec4, 8, 3);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected behavior
@@ -289,19 +289,19 @@ public class FieldVectorImplTest extends TestCase {
             fail("wrong exception caught");
         }
 
-        FieldVector<Fraction> v5_i = new FieldVectorImpl<Fraction>(dvec1);
+        FieldVector<Fraction> v5_i = new ArrayFieldVector<Fraction>(dvec1);
         assertEquals(9, v5_i.getDimension());
         assertEquals(new Fraction(9), v5_i.getEntry(8));
 
-        FieldVectorImpl<Fraction> v5 = new FieldVectorImpl<Fraction>(dvec1);
+        ArrayFieldVector<Fraction> v5 = new ArrayFieldVector<Fraction>(dvec1);
         assertEquals(9, v5.getDimension());
         assertEquals(new Fraction(9), v5.getEntry(8));
 
-        FieldVectorImpl<Fraction> v6 = new FieldVectorImpl<Fraction>(dvec1, 3, 2);
+        ArrayFieldVector<Fraction> v6 = new ArrayFieldVector<Fraction>(dvec1, 3, 2);
         assertEquals(2, v6.getDimension());
         assertEquals(new Fraction(4), v6.getEntry(0));
         try {
-            new FieldVectorImpl<Fraction>(dvec1, 8, 3);
+            new ArrayFieldVector<Fraction>(dvec1, 8, 3);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected behavior
@@ -309,27 +309,27 @@ public class FieldVectorImplTest extends TestCase {
             fail("wrong exception caught");
         }
 
-        FieldVectorImpl<Fraction> v7 = new FieldVectorImpl<Fraction>(v1);
+        ArrayFieldVector<Fraction> v7 = new ArrayFieldVector<Fraction>(v1);
         assertEquals(7, v7.getDimension());
         assertEquals(new Fraction(0), v7.getEntry(6));
 
         FieldVectorTestImpl<Fraction> v7_i = new FieldVectorTestImpl<Fraction>(vec1);
 
-        FieldVectorImpl<Fraction> v7_2 = new FieldVectorImpl<Fraction>(v7_i);
+        ArrayFieldVector<Fraction> v7_2 = new ArrayFieldVector<Fraction>(v7_i);
         assertEquals(3, v7_2.getDimension());
         assertEquals(new Fraction(2), v7_2.getEntry(1));
 
-        FieldVectorImpl<Fraction> v8 = new FieldVectorImpl<Fraction>(v1, true);
+        ArrayFieldVector<Fraction> v8 = new ArrayFieldVector<Fraction>(v1, true);
         assertEquals(7, v8.getDimension());
         assertEquals(new Fraction(0), v8.getEntry(6));
         assertNotSame("testData not same object ", v1.data, v8.data);
 
-        FieldVectorImpl<Fraction> v8_2 = new FieldVectorImpl<Fraction>(v1, false);
+        ArrayFieldVector<Fraction> v8_2 = new ArrayFieldVector<Fraction>(v1, false);
         assertEquals(7, v8_2.getDimension());
         assertEquals(new Fraction(0), v8_2.getEntry(6));
         assertEquals(v1.data, v8_2.data);
 
-        FieldVectorImpl<Fraction> v9 = new FieldVectorImpl<Fraction>(v1, v3);
+        ArrayFieldVector<Fraction> v9 = new ArrayFieldVector<Fraction>(v1, v3);
         assertEquals(10, v9.getDimension());
         assertEquals(new Fraction(1), v9.getEntry(7));
 
@@ -337,9 +337,9 @@ public class FieldVectorImplTest extends TestCase {
 
     public void testDataInOut() {
 
-        FieldVectorImpl<Fraction> v1 = new FieldVectorImpl<Fraction>(vec1);
-        FieldVectorImpl<Fraction> v2 = new FieldVectorImpl<Fraction>(vec2);
-        FieldVectorImpl<Fraction> v4 = new FieldVectorImpl<Fraction>(vec4);
+        ArrayFieldVector<Fraction> v1 = new ArrayFieldVector<Fraction>(vec1);
+        ArrayFieldVector<Fraction> v2 = new ArrayFieldVector<Fraction>(vec2);
+        ArrayFieldVector<Fraction> v4 = new ArrayFieldVector<Fraction>(vec4);
         FieldVectorTestImpl<Fraction> v2_t = new FieldVectorTestImpl<Fraction>(vec2); 
 
         FieldVector<Fraction> v_append_1 = v1.append(v2);
@@ -367,7 +367,7 @@ public class FieldVectorImplTest extends TestCase {
         assertNotSame("testData not same object ", v1.data, a_frac);
 
 
-//      FieldVectorImpl<Fraction> vout4 = (FieldVectorImpl<Fraction>) v1.clone();
+//      ArrayFieldVector<Fraction> vout4 = (ArrayFieldVector<Fraction>) v1.clone();
 //      assertEquals(3, vout4.getDimension());
 //      assertEquals(v1.data, vout4.data);
 
@@ -384,7 +384,7 @@ public class FieldVectorImplTest extends TestCase {
             fail("wrong exception caught");
         }
 
-        FieldVectorImpl<Fraction> v_set1 = (FieldVectorImpl<Fraction>) v1.copy();
+        ArrayFieldVector<Fraction> v_set1 = (ArrayFieldVector<Fraction>) v1.copy();
         v_set1.setEntry(1, new Fraction(11));
         assertEquals(new Fraction(11), v_set1.getEntry(1));
         try {
@@ -396,7 +396,7 @@ public class FieldVectorImplTest extends TestCase {
             fail("wrong exception caught");
         }
 
-        FieldVectorImpl<Fraction> v_set2 = (FieldVectorImpl<Fraction>) v4.copy();
+        ArrayFieldVector<Fraction> v_set2 = (ArrayFieldVector<Fraction>) v4.copy();
         v_set2.set(3, v1);
         assertEquals(new Fraction(1), v_set2.getEntry(3));
         assertEquals(new Fraction(7), v_set2.getEntry(6));
@@ -409,7 +409,7 @@ public class FieldVectorImplTest extends TestCase {
             fail("wrong exception caught");
         }
 
-        FieldVectorImpl<Fraction> v_set3 = (FieldVectorImpl<Fraction>) v1.copy();
+        ArrayFieldVector<Fraction> v_set3 = (ArrayFieldVector<Fraction>) v1.copy();
         v_set3.set(new Fraction(13));
         assertEquals(new Fraction(13), v_set3.getEntry(2));
 
@@ -422,7 +422,7 @@ public class FieldVectorImplTest extends TestCase {
             fail("wrong exception caught");
         }
 
-        FieldVectorImpl<Fraction> v_set4 = (FieldVectorImpl<Fraction>) v4.copy();
+        ArrayFieldVector<Fraction> v_set4 = (ArrayFieldVector<Fraction>) v4.copy();
         v_set4.setSubVector(3, v2_t);
         assertEquals(new Fraction(4), v_set4.getEntry(3));
         assertEquals(new Fraction(7), v_set4.getEntry(6));
@@ -436,8 +436,8 @@ public class FieldVectorImplTest extends TestCase {
         }
 
 
-        FieldVectorImpl<Fraction> vout10 = (FieldVectorImpl<Fraction>) v1.copy();       
-        FieldVectorImpl<Fraction> vout10_2 = (FieldVectorImpl<Fraction>) v1.copy();
+        ArrayFieldVector<Fraction> vout10 = (ArrayFieldVector<Fraction>) v1.copy();       
+        ArrayFieldVector<Fraction> vout10_2 = (ArrayFieldVector<Fraction>) v1.copy();
         assertEquals(vout10, vout10_2);
         vout10_2.setEntry(0, new Fraction(11, 10));
         assertNotSame(vout10, vout10_2);
@@ -445,7 +445,7 @@ public class FieldVectorImplTest extends TestCase {
     }
 
     public void testMapFunctions() { 
-        FieldVectorImpl<Fraction> v1 = new FieldVectorImpl<Fraction>(vec1);
+        ArrayFieldVector<Fraction> v1 = new ArrayFieldVector<Fraction>(vec1);
 
         //octave =  v1 .+ 2.0
         FieldVector<Fraction> v_mapAdd = v1.mapAdd(new Fraction(2));
@@ -505,14 +505,14 @@ public class FieldVectorImplTest extends TestCase {
     }
 
     public void testBasicFunctions() { 
-        FieldVectorImpl<Fraction> v1 = new FieldVectorImpl<Fraction>(vec1);
-        FieldVectorImpl<Fraction> v2 = new FieldVectorImpl<Fraction>(vec2);
-        new FieldVectorImpl<Fraction>(vec_null);
+        ArrayFieldVector<Fraction> v1 = new ArrayFieldVector<Fraction>(vec1);
+        ArrayFieldVector<Fraction> v2 = new ArrayFieldVector<Fraction>(vec2);
+        new ArrayFieldVector<Fraction>(vec_null);
 
         FieldVectorTestImpl<Fraction> v2_t = new FieldVectorTestImpl<Fraction>(vec2); 
 
         //octave =  v1 + v2
-        FieldVectorImpl<Fraction> v_add = v1.add(v2);
+        ArrayFieldVector<Fraction> v_add = v1.add(v2);
         Fraction[] result_add = {new Fraction(5), new Fraction(7), new Fraction(9)};
         checkArray("compare vect" ,v_add.getData(),result_add);
 
@@ -522,7 +522,7 @@ public class FieldVectorImplTest extends TestCase {
         checkArray("compare vect" ,v_add_i.getData(),result_add_i);
 
         //octave =  v1 - v2
-        FieldVectorImpl<Fraction> v_subtract = v1.subtract(v2);
+        ArrayFieldVector<Fraction> v_subtract = v1.subtract(v2);
         Fraction[] result_subtract = {new Fraction(-3), new Fraction(-3), new Fraction(-3)};
         checkArray("compare vect" ,v_subtract.getData(),result_subtract);
 
@@ -531,7 +531,7 @@ public class FieldVectorImplTest extends TestCase {
         checkArray("compare vect" ,v_subtract_i.getData(),result_subtract_i);
 
         // octave v1 .* v2
-        FieldVectorImpl<Fraction>  v_ebeMultiply = v1.ebeMultiply(v2);
+        ArrayFieldVector<Fraction>  v_ebeMultiply = v1.ebeMultiply(v2);
         Fraction[] result_ebeMultiply = {new Fraction(4), new Fraction(10), new Fraction(18)};
         checkArray("compare vect" ,v_ebeMultiply.getData(),result_ebeMultiply);
 
@@ -540,7 +540,7 @@ public class FieldVectorImplTest extends TestCase {
         checkArray("compare vect" ,v_ebeMultiply_2.getData(),result_ebeMultiply_2);
 
         // octave v1 ./ v2
-        FieldVectorImpl<Fraction>  v_ebeDivide = v1.ebeDivide(v2);
+        ArrayFieldVector<Fraction>  v_ebeDivide = v1.ebeDivide(v2);
         Fraction[] result_ebeDivide = {new Fraction(1, 4), new Fraction(2, 5), new Fraction(1, 2)};
         checkArray("compare vect" ,v_ebeDivide.getData(),result_ebeDivide);
 
@@ -562,7 +562,7 @@ public class FieldVectorImplTest extends TestCase {
         FieldMatrix<Fraction> m_outerProduct_2 = v1.outerProduct(v2_t);
         assertEquals("compare val ",new Fraction(4), m_outerProduct_2.getEntry(0,0));
 
-        FieldVectorImpl<Fraction> v_projection = v1.projection(v2);
+        ArrayFieldVector<Fraction> v_projection = v1.projection(v2);
         Fraction[] result_projection = {new Fraction(128, 77), new Fraction(160, 77), new Fraction(192, 77)};
         checkArray("compare vect", v_projection.getData(), result_projection);
 
@@ -573,9 +573,9 @@ public class FieldVectorImplTest extends TestCase {
     }  
 
     public void testMisc() { 
-        FieldVectorImpl<Fraction> v1 = new FieldVectorImpl<Fraction>(vec1);
-        FieldVectorImpl<Fraction> v4 = new FieldVectorImpl<Fraction>(vec4);
-        FieldVector<Fraction> v4_2 = new FieldVectorImpl<Fraction>(vec4);
+        ArrayFieldVector<Fraction> v1 = new ArrayFieldVector<Fraction>(vec1);
+        ArrayFieldVector<Fraction> v4 = new ArrayFieldVector<Fraction>(vec4);
+        FieldVector<Fraction> v4_2 = new ArrayFieldVector<Fraction>(vec4);
 
         String out1 = v1.toString();
         assertTrue("some output ",  out1.length()!=0);
@@ -614,7 +614,7 @@ public class FieldVectorImplTest extends TestCase {
     }
 
     public void testSerial()  {
-        FieldVectorImpl<Fraction> v = new FieldVectorImpl<Fraction>(vec1);
+        ArrayFieldVector<Fraction> v = new ArrayFieldVector<Fraction>(vec1);
         assertEquals(v,TestUtils.serializeAndRecover(v));
     }
   

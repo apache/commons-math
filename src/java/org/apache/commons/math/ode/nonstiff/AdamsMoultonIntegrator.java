@@ -30,11 +30,11 @@ import org.apache.commons.math.fraction.BigFraction;
 import org.apache.commons.math.linear.DefaultRealMatrixChangingVisitor;
 import org.apache.commons.math.linear.FieldLUDecompositionImpl;
 import org.apache.commons.math.linear.FieldMatrix;
-import org.apache.commons.math.linear.FieldMatrixImpl;
+import org.apache.commons.math.linear.Array2DRowFieldMatrix;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.MatrixVisitorException;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.RealMatrixImpl;
+import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealMatrixPreservingVisitor;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
@@ -398,7 +398,7 @@ public class AdamsMoultonIntegrator extends MultistepIntegrator {
             }
         }
 
-        return coefficients.msToN.multiply(new RealMatrixImpl(multistep, false));
+        return coefficients.msToN.multiply(new Array2DRowRealMatrix(multistep, false));
 
     }
 
@@ -527,7 +527,7 @@ public class AdamsMoultonIntegrator extends MultistepIntegrator {
             shiftedP[0] = new BigFraction[order - 1];
             Arrays.fill(shiftedP[0], BigFraction.ZERO);
             FieldMatrix<BigFraction> bigMSupdate =
-                bigMStoN.multiply(new FieldMatrixImpl<BigFraction>(shiftedP, false));
+                bigMStoN.multiply(new Array2DRowFieldMatrix<BigFraction>(shiftedP, false));
 
             // convert coefficients to double
             msToN    = MatrixUtils.bigFractionMatrixToRealMatrix(bigMStoN);
@@ -568,7 +568,7 @@ public class AdamsMoultonIntegrator extends MultistepIntegrator {
                 }
             }
 
-            return new FieldMatrixImpl<BigFraction>(pData, false);
+            return new Array2DRowFieldMatrix<BigFraction>(pData, false);
 
         }
 

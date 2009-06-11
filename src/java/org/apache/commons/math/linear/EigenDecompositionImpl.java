@@ -139,7 +139,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     private double[] imagEigenvalues;
 
     /** Eigenvectors. */
-    private RealVectorImpl[] eigenvectors;
+    private ArrayRealVector[] eigenvectors;
 
     /** Cached value of V. */
     private RealMatrix cachedV;
@@ -366,7 +366,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
         private double[] imagEigenvalues;
 
         /** Eigenvectors. */
-        private final RealVectorImpl[] eigenvectors;
+        private final ArrayRealVector[] eigenvectors;
 
         /**
          * Build a solver from decomposed matrix.
@@ -375,7 +375,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
          * @param eigenvectors eigenvectors
          */
         private Solver(final double[] realEigenvalues, final double[] imagEigenvalues,
-                       final RealVectorImpl[] eigenvectors) {
+                       final ArrayRealVector[] eigenvectors) {
             this.realEigenvalues = realEigenvalues;
             this.imagEigenvalues = imagEigenvalues;
             this.eigenvectors    = eigenvectors; 
@@ -405,7 +405,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 
             final double[] bp = new double[m];
             for (int i = 0; i < m; ++i) {
-                final RealVectorImpl v = eigenvectors[i];
+                final ArrayRealVector v = eigenvectors[i];
                 final double[] vData = v.getDataRef();
                 final double s = v.dotProduct(b) / realEigenvalues[i];
                 for (int j = 0; j < m; ++j) {
@@ -441,7 +441,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 
             final double[] bp = new double[m];
             for (int i = 0; i < m; ++i) {
-                final RealVectorImpl v = eigenvectors[i];
+                final ArrayRealVector v = eigenvectors[i];
                 final double[] vData = v.getDataRef();
                 final double s = v.dotProduct(b) / realEigenvalues[i];
                 for (int j = 0; j < m; ++j) {
@@ -449,7 +449,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
                 }
             }
 
-            return new RealVectorImpl(bp, false);
+            return new ArrayRealVector(bp, false);
 
         }
 
@@ -479,7 +479,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
             final double[][] bp = new double[m][nColB];
             for (int k = 0; k < nColB; ++k) {
                 for (int i = 0; i < m; ++i) {
-                    final RealVectorImpl v = eigenvectors[i];
+                    final ArrayRealVector v = eigenvectors[i];
                     final double[] vData = v.getDataRef();
                     double s = 0;
                     for (int j = 0; j < m; ++j) {
@@ -1687,7 +1687,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     private void findEigenVectors() {
 
         final int m = main.length;
-        eigenvectors = new RealVectorImpl[m];
+        eigenvectors = new ArrayRealVector[m];
 
         // perform an initial non-shifted LDLt decomposition
         final double[] d = new double[m];
@@ -1718,7 +1718,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
      * @param l off-diagonal elements of the initial non-shifted L matrix
      * @return an eigenvector
      */
-    private RealVectorImpl findEigenvector(final double eigenvalue,
+    private ArrayRealVector findEigenvector(final double eigenvalue,
                                            final double[] d, final double[] l) {
 
         // compute the LDLt and UDUt decompositions of the
@@ -1765,8 +1765,8 @@ public class EigenDecompositionImpl implements EigenDecomposition {
         }
 
         return (transformer == null) ?
-               new RealVectorImpl(eigenvector, false) :
-               new RealVectorImpl(transformer.getQ().operate(eigenvector), false);
+               new ArrayRealVector(eigenvector, false) :
+               new ArrayRealVector(transformer.getQ().operate(eigenvector), false);
 
     }
 

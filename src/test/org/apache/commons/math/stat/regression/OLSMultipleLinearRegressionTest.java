@@ -23,7 +23,7 @@ import org.apache.commons.math.linear.DefaultRealMatrixChangingVisitor;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.MatrixVisitorException;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.RealMatrixImpl;
+import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -91,9 +91,9 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         TestUtils.assertEquals(residuals, new double[]{0d,0d,0d,0d,0d,0d},
                                1e-14);
         RealMatrix errors =
-            new RealMatrixImpl(regression.estimateRegressionParametersVariance(), false);
+            new Array2DRowRealMatrix(regression.estimateRegressionParametersVariance(), false);
         final double[] s = { 1.0, -1.0 /  2.0, -1.0 /  3.0, -1.0 /  4.0, -1.0 /  5.0, -1.0 /  6.0 };
-        RealMatrix referenceVariance = new RealMatrixImpl(s.length, s.length);
+        RealMatrix referenceVariance = new Array2DRowRealMatrix(s.length, s.length);
         referenceVariance.walkInOptimizedOrder(new DefaultRealMatrixChangingVisitor() {
             @Override
             public double visit(int row, int column, double value)

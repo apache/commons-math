@@ -245,7 +245,7 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
         public RealVector solve(RealVector b)
             throws IllegalArgumentException, InvalidMatrixException {
             try {
-                return solve((RealVectorImpl) b);
+                return solve((ArrayRealVector) b);
             } catch (ClassCastException cce) {
 
                 final int m = lTData.length;
@@ -276,7 +276,7 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
                     }
                 }
 
-                return new RealVectorImpl(x, false);
+                return new ArrayRealVector(x, false);
 
             }
         }
@@ -288,9 +288,9 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
          * @exception IllegalArgumentException if matrices dimensions don't match
          * @exception InvalidMatrixException if decomposed matrix is singular
          */
-        public RealVectorImpl solve(RealVectorImpl b)
+        public ArrayRealVector solve(ArrayRealVector b)
             throws IllegalArgumentException, InvalidMatrixException {
-            return new RealVectorImpl(solve(b.getDataRef()), false);
+            return new ArrayRealVector(solve(b.getDataRef()), false);
         }
 
         /** {@inheritDoc} */
@@ -340,7 +340,7 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
                 }
             }
 
-            return new RealMatrixImpl(x, false);
+            return new Array2DRowRealMatrix(x, false);
 
         }
 

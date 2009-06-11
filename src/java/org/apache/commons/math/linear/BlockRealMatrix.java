@@ -1053,7 +1053,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
             outIndex += jWidth;
         }
 
-        return new RealVectorImpl(outData, false);
+        return new ArrayRealVector(outData, false);
 
     }
 
@@ -1062,7 +1062,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
     public void setRowVector(final int row, final RealVector vector)
         throws MatrixIndexException, InvalidMatrixException {
         try {
-            setRow(row, ((RealVectorImpl) vector).getDataRef());
+            setRow(row, ((ArrayRealVector) vector).getDataRef());
         } catch (ClassCastException cce) {
             super.setRowVector(row, vector);
         }
@@ -1089,7 +1089,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
             }
         }
 
-        return new RealVectorImpl(outData, false);
+        return new ArrayRealVector(outData, false);
 
     }
 
@@ -1098,7 +1098,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
     public void setColumnVector(final int column, final RealVector vector)
         throws MatrixIndexException, InvalidMatrixException {
         try {
-            setColumn(column, ((RealVectorImpl) vector).getDataRef());
+            setColumn(column, ((ArrayRealVector) vector).getDataRef());
         } catch (ClassCastException cce) {
             super.setColumnVector(column, vector);
         }

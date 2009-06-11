@@ -213,7 +213,7 @@ public final class SparseRealMatrixTest extends TestCase {
         }
     }
 
-    // Additional Test for RealMatrixImplTest.testMultiply
+    // Additional Test for Array2DRowRealMatrixTest.testMultiply
 
     private double[][] d3 = new double[][] { { 1, 2, 3, 4 }, { 5, 6, 7, 8 } };
     private double[][] d4 = new double[][] { { 1 }, { 2 }, { 3 }, { 4 } };
@@ -252,7 +252,7 @@ public final class SparseRealMatrixTest extends TestCase {
         assertClose("identity operate", testVector, m.operate(testVector),
                 entryTolerance);
         assertClose("identity operate", testVector, m.operate(
-                new RealVectorImpl(testVector)).getData(), entryTolerance);
+                new ArrayRealVector(testVector)).getData(), entryTolerance);
         m = createSparseMatrix(bigSingular);
         try {
             m.operate(testVector);
@@ -291,7 +291,7 @@ public final class SparseRealMatrixTest extends TestCase {
         assertClose("premultiply", m.preMultiply(testVector), preMultTest,
             normTolerance);
         assertClose("premultiply", m.preMultiply(
-            new RealVectorImpl(testVector).getData()), preMultTest, normTolerance);
+            new ArrayRealVector(testVector).getData()), preMultTest, normTolerance);
         m = createSparseMatrix(bigSingular);
         try {
             m.preMultiply(testVector);
@@ -494,8 +494,8 @@ public final class SparseRealMatrixTest extends TestCase {
 
     public void testGetRowVector() {
         RealMatrix m = createSparseMatrix(subTestData);
-        RealVector mRow0 = new RealVectorImpl(subRow0[0]);
-        RealVector mRow3 = new RealVectorImpl(subRow3[0]);
+        RealVector mRow0 = new ArrayRealVector(subRow0[0]);
+        RealVector mRow3 = new ArrayRealVector(subRow3[0]);
         assertEquals("Row0", mRow0, m.getRowVector(0));
         assertEquals("Row3", mRow3, m.getRowVector(3));
         try {
@@ -537,7 +537,7 @@ public final class SparseRealMatrixTest extends TestCase {
         for (int i = 0; i < data.length; ++i) {
             data[i] = column[i][0];
         }
-        return new RealVectorImpl(data, false);
+        return new ArrayRealVector(data, false);
     }
 
     public void testEqualsAndHashCode() {

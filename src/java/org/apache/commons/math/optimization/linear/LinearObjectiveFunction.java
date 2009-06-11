@@ -24,7 +24,7 @@ import java.io.Serializable;
 
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealVector;
-import org.apache.commons.math.linear.RealVectorImpl;
+import org.apache.commons.math.linear.ArrayRealVector;
 
 /**
  * An objective function for a linear optimization problem.
@@ -55,7 +55,7 @@ public class LinearObjectiveFunction implements Serializable {
      * @param constantTerm The constant term of the linear equation
      */
     public LinearObjectiveFunction(double[] coefficients, double constantTerm) {
-        this(new RealVectorImpl(coefficients), constantTerm);
+        this(new ArrayRealVector(coefficients), constantTerm);
     }
 
     /**

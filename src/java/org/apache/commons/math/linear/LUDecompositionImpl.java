@@ -301,7 +301,7 @@ public class LUDecompositionImpl implements LUDecomposition {
         public RealVector solve(RealVector b)
             throws IllegalArgumentException, InvalidMatrixException {
             try {
-                return solve((RealVectorImpl) b);
+                return solve((ArrayRealVector) b);
             } catch (ClassCastException cce) {
 
                 final int m = pivot.length;
@@ -338,7 +338,7 @@ public class LUDecompositionImpl implements LUDecomposition {
                     }
                 }
 
-                return new RealVectorImpl(bp, false);
+                return new ArrayRealVector(bp, false);
 
             }
         }
@@ -350,9 +350,9 @@ public class LUDecompositionImpl implements LUDecomposition {
          * @exception IllegalArgumentException if matrices dimensions don't match
          * @exception InvalidMatrixException if decomposed matrix is singular
          */
-        public RealVectorImpl solve(RealVectorImpl b)
+        public ArrayRealVector solve(ArrayRealVector b)
             throws IllegalArgumentException, InvalidMatrixException {
-            return new RealVectorImpl(solve(b.getDataRef()), false);
+            return new ArrayRealVector(solve(b.getDataRef()), false);
         }
 
         /** {@inheritDoc} */
@@ -409,7 +409,7 @@ public class LUDecompositionImpl implements LUDecomposition {
                 }
             }
 
-            return new RealMatrixImpl(bp, false);
+            return new Array2DRowRealMatrix(bp, false);
 
         }
 

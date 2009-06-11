@@ -26,7 +26,7 @@ import org.apache.commons.math.linear.CholeskyDecompositionImpl;
 import org.apache.commons.math.linear.DecompositionSolver;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.RealVectorImpl;
+import org.apache.commons.math.linear.ArrayRealVector;
 
 public class CholeskySolverTest extends TestCase {
 
@@ -70,7 +70,7 @@ public class CholeskySolverTest extends TestCase {
             fail("wrong exception caught");
         }
         try {
-            solver.solve(new RealVectorImplTest.RealVectorTestImpl(b.getColumn(0)));
+            solver.solve(new ArrayRealVectorTest.RealVectorTestImpl(b.getColumn(0)));
             fail("an exception should have been thrown");
         } catch (IllegalArgumentException iae) {
             // expected behavior
@@ -104,11 +104,11 @@ public class CholeskySolverTest extends TestCase {
         // using double[]
         for (int i = 0; i < b.getColumnDimension(); ++i) {
             assertEquals(0,
-                         new RealVectorImpl(solver.solve(b.getColumn(i))).subtract(xRef.getColumnVector(i)).getNorm(),
+                         new ArrayRealVector(solver.solve(b.getColumn(i))).subtract(xRef.getColumnVector(i)).getNorm(),
                          1.0e-13);
         }
 
-        // using RealVectorImpl
+        // using ArrayRealVector
         for (int i = 0; i < b.getColumnDimension(); ++i) {
             assertEquals(0,
                          solver.solve(b.getColumnVector(i)).subtract(xRef.getColumnVector(i)).getNorm(),
@@ -117,8 +117,8 @@ public class CholeskySolverTest extends TestCase {
 
         // using RealVector with an alternate implementation
         for (int i = 0; i < b.getColumnDimension(); ++i) {
-            RealVectorImplTest.RealVectorTestImpl v =
-                new RealVectorImplTest.RealVectorTestImpl(b.getColumn(i));
+            ArrayRealVectorTest.RealVectorTestImpl v =
+                new ArrayRealVectorTest.RealVectorTestImpl(b.getColumn(i));
             assertEquals(0,
                          solver.solve(v).subtract(xRef.getColumnVector(i)).getNorm(),
                          1.0e-13);

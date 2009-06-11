@@ -28,7 +28,7 @@ import org.apache.commons.math.linear.EigenDecompositionImpl;
 import org.apache.commons.math.linear.InvalidMatrixException;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.RealVectorImpl;
+import org.apache.commons.math.linear.ArrayRealVector;
 import org.apache.commons.math.util.MathUtils;
 
 public class EigenSolverTest extends TestCase {
@@ -97,7 +97,7 @@ public class EigenSolverTest extends TestCase {
             fail("wrong exception caught");
         }
         try {
-            es.solve(new RealVectorImplTest.RealVectorTestImpl(b.getColumn(0)));
+            es.solve(new ArrayRealVectorTest.RealVectorTestImpl(b.getColumn(0)));
             fail("an exception should have been thrown");
         } catch (IllegalArgumentException iae) {
             // expected behavior
@@ -140,11 +140,11 @@ public class EigenSolverTest extends TestCase {
         // using double[]
         for (int i = 0; i < b.getColumnDimension(); ++i) {
             assertEquals(0,
-                         new RealVectorImpl(es.solve(b.getColumn(i))).subtract(xRef.getColumnVector(i)).getNorm(),
+                         new ArrayRealVector(es.solve(b.getColumn(i))).subtract(xRef.getColumnVector(i)).getNorm(),
                          2.0e-11);
         }
 
-        // using RealMatrixImpl
+        // using Array2DRowRealMatrix
         for (int i = 0; i < b.getColumnDimension(); ++i) {
             assertEquals(0,
                          es.solve(b.getColumnVector(i)).subtract(xRef.getColumnVector(i)).getNorm(),
@@ -153,8 +153,8 @@ public class EigenSolverTest extends TestCase {
 
         // using RealMatrix with an alternate implementation
         for (int i = 0; i < b.getColumnDimension(); ++i) {
-            RealVectorImplTest.RealVectorTestImpl v =
-                new RealVectorImplTest.RealVectorTestImpl(b.getColumn(i));
+            ArrayRealVectorTest.RealVectorTestImpl v =
+                new ArrayRealVectorTest.RealVectorTestImpl(b.getColumn(i));
             assertEquals(0,
                          es.solve(v).subtract(xRef.getColumnVector(i)).getNorm(),
                          2.0e-11);

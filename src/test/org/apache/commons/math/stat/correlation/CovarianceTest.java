@@ -18,7 +18,7 @@ package org.apache.commons.math.stat.correlation;
 
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.RealMatrixImpl;
+import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.stat.descriptive.moment.Variance;
 
 import junit.framework.TestCase;
@@ -170,7 +170,7 @@ public class CovarianceTest extends TestCase {
         } catch (IllegalArgumentException ex) {
             // Expected
         }
-        RealMatrix matrix = new RealMatrixImpl(new double[][] {{0},{1}});
+        RealMatrix matrix = new Array2DRowRealMatrix(new double[][] {{0},{1}});
         try {
             new Covariance(matrix);
             fail("Expecting IllegalArgumentException");
@@ -199,7 +199,7 @@ public class CovarianceTest extends TestCase {
         assertEquals(covarianceMatrix.getEntry(2, 3), covarianceMatrix.getEntry(3, 2), Double.MIN_VALUE);
         
         // All columns same -> all entries = column variance
-        RealMatrix repeatedColumns = new RealMatrixImpl(47, 3);
+        RealMatrix repeatedColumns = new Array2DRowRealMatrix(47, 3);
         for (int i = 0; i < 3; i++) {
             repeatedColumns.setColumnMatrix(i, matrix.getColumnMatrix(0));
         }
@@ -231,6 +231,6 @@ public class CovarianceTest extends TestCase {
             System.arraycopy(data, ptr, matrixData[i], 0, nCols);
             ptr += nCols;
         }
-        return new RealMatrixImpl(matrixData); 
+        return new Array2DRowRealMatrix(matrixData); 
     }
 }

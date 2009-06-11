@@ -25,7 +25,7 @@ import org.apache.commons.math.fraction.Fraction;
 import org.apache.commons.math.fraction.FractionField;
 
 /**
- * Test cases for the {@link FieldMatrixImpl} class.
+ * Test cases for the {@link Array2DRowFieldMatrix} class.
  *
  * @version $Revision$ $Date$
  */
@@ -98,14 +98,14 @@ public final class FieldMatrixImplTest extends TestCase {
     
     public static Test suite() {
         TestSuite suite = new TestSuite(FieldMatrixImplTest.class);
-        suite.setName("FieldMatrixImpl<Fraction> Tests");
+        suite.setName("Array2DRowFieldMatrix<Fraction> Tests");
         return suite;
     }
     
     /** test dimensions */
     public void testDimensions() {
-        FieldMatrixImpl<Fraction> m = new FieldMatrixImpl<Fraction>(testData);
-        FieldMatrixImpl<Fraction> m2 = new FieldMatrixImpl<Fraction>(testData2);
+        Array2DRowFieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(testData);
+        Array2DRowFieldMatrix<Fraction> m2 = new Array2DRowFieldMatrix<Fraction>(testData2);
         assertEquals("testData row dimension",3,m.getRowDimension());
         assertEquals("testData column dimension",3,m.getColumnDimension());
         assertTrue("testData is square",m.isSquare());
@@ -116,18 +116,18 @@ public final class FieldMatrixImplTest extends TestCase {
     
     /** test copy functions */
     public void testCopyFunctions() {
-        FieldMatrixImpl<Fraction> m1 = new FieldMatrixImpl<Fraction>(testData);
-        FieldMatrixImpl<Fraction> m2 = new FieldMatrixImpl<Fraction>(m1.getData());
+        Array2DRowFieldMatrix<Fraction> m1 = new Array2DRowFieldMatrix<Fraction>(testData);
+        Array2DRowFieldMatrix<Fraction> m2 = new Array2DRowFieldMatrix<Fraction>(m1.getData());
         assertEquals(m2,m1);
-        FieldMatrixImpl<Fraction> m3 = new FieldMatrixImpl<Fraction>(testData);
-        FieldMatrixImpl<Fraction> m4 = new FieldMatrixImpl<Fraction>(m3.getData(), false);
+        Array2DRowFieldMatrix<Fraction> m3 = new Array2DRowFieldMatrix<Fraction>(testData);
+        Array2DRowFieldMatrix<Fraction> m4 = new Array2DRowFieldMatrix<Fraction>(m3.getData(), false);
         assertEquals(m4,m3);
     }           
     
     /** test add */
     public void testAdd() {
-        FieldMatrixImpl<Fraction> m = new FieldMatrixImpl<Fraction>(testData);
-        FieldMatrixImpl<Fraction> mInv = new FieldMatrixImpl<Fraction>(testDataInv);
+        Array2DRowFieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(testData);
+        Array2DRowFieldMatrix<Fraction> mInv = new Array2DRowFieldMatrix<Fraction>(testDataInv);
         FieldMatrix<Fraction> mPlusMInv = m.add(mInv);
         Fraction[][] sumEntries = mPlusMInv.getData();
         for (int row = 0; row < m.getRowDimension(); row++) {
@@ -139,8 +139,8 @@ public final class FieldMatrixImplTest extends TestCase {
     
     /** test add failure */
     public void testAddFail() {
-        FieldMatrixImpl<Fraction> m = new FieldMatrixImpl<Fraction>(testData);
-        FieldMatrixImpl<Fraction> m2 = new FieldMatrixImpl<Fraction>(testData2);
+        Array2DRowFieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(testData);
+        Array2DRowFieldMatrix<Fraction> m2 = new Array2DRowFieldMatrix<Fraction>(testData2);
         try {
             m.add(m2);
             fail("IllegalArgumentException expected");
@@ -151,11 +151,11 @@ public final class FieldMatrixImplTest extends TestCase {
     
      /** test m-n = m + -n */
     public void testPlusMinus() {
-        FieldMatrixImpl<Fraction> m = new FieldMatrixImpl<Fraction>(testData);
-        FieldMatrixImpl<Fraction> m2 = new FieldMatrixImpl<Fraction>(testDataInv);
+        Array2DRowFieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(testData);
+        Array2DRowFieldMatrix<Fraction> m2 = new Array2DRowFieldMatrix<Fraction>(testDataInv);
         TestUtils.assertEquals(m.subtract(m2),m2.scalarMultiply(new Fraction(-1)).add(m));        
         try {
-            m.subtract(new FieldMatrixImpl<Fraction>(testData2));
+            m.subtract(new Array2DRowFieldMatrix<Fraction>(testData2));
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // ignored
@@ -164,41 +164,41 @@ public final class FieldMatrixImplTest extends TestCase {
    
     /** test multiply */
      public void testMultiply() {
-        FieldMatrixImpl<Fraction> m = new FieldMatrixImpl<Fraction>(testData);
-        FieldMatrixImpl<Fraction> mInv = new FieldMatrixImpl<Fraction>(testDataInv);
-        FieldMatrixImpl<Fraction> identity = new FieldMatrixImpl<Fraction>(id);
-        FieldMatrixImpl<Fraction> m2 = new FieldMatrixImpl<Fraction>(testData2);
+        Array2DRowFieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(testData);
+        Array2DRowFieldMatrix<Fraction> mInv = new Array2DRowFieldMatrix<Fraction>(testDataInv);
+        Array2DRowFieldMatrix<Fraction> identity = new Array2DRowFieldMatrix<Fraction>(id);
+        Array2DRowFieldMatrix<Fraction> m2 = new Array2DRowFieldMatrix<Fraction>(testData2);
         TestUtils.assertEquals(m.multiply(mInv), identity);
         TestUtils.assertEquals(mInv.multiply(m), identity);
         TestUtils.assertEquals(m.multiply(identity), m);
         TestUtils.assertEquals(identity.multiply(mInv), mInv);
         TestUtils.assertEquals(m2.multiply(identity), m2); 
         try {
-            m.multiply(new FieldMatrixImpl<Fraction>(bigSingular));
+            m.multiply(new Array2DRowFieldMatrix<Fraction>(bigSingular));
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // ignored
         }      
     }   
     
-    //Additional Test for FieldMatrixImpl<Fraction>Test.testMultiply
+    //Additional Test for Array2DRowFieldMatrix<Fraction>Test.testMultiply
 
     private Fraction[][] d3 = new Fraction[][] {{new Fraction(1),new Fraction(2),new Fraction(3),new Fraction(4)},{new Fraction(5),new Fraction(6),new Fraction(7),new Fraction(8)}};
     private Fraction[][] d4 = new Fraction[][] {{new Fraction(1)},{new Fraction(2)},{new Fraction(3)},{new Fraction(4)}};
     private Fraction[][] d5 = new Fraction[][] {{new Fraction(30)},{new Fraction(70)}};
      
     public void testMultiply2() { 
-       FieldMatrix<Fraction> m3 = new FieldMatrixImpl<Fraction>(d3);   
-       FieldMatrix<Fraction> m4 = new FieldMatrixImpl<Fraction>(d4);
-       FieldMatrix<Fraction> m5 = new FieldMatrixImpl<Fraction>(d5);
+       FieldMatrix<Fraction> m3 = new Array2DRowFieldMatrix<Fraction>(d3);   
+       FieldMatrix<Fraction> m4 = new Array2DRowFieldMatrix<Fraction>(d4);
+       FieldMatrix<Fraction> m5 = new Array2DRowFieldMatrix<Fraction>(d5);
        TestUtils.assertEquals(m3.multiply(m4), m5);
    }  
         
     /** test trace */
     public void testTrace() {
-        FieldMatrix<Fraction> m = new FieldMatrixImpl<Fraction>(id);
+        FieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(id);
         assertEquals("identity trace",new Fraction(3),m.getTrace());
-        m = new FieldMatrixImpl<Fraction>(testData2);
+        m = new Array2DRowFieldMatrix<Fraction>(testData2);
         try {
             m.getTrace();
             fail("Expecting NonSquareMatrixException");
@@ -209,16 +209,16 @@ public final class FieldMatrixImplTest extends TestCase {
     
     /** test sclarAdd */
     public void testScalarAdd() {
-        FieldMatrix<Fraction> m = new FieldMatrixImpl<Fraction>(testData);
-        TestUtils.assertEquals(new FieldMatrixImpl<Fraction>(testDataPlus2), m.scalarAdd(new Fraction(2)));
+        FieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(testData);
+        TestUtils.assertEquals(new Array2DRowFieldMatrix<Fraction>(testDataPlus2), m.scalarAdd(new Fraction(2)));
     }
                     
     /** test operate */
     public void testOperate() {
-        FieldMatrix<Fraction> m = new FieldMatrixImpl<Fraction>(id);
+        FieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(id);
         TestUtils.assertEquals(testVector, m.operate(testVector));
-        TestUtils.assertEquals(testVector, m.operate(new FieldVectorImpl<Fraction>(testVector)).getData());
-        m = new FieldMatrixImpl<Fraction>(bigSingular);
+        TestUtils.assertEquals(testVector, m.operate(new ArrayFieldVector<Fraction>(testVector)).getData());
+        m = new Array2DRowFieldMatrix<Fraction>(bigSingular);
         try {
             m.operate(testVector);
             fail("Expecting illegalArgumentException");
@@ -229,7 +229,7 @@ public final class FieldMatrixImplTest extends TestCase {
 
     /** test issue MATH-209 */
     public void testMath209() {
-        FieldMatrix<Fraction> a = new FieldMatrixImpl<Fraction>(new Fraction[][] {
+        FieldMatrix<Fraction> a = new Array2DRowFieldMatrix<Fraction>(new Fraction[][] {
                 { new Fraction(1), new Fraction(2) }, { new Fraction(3), new Fraction(4) }, { new Fraction(5), new Fraction(6) }
         }, false);
         Fraction[] b = a.operate(new Fraction[] { new Fraction(1), new Fraction(1) });
@@ -241,22 +241,22 @@ public final class FieldMatrixImplTest extends TestCase {
     
     /** test transpose */
     public void testTranspose() {
-        FieldMatrix<Fraction> m = new FieldMatrixImpl<Fraction>(testData); 
+        FieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(testData); 
         FieldMatrix<Fraction> mIT = new FieldLUDecompositionImpl<Fraction>(m).getSolver().getInverse().transpose();
         FieldMatrix<Fraction> mTI = new FieldLUDecompositionImpl<Fraction>(m.transpose()).getSolver().getInverse();
         TestUtils.assertEquals(mIT, mTI);
-        m = new FieldMatrixImpl<Fraction>(testData2);
-        FieldMatrix<Fraction> mt = new FieldMatrixImpl<Fraction>(testData2T);
+        m = new Array2DRowFieldMatrix<Fraction>(testData2);
+        FieldMatrix<Fraction> mt = new Array2DRowFieldMatrix<Fraction>(testData2T);
         TestUtils.assertEquals(mt, m.transpose());
     }
     
     /** test preMultiply by vector */
     public void testPremultiplyVector() {
-        FieldMatrix<Fraction> m = new FieldMatrixImpl<Fraction>(testData);
+        FieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(testData);
         TestUtils.assertEquals(m.preMultiply(testVector), preMultTest);
-        TestUtils.assertEquals(m.preMultiply(new FieldVectorImpl<Fraction>(testVector).getData()),
+        TestUtils.assertEquals(m.preMultiply(new ArrayFieldVector<Fraction>(testVector).getData()),
                                preMultTest);
-        m = new FieldMatrixImpl<Fraction>(bigSingular);
+        m = new Array2DRowFieldMatrix<Fraction>(bigSingular);
         try {
             m.preMultiply(testVector);
             fail("expecting IllegalArgumentException");
@@ -266,20 +266,20 @@ public final class FieldMatrixImplTest extends TestCase {
     }
     
     public void testPremultiply() {
-        FieldMatrix<Fraction> m3 = new FieldMatrixImpl<Fraction>(d3);   
-        FieldMatrix<Fraction> m4 = new FieldMatrixImpl<Fraction>(d4);
-        FieldMatrix<Fraction> m5 = new FieldMatrixImpl<Fraction>(d5);
+        FieldMatrix<Fraction> m3 = new Array2DRowFieldMatrix<Fraction>(d3);   
+        FieldMatrix<Fraction> m4 = new Array2DRowFieldMatrix<Fraction>(d4);
+        FieldMatrix<Fraction> m5 = new Array2DRowFieldMatrix<Fraction>(d5);
         TestUtils.assertEquals(m4.preMultiply(m3), m5);
         
-        FieldMatrixImpl<Fraction> m = new FieldMatrixImpl<Fraction>(testData);
-        FieldMatrixImpl<Fraction> mInv = new FieldMatrixImpl<Fraction>(testDataInv);
-        FieldMatrixImpl<Fraction> identity = new FieldMatrixImpl<Fraction>(id);
+        Array2DRowFieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(testData);
+        Array2DRowFieldMatrix<Fraction> mInv = new Array2DRowFieldMatrix<Fraction>(testDataInv);
+        Array2DRowFieldMatrix<Fraction> identity = new Array2DRowFieldMatrix<Fraction>(id);
         TestUtils.assertEquals(m.preMultiply(mInv), identity);
         TestUtils.assertEquals(mInv.preMultiply(m), identity);
         TestUtils.assertEquals(m.preMultiply(identity), m);
         TestUtils.assertEquals(identity.preMultiply(mInv), mInv);
         try {
-            m.preMultiply(new FieldMatrixImpl<Fraction>(bigSingular));
+            m.preMultiply(new Array2DRowFieldMatrix<Fraction>(bigSingular));
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // ignored
@@ -287,7 +287,7 @@ public final class FieldMatrixImplTest extends TestCase {
     }
     
     public void testGetVectors() {
-        FieldMatrix<Fraction> m = new FieldMatrixImpl<Fraction>(testData);
+        FieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(testData);
         TestUtils.assertEquals(m.getRow(0), testDataRow1);
         TestUtils.assertEquals(m.getColumn(2), testDataCol3);
         try {
@@ -305,7 +305,7 @@ public final class FieldMatrixImplTest extends TestCase {
     }
     
     public void testGetEntry() {
-        FieldMatrix<Fraction> m = new FieldMatrixImpl<Fraction>(testData);
+        FieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(testData);
         assertEquals("get entry",m.getEntry(0,1),new Fraction(2));
         try {
             m.getEntry(10, 4);
@@ -322,14 +322,14 @@ public final class FieldMatrixImplTest extends TestCase {
                 {new Fraction(1),new Fraction(2),new Fraction(3)},
                 {new Fraction(2),new Fraction(5),new Fraction(3)}
         };
-        FieldMatrix<Fraction> m = new FieldMatrixImpl<Fraction>(matrixData);
+        FieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(matrixData);
         // One more with three rows, two columns
         Fraction[][] matrixData2 = {
                 {new Fraction(1),new Fraction(2)},
                 {new Fraction(2),new Fraction(5)},
                 {new Fraction(1), new Fraction(7)}
         };
-        FieldMatrix<Fraction> n = new FieldMatrixImpl<Fraction>(matrixData2);
+        FieldMatrix<Fraction> n = new Array2DRowFieldMatrix<Fraction>(matrixData2);
         // Now multiply m by n
         FieldMatrix<Fraction> p = m.multiply(n);
         assertEquals(2, p.getRowDimension());
@@ -345,7 +345,7 @@ public final class FieldMatrixImplTest extends TestCase {
                 {new Fraction(-1), new Fraction(7), new Fraction(6)},
                 {new Fraction(4), new Fraction(-3), new Fraction(-5)}
         };
-        FieldMatrix<Fraction> coefficients = new FieldMatrixImpl<Fraction>(coefficientsData);
+        FieldMatrix<Fraction> coefficients = new Array2DRowFieldMatrix<Fraction>(coefficientsData);
         Fraction[] constants = {new Fraction(1), new Fraction(-2), new Fraction(1)};
         Fraction[] solution = new FieldLUDecompositionImpl<Fraction>(coefficients).getSolver().solve(constants);
         assertEquals(new Fraction(2).multiply(solution[0]).
@@ -362,7 +362,7 @@ public final class FieldMatrixImplTest extends TestCase {
     
     // test submatrix accessors
     public void testGetSubMatrix() {
-        FieldMatrix<Fraction> m = new FieldMatrixImpl<Fraction>(subTestData);
+        FieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(subTestData);
         checkGetSubMatrix(m, subRows23Cols00,  2 , 3 , 0, 0, false);
         checkGetSubMatrix(m, subRows00Cols33,  0 , 0 , 3, 3, false);
         checkGetSubMatrix(m, subRows01Cols23,  0 , 1 , 2, 3, false);   
@@ -385,7 +385,7 @@ public final class FieldMatrixImplTest extends TestCase {
                                    boolean mustFail) {
         try {
             FieldMatrix<Fraction> sub = m.getSubMatrix(startRow, endRow, startColumn, endColumn);
-            assertEquals(new FieldMatrixImpl<Fraction>(reference), sub);
+            assertEquals(new Array2DRowFieldMatrix<Fraction>(reference), sub);
             if (mustFail) {
                 fail("Expecting MatrixIndexException");
             }
@@ -401,7 +401,7 @@ public final class FieldMatrixImplTest extends TestCase {
                                    boolean mustFail) {
         try {
             FieldMatrix<Fraction> sub = m.getSubMatrix(selectedRows, selectedColumns);
-            assertEquals(new FieldMatrixImpl<Fraction>(reference), sub);
+            assertEquals(new Array2DRowFieldMatrix<Fraction>(reference), sub);
             if (mustFail) {
                 fail("Expecting MatrixIndexException");
             }
@@ -413,7 +413,7 @@ public final class FieldMatrixImplTest extends TestCase {
     }
 
     public void testCopySubMatrix() {
-        FieldMatrix<Fraction> m = new FieldMatrixImpl<Fraction>(subTestData);
+        FieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(subTestData);
         checkCopy(m, subRows23Cols00,  2 , 3 , 0, 0, false);
         checkCopy(m, subRows00Cols33,  0 , 0 , 3, 3, false);
         checkCopy(m, subRows01Cols23,  0 , 1 , 2, 3, false);   
@@ -440,7 +440,7 @@ public final class FieldMatrixImplTest extends TestCase {
                              new Fraction[1][1] :
                              new Fraction[reference.length][reference[0].length];
             m.copySubMatrix(startRow, endRow, startColumn, endColumn, sub);
-            assertEquals(new FieldMatrixImpl<Fraction>(reference), new FieldMatrixImpl<Fraction>(sub));
+            assertEquals(new Array2DRowFieldMatrix<Fraction>(reference), new Array2DRowFieldMatrix<Fraction>(sub));
             if (mustFail) {
                 fail("Expecting MatrixIndexException");
             }
@@ -459,7 +459,7 @@ public final class FieldMatrixImplTest extends TestCase {
                     new Fraction[1][1] :
                     new Fraction[reference.length][reference[0].length];
             m.copySubMatrix(selectedRows, selectedColumns, sub);
-            assertEquals(new FieldMatrixImpl<Fraction>(reference), new FieldMatrixImpl<Fraction>(sub));
+            assertEquals(new Array2DRowFieldMatrix<Fraction>(reference), new Array2DRowFieldMatrix<Fraction>(sub));
             if (mustFail) {
                 fail("Expecting MatrixIndexException");
             }
@@ -471,9 +471,9 @@ public final class FieldMatrixImplTest extends TestCase {
     }
 
     public void testGetRowMatrix() {
-        FieldMatrix<Fraction> m = new FieldMatrixImpl<Fraction>(subTestData);
-        FieldMatrix<Fraction> mRow0 = new FieldMatrixImpl<Fraction>(subRow0);
-        FieldMatrix<Fraction> mRow3 = new FieldMatrixImpl<Fraction>(subRow3);
+        FieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(subTestData);
+        FieldMatrix<Fraction> mRow0 = new Array2DRowFieldMatrix<Fraction>(subRow0);
+        FieldMatrix<Fraction> mRow3 = new Array2DRowFieldMatrix<Fraction>(subRow3);
         assertEquals("Row0", mRow0, 
                 m.getRowMatrix(0));
         assertEquals("Row3", mRow3, 
@@ -493,8 +493,8 @@ public final class FieldMatrixImplTest extends TestCase {
     }
     
     public void testSetRowMatrix() {
-        FieldMatrix<Fraction> m = new FieldMatrixImpl<Fraction>(subTestData);
-        FieldMatrix<Fraction> mRow3 = new FieldMatrixImpl<Fraction>(subRow3);
+        FieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(subTestData);
+        FieldMatrix<Fraction> mRow3 = new Array2DRowFieldMatrix<Fraction>(subRow3);
         assertNotSame(mRow3, m.getRowMatrix(0));
         m.setRowMatrix(0, mRow3);
         assertEquals(mRow3, m.getRowMatrix(0));
@@ -513,9 +513,9 @@ public final class FieldMatrixImplTest extends TestCase {
     }
     
     public void testGetColumnMatrix() {
-        FieldMatrix<Fraction> m = new FieldMatrixImpl<Fraction>(subTestData);
-        FieldMatrix<Fraction> mColumn1 = new FieldMatrixImpl<Fraction>(subColumn1);
-        FieldMatrix<Fraction> mColumn3 = new FieldMatrixImpl<Fraction>(subColumn3);
+        FieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(subTestData);
+        FieldMatrix<Fraction> mColumn1 = new Array2DRowFieldMatrix<Fraction>(subColumn1);
+        FieldMatrix<Fraction> mColumn3 = new Array2DRowFieldMatrix<Fraction>(subColumn3);
         assertEquals("Column1", mColumn1, 
                 m.getColumnMatrix(1));
         assertEquals("Column3", mColumn3, 
@@ -535,8 +535,8 @@ public final class FieldMatrixImplTest extends TestCase {
     }
 
     public void testSetColumnMatrix() {
-        FieldMatrix<Fraction> m = new FieldMatrixImpl<Fraction>(subTestData);
-        FieldMatrix<Fraction> mColumn3 = new FieldMatrixImpl<Fraction>(subColumn3);
+        FieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(subTestData);
+        FieldMatrix<Fraction> mColumn3 = new Array2DRowFieldMatrix<Fraction>(subColumn3);
         assertNotSame(mColumn3, m.getColumnMatrix(1));
         m.setColumnMatrix(1, mColumn3);
         assertEquals(mColumn3, m.getColumnMatrix(1));
@@ -555,9 +555,9 @@ public final class FieldMatrixImplTest extends TestCase {
     }
 
     public void testGetRowVector() {
-        FieldMatrix<Fraction> m = new FieldMatrixImpl<Fraction>(subTestData);
-        FieldVector<Fraction> mRow0 = new FieldVectorImpl<Fraction>(subRow0[0]);
-        FieldVector<Fraction> mRow3 = new FieldVectorImpl<Fraction>(subRow3[0]);
+        FieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(subTestData);
+        FieldVector<Fraction> mRow0 = new ArrayFieldVector<Fraction>(subRow0[0]);
+        FieldVector<Fraction> mRow3 = new ArrayFieldVector<Fraction>(subRow3[0]);
         assertEquals("Row0", mRow0, m.getRowVector(0));
         assertEquals("Row3", mRow3, m.getRowVector(3));
         try {
@@ -575,8 +575,8 @@ public final class FieldMatrixImplTest extends TestCase {
     }
 
     public void testSetRowVector() {
-        FieldMatrix<Fraction> m = new FieldMatrixImpl<Fraction>(subTestData);
-        FieldVector<Fraction> mRow3 = new FieldVectorImpl<Fraction>(subRow3[0]);
+        FieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(subTestData);
+        FieldVector<Fraction> mRow3 = new ArrayFieldVector<Fraction>(subRow3[0]);
         assertNotSame(mRow3, m.getRowMatrix(0));
         m.setRowVector(0, mRow3);
         assertEquals(mRow3, m.getRowVector(0));
@@ -587,7 +587,7 @@ public final class FieldMatrixImplTest extends TestCase {
             // expected
         }
         try {
-            m.setRowVector(0, new FieldVectorImpl<Fraction>(FractionField.getInstance(), 5));
+            m.setRowVector(0, new ArrayFieldVector<Fraction>(FractionField.getInstance(), 5));
             fail("Expecting InvalidMatrixException");
         } catch (InvalidMatrixException ex) {
             // expected
@@ -595,7 +595,7 @@ public final class FieldMatrixImplTest extends TestCase {
     }
     
     public void testGetColumnVector() {
-        FieldMatrix<Fraction> m = new FieldMatrixImpl<Fraction>(subTestData);
+        FieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(subTestData);
         FieldVector<Fraction> mColumn1 = columnToVector(subColumn1);
         FieldVector<Fraction> mColumn3 = columnToVector(subColumn3);
         assertEquals("Column1", mColumn1, m.getColumnVector(1));
@@ -615,7 +615,7 @@ public final class FieldMatrixImplTest extends TestCase {
     }
 
     public void testSetColumnVector() {
-        FieldMatrix<Fraction> m = new FieldMatrixImpl<Fraction>(subTestData);
+        FieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(subTestData);
         FieldVector<Fraction> mColumn3 = columnToVector(subColumn3);
         assertNotSame(mColumn3, m.getColumnVector(1));
         m.setColumnVector(1, mColumn3);
@@ -627,7 +627,7 @@ public final class FieldMatrixImplTest extends TestCase {
             // expected
         }
         try {
-            m.setColumnVector(0, new FieldVectorImpl<Fraction>(FractionField.getInstance(), 5));
+            m.setColumnVector(0, new ArrayFieldVector<Fraction>(FractionField.getInstance(), 5));
             fail("Expecting InvalidMatrixException");
         } catch (InvalidMatrixException ex) {
             // expected
@@ -639,11 +639,11 @@ public final class FieldMatrixImplTest extends TestCase {
         for (int i = 0; i < data.length; ++i) {
             data[i] = column[i][0];
         }
-        return new FieldVectorImpl<Fraction>(data, false);
+        return new ArrayFieldVector<Fraction>(data, false);
     }
 
     public void testGetRow() {
-        FieldMatrix<Fraction> m = new FieldMatrixImpl<Fraction>(subTestData);
+        FieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(subTestData);
         checkArrays(subRow0[0], m.getRow(0));
         checkArrays(subRow3[0], m.getRow(3));
         try {
@@ -661,7 +661,7 @@ public final class FieldMatrixImplTest extends TestCase {
     }
 
     public void testSetRow() {
-        FieldMatrix<Fraction> m = new FieldMatrixImpl<Fraction>(subTestData);
+        FieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(subTestData);
         assertTrue(subRow3[0][0] != m.getRow(0)[0]);
         m.setRow(0, subRow3[0]);
         checkArrays(subRow3[0], m.getRow(0));
@@ -680,7 +680,7 @@ public final class FieldMatrixImplTest extends TestCase {
     }
     
     public void testGetColumn() {
-        FieldMatrix<Fraction> m = new FieldMatrixImpl<Fraction>(subTestData);
+        FieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(subTestData);
         Fraction[] mColumn1 = columnToArray(subColumn1);
         Fraction[] mColumn3 = columnToArray(subColumn3);
         checkArrays(mColumn1, m.getColumn(1));
@@ -700,7 +700,7 @@ public final class FieldMatrixImplTest extends TestCase {
     }
 
     public void testSetColumn() {
-        FieldMatrix<Fraction> m = new FieldMatrixImpl<Fraction>(subTestData);
+        FieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(subTestData);
         Fraction[] mColumn3 = columnToArray(subColumn3);
         assertTrue(mColumn3[0] != m.getColumn(1)[0]);
         m.setColumn(1, mColumn3);
@@ -735,29 +735,29 @@ public final class FieldMatrixImplTest extends TestCase {
     }
     
     public void testEqualsAndHashCode() {
-        FieldMatrixImpl<Fraction> m = new FieldMatrixImpl<Fraction>(testData);
-        FieldMatrixImpl<Fraction> m1 = (FieldMatrixImpl<Fraction>) m.copy();
-        FieldMatrixImpl<Fraction> mt = (FieldMatrixImpl<Fraction>) m.transpose();
+        Array2DRowFieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(testData);
+        Array2DRowFieldMatrix<Fraction> m1 = (Array2DRowFieldMatrix<Fraction>) m.copy();
+        Array2DRowFieldMatrix<Fraction> mt = (Array2DRowFieldMatrix<Fraction>) m.transpose();
         assertTrue(m.hashCode() != mt.hashCode());
         assertEquals(m.hashCode(), m1.hashCode());
         assertEquals(m, m);
         assertEquals(m, m1);
         assertFalse(m.equals(null));
         assertFalse(m.equals(mt));
-        assertFalse(m.equals(new FieldMatrixImpl<Fraction>(bigSingular))); 
+        assertFalse(m.equals(new Array2DRowFieldMatrix<Fraction>(bigSingular))); 
     }
     
     public void testToString() {
-        FieldMatrixImpl<Fraction> m = new FieldMatrixImpl<Fraction>(testData);
-        assertEquals("FieldMatrixImpl{{1,2,3},{2,5,3},{1,0,8}}", m.toString());
-        m = new FieldMatrixImpl<Fraction>(FractionField.getInstance());
-        assertEquals("FieldMatrixImpl{}", m.toString());
+        Array2DRowFieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(testData);
+        assertEquals("Array2DRowFieldMatrix{{1,2,3},{2,5,3},{1,0,8}}", m.toString());
+        m = new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance());
+        assertEquals("Array2DRowFieldMatrix{}", m.toString());
     }
     
     public void testSetSubMatrix() throws Exception {
-        FieldMatrixImpl<Fraction> m = new FieldMatrixImpl<Fraction>(testData);
+        Array2DRowFieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(testData);
         m.setSubMatrix(detData2,1,1);
-        FieldMatrix<Fraction> expected = new FieldMatrixImpl<Fraction>
+        FieldMatrix<Fraction> expected = new Array2DRowFieldMatrix<Fraction>
             (new Fraction[][] {
                     {new Fraction(1),new Fraction(2),new Fraction(3)},
                     {new Fraction(2),new Fraction(1),new Fraction(3)},
@@ -766,7 +766,7 @@ public final class FieldMatrixImplTest extends TestCase {
         assertEquals(expected, m);  
         
         m.setSubMatrix(detData2,0,0);
-        expected = new FieldMatrixImpl<Fraction>
+        expected = new Array2DRowFieldMatrix<Fraction>
             (new Fraction[][] {
                     {new Fraction(1),new Fraction(3),new Fraction(3)},
                     {new Fraction(2),new Fraction(4),new Fraction(3)},
@@ -775,7 +775,7 @@ public final class FieldMatrixImplTest extends TestCase {
         assertEquals(expected, m);  
         
         m.setSubMatrix(testDataPlus2,0,0);      
-        expected = new FieldMatrixImpl<Fraction>
+        expected = new Array2DRowFieldMatrix<Fraction>
             (new Fraction[][] {
                     {new Fraction(3),new Fraction(4),new Fraction(5)},
                     {new Fraction(4),new Fraction(7),new Fraction(5)},
@@ -811,7 +811,7 @@ public final class FieldMatrixImplTest extends TestCase {
         } catch (NullPointerException e) {
             // expected
         }
-        FieldMatrixImpl<Fraction> m2 = new FieldMatrixImpl<Fraction>(FractionField.getInstance());
+        Array2DRowFieldMatrix<Fraction> m2 = new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance());
         try {
             m2.setSubMatrix(testData,0,1);
             fail("expecting IllegalStateException");
@@ -848,13 +848,13 @@ public final class FieldMatrixImplTest extends TestCase {
         int columns = 75;
 
         FieldMatrix<Fraction> m =
-            new FieldMatrixImpl<Fraction>(FractionField.getInstance(), rows, columns);
+            new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance(), rows, columns);
         m.walkInRowOrder(new SetVisitor());
         GetVisitor getVisitor = new GetVisitor();
         m.walkInOptimizedOrder(getVisitor);
         assertEquals(rows * columns, getVisitor.getCount());
 
-        m = new FieldMatrixImpl<Fraction>(FractionField.getInstance(), rows, columns);
+        m = new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance(), rows, columns);
         m.walkInRowOrder(new SetVisitor(), 1, rows - 2, 1, columns - 2);
         getVisitor = new GetVisitor();
         m.walkInOptimizedOrder(getVisitor, 1, rows - 2, 1, columns - 2);
@@ -868,13 +868,13 @@ public final class FieldMatrixImplTest extends TestCase {
             assertEquals(new Fraction(0), m.getEntry(rows - 1, j));
         }
 
-        m = new FieldMatrixImpl<Fraction>(FractionField.getInstance(), rows, columns);
+        m = new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance(), rows, columns);
         m.walkInColumnOrder(new SetVisitor());
         getVisitor = new GetVisitor();
         m.walkInOptimizedOrder(getVisitor);
         assertEquals(rows * columns, getVisitor.getCount());
 
-        m = new FieldMatrixImpl<Fraction>(FractionField.getInstance(), rows, columns);
+        m = new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance(), rows, columns);
         m.walkInColumnOrder(new SetVisitor(), 1, rows - 2, 1, columns - 2);
         getVisitor = new GetVisitor();
         m.walkInOptimizedOrder(getVisitor, 1, rows - 2, 1, columns - 2);
@@ -888,13 +888,13 @@ public final class FieldMatrixImplTest extends TestCase {
             assertEquals(new Fraction(0), m.getEntry(rows - 1, j));
         }
 
-        m = new FieldMatrixImpl<Fraction>(FractionField.getInstance(), rows, columns);
+        m = new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance(), rows, columns);
         m.walkInOptimizedOrder(new SetVisitor());
         getVisitor = new GetVisitor();
         m.walkInRowOrder(getVisitor);
         assertEquals(rows * columns, getVisitor.getCount());
 
-        m = new FieldMatrixImpl<Fraction>(FractionField.getInstance(), rows, columns);
+        m = new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance(), rows, columns);
         m.walkInOptimizedOrder(new SetVisitor(), 1, rows - 2, 1, columns - 2);
         getVisitor = new GetVisitor();
         m.walkInRowOrder(getVisitor, 1, rows - 2, 1, columns - 2);
@@ -908,13 +908,13 @@ public final class FieldMatrixImplTest extends TestCase {
             assertEquals(new Fraction(0), m.getEntry(rows - 1, j));
         }
 
-        m = new FieldMatrixImpl<Fraction>(FractionField.getInstance(), rows, columns);
+        m = new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance(), rows, columns);
         m.walkInOptimizedOrder(new SetVisitor());
         getVisitor = new GetVisitor();
         m.walkInColumnOrder(getVisitor);
         assertEquals(rows * columns, getVisitor.getCount());
 
-        m = new FieldMatrixImpl<Fraction>(FractionField.getInstance(), rows, columns);
+        m = new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance(), rows, columns);
         m.walkInOptimizedOrder(new SetVisitor(), 1, rows - 2, 1, columns - 2);
         getVisitor = new GetVisitor();
         m.walkInColumnOrder(getVisitor, 1, rows - 2, 1, columns - 2);
@@ -931,7 +931,7 @@ public final class FieldMatrixImplTest extends TestCase {
     }
 
     public void testSerial()  {
-        FieldMatrixImpl<Fraction> m = new FieldMatrixImpl<Fraction>(testData);
+        Array2DRowFieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(testData);
         assertEquals(m,TestUtils.serializeAndRecover(m));
     }
   
@@ -1005,7 +1005,7 @@ public final class FieldMatrixImplTest extends TestCase {
                 out[i][j] = matrix.getEntry(permutation[i], j);
             }
         }
-        return new FieldMatrixImpl<Fraction>(out);
+        return new Array2DRowFieldMatrix<Fraction>(out);
     }
     
 }

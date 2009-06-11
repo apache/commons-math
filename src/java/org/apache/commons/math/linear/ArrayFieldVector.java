@@ -30,7 +30,7 @@ import org.apache.commons.math.MathRuntimeException;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T>, Serializable {
+public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<T>, Serializable {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 7648186910365927050L;
@@ -54,13 +54,13 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
      * Build a 0-length vector.
      * <p>Zero-length vectors may be used to initialized construction of vectors
      * by data gathering. We start with zero-length and use either the {@link
-     * #FieldVectorImpl(FieldVectorImpl, FieldVectorImpl)} constructor
+     * #ArrayFieldVector(ArrayFieldVector, ArrayFieldVector)} constructor
      * or one of the <code>append</code> methods ({@link #append(FieldElement[])},
-     * {@link #add(FieldVector)}, {@link #append(FieldVectorImpl)}) to gather data
+     * {@link #add(FieldVector)}, {@link #append(ArrayFieldVector)}) to gather data
      * into this vector.</p>
      * @param field field to which the elements belong
      */
-    public FieldVectorImpl(final Field<T> field) {
+    public ArrayFieldVector(final Field<T> field) {
         this(field, 0);
     }
 
@@ -69,7 +69,7 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
      * @param field field to which the elements belong
      * @param size size of the vector
      */
-    public FieldVectorImpl(Field<T> field, int size) {
+    public ArrayFieldVector(Field<T> field, int size) {
         this.field = field;
         data = buildArray(size);
         Arrays.fill(data, field.getZero());
@@ -80,7 +80,7 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
      * @param size size of the vector
      * @param preset fill the vector with this scalar value
      */
-    public FieldVectorImpl(int size, T preset) {
+    public ArrayFieldVector(int size, T preset) {
         this(preset.getField(), size);
         Arrays.fill(data, preset);
     }
@@ -90,7 +90,7 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
      * @param d array of Ts.
      * @throws IllegalArgumentException if <code>d</code> is empty
      */
-    public FieldVectorImpl(T[] d)
+    public ArrayFieldVector(T[] d)
         throws IllegalArgumentException {
         try {
             field = d[0].getField();
@@ -102,10 +102,10 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
     }
 
     /**
-     * Create a new FieldVectorImpl using the input array as the underlying
+     * Create a new ArrayFieldVector using the input array as the underlying
      * data array.
      * <p>If an array is built specially in order to be embedded in a
-     * FieldVectorImpl and not used directly, the <code>copyArray</code> may be
+     * ArrayFieldVector and not used directly, the <code>copyArray</code> may be
      * set to <code>false</code. This will prevent the copying and improve
      * performance as no new array will be built and no data will be copied.</p>
      * @param d data for new vector
@@ -113,9 +113,9 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
      * it will be referenced
      * @throws IllegalArgumentException if <code>d</code> is empty
      * @throws NullPointerException if <code>d</code> is null
-     * @see #FieldVectorImpl(FieldElement[])
+     * @see #ArrayFieldVector(FieldElement[])
      */
-    public FieldVectorImpl(T[] d, boolean copyArray)
+    public ArrayFieldVector(T[] d, boolean copyArray)
         throws NullPointerException, IllegalArgumentException {
         try {
             field = d[0].getField();
@@ -132,7 +132,7 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
      * @param pos position of first entry
      * @param size number of entries to copy
      */
-    public FieldVectorImpl(T[] d, int pos, int size) {
+    public ArrayFieldVector(T[] d, int pos, int size) {
         if (d.length < pos + size) {
             throw MathRuntimeException.createIllegalArgumentException(
                     "position {0} and size {1} don't fit to the size of the input array {2}",
@@ -147,7 +147,7 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
      * Construct a vector from another vector, using a deep copy.
      * @param v vector to copy
      */
-    public FieldVectorImpl(FieldVector<T> v) {
+    public ArrayFieldVector(FieldVector<T> v) {
         field = v.getField();
         data = buildArray(v.getDimension());
         for (int i = 0; i < data.length; ++i) {
@@ -159,7 +159,7 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
      * Construct a vector from another vector, using a deep copy.
      * @param v vector to copy
      */
-    public FieldVectorImpl(FieldVectorImpl<T> v) {
+    public ArrayFieldVector(ArrayFieldVector<T> v) {
         field = v.getField();
         data = v.data.clone();
     }
@@ -169,7 +169,7 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
      * @param v vector to copy
      * @param deep if true perform a deep copy otherwise perform a shallow copy
      */
-    public FieldVectorImpl(FieldVectorImpl<T> v, boolean deep) {
+    public ArrayFieldVector(ArrayFieldVector<T> v, boolean deep) {
         field = v.getField();
         data = deep ? v.data.clone() : v.data;
     }
@@ -179,7 +179,7 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
      * @param v1 first vector (will be put in front of the new vector)
      * @param v2 second vector (will be put at back of the new vector)
      */
-    public FieldVectorImpl(FieldVectorImpl<T> v1, FieldVectorImpl<T> v2) {
+    public ArrayFieldVector(ArrayFieldVector<T> v1, ArrayFieldVector<T> v2) {
         field = v1.getField();
         data = buildArray(v1.data.length + v2.data.length);
         System.arraycopy(v1.data, 0, data, 0, v1.data.length);
@@ -191,7 +191,7 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
      * @param v1 first vector (will be put in front of the new vector)
      * @param v2 second vector (will be put at back of the new vector)
      */
-    public FieldVectorImpl(FieldVectorImpl<T> v1, T[] v2) {
+    public ArrayFieldVector(ArrayFieldVector<T> v1, T[] v2) {
         field = v1.getField();
         data = buildArray(v1.data.length + v2.length);
         System.arraycopy(v1.data, 0, data, 0, v1.data.length);
@@ -203,7 +203,7 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
      * @param v1 first vector (will be put in front of the new vector)
      * @param v2 second vector (will be put at back of the new vector)
      */
-    public FieldVectorImpl(T[] v1, FieldVectorImpl<T> v2) {
+    public ArrayFieldVector(T[] v1, ArrayFieldVector<T> v2) {
         field = v2.getField();
         data = buildArray(v1.length + v2.data.length);
         System.arraycopy(v1, 0, data, 0, v1.length);
@@ -216,7 +216,7 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
      * @param v2 second vector (will be put at back of the new vector)
      * @exception IllegalArgumentException if both vectors are empty
      */
-    public FieldVectorImpl(T[] v1, T[] v2) {
+    public ArrayFieldVector(T[] v1, T[] v2) {
         try {
             data = buildArray(v1.length + v2.length);
             System.arraycopy(v1, 0, data, 0, v1.length);
@@ -235,20 +235,20 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
 
     /** {@inheritDoc} */
     public FieldVector<T> copy() {
-        return new FieldVectorImpl<T>(this, true);
+        return new ArrayFieldVector<T>(this, true);
     }
 
     /** {@inheritDoc} */
     public FieldVector<T> add(FieldVector<T> v) throws IllegalArgumentException {
         try {
-            return add((FieldVectorImpl<T>) v);
+            return add((ArrayFieldVector<T>) v);
         } catch (ClassCastException cce) {
             checkVectorDimensions(v);
             T[] out = buildArray(data.length);
             for (int i = 0; i < data.length; i++) {
                 out[i] = data[i].add(v.getEntry(i));
             }
-            return new FieldVectorImpl<T>(out);
+            return new ArrayFieldVector<T>(out);
         }
     }
 
@@ -259,7 +259,7 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
         for (int i = 0; i < data.length; i++) {
             out[i] = data[i].add(v[i]);
         }
-        return new FieldVectorImpl<T>(out);
+        return new ArrayFieldVector<T>(out);
     }
 
     /**
@@ -268,22 +268,22 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
      * @return this + v
      * @throws IllegalArgumentException if v is not the same size as this
      */
-    public FieldVectorImpl<T> add(FieldVectorImpl<T> v)
+    public ArrayFieldVector<T> add(ArrayFieldVector<T> v)
         throws IllegalArgumentException {
-        return (FieldVectorImpl<T>) add(v.data);
+        return (ArrayFieldVector<T>) add(v.data);
     }
 
     /** {@inheritDoc} */
     public FieldVector<T> subtract(FieldVector<T> v) throws IllegalArgumentException {
         try {
-            return subtract((FieldVectorImpl<T>) v);
+            return subtract((ArrayFieldVector<T>) v);
         } catch (ClassCastException cce) {
             checkVectorDimensions(v);
             T[] out = buildArray(data.length);
             for (int i = 0; i < data.length; i++) {
                 out[i] = data[i].subtract(v.getEntry(i));
             }
-            return new FieldVectorImpl<T>(out);
+            return new ArrayFieldVector<T>(out);
         }
     }
 
@@ -294,7 +294,7 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
         for (int i = 0; i < data.length; i++) {
             out[i] = data[i].subtract(v[i]);
         }
-        return new FieldVectorImpl<T>(out);
+        return new ArrayFieldVector<T>(out);
     }
 
     /**
@@ -303,9 +303,9 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
      * @return this + v
      * @throws IllegalArgumentException if v is not the same size as this
      */
-    public FieldVectorImpl<T> subtract(FieldVectorImpl<T> v)
+    public ArrayFieldVector<T> subtract(ArrayFieldVector<T> v)
         throws IllegalArgumentException {
-        return (FieldVectorImpl<T>) subtract(v.data);
+        return (ArrayFieldVector<T>) subtract(v.data);
     }
 
     /** {@inheritDoc} */
@@ -314,7 +314,7 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
         for (int i = 0; i < data.length; i++) {
             out[i] = data[i].add(d);
         }
-        return new FieldVectorImpl<T>(out);
+        return new ArrayFieldVector<T>(out);
     }
 
     /** {@inheritDoc} */
@@ -331,7 +331,7 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
         for (int i = 0; i < data.length; i++) {
             out[i] = data[i].subtract(d);
         }
-        return new FieldVectorImpl<T>(out);
+        return new ArrayFieldVector<T>(out);
     }
 
     /** {@inheritDoc} */
@@ -348,7 +348,7 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
         for (int i = 0; i < data.length; i++) {
             out[i] = data[i].multiply(d);
         }
-        return new FieldVectorImpl<T>(out);
+        return new ArrayFieldVector<T>(out);
     }
 
     /** {@inheritDoc} */
@@ -365,7 +365,7 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
         for (int i = 0; i < data.length; i++) {
             out[i] = data[i].divide(d);
         }
-        return new FieldVectorImpl<T>(out);
+        return new ArrayFieldVector<T>(out);
     }
 
     /** {@inheritDoc} */
@@ -383,7 +383,7 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
         for (int i = 0; i < data.length; i++) {
             out[i] = one.divide(data[i]);
         }
-        return new FieldVectorImpl<T>(out);
+        return new ArrayFieldVector<T>(out);
     }
 
     /** {@inheritDoc} */
@@ -399,14 +399,14 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
     public FieldVector<T> ebeMultiply(FieldVector<T> v)
         throws IllegalArgumentException {
         try {
-            return ebeMultiply((FieldVectorImpl<T>) v);
+            return ebeMultiply((ArrayFieldVector<T>) v);
         } catch (ClassCastException cce) {
             checkVectorDimensions(v);
             T[] out = buildArray(data.length);
             for (int i = 0; i < data.length; i++) {
                 out[i] = data[i].multiply(v.getEntry(i));
             }
-            return new FieldVectorImpl<T>(out);
+            return new ArrayFieldVector<T>(out);
         }
     }
 
@@ -418,7 +418,7 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
         for (int i = 0; i < data.length; i++) {
             out[i] = data[i].multiply(v[i]);
         }
-        return new FieldVectorImpl<T>(out);
+        return new ArrayFieldVector<T>(out);
     }
 
     /**
@@ -427,23 +427,23 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
      * @return a vector containing this[i] * v[i] for all i
      * @exception IllegalArgumentException if v is not the same size as this
      */
-    public FieldVectorImpl<T> ebeMultiply(FieldVectorImpl<T> v)
+    public ArrayFieldVector<T> ebeMultiply(ArrayFieldVector<T> v)
         throws IllegalArgumentException {
-        return (FieldVectorImpl<T>) ebeMultiply(v.data);
+        return (ArrayFieldVector<T>) ebeMultiply(v.data);
     }
 
     /** {@inheritDoc} */
     public FieldVector<T> ebeDivide(FieldVector<T> v)
         throws IllegalArgumentException {
         try {
-            return ebeDivide((FieldVectorImpl<T>) v);
+            return ebeDivide((ArrayFieldVector<T>) v);
         } catch (ClassCastException cce) {
             checkVectorDimensions(v);
             T[] out = buildArray(data.length);
             for (int i = 0; i < data.length; i++) {
                 out[i] = data[i].divide(v.getEntry(i));
             }
-            return new FieldVectorImpl<T>(out);
+            return new ArrayFieldVector<T>(out);
         }
     }
 
@@ -455,7 +455,7 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
         for (int i = 0; i < data.length; i++) {
                 out[i] = data[i].divide(v[i]);
         }
-        return new FieldVectorImpl<T>(out);
+        return new ArrayFieldVector<T>(out);
     }
 
     /**
@@ -464,9 +464,9 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
      * @return a vector containing this[i] / v[i] for all i
      * @throws IllegalArgumentException if v is not the same size as this
      */
-    public FieldVectorImpl<T> ebeDivide(FieldVectorImpl<T> v)
+    public ArrayFieldVector<T> ebeDivide(ArrayFieldVector<T> v)
         throws IllegalArgumentException {
-        return (FieldVectorImpl<T>) ebeDivide(v.data);
+        return (ArrayFieldVector<T>) ebeDivide(v.data);
     }
 
     /** {@inheritDoc} */
@@ -487,7 +487,7 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
     public T dotProduct(FieldVector<T> v)
         throws IllegalArgumentException {
         try {
-            return dotProduct((FieldVectorImpl<T>) v);
+            return dotProduct((ArrayFieldVector<T>) v);
         } catch (ClassCastException cce) {
             checkVectorDimensions(v);
             T dot = field.getZero();
@@ -515,7 +515,7 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
      * @return the scalar dot product between instance and v
      * @exception IllegalArgumentException if v is not the same size as this
      */
-    public T dotProduct(FieldVectorImpl<T> v)
+    public T dotProduct(ArrayFieldVector<T> v)
         throws IllegalArgumentException {
         return dotProduct(v.data);
     }
@@ -527,7 +527,7 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
 
     /** {@inheritDoc} */
     public FieldVector<T> projection(T[] v) {
-        return projection(new FieldVectorImpl<T>(v, false));
+        return projection(new ArrayFieldVector<T>(v, false));
     }
 
    /** Find the orthogonal projection of this vector onto another vector.
@@ -535,19 +535,19 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
      * @return projection of the instance onto v
      * @throws IllegalArgumentException if v is not the same size as this
      */
-    public FieldVectorImpl<T> projection(FieldVectorImpl<T> v) {
-        return (FieldVectorImpl<T>) v.mapMultiply(dotProduct(v).divide(v.dotProduct(v)));
+    public ArrayFieldVector<T> projection(ArrayFieldVector<T> v) {
+        return (ArrayFieldVector<T>) v.mapMultiply(dotProduct(v).divide(v.dotProduct(v)));
     }
 
     /** {@inheritDoc} */
     public FieldMatrix<T> outerProduct(FieldVector<T> v)
         throws IllegalArgumentException {
         try {
-            return outerProduct((FieldVectorImpl<T>) v);
+            return outerProduct((ArrayFieldVector<T>) v);
         } catch (ClassCastException cce) {
             checkVectorDimensions(v);
             final int m = data.length;
-            final FieldMatrix<T> out = new FieldMatrixImpl<T>(field, m, m);
+            final FieldMatrix<T> out = new Array2DRowFieldMatrix<T>(field, m, m);
             for (int i = 0; i < data.length; i++) {
                 for (int j = 0; j < data.length; j++) {
                     out.setEntry(i, j, data[i].multiply(v.getEntry(j)));
@@ -563,7 +563,7 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
      * @return the square matrix outer product between instance and v
      * @exception IllegalArgumentException if v is not the same size as this
      */
-    public FieldMatrix<T> outerProduct(FieldVectorImpl<T> v)
+    public FieldMatrix<T> outerProduct(ArrayFieldVector<T> v)
         throws IllegalArgumentException {
         return outerProduct(v.data);
     }
@@ -573,7 +573,7 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
         throws IllegalArgumentException {
         checkVectorDimensions(v.length);
         final int m = data.length;
-        final FieldMatrix<T> out = new FieldMatrixImpl<T>(field, m, m);
+        final FieldMatrix<T> out = new Array2DRowFieldMatrix<T>(field, m, m);
         for (int i = 0; i < data.length; i++) {
             for (int j = 0; j < data.length; j++) {
                 out.setEntry(i, j, data[i].multiply(v[j]));
@@ -595,9 +595,9 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
     /** {@inheritDoc} */
     public FieldVector<T> append(FieldVector<T> v) {
         try {
-            return append((FieldVectorImpl<T>) v);
+            return append((ArrayFieldVector<T>) v);
         } catch (ClassCastException cce) {
-            return new FieldVectorImpl<T>(this,new FieldVectorImpl<T>(v));
+            return new ArrayFieldVector<T>(this,new ArrayFieldVector<T>(v));
         }
     }
 
@@ -606,8 +606,8 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
      * @param v vector to append to this one.
      * @return a new vector
      */
-    public FieldVectorImpl<T> append(FieldVectorImpl<T> v) {
-        return new FieldVectorImpl<T>(this, v);
+    public ArrayFieldVector<T> append(ArrayFieldVector<T> v) {
+        return new ArrayFieldVector<T>(this, v);
     }
 
     /** {@inheritDoc} */
@@ -615,17 +615,17 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
         final T[] out = buildArray(data.length + 1);
         System.arraycopy(data, 0, out, 0, data.length);
         out[data.length] = in;
-        return new FieldVectorImpl<T>(out);
+        return new ArrayFieldVector<T>(out);
     }
 
     /** {@inheritDoc} */
     public FieldVector<T> append(T[] in) {
-        return new FieldVectorImpl<T>(this, in);
+        return new ArrayFieldVector<T>(this, in);
     }
 
     /** {@inheritDoc} */
     public FieldVector<T> getSubVector(int index, int n) {
-        FieldVectorImpl<T> out = new FieldVectorImpl<T>(field, n);
+        ArrayFieldVector<T> out = new ArrayFieldVector<T>(field, n);
         try {
             System.arraycopy(data, index, out.data, 0, n);
         } catch (IndexOutOfBoundsException e) {
@@ -648,7 +648,7 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
     public void setSubVector(int index, FieldVector<T> v) {
         try {
             try {
-                set(index, (FieldVectorImpl<T>) v);
+                set(index, (ArrayFieldVector<T>) v);
             } catch (ClassCastException cce) {
                 for (int i = index; i < index + v.getDimension(); ++i) {
                     data[i] = v.getEntry(i-index);
@@ -678,7 +678,7 @@ public class FieldVectorImpl<T extends FieldElement<T>> implements FieldVector<T
      * @exception MatrixIndexException if the index is
      * inconsistent with vector size
      */
-    public void set(int index, FieldVectorImpl<T> v)
+    public void set(int index, ArrayFieldVector<T> v)
         throws MatrixIndexException {
         setSubVector(index, v.data);
     }

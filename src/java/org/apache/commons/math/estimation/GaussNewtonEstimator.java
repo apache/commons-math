@@ -24,7 +24,7 @@ import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealVector;
-import org.apache.commons.math.linear.RealVectorImpl;
+import org.apache.commons.math.linear.ArrayRealVector;
 
 /** 
  * This class implements a solver for estimation problems.
@@ -163,7 +163,7 @@ public class GaussNewtonEstimator extends AbstractEstimator implements Serializa
 
         // work matrices
         double[] grad             = new double[parameters.length];
-        RealVectorImpl bDecrement = new RealVectorImpl(parameters.length);
+        ArrayRealVector bDecrement = new ArrayRealVector(parameters.length);
         double[] bDecrementData   = bDecrement.getDataRef();
         RealMatrix wGradGradT     = MatrixUtils.createRealMatrix(parameters.length, parameters.length);
 
@@ -173,7 +173,7 @@ public class GaussNewtonEstimator extends AbstractEstimator implements Serializa
 
             // build the linear problem
             incrementJacobianEvaluationsCounter();
-            RealVector b = new RealVectorImpl(parameters.length);
+            RealVector b = new ArrayRealVector(parameters.length);
             RealMatrix a = MatrixUtils.createRealMatrix(parameters.length, parameters.length);
             for (int i = 0; i < measurements.length; ++i) {
                 if (! measurements [i].isIgnored()) {

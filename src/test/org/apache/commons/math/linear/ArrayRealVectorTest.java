@@ -25,11 +25,11 @@ import junit.framework.TestSuite;
 import org.apache.commons.math.TestUtils;
 
 /**
- * Test cases for the {@link RealVectorImpl} class.
+ * Test cases for the {@link ArrayRealVector} class.
  *
  * @version $Revision$ $Date$
  */
-public class RealVectorImplTest extends TestCase {
+public class ArrayRealVectorTest extends TestCase {
 
     // 
     protected double[][] ma1 = {{1d, 2d, 3d}, {4d, 5d, 6d}, {7d, 8d, 9d}};
@@ -104,7 +104,7 @@ public class RealVectorImplTest extends TestCase {
             for (int i = 0; i < data.length; i++) {
                 out[i] = data[i] * d;
             }
-            return new RealVectorImpl(out);
+            return new ArrayRealVector(out);
         }
 
         public RealVector mapMultiplyToSelf(double d) {
@@ -462,33 +462,33 @@ public class RealVectorImplTest extends TestCase {
     }
 
     public static Test suite() {
-        TestSuite suite = new TestSuite(RealVectorImplTest.class);
-        suite.setName("RealVectorImpl Tests");
+        TestSuite suite = new TestSuite(ArrayRealVectorTest.class);
+        suite.setName("ArrayRealVector Tests");
         return suite;
     }
 
     public void testConstructors() {
 
-        RealVectorImpl v0 = new RealVectorImpl();
+        ArrayRealVector v0 = new ArrayRealVector();
         assertEquals("testData len", 0, v0.getDimension());
 
-        RealVectorImpl v1 = new RealVectorImpl(7);
+        ArrayRealVector v1 = new ArrayRealVector(7);
         assertEquals("testData len", 7, v1.getDimension());
         assertEquals("testData is 0.0 ", 0.0, v1.getEntry(6));
 
-        RealVectorImpl v2 = new RealVectorImpl(5, 1.23);
+        ArrayRealVector v2 = new ArrayRealVector(5, 1.23);
         assertEquals("testData len", 5, v2.getDimension());
         assertEquals("testData is 1.23 ", 1.23, v2.getEntry(4));
 
-        RealVectorImpl v3 = new RealVectorImpl(vec1);
+        ArrayRealVector v3 = new ArrayRealVector(vec1);
         assertEquals("testData len", 3, v3.getDimension());
         assertEquals("testData is 2.0 ", 2.0, v3.getEntry(1));
 
-        RealVectorImpl v4 = new RealVectorImpl(vec4, 3, 2);
+        ArrayRealVector v4 = new ArrayRealVector(vec4, 3, 2);
         assertEquals("testData len", 2, v4.getDimension());
         assertEquals("testData is 4.0 ", 4.0, v4.getEntry(0));
         try {
-            new RealVectorImpl(vec4, 8, 3);
+            new ArrayRealVector(vec4, 8, 3);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected behavior
@@ -496,19 +496,19 @@ public class RealVectorImplTest extends TestCase {
             fail("wrong exception caught");
         }
 
-        RealVector v5_i = new RealVectorImpl(dvec1);
+        RealVector v5_i = new ArrayRealVector(dvec1);
         assertEquals("testData len", 9, v5_i.getDimension());
         assertEquals("testData is 9.0 ", 9.0, v5_i.getEntry(8));
 
-        RealVectorImpl v5 = new RealVectorImpl(dvec1);
+        ArrayRealVector v5 = new ArrayRealVector(dvec1);
         assertEquals("testData len", 9, v5.getDimension());
         assertEquals("testData is 9.0 ", 9.0, v5.getEntry(8));
 
-        RealVectorImpl v6 = new RealVectorImpl(dvec1, 3, 2);
+        ArrayRealVector v6 = new ArrayRealVector(dvec1, 3, 2);
         assertEquals("testData len", 2, v6.getDimension());
         assertEquals("testData is 4.0 ", 4.0, v6.getEntry(0));
         try {
-            new RealVectorImpl(dvec1, 8, 3);
+            new ArrayRealVector(dvec1, 8, 3);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected behavior
@@ -516,27 +516,27 @@ public class RealVectorImplTest extends TestCase {
             fail("wrong exception caught");
         }
 
-        RealVectorImpl v7 = new RealVectorImpl(v1);
+        ArrayRealVector v7 = new ArrayRealVector(v1);
         assertEquals("testData len", 7, v7.getDimension());
         assertEquals("testData is 0.0 ", 0.0, v7.getEntry(6));
 
         RealVectorTestImpl v7_i = new RealVectorTestImpl(vec1);
 
-        RealVectorImpl v7_2 = new RealVectorImpl(v7_i);
+        ArrayRealVector v7_2 = new ArrayRealVector(v7_i);
         assertEquals("testData len", 3, v7_2.getDimension());
         assertEquals("testData is 0.0 ", 2.0d, v7_2.getEntry(1));
 
-        RealVectorImpl v8 = new RealVectorImpl(v1, true);
+        ArrayRealVector v8 = new ArrayRealVector(v1, true);
         assertEquals("testData len", 7, v8.getDimension());
         assertEquals("testData is 0.0 ", 0.0, v8.getEntry(6));
         assertNotSame("testData not same object ", v1.data, v8.data);
 
-        RealVectorImpl v8_2 = new RealVectorImpl(v1, false);
+        ArrayRealVector v8_2 = new ArrayRealVector(v1, false);
         assertEquals("testData len", 7, v8_2.getDimension());
         assertEquals("testData is 0.0 ", 0.0, v8_2.getEntry(6));
         assertEquals("testData same object ", v1.data, v8_2.data);
 
-        RealVectorImpl v9 = new RealVectorImpl(v1, v3);
+        ArrayRealVector v9 = new ArrayRealVector(v1, v3);
         assertEquals("testData len", 10, v9.getDimension());
         assertEquals("testData is 1.0 ", 1.0, v9.getEntry(7));
 
@@ -544,9 +544,9 @@ public class RealVectorImplTest extends TestCase {
 
     public void testDataInOut() {
 
-        RealVectorImpl v1 = new RealVectorImpl(vec1);
-        RealVectorImpl v2 = new RealVectorImpl(vec2);
-        RealVectorImpl v4 = new RealVectorImpl(vec4);
+        ArrayRealVector v1 = new ArrayRealVector(vec1);
+        ArrayRealVector v2 = new ArrayRealVector(vec2);
+        ArrayRealVector v4 = new ArrayRealVector(vec4);
         RealVectorTestImpl v2_t = new RealVectorTestImpl(vec2); 
 
         RealVector v_append_1 = v1.append(v2);
@@ -574,7 +574,7 @@ public class RealVectorImplTest extends TestCase {
         assertNotSame("testData not same object ", v1.data, a_double);
 
 
-//      RealVectorImpl vout4 = (RealVectorImpl) v1.clone();
+//      ArrayRealVector vout4 = (ArrayRealVector) v1.clone();
 //      assertEquals("testData len", 3, vout4.getDimension());
 //      assertEquals("testData not same object ", v1.data, vout4.data);
 
@@ -591,7 +591,7 @@ public class RealVectorImplTest extends TestCase {
             fail("wrong exception caught");
         }
 
-        RealVectorImpl v_set1 = (RealVectorImpl) v1.copy();
+        ArrayRealVector v_set1 = (ArrayRealVector) v1.copy();
         v_set1.setEntry(1, 11.0);
         assertEquals("testData is 11.0 ", 11.0, v_set1.getEntry(1));
         try {
@@ -603,7 +603,7 @@ public class RealVectorImplTest extends TestCase {
             fail("wrong exception caught");
         }
 
-        RealVectorImpl v_set2 = (RealVectorImpl) v4.copy();
+        ArrayRealVector v_set2 = (ArrayRealVector) v4.copy();
         v_set2.set(3, v1);
         assertEquals("testData is 1.0 ", 1.0, v_set2.getEntry(3));
         assertEquals("testData is 7.0 ", 7.0, v_set2.getEntry(6));
@@ -616,7 +616,7 @@ public class RealVectorImplTest extends TestCase {
             fail("wrong exception caught");
         }
 
-        RealVectorImpl v_set3 = (RealVectorImpl) v1.copy();
+        ArrayRealVector v_set3 = (ArrayRealVector) v1.copy();
         v_set3.set(13.0);
         assertEquals("testData is 13.0 ", 13.0, v_set3.getEntry(2));
 
@@ -629,7 +629,7 @@ public class RealVectorImplTest extends TestCase {
             fail("wrong exception caught");
         }
 
-        RealVectorImpl v_set4 = (RealVectorImpl) v4.copy();
+        ArrayRealVector v_set4 = (ArrayRealVector) v4.copy();
         v_set4.setSubVector(3, v2_t);
         assertEquals("testData is 1.0 ", 4.0, v_set4.getEntry(3));
         assertEquals("testData is 7.0 ", 7.0, v_set4.getEntry(6));
@@ -643,8 +643,8 @@ public class RealVectorImplTest extends TestCase {
         }
 
 
-        RealVectorImpl vout10 = (RealVectorImpl) v1.copy();       
-        RealVectorImpl vout10_2 = (RealVectorImpl) v1.copy();
+        ArrayRealVector vout10 = (ArrayRealVector) v1.copy();       
+        ArrayRealVector vout10_2 = (ArrayRealVector) v1.copy();
         assertEquals(vout10, vout10_2);
         vout10_2.setEntry(0, 1.1);
         assertNotSame(vout10, vout10_2);
@@ -652,7 +652,7 @@ public class RealVectorImplTest extends TestCase {
     }
 
     public void testMapFunctions() { 
-        RealVectorImpl v1 = new RealVectorImpl(vec1);
+        ArrayRealVector v1 = new ArrayRealVector(vec1);
 
         //octave =  v1 .+ 2.0
         RealVector v_mapAdd = v1.mapAdd(2.0d);
@@ -832,7 +832,7 @@ public class RealVectorImplTest extends TestCase {
         assertClose("compare vectors" ,result_mapTanToSelf,v_mapTanToSelf.getData(),normTolerance);
 
         double[] vat_a = {0d, 0.5d, 1.0d};
-        RealVectorImpl vat = new RealVectorImpl(vat_a);
+        ArrayRealVector vat = new ArrayRealVector(vat_a);
 
         //octave =  acos(vat)
         RealVector v_mapAcos = vat.mapAcos();
@@ -879,7 +879,7 @@ public class RealVectorImplTest extends TestCase {
         assertClose("compare vectors" ,result_mapInvToSelf,v_mapInvToSelf.getData(),normTolerance);
 
         double[] abs_a = {-1.0d, 0.0d, 1.0d};
-        RealVectorImpl abs_v = new RealVectorImpl(abs_a);
+        ArrayRealVector abs_v = new ArrayRealVector(abs_a);
 
         //octave =  abs(abs_v)
         RealVector v_mapAbs = abs_v.mapAbs();
@@ -904,7 +904,7 @@ public class RealVectorImplTest extends TestCase {
         assertClose("compare vectors" ,result_mapSqrtToSelf,v_mapSqrtToSelf.getData(),normTolerance);
 
         double[] cbrt_a = {-2.0d, 0.0d, 2.0d};
-        RealVectorImpl cbrt_v = new RealVectorImpl(cbrt_a);
+        ArrayRealVector cbrt_v = new ArrayRealVector(cbrt_a);
 
         //octave =  ???
         RealVector v_mapCbrt = cbrt_v.mapCbrt();
@@ -918,7 +918,7 @@ public class RealVectorImplTest extends TestCase {
         assertClose("compare vectors" ,result_mapCbrtToSelf,v_mapCbrtToSelf.getData(),normTolerance);
 
         double[] ceil_a = {-1.1d, 0.9d, 1.1d};
-        RealVectorImpl ceil_v = new RealVectorImpl(ceil_a);
+        ArrayRealVector ceil_v = new ArrayRealVector(ceil_a);
 
         //octave =  ceil(ceil_v)
         RealVector v_mapCeil = ceil_v.mapCeil();
@@ -980,9 +980,9 @@ public class RealVectorImplTest extends TestCase {
     }
 
     public void testBasicFunctions() { 
-        RealVectorImpl v1 = new RealVectorImpl(vec1);
-        RealVectorImpl v2 = new RealVectorImpl(vec2);
-        RealVectorImpl v_null = new RealVectorImpl(vec_null);
+        ArrayRealVector v1 = new ArrayRealVector(vec1);
+        ArrayRealVector v2 = new ArrayRealVector(vec2);
+        ArrayRealVector v_null = new ArrayRealVector(vec_null);
 
         RealVectorTestImpl v2_t = new RealVectorTestImpl(vec2); 
 
@@ -1019,7 +1019,7 @@ public class RealVectorImplTest extends TestCase {
         assertEquals("compare values  ",3d, d_getLInfDistance_2 );
 
         //octave =  v1 + v2
-        RealVectorImpl v_add = v1.add(v2);
+        ArrayRealVector v_add = v1.add(v2);
         double[] result_add = {5d, 7d, 9d};
         assertClose("compare vect" ,v_add.getData(),result_add,normTolerance);
 
@@ -1029,7 +1029,7 @@ public class RealVectorImplTest extends TestCase {
         assertClose("compare vect" ,v_add_i.getData(),result_add_i,normTolerance);
 
         //octave =  v1 - v2
-        RealVectorImpl v_subtract = v1.subtract(v2);
+        ArrayRealVector v_subtract = v1.subtract(v2);
         double[] result_subtract = {-3d, -3d, -3d};
         assertClose("compare vect" ,v_subtract.getData(),result_subtract,normTolerance);
 
@@ -1038,7 +1038,7 @@ public class RealVectorImplTest extends TestCase {
         assertClose("compare vect" ,v_subtract_i.getData(),result_subtract_i,normTolerance);
 
         // octave v1 .* v2
-        RealVectorImpl  v_ebeMultiply = v1.ebeMultiply(v2);
+        ArrayRealVector  v_ebeMultiply = v1.ebeMultiply(v2);
         double[] result_ebeMultiply = {4d, 10d, 18d};
         assertClose("compare vect" ,v_ebeMultiply.getData(),result_ebeMultiply,normTolerance);
 
@@ -1047,7 +1047,7 @@ public class RealVectorImplTest extends TestCase {
         assertClose("compare vect" ,v_ebeMultiply_2.getData(),result_ebeMultiply_2,normTolerance);
 
         // octave v1 ./ v2
-        RealVectorImpl  v_ebeDivide = v1.ebeDivide(v2);
+        ArrayRealVector  v_ebeDivide = v1.ebeDivide(v2);
         double[] result_ebeDivide = {0.25d, 0.4d, 0.5d};
         assertClose("compare vect" ,v_ebeDivide.getData(),result_ebeDivide,normTolerance);
 
@@ -1082,7 +1082,7 @@ public class RealVectorImplTest extends TestCase {
             fail("wrong exception caught");
         }
 
-        RealVectorImpl v_unitize = (RealVectorImpl)v1.copy();
+        ArrayRealVector v_unitize = (ArrayRealVector)v1.copy();
         v_unitize.unitize();
         assertClose("compare vect" ,v_unitVector_2.getData(),v_unitize.getData(),normTolerance);
         try {
@@ -1094,7 +1094,7 @@ public class RealVectorImplTest extends TestCase {
             fail("wrong exception caught");
         }
 
-        RealVectorImpl v_projection = v1.projection(v2);
+        ArrayRealVector v_projection = v1.projection(v2);
         double[] result_projection = {1.662337662337662, 2.0779220779220777, 2.493506493506493};
         assertClose("compare vect", v_projection.getData(), result_projection, normTolerance);
 
@@ -1105,9 +1105,9 @@ public class RealVectorImplTest extends TestCase {
     }  
 
     public void testMisc() { 
-        RealVectorImpl v1 = new RealVectorImpl(vec1);
-        RealVectorImpl v4 = new RealVectorImpl(vec4);
-        RealVector v4_2 = new RealVectorImpl(vec4);
+        ArrayRealVector v1 = new ArrayRealVector(vec1);
+        ArrayRealVector v4 = new ArrayRealVector(vec4);
+        RealVector v4_2 = new ArrayRealVector(vec4);
 
         String out1 = v1.toString();
         assertTrue("some output ",  out1.length()!=0);
@@ -1147,7 +1147,7 @@ public class RealVectorImplTest extends TestCase {
 
     public void testPredicates() {
 
-        RealVectorImpl v = new RealVectorImpl(new double[] { 0, 1, 2 });
+        ArrayRealVector v = new ArrayRealVector(new double[] { 0, 1, 2 });
 
         assertFalse(v.isNaN());
         v.setEntry(1, Double.NaN);
@@ -1160,20 +1160,20 @@ public class RealVectorImplTest extends TestCase {
         assertTrue(v.isInfinite());
 
         v.setEntry(0, 0);
-        assertEquals(v, new RealVectorImpl(new double[] { 0, 1, 2 }));
-        assertNotSame(v, new RealVectorImpl(new double[] { 0, 1, 2 + Math.ulp(2)}));
-        assertNotSame(v, new RealVectorImpl(new double[] { 0, 1, 2, 3 }));
+        assertEquals(v, new ArrayRealVector(new double[] { 0, 1, 2 }));
+        assertNotSame(v, new ArrayRealVector(new double[] { 0, 1, 2 + Math.ulp(2)}));
+        assertNotSame(v, new ArrayRealVector(new double[] { 0, 1, 2, 3 }));
 
-        assertEquals(new RealVectorImpl(new double[] { Double.NaN, 1, 2 }).hashCode(),
-                     new RealVectorImpl(new double[] { 0, Double.NaN, 2 }).hashCode());
+        assertEquals(new ArrayRealVector(new double[] { Double.NaN, 1, 2 }).hashCode(),
+                     new ArrayRealVector(new double[] { 0, Double.NaN, 2 }).hashCode());
 
-        assertTrue(new RealVectorImpl(new double[] { Double.NaN, 1, 2 }).hashCode() !=
-                   new RealVectorImpl(new double[] { 0, 1, 2 }).hashCode());
+        assertTrue(new ArrayRealVector(new double[] { Double.NaN, 1, 2 }).hashCode() !=
+                   new ArrayRealVector(new double[] { 0, 1, 2 }).hashCode());
 
     }
 
     public void testSerial()  {
-        RealVectorImpl v = new RealVectorImpl(new double[] { 0, 1, 2 });
+        ArrayRealVector v = new ArrayRealVector(new double[] { 0, 1, 2 });
         assertEquals(v,TestUtils.serializeAndRecover(v));
     }
     

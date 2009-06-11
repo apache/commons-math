@@ -258,9 +258,9 @@ public class RealVectorFormat extends CompositeFormat {
      * @exception ParseException if the beginning of the specified string
      *            cannot be parsed.
      */
-    public RealVectorImpl parse(String source) throws ParseException {
+    public ArrayRealVector parse(String source) throws ParseException {
         ParsePosition parsePosition = new ParsePosition(0);
-        RealVectorImpl result = parse(source, parsePosition);
+        ArrayRealVector result = parse(source, parsePosition);
         if (parsePosition.getIndex() == 0) {
             throw MathRuntimeException.createParseException(
                     parsePosition.getErrorIndex(),
@@ -275,7 +275,7 @@ public class RealVectorFormat extends CompositeFormat {
      * @param pos input/ouput parsing parameter.
      * @return the parsed {@link RealVector} object.
      */
-    public RealVectorImpl parse(String source, ParsePosition pos) {
+    public ArrayRealVector parse(String source, ParsePosition pos) {
         int initialIndex = pos.getIndex();
 
         // parse prefix
@@ -321,7 +321,7 @@ public class RealVectorFormat extends CompositeFormat {
         for (int i = 0; i < data.length; ++i) {
             data[i] = components.get(i).doubleValue();
         }
-        return new RealVectorImpl(data, false);
+        return new ArrayRealVector(data, false);
 
     }
 

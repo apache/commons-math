@@ -27,7 +27,7 @@ import org.apache.commons.math.util.MathUtils;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class RealVectorImpl implements RealVector, Serializable {
+public class ArrayRealVector implements RealVector, Serializable {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = -1097961340710804027L;
@@ -43,12 +43,12 @@ public class RealVectorImpl implements RealVector, Serializable {
      * Build a 0-length vector.
      * <p>Zero-length vectors may be used to initialized construction of vectors
      * by data gathering. We start with zero-length and use either the {@link
-     * #RealVectorImpl(RealVectorImpl, RealVectorImpl)} constructor
+     * #ArrayRealVector(ArrayRealVector, ArrayRealVector)} constructor
      * or one of the <code>append</code> method ({@link #append(double)}, {@link
-     * #append(double[])}, {@link #append(RealVectorImpl)}) to gather data
+     * #append(double[])}, {@link #append(ArrayRealVector)}) to gather data
      * into this vector.</p>
      */
-    public RealVectorImpl() {
+    public ArrayRealVector() {
         data = new double[0];
     }
 
@@ -56,7 +56,7 @@ public class RealVectorImpl implements RealVector, Serializable {
      * Construct a (size)-length vector of zeros.
      * @param size size of the vector
      */
-    public RealVectorImpl(int size) {
+    public ArrayRealVector(int size) {
         data = new double[size];
     }
 
@@ -65,7 +65,7 @@ public class RealVectorImpl implements RealVector, Serializable {
      * @param size size of the vector
      * @param preset fill the vector with this scalar value
      */
-    public RealVectorImpl(int size, double preset) {
+    public ArrayRealVector(int size, double preset) {
         data = new double[size];
         Arrays.fill(data, preset);
     }
@@ -74,15 +74,15 @@ public class RealVectorImpl implements RealVector, Serializable {
      * Construct a vector from an array, copying the input array.
      * @param d array of doubles.
      */
-    public RealVectorImpl(double[] d) {
+    public ArrayRealVector(double[] d) {
         data = d.clone();
     }
 
     /**
-     * Create a new RealVectorImpl using the input array as the underlying
+     * Create a new ArrayRealVector using the input array as the underlying
      * data array.
      * <p>If an array is built specially in order to be embedded in a
-     * RealVectorImpl and not used directly, the <code>copyArray</code> may be
+     * ArrayRealVector and not used directly, the <code>copyArray</code> may be
      * set to <code>false</code. This will prevent the copying and improve
      * performance as no new array will be built and no data will be copied.</p>
      * @param d data for new vector
@@ -90,9 +90,9 @@ public class RealVectorImpl implements RealVector, Serializable {
      * it will be referenced
      * @throws IllegalArgumentException if <code>d</code> is empty
      * @throws NullPointerException if <code>d</code> is null
-     * @see #RealVectorImpl(double[])
+     * @see #ArrayRealVector(double[])
      */
-    public RealVectorImpl(double[] d, boolean copyArray)
+    public ArrayRealVector(double[] d, boolean copyArray)
         throws NullPointerException, IllegalArgumentException {
         if (d == null) {
             throw new NullPointerException();
@@ -109,7 +109,7 @@ public class RealVectorImpl implements RealVector, Serializable {
      * @param pos position of first entry
      * @param size number of entries to copy
      */
-    public RealVectorImpl(double[] d, int pos, int size) {
+    public ArrayRealVector(double[] d, int pos, int size) {
         if (d.length < pos + size) {
             throw MathRuntimeException.createIllegalArgumentException(
                     "position {0} and size {1} don't fit to the size of the input array {2}",
@@ -123,7 +123,7 @@ public class RealVectorImpl implements RealVector, Serializable {
      * Construct a vector from an array.
      * @param d array of Doubles.
      */
-    public RealVectorImpl(Double[] d) {
+    public ArrayRealVector(Double[] d) {
         data = new double[d.length];
         for (int i = 0; i < d.length; i++) {
             data[i] = d[i].doubleValue();
@@ -136,7 +136,7 @@ public class RealVectorImpl implements RealVector, Serializable {
      * @param pos position of first entry
      * @param size number of entries to copy
      */
-    public RealVectorImpl(Double[] d, int pos, int size) {
+    public ArrayRealVector(Double[] d, int pos, int size) {
         if (d.length < pos + size) {
             throw MathRuntimeException.createIllegalArgumentException(
                     "position {0} and size {1} don't fit to the size of the input array {2}",
@@ -152,7 +152,7 @@ public class RealVectorImpl implements RealVector, Serializable {
      * Construct a vector from another vector, using a deep copy.
      * @param v vector to copy
      */
-    public RealVectorImpl(RealVector v) {
+    public ArrayRealVector(RealVector v) {
         data = new double[v.getDimension()];
         for (int i = 0; i < data.length; ++i) {
             data[i] = v.getEntry(i);
@@ -163,7 +163,7 @@ public class RealVectorImpl implements RealVector, Serializable {
      * Construct a vector from another vector, using a deep copy.
      * @param v vector to copy
      */
-    public RealVectorImpl(RealVectorImpl v) {
+    public ArrayRealVector(ArrayRealVector v) {
         data = v.data.clone();
     }
 
@@ -172,7 +172,7 @@ public class RealVectorImpl implements RealVector, Serializable {
      * @param v vector to copy
      * @param deep if true perform a deep copy otherwise perform a shallow copy
      */
-    public RealVectorImpl(RealVectorImpl v, boolean deep) {
+    public ArrayRealVector(ArrayRealVector v, boolean deep) {
         data = deep ? v.data.clone() : v.data;
     }
 
@@ -181,7 +181,7 @@ public class RealVectorImpl implements RealVector, Serializable {
      * @param v1 first vector (will be put in front of the new vector)
      * @param v2 second vector (will be put at back of the new vector)
      */
-    public RealVectorImpl(RealVectorImpl v1, RealVectorImpl v2) {
+    public ArrayRealVector(ArrayRealVector v1, ArrayRealVector v2) {
         data = new double[v1.data.length + v2.data.length];
         System.arraycopy(v1.data, 0, data, 0, v1.data.length);
         System.arraycopy(v2.data, 0, data, v1.data.length, v2.data.length);
@@ -192,7 +192,7 @@ public class RealVectorImpl implements RealVector, Serializable {
      * @param v1 first vector (will be put in front of the new vector)
      * @param v2 second vector (will be put at back of the new vector)
      */
-    public RealVectorImpl(RealVectorImpl v1, double[] v2) {
+    public ArrayRealVector(ArrayRealVector v1, double[] v2) {
         data = new double[v1.data.length + v2.length];
         System.arraycopy(v1.data, 0, data, 0, v1.data.length);
         System.arraycopy(v2, 0, data, v1.data.length, v2.length);
@@ -203,7 +203,7 @@ public class RealVectorImpl implements RealVector, Serializable {
      * @param v1 first vector (will be put in front of the new vector)
      * @param v2 second vector (will be put at back of the new vector)
      */
-    public RealVectorImpl(double[] v1, RealVectorImpl v2) {
+    public ArrayRealVector(double[] v1, ArrayRealVector v2) {
         data = new double[v1.length + v2.data.length];
         System.arraycopy(v1, 0, data, 0, v1.length);
         System.arraycopy(v2.data, 0, data, v1.length, v2.data.length);
@@ -214,7 +214,7 @@ public class RealVectorImpl implements RealVector, Serializable {
      * @param v1 first vector (will be put in front of the new vector)
      * @param v2 second vector (will be put at back of the new vector)
      */
-    public RealVectorImpl(double[] v1, double[] v2) {
+    public ArrayRealVector(double[] v1, double[] v2) {
         data = new double[v1.length + v2.length];
         System.arraycopy(v1, 0, data, 0, v1.length);
         System.arraycopy(v2, 0, data, v1.length, v2.length);
@@ -222,21 +222,21 @@ public class RealVectorImpl implements RealVector, Serializable {
 
     /** {@inheritDoc} */
     public RealVector copy() {
-        return new RealVectorImpl(this, true);
+        return new ArrayRealVector(this, true);
     }
 
     /** {@inheritDoc} */
     public RealVector add(RealVector v)
     throws IllegalArgumentException {
         try {
-            return add((RealVectorImpl) v);
+            return add((ArrayRealVector) v);
         } catch (ClassCastException cce) {
             checkVectorDimensions(v);
             double[] out = new double[data.length];
             for (int i = 0; i < data.length; i++) {
                 out[i] = data[i] + v.getEntry(i);
             }
-            return new RealVectorImpl(out);
+            return new ArrayRealVector(out);
         }
     }
 
@@ -248,7 +248,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
             out[i] = data[i] + v[i];
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /**
@@ -257,23 +257,23 @@ public class RealVectorImpl implements RealVector, Serializable {
      * @return this + v
      * @throws IllegalArgumentException if v is not the same size as this
      */
-    public RealVectorImpl add(RealVectorImpl v)
+    public ArrayRealVector add(ArrayRealVector v)
         throws IllegalArgumentException {
-        return (RealVectorImpl) add(v.data);
+        return (ArrayRealVector) add(v.data);
     }
 
     /** {@inheritDoc} */
     public RealVector subtract(RealVector v)
     throws IllegalArgumentException {
         try {
-            return subtract((RealVectorImpl) v);
+            return subtract((ArrayRealVector) v);
         } catch (ClassCastException cce) {
             checkVectorDimensions(v);
             double[] out = new double[data.length];
             for (int i = 0; i < data.length; i++) {
                 out[i] = data[i] - v.getEntry(i);
             }
-            return new RealVectorImpl(out);
+            return new ArrayRealVector(out);
         }
     }
 
@@ -285,7 +285,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
             out[i] = data[i] - v[i];
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /**
@@ -294,9 +294,9 @@ public class RealVectorImpl implements RealVector, Serializable {
      * @return this + v
      * @throws IllegalArgumentException if v is not the same size as this
      */
-    public RealVectorImpl subtract(RealVectorImpl v)
+    public ArrayRealVector subtract(ArrayRealVector v)
         throws IllegalArgumentException {
-        return (RealVectorImpl) subtract(v.data);
+        return (ArrayRealVector) subtract(v.data);
     }
 
     /** {@inheritDoc} */
@@ -305,7 +305,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
             out[i] = data[i] + d;
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /** {@inheritDoc} */
@@ -322,7 +322,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
             out[i] = data[i] - d;
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /** {@inheritDoc} */
@@ -339,7 +339,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
             out[i] = data[i] * d;
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /** {@inheritDoc} */
@@ -356,7 +356,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
             out[i] = data[i] / d;
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /** {@inheritDoc} */
@@ -373,7 +373,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
             out[i] = Math.pow(data[i], d);
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /** {@inheritDoc} */
@@ -390,7 +390,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
             out[i] = Math.exp(data[i]);
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /** {@inheritDoc} */
@@ -407,7 +407,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
             out[i] = Math.expm1(data[i]);
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /** {@inheritDoc} */
@@ -424,7 +424,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
             out[i] = Math.log(data[i]);
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /** {@inheritDoc} */
@@ -441,7 +441,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
             out[i] = Math.log10(data[i]);
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /** {@inheritDoc} */
@@ -458,7 +458,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
             out[i] = Math.log1p(data[i]);
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /** {@inheritDoc} */
@@ -475,7 +475,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
             out[i] = Math.cosh(data[i]);
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /** {@inheritDoc} */
@@ -492,7 +492,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
             out[i] = Math.sinh(data[i]);
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /** {@inheritDoc} */
@@ -509,7 +509,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
             out[i] = Math.tanh(data[i]);
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /** {@inheritDoc} */
@@ -526,7 +526,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
             out[i] = Math.cos(data[i]);
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /** {@inheritDoc} */
@@ -543,7 +543,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
             out[i] = Math.sin(data[i]);
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /** {@inheritDoc} */
@@ -560,7 +560,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
             out[i] = Math.tan(data[i]);
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /** {@inheritDoc} */
@@ -577,7 +577,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
             out[i] = Math.acos(data[i]);
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /** {@inheritDoc} */
@@ -594,7 +594,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
             out[i] = Math.asin(data[i]);
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /** {@inheritDoc} */
@@ -611,7 +611,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
             out[i] = Math.atan(data[i]);
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /** {@inheritDoc} */
@@ -628,7 +628,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
             out[i] = 1.0 / data[i];
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /** {@inheritDoc} */
@@ -645,7 +645,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
             out[i] = Math.abs(data[i]);
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /** {@inheritDoc} */
@@ -662,7 +662,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
             out[i] = Math.sqrt(data[i]);
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /** {@inheritDoc} */
@@ -679,7 +679,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
             out[i] = Math.cbrt(data[i]);
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /** {@inheritDoc} */
@@ -696,7 +696,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
             out[i] = Math.ceil(data[i]);
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /** {@inheritDoc} */
@@ -713,7 +713,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
             out[i] = Math.floor(data[i]);
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /** {@inheritDoc} */
@@ -730,7 +730,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
             out[i] = Math.rint(data[i]);
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /** {@inheritDoc} */
@@ -747,7 +747,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
             out[i] = Math.signum(data[i]);
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /** {@inheritDoc} */
@@ -764,7 +764,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
             out[i] = Math.ulp(data[i]);
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /** {@inheritDoc} */
@@ -779,14 +779,14 @@ public class RealVectorImpl implements RealVector, Serializable {
     public RealVector ebeMultiply(RealVector v)
         throws IllegalArgumentException {
         try {
-            return ebeMultiply((RealVectorImpl) v);
+            return ebeMultiply((ArrayRealVector) v);
         } catch (ClassCastException cce) {
             checkVectorDimensions(v);
             double[] out = new double[data.length];
             for (int i = 0; i < data.length; i++) {
                 out[i] = data[i] * v.getEntry(i);
             }
-            return new RealVectorImpl(out);
+            return new ArrayRealVector(out);
         }
     }
 
@@ -798,7 +798,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
             out[i] = data[i] * v[i];
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /**
@@ -807,23 +807,23 @@ public class RealVectorImpl implements RealVector, Serializable {
      * @return a vector containing this[i] * v[i] for all i
      * @exception IllegalArgumentException if v is not the same size as this
      */
-    public RealVectorImpl ebeMultiply(RealVectorImpl v)
+    public ArrayRealVector ebeMultiply(ArrayRealVector v)
         throws IllegalArgumentException {
-        return (RealVectorImpl) ebeMultiply(v.data);
+        return (ArrayRealVector) ebeMultiply(v.data);
     }
 
     /** {@inheritDoc} */
     public RealVector ebeDivide(RealVector v)
         throws IllegalArgumentException {
         try {
-            return ebeDivide((RealVectorImpl) v);
+            return ebeDivide((ArrayRealVector) v);
         } catch (ClassCastException cce) {
             checkVectorDimensions(v);
             double[] out = new double[data.length];
             for (int i = 0; i < data.length; i++) {
                 out[i] = data[i] / v.getEntry(i);
             }
-            return new RealVectorImpl(out);
+            return new ArrayRealVector(out);
         }
     }
 
@@ -835,7 +835,7 @@ public class RealVectorImpl implements RealVector, Serializable {
         for (int i = 0; i < data.length; i++) {
                 out[i] = data[i] / v[i];
         }
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /**
@@ -844,9 +844,9 @@ public class RealVectorImpl implements RealVector, Serializable {
      * @return a vector containing this[i] / v[i] for all i
      * @throws IllegalArgumentException if v is not the same size as this
      */
-    public RealVectorImpl ebeDivide(RealVectorImpl v)
+    public ArrayRealVector ebeDivide(ArrayRealVector v)
         throws IllegalArgumentException {
-        return (RealVectorImpl) ebeDivide(v.data);
+        return (ArrayRealVector) ebeDivide(v.data);
     }
 
     /** {@inheritDoc} */
@@ -867,7 +867,7 @@ public class RealVectorImpl implements RealVector, Serializable {
     public double dotProduct(RealVector v)
         throws IllegalArgumentException {
         try {
-            return dotProduct((RealVectorImpl) v);
+            return dotProduct((ArrayRealVector) v);
         } catch (ClassCastException cce) {
             checkVectorDimensions(v);
             double dot = 0;
@@ -895,7 +895,7 @@ public class RealVectorImpl implements RealVector, Serializable {
      * @return the scalar dot product between instance and v
      * @exception IllegalArgumentException if v is not the same size as this
      */
-    public double dotProduct(RealVectorImpl v)
+    public double dotProduct(ArrayRealVector v)
         throws IllegalArgumentException {
         return dotProduct(v.data);
     }
@@ -931,7 +931,7 @@ public class RealVectorImpl implements RealVector, Serializable {
     public double getDistance(RealVector v)
         throws IllegalArgumentException {
         try {
-            return getDistance((RealVectorImpl) v);
+            return getDistance((ArrayRealVector) v);
         } catch (ClassCastException cce) {
             checkVectorDimensions(v);
             double sum = 0;
@@ -964,11 +964,11 @@ public class RealVectorImpl implements RealVector, Serializable {
      * @return distance between two vectors.
      * @exception IllegalArgumentException if v is not the same size as this
      * @see #getDistance(RealVector)
-     * @see #getL1Distance(RealVectorImpl)
-     * @see #getLInfDistance(RealVectorImpl)
+     * @see #getL1Distance(ArrayRealVector)
+     * @see #getLInfDistance(ArrayRealVector)
      * @see #getNorm()
      */
-    public double getDistance(RealVectorImpl v)
+    public double getDistance(ArrayRealVector v)
         throws IllegalArgumentException {
         return getDistance(v.data);
     }
@@ -977,7 +977,7 @@ public class RealVectorImpl implements RealVector, Serializable {
     public double getL1Distance(RealVector v)
         throws IllegalArgumentException {
         try {
-            return getL1Distance((RealVectorImpl) v);
+            return getL1Distance((ArrayRealVector) v);
         } catch (ClassCastException cce) {
             checkVectorDimensions(v);
             double sum = 0;
@@ -1010,11 +1010,11 @@ public class RealVectorImpl implements RealVector, Serializable {
      * @return distance between two vectors.
      * @exception IllegalArgumentException if v is not the same size as this
      * @see #getDistance(RealVector)
-     * @see #getL1Distance(RealVectorImpl)
-     * @see #getLInfDistance(RealVectorImpl)
+     * @see #getL1Distance(ArrayRealVector)
+     * @see #getLInfDistance(ArrayRealVector)
      * @see #getNorm()
      */
-    public double getL1Distance(RealVectorImpl v)
+    public double getL1Distance(ArrayRealVector v)
         throws IllegalArgumentException {
         return getL1Distance(v.data);
     }
@@ -1023,7 +1023,7 @@ public class RealVectorImpl implements RealVector, Serializable {
     public double getLInfDistance(RealVector v)
         throws IllegalArgumentException {
         try {
-            return getLInfDistance((RealVectorImpl) v);
+            return getLInfDistance((ArrayRealVector) v);
         } catch (ClassCastException cce) {
             checkVectorDimensions(v);
             double max = 0;
@@ -1056,11 +1056,11 @@ public class RealVectorImpl implements RealVector, Serializable {
      * @return distance between two vectors.
      * @exception IllegalArgumentException if v is not the same size as this
      * @see #getDistance(RealVector)
-     * @see #getL1Distance(RealVectorImpl)
-     * @see #getLInfDistance(RealVectorImpl)
+     * @see #getL1Distance(ArrayRealVector)
+     * @see #getLInfDistance(ArrayRealVector)
      * @see #getNorm()
      */
-    public double getLInfDistance(RealVectorImpl v)
+    public double getLInfDistance(ArrayRealVector v)
         throws IllegalArgumentException {
         return getLInfDistance(v.data);
     }
@@ -1092,7 +1092,7 @@ public class RealVectorImpl implements RealVector, Serializable {
 
     /** {@inheritDoc} */
     public RealVector projection(double[] v) {
-        return projection(new RealVectorImpl(v, false));
+        return projection(new ArrayRealVector(v, false));
     }
 
    /** Find the orthogonal projection of this vector onto another vector.
@@ -1100,15 +1100,15 @@ public class RealVectorImpl implements RealVector, Serializable {
      * @return projection of the instance onto v
      * @throws IllegalArgumentException if v is not the same size as this
      */
-    public RealVectorImpl projection(RealVectorImpl v) {
-        return (RealVectorImpl) v.mapMultiply(dotProduct(v) / v.dotProduct(v));
+    public ArrayRealVector projection(ArrayRealVector v) {
+        return (ArrayRealVector) v.mapMultiply(dotProduct(v) / v.dotProduct(v));
     }
 
     /** {@inheritDoc} */
     public RealMatrix outerProduct(RealVector v)
         throws IllegalArgumentException {
         try {
-            return outerProduct((RealVectorImpl) v);
+            return outerProduct((ArrayRealVector) v);
         } catch (ClassCastException cce) {
             checkVectorDimensions(v);
             final int m = data.length;
@@ -1128,7 +1128,7 @@ public class RealVectorImpl implements RealVector, Serializable {
      * @return the square matrix outer product between instance and v
      * @exception IllegalArgumentException if v is not the same size as this
      */
-    public RealMatrix outerProduct(RealVectorImpl v)
+    public RealMatrix outerProduct(ArrayRealVector v)
         throws IllegalArgumentException {
         return outerProduct(v.data);
     }
@@ -1160,9 +1160,9 @@ public class RealVectorImpl implements RealVector, Serializable {
     /** {@inheritDoc} */
     public RealVector append(RealVector v) {
         try {
-            return append((RealVectorImpl) v);
+            return append((ArrayRealVector) v);
         } catch (ClassCastException cce) {
-            return new RealVectorImpl(this,new RealVectorImpl(v));
+            return new ArrayRealVector(this,new ArrayRealVector(v));
         }
     }
 
@@ -1171,8 +1171,8 @@ public class RealVectorImpl implements RealVector, Serializable {
      * @param v vector to append to this one.
      * @return a new vector
      */
-    public RealVectorImpl append(RealVectorImpl v) {
-        return new RealVectorImpl(this, v);
+    public ArrayRealVector append(ArrayRealVector v) {
+        return new ArrayRealVector(this, v);
     }
 
     /** {@inheritDoc} */
@@ -1180,17 +1180,17 @@ public class RealVectorImpl implements RealVector, Serializable {
         final double[] out = new double[data.length + 1];
         System.arraycopy(data, 0, out, 0, data.length);
         out[data.length] = in;
-        return new RealVectorImpl(out);
+        return new ArrayRealVector(out);
     }
 
     /** {@inheritDoc} */
     public RealVector append(double[] in) {
-        return new RealVectorImpl(this, in);
+        return new ArrayRealVector(this, in);
     }
 
     /** {@inheritDoc} */
     public RealVector getSubVector(int index, int n) {
-        RealVectorImpl out = new RealVectorImpl(n);
+        ArrayRealVector out = new ArrayRealVector(n);
         try {
             System.arraycopy(data, index, out.data, 0, n);
         } catch (IndexOutOfBoundsException e) {
@@ -1213,7 +1213,7 @@ public class RealVectorImpl implements RealVector, Serializable {
     public void setSubVector(int index, RealVector v) {
         try {
             try {
-                set(index, (RealVectorImpl) v);
+                set(index, (ArrayRealVector) v);
             } catch (ClassCastException cce) {
                 for (int i = index; i < index + v.getDimension(); ++i) {
                     data[i] = v.getEntry(i-index);
@@ -1243,7 +1243,7 @@ public class RealVectorImpl implements RealVector, Serializable {
      * @exception MatrixIndexException if the index is
      * inconsistent with vector size
      */
-    public void set(int index, RealVectorImpl v)
+    public void set(int index, ArrayRealVector v)
         throws MatrixIndexException {
         setSubVector(index, v.data);
     }

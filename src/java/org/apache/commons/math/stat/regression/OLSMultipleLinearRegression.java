@@ -21,9 +21,9 @@ import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.QRDecomposition;
 import org.apache.commons.math.linear.QRDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.RealMatrixImpl;
+import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealVector;
-import org.apache.commons.math.linear.RealVectorImpl;
+import org.apache.commons.math.linear.ArrayRealVector;
 
 /**
  * <p>Implements ordinary least squares (OLS) to estimate the parameters of a 
@@ -107,7 +107,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
         RealMatrix Q = qr.getQ();
         final int p = qr.getR().getColumnDimension();
         final int n = Q.getColumnDimension();
-        RealMatrixImpl augI = new RealMatrixImpl(n, n);
+        Array2DRowRealMatrix augI = new Array2DRowRealMatrix(n, n);
         double[][] augIData = augI.getDataRef();
         for (int i = 0; i < n; i++) {
             for (int j =0; j < n; j++) {
@@ -130,7 +130,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      */
     @Override
     protected void newXSampleData(double[][] x) {
-        this.X = new RealMatrixImpl(x);
+        this.X = new Array2DRowRealMatrix(x);
         qr = new QRDecompositionImpl(X);
     }
     
@@ -211,7 +211,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
             }
             x[index] = (constants.getEntry(index) - sum) / coefficients.getEntry(index, index);
         } 
-        return new RealVectorImpl(x);
+        return new ArrayRealVector(x);
     }
     
     /**

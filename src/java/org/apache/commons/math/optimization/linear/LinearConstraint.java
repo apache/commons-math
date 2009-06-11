@@ -24,7 +24,7 @@ import java.io.Serializable;
 
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealVector;
-import org.apache.commons.math.linear.RealVectorImpl;
+import org.apache.commons.math.linear.ArrayRealVector;
 
 
 /**
@@ -78,7 +78,7 @@ public class LinearConstraint implements Serializable {
      */
     public LinearConstraint(final double[] coefficients, final Relationship relationship,
                             final double value) {
-        this(new RealVectorImpl(coefficients), relationship, value);
+        this(new ArrayRealVector(coefficients), relationship, value);
     }
 
     /**
@@ -128,7 +128,7 @@ public class LinearConstraint implements Serializable {
         for (int i = 0; i < sub.length; ++i) {
             sub[i] = lhsCoefficients[i] - rhsCoefficients[i];
         }
-        this.coefficients = new RealVectorImpl(sub, false);
+        this.coefficients = new ArrayRealVector(sub, false);
         this.relationship = relationship;
         this.value        = rhsConstant - lhsConstant;
     }

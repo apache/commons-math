@@ -49,7 +49,7 @@ public class MatrixUtils {
      * <p>The type of matrix returned depends on the dimension. Below
      * 2<sup>12</sup> elements (i.e. 4096 elements or 64&times;64 for a
      * square matrix) which can be stored in a 32kB array, a {@link
-     * RealMatrixImpl} instance is built. Above this threshold a {@link
+     * Array2DRowRealMatrix} instance is built. Above this threshold a {@link
      * BlockRealMatrix} instance is built.</p>
      * <p>The matrix elements are all set to 0.0.</p>
      * @param rows number of rows of the matrix
@@ -59,7 +59,7 @@ public class MatrixUtils {
      */
     public static RealMatrix createRealMatrix(final int rows, final int columns) {
         return (rows * columns <= 4096) ?
-                new RealMatrixImpl(rows, columns) : new BlockRealMatrix(rows, columns);
+                new Array2DRowRealMatrix(rows, columns) : new BlockRealMatrix(rows, columns);
     }
 
     /**
@@ -81,7 +81,7 @@ public class MatrixUtils {
                                                                                final int rows,
                                                                                final int columns) {
         return (rows * columns <= 4096) ?
-                new FieldMatrixImpl<T>(field, rows, columns) : new BlockFieldMatrix<T>(field, rows, columns);
+                new Array2DRowFieldMatrix<T>(field, rows, columns) : new BlockFieldMatrix<T>(field, rows, columns);
     }
 
     /**
@@ -90,7 +90,7 @@ public class MatrixUtils {
      * <p>The type of matrix returned depends on the dimension. Below
      * 2<sup>12</sup> elements (i.e. 4096 elements or 64&times;64 for a
      * square matrix) which can be stored in a 32kB array, a {@link
-     * RealMatrixImpl} instance is built. Above this threshold a {@link
+     * Array2DRowRealMatrix} instance is built. Above this threshold a {@link
      * BlockRealMatrix} instance is built.</p>
      * <p>The input array is copied, not referenced.</p>
      * 
@@ -104,7 +104,7 @@ public class MatrixUtils {
      */
     public static RealMatrix createRealMatrix(double[][] data) {
         return (data.length * data[0].length <= 4096) ?
-                new RealMatrixImpl(data) : new BlockRealMatrix(data);
+                new Array2DRowRealMatrix(data) : new BlockRealMatrix(data);
     }
 
     /**
@@ -127,7 +127,7 @@ public class MatrixUtils {
      */
     public static <T extends FieldElement<T>> FieldMatrix<T> createFieldMatrix(T[][] data) {
         return (data.length * data[0].length <= 4096) ?
-                new FieldMatrixImpl<T>(data) : new BlockFieldMatrix<T>(data);
+                new Array2DRowFieldMatrix<T>(data) : new BlockFieldMatrix<T>(data);
     }
 
     /**
@@ -167,7 +167,7 @@ public class MatrixUtils {
             Arrays.fill(dRow, zero);
             dRow[row] = one;
         }
-        return new FieldMatrixImpl<T>(d, false);
+        return new Array2DRowFieldMatrix<T>(d, false);
     }
 
     /**
@@ -304,7 +304,7 @@ public class MatrixUtils {
      * @throws NullPointerException if <code>data</code>is null
      */
     public static RealVector createRealVector(double[] data) {
-        return new RealVectorImpl(data, true);
+        return new ArrayRealVector(data, true);
     }
     
     /**
@@ -317,7 +317,7 @@ public class MatrixUtils {
      * @throws NullPointerException if <code>data</code>is null
      */
     public static <T extends FieldElement<T>> FieldVector<T> createFieldVector(final T[] data) {
-        return new FieldVectorImpl<T>(data, true);
+        return new ArrayFieldVector<T>(data, true);
     }
     
     /**
@@ -694,7 +694,7 @@ public class MatrixUtils {
          * @return converted matrix
          */
         RealMatrix getConvertedMatrix() {
-            return new RealMatrixImpl(data, false);
+            return new Array2DRowRealMatrix(data, false);
         }
 
     }
@@ -738,7 +738,7 @@ public class MatrixUtils {
          * @return converted matrix
          */
         RealMatrix getConvertedMatrix() {
-            return new RealMatrixImpl(data, false);
+            return new Array2DRowRealMatrix(data, false);
         }
 
     }
@@ -824,7 +824,7 @@ public class MatrixUtils {
             }
 
             // create the instance
-            final RealVector vector = new RealVectorImpl(data, false);
+            final RealVector vector = new ArrayRealVector(data, false);
 
             // set up the field
             final java.lang.reflect.Field f =
@@ -933,7 +933,7 @@ public class MatrixUtils {
             }
 
             // create the instance
-            final RealMatrix matrix = new RealMatrixImpl(data, false);
+            final RealMatrix matrix = new Array2DRowRealMatrix(data, false);
 
             // set up the field
             final java.lang.reflect.Field f =

@@ -16,6 +16,9 @@
  */
 package org.apache.commons.math.linear;
 
+import java.util.Arrays;
+import java.util.Random;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -23,12 +26,12 @@ import junit.framework.TestSuite;
 import org.apache.commons.math.TestUtils;
 
 /**
- * Test cases for the {@link RealMatrixImpl} class.
+ * Test cases for the {@link BlockRealMatrix} class.
  *
  * @version $Revision$ $Date$
  */
-@Deprecated
-public final class RealMatrixImplTest extends TestCase {
+
+public final class BlockRealMatrixTest extends TestCase {
     
     // 3 x 3 identity matrix
     protected double[][] id = { {1d,0d,0d}, {0d,1d,0d}, {0d,0d,1d} };
@@ -90,20 +93,20 @@ public final class RealMatrixImplTest extends TestCase {
     protected double entryTolerance = 10E-16;
     protected double normTolerance = 10E-14;
     
-    public RealMatrixImplTest(String name) {
+    public BlockRealMatrixTest(String name) {
         super(name);
     }
     
     public static Test suite() {
-        TestSuite suite = new TestSuite(RealMatrixImplTest.class);
-        suite.setName("RealMatrixImpl Tests");
+        TestSuite suite = new TestSuite(BlockRealMatrixTest.class);
+        suite.setName("BlockRealMatrix Tests");
         return suite;
     }
     
     /** test dimensions */
     public void testDimensions() {
-        RealMatrixImpl m = new RealMatrixImpl(testData);
-        RealMatrixImpl m2 = new RealMatrixImpl(testData2);
+        BlockRealMatrix m = new BlockRealMatrix(testData);
+        BlockRealMatrix m2 = new BlockRealMatrix(testData2);
         assertEquals("testData row dimension",3,m.getRowDimension());
         assertEquals("testData column dimension",3,m.getColumnDimension());
         assertTrue("testData is square",m.isSquare());
@@ -114,18 +117,19 @@ public final class RealMatrixImplTest extends TestCase {
     
     /** test copy functions */
     public void testCopyFunctions() {
-        RealMatrixImpl m1 = new RealMatrixImpl(testData);
-        RealMatrixImpl m2 = new RealMatrixImpl(m1.getData());
-        assertEquals(m2,m1);
-        RealMatrixImpl m3 = new RealMatrixImpl(testData);
-        RealMatrixImpl m4 = new RealMatrixImpl(m3.getData(), false);
-        assertEquals(m4,m3);
+        Random r = new Random(66636328996002l);
+        BlockRealMatrix m1 = createRandomMatrix(r, 47, 83);
+        BlockRealMatrix m2 = new BlockRealMatrix(m1.getData());
+        assertEquals(m1, m2);
+        BlockRealMatrix m3 = new BlockRealMatrix(testData);
+        BlockRealMatrix m4 = new BlockRealMatrix(m3.getData());
+        assertEquals(m3, m4);
     }           
     
     /** test add */
     public void testAdd() {
-        RealMatrixImpl m = new RealMatrixImpl(testData);
-        RealMatrixImpl mInv = new RealMatrixImpl(testDataInv);
+        BlockRealMatrix m = new BlockRealMatrix(testData);
+        BlockRealMatrix mInv = new BlockRealMatrix(testDataInv);
         RealMatrix mPlusMInv = m.add(mInv);
         double[][] sumEntries = mPlusMInv.getData();
         for (int row = 0; row < m.getRowDimension(); row++) {
@@ -139,8 +143,8 @@ public final class RealMatrixImplTest extends TestCase {
     
     /** test add failure */
     public void testAddFail() {
-        RealMatrixImpl m = new RealMatrixImpl(testData);
-        RealMatrixImpl m2 = new RealMatrixImpl(testData2);
+        BlockRealMatrix m = new BlockRealMatrix(testData);
+        BlockRealMatrix m2 = new BlockRealMatrix(testData2);
         try {
             m.add(m2);
             fail("IllegalArgumentException expected");
@@ -151,28 +155,27 @@ public final class RealMatrixImplTest extends TestCase {
     
     /** test norm */
     public void testNorm() {
-        RealMatrixImpl m = new RealMatrixImpl(testData);
-        RealMatrixImpl m2 = new RealMatrixImpl(testData2);
+        BlockRealMatrix m = new BlockRealMatrix(testData);
+        BlockRealMatrix m2 = new BlockRealMatrix(testData2);
         assertEquals("testData norm",14d,m.getNorm(),entryTolerance);
         assertEquals("testData2 norm",7d,m2.getNorm(),entryTolerance);
     }
     
     /** test Frobenius norm */
     public void testFrobeniusNorm() {
-        RealMatrixImpl m = new RealMatrixImpl(testData);
-        RealMatrixImpl m2 = new RealMatrixImpl(testData2);
+        BlockRealMatrix m = new BlockRealMatrix(testData);
+        BlockRealMatrix m2 = new BlockRealMatrix(testData2);
         assertEquals("testData Frobenius norm", Math.sqrt(117.0), m.getFrobeniusNorm(), entryTolerance);
         assertEquals("testData2 Frobenius norm", Math.sqrt(52.0), m2.getFrobeniusNorm(), entryTolerance);
     }
     
      /** test m-n = m + -n */
     public void testPlusMinus() {
-        RealMatrixImpl m = new RealMatrixImpl(testData);
-        RealMatrixImpl m2 = new RealMatrixImpl(testDataInv);
-        TestUtils.assertEquals("m-n = m + -n",m.subtract(m2),
-            m2.scalarMultiply(-1d).add(m),entryTolerance);        
+        BlockRealMatrix m = new BlockRealMatrix(testData);
+        BlockRealMatrix m2 = new BlockRealMatrix(testDataInv);
+        assertClose(m.subtract(m2), m2.scalarMultiply(-1d).add(m), entryTolerance);        
         try {
-            m.subtract(new RealMatrixImpl(testData2));
+            m.subtract(new BlockRealMatrix(testData2));
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // ignored
@@ -181,46 +184,125 @@ public final class RealMatrixImplTest extends TestCase {
    
     /** test multiply */
      public void testMultiply() {
-        RealMatrixImpl m = new RealMatrixImpl(testData);
-        RealMatrixImpl mInv = new RealMatrixImpl(testDataInv);
-        RealMatrixImpl identity = new RealMatrixImpl(id);
-        RealMatrixImpl m2 = new RealMatrixImpl(testData2);
-        TestUtils.assertEquals("inverse multiply",m.multiply(mInv),
-            identity,entryTolerance);
-        TestUtils.assertEquals("inverse multiply",mInv.multiply(m),
-            identity,entryTolerance);
-        TestUtils.assertEquals("identity multiply",m.multiply(identity),
-            m,entryTolerance);
-        TestUtils.assertEquals("identity multiply",identity.multiply(mInv),
-            mInv,entryTolerance);
-        TestUtils.assertEquals("identity multiply",m2.multiply(identity),
-            m2,entryTolerance); 
+        BlockRealMatrix m = new BlockRealMatrix(testData);
+        BlockRealMatrix mInv = new BlockRealMatrix(testDataInv);
+        BlockRealMatrix identity = new BlockRealMatrix(id);
+        BlockRealMatrix m2 = new BlockRealMatrix(testData2);
+        assertClose(m.multiply(mInv), identity, entryTolerance);
+        assertClose(mInv.multiply(m), identity, entryTolerance);
+        assertClose(m.multiply(identity), m, entryTolerance);
+        assertClose(identity.multiply(mInv), mInv, entryTolerance);
+        assertClose(m2.multiply(identity), m2, entryTolerance); 
         try {
-            m.multiply(new RealMatrixImpl(bigSingular));
+            m.multiply(new BlockRealMatrix(bigSingular));
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
-            // ignored
+            // expected
         }      
-    }   
-    
-    //Additional Test for RealMatrixImplTest.testMultiply
+    }
+
+    public void testSeveralBlocks() {
+
+        RealMatrix m = new BlockRealMatrix(35, 71);
+        for (int i = 0; i < m.getRowDimension(); ++i) {
+            for (int j = 0; j < m.getColumnDimension(); ++j) {
+                m.setEntry(i, j, i + j / 1024.0);
+            }
+        }
+
+        RealMatrix mT = m.transpose();
+        assertEquals(m.getRowDimension(), mT.getColumnDimension());
+        assertEquals(m.getColumnDimension(), mT.getRowDimension());
+        for (int i = 0; i < mT.getRowDimension(); ++i) {
+            for (int j = 0; j < mT.getColumnDimension(); ++j) {
+                assertEquals(m.getEntry(j, i), mT.getEntry(i, j), 0);
+            }
+        }
+
+        RealMatrix mPm = m.add(m);
+        for (int i = 0; i < mPm.getRowDimension(); ++i) {
+            for (int j = 0; j < mPm.getColumnDimension(); ++j) {
+                assertEquals(2 * m.getEntry(i, j), mPm.getEntry(i, j), 0);
+            }
+        }
+
+        RealMatrix mPmMm = mPm.subtract(m);
+        for (int i = 0; i < mPmMm.getRowDimension(); ++i) {
+            for (int j = 0; j < mPmMm.getColumnDimension(); ++j) {
+                assertEquals(m.getEntry(i, j), mPmMm.getEntry(i, j), 0);
+            }
+        }
+
+        RealMatrix mTm = mT.multiply(m);
+        for (int i = 0; i < mTm.getRowDimension(); ++i) {
+            for (int j = 0; j < mTm.getColumnDimension(); ++j) {
+                double sum = 0;
+                for (int k = 0; k < mT.getColumnDimension(); ++k) {
+                    sum += (k + i / 1024.0) * (k + j / 1024.0);
+                }
+                assertEquals(sum, mTm.getEntry(i, j), 0);
+            }
+        }
+
+        RealMatrix mmT = m.multiply(mT);
+        for (int i = 0; i < mmT.getRowDimension(); ++i) {
+            for (int j = 0; j < mmT.getColumnDimension(); ++j) {
+                double sum = 0;
+                for (int k = 0; k < m.getColumnDimension(); ++k) {
+                    sum += (i + k / 1024.0) * (j + k / 1024.0);
+                }
+                assertEquals(sum, mmT.getEntry(i, j), 0);
+            }
+        }
+
+        RealMatrix sub1 = m.getSubMatrix(2, 9, 5, 20);
+        for (int i = 0; i < sub1.getRowDimension(); ++i) {
+            for (int j = 0; j < sub1.getColumnDimension(); ++j) {
+                assertEquals((i + 2) + (j + 5) / 1024.0, sub1.getEntry(i, j), 0);
+            }
+        }
+
+        RealMatrix sub2 = m.getSubMatrix(10, 12, 3, 70);
+        for (int i = 0; i < sub2.getRowDimension(); ++i) {
+            for (int j = 0; j < sub2.getColumnDimension(); ++j) {
+                assertEquals((i + 10) + (j + 3) / 1024.0, sub2.getEntry(i, j), 0);
+            }
+        }
+
+        RealMatrix sub3 = m.getSubMatrix(30, 34, 0, 5);
+        for (int i = 0; i < sub3.getRowDimension(); ++i) {
+            for (int j = 0; j < sub3.getColumnDimension(); ++j) {
+                assertEquals((i + 30) + (j + 0) / 1024.0, sub3.getEntry(i, j), 0);
+            }
+        }
+
+        RealMatrix sub4 = m.getSubMatrix(30, 32, 62, 65);
+        for (int i = 0; i < sub4.getRowDimension(); ++i) {
+            for (int j = 0; j < sub4.getColumnDimension(); ++j) {
+                assertEquals((i + 30) + (j + 62) / 1024.0, sub4.getEntry(i, j), 0);
+            }
+        }
+
+    }
+
+    //Additional Test for DenseRealMatrixTest.testMultiply
 
     private double[][] d3 = new double[][] {{1,2,3,4},{5,6,7,8}};
     private double[][] d4 = new double[][] {{1},{2},{3},{4}};
     private double[][] d5 = new double[][] {{30},{70}};
      
     public void testMultiply2() { 
-       RealMatrix m3 = new RealMatrixImpl(d3);   
-       RealMatrix m4 = new RealMatrixImpl(d4);
-       RealMatrix m5 = new RealMatrixImpl(d5);
-       TestUtils.assertEquals("m3*m4=m5", m3.multiply(m4), m5, entryTolerance);
+       RealMatrix m3 = new BlockRealMatrix(d3);   
+       RealMatrix m4 = new BlockRealMatrix(d4);
+       RealMatrix m5 = new BlockRealMatrix(d5);
+       assertClose(m3.multiply(m4), m5, entryTolerance);
    }  
         
     /** test trace */
     public void testTrace() {
-        RealMatrix m = new RealMatrixImpl(id);
+        RealMatrix m = new BlockRealMatrix(id);
         assertEquals("identity trace",3d,m.getTrace(),entryTolerance);
-        m = new RealMatrixImpl(testData2);
+        m = new BlockRealMatrix(testData2);
         try {
             m.getTrace();
             fail("Expecting NonSquareMatrixException");
@@ -229,21 +311,18 @@ public final class RealMatrixImplTest extends TestCase {
         }      
     }
     
-    /** test sclarAdd */
+    /** test scalarAdd */
     public void testScalarAdd() {
-        RealMatrix m = new RealMatrixImpl(testData);
-        TestUtils.assertEquals("scalar add",new RealMatrixImpl(testDataPlus2),
-            m.scalarAdd(2d),entryTolerance);
+        RealMatrix m = new BlockRealMatrix(testData);
+        assertClose(new BlockRealMatrix(testDataPlus2), m.scalarAdd(2d), entryTolerance);
     }
                     
     /** test operate */
     public void testOperate() {
-        RealMatrix m = new RealMatrixImpl(id);
-        TestUtils.assertEquals("identity operate", testVector,
-                    m.operate(testVector), entryTolerance);
-        TestUtils.assertEquals("identity operate", testVector,
-                    m.operate(new ArrayRealVector(testVector)).getData(), entryTolerance);
-        m = new RealMatrixImpl(bigSingular);
+        RealMatrix m = new BlockRealMatrix(id);
+        assertClose(testVector, m.operate(testVector), entryTolerance);
+        assertClose(testVector, m.operate(new ArrayRealVector(testVector)).getData(), entryTolerance);
+        m = new BlockRealMatrix(bigSingular);
         try {
             m.operate(testVector);
             fail("Expecting illegalArgumentException");
@@ -252,11 +331,37 @@ public final class RealMatrixImplTest extends TestCase {
         }      
     }
 
+    public void testOperateLarge() {
+        int p = (7 * BlockRealMatrix.BLOCK_SIZE) / 2;
+        int q = (5 * BlockRealMatrix.BLOCK_SIZE) / 2;
+        int r =  3 * BlockRealMatrix.BLOCK_SIZE;
+        Random random = new Random(111007463902334l);
+        RealMatrix m1 = createRandomMatrix(random, p, q);
+        RealMatrix m2 = createRandomMatrix(random, q, r);
+        RealMatrix m1m2 = m1.multiply(m2);
+        for (int i = 0; i < r; ++i) {
+            checkArrays(m1m2.getColumn(i), m1.operate(m2.getColumn(i)));
+        }
+    }
+
+    public void testOperatePremultiplyLarge() {
+        int p = (7 * BlockRealMatrix.BLOCK_SIZE) / 2;
+        int q = (5 * BlockRealMatrix.BLOCK_SIZE) / 2;
+        int r =  3 * BlockRealMatrix.BLOCK_SIZE;
+        Random random = new Random(111007463902334l);
+        RealMatrix m1 = createRandomMatrix(random, p, q);
+        RealMatrix m2 = createRandomMatrix(random, q, r);
+        RealMatrix m1m2 = m1.multiply(m2);
+        for (int i = 0; i < p; ++i) {
+            checkArrays(m1m2.getRow(i), m2.preMultiply(m1.getRow(i)));
+        }
+    }
+
     /** test issue MATH-209 */
     public void testMath209() {
-        RealMatrix a = new RealMatrixImpl(new double[][] {
+        RealMatrix a = new BlockRealMatrix(new double[][] {
                 { 1, 2 }, { 3, 4 }, { 5, 6 }
-        }, false);
+        });
         double[] b = a.operate(new double[] { 1, 1 });
         assertEquals(a.getRowDimension(), b.length);
         assertEquals( 3.0, b[0], 1.0e-12);
@@ -266,23 +371,22 @@ public final class RealMatrixImplTest extends TestCase {
     
     /** test transpose */
     public void testTranspose() {
-        RealMatrix m = new RealMatrixImpl(testData); 
+        RealMatrix m = new BlockRealMatrix(testData); 
         RealMatrix mIT = new LUDecompositionImpl(m).getSolver().getInverse().transpose();
         RealMatrix mTI = new LUDecompositionImpl(m.transpose()).getSolver().getInverse();
-        TestUtils.assertEquals("inverse-transpose", mIT, mTI, normTolerance);
-        m = new RealMatrixImpl(testData2);
-        RealMatrix mt = new RealMatrixImpl(testData2T);
-        TestUtils.assertEquals("transpose",mt,m.transpose(),normTolerance);
+        assertClose(mIT, mTI, normTolerance);
+        m = new BlockRealMatrix(testData2);
+        RealMatrix mt = new BlockRealMatrix(testData2T);
+        assertClose(mt, m.transpose(), normTolerance);
     }
     
     /** test preMultiply by vector */
     public void testPremultiplyVector() {
-        RealMatrix m = new RealMatrixImpl(testData);
-        TestUtils.assertEquals("premultiply", m.preMultiply(testVector),
+        RealMatrix m = new BlockRealMatrix(testData);
+        assertClose(m.preMultiply(testVector), preMultTest, normTolerance);
+        assertClose(m.preMultiply(new ArrayRealVector(testVector).getData()),
                     preMultTest, normTolerance);
-        TestUtils.assertEquals("premultiply", m.preMultiply(new ArrayRealVector(testVector).getData()),
-                    preMultTest, normTolerance);
-        m = new RealMatrixImpl(bigSingular);
+        m = new BlockRealMatrix(bigSingular);
         try {
             m.preMultiply(testVector);
             fail("expecting IllegalArgumentException");
@@ -292,24 +396,20 @@ public final class RealMatrixImplTest extends TestCase {
     }
     
     public void testPremultiply() {
-        RealMatrix m3 = new RealMatrixImpl(d3);   
-        RealMatrix m4 = new RealMatrixImpl(d4);
-        RealMatrix m5 = new RealMatrixImpl(d5);
-        TestUtils.assertEquals("m3*m4=m5", m4.preMultiply(m3), m5, entryTolerance);
+        RealMatrix m3 = new BlockRealMatrix(d3);   
+        RealMatrix m4 = new BlockRealMatrix(d4);
+        RealMatrix m5 = new BlockRealMatrix(d5);
+        assertClose(m4.preMultiply(m3), m5, entryTolerance);
         
-        RealMatrixImpl m = new RealMatrixImpl(testData);
-        RealMatrixImpl mInv = new RealMatrixImpl(testDataInv);
-        RealMatrixImpl identity = new RealMatrixImpl(id);
-        TestUtils.assertEquals("inverse multiply",m.preMultiply(mInv),
-                identity,entryTolerance);
-        TestUtils.assertEquals("inverse multiply",mInv.preMultiply(m),
-                identity,entryTolerance);
-        TestUtils.assertEquals("identity multiply",m.preMultiply(identity),
-                m,entryTolerance);
-        TestUtils.assertEquals("identity multiply",identity.preMultiply(mInv),
-                mInv,entryTolerance);
+        BlockRealMatrix m = new BlockRealMatrix(testData);
+        BlockRealMatrix mInv = new BlockRealMatrix(testDataInv);
+        BlockRealMatrix identity = new BlockRealMatrix(id);
+        assertClose(m.preMultiply(mInv), identity, entryTolerance);
+        assertClose(mInv.preMultiply(m), identity, entryTolerance);
+        assertClose(m.preMultiply(identity), m, entryTolerance);
+        assertClose(identity.preMultiply(mInv), mInv, entryTolerance);
         try {
-            m.preMultiply(new RealMatrixImpl(bigSingular));
+            m.preMultiply(new BlockRealMatrix(bigSingular));
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // ignored
@@ -317,9 +417,9 @@ public final class RealMatrixImplTest extends TestCase {
     }
     
     public void testGetVectors() {
-        RealMatrix m = new RealMatrixImpl(testData);
-        TestUtils.assertEquals("get row",m.getRow(0),testDataRow1,entryTolerance);
-        TestUtils.assertEquals("get col",m.getColumn(2),testDataCol3,entryTolerance);
+        RealMatrix m = new BlockRealMatrix(testData);
+        assertClose(m.getRow(0), testDataRow1, entryTolerance);
+        assertClose(m.getColumn(2), testDataCol3, entryTolerance);
         try {
             m.getRow(10);
             fail("expecting MatrixIndexException");
@@ -335,7 +435,7 @@ public final class RealMatrixImplTest extends TestCase {
     }
     
     public void testGetEntry() {
-        RealMatrix m = new RealMatrixImpl(testData);
+        RealMatrix m = new BlockRealMatrix(testData);
         assertEquals("get entry",m.getEntry(0,1),2d,entryTolerance);
         try {
             m.getEntry(10, 4);
@@ -349,10 +449,10 @@ public final class RealMatrixImplTest extends TestCase {
     public void testExamples() {
         // Create a real matrix with two rows and three columns
         double[][] matrixData = { {1d,2d,3d}, {2d,5d,3d}};
-        RealMatrix m = new RealMatrixImpl(matrixData);
+        RealMatrix m = new BlockRealMatrix(matrixData);
         // One more with three rows, two columns
         double[][] matrixData2 = { {1d,2d}, {2d,5d}, {1d, 7d}};
-        RealMatrix n = new RealMatrixImpl(matrixData2);
+        RealMatrix n = new BlockRealMatrix(matrixData2);
         // Now multiply m by n
         RealMatrix p = m.multiply(n);
         assertEquals(2, p.getRowDimension());
@@ -364,7 +464,7 @@ public final class RealMatrixImplTest extends TestCase {
         
         // Solve example
         double[][] coefficientsData = {{2, 3, -2}, {-1, 7, 6}, {4, -3, -5}};
-        RealMatrix coefficients = new RealMatrixImpl(coefficientsData);
+        RealMatrix coefficients = new BlockRealMatrix(coefficientsData);
         double[] constants = {1, -2, 1};
         double[] solution = new LUDecompositionImpl(coefficients).getSolver().solve(constants);
         assertEquals(2 * solution[0] + 3 * solution[1] -2 * solution[2], constants[0], 1E-12);
@@ -375,7 +475,7 @@ public final class RealMatrixImplTest extends TestCase {
     
     // test submatrix accessors
     public void testGetSubMatrix() {
-        RealMatrix m = new RealMatrixImpl(subTestData);
+        RealMatrix m = new BlockRealMatrix(subTestData);
         checkGetSubMatrix(m, subRows23Cols00,  2 , 3 , 0, 0, false);
         checkGetSubMatrix(m, subRows00Cols33,  0 , 0 , 3, 3, false);
         checkGetSubMatrix(m, subRows01Cols23,  0 , 1 , 2, 3, false);   
@@ -398,7 +498,7 @@ public final class RealMatrixImplTest extends TestCase {
                                    boolean mustFail) {
         try {
             RealMatrix sub = m.getSubMatrix(startRow, endRow, startColumn, endColumn);
-            assertEquals(new RealMatrixImpl(reference), sub);
+            assertEquals(new BlockRealMatrix(reference), sub);
             if (mustFail) {
                 fail("Expecting MatrixIndexException");
             }
@@ -414,7 +514,7 @@ public final class RealMatrixImplTest extends TestCase {
                                    boolean mustFail) {
         try {
             RealMatrix sub = m.getSubMatrix(selectedRows, selectedColumns);
-            assertEquals(new RealMatrixImpl(reference), sub);
+            assertEquals(new BlockRealMatrix(reference), sub);
             if (mustFail) {
                 fail("Expecting MatrixIndexException");
             }
@@ -425,8 +525,27 @@ public final class RealMatrixImplTest extends TestCase {
         }
     }
 
+    public void testGetSetMatrixLarge() {
+        int n = 3 * BlockRealMatrix.BLOCK_SIZE;
+        RealMatrix m = new BlockRealMatrix(n, n);
+        RealMatrix sub = new BlockRealMatrix(n - 4, n - 4).scalarAdd(1);
+
+        m.setSubMatrix(sub.getData(), 2, 2);
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if ((i < 2) || (i > n - 3) || (j < 2) || (j > n - 3)) {
+                    assertEquals(0.0, m.getEntry(i, j), 0.0);
+                } else {
+                    assertEquals(1.0, m.getEntry(i, j), 0.0);
+                }
+            }
+        }
+        assertEquals(sub, m.getSubMatrix(2, n - 3, 2, n - 3));
+
+    }
+
     public void testCopySubMatrix() {
-        RealMatrix m = new RealMatrixImpl(subTestData);
+        RealMatrix m = new BlockRealMatrix(subTestData);
         checkCopy(m, subRows23Cols00,  2 , 3 , 0, 0, false);
         checkCopy(m, subRows00Cols33,  0 , 0 , 3, 3, false);
         checkCopy(m, subRows01Cols23,  0 , 1 , 2, 3, false);   
@@ -453,7 +572,7 @@ public final class RealMatrixImplTest extends TestCase {
                              new double[1][1] :
                              new double[reference.length][reference[0].length];
             m.copySubMatrix(startRow, endRow, startColumn, endColumn, sub);
-            assertEquals(new RealMatrixImpl(reference), new RealMatrixImpl(sub));
+            assertEquals(new BlockRealMatrix(reference), new BlockRealMatrix(sub));
             if (mustFail) {
                 fail("Expecting MatrixIndexException");
             }
@@ -472,7 +591,7 @@ public final class RealMatrixImplTest extends TestCase {
                     new double[1][1] :
                     new double[reference.length][reference[0].length];
             m.copySubMatrix(selectedRows, selectedColumns, sub);
-            assertEquals(new RealMatrixImpl(reference), new RealMatrixImpl(sub));
+            assertEquals(new BlockRealMatrix(reference), new BlockRealMatrix(sub));
             if (mustFail) {
                 fail("Expecting MatrixIndexException");
             }
@@ -484,13 +603,11 @@ public final class RealMatrixImplTest extends TestCase {
     }
 
     public void testGetRowMatrix() {
-        RealMatrix m = new RealMatrixImpl(subTestData);
-        RealMatrix mRow0 = new RealMatrixImpl(subRow0);
-        RealMatrix mRow3 = new RealMatrixImpl(subRow3);
-        assertEquals("Row0", mRow0, 
-                m.getRowMatrix(0));
-        assertEquals("Row3", mRow3, 
-                m.getRowMatrix(3));
+        RealMatrix m     = new BlockRealMatrix(subTestData);
+        RealMatrix mRow0 = new BlockRealMatrix(subRow0);
+        RealMatrix mRow3 = new BlockRealMatrix(subRow3);
+        assertEquals("Row0", mRow0, m.getRowMatrix(0));
+        assertEquals("Row3", mRow3, m.getRowMatrix(3));
         try {
             m.getRowMatrix(-1);
             fail("Expecting MatrixIndexException");
@@ -504,10 +621,10 @@ public final class RealMatrixImplTest extends TestCase {
             // expected
         }
     }
-    
+
     public void testSetRowMatrix() {
-        RealMatrix m = new RealMatrixImpl(subTestData);
-        RealMatrix mRow3 = new RealMatrixImpl(subRow3);
+        RealMatrix m = new BlockRealMatrix(subTestData);
+        RealMatrix mRow3 = new BlockRealMatrix(subRow3);
         assertNotSame(mRow3, m.getRowMatrix(0));
         m.setRowMatrix(0, mRow3);
         assertEquals(mRow3, m.getRowMatrix(0));
@@ -525,14 +642,31 @@ public final class RealMatrixImplTest extends TestCase {
         }
     }
     
+    public void testGetSetRowMatrixLarge() {
+        int n = 3 * BlockRealMatrix.BLOCK_SIZE;
+        RealMatrix m = new BlockRealMatrix(n, n);
+        RealMatrix sub = new BlockRealMatrix(1, n).scalarAdd(1);
+
+        m.setRowMatrix(2, sub);
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i != 2) {
+                    assertEquals(0.0, m.getEntry(i, j), 0.0);
+                } else {
+                    assertEquals(1.0, m.getEntry(i, j), 0.0);
+                }
+            }
+        }
+        assertEquals(sub, m.getRowMatrix(2));
+
+    }
+    
     public void testGetColumnMatrix() {
-        RealMatrix m = new RealMatrixImpl(subTestData);
-        RealMatrix mColumn1 = new RealMatrixImpl(subColumn1);
-        RealMatrix mColumn3 = new RealMatrixImpl(subColumn3);
-        assertEquals("Column1", mColumn1, 
-                m.getColumnMatrix(1));
-        assertEquals("Column3", mColumn3, 
-                m.getColumnMatrix(3));
+        RealMatrix m = new BlockRealMatrix(subTestData);
+        RealMatrix mColumn1 = new BlockRealMatrix(subColumn1);
+        RealMatrix mColumn3 = new BlockRealMatrix(subColumn3);
+        assertEquals(mColumn1, m.getColumnMatrix(1));
+        assertEquals(mColumn3, m.getColumnMatrix(3));
         try {
             m.getColumnMatrix(-1);
             fail("Expecting MatrixIndexException");
@@ -548,8 +682,8 @@ public final class RealMatrixImplTest extends TestCase {
     }
 
     public void testSetColumnMatrix() {
-        RealMatrix m = new RealMatrixImpl(subTestData);
-        RealMatrix mColumn3 = new RealMatrixImpl(subColumn3);
+        RealMatrix m = new BlockRealMatrix(subTestData);
+        RealMatrix mColumn3 = new BlockRealMatrix(subColumn3);
         assertNotSame(mColumn3, m.getColumnMatrix(1));
         m.setColumnMatrix(1, mColumn3);
         assertEquals(mColumn3, m.getColumnMatrix(1));
@@ -567,12 +701,31 @@ public final class RealMatrixImplTest extends TestCase {
         }
     }
 
+    public void testGetSetColumnMatrixLarge() {
+        int n = 3 * BlockRealMatrix.BLOCK_SIZE;
+        RealMatrix m = new BlockRealMatrix(n, n);
+        RealMatrix sub = new BlockRealMatrix(n, 1).scalarAdd(1);
+
+        m.setColumnMatrix(2, sub);
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (j != 2) {
+                    assertEquals(0.0, m.getEntry(i, j), 0.0);
+                } else {
+                    assertEquals(1.0, m.getEntry(i, j), 0.0);
+                }
+            }
+        }
+        assertEquals(sub, m.getColumnMatrix(2));
+
+    }
+    
     public void testGetRowVector() {
-        RealMatrix m = new RealMatrixImpl(subTestData);
+        RealMatrix m = new BlockRealMatrix(subTestData);
         RealVector mRow0 = new ArrayRealVector(subRow0[0]);
         RealVector mRow3 = new ArrayRealVector(subRow3[0]);
-        assertEquals("Row0", mRow0, m.getRowVector(0));
-        assertEquals("Row3", mRow3, m.getRowVector(3));
+        assertEquals(mRow0, m.getRowVector(0));
+        assertEquals(mRow3, m.getRowVector(3));
         try {
             m.getRowVector(-1);
             fail("Expecting MatrixIndexException");
@@ -588,7 +741,7 @@ public final class RealMatrixImplTest extends TestCase {
     }
 
     public void testSetRowVector() {
-        RealMatrix m = new RealMatrixImpl(subTestData);
+        RealMatrix m = new BlockRealMatrix(subTestData);
         RealVector mRow3 = new ArrayRealVector(subRow3[0]);
         assertNotSame(mRow3, m.getRowMatrix(0));
         m.setRowVector(0, mRow3);
@@ -606,13 +759,32 @@ public final class RealMatrixImplTest extends TestCase {
             // expected
         }
     }
+
+    public void testGetSetRowVectorLarge() {
+        int n = 3 * BlockRealMatrix.BLOCK_SIZE;
+        RealMatrix m = new BlockRealMatrix(n, n);
+        RealVector sub = new ArrayRealVector(n, 1.0);
+
+        m.setRowVector(2, sub);
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i != 2) {
+                    assertEquals(0.0, m.getEntry(i, j), 0.0);
+                } else {
+                    assertEquals(1.0, m.getEntry(i, j), 0.0);
+                }
+            }
+        }
+        assertEquals(sub, m.getRowVector(2));
+
+    }
     
     public void testGetColumnVector() {
-        RealMatrix m = new RealMatrixImpl(subTestData);
+        RealMatrix m = new BlockRealMatrix(subTestData);
         RealVector mColumn1 = columnToVector(subColumn1);
         RealVector mColumn3 = columnToVector(subColumn3);
-        assertEquals("Column1", mColumn1, m.getColumnVector(1));
-        assertEquals("Column3", mColumn3, m.getColumnVector(3));
+        assertEquals(mColumn1, m.getColumnVector(1));
+        assertEquals(mColumn3, m.getColumnVector(3));
         try {
             m.getColumnVector(-1);
             fail("Expecting MatrixIndexException");
@@ -628,7 +800,7 @@ public final class RealMatrixImplTest extends TestCase {
     }
 
     public void testSetColumnVector() {
-        RealMatrix m = new RealMatrixImpl(subTestData);
+        RealMatrix m = new BlockRealMatrix(subTestData);
         RealVector mColumn3 = columnToVector(subColumn3);
         assertNotSame(mColumn3, m.getColumnVector(1));
         m.setColumnVector(1, mColumn3);
@@ -647,6 +819,25 @@ public final class RealMatrixImplTest extends TestCase {
         }
     }
 
+    public void testGetSetColumnVectorLarge() {
+        int n = 3 * BlockRealMatrix.BLOCK_SIZE;
+        RealMatrix m = new BlockRealMatrix(n, n);
+        RealVector sub = new ArrayRealVector(n, 1.0);
+
+        m.setColumnVector(2, sub);
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (j != 2) {
+                    assertEquals(0.0, m.getEntry(i, j), 0.0);
+                } else {
+                    assertEquals(1.0, m.getEntry(i, j), 0.0);
+                }
+            }
+        }
+        assertEquals(sub, m.getColumnVector(2));
+
+    }
+    
     private RealVector columnToVector(double[][] column) {
         double[] data = new double[column.length];
         for (int i = 0; i < data.length; ++i) {
@@ -656,7 +847,7 @@ public final class RealMatrixImplTest extends TestCase {
     }
 
     public void testGetRow() {
-        RealMatrix m = new RealMatrixImpl(subTestData);
+        RealMatrix m = new BlockRealMatrix(subTestData);
         checkArrays(subRow0[0], m.getRow(0));
         checkArrays(subRow3[0], m.getRow(3));
         try {
@@ -674,7 +865,7 @@ public final class RealMatrixImplTest extends TestCase {
     }
 
     public void testSetRow() {
-        RealMatrix m = new RealMatrixImpl(subTestData);
+        RealMatrix m = new BlockRealMatrix(subTestData);
         assertTrue(subRow3[0][0] != m.getRow(0)[0]);
         m.setRow(0, subRow3[0]);
         checkArrays(subRow3[0], m.getRow(0));
@@ -691,9 +882,29 @@ public final class RealMatrixImplTest extends TestCase {
             // expected
         }
     }
+
+    public void testGetSetRowLarge() {
+        int n = 3 * BlockRealMatrix.BLOCK_SIZE;
+        RealMatrix m = new BlockRealMatrix(n, n);
+        double[] sub = new double[n];
+        Arrays.fill(sub, 1.0);
+
+        m.setRow(2, sub);
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i != 2) {
+                    assertEquals(0.0, m.getEntry(i, j), 0.0);
+                } else {
+                    assertEquals(1.0, m.getEntry(i, j), 0.0);
+                }
+            }
+        }
+        checkArrays(sub, m.getRow(2));
+
+    }
     
     public void testGetColumn() {
-        RealMatrix m = new RealMatrixImpl(subTestData);
+        RealMatrix m = new BlockRealMatrix(subTestData);
         double[] mColumn1 = columnToArray(subColumn1);
         double[] mColumn3 = columnToArray(subColumn3);
         checkArrays(mColumn1, m.getColumn(1));
@@ -713,7 +924,7 @@ public final class RealMatrixImplTest extends TestCase {
     }
 
     public void testSetColumn() {
-        RealMatrix m = new RealMatrixImpl(subTestData);
+        RealMatrix m = new BlockRealMatrix(subTestData);
         double[] mColumn3 = columnToArray(subColumn3);
         assertTrue(mColumn3[0] != m.getColumn(1)[0]);
         m.setColumn(1, mColumn3);
@@ -732,6 +943,26 @@ public final class RealMatrixImplTest extends TestCase {
         }
     }
 
+    public void testGetSetColumnLarge() {
+        int n = 3 * BlockRealMatrix.BLOCK_SIZE;
+        RealMatrix m = new BlockRealMatrix(n, n);
+        double[] sub = new double[n];
+        Arrays.fill(sub, 1.0);
+
+        m.setColumn(2, sub);
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (j != 2) {
+                    assertEquals(0.0, m.getEntry(i, j), 0.0);
+                } else {
+                    assertEquals(1.0, m.getEntry(i, j), 0.0);
+                }
+            }
+        }
+        checkArrays(sub, m.getColumn(2));
+
+    }
+    
     private double[] columnToArray(double[][] column) {
         double[] data = new double[column.length];
         for (int i = 0; i < data.length; ++i) {
@@ -748,44 +979,49 @@ public final class RealMatrixImplTest extends TestCase {
     }
     
     public void testEqualsAndHashCode() {
-        RealMatrixImpl m = new RealMatrixImpl(testData);
-        RealMatrixImpl m1 = (RealMatrixImpl) m.copy();
-        RealMatrixImpl mt = (RealMatrixImpl) m.transpose();
+        BlockRealMatrix m = new BlockRealMatrix(testData);
+        BlockRealMatrix m1 = (BlockRealMatrix) m.copy();
+        BlockRealMatrix mt = (BlockRealMatrix) m.transpose();
         assertTrue(m.hashCode() != mt.hashCode());
         assertEquals(m.hashCode(), m1.hashCode());
         assertEquals(m, m);
         assertEquals(m, m1);
         assertFalse(m.equals(null));
         assertFalse(m.equals(mt));
-        assertFalse(m.equals(new RealMatrixImpl(bigSingular))); 
+        assertFalse(m.equals(new BlockRealMatrix(bigSingular))); 
     }
     
     public void testToString() {
-        RealMatrixImpl m = new RealMatrixImpl(testData);
-        assertEquals("RealMatrixImpl{{1.0,2.0,3.0},{2.0,5.0,3.0},{1.0,0.0,8.0}}",
-                m.toString());
-        m = new RealMatrixImpl();
-        assertEquals("RealMatrixImpl{}",
+        BlockRealMatrix m = new BlockRealMatrix(testData);
+        assertEquals("BlockRealMatrix{{1.0,2.0,3.0},{2.0,5.0,3.0},{1.0,0.0,8.0}}",
                 m.toString());
     }
     
     public void testSetSubMatrix() throws Exception {
-        RealMatrixImpl m = new RealMatrixImpl(testData);
+        BlockRealMatrix m = new BlockRealMatrix(testData);
         m.setSubMatrix(detData2,1,1);
-        RealMatrix expected = MatrixUtils.createRealMatrix
+        RealMatrix expected = new BlockRealMatrix
             (new double[][] {{1.0,2.0,3.0},{2.0,1.0,3.0},{1.0,2.0,4.0}});
         assertEquals(expected, m);  
         
         m.setSubMatrix(detData2,0,0);
-        expected = MatrixUtils.createRealMatrix
+        expected = new BlockRealMatrix
             (new double[][] {{1.0,3.0,3.0},{2.0,4.0,3.0},{1.0,2.0,4.0}});
         assertEquals(expected, m);  
         
         m.setSubMatrix(testDataPlus2,0,0);      
-        expected = MatrixUtils.createRealMatrix
+        expected = new BlockRealMatrix
             (new double[][] {{3.0,4.0,5.0},{4.0,7.0,5.0},{3.0,2.0,10.0}});
         assertEquals(expected, m);   
         
+        // javadoc example
+        BlockRealMatrix matrix = new BlockRealMatrix
+            (new double[][] {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 0, 1 , 2}});
+        matrix.setSubMatrix(new double[][] {{3, 4}, {5, 6}}, 1, 1);
+        expected = new BlockRealMatrix
+            (new double[][] {{1, 2, 3, 4}, {5, 3, 4, 8}, {9, 5 ,6, 2}});
+        assertEquals(expected, matrix);   
+
         // dimension overflow
         try {  
             m.setSubMatrix(testData,1,1);
@@ -814,19 +1050,6 @@ public final class RealMatrixImplTest extends TestCase {
         } catch (NullPointerException e) {
             // expected
         }
-        RealMatrixImpl m2 = new RealMatrixImpl();
-        try {
-            m2.setSubMatrix(testData,0,1);
-            fail("expecting IllegalStateException");
-        } catch (IllegalStateException e) {
-            // expected
-        }
-        try {
-            m2.setSubMatrix(testData,1,0);
-            fail("expecting IllegalStateException");
-        } catch (IllegalStateException e) {
-            // expected
-        }
         
         // ragged
         try {
@@ -850,13 +1073,13 @@ public final class RealMatrixImplTest extends TestCase {
         int rows    = 150;
         int columns = 75;
 
-        RealMatrix m = new RealMatrixImpl(rows, columns);
+        RealMatrix m = new BlockRealMatrix(rows, columns);
         m.walkInRowOrder(new SetVisitor());
         GetVisitor getVisitor = new GetVisitor();
         m.walkInOptimizedOrder(getVisitor);
         assertEquals(rows * columns, getVisitor.getCount());
 
-        m = new RealMatrixImpl(rows, columns);
+        m = new BlockRealMatrix(rows, columns);
         m.walkInRowOrder(new SetVisitor(), 1, rows - 2, 1, columns - 2);
         getVisitor = new GetVisitor();
         m.walkInOptimizedOrder(getVisitor, 1, rows - 2, 1, columns - 2);
@@ -870,13 +1093,13 @@ public final class RealMatrixImplTest extends TestCase {
             assertEquals(0.0, m.getEntry(rows - 1, j), 0);
         }
 
-        m = new RealMatrixImpl(rows, columns);
+        m = new BlockRealMatrix(rows, columns);
         m.walkInColumnOrder(new SetVisitor());
         getVisitor = new GetVisitor();
         m.walkInOptimizedOrder(getVisitor);
         assertEquals(rows * columns, getVisitor.getCount());
 
-        m = new RealMatrixImpl(rows, columns);
+        m = new BlockRealMatrix(rows, columns);
         m.walkInColumnOrder(new SetVisitor(), 1, rows - 2, 1, columns - 2);
         getVisitor = new GetVisitor();
         m.walkInOptimizedOrder(getVisitor, 1, rows - 2, 1, columns - 2);
@@ -890,13 +1113,13 @@ public final class RealMatrixImplTest extends TestCase {
             assertEquals(0.0, m.getEntry(rows - 1, j), 0);
         }
 
-        m = new RealMatrixImpl(rows, columns);
+        m = new BlockRealMatrix(rows, columns);
         m.walkInOptimizedOrder(new SetVisitor());
         getVisitor = new GetVisitor();
         m.walkInRowOrder(getVisitor);
         assertEquals(rows * columns, getVisitor.getCount());
 
-        m = new RealMatrixImpl(rows, columns);
+        m = new BlockRealMatrix(rows, columns);
         m.walkInOptimizedOrder(new SetVisitor(), 1, rows - 2, 1, columns - 2);
         getVisitor = new GetVisitor();
         m.walkInRowOrder(getVisitor, 1, rows - 2, 1, columns - 2);
@@ -910,13 +1133,13 @@ public final class RealMatrixImplTest extends TestCase {
             assertEquals(0.0, m.getEntry(rows - 1, j), 0);
         }
 
-        m = new RealMatrixImpl(rows, columns);
+        m = new BlockRealMatrix(rows, columns);
         m.walkInOptimizedOrder(new SetVisitor());
         getVisitor = new GetVisitor();
         m.walkInColumnOrder(getVisitor);
         assertEquals(rows * columns, getVisitor.getCount());
 
-        m = new RealMatrixImpl(rows, columns);
+        m = new BlockRealMatrix(rows, columns);
         m.walkInOptimizedOrder(new SetVisitor(), 1, rows - 2, 1, columns - 2);
         getVisitor = new GetVisitor();
         m.walkInColumnOrder(getVisitor, 1, rows - 2, 1, columns - 2);
@@ -931,13 +1154,12 @@ public final class RealMatrixImplTest extends TestCase {
         }
 
     }
-
+    
     public void testSerial()  {
-        RealMatrixImpl m = new RealMatrixImpl(testData);
+        BlockRealMatrix m = new BlockRealMatrix(testData);
         assertEquals(m,TestUtils.serializeAndRecover(m));
     }
-    
-    
+
     private static class SetVisitor extends DefaultRealMatrixChangingVisitor {
         @Override
         public double visit(int i, int j, double value) {
@@ -958,57 +1180,31 @@ public final class RealMatrixImplTest extends TestCase {
     }
 
     //--------------- -----------------Protected methods
-    
-    /** extracts the l  and u matrices from compact lu representation */
-    protected void splitLU(RealMatrix lu, double[][] lowerData, double[][] upperData) throws InvalidMatrixException {   
-        if (!lu.isSquare() || lowerData.length != lowerData[0].length || upperData.length != upperData[0].length ||
-                lowerData.length != upperData.length
-                || lowerData.length != lu.getRowDimension()) {
-            throw new InvalidMatrixException("incorrect dimensions");
-        }    
-        int n = lu.getRowDimension();
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (j < i) {
-                    lowerData[i][j] = lu.getEntry(i, j);
-                    upperData[i][j] = 0d;
-                } else if (i == j) {
-                    lowerData[i][j] = 1d;
-                    upperData[i][j] = lu.getEntry(i, j);
-                } else {
-                    lowerData[i][j] = 0d;
-                    upperData[i][j] = lu.getEntry(i, j);
-                }   
-            }
-        }
-    }
-    
-    /** Returns the result of applying the given row permutation to the matrix */
-    protected RealMatrix permuteRows(RealMatrix matrix, int[] permutation) {
-        if (!matrix.isSquare() || matrix.getRowDimension() != permutation.length) {
-            throw new IllegalArgumentException("dimension mismatch");
-        }
-        int n = matrix.getRowDimension();
-        int m = matrix.getColumnDimension();
-        double out[][] = new double[m][n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                out[i][j] = matrix.getEntry(permutation[i], j);
-            }
-        }
-        return new RealMatrixImpl(out);
-    }
-    
-//    /** Useful for debugging */
-//    private void dumpMatrix(RealMatrix m) {
-//          for (int i = 0; i < m.getRowDimension(); i++) {
-//              String os = "";
-//              for (int j = 0; j < m.getColumnDimension(); j++) {
-//                  os += m.getEntry(i, j) + " ";
-//              }
-//              System.out.println(os);
-//          }
-//    }
         
+    /** verifies that two matrices are close (1-norm) */              
+    protected void assertClose(RealMatrix m, RealMatrix n, double tolerance) {
+        assertTrue(m.subtract(n).getNorm() < tolerance);
+    }
+    
+    /** verifies that two vectors are close (sup norm) */
+    protected void assertClose(double[] m, double[] n, double tolerance) {
+        if (m.length != n.length) {
+            fail("vectors not same length");
+        }
+        for (int i = 0; i < m.length; i++) {
+            assertEquals(m[i], n[i], tolerance);
+        }
+    }
+
+    private BlockRealMatrix createRandomMatrix(Random r, int rows, int columns) {
+        BlockRealMatrix m = new BlockRealMatrix(rows, columns);
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < columns; ++j) {
+                m.setEntry(i, j, 200 * r.nextDouble() - 100);
+            }
+        }
+        return m;
+    }
+    
 }
 

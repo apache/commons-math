@@ -34,7 +34,7 @@ import org.apache.commons.math.MathRuntimeException;
  * @param <T> the type of the field elements
  * @version $Revision$ $Date$
  */
-public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMatrix<T> implements Serializable {
+public class Array2DRowFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMatrix<T> implements Serializable {
     
     /** Serializable version identifier */
     private static final long serialVersionUID = 7260756672015356458L;
@@ -46,7 +46,7 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
      * Creates a matrix with no data
      * @param field field to which the elements belong
      */
-    public FieldMatrixImpl(final Field<T> field) {
+    public Array2DRowFieldMatrix(final Field<T> field) {
         super(field);
     }
 
@@ -59,7 +59,7 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
      * @throws IllegalArgumentException if row or column dimension is not
      *  positive
      */
-    public FieldMatrixImpl(final Field<T> field,
+    public Array2DRowFieldMatrix(final Field<T> field,
                            final int rowDimension, final int columnDimension)
         throws IllegalArgumentException {
         super(field, rowDimension, columnDimension);
@@ -70,16 +70,16 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
      * Create a new FieldMatrix<T> using the input array as the underlying
      * data array.
      * <p>The input array is copied, not referenced. This constructor has
-     * the same effect as calling {@link #FieldMatrixImpl(FieldElement[][], boolean)}
+     * the same effect as calling {@link #Array2DRowFieldMatrix(FieldElement[][], boolean)}
      * with the second argument set to <code>true</code>.</p>
      *
      * @param d data for new matrix
      * @throws IllegalArgumentException if <code>d</code> is not rectangular
      *  (not all rows have the same length) or empty
      * @throws NullPointerException if <code>d</code> is null
-     * @see #FieldMatrixImpl(FieldElement[][], boolean)
+     * @see #Array2DRowFieldMatrix(FieldElement[][], boolean)
      */
-    public FieldMatrixImpl(final T[][] d)
+    public Array2DRowFieldMatrix(final T[][] d)
         throws IllegalArgumentException, NullPointerException {
         super(extractField(d));
         copyIn(d);
@@ -98,9 +98,9 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
      * @throws IllegalArgumentException if <code>d</code> is not rectangular
      *  (not all rows have the same length) or empty
      * @throws NullPointerException if <code>d</code> is null
-     * @see #FieldMatrixImpl(FieldElement[][])
+     * @see #Array2DRowFieldMatrix(FieldElement[][])
      */
-    public FieldMatrixImpl(final T[][] d, final boolean copyArray)
+    public Array2DRowFieldMatrix(final T[][] d, final boolean copyArray)
         throws IllegalArgumentException, NullPointerException {
         super(extractField(d));
         if (copyArray) {
@@ -136,7 +136,7 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
      *
      * @param v column vector holding data for new matrix
      */
-    public FieldMatrixImpl(final T[] v) {
+    public Array2DRowFieldMatrix(final T[] v) {
         super(extractField(v));
         final int nRows = v.length;
         data = buildArray(getField(), nRows, 1);
@@ -149,13 +149,13 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
     @Override
     public FieldMatrix<T> createMatrix(final int rowDimension, final int columnDimension)
         throws IllegalArgumentException {
-        return new FieldMatrixImpl<T>(getField(), rowDimension, columnDimension);
+        return new Array2DRowFieldMatrix<T>(getField(), rowDimension, columnDimension);
     }
 
     /** {@inheritDoc} */
     @Override
     public FieldMatrix<T> copy() {
-        return new FieldMatrixImpl<T>(copyOut(), false);
+        return new Array2DRowFieldMatrix<T>(copyOut(), false);
     }
 
     /** {@inheritDoc} */
@@ -163,7 +163,7 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
     public FieldMatrix<T> add(final FieldMatrix<T> m)
         throws IllegalArgumentException {
         try {
-            return add((FieldMatrixImpl<T>) m);
+            return add((Array2DRowFieldMatrix<T>) m);
         } catch (ClassCastException cce) {
             return super.add(m);
         }
@@ -176,7 +176,7 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
      * @return     this + m
      * @throws  IllegalArgumentException if m is not the same size as this
      */
-    public FieldMatrixImpl<T> add(final FieldMatrixImpl<T> m)
+    public Array2DRowFieldMatrix<T> add(final Array2DRowFieldMatrix<T> m)
         throws IllegalArgumentException {
 
         // safety check
@@ -194,7 +194,7 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
             }
         }
 
-        return new FieldMatrixImpl<T>(outData, false);
+        return new Array2DRowFieldMatrix<T>(outData, false);
 
     }
 
@@ -203,7 +203,7 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
     public FieldMatrix<T> subtract(final FieldMatrix<T> m)
         throws IllegalArgumentException {
         try {
-            return subtract((FieldMatrixImpl<T>) m);
+            return subtract((Array2DRowFieldMatrix<T>) m);
         } catch (ClassCastException cce) {
             return super.subtract(m);
         }
@@ -216,7 +216,7 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
      * @return     this + m
      * @throws  IllegalArgumentException if m is not the same size as this
      */
-    public FieldMatrixImpl<T> subtract(final FieldMatrixImpl<T> m)
+    public Array2DRowFieldMatrix<T> subtract(final Array2DRowFieldMatrix<T> m)
         throws IllegalArgumentException {
 
         // safety check
@@ -234,7 +234,7 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
             }
         }
 
-        return new FieldMatrixImpl<T>(outData, false);
+        return new Array2DRowFieldMatrix<T>(outData, false);
 
     }
 
@@ -243,7 +243,7 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
     public FieldMatrix<T> multiply(final FieldMatrix<T> m)
         throws IllegalArgumentException {
         try {
-            return multiply((FieldMatrixImpl<T>) m);
+            return multiply((Array2DRowFieldMatrix<T>) m);
         } catch (ClassCastException cce) {
             return super.multiply(m);
         }
@@ -256,7 +256,7 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
      * @throws     IllegalArgumentException
      *             if columnDimension(this) != rowDimension(m)
      */
-    public FieldMatrixImpl<T> multiply(final FieldMatrixImpl<T> m)
+    public Array2DRowFieldMatrix<T> multiply(final Array2DRowFieldMatrix<T> m)
         throws IllegalArgumentException {
 
         // safety check
@@ -278,7 +278,7 @@ public class FieldMatrixImpl<T extends FieldElement<T>> extends AbstractFieldMat
             }
         }
 
-        return new FieldMatrixImpl<T>(outData, false);
+        return new Array2DRowFieldMatrix<T>(outData, false);
 
     }
 
